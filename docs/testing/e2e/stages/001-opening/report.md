@@ -10,7 +10,7 @@ evidence: e2e/evidence/e2e-001.json
 
 # 001 开场执行器：双引擎完整验证
 
-Last reviewed: 2026-10-15
+Last reviewed: 2026-10-30
 Owner: Codex
 Template: test-run-report-v1 / 1.0.0
 
@@ -149,6 +149,12 @@ HTTP `.type-pal/save-state.json`不存在是现行“干净工程”的合法404
 单引擎产物新增`npc-trace.json`，`report.json`含`timing`。`e2e:001:both`从两个子进程的实际回执取证，
 再写`build/e2e/both-001-<time>/comparison.json`；一方失败不停止另一方，最终整体非零退出。
 发现差异保留原始日志，先定位内容/迁移/运行时或测试模型，不往Reforge加入“对话冻结所有NPC”的规则。
+
+## 2026-10-30 发布复核（非新实跑）
+
+用户要求一并处理001的到期复核。全文核本报告/配对evidence及stage/catalog，核当前公开三入口和七sourceRefs（SHA/锚点均有效）；实际readOpeningContract读取当前作者场景/词表/人物与原始提取脚本，55行的身份、顺序及正文仍相等。opening判定/采集相关64工具测试、catalog9测试通过；完整原始输出和读域见[本次回执](../../../../ops/evidence/QUALITY-PENDING-100-3/e2e001-publication-review.json)。这些工具结果不替代浏览器、NPC演出或存读档实跑。
+
+当前常量仍为content22/minimumSave12，配对历史candidate/versions22/11与lastVerified2026-09-28保持原语义；原raw未由本次补录或修改。下文10-07/10-08“当前”只指原日期；不能把后来的对白显隐、编辑器预览等义务追认成已完成。catalog的reviewBy10-28→11-29是有范围依据的30天出版复核窗口，并非新runtime有效期或capture-ready。
 
 ## Results
 

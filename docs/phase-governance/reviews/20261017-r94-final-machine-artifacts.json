@@ -913,7 +913,7 @@
         }
       ],
       "sourceSha256": "50aa0c90de769ebf8c426e93c8bc83635d86e4c84e91d2711d73ceaf9bb0fd54",
-      "afterSha256": "50aa0c90de769ebf8c426e93c8bc83635d86e4c84e91d2711d73ceaf9bb0fd54",
+      "afterSha256": "0d982a38d04ecf682d9a41a9ea79bd6dd1dc86a51c3a01462e7d41d74cc2c62b",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1046,7 +1046,7 @@
         }
       ],
       "sourceSha256": "ee1ed15adabeeff9552d1f62f9bf957509ef0c2508b07790db79273d266acb12",
-      "afterSha256": "40ffa652ec4eaa630d3c3de9e8236aca374d3dca1cb1347f234f023c1f4eb52e",
+      "afterSha256": "cf9041b7650524f29e4e663a78a1f187d3ec4d9e6bf610325f1b6f472f09d4c3",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -4927,7 +4927,8 @@
         "candidateBaseRevision": "365e582e288ea1c0052595f2aa31ab59ab72da01",
         "workingTreeDelta": true,
         "notAFullSourceReaudit": true
-      }
+      },
+      "pendingWindow3Review": "2026-10-29 Codex: owned afterSHA bindings only; QUALITY-PENDING-100-3/review.json"
     },
     {
       "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r88-ops-evidence-artifacts-20261017.json",

@@ -33,7 +33,16 @@ const counts = (groups) => groups.map(([name, entries]) => `${name} ${entries.le
 const groupedBody = (groups, render = table) =>
   groups.map(([name, entries]) => `### ${name}\n\n${render(entries)}\n`).join('\n')
 
-function view({ title, purpose, scope, state, authority, body, legacy = false }) {
+function view({
+  title,
+  purpose,
+  scope,
+  state,
+  authority,
+  body,
+  legacy = false,
+  reviewed = '2026-10-16',
+}) {
   const source = legacy
     ? '[legacy-flat-classification.json](../legacy-flat-classification.json)'
     : '[catalog.json](../catalog.json)'
@@ -42,7 +51,7 @@ function view({ title, purpose, scope, state, authority, body, legacy = false })
     '',
     'Status: current',
     'Owner: Codex（新增索引与 producer 治理维护职责）',
-    'Last reviewed: 2026-10-16',
+    `Last reviewed: ${reviewed}`,
     'Template: governance-index-v1 / 1.0.0',
     '',
     '## 目的',
@@ -65,6 +74,9 @@ function view({ title, purpose, scope, state, authority, body, legacy = false })
     authority,
     '本页由 [generate-testing-index.mjs](../../../scripts/docs/generate-testing-index.mjs) 生成，不能手工维护派生行；人工总入口是 [README](README.md)。',
     '',
+    ...(reviewed === '2026-10-30'
+      ? ['2026-10-30只审版本适用性投影与取消日历期限，不刷新下游执行。', '']
+      : []),
     body.trimEnd(),
     '',
     '## 证据与下一步',
@@ -118,7 +130,20 @@ export function renderIndexes(catalog, classification = { entries: [] }) {
       state: `阶段行状态来自 catalog：${counts(groupEntries(stage, (entry) => [entry.status]))}。页面 current 不改变任何阶段的 rework、verified 或其它原状态，也不恢复旧运行授权。`,
       authority:
         'catalog 的 kind 决定是否入表；阶段报告负责合法输入、前驱和录像证据，维护者需先核报告/evidence 配对。',
-      body: table(stage),
+      reviewed: '2026-10-30',
+      body: [
+        table(stage),
+        '### 已记录版本',
+        '',
+        '| ID | 候选 SHA | content | minimumSave | sourceRefs | lastVerified |',
+        '|---|---|---|---|---|---|',
+        ...stage.map(
+          (entry) =>
+            `| ${entry.id} | ${entry.revision?.currentSha ?? entry.revision?.currentShas?.join(', ') ?? 'unknown'} | ${entry.revision?.contentVersion ?? 'unknown'} | ${entry.revision?.minimumSaveVersion ?? 'unknown'} | ${entry.sourceRefs?.length ?? 0} | ${entry.lastVerified} |`,
+        ),
+        '',
+        '只读对比：在仓库根运行 `node scripts/docs/testing-revisions.mjs`。HEAD不同不单独判过时；matching/changed/unknown按[版本适用性](../governance.md#版本适用性)解释，不授新的E2E信用。',
+      ].join('\n'),
     }),
     'by-status.md': view({
       title: '测试文档索引：按状态',
@@ -127,7 +152,8 @@ export function renderIndexes(catalog, classification = { entries: [] }) {
       state:
         '本页没有第二套状态账。source publication 的 current 不是执行通过，历史 verified 不因重生成变成本日重验，proposal 也不成为实施承诺。',
       authority:
-        '生命周期和 reviewBy 由 catalog 与测试治理维护；下游按状态选择阅读入口，不能用本页覆盖原报告的失败或停止线。',
+        '生命周期和版本适用性由 catalog 与测试治理维护；下游按状态选择阅读入口，不能用本页覆盖原报告的失败或停止线。',
+      reviewed: '2026-10-30',
       body: groupedBody(statuses),
     }),
     'by-tag.md': view({

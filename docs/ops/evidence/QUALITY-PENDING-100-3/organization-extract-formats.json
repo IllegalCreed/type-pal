@@ -1,0 +1,1154 @@
+{
+  "id": "extract-format-metadata",
+  "namespace": "organization-extract-formats",
+  "kind": "Responsibility reorganization plus independently anchored metamorphic cases",
+  "inputs": [
+    {
+      "path": "packages/pal-extract/src/resources/palette.test.ts",
+      "member": "organization-extract-formats/resources__palette.test.ts.before",
+      "sha256": "86787b9391c0447a044ae1bead66ee3d77aa9dc4fbfa50d65c636df4583cba22"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/palette.boundaries.test.ts",
+      "member": "organization-extract-formats/resources__palette.boundaries.test.ts.before",
+      "sha256": "86724be02c3415531d8ce0d8b502df7c4b1b67b73db3fbc6ce061fae1fc152bf"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/palette.glm-runtime-resource.test.ts",
+      "member": "organization-extract-formats/resources__palette.glm-runtime-resource.test.ts.before",
+      "sha256": "41588e1b1dadd9a09a423edd9d621ceefefee6f5afbde93bfc6d6d3c4d15385a"
+    },
+    {
+      "path": "packages/pal-extract/src/font/__tests__/bdf-to-json.test.ts",
+      "member": "organization-extract-formats/font____tests____bdf-to-json.test.ts.before",
+      "sha256": "cd19f360ffd314bf602920c5f5bfcc47e7d5ebe52db872300d56741742e2d4d6"
+    },
+    {
+      "path": "packages/pal-extract/src/font/__tests__/bdf-to-json.boundaries.test.ts",
+      "member": "organization-extract-formats/font____tests____bdf-to-json.boundaries.test.ts.before",
+      "sha256": "ee4b53a175aaa4517f5635ff2a6524eb2271816221985eddec45dc1e18390770"
+    },
+    {
+      "path": "packages/pal-extract/src/font/bdf-to-json.glm-runtime-resource.test.ts",
+      "member": "organization-extract-formats/font__bdf-to-json.glm-runtime-resource.test.ts.before",
+      "sha256": "a6ea7d00858b93f493ebea77794089c86c7a95730a3e621e2eb545addb21745b"
+    },
+    {
+      "path": "packages/pal-extract/src/__tests__/asset-manifest.test.ts",
+      "member": "organization-extract-formats/__tests____asset-manifest.test.ts.before",
+      "sha256": "f16a9b385380fbf9b9f7de7ef0c003b432abd7bd117c93854601affbfcaa7f86"
+    },
+    {
+      "path": "packages/pal-extract/src/__tests__/asset-manifest.boundaries.test.ts",
+      "member": "organization-extract-formats/__tests____asset-manifest.boundaries.test.ts.before",
+      "sha256": "ba4bd0eba64a64e54f212f39890ef0d6d233c5795d0a2b483cceff2b4518f31e"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/asset-manifest.glm-runtime-resource.test.ts",
+      "member": "organization-extract-formats/resources__asset-manifest.glm-runtime-resource.test.ts.before",
+      "sha256": "33a353b880e4b9db3bff5761f33b3f223bbd266d37142b17b879864ff163f913"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "packages/pal-extract/src/resources/palette.test.ts",
+      "purpose": "Palette color conversion, day/night halves, input views and caller-owned cycle configuration.",
+      "sha256": "397e37af75739f55a1ed2dea27dcb69301feb06d3c28d3208454170c739a7eb6"
+    },
+    {
+      "path": "packages/pal-extract/src/font/bdf-to-json.test.ts",
+      "purpose": "BDF bitmap fidelity, line endings and serialized glyph bytes.",
+      "sha256": "2ebdd3176db2b1fdc4117f6bc152b58bf4938278bed7261c933e3dcb41165a38"
+    },
+    {
+      "path": "packages/pal-extract/src/font/bdf-to-json.inputs.test.ts",
+      "purpose": "BDF codepoint selection, defaults and existing tolerant input boundaries; not a general untrusted-file validator.",
+      "sha256": "9b5eef4df7105e273cc5bf1c9ed592612a1baa6d689c9e2d1bb4a13fa125b026"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/asset-manifest.test.ts",
+      "purpose": "Pure asset content aggregation, filtering and empty-manifest contracts.",
+      "sha256": "21819bad6559301153dfa4d093ebb09e1a509a844431c33d62cbd0b2ab96c12d"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/asset-manifest.io.test.ts",
+      "purpose": "Asset entry filesystem discovery, caller input ownership and final-content digests.",
+      "sha256": "1ae41c821546fdcdcaf5cbd10e474574a1def919fd491c8d0dddf0500d20a662"
+    }
+  ],
+  "sourceBridges": [
+    {
+      "id": "clarify-paths-and-roles-0",
+      "path": "packages/pal-extract/src/resources/palette.test.ts",
+      "reason": "Exact relative imports, role/seed/byte names, temporary directory purpose and behavior-facing test titles; no values/assertions change.",
+      "changes": [
+        {
+          "from": "buf",
+          "to": "bytes",
+          "count": 3
+        }
+      ]
+    },
+    {
+      "id": "clarify-paths-and-roles-1",
+      "path": "packages/pal-extract/src/resources/palette.boundaries.test.ts",
+      "reason": "Exact relative imports, role/seed/byte names, temporary directory purpose and behavior-facing test titles; no values/assertions change.",
+      "changes": [
+        {
+          "from": "block",
+          "to": "colorBlock",
+          "count": 4
+        },
+        {
+          "from": "offset",
+          "to": "seed",
+          "count": 5
+        }
+      ]
+    },
+    {
+      "id": "clarify-paths-and-roles-2",
+      "path": "packages/pal-extract/src/resources/palette.glm-runtime-resource.test.ts",
+      "reason": "Exact relative imports, role/seed/byte names, temporary directory purpose and behavior-facing test titles; no values/assertions change.",
+      "changes": [
+        {
+          "from": "buf",
+          "to": "bytes",
+          "count": 9
+        }
+      ]
+    },
+    {
+      "id": "clarify-paths-and-roles-3",
+      "path": "packages/pal-extract/src/font/__tests__/bdf-to-json.test.ts",
+      "reason": "Exact relative imports, role/seed/byte names, temporary directory purpose and behavior-facing test titles; no values/assertions change.",
+      "changes": [
+        {
+          "from": "from '../bdf-to-json.js'",
+          "to": "from './bdf-to-json.js'",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "clarify-paths-and-roles-4",
+      "path": "packages/pal-extract/src/font/__tests__/bdf-to-json.boundaries.test.ts",
+      "reason": "Exact relative imports, role/seed/byte names, temporary directory purpose and behavior-facing test titles; no values/assertions change.",
+      "changes": [
+        {
+          "from": "from '../bdf-to-json.js'",
+          "to": "from './bdf-to-json.js'",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "clarify-paths-and-roles-5",
+      "path": "packages/pal-extract/src/font/bdf-to-json.glm-runtime-resource.test.ts",
+      "reason": "Exact relative imports, role/seed/byte names, temporary directory purpose and behavior-facing test titles; no values/assertions change.",
+      "changes": [
+        {
+          "from": "位图行短于 bytesPerRow：缺位补 0（parseInt(hex,16) || 0）；无 ENDCHAR 以 EOF 终止",
+          "to": "位图行不足补零；无 ENDCHAR 以 EOF 终止",
+          "count": 1
+        },
+        {
+          "from": "parseBdf：位图行循环内遇 ENDCHAR 提前截断（rowIdx < height 即 break）",
+          "to": "parseBdf：声明高度之前遇 ENDCHAR，余下位图保持零",
+          "count": 1
+        },
+        {
+          "from": "parseBdf：零宽字形 bytesPerRow=0，位图行循环零次进入",
+          "to": "parseBdf：零宽输入保留零宽与空位图（宽容边界）",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "clarify-paths-and-roles-6",
+      "path": "packages/pal-extract/src/__tests__/asset-manifest.test.ts",
+      "reason": "Exact relative imports, role/seed/byte names, temporary directory purpose and behavior-facing test titles; no values/assertions change.",
+      "changes": [
+        {
+          "from": "from '../resources/asset-manifest.js'",
+          "to": "from './asset-manifest.js'",
+          "count": 1
+        },
+        {
+          "from": "const a = buildManifest",
+          "to": "const original = buildManifest",
+          "count": 1
+        },
+        {
+          "from": "a.fileCount",
+          "to": "original.fileCount",
+          "count": 1
+        },
+        {
+          "from": "a.totalBytes",
+          "to": "original.totalBytes",
+          "count": 1
+        },
+        {
+          "from": "a.files[0]",
+          "to": "original.files[0]",
+          "count": 1
+        },
+        {
+          "from": "a.version",
+          "to": "original.version",
+          "count": 2
+        },
+        {
+          "from": "const b = buildManifest",
+          "to": "const reordered = buildManifest",
+          "count": 1
+        },
+        {
+          "from": "b.version",
+          "to": "reordered.version",
+          "count": 1
+        },
+        {
+          "from": "const c = buildManifest",
+          "to": "const resized = buildManifest",
+          "count": 1
+        },
+        {
+          "from": "c.version",
+          "to": "resized.version",
+          "count": 1
+        },
+        {
+          "from": "const m = buildManifest",
+          "to": "const filtered = buildManifest",
+          "count": 2
+        },
+        {
+          "from": "m.files",
+          "to": "filtered.files",
+          "count": 2
+        },
+        {
+          "from": "m.fileCount",
+          "to": "filtered.fileCount",
+          "count": 2
+        },
+        {
+          "from": "m.version",
+          "to": "filtered.version",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "clarify-paths-and-roles-7",
+      "path": "packages/pal-extract/src/__tests__/asset-manifest.boundaries.test.ts",
+      "reason": "Exact relative imports, role/seed/byte names, temporary directory purpose and behavior-facing test titles; no values/assertions change.",
+      "changes": [
+        {
+          "from": "from '../resources/asset-manifest.js'",
+          "to": "from './asset-manifest.js'",
+          "count": 1
+        },
+        {
+          "from": "'tb05-manifest-'",
+          "to": "'pal-manifest-tree-'",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "clarify-paths-and-roles-8",
+      "path": "packages/pal-extract/src/resources/asset-manifest.glm-runtime-resource.test.ts",
+      "reason": "Exact relative imports, role/seed/byte names, temporary directory purpose and behavior-facing test titles; no values/assertions change.",
+      "changes": [
+        {
+          "from": "from '../resources/asset-manifest.js'",
+          "to": "from './asset-manifest.js'",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "independent-invariance-oracle-packages/pal-extract/src/resources/palette.test.ts",
+      "path": "packages/pal-extract/src/resources/palette.boundaries.test.ts",
+      "reason": "Retain input invariance but anchor against independent color values or existing complete literal glyph bytes; no fixture/domain change.",
+      "changes": [
+        {
+          "from": "expect(decodePalette(view).colors).toEqual(palette.colors)",
+          "to": "const viewed = decodePalette(view)\n    expect(viewed.colors).toHaveLength(256)\n    expect(viewed.colors[0]).toEqual([4, 12, 20])\n    expect(viewed.colors[5]![0]).toBe(146)\n    expect('nightColors' in viewed).toBe(false)\n    expect(viewed.colors).toEqual(palette.colors)",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "independent-invariance-oracle-packages/pal-extract/src/font/bdf-to-json.test.ts",
+      "path": "packages/pal-extract/src/font/__tests__/bdf-to-json.boundaries.test.ts",
+      "reason": "Retain input invariance but anchor against independent color values or existing complete literal glyph bytes; no fixture/domain change.",
+      "changes": [
+        {
+          "from": "expect(crlf).toEqual(lf)\n    expect(padded).toEqual(lf)",
+          "to": "const expected = [\n      { codepoint: 65, width: 8, height: 16, bitmap: asciiBitmap() },\n      { codepoint: 20013, width: 16, height: 16, bitmap: cjkBitmap() },\n    ]\n    expect(lf).toEqual(expected)\n    expect(crlf).toEqual(expected)\n    expect(padded).toEqual(expected)",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "literal-layout-only-asciiBitmap",
+      "path": "packages/pal-extract/src/font/__tests__/bdf-to-json.boundaries.test.ts",
+      "reason": "Exact numeric vector formatting only, separately token-verified.",
+      "changes": [
+        {
+          "from": "const asciiBitmap = (): Uint8Array =>\n  Uint8Array.from([\n    0x00, 0x00, 0x00, 0x18, 0x24, 0x42, 0x42, 0x7e, 0x42, 0x42, 0x42, 0x42, 0x00, 0x00, 0x00, 0x00,\n  ])",
+          "to": "const asciiBitmap = (): Uint8Array =>\n    Uint8Array.from([\n      0x00, 0x00, 0x00, 0x18, 0x24, 0x42, 0x42, 0x7e, 0x42, 0x42, 0x42, 0x42, 0x00, 0x00, 0x00,\n      0x00,\n    ])",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "literal-layout-only-cjkBitmap",
+      "path": "packages/pal-extract/src/font/__tests__/bdf-to-json.boundaries.test.ts",
+      "reason": "Exact numeric vector formatting only, separately token-verified.",
+      "changes": [
+        {
+          "from": "const cjkBitmap = (): Uint8Array =>\n  Uint8Array.from([\n    0x00, 0x00, 0xff, 0xff, 0x00, 0x00, 0xff, 0xff, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff, 0xff,\n    0x00, 0x00, 0xff, 0xff, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff, 0xff, 0x00, 0x00, 0xff, 0xff,\n  ])",
+          "to": "const cjkBitmap = (): Uint8Array =>\n    Uint8Array.from([\n      0x00, 0x00, 0xff, 0xff, 0x00, 0x00, 0xff, 0xff, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff,\n      0xff, 0x00, 0x00, 0xff, 0xff, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff, 0xff, 0x00, 0x00,\n      0xff, 0xff,\n    ])",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "renamed-original-assertion-layout",
+      "path": "packages/pal-extract/src/__tests__/asset-manifest.test.ts",
+      "reason": "Only one three-property assertion is wrapped by Biome after variable rename, including a trailing comma.",
+      "changes": [
+        {
+          "from": "expect(original.files[0]).toEqual({ path: 'data/items.json', size: 100, sha256: '0'.repeat(64) })",
+          "to": "expect(original.files[0]).toEqual({\n      path: 'data/items.json',\n      size: 100,\n      sha256: '0'.repeat(64),\n    })",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "replacements": [],
+  "registrations": [
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/palette.test.ts",
+        "ordinal": 0
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/palette.test.ts",
+        "titles": ["color channels and day/night halves"],
+        "template": "256 色 VGA(0-63)解出 0-255"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/palette.test.ts",
+        "ordinal": 1
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/palette.test.ts",
+        "titles": ["color channels and day/night halves"],
+        "template": "零调色板出 [0, 0, 0]"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/palette.boundaries.test.ts",
+        "ordinal": 0
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/palette.test.ts",
+        "titles": ["color channels and day/night halves"],
+        "template": "1536 输入：colors 与 nightColors 都满 256×3 且非对称；锚点手算值精确"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/palette.boundaries.test.ts",
+        "ordinal": 1
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/palette.test.ts",
+        "titles": ["color channels and day/night halves"],
+        "template": "768 输入：无 nightColors 键；非零 byteOffset 视图等价"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/palette.glm-runtime-resource.test.ts",
+        "ordinal": 2
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/palette.test.ts",
+        "titles": ["color channels and day/night halves"],
+        "template": "单条目 r/g/b 三通道独立 6-bit 值：通道不错位（防 r/g/b 装配顺序错）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/palette.glm-runtime-resource.test.ts",
+        "ordinal": 3
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/palette.test.ts",
+        "titles": ["color channels and day/night halves"],
+        "template": "decodePalette：短缓冲仅保留首通道，所有缺位补零且无夜色"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/palette.test.ts",
+        "ordinal": 2
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/palette.test.ts",
+        "titles": ["cycle defaults and borrowed configuration"],
+        "template": "cycles 保留传入的完整配置"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/palette.glm-runtime-resource.test.ts",
+        "ordinal": 0
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/palette.test.ts",
+        "titles": ["cycle defaults and borrowed configuration"],
+        "template": "默认参数：cycles 键存在且为空数组"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/palette.glm-runtime-resource.test.ts",
+        "ordinal": 1
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/palette.test.ts",
+        "titles": ["cycle defaults and borrowed configuration"],
+        "template": "1536 输入 + cycles：colors/cycles/nightColors 三键齐备且 cycles 引用透传"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/font/__tests__/bdf-to-json.test.ts",
+        "ordinal": 0
+      },
+      "current": {
+        "file": "packages/pal-extract/src/font/bdf-to-json.test.ts",
+        "titles": ["complete bitmap and glyph JSON fidelity"],
+        "template": "extracts 16x16 glyph from BDF fragment"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/font/__tests__/bdf-to-json.boundaries.test.ts",
+        "ordinal": 0
+      },
+      "current": {
+        "file": "packages/pal-extract/src/font/bdf-to-json.test.ts",
+        "titles": ["complete bitmap and glyph JSON fidelity"],
+        "template": "两字形完整 bitmap/宽高/码点手列精确；BBX 宽高生效"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/font/__tests__/bdf-to-json.boundaries.test.ts",
+        "ordinal": 1
+      },
+      "current": {
+        "file": "packages/pal-extract/src/font/bdf-to-json.test.ts",
+        "titles": ["complete bitmap and glyph JSON fidelity"],
+        "template": "LF / CRLF / 行尾多余空白三种文本等价解析"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/font/__tests__/bdf-to-json.boundaries.test.ts",
+        "ordinal": 2
+      },
+      "current": {
+        "file": "packages/pal-extract/src/font/bdf-to-json.test.ts",
+        "titles": ["complete bitmap and glyph JSON fidelity"],
+        "template": "glyphsToJson 完整 count/字段/base64（手算 base64 oracle）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/font/bdf-to-json.glm-runtime-resource.test.ts",
+        "ordinal": 0
+      },
+      "current": {
+        "file": "packages/pal-extract/src/font/bdf-to-json.inputs.test.ts",
+        "titles": ["codepoint selection and tolerant input boundaries"],
+        "template": "ENCODING -1（未编码字形）与 ENCODING 0：均排除（codepoint > 0 门）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/font/bdf-to-json.glm-runtime-resource.test.ts",
+        "ordinal": 1
+      },
+      "current": {
+        "file": "packages/pal-extract/src/font/bdf-to-json.inputs.test.ts",
+        "titles": ["codepoint selection and tolerant input boundaries"],
+        "template": "缺 ENCODING 行：codepoint 保持 -1 → 排除"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/font/bdf-to-json.glm-runtime-resource.test.ts",
+        "ordinal": 2
+      },
+      "current": {
+        "file": "packages/pal-extract/src/font/bdf-to-json.inputs.test.ts",
+        "titles": ["codepoint selection and tolerant input boundaries"],
+        "template": "缺 BBX：默认 16×16（bytesPerRow 2，bitmap 32B），位图行按 2 字节装填"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/font/bdf-to-json.glm-runtime-resource.test.ts",
+        "ordinal": 3
+      },
+      "current": {
+        "file": "packages/pal-extract/src/font/bdf-to-json.inputs.test.ts",
+        "titles": ["codepoint selection and tolerant input boundaries"],
+        "template": "位图行不足补零；无 ENDCHAR 以 EOF 终止"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/font/bdf-to-json.glm-runtime-resource.test.ts",
+        "ordinal": 4
+      },
+      "current": {
+        "file": "packages/pal-extract/src/font/bdf-to-json.inputs.test.ts",
+        "titles": ["codepoint selection and tolerant input boundaries"],
+        "template": "空输入与无 STARTCHAR 文本：空表；glyphsToJson 空表 count=0"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/font/bdf-to-json.glm-runtime-resource.test.ts",
+        "ordinal": 5
+      },
+      "current": {
+        "file": "packages/pal-extract/src/font/bdf-to-json.inputs.test.ts",
+        "titles": ["codepoint selection and tolerant input boundaries"],
+        "template": "parseBdf：位图行非法 hex 回退 0，合法行保真"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/font/bdf-to-json.glm-runtime-resource.test.ts",
+        "ordinal": 6
+      },
+      "current": {
+        "file": "packages/pal-extract/src/font/bdf-to-json.inputs.test.ts",
+        "titles": ["codepoint selection and tolerant input boundaries"],
+        "template": "parseBdf：声明高度之前遇 ENDCHAR，余下位图保持零"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/font/bdf-to-json.glm-runtime-resource.test.ts",
+        "ordinal": 7
+      },
+      "current": {
+        "file": "packages/pal-extract/src/font/bdf-to-json.inputs.test.ts",
+        "titles": ["codepoint selection and tolerant input boundaries"],
+        "template": "parseBdf：零宽输入保留零宽与空位图（宽容边界）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/__tests__/asset-manifest.test.ts",
+        "ordinal": 0
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/asset-manifest.test.ts",
+        "titles": ["pure content aggregation and filtering"],
+        "template": "聚合 files/totalBytes/fileCount,version 对内容稳定、对变化敏感"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/__tests__/asset-manifest.test.ts",
+        "ordinal": 1
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/asset-manifest.test.ts",
+        "titles": ["pure content aggregation and filtering"],
+        "template": "剔除 asset-manifest.json 自身(避免自指)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/__tests__/asset-manifest.test.ts",
+        "ordinal": 2
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/asset-manifest.test.ts",
+        "titles": ["pure content aggregation and filtering"],
+        "template": "剔除任意目录下的 .DS_Store(macOS 噪声,deploy.sh 同样 --exclude,且不该污染 version)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/__tests__/asset-manifest.test.ts",
+        "ordinal": 3
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/asset-manifest.test.ts",
+        "titles": ["pure content aggregation and filtering"],
+        "template": "buildManifest：相同 path 的条目保留（不从相同条目推断稳定排序）且排除自身与 .DS_Store"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/asset-manifest.glm-runtime-resource.test.ts",
+        "ordinal": 0
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/asset-manifest.test.ts",
+        "titles": ["pure content aggregation and filtering"],
+        "template": "空表：version = sha256(\"\") 前 16 hex、totalBytes 0、fileCount 0、files []"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/asset-manifest.glm-runtime-resource.test.ts",
+        "ordinal": 1
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/asset-manifest.test.ts",
+        "titles": ["pure content aggregation and filtering"],
+        "template": "全被剔除的表（仅 self 与 .DS_Store）与空表同 version"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/__tests__/asset-manifest.boundaries.test.ts",
+        "ordinal": 0
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/asset-manifest.io.test.ts",
+        "titles": ["filesystem discovery and final byte digests"],
+        "template": "多层/零字节/中文/二进制精确清单；子目录同名 asset-manifest.json 保留；entries 不变；独立序列 hash"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/__tests__/asset-manifest.boundaries.test.ts",
+        "ordinal": 1
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/asset-manifest.io.test.ts",
+        "titles": ["filesystem discovery and final byte digests"],
+        "template": "same-length script edit changes the cache version and records the final bytes digest"
+      }
+    }
+  ],
+  "identities": [
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/palette.test.ts",
+        "fullName": "decodePalette 256 色 VGA(0-63)解出 0-255"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/palette.test.ts",
+        "fullName": "color channels and day/night halves 256 色 VGA(0-63)解出 0-255"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/palette.test.ts",
+        "fullName": "decodePalette 零调色板出 [0, 0, 0]"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/palette.test.ts",
+        "fullName": "color channels and day/night halves 零调色板出 [0, 0, 0]"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/palette.boundaries.test.ts",
+        "fullName": "R07 decodePalette day/night 双半 1536 输入：colors 与 nightColors 都满 256×3 且非对称；锚点手算值精确"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/palette.test.ts",
+        "fullName": "color channels and day/night halves 1536 输入：colors 与 nightColors 都满 256×3 且非对称；锚点手算值精确"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/palette.boundaries.test.ts",
+        "fullName": "R07 decodePalette day/night 双半 768 输入：无 nightColors 键；非零 byteOffset 视图等价"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/palette.test.ts",
+        "fullName": "color channels and day/night halves 768 输入：无 nightColors 键；非零 byteOffset 视图等价"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/palette.glm-runtime-resource.test.ts",
+        "fullName": "R02 decodePalette 默认 cycles 与组合轴 单条目 r/g/b 三通道独立 6-bit 值：通道不错位（防 r/g/b 装配顺序错）"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/palette.test.ts",
+        "fullName": "color channels and day/night halves 单条目 r/g/b 三通道独立 6-bit 值：通道不错位（防 r/g/b 装配顺序错）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/palette.glm-runtime-resource.test.ts",
+        "fullName": "decodePalette：短缓冲仅保留首通道，所有缺位补零且无夜色"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/palette.test.ts",
+        "fullName": "color channels and day/night halves decodePalette：短缓冲仅保留首通道，所有缺位补零且无夜色"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/palette.test.ts",
+        "fullName": "decodePalette cycles 保留传入的完整配置"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/palette.test.ts",
+        "fullName": "cycle defaults and borrowed configuration cycles 保留传入的完整配置"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/palette.glm-runtime-resource.test.ts",
+        "fullName": "R02 decodePalette 默认 cycles 与组合轴 默认参数：cycles 键存在且为空数组"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/palette.test.ts",
+        "fullName": "cycle defaults and borrowed configuration 默认参数：cycles 键存在且为空数组"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/palette.glm-runtime-resource.test.ts",
+        "fullName": "R02 decodePalette 默认 cycles 与组合轴 1536 输入 + cycles：colors/cycles/nightColors 三键齐备且 cycles 引用透传"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/palette.test.ts",
+        "fullName": "cycle defaults and borrowed configuration 1536 输入 + cycles：colors/cycles/nightColors 三键齐备且 cycles 引用透传"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/font/__tests__/bdf-to-json.test.ts",
+        "fullName": "parseBdf extracts 16x16 glyph from BDF fragment"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/font/bdf-to-json.test.ts",
+        "fullName": "complete bitmap and glyph JSON fidelity extracts 16x16 glyph from BDF fragment"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/font/__tests__/bdf-to-json.boundaries.test.ts",
+        "fullName": "R08 parseBdf 完整字形 两字形完整 bitmap/宽高/码点手列精确；BBX 宽高生效"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/font/bdf-to-json.test.ts",
+        "fullName": "complete bitmap and glyph JSON fidelity 两字形完整 bitmap/宽高/码点手列精确；BBX 宽高生效"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/font/__tests__/bdf-to-json.boundaries.test.ts",
+        "fullName": "R08 parseBdf 完整字形 LF / CRLF / 行尾多余空白三种文本等价解析"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/font/bdf-to-json.test.ts",
+        "fullName": "complete bitmap and glyph JSON fidelity LF / CRLF / 行尾多余空白三种文本等价解析"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/font/__tests__/bdf-to-json.boundaries.test.ts",
+        "fullName": "R08 parseBdf 完整字形 glyphsToJson 完整 count/字段/base64（手算 base64 oracle）"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/font/bdf-to-json.test.ts",
+        "fullName": "complete bitmap and glyph JSON fidelity glyphsToJson 完整 count/字段/base64（手算 base64 oracle）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/font/bdf-to-json.glm-runtime-resource.test.ts",
+        "fullName": "R08 parseBdf codepoint 门与默认值 ENCODING -1（未编码字形）与 ENCODING 0：均排除（codepoint > 0 门）"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/font/bdf-to-json.inputs.test.ts",
+        "fullName": "codepoint selection and tolerant input boundaries ENCODING -1（未编码字形）与 ENCODING 0：均排除（codepoint > 0 门）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/font/bdf-to-json.glm-runtime-resource.test.ts",
+        "fullName": "R08 parseBdf codepoint 门与默认值 缺 ENCODING 行：codepoint 保持 -1 → 排除"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/font/bdf-to-json.inputs.test.ts",
+        "fullName": "codepoint selection and tolerant input boundaries 缺 ENCODING 行：codepoint 保持 -1 → 排除"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/font/bdf-to-json.glm-runtime-resource.test.ts",
+        "fullName": "R08 parseBdf codepoint 门与默认值 缺 BBX：默认 16×16（bytesPerRow 2，bitmap 32B），位图行按 2 字节装填"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/font/bdf-to-json.inputs.test.ts",
+        "fullName": "codepoint selection and tolerant input boundaries 缺 BBX：默认 16×16（bytesPerRow 2，bitmap 32B），位图行按 2 字节装填"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/font/bdf-to-json.glm-runtime-resource.test.ts",
+        "fullName": "R08 parseBdf codepoint 门与默认值 位图行短于 bytesPerRow：缺位补 0（parseInt(hex,16) || 0）；无 ENDCHAR 以 EOF 终止"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/font/bdf-to-json.inputs.test.ts",
+        "fullName": "codepoint selection and tolerant input boundaries 位图行不足补零；无 ENDCHAR 以 EOF 终止"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/font/bdf-to-json.glm-runtime-resource.test.ts",
+        "fullName": "R08 parseBdf codepoint 门与默认值 空输入与无 STARTCHAR 文本：空表；glyphsToJson 空表 count=0"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/font/bdf-to-json.inputs.test.ts",
+        "fullName": "codepoint selection and tolerant input boundaries 空输入与无 STARTCHAR 文本：空表；glyphsToJson 空表 count=0"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/font/bdf-to-json.glm-runtime-resource.test.ts",
+        "fullName": "parseBdf：位图行非法 hex 回退 0，合法行保真"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/font/bdf-to-json.inputs.test.ts",
+        "fullName": "codepoint selection and tolerant input boundaries parseBdf：位图行非法 hex 回退 0，合法行保真"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/font/bdf-to-json.glm-runtime-resource.test.ts",
+        "fullName": "parseBdf：位图行循环内遇 ENDCHAR 提前截断（rowIdx < height 即 break）"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/font/bdf-to-json.inputs.test.ts",
+        "fullName": "codepoint selection and tolerant input boundaries parseBdf：声明高度之前遇 ENDCHAR，余下位图保持零"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/font/bdf-to-json.glm-runtime-resource.test.ts",
+        "fullName": "parseBdf：零宽字形 bytesPerRow=0，位图行循环零次进入"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/font/bdf-to-json.inputs.test.ts",
+        "fullName": "codepoint selection and tolerant input boundaries parseBdf：零宽输入保留零宽与空位图（宽容边界）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/__tests__/asset-manifest.test.ts",
+        "fullName": "buildManifest 聚合 files/totalBytes/fileCount,version 对内容稳定、对变化敏感"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/asset-manifest.test.ts",
+        "fullName": "pure content aggregation and filtering 聚合 files/totalBytes/fileCount,version 对内容稳定、对变化敏感"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/__tests__/asset-manifest.test.ts",
+        "fullName": "buildManifest 剔除 asset-manifest.json 自身(避免自指)"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/asset-manifest.test.ts",
+        "fullName": "pure content aggregation and filtering 剔除 asset-manifest.json 自身(避免自指)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/__tests__/asset-manifest.test.ts",
+        "fullName": "buildManifest 剔除任意目录下的 .DS_Store(macOS 噪声,deploy.sh 同样 --exclude,且不该污染 version)"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/asset-manifest.test.ts",
+        "fullName": "pure content aggregation and filtering 剔除任意目录下的 .DS_Store(macOS 噪声,deploy.sh 同样 --exclude,且不该污染 version)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/__tests__/asset-manifest.test.ts",
+        "fullName": "buildManifest：相同 path 的条目保留（不从相同条目推断稳定排序）且排除自身与 .DS_Store"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/asset-manifest.test.ts",
+        "fullName": "pure content aggregation and filtering buildManifest：相同 path 的条目保留（不从相同条目推断稳定排序）且排除自身与 .DS_Store"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/asset-manifest.glm-runtime-resource.test.ts",
+        "fullName": "R08 buildManifest 空 entries 空表：version = sha256(\"\") 前 16 hex、totalBytes 0、fileCount 0、files []"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/asset-manifest.test.ts",
+        "fullName": "pure content aggregation and filtering 空表：version = sha256(\"\") 前 16 hex、totalBytes 0、fileCount 0、files []"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/asset-manifest.glm-runtime-resource.test.ts",
+        "fullName": "R08 buildManifest 空 entries 全被剔除的表（仅 self 与 .DS_Store）与空表同 version"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/asset-manifest.test.ts",
+        "fullName": "pure content aggregation and filtering 全被剔除的表（仅 self 与 .DS_Store）与空表同 version"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/__tests__/asset-manifest.boundaries.test.ts",
+        "fullName": "R09 collectAssetEntries + buildManifest 真实树 多层/零字节/中文/二进制精确清单；子目录同名 asset-manifest.json 保留；entries 不变；独立序列 hash"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/asset-manifest.io.test.ts",
+        "fullName": "filesystem discovery and final byte digests 多层/零字节/中文/二进制精确清单；子目录同名 asset-manifest.json 保留；entries 不变；独立序列 hash"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/__tests__/asset-manifest.boundaries.test.ts",
+        "fullName": "same-length script edit changes the cache version and records the final bytes digest"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/asset-manifest.io.test.ts",
+        "fullName": "filesystem discovery and final byte digests same-length script edit changes the cache version and records the final bytes digest"
+      }
+    }
+  ],
+  "preserved": [
+    {
+      "path": "packages/pal-extract/src/resources/palette.ts",
+      "sha256": "9091835d5a025101384e647402f0b55c0b689dc87d05db24d13a2030afeb2194"
+    },
+    {
+      "path": "packages/pal-extract/src/font/bdf-to-json.ts",
+      "sha256": "2c6a8cd4dd0b7d4bd2c9f8df717cdb891c302a9504dda7bbca71426c82d17897"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/asset-manifest.ts",
+      "sha256": "064c788e473795cf2fda5502188115dfe8b5d644c1b0e451c1cce37ada63a47f"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/lookup-assets.ts",
+      "sha256": "02edaa5ba40a47fdf7a4590f5da4c4933ba9176ebd0eb9b3ce28130b8963ec28"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/bitmap-assets.ts",
+      "sha256": "d468feacaf206d7f053d1fec47d23579009678104206bfdcfcfdf0126a6f80d5"
+    },
+    {
+      "path": "packages/pal-extract/src/cli.ts",
+      "sha256": "a6cf5e24a0a1706d605fd288757035925843854f0aa379b9e963014908528d77"
+    }
+  ],
+  "formattingBridges": [
+    {
+      "name": "asciiBitmap",
+      "from": "const asciiBitmap = (): Uint8Array =>\n  Uint8Array.from([\n    0x00, 0x00, 0x00, 0x18, 0x24, 0x42, 0x42, 0x7e, 0x42, 0x42, 0x42, 0x42, 0x00, 0x00, 0x00, 0x00,\n  ])",
+      "to": "const asciiBitmap = (): Uint8Array =>\n    Uint8Array.from([\n      0x00, 0x00, 0x00, 0x18, 0x24, 0x42, 0x42, 0x7e, 0x42, 0x42, 0x42, 0x42, 0x00, 0x00, 0x00,\n      0x00,\n    ])",
+      "reason": "Biome reflows independent literal array when moved into the suite; token sequence is identical and both nodes are zero-argument Uint8Array.from numeric literals."
+    },
+    {
+      "name": "cjkBitmap",
+      "from": "const cjkBitmap = (): Uint8Array =>\n  Uint8Array.from([\n    0x00, 0x00, 0xff, 0xff, 0x00, 0x00, 0xff, 0xff, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff, 0xff,\n    0x00, 0x00, 0xff, 0xff, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff, 0xff, 0x00, 0x00, 0xff, 0xff,\n  ])",
+      "to": "const cjkBitmap = (): Uint8Array =>\n    Uint8Array.from([\n      0x00, 0x00, 0xff, 0xff, 0x00, 0x00, 0xff, 0xff, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff,\n      0xff, 0x00, 0x00, 0xff, 0xff, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff, 0xff, 0x00, 0x00,\n      0xff, 0xff,\n    ])",
+      "reason": "Biome reflows independent literal array when moved into the suite; token sequence is identical and both nodes are zero-argument Uint8Array.from numeric literals."
+    },
+    {
+      "kind": "object-assertion",
+      "name": "original.files[0] expected fields",
+      "from": "expect(original.files[0]).toEqual({ path: 'data/items.json', size: 100, sha256: '0'.repeat(64) })",
+      "to": "expect(original.files[0]).toEqual({\n      path: 'data/items.json',\n      size: 100,\n      sha256: '0'.repeat(64),\n    })",
+      "reason": "Same toEqual object tokens except optional trailing comma; independent field values unchanged."
+    }
+  ],
+  "cohortSubjects": [
+    {
+      "path": "packages/pal-extract/src/font/bdf-to-json.glm-runtime-resource.test.ts",
+      "sha256": "a6ea7d00858b93f493ebea77794089c86c7a95730a3e621e2eb545addb21745b",
+      "preservedEvidence": "[本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json)"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/asset-manifest.glm-runtime-resource.test.ts",
+      "sha256": "33a353b880e4b9db3bff5761f33b3f223bbd266d37142b17b879864ff163f913",
+      "preservedEvidence": "[本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json)"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/palette.glm-runtime-resource.test.ts",
+      "sha256": "41588e1b1dadd9a09a423edd9d621ceefefee6f5afbde93bfc6d6d3c4d15385a",
+      "preservedEvidence": "[本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json)"
+    }
+  ],
+  "reusedReview": {
+    "member": "organization-extract-formats/reused-review.json",
+    "source": "docs/ops/evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json",
+    "scope": "Nine exact accepted A-E/H sources reused; current F/G and two oracle reinforcements are fresh judgments, not new full-file credit."
+  },
+  "neighborPaths": [
+    "packages/pal-extract/src/font/bdf-to-json.inputs.test.ts",
+    "packages/pal-extract/src/font/bdf-to-json.test.ts",
+    "packages/pal-extract/src/resources/asset-manifest.io.test.ts",
+    "packages/pal-extract/src/resources/asset-manifest.test.ts",
+    "packages/pal-extract/src/resources/palette.test.ts",
+    "packages/pal-extract/src/resources/parsers/__tests__/data-misc.boundaries.test.ts",
+    "packages/pal-extract/src/resources/parsers/__tests__/data-misc.test.ts",
+    "packages/pal-extract/src/resources/parsers/__tests__/enemies.boundaries.test.ts",
+    "packages/pal-extract/src/resources/parsers/__tests__/misc-mkf.test.ts",
+    "packages/pal-extract/src/resources/parsers/__tests__/player-roles.boundaries.test.ts",
+    "packages/pal-extract/src/resources/parsers/__tests__/player-roles.event-boundaries-1.test.ts",
+    "packages/pal-extract/src/resources/parsers/__tests__/rix.test.ts",
+    "packages/pal-extract/src/resources/parsers/__tests__/sounds.test.ts",
+    "packages/pal-extract/src/resources/parsers/__tests__/spells.boundaries.test.ts",
+    "packages/pal-extract/src/resources/parsers/ball.test.ts",
+    "packages/pal-extract/src/resources/parsers/battle-fields.test.ts",
+    "packages/pal-extract/src/resources/parsers/enemy-teams.test.ts",
+    "packages/pal-extract/src/resources/parsers/items.test.ts",
+    "packages/pal-extract/src/resources/parsers/rgm.test.ts",
+    "packages/pal-extract/src/resources/parsers/stores.test.ts",
+    "packages/pal-extract/src/resources/tables.test.ts"
+  ],
+  "cleanExecutions": [
+    "before",
+    "scoped",
+    "neighbors",
+    "typecheck",
+    "record-final-r2",
+    "format",
+    "docs-final",
+    "content-review-final",
+    "lint-final",
+    "ledger",
+    "diff-final",
+    "final-fetch"
+  ],
+  "counters": ["palette.counter.json", "bdf.counter.json"],
+  "profiles": [
+    {
+      "path": "packages/pal-extract/src/resources/palette.test.ts",
+      "sha256": "397e37af75739f55a1ed2dea27dcb69301feb06d3c28d3208454170c739a7eb6",
+      "subjects": [
+        "packages/pal-extract/src/resources/palette.test.ts",
+        "packages/pal-extract/src/resources/palette.boundaries.test.ts",
+        "packages/pal-extract/src/resources/palette.glm-runtime-resource.test.ts"
+      ],
+      "axes": {
+        "A": "VGA位复制TS近似与SDLPal差异沿原决定保留；day/night、默认cycles、借用cycles与短缓冲域不变。bitmap writer实际传PAT整chunk，省略cycles，当前source/DTO未改。",
+        "B": "去R02/R07互指与“未占用”声明，保留位复制/夜半与非对称输入说明；helper的offset实为种子，改colorBlock(seed)避免字节单位误导。",
+        "C": "三旧spec按纯decodePalette同一合同聚合，颜色/半块与cycles ownership两组；无IO/时钟/跨层状态，cycles来自caller不被parser生成。",
+        "D": "两day/night例共用真正同域256×3输入builder，预期锚点手算而不调decode生成；不把短非法缓冲当正常PAT数据。",
+        "E": "9身份保留；view继续核完整等价并新增独立RGB[4,12,20]/红通道146、长度及无夜色键。r恒0旧选中绿新唯一AssertionError，源/测试精确恢复；这些是锚点加完整关系，不冒称256项独立金标。",
+        "F": "palette.test与对应函数匹配，colors与cycles分组直接表达职责，bytes替代buf，seed不再冒充offset。",
+        "G": "3旧文件归1，不增加helper层/模式布尔或skip；768 cycles值和1536借用/不突变是不同输入组合，不按相同配置字面量误删。",
+        "H": "真实公开纯入口，fresh输入与借用cycles均可观察；指定业务反控支撑新增anchor，测试不mockcodec或私有字段。"
+      },
+      "acceptance": "accepted-FG and bounded oracle reinforcement; uniform gates pending"
+    },
+    {
+      "path": "packages/pal-extract/src/font/bdf-to-json.test.ts",
+      "sha256": "2ebdd3176db2b1fdc4117f6bc152b58bf4938278bed7261c933e3dcb41165a38",
+      "subjects": [
+        "packages/pal-extract/src/font/__tests__/bdf-to-json.test.ts",
+        "packages/pal-extract/src/font/__tests__/bdf-to-json.boundaries.test.ts"
+      ],
+      "axes": {
+        "A": "真实lookup writer从固定Unifont文本parse后serialize；完整16×16、8/16多字形、EOL及JSON base64合同复用。解析/分配错误策略和格式均不变。",
+        "B": "头注只说明bitmap/EOL/JSON，不用批次占位；原literal字节不是被测hex循环生成的说明保留。",
+        "C": "完整bitmap与序列化的字节保真聚一文件；低容错/缺字段等输入边界单列，均为纯入口，不夹入FS资源读取。",
+        "D": "asciiBitmap/cjkBitmap是旧独立手列向量，EOL例复用它们作三文本共同oracle；不同中文字形向量不是同输入，原main一例保留。",
+        "E": "4旧身份/全部字段和base64保持；LF/CRLF/尾空白三侧分别核完整glyph对象。位图恒0旧选中绿、新唯一业务AssertionError，源/测试精确恢复；不靠同SUT自比授保真。",
+        "F": "bdf-to-json.test表明正常位图/JSON合同；bdfText与两个literal bitmap helper名字表示输入与oracle，suite去R08。",
+        "G": "原main+完整边界归一，helper都由实际case消费；不为减少字节向量硬合不同glyph，不新增泛型factory。",
+        "H": "纯函数真实调用、独立手列位图/base64，字符宽度/行尾可控制，零IO/mock；反控失败由业务数组断言而非collection错误。"
+      },
+      "acceptance": "accepted-FG and bounded oracle reinforcement; uniform gates pending"
+    },
+    {
+      "path": "packages/pal-extract/src/font/bdf-to-json.inputs.test.ts",
+      "sha256": "9b5eef4df7105e273cc5bf1c9ed592612a1baa6d689c9e2d1bb4a13fa125b026",
+      "subjects": ["packages/pal-extract/src/font/bdf-to-json.glm-runtime-resource.test.ts"],
+      "axes": {
+        "A": "8例既有codepoint筛选、缺BBX默认、短行/EOF/非法hex/ENDCHAR与零宽输入策略保留；固定本地BDF入口不是通用不可信输入校验器。",
+        "B": "移除parseInt/rowIdx循环覆盖式标题，改为行为与宽容输入限制；零宽不是被宣称合法Unifont，当前容错值不作产品标准扩张。",
+        "C": "输入选择、缺省与容错集中，完整glyph字节及JSON输出另列；不把CLI的读盘或错误反馈所有权搬进parser专测。",
+        "D": "glyph8x2只有编码筛选的实际使用，不升通用factory；异常片段保持最小独立literal，不从被测输出反构输入。",
+        "E": "8原身份一对一映射（3标题更正），码点/字节/宽高/空表断言不变；这是既有明确宽容域，未新增恒真无业务用例。",
+        "F": "inputs文件对应codepoint/default/tolerance职责，不按模型/批次命名；标题描述外部结果而非私有循环是否执行。",
+        "G": "没有新出口/模式开关/测试包装；同空结果的缺ENCODING与非正码点输入是不同合同边界，保留而不以结果形似删轴。",
+        "H": "直接parseBdf/glyphsToJson，确定text输入和literal结果；保留原错误/非法域边界，不引入核心mock或不合法类型强转。"
+      },
+      "acceptance": "accepted-FG and bounded oracle reinforcement; uniform gates pending"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/asset-manifest.test.ts",
+      "sha256": "21819bad6559301153dfa4d093ebb09e1a509a844431c33d62cbd0b2ab96c12d",
+      "subjects": [
+        "packages/pal-extract/src/__tests__/asset-manifest.test.ts",
+        "packages/pal-extract/src/resources/asset-manifest.glm-runtime-resource.test.ts"
+      ],
+      "axes": {
+        "A": "纯buildManifest聚合、内容hash、排序、重复path、self/DS_Store过滤及空输入复用当前合同；CLI实际在全部资源写完后构造manifest。输出格式不变。",
+        "B": "头部明确纯函数域，空hash是标准独立literal；移除R08/“未占用”与过时跨文件分工，保留非等价重复path不推断稳定排序的限制。",
+        "C": "旧内存main+空边界合一；不携带FS roots/afterEach，IO扫描与读后所有权仅在io文件负责。",
+        "D": "两个空结果case是空输入与过滤分支不同前提，不能仅因结果相同删掉；不引入万能条目factory或重复hash算法。",
+        "E": "6原身份/完整字段与两固定版本hash保持；reordered与resized、空与filtered各有业务结果，无新SUT自比作为唯一oracle，原strong hash/ownership证据沿版本有效。",
+        "F": "asset-manifest.test对应纯职责；a/b/c/m改original/reordered/resized/filtered揭示关系，suite去R08。",
+        "G": "纯文件不再混FS生命周期，旧路径删除；没有死helper/多余导出或为覆盖率增加case，重复pathcase保持其明确观察边界。",
+        "H": "公开纯入口/确定entries无需环境，预期hash是独立fixed值，构造时间/随机/FS不入此文件。"
+      },
+      "acceptance": "accepted-FG and bounded oracle reinforcement; uniform gates pending"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/asset-manifest.io.test.ts",
+      "sha256": "1ae41c821546fdcdcaf5cbd10e474574a1def919fd491c8d0dddf0500d20a662",
+      "subjects": ["packages/pal-extract/src/__tests__/asset-manifest.boundaries.test.ts"],
+      "axes": {
+        "A": "真实collect读字节/hash/路径，与build过滤/ownership及等长编辑失效相邻组合；调用root仍由CLI给自有输出目录，不扩张symlink或安全策略。",
+        "B": "头部说明FS发现与final bytes，子目录同名manifest应保留、collect不负责过滤的注释保持；临时路径tb05批次名改用途。",
+        "C": "两真实IO例同一roots/afterEach owner局部于IO组，pure spec无清理状态；目录创建/清理与collector输入边界可见，未改IO实现。",
+        "D": "只共享实际roots清理队列，不把不同真实树/等长变更做模式fixture；预期文件记录和字节digest独立于收集输出。",
+        "E": "2原身份完整保留，多层/中文/空/二进制literal、倒序snapshot输入不变及等长内容变更都保持；hash原oracle不弱化，29总身份保全。",
+        "F": "io文件名揭示真实磁盘资源，pal-manifest-tree前缀反映用途；entries/snapshot/original/corrected名称有明确数据阶段。",
+        "G": "三个旧文件按pure/IO归二，没有纯例带无关afterEach；roots只由这两case写入，旧barrel式目录入口不再分散。",
+        "H": "真实临时目录独立隔离且afterEach清理，直接读最终字节SHA，不mockFS或只数调用；无外部工作树写入。"
+      },
+      "acceptance": "accepted-FG and bounded oracle reinforcement; uniform gates pending"
+    }
+  ],
+  "processDisclosure": [
+    "Nine input files regrouped into five outputs; palette.test.ts is intentionally retained in place with frozen before bytes and a separately checked current SHA. Old source absence is required only for paths not also current outputs.",
+    "29 old runtime identities retained; three BDF titles are clarified, two metamorphic cases receive independent oracles. No product policy, output format or asset pipeline changed.",
+    "Two selected mutant pairs old1green/new1AssertionError followed exact restoration. Full neighboring run follows restoration; skips in selected runs grant no regression credit.",
+    "Record proof first rejected two numeric bitmap constructor layouts, then a wrapped object assertion after role-name length changed. Exact bridges preserve guarded AST shapes and literal token order; first two exit1 raw reports remain. Grammar validation is a private helper, not a relaxed global whitespace or assertion rule."
+  ],
+  "lightweightGates": true
+}

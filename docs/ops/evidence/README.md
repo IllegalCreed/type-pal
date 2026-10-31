@@ -176,3 +176,10 @@ current（仅指导航索引）。历史交付不得外推为当前 runtime/E2E/
 - [最近两百文件的证据返工与风险抽核](QUALITY-RECENT-200-ACCEPTANCE-AUDIT-1/README.md)：47既有主体、1相邻，旧回执勘误、获批对话引用修复及有限质量整改；不认证未抽核153文件。
 
 - [最近200剩余逐文件复核](QUALITY-RECENT-200-CONTENT-AUDIT-2/README.md)：前47复用、本轮153，累计200；排队0，商店/文本已批修复与八维返工完成；20506全仓、同报20157/810门通过，发布另据实际PR。
+- [第三治理窗口：迁移路径、基线与计划](QUALITY-PENDING-100-3/README.md)：29主体完成，6辅助单列；Kimi旧坏oracle转观察证据，当前PageId回归/业务反控与213含9目标；merge其它旧证保留，统一重门/覆盖率留稳定窗口。
+
+- [命名与组织补审及旧关闭信用撤回](QUALITY-PENDING-100-3/naming-review.json)：仅F/G静态候选登记，原有效证据保留；当前merge职责重组见同目录organization.json。
+
+- [当前命名/组织补审处置](QUALITY-PENDING-100-3/naming-resolutions.json)：迁移9项已补齐；历史178中145项F/G完成、33待续，旧证据按原身份保留，当前快检见同目录verify.mjs。
+
+- [E2E版本适用性规则与原件](TESTING-EVIDENCE-REVISION-1/README.md)：用户批准取消日历期限，候选/content/save/source指纹只读对比；历史报告与机器执行保持。

@@ -1,0 +1,353 @@
+{
+  "id": "summon-defeated-slots",
+  "namespace": "organization-summon-slots",
+  "inputs": [
+    {
+      "path": "packages/game/src/battle-summon-slot-reuse.glm-q.test.ts",
+      "member": "organization-summon-slots/0.before",
+      "sha256": "fb7ec27c8c0f45bd91563b0351a8381a581063a73cea463ca0490f8a88cdafa6",
+      "lines": 183
+    }
+  ],
+  "outputs": [
+    {
+      "path": "packages/game/src/core/battle/battle-opcodes.summon-slots.test.ts",
+      "sha256": "3ce311b32156a789862937827bdd9f2eba6ac0c180eb2c90bc55cbafc5175fa5",
+      "lines": 187
+    }
+  ],
+  "replacements": [],
+  "sourceBridges": [
+    {
+      "path": "packages/game/src/battle-summon-slot-reuse.glm-q.test.ts",
+      "id": "organization-summon-slots",
+      "reason": "Analysis-only registration bridge uses current lexical imports; independent proof resolves actual old/new targets and conserves all callbacks/helper instructions plus complete factory records. This virtual text is not an executable module at the old path.",
+      "changes": [
+        {
+          "from": "// Q08 续批1 · 0x9E 正向「战中被击败空槽复用」轴（typed driver，零强转）。\n//\n// 相邻合同（按具体输入/断言复用，不以文件名宣称无重叠）：\n//   - battle-opcodes.test.ts「没有 wMaxEnemyIndex 内空槽 → 召唤失败,不会扩容新槽」（负向不扩容）\n//   - 「赤鬼王[0,76,0]型开局:2 个 0 槽 = 2 个召唤房间」（初始 0 占位槽）\n//   - 「w!=0 召唤指定敌人 + 满血 + 脚本/抗性」「count op1:召唤 2 只」「w=0 自身同种」等主臂\n// 本文件的具体条件：战中由活敌被击败产生的 defeated 槽\n//   被后续 0x9E 复用——含 满血重置/毒与状态清零/对象身份与脚本替换/部分复用保序/容量上限。\n\nimport type { Enemy, EnemyObject } from '@type-pal/shared'\nimport { describe, expect, test } from 'vitest'\nimport { makeBattle } from './__tests__/coverage85-glm-game/harness.js'\nimport { dispatchBattleOpcode } from './core/battle/battle-opcodes.js'\nimport type { BattleEnemy, BattleState } from './core/battle/battle-state.js'\nimport type { BattleCtx } from './core/event-system.js'\nimport { createInitialGameState } from './core/game-state.js'\n\nfunction baseEnemy(opts: Partial<Enemy> = {}): Enemy {\n  return {\n    id: 22,\n    _name: 'Summoned',\n    idleFrames: 0,\n    magicFrames: 0,\n    attackFrames: 0,\n    idleAnimSpeed: 0,\n    actWaitFrames: 0,\n    yPosOffset: 0,\n    attackSound: 0,\n    actionSound: 0,\n    magicSound: 0,\n    deathSound: 0,\n    callSound: 0,\n    health: 80,\n    exp: 5,\n    cash: 10,\n    level: 1,\n    magic: 0,\n    magicRate: 0,\n    attackEquivItem: 0,\n    attackEquivItemRate: 0,\n    stealItem: 0,\n    stealItemCount: 0,\n    attackStrength: 0,\n    magicStrength: 0,\n    defense: 0,\n    dexterity: 0,\n    fleeRate: 0,\n    poisonResistance: 0,\n    elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },\n    physicalResistance: 0,\n    dualMove: 0,\n    collectValue: 0,\n    ...opts,\n  }\n}\n\n/** 完整 typed BattleEnemy 槽；defeated=true 时表示战中被击败的空槽。 */\nfunction slot(init: {\n  id: number\n  health: number\n  maxHealth?: number\n  objectId: number\n  defeated?: boolean\n  poisons?: [{ poisonId: number; scriptEntry: number }]\n  status?: Partial<BattleEnemy['status']>\n}): BattleEnemy {\n  return {\n    e: baseEnemy({ id: init.id, health: init.health }),\n    status: {\n      sleep: 0,\n      paralyzed: 0,\n      confused: 0,\n      haste: 0,\n      slow: 0,\n      ...init.status,\n    },\n    prevHp: init.health,\n    maxHealth: init.maxHealth ?? init.health,\n    objectId: init.objectId,\n    scriptOnTurnStart: 0,\n    scriptOnBattleEnd: 0,\n    scriptOnReady: 0,\n    resistanceToSorcery: 0,\n    poisons: init.poisons ?? [],\n    defeated: init.defeated ?? false,\n  }\n}\n\nfunction summonCtx(\n  state: BattleState,\n  casterIdx: number,\n  enemies: Enemy[],\n  enemyObjects: EnemyObject[],\n): BattleCtx {\n  return {\n    state,\n    caster: { type: 'enemy', idx: casterIdx },\n    summonTables: { enemies, enemyObjects },\n    gs: createInitialGameState({ x: 0, y: 0, facing: 'down' }),\n  }\n}\n\n/** Constructor-owned party/RNG/queues; retain the explicitly prepared mutable enemy slot references. */\nfunction battleState(roster: BattleEnemy[]): BattleState {\n  const { state } = makeBattle({ enemies: roster.map((enemy) => enemy.e) })\n  state.enemies = roster\n  state.phase = 'performAction'\n  state.turn = 1\n  return state\n}\n\nconst ENEMY_OBJ = (objectIndex: number, enemyId: number): EnemyObject => ({\n  objectIndex,\n  enemyId,\n  resistanceToSorcery: 3,\n  scriptOnTurnStart: 11,\n  scriptOnBattleEnd: 0,\n  scriptOnReady: 22,\n})\n\ndescribe('Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位）', () => {\n  test('复用槽非空毒和状态残留清零、对象身份替换', () => {\n    // 主测0x9E指定召唤例已证满血/maxHealth/defeated=false/\n    // 空毒 poisons=[]/scriptOnReady/抗性/全队位置——本例准备非空毒、非零状态和旧身份，核实际清理：\n    // 毒与坏/好状态均不能残留；objectId由死亡时440替换为召唤对象419。\n    const dead = slot({\n      id: 40,\n      health: 0,\n      maxHealth: 100,\n      objectId: 440,\n      defeated: true,\n      status: { sleep: 4, confused: 3, bravery: 6 },\n    })\n    dead.poisons = [{ poisonId: 7, scriptEntry: 2 }] // 死前中毒残留（旧例 poisons 本来为空）\n    const caster = slot({ id: 76, health: 200, objectId: 473 })\n    const state = battleState([dead, caster])\n    const ctx = summonCtx(state, 1, [baseEnemy({ id: 22, health: 80 })], [ENEMY_OBJ(419, 22)])\n    const r = dispatchBattleOpcode(0x9e, [419, 1, 300], ctx)\n    expect(r.consumed).toBe(true)\n    expect(dead.poisons).toEqual([]) // 非空毒残留 → 复用时清零（旧例未证：旧 poisons 本来为空）\n    expect(dead.objectId).toBe(419) // 对象身份440→419\n    expect(dead.status).toMatchObject({ sleep: 0, confused: 0 })\n    expect(dead.status.bravery ?? 0).toBe(0)\n  })\n\n  test('同席两死亡槽只复用一间：另一间保持 defeated 与残留身份', () => {\n    const deadA = slot({ id: 40, health: 0, maxHealth: 100, objectId: 440, defeated: true })\n    const deadB = slot({ id: 41, health: 0, maxHealth: 100, objectId: 441, defeated: true })\n    const caster = slot({ id: 76, health: 200, objectId: 473 })\n    const state = battleState([deadA, deadB, caster])\n    const ctx = summonCtx(state, 2, [baseEnemy({ id: 22, health: 80 })], [ENEMY_OBJ(419, 22)])\n    const r = dispatchBattleOpcode(0x9e, [419, 1, 0], ctx)\n    expect(r.consumed).toBe(true)\n    expect(deadA).toMatchObject({ defeated: false, objectId: 419, e: { id: 22, health: 80 } })\n    expect(deadB).toMatchObject({ defeated: true, objectId: 441, e: { id: 41, health: 0 } })\n  })\n\n  test('一间空槽不足两只：失败不部分复用，活槽与空槽均不改写', () => {\n    const dead = slot({ id: 40, health: 0, maxHealth: 100, objectId: 440, defeated: true })\n    const caster = slot({ id: 76, health: 200, objectId: 473 })\n    const state = battleState([dead, caster])\n    const ctx = summonCtx(state, 1, [baseEnemy({ id: 22, health: 80 })], [ENEMY_OBJ(419, 22)])\n    const r = dispatchBattleOpcode(0x9e, [419, 2, 300], ctx)\n    expect(r).toEqual({ consumed: true, newIp: 300 })\n    expect(dead).toMatchObject({ defeated: true, objectId: 440, e: { id: 40, health: 0 } })\n    expect(caster).toMatchObject({ defeated: false, objectId: 473, e: { id: 76, health: 200 } })\n  })\n\n  test('复用后全体敌人底锚按新阵容重算（PAL_BattleMakeScene 等价）', () => {\n    const dead = slot({ id: 40, health: 0, maxHealth: 100, objectId: 440, defeated: true })\n    const caster = slot({ id: 76, health: 200, objectId: 473 })\n    const state = battleState([dead, caster])\n    const ctx = summonCtx(state, 1, [baseEnemy({ id: 22, health: 80 })], [ENEMY_OBJ(419, 22)])\n    dispatchBattleOpcode(0x9e, [419, 1, 0], ctx)\n    // 一手固定坐标 oracle（sdlpal g_rgEnemyPos fallback 布局前两位 + battle.c:939\n    // yPosOffset 平移；不用产品 getEnemyBasePos 计算 expected，防断言自适应）。\n    // 阵容 2 敌 → layout[0]={160,80}、layout[1]={100,60}；两敌 yPosOffset 均 0。\n    expect(dead.posOriginal).toEqual({ x: 160, y: 80 })\n    expect(dead.pos).toEqual({ x: 160, y: 80 })\n    expect(caster.posOriginal).toEqual({ x: 100, y: 60 })\n    expect(caster.pos).toEqual({ x: 100, y: 60 })\n  })\n})\n",
+          "to": "/** Reuse of defeated enemy slots through the real 0x9E dispatcher.\n * Prepared dead-slot references expose cleanup, ordering and all-or-nothing capacity.\n * Script/poison numbers are metadata only; this suite does not execute them or animations.\n */\nimport type { Enemy, EnemyObject } from '@type-pal/shared'\nimport { describe, expect, test } from 'vitest'\nimport { makeEnemyRecord } from '../../__tests__/battle-records.js'\nimport { makeBattle } from '../../__tests__/coverage85-glm-game/harness.js'\nimport type { BattleCtx } from '../event-system.js'\nimport { createInitialGameState } from '../game-state.js'\nimport { dispatchBattleOpcode } from './battle-opcodes.js'\nimport type { BattleEnemy, BattleState } from './battle-state.js'\n\nfunction makeSummonEnemy(overrides: Partial<Enemy> = {}): Enemy {\n  return makeEnemyRecord({\n    id: 22,\n    _name: 'Summoned',\n    health: 80,\n    exp: 5,\n    cash: 10,\n    level: 1,\n    attackStrength: 0,\n    magicStrength: 0,\n    defense: 0,\n    dexterity: 0,\n    fleeRate: 0,\n    physicalResistance: 0,\n    ...overrides,\n  })\n}\n\n/** 完整 typed BattleEnemy 槽；defeated=true 时表示战中被击败的空槽。 */\nfunction makeEnemySlot(init: {\n  id: number\n  health: number\n  maxHealth?: number\n  objectId: number\n  defeated?: boolean\n  status?: Partial<BattleEnemy['status']>\n}): BattleEnemy {\n  return {\n    e: makeSummonEnemy({ id: init.id, health: init.health }),\n    status: {\n      sleep: 0,\n      paralyzed: 0,\n      confused: 0,\n      haste: 0,\n      slow: 0,\n      ...init.status,\n    },\n    prevHp: init.health,\n    maxHealth: init.maxHealth ?? init.health,\n    objectId: init.objectId,\n    scriptOnTurnStart: 0,\n    scriptOnBattleEnd: 0,\n    scriptOnReady: 0,\n    resistanceToSorcery: 0,\n    poisons: [],\n    defeated: init.defeated ?? false,\n  }\n}\n\nfunction makeSummonContext(\n  state: BattleState,\n  casterIndex: number,\n  enemies: Enemy[],\n  enemyObjects: EnemyObject[],\n): BattleCtx {\n  return {\n    state,\n    caster: { type: 'enemy', idx: casterIndex },\n    summonTables: { enemies, enemyObjects },\n    gs: createInitialGameState({ x: 0, y: 0, facing: 'down' }),\n  }\n}\n\n/** Constructor-owned party/RNG/queues; retain the explicitly prepared mutable enemy slot references. */\nfunction makeBattleWithSlots(roster: BattleEnemy[]): BattleState {\n  const { state } = makeBattle({ enemies: roster.map((enemy) => enemy.e) })\n  state.enemies = roster\n  state.phase = 'performAction'\n  state.turn = 1\n  return state\n}\n\nconst makeSummonObject = (objectIndex: number, enemyId: number): EnemyObject => ({\n  objectIndex,\n  enemyId,\n  resistanceToSorcery: 3,\n  scriptOnTurnStart: 11,\n  scriptOnBattleEnd: 0,\n  scriptOnReady: 22,\n})\n\ndescribe('Enemy summon defeated-slot reuse', () => {\n  test('复用槽非空毒和状态残留清零、对象身份替换', () => {\n    // Nonzero poison and both harmful/beneficial status expose stale-slot leakage.\n    const dead = makeEnemySlot({\n      id: 40,\n      health: 0,\n      maxHealth: 100,\n      objectId: 440,\n      defeated: true,\n      status: { sleep: 4, confused: 3, bravery: 6 },\n    })\n    dead.poisons = [{ poisonId: 7, scriptEntry: 2 }] // Synthetic residue, not an executed poison script.\n    const caster = makeEnemySlot({ id: 76, health: 200, objectId: 473 })\n    const state = makeBattleWithSlots([dead, caster])\n    const context = makeSummonContext(\n      state,\n      1,\n      [makeSummonEnemy({ id: 22, health: 80 })],\n      [makeSummonObject(419, 22)],\n    )\n    const result = dispatchBattleOpcode(0x9e, [419, 1, 300], context)\n    expect(result.consumed).toBe(true)\n    expect(dead.poisons).toEqual([])\n    expect(dead.objectId).toBe(419)\n    expect(dead.status).toMatchObject({ sleep: 0, confused: 0 })\n    expect(dead.status.bravery ?? 0).toBe(0)\n  })\n\n  test('同席两死亡槽只复用一间：另一间保持 defeated 与残留身份', () => {\n    const deadA = makeEnemySlot({\n      id: 40,\n      health: 0,\n      maxHealth: 100,\n      objectId: 440,\n      defeated: true,\n    })\n    const deadB = makeEnemySlot({\n      id: 41,\n      health: 0,\n      maxHealth: 100,\n      objectId: 441,\n      defeated: true,\n    })\n    const caster = makeEnemySlot({ id: 76, health: 200, objectId: 473 })\n    const state = makeBattleWithSlots([deadA, deadB, caster])\n    const context = makeSummonContext(\n      state,\n      2,\n      [makeSummonEnemy({ id: 22, health: 80 })],\n      [makeSummonObject(419, 22)],\n    )\n    const result = dispatchBattleOpcode(0x9e, [419, 1, 0], context)\n    expect(result.consumed).toBe(true)\n    expect(deadA).toMatchObject({ defeated: false, objectId: 419, e: { id: 22, health: 80 } })\n    expect(deadB).toMatchObject({ defeated: true, objectId: 441, e: { id: 41, health: 0 } })\n  })\n\n  test('一间空槽不足两只：失败不部分复用，活槽与空槽均不改写', () => {\n    const dead = makeEnemySlot({ id: 40, health: 0, maxHealth: 100, objectId: 440, defeated: true })\n    const caster = makeEnemySlot({ id: 76, health: 200, objectId: 473 })\n    const state = makeBattleWithSlots([dead, caster])\n    const context = makeSummonContext(\n      state,\n      1,\n      [makeSummonEnemy({ id: 22, health: 80 })],\n      [makeSummonObject(419, 22)],\n    )\n    const result = dispatchBattleOpcode(0x9e, [419, 2, 300], context)\n    expect(result).toEqual({ consumed: true, newIp: 300 })\n    expect(dead).toMatchObject({ defeated: true, objectId: 440, e: { id: 40, health: 0 } })\n    expect(caster).toMatchObject({ defeated: false, objectId: 473, e: { id: 76, health: 200 } })\n  })\n\n  test('Missing position table: reused and existing slots receive TS fallback anchors', () => {\n    const dead = makeEnemySlot({ id: 40, health: 0, maxHealth: 100, objectId: 440, defeated: true })\n    const caster = makeEnemySlot({ id: 76, health: 200, objectId: 473 })\n    const state = makeBattleWithSlots([dead, caster])\n    const context = makeSummonContext(\n      state,\n      1,\n      [makeSummonEnemy({ id: 22, health: 80 })],\n      [makeSummonObject(419, 22)],\n    )\n    dispatchBattleOpcode(0x9e, [419, 1, 0], context)\n    // The context omits enemyPos: these literals describe the TS fallback contract.\n    // SDLPal PAL_LoadBattleSprites reads EnemyPos data and adds yPosOffset; it has no such fallback.\n    // Both prepared enemies have yPosOffset=0. Do not derive expected values from the SUT.\n    expect(dead.posOriginal).toEqual({ x: 160, y: 80 })\n    expect(dead.pos).toEqual({ x: 160, y: 80 })\n    expect(caster.posOriginal).toEqual({ x: 100, y: 60 })\n    expect(caster.pos).toEqual({ x: 100, y: 60 })\n  })\n})\n",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "registrations": [
+    {
+      "old": {
+        "file": "packages/game/src/battle-summon-slot-reuse.glm-q.test.ts",
+        "ordinal": 0,
+        "fullName": "Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位） 复用槽非空毒和状态残留清零、对象身份替换"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/battle-opcodes.summon-slots.test.ts",
+        "titles": ["Enemy summon defeated-slot reuse"],
+        "template": "复用槽非空毒和状态残留清零、对象身份替换",
+        "fullName": "Enemy summon defeated-slot reuse 复用槽非空毒和状态残留清零、对象身份替换"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/battle-summon-slot-reuse.glm-q.test.ts",
+        "ordinal": 1,
+        "fullName": "Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位） 同席两死亡槽只复用一间：另一间保持 defeated 与残留身份"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/battle-opcodes.summon-slots.test.ts",
+        "titles": ["Enemy summon defeated-slot reuse"],
+        "template": "同席两死亡槽只复用一间：另一间保持 defeated 与残留身份",
+        "fullName": "Enemy summon defeated-slot reuse 同席两死亡槽只复用一间：另一间保持 defeated 与残留身份"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/battle-summon-slot-reuse.glm-q.test.ts",
+        "ordinal": 2,
+        "fullName": "Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位） 一间空槽不足两只：失败不部分复用，活槽与空槽均不改写"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/battle-opcodes.summon-slots.test.ts",
+        "titles": ["Enemy summon defeated-slot reuse"],
+        "template": "一间空槽不足两只：失败不部分复用，活槽与空槽均不改写",
+        "fullName": "Enemy summon defeated-slot reuse 一间空槽不足两只：失败不部分复用，活槽与空槽均不改写"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/battle-summon-slot-reuse.glm-q.test.ts",
+        "ordinal": 3,
+        "fullName": "Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位） 复用后全体敌人底锚按新阵容重算（PAL_BattleMakeScene 等价）"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/battle-opcodes.summon-slots.test.ts",
+        "titles": ["Enemy summon defeated-slot reuse"],
+        "template": "Missing position table: reused and existing slots receive TS fallback anchors",
+        "fullName": "Enemy summon defeated-slot reuse Missing position table: reused and existing slots receive TS fallback anchors"
+      }
+    }
+  ],
+  "identities": [
+    {
+      "old": {
+        "file": "packages/game/src/battle-summon-slot-reuse.glm-q.test.ts",
+        "fullName": "Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位） 复用槽非空毒和状态残留清零、对象身份替换"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/battle-opcodes.summon-slots.test.ts",
+        "fullName": "Enemy summon defeated-slot reuse 复用槽非空毒和状态残留清零、对象身份替换"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/battle-summon-slot-reuse.glm-q.test.ts",
+        "fullName": "Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位） 同席两死亡槽只复用一间：另一间保持 defeated 与残留身份"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/battle-opcodes.summon-slots.test.ts",
+        "fullName": "Enemy summon defeated-slot reuse 同席两死亡槽只复用一间：另一间保持 defeated 与残留身份"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/battle-summon-slot-reuse.glm-q.test.ts",
+        "fullName": "Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位） 一间空槽不足两只：失败不部分复用，活槽与空槽均不改写"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/battle-opcodes.summon-slots.test.ts",
+        "fullName": "Enemy summon defeated-slot reuse 一间空槽不足两只：失败不部分复用，活槽与空槽均不改写"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/battle-summon-slot-reuse.glm-q.test.ts",
+        "fullName": "Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位） 复用后全体敌人底锚按新阵容重算（PAL_BattleMakeScene 等价）"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/battle-opcodes.summon-slots.test.ts",
+        "fullName": "Enemy summon defeated-slot reuse Missing position table: reused and existing slots receive TS fallback anchors"
+      }
+    }
+  ],
+  "retirements": [],
+  "cohortSubjects": [
+    {
+      "path": "packages/game/src/battle-summon-slot-reuse.glm-q.test.ts",
+      "sha256": "fb7ec27c8c0f45bd91563b0351a8381a581063a73cea463ca0490f8a88cdafa6",
+      "priorCurrentBridges": []
+    }
+  ],
+  "profiles": [
+    {
+      "path": "packages/game/src/core/battle/battle-opcodes.summon-slots.test.ts",
+      "subjects": ["packages/game/src/battle-summon-slot-reuse.glm-q.test.ts"],
+      "axes": {
+        "A": "Full183-line old spec and current spec read. Actual dispatch0x9E/reset/position helper and interpreter caller checked; existing identical b957 dispatcher and fb7ec spec prior A-E/H reused. Defeated slots are explicit direct-dispatch inputs; synthetic poison/script metadata is only cleared/copied, not executed original story. No new whole interpreter or animation acceptance.",
+        "B": "Remove Q08/contributor/history narration. Correct unsupported g_rgEnemyPos fallback attribution and PAL_BattleMakeScene-equivalence title: C PAL_LoadBattleSprites reads EnemyPos data; literal160/80 and100/60 here are TS omitted-table policy. No new product parity claim; nonzero harmful/beneficial status explains leakage counter.",
+        "C": "One cohesive defeated-slot reuse suite moves under core/battle beside its dispatcher. It owns fresh slots/context/GS per case and preserves original mutable slot references. No shared hook/global state; table metadata and constructor ownership stay explicit. Do not append this specialized setup to2463-line multi-opcode main.",
+        "D": "Reuse existing complete makeEnemyRecord through a local summon-domain default builder. All5 relevant complete Enemy shapes and9 complete slot constructions equal old records, fresh nested resistance objects checked. Keep existing makeBattle queued RNG; seeded factory is a different policy. No new shared file or mode-based universal helper.",
+        "E": "All4 complete callbacks/assertions/operands conserved after binding renames; before4 and after4 exact native identity map. Existing source/input-identical partial-room and stale-status business controls reused, no fresh red claimed. Compare main explicit-position/summon-animation, initial-zero-slot and cov85 branches: four current axes retain unique inputs/oracles; no retirements.",
+        "F": "battle-opcodes.summon-slots.test.ts expresses owner and contract. makeEnemySlot/makeSummonContext/makeBattleWithSlots/makeSummonObject replace slot/summonCtx/battleState/uppercase factory; context/result and casterIndex expose roles. No author/stage identity in path or suite.",
+        "G": "Delete unused private poisons input and its unread fallback only after all9 actual callers checked; direct per-case nonzero poison assignment remains. Replace duplicate Enemy literal; do not manufacture extra fixture files or merge distinct position-table and lifecycle contracts. No product/public interface/config change.",
+        "H": "Real synchronous dispatcher and constructor with bounded original RNG. Complete typed callback/helper proof, concrete full-record equality and resolved import targets support reuse, not test green alone. All-or-nothing capacity/status assertions observe real mutable slots; no business mock, opaque fake engine or added production seam."
+      }
+    }
+  ],
+  "preserved": [
+    {
+      "path": "packages/game/src/core/battle/battle-opcodes.ts",
+      "sha256": "b9574dbbaf3527d6f48211e70e18f7004e2174c902548a593921645dc2f14539",
+      "lines": 1546
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-state.ts",
+      "sha256": "546e8e2e86ec08c45492b80cb03349cc1a9a182735626f5ba53248d672a1e386",
+      "lines": 919
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-positions.ts",
+      "sha256": "d068e5b70e39af41d57672c9ccb7d952184e76de8836865756f714657d3e372d",
+      "lines": 93
+    },
+    {
+      "path": "packages/game/src/core/event-system.ts",
+      "sha256": "3b8490fa48d2992f693ab0eb611954dd0bfacbc22dc3eda58378cc4bc7a4b5f4",
+      "lines": 4967
+    },
+    {
+      "path": "packages/game/src/__tests__/coverage85-glm-game/harness.ts",
+      "sha256": "f8bb20fe42370423e506b4ef9ad1aa634fe3ca6ac8f547f2b85e2170d8071e5c",
+      "lines": 72
+    },
+    {
+      "path": "packages/game/src/__tests__/battle-fixture.ts",
+      "sha256": "a206ad63f9f8f4302380b5996a5c2f96715e9b598e4b4a41b9501f40d446a32c",
+      "lines": 50
+    },
+    {
+      "path": "packages/game/src/__tests__/battle-records.ts",
+      "sha256": "e06702ce034d7b7b7680b649d2c6d11d948acd6daa9aeac0ad20478c62afc575",
+      "lines": 98
+    },
+    {
+      "path": "packages/game/src/core/game-state.ts",
+      "sha256": "084718097eb0963c2ee3a9d72da59b313ca8fd401672f6a8b341ba21ae8b8906",
+      "lines": 1905
+    },
+    {
+      "path": "packages/game/vitest.config.ts",
+      "sha256": "3dd92ad4886bc72c88e7a7b2e6bdacc3aaf9e2a24ac72153f3b619ba37feb7d4",
+      "lines": 13
+    },
+    {
+      "path": "scripts/coverage/config.mjs",
+      "sha256": "decb63dda5d12a2269bef1dd75c3d1eb4efca071887c759deca8e9b06ef17a25",
+      "lines": 264
+    },
+    {
+      "path": "reference/sdlpal/script.c",
+      "sha256": "f5332e015b27018ad03385b4ceab6c44dc0509e81ace7e8785d1843ae88cd017",
+      "lines": 3652
+    },
+    {
+      "path": "reference/sdlpal/battle.c",
+      "sha256": "45f38a01d08b864151390c99bcbb4622e3ba78a5da80a3657c276bf1c2fea33f",
+      "lines": 1858
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-host-opcode-closeout/review.json",
+      "sha256": "c0a95c604e9c07ec5f4965d54df5a350f89ea5ca701a45715432d1309331667e",
+      "lines": 389
+    }
+  ],
+  "neighborPaths": [
+    "packages/game/src/core/battle/battle-opcodes.cov85.test.ts",
+    "packages/game/src/core/battle/battle-opcodes.glm-next-wave.test.ts",
+    "packages/game/src/core/battle/battle-opcodes.summon-slots.test.ts",
+    "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts"
+  ],
+  "receipts": {
+    "proof": "organization-summon-slots/proof-r2"
+  },
+  "cleanExecutions": [
+    "before",
+    "reorganize-r2",
+    "format",
+    "proof",
+    "neighbors",
+    "typecheck",
+    "docs",
+    "content-review",
+    "lint",
+    "scoped",
+    "diff",
+    "ledger-final",
+    "module-preflight"
+  ],
+  "lightweightGates": true,
+  "callbackProof": "organization-summon-slots/proof-r2.stdout.raw",
+  "qualityDelta": {
+    "oldCases": 4,
+    "currentCases": 4,
+    "newCases": 0,
+    "retirements": 0,
+    "productUnchanged": true,
+    "completeEnemyShapes": 5,
+    "completeSlotConstructions": 9,
+    "removedPrivateUnusedOption": "poisons",
+    "sourceAndPriorTestExact": true,
+    "correctedUnsupportedPrimaryAttribution": true
+  },
+  "reads": {
+    "fullInputs": [
+      {
+        "path": "packages/game/src/battle-summon-slot-reuse.glm-q.test.ts",
+        "member": "organization-summon-slots/0.before",
+        "sha256": "fb7ec27c8c0f45bd91563b0351a8381a581063a73cea463ca0490f8a88cdafa6",
+        "lines": 183
+      }
+    ],
+    "fullOutputs": [
+      {
+        "path": "packages/game/src/core/battle/battle-opcodes.summon-slots.test.ts",
+        "sha256": "3ce311b32156a789862937827bdd9f2eba6ac0c180eb2c90bc55cbafc5175fa5",
+        "lines": 187
+      }
+    ],
+    "fullProviders": [
+      {
+        "path": "packages/game/src/__tests__/coverage85-glm-game/harness.ts",
+        "sha256": "f8bb20fe42370423e506b4ef9ad1aa634fe3ca6ac8f547f2b85e2170d8071e5c",
+        "lines": 72
+      },
+      {
+        "path": "packages/game/src/__tests__/battle-fixture.ts",
+        "sha256": "a206ad63f9f8f4302380b5996a5c2f96715e9b598e4b4a41b9501f40d446a32c",
+        "lines": 50
+      },
+      {
+        "path": "packages/game/src/__tests__/battle-records.ts",
+        "sha256": "e06702ce034d7b7b7680b649d2c6d11d948acd6daa9aeac0ad20478c62afc575",
+        "lines": 98
+      }
+    ],
+    "scopedProduct": [
+      {
+        "path": "packages/game/src/core/battle/battle-opcodes.ts",
+        "ranges": [[45, 108], [1336, 1452]]
+      },
+      {
+        "path": "packages/game/src/core/event-system.ts",
+        "ranges": [[2970, 3010]]
+      }
+    ],
+    "fullPositionProvider": {
+      "path": "packages/game/src/core/battle/battle-positions.ts",
+      "sha256": "d068e5b70e39af41d57672c9ccb7d952184e76de8836865756f714657d3e372d",
+      "lines": 93
+    },
+    "primary": [
+      {
+        "path": "reference/sdlpal/script.c",
+        "ranges": [[2870, 2952]]
+      },
+      {
+        "path": "reference/sdlpal/battle.c",
+        "ranges": [[925, 944]]
+      }
+    ],
+    "adjacentDedup": [
+      {
+        "path": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+        "ranges": [[1357, 1435], [1517, 1655], [2388, 2463]],
+        "scope": "Specific summon fixtures/contracts only; not new full2463 read/acceptance"
+      },
+      {
+        "path": "packages/game/src/core/battle/battle-opcodes.cov85.test.ts",
+        "ranges": [[1117, 1202]],
+        "scope": "Specific summon guard/fallback contracts only; no whole-file credit"
+      }
+    ],
+    "prior": "Exact dispatcher and before-spec pins in battle-host-opcode-closeout/review.json; existing source/test business controls retained. Current helper/provider whole reads and full-record comparisons bridge prior factory organization; no raw-asset/story/visual claims."
+  },
+  "quantitativeScreen": [
+    {
+      "path": "packages/game/src/core/battle/battle-opcodes.summon-slots.test.ts",
+      "method": "Own decision nodes per function; nested functions separate. Read pointer only.",
+      "functions": 11,
+      "max": 3,
+      "over10": 0
+    }
+  ],
+  "processDisclosures": [
+    "Initial shell Python admission failed parsing non-UTF8 input before any writes; dependent baseline command then failed missing capture module. Neither is a test run; retried ASCII producer and retained actual baseline raw.",
+    "First reorganization producer called string.index instead of indexOf; failed before any repo test write. Original producer/TypeError receipt retained; r2 corrected only method names.",
+    "Proof-r2 adds guards against unaccounted describe statements/factory side effects; original passing proof/raw preserved. No diagnostic rule/tool weakened.",
+    "Baseline4 and current226 are actual separate runs, not4+226 new tests. Existing historical counters are reused with exact source/input and callback/helper/data bridge, not rerun or newly fabricated."
+  ],
+  "invalidations": "Reopen on changed dispatcher/reset/position semantics, actual constructor/RNG/record provider, any mapped callback/data/import or primary source pin. Whole interpreter, source assets, animations and visual parity remain outside this supplement.",
+  "ledgerCounts": {
+    "inventory": 3449,
+    "closed": 509,
+    "review": 308,
+    "pending": 2632
+  }
+}

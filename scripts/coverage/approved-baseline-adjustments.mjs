@@ -5,6 +5,1211 @@ import { aggregateMetrics, normalizeMetrics } from './metrics.mjs'
 // source bytes. These are finite migrations, never a percentage tolerance or flag.
 const approvedAdjustments = [
   {
+    id: 'responsibility-test-organization-20261031',
+    authority:
+      'User2026-10-29/31 authorizes responsibility-based restructuring, precise deduplication, approved migration/input repairs and justified exact baseline adjustments instead of restoring dead code or adding weak tests. One official20199-test collection:10 per-source metric deltas are fully attributed. Recount only game statements to15493/17150 and branch denominator12233->12248 while retaining old9927 covered floor; the actual10 covered-branch gain remains for ratcheting. New/shared fixtures and approved own-key guard add finite denominator; dead magic arguments remove two statements. Existing selection counts these fixture modules; no new exclusion. All other game floors and all six other package floors are unchanged, including migration whose ratio improves after authorized removals/guards. Eleven exact file-count snapshots primarily represent responsibility transfers, not blanket case retirement. First draft over-rebased improved migration floors and was correctly rejected before writing baseline; this revision narrows adjustment to the two necessary game floors. Runner/comparator/predicate/selection and zero-diagnostic rules unchanged.',
+    evidence: 'docs/ops/evidence/QUALITY-PENDING-100-3/coverage-recount.json',
+    baselineSha256: '1e33ba8339591862422fdb61a98918d97feff4befa9af9432bde06cc7fc5f44b',
+    sources: [
+      {
+        path: 'packages/game/src/__tests__/asset-fetch-fixture.ts',
+        sha256: 'ff84eca6c30fea07e3b00828b2c4be96716751e7509f1531eb88d9625d6e504a',
+      },
+      {
+        path: 'packages/game/src/__tests__/asset-load-scenario.ts',
+        sha256: '5f934ec14f37768b9418ed5a693084e644d279257b5abf99cbdad595424b259d',
+      },
+      {
+        path: 'packages/game/src/__tests__/battle-fixture.test.ts',
+        sha256: 'e43a978b2749005659947a28a5ab67af6c979f7efb9b0809a63e5f787de432e4',
+      },
+      {
+        path: 'packages/game/src/__tests__/battle-fixture.ts',
+        sha256: 'a206ad63f9f8f4302380b5996a5c2f96715e9b598e4b4a41b9501f40d446a32c',
+      },
+      {
+        path: 'packages/game/src/__tests__/battle-records.ts',
+        sha256: 'e06702ce034d7b7b7680b649d2c6d11d948acd6daa9aeac0ad20478c62afc575',
+      },
+      {
+        path: 'packages/game/src/__tests__/coverage85-glm-game/harness.ts',
+        sha256: 'f8bb20fe42370423e506b4ef9ad1aa634fe3ca6ac8f547f2b85e2170d8071e5c',
+      },
+      {
+        path: 'packages/game/src/__tests__/menu-clock-fixture.ts',
+        sha256: '3369307f1425eeb83b3af39613ecddb8142df5fbf552fb8253d4151e74fadce5',
+      },
+      {
+        path: 'packages/game/src/__tests__/menu-text-fixture.ts',
+        sha256: '97b96d85209f644ada8e23f7bdaa3afeb930bc732f3592115e24a6748b017250',
+      },
+      {
+        path: 'packages/game/src/__tests__/png-atlas.ts',
+        sha256: '33aae796cd3b4cbeea4430f6a43d91025f4939b5eff47466f9b752e72b42eef6',
+      },
+      {
+        path: 'packages/game/src/__tests__/precache-client-host.ts',
+        sha256: 'a361c21347341c0baa9fe41c4998875309bf49b933a0e7b63d1b7e48a2146dfa',
+      },
+      {
+        path: 'packages/game/src/__tests__/precache-ui-host.ts',
+        sha256: '0bdc991cdfd963230ab4b8c103517e1469e2919d58fa1e10eb1eebb6042b2104',
+      },
+      {
+        path: 'packages/game/src/__tests__/rgba-png.ts',
+        sha256: '2d560bc0abf7a40698e3aa532b54580492eab080abf60f389bfd8c00a65aa00a',
+      },
+      {
+        path: 'packages/game/src/__tests__/scene-cache-fixtures.ts',
+        sha256: '4314b401bb67f4848e4de804527741829c92b1abc1dfd336634c8a6e851fe37d',
+      },
+      {
+        path: 'packages/game/src/__tests__/scripted-rng.test.ts',
+        sha256: 'a15ac450c9fe45fee8357e6b29aca300878360b94ad92de9c8aeb44c6d745386',
+      },
+      {
+        path: 'packages/game/src/__tests__/scripted-rng.ts',
+        sha256: 'a6938391f6d3169d3c62ffb0e93b9b6877eb1d9ae483157a3393689d48c3eb47',
+      },
+      {
+        path: 'packages/game/src/assets/dialog-assets.lifecycle.test.ts',
+        sha256: 'c6dd984971c01194e4cc0b9b1e7faca9f78794e622cf36358493b53a4d9cf7f1',
+      },
+      {
+        path: 'packages/game/src/assets/dialog-assets.loading.test.ts',
+        sha256: '41de5d8dc74c3e6dbbf1db4c55dedfe8d246cfd7644efacb38d8b30d3e68ca46',
+      },
+      {
+        path: 'packages/game/src/assets/fetch-palette.test.ts',
+        sha256: '3776b8675b6e58baeb4290b3c9a21596930558bb1d04ce60c02e095e69d88213',
+      },
+      {
+        path: 'packages/game/src/assets/load-all-ui-frame-identity.test.ts',
+        sha256: 'd0623dc9fcaa0bde0fb905fcf4eca1b4016c745bc07ab887ae367ce128568312',
+      },
+      {
+        path: 'packages/game/src/assets/load-all.assembly.test.ts',
+        sha256: '558eeb2568ef04db749925bbbda58faed1f67598eacd2f19309ae22125d9dffa',
+      },
+      {
+        path: 'packages/game/src/assets/load-all.boundaries.test.ts',
+        sha256: '5cafb9da014b2bb4deccad3044651414255a56662c91836ddb5b45112fc6b287',
+      },
+      {
+        path: 'packages/game/src/assets/load-all.optional-assets.test.ts',
+        sha256: '6a0fd1f45afe5d870c0b75dac1f2830b0cd3c25cbd5c052fc7ea7f4ebf038b1c',
+      },
+      {
+        path: 'packages/game/src/assets/png.test.ts',
+        sha256: 'c72d07bebed3a482cf89bb82773b146821e12076758c61211fc6ad4fd448ae66',
+      },
+      {
+        path: 'packages/game/src/assets/rle-decode.test.ts',
+        sha256: '4af965a3d3ca5227a5d791a6e59b21bb9bbbaf0b7e560ad820ff2d35eed653e3',
+      },
+      {
+        path: 'packages/game/src/assets/scene-cache.callbacks.test.ts',
+        sha256: '18d62c017b96c59a369d06a92f69c7e8635fd009e16a05123bf9f61d2166e967',
+      },
+      {
+        path: 'packages/game/src/assets/scene-cache.eviction.test.ts',
+        sha256: '5ca1c46fb150689aec32a4a31e7441afc991da9244542adf6bbe0a4cde3ae511',
+      },
+      {
+        path: 'packages/game/src/assets/scene-cache.lifecycle.test.ts',
+        sha256: '881c955daef73112a380d627746532dd3127e0d3d4135922aa4ce40c656b8b9a',
+      },
+      {
+        path: 'packages/game/src/assets/tileset-blob.fetch.test.ts',
+        sha256: '2c0de4aea8617bb4beba8ac92600107dd947935d5e1d58777252dd3762a3b0ca',
+      },
+      {
+        path: 'packages/game/src/assets/tileset-blob.frames.test.ts',
+        sha256: '3631bf76b46d0d510532eadc71957476d9de947ae7a8a374c3b2309a648b4cff',
+      },
+      {
+        path: 'packages/game/src/assets/tileset-blob.gzip.test.ts',
+        sha256: '9a18af6808bd140734f9e2db3cbfeb76a52f5321f6818649e815f7ee8f812d55',
+      },
+      {
+        path: 'packages/game/src/core/battle/__tests__/attack-mate.test.ts',
+        sha256: '41322fd42285e28b8c93825df11c4bacde847369fd3e068ee1f6555698552749',
+      },
+      {
+        path: 'packages/game/src/core/battle/__tests__/battle-levelup.test.ts',
+        sha256: 'b0d7f5fd7565f21666b9e1e90c27b4d9a9ea9462fb15ab04bb69ccf33485612b',
+      },
+      {
+        path: 'packages/game/src/core/battle/__tests__/battle-opcodes.test.ts',
+        sha256: 'cee51dbfdeb665e6378a5eb9b2682c4071bb288956af82403bece9ad64d3fb7d',
+      },
+      {
+        path: 'packages/game/src/core/battle/__tests__/battle-state.test.ts',
+        sha256: '08f0cc3e0f581e2ec688a9386dd5dbd2c7cf7c8e813623f2369fd00c8f62c9fb',
+      },
+      {
+        path: 'packages/game/src/core/battle/__tests__/magic-damage.test.ts',
+        sha256: 'a3e86e4dd730a83b3b5d6cae36197821ca8f194efb2a4f4ba353a446cdcfebf1',
+      },
+      {
+        path: 'packages/game/src/core/battle/__tests__/magic-numeric-assignment.test.ts',
+        sha256: 'a31d48fe788c85adf524784d66d7f88c6ab7f092ffc2e738f18faaa734d890d1',
+      },
+      {
+        path: 'packages/game/src/core/battle/__tests__/magic-parity.test.ts',
+        sha256: '9ed8c47fa6411daa70486c8818a26ed67256f133ce92a6bd6c71ba729442e9a6',
+      },
+      {
+        path: 'packages/game/src/core/battle/__tests__/object-script-progress.test.ts',
+        sha256: '0ec25613899eec637e5a020c71975f718eb34cf71e8eb9552f1845abd71230c2',
+      },
+      {
+        path: 'packages/game/src/core/battle/__tests__/status.test.ts',
+        sha256: '1ccb13259e04b0d5032534c29532fc893587c2563daa698f16e9e9b620037b15',
+      },
+      {
+        path: 'packages/game/src/core/battle/__tests__/turn-queue-parity.test.ts',
+        sha256: 'fd934eefee0494c1ac5ecf1fe20f1d973ad069ebbc1d12c3bd19e938f19ec335',
+      },
+      {
+        path: 'packages/game/src/core/battle/actions/attack-effects.test.ts',
+        sha256: 'bd79409573b930e49980e75f835cc757060960c7b9b9c45ac0c32de2d35c3e48',
+      },
+      {
+        path: 'packages/game/src/core/battle/actions/coop-magic.glm-next-wave.test.ts',
+        sha256: '9a2313e98c10700b64789636262043fb79f48663434a988bc6fab4b705c78a78',
+      },
+      {
+        path: 'packages/game/src/core/battle/actions/item-poison-boundary.test.ts',
+        sha256: '9362e5a3a4a1ad9d89865276804722160712b6f2e6519a5999e00bd9b525120e',
+      },
+      {
+        path: 'packages/game/src/core/battle/actions/magic.glm-next-wave.test.ts',
+        sha256: '3506f3b620e4abe12287a68ddf459cd07e528b2d767dc820d1455ad3ef8a85a0',
+      },
+      {
+        path: 'packages/game/src/core/battle/battle-dialog.script.test.ts',
+        sha256: '71dc7b00e3a642f3d297858956046630e8f7b5affb27656b69e0b2e792f169e0',
+      },
+      {
+        path: 'packages/game/src/core/battle/battle-lifecycle.test-fixtures.ts',
+        sha256: 'c0e36172655ee59615290cd210a06956f26e0bae9e5f78691a7ca4e20da08a76',
+      },
+      {
+        path: 'packages/game/src/core/battle/battle-opcodes.cov85.test.ts',
+        sha256: '1973920570f28749d1e12bae5aef0288a6cef5c093f8056c3651c7bf458c2521',
+      },
+      {
+        path: 'packages/game/src/core/battle/battle-opcodes.summon-slots.test.ts',
+        sha256: '3ce311b32156a789862937827bdd9f2eba6ac0c180eb2c90bc55cbafc5175fa5',
+      },
+      {
+        path: 'packages/game/src/core/battle/battle-progression.hidden-exp.test.ts',
+        sha256: '1688e439a8f7fe465f6bfa8d86511d6b1911486a328e28d590b502f9a39fdc70',
+      },
+      {
+        path: 'packages/game/src/core/battle/battle-settlement.screens.test.ts',
+        sha256: '8980d4aaa57417f060ecaeb0c5f3d22dfab190b2d809213fd68c3baa286cd32c',
+      },
+      {
+        path: 'packages/game/src/core/battle/battle-settlement.scripts.test.ts',
+        sha256: '89061cc2ec89962aa9979a8a215ea66440d8c2684e9a9930e42ada2c94686456',
+      },
+      {
+        path: 'packages/game/src/core/battle/battle-settlement.test-fixtures.ts',
+        sha256: '659ac474aa8dccc3c2f130a86444e81de21b3163d5f579f06067d06d052a7fef',
+      },
+      {
+        path: 'packages/game/src/core/battle/battle-system.cov85.test.ts',
+        sha256: '2535058ab864e0f3ede02d384d9e01aecab9028793a51326e96a4f8277675b22',
+      },
+      {
+        path: 'packages/game/src/core/battle/battle-system.script-boundaries.test.ts',
+        sha256: '911c0b82ff995b9b6ee138da80a15733736f4faba3a716b10870830179c8ec8e',
+      },
+      {
+        path: 'packages/game/src/core/cross-module-boundaries.test.ts',
+        sha256: 'a9c102b84743f778f82a35e155b5eb2b787f4cdd8fb821238d8bea7a5a570622',
+      },
+      {
+        path: 'packages/game/src/core/event-opcode-player.cov85.test.ts',
+        sha256: 'c76b60c9e44575586fa313ae98fa018e27f33b0b7612734abbb19e431773a901',
+      },
+      {
+        path: 'packages/game/src/core/event-opcode-player.state-transitions.test.ts',
+        sha256: '5268d4622ea6771b29d458a7a2bbf854e75bf04e5366658a1e57203e3ad8459b',
+      },
+      {
+        path: 'packages/game/src/core/event-opcode-player.test-fixtures.ts',
+        sha256: '6555d6ce7f6737b3eac355ae211b9d6ffec5e77ee3fcaf18e3f4ca73e1af21ea',
+      },
+      {
+        path: 'packages/game/src/core/event-opcodes.cov85.test.ts',
+        sha256: '77921c7c660aa1fd4c1254ae798c99df2dbe74ac096230b1a533f1ce99da15f7',
+      },
+      {
+        path: 'packages/game/src/core/event-system.glm-event-contracts.test.ts',
+        sha256: '61798186460528146afd938f94df33c76baff7d7b7c082e602a6f4e9ec9cf083',
+      },
+      {
+        path: 'packages/game/src/core/event-system.map-change.test.ts',
+        sha256: '1d22c39edb1744da89e4da3e27b4cbcba3c1b48a8bc9c2a5901e049dc46681f6',
+      },
+      {
+        path: 'packages/game/src/core/event-system.object-layer.test.ts',
+        sha256: '15ba81c7fbca2b044e38d5f027d65fb7908f4a96734f80efe143a21eda7bdd6f',
+      },
+      {
+        path: 'packages/game/src/core/game-state.sprites.test.ts',
+        sha256: 'd329359ee35ebbe75fb090535b0a4f593d57b3b94f0c82a3b52273771aae8642',
+      },
+      {
+        path: 'packages/game/src/core/game-state.test.ts',
+        sha256: '873b1b3aa52836b1bf8c38fc8a8bff8d4a097f26155f3b9342a4bae3177830c3',
+      },
+      {
+        path: 'packages/game/src/core/inspect/__tests__/readout-fixture.ts',
+        sha256: 'b1e027a62f78138d89c78a7c456162f58d774565987e4c33f7734d7c97f25053',
+      },
+      {
+        path: 'packages/game/src/core/inspect/battle-inspect.enemy.test.ts',
+        sha256: '0bc10b83e7fb13d556cfa76e316adc557546f2da4e293291e45f8eb0f917196b',
+      },
+      {
+        path: 'packages/game/src/core/inspect/battle-inspect.field.test.ts',
+        sha256: '058d15e51438848047e740bdf9bb4373e4844de5711ab5abf7e7319b6576bcfc',
+      },
+      {
+        path: 'packages/game/src/core/inspect/battle-inspect.ownership.test.ts',
+        sha256: '8db8ddbc104b34668241ac879e84a5ffe940596b3a003f4fc53b167015f160e5',
+      },
+      {
+        path: 'packages/game/src/core/inspect/battle-inspect.party.test.ts',
+        sha256: 'f743ed696c5f776ae3a91c11286e01536e414eb78d282193dd689638567b5856',
+      },
+      {
+        path: 'packages/game/src/core/menu/__tests__/inventory-fixture.ts',
+        sha256: 'f15703ad4128d029d190bf7dbb21a5a63d70494af1e5f1f94789357baf85fd3c',
+      },
+      {
+        path: 'packages/game/src/core/menu/__tests__/magic-menu-catalog.ts',
+        sha256: '80262794f8523ccc6f514ad8d10c681adbbb6f2c6882b2326639a1739d4a2844',
+      },
+      {
+        path: 'packages/game/src/core/menu/__tests__/magic-menu-scenario.ts',
+        sha256: 'c6ec8ddfa0526096309bb57ffa200c4bc3596c630ea5456ea7ba4578832a29c4',
+      },
+      {
+        path: 'packages/game/src/core/menu/__tests__/magic-script-fixture.ts',
+        sha256: 'e7901de36b827f686720b667559a851493ea2b823fdc03a2ca64bb197595f17c',
+      },
+      {
+        path: 'packages/game/src/core/menu/__tests__/trading-fixture.ts',
+        sha256: '47715c76d7401d4105ec205391d4680b7c13ae0546497a79e15b2465b4f3c131',
+      },
+      {
+        path: 'packages/game/src/core/menu/equip-menu.test.ts',
+        sha256: 'ceff3573558f0f65a8d9749f6442bb810e42041f2b5a8d68f6dfe348c0c85237',
+      },
+      {
+        path: 'packages/game/src/core/menu/equip-menu.ts',
+        sha256: '78ab856edb7b1ed15f5c536d4d702580b14feb81b883bf7ec68ef918072bd5f5',
+      },
+      {
+        path: 'packages/game/src/core/menu/in-game-magic-menu.casters.test.ts',
+        sha256: '06a75045b96d3ce34df1f94ad7586fd6d7df46c4c5a4c29644d545d9ba4862ac',
+      },
+      {
+        path: 'packages/game/src/core/menu/in-game-magic-menu.lifecycle.test.ts',
+        sha256: '841bddd3aee6891ec3ae8e3f8ac98c7ce7814703ec4204a099738204de6fc4cb',
+      },
+      {
+        path: 'packages/game/src/core/menu/in-game-magic-menu.navigation.test.ts',
+        sha256: '68a4af79505df6029d16e4928aea6cf18039f6f24815320ab6f6b52698ae2ce7',
+      },
+      {
+        path: 'packages/game/src/core/menu/in-game-magic-menu.requests.test.ts',
+        sha256: '89de252cf61cc2b9c09d96e854d8158a53b46207a4c9717b12185b5c9ccce16f',
+      },
+      {
+        path: 'packages/game/src/core/menu/in-game-magic-menu.ts',
+        sha256: '5f5409e405f2121c6f02acf705df7480e96aedd733c0f8c95d734e2ed4514ad5',
+      },
+      {
+        path: 'packages/game/src/core/menu/in-game-menu.test.ts',
+        sha256: '72f81daadc1071b55cbe19839fc53839b56a796f6170bfecee2d37e2efd68e23',
+      },
+      {
+        path: 'packages/game/src/core/menu/inventory-action-menu.test.ts',
+        sha256: '8b6f76f95fe052eff989bdd17817d9019de69eb1d31749eb902162cf5ef5723f',
+      },
+      {
+        path: 'packages/game/src/core/menu/inventory-menu.navigation.test.ts',
+        sha256: '3d5725832bf8f40823a44ed23463d7bef10acd3d9ec522323ed89a7f0847530a',
+      },
+      {
+        path: 'packages/game/src/core/menu/inventory-menu.rules.test.ts',
+        sha256: '43947648a9bfb918acf921f4604c8925df0db4e0759b9d94c08e5b7d0b405c19',
+      },
+      {
+        path: 'packages/game/src/core/menu/inventory-menu.target.test.ts',
+        sha256: '8e4393e6cb7275daf3d138af11635a261dcce984ec78a5ed40ee59184ad77e34',
+      },
+      {
+        path: 'packages/game/src/core/menu/inventory-menu.test.ts',
+        sha256: 'c3e79347951efb08c9661d84f09abd6741709b5c9a0816abef09805032f32b70',
+      },
+      {
+        path: 'packages/game/src/core/menu/inventory-menu.ts',
+        sha256: '4001b9ec49c06c67a554ea5b3fa4e0260083d5eb34f2d453e176aa1b0b07fb1f',
+      },
+      {
+        path: 'packages/game/src/core/menu/item-select.test.ts',
+        sha256: '05b2037277fbfba8a74500ce0517c1b1e1fdb35c90c671288c9e61be4aaf756a',
+      },
+      {
+        path: 'packages/game/src/core/menu/magic-script.control.test.ts',
+        sha256: '1ac77893485d67518de8010f9ffd994ec0fdc02c65e34b0dc3d4f3f763bfb34a',
+      },
+      {
+        path: 'packages/game/src/core/menu/magic-script.test.ts',
+        sha256: '62cb16ed0f10305f9b809bb5970dd60b5e8d9ec6cc61cd5885dfe6bf03d6a570',
+      },
+      {
+        path: 'packages/game/src/core/menu/magic-script.ts',
+        sha256: 'af2cbcd4e13bb8315a7ce23f34af46a773015fda68c06391cd31de2c7eac8c4d',
+      },
+      {
+        path: 'packages/game/src/core/menu/magic-script.vitals.test.ts',
+        sha256: 'd1c5d179f13f64c4a18a9656a2569b1f4cebd2126a2c705aa8644a7d9b9933bd',
+      },
+      {
+        path: 'packages/game/src/core/menu/magic-select.test.ts',
+        sha256: '201c6849702a5acd436a9d45a930ccb23e9d89eac00a6f626a94e6794b5155bc',
+      },
+      {
+        path: 'packages/game/src/core/menu/magic-select.ts',
+        sha256: 'bdf4336d4858245ec71283d20d0524845b210d898dd5a1ce3f04343b7eb32545',
+      },
+      {
+        path: 'packages/game/src/core/menu/menu-driver.cov85.test.ts',
+        sha256: '1d245e33205ccef8f15c87b29a8d56b5549471e430f3eacff75254c18cad688d',
+      },
+      {
+        path: 'packages/game/src/core/menu/menu-driver.test.ts',
+        sha256: '81695c8dc3d1176e74407b81c141728ff68183c6353dee7c6284282baac14f76',
+      },
+      {
+        path: 'packages/game/src/core/menu/menu-driver.ts',
+        sha256: '9aa46527f424b15f03e2ca78b302885a70d4ee2b18462261c9a0cce03da3269c',
+      },
+      {
+        path: 'packages/game/src/core/menu/opening-menu.test.ts',
+        sha256: '08100f04c49888db72a5d1a42a60777c414c6c39251b9b5374a0bb9764aff439',
+      },
+      {
+        path: 'packages/game/src/core/menu/primitives.test.ts',
+        sha256: '73a0fb3e328aa7de7ead1e9f60f9fbad5b287b72b4d5fb71e32f3b06d17f1d9d',
+      },
+      {
+        path: 'packages/game/src/core/menu/save-slot-menu.metadata.test.ts',
+        sha256: '0de5883301f4a4fd6146b827d801721e244bb13ff22db939cb599be03e962351',
+      },
+      {
+        path: 'packages/game/src/core/menu/save-slot-menu.test.ts',
+        sha256: 'fff1072bc467edc6c95c089e00d640ed0ed123d80eadf3134ca1ca5ee49397be',
+      },
+      {
+        path: 'packages/game/src/core/menu/sell-menu.test.ts',
+        sha256: '2f3b5ed96152d81adabe94ce739a012b04f0e8d83fbd2f6a1bb9d83f485fe03e',
+      },
+      {
+        path: 'packages/game/src/core/menu/sell-menu.ts',
+        sha256: '3467c4dc6ab5608dd62f3fb8797529b7ddd38a8055a3cff4815832db379eee6f',
+      },
+      {
+        path: 'packages/game/src/core/menu/shop-menu.flow.test.ts',
+        sha256: '18c9d0e4c7565bf4873fbcebaee31c38a6415134c23df2167892f01ab9e7ea27',
+      },
+      {
+        path: 'packages/game/src/core/menu/shop-menu.test.ts',
+        sha256: '730b0a77877ea48c85093984f9e39df3696c43c1a91f5f018c43882e7e407bd7',
+      },
+      {
+        path: 'packages/game/src/core/menu/shop-menu.ts',
+        sha256: '76f0e8d3eee8e16915cd9871d882b25de8faf6f5d7d0e7039529ae2293ad4780',
+      },
+      {
+        path: 'packages/game/src/core/object-script-progress.test.ts',
+        sha256: 'ba1edf13a583eb43178ce01eec847cfc0bbacf869fb98e873541e3f9ebee207d',
+      },
+      {
+        path: 'packages/game/src/core/scene-system.test.ts',
+        sha256: '809da377c3b49295f718bd6b6bc72542710b158d08eb305464632dd94c7367c1',
+      },
+      {
+        path: 'packages/game/src/dev/dev-panel-party-lifecycle.test.ts',
+        sha256: '58aaae796a0ce6e078a55f946e54ed49294391bb9d5bb41a2e70549c70126bbf',
+      },
+      {
+        path: 'packages/game/src/dev/dev-panel-picker-lifecycle.test.ts',
+        sha256: '373d9e32a09ae2c1490389d017bd8282581344f3500f2f5f375e680504ef7cd2',
+      },
+      {
+        path: 'packages/game/src/dev/dev-panel.hotkeys.test.ts',
+        sha256: 'd619223cde59dba51609b7501546c4e882f04ff9fc330393a8fc9052e7e92724',
+      },
+      {
+        path: 'packages/game/src/dev/dev-panel.pure.test.ts',
+        sha256: 'ea76f484d117bc40a22e1e109ff51bab6ca40bda0056f09a8a8632a772899fa3',
+      },
+      {
+        path: 'packages/game/src/localization/messages.test.ts',
+        sha256: '50fbf49a3d9dce585f277b2694f64cc56a350d3a6486a74f883f57101b636139',
+      },
+      {
+        path: 'packages/game/src/localization/presentation.test.ts',
+        sha256: '0bb7c9fcaf9ebb25c0e3fe94a431993a8131fd0c7d31dd06e1d6ffc7426e488e',
+      },
+      {
+        path: 'packages/game/src/present/__tests__/battle-render-fixtures.ts',
+        sha256: 'f9aabbe8c147ac9fd2bb846c17dc1485c85839e306c0a8db7bd2b918e064403e',
+      },
+      {
+        path: 'packages/game/src/present/__tests__/composition-colors.ts',
+        sha256: '2c4c5f759531520fa7734d195f72dfc45114bab0e4dee6feb0da3a20146258bf',
+      },
+      {
+        path: 'packages/game/src/present/__tests__/dialog-state-fixtures.ts',
+        sha256: '884531244c2ef67f6df959c99a0eeee76d3c9814e9f4feee26763164d5e6beb2',
+      },
+      {
+        path: 'packages/game/src/present/__tests__/glyph-fixtures.ts',
+        sha256: '226f7b472f8c065034db07c1f308ba5b5cc03a5f6d31b6f624f9cef27b701e2f',
+      },
+      {
+        path: 'packages/game/src/present/__tests__/magic-menu-fixtures.ts',
+        sha256: 'b82d37d28172c62d4fa43517e7bfdc88a1e4ccc3d1ff88b968439d4c03b9d305',
+      },
+      {
+        path: 'packages/game/src/present/__tests__/menu-state-fixtures.ts',
+        sha256: '0ce7df25cce554b54c080659494116c76908a531dd289359a32f4323fbabce7f',
+      },
+      {
+        path: 'packages/game/src/present/__tests__/menu-ui-fixtures.ts',
+        sha256: '0a5af0e46bd20ebe7ca655b9b75e0d63e4b7cc5321928cf83a5acbdaa71cd331',
+      },
+      {
+        path: 'packages/game/src/present/__tests__/raster-fixtures.ts',
+        sha256: '982d0ab4a7a73bd1d432554562ff9f628d097098be32af9e9b059bd1dbb2d291',
+      },
+      {
+        path: 'packages/game/src/present/__tests__/render-input-snapshots.test.ts',
+        sha256: '1673f6ac5a94deefd6ac0647a8cd52b96ed0c96b1b0452440e5c028bb0d63660',
+      },
+      {
+        path: 'packages/game/src/present/__tests__/render-input-snapshots.ts',
+        sha256: 'f2faddfd6a3c6dcbefe752eff487e8fabd92035b62cf673bd6c81289d8dd17b6',
+      },
+      {
+        path: 'packages/game/src/present/__tests__/scene-render-fixtures.ts',
+        sha256: 'e86d3b4d1facc1574dd2ffed6f64ba53e341f154c6ce1b1185fea4d307ebdd0c',
+      },
+      {
+        path: 'packages/game/src/present/__tests__/shop-state-fixtures.ts',
+        sha256: '832708399773559f19c2b117cebb88e0a0713e1da0e8f278d156eb4d35e327ce',
+      },
+      {
+        path: 'packages/game/src/present/__tests__/status-state-fixtures.ts',
+        sha256: 'f76fe730e092d215c04e442daaee4c6af6f991590b21f446a854c71453dbaf51',
+      },
+      {
+        path: 'packages/game/src/present/__tests__/uniform-glyphs.ts',
+        sha256: 'c1074d184e865cbe788b5e459b9390e32148c8ba9b2747aa4340861a85c01f87',
+      },
+      {
+        path: 'packages/game/src/present/__tests__/world-composition.test.ts',
+        sha256: '2403813cb65f21fc64cef3d5de59727aef9c28c1a370e874ce27aa55cff6796d',
+      },
+      {
+        path: 'packages/game/src/present/__tests__/world-effects.test.ts',
+        sha256: 'a391ac3a7e3c611aaadfb831fdf240e5e4796a95c46569c5c15734b3457958e5',
+      },
+      {
+        path: 'packages/game/src/present/__tests__/world-render-fixtures.ts',
+        sha256: '66e124e01c1dcdbc69d944a3de8c99d146efa6b215f8720e4b304db994946fb2',
+      },
+      {
+        path: 'packages/game/src/present/battle/__tests__/battle-action-availability.test.ts',
+        sha256: '9e030d5d81feb25b506de7e51619f6c2a0b0a167acff0cd2dc43f0d20636b44b',
+      },
+      {
+        path: 'packages/game/src/present/battle/__tests__/battle-effects-composition.test.ts',
+        sha256: 'c4883a17243502d45307378bd39ad750fb66fdec115d8b5fde92598589d06cbb',
+      },
+      {
+        path: 'packages/game/src/present/battle/__tests__/battle-feedback-composition.test.ts',
+        sha256: '3cb8b69703b6322d4b5533ea55c39888ab245bc9186e493c5487709c283670b4',
+      },
+      {
+        path: 'packages/game/src/present/battle/__tests__/battle-present-lifecycle.test.ts',
+        sha256: '89a7ab1da27ab92cbe20ec86a6026567718d5356299041862cf9d7aef8e5a814',
+      },
+      {
+        path: 'packages/game/src/present/battle/__tests__/battle-sprite-frames.ts',
+        sha256: '11bb25a21c6e402b2cccd1fdfd04635f35ad5ed88e04e7a2d24a57d22abc1086',
+      },
+      {
+        path: 'packages/game/src/present/battle/__tests__/battle-sprite-pose.test.ts',
+        sha256: '92abdc508bd67bec32c606879e6fa06bc7c5bb9f4adea466c7d24f9ab0aeda87',
+      },
+      {
+        path: 'packages/game/src/present/battle/__tests__/battle-sprite-state.ts',
+        sha256: '5c5b325d666a1906fa1a7f7ca0a3c8a4abfdac139e01cdb09b2e8a201bfea4b4',
+      },
+      {
+        path: 'packages/game/src/present/battle/__tests__/battle-ui-fixtures.ts',
+        sha256: 'e4ec11c23da545df309f56937495e5dcb702c305dcf55f4344e6d29481ecb450',
+      },
+      {
+        path: 'packages/game/src/present/battle/__tests__/blit-battle-frame.test.ts',
+        sha256: '42dc2c7d700275e320e797a7b832d7824880382e829ece2ad792635cae13d698',
+      },
+      {
+        path: 'packages/game/src/present/battle/__tests__/draw-battle-bg.test.ts',
+        sha256: 'e7e251010a6f732c93c647c2626c09fed72761db63e341333582859f81415905',
+      },
+      {
+        path: 'packages/game/src/present/battle/__tests__/draw-battle-effect.test.ts',
+        sha256: 'd6a1dc259c5fff5aa8ef4cc781c3546000b7543cb98b7edccd56ceacb643756d',
+      },
+      {
+        path: 'packages/game/src/present/battle/__tests__/draw-battle-num.test.ts',
+        sha256: 'a935d197b21bad6227b62d846589dffd62cfeb96c14fcc8703ec1ed8de68d541',
+      },
+      {
+        path: 'packages/game/src/present/battle/__tests__/draw-battle-settlement.formula.test.ts',
+        sha256: '1dbc094f09a1d3bae7567bfd050e78508b1b9c6c18ad92244f6ea316662d3e48',
+      },
+      {
+        path: 'packages/game/src/present/battle/__tests__/draw-battle-settlement.test.ts',
+        sha256: 'bcb090f5377afe6d3ac1f90b0ff41da0b92a7ad111e665b1b8b589f573d78674',
+      },
+      {
+        path: 'packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts',
+        sha256: '741c1edf76e98ca06147bb5039bd4cf4108f11110c3291afeee15bdabde75bf8',
+      },
+      {
+        path: 'packages/game/src/present/battle/__tests__/draw-battle-ui.menu-pixels.test.ts',
+        sha256: 'a8ea5ff666e15731f6ea61e4e54e11e702455d503416ccbd0a411f4692d4ec91',
+      },
+      {
+        path: 'packages/game/src/present/battle/__tests__/draw-battle-ui.player-info.test.ts',
+        sha256: '42ecbb9c956517689f118619312f55ee3161378d21077822782e5fa6f4a0bc6a',
+      },
+      {
+        path: 'packages/game/src/present/battle/__tests__/draw-battle-ui.selection-pixels.test.ts',
+        sha256: 'da3ac95e7df40d13172386fc37cfa25b8c3cb06f851ad3854d8fbb5dd4de3146',
+      },
+      {
+        path: 'packages/game/src/present/battle/__tests__/draw-battle-ui.test.ts',
+        sha256: 'd283ca82dfed5b42661360afa97af77fa10c04b5825758ecda0725ef4726196c',
+      },
+      {
+        path: 'packages/game/src/present/battle/__tests__/player-face-color.test.ts',
+        sha256: '806250159f4aab363af117b86a3e22b72757d9d416894e76f4c3ff7ec866298b',
+      },
+      {
+        path: 'packages/game/src/present/dialog-box.composition.test.ts',
+        sha256: 'a390b96d710377ec4e10daace4ac4eb978e5f79f40afbd13dae5960b56efc273',
+      },
+      {
+        path: 'packages/game/src/present/dialog-box.test.ts',
+        sha256: 'a0d8da9139561d8f3d454ceb1ec565b8d6b4dfaaaaa57b53fc69205c955c9554',
+      },
+      {
+        path: 'packages/game/src/present/dialog-draw.canvas.test.ts',
+        sha256: '9fcd2ba9e076dcb66a6de861cbe2d7eb606a4d222f202869e918eb7bc3be9b6e',
+      },
+      {
+        path: 'packages/game/src/present/dialog-draw.layout.test.ts',
+        sha256: '22603ecedb9dc121574ee0ace4896420665257a5a5b9fde5cd5294b97b692c51',
+      },
+      {
+        path: 'packages/game/src/present/dialog-draw.test.ts',
+        sha256: '00797a15407accc52fd7754cf4480b8786ac07d87af082c444ca57fe728d9cc2',
+      },
+      {
+        path: 'packages/game/src/present/dialog-text.test.ts',
+        sha256: 'dfece6dd4342407182aba641e46703cf5ff85d07185d5cb77d473d396a060ac4',
+      },
+      {
+        path: 'packages/game/src/present/dither-fade.test.ts',
+        sha256: 'ff8a6b0269da5dede77ef3adbb935068b8e529ae9a09df62ccbee0140ac5f5fe',
+      },
+      {
+        path: 'packages/game/src/present/draw-number-nonfinite.test.ts',
+        sha256: '74b92e8f7ac50c325b4a72c1dde7bc55822025f98d1ebdc3697976f0131303d5',
+      },
+      {
+        path: 'packages/game/src/present/draw-number.test.ts',
+        sha256: '8bf78783295ffebe9a1545fb1dfb0b5582f6e1be8ee59a5a2bb26b244c49ceb9',
+      },
+      {
+        path: 'packages/game/src/present/draw-sprite.test.ts',
+        sha256: 'e8d1cb90d5b16e76dfd7018b73d522e3af44c1f1990cd6cb6a3d44e994c88c07',
+      },
+      {
+        path: 'packages/game/src/present/draw-tilemap-seams.test.ts',
+        sha256: 'ba1d40a35da50ca04d3f8c8a40d26301c4fda80a96d2ee3234f09de85b9d813f',
+      },
+      {
+        path: 'packages/game/src/present/draw-tilemap.test.ts',
+        sha256: '7e977efeb8fbbad90eab4e7f413619021690623b8e73a2438d4e8f59a4ae951d',
+      },
+      {
+        path: 'packages/game/src/present/follower-pos.test.ts',
+        sha256: '388aea8acd03a04d5e2afd4f2ad816b4087157e2fb811af7500e34467c9c9d20',
+      },
+      {
+        path: 'packages/game/src/present/follower-render.test.ts',
+        sha256: '623847d2ed93579bc3bc8351cf4be638fe1e6db288b04afae5a3c71759c8ea69',
+      },
+      {
+        path: 'packages/game/src/present/font-layout.test.ts',
+        sha256: '3a634ccf185cfa226f01fcff1abca663478628a89789b6665b2c6adcfb253ce4',
+      },
+      {
+        path: 'packages/game/src/present/font-loading.test.ts',
+        sha256: 'b827c3fb915b2c0b4021553b3b3d7afe621eedc53b9295e19574f9e856bc5a06',
+      },
+      {
+        path: 'packages/game/src/present/font.test.ts',
+        sha256: 'c882888716c896d59970011ecafa27981e3eb50b6e4d1d4f3fb223213a429dce',
+      },
+      {
+        path: 'packages/game/src/present/framebuffer.test.ts',
+        sha256: 'fbe0b6e8657502552fa58392b87b98dd181ec69e18c28d9acc43082aa6124026',
+      },
+      {
+        path: 'packages/game/src/present/menu/draw-box.test.ts',
+        sha256: '176df22835866bb25cc4e1112feceeac413ee271a0d2b47aa827836abb2c5714',
+      },
+      {
+        path: 'packages/game/src/present/menu/draw-confirm.test.ts',
+        sha256: '8038c25b2c934bd01446f28c594979cb58f380dc4428a1e2898b712fe190a88a',
+      },
+      {
+        path: 'packages/game/src/present/menu/draw-equip.test.ts',
+        sha256: '66b2493921c31ec8f573fab48e8bbb79198b33e0600ec2aa36c64540d31627d9',
+      },
+      {
+        path: 'packages/game/src/present/menu/draw-inventory.canvas.test.ts',
+        sha256: 'c5d0a89d695b8b9f0d19d743d28362f4dca33fe521d7e22774ba1b7f7059093e',
+      },
+      {
+        path: 'packages/game/src/present/menu/draw-inventory.description.test.ts',
+        sha256: 'eb05303036ef32ea64bc9cf8e68797554c03c562cc75bc80b15d202826b69077',
+      },
+      {
+        path: 'packages/game/src/present/menu/draw-inventory.list.test.ts',
+        sha256: 'd9571bd40f56eca154525b9f9e8ad25a92951570d4febd33d9f9af098ff9aa27',
+      },
+      {
+        path: 'packages/game/src/present/menu/draw-inventory.target.test.ts',
+        sha256: 'ae0087220b41ef4325f0abc258e12b626d9fe4b6eb423ecfc4b2a9e5f6c0be7e',
+      },
+      {
+        path: 'packages/game/src/present/menu/draw-magic.caster.test.ts',
+        sha256: '6cb37eeff6b52c6c88b77adb3a03318a700ca0ea47c2f897a42981a8d79eecac',
+      },
+      {
+        path: 'packages/game/src/present/menu/draw-magic.target.test.ts',
+        sha256: '6d2c8076ff39a1182013e0eb3f4f80cd4c4bb379d75d2729748b2068f9d8342b',
+      },
+      {
+        path: 'packages/game/src/present/menu/draw-magic.test.ts',
+        sha256: 'e74171706cb7f16c7e2c4b08ea1b89d7dcc36b2b9f12d0fe0439f7f7d947ba5c',
+      },
+      {
+        path: 'packages/game/src/present/menu/draw-menu.test.ts',
+        sha256: '71f17d4f0998f31cd97e778cf88015e4b1922a0f6f61e29a64bc9583c73ed381',
+      },
+      {
+        path: 'packages/game/src/present/menu/draw-opening-menu.test.ts',
+        sha256: 'a807b68eeb81f6b1d629e7541c7a11ed38b639e4cb9a051a55e5d6005e2738f2',
+      },
+      {
+        path: 'packages/game/src/present/menu/draw-player-status.entry.test.ts',
+        sha256: '753bedbe5961881972c9d1b6d9e002a586d7a4cf3ea906f34dd031faf244d753',
+      },
+      {
+        path: 'packages/game/src/present/menu/draw-player-status.equipment.test.ts',
+        sha256: 'aceeeedc2e891e1f5452bbefd0b4c0bb49fdf997dcc7019ad2ceb73e3d7d4fd0',
+      },
+      {
+        path: 'packages/game/src/present/menu/draw-player-status.poison.test.ts',
+        sha256: 'b07726e04f06be18fe06ecffb1e37c3933db6514a72d9c07632e71ecff94e854',
+      },
+      {
+        path: 'packages/game/src/present/menu/draw-player-status.test.ts',
+        sha256: '83b0f387908eeb37fe60cc81b55889ddc97e230e062661f118a106a4fdf2323a',
+      },
+      {
+        path: 'packages/game/src/present/menu/draw-sell-overlay.test.ts',
+        sha256: '26568be47b5885955803637e0c8fabd818ff9c268556f881bc285361af6f216c',
+      },
+      {
+        path: 'packages/game/src/present/menu/draw-shop.canvas.test.ts',
+        sha256: 'd50368ab288e9df24cd336ea104df9ffdb4d18858edf644ba8e3d3355435cb3a',
+      },
+      {
+        path: 'packages/game/src/present/menu/draw-shop.test.ts',
+        sha256: '5283c029b6c6efbaa3a16028b87423bfcd6b9883cd96affc758c19a4af59f08b',
+      },
+      {
+        path: 'packages/game/src/present/menu/magic-player-info.integration.test.ts',
+        sha256: '4ae7aaaadad816ccface7a829cfcbdcc5e140905be633056a943d1fe0727a465',
+      },
+      {
+        path: 'packages/game/src/present/present.canvas.test.ts',
+        sha256: 'ef57ff018a3ba5ef3a09e3d8c61358f63ebfcafe414f35578e65e8465487b7fd',
+      },
+      {
+        path: 'packages/game/src/present/present.fade.test.ts',
+        sha256: 'f92ccf22a349d8ac36823ebfe69351c77029ffad4bd3ace7d793e3d9a0896737',
+      },
+      {
+        path: 'packages/game/src/present/present.palette.test.ts',
+        sha256: 'fc043d8b292064ae108834586630558d0be02b71ceb0d7de8f2c43e9b3297302',
+      },
+      {
+        path: 'packages/game/src/present/present.party.test.ts',
+        sha256: 'b104be4b68bab9f863dae57acd21201a52a4a3853e6384e16ad1de7b8f79ce1c',
+      },
+      {
+        path: 'packages/game/src/present/present.scene.test.ts',
+        sha256: 'bf359126322bebccaa57e0feab2f9fc79631035e0bd3829cfef25fa0bc346f86',
+      },
+      {
+        path: 'packages/game/src/present/present.test.ts',
+        sha256: 'e7e130033bf84abe1c84818ff31f67367e78e8704c2dc3d735be58901bb9a7f3',
+      },
+      {
+        path: 'packages/game/src/present/present.ts',
+        sha256: '05d47d41a8933fcdd8eab65fc340d9098c202ae813d901a6038a0367bf371219',
+      },
+      {
+        path: 'packages/game/src/present/screen-shake.test.ts',
+        sha256: '3c47e505b1000040406a4bab92b7a654d7dd282d53125fe8b8bee3c3b0c18f77',
+      },
+      {
+        path: 'packages/game/src/present/screen-wave.test.ts',
+        sha256: '02dba6c726e3d175a8a23f69fccf42e53a867e433e889fa56f6c3d3fed4d816f',
+      },
+      {
+        path: 'packages/game/src/shell/__tests__/boot-loading-host.ts',
+        sha256: '7aa88d404bdb68d4eaa1e3b0af0e9dee6ac82f7d22fc6fdb35fbff0bd3e847c6',
+      },
+      {
+        path: 'packages/game/src/shell/__tests__/bootstrap-resource-load.ts',
+        sha256: '9848955fd1153585a8cbd80d774748930dad84a80c2cc00299ea1b1565a98f4e',
+      },
+      {
+        path: 'packages/game/src/shell/__tests__/keyboard-events.ts',
+        sha256: '114a40f161efc139dfa68e01626cea6757e82957c9ec218637ab23f4187cb12c',
+      },
+      {
+        path: 'packages/game/src/shell/__tests__/loop-context.ts',
+        sha256: 'd938d2189a345dcc89fb08602aea1b07b7a08da481d4d944f1543549fea481cd',
+      },
+      {
+        path: 'packages/game/src/shell/__tests__/loop-tilemap.ts',
+        sha256: '7fe5d2a42be69889c5c529536be29d7d135f02bd127ff45082b587ec17232689',
+      },
+      {
+        path: 'packages/game/src/shell/__tests__/opening-playback.ts',
+        sha256: 'ff6d9e4d4ea130ad81111a6deee29b2c6522bfcd4aac19bc9e468f378c31701d',
+      },
+      {
+        path: 'packages/game/src/shell/__tests__/rng-frames.ts',
+        sha256: '6a71ffb63e8daaf7f0981af21971316e8e326dd86bdd2e628f8968a47543501d',
+      },
+      {
+        path: 'packages/game/src/shell/audio-midi.fallback.test.ts',
+        sha256: '407f9ce86b35615e37e304722ac002dbcb4a38607d32876ac0fc41f61f1e81ea',
+      },
+      {
+        path: 'packages/game/src/shell/avi-player.async-lifecycle.test.ts',
+        sha256: 'b989a672bdbb6a7d21ac833efd606d6bc547ee0f87111ca477858c1f9438402a',
+      },
+      {
+        path: 'packages/game/src/shell/avi-player.autoplay.test.ts',
+        sha256: 'fad19ddecde24882668192f1e9fde0ba219da0a9864e5ee1a03a63e33e657b5d',
+      },
+      {
+        path: 'packages/game/src/shell/avi-player.test.ts',
+        sha256: '4933e3396ca51f24a51c46f544b82b7b779b719236f26dc31f6a57fc248b5056',
+      },
+      {
+        path: 'packages/game/src/shell/avi-player.volume.test.ts',
+        sha256: 'dcc3a745a5f0526c14f1b9fce34d56f8bc3400e7ed0191ead46453a2bca7b544',
+      },
+      {
+        path: 'packages/game/src/shell/boot-loading.dom.test.ts',
+        sha256: '55e0e7309ecfad8900c6f05d977faf407b8b567f8351bf17a9e5e4bb2c3aede2',
+      },
+      {
+        path: 'packages/game/src/shell/boot-loading.test.ts',
+        sha256: '82cb65c725151cea7430738c80a30106aa701aebb45b4803f62b9c550cc3eab2',
+      },
+      {
+        path: 'packages/game/src/shell/bootstrap-resources.http.test.ts',
+        sha256: '5b32efd82bf8a80475150893397aeb1aba5260580fee6bb539cce89fdfda8193',
+      },
+      {
+        path: 'packages/game/src/shell/bootstrap-resources.test.ts',
+        sha256: 'ef2fbd4bee9fe3224682f6b5f56525812194b03a65354eb36e10ea38a7df7f7e',
+      },
+      {
+        path: 'packages/game/src/shell/bootstrap.error.test.ts',
+        sha256: 'facec95b90f51609c99047b7ba6d106c1be58b6e44736dd337b7ce982ff9fef0',
+      },
+      {
+        path: 'packages/game/src/shell/ending-player.palette.test.ts',
+        sha256: '8fed69e6489bfe09f134298d13ba90a795ea8426b14613235ce698c72e2571c5',
+      },
+      {
+        path: 'packages/game/src/shell/ending-player.test.ts',
+        sha256: 'c8d8337275c7148c251a0a48f631902a5de671458002d924ac05d01b3fde96d2',
+      },
+      {
+        path: 'packages/game/src/shell/ending-player.wait-key.test.ts',
+        sha256: 'bd3ae660da6801e4dedabfccb10a8f5912a4b327634c85f9297bd18a2b3952f9',
+      },
+      {
+        path: 'packages/game/src/shell/fbp-player.scroll.test.ts',
+        sha256: 'b63d93f406235d2b73cc3fd30c3df82bb5458ad2632c04c49dc22d0f7703c0a4',
+      },
+      {
+        path: 'packages/game/src/shell/fbp-player.test.ts',
+        sha256: 'b5b979e6a0e665024311e805ef65e29f8398ad461dbd402897de0422ce9e3906',
+      },
+      {
+        path: 'packages/game/src/shell/fetch-retry.test.ts',
+        sha256: '9c19458e3e5618560e432c8b34ba770b9d3846edcc823210460fcb135184a156',
+      },
+      {
+        path: 'packages/game/src/shell/input.keyboard.test.ts',
+        sha256: 'fdcc27629aa01a9e027e590ac63242984344b1ec30a45183f3212151a799987a',
+      },
+      {
+        path: 'packages/game/src/shell/input.keymap-ownership.test.ts',
+        sha256: 'e0ff559bf1873b2edaa36ce8d0ea235ce6343707fde9979f7f76d8f1ee0f789e',
+      },
+      {
+        path: 'packages/game/src/shell/input.keymap.test.ts',
+        sha256: '3c485d94c03339146d5ae3cf9ae40520b343ccd57bbb7b7a24ba70f8f98ddb3a',
+      },
+      {
+        path: 'packages/game/src/shell/input.record-replay.test.ts',
+        sha256: 'dc648349cb04bbf02c53a8bf1a80fcf56e4c723655982193526a696285a3b5f9',
+      },
+      {
+        path: 'packages/game/src/shell/input.ts',
+        sha256: '55a394a61514d6a6c4b4bae97f0fb30a257f741a4dc9dbc55a8de3eb0678640f',
+      },
+      {
+        path: 'packages/game/src/shell/main-loop.lifecycle.test.ts',
+        sha256: 'f134d4649b34c04227a4bc9a673bc0768c5805a2ffa1247e0b499ed85a0e3957',
+      },
+      {
+        path: 'packages/game/src/shell/main-loop.menu-input.test.ts',
+        sha256: 'e56dba5c6c2b0481bc607639d3c1ec289d8bb3c866eca2a543267a70a8437bbd',
+      },
+      {
+        path: 'packages/game/src/shell/main-loop.test.ts',
+        sha256: 'c5b534e65e468eedc0d2d893dcb1bafc0cd4585ab03f614b41fd08839ab25124',
+      },
+      {
+        path: 'packages/game/src/shell/precache-client.test.ts',
+        sha256: 'b470cc3890ae5125ff153945c70a699d1fe34f834be678f67a3756a97ac5db7f',
+      },
+      {
+        path: 'packages/game/src/shell/precache-ui.test.ts',
+        sha256: '384ecaffdfaac8c3c754e92744cd7bd5c2836bf327b27ab215a64782ec85b96b',
+      },
+      {
+        path: 'packages/game/src/shell/precache-widget.test.ts',
+        sha256: 'b2dd57adabc086f9d5958d7f5b407d51c17881a391ad35c030a006dbe2818077',
+      },
+      {
+        path: 'packages/game/src/shell/rng-player.cache.test.ts',
+        sha256: '7af1bba562be83e057890f5bb4a219dbbf0113c984cb1bccab23f4187b2b1912',
+      },
+      {
+        path: 'packages/game/src/shell/rng-player.effects.test.ts',
+        sha256: '62bc61882a5ac0cce70201236883bfb384f12e56cff451fa6c7871aab635ff62',
+      },
+      {
+        path: 'packages/game/src/shell/rng-player.test.ts',
+        sha256: '4ce384cb78af94c10fcf14a85eca6b439929797bf39a018dd9d181d3581c10f1',
+      },
+      {
+        path: 'packages/game/src/shell/shell-bootstrap.glm-shell.test.ts',
+        sha256: '19fbd37f6288a3f1718992cbcf57c369150c8fecd9f1c6f856517c1d9a66502b',
+      },
+      {
+        path: 'packages/game/src/shell/splash-fallback.test.ts',
+        sha256: 'a4109d1642f53527589cafa34e755fa9e5ae25cbae4366e3af8077874eba03de',
+      },
+      {
+        path: 'packages/game/src/shell/trademark-fallback.test.ts',
+        sha256: '992ba49b77ecb483e75948f3640c40df8523273c2b3d99e86cf7291a57d3c4ff',
+      },
+      {
+        path: 'packages/game/src/tools/display-scale.test.ts',
+        sha256: '2f40fb5b81c14132019eddb28dd18927a9104fc9afd8e2764fc9e6234d7d00f6',
+      },
+      {
+        path: 'packages/game/src/tools/fps-overlay.test.ts',
+        sha256: 'b7aa396816301d072f587072514c9864fed4388706ec0b43ad1a5cbc29c360ab',
+      },
+      {
+        path: 'packages/game/src/tools/minimap.canvas.test.ts',
+        sha256: 'c091d54a40a49a66c54df11088792362e1d6074d2c6fed93f32b4995055e1b90',
+      },
+      {
+        path: 'packages/game/src/tools/minimap.controller.test.ts',
+        sha256: 'b7924a7cf5252ebe02e49f9911c9cc6e3a26fce49f9e604aee7e94061eca7f37',
+      },
+      {
+        path: 'packages/game/src/tools/minimap.model.test.ts',
+        sha256: '14eb9c53d666448200ba0b98b0a3c847245a3819d86a898238a8597ba4d045f8',
+      },
+      {
+        path: 'packages/game/src/tools/speedrun/countdown.test.ts',
+        sha256: '108ebd9ed11281016c19f816ef4ba9421be3e5af998305db3c47741786a78053',
+      },
+      {
+        path: 'packages/game/src/tools/speedrun/detectors.test.ts',
+        sha256: '6af58bd39ddc7cf2b735a0bec939358c572e9fb9d02b1a671af68a8ea28bbd49',
+      },
+      {
+        path: 'packages/game/src/tools/speedrun/index.test.ts',
+        sha256: '5518316a1a45d5b89b9c187fccf5a314ffaa0c432b15fd723c53e3a3a8ec3809',
+      },
+      {
+        path: 'packages/game/src/tools/speedrun/overlay.test.ts',
+        sha256: '47deea61ed573130d556b1a867e9ac605ae078929b49704cc772903f398470c9',
+      },
+      {
+        path: 'packages/game/src/tools/speedrun/store.test.ts',
+        sha256: '07ad4871244e529da6db6aa449d12a610b6458d6c3567b48fb6214a16bb5f839',
+      },
+      {
+        path: 'packages/game/src/tools/speedrun/time-format.test.ts',
+        sha256: 'd37e1c62f593763a2a826b32534c0d628189cd04e4bb0b0ec4bf2c099ecbee27',
+      },
+      {
+        path: 'packages/game/src/tools/speedrun/timer.test.ts',
+        sha256: '1854cd0fd9324e6455d4bdd9f9b592ad2b1d2982532ebf61d925eb0f3b7c6a1f',
+      },
+      {
+        path: 'packages/game/src/tools/tools-panel.display.test.ts',
+        sha256: '812df8dcd521299b7b819896953b4418323212f396184975e9f35b0b7ed6a9a6',
+      },
+      {
+        path: 'packages/game/src/tools/tools-panel.test-fixtures.ts',
+        sha256: '1f1787b6460e0f98ceb76b218a3e20383b75de3aab6d070ab3c8e0257dd3a9d2',
+      },
+      {
+        path: 'packages/game/src/tools/tools-panel.test.ts',
+        sha256: '77d01b92d316b928ae2fa07ee0d55bd4bb1aacfe121104f55b5b2358d59df09d',
+      },
+      {
+        path: 'packages/migrate/src/__tests__/migration-journal-fixture.ts',
+        sha256: 'dc62130fa41ac612c114e5511a41e716701867e25fe454fcff661d89bcd4c7e1',
+      },
+      {
+        path: 'packages/migrate/src/__tests__/transaction-contracts.ts',
+        sha256: '778a9d057f4591488ffb98b584488927db9ecec4478fbe945a19da5e9937cf40',
+      },
+      {
+        path: 'packages/migrate/src/migration-baseline-paths.test.ts',
+        sha256: '061edd595233552325a32e5c6f50a64378fe386751e7d4885bacc7f68a1552c3',
+      },
+      {
+        path: 'packages/migrate/src/migration-baseline.io.test.ts',
+        sha256: '20d834726a86d4c34bc6209826c8aa675323cfb61c5931ad7f263ac04f0a93f3',
+      },
+      {
+        path: 'packages/migrate/src/migration-baseline.snapshot.test.ts',
+        sha256: 'fca44fa165edf5ca259e28e33cb2955d71e692e1a8e0765b42a8990eb2cd8435',
+      },
+      {
+        path: 'packages/migrate/src/migration-baseline.ts',
+        sha256: 'f1071d957dd1a5054e129a191e684afabb4475a85f9cd3b5d442fc9771415ee0',
+      },
+      {
+        path: 'packages/migrate/src/migration-control-paths.test.ts',
+        sha256: '9336b20ef21b42edc543f30a07203377783e804e0735b8b9da963f2e6f05fc74',
+      },
+      {
+        path: 'packages/migrate/src/migration-hash.ts',
+        sha256: '1dec1945762492a6a9737ee02568f21ec826a4d417e800066762ec3a6481d222',
+      },
+      {
+        path: 'packages/migrate/src/migration-merge.arrays.test.ts',
+        sha256: 'f692c459502e642787bd218aa42b8ed7b6fd377a0ba0365b5388b60675430386',
+      },
+      {
+        path: 'packages/migrate/src/migration-merge.content-records.test.ts',
+        sha256: '628c4ee87b6f0405ee80bcbfe22579634128ba2bf5099b208f559c05d0db0373',
+      },
+      {
+        path: 'packages/migrate/src/migration-merge.json.test.ts',
+        sha256: '026c8b0d0b43fe285020651ce9960e9a3cabe2ef9576ba2dd070e8f2e368218d',
+      },
+      {
+        path: 'packages/migrate/src/migration-merge.test.ts',
+        sha256: 'bbc86b8ec0c78c3d681c9266141ef5ed5b009924de68be6b58f0c24f5b4bb2a0',
+      },
+      {
+        path: 'packages/migrate/src/migration-merge.ts',
+        sha256: '5522c4158773effdf14f265136ff91add2b8159559e8ce5c709e8abab64ec182',
+      },
+      {
+        path: 'packages/migrate/src/migration-path.test.ts',
+        sha256: 'b3bb47476968142ae1ce07325dad382d01856096e0815cea2d0e2dea148a931a',
+      },
+      {
+        path: 'packages/migrate/src/migration-plan.files.test.ts',
+        sha256: 'c243eeacba3532ddd06717b05d21fe51d3af0a5647501d3ba88c148f29e3c1f5',
+      },
+      {
+        path: 'packages/migrate/src/migration-plan.maps.test.ts',
+        sha256: '35a4ca7cfe5ebcff9cc0d73867c39d3802249327a45d1b4078e1d4104e4f33f2',
+      },
+      {
+        path: 'packages/migrate/src/migration-plan.ts',
+        sha256: '5c8a2dd8ad0f16c14c9aea866195ccbcbcf3f96175f4be20b465d4f38a5c0d43',
+      },
+      {
+        path: 'packages/migrate/src/migration-project-io.discovery.test.ts',
+        sha256: '96a306ebc0f88dc62ced88161e1b0162a6346fcc6297f19c7f718ccec26b1a88',
+      },
+      {
+        path: 'packages/migrate/src/migration-project-io.snapshot.test.ts',
+        sha256: '0aec6e3d3622cea59d6774db068f76a617d42f4c796fb62c7cd0273771737476',
+      },
+      {
+        path: 'packages/migrate/src/migration-project-io.ts',
+        sha256: '76ff36d1655b5b87d4581581d30a653621a79451a6e4047ebd081ce1d9d0a742',
+      },
+      {
+        path: 'packages/migrate/src/migration-transaction-ownership.test.ts',
+        sha256: '2e280069f6d84514e1c8ceb3fccef83cf6519c2e88214c97854eafcaffad7305',
+      },
+      {
+        path: 'packages/migrate/src/migration-transaction.inputs.test.ts',
+        sha256: 'afb6e0bedc078d64a6f74fdce3d59d40d2031fbf5ee2cfd958a769c059892c93',
+      },
+      {
+        path: 'packages/migrate/src/migration-transaction.journal.test.ts',
+        sha256: '10a5e793f46365986710e2dd806257d55951d5aacc8454a20d8296da8b978ada',
+      },
+      {
+        path: 'packages/migrate/src/migration-transaction.lifecycle.test.ts',
+        sha256: '64e14860e54d4103c943c07c52d1cce5bfebb6363f9cc4c484e0bd823aa37640',
+      },
+      {
+        path: 'packages/migrate/src/migration-transaction.ts',
+        sha256: '799ab52026c2ff0bd5546860a8bdc7922f3d78c87cc3e0343242b702089cf529',
+      },
+      {
+        path: 'packages/migrate/src/migration-write-guard.test.ts',
+        sha256: '36c11c4d5f3aeda40b52e9db2816127abc91010a0c1e3f16b3d05984c467bc8f',
+      },
+      {
+        path: 'packages/migrate/src/migration-write-plan.baseline.test.ts',
+        sha256: '0ae7e3544c50066274309da04a0233677d79bc4215c117e66661c8c01bbd7ac6',
+      },
+      {
+        path: 'packages/migrate/src/migration-write-plan.ordering.test.ts',
+        sha256: 'f00dc3ea6001545225e1790827692ca6e725a529c854a8649317ad2bb691844e',
+      },
+      {
+        path: 'packages/migrate/src/migration-write-plan.project.test.ts',
+        sha256: 'b9d1e7745ab751a305f650a2b73b14ca107c38b7d1223a22728e01e6f9867f32',
+      },
+      {
+        path: 'scripts/coverage/approved-test-retirements.mjs',
+        sha256: 'd22144643747896424eab57e4a5c431510ef997eced817dff5a20d81d8d0be7e',
+      },
+      {
+        path: 'scripts/coverage/config.mjs',
+        sha256: 'decb63dda5d12a2269bef1dd75c3d1eb4efca071887c759deca8e9b06ef17a25',
+      },
+      {
+        path: 'scripts/coverage/inventory.mjs',
+        sha256: '8a709dbd233b4108d1f624f8b74e3b5b225db0e7553dea31c2dd4bf36cf1b6a2',
+      },
+      {
+        path: 'scripts/coverage/metrics.mjs',
+        sha256: '5bc99f26d81e11816a73f9d5e673769ed0ff1b0a7883eda7c130db1e4466dd74',
+      },
+      {
+        path: 'scripts/coverage/protected-baseline.mjs',
+        sha256: 'a36a3150baa4350fa5ce48d5b676071a1543aa85b32748ef7760b0522ca2f3c2',
+      },
+      {
+        path: 'scripts/coverage/run.mjs',
+        sha256: '87c5e8049444e8d5b6195b5d01ced2061420f04ed9a572a7e8f80f9b67a29d45',
+      },
+    ],
+    packages: {
+      game: {
+        before: {
+          statements: {
+            covered: 15469,
+            total: 17123,
+          },
+          branches: {
+            covered: 9927,
+            total: 12233,
+          },
+          functions: {
+            covered: 1873,
+            total: 2153,
+          },
+          lines: {
+            covered: 13800,
+            total: 15021,
+          },
+        },
+        after: {
+          statements: {
+            covered: 15493,
+            total: 17150,
+          },
+          branches: {
+            covered: 9927,
+            total: 12248,
+          },
+          functions: {
+            covered: 1873,
+            total: 2153,
+          },
+          lines: {
+            covered: 13800,
+            total: 15021,
+          },
+        },
+      },
+    },
+  },
+  {
     id: 'recent200-owned-definitions-path-extraction-20261028',
     authority:
       'User2026-10-28 requests full remaining200 recheck; standing explicit authorization permits justified exact baseline adjustments after quality refactors, never weak tests/dead code restoration. Content-only recount: two fully covered duplicate path policies share one internal14-branch policy; preserve public wrappers/errors. Statement -10/-10, branch -11/-10, line -8/-8. Added shop guard is fully covered; locale own-key guard adds2 branches, with3/4 covered: inner nullish fallback for an owned undefined value is outside legal Locale string inputs; do not fabricate an invalid typed fixture. Retain old function floor812/827 so the actual813/828 gain stays real. Other six package floors remain unchanged. Full main artifact member versus current per-file report has exactly five deltas, archived untrimmed with pinned CI artifact source. No runner/comparator/selection/threshold/deadline/ignore changes.',

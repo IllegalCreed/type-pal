@@ -1,0 +1,265 @@
+{
+  "id": "shell-midi-fallback",
+  "kind": "shell-midi-fallback",
+  "namespace": "organization-shell-input-audio",
+  "inputs": [
+    {
+      "path": "packages/game/src/shell/audio.glm-phase1-leaves.test.ts",
+      "sha256": "8745b7ef54dd4ed3593d043c87c4a5e6e7694fbde4ac80030fb271f98cb1f6f8",
+      "member": "organization-shell-input-audio/3.before",
+      "fullReadLines": 17
+    }
+  ],
+  "outputs": [
+    {
+      "path": "packages/game/src/shell/audio-midi.fallback.test.ts",
+      "sha256": "407f9ce86b35615e37e304722ac002dbcb4a38607d32876ac0fc41f61f1e81ea"
+    }
+  ],
+  "sourceBridges": [
+    {
+      "id": "shell-audio",
+      "path": "packages/game/src/shell/audio.glm-phase1-leaves.test.ts",
+      "reason": "Actual existing no-WebAudio contract, explicit constructor absence and no-IO oracle, all globals restored; original play/stop assertion and input values retained.",
+      "changes": [
+        {
+          "from": "/** Legacy OGG tests retired; retain the actual no-WebAudio MIDI boundary contract. */\nimport { describe, expect, it } from 'vitest'\nimport { createSpessaSynthBackend } from './audio-midi.js'\n\ndescribe('L24 audio-midi 无 Web Audio 端口', () => {\n  it('无 AudioContext（SSR/测试）→ no-op backend，play/stop 安全空实现', () => {\n    const backend = createSpessaSynthBackend({\n      baseUrl: '/extracted',\n      workletUrl: '/x.js',\n      soundfontUrl: '/soundfont.sf3',\n    })\n    expect(() => {\n      backend.play(26, true)\n      backend.stop()\n    }).not.toThrow()\n  })\n})\n",
+          "to": "/** The unavailable-WebAudio branch is independent of the active synthesizer IO fixture. */\nimport { describe, expect, it, vi } from 'vitest'\nimport { createSpessaSynthBackend } from './audio-midi.js'\n\ndescribe('MIDI without a WebAudio port', () => {\n  it('keeps play/stop safe and starts no IO when both context constructors are absent', () => {\n    const fetch = vi.fn(async () => new Response())\n    vi.stubGlobal('window', {})\n    vi.stubGlobal('fetch', fetch)\n    try {\n      const backend = createSpessaSynthBackend({\n        baseUrl: '/extracted',\n        workletUrl: '/x.js',\n        soundfontUrl: '/soundfont.sf3',\n      })\n      expect(() => {\n        backend.play(26, true)\n        backend.stop()\n      }).not.toThrow()\n      expect(fetch).not.toHaveBeenCalled()\n    } finally {\n      vi.unstubAllGlobals()\n    }\n  })\n})\n",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "replacements": [],
+  "registrations": [
+    {
+      "old": {
+        "file": "packages/game/src/shell/audio.glm-phase1-leaves.test.ts",
+        "ordinal": 0
+      },
+      "originalOrdinal": 0,
+      "current": {
+        "file": "packages/game/src/shell/audio-midi.fallback.test.ts",
+        "titles": ["MIDI without a WebAudio port"],
+        "template": "keeps play/stop safe and starts no IO when both context constructors are absent"
+      }
+    }
+  ],
+  "identities": [
+    {
+      "old": {
+        "file": "packages/game/src/shell/audio.glm-phase1-leaves.test.ts",
+        "fullName": "L24 audio-midi 无 Web Audio 端口 无 AudioContext（SSR/测试）→ no-op backend，play/stop 安全空实现"
+      },
+      "current": {
+        "file": "packages/game/src/shell/audio-midi.fallback.test.ts",
+        "fullName": "MIDI without a WebAudio port keeps play/stop safe and starts no IO when both context constructors are absent"
+      }
+    }
+  ],
+  "cohortSubjects": [
+    {
+      "path": "packages/game/src/shell/audio.glm-phase1-leaves.test.ts",
+      "sha256": "8745b7ef54dd4ed3593d043c87c4a5e6e7694fbde4ac80030fb271f98cb1f6f8",
+      "priorCurrentBridges": []
+    }
+  ],
+  "preserved": [
+    {
+      "path": "packages/game/src/shell/input.ts",
+      "sha256": "55a394a61514d6a6c4b4bae97f0fb30a257f741a4dc9dbc55a8de3eb0678640f"
+    },
+    {
+      "path": "packages/game/src/shell/audio-midi.ts",
+      "sha256": "505aacc33f806af3fcbf522b4342a891bbf3ea591d9e1eef52000ca89199baf4"
+    },
+    {
+      "path": "packages/game/src/shell/main-loop.ts",
+      "sha256": "2aa4ec075feb2ff8e218eb66cc32b376f3edb62a8b3073c0441596029e5bd07c"
+    },
+    {
+      "path": "packages/game/src/core/mode.ts",
+      "sha256": "2b47e4dd3e9e553369a3699fd1276166a73b743a239bfc9cbbc5a977a44df457"
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-mode.ts",
+      "sha256": "c4483791dac050510868af7c42edf485ebd5d37d954cbb0ee76c0fd0ac42cd90"
+    },
+    {
+      "path": "packages/shared/src/input.ts",
+      "sha256": "f986d4ca00d2661f76e10ae4974e40c2421734773094bcccdc4f104b9f8109c3"
+    }
+  ],
+  "neighborPaths": [
+    "packages/game/src/shell/audio-midi.fallback.test.ts",
+    "packages/game/src/shell/audio-midi.test.ts",
+    "packages/game/src/shell/audio.test.ts",
+    "packages/game/src/shell/game-shell.test.ts",
+    "packages/game/src/shell/gamepad-input.test.ts",
+    "packages/game/src/shell/input-rotation.test.ts",
+    "packages/game/src/shell/input.keyboard.test.ts",
+    "packages/game/src/shell/input.keymap-ownership.test.ts",
+    "packages/game/src/shell/input.keymap.test.ts",
+    "packages/game/src/shell/input.record-replay.test.ts",
+    "packages/game/src/shell/main-loop.menu-input.test.ts",
+    "packages/game/src/shell/main-loop.test.ts",
+    "packages/game/src/shell/modal-input.test.ts",
+    "packages/game/src/shell/touch-controls.test.ts"
+  ],
+  "profiles": [
+    {
+      "path": "packages/game/src/shell/audio-midi.fallback.test.ts",
+      "subjects": ["packages/game/src/shell/audio.glm-phase1-leaves.test.ts"],
+      "axes": {
+        "A": "明确window存在且AudioContext/webkitAudioContext均无；真实MIDI后端返回silent play/stop，不扩张SSR所有环境或可听输出。",
+        "B": "旧17行没有所谓“scoped stubs”，原closeout该描述不实，当前纠正为明确stub＋finally；旧记录保留原文。",
+        "C": "独立于12例合成器IO与soundfont/vi.mock图，避免无端口合同背上无关6MB/Context状态准备。",
+        "D": "不与实际有Context的MIDI生命周期强并；测试指向actual audio-midi归属而非audio manager。",
+        "E": "原play26/stop不抛保留，新增no-IO；真实不必要fetch变异旧1绿新1业务AssertionError、0pending并精确恢复。",
+        "F": "文件名与唯一实际SUT相符，标题说明两个构造器缺失。",
+        "G": "无legacy OGG/批次头或额外测试；环境依赖由默认假设改为显式合法端口缺失。",
+        "H": "真实后端决定不mock；fetch仅为不得发生的IO边界，window/fetch在finally恢复，未用mock次数代替播放机制正确性。"
+      }
+    }
+  ],
+  "cleanExecutions": [
+    "before",
+    "neighbors",
+    "typecheck",
+    "scoped",
+    "proof",
+    "retirement-tool-tests",
+    "audio-control",
+    "typecheck-current",
+    "retirement-tool-tests-current",
+    "module-preflight-current",
+    "scoped-current",
+    "import-bridge",
+    "docs",
+    "content-review",
+    "lint",
+    "testing-docs",
+    "diff"
+  ],
+  "reusedReviewMember": "organization-shell-input-audio/reused-reviews.json",
+  "processDisclosures": [
+    "Three historical cohort subjects; actual original6specs49cases, retained48 and one explicitly subsumed duplicate.2new inherited-key cases are separate approved behavior repair, no added cohort credit.",
+    "Current input source has exactly one approved own-property return guard,34 supported keys unchanged; two formal business failures precede fix. Source/user/card evidence separate from test-only organization.",
+    "Audio prior closeout claimed scoped stubs but exact17-line source had none; corrected now, not inherited as valid C/H evidence. New no-IO control proves actual old-pass/new-fail, no MIDI product patch retained.",
+    "Historical rotation report/catalog command/dedupe lists and retired-baseline approvals are fixed original revisions and remain byte-unchanged; current route is this mapping, not a rewritten historical execution. Historical nine-intake witnesses target their original worktrees and are not current consumers.",
+    "Current host-mutants producer input route selects the original3 boundary titles within19keyboard cases; no broadened counter count. Its pre-existing stale source needle/config remain explicitly pending, not run or granted current counter credit. Header and executed-vs-filtered count disclosure corrected."
+  ],
+  "fixtureAndCallbackProof": "organization-shell-input-audio/callback-proof.json",
+  "reads": {
+    "fullInputs": [
+      {
+        "path": "packages/game/src/shell/input.test.ts",
+        "sha256": "6b2629e4f965c32476a799255fea0c54c8303c87a9728a7a599c38cdcbbd4c4d",
+        "member": "organization-shell-input-audio/0.before",
+        "fullReadLines": 293
+      },
+      {
+        "path": "packages/game/src/shell/input.boundaries.test.ts",
+        "sha256": "44fba405429a739324bfb096959d04e081244b4631fb16b86067085093624e2f",
+        "member": "organization-shell-input-audio/1.before",
+        "fullReadLines": 72
+      },
+      {
+        "path": "packages/game/src/shell/input-replay.grok-r1.test.ts",
+        "sha256": "73e9a60b24aeeaff85822c0b6608ed0137b4dab7a91345c5c27595bbd50c2c00",
+        "member": "organization-shell-input-audio/2.before",
+        "fullReadLines": 156
+      },
+      {
+        "path": "packages/game/src/shell/audio.glm-phase1-leaves.test.ts",
+        "sha256": "8745b7ef54dd4ed3593d043c87c4a5e6e7694fbde4ac80030fb271f98cb1f6f8",
+        "member": "organization-shell-input-audio/3.before",
+        "fullReadLines": 17
+      },
+      {
+        "path": "packages/game/src/shell/menu-input-lock.glm-msio.test.ts",
+        "sha256": "55696288cee8d118117109d254fe776e4351e3039e829bef85aa5598b0d895b4",
+        "member": "organization-shell-input-audio/4.before",
+        "fullReadLines": 86
+      },
+      {
+        "path": "packages/game/src/shell/main-loop.test.ts",
+        "sha256": "1c9c7fe5c4e1cf6e2a96bb43ce2efa8acabd7a72893e772e2d502f212b277b99",
+        "member": "organization-shell-input-audio/5.before",
+        "fullReadLines": 221
+      }
+    ],
+    "fullOutputs": [
+      {
+        "path": "packages/game/src/shell/input.keymap.test.ts",
+        "sha256": "3c485d94c03339146d5ae3cf9ae40520b343ccd57bbb7b7a24ba70f8f98ddb3a",
+        "lines": 69
+      },
+      {
+        "path": "packages/game/src/shell/input.keyboard.test.ts",
+        "sha256": "89fdb12a124511319a4497eaa69f3e427a8dbec6eacf042ae933836a9940cf9e",
+        "lines": 322
+      },
+      {
+        "path": "packages/game/src/shell/input.record-replay.test.ts",
+        "sha256": "dc648349cb04bbf02c53a8bf1a80fcf56e4c723655982193526a696285a3b5f9",
+        "lines": 76
+      },
+      {
+        "path": "packages/game/src/shell/__tests__/keyboard-events.ts",
+        "sha256": "114a40f161efc139dfa68e01626cea6757e82957c9ec218637ab23f4187cb12c",
+        "lines": 14,
+        "previousPath": "packages/game/src/shell/keyboard-events.ts",
+        "scope": "Full original source read; current test-only path has identical bytes, no new review credit"
+      },
+      {
+        "path": "packages/game/src/shell/audio-midi.fallback.test.ts",
+        "sha256": "407f9ce86b35615e37e304722ac002dbcb4a38607d32876ac0fc41f61f1e81ea",
+        "lines": 25
+      }
+    ],
+    "fullImplementation": [
+      {
+        "path": "packages/game/src/shell/input.ts",
+        "sha256": "55a394a61514d6a6c4b4bae97f0fb30a257f741a4dc9dbc55a8de3eb0678640f"
+      },
+      {
+        "path": "packages/game/src/shell/audio-midi.ts",
+        "sha256": "505aacc33f806af3fcbf522b4342a891bbf3ea591d9e1eef52000ca89199baf4"
+      },
+      {
+        "path": "packages/game/src/shell/main-loop.ts",
+        "sha256": "2aa4ec075feb2ff8e218eb66cc32b376f3edb62a8b3073c0441596029e5bd07c"
+      },
+      {
+        "path": "packages/game/src/core/mode.ts",
+        "sha256": "2b47e4dd3e9e553369a3699fd1276166a73b743a239bfc9cbbc5a977a44df457"
+      },
+      {
+        "path": "packages/game/src/core/menu/menu-mode.ts",
+        "sha256": "c4483791dac050510868af7c42edf485ebd5d37d954cbb0ee76c0fd0ac42cd90"
+      },
+      {
+        "path": "packages/shared/src/input.ts",
+        "sha256": "f986d4ca00d2661f76e10ae4974e40c2421734773094bcccdc4f104b9f8109c3"
+      }
+    ],
+    "callerTargeted": [
+      {
+        "path": "packages/game/src/shell/bootstrap.ts",
+        "start": 460,
+        "end": 511,
+        "scope": "Actual KeyboardInputSource and MIDI SourceController setup"
+      },
+      {
+        "path": "packages/game/src/shell/game-shell.ts",
+        "scope": "Full current shell/contact lifecycle read; no new closure credit"
+      }
+    ]
+  },
+  "counters": ["audio-counter.json"],
+  "receipts": {
+    "typecheck": "organization-shell-input-audio/typecheck-current"
+  },
+  "lightweightGates": true
+}

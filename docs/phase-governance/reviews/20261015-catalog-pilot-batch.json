@@ -100,7 +100,7 @@
       "reviewedSourceSha256": "713e50a305c0b864183de71871bd41d969ed701dbc41b3a17f243857237fc72c",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "05b2319a738e2f780abb160226b9d31f2946c6b2",
-      "afterSha256": "ca4b5f0542ad0a6591fe3c18d3d8096ffcd1837ad14e609436deca102d471a86",
+      "afterSha256": "f3f5d316be97b79d2a377039b872bd6b684b287b3af8db66606e5bcd7abbfdf3",
       "publicCallers": [
         "node scripts/docs/check-document-model.mjs",
         "node scripts/docs/check-testing.mjs",
@@ -825,7 +825,7 @@
       "reviewedSourceSha256": "e78bd3a0f71df919221e9530150d014e2eb1dce0f5a041f649259afd0ed802fa",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "8487881e5025d151483fafeec373f65a0431a4fb",
-      "afterSha256": "65e9deb6d0412e42502ac7ae4fed897447e48a150e211ecf1e4868721cc34b01",
+      "afterSha256": "0cbfc4660d300d0e6af9429c907ad6f42da03a082f31d14721c47dfb06b4605b",
       "publicCallers": [
         "node scripts/docs/check-document-model.mjs",
         "node scripts/docs/check-testing.mjs",
@@ -3308,7 +3308,7 @@
       "sourceSha256": "6a37d3bf0382da26be36b64a3dedaeb18879ff0ae7b16738b94c63718bab101f",
       "sourceGitRevision": "58d2456c2730f9f35f38f52ca110d49d2fe0317f",
       "sourceGitObject": "c7beac7a8cab95856c0025c33cd8d42478274968",
-      "afterSha256": "89988cc48f526e07c8452902f70b70d34a7bdf35fe25e11bf54bf41bc146d0ba",
+      "afterSha256": "bd21b38c2f0963652641e8c6d7683fbf9571cd60786374e1dcd66c9e13b28d6d",
       "publicCallers": [
         "game event/scene/equipment/battle/menu consumers → single lower owner modules",
         "dependency-ownership and cross-module boundary tests",

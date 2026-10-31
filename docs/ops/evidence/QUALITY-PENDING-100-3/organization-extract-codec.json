@@ -1,0 +1,1406 @@
+{
+  "kind": "responsibility reorganization; no new cases/assertions/product policy",
+  "inputs": [
+    {
+      "path": "packages/pal-extract/src/events/disasm.glm-runtime-resource.test.ts",
+      "sha256": "4645cfabba700611e2c481e03ebdbefc5e02e1b64657ba8013a70e5fa994559d",
+      "member": "organization-extract-codec/disasm.glm-runtime-resource.test.ts.before"
+    },
+    {
+      "path": "packages/pal-extract/src/events/disasm.kimi-r1.test.ts",
+      "sha256": "e262665b39687fefac7112324fbb9cf45a447a1e5ea32163b5fd9aef48f634c3",
+      "member": "organization-extract-codec/disasm.kimi-r1.test.ts.before"
+    },
+    {
+      "path": "packages/pal-extract/src/events/recompile.glm-runtime-resource.test.ts",
+      "sha256": "b3ebddbf2f5d628a7de18362c4689a2250f276194bf431f5b85d87a87b984ace",
+      "member": "organization-extract-codec/recompile.glm-runtime-resource.test.ts.before"
+    },
+    {
+      "path": "packages/pal-extract/src/events/roundtrip.kimi-r1.test.ts",
+      "sha256": "d828fea762839b0542c6a1ba056f3ae5ce22382cec225d510ee7b10c37703f20",
+      "member": "organization-extract-codec/roundtrip.kimi-r1.test.ts.before"
+    },
+    {
+      "path": "packages/pal-extract/src/events/recompile.test.ts",
+      "sha256": "97c510a3fa658f5fe9707cce2d8bbeb58cb652213558a31bc4229d0a51753491",
+      "member": "organization-extract-codec/recompile.test.ts.before"
+    },
+    {
+      "path": "packages/pal-extract/src/events/recompile.boundaries.test.ts",
+      "sha256": "f92fa04e2e176bbb442b63170892718c6a06fb9c664ea64f06afffa2759ac1e4",
+      "member": "organization-extract-codec/recompile.boundaries.test.ts.before"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "packages/pal-extract/src/events/disasm.labels.test.ts",
+      "purpose": "Disassembly label targets, entry identities and input buffer views.",
+      "sha256": "45e8f6fe3727bb6440712e551c35fe69929e9dc928e92aea3ea965c17d68ba34"
+    },
+    {
+      "path": "packages/pal-extract/src/events/event-codec.fidelity.test.ts",
+      "purpose": "Known command/raw opcode identity and original byte preservation through disasm and recompile.",
+      "sha256": "d6d6b74656367e136c6a3ed612dd6f40f9629a2258e03f55d9059b6f4c1f5ae1"
+    },
+    {
+      "path": "packages/pal-extract/src/events/recompile.commands.test.ts",
+      "purpose": "Direct command encoding, unsupported structured inputs and empty command lists.",
+      "sha256": "bd4222be53d55606ebf1656d125e9b12024c27e7512040602fbd75a6bebbe220"
+    },
+    {
+      "path": "packages/pal-extract/src/events/roundtrip.report.test.ts",
+      "purpose": "Synthetic complete-archive inputs validate roundtrip success and first-difference diagnostics.",
+      "sha256": "6698dd5e15253b27134f729b78420093e2c60c7ee180b6979588e1730f385d60"
+    }
+  ],
+  "replacements": [],
+  "sourceBridges": [
+    {
+      "id": "independent-view-command-oracle",
+      "path": "packages/pal-extract/src/events/disasm.glm-runtime-resource.test.ts",
+      "reason": "Assert both standalone and odd-offset view against independent commands. Existing same-SUT comparison could pass when both lose the goto count. Test quality change, not pure body invariance or a product fix.",
+      "changes": [
+        {
+          "from": "expect(disasm(parent.subarray(7, 7 + bc.length), ['x'], [2])).toEqual(disasm(bc, ['x'], [2]))",
+          "to": "const expected = [\n      { op: 'goto', to: 'L_2', frameDelay: 5 },\n      { op: 'end' },\n      { op: 'end', label: 'L_2' },\n    ]\n    expect(disasm(bc, ['x'], [2])).toEqual(expected)\n    expect(disasm(parent.subarray(7, 7 + bc.length), ['x'], [2])).toEqual(expected)",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "registrations": [
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/disasm.glm-runtime-resource.test.ts",
+        "ordinal": 0,
+        "titles": ["R05 disasm 0xA2 随机跳标签收集"],
+        "template": "op0=2：目标 i+1..i+2 打 L_ 标签，fall-through i+3 不标"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/disasm.labels.test.ts",
+        "titles": ["local target and entry labels"],
+        "template": "op0=2：目标 i+1..i+2 打 L_ 标签，fall-through i+3 不标"
+      },
+      "statementSyntaxSha256": "13ad7daba50690ba1e0b26e2012f2bccba35d3c46f408033823fd928d07f0217",
+      "declarations": [],
+      "hooks": [],
+      "imports": [
+        {
+          "name": "concat",
+          "module": "./__tests__/bytecode-fixtures.js",
+          "imported": "concat",
+          "typeOnly": false
+        },
+        {
+          "name": "disasm",
+          "module": "./disasm.js",
+          "imported": "disasm",
+          "typeOnly": false
+        },
+        {
+          "name": "expect",
+          "module": "vitest",
+          "imported": "expect",
+          "typeOnly": false
+        },
+        {
+          "name": "instr",
+          "module": "./__tests__/bytecode-fixtures.js",
+          "imported": "instr",
+          "typeOnly": false
+        },
+        {
+          "name": "test",
+          "module": "vitest",
+          "imported": "test",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/disasm.glm-runtime-resource.test.ts",
+        "ordinal": 1,
+        "titles": ["R05 disasm 0xA2 随机跳标签收集"],
+        "template": "op0=0：无相对目标，不标任何后续指令"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/disasm.labels.test.ts",
+        "titles": ["local target and entry labels"],
+        "template": "op0=0：无相对目标，不标任何后续指令"
+      },
+      "statementSyntaxSha256": "bfa05a22f3ad29b2ed14d4d8652c3c22ca9f4123ffd1b9cf092d6c9829aa2a99",
+      "declarations": [],
+      "hooks": [],
+      "imports": [
+        {
+          "name": "concat",
+          "module": "./__tests__/bytecode-fixtures.js",
+          "imported": "concat",
+          "typeOnly": false
+        },
+        {
+          "name": "disasm",
+          "module": "./disasm.js",
+          "imported": "disasm",
+          "typeOnly": false
+        },
+        {
+          "name": "expect",
+          "module": "vitest",
+          "imported": "expect",
+          "typeOnly": false
+        },
+        {
+          "name": "instr",
+          "module": "./__tests__/bytecode-fixtures.js",
+          "imported": "instr",
+          "typeOnly": false
+        },
+        {
+          "name": "test",
+          "module": "vitest",
+          "imported": "test",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/disasm.glm-runtime-resource.test.ts",
+        "ordinal": 2,
+        "titles": ["R05 disasm 脚本入口类 raw 目标收集"],
+        "template": "0x04 call-script 目标 = op0；0x24 setAutoScript 目标 = op1"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/disasm.labels.test.ts",
+        "titles": ["local target and entry labels"],
+        "template": "0x04 call-script 目标 = op0；0x24 setAutoScript 目标 = op1"
+      },
+      "statementSyntaxSha256": "0bafb94435de043e7f5f363cf08e91c889a54ff5e33af01326ace31f14421ca8",
+      "declarations": [],
+      "hooks": [],
+      "imports": [
+        {
+          "name": "concat",
+          "module": "./__tests__/bytecode-fixtures.js",
+          "imported": "concat",
+          "typeOnly": false
+        },
+        {
+          "name": "disasm",
+          "module": "./disasm.js",
+          "imported": "disasm",
+          "typeOnly": false
+        },
+        {
+          "name": "expect",
+          "module": "vitest",
+          "imported": "expect",
+          "typeOnly": false
+        },
+        {
+          "name": "instr",
+          "module": "./__tests__/bytecode-fixtures.js",
+          "imported": "instr",
+          "typeOnly": false
+        },
+        {
+          "name": "test",
+          "module": "vitest",
+          "imported": "test",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/disasm.glm-runtime-resource.test.ts",
+        "ordinal": 3,
+        "titles": ["R05 disasm 标签越界与 subarray"],
+        "template": "跳转目标 ≥ 指令数：不标、不崩（第 2 遍越界丢弃）"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/disasm.labels.test.ts",
+        "titles": ["local target and entry labels"],
+        "template": "跳转目标 ≥ 指令数：不标、不崩（第 2 遍越界丢弃）"
+      },
+      "statementSyntaxSha256": "4ebff0ac1a5f723cbef158dd7846b567001f570d377c2843a8fae3cc54f67648",
+      "declarations": [],
+      "hooks": [],
+      "imports": [
+        {
+          "name": "concat",
+          "module": "./__tests__/bytecode-fixtures.js",
+          "imported": "concat",
+          "typeOnly": false
+        },
+        {
+          "name": "disasm",
+          "module": "./disasm.js",
+          "imported": "disasm",
+          "typeOnly": false
+        },
+        {
+          "name": "expect",
+          "module": "vitest",
+          "imported": "expect",
+          "typeOnly": false
+        },
+        {
+          "name": "instr",
+          "module": "./__tests__/bytecode-fixtures.js",
+          "imported": "instr",
+          "typeOnly": false
+        },
+        {
+          "name": "test",
+          "module": "vitest",
+          "imported": "test",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/disasm.kimi-r1.test.ts",
+        "ordinal": 3,
+        "titles": ["KIMI-R1 disasm setPalette case 与具名 raw 回退"],
+        "template": "raw 条件跳和非零指令位置的随机跳均给目标打标签"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/disasm.labels.test.ts",
+        "titles": ["local target and entry labels"],
+        "template": "raw 条件跳和非零指令位置的随机跳均给目标打标签"
+      },
+      "statementSyntaxSha256": "2906ec6de419d20a04e26dcc4106c2fc111e592f33583487134f52a5b05ea1b0",
+      "declarations": [],
+      "hooks": [],
+      "imports": [
+        {
+          "name": "concat",
+          "module": "./__tests__/bytecode-fixtures.js",
+          "imported": "concat",
+          "typeOnly": false
+        },
+        {
+          "name": "disasm",
+          "module": "./disasm.js",
+          "imported": "disasm",
+          "typeOnly": false
+        },
+        {
+          "name": "expect",
+          "module": "vitest",
+          "imported": "expect",
+          "typeOnly": false
+        },
+        {
+          "name": "instr",
+          "module": "./__tests__/bytecode-fixtures.js",
+          "imported": "instr",
+          "typeOnly": false
+        },
+        {
+          "name": "recompile",
+          "module": "./recompile.js",
+          "imported": "recompile",
+          "typeOnly": false
+        },
+        {
+          "name": "test",
+          "module": "vitest",
+          "imported": "test",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/disasm.kimi-r1.test.ts",
+        "ordinal": 4,
+        "titles": ["KIMI-R1 disasm setPalette case 与具名 raw 回退"],
+        "template": "entryIps 越界入口不打标签、范围内入口打标签"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/disasm.labels.test.ts",
+        "titles": ["local target and entry labels"],
+        "template": "entryIps 越界入口不打标签、范围内入口打标签"
+      },
+      "statementSyntaxSha256": "ae43d4abbd0e65b0e5528ac04f9fd6b3cf88299956d974e69228484c0d34ff0a",
+      "declarations": [],
+      "hooks": [],
+      "imports": [
+        {
+          "name": "concat",
+          "module": "./__tests__/bytecode-fixtures.js",
+          "imported": "concat",
+          "typeOnly": false
+        },
+        {
+          "name": "disasm",
+          "module": "./disasm.js",
+          "imported": "disasm",
+          "typeOnly": false
+        },
+        {
+          "name": "expect",
+          "module": "vitest",
+          "imported": "expect",
+          "typeOnly": false
+        },
+        {
+          "name": "instr",
+          "module": "./__tests__/bytecode-fixtures.js",
+          "imported": "instr",
+          "typeOnly": false
+        },
+        {
+          "name": "recompile",
+          "module": "./recompile.js",
+          "imported": "recompile",
+          "typeOnly": false
+        },
+        {
+          "name": "test",
+          "module": "vitest",
+          "imported": "test",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/disasm.glm-runtime-resource.test.ts",
+        "ordinal": 4,
+        "titles": ["R05 disasm 标签越界与 subarray"],
+        "template": "bytecode 为大缓冲奇数偏移 subarray：与独立缓冲结果全等"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/disasm.labels.test.ts",
+        "titles": ["input buffer views"],
+        "template": "bytecode 为大缓冲奇数偏移 subarray：与独立缓冲结果全等"
+      },
+      "statementSyntaxSha256": "a23146ff53a7aaba2a1bd4f3a4fca53eb50b86ed7c516bc20dcf7f064c90f87f",
+      "declarations": [],
+      "hooks": [],
+      "imports": [
+        {
+          "name": "concat",
+          "module": "./__tests__/bytecode-fixtures.js",
+          "imported": "concat",
+          "typeOnly": false
+        },
+        {
+          "name": "disasm",
+          "module": "./disasm.js",
+          "imported": "disasm",
+          "typeOnly": false
+        },
+        {
+          "name": "expect",
+          "module": "vitest",
+          "imported": "expect",
+          "typeOnly": false
+        },
+        {
+          "name": "instr",
+          "module": "./__tests__/bytecode-fixtures.js",
+          "imported": "instr",
+          "typeOnly": false
+        },
+        {
+          "name": "test",
+          "module": "vitest",
+          "imported": "test",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/disasm.kimi-r1.test.ts",
+        "ordinal": 0,
+        "titles": ["KIMI-R1 disasm setPalette case 与具名 raw 回退"],
+        "template": "setPalette(0x008B) 反汇编为具名 Command 且字节级 round-trip"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/event-codec.fidelity.test.ts",
+        "titles": ["command and raw byte fidelity"],
+        "template": "setPalette(0x008B) 反汇编为具名 Command 且字节级 round-trip"
+      },
+      "statementSyntaxSha256": "5e78489c1c185a28e2c56a4da9bfb206e932fa83e28dbaf419f71b7e5a57157e",
+      "declarations": [],
+      "hooks": [],
+      "imports": [
+        {
+          "name": "concat",
+          "module": "./__tests__/bytecode-fixtures.js",
+          "imported": "concat",
+          "typeOnly": false
+        },
+        {
+          "name": "disasm",
+          "module": "./disasm.js",
+          "imported": "disasm",
+          "typeOnly": false
+        },
+        {
+          "name": "expect",
+          "module": "vitest",
+          "imported": "expect",
+          "typeOnly": false
+        },
+        {
+          "name": "instr",
+          "module": "./__tests__/bytecode-fixtures.js",
+          "imported": "instr",
+          "typeOnly": false
+        },
+        {
+          "name": "recompile",
+          "module": "./recompile.js",
+          "imported": "recompile",
+          "typeOnly": false
+        },
+        {
+          "name": "test",
+          "module": "vitest",
+          "imported": "test",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/disasm.kimi-r1.test.ts",
+        "ordinal": 1,
+        "titles": ["KIMI-R1 disasm setPalette case 与具名 raw 回退"],
+        "template": "具名但未结构化 opcode（startBattle 0x0007）落 raw 保字节，label operand 目标打标签"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/event-codec.fidelity.test.ts",
+        "titles": ["command and raw byte fidelity"],
+        "template": "具名但未结构化 opcode（startBattle 0x0007）落 raw 保字节，label operand 目标打标签"
+      },
+      "statementSyntaxSha256": "c5080da5401979c08e78d1a5508a6d8944b39b029df42fd0ea8074ef5bec3562",
+      "declarations": [],
+      "hooks": [],
+      "imports": [
+        {
+          "name": "concat",
+          "module": "./__tests__/bytecode-fixtures.js",
+          "imported": "concat",
+          "typeOnly": false
+        },
+        {
+          "name": "disasm",
+          "module": "./disasm.js",
+          "imported": "disasm",
+          "typeOnly": false
+        },
+        {
+          "name": "expect",
+          "module": "vitest",
+          "imported": "expect",
+          "typeOnly": false
+        },
+        {
+          "name": "instr",
+          "module": "./__tests__/bytecode-fixtures.js",
+          "imported": "instr",
+          "typeOnly": false
+        },
+        {
+          "name": "recompile",
+          "module": "./recompile.js",
+          "imported": "recompile",
+          "typeOnly": false
+        },
+        {
+          "name": "test",
+          "module": "vitest",
+          "imported": "test",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/disasm.kimi-r1.test.ts",
+        "ordinal": 2,
+        "titles": ["KIMI-R1 disasm setPalette case 与具名 raw 回退"],
+        "template": "表外未知 opcode（0x0100）落 raw 且字节级 round-trip"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/event-codec.fidelity.test.ts",
+        "titles": ["command and raw byte fidelity"],
+        "template": "表外未知 opcode（0x0100）落 raw 且字节级 round-trip"
+      },
+      "statementSyntaxSha256": "4b846b44db3c0147f6980d496d0426d67f61984ee4f853f900b9dde56e43d107",
+      "declarations": [],
+      "hooks": [],
+      "imports": [
+        {
+          "name": "concat",
+          "module": "./__tests__/bytecode-fixtures.js",
+          "imported": "concat",
+          "typeOnly": false
+        },
+        {
+          "name": "disasm",
+          "module": "./disasm.js",
+          "imported": "disasm",
+          "typeOnly": false
+        },
+        {
+          "name": "expect",
+          "module": "vitest",
+          "imported": "expect",
+          "typeOnly": false
+        },
+        {
+          "name": "instr",
+          "module": "./__tests__/bytecode-fixtures.js",
+          "imported": "instr",
+          "typeOnly": false
+        },
+        {
+          "name": "recompile",
+          "module": "./recompile.js",
+          "imported": "recompile",
+          "typeOnly": false
+        },
+        {
+          "name": "test",
+          "module": "vitest",
+          "imported": "test",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/recompile.glm-runtime-resource.test.ts",
+        "ordinal": 1,
+        "titles": ["R05 混合脚本往返（入口 ip + goto + raw + 样式）"],
+        "template": "disasm(entryIps) → recompile 与原始字节逐字节相等；额外入口和跳转标签均保留"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/event-codec.fidelity.test.ts",
+        "titles": ["command and raw byte fidelity"],
+        "template": "disasm(entryIps) → recompile 与原始字节逐字节相等；额外入口和跳转标签均保留"
+      },
+      "statementSyntaxSha256": "96357ad2d8868813cc11d11d66899bd8bf86f653f11bf72246b7d9b0defbf4b7",
+      "declarations": [],
+      "hooks": [],
+      "imports": [
+        {
+          "name": "disasm",
+          "module": "./disasm.js",
+          "imported": "disasm",
+          "typeOnly": false
+        },
+        {
+          "name": "expect",
+          "module": "vitest",
+          "imported": "expect",
+          "typeOnly": false
+        },
+        {
+          "name": "recompile",
+          "module": "./recompile.js",
+          "imported": "recompile",
+          "typeOnly": false
+        },
+        {
+          "name": "test",
+          "module": "vitest",
+          "imported": "test",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/recompile.test.ts",
+        "ordinal": 0,
+        "titles": ["recompile + round-trip"],
+        "template": "end / goto / showDialog / giveItem / raw 混合字节码往返"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/event-codec.fidelity.test.ts",
+        "titles": ["command and raw byte fidelity"],
+        "template": "end / goto / showDialog / giveItem / raw 混合字节码往返"
+      },
+      "statementSyntaxSha256": "98c95c95133c38187d456b98f9fdb7df96630a0007270546507b0934ce7b68cd",
+      "declarations": [],
+      "hooks": [],
+      "imports": [
+        {
+          "name": "concat",
+          "module": "./__tests__/bytecode-fixtures.js",
+          "imported": "concat",
+          "typeOnly": false
+        },
+        {
+          "name": "disasm",
+          "module": "./disasm.js",
+          "imported": "disasm",
+          "typeOnly": false
+        },
+        {
+          "name": "expect",
+          "module": "vitest",
+          "imported": "expect",
+          "typeOnly": false
+        },
+        {
+          "name": "instr",
+          "module": "./__tests__/bytecode-fixtures.js",
+          "imported": "instr",
+          "typeOnly": false
+        },
+        {
+          "name": "it",
+          "module": "vitest",
+          "imported": "it",
+          "typeOnly": false
+        },
+        {
+          "name": "recompile",
+          "module": "./recompile.js",
+          "imported": "recompile",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/recompile.test.ts",
+        "ordinal": 2,
+        "titles": ["recompile + round-trip"],
+        "template": "end advance / reset"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/event-codec.fidelity.test.ts",
+        "titles": ["command and raw byte fidelity"],
+        "template": "end advance / reset"
+      },
+      "statementSyntaxSha256": "daad1293c3beb54420c9465c37ebfb7b350ffae4704d8cda7819aa0d2652c7b2",
+      "declarations": [],
+      "hooks": [],
+      "imports": [
+        {
+          "name": "concat",
+          "module": "./__tests__/bytecode-fixtures.js",
+          "imported": "concat",
+          "typeOnly": false
+        },
+        {
+          "name": "disasm",
+          "module": "./disasm.js",
+          "imported": "disasm",
+          "typeOnly": false
+        },
+        {
+          "name": "expect",
+          "module": "vitest",
+          "imported": "expect",
+          "typeOnly": false
+        },
+        {
+          "name": "instr",
+          "module": "./__tests__/bytecode-fixtures.js",
+          "imported": "instr",
+          "typeOnly": false
+        },
+        {
+          "name": "it",
+          "module": "vitest",
+          "imported": "it",
+          "typeOnly": false
+        },
+        {
+          "name": "recompile",
+          "module": "./recompile.js",
+          "imported": "recompile",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/recompile.boundaries.test.ts",
+        "ordinal": 0,
+        "titles": ["R04 recompile 独立字节 oracle"],
+        "template": "八类命令各 8B 手列：opcode 与 operand 位型精确"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/recompile.commands.test.ts",
+        "titles": ["independent encoded bytes and command boundaries"],
+        "template": "八类命令各 8B 手列：opcode 与 operand 位型精确"
+      },
+      "statementSyntaxSha256": "aa7eccf7589b2f956b7c7df75c784985e30bdfb8501be16874d043892df39f2c",
+      "declarations": [],
+      "hooks": [],
+      "imports": [
+        {
+          "name": "Command",
+          "module": "@type-pal/shared",
+          "imported": "Command",
+          "typeOnly": true
+        },
+        {
+          "name": "expect",
+          "module": "vitest",
+          "imported": "expect",
+          "typeOnly": false
+        },
+        {
+          "name": "recompile",
+          "module": "./recompile.js",
+          "imported": "recompile",
+          "typeOnly": false
+        },
+        {
+          "name": "test",
+          "module": "vitest",
+          "imported": "test",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/recompile.boundaries.test.ts",
+        "ordinal": 1,
+        "titles": ["R04 recompile 独立字节 oracle"],
+        "template": "同文本不同 messageIndex 字节不同（文本不参与、messageIndex 保真）"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/recompile.commands.test.ts",
+        "titles": ["independent encoded bytes and command boundaries"],
+        "template": "同文本不同 messageIndex 字节不同（文本不参与、messageIndex 保真）"
+      },
+      "statementSyntaxSha256": "941aa1cbe96e017ec43b8f093bc6b9188054504cb173846dffe99f1b7d4c81d0",
+      "declarations": [],
+      "hooks": [],
+      "imports": [
+        {
+          "name": "Command",
+          "module": "@type-pal/shared",
+          "imported": "Command",
+          "typeOnly": true
+        },
+        {
+          "name": "expect",
+          "module": "vitest",
+          "imported": "expect",
+          "typeOnly": false
+        },
+        {
+          "name": "recompile",
+          "module": "./recompile.js",
+          "imported": "recompile",
+          "typeOnly": false
+        },
+        {
+          "name": "test",
+          "module": "vitest",
+          "imported": "test",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/recompile.glm-runtime-resource.test.ts",
+        "ordinal": 0,
+        "titles": ["R05 recompile authored 结构化命令拒绝"],
+        "template": "%s 不是字节码命令：抛 unsupported op"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/recompile.commands.test.ts",
+        "titles": ["independent encoded bytes and command boundaries"],
+        "template": "%s 不是字节码命令：抛 unsupported op"
+      },
+      "statementSyntaxSha256": "2579dcba0199f17563aa31eff305196357cd70f846ab53f30e238fa593230b6a",
+      "declarations": ["21f89ebafa5a146e9e69c2ab6b1f417ad6001a140e84eea753a862022aad9516"],
+      "hooks": [],
+      "imports": [
+        {
+          "name": "Command",
+          "module": "@type-pal/shared",
+          "imported": "Command",
+          "typeOnly": true
+        },
+        {
+          "name": "expect",
+          "module": "vitest",
+          "imported": "expect",
+          "typeOnly": false
+        },
+        {
+          "name": "recompile",
+          "module": "./recompile.js",
+          "imported": "recompile",
+          "typeOnly": false
+        },
+        {
+          "name": "test",
+          "module": "vitest",
+          "imported": "test",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/recompile.test.ts",
+        "ordinal": 1,
+        "titles": ["recompile + round-trip"],
+        "template": "空命令清单 → 空字节"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/recompile.commands.test.ts",
+        "titles": ["independent encoded bytes and command boundaries"],
+        "template": "空命令清单 → 空字节"
+      },
+      "statementSyntaxSha256": "6890159ba36961d2e535fccdaf90eb1aa6841e22ff29053d0bf65f5c10ef6f91",
+      "declarations": [],
+      "hooks": [],
+      "imports": [
+        {
+          "name": "expect",
+          "module": "vitest",
+          "imported": "expect",
+          "typeOnly": false
+        },
+        {
+          "name": "it",
+          "module": "vitest",
+          "imported": "it",
+          "typeOnly": false
+        },
+        {
+          "name": "recompile",
+          "module": "./recompile.js",
+          "imported": "recompile",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/roundtrip.kimi-r1.test.ts",
+        "ordinal": 0,
+        "titles": ["KIMI-R1 roundtripCheck 合成输入"],
+        "template": "合法事件 round-trip：ok=true 且尺寸相等"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/roundtrip.report.test.ts",
+        "titles": ["roundtrip result reporting"],
+        "template": "合法事件 round-trip：ok=true 且尺寸相等"
+      },
+      "statementSyntaxSha256": "3ad881c5b333213e1a5caa8f1f569b44e801e643fbebcaa550cddec564888ddf",
+      "declarations": [
+        "411a19308aa77a28d15ae5a8354a50029b7d6410fedc601818575af1c908e3e8",
+        "8f74bbc808a87b724200eadc51345508383196f0f6e7eb502ebb2f28e8f9c8dc"
+      ],
+      "hooks": [],
+      "imports": [
+        {
+          "name": "concatBytes",
+          "module": "../__tests__/binary-fixtures.js",
+          "imported": "concatBytes",
+          "typeOnly": false
+        },
+        {
+          "name": "expect",
+          "module": "vitest",
+          "imported": "expect",
+          "typeOnly": false
+        },
+        {
+          "name": "mkfContainer",
+          "module": "../__tests__/binary-fixtures.js",
+          "imported": "mkfContainer",
+          "typeOnly": false
+        },
+        {
+          "name": "roundtripCheck",
+          "module": "./roundtrip.js",
+          "imported": "roundtripCheck",
+          "typeOnly": false
+        },
+        {
+          "name": "test",
+          "module": "vitest",
+          "imported": "test",
+          "typeOnly": false
+        },
+        {
+          "name": "u16Bytes",
+          "module": "../__tests__/binary-fixtures.js",
+          "imported": "u16Bytes",
+          "typeOnly": false
+        },
+        {
+          "name": "u32Bytes",
+          "module": "../__tests__/binary-fixtures.js",
+          "imported": "u32Bytes",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/roundtrip.kimi-r1.test.ts",
+        "ordinal": 1,
+        "titles": ["KIMI-R1 roundtripCheck 合成输入"],
+        "template": "内容不一致：ok=false 报告首个差异 offset/instruction/opcode"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/roundtrip.report.test.ts",
+        "titles": ["roundtrip result reporting"],
+        "template": "内容不一致：ok=false 报告首个差异 offset/instruction/opcode"
+      },
+      "statementSyntaxSha256": "47bb2deba486c322c6e51d2070f9375938757a14b8b7cf38dee5da667a241324",
+      "declarations": [
+        "411a19308aa77a28d15ae5a8354a50029b7d6410fedc601818575af1c908e3e8",
+        "8f74bbc808a87b724200eadc51345508383196f0f6e7eb502ebb2f28e8f9c8dc"
+      ],
+      "hooks": [],
+      "imports": [
+        {
+          "name": "concatBytes",
+          "module": "../__tests__/binary-fixtures.js",
+          "imported": "concatBytes",
+          "typeOnly": false
+        },
+        {
+          "name": "expect",
+          "module": "vitest",
+          "imported": "expect",
+          "typeOnly": false
+        },
+        {
+          "name": "mkfContainer",
+          "module": "../__tests__/binary-fixtures.js",
+          "imported": "mkfContainer",
+          "typeOnly": false
+        },
+        {
+          "name": "roundtripCheck",
+          "module": "./roundtrip.js",
+          "imported": "roundtripCheck",
+          "typeOnly": false
+        },
+        {
+          "name": "test",
+          "module": "vitest",
+          "imported": "test",
+          "typeOnly": false
+        },
+        {
+          "name": "u16Bytes",
+          "module": "../__tests__/binary-fixtures.js",
+          "imported": "u16Bytes",
+          "typeOnly": false
+        },
+        {
+          "name": "u32Bytes",
+          "module": "../__tests__/binary-fixtures.js",
+          "imported": "u32Bytes",
+          "typeOnly": false
+        }
+      ]
+    }
+  ],
+  "identities": [
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/disasm.glm-runtime-resource.test.ts",
+        "fullName": "R05 disasm 0xA2 随机跳标签收集 op0=2：目标 i+1..i+2 打 L_ 标签，fall-through i+3 不标"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/disasm.labels.test.ts",
+        "fullName": "local target and entry labels op0=2：目标 i+1..i+2 打 L_ 标签，fall-through i+3 不标"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/disasm.glm-runtime-resource.test.ts",
+        "fullName": "R05 disasm 0xA2 随机跳标签收集 op0=0：无相对目标，不标任何后续指令"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/disasm.labels.test.ts",
+        "fullName": "local target and entry labels op0=0：无相对目标，不标任何后续指令"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/disasm.glm-runtime-resource.test.ts",
+        "fullName": "R05 disasm 脚本入口类 raw 目标收集 0x04 call-script 目标 = op0；0x24 setAutoScript 目标 = op1"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/disasm.labels.test.ts",
+        "fullName": "local target and entry labels 0x04 call-script 目标 = op0；0x24 setAutoScript 目标 = op1"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/disasm.glm-runtime-resource.test.ts",
+        "fullName": "R05 disasm 标签越界与 subarray 跳转目标 ≥ 指令数：不标、不崩（第 2 遍越界丢弃）"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/disasm.labels.test.ts",
+        "fullName": "local target and entry labels 跳转目标 ≥ 指令数：不标、不崩（第 2 遍越界丢弃）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/disasm.kimi-r1.test.ts",
+        "fullName": "KIMI-R1 disasm setPalette case 与具名 raw 回退 raw 条件跳和非零指令位置的随机跳均给目标打标签"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/disasm.labels.test.ts",
+        "fullName": "local target and entry labels raw 条件跳和非零指令位置的随机跳均给目标打标签"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/disasm.kimi-r1.test.ts",
+        "fullName": "KIMI-R1 disasm setPalette case 与具名 raw 回退 entryIps 越界入口不打标签、范围内入口打标签"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/disasm.labels.test.ts",
+        "fullName": "local target and entry labels entryIps 越界入口不打标签、范围内入口打标签"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/disasm.glm-runtime-resource.test.ts",
+        "fullName": "R05 disasm 标签越界与 subarray bytecode 为大缓冲奇数偏移 subarray：与独立缓冲结果全等"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/disasm.labels.test.ts",
+        "fullName": "input buffer views bytecode 为大缓冲奇数偏移 subarray：与独立缓冲结果全等"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/disasm.kimi-r1.test.ts",
+        "fullName": "KIMI-R1 disasm setPalette case 与具名 raw 回退 setPalette(0x008B) 反汇编为具名 Command 且字节级 round-trip"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/event-codec.fidelity.test.ts",
+        "fullName": "command and raw byte fidelity setPalette(0x008B) 反汇编为具名 Command 且字节级 round-trip"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/disasm.kimi-r1.test.ts",
+        "fullName": "KIMI-R1 disasm setPalette case 与具名 raw 回退 具名但未结构化 opcode（startBattle 0x0007）落 raw 保字节，label operand 目标打标签"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/event-codec.fidelity.test.ts",
+        "fullName": "command and raw byte fidelity 具名但未结构化 opcode（startBattle 0x0007）落 raw 保字节，label operand 目标打标签"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/disasm.kimi-r1.test.ts",
+        "fullName": "KIMI-R1 disasm setPalette case 与具名 raw 回退 表外未知 opcode（0x0100）落 raw 且字节级 round-trip"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/event-codec.fidelity.test.ts",
+        "fullName": "command and raw byte fidelity 表外未知 opcode（0x0100）落 raw 且字节级 round-trip"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/recompile.glm-runtime-resource.test.ts",
+        "fullName": "R05 混合脚本往返（入口 ip + goto + raw + 样式） disasm(entryIps) → recompile 与原始字节逐字节相等；额外入口和跳转标签均保留"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/event-codec.fidelity.test.ts",
+        "fullName": "command and raw byte fidelity disasm(entryIps) → recompile 与原始字节逐字节相等；额外入口和跳转标签均保留"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/recompile.test.ts",
+        "fullName": "recompile + round-trip end / goto / showDialog / giveItem / raw 混合字节码往返"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/event-codec.fidelity.test.ts",
+        "fullName": "command and raw byte fidelity end / goto / showDialog / giveItem / raw 混合字节码往返"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/recompile.test.ts",
+        "fullName": "recompile + round-trip end advance / reset"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/event-codec.fidelity.test.ts",
+        "fullName": "command and raw byte fidelity end advance / reset"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/recompile.boundaries.test.ts",
+        "fullName": "R04 recompile 独立字节 oracle 八类命令各 8B 手列：opcode 与 operand 位型精确"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/recompile.commands.test.ts",
+        "fullName": "independent encoded bytes and command boundaries 八类命令各 8B 手列：opcode 与 operand 位型精确"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/recompile.boundaries.test.ts",
+        "fullName": "R04 recompile 独立字节 oracle 同文本不同 messageIndex 字节不同（文本不参与、messageIndex 保真）"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/recompile.commands.test.ts",
+        "fullName": "independent encoded bytes and command boundaries 同文本不同 messageIndex 字节不同（文本不参与、messageIndex 保真）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/recompile.glm-runtime-resource.test.ts",
+        "fullName": "R05 recompile authored 结构化命令拒绝 sequence 不是字节码命令：抛 unsupported op"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/recompile.commands.test.ts",
+        "fullName": "independent encoded bytes and command boundaries sequence 不是字节码命令：抛 unsupported op"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/recompile.glm-runtime-resource.test.ts",
+        "fullName": "R05 recompile authored 结构化命令拒绝 if 不是字节码命令：抛 unsupported op"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/recompile.commands.test.ts",
+        "fullName": "independent encoded bytes and command boundaries if 不是字节码命令：抛 unsupported op"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/recompile.glm-runtime-resource.test.ts",
+        "fullName": "R05 recompile authored 结构化命令拒绝 choice 不是字节码命令：抛 unsupported op"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/recompile.commands.test.ts",
+        "fullName": "independent encoded bytes and command boundaries choice 不是字节码命令：抛 unsupported op"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/recompile.test.ts",
+        "fullName": "recompile + round-trip 空命令清单 → 空字节"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/recompile.commands.test.ts",
+        "fullName": "independent encoded bytes and command boundaries 空命令清单 → 空字节"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/roundtrip.kimi-r1.test.ts",
+        "fullName": "KIMI-R1 roundtripCheck 合成输入 合法事件 round-trip：ok=true 且尺寸相等"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/roundtrip.report.test.ts",
+        "fullName": "roundtrip result reporting 合法事件 round-trip：ok=true 且尺寸相等"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/roundtrip.kimi-r1.test.ts",
+        "fullName": "KIMI-R1 roundtripCheck 合成输入 内容不一致：ok=false 报告首个差异 offset/instruction/opcode"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/roundtrip.report.test.ts",
+        "fullName": "roundtrip result reporting 内容不一致：ok=false 报告首个差异 offset/instruction/opcode"
+      }
+    }
+  ],
+  "preserved": [
+    {
+      "path": "packages/pal-extract/src/events/disasm.ts",
+      "sha256": "082e173074edd1184710c847169e39aef205319cc8628744e6bd0fe54c2d16af"
+    },
+    {
+      "path": "packages/pal-extract/src/events/recompile.ts",
+      "sha256": "a5b68478bb2dfd62ee375045bef5bb6620d36732c237a75890f47b7e00636adb"
+    },
+    {
+      "path": "packages/pal-extract/src/events/opcodes.ts",
+      "sha256": "aa558814f7861c84cbc5df737ba05237f8f8b869b9854e55f5eaf1e0fd8b256c"
+    },
+    {
+      "path": "packages/pal-extract/src/events/roundtrip.ts",
+      "sha256": "06e63ab104777ec60a1317d5f9170f9911ccae45d580ec170c337c951c660906"
+    },
+    {
+      "path": "packages/pal-extract/src/events/disasm.test.ts",
+      "sha256": "930891613c5882a527a452931f9bbf654804252a36e1c8f7b8c72e2773fce859"
+    },
+    {
+      "path": "packages/pal-extract/src/events/disasm.boundaries.test.ts",
+      "sha256": "92304a41554e03943d4ba60a10095322b54d733652d93d349a9b3d6544700125"
+    },
+    {
+      "path": "packages/pal-extract/src/events/roundtrip.test.ts",
+      "sha256": "6b700c867db2afb4ae3d24acf6f901cb2595490688da89902ca544a9067eef35"
+    },
+    {
+      "path": "packages/pal-extract/src/events/__tests__/bytecode-fixtures.ts",
+      "sha256": "11f07a779d8da01db051ffbbe00790566b42531868dda76335bdc304e383ab58"
+    },
+    {
+      "path": "packages/pal-extract/src/__tests__/binary-fixtures.ts",
+      "sha256": "1a2f17ce1d2ca8d0447cf91bd77ff5cdaa1aee49bfbbcebf791abb7a64dfb252"
+    },
+    {
+      "path": "packages/pal-extract/src/io/sss.ts",
+      "sha256": "a1f950905bdeb18baef4086203a4e3590c2b43a71150c7d0a0dca2898842a518"
+    },
+    {
+      "path": "packages/pal-extract/src/io/msg.ts",
+      "sha256": "1aeede31eec0e5807ca450c7614d3b9719a2e3c1e8ac5940f8a2dd3a3f092006"
+    },
+    {
+      "path": "packages/pal-extract/src/cli.ts",
+      "sha256": "a6cf5e24a0a1706d605fd288757035925843854f0aa379b9e963014908528d77",
+      "readScope": "actual disasm/recompile preflight and annotation/slicing assembly112-216 only; no new full CLI credit"
+    }
+  ],
+  "id": "extract-event-codec",
+  "namespace": "organization-extract-codec",
+  "cohortSubjects": [
+    {
+      "path": "packages/pal-extract/src/events/disasm.glm-runtime-resource.test.ts",
+      "sha256": "4645cfabba700611e2c481e03ebdbefc5e02e1b64657ba8013a70e5fa994559d",
+      "preservedEvidence": "[本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json)"
+    },
+    {
+      "path": "packages/pal-extract/src/events/disasm.kimi-r1.test.ts",
+      "sha256": "e262665b39687fefac7112324fbb9cf45a447a1e5ea32163b5fd9aef48f634c3",
+      "preservedEvidence": "[本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json)"
+    },
+    {
+      "path": "packages/pal-extract/src/events/recompile.glm-runtime-resource.test.ts",
+      "sha256": "b3ebddbf2f5d628a7de18362c4689a2250f276194bf431f5b85d87a87b984ace",
+      "preservedEvidence": "[本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json)"
+    },
+    {
+      "path": "packages/pal-extract/src/events/roundtrip.kimi-r1.test.ts",
+      "sha256": "d828fea762839b0542c6a1ba056f3ae5ce22382cec225d510ee7b10c37703f20",
+      "preservedEvidence": "[本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json)"
+    }
+  ],
+  "neighborPaths": [
+    "packages/pal-extract/src/events/disasm.boundaries.test.ts",
+    "packages/pal-extract/src/events/disasm.labels.test.ts",
+    "packages/pal-extract/src/events/disasm.test.ts",
+    "packages/pal-extract/src/events/event-codec.fidelity.test.ts",
+    "packages/pal-extract/src/events/opcodes.test.ts",
+    "packages/pal-extract/src/events/recompile.commands.test.ts",
+    "packages/pal-extract/src/events/roundtrip.report.test.ts",
+    "packages/pal-extract/src/events/roundtrip.test.ts",
+    "packages/pal-extract/src/events/script-entries.test.ts",
+    "packages/pal-extract/src/io/msg.test.ts",
+    "packages/pal-extract/src/io/sss.test.ts"
+  ],
+  "cleanExecutions": ["before", "scoped", "typecheck", "neighbors"],
+  "counter": "counter.json",
+  "reusedReview": {
+    "member": "organization-extract-codec/reused-review.json",
+    "source": "docs/ops/evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json",
+    "scope": "Six target spec bytes and four production codec/opcode dependencies match prior eight-axis review. Fresh F/G and view-oracle counter are current work, not new credit from package green."
+  },
+  "profiles": [
+    {
+      "path": "packages/pal-extract/src/events/disasm.labels.test.ts",
+      "sha256": "45e8f6fe3727bb6440712e551c35fe69929e9dc928e92aea3ea965c17d68ba34",
+      "subjects": [
+        "packages/pal-extract/src/events/disasm.glm-runtime-resource.test.ts",
+        "packages/pal-extract/src/events/disasm.kimi-r1.test.ts"
+      ],
+      "axes": {
+        "A": "现用disasm两遍收集labels，覆盖相对随机/脚本入口/越界/显式entry及byteOffset；旧source与opcodes、真实CLI128/197调用匹配既有证据。",
+        "B": "文件头与两分组写标签/视图用途，删除R05/KIMI按批次组织；随机目标不是fall-through的原注释保留。",
+        "C": "仅收集标签和输入视图边界，已结构化/未结构化命令的字节oracle迁fidelity；纯同步、局部fresh bytecode无IO或共享状态。",
+        "D": "instr/concat沿独立8B夹具复用，两旧来源共用同一实际builder；预期命令用独立literal而非重复调用SUT。",
+        "E": "原7身份保持；view旧same-SUT比较补独立goto delay5/end/entry标签。delay置0变异旧选中1绿、新指定唯一AssertionError，源码/测试精确恢复；62相邻含真实原盘roundtrip，非原盘游戏执行。",
+        "F": "labels与input buffer views直接表达职责；目标ip/byteOffset/padding命名保留，计数沿当前frameDelay字段，不在测试里改产品术语或机制。",
+        "G": "去按作者分文件与重复import，五标签+两label/entry轴完整承接，没有删除未知缺标签策略、skip/ignore或新rule。",
+        "H": "真实DataView入口和完整独立命令结果，无mockopcode表/私有出口；指定业务反控支持单例判别力。"
+      },
+      "acceptance": "accepted-code; uniform gates deferred"
+    },
+    {
+      "path": "packages/pal-extract/src/events/event-codec.fidelity.test.ts",
+      "sha256": "d6d6b74656367e136c6a3ed612dd6f40f9629a2258e03f55d9059b6f4c1f5ae1",
+      "subjects": [
+        "packages/pal-extract/src/events/disasm.kimi-r1.test.ts",
+        "packages/pal-extract/src/events/recompile.glm-runtime-resource.test.ts",
+        "packages/pal-extract/src/events/recompile.test.ts"
+      ],
+      "axes": {
+        "A": "已支持具名命令/原始raw opcode、入口重定位与回写字节，原始8B向量为外部预期；不把未保留尾操作数称任意记录可逆。",
+        "B": "保留原始WORD记录、raw不等于注册表具名emit、entry标签等必要说明，移除作者/批次前缀。",
+        "C": "跨codec真正的disasm→recompile合同集中；直接commands编码与unsupported拒绝在commands文件，完整SSS/M.MSG报告在report文件。",
+        "D": "两个来源instr/concat引用同一独立字节fixture，不另造encoder oracle；混合脚本含不同entry/flag不按表面重复删轴。",
+        "E": "6原身份/完整命令及原字节断言逐项语法/依赖保持，setPalette/startBattle/unknown/raw条件与混合end等合同去向明确；零增删。",
+        "F": "fidelity说明保号与字节保真，commands/back/bytecode三个阶段可直接看懂；不靠私有分支行号解释测试。",
+        "G": "三旧文件交错的codec往返收敛，未新增包装、核心cast或只为了数量复制同输入。",
+        "H": "公开codec确定性输入输出，无FS/mock或测试API，旧实际字节回归证据可复用。"
+      },
+      "acceptance": "accepted-code; uniform gates deferred"
+    },
+    {
+      "path": "packages/pal-extract/src/events/recompile.commands.test.ts",
+      "sha256": "bd4222be53d55606ebf1656d125e9b12024c27e7512040602fbd75a6bebbe220",
+      "subjects": [
+        "packages/pal-extract/src/events/recompile.boundaries.test.ts",
+        "packages/pal-extract/src/events/recompile.glm-runtime-resource.test.ts",
+        "packages/pal-extract/src/events/recompile.test.ts"
+      ],
+      "axes": {
+        "A": "直接Command[]编码的精确8B字节/messageIndex与空清单，authored结构化Command合法typed但此入口按unsupported拒绝；产品policy不变。",
+        "B": "保留缺label目标默认政策未知和不新增正确绿测边界，不从原??0自洽推定产品取舍。",
+        "C": "直接命令序列化/输入失败聚合同一consumer边界；不再把disasm roundtrip与typed拒绝混装。",
+        "D": "authoredCases只为三真实联合成员，不增共享widefixture或corecast；完整字节expected独立手列。",
+        "E": "6运行身份来自4注册，messageIndex不同同文、raw全位型、输入快照、3结构化拒绝和空列表所有断言保留。",
+        "F": "commands文件名、authoredCases/commands/snapshot/bytes表示输入种类和oracle阶段；去R04/R05分文件。",
+        "G": "3原文件各一段承接为一文件54行，没有旧文件同时保留并行runner；原业务合同不退休。",
+        "H": "直接recompile公开入口，不导入disasm来生产expected；纯数据、可定位错误及空清单结果。"
+      },
+      "acceptance": "accepted-code; uniform gates deferred"
+    },
+    {
+      "path": "packages/pal-extract/src/events/roundtrip.report.test.ts",
+      "sha256": "6698dd5e15253b27134f729b78420093e2c60c7ee180b6979588e1730f385d60",
+      "subjects": ["packages/pal-extract/src/events/roundtrip.kimi-r1.test.ts"],
+      "axes": {
+        "A": "完整合成SSS/M.MSG走实际parser/codec/firstDiff report，精确original/recompiled长度及非零指令首差异；不是实际原盘剧情。",
+        "B": "保留非零未用操作数导致不支持的反例说明，文件头明确synthetic archive而不冒称原盘行为。",
+        "C": "报告对象合同独立于单指令codec和真实原盘IO；buildSss只构造调用入口必需的完整chunk布局。",
+        "D": "复用独立binary-fixtures构造MKF/u16/u32；两例共用固定MSG_TEXT和buildSss，含义相同且有两个实际caller。",
+        "E": "原两例完整Result对象保持；第一差异offset12/instruction1/opcode0x8b可区分恒0报告，源流/codec不mock。",
+        "F": "report文件名体现成功/差异诊断的职责；buildSss/MSG_TEXT/bytecode各有域意义，不以贡献者命名。",
+        "G": "保持与roundtrip.test真实原盘文件分离：后者有只读外部资源依赖，前者全自有合成数据；这是一项有理由的重命名，不为减少文件硬合不同运行环境。",
+        "H": "确定合成archive无需外部raw，真实roundtripCheck可直接观察首错位置；不新增参数或环境mock。"
+      },
+      "acceptance": "accepted-code; uniform gates deferred"
+    }
+  ]
+}

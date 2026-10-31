@@ -1,0 +1,90 @@
+{
+  "task": "QUALITY-NAMING-ORGANIZATION-1",
+  "authority": "User2026-10-31: filenames/splits must express module/function, not author or task/batch identities. Permanent policy docs/ops/code-quality.md applies.",
+  "scope": "Five already visible auxiliary/history filenames outside the fixed178; documentary F/G withdrawal only, no new product or test refactor and no denominator expansion.",
+  "entries": [
+    {
+      "path": "packages/game/src/core/battle/battle-opcodes.cov85.test.ts",
+      "sha256": "1973920570f28749d1e12bae5aef0288a6cef5c093f8056c3651c7bf458c2521",
+      "beforeStatus": "review",
+      "currentStatus": "review",
+      "readScope": {
+        "start": 1,
+        "end": 14,
+        "method": "filename and header; no new whole-file credit"
+      },
+      "outsideFixed178": true,
+      "reason": "cov85 encodes an earlier coverage target/batch rather than a module responsibility. Keep established behavioral evidence; naming/organization F/G needs a bounded follow-up, not a keyword rename.",
+      "priorLedgerRow": "| `packages/game/src/core/battle/battle-opcodes.cov85.test.ts` | test | review | [Opcode producer/state A-H and identities](../evidence/QUALITY-PENDING-100-3/organization-opcode-controls.json) | Only navigation comment changed; full typed AST exact,57 current cases within236 neighbors. Prior full review reused; unified gates pending. |"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-system.cov85.test.ts",
+      "sha256": "2535058ab864e0f3ede02d384d9e01aecab9028793a51326e96a4f8277675b22",
+      "beforeStatus": "已验证",
+      "currentStatus": "review",
+      "readScope": {
+        "start": 1,
+        "end": 14,
+        "method": "filename and header; no new whole-file credit"
+      },
+      "outsideFixed178": true,
+      "reason": "cov85 encodes an earlier coverage target/batch rather than a module responsibility. Keep established behavioral evidence; naming/organization F/G needs a bounded follow-up, not a keyword rename.",
+      "priorLedgerRow": "| `packages/game/src/core/battle/battle-system.cov85.test.ts` | test | 已验证 | CODE-QUALITY-3s 当前复审；3s-battle-system；公开 startBattle/tickBattle/tickEnemyIdleGestures callers，battle.c/fight.c oracle | 330 行 branch guard/phase/idle/资源缺失/settlement contracts；两个 console.error spy 已用 try/finally 恢复；定向9 files/242 tests通过，coverage/全仓门未在本小批运行 |"
+    },
+    {
+      "path": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+      "sha256": "c76b60c9e44575586fa313ae98fa018e27f33b0b7612734abbb19e431773a901",
+      "beforeStatus": "已验证",
+      "currentStatus": "review",
+      "readScope": {
+        "start": 1,
+        "end": 14,
+        "method": "filename and header; no new whole-file credit"
+      },
+      "outsideFixed178": true,
+      "reason": "cov85 encodes an earlier coverage target/batch rather than a module responsibility. Keep established behavioral evidence; naming/organization F/G needs a bounded follow-up, not a keyword rename.",
+      "priorLedgerRow": "| `packages/game/src/core/event-opcode-player.cov85.test.ts` | test | 已验证 | [3o／3p逐文件代码验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-closeout/README.md) | 缺角色拒绝核完整前后GS和具体消息；七属性cap、18抽/三次升级真实结果。错告警变异旧41绿/新1红。 本片仅[header/current-reference勘误](../evidence/QUALITY-PENDING-100-3/organization-event-transitions.json)，完整typed正文不变；保留既有内容信用，不新增整文件或F/G信用。 |"
+    },
+    {
+      "path": "packages/game/src/core/event-opcodes.cov85.test.ts",
+      "sha256": "77921c7c660aa1fd4c1254ae798c99df2dbe74ac096230b1a533f1ce99da15f7",
+      "beforeStatus": "已验证",
+      "currentStatus": "review",
+      "readScope": {
+        "start": 1,
+        "end": 14,
+        "method": "filename and header; no new whole-file credit"
+      },
+      "outsideFixed178": true,
+      "reason": "cov85 encodes an earlier coverage target/batch rather than a module responsibility. Keep established behavioral evidence; naming/organization F/G needs a bounded follow-up, not a keyword rename.",
+      "priorLedgerRow": "| `packages/game/src/core/event-opcodes.cov85.test.ts` | test | 已验证 | [CODE53逐例八维与全部原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-opcodes-quality/README.md)  [52接口版本桥](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/approved-remaining-reviewed.json) | 合法factory/真bus与RNG、21→32完整合同映射，三项旧绿新单红；完整毒槽oracle、518相关与TC0；统一门延后  本窗仅有限协议/实参版本桥，原全文信用复用，不新增关闭 |"
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-driver.cov85.test.ts",
+      "sha256": "1d245e33205ccef8f15c87b29a8d56b5549471e430f3eacff75254c18cad688d",
+      "beforeStatus": "已验证",
+      "currentStatus": "review",
+      "readScope": {
+        "start": 1,
+        "end": 14,
+        "method": "filename and header; no new whole-file credit"
+      },
+      "outsideFixed178": true,
+      "reason": "cov85 encodes an earlier coverage target/batch rather than a module responsibility. Keep established behavioral evidence; naming/organization F/G needs a bounded follow-up, not a keyword rename.",
+      "priorLedgerRow": "| `packages/game/src/core/menu/menu-driver.cov85.test.ts` | test | 已验证 | [94–102当前逐文件八维与统一原件](../evidence/CODE-QUALITY-94/approved-closeout/README.md)  [52接口版本桥](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/approved-remaining-reviewed.json) | 用户批准的接口退休/整数槽合同、连接ownership及测试判别力已闭合；实际caller/旧证据复用与本轮A–H逐项有据，统一门零诊断；不附带关闭相邻广域文件  本窗仅有限协议/实参版本桥，原全文信用复用，不新增关闭 |"
+    }
+  ],
+  "reopened": 4,
+  "retainedReview": 1,
+  "fixedCohort": {
+    "subjects": 178,
+    "resolvedFG": 178,
+    "remaining": 0
+  },
+  "limits": [
+    "No claim that all other historical names have been screened or accepted.",
+    "Whole transaction implementation, ScriptEditor.coverage-workflows-2 and other auxiliary-only profiles remain pending unless a separate full acceptance exists.",
+    "Heavy gates never supply missing semantic F/G evidence."
+  ],
+  "processDisclosure": "First producer refused duplicate historical rows before any repository mutation; r2 targets only the sole current machine table, preserves all archive bytes."
+}

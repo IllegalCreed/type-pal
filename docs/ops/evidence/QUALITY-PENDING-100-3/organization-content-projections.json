@@ -1,0 +1,1604 @@
+{
+  "id": "content-identity-target-trading-tint-and-skill-tests",
+  "namespace": "organization-content-projections",
+  "inputs": [
+    {
+      "path": "packages/content/src/author-dialogue.cursor-pure-wave2.test.ts",
+      "sha256": "6311c69276341b2570b40f54f288ceb86e90e0112f064f76af7d3b4dc46ad453",
+      "lines": 34,
+      "member": "organization-content-projections/0.before"
+    },
+    {
+      "path": "packages/content/src/enemy-ai.cursor-pure-wave2.test.ts",
+      "sha256": "644355305ae1e2a7de2178ad59fcc50defb9ad4794c40d332b99d0c4bdf52d54",
+      "lines": 30,
+      "member": "organization-content-projections/1.before"
+    },
+    {
+      "path": "packages/content/src/shop.cursor-pure-wave2.test.ts",
+      "sha256": "564a698a62eff064c846786366f7427f72202d199973350ea64868628a5da612",
+      "lines": 40,
+      "member": "organization-content-projections/2.before"
+    },
+    {
+      "path": "packages/content/src/ambience-skill.glm-o.test.ts",
+      "sha256": "03f049f8259fc27ef0fe3f729f1562c5cdb30ff590d4ca08ef5bd8e9f4857189",
+      "lines": 78,
+      "member": "organization-content-projections/3.before"
+    },
+    {
+      "path": "packages/content/src/author-dialogue.test.ts",
+      "sha256": "1fa2e0e48395b97c6dc58f2d52e80416efd9b7726cc4241cbb384051ac4cc245",
+      "lines": 239,
+      "member": "organization-content-projections/4.before"
+    },
+    {
+      "path": "packages/content/src/enemy-ai.test.ts",
+      "sha256": "41dae05920b7a10a750886c1262a47c847974e8b0c0538feffe19c4be034e127",
+      "lines": 145,
+      "member": "organization-content-projections/5.before"
+    },
+    {
+      "path": "packages/content/src/shop.test.ts",
+      "sha256": "1fe3e993e5dce21fbeda7c8521641cb800bcee802f790e46b9af3b5834fc543b",
+      "lines": 142,
+      "member": "organization-content-projections/6.before"
+    },
+    {
+      "path": "packages/content/src/ambience.test.ts",
+      "sha256": "109e691a4add1f68328b7b5d7401dbb7e752389b866a9a05fa13ece5c422b1d8",
+      "lines": 45,
+      "member": "organization-content-projections/7.before"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "packages/content/src/author-dialogue.test.ts",
+      "sha256": "93228a5db57fce59096ffbe5c86132a1d5175ff529722152d5d0cbfccfd1eda1",
+      "lines": 277
+    },
+    {
+      "path": "packages/content/src/enemy-ai.test.ts",
+      "sha256": "484b3e4e73a7f4a13e8731a03eac4c720e32347dce3c7e5c8dac6341d01d3f43",
+      "lines": 167
+    },
+    {
+      "path": "packages/content/src/shop.test.ts",
+      "sha256": "f94a058dfb202762a3b194f9fe0b4ae42bbb232bcf7770d89338e19b547b5c62",
+      "lines": 170
+    },
+    {
+      "path": "packages/content/src/ambience.test.ts",
+      "sha256": "01c64742bf316fae1a8623d65a8e25c8af4ebd55166763a63dd63edfa6c11daa",
+      "lines": 50
+    },
+    {
+      "path": "packages/content/src/skill-execution.test.ts",
+      "sha256": "b1d5195b5bc447c73ba512c94ca40699ebd6ce0de0bc36bf02855bc91587a4c9",
+      "lines": 56
+    }
+  ],
+  "replacements": [],
+  "sourceBridges": [
+    {
+      "path": "packages/content/src/author-dialogue.cursor-pure-wave2.test.ts",
+      "id": "organization-content-projections-0",
+      "reason": "Analysis-only current lexical contexts in original registration order. Independent complete typed-module proof restricts all actual changes; this context is not a semantic equivalence claim.",
+      "changes": [
+        {
+          "from": "/**\n * TEST-CURSOR-CONTENT-PURE-WAVE-2 C1：slot/cursorFrame 随 resolve 复制，不参与身份。\n * 旧套件已证 default/expression 解析与空 unbound 拒绝，不重做。\n */\nimport { describe, expect, test } from 'vitest'\nimport { inputSnap, wave2Actor } from './__tests__/cursor-pure-wave2-fixtures.js'\nimport { checkAuthorDialogueCue, resolveAuthorDialogueCue } from './author-dialogue.js'\n\nconst actor = wave2Actor('actor.li', 'name.li')\n\ndescribe('C1 author-dialogue 剩余合同', () => {\n  test('resolve 复制 slot/cursorFrame，无立绘 actor 只出 speaker', () => {\n    const cue = {\n      identity: { kind: 'actor' as const, actor: actor.id },\n      rows: [{ text: 'line.plain' }],\n      slot: 'top' as const,\n      cursorFrame: 2 as const,\n    }\n    const actors = { [actor.id]: actor }\n    const cueSnap = inputSnap(cue)\n    const actorsSnap = inputSnap(actors)\n    checkAuthorDialogueCue(cue, 'cue')\n    expect(cue).toEqual(cueSnap)\n    expect(resolveAuthorDialogueCue(cue, actors, 'cue')).toEqual({\n      speaker: 'name.li',\n      rows: [{ text: 'line.plain' }],\n      slot: 'top',\n      cursorFrame: 2,\n    })\n    expect(cue).toEqual(cueSnap)\n    expect(actors).toEqual(actorsSnap)\n    expect(actors[actor.id]).toBe(actor)\n  })\n})\n",
+          "to": "import { describe } from \"vitest\"\nimport type { ActorDef } from \"./actor.js\"\nimport { checkAuthorDialogueCue } from \"./author-dialogue.js\"\nimport { deepSnapshot } from \"./__tests__/value-snapshot.js\"\nimport { expect } from \"vitest\"\nimport { resolveAuthorDialogueCue } from \"./author-dialogue.js\"\nimport { test } from \"vitest\"\ndescribe(\"author dialogue identity\", () => {\n\n\nconst actor: ActorDef = {\n  id: 'actor.li',\n  name: 'name.li',\n  spriteId: 'sprite.li',\n  portraits: {\n    default: 'portrait.li.default',\n    expressions: { angry: 'portrait.li.angry' },\n  },\n}\n\n\n  test('resolve 复制 slot/cursorFrame，未请求立绘时只出 speaker', () => {\n    const cue = {\n      identity: { kind: 'actor' as const, actor: actor.id },\n      rows: [{ text: 'line.plain' }],\n      slot: 'top' as const,\n      cursorFrame: 2 as const,\n    }\n    const actors = { [actor.id]: actor }\n    const cueSnap = deepSnapshot(cue)\n    const actorsSnap = deepSnapshot(actors)\n    checkAuthorDialogueCue(cue, 'cue')\n    expect(cue).toEqual(cueSnap)\n    expect(resolveAuthorDialogueCue(cue, actors, 'cue')).toEqual({\n      speaker: 'name.li',\n      rows: [{ text: 'line.plain' }],\n      slot: 'top',\n      cursorFrame: 2,\n    })\n    expect(cue).toEqual(cueSnap)\n    expect(actors).toEqual(actorsSnap)\n    expect(actors[actor.id]).toBe(actor)\n  })\n})\n",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "packages/content/src/enemy-ai.cursor-pure-wave2.test.ts",
+      "id": "organization-content-projections-1",
+      "reason": "Analysis-only current lexical contexts in original registration order. Independent complete typed-module proof restricts all actual changes; this context is not a semantic equivalence claim.",
+      "changes": [
+        {
+          "from": "/**\n * TEST-CURSOR-CONTENT-PURE-WAVE-2 C2：pickAiTarget highestHp。\n * enemy-ai.test.ts 已证 random / lowestHp / lowestMp / strongest。\n */\nimport { describe, expect, test } from 'vitest'\nimport { inputSnap } from './__tests__/cursor-pure-wave2-fixtures.js'\nimport { pickAiTarget } from './enemy-ai.js'\nimport { checkEnemyAi } from './enemy-script.js'\n\ndescribe('C2 enemy-ai 剩余合同', () => {\n  test('highestHp 取最高血；并列取槽序靠前，旁队员不改', () => {\n    checkEnemyAi(\n      {\n        resistanceToSorcery: 0,\n        rules: [{ at: 'act', do: { kind: 'attack', target: 'highestHp' } }],\n      },\n      'ai',\n    )\n    const players = [\n      { index: 0, hpPercent: 40, hp: 80, mp: 30, attack: 50, role: 'hero.li' },\n      { index: 2, hpPercent: 90, hp: 200, mp: 10, attack: 20, role: 'hero.zhao' },\n      { index: 3, hpPercent: 90, hp: 200, mp: 99, attack: 80, role: 'hero.lin' },\n    ]\n    const snap = inputSnap(players)\n    expect(pickAiTarget('highestHp', players, () => 0.99)).toBe(2)\n    expect(players).toEqual(snap)\n    expect(players[0]?.hp).toBe(80)\n    expect(players[2]?.index).toBe(3)\n  })\n})\n",
+          "to": "import { describe } from \"vitest\"\nimport { checkEnemyAi } from \"./enemy-script.js\"\nimport { deepSnapshot } from \"./__tests__/value-snapshot.js\"\nimport { expect } from \"vitest\"\nimport { pickAiTarget } from \"./enemy-ai.js\"\nimport { test } from \"vitest\"\ndescribe(\"pickAiTarget(目标策略)\", () => {\n\n\n\n  test('highestHp 取最高血；并列取槽序靠前，旁队员不改', () => {\n    checkEnemyAi(\n      {\n        resistanceToSorcery: 0,\n        rules: [{ at: 'act', do: { kind: 'attack', target: 'highestHp' } }],\n      },\n      'ai',\n    )\n    const players = [\n      { index: 0, hpPercent: 40, hp: 80, mp: 30, attack: 50, role: 'hero.li' },\n      { index: 2, hpPercent: 90, hp: 200, mp: 10, attack: 20, role: 'hero.zhao' },\n      { index: 3, hpPercent: 90, hp: 200, mp: 99, attack: 80, role: 'hero.lin' },\n    ]\n    const snap = deepSnapshot(players)\n    expect(pickAiTarget('highestHp', players, () => 0.99)).toBe(2)\n    expect(players).toEqual(snap)\n    expect(players[0]?.hp).toBe(80)\n    expect(players[2]?.index).toBe(3)\n  })\n})\n",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "packages/content/src/shop.cursor-pure-wave2.test.ts",
+      "id": "organization-content-projections-2",
+      "reason": "Analysis-only current lexical contexts in original registration order. Independent complete typed-module proof restricts all actual changes; this context is not a semantic equivalence claim.",
+      "changes": [
+        {
+          "from": "/**\n * TEST-CURSOR-CONTENT-PURE-WAVE-2 C3：未知物买拒绝与卖剩数量。\n * shop.test.ts 已证钱够叠加、钱不够 null、卖光移除。\n */\nimport { describe, expect, test } from 'vitest'\nimport { inputSnap, WAVE2_SHOP_ITEMS } from './__tests__/cursor-pure-wave2-fixtures.js'\nimport type { WorldState } from './character.js'\nimport { shopBuy, shopSell } from './shop.js'\n\nfunction purse(money: number, inventory: WorldState['inventory']): WorldState {\n  return { party: [], money, learnedSkills: {}, inventory }\n}\n\ndescribe('C3 shop 剩余合同', () => {\n  test('钱够但未知物买为 null，源世界不动', () => {\n    const rich = purse(999, [])\n    const richSnap = inputSnap(rich)\n    expect(shopBuy(rich, 'item.ghost', WAVE2_SHOP_ITEMS)).toBeNull()\n    expect(rich).toEqual(richSnap)\n  })\n\n  test('卖 2 件剩 1，保留其它物品且源世界不动', () => {\n    const packed = purse(0, [\n      { itemId: 'item.sword', count: 2 },\n      { itemId: 'item.charm', count: 1 },\n    ])\n    const packedSnap = inputSnap(packed)\n    expect(shopSell(packed, 'item.sword', WAVE2_SHOP_ITEMS)).toEqual({\n      party: [],\n      money: 25,\n      learnedSkills: {},\n      inventory: [\n        { itemId: 'item.sword', count: 1 },\n        { itemId: 'item.charm', count: 1 },\n      ],\n    })\n    expect(packed).toEqual(packedSnap)\n    expect(packed.inventory[0]?.count).toBe(2)\n  })\n})\n",
+          "to": "import { describe } from \"vitest\"\nimport { deepSnapshot } from \"./__tests__/value-snapshot.js\"\nimport { expect } from \"vitest\"\nimport { WAVE2_SHOP_ITEMS as remainderItems } from \"./__tests__/cursor-pure-wave2-fixtures.js\"\nimport { shopBuy } from \"./shop.js\"\nimport { test } from \"vitest\"\nimport type { WorldState } from \"./character.js\"\nimport { shopSell } from \"./shop.js\"\ndescribe(\"shopBuy(每次 1 个;钱不够 null)\", () => {\n\n\nfunction world(money: number, inv: { itemId: string; count: number }[]): WorldState {\n  return { party: [], money, learnedSkills: {}, inventory: inv }\n}\n\n\n  test('钱够但未知物买为 null，源世界不动', () => {\n    const rich = world(999, [])\n    const richSnap = deepSnapshot(rich)\n    expect(shopBuy(rich, 'item.ghost', remainderItems)).toBeNull()\n    expect(rich).toEqual(richSnap)\n  })\n})\ndescribe(\"shopSell(按 sellPrice;不可卖/没货 null)\", () => {\n\n\nfunction world(money: number, inv: { itemId: string; count: number }[]): WorldState {\n  return { party: [], money, learnedSkills: {}, inventory: inv }\n}\n\n\n  test('卖 2 件剩 1，保留其它物品且源世界不动', () => {\n    const packed = world(0, [\n      { itemId: 'item.sword', count: 2 },\n      { itemId: 'item.charm', count: 1 },\n    ])\n    const packedSnap = deepSnapshot(packed)\n    expect(shopSell(packed, 'item.sword', remainderItems)).toEqual({\n      party: [],\n      money: 25,\n      learnedSkills: {},\n      inventory: [\n        { itemId: 'item.sword', count: 1 },\n        { itemId: 'item.charm', count: 1 },\n      ],\n    })\n    expect(packed).toEqual(packedSnap)\n    expect(packed.inventory[0]?.count).toBe(2)\n  })\n})\n",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "packages/content/src/ambience-skill.glm-o.test.ts",
+      "id": "organization-content-projections-3",
+      "reason": "Analysis-only current lexical contexts in original registration order. Independent complete typed-module proof restricts all actual changes; this context is not a semantic equivalence claim.",
+      "changes": [
+        {
+          "from": "/** Pure value contracts: fractional tint rounding, skill execution layers and unbound identity.\n * Normal tint endpoints live in ambience.test.ts; actor-bound identities in author-dialogue.test.ts.\n * These independent cases share no lifecycle or mutable fixture state.\n */\n\nimport type { SkillAnimation, SkillData, SkillEffect } from '@type-pal/content'\nimport { describe, expect, test } from 'vitest'\nimport { lerpTint } from './ambience.js'\nimport { resolveDialogueIdentity } from './author-dialogue.js'\nimport { authoredSkillExecutionLayers, resolveSkillExecution } from './skill.js'\n\ndescribe('O09 lerpTint：分量四舍五入', () => {\n  test('非整数结果按分量四舍五入（旧中点全整数的真实新轴）', () => {\n    expect(lerpTint([0, 0, 0], [101, 103, 105], 0.5)).toEqual([51, 52, 53])\n    expect(lerpTint([10, 10, 10], [15, 15, 15], 0.5)).toEqual([13, 13, 13])\n  })\n})\n\ndescribe('O09 resolveSkillExecution / authoredSkillExecutionLayers', () => {\n  const animation: SkillAnimation = { effectSprite: 1 }\n  const skill = (execution?: SkillData['execution']): SkillData => ({\n    id: 's1',\n    name: 'skill.s1',\n    desc: '',\n    cost: {},\n    usableOutsideBattle: false,\n    target: 'oneEnemy',\n    effects: [{ kind: 'damage', power: 1, elemental: 0 }],\n    animation,\n    ...(execution ? { execution } : {}),\n  })\n\n  test('无 override：两侧都回退公共 effects/animation，prepare 为空', () => {\n    const base = skill()\n    for (const side of ['player', 'enemy'] as const) {\n      const resolved = resolveSkillExecution(base, side)\n      expect(resolved.effects).toBe(base.effects)\n      expect(resolved.animation).toBe(base.animation)\n      expect(resolved.prepare).toEqual([])\n    }\n  })\n\n  test('单侧 override：覆盖侧用 override，另一侧回退公共', () => {\n    const enemyEffects: SkillEffect[] = [{ kind: 'damage', power: 9, elemental: 0 }]\n    const withEnemy = skill({ enemy: { effects: enemyEffects } })\n    const enemySide = resolveSkillExecution(withEnemy, 'enemy')\n    expect(enemySide.effects).toBe(enemyEffects)\n    expect(enemySide.animation).toBe(withEnemy.animation)\n    const playerSide = resolveSkillExecution(withEnemy, 'player')\n    expect(playerSide.effects).toBe(withEnemy.effects)\n  })\n\n  test('authoredSkillExecutionLayers：base 恒在 + 两个显式 override 按序追加', () => {\n    expect(authoredSkillExecutionLayers(skill())).toEqual([\n      { side: 'base', effects: skill().effects, animation },\n    ])\n    const both = skill({\n      player: { effects: [{ kind: 'damage', power: 2, elemental: 0 }] },\n      enemy: { animation: { effectSprite: 7 } },\n    })\n    const layers = authoredSkillExecutionLayers(both)\n    expect(layers.map(({ side }) => side)).toEqual(['base', 'player', 'enemy'])\n    expect(layers[1]!.effects).toEqual([{ kind: 'damage', power: 2, elemental: 0 }])\n    expect(layers[2]!.animation).toEqual({ effectSprite: 7 })\n  })\n})\n\ndescribe('O09 resolveDialogueIdentity：合法 unbound 透传', () => {\n  test('unbound：speaker/portrait 声明性透传（浅拷贝 portrait）', () => {\n    expect(resolveDialogueIdentity({ kind: 'unbound', speaker: '旁白甲' }, {})).toEqual({\n      speaker: '旁白甲',\n    })\n    const portrait = { asset: 'portrait.narrator', side: 'left' } as const\n    const withPortrait = resolveDialogueIdentity({ kind: 'unbound', portrait }, {})\n    expect(withPortrait.portrait).toEqual({ asset: 'portrait.narrator', side: 'left' })\n    expect(withPortrait.portrait).not.toBe(portrait)\n  })\n})\n",
+          "to": "import { describe } from \"vitest\"\nimport { expect } from \"vitest\"\nimport { lerpTint } from \"./ambience.js\"\nimport { test } from \"vitest\"\nimport { resolveSkillExecution } from \"./skill.js\"\nimport type { SkillAnimation } from \"./skill.js\"\nimport type { SkillData } from \"./skill.js\"\nimport type { SkillEffect } from \"./skill.js\"\nimport { authoredSkillExecutionLayers } from \"./skill.js\"\nimport { resolveDialogueIdentity } from \"./author-dialogue.js\"\ndescribe(\"isIdentityTint / lerpTint\", () => {\n\n\n\n  test('非整数插值按分量四舍五入', () => {\n    expect(lerpTint([0, 0, 0], [101, 103, 105], 0.5)).toEqual([51, 52, 53])\n    expect(lerpTint([10, 10, 10], [15, 15, 15], 0.5)).toEqual([13, 13, 13])\n  })\n})\ndescribe(\"skill execution layers\", () => {\n\n  const animation: SkillAnimation = { effectSprite: 1 }\n\n  const makeSkill = (execution?: SkillData['execution']): SkillData => ({\n    id: 's1',\n    name: 'skill.s1',\n    desc: '',\n    cost: {},\n    usableOutsideBattle: false,\n    target: 'oneEnemy',\n    effects: [{ kind: 'damage', power: 1, elemental: 0 }],\n    animation,\n    ...(execution ? { execution } : {}),\n  })\n\n\n  test('无 override：两侧都回退公共 effects/animation，prepare 为空', () => {\n    const base = makeSkill()\n    for (const side of ['player', 'enemy'] as const) {\n      const resolved = resolveSkillExecution(base, side)\n      expect(resolved.effects).toBe(base.effects)\n      expect(resolved.animation).toBe(base.animation)\n      expect(resolved.prepare).toEqual([])\n    }\n  })\n})\ndescribe(\"skill execution layers\", () => {\n\n  const animation: SkillAnimation = { effectSprite: 1 }\n\n  const makeSkill = (execution?: SkillData['execution']): SkillData => ({\n    id: 's1',\n    name: 'skill.s1',\n    desc: '',\n    cost: {},\n    usableOutsideBattle: false,\n    target: 'oneEnemy',\n    effects: [{ kind: 'damage', power: 1, elemental: 0 }],\n    animation,\n    ...(execution ? { execution } : {}),\n  })\n\n\n  test('单侧 override：覆盖侧用 override，另一侧回退公共', () => {\n    const enemyEffects: SkillEffect[] = [{ kind: 'damage', power: 9, elemental: 0 }]\n    const withEnemy = makeSkill({ enemy: { effects: enemyEffects } })\n    const enemySide = resolveSkillExecution(withEnemy, 'enemy')\n    expect(enemySide.effects).toBe(enemyEffects)\n    expect(enemySide.animation).toBe(withEnemy.animation)\n    const playerSide = resolveSkillExecution(withEnemy, 'player')\n    expect(playerSide.effects).toBe(withEnemy.effects)\n  })\n})\ndescribe(\"skill execution layers\", () => {\n\n  const animation: SkillAnimation = { effectSprite: 1 }\n\n  const makeSkill = (execution?: SkillData['execution']): SkillData => ({\n    id: 's1',\n    name: 'skill.s1',\n    desc: '',\n    cost: {},\n    usableOutsideBattle: false,\n    target: 'oneEnemy',\n    effects: [{ kind: 'damage', power: 1, elemental: 0 }],\n    animation,\n    ...(execution ? { execution } : {}),\n  })\n\n\n  test('authoredSkillExecutionLayers：base 恒在 + 两个显式 override 按序追加', () => {\n    expect(authoredSkillExecutionLayers(makeSkill())).toEqual([\n      {\n        side: 'base',\n        effects: [{ kind: 'damage', power: 1, elemental: 0 }],\n        animation: { effectSprite: 1 },\n      },\n    ])\n    const both = makeSkill({\n      player: { effects: [{ kind: 'damage', power: 2, elemental: 0 }] },\n      enemy: { animation: { effectSprite: 7 } },\n    })\n    const layers = authoredSkillExecutionLayers(both)\n    expect(layers.map(({ side }) => side)).toEqual(['base', 'player', 'enemy'])\n    expect(layers[1]!.effects).toEqual([{ kind: 'damage', power: 2, elemental: 0 }])\n    expect(layers[2]!.animation).toEqual({ effectSprite: 7 })\n  })\n})\ndescribe(\"author dialogue identity\", () => {\n\n\n\n  test('unbound：speaker/portrait 声明性透传（浅拷贝 portrait）', () => {\n    expect(resolveDialogueIdentity({ kind: 'unbound', speaker: '旁白甲' }, {})).toEqual({\n      speaker: '旁白甲',\n    })\n    const portrait = { asset: 'portrait.narrator', side: 'left' } as const\n    const withPortrait = resolveDialogueIdentity({ kind: 'unbound', portrait }, {})\n    expect(withPortrait.portrait).toEqual({ asset: 'portrait.narrator', side: 'left' })\n    expect(withPortrait.portrait).not.toBe(portrait)\n  })\n})\n",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "packages/content/src/author-dialogue.test.ts",
+      "id": "organization-content-projections-4",
+      "reason": "Analysis-only current lexical contexts in original registration order. Independent complete typed-module proof restricts all actual changes; this context is not a semantic equivalence claim.",
+      "changes": [
+        {
+          "from": "import { describe, expect, test } from 'vitest'\nimport type { ActorDef } from './actor.js'\nimport type { AuthorDialogueCue, DialogueIdentity } from './author-dialogue.js'\nimport { checkAuthorDialogueCue, resolveAuthorDialogueCue } from './author-dialogue.js'\nimport { checkAuthorCommands, resolveAuthorDialogueTree } from './author-script.js'\nimport { validateActors } from './validate.js'\nimport { validateAuthorDialogueReferences, validateAuthorSharedScripts } from './validate-author.js'\n\nconst actor: ActorDef = {\n  id: 'actor.li',\n  name: 'name.li',\n  spriteId: 'sprite.li',\n  portraits: {\n    default: 'portrait.li.default',\n    expressions: { angry: 'portrait.li.angry' },\n  },\n}\n\ndescribe('author dialogue identity', () => {\n  test('actor 默认名、称谓覆写、主立绘与表情只从本 Actor 解析', () => {\n    expect(\n      resolveAuthorDialogueCue(\n        {\n          identity: {\n            kind: 'actor',\n            actor: actor.id,\n            portrait: { kind: 'default', side: 'right' },\n          },\n          rows: [{ text: 'line' }],\n        },\n        { [actor.id]: actor },\n      ),\n    ).toEqual({\n      speaker: 'name.li',\n      portrait: { asset: 'portrait.li.default', side: 'right' },\n      rows: [{ text: 'line' }],\n    })\n    expect(\n      resolveAuthorDialogueCue(\n        {\n          identity: {\n            kind: 'actor',\n            actor: actor.id,\n            speakerOverride: 'title.hero',\n            portrait: { kind: 'expression', expression: 'angry', side: 'left' },\n          },\n          rows: [{ text: 'line' }],\n        },\n        { [actor.id]: actor },\n      ),\n    ).toEqual({\n      speaker: 'title.hero',\n      portrait: { asset: 'portrait.li.angry', side: 'left' },\n      rows: [{ text: 'line' }],\n    })\n  })\n\n  test('缺 actor/default/expression 全部 fail-loud，不回退全局资源', () => {\n    const cue = {\n      identity: {\n        kind: 'actor' as const,\n        actor: 'actor.missing',\n        portrait: { kind: 'default' as const, side: 'right' as const },\n      },\n      rows: [{ text: 'line' }],\n    }\n    expect(() => resolveAuthorDialogueCue(cue, {})).toThrow(/未知 Actor/)\n    expect(() =>\n      resolveAuthorDialogueCue(cue, {\n        'actor.missing': { id: 'actor.missing', name: 'name', spriteId: 'sprite' },\n      }),\n    ).toThrow(/portraits\\.default/)\n    expect(() =>\n      resolveAuthorDialogueCue(\n        {\n          ...cue,\n          identity: {\n            kind: 'actor',\n            actor: actor.id,\n            portrait: { kind: 'expression', expression: 'sad', side: 'right' },\n          },\n        },\n        { [actor.id]: actor },\n      ),\n    ).toThrow(/缺表情 \"sad\"/)\n  })\n\n  test('拒绝半状态、空 unbound 与 actor 直接 AssetId', () => {\n    expect(() =>\n      checkAuthorDialogueCue(\n        { identity: { kind: 'narration' }, speaker: 'legacy', rows: [{ text: 'line' }] },\n        'cue',\n      ),\n    ).toThrow(/cue\\.speaker: 未知字段/)\n    expect(() =>\n      checkAuthorDialogueCue({ identity: { kind: 'unbound' }, rows: [{ text: 'line' }] }, 'cue'),\n    ).toThrow(/至少需要 speaker 或 portrait/)\n    expect(() =>\n      checkAuthorDialogueCue(\n        {\n          identity: {\n            kind: 'actor',\n            actor: actor.id,\n            portrait: { asset: 'portrait.other', side: 'left' },\n          },\n          rows: [{ text: 'line' }],\n        },\n        'cue',\n      ),\n    ).toThrow(/kind/)\n  })\n\n  test('作者命令只接受当前 identity 形状', () => {\n    const historical = [\n      {\n        kind: 'dialog' as const,\n        cue: {\n          speaker: 'spk.old',\n          portrait: { asset: 'portrait.old', side: 'left' as const },\n          rows: [{ text: 'line.old' }],\n        },\n      },\n    ]\n    const current = [\n      {\n        kind: 'dialog' as const,\n        cue: {\n          identity: { kind: 'unbound' as const, speaker: 'spk.old' },\n          rows: [{ text: 'line.old' }],\n        },\n      },\n    ]\n    expect(() => checkAuthorCommands(current, 'commands')).not.toThrow()\n    expect(() => checkAuthorCommands(historical, 'commands')).toThrow(/cue\\.speaker: 未知字段/)\n  })\n\n  test('runtime 全树投影调用同一 resolver', () => {\n    const commands = [\n      {\n        kind: 'dialog' as const,\n        cue: {\n          identity: {\n            kind: 'actor' as const,\n            actor: actor.id,\n            portrait: { kind: 'expression' as const, expression: 'angry', side: 'left' as const },\n          },\n          rows: [{ text: 'line' }],\n        },\n      },\n    ]\n    expect(resolveAuthorDialogueTree(commands, { [actor.id]: actor })[0]).toEqual({\n      kind: 'dialog',\n      cue: {\n        speaker: 'name.li',\n        portrait: { asset: 'portrait.li.angry', side: 'left' },\n        rows: [{ text: 'line' }],\n      },\n    })\n  })\n\n  test.each([\n    {\n      name: '未定义角色不借用对象原型中的同名键',\n      identity: { kind: 'actor', actor: 'constructor' } satisfies DialogueIdentity,\n      message: '未知 Actor \"constructor\"',\n    },\n    {\n      name: '未定义表情不借用对象原型中的同名键',\n      identity: {\n        kind: 'actor',\n        actor: actor.id,\n        portrait: { kind: 'expression', expression: 'constructor', side: 'left' },\n      } satisfies DialogueIdentity,\n      message: '缺表情 \"constructor\"',\n    },\n  ])('$name', ({ identity, message }) => {\n    const sharedScripts = validateAuthorSharedScripts({\n      probe: {\n        name: 'probe',\n        self: 'none',\n        body: [{ kind: 'dialog', cue: { identity, rows: [{ text: 'line' }] } }],\n      },\n    })\n    expect(() =>\n      validateAuthorDialogueReferences({\n        scenes: [],\n        items: [],\n        enemies: [],\n        sharedScripts,\n        actors: validateActors([actor]),\n      }),\n    ).toThrow(message)\n  })\n\n  test('实际定义的同名角色与表情仍按自己的定义解析', () => {\n    const actors = validateActors([\n      {\n        ...actor,\n        id: 'constructor',\n        name: 'name.defined',\n        portraits: {\n          default: 'portrait.defined',\n          expressions: { constructor: 'portrait.expression.defined' },\n        },\n      },\n    ])\n    const cue: AuthorDialogueCue = {\n      identity: {\n        kind: 'actor',\n        actor: 'constructor',\n        portrait: {\n          kind: 'expression',\n          expression: 'constructor',\n          side: 'right',\n        },\n      },\n      rows: [{ text: 'line' }],\n    }\n    const sharedScripts = validateAuthorSharedScripts({\n      probe: { name: 'probe', self: 'none', body: [{ kind: 'dialog', cue }] },\n    })\n    expect(() =>\n      validateAuthorDialogueReferences({\n        scenes: [],\n        items: [],\n        enemies: [],\n        sharedScripts,\n        actors,\n      }),\n    ).not.toThrow()\n    expect(\n      resolveAuthorDialogueCue(cue, Object.fromEntries(actors.map((entry) => [entry.id, entry]))),\n    ).toEqual({\n      speaker: 'name.defined',\n      portrait: { asset: 'portrait.expression.defined', side: 'right' },\n      rows: [{ text: 'line' }],\n    })\n  })\n})\n",
+          "to": "import { describe } from \"vitest\"\nimport type { ActorDef } from \"./actor.js\"\nimport { expect } from \"vitest\"\nimport { resolveAuthorDialogueCue } from \"./author-dialogue.js\"\nimport { test } from \"vitest\"\nimport { checkAuthorDialogueCue } from \"./author-dialogue.js\"\nimport { checkAuthorCommands } from \"./author-script.js\"\nimport { resolveAuthorDialogueTree } from \"./author-script.js\"\nimport type { DialogueIdentity } from \"./author-dialogue.js\"\nimport { validateActors } from \"./validate.js\"\nimport { validateAuthorDialogueReferences } from \"./validate-author.js\"\nimport { validateAuthorSharedScripts } from \"./validate-author.js\"\nimport type { AuthorDialogueCue } from \"./author-dialogue.js\"\ndescribe(\"author dialogue identity\", () => {\n\n\nconst actor: ActorDef = {\n  id: 'actor.li',\n  name: 'name.li',\n  spriteId: 'sprite.li',\n  portraits: {\n    default: 'portrait.li.default',\n    expressions: { angry: 'portrait.li.angry' },\n  },\n}\n\n  test('actor 默认名、称谓覆写、主立绘与表情只从本 Actor 解析', () => {\n    expect(\n      resolveAuthorDialogueCue(\n        {\n          identity: {\n            kind: 'actor',\n            actor: actor.id,\n            portrait: { kind: 'default', side: 'right' },\n          },\n          rows: [{ text: 'line' }],\n        },\n        { [actor.id]: actor },\n      ),\n    ).toEqual({\n      speaker: 'name.li',\n      portrait: { asset: 'portrait.li.default', side: 'right' },\n      rows: [{ text: 'line' }],\n    })\n    expect(\n      resolveAuthorDialogueCue(\n        {\n          identity: {\n            kind: 'actor',\n            actor: actor.id,\n            speakerOverride: 'title.hero',\n            portrait: { kind: 'expression', expression: 'angry', side: 'left' },\n          },\n          rows: [{ text: 'line' }],\n        },\n        { [actor.id]: actor },\n      ),\n    ).toEqual({\n      speaker: 'title.hero',\n      portrait: { asset: 'portrait.li.angry', side: 'left' },\n      rows: [{ text: 'line' }],\n    })\n  })\n})\ndescribe(\"author dialogue identity\", () => {\n\n\nconst actor: ActorDef = {\n  id: 'actor.li',\n  name: 'name.li',\n  spriteId: 'sprite.li',\n  portraits: {\n    default: 'portrait.li.default',\n    expressions: { angry: 'portrait.li.angry' },\n  },\n}\n\n\n  test('缺 actor/default/expression 全部 fail-loud，不回退全局资源', () => {\n    const cue = {\n      identity: {\n        kind: 'actor' as const,\n        actor: 'actor.missing',\n        portrait: { kind: 'default' as const, side: 'right' as const },\n      },\n      rows: [{ text: 'line' }],\n    }\n    expect(() => resolveAuthorDialogueCue(cue, {})).toThrow(/未知 Actor/)\n    expect(() =>\n      resolveAuthorDialogueCue(cue, {\n        'actor.missing': { id: 'actor.missing', name: 'name', spriteId: 'sprite' },\n      }),\n    ).toThrow(/portraits\\.default/)\n    expect(() =>\n      resolveAuthorDialogueCue(\n        {\n          ...cue,\n          identity: {\n            kind: 'actor',\n            actor: actor.id,\n            portrait: { kind: 'expression', expression: 'sad', side: 'right' },\n          },\n        },\n        { [actor.id]: actor },\n      ),\n    ).toThrow(/缺表情 \"sad\"/)\n  })\n})\ndescribe(\"author dialogue identity\", () => {\n\n\nconst actor: ActorDef = {\n  id: 'actor.li',\n  name: 'name.li',\n  spriteId: 'sprite.li',\n  portraits: {\n    default: 'portrait.li.default',\n    expressions: { angry: 'portrait.li.angry' },\n  },\n}\n\n\n  test('拒绝半状态、空 unbound 与 actor 直接 AssetId', () => {\n    expect(() =>\n      checkAuthorDialogueCue(\n        { identity: { kind: 'narration' }, speaker: 'legacy', rows: [{ text: 'line' }] },\n        'cue',\n      ),\n    ).toThrow(/cue\\.speaker: 未知字段/)\n    expect(() =>\n      checkAuthorDialogueCue({ identity: { kind: 'unbound' }, rows: [{ text: 'line' }] }, 'cue'),\n    ).toThrow(/至少需要 speaker 或 portrait/)\n    expect(() =>\n      checkAuthorDialogueCue(\n        {\n          identity: {\n            kind: 'actor',\n            actor: actor.id,\n            portrait: { asset: 'portrait.other', side: 'left' },\n          },\n          rows: [{ text: 'line' }],\n        },\n        'cue',\n      ),\n    ).toThrow(/kind/)\n  })\n})\ndescribe(\"author dialogue identity\", () => {\n\n\n\n  test('作者命令只接受当前 identity 形状', () => {\n    const historical = [\n      {\n        kind: 'dialog' as const,\n        cue: {\n          speaker: 'spk.old',\n          portrait: { asset: 'portrait.old', side: 'left' as const },\n          rows: [{ text: 'line.old' }],\n        },\n      },\n    ]\n    const current = [\n      {\n        kind: 'dialog' as const,\n        cue: {\n          identity: { kind: 'unbound' as const, speaker: 'spk.old' },\n          rows: [{ text: 'line.old' }],\n        },\n      },\n    ]\n    expect(() => checkAuthorCommands(current, 'commands')).not.toThrow()\n    expect(() => checkAuthorCommands(historical, 'commands')).toThrow(/cue\\.speaker: 未知字段/)\n  })\n})\ndescribe(\"author dialogue identity\", () => {\n\n\nconst actor: ActorDef = {\n  id: 'actor.li',\n  name: 'name.li',\n  spriteId: 'sprite.li',\n  portraits: {\n    default: 'portrait.li.default',\n    expressions: { angry: 'portrait.li.angry' },\n  },\n}\n\n\n  test('runtime 全树投影调用同一 resolver', () => {\n    const commands = [\n      {\n        kind: 'dialog' as const,\n        cue: {\n          identity: {\n            kind: 'actor' as const,\n            actor: actor.id,\n            portrait: { kind: 'expression' as const, expression: 'angry', side: 'left' as const },\n          },\n          rows: [{ text: 'line' }],\n        },\n      },\n    ]\n    expect(resolveAuthorDialogueTree(commands, { [actor.id]: actor })[0]).toEqual({\n      kind: 'dialog',\n      cue: {\n        speaker: 'name.li',\n        portrait: { asset: 'portrait.li.angry', side: 'left' },\n        rows: [{ text: 'line' }],\n      },\n    })\n  })\n})\ndescribe(\"author dialogue identity\", () => {\n\n\nconst actor: ActorDef = {\n  id: 'actor.li',\n  name: 'name.li',\n  spriteId: 'sprite.li',\n  portraits: {\n    default: 'portrait.li.default',\n    expressions: { angry: 'portrait.li.angry' },\n  },\n}\n\n\n  test.each([\n    {\n      name: '未定义角色不借用对象原型中的同名键',\n      identity: { kind: 'actor', actor: 'constructor' } satisfies DialogueIdentity,\n      message: '未知 Actor \"constructor\"',\n    },\n    {\n      name: '未定义表情不借用对象原型中的同名键',\n      identity: {\n        kind: 'actor',\n        actor: actor.id,\n        portrait: { kind: 'expression', expression: 'constructor', side: 'left' },\n      } satisfies DialogueIdentity,\n      message: '缺表情 \"constructor\"',\n    },\n  ])('$name', ({ identity, message }) => {\n    const sharedScripts = validateAuthorSharedScripts({\n      probe: {\n        name: 'probe',\n        self: 'none',\n        body: [{ kind: 'dialog', cue: { identity, rows: [{ text: 'line' }] } }],\n      },\n    })\n    expect(() =>\n      validateAuthorDialogueReferences({\n        scenes: [],\n        items: [],\n        enemies: [],\n        sharedScripts,\n        actors: validateActors([actor]),\n      }),\n    ).toThrow(message)\n  })\n})\ndescribe(\"author dialogue identity\", () => {\n\n\nconst actor: ActorDef = {\n  id: 'actor.li',\n  name: 'name.li',\n  spriteId: 'sprite.li',\n  portraits: {\n    default: 'portrait.li.default',\n    expressions: { angry: 'portrait.li.angry' },\n  },\n}\n\n\n  test('实际定义的同名角色与表情仍按自己的定义解析', () => {\n    const actors = validateActors([\n      {\n        ...actor,\n        id: 'constructor',\n        name: 'name.defined',\n        portraits: {\n          default: 'portrait.defined',\n          expressions: { constructor: 'portrait.expression.defined' },\n        },\n      },\n    ])\n    const cue: AuthorDialogueCue = {\n      identity: {\n        kind: 'actor',\n        actor: 'constructor',\n        portrait: {\n          kind: 'expression',\n          expression: 'constructor',\n          side: 'right',\n        },\n      },\n      rows: [{ text: 'line' }],\n    }\n    const sharedScripts = validateAuthorSharedScripts({\n      probe: { name: 'probe', self: 'none', body: [{ kind: 'dialog', cue }] },\n    })\n    expect(() =>\n      validateAuthorDialogueReferences({\n        scenes: [],\n        items: [],\n        enemies: [],\n        sharedScripts,\n        actors,\n      }),\n    ).not.toThrow()\n    expect(\n      resolveAuthorDialogueCue(cue, Object.fromEntries(actors.map((entry) => [entry.id, entry]))),\n    ).toEqual({\n      speaker: 'name.defined',\n      portrait: { asset: 'portrait.expression.defined', side: 'right' },\n      rows: [{ text: 'line' }],\n    })\n  })\n})\n",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "packages/content/src/enemy-ai.test.ts",
+      "id": "organization-content-projections-5",
+      "reason": "Analysis-only current lexical contexts in original registration order. Independent complete typed-module proof restricts all actual changes; this context is not a semantic equivalence claim.",
+      "changes": [
+        {
+          "from": "/** 敌人 AI 规则求值器(M4c-1)—— 设计:enemy-ai-design.md §1/§2。 */\nimport { describe, expect, test, vi } from 'vitest'\nimport type { AiBattleView, AiRule } from './enemy-ai.js'\nimport { decideByRules, evalAiCond, pickAiTarget } from './enemy-ai.js'\n\nconst view = (\n  over?: Omit<Partial<AiBattleView>, 'self'> & { self?: Partial<AiBattleView['self']> },\n): AiBattleView => ({\n  turn: 1,\n  difficulty: 'normal',\n  allyCount: 2,\n  players: [\n    { index: 0, hpPercent: 80, hp: 400, mp: 50, attack: 60, role: 'li-xiaoyao' },\n    { index: 2, hpPercent: 30, hp: 90, mp: 10, attack: 40, role: 'lin-yueru' },\n  ],\n  ...over,\n  self: { hpPercent: 100, firstOfKind: true, silenced: false, ...over?.self },\n})\nconst r0 = () => 0 // rng 恒 0(chance 恒中,random 目标取首个)\nconst r9 = () => 0.99\n\ndescribe('evalAiCond', () => {\n  test('hpBelow/hpAbove/turn/aloneAlive/firstOfKind', () => {\n    expect(\n      evalAiCond({ kind: 'hpBelow', percent: 30 }, view({ self: { hpPercent: 20 } }), r0),\n    ).toBe(true)\n    expect(evalAiCond({ kind: 'hpAbove', percent: 50 }, view(), r0)).toBe(true)\n    expect(evalAiCond({ kind: 'hpBelow', percent: 100 }, view(), r0)).toBe(false)\n    expect(evalAiCond({ kind: 'hpAbove', percent: 100 }, view(), r0)).toBe(false)\n    expect(evalAiCond({ kind: 'turn', op: '>=', value: 3 }, view({ turn: 3 }), r0)).toBe(true)\n    expect(evalAiCond({ kind: 'turn', op: '==', value: 3 }, view({ turn: 4 }), r0)).toBe(false)\n    expect(evalAiCond({ kind: 'aloneAlive' }, view({ allyCount: 1 }), r0)).toBe(true)\n    expect(evalAiCond({ kind: 'firstOfKind' }, view({ self: { firstOfKind: false } }), r0)).toBe(\n      false,\n    )\n  })\n  test('chance 用注入 rng;战场感知与难度', () => {\n    expect(evalAiCond({ kind: 'chance', percent: 50 }, view(), r0)).toBe(true)\n    expect(evalAiCond({ kind: 'chance', percent: 50 }, view(), r9)).toBe(false)\n    expect(evalAiCond({ kind: 'anyPlayerHpBelow', percent: 40 }, view(), r0)).toBe(true)\n    expect(evalAiCond({ kind: 'allyCount', op: '<=', value: 1 }, view(), r0)).toBe(false)\n    expect(evalAiCond({ kind: 'difficulty', in: ['hard', 'hardcore'] }, view(), r0)).toBe(false)\n    expect(evalAiCond({ kind: 'difficulty', in: ['normal'] }, view(), r0)).toBe(true)\n  })\n  test('playerInParty:角色在队(0x79 门 —— 绿叶小妖赵灵儿在队才退下)', () => {\n    // view 默认队伍 = [李逍遥, 林月如]\n    expect(evalAiCond({ kind: 'playerInParty', role: 'li-xiaoyao' }, view(), r0)).toBe(true)\n    expect(evalAiCond({ kind: 'playerInParty', role: 'zhao-linger' }, view(), r0)).toBe(false)\n  })\n  test('组合子 all/any/not', () => {\n    const c = {\n      kind: 'all' as const,\n      of: [\n        { kind: 'turn' as const, op: '>=' as const, value: 1 },\n        { kind: 'not' as const, cond: { kind: 'aloneAlive' as const } },\n      ],\n    }\n    expect(evalAiCond(c, view(), r0)).toBe(true)\n    const random = vi.fn(() => 0.25)\n    expect(evalAiCond({ kind: 'any', of: [] }, view(), random)).toBe(false)\n    expect(\n      evalAiCond(\n        {\n          kind: 'any',\n          of: [\n            { kind: 'turn', op: '>=', value: 1 },\n            { kind: 'chance', percent: 50 },\n          ],\n        },\n        view(),\n        random,\n      ),\n    ).toBe(true)\n    expect(\n      evalAiCond(\n        {\n          kind: 'all',\n          of: [\n            { kind: 'hpBelow', percent: 10 },\n            { kind: 'chance', percent: 50 },\n          ],\n        },\n        view(),\n        random,\n      ),\n    ).toBe(false)\n    // Short-circuiting is observable RNG ownership, not merely an optimization.\n    expect(random).not.toHaveBeenCalled()\n  })\n})\n\ndescribe('decideByRules(首条命中 / once / 沉默跳 cast)', () => {\n  const rules: AiRule[] = [\n    { at: 'turnStart', do: { kind: 'pass' } }, // act 决策不看 turnStart\n    {\n      at: 'act',\n      when: { kind: 'hpBelow', percent: 30 },\n      do: { kind: 'transform', enemyId: 'enemy-2' },\n      once: true,\n    },\n    { at: 'act', when: { kind: 'chance', percent: 50 }, do: { kind: 'cast', skillId: '339' } },\n    { at: 'act', do: { kind: 'attack' } },\n  ]\n  test('顺序匹配:满血 → 概率中 → 施法', () => {\n    expect(decideByRules(rules, view(), r0, new Set())).toEqual({\n      action: { kind: 'cast', skillId: '339' },\n      ruleIdx: 2,\n    })\n  })\n  test('低血优先变身;once 已触发则跳过', () => {\n    const v = view({ self: { hpPercent: 10 } })\n    expect(decideByRules(rules, v, r0, new Set())).toEqual({\n      action: { kind: 'transform', enemyId: 'enemy-2' },\n      ruleIdx: 1,\n    })\n    expect(decideByRules(rules, v, r0, new Set([1]))).toEqual({\n      action: { kind: 'cast', skillId: '339' },\n      ruleIdx: 2,\n    })\n  })\n  test('沉默:cast 跳过继续匹配 → 普攻兜底', () => {\n    expect(decideByRules(rules, view({ self: { silenced: true } }), r0, new Set())).toEqual({\n      action: { kind: 'attack' },\n      ruleIdx: 3,\n    })\n  })\n  test('概率不中落到兜底;无命中返回 null', () => {\n    expect(decideByRules(rules, view(), r9, new Set())).toEqual({\n      action: { kind: 'attack' },\n      ruleIdx: 3,\n    })\n    expect(decideByRules([rules[2]!], view(), r9, new Set())).toBeNull()\n  })\n})\n\ndescribe('pickAiTarget(目标策略)', () => {\n  const ps = view().players\n  test('random 走 rng;lowestHp 集火残血;strongest 打高攻', () => {\n    expect(pickAiTarget('random', ps, r0)).toBe(0)\n    expect(pickAiTarget(undefined, ps, r9)).toBe(2)\n    expect(pickAiTarget('lowestHp', ps, r0)).toBe(2)\n    expect(pickAiTarget('strongest', ps, r0)).toBe(0)\n    expect(pickAiTarget('lowestMp', ps, r0)).toBe(2)\n  })\n})\n",
+          "to": "import { describe } from \"vitest\"\nimport type { AiBattleView } from \"./enemy-ai.js\"\nimport { evalAiCond } from \"./enemy-ai.js\"\nimport { expect } from \"vitest\"\nimport { test } from \"vitest\"\nimport { vi } from \"vitest\"\nimport type { AiRule } from \"./enemy-ai.js\"\nimport { decideByRules } from \"./enemy-ai.js\"\nimport { pickAiTarget } from \"./enemy-ai.js\"\ndescribe(\"evalAiCond\", () => {\n\n\nconst view = (\n  over?: Omit<Partial<AiBattleView>, 'self'> & { self?: Partial<AiBattleView['self']> },\n): AiBattleView => ({\n  turn: 1,\n  difficulty: 'normal',\n  allyCount: 2,\n  players: [\n    { index: 0, hpPercent: 80, hp: 400, mp: 50, attack: 60, role: 'li-xiaoyao' },\n    { index: 2, hpPercent: 30, hp: 90, mp: 10, attack: 40, role: 'lin-yueru' },\n  ],\n  ...over,\n  self: { hpPercent: 100, firstOfKind: true, silenced: false, ...over?.self },\n})\n\nconst r0 = () => 0\n\n  test('hpBelow/hpAbove/turn/aloneAlive/firstOfKind', () => {\n    expect(\n      evalAiCond({ kind: 'hpBelow', percent: 30 }, view({ self: { hpPercent: 20 } }), r0),\n    ).toBe(true)\n    expect(evalAiCond({ kind: 'hpAbove', percent: 50 }, view(), r0)).toBe(true)\n    expect(evalAiCond({ kind: 'hpBelow', percent: 100 }, view(), r0)).toBe(false)\n    expect(evalAiCond({ kind: 'hpAbove', percent: 100 }, view(), r0)).toBe(false)\n    expect(evalAiCond({ kind: 'turn', op: '>=', value: 3 }, view({ turn: 3 }), r0)).toBe(true)\n    expect(evalAiCond({ kind: 'turn', op: '==', value: 3 }, view({ turn: 4 }), r0)).toBe(false)\n    expect(evalAiCond({ kind: 'aloneAlive' }, view({ allyCount: 1 }), r0)).toBe(true)\n    expect(evalAiCond({ kind: 'firstOfKind' }, view({ self: { firstOfKind: false } }), r0)).toBe(\n      false,\n    )\n  })\n})\ndescribe(\"evalAiCond\", () => {\n\n\nconst view = (\n  over?: Omit<Partial<AiBattleView>, 'self'> & { self?: Partial<AiBattleView['self']> },\n): AiBattleView => ({\n  turn: 1,\n  difficulty: 'normal',\n  allyCount: 2,\n  players: [\n    { index: 0, hpPercent: 80, hp: 400, mp: 50, attack: 60, role: 'li-xiaoyao' },\n    { index: 2, hpPercent: 30, hp: 90, mp: 10, attack: 40, role: 'lin-yueru' },\n  ],\n  ...over,\n  self: { hpPercent: 100, firstOfKind: true, silenced: false, ...over?.self },\n})\n\nconst r0 = () => 0\n // rng 恒 0(chance 恒中,random 目标取首个)\nconst r9 = () => 0.99\n\n  test('chance 用注入 rng;战场感知与难度', () => {\n    expect(evalAiCond({ kind: 'chance', percent: 50 }, view(), r0)).toBe(true)\n    expect(evalAiCond({ kind: 'chance', percent: 50 }, view(), r9)).toBe(false)\n    expect(evalAiCond({ kind: 'anyPlayerHpBelow', percent: 40 }, view(), r0)).toBe(true)\n    expect(evalAiCond({ kind: 'allyCount', op: '<=', value: 1 }, view(), r0)).toBe(false)\n    expect(evalAiCond({ kind: 'difficulty', in: ['hard', 'hardcore'] }, view(), r0)).toBe(false)\n    expect(evalAiCond({ kind: 'difficulty', in: ['normal'] }, view(), r0)).toBe(true)\n  })\n})\ndescribe(\"evalAiCond\", () => {\n\n\nconst view = (\n  over?: Omit<Partial<AiBattleView>, 'self'> & { self?: Partial<AiBattleView['self']> },\n): AiBattleView => ({\n  turn: 1,\n  difficulty: 'normal',\n  allyCount: 2,\n  players: [\n    { index: 0, hpPercent: 80, hp: 400, mp: 50, attack: 60, role: 'li-xiaoyao' },\n    { index: 2, hpPercent: 30, hp: 90, mp: 10, attack: 40, role: 'lin-yueru' },\n  ],\n  ...over,\n  self: { hpPercent: 100, firstOfKind: true, silenced: false, ...over?.self },\n})\n\nconst r0 = () => 0\n\n  test('playerInParty:角色在队(0x79 门 —— 绿叶小妖赵灵儿在队才退下)', () => {\n    // view 默认队伍 = [李逍遥, 林月如]\n    expect(evalAiCond({ kind: 'playerInParty', role: 'li-xiaoyao' }, view(), r0)).toBe(true)\n    expect(evalAiCond({ kind: 'playerInParty', role: 'zhao-linger' }, view(), r0)).toBe(false)\n  })\n})\ndescribe(\"evalAiCond\", () => {\n\n\nconst view = (\n  over?: Omit<Partial<AiBattleView>, 'self'> & { self?: Partial<AiBattleView['self']> },\n): AiBattleView => ({\n  turn: 1,\n  difficulty: 'normal',\n  allyCount: 2,\n  players: [\n    { index: 0, hpPercent: 80, hp: 400, mp: 50, attack: 60, role: 'li-xiaoyao' },\n    { index: 2, hpPercent: 30, hp: 90, mp: 10, attack: 40, role: 'lin-yueru' },\n  ],\n  ...over,\n  self: { hpPercent: 100, firstOfKind: true, silenced: false, ...over?.self },\n})\n\nconst r0 = () => 0\n\n  test('组合子 all/any/not', () => {\n    const c = {\n      kind: 'all' as const,\n      of: [\n        { kind: 'turn' as const, op: '>=' as const, value: 1 },\n        { kind: 'not' as const, cond: { kind: 'aloneAlive' as const } },\n      ],\n    }\n    expect(evalAiCond(c, view(), r0)).toBe(true)\n    const random = vi.fn(() => 0.25)\n    expect(evalAiCond({ kind: 'any', of: [] }, view(), random)).toBe(false)\n    expect(\n      evalAiCond(\n        {\n          kind: 'any',\n          of: [\n            { kind: 'turn', op: '>=', value: 1 },\n            { kind: 'chance', percent: 50 },\n          ],\n        },\n        view(),\n        random,\n      ),\n    ).toBe(true)\n    expect(\n      evalAiCond(\n        {\n          kind: 'all',\n          of: [\n            { kind: 'hpBelow', percent: 10 },\n            { kind: 'chance', percent: 50 },\n          ],\n        },\n        view(),\n        random,\n      ),\n    ).toBe(false)\n    // Short-circuiting is observable RNG ownership, not merely an optimization.\n    expect(random).not.toHaveBeenCalled()\n  })\n})\ndescribe(\"decideByRules(首条命中 / once / 沉默跳 cast)\", () => {\n\n\nconst view = (\n  over?: Omit<Partial<AiBattleView>, 'self'> & { self?: Partial<AiBattleView['self']> },\n): AiBattleView => ({\n  turn: 1,\n  difficulty: 'normal',\n  allyCount: 2,\n  players: [\n    { index: 0, hpPercent: 80, hp: 400, mp: 50, attack: 60, role: 'li-xiaoyao' },\n    { index: 2, hpPercent: 30, hp: 90, mp: 10, attack: 40, role: 'lin-yueru' },\n  ],\n  ...over,\n  self: { hpPercent: 100, firstOfKind: true, silenced: false, ...over?.self },\n})\n\nconst r0 = () => 0\n\n  const rules: AiRule[] = [\n    { at: 'turnStart', do: { kind: 'pass' } }, // act 决策不看 turnStart\n    {\n      at: 'act',\n      when: { kind: 'hpBelow', percent: 30 },\n      do: { kind: 'transform', enemyId: 'enemy-2' },\n      once: true,\n    },\n    { at: 'act', when: { kind: 'chance', percent: 50 }, do: { kind: 'cast', skillId: '339' } },\n    { at: 'act', do: { kind: 'attack' } },\n  ]\n\n  test('顺序匹配:满血 → 概率中 → 施法', () => {\n    expect(decideByRules(rules, view(), r0, new Set())).toEqual({\n      action: { kind: 'cast', skillId: '339' },\n      ruleIdx: 2,\n    })\n  })\n})\ndescribe(\"decideByRules(首条命中 / once / 沉默跳 cast)\", () => {\n\n\nconst view = (\n  over?: Omit<Partial<AiBattleView>, 'self'> & { self?: Partial<AiBattleView['self']> },\n): AiBattleView => ({\n  turn: 1,\n  difficulty: 'normal',\n  allyCount: 2,\n  players: [\n    { index: 0, hpPercent: 80, hp: 400, mp: 50, attack: 60, role: 'li-xiaoyao' },\n    { index: 2, hpPercent: 30, hp: 90, mp: 10, attack: 40, role: 'lin-yueru' },\n  ],\n  ...over,\n  self: { hpPercent: 100, firstOfKind: true, silenced: false, ...over?.self },\n})\n\nconst r0 = () => 0\n\n  const rules: AiRule[] = [\n    { at: 'turnStart', do: { kind: 'pass' } }, // act 决策不看 turnStart\n    {\n      at: 'act',\n      when: { kind: 'hpBelow', percent: 30 },\n      do: { kind: 'transform', enemyId: 'enemy-2' },\n      once: true,\n    },\n    { at: 'act', when: { kind: 'chance', percent: 50 }, do: { kind: 'cast', skillId: '339' } },\n    { at: 'act', do: { kind: 'attack' } },\n  ]\n\n  test('低血优先变身;once 已触发则跳过', () => {\n    const v = view({ self: { hpPercent: 10 } })\n    expect(decideByRules(rules, v, r0, new Set())).toEqual({\n      action: { kind: 'transform', enemyId: 'enemy-2' },\n      ruleIdx: 1,\n    })\n    expect(decideByRules(rules, v, r0, new Set([1]))).toEqual({\n      action: { kind: 'cast', skillId: '339' },\n      ruleIdx: 2,\n    })\n  })\n})\ndescribe(\"decideByRules(首条命中 / once / 沉默跳 cast)\", () => {\n\n\nconst view = (\n  over?: Omit<Partial<AiBattleView>, 'self'> & { self?: Partial<AiBattleView['self']> },\n): AiBattleView => ({\n  turn: 1,\n  difficulty: 'normal',\n  allyCount: 2,\n  players: [\n    { index: 0, hpPercent: 80, hp: 400, mp: 50, attack: 60, role: 'li-xiaoyao' },\n    { index: 2, hpPercent: 30, hp: 90, mp: 10, attack: 40, role: 'lin-yueru' },\n  ],\n  ...over,\n  self: { hpPercent: 100, firstOfKind: true, silenced: false, ...over?.self },\n})\n\nconst r0 = () => 0\n\n  const rules: AiRule[] = [\n    { at: 'turnStart', do: { kind: 'pass' } }, // act 决策不看 turnStart\n    {\n      at: 'act',\n      when: { kind: 'hpBelow', percent: 30 },\n      do: { kind: 'transform', enemyId: 'enemy-2' },\n      once: true,\n    },\n    { at: 'act', when: { kind: 'chance', percent: 50 }, do: { kind: 'cast', skillId: '339' } },\n    { at: 'act', do: { kind: 'attack' } },\n  ]\n\n  test('沉默:cast 跳过继续匹配 → 普攻兜底', () => {\n    expect(decideByRules(rules, view({ self: { silenced: true } }), r0, new Set())).toEqual({\n      action: { kind: 'attack' },\n      ruleIdx: 3,\n    })\n  })\n})\ndescribe(\"decideByRules(首条命中 / once / 沉默跳 cast)\", () => {\n\n\nconst view = (\n  over?: Omit<Partial<AiBattleView>, 'self'> & { self?: Partial<AiBattleView['self']> },\n): AiBattleView => ({\n  turn: 1,\n  difficulty: 'normal',\n  allyCount: 2,\n  players: [\n    { index: 0, hpPercent: 80, hp: 400, mp: 50, attack: 60, role: 'li-xiaoyao' },\n    { index: 2, hpPercent: 30, hp: 90, mp: 10, attack: 40, role: 'lin-yueru' },\n  ],\n  ...over,\n  self: { hpPercent: 100, firstOfKind: true, silenced: false, ...over?.self },\n})\n // rng 恒 0(chance 恒中,random 目标取首个)\nconst r9 = () => 0.99\n\n  const rules: AiRule[] = [\n    { at: 'turnStart', do: { kind: 'pass' } }, // act 决策不看 turnStart\n    {\n      at: 'act',\n      when: { kind: 'hpBelow', percent: 30 },\n      do: { kind: 'transform', enemyId: 'enemy-2' },\n      once: true,\n    },\n    { at: 'act', when: { kind: 'chance', percent: 50 }, do: { kind: 'cast', skillId: '339' } },\n    { at: 'act', do: { kind: 'attack' } },\n  ]\n\n  test('概率不中落到兜底;无命中返回 null', () => {\n    expect(decideByRules(rules, view(), r9, new Set())).toEqual({\n      action: { kind: 'attack' },\n      ruleIdx: 3,\n    })\n    expect(decideByRules([rules[2]!], view(), r9, new Set())).toBeNull()\n  })\n})\ndescribe(\"pickAiTarget(目标策略)\", () => {\n\n\nconst view = (\n  over?: Omit<Partial<AiBattleView>, 'self'> & { self?: Partial<AiBattleView['self']> },\n): AiBattleView => ({\n  turn: 1,\n  difficulty: 'normal',\n  allyCount: 2,\n  players: [\n    { index: 0, hpPercent: 80, hp: 400, mp: 50, attack: 60, role: 'li-xiaoyao' },\n    { index: 2, hpPercent: 30, hp: 90, mp: 10, attack: 40, role: 'lin-yueru' },\n  ],\n  ...over,\n  self: { hpPercent: 100, firstOfKind: true, silenced: false, ...over?.self },\n})\n\nconst r0 = () => 0\n // rng 恒 0(chance 恒中,random 目标取首个)\nconst r9 = () => 0.99\n\n  const ps = view().players\n\n  test('random 走 rng;lowestHp 集火残血;strongest 打高攻', () => {\n    expect(pickAiTarget('random', ps, r0)).toBe(0)\n    expect(pickAiTarget(undefined, ps, r9)).toBe(2)\n    expect(pickAiTarget('lowestHp', ps, r0)).toBe(2)\n    expect(pickAiTarget('strongest', ps, r0)).toBe(0)\n    expect(pickAiTarget('lowestMp', ps, r0)).toBe(2)\n  })\n})\n",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "packages/content/src/shop.test.ts",
+      "id": "organization-content-projections-6",
+      "reason": "Analysis-only current lexical contexts in original registration order. Independent complete typed-module proof restricts all actual changes; this context is not a semantic equivalence claim.",
+      "changes": [
+        {
+          "from": "import { describe, expect, test } from 'vitest'\nimport type { WorldState } from './character.js'\nimport type { ItemDataMap } from './item.js'\nimport { sellableItems, shopBuy, shopSell, validateShops } from './shop.js'\n\ndescribe('validateShops current table', () => {\n  test('empty tables, id0 and repeated stock occurrences remain intact', () => {\n    expect(validateShops([])).toEqual([])\n    const table = [\n      { id: 0, items: ['a', 'b', 'a'] },\n      { id: 2, items: [] },\n    ]\n    expect(validateShops(table)).toEqual(table)\n  })\n  test.each<[unknown, string]>([\n    [null, 'shops 期望数组'],\n    [{}, 'shops 期望数组'],\n    [[null], 'shops[0] 期望商店对象'],\n    [[{ id: -1, items: [] }], 'shops[0].id 必须为非负安全整数'],\n    [[{ id: 0.5, items: [] }], 'shops[0].id 必须为非负安全整数'],\n    [[{ id: Number.MAX_SAFE_INTEGER + 1, items: [] }], 'shops[0].id 必须为非负安全整数'],\n    [[{ id: '0', items: [] }], 'shops[0].id 必须为非负安全整数'],\n    [\n      [\n        { id: 0, items: [] },\n        { id: 0, items: [] },\n      ],\n      'shops 重复 id 0',\n    ],\n    [[{ id: 0, items: [''] }], 'shops[0].items 必须为物品 id 数组（非空字符串）'],\n    [[{ id: 0, items: [1] }], 'shops[0].items 必须为物品 id 数组（非空字符串）'],\n    [[{ id: 0, items: null }], 'shops[0].items 必须为物品 id 数组（非空字符串）'],\n  ])('rejects malformed current tables %j', (value, message) => {\n    expect(() => validateShops(value)).toThrow(message)\n  })\n})\n\nconst ITEMS: ItemDataMap = {\n  '166': {\n    id: '166',\n    name: '木剑',\n    desc: [],\n    buyPrice: 50,\n    sellPrice: 25,\n    sellable: true,\n  },\n  '61': {\n    id: '61',\n    name: '观音符',\n    desc: [],\n    buyPrice: 150,\n    sellPrice: 75,\n    sellable: true,\n  },\n  '267': {\n    id: '267',\n    name: '土灵珠',\n    desc: [],\n    buyPrice: 0,\n    sellPrice: 0,\n    sellable: false,\n  }, // 剧情品不可卖\n}\n\nfunction world(money: number, inv: { itemId: string; count: number }[]): WorldState {\n  return { party: [], money, learnedSkills: {}, inventory: inv }\n}\n\ndescribe('shopBuy(每次 1 个;钱不够 null)', () => {\n  test('继承属性不算物品定义，购买未知 constructor 不改变世界', () => {\n    const before = world(100, [])\n    expect(shopBuy(before, 'constructor', {})).toBeNull()\n    expect(before).toEqual({ party: [], money: 100, learnedSkills: {}, inventory: [] })\n  })\n\n  test('工程真正定义的 constructor 物品正常扣钱入包', () => {\n    const items: ItemDataMap = {\n      constructor: {\n        id: 'constructor',\n        name: '同名物品',\n        desc: [],\n        buyPrice: 50,\n        sellPrice: 25,\n        sellable: true,\n      },\n    }\n    expect(shopBuy(world(100, []), 'constructor', items)).toEqual({\n      party: [],\n      money: 50,\n      learnedSkills: {},\n      inventory: [{ itemId: 'constructor', count: 1 }],\n    })\n  })\n\n  test('钱够:扣 buyPrice + 入包(已有叠加/新条目);源不变', () => {\n    const w0 = world(100, [{ itemId: '166', count: 1 }])\n    const w1 = shopBuy(w0, '166', ITEMS)!\n    expect(w1.money).toBe(50)\n    expect(w1.inventory).toEqual([{ itemId: '166', count: 2 }])\n    expect(w0).toEqual({\n      party: [],\n      money: 100,\n      learnedSkills: {},\n      inventory: [{ itemId: '166', count: 1 }],\n    }) // Source world and inventory remain unchanged\n    const w2 = shopBuy(w1, '61', ITEMS)\n    expect(w2).toBeNull() // 50 < 150 钱不够\n  })\n  test('新物品入包为新条目', () => {\n    const w1 = shopBuy(world(200, []), '61', ITEMS)!\n    expect(w1.inventory).toEqual([{ itemId: '61', count: 1 }])\n    expect(w1.money).toBe(50)\n  })\n})\n\ndescribe('shopSell(按 sellPrice;不可卖/没货 null)', () => {\n  test('卖 1 个得 sellPrice;数量归零移除条目', () => {\n    const w0 = world(0, [{ itemId: '166', count: 1 }])\n    const w1 = shopSell(w0, '166', ITEMS)!\n    expect(w1.money).toBe(25)\n    expect(w1.inventory).toEqual([])\n    expect(w0).toEqual({\n      party: [],\n      money: 0,\n      learnedSkills: {},\n      inventory: [{ itemId: '166', count: 1 }],\n    })\n  })\n  test('不可卖(sellable=false)/背包没有 → null', () => {\n    expect(shopSell(world(0, [{ itemId: '267', count: 1 }]), '267', ITEMS)).toBeNull()\n    expect(shopSell(world(0, []), '166', ITEMS)).toBeNull()\n  })\n})\n\ntest('sellableItems:背包中可卖过滤(剧情品/零数排除)', () => {\n  const w = world(0, [\n    { itemId: '166', count: 1 },\n    { itemId: '267', count: 1 },\n    { itemId: '61', count: 0 },\n  ])\n  expect(sellableItems(w, ITEMS)).toEqual(['166'])\n})\n",
+          "to": "import { describe } from \"vitest\"\nimport { expect } from \"vitest\"\nimport { test } from \"vitest\"\nimport { validateShops } from \"./shop.js\"\nimport { shopBuy } from \"./shop.js\"\nimport type { WorldState } from \"./character.js\"\nimport type { ItemDataMap } from \"./item.js\"\nimport { shopSell } from \"./shop.js\"\nimport { sellableItems } from \"./shop.js\"\ndescribe(\"validateShops current table\", () => {\n\n\n  test('empty tables, id0 and repeated stock occurrences remain intact', () => {\n    expect(validateShops([])).toEqual([])\n    const table = [\n      { id: 0, items: ['a', 'b', 'a'] },\n      { id: 2, items: [] },\n    ]\n    expect(validateShops(table)).toEqual(table)\n  })\n})\ndescribe(\"validateShops current table\", () => {\n\n\n  test.each<[unknown, string]>([\n    [null, 'shops 期望数组'],\n    [{}, 'shops 期望数组'],\n    [[null], 'shops[0] 期望商店对象'],\n    [[{ id: -1, items: [] }], 'shops[0].id 必须为非负安全整数'],\n    [[{ id: 0.5, items: [] }], 'shops[0].id 必须为非负安全整数'],\n    [[{ id: Number.MAX_SAFE_INTEGER + 1, items: [] }], 'shops[0].id 必须为非负安全整数'],\n    [[{ id: '0', items: [] }], 'shops[0].id 必须为非负安全整数'],\n    [\n      [\n        { id: 0, items: [] },\n        { id: 0, items: [] },\n      ],\n      'shops 重复 id 0',\n    ],\n    [[{ id: 0, items: [''] }], 'shops[0].items 必须为物品 id 数组（非空字符串）'],\n    [[{ id: 0, items: [1] }], 'shops[0].items 必须为物品 id 数组（非空字符串）'],\n    [[{ id: 0, items: null }], 'shops[0].items 必须为物品 id 数组（非空字符串）'],\n  ])('rejects malformed current tables %j', (value, message) => {\n    expect(() => validateShops(value)).toThrow(message)\n  })\n})\ndescribe(\"shopBuy(每次 1 个;钱不够 null)\", () => {\n\n\nfunction world(money: number, inv: { itemId: string; count: number }[]): WorldState {\n  return { party: [], money, learnedSkills: {}, inventory: inv }\n}\n\n  test('继承属性不算物品定义，购买未知 constructor 不改变世界', () => {\n    const before = world(100, [])\n    expect(shopBuy(before, 'constructor', {})).toBeNull()\n    expect(before).toEqual({ party: [], money: 100, learnedSkills: {}, inventory: [] })\n  })\n})\ndescribe(\"shopBuy(每次 1 个;钱不够 null)\", () => {\n\n\nfunction world(money: number, inv: { itemId: string; count: number }[]): WorldState {\n  return { party: [], money, learnedSkills: {}, inventory: inv }\n}\n\n\n  test('工程真正定义的 constructor 物品正常扣钱入包', () => {\n    const items: ItemDataMap = {\n      constructor: {\n        id: 'constructor',\n        name: '同名物品',\n        desc: [],\n        buyPrice: 50,\n        sellPrice: 25,\n        sellable: true,\n      },\n    }\n    expect(shopBuy(world(100, []), 'constructor', items)).toEqual({\n      party: [],\n      money: 50,\n      learnedSkills: {},\n      inventory: [{ itemId: 'constructor', count: 1 }],\n    })\n  })\n})\ndescribe(\"shopBuy(每次 1 个;钱不够 null)\", () => {\n\n\nconst ITEMS: ItemDataMap = {\n  '166': {\n    id: '166',\n    name: '木剑',\n    desc: [],\n    buyPrice: 50,\n    sellPrice: 25,\n    sellable: true,\n  },\n  '61': {\n    id: '61',\n    name: '观音符',\n    desc: [],\n    buyPrice: 150,\n    sellPrice: 75,\n    sellable: true,\n  },\n  '267': {\n    id: '267',\n    name: '土灵珠',\n    desc: [],\n    buyPrice: 0,\n    sellPrice: 0,\n    sellable: false,\n  }, // 剧情品不可卖\n}\n\n\nfunction world(money: number, inv: { itemId: string; count: number }[]): WorldState {\n  return { party: [], money, learnedSkills: {}, inventory: inv }\n}\n\n\n  test('钱够:扣 buyPrice + 入包(已有叠加/新条目);源不变', () => {\n    const w0 = world(100, [{ itemId: '166', count: 1 }])\n    const w1 = shopBuy(w0, '166', ITEMS)!\n    expect(w1.money).toBe(50)\n    expect(w1.inventory).toEqual([{ itemId: '166', count: 2 }])\n    expect(w0).toEqual({\n      party: [],\n      money: 100,\n      learnedSkills: {},\n      inventory: [{ itemId: '166', count: 1 }],\n    }) // Source world and inventory remain unchanged\n    const w2 = shopBuy(w1, '61', ITEMS)\n    expect(w2).toBeNull() // 50 < 150 钱不够\n  })\n})\ndescribe(\"shopBuy(每次 1 个;钱不够 null)\", () => {\n\n\nconst ITEMS: ItemDataMap = {\n  '166': {\n    id: '166',\n    name: '木剑',\n    desc: [],\n    buyPrice: 50,\n    sellPrice: 25,\n    sellable: true,\n  },\n  '61': {\n    id: '61',\n    name: '观音符',\n    desc: [],\n    buyPrice: 150,\n    sellPrice: 75,\n    sellable: true,\n  },\n  '267': {\n    id: '267',\n    name: '土灵珠',\n    desc: [],\n    buyPrice: 0,\n    sellPrice: 0,\n    sellable: false,\n  }, // 剧情品不可卖\n}\n\n\nfunction world(money: number, inv: { itemId: string; count: number }[]): WorldState {\n  return { party: [], money, learnedSkills: {}, inventory: inv }\n}\n\n  test('新物品入包为新条目', () => {\n    const w1 = shopBuy(world(200, []), '61', ITEMS)!\n    expect(w1.inventory).toEqual([{ itemId: '61', count: 1 }])\n    expect(w1.money).toBe(50)\n  })\n})\ndescribe(\"shopSell(按 sellPrice;不可卖/没货 null)\", () => {\n\n\nconst ITEMS: ItemDataMap = {\n  '166': {\n    id: '166',\n    name: '木剑',\n    desc: [],\n    buyPrice: 50,\n    sellPrice: 25,\n    sellable: true,\n  },\n  '61': {\n    id: '61',\n    name: '观音符',\n    desc: [],\n    buyPrice: 150,\n    sellPrice: 75,\n    sellable: true,\n  },\n  '267': {\n    id: '267',\n    name: '土灵珠',\n    desc: [],\n    buyPrice: 0,\n    sellPrice: 0,\n    sellable: false,\n  }, // 剧情品不可卖\n}\n\n\nfunction world(money: number, inv: { itemId: string; count: number }[]): WorldState {\n  return { party: [], money, learnedSkills: {}, inventory: inv }\n}\n\n  test('卖 1 个得 sellPrice;数量归零移除条目', () => {\n    const w0 = world(0, [{ itemId: '166', count: 1 }])\n    const w1 = shopSell(w0, '166', ITEMS)!\n    expect(w1.money).toBe(25)\n    expect(w1.inventory).toEqual([])\n    expect(w0).toEqual({\n      party: [],\n      money: 0,\n      learnedSkills: {},\n      inventory: [{ itemId: '166', count: 1 }],\n    })\n  })\n})\ndescribe(\"shopSell(按 sellPrice;不可卖/没货 null)\", () => {\n\n\nconst ITEMS: ItemDataMap = {\n  '166': {\n    id: '166',\n    name: '木剑',\n    desc: [],\n    buyPrice: 50,\n    sellPrice: 25,\n    sellable: true,\n  },\n  '61': {\n    id: '61',\n    name: '观音符',\n    desc: [],\n    buyPrice: 150,\n    sellPrice: 75,\n    sellable: true,\n  },\n  '267': {\n    id: '267',\n    name: '土灵珠',\n    desc: [],\n    buyPrice: 0,\n    sellPrice: 0,\n    sellable: false,\n  }, // 剧情品不可卖\n}\n\n\nfunction world(money: number, inv: { itemId: string; count: number }[]): WorldState {\n  return { party: [], money, learnedSkills: {}, inventory: inv }\n}\n\n  test('不可卖(sellable=false)/背包没有 → null', () => {\n    expect(shopSell(world(0, [{ itemId: '267', count: 1 }]), '267', ITEMS)).toBeNull()\n    expect(shopSell(world(0, []), '166', ITEMS)).toBeNull()\n  })\n})\n\n\nconst ITEMS: ItemDataMap = {\n  '166': {\n    id: '166',\n    name: '木剑',\n    desc: [],\n    buyPrice: 50,\n    sellPrice: 25,\n    sellable: true,\n  },\n  '61': {\n    id: '61',\n    name: '观音符',\n    desc: [],\n    buyPrice: 150,\n    sellPrice: 75,\n    sellable: true,\n  },\n  '267': {\n    id: '267',\n    name: '土灵珠',\n    desc: [],\n    buyPrice: 0,\n    sellPrice: 0,\n    sellable: false,\n  }, // 剧情品不可卖\n}\n\n\nfunction world(money: number, inv: { itemId: string; count: number }[]): WorldState {\n  return { party: [], money, learnedSkills: {}, inventory: inv }\n}\n\n\ntest('sellableItems:背包中可卖过滤(剧情品/零数排除)', () => {\n  const w = world(0, [\n    { itemId: '166', count: 1 },\n    { itemId: '267', count: 1 },\n    { itemId: '61', count: 0 },\n  ])\n  expect(sellableItems(w, ITEMS)).toEqual(['166'])\n})\n",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "packages/content/src/ambience.test.ts",
+      "id": "organization-content-projections-7",
+      "reason": "Analysis-only current lexical contexts in original registration order. Independent complete typed-module proof restricts all actual changes; this context is not a semantic equivalence claim.",
+      "changes": [
+        {
+          "from": "import { describe, expect, test } from 'vitest'\nimport {\n  AMBIENCE_IDENTITY,\n  type AmbienceDef,\n  isIdentityTint,\n  lerpTint,\n  resolveAmbienceTint,\n} from './ambience.js'\n\nconst DEFS: AmbienceDef[] = [\n  { id: 'day', name: '白天', tint: [255, 255, 255] },\n  { id: 'night', name: '夜晚', tint: [117, 229, 255] }, // 原版夜盘拟合(R×0.458/G×0.899/B×1.0)\n]\n\ndescribe('resolveAmbienceTint(氛围 id → 乘色)', () => {\n  test('night → 拟合夜色;day → 恒等', () => {\n    expect(resolveAmbienceTint('night', DEFS)).toEqual([117, 229, 255])\n    expect(resolveAmbienceTint('day', DEFS)).toEqual([255, 255, 255])\n  })\n  test('缺 id / 未知 id / 空表 → 恒等兜底(工程没带氛围表时零影响)', () => {\n    expect(resolveAmbienceTint(undefined, DEFS)).toEqual(AMBIENCE_IDENTITY)\n    expect(resolveAmbienceTint('bloodmoon', DEFS)).toEqual(AMBIENCE_IDENTITY)\n    expect(resolveAmbienceTint('night', [])).toEqual(AMBIENCE_IDENTITY)\n  })\n  test('工程可覆写 day(自定义白天色调)', () => {\n    const warm: AmbienceDef[] = [{ id: 'day', name: '暖阳', tint: [255, 244, 230] }]\n    expect(resolveAmbienceTint('day', warm)).toEqual([255, 244, 230])\n    expect(resolveAmbienceTint(undefined, warm)).toEqual(AMBIENCE_IDENTITY) // 缺省仍恒等\n  })\n})\n\ndescribe('isIdentityTint / lerpTint', () => {\n  test('恒等判定:全通道 ≥254 视为不染(免全屏合成)', () => {\n    expect(isIdentityTint([255, 255, 255])).toBe(true)\n    expect(isIdentityTint([254, 254, 255])).toBe(true)\n    expect(isIdentityTint([117, 229, 255])).toBe(false)\n  })\n  test('lerp:t=0 起点 / t=1 终点 / 中点四舍五入 / 越界夹取', () => {\n    expect(lerpTint([255, 255, 255], [117, 229, 255], 0)).toEqual([255, 255, 255])\n    expect(lerpTint([255, 255, 255], [117, 229, 255], 1)).toEqual([117, 229, 255])\n    expect(lerpTint([255, 255, 255], [117, 229, 255], 0.5)).toEqual([186, 242, 255])\n    expect(lerpTint([255, 255, 255], [117, 229, 255], 2)).toEqual([117, 229, 255])\n    expect(lerpTint([255, 255, 255], [117, 229, 255], -1)).toEqual([255, 255, 255])\n  })\n})\n",
+          "to": "import { describe } from \"vitest\"\nimport type { AmbienceDef } from \"./ambience.js\"\nimport { expect } from \"vitest\"\nimport { resolveAmbienceTint } from \"./ambience.js\"\nimport { test } from \"vitest\"\nimport { AMBIENCE_IDENTITY } from \"./ambience.js\"\nimport { isIdentityTint } from \"./ambience.js\"\nimport { lerpTint } from \"./ambience.js\"\ndescribe(\"resolveAmbienceTint(氛围 id → 乘色)\", () => {\n\n\nconst DEFS: AmbienceDef[] = [\n  { id: 'day', name: '白天', tint: [255, 255, 255] },\n  { id: 'night', name: '夜晚', tint: [117, 229, 255] }, // 原版夜盘拟合(R×0.458/G×0.899/B×1.0)\n]\n\n  test('night → 拟合夜色;day → 恒等', () => {\n    expect(resolveAmbienceTint('night', DEFS)).toEqual([117, 229, 255])\n    expect(resolveAmbienceTint('day', DEFS)).toEqual([255, 255, 255])\n  })\n})\ndescribe(\"resolveAmbienceTint(氛围 id → 乘色)\", () => {\n\n\nconst DEFS: AmbienceDef[] = [\n  { id: 'day', name: '白天', tint: [255, 255, 255] },\n  { id: 'night', name: '夜晚', tint: [117, 229, 255] }, // 原版夜盘拟合(R×0.458/G×0.899/B×1.0)\n]\n\n  test('缺 id / 未知 id / 空表 → 恒等兜底(工程没带氛围表时零影响)', () => {\n    expect(resolveAmbienceTint(undefined, DEFS)).toEqual(AMBIENCE_IDENTITY)\n    expect(resolveAmbienceTint('bloodmoon', DEFS)).toEqual(AMBIENCE_IDENTITY)\n    expect(resolveAmbienceTint('night', [])).toEqual(AMBIENCE_IDENTITY)\n  })\n})\ndescribe(\"resolveAmbienceTint(氛围 id → 乘色)\", () => {\n\n\n  test('工程可覆写 day(自定义白天色调)', () => {\n    const warm: AmbienceDef[] = [{ id: 'day', name: '暖阳', tint: [255, 244, 230] }]\n    expect(resolveAmbienceTint('day', warm)).toEqual([255, 244, 230])\n    expect(resolveAmbienceTint(undefined, warm)).toEqual(AMBIENCE_IDENTITY) // 缺省仍恒等\n  })\n})\ndescribe(\"isIdentityTint / lerpTint\", () => {\n\n\n  test('恒等判定:全通道 ≥254 视为不染(免全屏合成)', () => {\n    expect(isIdentityTint([255, 255, 255])).toBe(true)\n    expect(isIdentityTint([254, 254, 255])).toBe(true)\n    expect(isIdentityTint([117, 229, 255])).toBe(false)\n  })\n})\ndescribe(\"isIdentityTint / lerpTint\", () => {\n\n\n  test('lerp:t=0 起点 / t=1 终点 / 中点 / 越界夹取', () => {\n    expect(lerpTint([255, 255, 255], [117, 229, 255], 0)).toEqual([255, 255, 255])\n    expect(lerpTint([255, 255, 255], [117, 229, 255], 1)).toEqual([117, 229, 255])\n    expect(lerpTint([255, 255, 255], [117, 229, 255], 0.5)).toEqual([186, 242, 255])\n    expect(lerpTint([255, 255, 255], [117, 229, 255], 2)).toEqual([117, 229, 255])\n    expect(lerpTint([255, 255, 255], [117, 229, 255], -1)).toEqual([255, 255, 255])\n  })\n})\n",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "registrations": [
+    {
+      "old": {
+        "file": "packages/content/src/author-dialogue.cursor-pure-wave2.test.ts",
+        "ordinal": 0,
+        "fullName": "C1 author-dialogue 剩余合同 resolve 复制 slot/cursorFrame，无立绘 actor 只出 speaker"
+      },
+      "current": {
+        "file": "packages/content/src/author-dialogue.test.ts",
+        "titles": ["author dialogue identity"],
+        "template": "resolve 复制 slot/cursorFrame，未请求立绘时只出 speaker",
+        "fullName": "author dialogue identity resolve 复制 slot/cursorFrame，未请求立绘时只出 speaker"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/enemy-ai.cursor-pure-wave2.test.ts",
+        "ordinal": 0,
+        "fullName": "C2 enemy-ai 剩余合同 highestHp 取最高血；并列取槽序靠前，旁队员不改"
+      },
+      "current": {
+        "file": "packages/content/src/enemy-ai.test.ts",
+        "titles": ["pickAiTarget(目标策略)"],
+        "template": "highestHp 取最高血；并列取槽序靠前，旁队员不改",
+        "fullName": "pickAiTarget(目标策略) highestHp 取最高血；并列取槽序靠前，旁队员不改"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/shop.cursor-pure-wave2.test.ts",
+        "ordinal": 0,
+        "fullName": "C3 shop 剩余合同 钱够但未知物买为 null，源世界不动"
+      },
+      "current": {
+        "file": "packages/content/src/shop.test.ts",
+        "titles": ["shopBuy(每次 1 个;钱不够 null)"],
+        "template": "钱够但未知物买为 null，源世界不动",
+        "fullName": "shopBuy(每次 1 个;钱不够 null) 钱够但未知物买为 null，源世界不动"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/shop.cursor-pure-wave2.test.ts",
+        "ordinal": 1,
+        "fullName": "C3 shop 剩余合同 卖 2 件剩 1，保留其它物品且源世界不动"
+      },
+      "current": {
+        "file": "packages/content/src/shop.test.ts",
+        "titles": ["shopSell(按 sellPrice;不可卖/没货 null)"],
+        "template": "卖 2 件剩 1，保留其它物品且源世界不动",
+        "fullName": "shopSell(按 sellPrice;不可卖/没货 null) 卖 2 件剩 1，保留其它物品且源世界不动"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/ambience-skill.glm-o.test.ts",
+        "ordinal": 0,
+        "fullName": "O09 lerpTint：分量四舍五入 非整数结果按分量四舍五入（旧中点全整数的真实新轴）"
+      },
+      "current": {
+        "file": "packages/content/src/ambience.test.ts",
+        "titles": ["isIdentityTint / lerpTint"],
+        "template": "非整数插值按分量四舍五入",
+        "fullName": "isIdentityTint / lerpTint 非整数插值按分量四舍五入"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/ambience-skill.glm-o.test.ts",
+        "ordinal": 1,
+        "fullName": "O09 resolveSkillExecution / authoredSkillExecutionLayers 无 override：两侧都回退公共 effects/animation，prepare 为空"
+      },
+      "current": {
+        "file": "packages/content/src/skill-execution.test.ts",
+        "titles": ["skill execution layers"],
+        "template": "无 override：两侧都回退公共 effects/animation，prepare 为空",
+        "fullName": "skill execution layers 无 override：两侧都回退公共 effects/animation，prepare 为空"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/ambience-skill.glm-o.test.ts",
+        "ordinal": 2,
+        "fullName": "O09 resolveSkillExecution / authoredSkillExecutionLayers 单侧 override：覆盖侧用 override，另一侧回退公共"
+      },
+      "current": {
+        "file": "packages/content/src/skill-execution.test.ts",
+        "titles": ["skill execution layers"],
+        "template": "单侧 override：覆盖侧用 override，另一侧回退公共",
+        "fullName": "skill execution layers 单侧 override：覆盖侧用 override，另一侧回退公共"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/ambience-skill.glm-o.test.ts",
+        "ordinal": 3,
+        "fullName": "O09 resolveSkillExecution / authoredSkillExecutionLayers authoredSkillExecutionLayers：base 恒在 + 两个显式 override 按序追加"
+      },
+      "current": {
+        "file": "packages/content/src/skill-execution.test.ts",
+        "titles": ["skill execution layers"],
+        "template": "authoredSkillExecutionLayers：base 恒在 + 两个显式 override 按序追加",
+        "fullName": "skill execution layers authoredSkillExecutionLayers：base 恒在 + 两个显式 override 按序追加"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/ambience-skill.glm-o.test.ts",
+        "ordinal": 4,
+        "fullName": "O09 resolveDialogueIdentity：合法 unbound 透传 unbound：speaker/portrait 声明性透传（浅拷贝 portrait）"
+      },
+      "current": {
+        "file": "packages/content/src/author-dialogue.test.ts",
+        "titles": ["author dialogue identity"],
+        "template": "unbound：speaker/portrait 声明性透传（浅拷贝 portrait）",
+        "fullName": "author dialogue identity unbound：speaker/portrait 声明性透传（浅拷贝 portrait）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/author-dialogue.test.ts",
+        "ordinal": 0,
+        "fullName": "author dialogue identity actor 默认名、称谓覆写、主立绘与表情只从本 Actor 解析"
+      },
+      "current": {
+        "file": "packages/content/src/author-dialogue.test.ts",
+        "titles": ["author dialogue identity"],
+        "template": "actor 默认名、称谓覆写、主立绘与表情只从本 Actor 解析",
+        "fullName": "author dialogue identity actor 默认名、称谓覆写、主立绘与表情只从本 Actor 解析"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/author-dialogue.test.ts",
+        "ordinal": 1,
+        "fullName": "author dialogue identity 缺 actor/default/expression 全部 fail-loud，不回退全局资源"
+      },
+      "current": {
+        "file": "packages/content/src/author-dialogue.test.ts",
+        "titles": ["author dialogue identity"],
+        "template": "缺 actor/default/expression 全部 fail-loud，不回退全局资源",
+        "fullName": "author dialogue identity 缺 actor/default/expression 全部 fail-loud，不回退全局资源"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/author-dialogue.test.ts",
+        "ordinal": 2,
+        "fullName": "author dialogue identity 拒绝半状态、空 unbound 与 actor 直接 AssetId"
+      },
+      "current": {
+        "file": "packages/content/src/author-dialogue.test.ts",
+        "titles": ["author dialogue identity"],
+        "template": "拒绝半状态、空 unbound 与 actor 直接 AssetId",
+        "fullName": "author dialogue identity 拒绝半状态、空 unbound 与 actor 直接 AssetId"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/author-dialogue.test.ts",
+        "ordinal": 3,
+        "fullName": "author dialogue identity 作者命令只接受当前 identity 形状"
+      },
+      "current": {
+        "file": "packages/content/src/author-dialogue.test.ts",
+        "titles": ["author dialogue identity"],
+        "template": "作者命令只接受当前 identity 形状",
+        "fullName": "author dialogue identity 作者命令只接受当前 identity 形状"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/author-dialogue.test.ts",
+        "ordinal": 4,
+        "fullName": "author dialogue identity runtime 全树投影调用同一 resolver"
+      },
+      "current": {
+        "file": "packages/content/src/author-dialogue.test.ts",
+        "titles": ["author dialogue identity"],
+        "template": "runtime 全树投影调用同一 resolver",
+        "fullName": "author dialogue identity runtime 全树投影调用同一 resolver"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/author-dialogue.test.ts",
+        "ordinal": 5,
+        "fullName": "author dialogue identity $name"
+      },
+      "current": {
+        "file": "packages/content/src/author-dialogue.test.ts",
+        "titles": ["author dialogue identity"],
+        "template": "$name",
+        "fullName": "author dialogue identity $name"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/author-dialogue.test.ts",
+        "ordinal": 6,
+        "fullName": "author dialogue identity 实际定义的同名角色与表情仍按自己的定义解析"
+      },
+      "current": {
+        "file": "packages/content/src/author-dialogue.test.ts",
+        "titles": ["author dialogue identity"],
+        "template": "实际定义的同名角色与表情仍按自己的定义解析",
+        "fullName": "author dialogue identity 实际定义的同名角色与表情仍按自己的定义解析"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/enemy-ai.test.ts",
+        "ordinal": 0,
+        "fullName": "evalAiCond hpBelow/hpAbove/turn/aloneAlive/firstOfKind"
+      },
+      "current": {
+        "file": "packages/content/src/enemy-ai.test.ts",
+        "titles": ["evalAiCond"],
+        "template": "hpBelow/hpAbove/turn/aloneAlive/firstOfKind",
+        "fullName": "evalAiCond hpBelow/hpAbove/turn/aloneAlive/firstOfKind"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/enemy-ai.test.ts",
+        "ordinal": 1,
+        "fullName": "evalAiCond chance 用注入 rng;战场感知与难度"
+      },
+      "current": {
+        "file": "packages/content/src/enemy-ai.test.ts",
+        "titles": ["evalAiCond"],
+        "template": "chance 用注入 rng;战场感知与难度",
+        "fullName": "evalAiCond chance 用注入 rng;战场感知与难度"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/enemy-ai.test.ts",
+        "ordinal": 2,
+        "fullName": "evalAiCond playerInParty:角色在队(0x79 门 —— 绿叶小妖赵灵儿在队才退下)"
+      },
+      "current": {
+        "file": "packages/content/src/enemy-ai.test.ts",
+        "titles": ["evalAiCond"],
+        "template": "playerInParty:角色在队(0x79 门 —— 绿叶小妖赵灵儿在队才退下)",
+        "fullName": "evalAiCond playerInParty:角色在队(0x79 门 —— 绿叶小妖赵灵儿在队才退下)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/enemy-ai.test.ts",
+        "ordinal": 3,
+        "fullName": "evalAiCond 组合子 all/any/not"
+      },
+      "current": {
+        "file": "packages/content/src/enemy-ai.test.ts",
+        "titles": ["evalAiCond"],
+        "template": "组合子 all/any/not",
+        "fullName": "evalAiCond 组合子 all/any/not"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/enemy-ai.test.ts",
+        "ordinal": 4,
+        "fullName": "decideByRules(首条命中 / once / 沉默跳 cast) 顺序匹配:满血 → 概率中 → 施法"
+      },
+      "current": {
+        "file": "packages/content/src/enemy-ai.test.ts",
+        "titles": ["decideByRules(首条命中 / once / 沉默跳 cast)"],
+        "template": "顺序匹配:满血 → 概率中 → 施法",
+        "fullName": "decideByRules(首条命中 / once / 沉默跳 cast) 顺序匹配:满血 → 概率中 → 施法"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/enemy-ai.test.ts",
+        "ordinal": 5,
+        "fullName": "decideByRules(首条命中 / once / 沉默跳 cast) 低血优先变身;once 已触发则跳过"
+      },
+      "current": {
+        "file": "packages/content/src/enemy-ai.test.ts",
+        "titles": ["decideByRules(首条命中 / once / 沉默跳 cast)"],
+        "template": "低血优先变身;once 已触发则跳过",
+        "fullName": "decideByRules(首条命中 / once / 沉默跳 cast) 低血优先变身;once 已触发则跳过"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/enemy-ai.test.ts",
+        "ordinal": 6,
+        "fullName": "decideByRules(首条命中 / once / 沉默跳 cast) 沉默:cast 跳过继续匹配 → 普攻兜底"
+      },
+      "current": {
+        "file": "packages/content/src/enemy-ai.test.ts",
+        "titles": ["decideByRules(首条命中 / once / 沉默跳 cast)"],
+        "template": "沉默:cast 跳过继续匹配 → 普攻兜底",
+        "fullName": "decideByRules(首条命中 / once / 沉默跳 cast) 沉默:cast 跳过继续匹配 → 普攻兜底"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/enemy-ai.test.ts",
+        "ordinal": 7,
+        "fullName": "decideByRules(首条命中 / once / 沉默跳 cast) 概率不中落到兜底;无命中返回 null"
+      },
+      "current": {
+        "file": "packages/content/src/enemy-ai.test.ts",
+        "titles": ["decideByRules(首条命中 / once / 沉默跳 cast)"],
+        "template": "概率不中落到兜底;无命中返回 null",
+        "fullName": "decideByRules(首条命中 / once / 沉默跳 cast) 概率不中落到兜底;无命中返回 null"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/enemy-ai.test.ts",
+        "ordinal": 8,
+        "fullName": "pickAiTarget(目标策略) random 走 rng;lowestHp 集火残血;strongest 打高攻"
+      },
+      "current": {
+        "file": "packages/content/src/enemy-ai.test.ts",
+        "titles": ["pickAiTarget(目标策略)"],
+        "template": "random 走 rng;lowestHp 集火残血;strongest 打高攻",
+        "fullName": "pickAiTarget(目标策略) random 走 rng;lowestHp 集火残血;strongest 打高攻"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/shop.test.ts",
+        "ordinal": 0,
+        "fullName": "validateShops current table empty tables, id0 and repeated stock occurrences remain intact"
+      },
+      "current": {
+        "file": "packages/content/src/shop.test.ts",
+        "titles": ["validateShops current table"],
+        "template": "empty tables, id0 and repeated stock occurrences remain intact",
+        "fullName": "validateShops current table empty tables, id0 and repeated stock occurrences remain intact"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/shop.test.ts",
+        "ordinal": 1,
+        "fullName": "validateShops current table rejects malformed current tables %j"
+      },
+      "current": {
+        "file": "packages/content/src/shop.test.ts",
+        "titles": ["validateShops current table"],
+        "template": "rejects malformed current tables %j",
+        "fullName": "validateShops current table rejects malformed current tables %j"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/shop.test.ts",
+        "ordinal": 2,
+        "fullName": "shopBuy(每次 1 个;钱不够 null) 继承属性不算物品定义，购买未知 constructor 不改变世界"
+      },
+      "current": {
+        "file": "packages/content/src/shop.test.ts",
+        "titles": ["shopBuy(每次 1 个;钱不够 null)"],
+        "template": "继承属性不算物品定义，购买未知 constructor 不改变世界",
+        "fullName": "shopBuy(每次 1 个;钱不够 null) 继承属性不算物品定义，购买未知 constructor 不改变世界"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/shop.test.ts",
+        "ordinal": 3,
+        "fullName": "shopBuy(每次 1 个;钱不够 null) 工程真正定义的 constructor 物品正常扣钱入包"
+      },
+      "current": {
+        "file": "packages/content/src/shop.test.ts",
+        "titles": ["shopBuy(每次 1 个;钱不够 null)"],
+        "template": "工程真正定义的 constructor 物品正常扣钱入包",
+        "fullName": "shopBuy(每次 1 个;钱不够 null) 工程真正定义的 constructor 物品正常扣钱入包"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/shop.test.ts",
+        "ordinal": 4,
+        "fullName": "shopBuy(每次 1 个;钱不够 null) 钱够:扣 buyPrice + 入包(已有叠加/新条目);源不变"
+      },
+      "current": {
+        "file": "packages/content/src/shop.test.ts",
+        "titles": ["shopBuy(每次 1 个;钱不够 null)"],
+        "template": "钱够:扣 buyPrice + 入包(已有叠加/新条目);源不变",
+        "fullName": "shopBuy(每次 1 个;钱不够 null) 钱够:扣 buyPrice + 入包(已有叠加/新条目);源不变"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/shop.test.ts",
+        "ordinal": 5,
+        "fullName": "shopBuy(每次 1 个;钱不够 null) 新物品入包为新条目"
+      },
+      "current": {
+        "file": "packages/content/src/shop.test.ts",
+        "titles": ["shopBuy(每次 1 个;钱不够 null)"],
+        "template": "新物品入包为新条目",
+        "fullName": "shopBuy(每次 1 个;钱不够 null) 新物品入包为新条目"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/shop.test.ts",
+        "ordinal": 6,
+        "fullName": "shopSell(按 sellPrice;不可卖/没货 null) 卖 1 个得 sellPrice;数量归零移除条目"
+      },
+      "current": {
+        "file": "packages/content/src/shop.test.ts",
+        "titles": ["shopSell(按 sellPrice;不可卖/没货 null)"],
+        "template": "卖 1 个得 sellPrice;数量归零移除条目",
+        "fullName": "shopSell(按 sellPrice;不可卖/没货 null) 卖 1 个得 sellPrice;数量归零移除条目"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/shop.test.ts",
+        "ordinal": 7,
+        "fullName": "shopSell(按 sellPrice;不可卖/没货 null) 不可卖(sellable=false)/背包没有 → null"
+      },
+      "current": {
+        "file": "packages/content/src/shop.test.ts",
+        "titles": ["shopSell(按 sellPrice;不可卖/没货 null)"],
+        "template": "不可卖(sellable=false)/背包没有 → null",
+        "fullName": "shopSell(按 sellPrice;不可卖/没货 null) 不可卖(sellable=false)/背包没有 → null"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/shop.test.ts",
+        "ordinal": 8,
+        "fullName": "sellableItems:背包中可卖过滤(剧情品/零数排除)"
+      },
+      "current": {
+        "file": "packages/content/src/shop.test.ts",
+        "titles": [],
+        "template": "sellableItems:背包中可卖过滤(剧情品/零数排除)",
+        "fullName": "sellableItems:背包中可卖过滤(剧情品/零数排除)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/ambience.test.ts",
+        "ordinal": 0,
+        "fullName": "resolveAmbienceTint(氛围 id → 乘色) night → 拟合夜色;day → 恒等"
+      },
+      "current": {
+        "file": "packages/content/src/ambience.test.ts",
+        "titles": ["resolveAmbienceTint(氛围 id → 乘色)"],
+        "template": "night → 拟合夜色;day → 恒等",
+        "fullName": "resolveAmbienceTint(氛围 id → 乘色) night → 拟合夜色;day → 恒等"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/ambience.test.ts",
+        "ordinal": 1,
+        "fullName": "resolveAmbienceTint(氛围 id → 乘色) 缺 id / 未知 id / 空表 → 恒等兜底(工程没带氛围表时零影响)"
+      },
+      "current": {
+        "file": "packages/content/src/ambience.test.ts",
+        "titles": ["resolveAmbienceTint(氛围 id → 乘色)"],
+        "template": "缺 id / 未知 id / 空表 → 恒等兜底(工程没带氛围表时零影响)",
+        "fullName": "resolveAmbienceTint(氛围 id → 乘色) 缺 id / 未知 id / 空表 → 恒等兜底(工程没带氛围表时零影响)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/ambience.test.ts",
+        "ordinal": 2,
+        "fullName": "resolveAmbienceTint(氛围 id → 乘色) 工程可覆写 day(自定义白天色调)"
+      },
+      "current": {
+        "file": "packages/content/src/ambience.test.ts",
+        "titles": ["resolveAmbienceTint(氛围 id → 乘色)"],
+        "template": "工程可覆写 day(自定义白天色调)",
+        "fullName": "resolveAmbienceTint(氛围 id → 乘色) 工程可覆写 day(自定义白天色调)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/ambience.test.ts",
+        "ordinal": 3,
+        "fullName": "isIdentityTint / lerpTint 恒等判定:全通道 ≥254 视为不染(免全屏合成)"
+      },
+      "current": {
+        "file": "packages/content/src/ambience.test.ts",
+        "titles": ["isIdentityTint / lerpTint"],
+        "template": "恒等判定:全通道 ≥254 视为不染(免全屏合成)",
+        "fullName": "isIdentityTint / lerpTint 恒等判定:全通道 ≥254 视为不染(免全屏合成)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/ambience.test.ts",
+        "ordinal": 4,
+        "fullName": "isIdentityTint / lerpTint lerp:t=0 起点 / t=1 终点 / 中点四舍五入 / 越界夹取"
+      },
+      "current": {
+        "file": "packages/content/src/ambience.test.ts",
+        "titles": ["isIdentityTint / lerpTint"],
+        "template": "lerp:t=0 起点 / t=1 终点 / 中点 / 越界夹取",
+        "fullName": "isIdentityTint / lerpTint lerp:t=0 起点 / t=1 终点 / 中点 / 越界夹取"
+      }
+    }
+  ],
+  "identities": [
+    {
+      "old": {
+        "file": "packages/content/src/ambience-skill.glm-o.test.ts",
+        "fullName": "O09 lerpTint：分量四舍五入 非整数结果按分量四舍五入（旧中点全整数的真实新轴）"
+      },
+      "current": {
+        "file": "packages/content/src/ambience.test.ts",
+        "fullName": "isIdentityTint / lerpTint 非整数插值按分量四舍五入"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/ambience-skill.glm-o.test.ts",
+        "fullName": "O09 resolveSkillExecution / authoredSkillExecutionLayers 无 override：两侧都回退公共 effects/animation，prepare 为空"
+      },
+      "current": {
+        "file": "packages/content/src/skill-execution.test.ts",
+        "fullName": "skill execution layers 无 override：两侧都回退公共 effects/animation，prepare 为空"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/ambience-skill.glm-o.test.ts",
+        "fullName": "O09 resolveSkillExecution / authoredSkillExecutionLayers 单侧 override：覆盖侧用 override，另一侧回退公共"
+      },
+      "current": {
+        "file": "packages/content/src/skill-execution.test.ts",
+        "fullName": "skill execution layers 单侧 override：覆盖侧用 override，另一侧回退公共"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/ambience-skill.glm-o.test.ts",
+        "fullName": "O09 resolveSkillExecution / authoredSkillExecutionLayers authoredSkillExecutionLayers：base 恒在 + 两个显式 override 按序追加"
+      },
+      "current": {
+        "file": "packages/content/src/skill-execution.test.ts",
+        "fullName": "skill execution layers authoredSkillExecutionLayers：base 恒在 + 两个显式 override 按序追加"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/ambience-skill.glm-o.test.ts",
+        "fullName": "O09 resolveDialogueIdentity：合法 unbound 透传 unbound：speaker/portrait 声明性透传（浅拷贝 portrait）"
+      },
+      "current": {
+        "file": "packages/content/src/author-dialogue.test.ts",
+        "fullName": "author dialogue identity unbound：speaker/portrait 声明性透传（浅拷贝 portrait）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/ambience.test.ts",
+        "fullName": "resolveAmbienceTint(氛围 id → 乘色) night → 拟合夜色;day → 恒等"
+      },
+      "current": {
+        "file": "packages/content/src/ambience.test.ts",
+        "fullName": "resolveAmbienceTint(氛围 id → 乘色) night → 拟合夜色;day → 恒等"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/ambience.test.ts",
+        "fullName": "resolveAmbienceTint(氛围 id → 乘色) 缺 id / 未知 id / 空表 → 恒等兜底(工程没带氛围表时零影响)"
+      },
+      "current": {
+        "file": "packages/content/src/ambience.test.ts",
+        "fullName": "resolveAmbienceTint(氛围 id → 乘色) 缺 id / 未知 id / 空表 → 恒等兜底(工程没带氛围表时零影响)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/ambience.test.ts",
+        "fullName": "resolveAmbienceTint(氛围 id → 乘色) 工程可覆写 day(自定义白天色调)"
+      },
+      "current": {
+        "file": "packages/content/src/ambience.test.ts",
+        "fullName": "resolveAmbienceTint(氛围 id → 乘色) 工程可覆写 day(自定义白天色调)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/ambience.test.ts",
+        "fullName": "isIdentityTint / lerpTint 恒等判定:全通道 ≥254 视为不染(免全屏合成)"
+      },
+      "current": {
+        "file": "packages/content/src/ambience.test.ts",
+        "fullName": "isIdentityTint / lerpTint 恒等判定:全通道 ≥254 视为不染(免全屏合成)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/ambience.test.ts",
+        "fullName": "isIdentityTint / lerpTint lerp:t=0 起点 / t=1 终点 / 中点四舍五入 / 越界夹取"
+      },
+      "current": {
+        "file": "packages/content/src/ambience.test.ts",
+        "fullName": "isIdentityTint / lerpTint lerp:t=0 起点 / t=1 终点 / 中点 / 越界夹取"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/author-dialogue.cursor-pure-wave2.test.ts",
+        "fullName": "C1 author-dialogue 剩余合同 resolve 复制 slot/cursorFrame，无立绘 actor 只出 speaker"
+      },
+      "current": {
+        "file": "packages/content/src/author-dialogue.test.ts",
+        "fullName": "author dialogue identity resolve 复制 slot/cursorFrame，未请求立绘时只出 speaker"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/author-dialogue.test.ts",
+        "fullName": "author dialogue identity actor 默认名、称谓覆写、主立绘与表情只从本 Actor 解析"
+      },
+      "current": {
+        "file": "packages/content/src/author-dialogue.test.ts",
+        "fullName": "author dialogue identity actor 默认名、称谓覆写、主立绘与表情只从本 Actor 解析"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/author-dialogue.test.ts",
+        "fullName": "author dialogue identity 缺 actor/default/expression 全部 fail-loud，不回退全局资源"
+      },
+      "current": {
+        "file": "packages/content/src/author-dialogue.test.ts",
+        "fullName": "author dialogue identity 缺 actor/default/expression 全部 fail-loud，不回退全局资源"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/author-dialogue.test.ts",
+        "fullName": "author dialogue identity 拒绝半状态、空 unbound 与 actor 直接 AssetId"
+      },
+      "current": {
+        "file": "packages/content/src/author-dialogue.test.ts",
+        "fullName": "author dialogue identity 拒绝半状态、空 unbound 与 actor 直接 AssetId"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/author-dialogue.test.ts",
+        "fullName": "author dialogue identity 作者命令只接受当前 identity 形状"
+      },
+      "current": {
+        "file": "packages/content/src/author-dialogue.test.ts",
+        "fullName": "author dialogue identity 作者命令只接受当前 identity 形状"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/author-dialogue.test.ts",
+        "fullName": "author dialogue identity runtime 全树投影调用同一 resolver"
+      },
+      "current": {
+        "file": "packages/content/src/author-dialogue.test.ts",
+        "fullName": "author dialogue identity runtime 全树投影调用同一 resolver"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/author-dialogue.test.ts",
+        "fullName": "author dialogue identity '未定义角色不借用对象原型中的同名键'"
+      },
+      "current": {
+        "file": "packages/content/src/author-dialogue.test.ts",
+        "fullName": "author dialogue identity '未定义角色不借用对象原型中的同名键'"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/author-dialogue.test.ts",
+        "fullName": "author dialogue identity '未定义表情不借用对象原型中的同名键'"
+      },
+      "current": {
+        "file": "packages/content/src/author-dialogue.test.ts",
+        "fullName": "author dialogue identity '未定义表情不借用对象原型中的同名键'"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/author-dialogue.test.ts",
+        "fullName": "author dialogue identity 实际定义的同名角色与表情仍按自己的定义解析"
+      },
+      "current": {
+        "file": "packages/content/src/author-dialogue.test.ts",
+        "fullName": "author dialogue identity 实际定义的同名角色与表情仍按自己的定义解析"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/enemy-ai.cursor-pure-wave2.test.ts",
+        "fullName": "C2 enemy-ai 剩余合同 highestHp 取最高血；并列取槽序靠前，旁队员不改"
+      },
+      "current": {
+        "file": "packages/content/src/enemy-ai.test.ts",
+        "fullName": "pickAiTarget(目标策略) highestHp 取最高血；并列取槽序靠前，旁队员不改"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/enemy-ai.test.ts",
+        "fullName": "evalAiCond hpBelow/hpAbove/turn/aloneAlive/firstOfKind"
+      },
+      "current": {
+        "file": "packages/content/src/enemy-ai.test.ts",
+        "fullName": "evalAiCond hpBelow/hpAbove/turn/aloneAlive/firstOfKind"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/enemy-ai.test.ts",
+        "fullName": "evalAiCond chance 用注入 rng;战场感知与难度"
+      },
+      "current": {
+        "file": "packages/content/src/enemy-ai.test.ts",
+        "fullName": "evalAiCond chance 用注入 rng;战场感知与难度"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/enemy-ai.test.ts",
+        "fullName": "evalAiCond playerInParty:角色在队(0x79 门 —— 绿叶小妖赵灵儿在队才退下)"
+      },
+      "current": {
+        "file": "packages/content/src/enemy-ai.test.ts",
+        "fullName": "evalAiCond playerInParty:角色在队(0x79 门 —— 绿叶小妖赵灵儿在队才退下)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/enemy-ai.test.ts",
+        "fullName": "evalAiCond 组合子 all/any/not"
+      },
+      "current": {
+        "file": "packages/content/src/enemy-ai.test.ts",
+        "fullName": "evalAiCond 组合子 all/any/not"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/enemy-ai.test.ts",
+        "fullName": "decideByRules(首条命中 / once / 沉默跳 cast) 顺序匹配:满血 → 概率中 → 施法"
+      },
+      "current": {
+        "file": "packages/content/src/enemy-ai.test.ts",
+        "fullName": "decideByRules(首条命中 / once / 沉默跳 cast) 顺序匹配:满血 → 概率中 → 施法"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/enemy-ai.test.ts",
+        "fullName": "decideByRules(首条命中 / once / 沉默跳 cast) 低血优先变身;once 已触发则跳过"
+      },
+      "current": {
+        "file": "packages/content/src/enemy-ai.test.ts",
+        "fullName": "decideByRules(首条命中 / once / 沉默跳 cast) 低血优先变身;once 已触发则跳过"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/enemy-ai.test.ts",
+        "fullName": "decideByRules(首条命中 / once / 沉默跳 cast) 沉默:cast 跳过继续匹配 → 普攻兜底"
+      },
+      "current": {
+        "file": "packages/content/src/enemy-ai.test.ts",
+        "fullName": "decideByRules(首条命中 / once / 沉默跳 cast) 沉默:cast 跳过继续匹配 → 普攻兜底"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/enemy-ai.test.ts",
+        "fullName": "decideByRules(首条命中 / once / 沉默跳 cast) 概率不中落到兜底;无命中返回 null"
+      },
+      "current": {
+        "file": "packages/content/src/enemy-ai.test.ts",
+        "fullName": "decideByRules(首条命中 / once / 沉默跳 cast) 概率不中落到兜底;无命中返回 null"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/enemy-ai.test.ts",
+        "fullName": "pickAiTarget(目标策略) random 走 rng;lowestHp 集火残血;strongest 打高攻"
+      },
+      "current": {
+        "file": "packages/content/src/enemy-ai.test.ts",
+        "fullName": "pickAiTarget(目标策略) random 走 rng;lowestHp 集火残血;strongest 打高攻"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/shop.cursor-pure-wave2.test.ts",
+        "fullName": "C3 shop 剩余合同 钱够但未知物买为 null，源世界不动"
+      },
+      "current": {
+        "file": "packages/content/src/shop.test.ts",
+        "fullName": "shopBuy(每次 1 个;钱不够 null) 钱够但未知物买为 null，源世界不动"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/shop.cursor-pure-wave2.test.ts",
+        "fullName": "C3 shop 剩余合同 卖 2 件剩 1，保留其它物品且源世界不动"
+      },
+      "current": {
+        "file": "packages/content/src/shop.test.ts",
+        "fullName": "shopSell(按 sellPrice;不可卖/没货 null) 卖 2 件剩 1，保留其它物品且源世界不动"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/shop.test.ts",
+        "fullName": "validateShops current table empty tables, id0 and repeated stock occurrences remain intact"
+      },
+      "current": {
+        "file": "packages/content/src/shop.test.ts",
+        "fullName": "validateShops current table empty tables, id0 and repeated stock occurrences remain intact"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/shop.test.ts",
+        "fullName": "validateShops current table rejects malformed current tables null"
+      },
+      "current": {
+        "file": "packages/content/src/shop.test.ts",
+        "fullName": "validateShops current table rejects malformed current tables null"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/shop.test.ts",
+        "fullName": "validateShops current table rejects malformed current tables {}"
+      },
+      "current": {
+        "file": "packages/content/src/shop.test.ts",
+        "fullName": "validateShops current table rejects malformed current tables {}"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/shop.test.ts",
+        "fullName": "validateShops current table rejects malformed current tables [null]"
+      },
+      "current": {
+        "file": "packages/content/src/shop.test.ts",
+        "fullName": "validateShops current table rejects malformed current tables [null]"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/shop.test.ts",
+        "fullName": "validateShops current table rejects malformed current tables [{\"id\":-1,\"items\":[]}]"
+      },
+      "current": {
+        "file": "packages/content/src/shop.test.ts",
+        "fullName": "validateShops current table rejects malformed current tables [{\"id\":-1,\"items\":[]}]"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/shop.test.ts",
+        "fullName": "validateShops current table rejects malformed current tables [{\"id\":0.5,\"items\":[]}]"
+      },
+      "current": {
+        "file": "packages/content/src/shop.test.ts",
+        "fullName": "validateShops current table rejects malformed current tables [{\"id\":0.5,\"items\":[]}]"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/shop.test.ts",
+        "fullName": "validateShops current table rejects malformed current tables [{\"id\":9007199254740992,\"items\":[]}]"
+      },
+      "current": {
+        "file": "packages/content/src/shop.test.ts",
+        "fullName": "validateShops current table rejects malformed current tables [{\"id\":9007199254740992,\"items\":[]}]"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/shop.test.ts",
+        "fullName": "validateShops current table rejects malformed current tables [{\"id\":\"0\",\"items\":[]}]"
+      },
+      "current": {
+        "file": "packages/content/src/shop.test.ts",
+        "fullName": "validateShops current table rejects malformed current tables [{\"id\":\"0\",\"items\":[]}]"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/shop.test.ts",
+        "fullName": "validateShops current table rejects malformed current tables [{\"id\":0,\"items\":[]},{\"id\":0,\"items\":[]}]"
+      },
+      "current": {
+        "file": "packages/content/src/shop.test.ts",
+        "fullName": "validateShops current table rejects malformed current tables [{\"id\":0,\"items\":[]},{\"id\":0,\"items\":[]}]"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/shop.test.ts",
+        "fullName": "validateShops current table rejects malformed current tables [{\"id\":0,\"items\":[\"\"]}]"
+      },
+      "current": {
+        "file": "packages/content/src/shop.test.ts",
+        "fullName": "validateShops current table rejects malformed current tables [{\"id\":0,\"items\":[\"\"]}]"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/shop.test.ts",
+        "fullName": "validateShops current table rejects malformed current tables [{\"id\":0,\"items\":[1]}]"
+      },
+      "current": {
+        "file": "packages/content/src/shop.test.ts",
+        "fullName": "validateShops current table rejects malformed current tables [{\"id\":0,\"items\":[1]}]"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/shop.test.ts",
+        "fullName": "validateShops current table rejects malformed current tables [{\"id\":0,\"items\":null}]"
+      },
+      "current": {
+        "file": "packages/content/src/shop.test.ts",
+        "fullName": "validateShops current table rejects malformed current tables [{\"id\":0,\"items\":null}]"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/shop.test.ts",
+        "fullName": "shopBuy(每次 1 个;钱不够 null) 继承属性不算物品定义，购买未知 constructor 不改变世界"
+      },
+      "current": {
+        "file": "packages/content/src/shop.test.ts",
+        "fullName": "shopBuy(每次 1 个;钱不够 null) 继承属性不算物品定义，购买未知 constructor 不改变世界"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/shop.test.ts",
+        "fullName": "shopBuy(每次 1 个;钱不够 null) 工程真正定义的 constructor 物品正常扣钱入包"
+      },
+      "current": {
+        "file": "packages/content/src/shop.test.ts",
+        "fullName": "shopBuy(每次 1 个;钱不够 null) 工程真正定义的 constructor 物品正常扣钱入包"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/shop.test.ts",
+        "fullName": "shopBuy(每次 1 个;钱不够 null) 钱够:扣 buyPrice + 入包(已有叠加/新条目);源不变"
+      },
+      "current": {
+        "file": "packages/content/src/shop.test.ts",
+        "fullName": "shopBuy(每次 1 个;钱不够 null) 钱够:扣 buyPrice + 入包(已有叠加/新条目);源不变"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/shop.test.ts",
+        "fullName": "shopBuy(每次 1 个;钱不够 null) 新物品入包为新条目"
+      },
+      "current": {
+        "file": "packages/content/src/shop.test.ts",
+        "fullName": "shopBuy(每次 1 个;钱不够 null) 新物品入包为新条目"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/shop.test.ts",
+        "fullName": "shopSell(按 sellPrice;不可卖/没货 null) 卖 1 个得 sellPrice;数量归零移除条目"
+      },
+      "current": {
+        "file": "packages/content/src/shop.test.ts",
+        "fullName": "shopSell(按 sellPrice;不可卖/没货 null) 卖 1 个得 sellPrice;数量归零移除条目"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/shop.test.ts",
+        "fullName": "shopSell(按 sellPrice;不可卖/没货 null) 不可卖(sellable=false)/背包没有 → null"
+      },
+      "current": {
+        "file": "packages/content/src/shop.test.ts",
+        "fullName": "shopSell(按 sellPrice;不可卖/没货 null) 不可卖(sellable=false)/背包没有 → null"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/shop.test.ts",
+        "fullName": "sellableItems:背包中可卖过滤(剧情品/零数排除)"
+      },
+      "current": {
+        "file": "packages/content/src/shop.test.ts",
+        "fullName": "sellableItems:背包中可卖过滤(剧情品/零数排除)"
+      }
+    }
+  ],
+  "retirements": [],
+  "cohortSubjects": [
+    {
+      "path": "packages/content/src/author-dialogue.cursor-pure-wave2.test.ts",
+      "sha256": "6311c69276341b2570b40f54f288ceb86e90e0112f064f76af7d3b4dc46ad453",
+      "priorCurrentBridges": []
+    },
+    {
+      "path": "packages/content/src/enemy-ai.cursor-pure-wave2.test.ts",
+      "sha256": "644355305ae1e2a7de2178ad59fcc50defb9ad4794c40d332b99d0c4bdf52d54",
+      "priorCurrentBridges": []
+    },
+    {
+      "path": "packages/content/src/shop.cursor-pure-wave2.test.ts",
+      "sha256": "564a698a62eff064c846786366f7427f72202d199973350ea64868628a5da612",
+      "priorCurrentBridges": []
+    },
+    {
+      "path": "packages/content/src/ambience-skill.glm-o.test.ts",
+      "sha256": "03f049f8259fc27ef0fe3f729f1562c5cdb30ff590d4ca08ef5bd8e9f4857189",
+      "priorCurrentBridges": []
+    }
+  ],
+  "profiles": [
+    {
+      "path": "packages/content/src/author-dialogue.test.ts",
+      "subjects": [
+        "packages/content/src/author-dialogue.cursor-pure-wave2.test.ts",
+        "packages/content/src/ambience-skill.glm-o.test.ts"
+      ],
+      "axes": {
+        "A": "Full34-line leaf,239-line main and221-line resolver read; real author-script tree projection and canonical exports checked. No-portrait cue still has an actor WITH portraits. Canonical actor id/name match former fixture; absent portrait request bypasses portrait fields, while row/slot/cursor projection and all snapshots stay asserted.",
+        "B": "Correct misleading no-portrait-actor title to no portrait REQUEST. Remove batch/residual provenance from runtime suite names. Unbound shallow-copy assertion still documents actual ownership, not a claim of deep clone.",
+        "C": "Both leaf and mixed unbound cases belong to author identity resolution in existing main; no lifecycle mismatch or shared hooks. Reuse minimal canonical actor rather than another battler-rich context. Actual actor objects are NOT asserted equivalent wholesale.",
+        "D": "Use existing deepSnapshot owner instead of a trivial forwarding helper. Actor-bound, unbound speaker, unbound borrowed portrait clone, own-key reference and tree projection have distinct output/ownership contracts; no case retired.",
+        "E": "All10 native identities map. Literal output/name/rows/slot/cursor, source snapshots before/after both real guard and resolver, and actor identity are retained. Unbound portrait checks literal fields plus non-identity. Existing own-key negative/positive and table inputs remain exact typed trees; no new mock or product counter claimed.",
+        "F": "One modest author-dialogue.test.ts owns identity behavior. Corrected title reveals cue intent; no contributor suffix or residual group remains in moved cases.",
+        "G": "Remove duplicate file/import/group and unnecessary fixture dependency; no extra helper, interface or new test. Existing primary actor stays unchanged. Already-proved prior A-E/H reused with bounded fixture bridge.",
+        "H": "Direct deterministic guard/resolver, no runtime/network/window dependency. Exact full typed-module comparison and literal-oracle/declaration/tail negatives protect changes; actual50identity mapping and122content neighbors are execution evidence only."
+      }
+    },
+    {
+      "path": "packages/content/src/enemy-ai.test.ts",
+      "subjects": ["packages/content/src/enemy-ai.cursor-pure-wave2.test.ts"],
+      "axes": {
+        "A": "Full30-line highestHp leaf,145-line main and160-line owner read. Real battle-core alivePlayers map preserves slot indices and passes buildAiView.players to pickAiTarget. Legal checkEnemyAi positive guard remains; highestHp tie returns actual slot2, not array index1.",
+        "B": "Retain slot-order and RNG short-circuit ownership explanations. Remove author/wave header; no exhaustive-AI claim or incorrect sdlpal comparison added to second-stage model.",
+        "C": "HighestHp joins existing pickAiTarget group, separate from evaluator and rule decision groups in same cohesive owner file. Fresh players array remains local; no cross-case mutation or extra broad battle context.",
+        "D": "Keep highestHp as distinct from lowestHp/random/strongest/lowestMp. Canonical view fixture already serves other lawful battle-view cases; do not force the tie fixture into a mode-heavy shared helper.",
+        "E": "All10 identities retained and all typed statements preserved except snapshot wrapper binding. Exact selected slot2, full input snapshot and neighboring sentinels remain. Existing random.notCalled protects real draw ownership; it does not replace action/result assertions.",
+        "F": "Target strategy cases live together under pickAiTarget; no residual title. Local players exposes tie and non-contiguous indices directly.",
+        "G": "One extra file/wrapper/import removed; no new runtime case or fake all-green completion. Source and fixture remain unchanged; main body conserved.",
+        "H": "Deterministic injected RNG and fresh immutable inputs. True owner called directly, no mock of selection; neighboring guard/strategy suites execute. Current full typed proof rejects altered final slot sentinel."
+      }
+    },
+    {
+      "path": "packages/content/src/shop.test.ts",
+      "subjects": ["packages/content/src/shop.cursor-pure-wave2.test.ts"],
+      "axes": {
+        "A": "Full40-line leaf,142-line main and63-line shop source read with actual shop-box apply-on-success branch. Ordinary missing item with ample money remains separate from inherited constructor and insufficient funds. Sale remainder preserves second item and original input.",
+        "B": "Removed batch/residual header; existing source-world comments still match exact source-state assertions. No claim that unit tests validate DOM presentation or full economy.",
+        "C": "Buy rejection joins buy group; partial sale joins sell group. Use existing world builder: same fresh four-field aggregate and equivalent inventory type as purse. No new cross-layer factory or mutable shared world.",
+        "D": "Distinct authored item IDs/prices remain in existing fixture imported locally as remainderItems; canonical PAL items differ and are not blindly unified. Two real consumers still use shared export; pending auxiliary naming is not silently retired or accepted.",
+        "E": "All21 native identities retained. Null plus unchanged world, literal complete post-sale state/money/remainder/other item, and original count2 remain independent oracles. Schema invalid each-table and own-key positive/negative bodies unchanged. No counts-only test.",
+        "F": "Canonical shop.test.ts groups by operation; local remainderItems names its role. Shared wave2 fixture declaration is unchanged and explicitly outside this subject acceptance.",
+        "G": "Remove duplicate purse helper and two-case residual file; no case/field/assertion deletion. Existing fixture reuse avoids a new copy of item catalog and does not create a dead export.",
+        "H": "Pure world transformation receives catalog explicitly; fresh per-test worlds, no IO/time. Real runtime shop-box and trial21 adjacent cases pass; full typed comparison includes world helper types and both final assertions."
+      }
+    },
+    {
+      "path": "packages/content/src/ambience.test.ts",
+      "subjects": ["packages/content/src/ambience-skill.glm-o.test.ts"],
+      "axes": {
+        "A": "Full mixed78-line file and45-line main read with52-line actual tint source and main render consumer scope. Fractional odd-component vectors round to literal51/52/53 and13; endpoints/clamp/custom day remain intact.",
+        "B": "Remove misleading integral-midpoint rounding claim from old main title; fractional case title states actual observation without old/new-wave boasting.",
+        "C": "Tint case joins its interpolation group, leaving skill layers and dialogue identity with their own owners. All tint functions pure; no lifecycle or global state requires separate file.",
+        "D": "Fractional vectors distinguish rounding from truncation, unlike the old integral midpoint. Existing identity threshold/unknown fallback/custom day observe other branches, retained without duplicated full harness.",
+        "E": "Six identities retained, every tint literal/assertion exact. Expected RGB values are independent literals; no implementation arithmetic duplicated as oracle. Neighbor compositor checks unchanged actual rendering integration.",
+        "F": "ambience.test.ts contains only tint definition/resolution/interpolation. Titles describe values and clamps; mixed omnibus name removed.",
+        "G": "One ownership slice extracted from mixed file without new helper/case. No product rendering change; all original constants remain.",
+        "H": "Pure deterministic arrays, no Canvas mock in unit layer. Real compositor adjacent tests are separate evidence; no visual acceptance claim."
+      }
+    },
+    {
+      "path": "packages/content/src/skill-execution.test.ts",
+      "subjects": ["packages/content/src/ambience-skill.glm-o.test.ts"],
+      "axes": {
+        "A": "Full mixed78-line tests and241-line skill model read, including current player/enemy resolve and reference-validator authored-layer callers. Fallback returns borrowed base arrays/animation, per-side overrides stay independent; authored layers enumerate base/player/enemy even when runtime branch differs.",
+        "B": "New suite names skill execution layers instead of contributor batch. No false deep-copy promise; toBe assertions intentionally express borrowed ownership.",
+        "C": "Three cases move to skill-execution.test.ts because resolution and authored enumeration share SkillData execution ownership; tint and dialogue do not. Private makeSkill factory stays within group with no external effects.",
+        "D": "Reuse one lawful fresh SkillData factory; no universal content context. Fallback reference checks and ordered explicit override enumeration are distinct contracts. No case retired.",
+        "E": "Three identities retained. Replace expected skill().effects and shared animation with independent literal damage power1/elemental0 and effectSprite1. Preserve fallback reference assertions, enemy power9 override, ordered sides and explicit player/enemy override literals. Full typed proof documents only this oracle strengthening and private binding rename.",
+        "F": "Responsibility-specific skill-execution filename and makeSkill name reveal intent. Import types from actual skill owner instead of package barrel.",
+        "G": "No extra test or abstraction; eliminate second fixture call used as expected value. Small factory has three real consumers and returns lawful current data; no format or API change.",
+        "H": "Deterministic direct functions, explicit source refs, no timers/IO/mocks. Typed proof detects power mutation and const-to-let; actual content reference-validator and runtime consumers run separately. No fresh product mutation run claimed."
+      }
+    }
+  ],
+  "preserved": [
+    {
+      "path": "packages/content/src/author-dialogue.ts",
+      "sha256": "c8251cb2e81aa7f9d62b897d660db001e1c7c681847389feede65851445667ab",
+      "lines": 221
+    },
+    {
+      "path": "packages/content/src/enemy-ai.ts",
+      "sha256": "63c34d82705805c20eaa016eecf42790b236d7407dc082909613879c32b0c9c2",
+      "lines": 160
+    },
+    {
+      "path": "packages/content/src/shop.ts",
+      "sha256": "01ba2f28e378b10b00e35a12e48509dab8f292a67c637fd70b5617063dd11121",
+      "lines": 63
+    },
+    {
+      "path": "packages/content/src/stamp.cursor-boundaries.test.ts",
+      "sha256": "384bdc5c9bfdf135f9c4c2fefa0e1f4426cd829d34d95af437c3f6a35a134222",
+      "lines": 54
+    },
+    {
+      "path": "packages/content/src/stamp.test.ts",
+      "sha256": "0ff8ece572af647bc23548048cc3b91401619ab75fbc50ec0035406a0c8d3317",
+      "lines": 104
+    },
+    {
+      "path": "packages/content/src/stamp.ts",
+      "sha256": "272fb28dcde6a8ce99dcb7a7adb24951afd11c7b3e25bcb9b1880ffbe48ce42a",
+      "lines": 77
+    },
+    {
+      "path": "packages/content/src/tileset.cursor-pure-wave2.test.ts",
+      "sha256": "cc04d5b8e880bfe4fa01fe038b042864b91a0de4eab3e6e0f2ca53b44a8c0249",
+      "lines": 62
+    },
+    {
+      "path": "packages/content/src/tileset.test.ts",
+      "sha256": "3e91ae010c471dbf98c54c5551615f1c4c3e7c4d3c9be2596ceb1b56b455de6e",
+      "lines": 49
+    },
+    {
+      "path": "packages/content/src/tileset.ts",
+      "sha256": "69b8c266e15ee8ef1e787e911fc394460c87747f7b3251257c0cf69bda8f01df",
+      "lines": 62
+    },
+    {
+      "path": "packages/content/src/__tests__/cursor-pure-wave2-fixtures.ts",
+      "sha256": "b9b65cbf760fec64a5ebff57cc1ac362dfb77dc2bf8d39be18c089d4225ce32d",
+      "lines": 75
+    },
+    {
+      "path": "packages/content/src/cursor-pure-fixtures.ts",
+      "sha256": "6aa889b0d0fa48eb7b9213c7188c7d88d4d99747be942906d2f786054673a669",
+      "lines": 6
+    },
+    {
+      "path": "packages/content/src/skill.ts",
+      "sha256": "1d5a0e3ee89618713fa4b7a50f0fe8df7f89d339377dbc44326c4208ab7d003c",
+      "lines": 241
+    },
+    {
+      "path": "packages/content/src/ambience.ts",
+      "sha256": "b026a181db4daac4a2fc885a8ad0b22d89487bde96d7b56d7f4708a9441e3cd1",
+      "lines": 52
+    },
+    {
+      "path": "packages/content/src/__tests__/value-snapshot.ts",
+      "sha256": "07369825676bdc126815b97aa2ebdeb4cfb7f5f2e7bb58cca1dfd7ca241c52f6",
+      "lines": 17
+    },
+    {
+      "path": "packages/content/src/__tests__/asset-catalog-fixtures.ts",
+      "sha256": "660609997d293ba61d0ed37e28e3d7f3f03ac1c4536f71ffca14942ea40d7e9a",
+      "lines": 12
+    },
+    {
+      "path": "packages/content/src/author-script.ts",
+      "sha256": "d0c73ae340b2a7796d9ef453a1504b46d780d3df506d5818540d96109f3e288e",
+      "lines": 159
+    },
+    {
+      "path": "packages/reforge/src/battle/battle-core.ts",
+      "sha256": "e90dc0c682d4afcd5076b3c53e331da97109fd3118fb46dda41a1cf763fe2862",
+      "lines": 2754
+    },
+    {
+      "path": "packages/reforge/src/menu/shop-box.ts",
+      "sha256": "32e2a88959da4ac86507d335cda26231d982c0d846538d2a721f5f2f01c4b48f",
+      "lines": 238
+    },
+    {
+      "path": "packages/reforge/src/main.ts",
+      "sha256": "089fd2bf41c03eccf02846ddaa314cbfabe22772f8334bb0fe9b16f494c2a260",
+      "lines": 6710
+    },
+    {
+      "path": "packages/content/src/validate-refs.ts",
+      "sha256": "ab74aa28715acd21a4e50bbe6463254233d93e8490041a98cfbcd27c87fc6977",
+      "lines": 1752
+    },
+    {
+      "path": "packages/content/src/index.ts",
+      "sha256": "8e93f354c16e8b69ad95c5a21dc3498fed4db47816b4b705794f99053a4ea3e8",
+      "lines": 202
+    },
+    {
+      "path": "packages/content/src/actor.ts",
+      "sha256": "b173dd48fc6cb40c6a0e63af22d37f76d17391b41de07dd23d2b5170a2a79715",
+      "lines": 138
+    },
+    {
+      "path": "packages/content/src/character.ts",
+      "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93",
+      "lines": 351
+    },
+    {
+      "path": "packages/content/src/enemy-script.ts",
+      "sha256": "978da06bb1628d22647e7c803d90922ed79cc6c478cc46621d715f1bd0fa0ec8",
+      "lines": 407
+    },
+    {
+      "path": "packages/content/src/item.ts",
+      "sha256": "1a2ff2c2ef96070cf1609bd26c1f2756e851c9aec525749131582f6fd696963b",
+      "lines": 1215
+    }
+  ],
+  "neighborPaths": [
+    "packages/content/src/ambience.test.ts",
+    "packages/content/src/author-dialogue.contracts.test.ts",
+    "packages/content/src/author-dialogue.field-guards.test.ts",
+    "packages/content/src/author-dialogue.test.ts",
+    "packages/content/src/author-script.cursor-pure-wave2.test.ts",
+    "packages/content/src/enemy-ai-condition-guard.leaf.test.ts",
+    "packages/content/src/enemy-ai.glm-o.test.ts",
+    "packages/content/src/enemy-ai.test.ts",
+    "packages/content/src/record-skills-poisons.guard-residual.test.ts",
+    "packages/content/src/shop.test.ts",
+    "packages/content/src/skill-execution.test.ts",
+    "packages/content/src/validate-skills-poisons.boundaries.test.ts"
+  ],
+  "cleanExecutions": [
+    "before",
+    "reorganize",
+    "format",
+    "proof",
+    "neighbors",
+    "adjacent",
+    "typecheck",
+    "docs",
+    "content-review",
+    "lint",
+    "scoped",
+    "diff",
+    "ledger-final",
+    "module-preflight"
+  ],
+  "lightweightGates": true,
+  "callbackProof": "organization-content-projections/proof.stdout.raw",
+  "qualityDelta": {
+    "historicalSubjects": 4,
+    "subjectIdentities": 9,
+    "auxiliaryIdentities": 41,
+    "registrations": 39,
+    "runtimeIdentities": 50,
+    "currentSpecs": 5,
+    "newCases": 0,
+    "retiredCases": 0,
+    "assertionsRemoved": 0,
+    "productChanged": false,
+    "fixtureProviderChanged": false
+  },
+  "reads": {
+    "fullInputs": [
+      {
+        "path": "packages/content/src/author-dialogue.cursor-pure-wave2.test.ts",
+        "sha256": "6311c69276341b2570b40f54f288ceb86e90e0112f064f76af7d3b4dc46ad453",
+        "lines": 34,
+        "member": "organization-content-projections/0.before"
+      },
+      {
+        "path": "packages/content/src/enemy-ai.cursor-pure-wave2.test.ts",
+        "sha256": "644355305ae1e2a7de2178ad59fcc50defb9ad4794c40d332b99d0c4bdf52d54",
+        "lines": 30,
+        "member": "organization-content-projections/1.before"
+      },
+      {
+        "path": "packages/content/src/shop.cursor-pure-wave2.test.ts",
+        "sha256": "564a698a62eff064c846786366f7427f72202d199973350ea64868628a5da612",
+        "lines": 40,
+        "member": "organization-content-projections/2.before"
+      },
+      {
+        "path": "packages/content/src/ambience-skill.glm-o.test.ts",
+        "sha256": "03f049f8259fc27ef0fe3f729f1562c5cdb30ff590d4ca08ef5bd8e9f4857189",
+        "lines": 78,
+        "member": "organization-content-projections/3.before"
+      },
+      {
+        "path": "packages/content/src/author-dialogue.test.ts",
+        "sha256": "1fa2e0e48395b97c6dc58f2d52e80416efd9b7726cc4241cbb384051ac4cc245",
+        "lines": 239,
+        "member": "organization-content-projections/4.before"
+      },
+      {
+        "path": "packages/content/src/enemy-ai.test.ts",
+        "sha256": "41dae05920b7a10a750886c1262a47c847974e8b0c0538feffe19c4be034e127",
+        "lines": 145,
+        "member": "organization-content-projections/5.before"
+      },
+      {
+        "path": "packages/content/src/shop.test.ts",
+        "sha256": "1fe3e993e5dce21fbeda7c8521641cb800bcee802f790e46b9af3b5834fc543b",
+        "lines": 142,
+        "member": "organization-content-projections/6.before"
+      },
+      {
+        "path": "packages/content/src/ambience.test.ts",
+        "sha256": "109e691a4add1f68328b7b5d7401dbb7e752389b866a9a05fa13ece5c422b1d8",
+        "lines": 45,
+        "member": "organization-content-projections/7.before"
+      }
+    ],
+    "fullOutputs": [
+      {
+        "path": "packages/content/src/author-dialogue.test.ts",
+        "sha256": "93228a5db57fce59096ffbe5c86132a1d5175ff529722152d5d0cbfccfd1eda1",
+        "lines": 277
+      },
+      {
+        "path": "packages/content/src/enemy-ai.test.ts",
+        "sha256": "484b3e4e73a7f4a13e8731a03eac4c720e32347dce3c7e5c8dac6341d01d3f43",
+        "lines": 167
+      },
+      {
+        "path": "packages/content/src/shop.test.ts",
+        "sha256": "f94a058dfb202762a3b194f9fe0b4ae42bbb232bcf7770d89338e19b547b5c62",
+        "lines": 170
+      },
+      {
+        "path": "packages/content/src/ambience.test.ts",
+        "sha256": "01c64742bf316fae1a8623d65a8e25c8af4ebd55166763a63dd63edfa6c11daa",
+        "lines": 50
+      },
+      {
+        "path": "packages/content/src/skill-execution.test.ts",
+        "sha256": "b1d5195b5bc447c73ba512c94ca40699ebd6ce0de0bc36bf02855bc91587a4c9",
+        "lines": 56
+      }
+    ],
+    "preparedReadBoundaries": "organization-content-projections/readiness.json",
+    "scope": "Reuse pinned full source/test reads and explicitly scoped callers. Prepared terrain source reads are dependencies only, not next-cohort acceptance. Public index export inspection only; no whole-index credit."
+  },
+  "reusedEvidence": {
+    "path": "docs/ops/evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json",
+    "scope": "Prior A-E/H and exact cohort snapshots retained; fresh work addresses F/G and bounded B/D/E repairs. No rerun of previous product counter suites claimed."
+  },
+  "adjacentEvidence": {
+    "receipt": "organization-content-projections/adjacent",
+    "files": 4,
+    "cases": 21
+  },
+  "knownAdjacentObservations": [
+    "cursor-pure-wave2-fixtures.ts remains byte-identical; WAVE2_SHOP_ITEMS still has actual consumer after merge (import alias remainderItems). Its own naming/organization is not part of the fixed four-subject acceptance.",
+    "This slice changes only tests and docs, not second-stage runtime data or formulas. No SDL parity rewrite needed."
+  ],
+  "processDisclosures": [
+    "Initial read-only WIP checker assumed every entry had sha256; it stopped on deleted entries. Corrected pass verified all793 paths and prepared source/caller pins before any mutation. Fetch succeeded separately; admission preserves this fact.",
+    "Registration sourceBridges reconstruct current lexical contexts for exact old/current mapping; they do not prove semantics. Independent proof checks all five complete typed modules from immutable before bodies plus explicit bounded transformations, including final assertions/imports/types/declaration kind.",
+    "Shared fixture relocation was considered but kept outside this slice: retain existing data owner and use a descriptive local alias, avoiding unreviewed auxiliary expansion."
+  ],
+  "invalidations": "Changes to typed callbacks, actor id/name/no-portrait branch, snapshot helper, fixture world shape, skill ownership or current production callers require targeted review; native mappings alone are insufficient.",
+  "ledgerCounts": {
+    "inventory": 3447,
+    "closed": 500,
+    "review": 315,
+    "pending": 2632
+  },
+  "quantitativeScreen": [
+    {
+      "path": "packages/content/src/author-dialogue.test.ts",
+      "method": "Syntactic decisions as reading pointer only",
+      "functions": 21,
+      "max": 1,
+      "over10": 0
+    },
+    {
+      "path": "packages/content/src/enemy-ai.test.ts",
+      "method": "Syntactic decisions as reading pointer only",
+      "functions": 18,
+      "max": 1,
+      "over10": 0
+    },
+    {
+      "path": "packages/content/src/shop.test.ts",
+      "method": "Syntactic decisions as reading pointer only",
+      "functions": 16,
+      "max": 1,
+      "over10": 0
+    },
+    {
+      "path": "packages/content/src/ambience.test.ts",
+      "method": "Syntactic decisions as reading pointer only",
+      "functions": 8,
+      "max": 1,
+      "over10": 0
+    },
+    {
+      "path": "packages/content/src/skill-execution.test.ts",
+      "method": "Syntactic decisions as reading pointer only",
+      "functions": 6,
+      "max": 2,
+      "over10": 0
+    }
+  ]
+}

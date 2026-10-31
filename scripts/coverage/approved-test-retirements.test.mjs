@@ -43,11 +43,12 @@ test('批准账只含精确历史/审计文件，运行时不能扩大', () => {
   // Window100: five new exact snapshots; PNG replaces5→4 with4→3; nine current removals.
   // Window2: eight exact snapshots, 23 case retirements; four deleted files stay separately audited.
   // Recent200: two new snapshots; map15→8 replaced by current8→6. Active snapshot sum remains255.
-  assert.equal(approvedTestRetirements.length, 89)
-  assert.equal(new Set(approvedTestRetirements.map((entry) => entry.file)).size, 89)
+  // Naming/organization: eleven current snapshots replace six old entries; transfers retain their contracts.
+  assert.equal(approvedTestRetirements.length, 94)
+  assert.equal(new Set(approvedTestRetirements.map((entry) => entry.file)).size, 94)
   assert.equal(
     approvedTestRetirements.reduce((sum, entry) => sum + entry.previous - entry.current, 0),
-    255,
+    368,
   )
   assert.throws(() => approvedTestRetirements.push({}), TypeError)
   assert.throws(() => {

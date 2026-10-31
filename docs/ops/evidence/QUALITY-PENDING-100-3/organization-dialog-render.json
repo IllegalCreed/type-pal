@@ -1,0 +1,938 @@
+{
+  "inputs": [
+    {
+      "path": "packages/game/src/present/dialog-box-chrome.grok-r1.test.ts",
+      "sha256": "a91059d33c007b149b7ada27401f85952aa7dd5f6acb523f1273e9f42a4d7b0c",
+      "member": "organization-dialog-render/0.before"
+    },
+    {
+      "path": "packages/game/src/present/dialog-box-pixels.grok-r1.test.ts",
+      "sha256": "d5c9302ccde83f710fd3a1c2e4dbe3a8d7b255449ca161bf30c8e49c45250fe5",
+      "member": "organization-dialog-render/1.before"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "packages/game/src/present/dialog-draw.test.ts",
+      "sha256": "2a74a51d36fddb62e76368ffd52d971f4e4d09da35aa56df43a9593710c61523"
+    },
+    {
+      "path": "packages/game/src/present/dialog-draw.layout.test.ts",
+      "sha256": "eec38164730b46fd00fad0455acc8b1b87fdc4e38365666dc30310e0b93c5091"
+    },
+    {
+      "path": "packages/game/src/present/dialog-draw.canvas.test.ts",
+      "sha256": "9fcd2ba9e076dcb66a6de861cbe2d7eb606a4d222f202869e918eb7bc3be9b6e"
+    }
+  ],
+  "sourceBridges": [
+    {
+      "path": "packages/game/src/present/dialog-box-chrome.grok-r1.test.ts",
+      "id": "dialog-render-0",
+      "changes": [
+        {
+          "from": "/**\n * TEST-GROK-RENDER-HOST-LARGE-1 G05-D。\n * 不重复默认箭头位置、底框立绘和物品框图标的正向坐标。\n */\nimport { describe, expect, it } from 'vitest'\nimport {\n  dialogGlyphs as glyphs,\n  dialogItem as item,\n  dialogSprite as solidSprite,\n} from '../__tests__/dialog-fixtures.js'\nimport type { IndexedImage } from '../assets/png.js'\nimport {\n  appendDialogLine,\n  type DialogSprite,\n  drawDialogBox,\n  getDialogTextPos,\n  getDialogTitlePos,\n  setWaitingEndKey,\n  startDialogLine,\n} from './dialog-box.js'\nimport { createFramebuffer, type Framebuffer } from './framebuffer.js'\n\nfunction at(fb: Framebuffer, x: number, y: number): number {\n  return fb.indices[y * 320 + x] ?? 0\n}\n\nfunction dotImage(width: number, height: number, color: number): IndexedImage {\n  const indices = new Uint8Array(width * height)\n  const opaque = new Uint8Array(width * height)\n  indices[0] = color\n  opaque[0] = 1\n  return { width, height, indices, opaque }\n}\n\nfunction boxFrames(): IndexedImage[] {\n  const frames: IndexedImage[] = []\n  frames[44] = dotImage(4, 16, 0x44)\n  frames[45] = dotImage(8, 16, 0x45)\n  frames[46] = dotImage(4, 16, 0x46)\n  return frames\n}\n\nfunction digitFrames(): IndexedImage[] {\n  const frames = boxFrames()\n  for (let digit = 0; digit <= 9; digit++) {\n    const image = dotImage(6, 8, 0)\n    image.indices[0] = 0xb0 + digit\n    image.opaque[0] = 1\n    frames[19 + digit] = image\n  }\n  return frames\n}\n\ndescribe('G05-D dialog 图标物品框与旁白', () => {\n  it('G05-D01 右括号把等键图标切到第 1 帧，而不是默认第 0 帧', () => {\n    const fb = createFramebuffer()\n    const state = startDialogLine('A)', { style: 'bottom' })\n    state.charsRevealed = state.currentLineText?.length ?? 0\n    setWaitingEndKey(state)\n    drawDialogBox(fb, state, undefined, {\n      iconFrames: new Map([\n        [0, solidSprite(8, 8, 11)],\n        [1, solidSprite(8, 8, 22)],\n      ]),\n    })\n    expect(at(fb, 60, 126)).toBe(22)\n  })\n\n  it('G05-D02 半角字宽 8 时，箭头落在文字末尾 x=52', () => {\n    const fb = createFramebuffer()\n    const state = startDialogLine('A', { style: 'bottom', fontColor: 200 })\n    state.charsRevealed = 1\n    setWaitingEndKey(state)\n    drawDialogBox(fb, state, glyphs({ A: 8 }), {\n      iconFrames: new Map([[0, solidSprite(8, 8, 11)]]),\n    })\n    expect(at(fb, 52, 126)).toBe(11)\n    expect(at(fb, 60, 126)).toBe(0)\n  })\n\n  it('G05-D03 当前行为空时，箭头画在最后一条已显示行上', () => {\n    const fb = createFramebuffer()\n    const state = startDialogLine('甲', { style: 'bottom', fontColor: 200 })\n    appendDialogLine(state, '乙')\n    appendDialogLine(state, '丙')\n    state.currentLineText = null\n    state.phase = 'waiting-end-key'\n    drawDialogBox(fb, state, glyphs({ 甲: 16, 乙: 16, 丙: 16 }), {\n      iconFrames: new Map([[0, solidSprite(8, 8, 11)]]),\n    })\n    expect(at(fb, 60, 144)).toBe(11)\n    expect(at(fb, 60, 162)).toBe(0)\n  })\n\n  it('G05-D04 两个半角单位的旁白框从 (152,40) 起，文字在 (160,50)', () => {\n    const fb = createFramebuffer()\n    fb.indices.fill(0x5a)\n    const state = startDialogLine('甲', { style: 'narration' })\n    drawDialogBox(fb, state, glyphs({ 甲: 16 }), { uiSpriteFrames: boxFrames() })\n    expect(at(fb, 152, 40)).toBe(0x44)\n    expect(at(fb, 160, 50)).toBe(0)\n    expect(at(fb, 148, 40)).toBe(0x5a)\n  })\n\n  it('G05-D05 旁白连续数字按 8 像素步进，第二位不落在 +6', () => {\n    const fb = createFramebuffer()\n    fb.indices.fill(0x5a)\n    const state = startDialogLine('12', { style: 'narration' })\n    drawDialogBox(fb, state, undefined, { uiSpriteFrames: digitFrames() })\n    expect(at(fb, 160, 54)).toBe(0xb1)\n    expect(at(fb, 168, 54)).toBe(0xb2)\n    expect(at(fb, 166, 54)).toBe(0x5a)\n  })\n\n  it('G05-D06 旁白样式不画头像，正文仍写在 (160,50)', () => {\n    const fb = createFramebuffer()\n    fb.indices.fill(0x5a)\n    const state = startDialogLine('甲', { style: 'narration', portraitIcon: 5 })\n    drawDialogBox(fb, state, glyphs({ 甲: 16 }), {\n      portraitFrames: new Map([[5, solidSprite(8, 8, 77)]]),\n    })\n    expect(at(fb, 160, 50)).toBe(0)\n    expect(fb.indices.some((value) => value === 77)).toBe(false)\n  })\n\n  it('G05-D07 物品框没有 itemBox 时，画面保持调用前的底色', () => {\n    const fb = createFramebuffer()\n    fb.indices.fill(0x5a)\n    const state = startDialogLine('甲', { style: 'item-box' })\n    drawDialogBox(fb, state, glyphs({ 甲: 16 }), { uiSpriteFrames: boxFrames() })\n    expect(fb.indices.every((value) => value === 0x5a)).toBe(true)\n  })\n\n  it('G05-D08 物品框两行文字分别落在 y=40 和 y=58，右侧一点不是阴影', () => {\n    const fb = createFramebuffer()\n    fb.indices.fill(0x5a)\n    const state = startDialogLine('甲', { style: 'bottom' })\n    state.style = 'item-box'\n    state.itemBox = { itemId: 100, line1: '甲', line2: '乙' }\n    drawDialogBox(fb, state, glyphs({ 甲: 16, 乙: 16 }))\n    expect(at(fb, 160, 40)).toBe(0)\n    expect(at(fb, 160, 58)).toBe(0)\n    expect(at(fb, 161, 40)).toBe(0x5a)\n  })\n\n  it('G05-D09 物品目录里没有该 id 时，框仍居中，图标像素不出现', () => {\n    const fb = createFramebuffer()\n    const frames = boxFrames()\n    frames[70] = solidSprite(64, 64, 22)\n    const state = startDialogLine('甲', { style: 'bottom' })\n    state.style = 'item-box'\n    state.itemBox = { itemId: 100, line1: '甲', line2: '乙' }\n    drawDialogBox(fb, state, glyphs({ 甲: 16, 乙: 16 }), {\n      uiSpriteFrames: frames,\n      itemIcons: new Map([[5, dotImage(8, 8, 33)]]),\n      items: [item(7, 5)],\n    })\n    expect(at(fb, 128, 68)).toBe(22)\n    expect(at(fb, 136, 75)).toBe(22)\n    expect(fb.indices.some((value) => value === 33)).toBe(false)\n  })\n\n  it('G05-D10 头像 opaque 必须等于 1 才写入，2 的孔保留底色', () => {\n    const fb = createFramebuffer()\n    fb.indices.fill(0x5a)\n    const portrait: DialogSprite = {\n      width: 2,\n      height: 2,\n      indices: Uint8Array.of(77, 66, 0, 0),\n      opaque: Uint8Array.of(2, 1, 0, 0),\n    }\n    const state = startDialogLine('甲', { style: 'bottom', portraitIcon: 4, fontColor: 200 })\n    drawDialogBox(fb, state, glyphs({ 甲: 16 }), {\n      portraitFrames: new Map([[4, portrait]]),\n    })\n    expect(at(fb, 269, 143)).toBe(0x5a)\n    expect(at(fb, 270, 143)).toBe(66)\n  })\n\n  it('G05-D11 物品框正文坐标是 (160,30)，有无头像都一样', () => {\n    expect(getDialogTextPos('item-box', false)).toEqual({ x: 160, y: 30 })\n    expect(getDialogTextPos('item-box', true)).toEqual({ x: 160, y: 30 })\n  })\n\n  it('G05-D12 物品框姓名坐标也是占位 (160,30)', () => {\n    expect(getDialogTitlePos('item-box', false)).toEqual({ x: 160, y: 30 })\n    expect(getDialogTitlePos('item-box', true)).toEqual({ x: 160, y: 30 })\n  })\n})\n",
+          "to": "import { describe, expect, it } from 'vitest'\nimport { legalPalette } from '../__tests__/asset-fixtures.js'\nimport { dialogGlyphs, dialogItem, dialogSprite } from '../__tests__/dialog-fixtures.js'\nimport { dumpFramebuffer } from '../__tests__/grok-render-r1/dump-evidence.js'\nimport type { IndexedImage } from '../assets/png.js'\nimport type { DialogBoxState } from '../core/game-state.js'\nimport { pixel } from './__tests__/raster-fixtures.js'\nimport {\n  appendDialogLine,\n  type DialogSprite,\n  drawDialogBox,\n  FONT_COLOR_CYAN_ALT,\n  FONT_COLOR_RED,\n  FONT_COLOR_YELLOW,\n  getDialogTextPos,\n  getDialogTitlePos,\n  resetDialogBody,\n  setWaitingEndKey,\n  startDialogLine,\n} from './dialog-box.js'\nimport { createFramebuffer } from './framebuffer.js'\nimport { flushToCanvas } from './present.js'\nfunction firstPixelImage(width: number, height: number, color: number): IndexedImage {\n  const indices = new Uint8Array(width * height)\n  const opaque = new Uint8Array(width * height)\n  indices[0] = color\n  opaque[0] = 1\n  return { width, height, indices, opaque }\n}\nfunction dialogLineBoxFrames(): IndexedImage[] {\n  const frames: IndexedImage[] = []\n  frames[44] = firstPixelImage(4, 16, 0x44)\n  frames[45] = firstPixelImage(8, 16, 0x45)\n  frames[46] = firstPixelImage(4, 16, 0x46)\n  return frames\n}\nfunction narrationDigitFrames(): IndexedImage[] {\n  const frames = dialogLineBoxFrames()\n  for (let digit = 0; digit <= 9; digit++) {\n    const image = firstPixelImage(6, 8, 0)\n    image.indices[0] = 0xb0 + digit\n    image.opaque[0] = 1\n    frames[19 + digit] = image\n  }\n  return frames\n}\nfunction revealLineForDrawing(state: DialogBoxState): void {\n  if (state.currentLineText === null) return\n  state.charsRevealed = state.currentLineText.length\n  state.phase = 'line-done'\n}\nconst wideGlyphs = dialogGlyphs({ 李: 16, ':': 16, 甲: 16, 乙: 16, 丙: 16 })\ndescribe('Dialogue text portraits and resource pixels', () => {\n  it('G05-D01 右括号把等键图标切到第 1 帧，而不是默认第 0 帧', () => {\n    const fb = createFramebuffer()\n    const state = startDialogLine('A)', { style: 'bottom' })\n    state.charsRevealed = state.currentLineText?.length ?? 0\n    setWaitingEndKey(state)\n    drawDialogBox(fb, state, undefined, {\n      iconFrames: new Map([\n        [0, dialogSprite(8, 8, 11)],\n        [1, dialogSprite(8, 8, 22)],\n      ]),\n    })\n    expect(pixel(fb, 60, 126)).toBe(22)\n  })\n\n  it('G05-D02 半角字宽 8 时，箭头落在文字末尾 x=52', () => {\n    const fb = createFramebuffer()\n    const state = startDialogLine('A', { style: 'bottom', fontColor: 200 })\n    state.charsRevealed = 1\n    setWaitingEndKey(state)\n    drawDialogBox(fb, state, dialogGlyphs({ A: 8 }), {\n      iconFrames: new Map([[0, dialogSprite(8, 8, 11)]]),\n    })\n    expect(pixel(fb, 52, 126)).toBe(11)\n    expect(pixel(fb, 60, 126)).toBe(0)\n  })\n\n  it('G05-D03 当前行为空时，箭头画在最后一条已显示行上', () => {\n    const fb = createFramebuffer()\n    const state = startDialogLine('甲', { style: 'bottom', fontColor: 200 })\n    appendDialogLine(state, '乙')\n    appendDialogLine(state, '丙')\n    state.currentLineText = null\n    state.phase = 'waiting-end-key'\n    drawDialogBox(fb, state, dialogGlyphs({ 甲: 16, 乙: 16, 丙: 16 }), {\n      iconFrames: new Map([[0, dialogSprite(8, 8, 11)]]),\n    })\n    expect(pixel(fb, 60, 144)).toBe(11)\n    expect(pixel(fb, 60, 162)).toBe(0)\n  })\n\n  it('G05-D04 两个半角单位的旁白框从 (152,40) 起，文字在 (160,50)', () => {\n    const fb = createFramebuffer()\n    fb.indices.fill(0x5a)\n    const state = startDialogLine('甲', { style: 'narration' })\n    drawDialogBox(fb, state, dialogGlyphs({ 甲: 16 }), { uiSpriteFrames: dialogLineBoxFrames() })\n    expect(pixel(fb, 152, 40)).toBe(0x44)\n    expect(pixel(fb, 160, 50)).toBe(0)\n    expect(pixel(fb, 148, 40)).toBe(0x5a)\n  })\n\n  it('G05-D05 旁白连续数字按 8 像素步进，第二位不落在 +6', () => {\n    const fb = createFramebuffer()\n    fb.indices.fill(0x5a)\n    const state = startDialogLine('12', { style: 'narration' })\n    drawDialogBox(fb, state, undefined, { uiSpriteFrames: narrationDigitFrames() })\n    expect(pixel(fb, 160, 54)).toBe(0xb1)\n    expect(pixel(fb, 168, 54)).toBe(0xb2)\n    expect(pixel(fb, 166, 54)).toBe(0x5a)\n  })\n\n  it('G05-D06 旁白样式不画头像，正文仍写在 (160,50)', () => {\n    const fb = createFramebuffer()\n    fb.indices.fill(0x5a)\n    const state = startDialogLine('甲', { style: 'narration', portraitIcon: 5 })\n    drawDialogBox(fb, state, dialogGlyphs({ 甲: 16 }), {\n      portraitFrames: new Map([[5, dialogSprite(8, 8, 77)]]),\n    })\n    expect(pixel(fb, 160, 50)).toBe(0)\n    expect(fb.indices.some((value) => value === 77)).toBe(false)\n  })\n\n  it('G05-D07 物品框没有 itemBox 时，画面保持调用前的底色', () => {\n    const fb = createFramebuffer()\n    fb.indices.fill(0x5a)\n    const state = startDialogLine('甲', { style: 'item-box' })\n    drawDialogBox(fb, state, dialogGlyphs({ 甲: 16 }), { uiSpriteFrames: dialogLineBoxFrames() })\n    expect(fb.indices.every((value) => value === 0x5a)).toBe(true)\n  })\n\n  it('G05-D08 物品框两行文字分别落在 y=40 和 y=58，右侧一点不是阴影', () => {\n    const fb = createFramebuffer()\n    fb.indices.fill(0x5a)\n    const state = startDialogLine('甲', { style: 'bottom' })\n    state.style = 'item-box'\n    state.itemBox = { itemId: 100, line1: '甲', line2: '乙' }\n    drawDialogBox(fb, state, dialogGlyphs({ 甲: 16, 乙: 16 }))\n    expect(pixel(fb, 160, 40)).toBe(0)\n    expect(pixel(fb, 160, 58)).toBe(0)\n    expect(pixel(fb, 161, 40)).toBe(0x5a)\n  })\n\n  it('G05-D09 物品目录里没有该 id 时，框仍居中，图标像素不出现', () => {\n    const fb = createFramebuffer()\n    const frames = dialogLineBoxFrames()\n    frames[70] = dialogSprite(64, 64, 22)\n    const state = startDialogLine('甲', { style: 'bottom' })\n    state.style = 'item-box'\n    state.itemBox = { itemId: 100, line1: '甲', line2: '乙' }\n    drawDialogBox(fb, state, dialogGlyphs({ 甲: 16, 乙: 16 }), {\n      uiSpriteFrames: frames,\n      itemIcons: new Map([[5, firstPixelImage(8, 8, 33)]]),\n      items: [dialogItem(7, 5)],\n    })\n    expect(pixel(fb, 128, 68)).toBe(22)\n    expect(pixel(fb, 136, 75)).toBe(22)\n    expect(fb.indices.some((value) => value === 33)).toBe(false)\n  })\n\n  it('G05-D10 头像 opaque 必须等于 1 才写入，2 的孔保留底色', () => {\n    const fb = createFramebuffer()\n    fb.indices.fill(0x5a)\n    const portrait: DialogSprite = {\n      width: 2,\n      height: 2,\n      indices: Uint8Array.of(77, 66, 0, 0),\n      opaque: Uint8Array.of(2, 1, 0, 0),\n    }\n    const state = startDialogLine('甲', { style: 'bottom', portraitIcon: 4, fontColor: 200 })\n    drawDialogBox(fb, state, dialogGlyphs({ 甲: 16 }), {\n      portraitFrames: new Map([[4, portrait]]),\n    })\n    expect(pixel(fb, 269, 143)).toBe(0x5a)\n    expect(pixel(fb, 270, 143)).toBe(66)\n  })\n})\n\ndescribe('Dialogue layout public return values', () => {\n  it('G05-D11 物品框正文坐标是 (160,30)，有无头像都一样', () => {\n    expect(getDialogTextPos('item-box', false)).toEqual({ x: 160, y: 30 })\n    expect(getDialogTextPos('item-box', true)).toEqual({ x: 160, y: 30 })\n  })\n\n  it('G05-D12 物品框姓名坐标也是占位 (160,30)', () => {\n    expect(getDialogTitlePos('item-box', false)).toEqual({ x: 160, y: 30 })\n    expect(getDialogTitlePos('item-box', true)).toEqual({ x: 160, y: 30 })\n  })\n})\n",
+          "count": 1
+        }
+      ],
+      "reason": "Same callbacks/assertions with private intent names, bounded probe import and actual responsibility grouping. Original ordinal/fullName retained."
+    },
+    {
+      "path": "packages/game/src/present/dialog-box-pixels.grok-r1.test.ts",
+      "id": "dialog-render-1",
+      "changes": [
+        {
+          "from": "/**\n * TEST-GROK-RENDER-HOST-LARGE-1 G05-A。\n * 不重复 dialog-box.test 的控制符/翻页/时序，也不重复 P16 的底框立绘像素。\n */\nimport { describe, expect, it } from 'vitest'\nimport { legalPalette } from '../__tests__/asset-fixtures.js'\nimport { dialogGlyphs as glyphs } from '../__tests__/dialog-fixtures.js'\nimport { dumpFramebuffer } from '../__tests__/grok-render-r1/dump-evidence.js'\nimport type { DialogBoxState } from '../core/game-state.js'\nimport {\n  appendDialogLine,\n  drawDialogBox,\n  FONT_COLOR_CYAN_ALT,\n  FONT_COLOR_RED,\n  FONT_COLOR_YELLOW,\n  resetDialogBody,\n  startDialogLine,\n} from './dialog-box.js'\nimport { createFramebuffer, type Framebuffer } from './framebuffer.js'\nimport { flushToCanvas } from './present.js'\n\nfunction at(fb: Framebuffer, x: number, y: number): number {\n  return fb.indices[y * 320 + x] ?? 0\n}\n\nfunction reveal(state: DialogBoxState): void {\n  if (state.currentLineText === null) return\n  state.charsRevealed = state.currentLineText.length\n  state.phase = 'line-done'\n}\n\nconst wide = glyphs({ 李: 16, ':': 16, 甲: 16, 乙: 16, 丙: 16 })\n\ndescribe('G05-A dialog 可见文字', () => {\n  it('G05-A01 上框无头像时姓名在 (12,8) 为 0x8C，正文在 (44,26)', () => {\n    const fb = createFramebuffer()\n    const state = startDialogLine('李:', { style: 'top', fontColor: 200 })\n    appendDialogLine(state, '甲')\n    reveal(state)\n    drawDialogBox(fb, state, wide)\n    expect(at(fb, 12, 8)).toBe(FONT_COLOR_CYAN_ALT)\n    expect(at(fb, 44, 26)).toBe(200)\n  })\n\n  it('G05-A02 上框有头像时姓名改到 (80,8)，正文改到 (96,26)', () => {\n    const fb = createFramebuffer()\n    const state = startDialogLine('李:', { style: 'top', portraitIcon: 3, fontColor: 200 })\n    appendDialogLine(state, '甲')\n    reveal(state)\n    drawDialogBox(fb, state, wide)\n    expect(at(fb, 80, 8)).toBe(FONT_COLOR_CYAN_ALT)\n    expect(at(fb, 96, 26)).toBe(200)\n    expect(at(fb, 12, 8)).toBe(0)\n  })\n\n  it('G05-A03 居中框的冒号句画在 (80,40)，不画到姓名位 (12,8)', () => {\n    const fb = createFramebuffer()\n    const state = startDialogLine('李:', { style: 'center', fontColor: 200 })\n    reveal(state)\n    drawDialogBox(fb, state, wide)\n    expect(at(fb, 80, 40)).toBe(200)\n    expect(at(fb, 12, 8)).toBe(0)\n  })\n\n  it('G05-A04 charsRevealed 为 1 时只画第一个字，第二个字的位置保持 0', () => {\n    const fb = createFramebuffer()\n    const state = startDialogLine('甲乙', { style: 'bottom', fontColor: 200 })\n    state.charsRevealed = 1\n    drawDialogBox(fb, state, wide)\n    expect(at(fb, 44, 126)).toBe(200)\n    expect(at(fb, 60, 126)).toBe(0)\n  })\n\n  it('G05-A05 已沉入的第二行在首行之下 18 像素，黄字与红字分行', () => {\n    const fb = createFramebuffer()\n    const state = startDialogLine('\"甲\"', { style: 'bottom' })\n    reveal(state)\n    appendDialogLine(state, \"'乙'\")\n    reveal(state)\n    appendDialogLine(state, '丙')\n    drawDialogBox(fb, state, wide)\n    expect(at(fb, 44, 144)).toBe(FONT_COLOR_RED)\n    expect(at(fb, 44, 126)).toBe(FONT_COLOR_YELLOW)\n  })\n\n  it('G05-A06 普通对话引号里的字画成黄色 0x2D，不是默认 0x4F', () => {\n    const fb = createFramebuffer()\n    const state = startDialogLine('\"甲\"', { style: 'bottom' })\n    reveal(state)\n    drawDialogBox(fb, state, wide)\n    expect(at(fb, 44, 126)).toBe(FONT_COLOR_YELLOW)\n  })\n\n  it('G05-A07 清正文后姓名像素还在 (12,8)，正文位回到 0', () => {\n    const fb = createFramebuffer()\n    const state = startDialogLine('李:', { style: 'top', fontColor: 200 })\n    appendDialogLine(state, '甲')\n    reveal(state)\n    resetDialogBody(state)\n    drawDialogBox(fb, state, wide)\n    expect(at(fb, 12, 8)).toBe(FONT_COLOR_CYAN_ALT)\n    expect(at(fb, 44, 26)).toBe(0)\n  })\n\n  it('G05-A08 带引号的姓名仍画成 0x8C，不使用引号切出的黄色', () => {\n    const fb = createFramebuffer()\n    const state = startDialogLine('\"李\":', { style: 'top', fontColor: 200 })\n    drawDialogBox(fb, state, wide)\n    expect(at(fb, 12, 8)).toBe(FONT_COLOR_CYAN_ALT)\n    expect(at(fb, 44, 26)).toBe(0)\n  })\n\n  it('G05-A09 当前行没有逐字色时，像素用 state.fontColor 而不是 0x4F', () => {\n    const fb = createFramebuffer()\n    const state = startDialogLine('甲', { style: 'bottom', fontColor: 200 })\n    state.currentLineColors = undefined\n    state.charsRevealed = 1\n    drawDialogBox(fb, state, wide)\n    expect(at(fb, 44, 126)).toBe(200)\n  })\n\n  it('G05-A10 半角字形宽 8 时，第二个字从 x+8 起画，不落到 x+16', () => {\n    const fb = createFramebuffer()\n    const state = startDialogLine('AB', { style: 'bottom', fontColor: 200 })\n    reveal(state)\n    drawDialogBox(fb, state, glyphs({ A: 8, B: 8 }))\n    expect(at(fb, 44, 126)).toBe(200)\n    expect(at(fb, 52, 126)).toBe(200)\n    expect(at(fb, 60, 126)).toBe(0)\n  })\n\n  it('G05-A11 姓名索引 0x8C 经 flushToCanvas 写成调色板 RGB，缓冲仍是 0x8C', async () => {\n    const fb = createFramebuffer()\n    const state = startDialogLine('李:', { style: 'top' })\n    drawDialogBox(fb, state, wide)\n    const palette = legalPalette((colors) => {\n      colors[FONT_COLOR_CYAN_ALT] = [1, 2, 140]\n    })\n    const canvas = document.createElement('canvas')\n    canvas.width = 320\n    canvas.height = 200\n    const ctx2d = canvas.getContext('2d')\n    if (!ctx2d) throw new Error('2d context unavailable')\n    flushToCanvas(fb, ctx2d, palette)\n    expect(Array.from(ctx2d.getImageData(12, 8, 1, 1).data)).toEqual([1, 2, 140, 255])\n    expect(at(fb, 12, 8)).toBe(FONT_COLOR_CYAN_ALT)\n    const snap = ctx2d.getImageData(0, 0, 320, 200)\n    await dumpFramebuffer('G05-A11', 320, 200, snap.data, [{ x: 12, y: 8, rgba: [1, 2, 140, 255] }])\n  })\n})\n",
+          "to": "import { describe, expect, it } from 'vitest'\nimport { legalPalette } from '../__tests__/asset-fixtures.js'\nimport { dialogGlyphs, dialogItem, dialogSprite } from '../__tests__/dialog-fixtures.js'\nimport { dumpFramebuffer } from '../__tests__/grok-render-r1/dump-evidence.js'\nimport type { IndexedImage } from '../assets/png.js'\nimport type { DialogBoxState } from '../core/game-state.js'\nimport { pixel } from './__tests__/raster-fixtures.js'\nimport {\n  appendDialogLine,\n  type DialogSprite,\n  drawDialogBox,\n  FONT_COLOR_CYAN_ALT,\n  FONT_COLOR_RED,\n  FONT_COLOR_YELLOW,\n  getDialogTextPos,\n  getDialogTitlePos,\n  resetDialogBody,\n  setWaitingEndKey,\n  startDialogLine,\n} from './dialog-box.js'\nimport { createFramebuffer } from './framebuffer.js'\nimport { flushToCanvas } from './present.js'\nfunction firstPixelImage(width: number, height: number, color: number): IndexedImage {\n  const indices = new Uint8Array(width * height)\n  const opaque = new Uint8Array(width * height)\n  indices[0] = color\n  opaque[0] = 1\n  return { width, height, indices, opaque }\n}\nfunction dialogLineBoxFrames(): IndexedImage[] {\n  const frames: IndexedImage[] = []\n  frames[44] = firstPixelImage(4, 16, 0x44)\n  frames[45] = firstPixelImage(8, 16, 0x45)\n  frames[46] = firstPixelImage(4, 16, 0x46)\n  return frames\n}\nfunction narrationDigitFrames(): IndexedImage[] {\n  const frames = dialogLineBoxFrames()\n  for (let digit = 0; digit <= 9; digit++) {\n    const image = firstPixelImage(6, 8, 0)\n    image.indices[0] = 0xb0 + digit\n    image.opaque[0] = 1\n    frames[19 + digit] = image\n  }\n  return frames\n}\nfunction revealLineForDrawing(state: DialogBoxState): void {\n  if (state.currentLineText === null) return\n  state.charsRevealed = state.currentLineText.length\n  state.phase = 'line-done'\n}\nconst wideGlyphs = dialogGlyphs({ 李: 16, ':': 16, 甲: 16, 乙: 16, 丙: 16 })\ndescribe('Dialogue text portraits and resource pixels', () => {\n  it('G05-A01 上框无头像时姓名在 (12,8) 为 0x8C，正文在 (44,26)', () => {\n    const fb = createFramebuffer()\n    const state = startDialogLine('李:', { style: 'top', fontColor: 200 })\n    appendDialogLine(state, '甲')\n    revealLineForDrawing(state)\n    drawDialogBox(fb, state, wideGlyphs)\n    expect(pixel(fb, 12, 8)).toBe(FONT_COLOR_CYAN_ALT)\n    expect(pixel(fb, 44, 26)).toBe(200)\n  })\n\n  it('G05-A02 上框有头像时姓名改到 (80,8)，正文改到 (96,26)', () => {\n    const fb = createFramebuffer()\n    const state = startDialogLine('李:', { style: 'top', portraitIcon: 3, fontColor: 200 })\n    appendDialogLine(state, '甲')\n    revealLineForDrawing(state)\n    drawDialogBox(fb, state, wideGlyphs)\n    expect(pixel(fb, 80, 8)).toBe(FONT_COLOR_CYAN_ALT)\n    expect(pixel(fb, 96, 26)).toBe(200)\n    expect(pixel(fb, 12, 8)).toBe(0)\n  })\n\n  it('G05-A03 居中框的冒号句画在 (80,40)，不画到姓名位 (12,8)', () => {\n    const fb = createFramebuffer()\n    const state = startDialogLine('李:', { style: 'center', fontColor: 200 })\n    revealLineForDrawing(state)\n    drawDialogBox(fb, state, wideGlyphs)\n    expect(pixel(fb, 80, 40)).toBe(200)\n    expect(pixel(fb, 12, 8)).toBe(0)\n  })\n\n  it('G05-A04 charsRevealed 为 1 时只画第一个字，第二个字的位置保持 0', () => {\n    const fb = createFramebuffer()\n    const state = startDialogLine('甲乙', { style: 'bottom', fontColor: 200 })\n    state.charsRevealed = 1\n    drawDialogBox(fb, state, wideGlyphs)\n    expect(pixel(fb, 44, 126)).toBe(200)\n    expect(pixel(fb, 60, 126)).toBe(0)\n  })\n\n  it('G05-A05 已沉入的第二行在首行之下 18 像素，黄字与红字分行', () => {\n    const fb = createFramebuffer()\n    const state = startDialogLine('\"甲\"', { style: 'bottom' })\n    revealLineForDrawing(state)\n    appendDialogLine(state, \"'乙'\")\n    revealLineForDrawing(state)\n    appendDialogLine(state, '丙')\n    drawDialogBox(fb, state, wideGlyphs)\n    expect(pixel(fb, 44, 144)).toBe(FONT_COLOR_RED)\n    expect(pixel(fb, 44, 126)).toBe(FONT_COLOR_YELLOW)\n  })\n\n  it('G05-A06 普通对话引号里的字画成黄色 0x2D，不是默认 0x4F', () => {\n    const fb = createFramebuffer()\n    const state = startDialogLine('\"甲\"', { style: 'bottom' })\n    revealLineForDrawing(state)\n    drawDialogBox(fb, state, wideGlyphs)\n    expect(pixel(fb, 44, 126)).toBe(FONT_COLOR_YELLOW)\n  })\n\n  it('G05-A07 清正文后姓名像素还在 (12,8)，正文位回到 0', () => {\n    const fb = createFramebuffer()\n    const state = startDialogLine('李:', { style: 'top', fontColor: 200 })\n    appendDialogLine(state, '甲')\n    revealLineForDrawing(state)\n    resetDialogBody(state)\n    drawDialogBox(fb, state, wideGlyphs)\n    expect(pixel(fb, 12, 8)).toBe(FONT_COLOR_CYAN_ALT)\n    expect(pixel(fb, 44, 26)).toBe(0)\n  })\n\n  it('G05-A08 带引号的姓名仍画成 0x8C，不使用引号切出的黄色', () => {\n    const fb = createFramebuffer()\n    const state = startDialogLine('\"李\":', { style: 'top', fontColor: 200 })\n    drawDialogBox(fb, state, wideGlyphs)\n    expect(pixel(fb, 12, 8)).toBe(FONT_COLOR_CYAN_ALT)\n    expect(pixel(fb, 44, 26)).toBe(0)\n  })\n\n  it('G05-A09 当前行没有逐字色时，像素用 state.fontColor 而不是 0x4F', () => {\n    const fb = createFramebuffer()\n    const state = startDialogLine('甲', { style: 'bottom', fontColor: 200 })\n    state.currentLineColors = undefined\n    state.charsRevealed = 1\n    drawDialogBox(fb, state, wideGlyphs)\n    expect(pixel(fb, 44, 126)).toBe(200)\n  })\n\n  it('G05-A10 半角字形宽 8 时，第二个字从 x+8 起画，不落到 x+16', () => {\n    const fb = createFramebuffer()\n    const state = startDialogLine('AB', { style: 'bottom', fontColor: 200 })\n    revealLineForDrawing(state)\n    drawDialogBox(fb, state, dialogGlyphs({ A: 8, B: 8 }))\n    expect(pixel(fb, 44, 126)).toBe(200)\n    expect(pixel(fb, 52, 126)).toBe(200)\n    expect(pixel(fb, 60, 126)).toBe(0)\n  })\n})\n\ndescribe('Dialogue canvas and PNG output', () => {\n  it('G05-A11 姓名索引 0x8C 经 flushToCanvas 写成调色板 RGB，缓冲仍是 0x8C', async () => {\n    const fb = createFramebuffer()\n    const state = startDialogLine('李:', { style: 'top' })\n    drawDialogBox(fb, state, wideGlyphs)\n    const palette = legalPalette((colors) => {\n      colors[FONT_COLOR_CYAN_ALT] = [1, 2, 140]\n    })\n    const canvas = document.createElement('canvas')\n    canvas.width = 320\n    canvas.height = 200\n    const ctx2d = canvas.getContext('2d')\n    if (!ctx2d) throw new Error('2d context unavailable')\n    flushToCanvas(fb, ctx2d, palette)\n    expect(Array.from(ctx2d.getImageData(12, 8, 1, 1).data)).toEqual([1, 2, 140, 255])\n    expect(pixel(fb, 12, 8)).toBe(FONT_COLOR_CYAN_ALT)\n    const snap = ctx2d.getImageData(0, 0, 320, 200)\n    await dumpFramebuffer('G05-A11', 320, 200, snap.data, [{ x: 12, y: 8, rgba: [1, 2, 140, 255] }])\n  })\n})\n",
+          "count": 1
+        }
+      ],
+      "reason": "Same callbacks/assertions with private intent names, bounded probe import and actual responsibility grouping. Original ordinal/fullName retained."
+    }
+  ],
+  "replacements": [],
+  "registrations": [
+    {
+      "old": {
+        "file": "packages/game/src/present/dialog-box-chrome.grok-r1.test.ts",
+        "ordinal": 0,
+        "originalOrdinal": 0,
+        "fullName": "G05-D dialog 图标物品框与旁白 G05-D01 右括号把等键图标切到第 1 帧，而不是默认第 0 帧"
+      },
+      "current": {
+        "file": "packages/game/src/present/dialog-draw.test.ts",
+        "titles": ["Dialogue text portraits and resource pixels"],
+        "template": "G05-D01 右括号把等键图标切到第 1 帧，而不是默认第 0 帧",
+        "fullName": "Dialogue text portraits and resource pixels G05-D01 右括号把等键图标切到第 1 帧，而不是默认第 0 帧"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/dialog-box-chrome.grok-r1.test.ts",
+        "ordinal": 1,
+        "originalOrdinal": 1,
+        "fullName": "G05-D dialog 图标物品框与旁白 G05-D02 半角字宽 8 时，箭头落在文字末尾 x=52"
+      },
+      "current": {
+        "file": "packages/game/src/present/dialog-draw.test.ts",
+        "titles": ["Dialogue text portraits and resource pixels"],
+        "template": "G05-D02 半角字宽 8 时，箭头落在文字末尾 x=52",
+        "fullName": "Dialogue text portraits and resource pixels G05-D02 半角字宽 8 时，箭头落在文字末尾 x=52"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/dialog-box-chrome.grok-r1.test.ts",
+        "ordinal": 2,
+        "originalOrdinal": 2,
+        "fullName": "G05-D dialog 图标物品框与旁白 G05-D03 当前行为空时，箭头画在最后一条已显示行上"
+      },
+      "current": {
+        "file": "packages/game/src/present/dialog-draw.test.ts",
+        "titles": ["Dialogue text portraits and resource pixels"],
+        "template": "G05-D03 当前行为空时，箭头画在最后一条已显示行上",
+        "fullName": "Dialogue text portraits and resource pixels G05-D03 当前行为空时，箭头画在最后一条已显示行上"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/dialog-box-chrome.grok-r1.test.ts",
+        "ordinal": 3,
+        "originalOrdinal": 3,
+        "fullName": "G05-D dialog 图标物品框与旁白 G05-D04 两个半角单位的旁白框从 (152,40) 起，文字在 (160,50)"
+      },
+      "current": {
+        "file": "packages/game/src/present/dialog-draw.test.ts",
+        "titles": ["Dialogue text portraits and resource pixels"],
+        "template": "G05-D04 两个半角单位的旁白框从 (152,40) 起，文字在 (160,50)",
+        "fullName": "Dialogue text portraits and resource pixels G05-D04 两个半角单位的旁白框从 (152,40) 起，文字在 (160,50)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/dialog-box-chrome.grok-r1.test.ts",
+        "ordinal": 4,
+        "originalOrdinal": 4,
+        "fullName": "G05-D dialog 图标物品框与旁白 G05-D05 旁白连续数字按 8 像素步进，第二位不落在 +6"
+      },
+      "current": {
+        "file": "packages/game/src/present/dialog-draw.test.ts",
+        "titles": ["Dialogue text portraits and resource pixels"],
+        "template": "G05-D05 旁白连续数字按 8 像素步进，第二位不落在 +6",
+        "fullName": "Dialogue text portraits and resource pixels G05-D05 旁白连续数字按 8 像素步进，第二位不落在 +6"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/dialog-box-chrome.grok-r1.test.ts",
+        "ordinal": 5,
+        "originalOrdinal": 5,
+        "fullName": "G05-D dialog 图标物品框与旁白 G05-D06 旁白样式不画头像，正文仍写在 (160,50)"
+      },
+      "current": {
+        "file": "packages/game/src/present/dialog-draw.test.ts",
+        "titles": ["Dialogue text portraits and resource pixels"],
+        "template": "G05-D06 旁白样式不画头像，正文仍写在 (160,50)",
+        "fullName": "Dialogue text portraits and resource pixels G05-D06 旁白样式不画头像，正文仍写在 (160,50)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/dialog-box-chrome.grok-r1.test.ts",
+        "ordinal": 6,
+        "originalOrdinal": 6,
+        "fullName": "G05-D dialog 图标物品框与旁白 G05-D07 物品框没有 itemBox 时，画面保持调用前的底色"
+      },
+      "current": {
+        "file": "packages/game/src/present/dialog-draw.test.ts",
+        "titles": ["Dialogue text portraits and resource pixels"],
+        "template": "G05-D07 物品框没有 itemBox 时，画面保持调用前的底色",
+        "fullName": "Dialogue text portraits and resource pixels G05-D07 物品框没有 itemBox 时，画面保持调用前的底色"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/dialog-box-chrome.grok-r1.test.ts",
+        "ordinal": 7,
+        "originalOrdinal": 7,
+        "fullName": "G05-D dialog 图标物品框与旁白 G05-D08 物品框两行文字分别落在 y=40 和 y=58，右侧一点不是阴影"
+      },
+      "current": {
+        "file": "packages/game/src/present/dialog-draw.test.ts",
+        "titles": ["Dialogue text portraits and resource pixels"],
+        "template": "G05-D08 物品框两行文字分别落在 y=40 和 y=58，右侧一点不是阴影",
+        "fullName": "Dialogue text portraits and resource pixels G05-D08 物品框两行文字分别落在 y=40 和 y=58，右侧一点不是阴影"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/dialog-box-chrome.grok-r1.test.ts",
+        "ordinal": 8,
+        "originalOrdinal": 8,
+        "fullName": "G05-D dialog 图标物品框与旁白 G05-D09 物品目录里没有该 id 时，框仍居中，图标像素不出现"
+      },
+      "current": {
+        "file": "packages/game/src/present/dialog-draw.test.ts",
+        "titles": ["Dialogue text portraits and resource pixels"],
+        "template": "G05-D09 物品目录里没有该 id 时，框仍居中，图标像素不出现",
+        "fullName": "Dialogue text portraits and resource pixels G05-D09 物品目录里没有该 id 时，框仍居中，图标像素不出现"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/dialog-box-chrome.grok-r1.test.ts",
+        "ordinal": 9,
+        "originalOrdinal": 9,
+        "fullName": "G05-D dialog 图标物品框与旁白 G05-D10 头像 opaque 必须等于 1 才写入，2 的孔保留底色"
+      },
+      "current": {
+        "file": "packages/game/src/present/dialog-draw.test.ts",
+        "titles": ["Dialogue text portraits and resource pixels"],
+        "template": "G05-D10 头像 opaque 必须等于 1 才写入，2 的孔保留底色",
+        "fullName": "Dialogue text portraits and resource pixels G05-D10 头像 opaque 必须等于 1 才写入，2 的孔保留底色"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/dialog-box-chrome.grok-r1.test.ts",
+        "ordinal": 10,
+        "originalOrdinal": 10,
+        "fullName": "G05-D dialog 图标物品框与旁白 G05-D11 物品框正文坐标是 (160,30)，有无头像都一样"
+      },
+      "current": {
+        "file": "packages/game/src/present/dialog-draw.layout.test.ts",
+        "titles": ["Dialogue layout public return values"],
+        "template": "G05-D11 物品框正文坐标是 (160,30)，有无头像都一样",
+        "fullName": "Dialogue layout public return values G05-D11 物品框正文坐标是 (160,30)，有无头像都一样"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/dialog-box-chrome.grok-r1.test.ts",
+        "ordinal": 11,
+        "originalOrdinal": 11,
+        "fullName": "G05-D dialog 图标物品框与旁白 G05-D12 物品框姓名坐标也是占位 (160,30)"
+      },
+      "current": {
+        "file": "packages/game/src/present/dialog-draw.layout.test.ts",
+        "titles": ["Dialogue layout public return values"],
+        "template": "G05-D12 物品框姓名坐标也是占位 (160,30)",
+        "fullName": "Dialogue layout public return values G05-D12 物品框姓名坐标也是占位 (160,30)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/dialog-box-pixels.grok-r1.test.ts",
+        "ordinal": 0,
+        "originalOrdinal": 0,
+        "fullName": "G05-A dialog 可见文字 G05-A01 上框无头像时姓名在 (12,8) 为 0x8C，正文在 (44,26)"
+      },
+      "current": {
+        "file": "packages/game/src/present/dialog-draw.test.ts",
+        "titles": ["Dialogue text portraits and resource pixels"],
+        "template": "G05-A01 上框无头像时姓名在 (12,8) 为 0x8C，正文在 (44,26)",
+        "fullName": "Dialogue text portraits and resource pixels G05-A01 上框无头像时姓名在 (12,8) 为 0x8C，正文在 (44,26)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/dialog-box-pixels.grok-r1.test.ts",
+        "ordinal": 1,
+        "originalOrdinal": 1,
+        "fullName": "G05-A dialog 可见文字 G05-A02 上框有头像时姓名改到 (80,8)，正文改到 (96,26)"
+      },
+      "current": {
+        "file": "packages/game/src/present/dialog-draw.test.ts",
+        "titles": ["Dialogue text portraits and resource pixels"],
+        "template": "G05-A02 上框有头像时姓名改到 (80,8)，正文改到 (96,26)",
+        "fullName": "Dialogue text portraits and resource pixels G05-A02 上框有头像时姓名改到 (80,8)，正文改到 (96,26)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/dialog-box-pixels.grok-r1.test.ts",
+        "ordinal": 2,
+        "originalOrdinal": 2,
+        "fullName": "G05-A dialog 可见文字 G05-A03 居中框的冒号句画在 (80,40)，不画到姓名位 (12,8)"
+      },
+      "current": {
+        "file": "packages/game/src/present/dialog-draw.test.ts",
+        "titles": ["Dialogue text portraits and resource pixels"],
+        "template": "G05-A03 居中框的冒号句画在 (80,40)，不画到姓名位 (12,8)",
+        "fullName": "Dialogue text portraits and resource pixels G05-A03 居中框的冒号句画在 (80,40)，不画到姓名位 (12,8)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/dialog-box-pixels.grok-r1.test.ts",
+        "ordinal": 3,
+        "originalOrdinal": 3,
+        "fullName": "G05-A dialog 可见文字 G05-A04 charsRevealed 为 1 时只画第一个字，第二个字的位置保持 0"
+      },
+      "current": {
+        "file": "packages/game/src/present/dialog-draw.test.ts",
+        "titles": ["Dialogue text portraits and resource pixels"],
+        "template": "G05-A04 charsRevealed 为 1 时只画第一个字，第二个字的位置保持 0",
+        "fullName": "Dialogue text portraits and resource pixels G05-A04 charsRevealed 为 1 时只画第一个字，第二个字的位置保持 0"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/dialog-box-pixels.grok-r1.test.ts",
+        "ordinal": 4,
+        "originalOrdinal": 4,
+        "fullName": "G05-A dialog 可见文字 G05-A05 已沉入的第二行在首行之下 18 像素，黄字与红字分行"
+      },
+      "current": {
+        "file": "packages/game/src/present/dialog-draw.test.ts",
+        "titles": ["Dialogue text portraits and resource pixels"],
+        "template": "G05-A05 已沉入的第二行在首行之下 18 像素，黄字与红字分行",
+        "fullName": "Dialogue text portraits and resource pixels G05-A05 已沉入的第二行在首行之下 18 像素，黄字与红字分行"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/dialog-box-pixels.grok-r1.test.ts",
+        "ordinal": 5,
+        "originalOrdinal": 5,
+        "fullName": "G05-A dialog 可见文字 G05-A06 普通对话引号里的字画成黄色 0x2D，不是默认 0x4F"
+      },
+      "current": {
+        "file": "packages/game/src/present/dialog-draw.test.ts",
+        "titles": ["Dialogue text portraits and resource pixels"],
+        "template": "G05-A06 普通对话引号里的字画成黄色 0x2D，不是默认 0x4F",
+        "fullName": "Dialogue text portraits and resource pixels G05-A06 普通对话引号里的字画成黄色 0x2D，不是默认 0x4F"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/dialog-box-pixels.grok-r1.test.ts",
+        "ordinal": 6,
+        "originalOrdinal": 6,
+        "fullName": "G05-A dialog 可见文字 G05-A07 清正文后姓名像素还在 (12,8)，正文位回到 0"
+      },
+      "current": {
+        "file": "packages/game/src/present/dialog-draw.test.ts",
+        "titles": ["Dialogue text portraits and resource pixels"],
+        "template": "G05-A07 清正文后姓名像素还在 (12,8)，正文位回到 0",
+        "fullName": "Dialogue text portraits and resource pixels G05-A07 清正文后姓名像素还在 (12,8)，正文位回到 0"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/dialog-box-pixels.grok-r1.test.ts",
+        "ordinal": 7,
+        "originalOrdinal": 7,
+        "fullName": "G05-A dialog 可见文字 G05-A08 带引号的姓名仍画成 0x8C，不使用引号切出的黄色"
+      },
+      "current": {
+        "file": "packages/game/src/present/dialog-draw.test.ts",
+        "titles": ["Dialogue text portraits and resource pixels"],
+        "template": "G05-A08 带引号的姓名仍画成 0x8C，不使用引号切出的黄色",
+        "fullName": "Dialogue text portraits and resource pixels G05-A08 带引号的姓名仍画成 0x8C，不使用引号切出的黄色"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/dialog-box-pixels.grok-r1.test.ts",
+        "ordinal": 8,
+        "originalOrdinal": 8,
+        "fullName": "G05-A dialog 可见文字 G05-A09 当前行没有逐字色时，像素用 state.fontColor 而不是 0x4F"
+      },
+      "current": {
+        "file": "packages/game/src/present/dialog-draw.test.ts",
+        "titles": ["Dialogue text portraits and resource pixels"],
+        "template": "G05-A09 当前行没有逐字色时，像素用 state.fontColor 而不是 0x4F",
+        "fullName": "Dialogue text portraits and resource pixels G05-A09 当前行没有逐字色时，像素用 state.fontColor 而不是 0x4F"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/dialog-box-pixels.grok-r1.test.ts",
+        "ordinal": 9,
+        "originalOrdinal": 9,
+        "fullName": "G05-A dialog 可见文字 G05-A10 半角字形宽 8 时，第二个字从 x+8 起画，不落到 x+16"
+      },
+      "current": {
+        "file": "packages/game/src/present/dialog-draw.test.ts",
+        "titles": ["Dialogue text portraits and resource pixels"],
+        "template": "G05-A10 半角字形宽 8 时，第二个字从 x+8 起画，不落到 x+16",
+        "fullName": "Dialogue text portraits and resource pixels G05-A10 半角字形宽 8 时，第二个字从 x+8 起画，不落到 x+16"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/dialog-box-pixels.grok-r1.test.ts",
+        "ordinal": 10,
+        "originalOrdinal": 10,
+        "fullName": "G05-A dialog 可见文字 G05-A11 姓名索引 0x8C 经 flushToCanvas 写成调色板 RGB，缓冲仍是 0x8C"
+      },
+      "current": {
+        "file": "packages/game/src/present/dialog-draw.canvas.test.ts",
+        "titles": ["Dialogue canvas and PNG output"],
+        "template": "G05-A11 姓名索引 0x8C 经 flushToCanvas 写成调色板 RGB，缓冲仍是 0x8C",
+        "fullName": "Dialogue canvas and PNG output G05-A11 姓名索引 0x8C 经 flushToCanvas 写成调色板 RGB，缓冲仍是 0x8C"
+      }
+    }
+  ],
+  "identities": [
+    {
+      "old": {
+        "file": "packages/game/src/present/dialog-box-chrome.grok-r1.test.ts",
+        "fullName": "G05-D dialog 图标物品框与旁白 G05-D01 右括号把等键图标切到第 1 帧，而不是默认第 0 帧"
+      },
+      "current": {
+        "file": "packages/game/src/present/dialog-draw.test.ts",
+        "fullName": "Dialogue text portraits and resource pixels G05-D01 右括号把等键图标切到第 1 帧，而不是默认第 0 帧"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/dialog-box-chrome.grok-r1.test.ts",
+        "fullName": "G05-D dialog 图标物品框与旁白 G05-D02 半角字宽 8 时，箭头落在文字末尾 x=52"
+      },
+      "current": {
+        "file": "packages/game/src/present/dialog-draw.test.ts",
+        "fullName": "Dialogue text portraits and resource pixels G05-D02 半角字宽 8 时，箭头落在文字末尾 x=52"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/dialog-box-chrome.grok-r1.test.ts",
+        "fullName": "G05-D dialog 图标物品框与旁白 G05-D03 当前行为空时，箭头画在最后一条已显示行上"
+      },
+      "current": {
+        "file": "packages/game/src/present/dialog-draw.test.ts",
+        "fullName": "Dialogue text portraits and resource pixels G05-D03 当前行为空时，箭头画在最后一条已显示行上"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/dialog-box-chrome.grok-r1.test.ts",
+        "fullName": "G05-D dialog 图标物品框与旁白 G05-D04 两个半角单位的旁白框从 (152,40) 起，文字在 (160,50)"
+      },
+      "current": {
+        "file": "packages/game/src/present/dialog-draw.test.ts",
+        "fullName": "Dialogue text portraits and resource pixels G05-D04 两个半角单位的旁白框从 (152,40) 起，文字在 (160,50)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/dialog-box-chrome.grok-r1.test.ts",
+        "fullName": "G05-D dialog 图标物品框与旁白 G05-D05 旁白连续数字按 8 像素步进，第二位不落在 +6"
+      },
+      "current": {
+        "file": "packages/game/src/present/dialog-draw.test.ts",
+        "fullName": "Dialogue text portraits and resource pixels G05-D05 旁白连续数字按 8 像素步进，第二位不落在 +6"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/dialog-box-chrome.grok-r1.test.ts",
+        "fullName": "G05-D dialog 图标物品框与旁白 G05-D06 旁白样式不画头像，正文仍写在 (160,50)"
+      },
+      "current": {
+        "file": "packages/game/src/present/dialog-draw.test.ts",
+        "fullName": "Dialogue text portraits and resource pixels G05-D06 旁白样式不画头像，正文仍写在 (160,50)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/dialog-box-chrome.grok-r1.test.ts",
+        "fullName": "G05-D dialog 图标物品框与旁白 G05-D07 物品框没有 itemBox 时，画面保持调用前的底色"
+      },
+      "current": {
+        "file": "packages/game/src/present/dialog-draw.test.ts",
+        "fullName": "Dialogue text portraits and resource pixels G05-D07 物品框没有 itemBox 时，画面保持调用前的底色"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/dialog-box-chrome.grok-r1.test.ts",
+        "fullName": "G05-D dialog 图标物品框与旁白 G05-D08 物品框两行文字分别落在 y=40 和 y=58，右侧一点不是阴影"
+      },
+      "current": {
+        "file": "packages/game/src/present/dialog-draw.test.ts",
+        "fullName": "Dialogue text portraits and resource pixels G05-D08 物品框两行文字分别落在 y=40 和 y=58，右侧一点不是阴影"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/dialog-box-chrome.grok-r1.test.ts",
+        "fullName": "G05-D dialog 图标物品框与旁白 G05-D09 物品目录里没有该 id 时，框仍居中，图标像素不出现"
+      },
+      "current": {
+        "file": "packages/game/src/present/dialog-draw.test.ts",
+        "fullName": "Dialogue text portraits and resource pixels G05-D09 物品目录里没有该 id 时，框仍居中，图标像素不出现"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/dialog-box-chrome.grok-r1.test.ts",
+        "fullName": "G05-D dialog 图标物品框与旁白 G05-D10 头像 opaque 必须等于 1 才写入，2 的孔保留底色"
+      },
+      "current": {
+        "file": "packages/game/src/present/dialog-draw.test.ts",
+        "fullName": "Dialogue text portraits and resource pixels G05-D10 头像 opaque 必须等于 1 才写入，2 的孔保留底色"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/dialog-box-chrome.grok-r1.test.ts",
+        "fullName": "G05-D dialog 图标物品框与旁白 G05-D11 物品框正文坐标是 (160,30)，有无头像都一样"
+      },
+      "current": {
+        "file": "packages/game/src/present/dialog-draw.layout.test.ts",
+        "fullName": "Dialogue layout public return values G05-D11 物品框正文坐标是 (160,30)，有无头像都一样"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/dialog-box-chrome.grok-r1.test.ts",
+        "fullName": "G05-D dialog 图标物品框与旁白 G05-D12 物品框姓名坐标也是占位 (160,30)"
+      },
+      "current": {
+        "file": "packages/game/src/present/dialog-draw.layout.test.ts",
+        "fullName": "Dialogue layout public return values G05-D12 物品框姓名坐标也是占位 (160,30)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/dialog-box-pixels.grok-r1.test.ts",
+        "fullName": "G05-A dialog 可见文字 G05-A01 上框无头像时姓名在 (12,8) 为 0x8C，正文在 (44,26)"
+      },
+      "current": {
+        "file": "packages/game/src/present/dialog-draw.test.ts",
+        "fullName": "Dialogue text portraits and resource pixels G05-A01 上框无头像时姓名在 (12,8) 为 0x8C，正文在 (44,26)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/dialog-box-pixels.grok-r1.test.ts",
+        "fullName": "G05-A dialog 可见文字 G05-A02 上框有头像时姓名改到 (80,8)，正文改到 (96,26)"
+      },
+      "current": {
+        "file": "packages/game/src/present/dialog-draw.test.ts",
+        "fullName": "Dialogue text portraits and resource pixels G05-A02 上框有头像时姓名改到 (80,8)，正文改到 (96,26)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/dialog-box-pixels.grok-r1.test.ts",
+        "fullName": "G05-A dialog 可见文字 G05-A03 居中框的冒号句画在 (80,40)，不画到姓名位 (12,8)"
+      },
+      "current": {
+        "file": "packages/game/src/present/dialog-draw.test.ts",
+        "fullName": "Dialogue text portraits and resource pixels G05-A03 居中框的冒号句画在 (80,40)，不画到姓名位 (12,8)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/dialog-box-pixels.grok-r1.test.ts",
+        "fullName": "G05-A dialog 可见文字 G05-A04 charsRevealed 为 1 时只画第一个字，第二个字的位置保持 0"
+      },
+      "current": {
+        "file": "packages/game/src/present/dialog-draw.test.ts",
+        "fullName": "Dialogue text portraits and resource pixels G05-A04 charsRevealed 为 1 时只画第一个字，第二个字的位置保持 0"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/dialog-box-pixels.grok-r1.test.ts",
+        "fullName": "G05-A dialog 可见文字 G05-A05 已沉入的第二行在首行之下 18 像素，黄字与红字分行"
+      },
+      "current": {
+        "file": "packages/game/src/present/dialog-draw.test.ts",
+        "fullName": "Dialogue text portraits and resource pixels G05-A05 已沉入的第二行在首行之下 18 像素，黄字与红字分行"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/dialog-box-pixels.grok-r1.test.ts",
+        "fullName": "G05-A dialog 可见文字 G05-A06 普通对话引号里的字画成黄色 0x2D，不是默认 0x4F"
+      },
+      "current": {
+        "file": "packages/game/src/present/dialog-draw.test.ts",
+        "fullName": "Dialogue text portraits and resource pixels G05-A06 普通对话引号里的字画成黄色 0x2D，不是默认 0x4F"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/dialog-box-pixels.grok-r1.test.ts",
+        "fullName": "G05-A dialog 可见文字 G05-A07 清正文后姓名像素还在 (12,8)，正文位回到 0"
+      },
+      "current": {
+        "file": "packages/game/src/present/dialog-draw.test.ts",
+        "fullName": "Dialogue text portraits and resource pixels G05-A07 清正文后姓名像素还在 (12,8)，正文位回到 0"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/dialog-box-pixels.grok-r1.test.ts",
+        "fullName": "G05-A dialog 可见文字 G05-A08 带引号的姓名仍画成 0x8C，不使用引号切出的黄色"
+      },
+      "current": {
+        "file": "packages/game/src/present/dialog-draw.test.ts",
+        "fullName": "Dialogue text portraits and resource pixels G05-A08 带引号的姓名仍画成 0x8C，不使用引号切出的黄色"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/dialog-box-pixels.grok-r1.test.ts",
+        "fullName": "G05-A dialog 可见文字 G05-A09 当前行没有逐字色时，像素用 state.fontColor 而不是 0x4F"
+      },
+      "current": {
+        "file": "packages/game/src/present/dialog-draw.test.ts",
+        "fullName": "Dialogue text portraits and resource pixels G05-A09 当前行没有逐字色时，像素用 state.fontColor 而不是 0x4F"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/dialog-box-pixels.grok-r1.test.ts",
+        "fullName": "G05-A dialog 可见文字 G05-A10 半角字形宽 8 时，第二个字从 x+8 起画，不落到 x+16"
+      },
+      "current": {
+        "file": "packages/game/src/present/dialog-draw.test.ts",
+        "fullName": "Dialogue text portraits and resource pixels G05-A10 半角字形宽 8 时，第二个字从 x+8 起画，不落到 x+16"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/dialog-box-pixels.grok-r1.test.ts",
+        "fullName": "G05-A dialog 可见文字 G05-A11 姓名索引 0x8C 经 flushToCanvas 写成调色板 RGB，缓冲仍是 0x8C"
+      },
+      "current": {
+        "file": "packages/game/src/present/dialog-draw.canvas.test.ts",
+        "fullName": "Dialogue canvas and PNG output G05-A11 姓名索引 0x8C 经 flushToCanvas 写成调色板 RGB，缓冲仍是 0x8C"
+      }
+    }
+  ],
+  "retirements": [],
+  "id": "dialog-render",
+  "namespace": "organization-dialog-render",
+  "cohortSubjects": [
+    {
+      "path": "packages/game/src/present/dialog-box-chrome.grok-r1.test.ts",
+      "sha256": "a91059d33c007b149b7ada27401f85952aa7dd5f6acb523f1273e9f42a4d7b0c",
+      "priorCurrentBridges": []
+    },
+    {
+      "path": "packages/game/src/present/dialog-box-pixels.grok-r1.test.ts",
+      "sha256": "8db70cbd80b02020d9be1547fea4447f615afeaff89cf46457e844c6c753353c",
+      "priorCurrentBridges": [
+        {
+          "path": "packages/game/src/present/dialog-box-pixels.grok-r1.test.ts",
+          "sha256": "8db70cbd80b02020d9be1547fea4447f615afeaff89cf46457e844c6c753353c",
+          "member": "organization-game-asset-fixtures/11.before",
+          "currentSha256": "d5c9302ccde83f710fd3a1c2e4dbe3a8d7b255449ca161bf30c8e49c45250fe5",
+          "changes": [],
+          "evidence": "organization-game-asset-fixtures.json"
+        }
+      ]
+    }
+  ],
+  "preserved": [
+    {
+      "path": "packages/game/src/present/dialog-box.ts",
+      "sha256": "2340ef89b4173b22c11908f814a8d69a91a2dbd3eb699bd045f6294fe444a212"
+    },
+    {
+      "path": "packages/game/src/present/dialog-draw.ts",
+      "sha256": "755ed6019d3d070024ca9663dc79ba0b634abaf492c0675e3e5b7ceb300172ec"
+    },
+    {
+      "path": "packages/game/src/present/dialog-text.ts",
+      "sha256": "6e7bb20e1e0e651b9cf89445dd7587c7eaa025b0dadb2fe7d162db8f0cbd7bff"
+    },
+    {
+      "path": "packages/game/src/present/dialog-box.test.ts",
+      "sha256": "bb5f191093ab1ed738bd4df29af5a18c3add9a88f07b0725f97a610bc052c6fe"
+    },
+    {
+      "path": "packages/game/src/present/dialog-box.glm-next-wave.test.ts",
+      "sha256": "7ecc0998e9e91193b08cb04e695aac99d71b8ed1afd9cb5355447d4529de6521"
+    },
+    {
+      "path": "packages/game/src/present/dialog-box.composition.test.ts",
+      "sha256": "a390b96d710377ec4e10daace4ac4eb978e5f79f40afbd13dae5960b56efc273"
+    },
+    {
+      "path": "packages/game/src/__tests__/dialog-fixtures.ts",
+      "sha256": "a7f3ce0495d28a85a85afdfdc6e4f89630ca7825a028a72788c36d9bb521a5af"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/raster-fixtures.ts",
+      "sha256": "982d0ab4a7a73bd1d432554562ff9f628d097098be32af9e9b059bd1dbb2d291"
+    },
+    {
+      "path": "packages/game/src/present/present.ts",
+      "sha256": "c4c6f411857d99c5f8e850bf5172c3e42f04181a64df0ce2a697fe1ec90569f9"
+    },
+    {
+      "path": "packages/game/src/core/event-system.ts",
+      "sha256": "3b8490fa48d2992f693ab0eb611954dd0bfacbc22dc3eda58378cc4bc7a4b5f4"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-dialog.ts",
+      "sha256": "b9daf80c2af0ea3b4688c21b5e13247edf115cb203adede23d3bd74e53cff644"
+    },
+    {
+      "path": "packages/game/src/__tests__/grok-render-r1/dump-evidence.ts",
+      "sha256": "0190fb4ea18357e24e30a552ece01049ecdb208539895e3117fda5c2e402a6c4"
+    },
+    {
+      "path": "packages/game/vitest.config.ts",
+      "sha256": "3dd92ad4886bc72c88e7a7b2e6bdacc3aaf9e2a24ac72153f3b619ba37feb7d4"
+    },
+    {
+      "path": "scripts/coverage/config.mjs",
+      "sha256": "decb63dda5d12a2269bef1dd75c3d1eb4efca071887c759deca8e9b06ef17a25"
+    }
+  ],
+  "neighborPaths": [
+    "src/present/dialog-draw.test.ts",
+    "src/present/dialog-draw.layout.test.ts",
+    "src/present/dialog-draw.canvas.test.ts",
+    "src/present/dialog-box.test.ts",
+    "src/present/dialog-box.glm-next-wave.test.ts",
+    "src/present/dialog-box.composition.test.ts"
+  ],
+  "cleanExecutions": [
+    "before",
+    "reorganize",
+    "scoped-code",
+    "proof",
+    "routing",
+    "neighbors",
+    "typecheck",
+    "complexity",
+    "module-preflight",
+    "docs",
+    "content-review",
+    "lint",
+    "scoped",
+    "diff",
+    "ledger-final"
+  ],
+  "lightweightGates": true,
+  "profiles": [
+    {
+      "path": "packages/game/src/present/dialog-draw.test.ts",
+      "subjects": [
+        "packages/game/src/present/dialog-box-chrome.grok-r1.test.ts",
+        "packages/game/src/present/dialog-box-pixels.grok-r1.test.ts"
+      ],
+      "axes": {
+        "A": "20 true drawDialogBox indexed cases:normal/narration/item styles, iconframe1/asciiwidth/currentnull,lastshownline, narrationbox/digit8pxstep/no portrait, noitemBox unchangedfb,2itemlines/missingcatalog,defensiveopaque2 skip, title/body/fontcolor/quotetoggles/clearbody and halfwidth advances. Fresh default320x200 framebuffers. Manual reveal/phase and opaque2 are controlled renderer/defensive snapshots, not proof ordinary driver/PNGinput reachability. Product unchanged.",
+        "B": "Removed obsolete author/wave and absolute nonduplication header. Names now express firstpixel, boxframes, narrationdigits and explicit reveal fixture. No new assertion of state-machine clock or actual originalgame visual acceptance; SDL and previous decisions only within prior bounded claims.",
+        "C": "Synchronous indexedpixel/resources tests separated from Canvas/filesystem and puregetter cases. No global/hooks/timers/clock ownership; local frame/sprite/glyph inputs fresh, manual renderer snapshot state owned bycase. No event/battle driver behavior modified.",
+        "D": "Use canonical dialogGlyphs/dialogItem/dialogSprite instead of aliases hiding real data factories. Two duplicate at helpers replaced by existing rasterpixel only after40actual integer inbounds probes/default21frames proof; outside-domain behavior explicitly differs. Keep sparsefirstpixel frames vs soliddata functions distinct. Shared glyphfactory reused, tiny5letter seed remains explicit per indexed/Canvas scope instead of another abstraction.",
+        "E": "20 identities and complete callbacks/assertions conserved under private/import names; all output pixel coordinates/colors remain literal. Four helperfunctions plus wide seed typedtrees equal. Currentline yellow vs shownline yellow are different painter branches; keep them.6actualfiles108/TC0,0pending/stderr. Adjacent main68/GLM14/composition3 are neighbor results, not new wholequality acceptance.",
+        "F": "dialog-draw.test names true responsibility; firstPixelImage/dialogLineBoxFrames/narrationDigitFrames/revealLineForDrawing/wideGlyphs replace dotImage/boxFrames/digitFrames/reveal/wide. Direct real helperimport names replace glyphs/item/solidSprite ambiguity; stableG05 IDs only provenance.",
+        "G": "Remove two author spec wrappers and duplicate coordinatehelpers. No new runtimecase/export/provider/modeflag; preserve resourceabsence/halfwidth/mask/multiline distinct axes. Bounded guards reused without pretending oldprobe fallback0 equals newthrow globally.",
+        "H": "Real state creation/parser and painter/font/framebuffer execute, with manually explicit displaystate and independent pixel oracles; no mocked rendering. New indexed file does not import Canvas/dump/DOMadapter, so pixel checks need no disk witness lifecycle. Fulltyped comparator tailfield/assertion negatives and suiteimport guard passed."
+      }
+    },
+    {
+      "path": "packages/game/src/present/dialog-draw.layout.test.ts",
+      "subjects": [
+        "packages/game/src/present/dialog-box-chrome.grok-r1.test.ts",
+        "packages/game/src/present/dialog-box-pixels.grok-r1.test.ts"
+      ],
+      "axes": {
+        "A": "2 pure item-box publicgetter contracts, each false/trueportrait:returns160,30. Actual item-box painting shortcircuits getters and draws textline atbase+10; these are return-value placeholders, not visiblepixel proof. No product/API changes.",
+        "B": "New fileheader explicitly states getters bypassed by item-box painter and no pixelcoordinateclaim. Original D11/D12 titles retained as getter-context labels. No coverage/ordinarycaller claim added.",
+        "C": "Only publicgetters and Vitest, no framebuffer/bitmap/state/Canvas/IO fixtures. Two getter interfaces remain independent despite same returned coordinates.",
+        "D": "No universal layoutfixture/table for4literal return assertions. Existing shared publicexports reused; no helper to obscure tiny enum/portrait domains.",
+        "E": "Both identities and entire typed callback/assertion trees preserved; literal expectedpoints unchanged. Retain true/false union branches as publichelper return domain, not visual tests.6files108/TC0; no newcount-only case.",
+        "F": "dialog-draw.layout.test and Dialogue layout public return values distinguish geometry from rendering. Stable caseIDs retained only as provenance.",
+        "G": "Remove all image/glyph/box/Canvas imports from this responsibility, no stateprovider or export added. Unknown reachability not used as an excuse to delete publicreturn tests or sourcebranches.",
+        "H": "Direct deterministic publichelpers, no mocks/global setup. Current two precise return tests can run independently of raster/nativeCanvas witness; no E2E/layoutvisual credit."
+      }
+    },
+    {
+      "path": "packages/game/src/present/dialog-draw.canvas.test.ts",
+      "subjects": [
+        "packages/game/src/present/dialog-box-chrome.grok-r1.test.ts",
+        "packages/game/src/present/dialog-box-pixels.grok-r1.test.ts"
+      ],
+      "axes": {
+        "A": "1 actual drawDialogBox->flushToCanvas->ctx2d.getImageData path checks indexedtitle0x8c mapsRGBA[1,2,140,255] and framebuffer retains0x8c; awaits nativePNGwrite/reopen/decode witness. Does not claim realPALasset/browser or visual/E2E correctness.",
+        "B": "Canvas/PNG suite and filename state boundary. Dump helper itself accurately separates livecanvas data from disk witness; samebyte code retained. No screenshot/e2e credit from a syntheticpalette test.",
+        "C": "DOMcanvas/nativePNG/filesystem witness isolated from20indexed/puregetter cases. Canvas is locally created/unattached; existing dump helper owns per-process OS-temp witness directory, no repoartifact writes. No new listener/timer/globalmock ownership.",
+        "D": "Reuse existing legalPalette/dialogGlyphs/FrameBuffer/flush/dump factories atsameSHA. Same5letter seed explicit in2actual scopes; sharedfactory already supplies implementation contract, no future-oriented helper/export.",
+        "E": "1 entire async callback retained under probe/privatealias names; literalRGBA and retainedindex positives unchanged, await preserved. Native report actually collected it and6files108/TC0 stderrempty; byte-readback witness not selfclone businessoracle. No test-name filter/skip.",
+        "F": "dialog-draw.canvas.test names Canvasoutput, rather than G05authorfolder; wideGlyphs and directdialogGlyphs name realinput. Raw G05A11 witness ID remains provenance only.",
+        "G": "No rendererbox/glyphwidth helper bloat from indexed suite, no newcompatibility/context or mock. Keeps one real outputadapter test as distinct from palette-index assertions.",
+        "H": "True DOM2d canvas and nativecodec dependency available in current Vitest; noctx throw retained ifunsupported. OS-temp witness behavior reused, not newly fault-injected cleanup or browsertest. Staticfast/full eligibility and actualnativecollection separate."
+      }
+    }
+  ],
+  "callbackProof": "organization-dialog-render/proof.stdout.raw",
+  "cohortOrigins": "organization-dialog-render/cohort-origins.json",
+  "reusedReviewMember": "organization-dialog-render/reused-reviews.json",
+  "runnerEligibility": "organization-dialog-render/routing.stdout.raw",
+  "knownAdjacentDebt": {
+    "path": "packages/game/src/present/dialog-box.test.ts",
+    "sha256": "bb5f191093ab1ed738bd4df29af5a18c3add9a88f07b0725f97a610bc052c6fe",
+    "owner": "Codex",
+    "status": "review",
+    "scope": "Adjacent main read, no source edits/no completion credited in this renderer slice.",
+    "issues": [
+      {
+        "id": "tail-oracle-derived-from-sut",
+        "kind": "observed test-design weakness",
+        "symbols": ["tailDelayOf", "Bug3", "Bug3-2"],
+        "facts": "Two tick deadlines computed from tested state doneAt-lastReveal; not independent timing oracles. Next slice needs fixed/derived-from-primary model contract and falsifiable counter before repair."
+      },
+      {
+        "id": "tail-timing-comments",
+        "kind": "observed annotation errors",
+        "facts": "481ms=24ms trailing-character delay+457ms explicittilde delay, not rounding. C polls skip after current-character delay, so cannot call457ms-from-keypress or481ms exactSDLtruth without accounting driver/input timing. Also7character text labeled8 and floor140/7 labeled14 need correction."
+      },
+      {
+        "id": "state-render-test-organization",
+        "kind": "structural followup",
+        "facts": "734line main mixesparser/state/layout/draw/portrait/icon. 5styles notThrow and same-value/redundant-negative observations require quality review while regrouping with GLMstate/title tests. Do not inherit mainaccept merely from108green."
+      }
+    ]
+  },
+  "adjacentDebtMember": "organization-dialog-render/adjacent-main-debt.json",
+  "reads": {
+    "fullInputs": [
+      {
+        "path": "packages/game/src/present/dialog-box-chrome.grok-r1.test.ts",
+        "sha256": "a91059d33c007b149b7ada27401f85952aa7dd5f6acb523f1273e9f42a4d7b0c",
+        "member": "organization-dialog-render/0.before",
+        "lines": 189
+      },
+      {
+        "path": "packages/game/src/present/dialog-box-pixels.grok-r1.test.ts",
+        "sha256": "d5c9302ccde83f710fd3a1c2e4dbe3a8d7b255449ca161bf30c8e49c45250fe5",
+        "member": "organization-dialog-render/1.before",
+        "lines": 150
+      }
+    ],
+    "fullImplementations": [
+      {
+        "path": "packages/game/src/present/dialog-box.ts",
+        "sha256": "2340ef89b4173b22c11908f814a8d69a91a2dbd3eb699bd045f6294fe444a212",
+        "scope": "Fullcurrent source read; old bounded truth reused, no new wholemechanism/PALvisual credit."
+      },
+      {
+        "path": "packages/game/src/present/dialog-draw.ts",
+        "sha256": "755ed6019d3d070024ca9663dc79ba0b634abaf492c0675e3e5b7ceb300172ec",
+        "scope": "Fullcurrent source read; old bounded truth reused, no new wholemechanism/PALvisual credit."
+      },
+      {
+        "path": "packages/game/src/present/dialog-text.ts",
+        "sha256": "6e7bb20e1e0e651b9cf89445dd7587c7eaa025b0dadb2fe7d162db8f0cbd7bff",
+        "scope": "Fullcurrent source read; old bounded truth reused, no new wholemechanism/PALvisual credit."
+      },
+      {
+        "path": "packages/game/src/__tests__/dialog-fixtures.ts",
+        "sha256": "a7f3ce0495d28a85a85afdfdc6e4f89630ca7825a028a72788c36d9bb521a5af",
+        "scope": "Fullcurrent source read; old bounded truth reused, no new wholemechanism/PALvisual credit."
+      },
+      {
+        "path": "packages/game/src/present/__tests__/raster-fixtures.ts",
+        "sha256": "982d0ab4a7a73bd1d432554562ff9f628d097098be32af9e9b059bd1dbb2d291",
+        "scope": "Fullcurrent source read; old bounded truth reused, no new wholemechanism/PALvisual credit."
+      },
+      {
+        "path": "packages/game/src/__tests__/grok-render-r1/dump-evidence.ts",
+        "sha256": "0190fb4ea18357e24e30a552ece01049ecdb208539895e3117fda5c2e402a6c4",
+        "scope": "Fullcurrent source read; old bounded truth reused, no new wholemechanism/PALvisual credit."
+      }
+    ],
+    "fullAdjacentSpecs": [
+      {
+        "path": "packages/game/src/present/dialog-box.test.ts",
+        "sha256": "bb5f191093ab1ed738bd4df29af5a18c3add9a88f07b0725f97a610bc052c6fe",
+        "scope": "Fullread only; main debt explicit, no newcohort completion."
+      },
+      {
+        "path": "packages/game/src/present/dialog-box.glm-next-wave.test.ts",
+        "sha256": "7ecc0998e9e91193b08cb04e695aac99d71b8ed1afd9cb5355447d4529de6521",
+        "scope": "Fullread only; main debt explicit, no newcohort completion."
+      },
+      {
+        "path": "packages/game/src/present/dialog-box.composition.test.ts",
+        "sha256": "a390b96d710377ec4e10daace4ac4eb978e5f79f40afbd13dae5960b56efc273",
+        "scope": "Fullread only; main debt explicit, no newcohort completion."
+      }
+    ],
+    "scopedCallers": [
+      {
+        "path": "packages/game/src/present/present.ts",
+        "sha256": "c4c6f411857d99c5f8e850bf5172c3e42f04181a64df0ce2a697fe1ec90569f9",
+        "ranges": [[124, 157]]
+      },
+      {
+        "path": "packages/game/src/core/event-system.ts",
+        "sha256": "3b8490fa48d2992f693ab0eb611954dd0bfacbc22dc3eda58378cc4bc7a4b5f4",
+        "ranges": [[1640, 1673], [1984, 2041]]
+      },
+      {
+        "path": "packages/game/src/core/battle/battle-dialog.ts",
+        "sha256": "b9daf80c2af0ea3b4688c21b5e13247edf115cb203adede23d3bd74e53cff644",
+        "ranges": [[98, 124], [180, 198]]
+      }
+    ],
+    "primarySources": [
+      {
+        "path": "reference/sdlpal/text.c",
+        "sha256": "8e3c1be5111ea6bed1d0a8a480a2818235d0b3c22a6f73540f5701ac26cbc456",
+        "ranges": [[1285, 1357], [1541, 1560], [1572, 1614], [1663, 1710]],
+        "scope": "Narrow layout/narration/control-delay/glyph block; exactkeypress-clock parity remains unknown, no renewed originalbinary/visual acceptance."
+      }
+    ],
+    "currentOutputs": [
+      {
+        "path": "packages/game/src/present/dialog-draw.test.ts",
+        "sha256": "2a74a51d36fddb62e76368ffd52d971f4e4d09da35aa56df43a9593710c61523",
+        "lines": 276,
+        "scope": "Fullcurrent candidate read; finallayout header only clarifies alreadyknown placeholder scope, callbacks unchanged."
+      },
+      {
+        "path": "packages/game/src/present/dialog-draw.layout.test.ts",
+        "sha256": "eec38164730b46fd00fad0455acc8b1b87fdc4e38365666dc30310e0b93c5091",
+        "lines": 15,
+        "scope": "Fullcurrent candidate read; finallayout header only clarifies alreadyknown placeholder scope, callbacks unchanged."
+      },
+      {
+        "path": "packages/game/src/present/dialog-draw.canvas.test.ts",
+        "sha256": "9fcd2ba9e076dcb66a6de861cbe2d7eb606a4d222f202869e918eb7bc3be9b6e",
+        "lines": 31,
+        "scope": "Fullcurrent candidate read; finallayout header only clarifies alreadyknown placeholder scope, callbacks unchanged."
+      }
+    ]
+  },
+  "processDisclosures": [
+    "Only2historicalrenderer subjects23identities counted->indexed20/layout2/CanvasPNG1; alltitles/callback/assertions retained,0retired,0newclosed. No adjacentmain/GLM/composition subject credited.",
+    "4helperfunctions+wideseed typedtrees conserved;40oldpixel probes allinteger inbounds with21default320x200constructions equal existingrasterpixel. Originalout-of-domain fallback0 differs from reusedthrow; proof explicitly rejects general equivalence.",
+    "Same tinywideglyph seed is explicit inindexed/Canvas scopes; commonfactory alreadyreused, no newprovider abstraction. Canonical dialog input provider unchanged. Canvas/PNG imports removed fromsynchronouspixels/getters; actualasyncawait/nativecollection retained.",
+    "Adjacentmain734read identifies two state-derived timingoracles and wrong481rounding/charcount/math comments; reopenonlythatmain toreview and keep priorversion-validA/H evidence. ExactCinputpoll context not productdefectproof; no product fix/approval claimed. FullGLM91/composition155read forrouting; not counted completed.",
+    "6exactactualpaths108/TC0/no pending/stderr. Eleven currentcentraltools unchanged; nativevolumes originalsealed, extensiononly. Heavywholecheck/officialcoverage/protected/publication deferred tostablelargecloseout."
+  ],
+  "ledgerDispositions": {
+    "categories": {
+      "packages/game/src/present/dialog-draw.test.ts": "test",
+      "packages/game/src/present/dialog-draw.layout.test.ts": "test",
+      "packages/game/src/present/dialog-draw.canvas.test.ts": "test"
+    },
+    "reopenedAdjacent": [
+      {
+        "path": "packages/game/src/present/dialog-box.test.ts",
+        "reason": "Known E/B/organization rework; source unchanged; nextstate/textslice"
+      }
+    ]
+  },
+  "ledgerCounts": {
+    "inventory": 3446,
+    "closed": 545,
+    "review": 267,
+    "pending": 2634
+  }
+}

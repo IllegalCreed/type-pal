@@ -1,0 +1,126 @@
+{
+  "id": "extract-yj2-sprite-vector",
+  "kind": "fixture",
+  "namespace": "organization-extract-vector",
+  "cohortSubjects": [
+    {
+      "path": "packages/pal-extract/src/__tests__/glm-runtime-resource/yj2-sprite-chunk-vector.ts",
+      "sha256": "1d66e57a508f69817a3b99a7745039a6e26d7a2577cdc3168c75069db5374407",
+      "preservedEvidence": "[本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json)"
+    }
+  ],
+  "providers": {
+    "before": [
+      {
+        "path": "packages/pal-extract/src/__tests__/glm-runtime-resource/yj2-sprite-chunk-vector.ts",
+        "member": "organization-extract-vector/0.before",
+        "sha256": "1d66e57a508f69817a3b99a7745039a6e26d7a2577cdc3168c75069db5374407"
+      }
+    ],
+    "current": [
+      {
+        "path": "packages/pal-extract/src/__tests__/yj2-sprite-vector.ts",
+        "sha256": "f7e4c369b3232768b1a7ed15244dfca929b254a1636a1402b8608d9d197f6387",
+        "imports": []
+      }
+    ]
+  },
+  "consumers": [
+    {
+      "path": "packages/pal-extract/src/resources/animation-assets.fire.test.ts",
+      "member": "organization-extract-vector/1.before",
+      "sha256": "f477f257bff13d4f92f3bf854361a1a57c6139a54122eecab3a6ea9dff19c9ac",
+      "currentSha256": "cd505d7cd83f3a0e37a663a9078d1ffbe78f10ba2d636e416eb725ff39de2d44",
+      "changes": [
+        {
+          "from": "'../__tests__/glm-runtime-resource/yj2-sprite-chunk-vector.js'",
+          "to": "'../__tests__/yj2-sprite-vector.js'",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "exports": [
+    {
+      "oldPath": "packages/pal-extract/src/__tests__/glm-runtime-resource/yj2-sprite-chunk-vector.ts",
+      "oldName": "SPRITE_CHUNK_2X2",
+      "currentName": "SPRITE_CHUNK_2X2",
+      "currentPath": "packages/pal-extract/src/__tests__/yj2-sprite-vector.ts"
+    },
+    {
+      "oldPath": "packages/pal-extract/src/__tests__/glm-runtime-resource/yj2-sprite-chunk-vector.ts",
+      "oldName": "YJ2_SPRITE_CHUNK_2X2",
+      "currentName": "YJ2_SPRITE_CHUNK_2X2",
+      "currentPath": "packages/pal-extract/src/__tests__/yj2-sprite-vector.ts"
+    }
+  ],
+  "retiredPaths": [
+    "packages/pal-extract/src/__tests__/glm-runtime-resource/yj2-sprite-chunk-vector.ts"
+  ],
+  "preserved": [
+    {
+      "path": "packages/pal-extract/src/__tests__/glm-q/yj2-encoder.ts",
+      "sha256": "02b53ec4dc6a937bb20a9689a050407b16f01694c193f40d9327cd88b365b565"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/animation-assets.ts",
+      "sha256": "ba474bac4b6dc2dcb034f165a92d25186f2a29a6343bad835016ce04e58645b9"
+    },
+    {
+      "path": "packages/shared/src/yj2.ts",
+      "sha256": "d26cfe8fc7680330de5f167f30d9b970e74e68dc6a3ddebbc58daa46a7acd0b4"
+    },
+    {
+      "path": "packages/shared/src/rle.ts",
+      "sha256": "85d0f8dc2f2c02e1fb8cf19c8faf0c9753b77d2ceeecb2a77c289421794282fb"
+    }
+  ],
+  "neighborPaths": [
+    "packages/pal-extract/src/resources/animation-assets.fire.test.ts",
+    "packages/pal-extract/src/resources/parsers/__tests__/misc-mkf.test.ts",
+    "packages/pal-extract/src/resources/scene-supplemental.test.ts",
+    "packages/pal-extract/src/resources/scene.test.ts",
+    "packages/pal-extract/src/resources/sprite.artifacts.pal.test.ts",
+    "packages/pal-extract/src/resources/sprite.png.test.ts"
+  ],
+  "cleanExecutions": [
+    "before",
+    "scoped",
+    "neighbors",
+    "typecheck",
+    "lint",
+    "docs",
+    "content-review"
+  ],
+  "receipts": {
+    "neighbors": "organization-extract-scene-sprite/neighbors",
+    "typecheck": "organization-extract-scene-sprite/typecheck",
+    "lint": "organization-extract-scene-sprite/lint",
+    "docs": "organization-extract-scene-sprite/docs",
+    "content-review": "organization-extract-scene-sprite/content-review"
+  },
+  "profiles": [
+    {
+      "path": "packages/pal-extract/src/__tests__/yj2-sprite-vector.ts",
+      "subjects": [
+        "packages/pal-extract/src/__tests__/glm-runtime-resource/yj2-sprite-chunk-vector.ts"
+      ],
+      "axes": {
+        "A": "两个固定声明的所有RLE/YJ2字节保持；FIRE writer当前实际消费，YJ2编码器/SDLPal原EOS验证沿相同字节有效。TS提前按长度结束的证据限制保留。",
+        "B": "删模型/批次和已迁出路径名，保留11字节、真0xFFF结束符及独立PNG期望限制；首WORD注释只称frame0偏移，不混淆帧数格式。",
+        "C": "固定合成sprite及其压缩流同一paired-vector职责，唯一FIRE consumer只借用；不与CLI全管线输入/编码器算法混装。",
+        "D": "两常量在真实consumer分别作输入与独立明文字节预期，声明完全相同；不为重命名复制encoder或重新生成冻结向量。",
+        "E": "FIRE三原身份及字节/RGBA/manifest断言不变，当前共同相邻回执完整复用，不把26例当本fixture独立测试数量；没有仅靠TS往返认证EOS。",
+        "F": "yj2-sprite-vector名称描述编码/数据用途，不含模型/返工轮次；两个出口说明明文/压缩角色。",
+        "G": "旧路径删除、一个新职责文件，无barrel/兼容名/模式helper；两声明都有实际caller，不拆散一对输入和独立预期。",
+        "H": "固定字节可只读验证，当前FIRE真实writer与PNG/原盘相邻已跑；消费者不改常量，producer算法未动，不重复运行已相同候选QC。"
+      },
+      "acceptance": "accepted-FG; uniform gates pending"
+    }
+  ],
+  "processDisclosure": [
+    "Initial snapshot command used package cwd and failed before any source write. Root retry captured exact provider/cohort hash and the checkpoint-bound consumer; before FIRE run had used unchanged originals.",
+    "Neighbors/typecheck are explicitly shared original receipts from the simultaneous scene/sprite candidate, not renamed copies or new executions.",
+    "No new EOS/asset-format claim is inferred from TS roundtrip. Paired literal bytes retain their earlier native provenance."
+  ]
+}

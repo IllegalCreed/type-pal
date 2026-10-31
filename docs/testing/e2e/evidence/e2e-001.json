@@ -95,6 +95,7 @@
     "claimScope": "historical-publication-only"
   },
   "findings": [
+    "2026-10-30 仅001出版/源码合同实质复核：7当前sourceRefs SHA/锚点、55行源对白及公开三入口已核；64opening工具/9catalog绿。明确reviewBy10-28→11-29；原runtimeExecution=false、candidate/versions及旧运行结论不升格，当前编辑器预览与双轨运行不由本次授信。",
     "2026-10-10 对白留显修复：仅同步当前sourceRefs源码索引及核验其原有anchor，历史revision/运行结论/数字/raw保持原样。新增全槽draw/显隐义务以E2E-CONTINUOUS-001-006任务卡及dialogue-visibility-fix-20261010局部验证为准，本条不授信当前001–006完整演出。",
     "2026-10-08 源码核读更新：核对本页现有 caller、输入、采集和断言锚点后刷新 sourceRefs 哈希；只更新文档源码绑定，不修改历史 revision、版本、实跑结果或原始日志。本轮工具补强尚未冻结，未补录剧情或执行连续演示；当前进度及剩余项以 E2E-CONTINUOUS-001-006 任务卡顶部为准。",
     "2026-10-06 Game绘制插桩执行域源核验：已直接生成并核读真实presentFrame的转换结果，render:world位于完整entries循环闭合之后，每次完成世界绘制只记录一次；循环内只绘制并递增drawOrder。既有真实多entry回归同时断言两个NPC的实际资源/绘制顺序及后一个draw抛错时不发布新世界绘制证据。本项仅核当前源码与断言，不给修正前的采集结果补发渲染信用，也不宣布正在重录的SAVE12链通过。",
@@ -116,14 +117,23 @@
     "templateId": "test-machine-evidence-v1",
     "templateVersion": "1.5.0",
     "variant": "document-audit-v2",
-    "lastReviewed": "2026-10-15",
+    "lastReviewed": "2026-10-30",
     "owner": "Codex",
     "provenance": ["existing paired testing evidence", "DOCS-FULL-TEMPLATE-1 structural migration"],
     "sourceSha256": "d5092910e75a0f40bbd5baea191c91a0005ab83bea111af6d87d2f37622430b7",
     "sourceGitObject": "9d4755265356c0e76af1cdbd469fa71783ce04f8",
-    "scope": "Document-audit of e2e-001; original versions/candidate/claims/history retained. No new runtime execution.",
+    "scope": "Current bounded source/publication review of e2e-001 plus original document-audit/history. No new runtime, visual, editor preview or checkpoint execution.",
     "beforeAfter": "Original flat paired audit evidence -> same top-level evidence fields plus non-overwriting governance envelope.",
     "stopLine": "runtimeExecution.performed remains false; do not use schema compliance to grant a runtime-backed claim.",
-    "nextStep": "Use the actual E2E task and recorded artifacts for any current execution acceptance; this migration only validates machine publication."
+    "nextStep": "Use the actual E2E task and recorded artifacts for any current execution acceptance; this migration only validates machine publication.",
+    "publicationReview": {
+      "date": "2026-10-30",
+      "action": "explicit-source-and-publication-review",
+      "candidate": "e94098f949452bc3bf8d028f21bdc0a4e400ea22",
+      "evidence": "docs/ops/evidence/QUALITY-PENDING-100-3/e2e001-publication-review.json",
+      "reviewBy": "2026-11-29",
+      "scope": "Seven current source pins/anchors, current55-dialogue source inventory and raw text agreement, real CLI contracts, paired report/evidence/history boundaries;64opening tool and9catalog tests. No new browser/runtime/visual/preview/checkpoint acceptance.",
+      "notRun": ["browser", "runtime E2E", "visual", "editor preview", "coverage"]
+    }
   }
 }

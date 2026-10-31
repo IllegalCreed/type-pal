@@ -7,7 +7,6 @@ phase: [phase1, phase2]
 engines: [game, reforge]
 owner: <owner>
 lastVerified: YYYY-MM-DD
-reviewBy: YYYY-MM-DD
 dependsOn: []
 tags: [story]
 canonicalReport: report.md
@@ -29,3 +28,5 @@ canonicalReport: report.md
 - [机器回执](evidence.json)
 
 阶段名应表达剧情/业务用途；内部 scene/entity 编号只写入报告的 `sourceRefs`，不能成为 canonical 目录名。
+
+版本记录填写于配对报告／catalog 的 revision 与 sourceRefs；按[测试治理](../governance.md#版本适用性)比较适用性，不设循环复核日期。lastVerified 只记真实核验日期。

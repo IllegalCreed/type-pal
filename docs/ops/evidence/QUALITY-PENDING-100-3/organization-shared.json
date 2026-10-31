@@ -1,0 +1,1965 @@
+{
+  "kind": "responsibility reorganization; no new cases/assertions/product policy",
+  "inputs": [
+    {
+      "path": "packages/shared/src/rle.glm-o.test.ts",
+      "sha256": "f171b91761ded512468ec1ad80ef0ce853989dedfefb683c1c75afd121969780",
+      "member": "organization-shared/rle.glm-o.test.ts.before"
+    },
+    {
+      "path": "packages/shared/src/rle.glm-runtime-resource.test.ts",
+      "sha256": "b1e37ee8f98bb29cfc740971120d5d17a30ffbfa1845d8d7876b89faa1e22fa6",
+      "member": "organization-shared/rle.glm-runtime-resource.test.ts.before"
+    },
+    {
+      "path": "packages/shared/src/rle-encode.glm-runtime-resource.test.ts",
+      "sha256": "2a2bb0336aa3b579462c74832971bb113c7d7b302cecc5c731c8974256d4418e",
+      "member": "organization-shared/rle-encode.glm-runtime-resource.test.ts.before"
+    },
+    {
+      "path": "packages/shared/src/rle.boundaries.test.ts",
+      "sha256": "8e70b71e8824e67bfb4d82c88ebb06d5662984697846faebdf1b0b814040ded0",
+      "member": "organization-shared/rle.boundaries.test.ts.before"
+    },
+    {
+      "path": "packages/shared/src/rle-encode.boundaries.test.ts",
+      "sha256": "fc93e0f04f5be79be3c2c15ab83dfc62311d817ef571a9dc3054800dcd7558e3",
+      "member": "organization-shared/rle-encode.boundaries.test.ts.before"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "packages/shared/src/rle.frames.test.ts",
+      "purpose": "RLE input buffers: prefix handling, frame tails and nonzero byte offsets.",
+      "sha256": "de73341a5a9f43c2f757a889140b9a872d2e7c4cfde47c5046ddfa6b488864d0"
+    },
+    {
+      "path": "packages/shared/src/rle.containers.test.ts",
+      "purpose": "Strict container structure, indexed legacy reports and bounded payload rejection.",
+      "sha256": "a9b286d4dcae9a670ddabca909b336ff32173e792f34998a75d2b0a961be9aae"
+    },
+    {
+      "path": "packages/shared/src/rle-encode.bytes.test.ts",
+      "purpose": "Independent encoded bytes, run boundaries, input views and frame-table width.",
+      "sha256": "214db8ef84291f2a617aee14aa3df577ae83ecbbb8f90a1c02ac42650d187e71"
+    }
+  ],
+  "replacements": [],
+  "sourceBridges": [
+    {
+      "id": "typed-frame-fixture",
+      "path": "packages/shared/src/rle-encode.boundaries.test.ts",
+      "reason": "Same test-only frame factory body; make its inferred shape explicitly RleFrame so the existing identical factory has one owner.",
+      "changes": [
+        {
+          "from": "import { describe, expect, test } from 'vitest'",
+          "to": "import { describe, expect, test } from 'vitest'\nimport type { RleFrame } from './rle.js'",
+          "count": 1
+        },
+        {
+          "from": "const frame = (width: number, height: number, pixels: number[], opaque: number[]) => ({",
+          "to": "const frame = (width: number, height: number, pixels: number[], opaque: number[]): RleFrame => ({",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "independent-view-byte-oracle",
+      "path": "packages/shared/src/rle-encode.glm-runtime-resource.test.ts",
+      "reason": "Test assertion strengthening, not behavior-invariance credit: preserve both original inputs and bind each to independently listed bytes; retire same-SUT comparison as the oracle.",
+      "changes": [
+        {
+          "from": "test('pixels/opaque 为大缓冲奇数偏移 subarray：编码字节与独立缓冲版本相等', () => {\n    const standalone = frame(3, 2, [1, 0, 3, 0, 5, 6], [1, 0, 1, 0, 1, 1])\n    const parent = new Uint8Array(2 + 6 + 3)\n    parent.fill(0x99)\n    const pxView = parent.subarray(2, 2 + 6)\n    pxView.set([1, 0, 3, 0, 5, 6])\n    const maskParent = new Uint8Array(5 + 6 + 1)\n    maskParent.fill(0x77)\n    const opView = maskParent.subarray(5, 5 + 6)\n    opView.set([1, 0, 1, 0, 1, 1])\n    const fromViews = encodeRleFrame({\n      width: 3,\n      height: 2,\n      pixels: pxView,\n      opaque: opView,\n    })\n    expect([...fromViews]).toEqual([...encodeRleFrame(standalone)])\n  })",
+          "to": "test('pixels/opaque 为大缓冲奇数偏移 subarray：编码字节与独立缓冲版本相等', () => {\n    const standalone = frame(3, 2, [1, 0, 3, 0, 5, 6], [1, 0, 1, 0, 1, 1])\n    const parent = new Uint8Array(2 + 6 + 3)\n    parent.fill(0x99)\n    const pxView = parent.subarray(2, 2 + 6)\n    pxView.set([1, 0, 3, 0, 5, 6])\n    const maskParent = new Uint8Array(5 + 6 + 1)\n    maskParent.fill(0x77)\n    const opView = maskParent.subarray(5, 5 + 6)\n    opView.set([1, 0, 1, 0, 1, 1])\n    const fromViews = encodeRleFrame({\n      width: 3,\n      height: 2,\n      pixels: pxView,\n      opaque: opView,\n    })\n    const expected = [3, 0, 2, 0, 1, 1, 0x81, 1, 3, 0x81, 2, 5, 6]\n    expect([...encodeRleFrame(standalone)]).toEqual(expected)\n    expect([...fromViews]).toEqual(expected)\n  })",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "registrations": [
+    {
+      "old": {
+        "file": "packages/shared/src/rle.glm-runtime-resource.test.ts",
+        "ordinal": 0,
+        "titles": ["R01 decodeRle skipFilePrefix 选项矩阵"],
+        "template": "0x00000002 前缀 + 选项：从 byte 4 解码（sdlpal palcommon.c:722-728 单帧整-chunk 头）"
+      },
+      "current": {
+        "file": "packages/shared/src/rle.frames.test.ts",
+        "titles": ["frame input bytes and buffer views"],
+        "template": "0x00000002 前缀 + 选项：从 byte 4 解码（sdlpal palcommon.c:722-728 单帧整-chunk 头）"
+      },
+      "statementSyntaxSha256": "f294c3f3c864b41ca2b395bf743fd449a22efad7e8d8c4bda4273d9473832b94",
+      "declarations": ["733b32cebf62a02465975ea55d041bc790698ed3a350c3d3e6b251acefe2024c"],
+      "hooks": [],
+      "imports": [
+        {
+          "name": "decodeRle",
+          "module": "./rle.js",
+          "imported": "decodeRle",
+          "typeOnly": false
+        },
+        {
+          "name": "expect",
+          "module": "vitest",
+          "imported": "expect",
+          "typeOnly": false
+        },
+        {
+          "name": "test",
+          "module": "vitest",
+          "imported": "test",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "packages/shared/src/rle.glm-runtime-resource.test.ts",
+        "ordinal": 1,
+        "titles": ["R01 decodeRle skipFilePrefix 选项矩阵"],
+        "template": "同缓冲不传选项：不跳前缀，头从 byte 0 读后拒绝零尺寸帧"
+      },
+      "current": {
+        "file": "packages/shared/src/rle.frames.test.ts",
+        "titles": ["frame input bytes and buffer views"],
+        "template": "同缓冲不传选项：不跳前缀，头从 byte 0 读后拒绝零尺寸帧"
+      },
+      "statementSyntaxSha256": "745a50a347852f2321e6228279bbcac041eb19c0b3c9c5d91a8d98084ebf2cb1",
+      "declarations": ["733b32cebf62a02465975ea55d041bc790698ed3a350c3d3e6b251acefe2024c"],
+      "hooks": [],
+      "imports": [
+        {
+          "name": "decodeRle",
+          "module": "./rle.js",
+          "imported": "decodeRle",
+          "typeOnly": false
+        },
+        {
+          "name": "expect",
+          "module": "vitest",
+          "imported": "expect",
+          "typeOnly": false
+        },
+        {
+          "name": "test",
+          "module": "vitest",
+          "imported": "test",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "packages/shared/src/rle.glm-runtime-resource.test.ts",
+        "ordinal": 2,
+        "titles": ["R01 decodeRle skipFilePrefix 选项矩阵"],
+        "template": "传选项但首 4 字节非该前缀：不跳，正常解码"
+      },
+      "current": {
+        "file": "packages/shared/src/rle.frames.test.ts",
+        "titles": ["frame input bytes and buffer views"],
+        "template": "传选项但首 4 字节非该前缀：不跳，正常解码"
+      },
+      "statementSyntaxSha256": "f6ae8f6772654ea1a6ec2ce222252fd82c0512c233a916ce0fb47b40d66c4617",
+      "declarations": [],
+      "hooks": [],
+      "imports": [
+        {
+          "name": "decodeRle",
+          "module": "./rle.js",
+          "imported": "decodeRle",
+          "typeOnly": false
+        },
+        {
+          "name": "expect",
+          "module": "vitest",
+          "imported": "expect",
+          "typeOnly": false
+        },
+        {
+          "name": "test",
+          "module": "vitest",
+          "imported": "test",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "packages/shared/src/rle.glm-runtime-resource.test.ts",
+        "ordinal": 3,
+        "titles": ["R01 decodeRle skipFilePrefix 选项矩阵"],
+        "template": "缓冲 <4 字节 + 选项：长度守卫显式拒绝，不挂起"
+      },
+      "current": {
+        "file": "packages/shared/src/rle.frames.test.ts",
+        "titles": ["frame input bytes and buffer views"],
+        "template": "缓冲 <4 字节 + 选项：长度守卫显式拒绝，不挂起"
+      },
+      "statementSyntaxSha256": "614fd5fc19bd664748b947aa2a5b5db0f4bb0c56bccb4aa4c4a5f76fcfd0f7e5",
+      "declarations": [],
+      "hooks": [],
+      "imports": [
+        {
+          "name": "decodeRle",
+          "module": "./rle.js",
+          "imported": "decodeRle",
+          "typeOnly": false
+        },
+        {
+          "name": "expect",
+          "module": "vitest",
+          "imported": "expect",
+          "typeOnly": false
+        },
+        {
+          "name": "test",
+          "module": "vitest",
+          "imported": "test",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "packages/shared/src/rle.glm-runtime-resource.test.ts",
+        "ordinal": 4,
+        "titles": ["R01 decodeRle 帧后尾随字节（截断边界自上侧）"],
+        "template": "完整帧后追加字节：仍得到预期尺寸、pixels与opaque"
+      },
+      "current": {
+        "file": "packages/shared/src/rle.frames.test.ts",
+        "titles": ["frame input bytes and buffer views"],
+        "template": "完整帧后追加字节：仍得到预期尺寸、pixels与opaque"
+      },
+      "statementSyntaxSha256": "a31fb2ac7e250f0532f1c1cc55b5db2e777c1d7cf2918ea96720c8a93c3f0d3b",
+      "declarations": ["733b32cebf62a02465975ea55d041bc790698ed3a350c3d3e6b251acefe2024c"],
+      "hooks": [],
+      "imports": [
+        {
+          "name": "decodeRle",
+          "module": "./rle.js",
+          "imported": "decodeRle",
+          "typeOnly": false
+        },
+        {
+          "name": "expect",
+          "module": "vitest",
+          "imported": "expect",
+          "typeOnly": false
+        },
+        {
+          "name": "test",
+          "module": "vitest",
+          "imported": "test",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "packages/shared/src/rle.glm-runtime-resource.test.ts",
+        "ordinal": 5,
+        "titles": ["R01 子数组 byteOffset 传播"],
+        "template": "四个公开入口在奇数byteOffset视图上保留完整预期帧与报告"
+      },
+      "current": {
+        "file": "packages/shared/src/rle.frames.test.ts",
+        "titles": ["frame input bytes and buffer views"],
+        "template": "四个公开入口在奇数byteOffset视图上保留完整预期帧与报告"
+      },
+      "statementSyntaxSha256": "3e7135c6cd49ae824d3be1b96d0efb5c627af24b50e1b7f614e1f4184c7d04be",
+      "declarations": [
+        "733b32cebf62a02465975ea55d041bc790698ed3a350c3d3e6b251acefe2024c",
+        "b94b4f563553d19cdcfa5cd47383df1458ced83fac8c3a596cd7fdbaf5fcb4a6"
+      ],
+      "hooks": [],
+      "imports": [
+        {
+          "name": "decodeRle",
+          "module": "./rle.js",
+          "imported": "decodeRle",
+          "typeOnly": false
+        },
+        {
+          "name": "expect",
+          "module": "vitest",
+          "imported": "expect",
+          "typeOnly": false
+        },
+        {
+          "name": "parseIndexedRleChunk",
+          "module": "./rle.js",
+          "imported": "parseIndexedRleChunk",
+          "typeOnly": false
+        },
+        {
+          "name": "parseSpriteChunk",
+          "module": "./rle.js",
+          "imported": "parseSpriteChunk",
+          "typeOnly": false
+        },
+        {
+          "name": "parseSpriteChunkStrict",
+          "module": "./rle.js",
+          "imported": "parseSpriteChunkStrict",
+          "typeOnly": false
+        },
+        {
+          "name": "test",
+          "module": "vitest",
+          "imported": "test",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "packages/shared/src/rle.glm-o.test.ts",
+        "ordinal": 0,
+        "titles": ["O10 parseSpriteChunkStrict：容器结构轴"],
+        "template": "%s：拒绝非法容器头"
+      },
+      "current": {
+        "file": "packages/shared/src/rle.containers.test.ts",
+        "titles": ["container structure and rejected slots"],
+        "template": "%s：拒绝非法容器头"
+      },
+      "statementSyntaxSha256": "83a60b96df928a3973363dbd19e97946d0a2dda2194fa9bd996cbf6c06fb2dab",
+      "declarations": [],
+      "hooks": [],
+      "imports": [
+        {
+          "name": "expect",
+          "module": "vitest",
+          "imported": "expect",
+          "typeOnly": false
+        },
+        {
+          "name": "parseSpriteChunkStrict",
+          "module": "./rle.js",
+          "imported": "parseSpriteChunkStrict",
+          "typeOnly": false
+        },
+        {
+          "name": "test",
+          "module": "vitest",
+          "imported": "test",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "packages/shared/src/rle.glm-o.test.ts",
+        "ordinal": 1,
+        "titles": ["O10 parseSpriteChunkStrict：容器结构轴"],
+        "template": "声明1槽但没有完整帧头的容器不能伪装成纯sentinel"
+      },
+      "current": {
+        "file": "packages/shared/src/rle.containers.test.ts",
+        "titles": ["container structure and rejected slots"],
+        "template": "声明1槽但没有完整帧头的容器不能伪装成纯sentinel"
+      },
+      "statementSyntaxSha256": "a7a923841d781c1800dc75ff786fbd82a6dd974a12843c66e877a007f56e0eca",
+      "declarations": [],
+      "hooks": [],
+      "imports": [
+        {
+          "name": "expect",
+          "module": "vitest",
+          "imported": "expect",
+          "typeOnly": false
+        },
+        {
+          "name": "parseSpriteChunkStrict",
+          "module": "./rle.js",
+          "imported": "parseSpriteChunkStrict",
+          "typeOnly": false
+        },
+        {
+          "name": "test",
+          "module": "vitest",
+          "imported": "test",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "packages/shared/src/rle.glm-o.test.ts",
+        "ordinal": 2,
+        "titles": ["O10 parseSpriteChunkStrict：容器结构轴"],
+        "template": "%s：第二帧独立拒绝"
+      },
+      "current": {
+        "file": "packages/shared/src/rle.containers.test.ts",
+        "titles": ["container structure and rejected slots"],
+        "template": "%s：第二帧独立拒绝"
+      },
+      "statementSyntaxSha256": "f6a3cc448021786da763bcda1825e7be2a27e11f59eee7c3c25234c6aaab1f32",
+      "declarations": [],
+      "hooks": [],
+      "imports": [
+        {
+          "name": "expect",
+          "module": "vitest",
+          "imported": "expect",
+          "typeOnly": false
+        },
+        {
+          "name": "frameBytes",
+          "module": "./__tests__/rle-bytes.js",
+          "imported": "frameBytes",
+          "typeOnly": false
+        },
+        {
+          "name": "parseSpriteChunkStrict",
+          "module": "./rle.js",
+          "imported": "parseSpriteChunkStrict",
+          "typeOnly": false
+        },
+        {
+          "name": "strictChunk",
+          "module": "./__tests__/rle-bytes.js",
+          "imported": "strictChunk",
+          "typeOnly": false
+        },
+        {
+          "name": "test",
+          "module": "vitest",
+          "imported": "test",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "packages/shared/src/rle.glm-o.test.ts",
+        "ordinal": 3,
+        "titles": ["O10 parseSpriteChunkStrict：容器结构轴"],
+        "template": "%s：拒绝该帧尺寸"
+      },
+      "current": {
+        "file": "packages/shared/src/rle.containers.test.ts",
+        "titles": ["container structure and rejected slots"],
+        "template": "%s：拒绝该帧尺寸"
+      },
+      "statementSyntaxSha256": "503e12f6fd5774be5aeb80ad3bd0e2ba81d1b840cdf1fd8d3179448640648bf1",
+      "declarations": [],
+      "hooks": [],
+      "imports": [
+        {
+          "name": "expect",
+          "module": "vitest",
+          "imported": "expect",
+          "typeOnly": false
+        },
+        {
+          "name": "frameBytes",
+          "module": "./__tests__/rle-bytes.js",
+          "imported": "frameBytes",
+          "typeOnly": false
+        },
+        {
+          "name": "parseSpriteChunkStrict",
+          "module": "./rle.js",
+          "imported": "parseSpriteChunkStrict",
+          "typeOnly": false
+        },
+        {
+          "name": "strictChunk",
+          "module": "./__tests__/rle-bytes.js",
+          "imported": "strictChunk",
+          "typeOnly": false
+        },
+        {
+          "name": "test",
+          "module": "vitest",
+          "imported": "test",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "packages/shared/src/rle.glm-o.test.ts",
+        "ordinal": 4,
+        "titles": ["O10 parseSpriteChunkStrict：容器结构轴"],
+        "template": "合法双帧完整通过，pixels与opaque均保序"
+      },
+      "current": {
+        "file": "packages/shared/src/rle.containers.test.ts",
+        "titles": ["container structure and rejected slots"],
+        "template": "合法双帧完整通过，pixels与opaque均保序"
+      },
+      "statementSyntaxSha256": "d5a7034a0267e23957f7ae31df1829d1f9856306e0ea4c079cffa468d1ba7e61",
+      "declarations": [],
+      "hooks": [],
+      "imports": [
+        {
+          "name": "expect",
+          "module": "vitest",
+          "imported": "expect",
+          "typeOnly": false
+        },
+        {
+          "name": "frameBytes",
+          "module": "./__tests__/rle-bytes.js",
+          "imported": "frameBytes",
+          "typeOnly": false
+        },
+        {
+          "name": "parseSpriteChunkStrict",
+          "module": "./rle.js",
+          "imported": "parseSpriteChunkStrict",
+          "typeOnly": false
+        },
+        {
+          "name": "strictChunk",
+          "module": "./__tests__/rle-bytes.js",
+          "imported": "strictChunk",
+          "typeOnly": false
+        },
+        {
+          "name": "test",
+          "module": "vitest",
+          "imported": "test",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "packages/shared/src/rle.glm-o.test.ts",
+        "ordinal": 7,
+        "titles": ["O10 encodeSpriteChunk：空容器"],
+        "template": "空 frames → 2 字节空容器（strict/索引入口一致拒绝“不含帧”）"
+      },
+      "current": {
+        "file": "packages/shared/src/rle.containers.test.ts",
+        "titles": ["container structure and rejected slots"],
+        "template": "空 frames → 2 字节空容器（strict/索引入口一致拒绝“不含帧”）"
+      },
+      "statementSyntaxSha256": "fceb9ce1496d0f6f2f4adbdd49a2c44e23b4e7300bffff417ca81cb195a8f8c3",
+      "declarations": [],
+      "hooks": [],
+      "imports": [
+        {
+          "name": "encodeSpriteChunk",
+          "module": "./rle-encode.js",
+          "imported": "encodeSpriteChunk",
+          "typeOnly": false
+        },
+        {
+          "name": "expect",
+          "module": "vitest",
+          "imported": "expect",
+          "typeOnly": false
+        },
+        {
+          "name": "parseIndexedRleChunk",
+          "module": "./rle.js",
+          "imported": "parseIndexedRleChunk",
+          "typeOnly": false
+        },
+        {
+          "name": "parseSpriteChunkStrict",
+          "module": "./rle.js",
+          "imported": "parseSpriteChunkStrict",
+          "typeOnly": false
+        },
+        {
+          "name": "test",
+          "module": "vitest",
+          "imported": "test",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "packages/shared/src/rle.boundaries.test.ts",
+        "ordinal": 0,
+        "titles": ["R01 parseSpriteChunkStrict 手列字节完整核"],
+        "template": "两帧混合游程：pixels/opaque 逐字节精确、palette-0 实心不混淆（无 sentinel 容器构造）"
+      },
+      "current": {
+        "file": "packages/shared/src/rle.containers.test.ts",
+        "titles": ["strict payload and sentinel rules"],
+        "template": "两帧混合游程：pixels/opaque 逐字节精确、palette-0 实心不混淆（无 sentinel 容器构造）"
+      },
+      "statementSyntaxSha256": "7b2c44ef4b2db76831e3f51269847c06eb00d5aa5102c8a90ac7c424934fe927",
+      "declarations": [],
+      "hooks": [],
+      "imports": [
+        {
+          "name": "expect",
+          "module": "vitest",
+          "imported": "expect",
+          "typeOnly": false
+        },
+        {
+          "name": "frameBytes",
+          "module": "./__tests__/rle-bytes.js",
+          "imported": "frameBytes",
+          "typeOnly": false
+        },
+        {
+          "name": "parseSpriteChunkStrict",
+          "module": "./rle.js",
+          "imported": "parseSpriteChunkStrict",
+          "typeOnly": false
+        },
+        {
+          "name": "strictChunk",
+          "module": "./__tests__/rle-bytes.js",
+          "imported": "strictChunk",
+          "typeOnly": false
+        },
+        {
+          "name": "test",
+          "module": "vitest",
+          "imported": "test",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "packages/shared/src/rle.boundaries.test.ts",
+        "ordinal": 1,
+        "titles": ["R01 parseSpriteChunkStrict 手列字节完整核"],
+        "template": "末尾唯一 0 sentinel：不计帧、trailingSentinel=true、skippedLegacyTailSlots=0"
+      },
+      "current": {
+        "file": "packages/shared/src/rle.containers.test.ts",
+        "titles": ["strict payload and sentinel rules"],
+        "template": "末尾唯一 0 sentinel：不计帧、trailingSentinel=true、skippedLegacyTailSlots=0"
+      },
+      "statementSyntaxSha256": "fb237493683a3c23f871c1b440cbcc90cf13bb65d0e109c518261c16ec553f9d",
+      "declarations": [],
+      "hooks": [],
+      "imports": [
+        {
+          "name": "expect",
+          "module": "vitest",
+          "imported": "expect",
+          "typeOnly": false
+        },
+        {
+          "name": "frameBytes",
+          "module": "./__tests__/rle-bytes.js",
+          "imported": "frameBytes",
+          "typeOnly": false
+        },
+        {
+          "name": "parseIndexedRleChunk",
+          "module": "./rle.js",
+          "imported": "parseIndexedRleChunk",
+          "typeOnly": false
+        },
+        {
+          "name": "parseSpriteChunkStrict",
+          "module": "./rle.js",
+          "imported": "parseSpriteChunkStrict",
+          "typeOnly": false
+        },
+        {
+          "name": "strictChunk",
+          "module": "./__tests__/rle-bytes.js",
+          "imported": "strictChunk",
+          "typeOnly": false
+        },
+        {
+          "name": "test",
+          "module": "vitest",
+          "imported": "test",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "packages/shared/src/rle.boundaries.test.ts",
+        "ordinal": 2,
+        "titles": ["R01 严格拒绝单轴与相邻正控"],
+        "template": "零长度指令拒绝；同容器把 0 换成合法 2 长度 literal 即过（相邻正控）"
+      },
+      "current": {
+        "file": "packages/shared/src/rle.containers.test.ts",
+        "titles": ["strict payload and sentinel rules"],
+        "template": "零长度指令拒绝；同容器把 0 换成合法 2 长度 literal 即过（相邻正控）"
+      },
+      "statementSyntaxSha256": "69b7e91409872ac2bb65eaaa29fa08e59de39b1b61239fa919c6503c425d47e7",
+      "declarations": [],
+      "hooks": [],
+      "imports": [
+        {
+          "name": "expect",
+          "module": "vitest",
+          "imported": "expect",
+          "typeOnly": false
+        },
+        {
+          "name": "frameBytes",
+          "module": "./__tests__/rle-bytes.js",
+          "imported": "frameBytes",
+          "typeOnly": false
+        },
+        {
+          "name": "parseSpriteChunkStrict",
+          "module": "./rle.js",
+          "imported": "parseSpriteChunkStrict",
+          "typeOnly": false
+        },
+        {
+          "name": "strictChunk",
+          "module": "./__tests__/rle-bytes.js",
+          "imported": "strictChunk",
+          "typeOnly": false
+        },
+        {
+          "name": "test",
+          "module": "vitest",
+          "imported": "test",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "packages/shared/src/rle.boundaries.test.ts",
+        "ordinal": 3,
+        "titles": ["R01 严格拒绝单轴与相邻正控"],
+        "template": "零长度透明段 0x80 也拒绝；不能以无进度命令卡住严格 parser"
+      },
+      "current": {
+        "file": "packages/shared/src/rle.containers.test.ts",
+        "titles": ["strict payload and sentinel rules"],
+        "template": "零长度透明段 0x80 也拒绝；不能以无进度命令卡住严格 parser"
+      },
+      "statementSyntaxSha256": "5b15275c6695aaa6099090d96681b91b9988347f875682d87f0d86cbec6a674b",
+      "declarations": [],
+      "hooks": [],
+      "imports": [
+        {
+          "name": "expect",
+          "module": "vitest",
+          "imported": "expect",
+          "typeOnly": false
+        },
+        {
+          "name": "frameBytes",
+          "module": "./__tests__/rle-bytes.js",
+          "imported": "frameBytes",
+          "typeOnly": false
+        },
+        {
+          "name": "parseSpriteChunkStrict",
+          "module": "./rle.js",
+          "imported": "parseSpriteChunkStrict",
+          "typeOnly": false
+        },
+        {
+          "name": "strictChunk",
+          "module": "./__tests__/rle-bytes.js",
+          "imported": "strictChunk",
+          "typeOnly": false
+        },
+        {
+          "name": "test",
+          "module": "vitest",
+          "imported": "test",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "packages/shared/src/rle.boundaries.test.ts",
+        "ordinal": 4,
+        "titles": ["R01 严格拒绝单轴与相邻正控"],
+        "template": "%s：单一坏帧明确拒绝"
+      },
+      "current": {
+        "file": "packages/shared/src/rle.containers.test.ts",
+        "titles": ["strict payload and sentinel rules"],
+        "template": "%s：单一坏帧明确拒绝"
+      },
+      "statementSyntaxSha256": "48391e10a6ae6394d3a2c8e1fb47c4c4180a94cafe6104d0bc7e6ec4ac7f4cf3",
+      "declarations": [],
+      "hooks": [],
+      "imports": [
+        {
+          "name": "expect",
+          "module": "vitest",
+          "imported": "expect",
+          "typeOnly": false
+        },
+        {
+          "name": "frameBytes",
+          "module": "./__tests__/rle-bytes.js",
+          "imported": "frameBytes",
+          "typeOnly": false
+        },
+        {
+          "name": "parseSpriteChunkStrict",
+          "module": "./rle.js",
+          "imported": "parseSpriteChunkStrict",
+          "typeOnly": false
+        },
+        {
+          "name": "strictChunk",
+          "module": "./__tests__/rle-bytes.js",
+          "imported": "strictChunk",
+          "typeOnly": false
+        },
+        {
+          "name": "test",
+          "module": "vitest",
+          "imported": "test",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "packages/shared/src/rle.boundaries.test.ts",
+        "ordinal": 5,
+        "titles": ["R01 严格拒绝单轴与相邻正控"],
+        "template": "相邻 offset 截断前一帧帧头时拒绝，不把下一帧当作当前帧内容"
+      },
+      "current": {
+        "file": "packages/shared/src/rle.containers.test.ts",
+        "titles": ["strict payload and sentinel rules"],
+        "template": "相邻 offset 截断前一帧帧头时拒绝，不把下一帧当作当前帧内容"
+      },
+      "statementSyntaxSha256": "b4be276cb63039e9373b174f98d6d3843571a900163234037853d4374bad069a",
+      "declarations": [],
+      "hooks": [],
+      "imports": [
+        {
+          "name": "expect",
+          "module": "vitest",
+          "imported": "expect",
+          "typeOnly": false
+        },
+        {
+          "name": "parseSpriteChunkStrict",
+          "module": "./rle.js",
+          "imported": "parseSpriteChunkStrict",
+          "typeOnly": false
+        },
+        {
+          "name": "test",
+          "module": "vitest",
+          "imported": "test",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "packages/shared/src/rle.boundaries.test.ts",
+        "ordinal": 6,
+        "titles": ["R01 严格拒绝单轴与相邻正控"],
+        "template": "canonical 拒坏尾；同输入 legacy-migrated 跳 1 槽并精确报告"
+      },
+      "current": {
+        "file": "packages/shared/src/rle.containers.test.ts",
+        "titles": ["strict payload and sentinel rules"],
+        "template": "canonical 拒坏尾；同输入 legacy-migrated 跳 1 槽并精确报告"
+      },
+      "statementSyntaxSha256": "d144ed0d6ff4e90328d2ae7de495e0048a4e272b69d4ef364257782a2089df4e",
+      "declarations": [],
+      "hooks": [],
+      "imports": [
+        {
+          "name": "expect",
+          "module": "vitest",
+          "imported": "expect",
+          "typeOnly": false
+        },
+        {
+          "name": "frameBytes",
+          "module": "./__tests__/rle-bytes.js",
+          "imported": "frameBytes",
+          "typeOnly": false
+        },
+        {
+          "name": "parseIndexedRleChunk",
+          "module": "./rle.js",
+          "imported": "parseIndexedRleChunk",
+          "typeOnly": false
+        },
+        {
+          "name": "test",
+          "module": "vitest",
+          "imported": "test",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "packages/shared/src/rle.glm-runtime-resource.test.ts",
+        "ordinal": 6,
+        "titles": ["R01 严格容器末帧未消费 payload（offset table 限定帧边界）"],
+        "template": "末帧后残留payload：仍解出独立预期的完整帧"
+      },
+      "current": {
+        "file": "packages/shared/src/rle.containers.test.ts",
+        "titles": ["strict payload and sentinel rules"],
+        "template": "末帧后残留payload：仍解出独立预期的完整帧"
+      },
+      "statementSyntaxSha256": "9171eb7610d0c2b88eb4dcada9e2dc2c2b713b6440e30a7610e0fbdbe51c6ed2",
+      "declarations": [],
+      "hooks": [],
+      "imports": [
+        {
+          "name": "expect",
+          "module": "vitest",
+          "imported": "expect",
+          "typeOnly": false
+        },
+        {
+          "name": "parseSpriteChunkStrict",
+          "module": "./rle.js",
+          "imported": "parseSpriteChunkStrict",
+          "typeOnly": false
+        },
+        {
+          "name": "test",
+          "module": "vitest",
+          "imported": "test",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "packages/shared/src/rle.glm-o.test.ts",
+        "ordinal": 5,
+        "titles": ["O10 parseIndexedRleChunk：legacy 坏尾三轴"],
+        "template": "legacy：尾槽坏offset被跳过，保留全部有效帧并精确报告"
+      },
+      "current": {
+        "file": "packages/shared/src/rle.containers.test.ts",
+        "titles": ["legacy tail ownership and refusal boundaries"],
+        "template": "legacy：尾槽坏offset被跳过，保留全部有效帧并精确报告"
+      },
+      "statementSyntaxSha256": "9c796c54dca7ac563d7d60115678c44104dc334fa714f18d293d2d1d78f64637",
+      "declarations": [],
+      "hooks": [],
+      "imports": [
+        {
+          "name": "expect",
+          "module": "vitest",
+          "imported": "expect",
+          "typeOnly": false
+        },
+        {
+          "name": "frameBytes",
+          "module": "./__tests__/rle-bytes.js",
+          "imported": "frameBytes",
+          "typeOnly": false
+        },
+        {
+          "name": "parseIndexedRleChunk",
+          "module": "./rle.js",
+          "imported": "parseIndexedRleChunk",
+          "typeOnly": false
+        },
+        {
+          "name": "strictChunk",
+          "module": "./__tests__/rle-bytes.js",
+          "imported": "strictChunk",
+          "typeOnly": false
+        },
+        {
+          "name": "test",
+          "module": "vitest",
+          "imported": "test",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "packages/shared/src/rle.glm-o.test.ts",
+        "ordinal": 6,
+        "titles": ["O10 parseIndexedRleChunk：legacy 坏尾三轴"],
+        "template": "坏尾之后仍可独立解出的帧 → 中间空洞拒绝（非坏尾）"
+      },
+      "current": {
+        "file": "packages/shared/src/rle.containers.test.ts",
+        "titles": ["legacy tail ownership and refusal boundaries"],
+        "template": "坏尾之后仍可独立解出的帧 → 中间空洞拒绝（非坏尾）"
+      },
+      "statementSyntaxSha256": "135ae68d92f6a132e8ffaa081e96b34f21704450e3c054427f5cdb44f151cd80",
+      "declarations": [],
+      "hooks": [],
+      "imports": [
+        {
+          "name": "expect",
+          "module": "vitest",
+          "imported": "expect",
+          "typeOnly": false
+        },
+        {
+          "name": "frameBytes",
+          "module": "./__tests__/rle-bytes.js",
+          "imported": "frameBytes",
+          "typeOnly": false
+        },
+        {
+          "name": "parseIndexedRleChunk",
+          "module": "./rle.js",
+          "imported": "parseIndexedRleChunk",
+          "typeOnly": false
+        },
+        {
+          "name": "strictChunk",
+          "module": "./__tests__/rle-bytes.js",
+          "imported": "strictChunk",
+          "typeOnly": false
+        },
+        {
+          "name": "test",
+          "module": "vitest",
+          "imported": "test",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "packages/shared/src/rle.glm-runtime-resource.test.ts",
+        "ordinal": 7,
+        "titles": ["R01 legacy 合法邻接拒绝分支"],
+        "template": "canonical 空洞 + 全零后缀：legacy 拒「只有普通 sentinel，不应进入 legacy 坏尾兼容」"
+      },
+      "current": {
+        "file": "packages/shared/src/rle.containers.test.ts",
+        "titles": ["legacy tail ownership and refusal boundaries"],
+        "template": "canonical 空洞 + 全零后缀：legacy 拒「只有普通 sentinel，不应进入 legacy 坏尾兼容」"
+      },
+      "statementSyntaxSha256": "f0978aa3509e1fd125643772499fad9a2834631c072b7f4333f6acb943e8315a",
+      "declarations": [],
+      "hooks": [],
+      "imports": [
+        {
+          "name": "expect",
+          "module": "vitest",
+          "imported": "expect",
+          "typeOnly": false
+        },
+        {
+          "name": "parseIndexedRleChunk",
+          "module": "./rle.js",
+          "imported": "parseIndexedRleChunk",
+          "typeOnly": false
+        },
+        {
+          "name": "parseSpriteChunkStrict",
+          "module": "./rle.js",
+          "imported": "parseSpriteChunkStrict",
+          "typeOnly": false
+        },
+        {
+          "name": "test",
+          "module": "vitest",
+          "imported": "test",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "packages/shared/src/rle.glm-runtime-resource.test.ts",
+        "ordinal": 8,
+        "titles": ["R01 legacy 合法邻接拒绝分支"],
+        "template": "坏槽前无任何有效帧：canonical 拒「尺寸非法」，legacy 拒「尾槽前不含有效帧」"
+      },
+      "current": {
+        "file": "packages/shared/src/rle.containers.test.ts",
+        "titles": ["legacy tail ownership and refusal boundaries"],
+        "template": "坏槽前无任何有效帧：canonical 拒「尺寸非法」，legacy 拒「尾槽前不含有效帧」"
+      },
+      "statementSyntaxSha256": "43aeed36dc27d626ca8f332d89d93817e1d3360e9765f7b212efa71b9ec26351",
+      "declarations": [],
+      "hooks": [],
+      "imports": [
+        {
+          "name": "expect",
+          "module": "vitest",
+          "imported": "expect",
+          "typeOnly": false
+        },
+        {
+          "name": "parseIndexedRleChunk",
+          "module": "./rle.js",
+          "imported": "parseIndexedRleChunk",
+          "typeOnly": false
+        },
+        {
+          "name": "parseSpriteChunkStrict",
+          "module": "./rle.js",
+          "imported": "parseSpriteChunkStrict",
+          "typeOnly": false
+        },
+        {
+          "name": "test",
+          "module": "vitest",
+          "imported": "test",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "packages/shared/src/rle-encode.boundaries.test.ts",
+        "ordinal": 0,
+        "titles": ["R02 encodeRleFrame 独立字节 oracle"],
+        "template": "透明 run 126/127/128 分段边界：126/127 单段不拆，128 拆 127+1"
+      },
+      "current": {
+        "file": "packages/shared/src/rle-encode.bytes.test.ts",
+        "titles": ["encoder bytes and input views"],
+        "template": "透明 run 126/127/128 分段边界：126/127 单段不拆，128 拆 127+1"
+      },
+      "statementSyntaxSha256": "6ef4ad70decec8954d4c69dcc7bdcf3d664b5f3edc4f21456ca1c5b6680f8f2a",
+      "declarations": ["f454adb205c06afb22dde69c84b1dfb4840400b6ddb39b983748e3d8d3c1a407"],
+      "hooks": [],
+      "imports": [
+        {
+          "name": "encodeRleFrame",
+          "module": "./rle-encode.js",
+          "imported": "encodeRleFrame",
+          "typeOnly": false
+        },
+        {
+          "name": "expect",
+          "module": "vitest",
+          "imported": "expect",
+          "typeOnly": false
+        },
+        {
+          "name": "RleFrame",
+          "module": "./rle.js",
+          "imported": "RleFrame",
+          "typeOnly": true
+        },
+        {
+          "name": "test",
+          "module": "vitest",
+          "imported": "test",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "packages/shared/src/rle-encode.boundaries.test.ts",
+        "ordinal": 1,
+        "titles": ["R02 encodeRleFrame 独立字节 oracle"],
+        "template": "实心 run 126/127/128 分段边界：127 封顶，128 拆 127+1"
+      },
+      "current": {
+        "file": "packages/shared/src/rle-encode.bytes.test.ts",
+        "titles": ["encoder bytes and input views"],
+        "template": "实心 run 126/127/128 分段边界：127 封顶，128 拆 127+1"
+      },
+      "statementSyntaxSha256": "9fe2d45cd8e30c05626b25c3d55d3ad7986733a21f7b5a65480c731eb3a07a89",
+      "declarations": ["f454adb205c06afb22dde69c84b1dfb4840400b6ddb39b983748e3d8d3c1a407"],
+      "hooks": [],
+      "imports": [
+        {
+          "name": "encodeRleFrame",
+          "module": "./rle-encode.js",
+          "imported": "encodeRleFrame",
+          "typeOnly": false
+        },
+        {
+          "name": "expect",
+          "module": "vitest",
+          "imported": "expect",
+          "typeOnly": false
+        },
+        {
+          "name": "RleFrame",
+          "module": "./rle.js",
+          "imported": "RleFrame",
+          "typeOnly": true
+        },
+        {
+          "name": "test",
+          "module": "vitest",
+          "imported": "test",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "packages/shared/src/rle-encode.boundaries.test.ts",
+        "ordinal": 2,
+        "titles": ["R02 encodeRleFrame 独立字节 oracle"],
+        "template": "尾透明必须写满跳段（总指令覆盖 w*h）"
+      },
+      "current": {
+        "file": "packages/shared/src/rle-encode.bytes.test.ts",
+        "titles": ["encoder bytes and input views"],
+        "template": "尾透明必须写满跳段（总指令覆盖 w*h）"
+      },
+      "statementSyntaxSha256": "35a8c10e266e3b0c010432f17aad75eb29024e3a21167699e2298916be8be5b8",
+      "declarations": ["f454adb205c06afb22dde69c84b1dfb4840400b6ddb39b983748e3d8d3c1a407"],
+      "hooks": [],
+      "imports": [
+        {
+          "name": "encodeRleFrame",
+          "module": "./rle-encode.js",
+          "imported": "encodeRleFrame",
+          "typeOnly": false
+        },
+        {
+          "name": "expect",
+          "module": "vitest",
+          "imported": "expect",
+          "typeOnly": false
+        },
+        {
+          "name": "RleFrame",
+          "module": "./rle.js",
+          "imported": "RleFrame",
+          "typeOnly": true
+        },
+        {
+          "name": "test",
+          "module": "vitest",
+          "imported": "test",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "packages/shared/src/rle-encode.boundaries.test.ts",
+        "ordinal": 3,
+        "titles": ["R02 encodeSpriteChunk 三帧奇偶完整字节"],
+        "template": "WORD offset 表 + 奇长帧 pad0 + frame0 偏移=表长，整 chunk 逐字节手列"
+      },
+      "current": {
+        "file": "packages/shared/src/rle-encode.bytes.test.ts",
+        "titles": ["encoder bytes and input views"],
+        "template": "WORD offset 表 + 奇长帧 pad0 + frame0 偏移=表长，整 chunk 逐字节手列"
+      },
+      "statementSyntaxSha256": "85828ecb15f2c47e5db879f1547c7098d7dc8c05d9d60ca2baf8b9586c53b8bc",
+      "declarations": ["f454adb205c06afb22dde69c84b1dfb4840400b6ddb39b983748e3d8d3c1a407"],
+      "hooks": [],
+      "imports": [
+        {
+          "name": "encodeSpriteChunk",
+          "module": "./rle-encode.js",
+          "imported": "encodeSpriteChunk",
+          "typeOnly": false
+        },
+        {
+          "name": "expect",
+          "module": "vitest",
+          "imported": "expect",
+          "typeOnly": false
+        },
+        {
+          "name": "RleFrame",
+          "module": "./rle.js",
+          "imported": "RleFrame",
+          "typeOnly": true
+        },
+        {
+          "name": "test",
+          "module": "vitest",
+          "imported": "test",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "packages/shared/src/rle-encode.glm-runtime-resource.test.ts",
+        "ordinal": 0,
+        "titles": ["R01 encodeRleFrame 短游程交错手列 oracle"],
+        "template": "不透明起头 2×2 棋盘：lit/透明逐字节精确（旧 oracle 均透明起头）"
+      },
+      "current": {
+        "file": "packages/shared/src/rle-encode.bytes.test.ts",
+        "titles": ["encoder bytes and input views"],
+        "template": "不透明起头 2×2 棋盘：lit/透明逐字节精确（旧 oracle 均透明起头）"
+      },
+      "statementSyntaxSha256": "65bbd62753d626833c80ef979b506951c0c2c8b2a5995fa414729c8618f8ed78",
+      "declarations": ["f454adb205c06afb22dde69c84b1dfb4840400b6ddb39b983748e3d8d3c1a407"],
+      "hooks": [],
+      "imports": [
+        {
+          "name": "encodeRleFrame",
+          "module": "./rle-encode.js",
+          "imported": "encodeRleFrame",
+          "typeOnly": false
+        },
+        {
+          "name": "expect",
+          "module": "vitest",
+          "imported": "expect",
+          "typeOnly": false
+        },
+        {
+          "name": "RleFrame",
+          "module": "./rle.js",
+          "imported": "RleFrame",
+          "typeOnly": true
+        },
+        {
+          "name": "test",
+          "module": "vitest",
+          "imported": "test",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "packages/shared/src/rle-encode.glm-runtime-resource.test.ts",
+        "ordinal": 1,
+        "titles": ["R01 encodeRleFrame 短游程交错手列 oracle"],
+        "template": "连续单像素实心（透明夹 1px）：逐像素分段不合并"
+      },
+      "current": {
+        "file": "packages/shared/src/rle-encode.bytes.test.ts",
+        "titles": ["encoder bytes and input views"],
+        "template": "连续单像素实心（透明夹 1px）：逐像素分段不合并"
+      },
+      "statementSyntaxSha256": "23622077767e3147a30e81913c18c8e4bc64aacda3cae944fa00e62a8f76feaa",
+      "declarations": ["f454adb205c06afb22dde69c84b1dfb4840400b6ddb39b983748e3d8d3c1a407"],
+      "hooks": [],
+      "imports": [
+        {
+          "name": "encodeRleFrame",
+          "module": "./rle-encode.js",
+          "imported": "encodeRleFrame",
+          "typeOnly": false
+        },
+        {
+          "name": "expect",
+          "module": "vitest",
+          "imported": "expect",
+          "typeOnly": false
+        },
+        {
+          "name": "RleFrame",
+          "module": "./rle.js",
+          "imported": "RleFrame",
+          "typeOnly": true
+        },
+        {
+          "name": "test",
+          "module": "vitest",
+          "imported": "test",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "packages/shared/src/rle-encode.glm-runtime-resource.test.ts",
+        "ordinal": 2,
+        "titles": ["R01 encodeRleFrame 输入 view 的 byteOffset 保真"],
+        "template": "pixels/opaque 为大缓冲奇数偏移 subarray：编码字节与独立缓冲版本相等"
+      },
+      "current": {
+        "file": "packages/shared/src/rle-encode.bytes.test.ts",
+        "titles": ["encoder bytes and input views"],
+        "template": "pixels/opaque 为大缓冲奇数偏移 subarray：编码字节与独立缓冲版本相等"
+      },
+      "statementSyntaxSha256": "867a81ea7e23f709581ef7b8b8c6819c0cf35f8a319c2369535a6f35635e8efd",
+      "declarations": ["f454adb205c06afb22dde69c84b1dfb4840400b6ddb39b983748e3d8d3c1a407"],
+      "hooks": [],
+      "imports": [
+        {
+          "name": "encodeRleFrame",
+          "module": "./rle-encode.js",
+          "imported": "encodeRleFrame",
+          "typeOnly": false
+        },
+        {
+          "name": "expect",
+          "module": "vitest",
+          "imported": "expect",
+          "typeOnly": false
+        },
+        {
+          "name": "RleFrame",
+          "module": "./rle.js",
+          "imported": "RleFrame",
+          "typeOnly": true
+        },
+        {
+          "name": "test",
+          "module": "vitest",
+          "imported": "test",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "packages/shared/src/rle-encode.glm-runtime-resource.test.ts",
+        "ordinal": 3,
+        "titles": ["R01 encodeSpriteChunk frameCount ≥ 256"],
+        "template": "300 个 1×1 帧：计数字段双字节、frame0 偏移=600、300 帧全往返且像素按序保真"
+      },
+      "current": {
+        "file": "packages/shared/src/rle-encode.bytes.test.ts",
+        "titles": ["encoder bytes and input views"],
+        "template": "300 个 1×1 帧：计数字段双字节、frame0 偏移=600、300 帧全往返且像素按序保真"
+      },
+      "statementSyntaxSha256": "117fff20c6a3c28b099b147db604bed6d0bccac075a1e49745c11621914a623c",
+      "declarations": ["f454adb205c06afb22dde69c84b1dfb4840400b6ddb39b983748e3d8d3c1a407"],
+      "hooks": [],
+      "imports": [
+        {
+          "name": "encodeSpriteChunk",
+          "module": "./rle-encode.js",
+          "imported": "encodeSpriteChunk",
+          "typeOnly": false
+        },
+        {
+          "name": "expect",
+          "module": "vitest",
+          "imported": "expect",
+          "typeOnly": false
+        },
+        {
+          "name": "parseSpriteChunkStrict",
+          "module": "./rle.js",
+          "imported": "parseSpriteChunkStrict",
+          "typeOnly": false
+        },
+        {
+          "name": "RleFrame",
+          "module": "./rle.js",
+          "imported": "RleFrame",
+          "typeOnly": true
+        },
+        {
+          "name": "test",
+          "module": "vitest",
+          "imported": "test",
+          "typeOnly": false
+        }
+      ]
+    }
+  ],
+  "identities": [
+    {
+      "old": {
+        "file": "packages/shared/src/rle.glm-runtime-resource.test.ts",
+        "fullName": "R01 decodeRle skipFilePrefix 选项矩阵 0x00000002 前缀 + 选项：从 byte 4 解码（sdlpal palcommon.c:722-728 单帧整-chunk 头）"
+      },
+      "current": {
+        "file": "packages/shared/src/rle.frames.test.ts",
+        "fullName": "frame input bytes and buffer views 0x00000002 前缀 + 选项：从 byte 4 解码（sdlpal palcommon.c:722-728 单帧整-chunk 头）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/shared/src/rle.glm-runtime-resource.test.ts",
+        "fullName": "R01 decodeRle skipFilePrefix 选项矩阵 同缓冲不传选项：不跳前缀，头从 byte 0 读后拒绝零尺寸帧"
+      },
+      "current": {
+        "file": "packages/shared/src/rle.frames.test.ts",
+        "fullName": "frame input bytes and buffer views 同缓冲不传选项：不跳前缀，头从 byte 0 读后拒绝零尺寸帧"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/shared/src/rle.glm-runtime-resource.test.ts",
+        "fullName": "R01 decodeRle skipFilePrefix 选项矩阵 传选项但首 4 字节非该前缀：不跳，正常解码"
+      },
+      "current": {
+        "file": "packages/shared/src/rle.frames.test.ts",
+        "fullName": "frame input bytes and buffer views 传选项但首 4 字节非该前缀：不跳，正常解码"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/shared/src/rle.glm-runtime-resource.test.ts",
+        "fullName": "R01 decodeRle skipFilePrefix 选项矩阵 缓冲 <4 字节 + 选项：长度守卫显式拒绝，不挂起"
+      },
+      "current": {
+        "file": "packages/shared/src/rle.frames.test.ts",
+        "fullName": "frame input bytes and buffer views 缓冲 <4 字节 + 选项：长度守卫显式拒绝，不挂起"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/shared/src/rle.glm-runtime-resource.test.ts",
+        "fullName": "R01 decodeRle 帧后尾随字节（截断边界自上侧） 完整帧后追加字节：仍得到预期尺寸、pixels与opaque"
+      },
+      "current": {
+        "file": "packages/shared/src/rle.frames.test.ts",
+        "fullName": "frame input bytes and buffer views 完整帧后追加字节：仍得到预期尺寸、pixels与opaque"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/shared/src/rle.glm-runtime-resource.test.ts",
+        "fullName": "R01 子数组 byteOffset 传播 四个公开入口在奇数byteOffset视图上保留完整预期帧与报告"
+      },
+      "current": {
+        "file": "packages/shared/src/rle.frames.test.ts",
+        "fullName": "frame input bytes and buffer views 四个公开入口在奇数byteOffset视图上保留完整预期帧与报告"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/shared/src/rle.glm-o.test.ts",
+        "fullName": "O10 parseSpriteChunkStrict：容器结构轴 过短：拒绝非法容器头"
+      },
+      "current": {
+        "file": "packages/shared/src/rle.containers.test.ts",
+        "fullName": "container structure and rejected slots 过短：拒绝非法容器头"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/shared/src/rle.glm-o.test.ts",
+        "fullName": "O10 parseSpriteChunkStrict：容器结构轴 不含帧：拒绝非法容器头"
+      },
+      "current": {
+        "file": "packages/shared/src/rle.containers.test.ts",
+        "fullName": "container structure and rejected slots 不含帧：拒绝非法容器头"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/shared/src/rle.glm-o.test.ts",
+        "fullName": "O10 parseSpriteChunkStrict：容器结构轴 offset table 越界：拒绝非法容器头"
+      },
+      "current": {
+        "file": "packages/shared/src/rle.containers.test.ts",
+        "fullName": "container structure and rejected slots offset table 越界：拒绝非法容器头"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/shared/src/rle.glm-o.test.ts",
+        "fullName": "O10 parseSpriteChunkStrict：容器结构轴 声明1槽但没有完整帧头的容器不能伪装成纯sentinel"
+      },
+      "current": {
+        "file": "packages/shared/src/rle.containers.test.ts",
+        "fullName": "container structure and rejected slots 声明1槽但没有完整帧头的容器不能伪装成纯sentinel"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/shared/src/rle.glm-o.test.ts",
+        "fullName": "O10 parseSpriteChunkStrict：容器结构轴 offset 非递增：第二帧独立拒绝"
+      },
+      "current": {
+        "file": "packages/shared/src/rle.containers.test.ts",
+        "fullName": "container structure and rejected slots offset 非递增：第二帧独立拒绝"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/shared/src/rle.glm-o.test.ts",
+        "fullName": "O10 parseSpriteChunkStrict：容器结构轴 offset 越界：第二帧独立拒绝"
+      },
+      "current": {
+        "file": "packages/shared/src/rle.containers.test.ts",
+        "fullName": "container structure and rejected slots offset 越界：第二帧独立拒绝"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/shared/src/rle.glm-o.test.ts",
+        "fullName": "O10 parseSpriteChunkStrict：容器结构轴 宽为0：拒绝该帧尺寸"
+      },
+      "current": {
+        "file": "packages/shared/src/rle.containers.test.ts",
+        "fullName": "container structure and rejected slots 宽为0：拒绝该帧尺寸"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/shared/src/rle.glm-o.test.ts",
+        "fullName": "O10 parseSpriteChunkStrict：容器结构轴 高超上限：拒绝该帧尺寸"
+      },
+      "current": {
+        "file": "packages/shared/src/rle.containers.test.ts",
+        "fullName": "container structure and rejected slots 高超上限：拒绝该帧尺寸"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/shared/src/rle.glm-o.test.ts",
+        "fullName": "O10 parseSpriteChunkStrict：容器结构轴 合法双帧完整通过，pixels与opaque均保序"
+      },
+      "current": {
+        "file": "packages/shared/src/rle.containers.test.ts",
+        "fullName": "container structure and rejected slots 合法双帧完整通过，pixels与opaque均保序"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/shared/src/rle.glm-o.test.ts",
+        "fullName": "O10 encodeSpriteChunk：空容器 空 frames → 2 字节空容器（strict/索引入口一致拒绝“不含帧”）"
+      },
+      "current": {
+        "file": "packages/shared/src/rle.containers.test.ts",
+        "fullName": "container structure and rejected slots 空 frames → 2 字节空容器（strict/索引入口一致拒绝“不含帧”）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/shared/src/rle.boundaries.test.ts",
+        "fullName": "R01 parseSpriteChunkStrict 手列字节完整核 两帧混合游程：pixels/opaque 逐字节精确、palette-0 实心不混淆（无 sentinel 容器构造）"
+      },
+      "current": {
+        "file": "packages/shared/src/rle.containers.test.ts",
+        "fullName": "strict payload and sentinel rules 两帧混合游程：pixels/opaque 逐字节精确、palette-0 实心不混淆（无 sentinel 容器构造）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/shared/src/rle.boundaries.test.ts",
+        "fullName": "R01 parseSpriteChunkStrict 手列字节完整核 末尾唯一 0 sentinel：不计帧、trailingSentinel=true、skippedLegacyTailSlots=0"
+      },
+      "current": {
+        "file": "packages/shared/src/rle.containers.test.ts",
+        "fullName": "strict payload and sentinel rules 末尾唯一 0 sentinel：不计帧、trailingSentinel=true、skippedLegacyTailSlots=0"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/shared/src/rle.boundaries.test.ts",
+        "fullName": "R01 严格拒绝单轴与相邻正控 零长度指令拒绝；同容器把 0 换成合法 2 长度 literal 即过（相邻正控）"
+      },
+      "current": {
+        "file": "packages/shared/src/rle.containers.test.ts",
+        "fullName": "strict payload and sentinel rules 零长度指令拒绝；同容器把 0 换成合法 2 长度 literal 即过（相邻正控）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/shared/src/rle.boundaries.test.ts",
+        "fullName": "R01 严格拒绝单轴与相邻正控 零长度透明段 0x80 也拒绝；不能以无进度命令卡住严格 parser"
+      },
+      "current": {
+        "file": "packages/shared/src/rle.containers.test.ts",
+        "fullName": "strict payload and sentinel rules 零长度透明段 0x80 也拒绝；不能以无进度命令卡住严格 parser"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/shared/src/rle.boundaries.test.ts",
+        "fullName": "R01 严格拒绝单轴与相邻正控 像素段越界：单一坏帧明确拒绝"
+      },
+      "current": {
+        "file": "packages/shared/src/rle.containers.test.ts",
+        "fullName": "strict payload and sentinel rules 像素段越界：单一坏帧明确拒绝"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/shared/src/rle.boundaries.test.ts",
+        "fullName": "R01 严格拒绝单轴与相邻正控 透明段越界：单一坏帧明确拒绝"
+      },
+      "current": {
+        "file": "packages/shared/src/rle.containers.test.ts",
+        "fullName": "strict payload and sentinel rules 透明段越界：单一坏帧明确拒绝"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/shared/src/rle.boundaries.test.ts",
+        "fullName": "R01 严格拒绝单轴与相邻正控 指令流截断：单一坏帧明确拒绝"
+      },
+      "current": {
+        "file": "packages/shared/src/rle.containers.test.ts",
+        "fullName": "strict payload and sentinel rules 指令流截断：单一坏帧明确拒绝"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/shared/src/rle.boundaries.test.ts",
+        "fullName": "R01 严格拒绝单轴与相邻正控 尺寸非法：单一坏帧明确拒绝"
+      },
+      "current": {
+        "file": "packages/shared/src/rle.containers.test.ts",
+        "fullName": "strict payload and sentinel rules 尺寸非法：单一坏帧明确拒绝"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/shared/src/rle.boundaries.test.ts",
+        "fullName": "R01 严格拒绝单轴与相邻正控 相邻 offset 截断前一帧帧头时拒绝，不把下一帧当作当前帧内容"
+      },
+      "current": {
+        "file": "packages/shared/src/rle.containers.test.ts",
+        "fullName": "strict payload and sentinel rules 相邻 offset 截断前一帧帧头时拒绝，不把下一帧当作当前帧内容"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/shared/src/rle.boundaries.test.ts",
+        "fullName": "R01 严格拒绝单轴与相邻正控 canonical 拒坏尾；同输入 legacy-migrated 跳 1 槽并精确报告"
+      },
+      "current": {
+        "file": "packages/shared/src/rle.containers.test.ts",
+        "fullName": "strict payload and sentinel rules canonical 拒坏尾；同输入 legacy-migrated 跳 1 槽并精确报告"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/shared/src/rle.glm-runtime-resource.test.ts",
+        "fullName": "R01 严格容器末帧未消费 payload（offset table 限定帧边界） 末帧后残留payload：仍解出独立预期的完整帧"
+      },
+      "current": {
+        "file": "packages/shared/src/rle.containers.test.ts",
+        "fullName": "strict payload and sentinel rules 末帧后残留payload：仍解出独立预期的完整帧"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/shared/src/rle.glm-o.test.ts",
+        "fullName": "O10 parseIndexedRleChunk：legacy 坏尾三轴 legacy：尾槽坏offset被跳过，保留全部有效帧并精确报告"
+      },
+      "current": {
+        "file": "packages/shared/src/rle.containers.test.ts",
+        "fullName": "legacy tail ownership and refusal boundaries legacy：尾槽坏offset被跳过，保留全部有效帧并精确报告"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/shared/src/rle.glm-o.test.ts",
+        "fullName": "O10 parseIndexedRleChunk：legacy 坏尾三轴 坏尾之后仍可独立解出的帧 → 中间空洞拒绝（非坏尾）"
+      },
+      "current": {
+        "file": "packages/shared/src/rle.containers.test.ts",
+        "fullName": "legacy tail ownership and refusal boundaries 坏尾之后仍可独立解出的帧 → 中间空洞拒绝（非坏尾）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/shared/src/rle.glm-runtime-resource.test.ts",
+        "fullName": "R01 legacy 合法邻接拒绝分支 canonical 空洞 + 全零后缀：legacy 拒「只有普通 sentinel，不应进入 legacy 坏尾兼容」"
+      },
+      "current": {
+        "file": "packages/shared/src/rle.containers.test.ts",
+        "fullName": "legacy tail ownership and refusal boundaries canonical 空洞 + 全零后缀：legacy 拒「只有普通 sentinel，不应进入 legacy 坏尾兼容」"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/shared/src/rle.glm-runtime-resource.test.ts",
+        "fullName": "R01 legacy 合法邻接拒绝分支 坏槽前无任何有效帧：canonical 拒「尺寸非法」，legacy 拒「尾槽前不含有效帧」"
+      },
+      "current": {
+        "file": "packages/shared/src/rle.containers.test.ts",
+        "fullName": "legacy tail ownership and refusal boundaries 坏槽前无任何有效帧：canonical 拒「尺寸非法」，legacy 拒「尾槽前不含有效帧」"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/shared/src/rle-encode.boundaries.test.ts",
+        "fullName": "R02 encodeRleFrame 独立字节 oracle 透明 run 126/127/128 分段边界：126/127 单段不拆，128 拆 127+1"
+      },
+      "current": {
+        "file": "packages/shared/src/rle-encode.bytes.test.ts",
+        "fullName": "encoder bytes and input views 透明 run 126/127/128 分段边界：126/127 单段不拆，128 拆 127+1"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/shared/src/rle-encode.boundaries.test.ts",
+        "fullName": "R02 encodeRleFrame 独立字节 oracle 实心 run 126/127/128 分段边界：127 封顶，128 拆 127+1"
+      },
+      "current": {
+        "file": "packages/shared/src/rle-encode.bytes.test.ts",
+        "fullName": "encoder bytes and input views 实心 run 126/127/128 分段边界：127 封顶，128 拆 127+1"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/shared/src/rle-encode.boundaries.test.ts",
+        "fullName": "R02 encodeRleFrame 独立字节 oracle 尾透明必须写满跳段（总指令覆盖 w*h）"
+      },
+      "current": {
+        "file": "packages/shared/src/rle-encode.bytes.test.ts",
+        "fullName": "encoder bytes and input views 尾透明必须写满跳段（总指令覆盖 w*h）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/shared/src/rle-encode.boundaries.test.ts",
+        "fullName": "R02 encodeSpriteChunk 三帧奇偶完整字节 WORD offset 表 + 奇长帧 pad0 + frame0 偏移=表长，整 chunk 逐字节手列"
+      },
+      "current": {
+        "file": "packages/shared/src/rle-encode.bytes.test.ts",
+        "fullName": "encoder bytes and input views WORD offset 表 + 奇长帧 pad0 + frame0 偏移=表长，整 chunk 逐字节手列"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/shared/src/rle-encode.glm-runtime-resource.test.ts",
+        "fullName": "R01 encodeRleFrame 短游程交错手列 oracle 不透明起头 2×2 棋盘：lit/透明逐字节精确（旧 oracle 均透明起头）"
+      },
+      "current": {
+        "file": "packages/shared/src/rle-encode.bytes.test.ts",
+        "fullName": "encoder bytes and input views 不透明起头 2×2 棋盘：lit/透明逐字节精确（旧 oracle 均透明起头）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/shared/src/rle-encode.glm-runtime-resource.test.ts",
+        "fullName": "R01 encodeRleFrame 短游程交错手列 oracle 连续单像素实心（透明夹 1px）：逐像素分段不合并"
+      },
+      "current": {
+        "file": "packages/shared/src/rle-encode.bytes.test.ts",
+        "fullName": "encoder bytes and input views 连续单像素实心（透明夹 1px）：逐像素分段不合并"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/shared/src/rle-encode.glm-runtime-resource.test.ts",
+        "fullName": "R01 encodeRleFrame 输入 view 的 byteOffset 保真 pixels/opaque 为大缓冲奇数偏移 subarray：编码字节与独立缓冲版本相等"
+      },
+      "current": {
+        "file": "packages/shared/src/rle-encode.bytes.test.ts",
+        "fullName": "encoder bytes and input views pixels/opaque 为大缓冲奇数偏移 subarray：编码字节与独立缓冲版本相等"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/shared/src/rle-encode.glm-runtime-resource.test.ts",
+        "fullName": "R01 encodeSpriteChunk frameCount ≥ 256 300 个 1×1 帧：计数字段双字节、frame0 偏移=600、300 帧全往返且像素按序保真"
+      },
+      "current": {
+        "file": "packages/shared/src/rle-encode.bytes.test.ts",
+        "fullName": "encoder bytes and input views 300 个 1×1 帧：计数字段双字节、frame0 偏移=600、300 帧全往返且像素按序保真"
+      }
+    }
+  ],
+  "preserved": [
+    {
+      "path": "packages/shared/src/rle.ts",
+      "sha256": "85d0f8dc2f2c02e1fb8cf19c8faf0c9753b77d2ceeecb2a77c289421794282fb"
+    },
+    {
+      "path": "packages/shared/src/rle-encode.ts",
+      "sha256": "cb6f970a575f4bbf5634cae5f3836c9c326bf1d2192e9c20d06d47d9e707dbd5"
+    },
+    {
+      "path": "packages/shared/src/mkf.ts",
+      "sha256": "7d4504527745800dee8ef1675269c6385ff028896d322f4fb66fde378bfc42cc"
+    },
+    {
+      "path": "packages/shared/src/rng.ts",
+      "sha256": "b8824d4d228febdb1f0e1994d3bc92c3b0c6892e20d93020e90b5e8c20db961e"
+    },
+    {
+      "path": "packages/shared/src/yj2.ts",
+      "sha256": "d26cfe8fc7680330de5f167f30d9b970e74e68dc6a3ddebbc58daa46a7acd0b4"
+    },
+    {
+      "path": "packages/shared/src/index.ts",
+      "sha256": "6c8ccd23db2b01611579e30ac005018a6085abb5db6c4fb7f08927ccf1d18d35"
+    },
+    {
+      "path": "packages/shared/src/rle.test.ts",
+      "sha256": "ed84d346193a2001b271c65206d791405047e49841a4b191f81cdfbe241579b1"
+    },
+    {
+      "path": "packages/shared/src/rle-encode.test.ts",
+      "sha256": "1605c3d58366489677b96ca028e1bd79756789f9008fd628fa9221a6dfa8894a"
+    },
+    {
+      "path": "packages/shared/src/__tests__/rle-bytes.ts",
+      "sha256": "7cba569f4fe72dd1fcf55ffffbd1b210ef71acc1a50141e0a08eff174a6367a7"
+    }
+  ],
+  "fixture": {
+    "old": {
+      "path": "packages/shared/src/__tests__/glm-foundation-fixtures.ts",
+      "sha256": "6444bc2f80029d5bd827699e2cac29e916fc278858447bf13d6492ac47a181d3",
+      "member": "organization-shared/glm-foundation-fixtures.ts.before"
+    },
+    "new": [
+      {
+        "path": "packages/shared/src/__tests__/mkf-container.ts",
+        "sha256": "147757d3f7d7ebb9326c5cb88ff650819a6613fbe7e8054a85bce2df982a2cd3"
+      },
+      {
+        "path": "packages/shared/src/__tests__/yj2-vectors.ts",
+        "sha256": "2cdb2f6d0397176c373fc12a9840643fd98cfbd9249241c94bb97d500068efff"
+      }
+    ],
+    "consumers": [
+      {
+        "path": "packages/shared/src/mkf.boundaries.test.ts",
+        "beforeMember": "organization-shared/mkf.boundaries.test.ts.before",
+        "replacements": [
+          ["from './__tests__/glm-foundation-fixtures.js'", "from './__tests__/mkf-container.js'"]
+        ],
+        "kind": "import-only; callback/helper syntax remains exact after import remap",
+        "sha256": "c997706ac998a7021e8becf5ce782fc85eeed39bd2d38308558b2a54ffd4e73c"
+      },
+      {
+        "path": "packages/shared/src/rng.boundaries.test.ts",
+        "beforeMember": "organization-shared/rng.boundaries.test.ts.before",
+        "replacements": [
+          [
+            "import { mkMkf, YJ2_RNG_PAIR, YJ2_RNG_SKIP_THEN_PAIR } from './__tests__/glm-foundation-fixtures.js'",
+            "import { mkMkf } from './__tests__/mkf-container.js'\nimport { YJ2_RNG_PAIR, YJ2_RNG_SKIP_THEN_PAIR } from './__tests__/yj2-vectors.js'"
+          ]
+        ],
+        "kind": "import-only; callback/helper syntax remains exact after import remap",
+        "sha256": "f812f61762b548a034ccd8d6fba3b366923dc9481ff700347b638ecbca81891c"
+      },
+      {
+        "path": "packages/shared/src/yj2.boundaries.test.ts",
+        "beforeMember": "organization-shared/yj2.boundaries.test.ts.before",
+        "replacements": [
+          ["from './__tests__/glm-foundation-fixtures.js'", "from './__tests__/yj2-vectors.js'"]
+        ],
+        "kind": "import-only; callback/helper syntax remains exact after import remap",
+        "sha256": "e472b2a29f49de828f54e1d7278339c0bb140e81d7646f7df080f14dbe38fa9a"
+      }
+    ]
+  },
+  "validation": {
+    "before": 76,
+    "relocatedCases": 39,
+    "afterNeighbors": 106,
+    "typecheck": 0,
+    "heavy": "not run"
+  },
+  "tools": {
+    "analyzer": "organization-program.mjs",
+    "typescript": "6.0.3",
+    "purpose": "Read-only local lexical closure and callback comparison; explicit supported syntax only",
+    "sha256": "03adb8b112fbe698edc04d72a93ac1dd3349ee517697a34dfeb258bf83df4930"
+  },
+  "oracleRepair": {
+    "test": "encoder bytes and input views pixels/opaque 为大缓冲奇数偏移 subarray：编码字节与独立缓冲版本相等",
+    "statementChanges": 1,
+    "preservedOtherRegistrations": 31,
+    "productChanged": false,
+    "counter": "organization-shared-oracle/counter.json",
+    "result": "old selected1green/new specified1business red; source/test exactly restored; current106neighbor green",
+    "fixtureContract": "row-major3x2: literal1/palette1,skip1,literal1/palette3,skip1,literal2/palette5,6; independently listed header and command bytes"
+  }
+}

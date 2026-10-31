@@ -1,0 +1,248 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-30",
+  "owner": "Codex single agent; authored review disclosed",
+  "task": "QUALITY-NAMING-ORGANIZATION-1",
+  "authorization": "User2026-10-30: 001又欠什么没做完了？这次一并处理掉。",
+  "candidate": "e94098f949452bc3bf8d028f21bdc0a4e400ea22",
+  "scope": "Seven current source pins/anchors, current55-dialogue source inventory and raw text agreement, real CLI contracts, paired report/evidence/history boundaries;64opening tool and9catalog tests. No new browser/runtime/visual/preview/checkpoint acceptance.",
+  "decision": "001 scoped source/publication review completed; old execution freshness/status/versions preserved",
+  "beforeReviewBy": "2026-10-28",
+  "reviewBy": "2026-11-29",
+  "justification": "Actual bounded publication/source review. The previous30-day publication interval is retained; runtime freshness is independent and no historical receipt is upgraded. A relevant source/caller/contract change invalidates its affected claim before the next date.",
+  "inputs": [
+    {
+      "path": "docs/testing/catalog.json",
+      "sha256": "ca4b5f0542ad0a6591fe3c18d3d8096ffcd1837ad14e609436deca102d471a86",
+      "member": "e2e001-publication/0.before"
+    },
+    {
+      "path": "docs/testing/e2e/stages/001-opening/README.md",
+      "sha256": "c9b4e57dd1ba5243b9865a05bb2000f4afe23e9917a1a331a88b2532ef35e298",
+      "member": "e2e001-publication/1.before"
+    },
+    {
+      "path": "docs/testing/e2e/stages/001-opening/report.md",
+      "sha256": "c07ad48226497149971078cb2393f9c69c009cd8597d3f589b2b8934d2ab4e99",
+      "member": "e2e001-publication/2.before"
+    },
+    {
+      "path": "docs/testing/e2e/evidence/e2e-001.json",
+      "sha256": "77bd3722784b471c31787525b7e9b4473c29b31e49f633bdca7991b1dd9a00fb",
+      "member": "e2e001-publication/3.before"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "docs/testing/catalog.json",
+      "sha256": "2b6011052ca06b425a774221fb7b13709a3059bdf4e0dfa2a98c58fb77bd833e"
+    },
+    {
+      "path": "docs/testing/e2e/stages/001-opening/README.md",
+      "sha256": "f37298a20fde9067cddf9bd4e48952fbc20d8e426706d73d7b449796b3d9d26d"
+    },
+    {
+      "path": "docs/testing/e2e/stages/001-opening/report.md",
+      "sha256": "ae5eec6ac8cfed0696b32f6cbc2d756b1443a5899286f86f74476ef30e74e6fc"
+    },
+    {
+      "path": "docs/testing/e2e/evidence/e2e-001.json",
+      "sha256": "3aba7fc7233ea1194926ab3c4af1fcfccd9e640039fa028051b6ee32308aa3cb"
+    }
+  ],
+  "sourceAudit": {
+    "member": "e2e001-publication/source-audit-r2.stdout.raw",
+    "sha256": "3c8d091da69551a73046aad9f30b2dbb99f394dcb8560b96054afc3eae77c59f",
+    "result": {
+      "candidate": "e94098f949452bc3bf8d028f21bdc0a4e400ea22",
+      "kind": "current-source-and-publication-review",
+      "refs": [
+        {
+          "path": "scripts/e2e/game-opening.mjs",
+          "lines": "21-29",
+          "anchor": "const openingContract = await readOpeningContract",
+          "role": "caller",
+          "sha256": "248462e08bd41ef4a9de933d16a0cb316d9dcd18abffe738cc857797b4db5910",
+          "totalLines": 339,
+          "shaVerified": true,
+          "anchorVerified": true
+        },
+        {
+          "path": "scripts/e2e/opening-matrix.mjs",
+          "lines": "76-114",
+          "anchor": "export function assertOpeningMatrix(",
+          "role": "oracle",
+          "sha256": "de102d6d6ebb8c808e493e9118ad60bf83d094c9f34082507585d3e62359f1ab",
+          "totalLines": 290,
+          "shaVerified": true,
+          "anchorVerified": true
+        },
+        {
+          "path": "scripts/e2e/opening-handoff.mjs",
+          "lines": "52-67",
+          "anchor": "export function assertOpeningHandoff(",
+          "role": "oracle",
+          "sha256": "e5d65b3de90b578a4cae74329abec3661da8245c4d11c9c122d58c136be66aea",
+          "totalLines": 67,
+          "shaVerified": true,
+          "anchorVerified": true
+        },
+        {
+          "path": "packages/content/src/character.ts",
+          "lines": "168-170",
+          "anchor": "export const CONTENT_VERSION =",
+          "role": "version",
+          "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93",
+          "totalLines": 351,
+          "shaVerified": true,
+          "anchorVerified": true
+        },
+        {
+          "path": "scripts/e2e/opening-matrix-observer.mjs",
+          "lines": "11-125",
+          "anchor": "const worldRenderLimit = 60_000",
+          "role": "collector",
+          "sha256": "aad2e5f0582e16a1f7c7b105de62989c8f09994f3767d70c27f081097a607d57",
+          "totalLines": 373,
+          "shaVerified": true,
+          "anchorVerified": true
+        },
+        {
+          "path": "scripts/e2e/opening-trace-plugin.mjs",
+          "lines": "164-178",
+          "anchor": "count('worldDrawCompleted')",
+          "role": "render collector insertion",
+          "sha256": "f4ade1bd454b3dbde7474b8602227656bbf9d8d44090d3ed828710eb9a603db2",
+          "totalLines": 397,
+          "shaVerified": true,
+          "anchorVerified": true
+        },
+        {
+          "path": "scripts/e2e/opening-trace.test.mjs",
+          "lines": "527-642",
+          "anchor": "test('real Game world pass records every selected resource once after all entries; a later failed draw publishes nothing'",
+          "role": "real transformed caller oracle",
+          "sha256": "965892932b391417a20cc2162dabd3c0dc6266e009bbbbc06e5cde5aceb9a9d7",
+          "totalLines": 642,
+          "shaVerified": true,
+          "anchorVerified": true
+        }
+      ],
+      "commands": {
+        "e2e:001": "node scripts/e2e/game-opening.mjs",
+        "e2e:001:reforge": "node scripts/e2e/reforge-opening.mjs",
+        "e2e:001:both": "node scripts/e2e/opening-both.mjs"
+      },
+      "sourceContract": {
+        "rows": 55,
+        "cues": 24,
+        "sourceHashes": {
+          "projects/pal/content/locale.json": "380e857aae64100848be07b5f52744373b61669a2a82fece18960cbccd6f17bd",
+          "projects/pal/content/actors.json": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0",
+          "data/extracted/events/all.json": "37b55883397bc19664d213a94cb3bb4591b64c07d8c10919392d2a4928b0a885",
+          "projects/pal/content/scenes/s000.json": "9ff5e3c9b287d777f206c76beeb8e1a3900fd7716178721b58fcacfa2904636b",
+          "projects/pal/content/scenes/s001.json": "6eb9f01657d9d855697ddd5b8dcb2ab396d15caac40242f02ae520a950396db5"
+        },
+        "result": "current source dialogue inventory/order/text agrees with actual original extracted commands"
+      },
+      "historical": {
+        "status": "verified",
+        "lastVerified": "2026-09-28",
+        "revision": {
+          "currentSha": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+          "contentVersion": 22,
+          "minimumSaveVersion": 11,
+          "history": [
+            {
+              "revision": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+              "date": "2026-10-04",
+              "action": "source-and-publication-audit",
+              "notRun": ["runtime", "E2E", "coverage"]
+            }
+          ]
+        }
+      },
+      "notRun": ["browser", "runtime E2E", "visual", "capture", "coverage"]
+    }
+  },
+  "runs": {
+    "openingTools": {
+      "id": "opening-tools",
+      "passed": 64
+    },
+    "catalogTools": {
+      "id": "catalog-tools",
+      "passed": 9
+    },
+    "originalExpiry": {
+      "id": "testing-before",
+      "exit": 1,
+      "issue": "e2e-001 reviewBy2026-10-28 before2026-10-30"
+    }
+  },
+  "runtimeExecution": {
+    "performed": false,
+    "rawArtifacts": "No new browser artifacts; isolated checkout had no build/e2e directory at review start.",
+    "currentCheckpointCertified": false,
+    "editorPreviewCertified": false
+  },
+  "preservation": {
+    "otherCatalogEntriesUnchanged": false,
+    "e2e006Unchanged": true,
+    "oldRuntimeExecutionUnchanged": true,
+    "oldCandidateAndVersionsUnchanged": true,
+    "oldSourcePinsUnchanged": true,
+    "sourceAndGateRulesUnchanged": true,
+    "otherEntriesExceptExplicitG07SourceBindingUnchanged": true
+  },
+  "limitations": [
+    "Publication verified retains historical report semantics; lastVerified is not renewed by this review.",
+    "64tool tests and current55 source rows do not certify current NPC rendering/timing, screenshots or formal save/load.",
+    "No phase1/phase2/product/runner behavior or existing gate rules changed."
+  ],
+  "scopeInterpretation": "Resolve the reported001 source/publication-expiry quality gate; do not certify the separately unperformed current full-E2E/preview obligations.",
+  "separateConcurrentDelta": {
+    "entry": "phase1-dependency-ownership",
+    "kind": "same-test sourceRef/name/import layout only",
+    "proofMember": "organization-game-battle-fixtures/phase1-source-bridge.json",
+    "origin": "Ongoing game fixture organization; unrelated to001 execution",
+    "statusDatesRevisionPreserved": true,
+    "publicationOutputs": [
+      {
+        "path": "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/report.md",
+        "sha256": "bd21b38c2f0963652641e8c6d7683fbf9571cd60786374e1dcd66c9e13b28d6d",
+        "beforeMember": "organization-game-battle-fixtures/phase1-doc-0.before",
+        "beforeSha256": "89988cc48f526e07c8452902f70b70d34a7bdf35fe25e11bf54bf41bc146d0ba"
+      },
+      {
+        "path": "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/evidence.json",
+        "sha256": "be5162f44bf03bd84a948fb425e2fbe8a6672472b20004c06ec52953b1b22062",
+        "beforeMember": "organization-game-battle-fixtures/phase1-doc-1.before",
+        "beforeSha256": "c516f76950696a75cb242af10a1666eec848d059596d6dba076e106d88539784"
+      }
+    ]
+  },
+  "processDisclosure": [
+    "First evidence history append was incompatible with the existing paired schema. The old execution history was restored exactly; the new publication review now lives in its governance field.",
+    "Once expiry was cleared the consumer also exposed G07 SHA/line drift from the concurrent fixture naming work; only that source binding is refreshed in its three current publication surfaces, with an exact non-import body proof and unchanged three runtime identities."
+  ],
+  "currentTestingGate": {
+    "id": "testing-final",
+    "result": "testing docs: PASS (0 issues)",
+    "member": "e2e001-publication/testing-final.stdout.raw"
+  },
+  "reviewRebinding": {
+    "member": "e2e001-publication/review-rebinding.json",
+    "scope": "Only current afterSHA scalar fields in three actual owning records and R93/R94 projections; no original source/review/history is re-certified."
+  },
+  "fullDocumentationGate": {
+    "execution": "e2e001-publication/full-docs.execution.json",
+    "stdout": "e2e001-publication/full-docs.stdout.raw",
+    "stdoutSha256": "abf221f9eec9c3e3a82dccd21581081a10c442cb49ccaa9f4024d6ee65820a97",
+    "exit": 0,
+    "stderrBytes": 0,
+    "toolTests": 125,
+    "issues": 0,
+    "limits": "Static documentation/source publication only; not runtime, browser, visual, editor-preview or full code-quality closeout."
+  }
+}

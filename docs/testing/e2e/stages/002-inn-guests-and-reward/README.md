@@ -19,7 +19,7 @@ Template: test-e2e-stage-v1 / 1.0.0
 
 ## 证据与状态
 
-原元数据与正式报告入口逐字节保留如下；Owner Codex 是原登记责任，旧日期不因治理续期。
+除按2026-10-30用户裁决移除活动期限外，原元数据与正式报告入口保留；Owner Codex 是原登记责任，lastVerified 不刷新。
 
 ```yaml
 id: e2e-002
@@ -28,7 +28,6 @@ phase: [phase1, phase2]
 engines: [game, reforge]
 owner: Codex
 lastVerified: 2026-10-02
-reviewBy: 2026-11-02
 dependsOn: [e2e-001]
 tags: [story, inn, dialogue, script-governance, checkpoint]
 canonicalReport: report.md
@@ -45,3 +44,7 @@ canonicalReport: report.md
 `dependsOn=e2e-001`，002结束于首次20行/一次赏银、三人进房和控制/保存恢复，后继[003厨房](../003-kitchen/README.md)另核；不能以终点或重复计数替代中途编排。20行、三人和一次奖励不是多个新执行；旧57/56/71工具、10648/10655/10658包测试、35/35反例均按各轮排重，不加总为本次测试。
 
 后继事实权：[反馈卡10月2日收口](../../../../ops/archive/tasks/done/E2E-002-FEEDBACK-1-player-occlusion-and-held-input.md#2026-10-02清账收口当前结论)、[连续卡10月8日撤信](../../../../ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md#2026-10-08-前批结果历史完整执行链结论被上述反例推翻)与[10月11日新批次](../../../../ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md#2026-10-11-最终重录与headed验收accept)。更新必须回到本路径和原配对资料，不能另造平行报告；完整原16行可由回执span拼接或固定5a Git blob恢复。本两篇canonical pilot的内容接收与后续中央接入分开，范围以[专属治理记录](../../../../phase-governance/reviews/20261016-e2e-stage-m.json)为准；不启动旧runner/原始资源或下一段，余六篇须另获准入。
+
+## 2026-10-30 版本适用性规则
+
+按[测试治理](../../../governance.md#版本适用性)取消活动 `reviewBy`。上文旧到期／续期只作历史，不再触发复核或重跑。运行 `node scripts/docs/testing-revisions.mjs e2e-002` 对比原候选、content/save版本及已声明源码指纹；记录缺失为unknown，相关边界不同为changed，匹配也不新增执行信用。status、lastVerified、原报告和机器证据保持原范围。

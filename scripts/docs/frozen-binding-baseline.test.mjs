@@ -337,7 +337,7 @@ test('catalog default1.2 preserves the original18 plus correction and input publ
     assert.deepEqual(actual, beforeModel(doc, beforeRegistry, oldRead), name)
     assert.equal(actual.length > 0, genericRejects, name)
     assert.equal(
-      validateCatalog(value, join(root, 'docs/testing'), '2026-10-16').length > 0,
+      validateCatalog(value, join(root, 'docs/testing')).length > 0,
       catalogRejects,
       name,
     )

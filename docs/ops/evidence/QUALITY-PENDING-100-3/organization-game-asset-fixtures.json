@@ -1,0 +1,675 @@
+{
+  "id": "game-asset-fixtures",
+  "kind": "fixture",
+  "namespace": "organization-game-asset-fixtures",
+  "cohortSubjects": [
+    {
+      "path": "packages/game/src/__tests__/grok-render-r1/legal-host.ts",
+      "sha256": "1383f22448f951984fb35769fa300026520f3499ed6748a08181416c3db95bdb"
+    }
+  ],
+  "providers": {
+    "before": [
+      {
+        "path": "packages/game/src/__tests__/grok-render-r1/legal-host.ts",
+        "sha256": "1383f22448f951984fb35769fa300026520f3499ed6748a08181416c3db95bdb",
+        "member": "organization-game-asset-fixtures/0.before",
+        "changes": [
+          {
+            "from": "export async function indexedPng(\n  width: number,\n  height: number,\n  rgba: readonly number[],\n): Promise<Uint8Array> {\n  const canvas = document.createElement('canvas')\n  canvas.width = width\n  canvas.height = height\n  const ctx = canvas.getContext('2d')\n  if (!ctx) throw new Error('grok fixture: 2d context unavailable')\n  const image = ctx.createImageData(width, height)\n  image.data.set(rgba)\n  ctx.putImageData(image, 0, 0)\n  const blob = await new Promise<Blob>((resolve, reject) => {\n    canvas.toBlob((value) => {\n      if (value) resolve(value)\n      else reject(new Error('grok fixture: toBlob returned null'))\n    }, 'image/png')\n  })\n  return new Uint8Array(await blob.arrayBuffer())\n}",
+            "to": "",
+            "count": 1
+          },
+          {
+            "from": "legalRole",
+            "to": "makeAssetRole",
+            "count": 3
+          },
+          {
+            "from": "LoadAllScript",
+            "to": "AssetLoadScenario",
+            "count": 6
+          },
+          {
+            "from": "LoadAllFail",
+            "to": "AssetLoadFailures",
+            "count": 3
+          },
+          {
+            "from": "loadAllScript",
+            "to": "makeAssetLoadScenario",
+            "count": 1
+          },
+          {
+            "from": "installLoadAll",
+            "to": "installAssetFetch",
+            "count": 1
+          },
+          {
+            "from": "script.",
+            "to": "scenario.",
+            "count": 29
+          },
+          {
+            "from": "script:",
+            "to": "scenario:",
+            "count": 3
+          },
+          {
+            "from": "script,",
+            "to": "scenario,",
+            "count": 1
+          },
+          {
+            "from": "eventsOf(script)",
+            "to": "eventsOf(scenario)",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "path": "packages/game/src/__tests__/asset-fixtures.ts",
+        "sha256": "cf3eae0a807ce26983299ee72ff140b7035cd64121a4547b6f145076547c12fc",
+        "member": "organization-game-asset-fixtures/1.before"
+      }
+    ],
+    "current": [
+      {
+        "path": "packages/game/src/__tests__/asset-load-scenario.ts",
+        "sha256": "5f934ec14f37768b9418ed5a693084e644d279257b5abf99cbdad595424b259d",
+        "imports": [
+          {
+            "local": "Enemy",
+            "imported": "Enemy",
+            "target": "@type-pal/shared",
+            "typeOnly": true
+          },
+          {
+            "local": "legalEventObject",
+            "imported": "legalEventObject",
+            "target": "packages/game/src/__tests__/asset-fixtures.ts",
+            "typeOnly": false
+          },
+          {
+            "local": "LevelUpMagicEntry",
+            "imported": "LevelUpMagicEntry",
+            "target": "@type-pal/shared",
+            "typeOnly": true
+          },
+          {
+            "local": "Magic",
+            "imported": "Magic",
+            "target": "@type-pal/shared",
+            "typeOnly": true
+          },
+          {
+            "local": "ObjectPlayerView",
+            "imported": "ObjectPlayerView",
+            "target": "@type-pal/shared",
+            "typeOnly": true
+          },
+          {
+            "local": "Palette",
+            "imported": "Palette",
+            "target": "@type-pal/shared",
+            "typeOnly": true
+          },
+          {
+            "local": "PlayerRole",
+            "imported": "PlayerRole",
+            "target": "@type-pal/shared",
+            "typeOnly": true
+          },
+          {
+            "local": "SceneObjects",
+            "imported": "SceneObjects",
+            "target": "@type-pal/shared",
+            "typeOnly": true
+          },
+          {
+            "local": "Store",
+            "imported": "Store",
+            "target": "@type-pal/shared",
+            "typeOnly": true
+          }
+        ]
+      },
+      {
+        "path": "packages/game/src/__tests__/asset-fetch-fixture.ts",
+        "sha256": "ff84eca6c30fea07e3b00828b2c4be96716751e7509f1531eb88d9625d6e504a",
+        "imports": [
+          {
+            "local": "AssetLoadFailures",
+            "imported": "AssetLoadFailures",
+            "target": "packages/game/src/__tests__/asset-load-scenario.ts",
+            "typeOnly": true
+          },
+          {
+            "local": "AssetLoadScenario",
+            "imported": "AssetLoadScenario",
+            "target": "packages/game/src/__tests__/asset-load-scenario.ts",
+            "typeOnly": true
+          },
+          {
+            "local": "EventFile",
+            "imported": "EventFile",
+            "target": "@type-pal/shared",
+            "typeOnly": true
+          },
+          {
+            "local": "gzipSync",
+            "imported": "gzipSync",
+            "target": "node:zlib",
+            "typeOnly": false
+          },
+          {
+            "local": "legalPalette",
+            "imported": "legalPalette",
+            "target": "packages/game/src/__tests__/asset-fixtures.ts",
+            "typeOnly": false
+          },
+          {
+            "local": "legalTilemap",
+            "imported": "legalTilemap",
+            "target": "packages/game/src/__tests__/asset-fixtures.ts",
+            "typeOnly": false
+          },
+          {
+            "local": "Palette",
+            "imported": "Palette",
+            "target": "@type-pal/shared",
+            "typeOnly": true
+          },
+          {
+            "local": "twoFrameChunk",
+            "imported": "twoFrameChunk",
+            "target": "packages/game/src/__tests__/asset-fixtures.ts",
+            "typeOnly": false
+          },
+          {
+            "local": "vi",
+            "imported": "vi",
+            "target": "vitest",
+            "typeOnly": false
+          }
+        ]
+      },
+      {
+        "path": "packages/game/src/__tests__/png-atlas.ts",
+        "sha256": "33aae796cd3b4cbeea4430f6a43d91025f4939b5eff47466f9b752e72b42eef6",
+        "imports": [
+          {
+            "local": "indexedPng",
+            "imported": "indexedPng",
+            "target": "packages/game/src/__tests__/asset-fixtures.ts",
+            "typeOnly": false
+          }
+        ]
+      },
+      {
+        "path": "packages/game/src/__tests__/asset-fixtures.ts",
+        "sha256": "cf3eae0a807ce26983299ee72ff140b7035cd64121a4547b6f145076547c12fc",
+        "imports": [
+          {
+            "local": "BattleBgAsset",
+            "imported": "BattleBgAsset",
+            "target": "packages/game/src/present/battle/draw-battle-bg.ts",
+            "typeOnly": true
+          },
+          {
+            "local": "EventFile",
+            "imported": "EventFile",
+            "target": "@type-pal/shared",
+            "typeOnly": true
+          },
+          {
+            "local": "IndexedImage",
+            "imported": "IndexedImage",
+            "target": "packages/game/src/assets/png.ts",
+            "typeOnly": true
+          },
+          {
+            "local": "LoadedAssets",
+            "imported": "LoadedAssets",
+            "target": "packages/game/src/assets/loader.ts",
+            "typeOnly": true
+          },
+          {
+            "local": "Palette",
+            "imported": "Palette",
+            "target": "@type-pal/shared",
+            "typeOnly": true
+          },
+          {
+            "local": "SceneAssets",
+            "imported": "SceneAssets",
+            "target": "packages/game/src/assets/loader.ts",
+            "typeOnly": true
+          },
+          {
+            "local": "SceneEventObject",
+            "imported": "SceneEventObject",
+            "target": "@type-pal/shared",
+            "typeOnly": true
+          },
+          {
+            "local": "SpriteAsset",
+            "imported": "SpriteAsset",
+            "target": "packages/game/src/present/battle/draw-battle-sprites.ts",
+            "typeOnly": true
+          },
+          {
+            "local": "Tilemap",
+            "imported": "Tilemap",
+            "target": "@type-pal/shared",
+            "typeOnly": true
+          }
+        ]
+      }
+    ]
+  },
+  "consumers": [
+    {
+      "path": "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+      "sha256": "564e9ec506c02ac82d217a0fb4c1ed9ad09e631864aa7720d9a3a24571173f79",
+      "member": "organization-game-asset-fixtures/2.before",
+      "currentSha256": "48e7edf94615dbe1b4f74412d4ded60de39d39d714da1bcea6e202faed8269d7",
+      "changes": []
+    },
+    {
+      "path": "packages/game/src/assets/load-all-assemble.grok-r1.test.ts",
+      "sha256": "1d21d4085cc12a016be2468928a8eb876fb5eb7ae337339463e0cf0eaee72228",
+      "member": "organization-game-asset-fixtures/3.before",
+      "currentSha256": "3dc0ceb1be6bebf97e1af676ba82c09ef0daecad51aa4a931ea256e712a9b7ba",
+      "changes": [
+        {
+          "from": "legalRole",
+          "to": "makeAssetRole",
+          "count": 3
+        },
+        {
+          "from": "loadAllScript",
+          "to": "makeAssetLoadScenario",
+          "count": 11
+        },
+        {
+          "from": "installLoadAll",
+          "to": "installAssetFetch",
+          "count": 11
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/assets/load-all-bounds.grok-r1.test.ts",
+      "sha256": "8224427cc2efa1bc017d02b03e1e456934e4741e66da931fab2cd6ca6b9ec142",
+      "member": "organization-game-asset-fixtures/4.before",
+      "currentSha256": "8e2d65449b3bfa2e84bcf88aa719fd3cefca32f49c282937cb041057a627be73",
+      "changes": [
+        {
+          "from": "legalRole",
+          "to": "makeAssetRole",
+          "count": 3
+        },
+        {
+          "from": "loadAllScript",
+          "to": "makeAssetLoadScenario",
+          "count": 13
+        },
+        {
+          "from": "installLoadAll",
+          "to": "installAssetFetch",
+          "count": 11
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/assets/load-all-recover.grok-r1.test.ts",
+      "sha256": "bafbf8a7c6ca9b3197ea764cf112df7a94ca77f010527a264fc93fcd2059e059",
+      "member": "organization-game-asset-fixtures/5.before",
+      "currentSha256": "93dc54c2c28c055c2417cc49a704126e286713c555331b0e68628e6dc68f0253",
+      "changes": [
+        {
+          "from": "loadAllScript",
+          "to": "makeAssetLoadScenario",
+          "count": 12
+        },
+        {
+          "from": "installLoadAll",
+          "to": "installAssetFetch",
+          "count": 12
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/assets/load-all-ui-frame-identity.test.ts",
+      "sha256": "590c3f5a389f6267d547e8ab22644eabd435f2eeb47b3727d45b41a4203a9c87",
+      "member": "organization-game-asset-fixtures/6.before",
+      "currentSha256": "d0623dc9fcaa0bde0fb905fcf4eca1b4016c745bc07ab887ae367ce128568312",
+      "changes": [
+        {
+          "from": "loadAllScript",
+          "to": "makeAssetLoadScenario",
+          "count": 4
+        },
+        {
+          "from": "installLoadAll",
+          "to": "installAssetFetch",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/assets/loader.test.ts",
+      "sha256": "9bfb8abd59603935e60ce8ee2baa2e9510b18a336244dc788bf272e12c01b437",
+      "member": "organization-game-asset-fixtures/7.before",
+      "currentSha256": "4a22b726c34512988ee1e1714b06122eb0983effd5a0514b075c70af2582e7bb",
+      "changes": []
+    },
+    {
+      "path": "packages/game/src/assets/scene-cache.grok-r1.test.ts",
+      "sha256": "4ab6a1fa912fdfed0b961bf43b0734c7d69a41eb5e7b61eedc98d7da61e6dce0",
+      "member": "organization-game-asset-fixtures/8.before",
+      "currentSha256": "2fa4fac7306513cf04ae17411600aa736fd14992e38e52be1b3885e4b6f36c13",
+      "changes": []
+    },
+    {
+      "path": "packages/game/src/assets/tileset-load.grok-r1.test.ts",
+      "sha256": "819feeba628a7010d3ec015e43a32e3e05ac56a4801b55c63458cd9c57e75efc",
+      "member": "organization-game-asset-fixtures/9.before",
+      "currentSha256": "930e378e87c5754109ec325bcb87d32b05f160df05498fbc7442b00b80ee3a01",
+      "changes": []
+    },
+    {
+      "path": "packages/game/src/present/battle/battle-effect-num-pixels.grok-r1.test.ts",
+      "sha256": "1e5db81d8b831cc3f55f8a8f52d25dec26faa8f5e3cbb935769a47a029aed517",
+      "member": "organization-game-asset-fixtures/10.before",
+      "currentSha256": "29e50ea6dad5e71bdcefc8c4a80faa8b42dc132f23ae18c91153878b7ea9afb6",
+      "changes": []
+    },
+    {
+      "path": "packages/game/src/present/dialog-box-pixels.grok-r1.test.ts",
+      "sha256": "8db70cbd80b02020d9be1547fea4447f615afeaff89cf46457e844c6c753353c",
+      "member": "organization-game-asset-fixtures/11.before",
+      "currentSha256": "d5c9302ccde83f710fd3a1c2e4dbe3a8d7b255449ca161bf30c8e49c45250fe5",
+      "changes": []
+    },
+    {
+      "path": "packages/game/src/present/menu/inventory-list-pixels.grok-r1.test.ts",
+      "sha256": "64dd8c71f90ccd213d485c12a428e808a3af44a9fe4b040ac083f3c3b3d22fff",
+      "member": "organization-game-asset-fixtures/12.before",
+      "currentSha256": "b3a549d7fba2a192e5ad6f248710f39182efe031606afd1be8669b2f5dcf36e2",
+      "changes": []
+    },
+    {
+      "path": "packages/game/src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+      "sha256": "e89506fc4ecabbd79ed878342cbc9f74ce37dcd4d5ea32a9c88be24eb1f7cf90",
+      "member": "organization-game-asset-fixtures/13.before",
+      "currentSha256": "bcb35de9db42680be915259f0ba706169e66f35b479f247694710fcfe1b0d9c6",
+      "changes": []
+    },
+    {
+      "path": "packages/game/src/present/present-hold.grok-r1.test.ts",
+      "sha256": "84b7076a0ddbc6def0b11aa2e89cd05019d4b0c7c889adef8826f6024129968b",
+      "member": "organization-game-asset-fixtures/14.before",
+      "currentSha256": "38109b55382305094a5533a67b678936da0ab4de9ef6fa6e54f1e8df70544422",
+      "changes": [
+        {
+          "from": "legalRole",
+          "to": "makeAssetRole",
+          "count": 2
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/shell/ending-avi-host.grok-r1.test.ts",
+      "sha256": "06be431b333ea02d4bbd3033efd7f2381bf44135dd6ea8913caeb1a6542e8c6d",
+      "member": "organization-game-asset-fixtures/15.before",
+      "currentSha256": "41bf84cfb8bf372117f76d50eb55f33922d3ed6a1e0f4a6ba68a13dcb60afbcf",
+      "changes": []
+    },
+    {
+      "path": "packages/game/src/shell/fbp-scroll.grok-r1.test.ts",
+      "sha256": "8c3e36bc0c58f2ae56224ac35d7122a18502e6e8ebc8975e001cb2ac63cc86d2",
+      "member": "organization-game-asset-fixtures/16.before",
+      "currentSha256": "5f7b2d35fd5c255f36d9580afdd0bc09c815bc2fc9b645abe6aa2b7187d3dd62",
+      "changes": []
+    },
+    {
+      "path": "packages/game/src/shell/rng-window.grok-r1.test.ts",
+      "sha256": "36a751339800f6efa684ea351916e2c39b1b3c7825edb73bf1585efdff527dbd",
+      "member": "organization-game-asset-fixtures/17.before",
+      "currentSha256": "c13c5652977cae5c85e637919386c40eb588338de80db1cfc964436a14f94466",
+      "changes": []
+    },
+    {
+      "path": "packages/game/src/shell/trademark-fallback.test.ts",
+      "sha256": "20ef23c546e899e2325d7720420a14697282b11c8b98e6bb8bbe919bba5ffe47",
+      "member": "organization-game-asset-fixtures/18.before",
+      "currentSha256": "bed971e9346f0e949462ee708c60483f839fb641ef78c95f5743bcb114560c65",
+      "changes": []
+    },
+    {
+      "path": "packages/game/src/shell/trademark-splash.grok-r1.test.ts",
+      "sha256": "c5d2cfdce1a5b5d6372a1ee5249936be3e93beffd3b167f9579910ec010eb00b",
+      "member": "organization-game-asset-fixtures/19.before",
+      "currentSha256": "fab76e60df1265a3e64f3c4077c2d41806a4caa7b8d2325f6cd7da42987234f6",
+      "changes": []
+    }
+  ],
+  "exports": [
+    {
+      "oldPath": "packages/game/src/__tests__/grok-render-r1/legal-host.ts",
+      "oldName": "callsEnding",
+      "currentPath": "packages/game/src/__tests__/asset-fetch-fixture.ts",
+      "currentName": "callsEnding"
+    },
+    {
+      "oldPath": "packages/game/src/__tests__/grok-render-r1/legal-host.ts",
+      "oldName": "pngAtlas",
+      "currentPath": "packages/game/src/__tests__/png-atlas.ts",
+      "currentName": "pngAtlas"
+    },
+    {
+      "oldPath": "packages/game/src/__tests__/grok-render-r1/legal-host.ts",
+      "oldName": "indexedPng",
+      "currentPath": "packages/game/src/__tests__/asset-fixtures.ts",
+      "currentName": "indexedPng"
+    },
+    {
+      "oldPath": "packages/game/src/__tests__/grok-render-r1/legal-host.ts",
+      "oldName": "legalPalette",
+      "currentPath": "packages/game/src/__tests__/asset-fixtures.ts",
+      "currentName": "legalPalette"
+    },
+    {
+      "oldPath": "packages/game/src/__tests__/grok-render-r1/legal-host.ts",
+      "oldName": "legalTilemap",
+      "currentPath": "packages/game/src/__tests__/asset-fixtures.ts",
+      "currentName": "legalTilemap"
+    },
+    {
+      "oldPath": "packages/game/src/__tests__/grok-render-r1/legal-host.ts",
+      "oldName": "legalSceneAssets",
+      "currentPath": "packages/game/src/__tests__/asset-fixtures.ts",
+      "currentName": "legalSceneAssets"
+    },
+    {
+      "oldPath": "packages/game/src/__tests__/grok-render-r1/legal-host.ts",
+      "oldName": "twoFrameChunk",
+      "currentPath": "packages/game/src/__tests__/asset-fixtures.ts",
+      "currentName": "twoFrameChunk"
+    },
+    {
+      "oldPath": "packages/game/src/__tests__/grok-render-r1/legal-host.ts",
+      "oldName": "makeAssetRole",
+      "currentPath": "packages/game/src/__tests__/asset-load-scenario.ts",
+      "currentName": "makeAssetRole",
+      "originalName": "legalRole"
+    },
+    {
+      "oldPath": "packages/game/src/__tests__/grok-render-r1/legal-host.ts",
+      "oldName": "AssetLoadFailures",
+      "currentPath": "packages/game/src/__tests__/asset-load-scenario.ts",
+      "currentName": "AssetLoadFailures",
+      "originalName": "LoadAllFail"
+    },
+    {
+      "oldPath": "packages/game/src/__tests__/grok-render-r1/legal-host.ts",
+      "oldName": "AssetLoadScenario",
+      "currentPath": "packages/game/src/__tests__/asset-load-scenario.ts",
+      "currentName": "AssetLoadScenario",
+      "originalName": "LoadAllScript"
+    },
+    {
+      "oldPath": "packages/game/src/__tests__/grok-render-r1/legal-host.ts",
+      "oldName": "makeAssetLoadScenario",
+      "currentPath": "packages/game/src/__tests__/asset-load-scenario.ts",
+      "currentName": "makeAssetLoadScenario",
+      "originalName": "loadAllScript"
+    },
+    {
+      "oldPath": "packages/game/src/__tests__/grok-render-r1/legal-host.ts",
+      "oldName": "installAssetFetch",
+      "currentPath": "packages/game/src/__tests__/asset-fetch-fixture.ts",
+      "currentName": "installAssetFetch",
+      "originalName": "installLoadAll"
+    }
+  ],
+  "retiredPaths": ["packages/game/src/__tests__/grok-render-r1/legal-host.ts"],
+  "removedHelpers": [
+    {
+      "oldPath": "packages/game/src/__tests__/grok-render-r1/legal-host.ts",
+      "name": "indexedPng",
+      "from": "export async function indexedPng(\n  width: number,\n  height: number,\n  rgba: readonly number[],\n): Promise<Uint8Array> {\n  const canvas = document.createElement('canvas')\n  canvas.width = width\n  canvas.height = height\n  const ctx = canvas.getContext('2d')\n  if (!ctx) throw new Error('grok fixture: 2d context unavailable')\n  const image = ctx.createImageData(width, height)\n  image.data.set(rgba)\n  ctx.putImageData(image, 0, 0)\n  const blob = await new Promise<Blob>((resolve, reject) => {\n    canvas.toBlob((value) => {\n      if (value) resolve(value)\n      else reject(new Error('grok fixture: toBlob returned null'))\n    }, 'image/png')\n  })\n  return new Uint8Array(await blob.arrayBuffer())\n}",
+      "targetPath": "packages/game/src/__tests__/asset-fixtures.ts",
+      "targetName": "indexedPng",
+      "domain": "Same complete canvas IO contract with the two explicitly registered helper-only diagnostic messages normalized; target unchanged."
+    }
+  ],
+  "preserved": [
+    {
+      "path": "packages/game/src/assets/loader.ts",
+      "sha256": "9c3c3a333e5b04d25cd220e17d04863b0ff5c759e273d05c3b82af758756788f"
+    },
+    {
+      "path": "packages/game/src/assets/png.ts",
+      "sha256": "4954c8f732085b29f94904caf21a0b43a40aba9437aedcd0ab34d34a1286c2d5"
+    },
+    {
+      "path": "packages/game/src/assets/dialog-assets.ts",
+      "sha256": "4a5186879b7ae66abe0ef13a48a472e35e1234c0c69943ce932bcd26b9a67eed"
+    },
+    {
+      "path": "packages/game/src/assets/tileset-blob.ts",
+      "sha256": "20a8afc7754a956b2b3dd1b395466e39377f51c4aa096ae937765c63baebd517"
+    },
+    {
+      "path": "packages/game/src/__tests__/asset-fixtures.ts",
+      "sha256": "cf3eae0a807ce26983299ee72ff140b7035cd64121a4547b6f145076547c12fc"
+    }
+  ],
+  "neighborPaths": [
+    "packages/game/src/__tests__/battle-fixture.test.ts",
+    "packages/game/src/__tests__/scripted-rng.test.ts",
+    "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+    "packages/game/src/assets/load-all-assemble.grok-r1.test.ts",
+    "packages/game/src/assets/load-all-bounds.grok-r1.test.ts",
+    "packages/game/src/assets/load-all-recover.grok-r1.test.ts",
+    "packages/game/src/assets/load-all-ui-frame-identity.test.ts",
+    "packages/game/src/assets/loader.test.ts",
+    "packages/game/src/assets/scene-cache.grok-r1.test.ts",
+    "packages/game/src/assets/tileset-load.grok-r1.test.ts",
+    "packages/game/src/present/battle/battle-effect-num-pixels.grok-r1.test.ts",
+    "packages/game/src/present/dialog-box-pixels.grok-r1.test.ts",
+    "packages/game/src/present/menu/inventory-list-pixels.grok-r1.test.ts",
+    "packages/game/src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+    "packages/game/src/present/present-hold.grok-r1.test.ts",
+    "packages/game/src/shell/ending-avi-host.grok-r1.test.ts",
+    "packages/game/src/shell/fbp-scroll.grok-r1.test.ts",
+    "packages/game/src/shell/rng-window.grok-r1.test.ts",
+    "packages/game/src/shell/trademark-fallback.test.ts",
+    "packages/game/src/shell/trademark-splash.grok-r1.test.ts"
+  ],
+  "cleanExecutions": [
+    "before",
+    "neighbors",
+    "typecheck",
+    "scoped",
+    "docs",
+    "content-review",
+    "lint"
+  ],
+  "profiles": [
+    {
+      "path": "packages/game/src/__tests__/asset-load-scenario.ts",
+      "axes": {
+        "A": "原scenario/role/magic每字段与借用override保持，实际loader/呈现caller输入域不变；旧blob审查由2393828fb及recent200 adjacentHost精确桥至当前1383f224源，不能直接沿旧66175247授信用。",
+        "B": "头注明确默认值与override借用，保留仅真实约束；不称完整角色表、任意队伍或可玩状态。",
+        "C": "仅typed输入与必要event对象构造，无fetch/vi/canvas；参数和可变override的Owner明确，IO输出不混进数据层。",
+        "D": "资源role默认hp100/攻击10/步帧3与battle record不同，独立保留；只共用既有同合同event constructor。",
+        "E": "147实际consumer原身份/业务输入与断言保持，另7例为H专测不能混计；当前合计20文件154。没有增加builder自比或弱次数例。",
+        "F": "asset-load-scenario、AssetLoadScenario/Failures、makeAssetLoadScenario及makeAssetRole按真实输入职责，不按贡献者划分；script误导出口名称消除。",
+        "G": "每字段/失败轴仍有真实fixture用途，两个类型在fetch adapter实际使用；不新增无caller wrapper或模式bool。",
+        "H": "纯typed默认工厂，可在真实loadAll上注入窄数据与故障；未扩大生产API或mock核心。"
+      },
+      "notCohort": false,
+      "scope": "F/G current with version-bound A-E/H"
+    },
+    {
+      "path": "packages/game/src/__tests__/asset-fetch-fixture.ts",
+      "axes": {
+        "A": "每次route仍实时读取scenario/PNG map，新Response和bytes.slice保留，动态失败/恢复/body ownership不改；palette/tileset/sprite gzip仍每install创建。",
+        "B": "头注清楚由测试caller恢复全局；保留5×3锚点而不认证原盘容器真值，无同源builder即合法全部格式宣称。",
+        "C": "fetch安装、URL/状态路由、请求观察同一IO adapter，移出数据生成/PNG准备；vi.stubGlobal副作用边界与caller afterEach不变。",
+        "D": "借现有Palette/Tilemap/RLE输入，保留路由中差异化404/manifest/optional失败策略，未为了复杂度改成缓存Response或万能host。",
+        "E": "18直接测试消费者147身份及完整断言保持；loadAll真实像素/角色/字节/必选失败/恢复测试执行，未以请求次数替代原业务oracle。",
+        "F": "asset-fetch-fixture/installAssetFetch明确安装替身；script参数改scenario，与类型一致；route/http/bytes私有小函数保留易懂局部职责。",
+        "G": "原route高复杂度是不同URL合同，不为指标拆分/隐藏；所有私有函数仍有caller，旧barrel与贡献者目录出口移除。",
+        "H": "可指定scenario/faults/PNG输入并观察真实fetch与资源对象；实际loadAll不mock，测试仍显式unstub，不造生产seam。"
+      },
+      "notCohort": false,
+      "scope": "F/G current with version-bound A-E/H"
+    },
+    {
+      "path": "packages/game/src/__tests__/png-atlas.ts",
+      "axes": {
+        "A": "pngAtlas索引顺序、2×1字节/alpha与Map独立实例保持；共享encoder仅两Error文案不同，参数/IO/返回和错误类型有完整AST比较。",
+        "B": "头注只说PNG输入准备与共享canvas，不称编码为调色板PNG或原盘像素真值；保留R通道index/index+1和alpha说明。",
+        "C": "单一atlas输入准备，不安装fetch或持scenario/global测试状态；canvas生命周期仍由既有encoder按调用创建。",
+        "D": "去宿主内重复indexedPng，直接用既有同输入/失败类型/IO步骤encoder；两诊断文字变化逐字登记，不冒称全文同字节。",
+        "E": "真实PNG decode/独立像素oracle仍由原caller保留；没有增加同encoder自比测试。原PNG上下文/null-blob诊断变化只属于测试输入设施。",
+        "F": "png-atlas/pngAtlas表达Map索引PNG输入用途，引用既有canvas encoder不留贡献者错误前缀。",
+        "G": "只保留真实多个loader consumer共用的小atlas工厂，没有indexedPng转发包装；shared原文件完全不改。",
+        "H": "使用真实canvas/Blob/PNG字节，loader仍走真实decode，不用核心mock或全局codec替换。"
+      },
+      "notCohort": false,
+      "scope": "F/G current with version-bound A-E/H"
+    },
+    {
+      "path": "packages/game/src/__tests__/asset-fixtures.ts",
+      "axes": {
+        "A": "未改既有asset-fixtures任何字节；此处仅作真实共享目标，原default palette/scene/RLE/PNG输入与其typed生命周期保持。",
+        "B": "现有头注限定屏障/不完整可玩宿主，未添加宽泛格式或产品覆盖宣称。",
+        "C": "公共输入工厂仍与HTTPhost分开，依赖方向只是新fixture→现有叶，无反向宿主导入。",
+        "D": "原Palette/Tilemap/RLE出口直接被真实consumer使用；重复canvas encoder只在完整输入/失败类与IO比较后复用。",
+        "E": "本文件未新增整源审查信用；原有counter/像素/屏障证据保留，本次147consumer及7fixture相邻只支撑本增量。",
+        "F": "当前文件名asset-fixtures已表达共享输入用途，此次不将未变文件冒称新的F/G主体。",
+        "G": "原出口均保留，未加兼容barrel；新caller直接到真实owner。",
+        "H": "现有纯输入与窄canvas函数可直接驱动真实loader，未为测试增加产品接口。"
+      },
+      "notCohort": true,
+      "scope": "unchanged reuse target; no new full review"
+    }
+  ],
+  "pngReuseProof": "organization-game-asset-fixtures/png-reuse-proof.json",
+  "reusedReviewMember": "organization-game-asset-fixtures/reused-review.json",
+  "processDisclosures": [
+    "Actual18consumers import/name bindings change only; old reexports replaced with direct canonical input imports. No wrappers/barrel retained.",
+    "One duplicate canvas encoder removed only after comparing full ordered syntax, parameters, IO/lifecycle/result/error class and two diagnostic strings. Existing shared target remains byte-exact; no pixel or decoder truth inferred.",
+    "Source role default differs from battle and startup reference fixtures; preserve its own typed record, do not combine superficially similar constructors.",
+    "Each fetch call still constructs a fresh copied Response and reads current scenario/Map. No response caching, route-policy or failure-selector changes; caller owns unstub cleanup.",
+    "First generator correctly rejected trying to reuse the stale66175247 review after writing candidate source. Actual base1383f224 is covered by recent200 adjacentHost and exact2393828fb extraction; that bridge and original failure are retained. Candidate writes derived deterministically from frozen current source, not old blob.",
+    "Baseline154cases contains147actual asset consumers plus7fixture contract cases. Verifier summary now reports filtered unchangedConsumerCases separately from baselineRunCases; raw results retain original counts.",
+    "First pair-check rejected export bridges keyed by pre-rename symbols; corrected to existing protocol oldName=post-counted-body-bridge, originalName retains actual old public symbol. No checker criterion, source or tests changed."
+  ]
+}

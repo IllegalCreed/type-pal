@@ -1,0 +1,330 @@
+{
+  "id": "player-attack-effect-lookup",
+  "namespace": "organization-attack-effects",
+  "inputs": [
+    {
+      "path": "packages/game/src/core/battle/actions/attack.glm-next-wave.test.ts",
+      "member": "organization-attack-effects/0.before",
+      "sha256": "18528818d063d378480fda581861281dc82a2a8e71c41d9cf868edec7b22ce2e",
+      "lines": 61
+    }
+  ],
+  "outputs": [
+    {
+      "path": "packages/game/src/core/battle/actions/attack-effects.test.ts",
+      "sha256": "bd79409573b930e49980e75f835cc757060960c7b9b9c45ac0c32de2d35c3e48",
+      "lines": 63
+    }
+  ],
+  "replacements": [],
+  "sourceBridges": [
+    {
+      "path": "packages/game/src/core/battle/actions/attack.glm-next-wave.test.ts",
+      "id": "organization-attack-effects-registration",
+      "reason": "Registration analysis only. Independent full typed-module proof conserves all collector/fixture/callback content except explicit actor inlining, return narrowing and strengthened sprite/table/literal oracle; real oldgreen/newbusinessred proves discrimination. Not a proof by arbitrary replacement.",
+      "changes": [
+        {
+          "from": "/**\n * TEST-GLM-NEW-H-1 / H05 — actions/attack 当前公开合同补测。\n *\n * playerEffectFrameBase(fight.c:2055-2056 `index = rgwBattleEffectIndex[battleSprite][1]; index *= 3`)\n * 经 performAttack 的 battleEffectIndex flat 表注入,actions.test.ts 无此参数的直测\n * (anim-timeline.test 只直喂 effectFrameBase,magic 侧 castBase 另有测)。本文件钉:\n *  - sprite 查表走 flat [sprite*2+1](行 [1]),×3 起帧\n *  - 表缺省 → base 0(缺表防御语义,overlay 仍画 chunk10 frame 0..2)\n */\nimport { describe, expect, it } from 'vitest'\nimport { makeBattleFixture } from '../../../__tests__/battle-fixture.js'\nimport { makeEnemyRecord, makeRoleRecord } from '../../../__tests__/battle-records.js'\nimport { recordingRng } from '../../../__tests__/scripted-rng.js'\nimport type { BattleAnimFrame } from '../battle-state.js'\nimport type { ActionQueueItem } from '../turn-queue.js'\nimport { performAttack } from './attack.js'\n\nfunction playerActor(idx = 0): ActionQueueItem {\n  return { isEnemy: false, idx, dex: 30, fIsSecond: false }\n}\n\nfunction effectFrameIdxs(frames: BattleAnimFrame[]): number[] {\n  const out: number[] = []\n  for (const frame of frames) {\n    for (const overlay of frame.overlay ? [frame.overlay] : (frame.overlays ?? [])) {\n      if (overlay.kind === 'effect') out.push(overlay.frameIdx)\n    }\n  }\n  return out\n}\n\n/** 1 队员 + 1 敌(双方有 posOriginal)→ performAttack 建时间线路径。 */\nfunction boot() {\n  const role = makeRoleRecord(0, { attackStrength: 500 })\n  const battle = makeBattleFixture({\n    roles: [role],\n    enemies: [makeEnemyRecord({ id: 100, health: 9000, defense: 0, level: 1 })],\n    rng: recordingRng([1, 1, 1], [1]),\n  })\n  battle.state.players[0]!.posOriginal = { x: 240, y: 170 }\n  battle.state.enemies[0]!.posOriginal = { x: 160, y: 80 }\n  return { ...battle, actor: playerActor() }\n}\n\ndescribe('performAttack × battleEffectIndex(fight.c:2055-2056 命中特效帧基号)', () => {\n  it('sprite0 → flat[sprite*2+1]=2 → base=6,特效帧 frameIdx 6/7/8', () => {\n    const { state, playerRoles, bus, actor } = boot()\n    const before = state.enemies[0]!.e.health\n    performAttack(state, actor, 0, bus, playerRoles, [5, 2, 9, 9])\n    expect(state.enemies[0]!.e.health).toBeLessThan(before) // 伤害已结算\n    expect(state.battleAnim).toBeDefined()\n    expect(effectFrameIdxs(state.battleAnim!.frames)).toEqual([6, 7, 8])\n  })\n\n  it('表缺省(undefined)→ base=0,特效帧 frameIdx 0/1/2(缺表防御语义)', () => {\n    const { state, playerRoles, bus, actor } = boot()\n    performAttack(state, actor, 0, bus, playerRoles, undefined)\n    expect(state.battleAnim).toBeDefined()\n    expect(effectFrameIdxs(state.battleAnim!.frames)).toEqual([0, 1, 2])\n  })\n})\n",
+          "to": "/**\n * performAttack 将角色的战斗精灵编号映射为命中特效帧。\n * SDLPal PAL_BattleShowPlayerAttackAnim 读取 BattleEffectIndex 的第二列并乘以 3；\n * 此处验证真实动作入口的查表接线，时间线布局由 anim-timeline.test.ts 验证。\n * 表缺省回退到帧 0..2 是当前 TS 策略，不声称 SDLPal 有同样的缺表路径。\n */\nimport { describe, expect, it } from 'vitest'\nimport { makeBattleFixture } from '../../../__tests__/battle-fixture.js'\nimport { makeEnemyRecord, makeRoleRecord } from '../../../__tests__/battle-records.js'\nimport { recordingRng } from '../../../__tests__/scripted-rng.js'\nimport type { BattleAnimFrame } from '../battle-state.js'\nimport type { ActionQueueItem } from '../turn-queue.js'\nimport { performAttack } from './attack.js'\n\nfunction effectFrameIndices(frames: BattleAnimFrame[]): number[] {\n  const out: number[] = []\n  for (const frame of frames) {\n    for (const overlay of frame.overlay ? [frame.overlay] : (frame.overlays ?? [])) {\n      if (overlay.kind === 'effect') out.push(overlay.frameIdx)\n    }\n  }\n  return out\n}\n\n/** 1 队员 + 1 敌(双方有 posOriginal)→ performAttack 建时间线路径。 */\nfunction makeAttackScene(battleSpriteId: number) {\n  const role = makeRoleRecord(0, { attackStrength: 500, spriteNumInBattle: battleSpriteId })\n  const battle = makeBattleFixture({\n    roles: [role],\n    enemies: [makeEnemyRecord({ id: 100, health: 9000, defense: 0, level: 1 })],\n    rng: recordingRng([1, 1, 1], [1]),\n  })\n  battle.state.players[0]!.posOriginal = { x: 240, y: 170 }\n  battle.state.enemies[0]!.posOriginal = { x: 160, y: 80 }\n  const actor: ActionQueueItem = { isEnemy: false, idx: 0, dex: 30, fIsSecond: false }\n  return { state: battle.state, playerRoles: battle.playerRoles, bus: battle.bus, actor }\n}\n\ndescribe('Player attack effect lookup', () => {\n  it('uses the selected sprite row and second column for effect frames', () => {\n    const { state, playerRoles, bus, actor } = makeAttackScene(2)\n    const before = state.enemies[0]!.e.health\n    // 合成 10×2 表：前面各行和目标行两列均有不同值，避免错行／错列偶然命中。\n    performAttack(\n      state,\n      actor,\n      0,\n      bus,\n      playerRoles,\n      [5, 2, 9, 3, 7, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],\n    )\n    expect(state.enemies[0]!.e.health).toBeLessThan(before) // 伤害已结算\n    expect(state.battleAnim).toBeDefined()\n    expect(effectFrameIndices(state.battleAnim!.frames)).toEqual([12, 13, 14])\n  })\n\n  it('uses frames 0/1/2 when the effect table is absent', () => {\n    const { state, playerRoles, bus, actor } = makeAttackScene(0)\n    performAttack(state, actor, 0, bus, playerRoles, undefined)\n    expect(state.battleAnim).toBeDefined()\n    expect(effectFrameIndices(state.battleAnim!.frames)).toEqual([0, 1, 2])\n  })\n})\n",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "registrations": [
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/actions/attack.glm-next-wave.test.ts",
+        "ordinal": 0,
+        "fullName": "performAttack × battleEffectIndex(fight.c:2055-2056 命中特效帧基号) sprite0 → flat[sprite*2+1]=2 → base=6,特效帧 frameIdx 6/7/8"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/actions/attack-effects.test.ts",
+        "titles": ["Player attack effect lookup"],
+        "template": "uses the selected sprite row and second column for effect frames",
+        "fullName": "Player attack effect lookup uses the selected sprite row and second column for effect frames"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/actions/attack.glm-next-wave.test.ts",
+        "ordinal": 1,
+        "fullName": "performAttack × battleEffectIndex(fight.c:2055-2056 命中特效帧基号) 表缺省(undefined)→ base=0,特效帧 frameIdx 0/1/2(缺表防御语义)"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/actions/attack-effects.test.ts",
+        "titles": ["Player attack effect lookup"],
+        "template": "uses frames 0/1/2 when the effect table is absent",
+        "fullName": "Player attack effect lookup uses frames 0/1/2 when the effect table is absent"
+      }
+    }
+  ],
+  "identities": [
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/actions/attack.glm-next-wave.test.ts",
+        "fullName": "performAttack × battleEffectIndex(fight.c:2055-2056 命中特效帧基号) sprite0 → flat[sprite*2+1]=2 → base=6,特效帧 frameIdx 6/7/8"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/actions/attack-effects.test.ts",
+        "fullName": "Player attack effect lookup uses the selected sprite row and second column for effect frames"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/actions/attack.glm-next-wave.test.ts",
+        "fullName": "performAttack × battleEffectIndex(fight.c:2055-2056 命中特效帧基号) 表缺省(undefined)→ base=0,特效帧 frameIdx 0/1/2(缺表防御语义)"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/actions/attack-effects.test.ts",
+        "fullName": "Player attack effect lookup uses frames 0/1/2 when the effect table is absent"
+      }
+    }
+  ],
+  "retirements": [],
+  "cohortSubjects": [
+    {
+      "path": "packages/game/src/core/battle/actions/attack.glm-next-wave.test.ts",
+      "sha256": "46bc9913fd1ae91d03ed6f923920614bab64aab11a3c1e2e4db24962fa244995",
+      "priorCurrentBridges": [
+        {
+          "path": "packages/game/src/core/battle/actions/attack.glm-next-wave.test.ts",
+          "sha256": "46bc9913fd1ae91d03ed6f923920614bab64aab11a3c1e2e4db24962fa244995",
+          "member": "organization-game-battle-fixtures/14.before",
+          "currentSha256": "18528818d063d378480fda581861281dc82a2a8e71c41d9cf868edec7b22ce2e",
+          "changes": [
+            {
+              "from": "makeHRole",
+              "to": "makeRoleRecord",
+              "count": 2
+            },
+            {
+              "from": "makeHEnemy",
+              "to": "makeEnemyRecord",
+              "count": 2
+            },
+            {
+              "from": "makeHBattle",
+              "to": "makeBattleFixture",
+              "count": 2
+            }
+          ],
+          "evidence": "organization-game-battle-fixtures.json"
+        }
+      ]
+    }
+  ],
+  "profiles": [
+    {
+      "path": "packages/game/src/core/battle/actions/attack-effects.test.ts",
+      "subjects": ["packages/game/src/core/battle/actions/attack.glm-next-wave.test.ts"],
+      "axes": {
+        "A": "Full61-line input/current output and615-line current action implementation read. Real performAction attack caller forwards roles/effect table; actual player timeline consumes computed base. C PAL_BattleShowPlayerAttackAnim second-column then multiply3 checked. Current source differs from prior game-actions-mobile SHA, so no whole-source equivalence or full physical-formula acceptance claimed. Synthetic sprite2 is within10-row domain; fresh role/enemy/state and legal deterministic RNG retain real direct-action prerequisites.",
+        "B": "Remove contributor/wave and overbroad unique-coverage assertion. Header names actual action-to-timeline boundary, C function rather than fragile source line, and explicitly labels missing-table fallback TS policy. Table comment states synthetic10x2 input, not an original asset or rendered-pixel claim. Existing source comments outside this test are not silently accepted.",
+        "C": "One local attack-effect wiring suite remains beside action implementation; broad physical-damage suite and pure timeline builder own different seams. Each case constructs its own real state,bus,roles,RNG; no global hooks/mocks/IO. Private fixture exposes only actual caller needs, keeping explicit original positions and actor identity.",
+        "D": "Reuse existing battle/record/RNG providers with exact frozen hashes. Single-use actor wrapper adds no reusable business policy and is inlined; local effect collector is meaningful for both cases and retains its full body/overlay precedence. Do not merge unrelated damage setup or create another shared factory.",
+        "E": "Two original runtime identities retained, no new/retired cases. Strengthen table-present case from sprite0 to sprite2 with distinct rows/columns in20 literal cells; independent expected12/13/14 replaces6/7/8. Missing table remains sprite0 and0/1/2. Real fixed-row0 mutation passes old selected case and yields exactly one new AssertionError6/7/8 vs12/13/14; exact restoration. All other assertions, legal RNG and construction bodies preserved;208 adjacent green/TC0 are supplementary evidence.",
+        "F": "attack-effects.test.ts names the action contract rather than author/wave. makeAttackScene, battleSpriteId and effectFrameIndices reveal input/output roles. No title claims whole combat/parity. Explicit actor literal and narrow return remove needless navigation.",
+        "G": "Remove once-called parameterized playerActor and unread forwarded gs/drain from local return; actor idx0/default and all other fields exact. Keep two distinct table-presence contracts and explicit positions; no blind count reduction, new helper file, public API/config/product change.",
+        "H": "Tests invoke real public performAttack and inspect produced timeline frames; no rendering mock or copied formula oracle. Injected legal deterministic RNG avoids probability. Readonly full typed AST proof retains const/let/types/last fields plus final-oracle negative, resolved import equality; actual product mutant demonstrates testability without adding seams."
+      }
+    }
+  ],
+  "preserved": [
+    {
+      "path": "packages/game/src/core/battle/actions/attack.ts",
+      "sha256": "b6d14f9041d6a297841fbb2cf556d27d0e72ffcc5981c4e8ffd47a91cfb5f685",
+      "lines": 615
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-system.ts",
+      "sha256": "c3eaa90bd59c8a2be9da38c0b0655c24e1da11b683b5857cce3af0725b2289e4",
+      "lines": 2911
+    },
+    {
+      "path": "packages/game/src/core/battle/anim-timeline.ts",
+      "sha256": "6d157c643e6798a672233d03b0fc2c01a4e77def66236ee71fb43c302a647102",
+      "lines": 2067
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-state.ts",
+      "sha256": "546e8e2e86ec08c45492b80cb03349cc1a9a182735626f5ba53248d672a1e386",
+      "lines": 919
+    },
+    {
+      "path": "packages/game/src/__tests__/battle-fixture.ts",
+      "sha256": "a206ad63f9f8f4302380b5996a5c2f96715e9b598e4b4a41b9501f40d446a32c",
+      "lines": 50
+    },
+    {
+      "path": "packages/game/src/__tests__/battle-records.ts",
+      "sha256": "e06702ce034d7b7b7680b649d2c6d11d948acd6daa9aeac0ad20478c62afc575",
+      "lines": 98
+    },
+    {
+      "path": "packages/game/src/__tests__/scripted-rng.ts",
+      "sha256": "a6938391f6d3169d3c62ffb0e93b9b6877eb1d9ae483157a3393689d48c3eb47",
+      "lines": 65
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/actions.test.ts",
+      "sha256": "68665ee36175f53f64fba7bb06902671e2e5df59743a5f772a9f6c58f1248a71",
+      "lines": 2532
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/anim-timeline.test.ts",
+      "sha256": "766f3dbc27b079b5851792b5b79b35658a3ce4db1a73f6befa1ea148e77472d9",
+      "lines": 1962
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/attack-mate.test.ts",
+      "sha256": "41322fd42285e28b8c93825df11c4bacde847369fd3e068ee1f6555698552749",
+      "lines": 116
+    },
+    {
+      "path": "reference/sdlpal/fight.c",
+      "sha256": "6d71434242de081d3cd2d5a0578d05485948e7c6cd507407805d0eafa3e761f5",
+      "lines": 5400
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/review.json",
+      "sha256": "6378fccff35949543bd50a1d60375090b03dba08d0e67dc34d641708d530ee73",
+      "lines": 1299
+    },
+    {
+      "path": "packages/game/vitest.config.ts",
+      "sha256": "3dd92ad4886bc72c88e7a7b2e6bdacc3aaf9e2a24ac72153f3b619ba37feb7d4",
+      "lines": 13
+    },
+    {
+      "path": "scripts/coverage/config.mjs",
+      "sha256": "decb63dda5d12a2269bef1dd75c3d1eb4efca071887c759deca8e9b06ef17a25",
+      "lines": 264
+    }
+  ],
+  "neighborPaths": [
+    "packages/game/src/core/battle/__tests__/actions.test.ts",
+    "packages/game/src/core/battle/__tests__/anim-timeline.test.ts",
+    "packages/game/src/core/battle/__tests__/attack-mate.test.ts",
+    "packages/game/src/core/battle/actions/attack-effects.test.ts"
+  ],
+  "receipts": {},
+  "cleanExecutions": [
+    "before",
+    "format",
+    "proof",
+    "discrimination",
+    "neighbors",
+    "typecheck",
+    "docs",
+    "content-review",
+    "lint",
+    "scoped",
+    "diff",
+    "ledger-final",
+    "module-preflight"
+  ],
+  "lightweightGates": true,
+  "callbackProof": "organization-attack-effects/proof.stdout.raw",
+  "counters": ["counter.json"],
+  "qualityDelta": {
+    "oldCases": 2,
+    "currentCases": 2,
+    "newCases": 0,
+    "retirements": 0,
+    "productUnchanged": true,
+    "oldSprite": 0,
+    "currentSprite": 2,
+    "tableCells": 20,
+    "expectedFrames": [12, 13, 14],
+    "sourceMutantOldGreenNewSingleBusinessRed": true
+  },
+  "reads": {
+    "fullInput": {
+      "path": "packages/game/src/core/battle/actions/attack.glm-next-wave.test.ts",
+      "member": "organization-attack-effects/0.before",
+      "sha256": "18528818d063d378480fda581861281dc82a2a8e71c41d9cf868edec7b22ce2e",
+      "lines": 61
+    },
+    "fullOutput": {
+      "path": "packages/game/src/core/battle/actions/attack-effects.test.ts",
+      "sha256": "bd79409573b930e49980e75f835cc757060960c7b9b9c45ac0c32de2d35c3e48",
+      "lines": 63
+    },
+    "fullCurrentSource": {
+      "path": "packages/game/src/core/battle/actions/attack.ts",
+      "sha256": "b6d14f9041d6a297841fbb2cf556d27d0e72ffcc5981c4e8ffd47a91cfb5f685",
+      "lines": 615
+    },
+    "fullProviders": [
+      {
+        "path": "packages/game/src/__tests__/battle-fixture.ts",
+        "sha256": "a206ad63f9f8f4302380b5996a5c2f96715e9b598e4b4a41b9501f40d446a32c",
+        "lines": 50
+      },
+      {
+        "path": "packages/game/src/__tests__/battle-records.ts",
+        "sha256": "e06702ce034d7b7b7680b649d2c6d11d948acd6daa9aeac0ad20478c62afc575",
+        "lines": 98
+      },
+      {
+        "path": "packages/game/src/__tests__/scripted-rng.ts",
+        "sha256": "a6938391f6d3169d3c62ffb0e93b9b6877eb1d9ae483157a3393689d48c3eb47",
+        "lines": 65
+      }
+    ],
+    "scopedSource": [
+      {
+        "path": "packages/game/src/core/battle/battle-system.ts",
+        "ranges": [[2540, 2576]]
+      },
+      {
+        "path": "packages/game/src/core/battle/anim-timeline.ts",
+        "ranges": [[360, 470]]
+      }
+    ],
+    "adjacentDedup": [
+      {
+        "path": "packages/game/src/core/battle/__tests__/actions.test.ts",
+        "ranges": [[205, 277]],
+        "scope": "Specific physical-action cases only; no fresh full broad-suite credit."
+      },
+      {
+        "path": "packages/game/src/core/battle/__tests__/anim-timeline.test.ts",
+        "ranges": [[430, 555]],
+        "scope": "Pure builder receives base directly; different responsibility. No whole-file acceptance."
+      }
+    ],
+    "primary": {
+      "path": "reference/sdlpal/fight.c",
+      "ranges": [[2040, 2062]]
+    },
+    "prior": "Original64-line leaf hash46bc -> verified fixture-consumer successor61-line185288; original immutable14.before retained. Source prior30e61 differs from currentb6d14; current615 read does not re-claim all historical physical-formula evidence."
+  },
+  "quantitativeScreen": [
+    {
+      "path": "packages/game/src/core/battle/actions/attack-effects.test.ts",
+      "method": "Own decision nodes per function; reading pointer only.",
+      "functions": 5,
+      "max": 6,
+      "over10": 0
+    }
+  ],
+  "processDisclosures": [
+    "Initial checkpoint audit assumed deleted rows had sha256 and failed before any write; corrected to verify deleted:true as absence, then all720paths/two artifacts exact. No execution credit for failed preparation.",
+    "Earlier discovery used two nonexistent adjacent paths; actual __tests__/anim-timeline.test.ts was then read by explicit path. Only listed received ranges claim read credit.",
+    "Counter runs old test at new same-directory filename, preserving actual relative import targets. Selected2 exclusions are reconciled individually in raw; no skipped-test credit. Production source restored byte-exact before normal208 run/TC."
+  ],
+  "knownAdjacentObservation": {
+    "path": "packages/game/src/core/battle/__tests__/anim-timeline.test.ts",
+    "lines": [436, 438],
+    "issue": "Builder comment mixes literalbase6 with sprite1/list3=1 arithmetic3. Input is direct6 and assertions consistent. Adjacent comment not edited or newly accepted by this leaf supplement."
+  },
+  "invalidations": "Changed action lookup/caller, timeline producer, record/RNG/constructor provider, callback/data/import or primary pin reopens corresponding evidence. Whole battle mechanics, real asset pixels and browser presentation are outside this slice.",
+  "ledgerCounts": {
+    "inventory": 3449,
+    "closed": 507,
+    "review": 310,
+    "pending": 2632
+  }
+}

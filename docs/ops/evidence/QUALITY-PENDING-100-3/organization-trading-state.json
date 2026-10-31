@@ -1,0 +1,1278 @@
+{
+  "inputs": [
+    {
+      "path": "packages/game/src/core/menu/shop-menu.test.ts",
+      "sha256": "ffbd60ae980bdaf51e1226638506fe450186adf1ed549424dfa4b0070e1faf3c",
+      "lines": 180,
+      "member": "organization-trading-state/0.before"
+    },
+    {
+      "path": "packages/game/src/core/menu/shop-menu.boundaries.test.ts",
+      "sha256": "a67bd178c508aa75bf6ac807f3be2909abc64fedcc0b3f6ca7a613a9c2d79a90",
+      "lines": 68,
+      "member": "organization-trading-state/1.before"
+    },
+    {
+      "path": "packages/game/src/core/menu/shop-menu.glm-phase1-leaves.test.ts",
+      "sha256": "fd3ccf333d7ecb95e11b2e890121d35e0ea57eb4ce58a801964d98b5baa934c2",
+      "lines": 60,
+      "member": "organization-trading-state/2.before"
+    },
+    {
+      "path": "packages/game/src/core/menu/sell-menu.test.ts",
+      "sha256": "84512d7f14cd2a7ba1f889423230ff688fe3b0ab7659cd1a712da0e13f0cc8f5",
+      "lines": 161,
+      "member": "organization-trading-state/3.before"
+    },
+    {
+      "path": "packages/game/src/core/menu/sell-menu.boundaries.test.ts",
+      "sha256": "0f6920da06521cb5526e3e7f767947778ca3072ee22da73ad21f2bfe1a719eff",
+      "lines": 136,
+      "member": "organization-trading-state/4.before"
+    },
+    {
+      "path": "packages/game/src/core/menu/sell-menu.glm-phase1-leaves.test.ts",
+      "sha256": "8d12759e5045d6cef2abcd52897ea9b1510c3ea0d89990e612f4a968e2509a5f",
+      "lines": 64,
+      "member": "organization-trading-state/5.before"
+    },
+    {
+      "path": "packages/game/src/core/menu/shop-menu.ts",
+      "sha256": "5b2adaaf06fc5a053e04ff09e44842e6aa95d2fdd9f3c324df4e991f8623e9d4",
+      "lines": 103,
+      "member": "organization-trading-state/6.before"
+    },
+    {
+      "path": "packages/game/src/core/menu/sell-menu.ts",
+      "sha256": "8c4b784a0ddd5e10708d19e6539d330ac41b8cdfc405b31ca592490ecfb860b2",
+      "lines": 139,
+      "member": "organization-trading-state/7.before"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "packages/game/src/core/menu/shop-menu.test.ts",
+      "sha256": "730b0a77877ea48c85093984f9e39df3696c43c1a91f5f018c43882e7e407bd7"
+    },
+    {
+      "path": "packages/game/src/core/menu/shop-menu.flow.test.ts",
+      "sha256": "18c9d0e4c7565bf4873fbcebaee31c38a6415134c23df2167892f01ab9e7ea27"
+    },
+    {
+      "path": "packages/game/src/core/menu/sell-menu.test.ts",
+      "sha256": "2f3b5ed96152d81adabe94ce739a012b04f0e8d83fbd2f6a1bb9d83f485fe03e"
+    },
+    {
+      "path": "packages/game/src/core/menu/__tests__/trading-fixture.ts",
+      "sha256": "47715c76d7401d4105ec205391d4680b7c13ae0546497a79e15b2465b4f3c131"
+    },
+    {
+      "path": "packages/game/src/core/menu/shop-menu.ts",
+      "sha256": "76f0e8d3eee8e16915cd9871d882b25de8faf6f5d7d0e7039529ae2293ad4780"
+    },
+    {
+      "path": "packages/game/src/core/menu/sell-menu.ts",
+      "sha256": "3467c4dc6ab5608dd62f3fb8797529b7ddd38a8055a3cff4815832db379eee6f"
+    }
+  ],
+  "sourceBridges": [
+    {
+      "path": "packages/game/src/core/menu/shop-menu.test.ts",
+      "changes": [
+        {
+          "from": "/**\n * 商店买 / 卖菜单测试 — sdlpal uigame.c:1615 PAL_BuyMenu / 1755 PAL_SellMenu 真值。\n * 含状态机单测 + opcode 0x0026 → 开菜单 → 买 → 关 → 续跑脚本 的端到端集成测试。\n */\nimport type { AbstractKey, Command, InputSnapshot, Item, ItemFlags } from '@type-pal/shared'\nimport { beforeEach, describe, expect, it } from 'vitest'\n\nimport { buildLabelMap, OP_BUY_MENU, setShopMenuHandler, tickEventSystem } from '../event-system.js'\nimport { createInitialGameState, type GameState } from '../game-state.js'\nimport { dispatchMenuInput, setMenuCatalogs } from './menu-driver.js'\nimport { openMenu, tickMenu } from './menu-mode.js'\nimport { createSellMenu } from './sell-menu.js'\nimport {\n  createBuyMenu,\n  shopCancel,\n  shopConfirm,\n  shopMoveDown,\n  shopSelectItem,\n} from './shop-menu.js'\n\nfunction snap(pressed: AbstractKey[] = []): InputSnapshot {\n  return { held: new Set(), pressed: new Set(pressed), frameNum: 0 }\n}\n\nfunction loadEvent(gs: GameState, commands: Command[]): void {\n  gs.eventCursor = { commands, labelMap: buildLabelMap(commands), ip: 0 }\n  gs.mode = 'event'\n}\n\nfunction flags(over: Partial<ItemFlags> = {}): ItemFlags {\n  return {\n    usable: false,\n    equipable: false,\n    throwable: false,\n    consuming: false,\n    applyToAll: false,\n    sellable: false,\n    equipableBy: [false, false, false, false, false, false],\n    ...over,\n  }\n}\n\nfunction mkItem(id: number, price: number, over: Partial<Item> = {}): Item {\n  return {\n    id,\n    _name: `item${id}`,\n    bitmap: id,\n    price,\n    scriptOnUse: 0,\n    scriptOnEquip: 0,\n    scriptOnThrow: 0,\n    scriptDesc: 0,\n    flags: flags(),\n    ...over,\n  }\n}\n\n// 曾伯 store(operand[0]=1)真值 = [87,99,105,95,90](2026-05-29 stores.json 验证)\nconst CATALOG: Item[] = [\n  mkItem(87, 100),\n  mkItem(99, 200),\n  mkItem(105, 50, { flags: flags({ sellable: true }) }),\n]\n\ndescribe('shop-menu 状态机(sdlpal uigame.c:1615/1755)', () => {\n  it('createBuyMenu:list = 店铺物品,label=名,rightText=原价', () => {\n    const s = createBuyMenu(CATALOG)\n    expect(s.mode).toBe('buy')\n    expect(s.phase).toBe('list')\n    expect(s.list.items.map((i) => i.id)).toEqual([87, 99, 105])\n    expect(s.list.items[0]!.rightText).toBe('100')\n  })\n\n  it('shopSelectItem 买得起 → 进 confirm,默认 No(sdlpal PAL_ConfirmMenu nDefault=0)', () => {\n    const s = createBuyMenu(CATALOG)\n    const entered = shopSelectItem(s, CATALOG, 1000)\n    expect(entered).toBe(true)\n    expect(s.phase).toBe('confirm')\n    expect(s.selectedItemId).toBe(87)\n    expect(s.confirmYes).toBe(false)\n  })\n\n  it('shopSelectItem 买不起(price>cash)→ 不进 confirm,留 list(sdlpal uigame.c:1683)', () => {\n    const s = createBuyMenu(CATALOG)\n    const entered = shopSelectItem(s, CATALOG, 50) // item87 价 100 > 50\n    expect(entered).toBe(false)\n    expect(s.phase).toBe('list')\n  })\n\n  it('confirm 阶段方向键 toggle yes/no;shopConfirm 返回意图 + 回 list', () => {\n    const s = createBuyMenu(CATALOG)\n    shopSelectItem(s, CATALOG, 1000)\n    shopMoveDown(s) // toggle → yes\n    expect(s.confirmYes).toBe(true)\n    const r = shopConfirm(s)\n    expect(r).toEqual({ itemId: 87, mode: 'buy', yes: true })\n    expect(s.phase).toBe('list') // 回 list 继续买\n  })\n\n  it('shopCancel:confirm → back(回 list);list → close(关商店)', () => {\n    const s = createBuyMenu(CATALOG)\n    shopSelectItem(s, CATALOG, 1000)\n    expect(shopCancel(s)).toBe('back')\n    expect(s.phase).toBe('list')\n    expect(shopCancel(s)).toBe('close')\n  })\n})\n\ndescribe('shop opcode 0x0026 端到端(开菜单 → 买 → 关 → 续跑脚本)', () => {\n  let gs: GameState\n\n  beforeEach(() => {\n    setMenuCatalogs({ items: CATALOG, spells: [], magics: [], playerRoles: { roles: [] } })\n    // 模拟 bootstrap 的 setShopMenuHandler:buy 开 shop-buy 菜单\n    setShopMenuHandler(({ gs: g, mode }) => {\n      if (mode === 'buy') openMenu(g, { kind: 'shop-buy', state: createBuyMenu(CATALOG) })\n      else openMenu(g, { kind: 'shop-sell', state: createSellMenu(g, CATALOG) })\n    })\n    gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.dwCash = 1000\n  })\n\n  it('0x0026 → 开 shop-buy menu + waiting=shop + mode=menu + ip 续到下条', () => {\n    loadEvent(gs, [\n      { op: 'raw', opcode: OP_BUY_MENU, operands: [1, 0, 0] }, // ip0\n      { op: 'raw', opcode: 0x100, operands: [0, 0, 0] }, // ip1(随便后续 op)\n      { op: 'end' },\n    ])\n    tickEventSystem(gs, snap())\n    expect(gs.mode).toBe('menu')\n    expect(gs.menuStack[0]?.kind).toBe('shop-buy')\n    expect(gs.eventCursor?.waiting).toBe('shop')\n    expect(gs.eventCursor?.ip).toBe(1) // 已 ip++(菜单关后从此续)\n  })\n\n  it('买 1 个:Confirm 选 → Confirm 买 → cash 扣 + item 入包', () => {\n    loadEvent(gs, [{ op: 'raw', opcode: OP_BUY_MENU, operands: [1, 0, 0] }, { op: 'end' }])\n    tickEventSystem(gs, snap())\n    // list:Confirm 选 item87(价 100)→ 进 confirm(默认 No)\n    dispatchMenuInput(gs, snap(['Confirm']))\n    const st = gs.menuStack[0]!.state as { phase: string; confirmYes: boolean }\n    expect(st.phase).toBe('confirm')\n    // toggle 到 Yes 再 Confirm\n    dispatchMenuInput(gs, snap(['Down']))\n    dispatchMenuInput(gs, snap(['Confirm']))\n    expect(gs.dwCash).toBe(900) // 1000 - 100\n    expect(gs.inventory.find((e) => e.itemId === 87)?.count).toBe(1)\n    expect(st.phase).toBe('list') // 留在菜单可继续买(sdlpal while loop)\n  })\n\n  it('关商店(list 阶段 Menu)→ menuStack 空 → resume mode=event 续跑脚本', () => {\n    loadEvent(gs, [{ op: 'raw', opcode: OP_BUY_MENU, operands: [1, 0, 0] }, { op: 'end' }])\n    tickEventSystem(gs, snap())\n    // list 阶段 Menu → 关菜单;同一 tickMenu 的 post-dispatch 检栈空 → resume mode=event\n    tickMenu(gs, snap(['Menu']))\n    expect(gs.menuStack.length).toBe(0)\n    expect(gs.mode).toBe('event') // waiting='shop' → 续跑脚本(非 explore)\n    expect(gs.eventCursor?.waiting).toBeUndefined()\n  })\n\n  it('买不起(cash<price)→ Confirm 无反应,留 list(sdlpal uigame.c:1683)', () => {\n    gs.dwCash = 50 // 当前首项item87价格100，不能确认；目录中其它商品不参与本次选中门\n    loadEvent(gs, [{ op: 'raw', opcode: OP_BUY_MENU, operands: [1, 0, 0] }, { op: 'end' }])\n    tickEventSystem(gs, snap())\n    dispatchMenuInput(gs, snap(['Confirm']))\n    const st = gs.menuStack[0]!.state as { phase: string }\n    expect(st.phase).toBe('list') // 没进 confirm\n    expect(gs.dwCash).toBe(50) // 没扣钱\n  })\n\n  it('卖 1 个:cash += price/2 + item 出包', () => {\n    gs.inventory = [{ itemId: 105, count: 2 }] // 105 可卖,价 50 → 售 25\n    openMenu(gs, { kind: 'shop-sell', state: createSellMenu(gs, CATALOG) })\n    dispatchMenuInput(gs, snap(['Confirm'])) // 选 105\n    dispatchMenuInput(gs, snap(['Down'])) // toggle Yes\n    dispatchMenuInput(gs, snap(['Confirm'])) // 卖\n    expect(gs.dwCash).toBe(1025) // 1000 + 25\n    expect(gs.inventory.find((e) => e.itemId === 105)?.count).toBe(1)\n  })\n})\n",
+          "to": "import { describe } from \"vitest\"\nimport { expect } from \"vitest\"\nimport { it } from \"vitest\"\nimport { inventoryItem } from \"./__tests__/inventory-fixture.js\"\nimport { affordabilityItems } from \"./__tests__/trading-fixture.js\"\nimport { buyFlowItems } from \"./__tests__/trading-fixture.js\"\nimport { createBuyMenu } from \"./shop-menu.js\"\nimport { shopCancel } from \"./shop-menu.js\"\nimport { shopConfirm } from \"./shop-menu.js\"\nimport { shopMoveDown } from \"./shop-menu.js\"\nimport { shopMoveUp } from \"./shop-menu.js\"\nimport { shopSelectItem } from \"./shop-menu.js\"\nimport { type AbstractKey } from \"@type-pal/shared\"\nimport { type Command } from \"@type-pal/shared\"\nimport { type InputSnapshot } from \"@type-pal/shared\"\nimport { afterEach } from \"vitest\"\nimport { assert } from \"vitest\"\nimport { beforeEach } from \"vitest\"\nimport { buildLabelMap } from \"../event-system.js\"\nimport { OP_BUY_MENU } from \"../event-system.js\"\nimport { setShopMenuHandler } from \"../event-system.js\"\nimport { tickEventSystem } from \"../event-system.js\"\nimport { createInitialGameState } from \"../game-state.js\"\nimport { type GameState } from \"../game-state.js\"\nimport { dispatchMenuInput } from \"./menu-driver.js\"\nimport { setMenuCatalogs } from \"./menu-driver.js\"\nimport { openMenu } from \"./menu-mode.js\"\nimport { tickMenu } from \"./menu-mode.js\"\nimport { createSellMenu } from \"./sell-menu.js\"\nimport { refreshInventoryItems } from \"./__tests__/trading-fixture.js\"\nimport { sellableInventoryItems } from \"./__tests__/trading-fixture.js\"\nimport { singleSaleItems } from \"./__tests__/trading-fixture.js\"\nimport { refreshSellGrid } from \"./sell-menu.js\"\nimport { sellCancel } from \"./sell-menu.js\"\nimport { sellConfirm } from \"./sell-menu.js\"\nimport { sellEnd } from \"./sell-menu.js\"\nimport { sellHome } from \"./sell-menu.js\"\nimport { sellMoveDown } from \"./sell-menu.js\"\nimport { sellMoveLeft } from \"./sell-menu.js\"\nimport { sellMoveRight } from \"./sell-menu.js\"\nimport { sellMoveUp } from \"./sell-menu.js\"\nimport { sellPageDown } from \"./sell-menu.js\"\nimport { sellPageUp } from \"./sell-menu.js\"\nimport { sellSelectItem } from \"./sell-menu.js\"\nfunction inputSnapshot(pressed: AbstractKey[] = []): InputSnapshot {\n  return { held: new Set(), pressed: new Set(pressed), frameNum: 0 }\n}\nfunction loadEvent(gs: GameState, commands: Command[]): void {\n  gs.eventCursor = { commands, labelMap: buildLabelMap(commands), ip: 0 }\n  gs.mode = 'event'\n}\nfunction saleGameState(\n  inventory: Array<{ itemId: number; count: number; inUse?: number }>,\n): GameState {\n  const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n  gs.inventory = inventory\n  return gs\n}\ndescribe('Buy menu state and affordability', () => {\n  describe('Purchase selection, confirmation and cancel', () => {\n    it('createBuyMenu:list = 店铺物品,label=名,rightText=原价', () => {\n      const menu = createBuyMenu(buyFlowItems)\n      expect(menu.mode).toBe('buy')\n      expect(menu.phase).toBe('list')\n      expect(menu.list.items.map((i) => i.id)).toEqual([87, 99, 105])\n      expect(menu.list.items[0]!.rightText).toBe('100')\n    })\n\n    it('shopSelectItem 买得起 → 进 confirm,默认 No(sdlpal PAL_ConfirmMenu nDefault=0)', () => {\n      const menu = createBuyMenu(buyFlowItems)\n      const entered = shopSelectItem(menu, buyFlowItems, 1000)\n      expect(entered).toBe(true)\n      expect(menu.phase).toBe('confirm')\n      expect(menu.selectedItemId).toBe(87)\n      expect(menu.confirmYes).toBe(false)\n    })\n\n    it('shopSelectItem 买不起(price>cash)→ 不进 confirm,留 list(sdlpal uigame.c:1683)', () => {\n      const menu = createBuyMenu(buyFlowItems)\n      const entered = shopSelectItem(menu, buyFlowItems, 50) // item87 价 100 > 50\n      expect(entered).toBe(false)\n      expect(menu.phase).toBe('list')\n    })\n\n    it('confirm 阶段方向键 toggle yes/no;shopConfirm 返回意图 + 回 list', () => {\n      const menu = createBuyMenu(buyFlowItems)\n      shopSelectItem(menu, buyFlowItems, 1000)\n      shopMoveDown(menu) // toggle → yes\n      expect(menu.confirmYes).toBe(true)\n      const r = shopConfirm(menu)\n      expect(r).toEqual({ itemId: 87, mode: 'buy', yes: true })\n      expect(menu.phase).toBe('list') // 回 list 继续买\n    })\n\n    it('shopCancel:confirm → back(回 list);list → close(关商店)', () => {\n      const menu = createBuyMenu(buyFlowItems)\n      shopSelectItem(menu, buyFlowItems, 1000)\n      expect(shopCancel(menu)).toBe('back')\n      expect(menu.phase).toBe('list')\n      expect(shopCancel(menu)).toBe('close')\n    })\n  })\n  describe('Affordability and catalog ownership', () => {\n  })\n  describe('List metadata and defensive requests', () => {\n  })\n})\ndescribe('Shop script and transaction flow', () => {\n  let gs: GameState\n  let buyMenu: ReturnType<typeof createBuyMenu> | undefined\n\n  beforeEach(() => {\n    setMenuCatalogs({ items: buyFlowItems, spells: [], magics: [], playerRoles: { roles: [] } })\n    // 模拟 bootstrap 的 setShopMenuHandler:buy 开 shop-buy 菜单\n    setShopMenuHandler(({ gs: g, mode }) => {\n      if (mode === 'buy') {\n        buyMenu = createBuyMenu(buyFlowItems)\n        openMenu(g, { kind: 'shop-buy', state: buyMenu })\n      } else openMenu(g, { kind: 'shop-sell', state: createSellMenu(g, buyFlowItems) })\n    })\n    gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.dwCash = 1000\n  })\n\n  it('0x0026 → 开 shop-buy menu + waiting=shop + mode=menu + ip 续到下条', () => {\n    loadEvent(gs, [\n      { op: 'raw', opcode: OP_BUY_MENU, operands: [1, 0, 0] }, // ip0\n      { op: 'end' },\n    ])\n    tickEventSystem(gs, inputSnapshot())\n    expect(gs.mode).toBe('menu')\n    expect(gs.menuStack[0]?.kind).toBe('shop-buy')\n    expect(gs.eventCursor?.waiting).toBe('shop')\n    expect(gs.eventCursor?.ip).toBe(1) // 已 ip++(菜单关后从此续)\n  })\n\n  it('买 1 个:Confirm 选 → Confirm 买 → cash 扣 + item 入包', () => {\n    loadEvent(gs, [{ op: 'raw', opcode: OP_BUY_MENU, operands: [1, 0, 0] }, { op: 'end' }])\n    tickEventSystem(gs, inputSnapshot())\n    // list:Confirm 选 item87(价 100)→ 进 confirm(默认 No)\n    dispatchMenuInput(gs, inputSnapshot(['Confirm']))\n    assert(buyMenu, 'buy handler must create its state')\n    const st = buyMenu\n    expect(gs.menuStack[0]?.state).toBe(st)\n    expect(st.phase).toBe('confirm')\n    // toggle 到 Yes 再 Confirm\n    dispatchMenuInput(gs, inputSnapshot(['Down']))\n    dispatchMenuInput(gs, inputSnapshot(['Confirm']))\n    expect(gs.dwCash).toBe(900) // 1000 - 100\n    expect(gs.inventory.find((e) => e.itemId === 87)?.count).toBe(1)\n    expect(st.phase).toBe('list') // 留在菜单可继续买(sdlpal while loop)\n  })\n\n  it('关商店(list 阶段 Menu)→ menuStack 空 → resume mode=event 续跑脚本', () => {\n    loadEvent(gs, [{ op: 'raw', opcode: OP_BUY_MENU, operands: [1, 0, 0] }, { op: 'end' }])\n    tickEventSystem(gs, inputSnapshot())\n    // list 阶段 Menu → 关菜单;同一 tickMenu 的 post-dispatch 检栈空 → resume mode=event\n    tickMenu(gs, inputSnapshot(['Menu']))\n    expect(gs.menuStack.length).toBe(0)\n    expect(gs.mode).toBe('event') // waiting='shop' → 续跑脚本(非 explore)\n    expect(gs.eventCursor?.waiting).toBeUndefined()\n  })\n\n  it('买不起(cash<price)→ Confirm 无反应,留 list(sdlpal uigame.c:1683)', () => {\n    gs.dwCash = 50 // 当前首项item87价格100，不能确认；目录中其它商品不参与本次选中门\n    loadEvent(gs, [{ op: 'raw', opcode: OP_BUY_MENU, operands: [1, 0, 0] }, { op: 'end' }])\n    tickEventSystem(gs, inputSnapshot())\n    dispatchMenuInput(gs, inputSnapshot(['Confirm']))\n    assert(buyMenu, 'buy handler must create its state')\n    const st = buyMenu\n    expect(gs.menuStack[0]?.state).toBe(st)\n    expect(st.phase).toBe('list') // 没进 confirm\n    expect(gs.dwCash).toBe(50) // 没扣钱\n  })\n\n  it('卖 1 个:cash += price/2 + item 出包', () => {\n    gs.inventory = [{ itemId: 105, count: 2 }] // 105 可卖,价 50 → 售 25\n    openMenu(gs, { kind: 'shop-sell', state: createSellMenu(gs, buyFlowItems) })\n    dispatchMenuInput(gs, inputSnapshot(['Confirm'])) // 选 105\n    dispatchMenuInput(gs, inputSnapshot(['Down'])) // toggle Yes\n    dispatchMenuInput(gs, inputSnapshot(['Confirm'])) // 卖\n    expect(gs.dwCash).toBe(1025) // 1000 + 25\n    expect(gs.inventory.find((e) => e.itemId === 105)?.count).toBe(1)\n  })\n  afterEach(() => {\n    buyMenu = undefined\n    setShopMenuHandler(null)\n    setMenuCatalogs({ items: [], spells: [], magics: [], playerRoles: { roles: [] } })\n  })\n})\ndescribe('Sell grid state and intent', () => {\n  describe('List selection, confirmation and grid navigation', () => {\n  })\n  describe('Availability and snapshot refresh', () => {\n  })\n  describe('Empty and repeated requests', () => {\n  })\n})",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/core/menu/shop-menu.boundaries.test.ts",
+      "changes": [
+        {
+          "from": "/**\n * TEST-GAME-MENU-BOUNDARIES-1 G06：shop-menu 边界（shop-menu.ts）。\n * 既有 shop-menu.test 已覆盖列表/钱/确认主干——不重复。本文件：money===price 恰等可进、\n * 差 1 拒绝、空列表拒绝、No/Yes 意图与 selected 收尾、状态机不扣实际数字（纯意图）。\n */\nimport type { Item } from '@type-pal/shared'\nimport { describe, expect, it } from 'vitest'\nimport { createBuyMenu, shopCancel, shopConfirm, shopMoveUp, shopSelectItem } from './shop-menu.js'\n\nconst mkItem = (id: number, price: number): Item => ({\n  id,\n  price,\n  _name: `item-${id}`,\n  bitmap: 0,\n  scriptOnUse: 0,\n  scriptOnEquip: 0,\n  scriptOnThrow: 0,\n  scriptDesc: 0,\n  flags: {\n    usable: false,\n    equipable: false,\n    throwable: false,\n    consuming: false,\n    applyToAll: false,\n    sellable: false,\n    equipableBy: [false, false, false, false, false, false],\n  },\n})\n\nconst ITEMS = [mkItem(105, 150), mkItem(110, 200)]\n\ndescribe('G06 shopSelectItem 恰等门与意图收尾', () => {\n  it('cash===price 恰等可进 confirm；差 1 拒绝；空列表拒绝', () => {\n    const state = createBuyMenu(ITEMS)\n    state.list.cursor = 0\n    expect(shopSelectItem(state, ITEMS, 150)).toBe(true) // 恰等\n    expect(state.phase).toBe('confirm')\n    expect(state.selectedItemId).toBe(105)\n    expect(shopConfirm(state)).toEqual({ itemId: 105, mode: 'buy', yes: false })\n    expect(state.phase).toBe('list')\n    expect(state.selectedItemId).toBeUndefined()\n\n    state.list.cursor = 0\n    expect(shopSelectItem(state, ITEMS, 149)).toBe(false) // 差 1\n    expect(state.phase).toBe('list')\n\n    expect(shopSelectItem(createBuyMenu([]), [], 999)).toBe(false)\n  })\n  it('confirm 期方向键 toggle；确认后 No 意图与收尾；cancel 分层；状态机零副作用', () => {\n    const state = createBuyMenu(ITEMS)\n    const catalogBefore = structuredClone(ITEMS)\n    state.list.cursor = 1\n    shopSelectItem(state, ITEMS, 500)\n    shopMoveUp(state) // confirm 期 toggle → yes\n    expect(state.confirmYes).toBe(true)\n    shopMoveUp(state) // 再 toggle → no\n    expect(state.confirmYes).toBe(false)\n    expect(shopConfirm(state)).toEqual({ itemId: 110, mode: 'buy', yes: false })\n    // cancel 分层：confirm → back；list → close\n    state.list.cursor = 0\n    shopSelectItem(state, ITEMS, 500)\n    expect(shopCancel(state)).toBe('back')\n    expect(shopCancel(state)).toBe('close')\n    // 纯状态机：多次进出 confirm 后 items 目录与列表内容不变\n    expect(ITEMS).toEqual(catalogBefore)\n    expect(state.list.items.map((entry) => entry.rightText)).toEqual(['150', '200'])\n  })\n})\n",
+          "to": "import { describe } from \"vitest\"\nimport { expect } from \"vitest\"\nimport { it } from \"vitest\"\nimport { inventoryItem } from \"./__tests__/inventory-fixture.js\"\nimport { affordabilityItems } from \"./__tests__/trading-fixture.js\"\nimport { buyFlowItems } from \"./__tests__/trading-fixture.js\"\nimport { createBuyMenu } from \"./shop-menu.js\"\nimport { shopCancel } from \"./shop-menu.js\"\nimport { shopConfirm } from \"./shop-menu.js\"\nimport { shopMoveDown } from \"./shop-menu.js\"\nimport { shopMoveUp } from \"./shop-menu.js\"\nimport { shopSelectItem } from \"./shop-menu.js\"\nimport { type AbstractKey } from \"@type-pal/shared\"\nimport { type Command } from \"@type-pal/shared\"\nimport { type InputSnapshot } from \"@type-pal/shared\"\nimport { afterEach } from \"vitest\"\nimport { assert } from \"vitest\"\nimport { beforeEach } from \"vitest\"\nimport { buildLabelMap } from \"../event-system.js\"\nimport { OP_BUY_MENU } from \"../event-system.js\"\nimport { setShopMenuHandler } from \"../event-system.js\"\nimport { tickEventSystem } from \"../event-system.js\"\nimport { createInitialGameState } from \"../game-state.js\"\nimport { type GameState } from \"../game-state.js\"\nimport { dispatchMenuInput } from \"./menu-driver.js\"\nimport { setMenuCatalogs } from \"./menu-driver.js\"\nimport { openMenu } from \"./menu-mode.js\"\nimport { tickMenu } from \"./menu-mode.js\"\nimport { createSellMenu } from \"./sell-menu.js\"\nimport { refreshInventoryItems } from \"./__tests__/trading-fixture.js\"\nimport { sellableInventoryItems } from \"./__tests__/trading-fixture.js\"\nimport { singleSaleItems } from \"./__tests__/trading-fixture.js\"\nimport { refreshSellGrid } from \"./sell-menu.js\"\nimport { sellCancel } from \"./sell-menu.js\"\nimport { sellConfirm } from \"./sell-menu.js\"\nimport { sellEnd } from \"./sell-menu.js\"\nimport { sellHome } from \"./sell-menu.js\"\nimport { sellMoveDown } from \"./sell-menu.js\"\nimport { sellMoveLeft } from \"./sell-menu.js\"\nimport { sellMoveRight } from \"./sell-menu.js\"\nimport { sellMoveUp } from \"./sell-menu.js\"\nimport { sellPageDown } from \"./sell-menu.js\"\nimport { sellPageUp } from \"./sell-menu.js\"\nimport { sellSelectItem } from \"./sell-menu.js\"\nfunction inputSnapshot(pressed: AbstractKey[] = []): InputSnapshot {\n  return { held: new Set(), pressed: new Set(pressed), frameNum: 0 }\n}\nfunction loadEvent(gs: GameState, commands: Command[]): void {\n  gs.eventCursor = { commands, labelMap: buildLabelMap(commands), ip: 0 }\n  gs.mode = 'event'\n}\nfunction saleGameState(\n  inventory: Array<{ itemId: number; count: number; inUse?: number }>,\n): GameState {\n  const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n  gs.inventory = inventory\n  return gs\n}\ndescribe('Buy menu state and affordability', () => {\n  describe('Purchase selection, confirmation and cancel', () => {\n  })\n  describe('Affordability and catalog ownership', () => {\n    it('cash===price 恰等可进 confirm；差 1 拒绝；空列表拒绝', () => {\n      const state = createBuyMenu(affordabilityItems)\n      state.list.cursor = 0\n      expect(shopSelectItem(state, affordabilityItems, 150)).toBe(true) // 恰等\n      expect(state.phase).toBe('confirm')\n      expect(state.selectedItemId).toBe(105)\n      expect(shopConfirm(state)).toEqual({ itemId: 105, mode: 'buy', yes: false })\n      expect(state.phase).toBe('list')\n      expect(state.selectedItemId).toBeUndefined()\n\n      state.list.cursor = 0\n      expect(shopSelectItem(state, affordabilityItems, 149)).toBe(false) // 差 1\n      expect(state.phase).toBe('list')\n\n      expect(shopSelectItem(createBuyMenu([]), [], 999)).toBe(false)\n    })\n    it('confirm 期方向键 toggle；确认后 No 意图与收尾；cancel 分层；状态机零副作用', () => {\n      const state = createBuyMenu(affordabilityItems)\n      const catalogBefore = structuredClone(affordabilityItems)\n      state.list.cursor = 1\n      shopSelectItem(state, affordabilityItems, 500)\n      shopMoveUp(state) // confirm 期 toggle → yes\n      expect(state.confirmYes).toBe(true)\n      shopMoveUp(state) // 再 toggle → no\n      expect(state.confirmYes).toBe(false)\n      expect(shopConfirm(state)).toEqual({ itemId: 110, mode: 'buy', yes: false })\n      // cancel 分层：confirm → back；list → close\n      state.list.cursor = 0\n      shopSelectItem(state, affordabilityItems, 500)\n      expect(shopCancel(state)).toBe('back')\n      expect(shopCancel(state)).toBe('close')\n      // 纯状态机：多次进出 confirm 后 items 目录与列表内容不变\n      expect(affordabilityItems).toEqual(catalogBefore)\n      expect(state.list.items.map((entry) => entry.rightText)).toEqual(['150', '200'])\n    })\n  })\n  describe('List metadata and defensive requests', () => {\n  })\n})\ndescribe('Shop script and transaction flow', () => {\n  let gs: GameState\n  let buyMenu: ReturnType<typeof createBuyMenu> | undefined\n\n  beforeEach(() => {\n    setMenuCatalogs({ items: buyFlowItems, spells: [], magics: [], playerRoles: { roles: [] } })\n    // 模拟 bootstrap 的 setShopMenuHandler:buy 开 shop-buy 菜单\n    setShopMenuHandler(({ gs: g, mode }) => {\n      if (mode === 'buy') {\n        buyMenu = createBuyMenu(buyFlowItems)\n        openMenu(g, { kind: 'shop-buy', state: buyMenu })\n      } else openMenu(g, { kind: 'shop-sell', state: createSellMenu(g, buyFlowItems) })\n    })\n    gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.dwCash = 1000\n  })\n  afterEach(() => {\n    buyMenu = undefined\n    setShopMenuHandler(null)\n    setMenuCatalogs({ items: [], spells: [], magics: [], playerRoles: { roles: [] } })\n  })\n})\ndescribe('Sell grid state and intent', () => {\n  describe('List selection, confirmation and grid navigation', () => {\n  })\n  describe('Availability and snapshot refresh', () => {\n  })\n  describe('Empty and repeated requests', () => {\n  })\n})",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/core/menu/shop-menu.glm-phase1-leaves.test.ts",
+      "changes": [
+        {
+          "from": "/**\n * TEST-GLM-PHASE1-LEAVES-3 L05（shop-menu.ts）— 去重表：\n *  - shop-menu.test（列表/买得起门/confirm toggle/意图返回/cancel 分层/0x0026 调用链）→ 不重复\n *  - shop-menu.boundaries.test（cash===price 恰等/差 1/空列表/No 意图收尾/零副作用）→ 不重复\n *  - 新差异：缺 _name 的 label 回退 ?id、pageSize 固定 8、错相 shopSelectItem 零请求、\n *    买目录缺 item 的 no-op（!item 分支）、list 相 shopConfirm null。\n * 只测状态机意图；cash 扣/入包由 dispatcher 做（现有 event 调用链测试已证，不重复）。\n */\nimport type { Item } from '@type-pal/shared'\nimport { describe, expect, it } from 'vitest'\nimport { createBuyMenu, shopConfirm, shopSelectItem } from './shop-menu.js'\n\nfunction mkItem(id: number, price: number, name: string | undefined): Item {\n  return {\n    id,\n    _name: name,\n    bitmap: 0,\n    price,\n    scriptOnUse: 0,\n    scriptOnEquip: 0,\n    scriptOnThrow: 0,\n    scriptDesc: 0,\n    flags: {\n      usable: false,\n      equipable: false,\n      throwable: false,\n      consuming: false,\n      applyToAll: false,\n      sellable: true,\n      equipableBy: [false, false, false, false, false, false],\n    },\n  }\n}\n\ndescribe('L05 shop-menu 剩余合同', () => {\n  it('缺 _name 的店铺物品 → label 回退 ?<id>；买菜单 pageSize 固定 8', () => {\n    const s = createBuyMenu([mkItem(400, 50, undefined)])\n    expect(s.list.items[0]?.label).toBe('?400')\n    expect(s.list.items[0]?.rightText).toBe('50')\n    expect(s.list.pageSize).toBe(8)\n    expect(s.mode).toBe('buy')\n  })\n\n  it('错相 shopSelectItem 零请求；买目录缺该 item → no-op 留 list', () => {\n    const items = [mkItem(401, 10, '草药')]\n    const s = createBuyMenu(items)\n    // 直造 confirm 相（防御分支可达性同 boundaries 惯例）\n    s.phase = 'confirm'\n    expect(shopSelectItem(s, items, 999)).toBe(false)\n    s.phase = 'list'\n    s.list.items[0]!.id = 777 // 光标项不在目录（find undefined 分支）\n    expect(shopSelectItem(s, items, 999)).toBe(false)\n    expect(s.phase).toBe('list')\n    expect(s.selectedItemId).toBeUndefined()\n  })\n\n  it('list 相 shopConfirm → null（未进 confirm 无意图）', () => {\n    expect(shopConfirm(createBuyMenu([]))).toBeNull()\n  })\n})\n",
+          "to": "import { describe } from \"vitest\"\nimport { expect } from \"vitest\"\nimport { it } from \"vitest\"\nimport { inventoryItem } from \"./__tests__/inventory-fixture.js\"\nimport { affordabilityItems } from \"./__tests__/trading-fixture.js\"\nimport { buyFlowItems } from \"./__tests__/trading-fixture.js\"\nimport { createBuyMenu } from \"./shop-menu.js\"\nimport { shopCancel } from \"./shop-menu.js\"\nimport { shopConfirm } from \"./shop-menu.js\"\nimport { shopMoveDown } from \"./shop-menu.js\"\nimport { shopMoveUp } from \"./shop-menu.js\"\nimport { shopSelectItem } from \"./shop-menu.js\"\nimport { type AbstractKey } from \"@type-pal/shared\"\nimport { type Command } from \"@type-pal/shared\"\nimport { type InputSnapshot } from \"@type-pal/shared\"\nimport { afterEach } from \"vitest\"\nimport { assert } from \"vitest\"\nimport { beforeEach } from \"vitest\"\nimport { buildLabelMap } from \"../event-system.js\"\nimport { OP_BUY_MENU } from \"../event-system.js\"\nimport { setShopMenuHandler } from \"../event-system.js\"\nimport { tickEventSystem } from \"../event-system.js\"\nimport { createInitialGameState } from \"../game-state.js\"\nimport { type GameState } from \"../game-state.js\"\nimport { dispatchMenuInput } from \"./menu-driver.js\"\nimport { setMenuCatalogs } from \"./menu-driver.js\"\nimport { openMenu } from \"./menu-mode.js\"\nimport { tickMenu } from \"./menu-mode.js\"\nimport { createSellMenu } from \"./sell-menu.js\"\nimport { refreshInventoryItems } from \"./__tests__/trading-fixture.js\"\nimport { sellableInventoryItems } from \"./__tests__/trading-fixture.js\"\nimport { singleSaleItems } from \"./__tests__/trading-fixture.js\"\nimport { refreshSellGrid } from \"./sell-menu.js\"\nimport { sellCancel } from \"./sell-menu.js\"\nimport { sellConfirm } from \"./sell-menu.js\"\nimport { sellEnd } from \"./sell-menu.js\"\nimport { sellHome } from \"./sell-menu.js\"\nimport { sellMoveDown } from \"./sell-menu.js\"\nimport { sellMoveLeft } from \"./sell-menu.js\"\nimport { sellMoveRight } from \"./sell-menu.js\"\nimport { sellMoveUp } from \"./sell-menu.js\"\nimport { sellPageDown } from \"./sell-menu.js\"\nimport { sellPageUp } from \"./sell-menu.js\"\nimport { sellSelectItem } from \"./sell-menu.js\"\nfunction inputSnapshot(pressed: AbstractKey[] = []): InputSnapshot {\n  return { held: new Set(), pressed: new Set(pressed), frameNum: 0 }\n}\nfunction loadEvent(gs: GameState, commands: Command[]): void {\n  gs.eventCursor = { commands, labelMap: buildLabelMap(commands), ip: 0 }\n  gs.mode = 'event'\n}\nfunction saleGameState(\n  inventory: Array<{ itemId: number; count: number; inUse?: number }>,\n): GameState {\n  const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n  gs.inventory = inventory\n  return gs\n}\ndescribe('Buy menu state and affordability', () => {\n  describe('Purchase selection, confirmation and cancel', () => {\n  })\n  describe('Affordability and catalog ownership', () => {\n  })\n  describe('List metadata and defensive requests', () => {\n    it('缺 _name 的店铺物品 → label 回退 ?<id>；买菜单 pageSize 固定 8', () => {\n      const menu = createBuyMenu([\n        {\n          ...inventoryItem(105, { bitmap: 0, price: 50, flags: { sellable: true } }),\n          _name: undefined,\n        },\n      ])\n      expect(menu.list.items[0]?.label).toBe('?105')\n      expect(menu.list.items[0]?.rightText).toBe('50')\n      expect(menu.list.pageSize).toBe(8)\n      expect(menu.mode).toBe('buy')\n    })\n\n    it('错相 shopSelectItem 零请求；买目录缺该 item → no-op 留 list', () => {\n      const items = [\n        inventoryItem(106, { name: '草药', bitmap: 0, price: 10, flags: { sellable: true } }),\n      ]\n      const menu = createBuyMenu(items)\n      // 直造 confirm 相（防御分支可达性同 boundaries 惯例）\n      menu.phase = 'confirm'\n      expect(shopSelectItem(menu, items, 999)).toBe(false)\n      menu.phase = 'list'\n      menu.list.items[0]!.id = 777 // 光标项不在目录（find undefined 分支）\n      expect(shopSelectItem(menu, items, 999)).toBe(false)\n      expect(menu.phase).toBe('list')\n      expect(menu.selectedItemId).toBeUndefined()\n    })\n\n    it('list 相 shopConfirm → null（未进 confirm 无意图）', () => {\n      expect(shopConfirm(createBuyMenu([]))).toBeNull()\n    })\n  })\n})\ndescribe('Shop script and transaction flow', () => {\n  let gs: GameState\n  let buyMenu: ReturnType<typeof createBuyMenu> | undefined\n\n  beforeEach(() => {\n    setMenuCatalogs({ items: buyFlowItems, spells: [], magics: [], playerRoles: { roles: [] } })\n    // 模拟 bootstrap 的 setShopMenuHandler:buy 开 shop-buy 菜单\n    setShopMenuHandler(({ gs: g, mode }) => {\n      if (mode === 'buy') {\n        buyMenu = createBuyMenu(buyFlowItems)\n        openMenu(g, { kind: 'shop-buy', state: buyMenu })\n      } else openMenu(g, { kind: 'shop-sell', state: createSellMenu(g, buyFlowItems) })\n    })\n    gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.dwCash = 1000\n  })\n  afterEach(() => {\n    buyMenu = undefined\n    setShopMenuHandler(null)\n    setMenuCatalogs({ items: [], spells: [], magics: [], playerRoles: { roles: [] } })\n  })\n})\ndescribe('Sell grid state and intent', () => {\n  describe('List selection, confirmation and grid navigation', () => {\n  })\n  describe('Availability and snapshot refresh', () => {\n  })\n  describe('Empty and repeated requests', () => {\n  })\n})",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/core/menu/sell-menu.test.ts",
+      "changes": [
+        {
+          "from": "/**\n * 全屏卖菜单状态机测试 — sdlpal `uigame.c:1755 PAL_SellMenu` → `PAL_ItemSelectMenu(kItemFlagSellable)`。\n * C9(2026-06-02):卖菜单由紧凑布局补成全屏 picker(复用 InventoryMenu grid)。\n */\nimport type { Item, ItemFlags } from '@type-pal/shared'\nimport { describe, expect, it } from 'vitest'\nimport { createInitialGameState, type GameState } from '../game-state.js'\nimport {\n  createSellMenu,\n  refreshSellGrid,\n  sellCancel,\n  sellConfirm,\n  sellMoveDown,\n  sellMoveLeft,\n  sellMoveRight,\n  sellMoveUp,\n  sellSelectItem,\n} from './sell-menu.js'\n\nfunction flags(over: Partial<ItemFlags> = {}): ItemFlags {\n  return {\n    usable: false,\n    equipable: false,\n    throwable: false,\n    consuming: false,\n    applyToAll: false,\n    sellable: false,\n    equipableBy: [false, false, false, false, false, false],\n    ...over,\n  }\n}\n\nfunction mkItem(id: number, price: number, over: Partial<Item> = {}): Item {\n  return {\n    id,\n    _name: `item${id}`,\n    bitmap: id,\n    price,\n    scriptOnUse: 0,\n    scriptOnEquip: 0,\n    scriptOnThrow: 0,\n    scriptDesc: 0,\n    flags: flags(),\n    ...over,\n  }\n}\n\n// 87 不可卖;105/110 可卖(price 50/100 → 售价 25/50)\nconst CATALOG: Item[] = [\n  mkItem(87, 100),\n  mkItem(105, 50, { flags: flags({ sellable: true }) }),\n  mkItem(110, 100, { flags: flags({ sellable: true }) }),\n]\n\nfunction gsWith(inv: { itemId: number; count: number }[]): GameState {\n  const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n  gs.inventory = inv\n  return gs\n}\n\ndescribe('sell-menu 全屏状态机(sdlpal PAL_SellMenu → PAL_ItemSelectMenu kItemFlagSellable)', () => {\n  it('createSellMenu:grid 含全部库存(sdlpal 全显示)，保留不可卖项与 sellable filter', () => {\n    // sdlpal PAL_ItemSelectMenuInit(itemmenu.c:331-377)不按 kItemFlagSellable 过滤;87 照样列出,\n    // 只是 PAL_ItemSelectMenuUpdate 把不可卖项画成 INACTIVE 红色,确认时 itemmenu.c:289 no-op。\n    const gs = gsWith([\n      { itemId: 87, count: 1 },\n      { itemId: 105, count: 2 },\n      { itemId: 110, count: 1 },\n    ])\n    const s = createSellMenu(gs, CATALOG)\n    expect(s.phase).toBe('list')\n    expect(s.grid.filter).toBe('sellable')\n    expect(s.grid.inventory.map((e) => e.itemId)).toEqual([87, 105, 110]) // 87 不可卖仍显示(红色)\n    expect(s.confirmYes).toBe(false)\n  })\n\n  it('sellSelectItem:选中 sellable cursor → 进 confirm，每轮默认 No', () => {\n    const gs = gsWith([{ itemId: 105, count: 2 }])\n    const s = createSellMenu(gs, CATALOG)\n    expect(sellSelectItem(s, CATALOG)).toBe(true)\n    expect(s.phase).toBe('confirm')\n    expect(s.selectedItemId).toBe(105)\n    expect(s.confirmYes).toBe(false)\n    sellMoveDown(s)\n    expect(sellConfirm(s)).toEqual({ itemId: 105, yes: true })\n    expect(sellSelectItem(s, CATALOG)).toBe(true)\n    expect(s.confirmYes).toBe(false)\n  })\n\n  it('sellSelectItem:光标停在非可卖项(87,红色)→ 不进 confirm,留 list', () => {\n    const gs = gsWith([{ itemId: 87, count: 3 }]) // 87 不可卖 — 列表仍显示(红色)\n    const s = createSellMenu(gs, CATALOG)\n    expect(s.grid.inventory.map((e) => e.itemId)).toEqual([87]) // 全显示,不被滤\n    expect(sellSelectItem(s, CATALOG)).toBe(false) // 确认非可卖项 no-op(itemmenu.c:289)\n    expect(s.phase).toBe('list')\n  })\n\n  it('grid 导航 right 跨列且末项 clamp', () => {\n    const gs = gsWith([\n      { itemId: 105, count: 2 },\n      { itemId: 110, count: 1 },\n    ])\n    const s = createSellMenu(gs, CATALOG)\n    sellMoveRight(s)\n    expect(s.grid.cursor).toBe(1) // 105 → 110\n    sellMoveRight(s)\n    expect(s.grid.cursor).toBe(1) // clamp(只 2 项)\n  })\n\n  it('confirm 期四方向键只 toggle yes/no，不移动 grid', () => {\n    for (const move of [sellMoveUp, sellMoveDown, sellMoveLeft, sellMoveRight]) {\n      const s = createSellMenu(gsWith([{ itemId: 105, count: 2 }]), CATALOG)\n      expect(sellSelectItem(s, CATALOG)).toBe(true)\n      move(s)\n      expect(s.confirmYes).toBe(true)\n      move(s)\n      expect(s.confirmYes).toBe(false)\n      expect(s.grid.cursor).toBe(0)\n    }\n  })\n\n  it('sellConfirm yes → 仅返回意图并回 list，实际 cash/inventory 由 caller 持有', () => {\n    const gs = gsWith([{ itemId: 110, count: 1 }])\n    gs.dwCash = 50\n    const inventoryBefore = structuredClone(gs.inventory)\n    const s = createSellMenu(gs, CATALOG)\n    sellSelectItem(s, CATALOG)\n    sellMoveDown(s) // yes\n    const r = sellConfirm(s)\n    expect(r).toEqual({ itemId: 110, yes: true })\n    expect(s.phase).toBe('list')\n    expect(s.selectedItemId).toBeUndefined()\n    expect(gs.dwCash).toBe(50)\n    expect(gs.inventory).toEqual(inventoryBefore)\n  })\n\n  it('sellCancel confirm→back 清选择，list→close，实际库存不变', () => {\n    const gs = gsWith([{ itemId: 110, count: 1 }])\n    const s = createSellMenu(gs, CATALOG)\n    expect(sellSelectItem(s, CATALOG)).toBe(true)\n    expect(sellCancel(s)).toBe('back')\n    expect(s.phase).toBe('list')\n    expect(s.selectedItemId).toBeUndefined()\n    expect(sellCancel(s)).toBe('close')\n    expect(gs.inventory).toEqual([{ itemId: 110, count: 1 }])\n  })\n\n  it('refreshSellGrid:卖光物品后 grid 缩短 + cursor clamp(sdlpal while 每轮重跑)', () => {\n    const gs = gsWith([\n      { itemId: 105, count: 1 },\n      { itemId: 110, count: 1 },\n    ])\n    const s = createSellMenu(gs, CATALOG)\n    sellMoveRight(s) // cursor → 1 (110)\n    // 模拟卖掉 110(从 inventory 移除)\n    gs.inventory = [{ itemId: 105, count: 1 }]\n    refreshSellGrid(s, gs, CATALOG)\n    expect(s.grid.inventory.map((e) => e.itemId)).toEqual([105])\n    expect(s.grid.cursor).toBe(0) // clamp 到新列表末\n  })\n})\n",
+          "to": "import { describe } from \"vitest\"\nimport { expect } from \"vitest\"\nimport { it } from \"vitest\"\nimport { inventoryItem } from \"./__tests__/inventory-fixture.js\"\nimport { affordabilityItems } from \"./__tests__/trading-fixture.js\"\nimport { buyFlowItems } from \"./__tests__/trading-fixture.js\"\nimport { createBuyMenu } from \"./shop-menu.js\"\nimport { shopCancel } from \"./shop-menu.js\"\nimport { shopConfirm } from \"./shop-menu.js\"\nimport { shopMoveDown } from \"./shop-menu.js\"\nimport { shopMoveUp } from \"./shop-menu.js\"\nimport { shopSelectItem } from \"./shop-menu.js\"\nimport { type AbstractKey } from \"@type-pal/shared\"\nimport { type Command } from \"@type-pal/shared\"\nimport { type InputSnapshot } from \"@type-pal/shared\"\nimport { afterEach } from \"vitest\"\nimport { assert } from \"vitest\"\nimport { beforeEach } from \"vitest\"\nimport { buildLabelMap } from \"../event-system.js\"\nimport { OP_BUY_MENU } from \"../event-system.js\"\nimport { setShopMenuHandler } from \"../event-system.js\"\nimport { tickEventSystem } from \"../event-system.js\"\nimport { createInitialGameState } from \"../game-state.js\"\nimport { type GameState } from \"../game-state.js\"\nimport { dispatchMenuInput } from \"./menu-driver.js\"\nimport { setMenuCatalogs } from \"./menu-driver.js\"\nimport { openMenu } from \"./menu-mode.js\"\nimport { tickMenu } from \"./menu-mode.js\"\nimport { createSellMenu } from \"./sell-menu.js\"\nimport { refreshInventoryItems } from \"./__tests__/trading-fixture.js\"\nimport { sellableInventoryItems } from \"./__tests__/trading-fixture.js\"\nimport { singleSaleItems } from \"./__tests__/trading-fixture.js\"\nimport { refreshSellGrid } from \"./sell-menu.js\"\nimport { sellCancel } from \"./sell-menu.js\"\nimport { sellConfirm } from \"./sell-menu.js\"\nimport { sellEnd } from \"./sell-menu.js\"\nimport { sellHome } from \"./sell-menu.js\"\nimport { sellMoveDown } from \"./sell-menu.js\"\nimport { sellMoveLeft } from \"./sell-menu.js\"\nimport { sellMoveRight } from \"./sell-menu.js\"\nimport { sellMoveUp } from \"./sell-menu.js\"\nimport { sellPageDown } from \"./sell-menu.js\"\nimport { sellPageUp } from \"./sell-menu.js\"\nimport { sellSelectItem } from \"./sell-menu.js\"\nfunction inputSnapshot(pressed: AbstractKey[] = []): InputSnapshot {\n  return { held: new Set(), pressed: new Set(pressed), frameNum: 0 }\n}\nfunction loadEvent(gs: GameState, commands: Command[]): void {\n  gs.eventCursor = { commands, labelMap: buildLabelMap(commands), ip: 0 }\n  gs.mode = 'event'\n}\nfunction saleGameState(\n  inventory: Array<{ itemId: number; count: number; inUse?: number }>,\n): GameState {\n  const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n  gs.inventory = inventory\n  return gs\n}\ndescribe('Buy menu state and affordability', () => {\n  describe('Purchase selection, confirmation and cancel', () => {\n  })\n  describe('Affordability and catalog ownership', () => {\n  })\n  describe('List metadata and defensive requests', () => {\n  })\n})\ndescribe('Shop script and transaction flow', () => {\n  let gs: GameState\n  let buyMenu: ReturnType<typeof createBuyMenu> | undefined\n\n  beforeEach(() => {\n    setMenuCatalogs({ items: buyFlowItems, spells: [], magics: [], playerRoles: { roles: [] } })\n    // 模拟 bootstrap 的 setShopMenuHandler:buy 开 shop-buy 菜单\n    setShopMenuHandler(({ gs: g, mode }) => {\n      if (mode === 'buy') {\n        buyMenu = createBuyMenu(buyFlowItems)\n        openMenu(g, { kind: 'shop-buy', state: buyMenu })\n      } else openMenu(g, { kind: 'shop-sell', state: createSellMenu(g, buyFlowItems) })\n    })\n    gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.dwCash = 1000\n  })\n  afterEach(() => {\n    buyMenu = undefined\n    setShopMenuHandler(null)\n    setMenuCatalogs({ items: [], spells: [], magics: [], playerRoles: { roles: [] } })\n  })\n})\ndescribe('Sell grid state and intent', () => {\n  describe('List selection, confirmation and grid navigation', () => {\n    it('createSellMenu:grid 含全部库存(sdlpal 全显示)，保留不可卖项与 sellable filter', () => {\n      // sdlpal PAL_ItemSelectMenuInit(itemmenu.c:331-377)不按 kItemFlagSellable 过滤;87 照样列出,\n      // 只是 PAL_ItemSelectMenuUpdate 把不可卖项画成 INACTIVE 红色,确认时 itemmenu.c:289 no-op。\n      const gs = saleGameState([\n        { itemId: 87, count: 1 },\n        { itemId: 105, count: 2 },\n        { itemId: 110, count: 1 },\n      ])\n      const menu = createSellMenu(gs, sellableInventoryItems)\n      expect(menu.phase).toBe('list')\n      expect(menu.grid.filter).toBe('sellable')\n      expect(menu.grid.inventory.map((e) => e.itemId)).toEqual([87, 105, 110]) // 87 不可卖仍显示(红色)\n      expect(menu.confirmYes).toBe(false)\n    })\n\n    it('sellSelectItem:选中 sellable cursor → 进 confirm，每轮默认 No', () => {\n      const gs = saleGameState([{ itemId: 105, count: 2 }])\n      const menu = createSellMenu(gs, sellableInventoryItems)\n      expect(sellSelectItem(menu, sellableInventoryItems)).toBe(true)\n      expect(menu.phase).toBe('confirm')\n      expect(menu.selectedItemId).toBe(105)\n      expect(menu.confirmYes).toBe(false)\n      sellMoveDown(menu)\n      expect(sellConfirm(menu)).toEqual({ itemId: 105, yes: true })\n      expect(sellSelectItem(menu, sellableInventoryItems)).toBe(true)\n      expect(menu.confirmYes).toBe(false)\n    })\n\n    it('sellSelectItem:光标停在非可卖项(87,红色)→ 不进 confirm,留 list', () => {\n      const gs = saleGameState([{ itemId: 87, count: 3 }]) // 87 不可卖 — 列表仍显示(红色)\n      const menu = createSellMenu(gs, sellableInventoryItems)\n      expect(menu.grid.inventory.map((e) => e.itemId)).toEqual([87]) // 全显示,不被滤\n      expect(sellSelectItem(menu, sellableInventoryItems)).toBe(false) // 确认非可卖项 no-op(itemmenu.c:289)\n      expect(menu.phase).toBe('list')\n    })\n\n    it('grid 导航 right 跨列且末项 clamp', () => {\n      const gs = saleGameState([\n        { itemId: 105, count: 2 },\n        { itemId: 110, count: 1 },\n      ])\n      const menu = createSellMenu(gs, sellableInventoryItems)\n      sellMoveRight(menu)\n      expect(menu.grid.cursor).toBe(1) // 105 → 110\n      sellMoveRight(menu)\n      expect(menu.grid.cursor).toBe(1) // clamp(只 2 项)\n    })\n\n    it('confirm 期四方向键只 toggle yes/no，不移动 grid', () => {\n      for (const move of [sellMoveUp, sellMoveDown, sellMoveLeft, sellMoveRight]) {\n        const menu = createSellMenu(\n          saleGameState([{ itemId: 105, count: 2 }]),\n          sellableInventoryItems,\n        )\n        expect(sellSelectItem(menu, sellableInventoryItems)).toBe(true)\n        move(menu)\n        expect(menu.confirmYes).toBe(true)\n        move(menu)\n        expect(menu.confirmYes).toBe(false)\n        expect(menu.grid.cursor).toBe(0)\n      }\n    })\n\n    it('sellConfirm yes → 仅返回意图并回 list，实际 cash/inventory 由 caller 持有', () => {\n      const gs = saleGameState([{ itemId: 110, count: 1 }])\n      gs.dwCash = 50\n      const inventoryBefore = structuredClone(gs.inventory)\n      const menu = createSellMenu(gs, sellableInventoryItems)\n      sellSelectItem(menu, sellableInventoryItems)\n      sellMoveDown(menu) // yes\n      const r = sellConfirm(menu)\n      expect(r).toEqual({ itemId: 110, yes: true })\n      expect(menu.phase).toBe('list')\n      expect(menu.selectedItemId).toBeUndefined()\n      expect(gs.dwCash).toBe(50)\n      expect(gs.inventory).toEqual(inventoryBefore)\n    })\n\n    it('sellCancel confirm→back 清选择，list→close，实际库存不变', () => {\n      const gs = saleGameState([{ itemId: 110, count: 1 }])\n      const menu = createSellMenu(gs, sellableInventoryItems)\n      expect(sellSelectItem(menu, sellableInventoryItems)).toBe(true)\n      expect(sellCancel(menu)).toBe('back')\n      expect(menu.phase).toBe('list')\n      expect(menu.selectedItemId).toBeUndefined()\n      expect(sellCancel(menu)).toBe('close')\n      expect(gs.inventory).toEqual([{ itemId: 110, count: 1 }])\n    })\n\n    it('refreshSellGrid:卖光物品后 grid 缩短 + cursor clamp(sdlpal while 每轮重跑)', () => {\n      const gs = saleGameState([\n        { itemId: 105, count: 1 },\n        { itemId: 110, count: 1 },\n      ])\n      const menu = createSellMenu(gs, sellableInventoryItems)\n      sellMoveRight(menu) // cursor → 1 (110)\n      // 模拟卖掉 110(从 inventory 移除)\n      gs.inventory = [{ itemId: 105, count: 1 }]\n      refreshSellGrid(menu, gs, sellableInventoryItems)\n      expect(menu.grid.inventory.map((e) => e.itemId)).toEqual([105])\n      expect(menu.grid.cursor).toBe(0) // clamp 到新列表末\n    })\n  })\n  describe('Availability and snapshot refresh', () => {\n  })\n  describe('Empty and repeated requests', () => {\n  })\n})",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/core/menu/sell-menu.boundaries.test.ts",
+      "changes": [
+        {
+          "from": "/**\n * TEST-GAME-MENU-BOUNDARIES-1 G07：sell-menu 确认门与刷新（sell-menu.ts）。\n * 既有 sell-menu.test（状态机层）已覆盖门/导航/刷新 clamp 主干——不重复。\n * 本文件：inUse 耗尽拒绝、confirm 期 Page/Home/End 不改 grid、刷新空/等长/增表精确\n * cursor 与内容且不别名实际库存、sellConfirm/sellCancel 状态收尾。\n */\nimport type { Item } from '@type-pal/shared'\nimport { describe, expect, it } from 'vitest'\nimport { createInitialGameState } from '../game-state.js'\nimport {\n  createSellMenu,\n  refreshSellGrid,\n  sellConfirm,\n  sellEnd,\n  sellHome,\n  sellPageDown,\n  sellPageUp,\n  sellSelectItem,\n} from './sell-menu.js'\n\nfunction mkItem(id: number, flagsPart: Partial<Item['flags']>): Item {\n  return {\n    id,\n    bitmap: id,\n    price: 100,\n    scriptOnUse: 0,\n    scriptOnEquip: 0,\n    scriptOnThrow: 0,\n    scriptDesc: 0,\n    flags: {\n      usable: false,\n      equipable: false,\n      throwable: false,\n      consuming: false,\n      applyToAll: false,\n      sellable: true,\n      equipableBy: [false, false, false, false, false, false],\n      ...flagsPart,\n    },\n    _name: `item-${id}`,\n  }\n}\n\n// 合成 typed catalog 使用真实物品 OBJECT id；此处只验证菜单合同，不宣称原始价格/flag。\nconst ITEMS = [mkItem(105, {}), mkItem(87, { sellable: false }), mkItem(110, {})]\n\nfunction gsWith(inventory: Array<{ itemId: number; count: number; inUse?: number }>) {\n  const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n  gs.inventory = inventory\n  return gs\n}\n\ndescribe('G07 sellSelectItem 确认门与 confirm 期导航', () => {\n  it('inUse 耗尽拒绝；少占用正控进 confirm 并返回 No 意图', () => {\n    const gs = gsWith([\n      { itemId: 105, count: 3, inUse: 3 }, // 耗尽\n      { itemId: 110, count: 2, inUse: 1 }, // 少占用\n    ])\n    const state = createSellMenu(gs, ITEMS)\n    state.grid.cursor = 0\n    expect(sellSelectItem(state, ITEMS)).toBe(false) // count===inUse 拒绝\n    expect(state.phase).toBe('list')\n    state.grid.cursor = 1\n    expect(sellSelectItem(state, ITEMS)).toBe(true)\n    expect(state.phase).toBe('confirm')\n    expect(state.confirmYes).toBe(false) // 默认 No\n    expect(state.selectedItemId).toBe(110)\n    // 确认 → 意图并回 list 收尾\n    expect(sellConfirm(state)).toEqual({ itemId: 110, yes: false })\n    expect(state.phase).toBe('list')\n    expect(state.selectedItemId).toBeUndefined()\n  })\n  it('confirm 期 Page/Home/End 不改 grid 或确认选择', () => {\n    const state = createSellMenu(\n      gsWith([\n        { itemId: 105, count: 1 },\n        { itemId: 110, count: 1 },\n      ]),\n      ITEMS,\n    )\n    state.grid.cursor = 1\n    expect(sellSelectItem(state, ITEMS)).toBe(true)\n    const before = structuredClone(state)\n    for (const move of [sellPageDown, sellPageUp, sellHome, sellEnd]) {\n      move(state)\n      expect(state).toEqual(before)\n    }\n  })\n  it('等长刷新：保非零 cursor 并更新数量，snapshot 不别名实际库存', () => {\n    const gs = gsWith([\n      { itemId: 105, count: 2 },\n      { itemId: 110, count: 1 },\n    ])\n    const state = createSellMenu(gs, ITEMS)\n    state.grid.cursor = 1\n    // 等长刷新：保 cursor，slot 是新副本\n    gs.inventory[0]!.count = 9\n    refreshSellGrid(state, gs, ITEMS)\n    expect(state.grid.cursor).toBe(1)\n    expect(state.grid.inventory).toHaveLength(2)\n    expect(state.grid.inventory[0]!.count).toBe(9)\n    state.grid.inventory[0]!.count = 7\n    expect(gs.inventory[0]!.count).toBe(9) // 不别名\n  })\n  it('刷新空表：非零 cursor 归 0', () => {\n    const state = createSellMenu(\n      gsWith([\n        { itemId: 105, count: 1 },\n        { itemId: 110, count: 1 },\n      ]),\n      ITEMS,\n    )\n    state.grid.cursor = 1\n    refreshSellGrid(state, gsWith([]), ITEMS)\n    expect(state.grid.inventory).toEqual([])\n    expect(state.grid.cursor).toBe(0)\n  })\n  it('增表刷新：保非零 cursor，不复用 GameState 记忆光标', () => {\n    const state = createSellMenu(\n      gsWith([\n        { itemId: 105, count: 1 },\n        { itemId: 110, count: 1 },\n      ]),\n      ITEMS,\n    )\n    state.grid.cursor = 1\n    const grown = gsWith([\n      { itemId: 105, count: 1 },\n      { itemId: 110, count: 1 },\n      { itemId: 87, count: 1 },\n    ])\n    refreshSellGrid(state, grown, ITEMS)\n    expect(state.grid.inventory.map((slot) => slot.itemId)).toEqual([105, 110, 87])\n    expect(state.grid.cursor).toBe(1)\n  })\n})\n",
+          "to": "import { describe } from \"vitest\"\nimport { expect } from \"vitest\"\nimport { it } from \"vitest\"\nimport { inventoryItem } from \"./__tests__/inventory-fixture.js\"\nimport { affordabilityItems } from \"./__tests__/trading-fixture.js\"\nimport { buyFlowItems } from \"./__tests__/trading-fixture.js\"\nimport { createBuyMenu } from \"./shop-menu.js\"\nimport { shopCancel } from \"./shop-menu.js\"\nimport { shopConfirm } from \"./shop-menu.js\"\nimport { shopMoveDown } from \"./shop-menu.js\"\nimport { shopMoveUp } from \"./shop-menu.js\"\nimport { shopSelectItem } from \"./shop-menu.js\"\nimport { type AbstractKey } from \"@type-pal/shared\"\nimport { type Command } from \"@type-pal/shared\"\nimport { type InputSnapshot } from \"@type-pal/shared\"\nimport { afterEach } from \"vitest\"\nimport { assert } from \"vitest\"\nimport { beforeEach } from \"vitest\"\nimport { buildLabelMap } from \"../event-system.js\"\nimport { OP_BUY_MENU } from \"../event-system.js\"\nimport { setShopMenuHandler } from \"../event-system.js\"\nimport { tickEventSystem } from \"../event-system.js\"\nimport { createInitialGameState } from \"../game-state.js\"\nimport { type GameState } from \"../game-state.js\"\nimport { dispatchMenuInput } from \"./menu-driver.js\"\nimport { setMenuCatalogs } from \"./menu-driver.js\"\nimport { openMenu } from \"./menu-mode.js\"\nimport { tickMenu } from \"./menu-mode.js\"\nimport { createSellMenu } from \"./sell-menu.js\"\nimport { refreshInventoryItems } from \"./__tests__/trading-fixture.js\"\nimport { sellableInventoryItems } from \"./__tests__/trading-fixture.js\"\nimport { singleSaleItems } from \"./__tests__/trading-fixture.js\"\nimport { refreshSellGrid } from \"./sell-menu.js\"\nimport { sellCancel } from \"./sell-menu.js\"\nimport { sellConfirm } from \"./sell-menu.js\"\nimport { sellEnd } from \"./sell-menu.js\"\nimport { sellHome } from \"./sell-menu.js\"\nimport { sellMoveDown } from \"./sell-menu.js\"\nimport { sellMoveLeft } from \"./sell-menu.js\"\nimport { sellMoveRight } from \"./sell-menu.js\"\nimport { sellMoveUp } from \"./sell-menu.js\"\nimport { sellPageDown } from \"./sell-menu.js\"\nimport { sellPageUp } from \"./sell-menu.js\"\nimport { sellSelectItem } from \"./sell-menu.js\"\nfunction inputSnapshot(pressed: AbstractKey[] = []): InputSnapshot {\n  return { held: new Set(), pressed: new Set(pressed), frameNum: 0 }\n}\nfunction loadEvent(gs: GameState, commands: Command[]): void {\n  gs.eventCursor = { commands, labelMap: buildLabelMap(commands), ip: 0 }\n  gs.mode = 'event'\n}\nfunction saleGameState(\n  inventory: Array<{ itemId: number; count: number; inUse?: number }>,\n): GameState {\n  const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n  gs.inventory = inventory\n  return gs\n}\ndescribe('Buy menu state and affordability', () => {\n  describe('Purchase selection, confirmation and cancel', () => {\n  })\n  describe('Affordability and catalog ownership', () => {\n  })\n  describe('List metadata and defensive requests', () => {\n  })\n})\ndescribe('Shop script and transaction flow', () => {\n  let gs: GameState\n  let buyMenu: ReturnType<typeof createBuyMenu> | undefined\n\n  beforeEach(() => {\n    setMenuCatalogs({ items: buyFlowItems, spells: [], magics: [], playerRoles: { roles: [] } })\n    // 模拟 bootstrap 的 setShopMenuHandler:buy 开 shop-buy 菜单\n    setShopMenuHandler(({ gs: g, mode }) => {\n      if (mode === 'buy') {\n        buyMenu = createBuyMenu(buyFlowItems)\n        openMenu(g, { kind: 'shop-buy', state: buyMenu })\n      } else openMenu(g, { kind: 'shop-sell', state: createSellMenu(g, buyFlowItems) })\n    })\n    gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.dwCash = 1000\n  })\n  afterEach(() => {\n    buyMenu = undefined\n    setShopMenuHandler(null)\n    setMenuCatalogs({ items: [], spells: [], magics: [], playerRoles: { roles: [] } })\n  })\n})\ndescribe('Sell grid state and intent', () => {\n  describe('List selection, confirmation and grid navigation', () => {\n  })\n  describe('Availability and snapshot refresh', () => {\n    it('inUse 耗尽拒绝；少占用正控进 confirm 并返回 No 意图', () => {\n      const gs = saleGameState([\n        { itemId: 105, count: 3, inUse: 3 }, // 耗尽\n        { itemId: 110, count: 2, inUse: 1 }, // 少占用\n      ])\n      const state = createSellMenu(gs, refreshInventoryItems)\n      state.grid.cursor = 0\n      expect(sellSelectItem(state, refreshInventoryItems)).toBe(false) // count===inUse 拒绝\n      expect(state.phase).toBe('list')\n      state.grid.cursor = 1\n      expect(sellSelectItem(state, refreshInventoryItems)).toBe(true)\n      expect(state.phase).toBe('confirm')\n      expect(state.confirmYes).toBe(false) // 默认 No\n      expect(state.selectedItemId).toBe(110)\n      // 确认 → 意图并回 list 收尾\n      expect(sellConfirm(state)).toEqual({ itemId: 110, yes: false })\n      expect(state.phase).toBe('list')\n      expect(state.selectedItemId).toBeUndefined()\n    })\n    it('confirm 期 Page/Home/End 不改 grid 或确认选择', () => {\n      const state = createSellMenu(\n        saleGameState([\n          { itemId: 105, count: 1 },\n          { itemId: 110, count: 1 },\n        ]),\n        refreshInventoryItems,\n      )\n      state.grid.cursor = 1\n      expect(sellSelectItem(state, refreshInventoryItems)).toBe(true)\n      const before = structuredClone(state)\n      for (const move of [sellPageDown, sellPageUp, sellHome, sellEnd]) {\n        move(state)\n        expect(state).toEqual(before)\n      }\n    })\n    it('等长刷新：保非零 cursor 并更新数量，snapshot 不别名实际库存', () => {\n      const gs = saleGameState([\n        { itemId: 105, count: 2 },\n        { itemId: 110, count: 1 },\n      ])\n      const state = createSellMenu(gs, refreshInventoryItems)\n      state.grid.cursor = 1\n      // 等长刷新：保 cursor，slot 是新副本\n      gs.inventory[0]!.count = 9\n      refreshSellGrid(state, gs, refreshInventoryItems)\n      expect(state.grid.cursor).toBe(1)\n      expect(state.grid.inventory).toHaveLength(2)\n      expect(state.grid.inventory[0]!.count).toBe(9)\n      state.grid.inventory[0]!.count = 7\n      expect(gs.inventory[0]!.count).toBe(9) // 不别名\n    })\n    it('刷新空表：非零 cursor 归 0', () => {\n      const state = createSellMenu(\n        saleGameState([\n          { itemId: 105, count: 1 },\n          { itemId: 110, count: 1 },\n        ]),\n        refreshInventoryItems,\n      )\n      state.grid.cursor = 1\n      refreshSellGrid(state, saleGameState([]), refreshInventoryItems)\n      expect(state.grid.inventory).toEqual([])\n      expect(state.grid.cursor).toBe(0)\n    })\n    it('增表刷新：保非零 cursor，不复用 GameState 记忆光标', () => {\n      const state = createSellMenu(\n        saleGameState([\n          { itemId: 105, count: 1 },\n          { itemId: 110, count: 1 },\n        ]),\n        refreshInventoryItems,\n      )\n      state.grid.cursor = 1\n      const grown = saleGameState([\n        { itemId: 105, count: 1 },\n        { itemId: 110, count: 1 },\n        { itemId: 87, count: 1 },\n      ])\n      refreshSellGrid(state, grown, refreshInventoryItems)\n      expect(state.grid.inventory.map((slot) => slot.itemId)).toEqual([105, 110, 87])\n      expect(state.grid.cursor).toBe(1)\n    })\n  })\n  describe('Empty and repeated requests', () => {\n  })\n})",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/core/menu/sell-menu.glm-phase1-leaves.test.ts",
+      "changes": [
+        {
+          "from": "/**\n * TEST-GLM-PHASE1-LEAVES-3 L05（sell-menu.ts）— 去重表：\n *  - sell-menu.test（全显示 grid/选中门/confirm toggle/sellConfirm/cancel 分层/卖光 clamp）→ 不重复\n *  - sell-menu.boundaries.test（inUse 耗尽/confirm 期翻页/空表-等长-增表刷新/不别名）→ 不重复\n *  - 新差异：空库存 !slot 防御、真实确认态重复选择与 list 相 sellConfirm 零请求。\n *  - 缩表 clamp 与主测试同合同，CODE93 删除重复；filter 已由主测试验证。\n * 只测状态机意图；cash += price/2 与出包由 dispatcher 做（现有调用链测试已证）。\n */\nimport type { Item } from '@type-pal/shared'\nimport { describe, expect, it } from 'vitest'\nimport { createInitialGameState } from '../game-state.js'\nimport { createSellMenu, sellConfirm, sellSelectItem } from './sell-menu.js'\n\nfunction mkItem(id: number, flags: Partial<Item['flags']>): Item {\n  return {\n    id,\n    _name: `item-${id}`,\n    bitmap: 0,\n    price: 40,\n    scriptOnUse: 0,\n    scriptOnEquip: 0,\n    scriptOnThrow: 0,\n    scriptDesc: 0,\n    flags: {\n      usable: false,\n      equipable: false,\n      throwable: false,\n      consuming: false,\n      applyToAll: false,\n      sellable: false,\n      equipableBy: [false, false, false, false, false, false],\n      ...flags,\n    },\n  }\n}\n\nconst ITEMS: Item[] = [mkItem(105, { sellable: true })]\n\nfunction gsWith(counts: number[]): ReturnType<typeof createInitialGameState> {\n  const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n  gs.inventory = counts.map((count, i) => ({ itemId: ITEMS[i]!.id, count }))\n  return gs\n}\n\ndescribe('L05 sell-menu 剩余合同', () => {\n  it('空库存 !slot 防御不进 confirm', () => {\n    const state = createSellMenu(gsWith([]), ITEMS)\n    expect(state.phase).toBe('list')\n    expect(sellSelectItem(state, ITEMS)).toBe(false)\n    expect(state.selectedItemId).toBeUndefined()\n  })\n\n  it('真实确认态重复选择和 list 相重复确认零请求', () => {\n    const gs = gsWith([1])\n    const state = createSellMenu(gs, ITEMS)\n    expect(sellSelectItem(state, ITEMS)).toBe(true)\n    const before = structuredClone(state)\n    expect(sellSelectItem(state, ITEMS)).toBe(false)\n    expect(state).toEqual(before)\n    expect(sellConfirm(state)).toEqual({ itemId: 105, yes: false })\n    expect(sellConfirm(state)).toBeNull()\n    expect(state.phase).toBe('list')\n  })\n})\n",
+          "to": "import { describe } from \"vitest\"\nimport { expect } from \"vitest\"\nimport { it } from \"vitest\"\nimport { inventoryItem } from \"./__tests__/inventory-fixture.js\"\nimport { affordabilityItems } from \"./__tests__/trading-fixture.js\"\nimport { buyFlowItems } from \"./__tests__/trading-fixture.js\"\nimport { createBuyMenu } from \"./shop-menu.js\"\nimport { shopCancel } from \"./shop-menu.js\"\nimport { shopConfirm } from \"./shop-menu.js\"\nimport { shopMoveDown } from \"./shop-menu.js\"\nimport { shopMoveUp } from \"./shop-menu.js\"\nimport { shopSelectItem } from \"./shop-menu.js\"\nimport { type AbstractKey } from \"@type-pal/shared\"\nimport { type Command } from \"@type-pal/shared\"\nimport { type InputSnapshot } from \"@type-pal/shared\"\nimport { afterEach } from \"vitest\"\nimport { assert } from \"vitest\"\nimport { beforeEach } from \"vitest\"\nimport { buildLabelMap } from \"../event-system.js\"\nimport { OP_BUY_MENU } from \"../event-system.js\"\nimport { setShopMenuHandler } from \"../event-system.js\"\nimport { tickEventSystem } from \"../event-system.js\"\nimport { createInitialGameState } from \"../game-state.js\"\nimport { type GameState } from \"../game-state.js\"\nimport { dispatchMenuInput } from \"./menu-driver.js\"\nimport { setMenuCatalogs } from \"./menu-driver.js\"\nimport { openMenu } from \"./menu-mode.js\"\nimport { tickMenu } from \"./menu-mode.js\"\nimport { createSellMenu } from \"./sell-menu.js\"\nimport { refreshInventoryItems } from \"./__tests__/trading-fixture.js\"\nimport { sellableInventoryItems } from \"./__tests__/trading-fixture.js\"\nimport { singleSaleItems } from \"./__tests__/trading-fixture.js\"\nimport { refreshSellGrid } from \"./sell-menu.js\"\nimport { sellCancel } from \"./sell-menu.js\"\nimport { sellConfirm } from \"./sell-menu.js\"\nimport { sellEnd } from \"./sell-menu.js\"\nimport { sellHome } from \"./sell-menu.js\"\nimport { sellMoveDown } from \"./sell-menu.js\"\nimport { sellMoveLeft } from \"./sell-menu.js\"\nimport { sellMoveRight } from \"./sell-menu.js\"\nimport { sellMoveUp } from \"./sell-menu.js\"\nimport { sellPageDown } from \"./sell-menu.js\"\nimport { sellPageUp } from \"./sell-menu.js\"\nimport { sellSelectItem } from \"./sell-menu.js\"\nfunction inputSnapshot(pressed: AbstractKey[] = []): InputSnapshot {\n  return { held: new Set(), pressed: new Set(pressed), frameNum: 0 }\n}\nfunction loadEvent(gs: GameState, commands: Command[]): void {\n  gs.eventCursor = { commands, labelMap: buildLabelMap(commands), ip: 0 }\n  gs.mode = 'event'\n}\nfunction saleGameState(\n  inventory: Array<{ itemId: number; count: number; inUse?: number }>,\n): GameState {\n  const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n  gs.inventory = inventory\n  return gs\n}\ndescribe('Buy menu state and affordability', () => {\n  describe('Purchase selection, confirmation and cancel', () => {\n  })\n  describe('Affordability and catalog ownership', () => {\n  })\n  describe('List metadata and defensive requests', () => {\n  })\n})\ndescribe('Shop script and transaction flow', () => {\n  let gs: GameState\n  let buyMenu: ReturnType<typeof createBuyMenu> | undefined\n\n  beforeEach(() => {\n    setMenuCatalogs({ items: buyFlowItems, spells: [], magics: [], playerRoles: { roles: [] } })\n    // 模拟 bootstrap 的 setShopMenuHandler:buy 开 shop-buy 菜单\n    setShopMenuHandler(({ gs: g, mode }) => {\n      if (mode === 'buy') {\n        buyMenu = createBuyMenu(buyFlowItems)\n        openMenu(g, { kind: 'shop-buy', state: buyMenu })\n      } else openMenu(g, { kind: 'shop-sell', state: createSellMenu(g, buyFlowItems) })\n    })\n    gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.dwCash = 1000\n  })\n  afterEach(() => {\n    buyMenu = undefined\n    setShopMenuHandler(null)\n    setMenuCatalogs({ items: [], spells: [], magics: [], playerRoles: { roles: [] } })\n  })\n})\ndescribe('Sell grid state and intent', () => {\n  describe('List selection, confirmation and grid navigation', () => {\n  })\n  describe('Availability and snapshot refresh', () => {\n  })\n  describe('Empty and repeated requests', () => {\n    it('空库存 !slot 防御不进 confirm', () => {\n      const state = createSellMenu(saleGameState([]), singleSaleItems)\n      expect(state.phase).toBe('list')\n      expect(sellSelectItem(state, singleSaleItems)).toBe(false)\n      expect(state.selectedItemId).toBeUndefined()\n    })\n\n    it('真实确认态重复选择和 list 相重复确认零请求', () => {\n      const gs = saleGameState([{ itemId: 105, count: 1 }])\n      const state = createSellMenu(gs, singleSaleItems)\n      expect(sellSelectItem(state, singleSaleItems)).toBe(true)\n      const before = structuredClone(state)\n      expect(sellSelectItem(state, singleSaleItems)).toBe(false)\n      expect(state).toEqual(before)\n      expect(sellConfirm(state)).toEqual({ itemId: 105, yes: false })\n      expect(sellConfirm(state)).toBeNull()\n      expect(state.phase).toBe('list')\n    })\n  })\n})",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/core/menu/shop-menu.ts",
+      "changes": [
+        {
+          "from": "/**\n * 商店**买**菜单(紧凑布局)— sdlpal `uigame.c:1615 PAL_BuyMenu` 1:1 状态机。\n *\n * sdlpal 真值流程(**无数量选择** — 每次确认买 1 个,然后 loop 留在菜单):\n *  买(PAL_BuyMenu, store.rgwItems):\n *    while: 选 item → if price<=cash: PAL_ConfirmMenu() → yes: cash-=price; AddItem(w,1) → loop\n *    cancel → break(关菜单)\n *\n * 注:PAL_BuyMenu 在 sdlpal 本就是紧凑列表布局(`PAL_CreateBox(122,8)` + 预览窗),忠实保留。\n * **卖**菜单走全屏 picker(sdlpal PAL_SellMenu → PAL_ItemSelectMenu)→ 见 [sell-menu.ts](./sell-menu.ts)。\n *\n * confirm 默认 No(sdlpal `PAL_ConfirmMenu` → `PAL_SelectionMenu(2, 0, {No,Yes})`,nDefault=0=No)。\n * cash 扣 / inventory 改由 menu-driver 在 confirm-yes 时做(本文件纯状态机)。\n */\n\nimport type { Item } from '@type-pal/shared'\nimport {\n  createSelectionMenu,\n  getSelected,\n  moveSelectionDown,\n  moveSelectionUp,\n  type SelectionMenuState,\n} from './primitives.js'\n\nexport type ShopMode = 'buy' | 'sell'\nexport type ShopPhase = 'list' | 'confirm'\n\nexport interface ShopMenuState {\n  mode: ShopMode\n  phase: ShopPhase\n  /** 物品列表(买:店铺出售物品;卖:玩家 inventory 中 sellable 物品)。 */\n  list: SelectionMenuState\n  /** confirm 阶段选中的物品 OBJECT id(= items.json id)。 */\n  selectedItemId?: number\n  /** confirm 阶段 yes/no — sdlpal PAL_ConfirmMenu 默认 No(false)。 */\n  confirmYes: boolean\n}\n\n/** 把 Item 转成 list 项(label=名字,rightText=价)。 */\nfunction toListItem(it: Item, price: number) {\n  return { id: it.id, label: it._name ?? `?${it.id}`, rightText: String(price) }\n}\n\n/** 买菜单 list = 店铺出售物品(sdlpal `lprgStore[storeNum].rgwItems`,显原价)。 */\nexport function createBuyMenu(shopItems: Item[]): ShopMenuState {\n  const items = shopItems.map((it) => toListItem(it, it.price))\n  return { mode: 'buy', phase: 'list', list: createSelectionMenu(items, 8), confirmYes: false }\n}\n\nexport function shopMoveUp(s: ShopMenuState): void {\n  if (s.phase === 'list') moveSelectionUp(s.list)\n  else s.confirmYes = !s.confirmYes\n}\n\nexport function shopMoveDown(s: ShopMenuState): void {\n  if (s.phase === 'list') moveSelectionDown(s.list)\n  else s.confirmYes = !s.confirmYes\n}\n\n/**\n * list 阶段 Confirm:选中物品 → 进 confirm。\n * sdlpal 买:`if (price <= cash)` 才弹 confirm,买不起则什么都不做留 list(uigame.c:1683)。\n * @returns true 若进了 confirm;false 留 list(空列表 / 买不起)。\n */\nexport function shopSelectItem(s: ShopMenuState, items: Item[], gsCash: number): boolean {\n  if (s.phase !== 'list') return false\n  const sel = getSelected(s.list)\n  if (!sel) return false\n  if (s.mode === 'buy') {\n    const item = items.find((it) => it.id === sel.id)\n    if (!item || item.price > gsCash) return false // 买不起:不弹 confirm\n  }\n  s.selectedItemId = sel.id\n  s.confirmYes = false // sdlpal PAL_ConfirmMenu 默认 No\n  s.phase = 'confirm'\n  return true\n}\n\n/**\n * confirm 阶段 Confirm:返回交易意图(yes 时 caller 真做 cash/inventory)→ 回 list。\n * @returns { itemId, mode, yes } 或 null(非 confirm)。\n */\nexport function shopConfirm(\n  s: ShopMenuState,\n): { itemId: number; mode: ShopMode; yes: boolean } | null {\n  if (s.phase !== 'confirm' || s.selectedItemId === undefined) return null\n  const result = { itemId: s.selectedItemId, mode: s.mode, yes: s.confirmYes }\n  s.phase = 'list'\n  s.selectedItemId = undefined\n  return result\n}\n\n/**\n * Cancel/Menu:confirm → 回 list;list → 'close'(关商店 + resume 脚本)。\n */\nexport function shopCancel(s: ShopMenuState): 'close' | 'back' {\n  if (s.phase === 'confirm') {\n    s.phase = 'list'\n    s.selectedItemId = undefined\n    return 'back'\n  }\n  return 'close'\n}\n",
+          "to": "/**\n * 商店**买**菜单(紧凑布局)— sdlpal `uigame.c:1615 PAL_BuyMenu` 选择与确认状态；交易由caller执行。\n *\n * sdlpal 真值流程(**无数量选择** — 每次确认买 1 个,然后 loop 留在菜单):\n *  买(PAL_BuyMenu, store.rgwItems):\n *    while: 选 item → if price<=cash: PAL_ConfirmMenu() → yes: cash-=price; AddItem(w,1) → loop\n *    cancel → break(关菜单)\n *\n * 注:PAL_BuyMenu 在 sdlpal 本就是紧凑列表布局(`PAL_CreateBox(122,8)` + 预览窗),忠实保留。\n * **卖**菜单走全屏 picker(sdlpal PAL_SellMenu → PAL_ItemSelectMenu)→ 见 [sell-menu.ts](./sell-menu.ts)。\n *\n * confirm 默认 No(sdlpal `PAL_ConfirmMenu` → `PAL_SelectionMenu(2, 0, {No,Yes})`,nDefault=0=No)。\n * cash 扣 / inventory 改由 menu-driver 在 confirm-yes 时做(本文件纯状态机)。\n */\n\nimport type { Item } from '@type-pal/shared'\nimport {\n  createSelectionMenu,\n  getSelected,\n  moveSelectionDown,\n  moveSelectionUp,\n  type SelectionMenuState,\n} from './primitives.js'\n\nexport type ShopMode = 'buy' | 'sell'\nexport type ShopPhase = 'list' | 'confirm'\n\nexport interface ShopMenuState {\n  mode: ShopMode\n  phase: ShopPhase\n  /** 买菜单的商品列表；生产卖菜单使用独立SellMenuState.grid。 */\n  list: SelectionMenuState\n  /** confirm 阶段选中的物品 OBJECT id(= items.json id)。 */\n  selectedItemId?: number\n  /** confirm 阶段 yes/no — sdlpal PAL_ConfirmMenu 默认 No(false)。 */\n  confirmYes: boolean\n}\n\n/** 把 Item 转成 list 项(label=名字,rightText=价)。 */\nfunction toListItem(it: Item, price: number) {\n  return { id: it.id, label: it._name ?? `?${it.id}`, rightText: String(price) }\n}\n\n/** 买菜单 list = 店铺出售物品(sdlpal `lprgStore[storeNum].rgwItems`,显原价)。 */\nexport function createBuyMenu(shopItems: Item[]): ShopMenuState {\n  const items = shopItems.map((it) => toListItem(it, it.price))\n  return { mode: 'buy', phase: 'list', list: createSelectionMenu(items, 8), confirmYes: false }\n}\n\nexport function shopMoveUp(s: ShopMenuState): void {\n  if (s.phase === 'list') moveSelectionUp(s.list)\n  else s.confirmYes = !s.confirmYes\n}\n\nexport function shopMoveDown(s: ShopMenuState): void {\n  if (s.phase === 'list') moveSelectionDown(s.list)\n  else s.confirmYes = !s.confirmYes\n}\n\n/**\n * list 阶段 Confirm:选中物品 → 进 confirm。\n * sdlpal 买:`if (price <= cash)` 才弹 confirm,买不起则什么都不做留 list(uigame.c:1683)。\n * @returns true 若进了 confirm;false 留 list(空列表 / 买不起)。\n */\nexport function shopSelectItem(s: ShopMenuState, items: Item[], gsCash: number): boolean {\n  if (s.phase !== 'list') return false\n  const sel = getSelected(s.list)\n  if (!sel) return false\n  if (s.mode === 'buy') {\n    const item = items.find((it) => it.id === sel.id)\n    if (!item || item.price > gsCash) return false // 买不起:不弹 confirm\n  }\n  s.selectedItemId = sel.id\n  s.confirmYes = false // sdlpal PAL_ConfirmMenu 默认 No\n  s.phase = 'confirm'\n  return true\n}\n\n/**\n * confirm 阶段 Confirm:返回交易意图(yes 时 caller 真做 cash/inventory)→ 回 list。\n * @returns { itemId, mode, yes } 或 null(非 confirm)。\n */\nexport function shopConfirm(\n  s: ShopMenuState,\n): { itemId: number; mode: ShopMode; yes: boolean } | null {\n  if (s.phase !== 'confirm' || s.selectedItemId === undefined) return null\n  const result = { itemId: s.selectedItemId, mode: s.mode, yes: s.confirmYes }\n  s.phase = 'list'\n  s.selectedItemId = undefined\n  return result\n}\n\n/**\n * Cancel/Menu:confirm → 回 list;list → 'close'(关商店 + resume 脚本)。\n */\nexport function shopCancel(s: ShopMenuState): 'close' | 'back' {\n  if (s.phase === 'confirm') {\n    s.phase = 'list'\n    s.selectedItemId = undefined\n    return 'back'\n  }\n  return 'close'\n}\n",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/core/menu/sell-menu.ts",
+      "changes": [
+        {
+          "from": "/**\n * 商店卖菜单(全屏)— sdlpal `uigame.c:1755 PAL_SellMenu` 1:1 状态机。\n *\n * sdlpal 真值:`PAL_SellMenu` 不是紧凑列表(那是 `PAL_BuyMenu`),而是\n * `while (TRUE) { w = PAL_ItemSelectMenu(PAL_SellMenu_OnItemChange, kItemFlagSellable);\n *   if (w == 0) break; if (PAL_ConfirmMenu()) if (PAL_AddItemToInventory(w, -1)) cash += price/2; }`\n * —— 即**全屏物品 picker**(`itemmenu.c:28-466 PAL_ItemSelectMenuUpdate`,3 列 grid + ITEMBOX\n * 预览 + 数量),filter=kItemFlagSellable,叠 `PAL_SellMenu_OnItemChange` 的两个单行框\n * (金钱 @100,150 / 售价 @224,150)。带 callback 时 `g_fNoDesc=TRUE`(itemmenu.c:413)→ **不画物品描述**。\n *\n * 本状态机复用 InventoryMenu grid(同 PAL_ItemSelectMenuUpdate 的 cursor / 8-key 导航);\n * 渲染走 draw-inventory.ts(noDesc=true)+ draw-shop.ts drawSellOverlay。买菜单仍用紧凑\n * `shop-menu.ts`(sdlpal PAL_BuyMenu 本就是紧凑布局,忠实)。\n *\n * 2026-06-02:C9 由\"紧凑卖菜单(视觉非 fullscreen)\"补成全屏,user 决策不简化(对抗复核 high-conf REAL-WORK)。\n */\n\nimport type { Item } from '@type-pal/shared'\nimport type { GameState } from '../game-state.js'\nimport {\n  createInventoryMenu,\n  type InventoryMenuState,\n  inventoryEnd,\n  inventoryHome,\n  inventoryMoveDown,\n  inventoryMoveLeft,\n  inventoryMoveRight,\n  inventoryMoveUp,\n  inventoryPageDown,\n  inventoryPageUp,\n} from './inventory-menu.js'\nimport { matchesFilter } from './item-select.js'\n\nexport type SellPhase = 'list' | 'confirm'\n\nexport interface SellMenuState {\n  phase: SellPhase\n  /** 全屏物品 grid(sdlpal PAL_ItemSelectMenu(kItemFlagSellable),filter='sellable')。 */\n  grid: InventoryMenuState\n  /** confirm 阶段选中的物品 OBJECT id(= items.json id)。 */\n  selectedItemId?: number\n  /** confirm yes/no — sdlpal PAL_ConfirmMenu 默认 No(false)。 */\n  confirmYes: boolean\n}\n\nexport function createSellMenu(gs: GameState, items: Item[]): SellMenuState {\n  return { phase: 'list', grid: createInventoryMenu(gs, items, 'sellable'), confirmYes: false }\n}\n\n// ── 导航:list 阶段 delegate 到 grid(8-key);confirm 阶段方向键 toggle yes/no ──────────\n\nexport function sellMoveUp(s: SellMenuState): void {\n  if (s.phase === 'confirm') s.confirmYes = !s.confirmYes\n  else inventoryMoveUp(s.grid)\n}\n\nexport function sellMoveDown(s: SellMenuState): void {\n  if (s.phase === 'confirm') s.confirmYes = !s.confirmYes\n  else inventoryMoveDown(s.grid)\n}\n\nexport function sellMoveLeft(s: SellMenuState): void {\n  if (s.phase === 'confirm') s.confirmYes = !s.confirmYes\n  else inventoryMoveLeft(s.grid)\n}\n\nexport function sellMoveRight(s: SellMenuState): void {\n  if (s.phase === 'confirm') s.confirmYes = !s.confirmYes\n  else inventoryMoveRight(s.grid)\n}\n\nexport function sellPageUp(s: SellMenuState): void {\n  if (s.phase === 'list') inventoryPageUp(s.grid)\n}\n\nexport function sellPageDown(s: SellMenuState): void {\n  if (s.phase === 'list') inventoryPageDown(s.grid)\n}\n\nexport function sellHome(s: SellMenuState): void {\n  if (s.phase === 'list') inventoryHome(s.grid)\n}\n\nexport function sellEnd(s: SellMenuState): void {\n  if (s.phase === 'list') inventoryEnd(s.grid)\n}\n\n/**\n * list 阶段 Confirm:选中 grid cursor 物品 → 进 confirm。\n * sdlpal itemmenu.c:287-307 真值:仅当 `(item.flags & kItemFlagSellable) && amount > amountInUse`\n * 才返回 wObject(否则该项 inactive 色,不可选,留 list 无反应)。\n * @returns true 若进了 confirm。\n */\nexport function sellSelectItem(s: SellMenuState, items: Item[]): boolean {\n  if (s.phase !== 'list') return false\n  const slot = s.grid.inventory[s.grid.cursor]\n  if (!slot) return false\n  const item = items.find((it) => it.id === slot.itemId)\n  if (!item || !matchesFilter(item, 'sellable') || slot.count - slot.inUse <= 0) return false\n  s.selectedItemId = slot.itemId\n  s.confirmYes = false // sdlpal PAL_ConfirmMenu nDefault=0=No\n  s.phase = 'confirm'\n  return true\n}\n\n/**\n * confirm 阶段 Confirm:返回交易意图 → 回 list(caller 真做 cash/inventory + 重建 grid)。\n * @returns { itemId, yes } 或 null(非 confirm)。\n */\nexport function sellConfirm(s: SellMenuState): { itemId: number; yes: boolean } | null {\n  if (s.phase !== 'confirm' || s.selectedItemId === undefined) return null\n  const result = { itemId: s.selectedItemId, yes: s.confirmYes }\n  s.phase = 'list'\n  s.selectedItemId = undefined\n  return result\n}\n\n/** Cancel/Menu:confirm → 回 list;list → 'close'(关商店 + resume 脚本)。 */\nexport function sellCancel(s: SellMenuState): 'close' | 'back' {\n  if (s.phase === 'confirm') {\n    s.phase = 'list'\n    s.selectedItemId = undefined\n    return 'back'\n  }\n  return 'close'\n}\n\n/**\n * 刷新 grid snapshot(卖出后 inventory 变 / 每帧 live)— sdlpal PAL_SellMenu while 每轮重跑\n * PAL_ItemSelectMenu。保 cursor(clamp 到新列表;物品卖光后列表缩短)。\n */\nexport function refreshSellGrid(s: SellMenuState, gs: GameState, items: Item[]): void {\n  const prevCursor = s.grid.cursor\n  const refreshed = createInventoryMenu(gs, items, 'sellable')\n  s.grid.inventory = refreshed.inventory\n  if (s.grid.inventory.length === 0) s.grid.cursor = 0\n  else if (prevCursor >= s.grid.inventory.length) s.grid.cursor = s.grid.inventory.length - 1\n  else s.grid.cursor = prevCursor\n}\n",
+          "to": "/**\n * 商店卖菜单(全屏)— sdlpal `uigame.c:1755 PAL_SellMenu` 库存选择与确认状态。\n *\n * sdlpal 真值:`PAL_SellMenu` 不是紧凑列表(那是 `PAL_BuyMenu`),而是\n * `while (TRUE) { w = PAL_ItemSelectMenu(PAL_SellMenu_OnItemChange, kItemFlagSellable);\n *   if (w == 0) break; if (PAL_ConfirmMenu()) if (PAL_AddItemToInventory(w, -1)) cash += price/2; }`\n * —— 即**全屏物品 picker**(`itemmenu.c:28-466 PAL_ItemSelectMenuUpdate`,3 列 grid + ITEMBOX\n * 预览 + 数量),filter=kItemFlagSellable,叠 `PAL_SellMenu_OnItemChange` 的两个单行框\n * (金钱 @100,150 / 售价 @224,150)。带 callback 时 `g_fNoDesc=TRUE`(itemmenu.c:413)→ **不画物品描述**。\n *\n * 本状态机复用 InventoryMenu grid(同 PAL_ItemSelectMenuUpdate 的 cursor / 8-key 导航);\n * 渲染走 draw-inventory.ts(noDesc=true)+ draw-shop.ts drawSellOverlay。买菜单仍用紧凑\n * `shop-menu.ts`(sdlpal PAL_BuyMenu 本就是紧凑布局,忠实)。\n *\n */\n\nimport type { Item } from '@type-pal/shared'\nimport type { GameState } from '../game-state.js'\nimport {\n  createInventoryMenu,\n  type InventoryMenuState,\n  inventoryEnd,\n  inventoryHome,\n  inventoryMoveDown,\n  inventoryMoveLeft,\n  inventoryMoveRight,\n  inventoryMoveUp,\n  inventoryPageDown,\n  inventoryPageUp,\n} from './inventory-menu.js'\nimport { matchesFilter } from './item-select.js'\n\nexport type SellPhase = 'list' | 'confirm'\n\nexport interface SellMenuState {\n  phase: SellPhase\n  /** 全屏物品 grid(sdlpal PAL_ItemSelectMenu(kItemFlagSellable),filter='sellable')。 */\n  grid: InventoryMenuState\n  /** confirm 阶段选中的物品 OBJECT id(= items.json id)。 */\n  selectedItemId?: number\n  /** confirm yes/no — sdlpal PAL_ConfirmMenu 默认 No(false)。 */\n  confirmYes: boolean\n}\n\nexport function createSellMenu(gs: GameState, items: Item[]): SellMenuState {\n  return { phase: 'list', grid: createInventoryMenu(gs, items, 'sellable'), confirmYes: false }\n}\n\n// ── 导航:list 阶段 delegate 到 grid(8-key);confirm 阶段方向键 toggle yes/no ──────────\n\nexport function sellMoveUp(s: SellMenuState): void {\n  if (s.phase === 'confirm') s.confirmYes = !s.confirmYes\n  else inventoryMoveUp(s.grid)\n}\n\nexport function sellMoveDown(s: SellMenuState): void {\n  if (s.phase === 'confirm') s.confirmYes = !s.confirmYes\n  else inventoryMoveDown(s.grid)\n}\n\nexport function sellMoveLeft(s: SellMenuState): void {\n  if (s.phase === 'confirm') s.confirmYes = !s.confirmYes\n  else inventoryMoveLeft(s.grid)\n}\n\nexport function sellMoveRight(s: SellMenuState): void {\n  if (s.phase === 'confirm') s.confirmYes = !s.confirmYes\n  else inventoryMoveRight(s.grid)\n}\n\nexport function sellPageUp(s: SellMenuState): void {\n  if (s.phase === 'list') inventoryPageUp(s.grid)\n}\n\nexport function sellPageDown(s: SellMenuState): void {\n  if (s.phase === 'list') inventoryPageDown(s.grid)\n}\n\nexport function sellHome(s: SellMenuState): void {\n  if (s.phase === 'list') inventoryHome(s.grid)\n}\n\nexport function sellEnd(s: SellMenuState): void {\n  if (s.phase === 'list') inventoryEnd(s.grid)\n}\n\n/**\n * list 阶段 Confirm:选中 grid cursor 物品 → 进 confirm。\n * sdlpal itemmenu.c:287-307 真值:仅当 `(item.flags & kItemFlagSellable) && amount > amountInUse`\n * 才返回 wObject(否则该项 inactive 色,不可选,留 list 无反应)。\n * @returns true 若进了 confirm。\n */\nexport function sellSelectItem(s: SellMenuState, items: Item[]): boolean {\n  if (s.phase !== 'list') return false\n  const slot = s.grid.inventory[s.grid.cursor]\n  if (!slot) return false\n  const item = items.find((it) => it.id === slot.itemId)\n  if (!item || !matchesFilter(item, 'sellable') || slot.count - slot.inUse <= 0) return false\n  s.selectedItemId = slot.itemId\n  s.confirmYes = false // sdlpal PAL_ConfirmMenu nDefault=0=No\n  s.phase = 'confirm'\n  return true\n}\n\n/**\n * confirm 阶段 Confirm:返回交易意图 → 回 list(caller 真做 cash/inventory + 重建 grid)。\n * @returns { itemId, yes } 或 null(非 confirm)。\n */\nexport function sellConfirm(s: SellMenuState): { itemId: number; yes: boolean } | null {\n  if (s.phase !== 'confirm' || s.selectedItemId === undefined) return null\n  const result = { itemId: s.selectedItemId, yes: s.confirmYes }\n  s.phase = 'list'\n  s.selectedItemId = undefined\n  return result\n}\n\n/** Cancel/Menu:confirm → 回 list;list → 'close'(关商店 + resume 脚本)。 */\nexport function sellCancel(s: SellMenuState): 'close' | 'back' {\n  if (s.phase === 'confirm') {\n    s.phase = 'list'\n    s.selectedItemId = undefined\n    return 'back'\n  }\n  return 'close'\n}\n\n/**\n * 刷新 grid snapshot(卖出后 inventory 变 / 每帧 live)— sdlpal PAL_SellMenu while 每轮重跑\n * PAL_ItemSelectMenu。保 cursor(clamp 到新列表;物品卖光后列表缩短)。\n */\nexport function refreshSellGrid(s: SellMenuState, gs: GameState, items: Item[]): void {\n  const prevCursor = s.grid.cursor\n  const refreshed = createInventoryMenu(gs, items, 'sellable')\n  s.grid.inventory = refreshed.inventory\n  if (s.grid.inventory.length === 0) s.grid.cursor = 0\n  else if (prevCursor >= s.grid.inventory.length) s.grid.cursor = s.grid.inventory.length - 1\n  else s.grid.cursor = prevCursor\n}\n",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "replacements": [],
+  "registrations": [
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/shop-menu.test.ts",
+        "ordinal": 0,
+        "fullName": "shop-menu 状态机(sdlpal uigame.c:1615/1755) createBuyMenu:list = 店铺物品,label=名,rightText=原价"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/shop-menu.test.ts",
+        "titles": [
+          "Buy menu state and affordability",
+          "Purchase selection, confirmation and cancel"
+        ],
+        "template": "createBuyMenu:list = 店铺物品,label=名,rightText=原价",
+        "fullName": "Buy menu state and affordability Purchase selection, confirmation and cancel createBuyMenu:list = 店铺物品,label=名,rightText=原价"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/shop-menu.test.ts",
+        "ordinal": 1,
+        "fullName": "shop-menu 状态机(sdlpal uigame.c:1615/1755) shopSelectItem 买得起 → 进 confirm,默认 No(sdlpal PAL_ConfirmMenu nDefault=0)"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/shop-menu.test.ts",
+        "titles": [
+          "Buy menu state and affordability",
+          "Purchase selection, confirmation and cancel"
+        ],
+        "template": "shopSelectItem 买得起 → 进 confirm,默认 No(sdlpal PAL_ConfirmMenu nDefault=0)",
+        "fullName": "Buy menu state and affordability Purchase selection, confirmation and cancel shopSelectItem 买得起 → 进 confirm,默认 No(sdlpal PAL_ConfirmMenu nDefault=0)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/shop-menu.test.ts",
+        "ordinal": 2,
+        "fullName": "shop-menu 状态机(sdlpal uigame.c:1615/1755) shopSelectItem 买不起(price>cash)→ 不进 confirm,留 list(sdlpal uigame.c:1683)"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/shop-menu.test.ts",
+        "titles": [
+          "Buy menu state and affordability",
+          "Purchase selection, confirmation and cancel"
+        ],
+        "template": "shopSelectItem 买不起(price>cash)→ 不进 confirm,留 list(sdlpal uigame.c:1683)",
+        "fullName": "Buy menu state and affordability Purchase selection, confirmation and cancel shopSelectItem 买不起(price>cash)→ 不进 confirm,留 list(sdlpal uigame.c:1683)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/shop-menu.test.ts",
+        "ordinal": 3,
+        "fullName": "shop-menu 状态机(sdlpal uigame.c:1615/1755) confirm 阶段方向键 toggle yes/no;shopConfirm 返回意图 + 回 list"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/shop-menu.test.ts",
+        "titles": [
+          "Buy menu state and affordability",
+          "Purchase selection, confirmation and cancel"
+        ],
+        "template": "confirm 阶段方向键 toggle yes/no;shopConfirm 返回意图 + 回 list",
+        "fullName": "Buy menu state and affordability Purchase selection, confirmation and cancel confirm 阶段方向键 toggle yes/no;shopConfirm 返回意图 + 回 list"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/shop-menu.test.ts",
+        "ordinal": 4,
+        "fullName": "shop-menu 状态机(sdlpal uigame.c:1615/1755) shopCancel:confirm → back(回 list);list → close(关商店)"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/shop-menu.test.ts",
+        "titles": [
+          "Buy menu state and affordability",
+          "Purchase selection, confirmation and cancel"
+        ],
+        "template": "shopCancel:confirm → back(回 list);list → close(关商店)",
+        "fullName": "Buy menu state and affordability Purchase selection, confirmation and cancel shopCancel:confirm → back(回 list);list → close(关商店)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/shop-menu.test.ts",
+        "ordinal": 5,
+        "fullName": "shop opcode 0x0026 端到端(开菜单 → 买 → 关 → 续跑脚本) 0x0026 → 开 shop-buy menu + waiting=shop + mode=menu + ip 续到下条"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/shop-menu.flow.test.ts",
+        "titles": ["Shop script and transaction flow"],
+        "template": "0x0026 → 开 shop-buy menu + waiting=shop + mode=menu + ip 续到下条",
+        "fullName": "Shop script and transaction flow 0x0026 → 开 shop-buy menu + waiting=shop + mode=menu + ip 续到下条"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/shop-menu.test.ts",
+        "ordinal": 6,
+        "fullName": "shop opcode 0x0026 端到端(开菜单 → 买 → 关 → 续跑脚本) 买 1 个:Confirm 选 → Confirm 买 → cash 扣 + item 入包"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/shop-menu.flow.test.ts",
+        "titles": ["Shop script and transaction flow"],
+        "template": "买 1 个:Confirm 选 → Confirm 买 → cash 扣 + item 入包",
+        "fullName": "Shop script and transaction flow 买 1 个:Confirm 选 → Confirm 买 → cash 扣 + item 入包"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/shop-menu.test.ts",
+        "ordinal": 7,
+        "fullName": "shop opcode 0x0026 端到端(开菜单 → 买 → 关 → 续跑脚本) 关商店(list 阶段 Menu)→ menuStack 空 → resume mode=event 续跑脚本"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/shop-menu.flow.test.ts",
+        "titles": ["Shop script and transaction flow"],
+        "template": "关商店(list 阶段 Menu)→ menuStack 空 → resume mode=event 续跑脚本",
+        "fullName": "Shop script and transaction flow 关商店(list 阶段 Menu)→ menuStack 空 → resume mode=event 续跑脚本"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/shop-menu.test.ts",
+        "ordinal": 8,
+        "fullName": "shop opcode 0x0026 端到端(开菜单 → 买 → 关 → 续跑脚本) 买不起(cash<price)→ Confirm 无反应,留 list(sdlpal uigame.c:1683)"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/shop-menu.flow.test.ts",
+        "titles": ["Shop script and transaction flow"],
+        "template": "买不起(cash<price)→ Confirm 无反应,留 list(sdlpal uigame.c:1683)",
+        "fullName": "Shop script and transaction flow 买不起(cash<price)→ Confirm 无反应,留 list(sdlpal uigame.c:1683)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/shop-menu.test.ts",
+        "ordinal": 9,
+        "fullName": "shop opcode 0x0026 端到端(开菜单 → 买 → 关 → 续跑脚本) 卖 1 个:cash += price/2 + item 出包"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/shop-menu.flow.test.ts",
+        "titles": ["Shop script and transaction flow"],
+        "template": "卖 1 个:cash += price/2 + item 出包",
+        "fullName": "Shop script and transaction flow 卖 1 个:cash += price/2 + item 出包"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/shop-menu.boundaries.test.ts",
+        "ordinal": 0,
+        "fullName": "G06 shopSelectItem 恰等门与意图收尾 cash===price 恰等可进 confirm；差 1 拒绝；空列表拒绝"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/shop-menu.test.ts",
+        "titles": ["Buy menu state and affordability", "Affordability and catalog ownership"],
+        "template": "cash===price 恰等可进 confirm；差 1 拒绝；空列表拒绝",
+        "fullName": "Buy menu state and affordability Affordability and catalog ownership cash===price 恰等可进 confirm；差 1 拒绝；空列表拒绝"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/shop-menu.boundaries.test.ts",
+        "ordinal": 1,
+        "fullName": "G06 shopSelectItem 恰等门与意图收尾 confirm 期方向键 toggle；确认后 No 意图与收尾；cancel 分层；状态机零副作用"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/shop-menu.test.ts",
+        "titles": ["Buy menu state and affordability", "Affordability and catalog ownership"],
+        "template": "confirm 期方向键 toggle；确认后 No 意图与收尾；cancel 分层；状态机零副作用",
+        "fullName": "Buy menu state and affordability Affordability and catalog ownership confirm 期方向键 toggle；确认后 No 意图与收尾；cancel 分层；状态机零副作用"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/shop-menu.glm-phase1-leaves.test.ts",
+        "ordinal": 0,
+        "fullName": "L05 shop-menu 剩余合同 缺 _name 的店铺物品 → label 回退 ?<id>；买菜单 pageSize 固定 8"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/shop-menu.test.ts",
+        "titles": ["Buy menu state and affordability", "List metadata and defensive requests"],
+        "template": "缺 _name 的店铺物品 → label 回退 ?<id>；买菜单 pageSize 固定 8",
+        "fullName": "Buy menu state and affordability List metadata and defensive requests 缺 _name 的店铺物品 → label 回退 ?<id>；买菜单 pageSize 固定 8"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/shop-menu.glm-phase1-leaves.test.ts",
+        "ordinal": 1,
+        "fullName": "L05 shop-menu 剩余合同 错相 shopSelectItem 零请求；买目录缺该 item → no-op 留 list"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/shop-menu.test.ts",
+        "titles": ["Buy menu state and affordability", "List metadata and defensive requests"],
+        "template": "错相 shopSelectItem 零请求；买目录缺该 item → no-op 留 list",
+        "fullName": "Buy menu state and affordability List metadata and defensive requests 错相 shopSelectItem 零请求；买目录缺该 item → no-op 留 list"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/shop-menu.glm-phase1-leaves.test.ts",
+        "ordinal": 2,
+        "fullName": "L05 shop-menu 剩余合同 list 相 shopConfirm → null（未进 confirm 无意图）"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/shop-menu.test.ts",
+        "titles": ["Buy menu state and affordability", "List metadata and defensive requests"],
+        "template": "list 相 shopConfirm → null（未进 confirm 无意图）",
+        "fullName": "Buy menu state and affordability List metadata and defensive requests list 相 shopConfirm → null（未进 confirm 无意图）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/sell-menu.test.ts",
+        "ordinal": 0,
+        "fullName": "sell-menu 全屏状态机(sdlpal PAL_SellMenu → PAL_ItemSelectMenu kItemFlagSellable) createSellMenu:grid 含全部库存(sdlpal 全显示)，保留不可卖项与 sellable filter"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/sell-menu.test.ts",
+        "titles": [
+          "Sell grid state and intent",
+          "List selection, confirmation and grid navigation"
+        ],
+        "template": "createSellMenu:grid 含全部库存(sdlpal 全显示)，保留不可卖项与 sellable filter",
+        "fullName": "Sell grid state and intent List selection, confirmation and grid navigation createSellMenu:grid 含全部库存(sdlpal 全显示)，保留不可卖项与 sellable filter"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/sell-menu.test.ts",
+        "ordinal": 1,
+        "fullName": "sell-menu 全屏状态机(sdlpal PAL_SellMenu → PAL_ItemSelectMenu kItemFlagSellable) sellSelectItem:选中 sellable cursor → 进 confirm，每轮默认 No"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/sell-menu.test.ts",
+        "titles": [
+          "Sell grid state and intent",
+          "List selection, confirmation and grid navigation"
+        ],
+        "template": "sellSelectItem:选中 sellable cursor → 进 confirm，每轮默认 No",
+        "fullName": "Sell grid state and intent List selection, confirmation and grid navigation sellSelectItem:选中 sellable cursor → 进 confirm，每轮默认 No"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/sell-menu.test.ts",
+        "ordinal": 2,
+        "fullName": "sell-menu 全屏状态机(sdlpal PAL_SellMenu → PAL_ItemSelectMenu kItemFlagSellable) sellSelectItem:光标停在非可卖项(87,红色)→ 不进 confirm,留 list"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/sell-menu.test.ts",
+        "titles": [
+          "Sell grid state and intent",
+          "List selection, confirmation and grid navigation"
+        ],
+        "template": "sellSelectItem:光标停在非可卖项(87,红色)→ 不进 confirm,留 list",
+        "fullName": "Sell grid state and intent List selection, confirmation and grid navigation sellSelectItem:光标停在非可卖项(87,红色)→ 不进 confirm,留 list"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/sell-menu.test.ts",
+        "ordinal": 3,
+        "fullName": "sell-menu 全屏状态机(sdlpal PAL_SellMenu → PAL_ItemSelectMenu kItemFlagSellable) grid 导航 right 跨列且末项 clamp"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/sell-menu.test.ts",
+        "titles": [
+          "Sell grid state and intent",
+          "List selection, confirmation and grid navigation"
+        ],
+        "template": "grid 导航 right 跨列且末项 clamp",
+        "fullName": "Sell grid state and intent List selection, confirmation and grid navigation grid 导航 right 跨列且末项 clamp"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/sell-menu.test.ts",
+        "ordinal": 4,
+        "fullName": "sell-menu 全屏状态机(sdlpal PAL_SellMenu → PAL_ItemSelectMenu kItemFlagSellable) confirm 期四方向键只 toggle yes/no，不移动 grid"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/sell-menu.test.ts",
+        "titles": [
+          "Sell grid state and intent",
+          "List selection, confirmation and grid navigation"
+        ],
+        "template": "confirm 期四方向键只 toggle yes/no，不移动 grid",
+        "fullName": "Sell grid state and intent List selection, confirmation and grid navigation confirm 期四方向键只 toggle yes/no，不移动 grid"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/sell-menu.test.ts",
+        "ordinal": 5,
+        "fullName": "sell-menu 全屏状态机(sdlpal PAL_SellMenu → PAL_ItemSelectMenu kItemFlagSellable) sellConfirm yes → 仅返回意图并回 list，实际 cash/inventory 由 caller 持有"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/sell-menu.test.ts",
+        "titles": [
+          "Sell grid state and intent",
+          "List selection, confirmation and grid navigation"
+        ],
+        "template": "sellConfirm yes → 仅返回意图并回 list，实际 cash/inventory 由 caller 持有",
+        "fullName": "Sell grid state and intent List selection, confirmation and grid navigation sellConfirm yes → 仅返回意图并回 list，实际 cash/inventory 由 caller 持有"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/sell-menu.test.ts",
+        "ordinal": 6,
+        "fullName": "sell-menu 全屏状态机(sdlpal PAL_SellMenu → PAL_ItemSelectMenu kItemFlagSellable) sellCancel confirm→back 清选择，list→close，实际库存不变"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/sell-menu.test.ts",
+        "titles": [
+          "Sell grid state and intent",
+          "List selection, confirmation and grid navigation"
+        ],
+        "template": "sellCancel confirm→back 清选择，list→close，实际库存不变",
+        "fullName": "Sell grid state and intent List selection, confirmation and grid navigation sellCancel confirm→back 清选择，list→close，实际库存不变"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/sell-menu.test.ts",
+        "ordinal": 7,
+        "fullName": "sell-menu 全屏状态机(sdlpal PAL_SellMenu → PAL_ItemSelectMenu kItemFlagSellable) refreshSellGrid:卖光物品后 grid 缩短 + cursor clamp(sdlpal while 每轮重跑)"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/sell-menu.test.ts",
+        "titles": [
+          "Sell grid state and intent",
+          "List selection, confirmation and grid navigation"
+        ],
+        "template": "refreshSellGrid:卖光物品后 grid 缩短 + cursor clamp(sdlpal while 每轮重跑)",
+        "fullName": "Sell grid state and intent List selection, confirmation and grid navigation refreshSellGrid:卖光物品后 grid 缩短 + cursor clamp(sdlpal while 每轮重跑)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/sell-menu.boundaries.test.ts",
+        "ordinal": 0,
+        "fullName": "G07 sellSelectItem 确认门与 confirm 期导航 inUse 耗尽拒绝；少占用正控进 confirm 并返回 No 意图"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/sell-menu.test.ts",
+        "titles": ["Sell grid state and intent", "Availability and snapshot refresh"],
+        "template": "inUse 耗尽拒绝；少占用正控进 confirm 并返回 No 意图",
+        "fullName": "Sell grid state and intent Availability and snapshot refresh inUse 耗尽拒绝；少占用正控进 confirm 并返回 No 意图"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/sell-menu.boundaries.test.ts",
+        "ordinal": 1,
+        "fullName": "G07 sellSelectItem 确认门与 confirm 期导航 confirm 期 Page/Home/End 不改 grid 或确认选择"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/sell-menu.test.ts",
+        "titles": ["Sell grid state and intent", "Availability and snapshot refresh"],
+        "template": "confirm 期 Page/Home/End 不改 grid 或确认选择",
+        "fullName": "Sell grid state and intent Availability and snapshot refresh confirm 期 Page/Home/End 不改 grid 或确认选择"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/sell-menu.boundaries.test.ts",
+        "ordinal": 2,
+        "fullName": "G07 sellSelectItem 确认门与 confirm 期导航 等长刷新：保非零 cursor 并更新数量，snapshot 不别名实际库存"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/sell-menu.test.ts",
+        "titles": ["Sell grid state and intent", "Availability and snapshot refresh"],
+        "template": "等长刷新：保非零 cursor 并更新数量，snapshot 不别名实际库存",
+        "fullName": "Sell grid state and intent Availability and snapshot refresh 等长刷新：保非零 cursor 并更新数量，snapshot 不别名实际库存"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/sell-menu.boundaries.test.ts",
+        "ordinal": 3,
+        "fullName": "G07 sellSelectItem 确认门与 confirm 期导航 刷新空表：非零 cursor 归 0"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/sell-menu.test.ts",
+        "titles": ["Sell grid state and intent", "Availability and snapshot refresh"],
+        "template": "刷新空表：非零 cursor 归 0",
+        "fullName": "Sell grid state and intent Availability and snapshot refresh 刷新空表：非零 cursor 归 0"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/sell-menu.boundaries.test.ts",
+        "ordinal": 4,
+        "fullName": "G07 sellSelectItem 确认门与 confirm 期导航 增表刷新：保非零 cursor，不复用 GameState 记忆光标"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/sell-menu.test.ts",
+        "titles": ["Sell grid state and intent", "Availability and snapshot refresh"],
+        "template": "增表刷新：保非零 cursor，不复用 GameState 记忆光标",
+        "fullName": "Sell grid state and intent Availability and snapshot refresh 增表刷新：保非零 cursor，不复用 GameState 记忆光标"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/sell-menu.glm-phase1-leaves.test.ts",
+        "ordinal": 0,
+        "fullName": "L05 sell-menu 剩余合同 空库存 !slot 防御不进 confirm"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/sell-menu.test.ts",
+        "titles": ["Sell grid state and intent", "Empty and repeated requests"],
+        "template": "空库存 !slot 防御不进 confirm",
+        "fullName": "Sell grid state and intent Empty and repeated requests 空库存 !slot 防御不进 confirm"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/sell-menu.glm-phase1-leaves.test.ts",
+        "ordinal": 1,
+        "fullName": "L05 sell-menu 剩余合同 真实确认态重复选择和 list 相重复确认零请求"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/sell-menu.test.ts",
+        "titles": ["Sell grid state and intent", "Empty and repeated requests"],
+        "template": "真实确认态重复选择和 list 相重复确认零请求",
+        "fullName": "Sell grid state and intent Empty and repeated requests 真实确认态重复选择和 list 相重复确认零请求"
+      }
+    }
+  ],
+  "identities": [
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/sell-menu.boundaries.test.ts",
+        "fullName": "G07 sellSelectItem 确认门与 confirm 期导航 inUse 耗尽拒绝；少占用正控进 confirm 并返回 No 意图"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/sell-menu.test.ts",
+        "fullName": "Sell grid state and intent Availability and snapshot refresh inUse 耗尽拒绝；少占用正控进 confirm 并返回 No 意图"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/sell-menu.boundaries.test.ts",
+        "fullName": "G07 sellSelectItem 确认门与 confirm 期导航 confirm 期 Page/Home/End 不改 grid 或确认选择"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/sell-menu.test.ts",
+        "fullName": "Sell grid state and intent Availability and snapshot refresh confirm 期 Page/Home/End 不改 grid 或确认选择"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/sell-menu.boundaries.test.ts",
+        "fullName": "G07 sellSelectItem 确认门与 confirm 期导航 等长刷新：保非零 cursor 并更新数量，snapshot 不别名实际库存"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/sell-menu.test.ts",
+        "fullName": "Sell grid state and intent Availability and snapshot refresh 等长刷新：保非零 cursor 并更新数量，snapshot 不别名实际库存"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/sell-menu.boundaries.test.ts",
+        "fullName": "G07 sellSelectItem 确认门与 confirm 期导航 刷新空表：非零 cursor 归 0"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/sell-menu.test.ts",
+        "fullName": "Sell grid state and intent Availability and snapshot refresh 刷新空表：非零 cursor 归 0"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/sell-menu.boundaries.test.ts",
+        "fullName": "G07 sellSelectItem 确认门与 confirm 期导航 增表刷新：保非零 cursor，不复用 GameState 记忆光标"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/sell-menu.test.ts",
+        "fullName": "Sell grid state and intent Availability and snapshot refresh 增表刷新：保非零 cursor，不复用 GameState 记忆光标"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/sell-menu.glm-phase1-leaves.test.ts",
+        "fullName": "L05 sell-menu 剩余合同 空库存 !slot 防御不进 confirm"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/sell-menu.test.ts",
+        "fullName": "Sell grid state and intent Empty and repeated requests 空库存 !slot 防御不进 confirm"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/sell-menu.glm-phase1-leaves.test.ts",
+        "fullName": "L05 sell-menu 剩余合同 真实确认态重复选择和 list 相重复确认零请求"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/sell-menu.test.ts",
+        "fullName": "Sell grid state and intent Empty and repeated requests 真实确认态重复选择和 list 相重复确认零请求"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/sell-menu.test.ts",
+        "fullName": "sell-menu 全屏状态机(sdlpal PAL_SellMenu → PAL_ItemSelectMenu kItemFlagSellable) createSellMenu:grid 含全部库存(sdlpal 全显示)，保留不可卖项与 sellable filter"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/sell-menu.test.ts",
+        "fullName": "Sell grid state and intent List selection, confirmation and grid navigation createSellMenu:grid 含全部库存(sdlpal 全显示)，保留不可卖项与 sellable filter"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/sell-menu.test.ts",
+        "fullName": "sell-menu 全屏状态机(sdlpal PAL_SellMenu → PAL_ItemSelectMenu kItemFlagSellable) sellSelectItem:选中 sellable cursor → 进 confirm，每轮默认 No"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/sell-menu.test.ts",
+        "fullName": "Sell grid state and intent List selection, confirmation and grid navigation sellSelectItem:选中 sellable cursor → 进 confirm，每轮默认 No"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/sell-menu.test.ts",
+        "fullName": "sell-menu 全屏状态机(sdlpal PAL_SellMenu → PAL_ItemSelectMenu kItemFlagSellable) sellSelectItem:光标停在非可卖项(87,红色)→ 不进 confirm,留 list"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/sell-menu.test.ts",
+        "fullName": "Sell grid state and intent List selection, confirmation and grid navigation sellSelectItem:光标停在非可卖项(87,红色)→ 不进 confirm,留 list"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/sell-menu.test.ts",
+        "fullName": "sell-menu 全屏状态机(sdlpal PAL_SellMenu → PAL_ItemSelectMenu kItemFlagSellable) grid 导航 right 跨列且末项 clamp"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/sell-menu.test.ts",
+        "fullName": "Sell grid state and intent List selection, confirmation and grid navigation grid 导航 right 跨列且末项 clamp"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/sell-menu.test.ts",
+        "fullName": "sell-menu 全屏状态机(sdlpal PAL_SellMenu → PAL_ItemSelectMenu kItemFlagSellable) confirm 期四方向键只 toggle yes/no，不移动 grid"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/sell-menu.test.ts",
+        "fullName": "Sell grid state and intent List selection, confirmation and grid navigation confirm 期四方向键只 toggle yes/no，不移动 grid"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/sell-menu.test.ts",
+        "fullName": "sell-menu 全屏状态机(sdlpal PAL_SellMenu → PAL_ItemSelectMenu kItemFlagSellable) sellConfirm yes → 仅返回意图并回 list，实际 cash/inventory 由 caller 持有"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/sell-menu.test.ts",
+        "fullName": "Sell grid state and intent List selection, confirmation and grid navigation sellConfirm yes → 仅返回意图并回 list，实际 cash/inventory 由 caller 持有"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/sell-menu.test.ts",
+        "fullName": "sell-menu 全屏状态机(sdlpal PAL_SellMenu → PAL_ItemSelectMenu kItemFlagSellable) sellCancel confirm→back 清选择，list→close，实际库存不变"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/sell-menu.test.ts",
+        "fullName": "Sell grid state and intent List selection, confirmation and grid navigation sellCancel confirm→back 清选择，list→close，实际库存不变"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/sell-menu.test.ts",
+        "fullName": "sell-menu 全屏状态机(sdlpal PAL_SellMenu → PAL_ItemSelectMenu kItemFlagSellable) refreshSellGrid:卖光物品后 grid 缩短 + cursor clamp(sdlpal while 每轮重跑)"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/sell-menu.test.ts",
+        "fullName": "Sell grid state and intent List selection, confirmation and grid navigation refreshSellGrid:卖光物品后 grid 缩短 + cursor clamp(sdlpal while 每轮重跑)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/shop-menu.boundaries.test.ts",
+        "fullName": "G06 shopSelectItem 恰等门与意图收尾 cash===price 恰等可进 confirm；差 1 拒绝；空列表拒绝"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/shop-menu.test.ts",
+        "fullName": "Buy menu state and affordability Affordability and catalog ownership cash===price 恰等可进 confirm；差 1 拒绝；空列表拒绝"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/shop-menu.boundaries.test.ts",
+        "fullName": "G06 shopSelectItem 恰等门与意图收尾 confirm 期方向键 toggle；确认后 No 意图与收尾；cancel 分层；状态机零副作用"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/shop-menu.test.ts",
+        "fullName": "Buy menu state and affordability Affordability and catalog ownership confirm 期方向键 toggle；确认后 No 意图与收尾；cancel 分层；状态机零副作用"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/shop-menu.glm-phase1-leaves.test.ts",
+        "fullName": "L05 shop-menu 剩余合同 缺 _name 的店铺物品 → label 回退 ?<id>；买菜单 pageSize 固定 8"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/shop-menu.test.ts",
+        "fullName": "Buy menu state and affordability List metadata and defensive requests 缺 _name 的店铺物品 → label 回退 ?<id>；买菜单 pageSize 固定 8"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/shop-menu.glm-phase1-leaves.test.ts",
+        "fullName": "L05 shop-menu 剩余合同 错相 shopSelectItem 零请求；买目录缺该 item → no-op 留 list"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/shop-menu.test.ts",
+        "fullName": "Buy menu state and affordability List metadata and defensive requests 错相 shopSelectItem 零请求；买目录缺该 item → no-op 留 list"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/shop-menu.glm-phase1-leaves.test.ts",
+        "fullName": "L05 shop-menu 剩余合同 list 相 shopConfirm → null（未进 confirm 无意图）"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/shop-menu.test.ts",
+        "fullName": "Buy menu state and affordability List metadata and defensive requests list 相 shopConfirm → null（未进 confirm 无意图）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/shop-menu.test.ts",
+        "fullName": "shop-menu 状态机(sdlpal uigame.c:1615/1755) createBuyMenu:list = 店铺物品,label=名,rightText=原价"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/shop-menu.test.ts",
+        "fullName": "Buy menu state and affordability Purchase selection, confirmation and cancel createBuyMenu:list = 店铺物品,label=名,rightText=原价"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/shop-menu.test.ts",
+        "fullName": "shop-menu 状态机(sdlpal uigame.c:1615/1755) shopSelectItem 买得起 → 进 confirm,默认 No(sdlpal PAL_ConfirmMenu nDefault=0)"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/shop-menu.test.ts",
+        "fullName": "Buy menu state and affordability Purchase selection, confirmation and cancel shopSelectItem 买得起 → 进 confirm,默认 No(sdlpal PAL_ConfirmMenu nDefault=0)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/shop-menu.test.ts",
+        "fullName": "shop-menu 状态机(sdlpal uigame.c:1615/1755) shopSelectItem 买不起(price>cash)→ 不进 confirm,留 list(sdlpal uigame.c:1683)"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/shop-menu.test.ts",
+        "fullName": "Buy menu state and affordability Purchase selection, confirmation and cancel shopSelectItem 买不起(price>cash)→ 不进 confirm,留 list(sdlpal uigame.c:1683)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/shop-menu.test.ts",
+        "fullName": "shop-menu 状态机(sdlpal uigame.c:1615/1755) confirm 阶段方向键 toggle yes/no;shopConfirm 返回意图 + 回 list"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/shop-menu.test.ts",
+        "fullName": "Buy menu state and affordability Purchase selection, confirmation and cancel confirm 阶段方向键 toggle yes/no;shopConfirm 返回意图 + 回 list"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/shop-menu.test.ts",
+        "fullName": "shop-menu 状态机(sdlpal uigame.c:1615/1755) shopCancel:confirm → back(回 list);list → close(关商店)"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/shop-menu.test.ts",
+        "fullName": "Buy menu state and affordability Purchase selection, confirmation and cancel shopCancel:confirm → back(回 list);list → close(关商店)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/shop-menu.test.ts",
+        "fullName": "shop opcode 0x0026 端到端(开菜单 → 买 → 关 → 续跑脚本) 0x0026 → 开 shop-buy menu + waiting=shop + mode=menu + ip 续到下条"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/shop-menu.flow.test.ts",
+        "fullName": "Shop script and transaction flow 0x0026 → 开 shop-buy menu + waiting=shop + mode=menu + ip 续到下条"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/shop-menu.test.ts",
+        "fullName": "shop opcode 0x0026 端到端(开菜单 → 买 → 关 → 续跑脚本) 买 1 个:Confirm 选 → Confirm 买 → cash 扣 + item 入包"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/shop-menu.flow.test.ts",
+        "fullName": "Shop script and transaction flow 买 1 个:Confirm 选 → Confirm 买 → cash 扣 + item 入包"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/shop-menu.test.ts",
+        "fullName": "shop opcode 0x0026 端到端(开菜单 → 买 → 关 → 续跑脚本) 关商店(list 阶段 Menu)→ menuStack 空 → resume mode=event 续跑脚本"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/shop-menu.flow.test.ts",
+        "fullName": "Shop script and transaction flow 关商店(list 阶段 Menu)→ menuStack 空 → resume mode=event 续跑脚本"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/shop-menu.test.ts",
+        "fullName": "shop opcode 0x0026 端到端(开菜单 → 买 → 关 → 续跑脚本) 买不起(cash<price)→ Confirm 无反应,留 list(sdlpal uigame.c:1683)"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/shop-menu.flow.test.ts",
+        "fullName": "Shop script and transaction flow 买不起(cash<price)→ Confirm 无反应,留 list(sdlpal uigame.c:1683)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/shop-menu.test.ts",
+        "fullName": "shop opcode 0x0026 端到端(开菜单 → 买 → 关 → 续跑脚本) 卖 1 个:cash += price/2 + item 出包"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/shop-menu.flow.test.ts",
+        "fullName": "Shop script and transaction flow 卖 1 个:cash += price/2 + item 出包"
+      }
+    }
+  ],
+  "retirements": [],
+  "paths": {
+    "buy": "packages/game/src/core/menu/shop-menu.test.ts",
+    "flow": "packages/game/src/core/menu/shop-menu.flow.test.ts",
+    "sell": "packages/game/src/core/menu/sell-menu.test.ts"
+  },
+  "titles": {
+    "buy": "Buy menu state and affordability",
+    "flow": "Shop script and transaction flow",
+    "sell": "Sell grid state and intent"
+  },
+  "qualityDelta": {
+    "maps": [
+      {
+        "CATALOG": "buyFlowItems",
+        "s": "menu",
+        "snap": "inputSnapshot",
+        "gsWith": "saleGameState"
+      },
+      {
+        "ITEMS": "affordabilityItems",
+        "s": "menu",
+        "snap": "inputSnapshot",
+        "gsWith": "saleGameState"
+      },
+      {
+        "s": "menu",
+        "snap": "inputSnapshot",
+        "gsWith": "saleGameState"
+      },
+      {
+        "CATALOG": "sellableInventoryItems",
+        "s": "menu",
+        "snap": "inputSnapshot",
+        "gsWith": "saleGameState"
+      },
+      {
+        "ITEMS": "refreshInventoryItems",
+        "s": "menu",
+        "snap": "inputSnapshot",
+        "gsWith": "saleGameState"
+      },
+      {
+        "ITEMS": "singleSaleItems",
+        "s": "menu",
+        "snap": "inputSnapshot",
+        "gsWith": "saleGameState"
+      }
+    ],
+    "catalogs": [
+      "buyFlowItems",
+      "affordabilityItems",
+      null,
+      "sellableInventoryItems",
+      "refreshInventoryItems",
+      "singleSaleItems"
+    ],
+    "fixture": "packages/game/src/core/menu/__tests__/trading-fixture.ts",
+    "gsFactory": "function saleGameState(inventory:Array<{itemId:number;count:number;inUse?:number}>):GameState{const gs=createInitialGameState({x:0,y:0,facing:\"down\"});gs.inventory=inventory;return gs}",
+    "sourceHeadersOnly": true,
+    "legalizeShopIds400401": true,
+    "realTypedBuyState": true,
+    "flowCleanup": true,
+    "rawContinuationToEnd": true,
+    "realBuyStateAssertAndRelease": true
+  },
+  "cohortSubjects": [
+    {
+      "path": "packages/game/src/core/menu/shop-menu.glm-phase1-leaves.test.ts",
+      "sha256": "fd3ccf333d7ecb95e11b2e890121d35e0ea57eb4ce58a801964d98b5baa934c2",
+      "priorCurrentBridges": []
+    },
+    {
+      "path": "packages/game/src/core/menu/sell-menu.glm-phase1-leaves.test.ts",
+      "sha256": "8d12759e5045d6cef2abcd52897ea9b1510c3ea0d89990e612f4a968e2509a5f",
+      "priorCurrentBridges": []
+    }
+  ],
+  "id": "trading-state",
+  "namespace": "organization-trading-state",
+  "neighborPaths": [
+    "packages/game/src/core/menu/shop-menu.test.ts",
+    "packages/game/src/core/menu/shop-menu.flow.test.ts",
+    "packages/game/src/core/menu/sell-menu.test.ts",
+    "packages/game/src/core/menu/menu-driver.test.ts",
+    "packages/game/src/core/menu/menu-mode.test.ts",
+    "packages/game/src/present/menu/draw-shop.test.ts",
+    "packages/game/src/present/menu/draw-shop.canvas.test.ts"
+  ],
+  "preserved": [
+    {
+      "path": "packages/game/src/core/menu/__tests__/inventory-fixture.ts",
+      "sha256": "f15703ad4128d029d190bf7dbb21a5a63d70494af1e5f1f94789357baf85fd3c"
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-driver.ts",
+      "sha256": "617d1ccf1c8931b366420e514eb684cfe7846feb7052e253d289df203112513d"
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-mode.ts",
+      "sha256": "c4483791dac050510868af7c42edf485ebd5d37d954cbb0ee76c0fd0ac42cd90"
+    },
+    {
+      "path": "packages/game/src/core/event-system.ts",
+      "sha256": "3b8490fa48d2992f693ab0eb611954dd0bfacbc22dc3eda58378cc4bc7a4b5f4"
+    },
+    {
+      "path": "packages/game/src/core/game-state.ts",
+      "sha256": "084718097eb0963c2ee3a9d72da59b313ca8fd401672f6a8b341ba21ae8b8906"
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "sha256": "a4d007c9739873dc20f385b52b584de49ec57cd5c328cb11ca9d3b0b9f19fb0a"
+    },
+    {
+      "path": "packages/game/vitest.config.ts",
+      "sha256": "3dd92ad4886bc72c88e7a7b2e6bdacc3aaf9e2a24ac72153f3b619ba37feb7d4"
+    },
+    {
+      "path": "scripts/coverage/config.mjs",
+      "sha256": "decb63dda5d12a2269bef1dd75c3d1eb4efca071887c759deca8e9b06ef17a25"
+    }
+  ],
+  "receipts": {
+    "neighbors": "organization-trading-state/neighbors-r2",
+    "typecheck": "organization-trading-state/typecheck-r2"
+  },
+  "cleanExecutions": [
+    "before",
+    "reorganize",
+    "refine",
+    "proof-r5",
+    "neighbors",
+    "typecheck",
+    "flow-shuffle",
+    "routing",
+    "complexity",
+    "docs",
+    "content-review",
+    "lint",
+    "scoped",
+    "diff",
+    "ledger-final",
+    "module-preflight"
+  ],
+  "lightweightGates": true,
+  "callbackProof": "organization-trading-state/proof-r5.stdout.raw",
+  "ledgerCounts": {
+    "inventory": 3442,
+    "closed": 519,
+    "review": 289,
+    "pending": 2634
+  },
+  "profiles": [
+    {
+      "path": "packages/game/src/core/menu/shop-menu.test.ts",
+      "subjects": [
+        "packages/game/src/core/menu/shop-menu.glm-phase1-leaves.test.ts",
+        "packages/game/src/core/menu/sell-menu.glm-phase1-leaves.test.ts"
+      ],
+      "axes": {
+        "A": "10purebuycases coverselection,cashprice equality/difference,defaultNo,toggle/cancel,metadata/page8,unknowncatalog andwrongphase;105/106ordinaryids legal,777explicitdefense.",
+        "B": "Remove author/nonduplication/batch-only headers andoverbroadend-to-end labeling. Syntheticcatalogs not originalstore contents. Two productionheaders/list comments narrowed toactual state responsibilities;all executabletypedAST remains same.",
+        "C": "Pure list/confirmstate only,no GS/catalogsingleton/eventsystem/hooks.",
+        "D": "Reuse existingdata-only Item builder for14whole records;fivecatalogs retain distinct prices/flags/names/bitmaps. Two direct-inventory GSinitializers share one sell-local function;count-only adapter is replaced only at its twoactual0/1calls. Broader count-domain equivalence is not claimed. No modebool/universalhost/privateproductionseam.",
+        "E": "30old identities map30current;alltypedcallbacks/completeItemdata/GSruntimebody checked. Twounknown-state casts replaced byactualcreatedtypedstate+stackidentity/assert;legalend replacesopaque0x100continuation. Literalprices/requests/defaultNo/ownership/cursor/oracle kept;no casecountorcoverageacceptance.7files91/TC0 and5flowshuffle.",
+        "F": "shop-menu.test owns buy selection/affordability/metadata,shop-menu.flow owns injectedscript/transaction/resume,sell-menu.test ownsgrid/intent/refresh. Five tradingcatalognames andsaleGameState express realdata,not model/wave;flowtitle notwholebrowserE2E.",
+        "G": "Sixoverlapping specs ->three;sixItem builders/twoflags constructors and3sameGSinitializers removed in favorofalreadycurrentbuilder/oneGSfactory. No runtimecase retirement;distinct Up/Down/no/yes/default/terminal contracts retained. Unusedstandalonelegacy mode/API notretired bythisauthority.",
+        "H": "Pure menu functions directlytested;onlyflow owns hook boundary,typedstateobservedwithoutcasts. Whole record+typedtree proof useslastfield/assertion negatives;reader defaultreadonly. Allhandlervalue/setup/cleanup/input helpers checked;no mocks,newtimeout,ignore orproductreset."
+      }
+    },
+    {
+      "path": "packages/game/src/core/menu/shop-menu.flow.test.ts",
+      "subjects": [
+        "packages/game/src/core/menu/shop-menu.glm-phase1-leaves.test.ts",
+        "packages/game/src/core/menu/sell-menu.glm-phase1-leaves.test.ts"
+      ],
+      "axes": {
+        "A": "5realinterpreter/menu dispatchchains checkwaitip/mode,actualcash+inventory,purchase rejection,close/resumeandsale;injectedhandlerdeliberatelyignoresstoreNum,doesnotcertifybootstrap storeselection.",
+        "B": "Remove author/nonduplication/batch-only headers andoverbroadend-to-end labeling. Syntheticcatalogs not originalstore contents. Two productionheaders/list comments narrowed toactual state responsibilities;all executabletypedAST remains same.",
+        "C": "Only thisspec owns setup/afterEach:handlernull,capturedstateundefined,neutralcatalog. buyMenu typecomesfromrealcreateBuyMenu,andstackstateidentity connects observation toactualdispatch.",
+        "D": "Reuse existingdata-only Item builder for14whole records;fivecatalogs retain distinct prices/flags/names/bitmaps. Two direct-inventory GSinitializers share one sell-local function;count-only adapter is replaced only at its twoactual0/1calls. Broader count-domain equivalence is not claimed. No modebool/universalhost/privateproductionseam.",
+        "E": "30old identities map30current;alltypedcallbacks/completeItemdata/GSruntimebody checked. Twounknown-state casts replaced byactualcreatedtypedstate+stackidentity/assert;legalend replacesopaque0x100continuation. Literalprices/requests/defaultNo/ownership/cursor/oracle kept;no casecountorcoverageacceptance.7files91/TC0 and5flowshuffle.",
+        "F": "shop-menu.test owns buy selection/affordability/metadata,shop-menu.flow owns injectedscript/transaction/resume,sell-menu.test ownsgrid/intent/refresh. Five tradingcatalognames andsaleGameState express realdata,not model/wave;flowtitle notwholebrowserE2E.",
+        "G": "Sixoverlapping specs ->three;sixItem builders/twoflags constructors and3sameGSinitializers removed in favorofalreadycurrentbuilder/oneGSfactory. No runtimecase retirement;distinct Up/Down/no/yes/default/terminal contracts retained. Unusedstandalonelegacy mode/API notretired bythisauthority.",
+        "H": "Pure menu functions directlytested;onlyflow owns hook boundary,typedstateobservedwithoutcasts. Whole record+typedtree proof useslastfield/assertion negatives;reader defaultreadonly. Allhandlervalue/setup/cleanup/input helpers checked;no mocks,newtimeout,ignore orproductreset."
+      }
+    },
+    {
+      "path": "packages/game/src/core/menu/sell-menu.test.ts",
+      "subjects": [
+        "packages/game/src/core/menu/shop-menu.glm-phase1-leaves.test.ts",
+        "packages/game/src/core/menu/sell-menu.glm-phase1-leaves.test.ts"
+      ],
+      "axes": {
+        "A": "15sellcases coverallinventory,sellable/occupiedgate,grid andconfirmnavigation,yes/no/cancelintent,shrinking/empty/same/growing snapshots andaliasing.",
+        "B": "Remove author/nonduplication/batch-only headers andoverbroadend-to-end labeling. Syntheticcatalogs not originalstore contents. Two productionheaders/list comments narrowed toactual state responsibilities;all executabletypedAST remains same.",
+        "C": "One freshlocalGSfactory,existinginventorygriddependency,zero externalhandler/IO/hooks. Actual cash mutation staysdriver.",
+        "D": "Reuse existingdata-only Item builder for14whole records;fivecatalogs retain distinct prices/flags/names/bitmaps. Two direct-inventory GSinitializers share one sell-local function;count-only adapter is replaced only at its twoactual0/1calls. Broader count-domain equivalence is not claimed. No modebool/universalhost/privateproductionseam.",
+        "E": "30old identities map30current;alltypedcallbacks/completeItemdata/GSruntimebody checked. Twounknown-state casts replaced byactualcreatedtypedstate+stackidentity/assert;legalend replacesopaque0x100continuation. Literalprices/requests/defaultNo/ownership/cursor/oracle kept;no casecountorcoverageacceptance.7files91/TC0 and5flowshuffle.",
+        "F": "shop-menu.test owns buy selection/affordability/metadata,shop-menu.flow owns injectedscript/transaction/resume,sell-menu.test ownsgrid/intent/refresh. Five tradingcatalognames andsaleGameState express realdata,not model/wave;flowtitle notwholebrowserE2E.",
+        "G": "Sixoverlapping specs ->three;sixItem builders/twoflags constructors and3sameGSinitializers removed in favorofalreadycurrentbuilder/oneGSfactory. No runtimecase retirement;distinct Up/Down/no/yes/default/terminal contracts retained. Unusedstandalonelegacy mode/API notretired bythisauthority.",
+        "H": "Pure menu functions directlytested;onlyflow owns hook boundary,typedstateobservedwithoutcasts. Whole record+typedtree proof useslastfield/assertion negatives;reader defaultreadonly. Allhandlervalue/setup/cleanup/input helpers checked;no mocks,newtimeout,ignore orproductreset."
+      }
+    },
+    {
+      "path": "packages/game/src/core/menu/__tests__/trading-fixture.ts",
+      "subjects": [
+        "packages/game/src/core/menu/shop-menu.glm-phase1-leaves.test.ts",
+        "packages/game/src/core/menu/sell-menu.glm-phase1-leaves.test.ts"
+      ],
+      "axes": {
+        "A": "12fullcatalogrecords plus2localnameless/namedrecords checked againstfrozenbuilders;flags/bitmap/name/price/scriptsallcompared. Sharedfactory sourceunchanged/pinned.",
+        "B": "Remove author/nonduplication/batch-only headers andoverbroadend-to-end labeling. Syntheticcatalogs not originalstore contents. Two productionheaders/list comments narrowed toactual state responsibilities;all executabletypedAST remains same.",
+        "C": "Only Itemtype andcurrentpureItembuilder imported;five independentcatalogarrays,zeroGameState/IO/Vitest/lifecycle.",
+        "D": "Reuse existingdata-only Item builder for14whole records;fivecatalogs retain distinct prices/flags/names/bitmaps. Two direct-inventory GSinitializers share one sell-local function;count-only adapter is replaced only at its twoactual0/1calls. Broader count-domain equivalence is not claimed. No modebool/universalhost/privateproductionseam.",
+        "E": "30old identities map30current;alltypedcallbacks/completeItemdata/GSruntimebody checked. Twounknown-state casts replaced byactualcreatedtypedstate+stackidentity/assert;legalend replacesopaque0x100continuation. Literalprices/requests/defaultNo/ownership/cursor/oracle kept;no casecountorcoverageacceptance.7files91/TC0 and5flowshuffle.",
+        "F": "shop-menu.test owns buy selection/affordability/metadata,shop-menu.flow owns injectedscript/transaction/resume,sell-menu.test ownsgrid/intent/refresh. Five tradingcatalognames andsaleGameState express realdata,not model/wave;flowtitle notwholebrowserE2E.",
+        "G": "Sixoverlapping specs ->three;sixItem builders/twoflags constructors and3sameGSinitializers removed in favorofalreadycurrentbuilder/oneGSfactory. No runtimecase retirement;distinct Up/Down/no/yes/default/terminal contracts retained. Unusedstandalonelegacy mode/API notretired bythisauthority.",
+        "H": "Pure menu functions directlytested;onlyflow owns hook boundary,typedstateobservedwithoutcasts. Whole record+typedtree proof useslastfield/assertion negatives;reader defaultreadonly. Allhandlervalue/setup/cleanup/input helpers checked;no mocks,newtimeout,ignore orproductreset."
+      }
+    },
+    {
+      "path": "packages/game/src/core/menu/shop-menu.ts",
+      "subjects": [
+        "packages/game/src/core/menu/shop-menu.glm-phase1-leaves.test.ts",
+        "packages/game/src/core/menu/sell-menu.glm-phase1-leaves.test.ts"
+      ],
+      "axes": {
+        "A": "Full103/139lineproductimplementations read;header/listcomment scopeonly,complete executabletypedASTequal. No new mechanism/interface/legacy-mode acceptance.",
+        "B": "Remove author/nonduplication/batch-only headers andoverbroadend-to-end labeling. Syntheticcatalogs not originalstore contents. Two productionheaders/list comments narrowed toactual state responsibilities;all executabletypedAST remains same.",
+        "C": "Buy state10/sell state15 have nohook/globalIO;5script-flow cases alone own injectedhandler/catalog andcapturedtypedbuystate. afterEach releases capturedstate/handler andsets neutralcatalog. Actual bootstrap storefilter andtransaction driver remain productionowners.",
+        "D": "Reuse existingdata-only Item builder for14whole records;fivecatalogs retain distinct prices/flags/names/bitmaps. Two direct-inventory GSinitializers share one sell-local function;count-only adapter is replaced only at its twoactual0/1calls. Broader count-domain equivalence is not claimed. No modebool/universalhost/privateproductionseam.",
+        "E": "30old identities map30current;alltypedcallbacks/completeItemdata/GSruntimebody checked. Twounknown-state casts replaced byactualcreatedtypedstate+stackidentity/assert;legalend replacesopaque0x100continuation. Literalprices/requests/defaultNo/ownership/cursor/oracle kept;no casecountorcoverageacceptance.7files91/TC0 and5flowshuffle.",
+        "F": "shop-menu.test owns buy selection/affordability/metadata,shop-menu.flow owns injectedscript/transaction/resume,sell-menu.test ownsgrid/intent/refresh. Five tradingcatalognames andsaleGameState express realdata,not model/wave;flowtitle notwholebrowserE2E.",
+        "G": "No productdeclaration/parameter/branch/exportchanged;legacytype sayssell stillknownexistingcontract,notunauthorizedcleanup.",
+        "H": "Pure menu functions directlytested;onlyflow owns hook boundary,typedstateobservedwithoutcasts. Whole record+typedtree proof useslastfield/assertion negatives;reader defaultreadonly. Allhandlervalue/setup/cleanup/input helpers checked;no mocks,newtimeout,ignore orproductreset."
+      }
+    },
+    {
+      "path": "packages/game/src/core/menu/sell-menu.ts",
+      "subjects": [
+        "packages/game/src/core/menu/shop-menu.glm-phase1-leaves.test.ts",
+        "packages/game/src/core/menu/sell-menu.glm-phase1-leaves.test.ts"
+      ],
+      "axes": {
+        "A": "Full103/139lineproductimplementations read;header/listcomment scopeonly,complete executabletypedASTequal. No new mechanism/interface/legacy-mode acceptance.",
+        "B": "Remove author/nonduplication/batch-only headers andoverbroadend-to-end labeling. Syntheticcatalogs not originalstore contents. Two productionheaders/list comments narrowed toactual state responsibilities;all executabletypedAST remains same.",
+        "C": "Buy state10/sell state15 have nohook/globalIO;5script-flow cases alone own injectedhandler/catalog andcapturedtypedbuystate. afterEach releases capturedstate/handler andsets neutralcatalog. Actual bootstrap storefilter andtransaction driver remain productionowners.",
+        "D": "Reuse existingdata-only Item builder for14whole records;fivecatalogs retain distinct prices/flags/names/bitmaps. Two direct-inventory GSinitializers share one sell-local function;count-only adapter is replaced only at its twoactual0/1calls. Broader count-domain equivalence is not claimed. No modebool/universalhost/privateproductionseam.",
+        "E": "30old identities map30current;alltypedcallbacks/completeItemdata/GSruntimebody checked. Twounknown-state casts replaced byactualcreatedtypedstate+stackidentity/assert;legalend replacesopaque0x100continuation. Literalprices/requests/defaultNo/ownership/cursor/oracle kept;no casecountorcoverageacceptance.7files91/TC0 and5flowshuffle.",
+        "F": "shop-menu.test owns buy selection/affordability/metadata,shop-menu.flow owns injectedscript/transaction/resume,sell-menu.test ownsgrid/intent/refresh. Five tradingcatalognames andsaleGameState express realdata,not model/wave;flowtitle notwholebrowserE2E.",
+        "G": "No productdeclaration/parameter/branch/exportchanged;legacytype sayssell stillknownexistingcontract,notunauthorizedcleanup.",
+        "H": "Pure menu functions directlytested;onlyflow owns hook boundary,typedstateobservedwithoutcasts. Whole record+typedtree proof useslastfield/assertion negatives;reader defaultreadonly. Allhandlervalue/setup/cleanup/input helpers checked;no mocks,newtimeout,ignore orproductreset."
+      }
+    }
+  ],
+  "reads": {
+    "fullInputs": [
+      {
+        "path": "packages/game/src/core/menu/shop-menu.test.ts",
+        "sha256": "ffbd60ae980bdaf51e1226638506fe450186adf1ed549424dfa4b0070e1faf3c",
+        "lines": 180,
+        "member": "organization-trading-state/0.before"
+      },
+      {
+        "path": "packages/game/src/core/menu/shop-menu.boundaries.test.ts",
+        "sha256": "a67bd178c508aa75bf6ac807f3be2909abc64fedcc0b3f6ca7a613a9c2d79a90",
+        "lines": 68,
+        "member": "organization-trading-state/1.before"
+      },
+      {
+        "path": "packages/game/src/core/menu/shop-menu.glm-phase1-leaves.test.ts",
+        "sha256": "fd3ccf333d7ecb95e11b2e890121d35e0ea57eb4ce58a801964d98b5baa934c2",
+        "lines": 60,
+        "member": "organization-trading-state/2.before"
+      },
+      {
+        "path": "packages/game/src/core/menu/sell-menu.test.ts",
+        "sha256": "84512d7f14cd2a7ba1f889423230ff688fe3b0ab7659cd1a712da0e13f0cc8f5",
+        "lines": 161,
+        "member": "organization-trading-state/3.before"
+      },
+      {
+        "path": "packages/game/src/core/menu/sell-menu.boundaries.test.ts",
+        "sha256": "0f6920da06521cb5526e3e7f767947778ca3072ee22da73ad21f2bfe1a719eff",
+        "lines": 136,
+        "member": "organization-trading-state/4.before"
+      },
+      {
+        "path": "packages/game/src/core/menu/sell-menu.glm-phase1-leaves.test.ts",
+        "sha256": "8d12759e5045d6cef2abcd52897ea9b1510c3ea0d89990e612f4a968e2509a5f",
+        "lines": 64,
+        "member": "organization-trading-state/5.before"
+      },
+      {
+        "path": "packages/game/src/core/menu/shop-menu.ts",
+        "sha256": "5b2adaaf06fc5a053e04ff09e44842e6aa95d2fdd9f3c324df4e991f8623e9d4",
+        "lines": 103,
+        "member": "organization-trading-state/6.before"
+      },
+      {
+        "path": "packages/game/src/core/menu/sell-menu.ts",
+        "sha256": "8c4b784a0ddd5e10708d19e6539d330ac41b8cdfc405b31ca592490ecfb860b2",
+        "lines": 139,
+        "member": "organization-trading-state/7.before"
+      }
+    ],
+    "fullOutputs": [
+      {
+        "path": "packages/game/src/core/menu/shop-menu.test.ts",
+        "sha256": "730b0a77877ea48c85093984f9e39df3696c43c1a91f5f018c43882e7e407bd7"
+      },
+      {
+        "path": "packages/game/src/core/menu/shop-menu.flow.test.ts",
+        "sha256": "18c9d0e4c7565bf4873fbcebaee31c38a6415134c23df2167892f01ab9e7ea27"
+      },
+      {
+        "path": "packages/game/src/core/menu/sell-menu.test.ts",
+        "sha256": "2f3b5ed96152d81adabe94ce739a012b04f0e8d83fbd2f6a1bb9d83f485fe03e"
+      },
+      {
+        "path": "packages/game/src/core/menu/__tests__/trading-fixture.ts",
+        "sha256": "47715c76d7401d4105ec205391d4680b7c13ae0546497a79e15b2465b4f3c131"
+      },
+      {
+        "path": "packages/game/src/core/menu/shop-menu.ts",
+        "sha256": "76f0e8d3eee8e16915cd9871d882b25de8faf6f5d7d0e7039529ae2293ad4780"
+      },
+      {
+        "path": "packages/game/src/core/menu/sell-menu.ts",
+        "sha256": "3467c4dc6ab5608dd62f3fb8797529b7ddd38a8055a3cff4815832db379eee6f"
+      }
+    ],
+    "scoped": [
+      {
+        "path": "packages/game/src/core/menu/menu-driver.ts",
+        "start": 131,
+        "end": 157,
+        "sha256": "617d1ccf1c8931b366420e514eb684cfe7846feb7052e253d289df203112513d"
+      },
+      {
+        "path": "packages/game/src/core/menu/menu-driver.ts",
+        "start": 320,
+        "end": 445,
+        "sha256": "617d1ccf1c8931b366420e514eb684cfe7846feb7052e253d289df203112513d"
+      },
+      {
+        "path": "packages/game/src/core/event-system.ts",
+        "start": 696,
+        "end": 718,
+        "sha256": "3b8490fa48d2992f693ab0eb611954dd0bfacbc22dc3eda58378cc4bc7a4b5f4"
+      },
+      {
+        "path": "packages/game/src/shell/bootstrap.ts",
+        "start": 1190,
+        "end": 1225,
+        "sha256": "a4d007c9739873dc20f385b52b584de49ec57cd5c328cb11ca9d3b0b9f19fb0a"
+      },
+      {
+        "path": "packages/game/src/core/game-state.ts",
+        "start": 36,
+        "end": 86,
+        "sha256": "084718097eb0963c2ee3a9d72da59b313ca8fd401672f6a8b341ba21ae8b8906"
+      },
+      {
+        "path": "reference/sdlpal/uigame.c",
+        "start": 1610,
+        "end": 1815,
+        "sha256": "f981b6a698b6248107ec7934b60ca988055bbab458e516e9aa2b113f8b5419c1"
+      }
+    ],
+    "priorSources": [
+      "docs/ops/evidence/CODE-QUALITY-94/approved-closeout/review.json",
+      "docs/ops/tasks/CODE-QUALITY-95-menu-fixture-legality-counter.md"
+    ]
+  },
+  "processDisclosures": [
+    "Firstreadonlyproof rejected unnecessaryparentheses inexpectedcase AST;fixedexternalexpectation only,failedrawretained.",
+    "Secondproof detectedrealfixture bitmapdrift105vs0 that30green tests missed;singleSaleItems explicitly restored bitmap0,all14records thenpass. Final91neighbors/TC rerunafterfix. No comparator weakened.",
+    "No new businesscounter added:existingliteralstate/money/requestoraclecontracts conserved,twotypedstackidentity observations strengthened,andpureproductAST unchanged. Not everyalready-supported assertion receives anothermutant.",
+    "Sixordinaryclosedmain/boundary/productpaths reopenreview;2historicalsubjects countF/G only. Goal140/174remaining34,fixed178144;0newclosed.12toolpinsunchangedthisslice. Heavy/publicationdeferred."
+  ],
+  "invalidations": "ChangedItemfactory/recordmetadata,GSinitialization,handler/global ownership,callerinterface/phase/transaction source orcase/hooks/importclosure invalidatesaffectedclaim. Fullsourcehash indicates identity,not completephase1 fidelity/E2E/visual/assetacceptance."
+}

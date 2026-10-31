@@ -35,19 +35,19 @@ id：CODE-QUALITY-94/approved-closeout；schemaVersion：1；Owner：Codex，单
 
 | 新关闭文件 | 处置 |
 |---|---|
-| [packages/game/src/core/menu/__tests__/primitives.test.ts](../../../../../packages/game/src/core/menu/__tests__/primitives.test.ts) | 本轮review→已验证 |
-| [packages/game/src/core/menu/item-select.glm-phase1-leaves.test.ts](../../../../../packages/game/src/core/menu/item-select.glm-phase1-leaves.test.ts) | 本轮review→已验证 |
+| [packages/game/src/core/menu/__tests__/primitives.test.ts](../../QUALITY-PENDING-100-3/organization-menu-state.json) | 本轮review→已验证 |
+| [packages/game/src/core/menu/item-select.glm-phase1-leaves.test.ts](../../QUALITY-PENDING-100-3/organization-menu-selection.json) | 本轮review→已验证 |
 | [packages/game/src/core/menu/item-select.ts](../../../../../packages/game/src/core/menu/item-select.ts) | 本轮review→已验证 |
 | [packages/game/src/core/menu/menu-driver.cov85.test.ts](../../../../../packages/game/src/core/menu/menu-driver.cov85.test.ts) | 本轮review→已验证 |
 | [packages/game/src/core/menu/menu-driver.test.ts](../../../../../packages/game/src/core/menu/menu-driver.test.ts) | 本轮review→已验证 |
 | [packages/game/src/core/menu/menu-driver.ts](../../../../../packages/game/src/core/menu/menu-driver.ts) | 本轮review→已验证 |
-| [packages/game/src/core/menu/opening-menu.glm-phase1-leaves.test.ts](../../../../../packages/game/src/core/menu/opening-menu.glm-phase1-leaves.test.ts) | 本轮review→已验证 |
+| [packages/game/src/core/menu/opening-menu.glm-phase1-leaves.test.ts](../../QUALITY-PENDING-100-3/organization-menu-state.json) | 本轮review→已验证 |
 | [packages/game/src/core/menu/opening-menu.test.ts](../../../../../packages/game/src/core/menu/opening-menu.test.ts) | 本轮review→已验证 |
 | [packages/game/src/core/menu/opening-menu.ts](../../../../../packages/game/src/core/menu/opening-menu.ts) | 本轮review→已验证 |
 | [packages/game/src/core/menu/player-status.test.ts](../../../../../packages/game/src/core/menu/player-status.test.ts) | 本轮review→已验证 |
 | [packages/game/src/core/menu/player-status.ts](../../../../../packages/game/src/core/menu/player-status.ts) | 本轮review→已验证 |
-| [packages/game/src/core/menu/primitives.boundaries.test.ts](../../../../../packages/game/src/core/menu/primitives.boundaries.test.ts) | 本轮review→已验证 |
-| [packages/game/src/core/menu/primitives.glm-phase1-leaves.test.ts](../../../../../packages/game/src/core/menu/primitives.glm-phase1-leaves.test.ts) | 本轮review→已验证 |
+| [packages/game/src/core/menu/primitives.boundaries.test.ts](../../QUALITY-PENDING-100-3/organization-menu-state.json) | 本轮review→已验证 |
+| [packages/game/src/core/menu/primitives.glm-phase1-leaves.test.ts](../../QUALITY-PENDING-100-3/organization-menu-state.json) | 本轮review→已验证 |
 | [packages/game/src/core/menu/primitives.ts](../../../../../packages/game/src/core/menu/primitives.ts) | 本轮review→已验证 |
 | [packages/game/src/core/menu/save-slot-menu.test.ts](../../../../../packages/game/src/core/menu/save-slot-menu.test.ts) | 本轮review→已验证 |
 | [packages/game/src/core/save/__tests__/api.test.ts](../../../../../packages/game/src/core/save/__tests__/api.test.ts) | 本轮review→已验证 |
@@ -68,3 +68,7 @@ pnpm exec tsx docs/ops/evidence/CODE-QUALITY-94/approved-closeout/prove.mjs
 两者默认只读：核54主文件/12相邻SHA、全部附件字节、指定红/绿集合、退休身份、官方指标及结构保持；不重跑全仓或coverage，也不机器认证C/D/F/G/H设计结论。任何实现/caller/输入或规则变化只重核受影响claim。未做新的剧情/视觉/真实浏览器IDB验收；JSON格式、DB版本、旧store升级/清档策略未改。schema/机制/生成物与103+范围不外扩。
 
 本地冻结时尚未推送/建PR/合并；后续实际提交、保护CI、合并与main CI以关联Git/PR为准，最终回执另核，不由本页预告。
+
+2026-10-31 导航补记：上表为当时关闭快照，旧路径及当时结论保留；四个已退役路径的链接现指向当前菜单状态身份映射，非重新授予关闭。当前状态以逐文件账本为准，八维补审／统一门仍各受其证据边界约束。
+
+2026-10-31 筛选导航补记：旧item-select叶测试保留上表原身份，当前合同归物品筛选专测，链接转现用身份映射；不重授当时关闭。

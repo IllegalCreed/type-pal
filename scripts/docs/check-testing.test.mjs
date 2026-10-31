@@ -103,7 +103,41 @@ test('invalid claim JSON produces a diagnostic instead of crashing the audit', (
   assert.ok(f.issues().some((issue) => issue.includes('malformed claim')))
 })
 
-test('catalog validation rejects duplicate ids, missing fields, and expired entries', () => {
+test('stage publication uses recorded revision without a calendar deadline', (t) => {
+  const f = pairedFixture(t)
+  Object.assign(f.entry, {
+    kind: 'e2e-stage',
+    title: 'Shop',
+    phase: ['phase1'],
+    engines: ['game'],
+    owner: 'Codex',
+    provenance: ['Codex'],
+    domain: 'runtime',
+    module: 'shop',
+    index: 'README.md',
+    tags: ['shop'],
+    lastVerified: '2000-01-01',
+    dependsOn: [],
+  })
+  writeFileSync(
+    join(f.root, 'README.md'),
+    '```yaml\nid: shop\nstatus: current\nlastVerified: 2000-01-01\n```\n',
+  )
+  const catalog = { schemaVersion: 2, entries: [f.entry] }
+  assert.deepEqual(validateCatalog(catalog, f.root), [])
+  f.entry.reviewBy = '2099-12-31'
+  assert.deepEqual(validateCatalog(catalog, f.root), [
+    'shop: reviewBy is retired; record revision/sourceRefs instead',
+  ])
+  delete f.entry.reviewBy
+  writeFileSync(
+    join(f.root, 'README.md'),
+    '```yaml\nid: shop\nstatus: current\nlastVerified: 2000-01-01\nreviewBy: 2099-12-31\n```\n',
+  )
+  assert.deepEqual(validateCatalog(catalog, f.root), ['shop: stage README reviewBy is retired'])
+})
+
+test('catalog validation rejects duplicate ids, missing fields, and retired deadlines', () => {
   const catalog = {
     schemaVersion: 1,
     entries: [
@@ -139,7 +173,7 @@ test('catalog validation rejects duplicate ids, missing fields, and expired entr
       },
     ],
   }
-  const issues = validateCatalog(catalog, '/tmp', '2026-10-04')
+  const issues = validateCatalog(catalog, '/tmp')
   assert.ok(issues.some((issue) => issue.includes('duplicate')))
   assert.ok(issues.some((issue) => issue.includes('reviewBy')))
   assert.ok(issues.some((issue) => issue.includes('invalid status')))
@@ -162,7 +196,6 @@ test('catalog validation rejects unsafe paths, malformed dates, and duplicate ca
     evidence: 'x/evidence.json',
     tags: ['x'],
     lastVerified: '2026-99-99',
-    reviewBy: 'not-a-date',
     dependsOn: [],
     sourceRefs: [{ path: 'packages/reforge/src/main.ts', lines: '1-2' }],
     publicCallers: ['caller'],
@@ -174,7 +207,6 @@ test('catalog validation rejects unsafe paths, malformed dates, and duplicate ca
   const issues = validateCatalog(
     { schemaVersion: 2, entries: [base, { ...base, id: 'y', title: 'y' }] },
     '/tmp',
-    '2026-10-04',
   )
   assert.ok(issues.some((issue) => issue.includes('unsafe') || issue.includes('missing path')))
   assert.ok(issues.some((issue) => issue.includes('invalid date')))
@@ -196,7 +228,6 @@ test('generated indexes are deterministic and expose multiple dimensions', () =>
         index: 'e2e/stages/001/README.md',
         tags: ['story'],
         lastVerified: '2026-10-01',
-        reviewBy: '2026-11-01',
         dependsOn: [],
       },
     ],

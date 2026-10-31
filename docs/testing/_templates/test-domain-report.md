@@ -22,4 +22,4 @@ Status is the catalog-publication projection for the front-matter id: draft/acti
 - failures / rework / unresolved:
 
 ## Quality gate
-- command / raw diagnostics / evidence / reviewBy:
+- command / raw diagnostics / evidence / recorded revision and applicable source fingerprints:

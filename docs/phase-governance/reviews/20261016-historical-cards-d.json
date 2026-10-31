@@ -3307,7 +3307,7 @@
       "sourceSha256": "ebf04c215b7bb6a3feda0cb8b8676fed19b40057a4de5e311375a174139529f0",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "50012277f66ac304ce272ee89fd623db8590fac2",
-      "afterSha256": "1c00ca85fe81bc9c984a49b9dd4c093ec53065e2699467838b1f978c58170624",
+      "afterSha256": "d9fd2e5210891ca4a2cd6aaf652dc5bf612b0d304dfb57d9a9af0461db501dee",
       "revision": {
         "currentSha": "4fcd1122ca1951aafbd5033161e00ac34671911088b8129354a4bd50d8d3df5c",
         "implementationSha": "366861cb8704560e6339cb4581f1bff6813fbf63ce7ed2138bef9c56d829878f",
@@ -6243,6 +6243,13 @@
         "synchronizedMain": "d297e64d0a928abb813ce280122d51c2c852bea5",
         "workingTreeDelta": true,
         "notAFullSourceReaudit": true
+      },
+      "pendingWindow3Review": {
+        "date": "2026-10-29",
+        "owner": "Codex",
+        "sourceSha256": "1c00ca85fe81bc9c984a49b9dd4c093ec53065e2699467838b1f978c58170624",
+        "scope": "Owned pending-window3 rows/task projection or corresponding exact afterSHA bindings; historical content not reaccepted",
+        "evidence": "docs/ops/evidence/QUALITY-PENDING-100-3/review.json"
       }
     },
     {

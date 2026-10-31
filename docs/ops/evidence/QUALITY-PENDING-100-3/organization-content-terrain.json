@@ -1,0 +1,643 @@
+{
+  "id": "content-stamp-and-tileset-test-ownership",
+  "namespace": "organization-content-terrain",
+  "inputs": [
+    {
+      "path": "packages/content/src/stamp.cursor-boundaries.test.ts",
+      "sha256": "384bdc5c9bfdf135f9c4c2fefa0e1f4426cd829d34d95af437c3f6a35a134222",
+      "lines": 54,
+      "member": "organization-content-terrain/0.before"
+    },
+    {
+      "path": "packages/content/src/tileset.cursor-pure-wave2.test.ts",
+      "sha256": "cc04d5b8e880bfe4fa01fe038b042864b91a0de4eab3e6e0f2ca53b44a8c0249",
+      "lines": 62,
+      "member": "organization-content-terrain/1.before"
+    },
+    {
+      "path": "packages/content/src/stamp.test.ts",
+      "sha256": "0ff8ece572af647bc23548048cc3b91401619ab75fbc50ec0035406a0c8d3317",
+      "lines": 104,
+      "member": "organization-content-terrain/2.before"
+    },
+    {
+      "path": "packages/content/src/tileset.test.ts",
+      "sha256": "3e91ae010c471dbf98c54c5551615f1c4c3e7c4d3c9be2596ceb1b56b455de6e",
+      "lines": 49,
+      "member": "organization-content-terrain/3.before"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "packages/content/src/stamp.test.ts",
+      "sha256": "a32045ed93a63a0debcac051800b23e9bcf59dd395f61e2ba442f7f4f63aba7a",
+      "lines": 154
+    },
+    {
+      "path": "packages/content/src/tileset.test.ts",
+      "sha256": "6927b4a59ec5130ff12fd3b7ced8469aca010b74d3f6aa1da32d3aa548250787",
+      "lines": 103
+    }
+  ],
+  "replacements": [],
+  "sourceBridges": [
+    {
+      "path": "packages/content/src/stamp.cursor-boundaries.test.ts",
+      "id": "organization-content-terrain-0",
+      "reason": "Analysis-only current lexical contexts in original registration order. Independent complete typed-module proof restricts all actual changes; this context is not a semantic equivalence claim.",
+      "changes": [
+        {
+          "from": "/**\n * TEST-CURSOR-PURE-WAVE-1 A03：仅 col 越界的锚点。\n * 行越界 / 往返 / 空格锚见 stamp.test.ts。\n */\nimport { describe, expect, test } from 'vitest'\nimport { inputSnap } from './cursor-pure-fixtures.js'\nimport { type StampTemplate, validateStampTemplates } from './stamp.js'\n\nfunction legalStamp(): StampTemplate {\n  return {\n    id: 'bush',\n    name: '灌木',\n    origin: 'authored',\n    width: 2,\n    height: 1,\n    anchor: { row: 0, col: 0 },\n    tilesetRefs: ['tileset-003'],\n    layers: [\n      {\n        id: 'base',\n        name: '底',\n        tiles: [\n          [1, null],\n          [null, null],\n        ],\n        sources: [\n          [0, null],\n          [null, null],\n        ],\n      },\n    ],\n    collision: [\n      [1, null],\n      [null, null],\n    ],\n  }\n}\n\ndescribe('A03 stamp 剩余合同', () => {\n  test('anchor 仅 col 越界拒绝；同模板 row 合法空格锚通过', () => {\n    const ok = legalStamp()\n    ok.anchor = { row: 1, col: 1 }\n    const okSnap = inputSnap(ok)\n    expect(validateStampTemplates([ok])[0]!.anchor).toEqual({ row: 1, col: 1 })\n    expect(ok).toEqual(okSnap)\n\n    const overflow = legalStamp()\n    overflow.anchor = { row: 0, col: 2 }\n    const overflowSnap = inputSnap(overflow)\n    expect(() => validateStampTemplates([overflow])).toThrow('锚点超出局部 surface')\n    expect(overflow).toEqual(overflowSnap)\n    expect(overflow.layers[0]!.tiles[0]![0]).toBe(1)\n  })\n})\n",
+          "to": "import { describe } from \"vitest\"\nimport { deepSnapshot } from \"./__tests__/value-snapshot.js\"\nimport { expect } from \"vitest\"\nimport type { StampTemplate } from \"./stamp.js\"\nimport { test } from \"vitest\"\nimport { validateStampTemplates } from \"./stamp.js\"\ndescribe(\"StampTemplate shared isometric content\", () => {\n\n\n\n  test('anchor 仅 col 越界拒绝；同模板 row 合法空格锚通过', () => {\n    function singleLayerStamp(): StampTemplate {\n      return {\n        id: 'bush',\n        name: '灌木',\n        origin: 'authored',\n        width: 2,\n        height: 1,\n        anchor: { row: 0, col: 0 },\n        tilesetRefs: ['tileset-003'],\n        layers: [\n          {\n            id: 'base',\n            name: '底',\n            tiles: [\n              [1, null],\n              [null, null],\n            ],\n            sources: [\n              [0, null],\n              [null, null],\n            ],\n          },\n        ],\n        collision: [\n          [1, null],\n          [null, null],\n        ],\n      }\n    }\n\n    const ok = singleLayerStamp()\n    ok.anchor = { row: 1, col: 1 }\n    const okSnap = deepSnapshot(ok)\n    expect(validateStampTemplates([ok])[0]!.anchor).toEqual({ row: 1, col: 1 })\n    expect(ok).toEqual(okSnap)\n\n    const overflow = singleLayerStamp()\n    overflow.anchor = { row: 0, col: 2 }\n    const overflowSnap = deepSnapshot(overflow)\n    expect(() => validateStampTemplates([overflow])).toThrow('锚点超出局部 surface')\n    expect(overflow).toEqual(overflowSnap)\n    expect(overflow.layers[0]!.tiles[0]![0]).toBe(1)\n  })\n})\n",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "packages/content/src/tileset.cursor-pure-wave2.test.ts",
+      "id": "organization-content-terrain-1",
+      "reason": "Analysis-only current lexical contexts in original registration order. Independent complete typed-module proof restricts all actual changes; this context is not a semantic equivalence claim.",
+      "changes": [
+        {
+          "from": "/**\n * TEST-CURSOR-CONTENT-PURE-WAVE-2 C4：validateTilesets 先过匹配 catalog。\n * 无 catalog 正控、错 kind 拒绝已由 tileset.test / map-index.contracts 证明。\n */\nimport { describe, expect, test } from 'vitest'\nimport { inputSnap, tilesetCatalogRecord } from './__tests__/cursor-pure-wave2-fixtures.js'\nimport { validateAssetCatalog } from './asset.js'\nimport { resolveTilesetAsset, validateTilesets } from './tileset.js'\n\ndescribe('C4 tileset 剩余合同', () => {\n  test('匹配 tileset catalog 通过且输入不变，旁 sprite 记录不入解析', () => {\n    const catalog = validateAssetCatalog({\n      version: 1,\n      assets: {\n        'tileset.grass': tilesetCatalogRecord('tileset.grass'),\n        'sprite.unused': {\n          kind: 'sprite',\n          path: 'assets/generated/sprite.unused.png',\n          mediaType: 'image/png',\n          bytes: 3,\n          sha256: 'b'.repeat(64),\n          origin: { kind: 'generated' },\n        },\n      },\n    })\n    const tilesets = [{ id: 'grass', name: '草地', category: 'outdoor', asset: 'tileset.grass' }]\n    const catalogSnap = inputSnap(catalog)\n    const tilesetSnap = inputSnap(tilesets)\n    expect(validateTilesets(tilesets, catalog)).toEqual(tilesets)\n    expect(tilesets).toEqual(tilesetSnap)\n    expect(catalog).toEqual(catalogSnap)\n    expect(resolveTilesetAsset('grass', tilesets)).toBe('tileset.grass')\n  })\n\n  test('catalog 缺 AssetId 与 kind 不符各自精确拒绝，输入不变', () => {\n    const spriteOnly = validateAssetCatalog({\n      version: 1,\n      assets: {\n        'sprite.x': {\n          kind: 'sprite',\n          path: 'assets/generated/sprite.x.png',\n          mediaType: 'image/png',\n          bytes: 3,\n          sha256: 'c'.repeat(64),\n          origin: { kind: 'generated' },\n        },\n      },\n    })\n    const missing = [{ id: 'grass', name: '草地', category: 'outdoor', asset: 'tileset.ghost' }]\n    const mismatch = [{ id: 'grass', name: '草地', category: 'outdoor', asset: 'sprite.x' }]\n    const missingSnap = inputSnap(missing)\n    const mismatchSnap = inputSnap(mismatch)\n    expect(() => validateTilesets(missing, spriteOnly)).toThrow(\n      'tilesets[0].asset: AssetId \"tileset.ghost\" 不在 catalog',\n    )\n    expect(() => validateTilesets(mismatch, spriteOnly)).toThrow(\n      'tilesets[0].asset: AssetId \"sprite.x\" 期望 tileset，实际 sprite',\n    )\n    expect(missing).toEqual(missingSnap)\n    expect(mismatch).toEqual(mismatchSnap)\n  })\n})\n",
+          "to": "import { describe } from \"vitest\"\nimport { deepSnapshot } from \"./__tests__/value-snapshot.js\"\nimport { expect } from \"vitest\"\nimport { resolveTilesetAsset } from \"./tileset.js\"\nimport { test } from \"vitest\"\nimport { tilesetCatalogRecord } from \"./__tests__/cursor-pure-wave2-fixtures.js\"\nimport { validateAssetCatalog } from \"./asset.js\"\nimport { validateTilesets } from \"./tileset.js\"\ndescribe(\"validateTilesets\", () => {\n\n\n\n  test('匹配 tileset catalog 通过且输入不变，旁 sprite 记录不入解析', () => {\n    const catalog = validateAssetCatalog({\n      version: 1,\n      assets: {\n        'tileset.grass': tilesetCatalogRecord('tileset.grass'),\n        'sprite.unused': {\n          kind: 'sprite',\n          path: 'assets/generated/sprite.unused.png',\n          mediaType: 'image/png',\n          bytes: 3,\n          sha256: 'b'.repeat(64),\n          origin: { kind: 'generated' },\n        },\n      },\n    })\n    const tilesets = [{ id: 'grass', name: '草地', category: 'outdoor', asset: 'tileset.grass' }]\n    const catalogSnap = deepSnapshot(catalog)\n    const tilesetSnap = deepSnapshot(tilesets)\n    expect(validateTilesets(tilesets, catalog)).toEqual(tilesets)\n    expect(tilesets).toEqual(tilesetSnap)\n    expect(catalog).toEqual(catalogSnap)\n    expect(resolveTilesetAsset('grass', tilesets)).toBe('tileset.grass')\n  })\n})\ndescribe(\"validateTilesets\", () => {\n\n\n\n  test('catalog 缺 AssetId 与 kind 不符各自精确拒绝，输入不变', () => {\n    const spriteOnly = validateAssetCatalog({\n      version: 1,\n      assets: {\n        'sprite.x': {\n          kind: 'sprite',\n          path: 'assets/generated/sprite.x.png',\n          mediaType: 'image/png',\n          bytes: 3,\n          sha256: 'c'.repeat(64),\n          origin: { kind: 'generated' },\n        },\n      },\n    })\n    const missing = [{ id: 'grass', name: '草地', category: 'outdoor', asset: 'tileset.ghost' }]\n    const mismatch = [{ id: 'grass', name: '草地', category: 'outdoor', asset: 'sprite.x' }]\n    const missingSnap = deepSnapshot(missing)\n    const mismatchSnap = deepSnapshot(mismatch)\n    expect(() => validateTilesets(missing, spriteOnly)).toThrow(\n      'tilesets[0].asset: AssetId \"tileset.ghost\" 不在 catalog',\n    )\n    expect(() => validateTilesets(mismatch, spriteOnly)).toThrow(\n      'tilesets[0].asset: AssetId \"sprite.x\" 期望 tileset，实际 sprite',\n    )\n    expect(missing).toEqual(missingSnap)\n    expect(mismatch).toEqual(mismatchSnap)\n  })\n})\n",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "packages/content/src/stamp.test.ts",
+      "id": "organization-content-terrain-2",
+      "reason": "Analysis-only current lexical contexts in original registration order. Independent complete typed-module proof restricts all actual changes; this context is not a semantic equivalence claim.",
+      "changes": [
+        {
+          "from": "import { describe, expect, test } from 'vitest'\nimport {\n  formatStampTemplates,\n  parseStampTemplates,\n  type StampTemplate,\n  validateStampTemplates,\n} from './stamp.js'\n\nfunction fixture(): StampTemplate[] {\n  return [\n    {\n      id: 'tree-large',\n      name: '大树',\n      category: 'vegetation',\n      origin: 'authored',\n      width: 2,\n      height: 1,\n      anchor: { row: 0, col: 0 },\n      tilesetRefs: ['tileset-003', 'tileset-004'],\n      layers: [\n        {\n          id: 'ground',\n          name: '地面',\n          tiles: [\n            [1, null],\n            [null, null],\n          ],\n          sources: [\n            [0, null],\n            [null, null],\n          ],\n        },\n        {\n          id: 'canopy',\n          name: '树冠',\n          tiles: [\n            [null, 2],\n            [null, null],\n          ],\n          sources: [\n            [null, 1],\n            [null, null],\n          ],\n          heights: [\n            [0, 5],\n            [0, 0],\n          ],\n        },\n      ],\n      collision: [\n        [1, 0],\n        [null, null],\n      ],\n    },\n  ]\n}\n\ndescribe('StampTemplate shared isometric content', () => {\n  test('多层、多来源、相对高度与 nullable collision 确定性往返', () => {\n    const templates = validateStampTemplates(fixture())\n    expect(templates).toEqual(fixture())\n    expect(templates[0]?.layers).toHaveLength(2)\n    expect(templates[0]?.collision[0]).toEqual([1, 0])\n    expect(templates[0]?.category).toBe('vegetation')\n    expect(templates[0]?.layers[1]?.heights).toEqual([\n      [0, 5],\n      [0, 0],\n    ])\n    const first = formatStampTemplates(templates)\n    expect(first.endsWith('\\n')).toBe(true)\n    expect(parseStampTemplates(first)).toEqual(templates)\n    expect(formatStampTemplates(parseStampTemplates(first))).toBe(first)\n  })\n\n  test('null 与显式 0 碰撞不同，锚点可位于空格但不得越界', () => {\n    const templates = fixture()\n    templates[0]!.anchor = { row: 1, col: 1 }\n    const stamp = validateStampTemplates(templates)[0]!\n    expect(stamp.collision[0]![1]).toBe(0)\n    expect(stamp.collision[1]![1]).toBeNull()\n\n    templates[0]!.anchor = { row: 2, col: 0 }\n    expect(() => validateStampTemplates(templates)).toThrow('锚点超出')\n  })\n\n  test('拒绝重复 id、无视觉实例和来源 lockstep 破坏', () => {\n    expect(() => validateStampTemplates([...fixture(), ...fixture()])).toThrow('重复 id')\n    expect(() => validateStampTemplates([{ ...fixture()[0], id: 'a/b' }])).toThrow(\"不得含 '/'\")\n    expect(() => validateStampTemplates([{ ...fixture()[0], origin: 'legacy' }])).toThrow(\n      '期望 authored 或 migrated',\n    )\n    const empty = fixture()\n    for (const layer of empty[0]!.layers) {\n      layer.tiles = layer.tiles.map((row) => row.map(() => null))\n      layer.sources = layer.sources.map((row) => row.map(() => null))\n      delete layer.heights\n    }\n    expect(() => validateStampTemplates(empty)).toThrow('至少包含一个视觉')\n\n    const broken = fixture()\n    broken[0]!.layers[0]!.sources[0]![0] = null\n    expect(() => validateStampTemplates(broken)).toThrow('tiles/sources 必须同时')\n  })\n})\n",
+          "to": "import { describe } from \"vitest\"\nimport { expect } from \"vitest\"\nimport { formatStampTemplates } from \"./stamp.js\"\nimport { parseStampTemplates } from \"./stamp.js\"\nimport type { StampTemplate } from \"./stamp.js\"\nimport { test } from \"vitest\"\nimport { validateStampTemplates } from \"./stamp.js\"\ndescribe(\"StampTemplate shared isometric content\", () => {\n\n\nfunction layeredStamps(): StampTemplate[] {\n  return [\n    {\n      id: 'tree-large',\n      name: '大树',\n      category: 'vegetation',\n      origin: 'authored',\n      width: 2,\n      height: 1,\n      anchor: { row: 0, col: 0 },\n      tilesetRefs: ['tileset-003', 'tileset-004'],\n      layers: [\n        {\n          id: 'ground',\n          name: '地面',\n          tiles: [\n            [1, null],\n            [null, null],\n          ],\n          sources: [\n            [0, null],\n            [null, null],\n          ],\n        },\n        {\n          id: 'canopy',\n          name: '树冠',\n          tiles: [\n            [null, 2],\n            [null, null],\n          ],\n          sources: [\n            [null, 1],\n            [null, null],\n          ],\n          heights: [\n            [0, 5],\n            [0, 0],\n          ],\n        },\n      ],\n      collision: [\n        [1, 0],\n        [null, null],\n      ],\n    },\n  ]\n}\n\n  test('多层、多来源、相对高度与 nullable collision 确定性往返', () => {\n    const templates = validateStampTemplates(layeredStamps())\n    expect(templates).toEqual(layeredStamps())\n    expect(templates[0]?.layers).toHaveLength(2)\n    expect(templates[0]?.collision[0]).toEqual([1, 0])\n    expect(templates[0]?.category).toBe('vegetation')\n    expect(templates[0]?.layers[1]?.heights).toEqual([\n      [0, 5],\n      [0, 0],\n    ])\n    const first = formatStampTemplates(templates)\n    expect(first.endsWith('\\n')).toBe(true)\n    expect(parseStampTemplates(first)).toEqual(templates)\n    expect(formatStampTemplates(parseStampTemplates(first))).toBe(first)\n  })\n})\ndescribe(\"StampTemplate shared isometric content\", () => {\n\n\nfunction layeredStamps(): StampTemplate[] {\n  return [\n    {\n      id: 'tree-large',\n      name: '大树',\n      category: 'vegetation',\n      origin: 'authored',\n      width: 2,\n      height: 1,\n      anchor: { row: 0, col: 0 },\n      tilesetRefs: ['tileset-003', 'tileset-004'],\n      layers: [\n        {\n          id: 'ground',\n          name: '地面',\n          tiles: [\n            [1, null],\n            [null, null],\n          ],\n          sources: [\n            [0, null],\n            [null, null],\n          ],\n        },\n        {\n          id: 'canopy',\n          name: '树冠',\n          tiles: [\n            [null, 2],\n            [null, null],\n          ],\n          sources: [\n            [null, 1],\n            [null, null],\n          ],\n          heights: [\n            [0, 5],\n            [0, 0],\n          ],\n        },\n      ],\n      collision: [\n        [1, 0],\n        [null, null],\n      ],\n    },\n  ]\n}\n\n\n  test('null 与显式 0 碰撞不同，锚点可位于空格但不得越界', () => {\n    const templates = layeredStamps()\n    templates[0]!.anchor = { row: 1, col: 1 }\n    const stamp = validateStampTemplates(templates)[0]!\n    expect(stamp.collision[0]![1]).toBe(0)\n    expect(stamp.collision[1]![1]).toBeNull()\n\n    templates[0]!.anchor = { row: 2, col: 0 }\n    expect(() => validateStampTemplates(templates)).toThrow('锚点超出')\n  })\n})\ndescribe(\"StampTemplate shared isometric content\", () => {\n\n\nfunction layeredStamps(): StampTemplate[] {\n  return [\n    {\n      id: 'tree-large',\n      name: '大树',\n      category: 'vegetation',\n      origin: 'authored',\n      width: 2,\n      height: 1,\n      anchor: { row: 0, col: 0 },\n      tilesetRefs: ['tileset-003', 'tileset-004'],\n      layers: [\n        {\n          id: 'ground',\n          name: '地面',\n          tiles: [\n            [1, null],\n            [null, null],\n          ],\n          sources: [\n            [0, null],\n            [null, null],\n          ],\n        },\n        {\n          id: 'canopy',\n          name: '树冠',\n          tiles: [\n            [null, 2],\n            [null, null],\n          ],\n          sources: [\n            [null, 1],\n            [null, null],\n          ],\n          heights: [\n            [0, 5],\n            [0, 0],\n          ],\n        },\n      ],\n      collision: [\n        [1, 0],\n        [null, null],\n      ],\n    },\n  ]\n}\n\n\n  test('拒绝重复 id、无视觉实例和来源 lockstep 破坏', () => {\n    expect(() => validateStampTemplates([...layeredStamps(), ...layeredStamps()])).toThrow(\n      '重复 id',\n    )\n    expect(() => validateStampTemplates([{ ...layeredStamps()[0], id: 'a/b' }])).toThrow(\n      \"不得含 '/'\",\n    )\n    expect(() => validateStampTemplates([{ ...layeredStamps()[0], origin: 'legacy' }])).toThrow(\n      '期望 authored 或 migrated',\n    )\n    const empty = layeredStamps()\n    for (const layer of empty[0]!.layers) {\n      layer.tiles = layer.tiles.map((row) => row.map(() => null))\n      layer.sources = layer.sources.map((row) => row.map(() => null))\n      delete layer.heights\n    }\n    expect(() => validateStampTemplates(empty)).toThrow('至少包含一个视觉')\n\n    const broken = layeredStamps()\n    broken[0]!.layers[0]!.sources[0]![0] = null\n    expect(() => validateStampTemplates(broken)).toThrow('tiles/sources 必须同时')\n  })\n})\n",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "packages/content/src/tileset.test.ts",
+      "id": "organization-content-terrain-3",
+      "reason": "Analysis-only current lexical contexts in original registration order. Independent complete typed-module proof restricts all actual changes; this context is not a semantic equivalence claim.",
+      "changes": [
+        {
+          "from": "import { describe, expect, test } from 'vitest'\nimport { deepSnapshot } from './__tests__/value-snapshot.js'\nimport { resolveTilesetAsset, validateTilesets } from './tileset.js'\n\ndescribe('validateTilesets(W7B)', () => {\n  test('合法条目原样返回', () => {\n    const raw = [\n      { id: 'grass', name: '草地', category: 'outdoor', asset: 'tileset.grass' },\n      { id: 'pal-20', name: '原版·仙灵岛', category: 'builtin', asset: 'tileset.pal.020' },\n    ]\n    const before = deepSnapshot(raw)\n    const v = validateTilesets(raw)\n    expect(v).toEqual([\n      { id: 'grass', name: '草地', category: 'outdoor', asset: 'tileset.grass' },\n      { id: 'pal-20', name: '原版·仙灵岛', category: 'builtin', asset: 'tileset.pal.020' },\n    ])\n    expect(raw).toEqual(before)\n  })\n  test('重复 id / id 含斜杠 / 空字段 / 退役 tiles 字段 → 各自报错', () => {\n    const base = { name: 'n', category: 'c', asset: 'tileset.test' }\n    expect(() =>\n      validateTilesets([\n        { id: 'a', ...base },\n        { id: 'a', ...base },\n      ]),\n    ).toThrow('重复 id')\n    expect(() => validateTilesets([{ id: 'a/b', ...base }])).toThrow(\"不得含 '/'\")\n    expect(() =>\n      validateTilesets([{ id: 'a', name: '', category: 'c', asset: 'tileset.test' }]),\n    ).toThrow('name')\n    expect(() => validateTilesets([{ id: 'a', ...base, tiles: [{}] }])).toThrow('已退役')\n    expect(() => validateTilesets({})).toThrow('期望数组')\n    expect(() => validateTilesets([{ id: 'a', name: 'n', category: 'c' }])).toThrow(\n      'tilesets[0].asset: 期望非空 AssetId',\n    )\n    expect(() => validateTilesets([{ id: 'a', ...base, path: 'assets/tilesets/a.rle' }])).toThrow(\n      '已退役',\n    )\n  })\n})\n\ndescribe('resolveTilesetAsset', () => {\n  const reg = [{ id: 'grass', name: '草', category: 'outdoor', asset: 'tileset.grass' }]\n  test('注册表 id → AssetId；路径直通与未知 id 均报错', () => {\n    expect(resolveTilesetAsset('grass', reg)).toBe('tileset.grass')\n    expect(() => resolveTilesetAsset('tileset/20.rle', reg)).toThrow('不在注册表')\n    expect(() => resolveTilesetAsset('nope', reg)).toThrow('tileset \"nope\" 不在注册表')\n  })\n})\n",
+          "to": "import { describe } from \"vitest\"\nimport { deepSnapshot } from \"./__tests__/value-snapshot.js\"\nimport { expect } from \"vitest\"\nimport { test } from \"vitest\"\nimport { validateTilesets } from \"./tileset.js\"\nimport { resolveTilesetAsset } from \"./tileset.js\"\ndescribe(\"validateTilesets\", () => {\n\n\n  test('合法条目原样返回', () => {\n    const raw = [\n      { id: 'grass', name: '草地', category: 'outdoor', asset: 'tileset.grass' },\n      { id: 'pal-20', name: '原版·仙灵岛', category: 'builtin', asset: 'tileset.pal.020' },\n    ]\n    const before = deepSnapshot(raw)\n    const validated = validateTilesets(raw)\n    expect(validated).toEqual([\n      { id: 'grass', name: '草地', category: 'outdoor', asset: 'tileset.grass' },\n      { id: 'pal-20', name: '原版·仙灵岛', category: 'builtin', asset: 'tileset.pal.020' },\n    ])\n    expect(raw).toEqual(before)\n  })\n})\ndescribe(\"validateTilesets\", () => {\n\n\n  test('重复 id / id 含斜杠 / 空字段 / 退役 tiles 字段 → 各自报错', () => {\n    const base = { name: 'n', category: 'c', asset: 'tileset.test' }\n    expect(() =>\n      validateTilesets([\n        { id: 'a', ...base },\n        { id: 'a', ...base },\n      ]),\n    ).toThrow('重复 id')\n    expect(() => validateTilesets([{ id: 'a/b', ...base }])).toThrow(\"不得含 '/'\")\n    expect(() =>\n      validateTilesets([{ id: 'a', name: '', category: 'c', asset: 'tileset.test' }]),\n    ).toThrow('name')\n    expect(() => validateTilesets([{ id: 'a', ...base, tiles: [{}] }])).toThrow('已退役')\n    expect(() => validateTilesets({})).toThrow('期望数组')\n    expect(() => validateTilesets([{ id: 'a', name: 'n', category: 'c' }])).toThrow(\n      'tilesets[0].asset: 期望非空 AssetId',\n    )\n    expect(() => validateTilesets([{ id: 'a', ...base, path: 'assets/tilesets/a.rle' }])).toThrow(\n      '已退役',\n    )\n  })\n})\ndescribe(\"resolveTilesetAsset\", () => {\n\n  const tilesets = [{ id: 'grass', name: '草', category: 'outdoor', asset: 'tileset.grass' }]\n\n  test('注册表 id → AssetId；路径直通与未知 id 均报错', () => {\n    expect(resolveTilesetAsset('grass', tilesets)).toBe('tileset.grass')\n    expect(() => resolveTilesetAsset('tileset/20.rle', tilesets)).toThrow('不在注册表')\n    expect(() => resolveTilesetAsset('nope', tilesets)).toThrow('tileset \"nope\" 不在注册表')\n  })\n})\n",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "registrations": [
+    {
+      "old": {
+        "file": "packages/content/src/stamp.cursor-boundaries.test.ts",
+        "ordinal": 0,
+        "fullName": "A03 stamp 剩余合同 anchor 仅 col 越界拒绝；同模板 row 合法空格锚通过"
+      },
+      "current": {
+        "file": "packages/content/src/stamp.test.ts",
+        "titles": ["StampTemplate shared isometric content"],
+        "template": "anchor 仅 col 越界拒绝；同模板 row 合法空格锚通过",
+        "fullName": "StampTemplate shared isometric content anchor 仅 col 越界拒绝；同模板 row 合法空格锚通过"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/tileset.cursor-pure-wave2.test.ts",
+        "ordinal": 0,
+        "fullName": "C4 tileset 剩余合同 匹配 tileset catalog 通过且输入不变，旁 sprite 记录不入解析"
+      },
+      "current": {
+        "file": "packages/content/src/tileset.test.ts",
+        "titles": ["validateTilesets"],
+        "template": "匹配 tileset catalog 通过且输入不变，旁 sprite 记录不入解析",
+        "fullName": "validateTilesets 匹配 tileset catalog 通过且输入不变，旁 sprite 记录不入解析"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/tileset.cursor-pure-wave2.test.ts",
+        "ordinal": 1,
+        "fullName": "C4 tileset 剩余合同 catalog 缺 AssetId 与 kind 不符各自精确拒绝，输入不变"
+      },
+      "current": {
+        "file": "packages/content/src/tileset.test.ts",
+        "titles": ["validateTilesets"],
+        "template": "catalog 缺 AssetId 与 kind 不符各自精确拒绝，输入不变",
+        "fullName": "validateTilesets catalog 缺 AssetId 与 kind 不符各自精确拒绝，输入不变"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/stamp.test.ts",
+        "ordinal": 0,
+        "fullName": "StampTemplate shared isometric content 多层、多来源、相对高度与 nullable collision 确定性往返"
+      },
+      "current": {
+        "file": "packages/content/src/stamp.test.ts",
+        "titles": ["StampTemplate shared isometric content"],
+        "template": "多层、多来源、相对高度与 nullable collision 确定性往返",
+        "fullName": "StampTemplate shared isometric content 多层、多来源、相对高度与 nullable collision 确定性往返"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/stamp.test.ts",
+        "ordinal": 1,
+        "fullName": "StampTemplate shared isometric content null 与显式 0 碰撞不同，锚点可位于空格但不得越界"
+      },
+      "current": {
+        "file": "packages/content/src/stamp.test.ts",
+        "titles": ["StampTemplate shared isometric content"],
+        "template": "null 与显式 0 碰撞不同，锚点可位于空格但不得越界",
+        "fullName": "StampTemplate shared isometric content null 与显式 0 碰撞不同，锚点可位于空格但不得越界"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/stamp.test.ts",
+        "ordinal": 2,
+        "fullName": "StampTemplate shared isometric content 拒绝重复 id、无视觉实例和来源 lockstep 破坏"
+      },
+      "current": {
+        "file": "packages/content/src/stamp.test.ts",
+        "titles": ["StampTemplate shared isometric content"],
+        "template": "拒绝重复 id、无视觉实例和来源 lockstep 破坏",
+        "fullName": "StampTemplate shared isometric content 拒绝重复 id、无视觉实例和来源 lockstep 破坏"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/tileset.test.ts",
+        "ordinal": 0,
+        "fullName": "validateTilesets(W7B) 合法条目原样返回"
+      },
+      "current": {
+        "file": "packages/content/src/tileset.test.ts",
+        "titles": ["validateTilesets"],
+        "template": "合法条目原样返回",
+        "fullName": "validateTilesets 合法条目原样返回"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/tileset.test.ts",
+        "ordinal": 1,
+        "fullName": "validateTilesets(W7B) 重复 id / id 含斜杠 / 空字段 / 退役 tiles 字段 → 各自报错"
+      },
+      "current": {
+        "file": "packages/content/src/tileset.test.ts",
+        "titles": ["validateTilesets"],
+        "template": "重复 id / id 含斜杠 / 空字段 / 退役 tiles 字段 → 各自报错",
+        "fullName": "validateTilesets 重复 id / id 含斜杠 / 空字段 / 退役 tiles 字段 → 各自报错"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/tileset.test.ts",
+        "ordinal": 2,
+        "fullName": "resolveTilesetAsset 注册表 id → AssetId；路径直通与未知 id 均报错"
+      },
+      "current": {
+        "file": "packages/content/src/tileset.test.ts",
+        "titles": ["resolveTilesetAsset"],
+        "template": "注册表 id → AssetId；路径直通与未知 id 均报错",
+        "fullName": "resolveTilesetAsset 注册表 id → AssetId；路径直通与未知 id 均报错"
+      }
+    }
+  ],
+  "identities": [
+    {
+      "old": {
+        "file": "packages/content/src/stamp.cursor-boundaries.test.ts",
+        "fullName": "A03 stamp 剩余合同 anchor 仅 col 越界拒绝；同模板 row 合法空格锚通过"
+      },
+      "current": {
+        "file": "packages/content/src/stamp.test.ts",
+        "fullName": "StampTemplate shared isometric content anchor 仅 col 越界拒绝；同模板 row 合法空格锚通过"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/stamp.test.ts",
+        "fullName": "StampTemplate shared isometric content 多层、多来源、相对高度与 nullable collision 确定性往返"
+      },
+      "current": {
+        "file": "packages/content/src/stamp.test.ts",
+        "fullName": "StampTemplate shared isometric content 多层、多来源、相对高度与 nullable collision 确定性往返"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/stamp.test.ts",
+        "fullName": "StampTemplate shared isometric content null 与显式 0 碰撞不同，锚点可位于空格但不得越界"
+      },
+      "current": {
+        "file": "packages/content/src/stamp.test.ts",
+        "fullName": "StampTemplate shared isometric content null 与显式 0 碰撞不同，锚点可位于空格但不得越界"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/stamp.test.ts",
+        "fullName": "StampTemplate shared isometric content 拒绝重复 id、无视觉实例和来源 lockstep 破坏"
+      },
+      "current": {
+        "file": "packages/content/src/stamp.test.ts",
+        "fullName": "StampTemplate shared isometric content 拒绝重复 id、无视觉实例和来源 lockstep 破坏"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/tileset.cursor-pure-wave2.test.ts",
+        "fullName": "C4 tileset 剩余合同 匹配 tileset catalog 通过且输入不变，旁 sprite 记录不入解析"
+      },
+      "current": {
+        "file": "packages/content/src/tileset.test.ts",
+        "fullName": "validateTilesets 匹配 tileset catalog 通过且输入不变，旁 sprite 记录不入解析"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/tileset.cursor-pure-wave2.test.ts",
+        "fullName": "C4 tileset 剩余合同 catalog 缺 AssetId 与 kind 不符各自精确拒绝，输入不变"
+      },
+      "current": {
+        "file": "packages/content/src/tileset.test.ts",
+        "fullName": "validateTilesets catalog 缺 AssetId 与 kind 不符各自精确拒绝，输入不变"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/tileset.test.ts",
+        "fullName": "validateTilesets(W7B) 合法条目原样返回"
+      },
+      "current": {
+        "file": "packages/content/src/tileset.test.ts",
+        "fullName": "validateTilesets 合法条目原样返回"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/tileset.test.ts",
+        "fullName": "validateTilesets(W7B) 重复 id / id 含斜杠 / 空字段 / 退役 tiles 字段 → 各自报错"
+      },
+      "current": {
+        "file": "packages/content/src/tileset.test.ts",
+        "fullName": "validateTilesets 重复 id / id 含斜杠 / 空字段 / 退役 tiles 字段 → 各自报错"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/tileset.test.ts",
+        "fullName": "resolveTilesetAsset 注册表 id → AssetId；路径直通与未知 id 均报错"
+      },
+      "current": {
+        "file": "packages/content/src/tileset.test.ts",
+        "fullName": "resolveTilesetAsset 注册表 id → AssetId；路径直通与未知 id 均报错"
+      }
+    }
+  ],
+  "retirements": [],
+  "cohortSubjects": [
+    {
+      "path": "packages/content/src/stamp.cursor-boundaries.test.ts",
+      "sha256": "384bdc5c9bfdf135f9c4c2fefa0e1f4426cd829d34d95af437c3f6a35a134222",
+      "priorCurrentBridges": []
+    },
+    {
+      "path": "packages/content/src/tileset.cursor-pure-wave2.test.ts",
+      "sha256": "cc04d5b8e880bfe4fa01fe038b042864b91a0de4eab3e6e0f2ca53b44a8c0249",
+      "priorCurrentBridges": []
+    }
+  ],
+  "profiles": [
+    {
+      "path": "packages/content/src/stamp.test.ts",
+      "subjects": ["packages/content/src/stamp.cursor-boundaries.test.ts"],
+      "axes": {
+        "A": "Complete54-line leaf and104-line main read with77-line stamp owner and394-line canonical project-map validator. Real project loader,editor command/creation/draft callers inspected at pinned ranges. Surface rows=height*2,cols=width; legal empty anchor and one col-overflow preserve valid other fields and nullable collision.",
+        "B": "Remove contributor/gap header which implied a unique uncovered axis despite pending data-guards overlap. Existing null-vs-zero and heights constraints match canonical source. No generated-source or visual-E2E coverage claim.",
+        "C": "Move one anchor/ownership case into stamp main. Its single-layer fixture is local to its only test; layeredStamps remains shared for multi-source,height,roundtrip and invalid-data cases. No production IO,command state or rendering mixed into content guard tests.",
+        "D": "Single-layer and two-layer/multi-source fixtures retain distinct semantic payloads; no mode flag or universal builder. Row overflow differs from col overflow. Positive empty-anchor is also the source-preservation observation here; pending data-guards has overlapping refusal checks but lacks these ownership assertions. Do not claim global deduplication or delete unreviewed mixed suite.",
+        "E": "All4 native identities and every assertion survive. Literal anchor1,1 and unchanged snapshots; col2 rejection with exact message and final tile1 sentinel retained. Main literal collision/category/heights,roundtrip and lockstep checks intact. Expected values are independent source literals, not a reimplementation of guard logic.",
+        "F": "Stamp tests share actual owner; rename generic fixture to layeredStamps and legalStamp to singleLayerStamp. Private single-layer builder is adjacent to its sole consumer, eliminating arbitrary provenance split.",
+        "G": "Two files become one; duplicate imports/describe removed, no case/assertion count growth. Use existing snapshot provider only after proving exact old stamp fixture is JSON-literal domain. No new helper export or weaker type/ignore.",
+        "H": "Pure validators and serialization, fresh fixtures,no mocks/time/IO. Full typed proof includes moved helper return type and every cell; tail tile/type/asset negatives reject changes.41content+16editor adjacent cases are impact evidence, not new acceptance of their files."
+      }
+    },
+    {
+      "path": "packages/content/src/tileset.test.ts",
+      "subjects": ["packages/content/src/tileset.cursor-pure-wave2.test.ts"],
+      "axes": {
+        "A": "Complete62-line leaf and49-line main read with62-line owner. Real project-loader validates against asset catalog; scene-stage resolves stable ID before loading binary asset. Both positive/negative catalogs pass actual validateAssetCatalog; missing ID and kind mismatch are explicit supported rejection inputs.",
+        "B": "Remove obsolete wave/gap header and W7B-only group suffix. Missing-catalog and wrong-kind titles reflect exact rejection strings; preserve path prohibition and retired-field explanations. No claim a sprite neighbor is itself a tileset.",
+        "C": "Catalog-aware checks join validateTilesets main; stable-ID resolution remains separate describe. Snapshot helper resolves to one provider; catalog record factory retained in existing auxiliary owner, which stays unchanged/pending.",
+        "D": "No-catalog positive and injected catalog positive cross different input boundaries. Wrong kind differs from missing ID; sprite neighbor exercises mixed actual catalog. Pending data-guards overlaps catalog existence, but its weaker regex/positive guard is not silently removed without full mixed-file review.",
+        "E": "All5 identities retained. Exact rejection messages, whole input snapshots, literal resolved AssetId and no-catalog literal records retained; no assertion removed. Old inputSnap was exact deepSnapshot forwarding helper. Negative fixtures are separately lawful catalog plus bad relation, not corrupt catalog that rejects earlier.",
+        "F": "One tileset.test.ts owns registration and resolution; validated and tilesets replace vague v/reg bindings. Suite name names validator, not milestone/contributor.",
+        "G": "Remove residual file/group and forwarding import with no new tests or public exports. Preserve catalog factory instead of copying or broadly redesigning pending fixture module.",
+        "H": "Deterministic unknown-input guard,real catalog validation and explicit arguments. Full typed comparison protects imports/types/last assertions; content and editor neighbors pass without diagnostics. No scene-render visual acceptance or full source acceptance inferred."
+      }
+    }
+  ],
+  "preserved": [
+    {
+      "path": "packages/content/src/stamp.ts",
+      "sha256": "272fb28dcde6a8ce99dcb7a7adb24951afd11c7b3e25bcb9b1880ffbe48ce42a",
+      "lines": 77
+    },
+    {
+      "path": "packages/content/src/tileset.ts",
+      "sha256": "69b8c266e15ee8ef1e787e911fc394460c87747f7b3251257c0cf69bda8f01df",
+      "lines": 62
+    },
+    {
+      "path": "packages/content/src/project-map.ts",
+      "sha256": "243364b913aaee6e9cdfa4aeff49955ea7e9e26b3cf825734ea3e28b332be9f8",
+      "lines": 394
+    },
+    {
+      "path": "packages/content/src/tileset-stamp.contracts.test.ts",
+      "sha256": "f0e11a7563f965e204dcd3ea81a2c6898eed620dc7ffe1f57021a4ea51005a94",
+      "lines": 70
+    },
+    {
+      "path": "packages/content/src/cursor-pure-fixtures.ts",
+      "sha256": "6aa889b0d0fa48eb7b9213c7188c7d88d4d99747be942906d2f786054673a669",
+      "lines": 6
+    },
+    {
+      "path": "packages/content/src/__tests__/cursor-pure-wave2-fixtures.ts",
+      "sha256": "b9b65cbf760fec64a5ebff57cc1ac362dfb77dc2bf8d39be18c089d4225ce32d",
+      "lines": 75
+    },
+    {
+      "path": "packages/content/src/__tests__/value-snapshot.ts",
+      "sha256": "07369825676bdc126815b97aa2ebdeb4cfb7f5f2e7bb58cca1dfd7ca241c52f6",
+      "lines": 17
+    },
+    {
+      "path": "packages/reforge/src/project-loader.ts",
+      "sha256": "ec07b4e235d13df2b6945870b3994eb2b3ab0031b4d80bbb0a6bf7ffe20bff1f",
+      "lines": 532
+    },
+    {
+      "path": "packages/editor/src/core/stamp-commands.ts",
+      "sha256": "fd767a3bff909108916dee6ff19a99e69e02de29d52972d6a646d00e937a4b0f",
+      "lines": 192
+    },
+    {
+      "path": "packages/editor/src/core/stamp-template.ts",
+      "sha256": "6a1da2f3ae5633b245cf9d855d0b234d75016bb0af03bbeead2ae3eed0e1640f",
+      "lines": 169
+    },
+    {
+      "path": "packages/editor/src/core/stamp-draft.ts",
+      "sha256": "6f2c03c4d4453735565c8cc43ca16a02245ced23dd86eb399e6a58feb2cca671",
+      "lines": 400
+    },
+    {
+      "path": "packages/editor/src/ui/scene-stage.ts",
+      "sha256": "c2f3b8f371c167ca14ed344911caac720ff5e65aae51aea882905e07f6c2b01a",
+      "lines": 612
+    },
+    {
+      "path": "packages/content/src/data-guards.glm-o.test.ts",
+      "sha256": "17c69f48298435809b17f6ccafd628a9eacb782400b1da42a46056c666069b09",
+      "lines": 196
+    },
+    {
+      "path": "packages/content/src/index.ts",
+      "sha256": "8e93f354c16e8b69ad95c5a21dc3498fed4db47816b4b705794f99053a4ea3e8",
+      "lines": 202
+    }
+  ],
+  "neighborPaths": [
+    "packages/content/src/asset.cursor-pure-wave2.test.ts",
+    "packages/content/src/data-guards.glm-o.test.ts",
+    "packages/content/src/map-index.contracts.test.ts",
+    "packages/content/src/project-map.contracts.test.ts",
+    "packages/content/src/project-map.test.ts",
+    "packages/content/src/stamp.test.ts",
+    "packages/content/src/tileset-stamp.contracts.test.ts",
+    "packages/content/src/tileset.test.ts"
+  ],
+  "cleanExecutions": [
+    "before",
+    "reorganize",
+    "format",
+    "proof",
+    "neighbors",
+    "adjacent",
+    "typecheck",
+    "docs",
+    "content-review",
+    "lint",
+    "scoped",
+    "diff",
+    "ledger-final",
+    "module-preflight"
+  ],
+  "lightweightGates": true,
+  "callbackProof": "organization-content-terrain/proof.stdout.raw",
+  "qualityDelta": {
+    "historicalSubjects": 2,
+    "subjectIdentities": 3,
+    "auxiliaryIdentities": 6,
+    "registrations": 9,
+    "runtimeIdentities": 9,
+    "currentSpecs": 2,
+    "newCases": 0,
+    "retiredCases": 0,
+    "assertionsRemoved": 0,
+    "productChanged": false,
+    "fixtureProviderChanged": false
+  },
+  "reads": {
+    "fullReads": [
+      {
+        "path": "packages/content/src/stamp.cursor-boundaries.test.ts",
+        "sha256": "384bdc5c9bfdf135f9c4c2fefa0e1f4426cd829d34d95af437c3f6a35a134222",
+        "lines": 54
+      },
+      {
+        "path": "packages/content/src/tileset.cursor-pure-wave2.test.ts",
+        "sha256": "cc04d5b8e880bfe4fa01fe038b042864b91a0de4eab3e6e0f2ca53b44a8c0249",
+        "lines": 62
+      },
+      {
+        "path": "packages/content/src/stamp.test.ts",
+        "sha256": "0ff8ece572af647bc23548048cc3b91401619ab75fbc50ec0035406a0c8d3317",
+        "lines": 104
+      },
+      {
+        "path": "packages/content/src/tileset.test.ts",
+        "sha256": "3e91ae010c471dbf98c54c5551615f1c4c3e7c4d3c9be2596ceb1b56b455de6e",
+        "lines": 49
+      },
+      {
+        "path": "packages/content/src/stamp.ts",
+        "sha256": "272fb28dcde6a8ce99dcb7a7adb24951afd11c7b3e25bcb9b1880ffbe48ce42a",
+        "lines": 77
+      },
+      {
+        "path": "packages/content/src/tileset.ts",
+        "sha256": "69b8c266e15ee8ef1e787e911fc394460c87747f7b3251257c0cf69bda8f01df",
+        "lines": 62
+      },
+      {
+        "path": "packages/content/src/project-map.ts",
+        "sha256": "243364b913aaee6e9cdfa4aeff49955ea7e9e26b3cf825734ea3e28b332be9f8",
+        "lines": 394
+      },
+      {
+        "path": "packages/content/src/tileset-stamp.contracts.test.ts",
+        "sha256": "f0e11a7563f965e204dcd3ea81a2c6898eed620dc7ffe1f57021a4ea51005a94",
+        "lines": 70
+      },
+      {
+        "path": "packages/content/src/cursor-pure-fixtures.ts",
+        "sha256": "6aa889b0d0fa48eb7b9213c7188c7d88d4d99747be942906d2f786054673a669",
+        "lines": 6
+      },
+      {
+        "path": "packages/content/src/__tests__/cursor-pure-wave2-fixtures.ts",
+        "sha256": "b9b65cbf760fec64a5ebff57cc1ac362dfb77dc2bf8d39be18c089d4225ce32d",
+        "lines": 75
+      },
+      {
+        "path": "packages/content/src/__tests__/value-snapshot.ts",
+        "sha256": "07369825676bdc126815b97aa2ebdeb4cfb7f5f2e7bb58cca1dfd7ca241c52f6",
+        "lines": 17
+      }
+    ],
+    "scopedReads": [
+      {
+        "path": "packages/reforge/src/project-loader.ts",
+        "sha256": "ec07b4e235d13df2b6945870b3994eb2b3ab0031b4d80bbb0a6bf7ffe20bff1f",
+        "lines": 532,
+        "ranges": [[268, 292], [499, 513]]
+      },
+      {
+        "path": "packages/editor/src/core/stamp-commands.ts",
+        "sha256": "fd767a3bff909108916dee6ff19a99e69e02de29d52972d6a646d00e937a4b0f",
+        "lines": 192,
+        "ranges": [[1, 75]]
+      },
+      {
+        "path": "packages/editor/src/core/stamp-template.ts",
+        "sha256": "6a1da2f3ae5633b245cf9d855d0b234d75016bb0af03bbeead2ae3eed0e1640f",
+        "lines": 169,
+        "ranges": [[130, 169]]
+      },
+      {
+        "path": "packages/editor/src/core/stamp-draft.ts",
+        "sha256": "6f2c03c4d4453735565c8cc43ca16a02245ced23dd86eb399e6a58feb2cca671",
+        "lines": 400,
+        "ranges": [[65, 100]]
+      },
+      {
+        "path": "packages/editor/src/ui/scene-stage.ts",
+        "sha256": "c2f3b8f371c167ca14ed344911caac720ff5e65aae51aea882905e07f6c2b01a",
+        "lines": 612,
+        "ranges": [[130, 195]]
+      },
+      {
+        "path": "packages/content/src/data-guards.glm-o.test.ts",
+        "sha256": "17c69f48298435809b17f6ccafd628a9eacb782400b1da42a46056c666069b09",
+        "lines": 196,
+        "ranges": [[1, 117]]
+      },
+      {
+        "path": "packages/content/src/index.ts",
+        "sha256": "8e93f354c16e8b69ad95c5a21dc3498fed4db47816b4b705794f99053a4ea3e8",
+        "lines": 202,
+        "ranges": [[196, 197]]
+      }
+    ],
+    "fullInputs": [
+      {
+        "path": "packages/content/src/stamp.cursor-boundaries.test.ts",
+        "sha256": "384bdc5c9bfdf135f9c4c2fefa0e1f4426cd829d34d95af437c3f6a35a134222",
+        "lines": 54,
+        "member": "organization-content-terrain/0.before"
+      },
+      {
+        "path": "packages/content/src/tileset.cursor-pure-wave2.test.ts",
+        "sha256": "cc04d5b8e880bfe4fa01fe038b042864b91a0de4eab3e6e0f2ca53b44a8c0249",
+        "lines": 62,
+        "member": "organization-content-terrain/1.before"
+      },
+      {
+        "path": "packages/content/src/stamp.test.ts",
+        "sha256": "0ff8ece572af647bc23548048cc3b91401619ab75fbc50ec0035406a0c8d3317",
+        "lines": 104,
+        "member": "organization-content-terrain/2.before"
+      },
+      {
+        "path": "packages/content/src/tileset.test.ts",
+        "sha256": "3e91ae010c471dbf98c54c5551615f1c4c3e7c4d3c9be2596ceb1b56b455de6e",
+        "lines": 49,
+        "member": "organization-content-terrain/3.before"
+      }
+    ],
+    "fullOutputs": [
+      {
+        "path": "packages/content/src/stamp.test.ts",
+        "sha256": "a32045ed93a63a0debcac051800b23e9bcf59dd395f61e2ba442f7f4f63aba7a",
+        "lines": 154
+      },
+      {
+        "path": "packages/content/src/tileset.test.ts",
+        "sha256": "6927b4a59ec5130ff12fd3b7ced8469aca010b74d3f6aa1da32d3aa548250787",
+        "lines": 103
+      }
+    ],
+    "scope": "Only selected two cohort subjects get F/G acceptance; real callers have explicit read ranges, not whole-file acceptance. project-map fully read as dependency."
+  },
+  "reusedEvidence": {
+    "path": "docs/ops/evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json",
+    "scope": "Prior A-E/H with original cohort hashes; current full reads and exact bounded typed changes supplement F/G. No previous counters rerun or invented."
+  },
+  "adjacentEvidence": {
+    "receipt": "organization-content-terrain/adjacent",
+    "files": 3,
+    "cases": 16
+  },
+  "knownAdjacentObservations": [
+    "data-guards.glm-o.test.ts stamp/tileset groups overlap standard refusal contracts; whole mixed file remains pending outside fixed178. Only lines1-117 read here, no removal/acceptance.",
+    "Existing cursor-pure fixtures retain remaining real consumers and are byte-preserved. This slice narrows imports only, not auxiliary ownership or API."
+  ],
+  "processDisclosures": [
+    "Registration sourceBridges recreate lexical contexts only; independent full typed proof limits actual delta.",
+    "JSON-only stamp snapshot forwarding replaced only for fully literal JSON fixture; no equivalence promise for undefined/Date/Map or typed arrays.",
+    "Integration wording correction: stamp E says expected values, not transformed bytes; this is a content-value test, not a binary codec. Initial producer retained."
+  ],
+  "invalidations": "Typed test/helper/import changes or canonical map/anchor/collision/catalog rules and caller contracts require targeted revalidation. Package-green does not validate per-file quality.",
+  "ledgerCounts": {
+    "inventory": 3445,
+    "closed": 498,
+    "review": 315,
+    "pending": 2632
+  },
+  "quantitativeScreen": [
+    {
+      "path": "packages/content/src/stamp.test.ts",
+      "method": "Syntactic branch/loop count,reading pointer only",
+      "functions": 18,
+      "max": 2,
+      "over10": 0
+    },
+    {
+      "path": "packages/content/src/tileset.test.ts",
+      "method": "Syntactic branch/loop count,reading pointer only",
+      "functions": 18,
+      "max": 1,
+      "over10": 0
+    }
+  ]
+}

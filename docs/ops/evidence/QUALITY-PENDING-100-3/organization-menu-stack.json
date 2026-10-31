@@ -1,0 +1,694 @@
+{
+  "inputs": [
+    {
+      "path": "packages/game/src/present/menu/draw-menu.test.ts",
+      "sha256": "6fa7aaf7e88c7df5110d9962c014365a566ce89f582b674bb5583853910d57f9",
+      "member": "organization-menu-stack/0.before"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-menu.glm-phase1-leaves.test.ts",
+      "sha256": "dfa26f65cac8879d0fe990d87d504049b8e2c3147e8c055a2ec78e6e2d5f6915",
+      "member": "organization-menu-stack/1.before"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/p05-menu-stack.test.ts",
+      "sha256": "f065ddac37d40fcf8188283d7be262d98717602743d84090fd162540544da7d6",
+      "member": "organization-menu-stack/2.before"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "packages/game/src/present/menu/draw-menu.test.ts",
+      "sha256": "e68db77adb744e735a72bfc62b98438651e5355116d636bb188a0ecbc819dd5a"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/render-input-snapshots.test.ts",
+      "sha256": "3d43d4c1cd02f1b3b630a265e5b279684ad3486384fcfc6046465833bce62146"
+    }
+  ],
+  "sourceBridges": [
+    {
+      "path": "packages/game/src/present/menu/draw-menu.test.ts",
+      "id": "menu-stack-0",
+      "changes": [
+        {
+          "from": "import { describe, expect, it } from 'vitest'\nimport type { IndexedImage } from '../../assets/png.js'\nimport { createInitialGameState } from '../../core/game-state.js'\nimport { createInGameMenu, createSystemMenu } from '../../core/menu/in-game-menu.js'\nimport { createInventoryActionMenu } from '../../core/menu/inventory-action-menu.js'\nimport { openMenu } from '../../core/menu/menu-mode.js'\nimport { createFramebuffer } from '../framebuffer.js'\nimport { drawMenuStack } from './draw-menu.js'\n\n/**\n * mockUiFrames:18 个 9-slice frame + frame 44/45/46(SingleLineBox left/mid/right)。\n * 每 tile 8×8 全 opaque,palette idx = k+1(避开 0)。\n */\nfunction mockUiFrames(): IndexedImage[] {\n  const frames: IndexedImage[] = []\n  for (let k = 0; k < 47; k++) {\n    const w = 8,\n      h = 8\n    const indices = new Uint8Array(w * h).fill((k % 250) + 1)\n    const opaque = new Uint8Array(w * h).fill(1)\n    frames.push({ width: w, height: h, indices, opaque })\n  }\n  return frames\n}\n\ndescribe('M5.6 v2 drawMenuStack(sdlpal 真值坐标)', () => {\n  it('menuStack 空 → 不画', () => {\n    const fb = createFramebuffer()\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    drawMenuStack(fb, gs, mockUiFrames())\n    expect(fb.indices.every((v) => v === 0)).toBe(true)\n  })\n\n  it('In-Game hub → 主菜单 box 在 sdlpal 真值 (3, 37) + cash 框在 (0, 0)', () => {\n    const fb = createFramebuffer()\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    openMenu(gs, { kind: 'in-game', state: createInGameMenu() })\n    drawMenuStack(fb, gs, mockUiFrames())\n    // sdlpal uigame.c:990 PAL_CreateBox(PAL_XY(3, 37), 3, ...):box 左上角 = (3, 37) tile = 9-slice corner frame 0(idx 1)\n    expect(fb.indices[37 * fb.width + 3]).toBe(1)\n    // cash box (0,0):SingleLineBox frame 44 (idx 45) 左 corner\n    expect(fb.indices[0 * fb.width + 0]).toBe(45)\n  })\n\n  it('System menu → box 在 sdlpal 真值 (40, 60)', () => {\n    const fb = createFramebuffer()\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    openMenu(gs, { kind: 'system', state: createSystemMenu() })\n    drawMenuStack(fb, gs, mockUiFrames())\n    // sdlpal uigame.c:559 PAL_CreateBox(PAL_XY(40, 60), ...)\n    expect(fb.indices[60 * fb.width + 40]).toBe(1)\n  })\n\n  it('C2-quit:system phase=confirm → 叠确认框(130,100)/(205,100);menu 阶段不画', () => {\n    // menu 阶段:确认框位置无 SingleLineBox corner\n    const fbMenu = createFramebuffer()\n    const gsMenu = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    openMenu(gsMenu, { kind: 'system', state: createSystemMenu() })\n    drawMenuStack(fbMenu, gsMenu, mockUiFrames())\n    expect(fbMenu.indices[100 * fbMenu.width + 130]).not.toBe(45)\n\n    // confirm 阶段:(130,100) 否框 + (205,100) 是框 corner = SingleLineBox frame 44(idx 45)\n    const fb = createFramebuffer()\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    const sys = createSystemMenu()\n    sys.phase = 'confirm'\n    openMenu(gs, { kind: 'system', state: sys })\n    drawMenuStack(fb, gs, mockUiFrames())\n    expect(fb.indices[100 * fb.width + 130]).toBe(45) // 否框左 corner\n    expect(fb.indices[100 * fb.width + 205]).toBe(45) // 是框左 corner\n  })\n\n  it('两层栈(in-game + inventory-action) → 子菜单盖住底层内容，主框与cash仍在', () => {\n    const fb = createFramebuffer()\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    openMenu(gs, { kind: 'in-game', state: createInGameMenu() })\n    openMenu(gs, { kind: 'inventory-action', state: createInventoryActionMenu() })\n    drawMenuStack(fb, gs, mockUiFrames())\n    expect(fb.indices[37 * fb.width + 3]).toBe(1) // in-game box\n    // 子菜单左上角(30,60)与底层内容重叠；逆序绘制会用底层文字/阴影改写此像素。\n    expect(fb.indices[60 * fb.width + 30]).toBe(1)\n    expect(fb.indices[0]).toBe(45) // cash box left corner\n  })\n\n  it('uiSpriteFrames 不足 → drawSingleLineBox 先抛 frame 44-46 missing', () => {\n    const fb = createFramebuffer()\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    openMenu(gs, { kind: 'in-game', state: createInGameMenu() })\n    expect(() => drawMenuStack(fb, gs, [])).toThrow(/uiSpriteFrames\\[44\\.\\.46\\]/)\n  })\n})\n",
+          "to": "import { afterEach, beforeEach, describe, expect, it } from 'vitest'\nimport type { IndexedImage } from '../../assets/png.js'\nimport { setGlobalEvents } from '../../core/event-system.js'\nimport {\n  type ActiveMenuEntry,\n  createInitialGameState,\n  hydratePlayerRolesRuntime,\n} from '../../core/game-state.js'\nimport { confirmEquipItem, createEquipMenu } from '../../core/menu/equip-menu.js'\nimport { createInGameMagicMenu } from '../../core/menu/in-game-magic-menu.js'\nimport {\n  createInGameMenu,\n  createSystemMenu,\n  systemMenuEnterSwitch,\n} from '../../core/menu/in-game-menu.js'\nimport { createInventoryActionMenu } from '../../core/menu/inventory-action-menu.js'\nimport {\n  confirmInventoryItem,\n  createInventoryMenu,\n  MENUITEM_COLOR_SELECTED_FIRST,\n} from '../../core/menu/inventory-menu.js'\nimport { openMenu } from '../../core/menu/menu-mode.js'\nimport { createPlayerStatus } from '../../core/menu/player-status.js'\nimport { createSaveSlotMenu } from '../../core/menu/save-slot-menu.js'\nimport { createSellMenu, sellMoveRight, sellSelectItem } from '../../core/menu/sell-menu.js'\nimport { setWordTable } from '../../core/word-lookup.js'\nimport { fixtureGlyphs, textDot } from '../__tests__/glyph-fixtures.js'\nimport {\n  freezeNow,\n  makeGs,\n  makeItem,\n  makeRole,\n  makeRoles,\n} from '../__tests__/menu-state-fixtures.js'\nimport { beginChineseMenuText, freezeMenuClock } from '../__tests__/menu-text-fixture.js'\nimport {\n  BOX_STYLE0,\n  BOX_STYLE1,\n  makeUiFrames,\n  rightDigitX,\n  yellowDigit,\n} from '../__tests__/menu-ui-fixtures.js'\nimport {\n  fillSentinel,\n  iconImage,\n  pixel,\n  SENTINEL,\n  sentinelFramebuffer,\n} from '../__tests__/raster-fixtures.js'\nimport { cloneInputs } from '../__tests__/render-input-snapshots.js'\nimport { uniformDotGlyphs, uniformTextDot } from '../__tests__/uniform-glyphs.js'\nimport { createFramebuffer } from '../framebuffer.js'\nimport { drawMenuStack } from './draw-menu.js'\nconst uniformGlyphs = uniformDotGlyphs()\nconst positionGlyphs = fixtureGlyphs()\n/** Distinct slot colors identify actual frame forwarding; semantic digit/chrome fixtures stay separate. */\nfunction distinctUiFrames(): IndexedImage[] {\n  const frames: IndexedImage[] = []\n  for (let frameIndex = 0; frameIndex < 47; frameIndex++) {\n    const width = 8,\n      height = 8\n    const indices = new Uint8Array(width * height).fill((frameIndex % 250) + 1)\n    const opaque = new Uint8Array(width * height).fill(1)\n    frames.push({ width: width, height: height, indices, opaque })\n  }\n  return frames\n}\nlet restoreMenuText: () => void\nbeforeEach(() => {\n  restoreMenuText = beginChineseMenuText()\n  setGlobalEvents([])\n})\nafterEach(() => {\n  try {\n    setGlobalEvents([])\n  } finally {\n    restoreMenuText()\n  }\n})\ndescribe('Menu stack rendering', () => {\n  describe('Stack geometry and draw order', () => {\n    it('menuStack 空 → 不画', () => {\n      const fb = createFramebuffer()\n      const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n      drawMenuStack(fb, gs, distinctUiFrames())\n      expect(fb.indices.every((v) => v === 0)).toBe(true)\n    })\n\n    it('In-Game hub → 主菜单 box 在 sdlpal 真值 (3, 37) + cash 框在 (0, 0)', () => {\n      const fb = createFramebuffer()\n      const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n      openMenu(gs, { kind: 'in-game', state: createInGameMenu() })\n      drawMenuStack(fb, gs, distinctUiFrames())\n      // sdlpal uigame.c:990 PAL_CreateBox(PAL_XY(3, 37), 3, ...):box 左上角 = (3, 37) tile = 9-slice corner frame 0(idx 1)\n      expect(fb.indices[37 * fb.width + 3]).toBe(1)\n      // cash box (0,0):SingleLineBox frame 44 (idx 45) 左 corner\n      expect(fb.indices[0 * fb.width + 0]).toBe(45)\n    })\n\n    it('System menu → box 在 sdlpal 真值 (40, 60)', () => {\n      const fb = createFramebuffer()\n      const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n      openMenu(gs, { kind: 'system', state: createSystemMenu() })\n      drawMenuStack(fb, gs, distinctUiFrames())\n      // sdlpal uigame.c:559 PAL_CreateBox(PAL_XY(40, 60), ...)\n      expect(fb.indices[60 * fb.width + 40]).toBe(1)\n    })\n\n    it('C2-quit:system phase=confirm → 叠确认框(130,100)/(205,100);menu 阶段不画', () => {\n      // menu 阶段:确认框位置无 SingleLineBox corner\n      const fbMenu = createFramebuffer()\n      const gsMenu = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n      openMenu(gsMenu, { kind: 'system', state: createSystemMenu() })\n      drawMenuStack(fbMenu, gsMenu, distinctUiFrames())\n      expect(fbMenu.indices[100 * fbMenu.width + 130]).not.toBe(45)\n\n      // confirm 阶段:(130,100) 否框 + (205,100) 是框 corner = SingleLineBox frame 44(idx 45)\n      const fb = createFramebuffer()\n      const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n      const sys = createSystemMenu()\n      sys.phase = 'confirm'\n      openMenu(gs, { kind: 'system', state: sys })\n      drawMenuStack(fb, gs, distinctUiFrames())\n      expect(fb.indices[100 * fb.width + 130]).toBe(45) // 否框左 corner\n      expect(fb.indices[100 * fb.width + 205]).toBe(45) // 是框左 corner\n    })\n\n    it('两层栈(in-game + inventory-action) → 子菜单盖住底层内容，主框与cash仍在', () => {\n      const fb = createFramebuffer()\n      const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n      openMenu(gs, { kind: 'in-game', state: createInGameMenu() })\n      openMenu(gs, { kind: 'inventory-action', state: createInventoryActionMenu() })\n      drawMenuStack(fb, gs, distinctUiFrames())\n      expect(fb.indices[37 * fb.width + 3]).toBe(1) // in-game box\n      // 子菜单左上角(30,60)与底层内容重叠；逆序绘制会用底层文字/阴影改写此像素。\n      expect(fb.indices[60 * fb.width + 30]).toBe(1)\n      expect(fb.indices[0]).toBe(45) // cash box left corner\n    })\n\n    it('uiSpriteFrames 不足 → drawSingleLineBox 先抛 frame 44-46 missing', () => {\n      const fb = createFramebuffer()\n      const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n      openMenu(gs, { kind: 'in-game', state: createInGameMenu() })\n      expect(() => drawMenuStack(fb, gs, [])).toThrow(/uiSpriteFrames\\[44\\.\\.46\\]/)\n    })\n  })\n})\n",
+          "count": 1
+        }
+      ],
+      "reason": "Explicit private names, exact semantic helper inputs, complete callback retention, narrow language/owned event-table lifecycle; full source frozen separately."
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-menu.glm-phase1-leaves.test.ts",
+      "id": "menu-stack-1",
+      "changes": [
+        {
+          "from": "/**\n * TEST-GLM-PHASE1-LEAVES-3 L09（draw-menu.ts）— 去重表：\n *  - draw-menu.test（空栈/in-game box+cash 框存在/system box/system confirm 叠框/两层栈/缺帧抛错）→ 不重复\n *  - grok-present P05（物品/图标/角色经栈转发、equipBg、状态页背景+毒）→ 不重复\n *  - 新差异：save-slot 槽位框+标签+savedTimes 数字、inventory-action 框+两标签选中色、\n *    缺 extra 的 player-status/equip/in-game-magic 占位框（Missing menu data）、\n *    shop-sell 栈项 confirm 相叠 否/是 层、system switch 相 关/开 层。\n * 实际 Framebuffer 像素断言；输入深快照不变。\n */\nimport { afterEach, beforeEach, describe, expect, it } from 'vitest'\nimport {\n  BOX_STYLE0,\n  BOX_STYLE1,\n  fixtureGlyphs,\n  freezeNow,\n  iconImage,\n  makeUiFrames,\n  mkItem,\n  mkRole,\n  newFb,\n  pixel,\n  rightDigitX,\n  textDot,\n  yellowDigit,\n} from '../../__tests__/glm-phase1-leaves/present-fixtures.js'\nimport { setGlobalEvents } from '../../core/event-system.js'\nimport {\n  type ActiveMenuEntry,\n  createInitialGameState,\n  hydratePlayerRolesRuntime,\n} from '../../core/game-state.js'\nimport { createEquipMenu } from '../../core/menu/equip-menu.js'\nimport { createInGameMagicMenu } from '../../core/menu/in-game-magic-menu.js'\nimport { createSystemMenu, systemMenuEnterSwitch } from '../../core/menu/in-game-menu.js'\nimport { createInventoryActionMenu } from '../../core/menu/inventory-action-menu.js'\nimport { openMenu } from '../../core/menu/menu-mode.js'\nimport { createPlayerStatus } from '../../core/menu/player-status.js'\nimport { createSaveSlotMenu } from '../../core/menu/save-slot-menu.js'\nimport { createSellMenu, sellMoveRight, sellSelectItem } from '../../core/menu/sell-menu.js'\nimport { setWordTable } from '../../core/word-lookup.js'\nimport { drawMenuStack } from './draw-menu.js'\n\nconst glyphs = fixtureGlyphs\n\nfunction resetCatalogs(): void {\n  setWordTable([])\n  setGlobalEvents([])\n}\n\nbeforeEach(resetCatalogs)\nafterEach(resetCatalogs)\n\ndescribe('L09 drawMenuStack 剩余分支', () => {\n  it('save-slot：5 个单行框 (195,7+38i)、标签字色、slotMetas.savedTimes 黄色数字（缺省 0）', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    const state = createSaveSlotMenu('save')\n    state.slotMetas.set(2, {\n      partyLevel: 1,\n      cash: 0,\n      sceneId: 0,\n      savedAt: 0,\n      savedTimes: 12,\n    })\n    openMenu(gs, { kind: 'save-slot', state })\n    const fb = newFb()\n    const frames = makeUiFrames()\n    const inputs = { gs, state, frames }\n    const before = structuredClone(inputs)\n    const restore = freezeNow(0)\n    try {\n      drawMenuStack(fb, gs, frames, glyphs)\n    } finally {\n      restore()\n    }\n    expect(structuredClone(inputs)).toEqual(before)\n    // 框体：每行 box 内部应是 style0 素色（左框 mid 段）\n    expect(pixel(fb, 200, 11)).toBe(BOX_STYLE0)\n    expect(pixel(fb, 200, 7 + 38 * 4 + 3)).toBe(BOX_STYLE0)\n    // 槽 1 标签「进度一」第 0 字亮点 = 选中闪烁 0xF9（冻结 tick 0）\n    const label1 = textDot('进度一', 0, 210, 17)\n    expect(pixel(fb, label1.x, label1.y)).toBe(0xf9)\n    // 槽 2 有 meta.savedTimes=12 → 个位/十位黄 2/1；槽 1 无 meta → 0\n    expect(pixel(fb, rightDigitX(270, 4, 0), 21 + 38)).toBe(yellowDigit(2))\n    expect(pixel(fb, rightDigitX(270, 4, 1), 21 + 38)).toBe(yellowDigit(1))\n    expect(pixel(fb, rightDigitX(270, 4, 0), 21)).toBe(yellowDigit(0))\n    // 第 5 槽框体 + 标签（非选中 0x4F）\n    const label5 = textDot('进度五', 0, 210, 17 + 38 * 4)\n    expect(pixel(fb, label5.x, label5.y)).toBe(0x4f)\n  })\n\n  it('inventory-action：框 (30,60)、装备/使用两标签、cursor 0 选中闪烁、切光标后选中移动', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    const state = createInventoryActionMenu()\n    openMenu(gs, { kind: 'inventory-action', state })\n    const frames = makeUiFrames()\n    const equipDot = textDot('装备', 0, 43, 73)\n    const useDot = textDot('使用', 0, 43, 91)\n    const fb = newFb()\n    const restore = freezeNow(0)\n    try {\n      drawMenuStack(fb, gs, frames, glyphs)\n    } finally {\n      restore()\n    }\n    expect(pixel(fb, 40, 64)).toBe(BOX_STYLE0)\n    expect(pixel(fb, equipDot.x, equipDot.y)).toBe(0xf9)\n    expect(pixel(fb, useDot.x, useDot.y)).toBe(0x4f)\n    // 可达的下一个光标快照:使用选中;这里不验按键路由\n    const fb2 = newFb()\n    state.selection.cursor = 1\n    const restore2 = freezeNow(0)\n    try {\n      drawMenuStack(fb2, gs, frames, glyphs)\n    } finally {\n      restore2()\n    }\n    expect(pixel(fb2, useDot.x, useDot.y)).toBe(0xf9)\n    expect(pixel(fb2, equipDot.x, equipDot.y)).toBe(0x4f)\n  })\n\n  it('system switch 相：叠 关/开 选框（confirmYes=false → 左「关」选中）', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    const state = createSystemMenu()\n    systemMenuEnterSwitch(state, 'music', false)\n    openMenu(gs, { kind: 'system', state })\n    const fb = newFb()\n    const restore = freezeNow(0)\n    try {\n      drawMenuStack(fb, gs, makeUiFrames(), glyphs)\n    } finally {\n      restore()\n    }\n    const guanDot = textDot('关', 0, 145, 110)\n    const kaiDot = textDot('开', 0, 220, 110)\n    expect(pixel(fb, guanDot.x, guanDot.y)).toBe(0xf9) // 左选中\n    expect(pixel(fb, kaiDot.x, kaiDot.y)).toBe(0x4f)\n  })\n\n  it('shop-sell 栈项：confirm 相在 grid+overlay 之上叠 否/是 确认层', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.dwCash = 7\n    const item = mkItem(400, '甲', { price: 50, scriptDesc: 1, flags: { sellable: true } })\n    const items = [item]\n    gs.inventory = [{ itemId: item.id, count: 2 }]\n    const state = createSellMenu(gs, items)\n    expect(sellSelectItem(state, items)).toBe(true) // 同 dispatchSellMenu 的确认入口\n    sellMoveRight(state)\n    openMenu(gs, { kind: 'shop-sell', state })\n    setGlobalEvents([\n      { op: 'end' },\n      { op: 'showDialog', label: 'L_1', messageIndex: 1, text: '乙' },\n      { op: 'end' },\n    ])\n    const frames = makeUiFrames()\n    const icons = new Map([[item.bitmap, iconImage(0x82)]])\n    const inputs = { gs, state, items, frames, icons }\n    const before = structuredClone(inputs)\n    const fb = newFb()\n    const restore = freezeNow(0)\n    try {\n      drawMenuStack(fb, gs, frames, glyphs, { items, itemIcons: icons })\n    } finally {\n      restore()\n    }\n    expect(structuredClone(inputs)).toEqual(before)\n    expect(state.selectedItemId).toBe(item.id)\n    expect(pixel(fb, 2, 0)).toBe(BOX_STYLE1) // 全屏网格,不是紧凑买入列表\n    expect(pixel(fb, 19, 16)).toBe(0xf9) // 当前物品名\n    expect(pixel(fb, 8, 147)).toBe(0x82) // 网格预览图标\n    expect(pixel(fb, 75, 155)).toBe(0x5a) // noDesc:乙的描述亮点不得画出\n    expect(pixel(fb, rightDigitX(148, 6, 0), 165)).toBe(yellowDigit(7))\n    expect(pixel(fb, rightDigitX(272, 6, 0), 165)).toBe(yellowDigit(5))\n    expect(pixel(fb, rightDigitX(272, 6, 1), 165)).toBe(yellowDigit(2))\n    const priceLabel = textDot('售', 0, 234, 160)\n    expect(pixel(fb, priceLabel.x, priceLabel.y)).toBe(0)\n    const shiDot = textDot('是', 0, 220, 110)\n    const fouDot = textDot('否', 0, 145, 110)\n    expect(pixel(fb, shiDot.x, shiDot.y)).toBe(0xf9) // confirmYes=true → 右「是」选中\n    expect(pixel(fb, fouDot.x, fouDot.y)).toBe(0x4f)\n  })\n\n  it('缺 extra：player-status / equip / in-game-magic 画占位框 (80,80)，不抛错', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.partyMembers = [0]\n    const roles = { roles: [mkRole(0, '甲', { mp: 30 })] }\n    hydratePlayerRolesRuntime(gs.PlayerRolesRuntime, roles)\n    const entries: ActiveMenuEntry[] = [\n      { kind: 'player-status', state: createPlayerStatus(gs.partyMembers) },\n      { kind: 'equip', state: createEquipMenu(gs, []) },\n      {\n        kind: 'in-game-magic',\n        state: createInGameMagicMenu(roles, gs.partyMembers, []),\n      },\n    ]\n    for (const entry of entries) {\n      gs.menuStack.length = 0\n      openMenu(gs, entry)\n      const fb = newFb()\n      drawMenuStack(fb, gs, makeUiFrames(), glyphs)\n      expect(pixel(fb, 90, 90)).toBe(BOX_STYLE0) // 占位 box 1×14 内部\n      // 占位文字 tofu 首行像素（renderText 缺字形 → tofu 框顶行全亮）\n      expect(pixel(fb, 96, 88)).toBe(0x4f)\n    }\n  })\n})\n",
+          "to": "import { afterEach, beforeEach, describe, expect, it } from 'vitest'\nimport type { IndexedImage } from '../../assets/png.js'\nimport { setGlobalEvents } from '../../core/event-system.js'\nimport {\n  type ActiveMenuEntry,\n  createInitialGameState,\n  hydratePlayerRolesRuntime,\n} from '../../core/game-state.js'\nimport { confirmEquipItem, createEquipMenu } from '../../core/menu/equip-menu.js'\nimport { createInGameMagicMenu } from '../../core/menu/in-game-magic-menu.js'\nimport {\n  createInGameMenu,\n  createSystemMenu,\n  systemMenuEnterSwitch,\n} from '../../core/menu/in-game-menu.js'\nimport { createInventoryActionMenu } from '../../core/menu/inventory-action-menu.js'\nimport {\n  confirmInventoryItem,\n  createInventoryMenu,\n  MENUITEM_COLOR_SELECTED_FIRST,\n} from '../../core/menu/inventory-menu.js'\nimport { openMenu } from '../../core/menu/menu-mode.js'\nimport { createPlayerStatus } from '../../core/menu/player-status.js'\nimport { createSaveSlotMenu } from '../../core/menu/save-slot-menu.js'\nimport { createSellMenu, sellMoveRight, sellSelectItem } from '../../core/menu/sell-menu.js'\nimport { setWordTable } from '../../core/word-lookup.js'\nimport { fixtureGlyphs, textDot } from '../__tests__/glyph-fixtures.js'\nimport {\n  freezeNow,\n  makeGs,\n  makeItem,\n  makeRole,\n  makeRoles,\n} from '../__tests__/menu-state-fixtures.js'\nimport { beginChineseMenuText, freezeMenuClock } from '../__tests__/menu-text-fixture.js'\nimport {\n  BOX_STYLE0,\n  BOX_STYLE1,\n  makeUiFrames,\n  rightDigitX,\n  yellowDigit,\n} from '../__tests__/menu-ui-fixtures.js'\nimport {\n  fillSentinel,\n  iconImage,\n  pixel,\n  SENTINEL,\n  sentinelFramebuffer,\n} from '../__tests__/raster-fixtures.js'\nimport { cloneInputs } from '../__tests__/render-input-snapshots.js'\nimport { uniformDotGlyphs, uniformTextDot } from '../__tests__/uniform-glyphs.js'\nimport { createFramebuffer } from '../framebuffer.js'\nimport { drawMenuStack } from './draw-menu.js'\nconst uniformGlyphs = uniformDotGlyphs()\nconst positionGlyphs = fixtureGlyphs()\n/** Distinct slot colors identify actual frame forwarding; semantic digit/chrome fixtures stay separate. */\nfunction distinctUiFrames(): IndexedImage[] {\n  const frames: IndexedImage[] = []\n  for (let frameIndex = 0; frameIndex < 47; frameIndex++) {\n    const width = 8,\n      height = 8\n    const indices = new Uint8Array(width * height).fill((frameIndex % 250) + 1)\n    const opaque = new Uint8Array(width * height).fill(1)\n    frames.push({ width: width, height: height, indices, opaque })\n  }\n  return frames\n}\nlet restoreMenuText: () => void\nbeforeEach(() => {\n  restoreMenuText = beginChineseMenuText()\n  setGlobalEvents([])\n})\nafterEach(() => {\n  try {\n    setGlobalEvents([])\n  } finally {\n    restoreMenuText()\n  }\n})\ndescribe('Menu stack rendering', () => {\n  describe('Contents and overlays', () => {\n    it('save-slot：5 个单行框 (195,7+38i)、标签字色、slotMetas.savedTimes 黄色数字（缺省 0）', () => {\n      const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n      const state = createSaveSlotMenu('save')\n      state.slotMetas.set(2, {\n        partyLevel: 1,\n        cash: 0,\n        sceneId: 0,\n        savedAt: 0,\n        savedTimes: 12,\n      })\n      openMenu(gs, { kind: 'save-slot', state })\n      const fb = sentinelFramebuffer()\n      const frames = makeUiFrames()\n      const inputs = { gs, state, frames }\n      const before = structuredClone(inputs)\n      const restore = freezeMenuClock(0)\n      try {\n        drawMenuStack(fb, gs, frames, uniformGlyphs)\n      } finally {\n        restore()\n      }\n      expect(structuredClone(inputs)).toEqual(before)\n      // 框体：每行 box 内部应是 style0 素色（左框 mid 段）\n      expect(pixel(fb, 200, 11)).toBe(BOX_STYLE0)\n      expect(pixel(fb, 200, 7 + 38 * 4 + 3)).toBe(BOX_STYLE0)\n      // 槽 1 标签「进度一」第 0 字亮点 = 选中闪烁 0xF9（冻结 tick 0）\n      const label1 = uniformTextDot(0, 210, 17)\n      expect(pixel(fb, label1.x, label1.y)).toBe(0xf9)\n      // 槽 2 有 meta.savedTimes=12 → 个位/十位黄 2/1；槽 1 无 meta → 0\n      expect(pixel(fb, rightDigitX(270, 4, 0), 21 + 38)).toBe(yellowDigit(2))\n      expect(pixel(fb, rightDigitX(270, 4, 1), 21 + 38)).toBe(yellowDigit(1))\n      expect(pixel(fb, rightDigitX(270, 4, 0), 21)).toBe(yellowDigit(0))\n      // 第 5 槽框体 + 标签（非选中 0x4F）\n      const label5 = uniformTextDot(0, 210, 17 + 38 * 4)\n      expect(pixel(fb, label5.x, label5.y)).toBe(0x4f)\n    })\n\n    it('inventory-action：框 (30,60)、装备/使用两标签、cursor 0 选中闪烁、切光标后选中移动', () => {\n      const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n      const state = createInventoryActionMenu()\n      openMenu(gs, { kind: 'inventory-action', state })\n      const frames = makeUiFrames()\n      const equipDot = uniformTextDot(0, 43, 73)\n      const useDot = uniformTextDot(0, 43, 91)\n      const fb = sentinelFramebuffer()\n      const restore = freezeMenuClock(0)\n      try {\n        drawMenuStack(fb, gs, frames, uniformGlyphs)\n      } finally {\n        restore()\n      }\n      expect(pixel(fb, 40, 64)).toBe(BOX_STYLE0)\n      expect(pixel(fb, equipDot.x, equipDot.y)).toBe(0xf9)\n      expect(pixel(fb, useDot.x, useDot.y)).toBe(0x4f)\n      // 可达的下一个光标快照:使用选中;这里不验按键路由\n      const fb2 = sentinelFramebuffer()\n      state.selection.cursor = 1\n      const restore2 = freezeMenuClock(0)\n      try {\n        drawMenuStack(fb2, gs, frames, uniformGlyphs)\n      } finally {\n        restore2()\n      }\n      expect(pixel(fb2, useDot.x, useDot.y)).toBe(0xf9)\n      expect(pixel(fb2, equipDot.x, equipDot.y)).toBe(0x4f)\n    })\n\n    it('system switch 相：叠 关/开 选框（confirmYes=false → 左「关」选中）', () => {\n      const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n      const state = createSystemMenu()\n      systemMenuEnterSwitch(state, 'music', false)\n      openMenu(gs, { kind: 'system', state })\n      const fb = sentinelFramebuffer()\n      const restore = freezeMenuClock(0)\n      try {\n        drawMenuStack(fb, gs, makeUiFrames(), uniformGlyphs)\n      } finally {\n        restore()\n      }\n      const guanDot = uniformTextDot(0, 145, 110)\n      const kaiDot = uniformTextDot(0, 220, 110)\n      expect(pixel(fb, guanDot.x, guanDot.y)).toBe(0xf9) // 左选中\n      expect(pixel(fb, kaiDot.x, kaiDot.y)).toBe(0x4f)\n    })\n\n    it('shop-sell 栈项：confirm 相在 grid+overlay 之上叠 否/是 确认层', () => {\n      const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n      gs.dwCash = 7\n      const item = makeItem(400, '甲', { price: 50, scriptDesc: 1, flags: { sellable: true } })\n      const items = [item]\n      gs.inventory = [{ itemId: item.id, count: 2 }]\n      const state = createSellMenu(gs, items)\n      expect(sellSelectItem(state, items)).toBe(true) // 同 dispatchSellMenu 的确认入口\n      sellMoveRight(state)\n      openMenu(gs, { kind: 'shop-sell', state })\n      setGlobalEvents([\n        { op: 'end' },\n        { op: 'showDialog', label: 'L_1', messageIndex: 1, text: '乙' },\n        { op: 'end' },\n      ])\n      const frames = makeUiFrames()\n      const icons = new Map([[item.bitmap, iconImage(0x82)]])\n      const inputs = { gs, state, items, frames, icons }\n      const before = structuredClone(inputs)\n      const fb = sentinelFramebuffer()\n      const restore = freezeMenuClock(0)\n      try {\n        drawMenuStack(fb, gs, frames, uniformGlyphs, { items, itemIcons: icons })\n      } finally {\n        restore()\n      }\n      expect(structuredClone(inputs)).toEqual(before)\n      expect(state.selectedItemId).toBe(item.id)\n      expect(pixel(fb, 2, 0)).toBe(BOX_STYLE1) // 全屏网格,不是紧凑买入列表\n      expect(pixel(fb, 19, 16)).toBe(0xf9) // 当前物品名\n      expect(pixel(fb, 8, 147)).toBe(0x82) // 网格预览图标\n      expect(pixel(fb, 75, 155)).toBe(0x5a) // noDesc:乙的描述亮点不得画出\n      expect(pixel(fb, rightDigitX(148, 6, 0), 165)).toBe(yellowDigit(7))\n      expect(pixel(fb, rightDigitX(272, 6, 0), 165)).toBe(yellowDigit(5))\n      expect(pixel(fb, rightDigitX(272, 6, 1), 165)).toBe(yellowDigit(2))\n      const priceLabel = uniformTextDot(0, 234, 160)\n      expect(pixel(fb, priceLabel.x, priceLabel.y)).toBe(0)\n      const shiDot = uniformTextDot(0, 220, 110)\n      const fouDot = uniformTextDot(0, 145, 110)\n      expect(pixel(fb, shiDot.x, shiDot.y)).toBe(0xf9) // confirmYes=true → 右「是」选中\n      expect(pixel(fb, fouDot.x, fouDot.y)).toBe(0x4f)\n    })\n\n    it('缺 extra：player-status / equip / in-game-magic 画占位框 (80,80)，不抛错', () => {\n      const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n      gs.partyMembers = [0]\n      const roles = { roles: [makeRole(0, '甲', { maxMP: 40, mp: 30 })] }\n      hydratePlayerRolesRuntime(gs.PlayerRolesRuntime, roles)\n      const entries: ActiveMenuEntry[] = [\n        { kind: 'player-status', state: createPlayerStatus(gs.partyMembers) },\n        { kind: 'equip', state: createEquipMenu(gs, []) },\n        {\n          kind: 'in-game-magic',\n          state: createInGameMagicMenu(roles, gs.partyMembers, []),\n        },\n      ]\n      for (const entry of entries) {\n        gs.menuStack.length = 0\n        openMenu(gs, entry)\n        const fb = sentinelFramebuffer()\n        drawMenuStack(fb, gs, makeUiFrames(), uniformGlyphs)\n        expect(pixel(fb, 90, 90)).toBe(BOX_STYLE0) // 占位 box 1×14 内部\n        // 占位文字 tofu 首行像素（renderText 缺字形 → tofu 框顶行全亮）\n        expect(pixel(fb, 96, 88)).toBe(0x4f)\n      }\n    })\n  })\n})\n",
+          "count": 1
+        }
+      ],
+      "reason": "Explicit private names, exact semantic helper inputs, complete callback retention, narrow language/owned event-table lifecycle; full source frozen separately."
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/p05-menu-stack.test.ts",
+      "id": "menu-stack-2",
+      "changes": [
+        {
+          "from": "import { afterEach, describe, expect, it } from 'vitest'\nimport { confirmEquipItem, createEquipMenu } from '../../../core/menu/equip-menu.js'\nimport {\n  confirmInventoryItem,\n  createInventoryMenu,\n  MENUITEM_COLOR_SELECTED_FIRST,\n} from '../../../core/menu/inventory-menu.js'\nimport { openMenu } from '../../../core/menu/menu-mode.js'\nimport { createPlayerStatus } from '../../../core/menu/player-status.js'\nimport { setWordTable } from '../../../core/word-lookup.js'\nimport { createFramebuffer } from '../../framebuffer.js'\nimport { drawMenuStack } from '../../menu/draw-menu.js'\nimport { fixtureGlyphs, textDot } from '../glyph-fixtures.js'\nimport {\n  freezeNow,\n  makeGs,\n  makeItem,\n  makeRoles,\n  resetHostSingletons,\n} from '../menu-state-fixtures.js'\nimport { makeUiFrames } from '../menu-ui-fixtures.js'\nimport { fillSentinel, iconImage, pixel, SENTINEL } from '../raster-fixtures.js'\nimport { cloneInputs } from '../render-input-snapshots.js'\n\nconst glyphs = fixtureGlyphs()\n\nafterEach(() => {\n  resetHostSingletons()\n})\n\ndescribe('P05 菜单栈转发', () => {\n  it('P05 物品、图标和角色经公开菜单栈传到真实下层', () => {\n    const gs = makeGs()\n    const roles = makeRoles()\n    const item = makeItem(21, '甲', { bitmap: 4, flags: { usable: true } })\n    const items = [item]\n    gs.partyMembers = [4, 1]\n    gs.inventory = [{ itemId: item.id, count: 1 }]\n    const menu = createInventoryMenu(gs, items, 'usable')\n    confirmInventoryItem(menu, items, roles, gs.partyMembers)\n    openMenu(gs, { kind: 'inventory', state: menu })\n    const frames = makeUiFrames()\n    const icons = new Map([[4, iconImage(0x84)]])\n    const name = textDot('戊', 0, 125, 16)\n    const restore = freezeNow(0)\n    try {\n      const bare = createFramebuffer()\n      fillSentinel(bare)\n      const bareInputs = { gs, menu, frames }\n      const beforeBare = cloneInputs(bareInputs)\n      drawMenuStack(bare, gs, frames, glyphs)\n      expect(cloneInputs(bareInputs)).toEqual(beforeBare)\n      expect(pixel(bare, name.x, name.y)).not.toBe(MENUITEM_COLOR_SELECTED_FIRST)\n      expect(pixel(bare, 127, 88)).not.toBe(0x84)\n\n      const forwarded = createFramebuffer()\n      fillSentinel(forwarded)\n      const forwardedInputs = { gs, menu, items, roles, frames, icons }\n      const before = cloneInputs(forwardedInputs)\n      drawMenuStack(forwarded, gs, frames, glyphs, {\n        items,\n        itemIcons: icons,\n        playerRoles: roles,\n      })\n      expect(cloneInputs(forwardedInputs)).toEqual(before)\n      expect(pixel(forwarded, name.x, name.y)).toBe(MENUITEM_COLOR_SELECTED_FIRST)\n      expect(pixel(forwarded, textDot('甲', 0, 116, 143).x, textDot('甲', 0, 116, 143).y)).toBe(\n        0xbe,\n      )\n      expect(pixel(forwarded, 127, 88)).toBe(0x84)\n    } finally {\n      restore()\n    }\n  })\n\n  it('P05 装备背景只在extra.equipBg传入时写入', () => {\n    const gs = makeGs()\n    const roles = makeRoles()\n    const sword = makeItem(40, '剑', {\n      flags: { equipable: true, equipableBy: [false, false, false, false, true, false] },\n    })\n    const items = [sword]\n    gs.partyMembers = [4]\n    gs.inventory = [{ itemId: sword.id, count: 1 }]\n    const menu = createEquipMenu(gs, items)\n    confirmEquipItem(menu, items)\n    openMenu(gs, { kind: 'equip', state: menu })\n    const frames = makeUiFrames()\n    const bg = { width: 4, height: 4, indices: new Uint8Array(16).fill(0x55) }\n    const restore = freezeNow(0)\n    try {\n      const without = createFramebuffer()\n      fillSentinel(without)\n      const plain = { gs, menu, items, roles, frames }\n      const beforePlain = cloneInputs(plain)\n      drawMenuStack(without, gs, frames, glyphs, { items, playerRoles: roles })\n      expect(cloneInputs(plain)).toEqual(beforePlain)\n      expect(pixel(without, 1, 1)).toBe(SENTINEL)\n\n      const withBg = createFramebuffer()\n      fillSentinel(withBg)\n      const painted = { ...plain, equipBg: bg }\n      const before = cloneInputs(painted)\n      drawMenuStack(withBg, gs, frames, glyphs, {\n        items,\n        playerRoles: roles,\n        equipBg: bg,\n      })\n      expect(cloneInputs(painted)).toEqual(before)\n      expect(pixel(withBg, 1, 1)).toBe(0x55)\n      expect(pixel(withBg, textDot('戊', 0, 15, 108).x, textDot('戊', 0, 15, 108).y)).toBe(\n        MENUITEM_COLOR_SELECTED_FIRST,\n      )\n    } finally {\n      restore()\n    }\n  })\n\n  it('P05 状态背景和毒数据经extra传到真实状态页', () => {\n    const words = Array<string>(80).fill('')\n    words[77] = '瘟'\n    setWordTable(words)\n    const gs = makeGs()\n    const roles = makeRoles()\n    gs.partyMembers = [4, 1]\n    gs.rgPoisonStatus['0_0'] = { wPoisonID: 77, wPoisonScript: 1 }\n    const menu = createPlayerStatus(gs.partyMembers)\n    openMenu(gs, { kind: 'player-status', state: menu })\n    const frames = makeUiFrames()\n    const bg = { width: 4, height: 4, indices: new Uint8Array(16).fill(0x56) }\n    const poisons = new Map([[77, { level: 1, color: 3 }]])\n    const items: ReturnType<typeof makeItem>[] = []\n    const poison = textDot('瘟', 0, 185, 58)\n    const without = createFramebuffer()\n    fillSentinel(without)\n    const plain = { gs, menu, items, roles, frames }\n    const beforePlain = cloneInputs(plain)\n    drawMenuStack(without, gs, frames, glyphs, { playerRoles: roles, items })\n    expect(cloneInputs(plain)).toEqual(beforePlain)\n    expect(pixel(without, 1, 1)).toBe(SENTINEL)\n    expect(pixel(without, poison.x, poison.y)).toBe(SENTINEL)\n\n    const withExtra = createFramebuffer()\n    fillSentinel(withExtra)\n    const extra = { ...plain, statusBg: bg, poisons }\n    const before = cloneInputs(extra)\n    drawMenuStack(withExtra, gs, frames, glyphs, {\n      playerRoles: roles,\n      items,\n      statusBg: bg,\n      objectPoisons: poisons,\n    })\n    expect(cloneInputs(extra)).toEqual(before)\n    expect(pixel(withExtra, 1, 1)).toBe(0x56)\n    expect(pixel(withExtra, poison.x, poison.y)).toBe(13)\n    expect(pixel(withExtra, poison.x + 1, poison.y)).toBe(0)\n  })\n\n  it('P05 同一items数组增删或重排会使输入快照失败', () => {\n    const gs = makeGs()\n    const first = makeItem(1, '甲')\n    const second = makeItem(2, '乙')\n    const items = [first]\n    const before = cloneInputs({ gs, items })\n    items.push(second)\n    expect(cloneInputs({ gs, items })).not.toEqual(before)\n    const grown = cloneInputs({ gs, items })\n    items.reverse()\n    expect(cloneInputs({ gs, items })).not.toEqual(grown)\n    const reversed = cloneInputs({ gs, items })\n    items.pop()\n    expect(cloneInputs({ gs, items })).not.toEqual(reversed)\n    expect(items).toEqual([second])\n  })\n})\n",
+          "to": "import { afterEach, beforeEach, describe, expect, it } from 'vitest'\nimport type { IndexedImage } from '../../assets/png.js'\nimport { setGlobalEvents } from '../../core/event-system.js'\nimport {\n  type ActiveMenuEntry,\n  createInitialGameState,\n  hydratePlayerRolesRuntime,\n} from '../../core/game-state.js'\nimport { confirmEquipItem, createEquipMenu } from '../../core/menu/equip-menu.js'\nimport { createInGameMagicMenu } from '../../core/menu/in-game-magic-menu.js'\nimport {\n  createInGameMenu,\n  createSystemMenu,\n  systemMenuEnterSwitch,\n} from '../../core/menu/in-game-menu.js'\nimport { createInventoryActionMenu } from '../../core/menu/inventory-action-menu.js'\nimport {\n  confirmInventoryItem,\n  createInventoryMenu,\n  MENUITEM_COLOR_SELECTED_FIRST,\n} from '../../core/menu/inventory-menu.js'\nimport { openMenu } from '../../core/menu/menu-mode.js'\nimport { createPlayerStatus } from '../../core/menu/player-status.js'\nimport { createSaveSlotMenu } from '../../core/menu/save-slot-menu.js'\nimport { createSellMenu, sellMoveRight, sellSelectItem } from '../../core/menu/sell-menu.js'\nimport { setWordTable } from '../../core/word-lookup.js'\nimport { fixtureGlyphs, textDot } from '../__tests__/glyph-fixtures.js'\nimport {\n  freezeNow,\n  makeGs,\n  makeItem,\n  makeRole,\n  makeRoles,\n} from '../__tests__/menu-state-fixtures.js'\nimport { beginChineseMenuText, freezeMenuClock } from '../__tests__/menu-text-fixture.js'\nimport {\n  BOX_STYLE0,\n  BOX_STYLE1,\n  makeUiFrames,\n  rightDigitX,\n  yellowDigit,\n} from '../__tests__/menu-ui-fixtures.js'\nimport {\n  fillSentinel,\n  iconImage,\n  pixel,\n  SENTINEL,\n  sentinelFramebuffer,\n} from '../__tests__/raster-fixtures.js'\nimport { cloneInputs } from '../__tests__/render-input-snapshots.js'\nimport { uniformDotGlyphs, uniformTextDot } from '../__tests__/uniform-glyphs.js'\nimport { createFramebuffer } from '../framebuffer.js'\nimport { drawMenuStack } from './draw-menu.js'\nconst uniformGlyphs = uniformDotGlyphs()\nconst positionGlyphs = fixtureGlyphs()\n/** Distinct slot colors identify actual frame forwarding; semantic digit/chrome fixtures stay separate. */\nfunction distinctUiFrames(): IndexedImage[] {\n  const frames: IndexedImage[] = []\n  for (let frameIndex = 0; frameIndex < 47; frameIndex++) {\n    const width = 8,\n      height = 8\n    const indices = new Uint8Array(width * height).fill((frameIndex % 250) + 1)\n    const opaque = new Uint8Array(width * height).fill(1)\n    frames.push({ width: width, height: height, indices, opaque })\n  }\n  return frames\n}\nlet restoreMenuText: () => void\nbeforeEach(() => {\n  restoreMenuText = beginChineseMenuText()\n  setGlobalEvents([])\n})\nafterEach(() => {\n  try {\n    setGlobalEvents([])\n  } finally {\n    restoreMenuText()\n  }\n})\ndescribe('Menu stack rendering', () => {\n  describe('Forwarded resources', () => {\n    it('P05 物品、图标和角色经公开菜单栈传到真实下层', () => {\n      const gs = makeGs()\n      const roles = makeRoles()\n      const item = makeItem(21, '甲', { bitmap: 4, flags: { usable: true } })\n      const items = [item]\n      gs.partyMembers = [4, 1]\n      gs.inventory = [{ itemId: item.id, count: 1 }]\n      const menu = createInventoryMenu(gs, items, 'usable')\n      confirmInventoryItem(menu, items, roles, gs.partyMembers)\n      openMenu(gs, { kind: 'inventory', state: menu })\n      const frames = makeUiFrames()\n      const icons = new Map([[4, iconImage(0x84)]])\n      const name = textDot('戊', 0, 125, 16)\n      const restore = freezeNow(0)\n      try {\n        const bare = createFramebuffer()\n        fillSentinel(bare)\n        const bareInputs = { gs, menu, frames }\n        const beforeBare = cloneInputs(bareInputs)\n        drawMenuStack(bare, gs, frames, positionGlyphs)\n        expect(cloneInputs(bareInputs)).toEqual(beforeBare)\n        expect(pixel(bare, name.x, name.y)).not.toBe(MENUITEM_COLOR_SELECTED_FIRST)\n        expect(pixel(bare, 127, 88)).not.toBe(0x84)\n\n        const forwarded = createFramebuffer()\n        fillSentinel(forwarded)\n        const forwardedInputs = { gs, menu, items, roles, frames, icons }\n        const before = cloneInputs(forwardedInputs)\n        drawMenuStack(forwarded, gs, frames, positionGlyphs, {\n          items,\n          itemIcons: icons,\n          playerRoles: roles,\n        })\n        expect(cloneInputs(forwardedInputs)).toEqual(before)\n        expect(pixel(forwarded, name.x, name.y)).toBe(MENUITEM_COLOR_SELECTED_FIRST)\n        expect(pixel(forwarded, textDot('甲', 0, 116, 143).x, textDot('甲', 0, 116, 143).y)).toBe(\n          0xbe,\n        )\n        expect(pixel(forwarded, 127, 88)).toBe(0x84)\n      } finally {\n        restore()\n      }\n    })\n\n    it('P05 装备背景只在extra.equipBg传入时写入', () => {\n      const gs = makeGs()\n      const roles = makeRoles()\n      const sword = makeItem(40, '剑', {\n        flags: { equipable: true, equipableBy: [false, false, false, false, true, false] },\n      })\n      const items = [sword]\n      gs.partyMembers = [4]\n      gs.inventory = [{ itemId: sword.id, count: 1 }]\n      const menu = createEquipMenu(gs, items)\n      confirmEquipItem(menu, items)\n      openMenu(gs, { kind: 'equip', state: menu })\n      const frames = makeUiFrames()\n      const bg = { width: 4, height: 4, indices: new Uint8Array(16).fill(0x55) }\n      const restore = freezeNow(0)\n      try {\n        const without = createFramebuffer()\n        fillSentinel(without)\n        const plain = { gs, menu, items, roles, frames }\n        const beforePlain = cloneInputs(plain)\n        drawMenuStack(without, gs, frames, positionGlyphs, { items, playerRoles: roles })\n        expect(cloneInputs(plain)).toEqual(beforePlain)\n        expect(pixel(without, 1, 1)).toBe(SENTINEL)\n\n        const withBg = createFramebuffer()\n        fillSentinel(withBg)\n        const painted = { ...plain, equipBg: bg }\n        const before = cloneInputs(painted)\n        drawMenuStack(withBg, gs, frames, positionGlyphs, {\n          items,\n          playerRoles: roles,\n          equipBg: bg,\n        })\n        expect(cloneInputs(painted)).toEqual(before)\n        expect(pixel(withBg, 1, 1)).toBe(0x55)\n        expect(pixel(withBg, textDot('戊', 0, 15, 108).x, textDot('戊', 0, 15, 108).y)).toBe(\n          MENUITEM_COLOR_SELECTED_FIRST,\n        )\n      } finally {\n        restore()\n      }\n    })\n\n    it('P05 状态背景和毒数据经extra传到真实状态页', () => {\n      const words = Array<string>(80).fill('')\n      words[77] = '瘟'\n      setWordTable(words)\n      const gs = makeGs()\n      const roles = makeRoles()\n      gs.partyMembers = [4, 1]\n      gs.rgPoisonStatus['0_0'] = { wPoisonID: 77, wPoisonScript: 1 }\n      const menu = createPlayerStatus(gs.partyMembers)\n      openMenu(gs, { kind: 'player-status', state: menu })\n      const frames = makeUiFrames()\n      const bg = { width: 4, height: 4, indices: new Uint8Array(16).fill(0x56) }\n      const poisons = new Map([[77, { level: 1, color: 3 }]])\n      const items: ReturnType<typeof makeItem>[] = []\n      const poison = textDot('瘟', 0, 185, 58)\n      const without = createFramebuffer()\n      fillSentinel(without)\n      const plain = { gs, menu, items, roles, frames }\n      const beforePlain = cloneInputs(plain)\n      drawMenuStack(without, gs, frames, positionGlyphs, { playerRoles: roles, items })\n      expect(cloneInputs(plain)).toEqual(beforePlain)\n      expect(pixel(without, 1, 1)).toBe(SENTINEL)\n      expect(pixel(without, poison.x, poison.y)).toBe(SENTINEL)\n\n      const withExtra = createFramebuffer()\n      fillSentinel(withExtra)\n      const extra = { ...plain, statusBg: bg, poisons }\n      const before = cloneInputs(extra)\n      drawMenuStack(withExtra, gs, frames, positionGlyphs, {\n        playerRoles: roles,\n        items,\n        statusBg: bg,\n        objectPoisons: poisons,\n      })\n      expect(cloneInputs(extra)).toEqual(before)\n      expect(pixel(withExtra, 1, 1)).toBe(0x56)\n      expect(pixel(withExtra, poison.x, poison.y)).toBe(13)\n      expect(pixel(withExtra, poison.x + 1, poison.y)).toBe(0)\n    })\n\n    it('物品数组增删和重排均能被已捕获快照识别', () => {\n      const gs = makeGs()\n      const first = makeItem(1, '甲')\n      const second = makeItem(2, '乙')\n      const items = [first]\n      const before = cloneInputs({ gs, items })\n      items.push(second)\n      expect(cloneInputs({ gs, items })).not.toEqual(before)\n      const grown = cloneInputs({ gs, items })\n      items.reverse()\n      expect(cloneInputs({ gs, items })).not.toEqual(grown)\n      const reversed = cloneInputs({ gs, items })\n      items.pop()\n      expect(cloneInputs({ gs, items })).not.toEqual(reversed)\n      expect(items).toEqual([second])\n    })\n  })\n})\n",
+          "count": 1
+        }
+      ],
+      "reason": "Explicit private names, exact semantic helper inputs, complete callback retention, narrow language/owned event-table lifecycle; full source frozen separately."
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/p05-menu-stack.test.ts",
+      "id": "menu-stack-snapshot-only",
+      "ordinals": [3],
+      "changes": [
+        {
+          "from": "import { afterEach, beforeEach, describe, expect, it } from 'vitest'\nimport type { IndexedImage } from '../../assets/png.js'\nimport { setGlobalEvents } from '../../core/event-system.js'\nimport {\n  type ActiveMenuEntry,\n  createInitialGameState,\n  hydratePlayerRolesRuntime,\n} from '../../core/game-state.js'\nimport { confirmEquipItem, createEquipMenu } from '../../core/menu/equip-menu.js'\nimport { createInGameMagicMenu } from '../../core/menu/in-game-magic-menu.js'\nimport {\n  createInGameMenu,\n  createSystemMenu,\n  systemMenuEnterSwitch,\n} from '../../core/menu/in-game-menu.js'\nimport { createInventoryActionMenu } from '../../core/menu/inventory-action-menu.js'\nimport {\n  confirmInventoryItem,\n  createInventoryMenu,\n  MENUITEM_COLOR_SELECTED_FIRST,\n} from '../../core/menu/inventory-menu.js'\nimport { openMenu } from '../../core/menu/menu-mode.js'\nimport { createPlayerStatus } from '../../core/menu/player-status.js'\nimport { createSaveSlotMenu } from '../../core/menu/save-slot-menu.js'\nimport { createSellMenu, sellMoveRight, sellSelectItem } from '../../core/menu/sell-menu.js'\nimport { setWordTable } from '../../core/word-lookup.js'\nimport { fixtureGlyphs, textDot } from '../__tests__/glyph-fixtures.js'\nimport {\n  freezeNow,\n  makeGs,\n  makeItem,\n  makeRole,\n  makeRoles,\n} from '../__tests__/menu-state-fixtures.js'\nimport { beginChineseMenuText, freezeMenuClock } from '../__tests__/menu-text-fixture.js'\nimport {\n  BOX_STYLE0,\n  BOX_STYLE1,\n  makeUiFrames,\n  rightDigitX,\n  yellowDigit,\n} from '../__tests__/menu-ui-fixtures.js'\nimport {\n  fillSentinel,\n  iconImage,\n  pixel,\n  SENTINEL,\n  sentinelFramebuffer,\n} from '../__tests__/raster-fixtures.js'\nimport { cloneInputs } from '../__tests__/render-input-snapshots.js'\nimport { uniformDotGlyphs, uniformTextDot } from '../__tests__/uniform-glyphs.js'\nimport { createFramebuffer } from '../framebuffer.js'\nimport { drawMenuStack } from './draw-menu.js'\nconst uniformGlyphs = uniformDotGlyphs()\nconst positionGlyphs = fixtureGlyphs()\n/** Distinct slot colors identify actual frame forwarding; semantic digit/chrome fixtures stay separate. */\nfunction distinctUiFrames(): IndexedImage[] {\n  const frames: IndexedImage[] = []\n  for (let frameIndex = 0; frameIndex < 47; frameIndex++) {\n    const width = 8,\n      height = 8\n    const indices = new Uint8Array(width * height).fill((frameIndex % 250) + 1)\n    const opaque = new Uint8Array(width * height).fill(1)\n    frames.push({ width: width, height: height, indices, opaque })\n  }\n  return frames\n}\nlet restoreMenuText: () => void\nbeforeEach(() => {\n  restoreMenuText = beginChineseMenuText()\n  setGlobalEvents([])\n})\nafterEach(() => {\n  try {\n    setGlobalEvents([])\n  } finally {\n    restoreMenuText()\n  }\n})\ndescribe('Menu stack rendering', () => {\n  describe('Forwarded resources', () => {\n    it('P05 物品、图标和角色经公开菜单栈传到真实下层', () => {\n      const gs = makeGs()\n      const roles = makeRoles()\n      const item = makeItem(21, '甲', { bitmap: 4, flags: { usable: true } })\n      const items = [item]\n      gs.partyMembers = [4, 1]\n      gs.inventory = [{ itemId: item.id, count: 1 }]\n      const menu = createInventoryMenu(gs, items, 'usable')\n      confirmInventoryItem(menu, items, roles, gs.partyMembers)\n      openMenu(gs, { kind: 'inventory', state: menu })\n      const frames = makeUiFrames()\n      const icons = new Map([[4, iconImage(0x84)]])\n      const name = textDot('戊', 0, 125, 16)\n      const restore = freezeNow(0)\n      try {\n        const bare = createFramebuffer()\n        fillSentinel(bare)\n        const bareInputs = { gs, menu, frames }\n        const beforeBare = cloneInputs(bareInputs)\n        drawMenuStack(bare, gs, frames, positionGlyphs)\n        expect(cloneInputs(bareInputs)).toEqual(beforeBare)\n        expect(pixel(bare, name.x, name.y)).not.toBe(MENUITEM_COLOR_SELECTED_FIRST)\n        expect(pixel(bare, 127, 88)).not.toBe(0x84)\n\n        const forwarded = createFramebuffer()\n        fillSentinel(forwarded)\n        const forwardedInputs = { gs, menu, items, roles, frames, icons }\n        const before = cloneInputs(forwardedInputs)\n        drawMenuStack(forwarded, gs, frames, positionGlyphs, {\n          items,\n          itemIcons: icons,\n          playerRoles: roles,\n        })\n        expect(cloneInputs(forwardedInputs)).toEqual(before)\n        expect(pixel(forwarded, name.x, name.y)).toBe(MENUITEM_COLOR_SELECTED_FIRST)\n        expect(pixel(forwarded, textDot('甲', 0, 116, 143).x, textDot('甲', 0, 116, 143).y)).toBe(\n          0xbe,\n        )\n        expect(pixel(forwarded, 127, 88)).toBe(0x84)\n      } finally {\n        restore()\n      }\n    })\n\n    it('P05 装备背景只在extra.equipBg传入时写入', () => {\n      const gs = makeGs()\n      const roles = makeRoles()\n      const sword = makeItem(40, '剑', {\n        flags: { equipable: true, equipableBy: [false, false, false, false, true, false] },\n      })\n      const items = [sword]\n      gs.partyMembers = [4]\n      gs.inventory = [{ itemId: sword.id, count: 1 }]\n      const menu = createEquipMenu(gs, items)\n      confirmEquipItem(menu, items)\n      openMenu(gs, { kind: 'equip', state: menu })\n      const frames = makeUiFrames()\n      const bg = { width: 4, height: 4, indices: new Uint8Array(16).fill(0x55) }\n      const restore = freezeNow(0)\n      try {\n        const without = createFramebuffer()\n        fillSentinel(without)\n        const plain = { gs, menu, items, roles, frames }\n        const beforePlain = cloneInputs(plain)\n        drawMenuStack(without, gs, frames, positionGlyphs, { items, playerRoles: roles })\n        expect(cloneInputs(plain)).toEqual(beforePlain)\n        expect(pixel(without, 1, 1)).toBe(SENTINEL)\n\n        const withBg = createFramebuffer()\n        fillSentinel(withBg)\n        const painted = { ...plain, equipBg: bg }\n        const before = cloneInputs(painted)\n        drawMenuStack(withBg, gs, frames, positionGlyphs, {\n          items,\n          playerRoles: roles,\n          equipBg: bg,\n        })\n        expect(cloneInputs(painted)).toEqual(before)\n        expect(pixel(withBg, 1, 1)).toBe(0x55)\n        expect(pixel(withBg, textDot('戊', 0, 15, 108).x, textDot('戊', 0, 15, 108).y)).toBe(\n          MENUITEM_COLOR_SELECTED_FIRST,\n        )\n      } finally {\n        restore()\n      }\n    })\n\n    it('P05 状态背景和毒数据经extra传到真实状态页', () => {\n      const words = Array<string>(80).fill('')\n      words[77] = '瘟'\n      setWordTable(words)\n      const gs = makeGs()\n      const roles = makeRoles()\n      gs.partyMembers = [4, 1]\n      gs.rgPoisonStatus['0_0'] = { wPoisonID: 77, wPoisonScript: 1 }\n      const menu = createPlayerStatus(gs.partyMembers)\n      openMenu(gs, { kind: 'player-status', state: menu })\n      const frames = makeUiFrames()\n      const bg = { width: 4, height: 4, indices: new Uint8Array(16).fill(0x56) }\n      const poisons = new Map([[77, { level: 1, color: 3 }]])\n      const items: ReturnType<typeof makeItem>[] = []\n      const poison = textDot('瘟', 0, 185, 58)\n      const without = createFramebuffer()\n      fillSentinel(without)\n      const plain = { gs, menu, items, roles, frames }\n      const beforePlain = cloneInputs(plain)\n      drawMenuStack(without, gs, frames, positionGlyphs, { playerRoles: roles, items })\n      expect(cloneInputs(plain)).toEqual(beforePlain)\n      expect(pixel(without, 1, 1)).toBe(SENTINEL)\n      expect(pixel(without, poison.x, poison.y)).toBe(SENTINEL)\n\n      const withExtra = createFramebuffer()\n      fillSentinel(withExtra)\n      const extra = { ...plain, statusBg: bg, poisons }\n      const before = cloneInputs(extra)\n      drawMenuStack(withExtra, gs, frames, positionGlyphs, {\n        playerRoles: roles,\n        items,\n        statusBg: bg,\n        objectPoisons: poisons,\n      })\n      expect(cloneInputs(extra)).toEqual(before)\n      expect(pixel(withExtra, 1, 1)).toBe(0x56)\n      expect(pixel(withExtra, poison.x, poison.y)).toBe(13)\n      expect(pixel(withExtra, poison.x + 1, poison.y)).toBe(0)\n    })\n\n    it('物品数组增删和重排均能被已捕获快照识别', () => {\n      const gs = makeGs()\n      const first = makeItem(1, '甲')\n      const second = makeItem(2, '乙')\n      const items = [first]\n      const before = cloneInputs({ gs, items })\n      items.push(second)\n      expect(cloneInputs({ gs, items })).not.toEqual(before)\n      const grown = cloneInputs({ gs, items })\n      items.reverse()\n      expect(cloneInputs({ gs, items })).not.toEqual(grown)\n      const reversed = cloneInputs({ gs, items })\n      items.pop()\n      expect(cloneInputs({ gs, items })).not.toEqual(reversed)\n      expect(items).toEqual([second])\n    })\n  })\n})\n",
+          "to": "import { afterEach, beforeEach, describe, expect, it } from 'vitest'\nimport type { IndexedImage } from '../../assets/png.js'\nimport { setGlobalEvents } from '../../core/event-system.js'\nimport {\n  type ActiveMenuEntry,\n  createInitialGameState,\n  hydratePlayerRolesRuntime,\n} from '../../core/game-state.js'\nimport { confirmEquipItem, createEquipMenu } from '../../core/menu/equip-menu.js'\nimport { createInGameMagicMenu } from '../../core/menu/in-game-magic-menu.js'\nimport {\n  createInGameMenu,\n  createSystemMenu,\n  systemMenuEnterSwitch,\n} from '../../core/menu/in-game-menu.js'\nimport { createInventoryActionMenu } from '../../core/menu/inventory-action-menu.js'\nimport {\n  confirmInventoryItem,\n  createInventoryMenu,\n  MENUITEM_COLOR_SELECTED_FIRST,\n} from '../../core/menu/inventory-menu.js'\nimport { openMenu } from '../../core/menu/menu-mode.js'\nimport { createPlayerStatus } from '../../core/menu/player-status.js'\nimport { createSaveSlotMenu } from '../../core/menu/save-slot-menu.js'\nimport { createSellMenu, sellMoveRight, sellSelectItem } from '../../core/menu/sell-menu.js'\nimport { setWordTable } from '../../core/word-lookup.js'\nimport { fixtureGlyphs, textDot } from '../__tests__/glyph-fixtures.js'\nimport { freezeNow, makeGs, makeItem, makeRole, makeRoles } from './menu-state-fixtures.js'\nimport { beginChineseMenuText, freezeMenuClock } from '../__tests__/menu-text-fixture.js'\nimport {\n  BOX_STYLE0,\n  BOX_STYLE1,\n  makeUiFrames,\n  rightDigitX,\n  yellowDigit,\n} from '../__tests__/menu-ui-fixtures.js'\nimport {\n  fillSentinel,\n  iconImage,\n  pixel,\n  SENTINEL,\n  sentinelFramebuffer,\n} from '../__tests__/raster-fixtures.js'\nimport { cloneInputs } from './render-input-snapshots.js'\nimport { uniformDotGlyphs, uniformTextDot } from '../__tests__/uniform-glyphs.js'\nimport { createFramebuffer } from '../framebuffer.js'\nimport { drawMenuStack } from './draw-menu.js'\nconst uniformGlyphs = uniformDotGlyphs()\nconst positionGlyphs = fixtureGlyphs()\n/** Distinct slot colors identify actual frame forwarding; semantic digit/chrome fixtures stay separate. */\nfunction distinctUiFrames(): IndexedImage[] {\n  const frames: IndexedImage[] = []\n  for (let frameIndex = 0; frameIndex < 47; frameIndex++) {\n    const width = 8,\n      height = 8\n    const indices = new Uint8Array(width * height).fill((frameIndex % 250) + 1)\n    const opaque = new Uint8Array(width * height).fill(1)\n    frames.push({ width: width, height: height, indices, opaque })\n  }\n  return frames\n}\nlet restoreMenuText: () => void\ndescribe('Menu stack rendering', () => {\n  beforeEach(() => {\n    restoreMenuText = beginChineseMenuText()\n    setGlobalEvents([])\n  })\n  afterEach(() => {\n    try {\n      setGlobalEvents([])\n    } finally {\n      restoreMenuText()\n    }\n  })\n  describe('Forwarded resources', () => {\n    it('P05 物品、图标和角色经公开菜单栈传到真实下层', () => {\n      const gs = makeGs()\n      const roles = makeRoles()\n      const item = makeItem(21, '甲', { bitmap: 4, flags: { usable: true } })\n      const items = [item]\n      gs.partyMembers = [4, 1]\n      gs.inventory = [{ itemId: item.id, count: 1 }]\n      const menu = createInventoryMenu(gs, items, 'usable')\n      confirmInventoryItem(menu, items, roles, gs.partyMembers)\n      openMenu(gs, { kind: 'inventory', state: menu })\n      const frames = makeUiFrames()\n      const icons = new Map([[4, iconImage(0x84)]])\n      const name = textDot('戊', 0, 125, 16)\n      const restore = freezeNow(0)\n      try {\n        const bare = createFramebuffer()\n        fillSentinel(bare)\n        const bareInputs = { gs, menu, frames }\n        const beforeBare = cloneInputs(bareInputs)\n        drawMenuStack(bare, gs, frames, positionGlyphs)\n        expect(cloneInputs(bareInputs)).toEqual(beforeBare)\n        expect(pixel(bare, name.x, name.y)).not.toBe(MENUITEM_COLOR_SELECTED_FIRST)\n        expect(pixel(bare, 127, 88)).not.toBe(0x84)\n\n        const forwarded = createFramebuffer()\n        fillSentinel(forwarded)\n        const forwardedInputs = { gs, menu, items, roles, frames, icons }\n        const before = cloneInputs(forwardedInputs)\n        drawMenuStack(forwarded, gs, frames, positionGlyphs, {\n          items,\n          itemIcons: icons,\n          playerRoles: roles,\n        })\n        expect(cloneInputs(forwardedInputs)).toEqual(before)\n        expect(pixel(forwarded, name.x, name.y)).toBe(MENUITEM_COLOR_SELECTED_FIRST)\n        expect(pixel(forwarded, textDot('甲', 0, 116, 143).x, textDot('甲', 0, 116, 143).y)).toBe(\n          0xbe,\n        )\n        expect(pixel(forwarded, 127, 88)).toBe(0x84)\n      } finally {\n        restore()\n      }\n    })\n\n    it('P05 装备背景只在extra.equipBg传入时写入', () => {\n      const gs = makeGs()\n      const roles = makeRoles()\n      const sword = makeItem(40, '剑', {\n        flags: { equipable: true, equipableBy: [false, false, false, false, true, false] },\n      })\n      const items = [sword]\n      gs.partyMembers = [4]\n      gs.inventory = [{ itemId: sword.id, count: 1 }]\n      const menu = createEquipMenu(gs, items)\n      confirmEquipItem(menu, items)\n      openMenu(gs, { kind: 'equip', state: menu })\n      const frames = makeUiFrames()\n      const bg = { width: 4, height: 4, indices: new Uint8Array(16).fill(0x55) }\n      const restore = freezeNow(0)\n      try {\n        const without = createFramebuffer()\n        fillSentinel(without)\n        const plain = { gs, menu, items, roles, frames }\n        const beforePlain = cloneInputs(plain)\n        drawMenuStack(without, gs, frames, positionGlyphs, { items, playerRoles: roles })\n        expect(cloneInputs(plain)).toEqual(beforePlain)\n        expect(pixel(without, 1, 1)).toBe(SENTINEL)\n\n        const withBg = createFramebuffer()\n        fillSentinel(withBg)\n        const painted = { ...plain, equipBg: bg }\n        const before = cloneInputs(painted)\n        drawMenuStack(withBg, gs, frames, positionGlyphs, {\n          items,\n          playerRoles: roles,\n          equipBg: bg,\n        })\n        expect(cloneInputs(painted)).toEqual(before)\n        expect(pixel(withBg, 1, 1)).toBe(0x55)\n        expect(pixel(withBg, textDot('戊', 0, 15, 108).x, textDot('戊', 0, 15, 108).y)).toBe(\n          MENUITEM_COLOR_SELECTED_FIRST,\n        )\n      } finally {\n        restore()\n      }\n    })\n\n    it('P05 状态背景和毒数据经extra传到真实状态页', () => {\n      const words = Array<string>(80).fill('')\n      words[77] = '瘟'\n      setWordTable(words)\n      const gs = makeGs()\n      const roles = makeRoles()\n      gs.partyMembers = [4, 1]\n      gs.rgPoisonStatus['0_0'] = { wPoisonID: 77, wPoisonScript: 1 }\n      const menu = createPlayerStatus(gs.partyMembers)\n      openMenu(gs, { kind: 'player-status', state: menu })\n      const frames = makeUiFrames()\n      const bg = { width: 4, height: 4, indices: new Uint8Array(16).fill(0x56) }\n      const poisons = new Map([[77, { level: 1, color: 3 }]])\n      const items: ReturnType<typeof makeItem>[] = []\n      const poison = textDot('瘟', 0, 185, 58)\n      const without = createFramebuffer()\n      fillSentinel(without)\n      const plain = { gs, menu, items, roles, frames }\n      const beforePlain = cloneInputs(plain)\n      drawMenuStack(without, gs, frames, positionGlyphs, { playerRoles: roles, items })\n      expect(cloneInputs(plain)).toEqual(beforePlain)\n      expect(pixel(without, 1, 1)).toBe(SENTINEL)\n      expect(pixel(without, poison.x, poison.y)).toBe(SENTINEL)\n\n      const withExtra = createFramebuffer()\n      fillSentinel(withExtra)\n      const extra = { ...plain, statusBg: bg, poisons }\n      const before = cloneInputs(extra)\n      drawMenuStack(withExtra, gs, frames, positionGlyphs, {\n        playerRoles: roles,\n        items,\n        statusBg: bg,\n        objectPoisons: poisons,\n      })\n      expect(cloneInputs(extra)).toEqual(before)\n      expect(pixel(withExtra, 1, 1)).toBe(0x56)\n      expect(pixel(withExtra, poison.x, poison.y)).toBe(13)\n      expect(pixel(withExtra, poison.x + 1, poison.y)).toBe(0)\n    })\n  })\n})\ndescribe('Input snapshot ownership', () => {\n  it('物品数组增删和重排均能被已捕获快照识别', () => {\n    const gs = makeGs()\n    const first = makeItem(1, '甲')\n    const second = makeItem(2, '乙')\n    const items = [first]\n    const before = cloneInputs({ gs, items })\n    items.push(second)\n    expect(cloneInputs({ gs, items })).not.toEqual(before)\n    const grown = cloneInputs({ gs, items })\n    items.reverse()\n    expect(cloneInputs({ gs, items })).not.toEqual(grown)\n    const reversed = cloneInputs({ gs, items })\n    items.pop()\n    expect(cloneInputs({ gs, items })).not.toEqual(reversed)\n    expect(items).toEqual([second])\n  })\n})\n",
+          "count": 1
+        }
+      ],
+      "reason": "Only ordinal3 moves to pure helper test with its actual destination import spellings and no menu hooks; other3 remain fully registered in scoped menu suite in virtual projection."
+    }
+  ],
+  "replacements": [],
+  "registrations": [
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-menu.test.ts",
+        "ordinal": 0,
+        "fullName": "M5.6 v2 drawMenuStack(sdlpal 真值坐标) menuStack 空 → 不画"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-menu.test.ts",
+        "titles": ["Menu stack rendering", "Stack geometry and draw order"],
+        "template": "menuStack 空 → 不画",
+        "fullName": "Menu stack rendering Stack geometry and draw order menuStack 空 → 不画"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-menu.test.ts",
+        "ordinal": 1,
+        "fullName": "M5.6 v2 drawMenuStack(sdlpal 真值坐标) In-Game hub → 主菜单 box 在 sdlpal 真值 (3, 37) + cash 框在 (0, 0)"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-menu.test.ts",
+        "titles": ["Menu stack rendering", "Stack geometry and draw order"],
+        "template": "In-Game hub → 主菜单 box 在 sdlpal 真值 (3, 37) + cash 框在 (0, 0)",
+        "fullName": "Menu stack rendering Stack geometry and draw order In-Game hub → 主菜单 box 在 sdlpal 真值 (3, 37) + cash 框在 (0, 0)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-menu.test.ts",
+        "ordinal": 2,
+        "fullName": "M5.6 v2 drawMenuStack(sdlpal 真值坐标) System menu → box 在 sdlpal 真值 (40, 60)"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-menu.test.ts",
+        "titles": ["Menu stack rendering", "Stack geometry and draw order"],
+        "template": "System menu → box 在 sdlpal 真值 (40, 60)",
+        "fullName": "Menu stack rendering Stack geometry and draw order System menu → box 在 sdlpal 真值 (40, 60)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-menu.test.ts",
+        "ordinal": 3,
+        "fullName": "M5.6 v2 drawMenuStack(sdlpal 真值坐标) C2-quit:system phase=confirm → 叠确认框(130,100)/(205,100);menu 阶段不画"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-menu.test.ts",
+        "titles": ["Menu stack rendering", "Stack geometry and draw order"],
+        "template": "C2-quit:system phase=confirm → 叠确认框(130,100)/(205,100);menu 阶段不画",
+        "fullName": "Menu stack rendering Stack geometry and draw order C2-quit:system phase=confirm → 叠确认框(130,100)/(205,100);menu 阶段不画"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-menu.test.ts",
+        "ordinal": 4,
+        "fullName": "M5.6 v2 drawMenuStack(sdlpal 真值坐标) 两层栈(in-game + inventory-action) → 子菜单盖住底层内容，主框与cash仍在"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-menu.test.ts",
+        "titles": ["Menu stack rendering", "Stack geometry and draw order"],
+        "template": "两层栈(in-game + inventory-action) → 子菜单盖住底层内容，主框与cash仍在",
+        "fullName": "Menu stack rendering Stack geometry and draw order 两层栈(in-game + inventory-action) → 子菜单盖住底层内容，主框与cash仍在"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-menu.test.ts",
+        "ordinal": 5,
+        "fullName": "M5.6 v2 drawMenuStack(sdlpal 真值坐标) uiSpriteFrames 不足 → drawSingleLineBox 先抛 frame 44-46 missing"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-menu.test.ts",
+        "titles": ["Menu stack rendering", "Stack geometry and draw order"],
+        "template": "uiSpriteFrames 不足 → drawSingleLineBox 先抛 frame 44-46 missing",
+        "fullName": "Menu stack rendering Stack geometry and draw order uiSpriteFrames 不足 → drawSingleLineBox 先抛 frame 44-46 missing"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-menu.glm-phase1-leaves.test.ts",
+        "ordinal": 0,
+        "fullName": "L09 drawMenuStack 剩余分支 save-slot：5 个单行框 (195,7+38i)、标签字色、slotMetas.savedTimes 黄色数字（缺省 0）"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-menu.test.ts",
+        "titles": ["Menu stack rendering", "Contents and overlays"],
+        "template": "save-slot：5 个单行框 (195,7+38i)、标签字色、slotMetas.savedTimes 黄色数字（缺省 0）",
+        "fullName": "Menu stack rendering Contents and overlays save-slot：5 个单行框 (195,7+38i)、标签字色、slotMetas.savedTimes 黄色数字（缺省 0）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-menu.glm-phase1-leaves.test.ts",
+        "ordinal": 1,
+        "fullName": "L09 drawMenuStack 剩余分支 inventory-action：框 (30,60)、装备/使用两标签、cursor 0 选中闪烁、切光标后选中移动"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-menu.test.ts",
+        "titles": ["Menu stack rendering", "Contents and overlays"],
+        "template": "inventory-action：框 (30,60)、装备/使用两标签、cursor 0 选中闪烁、切光标后选中移动",
+        "fullName": "Menu stack rendering Contents and overlays inventory-action：框 (30,60)、装备/使用两标签、cursor 0 选中闪烁、切光标后选中移动"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-menu.glm-phase1-leaves.test.ts",
+        "ordinal": 2,
+        "fullName": "L09 drawMenuStack 剩余分支 system switch 相：叠 关/开 选框（confirmYes=false → 左「关」选中）"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-menu.test.ts",
+        "titles": ["Menu stack rendering", "Contents and overlays"],
+        "template": "system switch 相：叠 关/开 选框（confirmYes=false → 左「关」选中）",
+        "fullName": "Menu stack rendering Contents and overlays system switch 相：叠 关/开 选框（confirmYes=false → 左「关」选中）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-menu.glm-phase1-leaves.test.ts",
+        "ordinal": 3,
+        "fullName": "L09 drawMenuStack 剩余分支 shop-sell 栈项：confirm 相在 grid+overlay 之上叠 否/是 确认层"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-menu.test.ts",
+        "titles": ["Menu stack rendering", "Contents and overlays"],
+        "template": "shop-sell 栈项：confirm 相在 grid+overlay 之上叠 否/是 确认层",
+        "fullName": "Menu stack rendering Contents and overlays shop-sell 栈项：confirm 相在 grid+overlay 之上叠 否/是 确认层"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-menu.glm-phase1-leaves.test.ts",
+        "ordinal": 4,
+        "fullName": "L09 drawMenuStack 剩余分支 缺 extra：player-status / equip / in-game-magic 画占位框 (80,80)，不抛错"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-menu.test.ts",
+        "titles": ["Menu stack rendering", "Contents and overlays"],
+        "template": "缺 extra：player-status / equip / in-game-magic 画占位框 (80,80)，不抛错",
+        "fullName": "Menu stack rendering Contents and overlays 缺 extra：player-status / equip / in-game-magic 画占位框 (80,80)，不抛错"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/__tests__/grok-present/p05-menu-stack.test.ts",
+        "ordinal": 0,
+        "fullName": "P05 菜单栈转发 P05 物品、图标和角色经公开菜单栈传到真实下层"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-menu.test.ts",
+        "titles": ["Menu stack rendering", "Forwarded resources"],
+        "template": "P05 物品、图标和角色经公开菜单栈传到真实下层",
+        "fullName": "Menu stack rendering Forwarded resources P05 物品、图标和角色经公开菜单栈传到真实下层"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/__tests__/grok-present/p05-menu-stack.test.ts",
+        "ordinal": 1,
+        "fullName": "P05 菜单栈转发 P05 装备背景只在extra.equipBg传入时写入"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-menu.test.ts",
+        "titles": ["Menu stack rendering", "Forwarded resources"],
+        "template": "P05 装备背景只在extra.equipBg传入时写入",
+        "fullName": "Menu stack rendering Forwarded resources P05 装备背景只在extra.equipBg传入时写入"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/__tests__/grok-present/p05-menu-stack.test.ts",
+        "ordinal": 2,
+        "fullName": "P05 菜单栈转发 P05 状态背景和毒数据经extra传到真实状态页"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-menu.test.ts",
+        "titles": ["Menu stack rendering", "Forwarded resources"],
+        "template": "P05 状态背景和毒数据经extra传到真实状态页",
+        "fullName": "Menu stack rendering Forwarded resources P05 状态背景和毒数据经extra传到真实状态页"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/__tests__/grok-present/p05-menu-stack.test.ts",
+        "ordinal": 3,
+        "fullName": "P05 菜单栈转发 P05 同一items数组增删或重排会使输入快照失败"
+      },
+      "current": {
+        "file": "packages/game/src/present/__tests__/render-input-snapshots.test.ts",
+        "titles": ["Input snapshot ownership"],
+        "template": "物品数组增删和重排均能被已捕获快照识别",
+        "fullName": "Input snapshot ownership 物品数组增删和重排均能被已捕获快照识别"
+      }
+    }
+  ],
+  "identities": [
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-menu.test.ts",
+        "fullName": "M5.6 v2 drawMenuStack(sdlpal 真值坐标) menuStack 空 → 不画"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-menu.test.ts",
+        "fullName": "Menu stack rendering Stack geometry and draw order menuStack 空 → 不画"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-menu.test.ts",
+        "fullName": "M5.6 v2 drawMenuStack(sdlpal 真值坐标) In-Game hub → 主菜单 box 在 sdlpal 真值 (3, 37) + cash 框在 (0, 0)"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-menu.test.ts",
+        "fullName": "Menu stack rendering Stack geometry and draw order In-Game hub → 主菜单 box 在 sdlpal 真值 (3, 37) + cash 框在 (0, 0)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-menu.test.ts",
+        "fullName": "M5.6 v2 drawMenuStack(sdlpal 真值坐标) System menu → box 在 sdlpal 真值 (40, 60)"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-menu.test.ts",
+        "fullName": "Menu stack rendering Stack geometry and draw order System menu → box 在 sdlpal 真值 (40, 60)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-menu.test.ts",
+        "fullName": "M5.6 v2 drawMenuStack(sdlpal 真值坐标) C2-quit:system phase=confirm → 叠确认框(130,100)/(205,100);menu 阶段不画"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-menu.test.ts",
+        "fullName": "Menu stack rendering Stack geometry and draw order C2-quit:system phase=confirm → 叠确认框(130,100)/(205,100);menu 阶段不画"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-menu.test.ts",
+        "fullName": "M5.6 v2 drawMenuStack(sdlpal 真值坐标) 两层栈(in-game + inventory-action) → 子菜单盖住底层内容，主框与cash仍在"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-menu.test.ts",
+        "fullName": "Menu stack rendering Stack geometry and draw order 两层栈(in-game + inventory-action) → 子菜单盖住底层内容，主框与cash仍在"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-menu.test.ts",
+        "fullName": "M5.6 v2 drawMenuStack(sdlpal 真值坐标) uiSpriteFrames 不足 → drawSingleLineBox 先抛 frame 44-46 missing"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-menu.test.ts",
+        "fullName": "Menu stack rendering Stack geometry and draw order uiSpriteFrames 不足 → drawSingleLineBox 先抛 frame 44-46 missing"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-menu.glm-phase1-leaves.test.ts",
+        "fullName": "L09 drawMenuStack 剩余分支 save-slot：5 个单行框 (195,7+38i)、标签字色、slotMetas.savedTimes 黄色数字（缺省 0）"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-menu.test.ts",
+        "fullName": "Menu stack rendering Contents and overlays save-slot：5 个单行框 (195,7+38i)、标签字色、slotMetas.savedTimes 黄色数字（缺省 0）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-menu.glm-phase1-leaves.test.ts",
+        "fullName": "L09 drawMenuStack 剩余分支 inventory-action：框 (30,60)、装备/使用两标签、cursor 0 选中闪烁、切光标后选中移动"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-menu.test.ts",
+        "fullName": "Menu stack rendering Contents and overlays inventory-action：框 (30,60)、装备/使用两标签、cursor 0 选中闪烁、切光标后选中移动"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-menu.glm-phase1-leaves.test.ts",
+        "fullName": "L09 drawMenuStack 剩余分支 system switch 相：叠 关/开 选框（confirmYes=false → 左「关」选中）"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-menu.test.ts",
+        "fullName": "Menu stack rendering Contents and overlays system switch 相：叠 关/开 选框（confirmYes=false → 左「关」选中）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-menu.glm-phase1-leaves.test.ts",
+        "fullName": "L09 drawMenuStack 剩余分支 shop-sell 栈项：confirm 相在 grid+overlay 之上叠 否/是 确认层"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-menu.test.ts",
+        "fullName": "Menu stack rendering Contents and overlays shop-sell 栈项：confirm 相在 grid+overlay 之上叠 否/是 确认层"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-menu.glm-phase1-leaves.test.ts",
+        "fullName": "L09 drawMenuStack 剩余分支 缺 extra：player-status / equip / in-game-magic 画占位框 (80,80)，不抛错"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-menu.test.ts",
+        "fullName": "Menu stack rendering Contents and overlays 缺 extra：player-status / equip / in-game-magic 画占位框 (80,80)，不抛错"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/__tests__/grok-present/p05-menu-stack.test.ts",
+        "fullName": "P05 菜单栈转发 P05 物品、图标和角色经公开菜单栈传到真实下层"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-menu.test.ts",
+        "fullName": "Menu stack rendering Forwarded resources P05 物品、图标和角色经公开菜单栈传到真实下层"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/__tests__/grok-present/p05-menu-stack.test.ts",
+        "fullName": "P05 菜单栈转发 P05 装备背景只在extra.equipBg传入时写入"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-menu.test.ts",
+        "fullName": "Menu stack rendering Forwarded resources P05 装备背景只在extra.equipBg传入时写入"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/__tests__/grok-present/p05-menu-stack.test.ts",
+        "fullName": "P05 菜单栈转发 P05 状态背景和毒数据经extra传到真实状态页"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-menu.test.ts",
+        "fullName": "Menu stack rendering Forwarded resources P05 状态背景和毒数据经extra传到真实状态页"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/__tests__/grok-present/p05-menu-stack.test.ts",
+        "fullName": "P05 菜单栈转发 P05 同一items数组增删或重排会使输入快照失败"
+      },
+      "current": {
+        "file": "packages/game/src/present/__tests__/render-input-snapshots.test.ts",
+        "fullName": "Input snapshot ownership 物品数组增删和重排均能被已捕获快照识别"
+      }
+    }
+  ],
+  "retirements": [],
+  "id": "menu-stack",
+  "namespace": "organization-menu-stack",
+  "cohortSubjects": [
+    {
+      "path": "packages/game/src/present/menu/draw-menu.glm-phase1-leaves.test.ts",
+      "sha256": "dfa26f65cac8879d0fe990d87d504049b8e2c3147e8c055a2ec78e6e2d5f6915",
+      "priorCurrentBridges": []
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/p05-menu-stack.test.ts",
+      "sha256": "11fcd1159850e7900e9dd3e4ff7eeef5076f9c97626deb1753227322586d75a7",
+      "priorCurrentBridges": [
+        {
+          "path": "packages/game/src/present/__tests__/grok-present/p05-menu-stack.test.ts",
+          "sha256": "11fcd1159850e7900e9dd3e4ff7eeef5076f9c97626deb1753227322586d75a7",
+          "member": "organization-game-render-fixtures/30.before",
+          "currentSha256": "f065ddac37d40fcf8188283d7be262d98717602743d84090fd162540544da7d6",
+          "evidence": "organization-game-render-fixtures.json"
+        }
+      ]
+    }
+  ],
+  "preserved": [
+    {
+      "path": "packages/game/src/present/menu/draw-menu.ts",
+      "sha256": "c0c56305f46464b8194bbb0d2a7e04683952b7f01266ec3949602b99c6f51566"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/render-input-snapshots.ts",
+      "sha256": "f2faddfd6a3c6dcbefe752eff487e8fabd92035b62cf673bd6c81289d8dd17b6"
+    },
+    {
+      "path": "packages/game/src/present/present.ts",
+      "sha256": "c4c6f411857d99c5f8e850bf5172c3e42f04181a64df0ce2a697fe1ec90569f9"
+    },
+    {
+      "path": "packages/game/src/core/menu/inventory-menu.ts",
+      "sha256": "4ed0e50d54faf012079cf9d6d2ee01357698d07f9e3ba5d8f324b84e3bf28f2b"
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-magic-menu.ts",
+      "sha256": "33ef8d4a1e71537533ebb38b799642f903b23c6f50ba53ae7ae30059d61ab14f"
+    },
+    {
+      "path": "packages/game/src/core/script-catalog.ts",
+      "sha256": "ec8f3713ed670a0af5efdf0d9e1bc940b6a5048a794b344bcd171d99b0617cc1"
+    },
+    {
+      "path": "packages/game/src/core/event-system.ts",
+      "sha256": "3b8490fa48d2992f693ab0eb611954dd0bfacbc22dc3eda58378cc4bc7a4b5f4"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/glyph-fixtures.ts",
+      "sha256": "226f7b472f8c065034db07c1f308ba5b5cc03a5f6d31b6f624f9cef27b701e2f"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/uniform-glyphs.ts",
+      "sha256": "c1074d184e865cbe788b5e459b9390e32148c8ba9b2747aa4340861a85c01f87"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/menu-text-fixture.ts",
+      "sha256": "d21320cb5dfe391b2d90b947346ca191c5dbb0602cb1f62c46325178666fdc94"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/raster-fixtures.ts",
+      "sha256": "982d0ab4a7a73bd1d432554562ff9f628d097098be32af9e9b059bd1dbb2d291"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/menu-state-fixtures.ts",
+      "sha256": "0ce7df25cce554b54c080659494116c76908a531dd289359a32f4323fbabce7f"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/menu-ui-fixtures.ts",
+      "sha256": "2e6d73e10d4b98a5876000b1abebea747bbf62fc0bdfb159e44534ba068f3171"
+    },
+    {
+      "path": "packages/game/src/__tests__/glm-phase1-leaves/present-fixtures.ts",
+      "sha256": "4f8701a4dddcdae4010bdbd9b23eee56dd2d20335e906a5249a488308edaedea"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-equip.ts",
+      "sha256": "a43f540896a97d1833e9ed3bbede943b03fd9c6eca3cde00b95608e15232d5b9"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-player-status.ts",
+      "sha256": "8ec3e60ee883c1fb4ed74109b3b2498f59a637d6a1b396e603da3b8d06bcc4c9"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-inventory.ts",
+      "sha256": "666328fac00afefa8346f6554ffe0a1f080fc610972ac66d0e6ad27edd42e7a1"
+    }
+  ],
+  "neighborPaths": [
+    "packages/game/src/present/menu/draw-menu.test.ts",
+    "packages/game/src/present/__tests__/render-input-snapshots.test.ts",
+    "packages/game/src/present/menu/draw-equip.test.ts",
+    "packages/game/src/present/menu/draw-confirm.test.ts",
+    "packages/game/src/present/menu/draw-box.test.ts",
+    "packages/game/src/core/menu/sell-menu.test.ts",
+    "packages/game/src/core/menu/inventory-menu.test.ts",
+    "packages/game/src/core/menu/in-game-menu.test.ts",
+    "packages/game/src/core/menu/menu-mode.test.ts"
+  ],
+  "cleanExecutions": [
+    "before",
+    "reorganize-r2",
+    "organize-imports",
+    "proof-r3",
+    "neighbors",
+    "typecheck",
+    "module-preflight",
+    "docs",
+    "content-review",
+    "lint",
+    "scoped",
+    "diff",
+    "ledger-final"
+  ],
+  "lightweightGates": true,
+  "profiles": [
+    {
+      "path": "packages/game/src/present/menu/draw-menu.test.ts",
+      "subjects": [
+        "packages/game/src/present/menu/draw-menu.glm-phase1-leaves.test.ts",
+        "packages/game/src/present/__tests__/grok-present/p05-menu-stack.test.ts"
+      ],
+      "axes": {
+        "A": "14例按真实公开drawMenuStack/openMenu及下层视图，六几何/五内容与overlay/三extra转发。实现全文，present675–710实际gate/资源投影已核；缺目录/缺帧是显式防御域。异步存档加载和机制/数据/产品不改，旧A真值按版本复用。",
+        "B": "去模型/批次排重头，distinctUiFrames说明每slot区分色的oracle，不称真实资源；中文/缺extra/堆叠坐标注释与当前caller一致。超长自定义slot标签dx分支限制沿旧证据保留，不冒称测试覆盖。",
+        "C": "同一装配入口按几何/内容叠层/资源转发聚合；辅助自测移出。当前隔离模块仅接管注入Word与全局脚本目录，结束清自有表并归还原语言/HTML，去caster/物品目标无关reset。当前仅create/confirm item，不调用两种写target记忆入口；依赖初始隔离模块默认0。",
+        "D": "两套glyph点位、distinct47slot和semantic UI以及两个Date策略语义不同保持；同合同Item和Role转现用构造，Role默认maxMP差异显式补40，完整record比对，不靠看起来相似共用。semantics63slot/31字复用同SHA前片证据。",
+        "E": "原15身份全保，14在本文件/1在快照辅助专测；15回调经私有名、纯literal无用文本参数、1等价Role输入桥保持，全部断言未删改。真实像素/字面量、输入前后快照和历史逆序反控只保原版本信用，不算当前反控实跑；9file109/TC0、0pending/诊断，不新造弱例或重复反控。",
+        "F": "draw-menu.test按当前入口，三suite按实际职责；distinctUiFrames/frameIndex/width/height与uniformGlyphs/positionGlyphs表意，公共glyphs键保持。纯snapshot测试标题改具体数组合同，不再冒充P05菜单转发。",
+        "G": "两份作者/波次专测退役，main承接14例，不新增wrapper/helper/模式参数；一个辅助合同归独立23行spec。旧不同glyph/frame/clock不强并，未因移动加新增全文数或关闭数。",
+        "H": "真Framebuffer/font/menu-state/下层renderer，无核心mock；Date每例finally，text环境复用精确前片早失败/隔离证据。脚本setter全文核只清commands/labels；body只读比较完整typed树，同源正控/尾字段和断言负控/公有键负控。"
+      }
+    },
+    {
+      "path": "packages/game/src/present/__tests__/render-input-snapshots.test.ts",
+      "subjects": [
+        "packages/game/src/present/menu/draw-menu.glm-phase1-leaves.test.ts",
+        "packages/game/src/present/__tests__/grok-present/p05-menu-stack.test.ts"
+      ],
+      "axes": {
+        "A": "纯cloneInputs实际helper及完整GameState/Item输入，捕获后push/reverse/pop与最终数组内容构成真实可反证oracle；只证membership/order，不称所有image/mask或菜单行为已测。当前helper完整读取、源字节未改。",
+        "B": "头/标题说明捕获后的物品成员和顺序，删除P05旧业务归属；不称deepclone所有可能对象或runtime游戏已覆盖。",
+        "C": "仅本地GS/Item/array与纯snapshot入口，不注册菜单Word/event/语言/clock清理；无IO、异步资源或全局单例写入。",
+        "D": "独立使用原现用makeGs/makeItem与cloneInputs，全部回调/输入/断言原体保持；不为一例造新工厂，不把它再复制进菜单spec。",
+        "E": "旧末例一一移来，三个notEqual分别验证增/重排/删，最终literal数组保留；非自clone比较。15身份映射中唯一current标题澄清，callback不变，9file109/TC0。",
+        "F": "render-input-snapshots.test与实际helper相邻，文件/标题表达snapshot能力，无模型/波次目录。变量before/grown/reversed对应不同捕获时刻，含义明确。",
+        "G": "专测只23行、一个原合同，不增加类型运行时断言/恒真/无关生命周期；源helper公开合同不改，原有效证据保留。",
+        "H": "直接helper、真实typed数据和可观察数组变化，无hook/时钟/DOM/业务mock；纯snapshot可独立运行，当前源/consumer变更时按scope复核。"
+      }
+    }
+  ],
+  "callbackProof": "organization-menu-stack/proof-r3.stdout.raw",
+  "cohortOrigins": "organization-menu-stack/cohort-origins.json",
+  "reusedReviewMember": "organization-menu-stack/reused-reviews.json",
+  "reads": {
+    "fullInputs": [
+      {
+        "path": "packages/game/src/present/menu/draw-menu.test.ts",
+        "sha256": "6fa7aaf7e88c7df5110d9962c014365a566ce89f582b674bb5583853910d57f9",
+        "member": "organization-menu-stack/0.before",
+        "lines": 91
+      },
+      {
+        "path": "packages/game/src/present/menu/draw-menu.glm-phase1-leaves.test.ts",
+        "sha256": "dfa26f65cac8879d0fe990d87d504049b8e2c3147e8c055a2ec78e6e2d5f6915",
+        "member": "organization-menu-stack/1.before",
+        "lines": 205
+      },
+      {
+        "path": "packages/game/src/present/__tests__/grok-present/p05-menu-stack.test.ts",
+        "sha256": "f065ddac37d40fcf8188283d7be262d98717602743d84090fd162540544da7d6",
+        "member": "organization-menu-stack/2.before",
+        "lines": 175
+      }
+    ],
+    "fullImplementations": [
+      {
+        "path": "packages/game/src/present/menu/draw-menu.ts",
+        "sha256": "c0c56305f46464b8194bbb0d2a7e04683952b7f01266ec3949602b99c6f51566",
+        "scope": "Full current source read, no new whole-product closure."
+      },
+      {
+        "path": "packages/game/src/present/__tests__/render-input-snapshots.ts",
+        "sha256": "f2faddfd6a3c6dcbefe752eff487e8fabd92035b62cf673bd6c81289d8dd17b6",
+        "scope": "Full current source read, no new whole-product closure."
+      },
+      {
+        "path": "packages/game/src/core/script-catalog.ts",
+        "sha256": "ec8f3713ed670a0af5efdf0d9e1bc940b6a5048a794b344bcd171d99b0617cc1",
+        "scope": "Full current source read, no new whole-product closure."
+      }
+    ],
+    "partialCallers": [
+      {
+        "path": "packages/game/src/present/present.ts",
+        "sha256": "c4c6f411857d99c5f8e850bf5172c3e42f04181a64df0ce2a697fe1ec90569f9",
+        "ranges": [[675, 710]]
+      },
+      {
+        "path": "packages/game/src/core/menu/inventory-menu.ts",
+        "sha256": "4ed0e50d54faf012079cf9d6d2ee01357698d07f9e3ba5d8f324b84e3bf28f2b",
+        "ranges": [[230, 283]],
+        "scope": "target memory read/clamp and explicit writers; current cases do not call confirmTarget/cancel."
+      },
+      {
+        "path": "packages/game/src/core/menu/in-game-magic-menu.ts",
+        "sha256": "33ef8d4a1e71537533ebb38b799642f903b23c6f50ba53ae7ae30059d61ab14f",
+        "ranges": [[53, 96]],
+        "scope": "caster memory declaration/creation; no confirm caster write."
+      },
+      {
+        "path": "packages/game/src/core/event-system.ts",
+        "sha256": "3b8490fa48d2992f693ab0eb611954dd0bfacbc22dc3eda58378cc4bc7a4b5f4",
+        "ranges": [[124, 130]],
+        "scope": "actual re-export points to script-catalog."
+      }
+    ],
+    "currentOutputs": [
+      {
+        "path": "packages/game/src/present/menu/draw-menu.test.ts",
+        "sha256": "e68db77adb744e735a72bfc62b98438651e5355116d636bb188a0ecbc819dd5a",
+        "lines": 431,
+        "scope": "Full current candidate read; helper title-only refinement verified by same callback proof."
+      },
+      {
+        "path": "packages/game/src/present/__tests__/render-input-snapshots.test.ts",
+        "sha256": "3d43d4c1cd02f1b3b630a265e5b279684ad3486384fcfc6046465833bce62146",
+        "lines": 23,
+        "scope": "Full current candidate read; helper title-only refinement verified by same callback proof."
+      }
+    ]
+  },
+  "processDisclosures": [
+    "Initial terminal Python here-doc encoding failed before namespace/source writes; only tool transcript retained, not a byte-complete raw attachment. Retried with ASCII-escaped setup. This was not product/test execution.",
+    "First producer rejected selected ordinal bridge matching original text after common projection; corrected chained from to the exact common projection. Initial failure/producer kept, no central tool change; all old15 callbacks remain registered, including the selected helper ordinal.",
+    "First scoped-code gate rejected missing blank lines after imports; existing Biome fixed two blank lines, no rule change. Native regression/typecheck executed only after fix and full callback proof.",
+    "One private role constructor default differs: legacymaxMP40/current100. Explicit maxMP40 preserves entire actual Role record; Item record and all47 distinct UI frames equal; two glyph and clock contracts remain separate.",
+    "Pure snapshot title clarifies observable array contract; no assertion, case or product change. Owned event table cleanup does not claim restoration of unknown old scripts; exact prior text/isolation evidence reused.",
+    "Wholecheck/officialcoverage/protected and publication deferred to stable large-window closeout;0newclosed.",
+    "Legacy renderer-local whole sourceSHA differs from current localization-enabled renderer; historical stack reverse run is not counted as current replay. Current source/read scope and native109 regression are separate. New English branch acceptance is outside this fixed F/G cohort; no source closure credit."
+  ],
+  "ledgerDispositions": {
+    "categories": {
+      "packages/game/src/present/menu/draw-menu.test.ts": "test",
+      "packages/game/src/present/__tests__/render-input-snapshots.test.ts": "test"
+    }
+  },
+  "ledgerCounts": {
+    "inventory": 3448,
+    "closed": 553,
+    "review": 261,
+    "pending": 2634
+  },
+  "historicalDiscriminatorBoundary": {
+    "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-local.json",
+    "oldWholeSourceSha256": "c19da1b18b398bf807cdac556450b89cae52ed678cf5ce144432c44a8965a0e3",
+    "currentWholeSourceSha256": "c0c56305f46464b8194bbb0d2a7e04683952b7f01266ec3949602b99c6f51566",
+    "claim": "Historical reverse result remains historical only. Full current renderer read, actual current Chinese menu inputs and case/fixture conservation plus109 native current neighbors support this test-only organization; no current reverse run or new full source/English layout acceptance."
+  }
+}

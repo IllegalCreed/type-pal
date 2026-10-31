@@ -1,0 +1,1844 @@
+{
+  "kind": "responsibility reorganization; no new cases/assertions/product policy",
+  "inputs": [
+    {
+      "path": "packages/pal-extract/src/events/annotate.test.ts",
+      "sha256": "3b9e4ee25e88f59523ce87daa23ee6ac627fcdb1669b7a09557452fc3e89093d",
+      "member": "organization-extract-commands/annotate.test.ts.before"
+    },
+    {
+      "path": "packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts",
+      "sha256": "cf18e63bd8be2d9ec4db111d0155bc12c1191975e17d3b1bdf22d500364285e7",
+      "member": "organization-extract-commands/annotate.glm-runtime-resource.test.ts.before"
+    },
+    {
+      "path": "packages/pal-extract/src/events/slice.glm-runtime-resource.test.ts",
+      "sha256": "4eb43b0557994037de968cddfef022ce4052a54e695de52cddd5eb9fff622f3d",
+      "member": "organization-extract-commands/slice.glm-runtime-resource.test.ts.before"
+    },
+    {
+      "path": "packages/pal-extract/src/events/slice.kimi-r1.test.ts",
+      "sha256": "5a4688db42a86aa0f1763db89cd83e8d20452820979be9a4680d5f90a5e31fc1",
+      "member": "organization-extract-commands/slice.kimi-r1.test.ts.before"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "packages/pal-extract/src/events/annotate.commands.test.ts",
+      "purpose": "Command annotation, WORD/symbol precedence, recursion and caller input ownership.",
+      "sha256": "914a16a1efc8ca11dee98270f0524896690349147e8417f595b7702a7e59fe68"
+    },
+    {
+      "path": "packages/pal-extract/src/events/annotate.symbols.test.ts",
+      "purpose": "Unknown symbols-sidecar JSON is validated independently of command annotation.",
+      "sha256": "1117956b2df3b5f78cc4a2883e3b9ea96490ff00b79b3b434785394ae362d77d"
+    },
+    {
+      "path": "packages/pal-extract/src/events/slice.entries.test.ts",
+      "purpose": "Scene/global entry reachability, defensive labels and readable metadata boundaries.",
+      "sha256": "a3d6bfe4dd223f39a6e72bd4f6fcbbd0451eeaba1050189737eabfd68fcb2fa3"
+    }
+  ],
+  "replacements": [],
+  "sourceBridges": [
+    {
+      "id": "one-scene-fixture-defaults",
+      "path": "packages/pal-extract/src/events/slice.glm-runtime-resource.test.ts",
+      "reason": "All callers pass one enter value. Reuse the adjacent Scene builder with explicit default eventObjectIndex=0 and teleport=0; all existing DTO fields/raw words remain equal.",
+      "changes": [
+        {
+          "from": "const scene = (scriptOnEnter: number): Scene => ({\n  mapNum: 0,\n  scriptOnEnter,\n  scriptOnTeleport: 0,\n  eventObjectIndex: 0,\n  raw: new Uint16Array([0, scriptOnEnter, 0, 0]),\n})",
+          "to": "function makeScene(scriptOnEnter: number, eventObjectIndex = 0, teleport = 0): Scene {\n  return {\n    mapNum: 0,\n    scriptOnEnter,\n    scriptOnTeleport: teleport,\n    eventObjectIndex,\n    raw: new Uint16Array([0, scriptOnEnter, teleport, eventObjectIndex]),\n  }\n}",
+          "count": 1
+        },
+        {
+          "from": "scene(",
+          "to": "makeScene(",
+          "count": 3
+        }
+      ]
+    },
+    {
+      "id": "scene-fixture-default-index",
+      "path": "packages/pal-extract/src/events/slice.kimi-r1.test.ts",
+      "reason": "Existing callers all provide eventObjectIndex; default permits the neighboring one-argument fixtures without a second helper. This is a test-only input builder, no product signature change.",
+      "changes": [
+        {
+          "from": "function makeScene(scriptOnEnter: number, eventObjectIndex: number, teleport = 0): Scene",
+          "to": "function makeScene(scriptOnEnter: number, eventObjectIndex = 0, teleport = 0): Scene",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "pure-symbols-without-annotation-word-initializer",
+      "path": "packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts",
+      "ordinals": [5, 6, 7, 8, 9],
+      "reason": "Five pure parseSymbols cases do not read annotation Words. The original top-level hook only assigns fresh plain local words data, with no IO/global resource ownership; existing split already removed it. Explicitly account for this hook removal under all-applicable-hook verification, not a broad skip.",
+      "changes": [
+        {
+          "from": "\nbeforeEach(() => {\n  words = {\n    items: ['', '止血草', '灵葫芦'],\n    spells: [],\n    persons: [],\n    enemies: [],\n    scenes: [],\n    flat: [],\n    system: [],\n    battleUi: [],\n  }\n})",
+          "to": "",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "registrations": [
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/annotate.test.ts",
+        "ordinal": 0,
+        "titles": ["annotate"],
+        "template": "giveItem 加 _item 注释(wObjectID 63 → index 2)"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/annotate.commands.test.ts",
+        "titles": ["word lookup and recursive command annotations"],
+        "template": "giveItem 加 _item 注释(wObjectID 63 → index 2)"
+      },
+      "statementSyntaxSha256": "ec3ab0095c7ed9acb3382f2adfbe4810817fdd44b90ccaf367edf59bacb66209",
+      "declarations": ["a7b16b61a4d9387c590fca4408592437ef7e0d8ad9e20b6cfcec5eec7f19558d"],
+      "hooks": ["05792a8e93d8b056b0d9a4d90a76a4636ae183a9db735fabc1ab09d4b2767fbe"],
+      "imports": [
+        {
+          "name": "annotate",
+          "module": "./annotate.js",
+          "imported": "annotate",
+          "typeOnly": false
+        },
+        {
+          "name": "beforeEach",
+          "module": "vitest",
+          "imported": "beforeEach",
+          "typeOnly": false
+        },
+        {
+          "name": "expect",
+          "module": "vitest",
+          "imported": "expect",
+          "typeOnly": false
+        },
+        {
+          "name": "it",
+          "module": "vitest",
+          "imported": "it",
+          "typeOnly": false
+        },
+        {
+          "name": "Words",
+          "module": "../io/word.js",
+          "imported": "Words",
+          "typeOnly": true
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/annotate.test.ts",
+        "ordinal": 1,
+        "titles": ["annotate"],
+        "template": "symbols.json 优先于 WORD.DAT"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/annotate.commands.test.ts",
+        "titles": ["word lookup and recursive command annotations"],
+        "template": "symbols.json 优先于 WORD.DAT"
+      },
+      "statementSyntaxSha256": "74b3a1372bb78929405917db194a8f8b6939203c1b37ee7feee1f31cd7c3784f",
+      "declarations": ["a7b16b61a4d9387c590fca4408592437ef7e0d8ad9e20b6cfcec5eec7f19558d"],
+      "hooks": ["05792a8e93d8b056b0d9a4d90a76a4636ae183a9db735fabc1ab09d4b2767fbe"],
+      "imports": [
+        {
+          "name": "annotate",
+          "module": "./annotate.js",
+          "imported": "annotate",
+          "typeOnly": false
+        },
+        {
+          "name": "beforeEach",
+          "module": "vitest",
+          "imported": "beforeEach",
+          "typeOnly": false
+        },
+        {
+          "name": "expect",
+          "module": "vitest",
+          "imported": "expect",
+          "typeOnly": false
+        },
+        {
+          "name": "it",
+          "module": "vitest",
+          "imported": "it",
+          "typeOnly": false
+        },
+        {
+          "name": "Symbols",
+          "module": "./annotate.js",
+          "imported": "Symbols",
+          "typeOnly": true
+        },
+        {
+          "name": "Words",
+          "module": "../io/word.js",
+          "imported": "Words",
+          "typeOnly": true
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/annotate.test.ts",
+        "ordinal": 2,
+        "titles": ["annotate"],
+        "template": "sceneId 仅在 symbols.json 中存在时才注释(WORD.DAT 不作为来源)"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/annotate.commands.test.ts",
+        "titles": ["word lookup and recursive command annotations"],
+        "template": "sceneId 仅在 symbols.json 中存在时才注释(WORD.DAT 不作为来源)"
+      },
+      "statementSyntaxSha256": "1b7223fedb80990365ea160125f57fc3c8040c7e79df4e85442e651c9f345953",
+      "declarations": ["a7b16b61a4d9387c590fca4408592437ef7e0d8ad9e20b6cfcec5eec7f19558d"],
+      "hooks": ["05792a8e93d8b056b0d9a4d90a76a4636ae183a9db735fabc1ab09d4b2767fbe"],
+      "imports": [
+        {
+          "name": "annotate",
+          "module": "./annotate.js",
+          "imported": "annotate",
+          "typeOnly": false
+        },
+        {
+          "name": "beforeEach",
+          "module": "vitest",
+          "imported": "beforeEach",
+          "typeOnly": false
+        },
+        {
+          "name": "expect",
+          "module": "vitest",
+          "imported": "expect",
+          "typeOnly": false
+        },
+        {
+          "name": "it",
+          "module": "vitest",
+          "imported": "it",
+          "typeOnly": false
+        },
+        {
+          "name": "Words",
+          "module": "../io/word.js",
+          "imported": "Words",
+          "typeOnly": true
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/annotate.test.ts",
+        "ordinal": 3,
+        "titles": ["annotate"],
+        "template": "结构化命令 sequence 递归"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/annotate.commands.test.ts",
+        "titles": ["word lookup and recursive command annotations"],
+        "template": "结构化命令 sequence 递归"
+      },
+      "statementSyntaxSha256": "7cf3c07386531b923d4a688a9c46ffaf7532bbbbe61a6977afb56307b9bf87cd",
+      "declarations": ["a7b16b61a4d9387c590fca4408592437ef7e0d8ad9e20b6cfcec5eec7f19558d"],
+      "hooks": ["05792a8e93d8b056b0d9a4d90a76a4636ae183a9db735fabc1ab09d4b2767fbe"],
+      "imports": [
+        {
+          "name": "annotate",
+          "module": "./annotate.js",
+          "imported": "annotate",
+          "typeOnly": false
+        },
+        {
+          "name": "beforeEach",
+          "module": "vitest",
+          "imported": "beforeEach",
+          "typeOnly": false
+        },
+        {
+          "name": "expect",
+          "module": "vitest",
+          "imported": "expect",
+          "typeOnly": false
+        },
+        {
+          "name": "it",
+          "module": "vitest",
+          "imported": "it",
+          "typeOnly": false
+        },
+        {
+          "name": "Words",
+          "module": "../io/word.js",
+          "imported": "Words",
+          "typeOnly": true
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/annotate.test.ts",
+        "ordinal": 4,
+        "titles": ["annotate"],
+        "template": "if 命令递归 then/else"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/annotate.commands.test.ts",
+        "titles": ["word lookup and recursive command annotations"],
+        "template": "if 命令递归 then/else"
+      },
+      "statementSyntaxSha256": "f901241bb48c0c2a134c509e745e7c4b3919228cba2662e3b634fb9b9ae9382e",
+      "declarations": ["a7b16b61a4d9387c590fca4408592437ef7e0d8ad9e20b6cfcec5eec7f19558d"],
+      "hooks": ["05792a8e93d8b056b0d9a4d90a76a4636ae183a9db735fabc1ab09d4b2767fbe"],
+      "imports": [
+        {
+          "name": "annotate",
+          "module": "./annotate.js",
+          "imported": "annotate",
+          "typeOnly": false
+        },
+        {
+          "name": "beforeEach",
+          "module": "vitest",
+          "imported": "beforeEach",
+          "typeOnly": false
+        },
+        {
+          "name": "expect",
+          "module": "vitest",
+          "imported": "expect",
+          "typeOnly": false
+        },
+        {
+          "name": "it",
+          "module": "vitest",
+          "imported": "it",
+          "typeOnly": false
+        },
+        {
+          "name": "Words",
+          "module": "../io/word.js",
+          "imported": "Words",
+          "typeOnly": true
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/annotate.test.ts",
+        "ordinal": 5,
+        "titles": ["annotate"],
+        "template": "startBattle _enemyTeam 仅来自 symbols(enemyTeamId 非 wObjectID,无 WORD 映射)"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/annotate.commands.test.ts",
+        "titles": ["word lookup and recursive command annotations"],
+        "template": "startBattle _enemyTeam 仅来自 symbols(enemyTeamId 非 wObjectID,无 WORD 映射)"
+      },
+      "statementSyntaxSha256": "ba5cd4e80459819a42bbc8888e78bcb510feee44378195c0d8025b9609efb901",
+      "declarations": ["a7b16b61a4d9387c590fca4408592437ef7e0d8ad9e20b6cfcec5eec7f19558d"],
+      "hooks": ["05792a8e93d8b056b0d9a4d90a76a4636ae183a9db735fabc1ab09d4b2767fbe"],
+      "imports": [
+        {
+          "name": "annotate",
+          "module": "./annotate.js",
+          "imported": "annotate",
+          "typeOnly": false
+        },
+        {
+          "name": "beforeEach",
+          "module": "vitest",
+          "imported": "beforeEach",
+          "typeOnly": false
+        },
+        {
+          "name": "expect",
+          "module": "vitest",
+          "imported": "expect",
+          "typeOnly": false
+        },
+        {
+          "name": "it",
+          "module": "vitest",
+          "imported": "it",
+          "typeOnly": false
+        },
+        {
+          "name": "Words",
+          "module": "../io/word.js",
+          "imported": "Words",
+          "typeOnly": true
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts",
+        "ordinal": 0,
+        "titles": ["R06 annotate choice 递归与 if 无 else"],
+        "template": "choice：每个 option.then 内命令被递归注释，raw 选项原样"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/annotate.commands.test.ts",
+        "titles": ["missing words and caller ownership"],
+        "template": "choice：每个 option.then 内命令被递归注释，raw 选项原样"
+      },
+      "statementSyntaxSha256": "b01ef3981591fbecceae736c2bae56c28d6ba4eacc58d3754b1c1992f9716852",
+      "declarations": ["a7b16b61a4d9387c590fca4408592437ef7e0d8ad9e20b6cfcec5eec7f19558d"],
+      "hooks": ["8ae8d2789fec498cde9b105bd04e78b511294ae6b0ba985dbde41e4a94918e99"],
+      "imports": [
+        {
+          "name": "annotate",
+          "module": "./annotate.js",
+          "imported": "annotate",
+          "typeOnly": false
+        },
+        {
+          "name": "beforeEach",
+          "module": "vitest",
+          "imported": "beforeEach",
+          "typeOnly": false
+        },
+        {
+          "name": "expect",
+          "module": "vitest",
+          "imported": "expect",
+          "typeOnly": false
+        },
+        {
+          "name": "ITEM_OBJ_START",
+          "module": "./annotate.js",
+          "imported": "ITEM_OBJ_START",
+          "typeOnly": false
+        },
+        {
+          "name": "test",
+          "module": "vitest",
+          "imported": "test",
+          "typeOnly": false
+        },
+        {
+          "name": "Words",
+          "module": "../io/word.js",
+          "imported": "Words",
+          "typeOnly": true
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts",
+        "ordinal": 1,
+        "titles": ["R06 annotate choice 递归与 if 无 else"],
+        "template": "if 无 else：保留条件并递归注释 then"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/annotate.commands.test.ts",
+        "titles": ["missing words and caller ownership"],
+        "template": "if 无 else：保留条件并递归注释 then"
+      },
+      "statementSyntaxSha256": "43d1ff2bbd9e29b490fc1e71553a631fac3e0f7f266965f63a0b023dca4843bd",
+      "declarations": ["a7b16b61a4d9387c590fca4408592437ef7e0d8ad9e20b6cfcec5eec7f19558d"],
+      "hooks": ["8ae8d2789fec498cde9b105bd04e78b511294ae6b0ba985dbde41e4a94918e99"],
+      "imports": [
+        {
+          "name": "annotate",
+          "module": "./annotate.js",
+          "imported": "annotate",
+          "typeOnly": false
+        },
+        {
+          "name": "beforeEach",
+          "module": "vitest",
+          "imported": "beforeEach",
+          "typeOnly": false
+        },
+        {
+          "name": "expect",
+          "module": "vitest",
+          "imported": "expect",
+          "typeOnly": false
+        },
+        {
+          "name": "ITEM_OBJ_START",
+          "module": "./annotate.js",
+          "imported": "ITEM_OBJ_START",
+          "typeOnly": false
+        },
+        {
+          "name": "test",
+          "module": "vitest",
+          "imported": "test",
+          "typeOnly": false
+        },
+        {
+          "name": "Words",
+          "module": "../io/word.js",
+          "imported": "Words",
+          "typeOnly": true
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts",
+        "ordinal": 2,
+        "titles": ["R06 annotate 词表缺名边界"],
+        "template": "id=ITEM_OBJ_START 落空词表首 → 不注释（空串 || undefined）"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/annotate.commands.test.ts",
+        "titles": ["missing words and caller ownership"],
+        "template": "id=ITEM_OBJ_START 落空词表首 → 不注释（空串 || undefined）"
+      },
+      "statementSyntaxSha256": "0bdc819f0143dc72713effbda223c8cf4e428e58008a6c7dd7b83e7df4f32c5d",
+      "declarations": ["a7b16b61a4d9387c590fca4408592437ef7e0d8ad9e20b6cfcec5eec7f19558d"],
+      "hooks": ["8ae8d2789fec498cde9b105bd04e78b511294ae6b0ba985dbde41e4a94918e99"],
+      "imports": [
+        {
+          "name": "annotate",
+          "module": "./annotate.js",
+          "imported": "annotate",
+          "typeOnly": false
+        },
+        {
+          "name": "beforeEach",
+          "module": "vitest",
+          "imported": "beforeEach",
+          "typeOnly": false
+        },
+        {
+          "name": "expect",
+          "module": "vitest",
+          "imported": "expect",
+          "typeOnly": false
+        },
+        {
+          "name": "ITEM_OBJ_START",
+          "module": "./annotate.js",
+          "imported": "ITEM_OBJ_START",
+          "typeOnly": false
+        },
+        {
+          "name": "test",
+          "module": "vitest",
+          "imported": "test",
+          "typeOnly": false
+        },
+        {
+          "name": "Words",
+          "module": "../io/word.js",
+          "imported": "Words",
+          "typeOnly": true
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts",
+        "ordinal": 3,
+        "titles": ["R06 annotate 词表缺名边界"],
+        "template": "id=ITEM_OBJ_START-1 → idx=-1 拒绝；id 恰出表尾 → idx=length 拒绝"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/annotate.commands.test.ts",
+        "titles": ["missing words and caller ownership"],
+        "template": "id=ITEM_OBJ_START-1 → idx=-1 拒绝；id 恰出表尾 → idx=length 拒绝"
+      },
+      "statementSyntaxSha256": "308d902a909f09c040a9f03e75071836494edeee12b26aee70c4457ca860e618",
+      "declarations": ["a7b16b61a4d9387c590fca4408592437ef7e0d8ad9e20b6cfcec5eec7f19558d"],
+      "hooks": ["8ae8d2789fec498cde9b105bd04e78b511294ae6b0ba985dbde41e4a94918e99"],
+      "imports": [
+        {
+          "name": "annotate",
+          "module": "./annotate.js",
+          "imported": "annotate",
+          "typeOnly": false
+        },
+        {
+          "name": "beforeEach",
+          "module": "vitest",
+          "imported": "beforeEach",
+          "typeOnly": false
+        },
+        {
+          "name": "expect",
+          "module": "vitest",
+          "imported": "expect",
+          "typeOnly": false
+        },
+        {
+          "name": "ITEM_OBJ_START",
+          "module": "./annotate.js",
+          "imported": "ITEM_OBJ_START",
+          "typeOnly": false
+        },
+        {
+          "name": "test",
+          "module": "vitest",
+          "imported": "test",
+          "typeOnly": false
+        },
+        {
+          "name": "Words",
+          "module": "../io/word.js",
+          "imported": "Words",
+          "typeOnly": true
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts",
+        "ordinal": 4,
+        "titles": ["R06 annotate 输入零突变"],
+        "template": "输入命令、词表与 symbols 保持逐字段不变"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/annotate.commands.test.ts",
+        "titles": ["missing words and caller ownership"],
+        "template": "输入命令、词表与 symbols 保持逐字段不变"
+      },
+      "statementSyntaxSha256": "7b7ac49aee0d28a3a922ea1927060ddcab90319f710c7182ac82f8d6461669a1",
+      "declarations": ["a7b16b61a4d9387c590fca4408592437ef7e0d8ad9e20b6cfcec5eec7f19558d"],
+      "hooks": ["8ae8d2789fec498cde9b105bd04e78b511294ae6b0ba985dbde41e4a94918e99"],
+      "imports": [
+        {
+          "name": "annotate",
+          "module": "./annotate.js",
+          "imported": "annotate",
+          "typeOnly": false
+        },
+        {
+          "name": "beforeEach",
+          "module": "vitest",
+          "imported": "beforeEach",
+          "typeOnly": false
+        },
+        {
+          "name": "Command",
+          "module": "@type-pal/shared",
+          "imported": "Command",
+          "typeOnly": true
+        },
+        {
+          "name": "expect",
+          "module": "vitest",
+          "imported": "expect",
+          "typeOnly": false
+        },
+        {
+          "name": "ITEM_OBJ_START",
+          "module": "./annotate.js",
+          "imported": "ITEM_OBJ_START",
+          "typeOnly": false
+        },
+        {
+          "name": "Symbols",
+          "module": "./annotate.js",
+          "imported": "Symbols",
+          "typeOnly": true
+        },
+        {
+          "name": "test",
+          "module": "vitest",
+          "imported": "test",
+          "typeOnly": false
+        },
+        {
+          "name": "Words",
+          "module": "../io/word.js",
+          "imported": "Words",
+          "typeOnly": true
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts",
+        "ordinal": 5,
+        "titles": ["symbols sidecar 输入合同"],
+        "template": "合法映射保留；空对象合法"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/annotate.symbols.test.ts",
+        "titles": ["symbols JSON input contract"],
+        "template": "合法映射保留；空对象合法"
+      },
+      "statementSyntaxSha256": "fdf111ce5e8c1168285b41a72165ca2bf05f6b825472e91ef3ac931e5fb70828",
+      "declarations": [],
+      "hooks": [],
+      "imports": [
+        {
+          "name": "expect",
+          "module": "vitest",
+          "imported": "expect",
+          "typeOnly": false
+        },
+        {
+          "name": "parseSymbols",
+          "module": "./annotate.js",
+          "imported": "parseSymbols",
+          "typeOnly": false
+        },
+        {
+          "name": "Symbols",
+          "module": "./annotate.js",
+          "imported": "Symbols",
+          "typeOnly": true
+        },
+        {
+          "name": "test",
+          "module": "vitest",
+          "imported": "test",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts",
+        "ordinal": 6,
+        "titles": ["symbols sidecar 输入合同"],
+        "template": "symbols 顶层必须是对象"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/annotate.symbols.test.ts",
+        "titles": ["symbols JSON input contract"],
+        "template": "symbols 顶层必须是对象"
+      },
+      "statementSyntaxSha256": "19f1212ed62c323ccb5bc7b9c9f3e9077384cb7753741dc6d0f5b6a61a3f0df0",
+      "declarations": [],
+      "hooks": [],
+      "imports": [
+        {
+          "name": "expect",
+          "module": "vitest",
+          "imported": "expect",
+          "typeOnly": false
+        },
+        {
+          "name": "parseSymbols",
+          "module": "./annotate.js",
+          "imported": "parseSymbols",
+          "typeOnly": false
+        },
+        {
+          "name": "test",
+          "module": "vitest",
+          "imported": "test",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts",
+        "ordinal": 7,
+        "titles": ["symbols sidecar 输入合同"],
+        "template": "拒绝未知 symbols 表名并给出路径"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/annotate.symbols.test.ts",
+        "titles": ["symbols JSON input contract"],
+        "template": "拒绝未知 symbols 表名并给出路径"
+      },
+      "statementSyntaxSha256": "fc02b9944786a2351b502564d4c5cf7314298272f04ff6ffbf2b25e13dd50f9f",
+      "declarations": [],
+      "hooks": [],
+      "imports": [
+        {
+          "name": "expect",
+          "module": "vitest",
+          "imported": "expect",
+          "typeOnly": false
+        },
+        {
+          "name": "parseSymbols",
+          "module": "./annotate.js",
+          "imported": "parseSymbols",
+          "typeOnly": false
+        },
+        {
+          "name": "test",
+          "module": "vitest",
+          "imported": "test",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts",
+        "ordinal": 8,
+        "titles": ["symbols sidecar 输入合同"],
+        "template": "各 symbols 表必须是对象映射"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/annotate.symbols.test.ts",
+        "titles": ["symbols JSON input contract"],
+        "template": "各 symbols 表必须是对象映射"
+      },
+      "statementSyntaxSha256": "9b5f2b9a3424804bde339a52e0f06f1248650d8216f3488773eb3d06787de8e0",
+      "declarations": [],
+      "hooks": [],
+      "imports": [
+        {
+          "name": "expect",
+          "module": "vitest",
+          "imported": "expect",
+          "typeOnly": false
+        },
+        {
+          "name": "parseSymbols",
+          "module": "./annotate.js",
+          "imported": "parseSymbols",
+          "typeOnly": false
+        },
+        {
+          "name": "test",
+          "module": "vitest",
+          "imported": "test",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts",
+        "ordinal": 9,
+        "titles": ["symbols sidecar 输入合同"],
+        "template": "symbols 表值必须是字符串并给出键路径"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/annotate.symbols.test.ts",
+        "titles": ["symbols JSON input contract"],
+        "template": "symbols 表值必须是字符串并给出键路径"
+      },
+      "statementSyntaxSha256": "104d532889c6905ba46c6ed6b69a85a50518399d83521f0ed98e6bfcc49b4bbc",
+      "declarations": [],
+      "hooks": [],
+      "imports": [
+        {
+          "name": "expect",
+          "module": "vitest",
+          "imported": "expect",
+          "typeOnly": false
+        },
+        {
+          "name": "parseSymbols",
+          "module": "./annotate.js",
+          "imported": "parseSymbols",
+          "typeOnly": false
+        },
+        {
+          "name": "test",
+          "module": "vitest",
+          "imported": "test",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/slice.glm-runtime-resource.test.ts",
+        "ordinal": 0,
+        "titles": ["R06 sliceByScene 外部标签与越界"],
+        "template": "goto 指向跨文件标签 shared#L_2：BFS 死端——不跟目标、也不收 fall-through"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/slice.entries.test.ts",
+        "titles": ["scene and global entry ownership"],
+        "template": "goto 指向跨文件标签 shared#L_2：BFS 死端——不跟目标、也不收 fall-through"
+      },
+      "statementSyntaxSha256": "a0ce598933041867a452dfcbd8c6a9031f9055e9b924f274ddf556dd32effd50",
+      "declarations": ["06e7235581cae1cf76c83d4eafc0de4dc3811636ddc9acc53fb9ae93336c9eb5"],
+      "hooks": [],
+      "imports": [
+        {
+          "name": "Command",
+          "module": "@type-pal/shared",
+          "imported": "Command",
+          "typeOnly": true
+        },
+        {
+          "name": "expect",
+          "module": "vitest",
+          "imported": "expect",
+          "typeOnly": false
+        },
+        {
+          "name": "Scene",
+          "module": "../io/sss.js",
+          "imported": "Scene",
+          "typeOnly": true
+        },
+        {
+          "name": "sliceByScene",
+          "module": "./slice.js",
+          "imported": "sliceByScene",
+          "typeOnly": false
+        },
+        {
+          "name": "test",
+          "module": "vitest",
+          "imported": "test",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/slice.glm-runtime-resource.test.ts",
+        "ordinal": 1,
+        "titles": ["R06 sliceByScene 外部标签与越界"],
+        "template": "goto 目标越界（L_99）：忽略，不崩、不收"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/slice.entries.test.ts",
+        "titles": ["scene and global entry ownership"],
+        "template": "goto 目标越界（L_99）：忽略，不崩、不收"
+      },
+      "statementSyntaxSha256": "228d4487d7e2cd446fd7026b8c9fae871485b6805c7e859c1f05ef553accf5e5",
+      "declarations": ["06e7235581cae1cf76c83d4eafc0de4dc3811636ddc9acc53fb9ae93336c9eb5"],
+      "hooks": [],
+      "imports": [
+        {
+          "name": "Command",
+          "module": "@type-pal/shared",
+          "imported": "Command",
+          "typeOnly": true
+        },
+        {
+          "name": "expect",
+          "module": "vitest",
+          "imported": "expect",
+          "typeOnly": false
+        },
+        {
+          "name": "Scene",
+          "module": "../io/sss.js",
+          "imported": "Scene",
+          "typeOnly": true
+        },
+        {
+          "name": "sliceByScene",
+          "module": "./slice.js",
+          "imported": "sliceByScene",
+          "typeOnly": false
+        },
+        {
+          "name": "test",
+          "module": "vitest",
+          "imported": "test",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/slice.glm-runtime-resource.test.ts",
+        "ordinal": 2,
+        "titles": ["R06 sliceByScene 外部标签与越界"],
+        "template": "globalEntries 过滤非正入口（0 / 负数不参与 BFS）"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/slice.entries.test.ts",
+        "titles": ["scene and global entry ownership"],
+        "template": "globalEntries 过滤非正入口（0 / 负数不参与 BFS）"
+      },
+      "statementSyntaxSha256": "4fd7dc59e2864b3ba2c1722e7bc46c54098ff59714329e7dcf7557a6bea6e79a",
+      "declarations": ["06e7235581cae1cf76c83d4eafc0de4dc3811636ddc9acc53fb9ae93336c9eb5"],
+      "hooks": [],
+      "imports": [
+        {
+          "name": "Command",
+          "module": "@type-pal/shared",
+          "imported": "Command",
+          "typeOnly": true
+        },
+        {
+          "name": "expect",
+          "module": "vitest",
+          "imported": "expect",
+          "typeOnly": false
+        },
+        {
+          "name": "Scene",
+          "module": "../io/sss.js",
+          "imported": "Scene",
+          "typeOnly": true
+        },
+        {
+          "name": "sliceByScene",
+          "module": "./slice.js",
+          "imported": "sliceByScene",
+          "typeOnly": false
+        },
+        {
+          "name": "test",
+          "module": "vitest",
+          "imported": "test",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/slice.kimi-r1.test.ts",
+        "ordinal": 0,
+        "titles": ["KIMI-R1 sliceByScene scene BFS 残余分支"],
+        "template": "具名 showDialog 走 fall-through：pushRawJumpTargets 早退、text 非标签不入队"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/slice.entries.test.ts",
+        "titles": ["scene and global entry ownership"],
+        "template": "具名 showDialog 走 fall-through：pushRawJumpTargets 早退、text 非标签不入队"
+      },
+      "statementSyntaxSha256": "38869075edb22297fe3c62ce8af14d00cff92e9e1dcde177814c12dcc1c5ef5d",
+      "declarations": ["06e7235581cae1cf76c83d4eafc0de4dc3811636ddc9acc53fb9ae93336c9eb5"],
+      "hooks": [],
+      "imports": [
+        {
+          "name": "Command",
+          "module": "@type-pal/shared",
+          "imported": "Command",
+          "typeOnly": true
+        },
+        {
+          "name": "expect",
+          "module": "vitest",
+          "imported": "expect",
+          "typeOnly": false
+        },
+        {
+          "name": "Scene",
+          "module": "../io/sss.js",
+          "imported": "Scene",
+          "typeOnly": true
+        },
+        {
+          "name": "sliceByScene",
+          "module": "./slice.js",
+          "imported": "sliceByScene",
+          "typeOnly": false
+        },
+        {
+          "name": "test",
+          "module": "vitest",
+          "imported": "test",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/slice.kimi-r1.test.ts",
+        "ordinal": 1,
+        "titles": ["KIMI-R1 sliceByScene scene BFS 残余分支"],
+        "template": "EO 区间越过 eventObjects 末尾：越界槽位跳过、autoScript>0 入口、triggerScript=0 不入口"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/slice.entries.test.ts",
+        "titles": ["scene and global entry ownership"],
+        "template": "EO 区间越过 eventObjects 末尾：越界槽位跳过、autoScript>0 入口、triggerScript=0 不入口"
+      },
+      "statementSyntaxSha256": "c195a1b81b606172c62795dc6abd14316ce6b72a3a8880cc59cfca67155aae54",
+      "declarations": [
+        "06e7235581cae1cf76c83d4eafc0de4dc3811636ddc9acc53fb9ae93336c9eb5",
+        "8f608db76129cacad9886867607e39397f839d0be6919c5745b4faf3b4afcf81"
+      ],
+      "hooks": [],
+      "imports": [
+        {
+          "name": "Command",
+          "module": "@type-pal/shared",
+          "imported": "Command",
+          "typeOnly": true
+        },
+        {
+          "name": "EventObject",
+          "module": "../io/sss.js",
+          "imported": "EventObject",
+          "typeOnly": true
+        },
+        {
+          "name": "expect",
+          "module": "vitest",
+          "imported": "expect",
+          "typeOnly": false
+        },
+        {
+          "name": "Scene",
+          "module": "../io/sss.js",
+          "imported": "Scene",
+          "typeOnly": true
+        },
+        {
+          "name": "sliceByScene",
+          "module": "./slice.js",
+          "imported": "sliceByScene",
+          "typeOnly": false
+        },
+        {
+          "name": "test",
+          "module": "vitest",
+          "imported": "test",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/slice.kimi-r1.test.ts",
+        "ordinal": 2,
+        "titles": ["KIMI-R1 sliceByScene scene BFS 残余分支"],
+        "template": "end reset 缺 resetTo：scene BFS 只收 i+1，不收 undefined 目标"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/slice.entries.test.ts",
+        "titles": ["scene and global entry ownership"],
+        "template": "end reset 缺 resetTo：scene BFS 只收 i+1，不收 undefined 目标"
+      },
+      "statementSyntaxSha256": "a5536010c72a7797d44193608aca3677fb2ee819d713166dac556d5f70085d80",
+      "declarations": ["06e7235581cae1cf76c83d4eafc0de4dc3811636ddc9acc53fb9ae93336c9eb5"],
+      "hooks": [],
+      "imports": [
+        {
+          "name": "Command",
+          "module": "@type-pal/shared",
+          "imported": "Command",
+          "typeOnly": true
+        },
+        {
+          "name": "expect",
+          "module": "vitest",
+          "imported": "expect",
+          "typeOnly": false
+        },
+        {
+          "name": "Scene",
+          "module": "../io/sss.js",
+          "imported": "Scene",
+          "typeOnly": true
+        },
+        {
+          "name": "sliceByScene",
+          "module": "./slice.js",
+          "imported": "sliceByScene",
+          "typeOnly": false
+        },
+        {
+          "name": "test",
+          "module": "vitest",
+          "imported": "test",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/slice.kimi-r1.test.ts",
+        "ordinal": 3,
+        "titles": ["KIMI-R1 sliceByScene globalEntries BFS 残余分支"],
+        "template": "越界与重复入口被跳过：ip>=commands.length 与 visited 去重"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/slice.entries.test.ts",
+        "titles": ["scene and global entry ownership"],
+        "template": "越界与重复入口被跳过：ip>=commands.length 与 visited 去重"
+      },
+      "statementSyntaxSha256": "af9f7c40fe9eba336f9d420774134a027eb9eb7973b8cbff1e728d7ad146ce58",
+      "declarations": ["06e7235581cae1cf76c83d4eafc0de4dc3811636ddc9acc53fb9ae93336c9eb5"],
+      "hooks": [],
+      "imports": [
+        {
+          "name": "Command",
+          "module": "@type-pal/shared",
+          "imported": "Command",
+          "typeOnly": true
+        },
+        {
+          "name": "expect",
+          "module": "vitest",
+          "imported": "expect",
+          "typeOnly": false
+        },
+        {
+          "name": "Scene",
+          "module": "../io/sss.js",
+          "imported": "Scene",
+          "typeOnly": true
+        },
+        {
+          "name": "sliceByScene",
+          "module": "./slice.js",
+          "imported": "sliceByScene",
+          "typeOnly": false
+        },
+        {
+          "name": "test",
+          "module": "vitest",
+          "imported": "test",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/slice.kimi-r1.test.ts",
+        "ordinal": 4,
+        "titles": ["KIMI-R1 sliceByScene globalEntries BFS 残余分支"],
+        "template": "end advance：global BFS 收 i+1 续行"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/slice.entries.test.ts",
+        "titles": ["scene and global entry ownership"],
+        "template": "end advance：global BFS 收 i+1 续行"
+      },
+      "statementSyntaxSha256": "07b2940c0bc53afe1df8be6c692c61682a8a739a9b0bb614a95d37a2f7328487",
+      "declarations": ["06e7235581cae1cf76c83d4eafc0de4dc3811636ddc9acc53fb9ae93336c9eb5"],
+      "hooks": [],
+      "imports": [
+        {
+          "name": "Command",
+          "module": "@type-pal/shared",
+          "imported": "Command",
+          "typeOnly": true
+        },
+        {
+          "name": "expect",
+          "module": "vitest",
+          "imported": "expect",
+          "typeOnly": false
+        },
+        {
+          "name": "Scene",
+          "module": "../io/sss.js",
+          "imported": "Scene",
+          "typeOnly": true
+        },
+        {
+          "name": "sliceByScene",
+          "module": "./slice.js",
+          "imported": "sliceByScene",
+          "typeOnly": false
+        },
+        {
+          "name": "test",
+          "module": "vitest",
+          "imported": "test",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/slice.kimi-r1.test.ts",
+        "ordinal": 5,
+        "titles": ["KIMI-R1 sliceByScene globalEntries BFS 残余分支"],
+        "template": "end reset：resetTo 数字收目标 + i+1；缺 resetTo 只收 i+1"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/slice.entries.test.ts",
+        "titles": ["scene and global entry ownership"],
+        "template": "end reset：resetTo 数字收目标 + i+1；缺 resetTo 只收 i+1"
+      },
+      "statementSyntaxSha256": "ad1fa697145630b5ccc96a0609fb1805ea13f392d3c095f27692b5b59bb5c58a",
+      "declarations": ["06e7235581cae1cf76c83d4eafc0de4dc3811636ddc9acc53fb9ae93336c9eb5"],
+      "hooks": [],
+      "imports": [
+        {
+          "name": "Command",
+          "module": "@type-pal/shared",
+          "imported": "Command",
+          "typeOnly": true
+        },
+        {
+          "name": "expect",
+          "module": "vitest",
+          "imported": "expect",
+          "typeOnly": false
+        },
+        {
+          "name": "Scene",
+          "module": "../io/sss.js",
+          "imported": "Scene",
+          "typeOnly": true
+        },
+        {
+          "name": "sliceByScene",
+          "module": "./slice.js",
+          "imported": "sliceByScene",
+          "typeOnly": false
+        },
+        {
+          "name": "test",
+          "module": "vitest",
+          "imported": "test",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/slice.kimi-r1.test.ts",
+        "ordinal": 6,
+        "titles": ["KIMI-R1 sliceByScene globalEntries BFS 残余分支"],
+        "template": "goto：L_N 跟随；shared#L_N 等非本地标签不跟随"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/slice.entries.test.ts",
+        "titles": ["scene and global entry ownership"],
+        "template": "goto：L_N 跟随；shared#L_N 等非本地标签不跟随"
+      },
+      "statementSyntaxSha256": "b8abbc2cdec7e204a0b422db46969eb85074db0cb159443f9f1517ca548e1ac1",
+      "declarations": ["06e7235581cae1cf76c83d4eafc0de4dc3811636ddc9acc53fb9ae93336c9eb5"],
+      "hooks": [],
+      "imports": [
+        {
+          "name": "Command",
+          "module": "@type-pal/shared",
+          "imported": "Command",
+          "typeOnly": true
+        },
+        {
+          "name": "expect",
+          "module": "vitest",
+          "imported": "expect",
+          "typeOnly": false
+        },
+        {
+          "name": "Scene",
+          "module": "../io/sss.js",
+          "imported": "Scene",
+          "typeOnly": true
+        },
+        {
+          "name": "sliceByScene",
+          "module": "./slice.js",
+          "imported": "sliceByScene",
+          "typeOnly": false
+        },
+        {
+          "name": "test",
+          "module": "vitest",
+          "imported": "test",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/slice.kimi-r1.test.ts",
+        "ordinal": 7,
+        "titles": ["KIMI-R1 sliceByScene globalEntries BFS 残余分支"],
+        "template": "%s 的人读 %s 文本 L_N 不制造控制流边"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/slice.entries.test.ts",
+        "titles": ["scene and global entry ownership"],
+        "template": "%s 的人读 %s 文本 L_N 不制造控制流边"
+      },
+      "statementSyntaxSha256": "1d96bbfcf685ef496aaad0b1d93e0b734f19aa76e641a2a4fb33dc7e98c8207d",
+      "declarations": ["06e7235581cae1cf76c83d4eafc0de4dc3811636ddc9acc53fb9ae93336c9eb5"],
+      "hooks": [],
+      "imports": [
+        {
+          "name": "Command",
+          "module": "@type-pal/shared",
+          "imported": "Command",
+          "typeOnly": true
+        },
+        {
+          "name": "expect",
+          "module": "vitest",
+          "imported": "expect",
+          "typeOnly": false
+        },
+        {
+          "name": "Scene",
+          "module": "../io/sss.js",
+          "imported": "Scene",
+          "typeOnly": true
+        },
+        {
+          "name": "sliceByScene",
+          "module": "./slice.js",
+          "imported": "sliceByScene",
+          "typeOnly": false
+        },
+        {
+          "name": "test",
+          "module": "vitest",
+          "imported": "test",
+          "typeOnly": false
+        }
+      ]
+    }
+  ],
+  "identities": [
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/annotate.test.ts",
+        "fullName": "annotate giveItem 加 _item 注释(wObjectID 63 → index 2)"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/annotate.commands.test.ts",
+        "fullName": "word lookup and recursive command annotations giveItem 加 _item 注释(wObjectID 63 → index 2)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/annotate.test.ts",
+        "fullName": "annotate symbols.json 优先于 WORD.DAT"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/annotate.commands.test.ts",
+        "fullName": "word lookup and recursive command annotations symbols.json 优先于 WORD.DAT"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/annotate.test.ts",
+        "fullName": "annotate sceneId 仅在 symbols.json 中存在时才注释(WORD.DAT 不作为来源)"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/annotate.commands.test.ts",
+        "fullName": "word lookup and recursive command annotations sceneId 仅在 symbols.json 中存在时才注释(WORD.DAT 不作为来源)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/annotate.test.ts",
+        "fullName": "annotate 结构化命令 sequence 递归"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/annotate.commands.test.ts",
+        "fullName": "word lookup and recursive command annotations 结构化命令 sequence 递归"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/annotate.test.ts",
+        "fullName": "annotate if 命令递归 then/else"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/annotate.commands.test.ts",
+        "fullName": "word lookup and recursive command annotations if 命令递归 then/else"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/annotate.test.ts",
+        "fullName": "annotate startBattle _enemyTeam 仅来自 symbols(enemyTeamId 非 wObjectID,无 WORD 映射)"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/annotate.commands.test.ts",
+        "fullName": "word lookup and recursive command annotations startBattle _enemyTeam 仅来自 symbols(enemyTeamId 非 wObjectID,无 WORD 映射)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts",
+        "fullName": "R06 annotate choice 递归与 if 无 else choice：每个 option.then 内命令被递归注释，raw 选项原样"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/annotate.commands.test.ts",
+        "fullName": "missing words and caller ownership choice：每个 option.then 内命令被递归注释，raw 选项原样"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts",
+        "fullName": "R06 annotate choice 递归与 if 无 else if 无 else：保留条件并递归注释 then"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/annotate.commands.test.ts",
+        "fullName": "missing words and caller ownership if 无 else：保留条件并递归注释 then"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts",
+        "fullName": "R06 annotate 词表缺名边界 id=ITEM_OBJ_START 落空词表首 → 不注释（空串 || undefined）"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/annotate.commands.test.ts",
+        "fullName": "missing words and caller ownership id=ITEM_OBJ_START 落空词表首 → 不注释（空串 || undefined）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts",
+        "fullName": "R06 annotate 词表缺名边界 id=ITEM_OBJ_START-1 → idx=-1 拒绝；id 恰出表尾 → idx=length 拒绝"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/annotate.commands.test.ts",
+        "fullName": "missing words and caller ownership id=ITEM_OBJ_START-1 → idx=-1 拒绝；id 恰出表尾 → idx=length 拒绝"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts",
+        "fullName": "R06 annotate 输入零突变 输入命令、词表与 symbols 保持逐字段不变"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/annotate.commands.test.ts",
+        "fullName": "missing words and caller ownership 输入命令、词表与 symbols 保持逐字段不变"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts",
+        "fullName": "symbols sidecar 输入合同 合法映射保留；空对象合法"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/annotate.symbols.test.ts",
+        "fullName": "symbols JSON input contract 合法映射保留；空对象合法"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts",
+        "fullName": "symbols sidecar 输入合同 symbols 顶层必须是对象"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/annotate.symbols.test.ts",
+        "fullName": "symbols JSON input contract symbols 顶层必须是对象"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts",
+        "fullName": "symbols sidecar 输入合同 拒绝未知 symbols 表名并给出路径"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/annotate.symbols.test.ts",
+        "fullName": "symbols JSON input contract 拒绝未知 symbols 表名并给出路径"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts",
+        "fullName": "symbols sidecar 输入合同 各 symbols 表必须是对象映射"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/annotate.symbols.test.ts",
+        "fullName": "symbols JSON input contract 各 symbols 表必须是对象映射"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts",
+        "fullName": "symbols sidecar 输入合同 symbols 表值必须是字符串并给出键路径"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/annotate.symbols.test.ts",
+        "fullName": "symbols JSON input contract symbols 表值必须是字符串并给出键路径"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/slice.glm-runtime-resource.test.ts",
+        "fullName": "R06 sliceByScene 外部标签与越界 goto 指向跨文件标签 shared#L_2：BFS 死端——不跟目标、也不收 fall-through"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/slice.entries.test.ts",
+        "fullName": "scene and global entry ownership goto 指向跨文件标签 shared#L_2：BFS 死端——不跟目标、也不收 fall-through"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/slice.glm-runtime-resource.test.ts",
+        "fullName": "R06 sliceByScene 外部标签与越界 goto 目标越界（L_99）：忽略，不崩、不收"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/slice.entries.test.ts",
+        "fullName": "scene and global entry ownership goto 目标越界（L_99）：忽略，不崩、不收"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/slice.glm-runtime-resource.test.ts",
+        "fullName": "R06 sliceByScene 外部标签与越界 globalEntries 过滤非正入口（0 / 负数不参与 BFS）"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/slice.entries.test.ts",
+        "fullName": "scene and global entry ownership globalEntries 过滤非正入口（0 / 负数不参与 BFS）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/slice.kimi-r1.test.ts",
+        "fullName": "KIMI-R1 sliceByScene scene BFS 残余分支 具名 showDialog 走 fall-through：pushRawJumpTargets 早退、text 非标签不入队"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/slice.entries.test.ts",
+        "fullName": "scene and global entry ownership 具名 showDialog 走 fall-through：pushRawJumpTargets 早退、text 非标签不入队"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/slice.kimi-r1.test.ts",
+        "fullName": "KIMI-R1 sliceByScene scene BFS 残余分支 EO 区间越过 eventObjects 末尾：越界槽位跳过、autoScript>0 入口、triggerScript=0 不入口"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/slice.entries.test.ts",
+        "fullName": "scene and global entry ownership EO 区间越过 eventObjects 末尾：越界槽位跳过、autoScript>0 入口、triggerScript=0 不入口"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/slice.kimi-r1.test.ts",
+        "fullName": "KIMI-R1 sliceByScene scene BFS 残余分支 end reset 缺 resetTo：scene BFS 只收 i+1，不收 undefined 目标"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/slice.entries.test.ts",
+        "fullName": "scene and global entry ownership end reset 缺 resetTo：scene BFS 只收 i+1，不收 undefined 目标"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/slice.kimi-r1.test.ts",
+        "fullName": "KIMI-R1 sliceByScene globalEntries BFS 残余分支 越界与重复入口被跳过：ip>=commands.length 与 visited 去重"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/slice.entries.test.ts",
+        "fullName": "scene and global entry ownership 越界与重复入口被跳过：ip>=commands.length 与 visited 去重"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/slice.kimi-r1.test.ts",
+        "fullName": "KIMI-R1 sliceByScene globalEntries BFS 残余分支 end advance：global BFS 收 i+1 续行"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/slice.entries.test.ts",
+        "fullName": "scene and global entry ownership end advance：global BFS 收 i+1 续行"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/slice.kimi-r1.test.ts",
+        "fullName": "KIMI-R1 sliceByScene globalEntries BFS 残余分支 end reset：resetTo 数字收目标 + i+1；缺 resetTo 只收 i+1"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/slice.entries.test.ts",
+        "fullName": "scene and global entry ownership end reset：resetTo 数字收目标 + i+1；缺 resetTo 只收 i+1"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/slice.kimi-r1.test.ts",
+        "fullName": "KIMI-R1 sliceByScene globalEntries BFS 残余分支 goto：L_N 跟随；shared#L_N 等非本地标签不跟随"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/slice.entries.test.ts",
+        "fullName": "scene and global entry ownership goto：L_N 跟随；shared#L_N 等非本地标签不跟随"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/slice.kimi-r1.test.ts",
+        "fullName": "KIMI-R1 sliceByScene globalEntries BFS 残余分支 scene 的人读 dialogue 文本 L_N 不制造控制流边"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/slice.entries.test.ts",
+        "fullName": "scene and global entry ownership scene 的人读 dialogue 文本 L_N 不制造控制流边"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/slice.kimi-r1.test.ts",
+        "fullName": "KIMI-R1 sliceByScene globalEntries BFS 残余分支 scene 的人读 item 文本 L_N 不制造控制流边"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/slice.entries.test.ts",
+        "fullName": "scene and global entry ownership scene 的人读 item 文本 L_N 不制造控制流边"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/slice.kimi-r1.test.ts",
+        "fullName": "KIMI-R1 sliceByScene globalEntries BFS 残余分支 global 的人读 dialogue 文本 L_N 不制造控制流边"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/slice.entries.test.ts",
+        "fullName": "scene and global entry ownership global 的人读 dialogue 文本 L_N 不制造控制流边"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/events/slice.kimi-r1.test.ts",
+        "fullName": "KIMI-R1 sliceByScene globalEntries BFS 残余分支 global 的人读 item 文本 L_N 不制造控制流边"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/events/slice.entries.test.ts",
+        "fullName": "scene and global entry ownership global 的人读 item 文本 L_N 不制造控制流边"
+      }
+    }
+  ],
+  "preserved": [
+    {
+      "path": "packages/pal-extract/src/events/annotate.ts",
+      "sha256": "ef31df8d85c291cabc2d1ad836bec706c4f70e8de9c6c20d15d1b098ac86e673"
+    },
+    {
+      "path": "packages/pal-extract/src/events/slice.ts",
+      "sha256": "02326cae203ba0c9ace378f284d77a8c75ba9da88526506b42bd23542390d583"
+    },
+    {
+      "path": "packages/pal-extract/src/events/opcodes.ts",
+      "sha256": "aa558814f7861c84cbc5df737ba05237f8f8b869b9854e55f5eaf1e0fd8b256c"
+    },
+    {
+      "path": "packages/pal-extract/src/events/slice.test.ts",
+      "sha256": "c79ffad5e411984d7e87976e7df5fc9db8e995b21b76a4ac4c8988afed8dab7d"
+    },
+    {
+      "path": "packages/pal-extract/src/events/slice.boundaries.test.ts",
+      "sha256": "cd6589766f62c3236080b3df551895b405f236b0b2daca590efc2a44b64a1021"
+    },
+    {
+      "path": "packages/pal-extract/src/cli.ts",
+      "sha256": "a6cf5e24a0a1706d605fd288757035925843854f0aa379b9e963014908528d77"
+    },
+    {
+      "path": "packages/pal-extract/src/io/word.ts",
+      "sha256": "dbcd851a23f10829f2f04ef7fd7ec427c0362ea3d0796714a7186da9f35323a6"
+    },
+    {
+      "path": "packages/pal-extract/src/io/sss.ts",
+      "sha256": "a1f950905bdeb18baef4086203a4e3590c2b43a71150c7d0a0dca2898842a518"
+    }
+  ],
+  "id": "extract-annotation-slice",
+  "namespace": "organization-extract-commands",
+  "cohortSubjects": [
+    {
+      "path": "packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts",
+      "sha256": "cf18e63bd8be2d9ec4db111d0155bc12c1191975e17d3b1bdf22d500364285e7",
+      "preservedEvidence": "[CODE3/world逐文件代码裁定](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/extract-scene-closeout/README.md)"
+    },
+    {
+      "path": "packages/pal-extract/src/events/slice.glm-runtime-resource.test.ts",
+      "sha256": "4eb43b0557994037de968cddfef022ce4052a54e695de52cddd5eb9fff622f3d",
+      "preservedEvidence": "[CODE3/world逐文件代码裁定](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/extract-scene-closeout/README.md)"
+    },
+    {
+      "path": "packages/pal-extract/src/events/slice.kimi-r1.test.ts",
+      "sha256": "5a4688db42a86aa0f1763db89cd83e8d20452820979be9a4680d5f90a5e31fc1",
+      "preservedEvidence": "[CODE3/world逐文件代码裁定](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/extract-scene-closeout/README.md)"
+    }
+  ],
+  "reusedReview": {
+    "member": "organization-extract-commands/reused-review.json",
+    "source": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/extract-scene-closeout/review.json",
+    "scope": "A-E/H reused from four exact accepted spec hashes; current source/caller/reachability boundaries checked with no product change."
+  },
+  "neighborPaths": [
+    "packages/pal-extract/src/events/annotate.commands.test.ts",
+    "packages/pal-extract/src/events/annotate.symbols.test.ts",
+    "packages/pal-extract/src/events/disasm.boundaries.test.ts",
+    "packages/pal-extract/src/events/disasm.labels.test.ts",
+    "packages/pal-extract/src/events/disasm.test.ts",
+    "packages/pal-extract/src/events/event-codec.fidelity.test.ts",
+    "packages/pal-extract/src/events/opcodes.test.ts",
+    "packages/pal-extract/src/events/recompile.commands.test.ts",
+    "packages/pal-extract/src/events/roundtrip.report.test.ts",
+    "packages/pal-extract/src/events/roundtrip.test.ts",
+    "packages/pal-extract/src/events/script-entries.test.ts",
+    "packages/pal-extract/src/events/slice.boundaries.test.ts",
+    "packages/pal-extract/src/events/slice.entries.test.ts",
+    "packages/pal-extract/src/events/slice.test.ts",
+    "packages/pal-extract/src/io/msg.test.ts",
+    "packages/pal-extract/src/io/sss.test.ts"
+  ],
+  "cleanExecutions": [
+    "before",
+    "scoped",
+    "typecheck",
+    "neighbors",
+    "docs",
+    "content-review",
+    "lint",
+    "ledger",
+    "diff",
+    "final-fetch"
+  ],
+  "analyzerDelta": {
+    "kind": "Recognize beforeEach initialization as a lifecycle hook alongside afterEach cleanup, retain the same lexical owner/dependency checks and reject unsupported statements.",
+    "reason": "Two Word seeds reset let words before every test. Symbols parsing does not depend on either seed; its output file must not inherit unused setup.",
+    "oldSupportedSyntax": "strict afterEach + static describe/test/it",
+    "currentSyntax": "same plus beforeEach"
+  },
+  "profiles": [
+    {
+      "path": "packages/pal-extract/src/events/annotate.commands.test.ts",
+      "sha256": "914a16a1efc8ca11dee98270f0524896690349147e8417f595b7702a7e59fe68",
+      "subjects": [
+        "packages/pal-extract/src/events/annotate.test.ts",
+        "packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts"
+      ],
+      "axes": {
+        "A": "给定当前Command/Words/Symbols，WORD偏移、symbol优先、非物品命名空间、递归choice/sequence/if以及缺词/不突变合同复用原验收；产品/真实CLIannotate入口字节不变。",
+        "B": "人工词表非WORD.DAT真值、缺失else的JSON含义和未知ID宽容输入说明保留；去R06作者/批次分组。",
+        "C": "只聚合命令注释；两种Words seed在两个describe局部let/beforeEach，初始化/使用由同作用域拥有，不把symbols IO结构校验夹入。",
+        "D": "两种seed的spells/persons/enemies/scenes域不同，保留各scope而非造模式参数；实际递归Command[]直接字面输入，无产品helper或跨层fixture。",
+        "E": "11原身份/全部输入、完整输出和三侧输入不变断言保持；beforeEach语法、词法绑定和作用域归属核对，114相邻包含注释/切分/codec，不因文件合并提升业务覆盖。",
+        "F": "commands名称与lookup/recursive/missing words/ownership分组反映任务；局部words/reset可见，ITEM_OBJ_START实际单位不改。",
+        "G": "main+模型专测的相同职责归一，symbols五例及无关初始化迁出；不同seed不硬合为一个过宽词表，未增加cast/skip/ignore。",
+        "H": "真实annotate纯入口；每例独立words重置和独立literal期望，types直接约束Command，不mock运行态或共享表。"
+      },
+      "acceptance": "accepted-code; uniform gates deferred"
+    },
+    {
+      "path": "packages/pal-extract/src/events/annotate.symbols.test.ts",
+      "sha256": "1117956b2df3b5f78cc4a2883e3b9ea96490ff00b79b3b434785394ae362d77d",
+      "subjects": ["packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts"],
+      "axes": {
+        "A": "unknown JSON入口parseSymbols的对象/合法key/表类型/字符串value错误与精确路径；不对未核prototype或其它外来域授信用。",
+        "B": "文件头明确sidecar输入校验，与命令注释的来源选择分开；错误路径保持真实生产模板。",
+        "C": "仅parseSymbols与Symbols type，既无Word/Command/stdio依赖也无beforeEach；不必初始化从不使用的词表。",
+        "D": "小JSON字面量直接表示合法/负例，循环只用于同一错误合同，不建立万能symbols工厂。",
+        "E": "五旧身份与每种反例全部断言按同一注册语法保持；没有把hash、mock或数量当schema验收。",
+        "F": "symbols名字与对象/未知字段/表值错误标题对应，读文件能看出真实输入边界。",
+        "G": "删去旧文件对这五例附带的无用words初始化与imports；迁移后仍是五例，未新增或删合法性轴。",
+        "H": "纯公开unknown入口无需IO或mock，测试直接可判别错误路径；所用raw坏JSON域不冒充合法Command。"
+      },
+      "acceptance": "accepted-code; uniform gates deferred"
+    },
+    {
+      "path": "packages/pal-extract/src/events/slice.entries.test.ts",
+      "sha256": "a3d6bfe4dd223f39a6e72bd4f6fcbbd0451eeaba1050189737eabfd68fcb2fa3",
+      "subjects": [
+        "packages/pal-extract/src/events/slice.glm-runtime-resource.test.ts",
+        "packages/pal-extract/src/events/slice.kimi-r1.test.ts"
+      ],
+      "axes": {
+        "A": "场景/EO/全局正入口、reset/advance/goto、坏界/外部label与人读metadata不入队合同复用；SCENE/EO默认与raw WORD对应不变，原已批机制不重做。",
+        "B": "保留非正global/EO越界为helper防御输入、原盘可达性未证的限制；移除按Kimi/R06分文件，不把私有函数行号当覆盖信用。",
+        "C": "同一公开sliceByScene的来源/归属规则聚合，scene/global结果各由独立expected约束；无IO/异步状态，product的collectReachable owner不变。",
+        "D": "两个Scene构造器是相同DTO合同：统一makeScene显式index=0/teleport=0默认；原Kimi调用都显式传index，原glm三调用只传enter，逐字段/raw结果相同。makeEo只有真实auto入口case调用，不抽未来通用资源库。",
+        "E": "14旧运行身份（11注册含四例table）完整承接，labels/顺序/scene/shared负控均保留；两个fixture定义桥是有界纯重构，没有改任何业务断言、control flow或typed产品接口。",
+        "F": "entries文件表示入口/归属用途，makeScene参数名达意且默认显式；描述文本入口域不同，不按作者/返工轮次命名。",
+        "G": "两模型专测归一，重复scene DTO helper减少一个；不删未知防御用例，不拿相似goto删不同scene/global归属合同。",
+        "H": "直接公开入口与合法/明确防御DTO，结果无全局时钟/网络，输入raw/Command字段均可独立观察；无私有状态或核心mock。"
+      },
+      "acceptance": "accepted-code; uniform gates deferred"
+    }
+  ],
+  "lightweightGates": true,
+  "processDisclosures": [
+    "2026-10-30 verifier strengthened to keep every applicable hook, including imports-only/global effects. Five already-pure symbols cases now explicitly bridge removal of the unrelated local Words initializer; no test/product source changes, no other hooks exempted. Prior verifier/module bytes and all263 registration comparisons retained in later render-fixture namespace."
+  ]
+}

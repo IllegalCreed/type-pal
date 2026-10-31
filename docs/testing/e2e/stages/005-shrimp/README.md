@@ -17,7 +17,7 @@ Template: test-e2e-stage-v1 / 1.0.0
 
 ## 证据与状态
 
-原YAML及正式报告入口逐字节保留；原Owner、lastVerified/reviewBy不由治理续期。
+原YAML除活动期限移除外保留，正式报告入口不变；原Owner、lastVerified不由治理刷新。
 
 ```yaml
 id: e2e-005
@@ -26,7 +26,6 @@ phase: [phase1, phase2]
 engines: [game, reforge]
 owner: Codex
 lastVerified: 2026-10-02
-reviewBy: 2026-11-02
 dependsOn: [e2e-004]
 tags: [story, npc, guards, save-restore, checkpoint]
 canonicalReport: report.md
@@ -43,3 +42,7 @@ story40行、唯一50文500→550及报信因果；guards49行含复读不重给
 `dependsOn=e2e-004`；本阶段止丁香兰报信、恢复控制及后台返程，不求药、不出海，后继[006](../006-doctor-boat/README.md)另核；只有005 saves产下一段前驱。40/49/40行、两轨三case、416输入/413Git/8trace/两档分职责排重；最终自然case未触发replan，不补称该巡逻相位已验。
 
 后继事实权：[连续卡撤信](../../../../ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md#2026-10-08-前批结果历史完整执行链结论被上述反例推翻)与[10月11日另轮](../../../../ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md#2026-10-11-最终重录与headed验收accept)各守候选。静态模板不授runtime/E2E/视觉/coverage。完整原16行由回执span或固定5a Git blob恢复；固定777正文及完整回执语义已获非作者接收；后续根行政与中央接入范围见[专属治理记录](../../../../phase-governance/reviews/20261016-e2e-stage-m.json)，不自授新的运行信用。
+
+## 2026-10-30 版本适用性规则
+
+按[测试治理](../../../governance.md#版本适用性)取消活动 `reviewBy`。上文旧到期／续期只作历史，不再触发复核或重跑。运行 `node scripts/docs/testing-revisions.mjs e2e-005` 对比原候选、content/save版本及已声明源码指纹；记录缺失为unknown，相关边界不同为changed，匹配也不新增执行信用。status、lastVerified、原报告和机器证据保持原范围。
