@@ -1,5 +1,39 @@
 # C03 查看器生命周期与 oracle
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「C03 查看器生命周期与 oracle」的治理候选页;证据原件即下方逐字节保全的固定main源(3604B,SHA ded2eb8004f7)。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原2个链接处置见作者review的linkDisposition。当前存活入口:[QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1.md](../../tasks/QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1.md)、[README.md](c09/README.md)
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 3604B / SHA-256 ded2eb8004f782c9b896a2b8f17a1b6d09ab8a6ba5f76915a0c06d1a0b300d94；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# C03 查看器生命周期与 oracle
+
 任务：[QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1](../../tasks/QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1.md)。四源与精确退役支持表，全部读取边界/SHA在 read-boundaries.json；0关闭。
 
 原20例通过但输出51条act。先补G03-04真实父受控更新不重读/不伪造用户callback的反例，旧宿主19绿1指定AssertionError；回调每次变身份触发effect重载是根因。改稳定useCallback，真实cache/palette call-through等待；finally卸载后恢复spy/全局。原20例全部保留时已20绿、act/环境/native均0，不能把清诊断归功于删测试。
@@ -17,3 +51,5 @@ G03-10只返回测试宿主缺record占位，产品组件根本未调用。临�
 账本3284/229closed/71review/2984pending，0新关闭。四源review，支持表全域历史快照/相邻排重仍待核，不将回归当作整个helper语义审核。产品、schema/save/接口/资产管线、生成物、规则、主工作树均未改；不合main。下一片Viewer Kimi与上传宿主仍待核；另按用户新增要求回溯94前卡片与风险。无下一位Agent提示词，Codex继续。
 
 2026-10-16续[C09 K02真实编辑工作流](c09/README.md)：复用宿主后56→44act，再核真实解码/提交/revision与迟到读取后五例0诊断；两枚反控旧/新各4绿1指定业务红，恢复5绿，身份保留。相邻80通过但其它63act，editor typecheck通过；0关闭，唯一3y未合main。
+```
+<!-- incremental-original-source:end -->

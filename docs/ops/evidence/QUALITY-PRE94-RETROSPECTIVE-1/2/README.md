@@ -1,5 +1,39 @@
 # CODE2 MKF/RNG逐文件复审
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: audit-report-v1 / 1.0.0
+
+## 审计问题
+
+原审计「CODE2 MKF/RNG逐文件复审」的主题按原文时点保留(摘录:> 2026-10-21当前accept：[shared逐文件A–H与完整门](../shared-codecs/evidence.json)。归约/重复缺口已闭合，O-5限支持域；以下partial)。
+
+## 范围与证据
+
+原报告含章节[CODE2 MKF/RNG逐文件复审、实际读取与文件结论、判别力、排重与身份、当前真实数据与native oracle、门、未修项与下一批]、13个链接;固定main源6982B(SHA 70893b26a06b)。当前存活入口:[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)、[evidence.json](../shared-codecs/evidence.json)、[adjacent.json](adjacent.json)、[final-tests.json](final-tests.json)、[gates.md](gates.md)、[new-counter-proof.json](new-counter-proof.json)
+
+## 发现
+
+原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+
+## 结论
+
+原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+
+## 整改与复核
+
+本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 6982B / SHA-256 70893b26a06bccf7ac25ff0da291affd2b98e096dcfbfab6ffa82eb37c0ac2fa；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE2 MKF/RNG逐文件复审
+
 > 2026-10-21当前accept：[shared逐文件A–H与完整门](../shared-codecs/evidence.json)。归约/重复缺口已闭合，O-5限支持域；以下partial/未跑/旧计数均为历史片段，保留原件，不作为当前门。
 归[全83卡复审](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)，起点c727bc81e/main=f98d0ddd8，单Agent、唯一3y分支。生产MKF/RNG/YJ2字节未改；本片补两份boundary测试、精简一份主测试、登记精确退役。整卡当前partial，0新增关闭。
 
@@ -38,3 +72,5 @@ approved-test-retirements仅加当前7→6/双digest/实际文件SHA条目；固
 最终定向33例，shared typecheck+16文件130例通过；相邻game13/extract17均0fail/0skip/0act/环境/navigation，覆盖工具68通过。详见[最终回执](final-tests.json)、[相邻](adjacent.json)、[静态门](gates.md)及同名raw.gz。相邻测试在生产字节相同的A段候选执行，B段仅测试精简/精确批准数据，未重复无变化的真实资源长测试。
 
 相邻extract的“首帧非黑”只核PNG size种类，game blob第一层仅核长度，不能单独充当本片native oracle；这些完整相邻文件未在本片accept，后续资源caller批次核测试精度。主测试与boundary仍有基础opcode正控重叠，但不同错误/未触区轴须逐项证明，未按名称批删。全仓check/official ratchet/protected fast未重跑，editor诊断未清，禁止合main。三份测试旧关闭精确撤回review；机器已确认3287/216closed/207review/2864pending，0新关闭。下一片CODE2b YJ2；RLE格式风险卡继续draft。
+```
+<!-- incremental-original-source:end -->
