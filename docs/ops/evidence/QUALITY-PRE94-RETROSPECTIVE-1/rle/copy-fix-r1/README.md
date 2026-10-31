@@ -1,5 +1,39 @@
 # RLE 三文件文案整改 r1（copy-fix-r1）
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「RLE 三文件文案整改 r1（copy-fix-r1）」的治理候选页;证据原件即下方逐字节保全的固定main源(13091B,SHA 41319f04a5c6)。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原13个链接处置见作者review的linkDisposition。当前存活入口:[code-quality.md](../../../../code-quality.md)、[README.md](../calibration-20261018/README.md)、[copy-fix-r1-codex-final.json](../copy-fix-r1-codex-final.json)、[after-targeted.json](after-targeted.json)、[base-targeted.json](base-targeted.json)、[body-invariance.json](body-invariance.json)
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 13091B / SHA-256 41319f04a5c6236a024e727b52c44e37bb5bcfe621e3b81c9c4579873ce5b5d2；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+````markdown
+# RLE 三文件文案整改 r1（copy-fix-r1）
+
 Status: done（有限文案/标题与C1–C3获接收；三文件治理仍review）
 Owner: GLM（Coding Owner，按[校准包准入](../calibration-20261018/README.md)第 5 节与[长期规范 4.1](../../../../code-quality.md)直接执行）
 Date: 2026-10-18
@@ -109,3 +143,5 @@ C1–C3按证据验收接收：三文件正文保持，4标题映射沿已核51�
 集成另补一行`flag: 'wx'`，使可选`--out`真正只创建新文件：新文件正控、已有文件/链接拒绝、冻结路径拒绝及默认只读均验证；冻结报告字节不变。此为证据工具的文件保护，不是产品行为修复。旧r1/返工原件保持，G-1/O-1/O-2/O-4/格式真值卡继续pending/review/draft，0代码文件关闭。旧复验块的“预期两笔”为r1历史，当前内容以终验与实际Git映射为准；接收后临时worktree清理，后续可在集成仓库运行只读证明。
 
 集成仓库的只读快检命令：`node docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/copy-fix-r1/prove-body-invariance.mjs`，预期exit0且allEqual=true；不要求重跑51测试。
+````
+<!-- incremental-original-source:end -->

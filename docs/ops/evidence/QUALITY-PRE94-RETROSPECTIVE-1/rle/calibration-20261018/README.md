@@ -1,5 +1,39 @@
 # RLE首批独立校准与执行准入
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「RLE首批独立校准与执行准入」的治理候选页;证据原件即下方逐字节保全的固定main源(15042B,SHA 836e3c8b54d9)。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原17个链接处置见作者review的linkDisposition。当前存活入口:[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)、[QUALITY-RLE-COMMAND-TRUTH-1.md](../../../../tasks/QUALITY-RLE-COMMAND-TRUTH-1.md)、[README.md](../README.md)、[artifact-format.json](artifact-format.json)、[docs-final.json](docs-final.json)、[docs.json](docs.json)
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 15042B / SHA-256 836e3c8b54d9cc96453852ed51bbea5f9aef2127a1a82717e88b888e37a38ed8；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# RLE首批独立校准与执行准入
+
 Status: review
 Owner: Codex
 Date: 2026-10-18
@@ -90,3 +124,5 @@ GLM下一批先交此三文件实作；Codex可同时处理纯记录沿革。接
 | 未运行 | 相邻全包、typecheck、全仓check、official coverage ratchet、protected fast、E2E/视觉；本批只改文档/记录，无产品build或合main。 |
 
 新附件有原件与SHA，已有历史失败不覆盖。首次最终消费者检查[docs-final.json](docs-final.json)因尚未生成的回执链接报2个缺失，保留失败原件；附件就位后的5消费者结果为`docs-final-pass.json`。后补回执格式见[artifact-format.json](artifact-format.json)。125工具测试源与本次首次check:docs相同，最终只复跑受影响的5个消费者，不再重跑125合同。
+```
+<!-- incremental-original-source:end -->

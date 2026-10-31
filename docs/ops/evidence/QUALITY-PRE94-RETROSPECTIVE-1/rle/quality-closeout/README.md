@@ -1,5 +1,39 @@
 # CODE1 RLE测试质量与真实资源影响域收口
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: audit-report-v1 / 1.0.0
+
+## 审计问题
+
+原审计「CODE1 RLE测试质量与真实资源影响域收口」的主题按原文时点保留(摘录:> 2026-10-25当前：原盘格式停止线已获批准并修复，见[PAL来源修复及当前只读复验](../../code1-closeout/pal-source-fix/README.md)。本文测试质)。
+
+## 范围与证据
+
+原报告含章节[CODE1 RLE测试质量与真实资源影响域收口、结论和边界、实际读取、caller与取舍、执行与诊断、格式停止线：MGO571由未知变成真实counter、低成本复验和失效]、8个链接;固定main源7200B(SHA 6e48eb3f68e7)。当前存活入口:[QUALITY-RLE-COMMAND-TRUTH-1.md](../../../../tasks/QUALITY-RLE-COMMAND-TRUTH-1.md)、[README.md](../../code1-closeout/pal-source-fix/README.md)、[ending-actual.png](ending-actual.png)、[ending-native-reference.png](ending-native-reference.png)、[identity-mapping.json](identity-mapping.json)、[receipts.json.gz](receipts.json.gz)
+
+## 发现
+
+原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+
+## 结论
+
+原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+
+## 整改与复核
+
+本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 7200B / SHA-256 6e48eb3f68e75ac9b69a7d9d513518ba55ed466ccd829541491d0526f30df00e；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+````markdown
+# CODE1 RLE测试质量与真实资源影响域收口
+
 > 2026-10-25当前：原盘格式停止线已获批准并修复，见[PAL来源修复及当前只读复验](../../code1-closeout/pal-source-fix/README.md)。本文测试质量原件保持；格式冻结措辞为历史时点，统一门另记。
 
 Status: current evidence receipt
@@ -63,3 +97,5 @@ node docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/quality-closeout/verify
 原子性补审：boundaries四种帧错误、GLM-o三种容器头／两种offset／两种尺寸及独立合法正控、encoder单帧／空容器分别可定位；重复的count篡改表截断并入现有容器头oracle。未添加新行为轴或为覆盖率补数量。
 
 [最终文档／lint／diff／ledger静态原件](static.json)与上表代码回执分开冻结；复用未变的docs工具回归，不重跑125例，也不把静态检查等同统一check或coverage。
+````
+<!-- incremental-original-source:end -->

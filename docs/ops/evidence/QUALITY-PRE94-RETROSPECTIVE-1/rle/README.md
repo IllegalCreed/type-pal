@@ -1,5 +1,39 @@
 # CODE1 shared RLE有限复审
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: audit-report-v1 / 1.0.0
+
+## 审计问题
+
+原审计「CODE1 shared RLE有限复审」的主题按原文时点保留(摘录:归[全83卡复审](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)，起点07b856bc2/main=f98d0ddd8，单Agent/唯一3y分支。)。
+
+## 范围与证据
+
+原报告含章节[CODE1 shared RLE有限复审、实际读取与四文件结论、测试判别力与隔离、SDLPal直接证据与停线、复用、注释与剩余、2026-10-18 GLM首批的Codex独立校准]、14个链接;固定main源7655B(SHA 33ae3285d6ec)。当前存活入口:[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)、[QUALITY-RLE-COMMAND-TRUTH-1.md](../../../tasks/QUALITY-RLE-COMMAND-TRUTH-1.md)、[README.md](../code1-closeout/README.md)、[adjacent.json](adjacent.json)、[README.md](calibration-20261018/README.md)、[catch-improved.json](catch-improved.json)
+
+## 发现
+
+原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+
+## 结论
+
+原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+
+## 整改与复核
+
+本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 7655B / SHA-256 33ae3285d6ec1b8f870b1d1424d22c265e9f64a008e5925e2e45b4205eb451ba；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE1 shared RLE有限复审
+
 归[全83卡复审](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)，起点07b856bc2/main=f98d0ddd8，单Agent/唯一3y分支。仅修改rle.test.ts现有一例的字节与oracle；没有修改解码/编码实现、接口、生成资源或用户行为。整卡仍partial，0新增关闭。
 
 ## 实际读取与四文件结论
@@ -51,3 +85,5 @@ shared公共出口已使game/extract重导出同一codec；generic与strict的�
 [当前逐文件八维、59→50完整合同映射、三真实反控与只读复验](quality-closeout/README.md)：六测试范围接受、四新关闭；产品rle.ts及CODE1整卡仍review／partial。真实MGO571特殊偏移现有原生C和实际结局调用counter，转原格式卡待裁决；不把本页旧未扫描叙述当成当前可达性结论。统一门／coverage／PR继续等全部pre94，不授原版EXE或全结局视觉验收。
 
 [2026-10-25 CODE1工程／Q1b收口与来源边界补证](../code1-closeout/README.md)：同一offset在公开作者编码器中合法，故不能全局套PAL特例；当前Reforge源profile和迁移计数亦有直接影响。仅隔离内存探针、原始源无写入，格式风险仍draft，不新增产品接受信用。
+```
+<!-- incremental-original-source:end -->
