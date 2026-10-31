@@ -2881,3 +2881,11 @@ Owner直接处理规范一处残余：GLM规范摘要仍把F/G/H及部分细则�
 C03作为保留/归并提案接收：456retain-prose/1449retain-native/11consolidate-proposed。11件逐一对源，6对确实逐字节相同，须先迁引用/pin再受控归并；其余5件只有输出或结论重叠，命令/时点/原raw身份不同，本轮继续保留，不能把935例的结论转给421B另次回执或删掉时点证据。0文件删除/移动，不授退役信用，不新增逐文件sidecar。
 
 Owner verdict SHA 9978c24851c0ea74ac6f5a8fa7e451cbbff7e95ad793dc2d9f44f331017f9b45，证据在仓外type-pal-S77-correction-owner-audit-am91s10r；原报告nav14423按最终raw14422勘误，旧报告/回执不改。作者阶段nav0issue、testing0、索引96213B字节等、lint6403零诊断及diff0按实际输入复用；Owner规范/行政变化补核实际相关门。全部作者状态仍partial/needs，0迁移/runtime信用，旧2435/1838不变；中央4处控制pin、1916扩容/正式接受表及全量硬门仍Owner待办。无下一位Agent返工提示词：下一步Owner完成公共中央接入后一次集中非作者验收；不合main、不推送、不done。
+
+## S78 1916中央扩容、控制pin与正式授信（2026-10-31）
+
+用户明确授权继续完成1916中央扩容、4处控制pin修复与正式授信后运行全量硬门；Codex唯一Owner，隔离codex/docs-s78-central-1916，base6995a8ec10598695e62df67e6f1d38da72bba38f，build allowed。复用S77作者62f27e854及9978c248据证接收、五pilot非作者接受和Owner规范原样保值渲染，不重复全文治理或伪造新的独立签字。原1838与2435接受、3批准退役、旧114逻辑owner/来源pin及473原生保持；新增1916另列增量，1933原生载体保持（旧473+新1460）。
+
+可改：中央唯一当前review、routing/registry/matrix及必要SHA/DAG；文档通用reader/受控writer/准入与资格的最小有界扩展、必要新增反例和规范/任务写回。新owner必须真实Git初始化、分片小于512KiB，不持久化另一套全文或per-file sidecar。旧114精确约束不改成下限；新115组须固定旧全集加一个准入owner，全部4351唯一after归属真实校验。4处控制只按实际来源、角色与已接受入站增量维护观测，旧语义/撤信/历史签名保留；不能单刷hash洗白或把Owner新解释冒充旧GLM接受。
+
+既有测试若夹具确需适配仍逐处另授，本轮不先改旧测试；产品/旧产品测试/coverage/共享忽略规则不改。实现先反例、临时树完整演练及故障/幂等，再受控发布；授信必须逐篇绑定真实作者/非作者依据和接受内容，状态与执行信用分轴。全量check:docs/lint/diff/require-complete实际零诊断才可记静态通过；新工具/中央组合的独立复核另按真实范围集中交付，不逐批问许可；不合main、不推送、不done。
