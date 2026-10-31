@@ -2884,6 +2884,12 @@ Owner verdict SHA 9978c24851c0ea74ac6f5a8fa7e451cbbff7e95ad793dc2d9f44f331017f9b
 
 ## S78 1916中央扩容、控制pin与正式授信（2026-10-31）
 
+实施核源更正：以下开工预排的115 owner不执行。实际复用既有20261018-semantic-rework，保留原28条并分片接入1916条；逻辑owner仍是原114精确全集，after为4351。原稿的prospective位置通过28+index显式迁移，不新建空种子账本。新增第15个storage source是既有semantic owner在6995的真实flat Git blob，原14个source不变，不构成新增正文或自签。
+
+容量核定：ops旧片694615B，新增1910ops分配到[2435,3390)、[3390,4345)两个明确registry物理片；testing新增6条落原testing片，根描述符7→9。两新片由实际loader核归属并显式列为存储部件，不靠目录前缀遗漏正文。旧flat保留既有1MiB合同，新review/registry片保持512KiB。范围重叠及既有归属的正式反例已先红后绿；此前夹具缺字段导致的失败不计反控。
+
+S76整合42条旧after观测已逐项核旧pin等S75固定blob、新字节等固定整合输入，15个带marker的原文/模板块完全相等；不写成42篇新深审或新运行接受。控制类原角色/source/签名保留，最新成员与计数用独立Owner行政投影维护，不冒充旧GLM接受。完整4351pin/1916grant规划已只读构建，真实中央尚未发布。
+
 用户明确授权继续完成1916中央扩容、4处控制pin修复与正式授信后运行全量硬门；Codex唯一Owner，隔离codex/docs-s78-central-1916，base6995a8ec10598695e62df67e6f1d38da72bba38f，build allowed。复用S77作者62f27e854及9978c248据证接收、五pilot非作者接受和Owner规范原样保值渲染，不重复全文治理或伪造新的独立签字。原1838与2435接受、3批准退役、旧114逻辑owner/来源pin及473原生保持；新增1916另列增量，1933原生载体保持（旧473+新1460）。
 
 可改：中央唯一当前review、routing/registry/matrix及必要SHA/DAG；文档通用reader/受控writer/准入与资格的最小有界扩展、必要新增反例和规范/任务写回。新owner必须真实Git初始化、分片小于512KiB，不持久化另一套全文或per-file sidecar。旧114精确约束不改成下限；新115组须固定旧全集加一个准入owner，全部4351唯一after归属真实校验。4处控制只按实际来源、角色与已接受入站增量维护观测，旧语义/撤信/历史签名保留；不能单刷hash洗白或把Owner新解释冒充旧GLM接受。
