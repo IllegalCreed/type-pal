@@ -1,5 +1,39 @@
 # CODE73/74/76/77/78 shell 生命周期五卡复审切片(GLM)
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「CODE73/74/76/77/78 shell 生命周期五卡复审切片(GLM)」的治理候选页;证据原件即下方逐字节保全的固定main源(6135B,SHA db6d95019a44)。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原6个链接处置见作者review的linkDisposition。当前存活入口:[README.md](c3-evidence/README.md)、[directed-final.json](directed-final.json)、[mutation-dm29-branch-removed.json](mutation-dm29-branch-removed.json)、[mutation-loop-hardcoded-true.json](mutation-loop-hardcoded-true.json)、[per-file-index.md](per-file-index.md)、[read-boundaries.json](read-boundaries.json)
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 6135B / SHA-256 db6d95019a445b31bdf8e247eecc0017788a6085f677ae479bd90554b2cdb965；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE73/74/76/77/78 shell 生命周期五卡复审切片(GLM)
+
 基点 `dec0626e1c`(=合并后 origin/main = origin/codex/code-quality-3y,fetch 核对 0/0);候选 HEAD `12a39b4c9`,同一隔离 worktree 三笔提交:
 
 - `50704d25e` 注释/锚点/表达修正(零行为)
@@ -45,3 +79,5 @@
 - claim 失效条件:bootstrap 对 pickMusicTrack/sync 的实参形状变化、audio replay 语义变化、sdlpal 参考库版本变化会使对应 A 维结论待复核;两枚新测试的判别力绑 `audio.ts:100/312/320` 三处行语义。
 - 剩余 review/unknown:input 多键复活近似(已登记,不修);KeyM dev 偏差(已披露,移除属产品裁决);rng 未知更广嵌套乱序(归 MEDIA-LIFECYCLE 卡);audio-midi.ts 归 CODE75;`ReplayInputSource` 返回快照为引用非拷贝(消费方只读,无变异证据,N/A 登记)。
 - 83 卡状态建议:73/74/76/77/78 由 pending → partial(本片);不整卡 accept,统一门未跑。
+```
+<!-- incremental-original-source:end -->

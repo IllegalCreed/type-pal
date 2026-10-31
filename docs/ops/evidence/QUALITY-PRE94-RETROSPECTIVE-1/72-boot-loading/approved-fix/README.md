@@ -1,5 +1,39 @@
 # CODE72 用户批准的启动失败进度修复
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「CODE72 用户批准的启动失败进度修复」的治理候选页;证据原件即下方逐字节保全的固定main源(4916B,SHA 356abb0dd6d4)。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原12个链接处置见作者review的linkDisposition。当前存活入口:[QUALITY-BOOT-FAILURE-PROGRESS-1.md](../../../../tasks/QUALITY-BOOT-FAILURE-PROGRESS-1.md)、[README.md](../../53-wave-gates/README.md)、[failure-repro.json](../failure-repro.json)、[before-fix.json](before-fix.json)、[contracts.json](contracts.json)、[original-replay.json](original-replay.json)
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 4916B / SHA-256 356abb0dd6d47c1be59d718a72813a70dcb08a4c726c4c204beee2c84b2a83ca；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE72 用户批准的启动失败进度修复
+
 用户明确批准“失败提示保持，同时停止本轮 fetch 计数和进度回调；正常启动、进入游戏和其它网络请求保持原行为”。Codex单一Owner，沿用codex/code-quality-3y；[任务卡](../../../../tasks/QUALITY-BOOT-FAILURE-PROGRESS-1.md)的准入以308f517e6为原基点。只改三个生产文件与两份相邻测试，注释纠正另提交cee6cee69；不涉及schema/save、资产管线、公共接口、进入门、重试策略或请求取消。
 
 ## 实际读取与实现责任
@@ -31,3 +65,5 @@ main PROD catch先释放计数/回调再fail；precache-ui以failed私有阶段�
 机器账本已重新运行确认：3312 tracked /289closed/47review/2976pending；83卡仍49partial/34pending/0整卡accept。本高风险卡状态review，功能窄修完成，统一集成未完成。47–52旧[波次门](../../53-wave-gates/README.md)已撤回通过/收口信用，不能沿用。新全仓check、官方coverage ratchet、protected fast均未运行，按用户要求留大任务收尾；不以旧输出或退出码0补签。
 
 后续先处理同片UI测试既有合同/隔离，再继续73 input四文件及剩余pre-94卡；94–102/editor保持后续优先级，main和其它Owner不写。没有宣布专项完成或合并。
+```
+<!-- incremental-original-source:end -->

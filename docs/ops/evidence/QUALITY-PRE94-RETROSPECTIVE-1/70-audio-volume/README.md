@@ -1,5 +1,39 @@
 # CODE70 音量测试逐文件复审
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: audit-report-v1 / 1.0.0
+
+## 审计问题
+
+原审计「CODE70 音量测试逐文件复审」的主题按原文时点保留(摘录:基点 `9cd270f26`；唯一 `codex/code-quality-3y`。Codex单一Owner，build allowed仅`audio-volume.test.ts`、相邻`audio)。
+
+## 范围与证据
+
+原报告含章节[CODE70 音量测试逐文件复审、实际读取、caller与oracle、发现与处理、反控、验证与未关闭]、6个链接;固定main源3370B(SHA 3a224241e0f3)。当前存活入口:[after-proof.json](after-proof.json)、[before-proof.json](before-proof.json)、[contracts.json](contracts.json)、[read-boundaries.json](read-boundaries.json)、[static-gates.json](static-gates.json)、[test-gates.json](test-gates.json)
+
+## 发现
+
+原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+
+## 结论
+
+原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+
+## 整改与复核
+
+本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 3370B / SHA-256 3a224241e0f35801969e81c6f7f18f665de1c95f7c33114f2f4163de5a687d3b；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE70 音量测试逐文件复审
+
 基点 `9cd270f26`；唯一 `codex/code-quality-3y`。Codex单一Owner，build allowed仅`audio-volume.test.ts`、相邻`audio-volume.boundaries.test.ts`及治理记录；生产源、公共API/UI、save/schema、资源管线、规则与baseline未改。70由pending推进partial；仍不作整卡accept。
 
 ## 实际读取、caller与oracle
@@ -22,3 +56,5 @@
 [test-gates](test-gates.json)：直接两文件8例及tools-panel/bootstrap-audio/music-source相邻合计 **6 files / 36 tests passed**，0 failed/pending/stderr；game typecheck通过，无诊断。最终[static-gates](static-gates.json)另记docs/lint/ledger/diff。本小批未跑新全仓check、official coverage ratchet或protected fast；旧53波次不认证本候选，昂贵门留完整模块窗口。
 
 main测试新增一项有证据闭合；boundary更新证据，不重复计数；生产audio-volume.ts不由相邻全绿重新关闭。账本3312 tracked / 287 closed / 44 review / 2981 pending。83卡48 partial / 35 pending / 0 accept。未知storage-denied启动政策、真实播放/音量听感、完整bootstrap/UI仍不由本片认证；未改变高风险边界。下一批72 boot-loading的实现/主/host三文件，避开活跃Owner文件；随后续剩余pre-94，94–102/editor顺序不变。
+```
+<!-- incremental-original-source:end -->

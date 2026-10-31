@@ -1,5 +1,39 @@
 # 6a账本/清单工程切片复审
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「6a账本/清单工程切片复审」的治理候选页;证据原件即下方逐字节保全的固定main源(4038B,SHA 72711db51023)。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原4个链接处置见作者review的linkDisposition。当前存活入口:[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)、[gates.md](gates.md)、[test-proof.json](test-proof.json)、[verification.json](verification.json)
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 4038B / SHA-256 72711db51023d5a2b962a2fbadcbd8b05212845b058784e718e08e4b081d11fa；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# 6a账本/清单工程切片复审
+
 归[全量复审卡](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)；基点bea19f80c、main=f98d0ddd8，单Agent/唯一3y分支。83卡队列中的6a仅partial，0新增关闭，历史done不升级成本轮accept。
 
 ## 逐文件直接证据
@@ -29,3 +63,5 @@
 本片只补测试证据。全仓check/official ratchet/protected fast未重新运行，editor仍非零运行时诊断，禁止合main；baseline未手改。.mjs执行Node原生测试与全仓lint，本片无TypeScript实现变更，不虚报新typecheck。工程范围扩展/词法图局限不由字段全绿证明完备。6a整卡partial，本轮83卡accept仍0；下一片92真门原件/源码快照，再按模块逐文件继续。
 
 [本检查点静态门](gates.md)：docs、lint-zero、ledger、diff-check均通过；lint4376文件，error/warning/info均0。定向11/相邻38与上述静态通过不代表统一运行时诊断清零。
+```
+<!-- incremental-original-source:end -->

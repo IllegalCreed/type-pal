@@ -1,5 +1,39 @@
 # CODE72 启动加载逐文件复审与错误态风险
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: audit-report-v1 / 1.0.0
+
+## 审计问题
+
+原审计「CODE72 启动加载逐文件复审与错误态风险」的主题按原文时点保留(摘录:基点 `0587d8714`，唯一 `codex/code-quality-3y`。Codex单一Owner，build allowed仅两份boot-loading测试及治理证据；实现/主入口/进度)。
+
+## 范围与证据
+
+原报告含章节[CODE72 启动加载逐文件复审与错误态风险、全文读取、真实caller与primary、两测试的处理与排重、高风险直接反例与旧关闭撤回、验证、账本与下一批、2026-10-18 用户批准后的窄修]、9个链接;固定main源5032B(SHA 5df78529de78)。当前存活入口:[QUALITY-BOOT-FAILURE-PROGRESS-1.md](../../../tasks/QUALITY-BOOT-FAILURE-PROGRESS-1.md)、[after-proof.json](after-proof.json)、[README.md](approved-fix/README.md)、[before-proof.json](before-proof.json)、[contracts.json](contracts.json)、[failure-repro.json](failure-repro.json)
+
+## 发现
+
+原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+
+## 结论
+
+原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+
+## 整改与复核
+
+本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 5032B / SHA-256 5df78529de78bf2c8088cabacb4bc872e9520ac698495bbcaa6dd8f996ae95c7；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE72 启动加载逐文件复审与错误态风险
+
 基点 `0587d8714`，唯一 `codex/code-quality-3y`。Codex单一Owner，build allowed仅两份boot-loading测试及治理证据；实现/主入口/进度UI冻结。72由pending推进partial，不作整卡accept；新产品问题单列[高风险卡](../../../tasks/QUALITY-BOOT-FAILURE-PROGRESS-1.md)。
 
 ## 全文读取、真实caller与primary
@@ -33,3 +67,5 @@
 ## 2026-10-18 用户批准后的窄修
 
 [批准修复证据](approved-fix/README.md)替代上述“未修/冻结”的当前状态：三个生产文件按批准修复失败进度与计数ownership，四条先红后绿、相邻58绿/原红精确重放1绿、game typecheck及实际PROD失败/正常进场与看图完成。boot-loading.ts新增闭合，main/UI仍review，UI主测试新增review；289closed/47review/2976pending。旧counter和原NaN/测试历史原件保留，不把整卡升格accept。全仓check/ratchet/protected未运行，47–52旧门信用已撤回；下一步同片UI测试合同/隔离，再续73。
+```
+<!-- incremental-original-source:end -->

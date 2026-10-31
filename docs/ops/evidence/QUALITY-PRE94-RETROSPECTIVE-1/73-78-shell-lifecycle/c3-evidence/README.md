@@ -1,5 +1,39 @@
 # C3 补证声明矩阵与执行原件(2026-10-20 返工采集)
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「C3 补证声明矩阵与执行原件(2026-10-20 返工采集)」的治理候选页;证据原件即下方逐字节保全的固定main源(3750B,SHA 2661253caeb6)。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原2个链接处置见作者review的linkDisposition。当前存活入口:[codex-pending27-acceptance.json](../../codex-pending27-acceptance.json)、[manifest.json](manifest.json)
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 3750B / SHA-256 2661253caeb6034a0ada14d57da933207107ad487313d594d61e646112621a6d；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# C3 补证声明矩阵与执行原件(2026-10-20 返工采集)
+
 本目录是 73-78 shell 切片的 C3 补证入口:[`manifest.json`](manifest.json) 索引全部原生原件(命令/cwd/时间/exit/stdout/stderr/JSON)。
 
 本目录按 Codex C3 裁定补齐执行证据。所有新采集均为**本次返工的原生原件**(完整命令/cwd/时间/exit/stdout/stderr/JSON,见 [`manifest.json`](manifest.json) 索引);历史运行的缺口按事实标注"未保存/作者自报",不补造为旧原件。
@@ -31,3 +65,5 @@
 ## Codex输出路径勘误
 
 上述原件字节保留。manifest所录vitest命令的outputFile为basename，stdout却指向本证据目录，原始argv不据此认定精确；biome原件漏索引已补。当前单点反控的精确命令/源与测试身份/exit与signal/完整流由[Codex验收记录](../../codex-pending27-acceptance.json)所指新采集承接，不改写旧raw冒充正确命令。
+```
+<!-- incremental-original-source:end -->
