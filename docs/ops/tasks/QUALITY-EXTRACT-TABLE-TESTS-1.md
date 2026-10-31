@@ -1,6 +1,39 @@
 # QUALITY-EXTRACT-TABLE-TESTS-1 — 二进制表与调色/音频专测
 
 Status: done
+Last reviewed: 2026-10-30
+Owner: Codex
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+按[百文件窗口](QUALITY-PENDING-100-1.md)继续pal-extract已读生产模块的pending专测/fixture质量，补测试判别力、注释事实及输入/生命周期边界。
+
+## 范围
+
+前20主体按五个互不重叠切片：items/spells boundaries＋glm-foundation/glm-tb04两fixture；battle-fields/enemy-teams/stores/data-misc四boundaries；items/stores/enemy-teams/battle-fields四glm-runtime-resource专测；palette三专测＋enemy-pos.boundaries；data-misc主测、rix/sounds主测、indexed-frame-digest helper。相邻palette.ts只允许事实注释勘误、原已closed仅版本桥接不计新主体；其它实现、schema/数据、生成物及English/SLF实现不写。补充player-roles.event-boundaries-1.test.ts为第21主体。
+
+## 前提与证据
+
+一手参考为当前SDLPal的WORD/SHORT、ITEMFLAG/MAGICFLAG和记录结构；palette已有TS位复制(25→101)与C左移(25→100)区别，见[原生palette输入域](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/palette-approach-tests/README.md)，不冒称SDL色值字节等价、也不重开既有颜色行为裁决。测试输入是明确的原始IO/合成WORD记录，不作完整可玩场景、合法库存或真实人物名称证据。锚[当前八维](../code-quality.md)与[共同窗口证据](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/README.md)。
+
+## 验收
+
+2026-10-27代码接受：21主体逐项A–H、两fixture真实caller及原盘golden已核；完整66例/20文件绿、0 stderr；extract包typecheck与11改动TS局部Biome零诊断；三反控旧绿新唯一AssertionError。fixture移除已全文核两个caller均未使用的avatar/spriteNumInBattle/attackAll三个测试行常量，四个构造函数与保留行值保持。当前窗口42／约100、639closed／0review／2823pending。
+
+## 状态与交接
+
+review语义为等统一重门；2026-10-28本地统一门（20536包测试＋732工具、七包typecheck与whole lint全零、唯一official 20,188fast/809src）后done指本地收口，远端PR/CI/合并尚待、发布以受保护PR实际结果为准。原件见[统一原件与只读复验](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/uniform/README.md)。无下一位Agent提示词。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 4376B / SHA-256 7a54c6d7b3d01544e73e5267ff717aebfbbb84363a3d6d68f56b52256589fbe6；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# QUALITY-EXTRACT-TABLE-TESTS-1 — 二进制表与调色/音频专测
+
+Status: done
 Owner: Codex
 Reviewer: Codex（单 Agent 自审）
 Phase: ops
@@ -55,3 +88,5 @@ Codex build allowed：上述主体逐维审查及测试补强、palette单文件
 ## 本窗口本地验收收口
 
 2026-10-28（JST）：100主体八维及本地统一门接受；本次提交时远端PR/CI/合并尚待，发布以受保护PR实际结果为准。 20536包测试＋732工具测试全部通过、七包typecheck和whole lint error/warning/info为0；唯一official20,188fast/809src，有限计数调整后原报告ratchet/protected0。文件关闭只来自本卡既有逐文件证据，未扩大到其它pending。见[统一原件与只读复验](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/uniform/README.md)。本卡done指本地审查/整改/验收，远端发布不是预先完成声明。
+```
+<!-- incremental-original-source:end -->

@@ -16,7 +16,7 @@ Template: reference-canon-v1 / 1.0.0
 
 下方源块是基点`3ed87f734df357799c4d9a44205781d3deba5c14`的完整原内容：blob `8f005002a59947d7f94445f5a1fa8443be6a6e57`，SHA-256 `031e005e11f444d0fe4bd32215a71369b42193eeda5a6c7a647df13053d8f854`，2967B，本轮逐行核读。旧source pin `7cfdccad9fd9299a7d839cc3047a6252e4474b50` / `031e005e11f444d0fe4bd32215a71369b42193eeda5a6c7a647df13053d8f854`仅复核身份，不冒称原执行或原深审已重认证。
 
-[统一注册表](../../phase-governance/templates/registry.json)决定实际版本、章节、词表与变体，[文档交付与验收](../../ops/document-quality.md)决定交付验收；本页不改这些合同。[模板入口](../../phase-governance/templates/README.md)提供统一选择入口。
+[统一注册表](../../phase-governance/templates/registry.json)决定实际版本、章节、词表与变体，[文档交付与验收](https://github.com/IllegalCreed/type-pal/blob/43403a826edcaf40509f55b51e6f6214723252ed/docs/ops/document-quality.md)决定交付验收；本页不改这些合同。[模板入口](../../phase-governance/templates/README.md)提供统一选择入口。
 
 ## 当前真值
 

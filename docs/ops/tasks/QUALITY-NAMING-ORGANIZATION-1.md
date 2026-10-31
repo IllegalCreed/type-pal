@@ -1,6 +1,59 @@
 # QUALITY-NAMING-ORGANIZATION-1 — 命名与文件职责补审
 
 Status: review
+Last reviewed: 2026-10-30
+Owner: Codex
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+用户2026-10-29指出测试文件带AI名称并追问此前closed文件：纠正F/G维漏项，落实[长期质量规范](../code-quality.md)——命名和文件组织适用于全部开发及历史关闭文件，不只治理卡；原有有效正确性、测试和来源证据复用，不从头重跑全部代码审核。用户2026-10-31进一步明确按模块、功能和职责拆合与命名，不按作者、模型或任务卡编号划分代码，已写入[质量规范硬性条款](../code-quality.md#文件与目录的语义组织硬性要求)并被开发验收流程与两种任务模板引用；只去后缀或改成无语义extra/residual/misc仍不合格，F/G不得通过。
+
+## 范围
+
+同一隔离治理树分支codex/code-quality-94-102、单一Coding Owner Codex、基点e94098f949452bc3bf8d028f21bdc0a4e400ea22，主工作树不动。第一步静态初筛：3470库存、795closed中178个路径带模型/贡献者标签（164测试、14夹具；shared4/extract29/game129/content10/reforge1/editor5）；全部646候选包含其它pending/review，不能将646或178称为完整复审数。原closed行和证据保存在[naming-review.json](../evidence/QUALITY-PENDING-100-3/naming-review.json)，仅命名/组织维度待补审转review，原证据仍受各自版本和范围约束；未证明178项产品缺陷，非标签名称也不自动合格。固定178cohort完成F/G补审，本goal从其余174起，最终174/174；按拆合后的实际路径接收317项，不能说成新增317份全文复审。
+
+## 前提与证据
+
+每片先核Owner/保护件/看板冲突再准入；逐片A–H、旧证据、caller及限制见[窗口review](../evidence/QUALITY-PENDING-100-3/review.json)的organizationRevision与当前files；[organization.json](../evidence/QUALITY-PENDING-100-3/organization.json)列44个旧→新file×fullName、回调/必要suite上下文/七个module helper语法指纹，全部断言保留。旧raw与旧结论保持旧路径/字节，默认verify先核冻结source/spec字节，再按语法/执行身份映射到新文件，不把老结果改写成新执行。全仓重型门、官方coverage、protected与提交推送合并在大窗口集中执行，代码接受、统一门与发布分开登记。
+
+## 验收
+
+本目标各片只跑必要定向、相邻/typecheck及轻静态/docs/只读证据核验，不为纯组织重构制造产品红例；同SUT view自比一律补独立完整期望并单点变异验证旧绿新指定业务红。2026-10-31大窗口：全仓20,548例／typecheck／lint零诊断；官方fast仅采集一次20,199例，3项精确比例差异按已授权重计，两项game门槛调整后同报告ratchet和protected通过；6301文件lint零诊断；完整失败与最终原件见[收尾](../evidence/QUALITY-PENDING-100-3/local-closeout.json)及[计数解释](../evidence/QUALITY-PENDING-100-3/coverage-recount.json)。行为修复1c0de481a与职责重组7f6b41d9a分提交。
+
+## 状态与交接
+
+Status=review：本窗口代码接收、完整原件及最终文档/静态复验已完成，只等待同一治理分支的PR、远端必需检查与合并，未声称已发布。固定cohort178已补审、本goal174无剩余；固定cohort之外5个cov85辅助历史文件命名仍欠F/G（4条closed撤review、1条保持review），不扩目标分母或直接改名；最终机器3447 inventory／810 closed／5 review／2632 pending。无下一位Agent提示词，由Codex完成发布；E2E日历期限按用户裁决已退休、版本适用性另核，由[TESTING-EVIDENCE-REVISION-1](TESTING-EVIDENCE-REVISION-1.md)承接。
+
+## 历史范围
+
+源卡155个时点小节按当时状态保留：各片“当前有限准入/阶段准入/交付”交替推进（dialogue producer/summon slots起，经施法菜单、战况投影、工具显示与minimap、显示缩放/FPS、法术数值、买卖/库存/装备/modal media/FBP/RNG、商标卷轴、shared首模块、事件codec/annotation/表解析/三表/items图片/palette-BDF-manifest/scene-sprite/CLI夹具与专测、menu/editor/speedrun/pixel/present/shell等），账本快照从初筛3470/617/215/2638经3464/615/211/2638到3447/497/318/2632再至收口；早期“仍build”“待门”等表述以“2026-10-31本地门与发布交接”节为当前状态；初筛时点回执保留172→178关键词集合纠正原件；本窗口早期重组脚本误删账本fenced九行已恢复并改为整字节校验。
+
+## 原始结论
+
+固定178历史主体的F/G补审完成，本goal剩余174现为174/174；全仓大窗口本地门20,548例/typecheck/lint零诊断、单次官方fast 20,199、两项game门槛调整后同报告ratchet/protected通过；行为修复与职责重组分提交（1c0de481a／7f6b41d9a）。收片workbench最后一主体以纯MIME/picker元数据/精确像素分域，独立32x32 bounds与量化RGB反控成立，实际7邻接文件21pass/TC0；local review goal 174/174、fixed178/178。
+
+## 当时证据
+
+初筛与总册：[coverage-recount.json](../evidence/QUALITY-PENDING-100-3/coverage-recount.json)、[local-closeout.json](../evidence/QUALITY-PENDING-100-3/local-closeout.json)、[naming-review.json](../evidence/QUALITY-PENDING-100-3/naming-review.json)、[organization.json](../evidence/QUALITY-PENDING-100-3/organization.json)、[review.json](../evidence/QUALITY-PENDING-100-3/review.json)。逐片组织回执（44+身份映射与八维原件）：[organization-attack-effects.json](../evidence/QUALITY-PENDING-100-3/organization-attack-effects.json)、[organization-battle-outcomes.json](../evidence/QUALITY-PENDING-100-3/organization-battle-outcomes.json)、[organization-battle-screen.json](../evidence/QUALITY-PENDING-100-3/organization-battle-screen.json)、[organization-battle-scripts.json](../evidence/QUALITY-PENDING-100-3/organization-battle-scripts.json)、[organization-battle-state.json](../evidence/QUALITY-PENDING-100-3/organization-battle-state.json)、[organization-content-fixtures.json](../evidence/QUALITY-PENDING-100-3/organization-content-fixtures.json)、[organization-content-projections.json](../evidence/QUALITY-PENDING-100-3/organization-content-projections.json)、[organization-content-terrain.json](../evidence/QUALITY-PENDING-100-3/organization-content-terrain.json)、[organization-content-values.json](../evidence/QUALITY-PENDING-100-3/organization-content-values.json)、[organization-dev-hotkeys.json](../evidence/QUALITY-PENDING-100-3/organization-dev-hotkeys.json)、[organization-dialog-contracts.json](../evidence/QUALITY-PENDING-100-3/organization-dialog-contracts.json)、[organization-dialog-render.json](../evidence/QUALITY-PENDING-100-3/organization-dialog-render.json)、[organization-editor-frame-workbench.json](../evidence/QUALITY-PENDING-100-3/organization-editor-frame-workbench.json)、[organization-editor-item-fields.json](../evidence/QUALITY-PENDING-100-3/organization-editor-item-fields.json)、[organization-editor-script-context.json](../evidence/QUALITY-PENDING-100-3/organization-editor-script-context.json)、[organization-event-transitions.json](../evidence/QUALITY-PENDING-100-3/organization-event-transitions.json)、[organization-followers.json](../evidence/QUALITY-PENDING-100-3/organization-followers.json)、[organization-game-state-leaves.json](../evidence/QUALITY-PENDING-100-3/organization-game-state-leaves.json)、[organization-inspect-readouts.json](../evidence/QUALITY-PENDING-100-3/organization-inspect-readouts.json)、[organization-inventory-state.json](../evidence/QUALITY-PENDING-100-3/organization-inventory-state.json)、[organization-magic-api.json](../evidence/QUALITY-PENDING-100-3/organization-magic-api.json)、[organization-magic-menu-state.json](../evidence/QUALITY-PENDING-100-3/organization-magic-menu-state.json)、[organization-magic-runner.json](../evidence/QUALITY-PENDING-100-3/organization-magic-runner.json)、[organization-menu-box.json](../evidence/QUALITY-PENDING-100-3/organization-menu-box.json)、[organization-menu-choices.json](../evidence/QUALITY-PENDING-100-3/organization-menu-choices.json)、[organization-menu-equip-state.json](../evidence/QUALITY-PENDING-100-3/organization-menu-equip-state.json)、[organization-menu-equip.json](../evidence/QUALITY-PENDING-100-3/organization-menu-equip.json)、[organization-menu-inventory.json](../evidence/QUALITY-PENDING-100-3/organization-menu-inventory.json)、[organization-menu-layout.json](../evidence/QUALITY-PENDING-100-3/organization-menu-layout.json)、[organization-menu-magic.json](../evidence/QUALITY-PENDING-100-3/organization-menu-magic.json)、[organization-menu-selection.json](../evidence/QUALITY-PENDING-100-3/organization-menu-selection.json)、[organization-menu-shop.json](../evidence/QUALITY-PENDING-100-3/organization-menu-shop.json)、[organization-menu-stack.json](../evidence/QUALITY-PENDING-100-3/organization-menu-stack.json)、[organization-menu-state.json](../evidence/QUALITY-PENDING-100-3/organization-menu-state.json)、[organization-menu-status.json](../evidence/QUALITY-PENDING-100-3/organization-menu-status.json)、[organization-menu-text-clock.json](../evidence/QUALITY-PENDING-100-3/organization-menu-text-clock.json)、[organization-menu-title.json](../evidence/QUALITY-PENDING-100-3/organization-menu-title.json)、[organization-opcode-controls.json](../evidence/QUALITY-PENDING-100-3/organization-opcode-controls.json)、[organization-pixel-primitives.json](../evidence/QUALITY-PENDING-100-3/organization-pixel-primitives.json)、[organization-present.json](../evidence/QUALITY-PENDING-100-3/organization-present.json)、[organization-shell-boot.json](../evidence/QUALITY-PENDING-100-3/organization-shell-boot.json)、[organization-shell-bootstrap-error.json](../evidence/QUALITY-PENDING-100-3/organization-shell-bootstrap-error.json)、[organization-shell-fbp.json](../evidence/QUALITY-PENDING-100-3/organization-shell-fbp.json)、[organization-shell-loop.json](../evidence/QUALITY-PENDING-100-3/organization-shell-loop.json)、[organization-shell-modal-media.json](../evidence/QUALITY-PENDING-100-3/organization-shell-modal-media.json)、[organization-shell-network.json](../evidence/QUALITY-PENDING-100-3/organization-shell-network.json)、[organization-shell-opening.json](../evidence/QUALITY-PENDING-100-3/organization-shell-opening.json)、[organization-shell-precache.json](../evidence/QUALITY-PENDING-100-3/organization-shell-precache.json)、[organization-shell-resources.json](../evidence/QUALITY-PENDING-100-3/organization-shell-resources.json)、[organization-shell-rng.json](../evidence/QUALITY-PENDING-100-3/organization-shell-rng.json)、[organization-speedrun-control.json](../evidence/QUALITY-PENDING-100-3/organization-speedrun-control.json)、[organization-speedrun-data.json](../evidence/QUALITY-PENDING-100-3/organization-speedrun-data.json)、[organization-speedrun-ui.json](../evidence/QUALITY-PENDING-100-3/organization-speedrun-ui.json)、[organization-summon-slots.json](../evidence/QUALITY-PENDING-100-3/organization-summon-slots.json)、[organization-tools-display.json](../evidence/QUALITY-PENDING-100-3/organization-tools-display.json)、[organization-tools-surfaces.json](../evidence/QUALITY-PENDING-100-3/organization-tools-surfaces.json)、[organization-trading-state.json](../evidence/QUALITY-PENDING-100-3/organization-trading-state.json)。
+
+## 当前有效性
+
+有效：固定178cohort的F/G补审结论、逐片A–H与身份映射原件、大窗口本地门实际执行与其原件。边界：远端PR/必需检查/合并未完成；范围外5项F/G仍review、2632pending不动；旧反控按冻结旧版本复用，历史变异源码替换点不授当前反控或覆盖率信用；E2E日历期限退休后版本适用性按TESTING-EVIDENCE-REVISION-1另核，旧runtime信用不升格；transaction整源与其它辅助pending不附带关闭。
+
+## 继任文档
+
+长期规则本体在[质量规范硬性条款](../code-quality.md#文件与目录的语义组织硬性要求)（开发验收流程与完整/轻量任务模板直接引用）；E2E证据复核期限的替代政策由[TESTING-EVIDENCE-REVISION-1](TESTING-EVIDENCE-REVISION-1.md)承载；本卡保留为命名/组织专项的历史任务卡，范围外5项F/G与发布收口由Owner在同一治理分支续办。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 240030B / SHA-256 07b23451c5146bdcc424025a6c0de44b8f2e66653273a4fb63458e4783baa882；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# QUALITY-NAMING-ORGANIZATION-1 — 命名与文件职责补审
+
+Status: review
 Owner: Codex
 Reviewer: Codex（单 Agent；无第三方复核信用）
 Phase: ops（具体模块沿其阶段合同）
@@ -1250,3 +1303,5 @@ Actual7neighbor files21pass,editorTC0,zero stderr;local review goal174/174,fixed
 ## 2026-10-31 本地门与发布交接
 
 本窗口代码接收、完整原件及最终文档/静态复验已完成；check20,548、单次fast20,199、同报告ratchet/protected、6301文件lint零诊断。行为修复1c0de481a与职责重组7f6b41d9a分提交；本卡转review只等待同一治理分支的PR、远端必需检查与合并，未声称已发布。历史阶段性待门文本按当时范围保留，以本节及窗口local-closeout为当前本地状态。固定cohort178已补审，本goal174无剩余；范围外5项F/G仍review、2632pending不动。无下一位Agent提示词，由Codex完成发布。
+```
+<!-- incremental-original-source:end -->

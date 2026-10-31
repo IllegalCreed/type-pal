@@ -1,6 +1,39 @@
 # QUALITY-MIGRATION-BASELINE-PATH-DOMAIN-1 — 基线清单路径输入域
 
 Status: review
+Last reviewed: 2026-10-30
+Owner: Codex
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+核定迁移基线 `_state.json` 的 managedFiles 只能指向基线根内的规范相对文件；用户2026-10-29已批准拒绝越界基线路径，仅补既有读取/投影边界的路径校验，不改真实基线或生成物。
+
+## 范围
+
+仅migration-baseline.ts的路径输入校验与正式专测，同步加载、baseline输出、TOCTOU的同一合同；不改真实基线内容、格式、磁盘版本、公共接口或原盘只读链接。
+
+## 前提与证据
+
+`loadPalBaseline`对managedFiles逐条resolve(root,path)，只检查对应hash字符串，未限制绝对/上级/非规范路径；已在自有repo/outside.json通过真实入口复现：`../../../../../outside.json`清单在版本1、正确SHA和真实文件条件下返回outside-owned sentinel。最强替代解释：正常生成器不写这些路径、baseline是可信Git文件，本卡仅证明损坏/手改清单的输入域缺口，不声称真实作者文件被泄漏、覆盖或普通发布已经失败。锚[父窗口](QUALITY-PENDING-100-3.md)、[八维质量](../code-quality.md)、[二阶段规则](../../phase2/READ-FIRST.md)、[窗口证据](../evidence/QUALITY-PENDING-100-3/README.md)。
+
+## 验收
+
+路径校验在加载读取前、baseline投影与TOCTOU共用：拒绝绝对、上级、点段、空段、反斜线、盘符及非字符串，不归一化坏值、不增兼容或链接政策。同字节10例在纯重构检查点10个业务AssertionError、修后10绿，source精确恢复；相邻21文件170绿、migrate typecheck 0；真实537项基线只读加载与复核通过、state字节不变。部分词法输入原已native报错，新校验只是提前领域拒绝，不能称10项新漏洞。未执行迁移/发布。
+
+## 状态与交接
+
+纯重构与行为修复分别冻结前后指纹；红绿、修订前绝对路径用例和改为自有outside文件的重放原件见父窗口附件。该边界只保证清单路径拼写，未声称OS沙箱或跨进程链接安全；统一门/提交/推送/合并留父窗口，当前review。无下一位Agent提示词。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 4381B / SHA-256 7fb2657094d0efacca759bf7f571de0f9075afb473bd8dc29e481be049ada7c7；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# QUALITY-MIGRATION-BASELINE-PATH-DOMAIN-1 — 基线清单路径输入域
+
+Status: review
 Owner: Codex
 Coding Owner: Codex
 Reviewer: Codex（单 Agent）
@@ -45,3 +78,5 @@ Branch: codex/code-quality-94-102
 ## 下一位 Agent 提示词
 
 无下一位Agent提示词；Codex单Agent继续父窗口，复用本卡红绿，不重复运行未变候选。统一门与发布仍等父窗口。
+```
+<!-- incremental-original-source:end -->

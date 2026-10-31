@@ -1,6 +1,39 @@
 # QUALITY-SHOP-DEFINITION-OWNERSHIP-1 — 二阶段商店物品定义归属
 
 Status: done
+Last reviewed: 2026-10-30
+Owner: Codex
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+二阶段商店请求未定义物品时遵守shopBuy已有的null拒绝合同，不把JavaScript继承属性当物品定义；本卡先取证、后按用户批准修复。
+
+## 范围
+
+shop.ts::shopBuy及必要专测/真实shopInput调用边界；不更改物品ID集合、商店schema、价格规则、存档、第一阶段菜单或其它Record消费者。
+
+## 前提与证据
+
+取证事实：合法空ItemDataMap与未知ID constructor经shopBuy返回money=NaN并添入虚假库存而非null，源WorldState不变；validate-refs的Set跨引用报告不改shopBuy公开的未知ID合同。最强替代解释（跨引用校验已拦截、普通工程不触发）未证明普通剧情或编辑器启动会绕过该报告，不冒称实际用户已受损。锚[二阶段边界](../../phase2/READ-FIRST.md)、[父审查](QUALITY-RECENT-200-CONTENT-AUDIT-2.md)、[八维规范](../code-quality.md)。
+
+## 验收
+
+2026-10-28用户批准“按真实物品定义修复”。正式shop.test.ts未定义constructor拒绝与实际同名定义成功正控先行；修复仅在shopBuy读取定义时确认自身属性，不新增ID黑名单、全局Object原型修改或忽略规则。本片代码复验：content1473例、相邻reforge36/editor31、相关typecheck与改动scoped静态零诊断；原失败/同名正控/错误假设撤回均保存。统一全仓/coverage/受保护发布仍待父窗口。
+
+## 状态与交接
+
+父窗口（CONTENT-AUDIT-2）2026-10-28收口：153本轮主体＋前47有效复用＝200/200、全仓20506/官方20157-810通过，实际远端状态以Git/关联PR为准、本卡不预写合并。卡内裁决前“产品build blocked/用户验收pending”等文字为时点状态保留；跨引用合法性与纯结算失败策略分开，普通工程可达性未证实、不授视觉信用。无下一位Agent提示词。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 5227B / SHA-256 3fbebdd4485b06692e9ee2042582e5be06687026fd32abdb4d0b8a230ca40e1b；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# QUALITY-SHOP-DEFINITION-OWNERSHIP-1 — 二阶段商店物品定义归属
+
+Status: done
 Phase: phase2
 Capability: shop
 Coding Owner: Codex（取证；产品build未准入）
@@ -85,3 +118,5 @@ pending。
 ## 当前窗口代码收口
 
 2026-10-28 Codex单Agent：153本轮主体＋前47有效复用＝200／200，原200复查排队0；不授其它pending信用。两已批归属修复正式红例／真实caller与相邻验证成立。全仓20506／typecheck／lint0；官方20157／810采集按包恢复，精确content重计与三退役快照后同报ratchet/protected0。失败原件和限制见父窗口audit；最后文档／静态回执及受保护PR发布事实另据实际命令，不提前冒称已推送/合并。无新增产品取舍。
+```
+<!-- incremental-original-source:end -->

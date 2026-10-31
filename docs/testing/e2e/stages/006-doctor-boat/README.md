@@ -27,7 +27,7 @@ canonicalReport: report.md
 
 ## 证据与状态
 
-[当前回执](../../evidence/e2e-006-current.json)绑定新执行；[历史回执](../../evidence/e2e-006.json)整个文件字节不变，catalog完整SHA/原状态/原候选与新回执supersedes反向配对。原10-18文档audit false和旧SAVE11身份不刷新。短片、终档SHA、重开与失败原件由正式报告唯一定位，不复制进度账本。
+[当前回执](https://github.com/IllegalCreed/type-pal/blob/43403a826edcaf40509f55b51e6f6214723252ed/docs/testing/e2e/evidence/e2e-006-current.json)绑定新执行；[历史回执](../../evidence/e2e-006.json)整个文件字节不变，catalog完整SHA/原状态/原候选与新回执supersedes反向配对。原10-18文档audit false和旧SAVE11身份不刷新。短片、终档SHA、重开与失败原件由正式报告唯一定位，不复制进度账本。
 
 ## 依赖与历史
 

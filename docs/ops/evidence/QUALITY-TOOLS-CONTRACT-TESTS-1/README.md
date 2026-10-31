@@ -1,5 +1,38 @@
 # 工具专测合同：计数、范围、环境与输入
 
+Status: recorded
+Last reviewed: 2026-10-30
+Owner: Codex
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+id：QUALITY-TOOLS-CONTRACT-TESTS-1；Owner：Codex，单 Agent。原窗口基点 `123595ac3a651957b36061eacced329369c495e5`，证据候选来自本窗冻结工作树、按文件指纹定位，发布以受保护PR实际状态为准。[百文件窗口](../../tasks/QUALITY-PENDING-100-1.md)首三子批为[计数/范围/环境/输入专测](../../tasks/QUALITY-TOOLS-CONTRACT-TESTS-1.md)、[预检/探针](../../tasks/QUALITY-COVERAGE-PREFLIGHT-PROBES-1.md)与[初始化器fixture](../../tasks/QUALITY-INITIALIZER-FIXTURES-1.md)。Status=recorded按内容实况：本页原始命令、校验和与raw证明原冻结候选，2026-10-28后的夹具移动、证据勘误和获批修复改用[两百文件抽核](../QUALITY-RECENT-200-ACCEPTANCE-AUDIT-1/README.md)复验，旧raw不回填成当前结果。
+
+## 来源与输入
+
+100个主体文件逐个全文A–H、caller与oracle见[唯一文件索引](review.json)；相邻实现/配置/runner补读仅作依赖绑定，不计100。fixtures是窄工具或原生计数探针输入，不冒称真实游戏资源或完整content schema；同形fixture源于两/三路、node/jsdom初始化器合并，取舍逐文件记录。完整TAP、原生事件、命令/时间/exit/诊断及全部变异原件见[native归档](native.json.gz)与review.json成员指纹。
+
+## 断言与业务 oracle
+
+三个单点变异分别删除covered上限、损坏精确整数比较、漏记同数身份替换，均旧绿、新恰一指定AssertionError；第四个向临时fixture子进程注入stderr，原宿主忽略而通过、新宿主恰一AssertionError，属测试质量反控，未冒称产品红例先行。四个专测14→22，原normalize标题更名保留合法计数合同，旧弱异常断言迁到完整输入；探针十个身份不变，配置五例/保护两例不增加重复合同；完整Node原生事件给真实file×name×status，报告提取而不自报passed。
+
+## 结果
+
+各时点保留、不相加：前70主体时点70／约100主体文件代码接受，账本3467 tracked／664 closed／0 review／2803 pending；工具回归前70时点136 passed，冻结后六精确退役数据行更新，当前141 passed、0 fail/skip/todo。后续同窗子批：[零诊断排重](../../tasks/QUALITY-LINT-ZERO-TEST-CONTRACT-1.md)完成1主体（原27→25）；[资源清单三专测](../../tasks/QUALITY-EXTRACT-MANIFEST-TESTS-1.md)完成3主体；[表解析子卡](../../tasks/QUALITY-EXTRACT-TABLE-TESTS-1.md)新增21主体（最终20实际测试文件66/66）；[事件编解码](../../tasks/QUALITY-EXTRACT-EVENT-TESTS-1.md)新增14主体（事件专测60→58）；[原盘表子卡](../../tasks/QUALITY-EXTRACT-RAW-TABLE-TESTS-1.md)新增tables1主体（104旧身份逐一映射）。main已快进72db4172、原窗口基点123595ac保留。末30主体由[资产与渲染唯一入口](asset-render/README.md)承载，窗口累计100实际主体、机器3465/694/0/2771。集中门见[统一回执与只读复验](uniform/README.md)：最终本地pnpm check实际exit0，20536包测试＋732工具测试、七包TC、whole lint 0；唯一official 20,188 fast/809，原报告有限调整后ratchet与protected重放0。PR30首轮fast因原盘依赖失败，[CI增量](uniform/ci-rng/README.md)补自足输入与既有raw通道路由、原盘断言逐字节保留，必要新采集20188/809和protected 0，七包逐文件计数等于首报；历史“唯一”只指首候选，总计两份实际报告。最终机器3466/695closed/0review/2771pending，primary100不变。
+
+## 限制与复核
+
+70文件代码质量结论不授其它pending或产品/E2E/视觉信用；两个非阻断相邻候选（game测试配置中旧L2命令注释、JSON预检IO错误分类措辞）已登记。低成本复验：`shasum -a 256 -c docs/ops/evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/checksums.sha256` 应全部OK，核身份与附件、不证明语义设计；原生事件/实际结果从native.json.gz解压读取，review.json给成员SHA及执行nativeCounts，每条反控可在独占临时树重放。必要动态复验为 `node --test --test-reporter=tap scripts/coverage/*.test.mjs`（约3秒工具回归，不运行官方覆盖率采集或产品整仓测试）；只有源码、caller、依赖或合同变化时才重验受影响claim。提交时远端尚未发布，本地统一门通过不冒称远端CI或合并已完成。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 15107B / SHA-256 23940e62ef21c4c40a2f8ef37fbb368e4d7eba2505a72d48fa77cc199653c42a；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# 工具专测合同：计数、范围、环境与输入
+
 当前版本提示：本页原始命令、校验和与raw证明原冻结候选。2026-10-28后的夹具移动、证据勘误和获批修复，改用[两百文件抽核](../QUALITY-RECENT-200-ACCEPTANCE-AUDIT-1/README.md)复验；旧raw不回填成当前结果。
 
 ## 证据身份
@@ -99,3 +132,5 @@ events-case-mapping.json逐项映射基线66身份。完整64B oracle补上goto�
 最终本地统一门已实际通过：20536包测试＋732工具测试、七包TC、whole lint0；唯一official20,188/809，原报告有限调整与protected重放0。原失败不改写；所有细节见统一入口。提交时远端尚未发布，本地卡done不冒称远端CI或合并已完成。
 
 PR30首轮fast因原盘依赖失败，当前有限[CI增量](uniform/ci-rng/README.md)已补自足输入与既有raw通道路由；原盘断言逐字节保留。必要新采集20188/809和protected0，七包逐文件计数等于首报；历史“唯一”只指首候选，总计两份实际报告。机器3466/695closed/0review/2771pending；primary100不变，原盘伴随桥接不凑数。
+```
+<!-- incremental-original-source:end -->

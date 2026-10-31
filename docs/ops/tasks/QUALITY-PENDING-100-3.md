@@ -1,6 +1,39 @@
 # QUALITY-PENDING-100-3 — 第三治理窗口：按复杂度逐片核验 pending
 
 Status: review
+Last reviewed: 2026-10-30
+Owner: Codex
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+接续最近200文件复查，从仍pending的模块推进八维审核与必要质量返工。约100个实际完成主体只是集中重型门的默认节奏；按用户2026-10-28指示，复杂模块缩小切片，不降低标准、不用依赖补读凑数。
+
+## 范围
+
+基点e94098f949452bc3bf8d028f21bdc0a4e400ea22；机器初始3464 inventory／797 closed／0 review／2667 pending。首片3主体migration-path起，经十一片推进migrate模块（baseline/plan/project-io/write-plan/write-guard/transaction/merge各主测与专测）；相邻行为风险另开[控制目录卡](QUALITY-MIGRATION-CONTROL-OWNERSHIP-1.md)、[路径输入域卡](QUALITY-MIGRATION-BASELINE-PATH-DOMAIN-1.md)、[自有JSON字段卡](QUALITY-MIGRATION-MERGE-OWN-JSON-1.md)、[资源接管卡](QUALITY-MIGRATION-ASSET-TAKEOVER-1.md)与[窄接口退役卡](QUALITY-MIGRATION-UNMANAGED-AUDIT-RETIREMENT-1.md)，均经用户裁决后正式红绿窄修。产品路径政策、事务写入、资源格式、journal、schema/save和生成物不改。
+
+## 前提与证据
+
+基点门只证明起点：fetch成功、树干净、origin/main与同一治理分支0/0；main的documentation 40708753365、fast-coverage 40708753193已成功，不替本窗口未提交代码授门禁信用。质量合同锚[长期八维](../code-quality.md)、[现行工作流](../agent-workflow.md)、[阶段规则](../../phase2/READ-FIRST.md)与[历史写入保护卡](../archive/tasks/done/MIGRATION-WRITE-GUARD-1-planned-snapshot-and-paths.md)；逐文件A–H、旧→新断言映射、原生身份与完整raw落在[窗口证据](../evidence/QUALITY-PENDING-100-3/README.md)。用户2026-10-29命名与组织补审后，178旧closed静态候选转[命名组织专项](QUALITY-NAMING-ORGANIZATION-1.md)仅F/G补审；原29已读主体先更正为20完成、9项F/G待补，返工后全恢复代码信用、当前实际主体路径25。
+
+## 验收
+
+各片局部验收（99/104/113/114/168/215/214/213相邻绿与TC0）均片时原样保留、不相加；正式反控先红后修、finally逐字节恢复。2026-10-31集中代码接收：原29主体与命名历史固定178沿各自完整八维/版本桥接收，317路径汇总见[窗口收尾](../evidence/QUALITY-PENDING-100-3/local-closeout.json)；全仓20,548／单次fast 20,199及同报告ratchet/protected通过。
+
+## 状态与交接
+
+本窗口代码接收、完整原件及最终文档/静态复验已完成；check20,548、单次fast20,199、同报告ratchet/protected、6301文件lint零诊断。行为修复1c0de481a与职责重组7f6b41d9a分提交。本卡review只等待同一治理分支的PR、远端必需检查与合并，未声称已发布；固定cohort178已补审、本goal174无剩余；范围外5个cov85文件F/G仍review、其余2632 pending不动。无下一位Agent提示词，由Codex完成发布。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 33198B / SHA-256 5798e2cc0fde275a034d8ad94ecec6837d6bdbb9b9ce11b2be5a83ea30295750；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# QUALITY-PENDING-100-3 — 第三治理窗口：按复杂度逐片核验 pending
+
+Status: review
 Owner: Codex
 Reviewer: Codex（单 Agent）
 Phase: ops（具体文件按第一／二阶段区分）
@@ -235,3 +268,5 @@ GLM核心14处as/6处!及边界5处!消除；模板/精灵伪@string对象改为
 ## 2026-10-31 本地门与发布交接
 
 本窗口代码接收、完整原件及最终文档/静态复验已完成；check20,548、单次fast20,199、同报告ratchet/protected、6301文件lint零诊断。行为修复1c0de481a与职责重组7f6b41d9a分提交；本卡转review只等待同一治理分支的PR、远端必需检查与合并，未声称已发布。历史阶段性待门文本按当时范围保留，以本节及窗口local-closeout为当前本地状态。固定cohort178已补审，本goal174无剩余；范围外5项F/G仍review、2632pending不动。无下一位Agent提示词，由Codex完成发布。
+```
+<!-- incremental-original-source:end -->

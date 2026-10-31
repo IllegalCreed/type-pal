@@ -1,6 +1,39 @@
 # QUALITY-RECENT-200-ACCEPTANCE-AUDIT-1 — 两百文件回执返工与风险抽核
 
 Status: done
+Last reviewed: 2026-10-30
+Owner: Codex
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+落实用户2026-10-28指令：修好第一窗口已发现的证据问题，再抽核最近200个快速完成文件的质量信用；结论必须能低成本定位实际代码、caller、oracle及未知，不能由模板、指纹或绿门自动获得。
+
+## 范围
+
+第一窗口资产/渲染整片30文件＋追加24个风险样本（重叠8），合计46个既有主体；同域旧boot夹具扩核1、另loader HTTP宿主1不计主体，共47/200。此前15测试与7夹具的全文读域只在版本匹配、具体claim仍成立时复用。写白限于46文件内必要的注释/测试/夹具整改与原回执/账本投影；不是随机统计抽样，不外推其余文件；新增关闭信用0。锚[长期八维](../code-quality.md)、[工作流](../agent-workflow.md)、[原资产/渲染任务](QUALITY-GAME-ASSET-RENDER-TESTS-1.md)、[首窗口](QUALITY-PENDING-100-1.md)、[第二窗口](QUALITY-PENDING-100-2.md)；清单见[审查索引](../evidence/QUALITY-RECENT-200-ACCEPTANCE-AUDIT-1/audit.json)，原件见[本次证据入口](../evidence/QUALITY-RECENT-200-ACCEPTANCE-AUDIT-1/README.md)。
+
+## 前提与证据
+
+工程前提：已合并与全绿不足以证明八维合格，已发现15份C–H模板化及7份记录局部事实错误；最强替代解释是共享合同允许复用描述、生产caller可与测试入口不同，须核具体字段。版本基点b8b6989b952968ab60108ae45842ae5689822925；首次新fetch TLS失败不冒称已同步。
+
+## 验收
+
+已修五类问题：15份C–H与九项事实勘误、同域构造重复（旧boot夹具移asset-fixtures、五份同合同构造共用、22实际消费者169例前后均绿）、对话继承键漏拒绝（转对话定义卡）、present位置判别、FrameSequence无用异步暂存。机械初筛screen-200.json仅提供约20文件候选、不授语义信用。用户询问扩抽：建议再核约20个高风险文件（优先同类引用/字典、共用夹具、presence-only/self-derived oracle），此建议不是本回执已执行；未抽153不认证，不宣称200全面可靠。本地收口：全仓20506与七包typecheck通过、lint完整0/0/0，一次官方fast20157/809、ratchet和同报protected均0，原件见[门禁回执](../evidence/QUALITY-RECENT-200-ACCEPTANCE-AUDIT-1/gates.json)。
+
+## 状态与交接
+
+Codex独立验收有限范围代码/证据接受；47整改在一次集中门禁窗口收尾，随后同分支分提交，推送/PR/合并未由此段冒称完成。incoming-five.tar.gz与指纹保存在本机任务外部证据目录，原始已合入raw不改。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 5755B / SHA-256 b2765afc7b43d0f925bf0cd15f9543cf600fbf3226529175a6c279047fa7fb56；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# QUALITY-RECENT-200-ACCEPTANCE-AUDIT-1 — 两百文件回执返工与风险抽核
+
+Status: done
 Owner: Codex
 Reviewer: Codex（单Agent；本次实际抽核与既有证据复用分别记录）
 Phase: ops
@@ -57,3 +90,5 @@ Branch: codex/code-quality-94-102
 ## 本地收口（2026-10-28）
 
 Codex独立验收：本卡有限范围代码/证据接受。全仓20506包测试与七包typecheck通过，lint完整0/0/0；一次官方fast20157/809，ratchet和同报protected均0，指标无下降，源范围不移除。原件见[门禁回执](../evidence/QUALITY-RECENT-200-ACCEPTANCE-AUDIT-1/gates.json)。文档最终投影已单列零诊断复核，随后同分支分开纯测试重构与获批产品修复提交；推送/PR/合并未由此段冒称完成。后续扩抽建议不算本卡已执行。
+```
+<!-- incremental-original-source:end -->

@@ -24,8 +24,8 @@ current仅指导航。下方历史入口表与quote均包含旧候选、旧完�
 | 入口 | 在这里查什么 | 返回哪里裁定 |
 |---|---|---|
 | [全docs治理证据](DOCS-FULL-TEMPLATE-1/README.md) | 固定1838、迁移/退役/增量与历史R波证据 | [父任务卡](../tasks/DOCS-FULL-TEMPLATE-1.md)，不能由旧R波汇总恢复信用 |
-| [记录可信度返工](DOCS-RECORD-INTEGRITY-1/README.md) | 撤信范围、错误锚点、原件保全与纠错回执 | [可信度卡](../tasks/DOCS-RECORD-INTEGRITY-1.md)，按明确counter逐项闭合 |
-| [registry存储证据](DOCS-REGISTRY-SPLIT-1/README.md) | 存储设计/实现与其限定验收 | [存储卡](../tasks/DOCS-REGISTRY-SPLIT-1.md)，结构正确不等于语义全量完成 |
+| [记录可信度返工](https://github.com/IllegalCreed/type-pal/blob/43403a826edcaf40509f55b51e6f6214723252ed/docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/README.md) | 撤信范围、错误锚点、原件保全与纠错回执 | [可信度卡](https://github.com/IllegalCreed/type-pal/blob/43403a826edcaf40509f55b51e6f6214723252ed/docs/ops/tasks/DOCS-RECORD-INTEGRITY-1.md)，按明确counter逐项闭合 |
+| [registry存储证据](https://github.com/IllegalCreed/type-pal/blob/43403a826edcaf40509f55b51e6f6214723252ed/docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md) | 存储设计/实现与其限定验收 | [存储卡](https://github.com/IllegalCreed/type-pal/blob/43403a826edcaf40509f55b51e6f6214723252ed/docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md)，结构正确不等于语义全量完成 |
 | [回合/结算边界返工卡](../tasks/TEST-GLM-GAME-TURN-BOUNDARIES-1.md#当前裁决2026-10-12) | 先前accept已撤回的裁定与缺失条件 | 不把下面历史候选目录当重新接受 |
 
 ### 固定原文列出的交付入口
@@ -80,7 +80,7 @@ current仅指导航。下方历史入口表与quote均包含旧候选、旧完�
 
 ## 证据与下一步
 
-任务Owner保存实际argv/cwd/候选与输入身份、起止/exit/signal、完整输出和失败/恢复原件；引用现有原件与唯一当前review，不为每次核验复制全套日志或新增sidecar。Codex按[证据验收协议](../document-quality.md)据证接受或精准返工，作者自验不代签。
+任务Owner保存实际argv/cwd/候选与输入身份、起止/exit/signal、完整输出和失败/恢复原件；引用现有原件与唯一当前review，不为每次核验复制全套日志或新增sidecar。Codex按[证据验收协议](https://github.com/IllegalCreed/type-pal/blob/43403a826edcaf40509f55b51e6f6214723252ed/docs/ops/document-quality.md)据证接受或精准返工，作者自验不代签。
 
 新增/移动证据需说明原始生产者、caller、来源SHA、适用时点、保留理由和退出条件，并同步对应任务/索引。清理候选先核独有字段、字节pin、后继和历史引用；“过时”不直接等于可删，“有引用”也不直接证明永久必要。
 
@@ -245,6 +245,6 @@ current只指索引。历史执行资格、输入、覆盖、反控与独立性�
 > - [全 docs 盘点与模板治理证据](DOCS-FULL-TEMPLATE-1/README.md)
 <!-- original-source-quote:end -->
 
-- [R 波记录可信度返工](DOCS-RECORD-INTEGRITY-1/README.md)：撤回过度信用、原证据保全、真实重跑与逐篇待审清单。
-- [Registry 存储拆分](DOCS-REGISTRY-SPLIT-1/README.md)：设计限定接收、真实实现 counter 与逐项待验，未授全量通过。
+- [R 波记录可信度返工](https://github.com/IllegalCreed/type-pal/blob/43403a826edcaf40509f55b51e6f6214723252ed/docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/README.md)：撤回过度信用、原证据保全、真实重跑与逐篇待审清单。
+- [Registry 存储拆分](https://github.com/IllegalCreed/type-pal/blob/43403a826edcaf40509f55b51e6f6214723252ed/docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md)：设计限定接收、真实实现 counter 与逐项待验，未授全量通过。
 - [固定52个review文件收口](QUALITY-REVIEW-52-CLOSEOUT-1/README.md)：当前准入、逐文件八维、有效旧证据版本桥接与集中门。

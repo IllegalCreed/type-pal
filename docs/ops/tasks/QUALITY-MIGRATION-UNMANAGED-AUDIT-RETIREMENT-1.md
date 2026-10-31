@@ -1,6 +1,39 @@
 # QUALITY-MIGRATION-UNMANAGED-AUDIT-RETIREMENT-1 — 无生产调用的非托管哈希接口
 
 Status: review
+Last reviewed: 2026-10-30
+Owner: Codex
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+裁决并退役migration-project-io.ts中无生产调用的 `hashUnmanagedProjectFiles`、`assertHashMapsEqual` 两个内部named export及其私有递归walker。
+
+## 范围
+
+删除前冻结候选中这两出口只有三份专测调用；真实 `scripts/migrate-content.mts` 只调用发现、加载、TOCTOU三个出口；包根index不导出这两项。完整模块引用枚举、CLI、write-plan及旧52回执已核，不将grep零命中本身当调用语义证明。
+
+## 前提与证据
+
+旧52回执D维“两项hash差异接口各有真实plan/执行用途”无当前代码依据；对应实现旧关闭撤review、其它已支撑合同保留，不把主测或整包一概撤回。父窗口先前“实现/主测仍pending”的交接也不准确：两者在live表已关闭，不能计入本窗口新增原pending完成数。最强替代解释：外部或动态消费者仍需这两函数——若找到实际运行调用、公共包出口或保留需求，本卡须改为保留且纠正调用图。原件/调用和退役身份映射写入[父窗口证据](../evidence/QUALITY-PENDING-100-3/README.md)；候选基点e94098f949452bc3bf8d028f21bdc0a4e400ea22。
+
+## 验收
+
+2026-10-29用户明确批准“允许退役并迁移有效断言（推荐）”。两出口、walker及unused fs/path import已移除，保留四个函数（含private路径守卫）签名/正文逐字节相同；6个旧专属身份精确退休，三种TOCTOU拆开、旧脚本/旁车不托管及读取保留字节迁到现用入口。当前源/主测分别补全A–H，代码接受；相邻11文件73测试与migrate typecheck通过。此前77是接口退役前检查点，不改写或与73相加。
+
+## 状态与交接
+
+两项旧关闭暂review等本窗口门，不重复计原pending主体或新增关闭；未执行全仓/official/protected、真实迁移或发布。旧专测不可直接在删出口的新源上重放，两个测试质量反控仍以各自冻结源/测试身份定位。无新产品裁决待办，统一门/提交/推送/合并留父窗口。无下一位Agent提示词。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 4018B / SHA-256 aedcf20df9149bd5149613797dc6ada1044db1d9b11790c12723ae5347e980a2；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# QUALITY-MIGRATION-UNMANAGED-AUDIT-RETIREMENT-1 — 无生产调用的非托管哈希接口
+
+Status: review
 Owner: Codex
 Coding Owner: Codex
 Reviewer: Codex（单 Agent）
@@ -40,3 +73,5 @@ AGENTS要求接口退役先核授权，本卡在用户裁决前不删除产品�
 两出口、walker及unused fs/path import已移除，保留四个函数（含private路径守卫）签名/正文逐字节相同，剩余语法仅允许删除上述部分；证明与完整原件在父窗口附件。6个旧专属身份精确退休；三种TOCTOU拆开，旧脚本/旁车不托管及读取保留字节迁到现用入口。当前源/主测分别补全A–H，代码接受；两项旧关闭暂review等本窗口门，不重复计原pending主体或新增关闭。
 
 当前相邻11文件73测试与migrate typecheck通过、stdout/stderr完整，未执行全仓/official/protected、真实迁移或发布。此前77是接口退役前检查点，不改写或与73相加。两个测试质量反控仍以各自冻结源/测试身份定位，现用函数未变，旧专测不可直接在删出口的新源上重放。无新产品裁决待办。
+```
+<!-- incremental-original-source:end -->
