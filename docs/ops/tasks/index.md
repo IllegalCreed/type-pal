@@ -80,7 +80,6 @@ Template: governance-index-v1 / 1.0.0
 | [QUALITY-MIGRATION-CONTROL-OWNERSHIP-1 — 事务内部写入路径所有权](QUALITY-MIGRATION-CONTROL-OWNERSHIP-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-MIGRATION-MERGE-OWN-JSON-1 — 三方合并 JSON 字段所有权](QUALITY-MIGRATION-MERGE-OWN-JSON-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-MIGRATION-UNMANAGED-AUDIT-RETIREMENT-1 — 无生产调用的非托管哈希接口](QUALITY-MIGRATION-UNMANAGED-AUDIT-RETIREMENT-1.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [QUALITY-NAMING-ORGANIZATION-1 — 命名与文件职责补审](QUALITY-NAMING-ORGANIZATION-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-PENDING-100-3 — 第三治理窗口：按复杂度逐片核验 pending](QUALITY-PENDING-100-3.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-RLE-COMMAND-TRUTH-1 — PAL RLE高位literal判定前提核验](QUALITY-RLE-COMMAND-TRUTH-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [REFORGE-OPENING-LOAD-ERROR-1 — 标题读档IO失败的悬空拒绝](REFORGE-OPENING-LOAD-ERROR-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
@@ -544,6 +543,7 @@ Template: governance-index-v1 / 1.0.0
 | [QUALITY-LEGACY-OGG-RETIREMENT-1 — 未接入的旧OGG后端退役](QUALITY-LEGACY-OGG-RETIREMENT-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-LINT-ZERO-TEST-CONTRACT-1 — 零诊断专测输入排重](QUALITY-LINT-ZERO-TEST-CONTRACT-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-LOCALE-DEFINITION-OWNERSHIP-1 — 二阶段文本缺键回退](QUALITY-LOCALE-DEFINITION-OWNERSHIP-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [QUALITY-NAMING-ORGANIZATION-1 — 命名与文件职责补审](QUALITY-NAMING-ORGANIZATION-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-PENDING-100-1 — 约百文件代码治理窗口](QUALITY-PENDING-100-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-PENDING-100-2 — 第二个百文件代码治理窗口](QUALITY-PENDING-100-2.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-PRE94-RETROSPECTIVE-1 — 94前全部治理成果逐卡复审](QUALITY-PRE94-RETROSPECTIVE-1.md) | done | 完成证据、历史签字与交接见原卡。 |

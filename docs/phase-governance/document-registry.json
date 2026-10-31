@@ -45,13 +45,8 @@
       "test-contract": 1,
       "test-catalog": 4
     },
-    "reviewStatus": {
-      "content-reviewed": 2346
-    },
-    "templateCompliance": {
-      "template-compliant": 2346,
-      "governed-legacy": 0
-    }
+    "reviewStatus": { "content-reviewed": 2346 },
+    "templateCompliance": { "template-compliant": 2346, "governed-legacy": 0 }
   },
   "entries": [
     {
@@ -25231,7 +25226,7 @@
       "templateId": "archive-record-v1",
       "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewRecord": "20261017-r93-phase-governance-artifacts.json",
+      "reviewRecord": "20261017-r94-final-machine-artifacts.json",
       "historyOverlay": true,
       "artifactOnly": true,
       "artifactEnvelope": true,
@@ -25576,7 +25571,7 @@
       "templateId": "archive-record-v1",
       "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewRecord": "20261017-r93-phase-governance-artifacts.json",
+      "reviewRecord": "20261017-r94-final-machine-artifacts.json",
       "historyOverlay": true,
       "artifactOnly": true,
       "artifactEnvelope": true,
@@ -26010,7 +26005,7 @@
       "templateId": "archive-record-v1",
       "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewRecord": "20261017-r93-phase-governance-artifacts.json",
+      "reviewRecord": "20261017-r94-final-machine-artifacts.json",
       "historyOverlay": true,
       "artifactOnly": true,
       "artifactEnvelope": true,

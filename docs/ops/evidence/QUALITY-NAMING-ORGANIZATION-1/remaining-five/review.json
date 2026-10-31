@@ -1,0 +1,520 @@
+{
+  "date": "2026-11-01",
+  "base": "5e66fa6b6291f94330fb5d7fc9828062e0eb8a51",
+  "branch": "codex/code-quality-94-102",
+  "owner": "Codex; single agent",
+  "candidate": "Uncommitted exact bytes pinned, subsequent commit freezes this bounded packet. No product implementation delta.",
+  "files": [
+    {
+      "path": "packages/game/src/core/battle-world-opcodes.test.ts",
+      "sha256": "e2a17cfbefa55f1c01145ac215796b083383162e47ef7f3c44159efd47780a28",
+      "lines": 427,
+      "decision": "accepted after per-file A-H, identity/counter evidence and consolidated local gates; remote publication tracked separately",
+      "readMethod": "Original complete file and final changed callback/import/hook/fixture closure read; split responsibilities individually assessed. Exact formatting-only bytes pinned.",
+      "axes": {
+        "A": "31例通过runScript(runtimeMode=battle)进入世界fallback；真实bus/RNG、完整256色表与同对象NPC，沿用已核窗口脚本真值。",
+        "B": "模块名纠正旧event大桶误导，明确local cursor不等于world waiting；无stopMusic淡出全实现宣称。",
+        "C": "隔离只供battle fallback的map service/global catalog；0x75真正world lifecycle已拆出，不混同runtimeMode。",
+        "D": "palette/NPC/run helpers仍本文件局部，输入/归属一致才复用；不与direct battle opcode dispatcher合并。",
+        "E": "31callback一字句法保持（私有名桥之外），旧3个业务反控及literal trail仍适用；新950相邻核实际接线。",
+        "F": "battle-world-opcodes表达调用边界，非作者/版本标记；typed数据和短helper解释环境。",
+        "G": "去掉只为0x75安装的equipment/poison cleanup；保留同一fallback入口的31有效合同。",
+        "H": "公共runScript服务注入可控，真实state效果可观察；没有额外核心mock或随机墙钟依赖。"
+      }
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-opcode.test-fixtures.ts",
+      "sha256": "20b3d79c258fa4a8ab8f12afb65f18ec64fb45d35de5ebe520a74017f05b1162",
+      "lines": 5,
+      "decision": "accepted after per-file A-H, identity/counter evidence and consolidated local gates; remote publication tracked separately",
+      "readMethod": "Original complete file and final changed callback/import/hook/fixture closure read; split responsibilities individually assessed. Exact formatting-only bytes pinned.",
+      "axes": {
+        "A": "直接筛选真实BusEntry.cmd的showDamageNum判别联合，保留op和所有字段，无弱类型投影。",
+        "B": "注释只解释为什么保留判别字段，不声称包级覆盖。",
+        "C": "无状态、无IO、无hooks；damage/status两个真实消费者，其它控制分支不依赖。",
+        "D": "抽取的是完全同语义命令筛选，未抽取不同伤害计算或expected oracle。",
+        "E": "两个消费者真实总线与字面结果断言支撑；原命令对象身份与全部字段保持。",
+        "F": "damageNums位于battle-opcode fixture表达输入/输出；短函数控制流清楚。",
+        "G": "一处筛选替代两份实现；没有为了复用增加额外导出模式。",
+        "H": "纯函数可直接观察消费者结果，无需改产品API或mock真实bus。"
+      }
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-opcodes.control.test.ts",
+      "sha256": "ebe0c85003348267b56edd185b5aaa6b047ec8ea4e4ff6905433a23a2fbcc495",
+      "lines": 418,
+      "decision": "accepted after per-file A-H, identity/counter evidence and consolidated local gates; remote publication tracked separately",
+      "readMethod": "Original complete file and final changed callback/import/hook/fixture closure read; split responsibilities individually assessed. Exact formatting-only bytes pinned.",
+      "axes": {
+        "A": "20例结果/跳转/收集/逃离/偷窃/敌槽控制；真实dispatch与完整Enemy/EnemyObject记录，缺上下文为显式支持的拒绝分支。",
+        "B": "控制组拆开不再和DrainHP/KO数值混装；queued RNG夹值注释如实保留，synthetic对象目录不冒称原盘剧情可达。",
+        "C": "只管控制流与敌编队变化；不再安装无关poison全局cleanup；每例新state及资源表，无IO。",
+        "D": "两个局部Item/EnemyObject builder只有本文件消费者，保留局部；不为跨家族表面相同数组建万能工厂。",
+        "E": "20callback精确保全；newIp/flags/health/inventory/dialogue是业务oracle，consumed断言只证明分派接收，不外推全状态无变。",
+        "F": "control名字连battle目录说明意图；各describe按真正opcode合同，既有局部短变量不妨碍短分支理解。",
+        "G": "抽离数值/毒后无弃置helper和hook；未据相似opcode名字删除不同失败策略的用例。",
+        "H": "RNG由已核queue stub控制；真实bus/状态结果可观察，资源查不到与空间不足可直接构造。"
+      }
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-opcodes.damage.test.ts",
+      "sha256": "b6568b7409aac540f6b8a6bb1af4ee9daca2c0f198cce310b2cc2eab6aed9f11",
+      "lines": 455,
+      "decision": "accepted after per-file A-H, identity/counter evidence and consolidated local gates; remote publication tracked separately",
+      "readMethod": "Original complete file and final changed callback/import/hook/fixture closure read; split responsibilities individually assessed. Exact formatting-only bytes pinned.",
+      "axes": {
+        "A": "21真实dispatch数值/复活用例；HP/MP和战斗快照由ctx显式持有，空目标/缺表是明确拒绝域；复用3t/复活已批准真值。",
+        "B": "删除行号批次叙述；DrainHP标题收窄到实际缺target输入，不冒称测试缺caster；复活>999装备状态与普通状态区别保留。",
+        "C": "只承接伤害/恢复/复活，目标/状态/资源表是显式ctx；无IO或反向生产依赖，poison表由本文件afterEach恢复。",
+        "D": "仅与status共享真实showDamageNum筛选；领域计算和oracle不塞进helper，makeBattle沿用已核显式工厂。",
+        "E": "21callback保全、输入/断言去向映射；固定伤害/完整数字/复活装备状态是独立oracle，未删除未知重复候选。",
+        "F": "damage路径表达资源到数值结果，按opcode业务组；没有作者/覆盖率标识充当职责。",
+        "G": "删除原混装文件后唯一承接这些身份；无新空转case或为覆盖率堆断言。",
+        "H": "使用真实dispatch+确定性RNG和可见HP/MP/command结果；不mock核心公式，不扩大产品出口。"
+      }
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-opcodes.status.test.ts",
+      "sha256": "ec8586397de2ee889716064a1998dcd0f177efd40cdd4d86bb344ec527cf0286",
+      "lines": 331,
+      "decision": "accepted after per-file A-H, identity/counter evidence and consolidated local gates; remote publication tracked separately",
+      "readMethod": "Original complete file and final changed callback/import/hook/fixture closure read; split responsibilities individually assessed. Exact formatting-only bytes pinned.",
+      "axes": {
+        "A": "16例毒/状态/临时属性；player角色与party-slot按既有真值，full poison slots/1000装备duration保留；未知属性行用显式role命中守卫。",
+        "B": "说明未知row为何要指定role；标题不再冒称未观察的selfIdx执行，保留目标优先级与装备态不清的不变量。",
+        "C": "状态写入属于dispatch/poison/equipment owner；测试注入poison表并afterEach清理，无跨文件共享可变GS。",
+        "D": "与damage共用精确命令筛选，其余poison与装备状态输入语义不同保持专用。",
+        "E": "15callback精确保全，1例修正旧伪命中：未知row和无角色分支后核整份roles/effects；已有负百分比结果保留。",
+        "F": "status路径和分组直接表达毒、普通状态、临时装备行，不以原cov85组名组织。",
+        "G": "未知row原来被缺目标提前返回，修正已有例而非加弱重复；保留数值和owner轴。",
+        "H": "完整真实状态可直接观察；没有新测试专用产品入口或宽ctx万能wrapper。"
+      }
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-start.test-fixtures.ts",
+      "sha256": "53194619d34fff45d7559b4dc1b5556f509b146ea6858db2d2450a09e12ccf76",
+      "lines": 44,
+      "decision": "accepted after per-file A-H, identity/counter evidence and consolidated local gates; remote publication tracked separately",
+      "readMethod": "Original complete file and final changed callback/import/hook/fixture closure read; split responsibilities individually assessed. Exact formatting-only bytes pinned.",
+      "axes": {
+        "A": "完整typed records调用真实startBattle；party与roles配对并hydrate runtime，完整5槽、end命令、seed42。传入gs由caller拥有。",
+        "B": "函数注释说明构造/hydrate/资源所有权，不承诺fixture自动释放或完整剧情输入。",
+        "C": "只组合合法输入和初始化，无自动hooks/共享可变GS；battle lifecycle与idle两个真实消费者。",
+        "D": "复用battle-records；不同于直接dispatch makeBattle未hydrate策略，不合并两种初始化合同。",
+        "E": "由8 lifecycle+3idle真实consumer验证，去掉旧boot无消费参数与强转；不写镜像helper自比测试。",
+        "F": "startTestBattle/battleInput直述用途，显式可选输入而非模式布尔值。",
+        "G": "仅保留当前实际gs/roles/enemies/teamSlots需要；无未用spells/items/party/options。",
+        "H": "seed与资源显式，新state每次隔离；无隐藏IO、时间或fixture间状态依赖。"
+      }
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-system.lifecycle.test.ts",
+      "sha256": "c253ad7478a4ece7b3f1af3a2e442ad0c3b54bea3af09e8e1c9fc2eb286697cb",
+      "lines": 148,
+      "decision": "accepted after per-file A-H, identity/counter evidence and consolidated local gates; remote publication tracked separately",
+      "readMethod": "Original complete file and final changed callback/import/hook/fixture closure read; split responsibilities individually assessed. Exact formatting-only bytes pinned.",
+      "axes": {
+        "A": "8例真实startBattle/tickBattle资源接管、失能、stall及终态；fixture hydrate，selected turn未开始用undefined；flee选真实已入列玩家action。",
+        "B": "明确测试边界是隔离真实玩家队列项；不宣称完整敌方回合/E2E；失能attack占位与实际行动跳过分层说明。",
+        "C": "本文件持有生命周期、错误spy与finally恢复；idle计算独立，battle-start只构造数据与资源，不替caller释放。",
+        "D": "与enemy-idle两个真实消费者共享start fixture；不与不hydrate的直接dispatch fixture强行合并。",
+        "E": "旧flee在真实跳过performFlee变异下仍绿，新例单独因失败演出缺失AssertionError变红；傀儡先9再0、完整错误一次、整GS no-state与bus空均补强。",
+        "F": "lifecycle命名涵盖进入、推进与退出；清除未来回合伪值，状态准备按实际阶段表达。",
+        "G": "移除3个被现存强主测包含的重复：屏波handoff、真实fade hold、敌目标确认；每例有精确survivor映射。",
+        "H": "公开入口/seededRNG/队列边界可控；不fake核心生命周期。stall1510类假输入已改1500越界一tick；没有产品改动。"
+      }
+    },
+    {
+      "path": "packages/game/src/core/battle/enemy-idle.test.ts",
+      "sha256": "c77de53dd38ce8aa22664855e437785b661fb088faca655500f79fe6e86294b4",
+      "lines": 62,
+      "decision": "accepted after per-file A-H, identity/counter evidence and consolidated local gates; remote publication tracked separately",
+      "readMethod": "Original complete file and final changed callback/import/hook/fixture closure read; split responsibilities individually assessed. Exact formatting-only bytes pinned.",
+      "axes": {
+        "A": "3例直接idle progression：败退/HP0、sleep/paralyzed、countdown与currentFrame回绕；实装第四敌验证原来漏测的paralyzed。",
+        "B": "修正idleFrames=4与旧注3矛盾；模块头明确tick admission/animation hold由生命周期主测负责。",
+        "C": "只验证gesture推进，不混装战斗结算/交互；fresh battle由测试显式持有。",
+        "D": "复用start fixture完整合法敌槽，保留逐敌不同状态；无布尔模式统一闲置/行动动画。",
+        "E": "两个callback不变，一个加入实际paralyzed对象和tick不变；数值oracle0/1/2/3直接来自步骤合同。",
+        "F": "enemy-idle比原覆盖率桶明确；三个用例按冻结、倒数和当前帧三轴组织。",
+        "G": "不新增重复idle计数测试；原sleep断言与其它两条回绕轴均保留。",
+        "H": "纯tick可确定性验证，没有计时器/Canvas/渲染依赖；不把帧状态绿当视觉验收。"
+      }
+    },
+    {
+      "path": "packages/game/src/core/event-opcode-player.attributes.test.ts",
+      "sha256": "e4708c07884b760518678f2be11dd7ecbf74594115a14436e8b0ffe61df1488b",
+      "lines": 218,
+      "decision": "accepted after per-file A-H, identity/counter evidence and consolidated local gates; remote publication tracked separately",
+      "readMethod": "Original complete file and final changed callback/import/hook/fixture closure read; split responsibilities individually assessed. Exact formatting-only bytes pinned.",
+      "axes": {
+        "A": "15例属性/等级/法术容量与家族fallback；freshPlayerOpcodeState经loadDefaultGame hydrate，32法术槽以300..331合法对象域构造。",
+        "B": "清理旧行号/批次标题；保留七属性cap与18随机/三次升级的机制约束，不将合成脚本当普通剧情。",
+        "C": "属性、经验和学术目录属于player opcode owner；本组不用poison runner/global table，不再初始化无关spy。",
+        "D": "共用现存fresh state与完整记录；属性/装备/状态共同状态构造可复用，行为断言不抽入万能helper。",
+        "E": "14callback保全，满槽输入合法化1例；常量增长/消息/完整GS守卫沿用旧已验证反控，无删断言。",
+        "F": "attributes对应主要数值与学术容量，边界/非法role按标题直述；无旧覆盖率语义。",
+        "G": "移除不消费的poison设置和restore；不复制同合同state factory，异常计数guard保留独立结果。",
+        "H": "真dispatcher+确定性随机spy既有seam；afterEach恢复spy；未新增可测性债或产品测试接口。"
+      }
+    },
+    {
+      "path": "packages/game/src/core/event-opcode-player.equipment.test.ts",
+      "sha256": "806eeccdcc1abd0e623990861dea5c2d76bc5f67715bd9051f489eeaf5e7295d",
+      "lines": 141,
+      "decision": "accepted after per-file A-H, identity/counter evidence and consolidated local gates; remote publication tracked separately",
+      "readMethod": "Original complete file and final changed callback/import/hook/fixture closure read; split responsibilities individually assessed. Exact formatting-only bytes pinned.",
+      "axes": {
+        "A": "10例装备交换/效果行/空卸下，角色、装备表与inventory所有权明确，符号WORD与part索引按既有已核合同。",
+        "B": "说明写effect或写runtime的分支，不把所有equip opcode统称同一更新；去掉旧行号后按职责分组。",
+        "C": "装备相关输入、scriptOnEquip上下文与effect行在单模块；无无关poison mock/hook。",
+        "D": "只复用实际共同fresh GS，装备特有arr/part准备留case；没有扩大全游戏context。",
+        "E": "10callbacks保持，完整交换物品/装备行与符号数值结果；与state-transitions中的装备清毒完整生命周期不是同层重复。",
+        "F": "equipment文件直接对应模块合同；不按谁补写或某次coverage目标分片。",
+        "G": "仅迁移已有必要合同，移除未消费global准备；未删除无法证明等价的相邻用例。",
+        "H": "通过真实player dispatcher直接观测effects/inventory，runner依赖显式且只在需要时调用。"
+      }
+    },
+    {
+      "path": "packages/game/src/core/event-opcode-player.status.test.ts",
+      "sha256": "9981f7a0e694cb29fd371615bc97b4bac214d8149efde54a0e6dd15e20751a1b",
+      "lines": 269,
+      "decision": "accepted after per-file A-H, identity/counter evidence and consolidated local gates; remote publication tracked separately",
+      "readMethod": "Original complete file and final changed callback/import/hook/fixture closure read; split responsibilities individually assessed. Exact formatting-only bytes pinned.",
+      "axes": {
+        "A": "16例HP/MP、复活、毒与状态；完整初始角色和party，invalid status9先核全状态未变再执行合法状态5。",
+        "B": "复活装备duration边界按既有裁决；标题/注释不称整状态不变而只断言一格，现已核完整status。",
+        "C": "唯一需要poison runner的player分组，显式spy7返回并afterEach清poison表/恢复spy；其它组无此隐式依赖。",
+        "D": "共用fresh state，无共用全局可变poison state；state transitions保留独立跨脚本owner合同。",
+        "E": "15callbacks保全，1非法状态例完整before/after换强；原玩家/队伍、已死/装备状态反例保留。",
+        "F": "status命名把生命周期状态与属性/装备写入区分；局部上下文与目标名可直接读懂。",
+        "G": "没有因相似0x29调用误删不同role/party/runner归属轴；不增加仅数量型测试。",
+        "H": "真实状态和runner调用有内容oracle，非mock次数代替业务；固定时点无IO/取消资源。"
+      }
+    },
+    {
+      "path": "packages/game/src/core/event-party.equipment-refresh.test.ts",
+      "sha256": "356d1598be259713a475267f099e142c6b6022cd8b79e515c939f83cabec1c28",
+      "lines": 87,
+      "decision": "accepted after per-file A-H, identity/counter evidence and consolidated local gates; remote publication tracked separately",
+      "readMethod": "Original complete file and final changed callback/import/hook/fixture closure read; split responsibilities individually assessed. Exact formatting-only bytes pinned.",
+      "axes": {
+        "A": "唯一0x75实际tickEventSystem队伍刷新，真实269寿葫芦/563564装备毒与39163/40860/40858脚本；不是battle fallback。",
+        "B": "头部与断言如实说明world party/equipment ownership；全16毒槽oracle不冒称原盘通关。",
+        "C": "本文件自己持有equipment refresh handler、poison/catalog安装与afterEach清理；无关map reloader不再重置。",
+        "D": "不借battle runtime helper造相似输入，沿用完整角色records/真实equip owner，避免跨生命周期耦合。",
+        "E": "原一个callback完整保全、完整slots与equipment证据复用；不重复其底层独立状态测试。",
+        "F": "party.equipment-refresh名字可定位实际副作用，单例文件有清晰独立宿主合同。",
+        "G": "独立是因为runtime/cleanup不同，不为凑文件数；无额外抽象/空case。",
+        "H": "真实tick与现有handler seam，整状态oracle；不mock掉equipment refresh业务或扩大生产接口。"
+      }
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-driver.inventory.test.ts",
+      "sha256": "aad0912332fa26030061cb7647f5d6b46a331a8f5763f6645b09c3ab14c317cf",
+      "lines": 213,
+      "decision": "accepted after per-file A-H, identity/counter evidence and consolidated local gates; remote publication tracked separately",
+      "readMethod": "Original complete file and final changed callback/import/hook/fixture closure read; split responsibilities individually assessed. Exact formatting-only bytes pinned.",
+      "axes": {
+        "A": "8例物品一级菜单、使用目标、装备确认；每次动作在合法fresh stack起点，catalog与库存id配对。",
+        "B": "删除DM/DL任务标识标题，说明11个不同条目的必要性；不冒称script end fixture含真实物品治疗机制。",
+        "C": "目标选择与equip/use handoff在同叶；script catalog由本文件清理，load/quit不由它持有。",
+        "D": "menuItem/input/state共用，物品业务fixture调用现存inventory builder；真正use/equip差异不以布尔helper遮蔽。",
+        "E": "8例保留，7callback输入id修正/1跨栈场景改fresh分支；业务状态/选中物/脚本mode断言未丢。",
+        "F": "inventory命名包含实际二级行为，open action→use/equip的数据流直读可懂。",
+        "G": "去掉不可能的叠栈安排与无关hooks；不删除catalog缺失与不可装备反例。",
+        "H": "真实dispatch可直接观测stack与mode，不靠核心mock次数；脚本以明确end标签结束避免悬空。"
+      }
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-driver.magic.test.ts",
+      "sha256": "e195196768296bc99d689492e1559bec3366a9c17853e23a2fbdfe7545266bb7",
+      "lines": 186,
+      "decision": "accepted after per-file A-H, identity/counter evidence and consolidated local gates; remote publication tracked separately",
+      "readMethod": "Original complete file and final changed callback/import/hook/fixture closure read; split responsibilities individually assessed. Exact formatting-only bytes pinned.",
+      "axes": {
+        "A": "4例caster/spell/target和MP成本owner；合法349/350法术域，GS runtime hydrate，缺MP保持picker。",
+        "B": "修正残留50/51注释及未执行Up标题；描述按id排序，菜单driver扣蓝不归script runner。",
+        "C": "仅施法接线与选择生命周期，shared scripts显式安装并清空；不携带存档/quit生命周期。",
+        "D": "局部Spell/Magic构造只此处消费，复用既有magicWithCost，未做跨战斗/世界模式万能工厂。",
+        "E": "2callback精确保持、2只换id；MP35/0与phase/cursor是业务oracle，原弱断言未新增。",
+        "F": "magic路径和phase名称直述职责；4例各有施法决策与导航目的。",
+        "G": "无冗余load/quit resets；群体与单体不同phase保留，不以相似扣蓝合并丢轴。",
+        "H": "真实runtime/dispatch/projector及确定性noop脚本，直接看成本owner；无渲染/E2E信用。"
+      }
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-driver.system.test.ts",
+      "sha256": "61e1718166c7c9c827af77c0ea3db4d62210990719b726cf047d4a2d3404453d",
+      "lines": 284,
+      "decision": "accepted after per-file A-H, identity/counter evidence and consolidated local gates; remote publication tracked separately",
+      "readMethod": "Original complete file and final changed callback/import/hook/fixture closure read; split responsibilities individually assessed. Exact formatting-only bytes pinned.",
+      "axes": {
+        "A": "15例catalog admission/system/status/save/load；真实Save内存fallback。异步reject被dispatcher消费；同步throw仍传播，未借治理改产品。",
+        "B": "音乐/退出/状态页标题收窄到实发按键；注释明确同步异常与异步拒绝不同catch域，保留不改公共合同边界。",
+        "C": "load/quit handlers、console spies、Save槽位由本叶afterEach恢复；真正等待Save完成，不跨case残留Promise。",
+        "D": "通用输入/GS共用，system专用openSys局部；异步与同步生命周期不强行共用布尔wrapper。",
+        "E": "空栈完整GS换强，缺handler精确一次全消息；15存活原例，删除另1未await同步保存子集由同叶强异步例含currentSlot/stack/load接替。",
+        "F": "system按实际导航与存读档owner组织，私有helper命名清楚，移除含DL编号标题。",
+        "G": "不再重复无等待的save用例，保留同步throw/异步reject不同传播合同；不将Save计数mock当持久化成功。",
+        "H": "公共save memory seam与精确错误spy；模块未初始化守卫用resetModules独立import，静态旧引用保持自己的模块实例。"
+      }
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-driver.test-fixtures.ts",
+      "sha256": "5ec48429067bc0b0a652811a83492cbfa49097ec663cfdf2d43bed9f78cdb321",
+      "lines": 65,
+      "decision": "accepted after per-file A-H, identity/counter evidence and consolidated local gates; remote publication tracked separately",
+      "readMethod": "Original complete file and final changed callback/import/hook/fixture closure read; split responsibilities individually assessed. Exact formatting-only bytes pinned.",
+      "axes": {
+        "A": "只持有输入/角色/物品/脚本记录构造；GS通过hydrate得到合法maxHP/HP；Item共用inventoryItem后覆盖显式字段。",
+        "B": "声明synthetic flags/names与合法item域，明确无自动hook/共享状态；不冒称原盘数据一致。",
+        "C": "四个实际消费者各自安装/恢复资源；fixture返回fresh对象，catalog factory不复用可变实例。",
+        "D": "Item输入语义与既有inventoryItem一致；Spell/Magic只一个消费者留其局部，不造万能数据工厂。",
+        "E": "36个菜单consumer覆盖所有实际参数；AST闭包记录旧→新helper差异，GS hydrate是显式合法化，不谎称逐字节GS等价。",
+        "F": "menuInput/createMenuGameState/menuRoleRecords等命名替代snap/mkGs/typedRoles缩写，传入party含义清楚。",
+        "G": "删去flags wrapper与stocked多余slice；无未来参数、额外mock或dead export。",
+        "H": "无单例数据/IO，noop脚本显式end标签；能以public production consumer观察，未增加测试专用产品接口。"
+      }
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-driver.trading.test.ts",
+      "sha256": "cd10e8d97a47a74f758fb81ad759a1d99b04f15bdec15c2991f0b599061a02af",
+      "lines": 224,
+      "decision": "accepted after per-file A-H, identity/counter evidence and consolidated local gates; remote publication tracked separately",
+      "readMethod": "Original complete file and final changed callback/import/hook/fixture closure read; split responsibilities individually assessed. Exact formatting-only bytes pinned.",
+      "axes": {
+        "A": "9例真实输入到买卖交易、菜单脚本恢复；hydrate角色、item105..116合法域，价格数量不变。",
+        "B": "清理DL/C5批次标记，保留真实addItem按id合并的输入限制；买卖不冒称渲染。",
+        "C": "只有交易和脚本恢复，不安装load/quit spy清理；global events由本文件安装/清空。",
+        "D": "复用shared menu data/input与原inventoryItem；与pure shop-state不同调用层，交易确认caller保留。",
+        "E": "7callbacks保全、2只映射合法itemid及expectedid；真实cash/inventory和resume结果不是mock。",
+        "F": "trading表达交易编排，shop/sell组各有明确确认与列表状态；移除stocked绕行slice。",
+        "G": "无新测试，只裁正输入和helper；买卖菜单纯状态测试与dispatcher接线并非同合同重复。",
+        "H": "确定性输入+真实state+tickMenu；无网络/Canvas及未来抽象。"
+      }
+    }
+  ],
+  "readScope": {
+    "fiveOriginals": [
+      {
+        "path": "packages/game/src/core/battle/battle-opcodes.cov85.test.ts",
+        "sha256": "1973920570f28749d1e12bae5aef0288a6cef5c093f8056c3651c7bf458c2521",
+        "lines": 1229
+      },
+      {
+        "path": "packages/game/src/core/battle/battle-system.cov85.test.ts",
+        "sha256": "2535058ab864e0f3ede02d384d9e01aecab9028793a51326e96a4f8277675b22",
+        "lines": 337
+      },
+      {
+        "path": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "sha256": "c76b60c9e44575586fa313ae98fa018e27f33b0b7612734abbb19e431773a901",
+        "lines": 595
+      },
+      {
+        "path": "packages/game/src/core/event-opcodes.cov85.test.ts",
+        "sha256": "77921c7c660aa1fd4c1254ae798c99df2dbe74ac096230b1a533f1ce99da15f7",
+        "lines": 519
+      },
+      {
+        "path": "packages/game/src/core/menu/menu-driver.cov85.test.ts",
+        "sha256": "1d245e33205ccef8f15c87b29a8d56b5549471e430f3eacff75254c18cad688d",
+        "lines": 967
+      }
+    ],
+    "currentFullContext": [
+      "core/event-opcode-player.ts",
+      "core/menu/menu-driver.ts",
+      "core/menu/menu-mode.ts",
+      "core/menu/menu-stack.ts",
+      "core/menu/menu-driver.test.ts",
+      "core/event-opcode-player.test.ts",
+      "core/event-opcode-player.state-transitions.test.ts",
+      "__tests__/battle-records.ts",
+      "__tests__/coverage85-glm-game/harness.ts",
+      "core/event-opcode-player.test-fixtures.ts",
+      "core/menu/__tests__/inventory-fixture.ts",
+      "core/battle/actions/flee.ts"
+    ],
+    "finiteBattleSystemRanges": [
+      "114-590",
+      "631-780",
+      "800-940",
+      "1680-1730",
+      "2400-2500",
+      "2565-2615"
+    ],
+    "primaryCurrent": [
+      "reference/sdlpal/fight.c:4117-4185",
+      "docs/phase1/game-mechanics.md:922-950"
+    ],
+    "reused": [
+      "QUALITY-PRE94-RETROSPECTIVE-1/event-opcodes-quality/review.json",
+      "QUALITY-PRE94-RETROSPECTIVE-1/mode-player-closeout/review.json",
+      "QUALITY-PRE94-RETROSPECTIVE-1/3s-battle-system/README.md",
+      "CODE-QUALITY-94/approved-closeout/review.json",
+      "QUALITY-REVIEW-52-CLOSEOUT-1/approved-remaining-reviewed.json",
+      "QUALITY-PENDING-100-3/organization-opcode-controls.json",
+      "QUALITY-PENDING-100-3/organization-event-transitions.json"
+    ],
+    "versionBridge": "battle-system/state/game-state/poison/rng current hashes match the event-opcodes-quality acceptance pins. Current event-system/equip-effect/command-bus/magic-script/harness diff from4ae01d read: retired empty bus notifications/unused args; equipment comments/type cast only; map reject ownership already approved; literal factory move. Current caller paths rechecked above. Older full read does not imply all current5000 lines newly read."
+  },
+  "mapping": {
+    "path": "mapping.json",
+    "original": 181,
+    "surviving": 177,
+    "retired": 4,
+    "exactCallbacksAfterFinitePrivateRenames": 153,
+    "explicitChangedCallbacks": 24,
+    "limitation": "Exact callback does not prove identical fixtures/hooks; dependency closures and per-output reviews separately record their changes. Number of assertions is not acceptance."
+  },
+  "findings": [
+    "Original flee test survives real skipped-performFlee mutant; repaired existing test now fails on actual failure animation, not collection/RNG spy only.",
+    "Unknown attribute-row case formerly stopped at missing role, now reaches actual row guard and asserts full unchanged state.",
+    "Legal hydrated menu runtime and domain ids; no future turn sentinels; duplicate cases subsumed by stronger actual callers.",
+    "Misleading title axes and old numeric comments corrected; new paths follow responsibilities, not AI names or task ids."
+  ],
+  "processDisclosure": [
+    "First title-cleanup regex accidentally removed numeric call parentheses and caused15 directed failures. No product delta. Failed candidate bytes and raw kept; regenerated from frozen originals and replaced only AST title nodes. All177 callbacks mapped and reviewed.",
+    "Sleeping placeholder initially guessed pass; real autoFill produces attack placeholder and perform owns skip. Failed run retained, oracle corrected from source.",
+    "Flee first mutant red stopped at RNG spy; r2 checks actual animation first and produces one business AssertionError. Both originals retained.",
+    "typecheck stdout/stderr are retained; initial standalone invocation had no durable timestamp receipt, exit0 was observed by tool. Full check reran game typecheck successfully with full capture.",
+    "Final docs first stalled in an owned temporary fixture git hash-object stdin child (sampled read wait); terminated only that child. Exact command retry passed131 tooling tests, then rejected2 status projection issues. Done card removed from active board, index regenerated, final static docs replay follows. Diff check patch whitespace was an empty context line; shortened valid hunk, git apply --check passed. All failed originals retained; no product/rule delta."
+  ],
+  "validation": {
+    "directedFinal": "22 actual files/950 tests,177 reorganized +773 adjacent; exit0,stderr0. One normal saved-to-slot stdout from unchanged neighboring menu-driver main test is disclosed, not an act/environment/static diagnostic.",
+    "counter": "Old selected flee1 green; final new selected flee1 AssertionError, source SHA restored exactly; patch is reproducible and should only be applied in isolated review tree.",
+    "runtimeDiagnostics": {
+      "errors": 0,
+      "warnings": 0,
+      "infoDiagnostics": 0,
+      "ordinarySaveStdout": 1
+    },
+    "fixtureValues": "14 complete Item records + full2-role record +3Input set comparisons match frozen providers after explicit identifier-domain bridge; GameState hydrate deliberately differs. Temporary probe retained, no added mirror unit test.",
+    "consolidated": "Full check20,544 tests/seven package typechecks/tool suites passed; command exit1 only at final5format+1size lint diagnostics. Affected metadata repaired; docs and lint replay0. One official fast20,195/815sources exit0, same-report protected exit0; no downward baseline adjustment. Native originals and exact commands in gates.json/gates.raw.json.gz.",
+    "publication": "Local acceptance only at receipt creation; commits/PR/checks/merge are separately observed and recorded in PR delivery receipt."
+  },
+  "limits": [
+    "No new visual/E2E/ordinary-story acceptance. Flee test isolates the real player queue entry and does not simulate the complete enemy turn.",
+    "Existing coverage85-glm-game/harness.ts stays a pending legacy fixture; its narrow data/RNG contract was read, not granted new whole-file naming acceptance. Current5 scope does not silently absorb all its consumers.",
+    "consumed-only assertions certify routing response only. Existing positive state oracles remain; no claim every unsupported context is side-effect-free.",
+    "Historical receipts/verifiers remain bound to their historical revision; this new mapping is the forward bridge, no mass pin refresh."
+  ],
+  "invalidation": "Changed tests/helpers/imports/hooks or pinned runtime/callers/resource contracts invalidate corresponding claim. verify.mjs checks bytes, full identity/dependency closures and raw results read-only; it cannot certify semantic design by itself.",
+  "fixtureProbe": {
+    "itemFullRecordComparisons": 14,
+    "rolesFullRecordComparisons": 1,
+    "inputSetComparisons": 3,
+    "pass": true,
+    "limit": "Bounded actual consumed Item flags/options; not exhaustive arbitrary override proof. GameState runtime intentionally hydrated, not claimed equal to illegal old zero-maxHP fixture. No permanent mirror tests."
+  },
+  "quantitativeScreen": {
+    "tool": "TypeScript 6.0.3",
+    "method": "Reading lead:1+branch/loop/catch/case/logical expressions per function, exclude nested bodies. Collected after manual review, not a quality target or retroactive initial scan.",
+    "files": [
+      {
+        "path": "packages/game/src/core/battle-world-opcodes.test.ts",
+        "functions": 54,
+        "max": 2,
+        "over10": []
+      },
+      {
+        "path": "packages/game/src/core/battle/battle-opcode.test-fixtures.ts",
+        "functions": 2,
+        "max": 2,
+        "over10": []
+      },
+      {
+        "path": "packages/game/src/core/battle/battle-opcodes.control.test.ts",
+        "functions": 32,
+        "max": 1,
+        "over10": []
+      },
+      {
+        "path": "packages/game/src/core/battle/battle-opcodes.damage.test.ts",
+        "functions": 40,
+        "max": 1,
+        "over10": []
+      },
+      {
+        "path": "packages/game/src/core/battle/battle-opcodes.status.test.ts",
+        "functions": 31,
+        "max": 2,
+        "over10": []
+      },
+      {
+        "path": "packages/game/src/core/battle/battle-start.test-fixtures.ts",
+        "functions": 3,
+        "max": 5,
+        "over10": []
+      },
+      {
+        "path": "packages/game/src/core/battle/battle-system.lifecycle.test.ts",
+        "functions": 12,
+        "max": 2,
+        "over10": []
+      },
+      {
+        "path": "packages/game/src/core/battle/enemy-idle.test.ts",
+        "functions": 4,
+        "max": 1,
+        "over10": []
+      },
+      {
+        "path": "packages/game/src/core/event-opcode-player.attributes.test.ts",
+        "functions": 29,
+        "max": 2,
+        "over10": []
+      },
+      {
+        "path": "packages/game/src/core/event-opcode-player.equipment.test.ts",
+        "functions": 21,
+        "max": 1,
+        "over10": []
+      },
+      {
+        "path": "packages/game/src/core/event-opcode-player.status.test.ts",
+        "functions": 25,
+        "max": 1,
+        "over10": []
+      },
+      {
+        "path": "packages/game/src/core/event-party.equipment-refresh.test.ts",
+        "functions": 8,
+        "max": 4,
+        "over10": []
+      },
+      {
+        "path": "packages/game/src/core/menu/menu-driver.inventory.test.ts",
+        "functions": 17,
+        "max": 2,
+        "over10": []
+      },
+      {
+        "path": "packages/game/src/core/menu/menu-driver.magic.test.ts",
+        "functions": 13,
+        "max": 1,
+        "over10": []
+      },
+      {
+        "path": "packages/game/src/core/menu/menu-driver.system.test.ts",
+        "functions": 39,
+        "max": 1,
+        "over10": []
+      },
+      {
+        "path": "packages/game/src/core/menu/menu-driver.test-fixtures.ts",
+        "functions": 7,
+        "max": 1,
+        "over10": []
+      },
+      {
+        "path": "packages/game/src/core/menu/menu-driver.trading.test.ts",
+        "functions": 19,
+        "max": 2,
+        "over10": []
+      }
+    ]
+  }
+}

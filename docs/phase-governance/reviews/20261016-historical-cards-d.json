@@ -133,12 +133,7 @@
         "review": 628,
         "issues": 0
       },
-      "lint": {
-        "files": 4085,
-        "errors": 0,
-        "warnings": 0,
-        "infos": 0
-      },
+      "lint": { "files": 4085, "errors": 0, "warnings": 0, "infos": 0 },
       "diff": 0,
       "notWholeQualityAcceptance": true
     },
@@ -3107,11 +3102,7 @@
           "scope": "Read actual diff and paired per-file or bounded gate-diagnostic evidence; menu A-H and original caller/primary/E reused by explicit SHA. Adjacent UI/host changes cover actual wait/event/teardown/assertion ownership only. No whole83/94-102 or new visual credit.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json"
         },
-        {
-          "date": "2026-10-25",
-          "revision": "b8b2ffaf4",
-          "action": "94–102 approved closeout"
-        },
+        { "date": "2026-10-25", "revision": "b8b2ffaf4", "action": "94–102 approved closeout" },
         {
           "date": "2026-10-25",
           "revision": "0e14c184eed91841ee0f48323b98c98b734a3129",
@@ -3307,10 +3298,10 @@
       "sourceSha256": "ebf04c215b7bb6a3feda0cb8b8676fed19b40057a4de5e311375a174139529f0",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "50012277f66ac304ce272ee89fd623db8590fac2",
-      "afterSha256": "d9fd2e5210891ca4a2cd6aaf652dc5bf612b0d304dfb57d9a9af0461db501dee",
+      "afterSha256": "c6e5c8f2fad0d86203ff7ad8b15a4219f34e77f7d8060acc129a4d1ea4ecfe07",
       "revision": {
         "currentSha": "4fcd1122ca1951aafbd5033161e00ac34671911088b8129354a4bd50d8d3df5c",
-        "implementationSha": "366861cb8704560e6339cb4581f1bff6813fbf63ce7ed2138bef9c56d829878f",
+        "implementationSha": "c6e5c8f2fad0d86203ff7ad8b15a4219f34e77f7d8060acc129a4d1ea4ecfe07",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -4174,13 +4165,43 @@
             "scope": "100 new primary files and one ancillary host locally accepted after uniform gates; four actual duplicate test paths retired. Other pending/risk source stays pending. Machine3463/796/0/2667.",
             "evidence": "docs/ops/evidence/QUALITY-PENDING-100-2/README.md",
             "notRun": ["new runtime or E2E or visual or coverage by this documentation bridge"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-11-01",
+            "action": "remaining-five-reviewed-delta",
+            "previousAfterSha256": "d9fd2e5210891ca4a2cd6aaf652dc5bf612b0d304dfb57d9a9af0461db501dee",
+            "afterSha256": "cb52a0a56df276cf0600bf6d87026c5a8e7be032b21e3676e4fd7ab0fbe0dc2c",
+            "scope": "Five retired review paths replaced by17 responsibility outputs still review pending gates; historical fenced rows untouched.",
+            "evidence": "docs/ops/evidence/QUALITY-NAMING-ORGANIZATION-1/remaining-five/README.md",
+            "notRun": ["runtime/E2E/visual by documentation bridge"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-11-01",
+            "action": "remaining-five-reviewed-delta",
+            "previousAfterSha256": "cb52a0a56df276cf0600bf6d87026c5a8e7be032b21e3676e4fd7ab0fbe0dc2c",
+            "afterSha256": "282df71b895cd1fdc70c4c83c41d10deda033c15b04becdbc4cfdc42023c3625",
+            "scope": "Finite five-review closeout status, mapping/navigation or their direct reviewed metadata projection; preserve old facts and other entries.",
+            "evidence": "docs/ops/evidence/QUALITY-NAMING-ORGANIZATION-1/remaining-five/README.md",
+            "notRun": ["runtime/E2E/visual by document metadata"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-11-01",
+            "action": "remaining-five-reviewed-delta",
+            "previousAfterSha256": "282df71b895cd1fdc70c4c83c41d10deda033c15b04becdbc4cfdc42023c3625",
+            "afterSha256": "c6e5c8f2fad0d86203ff7ad8b15a4219f34e77f7d8060acc129a4d1ea4ecfe07",
+            "scope": "Finite five-review closeout status, mapping/navigation or their direct reviewed metadata projection; preserve old facts and other entries.",
+            "evidence": "docs/ops/evidence/QUALITY-NAMING-ORGANIZATION-1/remaining-five/README.md",
+            "notRun": ["runtime/E2E/visual by document metadata"]
           }
         ]
       },
       "evidence": {
         "kind": "owned-release-preparation",
         "path": "docs/ops/audits/code-quality-file-ledger.md",
-        "afterSha256": "366861cb8704560e6339cb4581f1bff6813fbf63ce7ed2138bef9c56d829878f",
+        "afterSha256": "c6e5c8f2fad0d86203ff7ad8b15a4219f34e77f7d8060acc129a4d1ea4ecfe07",
         "scope": "Owned release-preparation delta.",
         "lineCount": 1171,
         "currentMaintenance": {
@@ -5464,10 +5485,7 @@
             "path": "docs/phase-governance/reviews/20261016-historical-cards-d.json"
           }
         },
-        {
-          "action": "3l-20261023",
-          "previousCommit": "402128e6d4ed3be5783abf4fc941e267cc5c3e4b"
-        },
+        { "action": "3l-20261023", "previousCommit": "402128e6d4ed3be5783abf4fc941e267cc5c3e4b" },
         {
           "date": "2026-10-25",
           "previousAfterSha256": "ebf04c215b7bb6a3feda0cb8b8676fed19b40057a4de5e311375a174139529f0",
@@ -5475,11 +5493,7 @@
           "scope": "Owned94–102 review delta; prior full record remains in base8eb Git. No other entry refreshed.",
           "evidence": "docs/ops/evidence/CODE-QUALITY-94/current-review/review.json"
         },
-        {
-          "date": "2026-10-25",
-          "revision": "b8b2ffaf4",
-          "action": "94–102 approved closeout"
-        },
+        { "date": "2026-10-25", "revision": "b8b2ffaf4", "action": "94–102 approved closeout" },
         {
           "date": "2026-10-25",
           "revision": "0e14c184eed91841ee0f48323b98c98b734a3129",
@@ -5511,7 +5525,7 @@
         "after": "Actual tracked inventory3300/229closed/5review/3066pending/3071unclosed. A8 adds exactly five tool rows and one focused test row, all pending. All248 prior live rows/order/category/status/evidence and complete273-line original bytes remain exact. Source-format-partial acceptance does not close CODE-QUALITY or grant document migration/runtime credit.",
         "semanticChange": "Only inventory/authority maintenance and exact accepted A8 format tools; no new product/test/coverage or corpus migration credit."
       },
-      "reviewedLines": "1-1393",
+      "reviewedLines": "1-1606",
       "phase": "ops",
       "module": "quality-governance-and-historical-causality",
       "templateConformity": {
@@ -6529,42 +6543,18 @@
             "sourceSha256": "4f5724fd8bc89ae713cda40f1a6479c94e792352a05d9898c8975032c481361d",
             "lineCount": 99,
             "headings": [
-              {
-                "line": 1,
-                "text": "编辑器覆盖率确定性调查与修复回执"
-              },
-              {
-                "line": 7,
-                "text": "修复收口"
-              },
-              {
-                "line": 22,
-                "text": "结论与因果证据"
-              },
-              {
-                "line": 38,
-                "text": "取证方式"
-              },
-              {
-                "line": 62,
-                "text": "边界与替代解释"
-              },
-              {
-                "line": 71,
-                "text": "历史复现与证据位置"
-              },
-              {
-                "line": 77,
-                "text": "快速因果对照：既有 reorder 23 项，两个帧时机各跑一次"
-              },
+              { "line": 1, "text": "编辑器覆盖率确定性调查与修复回执" },
+              { "line": 7, "text": "修复收口" },
+              { "line": 22, "text": "结论与因果证据" },
+              { "line": 38, "text": "取证方式" },
+              { "line": 62, "text": "边界与替代解释" },
+              { "line": 71, "text": "历史复现与证据位置" },
+              { "line": 77, "text": "快速因果对照：既有 reorder 23 项，两个帧时机各跑一次" },
               {
                 "line": 80,
                 "text": "同一干预扩到整个 editor fast 范围（不是 pnpm coverage:full）"
               },
-              {
-                "line": 95,
-                "text": "后续边界"
-              }
+              { "line": 95, "text": "后续边界" }
             ],
             "unresolvedSignals": [
               "17:该卡未重跑 full coverage，纯测试维护无需浏览器验收；此次文档收口不重跑未变的重型检查。",
@@ -6946,12 +6936,7 @@
         "incoming": 0,
         "issues": []
       },
-      "docsActualConsumer": {
-        "markdown": 1223,
-        "localLinks": 7273,
-        "tasks": 361,
-        "issues": 0
-      },
+      "docsActualConsumer": { "markdown": 1223, "localLinks": 7273, "tasks": 361, "issues": 0 },
       "centralGate": {
         "status": "expected pending one coverage afterSHA drift, no waiver",
         "documents": 640,
@@ -7077,12 +7062,7 @@
         "phase": 184,
         "review": 642
       },
-      "lint": {
-        "files": 4087,
-        "errors": 0,
-        "warnings": 0,
-        "infos": 0
-      },
+      "lint": { "files": 4087, "errors": 0, "warnings": 0, "infos": 0 },
       "ledger": [3290, 229, 5, 3056, 3061],
       "diff": 0
     },
@@ -7104,11 +7084,7 @@
     ],
     "readScopeClarification": {
       "oldConsumedRows": 234,
-      "categoryCounts": {
-        "product": 129,
-        "test": 92,
-        "tool": 13
-      },
+      "categoryCounts": { "product": 129, "test": 92, "tool": 13 },
       "meaning": "Historical candidate mixed shorthand does not mean234 products or current semantic rereading; categories/rows preserved, no semantic progress credit."
     },
     "integrationAcceptance": {
