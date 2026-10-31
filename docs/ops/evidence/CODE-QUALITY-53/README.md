@@ -30,7 +30,7 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 断言与业务 oracle
 
-文档事实核对(currentExecution=false):各文件记录按其自身字段成立。本轮逐篇核读确认的关键身份:slot-negative-controls 三例红败 fullName 分别为 startBattle 战前毒[4,5,4](180≠190)、状态页 cursor2 毒行与 inspect 按显示槽读毒数组不等;gate-results 五门时间窗 2026-10-13T03:34:11–04:07:13,退出码 0/1/1/0/0;ownership-results(04:34–04:35)与 candidate-source-sha256 对 glm-q/cov85 两份测试记录不同 hash,对应任务卡记载的测试强化迭代,非矛盾。空数组/exit0/成功字样不外推为零诊断或产品通过;本目录任何记录都不关闭整文件或授权集成。
+文档事实核对(currentExecution=false):各文件记录按其自身字段成立。本轮逐篇核读确认的关键身份:slot-negative-controls 三例红败 fullName 分别为 startBattle 战前毒表 [4,5,4]≠190、状态页 cursor2 毒行与 inspect 按显示槽读毒数组不等;gate-results 五门时间窗 2026-10-13T03:34:11–04:07:13,退出码 0/1/1/0/0;ownership-results(04:34–04:35)与 candidate-source-sha256 对 glm-q/cov85 两份测试记录不同 hash,对应任务卡记载的测试强化迭代,非矛盾。空数组/exit0/成功字样不外推为零诊断或产品通过;本目录任何记录都不关闭整文件或授权集成。
 
 ## 结果
 
