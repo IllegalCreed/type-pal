@@ -1,0 +1,52 @@
+{
+  "task": "GAME-INPUT-KEYMAP-OWN-KEY-1",
+  "owner": "Codex",
+  "authorization": "User2026-10-30 explicitly approved only defined physical keys; existing supported bindings unchanged.",
+  "state": "code accepted; unified gates pending",
+  "files": [
+    {
+      "path": "packages/game/src/shell/input.ts",
+      "beforeSha256": "271b6afdb6ff191939562da3cbb06e2f1eb4aab455aee381eb75f2705b078d09",
+      "sha256": "55a394a61514d6a6c4b4bae97f0fb30a257f741a4dc9dbc55a8de3eb0678640f",
+      "axes": {
+        "A": "Direct inherited-name API and native-event2business-red before one-line own-property guard;34 supported binding results unchanged.",
+        "B": "Existing SDL/dev/ownership comments retained, no new parity claim.",
+        "C": "Lookup rejects undefined name before shared contact producer; ownership and physical adapters unchanged.",
+        "D": "Uses standard own-property check; no fallback/compat layer or duplicate map.",
+        "E": "Two typed real-source cases fail expectednull andheldarray before fix, then pass,0pending; normalUp/Down guards retained.",
+        "F": "Single explicit own-field predicate states table ownership.",
+        "G": "No new API/key/default/schema/helper or unnecessary branch.",
+        "H": "Native events and public helper deterministic, source detached finally; no physical keyboard emits these names proven."
+      }
+    },
+    {
+      "path": "packages/game/src/shell/input.keymap-ownership.test.ts",
+      "sha256": "e0ff559bf1873b2edaa36ce8d0ea235ce6343707fde9979f7f76d8f1ee0f789e",
+      "axes": {
+        "A": "Three inherited names are malformed supported-domain probes; positive Up/Down establish valid path remains.",
+        "B": "Names actual null/held/pressed outcomes, no ordinary-user incidence claim.",
+        "C": "Fresh source percase, explicitfinallydetach; no shared listener/clock.",
+        "D": "Two direct/real-caller layers have distinct failure points, no six-fold table of redundantcases.",
+        "E": "Exact null,held andpressed arrays, no type casts/core mocks; two real AssertionErrorred receipts.",
+        "F": "inheritedNames and chronologicalevents express attack surface.",
+        "G": "Two cases cover one lookup/producerboundary; no coverage-padding or runtime type-only test.",
+        "H": "Direct real public API/nativeKeyboardEvent, controlledvalues, clean sourcecleanup."
+      }
+    }
+  ],
+  "proof": "organization-shell-input-audio/callback-proof.json",
+  "red": "organization-shell-input-audio/keymap-red",
+  "green": "organization-shell-input-audio/keymap-green",
+  "neighborReceipt": "organization-shell-input-audio/neighbors",
+  "casesBefore": {
+    "passed": 0,
+    "failed": 2,
+    "pending": 0
+  },
+  "casesAfter": {
+    "passed": 2,
+    "failed": 0,
+    "pending": 0
+  },
+  "limits": "No schema/save/supported-key change, ordinary physical-key incidence unproved, no new hardware or E2E acceptance. Behavior fix and test organization must be committed separately."
+}

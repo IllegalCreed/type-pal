@@ -8,7 +8,7 @@ import { expect } from 'vitest'
 import type { BattleChoreographyAction } from '../battle-choreography.js'
 import type { DialogueCue } from '../index.js'
 import type { LevelGrowthDelta } from '../rewards.js'
-import { deepSnapshot } from './glm-content-contract-fixtures.js'
+import { deepSnapshot } from './value-snapshot.js'
 
 /**
  * R1 精确错误路径：捕获实际 Error 并对完整 message 做全等比较。

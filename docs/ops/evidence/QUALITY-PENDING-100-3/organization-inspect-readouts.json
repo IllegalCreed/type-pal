@@ -1,0 +1,701 @@
+{
+  "id": "inspect-readouts",
+  "namespace": "organization-inspect-readouts",
+  "inputs": [
+    {
+      "path": "packages/game/src/core/inspect/battle-inspect.test.ts",
+      "member": "organization-inspect-readouts/0.before",
+      "sha256": "3b17b6ee6c6c71166a8f986283b705fa5b945cb47aaf1efaa9b1b4d249b34ffe",
+      "lines": 177
+    },
+    {
+      "path": "packages/game/src/core/inspect/battle-inspect.glm-phase1-leaves.test.ts",
+      "member": "organization-inspect-readouts/1.before",
+      "sha256": "3551a652625b7dd3e3806f1473e2848d1e9811f88bf8b08e83f8a64e06ca2e26",
+      "lines": 393
+    }
+  ],
+  "outputs": [
+    {
+      "path": "packages/game/src/core/inspect/battle-inspect.party.test.ts",
+      "sha256": "f743ed696c5f776ae3a91c11286e01536e414eb78d282193dd689638567b5856"
+    },
+    {
+      "path": "packages/game/src/core/inspect/battle-inspect.enemy.test.ts",
+      "sha256": "0bc10b83e7fb13d556cfa76e316adc557546f2da4e293291e45f8eb0f917196b"
+    },
+    {
+      "path": "packages/game/src/core/inspect/battle-inspect.field.test.ts",
+      "sha256": "058d15e51438848047e740bdf9bb4373e4844de5711ab5abf7e7319b6576bcfc"
+    },
+    {
+      "path": "packages/game/src/core/inspect/battle-inspect.ownership.test.ts",
+      "sha256": "8db8ddbc104b34668241ac879e84a5ffe940596b3a003f4fc53b167015f160e5"
+    },
+    {
+      "path": "packages/game/src/core/inspect/__tests__/readout-fixture.ts",
+      "sha256": "b1e027a62f78138d89c78a7c456162f58d774565987e4c33f7734d7c97f25053"
+    }
+  ],
+  "replacements": [],
+  "sourceBridges": [
+    {
+      "path": "packages/game/src/core/inspect/battle-inspect.test.ts",
+      "id": "organization-inspect-readouts",
+      "reason": "Analyzer bridge only after independent whole callback/helper/record/ownership proof;not a semantic proof by itself.",
+      "changes": [
+        {
+          "from": "// 战斗只读簇(从 dev-panel.ts 抽出的纯函数)语义回归。无 DEV 门,dev-panel + 生产工具面板共用。\n// 使用公开状态工厂和显式 hydrate，fixture 与生产 runtime 的读取域一致。\n\nimport type { Enemy, Item, PlayerRoles } from '@type-pal/shared'\nimport { describe, expect, it } from 'vitest'\nimport {\n  makeEnemyRecord as makeEnemy,\n  makeRoleRecord as makeRole,\n} from '../../__tests__/battle-records.js'\nimport { makeBattle } from '../../__tests__/coverage85-glm-game/harness.js'\nimport { createInitialGameState, type GameState, hydratePlayerRolesRuntime } from '../game-state.js'\nimport {\n  collectEnemyStatusReadouts,\n  collectFieldInfoReadout,\n  collectPartyStatusReadouts,\n} from './battle-inspect.js'\n\nfunction battleGs(enemy: Partial<Enemy> = {}): GameState {\n  const { gs, state, playerRoles } = makeBattle({\n    roles: [\n      makeRole(0, {\n        _name: '李逍遥',\n        level: 10,\n        hp: 100,\n        maxHP: 120,\n        mp: 50,\n        maxMP: 60,\n        attackStrength: 30,\n        magicStrength: 40,\n        defense: 12,\n        dexterity: 18,\n        fleeRate: 7,\n        poisonResistance: 8,\n      }),\n    ],\n    enemies: [\n      makeEnemy({\n        id: 100,\n        _name: '飞贼',\n        health: 42,\n        level: 3,\n        attackStrength: 10,\n        magicStrength: 0,\n        defense: 5,\n        dexterity: 8,\n        fleeRate: 1,\n        exp: 20,\n        cash: 15,\n        physicalResistance: 0,\n        ...enemy,\n      }),\n    ],\n  })\n  hydratePlayerRolesRuntime(gs.PlayerRolesRuntime, playerRoles)\n  gs.mode = 'battle'\n  gs.PlayerRolesRuntime.rgwElementalResistance[0]![0] = 5\n  gs.PlayerRolesRuntime.rgwElementalResistance[2]![0] = 5\n  gs.PlayerRolesRuntime.rgwElementalResistance[4]![0] = 5\n  gs.Exp.rgPrimaryExp[0]!.wExp = 250\n  for (const key of [\n    'rgAttackExp',\n    'rgMagicPowerExp',\n    'rgDefenseExp',\n    'rgDexterityExp',\n    'rgFleeExp',\n  ] as const)\n    gs.Exp[key][0]!.wLevel = 10\n  state.players[0]!.status.dualAttack = 32760\n  state.players[0]!.status.sleep = 3\n  state.enemies[0]!.maxHealth = 60\n  state.enemies[0]!.prevHp = 60\n  state.field = {\n    id: 7,\n    screenWave: 0,\n    magicEffect: { wind: 1, thunder: 0, water: 0, fire: -2, earth: 0 },\n  }\n  return gs\n}\nconst exploreGs = (): GameState => createInitialGameState({ x: 0, y: 0, facing: 'down' })\nconst roles: PlayerRoles = { roles: [makeRole(0, { _name: '李逍遥' })] }\n\ndescribe('battle-inspect(从 dev-panel 抽出,语义不变)', () => {\n  it('重复角色队伍的只读快照按显示槽读取毒，不复用首个同角色槽', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.partyMembers = [4, 5, 4]\n    gs.rgPoisonStatus['0_0'] = { wPoisonID: 552, wPoisonScript: 0 }\n    const rows = collectPartyStatusReadouts(gs, {\n      roles: Array.from({ length: 6 }, (_, id) => makeRole(id)),\n    })\n    expect(rows.map((row) => row.statuses)).toEqual([[{ name: '毒#552', kind: 'poison' }], [], []])\n    expect(rows.map((row) => row.entries)).toEqual([['毒槽0:#552'], [], []])\n  })\n\n  it('collectFieldInfoReadout:战斗读 field(含 signed 场效);非战斗 null', () => {\n    const f = collectFieldInfoReadout(battleGs())\n    expect(f?.fieldId).toBe(7)\n    expect(f?.elements.find((e) => e.label === '火')?.value).toBe(-2)\n    expect(collectFieldInfoReadout(exploreGs())).toBeNull()\n  })\n  it('collectEnemyStatusReadouts:读敌当前血量/名/未倒;非战斗空数组', () => {\n    const r = collectEnemyStatusReadouts(battleGs())\n    expect(r[0]!.hp).toBe(42)\n    expect(r[0]!.name).toBe('飞贼')\n    expect(r[0]!.defeated).toBe(false)\n    expect(r[0]!.steal).toBe('不可偷')\n    expect(r[0]!.attackEquivPoison).toBeNull() // 合法 Enemy 的两个字段均为0，不显示\n    expect(collectEnemyStatusReadouts(exploreGs())).toEqual([])\n  })\n  it('collectEnemyStatusReadouts:普攻毒(attackEquivItem>0 && rate>0 解析道具名#id+率/10;任一为 0 → null)', () => {\n    const items: Item[] = [\n      {\n        id: 116,\n        _name: '尸腐肉',\n        bitmap: 0,\n        price: 0,\n        scriptOnUse: 0,\n        scriptOnEquip: 0,\n        scriptOnThrow: 0,\n        scriptDesc: 0,\n        flags: {\n          usable: false,\n          equipable: false,\n          throwable: true,\n          consuming: true,\n          applyToAll: false,\n          sellable: false,\n          equipableBy: [false, false, false, false, false, false],\n        },\n      },\n    ]\n    const mk = (equivItem: number, equivRate: number) =>\n      battleGs({ attackEquivItem: equivItem, attackEquivItemRate: equivRate })\n    expect(collectEnemyStatusReadouts(mk(116, 7), [], items)[0]!.attackEquivPoison).toBe(\n      '尸腐肉#116（率 7/10）',\n    )\n    expect(collectEnemyStatusReadouts(mk(999, 5), [], items)[0]!.attackEquivPoison).toBe(\n      '物品#999（率 5/10）',\n    ) // 名缺 → #id\n    expect(collectEnemyStatusReadouts(mk(116, 0), [], items)[0]!.attackEquivPoison).toBeNull() // rate=0 不触发\n    expect(collectEnemyStatusReadouts(mk(0, 7), [], items)[0]!.attackEquivPoison).toBeNull() // 无道具\n  })\n  it('collectEnemyStatusReadouts:灵葫值 collectValue(零与非零原样,供灵葫咒判定)', () => {\n    // 合法 Enemy 的 collectValue=0，灵葫咒收不掉。\n    expect(collectEnemyStatusReadouts(battleGs())[0]!.collectValue).toBe(0)\n    // 有灵葫值的敌人 → 原样读出(灵葫咒要求 ≠0 才收得掉,见 game-mechanics 紫金葫芦炼丹)\n    const gs = battleGs({ id: 144, _name: '火神龙', health: 100, collectValue: 7 })\n    expect(collectEnemyStatusReadouts(gs)[0]!.collectValue).toBe(7)\n  })\n  it('collectPartyStatusReadouts:名/来源/HP/抗性 + 结构化状态(纯中文名+类型)', () => {\n    const r = collectPartyStatusReadouts(battleGs(), roles)\n    expect(r[0]!.roleName).toBe('李逍遥')\n    expect(r[0]!.source).toBe('battle')\n    expect(r[0]!.hp).toBe(100)\n    expect(r[0]!.maxHp).toBe(120)\n    expect(r[0]!.resistances.find((x) => x.label === '风')?.value).toBe(5)\n    // statuses:中文名 + 类型 + 剩余回合(双攻=buff 32760>999=永久,眠=debuff 3);工具面板 chip 据此显示持续时间\n    expect(r[0]!.statuses).toContainEqual({ name: '双攻', kind: 'buff', rounds: 32760 })\n    expect(r[0]!.statuses).toContainEqual({ name: '眠', kind: 'debuff', rounds: 3 })\n    // entries(dev 详细)仍含中英 + 回合\n    expect(r[0]!.entries.some((e) => e.includes('双攻/dual'))).toBe(true)\n    // 5 有效属性(含装备加成,无装备 → = base)+ 经验\n    expect(r[0]!.attack).toBe(30)\n    expect(r[0]!.magicPower).toBe(40)\n    expect(r[0]!.defense).toBe(12)\n    expect(r[0]!.dexterity).toBe(18)\n    expect(r[0]!.fleeRate).toBe(7)\n    expect(r[0]!.curExp).toBe(250)\n    expect(r[0]!.nextExp).toBe(0) // 未传 levelUpExp → 0\n    // 传 levelUpExp:nextExp = levelUpExp[level=10]\n    const levelUp = Array.from({ length: 11 }, (_, i) => (i === 10 ? 5000 : 0))\n    expect(collectPartyStatusReadouts(battleGs(), roles, [], [], levelUp)[0]!.nextExp).toBe(5000)\n    // 五属性隐藏经验：各池已显式初始化到等级10；经验/本场计数为0，阈值为5000。\n    const hp0 = collectPartyStatusReadouts(battleGs(), roles, [], [], levelUp)[0]!.hiddenExp\n    expect(hp0.map((h) => h.label)).toEqual(['武术', '灵力', '防御', '身法', '吉运'])\n    expect(hp0.every((h) => h.cur === 0 && h.gained === 0 && h.next === 5000)).toBe(true)\n  })\n})\n",
+          "to": "import {type PlayerRoles} from \"@type-pal/shared\"\nimport {describe} from \"vitest\"\nimport {expect} from \"vitest\"\nimport {it} from \"vitest\"\nimport {makeRoleRecord as makeRole} from \"../../__tests__/battle-records.js\"\nimport {createInitialGameState} from \"../game-state.js\"\nimport {inspectionNames} from \"./__tests__/readout-fixture.js\"\nimport {inspectionPoisons} from \"./__tests__/readout-fixture.js\"\nimport {makeBattleReadoutState} from \"./__tests__/readout-fixture.js\"\nimport {makeInspectionBattle} from \"./__tests__/readout-fixture.js\"\nimport {makeInspectionRoles} from \"./__tests__/readout-fixture.js\"\nimport {makeInspectionState} from \"./__tests__/readout-fixture.js\"\nimport {POISON_ID} from \"./__tests__/readout-fixture.js\"\nimport {ZERO_STATUS} from \"./__tests__/readout-fixture.js\"\nimport {collectPartyStatusReadouts} from \"./battle-inspect.js\"\nimport {makeExploreState} from \"./__tests__/readout-fixture.js\"\nimport {collectFieldInfoReadout} from \"./battle-inspect.js\"\nimport {type Item} from \"@type-pal/shared\"\nimport {makeSingleEnemyBattle} from \"./__tests__/readout-fixture.js\"\nimport {collectEnemyStatusReadouts} from \"./battle-inspect.js\"\ndescribe(\"preserved module 0\",()=>{\nconst roleDefinitions: PlayerRoles = { roles: [makeRole(0, { _name: '李逍遥' })] }\ndescribe('Party identity, persistent and battle projections', () => {\n  it('重复角色队伍的只读快照按显示槽读取毒，不复用首个同角色槽', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.partyMembers = [4, 5, 4]\n    gs.rgPoisonStatus['0_0'] = { wPoisonID: 552, wPoisonScript: 0 }\n    const rows = collectPartyStatusReadouts(gs, {\n      roles: Array.from({ length: 6 }, (_, id) => makeRole(id)),\n    })\n    expect(rows.map((row) => row.statuses)).toEqual([[{ name: '毒#552', kind: 'poison' }], [], []])\n    expect(rows.map((row) => row.entries)).toEqual([['毒槽0:#552'], [], []])\n  })\n})\n})\ndescribe(\"preserved module 1\",()=>{\ndescribe('Battle field and nonbattle guard', () => {\n  it('collectFieldInfoReadout:战斗读 field(含 signed 场效);非战斗 null', () => {\n    const field = collectFieldInfoReadout(makeBattleReadoutState())\n    expect(field?.fieldId).toBe(7)\n    expect(field?.elements.find((e) => e.label === '火')?.value).toBe(-2)\n    expect(collectFieldInfoReadout(makeExploreState())).toBeNull()\n  })\n})\n})\ndescribe(\"preserved module 2\",()=>{\ndescribe('Enemy values, effects and name projections', () => {\n  it('collectEnemyStatusReadouts:读敌当前血量/名/未倒;非战斗空数组', () => {\n    const readouts = collectEnemyStatusReadouts(makeBattleReadoutState())\n    expect(readouts[0]!.hp).toBe(42)\n    expect(readouts[0]!.name).toBe('飞贼')\n    expect(readouts[0]!.defeated).toBe(false)\n    expect(readouts[0]!.steal).toBe('不可偷')\n    expect(readouts[0]!.attackEquivPoison).toBeNull() // 合法 Enemy 的两个字段均为0，不显示\n    expect(collectEnemyStatusReadouts(makeExploreState())).toEqual([])\n  })\n})\n})\ndescribe(\"preserved module 3\",()=>{\ndescribe('Enemy values, effects and name projections', () => {\n\n  it('collectEnemyStatusReadouts:普攻毒(attackEquivItem>0 && rate>0 解析道具名#id+率/10;任一为 0 → null)', () => {\n    const items: Item[] = [\n      {\n        id: 116,\n        _name: '尸腐肉',\n        bitmap: 0,\n        price: 0,\n        scriptOnUse: 0,\n        scriptOnEquip: 0,\n        scriptOnThrow: 0,\n        scriptDesc: 0,\n        flags: {\n          usable: false,\n          equipable: false,\n          throwable: true,\n          consuming: true,\n          applyToAll: false,\n          sellable: false,\n          equipableBy: [false, false, false, false, false, false],\n        },\n      },\n    ]\n    const attackEffectState = (equivItem: number, equivRate: number) =>\n      makeBattleReadoutState({ attackEquivItem: equivItem, attackEquivItemRate: equivRate })\n    expect(\n      collectEnemyStatusReadouts(attackEffectState(116, 7), [], items)[0]!.attackEquivPoison,\n    ).toBe('尸腐肉#116（率 7/10）')\n    expect(\n      collectEnemyStatusReadouts(attackEffectState(999, 5), [], items)[0]!.attackEquivPoison,\n    ).toBe('物品#999（率 5/10）') // 名缺 → #id\n    expect(\n      collectEnemyStatusReadouts(attackEffectState(116, 0), [], items)[0]!.attackEquivPoison,\n    ).toBeNull() // rate=0 不触发\n    expect(\n      collectEnemyStatusReadouts(attackEffectState(0, 7), [], items)[0]!.attackEquivPoison,\n    ).toBeNull() // 无道具\n  })\n})\n})\ndescribe(\"preserved module 4\",()=>{\ndescribe('Enemy values, effects and name projections', () => {\n\n  it('collectEnemyStatusReadouts:灵葫值 collectValue(零与非零原样,供灵葫咒判定)', () => {\n    // 合法 Enemy 的 collectValue=0，灵葫咒收不掉。\n    expect(collectEnemyStatusReadouts(makeBattleReadoutState())[0]!.collectValue).toBe(0)\n    // 有灵葫值的敌人 → 原样读出(灵葫咒要求 ≠0 才收得掉,见 game-mechanics 紫金葫芦炼丹)\n    const gs = makeBattleReadoutState({ id: 144, _name: '火神龙', health: 100, collectValue: 7 })\n    expect(collectEnemyStatusReadouts(gs)[0]!.collectValue).toBe(7)\n  })\n})\n})\ndescribe(\"preserved module 5\",()=>{\nconst roleDefinitions: PlayerRoles = { roles: [makeRole(0, { _name: '李逍遥' })] }\ndescribe('Party identity, persistent and battle projections', () => {\n\n  it('collectPartyStatusReadouts:名/来源/HP/抗性 + 结构化状态(纯中文名+类型)', () => {\n    const readouts = collectPartyStatusReadouts(makeBattleReadoutState(), roleDefinitions)\n    expect(readouts[0]!.roleName).toBe('李逍遥')\n    expect(readouts[0]!.source).toBe('battle')\n    expect(readouts[0]!.hp).toBe(100)\n    expect(readouts[0]!.maxHp).toBe(120)\n    expect(readouts[0]!.resistances.find((x) => x.label === '风')?.value).toBe(5)\n    // statuses:中文名 + 类型 + 剩余回合(双攻=buff 32760>999=永久,眠=debuff 3);工具面板 chip 据此显示持续时间\n    expect(readouts[0]!.statuses).toContainEqual({ name: '双攻', kind: 'buff', rounds: 32760 })\n    expect(readouts[0]!.statuses).toContainEqual({ name: '眠', kind: 'debuff', rounds: 3 })\n    // entries(dev 详细)仍含中英 + 回合\n    expect(readouts[0]!.entries.some((e) => e.includes('双攻/dual'))).toBe(true)\n    // 5 有效属性(含装备加成,无装备 → = base)+ 经验\n    expect(readouts[0]!.attack).toBe(30)\n    expect(readouts[0]!.magicPower).toBe(40)\n    expect(readouts[0]!.defense).toBe(12)\n    expect(readouts[0]!.dexterity).toBe(18)\n    expect(readouts[0]!.fleeRate).toBe(7)\n    expect(readouts[0]!.curExp).toBe(250)\n    expect(readouts[0]!.nextExp).toBe(0) // 未传 levelUpExp → 0\n    // 传 levelUpExp:nextExp = levelUpExp[level=10]\n    const levelUp = Array.from({ length: 11 }, (_, i) => (i === 10 ? 5000 : 0))\n    expect(\n      collectPartyStatusReadouts(makeBattleReadoutState(), roleDefinitions, [], [], levelUp)[0]!\n        .nextExp,\n    ).toBe(5000)\n    // 五属性隐藏经验：各池已显式初始化到等级10；经验/本场计数为0，阈值为5000。\n    const hiddenExperience = collectPartyStatusReadouts(\n      makeBattleReadoutState(),\n      roleDefinitions,\n      [],\n      [],\n      levelUp,\n    )[0]!.hiddenExp\n    expect(hiddenExperience.map((h) => h.label)).toEqual(['武术', '灵力', '防御', '身法', '吉运'])\n    expect(hiddenExperience.every((h) => h.cur === 0 && h.gained === 0 && h.next === 5000)).toBe(\n      true,\n    )\n  })\n})\n})",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/core/inspect/battle-inspect.glm-phase1-leaves.test.ts",
+      "id": "organization-inspect-readouts",
+      "reason": "Analyzer bridge only after independent whole callback/helper/record/ownership proof;not a semantic proof by itself.",
+      "changes": [
+        {
+          "from": "/**\n * TEST-GLM-PHASE1-LEAVES-3 L07（battle-inspect.ts）— 去重表：\n *  - battle-inspect.test（field signed 场效/敌血量名/普攻毒四分支/灵葫值/party 名源血抗/结构化\n *    状态/levelUpExp nextExp/hiddenExp 标签序）→ 不重复\n *  - 新差异：persistent 来源（explore + rgPlayerStatus）、slow 无 persistentIndex 恒 0、\n *    rgPoisonStatus 毒条 entries/tags（知名/未知/毒ID0 跳过）、battle players[slot].roleId\n *    投影与非战斗槽回退 persistent、敌 steal 金钱/物品名缺三分支、maxHealth 缺省 prevHp 回退、\n *    defeated/巫抗/敌状态敌毒、isBoss+screenWave、三收集器输入深保真（结构化快照逐字段比对）。\n * 显示值正确 ≠ 伤害公式正确：本组只核只读投影；不跑战斗公式。\n * 合法 typed 输入：GameState 来自 createInitialGameState（真实工厂），battleState 完整字面量，\n * 不用 as-cast 掩盖缺字段。\n */\nimport type { Enemy, ObjectPoisonView, PlayerRoles } from '@type-pal/shared'\nimport { describe, expect, it } from 'vitest'\nimport type { BattleState } from '../battle/battle-state.js'\nimport { createInitialGameState } from '../game-state.js'\nimport { createSeedableRng } from '../rng.js'\nimport {\n  collectEnemyStatusReadouts,\n  collectFieldInfoReadout,\n  collectPartyStatusReadouts,\n} from './battle-inspect.js'\n\nconst POISON_ID = 551\n\nconst objectPoisons: ObjectPoisonView[] = [\n  { id: POISON_ID, level: 3, color: 0, playerScript: 0, enemyScript: 4242 },\n]\nconst items: Parameters<typeof collectPartyStatusReadouts>[3] = [\n  {\n    id: POISON_ID,\n    _name: '毒蛇卵',\n    bitmap: 0,\n    price: 0,\n    scriptOnUse: 0,\n    scriptOnEquip: 0,\n    scriptOnThrow: 0,\n    scriptDesc: 0,\n    flags: {\n      usable: false,\n      equipable: false,\n      throwable: false,\n      consuming: false,\n      applyToAll: false,\n      sellable: false,\n      equipableBy: [false, false, false, false, false, false],\n    },\n  },\n]\n\nfunction roles(): PlayerRoles {\n  return {\n    roles: [\n      {\n        id: 0,\n        _name: '李逍遥',\n        avatar: 0,\n        spriteNumInBattle: 0,\n        spriteNum: 0,\n        name: 0,\n        attackAll: 0,\n        level: 10,\n        maxHP: 120,\n        maxMP: 60,\n        hp: 100,\n        mp: 50,\n        attackStrength: 30,\n        magicStrength: 40,\n        defense: 12,\n        dexterity: 18,\n        fleeRate: 7,\n        poisonResistance: 8,\n        elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },\n        walkFrames: 3,\n        attackSound: 0,\n        weaponSound: 0,\n        criticalSound: 0,\n        magicSound: 0,\n        deathSound: 0,\n      },\n      {\n        id: 1,\n        _name: '赵灵儿',\n        avatar: 0,\n        spriteNumInBattle: 0,\n        spriteNum: 0,\n        name: 0,\n        attackAll: 0,\n        level: 9,\n        maxHP: 90,\n        maxMP: 80,\n        hp: 88,\n        mp: 70,\n        attackStrength: 20,\n        magicStrength: 50,\n        defense: 10,\n        dexterity: 22,\n        fleeRate: 6,\n        poisonResistance: 4,\n        elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },\n        walkFrames: 3,\n        attackSound: 0,\n        weaponSound: 0,\n        criticalSound: 0,\n        magicSound: 0,\n        deathSound: 0,\n      },\n    ],\n  }\n}\n\nfunction mkEnemy(partial: Partial<Enemy>): Enemy {\n  return {\n    id: 100,\n    _name: '飞贼',\n    idleFrames: 3,\n    magicFrames: 2,\n    attackFrames: 3,\n    idleAnimSpeed: 6,\n    actWaitFrames: 0,\n    yPosOffset: 0,\n    attackSound: 0,\n    actionSound: 0,\n    magicSound: 0,\n    deathSound: 0,\n    callSound: 0,\n    health: 42,\n    exp: 20,\n    cash: 15,\n    level: 3,\n    magic: 0,\n    magicRate: 0,\n    attackEquivItem: 0,\n    attackEquivItemRate: 0,\n    stealItem: 0,\n    stealItemCount: 0,\n    attackStrength: 10,\n    magicStrength: 0,\n    defense: 5,\n    dexterity: 8,\n    fleeRate: 1,\n    poisonResistance: 0,\n    elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },\n    physicalResistance: 0,\n    dualMove: 0,\n    collectValue: 0,\n    ...partial,\n  }\n}\n\n/** 完整合法 BattleState 字面量（collectors 只读 players/enemies/field/isBoss，其余按类型补齐）。 */\nfunction mkBattleState(\n  players: BattleState['players'],\n  enemies: BattleState['enemies'],\n  isBoss: boolean,\n): BattleState {\n  return {\n    players,\n    enemies,\n    field: {\n      id: 7,\n      screenWave: 2,\n      magicEffect: { wind: 1, thunder: 0, water: 0, fire: -2, earth: 0 },\n    },\n    isBoss,\n    phase: 'selectAction',\n    turn: 1,\n    actionQueue: [],\n    currentActionIndex: 0,\n    pendingActions: new Map(),\n    uiState: 'wait',\n    menuState: 'main',\n    selectedAction: 0,\n    uiCursor: 0,\n    miscMenuCursor: 0,\n    miscSubMenuCursor: 0,\n    expGained: 0,\n    cashGained: 0,\n    rng: createSeedableRng(1),\n    phaseStallTicks: 0,\n  }\n}\n\nconst ZERO_STATUS = { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 }\n\nfunction oneEnemy(\n  partial: Partial<Enemy>,\n  be?: Omit<Partial<BattleState['enemies'][number]>, 'status'> & {\n    status?: Partial<BattleState['enemies'][number]['status']>\n  },\n) {\n  const enemy = mkEnemy(partial)\n  const { status, ...rest } = be ?? {}\n  return mkBattleState(\n    [{ roleId: 0, prevHp: 100, prevMp: 50, defending: false, status: { ...ZERO_STATUS } }],\n    [\n      {\n        e: enemy,\n        status: { ...ZERO_STATUS, ...status },\n        prevHp: 42,\n        scriptOnTurnStart: 0,\n        scriptOnBattleEnd: 0,\n        scriptOnReady: 0,\n        poisons: [],\n        resistanceToSorcery: 4,\n        ...rest,\n      },\n    ],\n    false,\n  )\n}\n\n/** explore 底座（真实工厂）+ 可选战斗态；runtime 数组按 roleId 赋值。 */\nfunction makeGs(opts: { battle?: BattleState } = {}) {\n  const gs = createInitialGameState({ x: 100, y: 200, facing: 'down' })\n  gs.partyMembers = [0, 1]\n  const rt = gs.PlayerRolesRuntime\n  rt.rgwLevel[0] = 10\n  rt.rgwLevel[1] = 9\n  rt.rgwHP[0] = 100\n  rt.rgwMaxHP[0] = 120\n  rt.rgwMP[0] = 50\n  rt.rgwMaxMP[0] = 60\n  rt.rgwHP[1] = 88\n  rt.rgwMaxHP[1] = 90\n  rt.rgwMP[1] = 70\n  rt.rgwMaxMP[1] = 80\n  rt.rgwElementalResistance[0]![0] = 5\n  rt.rgwPoisonResistance[0] = 8\n  gs.Exp.rgPrimaryExp[0]!.wExp = 250\n  gs.Exp.rgAttackExp[0]!.wExp = 40\n  gs.Exp.rgAttackExp[0]!.wLevel = 3\n  gs.Exp.rgAttackExp[0]!.wCount = 12\n  if (opts.battle) {\n    gs.mode = 'battle'\n    gs.battleState = opts.battle\n  }\n  return gs\n}\n\ndescribe('L07 collectPartyStatusReadouts 剩余投影', () => {\n  it('persistent 来源：explore 下 rgPlayerStatus[role][idx] 计数 → 状态标签；slow 无持久位不出现', () => {\n    const gs = makeGs()\n    gs.rgPlayerStatus[0]![2] = 5 // persistentIndex 2 = sleep\n    const r = collectPartyStatusReadouts(gs, roles())\n    expect(r).toHaveLength(2)\n    expect(r[0]!.source).toBe('persistent')\n    expect(r[0]!.roleId).toBe(0)\n    expect(r[0]!.statuses).toContainEqual({ name: '眠', kind: 'debuff', rounds: 5 })\n    expect(r[0]!.statuses.some((s) => s.name === '迟')).toBe(false)\n    // 未设状态的 slot 1 无 debuff/buff 标签\n    expect(r[1]!.statuses).toEqual([])\n  })\n\n  it('rgPoisonStatus 毒条：知名毒 → 名#id + L级 + script；未知毒 → #id；毒ID 0 跳过', () => {\n    const gs = makeGs()\n    gs.rgPoisonStatus['0_0'] = { wPoisonID: POISON_ID, wPoisonScript: 4242 }\n    gs.rgPoisonStatus['1_0'] = { wPoisonID: 600, wPoisonScript: 0 }\n    gs.rgPoisonStatus['2_0'] = { wPoisonID: 0, wPoisonScript: 0 } // 空槽\n    const r = collectPartyStatusReadouts(gs, roles(), objectPoisons, items)\n    expect(r[0]!.entries).toContain('毒槽0:毒蛇卵#551 L3 script:4242')\n    expect(r[0]!.entries).toContain('毒槽1:#600')\n    expect(r[0]!.statuses).toContainEqual({ name: '毒蛇卵', kind: 'poison' })\n    expect(r[0]!.statuses).toContainEqual({ name: '毒#600', kind: 'poison' })\n    expect(r[0]!.statuses).toHaveLength(2)\n  })\n\n  it('battle players[slot].roleId 投影：显示身份按战斗槽而非 party 顺序；缺槽回退 persistent', () => {\n    const battle = mkBattleState(\n      [{ roleId: 1, prevHp: 88, prevMp: 70, defending: false, status: { ...ZERO_STATUS } }],\n      [],\n      false,\n    )\n    const gs = makeGs({ battle })\n    const r = collectPartyStatusReadouts(gs, roles())\n    expect(r[0]!.source).toBe('battle')\n    expect(r[0]!.roleId).toBe(1) // 战斗槽 0 是灵儿 → 显示身份 roleId 1\n    expect(r[0]!.roleName).toBe('赵灵儿')\n    expect(r[0]!.hp).toBe(88)\n    expect(r[1]!.source).toBe('persistent') // players[1] 缺 → 回退 party slot 1\n    expect(r[1]!.roleId).toBe(1)\n  })\n\n  it('hiddenExp：cur/next/gained 按各自池（next 用池 wLevel 阈值），与主经验 nextExp 区分', () => {\n    const gs = makeGs()\n    const levelUpExp = Array.from({ length: 12 }, (_, i) => i * 100)\n    const r = collectPartyStatusReadouts(gs, roles(), [], [], levelUpExp)[0]!\n    expect(r.nextExp).toBe(1000) // levelUpExp[level=10]\n    const attack = r.hiddenExp.find((h) => h.label === '武术')!\n    expect(attack.cur).toBe(40)\n    expect(attack.gained).toBe(12)\n    expect(attack.next).toBe(300) // levelUpExp[池 wLevel=3]\n  })\n})\n\ndescribe('L07 collectEnemyStatusReadouts 剩余投影', () => {\n  it('steal 三分支：金钱/知名物品/缺名物品', () => {\n    const money = collectEnemyStatusReadouts(\n      makeGs({ battle: oneEnemy({ stealItemCount: 5 }) }),\n    )[0]!\n    expect(money.canSteal).toBe(true)\n    expect(money.steal).toBe('金钱 ×5')\n    const named = collectEnemyStatusReadouts(\n      makeGs({ battle: oneEnemy({ stealItem: POISON_ID, stealItemCount: 2 }) }),\n      objectPoisons,\n      items,\n    )[0]!\n    expect(named.steal).toBe('毒蛇卵 ×2')\n    const unknown = collectEnemyStatusReadouts(\n      makeGs({ battle: oneEnemy({ stealItem: 999, stealItemCount: 1 }) }),\n      [],\n      items,\n    )[0]!\n    expect(unknown.steal).toBe('物品#999 ×1')\n  })\n\n  it('maxHp 回退链 maxHealth ?? prevHp ?? health；defeated 与巫抗行', () => {\n    const noMax = collectEnemyStatusReadouts(makeGs({ battle: oneEnemy({ health: 42 }) }))[0]!\n    expect(noMax.maxHp).toBe(42) // maxHealth 缺 → prevHp 42\n    const withPrev = collectEnemyStatusReadouts(\n      makeGs({ battle: oneEnemy({ health: 30 }, { prevHp: 50 }) }),\n    )[0]!\n    expect(withPrev.maxHp).toBe(50) // maxHealth 缺 → prevHp 50\n    const dead = collectEnemyStatusReadouts(\n      makeGs({ battle: oneEnemy({ health: 0 }, { defeated: true }) }),\n    )[0]!\n    expect(dead.defeated).toBe(true)\n    expect(dead.resistances.find((x) => x.label === '巫抗')?.value).toBe(4)\n  })\n\n  it('敌方状态与毒条：be.status/confused → 乱；be.poisons → 毒 entries/tags', () => {\n    const battle = oneEnemy(\n      {},\n      {\n        status: { confused: 4 },\n        poisons: [{ poisonId: POISON_ID, scriptEntry: 9 }],\n      },\n    )\n    const r = collectEnemyStatusReadouts(makeGs({ battle }), objectPoisons, items)[0]!\n    expect(r.statuses).toContainEqual({ name: '乱', kind: 'debuff', rounds: 4 })\n    expect(r.statusEntries).toContain('毒:毒蛇卵#551 L3 script:9')\n  })\n})\n\ndescribe('L07 collectFieldInfoReadout 剩余投影与深保真', () => {\n  it('isBoss/screenWave 原样透出；boss 标志 false 时如实 false', () => {\n    const boss = mkBattleState([], [], true)\n    const f = collectFieldInfoReadout(makeGs({ battle: boss }))\n    expect(f?.isBoss).toBe(true)\n    expect(f?.screenWave).toBe(2)\n    expect(collectFieldInfoReadout(makeGs({ battle: mkBattleState([], [], false) }))?.isBoss).toBe(\n      false,\n    )\n  })\n\n  it('输入深保真：三收集器调用前后实际消费的 gs 子树/roles/poisons/items 逐字段不变', () => {\n    const battle = oneEnemy(\n      { stealItem: POISON_ID, stealItemCount: 2 },\n      { status: { confused: 2 }, poisons: [{ poisonId: POISON_ID, scriptEntry: 9 }] },\n    )\n    const gs = makeGs({ battle })\n    gs.rgPlayerStatus[0]![2] = 5\n    gs.rgPoisonStatus['0_0'] = { wPoisonID: POISON_ID, wPoisonScript: 4242 }\n    const snapshot = {\n      partyMembers: structuredClone(gs.partyMembers),\n      runtime: structuredClone(gs.PlayerRolesRuntime),\n      exp: structuredClone(gs.Exp),\n      playerStatus: structuredClone(gs.rgPlayerStatus),\n      poisonStatus: structuredClone(gs.rgPoisonStatus),\n      battlePlayers: structuredClone(gs.battleState?.players),\n      battleEnemies: structuredClone(gs.battleState?.enemies),\n      battleField: structuredClone(gs.battleState?.field),\n      roles: structuredClone(roles()),\n      poisons: structuredClone(objectPoisons),\n      items: structuredClone(items),\n    }\n    const gsRoles = roles()\n    collectPartyStatusReadouts(gs, gsRoles, objectPoisons, items, [])\n    collectEnemyStatusReadouts(gs, objectPoisons, items)\n    collectFieldInfoReadout(gs)\n    expect(structuredClone(gs.partyMembers)).toEqual(snapshot.partyMembers)\n    expect(structuredClone(gs.PlayerRolesRuntime)).toEqual(snapshot.runtime)\n    expect(structuredClone(gs.Exp)).toEqual(snapshot.exp)\n    expect(structuredClone(gs.rgPlayerStatus)).toEqual(snapshot.playerStatus)\n    expect(structuredClone(gs.rgPoisonStatus)).toEqual(snapshot.poisonStatus)\n    expect(structuredClone(gs.battleState?.players)).toEqual(snapshot.battlePlayers)\n    expect(structuredClone(gs.battleState?.enemies)).toEqual(snapshot.battleEnemies)\n    expect(structuredClone(gs.battleState?.field)).toEqual(snapshot.battleField)\n    expect(structuredClone(gsRoles)).toEqual(snapshot.roles)\n    expect(structuredClone(objectPoisons)).toEqual(snapshot.poisons)\n    expect(structuredClone(items)).toEqual(snapshot.items)\n  })\n})\n",
+          "to": "import {type PlayerRoles} from \"@type-pal/shared\"\nimport {describe} from \"vitest\"\nimport {expect} from \"vitest\"\nimport {it} from \"vitest\"\nimport {makeRoleRecord as makeRole} from \"../../__tests__/battle-records.js\"\nimport {createInitialGameState} from \"../game-state.js\"\nimport {inspectionNames} from \"./__tests__/readout-fixture.js\"\nimport {inspectionPoisons} from \"./__tests__/readout-fixture.js\"\nimport {makeBattleReadoutState} from \"./__tests__/readout-fixture.js\"\nimport {makeInspectionBattle} from \"./__tests__/readout-fixture.js\"\nimport {makeInspectionRoles} from \"./__tests__/readout-fixture.js\"\nimport {makeInspectionState} from \"./__tests__/readout-fixture.js\"\nimport {POISON_ID} from \"./__tests__/readout-fixture.js\"\nimport {ZERO_STATUS} from \"./__tests__/readout-fixture.js\"\nimport {collectPartyStatusReadouts} from \"./battle-inspect.js\"\nimport {type Item} from \"@type-pal/shared\"\nimport {makeExploreState} from \"./__tests__/readout-fixture.js\"\nimport {makeSingleEnemyBattle} from \"./__tests__/readout-fixture.js\"\nimport {collectEnemyStatusReadouts} from \"./battle-inspect.js\"\nimport {collectFieldInfoReadout} from \"./battle-inspect.js\"\ndescribe(\"preserved module 0\",()=>{\nconst roleDefinitions: PlayerRoles = { roles: [makeRole(0, { _name: '李逍遥' })] }\ndescribe('Party identity, persistent and battle projections', () => {\n\n  it('persistent 来源：explore 下 rgPlayerStatus[role][idx] 计数 → 状态标签；slow 无持久位不出现', () => {\n    const gs = makeInspectionState()\n    gs.rgPlayerStatus[0]![2] = 5 // persistentIndex 2 = sleep\n    const readouts = collectPartyStatusReadouts(gs, makeInspectionRoles())\n    expect(readouts).toHaveLength(2)\n    expect(readouts[0]!.source).toBe('persistent')\n    expect(readouts[0]!.roleId).toBe(0)\n    expect(readouts[0]!.statuses).toContainEqual({ name: '眠', kind: 'debuff', rounds: 5 })\n    expect(readouts[0]!.statuses.some((s) => s.name === '迟')).toBe(false)\n    // 未设状态的 slot 1 无 debuff/buff 标签\n    expect(readouts[1]!.statuses).toEqual([])\n  })\n})\n})\ndescribe(\"preserved module 1\",()=>{\nconst roleDefinitions: PlayerRoles = { roles: [makeRole(0, { _name: '李逍遥' })] }\ndescribe('Party identity, persistent and battle projections', () => {\n\n  it('rgPoisonStatus 毒条：知名毒 → 名#id + L级 + script；未知毒 → #id；毒ID 0 跳过', () => {\n    const gs = makeInspectionState()\n    gs.rgPoisonStatus['0_0'] = { wPoisonID: POISON_ID, wPoisonScript: 4242 }\n    gs.rgPoisonStatus['1_0'] = { wPoisonID: 600, wPoisonScript: 0 }\n    gs.rgPoisonStatus['2_0'] = { wPoisonID: 0, wPoisonScript: 0 } // 空槽\n    const readouts = collectPartyStatusReadouts(\n      gs,\n      makeInspectionRoles(),\n      inspectionPoisons,\n      inspectionNames,\n    )\n    expect(readouts[0]!.entries).toContain('毒槽0:毒蛇卵#551 L3 script:4242')\n    expect(readouts[0]!.entries).toContain('毒槽1:#600')\n    expect(readouts[0]!.statuses).toContainEqual({ name: '毒蛇卵', kind: 'poison' })\n    expect(readouts[0]!.statuses).toContainEqual({ name: '毒#600', kind: 'poison' })\n    expect(readouts[0]!.statuses).toHaveLength(2)\n  })\n})\n})\ndescribe(\"preserved module 2\",()=>{\nconst roleDefinitions: PlayerRoles = { roles: [makeRole(0, { _name: '李逍遥' })] }\ndescribe('Party identity, persistent and battle projections', () => {\n\n  it('battle players[slot].roleId 投影：显示身份按战斗槽而非 party 顺序；缺槽回退 persistent', () => {\n    const battle = makeInspectionBattle(\n      [{ roleId: 1, prevHp: 88, prevMp: 70, defending: false, status: { ...ZERO_STATUS } }],\n      [],\n      false,\n    )\n    const gs = makeInspectionState(battle)\n    const readouts = collectPartyStatusReadouts(gs, makeInspectionRoles())\n    expect(readouts[0]!.source).toBe('battle')\n    expect(readouts[0]!.roleId).toBe(1) // 战斗槽 0 是灵儿 → 显示身份 roleId 1\n    expect(readouts[0]!.roleName).toBe('赵灵儿')\n    expect(readouts[0]!.hp).toBe(88)\n    expect(readouts[1]!.source).toBe('persistent') // players[1] 缺 → 回退 party slot 1\n    expect(readouts[1]!.roleId).toBe(1)\n  })\n})\n})\ndescribe(\"preserved module 3\",()=>{\nconst roleDefinitions: PlayerRoles = { roles: [makeRole(0, { _name: '李逍遥' })] }\ndescribe('Party identity, persistent and battle projections', () => {\n\n  it('hiddenExp：cur/next/gained 按各自池（next 用池 wLevel 阈值），与主经验 nextExp 区分', () => {\n    const gs = makeInspectionState()\n    const levelUpExp = Array.from({ length: 12 }, (_, i) => i * 100)\n    const readout = collectPartyStatusReadouts(gs, makeInspectionRoles(), [], [], levelUpExp)[0]!\n    expect(readout.nextExp).toBe(1000) // levelUpExp[level=10]\n    const attack = readout.hiddenExp.find((h) => h.label === '武术')!\n    expect(attack.cur).toBe(40)\n    expect(attack.gained).toBe(12)\n    expect(attack.next).toBe(300) // levelUpExp[池 wLevel=3]\n  })\n})\n})\ndescribe(\"preserved module 4\",()=>{\ndescribe('Enemy values, effects and name projections', () => {\n\n  it('steal 三分支：金钱/知名物品/缺名物品', () => {\n    const money = collectEnemyStatusReadouts(\n      makeInspectionState(makeSingleEnemyBattle({ stealItemCount: 5 })),\n    )[0]!\n    expect(money.canSteal).toBe(true)\n    expect(money.steal).toBe('金钱 ×5')\n    const named = collectEnemyStatusReadouts(\n      makeInspectionState(makeSingleEnemyBattle({ stealItem: POISON_ID, stealItemCount: 2 })),\n      inspectionPoisons,\n      inspectionNames,\n    )[0]!\n    expect(named.steal).toBe('毒蛇卵 ×2')\n    const unknown = collectEnemyStatusReadouts(\n      makeInspectionState(makeSingleEnemyBattle({ stealItem: 999, stealItemCount: 1 })),\n      [],\n      inspectionNames,\n    )[0]!\n    expect(unknown.steal).toBe('物品#999 ×1')\n  })\n})\n})\ndescribe(\"preserved module 5\",()=>{\ndescribe('Enemy values, effects and name projections', () => {\n\n  it('maxHp 优先 maxHealth，缺省取 prevHp；defeated 与巫抗行', () => {\n    const explicitMaximum = collectEnemyStatusReadouts(\n      makeInspectionState(makeSingleEnemyBattle({ health: 30 }, { maxHealth: 80, prevHp: 50 })),\n    )[0]!\n    expect(explicitMaximum.maxHp).toBe(80)\n    const noMax = collectEnemyStatusReadouts(\n      makeInspectionState(makeSingleEnemyBattle({ health: 42 })),\n    )[0]!\n    expect(noMax.maxHp).toBe(42) // maxHealth 缺 → prevHp 42\n    const withPrev = collectEnemyStatusReadouts(\n      makeInspectionState(makeSingleEnemyBattle({ health: 30 }, { prevHp: 50 })),\n    )[0]!\n    expect(withPrev.maxHp).toBe(50) // maxHealth 缺 → prevHp 50\n    const dead = collectEnemyStatusReadouts(\n      makeInspectionState(makeSingleEnemyBattle({ health: 0 }, { defeated: true })),\n    )[0]!\n    expect(dead.defeated).toBe(true)\n    expect(dead.resistances.find((x) => x.label === '巫抗')?.value).toBe(4)\n  })\n})\n})\ndescribe(\"preserved module 6\",()=>{\ndescribe('Enemy values, effects and name projections', () => {\n\n  it('敌方状态与毒条：be.status/confused → 乱；be.poisons → 毒 entries/tags', () => {\n    const battle = makeSingleEnemyBattle(\n      {},\n      {\n        status: { confused: 4 },\n        poisons: [{ poisonId: POISON_ID, scriptEntry: 9 }],\n      },\n    )\n    const readout = collectEnemyStatusReadouts(\n      makeInspectionState(battle),\n      inspectionPoisons,\n      inspectionNames,\n    )[0]!\n    expect(readout.statuses).toContainEqual({ name: '乱', kind: 'debuff', rounds: 4 })\n    expect(readout.statusEntries).toContain('毒:毒蛇卵#551 L3 script:9')\n  })\n})\n})\ndescribe(\"preserved module 7\",()=>{\ndescribe('Battle field and nonbattle guard', () => {\n\n  it('isBoss/screenWave 原样透出；boss 标志 false 时如实 false', () => {\n    const boss = makeInspectionBattle([], [], true)\n    const field = collectFieldInfoReadout(makeInspectionState(boss))\n    expect(field?.isBoss).toBe(true)\n    expect(field?.screenWave).toBe(2)\n    expect(\n      collectFieldInfoReadout(makeInspectionState(makeInspectionBattle([], [], false)))?.isBoss,\n    ).toBe(false)\n  })\n})\n})\ndescribe(\"preserved module 8\",()=>{\ndescribe('Readout input ownership', () => {\n  it('输入深保真：三收集器调用前后实际消费的 gs 子树/roles/poisons/items 逐字段不变', () => {\n    const battle = makeSingleEnemyBattle(\n      { stealItem: POISON_ID, stealItemCount: 2 },\n      { status: { confused: 2 }, poisons: [{ poisonId: POISON_ID, scriptEntry: 9 }] },\n    )\n    const gs = makeInspectionState(battle)\n    gs.rgPlayerStatus[0]![2] = 5\n    gs.rgPoisonStatus['0_0'] = { wPoisonID: POISON_ID, wPoisonScript: 4242 }\n    const gsRoles = makeInspectionRoles()\n    const snapshot = {\n      partyMembers: structuredClone(gs.partyMembers),\n      runtime: structuredClone(gs.PlayerRolesRuntime),\n      exp: structuredClone(gs.Exp),\n      playerStatus: structuredClone(gs.rgPlayerStatus),\n      poisonStatus: structuredClone(gs.rgPoisonStatus),\n      battlePlayers: structuredClone(gs.battleState?.players),\n      battleEnemies: structuredClone(gs.battleState?.enemies),\n      battleField: structuredClone(gs.battleState?.field),\n      roles: structuredClone(gsRoles),\n      poisons: structuredClone(inspectionPoisons),\n      items: structuredClone(inspectionNames),\n    }\n    collectPartyStatusReadouts(gs, gsRoles, inspectionPoisons, inspectionNames, [])\n    collectEnemyStatusReadouts(gs, inspectionPoisons, inspectionNames)\n    collectFieldInfoReadout(gs)\n    expect(gs.partyMembers).toEqual(snapshot.partyMembers)\n    expect(gs.PlayerRolesRuntime).toEqual(snapshot.runtime)\n    expect(gs.Exp).toEqual(snapshot.exp)\n    expect(gs.rgPlayerStatus).toEqual(snapshot.playerStatus)\n    expect(gs.rgPoisonStatus).toEqual(snapshot.poisonStatus)\n    expect(gs.battleState?.players).toEqual(snapshot.battlePlayers)\n    expect(gs.battleState?.enemies).toEqual(snapshot.battleEnemies)\n    expect(gs.battleState?.field).toEqual(snapshot.battleField)\n    expect(gsRoles).toEqual(snapshot.roles)\n    expect(inspectionPoisons).toEqual(snapshot.poisons)\n    expect(inspectionNames).toEqual(snapshot.items)\n  })\n})\n})",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "registrations": [
+    {
+      "old": {
+        "file": "packages/game/src/core/inspect/battle-inspect.test.ts",
+        "ordinal": 0,
+        "fullName": "battle-inspect(从 dev-panel 抽出,语义不变) 重复角色队伍的只读快照按显示槽读取毒，不复用首个同角色槽"
+      },
+      "current": {
+        "file": "packages/game/src/core/inspect/battle-inspect.party.test.ts",
+        "titles": ["Party identity, persistent and battle projections"],
+        "template": "重复角色队伍的只读快照按显示槽读取毒，不复用首个同角色槽",
+        "fullName": "Party identity, persistent and battle projections 重复角色队伍的只读快照按显示槽读取毒，不复用首个同角色槽"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/inspect/battle-inspect.test.ts",
+        "ordinal": 1,
+        "fullName": "battle-inspect(从 dev-panel 抽出,语义不变) collectFieldInfoReadout:战斗读 field(含 signed 场效);非战斗 null"
+      },
+      "current": {
+        "file": "packages/game/src/core/inspect/battle-inspect.field.test.ts",
+        "titles": ["Battle field and nonbattle guard"],
+        "template": "collectFieldInfoReadout:战斗读 field(含 signed 场效);非战斗 null",
+        "fullName": "Battle field and nonbattle guard collectFieldInfoReadout:战斗读 field(含 signed 场效);非战斗 null"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/inspect/battle-inspect.test.ts",
+        "ordinal": 2,
+        "fullName": "battle-inspect(从 dev-panel 抽出,语义不变) collectEnemyStatusReadouts:读敌当前血量/名/未倒;非战斗空数组"
+      },
+      "current": {
+        "file": "packages/game/src/core/inspect/battle-inspect.enemy.test.ts",
+        "titles": ["Enemy values, effects and name projections"],
+        "template": "collectEnemyStatusReadouts:读敌当前血量/名/未倒;非战斗空数组",
+        "fullName": "Enemy values, effects and name projections collectEnemyStatusReadouts:读敌当前血量/名/未倒;非战斗空数组"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/inspect/battle-inspect.test.ts",
+        "ordinal": 3,
+        "fullName": "battle-inspect(从 dev-panel 抽出,语义不变) collectEnemyStatusReadouts:普攻毒(attackEquivItem>0 && rate>0 解析道具名#id+率/10;任一为 0 → null)"
+      },
+      "current": {
+        "file": "packages/game/src/core/inspect/battle-inspect.enemy.test.ts",
+        "titles": ["Enemy values, effects and name projections"],
+        "template": "collectEnemyStatusReadouts:普攻毒(attackEquivItem>0 && rate>0 解析道具名#id+率/10;任一为 0 → null)",
+        "fullName": "Enemy values, effects and name projections collectEnemyStatusReadouts:普攻毒(attackEquivItem>0 && rate>0 解析道具名#id+率/10;任一为 0 → null)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/inspect/battle-inspect.test.ts",
+        "ordinal": 4,
+        "fullName": "battle-inspect(从 dev-panel 抽出,语义不变) collectEnemyStatusReadouts:灵葫值 collectValue(零与非零原样,供灵葫咒判定)"
+      },
+      "current": {
+        "file": "packages/game/src/core/inspect/battle-inspect.enemy.test.ts",
+        "titles": ["Enemy values, effects and name projections"],
+        "template": "collectEnemyStatusReadouts:灵葫值 collectValue(零与非零原样,供灵葫咒判定)",
+        "fullName": "Enemy values, effects and name projections collectEnemyStatusReadouts:灵葫值 collectValue(零与非零原样,供灵葫咒判定)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/inspect/battle-inspect.test.ts",
+        "ordinal": 5,
+        "fullName": "battle-inspect(从 dev-panel 抽出,语义不变) collectPartyStatusReadouts:名/来源/HP/抗性 + 结构化状态(纯中文名+类型)"
+      },
+      "current": {
+        "file": "packages/game/src/core/inspect/battle-inspect.party.test.ts",
+        "titles": ["Party identity, persistent and battle projections"],
+        "template": "collectPartyStatusReadouts:名/来源/HP/抗性 + 结构化状态(纯中文名+类型)",
+        "fullName": "Party identity, persistent and battle projections collectPartyStatusReadouts:名/来源/HP/抗性 + 结构化状态(纯中文名+类型)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/inspect/battle-inspect.glm-phase1-leaves.test.ts",
+        "ordinal": 0,
+        "fullName": "L07 collectPartyStatusReadouts 剩余投影 persistent 来源：explore 下 rgPlayerStatus[role][idx] 计数 → 状态标签；slow 无持久位不出现"
+      },
+      "current": {
+        "file": "packages/game/src/core/inspect/battle-inspect.party.test.ts",
+        "titles": ["Party identity, persistent and battle projections"],
+        "template": "persistent 来源：explore 下 rgPlayerStatus[role][idx] 计数 → 状态标签；slow 无持久位不出现",
+        "fullName": "Party identity, persistent and battle projections persistent 来源：explore 下 rgPlayerStatus[role][idx] 计数 → 状态标签；slow 无持久位不出现"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/inspect/battle-inspect.glm-phase1-leaves.test.ts",
+        "ordinal": 1,
+        "fullName": "L07 collectPartyStatusReadouts 剩余投影 rgPoisonStatus 毒条：知名毒 → 名#id + L级 + script；未知毒 → #id；毒ID 0 跳过"
+      },
+      "current": {
+        "file": "packages/game/src/core/inspect/battle-inspect.party.test.ts",
+        "titles": ["Party identity, persistent and battle projections"],
+        "template": "rgPoisonStatus 毒条：知名毒 → 名#id + L级 + script；未知毒 → #id；毒ID 0 跳过",
+        "fullName": "Party identity, persistent and battle projections rgPoisonStatus 毒条：知名毒 → 名#id + L级 + script；未知毒 → #id；毒ID 0 跳过"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/inspect/battle-inspect.glm-phase1-leaves.test.ts",
+        "ordinal": 2,
+        "fullName": "L07 collectPartyStatusReadouts 剩余投影 battle players[slot].roleId 投影：显示身份按战斗槽而非 party 顺序；缺槽回退 persistent"
+      },
+      "current": {
+        "file": "packages/game/src/core/inspect/battle-inspect.party.test.ts",
+        "titles": ["Party identity, persistent and battle projections"],
+        "template": "battle players[slot].roleId 投影：显示身份按战斗槽而非 party 顺序；缺槽回退 persistent",
+        "fullName": "Party identity, persistent and battle projections battle players[slot].roleId 投影：显示身份按战斗槽而非 party 顺序；缺槽回退 persistent"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/inspect/battle-inspect.glm-phase1-leaves.test.ts",
+        "ordinal": 3,
+        "fullName": "L07 collectPartyStatusReadouts 剩余投影 hiddenExp：cur/next/gained 按各自池（next 用池 wLevel 阈值），与主经验 nextExp 区分"
+      },
+      "current": {
+        "file": "packages/game/src/core/inspect/battle-inspect.party.test.ts",
+        "titles": ["Party identity, persistent and battle projections"],
+        "template": "hiddenExp：cur/next/gained 按各自池（next 用池 wLevel 阈值），与主经验 nextExp 区分",
+        "fullName": "Party identity, persistent and battle projections hiddenExp：cur/next/gained 按各自池（next 用池 wLevel 阈值），与主经验 nextExp 区分"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/inspect/battle-inspect.glm-phase1-leaves.test.ts",
+        "ordinal": 4,
+        "fullName": "L07 collectEnemyStatusReadouts 剩余投影 steal 三分支：金钱/知名物品/缺名物品"
+      },
+      "current": {
+        "file": "packages/game/src/core/inspect/battle-inspect.enemy.test.ts",
+        "titles": ["Enemy values, effects and name projections"],
+        "template": "steal 三分支：金钱/知名物品/缺名物品",
+        "fullName": "Enemy values, effects and name projections steal 三分支：金钱/知名物品/缺名物品"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/inspect/battle-inspect.glm-phase1-leaves.test.ts",
+        "ordinal": 5,
+        "fullName": "L07 collectEnemyStatusReadouts 剩余投影 maxHp 回退链 maxHealth ?? prevHp ?? health；defeated 与巫抗行"
+      },
+      "current": {
+        "file": "packages/game/src/core/inspect/battle-inspect.enemy.test.ts",
+        "titles": ["Enemy values, effects and name projections"],
+        "template": "maxHp 优先 maxHealth，缺省取 prevHp；defeated 与巫抗行",
+        "fullName": "Enemy values, effects and name projections maxHp 优先 maxHealth，缺省取 prevHp；defeated 与巫抗行"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/inspect/battle-inspect.glm-phase1-leaves.test.ts",
+        "ordinal": 6,
+        "fullName": "L07 collectEnemyStatusReadouts 剩余投影 敌方状态与毒条：be.status/confused → 乱；be.poisons → 毒 entries/tags"
+      },
+      "current": {
+        "file": "packages/game/src/core/inspect/battle-inspect.enemy.test.ts",
+        "titles": ["Enemy values, effects and name projections"],
+        "template": "敌方状态与毒条：be.status/confused → 乱；be.poisons → 毒 entries/tags",
+        "fullName": "Enemy values, effects and name projections 敌方状态与毒条：be.status/confused → 乱；be.poisons → 毒 entries/tags"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/inspect/battle-inspect.glm-phase1-leaves.test.ts",
+        "ordinal": 7,
+        "fullName": "L07 collectFieldInfoReadout 剩余投影与深保真 isBoss/screenWave 原样透出；boss 标志 false 时如实 false"
+      },
+      "current": {
+        "file": "packages/game/src/core/inspect/battle-inspect.field.test.ts",
+        "titles": ["Battle field and nonbattle guard"],
+        "template": "isBoss/screenWave 原样透出；boss 标志 false 时如实 false",
+        "fullName": "Battle field and nonbattle guard isBoss/screenWave 原样透出；boss 标志 false 时如实 false"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/inspect/battle-inspect.glm-phase1-leaves.test.ts",
+        "ordinal": 8,
+        "fullName": "L07 collectFieldInfoReadout 剩余投影与深保真 输入深保真：三收集器调用前后实际消费的 gs 子树/roles/poisons/items 逐字段不变"
+      },
+      "current": {
+        "file": "packages/game/src/core/inspect/battle-inspect.ownership.test.ts",
+        "titles": ["Readout input ownership"],
+        "template": "输入深保真：三收集器调用前后实际消费的 gs 子树/roles/poisons/items 逐字段不变",
+        "fullName": "Readout input ownership 输入深保真：三收集器调用前后实际消费的 gs 子树/roles/poisons/items 逐字段不变"
+      }
+    }
+  ],
+  "identities": [
+    {
+      "old": {
+        "file": "packages/game/src/core/inspect/battle-inspect.glm-phase1-leaves.test.ts",
+        "fullName": "L07 collectPartyStatusReadouts 剩余投影 persistent 来源：explore 下 rgPlayerStatus[role][idx] 计数 → 状态标签；slow 无持久位不出现"
+      },
+      "current": {
+        "file": "packages/game/src/core/inspect/battle-inspect.party.test.ts",
+        "fullName": "Party identity, persistent and battle projections persistent 来源：explore 下 rgPlayerStatus[role][idx] 计数 → 状态标签；slow 无持久位不出现"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/inspect/battle-inspect.glm-phase1-leaves.test.ts",
+        "fullName": "L07 collectPartyStatusReadouts 剩余投影 rgPoisonStatus 毒条：知名毒 → 名#id + L级 + script；未知毒 → #id；毒ID 0 跳过"
+      },
+      "current": {
+        "file": "packages/game/src/core/inspect/battle-inspect.party.test.ts",
+        "fullName": "Party identity, persistent and battle projections rgPoisonStatus 毒条：知名毒 → 名#id + L级 + script；未知毒 → #id；毒ID 0 跳过"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/inspect/battle-inspect.glm-phase1-leaves.test.ts",
+        "fullName": "L07 collectPartyStatusReadouts 剩余投影 battle players[slot].roleId 投影：显示身份按战斗槽而非 party 顺序；缺槽回退 persistent"
+      },
+      "current": {
+        "file": "packages/game/src/core/inspect/battle-inspect.party.test.ts",
+        "fullName": "Party identity, persistent and battle projections battle players[slot].roleId 投影：显示身份按战斗槽而非 party 顺序；缺槽回退 persistent"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/inspect/battle-inspect.glm-phase1-leaves.test.ts",
+        "fullName": "L07 collectPartyStatusReadouts 剩余投影 hiddenExp：cur/next/gained 按各自池（next 用池 wLevel 阈值），与主经验 nextExp 区分"
+      },
+      "current": {
+        "file": "packages/game/src/core/inspect/battle-inspect.party.test.ts",
+        "fullName": "Party identity, persistent and battle projections hiddenExp：cur/next/gained 按各自池（next 用池 wLevel 阈值），与主经验 nextExp 区分"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/inspect/battle-inspect.glm-phase1-leaves.test.ts",
+        "fullName": "L07 collectEnemyStatusReadouts 剩余投影 steal 三分支：金钱/知名物品/缺名物品"
+      },
+      "current": {
+        "file": "packages/game/src/core/inspect/battle-inspect.enemy.test.ts",
+        "fullName": "Enemy values, effects and name projections steal 三分支：金钱/知名物品/缺名物品"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/inspect/battle-inspect.glm-phase1-leaves.test.ts",
+        "fullName": "L07 collectEnemyStatusReadouts 剩余投影 maxHp 回退链 maxHealth ?? prevHp ?? health；defeated 与巫抗行"
+      },
+      "current": {
+        "file": "packages/game/src/core/inspect/battle-inspect.enemy.test.ts",
+        "fullName": "Enemy values, effects and name projections maxHp 优先 maxHealth，缺省取 prevHp；defeated 与巫抗行"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/inspect/battle-inspect.glm-phase1-leaves.test.ts",
+        "fullName": "L07 collectEnemyStatusReadouts 剩余投影 敌方状态与毒条：be.status/confused → 乱；be.poisons → 毒 entries/tags"
+      },
+      "current": {
+        "file": "packages/game/src/core/inspect/battle-inspect.enemy.test.ts",
+        "fullName": "Enemy values, effects and name projections 敌方状态与毒条：be.status/confused → 乱；be.poisons → 毒 entries/tags"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/inspect/battle-inspect.glm-phase1-leaves.test.ts",
+        "fullName": "L07 collectFieldInfoReadout 剩余投影与深保真 isBoss/screenWave 原样透出；boss 标志 false 时如实 false"
+      },
+      "current": {
+        "file": "packages/game/src/core/inspect/battle-inspect.field.test.ts",
+        "fullName": "Battle field and nonbattle guard isBoss/screenWave 原样透出；boss 标志 false 时如实 false"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/inspect/battle-inspect.glm-phase1-leaves.test.ts",
+        "fullName": "L07 collectFieldInfoReadout 剩余投影与深保真 输入深保真：三收集器调用前后实际消费的 gs 子树/roles/poisons/items 逐字段不变"
+      },
+      "current": {
+        "file": "packages/game/src/core/inspect/battle-inspect.ownership.test.ts",
+        "fullName": "Readout input ownership 输入深保真：三收集器调用前后实际消费的 gs 子树/roles/poisons/items 逐字段不变"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/inspect/battle-inspect.test.ts",
+        "fullName": "battle-inspect(从 dev-panel 抽出,语义不变) 重复角色队伍的只读快照按显示槽读取毒，不复用首个同角色槽"
+      },
+      "current": {
+        "file": "packages/game/src/core/inspect/battle-inspect.party.test.ts",
+        "fullName": "Party identity, persistent and battle projections 重复角色队伍的只读快照按显示槽读取毒，不复用首个同角色槽"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/inspect/battle-inspect.test.ts",
+        "fullName": "battle-inspect(从 dev-panel 抽出,语义不变) collectFieldInfoReadout:战斗读 field(含 signed 场效);非战斗 null"
+      },
+      "current": {
+        "file": "packages/game/src/core/inspect/battle-inspect.field.test.ts",
+        "fullName": "Battle field and nonbattle guard collectFieldInfoReadout:战斗读 field(含 signed 场效);非战斗 null"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/inspect/battle-inspect.test.ts",
+        "fullName": "battle-inspect(从 dev-panel 抽出,语义不变) collectEnemyStatusReadouts:读敌当前血量/名/未倒;非战斗空数组"
+      },
+      "current": {
+        "file": "packages/game/src/core/inspect/battle-inspect.enemy.test.ts",
+        "fullName": "Enemy values, effects and name projections collectEnemyStatusReadouts:读敌当前血量/名/未倒;非战斗空数组"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/inspect/battle-inspect.test.ts",
+        "fullName": "battle-inspect(从 dev-panel 抽出,语义不变) collectEnemyStatusReadouts:普攻毒(attackEquivItem>0 && rate>0 解析道具名#id+率/10;任一为 0 → null)"
+      },
+      "current": {
+        "file": "packages/game/src/core/inspect/battle-inspect.enemy.test.ts",
+        "fullName": "Enemy values, effects and name projections collectEnemyStatusReadouts:普攻毒(attackEquivItem>0 && rate>0 解析道具名#id+率/10;任一为 0 → null)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/inspect/battle-inspect.test.ts",
+        "fullName": "battle-inspect(从 dev-panel 抽出,语义不变) collectEnemyStatusReadouts:灵葫值 collectValue(零与非零原样,供灵葫咒判定)"
+      },
+      "current": {
+        "file": "packages/game/src/core/inspect/battle-inspect.enemy.test.ts",
+        "fullName": "Enemy values, effects and name projections collectEnemyStatusReadouts:灵葫值 collectValue(零与非零原样,供灵葫咒判定)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/inspect/battle-inspect.test.ts",
+        "fullName": "battle-inspect(从 dev-panel 抽出,语义不变) collectPartyStatusReadouts:名/来源/HP/抗性 + 结构化状态(纯中文名+类型)"
+      },
+      "current": {
+        "file": "packages/game/src/core/inspect/battle-inspect.party.test.ts",
+        "fullName": "Party identity, persistent and battle projections collectPartyStatusReadouts:名/来源/HP/抗性 + 结构化状态(纯中文名+类型)"
+      }
+    }
+  ],
+  "retirements": [],
+  "cohortSubjects": [
+    {
+      "path": "packages/game/src/core/inspect/battle-inspect.glm-phase1-leaves.test.ts",
+      "sha256": "3551a652625b7dd3e3806f1473e2848d1e9811f88bf8b08e83f8a64e06ca2e26",
+      "priorCurrentBridges": []
+    }
+  ],
+  "profiles": [
+    {
+      "path": "packages/game/src/core/inspect/battle-inspect.party.test.ts",
+      "subjects": ["packages/game/src/core/inspect/battle-inspect.glm-phase1-leaves.test.ts"],
+      "axes": {
+        "A": "6party cases retainrole/slot poison,realruntime/battle/persistent source andExp pool thresholds. Statusfixturemismatch isdeclared defense,not normalproducer.",
+        "B": "Remove author/batch/remaining-coverage header. maxHp title nowstates actual maxHealth/prevHp coverage,not an unproved missing-required-prevHp fallback. Names/script tables are synthetic display inputs. Actualruntime zero fields remain values,not fallback truth.",
+        "C": "Same readonlystate factories;roleDefinitions catalogremainsdifferentfromruntime state. No globalcataloginjection ormemorycleanupneeded.",
+        "D": "Use alreadysharedmakeRoleRecord/makeEnemyRecord aftercompletevaluechecks;remove duplicate completeEnemy/Role literals. Keep two runtime initialization contracts,fieldwave0/2 androleswalkFrames0/3 differences. No generic renderer/battlehost ormodeBoolean.",
+        "E": "15identities retained;13callbacks fulltypedtreesafterdeclaredprivate/factory changes,1maxHp prefixand1ownershipchange explicit. maxHealth80 vs prevHp50 real-source mutant oldselectedgreen/newoneAssertionError,exactrestore. Oldcompare-before/after clones replacedbyactual passedroles snapshot/directaftervalues.8files42/TC0,stderr0;no newcase/coverage credit fromdata probe.",
+        "F": "Canonicalparty/enemy/field/ownership filenames,makeInspection*/makeBattleReadoutState factories,readout(s)/field/runtime/hiddenExperience replaceopaqueabbreviations. Public propertynamesandliteraloracles retained;renames drivenbybindings.",
+        "G": "Two mixedspecs ->four responsibilities plusonepurefixture;all10fixtureexports haveactualusers. One-fieldopts wrapperremoved onlyinprivatefactoryactualcallers;no productparam/export/schema/fallback retirement. Fieldguardandboss/signeddata tests retainedbecausedomains differ.",
+        "H": "Actualpurecollectors andrealstate/record factories;independentliteralHP/EXP/status/poison/name/field outputs. Freshnestedrole records,borrowedbattleidentity andwholeGS pairs checked. No coremock/typecastorprivateproductionseam introduced. Runtime probe isnotregisteredtest;new fixturelegalitycheckedbygameTC."
+      }
+    },
+    {
+      "path": "packages/game/src/core/inspect/battle-inspect.enemy.test.ts",
+      "subjects": ["packages/game/src/core/inspect/battle-inspect.glm-phase1-leaves.test.ts"],
+      "axes": {
+        "A": "6enemy cases retainHP/name/zero-vs-positive poison/steal/count/status/fallback. NewmaxHealth80beatsprevHp50andhealth30,independent literal.",
+        "B": "Remove author/batch/remaining-coverage header. maxHp title nowstates actual maxHealth/prevHp coverage,not an unproved missing-required-prevHp fallback. Names/script tables are synthetic display inputs. Actualruntime zero fields remain values,not fallback truth.",
+        "C": "Onlyprovidedstate/lookuprecords. Allthreeinputs toformerlycoarseHPcase unchanged;newexplicitMaxinput isintentionalstrengthening.",
+        "D": "Use alreadysharedmakeRoleRecord/makeEnemyRecord aftercompletevaluechecks;remove duplicate completeEnemy/Role literals. Keep two runtime initialization contracts,fieldwave0/2 androleswalkFrames0/3 differences. No generic renderer/battlehost ormodeBoolean.",
+        "E": "15identities retained;13callbacks fulltypedtreesafterdeclaredprivate/factory changes,1maxHp prefixand1ownershipchange explicit. maxHealth80 vs prevHp50 real-source mutant oldselectedgreen/newoneAssertionError,exactrestore. Oldcompare-before/after clones replacedbyactual passedroles snapshot/directaftervalues.8files42/TC0,stderr0;no newcase/coverage credit fromdata probe.",
+        "F": "Canonicalparty/enemy/field/ownership filenames,makeInspection*/makeBattleReadoutState factories,readout(s)/field/runtime/hiddenExperience replaceopaqueabbreviations. Public propertynamesandliteraloracles retained;renames drivenbybindings.",
+        "G": "Two mixedspecs ->four responsibilities plusonepurefixture;all10fixtureexports haveactualusers. One-fieldopts wrapperremoved onlyinprivatefactoryactualcallers;no productparam/export/schema/fallback retirement. Fieldguardandboss/signeddata tests retainedbecausedomains differ.",
+        "H": "Actualpurecollectors andrealstate/record factories;independentliteralHP/EXP/status/poison/name/field outputs. Freshnestedrole records,borrowedbattleidentity andwholeGS pairs checked. No coremock/typecastorprivateproductionseam introduced. Runtime probe isnotregisteredtest;new fixturelegalitycheckedbygameTC."
+      }
+    },
+    {
+      "path": "packages/game/src/core/inspect/battle-inspect.field.test.ts",
+      "subjects": ["packages/game/src/core/inspect/battle-inspect.glm-phase1-leaves.test.ts"],
+      "axes": {
+        "A": "2field cases keepnonbattle null,signedfire-2,id7 andseparateboss true/false/wave2;no duplicated statefactoryinline.",
+        "B": "Remove author/batch/remaining-coverage header. maxHp title nowstates actual maxHealth/prevHp coverage,not an unproved missing-required-prevHp fallback. Names/script tables are synthetic display inputs. Actualruntime zero fields remain values,not fallback truth.",
+        "C": "Pure collector calls;onehydratedbattle scenarioandtypedemptybattle scenario remainseparate. No UI/timer/IOhost.",
+        "D": "Use alreadysharedmakeRoleRecord/makeEnemyRecord aftercompletevaluechecks;remove duplicate completeEnemy/Role literals. Keep two runtime initialization contracts,fieldwave0/2 androleswalkFrames0/3 differences. No generic renderer/battlehost ormodeBoolean.",
+        "E": "15identities retained;13callbacks fulltypedtreesafterdeclaredprivate/factory changes,1maxHp prefixand1ownershipchange explicit. maxHealth80 vs prevHp50 real-source mutant oldselectedgreen/newoneAssertionError,exactrestore. Oldcompare-before/after clones replacedbyactual passedroles snapshot/directaftervalues.8files42/TC0,stderr0;no newcase/coverage credit fromdata probe.",
+        "F": "Canonicalparty/enemy/field/ownership filenames,makeInspection*/makeBattleReadoutState factories,readout(s)/field/runtime/hiddenExperience replaceopaqueabbreviations. Public propertynamesandliteraloracles retained;renames drivenbybindings.",
+        "G": "Two mixedspecs ->four responsibilities plusonepurefixture;all10fixtureexports haveactualusers. One-fieldopts wrapperremoved onlyinprivatefactoryactualcallers;no productparam/export/schema/fallback retirement. Fieldguardandboss/signeddata tests retainedbecausedomains differ.",
+        "H": "Actualpurecollectors andrealstate/record factories;independentliteralHP/EXP/status/poison/name/field outputs. Freshnestedrole records,borrowedbattleidentity andwholeGS pairs checked. No coremock/typecastorprivateproductionseam introduced. Runtime probe isnotregisteredtest;new fixturelegalitycheckedbygameTC."
+      }
+    },
+    {
+      "path": "packages/game/src/core/inspect/battle-inspect.ownership.test.ts",
+      "subjects": ["packages/game/src/core/inspect/battle-inspect.glm-phase1-leaves.test.ts"],
+      "axes": {
+        "A": "1three-collectorownership casepreserves11consumedsubtrees. SnapshotrolesnowclonesexactgsRolespassedlater,ratherthanconstructinganotherfixture;directaftervalues keepindependentsnapshot.",
+        "B": "Remove author/batch/remaining-coverage header. maxHp title nowstates actual maxHealth/prevHp coverage,not an unproved missing-required-prevHp fallback. Names/script tables are synthetic display inputs. Actualruntime zero fields remain values,not fallback truth.",
+        "C": "Actualinputreferences plusfreshsnapshot;noSUT clonesused asoracle andnoasserting mockcounts. Subjectscope explicitlydoesnotincludeunreadGSsubtrees/RNG behavior.",
+        "D": "Use alreadysharedmakeRoleRecord/makeEnemyRecord aftercompletevaluechecks;remove duplicate completeEnemy/Role literals. Keep two runtime initialization contracts,fieldwave0/2 androleswalkFrames0/3 differences. No generic renderer/battlehost ormodeBoolean.",
+        "E": "15identities retained;13callbacks fulltypedtreesafterdeclaredprivate/factory changes,1maxHp prefixand1ownershipchange explicit. maxHealth80 vs prevHp50 real-source mutant oldselectedgreen/newoneAssertionError,exactrestore. Oldcompare-before/after clones replacedbyactual passedroles snapshot/directaftervalues.8files42/TC0,stderr0;no newcase/coverage credit fromdata probe.",
+        "F": "Canonicalparty/enemy/field/ownership filenames,makeInspection*/makeBattleReadoutState factories,readout(s)/field/runtime/hiddenExperience replaceopaqueabbreviations. Public propertynamesandliteraloracles retained;renames drivenbybindings.",
+        "G": "Two mixedspecs ->four responsibilities plusonepurefixture;all10fixtureexports haveactualusers. One-fieldopts wrapperremoved onlyinprivatefactoryactualcallers;no productparam/export/schema/fallback retirement. Fieldguardandboss/signeddata tests retainedbecausedomains differ.",
+        "H": "Actualpurecollectors andrealstate/record factories;independentliteralHP/EXP/status/poison/name/field outputs. Freshnestedrole records,borrowedbattleidentity andwholeGS pairs checked. No coremock/typecastorprivateproductionseam introduced. Runtime probe isnotregisteredtest;new fixturelegalitycheckedbygameTC."
+      }
+    },
+    {
+      "path": "packages/game/src/core/inspect/__tests__/readout-fixture.ts",
+      "subjects": ["packages/game/src/core/inspect/battle-inspect.glm-phase1-leaves.test.ts"],
+      "axes": {
+        "A": "Complete2role/7enemyrecords matchold;5battle-recordpairs(withseparateRngstatecheck),6wholeGS pairs andfreshnestedroles checkedatactual publicfactories. Literalcataloginitializers unchanged.",
+        "B": "Remove author/batch/remaining-coverage header. maxHp title nowstates actual maxHealth/prevHp coverage,not an unproved missing-required-prevHp fallback. Names/script tables are synthetic display inputs. Actualruntime zero fields remain values,not fallback truth.",
+        "C": "Onlypuredata/state constructionimports,noVitest/SUTcollector/DOM/IO/globalsetters. Mainactualfactoryandleafexplicitruntimepolicyremainseparate. Actualthreefieldsparams preserved;singlebattleargumentremovedprivatewrapper.",
+        "D": "Use alreadysharedmakeRoleRecord/makeEnemyRecord aftercompletevaluechecks;remove duplicate completeEnemy/Role literals. Keep two runtime initialization contracts,fieldwave0/2 androleswalkFrames0/3 differences. No generic renderer/battlehost ormodeBoolean.",
+        "E": "15identities retained;13callbacks fulltypedtreesafterdeclaredprivate/factory changes,1maxHp prefixand1ownershipchange explicit. maxHealth80 vs prevHp50 real-source mutant oldselectedgreen/newoneAssertionError,exactrestore. Oldcompare-before/after clones replacedbyactual passedroles snapshot/directaftervalues.8files42/TC0,stderr0;no newcase/coverage credit fromdata probe.",
+        "F": "Canonicalparty/enemy/field/ownership filenames,makeInspection*/makeBattleReadoutState factories,readout(s)/field/runtime/hiddenExperience replaceopaqueabbreviations. Public propertynamesandliteraloracles retained;renames drivenbybindings.",
+        "G": "Two mixedspecs ->four responsibilities plusonepurefixture;all10fixtureexports haveactualusers. One-fieldopts wrapperremoved onlyinprivatefactoryactualcallers;no productparam/export/schema/fallback retirement. Fieldguardandboss/signeddata tests retainedbecausedomains differ.",
+        "H": "Actualpurecollectors andrealstate/record factories;independentliteralHP/EXP/status/poison/name/field outputs. Freshnestedrole records,borrowedbattleidentity andwholeGS pairs checked. No coremock/typecastorprivateproductionseam introduced. Runtime probe isnotregisteredtest;new fixturelegalitycheckedbygameTC."
+      }
+    }
+  ],
+  "preserved": [
+    {
+      "path": "packages/game/src/core/inspect/battle-inspect.ts",
+      "sha256": "b0febbfa204ee8637cecca4305555e7426a7ec7bc8030254587c55bb56069819",
+      "lines": 399
+    },
+    {
+      "path": "packages/game/src/dev/dev-party-panel.ts",
+      "sha256": "68ae313ef7c400bd1c412d13465f4d59bc0b2cf6f38e7eebc3f48567077dfc5d",
+      "lines": 260
+    },
+    {
+      "path": "packages/game/src/__tests__/battle-records.ts",
+      "sha256": "e06702ce034d7b7b7680b649d2c6d11d948acd6daa9aeac0ad20478c62afc575",
+      "lines": 98
+    },
+    {
+      "path": "packages/game/src/__tests__/coverage85-glm-game/harness.ts",
+      "sha256": "f8bb20fe42370423e506b4ef9ad1aa634fe3ca6ac8f547f2b85e2170d8071e5c",
+      "lines": 72
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel.ts",
+      "sha256": "b7f45736b940fa55952d1f28272eabf37c6331090fb14d4b37701df83c5cc596",
+      "lines": 1083
+    },
+    {
+      "path": "packages/game/src/core/game-state.ts",
+      "sha256": "084718097eb0963c2ee3a9d72da59b313ca8fd401672f6a8b341ba21ae8b8906",
+      "lines": 1905
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-state.ts",
+      "sha256": "546e8e2e86ec08c45492b80cb03349cc1a9a182735626f5ba53248d672a1e386",
+      "lines": 919
+    },
+    {
+      "path": "packages/game/vitest.config.ts",
+      "sha256": "3dd92ad4886bc72c88e7a7b2e6bdacc3aaf9e2a24ac72153f3b619ba37feb7d4",
+      "lines": 13
+    },
+    {
+      "path": "scripts/coverage/config.mjs",
+      "sha256": "decb63dda5d12a2269bef1dd75c3d1eb4efca071887c759deca8e9b06ef17a25",
+      "lines": 264
+    }
+  ],
+  "neighborPaths": [
+    "packages/game/src/dev/dev-panel-party-lifecycle.test.ts",
+    "packages/game/src/dev/dev-panel.test.ts",
+    "packages/game/src/tools/tools-panel.english.test.ts",
+    "packages/game/src/tools/tools-panel.test.ts",
+    "packages/game/src/core/inspect/battle-inspect.enemy.test.ts",
+    "packages/game/src/core/inspect/battle-inspect.field.test.ts",
+    "packages/game/src/core/inspect/battle-inspect.ownership.test.ts",
+    "packages/game/src/core/inspect/battle-inspect.party.test.ts"
+  ],
+  "cleanExecutions": [
+    "before",
+    "reorganize",
+    "refine",
+    "format-final",
+    "counters-r2",
+    "records-probe",
+    "proof",
+    "neighbors",
+    "typecheck",
+    "docs",
+    "content-review",
+    "lint",
+    "scoped",
+    "diff",
+    "ledger-final",
+    "module-preflight",
+    "fetch-final"
+  ],
+  "lightweightGates": true,
+  "callbackProof": "organization-inspect-readouts/proof.stdout.raw",
+  "counters": ["counter-max-hp-r2.json"],
+  "qualityDelta": {
+    "oldCases": 15,
+    "currentCases": 15,
+    "newCases": 0,
+    "retirements": 0,
+    "rolesAndEnemiesReuseExistingRecords": true,
+    "sourceUnchanged": true,
+    "actualInputSnapshot": true,
+    "unnecessaryAfterClonesRemoved": 11,
+    "maxHpNewIndependentPriorityInput": true,
+    "specCaseCounts": [6, 6, 2, 1]
+  },
+  "reads": {
+    "fullInputs": [
+      {
+        "path": "packages/game/src/core/inspect/battle-inspect.test.ts",
+        "member": "organization-inspect-readouts/0.before",
+        "sha256": "3b17b6ee6c6c71166a8f986283b705fa5b945cb47aaf1efaa9b1b4d249b34ffe",
+        "lines": 177
+      },
+      {
+        "path": "packages/game/src/core/inspect/battle-inspect.glm-phase1-leaves.test.ts",
+        "member": "organization-inspect-readouts/1.before",
+        "sha256": "3551a652625b7dd3e3806f1473e2848d1e9811f88bf8b08e83f8a64e06ca2e26",
+        "lines": 393
+      }
+    ],
+    "fullOutputs": [
+      {
+        "path": "packages/game/src/core/inspect/battle-inspect.party.test.ts",
+        "sha256": "f743ed696c5f776ae3a91c11286e01536e414eb78d282193dd689638567b5856"
+      },
+      {
+        "path": "packages/game/src/core/inspect/battle-inspect.enemy.test.ts",
+        "sha256": "0bc10b83e7fb13d556cfa76e316adc557546f2da4e293291e45f8eb0f917196b"
+      },
+      {
+        "path": "packages/game/src/core/inspect/battle-inspect.field.test.ts",
+        "sha256": "058d15e51438848047e740bdf9bb4373e4844de5711ab5abf7e7319b6576bcfc"
+      },
+      {
+        "path": "packages/game/src/core/inspect/battle-inspect.ownership.test.ts",
+        "sha256": "8db8ddbc104b34668241ac879e84a5ffe940596b3a003f4fc53b167015f160e5"
+      },
+      {
+        "path": "packages/game/src/core/inspect/__tests__/readout-fixture.ts",
+        "sha256": "b1e027a62f78138d89c78a7c456162f58d774565987e4c33f7734d7c97f25053"
+      }
+    ],
+    "fullContext": [
+      {
+        "path": "packages/game/src/core/inspect/battle-inspect.ts",
+        "sha256": "b0febbfa204ee8637cecca4305555e7426a7ec7bc8030254587c55bb56069819",
+        "lines": 399
+      },
+      {
+        "path": "packages/game/src/dev/dev-party-panel.ts",
+        "sha256": "68ae313ef7c400bd1c412d13465f4d59bc0b2cf6f38e7eebc3f48567077dfc5d",
+        "lines": 260
+      },
+      {
+        "path": "packages/game/src/__tests__/battle-records.ts",
+        "sha256": "e06702ce034d7b7b7680b649d2c6d11d948acd6daa9aeac0ad20478c62afc575",
+        "lines": 98
+      },
+      {
+        "path": "packages/game/src/__tests__/coverage85-glm-game/harness.ts",
+        "sha256": "f8bb20fe42370423e506b4ef9ad1aa634fe3ca6ac8f547f2b85e2170d8071e5c",
+        "lines": 72
+      }
+    ],
+    "priorSameVersionCaller": "tools-panel1083lines previousslice,actual collectorslines364-452;no repeatedwhole-sourcecredit",
+    "scoped": [
+      {
+        "path": "packages/game/src/dev/dev-panel.ts",
+        "sha256": "c6bd694889ef988f6ae8bc4e050ec497789aafe133316e279029911b8af939cf",
+        "lines": 1883,
+        "start": 402,
+        "end": 414
+      },
+      {
+        "path": "packages/game/src/dev/dev-panel.ts",
+        "sha256": "c6bd694889ef988f6ae8bc4e050ec497789aafe133316e279029911b8af939cf",
+        "lines": 1883,
+        "start": 1655,
+        "end": 1667
+      }
+    ],
+    "priorSource": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/status-tools-closeout/review.json",
+    "productExact": true,
+    "menusPreparation": "organization-inspect-readouts/read-menu-preparation.json",
+    "menusCredited": false
+  },
+  "neighborStdoutClassification": {
+    "diagnostics": 0,
+    "expectedConsoleLog": 6,
+    "sources": [
+      {
+        "path": "packages/game/src/dev/dev-panel.ts",
+        "lines": [409, 1660]
+      }
+    ],
+    "rawRetained": true,
+    "notSilenced": true
+  },
+  "processDisclosures": [
+    "Initialidentitypublisherorderedvirtualsourcesbydestinationfile,changingoldordinals;guardrejectedbeforemanifestwrite. R2buildseachoriginalregistrationinoriginalorder,withoutchangingcasesorlooseningidentitychecks.",
+    "Initialcombinedmenu/source/inspectoutputtruncated;boundedseparatereads completedinspectandmenuimplementation only. Menuleafnotclaimedfull,noFGcredit.",
+    "Textualrenameinitiallychangedownershiphuman title;beforefinalrunbinding-basedrenamepreservedpropertykeys/literals andrestoredoriginaltitle. NofixtureAPIpropertyremainingrenamed.",
+    "FirstmaxHp pairwasvalidoldgreen/newsinglebusinessred;finalformattingchangedcurrenttestbytes. BoundcheckcorrectlyrejectedoldtestSHA,firstpairretainedashistoryonly. R2capturesfullcurrenttest/sourceand reruns2selectedcases;source/currenttestfinallyexact.",
+    "Wholedata probeexecutesactualfactoryexportsagainstoldfrozenfunctions,notregisteredVitest/coverageorstatictypecredit. CurrentfixturetypingcomesfromgameTC;probeusesdynamicCommonJSoldexports solelyforruntimevaluecomparison.",
+    "Neighborstdoutcontains4setup+2applyFixtureoperationalconsole.log lines;bothproductionsourcesread,notlint/typecheck/frameworkdiagnostics. No warnings/errorsorstderr;originalstdoutnotmuted.",
+    "0newclosed;oneordinaryclosedmainreopensreview. OnehistoricalsubjectFGcomplete,goal145/174remaining29,fixed178149;12toolsunchanged. Heavy/publicationdeferred.",
+    "Finalfetchfirstfailedexit128withGitHubLibreSSLSSL_ERROR_SYSCALL;boundedr2samecommandsucceededexit0/stderr0. Bothnativeexecution/rawreceiptsretained. Currentacceptanceusesr2byexplicitreceiptalias,notrewritingfailure. No code/test changesorheavygatererun."
+  ],
+  "invalidations": "Changedinspect/equipment/state/caller/recordfactory/typedfields/statussources/poisonownership orfixturedata/registration/oracle changesreopenaffectedclaim. No damageformula,fullbattleturn,script,originalresource,visual/E2EorfullGSimmutabilitycredit.",
+  "ledgerCounts": {
+    "inventory": 3447,
+    "closed": 513,
+    "review": 302,
+    "pending": 2632
+  },
+  "receipts": {
+    "fetch-final": "organization-inspect-readouts/fetch-final-r2",
+    "verify": "organization-inspect-readouts/verify-r2"
+  }
+}

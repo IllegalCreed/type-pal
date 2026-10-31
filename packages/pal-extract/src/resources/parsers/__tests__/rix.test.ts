@@ -31,10 +31,16 @@ describe('RIX archive publication', () => {
   })
 
   it.each([
-    new Uint8Array([0xaa, 0x55]),
-    new Uint8Array(16),
-    new Uint8Array([0xaa, 0x54, ...new Uint8Array(14)]),
-  ])('rejects truncated or non-RIX chunks before copying them to the published library', (song) => {
+    { reason: 'truncated header', song: new Uint8Array([0xaa, 0x55]) },
+    {
+      reason: 'wrong first signature byte',
+      song: new Uint8Array([0xab, 0x55, ...new Uint8Array(14)]),
+    },
+    {
+      reason: 'wrong second signature byte',
+      song: new Uint8Array([0xaa, 0x54, ...new Uint8Array(14)]),
+    },
+  ])('rejects $reason before copying to the published library', ({ song }) => {
     expect(() => inspectRixArchive(archive(song))).toThrow('RIX: invalid music header in track 1')
   })
 })

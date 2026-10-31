@@ -49,7 +49,10 @@ console.log(JSON.stringify({cache:getCompileCacheDir()??null,cacheEnv:process.en
         }),
       },
     )
+    assert.ifError(run.error)
+    assert.equal(run.signal, null)
     assert.equal(run.status, 0, run.stderr)
+    assert.equal(run.stderr, '')
     assert.deepEqual(JSON.parse(run.stdout), {
       cache: null,
       cacheEnv: null,

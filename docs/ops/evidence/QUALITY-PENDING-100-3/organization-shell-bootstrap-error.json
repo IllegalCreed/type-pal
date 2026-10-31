@@ -1,0 +1,378 @@
+{
+  "inputs": [
+    {
+      "path": "packages/game/src/shell/bootstrap.glm-next-wave.test.ts",
+      "sha256": "facec95b90f51609c99047b7ba6d106c1be58b6e44736dd337b7ce982ff9fef0",
+      "member": "organization-shell-bootstrap-error/0.before"
+    },
+    {
+      "path": "packages/game/src/shell/shell-bootstrap.glm-shell.test.ts",
+      "sha256": "d5459f2f5ee00f2a68556d391e45cc5482624e379eb1a41ae2aa7de45ae2c909",
+      "member": "organization-shell-bootstrap-error/1.before"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "packages/game/src/shell/bootstrap.error.test.ts",
+      "sha256": "facec95b90f51609c99047b7ba6d106c1be58b6e44736dd337b7ce982ff9fef0"
+    },
+    {
+      "path": "packages/game/src/shell/shell-bootstrap.glm-shell.test.ts",
+      "sha256": "19fbd37f6288a3f1718992cbcf57c369150c8fecd9f1c6f856517c1d9a66502b"
+    }
+  ],
+  "sourceBridges": [],
+  "replacements": [],
+  "registrations": [
+    {
+      "old": {
+        "file": "packages/game/src/shell/bootstrap.glm-next-wave.test.ts",
+        "ordinal": 0
+      },
+      "originalOrdinal": 0,
+      "current": {
+        "file": "packages/game/src/shell/bootstrap.error.test.ts",
+        "titles": ["showError 启动失败显示(bootstrap.ts)"],
+        "template": "绘制时序:fillRect 时 fillStyle=#400 铺满画布;fillText 时 fillStyle=#f88、font=10px monospace 于 (8,32)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/bootstrap.glm-next-wave.test.ts",
+        "ordinal": 1
+      },
+      "originalOrdinal": 1,
+      "current": {
+        "file": "packages/game/src/shell/bootstrap.error.test.ts",
+        "titles": ["showError 启动失败显示(bootstrap.ts)"],
+        "template": "无 2D 上下文(canvas.getContext 返回 null)→ 静默返回不抛错"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/shell-bootstrap.glm-shell.test.ts",
+        "ordinal": 0
+      },
+      "originalOrdinal": 0,
+      "current": {
+        "file": "packages/game/src/shell/shell-bootstrap.glm-shell.test.ts",
+        "titles": ["TEST-GLM-GAME-SHELL-BOOTSTRAP-1 shell bootstrap 边界"],
+        "template": "SB1 战斗胜利结算期 BGM 覆盖:track=胜利曲且不循环(battle.c:1030-1032 FALSE)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/shell-bootstrap.glm-shell.test.ts",
+        "ordinal": 1
+      },
+      "originalOrdinal": 1,
+      "current": {
+        "file": "packages/game/src/shell/shell-bootstrap.glm-shell.test.ts",
+        "titles": ["TEST-GLM-GAME-SHELL-BOOTSTRAP-1 shell bootstrap 边界"],
+        "template": "SB2 揭场 introFade 期静默(DM29),揭场后切战斗曲并循环"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/shell-bootstrap.glm-shell.test.ts",
+        "ordinal": 2
+      },
+      "originalOrdinal": 2,
+      "current": {
+        "file": "packages/game/src/shell/shell-bootstrap.glm-shell.test.ts",
+        "titles": ["TEST-GLM-GAME-SHELL-BOOTSTRAP-1 shell bootstrap 边界"],
+        "template": "SB3 战斗帧 bus SFX drain:playSound 正 id 与 per-单位声播出,explore 不消费"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/shell-bootstrap.glm-shell.test.ts",
+        "ordinal": 3
+      },
+      "originalOrdinal": 3,
+      "current": {
+        "file": "packages/game/src/shell/shell-bootstrap.glm-shell.test.ts",
+        "titles": ["TEST-GLM-GAME-SHELL-BOOTSTRAP-1 precache-client 边界"],
+        "template": "SB4 SW 进度消息路由:progress→onProgress(原对象)、done/error→onDone、未知类型忽略"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/shell-bootstrap.glm-shell.test.ts",
+        "ordinal": 4
+      },
+      "originalOrdinal": 4,
+      "current": {
+        "file": "packages/game/src/shell/shell-bootstrap.glm-shell.test.ts",
+        "titles": ["TEST-GLM-GAME-SHELL-BOOTSTRAP-1 precache-client 边界"],
+        "template": "SB5 storage.persist 失败不降级注册:onReady 与 startPrecache 照常(best-effort)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/shell-bootstrap.glm-shell.test.ts",
+        "ordinal": 5
+      },
+      "originalOrdinal": 5,
+      "current": {
+        "file": "packages/game/src/shell/shell-bootstrap.glm-shell.test.ts",
+        "titles": ["TEST-GLM-GAME-SHELL-BOOTSTRAP-1 主循环生命周期"],
+        "template": "SB6 startRafLoop 帧链:每帧回调驱动推进并自续订,cancel 停链"
+      }
+    }
+  ],
+  "identities": [
+    {
+      "old": {
+        "file": "packages/game/src/shell/bootstrap.glm-next-wave.test.ts",
+        "fullName": "showError 启动失败显示(bootstrap.ts) 绘制时序:fillRect 时 fillStyle=#400 铺满画布;fillText 时 fillStyle=#f88、font=10px monospace 于 (8,32)"
+      },
+      "current": {
+        "file": "packages/game/src/shell/bootstrap.error.test.ts",
+        "fullName": "showError 启动失败显示(bootstrap.ts) 绘制时序:fillRect 时 fillStyle=#400 铺满画布;fillText 时 fillStyle=#f88、font=10px monospace 于 (8,32)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/bootstrap.glm-next-wave.test.ts",
+        "fullName": "showError 启动失败显示(bootstrap.ts) 无 2D 上下文(canvas.getContext 返回 null)→ 静默返回不抛错"
+      },
+      "current": {
+        "file": "packages/game/src/shell/bootstrap.error.test.ts",
+        "fullName": "showError 启动失败显示(bootstrap.ts) 无 2D 上下文(canvas.getContext 返回 null)→ 静默返回不抛错"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/shell-bootstrap.glm-shell.test.ts",
+        "fullName": "TEST-GLM-GAME-SHELL-BOOTSTRAP-1 shell bootstrap 边界 SB1 战斗胜利结算期 BGM 覆盖:track=胜利曲且不循环(battle.c:1030-1032 FALSE)"
+      },
+      "current": {
+        "file": "packages/game/src/shell/shell-bootstrap.glm-shell.test.ts",
+        "fullName": "TEST-GLM-GAME-SHELL-BOOTSTRAP-1 shell bootstrap 边界 SB1 战斗胜利结算期 BGM 覆盖:track=胜利曲且不循环(battle.c:1030-1032 FALSE)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/shell-bootstrap.glm-shell.test.ts",
+        "fullName": "TEST-GLM-GAME-SHELL-BOOTSTRAP-1 shell bootstrap 边界 SB2 揭场 introFade 期静默(DM29),揭场后切战斗曲并循环"
+      },
+      "current": {
+        "file": "packages/game/src/shell/shell-bootstrap.glm-shell.test.ts",
+        "fullName": "TEST-GLM-GAME-SHELL-BOOTSTRAP-1 shell bootstrap 边界 SB2 揭场 introFade 期静默(DM29),揭场后切战斗曲并循环"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/shell-bootstrap.glm-shell.test.ts",
+        "fullName": "TEST-GLM-GAME-SHELL-BOOTSTRAP-1 shell bootstrap 边界 SB3 战斗帧 bus SFX drain:playSound 正 id 与 per-单位声播出,explore 不消费"
+      },
+      "current": {
+        "file": "packages/game/src/shell/shell-bootstrap.glm-shell.test.ts",
+        "fullName": "TEST-GLM-GAME-SHELL-BOOTSTRAP-1 shell bootstrap 边界 SB3 战斗帧 bus SFX drain:playSound 正 id 与 per-单位声播出,explore 不消费"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/shell-bootstrap.glm-shell.test.ts",
+        "fullName": "TEST-GLM-GAME-SHELL-BOOTSTRAP-1 precache-client 边界 SB4 SW 进度消息路由:progress→onProgress(原对象)、done/error→onDone、未知类型忽略"
+      },
+      "current": {
+        "file": "packages/game/src/shell/shell-bootstrap.glm-shell.test.ts",
+        "fullName": "TEST-GLM-GAME-SHELL-BOOTSTRAP-1 precache-client 边界 SB4 SW 进度消息路由:progress→onProgress(原对象)、done/error→onDone、未知类型忽略"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/shell-bootstrap.glm-shell.test.ts",
+        "fullName": "TEST-GLM-GAME-SHELL-BOOTSTRAP-1 precache-client 边界 SB5 storage.persist 失败不降级注册:onReady 与 startPrecache 照常(best-effort)"
+      },
+      "current": {
+        "file": "packages/game/src/shell/shell-bootstrap.glm-shell.test.ts",
+        "fullName": "TEST-GLM-GAME-SHELL-BOOTSTRAP-1 precache-client 边界 SB5 storage.persist 失败不降级注册:onReady 与 startPrecache 照常(best-effort)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/shell-bootstrap.glm-shell.test.ts",
+        "fullName": "TEST-GLM-GAME-SHELL-BOOTSTRAP-1 主循环生命周期 SB6 startRafLoop 帧链:每帧回调驱动推进并自续订,cancel 停链"
+      },
+      "current": {
+        "file": "packages/game/src/shell/shell-bootstrap.glm-shell.test.ts",
+        "fullName": "TEST-GLM-GAME-SHELL-BOOTSTRAP-1 主循环生命周期 SB6 startRafLoop 帧链:每帧回调驱动推进并自续订,cancel 停链"
+      }
+    }
+  ],
+  "id": "shell-bootstrap-error",
+  "kind": "error",
+  "namespace": "organization-shell-bootstrap-error",
+  "receipts": {
+    "neighbors": "organization-speedrun-data/neighbors",
+    "typecheck": "organization-speedrun-data/typecheck",
+    "docs": "organization-speedrun-data/docs",
+    "content-review": "organization-speedrun-data/content-review",
+    "lint": "organization-speedrun-data/lint",
+    "testing-docs": "organization-speedrun-data/testing-docs",
+    "diff": "organization-speedrun-data/diff",
+    "scoped": "organization-speedrun-data/scoped-r2",
+    "ledger-final": "organization-speedrun-data/ledger-final"
+  },
+  "cohortSubjects": [
+    {
+      "path": "packages/game/src/shell/bootstrap.glm-next-wave.test.ts",
+      "sha256": "facec95b90f51609c99047b7ba6d106c1be58b6e44736dd337b7ce982ff9fef0",
+      "priorCurrentBridges": []
+    }
+  ],
+  "preserved": [
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "sha256": "a4d007c9739873dc20f385b52b584de49ec57cd5c328cb11ca9d3b0b9f19fb0a"
+    },
+    {
+      "path": "packages/game/src/main.ts",
+      "sha256": "a6314ef010da9e6d7add395e19993a002b7024607b8c51cc757486f200335a03"
+    },
+    {
+      "path": "packages/game/tsconfig.json",
+      "sha256": "65ddf6bb2e5106f11f10c87eb9c2ed733603517ccbce4a27c226a4cf5e3aaa9c"
+    },
+    {
+      "path": "packages/game/vitest.config.ts",
+      "sha256": "3dd92ad4886bc72c88e7a7b2e6bdacc3aaf9e2a24ac72153f3b619ba37feb7d4"
+    },
+    {
+      "path": "packages/game/vitest.setup.ts",
+      "sha256": "9d1b923f6abc71a5af3e9be094d2945f853a2f4319a036aba9813e86f116e93e"
+    }
+  ],
+  "neighborPaths": [
+    "packages/game/src/shell/bootstrap.error.test.ts",
+    "packages/game/src/shell/shell-bootstrap.glm-shell.test.ts",
+    "packages/game/src/shell/bootstrap-audio.test.ts",
+    "packages/game/src/shell/bootstrap-load.test.ts",
+    "packages/game/src/shell/main-loop.lifecycle.test.ts",
+    "packages/game/src/shell/precache-client.test.ts",
+    "packages/game/src/tools/speedrun/time-format.test.ts",
+    "packages/game/src/tools/speedrun/detectors.test.ts",
+    "packages/game/src/tools/speedrun/store.test.ts",
+    "packages/game/src/tools/speedrun/timer.test.ts",
+    "packages/game/src/tools/speedrun/timer.boundaries.test.ts",
+    "packages/game/src/tools/speedrun/snapshot.test.ts",
+    "packages/game/src/tools/speedrun/checkpoints.test.ts",
+    "packages/game/src/tools/speedrun/index.test.ts"
+  ],
+  "cleanExecutions": [
+    "before",
+    "organization",
+    "proof-r3",
+    "module-preflight",
+    "neighbors",
+    "typecheck",
+    "docs",
+    "content-review",
+    "lint",
+    "testing-docs",
+    "diff",
+    "scoped",
+    "ledger-final"
+  ],
+  "lightweightGates": true,
+  "fixtureAndCallbackProof": "organization-shell-bootstrap-error/proof-r3.stdout.raw",
+  "reusedReviewMember": "organization-shell-bootstrap-error/reused-reviews.json",
+  "profiles": [
+    {
+      "path": "packages/game/src/shell/bootstrap.error.test.ts",
+      "subjects": ["packages/game/src/shell/bootstrap.glm-next-wave.test.ts"],
+      "acceptance": "F/Gsupplement,unifiedgatespending",
+      "axes": {
+        "A": "2例真实main失败caller的showError：非默认400×250原生Canvas绘制顺序/颜色/字体/坐标与RGBA，nullcontext安全返回。8行SUT与main两失败出口同SHA核读，整体bootstrap不附带重审。",
+        "B": "模块头准确限制errorrenderer，不称整个bootstrap/resource-loading已测。文件名改bootstrap.error对应职责；call-through与像素实际信用保持。",
+        "C": "独立错误画布合同不同于palette/音频/加载编排，故保独立文件，不为命名强拆产品。两个spy只在本例ctx，finally恢复，无持久listener或异步资源。",
+        "D": "有context与nullcontext输入/清理策略不同，不硬造旗标工厂；原生Canvas直接构造足够，周边asset/canvasfixture合同不同不误合。",
+        "E": "2原身份及完整字节保持；原call-through、完整draws顺序、角点RGBA与文字区非背景像素保留。历史hardcoded320×200反控按bootstrapquality原范围复用，不重新造已足够支撑反控。",
+        "F": "文件按bootstrap.error责任命名，不按AI/波次划分；保showError suite与具体绘图时序标题，变量draws/nativectx直接揭示观测。",
+        "G": "未新增/删除case、helper或产品export；两有意义输入轴不因为文件短删掉，未与启动其它功能堆成一包。",
+        "H": "原生Canvas和两转发spy只观测IO，真实绘制执行；nullcase只替外部能力。AST默认只读证明+尾断言负控，当前96相邻/TC0共享，无规则/ignore放宽。"
+      }
+    },
+    {
+      "path": "packages/game/src/shell/shell-bootstrap.glm-shell.test.ts",
+      "subjects": ["packages/game/src/shell/bootstrap.glm-next-wave.test.ts"],
+      "acceptance": "comment-only; retainimplicitpending,no wholefilecredit",
+      "axes": {
+        "A": "仅注释差异验收：全部6case/typedfixture/import/hook正文严格保全。混装实现/接口输入/清理等仍未完整裁定，维持原implicitpending。",
+        "B": "纠正主测未核消息的旧断言，区分SB4连续终态与主测分支、SB5persist拒绝、SB6多帧节奏；更新三个旧filename指针，收窄数组cancel/合法完整BattleState过度宣称。",
+        "C": "本次不改其混装/全局navigator清理；原描述符ownership仍pending，不因注释准确就授实现合格。",
+        "D": "仅核其与当前主测的文字分工：连续终态和多帧节奏不是新Canvascase；不据此删除/合并未知重复实现。",
+        "E": "6旧身份/回调/全部body保持并执行；不授全部用例质量闭合或真实浏览器停链信用，原手写IO/fixture待后续完整审查。",
+        "F": "只修导航和scope表达，不在固定178外顺手去作者suite或冒称完成命名整治。",
+        "G": "删过时/夸大导读，代码/fixture/用例不动；未知退役项不删除。",
+        "H": "完整typed-source printer正控与只改最后断言负控共用比较器，证明仅注释；实际6回归绿不替代未核设计/ownership。"
+      }
+    }
+  ],
+  "primarySources": [
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "sha256": "a4d007c9739873dc20f385b52b584de49ec57cd5c328cb11ca9d3b0b9f19fb0a",
+      "ranges": [[215, 223]],
+      "scope": "FullshowError implementation,notfullbootstrapclosure."
+    },
+    {
+      "path": "packages/game/src/main.ts",
+      "sha256": "a6314ef010da9e6d7add395e19993a002b7024607b8c51cc757486f200335a03",
+      "ranges": [[70, 101]],
+      "scope": "Two actualfailure callers; loading UI/network ownershipunchanged."
+    }
+  ],
+  "reads": {
+    "fullInputs": [
+      {
+        "path": "packages/game/src/shell/bootstrap.glm-next-wave.test.ts",
+        "sha256": "facec95b90f51609c99047b7ba6d106c1be58b6e44736dd337b7ce982ff9fef0",
+        "member": "organization-shell-bootstrap-error/0.before",
+        "lines": 56,
+        "scope": "Fullspec read; adjacent6-case body retainedpending."
+      },
+      {
+        "path": "packages/game/src/shell/shell-bootstrap.glm-shell.test.ts",
+        "sha256": "d5459f2f5ee00f2a68556d391e45cc5482624e379eb1a41ae2aa7de45ae2c909",
+        "member": "organization-shell-bootstrap-error/1.before",
+        "lines": 335,
+        "scope": "Fullspec read; adjacent6-case body retainedpending."
+      }
+    ],
+    "currentOutputs": [
+      {
+        "path": "packages/game/src/shell/bootstrap.error.test.ts",
+        "sha256": "facec95b90f51609c99047b7ba6d106c1be58b6e44736dd337b7ce982ff9fef0",
+        "lines": 56,
+        "scope": "Puremovebyteexact; entireupdatedheader/helpercomment read,bodytyped invariant."
+      },
+      {
+        "path": "packages/game/src/shell/shell-bootstrap.glm-shell.test.ts",
+        "sha256": "19fbd37f6288a3f1718992cbcf57c369150c8fecd9f1c6f856517c1d9a66502b",
+        "lines": 328,
+        "scope": "Puremovebyteexact; entireupdatedheader/helpercomment read,bodytyped invariant."
+      }
+    ]
+  },
+  "ledgerDispositions": {
+    "review": ["packages/game/src/shell/bootstrap.error.test.ts"],
+    "implicitPendingCommentOnly": ["packages/game/src/shell/shell-bootstrap.glm-shell.test.ts"]
+  },
+  "processDisclosures": [
+    "One56-line historicalsubject purebyte move tobootstrap.error; no product/APIfile split neededforwell-separated2casecontract.",
+    "Adjacentmixedspec isnotfixed178subject; only header/helpercomments corrected. Actual6bodies/data/assertions/hooks unchanged and remainimplicitpending; no wholefilecredit.",
+    "2positivefullTSprinter/bodycomparisons andone tail-assertionnegativeguard; no custompartialwalker. Baseline8cases/currentsubset8identitiesexact.",
+    "Shared actual14file96result/typecheck/static/ledger receipts fromspeedrun-data. Officialcoveragebaseline stillhistoricaloldtestpath untilbigwindow actualcollection; no baseline/configexclusion change.",
+    "Finalheader excludes governancepending prose,statesactual IO limits; canonicalledgerkeepspending. Initialwholefilependingguard also matched legitimatependingSounds andstoppedbeforewrites; correctedheader-onlyguard. Priorprobe-r2 ranunchangedbody aftershellcontinued,not claimednewheaderproof. SequentialNodewrite+proof-r3 bindsfinalcomments,bodyunchanged,negativeguardpresent."
+  ],
+  "ledgerCounts": {
+    "inventory": 3458,
+    "closed": 561,
+    "review": 263,
+    "pending": 2634
+  }
+}

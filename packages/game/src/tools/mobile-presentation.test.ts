@@ -18,7 +18,7 @@ describe('mobile presentation preferences', () => {
     else document.documentElement.dataset.tpLayout = previousLayout
   })
 
-  it('desktop enabled overlays do not become mobile defaults or get overwritten by mobile choices', () => {
+  it('switching to mobile suppresses overlays while retaining the stored desktop choices', () => {
     setFpsEnabled(true)
     saveSetting('enabled', true)
     saveSetting('show', false)

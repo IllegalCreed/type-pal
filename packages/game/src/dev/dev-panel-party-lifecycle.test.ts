@@ -1,7 +1,11 @@
 /** CODE80 — Dev Panel 大世界换队必须清毒后重建仍在队成员的装备派生效果。 */
 import type { Command, Item } from '@type-pal/shared'
 import { expect, test, vi } from 'vitest'
-import { makeEnemy, makeField, makeRole } from '../__tests__/coverage85-glm-game/harness.js'
+import {
+  makeEnemyRecord as makeEnemy,
+  makeBattleFieldRecord as makeField,
+  makeRoleRecord as makeRole,
+} from '../__tests__/battle-records.js'
 import { SceneAssetsCache } from '../assets/loader.js'
 import { updateAllEquipments } from '../core/equip-effect.js'
 import { createInitialGameState, hydratePlayerRolesRuntime } from '../core/game-state.js'

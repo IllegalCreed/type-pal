@@ -1,9 +1,19 @@
 // @vitest-environment node
 import { createHash } from 'node:crypto'
 import { readFileSync } from 'node:fs'
-import { describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it } from 'vitest'
 import { rixFixture } from '../../__tests__/rix-fixture.js'
-import { createRixKernel } from './kernel.js'
+import { createRixKernel as createKernel } from './kernel.js'
+
+const kernels: ReturnType<typeof createKernel>[] = []
+afterEach(() => {
+  for (const kernel of kernels.splice(0)) kernel.dispose()
+})
+function createRixKernel(...args: Parameters<typeof createKernel>) {
+  const kernel = createKernel(...args)
+  kernels.push(kernel)
+  return kernel
+}
 
 const module = new WebAssembly.Module(readFileSync(new URL('./rix.wasm', import.meta.url)))
 
@@ -16,9 +26,11 @@ describe('actual compiled RIX/OPL WASM', () => {
     const kernel = createRixKernel(module, rixFixture(), 44100)
     expect(kernel.play(1, true)).toBe(true)
     const first = kernel.render(4096).slice()
+    expect(first.every(Number.isFinite)).toBe(true)
     expect(peak(first)).toBeGreaterThan(0.01)
     expect(kernel.play(87, true)).toBe(true)
     const last = kernel.render(4096).slice()
+    expect(last.every(Number.isFinite)).toBe(true)
     expect(peak(last)).toBeGreaterThan(0.01)
     expect(last).not.toEqual(first)
     expect(kernel.play(29, true)).toBe(false)

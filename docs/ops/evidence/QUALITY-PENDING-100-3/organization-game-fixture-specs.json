@@ -1,0 +1,257 @@
+{
+  "id": "game-fixture-specs",
+  "namespace": "organization-game-fixture-specs",
+  "kind": "Responsibility organization only; no test/assertion added/deleted",
+  "inputs": [
+    {
+      "path": "packages/game/src/__tests__/glm-next-wave/H/harness.test.ts",
+      "sha256": "0ea903b9660103b9743ddd7dda8367ea41bf3103119607eea4faf98126898f90",
+      "member": "organization-game-fixture-specs/0.before"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "packages/game/src/__tests__/scripted-rng.test.ts",
+      "purpose": "Strict queued RNG domain, ordering and degenerate draw consumption.",
+      "sha256": "a15ac450c9fe45fee8357e6b29aca300878360b94ad92de9c8aeb44c6d745386"
+    },
+    {
+      "path": "packages/game/src/__tests__/battle-fixture.test.ts",
+      "purpose": "Partial battle assembly retains the actual production RNG seed and no-draw contract.",
+      "sha256": "e43a978b2749005659947a28a5ab67af6c979f7efb9b0809a63e5f787de432e4"
+    }
+  ],
+  "sourceBridges": [
+    {
+      "id": "helper-adjacent-imports",
+      "path": "packages/game/src/__tests__/glm-next-wave/H/harness.test.ts",
+      "reason": "Only module-relative imports at the destinations; callbacks/fixtures/assertions unchanged.",
+      "changes": [
+        {
+          "from": "'../../battle-fixture.js'",
+          "to": "'./battle-fixture.js'",
+          "count": 1
+        },
+        {
+          "from": "'../../scripted-rng.js'",
+          "to": "'./scripted-rng.js'",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "replacements": [],
+  "registrations": [
+    {
+      "old": {
+        "file": "packages/game/src/__tests__/glm-next-wave/H/harness.test.ts",
+        "ordinal": 0
+      },
+      "current": {
+        "file": "packages/game/src/__tests__/scripted-rng.test.ts",
+        "titles": ["scripted RNG fixture contracts"],
+        "template": "rejects $name instead of silently changing the scripted input"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/__tests__/glm-next-wave/H/harness.test.ts",
+        "ordinal": 1
+      },
+      "current": {
+        "file": "packages/game/src/__tests__/scripted-rng.test.ts",
+        "titles": ["scripted RNG fixture contracts"],
+        "template": "preserves legal scripted draws and their immediate interleaving with script events"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/__tests__/glm-next-wave/H/harness.test.ts",
+        "ordinal": 2
+      },
+      "current": {
+        "file": "packages/game/src/__tests__/scripted-rng.test.ts",
+        "titles": ["scripted RNG fixture contracts"],
+        "template": "degenerate bounds preserve queued draws for the next nondegenerate call"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/__tests__/glm-next-wave/H/harness.test.ts",
+        "ordinal": 3
+      },
+      "current": {
+        "file": "packages/game/src/__tests__/battle-fixture.test.ts",
+        "titles": ["battle fixture defaults"],
+        "template": "default battle RNG preserves its seed when no random draw is needed"
+      }
+    }
+  ],
+  "identities": [
+    {
+      "old": {
+        "file": "packages/game/src/__tests__/glm-next-wave/H/harness.test.ts",
+        "fullName": "battle RNG fixture contracts rejects 'exclusive integer upper bound' instead of silently changing the scripted input"
+      },
+      "current": {
+        "file": "packages/game/src/__tests__/scripted-rng.test.ts",
+        "fullName": "scripted RNG fixture contracts rejects 'exclusive integer upper bound' instead of silently changing the scripted input"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/__tests__/glm-next-wave/H/harness.test.ts",
+        "fullName": "battle RNG fixture contracts rejects 'inclusive integer upper bound' instead of silently changing the scripted input"
+      },
+      "current": {
+        "file": "packages/game/src/__tests__/scripted-rng.test.ts",
+        "fullName": "scripted RNG fixture contracts rejects 'inclusive integer upper bound' instead of silently changing the scripted input"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/__tests__/glm-next-wave/H/harness.test.ts",
+        "fullName": "battle RNG fixture contracts rejects 'fractional integer roll' instead of silently changing the scripted input"
+      },
+      "current": {
+        "file": "packages/game/src/__tests__/scripted-rng.test.ts",
+        "fullName": "scripted RNG fixture contracts rejects 'fractional integer roll' instead of silently changing the scripted input"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/__tests__/glm-next-wave/H/harness.test.ts",
+        "fullName": "battle RNG fixture contracts rejects 'exclusive float upper bound' instead of silently changing the scripted input"
+      },
+      "current": {
+        "file": "packages/game/src/__tests__/scripted-rng.test.ts",
+        "fullName": "scripted RNG fixture contracts rejects 'exclusive float upper bound' instead of silently changing the scripted input"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/__tests__/glm-next-wave/H/harness.test.ts",
+        "fullName": "battle RNG fixture contracts preserves legal scripted draws and their immediate interleaving with script events"
+      },
+      "current": {
+        "file": "packages/game/src/__tests__/scripted-rng.test.ts",
+        "fullName": "scripted RNG fixture contracts preserves legal scripted draws and their immediate interleaving with script events"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/__tests__/glm-next-wave/H/harness.test.ts",
+        "fullName": "battle RNG fixture contracts degenerate bounds preserve queued draws for the next nondegenerate call"
+      },
+      "current": {
+        "file": "packages/game/src/__tests__/scripted-rng.test.ts",
+        "fullName": "scripted RNG fixture contracts degenerate bounds preserve queued draws for the next nondegenerate call"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/__tests__/glm-next-wave/H/harness.test.ts",
+        "fullName": "battle RNG fixture contracts default battle RNG preserves its seed when no random draw is needed"
+      },
+      "current": {
+        "file": "packages/game/src/__tests__/battle-fixture.test.ts",
+        "fullName": "battle fixture defaults default battle RNG preserves its seed when no random draw is needed"
+      }
+    }
+  ],
+  "cohortSubjects": [
+    {
+      "path": "packages/game/src/__tests__/glm-next-wave/H/harness.test.ts",
+      "sha256": "bf586246fcb61816b626564ce30d8d90f976d89cfd4fe42b8b434a5811cfa172",
+      "priorCurrentBridge": {
+        "evidence": "organization-game-battle-fixtures.json",
+        "beforeMember": "organization-game-battle-fixtures/2.before",
+        "afterSha256": "0ea903b9660103b9743ddd7dda8367ea41bf3103119607eea4faf98126898f90"
+      }
+    }
+  ],
+  "preserved": [
+    {
+      "path": "packages/game/src/__tests__/scripted-rng.ts",
+      "sha256": "a6938391f6d3169d3c62ffb0e93b9b6877eb1d9ae483157a3393689d48c3eb47"
+    },
+    {
+      "path": "packages/game/src/__tests__/battle-fixture.ts",
+      "sha256": "a206ad63f9f8f4302380b5996a5c2f96715e9b598e4b4a41b9501f40d446a32c"
+    },
+    {
+      "path": "packages/game/src/__tests__/battle-records.ts",
+      "sha256": "e06702ce034d7b7b7680b649d2c6d11d948acd6daa9aeac0ad20478c62afc575"
+    },
+    {
+      "path": "packages/game/src/core/rng.ts",
+      "sha256": "93c4d82e1abf4622b166686762084083bc27410d2079f450c4e9dc75ee43cde8"
+    }
+  ],
+  "neighborPaths": [
+    "packages/game/src/__tests__/battle-fixture.test.ts",
+    "packages/game/src/__tests__/scripted-rng.test.ts",
+    "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+    "packages/game/src/assets/load-all-assemble.grok-r1.test.ts",
+    "packages/game/src/assets/load-all-bounds.grok-r1.test.ts",
+    "packages/game/src/assets/load-all-recover.grok-r1.test.ts",
+    "packages/game/src/assets/load-all-ui-frame-identity.test.ts",
+    "packages/game/src/assets/loader.test.ts",
+    "packages/game/src/assets/scene-cache.grok-r1.test.ts",
+    "packages/game/src/assets/tileset-load.grok-r1.test.ts",
+    "packages/game/src/present/battle/battle-effect-num-pixels.grok-r1.test.ts",
+    "packages/game/src/present/dialog-box-pixels.grok-r1.test.ts",
+    "packages/game/src/present/menu/inventory-list-pixels.grok-r1.test.ts",
+    "packages/game/src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+    "packages/game/src/present/present-hold.grok-r1.test.ts",
+    "packages/game/src/shell/ending-avi-host.grok-r1.test.ts",
+    "packages/game/src/shell/fbp-scroll.grok-r1.test.ts",
+    "packages/game/src/shell/rng-window.grok-r1.test.ts",
+    "packages/game/src/shell/trademark-fallback.test.ts",
+    "packages/game/src/shell/trademark-splash.grok-r1.test.ts"
+  ],
+  "cleanExecutions": ["before", "neighbors", "typecheck", "scoped"],
+  "receipts": {
+    "before": "organization-game-asset-fixtures/before",
+    "neighbors": "organization-game-asset-fixtures/neighbors",
+    "typecheck": "organization-game-asset-fixtures/typecheck",
+    "scoped": "organization-game-asset-fixtures/scoped"
+  },
+  "profiles": [
+    {
+      "path": "packages/game/src/__tests__/scripted-rng.test.ts",
+      "subjects": ["packages/game/src/__tests__/glm-next-wave/H/harness.test.ts"],
+      "axes": {
+        "A": "严格stub四非法端点/小数、合法三方法/同步trace和退化不消费队列与原六例完全相同；生产RNG未改，既有六业务红经精确source桥复用。",
+        "B": "套件名限定scripted RNG fixture，不再把生产seed误称同一种stub合同；没有声称覆盖所有PRNG。",
+        "C": "每例独立stub/游标/trace，无全局钩子或战斗状态；类型/整数/事件顺序同一职责聚合。",
+        "D": "四非法轴保持it.each，合法顺序和退化消费判别不同不机械合并；不复制生产随机算法。",
+        "E": "六旧身份一一映射六当前，所有literal/断言/调用及必要imports守恒；既有1绿6业务红/恢复7绿的原件保持，纯组织不伪造新红例。",
+        "F": "scripted-rng.test邻接scripted-rng实现，具体端点/分数/trace标题达意，不按H/模型/批次分组。",
+        "G": "没有新测试、skip/only或薄包装；从混装文件移出唯一battle默认seed用例，未删任何合同。",
+        "H": "直接真实stub无mock，队列值、方法trace和错误类均可观察；原反控仍适用同body。"
+      },
+      "acceptance": "accepted-FG; unified gates pending"
+    },
+    {
+      "path": "packages/game/src/__tests__/battle-fixture.test.ts",
+      "subjects": ["packages/game/src/__tests__/glm-next-wave/H/harness.test.ts"],
+      "axes": {
+        "A": "真实makeBattleFixture.state.rng初值7与空域保持7三断言不变；这是partial assembly默认值，未假装完整startBattle或PRNG算法真值。",
+        "B": "describe明确battle fixture defaults，名称不把mulberry32生产对象与recordingRng stub混称。",
+        "C": "唯一默认装配合同随所属helper放置，生命周期/资源装配不侵入；纯本地fresh state无需全局清理。",
+        "D": "不为只有一例合回不同随机策略文件；默认seed责任与严格脚本队列输入域不同，也不为文件短新增弱例。",
+        "E": "旧单例、3实际业务断言和合法输入精确保全；七总身份不增删，20文件154共同相邻/TC0不计其它主体完成。",
+        "F": "battle-fixture.test与makeBattleFixture清楚表达受测对象，test标题保留具体no-draw条件。",
+        "G": "去旧模型路径和无关recordingRng import；没有万能fixture模式或新转发层。",
+        "H": "真实factory+生产RNG可直接读状态，测试不patch生产随机、不暴露新私有状态。"
+      },
+      "acceptance": "accepted-FG; unified gates pending"
+    }
+  ],
+  "reusedReviewMember": "organization-game-fixture-specs/reused-review.json",
+  "processDisclosures": [
+    "One historical subject, two helper-adjacent specs; seven identities/assertions retained. Six strict-stub tests stay separate from the one production-default battle test.",
+    "Existing1green6business-red/7green proof is reused with the exact old spec/source chain; no new product counter needed for moving code. No production math/RNG change."
+  ]
+}

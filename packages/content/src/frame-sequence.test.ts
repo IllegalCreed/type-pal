@@ -123,12 +123,21 @@ describe('TPFS v1 完整帧 round-trip', () => {
     expect(frameSequenceFrameDurationMs(index, 3)).toBe(77)
     expect(frameSequenceFrameDurationMs(index, 4)).toBe(40)
     expect(frameSequenceFrameDurationMs(index, 3, 25)).toBe(40)
+    expect(frameSequenceFrameDurationMs(index, 3, 20)).toBe(50)
+    expect(frameSequenceFrameDurationMs(index, 4, 20)).toBe(50)
+    expect(resolveFrameSequencePlayback(index, { startFrame: 3, endFrame: 3 })).toEqual({
+      startFrame: 3,
+      endFrame: 3,
+    })
     expect(() => resolveFrameSequencePlayback(index, { startFrame: -1 })).toThrow('越界')
     expect(() => resolveFrameSequencePlayback(index, { endFrame: 35 })).toThrow('越界')
+    expect(() => resolveFrameSequencePlayback(index, { startFrame: 35 })).toThrow('越界')
+    expect(() => resolveFrameSequencePlayback(index, { endFrame: -1 })).toThrow('越界')
     expect(() => resolveFrameSequencePlayback(index, { startFrame: 8, endFrame: 3 })).toThrow(
       '不能大于',
     )
     expect(() => resolveFrameSequencePlayback(index, { frameRate: 0 })).toThrow('正有限数')
+    expect(() => resolveFrameSequencePlayback(index, { frameRate: Number.NaN })).toThrow('正有限数')
   })
 })
 

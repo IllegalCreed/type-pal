@@ -7,8 +7,7 @@ export default defineConfig({
     maxWorkers: 1,
     environment: 'jsdom',
     setupFiles: ['./vitest.setup.ts'],
-    // M3.5 T18+:e2e/ 下是 Playwright spec,不让 vitest 拾起。
-    // 跑 L2 用 `pnpm e2e`,跑 L1 用 `pnpm test`。
+    // 浏览器 E2E 由 scripts/e2e 的独立入口运行；此配置只负责 Vitest 单元测试。
     exclude: ['node_modules', 'dist', 'build', 'e2e/**'],
   },
 })

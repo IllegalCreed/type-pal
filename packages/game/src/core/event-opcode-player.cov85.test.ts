@@ -1,11 +1,7 @@
 /**
- * TEST-COVERAGE85-GLM-GAME-1 — event-opcode-player.ts 事件侧玩家族 opcode 分支合同。
- *
- * 公开 caller:applyPlayerOpcode(生产由 event-system 的 applyRawOpcode 委派玩家家族)。
- * 全部输入由 createInitialGameState 公开字段构造,不 mock 业务核心、不强转。
- * 旧证去重:不重复 event-opcode-player.test.ts / .glm-next-wave.test.ts 已证的
- * 0x18 原位换装 / 0x18 非法槽 / 0x1b·0x1d 单体加血管线 / 0x23 单槽有物卸下 /
- * 0x2b·0x2c 解毒 / 0x29 单体抗性 / 0x8d 正常升级 / 0x55·0x56 单占槽。
+ * 玩家指令的角色域、数值边界和失败策略；直接调用生产 applyPlayerOpcode。
+ * 基线经 freshPlayerOpcodeState hydrate；缺经验行与空法术表只作为显式防御输入。
+ * 主测核入口归属，state-transitions 专测核解毒、效果层撤除和全队成功标志；不以覆盖率批次代替合同。
  */
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import {

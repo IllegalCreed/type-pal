@@ -1,9 +1,23 @@
 import type { Tilemap } from '@type-pal/shared'
 import { describe, expect, it } from 'vitest'
-import { drawTilemap, repairTilemapSeams, type TileImages } from './draw-tilemap.js'
+import { drawTilemap, type TileImage, type TileImages } from './draw-tilemap.js'
 import { createFramebuffer } from './framebuffer.js'
 
-describe('drawTilemap', () => {
+function solidTileImage(index: number, width = 1, height = 1): TileImage {
+  const count = width * height
+  return {
+    width,
+    height,
+    indices: new Uint8Array(count).fill(index),
+    opaque: new Uint8Array(count).fill(1),
+  }
+}
+
+function tilemapFromCells(cells: Tilemap['cells']): Tilemap {
+  return { width: cells[0]?.length ?? 0, height: cells.length, cells, tileset: 'g03' }
+}
+
+describe('Tilemap base layer pixels', () => {
   it('lower (h=0) 画在 (-16,-8) 子行;upper (h=1) 画在 col/row baseline', () => {
     // sdlpal map.c:398-414 真实公式 + camera 语义 = sdlpal viewport(屏幕左上 world 坐标):
     //   screen = world - camera
@@ -36,27 +50,21 @@ describe('drawTilemap', () => {
   })
 
   it('±1 fence(M3.5 T6 修):layer 0 fence 位置回落到 tile(cells[0][0].lower 的 h=0)', () => {
-    // 给 1×1 map,设 cells[0][0] = { lower: 5, upper: 0 }(tileIdLayer0(5)=5)。
-    // fence(r=-1/height, c=-1/width)位置 cell=null,layer 0 应 fallback 到 id 5。
-    // 验证手段:tiles.get 被调用时记录 id,fence 触发 id 5 多次调用。
     const fb = createFramebuffer()
-    const callCounts = new Map<number, number>()
     const tiles: TileImages = {
-      get(idx) {
-        callCounts.set(idx, (callCounts.get(idx) ?? 0) + 1)
-        return undefined
+      get(index) {
+        return index === 5 ? solidTileImage(9) : undefined
       },
     }
-    const map: Tilemap = {
-      width: 1,
-      height: 1,
-      cells: [[{ lower: 5, upper: 0 }]],
-      tileset: 'fake',
-    }
+    const map: Tilemap = { width: 1, height: 1, cells: [[{ lower: 5, upper: 0 }]], tileset: 'fake' }
     drawTilemap(fb, map, tiles, { x: 0, y: 0 }, 0)
-    // 中心格 lower id 5 + fence 8 圈每圈 lower+upper 都 fenceFill=5。
-    // 调用次数远 > 1 即证明 fence 触发(无 fence 时 layer 0 只会拿 1 次 id 5)。
-    expect(callCounts.get(5) ?? 0).toBeGreaterThan(1)
+    // Literal visible fence points for a one-pixel tile; other pixels must remain clear.
+    const expected = Buffer.alloc(320 * 200)
+    expected[32] = 9
+    expected[16 * 320] = 9
+    expected[8 * 320 + 16] = 9
+    expected[16 * 320 + 32] = 9
+    expect(Buffer.compare(fb.indices, expected)).toBe(0)
   })
 
   it('±1 fence:layer 1 fence 位置 fallback = -1,fence 不调 tiles.get', () => {
@@ -154,44 +162,167 @@ describe('drawTilemap', () => {
     expect(coverage[104 * 320 + 144]).toBe(1) // 画过 → 标记
     expect(coverage[0]).toBe(0) // 远处未画 → 不标记
   })
-})
 
-describe('repairTilemapSeams 接缝补偿', () => {
-  it('未覆盖像素从同值的已覆盖邻居填充', () => {
-    const fb = createFramebuffer(3, 3)
-    const coverage = new Uint8Array(9)
-    // 覆盖除中心(1,1)外的 8 格,像素值都设 5。
-    for (let i = 0; i < 9; i++) {
-      if (i === 4) continue
-      fb.writePixel(i % 3, Math.floor(i / 3), 5)
-      coverage[i] = 1
+  it('G03-A01 layer 0 的 lower 图缺失时，画面用 tile 0，upper 仍用自己的图', () => {
+    const fb = createFramebuffer()
+    const tiles: TileImages = {
+      get(idx) {
+        if (idx === 0) return solidTileImage(9)
+        if (idx === 2) return solidTileImage(3)
+        return undefined
+      },
     }
-    expect(fb.indices[4]).toBe(0) // clear 后中心为 0(漏黑)
-    repairTilemapSeams(fb, coverage)
-    expect(fb.indices[4]).toBe(5) // 用邻居 5 填充
+    drawTilemap(fb, tilemapFromCells([[{ lower: 5, upper: 2 }]]), tiles, { x: -26, y: -18 }, 0)
+    expect(fb.indices[10 * 320 + 10]).toBe(9)
+    expect(fb.indices[18 * 320 + 26]).toBe(3)
   })
 
-  it('已覆盖像素保持不变,即使其值为 0(合法的不透明 index-0,不能当漏黑)', () => {
-    const fb = createFramebuffer(2, 1)
-    const coverage = new Uint8Array(2)
-    fb.writePixel(0, 0, 0)
-    coverage[0] = 1 // 瓦片真画的 opaque index-0
-    fb.writePixel(1, 0, 9)
-    coverage[1] = 1
-    repairTilemapSeams(fb, coverage)
-    expect(fb.indices[0]).toBe(0) // 不被邻居 9 污染
-    expect(fb.indices[1]).toBe(9)
+  it('G03-A02 layer 1 的 upper 有 id 但没有图时，不回落 tile 0', () => {
+    const fb = createFramebuffer()
+    fb.writePixel(20, 20, 6)
+    const seen: number[] = []
+    const tiles: TileImages = {
+      get(idx) {
+        seen.push(idx)
+        if (idx === 0) return solidTileImage(9)
+        return undefined
+      },
+    }
+    drawTilemap(
+      fb,
+      tilemapFromCells([[{ lower: 0, upper: 0x00050000 }]]),
+      tiles,
+      { x: -20, y: -20 },
+      1,
+    )
+    expect(fb.indices[20 * 320 + 20]).toBe(6)
+    expect(seen).not.toContain(0)
+    expect(seen).toContain(4)
   })
 
-  it('填宽接缝:逐圈向内扩散直到填满', () => {
-    // 5×1:两端覆盖(值 3),中间 3 px 未覆盖 → 需多趟扩散填满。
-    const fb = createFramebuffer(5, 1)
-    const coverage = new Uint8Array(5)
-    fb.writePixel(0, 0, 3)
-    coverage[0] = 1
-    fb.writePixel(4, 0, 3)
-    coverage[4] = 1
-    repairTilemapSeams(fb, coverage)
-    expect([...fb.indices]).toEqual([3, 3, 3, 3, 3])
+  it('G03-A03 layer 1 的 lower 图缺失时仍回落 tile 0，upper 的 -1 不画', () => {
+    const fb = createFramebuffer()
+    fb.writePixel(24, 16, 6)
+    const tiles: TileImages = {
+      get(idx) {
+        if (idx === 0) return solidTileImage(9)
+        return undefined
+      },
+    }
+    drawTilemap(
+      fb,
+      tilemapFromCells([[{ lower: 0x00050000, upper: 0 }]]),
+      tiles,
+      { x: -24, y: -16 },
+      1,
+    )
+    expect(fb.indices[8 * 320 + 8]).toBe(9)
+    expect(fb.indices[16 * 320 + 24]).toBe(6)
+  })
+
+  it('G03-A04 透明像素不记 coverage，不透明的 index 0 会写入并记 coverage', () => {
+    const fb = createFramebuffer()
+    fb.writePixel(30, 30, 4)
+    const image = solidTileImage(0, 2, 1)
+    image.indices[0] = 7
+    image.opaque[0] = 0
+    const tiles: TileImages = {
+      get(idx) {
+        if (idx === 1) return image
+        return undefined
+      },
+    }
+    const coverage = new Uint8Array(320 * 200)
+    drawTilemap(
+      fb,
+      tilemapFromCells([[{ lower: 1, upper: 0 }]]),
+      tiles,
+      { x: -46, y: -38 },
+      0,
+      coverage,
+    )
+    expect(fb.indices[30 * 320 + 30]).toBe(4)
+    expect(coverage[30 * 320 + 30]).toBe(0)
+    expect(fb.indices[30 * 320 + 31]).toBe(0)
+    expect(coverage[30 * 320 + 31]).toBe(1)
+  })
+
+  it('G03-A05 瓦片跨过 x=0 时，负列不记 coverage，屏内列写入 9', () => {
+    const fb = createFramebuffer()
+    const image = solidTileImage(0, 2, 1)
+    image.indices[0] = 8
+    image.indices[1] = 9
+    const tiles: TileImages = {
+      get(idx) {
+        if (idx === 1) return image
+        return undefined
+      },
+    }
+    const coverage = new Uint8Array(320 * 200)
+    drawTilemap(
+      fb,
+      tilemapFromCells([[{ lower: 1, upper: 0 }]]),
+      tiles,
+      { x: -15, y: -13 },
+      0,
+      coverage,
+    )
+    expect(fb.indices[5 * 320]).toBe(9)
+    expect(coverage[5 * 320]).toBe(1)
+    expect(coverage[5 * 320 - 1]).toBe(0)
+  })
+
+  it('G03-A06 瓦片跨过 y=0 时，屏内那一行写入 9，再下一行保持空白', () => {
+    const fb = createFramebuffer()
+    const image = solidTileImage(0, 1, 2)
+    image.indices[0] = 8
+    image.indices[1] = 9
+    const tiles: TileImages = {
+      get(idx) {
+        if (idx === 1) return image
+        return undefined
+      },
+    }
+    drawTilemap(fb, tilemapFromCells([[{ lower: 1, upper: 0 }]]), tiles, { x: -19, y: -7 }, 0)
+    expect(fb.indices[3]).toBe(9)
+    expect(fb.indices[320 + 3]).toBe(0)
+  })
+
+  it('G03-A07 整行落在屏幕下方时不取该行的 tile id', () => {
+    const seen: number[] = []
+    const tiles: TileImages = {
+      get(idx) {
+        seen.push(idx)
+        return undefined
+      },
+    }
+    // 第 0 行在屏内（lower=4）。第 13 行 rowPxY-8=200，整行被剔除。
+    // 右 fence 用的是 cells[0][0]，不能把禁取 id 放在那里。
+    const cells = Array.from({ length: 14 }, (_, r) => [
+      { lower: r === 13 ? 3 : r === 0 ? 4 : 0, upper: 0 },
+    ])
+    drawTilemap(createFramebuffer(), tilemapFromCells(cells), tiles, { x: 0, y: 0 }, 0)
+    expect(seen).not.toContain(3)
+    expect(seen).toContain(4)
+  })
+
+  it('G03-A08 整列落在屏幕右边界外时不取该列的 tile id', () => {
+    const seen: number[] = []
+    const tiles: TileImages = {
+      get(idx) {
+        seen.push(idx)
+        return undefined
+      },
+    }
+    // c=11 的 cellPxX-16=336≥320，整列剔除。底 fence 在第 14 行，同样出屏。
+    const cells = Array.from({ length: 14 }, () =>
+      Array.from({ length: 12 }, (_, c) => ({
+        lower: c === 11 ? 3 : c === 0 ? 4 : 0,
+        upper: 0,
+      })),
+    )
+    drawTilemap(createFramebuffer(), tilemapFromCells(cells), tiles, { x: 0, y: 0 }, 0)
+    expect(seen).not.toContain(3)
+    expect(seen).toContain(4)
   })
 })

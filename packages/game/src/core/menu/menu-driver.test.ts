@@ -34,7 +34,7 @@ const MOCK_CATALOGS: Parameters<typeof setMenuCatalogs>[0] = {
 
 // C5(2026-10-15)：typed fixture 构造器 —— 替换原 as unknown as/as any 残缺对象，
 // 复用 CODE95 已核的 makeRole 纯工厂（无顶层状态/IO）。
-import { makeRole } from '../../__tests__/coverage85-glm-game/harness.js'
+import { makeRoleRecord as makeRole } from '../../__tests__/battle-records.js'
 import type { InGameMenuChoice } from './in-game-menu.js'
 import { inGameMenuChoice } from './in-game-menu.js'
 

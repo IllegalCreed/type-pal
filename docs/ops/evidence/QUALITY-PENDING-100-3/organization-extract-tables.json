@@ -1,0 +1,685 @@
+{
+  "id": "extract-table-parsers",
+  "namespace": "organization-extract-tables",
+  "kind": "test-contract organization with independent view oracles",
+  "inputs": [
+    {
+      "path": "packages/pal-extract/src/resources/parsers/stores.glm-runtime-resource.test.ts",
+      "member": "organization-extract-tables/stores.glm-runtime-resource.test.ts.before",
+      "sha256": "abd6c9babab37492856ba0d835ca91705bbbd4599d3e2bb1c78d0aa66a972fe3"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/__tests__/stores.boundaries.test.ts",
+      "member": "organization-extract-tables/stores.boundaries.test.ts.before",
+      "sha256": "216e6abe32a40847daabd0a70aeaaa08165648da86493dfe36a317a47a598f93"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/battle-fields.glm-runtime-resource.test.ts",
+      "member": "organization-extract-tables/battle-fields.glm-runtime-resource.test.ts.before",
+      "sha256": "38eb7fc592ea5e4dd84f70e248ab25ecebd89318967699a87d248d3c7fbd3f16"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/__tests__/battle-fields.boundaries.test.ts",
+      "member": "organization-extract-tables/battle-fields.boundaries.test.ts.before",
+      "sha256": "1bbcfbfab5b168e6ba6822c24fab55d97e9d0438a0b87e0717f9216faab28b92"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/enemy-teams.glm-runtime-resource.test.ts",
+      "member": "organization-extract-tables/enemy-teams.glm-runtime-resource.test.ts.before",
+      "sha256": "1ec3c966a749e106fb1fe77af41a7a8acf425ae0421f5215b444cccc81513093"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/__tests__/enemy-teams.boundaries.test.ts",
+      "member": "organization-extract-tables/enemy-teams.boundaries.test.ts.before",
+      "sha256": "38d6c4d57745ac0b9fc2302a0057be9b170889aeb7340c82bc032d32eb04f555"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "packages/pal-extract/src/resources/parsers/stores.test.ts",
+      "purpose": "Store record termination, adjacent rows, input views and size validation.",
+      "sha256": "9314b0e988ef6e83e224aef18684381143ef500750ce6c855a4b4394691200fa"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/battle-fields.test.ts",
+      "purpose": "Battlefield unsigned wave, signed elemental fields, input views and record size.",
+      "sha256": "a958b9d700b2434230be960510980c12b1d0d01e050463aa8745806293260581"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/enemy-teams.test.ts",
+      "purpose": "Raw and translated team slots retain object identities, names and exact diagnostics.",
+      "sha256": "25fe222e1c3f276acdba94e450473fa89b5cf0f1394f54356932bc252ef1e360"
+    }
+  ],
+  "sourceBridges": [
+    {
+      "id": "relocate-inputs-and-clarify-builders-stores.glm-runtime-resource.test.ts",
+      "path": "packages/pal-extract/src/resources/parsers/stores.glm-runtime-resource.test.ts",
+      "reason": "Only relative module paths at destination, store-specific parametric builder name and byte-buffer identifier; no input/parameter change.",
+      "changes": [
+        {
+          "from": "storesBytes",
+          "to": "storeTable",
+          "count": 3
+        },
+        {
+          "from": "bc",
+          "to": "bytes",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": "relocate-inputs-and-clarify-builders-stores.boundaries.test.ts",
+      "path": "packages/pal-extract/src/resources/parsers/__tests__/stores.boundaries.test.ts",
+      "reason": "Only relative module paths at destination, store-specific parametric builder name and byte-buffer identifier; no input/parameter change.",
+      "changes": [
+        {
+          "from": "from '../../../__tests__/",
+          "to": "from '../../__tests__/",
+          "count": 1
+        },
+        {
+          "from": "from '../stores.js'",
+          "to": "from './stores.js'",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "relocate-inputs-and-clarify-builders-battle-fields.glm-runtime-resource.test.ts",
+      "path": "packages/pal-extract/src/resources/parsers/battle-fields.glm-runtime-resource.test.ts",
+      "reason": "Only relative module paths at destination, store-specific parametric builder name and byte-buffer identifier; no input/parameter change.",
+      "changes": [
+        {
+          "from": "bc",
+          "to": "bytes",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": "relocate-inputs-and-clarify-builders-battle-fields.boundaries.test.ts",
+      "path": "packages/pal-extract/src/resources/parsers/__tests__/battle-fields.boundaries.test.ts",
+      "reason": "Only relative module paths at destination, store-specific parametric builder name and byte-buffer identifier; no input/parameter change.",
+      "changes": [
+        {
+          "from": "from '../../../__tests__/",
+          "to": "from '../../__tests__/",
+          "count": 1
+        },
+        {
+          "from": "from '../battle-fields.js'",
+          "to": "from './battle-fields.js'",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "relocate-inputs-and-clarify-builders-enemy-teams.glm-runtime-resource.test.ts",
+      "path": "packages/pal-extract/src/resources/parsers/enemy-teams.glm-runtime-resource.test.ts",
+      "reason": "Only relative module paths at destination, store-specific parametric builder name and byte-buffer identifier; no input/parameter change.",
+      "changes": [
+        {
+          "from": "bc",
+          "to": "bytes",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": "relocate-inputs-and-clarify-builders-enemy-teams.boundaries.test.ts",
+      "path": "packages/pal-extract/src/resources/parsers/__tests__/enemy-teams.boundaries.test.ts",
+      "reason": "Only relative module paths at destination, store-specific parametric builder name and byte-buffer identifier; no input/parameter change.",
+      "changes": [
+        {
+          "from": "from '../../../__tests__/",
+          "to": "from '../../__tests__/",
+          "count": 2
+        },
+        {
+          "from": "from '../enemy-teams.js'",
+          "to": "from './enemy-teams.js'",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "independent-view-oracle-stores",
+      "path": "packages/pal-extract/src/resources/parsers/stores.glm-runtime-resource.test.ts",
+      "reason": "The former comparison calls the same SUT twice; replace with independent full domain objects for both inputs, keep one original case and all original input values.",
+      "changes": [
+        {
+          "from": "expect(parseStores(parent.subarray(5))).toEqual(parseStores(bytes))",
+          "to": "const expected = [\n      { id: 0, items: [61] },\n      { id: 1, items: [62, 63] },\n    ]\n    expect(parseStores(parent.subarray(5))).toEqual(expected)\n    expect(parseStores(bytes)).toEqual(expected)",
+          "count": 1
+        },
+        {
+          "from": "奇数偏移 subarray：与独立缓冲全等",
+          "to": "奇数偏移 subarray：两条记录逐字段精确",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "independent-view-oracle-battle-fields",
+      "path": "packages/pal-extract/src/resources/parsers/battle-fields.glm-runtime-resource.test.ts",
+      "reason": "The former comparison calls the same SUT twice; replace with independent full domain objects for both inputs, keep one original case and all original input values.",
+      "changes": [
+        {
+          "from": "expect(parseBattleFields(parent.subarray(11))).toEqual(parseBattleFields(bytes))",
+          "to": "const expected = [\n      {\n        id: 0,\n        screenWave: 0xffff,\n        magicEffect: { wind: 1, thunder: -2, water: 0x7fff, fire: -0x8000, earth: 0 },\n      },\n      {\n        id: 1,\n        screenWave: 0x0100,\n        magicEffect: { wind: -0x7fff, thunder: 2, water: -3, fire: 100, earth: -100 },\n      },\n    ]\n    expect(parseBattleFields(parent.subarray(11))).toEqual(expected)\n    expect(parseBattleFields(bytes)).toEqual(expected)",
+          "count": 1
+        },
+        {
+          "from": "大缓冲奇数偏移 subarray：与独立缓冲全等（12B 记录 × 2）",
+          "to": "大缓冲奇数偏移 subarray：两条战场记录逐字段精确",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "independent-view-oracle-enemy-teams",
+      "path": "packages/pal-extract/src/resources/parsers/enemy-teams.glm-runtime-resource.test.ts",
+      "reason": "The former comparison calls the same SUT twice; replace with independent full domain objects for both inputs, keep one original case and all original input values.",
+      "changes": [
+        {
+          "from": "expect(parseEnemyTeams(parent.subarray(9), new Map([[400, '蛇']]))).toEqual(\n      parseEnemyTeams(bytes, new Map([[400, '蛇']])),\n    )",
+          "to": "const expected = [{ id: 0, enemies: [400, 0, 0xffff, 1, 2], _names: ['蛇'] }]\n    expect(parseEnemyTeams(parent.subarray(9), new Map([[400, '蛇']]))).toEqual(expected)\n    expect(parseEnemyTeams(bytes, new Map([[400, '蛇']]))).toEqual(expected)",
+          "count": 1
+        },
+        {
+          "from": "大缓冲奇数偏移 subarray：与独立缓冲全等",
+          "to": "大缓冲奇数偏移 subarray：原始五槽与名称精确保留",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "replacements": [],
+  "registrations": [
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/parsers/__tests__/stores.boundaries.test.ts",
+        "ordinal": 0
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/parsers/stores.test.ts",
+        "titles": ["record termination and adjacent records"],
+        "template": "空首槽 / 首 0 截断 / 满 9 三记录并存：id 0..2、数组互不串位"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/parsers/stores.glm-runtime-resource.test.ts",
+        "ordinal": 0
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/parsers/stores.test.ts",
+        "titles": ["input views and record sizes"],
+        "template": "满 9 记录与紧邻空记录：9 槽全保留且不串入下一条"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/parsers/stores.glm-runtime-resource.test.ts",
+        "ordinal": 1
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/parsers/stores.test.ts",
+        "titles": ["input views and record sizes"],
+        "template": "奇数偏移 subarray：两条记录逐字段精确"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/parsers/stores.glm-runtime-resource.test.ts",
+        "ordinal": 2
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/parsers/stores.test.ts",
+        "titles": ["input views and record sizes"],
+        "template": "parseStores：尺寸不整除精确拒绝"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/parsers/__tests__/battle-fields.boundaries.test.ts",
+        "ordinal": 0
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/parsers/battle-fields.test.ts",
+        "titles": ["unsigned wave and signed elemental fields"],
+        "template": "screenWave unsigned 高位 + 五维 signed 正负极值逐字段精确"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/parsers/battle-fields.glm-runtime-resource.test.ts",
+        "ordinal": 0
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/parsers/battle-fields.test.ts",
+        "titles": ["input views and record sizes"],
+        "template": "大缓冲奇数偏移 subarray：两条战场记录逐字段精确"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/parsers/battle-fields.glm-runtime-resource.test.ts",
+        "ordinal": 1
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/parsers/battle-fields.test.ts",
+        "titles": ["input views and record sizes"],
+        "template": "parseBattleFields：尺寸不整除精确拒绝"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/parsers/enemy-teams.glm-runtime-resource.test.ts",
+        "ordinal": 0
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/parsers/enemy-teams.test.ts",
+        "titles": ["raw slots and optional names"],
+        "template": "无映射无名字：enemies = 原始槽位，无 enemyObjectIndexes / _names 键"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/parsers/enemy-teams.glm-runtime-resource.test.ts",
+        "ordinal": 1
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/parsers/enemy-teams.test.ts",
+        "titles": ["raw slots and optional names"],
+        "template": "非 10 倍数字节：抛错并带实际长度"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/parsers/enemy-teams.glm-runtime-resource.test.ts",
+        "ordinal": 2
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/parsers/enemy-teams.test.ts",
+        "titles": ["raw slots and optional names"],
+        "template": "大缓冲奇数偏移 subarray：原始五槽与名称精确保留"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/parsers/enemy-teams.glm-runtime-resource.test.ts",
+        "ordinal": 3
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/parsers/enemy-teams.test.ts",
+        "titles": ["raw slots and optional names"],
+        "template": "parseEnemyTeams：槽位查无名字不进 _names；全无名不设 _names 键"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/parsers/enemy-teams.glm-runtime-resource.test.ts",
+        "ordinal": 4
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/parsers/enemy-teams.test.ts",
+        "titles": ["raw slots and optional names"],
+        "template": "空槽不会读取名字表中的0或0xffff条目"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/parsers/__tests__/enemy-teams.boundaries.test.ts",
+        "ordinal": 0
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/parsers/enemy-teams.test.ts",
+        "titles": ["translation and original object ownership"],
+        "template": "两 OBJECT 映同 enemyId：enemies 各自翻译、enemyObjectIndexes 保 raw、0/0xFFFF 不压缩、_names 按 OBJECT 反查"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/parsers/__tests__/enemy-teams.boundaries.test.ts",
+        "ordinal": 1
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/parsers/enemy-teams.test.ts",
+        "titles": ["translation and original object ownership"],
+        "template": "缺映射只影响对应槽并给精确 warn；补全映射后同输入恢复，不依赖名字表"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/parsers/__tests__/enemy-teams.boundaries.test.ts",
+        "ordinal": 2
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/parsers/enemy-teams.test.ts",
+        "titles": ["translation and original object ownership"],
+        "template": "未知 OBJECT 999：空映射将该槽标空、保留原索引并仅输出对应诊断"
+      }
+    }
+  ],
+  "identities": [
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/parsers/__tests__/stores.boundaries.test.ts",
+        "fullName": "P05 parseStores 三记录并存 空首槽 / 首 0 截断 / 满 9 三记录并存：id 0..2、数组互不串位"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/parsers/stores.test.ts",
+        "fullName": "record termination and adjacent records 空首槽 / 首 0 截断 / 满 9 三记录并存：id 0..2、数组互不串位"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/parsers/stores.glm-runtime-resource.test.ts",
+        "fullName": "R07 parseStores 记录边界 满 9 记录与紧邻空记录：9 槽全保留且不串入下一条"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/parsers/stores.test.ts",
+        "fullName": "input views and record sizes 满 9 记录与紧邻空记录：9 槽全保留且不串入下一条"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/parsers/stores.glm-runtime-resource.test.ts",
+        "fullName": "R07 parseStores 记录边界 奇数偏移 subarray：与独立缓冲全等"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/parsers/stores.test.ts",
+        "fullName": "input views and record sizes 奇数偏移 subarray：两条记录逐字段精确"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/parsers/stores.glm-runtime-resource.test.ts",
+        "fullName": "parseStores：尺寸不整除精确拒绝"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/parsers/stores.test.ts",
+        "fullName": "input views and record sizes parseStores：尺寸不整除精确拒绝"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/parsers/__tests__/battle-fields.boundaries.test.ts",
+        "fullName": "P06 parseBattleFields 两记录完整对象 screenWave unsigned 高位 + 五维 signed 正负极值逐字段精确"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/parsers/battle-fields.test.ts",
+        "fullName": "unsigned wave and signed elemental fields screenWave unsigned 高位 + 五维 signed 正负极值逐字段精确"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/parsers/battle-fields.glm-runtime-resource.test.ts",
+        "fullName": "R08 parseBattleFields subarray 隔离 大缓冲奇数偏移 subarray：与独立缓冲全等（12B 记录 × 2）"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/parsers/battle-fields.test.ts",
+        "fullName": "input views and record sizes 大缓冲奇数偏移 subarray：两条战场记录逐字段精确"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/parsers/battle-fields.glm-runtime-resource.test.ts",
+        "fullName": "parseBattleFields：尺寸不整除精确拒绝"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/parsers/battle-fields.test.ts",
+        "fullName": "input views and record sizes parseBattleFields：尺寸不整除精确拒绝"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/parsers/enemy-teams.glm-runtime-resource.test.ts",
+        "fullName": "R07 parseEnemyTeams 纯模式 无映射无名字：enemies = 原始槽位，无 enemyObjectIndexes / _names 键"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/parsers/enemy-teams.test.ts",
+        "fullName": "raw slots and optional names 无映射无名字：enemies = 原始槽位，无 enemyObjectIndexes / _names 键"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/parsers/enemy-teams.glm-runtime-resource.test.ts",
+        "fullName": "R07 parseEnemyTeams 纯模式 非 10 倍数字节：抛错并带实际长度"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/parsers/enemy-teams.test.ts",
+        "fullName": "raw slots and optional names 非 10 倍数字节：抛错并带实际长度"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/parsers/enemy-teams.glm-runtime-resource.test.ts",
+        "fullName": "R07 parseEnemyTeams 纯模式 大缓冲奇数偏移 subarray：与独立缓冲全等"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/parsers/enemy-teams.test.ts",
+        "fullName": "raw slots and optional names 大缓冲奇数偏移 subarray：原始五槽与名称精确保留"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/parsers/enemy-teams.glm-runtime-resource.test.ts",
+        "fullName": "parseEnemyTeams：槽位查无名字不进 _names；全无名不设 _names 键"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/parsers/enemy-teams.test.ts",
+        "fullName": "raw slots and optional names parseEnemyTeams：槽位查无名字不进 _names；全无名不设 _names 键"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/parsers/enemy-teams.glm-runtime-resource.test.ts",
+        "fullName": "空槽不会读取名字表中的0或0xffff条目"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/parsers/enemy-teams.test.ts",
+        "fullName": "raw slots and optional names 空槽不会读取名字表中的0或0xffff条目"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/parsers/__tests__/enemy-teams.boundaries.test.ts",
+        "fullName": "P07 parseEnemyTeams 翻译模式原身份保真 两 OBJECT 映同 enemyId：enemies 各自翻译、enemyObjectIndexes 保 raw、0/0xFFFF 不压缩、_names 按 OBJECT 反查"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/parsers/enemy-teams.test.ts",
+        "fullName": "translation and original object ownership 两 OBJECT 映同 enemyId：enemies 各自翻译、enemyObjectIndexes 保 raw、0/0xFFFF 不压缩、_names 按 OBJECT 反查"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/parsers/__tests__/enemy-teams.boundaries.test.ts",
+        "fullName": "P07 parseEnemyTeams 翻译模式原身份保真 缺映射只影响对应槽并给精确 warn；补全映射后同输入恢复，不依赖名字表"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/parsers/enemy-teams.test.ts",
+        "fullName": "translation and original object ownership 缺映射只影响对应槽并给精确 warn；补全映射后同输入恢复，不依赖名字表"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/parsers/__tests__/enemy-teams.boundaries.test.ts",
+        "fullName": "P07 parseEnemyTeams 翻译模式原身份保真 未知 OBJECT 999：空映射将该槽标空、保留原索引并仅输出对应诊断"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/parsers/enemy-teams.test.ts",
+        "fullName": "translation and original object ownership 未知 OBJECT 999：空映射将该槽标空、保留原索引并仅输出对应诊断"
+      }
+    }
+  ],
+  "preserved": [
+    {
+      "path": "packages/pal-extract/src/resources/parsers/stores.ts",
+      "sha256": "ac63cfe2cee9ba7ab01d6dd055fb93a78bf0b8a6d61648ac98be0d118d6fc0f4"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/battle-fields.ts",
+      "sha256": "df5ed939b9761da191590e48fe9dd4c1b334c211b4a523cdc4b18df22a9848a2"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/enemy-teams.ts",
+      "sha256": "eb8369584d1ea80317fca82764ef9c0a88f653b9bcf6d8808b5cb92e41c8f5b0"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/_utils.ts",
+      "sha256": "576549caabe28bf69bccc132b2ecc2ea36ee7019b6d2574457ef02e43ae4250b"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/data-assets.ts",
+      "sha256": "e1e1a9cee093d57bfbcf9080b920a75087a0388c0f3f77e5b53ea17e7feeb11d"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/tables.ts",
+      "sha256": "74df97a4874d86525378189cc4f59d118e8d5a002caa3f852212c50c8a409ccd"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/tables.test.ts",
+      "sha256": "f1977858301e9d01e609ba2f3a0a6d6ecb5a9b38f875d2f4f62cb5a71947ac28"
+    },
+    {
+      "path": "packages/shared/src/tables.ts",
+      "sha256": "fcf28b2d9e0f812a17f299fb81c9b3fc9ff186fe83e24e20f1d85296539ac06b"
+    },
+    {
+      "path": "packages/pal-extract/src/__tests__/table-records.ts",
+      "sha256": "7e308b3148287228dae9e60d1b65da87df4c5872c9c7f0f1c2e62c3cf01f1188"
+    },
+    {
+      "path": "packages/pal-extract/src/__tests__/parser-diagnostics.ts",
+      "sha256": "d954ce7981032757c50ecd5ee7ace2cd0c61416828126db91a5ed29d90ef1191"
+    },
+    {
+      "path": "packages/pal-extract/src/cli.ts",
+      "sha256": "a6cf5e24a0a1706d605fd288757035925843854f0aa379b9e963014908528d77"
+    }
+  ],
+  "cohortSubjects": [
+    {
+      "path": "packages/pal-extract/src/resources/parsers/battle-fields.glm-runtime-resource.test.ts",
+      "sha256": "e7b91eb0f1d310649ef8c8895b1161cca28ca5d33eb2ecdece9c35417281de85",
+      "preservedEvidence": "[本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json)"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/enemy-teams.glm-runtime-resource.test.ts",
+      "sha256": "1ec3c966a749e106fb1fe77af41a7a8acf425ae0421f5215b444cccc81513093",
+      "preservedEvidence": "[本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json)"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/stores.glm-runtime-resource.test.ts",
+      "sha256": "abd6c9babab37492856ba0d835ca91705bbbd4599d3e2bb1c78d0aa66a972fe3",
+      "preservedEvidence": "[本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json)"
+    }
+  ],
+  "reusedReview": {
+    "member": "organization-extract-tables/reused-review.json",
+    "source": "docs/ops/evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json",
+    "scope": "Six prior A-E/H records reused at exact source bytes or the explicit import-only fixture predecessor. Current F/G and three view oracles are fresh work; no new full-file count."
+  },
+  "neighborPaths": [
+    "packages/pal-extract/src/resources/parsers/__tests__/data-misc.boundaries.test.ts",
+    "packages/pal-extract/src/resources/parsers/__tests__/data-misc.test.ts",
+    "packages/pal-extract/src/resources/parsers/__tests__/enemies.boundaries.test.ts",
+    "packages/pal-extract/src/resources/parsers/__tests__/items.boundaries.test.ts",
+    "packages/pal-extract/src/resources/parsers/__tests__/misc-mkf.test.ts",
+    "packages/pal-extract/src/resources/parsers/__tests__/player-roles.boundaries.test.ts",
+    "packages/pal-extract/src/resources/parsers/__tests__/player-roles.event-boundaries-1.test.ts",
+    "packages/pal-extract/src/resources/parsers/__tests__/rix.test.ts",
+    "packages/pal-extract/src/resources/parsers/__tests__/sounds.test.ts",
+    "packages/pal-extract/src/resources/parsers/__tests__/spells.boundaries.test.ts",
+    "packages/pal-extract/src/resources/parsers/ball.glm-runtime-resource.test.ts",
+    "packages/pal-extract/src/resources/parsers/battle-fields.test.ts",
+    "packages/pal-extract/src/resources/parsers/enemy-teams.test.ts",
+    "packages/pal-extract/src/resources/parsers/items.glm-runtime-resource.test.ts",
+    "packages/pal-extract/src/resources/parsers/rgm.glm-runtime-resource.test.ts",
+    "packages/pal-extract/src/resources/parsers/stores.test.ts",
+    "packages/pal-extract/src/resources/tables.test.ts"
+  ],
+  "cleanExecutions": [
+    "before",
+    "scoped",
+    "neighbors",
+    "typecheck",
+    "format",
+    "docs",
+    "content-review",
+    "lint",
+    "ledger",
+    "diff",
+    "final-fetch"
+  ],
+  "counters": ["stores.counter.json", "battle-fields.counter.json", "enemy-teams.counter.json"],
+  "profiles": [
+    {
+      "path": "packages/pal-extract/src/resources/parsers/stores.test.ts",
+      "sha256": "9314b0e988ef6e83e224aef18684381143ef500750ce6c855a4b4394691200fa",
+      "subjects": [
+        "packages/pal-extract/src/resources/parsers/__tests__/stores.boundaries.test.ts",
+        "packages/pal-extract/src/resources/parsers/stores.glm-runtime-resource.test.ts"
+      ],
+      "axes": {
+        "A": "原STORE=9 WORD/18B，首0截断、空记录保留及数组id来自记录位置；data-assets从DATA chunk0经barrel写stores.json。产品与DTO/共享读取入口不变，复用原原盘金标。",
+        "B": "头部按记录/视图/尺寸职责说明，删除作者批次与已失效的相邻旧文件名；实际空首槽不是产品过滤政策的注释保留。",
+        "C": "两旧文件同一parseStores合同聚合；固定三记录向量来自table-records，参数化storeTable留局部组，语义/生命周期各自可见。",
+        "D": "固定空/截断/满9向量和任意行薄writer输入域不同，不强合万能builder；既有LE库/产品parser不反向引用测试。",
+        "E": "4旧身份/完整终止与跨行断言保留；view由同SUT自比改两输入各对独立[61]/[62,63]对象。items值置0后旧选中1绿、新指定1AssertionError，恢复精确；不以测试数证明质量。",
+        "F": "stores.test与两个业务组表明职责，storeTable区别固定storesBytes，bytes替代bc，尺寸错误标题明确。",
+        "G": "六旧中的本表两份归一，不新增出口/兼容路径/模式参数；两种记录排序检验跨行上界与遇0规则，虽相似但边界不同不删。",
+        "H": "真实公开parser和fresh字节确定性运行，独立literal结果不依赖其它SUT调用；无核心mock/IO/时钟。"
+      },
+      "acceptance": "accepted-FG and oracle repair; uniform gates pending"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/battle-fields.test.ts",
+      "sha256": "a958b9d700b2434230be960510980c12b1d0d01e050463aa8745806293260581",
+      "subjects": [
+        "packages/pal-extract/src/resources/parsers/__tests__/battle-fields.boundaries.test.ts",
+        "packages/pal-extract/src/resources/parsers/battle-fields.glm-runtime-resource.test.ts"
+      ],
+      "axes": {
+        "A": "FIELD=1 unsigned WORD+5 signed SHORT，两个非对称记录和7B拒绝；实际writer用DATA chunk5。source/DTO/金标未动，历史正确性证据在其原范围复用。",
+        "B": "原“与独立缓冲全等”标题改逐字段精确，头注不再声称旧模型文件负责另一轴；unsigned/signed单位说明保留。",
+        "C": "unsigned/signed字段与输入视图/记录尺寸两个组归同一parser文件；只借纯固定表向量，不夹入写文件生命周期。",
+        "D": "两种buffer形状共享既有battleFieldsBytes；完整预期是独立手列而非产品offset/parse输出生成，不造通用比较helper。",
+        "E": "3原身份保留；偏移视图及独立缓冲各核完整id/screenWave/五行。screenWave置0旧选中绿新指定AssertionError，产品/测试精确恢复；字段主例仍保留signed极值。",
+        "F": "battle-fields.test按领域而非作者命名，bytes/parent/expected区分输入容器、视图和oracle，字段名与shared DTO一致。",
+        "G": "两旧文件归一，没有为了行数复用SUT生成oracle；字段向量主例与偏移入口例属于不同输入边界，保留各自判别轴。",
+        "H": "纯DataView公开入口，无IO/状态/注入层；有效单点反控证明view例不再共同错误假绿。"
+      },
+      "acceptance": "accepted-FG and oracle repair; uniform gates pending"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/enemy-teams.test.ts",
+      "sha256": "25fe222e1c3f276acdba94e450473fa89b5cf0f1394f54356932bc252ef1e360",
+      "subjects": [
+        "packages/pal-extract/src/resources/parsers/enemy-teams.glm-runtime-resource.test.ts",
+        "packages/pal-extract/src/resources/parsers/__tests__/enemy-teams.boundaries.test.ts"
+      ],
+      "axes": {
+        "A": "区分raw OBJECT槽位、翻译enemyId和可选_names；生产writer实际传names+index map。0/FFFF、缺映射诊断、原索引归属与输入不变复用原合同，未改变翻译政策。",
+        "B": "去R07/P07批次分文件及旧互指；人工名字/未知999域/原OBJECT反查限制仍明确，不把纯raw槽1/2冒称合法剧情。",
+        "C": "raw/optional names与translation/original ownership两组共一公开parser职责；warnings捕获仍由现有专用helper拥有，无新全局状态或IO。",
+        "D": "固定两队向量与原参数化teamBytes各有真实输入用途，后者只在raw组共享；名字/映射字面量域不同，不改为模式布尔factory。",
+        "E": "8原身份保留；缺映射逐条精确warn与恢复、五槽/原索引/名字/三输入ownership断言保持。view两输入各对独立五槽+名字对象，首槽置0旧绿新指定业务红后精确恢复。",
+        "F": "enemy-teams.test表示parser领域，组名揭示raw和translated身份差异，bytes替代bc，不以作者/轮次分组。",
+        "G": "两旧专测合一而保留raw/翻译/缺名/空名和未知OBJECT各域，不拿相同数组形状删合法的不同政策测试；无新包装/类型强转。",
+        "H": "直接确定性parser，Map/bytes每例fresh，诊断精确捕获、正常路径显式无warn；可独立观察结果，无私有出口或核心mock。"
+      },
+      "acceptance": "accepted-FG and oracle repair; uniform gates pending"
+    }
+  ],
+  "processDisclosure": [
+    "15 original runtime identities retained; three title updates and three independent oracles are explicit counted source bridges, not claimed body invariance.",
+    "Four inputs had earlier fixture-only import relocation. Their original SHA and intermediate/current SHA are connected by that verified predecessor, not overwritten.",
+    "Old and new selected counter runs intentionally filter to one case; skipped unrelated tests grant no regression credit. Full neighboring run follows exact source/test restoration."
+  ],
+  "lightweightGates": true
+}

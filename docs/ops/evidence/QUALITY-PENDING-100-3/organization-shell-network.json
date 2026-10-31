@@ -1,0 +1,413 @@
+{
+  "inputs": [
+    {
+      "path": "packages/game/src/shell/fetch-retry.test.ts",
+      "sha256": "6db86de8fa0f9137e8af6673c1ee585a6a1655bd8574ed088d4ad53054374a0f",
+      "member": "organization-shell-network/0.before"
+    },
+    {
+      "path": "packages/game/src/shell/fetch-retry.glm-phase1-leaves.test.ts",
+      "sha256": "31fc4a19a67251f87ae251adf877f56a23104fca0833541a596d6fa8252eefeb",
+      "member": "organization-shell-network/1.before"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "packages/game/src/shell/fetch-retry.test.ts",
+      "sha256": "9c19458e3e5618560e432c8b34ba770b9d3846edcc823210460fcb135184a156"
+    }
+  ],
+  "sourceBridges": [
+    {
+      "path": "packages/game/src/shell/fetch-retry.test.ts",
+      "id": "network-0",
+      "reason": "Title drops unproven real-server scenario attribution; callbacks unchanged.",
+      "changes": [
+        {
+          "from": "import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'\nimport { installFetchRetry, uninstallFetchRetryForTest } from './fetch-retry.js'\n\nconst realFetch = globalThis.fetch\n\nbeforeEach(() => {\n  uninstallFetchRetryForTest(realFetch)\n})\n\nafterEach(() => {\n  try {\n    uninstallFetchRetryForTest(realFetch)\n  } finally {\n    globalThis.fetch = realFetch\n    vi.restoreAllMocks()\n    vi.useRealTimers()\n  }\n})\n\ndescribe('fetch-retry(GET 网络层重试兜底)', () => {\n  it('GET 网络错误(reject)→ 重试后成功(nginx GOAWAY 竞态 net::ERR_FAILED 场景)', async () => {\n    const mock = vi\n      .fn<typeof fetch>()\n      .mockRejectedValueOnce(new TypeError('Failed to fetch'))\n      .mockResolvedValueOnce(new Response('ok'))\n    globalThis.fetch = mock\n    installFetchRetry({ backoffMs: [0, 0] })\n\n    const res = await fetch('/extracted/images/world/tileset/map-12/tile-0277.png')\n    expect(res.status).toBe(200)\n    expect(mock).toHaveBeenCalledTimes(2)\n  })\n\n  it('503 → 重试后返回恢复的 Response', async () => {\n    const recovered = new Response('ok')\n    const mock = vi\n      .fn<typeof fetch>()\n      .mockResolvedValueOnce(new Response('busy', { status: 503 }))\n      .mockResolvedValueOnce(recovered)\n    globalThis.fetch = mock\n    installFetchRetry({ backoffMs: [0, 0] })\n    await expect(fetch('/a')).resolves.toBe(recovered)\n    expect(mock).toHaveBeenCalledTimes(2)\n  })\n\n  it('404 → 原样返回同一 Response，不重试', async () => {\n    const missing = new Response('nope', { status: 404 })\n    const mock = vi.fn<typeof fetch>().mockResolvedValue(missing)\n    globalThis.fetch = mock\n    installFetchRetry({ backoffMs: [0, 0] })\n    await expect(fetch('/b')).resolves.toBe(missing)\n    expect(mock).toHaveBeenCalledExactlyOnceWith('/b', undefined)\n  })\n\n  it('非 GET(POST)不重试(非幂等)', async () => {\n    const error = new TypeError('Failed to fetch')\n    const mock = vi.fn<typeof fetch>().mockRejectedValue(error)\n    globalThis.fetch = mock\n    installFetchRetry({ backoffMs: [0, 0] })\n\n    await expect(fetch('/api', { method: 'POST' })).rejects.toBe(error)\n    expect(mock).toHaveBeenCalledTimes(1)\n  })\n\n  it('重复 install 幂等(不双层包)', async () => {\n    const mock = vi.fn<typeof fetch>().mockResolvedValue(new Response('ok'))\n    globalThis.fetch = mock\n    installFetchRetry({ backoffMs: [0, 0] })\n    const wrapped = globalThis.fetch\n    installFetchRetry({ backoffMs: [0, 0] })\n    expect(globalThis.fetch).toBe(wrapped)\n  })\n\n  it('AbortError 立即向 caller 传播，不重复请求或等待 backoff', async () => {\n    const abort = new DOMException('aborted', 'AbortError')\n    const mock = vi.fn<typeof fetch>().mockRejectedValue(abort)\n    globalThis.fetch = mock\n    installFetchRetry({ retries: 2, backoffMs: [50, 50] })\n\n    await expect(fetch('/cancelled', { signal: new AbortController().signal })).rejects.toBe(abort)\n    expect(mock).toHaveBeenCalledTimes(1)\n  })\n\n  it('POST Request 不重试', async () => {\n    vi.useFakeTimers()\n    const gateway = new Response('gateway', { status: 503 })\n    let calls = 0\n    globalThis.fetch = async () => {\n      calls += 1\n      return gateway\n    }\n    installFetchRetry({ retries: 1, backoffMs: [1] })\n    const pending = globalThis.fetch(new Request('https://x.test/post', { method: 'POST' }))\n    await vi.runAllTimersAsync()\n    const response = await pending\n    expect(calls).toBe(1)\n    expect(response.status).toBe(503)\n  })\n})\n",
+          "to": "import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'\nimport { installFetchRetry, uninstallFetchRetryForTest } from './fetch-retry.js'\n\nconst realFetch = globalThis.fetch\n\nbeforeEach(() => {\n  uninstallFetchRetryForTest(realFetch)\n})\n\nafterEach(() => {\n  try {\n    uninstallFetchRetryForTest(realFetch)\n  } finally {\n    globalThis.fetch = realFetch\n    vi.restoreAllMocks()\n    vi.useRealTimers()\n  }\n})\n\ndescribe('fetch-retry(GET 网络层重试兜底)', () => {\n  it('GET 网络错误(reject)→ 重试后成功', async () => {\n    const mock = vi\n      .fn<typeof fetch>()\n      .mockRejectedValueOnce(new TypeError('Failed to fetch'))\n      .mockResolvedValueOnce(new Response('ok'))\n    globalThis.fetch = mock\n    installFetchRetry({ backoffMs: [0, 0] })\n\n    const res = await fetch('/extracted/images/world/tileset/map-12/tile-0277.png')\n    expect(res.status).toBe(200)\n    expect(mock).toHaveBeenCalledTimes(2)\n  })\n\n  it('503 → 重试后返回恢复的 Response', async () => {\n    const recovered = new Response('ok')\n    const mock = vi\n      .fn<typeof fetch>()\n      .mockResolvedValueOnce(new Response('busy', { status: 503 }))\n      .mockResolvedValueOnce(recovered)\n    globalThis.fetch = mock\n    installFetchRetry({ backoffMs: [0, 0] })\n    await expect(fetch('/a')).resolves.toBe(recovered)\n    expect(mock).toHaveBeenCalledTimes(2)\n  })\n\n  it('404 → 原样返回同一 Response，不重试', async () => {\n    const missing = new Response('nope', { status: 404 })\n    const mock = vi.fn<typeof fetch>().mockResolvedValue(missing)\n    globalThis.fetch = mock\n    installFetchRetry({ backoffMs: [0, 0] })\n    await expect(fetch('/b')).resolves.toBe(missing)\n    expect(mock).toHaveBeenCalledExactlyOnceWith('/b', undefined)\n  })\n\n  it('非 GET(POST)不重试(非幂等)', async () => {\n    const error = new TypeError('Failed to fetch')\n    const mock = vi.fn<typeof fetch>().mockRejectedValue(error)\n    globalThis.fetch = mock\n    installFetchRetry({ backoffMs: [0, 0] })\n\n    await expect(fetch('/api', { method: 'POST' })).rejects.toBe(error)\n    expect(mock).toHaveBeenCalledTimes(1)\n  })\n\n  it('重复 install 幂等(不双层包)', async () => {\n    const mock = vi.fn<typeof fetch>().mockResolvedValue(new Response('ok'))\n    globalThis.fetch = mock\n    installFetchRetry({ backoffMs: [0, 0] })\n    const wrapped = globalThis.fetch\n    installFetchRetry({ backoffMs: [0, 0] })\n    expect(globalThis.fetch).toBe(wrapped)\n  })\n\n  it('AbortError 立即向 caller 传播，不重复请求或等待 backoff', async () => {\n    const abort = new DOMException('aborted', 'AbortError')\n    const mock = vi.fn<typeof fetch>().mockRejectedValue(abort)\n    globalThis.fetch = mock\n    installFetchRetry({ retries: 2, backoffMs: [50, 50] })\n\n    await expect(fetch('/cancelled', { signal: new AbortController().signal })).rejects.toBe(abort)\n    expect(mock).toHaveBeenCalledTimes(1)\n  })\n\n  it('POST Request 不重试', async () => {\n    vi.useFakeTimers()\n    const gateway = new Response('gateway', { status: 503 })\n    let calls = 0\n    globalThis.fetch = async () => {\n      calls += 1\n      return gateway\n    }\n    installFetchRetry({ retries: 1, backoffMs: [1] })\n    const pending = globalThis.fetch(new Request('https://x.test/post', { method: 'POST' }))\n    await vi.runAllTimersAsync()\n    const response = await pending\n    expect(calls).toBe(1)\n    expect(response.status).toBe(503)\n  })\n})\n",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/shell/fetch-retry.glm-phase1-leaves.test.ts",
+      "id": "network-1",
+      "reason": "Lifecycle test suite moves beside idempotent install. Same original fetch snapshot and main before/after cleanup; title distinguishes3attemptsfrom2retries. Callbacks unchanged.",
+      "changes": [
+        {
+          "from": "/**\n * TEST-GLM-PHASE1-LEAVES-3 L23（fetch-retry.ts）— 去重表：\n *  - fetch-retry.test + fetch-retry.boundaries.test（GET 重试/耗尽/503-502-504/404 不重试/\n *    POST 不重试/幂等安装/init.method 优先/backoff）→ 不重复\n *  - 新差异：uninstallFetchRetryForTest 还原原始 fetch（还原后网络错误直接抛、不重试）。\n */\nimport { afterEach, describe, expect, it, vi } from 'vitest'\nimport { installFetchRetry, uninstallFetchRetryForTest } from './fetch-retry.js'\n\nconst originalFetch = globalThis.fetch\n\nafterEach(() => {\n  try {\n    uninstallFetchRetryForTest(originalFetch)\n  } finally {\n    globalThis.fetch = originalFetch\n    vi.restoreAllMocks()\n  }\n})\n\ndescribe('L23 uninstallFetchRetryForTest 还原合同', () => {\n  it('安装后网络错误重试 3 次；还原后同一错误直接抛（不再经过重试包装）', async () => {\n    const error = new TypeError('fetch failed')\n    const flaky = vi.fn<typeof fetch>().mockRejectedValue(error)\n    globalThis.fetch = flaky\n    installFetchRetry({ retries: 2, backoffMs: [0, 0] })\n    await expect(fetch('https://localhost/x')).rejects.toBe(error)\n    expect(flaky).toHaveBeenCalledTimes(3) // 1 + 2 重试\n    uninstallFetchRetryForTest(flaky)\n    expect(globalThis.fetch).toBe(flaky)\n    flaky.mockClear()\n    await expect(fetch('https://localhost/y')).rejects.toBe(error)\n    expect(flaky).toHaveBeenCalledExactlyOnceWith('https://localhost/y')\n  })\n\n  it('还原后 install 可重新装载（installed 复位合同）', async () => {\n    const error = new TypeError('fetch failed')\n    const flaky = vi.fn<typeof fetch>().mockRejectedValue(error)\n    globalThis.fetch = flaky\n    installFetchRetry({ retries: 0, backoffMs: [] })\n    const firstWrapper = globalThis.fetch\n    await expect(fetch('https://localhost/before-reinstall')).rejects.toBe(error)\n    expect(flaky).toHaveBeenCalledExactlyOnceWith('https://localhost/before-reinstall', undefined)\n    flaky.mockClear()\n    uninstallFetchRetryForTest(flaky)\n    installFetchRetry({ retries: 1, backoffMs: [0] })\n    expect(globalThis.fetch).not.toBe(firstWrapper)\n    expect(globalThis.fetch).not.toBe(flaky)\n    await expect(fetch('https://localhost/z')).rejects.toBe(error)\n    expect(flaky).toHaveBeenCalledTimes(2)\n  })\n})\n",
+          "to": "/**\n * TEST-GLM-PHASE1-LEAVES-3 L23（fetch-retry.ts）— 去重表：\n *  - fetch-retry.test + fetch-retry.boundaries.test（GET 重试/耗尽/503-502-504/404 不重试/\n *    POST 不重试/幂等安装/init.method 优先/backoff）→ 不重复\n *  - 新差异：uninstallFetchRetryForTest 还原原始 fetch（还原后网络错误直接抛、不重试）。\n */\nimport { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'\nimport { installFetchRetry, uninstallFetchRetryForTest } from './fetch-retry.js'\n\nconst realFetch = globalThis.fetch\n\nbeforeEach(() => {\n  uninstallFetchRetryForTest(realFetch)\n})\nafterEach(() => {\n  try {\n    uninstallFetchRetryForTest(realFetch)\n  } finally {\n    globalThis.fetch = realFetch\n    vi.restoreAllMocks()\n    vi.useRealTimers()\n  }\n})\n\ndescribe('L23 uninstallFetchRetryForTest 还原合同', () => {\n  it('安装后请求共 3 次；还原后同一错误直接抛（不再经过重试包装）', async () => {\n    const error = new TypeError('fetch failed')\n    const flaky = vi.fn<typeof fetch>().mockRejectedValue(error)\n    globalThis.fetch = flaky\n    installFetchRetry({ retries: 2, backoffMs: [0, 0] })\n    await expect(fetch('https://localhost/x')).rejects.toBe(error)\n    expect(flaky).toHaveBeenCalledTimes(3) // 1 + 2 重试\n    uninstallFetchRetryForTest(flaky)\n    expect(globalThis.fetch).toBe(flaky)\n    flaky.mockClear()\n    await expect(fetch('https://localhost/y')).rejects.toBe(error)\n    expect(flaky).toHaveBeenCalledExactlyOnceWith('https://localhost/y')\n  })\n\n  it('还原后 install 可重新装载（installed 复位合同）', async () => {\n    const error = new TypeError('fetch failed')\n    const flaky = vi.fn<typeof fetch>().mockRejectedValue(error)\n    globalThis.fetch = flaky\n    installFetchRetry({ retries: 0, backoffMs: [] })\n    const firstWrapper = globalThis.fetch\n    await expect(fetch('https://localhost/before-reinstall')).rejects.toBe(error)\n    expect(flaky).toHaveBeenCalledExactlyOnceWith('https://localhost/before-reinstall', undefined)\n    flaky.mockClear()\n    uninstallFetchRetryForTest(flaky)\n    installFetchRetry({ retries: 1, backoffMs: [0] })\n    expect(globalThis.fetch).not.toBe(firstWrapper)\n    expect(globalThis.fetch).not.toBe(flaky)\n    await expect(fetch('https://localhost/z')).rejects.toBe(error)\n    expect(flaky).toHaveBeenCalledTimes(2)\n  })\n})\n",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "replacements": [],
+  "registrations": [
+    {
+      "old": {
+        "file": "packages/game/src/shell/fetch-retry.test.ts",
+        "ordinal": 0
+      },
+      "originalOrdinal": 0,
+      "current": {
+        "file": "packages/game/src/shell/fetch-retry.test.ts",
+        "titles": ["Fetch GET recovery and method handling"],
+        "template": "GET 网络错误(reject)→ 重试后成功"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/fetch-retry.test.ts",
+        "ordinal": 1
+      },
+      "originalOrdinal": 1,
+      "current": {
+        "file": "packages/game/src/shell/fetch-retry.test.ts",
+        "titles": ["Fetch GET recovery and method handling"],
+        "template": "503 → 重试后返回恢复的 Response"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/fetch-retry.test.ts",
+        "ordinal": 2
+      },
+      "originalOrdinal": 2,
+      "current": {
+        "file": "packages/game/src/shell/fetch-retry.test.ts",
+        "titles": ["Fetch GET recovery and method handling"],
+        "template": "404 → 原样返回同一 Response，不重试"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/fetch-retry.test.ts",
+        "ordinal": 3
+      },
+      "originalOrdinal": 3,
+      "current": {
+        "file": "packages/game/src/shell/fetch-retry.test.ts",
+        "titles": ["Fetch GET recovery and method handling"],
+        "template": "非 GET(POST)不重试(非幂等)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/fetch-retry.test.ts",
+        "ordinal": 4
+      },
+      "originalOrdinal": 4,
+      "current": {
+        "file": "packages/game/src/shell/fetch-retry.test.ts",
+        "titles": ["Fetch retry installation ownership"],
+        "template": "重复 install 幂等(不双层包)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/fetch-retry.test.ts",
+        "ordinal": 5
+      },
+      "originalOrdinal": 5,
+      "current": {
+        "file": "packages/game/src/shell/fetch-retry.test.ts",
+        "titles": ["Fetch GET recovery and method handling"],
+        "template": "AbortError 立即向 caller 传播，不重复请求或等待 backoff"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/fetch-retry.test.ts",
+        "ordinal": 6
+      },
+      "originalOrdinal": 6,
+      "current": {
+        "file": "packages/game/src/shell/fetch-retry.test.ts",
+        "titles": ["Fetch GET recovery and method handling"],
+        "template": "POST Request 不重试"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/fetch-retry.glm-phase1-leaves.test.ts",
+        "ordinal": 0
+      },
+      "originalOrdinal": 0,
+      "current": {
+        "file": "packages/game/src/shell/fetch-retry.test.ts",
+        "titles": ["Fetch retry installation ownership"],
+        "template": "安装后请求共 3 次；还原后同一错误直接抛（不再经过重试包装）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/fetch-retry.glm-phase1-leaves.test.ts",
+        "ordinal": 1
+      },
+      "originalOrdinal": 1,
+      "current": {
+        "file": "packages/game/src/shell/fetch-retry.test.ts",
+        "titles": ["Fetch retry installation ownership"],
+        "template": "还原后 install 可重新装载（installed 复位合同）"
+      }
+    }
+  ],
+  "identities": [
+    {
+      "old": {
+        "file": "packages/game/src/shell/fetch-retry.test.ts",
+        "fullName": "fetch-retry(GET 网络层重试兜底) GET 网络错误(reject)→ 重试后成功(nginx GOAWAY 竞态 net::ERR_FAILED 场景)"
+      },
+      "current": {
+        "file": "packages/game/src/shell/fetch-retry.test.ts",
+        "fullName": "Fetch GET recovery and method handling GET 网络错误(reject)→ 重试后成功"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/fetch-retry.test.ts",
+        "fullName": "fetch-retry(GET 网络层重试兜底) 503 → 重试后返回恢复的 Response"
+      },
+      "current": {
+        "file": "packages/game/src/shell/fetch-retry.test.ts",
+        "fullName": "Fetch GET recovery and method handling 503 → 重试后返回恢复的 Response"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/fetch-retry.test.ts",
+        "fullName": "fetch-retry(GET 网络层重试兜底) 404 → 原样返回同一 Response，不重试"
+      },
+      "current": {
+        "file": "packages/game/src/shell/fetch-retry.test.ts",
+        "fullName": "Fetch GET recovery and method handling 404 → 原样返回同一 Response，不重试"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/fetch-retry.test.ts",
+        "fullName": "fetch-retry(GET 网络层重试兜底) 非 GET(POST)不重试(非幂等)"
+      },
+      "current": {
+        "file": "packages/game/src/shell/fetch-retry.test.ts",
+        "fullName": "Fetch GET recovery and method handling 非 GET(POST)不重试(非幂等)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/fetch-retry.test.ts",
+        "fullName": "fetch-retry(GET 网络层重试兜底) 重复 install 幂等(不双层包)"
+      },
+      "current": {
+        "file": "packages/game/src/shell/fetch-retry.test.ts",
+        "fullName": "Fetch retry installation ownership 重复 install 幂等(不双层包)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/fetch-retry.test.ts",
+        "fullName": "fetch-retry(GET 网络层重试兜底) AbortError 立即向 caller 传播，不重复请求或等待 backoff"
+      },
+      "current": {
+        "file": "packages/game/src/shell/fetch-retry.test.ts",
+        "fullName": "Fetch GET recovery and method handling AbortError 立即向 caller 传播，不重复请求或等待 backoff"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/fetch-retry.test.ts",
+        "fullName": "fetch-retry(GET 网络层重试兜底) POST Request 不重试"
+      },
+      "current": {
+        "file": "packages/game/src/shell/fetch-retry.test.ts",
+        "fullName": "Fetch GET recovery and method handling POST Request 不重试"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/fetch-retry.glm-phase1-leaves.test.ts",
+        "fullName": "L23 uninstallFetchRetryForTest 还原合同 安装后网络错误重试 3 次；还原后同一错误直接抛（不再经过重试包装）"
+      },
+      "current": {
+        "file": "packages/game/src/shell/fetch-retry.test.ts",
+        "fullName": "Fetch retry installation ownership 安装后请求共 3 次；还原后同一错误直接抛（不再经过重试包装）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/fetch-retry.glm-phase1-leaves.test.ts",
+        "fullName": "L23 uninstallFetchRetryForTest 还原合同 还原后 install 可重新装载（installed 复位合同）"
+      },
+      "current": {
+        "file": "packages/game/src/shell/fetch-retry.test.ts",
+        "fullName": "Fetch retry installation ownership 还原后 install 可重新装载（installed 复位合同）"
+      }
+    }
+  ],
+  "helperTransplants": [],
+  "id": "shell-network",
+  "kind": "network",
+  "namespace": "organization-shell-network",
+  "cohortSubjects": [
+    {
+      "path": "packages/game/src/shell/fetch-retry.glm-phase1-leaves.test.ts",
+      "sha256": "31fc4a19a67251f87ae251adf877f56a23104fca0833541a596d6fa8252eefeb",
+      "priorCurrentBridges": []
+    }
+  ],
+  "preserved": [
+    {
+      "path": "packages/game/src/shell/fetch-retry.ts",
+      "sha256": "6a583e9a53cf4a3b2a80993c7ef792877dfc4c60a3628fbde94ca58f967fefdc"
+    },
+    {
+      "path": "packages/game/src/main.ts",
+      "sha256": "a6314ef010da9e6d7add395e19993a002b7024607b8c51cc757486f200335a03"
+    },
+    {
+      "path": "packages/game/src/shell/boot-loading.ts",
+      "sha256": "49711b04336e1ff4820de3f0f361a6b6bbbdc2e90fcfb727aa5fbf6f91def42a"
+    },
+    {
+      "path": "packages/game/src/shell/fetch-retry.boundaries.test.ts",
+      "sha256": "fb250ebe6d6d2206be60aa7c5faee40a590e42f48e547b38be30360daa8db6aa"
+    },
+    {
+      "path": "packages/game/src/shell/fetch-retry.cancellation.test.ts",
+      "sha256": "f77605ba8fac4893f06280b648e537e006d36c3e72368aa3e3fac6ac967699d9"
+    }
+  ],
+  "neighborPaths": [
+    "packages/game/src/shell/boot-loading-host.grok-r1.test.ts",
+    "packages/game/src/shell/boot-loading.test.ts",
+    "packages/game/src/shell/bootstrap-resources.test.ts",
+    "packages/game/src/shell/fetch-retry.boundaries.test.ts",
+    "packages/game/src/shell/fetch-retry.cancellation.test.ts",
+    "packages/game/src/shell/fetch-retry.test.ts"
+  ],
+  "cleanExecutions": [
+    "before-valid",
+    "organization-r2",
+    "neighbors",
+    "typecheck",
+    "module-preflight",
+    "docs",
+    "content-review",
+    "lint",
+    "testing-docs",
+    "diff",
+    "scoped",
+    "ledger-final"
+  ],
+  "lightweightGates": true,
+  "receipts": {
+    "before": "organization-shell-network/before-valid",
+    "proof": "organization-shell-network/organization-r2"
+  },
+  "counters": [],
+  "reusedReviewMember": "organization-shell-network/reused-reviews.json",
+  "fixtureAndCallbackProof": "organization-shell-network/organization-r2.stdout.raw",
+  "primarySources": [
+    {
+      "source": "packages/game/src/shell/fetch-retry.ts",
+      "sha256": "6a583e9a53cf4a3b2a80993c7ef792877dfc4c60a3628fbde94ca58f967fefdc",
+      "scope": "Browser-only IO; SDLPal N/A. Actual module contract and native Request/AbortController oracles in adjacent cancellation spec."
+    }
+  ],
+  "profiles": [
+    {
+      "path": "packages/game/src/shell/fetch-retry.test.ts",
+      "subjects": [
+        "packages/game/src/shell/fetch-retry.test.ts",
+        "packages/game/src/shell/fetch-retry.glm-phase1-leaves.test.ts"
+      ],
+      "axes": {
+        "A": "All9cases retain actual typed install/reset calls,transport Response/Error identities,default+configured retry counts and Request/init.method/AbortError paths.2formerGLMcasses are lifecycle contracts,not production uninstall feature.",
+        "B": "Remove contributor/new-difference header and isolate network vsinstallation suites. Fix3retries wording to3totalattempts; remove realnginxscenario attribution from synthetic network test title. Prior exactcaller/error/recovery scope retained.",
+        "C": "Module captures one realfetch reference once; beforeEach resets installed state,finally restores ownfetch/mocks/clock evenifresetfails. Lifecyclecases configure their own current transport and verifyrestoreidentity beforeteardown. Actual production installsretrybeforeboot wrapper.",
+        "D": "Coalesce equal module-load originalFetch/realFetch snapshots and maincleanup only. Keep each Error/Response instance and request phase distinct; two lifecyclecases are not duplicate network-failure tests. Cancellation/nativeoracles remain separate.",
+        "E": "9original callbacks compared asactual TSprinted functionbodies against frozeninput,all9identities/typeddata/expect preserved. Wholeit/declaration/import/hook conservation afterdeclaredhookbridge also passes. Nativecancellation/bootneighbors retain independent Request andresourceoracles; no productchangeornewcountercredit.",
+        "F": "fetch-retry mainfile and recovery/installationgroups reveal actual domain. Remove modelpath rather than invent lifecyclefilefor2cases; test-only reset explicitly named and active in real testcleanup.",
+        "G": "2inputs9cases ->1spec9cases; no runtimecaseadded/retired,no genericIOscenario/contexthelper or compatibilitybarrel. Originalmain is one97-linefunctionmodule under test,so keeping9closecontracts together is bounded.",
+        "H": "Actual wrapper runs with externalIO port controlled; synthetic error andResponse are independent known values,not implementation replicas. Existing controlled timers/native Request/cancelneighbors preserved. No new cast,ignore,skip,timeoutchange ordiagnostic suppression."
+      }
+    }
+  ],
+  "reads": {
+    "fullInputs": [
+      {
+        "path": "packages/game/src/shell/fetch-retry.test.ts",
+        "sha256": "6db86de8fa0f9137e8af6673c1ee585a6a1655bd8574ed088d4ad53054374a0f",
+        "member": "organization-shell-network/0.before",
+        "lines": 99
+      },
+      {
+        "path": "packages/game/src/shell/fetch-retry.glm-phase1-leaves.test.ts",
+        "sha256": "31fc4a19a67251f87ae251adf877f56a23104fca0833541a596d6fa8252eefeb",
+        "member": "organization-shell-network/1.before",
+        "lines": 52
+      }
+    ],
+    "fullImplementation": [
+      {
+        "path": "packages/game/src/shell/fetch-retry.ts",
+        "sha256": "6a583e9a53cf4a3b2a80993c7ef792877dfc4c60a3628fbde94ca58f967fefdc",
+        "lines": 97
+      },
+      {
+        "path": "packages/game/src/shell/boot-loading.ts",
+        "sha256": "49711b04336e1ff4820de3f0f361a6b6bbbdc2e90fcfb727aa5fbf6f91def42a",
+        "lines": 169,
+        "scope": "Adjacent wrapper install/restore ownership only; fullreadnotwholefileacceptance."
+      }
+    ],
+    "currentFullOutputs": [
+      {
+        "path": "packages/game/src/shell/fetch-retry.test.ts",
+        "sha256": "9c19458e3e5618560e432c8b34ba770b9d3846edcc823210460fcb135184a156",
+        "lines": 124
+      }
+    ],
+    "callers": [
+      {
+        "path": "packages/game/src/main.ts",
+        "sha256": "a6314ef010da9e6d7add395e19993a002b7024607b8c51cc757486f200335a03",
+        "ranges": [[1, 43]],
+        "scope": "Actual main install before boot counting. No wholemainreview."
+      },
+      {
+        "path": "packages/game/src/shell/fetch-retry.boundaries.test.ts",
+        "sha256": "fb250ebe6d6d2206be60aa7c5faee40a590e42f48e547b38be30360daa8db6aa",
+        "lines": 219,
+        "scope": "Full adjacent boundaryspec read; input,identity,backoff and pending-settlement coverage; no newhistoricalsubjectcredit."
+      },
+      {
+        "path": "packages/game/src/shell/fetch-retry.cancellation.test.ts",
+        "sha256": "f77605ba8fac4893f06280b648e537e006d36c3e72368aa3e3fac6ac967699d9",
+        "lines": 145,
+        "scope": "Full adjacent cancellationspec read; realnativeRequest/abortpositive,signaloverride andtimer/listenerrelease. No F/Gnewcredit."
+      }
+    ]
+  },
+  "adjacentPending": [
+    {
+      "path": "packages/game/src/shell/fetch-retry.boundaries.test.ts",
+      "issue": "Header says GLM preserves uninstall/reinstall. Now historical author grouping is stale; not modified in this finite twoinput organization slice. No wholeboundaryB/Fcredit."
+    }
+  ],
+  "processDisclosures": [
+    "Only1historical fixedcohortsubject;2inputs9cases->1spec9cases. Lifecycle/idempotent cases cohere within same97-line module; response/method andinstallation suites separate. No main-adjacent case is counted again asnewfullreview.",
+    "First baselinecapture used reporoot with package-relative Vitestbinary,spawnENOENT; no tests ran. Preserved failure; before-valid uses actualpackagecwd and9green. Not misreported as Vitestfailureorpass.",
+    "Producerfirst supplementary callbackSha256comparison referenced absentfields,so suppliesnoindependentproof; its mainwhole-case lexicalbridge check wasvalid. r2 replaces that ineffectivecheck with actual TSfunctionnode printingofall9original/currentcallbacks and exactequality. Both scripts/receipts retained; current accepts r2only.",
+    "No behaviorfix,newmutant,product orsharedinterfacechange. Existing correct current97-linefetchsource andnativecancelcontracts preserved; not reopening approvedcancellation or pretending historical broader-sourceSHA iscurrent.",
+    "Currentneighborreportcounts follow nativeJSON; no heavywholecheck/officialcoverage/protectedorpublication. Alloutputpathsremainreviewuntilunifiedgates."
+  ],
+  "ledgerCounts": {
+    "inventory": 3460,
+    "closed": 570,
+    "review": 256,
+    "pending": 2634
+  }
+}

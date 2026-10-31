@@ -35,11 +35,16 @@ describe('isIdentityTint / lerpTint', () => {
     expect(isIdentityTint([254, 254, 255])).toBe(true)
     expect(isIdentityTint([117, 229, 255])).toBe(false)
   })
-  test('lerp:t=0 起点 / t=1 终点 / 中点四舍五入 / 越界夹取', () => {
+  test('lerp:t=0 起点 / t=1 终点 / 中点 / 越界夹取', () => {
     expect(lerpTint([255, 255, 255], [117, 229, 255], 0)).toEqual([255, 255, 255])
     expect(lerpTint([255, 255, 255], [117, 229, 255], 1)).toEqual([117, 229, 255])
     expect(lerpTint([255, 255, 255], [117, 229, 255], 0.5)).toEqual([186, 242, 255])
     expect(lerpTint([255, 255, 255], [117, 229, 255], 2)).toEqual([117, 229, 255])
     expect(lerpTint([255, 255, 255], [117, 229, 255], -1)).toEqual([255, 255, 255])
+  })
+
+  test('非整数插值按分量四舍五入', () => {
+    expect(lerpTint([0, 0, 0], [101, 103, 105], 0.5)).toEqual([51, 52, 53])
+    expect(lerpTint([10, 10, 10], [15, 15, 15], 0.5)).toEqual([13, 13, 13])
   })
 })

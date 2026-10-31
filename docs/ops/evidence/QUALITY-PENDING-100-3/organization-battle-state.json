@@ -1,0 +1,664 @@
+{
+  "id": "battle-state-construction",
+  "namespace": "organization-battle-state",
+  "inputs": [
+    {
+      "path": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+      "member": "organization-battle-state/0.before",
+      "sha256": "252a9eb1e86c54beb093c9f1910eb740150fe00dca08b4af908025bc5ba596e6",
+      "lines": 344
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-state.glm-next-wave.test.ts",
+      "member": "organization-battle-state/1.before",
+      "sha256": "4160c6b019099d4654893ba1117d13d0b11c43476eaa1d6985a1e84d7134c59a",
+      "lines": 86
+    }
+  ],
+  "outputs": [
+    {
+      "path": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+      "sha256": "08f0cc3e0f581e2ec688a9386dd5dbd2c7cf7c8e813623f2369fd00c8f62c9fb",
+      "lines": 400
+    }
+  ],
+  "replacements": [],
+  "sourceBridges": [
+    {
+      "path": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+      "id": "organization-battle-state",
+      "reason": "Non-executable registration-analysis domain uses current output lexical imports. Independent import-targets-proof verifies every actual old/current resolved target; callback/helper/type proof remains separate. This virtual text is not a runnable module at the retired path.",
+      "changes": [
+        {
+          "from": "import type { Enemy, PlayerRole } from '@type-pal/shared'\nimport { describe, expect, it } from 'vitest'\nimport {\n  makeBattleFieldRecord,\n  makeEnemyRecord,\n  makeRoleRecord,\n} from '../../../__tests__/battle-records.js'\nimport { createInitialGameState } from '../../game-state.js'\nimport { createSeedableRng } from '../../rng.js'\nimport { createBattleState } from '../battle-state.js'\nimport { buildActionQueue } from '../turn-queue.js'\n\n/**\n * BattleState 测试 —— M3 T16。\n *\n * 覆盖:工厂从 GameState + fixture 派生、players prevHp/prevMp 拷贝、enemies\n * health 隔离、roleId/人数边界、九状态按角色映射与每场局部 ownership。\n */\n\nfunction minimalRole(id: number): PlayerRole {\n  return makeRoleRecord(id, { maxHP: 200, maxMP: 30, hp: 200, mp: 30 })\n}\n\nfunction minimalEnemy(id: number, health = 50): Enemy {\n  return makeEnemyRecord({ id, health })\n}\n\ndescribe('createBattleState', () => {\n  it('从 GameState + fixture 派生', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.partyMembers = [0]\n    const state = createBattleState({\n      gs,\n      playerRoles: { roles: [minimalRole(0)] },\n      enemies: [minimalEnemy(100)],\n      field: makeBattleFieldRecord(),\n      isBoss: false,\n      rng: createSeedableRng(42),\n    })\n    expect(state.phase).toBe('preBattle')\n    expect(state.players).toHaveLength(1)\n    expect(state.enemies).toHaveLength(1)\n    expect(state.expGained).toBe(0)\n    expect(state.turn).toBe(0)\n    expect(state.uiState).toBe('hidden')\n  })\n\n  it('players prevHp/prevMp 拷贝战前值', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.partyMembers = [0]\n    const role = minimalRole(0)\n    const state = createBattleState({\n      gs,\n      playerRoles: { roles: [role] },\n      enemies: [],\n      field: makeBattleFieldRecord(),\n      isBoss: false,\n      rng: createSeedableRng(1),\n    })\n    expect(state.players[0]?.prevHp).toBe(200)\n    expect(state.players[0]?.prevMp).toBe(30)\n    expect(state.players[0]?.scriptPrevHp).toBe(200)\n    role.hp = 9\n    role.mp = 8\n    expect(state.players[0]?.prevHp).toBe(200)\n    expect(state.players[0]?.prevMp).toBe(30)\n    expect(state.players[0]?.scriptPrevHp).toBe(200)\n  })\n\n  it('enemies prevHp = e.health 拷贝', () => {\n    const sourceEnemy = minimalEnemy(100, 75)\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    const state = createBattleState({\n      gs,\n      playerRoles: { roles: [] },\n      enemies: [sourceEnemy],\n      field: makeBattleFieldRecord(),\n      isBoss: false,\n      rng: createSeedableRng(1),\n    })\n    expect(state.enemies[0]?.prevHp).toBe(75)\n    expect(state.enemies[0]?.e.health).toBe(75)\n    const enemy = state.enemies[0]!\n    expect(enemy.objectId).toBe(100) // 未提供对象脚本元数据时的显式fallback合同。\n    expect(enemy.maxHealth).toBe(75)\n    expect(enemy.e).not.toBe(sourceEnemy)\n    enemy.e.health = 25\n    expect(sourceEnemy.health).toBe(75)\n    expect(enemy.prevHp).toBe(75)\n    expect(enemy.maxHealth).toBe(75)\n    sourceEnemy.health = 60\n    expect(enemy.e.health).toBe(25)\n  })\n\n  it('未知 roleId 抛错', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.partyMembers = [99]\n    expect(() =>\n      createBattleState({\n        gs,\n        playerRoles: { roles: [minimalRole(0)] },\n        enemies: [],\n        field: makeBattleFieldRecord(),\n        isBoss: false,\n        rng: createSeedableRng(1),\n      }),\n    ).toThrow(/role id 99/)\n  })\n\n  // CLASSIC状态按roleId读取；傀儡在正式开战复活路径清零，不伪造活人傀儡输入。\n  it('D14:gs.rgPlayerStatus 九槽按角色身份映射，保留普通及装备计数', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.partyMembers = [2, 0]\n    gs.rgPlayerStatus[2] = [1, 2, 3, 4, 0, 1000, 999, 32760, 6]\n    gs.rgPlayerStatus[0] = [7, 8, 9, 10, 0, 11, 12, 13, 14]\n    const state = createBattleState({\n      gs,\n      playerRoles: { roles: [0, 1, 2].map(minimalRole) },\n      enemies: [],\n      field: makeBattleFieldRecord(),\n      isBoss: false,\n      rng: createSeedableRng(1),\n    })\n    expect(state.players.map((p) => p.roleId)).toEqual([2, 0])\n    expect(state.players.map((p) => p.status)).toEqual([\n      {\n        confused: 1,\n        paralyzed: 2,\n        sleep: 3,\n        silence: 4,\n        puppet: 0,\n        bravery: 1000,\n        protect: 999,\n        haste: 32760,\n        dualAttack: 6,\n        slow: 0,\n      },\n      {\n        confused: 7,\n        paralyzed: 8,\n        sleep: 9,\n        silence: 10,\n        puppet: 0,\n        bravery: 11,\n        protect: 12,\n        haste: 13,\n        dualAttack: 14,\n        slow: 0,\n      },\n    ])\n  })\n\n  it('D14:无装备状态 → player.status 全 0(默认)', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.partyMembers = [0]\n    const state = createBattleState({\n      gs,\n      playerRoles: { roles: [minimalRole(0)] },\n      enemies: [],\n      field: makeBattleFieldRecord(),\n      isBoss: false,\n      rng: createSeedableRng(1),\n    })\n    expect(state.players[0]?.status).toEqual({\n      confused: 0,\n      paralyzed: 0,\n      sleep: 0,\n      silence: 0,\n      puppet: 0,\n      bravery: 0,\n      protect: 0,\n      haste: 0,\n      dualAttack: 0,\n      slow: 0,\n    })\n  })\n\n  it('每场pendingActions/prevActions和行动队列独立，不泄漏到下一场', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.partyMembers = [0]\n    const input = {\n      gs,\n      playerRoles: { roles: [minimalRole(0)] },\n      enemies: [],\n      field: makeBattleFieldRecord(),\n      isBoss: false,\n      rng: createSeedableRng(1),\n    }\n    const first = createBattleState(input)\n    first.pendingActions.set(0, { type: 'defend', target: 0 })\n    first.prevActions?.set(0, { type: 'attack', target: 0 })\n    first.actionQueue.push(...buildActionQueue({ players: [{ idx: 0, dex: 30 }], enemies: [] }))\n    const next = createBattleState(input)\n    expect(next.pendingActions.size).toBe(0)\n    expect(next.prevActions?.size).toBe(0)\n    expect(next.actionQueue).toEqual([])\n    expect(first.pendingActions.get(0)).toEqual({ type: 'defend', target: 0 })\n    expect(first.prevActions?.get(0)).toEqual({ type: 'attack', target: 0 })\n    expect(first.actionQueue).toEqual([{ isEnemy: false, idx: 0, dex: 30, fIsSecond: false }])\n  })\n\n  // ── M5.B-w0.2: PLAYER_POSITIONS 真值(sdlpal battle.c:27 g_rgPlayerPos[3][3][2])──\n  it('B-w0.2:partyMembers > 3 抛错(sdlpal g_rgPlayerPos[3][3][2] 真值)', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.partyMembers = [0, 1, 2, 3] // 4 个,超 3 上限\n    expect(() =>\n      createBattleState({\n        gs,\n        playerRoles: { roles: [0, 1, 2, 3].map((i) => minimalRole(i)) },\n        enemies: [],\n        field: makeBattleFieldRecord(),\n        isBoss: false,\n        rng: createSeedableRng(1),\n      }),\n    ).toThrow(/最多 3 player|partyMembers.length=4 > 3/)\n  })\n\n  it('战斗状态副本与持久状态及其它队员相互隔离', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.partyMembers = [0, 1]\n    gs.rgPlayerStatus[0]![6] = 7\n    const input = {\n      gs,\n      playerRoles: { roles: [0, 1].map(minimalRole) },\n      enemies: [],\n      field: makeBattleFieldRecord(),\n      isBoss: false,\n      rng: createSeedableRng(1),\n    }\n    const state = createBattleState(input)\n    const first = state.players[0]!.status\n    const second = state.players[1]!.status\n    first.protect = 6\n    expect(gs.rgPlayerStatus[0]![6]).toBe(7)\n    expect(second.protect).toBe(0)\n    gs.rgPlayerStatus[0]![6] = 0\n    expect(first.protect).toBe(6)\n    second.haste = 3\n    expect(first.haste).toBe(0)\n    expect(gs.rgPlayerStatus[1]![7]).toBe(0)\n    const next = createBattleState(input)\n    expect(next.players[0]!.status.protect).toBe(0)\n    expect(next.players[1]!.status.haste).toBe(0)\n    expect(first.protect).toBe(6)\n  })\n\n  it('B-w0.2:partyMembers <= 3 正常构造', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.partyMembers = [0, 1, 2] // 3 个,边界 OK\n    const state = createBattleState({\n      gs,\n      playerRoles: { roles: [0, 1, 2].map((i) => minimalRole(i)) },\n      enemies: [],\n      field: makeBattleFieldRecord(),\n      isBoss: false,\n      rng: createSeedableRng(1),\n    })\n    expect(state.players).toHaveLength(3)\n  })\n\n  // ──────────────────────────────────────────────────────────────────────────\n  // D17a:fighter render state 初值(pos / posOriginal / currentFrame / iColorShift)\n  // ──────────────────────────────────────────────────────────────────────────\n  it('D17a:player pos/posOriginal = g_rgPlayerPos[count-1][i](battle.c:27)', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.partyMembers = [0, 1] // 2 人 layout\n    const state = createBattleState({\n      gs,\n      playerRoles: { roles: [0, 1].map((i) => minimalRole(i)) },\n      enemies: [],\n      field: makeBattleFieldRecord(),\n      isBoss: false,\n      rng: createSeedableRng(1),\n    })\n    // 2 players:(200,176) / (256,152)(sdlpal g_rgPlayerPos[1])\n    expect(state.players[0]!.pos).toEqual({ x: 200, y: 176 })\n    expect(state.players[0]!.posOriginal).toEqual({ x: 200, y: 176 })\n    expect(state.players[1]!.pos).toEqual({ x: 256, y: 152 })\n    expect(state.players[1]!.posOriginal).toEqual({ x: 256, y: 152 })\n    // pos 与 posOriginal 是独立对象(后续动画 mutate pos 不污染 posOriginal)\n    expect(state.players[0]!.pos).not.toBe(state.players[0]!.posOriginal)\n    expect(state.players[0]!.currentFrame).toBe(0)\n    expect(state.players[0]!.iColorShift).toBe(0)\n  })\n\n  it('D17a:enemy pos/posOriginal = EnemyPos.layouts[count-1][i] + yPosOffset(battle.c:936-939)', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.partyMembers = [0]\n    const state = createBattleState({\n      gs,\n      playerRoles: { roles: [minimalRole(0)] },\n      enemies: [minimalEnemy(100), minimalEnemy(200)], // 2 enemies\n      field: makeBattleFieldRecord(),\n      isBoss: false,\n      rng: createSeedableRng(1),\n      enemyPos: {\n        layouts: [\n          [{ x: 160, y: 80 }],\n          [\n            { x: 100, y: 60 },\n            { x: 220, y: 60 },\n          ],\n        ],\n      },\n    })\n    expect(state.enemies[0]!.pos).toEqual({ x: 100, y: 60 })\n    expect(state.enemies[0]!.posOriginal).toEqual({ x: 100, y: 60 })\n    expect(state.enemies[1]!.pos).toEqual({ x: 220, y: 60 })\n    // 敌人 idle 期 currentFrame = undefined → 渲染层 idle 时钟轮播(D17c 不被冻结)。\n    expect(state.enemies[0]!.currentFrame).toBeUndefined()\n    expect(state.enemies[0]!.iColorShift).toBe(0)\n  })\n\n  it('D17a:无 enemyPos → fallback 表(160,80)(向后兼容旧 fixture)', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.partyMembers = [0]\n    const state = createBattleState({\n      gs,\n      playerRoles: { roles: [minimalRole(0)] },\n      enemies: [minimalEnemy(100)],\n      field: makeBattleFieldRecord(),\n      isBoss: false,\n      rng: createSeedableRng(1),\n    })\n    expect(state.enemies[0]!.pos).toEqual({ x: 160, y: 80 })\n  })\n\n  it('D17a:enemy yPosOffset 叠加到 posOriginal.y', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.partyMembers = [0]\n    const e = minimalEnemy(100)\n    e.yPosOffset = 15\n    const state = createBattleState({\n      gs,\n      playerRoles: { roles: [minimalRole(0)] },\n      enemies: [e],\n      field: makeBattleFieldRecord(),\n      isBoss: false,\n      rng: createSeedableRng(1),\n      enemyPos: { layouts: [[{ x: 160, y: 80 }]] },\n    })\n    expect(state.enemies[0]!.posOriginal).toEqual({ x: 160, y: 95 }) // 80 + 15\n  })\n})\n",
+          "to": "import {type Enemy} from \"@type-pal/shared\"\nimport {type PlayerRole} from \"@type-pal/shared\"\nimport {type PlayerRoles} from \"@type-pal/shared\"\nimport {describe} from \"vitest\"\nimport {expect} from \"vitest\"\nimport {it} from \"vitest\"\nimport {makeBattleFieldRecord} from \"../../../__tests__/battle-records.js\"\nimport {makeEnemyRecord} from \"../../../__tests__/battle-records.js\"\nimport {makeRoleRecord} from \"../../../__tests__/battle-records.js\"\nimport {createInitialGameState} from \"../../game-state.js\"\nimport {createSeedableRng} from \"../../rng.js\"\nimport {createBattleState} from \"../battle-state.js\"\nimport {buildActionQueue} from \"../turn-queue.js\"\ndescribe(\"preserved module 0\",()=>{\nfunction makeProjectionRole(id: number): PlayerRole {\n  return makeRoleRecord(id, { maxHP: 200, maxMP: 30, hp: 200, mp: 30 })\n}\nfunction makeProjectionEnemy(id: number, health = 50): Enemy {\n  return makeEnemyRecord({ id, health })\n}\nfunction makeStateWithEnemyGap(opts: { fAutoBattle?: boolean }) {\n  const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n  gs.partyMembers = [0]\n  if (opts.fAutoBattle) gs.fAutoBattle = true\n  const playerRoles: PlayerRoles = { roles: [makeRoleRecord(0, { hp: 123, mp: 45, maxMP: 60 })] }\n  const sourceEnemy = makeEnemyRecord({ id: 100, health: 900 })\n  const state = createBattleState({\n    gs,\n    playerRoles,\n    enemies: [sourceEnemy, null],\n    field: makeBattleFieldRecord(),\n    isBoss: false,\n    rng: createSeedableRng(7),\n    enemyPos: {\n      layouts: [\n        [{ x: 160, y: 80 }],\n        [\n          { x: 120, y: 78 },\n          { x: 212, y: 88 },\n        ],\n      ],\n    },\n  })\n  return { state, sourceEnemy }\n}\ndescribe('createBattleState initialization', () => {\n  it('从 GameState + fixture 派生', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.partyMembers = [0]\n    const state = createBattleState({\n      gs,\n      playerRoles: { roles: [makeProjectionRole(0)] },\n      enemies: [makeProjectionEnemy(100)],\n      field: makeBattleFieldRecord(),\n      isBoss: false,\n      rng: createSeedableRng(42),\n    })\n    expect(state.phase).toBe('preBattle')\n    expect(state.players).toHaveLength(1)\n    expect(state.enemies).toHaveLength(1)\n    expect(state.expGained).toBe(0)\n    expect(state.turn).toBe(0)\n    expect(state.uiState).toBe('hidden')\n  })\n})\ndescribe('createBattleState players', () => {\n})\ndescribe('createBattleState enemies', () => {\n})\n})\ndescribe(\"preserved module 1\",()=>{\nfunction makeProjectionRole(id: number): PlayerRole {\n  return makeRoleRecord(id, { maxHP: 200, maxMP: 30, hp: 200, mp: 30 })\n}\nfunction makeProjectionEnemy(id: number, health = 50): Enemy {\n  return makeEnemyRecord({ id, health })\n}\nfunction makeStateWithEnemyGap(opts: { fAutoBattle?: boolean }) {\n  const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n  gs.partyMembers = [0]\n  if (opts.fAutoBattle) gs.fAutoBattle = true\n  const playerRoles: PlayerRoles = { roles: [makeRoleRecord(0, { hp: 123, mp: 45, maxMP: 60 })] }\n  const sourceEnemy = makeEnemyRecord({ id: 100, health: 900 })\n  const state = createBattleState({\n    gs,\n    playerRoles,\n    enemies: [sourceEnemy, null],\n    field: makeBattleFieldRecord(),\n    isBoss: false,\n    rng: createSeedableRng(7),\n    enemyPos: {\n      layouts: [\n        [{ x: 160, y: 80 }],\n        [\n          { x: 120, y: 78 },\n          { x: 212, y: 88 },\n        ],\n      ],\n    },\n  })\n  return { state, sourceEnemy }\n}\ndescribe('createBattleState initialization', () => {\n})\ndescribe('createBattleState players', () => {\n  it('players prevHp/prevMp 拷贝战前值', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.partyMembers = [0]\n    const role = makeProjectionRole(0)\n    const state = createBattleState({\n      gs,\n      playerRoles: { roles: [role] },\n      enemies: [],\n      field: makeBattleFieldRecord(),\n      isBoss: false,\n      rng: createSeedableRng(1),\n    })\n    expect(state.players[0]?.prevHp).toBe(200)\n    expect(state.players[0]?.prevMp).toBe(30)\n    expect(state.players[0]?.scriptPrevHp).toBe(200)\n    role.hp = 9\n    role.mp = 8\n    expect(state.players[0]?.prevHp).toBe(200)\n    expect(state.players[0]?.prevMp).toBe(30)\n    expect(state.players[0]?.scriptPrevHp).toBe(200)\n  })\n})\ndescribe('createBattleState enemies', () => {\n})\n})\ndescribe(\"preserved module 2\",()=>{\nfunction makeProjectionRole(id: number): PlayerRole {\n  return makeRoleRecord(id, { maxHP: 200, maxMP: 30, hp: 200, mp: 30 })\n}\nfunction makeProjectionEnemy(id: number, health = 50): Enemy {\n  return makeEnemyRecord({ id, health })\n}\nfunction makeStateWithEnemyGap(opts: { fAutoBattle?: boolean }) {\n  const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n  gs.partyMembers = [0]\n  if (opts.fAutoBattle) gs.fAutoBattle = true\n  const playerRoles: PlayerRoles = { roles: [makeRoleRecord(0, { hp: 123, mp: 45, maxMP: 60 })] }\n  const sourceEnemy = makeEnemyRecord({ id: 100, health: 900 })\n  const state = createBattleState({\n    gs,\n    playerRoles,\n    enemies: [sourceEnemy, null],\n    field: makeBattleFieldRecord(),\n    isBoss: false,\n    rng: createSeedableRng(7),\n    enemyPos: {\n      layouts: [\n        [{ x: 160, y: 80 }],\n        [\n          { x: 120, y: 78 },\n          { x: 212, y: 88 },\n        ],\n      ],\n    },\n  })\n  return { state, sourceEnemy }\n}\ndescribe('createBattleState initialization', () => {\n})\ndescribe('createBattleState players', () => {\n})\ndescribe('createBattleState enemies', () => {\n  it('enemies prevHp = e.health 拷贝', () => {\n    const sourceEnemy = makeProjectionEnemy(100, 75)\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    const state = createBattleState({\n      gs,\n      playerRoles: { roles: [] },\n      enemies: [sourceEnemy],\n      field: makeBattleFieldRecord(),\n      isBoss: false,\n      rng: createSeedableRng(1),\n    })\n    expect(state.enemies[0]?.prevHp).toBe(75)\n    expect(state.enemies[0]?.e.health).toBe(75)\n    const enemy = state.enemies[0]!\n    expect(enemy.objectId).toBe(100) // 未提供对象脚本元数据时的显式fallback合同。\n    expect(enemy.maxHealth).toBe(75)\n    expect(enemy.e).not.toBe(sourceEnemy)\n    enemy.e.health = 25\n    expect(sourceEnemy.health).toBe(75)\n    expect(enemy.prevHp).toBe(75)\n    expect(enemy.maxHealth).toBe(75)\n    sourceEnemy.health = 60\n    expect(enemy.e.health).toBe(25)\n  })\n})\n})\ndescribe(\"preserved module 3\",()=>{\nfunction makeProjectionRole(id: number): PlayerRole {\n  return makeRoleRecord(id, { maxHP: 200, maxMP: 30, hp: 200, mp: 30 })\n}\nfunction makeProjectionEnemy(id: number, health = 50): Enemy {\n  return makeEnemyRecord({ id, health })\n}\nfunction makeStateWithEnemyGap(opts: { fAutoBattle?: boolean }) {\n  const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n  gs.partyMembers = [0]\n  if (opts.fAutoBattle) gs.fAutoBattle = true\n  const playerRoles: PlayerRoles = { roles: [makeRoleRecord(0, { hp: 123, mp: 45, maxMP: 60 })] }\n  const sourceEnemy = makeEnemyRecord({ id: 100, health: 900 })\n  const state = createBattleState({\n    gs,\n    playerRoles,\n    enemies: [sourceEnemy, null],\n    field: makeBattleFieldRecord(),\n    isBoss: false,\n    rng: createSeedableRng(7),\n    enemyPos: {\n      layouts: [\n        [{ x: 160, y: 80 }],\n        [\n          { x: 120, y: 78 },\n          { x: 212, y: 88 },\n        ],\n      ],\n    },\n  })\n  return { state, sourceEnemy }\n}\ndescribe('createBattleState initialization', () => {\n})\ndescribe('createBattleState players', () => {\n\n  it('未知 roleId 抛错', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.partyMembers = [99]\n    expect(() =>\n      createBattleState({\n        gs,\n        playerRoles: { roles: [makeProjectionRole(0)] },\n        enemies: [],\n        field: makeBattleFieldRecord(),\n        isBoss: false,\n        rng: createSeedableRng(1),\n      }),\n    ).toThrow(/role id 99/)\n  })\n})\ndescribe('createBattleState enemies', () => {\n})\n})\ndescribe(\"preserved module 4\",()=>{\nfunction makeProjectionRole(id: number): PlayerRole {\n  return makeRoleRecord(id, { maxHP: 200, maxMP: 30, hp: 200, mp: 30 })\n}\nfunction makeProjectionEnemy(id: number, health = 50): Enemy {\n  return makeEnemyRecord({ id, health })\n}\nfunction makeStateWithEnemyGap(opts: { fAutoBattle?: boolean }) {\n  const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n  gs.partyMembers = [0]\n  if (opts.fAutoBattle) gs.fAutoBattle = true\n  const playerRoles: PlayerRoles = { roles: [makeRoleRecord(0, { hp: 123, mp: 45, maxMP: 60 })] }\n  const sourceEnemy = makeEnemyRecord({ id: 100, health: 900 })\n  const state = createBattleState({\n    gs,\n    playerRoles,\n    enemies: [sourceEnemy, null],\n    field: makeBattleFieldRecord(),\n    isBoss: false,\n    rng: createSeedableRng(7),\n    enemyPos: {\n      layouts: [\n        [{ x: 160, y: 80 }],\n        [\n          { x: 120, y: 78 },\n          { x: 212, y: 88 },\n        ],\n      ],\n    },\n  })\n  return { state, sourceEnemy }\n}\ndescribe('createBattleState initialization', () => {\n})\ndescribe('createBattleState players', () => {\n\n  // CLASSIC状态按roleId读取；傀儡在正式开战复活路径清零，不伪造活人傀儡输入。\n  it('gs.rgPlayerStatus 九槽按角色身份映射，保留普通及装备计数', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.partyMembers = [2, 0]\n    gs.rgPlayerStatus[2] = [1, 2, 3, 4, 0, 1000, 999, 32760, 6]\n    gs.rgPlayerStatus[0] = [7, 8, 9, 10, 0, 11, 12, 13, 14]\n    const state = createBattleState({\n      gs,\n      playerRoles: { roles: [0, 1, 2].map(makeProjectionRole) },\n      enemies: [],\n      field: makeBattleFieldRecord(),\n      isBoss: false,\n      rng: createSeedableRng(1),\n    })\n    expect(state.players.map((p) => p.roleId)).toEqual([2, 0])\n    expect(state.players.map((p) => p.status)).toEqual([\n      {\n        confused: 1,\n        paralyzed: 2,\n        sleep: 3,\n        silence: 4,\n        puppet: 0,\n        bravery: 1000,\n        protect: 999,\n        haste: 32760,\n        dualAttack: 6,\n        slow: 0,\n      },\n      {\n        confused: 7,\n        paralyzed: 8,\n        sleep: 9,\n        silence: 10,\n        puppet: 0,\n        bravery: 11,\n        protect: 12,\n        haste: 13,\n        dualAttack: 14,\n        slow: 0,\n      },\n    ])\n  })\n})\ndescribe('createBattleState enemies', () => {\n})\n})\ndescribe(\"preserved module 5\",()=>{\nfunction makeProjectionRole(id: number): PlayerRole {\n  return makeRoleRecord(id, { maxHP: 200, maxMP: 30, hp: 200, mp: 30 })\n}\nfunction makeProjectionEnemy(id: number, health = 50): Enemy {\n  return makeEnemyRecord({ id, health })\n}\nfunction makeStateWithEnemyGap(opts: { fAutoBattle?: boolean }) {\n  const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n  gs.partyMembers = [0]\n  if (opts.fAutoBattle) gs.fAutoBattle = true\n  const playerRoles: PlayerRoles = { roles: [makeRoleRecord(0, { hp: 123, mp: 45, maxMP: 60 })] }\n  const sourceEnemy = makeEnemyRecord({ id: 100, health: 900 })\n  const state = createBattleState({\n    gs,\n    playerRoles,\n    enemies: [sourceEnemy, null],\n    field: makeBattleFieldRecord(),\n    isBoss: false,\n    rng: createSeedableRng(7),\n    enemyPos: {\n      layouts: [\n        [{ x: 160, y: 80 }],\n        [\n          { x: 120, y: 78 },\n          { x: 212, y: 88 },\n        ],\n      ],\n    },\n  })\n  return { state, sourceEnemy }\n}\ndescribe('createBattleState initialization', () => {\n})\ndescribe('createBattleState players', () => {\n\n  it('无装备状态 → player.status 全 0(默认)', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.partyMembers = [0]\n    const state = createBattleState({\n      gs,\n      playerRoles: { roles: [makeProjectionRole(0)] },\n      enemies: [],\n      field: makeBattleFieldRecord(),\n      isBoss: false,\n      rng: createSeedableRng(1),\n    })\n    expect(state.players[0]?.status).toEqual({\n      confused: 0,\n      paralyzed: 0,\n      sleep: 0,\n      silence: 0,\n      puppet: 0,\n      bravery: 0,\n      protect: 0,\n      haste: 0,\n      dualAttack: 0,\n      slow: 0,\n    })\n  })\n})\ndescribe('createBattleState enemies', () => {\n})\n})\ndescribe(\"preserved module 6\",()=>{\nfunction makeProjectionRole(id: number): PlayerRole {\n  return makeRoleRecord(id, { maxHP: 200, maxMP: 30, hp: 200, mp: 30 })\n}\nfunction makeProjectionEnemy(id: number, health = 50): Enemy {\n  return makeEnemyRecord({ id, health })\n}\nfunction makeStateWithEnemyGap(opts: { fAutoBattle?: boolean }) {\n  const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n  gs.partyMembers = [0]\n  if (opts.fAutoBattle) gs.fAutoBattle = true\n  const playerRoles: PlayerRoles = { roles: [makeRoleRecord(0, { hp: 123, mp: 45, maxMP: 60 })] }\n  const sourceEnemy = makeEnemyRecord({ id: 100, health: 900 })\n  const state = createBattleState({\n    gs,\n    playerRoles,\n    enemies: [sourceEnemy, null],\n    field: makeBattleFieldRecord(),\n    isBoss: false,\n    rng: createSeedableRng(7),\n    enemyPos: {\n      layouts: [\n        [{ x: 160, y: 80 }],\n        [\n          { x: 120, y: 78 },\n          { x: 212, y: 88 },\n        ],\n      ],\n    },\n  })\n  return { state, sourceEnemy }\n}\ndescribe('createBattleState initialization', () => {\n\n  it('每场pendingActions/prevActions和行动队列独立，不泄漏到下一场', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.partyMembers = [0]\n    const input = {\n      gs,\n      playerRoles: { roles: [makeProjectionRole(0)] },\n      enemies: [],\n      field: makeBattleFieldRecord(),\n      isBoss: false,\n      rng: createSeedableRng(1),\n    }\n    const first = createBattleState(input)\n    first.pendingActions.set(0, { type: 'defend', target: 0 })\n    first.prevActions?.set(0, { type: 'attack', target: 0 })\n    first.actionQueue.push(...buildActionQueue({ players: [{ idx: 0, dex: 30 }], enemies: [] }))\n    const next = createBattleState(input)\n    expect(next.pendingActions.size).toBe(0)\n    expect(next.prevActions?.size).toBe(0)\n    expect(next.actionQueue).toEqual([])\n    expect(first.pendingActions.get(0)).toEqual({ type: 'defend', target: 0 })\n    expect(first.prevActions?.get(0)).toEqual({ type: 'attack', target: 0 })\n    expect(first.actionQueue).toEqual([{ isEnemy: false, idx: 0, dex: 30, fIsSecond: false }])\n  })\n})\ndescribe('createBattleState players', () => {\n})\ndescribe('createBattleState enemies', () => {\n})\n})\ndescribe(\"preserved module 7\",()=>{\nfunction makeProjectionRole(id: number): PlayerRole {\n  return makeRoleRecord(id, { maxHP: 200, maxMP: 30, hp: 200, mp: 30 })\n}\nfunction makeProjectionEnemy(id: number, health = 50): Enemy {\n  return makeEnemyRecord({ id, health })\n}\nfunction makeStateWithEnemyGap(opts: { fAutoBattle?: boolean }) {\n  const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n  gs.partyMembers = [0]\n  if (opts.fAutoBattle) gs.fAutoBattle = true\n  const playerRoles: PlayerRoles = { roles: [makeRoleRecord(0, { hp: 123, mp: 45, maxMP: 60 })] }\n  const sourceEnemy = makeEnemyRecord({ id: 100, health: 900 })\n  const state = createBattleState({\n    gs,\n    playerRoles,\n    enemies: [sourceEnemy, null],\n    field: makeBattleFieldRecord(),\n    isBoss: false,\n    rng: createSeedableRng(7),\n    enemyPos: {\n      layouts: [\n        [{ x: 160, y: 80 }],\n        [\n          { x: 120, y: 78 },\n          { x: 212, y: 88 },\n        ],\n      ],\n    },\n  })\n  return { state, sourceEnemy }\n}\ndescribe('createBattleState initialization', () => {\n})\ndescribe('createBattleState players', () => {\n\n  it('partyMembers > 3 抛错(sdlpal g_rgPlayerPos[3][3][2] 真值)', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.partyMembers = [0, 1, 2, 3] // 4 个,超 3 上限\n    expect(() =>\n      createBattleState({\n        gs,\n        playerRoles: { roles: [0, 1, 2, 3].map((i) => makeProjectionRole(i)) },\n        enemies: [],\n        field: makeBattleFieldRecord(),\n        isBoss: false,\n        rng: createSeedableRng(1),\n      }),\n    ).toThrow(/最多 3 player|partyMembers.length=4 > 3/)\n  })\n})\ndescribe('createBattleState enemies', () => {\n})\n})\ndescribe(\"preserved module 8\",()=>{\nfunction makeProjectionRole(id: number): PlayerRole {\n  return makeRoleRecord(id, { maxHP: 200, maxMP: 30, hp: 200, mp: 30 })\n}\nfunction makeProjectionEnemy(id: number, health = 50): Enemy {\n  return makeEnemyRecord({ id, health })\n}\nfunction makeStateWithEnemyGap(opts: { fAutoBattle?: boolean }) {\n  const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n  gs.partyMembers = [0]\n  if (opts.fAutoBattle) gs.fAutoBattle = true\n  const playerRoles: PlayerRoles = { roles: [makeRoleRecord(0, { hp: 123, mp: 45, maxMP: 60 })] }\n  const sourceEnemy = makeEnemyRecord({ id: 100, health: 900 })\n  const state = createBattleState({\n    gs,\n    playerRoles,\n    enemies: [sourceEnemy, null],\n    field: makeBattleFieldRecord(),\n    isBoss: false,\n    rng: createSeedableRng(7),\n    enemyPos: {\n      layouts: [\n        [{ x: 160, y: 80 }],\n        [\n          { x: 120, y: 78 },\n          { x: 212, y: 88 },\n        ],\n      ],\n    },\n  })\n  return { state, sourceEnemy }\n}\ndescribe('createBattleState initialization', () => {\n})\ndescribe('createBattleState players', () => {\n\n  it('战斗状态副本与持久状态及其它队员相互隔离', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.partyMembers = [0, 1]\n    gs.rgPlayerStatus[0]![6] = 7\n    const input = {\n      gs,\n      playerRoles: { roles: [0, 1].map(makeProjectionRole) },\n      enemies: [],\n      field: makeBattleFieldRecord(),\n      isBoss: false,\n      rng: createSeedableRng(1),\n    }\n    const state = createBattleState(input)\n    const first = state.players[0]!.status\n    const second = state.players[1]!.status\n    first.protect = 6\n    expect(gs.rgPlayerStatus[0]![6]).toBe(7)\n    expect(second.protect).toBe(0)\n    gs.rgPlayerStatus[0]![6] = 0\n    expect(first.protect).toBe(6)\n    second.haste = 3\n    expect(first.haste).toBe(0)\n    expect(gs.rgPlayerStatus[1]![7]).toBe(0)\n    const next = createBattleState(input)\n    expect(next.players[0]!.status.protect).toBe(0)\n    expect(next.players[1]!.status.haste).toBe(0)\n    expect(first.protect).toBe(6)\n  })\n})\ndescribe('createBattleState enemies', () => {\n})\n})\ndescribe(\"preserved module 9\",()=>{\nfunction makeProjectionRole(id: number): PlayerRole {\n  return makeRoleRecord(id, { maxHP: 200, maxMP: 30, hp: 200, mp: 30 })\n}\nfunction makeProjectionEnemy(id: number, health = 50): Enemy {\n  return makeEnemyRecord({ id, health })\n}\nfunction makeStateWithEnemyGap(opts: { fAutoBattle?: boolean }) {\n  const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n  gs.partyMembers = [0]\n  if (opts.fAutoBattle) gs.fAutoBattle = true\n  const playerRoles: PlayerRoles = { roles: [makeRoleRecord(0, { hp: 123, mp: 45, maxMP: 60 })] }\n  const sourceEnemy = makeEnemyRecord({ id: 100, health: 900 })\n  const state = createBattleState({\n    gs,\n    playerRoles,\n    enemies: [sourceEnemy, null],\n    field: makeBattleFieldRecord(),\n    isBoss: false,\n    rng: createSeedableRng(7),\n    enemyPos: {\n      layouts: [\n        [{ x: 160, y: 80 }],\n        [\n          { x: 120, y: 78 },\n          { x: 212, y: 88 },\n        ],\n      ],\n    },\n  })\n  return { state, sourceEnemy }\n}\ndescribe('createBattleState initialization', () => {\n})\ndescribe('createBattleState players', () => {\n\n  it('partyMembers <= 3 正常构造', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.partyMembers = [0, 1, 2] // 3 个,边界 OK\n    const state = createBattleState({\n      gs,\n      playerRoles: { roles: [0, 1, 2].map((i) => makeProjectionRole(i)) },\n      enemies: [],\n      field: makeBattleFieldRecord(),\n      isBoss: false,\n      rng: createSeedableRng(1),\n    })\n    expect(state.players).toHaveLength(3)\n  })\n})\ndescribe('createBattleState enemies', () => {\n})\n})\ndescribe(\"preserved module 10\",()=>{\nfunction makeProjectionRole(id: number): PlayerRole {\n  return makeRoleRecord(id, { maxHP: 200, maxMP: 30, hp: 200, mp: 30 })\n}\nfunction makeProjectionEnemy(id: number, health = 50): Enemy {\n  return makeEnemyRecord({ id, health })\n}\nfunction makeStateWithEnemyGap(opts: { fAutoBattle?: boolean }) {\n  const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n  gs.partyMembers = [0]\n  if (opts.fAutoBattle) gs.fAutoBattle = true\n  const playerRoles: PlayerRoles = { roles: [makeRoleRecord(0, { hp: 123, mp: 45, maxMP: 60 })] }\n  const sourceEnemy = makeEnemyRecord({ id: 100, health: 900 })\n  const state = createBattleState({\n    gs,\n    playerRoles,\n    enemies: [sourceEnemy, null],\n    field: makeBattleFieldRecord(),\n    isBoss: false,\n    rng: createSeedableRng(7),\n    enemyPos: {\n      layouts: [\n        [{ x: 160, y: 80 }],\n        [\n          { x: 120, y: 78 },\n          { x: 212, y: 88 },\n        ],\n      ],\n    },\n  })\n  return { state, sourceEnemy }\n}\ndescribe('createBattleState initialization', () => {\n})\ndescribe('createBattleState players', () => {\n\n  it('player pos/posOriginal = g_rgPlayerPos[count-1][i](battle.c:27)', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.partyMembers = [0, 1] // 2 人 layout\n    const state = createBattleState({\n      gs,\n      playerRoles: { roles: [0, 1].map((i) => makeProjectionRole(i)) },\n      enemies: [],\n      field: makeBattleFieldRecord(),\n      isBoss: false,\n      rng: createSeedableRng(1),\n    })\n    // 2 players:(200,176) / (256,152)(sdlpal g_rgPlayerPos[1])\n    expect(state.players[0]!.pos).toEqual({ x: 200, y: 176 })\n    expect(state.players[0]!.posOriginal).toEqual({ x: 200, y: 176 })\n    expect(state.players[1]!.pos).toEqual({ x: 256, y: 152 })\n    expect(state.players[1]!.posOriginal).toEqual({ x: 256, y: 152 })\n    // pos 与 posOriginal 是独立对象(后续动画 mutate pos 不污染 posOriginal)\n    expect(state.players[0]!.pos).not.toBe(state.players[0]!.posOriginal)\n    expect(state.players[0]!.currentFrame).toBe(0)\n    expect(state.players[0]!.iColorShift).toBe(0)\n  })\n})\ndescribe('createBattleState enemies', () => {\n})\n})\ndescribe(\"preserved module 11\",()=>{\nfunction makeProjectionRole(id: number): PlayerRole {\n  return makeRoleRecord(id, { maxHP: 200, maxMP: 30, hp: 200, mp: 30 })\n}\nfunction makeProjectionEnemy(id: number, health = 50): Enemy {\n  return makeEnemyRecord({ id, health })\n}\nfunction makeStateWithEnemyGap(opts: { fAutoBattle?: boolean }) {\n  const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n  gs.partyMembers = [0]\n  if (opts.fAutoBattle) gs.fAutoBattle = true\n  const playerRoles: PlayerRoles = { roles: [makeRoleRecord(0, { hp: 123, mp: 45, maxMP: 60 })] }\n  const sourceEnemy = makeEnemyRecord({ id: 100, health: 900 })\n  const state = createBattleState({\n    gs,\n    playerRoles,\n    enemies: [sourceEnemy, null],\n    field: makeBattleFieldRecord(),\n    isBoss: false,\n    rng: createSeedableRng(7),\n    enemyPos: {\n      layouts: [\n        [{ x: 160, y: 80 }],\n        [\n          { x: 120, y: 78 },\n          { x: 212, y: 88 },\n        ],\n      ],\n    },\n  })\n  return { state, sourceEnemy }\n}\ndescribe('createBattleState initialization', () => {\n})\ndescribe('createBattleState players', () => {\n})\ndescribe('createBattleState enemies', () => {\n\n  it('enemy pos/posOriginal = EnemyPos.layouts[count-1][i] + yPosOffset(battle.c:936-939)', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.partyMembers = [0]\n    const state = createBattleState({\n      gs,\n      playerRoles: { roles: [makeProjectionRole(0)] },\n      enemies: [makeProjectionEnemy(100), makeProjectionEnemy(200)], // 2 enemies\n      field: makeBattleFieldRecord(),\n      isBoss: false,\n      rng: createSeedableRng(1),\n      enemyPos: {\n        layouts: [\n          [{ x: 160, y: 80 }],\n          [\n            { x: 100, y: 60 },\n            { x: 220, y: 60 },\n          ],\n        ],\n      },\n    })\n    expect(state.enemies[0]!.pos).toEqual({ x: 100, y: 60 })\n    expect(state.enemies[0]!.posOriginal).toEqual({ x: 100, y: 60 })\n    expect(state.enemies[1]!.pos).toEqual({ x: 220, y: 60 })\n    // 敌人 idle 期 currentFrame = undefined → 渲染层 idle 时钟轮播(D17c 不被冻结)。\n    expect(state.enemies[0]!.currentFrame).toBeUndefined()\n    expect(state.enemies[0]!.iColorShift).toBe(0)\n  })\n})\n})\ndescribe(\"preserved module 12\",()=>{\nfunction makeProjectionRole(id: number): PlayerRole {\n  return makeRoleRecord(id, { maxHP: 200, maxMP: 30, hp: 200, mp: 30 })\n}\nfunction makeProjectionEnemy(id: number, health = 50): Enemy {\n  return makeEnemyRecord({ id, health })\n}\nfunction makeStateWithEnemyGap(opts: { fAutoBattle?: boolean }) {\n  const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n  gs.partyMembers = [0]\n  if (opts.fAutoBattle) gs.fAutoBattle = true\n  const playerRoles: PlayerRoles = { roles: [makeRoleRecord(0, { hp: 123, mp: 45, maxMP: 60 })] }\n  const sourceEnemy = makeEnemyRecord({ id: 100, health: 900 })\n  const state = createBattleState({\n    gs,\n    playerRoles,\n    enemies: [sourceEnemy, null],\n    field: makeBattleFieldRecord(),\n    isBoss: false,\n    rng: createSeedableRng(7),\n    enemyPos: {\n      layouts: [\n        [{ x: 160, y: 80 }],\n        [\n          { x: 120, y: 78 },\n          { x: 212, y: 88 },\n        ],\n      ],\n    },\n  })\n  return { state, sourceEnemy }\n}\ndescribe('createBattleState initialization', () => {\n})\ndescribe('createBattleState players', () => {\n})\ndescribe('createBattleState enemies', () => {\n\n  it('未提供enemyPos时使用固定fallback坐标(160,80)', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.partyMembers = [0]\n    const state = createBattleState({\n      gs,\n      playerRoles: { roles: [makeProjectionRole(0)] },\n      enemies: [makeProjectionEnemy(100)],\n      field: makeBattleFieldRecord(),\n      isBoss: false,\n      rng: createSeedableRng(1),\n    })\n    expect(state.enemies[0]!.pos).toEqual({ x: 160, y: 80 })\n  })\n})\n})\ndescribe(\"preserved module 13\",()=>{\nfunction makeProjectionRole(id: number): PlayerRole {\n  return makeRoleRecord(id, { maxHP: 200, maxMP: 30, hp: 200, mp: 30 })\n}\nfunction makeProjectionEnemy(id: number, health = 50): Enemy {\n  return makeEnemyRecord({ id, health })\n}\nfunction makeStateWithEnemyGap(opts: { fAutoBattle?: boolean }) {\n  const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n  gs.partyMembers = [0]\n  if (opts.fAutoBattle) gs.fAutoBattle = true\n  const playerRoles: PlayerRoles = { roles: [makeRoleRecord(0, { hp: 123, mp: 45, maxMP: 60 })] }\n  const sourceEnemy = makeEnemyRecord({ id: 100, health: 900 })\n  const state = createBattleState({\n    gs,\n    playerRoles,\n    enemies: [sourceEnemy, null],\n    field: makeBattleFieldRecord(),\n    isBoss: false,\n    rng: createSeedableRng(7),\n    enemyPos: {\n      layouts: [\n        [{ x: 160, y: 80 }],\n        [\n          { x: 120, y: 78 },\n          { x: 212, y: 88 },\n        ],\n      ],\n    },\n  })\n  return { state, sourceEnemy }\n}\ndescribe('createBattleState initialization', () => {\n})\ndescribe('createBattleState players', () => {\n})\ndescribe('createBattleState enemies', () => {\n\n  it('enemy yPosOffset 叠加到 posOriginal.y', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.partyMembers = [0]\n    const e = makeProjectionEnemy(100)\n    e.yPosOffset = 15\n    const state = createBattleState({\n      gs,\n      playerRoles: { roles: [makeProjectionRole(0)] },\n      enemies: [e],\n      field: makeBattleFieldRecord(),\n      isBoss: false,\n      rng: createSeedableRng(1),\n      enemyPos: { layouts: [[{ x: 160, y: 80 }]] },\n    })\n    expect(state.enemies[0]!.posOriginal).toEqual({ x: 160, y: 95 }) // 80 + 15\n  })\n})\n})",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-state.glm-next-wave.test.ts",
+      "id": "organization-battle-state",
+      "reason": "Non-executable registration-analysis domain uses current output lexical imports. Independent import-targets-proof verifies every actual old/current resolved target; callback/helper/type proof remains separate. This virtual text is not a runnable module at the retired path.",
+      "changes": [
+        {
+          "from": "/**\n * TEST-GLM-NEW-H-1 / H04 — battle-state 当前公开合同补测。\n *\n * createBattleState 在 battle-state.test.ts 已证投影/站位/seed 主干;本文件只补未证合同:\n *  - DH1:敌队 0 占位槽(null)→ defeated 空槽(wObjectID=0、e 全零、不参与脚本/目标;\n *    battle.c:1598-1720 memset 零槽 + `w==0` 仍 `rgEnemy[i++].wObjectID = w` 计入 wMaxEnemyIndex)\n *  - gpGlobals->fAutoBattle(0x8A 持久)seed 进战斗 state(B4(3))\n *  玩家prevHp/prevMp/scriptPrevHp快照统一在主测核验；0x64读敌maxHealth，不读玩家快照。\n */\nimport type { PlayerRoles } from '@type-pal/shared'\nimport { describe, expect, it } from 'vitest'\nimport {\n  makeBattleFieldRecord,\n  makeEnemyRecord,\n  makeRoleRecord,\n} from '../../__tests__/battle-records.js'\nimport { createInitialGameState } from '../game-state.js'\nimport { createSeedableRng } from '../rng.js'\nimport { createBattleState } from './battle-state.js'\n\nfunction boot(opts: { fAutoBattle?: boolean }) {\n  const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n  gs.partyMembers = [0]\n  if (opts.fAutoBattle) gs.fAutoBattle = true\n  const playerRoles: PlayerRoles = { roles: [makeRoleRecord(0, { hp: 123, mp: 45, maxMP: 60 })] }\n  const sourceEnemy = makeEnemyRecord({ id: 100, health: 900 })\n  const state = createBattleState({\n    gs,\n    playerRoles,\n    enemies: [sourceEnemy, null],\n    field: makeBattleFieldRecord(),\n    isBoss: false,\n    rng: createSeedableRng(7),\n    enemyPos: {\n      layouts: [\n        [{ x: 160, y: 80 }],\n        [\n          { x: 120, y: 78 },\n          { x: 212, y: 88 },\n        ],\n      ],\n    },\n  })\n  return { gs, playerRoles, state, sourceEnemy }\n}\n\ndescribe('createBattleState —— DH1 零占位槽(battle.c:1598-1720)', () => {\n  it('null 槽 → defeated 空槽:objectId=0、e 全零、无脚本、不参与目标(defeated)', () => {\n    const { state } = boot({})\n    expect(state.enemies.length).toBe(2)\n    const slot = state.enemies[1]!\n    expect(slot.defeated).toBe(true)\n    expect(slot.objectId).toBe(0) // wObjectID=0 空槽标记\n    const { elemResistance, ...scalarStats } = slot.e\n    for (const [stat, value] of Object.entries(scalarStats)) {\n      expect(value, stat).toBe(0)\n    }\n    expect(elemResistance).toEqual({ wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 })\n    expect(slot.scriptOnTurnStart).toBe(0)\n    expect(slot.scriptOnReady).toBe(0)\n    expect(slot.scriptOnBattleEnd).toBe(0)\n    expect(slot.prevHp).toBe(0)\n    expect(slot.maxHealth).toBe(0)\n    expect(slot.poisons).toEqual([])\n    // 站位仍按 2 列布局生成(撑起列数/召唤房间)\n    expect(state.enemies[0]!.posOriginal).toEqual({ x: 120, y: 78 })\n    expect(state.enemies[0]!.pos).toEqual({ x: 120, y: 78 })\n    expect(slot.currentFrame).toBeUndefined()\n  })\n\n  it('真实槽不受空槽影响:e shallow copy + maxHealth=战前满血(0x64 真值基线)', () => {\n    const { state, sourceEnemy } = boot({})\n    const real = state.enemies[0]!\n    expect(real.defeated).toBeUndefined() // 真实槽无 defeated 标记(空槽才 true)\n    expect(real.objectId).toBe(100) // 无对象身份 → fallback enemyId\n    expect(real.maxHealth).toBe(900)\n    expect(real.e).not.toBe(sourceEnemy) // e shallow copy:改战斗内 health 不污染原数据\n  })\n})\n\ndescribe('createBattleState —— 开战 seed', () => {\n  it('gs.fAutoBattle(true)→ state.fAutoBattle(true);缺省 false(0x8A 脚本flag)', () => {\n    expect(boot({ fAutoBattle: true }).state.fAutoBattle).toBe(true)\n    expect(boot({}).state.fAutoBattle).toBe(false)\n  })\n})\n",
+          "to": "import {type Enemy} from \"@type-pal/shared\"\nimport {type PlayerRole} from \"@type-pal/shared\"\nimport {type PlayerRoles} from \"@type-pal/shared\"\nimport {describe} from \"vitest\"\nimport {expect} from \"vitest\"\nimport {it} from \"vitest\"\nimport {makeBattleFieldRecord} from \"../../../__tests__/battle-records.js\"\nimport {makeEnemyRecord} from \"../../../__tests__/battle-records.js\"\nimport {makeRoleRecord} from \"../../../__tests__/battle-records.js\"\nimport {createInitialGameState} from \"../../game-state.js\"\nimport {createSeedableRng} from \"../../rng.js\"\nimport {createBattleState} from \"../battle-state.js\"\nimport {buildActionQueue} from \"../turn-queue.js\"\ndescribe(\"preserved module 0\",()=>{\nfunction makeProjectionRole(id: number): PlayerRole {\n  return makeRoleRecord(id, { maxHP: 200, maxMP: 30, hp: 200, mp: 30 })\n}\nfunction makeProjectionEnemy(id: number, health = 50): Enemy {\n  return makeEnemyRecord({ id, health })\n}\nfunction makeStateWithEnemyGap(opts: { fAutoBattle?: boolean }) {\n  const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n  gs.partyMembers = [0]\n  if (opts.fAutoBattle) gs.fAutoBattle = true\n  const playerRoles: PlayerRoles = { roles: [makeRoleRecord(0, { hp: 123, mp: 45, maxMP: 60 })] }\n  const sourceEnemy = makeEnemyRecord({ id: 100, health: 900 })\n  const state = createBattleState({\n    gs,\n    playerRoles,\n    enemies: [sourceEnemy, null],\n    field: makeBattleFieldRecord(),\n    isBoss: false,\n    rng: createSeedableRng(7),\n    enemyPos: {\n      layouts: [\n        [{ x: 160, y: 80 }],\n        [\n          { x: 120, y: 78 },\n          { x: 212, y: 88 },\n        ],\n      ],\n    },\n  })\n  return { state, sourceEnemy }\n}\ndescribe('createBattleState initialization', () => {\n})\ndescribe('createBattleState players', () => {\n})\ndescribe('createBattleState enemies', () => {\n\n  it('null槽保留零值、空脚本入口与站位列数', () => {\n    const { state } = makeStateWithEnemyGap({})\n    expect(state.enemies.length).toBe(2)\n    const slot = state.enemies[1]!\n    expect(slot.defeated).toBe(true)\n    expect(slot.objectId).toBe(0) // wObjectID=0 空槽标记\n    const { elemResistance, ...scalarStats } = slot.e\n    for (const [stat, value] of Object.entries(scalarStats)) {\n      expect(value, stat).toBe(0)\n    }\n    expect(elemResistance).toEqual({ wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 })\n    expect(slot.scriptOnTurnStart).toBe(0)\n    expect(slot.scriptOnReady).toBe(0)\n    expect(slot.scriptOnBattleEnd).toBe(0)\n    expect(slot.prevHp).toBe(0)\n    expect(slot.maxHealth).toBe(0)\n    expect(slot.poisons).toEqual([])\n    // 站位仍按 2 列布局生成(撑起列数/召唤房间)\n    expect(state.enemies[0]!.posOriginal).toEqual({ x: 120, y: 78 })\n    expect(state.enemies[0]!.pos).toEqual({ x: 120, y: 78 })\n    expect(slot.currentFrame).toBeUndefined()\n  })\n})\n})\ndescribe(\"preserved module 1\",()=>{\nfunction makeProjectionRole(id: number): PlayerRole {\n  return makeRoleRecord(id, { maxHP: 200, maxMP: 30, hp: 200, mp: 30 })\n}\nfunction makeProjectionEnemy(id: number, health = 50): Enemy {\n  return makeEnemyRecord({ id, health })\n}\nfunction makeStateWithEnemyGap(opts: { fAutoBattle?: boolean }) {\n  const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n  gs.partyMembers = [0]\n  if (opts.fAutoBattle) gs.fAutoBattle = true\n  const playerRoles: PlayerRoles = { roles: [makeRoleRecord(0, { hp: 123, mp: 45, maxMP: 60 })] }\n  const sourceEnemy = makeEnemyRecord({ id: 100, health: 900 })\n  const state = createBattleState({\n    gs,\n    playerRoles,\n    enemies: [sourceEnemy, null],\n    field: makeBattleFieldRecord(),\n    isBoss: false,\n    rng: createSeedableRng(7),\n    enemyPos: {\n      layouts: [\n        [{ x: 160, y: 80 }],\n        [\n          { x: 120, y: 78 },\n          { x: 212, y: 88 },\n        ],\n      ],\n    },\n  })\n  return { state, sourceEnemy }\n}\ndescribe('createBattleState initialization', () => {\n})\ndescribe('createBattleState players', () => {\n})\ndescribe('createBattleState enemies', () => {\n\n  it('含空槽时，真实敌槽保留身份、满血基准与独立属性副本', () => {\n    const { state, sourceEnemy } = makeStateWithEnemyGap({})\n    const realEnemy = state.enemies[0]!\n    expect(realEnemy.defeated).toBeUndefined() // 真实槽无 defeated 标记(空槽才 true)\n    expect(realEnemy.objectId).toBe(100) // 无对象身份 → fallback enemyId\n    expect(realEnemy.maxHealth).toBe(900)\n    expect(realEnemy.e).not.toBe(sourceEnemy) // e shallow copy:改战斗内 health 不污染原数据\n  })\n})\n})\ndescribe(\"preserved module 2\",()=>{\nfunction makeProjectionRole(id: number): PlayerRole {\n  return makeRoleRecord(id, { maxHP: 200, maxMP: 30, hp: 200, mp: 30 })\n}\nfunction makeProjectionEnemy(id: number, health = 50): Enemy {\n  return makeEnemyRecord({ id, health })\n}\nfunction makeStateWithEnemyGap(opts: { fAutoBattle?: boolean }) {\n  const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n  gs.partyMembers = [0]\n  if (opts.fAutoBattle) gs.fAutoBattle = true\n  const playerRoles: PlayerRoles = { roles: [makeRoleRecord(0, { hp: 123, mp: 45, maxMP: 60 })] }\n  const sourceEnemy = makeEnemyRecord({ id: 100, health: 900 })\n  const state = createBattleState({\n    gs,\n    playerRoles,\n    enemies: [sourceEnemy, null],\n    field: makeBattleFieldRecord(),\n    isBoss: false,\n    rng: createSeedableRng(7),\n    enemyPos: {\n      layouts: [\n        [{ x: 160, y: 80 }],\n        [\n          { x: 120, y: 78 },\n          { x: 212, y: 88 },\n        ],\n      ],\n    },\n  })\n  return { state, sourceEnemy }\n}\ndescribe('createBattleState initialization', () => {\n\n  it('fAutoBattle从GameState复制，缺省false', () => {\n    expect(makeStateWithEnemyGap({ fAutoBattle: true }).state.fAutoBattle).toBe(true)\n    expect(makeStateWithEnemyGap({}).state.fAutoBattle).toBe(false)\n  })\n})\ndescribe('createBattleState players', () => {\n})\ndescribe('createBattleState enemies', () => {\n})\n})",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "registrations": [
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+        "ordinal": 0,
+        "fullName": "createBattleState 从 GameState + fixture 派生"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+        "titles": ["createBattleState initialization"],
+        "template": "从 GameState + fixture 派生",
+        "fullName": "createBattleState initialization 从 GameState + fixture 派生"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+        "ordinal": 1,
+        "fullName": "createBattleState players prevHp/prevMp 拷贝战前值"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+        "titles": ["createBattleState players"],
+        "template": "players prevHp/prevMp 拷贝战前值",
+        "fullName": "createBattleState players players prevHp/prevMp 拷贝战前值"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+        "ordinal": 2,
+        "fullName": "createBattleState enemies prevHp = e.health 拷贝"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+        "titles": ["createBattleState enemies"],
+        "template": "enemies prevHp = e.health 拷贝",
+        "fullName": "createBattleState enemies enemies prevHp = e.health 拷贝"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+        "ordinal": 3,
+        "fullName": "createBattleState 未知 roleId 抛错"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+        "titles": ["createBattleState players"],
+        "template": "未知 roleId 抛错",
+        "fullName": "createBattleState players 未知 roleId 抛错"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+        "ordinal": 4,
+        "fullName": "createBattleState D14:gs.rgPlayerStatus 九槽按角色身份映射，保留普通及装备计数"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+        "titles": ["createBattleState players"],
+        "template": "gs.rgPlayerStatus 九槽按角色身份映射，保留普通及装备计数",
+        "fullName": "createBattleState players gs.rgPlayerStatus 九槽按角色身份映射，保留普通及装备计数"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+        "ordinal": 5,
+        "fullName": "createBattleState D14:无装备状态 → player.status 全 0(默认)"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+        "titles": ["createBattleState players"],
+        "template": "无装备状态 → player.status 全 0(默认)",
+        "fullName": "createBattleState players 无装备状态 → player.status 全 0(默认)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+        "ordinal": 6,
+        "fullName": "createBattleState 每场pendingActions/prevActions和行动队列独立，不泄漏到下一场"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+        "titles": ["createBattleState initialization"],
+        "template": "每场pendingActions/prevActions和行动队列独立，不泄漏到下一场",
+        "fullName": "createBattleState initialization 每场pendingActions/prevActions和行动队列独立，不泄漏到下一场"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+        "ordinal": 7,
+        "fullName": "createBattleState B-w0.2:partyMembers > 3 抛错(sdlpal g_rgPlayerPos[3][3][2] 真值)"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+        "titles": ["createBattleState players"],
+        "template": "partyMembers > 3 抛错(sdlpal g_rgPlayerPos[3][3][2] 真值)",
+        "fullName": "createBattleState players partyMembers > 3 抛错(sdlpal g_rgPlayerPos[3][3][2] 真值)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+        "ordinal": 8,
+        "fullName": "createBattleState 战斗状态副本与持久状态及其它队员相互隔离"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+        "titles": ["createBattleState players"],
+        "template": "战斗状态副本与持久状态及其它队员相互隔离",
+        "fullName": "createBattleState players 战斗状态副本与持久状态及其它队员相互隔离"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+        "ordinal": 9,
+        "fullName": "createBattleState B-w0.2:partyMembers <= 3 正常构造"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+        "titles": ["createBattleState players"],
+        "template": "partyMembers <= 3 正常构造",
+        "fullName": "createBattleState players partyMembers <= 3 正常构造"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+        "ordinal": 10,
+        "fullName": "createBattleState D17a:player pos/posOriginal = g_rgPlayerPos[count-1][i](battle.c:27)"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+        "titles": ["createBattleState players"],
+        "template": "player pos/posOriginal = g_rgPlayerPos[count-1][i](battle.c:27)",
+        "fullName": "createBattleState players player pos/posOriginal = g_rgPlayerPos[count-1][i](battle.c:27)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+        "ordinal": 11,
+        "fullName": "createBattleState D17a:enemy pos/posOriginal = EnemyPos.layouts[count-1][i] + yPosOffset(battle.c:936-939)"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+        "titles": ["createBattleState enemies"],
+        "template": "enemy pos/posOriginal = EnemyPos.layouts[count-1][i] + yPosOffset(battle.c:936-939)",
+        "fullName": "createBattleState enemies enemy pos/posOriginal = EnemyPos.layouts[count-1][i] + yPosOffset(battle.c:936-939)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+        "ordinal": 12,
+        "fullName": "createBattleState D17a:无 enemyPos → fallback 表(160,80)(向后兼容旧 fixture)"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+        "titles": ["createBattleState enemies"],
+        "template": "未提供enemyPos时使用固定fallback坐标(160,80)",
+        "fullName": "createBattleState enemies 未提供enemyPos时使用固定fallback坐标(160,80)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+        "ordinal": 13,
+        "fullName": "createBattleState D17a:enemy yPosOffset 叠加到 posOriginal.y"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+        "titles": ["createBattleState enemies"],
+        "template": "enemy yPosOffset 叠加到 posOriginal.y",
+        "fullName": "createBattleState enemies enemy yPosOffset 叠加到 posOriginal.y"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/battle-state.glm-next-wave.test.ts",
+        "ordinal": 0,
+        "fullName": "createBattleState —— DH1 零占位槽(battle.c:1598-1720) null 槽 → defeated 空槽:objectId=0、e 全零、无脚本、不参与目标(defeated)"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+        "titles": ["createBattleState enemies"],
+        "template": "null槽保留零值、空脚本入口与站位列数",
+        "fullName": "createBattleState enemies null槽保留零值、空脚本入口与站位列数"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/battle-state.glm-next-wave.test.ts",
+        "ordinal": 1,
+        "fullName": "createBattleState —— DH1 零占位槽(battle.c:1598-1720) 真实槽不受空槽影响:e shallow copy + maxHealth=战前满血(0x64 真值基线)"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+        "titles": ["createBattleState enemies"],
+        "template": "含空槽时，真实敌槽保留身份、满血基准与独立属性副本",
+        "fullName": "createBattleState enemies 含空槽时，真实敌槽保留身份、满血基准与独立属性副本"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/battle-state.glm-next-wave.test.ts",
+        "ordinal": 2,
+        "fullName": "createBattleState —— 开战 seed gs.fAutoBattle(true)→ state.fAutoBattle(true);缺省 false(0x8A 脚本flag)"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+        "titles": ["createBattleState initialization"],
+        "template": "fAutoBattle从GameState复制，缺省false",
+        "fullName": "createBattleState initialization fAutoBattle从GameState复制，缺省false"
+      }
+    }
+  ],
+  "identities": [
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/battle-state.glm-next-wave.test.ts",
+        "fullName": "createBattleState —— DH1 零占位槽(battle.c:1598-1720) null 槽 → defeated 空槽:objectId=0、e 全零、无脚本、不参与目标(defeated)"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+        "fullName": "createBattleState enemies null槽保留零值、空脚本入口与站位列数"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/battle-state.glm-next-wave.test.ts",
+        "fullName": "createBattleState —— DH1 零占位槽(battle.c:1598-1720) 真实槽不受空槽影响:e shallow copy + maxHealth=战前满血(0x64 真值基线)"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+        "fullName": "createBattleState enemies 含空槽时，真实敌槽保留身份、满血基准与独立属性副本"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/battle-state.glm-next-wave.test.ts",
+        "fullName": "createBattleState —— 开战 seed gs.fAutoBattle(true)→ state.fAutoBattle(true);缺省 false(0x8A 脚本flag)"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+        "fullName": "createBattleState initialization fAutoBattle从GameState复制，缺省false"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+        "fullName": "createBattleState 从 GameState + fixture 派生"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+        "fullName": "createBattleState initialization 从 GameState + fixture 派生"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+        "fullName": "createBattleState players prevHp/prevMp 拷贝战前值"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+        "fullName": "createBattleState players players prevHp/prevMp 拷贝战前值"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+        "fullName": "createBattleState enemies prevHp = e.health 拷贝"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+        "fullName": "createBattleState enemies enemies prevHp = e.health 拷贝"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+        "fullName": "createBattleState 未知 roleId 抛错"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+        "fullName": "createBattleState players 未知 roleId 抛错"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+        "fullName": "createBattleState D14:gs.rgPlayerStatus 九槽按角色身份映射，保留普通及装备计数"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+        "fullName": "createBattleState players gs.rgPlayerStatus 九槽按角色身份映射，保留普通及装备计数"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+        "fullName": "createBattleState D14:无装备状态 → player.status 全 0(默认)"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+        "fullName": "createBattleState players 无装备状态 → player.status 全 0(默认)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+        "fullName": "createBattleState 每场pendingActions/prevActions和行动队列独立，不泄漏到下一场"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+        "fullName": "createBattleState initialization 每场pendingActions/prevActions和行动队列独立，不泄漏到下一场"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+        "fullName": "createBattleState B-w0.2:partyMembers > 3 抛错(sdlpal g_rgPlayerPos[3][3][2] 真值)"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+        "fullName": "createBattleState players partyMembers > 3 抛错(sdlpal g_rgPlayerPos[3][3][2] 真值)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+        "fullName": "createBattleState 战斗状态副本与持久状态及其它队员相互隔离"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+        "fullName": "createBattleState players 战斗状态副本与持久状态及其它队员相互隔离"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+        "fullName": "createBattleState B-w0.2:partyMembers <= 3 正常构造"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+        "fullName": "createBattleState players partyMembers <= 3 正常构造"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+        "fullName": "createBattleState D17a:player pos/posOriginal = g_rgPlayerPos[count-1][i](battle.c:27)"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+        "fullName": "createBattleState players player pos/posOriginal = g_rgPlayerPos[count-1][i](battle.c:27)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+        "fullName": "createBattleState D17a:enemy pos/posOriginal = EnemyPos.layouts[count-1][i] + yPosOffset(battle.c:936-939)"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+        "fullName": "createBattleState enemies enemy pos/posOriginal = EnemyPos.layouts[count-1][i] + yPosOffset(battle.c:936-939)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+        "fullName": "createBattleState D17a:无 enemyPos → fallback 表(160,80)(向后兼容旧 fixture)"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+        "fullName": "createBattleState enemies 未提供enemyPos时使用固定fallback坐标(160,80)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+        "fullName": "createBattleState D17a:enemy yPosOffset 叠加到 posOriginal.y"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+        "fullName": "createBattleState enemies enemy yPosOffset 叠加到 posOriginal.y"
+      }
+    }
+  ],
+  "retirements": [],
+  "cohortSubjects": [
+    {
+      "path": "packages/game/src/core/battle/battle-state.glm-next-wave.test.ts",
+      "sha256": "cdbe9414af48e3da5dca54b77c7516f3df1ba5556ef0193adaa4771ed348128d",
+      "priorCurrentBridges": [
+        {
+          "path": "packages/game/src/core/battle/battle-state.glm-next-wave.test.ts",
+          "sha256": "cdbe9414af48e3da5dca54b77c7516f3df1ba5556ef0193adaa4771ed348128d",
+          "member": "organization-game-battle-fixtures/22.before",
+          "currentSha256": "4160c6b019099d4654893ba1117d13d0b11c43476eaa1d6985a1e84d7134c59a",
+          "changes": [
+            {
+              "from": "makeHRole",
+              "to": "makeRoleRecord",
+              "count": 2
+            },
+            {
+              "from": "makeHEnemy",
+              "to": "makeEnemyRecord",
+              "count": 2
+            },
+            {
+              "from": "makeHField",
+              "to": "makeBattleFieldRecord",
+              "count": 2
+            }
+          ],
+          "evidence": "organization-game-battle-fixtures.json"
+        }
+      ]
+    }
+  ],
+  "profiles": [
+    {
+      "path": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+      "subjects": ["packages/game/src/core/battle/battle-state.glm-next-wave.test.ts"],
+      "axes": {
+        "A": "Constructor-only contract. Read current344/86-line specs and actual constructor/input/status types/startBattle caller. Typed null-slot input maps real zero placeholder, explicit missing table/unknown role/overcapacity remain defensive domains. Prior584fab source is not wholly current546e; exact8-declaration typed-AST bridge bounds A reuse.",
+        "B": "Remove author/task-stage and broad no-target-execution claims. Titles name null values/script entry/position count and actual gap adjacency. Fallback is an explicit omitted-table constructor contract, not blanket legacy compatibility. C position/null primary ranges checked; no new visual/script execution claim.",
+        "C": "One canonical constructor spec grouped initialization3/player8/enemy6. No hooks, shared mutable state, IO or new host. All fixtures fresh and local; sparse enemy layout needed only by this constructor domain, separate from runtime lifecycle.",
+        "D": "Existing complete makeRoleRecord/makeEnemyRecord/field builder retained. Three private helper bodies/input instructions conserved after descriptive names; only never-read gs/playerRoles return fields removed from gap helper. No generic battle scenario/parameterized mode abstraction.",
+        "E": "All17 callback trees and literal oracles conserved after binding renames, native17-to17 identity mapping. Preserve player/next-battle status/queue ownership, two-way enemy health isolation, exact coordinate literals and sparse-slot context. Null scalar zero loop relies on typed Enemy keys, not external shape-validation credit.234 adjacent/TC0; no new/retired cases or fabricated fresh red.",
+        "F": "Merge author-labeled leaf into existing canonical battle-state.test.ts. Initialization/players/enemies groups express responsibility. makeProjectionRole/makeProjectionEnemy/makeStateWithEnemyGap and realEnemy replace generic helper names; titles stay readable Unicode, contributor tags removed.",
+        "G": "Two constructor specs become one; no extra file/provider needed for three local helpers. Drop only private unconsumed helper return fields. Keep adjacent-gap copy and ordinary two-way copy cases: inputs/conditional branches differ. No product/API/fallback retirement.",
+        "H": "Real public synchronous factory, explicit GS/typed records and seeded RNG. No business mock, private product seam or fake initialization. Full helper/callback/type proof covers final field/assertions and a tail negative; pins are version claims, not quality proof alone."
+      }
+    }
+  ],
+  "preserved": [
+    {
+      "path": "packages/game/src/core/battle/battle-state.ts",
+      "sha256": "546e8e2e86ec08c45492b80cb03349cc1a9a182735626f5ba53248d672a1e386",
+      "lines": 919
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-system.ts",
+      "sha256": "c3eaa90bd59c8a2be9da38c0b0655c24e1da11b683b5857cce3af0725b2289e4",
+      "lines": 2911
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-lifecycle.test-fixtures.ts",
+      "sha256": "c0e36172655ee59615290cd210a06956f26e0bae9e5f78691a7ca4e20da08a76",
+      "lines": 96
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-runtime-context.ts",
+      "sha256": "535c0f0400feb0c322222c2937335f3199cfc808d1e2092e030c5294db31cf1b",
+      "lines": 98
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-settlement.ts",
+      "sha256": "f37d735312ba546599694e3d11c426302d36fd9d04027abe3a1554799134f298",
+      "lines": 281
+    },
+    {
+      "path": "packages/game/src/__tests__/battle-records.ts",
+      "sha256": "e06702ce034d7b7b7680b649d2c6d11d948acd6daa9aeac0ad20478c62afc575",
+      "lines": 98
+    },
+    {
+      "path": "packages/game/src/core/game-state.ts",
+      "sha256": "084718097eb0963c2ee3a9d72da59b313ca8fd401672f6a8b341ba21ae8b8906",
+      "lines": 1905
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-positions.ts",
+      "sha256": "d068e5b70e39af41d57672c9ccb7d952184e76de8836865756f714657d3e372d",
+      "lines": 93
+    },
+    {
+      "path": "packages/game/vitest.config.ts",
+      "sha256": "3dd92ad4886bc72c88e7a7b2e6bdacc3aaf9e2a24ac72153f3b619ba37feb7d4",
+      "lines": 13
+    },
+    {
+      "path": "scripts/coverage/config.mjs",
+      "sha256": "decb63dda5d12a2269bef1dd75c3d1eb4efca071887c759deca8e9b06ef17a25",
+      "lines": 264
+    }
+  ],
+  "neighborPaths": [
+    "packages/game/src/battle-summon-slot-reuse.glm-q.test.ts",
+    "packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts",
+    "packages/game/src/core/battle/battle-system.cov85.test.ts",
+    "packages/game/src/core/battle/battle-system.script-boundaries.test.ts",
+    "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+    "packages/game/src/core/battle/__tests__/battle-system.test.ts"
+  ],
+  "receipts": {
+    "module-preflight": "organization-battle-state/module-preflight-r3"
+  },
+  "cleanExecutions": [
+    "before",
+    "reorganize",
+    "refine",
+    "format-final",
+    "proof",
+    "import-targets-proof",
+    "neighbors",
+    "typecheck",
+    "docs",
+    "content-review",
+    "lint",
+    "scoped",
+    "diff",
+    "ledger-final",
+    "module-preflight"
+  ],
+  "lightweightGates": true,
+  "callbackProof": "organization-battle-state/proof.stdout.raw",
+  "qualityDelta": {
+    "oldCases": 17,
+    "currentCases": 17,
+    "newCases": 0,
+    "retirements": 0,
+    "productUnchanged": true,
+    "groups": {
+      "initialization": 3,
+      "players": 8,
+      "enemies": 6
+    },
+    "unusedPrivateReturnFieldsRemoved": ["gs", "playerRoles"]
+  },
+  "reads": {
+    "fullInputs": [
+      {
+        "path": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+        "member": "organization-battle-state/0.before",
+        "sha256": "252a9eb1e86c54beb093c9f1910eb740150fe00dca08b4af908025bc5ba596e6",
+        "lines": 344
+      },
+      {
+        "path": "packages/game/src/core/battle/battle-state.glm-next-wave.test.ts",
+        "member": "organization-battle-state/1.before",
+        "sha256": "4160c6b019099d4654893ba1117d13d0b11c43476eaa1d6985a1e84d7134c59a",
+        "lines": 86
+      }
+    ],
+    "fullOutputs": [
+      {
+        "path": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+        "sha256": "08f0cc3e0f581e2ec688a9386dd5dbd2c7cf7c8e813623f2369fd00c8f62c9fb",
+        "lines": 400
+      }
+    ],
+    "fullRecordProvider": {
+      "path": "packages/game/src/__tests__/battle-records.ts",
+      "sha256": "e06702ce034d7b7b7680b649d2c6d11d948acd6daa9aeac0ad20478c62afc575",
+      "lines": 98
+    },
+    "priorSource": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/review.json",
+    "priorFrozen": {
+      "member": "organization-battle-state/prior-state.ts",
+      "sha256": "584fab309cc044973207f0ea4d44e3a48bff11c3b1d7ae0d0287a6c2d8774c86",
+      "commit": "d05fdc82c"
+    },
+    "sourceReuse": "Only exact constructor/status/input-related8 declarations proved by complete typed trees. Other fields/whole-module acceptance not claimed.",
+    "scopedProduct": [
+      {
+        "path": "packages/game/src/core/battle/battle-state.ts",
+        "ranges": [[700, 919]]
+      },
+      {
+        "path": "packages/game/src/core/battle/battle-system.ts",
+        "ranges": [[206, 300]]
+      }
+    ],
+    "primary": {
+      "path": "reference/sdlpal/battle.c",
+      "sha256": "45f38a01d08b864151390c99bcbb4622e3ba78a5da80a3657c276bf1c2fea33f",
+      "ranges": [[25, 32], [1590, 1610], [1700, 1725]]
+    },
+    "actualResolvedImports": "organization-battle-state/import-targets-proof.stdout.raw"
+  },
+  "quantitativeScreen": [
+    {
+      "path": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+      "method": "Per-function own decision nodes; nested functions counted independently, metric is a read pointer only.",
+      "functions": 30,
+      "max": 2,
+      "over10": 0
+    }
+  ],
+  "processDisclosures": [
+    "Historical main count383 initially copied into admission, corrected to machine-frozen current344 before implementation;86 leaf. Full current bytes read, old count not execution/read credit.",
+    "Initial TS string printer escaped human titles and textual fallback-title replacement did not apply. Refinement rewrites only actual title nodes as readable Unicode and removes stale headers before any after run. Full callback/helper proof passes; no code change to satisfy printer.",
+    "One historical subject only; merged canonical main ordinary closed reopens review. Product unchanged;0newclosed. Script neighbor normal/TC collected once for both modules, not counted as separate234+234 tests.",
+    "Repair guards twice guessed4 module paths/6 bindings; actual7 relative bindings include buildActionQueue imported by the virtual source. Both rejected before writing. Final expected count is derived from cross-directory bridge count and actual relative bindings. Redundant preflight-r2 repeated original mismatch; failure receipts retained. First module preflight rejected lexical import mismatch for the leaf merged across __tests__ directory. Complete actual old/current resolved import targets independently equal. Registration bridge now explicitly uses current-output lexical imports as a non-executable analysis domain; no source/test/tool/rule changes or test rerun. Original failure retained, acceptance aliases module-preflight-r3."
+  ],
+  "invalidations": "Reopen affected constructor/phase/fixture/input/ownership claims when any pin or mapped body changes. No broader raw assets, ordinary-story reachability, browser visual/E2E, full script engine or all battle-function credit.",
+  "ledgerCounts": {
+    "inventory": 3449,
+    "closed": 509,
+    "review": 308,
+    "pending": 2632
+  }
+}

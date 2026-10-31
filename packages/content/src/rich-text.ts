@@ -11,9 +11,7 @@ export function parseRichText(s: string): TextSpan[] {
   const spans: TextSpan[] = []
   const re = new RegExp(`<(${COLOR_TAGS.join('|')})>(.*?)</\\1>`, 'g')
   let last = 0
-  let m: RegExpExecArray | null
-  // biome-ignore lint/suspicious/noAssignInExpressions: 标准 regex 迭代
-  while ((m = re.exec(s)) !== null) {
+  for (const m of s.matchAll(re)) {
     if (m.index > last) spans.push({ text: s.slice(last, m.index) })
     spans.push({ text: m[2] as string, color: m[1] as DialogColor })
     last = m.index + m[0].length

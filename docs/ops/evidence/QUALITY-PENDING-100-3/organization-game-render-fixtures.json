@@ -1,0 +1,1373 @@
+{
+  "id": "game-render-fixtures",
+  "kind": "fixture",
+  "namespace": "organization-game-render-fixtures",
+  "cohortSubjects": [
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/images.ts",
+      "sha256": "85a3bf16fd33859a897ecf82d0c8a2f3c28b99eb03499e1f4d93d5cc4d792833"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/font.ts",
+      "sha256": "1567d2a51b92f839b9c8ca2006d935521502b4bc1328437e05ee9c0b05366516"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/world.ts",
+      "sha256": "79df71135f071a392f75fe1ebf22f2f57318a98e12164c458e00b59bcadf8192"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-composition/fixtures/images.ts",
+      "sha256": "551bfb79ad15caf4de7ad4945336edd10ab626cef12d84475b782b392ef0683a"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-composition/fixtures/world.ts",
+      "sha256": "7eedefb782fafaac9af4969e909e974a737ddb951d2a46735c3838970db8d7f8"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-composition/fixtures/battle.ts",
+      "sha256": "c8ea1ae59baf3bf5d942ae3cc5e1258430c2feaed6c7623ff92eee2bbd912038"
+    }
+  ],
+  "providers": {
+    "before": [
+      {
+        "path": "packages/game/src/present/__tests__/grok-present/images.ts",
+        "sha256": "85a3bf16fd33859a897ecf82d0c8a2f3c28b99eb03499e1f4d93d5cc4d792833",
+        "member": "organization-game-render-fixtures/0.before",
+        "changes": [
+          {
+            "from": "export const TILE = 8",
+            "to": "export const UI_TILE_SIZE = 8",
+            "count": 1
+          },
+          {
+            "from": "export function solidImage(width: number, height: number, index: number): IndexedImage {\n  const n = width * height\n  return {\n    width,\n    height,\n    indices: new Uint8Array(n).fill(index),\n    opaque: new Uint8Array(n).fill(1),\n  }\n}",
+            "to": "",
+            "count": 1
+          },
+          {
+            "from": "export function makeUiFrames(): IndexedImage[] {\n  const frames: IndexedImage[] = []\n  for (let i = 0; i < 9; i++) frames[i] = solidImage(TILE, TILE, BOX_STYLE0)\n  for (let i = 9; i < 18; i++) frames[i] = solidImage(TILE, TILE, BOX_STYLE1)\n  frames[18] = iconImage(INFOBOX_ID)\n  for (let digit = 0; digit < 10; digit++) {\n    frames[19 + digit] = sparseImage(6, 8, [{ x: 0, y: 0, index: yellowDigit(digit) }])\n    frames[29 + digit] = sparseImage(6, 8, [{ x: 0, y: 0, index: blueDigit(digit) }])\n    frames[56 + digit] = sparseImage(6, 8, [{ x: 0, y: 0, index: cyanDigit(digit) }])\n  }\n  frames[39] = iconImage(SLASH_ID)\n  frames[44] = solidImage(TILE, TILE, BOX_STYLE0)\n  frames[45] = solidImage(TILE, TILE, BOX_STYLE0)\n  frames[46] = solidImage(TILE, TILE, BOX_STYLE0)\n  frames[47] = iconImage(ARROW_ID)\n  for (let role = 0; role < 6; role++) frames[48 + role] = iconImage(0xa0 + role)\n  frames[67] = iconImage(CURSOR_UP_ID)\n  const cursor = sparseImage(3, 1, [\n    { x: 0, y: 0, index: 0 },\n    { x: 2, y: 0, index: CURSOR_ID },\n  ])\n  cursor.indices[1] = CURSOR_HOLE\n  frames[69] = cursor\n  frames[70] = iconImage(ITEMBOX_ID)\n  return frames\n}",
+            "to": "export function makeUiFrames(): IndexedImage[] {\n  const frames: IndexedImage[] = []\n  for (let i = 0; i < 9; i++) frames[i] = solidImage(UI_TILE_SIZE, UI_TILE_SIZE, BOX_STYLE0)\n  for (let i = 9; i < 18; i++) frames[i] = solidImage(UI_TILE_SIZE, UI_TILE_SIZE, BOX_STYLE1)\n  frames[18] = iconImage(INFOBOX_ID)\n  for (let digit = 0; digit < 10; digit++) {\n    frames[19 + digit] = sparseImage(6, 8, [{ x: 0, y: 0, index: yellowDigit(digit) }])\n    frames[29 + digit] = sparseImage(6, 8, [{ x: 0, y: 0, index: blueDigit(digit) }])\n    frames[56 + digit] = sparseImage(6, 8, [{ x: 0, y: 0, index: cyanDigit(digit) }])\n  }\n  frames[39] = iconImage(SLASH_ID)\n  frames[44] = solidImage(UI_TILE_SIZE, UI_TILE_SIZE, BOX_STYLE0)\n  frames[45] = solidImage(UI_TILE_SIZE, UI_TILE_SIZE, BOX_STYLE0)\n  frames[46] = solidImage(UI_TILE_SIZE, UI_TILE_SIZE, BOX_STYLE0)\n  frames[47] = iconImage(ARROW_ID)\n  for (let role = 0; role < 6; role++) frames[48 + role] = iconImage(0xa0 + role)\n  frames[67] = iconImage(CURSOR_UP_ID)\n  const cursor = sparseImage(3, 1, [\n    { x: 0, y: 0, index: 0 },\n    { x: 2, y: 0, index: CURSOR_ID },\n  ])\n  cursor.indices[1] = CURSOR_HOLE\n  frames[69] = cursor\n  frames[70] = iconImage(ITEMBOX_ID)\n  return frames\n}",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "path": "packages/game/src/present/__tests__/grok-present/font.ts",
+        "sha256": "1567d2a51b92f839b9c8ca2006d935521502b4bc1328437e05ee9c0b05366516",
+        "member": "organization-game-render-fixtures/1.before",
+        "changes": []
+      },
+      {
+        "path": "packages/game/src/present/__tests__/grok-present/world.ts",
+        "sha256": "79df71135f071a392f75fe1ebf22f2f57318a98e12164c458e00b59bcadf8192",
+        "member": "organization-game-render-fixtures/2.before",
+        "changes": []
+      },
+      {
+        "path": "packages/game/src/present/__tests__/grok-composition/fixtures/images.ts",
+        "sha256": "551bfb79ad15caf4de7ad4945336edd10ab626cef12d84475b782b392ef0683a",
+        "member": "organization-game-render-fixtures/3.before",
+        "changes": [
+          {
+            "from": "export const SENTINEL = 0x5a",
+            "to": "",
+            "count": 1
+          },
+          {
+            "from": "export const TILE = 0x21",
+            "to": "export const WORLD_TILE_COLOR = 0x21",
+            "count": 1
+          },
+          {
+            "from": "export function image(width: number, height: number, index: number, opaque = 1): IndexedImage {\n  return {\n    width,\n    height,\n    indices: new Uint8Array(width * height).fill(index),\n    opaque: new Uint8Array(width * height).fill(opaque),\n  }\n}",
+            "to": "export function solidIndexedImage(width: number, height: number, index: number, opaque = 1): IndexedImage {\n  return {\n    width,\n    height,\n    indices: new Uint8Array(width * height).fill(index),\n    opaque: new Uint8Array(width * height).fill(opaque),\n  }\n}",
+            "count": 1
+          },
+          {
+            "from": "export function yellowDigit(digit: number): number {\n  return 0xb0 + digit\n}",
+            "to": "",
+            "count": 1
+          },
+          {
+            "from": "export function cyanDigit(digit: number): number {\n  return 0x70 + digit\n}",
+            "to": "",
+            "count": 1
+          },
+          {
+            "from": "export function snapBitmap(img: {\n  width: number\n  height: number\n  indices: Uint8Array\n  opaque?: Uint8Array\n}): { width: number; height: number; indices: number[]; opaque?: number[] } {\n  return {\n    width: img.width,\n    height: img.height,\n    indices: Array.from(img.indices),\n    ...(img.opaque ? { opaque: Array.from(img.opaque) } : {}),\n  }\n}",
+            "to": "export function snapshotRaster(img: {\n  width: number\n  height: number\n  indices: Uint8Array\n  opaque?: Uint8Array\n}): { width: number; height: number; indices: number[]; opaque?: number[] } {\n  return {\n    width: img.width,\n    height: img.height,\n    indices: Array.from(img.indices),\n    ...(img.opaque ? { opaque: Array.from(img.opaque) } : {}),\n  }\n}",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "path": "packages/game/src/present/__tests__/grok-composition/fixtures/world.ts",
+        "sha256": "7eedefb782fafaac9af4969e909e974a737ddb951d2a46735c3838970db8d7f8",
+        "member": "organization-game-render-fixtures/4.before",
+        "changes": [
+          {
+            "from": "return img ? snapBitmap(img) : null",
+            "to": "return img ? snapshotRaster(img) : null",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "path": "packages/game/src/present/__tests__/grok-composition/fixtures/battle.ts",
+        "sha256": "c8ea1ae59baf3bf5d942ae3cc5e1258430c2feaed6c7623ff92eee2bbd912038",
+        "member": "organization-game-render-fixtures/5.before",
+        "changes": []
+      }
+    ],
+    "current": [
+      {
+        "path": "packages/game/src/present/__tests__/raster-fixtures.ts",
+        "sha256": "d62741ab845759e2b42e992d4675e679b54464f207c3a8118af0f94dac9b5157",
+        "imports": [
+          {
+            "local": "Framebuffer",
+            "imported": "Framebuffer",
+            "target": "packages/game/src/present/framebuffer.ts",
+            "typeOnly": true
+          },
+          {
+            "local": "IndexedImage",
+            "imported": "IndexedImage",
+            "target": "packages/game/src/assets/png.ts",
+            "typeOnly": true
+          },
+          {
+            "local": "SpriteImage",
+            "imported": "SpriteImage",
+            "target": "packages/game/src/present/draw-sprite.ts",
+            "typeOnly": true
+          }
+        ]
+      },
+      {
+        "path": "packages/game/src/present/__tests__/menu-ui-fixtures.ts",
+        "sha256": "2e6d73e10d4b98a5876000b1abebea747bbf62fc0bdfb159e44534ba068f3171",
+        "imports": [
+          {
+            "local": "iconImage",
+            "imported": "iconImage",
+            "target": "packages/game/src/present/__tests__/raster-fixtures.ts",
+            "typeOnly": false
+          },
+          {
+            "local": "image",
+            "imported": "solidIndexedImage",
+            "target": "packages/game/src/present/__tests__/raster-fixtures.ts",
+            "typeOnly": false
+          },
+          {
+            "local": "IndexedImage",
+            "imported": "IndexedImage",
+            "target": "packages/game/src/assets/png.ts",
+            "typeOnly": true
+          },
+          {
+            "local": "solidImage",
+            "imported": "solidIndexedImage",
+            "target": "packages/game/src/present/__tests__/raster-fixtures.ts",
+            "typeOnly": false
+          },
+          {
+            "local": "sparseImage",
+            "imported": "sparseImage",
+            "target": "packages/game/src/present/__tests__/raster-fixtures.ts",
+            "typeOnly": false
+          }
+        ]
+      },
+      {
+        "path": "packages/game/src/present/__tests__/glyph-fixtures.ts",
+        "sha256": "226f7b472f8c065034db07c1f308ba5b5cc03a5f6d31b6f624f9cef27b701e2f",
+        "imports": [
+          {
+            "local": "Glyph",
+            "imported": "Glyph",
+            "target": "packages/game/src/present/font.ts",
+            "typeOnly": true
+          },
+          {
+            "local": "GlyphTable",
+            "imported": "GlyphTable",
+            "target": "packages/game/src/present/font.ts",
+            "typeOnly": true
+          }
+        ]
+      },
+      {
+        "path": "packages/game/src/present/__tests__/menu-state-fixtures.ts",
+        "sha256": "0ce7df25cce554b54c080659494116c76908a531dd289359a32f4323fbabce7f",
+        "imports": [
+          {
+            "local": "cancelInventoryMenu",
+            "imported": "cancelInventoryMenu",
+            "target": "packages/game/src/core/menu/inventory-menu.ts",
+            "typeOnly": false
+          },
+          {
+            "local": "confirmInventoryItem",
+            "imported": "confirmInventoryItem",
+            "target": "packages/game/src/core/menu/inventory-menu.ts",
+            "typeOnly": false
+          },
+          {
+            "local": "createInitialGameState",
+            "imported": "createInitialGameState",
+            "target": "packages/game/src/core/game-state.ts",
+            "typeOnly": false
+          },
+          {
+            "local": "createInventoryMenu",
+            "imported": "createInventoryMenu",
+            "target": "packages/game/src/core/menu/inventory-menu.ts",
+            "typeOnly": false
+          },
+          {
+            "local": "GameState",
+            "imported": "GameState",
+            "target": "packages/game/src/core/game-state.ts",
+            "typeOnly": true
+          },
+          {
+            "local": "hydratePlayerRolesRuntime",
+            "imported": "hydratePlayerRolesRuntime",
+            "target": "packages/game/src/core/game-state.ts",
+            "typeOnly": false
+          },
+          {
+            "local": "Item",
+            "imported": "Item",
+            "target": "@type-pal/shared",
+            "typeOnly": true
+          },
+          {
+            "local": "ItemFlags",
+            "imported": "ItemFlags",
+            "target": "@type-pal/shared",
+            "typeOnly": true
+          },
+          {
+            "local": "PlayerRole",
+            "imported": "PlayerRole",
+            "target": "@type-pal/shared",
+            "typeOnly": true
+          },
+          {
+            "local": "PlayerRoles",
+            "imported": "PlayerRoles",
+            "target": "@type-pal/shared",
+            "typeOnly": true
+          },
+          {
+            "local": "rememberMagicCasterCursor",
+            "imported": "rememberMagicCasterCursor",
+            "target": "packages/game/src/core/menu/in-game-magic-menu.ts",
+            "typeOnly": false
+          },
+          {
+            "local": "setGlobalEvents",
+            "imported": "setGlobalEvents",
+            "target": "packages/game/src/core/event-system.ts",
+            "typeOnly": false
+          },
+          {
+            "local": "setWordTable",
+            "imported": "setWordTable",
+            "target": "packages/game/src/core/word-lookup.ts",
+            "typeOnly": false
+          }
+        ]
+      },
+      {
+        "path": "packages/game/src/present/__tests__/render-input-snapshots.ts",
+        "sha256": "f2faddfd6a3c6dcbefe752eff487e8fabd92035b62cf673bd6c81289d8dd17b6",
+        "imports": [
+          {
+            "local": "BattleState",
+            "imported": "BattleState",
+            "target": "packages/game/src/core/battle/battle-state.ts",
+            "typeOnly": true
+          },
+          {
+            "local": "GameState",
+            "imported": "GameState",
+            "target": "packages/game/src/core/game-state.ts",
+            "typeOnly": true
+          },
+          {
+            "local": "IndexedImage",
+            "imported": "IndexedImage",
+            "target": "packages/game/src/assets/png.ts",
+            "typeOnly": true
+          },
+          {
+            "local": "Item",
+            "imported": "Item",
+            "target": "@type-pal/shared",
+            "typeOnly": true
+          },
+          {
+            "local": "PlayerRoles",
+            "imported": "PlayerRoles",
+            "target": "@type-pal/shared",
+            "typeOnly": true
+          }
+        ]
+      },
+      {
+        "path": "packages/game/src/present/__tests__/world-render-fixtures.ts",
+        "sha256": "66e124e01c1dcdbc69d944a3de8c99d146efa6b215f8720e4b304db994946fb2",
+        "imports": [
+          {
+            "local": "createInitialGameState",
+            "imported": "createInitialGameState",
+            "target": "packages/game/src/core/game-state.ts",
+            "typeOnly": false
+          },
+          {
+            "local": "GameState",
+            "imported": "GameState",
+            "target": "packages/game/src/core/game-state.ts",
+            "typeOnly": true
+          },
+          {
+            "local": "PresentContext",
+            "imported": "PresentContext",
+            "target": "packages/game/src/present/present.ts",
+            "typeOnly": true
+          },
+          {
+            "local": "Tilemap",
+            "imported": "Tilemap",
+            "target": "@type-pal/shared",
+            "typeOnly": true
+          }
+        ]
+      },
+      {
+        "path": "packages/game/src/present/__tests__/battle-render-fixtures.ts",
+        "sha256": "f9aabbe8c147ac9fd2bb846c17dc1485c85839e306c0a8db7bd2b918e064403e",
+        "imports": [
+          {
+            "local": "BattleBgAsset",
+            "imported": "BattleBgAsset",
+            "target": "packages/game/src/present/battle/draw-battle-bg.ts",
+            "typeOnly": true
+          },
+          {
+            "local": "BattleEnemy",
+            "imported": "BattleEnemy",
+            "target": "packages/game/src/core/battle/battle-state.ts",
+            "typeOnly": true
+          },
+          {
+            "local": "BattlePlayer",
+            "imported": "BattlePlayer",
+            "target": "packages/game/src/core/battle/battle-state.ts",
+            "typeOnly": true
+          },
+          {
+            "local": "BattleState",
+            "imported": "BattleState",
+            "target": "packages/game/src/core/battle/battle-state.ts",
+            "typeOnly": true
+          },
+          {
+            "local": "createInitialGameState",
+            "imported": "createInitialGameState",
+            "target": "packages/game/src/core/game-state.ts",
+            "typeOnly": false
+          },
+          {
+            "local": "createSeedableRng",
+            "imported": "createSeedableRng",
+            "target": "packages/game/src/core/rng.ts",
+            "typeOnly": false
+          },
+          {
+            "local": "Enemy",
+            "imported": "Enemy",
+            "target": "@type-pal/shared",
+            "typeOnly": true
+          },
+          {
+            "local": "GameState",
+            "imported": "GameState",
+            "target": "packages/game/src/core/game-state.ts",
+            "typeOnly": true
+          },
+          {
+            "local": "hydratePlayerRolesRuntime",
+            "imported": "hydratePlayerRolesRuntime",
+            "target": "packages/game/src/core/game-state.ts",
+            "typeOnly": false
+          },
+          {
+            "local": "Item",
+            "imported": "Item",
+            "target": "@type-pal/shared",
+            "typeOnly": true
+          },
+          {
+            "local": "PlayerRole",
+            "imported": "PlayerRole",
+            "target": "@type-pal/shared",
+            "typeOnly": true
+          },
+          {
+            "local": "PlayerRoles",
+            "imported": "PlayerRoles",
+            "target": "@type-pal/shared",
+            "typeOnly": true
+          }
+        ]
+      },
+      {
+        "path": "packages/game/src/present/__tests__/composition-colors.ts",
+        "sha256": "2c4c5f759531520fa7734d195f72dfc45114bab0e4dee6feb0da3a20146258bf",
+        "imports": []
+      }
+    ]
+  },
+  "consumers": [
+    {
+      "path": "packages/game/src/localization/presentation.test.ts",
+      "sha256": "7e0a0055e1c4a2e0fe332bb5dbf789160932ec7193449f5305e303650c202c62",
+      "member": "organization-game-render-fixtures/6.before",
+      "currentSha256": "0bb7c9fcaf9ebb25c0e3fe94a431993a8131fd0c7d31dd06e1d6ffc7426e488e"
+    },
+    {
+      "path": "packages/game/src/localization/messages.test.ts",
+      "sha256": "004b7f696cea4fb68d1947e8d2984ae5498d0414fc79257a62e850d4178d9f59",
+      "member": "organization-game-render-fixtures/7.before",
+      "currentSha256": "50fbf49a3d9dce585f277b2694f64cc56a350d3a6486a74f883f57101b636139"
+    },
+    {
+      "path": "packages/game/src/assets/png.test.ts",
+      "sha256": "3a81cfe4f768d4cbb00543728ac87bc5cf3b0d89a21459e53d7b2350b7036d7f",
+      "member": "organization-game-render-fixtures/8.before",
+      "currentSha256": "c72d07bebed3a482cf89bb82773b146821e12076758c61211fc6ad4fd448ae66"
+    },
+    {
+      "path": "packages/game/src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+      "sha256": "4adaf21e23bfd2d6da685430c237e7f1549377001d5fef2ea23145829650fee6",
+      "member": "organization-game-render-fixtures/9.before",
+      "currentSha256": "92d0697b68ba196235c1b89256c2e5d59aa72366e3ad7bb64818d9585ba55a2b"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+      "sha256": "6d8a21ba658297d226af7274718fffaead3e871d34b848f7fdea4cb9f23089f2",
+      "member": "organization-game-render-fixtures/10.before",
+      "currentSha256": "d25fc265a5c95f7b0e8f440518324a0343c52e3a8401f473fa5b7a8e4cb31b15"
+    },
+    {
+      "path": "packages/game/src/present/menu/magic-menu-pixels.grok-r1.test.ts",
+      "sha256": "5cad30584be5d43a1d2073da5fa3bdf78df3d41d26e07538dfdf460dbcdbda58",
+      "member": "organization-game-render-fixtures/11.before",
+      "currentSha256": "c6af8669b480d413e4b208187113cab28322c50d7470afc006ee33e67ebe2f1a"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-inventory.glm-phase1-leaves.test.ts",
+      "sha256": "ac6b9b743f291a3af65e23d730ab51abfdafa48f93b7c24062b8f18e7f2495e6",
+      "member": "organization-game-render-fixtures/12.before",
+      "currentSha256": "4cbc020999f4b440b39b1c6653c6bf9fc414da8f1972b536bbca70242e2d1475"
+    },
+    {
+      "path": "packages/game/src/present/menu/equip-role-pixels.grok-r1.test.ts",
+      "sha256": "2859f3fe866e6d94b1c2f727db565152d6504f09b4c35678cc77448b1f1ea8a3",
+      "member": "organization-game-render-fixtures/13.before",
+      "currentSha256": "c5cb25e5039d376b215c95eebe631a773bf974bca4c6ac48edea5867591af1c4"
+    },
+    {
+      "path": "packages/game/src/present/menu/inventory-list-pixels.grok-r1.test.ts",
+      "sha256": "b3a549d7fba2a192e5ad6f248710f39182efe031606afd1be8669b2f5dcf36e2",
+      "member": "organization-game-render-fixtures/14.before",
+      "currentSha256": "17d44533253b2eca2a941126b39dd3fe16d3187ef93af7ede18bb9e4c547dbc7"
+    },
+    {
+      "path": "packages/game/src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+      "sha256": "ce687bd8e9979db67da774d18de118250ef7be44519844bb4e39baee6428bd6c",
+      "member": "organization-game-render-fixtures/15.before",
+      "currentSha256": "d87d201c7b09acea6c867b46e42e2108f2d69d76caae48544b3c2c85337bc146"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-equip.glm-phase1-leaves.test.ts",
+      "sha256": "8dc64f80a5c01c1e37fae143ff89f8896af52c8003406c459f973f353e9921e2",
+      "member": "organization-game-render-fixtures/16.before",
+      "currentSha256": "caeaa72a2b0fb6a210f14eb1db82237737f9b40e376bb46ccccf19b1cc980903"
+    },
+    {
+      "path": "packages/game/src/present/menu/inventory-desc-filter.grok-r1.test.ts",
+      "sha256": "8dc479efefc2d143cf70cdfe4a59d271140bbb0c9272d84006eb7f4e8a6905b4",
+      "member": "organization-game-render-fixtures/17.before",
+      "currentSha256": "fc77932167d7b124675de890bf18439e3de7250c2e43866fd68eca05db8d5461"
+    },
+    {
+      "path": "packages/game/src/present/menu/opening-confirm-pixels.grok-r1.test.ts",
+      "sha256": "1fc84cda595debed5b09e20db9d24a79edd1c44b1bbf030717e9f2cedea02abf",
+      "member": "organization-game-render-fixtures/18.before",
+      "currentSha256": "34f0d3ee60f932ff85c040b373ad5cc986f5ca3d1268b5a1bb047ebcdd6db863"
+    },
+    {
+      "path": "packages/game/src/present/menu/magic-player-info.integration.test.ts",
+      "sha256": "5cb596c0788222fc1fa89981d878c20ae68a19f5fcae329cc5a2a03f8a208b86",
+      "member": "organization-game-render-fixtures/19.before",
+      "currentSha256": "4ae7aaaadad816ccface7a829cfcbdcc5e140905be633056a943d1fe0727a465"
+    },
+    {
+      "path": "packages/game/src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+      "sha256": "bcb35de9db42680be915259f0ba706169e66f35b479f247694710fcfe1b0d9c6",
+      "member": "organization-game-render-fixtures/20.before",
+      "currentSha256": "0d9bb6a4818739c31be58119ee1da5104e50170c23ba22b6706e74bfbca63425"
+    },
+    {
+      "path": "packages/game/src/present/battle/battle-ui-pixels.grok-r1.test.ts",
+      "sha256": "a82d686149c924abd845c4ee62f951f7e3e7166f7025cb997b1ddd67aa8136b9",
+      "member": "organization-game-render-fixtures/21.before",
+      "currentSha256": "8b044bfaeadb472d345ed92cb8adb82a93ecfb2868969628115b10d8ff2be33b"
+    },
+    {
+      "path": "packages/game/src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+      "sha256": "5b63c47a79607ca9100299fbe534fb11657e9972b1423c0fa31fe9b7f494e126",
+      "member": "organization-game-render-fixtures/22.before",
+      "currentSha256": "5618eea1b49c3ad25435ea1d929b5ad10c5db040edd930390184388d2bc62778"
+    },
+    {
+      "path": "packages/game/src/present/battle/battle-effect-num-pixels.grok-r1.test.ts",
+      "sha256": "29e50ea6dad5e71bdcefc8c4a80faa8b42dc132f23ae18c91153878b7ea9afb6",
+      "member": "organization-game-render-fixtures/23.before",
+      "currentSha256": "cd1d4498434a4f9e13c5bbc2c681d6b292919ffd197bd79867318c86b9436f22"
+    },
+    {
+      "path": "packages/game/src/present/battle/draw-battle-ui.glm-phase1-leaves.test.ts",
+      "sha256": "6dcd3bc9ca16f22c9daae99bf853452bd641ad5ab9dfcde1c6c1b00debc1ef60",
+      "member": "organization-game-render-fixtures/24.before",
+      "currentSha256": "effd5b2cc25e677653f6e857d9ee964d4f4f7609fe0c4064556ac5d23457f20a"
+    },
+    {
+      "path": "packages/game/src/present/battle/battle-settlement-pixels.grok-r1.test.ts",
+      "sha256": "58af32b51be9a025ea5f12607750cb6cbc7e1850a7782e0db2e3d63417616493",
+      "member": "organization-game-render-fixtures/25.before",
+      "currentSha256": "07e906b8fb6124c6240b5a57f5c51891ade13cda5f9c7d6273720f49fbea117f"
+    },
+    {
+      "path": "packages/game/src/present/battle/__tests__/battle-action-availability.test.ts",
+      "sha256": "334aac55f1772f42849ecb8ccbab58c4bfe7d02713bb591826eafaf5fa0ddf5a",
+      "member": "organization-game-render-fixtures/26.before",
+      "currentSha256": "9e030d5d81feb25b506de7e51619f6c2a0b0a167acff0cd2dc43f0d20636b44b"
+    },
+    {
+      "path": "packages/game/src/present/battle/__tests__/battle-present-lifecycle.test.ts",
+      "sha256": "7a4a1df9c0dfcb95ea670e591350de64e29b9178615d0496e5349a7ef6ea1f21",
+      "member": "organization-game-render-fixtures/27.before",
+      "currentSha256": "89a7ab1da27ab92cbe20ec86a6026567718d5356299041862cf9d7aef8e5a814"
+    },
+    {
+      "path": "packages/game/src/present/battle/__tests__/draw-battle-ui.test.ts",
+      "sha256": "04ede6eb0d4e913868d4d1f1c211af2495d41cf0598633535af4cbb41d1457bd",
+      "member": "organization-game-render-fixtures/28.before",
+      "currentSha256": "627878c8732092781bc5a6fa5fc991f746900209c5b84abc5bc60dbf5385296a"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/p09-background.test.ts",
+      "sha256": "6922114384b0344f8ed710871edf9e21e9226db81d62ea4a8a34c14cb72f52f2",
+      "member": "organization-game-render-fixtures/29.before",
+      "currentSha256": "bf225338c2c6c44dce5a7ccc2322a06c51a2225dd9a0abdc181c709e244b50e8"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/p05-menu-stack.test.ts",
+      "sha256": "11fcd1159850e7900e9dd3e4ff7eeef5076f9c97626deb1753227322586d75a7",
+      "member": "organization-game-render-fixtures/30.before",
+      "currentSha256": "f065ddac37d40fcf8188283d7be262d98717602743d84090fd162540544da7d6"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/p08-settlement.test.ts",
+      "sha256": "5cdcfa8baac98de16d32337767477d2ae6d79915ceb3795cc6b972705937b52e",
+      "member": "organization-game-render-fixtures/31.before",
+      "currentSha256": "421d0c0dde3ba6a15be9acf23baed383fef7ca603e5c875cded3cde7bd857fc6"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/p02-inventory-target.test.ts",
+      "sha256": "49abedabe81e7cb35703d7e4cedb355cd5d6295370a18c634a07227143fe569e",
+      "member": "organization-game-render-fixtures/32.before",
+      "currentSha256": "502db2ad984c46bdc248ff1f44cf1a0cd8ab62f19e88fb751bbbfaa2d50e26d7"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/p03-equip.test.ts",
+      "sha256": "e9191efb9fefdac8fb8bee091f4e4ab9363e23b7bddeb470044d5835ced40259",
+      "member": "organization-game-render-fixtures/33.before",
+      "currentSha256": "5542005da8a1f0b6e1e2da3957e6aef53ad5368a04b7c611431cb8cc7ed7a3e6"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/p01-inventory-list.test.ts",
+      "sha256": "6ad818d64316c447983a5e9a5615565e920bf73fd1d7894c2b3865473f1fa82f",
+      "member": "organization-game-render-fixtures/34.before",
+      "currentSha256": "2b4db74ba0b502be282774011eb7f9a6cca4df30e27fcb5ac98705cf1b48b153"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/p04-shop.test.ts",
+      "sha256": "0899e5c48cc0c4bc634522bec7d8819a01c495657b527ef74e11f2c34c251ef2",
+      "member": "organization-game-render-fixtures/35.before",
+      "currentSha256": "f3d4a05e32d6df834139ec88ef42b2870a90c0687a7a3d441a64f80a8fd3bdf9"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/p07-status.test.ts",
+      "sha256": "01518520443c966e47ded645245189ba834f7e422f57dae448fe41c49ab9c48d",
+      "member": "organization-game-render-fixtures/36.before",
+      "currentSha256": "8eba86dfc29c243d255d67dd0ca8f7e9715486c1c3e40891a45d758b580e8282"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/p06-magic.test.ts",
+      "sha256": "0c482d21a187011bb6265d21aed09cf49cbde5c2232c4f073e8867e48e3ff64c",
+      "member": "organization-game-render-fixtures/37.before",
+      "currentSha256": "9a2abb33d0f839945b0b103b931486befc89594b81c16d7b2ddf11aae120527d"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-composition/p12-overlays.test.ts",
+      "sha256": "dc0e0fc8dcab93030d9ee08ae335804a34fc4a2c702b1d37bfa977109ac1cdec",
+      "member": "organization-game-render-fixtures/38.before",
+      "currentSha256": "b3ac1522b52aa6bf2fab3d155c0c230303e709acd31c0c7ba4dcac29f7feaed0"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-composition/p13-battle-commands.test.ts",
+      "sha256": "335fabb9c3e9f28657c6ea7edf6ce0adcda926a3eb108e029a7c9c7bf7f46aba",
+      "member": "organization-game-render-fixtures/39.before",
+      "currentSha256": "7e4ce44bd2559efd06e6a79d7bb1e744e97285adaa55995bc9c1cd0c10f38b5d"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-composition/p15-battle-ui.test.ts",
+      "sha256": "bbe237b59ca12224e3a3ae290d0723e543e812b61ef4e6b850737fb3674fb429",
+      "member": "organization-game-render-fixtures/40.before",
+      "currentSha256": "cf3fc06bf6fecfa28559c32241edd3dfabf5bc772ccca1d81bb66c6226715359"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-composition/p16-dialog.test.ts",
+      "sha256": "5d59b91b75769c369c9612d332b92abb2328b50473c83121fab6dbed68af49bf",
+      "member": "organization-game-render-fixtures/41.before",
+      "currentSha256": "2a2959003f6967da284a5e1a818cdb8438f2fcac8ecf34eacfae82ea580926e2"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-composition/p14-battle-fades.test.ts",
+      "sha256": "91f643b92d235d87103d0efddc541539e3a9d44081bc618d8b71680fb81a5204",
+      "member": "organization-game-render-fixtures/42.before",
+      "currentSha256": "a154354e874c725c4fc6caa3fd6e79173bc2a998da5d08e4d276e8d540cf131f"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-composition/p11-world-layers.test.ts",
+      "sha256": "61705a1a3d9fe61ff5140a12847cc8c56d59d763a0dc2a971e69f401a6b08e79",
+      "member": "organization-game-render-fixtures/43.before",
+      "currentSha256": "1b0e8ded5209df3ebf5393589a10f1494bfa135a8979632426cdb3df986a2a5e"
+    }
+  ],
+  "exports": [
+    {
+      "oldPath": "packages/game/src/present/__tests__/grok-present/images.ts",
+      "oldName": "SENTINEL",
+      "currentPath": "packages/game/src/present/__tests__/raster-fixtures.ts",
+      "currentName": "SENTINEL"
+    },
+    {
+      "oldPath": "packages/game/src/present/__tests__/grok-present/images.ts",
+      "oldName": "BOX_STYLE0",
+      "currentPath": "packages/game/src/present/__tests__/menu-ui-fixtures.ts",
+      "currentName": "BOX_STYLE0"
+    },
+    {
+      "oldPath": "packages/game/src/present/__tests__/grok-present/images.ts",
+      "oldName": "BOX_STYLE1",
+      "currentPath": "packages/game/src/present/__tests__/menu-ui-fixtures.ts",
+      "currentName": "BOX_STYLE1"
+    },
+    {
+      "oldPath": "packages/game/src/present/__tests__/grok-present/images.ts",
+      "oldName": "TILE",
+      "currentPath": "packages/game/src/present/__tests__/menu-ui-fixtures.ts",
+      "currentName": "UI_TILE_SIZE"
+    },
+    {
+      "oldPath": "packages/game/src/present/__tests__/grok-present/images.ts",
+      "oldName": "CURSOR_ID",
+      "currentPath": "packages/game/src/present/__tests__/menu-ui-fixtures.ts",
+      "currentName": "CURSOR_ID"
+    },
+    {
+      "oldPath": "packages/game/src/present/__tests__/grok-present/images.ts",
+      "oldName": "CURSOR_HOLE",
+      "currentPath": "packages/game/src/present/__tests__/menu-ui-fixtures.ts",
+      "currentName": "CURSOR_HOLE"
+    },
+    {
+      "oldPath": "packages/game/src/present/__tests__/grok-present/images.ts",
+      "oldName": "ITEMBOX_ID",
+      "currentPath": "packages/game/src/present/__tests__/menu-ui-fixtures.ts",
+      "currentName": "ITEMBOX_ID"
+    },
+    {
+      "oldPath": "packages/game/src/present/__tests__/grok-present/images.ts",
+      "oldName": "SLASH_ID",
+      "currentPath": "packages/game/src/present/__tests__/menu-ui-fixtures.ts",
+      "currentName": "SLASH_ID"
+    },
+    {
+      "oldPath": "packages/game/src/present/__tests__/grok-present/images.ts",
+      "oldName": "ARROW_ID",
+      "currentPath": "packages/game/src/present/__tests__/menu-ui-fixtures.ts",
+      "currentName": "ARROW_ID"
+    },
+    {
+      "oldPath": "packages/game/src/present/__tests__/grok-present/images.ts",
+      "oldName": "CURSOR_UP_ID",
+      "currentPath": "packages/game/src/present/__tests__/menu-ui-fixtures.ts",
+      "currentName": "CURSOR_UP_ID"
+    },
+    {
+      "oldPath": "packages/game/src/present/__tests__/grok-present/images.ts",
+      "oldName": "INFOBOX_ID",
+      "currentPath": "packages/game/src/present/__tests__/menu-ui-fixtures.ts",
+      "currentName": "INFOBOX_ID"
+    },
+    {
+      "oldPath": "packages/game/src/present/__tests__/grok-present/images.ts",
+      "oldName": "yellowDigit",
+      "currentPath": "packages/game/src/present/__tests__/menu-ui-fixtures.ts",
+      "currentName": "yellowDigit"
+    },
+    {
+      "oldPath": "packages/game/src/present/__tests__/grok-present/images.ts",
+      "oldName": "blueDigit",
+      "currentPath": "packages/game/src/present/__tests__/menu-ui-fixtures.ts",
+      "currentName": "blueDigit"
+    },
+    {
+      "oldPath": "packages/game/src/present/__tests__/grok-present/images.ts",
+      "oldName": "cyanDigit",
+      "currentPath": "packages/game/src/present/__tests__/menu-ui-fixtures.ts",
+      "currentName": "cyanDigit"
+    },
+    {
+      "oldPath": "packages/game/src/present/__tests__/grok-present/images.ts",
+      "oldName": "rightDigitX",
+      "currentPath": "packages/game/src/present/__tests__/menu-ui-fixtures.ts",
+      "currentName": "rightDigitX"
+    },
+    {
+      "oldPath": "packages/game/src/present/__tests__/grok-present/images.ts",
+      "oldName": "midOnesX",
+      "currentPath": "packages/game/src/present/__tests__/menu-ui-fixtures.ts",
+      "currentName": "midOnesX"
+    },
+    {
+      "oldPath": "packages/game/src/present/__tests__/grok-present/images.ts",
+      "oldName": "solidImage",
+      "currentPath": "packages/game/src/present/__tests__/raster-fixtures.ts",
+      "currentName": "solidIndexedImage"
+    },
+    {
+      "oldPath": "packages/game/src/present/__tests__/grok-present/images.ts",
+      "oldName": "sparseImage",
+      "currentPath": "packages/game/src/present/__tests__/raster-fixtures.ts",
+      "currentName": "sparseImage"
+    },
+    {
+      "oldPath": "packages/game/src/present/__tests__/grok-present/images.ts",
+      "oldName": "iconImage",
+      "currentPath": "packages/game/src/present/__tests__/raster-fixtures.ts",
+      "currentName": "iconImage"
+    },
+    {
+      "oldPath": "packages/game/src/present/__tests__/grok-present/images.ts",
+      "oldName": "makeUiFrames",
+      "currentPath": "packages/game/src/present/__tests__/menu-ui-fixtures.ts",
+      "currentName": "makeUiFrames"
+    },
+    {
+      "oldPath": "packages/game/src/present/__tests__/grok-present/images.ts",
+      "oldName": "fillSentinel",
+      "currentPath": "packages/game/src/present/__tests__/raster-fixtures.ts",
+      "currentName": "fillSentinel"
+    },
+    {
+      "oldPath": "packages/game/src/present/__tests__/grok-present/images.ts",
+      "oldName": "pixel",
+      "currentPath": "packages/game/src/present/__tests__/raster-fixtures.ts",
+      "currentName": "pixel"
+    },
+    {
+      "oldPath": "packages/game/src/present/__tests__/grok-present/font.ts",
+      "oldName": "textDot",
+      "currentPath": "packages/game/src/present/__tests__/glyph-fixtures.ts",
+      "currentName": "textDot"
+    },
+    {
+      "oldPath": "packages/game/src/present/__tests__/grok-present/font.ts",
+      "oldName": "fixtureGlyphs",
+      "currentPath": "packages/game/src/present/__tests__/glyph-fixtures.ts",
+      "currentName": "fixtureGlyphs"
+    },
+    {
+      "oldPath": "packages/game/src/present/__tests__/grok-present/world.ts",
+      "oldName": "makeItem",
+      "currentPath": "packages/game/src/present/__tests__/menu-state-fixtures.ts",
+      "currentName": "makeItem"
+    },
+    {
+      "oldPath": "packages/game/src/present/__tests__/grok-present/world.ts",
+      "oldName": "makeRole",
+      "currentPath": "packages/game/src/present/__tests__/menu-state-fixtures.ts",
+      "currentName": "makeRole"
+    },
+    {
+      "oldPath": "packages/game/src/present/__tests__/grok-present/world.ts",
+      "oldName": "makeRoles",
+      "currentPath": "packages/game/src/present/__tests__/menu-state-fixtures.ts",
+      "currentName": "makeRoles"
+    },
+    {
+      "oldPath": "packages/game/src/present/__tests__/grok-present/world.ts",
+      "oldName": "makeGs",
+      "currentPath": "packages/game/src/present/__tests__/menu-state-fixtures.ts",
+      "currentName": "makeGs"
+    },
+    {
+      "oldPath": "packages/game/src/present/__tests__/grok-present/world.ts",
+      "oldName": "makeLiveScene",
+      "currentPath": "packages/game/src/present/__tests__/menu-state-fixtures.ts",
+      "currentName": "makeLiveScene"
+    },
+    {
+      "oldPath": "packages/game/src/present/__tests__/grok-present/world.ts",
+      "oldName": "freezeNow",
+      "currentPath": "packages/game/src/present/__tests__/menu-state-fixtures.ts",
+      "currentName": "freezeNow"
+    },
+    {
+      "oldPath": "packages/game/src/present/__tests__/grok-present/world.ts",
+      "oldName": "resetHostSingletons",
+      "currentPath": "packages/game/src/present/__tests__/menu-state-fixtures.ts",
+      "currentName": "resetHostSingletons"
+    },
+    {
+      "oldPath": "packages/game/src/present/__tests__/grok-present/world.ts",
+      "oldName": "cloneInputs",
+      "currentPath": "packages/game/src/present/__tests__/render-input-snapshots.ts",
+      "currentName": "cloneInputs"
+    },
+    {
+      "oldPath": "packages/game/src/present/__tests__/grok-composition/fixtures/images.ts",
+      "oldName": "SENTINEL",
+      "currentPath": "packages/game/src/present/__tests__/raster-fixtures.ts",
+      "currentName": "SENTINEL"
+    },
+    {
+      "oldPath": "packages/game/src/present/__tests__/grok-composition/fixtures/images.ts",
+      "oldName": "TILE",
+      "currentPath": "packages/game/src/present/__tests__/composition-colors.ts",
+      "currentName": "WORLD_TILE_COLOR"
+    },
+    {
+      "oldPath": "packages/game/src/present/__tests__/grok-composition/fixtures/images.ts",
+      "oldName": "SPRITE",
+      "currentPath": "packages/game/src/present/__tests__/composition-colors.ts",
+      "currentName": "SPRITE"
+    },
+    {
+      "oldPath": "packages/game/src/present/__tests__/grok-composition/fixtures/images.ts",
+      "oldName": "BOX",
+      "currentPath": "packages/game/src/present/__tests__/composition-colors.ts",
+      "currentName": "BOX"
+    },
+    {
+      "oldPath": "packages/game/src/present/__tests__/grok-composition/fixtures/images.ts",
+      "oldName": "COVER",
+      "currentPath": "packages/game/src/present/__tests__/composition-colors.ts",
+      "currentName": "COVER"
+    },
+    {
+      "oldPath": "packages/game/src/present/__tests__/grok-composition/fixtures/images.ts",
+      "oldName": "DIALOG",
+      "currentPath": "packages/game/src/present/__tests__/composition-colors.ts",
+      "currentName": "DIALOG"
+    },
+    {
+      "oldPath": "packages/game/src/present/__tests__/grok-composition/fixtures/images.ts",
+      "oldName": "TITLE",
+      "currentPath": "packages/game/src/present/__tests__/composition-colors.ts",
+      "currentName": "TITLE"
+    },
+    {
+      "oldPath": "packages/game/src/present/__tests__/grok-composition/fixtures/images.ts",
+      "oldName": "MESSAGE",
+      "currentPath": "packages/game/src/present/__tests__/composition-colors.ts",
+      "currentName": "MESSAGE"
+    },
+    {
+      "oldPath": "packages/game/src/present/__tests__/grok-composition/fixtures/images.ts",
+      "oldName": "BG",
+      "currentPath": "packages/game/src/present/__tests__/composition-colors.ts",
+      "currentName": "BG"
+    },
+    {
+      "oldPath": "packages/game/src/present/__tests__/grok-composition/fixtures/images.ts",
+      "oldName": "WORLD",
+      "currentPath": "packages/game/src/present/__tests__/composition-colors.ts",
+      "currentName": "WORLD"
+    },
+    {
+      "oldPath": "packages/game/src/present/__tests__/grok-composition/fixtures/images.ts",
+      "oldName": "SUMMON_TO",
+      "currentPath": "packages/game/src/present/__tests__/composition-colors.ts",
+      "currentName": "SUMMON_TO"
+    },
+    {
+      "oldPath": "packages/game/src/present/__tests__/grok-composition/fixtures/images.ts",
+      "oldName": "at",
+      "currentPath": "packages/game/src/present/__tests__/raster-fixtures.ts",
+      "currentName": "at"
+    },
+    {
+      "oldPath": "packages/game/src/present/__tests__/grok-composition/fixtures/images.ts",
+      "oldName": "dotGlyph",
+      "currentPath": "packages/game/src/present/__tests__/glyph-fixtures.ts",
+      "currentName": "dotGlyph"
+    },
+    {
+      "oldPath": "packages/game/src/present/__tests__/grok-composition/fixtures/images.ts",
+      "oldName": "glyphsOf",
+      "currentPath": "packages/game/src/present/__tests__/glyph-fixtures.ts",
+      "currentName": "glyphsOf"
+    },
+    {
+      "oldPath": "packages/game/src/present/__tests__/grok-composition/fixtures/images.ts",
+      "oldName": "sprite",
+      "currentPath": "packages/game/src/present/__tests__/raster-fixtures.ts",
+      "currentName": "sprite"
+    },
+    {
+      "oldPath": "packages/game/src/present/__tests__/grok-composition/fixtures/images.ts",
+      "oldName": "solidSprite",
+      "currentPath": "packages/game/src/present/__tests__/raster-fixtures.ts",
+      "currentName": "solidSprite"
+    },
+    {
+      "oldPath": "packages/game/src/present/__tests__/grok-composition/fixtures/images.ts",
+      "oldName": "hiddenSprite",
+      "currentPath": "packages/game/src/present/__tests__/raster-fixtures.ts",
+      "currentName": "hiddenSprite"
+    },
+    {
+      "oldPath": "packages/game/src/present/__tests__/grok-composition/fixtures/images.ts",
+      "oldName": "image",
+      "currentPath": "packages/game/src/present/__tests__/raster-fixtures.ts",
+      "currentName": "solidIndexedImage"
+    },
+    {
+      "oldPath": "packages/game/src/present/__tests__/grok-composition/fixtures/images.ts",
+      "oldName": "yellowDigit",
+      "currentPath": "packages/game/src/present/__tests__/menu-ui-fixtures.ts",
+      "currentName": "yellowDigit"
+    },
+    {
+      "oldPath": "packages/game/src/present/__tests__/grok-composition/fixtures/images.ts",
+      "oldName": "cyanDigit",
+      "currentPath": "packages/game/src/present/__tests__/menu-ui-fixtures.ts",
+      "currentName": "cyanDigit"
+    },
+    {
+      "oldPath": "packages/game/src/present/__tests__/grok-composition/fixtures/images.ts",
+      "oldName": "digitFrames",
+      "currentPath": "packages/game/src/present/__tests__/menu-ui-fixtures.ts",
+      "currentName": "digitFrames"
+    },
+    {
+      "oldPath": "packages/game/src/present/__tests__/grok-composition/fixtures/images.ts",
+      "oldName": "snapBitmap",
+      "currentPath": "packages/game/src/present/__tests__/render-input-snapshots.ts",
+      "currentName": "snapshotRaster"
+    },
+    {
+      "oldPath": "packages/game/src/present/__tests__/grok-composition/fixtures/world.ts",
+      "oldName": "emptyMap",
+      "currentPath": "packages/game/src/present/__tests__/world-render-fixtures.ts",
+      "currentName": "emptyMap"
+    },
+    {
+      "oldPath": "packages/game/src/present/__tests__/grok-composition/fixtures/world.ts",
+      "oldName": "exploreState",
+      "currentPath": "packages/game/src/present/__tests__/world-render-fixtures.ts",
+      "currentName": "exploreState"
+    },
+    {
+      "oldPath": "packages/game/src/present/__tests__/grok-composition/fixtures/world.ts",
+      "oldName": "baseContext",
+      "currentPath": "packages/game/src/present/__tests__/world-render-fixtures.ts",
+      "currentName": "baseContext"
+    },
+    {
+      "oldPath": "packages/game/src/present/__tests__/grok-composition/fixtures/world.ts",
+      "oldName": "worldView",
+      "currentPath": "packages/game/src/present/__tests__/render-input-snapshots.ts",
+      "currentName": "worldView"
+    },
+    {
+      "oldPath": "packages/game/src/present/__tests__/grok-composition/fixtures/world.ts",
+      "oldName": "bitmapView",
+      "currentPath": "packages/game/src/present/__tests__/render-input-snapshots.ts",
+      "currentName": "bitmapView"
+    },
+    {
+      "oldPath": "packages/game/src/present/__tests__/grok-composition/fixtures/battle.ts",
+      "oldName": "role",
+      "currentPath": "packages/game/src/present/__tests__/battle-render-fixtures.ts",
+      "currentName": "role"
+    },
+    {
+      "oldPath": "packages/game/src/present/__tests__/grok-composition/fixtures/battle.ts",
+      "oldName": "rolesOf",
+      "currentPath": "packages/game/src/present/__tests__/battle-render-fixtures.ts",
+      "currentName": "rolesOf"
+    },
+    {
+      "oldPath": "packages/game/src/present/__tests__/grok-composition/fixtures/battle.ts",
+      "oldName": "enemy",
+      "currentPath": "packages/game/src/present/__tests__/battle-render-fixtures.ts",
+      "currentName": "enemy"
+    },
+    {
+      "oldPath": "packages/game/src/present/__tests__/grok-composition/fixtures/battle.ts",
+      "oldName": "battlePlayer",
+      "currentPath": "packages/game/src/present/__tests__/battle-render-fixtures.ts",
+      "currentName": "battlePlayer"
+    },
+    {
+      "oldPath": "packages/game/src/present/__tests__/grok-composition/fixtures/battle.ts",
+      "oldName": "battleEnemy",
+      "currentPath": "packages/game/src/present/__tests__/battle-render-fixtures.ts",
+      "currentName": "battleEnemy"
+    },
+    {
+      "oldPath": "packages/game/src/present/__tests__/grok-composition/fixtures/battle.ts",
+      "oldName": "battleState",
+      "currentPath": "packages/game/src/present/__tests__/battle-render-fixtures.ts",
+      "currentName": "battleState"
+    },
+    {
+      "oldPath": "packages/game/src/present/__tests__/grok-composition/fixtures/battle.ts",
+      "oldName": "battleGs",
+      "currentPath": "packages/game/src/present/__tests__/battle-render-fixtures.ts",
+      "currentName": "battleGs"
+    },
+    {
+      "oldPath": "packages/game/src/present/__tests__/grok-composition/fixtures/battle.ts",
+      "oldName": "solidBg",
+      "currentPath": "packages/game/src/present/__tests__/battle-render-fixtures.ts",
+      "currentName": "solidBg"
+    },
+    {
+      "oldPath": "packages/game/src/present/__tests__/grok-composition/fixtures/battle.ts",
+      "oldName": "item",
+      "currentPath": "packages/game/src/present/__tests__/battle-render-fixtures.ts",
+      "currentName": "item"
+    },
+    {
+      "oldPath": "packages/game/src/present/__tests__/grok-composition/fixtures/battle.ts",
+      "oldName": "battleView",
+      "currentPath": "packages/game/src/present/__tests__/render-input-snapshots.ts",
+      "currentName": "battleView"
+    }
+  ],
+  "retiredPaths": [
+    "packages/game/src/present/__tests__/grok-present/images.ts",
+    "packages/game/src/present/__tests__/grok-present/font.ts",
+    "packages/game/src/present/__tests__/grok-present/world.ts",
+    "packages/game/src/present/__tests__/grok-composition/fixtures/images.ts",
+    "packages/game/src/present/__tests__/grok-composition/fixtures/world.ts",
+    "packages/game/src/present/__tests__/grok-composition/fixtures/battle.ts"
+  ],
+  "removedHelpers": [
+    {
+      "oldPath": "packages/game/src/present/__tests__/grok-present/images.ts",
+      "oldName": "solidImage",
+      "from": "export function solidImage(width: number, height: number, index: number): IndexedImage {\n  const n = width * height\n  return {\n    width,\n    height,\n    indices: new Uint8Array(n).fill(index),\n    opaque: new Uint8Array(n).fill(1),\n  }\n}",
+      "targetPath": "packages/game/src/present/__tests__/raster-fixtures.ts",
+      "targetName": "solidIndexedImage",
+      "reason": "Primitive numeric size/index inputs; current image constructor has exact same arrays with default opaque=1. All actual solidImage references are direct3-argument calls."
+    }
+  ],
+  "duplicateProof": "organization-game-render-fixtures/reuse-reference-proof.json",
+  "preserved": [
+    {
+      "path": "packages/game/src/assets/png.ts",
+      "sha256": "4954c8f732085b29f94904caf21a0b43a40aba9437aedcd0ab34d34a1286c2d5"
+    },
+    {
+      "path": "packages/game/src/present/draw-sprite.ts",
+      "sha256": "bd2fbc1abb0527267b032298e779ac5946089745fd83159181dd0af84f8ffcef"
+    },
+    {
+      "path": "packages/game/src/present/framebuffer.ts",
+      "sha256": "fdd25deedeb33da252d5efa9392bc5af088365a2a6dab3129c2b373aeeb0e060"
+    },
+    {
+      "path": "packages/game/src/core/game-state.ts",
+      "sha256": "084718097eb0963c2ee3a9d72da59b313ca8fd401672f6a8b341ba21ae8b8906"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-state.ts",
+      "sha256": "546e8e2e86ec08c45492b80cb03349cc1a9a182735626f5ba53248d672a1e386"
+    },
+    {
+      "path": "packages/game/src/present/present.ts",
+      "sha256": "c4c6f411857d99c5f8e850bf5172c3e42f04181a64df0ce2a697fe1ec90569f9"
+    },
+    {
+      "path": "packages/game/src/__tests__/battle-records.ts",
+      "sha256": "e06702ce034d7b7b7680b649d2c6d11d948acd6daa9aeac0ad20478c62afc575"
+    }
+  ],
+  "neighborPaths": [
+    "packages/game/src/assets/png.test.ts",
+    "packages/game/src/localization/messages.test.ts",
+    "packages/game/src/localization/presentation.test.ts",
+    "packages/game/src/present/__tests__/grok-composition/p11-world-layers.test.ts",
+    "packages/game/src/present/__tests__/grok-composition/p12-overlays.test.ts",
+    "packages/game/src/present/__tests__/grok-composition/p13-battle-commands.test.ts",
+    "packages/game/src/present/__tests__/grok-composition/p14-battle-fades.test.ts",
+    "packages/game/src/present/__tests__/grok-composition/p15-battle-ui.test.ts",
+    "packages/game/src/present/__tests__/grok-composition/p16-dialog.test.ts",
+    "packages/game/src/present/__tests__/grok-present/p01-inventory-list.test.ts",
+    "packages/game/src/present/__tests__/grok-present/p02-inventory-target.test.ts",
+    "packages/game/src/present/__tests__/grok-present/p03-equip.test.ts",
+    "packages/game/src/present/__tests__/grok-present/p04-shop.test.ts",
+    "packages/game/src/present/__tests__/grok-present/p05-menu-stack.test.ts",
+    "packages/game/src/present/__tests__/grok-present/p06-magic.test.ts",
+    "packages/game/src/present/__tests__/grok-present/p07-status.test.ts",
+    "packages/game/src/present/__tests__/grok-present/p08-settlement.test.ts",
+    "packages/game/src/present/__tests__/grok-present/p09-background.test.ts",
+    "packages/game/src/present/battle/__tests__/battle-action-availability.test.ts",
+    "packages/game/src/present/battle/__tests__/battle-present-lifecycle.test.ts",
+    "packages/game/src/present/battle/__tests__/draw-battle-ui.test.ts",
+    "packages/game/src/present/battle/battle-effect-num-pixels.grok-r1.test.ts",
+    "packages/game/src/present/battle/battle-settlement-pixels.grok-r1.test.ts",
+    "packages/game/src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+    "packages/game/src/present/battle/battle-ui-pixels.grok-r1.test.ts",
+    "packages/game/src/present/battle/draw-battle-ui.glm-phase1-leaves.test.ts",
+    "packages/game/src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+    "packages/game/src/present/menu/draw-equip.glm-phase1-leaves.test.ts",
+    "packages/game/src/present/menu/draw-inventory.glm-phase1-leaves.test.ts",
+    "packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+    "packages/game/src/present/menu/equip-role-pixels.grok-r1.test.ts",
+    "packages/game/src/present/menu/inventory-desc-filter.grok-r1.test.ts",
+    "packages/game/src/present/menu/inventory-list-pixels.grok-r1.test.ts",
+    "packages/game/src/present/menu/magic-menu-pixels.grok-r1.test.ts",
+    "packages/game/src/present/menu/magic-player-info.integration.test.ts",
+    "packages/game/src/present/menu/opening-confirm-pixels.grok-r1.test.ts",
+    "packages/game/src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+    "packages/game/src/present/menu/status-vitals-pixels.grok-r1.test.ts"
+  ],
+  "cleanExecutions": [
+    "before",
+    "neighbors",
+    "typecheck",
+    "scoped",
+    "counter",
+    "hook-audit-final",
+    "hook-regression-after"
+  ],
+  "profiles": [
+    {
+      "path": "packages/game/src/present/__tests__/raster-fixtures.ts",
+      "subjects": [
+        "packages/game/src/present/__tests__/grok-present/images.ts",
+        "packages/game/src/present/__tests__/grok-present/font.ts",
+        "packages/game/src/present/__tests__/grok-present/world.ts",
+        "packages/game/src/present/__tests__/grok-composition/fixtures/images.ts",
+        "packages/game/src/present/__tests__/grok-composition/fixtures/world.ts",
+        "packages/game/src/present/__tests__/grok-composition/fixtures/battle.ts"
+      ],
+      "axes": {
+        "A": "稀疏/实心/隐藏图像与sprite锚点均从旧真实fixture迁入；solidIndexedImage保显式opaque数值/默认1，旧实心构造三参域等价；宽高/mask/indices新缓冲归调用方。",
+        "B": "越界pixel与额外整数检查at的不同错误合同明示；不把合成色点认证为原盘图像或真实浏览器视觉。",
+        "C": "纯raster输入/坐标探针，不导入GameState、reset或UI生成器；SENTINEL共享不接管产品Framebuffer生命周期。",
+        "D": "真实相同sentinel与实心default共享；anchor、opaque数据及两种坐标拒绝策略不同而保留独立函数，未造模式helper。",
+        "E": "旧独立literal像素oracle保持；全部consumer非import语法与运行身份不变；所有旧solidImage符号引用均直接三参调用，非仅grep次数。",
+        "F": "raster-fixtures与solidIndexedImage说明类型/语义，局部pixel/at按原错误合同保留；不以模型命名。",
+        "G": "去实心构造副本与sentinel重复定义，不引多余wrapper或测试专用产品出口；其它构造/guard非等价不合。",
+        "H": "纯确定性参数直接构造，不调用被测绘制器；真正pixel结果仍由SUT写入后读取。"
+      },
+      "acceptance": "accepted-FG; uniform gates pending"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/menu-ui-fixtures.ts",
+      "subjects": [
+        "packages/game/src/present/__tests__/grok-present/images.ts",
+        "packages/game/src/present/__tests__/grok-present/font.ts",
+        "packages/game/src/present/__tests__/grok-present/world.ts",
+        "packages/game/src/present/__tests__/grok-composition/fixtures/images.ts",
+        "packages/game/src/present/__tests__/grok-composition/fixtures/world.ts",
+        "packages/game/src/present/__tests__/grok-composition/fixtures/battle.ts"
+      ],
+      "axes": {
+        "A": "两套UI帧分布/数字位置公式完整保留，UI_TILE_SIZE=8是尺寸，WORLD_TILE_COLOR另属调色板；空帧、cursor opaque0孔与digitFrames80默认不变。",
+        "B": "九宫格/字色/步进来源与未使用槽说明保留，不把数字颜色函数冒称产品规则真值。",
+        "C": "UI帧与独立数字定位oracle共属测试UI输入层；只依赖raster，不耦合世界状态/菜单推进。",
+        "D": "相同yellow/cyan函数整声明比较后共享；完整菜单帧与透明数字帧输入域不同，不合成开关工厂。",
+        "E": "原字色/像素/位置literal与consumer断言保全，38文件真实consumer回归；不靠新工厂自比认定正确。",
+        "F": "UI_TILE_SIZE/WORLD_TILE_COLOR分清同名TILE的不同单位；函数与文件名称说明用途，旧local alias保持现有断言表达。",
+        "G": "去两份相同digit函数；保不同帧构造布局，不为少文件强并或虚增helper测试。",
+        "H": "输入可直接确定/无时钟副作用，真实drawNumber/drawBox等仍执行，返回数组独立可变。"
+      },
+      "acceptance": "accepted-FG; uniform gates pending"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/glyph-fixtures.ts",
+      "subjects": [
+        "packages/game/src/present/__tests__/grok-present/images.ts",
+        "packages/game/src/present/__tests__/grok-present/font.ts",
+        "packages/game/src/present/__tests__/grok-present/world.ts",
+        "packages/game/src/present/__tests__/grok-composition/fixtures/images.ts",
+        "packages/game/src/present/__tests__/grok-composition/fixtures/world.ts",
+        "packages/game/src/present/__tests__/grok-composition/fixtures/battle.ts"
+      ],
+      "axes": {
+        "A": "手写Glyph位图/文本唯一点位与uniform corner-dot两输入完整迁移，注册循环顺序、重复/缺字错误、8/16宽度不变。",
+        "B": "独立点位oracle和阴影避让约束保留，不复制renderText当期望。",
+        "C": "字形测试数据单一Owner，无菜单/world状态依赖；静态maps仅本module初始化，公开表读接口不扩大。",
+        "D": "两种字形点位语义不同而保留，类型/构造同域聚合，无参数模式替代两种oracle。",
+        "E": "所有旧字符表/列mask/ASCII行与consumer字段不变；原字形/正文位置反控按原版证据复用。",
+        "F": "glyph-fixtures/font点位名表达实际用途，离开贡献者/批次目录。",
+        "G": "不增加字库兼容层、IO或为了未来的可配置工厂；必要固定Map/循环保留。",
+        "H": "固定手写掩码可确定性定位字形像素，actual render消费者无核心mock。"
+      },
+      "acceptance": "accepted-FG; uniform gates pending"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/menu-state-fixtures.ts",
+      "subjects": [
+        "packages/game/src/present/__tests__/grok-present/images.ts",
+        "packages/game/src/present/__tests__/grok-present/font.ts",
+        "packages/game/src/present/__tests__/grok-present/world.ts",
+        "packages/game/src/present/__tests__/grok-composition/fixtures/images.ts",
+        "packages/game/src/present/__tests__/grok-composition/fixtures/world.ts",
+        "packages/game/src/present/__tests__/grok-composition/fixtures/battle.ts"
+      ],
+      "axes": {
+        "A": "原makeItem/Role/已hydrate GS及公开reset时序保留，clock恢复闭包不变；不把这些菜单默认换成战斗默认。",
+        "B": "标明只构造菜单输入并拥有singleton reset；snapshot-only消费者已分离。",
+        "C": "状态构造/公共reset聚合，纯snapshot不再因此导入事件、物品推进与词表写入；private resetInventoryTargetSlot仍私有。",
+        "D": "同类型的asset/battle角色默认和状态生命周期不同而不强复用，避免通用上下文。",
+        "E": "合法runtime显式hydrate、通过真实confirm/cancel恢复光标的原合同保留；38消费者body/身份守恒，不给消费者新增全文信用。",
+        "F": "menu-state-fixtures说明实际状态职责；角色/道具名字与flags仍是独立fixture输入。",
+        "G": "无新兼容参数/导出，原当前实际callers都保留，未根据字段相似删必要reset。",
+        "H": "fresh state与可返回clock restore仍受调用方finally控制，不新增全局安装或产品测试seam。"
+      },
+      "acceptance": "accepted-FG; uniform gates pending"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/render-input-snapshots.ts",
+      "subjects": [
+        "packages/game/src/present/__tests__/grok-present/images.ts",
+        "packages/game/src/present/__tests__/grok-present/font.ts",
+        "packages/game/src/present/__tests__/grok-present/world.ts",
+        "packages/game/src/present/__tests__/grok-composition/fixtures/images.ts",
+        "packages/game/src/present/__tests__/grok-composition/fixtures/world.ts",
+        "packages/game/src/present/__tests__/grok-composition/fixtures/battle.ts"
+      ],
+      "axes": {
+        "A": "cloneInputs/worldView/battleView逐字段保全，bitmapView调用同迁入的snapshotRaster；背景无mask与IndexedImage强mask输出合同分开保留。",
+        "B": "纯snapshot/不推进状态/不安装clock说明明确，解释可选mask与必需mask不能强并。",
+        "C": "只有type依赖和纯数据转换，没有菜单推进、全局reset或状态构造的运行依赖；ownership断言与fixture setup分层。",
+        "D": "相同层次的数据快照同文件；三种不同opaque合同不因相似对象形状合成万能helper。",
+        "E": "snapshot仅用于SUT前后输入ownership，实际literal像素/状态oracle独立保留；不是同SUT输出clone自比。",
+        "F": "render-input-snapshots/snapshotRaster命名说明可观察输入，worldView/battleView仍具体到领域。",
+        "G": "保持原必要字段，不凭未完成消费者全文审查删除unknown字段；没有新可选模式或断言弱化。",
+        "H": "纯输入可直接序列化，调用方可独立改变像素/状态推翻ownership断言，不导入IO或私有产品出口。"
+      },
+      "acceptance": "accepted-FG; uniform gates pending"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/world-render-fixtures.ts",
+      "subjects": [
+        "packages/game/src/present/__tests__/grok-present/images.ts",
+        "packages/game/src/present/__tests__/grok-present/font.ts",
+        "packages/game/src/present/__tests__/grok-present/world.ts",
+        "packages/game/src/present/__tests__/grok-composition/fixtures/images.ts",
+        "packages/game/src/present/__tests__/grok-composition/fixtures/world.ts",
+        "packages/game/src/present/__tests__/grok-composition/fixtures/battle.ts"
+      ],
+      "axes": {
+        "A": "空Tilemap、世界初始camera/walking与PresentContext缺省保持，未扩大到完整游戏资产或发布输入认证。",
+        "B": "说明世界渲染context输入与运动/图像ownership快照分开。",
+        "C": "只构造world rendering合法最小context，不带战斗/menu reset或snapshot模块运行依赖。",
+        "D": "保留实际patch浅覆盖语义，不强并旧asset场景工厂，输入与生命周期不同。",
+        "E": "原present世界层实际caller与literal绘制结果保留，context/类型未变化；相邻运行非本文件通过唯一依据。",
+        "F": "world-render-fixtures/baseContext/exploreState表达所服务世界绘制入口。",
+        "G": "三种当前实际用途保留，无死出口新增、fallback或额外通道。",
+        "H": "显式pos与patch控制测试，fresh map/状态不共享可变对象，无网络/时间。"
+      },
+      "acceptance": "accepted-FG; uniform gates pending"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/battle-render-fixtures.ts",
+      "subjects": [
+        "packages/game/src/present/__tests__/grok-present/images.ts",
+        "packages/game/src/present/__tests__/grok-present/font.ts",
+        "packages/game/src/present/__tests__/grok-present/world.ts",
+        "packages/game/src/present/__tests__/grok-composition/fixtures/images.ts",
+        "packages/game/src/present/__tests__/grok-composition/fixtures/world.ts",
+        "packages/game/src/present/__tests__/grok-composition/fixtures/battle.ts"
+      ],
+      "axes": {
+        "A": "battleState/GS/Player/Enemy/record/背景默认值完整保留，6角色hydrate与可注入seedRng不变，战斗snapshot移出不改变字段。",
+        "B": "明确是battle render输入，区别于实际battle execution fixture的HP500等默认合同。",
+        "C": "战斗呈现状态输入聚合，纯battleView不带state constructor/runtime imports；不改真实机制、状态Owner或command通道。",
+        "D": "与menu及battle-records默认值/字段不同，避免以same type强并；private helper/data独立归属。",
+        "E": "旧角色ID/状态/血量/图像和实际绘制断言保留，全部38consumer非importbody与file×name相同；无产品修改或弱化。",
+        "F": "battle-render-fixtures是领域入口，短role/enemy在该上下文仍具体，模型标签退出。",
+        "G": "没有新执行harness/兼容层，保留真实有caller的数据factory，不把种子/默认值整理成万能模式。",
+        "H": "显式patch/种子与独立数组支持确定性画面断言，创建与保存格式无关，不mockSUT。"
+      },
+      "acceptance": "accepted-FG; uniform gates pending"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/composition-colors.ts",
+      "subjects": [
+        "packages/game/src/present/__tests__/grok-present/images.ts",
+        "packages/game/src/present/__tests__/grok-present/font.ts",
+        "packages/game/src/present/__tests__/grok-present/world.ts",
+        "packages/game/src/present/__tests__/grok-composition/fixtures/images.ts",
+        "packages/game/src/present/__tests__/grok-composition/fixtures/world.ts",
+        "packages/game/src/present/__tests__/grok-composition/fixtures/battle.ts"
+      ],
+      "axes": {
+        "A": "十个原组合层色值逐字面量保全，SENTINEL与相同值但不同语义SUMMON_TO不混；TILE色值改WORLD_TILE_COLOR。",
+        "B": "明确是像素oracle调色板标记，不是尺寸或产品调色板metadata。",
+        "C": "纯常量目录供多组合层断言，不依赖帧/世界/字形构造；只承载共同颜色知识。",
+        "D": "共享真实相同sentinel，保留不同领域含义的同值标记；不是按数值盲目排重。",
+        "E": "consumer局部alias与literal数值保持，mask/覆盖/渐变等旧oracle不改；不为常量造恒真测试。",
+        "F": "composition-colors与WORLD_TILE_COLOR将用途及单位显式化，不再用TILE同时表达8px和0x21色。",
+        "G": "小常量模块有多个真实consumer，不引wrapper/export barrel或冗余配置层。",
+        "H": "固定独立oracle值，无副作用、IO或共享可变状态。"
+      },
+      "acceptance": "accepted-FG; uniform gates pending"
+    }
+  ],
+  "reusedReviewMember": "organization-game-render-fixtures/reused-reviews.json",
+  "processDisclosures": [
+    "Only six provider subjects get F/G credit;38 consumer bodies/assertions/registrations stay exact syntax and only resolved imports change. Old names remain as local aliases where their use is already clear.",
+    "Raster constructors, UI frames, glyph inputs, menu/reset state, world context, battle inputs, pure snapshots and layer colors have distinct owners. No product/context/API/schema/save or generated data changes.",
+    "Identical sentinel/yellow/cyan definitions merge, and solidImage reuses the actual image default opaque1 after checking direct3-argument callers. Other image inputs keep their explicit opaque values. Narrow pixel vs integer-checked at and menu/battle role defaults remain distinct.",
+    "Old cloneInputs, worldView and battleView snapshot functions keep all original fields and independent oracle shapes; no state reset/constructor imports remain in the pure snapshot module. Existing probe limitations and runtime/visual gaps retain their old scope.",
+    "Module verifier now uses its already-injected chronological reader for output bodies as fixture verifier already did. An exact later consumer bridge can bind prior PNG imports, and later current consumer/body verification still must pass; no silent SHA/path skip. Tool-only negative counter is separate from product tests.",
+    "Verifier hook repair is evidence-only: all263 registration signatures rechecked;5existing pure symbols Words initializer removals explicitly documented,0final differences. Current test/provider source unchanged. Old-equivalent observation preceded edit; formal one-hook regression subsequently loads frozen old kernel and fails, current passes. Six composition specs were read but remain unfinished F/G and get no credit."
+  ],
+  "receipts": {
+    "docs": "organization-game-render-fixtures/docs-r2",
+    "lint": "organization-game-render-fixtures/lint-r2",
+    "content-review": "organization-game-render-fixtures/content-review-r2"
+  }
+}

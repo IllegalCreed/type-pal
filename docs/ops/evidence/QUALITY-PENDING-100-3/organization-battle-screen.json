@@ -1,0 +1,905 @@
+{
+  "inputs": [
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/p08-settlement.test.ts",
+      "sha256": "421d0c0dde3ba6a15be9acf23baed383fef7ca603e5c875cded3cde7bd857fc6",
+      "member": "organization-battle-screen/0.before"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/p09-background.test.ts",
+      "sha256": "bf225338c2c6c44dce5a7ccc2322a06c51a2225dd9a0abdc181c709e244b50e8",
+      "member": "organization-battle-screen/1.before"
+    },
+    {
+      "path": "packages/game/src/present/battle/__tests__/draw-battle-settlement.test.ts",
+      "sha256": "cd7baf681b8b667aba3cc817cc693fa506fb8f9cce1a7d1867cfdcc5c57142a0",
+      "member": "organization-battle-screen/2.before"
+    },
+    {
+      "path": "packages/game/src/present/battle/__tests__/draw-battle-bg.test.ts",
+      "sha256": "5e529b4963fc5d4c283b2cb765cfa3a14ff0600ce7c9948a75e3ac73f55b8877",
+      "member": "organization-battle-screen/3.before"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "packages/game/src/present/battle/__tests__/draw-battle-settlement.test.ts",
+      "sha256": "ad392d58616ca71bbf04cc4c1a9297b92b179e1e63b9a3fb45858c8b43a95c9b"
+    },
+    {
+      "path": "packages/game/src/present/battle/__tests__/draw-battle-bg.test.ts",
+      "sha256": "e7e251010a6f732c93c647c2626c09fed72761db63e341333582859f81415905"
+    },
+    {
+      "path": "packages/game/src/present/battle/__tests__/draw-battle-settlement.formula.test.ts",
+      "sha256": "1dbc094f09a1d3bae7567bfd050e78508b1b9c6c18ad92244f6ea316662d3e48"
+    }
+  ],
+  "sourceBridges": [
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/p08-settlement.test.ts",
+      "id": "battle-screen-0",
+      "changes": [
+        {
+          "from": "import { afterEach, describe, expect, it } from 'vitest'\nimport type { LevelUpScreenData } from '../../../core/battle/battle-settlement.js'\nimport { setWordTable } from '../../../core/word-lookup.js'\nimport { drawBattleSettlement } from '../../battle/draw-battle-settlement.js'\nimport { createFramebuffer } from '../../framebuffer.js'\nimport { fixtureGlyphs, textDot } from '../glyph-fixtures.js'\nimport { resetHostSingletons } from '../menu-state-fixtures.js'\nimport { ARROW_ID, makeUiFrames, midOnesX, rightDigitX, yellowDigit } from '../menu-ui-fixtures.js'\nimport { fillSentinel, pixel, SENTINEL } from '../raster-fixtures.js'\nimport { cloneInputs } from '../render-input-snapshots.js'\n\nconst glyphs = fixtureGlyphs()\n\nafterEach(() => {\n  resetHostSingletons()\n})\n\nfunction levelUp(): LevelUpScreenData {\n  return {\n    roleId: 4,\n    name: '戊',\n    level: { old: 2, cur: 3 },\n    hp: { old: 11, oldMax: 20, cur: 22, curMax: 40 },\n    mp: { old: 5, oldMax: 8, cur: 6, curMax: 9 },\n    attack: { old: 11, cur: 22 },\n    magic: { old: 4, cur: 5 },\n    defense: { old: 6, cur: 7 },\n    dexterity: { old: 8, cur: 9 },\n    flee: { old: 1, cur: 2 },\n  }\n}\n\ndescribe('P08 结算呈现', () => {\n  it('P08 经验和金钱分别显示本场结果', () => {\n    const frames = makeUiFrames()\n    const expFb = createFramebuffer()\n    fillSentinel(expFb)\n    const expScreen = { kind: 'exp-cash' as const, expGained: 12, cashGained: 34, isBoss: false }\n    const beforeExp = cloneInputs({ frames, screen: expScreen })\n    drawBattleSettlement({\n      fb: expFb,\n      screen: expScreen,\n      uiSpriteFrames: frames,\n      glyphs,\n    })\n    expect(cloneInputs({ frames, screen: expScreen })).toEqual(beforeExp)\n    expect(pixel(expFb, textDot('获', 0, 95, 70).x, textDot('获', 0, 95, 70).y)).toBe(0)\n    expect(pixel(expFb, textDot('获', 0, 95, 70).x + 3, textDot('获', 0, 95, 70).y)).not.toBe(0)\n    expect(pixel(expFb, rightDigitX(182, 5, 0), 74)).toBe(yellowDigit(2))\n    expect(pixel(expFb, rightDigitX(182, 5, 1), 74)).toBe(yellowDigit(1))\n    expect(pixel(expFb, midOnesX(162, 5, 2), 119)).toBe(yellowDigit(4))\n    expect(pixel(expFb, midOnesX(162, 5, 2) - 6, 119)).toBe(yellowDigit(3))\n  })\n\n  it('P08 升级画面保留旧新等级与武术', () => {\n    const frames = makeUiFrames()\n    const data = levelUp()\n    const levelScreen = { kind: 'level-up' as const, data }\n    const levelFb = createFramebuffer()\n    fillSentinel(levelFb)\n    const beforeLevel = cloneInputs({ frames, screen: levelScreen })\n    drawBattleSettlement({\n      fb: levelFb,\n      screen: levelScreen,\n      uiSpriteFrames: frames,\n      glyphs,\n    })\n    expect(cloneInputs({ frames, screen: levelScreen })).toEqual(beforeLevel)\n    expect(pixel(levelFb, textDot('戊', 0, 110, 10).x, textDot('戊', 0, 110, 10).y)).toBe(0)\n    expect(pixel(levelFb, 180, 48)).toBe(ARROW_ID)\n    expect(pixel(levelFb, rightDigitX(133, 4, 0), 47)).toBe(yellowDigit(2))\n    expect(pixel(levelFb, rightDigitX(195, 4, 0), 47)).toBe(yellowDigit(3))\n    expect(pixel(levelFb, rightDigitX(133, 4, 0), 101)).toBe(yellowDigit(1))\n    expect(pixel(levelFb, rightDigitX(195, 4, 0), 101)).toBe(yellowDigit(2))\n    expect(pixel(levelFb, rightDigitX(133, 4, 1), 101)).toBe(yellowDigit(1))\n    expect(pixel(levelFb, rightDigitX(195, 4, 1), 101)).toBe(yellowDigit(2))\n  })\n\n  it('P08 隐藏成长显示角色、词表属性和增量', () => {\n    const frames = makeUiFrames()\n    const words = Array<string>(56).fill('')\n    words[51] = '武术'\n    setWordTable(words)\n    const hiddenFb = createFramebuffer()\n    fillSentinel(hiddenFb)\n    const hiddenScreen = {\n      kind: 'hidden-exp-up' as const,\n      data: { roleId: 4, name: '戊', statLabelWord: 51, delta: 5 },\n    }\n    const beforeHidden = cloneInputs({ frames, screen: hiddenScreen })\n    drawBattleSettlement({\n      fb: hiddenFb,\n      screen: hiddenScreen,\n      uiSpriteFrames: frames,\n      glyphs,\n    })\n    expect(cloneInputs({ frames, screen: hiddenScreen })).toEqual(beforeHidden)\n    expect(pixel(hiddenFb, textDot('戊', 0, 90, 70).x, textDot('戊', 0, 90, 70).y)).toBe(0)\n    expect(pixel(hiddenFb, textDot('武', 0, 106, 70).x, textDot('武', 0, 106, 70).y)).toBe(0)\n    expect(pixel(hiddenFb, rightDigitX(175, 5, 0), 74)).toBe(yellowDigit(5))\n  })\n\n  it('P08 练成法术名称与角色颜色不同', () => {\n    const frames = makeUiFrames()\n    const learnFb = createFramebuffer()\n    fillSentinel(learnFb)\n    const learnScreen = {\n      kind: 'learn-magic' as const,\n      data: { roleId: 4, name: '戊', magicName: '雷' },\n    }\n    const beforeLearn = cloneInputs({ frames, screen: learnScreen })\n    drawBattleSettlement({\n      fb: learnFb,\n      screen: learnScreen,\n      uiSpriteFrames: frames,\n      glyphs,\n    })\n    expect(cloneInputs({ frames, screen: learnScreen })).toEqual(beforeLearn)\n    expect(pixel(learnFb, textDot('戊', 0, 75, 115).x, textDot('戊', 0, 75, 115).y)).toBe(0)\n    expect(pixel(learnFb, textDot('雷', 0, 155, 115).x, textDot('雷', 0, 155, 115).y)).toBe(0x1b)\n    expect(pixel(learnFb, textDot('雷', 0, 155, 115).x + 3, textDot('雷', 0, 155, 115).y)).not.toBe(\n      0x1b,\n    )\n    expect(pixel(learnFb, 300, 190)).toBe(SENTINEL)\n  })\n})\n",
+          "to": "import type { Palette } from '@type-pal/shared'\nimport { afterEach, beforeEach, describe, expect, it } from 'vitest'\nimport type { IndexedImage } from '../../../assets/png.js'\nimport type { LevelUpScreenData } from '../../../core/battle/battle-settlement.js'\nimport { setWordTable } from '../../../core/word-lookup.js'\nimport { fixtureGlyphs, glyphsOf, textDot } from '../../__tests__/glyph-fixtures.js'\nimport { beginChineseMenuText } from '../../__tests__/menu-text-fixture.js'\nimport {\n  ARROW_ID,\n  makeUiFrames,\n  midOnesX,\n  rightDigitX,\n  yellowDigit,\n} from '../../__tests__/menu-ui-fixtures.js'\nimport {\n  fillSentinel,\n  pixel,\n  SENTINEL,\n  sentinelFramebuffer,\n} from '../../__tests__/raster-fixtures.js'\nimport { cloneInputs } from '../../__tests__/render-input-snapshots.js'\nimport { uniformDotGlyphs, uniformTextDot } from '../../__tests__/uniform-glyphs.js'\nimport { createFramebuffer } from '../../framebuffer.js'\nimport { drawBattleSettlement, hiddenExpUpNumberX } from '../draw-battle-settlement.js'\nimport { drawBattleBg } from '../draw-battle-bg.js'\nconst uniformGlyphs = uniformDotGlyphs()\nconst positionGlyphs = fixtureGlyphs()\nfunction roleFourLevelUpData(): LevelUpScreenData {\n  return {\n    roleId: 4,\n    name: '戊',\n    level: { old: 2, cur: 3 },\n    hp: { old: 11, oldMax: 20, cur: 22, curMax: 40 },\n    mp: { old: 5, oldMax: 8, cur: 6, curMax: 9 },\n    attack: { old: 11, cur: 22 },\n    magic: { old: 4, cur: 5 },\n    defense: { old: 6, cur: 7 },\n    dexterity: { old: 8, cur: 9 },\n    flee: { old: 1, cur: 2 },\n  }\n}\nfunction roleZeroLevelUpData(): LevelUpScreenData {\n  const pair = (oldV: number, cur: number) => ({ old: oldV, cur })\n  return {\n    roleId: 0,\n    name: '甲',\n    level: pair(4, 5),\n    hp: { old: 41, oldMax: 58, cur: 88, curMax: 105 },\n    mp: { old: 12, oldMax: 34, cur: 25, curMax: 66 },\n    attack: pair(30, 33),\n    magic: pair(20, 24),\n    defense: pair(10, 12),\n    dexterity: pair(18, 21),\n    flee: pair(7, 9),\n  }\n}\nfunction transparentPixelFrame(): IndexedImage {\n  return { width: 1, height: 1, indices: new Uint8Array([0]), opaque: new Uint8Array([0]) }\n}\nfunction opaquePixelFrame(index: number): IndexedImage {\n  return { width: 1, height: 1, indices: new Uint8Array([index]), opaque: new Uint8Array([1]) }\n}\nfunction lineBoxFrames(): IndexedImage[] {\n  const frames = Array.from({ length: 47 }, () => transparentPixelFrame())\n  frames[44] = opaquePixelFrame(0x44)\n  frames[45] = opaquePixelFrame(0x45)\n  frames[46] = opaquePixelFrame(0x46)\n  return frames\n}\nfunction paletteWithColors(entries: Readonly<Record<number, [number, number, number]>>): Palette {\n  const colors = Array.from({ length: 256 }, (): [number, number, number] => [0, 0, 0])\n  for (const [index, rgb] of Object.entries(entries)) colors[Number(index)] = rgb\n  return { colors, cycles: [] }\n}\nlet restoreMenuText: () => void\nbeforeEach(() => {\n  restoreMenuText = beginChineseMenuText()\n})\nafterEach(() => {\n  restoreMenuText()\n})\ndescribe('Settlement screen pixels and resources', () => {\n  it('P08 经验和金钱分别显示本场结果', () => {\n    const frames = makeUiFrames()\n    const expFb = createFramebuffer()\n    fillSentinel(expFb)\n    const expScreen = { kind: 'exp-cash' as const, expGained: 12, cashGained: 34, isBoss: false }\n    const beforeExp = cloneInputs({ frames, screen: expScreen })\n    drawBattleSettlement({\n      fb: expFb,\n      screen: expScreen,\n      uiSpriteFrames: frames,\n      glyphs: positionGlyphs,\n    })\n    expect(cloneInputs({ frames, screen: expScreen })).toEqual(beforeExp)\n    expect(pixel(expFb, textDot('获', 0, 95, 70).x, textDot('获', 0, 95, 70).y)).toBe(0)\n    expect(pixel(expFb, textDot('获', 0, 95, 70).x + 3, textDot('获', 0, 95, 70).y)).not.toBe(0)\n    expect(pixel(expFb, rightDigitX(182, 5, 0), 74)).toBe(yellowDigit(2))\n    expect(pixel(expFb, rightDigitX(182, 5, 1), 74)).toBe(yellowDigit(1))\n    expect(pixel(expFb, midOnesX(162, 5, 2), 119)).toBe(yellowDigit(4))\n    expect(pixel(expFb, midOnesX(162, 5, 2) - 6, 119)).toBe(yellowDigit(3))\n  })\n\n  it('P08 升级画面保留旧新等级与武术', () => {\n    const frames = makeUiFrames()\n    const data = roleFourLevelUpData()\n    const levelScreen = { kind: 'level-up' as const, data }\n    const levelFb = createFramebuffer()\n    fillSentinel(levelFb)\n    const beforeLevel = cloneInputs({ frames, screen: levelScreen })\n    drawBattleSettlement({\n      fb: levelFb,\n      screen: levelScreen,\n      uiSpriteFrames: frames,\n      glyphs: positionGlyphs,\n    })\n    expect(cloneInputs({ frames, screen: levelScreen })).toEqual(beforeLevel)\n    expect(pixel(levelFb, textDot('戊', 0, 110, 10).x, textDot('戊', 0, 110, 10).y)).toBe(0)\n    expect(pixel(levelFb, 180, 48)).toBe(ARROW_ID)\n    expect(pixel(levelFb, rightDigitX(133, 4, 0), 47)).toBe(yellowDigit(2))\n    expect(pixel(levelFb, rightDigitX(195, 4, 0), 47)).toBe(yellowDigit(3))\n    expect(pixel(levelFb, rightDigitX(133, 4, 0), 101)).toBe(yellowDigit(1))\n    expect(pixel(levelFb, rightDigitX(195, 4, 0), 101)).toBe(yellowDigit(2))\n    expect(pixel(levelFb, rightDigitX(133, 4, 1), 101)).toBe(yellowDigit(1))\n    expect(pixel(levelFb, rightDigitX(195, 4, 1), 101)).toBe(yellowDigit(2))\n  })\n\n  it('P08 隐藏成长显示角色、词表属性和增量', () => {\n    const frames = makeUiFrames()\n    const words = Array<string>(56).fill('')\n    words[51] = '武术'\n    setWordTable(words)\n    const hiddenFb = createFramebuffer()\n    fillSentinel(hiddenFb)\n    const hiddenScreen = {\n      kind: 'hidden-exp-up' as const,\n      data: { roleId: 4, name: '戊', statLabelWord: 51, delta: 5 },\n    }\n    const beforeHidden = cloneInputs({ frames, screen: hiddenScreen })\n    drawBattleSettlement({\n      fb: hiddenFb,\n      screen: hiddenScreen,\n      uiSpriteFrames: frames,\n      glyphs: positionGlyphs,\n    })\n    expect(cloneInputs({ frames, screen: hiddenScreen })).toEqual(beforeHidden)\n    expect(pixel(hiddenFb, textDot('戊', 0, 90, 70).x, textDot('戊', 0, 90, 70).y)).toBe(0)\n    expect(pixel(hiddenFb, textDot('武', 0, 106, 70).x, textDot('武', 0, 106, 70).y)).toBe(0)\n    expect(pixel(hiddenFb, rightDigitX(175, 5, 0), 74)).toBe(yellowDigit(5))\n  })\n\n  it('P08 练成法术名称与角色颜色不同', () => {\n    const frames = makeUiFrames()\n    const learnFb = createFramebuffer()\n    fillSentinel(learnFb)\n    const learnScreen = {\n      kind: 'learn-magic' as const,\n      data: { roleId: 4, name: '戊', magicName: '雷' },\n    }\n    const beforeLearn = cloneInputs({ frames, screen: learnScreen })\n    drawBattleSettlement({\n      fb: learnFb,\n      screen: learnScreen,\n      uiSpriteFrames: frames,\n      glyphs: positionGlyphs,\n    })\n    expect(cloneInputs({ frames, screen: learnScreen })).toEqual(beforeLearn)\n    expect(pixel(learnFb, textDot('戊', 0, 75, 115).x, textDot('戊', 0, 75, 115).y)).toBe(0)\n    expect(pixel(learnFb, textDot('雷', 0, 155, 115).x, textDot('雷', 0, 155, 115).y)).toBe(0x1b)\n    expect(pixel(learnFb, textDot('雷', 0, 155, 115).x + 3, textDot('雷', 0, 155, 115).y)).not.toBe(\n      0x1b,\n    )\n    expect(pixel(learnFb, 300, 190)).toBe(SENTINEL)\n  })\n})\n",
+          "count": 1
+        }
+      ],
+      "reason": "Explicit private/glyph/oracle and source-plane projections; group-owned text lifecycle; originalOrdinal retained."
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/p09-background.test.ts",
+      "id": "battle-screen-1",
+      "changes": [
+        {
+          "from": "import type { Palette } from '@type-pal/shared'\nimport { describe, expect, it } from 'vitest'\nimport { drawBattleBg } from '../../battle/draw-battle-bg.js'\nimport { createFramebuffer } from '../../framebuffer.js'\nimport { fillSentinel, pixel, SENTINEL } from '../raster-fixtures.js'\nimport { cloneInputs } from '../render-input-snapshots.js'\n\nfunction paletteWith(entries: Readonly<Record<number, [number, number, number]>>): Palette {\n  const colors = Array.from({ length: 256 }, () => [0, 0, 0] as [number, number, number])\n  for (const [index, rgb] of Object.entries(entries)) colors[Number(index)] = rgb\n  return { colors, cycles: [] }\n}\n\nfunction image(width: number, height: number, paint: (x: number, y: number) => number): Uint8Array {\n  const indices = new Uint8Array(width * height)\n  for (let y = 0; y < height; y++) {\n    for (let x = 0; x < width; x++) indices[y * width + x] = paint(x, y)\n  }\n  return indices\n}\n\ndescribe('P09 背景索引链', () => {\n  it('P09 正负色阶在低半字节边界钳制并保留高半字节', () => {\n    const raised = createFramebuffer(6, 3)\n    fillSentinel(raised)\n    const raisedBg = {\n      width: 8,\n      height: 4,\n      indices: image(8, 4, (x, y) => {\n        if (y !== 0) return 0x20\n        if (x === 0) return 0xa3\n        if (x === 1) return 0xaf\n        if (x === 2) return 0x00\n        if (x === 3) return 0xf0\n        if (x === 5) return 0x25\n        if (x === 7) return 0xab\n        return 0x20\n      }),\n    }\n    const beforeRaised = cloneInputs({ battleBg: raisedBg })\n    drawBattleBg(raised, raisedBg, 1)\n    expect(cloneInputs({ battleBg: raisedBg })).toEqual(beforeRaised)\n    expect(pixel(raised, 0, 0)).toBe(0xa4)\n    expect(pixel(raised, 1, 0)).toBe(0xaf)\n    expect(pixel(raised, 2, 0)).toBe(0x01)\n    expect(pixel(raised, 3, 0)).toBe(0xf1)\n    expect(pixel(raised, 5, 0)).toBe(0x26)\n    expect(pixel(raised, 4, 0)).toBe(0x21)\n    for (let y = 0; y < raised.height; y++) {\n      for (let x = 0; x < raised.width; x++) {\n        expect(pixel(raised, x, y)).not.toBe(0xab)\n        expect(pixel(raised, x, y)).not.toBe(0xac)\n      }\n    }\n\n    const lowered = createFramebuffer(4, 1)\n    fillSentinel(lowered)\n    const loweredBg = {\n      width: 4,\n      height: 1,\n      indices: Uint8Array.from([0xa1, 0xa0, 0x05, 0x1f]),\n    }\n    const beforeLowered = cloneInputs({ battleBg: loweredBg })\n    drawBattleBg(lowered, loweredBg, -1)\n    expect(cloneInputs({ battleBg: loweredBg })).toEqual(beforeLowered)\n    expect(pixel(lowered, 0, 0)).toBe(0xa0)\n    expect(pixel(lowered, 1, 0)).toBe(0xa0)\n    expect(pixel(lowered, 2, 0)).toBe(0x04)\n    expect(pixel(lowered, 3, 0)).toBe(0x1e)\n  })\n\n  it('P09 小图裁剪保留未覆盖像素，移位索引经toImageData变成RGBA', () => {\n    const fb = createFramebuffer(6, 3)\n    fillSentinel(fb)\n    const smallBg = { width: 2, height: 2, indices: Uint8Array.from([0x00, 0xa3, 0x10, 0x01]) }\n    const beforeSmall = cloneInputs({ battleBg: smallBg })\n    drawBattleBg(fb, smallBg, 0)\n    expect(cloneInputs({ battleBg: smallBg })).toEqual(beforeSmall)\n    expect(pixel(fb, 0, 0)).toBe(0)\n    expect(pixel(fb, 1, 0)).toBe(0xa3)\n    expect(pixel(fb, 2, 0)).toBe(SENTINEL)\n    expect(pixel(fb, 0, 2)).toBe(SENTINEL)\n\n    const palette = paletteWith({\n      0: [8, 0, 0],\n      0xa3: [0, 9, 0],\n      [SENTINEL]: [1, 2, 3],\n    })\n    const view = fb.toImageData(palette)\n    expect(view.width).toBe(6)\n    expect(view.height).toBe(3)\n    expect([view.data[0], view.data[1], view.data[2], view.data[3]]).toEqual([8, 0, 0, 255])\n    expect([view.data[4], view.data[5], view.data[6], view.data[7]]).toEqual([0, 9, 0, 255])\n    const sentinel = 2 * 4\n    expect([\n      view.data[sentinel],\n      view.data[sentinel + 1],\n      view.data[sentinel + 2],\n      view.data[sentinel + 3],\n    ]).toEqual([1, 2, 3, 255])\n  })\n})\n",
+          "to": "import type { Palette } from '@type-pal/shared'\nimport { afterEach, beforeEach, describe, expect, it } from 'vitest'\nimport type { IndexedImage } from '../../../assets/png.js'\nimport type { LevelUpScreenData } from '../../../core/battle/battle-settlement.js'\nimport { setWordTable } from '../../../core/word-lookup.js'\nimport { fixtureGlyphs, glyphsOf, textDot } from '../../__tests__/glyph-fixtures.js'\nimport { beginChineseMenuText } from '../../__tests__/menu-text-fixture.js'\nimport {\n  ARROW_ID,\n  makeUiFrames,\n  midOnesX,\n  rightDigitX,\n  yellowDigit,\n} from '../../__tests__/menu-ui-fixtures.js'\nimport {\n  fillSentinel,\n  pixel,\n  SENTINEL,\n  sentinelFramebuffer,\n} from '../../__tests__/raster-fixtures.js'\nimport { cloneInputs } from '../../__tests__/render-input-snapshots.js'\nimport { uniformDotGlyphs, uniformTextDot } from '../../__tests__/uniform-glyphs.js'\nimport { createFramebuffer } from '../../framebuffer.js'\nimport { drawBattleSettlement, hiddenExpUpNumberX } from '../draw-battle-settlement.js'\nimport { drawBattleBg } from '../draw-battle-bg.js'\nconst uniformGlyphs = uniformDotGlyphs()\nconst positionGlyphs = fixtureGlyphs()\nfunction roleFourLevelUpData(): LevelUpScreenData {\n  return {\n    roleId: 4,\n    name: '戊',\n    level: { old: 2, cur: 3 },\n    hp: { old: 11, oldMax: 20, cur: 22, curMax: 40 },\n    mp: { old: 5, oldMax: 8, cur: 6, curMax: 9 },\n    attack: { old: 11, cur: 22 },\n    magic: { old: 4, cur: 5 },\n    defense: { old: 6, cur: 7 },\n    dexterity: { old: 8, cur: 9 },\n    flee: { old: 1, cur: 2 },\n  }\n}\nfunction roleZeroLevelUpData(): LevelUpScreenData {\n  const pair = (oldV: number, cur: number) => ({ old: oldV, cur })\n  return {\n    roleId: 0,\n    name: '甲',\n    level: pair(4, 5),\n    hp: { old: 41, oldMax: 58, cur: 88, curMax: 105 },\n    mp: { old: 12, oldMax: 34, cur: 25, curMax: 66 },\n    attack: pair(30, 33),\n    magic: pair(20, 24),\n    defense: pair(10, 12),\n    dexterity: pair(18, 21),\n    flee: pair(7, 9),\n  }\n}\nfunction transparentPixelFrame(): IndexedImage {\n  return { width: 1, height: 1, indices: new Uint8Array([0]), opaque: new Uint8Array([0]) }\n}\nfunction opaquePixelFrame(index: number): IndexedImage {\n  return { width: 1, height: 1, indices: new Uint8Array([index]), opaque: new Uint8Array([1]) }\n}\nfunction lineBoxFrames(): IndexedImage[] {\n  const frames = Array.from({ length: 47 }, () => transparentPixelFrame())\n  frames[44] = opaquePixelFrame(0x44)\n  frames[45] = opaquePixelFrame(0x45)\n  frames[46] = opaquePixelFrame(0x46)\n  return frames\n}\nfunction paletteWithColors(entries: Readonly<Record<number, [number, number, number]>>): Palette {\n  const colors = Array.from({ length: 256 }, (): [number, number, number] => [0, 0, 0])\n  for (const [index, rgb] of Object.entries(entries)) colors[Number(index)] = rgb\n  return { colors, cycles: [] }\n}\nlet restoreMenuText: () => void\ndescribe('Battle background indices and RGBA', () => {\n  it('P09 正负色阶在低半字节边界钳制并保留高半字节', () => {\n    const raised = createFramebuffer(6, 3)\n    fillSentinel(raised)\n    const raisedBg = {\n      width: 8,\n      height: 4,\n      indices: Uint8Array.from([\n        0xa3, 0xaf, 0x00, 0xf0, 0x20, 0x25, 0x20, 0xab, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,\n        0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,\n        0x20, 0x20,\n      ]),\n    }\n    const beforeRaised = cloneInputs({ battleBg: raisedBg })\n    drawBattleBg(raised, raisedBg, 1)\n    expect(cloneInputs({ battleBg: raisedBg })).toEqual(beforeRaised)\n    expect(Array.from(raised.indices)).toEqual([\n      0xa4, 0xaf, 0x01, 0xf1, 0x21, 0x26, 0x21, 0x21, 0x21, 0x21, 0x21, 0x21, 0x21, 0x21, 0x21,\n      0x21, 0x21, 0x21,\n    ])\n\n    const lowered = createFramebuffer(4, 1)\n    fillSentinel(lowered)\n    const loweredBg = {\n      width: 4,\n      height: 1,\n      indices: Uint8Array.from([0xa1, 0xa0, 0x05, 0x1f]),\n    }\n    const beforeLowered = cloneInputs({ battleBg: loweredBg })\n    drawBattleBg(lowered, loweredBg, -1)\n    expect(cloneInputs({ battleBg: loweredBg })).toEqual(beforeLowered)\n    expect(pixel(lowered, 0, 0)).toBe(0xa0)\n    expect(pixel(lowered, 1, 0)).toBe(0xa0)\n    expect(pixel(lowered, 2, 0)).toBe(0x04)\n    expect(pixel(lowered, 3, 0)).toBe(0x1e)\n  })\n\n  it('P09 小图裁剪保留未覆盖像素，索引经toImageData变成RGBA', () => {\n    const fb = createFramebuffer(6, 3)\n    fillSentinel(fb)\n    const smallBg = { width: 2, height: 2, indices: Uint8Array.from([0x00, 0xa3, 0x10, 0x01]) }\n    const beforeSmall = cloneInputs({ battleBg: smallBg })\n    drawBattleBg(fb, smallBg, 0)\n    expect(cloneInputs({ battleBg: smallBg })).toEqual(beforeSmall)\n    expect(pixel(fb, 0, 0)).toBe(0)\n    expect(pixel(fb, 1, 0)).toBe(0xa3)\n    expect(pixel(fb, 2, 0)).toBe(SENTINEL)\n    expect(pixel(fb, 0, 2)).toBe(SENTINEL)\n\n    const palette = paletteWithColors({\n      0: [8, 0, 0],\n      0xa3: [0, 9, 0],\n      [SENTINEL]: [1, 2, 3],\n    })\n    const view = fb.toImageData(palette)\n    expect(view.width).toBe(6)\n    expect(view.height).toBe(3)\n    expect([view.data[0], view.data[1], view.data[2], view.data[3]]).toEqual([8, 0, 0, 255])\n    expect([view.data[4], view.data[5], view.data[6], view.data[7]]).toEqual([0, 9, 0, 255])\n    const sentinel = 2 * 4\n    expect([\n      view.data[sentinel],\n      view.data[sentinel + 1],\n      view.data[sentinel + 2],\n      view.data[sentinel + 3],\n    ]).toEqual([1, 2, 3, 255])\n  })\n})\n",
+          "count": 1
+        }
+      ],
+      "reason": "Explicit private/glyph/oracle and source-plane projections; group-owned text lifecycle; originalOrdinal retained."
+    },
+    {
+      "path": "packages/game/src/present/battle/__tests__/draw-battle-settlement.test.ts",
+      "id": "battle-screen-2",
+      "changes": [
+        {
+          "from": "import { describe, expect, it } from 'vitest'\nimport {\n  fixtureGlyphs,\n  makeUiFrames,\n  newFb,\n  textDot,\n  yellowDigit,\n} from '../../../__tests__/glm-phase1-leaves/present-fixtures.js'\nimport type { IndexedImage } from '../../../assets/png.js'\nimport type { LevelUpScreenData } from '../../../core/battle/battle-settlement.js'\nimport { setWordTable } from '../../../core/word-lookup.js'\nimport { glyphsOf } from '../../__tests__/glyph-fixtures.js'\nimport { fillSentinel, pixel, SENTINEL } from '../../__tests__/raster-fixtures.js'\nimport { createFramebuffer } from '../../framebuffer.js'\nimport { drawBattleSettlement, hiddenExpUpNumberX } from '../draw-battle-settlement.js'\n\ndescribe('hidden growth number position', () => {\n  it('仙剑常量 maxName=3 / maxProp=1 → 191(此前误用单行公式 ≈206,差 15px)', () => {\n    expect(hiddenExpUpNumberX(3, 1)).toBe(191)\n  })\n\n  it('公式 = 183 + (maxName + maxProp - 3) * 8', () => {\n    expect(hiddenExpUpNumberX(3, 0)).toBe(183) // (3+0-3)*8 = 0\n    expect(hiddenExpUpNumberX(4, 1)).toBe(199) // (4+1-3)*8 = 16\n    expect(hiddenExpUpNumberX(2, 1)).toBe(183) // (2+1-3)*8 = 0(clamp 不需,公式自然)\n  })\n})\n\nfunction blankFrame(): IndexedImage {\n  return { width: 1, height: 1, indices: new Uint8Array([0]), opaque: new Uint8Array([0]) }\n}\n\nfunction solidFrame(index: number): IndexedImage {\n  return { width: 1, height: 1, indices: new Uint8Array([index]), opaque: new Uint8Array([1]) }\n}\n\nfunction lineBoxFrames(): IndexedImage[] {\n  const frames = Array.from({ length: 47 }, () => blankFrame())\n  frames[44] = solidFrame(0x44)\n  frames[45] = solidFrame(0x45)\n  frames[46] = solidFrame(0x46)\n  return frames\n}\n\nfunction levelUpData(): LevelUpScreenData {\n  const pair = (oldV: number, cur: number) => ({ old: oldV, cur })\n  return {\n    roleId: 0,\n    name: '甲',\n    level: pair(4, 5),\n    hp: { old: 41, oldMax: 58, cur: 88, curMax: 105 },\n    mp: { old: 12, oldMax: 34, cur: 25, curMax: 66 },\n    attack: pair(30, 33),\n    magic: pair(20, 24),\n    defense: pair(10, 12),\n    dexterity: pair(18, 21),\n    flee: pair(7, 9),\n  }\n}\n\ndescribe('settlement resource and text-width boundaries', () => {\n  it('没有界面帧时经验屏不写像素，屏数据保持原样', () => {\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    const screen = { kind: 'exp-cash' as const, expGained: 12, cashGained: 4, isBoss: false }\n    const before = { ...screen }\n    drawBattleSettlement({ fb, screen })\n    expect(fb.indices.every((value) => value === SENTINEL)).toBe(true)\n    expect(screen).toEqual(before)\n  })\n\n  it('缺少箭头帧时标签仍是 0xBB，箭头锚点保持哨兵', () => {\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawBattleSettlement({\n      fb,\n      screen: { kind: 'level-up', data: levelUpData() },\n      uiSpriteFrames: lineBoxFrames(),\n      glyphs: glyphsOf(['修', '行']),\n    })\n    expect(pixel(fb, 100, 44)).toBe(0xbb)\n    expect(pixel(fb, 180, 48)).toBe(SENTINEL)\n  })\n\n  it('缺少斜杠帧时体力个位仍画出，斜杠点保持哨兵', () => {\n    const frames = lineBoxFrames()\n    delete frames[39]\n    frames[20] = solidFrame(0xb1)\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawBattleSettlement({\n      fb,\n      screen: { kind: 'level-up', data: levelUpData() },\n      uiSpriteFrames: frames,\n      glyphs: glyphsOf(['修']),\n    })\n    expect(pixel(fb, 151, 64)).toBe(0xb1)\n    expect(pixel(fb, 156, 66)).toBe(SENTINEL)\n  })\n\n  it('二字名的文字按实际字宽贴上，框右缘仍按钳到 3 的长度', () => {\n    const flat: string[] = []\n    flat[49] = '体'\n    setWordTable(flat)\n    try {\n      const fb = createFramebuffer()\n      fillSentinel(fb)\n      drawBattleSettlement({\n        fb,\n        screen: {\n          kind: 'hidden-exp-up',\n          data: { roleId: 0, name: '甲乙', statLabelWord: 49, delta: 3 },\n        },\n        uiSpriteFrames: lineBoxFrames(),\n        glyphs: glyphsOf(['甲', '乙', '体', '提', '升']),\n      })\n      // w1=max(2,3)=3，w2=2，w3=2，len=9 → 右缘在 78+1+9=88。属性文字在 90+16*2=122。\n      expect(pixel(fb, 88, 60)).toBe(0x46)\n      expect(pixel(fb, 122, 70)).toBe(0)\n      expect(pixel(fb, 123, 70)).toBe(SENTINEL)\n    } finally {\n      setWordTable([])\n    }\n  })\n\n  it('名字四字、法术六字时 ww=16，单行框和名字一起左移', () => {\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawBattleSettlement({\n      fb,\n      screen: {\n        kind: 'learn-magic',\n        data: { roleId: 0, name: '甲乙丙丁', magicName: '甲乙丙丁戊己' },\n      },\n      uiSpriteFrames: lineBoxFrames(),\n      glyphs: glyphsOf(['甲', '乙', '丙', '丁', '戊', '己', '练', '成']),\n    })\n    expect(pixel(fb, 49, 105)).toBe(0x44)\n    expect(pixel(fb, 59, 115)).toBe(0)\n    expect(pixel(fb, 65, 105)).toBe(SENTINEL)\n  })\n})\n\nconst glyphs = fixtureGlyphs\n\ndescribe('settlement screen pixels', () => {\n  it('exp-cash：exp 右对齐 5 位 at (182,74)、cash 中对齐 at y=119、两单行框', () => {\n    const fb = newFb()\n\n    drawBattleSettlement({\n      fb,\n      screen: { kind: 'exp-cash', expGained: 120, cashGained: 7, isBoss: false },\n      uiSpriteFrames: makeUiFrames(),\n      glyphs,\n    })\n\n    // exp 120 → 个位 0/十位 2/百位 1（右对齐）\n    expect(pixel(fb, 206, 74)).toBe(yellowDigit(0))\n    expect(pixel(fb, 200, 74)).toBe(yellowDigit(2))\n    expect(pixel(fb, 194, 74)).toBe(yellowDigit(1))\n    // cash 7 中对齐：midOnesX(162,5,1)=162-6+3*(5+1)=174\n    expect(pixel(fb, 174, 119)).toBe(yellowDigit(7))\n    // 两个单行框内部 style0\n    expect(pixel(fb, 95, 64)).toBe(0x11)\n    expect(pixel(fb, 80, 109)).toBe(0x11)\n  })\n\n  it('level-up：8 行 old→cur + slash + 箭头 + 0xBB 标签 + 标题', () => {\n    const fb = newFb()\n\n    drawBattleSettlement({\n      fb,\n      screen: { kind: 'level-up', data: levelUpData() },\n      uiSpriteFrames: makeUiFrames(),\n      glyphs,\n    })\n\n    // 固定期望来自本例输入和已核 SDLPal 行位；不调用产品数字/行表计算 oracle。\n    for (const [y, oldOnes, curOnes] of [\n      [47, 4, 5],\n      [64, 1, 8],\n      [82, 2, 5],\n      [101, 0, 3],\n      [119, 0, 4],\n      [137, 0, 2],\n      [155, 8, 1],\n      [173, 7, 9],\n    ]) {\n      expect(pixel(fb, 151, y!)).toBe(yellowDigit(oldOnes!))\n      expect(pixel(fb, 213, y!)).toBe(yellowDigit(curOnes!))\n    }\n    // HP 最大值58/105，MP最大值34/66，各位与两对斜杠独立辨识。\n    for (const [x, y, color] of [\n      [166, 68, 0xd5],\n      [172, 68, 0xd8],\n      [222, 68, 0xd1],\n      [228, 68, 0xd0],\n      [234, 68, 0xd5],\n      [166, 86, 0xd3],\n      [172, 86, 0xd4],\n      [228, 86, 0xd6],\n      [234, 86, 0xd6],\n      [156, 66, 0x39],\n      [218, 66, 0x39],\n      [156, 84, 0x39],\n      [218, 84, 0x39],\n    ])\n      expect(pixel(fb, x!, y!)).toBe(color)\n    for (const y of [48, 66, 84, 102, 120, 138, 156, 174]) expect(pixel(fb, 180, y)).toBe(0x47)\n    for (const y of [44, 62, 80, 98, 116, 134, 152, 170]) expect(pixel(fb, 100, y)).toBe(0xbb)\n    // 标题首字甲的点位是 (114,14)，前景色 0，无阴影。\n    expect(pixel(fb, textDot('甲修行提升', 0, 110, 10).x, 14)).toBe(0)\n  })\n\n  it('hidden-exp-up：单字词表的涨点数 x=167，名字与属性相贴', () => {\n    const flat: string[] = []\n    for (let id = 36; id <= 41; id++) flat[id] = '甲' // 6 角色名各 1 全宽 → maxName=1\n    for (let id = 48; id <= 55; id++) flat[id] = '乙' // 8 标签各 1 → maxProp=1-1=0\n    setWordTable(flat)\n    try {\n      const fb = newFb()\n\n      drawBattleSettlement({\n        fb,\n        screen: {\n          kind: 'hidden-exp-up',\n          data: { roleId: 0, name: '甲', statLabelWord: 49, delta: 12 },\n        },\n        uiSpriteFrames: makeUiFrames(),\n        glyphs,\n      })\n\n      // delta 12 → 个位 2/十位 1 at rightDigitX(167,5,·), y=74\n      expect(pixel(fb, 191, 74)).toBe(yellowDigit(2))\n      expect(pixel(fb, 185, 74)).toBe(yellowDigit(1))\n      // 名字「甲」at (90,70) 色 0；属性标签「乙」紧贴 nameW=1 → x=106\n      expect(pixel(fb, textDot('甲', 0, 90, 70).x, 74)).toBe(0)\n      expect(pixel(fb, textDot('乙', 0, 106, 70).x, 74)).toBe(0)\n    } finally {\n      setWordTable([])\n    }\n  })\n\n  it('learn-magic：短名字 ww=0，magicName 色 0x1B', () => {\n    const fb = newFb()\n\n    drawBattleSettlement({\n      fb,\n      screen: { kind: 'learn-magic', data: { roleId: 0, name: '甲', magicName: '乙乙' } },\n      uiSpriteFrames: makeUiFrames(),\n      glyphs,\n    })\n\n    // w1=max(1,3)=3, w2=2(练成 tofu 2 全宽), w3=max(2,5)=5 → ww=(3+2+5-10)<<3=0\n    // name at (75,115) 色 0；magicName at (75+16*5,115)=(155,115) 色 0x1B\n    expect(pixel(fb, textDot('甲', 0, 75, 115).x, 119)).toBe(0)\n    expect(pixel(fb, textDot('乙乙', 1, 155, 115).x, 119)).toBe(0x1b)\n    // 单行框 (65,105) 内部\n    expect(pixel(fb, 80, 109)).toBe(0x11)\n  })\n})\n",
+          "to": "import type { Palette } from '@type-pal/shared'\nimport { afterEach, beforeEach, describe, expect, it } from 'vitest'\nimport type { IndexedImage } from '../../../assets/png.js'\nimport type { LevelUpScreenData } from '../../../core/battle/battle-settlement.js'\nimport { setWordTable } from '../../../core/word-lookup.js'\nimport { fixtureGlyphs, glyphsOf, textDot } from '../../__tests__/glyph-fixtures.js'\nimport { beginChineseMenuText } from '../../__tests__/menu-text-fixture.js'\nimport {\n  ARROW_ID,\n  makeUiFrames,\n  midOnesX,\n  rightDigitX,\n  yellowDigit,\n} from '../../__tests__/menu-ui-fixtures.js'\nimport {\n  fillSentinel,\n  pixel,\n  SENTINEL,\n  sentinelFramebuffer,\n} from '../../__tests__/raster-fixtures.js'\nimport { cloneInputs } from '../../__tests__/render-input-snapshots.js'\nimport { uniformDotGlyphs, uniformTextDot } from '../../__tests__/uniform-glyphs.js'\nimport { createFramebuffer } from '../../framebuffer.js'\nimport { drawBattleSettlement, hiddenExpUpNumberX } from '../draw-battle-settlement.js'\nimport { drawBattleBg } from '../draw-battle-bg.js'\nconst uniformGlyphs = uniformDotGlyphs()\nconst positionGlyphs = fixtureGlyphs()\nfunction roleFourLevelUpData(): LevelUpScreenData {\n  return {\n    roleId: 4,\n    name: '戊',\n    level: { old: 2, cur: 3 },\n    hp: { old: 11, oldMax: 20, cur: 22, curMax: 40 },\n    mp: { old: 5, oldMax: 8, cur: 6, curMax: 9 },\n    attack: { old: 11, cur: 22 },\n    magic: { old: 4, cur: 5 },\n    defense: { old: 6, cur: 7 },\n    dexterity: { old: 8, cur: 9 },\n    flee: { old: 1, cur: 2 },\n  }\n}\nfunction roleZeroLevelUpData(): LevelUpScreenData {\n  const pair = (oldV: number, cur: number) => ({ old: oldV, cur })\n  return {\n    roleId: 0,\n    name: '甲',\n    level: pair(4, 5),\n    hp: { old: 41, oldMax: 58, cur: 88, curMax: 105 },\n    mp: { old: 12, oldMax: 34, cur: 25, curMax: 66 },\n    attack: pair(30, 33),\n    magic: pair(20, 24),\n    defense: pair(10, 12),\n    dexterity: pair(18, 21),\n    flee: pair(7, 9),\n  }\n}\nfunction transparentPixelFrame(): IndexedImage {\n  return { width: 1, height: 1, indices: new Uint8Array([0]), opaque: new Uint8Array([0]) }\n}\nfunction opaquePixelFrame(index: number): IndexedImage {\n  return { width: 1, height: 1, indices: new Uint8Array([index]), opaque: new Uint8Array([1]) }\n}\nfunction lineBoxFrames(): IndexedImage[] {\n  const frames = Array.from({ length: 47 }, () => transparentPixelFrame())\n  frames[44] = opaquePixelFrame(0x44)\n  frames[45] = opaquePixelFrame(0x45)\n  frames[46] = opaquePixelFrame(0x46)\n  return frames\n}\nfunction paletteWithColors(entries: Readonly<Record<number, [number, number, number]>>): Palette {\n  const colors = Array.from({ length: 256 }, (): [number, number, number] => [0, 0, 0])\n  for (const [index, rgb] of Object.entries(entries)) colors[Number(index)] = rgb\n  return { colors, cycles: [] }\n}\nlet restoreMenuText: () => void\ndescribe('Hidden growth number position', () => {\n  it('仙剑常量 maxName=3 / maxProp=1 → 191(此前误用单行公式 ≈206,差 15px)', () => {\n    expect(hiddenExpUpNumberX(3, 1)).toBe(191)\n  })\n\n  it('公式 = 183 + (maxName + maxProp - 3) * 8', () => {\n    expect(hiddenExpUpNumberX(3, 0)).toBe(183) // (3+0-3)*8 = 0\n    expect(hiddenExpUpNumberX(4, 1)).toBe(199) // (4+1-3)*8 = 16\n    expect(hiddenExpUpNumberX(2, 1)).toBe(183) // (2+1-3)*8 = 0(clamp 不需,公式自然)\n  })\n})\n\ndescribe('Settlement screen pixels and resources', () => {\n  it('没有界面帧时经验屏不写像素，屏数据保持原样', () => {\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    const screen = { kind: 'exp-cash' as const, expGained: 12, cashGained: 4, isBoss: false }\n    const before = { ...screen }\n    drawBattleSettlement({ fb, screen })\n    expect(fb.indices.every((value) => value === SENTINEL)).toBe(true)\n    expect(screen).toEqual(before)\n  })\n\n  it('缺少箭头帧时标签仍是 0xBB，箭头锚点保持哨兵', () => {\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawBattleSettlement({\n      fb,\n      screen: { kind: 'level-up', data: roleZeroLevelUpData() },\n      uiSpriteFrames: lineBoxFrames(),\n      glyphs: glyphsOf(['修', '行']),\n    })\n    expect(pixel(fb, 100, 44)).toBe(0xbb)\n    expect(pixel(fb, 180, 48)).toBe(SENTINEL)\n  })\n\n  it('缺少斜杠帧时体力个位仍画出，斜杠点保持哨兵', () => {\n    const frames = lineBoxFrames()\n    delete frames[39]\n    frames[20] = opaquePixelFrame(0xb1)\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawBattleSettlement({\n      fb,\n      screen: { kind: 'level-up', data: roleZeroLevelUpData() },\n      uiSpriteFrames: frames,\n      glyphs: glyphsOf(['修']),\n    })\n    expect(pixel(fb, 151, 64)).toBe(0xb1)\n    expect(pixel(fb, 156, 66)).toBe(SENTINEL)\n  })\n\n  it('二字名的文字按实际字宽贴上，框右缘仍按钳到 3 的长度', () => {\n    const flat: string[] = []\n    flat[49] = '体'\n    setWordTable(flat)\n    try {\n      const fb = createFramebuffer()\n      fillSentinel(fb)\n      drawBattleSettlement({\n        fb,\n        screen: {\n          kind: 'hidden-exp-up',\n          data: { roleId: 0, name: '甲乙', statLabelWord: 49, delta: 3 },\n        },\n        uiSpriteFrames: lineBoxFrames(),\n        glyphs: glyphsOf(['甲', '乙', '体', '提', '升']),\n      })\n      // w1=max(2,3)=3，w2=2，w3=2，len=9 → 右缘在 78+1+9=88。属性文字在 90+16*2=122。\n      expect(pixel(fb, 88, 60)).toBe(0x46)\n      expect(pixel(fb, 122, 70)).toBe(0)\n      expect(pixel(fb, 123, 70)).toBe(SENTINEL)\n    } finally {\n      setWordTable([])\n    }\n  })\n\n  it('名字四字、法术六字时 ww=16，单行框和名字一起左移', () => {\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawBattleSettlement({\n      fb,\n      screen: {\n        kind: 'learn-magic',\n        data: { roleId: 0, name: '甲乙丙丁', magicName: '甲乙丙丁戊己' },\n      },\n      uiSpriteFrames: lineBoxFrames(),\n      glyphs: glyphsOf(['甲', '乙', '丙', '丁', '戊', '己', '练', '成']),\n    })\n    expect(pixel(fb, 49, 105)).toBe(0x44)\n    expect(pixel(fb, 59, 115)).toBe(0)\n    expect(pixel(fb, 65, 105)).toBe(SENTINEL)\n  })\n\n  it('exp-cash：exp 右对齐 5 位 at (182,74)、cash 中对齐 at y=119、两单行框', () => {\n    const fb = sentinelFramebuffer()\n\n    drawBattleSettlement({\n      fb,\n      screen: { kind: 'exp-cash', expGained: 120, cashGained: 7, isBoss: false },\n      uiSpriteFrames: makeUiFrames(),\n      glyphs: uniformGlyphs,\n    })\n\n    // exp 120 → 个位 0/十位 2/百位 1（右对齐）\n    expect(pixel(fb, 206, 74)).toBe(yellowDigit(0))\n    expect(pixel(fb, 200, 74)).toBe(yellowDigit(2))\n    expect(pixel(fb, 194, 74)).toBe(yellowDigit(1))\n    // cash 7 中对齐：midOnesX(162,5,1)=162-6+3*(5+1)=174\n    expect(pixel(fb, 174, 119)).toBe(yellowDigit(7))\n    // 两个单行框内部 style0\n    expect(pixel(fb, 95, 64)).toBe(0x11)\n    expect(pixel(fb, 80, 109)).toBe(0x11)\n  })\n\n  it('level-up：8 行 old→cur + slash + 箭头 + 0xBB 标签 + 标题', () => {\n    const fb = sentinelFramebuffer()\n\n    drawBattleSettlement({\n      fb,\n      screen: { kind: 'level-up', data: roleZeroLevelUpData() },\n      uiSpriteFrames: makeUiFrames(),\n      glyphs: uniformGlyphs,\n    })\n\n    // 固定期望来自本例输入和已核 SDLPal 行位；不调用产品数字/行表计算 oracle。\n    for (const [y, oldOnes, curOnes] of [\n      [47, 4, 5],\n      [64, 1, 8],\n      [82, 2, 5],\n      [101, 0, 3],\n      [119, 0, 4],\n      [137, 0, 2],\n      [155, 8, 1],\n      [173, 7, 9],\n    ]) {\n      expect(pixel(fb, 151, y!)).toBe(yellowDigit(oldOnes!))\n      expect(pixel(fb, 213, y!)).toBe(yellowDigit(curOnes!))\n    }\n    // HP 最大值58/105，MP最大值34/66，各位与两对斜杠独立辨识。\n    for (const [x, y, color] of [\n      [166, 68, 0xd5],\n      [172, 68, 0xd8],\n      [222, 68, 0xd1],\n      [228, 68, 0xd0],\n      [234, 68, 0xd5],\n      [166, 86, 0xd3],\n      [172, 86, 0xd4],\n      [228, 86, 0xd6],\n      [234, 86, 0xd6],\n      [156, 66, 0x39],\n      [218, 66, 0x39],\n      [156, 84, 0x39],\n      [218, 84, 0x39],\n    ])\n      expect(pixel(fb, x!, y!)).toBe(color)\n    for (const y of [48, 66, 84, 102, 120, 138, 156, 174]) expect(pixel(fb, 180, y)).toBe(0x47)\n    for (const y of [44, 62, 80, 98, 116, 134, 152, 170]) expect(pixel(fb, 100, y)).toBe(0xbb)\n    // 标题首字甲的点位是 (114,14)，前景色 0，无阴影。\n    expect(pixel(fb, uniformTextDot(0, 110, 10).x, 14)).toBe(0)\n  })\n\n  it('hidden-exp-up：单字词表的涨点数 x=167，名字与属性相贴', () => {\n    const flat: string[] = []\n    for (let id = 36; id <= 41; id++) flat[id] = '甲' // 6 角色名各 1 全宽 → maxName=1\n    for (let id = 48; id <= 55; id++) flat[id] = '乙' // 8 标签各 1 → maxProp=1-1=0\n    setWordTable(flat)\n    try {\n      const fb = sentinelFramebuffer()\n\n      drawBattleSettlement({\n        fb,\n        screen: {\n          kind: 'hidden-exp-up',\n          data: { roleId: 0, name: '甲', statLabelWord: 49, delta: 12 },\n        },\n        uiSpriteFrames: makeUiFrames(),\n        glyphs: uniformGlyphs,\n      })\n\n      // delta 12 → 个位 2/十位 1 at rightDigitX(167,5,·), y=74\n      expect(pixel(fb, 191, 74)).toBe(yellowDigit(2))\n      expect(pixel(fb, 185, 74)).toBe(yellowDigit(1))\n      // 名字「甲」at (90,70) 色 0；属性标签「乙」紧贴 nameW=1 → x=106\n      expect(pixel(fb, uniformTextDot(0, 90, 70).x, 74)).toBe(0)\n      expect(pixel(fb, uniformTextDot(0, 106, 70).x, 74)).toBe(0)\n    } finally {\n      setWordTable([])\n    }\n  })\n\n  it('learn-magic：短名字 ww=0，magicName 色 0x1B', () => {\n    const fb = sentinelFramebuffer()\n\n    drawBattleSettlement({\n      fb,\n      screen: { kind: 'learn-magic', data: { roleId: 0, name: '甲', magicName: '乙乙' } },\n      uiSpriteFrames: makeUiFrames(),\n      glyphs: uniformGlyphs,\n    })\n\n    // w1=max(1,3)=3, w2=2(练成 tofu 2 全宽), w3=max(2,5)=5 → ww=(3+2+5-10)<<3=0\n    // name at (75,115) 色 0；magicName at (75+16*5,115)=(155,115) 色 0x1B\n    expect(pixel(fb, uniformTextDot(0, 75, 115).x, 119)).toBe(0)\n    expect(pixel(fb, uniformTextDot(1, 155, 115).x, 119)).toBe(0x1b)\n    // 单行框 (65,105) 内部\n    expect(pixel(fb, 80, 109)).toBe(0x11)\n  })\n})\n",
+          "count": 1
+        }
+      ],
+      "reason": "Explicit private/glyph/oracle and source-plane projections; group-owned text lifecycle; originalOrdinal retained."
+    },
+    {
+      "path": "packages/game/src/present/battle/__tests__/draw-battle-settlement.test.ts",
+      "id": "battle-screen-2-settlement",
+      "ordinals": [2, 3, 4, 5, 6, 7, 8, 9, 10],
+      "changes": [
+        {
+          "from": "import type { Palette } from '@type-pal/shared'\nimport { afterEach, beforeEach, describe, expect, it } from 'vitest'\nimport type { IndexedImage } from '../../../assets/png.js'\nimport type { LevelUpScreenData } from '../../../core/battle/battle-settlement.js'\nimport { setWordTable } from '../../../core/word-lookup.js'\nimport { fixtureGlyphs, glyphsOf, textDot } from '../../__tests__/glyph-fixtures.js'\nimport { beginChineseMenuText } from '../../__tests__/menu-text-fixture.js'\nimport {\n  ARROW_ID,\n  makeUiFrames,\n  midOnesX,\n  rightDigitX,\n  yellowDigit,\n} from '../../__tests__/menu-ui-fixtures.js'\nimport {\n  fillSentinel,\n  pixel,\n  SENTINEL,\n  sentinelFramebuffer,\n} from '../../__tests__/raster-fixtures.js'\nimport { cloneInputs } from '../../__tests__/render-input-snapshots.js'\nimport { uniformDotGlyphs, uniformTextDot } from '../../__tests__/uniform-glyphs.js'\nimport { createFramebuffer } from '../../framebuffer.js'\nimport { drawBattleSettlement, hiddenExpUpNumberX } from '../draw-battle-settlement.js'\nimport { drawBattleBg } from '../draw-battle-bg.js'\nconst uniformGlyphs = uniformDotGlyphs()\nconst positionGlyphs = fixtureGlyphs()\nfunction roleFourLevelUpData(): LevelUpScreenData {\n  return {\n    roleId: 4,\n    name: '戊',\n    level: { old: 2, cur: 3 },\n    hp: { old: 11, oldMax: 20, cur: 22, curMax: 40 },\n    mp: { old: 5, oldMax: 8, cur: 6, curMax: 9 },\n    attack: { old: 11, cur: 22 },\n    magic: { old: 4, cur: 5 },\n    defense: { old: 6, cur: 7 },\n    dexterity: { old: 8, cur: 9 },\n    flee: { old: 1, cur: 2 },\n  }\n}\nfunction roleZeroLevelUpData(): LevelUpScreenData {\n  const pair = (oldV: number, cur: number) => ({ old: oldV, cur })\n  return {\n    roleId: 0,\n    name: '甲',\n    level: pair(4, 5),\n    hp: { old: 41, oldMax: 58, cur: 88, curMax: 105 },\n    mp: { old: 12, oldMax: 34, cur: 25, curMax: 66 },\n    attack: pair(30, 33),\n    magic: pair(20, 24),\n    defense: pair(10, 12),\n    dexterity: pair(18, 21),\n    flee: pair(7, 9),\n  }\n}\nfunction transparentPixelFrame(): IndexedImage {\n  return { width: 1, height: 1, indices: new Uint8Array([0]), opaque: new Uint8Array([0]) }\n}\nfunction opaquePixelFrame(index: number): IndexedImage {\n  return { width: 1, height: 1, indices: new Uint8Array([index]), opaque: new Uint8Array([1]) }\n}\nfunction lineBoxFrames(): IndexedImage[] {\n  const frames = Array.from({ length: 47 }, () => transparentPixelFrame())\n  frames[44] = opaquePixelFrame(0x44)\n  frames[45] = opaquePixelFrame(0x45)\n  frames[46] = opaquePixelFrame(0x46)\n  return frames\n}\nfunction paletteWithColors(entries: Readonly<Record<number, [number, number, number]>>): Palette {\n  const colors = Array.from({ length: 256 }, (): [number, number, number] => [0, 0, 0])\n  for (const [index, rgb] of Object.entries(entries)) colors[Number(index)] = rgb\n  return { colors, cycles: [] }\n}\nlet restoreMenuText: () => void\ndescribe('Hidden growth number position', () => {\n  it('仙剑常量 maxName=3 / maxProp=1 → 191(此前误用单行公式 ≈206,差 15px)', () => {\n    expect(hiddenExpUpNumberX(3, 1)).toBe(191)\n  })\n\n  it('公式 = 183 + (maxName + maxProp - 3) * 8', () => {\n    expect(hiddenExpUpNumberX(3, 0)).toBe(183) // (3+0-3)*8 = 0\n    expect(hiddenExpUpNumberX(4, 1)).toBe(199) // (4+1-3)*8 = 16\n    expect(hiddenExpUpNumberX(2, 1)).toBe(183) // (2+1-3)*8 = 0(clamp 不需,公式自然)\n  })\n})\n\ndescribe('Settlement screen pixels and resources', () => {\n  it('没有界面帧时经验屏不写像素，屏数据保持原样', () => {\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    const screen = { kind: 'exp-cash' as const, expGained: 12, cashGained: 4, isBoss: false }\n    const before = { ...screen }\n    drawBattleSettlement({ fb, screen })\n    expect(fb.indices.every((value) => value === SENTINEL)).toBe(true)\n    expect(screen).toEqual(before)\n  })\n\n  it('缺少箭头帧时标签仍是 0xBB，箭头锚点保持哨兵', () => {\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawBattleSettlement({\n      fb,\n      screen: { kind: 'level-up', data: roleZeroLevelUpData() },\n      uiSpriteFrames: lineBoxFrames(),\n      glyphs: glyphsOf(['修', '行']),\n    })\n    expect(pixel(fb, 100, 44)).toBe(0xbb)\n    expect(pixel(fb, 180, 48)).toBe(SENTINEL)\n  })\n\n  it('缺少斜杠帧时体力个位仍画出，斜杠点保持哨兵', () => {\n    const frames = lineBoxFrames()\n    delete frames[39]\n    frames[20] = opaquePixelFrame(0xb1)\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawBattleSettlement({\n      fb,\n      screen: { kind: 'level-up', data: roleZeroLevelUpData() },\n      uiSpriteFrames: frames,\n      glyphs: glyphsOf(['修']),\n    })\n    expect(pixel(fb, 151, 64)).toBe(0xb1)\n    expect(pixel(fb, 156, 66)).toBe(SENTINEL)\n  })\n\n  it('二字名的文字按实际字宽贴上，框右缘仍按钳到 3 的长度', () => {\n    const flat: string[] = []\n    flat[49] = '体'\n    setWordTable(flat)\n    try {\n      const fb = createFramebuffer()\n      fillSentinel(fb)\n      drawBattleSettlement({\n        fb,\n        screen: {\n          kind: 'hidden-exp-up',\n          data: { roleId: 0, name: '甲乙', statLabelWord: 49, delta: 3 },\n        },\n        uiSpriteFrames: lineBoxFrames(),\n        glyphs: glyphsOf(['甲', '乙', '体', '提', '升']),\n      })\n      // w1=max(2,3)=3，w2=2，w3=2，len=9 → 右缘在 78+1+9=88。属性文字在 90+16*2=122。\n      expect(pixel(fb, 88, 60)).toBe(0x46)\n      expect(pixel(fb, 122, 70)).toBe(0)\n      expect(pixel(fb, 123, 70)).toBe(SENTINEL)\n    } finally {\n      setWordTable([])\n    }\n  })\n\n  it('名字四字、法术六字时 ww=16，单行框和名字一起左移', () => {\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawBattleSettlement({\n      fb,\n      screen: {\n        kind: 'learn-magic',\n        data: { roleId: 0, name: '甲乙丙丁', magicName: '甲乙丙丁戊己' },\n      },\n      uiSpriteFrames: lineBoxFrames(),\n      glyphs: glyphsOf(['甲', '乙', '丙', '丁', '戊', '己', '练', '成']),\n    })\n    expect(pixel(fb, 49, 105)).toBe(0x44)\n    expect(pixel(fb, 59, 115)).toBe(0)\n    expect(pixel(fb, 65, 105)).toBe(SENTINEL)\n  })\n\n  it('exp-cash：exp 右对齐 5 位 at (182,74)、cash 中对齐 at y=119、两单行框', () => {\n    const fb = sentinelFramebuffer()\n\n    drawBattleSettlement({\n      fb,\n      screen: { kind: 'exp-cash', expGained: 120, cashGained: 7, isBoss: false },\n      uiSpriteFrames: makeUiFrames(),\n      glyphs: uniformGlyphs,\n    })\n\n    // exp 120 → 个位 0/十位 2/百位 1（右对齐）\n    expect(pixel(fb, 206, 74)).toBe(yellowDigit(0))\n    expect(pixel(fb, 200, 74)).toBe(yellowDigit(2))\n    expect(pixel(fb, 194, 74)).toBe(yellowDigit(1))\n    // cash 7 中对齐：midOnesX(162,5,1)=162-6+3*(5+1)=174\n    expect(pixel(fb, 174, 119)).toBe(yellowDigit(7))\n    // 两个单行框内部 style0\n    expect(pixel(fb, 95, 64)).toBe(0x11)\n    expect(pixel(fb, 80, 109)).toBe(0x11)\n  })\n\n  it('level-up：8 行 old→cur + slash + 箭头 + 0xBB 标签 + 标题', () => {\n    const fb = sentinelFramebuffer()\n\n    drawBattleSettlement({\n      fb,\n      screen: { kind: 'level-up', data: roleZeroLevelUpData() },\n      uiSpriteFrames: makeUiFrames(),\n      glyphs: uniformGlyphs,\n    })\n\n    // 固定期望来自本例输入和已核 SDLPal 行位；不调用产品数字/行表计算 oracle。\n    for (const [y, oldOnes, curOnes] of [\n      [47, 4, 5],\n      [64, 1, 8],\n      [82, 2, 5],\n      [101, 0, 3],\n      [119, 0, 4],\n      [137, 0, 2],\n      [155, 8, 1],\n      [173, 7, 9],\n    ]) {\n      expect(pixel(fb, 151, y!)).toBe(yellowDigit(oldOnes!))\n      expect(pixel(fb, 213, y!)).toBe(yellowDigit(curOnes!))\n    }\n    // HP 最大值58/105，MP最大值34/66，各位与两对斜杠独立辨识。\n    for (const [x, y, color] of [\n      [166, 68, 0xd5],\n      [172, 68, 0xd8],\n      [222, 68, 0xd1],\n      [228, 68, 0xd0],\n      [234, 68, 0xd5],\n      [166, 86, 0xd3],\n      [172, 86, 0xd4],\n      [228, 86, 0xd6],\n      [234, 86, 0xd6],\n      [156, 66, 0x39],\n      [218, 66, 0x39],\n      [156, 84, 0x39],\n      [218, 84, 0x39],\n    ])\n      expect(pixel(fb, x!, y!)).toBe(color)\n    for (const y of [48, 66, 84, 102, 120, 138, 156, 174]) expect(pixel(fb, 180, y)).toBe(0x47)\n    for (const y of [44, 62, 80, 98, 116, 134, 152, 170]) expect(pixel(fb, 100, y)).toBe(0xbb)\n    // 标题首字甲的点位是 (114,14)，前景色 0，无阴影。\n    expect(pixel(fb, uniformTextDot(0, 110, 10).x, 14)).toBe(0)\n  })\n\n  it('hidden-exp-up：单字词表的涨点数 x=167，名字与属性相贴', () => {\n    const flat: string[] = []\n    for (let id = 36; id <= 41; id++) flat[id] = '甲' // 6 角色名各 1 全宽 → maxName=1\n    for (let id = 48; id <= 55; id++) flat[id] = '乙' // 8 标签各 1 → maxProp=1-1=0\n    setWordTable(flat)\n    try {\n      const fb = sentinelFramebuffer()\n\n      drawBattleSettlement({\n        fb,\n        screen: {\n          kind: 'hidden-exp-up',\n          data: { roleId: 0, name: '甲', statLabelWord: 49, delta: 12 },\n        },\n        uiSpriteFrames: makeUiFrames(),\n        glyphs: uniformGlyphs,\n      })\n\n      // delta 12 → 个位 2/十位 1 at rightDigitX(167,5,·), y=74\n      expect(pixel(fb, 191, 74)).toBe(yellowDigit(2))\n      expect(pixel(fb, 185, 74)).toBe(yellowDigit(1))\n      // 名字「甲」at (90,70) 色 0；属性标签「乙」紧贴 nameW=1 → x=106\n      expect(pixel(fb, uniformTextDot(0, 90, 70).x, 74)).toBe(0)\n      expect(pixel(fb, uniformTextDot(0, 106, 70).x, 74)).toBe(0)\n    } finally {\n      setWordTable([])\n    }\n  })\n\n  it('learn-magic：短名字 ww=0，magicName 色 0x1B', () => {\n    const fb = sentinelFramebuffer()\n\n    drawBattleSettlement({\n      fb,\n      screen: { kind: 'learn-magic', data: { roleId: 0, name: '甲', magicName: '乙乙' } },\n      uiSpriteFrames: makeUiFrames(),\n      glyphs: uniformGlyphs,\n    })\n\n    // w1=max(1,3)=3, w2=2(练成 tofu 2 全宽), w3=max(2,5)=5 → ww=(3+2+5-10)<<3=0\n    // name at (75,115) 色 0；magicName at (75+16*5,115)=(155,115) 色 0x1B\n    expect(pixel(fb, uniformTextDot(0, 75, 115).x, 119)).toBe(0)\n    expect(pixel(fb, uniformTextDot(1, 155, 115).x, 119)).toBe(0x1b)\n    // 单行框 (65,105) 内部\n    expect(pixel(fb, 80, 109)).toBe(0x11)\n  })\n})\n",
+          "to": "import type { Palette } from '@type-pal/shared'\nimport { afterEach, beforeEach, describe, expect, it } from 'vitest'\nimport type { IndexedImage } from '../../../assets/png.js'\nimport type { LevelUpScreenData } from '../../../core/battle/battle-settlement.js'\nimport { setWordTable } from '../../../core/word-lookup.js'\nimport { fixtureGlyphs, glyphsOf, textDot } from '../../__tests__/glyph-fixtures.js'\nimport { beginChineseMenuText } from '../../__tests__/menu-text-fixture.js'\nimport {\n  ARROW_ID,\n  makeUiFrames,\n  midOnesX,\n  rightDigitX,\n  yellowDigit,\n} from '../../__tests__/menu-ui-fixtures.js'\nimport {\n  fillSentinel,\n  pixel,\n  SENTINEL,\n  sentinelFramebuffer,\n} from '../../__tests__/raster-fixtures.js'\nimport { cloneInputs } from '../../__tests__/render-input-snapshots.js'\nimport { uniformDotGlyphs, uniformTextDot } from '../../__tests__/uniform-glyphs.js'\nimport { createFramebuffer } from '../../framebuffer.js'\nimport { drawBattleSettlement, hiddenExpUpNumberX } from '../draw-battle-settlement.js'\nimport { drawBattleBg } from '../draw-battle-bg.js'\nconst uniformGlyphs = uniformDotGlyphs()\nconst positionGlyphs = fixtureGlyphs()\nfunction roleFourLevelUpData(): LevelUpScreenData {\n  return {\n    roleId: 4,\n    name: '戊',\n    level: { old: 2, cur: 3 },\n    hp: { old: 11, oldMax: 20, cur: 22, curMax: 40 },\n    mp: { old: 5, oldMax: 8, cur: 6, curMax: 9 },\n    attack: { old: 11, cur: 22 },\n    magic: { old: 4, cur: 5 },\n    defense: { old: 6, cur: 7 },\n    dexterity: { old: 8, cur: 9 },\n    flee: { old: 1, cur: 2 },\n  }\n}\nfunction roleZeroLevelUpData(): LevelUpScreenData {\n  const pair = (oldV: number, cur: number) => ({ old: oldV, cur })\n  return {\n    roleId: 0,\n    name: '甲',\n    level: pair(4, 5),\n    hp: { old: 41, oldMax: 58, cur: 88, curMax: 105 },\n    mp: { old: 12, oldMax: 34, cur: 25, curMax: 66 },\n    attack: pair(30, 33),\n    magic: pair(20, 24),\n    defense: pair(10, 12),\n    dexterity: pair(18, 21),\n    flee: pair(7, 9),\n  }\n}\nfunction transparentPixelFrame(): IndexedImage {\n  return { width: 1, height: 1, indices: new Uint8Array([0]), opaque: new Uint8Array([0]) }\n}\nfunction opaquePixelFrame(index: number): IndexedImage {\n  return { width: 1, height: 1, indices: new Uint8Array([index]), opaque: new Uint8Array([1]) }\n}\nfunction lineBoxFrames(): IndexedImage[] {\n  const frames = Array.from({ length: 47 }, () => transparentPixelFrame())\n  frames[44] = opaquePixelFrame(0x44)\n  frames[45] = opaquePixelFrame(0x45)\n  frames[46] = opaquePixelFrame(0x46)\n  return frames\n}\nfunction paletteWithColors(entries: Readonly<Record<number, [number, number, number]>>): Palette {\n  const colors = Array.from({ length: 256 }, (): [number, number, number] => [0, 0, 0])\n  for (const [index, rgb] of Object.entries(entries)) colors[Number(index)] = rgb\n  return { colors, cycles: [] }\n}\nlet restoreMenuText: () => void\nbeforeEach(() => {\n  restoreMenuText = beginChineseMenuText()\n})\nafterEach(() => {\n  restoreMenuText()\n})\ndescribe('Hidden growth number position', () => {\n  it('仙剑常量 maxName=3 / maxProp=1 → 191(此前误用单行公式 ≈206,差 15px)', () => {\n    expect(hiddenExpUpNumberX(3, 1)).toBe(191)\n  })\n\n  it('公式 = 183 + (maxName + maxProp - 3) * 8', () => {\n    expect(hiddenExpUpNumberX(3, 0)).toBe(183) // (3+0-3)*8 = 0\n    expect(hiddenExpUpNumberX(4, 1)).toBe(199) // (4+1-3)*8 = 16\n    expect(hiddenExpUpNumberX(2, 1)).toBe(183) // (2+1-3)*8 = 0(clamp 不需,公式自然)\n  })\n})\n\ndescribe('Settlement screen pixels and resources', () => {\n  it('没有界面帧时经验屏不写像素，屏数据保持原样', () => {\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    const screen = { kind: 'exp-cash' as const, expGained: 12, cashGained: 4, isBoss: false }\n    const before = { ...screen }\n    drawBattleSettlement({ fb, screen })\n    expect(fb.indices.every((value) => value === SENTINEL)).toBe(true)\n    expect(screen).toEqual(before)\n  })\n\n  it('缺少箭头帧时标签仍是 0xBB，箭头锚点保持哨兵', () => {\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawBattleSettlement({\n      fb,\n      screen: { kind: 'level-up', data: roleZeroLevelUpData() },\n      uiSpriteFrames: lineBoxFrames(),\n      glyphs: glyphsOf(['修', '行']),\n    })\n    expect(pixel(fb, 100, 44)).toBe(0xbb)\n    expect(pixel(fb, 180, 48)).toBe(SENTINEL)\n  })\n\n  it('缺少斜杠帧时体力个位仍画出，斜杠点保持哨兵', () => {\n    const frames = lineBoxFrames()\n    delete frames[39]\n    frames[20] = opaquePixelFrame(0xb1)\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawBattleSettlement({\n      fb,\n      screen: { kind: 'level-up', data: roleZeroLevelUpData() },\n      uiSpriteFrames: frames,\n      glyphs: glyphsOf(['修']),\n    })\n    expect(pixel(fb, 151, 64)).toBe(0xb1)\n    expect(pixel(fb, 156, 66)).toBe(SENTINEL)\n  })\n\n  it('二字名的文字按实际字宽贴上，框右缘仍按钳到 3 的长度', () => {\n    const flat: string[] = []\n    flat[49] = '体'\n    setWordTable(flat)\n    try {\n      const fb = createFramebuffer()\n      fillSentinel(fb)\n      drawBattleSettlement({\n        fb,\n        screen: {\n          kind: 'hidden-exp-up',\n          data: { roleId: 0, name: '甲乙', statLabelWord: 49, delta: 3 },\n        },\n        uiSpriteFrames: lineBoxFrames(),\n        glyphs: glyphsOf(['甲', '乙', '体', '提', '升']),\n      })\n      // w1=max(2,3)=3，w2=2，w3=2，len=9 → 右缘在 78+1+9=88。属性文字在 90+16*2=122。\n      expect(pixel(fb, 88, 60)).toBe(0x46)\n      expect(pixel(fb, 122, 70)).toBe(0)\n      expect(pixel(fb, 123, 70)).toBe(SENTINEL)\n    } finally {\n      setWordTable([])\n    }\n  })\n\n  it('名字四字、法术六字时 ww=16，单行框和名字一起左移', () => {\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawBattleSettlement({\n      fb,\n      screen: {\n        kind: 'learn-magic',\n        data: { roleId: 0, name: '甲乙丙丁', magicName: '甲乙丙丁戊己' },\n      },\n      uiSpriteFrames: lineBoxFrames(),\n      glyphs: glyphsOf(['甲', '乙', '丙', '丁', '戊', '己', '练', '成']),\n    })\n    expect(pixel(fb, 49, 105)).toBe(0x44)\n    expect(pixel(fb, 59, 115)).toBe(0)\n    expect(pixel(fb, 65, 105)).toBe(SENTINEL)\n  })\n\n  it('exp-cash：exp 右对齐 5 位 at (182,74)、cash 中对齐 at y=119、两单行框', () => {\n    const fb = sentinelFramebuffer()\n\n    drawBattleSettlement({\n      fb,\n      screen: { kind: 'exp-cash', expGained: 120, cashGained: 7, isBoss: false },\n      uiSpriteFrames: makeUiFrames(),\n      glyphs: uniformGlyphs,\n    })\n\n    // exp 120 → 个位 0/十位 2/百位 1（右对齐）\n    expect(pixel(fb, 206, 74)).toBe(yellowDigit(0))\n    expect(pixel(fb, 200, 74)).toBe(yellowDigit(2))\n    expect(pixel(fb, 194, 74)).toBe(yellowDigit(1))\n    // cash 7 中对齐：midOnesX(162,5,1)=162-6+3*(5+1)=174\n    expect(pixel(fb, 174, 119)).toBe(yellowDigit(7))\n    // 两个单行框内部 style0\n    expect(pixel(fb, 95, 64)).toBe(0x11)\n    expect(pixel(fb, 80, 109)).toBe(0x11)\n  })\n\n  it('level-up：8 行 old→cur + slash + 箭头 + 0xBB 标签 + 标题', () => {\n    const fb = sentinelFramebuffer()\n\n    drawBattleSettlement({\n      fb,\n      screen: { kind: 'level-up', data: roleZeroLevelUpData() },\n      uiSpriteFrames: makeUiFrames(),\n      glyphs: uniformGlyphs,\n    })\n\n    // 固定期望来自本例输入和已核 SDLPal 行位；不调用产品数字/行表计算 oracle。\n    for (const [y, oldOnes, curOnes] of [\n      [47, 4, 5],\n      [64, 1, 8],\n      [82, 2, 5],\n      [101, 0, 3],\n      [119, 0, 4],\n      [137, 0, 2],\n      [155, 8, 1],\n      [173, 7, 9],\n    ]) {\n      expect(pixel(fb, 151, y!)).toBe(yellowDigit(oldOnes!))\n      expect(pixel(fb, 213, y!)).toBe(yellowDigit(curOnes!))\n    }\n    // HP 最大值58/105，MP最大值34/66，各位与两对斜杠独立辨识。\n    for (const [x, y, color] of [\n      [166, 68, 0xd5],\n      [172, 68, 0xd8],\n      [222, 68, 0xd1],\n      [228, 68, 0xd0],\n      [234, 68, 0xd5],\n      [166, 86, 0xd3],\n      [172, 86, 0xd4],\n      [228, 86, 0xd6],\n      [234, 86, 0xd6],\n      [156, 66, 0x39],\n      [218, 66, 0x39],\n      [156, 84, 0x39],\n      [218, 84, 0x39],\n    ])\n      expect(pixel(fb, x!, y!)).toBe(color)\n    for (const y of [48, 66, 84, 102, 120, 138, 156, 174]) expect(pixel(fb, 180, y)).toBe(0x47)\n    for (const y of [44, 62, 80, 98, 116, 134, 152, 170]) expect(pixel(fb, 100, y)).toBe(0xbb)\n    // 标题首字甲的点位是 (114,14)，前景色 0，无阴影。\n    expect(pixel(fb, uniformTextDot(0, 110, 10).x, 14)).toBe(0)\n  })\n\n  it('hidden-exp-up：单字词表的涨点数 x=167，名字与属性相贴', () => {\n    const flat: string[] = []\n    for (let id = 36; id <= 41; id++) flat[id] = '甲' // 6 角色名各 1 全宽 → maxName=1\n    for (let id = 48; id <= 55; id++) flat[id] = '乙' // 8 标签各 1 → maxProp=1-1=0\n    setWordTable(flat)\n    try {\n      const fb = sentinelFramebuffer()\n\n      drawBattleSettlement({\n        fb,\n        screen: {\n          kind: 'hidden-exp-up',\n          data: { roleId: 0, name: '甲', statLabelWord: 49, delta: 12 },\n        },\n        uiSpriteFrames: makeUiFrames(),\n        glyphs: uniformGlyphs,\n      })\n\n      // delta 12 → 个位 2/十位 1 at rightDigitX(167,5,·), y=74\n      expect(pixel(fb, 191, 74)).toBe(yellowDigit(2))\n      expect(pixel(fb, 185, 74)).toBe(yellowDigit(1))\n      // 名字「甲」at (90,70) 色 0；属性标签「乙」紧贴 nameW=1 → x=106\n      expect(pixel(fb, uniformTextDot(0, 90, 70).x, 74)).toBe(0)\n      expect(pixel(fb, uniformTextDot(0, 106, 70).x, 74)).toBe(0)\n    } finally {\n      setWordTable([])\n    }\n  })\n\n  it('learn-magic：短名字 ww=0，magicName 色 0x1B', () => {\n    const fb = sentinelFramebuffer()\n\n    drawBattleSettlement({\n      fb,\n      screen: { kind: 'learn-magic', data: { roleId: 0, name: '甲', magicName: '乙乙' } },\n      uiSpriteFrames: makeUiFrames(),\n      glyphs: uniformGlyphs,\n    })\n\n    // w1=max(1,3)=3, w2=2(练成 tofu 2 全宽), w3=max(2,5)=5 → ww=(3+2+5-10)<<3=0\n    // name at (75,115) 色 0；magicName at (75+16*5,115)=(155,115) 色 0x1B\n    expect(pixel(fb, uniformTextDot(0, 75, 115).x, 119)).toBe(0)\n    expect(pixel(fb, uniformTextDot(1, 155, 115).x, 119)).toBe(0x1b)\n    // 单行框 (65,105) 内部\n    expect(pixel(fb, 80, 109)).toBe(0x11)\n  })\n})\n",
+          "count": 1
+        }
+      ],
+      "reason": "Pure formula has no Word/locale hooks; only actual settlement painter spec owns text."
+    },
+    {
+      "path": "packages/game/src/present/battle/__tests__/draw-battle-bg.test.ts",
+      "id": "battle-screen-3",
+      "changes": [
+        {
+          "from": "import { describe, expect, it } from 'vitest'\nimport { createFramebuffer } from '../../framebuffer.js'\nimport { drawBattleBg } from '../draw-battle-bg.js'\n\ndescribe('drawBattleBg', () => {\n  it('整面 320×200 写入 framebuffer', () => {\n    const fb = createFramebuffer()\n    const indices = new Uint8Array(320 * 200)\n    for (let i = 0; i < indices.length; i++) indices[i] = (i % 13) + 1\n    drawBattleBg(fb, { width: 320, height: 200, indices })\n    expect(Buffer.compare(fb.indices, indices)).toBe(0)\n  })\n\n  it('索引 0 也照画(背景不透明)', () => {\n    const fb = createFramebuffer()\n    fb.indices.fill(99)\n    const indices = new Uint8Array(320 * 200) // 全 0\n    drawBattleBg(fb, { width: 320, height: 200, indices })\n    expect(fb.indices.every((value) => value === 0)).toBe(true)\n  })\n\n  it('小于屏的素材不越界 / 不抛错', () => {\n    const fb = createFramebuffer()\n    const indices = new Uint8Array(2 * 2).fill(7)\n    drawBattleBg(fb, { width: 2, height: 2, indices })\n    const expected = Buffer.alloc(320 * 200)\n    expected.fill(7, 0, 2)\n    expected.fill(7, 320, 322)\n    expect(Buffer.compare(fb.indices, expected)).toBe(0)\n  })\n})\n",
+          "to": "import type { Palette } from '@type-pal/shared'\nimport { afterEach, beforeEach, describe, expect, it } from 'vitest'\nimport type { IndexedImage } from '../../../assets/png.js'\nimport type { LevelUpScreenData } from '../../../core/battle/battle-settlement.js'\nimport { setWordTable } from '../../../core/word-lookup.js'\nimport { fixtureGlyphs, glyphsOf, textDot } from '../../__tests__/glyph-fixtures.js'\nimport { beginChineseMenuText } from '../../__tests__/menu-text-fixture.js'\nimport {\n  ARROW_ID,\n  makeUiFrames,\n  midOnesX,\n  rightDigitX,\n  yellowDigit,\n} from '../../__tests__/menu-ui-fixtures.js'\nimport {\n  fillSentinel,\n  pixel,\n  SENTINEL,\n  sentinelFramebuffer,\n} from '../../__tests__/raster-fixtures.js'\nimport { cloneInputs } from '../../__tests__/render-input-snapshots.js'\nimport { uniformDotGlyphs, uniformTextDot } from '../../__tests__/uniform-glyphs.js'\nimport { createFramebuffer } from '../../framebuffer.js'\nimport { drawBattleSettlement, hiddenExpUpNumberX } from '../draw-battle-settlement.js'\nimport { drawBattleBg } from '../draw-battle-bg.js'\nconst uniformGlyphs = uniformDotGlyphs()\nconst positionGlyphs = fixtureGlyphs()\nfunction roleFourLevelUpData(): LevelUpScreenData {\n  return {\n    roleId: 4,\n    name: '戊',\n    level: { old: 2, cur: 3 },\n    hp: { old: 11, oldMax: 20, cur: 22, curMax: 40 },\n    mp: { old: 5, oldMax: 8, cur: 6, curMax: 9 },\n    attack: { old: 11, cur: 22 },\n    magic: { old: 4, cur: 5 },\n    defense: { old: 6, cur: 7 },\n    dexterity: { old: 8, cur: 9 },\n    flee: { old: 1, cur: 2 },\n  }\n}\nfunction roleZeroLevelUpData(): LevelUpScreenData {\n  const pair = (oldV: number, cur: number) => ({ old: oldV, cur })\n  return {\n    roleId: 0,\n    name: '甲',\n    level: pair(4, 5),\n    hp: { old: 41, oldMax: 58, cur: 88, curMax: 105 },\n    mp: { old: 12, oldMax: 34, cur: 25, curMax: 66 },\n    attack: pair(30, 33),\n    magic: pair(20, 24),\n    defense: pair(10, 12),\n    dexterity: pair(18, 21),\n    flee: pair(7, 9),\n  }\n}\nfunction transparentPixelFrame(): IndexedImage {\n  return { width: 1, height: 1, indices: new Uint8Array([0]), opaque: new Uint8Array([0]) }\n}\nfunction opaquePixelFrame(index: number): IndexedImage {\n  return { width: 1, height: 1, indices: new Uint8Array([index]), opaque: new Uint8Array([1]) }\n}\nfunction lineBoxFrames(): IndexedImage[] {\n  const frames = Array.from({ length: 47 }, () => transparentPixelFrame())\n  frames[44] = opaquePixelFrame(0x44)\n  frames[45] = opaquePixelFrame(0x45)\n  frames[46] = opaquePixelFrame(0x46)\n  return frames\n}\nfunction paletteWithColors(entries: Readonly<Record<number, [number, number, number]>>): Palette {\n  const colors = Array.from({ length: 256 }, (): [number, number, number] => [0, 0, 0])\n  for (const [index, rgb] of Object.entries(entries)) colors[Number(index)] = rgb\n  return { colors, cycles: [] }\n}\nlet restoreMenuText: () => void\ndescribe('Battle background indices and RGBA', () => {\n  it('整面 320×200 写入 framebuffer', () => {\n    const fb = createFramebuffer()\n    const indices = new Uint8Array(320 * 200)\n    for (let i = 0; i < indices.length; i++) indices[i] = (i % 13) + 1\n    drawBattleBg(fb, { width: 320, height: 200, indices })\n    expect(Buffer.compare(fb.indices, indices)).toBe(0)\n  })\n\n  it('索引 0 也照画(背景不透明)', () => {\n    const fb = createFramebuffer()\n    fb.indices.fill(99)\n    const indices = new Uint8Array(320 * 200) // 全 0\n    drawBattleBg(fb, { width: 320, height: 200, indices })\n    expect(fb.indices.every((value) => value === 0)).toBe(true)\n  })\n\n  it('小于屏的素材不越界 / 不抛错', () => {\n    const fb = createFramebuffer()\n    const indices = new Uint8Array(2 * 2).fill(7)\n    drawBattleBg(fb, { width: 2, height: 2, indices })\n    const expected = Buffer.alloc(320 * 200)\n    expected.fill(7, 0, 2)\n    expected.fill(7, 320, 322)\n    expect(Buffer.compare(fb.indices, expected)).toBe(0)\n  })\n})\n",
+          "count": 1
+        }
+      ],
+      "reason": "Explicit private/glyph/oracle and source-plane projections; group-owned text lifecycle; originalOrdinal retained."
+    }
+  ],
+  "replacements": [],
+  "registrations": [
+    {
+      "old": {
+        "file": "packages/game/src/present/__tests__/grok-present/p08-settlement.test.ts",
+        "ordinal": 0,
+        "originalOrdinal": 0,
+        "fullName": "P08 结算呈现 P08 经验和金钱分别显示本场结果"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-settlement.test.ts",
+        "titles": ["Settlement screen pixels and resources"],
+        "template": "P08 经验和金钱分别显示本场结果",
+        "fullName": "Settlement screen pixels and resources P08 经验和金钱分别显示本场结果"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/__tests__/grok-present/p08-settlement.test.ts",
+        "ordinal": 1,
+        "originalOrdinal": 1,
+        "fullName": "P08 结算呈现 P08 升级画面保留旧新等级与武术"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-settlement.test.ts",
+        "titles": ["Settlement screen pixels and resources"],
+        "template": "P08 升级画面保留旧新等级与武术",
+        "fullName": "Settlement screen pixels and resources P08 升级画面保留旧新等级与武术"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/__tests__/grok-present/p08-settlement.test.ts",
+        "ordinal": 2,
+        "originalOrdinal": 2,
+        "fullName": "P08 结算呈现 P08 隐藏成长显示角色、词表属性和增量"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-settlement.test.ts",
+        "titles": ["Settlement screen pixels and resources"],
+        "template": "P08 隐藏成长显示角色、词表属性和增量",
+        "fullName": "Settlement screen pixels and resources P08 隐藏成长显示角色、词表属性和增量"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/__tests__/grok-present/p08-settlement.test.ts",
+        "ordinal": 3,
+        "originalOrdinal": 3,
+        "fullName": "P08 结算呈现 P08 练成法术名称与角色颜色不同"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-settlement.test.ts",
+        "titles": ["Settlement screen pixels and resources"],
+        "template": "P08 练成法术名称与角色颜色不同",
+        "fullName": "Settlement screen pixels and resources P08 练成法术名称与角色颜色不同"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/__tests__/grok-present/p09-background.test.ts",
+        "ordinal": 0,
+        "originalOrdinal": 0,
+        "fullName": "P09 背景索引链 P09 正负色阶在低半字节边界钳制并保留高半字节"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-bg.test.ts",
+        "titles": ["Battle background indices and RGBA"],
+        "template": "P09 正负色阶在低半字节边界钳制并保留高半字节",
+        "fullName": "Battle background indices and RGBA P09 正负色阶在低半字节边界钳制并保留高半字节"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/__tests__/grok-present/p09-background.test.ts",
+        "ordinal": 1,
+        "originalOrdinal": 1,
+        "fullName": "P09 背景索引链 P09 小图裁剪保留未覆盖像素，移位索引经toImageData变成RGBA"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-bg.test.ts",
+        "titles": ["Battle background indices and RGBA"],
+        "template": "P09 小图裁剪保留未覆盖像素，索引经toImageData变成RGBA",
+        "fullName": "Battle background indices and RGBA P09 小图裁剪保留未覆盖像素，索引经toImageData变成RGBA"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-settlement.test.ts",
+        "ordinal": 0,
+        "originalOrdinal": 0,
+        "fullName": "hidden growth number position 仙剑常量 maxName=3 / maxProp=1 → 191(此前误用单行公式 ≈206,差 15px)"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-settlement.formula.test.ts",
+        "titles": ["Hidden growth number position"],
+        "template": "仙剑常量 maxName=3 / maxProp=1 → 191(此前误用单行公式 ≈206,差 15px)",
+        "fullName": "Hidden growth number position 仙剑常量 maxName=3 / maxProp=1 → 191(此前误用单行公式 ≈206,差 15px)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-settlement.test.ts",
+        "ordinal": 1,
+        "originalOrdinal": 1,
+        "fullName": "hidden growth number position 公式 = 183 + (maxName + maxProp - 3) * 8"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-settlement.formula.test.ts",
+        "titles": ["Hidden growth number position"],
+        "template": "公式 = 183 + (maxName + maxProp - 3) * 8",
+        "fullName": "Hidden growth number position 公式 = 183 + (maxName + maxProp - 3) * 8"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-settlement.test.ts",
+        "ordinal": 2,
+        "originalOrdinal": 2,
+        "fullName": "settlement resource and text-width boundaries 没有界面帧时经验屏不写像素，屏数据保持原样"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-settlement.test.ts",
+        "titles": ["Settlement screen pixels and resources"],
+        "template": "没有界面帧时经验屏不写像素，屏数据保持原样",
+        "fullName": "Settlement screen pixels and resources 没有界面帧时经验屏不写像素，屏数据保持原样"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-settlement.test.ts",
+        "ordinal": 3,
+        "originalOrdinal": 3,
+        "fullName": "settlement resource and text-width boundaries 缺少箭头帧时标签仍是 0xBB，箭头锚点保持哨兵"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-settlement.test.ts",
+        "titles": ["Settlement screen pixels and resources"],
+        "template": "缺少箭头帧时标签仍是 0xBB，箭头锚点保持哨兵",
+        "fullName": "Settlement screen pixels and resources 缺少箭头帧时标签仍是 0xBB，箭头锚点保持哨兵"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-settlement.test.ts",
+        "ordinal": 4,
+        "originalOrdinal": 4,
+        "fullName": "settlement resource and text-width boundaries 缺少斜杠帧时体力个位仍画出，斜杠点保持哨兵"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-settlement.test.ts",
+        "titles": ["Settlement screen pixels and resources"],
+        "template": "缺少斜杠帧时体力个位仍画出，斜杠点保持哨兵",
+        "fullName": "Settlement screen pixels and resources 缺少斜杠帧时体力个位仍画出，斜杠点保持哨兵"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-settlement.test.ts",
+        "ordinal": 5,
+        "originalOrdinal": 5,
+        "fullName": "settlement resource and text-width boundaries 二字名的文字按实际字宽贴上，框右缘仍按钳到 3 的长度"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-settlement.test.ts",
+        "titles": ["Settlement screen pixels and resources"],
+        "template": "二字名的文字按实际字宽贴上，框右缘仍按钳到 3 的长度",
+        "fullName": "Settlement screen pixels and resources 二字名的文字按实际字宽贴上，框右缘仍按钳到 3 的长度"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-settlement.test.ts",
+        "ordinal": 6,
+        "originalOrdinal": 6,
+        "fullName": "settlement resource and text-width boundaries 名字四字、法术六字时 ww=16，单行框和名字一起左移"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-settlement.test.ts",
+        "titles": ["Settlement screen pixels and resources"],
+        "template": "名字四字、法术六字时 ww=16，单行框和名字一起左移",
+        "fullName": "Settlement screen pixels and resources 名字四字、法术六字时 ww=16，单行框和名字一起左移"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-settlement.test.ts",
+        "ordinal": 7,
+        "originalOrdinal": 7,
+        "fullName": "settlement screen pixels exp-cash：exp 右对齐 5 位 at (182,74)、cash 中对齐 at y=119、两单行框"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-settlement.test.ts",
+        "titles": ["Settlement screen pixels and resources"],
+        "template": "exp-cash：exp 右对齐 5 位 at (182,74)、cash 中对齐 at y=119、两单行框",
+        "fullName": "Settlement screen pixels and resources exp-cash：exp 右对齐 5 位 at (182,74)、cash 中对齐 at y=119、两单行框"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-settlement.test.ts",
+        "ordinal": 8,
+        "originalOrdinal": 8,
+        "fullName": "settlement screen pixels level-up：8 行 old→cur + slash + 箭头 + 0xBB 标签 + 标题"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-settlement.test.ts",
+        "titles": ["Settlement screen pixels and resources"],
+        "template": "level-up：8 行 old→cur + slash + 箭头 + 0xBB 标签 + 标题",
+        "fullName": "Settlement screen pixels and resources level-up：8 行 old→cur + slash + 箭头 + 0xBB 标签 + 标题"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-settlement.test.ts",
+        "ordinal": 9,
+        "originalOrdinal": 9,
+        "fullName": "settlement screen pixels hidden-exp-up：单字词表的涨点数 x=167，名字与属性相贴"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-settlement.test.ts",
+        "titles": ["Settlement screen pixels and resources"],
+        "template": "hidden-exp-up：单字词表的涨点数 x=167，名字与属性相贴",
+        "fullName": "Settlement screen pixels and resources hidden-exp-up：单字词表的涨点数 x=167，名字与属性相贴"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-settlement.test.ts",
+        "ordinal": 10,
+        "originalOrdinal": 10,
+        "fullName": "settlement screen pixels learn-magic：短名字 ww=0，magicName 色 0x1B"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-settlement.test.ts",
+        "titles": ["Settlement screen pixels and resources"],
+        "template": "learn-magic：短名字 ww=0，magicName 色 0x1B",
+        "fullName": "Settlement screen pixels and resources learn-magic：短名字 ww=0，magicName 色 0x1B"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-bg.test.ts",
+        "ordinal": 0,
+        "originalOrdinal": 0,
+        "fullName": "drawBattleBg 整面 320×200 写入 framebuffer"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-bg.test.ts",
+        "titles": ["Battle background indices and RGBA"],
+        "template": "整面 320×200 写入 framebuffer",
+        "fullName": "Battle background indices and RGBA 整面 320×200 写入 framebuffer"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-bg.test.ts",
+        "ordinal": 1,
+        "originalOrdinal": 1,
+        "fullName": "drawBattleBg 索引 0 也照画(背景不透明)"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-bg.test.ts",
+        "titles": ["Battle background indices and RGBA"],
+        "template": "索引 0 也照画(背景不透明)",
+        "fullName": "Battle background indices and RGBA 索引 0 也照画(背景不透明)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-bg.test.ts",
+        "ordinal": 2,
+        "originalOrdinal": 2,
+        "fullName": "drawBattleBg 小于屏的素材不越界 / 不抛错"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-bg.test.ts",
+        "titles": ["Battle background indices and RGBA"],
+        "template": "小于屏的素材不越界 / 不抛错",
+        "fullName": "Battle background indices and RGBA 小于屏的素材不越界 / 不抛错"
+      }
+    }
+  ],
+  "identities": [
+    {
+      "old": {
+        "file": "packages/game/src/present/__tests__/grok-present/p08-settlement.test.ts",
+        "fullName": "P08 结算呈现 P08 经验和金钱分别显示本场结果"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-settlement.test.ts",
+        "fullName": "Settlement screen pixels and resources P08 经验和金钱分别显示本场结果"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/__tests__/grok-present/p08-settlement.test.ts",
+        "fullName": "P08 结算呈现 P08 升级画面保留旧新等级与武术"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-settlement.test.ts",
+        "fullName": "Settlement screen pixels and resources P08 升级画面保留旧新等级与武术"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/__tests__/grok-present/p08-settlement.test.ts",
+        "fullName": "P08 结算呈现 P08 隐藏成长显示角色、词表属性和增量"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-settlement.test.ts",
+        "fullName": "Settlement screen pixels and resources P08 隐藏成长显示角色、词表属性和增量"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/__tests__/grok-present/p08-settlement.test.ts",
+        "fullName": "P08 结算呈现 P08 练成法术名称与角色颜色不同"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-settlement.test.ts",
+        "fullName": "Settlement screen pixels and resources P08 练成法术名称与角色颜色不同"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/__tests__/grok-present/p09-background.test.ts",
+        "fullName": "P09 背景索引链 P09 正负色阶在低半字节边界钳制并保留高半字节"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-bg.test.ts",
+        "fullName": "Battle background indices and RGBA P09 正负色阶在低半字节边界钳制并保留高半字节"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/__tests__/grok-present/p09-background.test.ts",
+        "fullName": "P09 背景索引链 P09 小图裁剪保留未覆盖像素，移位索引经toImageData变成RGBA"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-bg.test.ts",
+        "fullName": "Battle background indices and RGBA P09 小图裁剪保留未覆盖像素，索引经toImageData变成RGBA"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-settlement.test.ts",
+        "fullName": "hidden growth number position 仙剑常量 maxName=3 / maxProp=1 → 191(此前误用单行公式 ≈206,差 15px)"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-settlement.formula.test.ts",
+        "fullName": "Hidden growth number position 仙剑常量 maxName=3 / maxProp=1 → 191(此前误用单行公式 ≈206,差 15px)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-settlement.test.ts",
+        "fullName": "hidden growth number position 公式 = 183 + (maxName + maxProp - 3) * 8"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-settlement.formula.test.ts",
+        "fullName": "Hidden growth number position 公式 = 183 + (maxName + maxProp - 3) * 8"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-settlement.test.ts",
+        "fullName": "settlement resource and text-width boundaries 没有界面帧时经验屏不写像素，屏数据保持原样"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-settlement.test.ts",
+        "fullName": "Settlement screen pixels and resources 没有界面帧时经验屏不写像素，屏数据保持原样"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-settlement.test.ts",
+        "fullName": "settlement resource and text-width boundaries 缺少箭头帧时标签仍是 0xBB，箭头锚点保持哨兵"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-settlement.test.ts",
+        "fullName": "Settlement screen pixels and resources 缺少箭头帧时标签仍是 0xBB，箭头锚点保持哨兵"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-settlement.test.ts",
+        "fullName": "settlement resource and text-width boundaries 缺少斜杠帧时体力个位仍画出，斜杠点保持哨兵"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-settlement.test.ts",
+        "fullName": "Settlement screen pixels and resources 缺少斜杠帧时体力个位仍画出，斜杠点保持哨兵"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-settlement.test.ts",
+        "fullName": "settlement resource and text-width boundaries 二字名的文字按实际字宽贴上，框右缘仍按钳到 3 的长度"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-settlement.test.ts",
+        "fullName": "Settlement screen pixels and resources 二字名的文字按实际字宽贴上，框右缘仍按钳到 3 的长度"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-settlement.test.ts",
+        "fullName": "settlement resource and text-width boundaries 名字四字、法术六字时 ww=16，单行框和名字一起左移"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-settlement.test.ts",
+        "fullName": "Settlement screen pixels and resources 名字四字、法术六字时 ww=16，单行框和名字一起左移"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-settlement.test.ts",
+        "fullName": "settlement screen pixels exp-cash：exp 右对齐 5 位 at (182,74)、cash 中对齐 at y=119、两单行框"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-settlement.test.ts",
+        "fullName": "Settlement screen pixels and resources exp-cash：exp 右对齐 5 位 at (182,74)、cash 中对齐 at y=119、两单行框"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-settlement.test.ts",
+        "fullName": "settlement screen pixels level-up：8 行 old→cur + slash + 箭头 + 0xBB 标签 + 标题"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-settlement.test.ts",
+        "fullName": "Settlement screen pixels and resources level-up：8 行 old→cur + slash + 箭头 + 0xBB 标签 + 标题"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-settlement.test.ts",
+        "fullName": "settlement screen pixels hidden-exp-up：单字词表的涨点数 x=167，名字与属性相贴"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-settlement.test.ts",
+        "fullName": "Settlement screen pixels and resources hidden-exp-up：单字词表的涨点数 x=167，名字与属性相贴"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-settlement.test.ts",
+        "fullName": "settlement screen pixels learn-magic：短名字 ww=0，magicName 色 0x1B"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-settlement.test.ts",
+        "fullName": "Settlement screen pixels and resources learn-magic：短名字 ww=0，magicName 色 0x1B"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-bg.test.ts",
+        "fullName": "drawBattleBg 整面 320×200 写入 framebuffer"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-bg.test.ts",
+        "fullName": "Battle background indices and RGBA 整面 320×200 写入 framebuffer"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-bg.test.ts",
+        "fullName": "drawBattleBg 索引 0 也照画(背景不透明)"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-bg.test.ts",
+        "fullName": "Battle background indices and RGBA 索引 0 也照画(背景不透明)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-bg.test.ts",
+        "fullName": "drawBattleBg 小于屏的素材不越界 / 不抛错"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-bg.test.ts",
+        "fullName": "Battle background indices and RGBA 小于屏的素材不越界 / 不抛错"
+      }
+    }
+  ],
+  "retirements": [],
+  "helperTransplants": [
+    {
+      "oldPath": "packages/game/src/present/__tests__/grok-present/p08-settlement.test.ts",
+      "oldName": "levelUp",
+      "currentPath": "packages/game/src/present/battle/__tests__/draw-battle-settlement.test.ts",
+      "currentName": "roleFourLevelUpData",
+      "changes": [
+        {
+          "from": "function levelUp",
+          "to": "function roleFourLevelUpData",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "id": "battle-screen",
+  "namespace": "organization-battle-screen",
+  "cohortSubjects": [
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/p08-settlement.test.ts",
+      "sha256": "5cdcfa8baac98de16d32337767477d2ae6d79915ceb3795cc6b972705937b52e",
+      "priorCurrentBridges": [
+        {
+          "path": "packages/game/src/present/__tests__/grok-present/p08-settlement.test.ts",
+          "sha256": "5cdcfa8baac98de16d32337767477d2ae6d79915ceb3795cc6b972705937b52e",
+          "member": "organization-game-render-fixtures/31.before",
+          "currentSha256": "421d0c0dde3ba6a15be9acf23baed383fef7ca603e5c875cded3cde7bd857fc6",
+          "evidence": "organization-game-render-fixtures.json"
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/p09-background.test.ts",
+      "sha256": "6922114384b0344f8ed710871edf9e21e9226db81d62ea4a8a34c14cb72f52f2",
+      "priorCurrentBridges": [
+        {
+          "path": "packages/game/src/present/__tests__/grok-present/p09-background.test.ts",
+          "sha256": "6922114384b0344f8ed710871edf9e21e9226db81d62ea4a8a34c14cb72f52f2",
+          "member": "organization-game-render-fixtures/29.before",
+          "currentSha256": "bf225338c2c6c44dce5a7ccc2322a06c51a2225dd9a0abdc181c709e244b50e8",
+          "evidence": "organization-game-render-fixtures.json"
+        }
+      ]
+    }
+  ],
+  "preserved": [
+    {
+      "path": "packages/game/src/present/battle/draw-battle-settlement.ts",
+      "sha256": "86e247937a178a7052b7c30ed18fe842ba063b97cfdd27602598de9c2290450e"
+    },
+    {
+      "path": "packages/game/src/present/battle/draw-battle-bg.ts",
+      "sha256": "03ea731ea200086d53eb7c9f95873c4b8fd5a9d9efc849f3d91aa30cb279b135"
+    },
+    {
+      "path": "packages/game/src/present/battle/present-battle.ts",
+      "sha256": "f80d6676cd039c117a7efc6aa5ef35958b395b1e62d0f8a950fd8bde622c2453"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-settlement.ts",
+      "sha256": "f37d735312ba546599694e3d11c426302d36fd9d04027abe3a1554799134f298"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-settlement-data.ts",
+      "sha256": "4222387afcf3a0cd52ebb5ecc4d4f51fbad21c93b52d80db194a40c5a4b5b0e1"
+    },
+    {
+      "path": "packages/game/src/present/framebuffer.ts",
+      "sha256": "fdd25deedeb33da252d5efa9392bc5af088365a2a6dab3129c2b373aeeb0e060"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-box.ts",
+      "sha256": "2ab2d6e4aafcaa9848cab7e74ccfef8ac0669678a4f4fe58c7577ac89bafb4b4"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/glyph-fixtures.ts",
+      "sha256": "226f7b472f8c065034db07c1f308ba5b5cc03a5f6d31b6f624f9cef27b701e2f"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/uniform-glyphs.ts",
+      "sha256": "c1074d184e865cbe788b5e459b9390e32148c8ba9b2747aa4340861a85c01f87"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/menu-text-fixture.ts",
+      "sha256": "d21320cb5dfe391b2d90b947346ca191c5dbb0602cb1f62c46325178666fdc94"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/menu-state-fixtures.ts",
+      "sha256": "0ce7df25cce554b54c080659494116c76908a531dd289359a32f4323fbabce7f"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/menu-ui-fixtures.ts",
+      "sha256": "0a5af0e46bd20ebe7ca655b9b75e0d63e4b7cc5321928cf83a5acbdaa71cd331"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/raster-fixtures.ts",
+      "sha256": "982d0ab4a7a73bd1d432554562ff9f628d097098be32af9e9b059bd1dbb2d291"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/render-input-snapshots.ts",
+      "sha256": "f2faddfd6a3c6dcbefe752eff487e8fabd92035b62cf673bd6c81289d8dd17b6"
+    },
+    {
+      "path": "packages/game/src/__tests__/glm-phase1-leaves/present-fixtures.ts",
+      "sha256": "4f8701a4dddcdae4010bdbd9b23eee56dd2d20335e906a5249a488308edaedea"
+    },
+    {
+      "path": "packages/game/src/present/font.ts",
+      "sha256": "0af092f60efef7dd1f39c82f4c492512dbf957092f0d20b13da27b5518fd7fe4"
+    },
+    {
+      "path": "packages/game/src/core/word-lookup.ts",
+      "sha256": "06b17311a3e47e82eacb5857aa87dd0a5d7ff706ac1240a00a4c12325458c934"
+    },
+    {
+      "path": "packages/game/vitest.config.ts",
+      "sha256": "3dd92ad4886bc72c88e7a7b2e6bdacc3aaf9e2a24ac72153f3b619ba37feb7d4"
+    },
+    {
+      "path": "scripts/coverage/config.mjs",
+      "sha256": "decb63dda5d12a2269bef1dd75c3d1eb4efca071887c759deca8e9b06ef17a25"
+    }
+  ],
+  "neighborPaths": [
+    "src/present/battle/__tests__/draw-battle-settlement.test.ts",
+    "src/present/battle/__tests__/draw-battle-bg.test.ts",
+    "src/present/battle/__tests__/draw-battle-settlement.formula.test.ts",
+    "src/present/draw-number.test.ts",
+    "src/present/draw-number-nonfinite.test.ts",
+    "src/present/framebuffer.test.ts",
+    "src/core/battle/battle-settlement.glm-next-wave.test.ts",
+    "src/present/battle/__tests__/battle-feedback-composition.test.ts"
+  ],
+  "cleanExecutions": [
+    "before",
+    "reorganize",
+    "scoped-code",
+    "scoped-code-r2",
+    "proof-r2",
+    "routing",
+    "neighbors",
+    "typecheck",
+    "complexity",
+    "module-preflight-r2",
+    "docs",
+    "content-review",
+    "lint",
+    "scoped",
+    "diff",
+    "ledger-final"
+  ],
+  "lightweightGates": true,
+  "profiles": [
+    {
+      "path": "packages/game/src/present/battle/__tests__/draw-battle-settlement.test.ts",
+      "subjects": [
+        "packages/game/src/present/__tests__/grok-present/p08-settlement.test.ts",
+        "packages/game/src/present/__tests__/grok-present/p09-background.test.ts"
+      ],
+      "axes": {
+        "A": "13 real drawBattleSettlement callbacks: exp/cash widths12/34 vs120/7, role4 androle0 distinct level snapshots, all8old/current rows/maxima/slashes/arrows, missing frames/glyphs and input ownership. Two complete painters and data/framebuffer read; production caller supplies live roleNames but direct specs mostly omit it, so only cached-name fallback accepted here. Product unchanged.",
+        "B": "Remove author-organized wrapper; retain domain coordinates/colors and explicit level/maxima labels. Level data are controlled snapshots, not proof ordinary growth generates them. P08 IDs retained as provenance only. No new unsupported coverage claim found in final output.",
+        "C": "Renderer pixels/resources together; pure coordinate formula moved out of Word/Chinese/UI lifecycle. Fresh per-case framebuffer and inputs; beginChineseMenuText owns only injected words and temporary language/HTML. Broad event/caster/target resets removed because these specs do not write those globals.",
+        "D": "Uniform glyph oracle and per-character glyph oracle remain distinct; five uniform-coordinate calls drop only ignored literal arg. Share same semantic8px UI frames while local1px missing-frame fixtures remain separate. Role4/role0 data not forced through mode factory; both different value/width oracles retained.",
+        "E": "13 identities, full typed callbacks after explicit private/glyph name projections. All business assertions retained; cloned inputs assert ownership only, literal positions/colors assert output. Five helper typed bodies conserved;43 shared UI slots (a superset of consumed styles/digits/box/slash/arrow slots) structurally equal. Actual8files57/57 no pending/stderr plus TC0. Formula and rendered layout test different layers, no case deletion or new count padding.",
+        "F": "draw-battle-settlement owns rendered screens; roleFourLevelUpData/roleZeroLevelUpData, uniformGlyphs/positionGlyphs and transparentPixelFrame/opaquePixelFrame reveal actual fixture meanings. Public glyphs key preserved. No AI name governs current file identity.",
+        "G": "Remove one caller-specific host reset dependency and formula lifecycle burden, not renderer input axes. Private1px helper bodies stay simple; missing arrow and missing slash are different optional assets. No dead product exports or unnecessary configurable abstraction introduced.",
+        "H": "True framebuffer, glyph and UI drawing; deterministic synchronous inputs, no render mock or clock needed. Narrow Word/language finally cleanup reused at exact provider SHA. Full callback/helper comparator has tail-field and tail-assertion negatives; this proves specified conservation, not current English/visual/E2E."
+      }
+    },
+    {
+      "path": "packages/game/src/present/battle/__tests__/draw-battle-bg.test.ts",
+      "subjects": [
+        "packages/game/src/present/__tests__/grok-present/p08-settlement.test.ts",
+        "packages/game/src/present/__tests__/grok-present/p09-background.test.ts"
+      ],
+      "axes": {
+        "A": "5 real drawBattleBg cases:320x200 fully opaque including index0,2x2 cropping onto normal frame,6x3 positive/negative tint and indexed-RGBA output. Positive tint old oracle misses omitted final row: real single-case mutant oldgreen/newAssertionError. No product bug/fix claimed. Source input32bytes and unchanged lowered/zero shift callbacks verified.",
+        "B": "Correct zero-shift RGBA title by removing shifted claim, body unchanged and old/new identity mapped. Header retains scope of direct painter tests. Low-nibble saturation source narrow read at battle.c57-78; not full C/original binary parity or RGBA shift coverage.",
+        "C": "Background indices/RGBA ownership contracts together, separate from settlement UI/Word. Fresh array/frame per case, read-only background snapshots. Palette helper pure with explicit tuple return type; no globals/hooks/IO/asynchrony to clean up.",
+        "D": "One-caller image generator replaced with exact literal8x4 plane; canonical sentinel/pixel/snapshot providers reused at pinned versions. Palette helper remains local because only one case needs these overrides; no generic host or extra helper export.",
+        "E": "5 identities retained; full18pixel literal entails old6positive and36absence assertions and catches missing final row. Independent source counter selects1actual case with complete imports/helpers/parent,0pending: old1green,new1businessred,source/test restored. Zero-shift cropped RGBA assertions and normal full-background3cases conserved.57neighbors/TC0 no diagnostics.",
+        "F": "draw-battle-bg groups domain behavior rather than P09 author folder. paletteWithColors describes actual return; second title now says indexed-to-RGBA, not shifted colors. Positive and negative fixture names remain precise.",
+        "G": "Drop generator indirection and42weak checks in favor of one complete18pixel expected matrix; no additional test count or production fallback. Replace tuple assertion with explicit return annotation, emittedJS and256color records equal. No duplicate deletion based only on similar API calls.",
+        "H": "Direct Framebuffer/writePixel/toImageData and literal palette expected triples; no canvas/image mock or duplicated product loop oracle. Mutation temporarily changes real loopheight and restoration verifies exact bytes; negative/zero shifts unaffected by mutation. No browser/visual/E2E acceptance."
+      }
+    },
+    {
+      "path": "packages/game/src/present/battle/__tests__/draw-battle-settlement.formula.test.ts",
+      "subjects": [
+        "packages/game/src/present/__tests__/grok-present/p08-settlement.test.ts",
+        "packages/game/src/present/__tests__/grok-present/p09-background.test.ts"
+      ],
+      "axes": {
+        "A": "2 pure hiddenExpUpNumberX identities moved from renderer main: canonical3/1->191 guards known15px regression;3parameter combinations exercise0/16 offsets. Narrow existing C/formula truth reused; normal renderer/growth behavior not inferred from pure function alone.",
+        "B": "Existing parameter units/fullwidth coordinate comments retained. Old bug15px is historical evidence, not a newly reproduced product defect. No new assertion of current screen/live identity coverage.",
+        "C": "Only vitest and public pure formula imported; no Word/language/DOM/glyph/UI lifecycle now attached to scalar arithmetic tests. No shared mutable state or cleanup needed.",
+        "D": "Canonical coordinate regression and variable-width examples stay explicit, no generic table infrastructure. Renderer widths/pixels remain separately verified through true public painter, not repeated by this pure helper spec.",
+        "E": "Exactly2original identities and complete callback trees preserved, no weak new cases; fixed literals originate in existing layout contract, product formula is not invoked to compute expected results. Actual57neighbors/TC0; formula spec itself collects2,0pending/stderr.",
+        "F": "draw-battle-settlement.formula and Hidden growth number position describe actual scope. Parameter naming remains canonical maxNameWidth/maxPropertyWidth in product; no AI/wave filename.",
+        "G": "Remove UI/text fixture imports and hooks from this responsibility. Kept2layer-appropriate cases for known191anchor and parameter changes; no dead test helper/export or unnecessary wrapper.",
+        "H": "Deterministic public function directly observable without UI mocking/time/random. Complete typed body and native identities support migration; no claim of renderer, resource or E2E coverage."
+      }
+    }
+  ],
+  "callbackProof": "organization-battle-screen/proof-r2.stdout.raw",
+  "cohortOrigins": "organization-battle-screen/cohort-origins.json",
+  "reusedReviewMember": "organization-battle-screen/reused-reviews.json",
+  "runnerEligibility": "organization-battle-screen/routing.stdout.raw",
+  "reads": {
+    "fullInputs": [
+      {
+        "path": "packages/game/src/present/__tests__/grok-present/p08-settlement.test.ts",
+        "sha256": "421d0c0dde3ba6a15be9acf23baed383fef7ca603e5c875cded3cde7bd857fc6",
+        "member": "organization-battle-screen/0.before",
+        "lines": 126
+      },
+      {
+        "path": "packages/game/src/present/__tests__/grok-present/p09-background.test.ts",
+        "sha256": "bf225338c2c6c44dce5a7ccc2322a06c51a2225dd9a0abdc181c709e244b50e8",
+        "member": "organization-battle-screen/1.before",
+        "lines": 102
+      },
+      {
+        "path": "packages/game/src/present/battle/__tests__/draw-battle-settlement.test.ts",
+        "sha256": "cd7baf681b8b667aba3cc817cc693fa506fb8f9cce1a7d1867cfdcc5c57142a0",
+        "member": "organization-battle-screen/2.before",
+        "lines": 261
+      },
+      {
+        "path": "packages/game/src/present/battle/__tests__/draw-battle-bg.test.ts",
+        "sha256": "5e529b4963fc5d4c283b2cb765cfa3a14ff0600ce7c9948a75e3ac73f55b8877",
+        "member": "organization-battle-screen/3.before",
+        "lines": 31
+      }
+    ],
+    "fullImplementations": [
+      {
+        "path": "packages/game/src/present/battle/draw-battle-settlement.ts",
+        "sha256": "86e247937a178a7052b7c30ed18fe842ba063b97cfdd27602598de9c2290450e",
+        "scope": "Full current source read; no renewed whole mechanism, growth or originalgame credit."
+      },
+      {
+        "path": "packages/game/src/present/battle/draw-battle-bg.ts",
+        "sha256": "03ea731ea200086d53eb7c9f95873c4b8fd5a9d9efc849f3d91aa30cb279b135",
+        "scope": "Full current source read; no renewed whole mechanism, growth or originalgame credit."
+      },
+      {
+        "path": "packages/game/src/core/battle/battle-settlement-data.ts",
+        "sha256": "4222387afcf3a0cd52ebb5ecc4d4f51fbad21c93b52d80db194a40c5a4b5b0e1",
+        "scope": "Full current source read; no renewed whole mechanism, growth or originalgame credit."
+      },
+      {
+        "path": "packages/game/src/present/framebuffer.ts",
+        "sha256": "fdd25deedeb33da252d5efa9392bc5af088365a2a6dab3129c2b373aeeb0e060",
+        "scope": "Full current source read; no renewed whole mechanism, growth or originalgame credit."
+      }
+    ],
+    "scopedCallers": [
+      {
+        "path": "packages/game/src/present/battle/present-battle.ts",
+        "sha256": "f80d6676cd039c117a7efc6aa5ef35958b395b1e62d0f8a950fd8bde622c2453",
+        "ranges": [[190, 227], [345, 377]]
+      },
+      {
+        "path": "packages/game/src/core/battle/battle-settlement.ts",
+        "sha256": "f37d735312ba546599694e3d11c426302d36fd9d04027abe3a1554799134f298",
+        "ranges": [[35, 91]]
+      }
+    ],
+    "primarySource": {
+      "path": "reference/sdlpal/battle.c",
+      "sha256": "45f38a01d08b864151390c99bcbb4622e3ba78a5da80a3657c276bf1c2fea33f",
+      "ranges": [[57, 78]],
+      "scope": "Narrow tint loop read; previous truth/layout evidence retained, not renewed fullC or original binary claim."
+    },
+    "currentOutputs": [
+      {
+        "path": "packages/game/src/present/battle/__tests__/draw-battle-settlement.test.ts",
+        "sha256": "ad392d58616ca71bbf04cc4c1a9297b92b179e1e63b9a3fb45858c8b43a95c9b",
+        "lines": 375,
+        "scope": "Full candidate read; final title-only/import formatting reviewed; typed body/data/native proof separate."
+      },
+      {
+        "path": "packages/game/src/present/battle/__tests__/draw-battle-bg.test.ts",
+        "sha256": "e7e251010a6f732c93c647c2626c09fed72761db63e341333582859f81415905",
+        "lines": 107,
+        "scope": "Full candidate read; final title-only/import formatting reviewed; typed body/data/native proof separate."
+      },
+      {
+        "path": "packages/game/src/present/battle/__tests__/draw-battle-settlement.formula.test.ts",
+        "sha256": "1dbc094f09a1d3bae7567bfd050e78508b1b9c6c18ad92244f6ea316662d3e48",
+        "lines": 14,
+        "scope": "Full candidate read; final title-only/import formatting reviewed; typed body/data/native proof separate."
+      }
+    ]
+  },
+  "processDisclosures": [
+    "Only2historicalsubjects counted; P08four/P09two plusadjacent11+3 all20 retained->settlement13/background5/formula2. ExistingclosedBGmain reopensreview;0newclosed.",
+    "Positive tint oracle strengthened from6row0points+36absence checks to18literal pixels. Real height mutant old1green/new1AssertionError,0pending; product restored exact, no product fix claimed. Source plane generator->32literal bytes equal.",
+    "Five uniform-coordinate pureliteral args removed; helper math/parameters,5privatehelper declarations,43sharedUIframes(superset,not43distinctconsumedslots) and6priorproviders exact. Palette cast->returntype annotation, emittedJS/256colors equal. Secondzero-shift title corrected, all callbacks conserved except4explicitly projected bodies.",
+    "Initial freeze heredoc hit Unicode parse SyntaxError before any write; retry used ASCIIhex. Failed initialneighbor path preflight stopped before capture/test execution, originalscript retained; canonical feedback spec then selected. Earlyledger saw unstaged deletedpaths ENOENT; later stagedmapping/ledger-final is authoritative. These early tool failures were transcript-only, no standalone raw falsely claimed.",
+    "No centralchecker edits, product/interface/schema/save/asset/behavior changes. No live roleNames wiring, allmechanics/growth/English/visual/E2E acceptance. Existing valid truth reused. Heavywholecheck/coverage/protected/publication deferred to stablelargecloseout.",
+    "Initial module-preflight rejected quote-style mismatch after title correction: central syntax printer preserves source literal quote style. Only producer projection text formatted with repository Biome; callbacks independently complete-tree-equal, no rule/checker edits. Failed raw retained. UI comparison43slots is an explicit superset, not43distinct consumedslots."
+  ],
+  "ledgerDispositions": {
+    "categories": {
+      "packages/game/src/present/battle/__tests__/draw-battle-settlement.test.ts": "test",
+      "packages/game/src/present/battle/__tests__/draw-battle-bg.test.ts": "test",
+      "packages/game/src/present/battle/__tests__/draw-battle-settlement.formula.test.ts": "test"
+    }
+  },
+  "ledgerCounts": {
+    "inventory": 3448,
+    "closed": 550,
+    "review": 264,
+    "pending": 2634
+  }
+}

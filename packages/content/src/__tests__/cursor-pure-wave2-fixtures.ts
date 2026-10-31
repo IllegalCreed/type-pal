@@ -4,7 +4,7 @@
  */
 import type { ActorDef } from '../actor.js'
 import type { ItemDataMap } from '../item.js'
-import { deepSnapshot } from './glm-content-contract-fixtures.js'
+import { deepSnapshot } from './value-snapshot.js'
 
 export { deepSnapshot }
 

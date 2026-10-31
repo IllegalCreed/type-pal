@@ -4,7 +4,8 @@
  * 精确未触字节断言与 decodeRngFrames 的合成容器链路。只比较 Uint8Array 数值，不渲染。
  */
 import { describe, expect, it } from 'vitest'
-import { mkMkf, YJ2_RNG_PAIR, YJ2_RNG_SKIP_THEN_PAIR } from './__tests__/glm-foundation-fixtures.js'
+import { mkMkf } from './__tests__/mkf-container.js'
+import { YJ2_RNG_PAIR, YJ2_RNG_SKIP_THEN_PAIR } from './__tests__/yj2-vectors.js'
 import { decodeRngFrames, RNG_HEIGHT, RNG_WIDTH, rngBlitDelta } from './rng.js'
 
 const MARK = 0xee

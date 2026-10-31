@@ -1,0 +1,984 @@
+{
+  "id": "game-blob-tests",
+  "kind": "Frames, gzip transport and fetch assembly responsibilities",
+  "namespace": "organization-game-blob-tests",
+  "inputs": [
+    {
+      "path": "packages/game/src/assets/tileset-blob.test.ts",
+      "sha256": "60ac6e213354989a5e34a06612fc7917e48e349a6bc9e372c536fe10b362f1b7",
+      "member": "organization-game-blob-tests/0.before"
+    },
+    {
+      "path": "packages/game/src/assets/tileset-load.grok-r1.test.ts",
+      "sha256": "930e378e87c5754109ec325bcb87d32b05f160df05498fbc7442b00b80ee3a01",
+      "member": "organization-game-blob-tests/1.before"
+    },
+    {
+      "path": "packages/game/src/assets/tileset-gzip.grok-r1.test.ts",
+      "sha256": "b855fe0b4072e7bc2f4c077aff77d8ed8bf2afc62a6d47d0f6ef8f4d77cd75e9",
+      "member": "organization-game-blob-tests/2.before"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "packages/game/src/assets/tileset-blob.frames.test.ts",
+      "sha256": "3631bf76b46d0d510532eadc71957476d9de947ae7a8a374c3b2309a648b4cff"
+    },
+    {
+      "path": "packages/game/src/assets/tileset-blob.fetch.test.ts",
+      "sha256": "2c0de4aea8617bb4beba8ac92600107dd947935d5e1d58777252dd3762a3b0ca"
+    },
+    {
+      "path": "packages/game/src/assets/tileset-blob.gzip.test.ts",
+      "sha256": "9a18af6808bd140734f9e2db3cbfeb76a52f5321f6818649e815f7ee8f812d55"
+    }
+  ],
+  "sourceBridges": [
+    {
+      "id": "blob-layers-0",
+      "path": "packages/game/src/assets/tileset-blob.test.ts",
+      "reason": "Pure frames/transport streams/fetch assembly have distinct lifecycles; only pure frame cases leave the unused global-stub cleanup. Canonical byte input reuse is restricted to proven zero-argument domain.",
+      "changes": [
+        {
+          "from": "function makeSimpleChunk(): Uint8Array {\n  // imagecount=2, frame0 at byte 4 (1×1 0xAA), frame1 at byte 10 (1×1 0xBB)\n  const buf = new Uint8Array(16)\n  const v = new DataView(buf.buffer)\n  v.setUint16(0, 2, true) // imagecount = 2;frame[0] word-offset = 2 → byte 4\n  v.setUint16(2, 5, true) // frame[1] word-offset = 5 → byte 10\n  // frame[0] at byte 4: 1×1 0xAA\n  v.setUint16(4, 1, true) // w=1\n  v.setUint16(6, 1, true) // h=1\n  buf[8] = 0x01 // 直 1 像素\n  buf[9] = 0xaa\n  // frame[1] at byte 10: 1×1 0xBB\n  v.setUint16(10, 1, true) // w=1\n  v.setUint16(12, 1, true) // h=1\n  buf[14] = 0x01\n  buf[15] = 0xbb\n  return buf\n}",
+          "to": "import { twoFrameChunk } from '../__tests__/asset-fixtures.js'",
+          "count": 1
+        },
+        {
+          "from": "describe('rleFrameToIndexedImage', () => {\n  it('RleFrame → IndexedImage 字段重命名，借用 pixels 与 opaque 两份数组', () => {\n    const frame: RleFrame = {\n      width: 1,\n      height: 1,\n      pixels: Uint8Array.of(0xaa),\n      opaque: Uint8Array.of(1),\n    }\n    const image = rleFrameToIndexedImage(frame)\n    expect(image.width).toBe(1)\n    expect(image.height).toBe(1)\n    expect(Array.from(image.indices)).toEqual([0xaa])\n    expect(Array.from(image.opaque)).toEqual([1])\n    expect(image.indices).toBe(frame.pixels)\n    expect(image.opaque).toBe(frame.opaque)\n  })\n})",
+          "to": "describe('rleFrameToIndexedImage', () => {\nit('RleFrame → IndexedImage 字段重命名，借用 pixels 与 opaque 两份数组', () => {\n    const frame: RleFrame = {\n      width: 1,\n      height: 1,\n      pixels: Uint8Array.of(0xaa),\n      opaque: Uint8Array.of(1),\n    }\n    const image = rleFrameToIndexedImage(frame)\n    expect(image.width).toBe(1)\n    expect(image.height).toBe(1)\n    expect(Array.from(image.indices)).toEqual([0xaa])\n    expect(Array.from(image.opaque)).toEqual([1])\n    expect(image.indices).toBe(frame.pixels)\n    expect(image.opaque).toBe(frame.opaque)\n  })\n})",
+          "count": 1
+        },
+        {
+          "from": "describe('decodeTilesetBlob', () => {\n  it('GOP chunk → Map<tileIndex, IndexedImage>,下标连续 0,1,...', () => {\n    const chunk = makeSimpleChunk()\n    const map = decodeTilesetBlob(chunk)\n    expect(map.size).toBe(2)\n    expect(map.get(0)!.width).toBe(1)\n    expect(Array.from(map.get(0)!.indices)).toEqual([0xaa])\n    expect(map.get(1)!.width).toBe(1)\n    expect(Array.from(map.get(1)!.indices)).toEqual([0xbb])\n  })\n\n  it('坏槽跳过后，Map 按有效帧顺序编号而不保留原始槽号', () => {\n    // 三槽分别指向 byte6/12/16；中槽宽0，按当前 TS 宽容解析合同跳过。\n    // 这钉的是过滤后编号，不能将它套用到按原编号消费的 UI manifest。\n    const chunk = Uint8Array.of(\n      3,\n      0,\n      6,\n      0,\n      8,\n      0,\n      1,\n      0,\n      1,\n      0,\n      1,\n      0xaa,\n      0,\n      0,\n      1,\n      0,\n      1,\n      0,\n      1,\n      0,\n      1,\n      0xbb,\n    )\n    expect([...decodeTilesetBlob(chunk)]).toEqual([\n      [0, { width: 1, height: 1, indices: Uint8Array.of(0xaa), opaque: Uint8Array.of(1) }],\n      [1, { width: 1, height: 1, indices: Uint8Array.of(0xbb), opaque: Uint8Array.of(1) }],\n    ])\n  })\n\n  it('透明像素 + opaque palette-0 都正确表达', () => {\n    // 4×1:跳 1(0x81) + 直 2(0x02 0x00 0xCC) + 跳 1(0x81)\n    //   位置 0:transparent(opaque=0)\n    //   位置 1:palette-0 但 opaque=1(关键:不能被当透明)\n    //   位置 2:0xCC opaque=1\n    //   位置 3:transparent\n    const rleFrame = new Uint8Array([0x04, 0x00, 0x01, 0x00, 0x81, 0x02, 0x00, 0xcc, 0x81])\n    // 包成单帧 chunk:imagecount=1, frame0 at byte 2\n    const chunk = new Uint8Array(2 + rleFrame.length)\n    new DataView(chunk.buffer).setUint16(0, 1, true)\n    chunk.set(rleFrame, 2)\n    const map = decodeTilesetBlob(chunk)\n    const img = map.get(0)!\n    expect(img.width).toBe(4)\n    expect(Array.from(img.indices)).toEqual([0, 0, 0xcc, 0])\n    expect(Array.from(img.opaque)).toEqual([0, 1, 1, 0])\n  })\n})",
+          "to": "describe('decodeTilesetBlob', () => {\nit('GOP chunk → Map<tileIndex, IndexedImage>,下标连续 0,1,...', () => {\n    const chunk = makeSimpleChunk()\n    const map = decodeTilesetBlob(chunk)\n    expect(map.size).toBe(2)\n    expect(map.get(0)!.width).toBe(1)\n    expect(Array.from(map.get(0)!.indices)).toEqual([0xaa])\n    expect(map.get(1)!.width).toBe(1)\n    expect(Array.from(map.get(1)!.indices)).toEqual([0xbb])\n  })\n\nit('坏槽跳过后，Map 按有效帧顺序编号而不保留原始槽号', () => {\n    // 三槽分别指向 byte6/12/16；中槽宽0，按当前 TS 宽容解析合同跳过。\n    // 这钉的是过滤后编号，不能将它套用到按原编号消费的 UI manifest。\n    const chunk = Uint8Array.of(\n      3,\n      0,\n      6,\n      0,\n      8,\n      0,\n      1,\n      0,\n      1,\n      0,\n      1,\n      0xaa,\n      0,\n      0,\n      1,\n      0,\n      1,\n      0,\n      1,\n      0,\n      1,\n      0xbb,\n    )\n    expect([...decodeTilesetBlob(chunk)]).toEqual([\n      [0, { width: 1, height: 1, indices: Uint8Array.of(0xaa), opaque: Uint8Array.of(1) }],\n      [1, { width: 1, height: 1, indices: Uint8Array.of(0xbb), opaque: Uint8Array.of(1) }],\n    ])\n  })\n\nit('透明像素 + opaque palette-0 都正确表达', () => {\n    // 4×1:跳 1(0x81) + 直 2(0x02 0x00 0xCC) + 跳 1(0x81)\n    //   位置 0:transparent(opaque=0)\n    //   位置 1:palette-0 但 opaque=1(关键:不能被当透明)\n    //   位置 2:0xCC opaque=1\n    //   位置 3:transparent\n    const rleFrame = new Uint8Array([0x04, 0x00, 0x01, 0x00, 0x81, 0x02, 0x00, 0xcc, 0x81])\n    // 包成单帧 chunk:imagecount=1, frame0 at byte 2\n    const chunk = new Uint8Array(2 + rleFrame.length)\n    new DataView(chunk.buffer).setUint16(0, 1, true)\n    chunk.set(rleFrame, 2)\n    const map = decodeTilesetBlob(chunk)\n    const img = map.get(0)!\n    expect(img.width).toBe(4)\n    expect(Array.from(img.indices)).toEqual([0, 0, 0xcc, 0])\n    expect(Array.from(img.opaque)).toEqual([0, 1, 1, 0])\n  })\n})",
+          "count": 1
+        },
+        {
+          "from": "describe('decodeSpriteFrames / loadSpriteFramesBlob (npc/battle/magic 共用)', () => {\n  it('decodeSpriteFrames:chunk → IndexedImage[],序与 parseSpriteChunk 一致', () => {\n    const chunk = makeSimpleChunk()\n    const frames = decodeSpriteFrames(chunk)\n    expect(frames.length).toBe(2)\n    expect(Array.from(frames[0]!.indices)).toEqual([0xaa])\n    expect(Array.from(frames[1]!.indices)).toEqual([0xbb])\n  })\n\n  it('loadSpriteFramesBlob:fetch mock → 解压 → IndexedImage[]', async () => {\n    const fetchSpy = vi\n      .spyOn(globalThis, 'fetch')\n      .mockResolvedValue(new Response(gzipSync(makeSimpleChunk()), { status: 200 }))\n    try {\n      const frames = await loadSpriteFramesBlob('/fake/sprite/5.rle')\n      expect(frames.length).toBe(2)\n      expect(Array.from(frames[1]!.indices)).toEqual([0xbb])\n    } finally {\n      fetchSpy.mockRestore()\n    }\n  })\n})",
+          "to": "describe('sprite frame decoding', () => {\nit('decodeSpriteFrames:chunk → IndexedImage[],序与 parseSpriteChunk 一致', () => {\n    const chunk = makeSimpleChunk()\n    const frames = decodeSpriteFrames(chunk)\n    expect(frames.length).toBe(2)\n    expect(Array.from(frames[0]!.indices)).toEqual([0xaa])\n    expect(Array.from(frames[1]!.indices)).toEqual([0xbb])\n  })\n})\n\ndescribe('gzip fetch assembly', () => {\nit('loadSpriteFramesBlob:fetch mock → 解压 → IndexedImage[]', async () => {\n    const fetchSpy = vi\n      .spyOn(globalThis, 'fetch')\n      .mockResolvedValue(new Response(gzipSync(makeSimpleChunk()), { status: 200 }))\n    try {\n      const frames = await loadSpriteFramesBlob('/fake/sprite/5.rle')\n      expect(frames.length).toBe(2)\n      expect(Array.from(frames[1]!.indices)).toEqual([0xbb])\n    } finally {\n      fetchSpy.mockRestore()\n    }\n  })\n})",
+          "count": 1
+        },
+        {
+          "from": "describe('framesToCharacterSprite (锚点派生)', () => {\n  const img = (w: number, h: number): IndexedImage => ({\n    width: w,\n    height: h,\n    indices: new Uint8Array(w * h),\n    opaque: new Uint8Array(w * h),\n  })\n\n  it('锚点 = 首帧 floor(width/2) / height(与旧 loader 同源)', () => {\n    const cs = framesToCharacterSprite([img(20, 31), img(18, 40)])\n    expect(cs.anchorX).toBe(10)\n    expect(cs.anchorY).toBe(31)\n    expect(cs.frames.length).toBe(2)\n  })\n\n  it('空帧 → 锚点 0', () => {\n    const cs = framesToCharacterSprite([])\n    expect(cs.anchorX).toBe(0)\n    expect(cs.anchorY).toBe(0)\n  })\n\n  it('loadCharacterSpriteBlob:fetch mock → 帧 + 锚点', async () => {\n    const fetchSpy = vi\n      .spyOn(globalThis, 'fetch')\n      .mockResolvedValue(new Response(gzipSync(makeSimpleChunk()), { status: 200 }))\n    try {\n      const cs = await loadCharacterSpriteBlob('/fake/sprite/5.rle')\n      expect(cs.frames.length).toBe(2)\n      expect(cs.anchorX).toBe(0) // 1×1 帧 → floor(1/2)=0\n      expect(cs.anchorY).toBe(1)\n    } finally {\n      fetchSpy.mockRestore()\n    }\n  })\n})",
+          "to": "describe('character frame anchors', () => {\nconst img = (w: number, h: number): IndexedImage => ({\n    width: w,\n    height: h,\n    indices: new Uint8Array(w * h),\n    opaque: new Uint8Array(w * h),\n  })\n\nit('锚点 = 首帧 floor(width/2) / height(与旧 loader 同源)', () => {\n    const cs = framesToCharacterSprite([img(20, 31), img(18, 40)])\n    expect(cs.anchorX).toBe(10)\n    expect(cs.anchorY).toBe(31)\n    expect(cs.frames.length).toBe(2)\n  })\n\nit('空帧 → 锚点 0', () => {\n    const cs = framesToCharacterSprite([])\n    expect(cs.anchorX).toBe(0)\n    expect(cs.anchorY).toBe(0)\n  })\n})\n\ndescribe('gzip fetch assembly', () => {\nit('loadCharacterSpriteBlob:fetch mock → 帧 + 锚点', async () => {\n    const fetchSpy = vi\n      .spyOn(globalThis, 'fetch')\n      .mockResolvedValue(new Response(gzipSync(makeSimpleChunk()), { status: 200 }))\n    try {\n      const cs = await loadCharacterSpriteBlob('/fake/sprite/5.rle')\n      expect(cs.frames.length).toBe(2)\n      expect(cs.anchorX).toBe(0) // 1×1 帧 → floor(1/2)=0\n      expect(cs.anchorY).toBe(1)\n    } finally {\n      fetchSpy.mockRestore()\n    }\n  })\n})",
+          "count": 1
+        },
+        {
+          "from": "describe('decompressGzip', () => {\n  it('gzip roundtrip:解压后 == 原始字节', async () => {\n    const original = makeSimpleChunk()\n    const gzipped = gzipSync(original)\n    const blob = new Blob([gzipped])\n    const decompressed = await decompressGzip(blob)\n    expect(Array.from(decompressed)).toEqual(Array.from(original))\n  })\n\n  it('空 blob 也支持(边界)', async () => {\n    const original = new Uint8Array(0)\n    const gzipped = gzipSync(original)\n    const blob = new Blob([gzipped])\n    const decompressed = await decompressGzip(blob)\n    expect(decompressed.byteLength).toBe(0)\n  })\n\n  it('Content-Encoding 已解压(无 gzip 魔数)→ 原样返回,不二次解压', async () => {\n    // 模拟 nginx/CDN 自动解掉 Content-Encoding 后,fetch 拿到的是裸 chunk 字节(非 gzip)。\n    const rawChunk = makeSimpleChunk() // 首字节 0x02(小端 count),非 0x1f\n    const blob = new Blob([Buffer.from(rawChunk)])\n    const out = await decompressGzip(blob)\n    expect(Array.from(out)).toEqual(Array.from(rawChunk))\n  })\n})",
+          "to": "describe('gzip and raw byte transport', () => {\nit('gzip roundtrip:解压后 == 原始字节', async () => {\n    const original = makeSimpleChunk()\n    const gzipped = gzipSync(original)\n    const blob = new Blob([gzipped])\n    const decompressed = await decompressGzip(blob)\n    expect(Array.from(decompressed)).toEqual(Array.from(original))\n  })\n\nit('空 blob 也支持(边界)', async () => {\n    const original = new Uint8Array(0)\n    const gzipped = gzipSync(original)\n    const blob = new Blob([gzipped])\n    const decompressed = await decompressGzip(blob)\n    expect(decompressed.byteLength).toBe(0)\n  })\n\nit('Content-Encoding 已解压(无 gzip 魔数)→ 原样返回,不二次解压', async () => {\n    // 模拟 nginx/CDN 自动解掉 Content-Encoding 后,fetch 拿到的是裸 chunk 字节(非 gzip)。\n    const rawChunk = makeSimpleChunk() // 首字节 0x02(小端 count),非 0x1f\n    const blob = new Blob([Buffer.from(rawChunk)])\n    const out = await decompressGzip(blob)\n    expect(Array.from(out)).toEqual(Array.from(rawChunk))\n  })\n})",
+          "count": 1
+        },
+        {
+          "from": "describe('loadTilesetBlob', () => {\n  it('完整链路:fetch mock → 解压 → 解析 → Map(键一致性 + 像素)', async () => {\n    const chunk = makeSimpleChunk()\n    const gzipped = gzipSync(chunk)\n    // mock fetch 返回 gzipped blob\n    const fetchSpy = vi\n      .spyOn(globalThis, 'fetch')\n      .mockResolvedValue(new Response(gzipped, { status: 200 }))\n    try {\n      const map = await loadTilesetBlob('/fake/tileset/1.rle')\n      expect(fetchSpy).toHaveBeenCalledWith('/fake/tileset/1.rle')\n      expect(map.size).toBe(2)\n      expect(Array.from(map.get(0)!.indices)).toEqual([0xaa])\n      expect(Array.from(map.get(1)!.indices)).toEqual([0xbb])\n    } finally {\n      fetchSpy.mockRestore()\n    }\n  })\n})",
+          "to": "describe('gzip fetch assembly', () => {\nit('完整链路:fetch mock → 解压 → 解析 → Map(键一致性 + 像素)', async () => {\n    const chunk = makeSimpleChunk()\n    const gzipped = gzipSync(chunk)\n    // mock fetch 返回 gzipped blob\n    const fetchSpy = vi\n      .spyOn(globalThis, 'fetch')\n      .mockResolvedValue(new Response(gzipped, { status: 200 }))\n    try {\n      const map = await loadTilesetBlob('/fake/tileset/1.rle')\n      expect(fetchSpy).toHaveBeenCalledWith('/fake/tileset/1.rle')\n      expect(map.size).toBe(2)\n      expect(Array.from(map.get(0)!.indices)).toEqual([0xaa])\n      expect(Array.from(map.get(1)!.indices)).toEqual([0xbb])\n    } finally {\n      fetchSpy.mockRestore()\n    }\n  })\n})",
+          "count": 1
+        },
+        {
+          "from": "'GOP chunk → Map<tileIndex, IndexedImage>,下标连续 0,1,...'",
+          "to": "'合成两帧容器 → Map<tileIndex, IndexedImage>，键为 0、1'",
+          "count": 1
+        },
+        {
+          "from": "'decodeSpriteFrames:chunk → IndexedImage[],序与 parseSpriteChunk 一致'",
+          "to": "'decodeSpriteFrames 保留已解码有效帧的顺序'",
+          "count": 1
+        },
+        {
+          "from": "'锚点 = 首帧 floor(width/2) / height(与旧 loader 同源)'",
+          "to": "'锚点取首帧 floor(width/2) 与 height'",
+          "count": 1
+        },
+        {
+          "from": "makeSimpleChunk",
+          "to": "twoFrameChunk",
+          "count": 7
+        }
+      ]
+    },
+    {
+      "id": "blob-layers-1",
+      "path": "packages/game/src/assets/tileset-load.grok-r1.test.ts",
+      "reason": "Pure frames/transport streams/fetch assembly have distinct lifecycles; only pure frame cases leave the unused global-stub cleanup. Canonical byte input reuse is restricted to proven zero-argument domain.",
+      "changes": [
+        {
+          "from": "describe('G02-C sprite 与 tileset 加载边界', () => {\n  afterEach(() => {\n    vi.unstubAllGlobals()\n    vi.restoreAllMocks()\n  })\n\n  it('G02-C01 裸 RLE 经过 loadSpriteFramesBlob 得到两帧 AA 与 BB', async () => {\n    vi.stubGlobal(\n      'fetch',\n      vi.fn(async () => new Response(raw, { status: 200 })),\n    )\n    const frames = await loadSpriteFramesBlob('/extracted/data/sprite/5.rle')\n    expect(frames).toHaveLength(2)\n    expect(Array.from(frames[0]?.indices ?? [])).toEqual([0xaa])\n    expect(Array.from(frames[1]?.indices ?? [])).toEqual([0xbb])\n  })\n\n  it('G02-C02 裸 RLE 经过 loadTilesetBlob 得到键 0 与键 1', async () => {\n    vi.stubGlobal(\n      'fetch',\n      vi.fn(async () => new Response(raw, { status: 200 })),\n    )\n    const map = await loadTilesetBlob('/extracted/data/tileset/3.rle')\n    expect(map.size).toBe(2)\n    expect(Array.from(map.get(0)?.indices ?? [])).toEqual([0xaa])\n    expect(Array.from(map.get(1)?.indices ?? [])).toEqual([0xbb])\n  })\n\n  it('G02-C03 裸 RLE 经过 loadCharacterSpriteBlob 时锚点为 0,1，第二帧为 BB', async () => {\n    vi.stubGlobal(\n      'fetch',\n      vi.fn(async () => new Response(raw, { status: 200 })),\n    )\n    const sprite = await loadCharacterSpriteBlob('/extracted/data/sprite/9.rle')\n    expect(sprite.anchorX).toBe(0)\n    expect(sprite.anchorY).toBe(1)\n    expect(Array.from(sprite.frames[1]?.indices ?? [])).toEqual([0xbb])\n  })\n\n  it('G02-C04 sprite blob 503 的错误带 URL 与状态码', async () => {\n    vi.stubGlobal(\n      'fetch',\n      vi.fn(async () => new Response('', { status: 503 })),\n    )\n    await expect(loadSpriteFramesBlob('/extracted/data/battle-sprite/enemy/4.rle')).rejects.toThrow(\n      'sprite-blob: fetch /extracted/data/battle-sprite/enemy/4.rle failed (503)',\n    )\n  })\n\n  it('G02-C05 tileset blob 503 的错误带 URL 与状态码', async () => {\n    vi.stubGlobal(\n      'fetch',\n      vi.fn(async () => new Response(raw, { status: 503 })),\n    )\n    await expect(loadTilesetBlob('/extracted/data/tileset/9.rle')).rejects.toThrow(\n      'tileset-blob: fetch /extracted/data/tileset/9.rle failed (503)',\n    )\n  })\n\n  it('G02-C06 角色 blob 404 的错误来自 sprite-blob，并带上角色 URL', async () => {\n    vi.stubGlobal(\n      'fetch',\n      vi.fn(async () => new Response(raw, { status: 404 })),\n    )\n    await expect(loadCharacterSpriteBlob('/extracted/data/sprite/9.rle')).rejects.toThrow(\n      'sprite-blob: fetch /extracted/data/sprite/9.rle failed (404)',\n    )\n  })\n\n  it('G02-C07 tileset 200 但 gzip 主体损坏时，错误不是 fetch 失败串', async () => {\n    vi.stubGlobal(\n      'fetch',\n      vi.fn(async () => new Response(Uint8Array.of(0x1f, 0x8b, 0x00), { status: 200 })),\n    )\n    const caught = await loadTilesetBlob('/extracted/data/tileset/1.rle').then(\n      () => null,\n      (error: unknown) => error,\n    )\n    expect(caught).toBeInstanceOf(TypeError)\n    if (!(caught instanceof TypeError)) throw new Error('expected TypeError')\n    expect(caught.message).not.toContain('tileset-blob: fetch')\n  })\n\n  it('G02-C08 sprite blob 返回损坏 gzip 时错误不是 fetch 失败串', async () => {\n    vi.stubGlobal(\n      'fetch',\n      vi.fn(async () => new Response(Uint8Array.of(0x1f, 0x8b, 0x00), { status: 200 })),\n    )\n    const caught = await loadSpriteFramesBlob('/extracted/data/sprite/2.rle').then(\n      () => null,\n      (error: unknown) => error,\n    )\n    expect(caught).toBeInstanceOf(TypeError)\n    if (!(caught instanceof TypeError)) throw new Error('expected TypeError')\n    expect(caught.message).not.toContain('sprite-blob: fetch')\n  })\n})",
+          "to": "describe('raw transport and fetch failures', () => {\nafterEach(() => {\n    vi.unstubAllGlobals()\n    vi.restoreAllMocks()\n  })\n\nit('G02-C01 裸 RLE 经过 loadSpriteFramesBlob 得到两帧 AA 与 BB', async () => {\n    vi.stubGlobal(\n      'fetch',\n      vi.fn(async () => new Response(raw, { status: 200 })),\n    )\n    const frames = await loadSpriteFramesBlob('/extracted/data/sprite/5.rle')\n    expect(frames).toHaveLength(2)\n    expect(Array.from(frames[0]?.indices ?? [])).toEqual([0xaa])\n    expect(Array.from(frames[1]?.indices ?? [])).toEqual([0xbb])\n  })\n\nit('G02-C02 裸 RLE 经过 loadTilesetBlob 得到键 0 与键 1', async () => {\n    vi.stubGlobal(\n      'fetch',\n      vi.fn(async () => new Response(raw, { status: 200 })),\n    )\n    const map = await loadTilesetBlob('/extracted/data/tileset/3.rle')\n    expect(map.size).toBe(2)\n    expect(Array.from(map.get(0)?.indices ?? [])).toEqual([0xaa])\n    expect(Array.from(map.get(1)?.indices ?? [])).toEqual([0xbb])\n  })\n\nit('G02-C03 裸 RLE 经过 loadCharacterSpriteBlob 时锚点为 0,1，第二帧为 BB', async () => {\n    vi.stubGlobal(\n      'fetch',\n      vi.fn(async () => new Response(raw, { status: 200 })),\n    )\n    const sprite = await loadCharacterSpriteBlob('/extracted/data/sprite/9.rle')\n    expect(sprite.anchorX).toBe(0)\n    expect(sprite.anchorY).toBe(1)\n    expect(Array.from(sprite.frames[1]?.indices ?? [])).toEqual([0xbb])\n  })\n\nit('G02-C04 sprite blob 503 的错误带 URL 与状态码', async () => {\n    vi.stubGlobal(\n      'fetch',\n      vi.fn(async () => new Response('', { status: 503 })),\n    )\n    await expect(loadSpriteFramesBlob('/extracted/data/battle-sprite/enemy/4.rle')).rejects.toThrow(\n      'sprite-blob: fetch /extracted/data/battle-sprite/enemy/4.rle failed (503)',\n    )\n  })\n\nit('G02-C05 tileset blob 503 的错误带 URL 与状态码', async () => {\n    vi.stubGlobal(\n      'fetch',\n      vi.fn(async () => new Response(raw, { status: 503 })),\n    )\n    await expect(loadTilesetBlob('/extracted/data/tileset/9.rle')).rejects.toThrow(\n      'tileset-blob: fetch /extracted/data/tileset/9.rle failed (503)',\n    )\n  })\n\nit('G02-C06 角色 blob 404 的错误来自 sprite-blob，并带上角色 URL', async () => {\n    vi.stubGlobal(\n      'fetch',\n      vi.fn(async () => new Response(raw, { status: 404 })),\n    )\n    await expect(loadCharacterSpriteBlob('/extracted/data/sprite/9.rle')).rejects.toThrow(\n      'sprite-blob: fetch /extracted/data/sprite/9.rle failed (404)',\n    )\n  })\n\nit('G02-C07 tileset 200 但 gzip 主体损坏时，错误不是 fetch 失败串', async () => {\n    vi.stubGlobal(\n      'fetch',\n      vi.fn(async () => new Response(Uint8Array.of(0x1f, 0x8b, 0x00), { status: 200 })),\n    )\n    const caught = await loadTilesetBlob('/extracted/data/tileset/1.rle').then(\n      () => null,\n      (error: unknown) => error,\n    )\n    expect(caught).toBeInstanceOf(TypeError)\n    if (!(caught instanceof TypeError)) throw new Error('expected TypeError')\n    expect(caught.message).not.toContain('tileset-blob: fetch')\n  })\n\nit('G02-C08 sprite blob 返回损坏 gzip 时错误不是 fetch 失败串', async () => {\n    vi.stubGlobal(\n      'fetch',\n      vi.fn(async () => new Response(Uint8Array.of(0x1f, 0x8b, 0x00), { status: 200 })),\n    )\n    const caught = await loadSpriteFramesBlob('/extracted/data/sprite/2.rle').then(\n      () => null,\n      (error: unknown) => error,\n    )\n    expect(caught).toBeInstanceOf(TypeError)\n    if (!(caught instanceof TypeError)) throw new Error('expected TypeError')\n    expect(caught.message).not.toContain('sprite-blob: fetch')\n  })\n})",
+          "count": 1
+        },
+        {
+          "from": "'G02-C01 裸 RLE 经过 loadSpriteFramesBlob 得到两帧 AA 与 BB'",
+          "to": "'裸 RLE 经过 loadSpriteFramesBlob 得到两帧 AA 与 BB'",
+          "count": 1
+        },
+        {
+          "from": "'G02-C02 裸 RLE 经过 loadTilesetBlob 得到键 0 与键 1'",
+          "to": "'裸 RLE 经过 loadTilesetBlob 得到键 0 与键 1'",
+          "count": 1
+        },
+        {
+          "from": "'G02-C03 裸 RLE 经过 loadCharacterSpriteBlob 时锚点为 0,1，第二帧为 BB'",
+          "to": "'裸 RLE 经过 loadCharacterSpriteBlob 时锚点为 0,1，第二帧为 BB'",
+          "count": 1
+        },
+        {
+          "from": "'G02-C04 sprite blob 503 的错误带 URL 与状态码'",
+          "to": "'sprite blob 503 的错误带 URL 与状态码'",
+          "count": 1
+        },
+        {
+          "from": "'G02-C05 tileset blob 503 的错误带 URL 与状态码'",
+          "to": "'tileset blob 503 的错误带 URL 与状态码'",
+          "count": 1
+        },
+        {
+          "from": "'G02-C06 角色 blob 404 的错误来自 sprite-blob，并带上角色 URL'",
+          "to": "'角色 blob 404 的错误来自 sprite-blob，并带上角色 URL'",
+          "count": 1
+        },
+        {
+          "from": "'G02-C07 tileset 200 但 gzip 主体损坏时，错误不是 fetch 失败串'",
+          "to": "'tileset 200 但 gzip 主体损坏时，错误不是 fetch 失败串'",
+          "count": 1
+        },
+        {
+          "from": "'G02-C08 sprite blob 返回损坏 gzip 时错误不是 fetch 失败串'",
+          "to": "'sprite blob 返回损坏 gzip 时错误不是 fetch 失败串'",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "blob-layers-2",
+      "path": "packages/game/src/assets/tileset-gzip.grok-r1.test.ts",
+      "reason": "Pure frames/transport streams/fetch assembly have distinct lifecycles; only pure frame cases leave the unused global-stub cleanup. Canonical byte input reuse is restricted to proven zero-argument domain.",
+      "changes": [
+        {
+          "from": "describe('G02-B gzip 魔数与帧锚点', () => {\n  afterEach(() => {\n    vi.unstubAllGlobals()\n  })\n  it('G02-B01 只有一个 0x1f 字节时原样返回，不进入解压', async () => {\n    const out = await decompressGzip(new Blob([Uint8Array.of(0x1f)]))\n    expect(Array.from(out)).toEqual([0x1f])\n  })\n\n  it('G02-B02 第二字节不是 0x8b 时，即使首字节是 0x1f 也原样返回', async () => {\n    const out = await decompressGzip(new Blob([Uint8Array.of(0x1f, 0x00)]))\n    expect(Array.from(out)).toEqual([0x1f, 0x00])\n  })\n\n  it('G02-B03 环境没有 DecompressionStream 时抛出固定兜底错误', async () => {\n    vi.stubGlobal('DecompressionStream', undefined)\n    await expect(decompressGzip(new Blob([gzipSync(Uint8Array.of(1))]))).rejects.toThrow(\n      unsupported,\n    )\n  })\n\n  it('G02-B04 带魔数但主体损坏时拒绝为 TypeError，不走缺流兜底文案', async () => {\n    const caught = await decompressGzip(new Blob([Uint8Array.of(0x1f, 0x8b, 0x00)])).then(\n      () => null,\n      (error: unknown) => error,\n    )\n    expect(caught).toBeInstanceOf(TypeError)\n    if (!(caught instanceof TypeError)) throw new Error('expected TypeError')\n    expect(caught.message).not.toContain('DecompressionStream unsupported')\n  })\n\n  it('G02-B05 解压流分成两段时按偏移拼回 [9, 8, 7]', async () => {\n    const SplitGzip = class extends TransformStream<BufferSource, Uint8Array<ArrayBuffer>> {\n      constructor(_format: CompressionFormat) {\n        super({\n          // 该例只控制解压后的分块；原生 gzip 正确性由主测试的字节往返核验。\n          transform() {},\n          flush(controller) {\n            controller.enqueue(Uint8Array.of(9, 8))\n            controller.enqueue(Uint8Array.of(7))\n          },\n        })\n      }\n    } satisfies typeof DecompressionStream\n    vi.stubGlobal('DecompressionStream', SplitGzip)\n    expect(Array.from(await decompressGzip(new Blob([gzipSync(Uint8Array.of(1))])))).toEqual([\n      9, 8, 7,\n    ])\n  })\n\n  it('G02-B07 首帧宽 7 时 anchorX 为 3，更高的后续帧不改锚点', () => {\n    const first: IndexedImage = {\n      width: 7,\n      height: 4,\n      indices: new Uint8Array(28),\n      opaque: new Uint8Array(28),\n    }\n    const later: IndexedImage = {\n      width: 2,\n      height: 9,\n      indices: new Uint8Array(18),\n      opaque: new Uint8Array(18),\n    }\n    const sprite = framesToCharacterSprite([first, later])\n    expect(sprite.anchorX).toBe(3)\n    expect(sprite.anchorY).toBe(4)\n    expect(sprite.frames).toHaveLength(2)\n  })\n\n  it('G02-B08 framesToCharacterSprite 保留调用方传入的帧数组引用', () => {\n    const frames: IndexedImage[] = [\n      { width: 2, height: 2, indices: new Uint8Array(4), opaque: new Uint8Array(4) },\n    ]\n    expect(framesToCharacterSprite(frames).frames).toBe(frames)\n  })\n\n  it('G02-B09 imagecount 为 0 的 chunk 得到空 Map', () => {\n    expect(decodeTilesetBlob(Uint8Array.of(0, 0)).size).toBe(0)\n  })\n})",
+          "to": "describe('gzip signatures and stream ownership', () => {\nafterEach(() => {\n    vi.unstubAllGlobals()\n  })\n\nit('G02-B01 只有一个 0x1f 字节时原样返回，不进入解压', async () => {\n    const out = await decompressGzip(new Blob([Uint8Array.of(0x1f)]))\n    expect(Array.from(out)).toEqual([0x1f])\n  })\n\nit('G02-B02 第二字节不是 0x8b 时，即使首字节是 0x1f 也原样返回', async () => {\n    const out = await decompressGzip(new Blob([Uint8Array.of(0x1f, 0x00)]))\n    expect(Array.from(out)).toEqual([0x1f, 0x00])\n  })\n\nit('G02-B03 环境没有 DecompressionStream 时抛出固定兜底错误', async () => {\n    vi.stubGlobal('DecompressionStream', undefined)\n    await expect(decompressGzip(new Blob([gzipSync(Uint8Array.of(1))]))).rejects.toThrow(\n      unsupported,\n    )\n  })\n\nit('G02-B04 带魔数但主体损坏时拒绝为 TypeError，不走缺流兜底文案', async () => {\n    const caught = await decompressGzip(new Blob([Uint8Array.of(0x1f, 0x8b, 0x00)])).then(\n      () => null,\n      (error: unknown) => error,\n    )\n    expect(caught).toBeInstanceOf(TypeError)\n    if (!(caught instanceof TypeError)) throw new Error('expected TypeError')\n    expect(caught.message).not.toContain('DecompressionStream unsupported')\n  })\n\nit('G02-B05 解压流分成两段时按偏移拼回 [9, 8, 7]', async () => {\n    const SplitGzip = class extends TransformStream<BufferSource, Uint8Array<ArrayBuffer>> {\n      constructor(_format: CompressionFormat) {\n        super({\n          // 该例只控制解压后的分块；原生 gzip 正确性由主测试的字节往返核验。\n          transform() {},\n          flush(controller) {\n            controller.enqueue(Uint8Array.of(9, 8))\n            controller.enqueue(Uint8Array.of(7))\n          },\n        })\n      }\n    } satisfies typeof DecompressionStream\n    vi.stubGlobal('DecompressionStream', SplitGzip)\n    expect(Array.from(await decompressGzip(new Blob([gzipSync(Uint8Array.of(1))])))).toEqual([\n      9, 8, 7,\n    ])\n  })\n})\n\ndescribe('odd anchors and borrowed frames', () => {\nit('G02-B07 首帧宽 7 时 anchorX 为 3，更高的后续帧不改锚点', () => {\n    const first: IndexedImage = {\n      width: 7,\n      height: 4,\n      indices: new Uint8Array(28),\n      opaque: new Uint8Array(28),\n    }\n    const later: IndexedImage = {\n      width: 2,\n      height: 9,\n      indices: new Uint8Array(18),\n      opaque: new Uint8Array(18),\n    }\n    const sprite = framesToCharacterSprite([first, later])\n    expect(sprite.anchorX).toBe(3)\n    expect(sprite.anchorY).toBe(4)\n    expect(sprite.frames).toHaveLength(2)\n  })\n\nit('G02-B08 framesToCharacterSprite 保留调用方传入的帧数组引用', () => {\n    const frames: IndexedImage[] = [\n      { width: 2, height: 2, indices: new Uint8Array(4), opaque: new Uint8Array(4) },\n    ]\n    expect(framesToCharacterSprite(frames).frames).toBe(frames)\n  })\n})\n\ndescribe('empty decoded tilesets', () => {\nit('G02-B09 imagecount 为 0 的 chunk 得到空 Map', () => {\n    expect(decodeTilesetBlob(Uint8Array.of(0, 0)).size).toBe(0)\n  })\n})",
+          "count": 1
+        },
+        {
+          "from": "'G02-B01 只有一个 0x1f 字节时原样返回，不进入解压'",
+          "to": "'只有一个 0x1f 字节时原样返回，不进入解压'",
+          "count": 1
+        },
+        {
+          "from": "'G02-B02 第二字节不是 0x8b 时，即使首字节是 0x1f 也原样返回'",
+          "to": "'第二字节不是 0x8b 时，即使首字节是 0x1f 也原样返回'",
+          "count": 1
+        },
+        {
+          "from": "'G02-B03 环境没有 DecompressionStream 时抛出固定兜底错误'",
+          "to": "'环境没有 DecompressionStream 时抛出固定兜底错误'",
+          "count": 1
+        },
+        {
+          "from": "'G02-B04 带魔数但主体损坏时拒绝为 TypeError，不走缺流兜底文案'",
+          "to": "'带魔数但主体损坏时拒绝为 TypeError，不走缺流兜底文案'",
+          "count": 1
+        },
+        {
+          "from": "'G02-B05 解压流分成两段时按偏移拼回 [9, 8, 7]'",
+          "to": "'解压流分成两段时按偏移拼回 [9, 8, 7]'",
+          "count": 1
+        },
+        {
+          "from": "'G02-B07 首帧宽 7 时 anchorX 为 3，更高的后续帧不改锚点'",
+          "to": "'首帧宽 7 时 anchorX 为 3，更高的后续帧不改锚点'",
+          "count": 1
+        },
+        {
+          "from": "'G02-B08 framesToCharacterSprite 保留调用方传入的帧数组引用'",
+          "to": "'framesToCharacterSprite 保留调用方传入的帧数组引用'",
+          "count": 1
+        },
+        {
+          "from": "'G02-B09 imagecount 为 0 的 chunk 得到空 Map'",
+          "to": "'imagecount 为 0 的 chunk 得到空 Map'",
+          "count": 1
+        },
+        {
+          "from": "'环境没有 DecompressionStream 时抛出固定兜底错误'",
+          "to": "'环境没有 DecompressionStream 时明确拒绝 gzip'",
+          "count": 1
+        },
+        {
+          "from": "'带魔数但主体损坏时拒绝为 TypeError，不走缺流兜底文案'",
+          "to": "'带魔数但主体损坏时拒绝为 TypeError，不误报缺流'",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "replacements": [],
+  "registrations": [
+    {
+      "old": {
+        "file": "packages/game/src/assets/tileset-blob.test.ts",
+        "ordinal": 0
+      },
+      "originalOrdinal": 0,
+      "current": {
+        "file": "packages/game/src/assets/tileset-blob.frames.test.ts",
+        "titles": ["rleFrameToIndexedImage"],
+        "template": "RleFrame → IndexedImage 字段重命名，借用 pixels 与 opaque 两份数组"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/tileset-blob.test.ts",
+        "ordinal": 1
+      },
+      "originalOrdinal": 1,
+      "current": {
+        "file": "packages/game/src/assets/tileset-blob.frames.test.ts",
+        "titles": ["decodeTilesetBlob"],
+        "template": "合成两帧容器 → Map<tileIndex, IndexedImage>，键为 0、1"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/tileset-blob.test.ts",
+        "ordinal": 2
+      },
+      "originalOrdinal": 2,
+      "current": {
+        "file": "packages/game/src/assets/tileset-blob.frames.test.ts",
+        "titles": ["decodeTilesetBlob"],
+        "template": "坏槽跳过后，Map 按有效帧顺序编号而不保留原始槽号"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/tileset-blob.test.ts",
+        "ordinal": 3
+      },
+      "originalOrdinal": 3,
+      "current": {
+        "file": "packages/game/src/assets/tileset-blob.frames.test.ts",
+        "titles": ["decodeTilesetBlob"],
+        "template": "透明像素 + opaque palette-0 都正确表达"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/tileset-blob.test.ts",
+        "ordinal": 4
+      },
+      "originalOrdinal": 4,
+      "current": {
+        "file": "packages/game/src/assets/tileset-blob.frames.test.ts",
+        "titles": ["sprite frame decoding"],
+        "template": "decodeSpriteFrames 保留已解码有效帧的顺序"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/tileset-blob.test.ts",
+        "ordinal": 5
+      },
+      "originalOrdinal": 5,
+      "current": {
+        "file": "packages/game/src/assets/tileset-blob.fetch.test.ts",
+        "titles": ["gzip fetch assembly"],
+        "template": "loadSpriteFramesBlob:fetch mock → 解压 → IndexedImage[]"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/tileset-blob.test.ts",
+        "ordinal": 6
+      },
+      "originalOrdinal": 6,
+      "current": {
+        "file": "packages/game/src/assets/tileset-blob.frames.test.ts",
+        "titles": ["character frame anchors"],
+        "template": "锚点取首帧 floor(width/2) 与 height"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/tileset-blob.test.ts",
+        "ordinal": 7
+      },
+      "originalOrdinal": 7,
+      "current": {
+        "file": "packages/game/src/assets/tileset-blob.frames.test.ts",
+        "titles": ["character frame anchors"],
+        "template": "空帧 → 锚点 0"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/tileset-blob.test.ts",
+        "ordinal": 8
+      },
+      "originalOrdinal": 8,
+      "current": {
+        "file": "packages/game/src/assets/tileset-blob.fetch.test.ts",
+        "titles": ["gzip fetch assembly"],
+        "template": "loadCharacterSpriteBlob:fetch mock → 帧 + 锚点"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/tileset-blob.test.ts",
+        "ordinal": 9
+      },
+      "originalOrdinal": 9,
+      "current": {
+        "file": "packages/game/src/assets/tileset-blob.gzip.test.ts",
+        "titles": ["gzip and raw byte transport"],
+        "template": "gzip roundtrip:解压后 == 原始字节"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/tileset-blob.test.ts",
+        "ordinal": 10
+      },
+      "originalOrdinal": 10,
+      "current": {
+        "file": "packages/game/src/assets/tileset-blob.gzip.test.ts",
+        "titles": ["gzip and raw byte transport"],
+        "template": "空 blob 也支持(边界)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/tileset-blob.test.ts",
+        "ordinal": 11
+      },
+      "originalOrdinal": 11,
+      "current": {
+        "file": "packages/game/src/assets/tileset-blob.gzip.test.ts",
+        "titles": ["gzip and raw byte transport"],
+        "template": "Content-Encoding 已解压(无 gzip 魔数)→ 原样返回,不二次解压"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/tileset-blob.test.ts",
+        "ordinal": 12
+      },
+      "originalOrdinal": 12,
+      "current": {
+        "file": "packages/game/src/assets/tileset-blob.fetch.test.ts",
+        "titles": ["gzip fetch assembly"],
+        "template": "完整链路:fetch mock → 解压 → 解析 → Map(键一致性 + 像素)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/tileset-load.grok-r1.test.ts",
+        "ordinal": 0
+      },
+      "originalOrdinal": 0,
+      "current": {
+        "file": "packages/game/src/assets/tileset-blob.fetch.test.ts",
+        "titles": ["raw transport and fetch failures"],
+        "template": "裸 RLE 经过 loadSpriteFramesBlob 得到两帧 AA 与 BB"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/tileset-load.grok-r1.test.ts",
+        "ordinal": 1
+      },
+      "originalOrdinal": 1,
+      "current": {
+        "file": "packages/game/src/assets/tileset-blob.fetch.test.ts",
+        "titles": ["raw transport and fetch failures"],
+        "template": "裸 RLE 经过 loadTilesetBlob 得到键 0 与键 1"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/tileset-load.grok-r1.test.ts",
+        "ordinal": 2
+      },
+      "originalOrdinal": 2,
+      "current": {
+        "file": "packages/game/src/assets/tileset-blob.fetch.test.ts",
+        "titles": ["raw transport and fetch failures"],
+        "template": "裸 RLE 经过 loadCharacterSpriteBlob 时锚点为 0,1，第二帧为 BB"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/tileset-load.grok-r1.test.ts",
+        "ordinal": 3
+      },
+      "originalOrdinal": 3,
+      "current": {
+        "file": "packages/game/src/assets/tileset-blob.fetch.test.ts",
+        "titles": ["raw transport and fetch failures"],
+        "template": "sprite blob 503 的错误带 URL 与状态码"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/tileset-load.grok-r1.test.ts",
+        "ordinal": 4
+      },
+      "originalOrdinal": 4,
+      "current": {
+        "file": "packages/game/src/assets/tileset-blob.fetch.test.ts",
+        "titles": ["raw transport and fetch failures"],
+        "template": "tileset blob 503 的错误带 URL 与状态码"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/tileset-load.grok-r1.test.ts",
+        "ordinal": 5
+      },
+      "originalOrdinal": 5,
+      "current": {
+        "file": "packages/game/src/assets/tileset-blob.fetch.test.ts",
+        "titles": ["raw transport and fetch failures"],
+        "template": "角色 blob 404 的错误来自 sprite-blob，并带上角色 URL"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/tileset-load.grok-r1.test.ts",
+        "ordinal": 6
+      },
+      "originalOrdinal": 6,
+      "current": {
+        "file": "packages/game/src/assets/tileset-blob.fetch.test.ts",
+        "titles": ["raw transport and fetch failures"],
+        "template": "tileset 200 但 gzip 主体损坏时，错误不是 fetch 失败串"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/tileset-load.grok-r1.test.ts",
+        "ordinal": 7
+      },
+      "originalOrdinal": 7,
+      "current": {
+        "file": "packages/game/src/assets/tileset-blob.fetch.test.ts",
+        "titles": ["raw transport and fetch failures"],
+        "template": "sprite blob 返回损坏 gzip 时错误不是 fetch 失败串"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/tileset-gzip.grok-r1.test.ts",
+        "ordinal": 0
+      },
+      "originalOrdinal": 0,
+      "current": {
+        "file": "packages/game/src/assets/tileset-blob.gzip.test.ts",
+        "titles": ["gzip signatures and stream ownership"],
+        "template": "只有一个 0x1f 字节时原样返回，不进入解压"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/tileset-gzip.grok-r1.test.ts",
+        "ordinal": 1
+      },
+      "originalOrdinal": 1,
+      "current": {
+        "file": "packages/game/src/assets/tileset-blob.gzip.test.ts",
+        "titles": ["gzip signatures and stream ownership"],
+        "template": "第二字节不是 0x8b 时，即使首字节是 0x1f 也原样返回"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/tileset-gzip.grok-r1.test.ts",
+        "ordinal": 2
+      },
+      "originalOrdinal": 2,
+      "current": {
+        "file": "packages/game/src/assets/tileset-blob.gzip.test.ts",
+        "titles": ["gzip signatures and stream ownership"],
+        "template": "环境没有 DecompressionStream 时明确拒绝 gzip"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/tileset-gzip.grok-r1.test.ts",
+        "ordinal": 3
+      },
+      "originalOrdinal": 3,
+      "current": {
+        "file": "packages/game/src/assets/tileset-blob.gzip.test.ts",
+        "titles": ["gzip signatures and stream ownership"],
+        "template": "带魔数但主体损坏时拒绝为 TypeError，不误报缺流"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/tileset-gzip.grok-r1.test.ts",
+        "ordinal": 4
+      },
+      "originalOrdinal": 4,
+      "current": {
+        "file": "packages/game/src/assets/tileset-blob.gzip.test.ts",
+        "titles": ["gzip signatures and stream ownership"],
+        "template": "解压流分成两段时按偏移拼回 [9, 8, 7]"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/tileset-gzip.grok-r1.test.ts",
+        "ordinal": 5
+      },
+      "originalOrdinal": 5,
+      "current": {
+        "file": "packages/game/src/assets/tileset-blob.frames.test.ts",
+        "titles": ["odd anchors and borrowed frames"],
+        "template": "首帧宽 7 时 anchorX 为 3，更高的后续帧不改锚点"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/tileset-gzip.grok-r1.test.ts",
+        "ordinal": 6
+      },
+      "originalOrdinal": 6,
+      "current": {
+        "file": "packages/game/src/assets/tileset-blob.frames.test.ts",
+        "titles": ["odd anchors and borrowed frames"],
+        "template": "framesToCharacterSprite 保留调用方传入的帧数组引用"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/tileset-gzip.grok-r1.test.ts",
+        "ordinal": 7
+      },
+      "originalOrdinal": 7,
+      "current": {
+        "file": "packages/game/src/assets/tileset-blob.frames.test.ts",
+        "titles": ["empty decoded tilesets"],
+        "template": "imagecount 为 0 的 chunk 得到空 Map"
+      }
+    }
+  ],
+  "identities": [
+    {
+      "old": {
+        "file": "packages/game/src/assets/tileset-blob.test.ts",
+        "fullName": "rleFrameToIndexedImage RleFrame → IndexedImage 字段重命名，借用 pixels 与 opaque 两份数组"
+      },
+      "current": {
+        "file": "packages/game/src/assets/tileset-blob.frames.test.ts",
+        "fullName": "rleFrameToIndexedImage RleFrame → IndexedImage 字段重命名，借用 pixels 与 opaque 两份数组"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/tileset-blob.test.ts",
+        "fullName": "decodeTilesetBlob GOP chunk → Map<tileIndex, IndexedImage>,下标连续 0,1,..."
+      },
+      "current": {
+        "file": "packages/game/src/assets/tileset-blob.frames.test.ts",
+        "fullName": "decodeTilesetBlob 合成两帧容器 → Map<tileIndex, IndexedImage>，键为 0、1"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/tileset-blob.test.ts",
+        "fullName": "decodeTilesetBlob 坏槽跳过后，Map 按有效帧顺序编号而不保留原始槽号"
+      },
+      "current": {
+        "file": "packages/game/src/assets/tileset-blob.frames.test.ts",
+        "fullName": "decodeTilesetBlob 坏槽跳过后，Map 按有效帧顺序编号而不保留原始槽号"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/tileset-blob.test.ts",
+        "fullName": "decodeTilesetBlob 透明像素 + opaque palette-0 都正确表达"
+      },
+      "current": {
+        "file": "packages/game/src/assets/tileset-blob.frames.test.ts",
+        "fullName": "decodeTilesetBlob 透明像素 + opaque palette-0 都正确表达"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/tileset-blob.test.ts",
+        "fullName": "decodeSpriteFrames / loadSpriteFramesBlob (npc/battle/magic 共用) decodeSpriteFrames:chunk → IndexedImage[],序与 parseSpriteChunk 一致"
+      },
+      "current": {
+        "file": "packages/game/src/assets/tileset-blob.frames.test.ts",
+        "fullName": "sprite frame decoding decodeSpriteFrames 保留已解码有效帧的顺序"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/tileset-blob.test.ts",
+        "fullName": "decodeSpriteFrames / loadSpriteFramesBlob (npc/battle/magic 共用) loadSpriteFramesBlob:fetch mock → 解压 → IndexedImage[]"
+      },
+      "current": {
+        "file": "packages/game/src/assets/tileset-blob.fetch.test.ts",
+        "fullName": "gzip fetch assembly loadSpriteFramesBlob:fetch mock → 解压 → IndexedImage[]"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/tileset-blob.test.ts",
+        "fullName": "framesToCharacterSprite (锚点派生) 锚点 = 首帧 floor(width/2) / height(与旧 loader 同源)"
+      },
+      "current": {
+        "file": "packages/game/src/assets/tileset-blob.frames.test.ts",
+        "fullName": "character frame anchors 锚点取首帧 floor(width/2) 与 height"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/tileset-blob.test.ts",
+        "fullName": "framesToCharacterSprite (锚点派生) 空帧 → 锚点 0"
+      },
+      "current": {
+        "file": "packages/game/src/assets/tileset-blob.frames.test.ts",
+        "fullName": "character frame anchors 空帧 → 锚点 0"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/tileset-blob.test.ts",
+        "fullName": "framesToCharacterSprite (锚点派生) loadCharacterSpriteBlob:fetch mock → 帧 + 锚点"
+      },
+      "current": {
+        "file": "packages/game/src/assets/tileset-blob.fetch.test.ts",
+        "fullName": "gzip fetch assembly loadCharacterSpriteBlob:fetch mock → 帧 + 锚点"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/tileset-blob.test.ts",
+        "fullName": "decompressGzip gzip roundtrip:解压后 == 原始字节"
+      },
+      "current": {
+        "file": "packages/game/src/assets/tileset-blob.gzip.test.ts",
+        "fullName": "gzip and raw byte transport gzip roundtrip:解压后 == 原始字节"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/tileset-blob.test.ts",
+        "fullName": "decompressGzip 空 blob 也支持(边界)"
+      },
+      "current": {
+        "file": "packages/game/src/assets/tileset-blob.gzip.test.ts",
+        "fullName": "gzip and raw byte transport 空 blob 也支持(边界)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/tileset-blob.test.ts",
+        "fullName": "decompressGzip Content-Encoding 已解压(无 gzip 魔数)→ 原样返回,不二次解压"
+      },
+      "current": {
+        "file": "packages/game/src/assets/tileset-blob.gzip.test.ts",
+        "fullName": "gzip and raw byte transport Content-Encoding 已解压(无 gzip 魔数)→ 原样返回,不二次解压"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/tileset-blob.test.ts",
+        "fullName": "loadTilesetBlob 完整链路:fetch mock → 解压 → 解析 → Map(键一致性 + 像素)"
+      },
+      "current": {
+        "file": "packages/game/src/assets/tileset-blob.fetch.test.ts",
+        "fullName": "gzip fetch assembly 完整链路:fetch mock → 解压 → 解析 → Map(键一致性 + 像素)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/tileset-load.grok-r1.test.ts",
+        "fullName": "G02-C sprite 与 tileset 加载边界 G02-C01 裸 RLE 经过 loadSpriteFramesBlob 得到两帧 AA 与 BB"
+      },
+      "current": {
+        "file": "packages/game/src/assets/tileset-blob.fetch.test.ts",
+        "fullName": "raw transport and fetch failures 裸 RLE 经过 loadSpriteFramesBlob 得到两帧 AA 与 BB"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/tileset-load.grok-r1.test.ts",
+        "fullName": "G02-C sprite 与 tileset 加载边界 G02-C02 裸 RLE 经过 loadTilesetBlob 得到键 0 与键 1"
+      },
+      "current": {
+        "file": "packages/game/src/assets/tileset-blob.fetch.test.ts",
+        "fullName": "raw transport and fetch failures 裸 RLE 经过 loadTilesetBlob 得到键 0 与键 1"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/tileset-load.grok-r1.test.ts",
+        "fullName": "G02-C sprite 与 tileset 加载边界 G02-C03 裸 RLE 经过 loadCharacterSpriteBlob 时锚点为 0,1，第二帧为 BB"
+      },
+      "current": {
+        "file": "packages/game/src/assets/tileset-blob.fetch.test.ts",
+        "fullName": "raw transport and fetch failures 裸 RLE 经过 loadCharacterSpriteBlob 时锚点为 0,1，第二帧为 BB"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/tileset-load.grok-r1.test.ts",
+        "fullName": "G02-C sprite 与 tileset 加载边界 G02-C04 sprite blob 503 的错误带 URL 与状态码"
+      },
+      "current": {
+        "file": "packages/game/src/assets/tileset-blob.fetch.test.ts",
+        "fullName": "raw transport and fetch failures sprite blob 503 的错误带 URL 与状态码"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/tileset-load.grok-r1.test.ts",
+        "fullName": "G02-C sprite 与 tileset 加载边界 G02-C05 tileset blob 503 的错误带 URL 与状态码"
+      },
+      "current": {
+        "file": "packages/game/src/assets/tileset-blob.fetch.test.ts",
+        "fullName": "raw transport and fetch failures tileset blob 503 的错误带 URL 与状态码"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/tileset-load.grok-r1.test.ts",
+        "fullName": "G02-C sprite 与 tileset 加载边界 G02-C06 角色 blob 404 的错误来自 sprite-blob，并带上角色 URL"
+      },
+      "current": {
+        "file": "packages/game/src/assets/tileset-blob.fetch.test.ts",
+        "fullName": "raw transport and fetch failures 角色 blob 404 的错误来自 sprite-blob，并带上角色 URL"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/tileset-load.grok-r1.test.ts",
+        "fullName": "G02-C sprite 与 tileset 加载边界 G02-C07 tileset 200 但 gzip 主体损坏时，错误不是 fetch 失败串"
+      },
+      "current": {
+        "file": "packages/game/src/assets/tileset-blob.fetch.test.ts",
+        "fullName": "raw transport and fetch failures tileset 200 但 gzip 主体损坏时，错误不是 fetch 失败串"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/tileset-load.grok-r1.test.ts",
+        "fullName": "G02-C sprite 与 tileset 加载边界 G02-C08 sprite blob 返回损坏 gzip 时错误不是 fetch 失败串"
+      },
+      "current": {
+        "file": "packages/game/src/assets/tileset-blob.fetch.test.ts",
+        "fullName": "raw transport and fetch failures sprite blob 返回损坏 gzip 时错误不是 fetch 失败串"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/tileset-gzip.grok-r1.test.ts",
+        "fullName": "G02-B gzip 魔数与帧锚点 G02-B01 只有一个 0x1f 字节时原样返回，不进入解压"
+      },
+      "current": {
+        "file": "packages/game/src/assets/tileset-blob.gzip.test.ts",
+        "fullName": "gzip signatures and stream ownership 只有一个 0x1f 字节时原样返回，不进入解压"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/tileset-gzip.grok-r1.test.ts",
+        "fullName": "G02-B gzip 魔数与帧锚点 G02-B02 第二字节不是 0x8b 时，即使首字节是 0x1f 也原样返回"
+      },
+      "current": {
+        "file": "packages/game/src/assets/tileset-blob.gzip.test.ts",
+        "fullName": "gzip signatures and stream ownership 第二字节不是 0x8b 时，即使首字节是 0x1f 也原样返回"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/tileset-gzip.grok-r1.test.ts",
+        "fullName": "G02-B gzip 魔数与帧锚点 G02-B03 环境没有 DecompressionStream 时抛出固定兜底错误"
+      },
+      "current": {
+        "file": "packages/game/src/assets/tileset-blob.gzip.test.ts",
+        "fullName": "gzip signatures and stream ownership 环境没有 DecompressionStream 时明确拒绝 gzip"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/tileset-gzip.grok-r1.test.ts",
+        "fullName": "G02-B gzip 魔数与帧锚点 G02-B04 带魔数但主体损坏时拒绝为 TypeError，不走缺流兜底文案"
+      },
+      "current": {
+        "file": "packages/game/src/assets/tileset-blob.gzip.test.ts",
+        "fullName": "gzip signatures and stream ownership 带魔数但主体损坏时拒绝为 TypeError，不误报缺流"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/tileset-gzip.grok-r1.test.ts",
+        "fullName": "G02-B gzip 魔数与帧锚点 G02-B05 解压流分成两段时按偏移拼回 [9, 8, 7]"
+      },
+      "current": {
+        "file": "packages/game/src/assets/tileset-blob.gzip.test.ts",
+        "fullName": "gzip signatures and stream ownership 解压流分成两段时按偏移拼回 [9, 8, 7]"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/tileset-gzip.grok-r1.test.ts",
+        "fullName": "G02-B gzip 魔数与帧锚点 G02-B07 首帧宽 7 时 anchorX 为 3，更高的后续帧不改锚点"
+      },
+      "current": {
+        "file": "packages/game/src/assets/tileset-blob.frames.test.ts",
+        "fullName": "odd anchors and borrowed frames 首帧宽 7 时 anchorX 为 3，更高的后续帧不改锚点"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/tileset-gzip.grok-r1.test.ts",
+        "fullName": "G02-B gzip 魔数与帧锚点 G02-B08 framesToCharacterSprite 保留调用方传入的帧数组引用"
+      },
+      "current": {
+        "file": "packages/game/src/assets/tileset-blob.frames.test.ts",
+        "fullName": "odd anchors and borrowed frames framesToCharacterSprite 保留调用方传入的帧数组引用"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/tileset-gzip.grok-r1.test.ts",
+        "fullName": "G02-B gzip 魔数与帧锚点 G02-B09 imagecount 为 0 的 chunk 得到空 Map"
+      },
+      "current": {
+        "file": "packages/game/src/assets/tileset-blob.frames.test.ts",
+        "fullName": "empty decoded tilesets imagecount 为 0 的 chunk 得到空 Map"
+      }
+    }
+  ],
+  "cohortSubjects": [
+    {
+      "path": "packages/game/src/assets/tileset-load.grok-r1.test.ts",
+      "sha256": "819feeba628a7010d3ec015e43a32e3e05ac56a4801b55c63458cd9c57e75efc",
+      "priorCurrentBridge": {
+        "beforeMember": "organization-game-asset-fixtures/9.before",
+        "afterSha256": "930e378e87c5754109ec325bcb87d32b05f160df05498fbc7442b00b80ee3a01",
+        "evidence": "organization-game-asset-fixtures.json"
+      }
+    },
+    {
+      "path": "packages/game/src/assets/tileset-gzip.grok-r1.test.ts",
+      "sha256": "b855fe0b4072e7bc2f4c077aff77d8ed8bf2afc62a6d47d0f6ef8f4d77cd75e9",
+      "priorCurrentBridge": null
+    }
+  ],
+  "preserved": [
+    {
+      "path": "packages/game/src/assets/tileset-blob.ts",
+      "sha256": "20a8afc7754a956b2b3dd1b395466e39377f51c4aa096ae937765c63baebd517"
+    },
+    {
+      "path": "packages/game/src/assets/png.ts",
+      "sha256": "4954c8f732085b29f94904caf21a0b43a40aba9437aedcd0ab34d34a1286c2d5"
+    },
+    {
+      "path": "packages/game/src/__tests__/asset-fixtures.ts",
+      "sha256": "cf3eae0a807ce26983299ee72ff140b7035cd64121a4547b6f145076547c12fc"
+    },
+    {
+      "path": "packages/shared/src/rle.ts",
+      "sha256": "85d0f8dc2f2c02e1fb8cf19c8faf0c9753b77d2ceeecb2a77c289421794282fb"
+    },
+    {
+      "path": "packages/game/src/assets/tileset-blob-snapshot.test.ts",
+      "sha256": "013d4f9cc9a6d5cced331b875aeb13ec8b47600fb7e6fa149859b368200700ec"
+    }
+  ],
+  "neighborPaths": [
+    "packages/game/src/assets/dialog-assets.lifecycle.test.ts",
+    "packages/game/src/assets/dialog-assets.loading.test.ts",
+    "packages/game/src/assets/rle-decode.test.ts",
+    "packages/game/src/assets/scene-cache.callbacks.test.ts",
+    "packages/game/src/assets/scene-cache.eviction.test.ts",
+    "packages/game/src/assets/scene-cache.lifecycle.test.ts",
+    "packages/game/src/assets/tileset-blob.fetch.test.ts",
+    "packages/game/src/assets/tileset-blob.frames.test.ts",
+    "packages/game/src/assets/tileset-blob.gzip.test.ts"
+  ],
+  "profiles": [
+    {
+      "path": "packages/game/src/assets/tileset-blob.frames.test.ts",
+      "subjects": [
+        "packages/game/src/assets/tileset-blob.test.ts",
+        "packages/game/src/assets/tileset-gzip.grok-r1.test.ts"
+      ],
+      "axes": {
+        "A": "十原frame/tileset/anchor合同保留数组借用、compact键、透明/opaque0、空与奇数宽；当前decoder入口不变，原盘格式/限额不由本片认证。",
+        "B": "合成容器与有效帧顺序标题纠正，不把旧parseSpriteChunk泛称当author/PAL真值；保留word/byte与透明说明。",
+        "C": "只测试同步frame转换，移出HTTP/gzip；原gzip组的纯三例不再继承无关global unstub。",
+        "D": "同零参两帧builder7调用与canonical完整16bytes相等才共享；indexed视图与帧容器输入不同，不强并。",
+        "E": "原独立字节、opaque、anchor及引用断言保持；不是用新builder输出作为expected，也不以往返冒称RLE真值。",
+        "F": "tileset-blob.frames和twoFrameChunk名称表达具体输入；去generic makeSimpleChunk alias及作者标签。",
+        "G": "纯语法/数据合同单独聚合，不留重复byte builder或无关IOsetup；所有测试保持。",
+        "H": "实际公开转换函数可直接测，source/shared codec和生产调用不mock，不扩公共接口。"
+      },
+      "acceptance": "accepted-FG; unified gates pending"
+    },
+    {
+      "path": "packages/game/src/assets/tileset-blob.fetch.test.ts",
+      "subjects": [
+        "packages/game/src/assets/tileset-blob.test.ts",
+        "packages/game/src/assets/tileset-load.grok-r1.test.ts"
+      ],
+      "axes": {
+        "A": "十一原raw/gzip fetch和HTTP/坏体传播合同保持，角色锚点与tile/sprite输出都是实解码结果；必要请求URL/状态不改。",
+        "B": "不再写旧测试不足或G02编号，真实raw/gzip与错误来源分组；原产品错误字符串不改。",
+        "C": "网络装配独立于纯frame和直接流测试；stub组保afterEach，原try/finally spy组仍自己恢复。",
+        "D": "三wrapper返回形态/错误来源不同，保留逐caller测试；相同输入byte constructor共享，不合并raw与gzip路径。",
+        "E": "十一case/所有字节和错误类型断言保持；坏体TypeError与fetch错误分离，旧pipeline反控按原字节证据复用。",
+        "F": "tileset-blob.fetch直接说明IO边界，原模型suite label退出，角色/tileset/sprite名称保语义。",
+        "G": "旧main混装拆分，不复活fallback或加宽异常捕获；raw额外slice不影响此轮组织，未借此扩大行为范围。",
+        "H": "只替换外部fetch，真实Response/gzip/decoder执行；测试与库边界分开，不mock关键转换函数。"
+      },
+      "acceptance": "accepted-FG; unified gates pending"
+    },
+    {
+      "path": "packages/game/src/assets/tileset-blob.gzip.test.ts",
+      "subjects": [
+        "packages/game/src/assets/tileset-blob.test.ts",
+        "packages/game/src/assets/tileset-gzip.grok-r1.test.ts"
+      ],
+      "axes": {
+        "A": "八原stream/gzip合同保持原生zlib输入、空/raw魔数两侧、缺stream拒绝、坏gzip与分块拼接；不改变浏览器支持域。",
+        "B": "标题明确缺API是拒绝而非已实现兜底，坏体不误报缺流；分块fake只验证拼接的限定说明保留。",
+        "C": "gzip传输层独立，真实global stream替换的case仍有unstub；不混帧锚点或HTTP错误。",
+        "D": "raw/gzip/流可用性是不同输入与失败策略，保留八轴，已有canonicalbyte输入直接共享。",
+        "E": "所有原字节/TypeError/明确错误文本/分块结果保持；原生zlib与浏览器解压各司其职，不复制SUT当oracle。",
+        "F": "tileset-blob.gzip表明传输层，unsupported常量只钉当前实际错误，不额外宣称fallback存在。",
+        "G": "frame三case退出原混装gzip套件，没有新降级实现、ignore或测试退休。",
+        "H": "控制原生API边界而保真正decompressGzip，确定literal chunk可证伪拼接错误，无新增产品测试seam。"
+      },
+      "acceptance": "accepted-FG; unified gates pending"
+    }
+  ],
+  "cleanExecutions": ["before", "neighbors", "typecheck", "scoped"],
+  "receipts": {
+    "before": "organization-game-cache-tests/before",
+    "neighbors": "organization-game-cache-tests/neighbors",
+    "typecheck": "organization-game-cache-tests/typecheck",
+    "scoped": "organization-game-cache-tests/scoped-final"
+  },
+  "fixtureReuse": "organization-game-blob-tests/fixture-byte-reuse.json",
+  "processDisclosures": [
+    "Old main and two contributor suites split by real layer; no case/assertion retirement. Raw and gzip both drive real public fetch loaders, pure frame ownership remains separate.",
+    "Only pure frame cases drop unrelated global un-stub hook inherited from gzip scope; actual stream substitutions retain their cleanup. No product lifecycle change.",
+    "One private byte-builder copy replaced by existing canonical twoFrameChunk, limited to observed zero-argument calls; full16-byte comparison retained, not format/correctness oracle.",
+    "The canonical constructor is used by its actual twoFrameChunk name throughout, rather than retaining generic makeSimpleChunk aliases. Exact counted identifier bridge preserves the old zero-argument inputs and all assertions.",
+    "Clarify title GOP chunk → Map<tileIndex, IndexedImage>,下标连续 0,1,... -> 合成两帧容器 → Map<tileIndex, IndexedImage>，键为 0、1; no assertion/input/product diagnostic change.",
+    "Clarify title decodeSpriteFrames:chunk → IndexedImage[],序与 parseSpriteChunk 一致 -> decodeSpriteFrames 保留已解码有效帧的顺序; no assertion/input/product diagnostic change.",
+    "Clarify title 锚点 = 首帧 floor(width/2) / height(与旧 loader 同源) -> 锚点取首帧 floor(width/2) 与 height; no assertion/input/product diagnostic change.",
+    "Clarify title 环境没有 DecompressionStream 时抛出固定兜底错误 -> 环境没有 DecompressionStream 时明确拒绝 gzip; no assertion/input/product diagnostic change.",
+    "Clarify title 带魔数但主体损坏时拒绝为 TypeError，不走缺流兜底文案 -> 带魔数但主体损坏时拒绝为 TypeError，不误报缺流; no assertion/input/product diagnostic change.",
+    "After formatter, title literals use single quotes. First read-only check found statement hash mismatch while the complete callback body was identical. The recorded literal bridges now use actual quote style on both sides; no code, input, expectation or verifier criterion changed.",
+    "Second read-only check rejected the recorded canonical-name bridge being before whole-describe relocation. The rename now runs after the exact old blocks are consumed; counted7calls and all source values remain unchanged. No verifier criterion or implementation altered."
+  ],
+  "reusedReviewMember": "organization-game-blob-tests/reused-reviews.json"
+}

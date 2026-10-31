@@ -3,8 +3,8 @@
  * 只包断言结构，不含产品算法；合法基线构造仍由各测试内联完成。
  */
 import { expect } from 'vitest'
-import { deepSnapshot } from './glm-content-contract-fixtures.js'
 import { expectExactError } from './guard-leaf-fixtures.js'
+import { deepSnapshot } from './value-snapshot.js'
 
 /**
  * R2：拒绝调用的实际入参保真——本次调用前取独立快照，执行后立即比较同一实参。

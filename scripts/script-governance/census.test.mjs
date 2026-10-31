@@ -396,7 +396,7 @@ test('real corpus inventory can be reproduced without an archived converter', as
     'ce448a90c9797648eea315fe589b2bd434139ffc423bf0a5954dae6f4c8b4756',
   )
   assert.ok(correction.mode === 'faithful' || correction.mode === 'corrected')
-  assert.equal(correction.version, correction.mode === 'corrected' ? 'pal-win-1' : null)
+  assert.equal(correction.version, correction.mode === 'corrected' ? 'pal-win-2' : null)
   assert.equal(source.commands.length, correction.mode === 'corrected' ? 43522 : 43503)
   assert.equal(source.edges.length, 639)
   assert.equal(source.edges.filter((edge) => edge.effect === 'no-op').length, 6)

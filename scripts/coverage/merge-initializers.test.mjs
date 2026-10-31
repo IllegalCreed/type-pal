@@ -43,6 +43,14 @@ const methods = {
   plain: 'plain',
 }
 
+function assertSuccessfulChild(run) {
+  assert.ifError(run.error)
+  assert.equal(run.signal, null)
+  assert.equal(run.status, 0, `${run.stdout}\n${run.stderr}`)
+  assert.equal(run.stderr, '')
+  if (run.stdout) process.stdout.write(run.stdout)
+}
+
 test('installed merger is the version-locked patch recorded in manifest and lockfile', () => {
   const manifest = JSON.parse(readFileSync(resolve(root, 'package.json'), 'utf8'))
   assert.equal(manifest.devDependencies.vitest, '4.1.7')
@@ -72,7 +80,7 @@ function capture(mode) {
       encoding: 'utf8',
       env: preciseCoverageEnvironment(),
     })
-    assert.equal(run.status, 0, run.stderr)
+    assertSuccessfulChild(run)
     result.push(JSON.parse(readFileSync(path, 'utf8')))
   }
   captures.set(mode, result)
@@ -173,8 +181,8 @@ for (const called of [false, true]) {
       test: {
         include,
         maxWorkers: 2,
-        reporters: ['json'],
-        outputFile: `${dir}/tests.json`,
+        reporters: ['default', 'json'],
+        outputFile: { json: `${dir}/tests.json` },
         coverage: {
           enabled: true,
           provider: 'v8',
@@ -191,7 +199,7 @@ for (const called of [false, true]) {
       encoding: 'utf8',
       env: preciseCoverageEnvironment(),
     })
-    assert.equal(run.status, 0, `${run.stdout}\n${run.stderr}`)
+    assertSuccessfulChild(run)
     const results = JSON.parse(readFileSync(`${dir}/tests.json`, 'utf8'))
     assert.equal(results.numPassedTests, include.length)
     assert.equal(results.numFailedTests, 0)

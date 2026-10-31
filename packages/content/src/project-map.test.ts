@@ -68,7 +68,7 @@ describe('ProjectMap current canonical schema', () => {
 
     const outOfRange = validMap()
     outOfRange.layers[0]!.sources[0]![0] = 2
-    expect(() => validateProjectMap(outOfRange)).toThrow('超出 tilesetRefs')
+    expect(() => validateProjectMap(outOfRange)).toThrow('来源下标 2 超出 tilesetRefs')
 
     const unsorted = validMap()
     unsorted.tilesetRefs = ['tiles-b', 'tiles-a']
@@ -108,6 +108,7 @@ describe('ProjectMap current canonical schema', () => {
     const first = formatProjectMap(map)
     expect(first).toContain('"tilesetRefs": ["tiles-a","tiles-b"]')
     expect(first).toContain('"sources"')
+    expect(parseProjectMap(first)).toEqual(map)
     expect(formatProjectMap(parseProjectMap(first))).toBe(first)
   })
 
@@ -119,6 +120,7 @@ describe('ProjectMap current canonical schema', () => {
     const text = formatProjectMap(map)
     expect(text).not.toContain('"sources"')
     const parsed = parseProjectMap(text)
+    expect(parsed).toEqual(map)
     expect(parsed.layers.map(({ sources }) => sources)).toEqual(
       map.layers.map(({ sources }) => sources),
     )

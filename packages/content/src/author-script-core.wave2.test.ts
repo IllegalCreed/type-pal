@@ -1,6 +1,6 @@
 /** E02: current-author callers exercise the shared core, not a revived base-only dialect. */
 import { expect, test } from 'vitest'
-import { deepSnapshot } from './__tests__/glm-content-contract-fixtures.js'
+import { deepSnapshot } from './__tests__/value-snapshot.js'
 import { checkAuthorCommands } from './author-script.js'
 import type { AuthorCondition } from './author-script-core.js'
 

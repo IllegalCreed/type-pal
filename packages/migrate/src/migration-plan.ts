@@ -27,6 +27,7 @@ export interface MigrationPlan {
   }
 }
 
+/** Copy the indexes and hash canonical bytes; JSON bodies remain borrowed, read-only values. */
 export function snapshotOf(
   fileSet: Pick<MigrationFileSet, 'files' | 'managedFiles'>,
 ): MigrationSnapshot {
@@ -42,7 +43,7 @@ export function snapshotOf(
   }
 }
 
-function canonicalSnapshot(
+function copySnapshotIndexes(
   snapshot: Pick<MigrationSnapshot, 'files' | 'managedFiles' | 'hashes'>,
 ): MigrationSnapshot {
   return {
@@ -118,8 +119,8 @@ function mergeAtomicMapFile(
     }
   }
   if (selected.present && selected.value === undefined) {
-    // 原子地图可能以 hash-only 存于基线(如 R13-Z 发布场景):选中版本缺正文时,
-    // 从同 hash 的带正文版本取 body —— hash 相同 ⟹ 字节相同,不改变合并结果。
+    // Baseline maps omit their bodies. Borrow a body with the same canonical-byte hash
+    // when the selected version has only a hash; raw JSON property order is irrelevant.
     const bodySource = [b, o, t].find(
       (candidate) =>
         candidate.present && candidate.value !== undefined && candidate.hash === selected!.hash,
@@ -128,6 +129,7 @@ function mergeAtomicMapFile(
   }
   if (selected.present && selected.value === undefined)
     throw new Error(`原子地图 ${file} 选中版本只有 hash、缺正文`)
+  // Atomic bodies are borrowed; the publication validator and write planner only read them.
   return { value: selected.value, oursSameBase, theirsSameBase }
 }
 
@@ -136,9 +138,10 @@ export function createMigrationPlan(
   ours: MigrationSnapshot,
   theirs: Pick<MigrationFileSet, 'files' | 'managedFiles'>,
 ): MigrationPlan {
-  const baseView = canonicalSnapshot(base)
-  const oursView = canonicalSnapshot(ours)
-  const theirsView = canonicalSnapshot(theirs)
+  const baseView = copySnapshotIndexes(base)
+  const oursView = copySnapshotIndexes(ours)
+  const theirsView = copySnapshotIndexes(theirs)
+  // Merge by sorted path, but retain original manifest order for deletion plans.
   const physicalManaged = new Set([
     ...base.managedFiles,
     ...ours.managedFiles,
@@ -184,11 +187,10 @@ export function createMigrationPlan(
     else if (theirsSameBase && !oursSameBase) kept++
     else if (!oursSameBase || !theirsSameBase) mergedCount++
   }
-  const normalized = target
   const writes = new Map<string, MigrationJson>()
   const deletes: string[] = []
   if (!conflicts.length) {
-    for (const [file, value] of normalized) {
+    for (const [file, value] of target) {
       if (
         isAtomicProjectMapPath(file)
           ? snapshotFileHash(oursView, file) !== sha256(serializeMigrationJson(value, file))
@@ -197,10 +199,10 @@ export function createMigrationPlan(
         writes.set(file, value)
     }
     for (const file of physicalManaged)
-      if (ours.files.has(file) && !normalized.has(file)) deletes.push(file)
+      if (ours.files.has(file) && !target.has(file)) deletes.push(file)
   }
   return {
-    target: normalized,
+    target,
     writes,
     deletes,
     conflicts,

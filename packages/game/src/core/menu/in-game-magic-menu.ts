@@ -1,27 +1,8 @@
 /**
- * C7(2026-05-29):InGameMagicMenu — sdlpal `uigame.c:653-875` PAL_InGameMagicMenu 1:1 port。
- *
- * 整 callpath(sdlpal):
- *  - PAL_InGameMenu Confirm "仙术" → PAL_InGameMagicMenu(uigame.c:653-875)
- *  - 入口选 caster(party member),PAL_ReadMenu(uigame.c:719)
- *  - while(TRUE){ wMagic = PAL_MagicSelectionMenu(caster, FALSE, wMagic); ... }
- *  - PAL_MagicSelectionMenu(magicmenu.c:413)— 阻塞至 Confirm/Cancel
- *  - applyToAll → 跑 scriptOnUse + scriptOnSuccess + MP 扣 → 循环回 spell picker
- *  - else → player target picker(uigame.c:769-861)— Confirm 跑 script + MP 扣 +
- *    if MP < costMP 退 picker;Cancel 退 picker
- *
- * ts state machine(对齐 sdlpal 真值流程):
- *  - 'pick-caster' = sdlpal uigame.c:686-723 caster 选择
- *  - 'pick-spell' = sdlpal `wMagic = PAL_MagicSelectionMenu(...)`：全体法术执行后继续选法术，
- *    单体法术确认后进入'pick-target'；两条执行路径均由dispatcher承接
- *  - 'pick-target' = sdlpal uigame.c:769-861 player target picker(single-target spell)— 每次
- *    Confirm 后留在此 phase 继续选 target 重用,**MP 不足时退回 'pick-spell'**
- *  - 'done' = 关菜单
- *
- * Menu key cancel 真值(sdlpal):
- *  - pick-caster Menu → return(关菜单)
- *  - pick-spell Menu  → wMagic=0 break outer while → return 关菜单(L35;caster PAL_ReadMenu 在循环外只一次)
- *  - pick-target Menu → wPlayer=CANCELLED 退 picker → 回 pick-spell
+ * 大世界仙术选择状态与施法请求，参考 SDLPal PAL_InGameMagicMenu（uigame.c）。
+ * driver传入当前HP/MP投影，执行脚本、扣蓝并刷新；renderer负责画面，本模块不承接完整C函数。
+ * 多人队选施法人，单人队沿原版直接进法术列表；全体请求留在列表，单体请求转选目标。
+ * 选目标取消回法术列表；施法人／法术列表取消关闭整个菜单。MP不足后退目标层由driver处理。
  */
 
 import type { Magic, PlayerRoles, Spell } from '@type-pal/shared'
@@ -56,7 +37,7 @@ export interface InGameMagicMenuState {
 //   确认施法人时写(confirm 路径),create 时作为初始光标(越界归 0)。
 let sLastCasterCursor = 0
 
-/** DL22:确认施法人时记忆光标(dispatcher 在 pick-caster Confirm 后调)。 */
+/** 确认施法人时由confirmCaster内部更新；测试宿主也用此入口复位跨开启记忆。 */
 export function rememberMagicCasterCursor(cursor: number): void {
   sLastCasterCursor = cursor
 }

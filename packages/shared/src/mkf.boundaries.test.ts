@@ -5,7 +5,7 @@
  * 拒绝越界或非整数索引，返回借用原输入 buffer 的视图。
  */
 import { describe, expect, it } from 'vitest'
-import { mkMkf } from './__tests__/glm-foundation-fixtures.js'
+import { mkMkf } from './__tests__/mkf-container.js'
 import { chunkCount, openMkf, readChunk } from './mkf.js'
 
 describe('openMkf 头合同', () => {

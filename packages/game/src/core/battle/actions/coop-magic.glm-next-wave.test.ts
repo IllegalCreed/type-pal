@@ -9,12 +9,9 @@
  */
 import type { Magic, ObjectMagicView } from '@type-pal/shared'
 import { describe, expect, it } from 'vitest'
-import {
-  makeHBattle,
-  makeHEnemy,
-  makeHRole,
-  recordingRng,
-} from '../../../__tests__/glm-next-wave/H/harness.js'
+import { makeBattleFixture } from '../../../__tests__/battle-fixture.js'
+import { makeEnemyRecord, makeRoleRecord } from '../../../__tests__/battle-records.js'
+import { recordingRng } from '../../../__tests__/scripted-rng.js'
 import type { ActionQueueItem } from '../turn-queue.js'
 import { performCoopMagic } from './coop-magic.js'
 
@@ -56,10 +53,13 @@ const OBJ_MAGICS: ObjectMagicView[] = [
 
 describe('performCoopMagic 退化普攻 × DL6 隐藏经验(fight.c:3374-3378 → 3756-3757)', () => {
   it('healthy≤1(仅发起者活)→ 退化普攻:敌掉血、不付 HP 代价、attackExp+1/healthExp+=R(2,3)', () => {
-    const roles = [makeHRole(0, { attackStrength: 40, magicStrength: 60 }), makeHRole(1, { hp: 0 })]
-    const battle = makeHBattle({
+    const roles = [
+      makeRoleRecord(0, { attackStrength: 40, magicStrength: 60 }),
+      makeRoleRecord(1, { hp: 0 }),
+    ]
+    const battle = makeBattleFixture({
       roles,
-      enemies: [makeHEnemy({ id: 100, health: 9000 })],
+      enemies: [makeEnemyRecord({ id: 100, health: 9000 })],
     })
     const { state, playerRoles, bus, gs } = battle
     const actor: ActionQueueItem = { isEnemy: false, idx: 0, dex: 30, fIsSecond: false }
@@ -87,10 +87,10 @@ describe('performCoopMagic 退化普攻 × DL6 隐藏经验(fight.c:3374-3378 �
   })
 
   it('RNG 序:普攻修饰(jitter→crit→李逍遥→float)先消耗,(2,3) 隐藏经验最后(C 同序)', () => {
-    const roles = [makeHRole(0, { attackStrength: 40 }), makeHRole(1, { hp: 0 })]
-    const battle = makeHBattle({
+    const roles = [makeRoleRecord(0, { attackStrength: 40 }), makeRoleRecord(1, { hp: 0 })]
+    const battle = makeBattleFixture({
       roles,
-      enemies: [makeHEnemy({ id: 100, health: 9000 })],
+      enemies: [makeEnemyRecord({ id: 100, health: 9000 })],
     })
     const { state, playerRoles, bus, gs } = battle
     const rng = recordingRng([1, 1, 1, 3], [1])
@@ -118,10 +118,10 @@ describe('performCoopMagic 退化普攻 × DL6 隐藏经验(fight.c:3374-3378 �
   })
 
   it('双人健康(≥2 contributors)→ 正常合击,无 attackExp 累计、付 HP 代价', () => {
-    const roles = [makeHRole(0, { attackStrength: 40, magicStrength: 60 }), makeHRole(1)]
-    const battle = makeHBattle({
+    const roles = [makeRoleRecord(0, { attackStrength: 40, magicStrength: 60 }), makeRoleRecord(1)]
+    const battle = makeBattleFixture({
       roles,
-      enemies: [makeHEnemy({ id: 100, health: 9000 })],
+      enemies: [makeEnemyRecord({ id: 100, health: 9000 })],
     })
     const { state, playerRoles, bus, gs } = battle
     performCoopMagic({

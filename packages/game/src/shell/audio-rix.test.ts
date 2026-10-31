@@ -1,7 +1,14 @@
 import { readFileSync } from 'node:fs'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { rixFixture } from '../__tests__/rix-fixture.js'
-import { createRixBackend } from './audio-rix.js'
+import { createRixBackend as createBackend } from './audio-rix.js'
+
+const backends: ReturnType<typeof createBackend>[] = []
+function createRixBackend(baseUrl: string) {
+  const backend = createBackend(baseUrl)
+  backends.push(backend)
+  return backend
+}
 
 const wasm = readFileSync('src/shell/rix/rix.wasm')
 class Context {
@@ -46,7 +53,13 @@ beforeEach(() => {
   vi.stubGlobal('AudioContext', Context)
   vi.stubGlobal('AudioWorkletNode', WorkletNode)
 })
-afterEach(() => vi.unstubAllGlobals())
+afterEach(() => {
+  try {
+    for (const backend of backends.splice(0)) backend.dispose?.()
+  } finally {
+    vi.unstubAllGlobals()
+  }
+})
 
 describe('FM backend at browser media IO boundaries', () => {
   it('queues the latest song until ready, connects with the current mute, and unlocks by gesture', async () => {

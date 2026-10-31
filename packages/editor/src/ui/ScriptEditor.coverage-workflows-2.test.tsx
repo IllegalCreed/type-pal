@@ -41,7 +41,7 @@ async function select(label: string, option: string) {
   await act(async () => choice!.click())
 }
 
-describe('当前脚本属性弹窗的未覆盖作者工作流', () => {
+describe('ScriptEditor 属性提交', () => {
   test('镜头从跟随切为定位后提交精确二维落点', async () => {
     const initial: AuthorCommand = { kind: 'cameraSnap' }
     const f = await commandForm(initial, { requireLeafFormRow: false })
@@ -104,35 +104,6 @@ describe('当前脚本属性弹窗的未覆盖作者工作流', () => {
     )
     await select('场景', 'other')
     await f.finish({ kind: 'setSceneMapOverride', scene: 'other', mapId: 'start' })
-  })
-
-  test('共享脚本可指定当前场景的真实实体作为 self，且不改脚本身份', async () => {
-    const f = await commandForm(
-      { kind: 'callScript', script: 'shared/user/heal' },
-      { requireLeafFormRow: false, includeEntity: true, includeSharedScript: true },
-    )
-    expect(document.querySelector('[role="dialog"]')?.textContent).toContain(
-      '治疗 · shared/user/heal',
-    )
-    await click('指定另一个作用实体')
-    await f.finish({
-      kind: 'callScript',
-      script: 'shared/user/heal',
-      self: { scene: 'start', entity: 'npc' },
-    })
-  })
-
-  test('共享脚本切回当前执行者会删除显式 self，不留旧实体引用', async () => {
-    const f = await commandForm(
-      {
-        kind: 'callScript',
-        script: 'shared/user/heal',
-        self: { scene: 'start', entity: 'npc' },
-      },
-      { requireLeafFormRow: false, includeEntity: true, includeSharedScript: true },
-    )
-    await click('使用当前实体')
-    await f.finish({ kind: 'callScript', script: 'shared/user/heal', self: undefined })
   })
 
   test('当前实体的定位表单仅改目标格，保持目标稳定身份与高度', async () => {

@@ -1,0 +1,732 @@
+{
+  "id": "game-dialog-tests",
+  "kind": "Resource lifecycle and pure transport adapter responsibilities",
+  "namespace": "organization-game-dialog-tests",
+  "inputs": [
+    {
+      "path": "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+      "sha256": "48e7edf94615dbe1b4f74412d4ded60de39d39d714da1bcea6e202faed8269d7",
+      "member": "organization-game-dialog-tests/0.before"
+    },
+    {
+      "path": "packages/game/src/assets/dialog-resources.grok-mid-1.test.ts",
+      "sha256": "9f2fb22b4bf8abbe2778962050ec5f5a5e9eebda1ed5b65488e0af0fb9192dcc",
+      "member": "organization-game-dialog-tests/1.before"
+    },
+    {
+      "path": "packages/game/src/assets/dialog-assets.glm-phase1-leaves.test.ts",
+      "sha256": "60bf26531054a6f3e213703a18edcb7929f9c4e9806dfb76b64b10eb245cd744",
+      "member": "organization-game-dialog-tests/2.before"
+    },
+    {
+      "path": "packages/game/src/assets/rle-decode.test.ts",
+      "sha256": "37f6896cfc773c970652f0aab175160a47f2df5f64c99f08cf0b99a0954e9284",
+      "member": "organization-game-dialog-tests/3.before"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "packages/game/src/assets/dialog-assets.loading.test.ts",
+      "sha256": "41de5d8dc74c3e6dbbf1db4c55dedfe8d246cfd7644efacb38d8b30d3e68ca46"
+    },
+    {
+      "path": "packages/game/src/assets/dialog-assets.lifecycle.test.ts",
+      "sha256": "c6dd984971c01194e4cc0b9b1e7faca9f78794e622cf36358493b53a4d9cf7f1"
+    },
+    {
+      "path": "packages/game/src/assets/rle-decode.test.ts",
+      "sha256": "4af965a3d3ca5227a5d791a6e59b21bb9bbbaf0b7e560ad820ff2d35eed653e3"
+    }
+  ],
+  "sourceBridges": [
+    {
+      "id": "dialog-responsibility-0",
+      "path": "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+      "reason": "Pure transport/binding cases leave irrelevant resource warning/fetch cleanup; byte fixture shares exact canonical encoder, PNG helper gets its RGBA input name.",
+      "changes": [
+        {
+          "from": "function bytesToBase64(bytes: Uint8Array): string {\n  let text = ''\n  for (const byte of bytes) text += String.fromCharCode(byte)\n  return btoa(text)\n}",
+          "to": "import { bytesToBase64 } from '../__tests__/asset-fixtures.js'",
+          "count": 1
+        },
+        {
+          "from": "describe('G02-D 对话图标与 base64', () => {\n  let expectedWarnings: Array<[string, unknown]>\n  beforeEach(() => {\n    expectedWarnings = []\n    vi.spyOn(console, 'warn').mockImplementation(() => {})\n  })\n  afterEach(() => {\n    try {\n      // 两路资源可交错完成，只约束完整诊断及次数，不约束无关完成顺序。\n      expect(\n        Array.from(vi.mocked(console.warn).mock.calls).sort((a, b) =>\n          String(a[0]).localeCompare(String(b[0])),\n        ),\n      ).toStrictEqual(Array.from(expectedWarnings).sort((a, b) => a[0].localeCompare(b[0])))\n    } finally {\n      vi.unstubAllGlobals()\n      vi.restoreAllMocks()\n    }\n  })\n\n  it('G02-D01 portraits.json 500 时头像为空，两帧图标仍按 0 与 1 入 map', async () => {\n    expectedWarnings = [\n      [\n        '[dialog-assets] portraits failed, skip:',\n        new Error('dialog-assets: portraits.json fetch failed (500)'),\n      ],\n    ]\n    vi.stubGlobal(\n      'fetch',\n      vi.fn(async (input: RequestInfo | URL) => {\n        const url = String(input)\n        if (url.endsWith('/data/portraits.json')) return new Response('', { status: 500 })\n        if (url.endsWith('/data/dialog-icons-raw.json')) return new Response(iconJson())\n        throw new Error(`unmocked ${url}`)\n      }),\n    )\n    const assets = await loadDialogAssets()\n    expect(assets.portraitFrames.size).toBe(0)\n    expect(assets.iconFrames.size).toBe(2)\n    expect(Array.from(assets.iconFrames.get(0)?.indices ?? [])).toEqual([0x11])\n    expect(Array.from(assets.iconFrames.get(1)?.indices ?? [])).toEqual([0x22])\n    expect(Array.from(assets.iconFrames.get(1)?.opaque ?? [])).toEqual([1])\n  })\n\n  it('G02-D02 manifest 写 99×99 时，头像宽高和遮罩以 PNG 为准', async () => {\n    expectedWarnings = [\n      [\n        '[dialog-assets] icons failed, skip:',\n        new Error('dialog-assets: dialog-icons-raw.json fetch failed (404)'),\n      ],\n    ]\n    const png = await pngResponse([0, 1, 2, 0, 3, 4, 5, 255])\n    vi.stubGlobal(\n      'fetch',\n      vi.fn(async (input: RequestInfo | URL) => {\n        const url = String(input)\n        if (url.endsWith('/data/portraits.json')) {\n          return Response.json({\n            count: 1,\n            portraits: [{ chunkIndex: 12, width: 99, height: 99 }],\n          })\n        }\n        if (url.endsWith('/images/portraits/12.png')) return png\n        if (url.endsWith('/data/dialog-icons-raw.json')) return new Response('', { status: 404 })\n        throw new Error(`unmocked ${url}`)\n      }),\n    )\n    const assets = await loadDialogAssets()\n    const portrait = assets.portraitFrames.get(12)\n    expect(portrait?.width).toBe(2)\n    expect(portrait?.height).toBe(1)\n    expect(Array.from(portrait?.indices ?? [])).toEqual([0, 3])\n    expect(Array.from(portrait?.opaque ?? [])).toEqual([0, 1])\n    expect(assets.iconFrames.size).toBe(0)\n  })\n\n  it('G02-D03 chunk 0 的头像 URL 补成 portraits/00.png', async () => {\n    expectedWarnings = [\n      [\n        '[dialog-assets] icons failed, skip:',\n        new Error('dialog-assets: dialog-icons-raw.json fetch failed (404)'),\n      ],\n    ]\n    const png = await pngResponse([8, 0, 0, 255, 9, 0, 0, 255])\n    const calls: string[] = []\n    vi.stubGlobal(\n      'fetch',\n      vi.fn(async (input: RequestInfo | URL) => {\n        const url = String(input)\n        calls.push(url)\n        if (url.endsWith('/data/portraits.json')) {\n          return Response.json({\n            count: 1,\n            portraits: [{ chunkIndex: 0, width: 2, height: 1 }],\n          })\n        }\n        if (url.endsWith('/images/portraits/00.png')) return png\n        if (url.endsWith('/data/dialog-icons-raw.json')) return new Response('', { status: 404 })\n        throw new Error(`unmocked ${url}`)\n      }),\n    )\n    const assets = await loadDialogAssets()\n    expect(calls.some((url) => url.endsWith('/images/portraits/00.png'))).toBe(true)\n    expect(Array.from(assets.portraitFrames.get(0)?.indices ?? [])).toEqual([8, 9])\n  })\n\n  it('G02-D04 头像清单为空数组时不请求 PNG，图标照常解码', async () => {\n    const calls: string[] = []\n    vi.stubGlobal(\n      'fetch',\n      vi.fn(async (input: RequestInfo | URL) => {\n        const url = String(input)\n        calls.push(url)\n        if (url.endsWith('/data/portraits.json')) {\n          return Response.json({ count: 0, portraits: [] })\n        }\n        if (url.endsWith('/data/dialog-icons-raw.json')) return new Response(iconJson())\n        throw new Error(`unmocked ${url}`)\n      }),\n    )\n    const assets = await loadDialogAssets()\n    expect(calls.some((url) => url.includes('/images/portraits/'))).toBe(false)\n    expect(assets.portraitFrames.size).toBe(0)\n    expect(Array.from(assets.iconFrames.get(0)?.indices ?? [])).toEqual([0x11])\n  })\n\n  it('G02-D05 图标 base64 非法时图标 map 为空，已成功的头像保留', async () => {\n    expectedWarnings = [\n      [\n        '[dialog-assets] icons failed, skip:',\n        expect.objectContaining({ name: 'InvalidCharacterError', message: 'Invalid character' }),\n      ],\n    ]\n    const png = await pngResponse([6, 0, 0, 255, 7, 0, 0, 255])\n    vi.stubGlobal(\n      'fetch',\n      vi.fn(async (input: RequestInfo | URL) => {\n        const url = String(input)\n        if (url.endsWith('/data/portraits.json')) {\n          return Response.json({\n            count: 1,\n            portraits: [{ chunkIndex: 3, width: 2, height: 1 }],\n          })\n        }\n        if (url.endsWith('/images/portraits/03.png')) return png\n        if (url.endsWith('/data/dialog-icons-raw.json')) {\n          return Response.json({ source: 't', size: 1, base64: '***' })\n        }\n        throw new Error(`unmocked ${url}`)\n      }),\n    )\n    const assets = await loadDialogAssets()\n    expect(Array.from(assets.portraitFrames.get(3)?.indices ?? [])).toEqual([6, 7])\n    expect(assets.iconFrames.size).toBe(0)\n  })\n\n  it('G02-D06 两张头像分别以 chunk 8 和 12 为键', async () => {\n    expectedWarnings = [\n      [\n        '[dialog-assets] icons failed, skip:',\n        new Error('dialog-assets: dialog-icons-raw.json fetch failed (404)'),\n      ],\n    ]\n    const first = await pngResponse([8, 0, 0, 255, 1, 0, 0, 255])\n    const second = await pngResponse([12, 0, 0, 255, 2, 0, 0, 255])\n    vi.stubGlobal(\n      'fetch',\n      vi.fn(async (input: RequestInfo | URL) => {\n        const url = String(input)\n        if (url.endsWith('/data/portraits.json')) {\n          return Response.json({\n            count: 2,\n            portraits: [\n              { chunkIndex: 8, width: 2, height: 1 },\n              { chunkIndex: 12, width: 2, height: 1 },\n            ],\n          })\n        }\n        if (url.endsWith('/images/portraits/08.png')) return first\n        if (url.endsWith('/images/portraits/12.png')) return second\n        if (url.endsWith('/data/dialog-icons-raw.json')) return new Response('', { status: 404 })\n        throw new Error(`unmocked ${url}`)\n      }),\n    )\n    const assets = await loadDialogAssets()\n    expect(Array.from(assets.portraitFrames.get(8)?.indices ?? [])).toEqual([8, 1])\n    expect(Array.from(assets.portraitFrames.get(12)?.indices ?? [])).toEqual([12, 2])\n    expect(assets.portraitFrames.size).toBe(2)\n  })\n\n  it('G02-D07 单张头像失败的 warn 带上 chunk 4，成功的 chunk 8 仍在', async () => {\n    expectedWarnings = [\n      ['dialog-assets: portrait 4 load failed, skip:', new Error('HTTP 404')],\n      [\n        '[dialog-assets] icons failed, skip:',\n        new Error('dialog-assets: dialog-icons-raw.json fetch failed (404)'),\n      ],\n    ]\n    const png = await pngResponse([8, 0, 0, 255, 1, 0, 0, 255])\n    vi.stubGlobal(\n      'fetch',\n      vi.fn(async (input: RequestInfo | URL) => {\n        const url = String(input)\n        if (url.endsWith('/data/portraits.json')) {\n          return Response.json({\n            count: 2,\n            portraits: [\n              { chunkIndex: 8, width: 2, height: 1 },\n              { chunkIndex: 4, width: 2, height: 1 },\n            ],\n          })\n        }\n        if (url.endsWith('/images/portraits/08.png')) return png\n        if (url.endsWith('/images/portraits/04.png')) return new Response('', { status: 404 })\n        if (url.endsWith('/data/dialog-icons-raw.json')) return new Response('', { status: 404 })\n        throw new Error(`unmocked ${url}`)\n      }),\n    )\n    const assets = await loadDialogAssets()\n    expect(Array.from(assets.portraitFrames.get(8)?.indices ?? [])).toEqual([8, 1])\n    expect(assets.portraitFrames.has(4)).toBe(false)\n  })\n\n  it('G02-D08 size 字段与字节数不一致时，仍按 base64 解出两帧', async () => {\n    expectedWarnings = [\n      [\n        '[dialog-assets] portraits failed, skip:',\n        new Error('dialog-assets: portraits.json fetch failed (404)'),\n      ],\n    ]\n    vi.stubGlobal(\n      'fetch',\n      vi.fn(async (input: RequestInfo | URL) => {\n        const url = String(input)\n        if (url.endsWith('/data/portraits.json')) return new Response('', { status: 404 })\n        if (url.endsWith('/data/dialog-icons-raw.json')) return new Response(iconJson(1))\n        throw new Error(`unmocked ${url}`)\n      }),\n    )\n    const assets = await loadDialogAssets()\n    expect(assets.iconFrames.size).toBe(2)\n    expect(Array.from(assets.iconFrames.get(0)?.indices ?? [])).toEqual([0x11])\n  })\n\n  it('G02-D13 图标帧的透明孔写入 opaque 0，宽高来自 RLE', async () => {\n    expectedWarnings = [\n      [\n        '[dialog-assets] portraits failed, skip:',\n        new Error('dialog-assets: portraits.json fetch failed (404)'),\n      ],\n    ]\n    const mask = Uint8Array.of(0x01, 0x00, 0x02, 0x00, 0x01, 0x00, 0x81, 0x01, 0x22)\n    vi.stubGlobal(\n      'fetch',\n      vi.fn(async (input: RequestInfo | URL) => {\n        const url = String(input)\n        if (url.endsWith('/data/portraits.json')) return new Response('', { status: 404 })\n        if (url.endsWith('/data/dialog-icons-raw.json')) {\n          return Response.json({ source: 't', size: mask.length, base64: bytesToBase64(mask) })\n        }\n        throw new Error(`unmocked ${url}`)\n      }),\n    )\n    const assets = await loadDialogAssets()\n    const icon = assets.iconFrames.get(0)\n    expect(icon?.width).toBe(2)\n    expect(icon?.height).toBe(1)\n    expect(Array.from(icon?.indices ?? [])).toEqual([0, 0x22])\n    expect(Array.from(icon?.opaque ?? [])).toEqual([0, 1])\n  })\n\n  it('G02-D14 单张头像 404 不会清掉已经解码的图标', async () => {\n    expectedWarnings = [['dialog-assets: portrait 4 load failed, skip:', new Error('HTTP 404')]]\n    vi.stubGlobal(\n      'fetch',\n      vi.fn(async (input: RequestInfo | URL) => {\n        const url = String(input)\n        if (url.endsWith('/data/portraits.json')) {\n          return Response.json({\n            count: 1,\n            portraits: [{ chunkIndex: 4, width: 2, height: 1 }],\n          })\n        }\n        if (url.endsWith('/images/portraits/04.png')) return new Response('', { status: 404 })\n        if (url.endsWith('/data/dialog-icons-raw.json')) return new Response(iconJson())\n        throw new Error(`unmocked ${url}`)\n      }),\n    )\n    const assets = await loadDialogAssets()\n    expect(assets.portraitFrames.size).toBe(0)\n    expect(Array.from(assets.iconFrames.get(0)?.indices ?? [])).toEqual([0x11])\n    expect(assets.iconFrames.size).toBe(2)\n  })\n\n  it('G02-D09 base64 /wCA 解出 [255, 0, 128]', () => {\n    expect(Array.from(base64ToBytes('/wCA'))).toEqual([255, 0, 128])\n  })\n\n  it('G02-D10 base64 /w== 解出单字节 255', () => {\n    expect(Array.from(base64ToBytes('/w=='))).toEqual([255])\n  })\n\n  it('G02-D11 原盘对话图标直接使用 shared PAL 入口，排除作者格式入口', () => {\n    expect(parseSpriteChunk).toBe(parsePalSpriteChunk)\n    expect(parseSpriteChunk).not.toBe(parseAuthorSpriteChunk)\n  })\n})",
+          "to": "describe('dialog resource decoding and partial failures', () => {\nlet expectedWarnings: Array<[string, unknown]>\n\nbeforeEach(() => {\n    expectedWarnings = []\n    vi.spyOn(console, 'warn').mockImplementation(() => {})\n  })\n\nafterEach(() => {\n    try {\n      // 两路资源可交错完成，只约束完整诊断及次数，不约束无关完成顺序。\n      expect(\n        Array.from(vi.mocked(console.warn).mock.calls).sort((a, b) =>\n          String(a[0]).localeCompare(String(b[0])),\n        ),\n      ).toStrictEqual(Array.from(expectedWarnings).sort((a, b) => a[0].localeCompare(b[0])))\n    } finally {\n      vi.unstubAllGlobals()\n      vi.restoreAllMocks()\n    }\n  })\n\nit('G02-D01 portraits.json 500 时头像为空，两帧图标仍按 0 与 1 入 map', async () => {\n    expectedWarnings = [\n      [\n        '[dialog-assets] portraits failed, skip:',\n        new Error('dialog-assets: portraits.json fetch failed (500)'),\n      ],\n    ]\n    vi.stubGlobal(\n      'fetch',\n      vi.fn(async (input: RequestInfo | URL) => {\n        const url = String(input)\n        if (url.endsWith('/data/portraits.json')) return new Response('', { status: 500 })\n        if (url.endsWith('/data/dialog-icons-raw.json')) return new Response(iconJson())\n        throw new Error(`unmocked ${url}`)\n      }),\n    )\n    const assets = await loadDialogAssets()\n    expect(assets.portraitFrames.size).toBe(0)\n    expect(assets.iconFrames.size).toBe(2)\n    expect(Array.from(assets.iconFrames.get(0)?.indices ?? [])).toEqual([0x11])\n    expect(Array.from(assets.iconFrames.get(1)?.indices ?? [])).toEqual([0x22])\n    expect(Array.from(assets.iconFrames.get(1)?.opaque ?? [])).toEqual([1])\n  })\n\nit('G02-D02 manifest 写 99×99 时，头像宽高和遮罩以 PNG 为准', async () => {\n    expectedWarnings = [\n      [\n        '[dialog-assets] icons failed, skip:',\n        new Error('dialog-assets: dialog-icons-raw.json fetch failed (404)'),\n      ],\n    ]\n    const png = await pngResponse([0, 1, 2, 0, 3, 4, 5, 255])\n    vi.stubGlobal(\n      'fetch',\n      vi.fn(async (input: RequestInfo | URL) => {\n        const url = String(input)\n        if (url.endsWith('/data/portraits.json')) {\n          return Response.json({\n            count: 1,\n            portraits: [{ chunkIndex: 12, width: 99, height: 99 }],\n          })\n        }\n        if (url.endsWith('/images/portraits/12.png')) return png\n        if (url.endsWith('/data/dialog-icons-raw.json')) return new Response('', { status: 404 })\n        throw new Error(`unmocked ${url}`)\n      }),\n    )\n    const assets = await loadDialogAssets()\n    const portrait = assets.portraitFrames.get(12)\n    expect(portrait?.width).toBe(2)\n    expect(portrait?.height).toBe(1)\n    expect(Array.from(portrait?.indices ?? [])).toEqual([0, 3])\n    expect(Array.from(portrait?.opaque ?? [])).toEqual([0, 1])\n    expect(assets.iconFrames.size).toBe(0)\n  })\n\nit('G02-D03 chunk 0 的头像 URL 补成 portraits/00.png', async () => {\n    expectedWarnings = [\n      [\n        '[dialog-assets] icons failed, skip:',\n        new Error('dialog-assets: dialog-icons-raw.json fetch failed (404)'),\n      ],\n    ]\n    const png = await pngResponse([8, 0, 0, 255, 9, 0, 0, 255])\n    const calls: string[] = []\n    vi.stubGlobal(\n      'fetch',\n      vi.fn(async (input: RequestInfo | URL) => {\n        const url = String(input)\n        calls.push(url)\n        if (url.endsWith('/data/portraits.json')) {\n          return Response.json({\n            count: 1,\n            portraits: [{ chunkIndex: 0, width: 2, height: 1 }],\n          })\n        }\n        if (url.endsWith('/images/portraits/00.png')) return png\n        if (url.endsWith('/data/dialog-icons-raw.json')) return new Response('', { status: 404 })\n        throw new Error(`unmocked ${url}`)\n      }),\n    )\n    const assets = await loadDialogAssets()\n    expect(calls.some((url) => url.endsWith('/images/portraits/00.png'))).toBe(true)\n    expect(Array.from(assets.portraitFrames.get(0)?.indices ?? [])).toEqual([8, 9])\n  })\n\nit('G02-D04 头像清单为空数组时不请求 PNG，图标照常解码', async () => {\n    const calls: string[] = []\n    vi.stubGlobal(\n      'fetch',\n      vi.fn(async (input: RequestInfo | URL) => {\n        const url = String(input)\n        calls.push(url)\n        if (url.endsWith('/data/portraits.json')) {\n          return Response.json({ count: 0, portraits: [] })\n        }\n        if (url.endsWith('/data/dialog-icons-raw.json')) return new Response(iconJson())\n        throw new Error(`unmocked ${url}`)\n      }),\n    )\n    const assets = await loadDialogAssets()\n    expect(calls.some((url) => url.includes('/images/portraits/'))).toBe(false)\n    expect(assets.portraitFrames.size).toBe(0)\n    expect(Array.from(assets.iconFrames.get(0)?.indices ?? [])).toEqual([0x11])\n  })\n\nit('G02-D05 图标 base64 非法时图标 map 为空，已成功的头像保留', async () => {\n    expectedWarnings = [\n      [\n        '[dialog-assets] icons failed, skip:',\n        expect.objectContaining({ name: 'InvalidCharacterError', message: 'Invalid character' }),\n      ],\n    ]\n    const png = await pngResponse([6, 0, 0, 255, 7, 0, 0, 255])\n    vi.stubGlobal(\n      'fetch',\n      vi.fn(async (input: RequestInfo | URL) => {\n        const url = String(input)\n        if (url.endsWith('/data/portraits.json')) {\n          return Response.json({\n            count: 1,\n            portraits: [{ chunkIndex: 3, width: 2, height: 1 }],\n          })\n        }\n        if (url.endsWith('/images/portraits/03.png')) return png\n        if (url.endsWith('/data/dialog-icons-raw.json')) {\n          return Response.json({ source: 't', size: 1, base64: '***' })\n        }\n        throw new Error(`unmocked ${url}`)\n      }),\n    )\n    const assets = await loadDialogAssets()\n    expect(Array.from(assets.portraitFrames.get(3)?.indices ?? [])).toEqual([6, 7])\n    expect(assets.iconFrames.size).toBe(0)\n  })\n\nit('G02-D06 两张头像分别以 chunk 8 和 12 为键', async () => {\n    expectedWarnings = [\n      [\n        '[dialog-assets] icons failed, skip:',\n        new Error('dialog-assets: dialog-icons-raw.json fetch failed (404)'),\n      ],\n    ]\n    const first = await pngResponse([8, 0, 0, 255, 1, 0, 0, 255])\n    const second = await pngResponse([12, 0, 0, 255, 2, 0, 0, 255])\n    vi.stubGlobal(\n      'fetch',\n      vi.fn(async (input: RequestInfo | URL) => {\n        const url = String(input)\n        if (url.endsWith('/data/portraits.json')) {\n          return Response.json({\n            count: 2,\n            portraits: [\n              { chunkIndex: 8, width: 2, height: 1 },\n              { chunkIndex: 12, width: 2, height: 1 },\n            ],\n          })\n        }\n        if (url.endsWith('/images/portraits/08.png')) return first\n        if (url.endsWith('/images/portraits/12.png')) return second\n        if (url.endsWith('/data/dialog-icons-raw.json')) return new Response('', { status: 404 })\n        throw new Error(`unmocked ${url}`)\n      }),\n    )\n    const assets = await loadDialogAssets()\n    expect(Array.from(assets.portraitFrames.get(8)?.indices ?? [])).toEqual([8, 1])\n    expect(Array.from(assets.portraitFrames.get(12)?.indices ?? [])).toEqual([12, 2])\n    expect(assets.portraitFrames.size).toBe(2)\n  })\n\nit('G02-D07 单张头像失败的 warn 带上 chunk 4，成功的 chunk 8 仍在', async () => {\n    expectedWarnings = [\n      ['dialog-assets: portrait 4 load failed, skip:', new Error('HTTP 404')],\n      [\n        '[dialog-assets] icons failed, skip:',\n        new Error('dialog-assets: dialog-icons-raw.json fetch failed (404)'),\n      ],\n    ]\n    const png = await pngResponse([8, 0, 0, 255, 1, 0, 0, 255])\n    vi.stubGlobal(\n      'fetch',\n      vi.fn(async (input: RequestInfo | URL) => {\n        const url = String(input)\n        if (url.endsWith('/data/portraits.json')) {\n          return Response.json({\n            count: 2,\n            portraits: [\n              { chunkIndex: 8, width: 2, height: 1 },\n              { chunkIndex: 4, width: 2, height: 1 },\n            ],\n          })\n        }\n        if (url.endsWith('/images/portraits/08.png')) return png\n        if (url.endsWith('/images/portraits/04.png')) return new Response('', { status: 404 })\n        if (url.endsWith('/data/dialog-icons-raw.json')) return new Response('', { status: 404 })\n        throw new Error(`unmocked ${url}`)\n      }),\n    )\n    const assets = await loadDialogAssets()\n    expect(Array.from(assets.portraitFrames.get(8)?.indices ?? [])).toEqual([8, 1])\n    expect(assets.portraitFrames.has(4)).toBe(false)\n  })\n\nit('G02-D08 size 字段与字节数不一致时，仍按 base64 解出两帧', async () => {\n    expectedWarnings = [\n      [\n        '[dialog-assets] portraits failed, skip:',\n        new Error('dialog-assets: portraits.json fetch failed (404)'),\n      ],\n    ]\n    vi.stubGlobal(\n      'fetch',\n      vi.fn(async (input: RequestInfo | URL) => {\n        const url = String(input)\n        if (url.endsWith('/data/portraits.json')) return new Response('', { status: 404 })\n        if (url.endsWith('/data/dialog-icons-raw.json')) return new Response(iconJson(1))\n        throw new Error(`unmocked ${url}`)\n      }),\n    )\n    const assets = await loadDialogAssets()\n    expect(assets.iconFrames.size).toBe(2)\n    expect(Array.from(assets.iconFrames.get(0)?.indices ?? [])).toEqual([0x11])\n  })\n\nit('G02-D13 图标帧的透明孔写入 opaque 0，宽高来自 RLE', async () => {\n    expectedWarnings = [\n      [\n        '[dialog-assets] portraits failed, skip:',\n        new Error('dialog-assets: portraits.json fetch failed (404)'),\n      ],\n    ]\n    const mask = Uint8Array.of(0x01, 0x00, 0x02, 0x00, 0x01, 0x00, 0x81, 0x01, 0x22)\n    vi.stubGlobal(\n      'fetch',\n      vi.fn(async (input: RequestInfo | URL) => {\n        const url = String(input)\n        if (url.endsWith('/data/portraits.json')) return new Response('', { status: 404 })\n        if (url.endsWith('/data/dialog-icons-raw.json')) {\n          return Response.json({ source: 't', size: mask.length, base64: bytesToBase64(mask) })\n        }\n        throw new Error(`unmocked ${url}`)\n      }),\n    )\n    const assets = await loadDialogAssets()\n    const icon = assets.iconFrames.get(0)\n    expect(icon?.width).toBe(2)\n    expect(icon?.height).toBe(1)\n    expect(Array.from(icon?.indices ?? [])).toEqual([0, 0x22])\n    expect(Array.from(icon?.opaque ?? [])).toEqual([0, 1])\n  })\n\nit('G02-D14 单张头像 404 不会清掉已经解码的图标', async () => {\n    expectedWarnings = [['dialog-assets: portrait 4 load failed, skip:', new Error('HTTP 404')]]\n    vi.stubGlobal(\n      'fetch',\n      vi.fn(async (input: RequestInfo | URL) => {\n        const url = String(input)\n        if (url.endsWith('/data/portraits.json')) {\n          return Response.json({\n            count: 1,\n            portraits: [{ chunkIndex: 4, width: 2, height: 1 }],\n          })\n        }\n        if (url.endsWith('/images/portraits/04.png')) return new Response('', { status: 404 })\n        if (url.endsWith('/data/dialog-icons-raw.json')) return new Response(iconJson())\n        throw new Error(`unmocked ${url}`)\n      }),\n    )\n    const assets = await loadDialogAssets()\n    expect(assets.portraitFrames.size).toBe(0)\n    expect(Array.from(assets.iconFrames.get(0)?.indices ?? [])).toEqual([0x11])\n    expect(assets.iconFrames.size).toBe(2)\n  })\n})\n\ndescribe('base64 transport and PAL binding', () => {\nit('G02-D09 base64 /wCA 解出 [255, 0, 128]', () => {\n    expect(Array.from(base64ToBytes('/wCA'))).toEqual([255, 0, 128])\n  })\n\nit('G02-D10 base64 /w== 解出单字节 255', () => {\n    expect(Array.from(base64ToBytes('/w=='))).toEqual([255])\n  })\n\nit('G02-D11 原盘对话图标直接使用 shared PAL 入口，排除作者格式入口', () => {\n    expect(parseSpriteChunk).toBe(parsePalSpriteChunk)\n    expect(parseSpriteChunk).not.toBe(parseAuthorSpriteChunk)\n  })\n})",
+          "count": 1
+        },
+        {
+          "from": "pngResponse",
+          "to": "rgbaPngResponse",
+          "count": 7
+        },
+        {
+          "from": "'G02-D01 portraits.json 500 时头像为空，两帧图标仍按 0 与 1 入 map'",
+          "to": "'portraits.json 500 时头像为空，两帧图标仍按 0 与 1 入 map'",
+          "count": 1
+        },
+        {
+          "from": "'G02-D02 manifest 写 99×99 时，头像宽高和遮罩以 PNG 为准'",
+          "to": "'manifest 写 99×99 时，头像宽高和遮罩以 PNG 为准'",
+          "count": 1
+        },
+        {
+          "from": "'G02-D03 chunk 0 的头像 URL 补成 portraits/00.png'",
+          "to": "'chunk 0 的头像 URL 补成 portraits/00.png'",
+          "count": 1
+        },
+        {
+          "from": "'G02-D04 头像清单为空数组时不请求 PNG，图标照常解码'",
+          "to": "'头像清单为空数组时不请求 PNG，图标照常解码'",
+          "count": 1
+        },
+        {
+          "from": "'G02-D05 图标 base64 非法时图标 map 为空，已成功的头像保留'",
+          "to": "'图标 base64 非法时图标 map 为空，已成功的头像保留'",
+          "count": 1
+        },
+        {
+          "from": "'G02-D06 两张头像分别以 chunk 8 和 12 为键'",
+          "to": "'两张头像分别以 chunk 8 和 12 为键'",
+          "count": 1
+        },
+        {
+          "from": "'G02-D07 单张头像失败的 warn 带上 chunk 4，成功的 chunk 8 仍在'",
+          "to": "'单张头像失败的 warn 带上 chunk 4，成功的 chunk 8 仍在'",
+          "count": 1
+        },
+        {
+          "from": "'G02-D08 size 字段与字节数不一致时，仍按 base64 解出两帧'",
+          "to": "'size 字段与字节数不一致时，仍按 base64 解出两帧'",
+          "count": 1
+        },
+        {
+          "from": "'G02-D13 图标帧的透明孔写入 opaque 0，宽高来自 RLE'",
+          "to": "'图标帧的透明孔写入 opaque 0，宽高来自 RLE'",
+          "count": 1
+        },
+        {
+          "from": "'G02-D14 单张头像 404 不会清掉已经解码的图标'",
+          "to": "'单张头像 404 不会清掉已经解码的图标'",
+          "count": 1
+        },
+        {
+          "from": "'G02-D09 base64 /wCA 解出 [255, 0, 128]'",
+          "to": "'base64 /wCA 解出 [255, 0, 128]'",
+          "count": 1
+        },
+        {
+          "from": "'G02-D10 base64 /w== 解出单字节 255'",
+          "to": "'base64 /w== 解出单字节 255'",
+          "count": 1
+        },
+        {
+          "from": "'G02-D11 原盘对话图标直接使用 shared PAL 入口，排除作者格式入口'",
+          "to": "'原盘对话图标直接使用 shared PAL 入口，排除作者格式入口'",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "dialog-responsibility-1",
+      "path": "packages/game/src/assets/dialog-resources.grok-mid-1.test.ts",
+      "reason": "Caller/lifecycle titles and PNG input naming only; warning and cleanup contracts unchanged.",
+      "changes": [
+        {
+          "from": "'grok-mid-1 dialog parallel degradation'",
+          "to": "'parallel dialog loading and repeated entries'",
+          "count": 1
+        },
+        {
+          "from": "pngResponse",
+          "to": "encodedPngResponse",
+          "count": 5
+        }
+      ]
+    },
+    {
+      "id": "dialog-responsibility-2",
+      "path": "packages/game/src/assets/dialog-assets.glm-phase1-leaves.test.ts",
+      "reason": "Caller/lifecycle titles and PNG input naming only; warning and cleanup contracts unchanged.",
+      "changes": [
+        {
+          "from": "'L23 loadDialogAssets 全链路（fetch 全隔离）'",
+          "to": "'independent manifest failures'",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "dialog-responsibility-3",
+      "path": "packages/game/src/assets/rle-decode.test.ts",
+      "reason": "Caller/lifecycle titles and PNG input naming only; warning and cleanup contracts unchanged.",
+      "changes": []
+    }
+  ],
+  "replacements": [],
+  "registrations": [
+    {
+      "old": {
+        "file": "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+        "ordinal": 0
+      },
+      "originalOrdinal": 0,
+      "current": {
+        "file": "packages/game/src/assets/dialog-assets.loading.test.ts",
+        "titles": ["dialog resource decoding and partial failures"],
+        "template": "portraits.json 500 时头像为空，两帧图标仍按 0 与 1 入 map"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+        "ordinal": 1
+      },
+      "originalOrdinal": 1,
+      "current": {
+        "file": "packages/game/src/assets/dialog-assets.loading.test.ts",
+        "titles": ["dialog resource decoding and partial failures"],
+        "template": "manifest 写 99×99 时，头像宽高和遮罩以 PNG 为准"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+        "ordinal": 2
+      },
+      "originalOrdinal": 2,
+      "current": {
+        "file": "packages/game/src/assets/dialog-assets.loading.test.ts",
+        "titles": ["dialog resource decoding and partial failures"],
+        "template": "chunk 0 的头像 URL 补成 portraits/00.png"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+        "ordinal": 3
+      },
+      "originalOrdinal": 3,
+      "current": {
+        "file": "packages/game/src/assets/dialog-assets.loading.test.ts",
+        "titles": ["dialog resource decoding and partial failures"],
+        "template": "头像清单为空数组时不请求 PNG，图标照常解码"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+        "ordinal": 4
+      },
+      "originalOrdinal": 4,
+      "current": {
+        "file": "packages/game/src/assets/dialog-assets.loading.test.ts",
+        "titles": ["dialog resource decoding and partial failures"],
+        "template": "图标 base64 非法时图标 map 为空，已成功的头像保留"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+        "ordinal": 5
+      },
+      "originalOrdinal": 5,
+      "current": {
+        "file": "packages/game/src/assets/dialog-assets.loading.test.ts",
+        "titles": ["dialog resource decoding and partial failures"],
+        "template": "两张头像分别以 chunk 8 和 12 为键"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+        "ordinal": 6
+      },
+      "originalOrdinal": 6,
+      "current": {
+        "file": "packages/game/src/assets/dialog-assets.loading.test.ts",
+        "titles": ["dialog resource decoding and partial failures"],
+        "template": "单张头像失败的 warn 带上 chunk 4，成功的 chunk 8 仍在"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+        "ordinal": 7
+      },
+      "originalOrdinal": 7,
+      "current": {
+        "file": "packages/game/src/assets/dialog-assets.loading.test.ts",
+        "titles": ["dialog resource decoding and partial failures"],
+        "template": "size 字段与字节数不一致时，仍按 base64 解出两帧"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+        "ordinal": 8
+      },
+      "originalOrdinal": 8,
+      "current": {
+        "file": "packages/game/src/assets/dialog-assets.loading.test.ts",
+        "titles": ["dialog resource decoding and partial failures"],
+        "template": "图标帧的透明孔写入 opaque 0，宽高来自 RLE"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+        "ordinal": 9
+      },
+      "originalOrdinal": 9,
+      "current": {
+        "file": "packages/game/src/assets/dialog-assets.loading.test.ts",
+        "titles": ["dialog resource decoding and partial failures"],
+        "template": "单张头像 404 不会清掉已经解码的图标"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+        "ordinal": 10
+      },
+      "originalOrdinal": 10,
+      "current": {
+        "file": "packages/game/src/assets/rle-decode.test.ts",
+        "titles": ["base64 transport and PAL binding"],
+        "template": "base64 /wCA 解出 [255, 0, 128]"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+        "ordinal": 11
+      },
+      "originalOrdinal": 11,
+      "current": {
+        "file": "packages/game/src/assets/rle-decode.test.ts",
+        "titles": ["base64 transport and PAL binding"],
+        "template": "base64 /w== 解出单字节 255"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+        "ordinal": 12
+      },
+      "originalOrdinal": 12,
+      "current": {
+        "file": "packages/game/src/assets/rle-decode.test.ts",
+        "titles": ["base64 transport and PAL binding"],
+        "template": "原盘对话图标直接使用 shared PAL 入口，排除作者格式入口"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/dialog-resources.grok-mid-1.test.ts",
+        "ordinal": 0
+      },
+      "originalOrdinal": 0,
+      "current": {
+        "file": "packages/game/src/assets/dialog-assets.lifecycle.test.ts",
+        "titles": ["parallel dialog loading and repeated entries"],
+        "template": "单张头像失败仍保留成功头像与图标第 0 帧"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/dialog-resources.grok-mid-1.test.ts",
+        "ordinal": 1
+      },
+      "originalOrdinal": 1,
+      "current": {
+        "file": "packages/game/src/assets/dialog-assets.lifecycle.test.ts",
+        "titles": ["parallel dialog loading and repeated entries"],
+        "template": "头像清单与图标清单在任一响应前都已发出"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/dialog-resources.grok-mid-1.test.ts",
+        "ordinal": 2
+      },
+      "originalOrdinal": 2,
+      "current": {
+        "file": "packages/game/src/assets/dialog-assets.lifecycle.test.ts",
+        "titles": ["parallel dialog loading and repeated entries"],
+        "template": "重复 chunk 的第二次失败不删第一次精灵"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/dialog-resources.grok-mid-1.test.ts",
+        "ordinal": 3
+      },
+      "originalOrdinal": 3,
+      "current": {
+        "file": "packages/game/src/assets/dialog-assets.lifecycle.test.ts",
+        "titles": ["parallel dialog loading and repeated entries"],
+        "template": "portraits.json 的 count 不决定 PNG 请求次数"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/dialog-assets.glm-phase1-leaves.test.ts",
+        "ordinal": 0
+      },
+      "originalOrdinal": 0,
+      "current": {
+        "file": "packages/game/src/assets/dialog-assets.lifecycle.test.ts",
+        "titles": ["independent manifest failures"],
+        "template": "两路清单均失败时，返回两个空 map 并分别报告原因"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/rle-decode.test.ts",
+        "ordinal": 0
+      },
+      "originalOrdinal": 0,
+      "current": {
+        "file": "packages/game/src/assets/rle-decode.test.ts",
+        "titles": ["base64ToBytes"],
+        "template": "空 string → 空 Uint8Array"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/rle-decode.test.ts",
+        "ordinal": 1
+      },
+      "originalOrdinal": 1,
+      "current": {
+        "file": "packages/game/src/assets/rle-decode.test.ts",
+        "titles": ["base64ToBytes"],
+        "template": "有 padding 的两字节与无 padding 的三字节零值输入"
+      }
+    }
+  ],
+  "identities": [
+    {
+      "old": {
+        "file": "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+        "fullName": "G02-D 对话图标与 base64 G02-D01 portraits.json 500 时头像为空，两帧图标仍按 0 与 1 入 map"
+      },
+      "current": {
+        "file": "packages/game/src/assets/dialog-assets.loading.test.ts",
+        "fullName": "dialog resource decoding and partial failures portraits.json 500 时头像为空，两帧图标仍按 0 与 1 入 map"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+        "fullName": "G02-D 对话图标与 base64 G02-D02 manifest 写 99×99 时，头像宽高和遮罩以 PNG 为准"
+      },
+      "current": {
+        "file": "packages/game/src/assets/dialog-assets.loading.test.ts",
+        "fullName": "dialog resource decoding and partial failures manifest 写 99×99 时，头像宽高和遮罩以 PNG 为准"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+        "fullName": "G02-D 对话图标与 base64 G02-D03 chunk 0 的头像 URL 补成 portraits/00.png"
+      },
+      "current": {
+        "file": "packages/game/src/assets/dialog-assets.loading.test.ts",
+        "fullName": "dialog resource decoding and partial failures chunk 0 的头像 URL 补成 portraits/00.png"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+        "fullName": "G02-D 对话图标与 base64 G02-D04 头像清单为空数组时不请求 PNG，图标照常解码"
+      },
+      "current": {
+        "file": "packages/game/src/assets/dialog-assets.loading.test.ts",
+        "fullName": "dialog resource decoding and partial failures 头像清单为空数组时不请求 PNG，图标照常解码"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+        "fullName": "G02-D 对话图标与 base64 G02-D05 图标 base64 非法时图标 map 为空，已成功的头像保留"
+      },
+      "current": {
+        "file": "packages/game/src/assets/dialog-assets.loading.test.ts",
+        "fullName": "dialog resource decoding and partial failures 图标 base64 非法时图标 map 为空，已成功的头像保留"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+        "fullName": "G02-D 对话图标与 base64 G02-D06 两张头像分别以 chunk 8 和 12 为键"
+      },
+      "current": {
+        "file": "packages/game/src/assets/dialog-assets.loading.test.ts",
+        "fullName": "dialog resource decoding and partial failures 两张头像分别以 chunk 8 和 12 为键"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+        "fullName": "G02-D 对话图标与 base64 G02-D07 单张头像失败的 warn 带上 chunk 4，成功的 chunk 8 仍在"
+      },
+      "current": {
+        "file": "packages/game/src/assets/dialog-assets.loading.test.ts",
+        "fullName": "dialog resource decoding and partial failures 单张头像失败的 warn 带上 chunk 4，成功的 chunk 8 仍在"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+        "fullName": "G02-D 对话图标与 base64 G02-D08 size 字段与字节数不一致时，仍按 base64 解出两帧"
+      },
+      "current": {
+        "file": "packages/game/src/assets/dialog-assets.loading.test.ts",
+        "fullName": "dialog resource decoding and partial failures size 字段与字节数不一致时，仍按 base64 解出两帧"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+        "fullName": "G02-D 对话图标与 base64 G02-D13 图标帧的透明孔写入 opaque 0，宽高来自 RLE"
+      },
+      "current": {
+        "file": "packages/game/src/assets/dialog-assets.loading.test.ts",
+        "fullName": "dialog resource decoding and partial failures 图标帧的透明孔写入 opaque 0，宽高来自 RLE"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+        "fullName": "G02-D 对话图标与 base64 G02-D14 单张头像 404 不会清掉已经解码的图标"
+      },
+      "current": {
+        "file": "packages/game/src/assets/dialog-assets.loading.test.ts",
+        "fullName": "dialog resource decoding and partial failures 单张头像 404 不会清掉已经解码的图标"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+        "fullName": "G02-D 对话图标与 base64 G02-D09 base64 /wCA 解出 [255, 0, 128]"
+      },
+      "current": {
+        "file": "packages/game/src/assets/rle-decode.test.ts",
+        "fullName": "base64 transport and PAL binding base64 /wCA 解出 [255, 0, 128]"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+        "fullName": "G02-D 对话图标与 base64 G02-D10 base64 /w== 解出单字节 255"
+      },
+      "current": {
+        "file": "packages/game/src/assets/rle-decode.test.ts",
+        "fullName": "base64 transport and PAL binding base64 /w== 解出单字节 255"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+        "fullName": "G02-D 对话图标与 base64 G02-D11 原盘对话图标直接使用 shared PAL 入口，排除作者格式入口"
+      },
+      "current": {
+        "file": "packages/game/src/assets/rle-decode.test.ts",
+        "fullName": "base64 transport and PAL binding 原盘对话图标直接使用 shared PAL 入口，排除作者格式入口"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/dialog-resources.grok-mid-1.test.ts",
+        "fullName": "grok-mid-1 dialog parallel degradation 单张头像失败仍保留成功头像与图标第 0 帧"
+      },
+      "current": {
+        "file": "packages/game/src/assets/dialog-assets.lifecycle.test.ts",
+        "fullName": "parallel dialog loading and repeated entries 单张头像失败仍保留成功头像与图标第 0 帧"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/dialog-resources.grok-mid-1.test.ts",
+        "fullName": "grok-mid-1 dialog parallel degradation 头像清单与图标清单在任一响应前都已发出"
+      },
+      "current": {
+        "file": "packages/game/src/assets/dialog-assets.lifecycle.test.ts",
+        "fullName": "parallel dialog loading and repeated entries 头像清单与图标清单在任一响应前都已发出"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/dialog-resources.grok-mid-1.test.ts",
+        "fullName": "grok-mid-1 dialog parallel degradation 重复 chunk 的第二次失败不删第一次精灵"
+      },
+      "current": {
+        "file": "packages/game/src/assets/dialog-assets.lifecycle.test.ts",
+        "fullName": "parallel dialog loading and repeated entries 重复 chunk 的第二次失败不删第一次精灵"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/dialog-resources.grok-mid-1.test.ts",
+        "fullName": "grok-mid-1 dialog parallel degradation portraits.json 的 count 不决定 PNG 请求次数"
+      },
+      "current": {
+        "file": "packages/game/src/assets/dialog-assets.lifecycle.test.ts",
+        "fullName": "parallel dialog loading and repeated entries portraits.json 的 count 不决定 PNG 请求次数"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/dialog-assets.glm-phase1-leaves.test.ts",
+        "fullName": "L23 loadDialogAssets 全链路（fetch 全隔离） 两路清单均失败时，返回两个空 map 并分别报告原因"
+      },
+      "current": {
+        "file": "packages/game/src/assets/dialog-assets.lifecycle.test.ts",
+        "fullName": "independent manifest failures 两路清单均失败时，返回两个空 map 并分别报告原因"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/rle-decode.test.ts",
+        "fullName": "base64ToBytes 空 string → 空 Uint8Array"
+      },
+      "current": {
+        "file": "packages/game/src/assets/rle-decode.test.ts",
+        "fullName": "base64ToBytes 空 string → 空 Uint8Array"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/rle-decode.test.ts",
+        "fullName": "base64ToBytes 有 padding 的两字节与无 padding 的三字节零值输入"
+      },
+      "current": {
+        "file": "packages/game/src/assets/rle-decode.test.ts",
+        "fullName": "base64ToBytes 有 padding 的两字节与无 padding 的三字节零值输入"
+      }
+    }
+  ],
+  "cohortSubjects": [
+    {
+      "path": "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+      "sha256": "564e9ec506c02ac82d217a0fb4c1ed9ad09e631864aa7720d9a3a24571173f79",
+      "priorCurrentBridge": {
+        "beforeMember": "organization-game-asset-fixtures/2.before",
+        "afterSha256": "48e7edf94615dbe1b4f74412d4ded60de39d39d714da1bcea6e202faed8269d7",
+        "evidence": "organization-game-asset-fixtures.json"
+      }
+    },
+    {
+      "path": "packages/game/src/assets/dialog-resources.grok-mid-1.test.ts",
+      "sha256": "9f2fb22b4bf8abbe2778962050ec5f5a5e9eebda1ed5b65488e0af0fb9192dcc",
+      "priorCurrentBridge": null
+    },
+    {
+      "path": "packages/game/src/assets/dialog-assets.glm-phase1-leaves.test.ts",
+      "sha256": "60bf26531054a6f3e213703a18edcb7929f9c4e9806dfb76b64b10eb245cd744",
+      "priorCurrentBridge": null
+    }
+  ],
+  "preserved": [
+    {
+      "path": "packages/game/src/assets/dialog-assets.ts",
+      "sha256": "4a5186879b7ae66abe0ef13a48a472e35e1234c0c69943ce932bcd26b9a67eed"
+    },
+    {
+      "path": "packages/game/src/assets/rle-decode.ts",
+      "sha256": "34fcb9a237909ee81cd001111246d195dc593f9a64a16634784a93976e6fa612"
+    },
+    {
+      "path": "packages/game/src/assets/png.ts",
+      "sha256": "4954c8f732085b29f94904caf21a0b43a40aba9437aedcd0ab34d34a1286c2d5"
+    },
+    {
+      "path": "packages/game/src/__tests__/asset-fixtures.ts",
+      "sha256": "cf3eae0a807ce26983299ee72ff140b7035cd64121a4547b6f145076547c12fc"
+    },
+    {
+      "path": "packages/shared/src/rle.ts",
+      "sha256": "85d0f8dc2f2c02e1fb8cf19c8faf0c9753b77d2ceeecb2a77c289421794282fb"
+    }
+  ],
+  "neighborPaths": [
+    "packages/game/src/assets/dialog-assets.lifecycle.test.ts",
+    "packages/game/src/assets/dialog-assets.loading.test.ts",
+    "packages/game/src/assets/rle-decode.test.ts",
+    "packages/game/src/assets/scene-cache.callbacks.test.ts",
+    "packages/game/src/assets/scene-cache.eviction.test.ts",
+    "packages/game/src/assets/scene-cache.lifecycle.test.ts",
+    "packages/game/src/assets/tileset-blob.fetch.test.ts",
+    "packages/game/src/assets/tileset-blob.frames.test.ts",
+    "packages/game/src/assets/tileset-blob.gzip.test.ts"
+  ],
+  "profiles": [
+    {
+      "path": "packages/game/src/assets/dialog-assets.loading.test.ts",
+      "subjects": ["packages/game/src/assets/dialog-icons.grok-r1.test.ts"],
+      "axes": {
+        "A": "十原loadDialogAssets合同保PNG真实尺寸/alpha/编号和PAL图标mask/坏base64/partial失败，原entry绑定修复后证据按最新final-pre94复用。",
+        "B": "头注明确合成资源非原盘格式认证，size字段不作字节真值；去G02编号，保留完整诊断与顺序不限的理由。",
+        "C": "资源加载/失败owns fetch与warn，beforeEach/afterEach完整保留；三个纯adaptercase移走，不让纯函数继承IO生命周期。",
+        "D": "byte→base64与canonical完整函数同形，仅局部变量/导出不同；RGBA→PNG与已编码PNG Response输入不同，各自保留明确函数。",
+        "E": "十完整像素/opaque/缺键/存活成员断言与警告内容/次数不改，strict sorted warning检查仍在finally cleanup之前。",
+        "F": "dialog-assets.loading与rgbaPngResponse表达输入/责任，不以贡献者或新增批次命名。",
+        "G": "去本地重复base64构造器；未根据相似mock删partial失败/空manifest等不同合同。",
+        "H": "真实Response/canvas/PNG/PAL入口执行，只有IO替身，独立literal像素仍可直接判错。"
+      },
+      "acceptance": "accepted-FG; unified gates pending"
+    },
+    {
+      "path": "packages/game/src/assets/dialog-assets.lifecycle.test.ts",
+      "subjects": [
+        "packages/game/src/assets/dialog-resources.grok-mid-1.test.ts",
+        "packages/game/src/assets/dialog-assets.glm-phase1-leaves.test.ts"
+      ],
+      "axes": {
+        "A": "五原parallel/duplicate/stale metadata/dual失败合同保持；屏障断言失败仍drain当前与后继请求并await原promise。",
+        "B": "不写全链路已验，标题具体到parallel/manifest隔离；异常count与重复chunk是刻意反例不是正常原盘真值。",
+        "C": "合并同一owner cleanup：两原top-level afterEach完全相同，每例保持一次；警告仍由case自己捕获精确比对。",
+        "D": "不同inputbytes的encodedPngResponse留局部，iconResponse固定像素仍复用shared构造；与RGBA factory不强合。",
+        "E": "原四+一case原全部业务断言/错误对象/返回像素保留，未把只发请求充已完成加载。",
+        "F": "dialog-assets.lifecycle、encodedPngResponse与独立清单失败命名清晰，GLM/Grok标识退出源码入口。",
+        "G": "去重复全局cleanup而不弱化隔离，没有新万能host/完成回执或测试退休。",
+        "H": "可控真实Promise/Response与窄fetch验证双路同时启动/迟到发布，失败清理路径仍显式await，不加延时。"
+      },
+      "acceptance": "accepted-FG; unified gates pending"
+    },
+    {
+      "path": "packages/game/src/assets/rle-decode.test.ts",
+      "subjects": [
+        "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+        "packages/game/src/assets/rle-decode.test.ts"
+      ],
+      "axes": {
+        "A": "五纯adaptercase保空字符串、padding零值、255/0/128及PAL而非author绑定；RLE算法真值在shared，未移来重复codeccase。",
+        "B": "头注限定浏览器base64传输与实际PAL接线，不以同函数引用相等冒称所有格式正确。",
+        "C": "无fetch/warn/canvas hooks，仅纯入口直接调用；两个旧base64主测与三原dialog纯case按同一adapter归属。",
+        "D": "五输入/binding轴不同，无新增重复低价值例；只复用公开adapter/shared入口，不另建decoder。",
+        "E": "五原身份/全部literal与反author断言保持；沿rle-boot退休后版本与final-PAL counter，不复活已退休codec测试。",
+        "F": "rle-decode.test与当前adapter相邻，标题按base64/PAL职责；纯case不再藏在资源失败组。",
+        "G": "无多余资源warning/cleanup，未删padding或高位输入以凑行数，旧四codec退休仍有效。",
+        "H": "纯函数与真实公开绑定可直接观察，无核心mock或新测试出口。"
+      },
+      "acceptance": "accepted-FG; unified gates pending"
+    }
+  ],
+  "cleanExecutions": ["before", "neighbors", "typecheck", "scoped"],
+  "receipts": {
+    "neighbors": "organization-game-cache-tests/neighbors",
+    "typecheck": "organization-game-cache-tests/typecheck",
+    "scoped": "organization-game-cache-tests/scoped-final"
+  },
+  "fixtureReuse": "organization-game-dialog-tests/base64-fixture-reuse.json",
+  "processDisclosures": [
+    "20original identities remain:10single load contracts,5parallel/manifest lifecycle contracts,5pure adapter cases. Pure base64/binding cases have no resource warnings/global cleanup; real fetch/resource cases retain their actual owners.",
+    "RGBA-to-PNG and already-encoded-PNG Response helpers have different inputs, so each stays local with an explicit name. Only the exact byte→base64 helper is shared with existing canonical fixture.",
+    "The two original top-level lifecycle cleanup callbacks were identical; merged suites retain one callback per case, not duplicated global cleanup. Every business assertion and precise diagnostic stays. No test retired.",
+    "PAL-vs-author binding counter and approved original PAL resource format evidence reused; no decoder behavior/schema/asset pipeline product changes.",
+    "After formatter, title literals use single quotes. First read-only check found statement hash mismatch while the complete callback body was identical. The recorded literal bridges now use actual quote style on both sides; no code, input, expectation or verifier criterion changed."
+  ],
+  "reusedReviewMember": "organization-game-dialog-tests/reused-reviews.json"
+}

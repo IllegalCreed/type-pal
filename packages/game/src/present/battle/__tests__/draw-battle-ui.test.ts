@@ -1,227 +1,22 @@
-import type { Command, Enemy, Item, PlayerRole, PlayerRoles, Spell } from '@type-pal/shared'
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import type { BattleEnemy, BattlePlayer, BattleState } from '../../../core/battle/battle-state.js'
-import { setGlobalEvents } from '../../../core/event-system.js'
-import { createInitialGameState, type GameState } from '../../../core/game-state.js'
-import { createSeedableRng } from '../../../core/rng.js'
-import { createDigitFrames } from '../../__tests__/digit-frames.js'
-import { glyphsOf } from '../../__tests__/grok-composition/fixtures/images.js'
+import type { PlayerRoles } from '@type-pal/shared'
+import { describe, expect, it } from 'vitest'
+import type { DialogBoxState } from '../../../core/game-state.js'
+import { glyphsOf } from '../../__tests__/glyph-fixtures.js'
+import { pixel, SENTINEL } from '../../__tests__/raster-fixtures.js'
 import { startDialogLine } from '../../dialog-box.js'
 import { createFramebuffer } from '../../framebuffer.js'
-import { computePlayerFaceColor, drawBattleUI } from '../draw-battle-ui.js'
-
-describe('computePlayerFaceColor(头像染色 uibattle.c:114-162)', () => {
-  const poisons = new Map([
-    [551, { level: 0, color: 16 }],
-    [552, { level: 1, color: 64 }],
-    [555, { level: 3, color: 128 }],
-    [561, { level: 4, color: 200 }], // level>3 不影响头像色
-  ])
-  function gsWith(poisonSlots: Record<string, number>): GameState {
-    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    gs.partyMembers = [0, 1]
-    gs.rgPoisonStatus = {}
-    for (const [key, pid] of Object.entries(poisonSlots)) {
-      gs.rgPoisonStatus[key] = { wPoisonID: pid, wPoisonScript: 0 }
-    }
-    return gs
-  }
-
-  it('无毒 + 活着 → 0xFF(满色,正常 blit)', () => {
-    expect(computePlayerFaceColor(gsWith({}), 0, 100, poisons)).toBe(0xff)
-  })
-
-  it('单毒 level1 → 该毒 wColor(64)', () => {
-    expect(computePlayerFaceColor(gsWith({ '0_0': 552 }), 0, 100, poisons)).toBe(64)
-  })
-
-  it('多毒取最高 level 的色(level1=64 + level3=128 → 128)', () => {
-    expect(computePlayerFaceColor(gsWith({ '0_0': 552, '1_0': 555 }), 0, 100, poisons)).toBe(128)
-  })
-
-  it('level>3 毒(561 L4)不影响头像色 → 仍 0xFF', () => {
-    expect(computePlayerFaceColor(gsWith({ '0_0': 561 }), 0, 100, poisons)).toBe(0xff)
-  })
-
-  it('死亡 hp==0 → 0(黑白 mono),覆盖中毒色', () => {
-    expect(computePlayerFaceColor(gsWith({ '0_0': 555 }), 0, 0, poisons)).toBe(0)
-  })
-
-  it('另一队员(role 1)的毒不影响 role 0', () => {
-    expect(computePlayerFaceColor(gsWith({ '0_1': 552 }), 0, 100, poisons)).toBe(0xff)
-  })
-})
-
-function minimalRole(id: number, opts: Partial<PlayerRole> = {}): PlayerRole {
-  return {
-    id,
-    _name: `Role${id}`,
-    avatar: 0,
-    spriteNumInBattle: id,
-    spriteNum: 0,
-    name: 0,
-    attackAll: 0,
-    level: 10,
-    maxHP: 200,
-    maxMP: 30,
-    hp: 200,
-    mp: 30,
-    attackStrength: 0,
-    magicStrength: 0,
-    defense: 0,
-    dexterity: 30,
-    fleeRate: 5,
-    poisonResistance: 0,
-    elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
-    walkFrames: 0,
-    attackSound: 0,
-    weaponSound: 0,
-    criticalSound: 0,
-    magicSound: 0,
-    deathSound: 0,
-    ...opts,
-  }
-}
-
-function minimalEnemy(id: number, health = 50): Enemy {
-  return {
-    id,
-    _name: 'TestEnemy',
-    idleFrames: 0,
-    magicFrames: 0,
-    attackFrames: 0,
-    idleAnimSpeed: 0,
-    actWaitFrames: 0,
-    yPosOffset: 0,
-    attackSound: 0,
-    actionSound: 0,
-    magicSound: 0,
-    deathSound: 0,
-    callSound: 0,
-    health,
-    exp: 10,
-    cash: 30,
-    level: 5,
-    magic: 0,
-    magicRate: 0,
-    attackEquivItem: 0,
-    attackEquivItemRate: 0,
-    stealItem: 0,
-    stealItemCount: 0,
-    attackStrength: 0,
-    magicStrength: 0,
-    defense: 0,
-    dexterity: 20,
-    fleeRate: 5,
-    poisonResistance: 0,
-    elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
-    physicalResistance: 1,
-    dualMove: 0,
-    collectValue: 0,
-  }
-}
-
-function mkBattlePlayer(roleId: number): BattlePlayer {
-  return {
-    roleId,
-    prevHp: 200,
-    prevMp: 30,
-    defending: false,
-    status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 },
-  }
-}
-
-function mkBattleEnemy(e: Enemy): BattleEnemy {
-  return {
-    e: { ...e },
-    status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 },
-    prevHp: e.health,
-    scriptOnTurnStart: 0,
-    scriptOnBattleEnd: 0,
-    scriptOnReady: 0,
-  }
-}
-
-function mkState(
-  players: BattlePlayer[],
-  enemies: BattleEnemy[],
-  overrides: Partial<BattleState> = {},
-): BattleState {
-  return {
-    players,
-    enemies,
-    field: {
-      id: 0,
-      screenWave: 0,
-      magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
-    },
-    isBoss: false,
-    phase: 'selectAction',
-    turn: 1,
-    selectionStartedForTurn: 1, // 默认玩家回合已真正开始(uiState=selectMove)→ PlayerInfoBox 应画
-    actionQueue: [],
-    currentActionIndex: 0,
-    pendingActions: new Map(),
-    uiState: 'selectMove',
-    menuState: 'main',
-    selectedAction: 0,
-    uiCursor: 0,
-    miscMenuCursor: 0,
-    miscSubMenuCursor: 0,
-    selectingPlayerIdx: 0,
-    expGained: 0,
-    cashGained: 0,
-    rng: createSeedableRng(1),
-    phaseStallTicks: 0,
-    ...overrides,
-  }
-}
-
-function mkSpell(id: number, name?: string): Spell {
-  return {
-    id,
-    _name: name,
-    magicNumber: 0,
-    scriptOnSuccess: 0,
-    scriptOnUse: 0,
-    scriptDesc: 0,
-    flags: {
-      usableOutsideBattle: false,
-      usableInBattle: true,
-      usableToEnemy: true,
-      applyToAll: false,
-    },
-  }
-}
-
-function mkItem(id: number, name?: string): Item {
-  return {
-    id,
-    _name: name,
-    bitmap: 0,
-    price: 0,
-    scriptOnUse: 0,
-    scriptOnEquip: 0,
-    scriptOnThrow: 0,
-    scriptDesc: 0,
-    flags: {
-      usable: true,
-      equipable: false,
-      throwable: false,
-      consuming: true,
-      applyToAll: false,
-      sellable: false,
-      equipableBy: [false, false, false, false, false, false],
-    },
-  }
-}
-
-function mkGs(overrides: Partial<GameState> = {}): GameState {
-  return {
-    ...createInitialGameState({ x: 0, y: 0, facing: 'down' }),
-    ...overrides,
-  }
-}
+import { drawBattleUI } from '../draw-battle-ui.js'
+import { battleEnemy, battlePlayer, spriteEnemy, spriteRole } from './battle-sprite-state.js'
+import {
+  filledUiFrames,
+  initialUiGameState,
+  namedRole,
+  paintUi,
+  singleEnemyUiState,
+  transparentUiFrames,
+  uiBattleState,
+  uiGameState,
+} from './battle-ui-fixtures.js'
 
 function fbHasWrites(fb: ReturnType<typeof createFramebuffer>): boolean {
   for (let i = 0; i < fb.indices.length; i++) {
@@ -230,51 +25,24 @@ function fbHasWrites(fb: ReturnType<typeof createFramebuffer>): boolean {
   return false
 }
 
-/** 假 SPRITEUI 帧集(80 帧,每帧 4×4 全不透明)—— 让 drawBox / 图标 / cursor / 箭头 sprite 路径可跑。 */
-function fakeUiFrames(): Array<{
-  width: number
-  height: number
-  indices: Uint8Array
-  opaque: Uint8Array
-}> {
-  return Array.from({ length: 80 }, () => ({
-    width: 4,
-    height: 4,
-    indices: new Uint8Array(16).fill(15),
-    opaque: new Uint8Array(16).fill(1),
-  }))
-}
+const UI = filledUiFrames()
 
-/** 顶部菜单区(y<50)是否有写入 —— 判断动作菜单是否被画。 */
-function topRegionWrites(fb: ReturnType<typeof createFramebuffer>): number {
-  let n = 0
-  for (let y = 0; y < 50; y++) {
-    for (let x = 0; x < 320; x++) {
-      if (fb.indices[y * 320 + x] !== 0) n++
-    }
+function keptDialogBox(): DialogBoxState {
+  return {
+    shownLines: [],
+    currentLineText: null,
+    typingFrames: 0,
+    charsRevealed: 0,
+    dialogLineCount: 0,
+    phase: 'line-done',
+    style: 'bottom',
+    fontColor: 1,
+    shadow: false,
+    keyIconBlink: false,
   }
-  return n
 }
 
-const UI = fakeUiFrames()
-
-describe('drawBattleUI 门控与菜单呈现', () => {
-  beforeEach(() => vi.spyOn(Date, 'now').mockReturnValue(0))
-  afterEach(() => vi.restoreAllMocks())
-
-  it('无 uiSpriteFrames —— 优雅跳过 sprite(只画底部状态栏,不抛)', () => {
-    const fb = createFramebuffer()
-    const playerRoles: PlayerRoles = { roles: [minimalRole(0)] }
-    const state = mkState([mkBattlePlayer(0)], [mkBattleEnemy(minimalEnemy(50))], {
-      uiState: 'selectMove',
-      menuState: 'main',
-    })
-    expect(() => drawBattleUI(fb, state, playerRoles, [], [], mkGs())).not.toThrow()
-    // 4 图标在底部(y 140-180),顶部 y<50 无写入
-    expect(topRegionWrites(fb)).toBe(0)
-    expect(fb.indices[175 * 320 + 5]).toBe(1) // 缺资源文字兜底姓名首点
-  })
-
+describe('battle UI visibility', () => {
   // 回归(user 2026-06-14:赵灵儿在队遇草妖,底部我方血量/头像/状态面板仍画着)。
   //   sdlpal(battle.c:736-797):草妖类敌的 pre-battle/turnStart 脚本逃跑 → 主循环从不启动 →
   //   PAL_BattleUIUpdate 从不调用 → PlayerInfoBox 全程不画。tickPreBattle 一进 selectAction 即置
@@ -282,25 +50,25 @@ describe('drawBattleUI 门控与菜单呈现', () => {
   //   才置;草妖逃跑永不到那步 → 此过渡帧/逃跑期 selectionStartedForTurn ≠ turn → InfoBox 不画。
   it('玩家回合未真正开始(selectionStartedForTurn≠turn)不画底部 InfoBox(草妖回归)', () => {
     const fb = createFramebuffer()
-    const playerRoles: PlayerRoles = { roles: [minimalRole(0)] }
-    const state = mkState([mkBattlePlayer(0)], [mkBattleEnemy(minimalEnemy(50))], {
+    const playerRoles: PlayerRoles = { roles: [spriteRole(0)] }
+    const state = uiBattleState([battlePlayer(0)], [battleEnemy(spriteEnemy(50))], {
       uiState: 'wait',
       turn: 1,
       selectionStartedForTurn: undefined,
     })
-    drawBattleUI(fb, state, playerRoles, [], [], mkGs(), undefined, UI)
+    drawBattleUI(fb, state, playerRoles, [], [], uiGameState(), undefined, UI)
     expect(fbHasWrites(fb)).toBe(false)
   })
 
   it('敌人逃跑动画期(enemyEscapeAnim)整个战斗 UI 不画', () => {
     const fb = createFramebuffer()
-    const playerRoles: PlayerRoles = { roles: [minimalRole(0)] }
+    const playerRoles: PlayerRoles = { roles: [spriteRole(0)] }
     // selectionStartedForTurn===turn(默认),但 enemyEscapeAnim 早退在前 → 仍整体不画
-    const state = mkState([mkBattlePlayer(0)], [mkBattleEnemy(minimalEnemy(50))], {
+    const state = uiBattleState([battlePlayer(0)], [battleEnemy(spriteEnemy(50))], {
       uiState: 'wait',
       enemyEscapeAnim: { step: 0 },
     })
-    drawBattleUI(fb, state, playerRoles, [], [], mkGs(), undefined, UI)
+    drawBattleUI(fb, state, playerRoles, [], [], uiGameState(), undefined, UI)
     expect(fbHasWrites(fb)).toBe(false)
   })
 
@@ -309,273 +77,65 @@ describe('drawBattleUI 门控与菜单呈现', () => {
   //   跳过 PlayerInfoBox(888) + 行动菜单 + 箭头 —— fAutoBattle(0x8A 整场自动)玩家全程不交互、无任何 UI。
   it('fAutoBattle(整场自动)期间整个战斗 UI 不画(对齐 sdlpal goto end)', () => {
     const fb = createFramebuffer()
-    const playerRoles: PlayerRoles = { roles: [minimalRole(0)] }
-    const state = mkState([mkBattlePlayer(0)], [mkBattleEnemy(minimalEnemy(50))], {
+    const playerRoles: PlayerRoles = { roles: [spriteRole(0)] }
+    const state = uiBattleState([battlePlayer(0)], [battleEnemy(spriteEnemy(50))], {
       uiState: 'selectMove',
       fAutoBattle: true, // 即便 selectMove(默认 selectionStartedForTurn===turn)也不画
     })
-    drawBattleUI(fb, state, playerRoles, [], [], mkGs(), undefined, UI)
+    drawBattleUI(fb, state, playerRoles, [], [], uiGameState(), undefined, UI)
     expect(fbHasWrites(fb)).toBe(false)
-  })
-
-  it('selectMove + magicSelect —— 画选中仙术 scriptDesc 说明', () => {
-    const fb = createFramebuffer()
-    const playerRoles: PlayerRoles = { roles: [minimalRole(0)] }
-    const state = mkState([mkBattlePlayer(0)], [mkBattleEnemy(minimalEnemy(50))], {
-      uiState: 'selectMove',
-      menuState: 'magicSelect',
-      magicSelect: {
-        items: [{ id: 296, label: '气疗术', rightText: 'MP 6', disabled: false }],
-        cursor: 0,
-        pageSize: 15,
-        pageOffset: 0,
-      },
-    })
-    const spell = { ...mkSpell(296), scriptDesc: 43016 }
-    const commands: Command[] = [
-      { op: 'raw', opcode: 0xa7, operands: [0, 0, 0], label: 'L_43016' },
-      { op: 'showDialog', messageIndex: 1, text: '回复少量体力。' },
-      { op: 'end' },
-    ]
-    setGlobalEvents(commands)
-    try {
-      drawBattleUI(fb, state, playerRoles, [spell], [], mkGs(), undefined, UI)
-    } finally {
-      setGlobalEvents([])
-    }
-
-    let descriptionPixels = 0
-    for (let y = 3; y < 19; y++) {
-      for (let x = 102; x < 260; x++) {
-        if (fb.indices[y * 320 + x] === 0x3c) descriptionPixels++
-      }
-    }
-    expect(descriptionPixels).toBeGreaterThan(0)
-  })
-
-  // L8(magicmenu.c:189-216 WIN95 path):法术菜单显示 scriptDesc 说明时,MP 框/数字应在左侧
-  //   (slash 45,14 / needed 15,14 / current 50,14),且无金钱框、无右侧 MP(215~265)。
-  //   修前 TS 叠了 DOS-noDesc 的金钱框+右侧 MP(magicmenu.c:128-142),是任何单一 sdlpal 路径都没有的组合。
-  it('L8:法术菜单用 WIN95 布局 —— MP 在左侧,右侧 MP 区(215~265)无 slash/MP sprite', () => {
-    const fb = createFramebuffer()
-    const playerRoles: PlayerRoles = { roles: [minimalRole(0)] }
-    const state = mkState([mkBattlePlayer(0)], [mkBattleEnemy(minimalEnemy(50))], {
-      uiState: 'selectMove',
-      menuState: 'magicSelect',
-      magicSelect: {
-        items: [{ id: 296, label: '雷震子', rightText: 'MP 5', disabled: false }],
-        cursor: 0,
-        pageSize: 15,
-        pageOffset: 0,
-      },
-    })
-    drawBattleUI(fb, state, playerRoles, [mkSpell(296)], [], mkGs(), undefined, createDigitFrames())
-    expect(fb.indices[14 * 320 + 33]).toBe(24) // yellow 5
-    expect(fb.indices[14 * 320 + 45]).toBe(39) // slash
-    expect(fb.indices[14 * 320 + 68]).toBe(56) // runtime MP 0
-    for (let y = 12; y < 19; y++) {
-      expect(fb.indices.slice(y * 320 + 216, y * 320 + 272).every((value) => value === 0)).toBe(
-        true,
-      )
-    }
-  })
-
-  it('selectMove + magicSelect：32法术末页保留选中项，末尾空位不画', () => {
-    const fb = createFramebuffer()
-    const playerRoles: PlayerRoles = { roles: [minimalRole(0)] }
-    const items = Array.from({ length: 32 }, (_, i) => ({
-      id: 296 + i,
-      label: '甲',
-      rightText: 'MP 5',
-      disabled: false,
-    }))
-    const state = mkState([mkBattlePlayer(0)], [mkBattleEnemy(minimalEnemy(50))], {
-      uiState: 'selectMove',
-      menuState: 'magicSelect',
-      magicSelect: { items, cursor: 31, pageSize: 15, pageOffset: 0 },
-    })
-    drawBattleUI(fb, state, playerRoles, [], [], mkGs(), glyphsOf(['甲']), UI)
-    // 末页从24开始，31在第3行第2列；32已越过列表，不能绘制。
-    expect(fb.indices[54 * 320 + 35]).toBe(0x4f)
-    expect(fb.indices[90 * 320 + 122]).toBe(0xf9)
-    expect(fb.indices[90 * 320 + 209]).toBe(0) // 4px测试框在此已结束；不能出现第33项文字
-  })
-
-  it('selectMove + useItemSelect —— 画 ITEMBOX、BALL 图标和 scriptDesc 说明', () => {
-    const fb = createFramebuffer()
-    const playerRoles: PlayerRoles = { roles: [minimalRole(0)] }
-    const state = mkState([mkBattlePlayer(0)], [mkBattleEnemy(minimalEnemy(50))], {
-      uiState: 'selectMove',
-      menuState: 'useItemSelect',
-      itemSelect: {
-        items: [{ id: 1, label: '金创药', rightText: '×3', disabled: false }],
-        cursor: 0,
-        pageSize: 21,
-        pageOffset: 0,
-      },
-    })
-    const item = { ...mkItem(1), bitmap: 7, scriptDesc: 40133 }
-    const icon = {
-      width: 2,
-      height: 2,
-      indices: new Uint8Array(4).fill(123),
-      opaque: new Uint8Array(4).fill(1),
-    }
-    const commands: Command[] = [
-      { op: 'raw', opcode: 0xa7, operands: [0, 0, 0], label: 'L_40133' },
-      { op: 'showDialog', messageIndex: 1, text: '恢复体力。' },
-      { op: 'end' },
-    ]
-    setGlobalEvents(commands)
-    try {
-      drawBattleUI(
-        fb,
-        state,
-        playerRoles,
-        [],
-        [item],
-        mkGs(),
-        undefined,
-        UI,
-        undefined,
-        new Map([[7, icon]]),
-      )
-    } finally {
-      setGlobalEvents([])
-    }
-
-    expect(fb.indices[147 * 320 + 8]).toBe(123) // BALL 图标:itemmenu.c (xBase+8,yBase+7)
-    let descriptionPixels = 0
-    for (let y = 151; y < 167; y++) {
-      for (let x = 71; x < 220; x++) {
-        if (fb.indices[y * 320 + x] === 0x3c) descriptionPixels++
-      }
-    }
-    expect(descriptionPixels).toBeGreaterThan(0)
-  })
-
-  it('selectTargetEnemyAll —— CLASSIC过渡态不画主菜单或目标箭头', () => {
-    const fb = createFramebuffer()
-    const playerRoles: PlayerRoles = { roles: [minimalRole(0)] }
-    const state = mkState(
-      [mkBattlePlayer(0)],
-      [mkBattleEnemy(minimalEnemy(50)), mkBattleEnemy(minimalEnemy(51))],
-      {
-        uiState: 'selectTargetEnemyAll',
-        pendingActionDraft: { type: 'magic', actionId: 300, targetSide: 'enemy' },
-      },
-    )
-    drawBattleUI(fb, state, playerRoles, [], [], mkGs(), undefined, UI)
-    for (const [x, y] of [
-      [27, 140],
-      [0, 155],
-      [54, 155],
-      [27, 170],
-      [152, 13],
-    ]) {
-      expect(fb.indices[y! * 320 + x!]).toBe(0)
-    }
-  })
-
-  it('selectTargetPlayerAll —— 即时提交过渡态,不画友方全体箭头(不抛)', () => {
-    const fb = createFramebuffer()
-    const playerRoles: PlayerRoles = { roles: [minimalRole(0), minimalRole(1)] }
-    const state = mkState(
-      [mkBattlePlayer(0), mkBattlePlayer(1)],
-      [mkBattleEnemy(minimalEnemy(50))],
-      {
-        uiState: 'selectTargetPlayerAll',
-        pendingActionDraft: { type: 'magic', actionId: 300, targetSide: 'player' },
-      },
-    )
-    drawBattleUI(fb, state, playerRoles, [], [], mkGs(), undefined, UI)
-    // 两名队员锚点(200,176)/(256,152)各减(8,67)，与当前行动箭头位置分开。
-    expect(fb.indices[109 * 320 + 192]).toBe(0)
-    expect(fb.indices[85 * 320 + 248]).toBe(0)
-    expect(fb.indices[140 * 320 + 27]).toBe(11) // 可用图标低位15减4，未选灰色
   })
 
   // ---------- 对话显示时**整个战斗 UI 都不画**(菜单 + 血量信息框都隐藏,user 2026-05-31)----------
 
   it('对话队列非空 —— 战斗 UI 全不画(菜单 + 信息框)', () => {
     const fb = createFramebuffer()
-    const playerRoles: PlayerRoles = { roles: [minimalRole(0)] }
-    const state = mkState([mkBattlePlayer(0)], [mkBattleEnemy(minimalEnemy(50))], {
+    const playerRoles: PlayerRoles = { roles: [spriteRole(0)] }
+    const state = uiBattleState([battlePlayer(0)], [battleEnemy(spriteEnemy(50))], {
       uiState: 'selectMove',
       menuState: 'main',
       battleDialogQueue: [{ text: '林月如', style: 'bottom' }],
     })
-    drawBattleUI(fb, state, playerRoles, [], [], mkGs(), undefined, UI)
+    drawBattleUI(fb, state, playerRoles, [], [], uiGameState(), undefined, UI)
     expect(fbHasWrites(fb)).toBe(false) // 对话期连血量面板都不画
   })
 
   it('gs.dialogBox 非空 —— 战斗 UI 全不画', () => {
     const fb = createFramebuffer()
-    const playerRoles: PlayerRoles = { roles: [minimalRole(0)] }
-    const state = mkState([mkBattlePlayer(0)], [mkBattleEnemy(minimalEnemy(50))], {
+    const playerRoles: PlayerRoles = { roles: [spriteRole(0)] }
+    const state = uiBattleState([battlePlayer(0)], [battleEnemy(spriteEnemy(50))], {
       uiState: 'selectMove',
       menuState: 'main',
     })
-    const gs = mkGs({ dialogBox: startDialogLine('甲', { style: 'bottom' }) })
+    const gs = uiGameState({ dialogBox: startDialogLine('甲', { style: 'bottom' }) })
     drawBattleUI(fb, state, playerRoles, [], [], gs, undefined, UI)
     expect(fbHasWrites(fb)).toBe(false)
   })
 
   it('hidden(perform 阶段)—— 啥都不画(信息框仅选择阶段;sdlpal Phase!=PerformAction)', () => {
     const fb = createFramebuffer()
-    const playerRoles: PlayerRoles = { roles: [minimalRole(0)] }
-    const state = mkState([mkBattlePlayer(0)], [mkBattleEnemy(minimalEnemy(50))], {
+    const playerRoles: PlayerRoles = { roles: [spriteRole(0)] }
+    const state = uiBattleState([battlePlayer(0)], [battleEnemy(spriteEnemy(50))], {
       uiState: 'hidden',
       selectingPlayerIdx: undefined,
     })
-    drawBattleUI(fb, state, playerRoles, [], [], mkGs(), undefined, UI)
+    drawBattleUI(fb, state, playerRoles, [], [], uiGameState(), undefined, UI)
     expect(fbHasWrites(fb)).toBe(false) // perform 期信息框隐藏,飘字由其它 draw 层负责
   })
+})
 
-  it('PAL_PlayerInfoBox —— 活人画乱/定/眠/封状态字,死亡时不画', () => {
-    const aliveFb = createFramebuffer()
-    const playerRoles: PlayerRoles = { roles: [minimalRole(0, { hp: 123 })] }
-    const player = mkBattlePlayer(0)
-    player.status = { ...player.status, confused: 2, paralyzed: 2, sleep: 2, silence: 2 }
-    const aliveState = mkState([player], [mkBattleEnemy(minimalEnemy(50))], {
-      uiState: 'selectMove',
-      menuState: 'main',
+describe('kept battle dialog visibility', () => {
+  it('dialogBoxKept 让攻击图标和底部姓名都保持哨兵', () => {
+    const gs = initialUiGameState()
+    gs.dialogBoxKept = keptDialogBox()
+    const fb = paintUi({
+      state: singleEnemyUiState([battlePlayer(0)]),
+      roles: { roles: [namedRole(0)] },
+      frames: transparentUiFrames(),
+      gs,
+      glyphs: glyphsOf(['甲']),
     })
-
-    drawBattleUI(aliveFb, aliveState, playerRoles, [], [], mkGs(), undefined, UI)
-    for (const color of [0x5f, 0xbf, 0x0e, 0x3c]) {
-      let writes = 0
-      for (let y = 160; y < 200; y++) {
-        for (let x = 80; x < 170; x++) if (aliveFb.indices[y * 320 + x] === color) writes++
-      }
-      expect(writes).toBeGreaterThan(0)
-    }
-
-    const deadFb = createFramebuffer()
-    const deadRoles: PlayerRoles = { roles: [minimalRole(0, { hp: 0 })] }
-    const deadState = mkState([player], [mkBattleEnemy(minimalEnemy(50))], {
-      uiState: 'selectMove',
-      menuState: 'main',
-    })
-    drawBattleUI(deadFb, deadState, deadRoles, [], [], mkGs(), undefined, UI)
-    for (const color of [0x5f, 0xbf, 0x0e, 0x3c]) {
-      expect(deadFb.indices.includes(color)).toBe(false)
-    }
-  })
-
-  it('fAutoAttack —— 信息框隐藏(sdlpal !fAutoAttack)', () => {
-    const fb = createFramebuffer()
-    const playerRoles: PlayerRoles = { roles: [minimalRole(0)] }
-    const state = mkState([mkBattlePlayer(0)], [mkBattleEnemy(minimalEnemy(50))], {
-      uiState: 'selectMove',
-      menuState: 'main',
-      fAutoAttack: true,
-    })
-    drawBattleUI(fb, state, playerRoles, [], [], mkGs(), undefined, UI)
-    let bottomWrites = 0
-    for (let y = 160; y < 200; y++) {
-      for (let x = 80; x < 200; x++) if (fb.indices[y * 320 + x] !== 0) bottomWrites++
-    }
-    expect(bottomWrites).toBe(0) // auto 模式不画信息框
+    expect(pixel(fb, 27, 140)).toBe(SENTINEL)
+    expect(pixel(fb, 5, 175)).toBe(SENTINEL)
   })
 })

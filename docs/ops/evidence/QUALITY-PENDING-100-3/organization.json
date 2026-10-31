@@ -1,0 +1,700 @@
+{
+  "tool": "6.0.3",
+  "kind": "responsibility-based test reorganization; no new completion credit",
+  "inputs": [
+    {
+      "file": "migration-merge.boundaries.test.ts",
+      "sha256": "62733b4e9c918bd59ce8f52e29a26ce43cacbc485f6bd12354395d993793b444"
+    },
+    {
+      "file": "migration-merge.glm-o.test.ts",
+      "sha256": "457f9e3529936e9f61c6497c30a0cdd336fa61b57cbd279392a3885d9ddc2e9c"
+    },
+    {
+      "file": "migration-merge.kimi-r1.test.ts",
+      "sha256": "70c1926a251844ff52ceb4bf98bdc6b9dc7fd01963e7ec4ae6af3f3551c1be75"
+    }
+  ],
+  "outputs": [
+    {
+      "file": "migration-merge.json.test.ts",
+      "sha256": "026c8b0d0b43fe285020651ce9960e9a3cabe2ef9576ba2dd070e8f2e368218d"
+    },
+    {
+      "file": "migration-merge.arrays.test.ts",
+      "sha256": "f692c459502e642787bd218aa42b8ed7b6fd377a0ba0365b5388b60675430386"
+    },
+    {
+      "file": "migration-merge.content-records.test.ts",
+      "sha256": "628c4ee87b6f0405ee80bcbfe22579634128ba2bf5099b208f559c05d0db0373"
+    }
+  ],
+  "cases": [
+    {
+      "old": {
+        "file": "migration-merge.boundaries.test.ts",
+        "fullName": "mergeManagedFile · 原子三方真值 三侧同值时保留完整结果且没有冲突"
+      },
+      "current": {
+        "file": "migration-merge.json.test.ts",
+        "fullName": "mergeManagedFile · 原子三方真值 三侧同值时保留完整结果且没有冲突"
+      },
+      "statementSyntaxSha256": "4e42eb36d0074673c86f957e5d95c0a78734e7247b2c7481ccdcb613b05b684f",
+      "context": [
+        {
+          "syntaxSha256": "37a8de1729bd24aa18baaa68bcb47d84748e22eef58eccfc5e6c951ba8a1f6b2",
+          "text": "const file = 'content/misc.json'"
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "migration-merge.boundaries.test.ts",
+        "fullName": "mergeManagedFile · 原子三方真值 上游未改时保留作者的完整修改"
+      },
+      "current": {
+        "file": "migration-merge.json.test.ts",
+        "fullName": "mergeManagedFile · 原子三方真值 上游未改时保留作者的完整修改"
+      },
+      "statementSyntaxSha256": "56da2d207b2c4004b2612f75ccdf805e49bf18552dfc871e4da95fac120b605d",
+      "context": [
+        {
+          "syntaxSha256": "37a8de1729bd24aa18baaa68bcb47d84748e22eef58eccfc5e6c951ba8a1f6b2",
+          "text": "const file = 'content/misc.json'"
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "migration-merge.boundaries.test.ts",
+        "fullName": "mergeManagedFile · 原子三方真值 两侧同改同值时无冲突"
+      },
+      "current": {
+        "file": "migration-merge.json.test.ts",
+        "fullName": "mergeManagedFile · 原子三方真值 两侧同改同值时无冲突"
+      },
+      "statementSyntaxSha256": "eb48dee402fe1c593a6071886df5b622e62ad6f022a65595465b1ea4a2a88645",
+      "context": [
+        {
+          "syntaxSha256": "37a8de1729bd24aa18baaa68bcb47d84748e22eef58eccfc5e6c951ba8a1f6b2",
+          "text": "const file = 'content/misc.json'"
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "migration-merge.boundaries.test.ts",
+        "fullName": "mergeManagedFile · 原子三方真值 作者删除而上游未改时结果缺席"
+      },
+      "current": {
+        "file": "migration-merge.json.test.ts",
+        "fullName": "mergeManagedFile · 原子三方真值 作者删除而上游未改时结果缺席"
+      },
+      "statementSyntaxSha256": "22e465f64d3ae20883c6213832640136d6c2e7ff21de891fd83ebd8599582016",
+      "context": [
+        {
+          "syntaxSha256": "37a8de1729bd24aa18baaa68bcb47d84748e22eef58eccfc5e6c951ba8a1f6b2",
+          "text": "const file = 'content/misc.json'"
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "migration-merge.boundaries.test.ts",
+        "fullName": "mergeManagedFile · 原子三方真值 作者删除而上游修改时保留缺席并报告完整根冲突"
+      },
+      "current": {
+        "file": "migration-merge.json.test.ts",
+        "fullName": "mergeManagedFile · 原子三方真值 作者删除而上游修改时保留缺席并报告完整根冲突"
+      },
+      "statementSyntaxSha256": "76349a3d9e7e7e25faee16300fcc7fcfc876e6e18715354e9b097d1be3fb26a9",
+      "context": [
+        {
+          "syntaxSha256": "37a8de1729bd24aa18baaa68bcb47d84748e22eef58eccfc5e6c951ba8a1f6b2",
+          "text": "const file = 'content/misc.json'"
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "migration-merge.boundaries.test.ts",
+        "fullName": "mergeManagedFile · 原子三方真值 根缺席时双侧不同新增保持整项 add-add 冲突"
+      },
+      "current": {
+        "file": "migration-merge.json.test.ts",
+        "fullName": "mergeManagedFile · 原子三方真值 根缺席时双侧不同新增保持整项 add-add 冲突"
+      },
+      "statementSyntaxSha256": "770ea6d80802e49d7a93ec32460e669c48b12c2dbffba4a28e99f4119b0acfcc",
+      "context": [
+        {
+          "syntaxSha256": "37a8de1729bd24aa18baaa68bcb47d84748e22eef58eccfc5e6c951ba8a1f6b2",
+          "text": "const file = 'content/misc.json'"
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "migration-merge.boundaries.test.ts",
+        "fullName": "mergeManagedFile · 原子三方真值 仅作者新增文件时保留作者完整正文"
+      },
+      "current": {
+        "file": "migration-merge.json.test.ts",
+        "fullName": "mergeManagedFile · 原子三方真值 仅作者新增文件时保留作者完整正文"
+      },
+      "statementSyntaxSha256": "6c1d548236be7c0ea12c8cbbb6382d910ddb1c64363e49c91833bd07662867b8",
+      "context": [
+        {
+          "syntaxSha256": "37a8de1729bd24aa18baaa68bcb47d84748e22eef58eccfc5e6c951ba8a1f6b2",
+          "text": "const file = 'content/misc.json'"
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "migration-merge.boundaries.test.ts",
+        "fullName": "mergeManagedFile · poisons 路径的身份分派 普通文件的无 id 数组保持原子更新，不套身份规则"
+      },
+      "current": {
+        "file": "migration-merge.json.test.ts",
+        "fullName": "mergeManagedFile · 普通数组 普通文件的无 id 数组保持原子更新，不套身份规则"
+      },
+      "statementSyntaxSha256": "711ea6d12d1aa29f198231712e13174fc180d2f80c8a7a785e82d98c867574d3",
+      "context": []
+    },
+    {
+      "old": {
+        "file": "migration-merge.boundaries.test.ts",
+        "fullName": "mergeManagedFile · poisons 路径的身份分派 根缺席仍按 id 合并共同新增与双方独有项"
+      },
+      "current": {
+        "file": "migration-merge.arrays.test.ts",
+        "fullName": "mergeManagedFile · poisons 路径的身份分派 根缺席仍按 id 合并共同新增与双方独有项"
+      },
+      "statementSyntaxSha256": "c6177c59527c2f32de41ce0aa2c3c3abcb9c89b4645467c8c00760141f91ce84",
+      "context": [
+        {
+          "syntaxSha256": "630d3278f2b2e2db0df8416e4dfe983f5fa2496e09eba6c79c761e31ce9b827b",
+          "text": "const file = 'content/poisons.json'"
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "migration-merge.boundaries.test.ts",
+        "fullName": "mergeManagedFile · poisons 路径的身份分派 同 id 双改只冲突该字段，未改项完整保留"
+      },
+      "current": {
+        "file": "migration-merge.arrays.test.ts",
+        "fullName": "mergeManagedFile · poisons 路径的身份分派 同 id 双改只冲突该字段，未改项完整保留"
+      },
+      "statementSyntaxSha256": "dc7bcaba5ecbf895f50943641d2f78566bd7a3c94b854ddcb9a9ee6466c19d74",
+      "context": [
+        {
+          "syntaxSha256": "630d3278f2b2e2db0df8416e4dfe983f5fa2496e09eba6c79c761e31ce9b827b",
+          "text": "const file = 'content/poisons.json'"
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "migration-merge.boundaries.test.ts",
+        "fullName": "mergeManagedFile · poisons 路径的身份分派 根缺席仍拒绝重复 id，并保留作者输入与三侧诊断"
+      },
+      "current": {
+        "file": "migration-merge.arrays.test.ts",
+        "fullName": "mergeManagedFile · poisons 路径的身份分派 根缺席仍拒绝重复 id，并保留作者输入与三侧诊断"
+      },
+      "statementSyntaxSha256": "ea55708fde28e4d1575ed1638c9b6648b46d44637c05b89df3dfb49c53c15d84",
+      "context": [
+        {
+          "syntaxSha256": "630d3278f2b2e2db0df8416e4dfe983f5fa2496e09eba6c79c761e31ce9b827b",
+          "text": "const file = 'content/poisons.json'"
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "migration-merge.glm-o.test.ts",
+        "fullName": "mergeManagedFile · 场景及 skills 身份分派 entities 双方独有项合并，完整正文与三个输入都保持正确"
+      },
+      "current": {
+        "file": "migration-merge.arrays.test.ts",
+        "fullName": "mergeManagedFile · 场景及 skills 身份分派 entities 双方独有项合并，完整正文与三个输入都保持正确"
+      },
+      "statementSyntaxSha256": "ef3767f6e95b8289ec424a8022f9775f2f1d873ed8c464da628204d7219196c7",
+      "context": []
+    },
+    {
+      "old": {
+        "file": "migration-merge.glm-o.test.ts",
+        "fullName": "mergeManagedFile · 场景及 skills 身份分派 entities 同 id 双方新增不同正文时保留作者并给出完整 add-add"
+      },
+      "current": {
+        "file": "migration-merge.arrays.test.ts",
+        "fullName": "mergeManagedFile · 场景及 skills 身份分派 entities 同 id 双方新增不同正文时保留作者并给出完整 add-add"
+      },
+      "statementSyntaxSha256": "c90379f9efe98658133b7acc04114444602e03b942e839053e64bbb31d16ade3",
+      "context": []
+    },
+    {
+      "old": {
+        "file": "migration-merge.glm-o.test.ts",
+        "fullName": "mergeManagedFile · 场景及 skills 身份分派 entities 拒绝非对象身份，诊断和 fallback 不丢输入"
+      },
+      "current": {
+        "file": "migration-merge.arrays.test.ts",
+        "fullName": "mergeManagedFile · 场景及 skills 身份分派 entities 拒绝非对象身份，诊断和 fallback 不丢输入"
+      },
+      "statementSyntaxSha256": "e7ad9a79090506fbc08a2d48b93a5646454efe1b25e9e7d2f8b4a10310783bf8",
+      "context": []
+    },
+    {
+      "old": {
+        "file": "migration-merge.glm-o.test.ts",
+        "fullName": "mergeManagedFile · 场景及 skills 身份分派 entities 单侧重复 id 不被未改上游豁免"
+      },
+      "current": {
+        "file": "migration-merge.arrays.test.ts",
+        "fullName": "mergeManagedFile · 场景及 skills 身份分派 entities 单侧重复 id 不被未改上游豁免"
+      },
+      "statementSyntaxSha256": "a3afc15092490c3beadec70b999f70aa869468d8f3c77a589e9e0981a1299dd4",
+      "context": []
+    },
+    {
+      "old": {
+        "file": "migration-merge.glm-o.test.ts",
+        "fullName": "mergeManagedFile · 场景及 skills 身份分派 scene index 单侧尾增与对侧修改原记录可以共存"
+      },
+      "current": {
+        "file": "migration-merge.arrays.test.ts",
+        "fullName": "mergeManagedFile · 场景及 skills 身份分派 scene index 单侧尾增与对侧修改原记录可以共存"
+      },
+      "statementSyntaxSha256": "d15f88db7d954e301950ba610348487cc2def779c6c605b005df4eb95a89b2d6",
+      "context": []
+    },
+    {
+      "old": {
+        "file": "migration-merge.glm-o.test.ts",
+        "fullName": "mergeManagedFile · 场景及 skills 身份分派 已有场景根缺 entities 键时仍按条目身份合并双方新增"
+      },
+      "current": {
+        "file": "migration-merge.arrays.test.ts",
+        "fullName": "mergeManagedFile · 场景及 skills 身份分派 已有场景根缺 entities 键时仍按条目身份合并双方新增"
+      },
+      "statementSyntaxSha256": "f0ab81a26e8a66ec3b2b2ecca0093149c0a82d61c9431414f5813b8fa2b0d219",
+      "context": []
+    },
+    {
+      "old": {
+        "file": "migration-merge.glm-o.test.ts",
+        "fullName": "mergeManagedFile · 场景及 skills 身份分派 整个场景文件缺席时双方不同新增产生根 add-add，不能只拼 entities"
+      },
+      "current": {
+        "file": "migration-merge.arrays.test.ts",
+        "fullName": "mergeManagedFile · 场景及 skills 身份分派 整个场景文件缺席时双方不同新增产生根 add-add，不能只拼 entities"
+      },
+      "statementSyntaxSha256": "e9d02538f96c9e1468b84f12edbefd160546a599749a9dffbacc5b599a160953",
+      "context": []
+    },
+    {
+      "old": {
+        "file": "migration-merge.glm-o.test.ts",
+        "fullName": "mergeManagedFile · 场景及 skills 身份分派 skills 集合合并双方新增，同时保留集合外的 levelUp"
+      },
+      "current": {
+        "file": "migration-merge.arrays.test.ts",
+        "fullName": "mergeManagedFile · 场景及 skills 身份分派 skills 集合合并双方新增，同时保留集合外的 levelUp"
+      },
+      "statementSyntaxSha256": "2aeb5efaf644ade9df687121f5842c9e32b508c9be64be7e6d5d41035327a19b",
+      "context": []
+    },
+    {
+      "old": {
+        "file": "migration-merge.glm-o.test.ts",
+        "fullName": "mergeManagedFile · 无 id 页的位置路径（低层 characterization） 两侧相同尾增保留完整页，而非只检查长度"
+      },
+      "current": {
+        "file": "migration-merge.arrays.test.ts",
+        "fullName": "mergeManagedFile · 无 id 页的位置路径（低层 characterization） 两侧相同尾增保留完整页，而非只检查长度"
+      },
+      "statementSyntaxSha256": "01430e17260742fe2b4edfc658b73297a09c05b2e90002b3fe62dc08331dd711",
+      "context": [
+        {
+          "syntaxSha256": "daeaf95e734469c34d767c1cbbdb37159606a39c99b2207f07b6315e52e08ba5",
+          "text": "const file = 'content/scenes/s007.json'"
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "migration-merge.glm-o.test.ts",
+        "fullName": "mergeManagedFile · 无 id 页的位置路径（低层 characterization） 等长页内独立修改保持其它页"
+      },
+      "current": {
+        "file": "migration-merge.arrays.test.ts",
+        "fullName": "mergeManagedFile · 无 id 页的位置路径（低层 characterization） 等长页内独立修改保持其它页"
+      },
+      "statementSyntaxSha256": "4433a9932d8c1b03b6ac0c8b6b0eedf58819dfd9c388f46e5f6c02110622bdf7",
+      "context": [
+        {
+          "syntaxSha256": "daeaf95e734469c34d767c1cbbdb37159606a39c99b2207f07b6315e52e08ba5",
+          "text": "const file = 'content/scenes/s007.json'"
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "migration-merge.glm-o.test.ts",
+        "fullName": "mergeManagedFile · 无 id 页的位置路径（低层 characterization） 同页同叶双改定位到该槽位字段，保留作者值"
+      },
+      "current": {
+        "file": "migration-merge.arrays.test.ts",
+        "fullName": "mergeManagedFile · 无 id 页的位置路径（低层 characterization） 同页同叶双改定位到该槽位字段，保留作者值"
+      },
+      "statementSyntaxSha256": "63683809fd502b22b1c74fb6e85fca1a4f19a33b07427fe491defcb1eec0f82f",
+      "context": [
+        {
+          "syntaxSha256": "daeaf95e734469c34d767c1cbbdb37159606a39c99b2207f07b6315e52e08ba5",
+          "text": "const file = 'content/scenes/s007.json'"
+        }
+      ]
+    },
+    {
+      "old": {
+        "file": "migration-merge.glm-o.test.ts",
+        "fullName": "mergeManagedFile · 内容记录所有权 双方首次增加同 id 模板时，作者接管优先于 add-add"
+      },
+      "current": {
+        "file": "migration-merge.content-records.test.ts",
+        "fullName": "mergeManagedFile · 内容记录所有权 双方首次增加同 id 模板时，作者接管优先于 add-add"
+      },
+      "statementSyntaxSha256": "3d5379ff5f1be48bd8469b00c3e4623119e34eef65e0d713540850aa6f4096b8",
+      "context": []
+    },
+    {
+      "old": {
+        "file": "migration-merge.glm-o.test.ts",
+        "fullName": "mergeManagedFile · 内容记录所有权 真实精灵根数组中删动作并修改另一动作，保留完整剩余时间线"
+      },
+      "current": {
+        "file": "migration-merge.content-records.test.ts",
+        "fullName": "mergeManagedFile · 内容记录所有权 真实精灵根数组中删动作并修改另一动作，保留完整剩余时间线"
+      },
+      "statementSyntaxSha256": "6fd979b238e41e289b0ac6d1d516754fe74dc532747eb50cdee901a47bac4683",
+      "context": []
+    },
+    {
+      "old": {
+        "file": "migration-merge.glm-o.test.ts",
+        "fullName": "mergeManagedFile · 内容记录所有权 双方首次增加同 AssetId 时，authored 整条优先于 generated"
+      },
+      "current": {
+        "file": "migration-merge.content-records.test.ts",
+        "fullName": "mergeManagedFile · 内容记录所有权 双方首次增加同 AssetId 时，authored 整条优先于 generated"
+      },
+      "statementSyntaxSha256": "b52cfe08c9b0ec96cadd607a7e43f40db0c9602317ff51cabae97bdf10ece01b",
+      "context": []
+    },
+    {
+      "old": {
+        "file": "migration-merge.glm-o.test.ts",
+        "fullName": "mergeManagedFile · 内容记录所有权 catalog 删除版本字段后必须由真实目标校验器拒绝"
+      },
+      "current": {
+        "file": "migration-merge.content-records.test.ts",
+        "fullName": "mergeManagedFile · 内容记录所有权 catalog 删除版本字段后必须由真实目标校验器拒绝"
+      },
+      "statementSyntaxSha256": "0445cd9436cd9ec656ebdbaebb2fa3598fa80d5187972a63e5267e573fa236a9",
+      "context": []
+    },
+    {
+      "old": {
+        "file": "migration-merge.glm-o.test.ts",
+        "fullName": "mergeManagedFile · 输入与结果所有权 嵌套冲突快照与结果脱离三侧输入，也不互相别名"
+      },
+      "current": {
+        "file": "migration-merge.json.test.ts",
+        "fullName": "mergeManagedFile · 输入与结果所有权 嵌套冲突快照与结果脱离三侧输入，也不互相别名"
+      },
+      "statementSyntaxSha256": "3f5b65500cdc45200b81317fbacb415039511b2cf8193a1f2e8c087006579322",
+      "context": []
+    },
+    {
+      "old": {
+        "file": "migration-merge.glm-o.test.ts",
+        "fullName": "mergeManagedFile · 输入与结果所有权 三方相同的重复 SceneId 仍拒绝，不能因整树相等跳过身份校验"
+      },
+      "current": {
+        "file": "migration-merge.arrays.test.ts",
+        "fullName": "mergeManagedFile · 相等子树的身份校验 三方相同的重复 SceneId 仍拒绝，不能因整树相等跳过身份校验"
+      },
+      "statementSyntaxSha256": "291f6bfde6caa705b057da24b1b390c8cd7675fe2bf6b3b9da0558e761a5e785",
+      "context": []
+    },
+    {
+      "old": {
+        "file": "migration-merge.glm-o.test.ts",
+        "fullName": "mergeManagedFile · 其余路径与 JSON Pointer JSON Pointer 为冲突键分别转义斜杠和波浪号"
+      },
+      "current": {
+        "file": "migration-merge.json.test.ts",
+        "fullName": "mergeManagedFile · JSON Pointer 与普通字段 JSON Pointer 为冲突键分别转义斜杠和波浪号"
+      },
+      "statementSyntaxSha256": "b8ff6d6a4878581880f9fea897977fe8663bb5d18d0383590773f6c252750f18",
+      "context": []
+    },
+    {
+      "old": {
+        "file": "migration-merge.glm-o.test.ts",
+        "fullName": "mergeManagedFile · 其余路径与 JSON Pointer 普通对象删键对修改仍精确报告缺席，不影响其它字段"
+      },
+      "current": {
+        "file": "migration-merge.json.test.ts",
+        "fullName": "mergeManagedFile · JSON Pointer 与普通字段 普通对象删键对修改仍精确报告缺席，不影响其它字段"
+      },
+      "statementSyntaxSha256": "889e5e3d926a6ae7c3469059c473156932846b791d8e5dfad708321e96ded163",
+      "context": []
+    },
+    {
+      "old": {
+        "file": "migration-merge.glm-o.test.ts",
+        "fullName": "mergeManagedFile · 其余路径与 JSON Pointer 作者未改 sidecar 时采纳迁移侧完整正文"
+      },
+      "current": {
+        "file": "migration-merge.json.test.ts",
+        "fullName": "mergeManagedFile · JSON Pointer 与普通字段 作者未改 sidecar 时采纳迁移侧完整正文"
+      },
+      "statementSyntaxSha256": "8f97ad3b5b84294ce7a7bdbee05f5b9b88609bb56e7820951d9abd70525f8258",
+      "context": []
+    },
+    {
+      "old": {
+        "file": "migration-merge.glm-o.test.ts",
+        "fullName": "mergeManagedFile · 其余路径与 JSON Pointer actors 根集合按 id 合并，不退回整数组"
+      },
+      "current": {
+        "file": "migration-merge.arrays.test.ts",
+        "fullName": "mergeManagedFile · 身份集合路径 actors 根集合按 id 合并，不退回整数组"
+      },
+      "statementSyntaxSha256": "b6fb5b6d4492a5780fa4cabf8fcc648ef681ac989a52054795e4afc2b1a324b5",
+      "context": []
+    },
+    {
+      "old": {
+        "file": "migration-merge.glm-o.test.ts",
+        "fullName": "mergeManagedFile · 其余路径与 JSON Pointer enemy-teams 同 id 双新增时保留作者整项并报告三侧"
+      },
+      "current": {
+        "file": "migration-merge.arrays.test.ts",
+        "fullName": "mergeManagedFile · 身份集合路径 enemy-teams 同 id 双新增时保留作者整项并报告三侧"
+      },
+      "statementSyntaxSha256": "66110a30f794d7e47d3e4f8c1de2051b6d8b2eab9deb96fad5d9b10ed284b93b",
+      "context": []
+    },
+    {
+      "old": {
+        "file": "migration-merge.glm-o.test.ts",
+        "fullName": "mergeManagedFile · 其余路径与 JSON Pointer 嵌套 pages 按稳定身份合并双方新增，并保留 initialPage"
+      },
+      "current": {
+        "file": "migration-merge.arrays.test.ts",
+        "fullName": "mergeManagedFile · 身份集合路径 嵌套 pages 按稳定身份合并双方新增，并保留 initialPage"
+      },
+      "statementSyntaxSha256": "0850034ba78a693570d04fbebfeaa41b289d187dc419e1be87a534ce075fd8e9",
+      "context": []
+    },
+    {
+      "old": {
+        "file": "migration-merge.glm-o.test.ts",
+        "fullName": "mergeManagedFile · 其余路径与 JSON Pointer 嵌套行为 flow 的 stages 按稳定身份合并双方新增"
+      },
+      "current": {
+        "file": "migration-merge.arrays.test.ts",
+        "fullName": "mergeManagedFile · 身份集合路径 嵌套行为 flow 的 stages 按稳定身份合并双方新增"
+      },
+      "statementSyntaxSha256": "ca625f72754d1a11640f4813e09094a4cc7565193c281298d4a7d98cc235b708",
+      "context": []
+    },
+    {
+      "old": {
+        "file": "migration-merge.kimi-r1.test.ts",
+        "fullName": "mergeManagedFile · 删除与稳定身份顺序 迁移删除连续中段时，保留作者修改并依原位置插回"
+      },
+      "current": {
+        "file": "migration-merge.arrays.test.ts",
+        "fullName": "mergeManagedFile · 删除与稳定身份顺序 迁移删除连续中段时，保留作者修改并依原位置插回"
+      },
+      "statementSyntaxSha256": "e10b80bf0375dfc1e6b0c8dc8848da5ca87774928da024cd092810e5a1b3ff52",
+      "context": []
+    },
+    {
+      "old": {
+        "file": "migration-merge.kimi-r1.test.ts",
+        "fullName": "mergeManagedFile · 删除与稳定身份顺序 两个修改项被迁移删除后，仍保留作者交换后的相对顺序"
+      },
+      "current": {
+        "file": "migration-merge.arrays.test.ts",
+        "fullName": "mergeManagedFile · 删除与稳定身份顺序 两个修改项被迁移删除后，仍保留作者交换后的相对顺序"
+      },
+      "statementSyntaxSha256": "0c6fcdb5e457e9a67a94f3701cbc42cc3ce26f3e45ee4085918b1b36a4facb26",
+      "context": []
+    },
+    {
+      "old": {
+        "file": "migration-merge.kimi-r1.test.ts",
+        "fullName": "mergeManagedFile · 删除与稳定身份顺序 双方同删的记录不再进入身份数组结果"
+      },
+      "current": {
+        "file": "migration-merge.arrays.test.ts",
+        "fullName": "mergeManagedFile · 删除与稳定身份顺序 双方同删的记录不再进入身份数组结果"
+      },
+      "statementSyntaxSha256": "6220b070812a1322ba6c579a7516f6d76bb8735b54ee557da691e7f555b76aa8",
+      "context": []
+    },
+    {
+      "old": {
+        "file": "migration-merge.kimi-r1.test.ts",
+        "fullName": "mergeManagedFile · 删除与稳定身份顺序 合法 PageId 页的交错删除保留作者修改，输出没有空位"
+      },
+      "current": {
+        "file": "migration-merge.arrays.test.ts",
+        "fullName": "mergeManagedFile · 删除与稳定身份顺序 合法 PageId 页的交错删除保留作者修改，输出没有空位"
+      },
+      "statementSyntaxSha256": "3e47bdb56393b6a5d9934c41d7723a084146b5340f228ea26b3297da66c565cf",
+      "context": []
+    },
+    {
+      "old": {
+        "file": "migration-merge.kimi-r1.test.ts",
+        "fullName": "mergeManagedFile · 缺集合键的分派 普通 JSON 缺集合键时，双侧有序数组新增整项 add-add"
+      },
+      "current": {
+        "file": "migration-merge.json.test.ts",
+        "fullName": "mergeManagedFile · 缺键数组原子规则 普通 JSON 缺集合键时，双侧有序数组新增整项 add-add"
+      },
+      "statementSyntaxSha256": "87a2cc3377295457117fe873bdd81d8557614601b4d098fef271d5c3c7d5b82f",
+      "context": []
+    },
+    {
+      "old": {
+        "file": "migration-merge.kimi-r1.test.ts",
+        "fullName": "mergeManagedFile · 缺集合键的分派 场景索引缺集合键时仍按身份合并新增，迁移侧顺序在前"
+      },
+      "current": {
+        "file": "migration-merge.arrays.test.ts",
+        "fullName": "mergeManagedFile · 缺集合键的分派 场景索引缺集合键时仍按身份合并新增，迁移侧顺序在前"
+      },
+      "statementSyntaxSha256": "c921ae086f78028f257f04f9c9b07780ac109ddd31476691884bfb7b299056f5",
+      "context": []
+    },
+    {
+      "old": {
+        "file": "migration-merge.kimi-r1.test.ts",
+        "fullName": "mergeManagedFile · 缺集合键的分派 实体缺 pages 键时，双方有 PageId 的新增页按身份并存"
+      },
+      "current": {
+        "file": "migration-merge.arrays.test.ts",
+        "fullName": "mergeManagedFile · 缺集合键的分派 实体缺 pages 键时，双方有 PageId 的新增页按身份并存"
+      },
+      "statementSyntaxSha256": "c08eb5e34fad82259ecc26e75f0b4ecfd719bdd97496485f785ce031486c9e5b",
+      "context": []
+    },
+    {
+      "old": {
+        "file": "migration-merge.kimi-r1.test.ts",
+        "fullName": "mergeManagedFile · 无 id 位置路径（非 current 场景） 两侧不同长度的尾删只保留共同前缀"
+      },
+      "current": {
+        "file": "migration-merge.arrays.test.ts",
+        "fullName": "mergeManagedFile · 无 id 位置路径（非 current 场景） 两侧不同长度的尾删只保留共同前缀"
+      },
+      "statementSyntaxSha256": "be230e9fa846e16f7e7384b912a4a399136d1d76d8c2de4832ee9f3299af80e6",
+      "context": []
+    },
+    {
+      "old": {
+        "file": "migration-merge.kimi-r1.test.ts",
+        "fullName": "mergeManagedFile · 无 id 位置路径（非 current 场景） 缺 pages 键且双方页无身份时保持整数组 add-add"
+      },
+      "current": {
+        "file": "migration-merge.arrays.test.ts",
+        "fullName": "mergeManagedFile · 无 id 位置路径（非 current 场景） 缺 pages 键且双方页无身份时保持整数组 add-add"
+      },
+      "statementSyntaxSha256": "3d6159822725ed8390d21b2c215c5eff09c8af2a92d6a4d431c2a664bb0eb423",
+      "context": []
+    }
+  ],
+  "helpers": [
+    {
+      "oldFile": "migration-merge.glm-o.test.ts",
+      "currentFile": "migration-merge.arrays.test.ts",
+      "names": ["sceneFile"],
+      "syntaxSha256": "c0a23a56993c842951891d1ec4c2a1eb78b10af5fa6c59075f18cfb7ef503c7e"
+    },
+    {
+      "oldFile": "migration-merge.glm-o.test.ts",
+      "currentFile": "migration-merge.arrays.test.ts",
+      "names": ["entities"],
+      "syntaxSha256": "970e9f6b27ba7ba3d628633bb7d2836bd36abca3965ea6e76352450508766ce6"
+    },
+    {
+      "oldFile": "migration-merge.glm-o.test.ts",
+      "currentFile": "migration-merge.arrays.test.ts",
+      "names": ["sceneIndex"],
+      "syntaxSha256": "ff3e85860ec9a5a7b7484263c5adc371fb4fcf11ab784ecb5ca0bb51db8a394f"
+    },
+    {
+      "oldFile": "migration-merge.glm-o.test.ts",
+      "currentFile": "migration-merge.arrays.test.ts",
+      "names": ["stagesInScene"],
+      "syntaxSha256": "9d0534db944adabf2646e4454c9aea9a8097983219d65b5ffa8acba1095f9b20"
+    },
+    {
+      "oldFile": "migration-merge.kimi-r1.test.ts",
+      "currentFile": "migration-merge.arrays.test.ts",
+      "names": ["item"],
+      "syntaxSha256": "761f1cc9a201228d80de300991fde3fe7b1b5b4997475d49a39b96287bc86442"
+    },
+    {
+      "oldFile": "migration-merge.kimi-r1.test.ts",
+      "currentFile": "migration-merge.arrays.test.ts",
+      "names": ["positionalPages"],
+      "syntaxSha256": "4b090d2f2b0444b0b6b5a5dcb18feff47d4d63d869d529145043b823061d55a9"
+    },
+    {
+      "oldFile": "migration-merge.kimi-r1.test.ts",
+      "currentFile": "migration-merge.arrays.test.ts",
+      "names": ["pageScene"],
+      "syntaxSha256": "2d62f7278c59680da55ac26722c3298ac5096bf338dfdb39ca6c8dec23398a2d"
+    }
+  ],
+  "preserved": [
+    {
+      "path": "packages/migrate/src/migration-merge.ts",
+      "sha256": "5522c4158773effdf14f265136ff91add2b8159559e8ce5c709e8abab64ec182",
+      "member": "naming/migration-merge.ts.unchanged"
+    },
+    {
+      "path": "packages/migrate/src/migration-merge.test.ts",
+      "sha256": "bbc86b8ec0c78c3d681c9266141ef5ed5b009924de68be6b58f0c24f5b4bb2a0",
+      "member": "naming/migration-merge.test.ts.unchanged"
+    },
+    {
+      "path": "packages/migrate/src/migration-plan.ts",
+      "sha256": "5c8a2dd8ad0f16c14c9aea866195ccbcbcf3f96175f4be20b465d4f38a5c0d43",
+      "member": "naming/migration-plan.ts.unchanged"
+    },
+    {
+      "path": "packages/migrate/src/migration-plan.test.ts",
+      "sha256": "98afe9d0d1720d6935c72772f508a5ee6a311cb712a9296888c3a72a95f52bf7",
+      "member": "naming/migration-plan.test.ts.unchanged"
+    }
+  ],
+  "expectedRuntimeCases": {
+    "json": 13,
+    "arrays": 27,
+    "records": 4
+  },
+  "oldCases": 44,
+  "newCases": 44
+}

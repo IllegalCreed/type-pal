@@ -6,7 +6,7 @@
  *  - 水波:wScreenWave=2 全程(PAL_ApplyWave 每帧扭曲背景)。
  *  - 妖兽(MGO chunk 571):帧 0 在 (0,-400+i)、帧 1 在 (0,-200+i),自顶降下(top-left blit,负 y 裁剪)。
  *  - 女孩(MGO chunk 572):4 帧 walk 循环(i%4)在 (220, yPosGirl);yPosGirl 180→80(每隔帧 -1)。
- * modal,caller suspendRaf 包。Space/Enter/Escape 跳过。
+ * modal,caller suspendRaf 包。默认不可跳；仅显式传入 skipKeys 时响应对应键。
  */
 import type { Palette } from '@type-pal/shared'
 import type { IndexedImage } from '../assets/png.js'

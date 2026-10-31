@@ -8,7 +8,7 @@ function makeAudioSpy(): AudioManager & { calls: string[] } {
   return {
     calls,
     sync(pendingSounds, music) {
-      calls.push(`sync ${music.track} ${music.loop}`)
+      calls.push(`sync ${music.track} ${music.loop} sounds ${JSON.stringify(pendingSounds)}`)
       if (pendingSounds) pendingSounds.length = 0
     },
     playSound(soundId) {
@@ -26,7 +26,7 @@ function makeAudioSpy(): AudioManager & { calls: string[] } {
 }
 
 describe('syncShellAudio', () => {
-  it('suspendRaf/modal CG 期间仍同步 BGM/SFX,不等画面 present 恢复后才 flush', () => {
+  it('suspendRaf=true 的世界仍把当前 BGM 和 SFX 交给 AudioManager', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.suspendRaf = true
     gs.wNumMusic = 16
@@ -36,7 +36,7 @@ describe('syncShellAudio', () => {
 
     syncShellAudio(audio, gs, [], { roles: [] })
 
-    expect(audio.calls).toEqual(['music true', 'sfx true', 'sync 16 true'])
+    expect(audio.calls).toEqual(['music true', 'sfx true', 'sync 16 true sounds [47]'])
     expect(gs.pendingSounds).toEqual([])
   })
 })

@@ -1,0 +1,898 @@
+{
+  "inputs": [
+    {
+      "path": "packages/game/src/present/follower-pos-axis.grok-r1.test.ts",
+      "sha256": "6d838ab74b66081af05cbda9c33641cbed9493d88113940c8698f9081177f7b7",
+      "member": "organization-followers/0.before"
+    },
+    {
+      "path": "packages/game/src/present/follower-render-gap.grok-r1.test.ts",
+      "sha256": "546e86fa49e027289554d79297578a163b177358774b1e65253a247f00a326cc",
+      "member": "organization-followers/1.before"
+    },
+    {
+      "path": "packages/game/src/present/follower-pos.test.ts",
+      "sha256": "2c6989647938b42e379a0ffaee99baa64aec72b9544da42a44033c58dfb8576c",
+      "member": "organization-followers/2.before"
+    },
+    {
+      "path": "packages/game/src/present/follower-render.test.ts",
+      "sha256": "4b7e687c809ce88817f668231a9881012b3fcad0cdb6dfd0485e7e854a315d75",
+      "member": "organization-followers/3.before"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "packages/game/src/present/follower-pos.test.ts",
+      "sha256": "388aea8acd03a04d5e2afd4f2ad816b4087157e2fb811af7500e34467c9c9d20"
+    },
+    {
+      "path": "packages/game/src/present/follower-render.test.ts",
+      "sha256": "623847d2ed93579bc3bc8351cf4be638fe1e6db288b04afae5a3c71759c8ea69"
+    }
+  ],
+  "sourceBridges": [
+    {
+      "path": "packages/game/src/present/follower-pos-axis.grok-r1.test.ts",
+      "id": "follower-0",
+      "changes": [
+        {
+          "from": "/**\n * G03-C。旧 follower-pos 只钉了 m=1 朝下的偏移、落水和静止冻结。\n * 本组把朝向源拆开：偏移读 trail[1].dir，返回的 dir 读 trail[2]。\n */\nimport { describe, expect, it } from 'vitest'\nimport type { TrailEntry } from '../core/game-state.js'\nimport { computeFollowerWorldPos, type FollowerPosState } from './follower-pos.js'\n\nfunction state(trail: TrailEntry[], over: Partial<FollowerPosState> = {}): FollowerPosState {\n  return {\n    party: { x: 1000, y: 500 },\n    trail,\n    walking: true,\n    frozenOffset: [],\n    ...over,\n  }\n}\n\nconst downTrail = (dir: TrailEntry['dir'], facing: TrailEntry['dir']): TrailEntry[] => [\n  { x: 1000, y: 500, dir: 'down' },\n  { x: 984, y: 500, dir },\n  { x: 968, y: 500, dir: facing },\n]\n\ndescribe('G03-C computeFollowerWorldPos 方向与冻结', () => {\n  it('G03-C01 m=1 且 trail[1] 朝右时偏移为 -16,-8，返回朝向仍是 trail[2]', () => {\n    const s = state(downTrail('right', 'up'))\n    expect(computeFollowerWorldPos(s, 1, () => true)).toEqual({ x: 968, y: 492, dir: 'up' })\n    expect(s.frozenOffset[1]).toEqual({ dx: -32, dy: -8, dir: 'up' })\n  })\n\n  it('G03-C02 m=1 且 trail[1] 朝左时偏移为 +16,+8', () => {\n    const s = state(downTrail('left', 'right'))\n    expect(computeFollowerWorldPos(s, 1, () => true)).toEqual({ x: 1000, y: 508, dir: 'right' })\n  })\n\n  it('G03-C03 m=1 且 trail[1] 朝上时偏移为 -16,+8', () => {\n    const s = state(downTrail('up', 'left'))\n    expect(computeFollowerWorldPos(s, 1, () => true)).toEqual({ x: 968, y: 508, dir: 'left' })\n  })\n\n  it('G03-C04 m=2 朝下时偏移是 +16,+8，不是 m=1 的 +16,-8', () => {\n    const s = state(downTrail('down', 'left'))\n    expect(computeFollowerWorldPos(s, 2, () => true)).toEqual({ x: 1000, y: 508, dir: 'left' })\n  })\n\n  it('G03-C05 m=2 朝右时水平偏移为 -16，垂直仍是 +8', () => {\n    const s = state(downTrail('right', 'down'))\n    expect(computeFollowerWorldPos(s, 2, () => true)).toEqual({ x: 968, y: 508, dir: 'down' })\n  })\n\n  it('G03-C06 偏移落在障碍上时，冻结的是退回 trail[1] 之后的位移', () => {\n    const s = state(downTrail('down', 'down'))\n    const pos = computeFollowerWorldPos(s, 1, () => false)\n    expect(pos).toEqual({ x: 984, y: 500, dir: 'down' })\n    expect(s.frozenOffset[1]).toEqual({ dx: -16, dy: 0, dir: 'down' })\n  })\n\n  it('G03-C07 走路时不沿用旧冻结，并把它改写成这次的位移', () => {\n    const s = state(downTrail('down', 'down'), {\n      frozenOffset: [null, { dx: 50, dy: 50, dir: 'up' }],\n    })\n    expect(computeFollowerWorldPos(s, 1, () => true)).toEqual({ x: 1000, y: 492, dir: 'down' })\n    expect(s.frozenOffset[1]).toEqual({ dx: 0, dy: -8, dir: 'down' })\n  })\n\n  it('G03-C08 trail 没有第 3 项时，朝向回退 trail[1].dir', () => {\n    const s = state([\n      { x: 1000, y: 500, dir: 'down' },\n      { x: 984, y: 500, dir: 'left' },\n    ])\n    expect(computeFollowerWorldPos(s, 1, () => true)).toEqual({ x: 1000, y: 508, dir: 'left' })\n  })\n\n  it('G03-C09 静止且成员下标超出 trail 时，用最后一项的坐标', () => {\n    const s = state(\n      [\n        { x: 10, y: 10, dir: 'down' },\n        { x: 20, y: 20, dir: 'down' },\n        { x: 111, y: 222, dir: 'up' },\n      ],\n      { walking: false },\n    )\n    expect(computeFollowerWorldPos(s, 5, () => true)).toEqual({ x: 111, y: 222, dir: 'up' })\n  })\n\n  it('G03-C10 静止摆位不调用 isWalkable', () => {\n    const s = state(\n      [\n        { x: 10, y: 10, dir: 'down' },\n        { x: 30, y: 40, dir: 'right' },\n        { x: 50, y: 60, dir: 'left' },\n      ],\n      { walking: false },\n    )\n    let calls = 0\n    const pos = computeFollowerWorldPos(s, 1, () => {\n      calls += 1\n      return false\n    })\n    expect(calls).toBe(0)\n    expect(pos).toEqual({ x: 30, y: 40, dir: 'left' })\n  })\n})\n",
+          "to": "import { describe, expect, it } from 'vitest'\nimport type { TrailEntry } from '../core/game-state.js'\nimport { computeFollowerWorldPos, type FollowerPosState } from './follower-pos.js'\nfunction stationaryMemberState(overrides: Partial<FollowerPosState> = {}): FollowerPosState {\n  return {\n    party: { x: 1000, y: 500 },\n    trail: [\n      { x: 1000, y: 500, dir: 'down' },\n      { x: 984, y: 500, dir: 'down' },\n      { x: 968, y: 500, dir: 'down' },\n    ],\n    walking: false,\n    frozenOffset: [],\n    ...overrides,\n  }\n}\nfunction walkingMemberState(\n  trail: TrailEntry[],\n  overrides: Partial<FollowerPosState> = {},\n): FollowerPosState {\n  return {\n    party: { x: 1000, y: 500 },\n    trail,\n    walking: true,\n    frozenOffset: [],\n    ...overrides,\n  }\n}\nconst directionSourceTrail = (dir: TrailEntry['dir'], facing: TrailEntry['dir']): TrailEntry[] => [\n  { x: 1000, y: 500, dir: 'down' },\n  { x: 984, y: 500, dir },\n  { x: 968, y: 500, dir: facing },\n]\ndescribe('Party member trail positions and frozen offsets', () => {\n  it('G03-C01 m=1 且 trail[1] 朝右时偏移为 -16,-8，返回朝向仍是 trail[2]', () => {\n    const s = walkingMemberState(directionSourceTrail('right', 'up'))\n    expect(computeFollowerWorldPos(s, 1, () => true)).toEqual({ x: 968, y: 492, dir: 'up' })\n    expect(s.frozenOffset[1]).toEqual({ dx: -32, dy: -8, dir: 'up' })\n  })\n\n  it('G03-C02 m=1 且 trail[1] 朝左时偏移为 +16,+8', () => {\n    const s = walkingMemberState(directionSourceTrail('left', 'right'))\n    expect(computeFollowerWorldPos(s, 1, () => true)).toEqual({ x: 1000, y: 508, dir: 'right' })\n  })\n\n  it('G03-C03 m=1 且 trail[1] 朝上时偏移为 -16,+8', () => {\n    const s = walkingMemberState(directionSourceTrail('up', 'left'))\n    expect(computeFollowerWorldPos(s, 1, () => true)).toEqual({ x: 968, y: 508, dir: 'left' })\n  })\n\n  it('G03-C04 m=2 朝下时偏移是 +16,+8，不是 m=1 的 +16,-8', () => {\n    const s = walkingMemberState(directionSourceTrail('down', 'left'))\n    expect(computeFollowerWorldPos(s, 2, () => true)).toEqual({ x: 1000, y: 508, dir: 'left' })\n  })\n\n  it('G03-C05 m=2 朝右时水平偏移为 -16，垂直仍是 +8', () => {\n    const s = walkingMemberState(directionSourceTrail('right', 'down'))\n    expect(computeFollowerWorldPos(s, 2, () => true)).toEqual({ x: 968, y: 508, dir: 'down' })\n  })\n\n  it('G03-C06 偏移落在障碍上时，冻结的是退回 trail[1] 之后的位移', () => {\n    const s = walkingMemberState(directionSourceTrail('down', 'down'))\n    const pos = computeFollowerWorldPos(s, 1, () => false)\n    expect(pos).toEqual({ x: 984, y: 500, dir: 'down' })\n    expect(s.frozenOffset[1]).toEqual({ dx: -16, dy: 0, dir: 'down' })\n  })\n\n  it('G03-C07 走路时不沿用旧冻结，并把它改写成这次的位移', () => {\n    const s = walkingMemberState(directionSourceTrail('down', 'down'), {\n      frozenOffset: [null, { dx: 50, dy: 50, dir: 'up' }],\n    })\n    expect(computeFollowerWorldPos(s, 1, () => true)).toEqual({ x: 1000, y: 492, dir: 'down' })\n    expect(s.frozenOffset[1]).toEqual({ dx: 0, dy: -8, dir: 'down' })\n  })\n\n  it('G03-C08 trail 没有第 3 项时，朝向回退 trail[1].dir', () => {\n    const s = walkingMemberState([\n      { x: 1000, y: 500, dir: 'down' },\n      { x: 984, y: 500, dir: 'left' },\n    ])\n    expect(computeFollowerWorldPos(s, 1, () => true)).toEqual({ x: 1000, y: 508, dir: 'left' })\n  })\n\n  it('G03-C09 静止且成员下标超出 trail 时，用最后一项的坐标', () => {\n    const s = walkingMemberState(\n      [\n        { x: 10, y: 10, dir: 'down' },\n        { x: 20, y: 20, dir: 'down' },\n        { x: 111, y: 222, dir: 'up' },\n      ],\n      { walking: false },\n    )\n    expect(computeFollowerWorldPos(s, 5, () => true)).toEqual({ x: 111, y: 222, dir: 'up' })\n  })\n\n  it('G03-C10 静止摆位不调用 isWalkable', () => {\n    const s = walkingMemberState(\n      [\n        { x: 10, y: 10, dir: 'down' },\n        { x: 30, y: 40, dir: 'right' },\n        { x: 50, y: 60, dir: 'left' },\n      ],\n      { walking: false },\n    )\n    let calls = 0\n    const pos = computeFollowerWorldPos(s, 1, () => {\n      calls += 1\n      return false\n    })\n    expect(calls).toBe(0)\n    expect(pos).toEqual({ x: 30, y: 40, dir: 'left' })\n  })\n})\n",
+          "count": 1
+        }
+      ],
+      "reason": "Only local fixture intent names and same-contract suite grouping; originalOrdinal/fullName retained."
+    },
+    {
+      "path": "packages/game/src/present/follower-render-gap.grok-r1.test.ts",
+      "id": "follower-1",
+      "changes": [
+        {
+          "from": "/**\n * G03-D。旧 follower-render 覆盖了空列表、trail 不够、站立左、行走右的 0..3 步，以及两人都在。\n * 本组补公开number参数越界时的防御回落、尾部深度不足和朝左行走。\n * 生产stepFrame为0..3，trail为稠密前缀；不再用稀疏数组伪装正式caller。\n */\nimport { describe, expect, it } from 'vitest'\nimport type { TrailEntry } from '../core/game-state.js'\nimport { computeFollowerRenderItems } from './follower-render.js'\n\nfunction full(dir: TrailEntry['dir'], x = 100, y = 200): TrailEntry[] {\n  return [\n    { x: 0, y: 0, dir: 'down' },\n    { x: 1, y: 0, dir: 'down' },\n    { x: 2, y: 0, dir: 'down' },\n    { x, y, dir },\n  ]\n}\n\ndescribe('G03-D computeFollowerRenderItems 缺槽与越界步', () => {\n  it('G03-D01 防御输入：行走且 stepFrame 为 4 时步帧回落到 0，朝右的帧是 9', () => {\n    const items = computeFollowerRenderItems(full('right'), [82], true, 4)\n    expect(items).toHaveLength(1)\n    expect(items[0]?.frameIdx).toBe(9)\n    expect(items[0]?.spriteNum).toBe(82)\n  })\n\n  it('G03-D03 朝左行走且 stepFrame 为 1 时帧是 5', () => {\n    const items = computeFollowerRenderItems(full('left', 40, 50), [83], true, 1)\n    expect(items[0]?.frameIdx).toBe(5)\n    expect(items[0]?.worldX).toBe(40)\n    expect(items[0]?.worldY).toBe(50)\n  })\n\n  it('G03-D04 第二个跟随者没有 trail[4] 时，第一个仍然留下', () => {\n    const items = computeFollowerRenderItems(full('up'), [82, 83], true, 3)\n    expect(items).toHaveLength(1)\n    expect(items[0]?.followerIndex).toBe(0)\n    expect(items[0]?.spriteNum).toBe(82)\n    expect(items[0]?.frameIdx).toBe(7)\n  })\n})\n",
+          "to": "import { describe, expect, it } from 'vitest'\nimport type { TrailEntry } from '../core/game-state.js'\nimport { computeFollowerRenderItems } from './follower-render.js'\nfunction trailFromPoints(...dirs: Array<[number, number, TrailEntry['dir']]>): TrailEntry[] {\n  return dirs.map(([x, y, dir]) => ({ x, y, dir }))\n}\nfunction extraFollowerTrail(dir: TrailEntry['dir'], x = 100, y = 200): TrailEntry[] {\n  return [\n    { x: 0, y: 0, dir: 'down' },\n    { x: 1, y: 0, dir: 'down' },\n    { x: 2, y: 0, dir: 'down' },\n    { x, y, dir },\n  ]\n}\ndescribe('Extra follower sprite items', () => {\n  it('G03-D01 防御输入：行走且 stepFrame 为 4 时步帧回落到 0，朝右的帧是 9', () => {\n    const items = computeFollowerRenderItems(extraFollowerTrail('right'), [82], true, 4)\n    expect(items).toHaveLength(1)\n    expect(items[0]?.frameIdx).toBe(9)\n    expect(items[0]?.spriteNum).toBe(82)\n  })\n\n  it('G03-D03 朝左行走且 stepFrame 为 1 时帧是 5', () => {\n    const items = computeFollowerRenderItems(extraFollowerTrail('left', 40, 50), [83], true, 1)\n    expect(items[0]?.frameIdx).toBe(5)\n    expect(items[0]?.worldX).toBe(40)\n    expect(items[0]?.worldY).toBe(50)\n  })\n\n  it('G03-D04 第二个跟随者没有 trail[4] 时，第一个仍然留下', () => {\n    const items = computeFollowerRenderItems(extraFollowerTrail('up'), [82, 83], true, 3)\n    expect(items).toHaveLength(1)\n    expect(items[0]?.followerIndex).toBe(0)\n    expect(items[0]?.spriteNum).toBe(82)\n    expect(items[0]?.frameIdx).toBe(7)\n  })\n})\n",
+          "count": 1
+        }
+      ],
+      "reason": "Only local fixture intent names and same-contract suite grouping; originalOrdinal/fullName retained."
+    },
+    {
+      "path": "packages/game/src/present/follower-pos.test.ts",
+      "id": "follower-2",
+      "changes": [
+        {
+          "from": "import { describe, expect, it } from 'vitest'\nimport { computeFollowerWorldPos, type FollowerPosState } from './follower-pos.js'\n\nfunction mkState(over: Partial<FollowerPosState> = {}): FollowerPosState {\n  return {\n    party: { x: 1000, y: 500 },\n    trail: [\n      { x: 1000, y: 500, dir: 'down' },\n      { x: 984, y: 500, dir: 'down' },\n      { x: 968, y: 500, dir: 'down' },\n    ],\n    walking: false,\n    frozenOffset: [],\n    ...over,\n  }\n}\n\ndescribe('computeFollowerWorldPos —— port PAL_UpdatePartyGestures 的 fWalking 闸门(scene.c:658 vs 745)', () => {\n  it('walking:trail[1]+方向偏移(m=1 down → +16,-8)+ 朝向 trail[2].dir,并捕获 frozenOffset(含 dir)', () => {\n    const s = mkState({ walking: true })\n    const p = computeFollowerWorldPos(s, 1, () => true)\n    expect(p).toEqual({ x: 1000, y: 492, dir: 'down' }) // trail[1](984,500)+(16,-8);朝向 trail[2].dir\n    expect(s.frozenOffset[1]).toEqual({ dx: 0, dy: -8, dir: 'down' }) // 位置偏移 + 朝向一并捕获\n  })\n\n  it('not walking + 有 frozenOffset:**位置冻结**、**朝向用当前 trail[2].dir**(sdlpal scene.c:761,不跟队长 0x15)', () => {\n    const s = mkState({\n      walking: false,\n      party: { x: 2000, y: 300 },\n      frozenOffset: [null, { dx: 16, dy: -8, dir: 'up' }], // dir 仅捕获记录,渲染不读\n      trail: [\n        { x: 2000, y: 300, dir: 'down' },\n        { x: 2000, y: 300, dir: 'down' },\n        { x: 1900, y: 300, dir: 'down' }, // trail[2].dir='down' → 朝向取此\n      ],\n    })\n    const p = computeFollowerWorldPos(s, 1, () => false)\n    expect(p).toEqual({ x: 2016, y: 292, dir: 'down' }) // 位置=leader+冻结offset;朝向=trail[2].dir('down'),非冻结'up'\n  })\n\n  it('静止有快照且 trail 只有两项：位置按偏移，朝向回退 trail[1]', () => {\n    const s = mkState({\n      walking: false,\n      party: { x: 500, y: 500 },\n      frozenOffset: [null, { dx: 16, dy: -8, dir: 'down' }],\n      trail: [\n        { x: 500, y: 500, dir: 'down' },\n        { x: 500, y: 500, dir: 'down' },\n      ],\n    })\n    const p = computeFollowerWorldPos(s, 1, () => false)\n    expect(p).toEqual({ x: 516, y: 492, dir: 'down' })\n  })\n\n  it('not walking + 无 frozenOffset(0x46 摆位):跟随者落 trail[m]=队长+m×offset(只退一格,sdlpal script.c:1690),非 trail[1] 再叠偏移', () => {\n    // sdlpal 0x46(script.c:1690-1700)把 rgParty[i]=rgTrail[i]=队长+i×offset,演出期不调\n    //   PAL_UpdatePartyGestures → 位置冻结;member m 即 rgTrail[m]。dir=down 填 offset=(+16,-8)。\n    //   旧码这里回退 trail[1]+offset=队长+2×offset → 多退一格(刘晋元叫醒黑屏后两人间隙)。\n    const s = mkState({\n      walking: false,\n      frozenOffset: [],\n      party: { x: 1000, y: 500 },\n      trail: [\n        { x: 1000, y: 500, dir: 'down' }, // trail[0]=队长\n        { x: 1016, y: 492, dir: 'down' }, // trail[1]=队长+1×offset(紧贴)\n        { x: 1032, y: 484, dir: 'down' }, // trail[2]=队长+2×offset\n      ],\n    })\n    expect(computeFollowerWorldPos(s, 1, () => true)).toEqual({ x: 1016, y: 492, dir: 'down' }) // =trail[1],非 (1032,484)\n    expect(computeFollowerWorldPos(s, 2, () => true)).toEqual({ x: 1032, y: 484, dir: 'down' }) // =trail[2]\n  })\n\n  it('not walking 不捕获 frozenOffset(只在 walking 捕获,避免冻结值漂移)', () => {\n    const s = mkState({ walking: false, frozenOffset: [] })\n    computeFollowerWorldPos(s, 1, () => true)\n    expect(s.frozenOffset[1]).toBeUndefined()\n  })\n\n  it('trail 不足(length<=1)→ null(不画跟随者)', () => {\n    const s = mkState({ trail: [{ x: 1, y: 2, dir: 'down' }] })\n    expect(computeFollowerWorldPos(s, 1, () => true)).toBeNull()\n  })\n})\n",
+          "to": "import { describe, expect, it } from 'vitest'\nimport type { TrailEntry } from '../core/game-state.js'\nimport { computeFollowerWorldPos, type FollowerPosState } from './follower-pos.js'\nfunction stationaryMemberState(overrides: Partial<FollowerPosState> = {}): FollowerPosState {\n  return {\n    party: { x: 1000, y: 500 },\n    trail: [\n      { x: 1000, y: 500, dir: 'down' },\n      { x: 984, y: 500, dir: 'down' },\n      { x: 968, y: 500, dir: 'down' },\n    ],\n    walking: false,\n    frozenOffset: [],\n    ...overrides,\n  }\n}\nfunction walkingMemberState(\n  trail: TrailEntry[],\n  overrides: Partial<FollowerPosState> = {},\n): FollowerPosState {\n  return {\n    party: { x: 1000, y: 500 },\n    trail,\n    walking: true,\n    frozenOffset: [],\n    ...overrides,\n  }\n}\nconst directionSourceTrail = (dir: TrailEntry['dir'], facing: TrailEntry['dir']): TrailEntry[] => [\n  { x: 1000, y: 500, dir: 'down' },\n  { x: 984, y: 500, dir },\n  { x: 968, y: 500, dir: facing },\n]\ndescribe('Party member trail positions and frozen offsets', () => {\n  it('walking:trail[1]+方向偏移(m=1 down → +16,-8)+ 朝向 trail[2].dir,并捕获 frozenOffset(含 dir)', () => {\n    const s = stationaryMemberState({ walking: true })\n    const p = computeFollowerWorldPos(s, 1, () => true)\n    expect(p).toEqual({ x: 1000, y: 492, dir: 'down' }) // trail[1](984,500)+(16,-8);朝向 trail[2].dir\n    expect(s.frozenOffset[1]).toEqual({ dx: 0, dy: -8, dir: 'down' }) // 位置偏移 + 朝向一并捕获\n  })\n\n  it('not walking + 有 frozenOffset:**位置冻结**、**朝向用当前 trail[2].dir**(sdlpal scene.c:761,不跟队长 0x15)', () => {\n    const s = stationaryMemberState({\n      walking: false,\n      party: { x: 2000, y: 300 },\n      frozenOffset: [null, { dx: 16, dy: -8, dir: 'up' }], // dir 仅捕获记录,渲染不读\n      trail: [\n        { x: 2000, y: 300, dir: 'down' },\n        { x: 2000, y: 300, dir: 'down' },\n        { x: 1900, y: 300, dir: 'down' }, // trail[2].dir='down' → 朝向取此\n      ],\n    })\n    const p = computeFollowerWorldPos(s, 1, () => false)\n    expect(p).toEqual({ x: 2016, y: 292, dir: 'down' }) // 位置=leader+冻结offset;朝向=trail[2].dir('down'),非冻结'up'\n  })\n\n  it('静止有快照且 trail 只有两项：位置按偏移，朝向回退 trail[1]', () => {\n    const s = stationaryMemberState({\n      walking: false,\n      party: { x: 500, y: 500 },\n      frozenOffset: [null, { dx: 16, dy: -8, dir: 'down' }],\n      trail: [\n        { x: 500, y: 500, dir: 'down' },\n        { x: 500, y: 500, dir: 'down' },\n      ],\n    })\n    const p = computeFollowerWorldPos(s, 1, () => false)\n    expect(p).toEqual({ x: 516, y: 492, dir: 'down' })\n  })\n\n  it('not walking + 无 frozenOffset(0x46 摆位):跟随者落 trail[m]=队长+m×offset(只退一格,sdlpal script.c:1690),非 trail[1] 再叠偏移', () => {\n    // sdlpal 0x46(script.c:1690-1700)把 rgParty[i]=rgTrail[i]=队长+i×offset,演出期不调\n    //   PAL_UpdatePartyGestures → 位置冻结;member m 即 rgTrail[m]。dir=down 填 offset=(+16,-8)。\n    //   旧码这里回退 trail[1]+offset=队长+2×offset → 多退一格(刘晋元叫醒黑屏后两人间隙)。\n    const s = stationaryMemberState({\n      walking: false,\n      frozenOffset: [],\n      party: { x: 1000, y: 500 },\n      trail: [\n        { x: 1000, y: 500, dir: 'down' }, // trail[0]=队长\n        { x: 1016, y: 492, dir: 'down' }, // trail[1]=队长+1×offset(紧贴)\n        { x: 1032, y: 484, dir: 'down' }, // trail[2]=队长+2×offset\n      ],\n    })\n    expect(computeFollowerWorldPos(s, 1, () => true)).toEqual({ x: 1016, y: 492, dir: 'down' }) // =trail[1],非 (1032,484)\n    expect(computeFollowerWorldPos(s, 2, () => true)).toEqual({ x: 1032, y: 484, dir: 'down' }) // =trail[2]\n  })\n\n  it('not walking 不捕获 frozenOffset(只在 walking 捕获,避免冻结值漂移)', () => {\n    const s = stationaryMemberState({ walking: false, frozenOffset: [] })\n    computeFollowerWorldPos(s, 1, () => true)\n    expect(s.frozenOffset[1]).toBeUndefined()\n  })\n\n  it('trail 不足(length<=1)→ null(不画跟随者)', () => {\n    const s = stationaryMemberState({ trail: [{ x: 1, y: 2, dir: 'down' }] })\n    expect(computeFollowerWorldPos(s, 1, () => true)).toBeNull()\n  })\n})\n",
+          "count": 1
+        }
+      ],
+      "reason": "Only local fixture intent names and same-contract suite grouping; originalOrdinal/fullName retained."
+    },
+    {
+      "path": "packages/game/src/present/follower-render.test.ts",
+      "id": "follower-3",
+      "changes": [
+        {
+          "from": "import { describe, expect, it } from 'vitest'\nimport type { TrailEntry } from '../core/game-state.js'\nimport { computeFollowerRenderItems } from './follower-render.js'\n\n// trail[0]=当前,[1..]=越后越早。0x98 follower k → trail[3+k]。\nfunction trail(...dirs: Array<[number, number, TrailEntry['dir']]>): TrailEntry[] {\n  return dirs.map(([x, y, dir]) => ({ x, y, dir }))\n}\n\ndescribe('computeFollowerRenderItems(0x98 跟随者,sdlpal scene.c:732-743/767-771)', () => {\n  it('无 follower → 空', () => {\n    expect(computeFollowerRenderItems(trail(), [], false, 0)).toEqual([])\n    expect(computeFollowerRenderItems(trail(), undefined, true, 1)).toEqual([])\n  })\n\n  it('trail 深度不足(< 4)→ 跳过(不报错)', () => {\n    // 只有 trail[0..2],follower 需 trail[3] → 跳过\n    const t = trail([10, 10, 'down'], [11, 11, 'down'], [12, 12, 'down'])\n    expect(computeFollowerRenderItems(t, [82], true, 1)).toEqual([])\n  })\n\n  it('follower 0 → trail[3] 位置(world,无偏移)+ MGO chunk', () => {\n    const t = trail(\n      [0, 0, 'down'],\n      [1, 0, 'down'],\n      [2, 0, 'down'],\n      [100, 200, 'left'], // trail[3] ← follower 0\n    )\n    const r = computeFollowerRenderItems(t, [82], false, 0)\n    expect(r).toHaveLength(1)\n    expect(r[0]!.worldX).toBe(100)\n    expect(r[0]!.worldY).toBe(200)\n    expect(r[0]!.spriteNum).toBe(82) // 0x98 operand = MGO chunk 直接(res.c:340)\n    expect(r[0]!.followerIndex).toBe(0)\n  })\n\n  it('站立帧 = dir*3(无 step;left dir=1 → 3)', () => {\n    const t = trail([0, 0, 'down'], [1, 0, 'down'], [2, 0, 'down'], [100, 200, 'left'])\n    const r = computeFollowerRenderItems(t, [82], false, 2 /*stepFrame 无关*/)\n    expect(r[0]!.frameIdx).toBe(1 * 3 + 0) // left=1 → 3\n  })\n\n  it('行走帧 = dir*3 + iStepFrameFollower[step](序列 [0,2,0,1],区别于 leader [0,1,0,2])', () => {\n    const t = trail([0, 0, 'down'], [1, 0, 'down'], [2, 0, 'down'], [100, 200, 'right'])\n    // right dir=3 → base 9;step 0/1/2/3 → +0/+2/+0/+1\n    expect(computeFollowerRenderItems(t, [82], true, 0)[0]!.frameIdx).toBe(9)\n    expect(computeFollowerRenderItems(t, [82], true, 1)[0]!.frameIdx).toBe(11)\n    expect(computeFollowerRenderItems(t, [82], true, 2)[0]!.frameIdx).toBe(9)\n    expect(computeFollowerRenderItems(t, [82], true, 3)[0]!.frameIdx).toBe(10)\n  })\n\n  it('两 follower → trail[3]/[4],各自 dir/chunk/index', () => {\n    const t = trail(\n      [0, 0, 'down'],\n      [1, 0, 'down'],\n      [2, 0, 'down'],\n      [100, 200, 'up'], // trail[3] ← follower 0(up dir=2)\n      [90, 190, 'down'], // trail[4] ← follower 1(down dir=0)\n    )\n    const r = computeFollowerRenderItems(t, [82, 83], false, 0)\n    expect(r).toHaveLength(2)\n    expect(r[0]).toMatchObject({\n      worldX: 100,\n      worldY: 200,\n      spriteNum: 82,\n      followerIndex: 0,\n      frameIdx: 2 * 3,\n    })\n    expect(r[1]).toMatchObject({\n      worldX: 90,\n      worldY: 190,\n      spriteNum: 83,\n      followerIndex: 1,\n      frameIdx: 0 * 3,\n    })\n  })\n})\n",
+          "to": "import { describe, expect, it } from 'vitest'\nimport type { TrailEntry } from '../core/game-state.js'\nimport { computeFollowerRenderItems } from './follower-render.js'\nfunction trailFromPoints(...dirs: Array<[number, number, TrailEntry['dir']]>): TrailEntry[] {\n  return dirs.map(([x, y, dir]) => ({ x, y, dir }))\n}\nfunction extraFollowerTrail(dir: TrailEntry['dir'], x = 100, y = 200): TrailEntry[] {\n  return [\n    { x: 0, y: 0, dir: 'down' },\n    { x: 1, y: 0, dir: 'down' },\n    { x: 2, y: 0, dir: 'down' },\n    { x, y, dir },\n  ]\n}\ndescribe('Extra follower sprite items', () => {\n  it('无 follower → 空', () => {\n    expect(computeFollowerRenderItems(trailFromPoints(), [], false, 0)).toEqual([])\n    expect(computeFollowerRenderItems(trailFromPoints(), undefined, true, 1)).toEqual([])\n  })\n\n  it('trail 深度不足(< 4)→ 跳过(不报错)', () => {\n    // 只有 trail[0..2],follower 需 trail[3] → 跳过\n    const t = trailFromPoints([10, 10, 'down'], [11, 11, 'down'], [12, 12, 'down'])\n    expect(computeFollowerRenderItems(t, [82], true, 1)).toEqual([])\n  })\n\n  it('follower 0 → trail[3] 位置(world,无偏移)+ MGO chunk', () => {\n    const t = trailFromPoints(\n      [0, 0, 'down'],\n      [1, 0, 'down'],\n      [2, 0, 'down'],\n      [100, 200, 'left'], // trail[3] ← follower 0\n    )\n    const r = computeFollowerRenderItems(t, [82], false, 0)\n    expect(r).toHaveLength(1)\n    expect(r[0]!.worldX).toBe(100)\n    expect(r[0]!.worldY).toBe(200)\n    expect(r[0]!.spriteNum).toBe(82) // 0x98 operand = MGO chunk 直接(res.c:340)\n    expect(r[0]!.followerIndex).toBe(0)\n  })\n\n  it('站立帧 = dir*3(无 step;left dir=1 → 3)', () => {\n    const t = trailFromPoints([0, 0, 'down'], [1, 0, 'down'], [2, 0, 'down'], [100, 200, 'left'])\n    const r = computeFollowerRenderItems(t, [82], false, 2 /*stepFrame 无关*/)\n    expect(r[0]!.frameIdx).toBe(1 * 3 + 0) // left=1 → 3\n  })\n\n  it('行走帧 = dir*3 + iStepFrameFollower[step](序列 [0,2,0,1],区别于 leader [0,1,0,2])', () => {\n    const t = trailFromPoints([0, 0, 'down'], [1, 0, 'down'], [2, 0, 'down'], [100, 200, 'right'])\n    // right dir=3 → base 9;step 0/1/2/3 → +0/+2/+0/+1\n    expect(computeFollowerRenderItems(t, [82], true, 0)[0]!.frameIdx).toBe(9)\n    expect(computeFollowerRenderItems(t, [82], true, 1)[0]!.frameIdx).toBe(11)\n    expect(computeFollowerRenderItems(t, [82], true, 2)[0]!.frameIdx).toBe(9)\n    expect(computeFollowerRenderItems(t, [82], true, 3)[0]!.frameIdx).toBe(10)\n  })\n\n  it('两 follower → trail[3]/[4],各自 dir/chunk/index', () => {\n    const t = trailFromPoints(\n      [0, 0, 'down'],\n      [1, 0, 'down'],\n      [2, 0, 'down'],\n      [100, 200, 'up'], // trail[3] ← follower 0(up dir=2)\n      [90, 190, 'down'], // trail[4] ← follower 1(down dir=0)\n    )\n    const r = computeFollowerRenderItems(t, [82, 83], false, 0)\n    expect(r).toHaveLength(2)\n    expect(r[0]).toMatchObject({\n      worldX: 100,\n      worldY: 200,\n      spriteNum: 82,\n      followerIndex: 0,\n      frameIdx: 2 * 3,\n    })\n    expect(r[1]).toMatchObject({\n      worldX: 90,\n      worldY: 190,\n      spriteNum: 83,\n      followerIndex: 1,\n      frameIdx: 0 * 3,\n    })\n  })\n})\n",
+          "count": 1
+        }
+      ],
+      "reason": "Only local fixture intent names and same-contract suite grouping; originalOrdinal/fullName retained."
+    }
+  ],
+  "replacements": [],
+  "registrations": [
+    {
+      "old": {
+        "file": "packages/game/src/present/follower-pos.test.ts",
+        "ordinal": 0,
+        "originalOrdinal": 0,
+        "fullName": "computeFollowerWorldPos —— port PAL_UpdatePartyGestures 的 fWalking 闸门(scene.c:658 vs 745) walking:trail[1]+方向偏移(m=1 down → +16,-8)+ 朝向 trail[2].dir,并捕获 frozenOffset(含 dir)"
+      },
+      "current": {
+        "file": "packages/game/src/present/follower-pos.test.ts",
+        "titles": ["Party member trail positions and frozen offsets"],
+        "template": "walking:trail[1]+方向偏移(m=1 down → +16,-8)+ 朝向 trail[2].dir,并捕获 frozenOffset(含 dir)",
+        "fullName": "Party member trail positions and frozen offsets walking:trail[1]+方向偏移(m=1 down → +16,-8)+ 朝向 trail[2].dir,并捕获 frozenOffset(含 dir)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/follower-pos.test.ts",
+        "ordinal": 1,
+        "originalOrdinal": 1,
+        "fullName": "computeFollowerWorldPos —— port PAL_UpdatePartyGestures 的 fWalking 闸门(scene.c:658 vs 745) not walking + 有 frozenOffset:**位置冻结**、**朝向用当前 trail[2].dir**(sdlpal scene.c:761,不跟队长 0x15)"
+      },
+      "current": {
+        "file": "packages/game/src/present/follower-pos.test.ts",
+        "titles": ["Party member trail positions and frozen offsets"],
+        "template": "not walking + 有 frozenOffset:**位置冻结**、**朝向用当前 trail[2].dir**(sdlpal scene.c:761,不跟队长 0x15)",
+        "fullName": "Party member trail positions and frozen offsets not walking + 有 frozenOffset:**位置冻结**、**朝向用当前 trail[2].dir**(sdlpal scene.c:761,不跟队长 0x15)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/follower-pos.test.ts",
+        "ordinal": 2,
+        "originalOrdinal": 2,
+        "fullName": "computeFollowerWorldPos —— port PAL_UpdatePartyGestures 的 fWalking 闸门(scene.c:658 vs 745) 静止有快照且 trail 只有两项：位置按偏移，朝向回退 trail[1]"
+      },
+      "current": {
+        "file": "packages/game/src/present/follower-pos.test.ts",
+        "titles": ["Party member trail positions and frozen offsets"],
+        "template": "静止有快照且 trail 只有两项：位置按偏移，朝向回退 trail[1]",
+        "fullName": "Party member trail positions and frozen offsets 静止有快照且 trail 只有两项：位置按偏移，朝向回退 trail[1]"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/follower-pos.test.ts",
+        "ordinal": 3,
+        "originalOrdinal": 3,
+        "fullName": "computeFollowerWorldPos —— port PAL_UpdatePartyGestures 的 fWalking 闸门(scene.c:658 vs 745) not walking + 无 frozenOffset(0x46 摆位):跟随者落 trail[m]=队长+m×offset(只退一格,sdlpal script.c:1690),非 trail[1] 再叠偏移"
+      },
+      "current": {
+        "file": "packages/game/src/present/follower-pos.test.ts",
+        "titles": ["Party member trail positions and frozen offsets"],
+        "template": "not walking + 无 frozenOffset(0x46 摆位):跟随者落 trail[m]=队长+m×offset(只退一格,sdlpal script.c:1690),非 trail[1] 再叠偏移",
+        "fullName": "Party member trail positions and frozen offsets not walking + 无 frozenOffset(0x46 摆位):跟随者落 trail[m]=队长+m×offset(只退一格,sdlpal script.c:1690),非 trail[1] 再叠偏移"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/follower-pos.test.ts",
+        "ordinal": 4,
+        "originalOrdinal": 4,
+        "fullName": "computeFollowerWorldPos —— port PAL_UpdatePartyGestures 的 fWalking 闸门(scene.c:658 vs 745) not walking 不捕获 frozenOffset(只在 walking 捕获,避免冻结值漂移)"
+      },
+      "current": {
+        "file": "packages/game/src/present/follower-pos.test.ts",
+        "titles": ["Party member trail positions and frozen offsets"],
+        "template": "not walking 不捕获 frozenOffset(只在 walking 捕获,避免冻结值漂移)",
+        "fullName": "Party member trail positions and frozen offsets not walking 不捕获 frozenOffset(只在 walking 捕获,避免冻结值漂移)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/follower-pos.test.ts",
+        "ordinal": 5,
+        "originalOrdinal": 5,
+        "fullName": "computeFollowerWorldPos —— port PAL_UpdatePartyGestures 的 fWalking 闸门(scene.c:658 vs 745) trail 不足(length<=1)→ null(不画跟随者)"
+      },
+      "current": {
+        "file": "packages/game/src/present/follower-pos.test.ts",
+        "titles": ["Party member trail positions and frozen offsets"],
+        "template": "trail 不足(length<=1)→ null(不画跟随者)",
+        "fullName": "Party member trail positions and frozen offsets trail 不足(length<=1)→ null(不画跟随者)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/follower-pos-axis.grok-r1.test.ts",
+        "ordinal": 0,
+        "originalOrdinal": 0,
+        "fullName": "G03-C computeFollowerWorldPos 方向与冻结 G03-C01 m=1 且 trail[1] 朝右时偏移为 -16,-8，返回朝向仍是 trail[2]"
+      },
+      "current": {
+        "file": "packages/game/src/present/follower-pos.test.ts",
+        "titles": ["Party member trail positions and frozen offsets"],
+        "template": "G03-C01 m=1 且 trail[1] 朝右时偏移为 -16,-8，返回朝向仍是 trail[2]",
+        "fullName": "Party member trail positions and frozen offsets G03-C01 m=1 且 trail[1] 朝右时偏移为 -16,-8，返回朝向仍是 trail[2]"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/follower-pos-axis.grok-r1.test.ts",
+        "ordinal": 1,
+        "originalOrdinal": 1,
+        "fullName": "G03-C computeFollowerWorldPos 方向与冻结 G03-C02 m=1 且 trail[1] 朝左时偏移为 +16,+8"
+      },
+      "current": {
+        "file": "packages/game/src/present/follower-pos.test.ts",
+        "titles": ["Party member trail positions and frozen offsets"],
+        "template": "G03-C02 m=1 且 trail[1] 朝左时偏移为 +16,+8",
+        "fullName": "Party member trail positions and frozen offsets G03-C02 m=1 且 trail[1] 朝左时偏移为 +16,+8"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/follower-pos-axis.grok-r1.test.ts",
+        "ordinal": 2,
+        "originalOrdinal": 2,
+        "fullName": "G03-C computeFollowerWorldPos 方向与冻结 G03-C03 m=1 且 trail[1] 朝上时偏移为 -16,+8"
+      },
+      "current": {
+        "file": "packages/game/src/present/follower-pos.test.ts",
+        "titles": ["Party member trail positions and frozen offsets"],
+        "template": "G03-C03 m=1 且 trail[1] 朝上时偏移为 -16,+8",
+        "fullName": "Party member trail positions and frozen offsets G03-C03 m=1 且 trail[1] 朝上时偏移为 -16,+8"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/follower-pos-axis.grok-r1.test.ts",
+        "ordinal": 3,
+        "originalOrdinal": 3,
+        "fullName": "G03-C computeFollowerWorldPos 方向与冻结 G03-C04 m=2 朝下时偏移是 +16,+8，不是 m=1 的 +16,-8"
+      },
+      "current": {
+        "file": "packages/game/src/present/follower-pos.test.ts",
+        "titles": ["Party member trail positions and frozen offsets"],
+        "template": "G03-C04 m=2 朝下时偏移是 +16,+8，不是 m=1 的 +16,-8",
+        "fullName": "Party member trail positions and frozen offsets G03-C04 m=2 朝下时偏移是 +16,+8，不是 m=1 的 +16,-8"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/follower-pos-axis.grok-r1.test.ts",
+        "ordinal": 4,
+        "originalOrdinal": 4,
+        "fullName": "G03-C computeFollowerWorldPos 方向与冻结 G03-C05 m=2 朝右时水平偏移为 -16，垂直仍是 +8"
+      },
+      "current": {
+        "file": "packages/game/src/present/follower-pos.test.ts",
+        "titles": ["Party member trail positions and frozen offsets"],
+        "template": "G03-C05 m=2 朝右时水平偏移为 -16，垂直仍是 +8",
+        "fullName": "Party member trail positions and frozen offsets G03-C05 m=2 朝右时水平偏移为 -16，垂直仍是 +8"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/follower-pos-axis.grok-r1.test.ts",
+        "ordinal": 5,
+        "originalOrdinal": 5,
+        "fullName": "G03-C computeFollowerWorldPos 方向与冻结 G03-C06 偏移落在障碍上时，冻结的是退回 trail[1] 之后的位移"
+      },
+      "current": {
+        "file": "packages/game/src/present/follower-pos.test.ts",
+        "titles": ["Party member trail positions and frozen offsets"],
+        "template": "G03-C06 偏移落在障碍上时，冻结的是退回 trail[1] 之后的位移",
+        "fullName": "Party member trail positions and frozen offsets G03-C06 偏移落在障碍上时，冻结的是退回 trail[1] 之后的位移"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/follower-pos-axis.grok-r1.test.ts",
+        "ordinal": 6,
+        "originalOrdinal": 6,
+        "fullName": "G03-C computeFollowerWorldPos 方向与冻结 G03-C07 走路时不沿用旧冻结，并把它改写成这次的位移"
+      },
+      "current": {
+        "file": "packages/game/src/present/follower-pos.test.ts",
+        "titles": ["Party member trail positions and frozen offsets"],
+        "template": "G03-C07 走路时不沿用旧冻结，并把它改写成这次的位移",
+        "fullName": "Party member trail positions and frozen offsets G03-C07 走路时不沿用旧冻结，并把它改写成这次的位移"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/follower-pos-axis.grok-r1.test.ts",
+        "ordinal": 7,
+        "originalOrdinal": 7,
+        "fullName": "G03-C computeFollowerWorldPos 方向与冻结 G03-C08 trail 没有第 3 项时，朝向回退 trail[1].dir"
+      },
+      "current": {
+        "file": "packages/game/src/present/follower-pos.test.ts",
+        "titles": ["Party member trail positions and frozen offsets"],
+        "template": "G03-C08 trail 没有第 3 项时，朝向回退 trail[1].dir",
+        "fullName": "Party member trail positions and frozen offsets G03-C08 trail 没有第 3 项时，朝向回退 trail[1].dir"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/follower-pos-axis.grok-r1.test.ts",
+        "ordinal": 8,
+        "originalOrdinal": 8,
+        "fullName": "G03-C computeFollowerWorldPos 方向与冻结 G03-C09 静止且成员下标超出 trail 时，用最后一项的坐标"
+      },
+      "current": {
+        "file": "packages/game/src/present/follower-pos.test.ts",
+        "titles": ["Party member trail positions and frozen offsets"],
+        "template": "G03-C09 静止且成员下标超出 trail 时，用最后一项的坐标",
+        "fullName": "Party member trail positions and frozen offsets G03-C09 静止且成员下标超出 trail 时，用最后一项的坐标"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/follower-pos-axis.grok-r1.test.ts",
+        "ordinal": 9,
+        "originalOrdinal": 9,
+        "fullName": "G03-C computeFollowerWorldPos 方向与冻结 G03-C10 静止摆位不调用 isWalkable"
+      },
+      "current": {
+        "file": "packages/game/src/present/follower-pos.test.ts",
+        "titles": ["Party member trail positions and frozen offsets"],
+        "template": "G03-C10 静止摆位不调用 isWalkable",
+        "fullName": "Party member trail positions and frozen offsets G03-C10 静止摆位不调用 isWalkable"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/follower-render.test.ts",
+        "ordinal": 0,
+        "originalOrdinal": 0,
+        "fullName": "computeFollowerRenderItems(0x98 跟随者,sdlpal scene.c:732-743/767-771) 无 follower → 空"
+      },
+      "current": {
+        "file": "packages/game/src/present/follower-render.test.ts",
+        "titles": ["Extra follower sprite items"],
+        "template": "无 follower → 空",
+        "fullName": "Extra follower sprite items 无 follower → 空"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/follower-render.test.ts",
+        "ordinal": 1,
+        "originalOrdinal": 1,
+        "fullName": "computeFollowerRenderItems(0x98 跟随者,sdlpal scene.c:732-743/767-771) trail 深度不足(< 4)→ 跳过(不报错)"
+      },
+      "current": {
+        "file": "packages/game/src/present/follower-render.test.ts",
+        "titles": ["Extra follower sprite items"],
+        "template": "trail 深度不足(< 4)→ 跳过(不报错)",
+        "fullName": "Extra follower sprite items trail 深度不足(< 4)→ 跳过(不报错)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/follower-render.test.ts",
+        "ordinal": 2,
+        "originalOrdinal": 2,
+        "fullName": "computeFollowerRenderItems(0x98 跟随者,sdlpal scene.c:732-743/767-771) follower 0 → trail[3] 位置(world,无偏移)+ MGO chunk"
+      },
+      "current": {
+        "file": "packages/game/src/present/follower-render.test.ts",
+        "titles": ["Extra follower sprite items"],
+        "template": "follower 0 → trail[3] 位置(world,无偏移)+ MGO chunk",
+        "fullName": "Extra follower sprite items follower 0 → trail[3] 位置(world,无偏移)+ MGO chunk"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/follower-render.test.ts",
+        "ordinal": 3,
+        "originalOrdinal": 3,
+        "fullName": "computeFollowerRenderItems(0x98 跟随者,sdlpal scene.c:732-743/767-771) 站立帧 = dir*3(无 step;left dir=1 → 3)"
+      },
+      "current": {
+        "file": "packages/game/src/present/follower-render.test.ts",
+        "titles": ["Extra follower sprite items"],
+        "template": "站立帧 = dir*3(无 step;left dir=1 → 3)",
+        "fullName": "Extra follower sprite items 站立帧 = dir*3(无 step;left dir=1 → 3)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/follower-render.test.ts",
+        "ordinal": 4,
+        "originalOrdinal": 4,
+        "fullName": "computeFollowerRenderItems(0x98 跟随者,sdlpal scene.c:732-743/767-771) 行走帧 = dir*3 + iStepFrameFollower[step](序列 [0,2,0,1],区别于 leader [0,1,0,2])"
+      },
+      "current": {
+        "file": "packages/game/src/present/follower-render.test.ts",
+        "titles": ["Extra follower sprite items"],
+        "template": "行走帧 = dir*3 + iStepFrameFollower[step](序列 [0,2,0,1],区别于 leader [0,1,0,2])",
+        "fullName": "Extra follower sprite items 行走帧 = dir*3 + iStepFrameFollower[step](序列 [0,2,0,1],区别于 leader [0,1,0,2])"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/follower-render.test.ts",
+        "ordinal": 5,
+        "originalOrdinal": 5,
+        "fullName": "computeFollowerRenderItems(0x98 跟随者,sdlpal scene.c:732-743/767-771) 两 follower → trail[3]/[4],各自 dir/chunk/index"
+      },
+      "current": {
+        "file": "packages/game/src/present/follower-render.test.ts",
+        "titles": ["Extra follower sprite items"],
+        "template": "两 follower → trail[3]/[4],各自 dir/chunk/index",
+        "fullName": "Extra follower sprite items 两 follower → trail[3]/[4],各自 dir/chunk/index"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/follower-render-gap.grok-r1.test.ts",
+        "ordinal": 0,
+        "originalOrdinal": 0,
+        "fullName": "G03-D computeFollowerRenderItems 缺槽与越界步 G03-D01 防御输入：行走且 stepFrame 为 4 时步帧回落到 0，朝右的帧是 9"
+      },
+      "current": {
+        "file": "packages/game/src/present/follower-render.test.ts",
+        "titles": ["Extra follower sprite items"],
+        "template": "G03-D01 防御输入：行走且 stepFrame 为 4 时步帧回落到 0，朝右的帧是 9",
+        "fullName": "Extra follower sprite items G03-D01 防御输入：行走且 stepFrame 为 4 时步帧回落到 0，朝右的帧是 9"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/follower-render-gap.grok-r1.test.ts",
+        "ordinal": 1,
+        "originalOrdinal": 1,
+        "fullName": "G03-D computeFollowerRenderItems 缺槽与越界步 G03-D03 朝左行走且 stepFrame 为 1 时帧是 5"
+      },
+      "current": {
+        "file": "packages/game/src/present/follower-render.test.ts",
+        "titles": ["Extra follower sprite items"],
+        "template": "G03-D03 朝左行走且 stepFrame 为 1 时帧是 5",
+        "fullName": "Extra follower sprite items G03-D03 朝左行走且 stepFrame 为 1 时帧是 5"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/follower-render-gap.grok-r1.test.ts",
+        "ordinal": 2,
+        "originalOrdinal": 2,
+        "fullName": "G03-D computeFollowerRenderItems 缺槽与越界步 G03-D04 第二个跟随者没有 trail[4] 时，第一个仍然留下"
+      },
+      "current": {
+        "file": "packages/game/src/present/follower-render.test.ts",
+        "titles": ["Extra follower sprite items"],
+        "template": "G03-D04 第二个跟随者没有 trail[4] 时，第一个仍然留下",
+        "fullName": "Extra follower sprite items G03-D04 第二个跟随者没有 trail[4] 时，第一个仍然留下"
+      }
+    }
+  ],
+  "identities": [
+    {
+      "old": {
+        "file": "packages/game/src/present/follower-pos.test.ts",
+        "fullName": "computeFollowerWorldPos —— port PAL_UpdatePartyGestures 的 fWalking 闸门(scene.c:658 vs 745) walking:trail[1]+方向偏移(m=1 down → +16,-8)+ 朝向 trail[2].dir,并捕获 frozenOffset(含 dir)"
+      },
+      "current": {
+        "file": "packages/game/src/present/follower-pos.test.ts",
+        "fullName": "Party member trail positions and frozen offsets walking:trail[1]+方向偏移(m=1 down → +16,-8)+ 朝向 trail[2].dir,并捕获 frozenOffset(含 dir)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/follower-pos.test.ts",
+        "fullName": "computeFollowerWorldPos —— port PAL_UpdatePartyGestures 的 fWalking 闸门(scene.c:658 vs 745) not walking + 有 frozenOffset:**位置冻结**、**朝向用当前 trail[2].dir**(sdlpal scene.c:761,不跟队长 0x15)"
+      },
+      "current": {
+        "file": "packages/game/src/present/follower-pos.test.ts",
+        "fullName": "Party member trail positions and frozen offsets not walking + 有 frozenOffset:**位置冻结**、**朝向用当前 trail[2].dir**(sdlpal scene.c:761,不跟队长 0x15)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/follower-pos.test.ts",
+        "fullName": "computeFollowerWorldPos —— port PAL_UpdatePartyGestures 的 fWalking 闸门(scene.c:658 vs 745) 静止有快照且 trail 只有两项：位置按偏移，朝向回退 trail[1]"
+      },
+      "current": {
+        "file": "packages/game/src/present/follower-pos.test.ts",
+        "fullName": "Party member trail positions and frozen offsets 静止有快照且 trail 只有两项：位置按偏移，朝向回退 trail[1]"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/follower-pos.test.ts",
+        "fullName": "computeFollowerWorldPos —— port PAL_UpdatePartyGestures 的 fWalking 闸门(scene.c:658 vs 745) not walking + 无 frozenOffset(0x46 摆位):跟随者落 trail[m]=队长+m×offset(只退一格,sdlpal script.c:1690),非 trail[1] 再叠偏移"
+      },
+      "current": {
+        "file": "packages/game/src/present/follower-pos.test.ts",
+        "fullName": "Party member trail positions and frozen offsets not walking + 无 frozenOffset(0x46 摆位):跟随者落 trail[m]=队长+m×offset(只退一格,sdlpal script.c:1690),非 trail[1] 再叠偏移"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/follower-pos.test.ts",
+        "fullName": "computeFollowerWorldPos —— port PAL_UpdatePartyGestures 的 fWalking 闸门(scene.c:658 vs 745) not walking 不捕获 frozenOffset(只在 walking 捕获,避免冻结值漂移)"
+      },
+      "current": {
+        "file": "packages/game/src/present/follower-pos.test.ts",
+        "fullName": "Party member trail positions and frozen offsets not walking 不捕获 frozenOffset(只在 walking 捕获,避免冻结值漂移)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/follower-pos.test.ts",
+        "fullName": "computeFollowerWorldPos —— port PAL_UpdatePartyGestures 的 fWalking 闸门(scene.c:658 vs 745) trail 不足(length<=1)→ null(不画跟随者)"
+      },
+      "current": {
+        "file": "packages/game/src/present/follower-pos.test.ts",
+        "fullName": "Party member trail positions and frozen offsets trail 不足(length<=1)→ null(不画跟随者)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/follower-pos-axis.grok-r1.test.ts",
+        "fullName": "G03-C computeFollowerWorldPos 方向与冻结 G03-C01 m=1 且 trail[1] 朝右时偏移为 -16,-8，返回朝向仍是 trail[2]"
+      },
+      "current": {
+        "file": "packages/game/src/present/follower-pos.test.ts",
+        "fullName": "Party member trail positions and frozen offsets G03-C01 m=1 且 trail[1] 朝右时偏移为 -16,-8，返回朝向仍是 trail[2]"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/follower-pos-axis.grok-r1.test.ts",
+        "fullName": "G03-C computeFollowerWorldPos 方向与冻结 G03-C02 m=1 且 trail[1] 朝左时偏移为 +16,+8"
+      },
+      "current": {
+        "file": "packages/game/src/present/follower-pos.test.ts",
+        "fullName": "Party member trail positions and frozen offsets G03-C02 m=1 且 trail[1] 朝左时偏移为 +16,+8"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/follower-pos-axis.grok-r1.test.ts",
+        "fullName": "G03-C computeFollowerWorldPos 方向与冻结 G03-C03 m=1 且 trail[1] 朝上时偏移为 -16,+8"
+      },
+      "current": {
+        "file": "packages/game/src/present/follower-pos.test.ts",
+        "fullName": "Party member trail positions and frozen offsets G03-C03 m=1 且 trail[1] 朝上时偏移为 -16,+8"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/follower-pos-axis.grok-r1.test.ts",
+        "fullName": "G03-C computeFollowerWorldPos 方向与冻结 G03-C04 m=2 朝下时偏移是 +16,+8，不是 m=1 的 +16,-8"
+      },
+      "current": {
+        "file": "packages/game/src/present/follower-pos.test.ts",
+        "fullName": "Party member trail positions and frozen offsets G03-C04 m=2 朝下时偏移是 +16,+8，不是 m=1 的 +16,-8"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/follower-pos-axis.grok-r1.test.ts",
+        "fullName": "G03-C computeFollowerWorldPos 方向与冻结 G03-C05 m=2 朝右时水平偏移为 -16，垂直仍是 +8"
+      },
+      "current": {
+        "file": "packages/game/src/present/follower-pos.test.ts",
+        "fullName": "Party member trail positions and frozen offsets G03-C05 m=2 朝右时水平偏移为 -16，垂直仍是 +8"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/follower-pos-axis.grok-r1.test.ts",
+        "fullName": "G03-C computeFollowerWorldPos 方向与冻结 G03-C06 偏移落在障碍上时，冻结的是退回 trail[1] 之后的位移"
+      },
+      "current": {
+        "file": "packages/game/src/present/follower-pos.test.ts",
+        "fullName": "Party member trail positions and frozen offsets G03-C06 偏移落在障碍上时，冻结的是退回 trail[1] 之后的位移"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/follower-pos-axis.grok-r1.test.ts",
+        "fullName": "G03-C computeFollowerWorldPos 方向与冻结 G03-C07 走路时不沿用旧冻结，并把它改写成这次的位移"
+      },
+      "current": {
+        "file": "packages/game/src/present/follower-pos.test.ts",
+        "fullName": "Party member trail positions and frozen offsets G03-C07 走路时不沿用旧冻结，并把它改写成这次的位移"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/follower-pos-axis.grok-r1.test.ts",
+        "fullName": "G03-C computeFollowerWorldPos 方向与冻结 G03-C08 trail 没有第 3 项时，朝向回退 trail[1].dir"
+      },
+      "current": {
+        "file": "packages/game/src/present/follower-pos.test.ts",
+        "fullName": "Party member trail positions and frozen offsets G03-C08 trail 没有第 3 项时，朝向回退 trail[1].dir"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/follower-pos-axis.grok-r1.test.ts",
+        "fullName": "G03-C computeFollowerWorldPos 方向与冻结 G03-C09 静止且成员下标超出 trail 时，用最后一项的坐标"
+      },
+      "current": {
+        "file": "packages/game/src/present/follower-pos.test.ts",
+        "fullName": "Party member trail positions and frozen offsets G03-C09 静止且成员下标超出 trail 时，用最后一项的坐标"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/follower-pos-axis.grok-r1.test.ts",
+        "fullName": "G03-C computeFollowerWorldPos 方向与冻结 G03-C10 静止摆位不调用 isWalkable"
+      },
+      "current": {
+        "file": "packages/game/src/present/follower-pos.test.ts",
+        "fullName": "Party member trail positions and frozen offsets G03-C10 静止摆位不调用 isWalkable"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/follower-render.test.ts",
+        "fullName": "computeFollowerRenderItems(0x98 跟随者,sdlpal scene.c:732-743/767-771) 无 follower → 空"
+      },
+      "current": {
+        "file": "packages/game/src/present/follower-render.test.ts",
+        "fullName": "Extra follower sprite items 无 follower → 空"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/follower-render.test.ts",
+        "fullName": "computeFollowerRenderItems(0x98 跟随者,sdlpal scene.c:732-743/767-771) trail 深度不足(< 4)→ 跳过(不报错)"
+      },
+      "current": {
+        "file": "packages/game/src/present/follower-render.test.ts",
+        "fullName": "Extra follower sprite items trail 深度不足(< 4)→ 跳过(不报错)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/follower-render.test.ts",
+        "fullName": "computeFollowerRenderItems(0x98 跟随者,sdlpal scene.c:732-743/767-771) follower 0 → trail[3] 位置(world,无偏移)+ MGO chunk"
+      },
+      "current": {
+        "file": "packages/game/src/present/follower-render.test.ts",
+        "fullName": "Extra follower sprite items follower 0 → trail[3] 位置(world,无偏移)+ MGO chunk"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/follower-render.test.ts",
+        "fullName": "computeFollowerRenderItems(0x98 跟随者,sdlpal scene.c:732-743/767-771) 站立帧 = dir*3(无 step;left dir=1 → 3)"
+      },
+      "current": {
+        "file": "packages/game/src/present/follower-render.test.ts",
+        "fullName": "Extra follower sprite items 站立帧 = dir*3(无 step;left dir=1 → 3)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/follower-render.test.ts",
+        "fullName": "computeFollowerRenderItems(0x98 跟随者,sdlpal scene.c:732-743/767-771) 行走帧 = dir*3 + iStepFrameFollower[step](序列 [0,2,0,1],区别于 leader [0,1,0,2])"
+      },
+      "current": {
+        "file": "packages/game/src/present/follower-render.test.ts",
+        "fullName": "Extra follower sprite items 行走帧 = dir*3 + iStepFrameFollower[step](序列 [0,2,0,1],区别于 leader [0,1,0,2])"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/follower-render.test.ts",
+        "fullName": "computeFollowerRenderItems(0x98 跟随者,sdlpal scene.c:732-743/767-771) 两 follower → trail[3]/[4],各自 dir/chunk/index"
+      },
+      "current": {
+        "file": "packages/game/src/present/follower-render.test.ts",
+        "fullName": "Extra follower sprite items 两 follower → trail[3]/[4],各自 dir/chunk/index"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/follower-render-gap.grok-r1.test.ts",
+        "fullName": "G03-D computeFollowerRenderItems 缺槽与越界步 G03-D01 防御输入：行走且 stepFrame 为 4 时步帧回落到 0，朝右的帧是 9"
+      },
+      "current": {
+        "file": "packages/game/src/present/follower-render.test.ts",
+        "fullName": "Extra follower sprite items G03-D01 防御输入：行走且 stepFrame 为 4 时步帧回落到 0，朝右的帧是 9"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/follower-render-gap.grok-r1.test.ts",
+        "fullName": "G03-D computeFollowerRenderItems 缺槽与越界步 G03-D03 朝左行走且 stepFrame 为 1 时帧是 5"
+      },
+      "current": {
+        "file": "packages/game/src/present/follower-render.test.ts",
+        "fullName": "Extra follower sprite items G03-D03 朝左行走且 stepFrame 为 1 时帧是 5"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/follower-render-gap.grok-r1.test.ts",
+        "fullName": "G03-D computeFollowerRenderItems 缺槽与越界步 G03-D04 第二个跟随者没有 trail[4] 时，第一个仍然留下"
+      },
+      "current": {
+        "file": "packages/game/src/present/follower-render.test.ts",
+        "fullName": "Extra follower sprite items G03-D04 第二个跟随者没有 trail[4] 时，第一个仍然留下"
+      }
+    }
+  ],
+  "retirements": [],
+  "id": "followers",
+  "namespace": "organization-followers",
+  "cohortSubjects": [
+    {
+      "path": "packages/game/src/present/follower-pos-axis.grok-r1.test.ts",
+      "sha256": "6d838ab74b66081af05cbda9c33641cbed9493d88113940c8698f9081177f7b7",
+      "priorCurrentBridges": []
+    },
+    {
+      "path": "packages/game/src/present/follower-render-gap.grok-r1.test.ts",
+      "sha256": "546e86fa49e027289554d79297578a163b177358774b1e65253a247f00a326cc",
+      "priorCurrentBridges": []
+    }
+  ],
+  "preserved": [
+    {
+      "path": "packages/game/src/present/follower-pos.ts",
+      "sha256": "1a55cf4137c888e12ba3660d9006367fcef8fb82cdff7e4c3ec2a8a0c0397ca6"
+    },
+    {
+      "path": "packages/game/src/present/follower-render.ts",
+      "sha256": "fe1bc4db16a6e3732cadaecc8247028c12209974ab8d03f4aa4432af7ce00e29"
+    },
+    {
+      "path": "packages/game/src/present/present.ts",
+      "sha256": "c4c6f411857d99c5f8e850bf5172c3e42f04181a64df0ce2a697fe1ec90569f9"
+    },
+    {
+      "path": "packages/game/src/core/game-state.ts",
+      "sha256": "084718097eb0963c2ee3a9d72da59b313ca8fd401672f6a8b341ba21ae8b8906"
+    },
+    {
+      "path": "packages/game/src/core/event-system.ts",
+      "sha256": "3b8490fa48d2992f693ab0eb611954dd0bfacbc22dc3eda58378cc4bc7a4b5f4"
+    },
+    {
+      "path": "packages/game/vitest.config.ts",
+      "sha256": "3dd92ad4886bc72c88e7a7b2e6bdacc3aaf9e2a24ac72153f3b619ba37feb7d4"
+    },
+    {
+      "path": "scripts/coverage/config.mjs",
+      "sha256": "decb63dda5d12a2269bef1dd75c3d1eb4efca071887c759deca8e9b06ef17a25"
+    }
+  ],
+  "neighborPaths": [
+    "src/present/follower-pos.test.ts",
+    "src/present/follower-render.test.ts",
+    "src/present/__tests__/world-composition.test.ts",
+    "src/present/framebuffer.test.ts"
+  ],
+  "receipts": {
+    "before": "organization-followers/before-r2",
+    "neighbors": "organization-followers/neighbors-r2"
+  },
+  "cleanExecutions": [
+    "before-r2",
+    "reorganize",
+    "scoped-code",
+    "proof",
+    "routing-r2",
+    "neighbors-r2",
+    "typecheck",
+    "complexity",
+    "module-preflight",
+    "docs",
+    "content-review",
+    "lint",
+    "scoped",
+    "diff",
+    "ledger-final"
+  ],
+  "lightweightGates": true,
+  "profiles": [
+    {
+      "path": "packages/game/src/present/follower-pos.test.ts",
+      "subjects": [
+        "packages/game/src/present/follower-pos-axis.grok-r1.test.ts",
+        "packages/game/src/present/follower-render-gap.grok-r1.test.ts"
+      ],
+      "axes": {
+        "A": "16 actual computeFollowerWorldPos cases: walking direction offsets for m1/m2, facing fromtrail2 not offsetdir, obstacle fallback then cached offset, override previous cache, short trail facing fallback, stationary borrowedcache/currentfacing, no-cache trail[m], no stationary cache write/walkability call, <=1trail null. Memberm5 is defensive publicnumber input, not ordinary1..party.length caller. Product unchanged.",
+        "B": "Remove author/wave header with stale old-test coverage comparison; preserve specific world-pixel offsets and distinction position freeze vs current trail facing. Existing script0x46 historical rationale reused, no new originalgame assertion. No new misleading annotation found within final spec.",
+        "C": "One party-member position/cache contract owns both walking and stationary cases. Cachearray belongs teststate/present/GS, function captures only when walking; event/scene resets stay outside helper. No globals/IO/time/mock lifecycle in spec. Publicpresent may override final scriptedframe, outside these position tests.",
+        "D": "Keep two distinct state creators: stationary defaulttrail and explicittrail/walking default; both accept explicit testoverrides and return fresh ownership. DirectionSourceTrail names offset/facing inputs separately. No universal fixture with modeflags; extra0x98NPC contract remains a separate spec/helper.",
+        "E": "16 identities and full typed callback/assertion trees conserved after private names. All literal returned x/y/dir and frozenOffset expectations retained. No new cases/deletions/weak assertions; callcount0 is only used for explicit forbidden walkability invocation and accompanied by outputposition. Native4files34/TC0, no pending/stderr.",
+        "F": "Canonical follower-pos.test groups actual party-member position/cache behavior. stationaryMemberState/walkingMemberState describe fixture defaults, overrides intentionally explicit; directionSourceTrail replaces misleading downTrail when its supplied direction can differ. Tests G03 IDs retained as provenance, not fileorganization.",
+        "G": "Delete separate author-based spec and repeated imports/suite boundary; private factories remain because defaulttrail vs suppliedtrail and walkingdefaults differ. Walking with oldcache vs emptycache, stationary currentfacing vs frozenrecordfacing, and obstaclefallback are distinct input axes. No dead product export or speculative abstraction introduced.",
+        "H": "Real pure-ish helper with explicit walkability callback and locally owned cache mutation; deterministic literals, no mock framework or hidden singleton reset. Complete helper typed-tree proof for3position declarations and fresh-object/party/trail/cache checks. No new counter needed for pure grouping without behavior/assertion changes."
+      }
+    },
+    {
+      "path": "packages/game/src/present/follower-render.test.ts",
+      "subjects": [
+        "packages/game/src/present/follower-pos-axis.grok-r1.test.ts",
+        "packages/game/src/present/follower-render-gap.grok-r1.test.ts"
+      ],
+      "axes": {
+        "A": "9 computeFollowerRenderItems identities: empty/undefinedfollowers, shortdepth, chunk/position/index identity, stationary nonzero-stepignored, fullrightstep0..3, twofollowers, defensive step4, leftstep1, missingsecondtrail retainsfirst. Dense prefixes retained; productionstep0..3 distinguished from defensive4. No sparsearray fixture or productchange.",
+        "B": "Remove stale author/gap coverage header; keep precise 0x98chunk and trail[3+k] explanations. Separate party-member offsets from extraNPC no-offset render items. Current caller resources/zsort/scriptframe behavior not newly claimed by direct pure-item tests. No new incorrect comment found.",
+        "C": "Read-only trail/chunk inputs -> new rendering records; actualpresent owns assetlookup/sorting/drawing. Testhas no mutable global state/hook/clock/IO. Position/cache member contract remains separate because it mutates caller cache while this renderer helper returns newarray.",
+        "D": "Local trailFromPoints retains general explicit point tuples; extraFollowerTrail retains threefixedprefix points and explicit follower coordinates for3cases. Both bodies typed-alpha-equal to inputs, no cross-domain modehelper. Similar API calls check distinct absentinput/shortdepth/step/chunk/position axes.",
+        "E": "9 identities and all callback/assertion bodies conserved. Literal frames9/11/9/10,3,5,7 and distinct chunks82/83 independent of product table; lengths/coordinates/index positives accompany defensive expectations. Twofollowers and missingsecondslot are complementary, not duplicate. Native4files34/TC0, zero pending/stderr.",
+        "F": "Canonical follower-render.test owns extra0x98NPC sprite-item contract. extraFollowerTrail and trailFromPoints replace full/trail ambiguity; suite title distinguishes extraNPC from memberposition cache. Existing productpublic names unchanged under interface stopline.",
+        "G": "Remove author-based gap file, retain useful9cases. Standingnonzero step tests stepignored vs movingsequence; leftmoving adds a different direction composition; no duplicate deletion based solely on sharedhelper/API. No new wrapper/export/futureextension.",
+        "H": "Direct deterministic public function, no core mock; exact typed helper comparison for2render declarations and fullcallback proof. Actual currentpresent caller ranges confirm ownermapping. True worldcomposition neighbor executes assembly, not a new E2E/visual/normalstory certificate."
+      }
+    }
+  ],
+  "callbackProof": "organization-followers/proof.stdout.raw",
+  "cohortOrigins": "organization-followers/cohort-origins.json",
+  "reusedReviewMember": "organization-followers/reused-reviews.json",
+  "runnerEligibility": "organization-followers/routing-r2.stdout.raw",
+  "reads": {
+    "fullInputs": [
+      {
+        "path": "packages/game/src/present/follower-pos-axis.grok-r1.test.ts",
+        "sha256": "6d838ab74b66081af05cbda9c33641cbed9493d88113940c8698f9081177f7b7",
+        "member": "organization-followers/0.before",
+        "lines": 104
+      },
+      {
+        "path": "packages/game/src/present/follower-render-gap.grok-r1.test.ts",
+        "sha256": "546e86fa49e027289554d79297578a163b177358774b1e65253a247f00a326cc",
+        "member": "organization-followers/1.before",
+        "lines": 41
+      },
+      {
+        "path": "packages/game/src/present/follower-pos.test.ts",
+        "sha256": "2c6989647938b42e379a0ffaee99baa64aec72b9544da42a44033c58dfb8576c",
+        "member": "organization-followers/2.before",
+        "lines": 83
+      },
+      {
+        "path": "packages/game/src/present/follower-render.test.ts",
+        "sha256": "4b7e687c809ce88817f668231a9881012b3fcad0cdb6dfd0485e7e854a315d75",
+        "member": "organization-followers/3.before",
+        "lines": 77
+      }
+    ],
+    "fullImplementations": [
+      {
+        "path": "packages/game/src/present/follower-pos.ts",
+        "sha256": "1a55cf4137c888e12ba3660d9006367fcef8fb82cdff7e4c3ec2a8a0c0397ca6",
+        "scope": "Full helper read; original bounded truth reused."
+      },
+      {
+        "path": "packages/game/src/present/follower-render.ts",
+        "sha256": "fe1bc4db16a6e3732cadaecc8247028c12209974ab8d03f4aa4432af7ce00e29",
+        "scope": "Full helper read; original bounded truth reused."
+      }
+    ],
+    "scopedCallers": [
+      {
+        "path": "packages/game/src/present/present.ts",
+        "sha256": "c4c6f411857d99c5f8e850bf5172c3e42f04181a64df0ce2a697fe1ec90569f9",
+        "ranges": [[370, 435], [470, 510]]
+      },
+      {
+        "path": "packages/game/src/core/game-state.ts",
+        "sha256": "084718097eb0963c2ee3a9d72da59b313ca8fd401672f6a8b341ba21ae8b8906",
+        "ranges": [[29, 52], [762, 785], [1444, 1456]]
+      },
+      {
+        "path": "packages/game/src/core/event-system.ts",
+        "sha256": "3b8490fa48d2992f693ab0eb611954dd0bfacbc22dc3eda58378cc4bc7a4b5f4",
+        "ranges": [[3494, 3509], [3638, 3650]]
+      }
+    ],
+    "primarySource": {
+      "path": "reference/sdlpal/scene.c",
+      "sha256": "bc4efef7cad3b83ddac5e3338423e3c5d9660bdbaae1d8e974e8841022e3bc8b",
+      "ranges": [[648, 678], [687, 773]],
+      "scope": "Narrow walk/standing/extraNPC direction block; no renewed complete C or originalbinary acceptance."
+    },
+    "currentOutputs": [
+      {
+        "path": "packages/game/src/present/follower-pos.test.ts",
+        "sha256": "388aea8acd03a04d5e2afd4f2ad816b4087157e2fb811af7500e34467c9c9d20",
+        "lines": 179,
+        "scope": "Full candidate read after final private name/format, conservation/native proof separate."
+      },
+      {
+        "path": "packages/game/src/present/follower-render.test.ts",
+        "sha256": "623847d2ed93579bc3bc8351cf4be638fe1e6db288b04afae5a3c71759c8ea69",
+        "lines": 105,
+        "scope": "Full candidate read after final private name/format, conservation/native proof separate."
+      }
+    ]
+  },
+  "processDisclosures": [
+    "Twohistoricalsubjects13identities plusadjacentmains12 all25 retained->memberposition16/extraNPCrender9,0retired. No product/API/behavior changes. Bothclosedmains reopentoreview forunifiedgates,0newclosed.",
+    "All25callback/assertion bodies and5typedhelper declarations conserved with intentional private alpha names; no new fakecounter. Different state defaults, caller-owned cache mutation and extraNPC read-only item projection kept separate. memberm5/step4 remain defensive domains, not ordinaryreachability.",
+    "Initialbefore used rootcwd with package-relative executable: spawnENOENT (-2), no tests ran; originalreceipt retained, before-r2 ran actual25. Initialneighbors exit0 collected3files31 while request4 due wrongworldcompositionpath; rejected exactset, raw retained, actual corrected4files34 ran. Currentproof/preflight compares exact file/nativeidentity sets; neither initial run grants fullpass.",
+    "Defaultreadonly proof/suiteimport guard and fulltyped-tailfield/assertion negatives passed. Existing primary truth and narrow currentcaller/types/reset scopes reused; no new fullmechanisms/English/visual/E2E credit. Heavywholecheck/officialcoverage/protected/publication deferred.",
+    "Copied routing producer narrative mentioned status/menu/localization neighbors from another slice; static eligibility data unaffected. Corrected runner wording to static-only and new routing-r2 receipt. Same copied sentence in battle-screen/routing.stdout.raw is superseded here: its authoritative actual collection remains its exact8 neighborPaths/native57, not that stale narrative. Cohort-origins template phrase about a new formula removed for this follower slice; only2subjects,2outputs,25cases."
+  ],
+  "ledgerDispositions": {
+    "categories": {
+      "packages/game/src/present/follower-pos.test.ts": "test",
+      "packages/game/src/present/follower-render.test.ts": "test"
+    }
+  },
+  "ledgerCounts": {
+    "inventory": 3446,
+    "closed": 548,
+    "review": 264,
+    "pending": 2634
+  }
+}

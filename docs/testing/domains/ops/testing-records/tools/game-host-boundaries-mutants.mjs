@@ -1,9 +1,6 @@
-// TEST-GAME-HOST-BOUNDARIES-1 单点负控（可重建）。临时配置/日志只进 mkdtemp；
-// Vite 只替换唯一源点（MUTATION_HIT 见证），产品文件前后 hash 必须一致。
-// 8 针（全选隐藏层门、paste collision 冲突判定、patch collision 重复门、draft 层空值门、
-// template id 归一、placement 锁层门、group capture 去重、template category）+ 3 对照；
-// 判据同队列标准（钉名 AssertionError + 四向自测）。
-// 运行：node docs/testing/domains/editor/editor-workflows/tools/editor-map-data-mutants.mjs
+// Native game host boundary controls: 3 controls and 8 contract mutants.
+// Results are limited to the selected contracts; source hashes must stay unchanged.
+// Run: node docs/testing/domains/ops/testing-records/tools/game-host-boundaries-mutants.mjs
 import assert from 'node:assert/strict'
 import { spawnSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
@@ -23,7 +20,7 @@ const PACKAGES = {
 
 const TESTS = {
   fetchretry: ['src/shell/fetch-retry.boundaries.test.ts'],
-  input: ['src/shell/input.boundaries.test.ts'],
+  input: ['src/shell/input.keyboard.test.ts'],
   audio: ['src/shell/audio-volume.boundaries.test.ts'],
   consent: ['src/analytics/analytics-consent.boundaries.test.ts'],
   ga: ['src/analytics/google-analytics.boundaries.test.ts'],
@@ -297,7 +294,9 @@ export default {
  test:{
  environment: 'jsdom',
  setupFiles: ['../../../../vitest.setup.ts'],
- include:${JSON.stringify(TESTS[item.group])},maxWorkers:1,fileParallelism:false}
+ include:${JSON.stringify(TESTS[item.group])},
+ testNamePattern:${JSON.stringify(item.group === 'input' ? '^keyboard snapshot and listener boundaries ' : undefined)},
+ maxWorkers:1,fileParallelism:false}
 };
 `,
   )
@@ -368,7 +367,8 @@ export default {
     exit: run.status,
     red: item.red ?? null,
     redTest: item.redTest ?? null,
-    executedTests: report.numTotalTests,
+    executedTests: assertions.filter((test) => ['passed', 'failed'].includes(test.status)).length,
+    intentionallyFilteredTests: report.numPendingTests,
     log,
     logSha256: sha(output),
   })

@@ -1,0 +1,671 @@
+{
+  "inputs": [
+    {
+      "path": "packages/game/src/present/menu/draw-equip.glm-phase1-leaves.test.ts",
+      "sha256": "caeaa72a2b0fb6a210f14eb1db82237737f9b40e376bb46ccccf19b1cc980903",
+      "member": "organization-menu-equip/0.before"
+    },
+    {
+      "path": "packages/game/src/present/menu/equip-role-pixels.grok-r1.test.ts",
+      "sha256": "c5cb25e5039d376b215c95eebe631a773bf974bca4c6ac48edea5867591af1c4",
+      "member": "organization-menu-equip/1.before"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/p03-equip.test.ts",
+      "sha256": "5542005da8a1f0b6e1e2da3957e6aef53ad5368a04b7c611431cb8cc7ed7a3e6",
+      "member": "organization-menu-equip/2.before"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "packages/game/src/present/menu/draw-equip.test.ts",
+      "sha256": "ba3399d2867a295ba7d4cf01d305dec2d3df9a1e7191de8b9d059ee60582156f"
+    }
+  ],
+  "sourceBridges": [
+    {
+      "path": "packages/game/src/present/menu/draw-equip.glm-phase1-leaves.test.ts",
+      "id": "menu-equip-0",
+      "changes": [
+        {
+          "from": "/**\n * TEST-GLM-PHASE1-LEAVES-3 L11（draw-equip.ts）— 去重表：\n *  - grok-present P03（装备列表不可装备暗色/选人页六槽名称+预览+背景）→ 不重复\n *  - 新差异：角色身份非顺序 party [3,1]（equipableBy 按 roleId 位、选中映射按 party 序）、\n *    已装备槽 itemId 不在 catalog → 画 `?id` tofu、空槽（0）不画、roles 缺该 roleId 跳过。\n */\nimport { describe, expect, it } from 'vitest'\nimport {\n  fixtureGlyphs,\n  freezeNow,\n  makeUiFrames,\n  mkItem,\n  newFb,\n  pixel,\n  textDot,\n} from '../../__tests__/glm-phase1-leaves/present-fixtures.js'\nimport { confirmEquipItem, createEquipMenu } from '../../core/menu/equip-menu.js'\nimport { makeLiveScene } from '../__tests__/menu-state-fixtures.js'\nimport { drawEquipMenu } from './draw-equip.js'\n\nconst glyphs = fixtureGlyphs\n\nconst SWORD = mkItem(500, '丁', {\n  flags: { equipable: true, equipableBy: [false, false, false, true, false, false] }, // 仅 role 3 可装\n})\n\nfunction sceneForEquip() {\n  const { gs, roles } = makeLiveScene([3, 1])\n  gs.inventory = [{ itemId: 500, count: 1 }]\n  return { gs, roles }\n}\n\ndescribe('L11 drawEquipMenu 剩余分支', () => {\n  it('pick-role 非顺序 party [3,1]：equipableBy 按 roleId 位着色，选中高亮按 party 序', () => {\n    const { gs, roles } = sceneForEquip()\n    const state = createEquipMenu(gs, [SWORD])\n    state.list.cursor = 0\n    confirmEquipItem(state, [SWORD])\n    expect(state.phase).toBe('pick-role')\n    expect(state.selectedItemId).toBe(500)\n    const fb = newFb()\n    const restore = freezeNow(0)\n    try {\n      drawEquipMenu({\n        fb,\n        state,\n        gs,\n        playerRoles: roles,\n        items: [SWORD],\n        uiSpriteFrames: makeUiFrames(),\n        glyphs,\n      })\n    } finally {\n      restore()\n    }\n    // role list: party[0]=role3(丁) 可装且选中 → 0xF9；party[1]=role1(乙) 位 false → 0x18\n    const dingDot = textDot('丁', 0, 15, 95 + 13)\n    const yiDot = textDot('乙', 0, 15, 95 + 13 + 18)\n    expect(pixel(fb, dingDot.x, dingDot.y)).toBe(0xf9)\n    expect(pixel(fb, yiDot.x, yiDot.y)).toBe(0x18)\n  })\n\n  it('已装备槽 itemId 不在 catalog → `?id` tofu；空槽（0）不画', () => {\n    const { gs, roles } = sceneForEquip()\n    gs.PlayerRolesRuntime.rgwEquipment[0]![3] = 777 // 未知装备\n    // slot 1..5 保持 0\n    const state = createEquipMenu(gs, [SWORD])\n    state.list.cursor = 0\n    confirmEquipItem(state, [SWORD])\n    const fb = newFb()\n    const restore = freezeNow(0)\n    try {\n      drawEquipMenu({\n        fb,\n        state,\n        gs,\n        playerRoles: roles,\n        items: [SWORD],\n        uiSpriteFrames: makeUiFrames(),\n        glyphs,\n      })\n    } finally {\n      restore()\n    }\n    // slot0 名字位 (130,11)：tofu 顶行非 sentinel（画了 ?777）\n    expect(pixel(fb, 130, 11)).not.toBe(0x5a)\n    // slot1 名字位 (130,33)：空槽不画 → 保持 sentinel\n    expect(pixel(fb, 130, 33)).toBe(0x5a)\n  })\n\n  it('roles 缺 party 中某 roleId：该行跳过不崩，另一行正常', () => {\n    const { gs, roles: fullRoles } = sceneForEquip()\n    const base = fullRoles.roles\n    const roles: import('@type-pal/shared').PlayerRoles = { roles: [] }\n    roles.roles[0] = base[0]! // 稀疏数组：roleId 1..5 缺（index 语义）\n    roles.roles[3] = base[3]!\n    const state = createEquipMenu(gs, [SWORD])\n    state.list.cursor = 0\n    confirmEquipItem(state, [SWORD])\n    const fb = newFb()\n    const restore = freezeNow(0)\n    try {\n      drawEquipMenu({\n        fb,\n        state,\n        gs,\n        playerRoles: roles,\n        items: [SWORD],\n        uiSpriteFrames: makeUiFrames(),\n        glyphs,\n      })\n    } finally {\n      restore()\n    }\n    const dingDot = textDot('丁', 0, 15, 95 + 13)\n    expect(pixel(fb, dingDot.x, dingDot.y)).toBe(0xf9)\n    expect(pixel(fb, 15, 95 + 13 + 18)).toBe(0x5a) // 乙行未画\n  })\n})\n",
+          "to": "/** Equipment inventory, role selection and read-only pixel contracts. Synthetic glyphs distinguish positions, not original artwork. */\nimport { afterEach, beforeEach, describe, expect, it } from 'vitest'\nimport type { GameState } from '../../core/game-state.js'\nimport {\n  confirmEquipItem,\n  createEquipMenu,\n  equipMoveDown,\n  type EquipMenuState,\n} from '../../core/menu/equip-menu.js'\nimport {\n  MENUITEM_COLOR,\n  MENUITEM_COLOR_INACTIVE,\n  MENUITEM_COLOR_SELECTED_FIRST,\n  MENUITEM_COLOR_SELECTED_INACTIVE,\n} from '../../core/menu/inventory-menu.js'\nimport { fixtureGlyphs, textDot } from '../__tests__/glyph-fixtures.js'\nimport { beginChineseMenuText, freezeMenuClock } from '../__tests__/menu-text-fixture.js'\nimport {\n  freezeNow,\n  makeGs,\n  makeItem,\n  makeLiveScene,\n  makeRoles,\n} from '../__tests__/menu-state-fixtures.js'\nimport { BOX_STYLE0, cyanDigit, makeUiFrames, rightDigitX } from '../__tests__/menu-ui-fixtures.js'\nimport {\n  fillSentinel,\n  iconImage,\n  pixel,\n  SENTINEL,\n  sentinelFramebuffer,\n} from '../__tests__/raster-fixtures.js'\nimport { cloneInputs } from '../__tests__/render-input-snapshots.js'\nimport { uniformDotGlyphs, uniformTextDot } from '../__tests__/uniform-glyphs.js'\nimport { createFramebuffer } from '../framebuffer.js'\nimport { drawEquipMenu } from './draw-equip.js'\nconst uniformGlyphs = uniformDotGlyphs()\nconst positionGlyphs = fixtureGlyphs()\nconst CONFIRMED = 0x2c\nconst SLOT_NAMES = ['子', '丑', '寅', '卯', '辰', '巳'] as const\nconst SLOT_POS = [\n  { x: 130, y: 11 },\n  { x: 130, y: 33 },\n  { x: 130, y: 55 },\n  { x: 130, y: 77 },\n  { x: 130, y: 99 },\n  { x: 130, y: 121 },\n] as const\nconst BY_FIRST: [boolean, boolean, boolean, boolean, boolean, boolean] = [\n  true,\n  false,\n  false,\n  false,\n  false,\n  false,\n]\nconst roleThreeSword = makeItem(500, '丁', {\n  flags: { equipable: true, equipableBy: [false, false, false, true, false, false] }, // 仅 role 3 可装\n})\nfunction sceneWithRoleThreeSword() {\n  const { gs, roles } = makeLiveScene([3, 1])\n  gs.inventory = [{ itemId: 500, count: 1 }]\n  return { gs, roles }\n}\nfunction firstRoleSword() {\n  return makeItem(60, '甲', {\n    bitmap: 6,\n    flags: { equipable: true, equipableBy: BY_FIRST },\n  })\n}\nfunction openFirstRolePicker(gs: GameState, party: number[]): EquipMenuState {\n  gs.partyMembers = party\n  gs.inventory = [{ itemId: 60, count: 3 }]\n  const items = [firstRoleSword()]\n  const menu = createEquipMenu(gs, items)\n  confirmEquipItem(menu, items)\n  return menu\n}\nlet restoreMenuText: () => void\nbeforeEach(() => {\n  restoreMenuText = beginChineseMenuText()\n})\nafterEach(() => {\n  restoreMenuText()\n})\ndescribe('Equipment menu rendering', () => {\n  describe('Role identity and missing role data', () => {\n    it('pick-role 非顺序 party [3,1]：equipableBy 按 roleId 位着色，选中高亮按 party 序', () => {\n      const { gs, roles } = sceneWithRoleThreeSword()\n      const state = createEquipMenu(gs, [roleThreeSword])\n      state.list.cursor = 0\n      confirmEquipItem(state, [roleThreeSword])\n      expect(state.phase).toBe('pick-role')\n      expect(state.selectedItemId).toBe(500)\n      const fb = sentinelFramebuffer()\n      const restore = freezeMenuClock(0)\n      try {\n        drawEquipMenu({\n          fb,\n          state,\n          gs,\n          playerRoles: roles,\n          items: [roleThreeSword],\n          uiSpriteFrames: makeUiFrames(),\n          glyphs: uniformGlyphs,\n        })\n      } finally {\n        restore()\n      }\n      // role list: party[0]=role3(丁) 可装且选中 → 0xF9；party[1]=role1(乙) 位 false → 0x18\n      const dingDot = uniformTextDot(0, 15, 95 + 13)\n      const yiDot = uniformTextDot(0, 15, 95 + 13 + 18)\n      expect(pixel(fb, dingDot.x, dingDot.y)).toBe(0xf9)\n      expect(pixel(fb, yiDot.x, yiDot.y)).toBe(0x18)\n    })\n    it('已装备槽 itemId 不在 catalog → `?id` tofu；空槽（0）不画', () => {\n      const { gs, roles } = sceneWithRoleThreeSword()\n      gs.PlayerRolesRuntime.rgwEquipment[0]![3] = 777 // 未知装备\n      // slot 1..5 保持 0\n      const state = createEquipMenu(gs, [roleThreeSword])\n      state.list.cursor = 0\n      confirmEquipItem(state, [roleThreeSword])\n      const fb = sentinelFramebuffer()\n      const restore = freezeMenuClock(0)\n      try {\n        drawEquipMenu({\n          fb,\n          state,\n          gs,\n          playerRoles: roles,\n          items: [roleThreeSword],\n          uiSpriteFrames: makeUiFrames(),\n          glyphs: uniformGlyphs,\n        })\n      } finally {\n        restore()\n      }\n      // slot0 名字位 (130,11)：tofu 顶行非 sentinel（画了 ?777）\n      expect(pixel(fb, 130, 11)).not.toBe(0x5a)\n      // slot1 名字位 (130,33)：空槽不画 → 保持 sentinel\n      expect(pixel(fb, 130, 33)).toBe(0x5a)\n    })\n    it('roles 缺 party 中某 roleId：该行跳过不崩，另一行正常', () => {\n      const { gs, roles: fullRoles } = sceneWithRoleThreeSword()\n      const base = fullRoles.roles\n      const roles: import('@type-pal/shared').PlayerRoles = { roles: [] }\n      roles.roles[0] = base[0]! // 稀疏数组：roleId 1..5 缺（index 语义）\n      roles.roles[3] = base[3]!\n      const state = createEquipMenu(gs, [roleThreeSword])\n      state.list.cursor = 0\n      confirmEquipItem(state, [roleThreeSword])\n      const fb = sentinelFramebuffer()\n      const restore = freezeMenuClock(0)\n      try {\n        drawEquipMenu({\n          fb,\n          state,\n          gs,\n          playerRoles: roles,\n          items: [roleThreeSword],\n          uiSpriteFrames: makeUiFrames(),\n          glyphs: uniformGlyphs,\n        })\n      } finally {\n        restore()\n      }\n      const dingDot = uniformTextDot(0, 15, 95 + 13)\n      expect(pixel(fb, dingDot.x, dingDot.y)).toBe(0xf9)\n      expect(pixel(fb, 15, 95 + 13 + 18)).toBe(0x5a) // 乙行未画\n    })\n  })\n})\n",
+          "count": 1
+        }
+      ],
+      "reason": "Explicit private-name/semantic-helper/import/lifecycle and recorded callback-delta projection, audited separately; virtual post-move import spelling, no central analyzer change."
+    },
+    {
+      "path": "packages/game/src/present/menu/equip-role-pixels.grok-r1.test.ts",
+      "id": "menu-equip-1",
+      "changes": [
+        {
+          "from": "/**\n * TEST-GROK-RENDER-HOST-LARGE-1 G06-C。\n * 装备选人页的单人框高、结束相、缺目录、越界光标、数量 0 和灵力预览。\n * 不重复 P03 的攻击预览与六槽名，也不重复 glm 的未知已装备 `?id`。\n */\n\nimport { afterEach, describe, expect, it } from 'vitest'\nimport type { GameState } from '../../core/game-state.js'\nimport {\n  confirmEquipItem,\n  createEquipMenu,\n  type EquipMenuState,\n} from '../../core/menu/equip-menu.js'\nimport { fixtureGlyphs, textDot } from '../__tests__/glyph-fixtures.js'\nimport {\n  freezeNow,\n  makeItem,\n  makeLiveScene,\n  resetHostSingletons,\n} from '../__tests__/menu-state-fixtures.js'\nimport { BOX_STYLE0, cyanDigit, makeUiFrames, rightDigitX } from '../__tests__/menu-ui-fixtures.js'\nimport { fillSentinel, iconImage, pixel, SENTINEL } from '../__tests__/raster-fixtures.js'\nimport { cloneInputs } from '../__tests__/render-input-snapshots.js'\nimport { createFramebuffer } from '../framebuffer.js'\nimport { drawEquipMenu } from './draw-equip.js'\n\nconst glyphs = fixtureGlyphs()\nconst CONFIRMED = 0x2c\nconst BY_FIRST: [boolean, boolean, boolean, boolean, boolean, boolean] = [\n  true,\n  false,\n  false,\n  false,\n  false,\n  false,\n]\n\nafterEach(() => {\n  resetHostSingletons()\n})\n\nfunction sword() {\n  return makeItem(60, '甲', {\n    bitmap: 6,\n    flags: { equipable: true, equipableBy: BY_FIRST },\n  })\n}\n\nfunction openPick(gs: GameState, party: number[]): EquipMenuState {\n  gs.partyMembers = party\n  gs.inventory = [{ itemId: 60, count: 3 }]\n  const items = [sword()]\n  const menu = createEquipMenu(gs, items)\n  confirmEquipItem(menu, items)\n  return menu\n}\n\ndescribe('G06-C 装备选人像素', () => {\n  it('G06-C01 一人队伍不加空白内容行，底边在 y=103', () => {\n    const { gs, roles } = makeLiveScene()\n    const items = [sword()]\n    const menu = openPick(gs, [0])\n    const frames = makeUiFrames()\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    const restore = freezeNow(0)\n    try {\n      drawEquipMenu({\n        fb,\n        state: menu,\n        gs,\n        playerRoles: roles,\n        items,\n        uiSpriteFrames: frames,\n        glyphs,\n      })\n    } finally {\n      restore()\n    }\n    const name = textDot('甲', 0, 15, 108)\n    expect(menu.phase).toBe('pick-role')\n    expect(pixel(fb, 2, 103)).toBe(BOX_STYLE0)\n    expect(pixel(fb, 2, 111)).toBe(SENTINEL)\n    expect(pixel(fb, name.x, name.y)).toBe(0xf9)\n  })\n\n  it('G06-C02 phase 为 done 时整屏保持底色', () => {\n    const { gs, roles } = makeLiveScene()\n    const item = sword()\n    const items = [item]\n    gs.inventory = [{ itemId: item.id, count: 2 }]\n    const menu = createEquipMenu(gs, items)\n    menu.phase = 'done'\n    const frames = makeUiFrames()\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    const before = cloneInputs({ gs, menu, items, roles, frames })\n    drawEquipMenu({\n      fb,\n      state: menu,\n      gs,\n      playerRoles: roles,\n      items,\n      uiSpriteFrames: frames,\n      glyphs,\n    })\n    const name = textDot('甲', 0, 15, 12)\n    expect(pixel(fb, name.x, name.y)).toBe(SENTINEL)\n    expect(pixel(fb, 42, 22)).toBe(SENTINEL)\n    expect(pixel(fb, 16, 16)).toBe(SENTINEL)\n    expect(cloneInputs({ gs, menu, items, roles, frames })).toEqual(before)\n  })\n\n  it('G06-C03 selectedItemId 未定义时不铺装备背景', () => {\n    const { gs, roles } = makeLiveScene()\n    const items = [sword()]\n    gs.partyMembers = [0, 1]\n    gs.inventory = [{ itemId: 60, count: 1 }]\n    const menu = createEquipMenu(gs, items)\n    menu.phase = 'pick-role'\n    const frames = makeUiFrames()\n    const equipBg = { width: 4, height: 4, indices: new Uint8Array(16).fill(0x55) }\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawEquipMenu({\n      fb,\n      state: menu,\n      gs,\n      playerRoles: roles,\n      items,\n      uiSpriteFrames: frames,\n      glyphs,\n      equipBg,\n    })\n    expect(menu.selectedItemId).toBeUndefined()\n    expect(pixel(fb, 1, 1)).toBe(SENTINEL)\n    expect(pixel(fb, 1, 1)).not.toBe(0x55)\n  })\n\n  it('G06-C04 选中 id 不在目录时同样不铺背景也不画图标', () => {\n    const { gs, roles } = makeLiveScene()\n    const items = [sword()]\n    gs.partyMembers = [0, 1]\n    gs.inventory = [{ itemId: 60, count: 1 }]\n    const menu = createEquipMenu(gs, items)\n    menu.phase = 'pick-role'\n    menu.selectedItemId = 404\n    const frames = makeUiFrames()\n    const equipBg = { width: 4, height: 4, indices: new Uint8Array(16).fill(0x55) }\n    const icons = new Map([[6, iconImage(0x86)]])\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawEquipMenu({\n      fb,\n      state: menu,\n      gs,\n      playerRoles: roles,\n      items,\n      uiSpriteFrames: frames,\n      glyphs,\n      equipBg,\n      itemIcons: icons,\n    })\n    expect(pixel(fb, 1, 1)).toBe(SENTINEL)\n    expect(pixel(fb, 16, 16)).toBe(SENTINEL)\n  })\n\n  it('G06-C05 角色光标越过队伍时图标已画，攻击数字不画', () => {\n    const { gs, roles } = makeLiveScene()\n    const items = [sword()]\n    const menu = openPick(gs, [0, 1])\n    menu.playerCursor = 5\n    gs.PlayerRolesRuntime.rgwAttackStrength[0] = 23\n    const frames = makeUiFrames()\n    const icons = new Map([[6, iconImage(0x86)]])\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    const restore = freezeNow(0)\n    try {\n      drawEquipMenu({\n        fb,\n        state: menu,\n        gs,\n        playerRoles: roles,\n        items,\n        uiSpriteFrames: frames,\n        glyphs,\n        itemIcons: icons,\n      })\n    } finally {\n      restore()\n    }\n    expect(pixel(fb, 16, 16)).toBe(0x86)\n    expect(pixel(fb, rightDigitX(260, 4, 0), 14)).toBe(SENTINEL)\n    expect(pixel(fb, 2, 95)).toBe(SENTINEL)\n  })\n\n  it('G06-C06 现行数量为 0 时不画青色数字，物品名仍是确认色', () => {\n    const { gs, roles } = makeLiveScene()\n    const items = [sword()]\n    const menu = openPick(gs, [0, 1])\n    const entry = gs.inventory[0]\n    if (!entry) throw new Error('inventory entry missing')\n    entry.count = 0\n    const frames = makeUiFrames()\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    const restore = freezeNow(0)\n    try {\n      drawEquipMenu({\n        fb,\n        state: menu,\n        gs,\n        playerRoles: roles,\n        items,\n        uiSpriteFrames: frames,\n        glyphs,\n      })\n    } finally {\n      restore()\n    }\n    const name = textDot('甲', 0, 5, 70)\n    expect(pixel(fb, rightDigitX(51, 2, 0), 57)).toBe(SENTINEL)\n    expect(pixel(fb, rightDigitX(51, 2, 0), 57)).not.toBe(cyanDigit(0))\n    expect(pixel(fb, name.x, name.y)).toBe(CONFIRMED)\n  })\n\n  it('G06-C07 灵力预览在 y=36，是基础加效果；武术行仍是武术值', () => {\n    const { gs, roles } = makeLiveScene()\n    const items = [sword()]\n    const menu = openPick(gs, [0, 1])\n    gs.PlayerRolesRuntime.rgwAttackStrength[0] = 20\n    gs.PlayerRolesRuntime.rgwMagicStrength[0] = 11\n    gs.rgEquipmentEffect[1]!.rgwMagicStrength[0] = 6\n    const frames = makeUiFrames()\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    const restore = freezeNow(0)\n    try {\n      drawEquipMenu({\n        fb,\n        state: menu,\n        gs,\n        playerRoles: roles,\n        items,\n        uiSpriteFrames: frames,\n        glyphs,\n      })\n    } finally {\n      restore()\n    }\n    expect(pixel(fb, rightDigitX(260, 4, 0), 36)).toBe(cyanDigit(7))\n    expect(pixel(fb, rightDigitX(260, 4, 1), 36)).toBe(cyanDigit(1))\n    expect(pixel(fb, rightDigitX(260, 4, 0), 14)).toBe(cyanDigit(0))\n    expect(pixel(fb, rightDigitX(260, 4, 1), 14)).toBe(cyanDigit(2))\n  })\n\n  it('G06-C08 防御预览在 y=58，取防御基础值', () => {\n    const { gs, roles } = makeLiveScene()\n    const items = [sword()]\n    const menu = openPick(gs, [0, 1])\n    gs.PlayerRolesRuntime.rgwDefense[0] = 31\n    const frames = makeUiFrames()\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawEquipMenu({\n      fb,\n      state: menu,\n      gs,\n      playerRoles: roles,\n      items,\n      uiSpriteFrames: frames,\n      glyphs,\n    })\n    expect(pixel(fb, rightDigitX(260, 4, 0), 58)).toBe(cyanDigit(1))\n    expect(pixel(fb, rightDigitX(260, 4, 1), 58)).toBe(cyanDigit(3))\n  })\n\n  it('G06-C09 身法为一位数时只画个位，高位保持底色', () => {\n    const { gs, roles } = makeLiveScene()\n    const items = [sword()]\n    const menu = openPick(gs, [0, 1])\n    gs.PlayerRolesRuntime.rgwDexterity[0] = 8\n    const frames = makeUiFrames()\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawEquipMenu({\n      fb,\n      state: menu,\n      gs,\n      playerRoles: roles,\n      items,\n      uiSpriteFrames: frames,\n      glyphs,\n    })\n    expect(pixel(fb, rightDigitX(260, 4, 0), 80)).toBe(cyanDigit(8))\n    expect(pixel(fb, rightDigitX(260, 4, 1), 80)).toBe(SENTINEL)\n  })\n\n  it('G06-C10 吉运预览在 y=102', () => {\n    const { gs, roles } = makeLiveScene()\n    const items = [sword()]\n    const menu = openPick(gs, [0, 1])\n    gs.PlayerRolesRuntime.rgwFleeRate[0] = 46\n    const frames = makeUiFrames()\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawEquipMenu({\n      fb,\n      state: menu,\n      gs,\n      playerRoles: roles,\n      items,\n      uiSpriteFrames: frames,\n      glyphs,\n    })\n    expect(pixel(fb, rightDigitX(260, 4, 0), 102)).toBe(cyanDigit(6))\n    expect(pixel(fb, rightDigitX(260, 4, 1), 102)).toBe(cyanDigit(4))\n  })\n\n  it('G06-C11 数量读 gs 现行库存 8，列表快照仍是确认时的 3', () => {\n    const { gs, roles } = makeLiveScene()\n    const items = [sword()]\n    const menu = openPick(gs, [0, 1])\n    const entry = gs.inventory[0]\n    const snap = menu.list.inventory[0]\n    if (!entry || !snap) throw new Error('inventory entry missing')\n    entry.count = 8\n    const frames = makeUiFrames()\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    const before = cloneInputs({ gs, menu, items, roles, frames })\n    drawEquipMenu({\n      fb,\n      state: menu,\n      gs,\n      playerRoles: roles,\n      items,\n      uiSpriteFrames: frames,\n      glyphs,\n    })\n    expect(pixel(fb, rightDigitX(51, 2, 0), 57)).toBe(cyanDigit(8))\n    expect(pixel(fb, rightDigitX(51, 2, 0), 57)).not.toBe(cyanDigit(3))\n    expect(snap.count).toBe(3)\n    expect(entry.count).toBe(8)\n    expect(cloneInputs({ gs, menu, items, roles, frames })).toEqual(before)\n  })\n})\n",
+          "to": "/** Equipment inventory, role selection and read-only pixel contracts. Synthetic glyphs distinguish positions, not original artwork. */\nimport { afterEach, beforeEach, describe, expect, it } from 'vitest'\nimport type { GameState } from '../../core/game-state.js'\nimport {\n  confirmEquipItem,\n  createEquipMenu,\n  equipMoveDown,\n  type EquipMenuState,\n} from '../../core/menu/equip-menu.js'\nimport {\n  MENUITEM_COLOR,\n  MENUITEM_COLOR_INACTIVE,\n  MENUITEM_COLOR_SELECTED_FIRST,\n  MENUITEM_COLOR_SELECTED_INACTIVE,\n} from '../../core/menu/inventory-menu.js'\nimport { fixtureGlyphs, textDot } from '../__tests__/glyph-fixtures.js'\nimport { beginChineseMenuText, freezeMenuClock } from '../__tests__/menu-text-fixture.js'\nimport {\n  freezeNow,\n  makeGs,\n  makeItem,\n  makeLiveScene,\n  makeRoles,\n} from '../__tests__/menu-state-fixtures.js'\nimport { BOX_STYLE0, cyanDigit, makeUiFrames, rightDigitX } from '../__tests__/menu-ui-fixtures.js'\nimport {\n  fillSentinel,\n  iconImage,\n  pixel,\n  SENTINEL,\n  sentinelFramebuffer,\n} from '../__tests__/raster-fixtures.js'\nimport { cloneInputs } from '../__tests__/render-input-snapshots.js'\nimport { uniformDotGlyphs, uniformTextDot } from '../__tests__/uniform-glyphs.js'\nimport { createFramebuffer } from '../framebuffer.js'\nimport { drawEquipMenu } from './draw-equip.js'\nconst uniformGlyphs = uniformDotGlyphs()\nconst positionGlyphs = fixtureGlyphs()\nconst CONFIRMED = 0x2c\nconst SLOT_NAMES = ['子', '丑', '寅', '卯', '辰', '巳'] as const\nconst SLOT_POS = [\n  { x: 130, y: 11 },\n  { x: 130, y: 33 },\n  { x: 130, y: 55 },\n  { x: 130, y: 77 },\n  { x: 130, y: 99 },\n  { x: 130, y: 121 },\n] as const\nconst BY_FIRST: [boolean, boolean, boolean, boolean, boolean, boolean] = [\n  true,\n  false,\n  false,\n  false,\n  false,\n  false,\n]\nconst roleThreeSword = makeItem(500, '丁', {\n  flags: { equipable: true, equipableBy: [false, false, false, true, false, false] }, // 仅 role 3 可装\n})\nfunction sceneWithRoleThreeSword() {\n  const { gs, roles } = makeLiveScene([3, 1])\n  gs.inventory = [{ itemId: 500, count: 1 }]\n  return { gs, roles }\n}\nfunction firstRoleSword() {\n  return makeItem(60, '甲', {\n    bitmap: 6,\n    flags: { equipable: true, equipableBy: BY_FIRST },\n  })\n}\nfunction openFirstRolePicker(gs: GameState, party: number[]): EquipMenuState {\n  gs.partyMembers = party\n  gs.inventory = [{ itemId: 60, count: 3 }]\n  const items = [firstRoleSword()]\n  const menu = createEquipMenu(gs, items)\n  confirmEquipItem(menu, items)\n  return menu\n}\nlet restoreMenuText: () => void\nbeforeEach(() => {\n  restoreMenuText = beginChineseMenuText()\n})\nafterEach(() => {\n  restoreMenuText()\n})\ndescribe('Equipment menu rendering', () => {\n  describe('Geometry and live values', () => {\n    it('G06-C01 一人队伍不加空白内容行，底边在 y=103', () => {\n      const { gs, roles } = makeLiveScene()\n      const items = [firstRoleSword()]\n      const menu = openFirstRolePicker(gs, [0])\n      const frames = makeUiFrames()\n      const fb = createFramebuffer()\n      fillSentinel(fb)\n      const restore = freezeNow(0)\n      try {\n        drawEquipMenu({\n          fb,\n          state: menu,\n          gs,\n          playerRoles: roles,\n          items,\n          uiSpriteFrames: frames,\n          glyphs: positionGlyphs,\n        })\n      } finally {\n        restore()\n      }\n      const name = textDot('甲', 0, 15, 108)\n      expect(menu.phase).toBe('pick-role')\n      expect(pixel(fb, 2, 103)).toBe(BOX_STYLE0)\n      expect(pixel(fb, 2, 111)).toBe(SENTINEL)\n      expect(pixel(fb, name.x, name.y)).toBe(0xf9)\n    })\n    it('G06-C02 phase 为 done 时整屏保持底色', () => {\n      const { gs, roles } = makeLiveScene()\n      const item = firstRoleSword()\n      const items = [item]\n      gs.inventory = [{ itemId: item.id, count: 2 }]\n      const menu = createEquipMenu(gs, items)\n      menu.phase = 'done'\n      const frames = makeUiFrames()\n      const fb = createFramebuffer()\n      fillSentinel(fb)\n      const before = cloneInputs({ gs, menu, items, roles, frames })\n      drawEquipMenu({\n        fb,\n        state: menu,\n        gs,\n        playerRoles: roles,\n        items,\n        uiSpriteFrames: frames,\n        glyphs: positionGlyphs,\n      })\n\n      expect(fb.indices.every((index) => index === SENTINEL)).toBe(true)\n      expect(cloneInputs({ gs, menu, items, roles, frames })).toEqual(before)\n    })\n    it('G06-C03 selectedItemId 未定义时不铺装备背景', () => {\n      const { gs, roles } = makeLiveScene()\n      const items = [firstRoleSword()]\n      gs.partyMembers = [0, 1]\n      gs.inventory = [{ itemId: 60, count: 1 }]\n      const menu = createEquipMenu(gs, items)\n      menu.phase = 'pick-role'\n      const frames = makeUiFrames()\n      const equipBg = { width: 4, height: 4, indices: new Uint8Array(16).fill(0x55) }\n      const fb = createFramebuffer()\n      fillSentinel(fb)\n      drawEquipMenu({\n        fb,\n        state: menu,\n        gs,\n        playerRoles: roles,\n        items,\n        uiSpriteFrames: frames,\n        glyphs: positionGlyphs,\n        equipBg,\n      })\n      expect(menu.selectedItemId).toBeUndefined()\n      expect(pixel(fb, 1, 1)).toBe(SENTINEL)\n    })\n    it('G06-C04 选中 id 不在目录时同样不铺背景也不画图标', () => {\n      const { gs, roles } = makeLiveScene()\n      const items = [firstRoleSword()]\n      gs.partyMembers = [0, 1]\n      gs.inventory = [{ itemId: 60, count: 1 }]\n      const menu = createEquipMenu(gs, items)\n      menu.phase = 'pick-role'\n      menu.selectedItemId = 404\n      const frames = makeUiFrames()\n      const equipBg = { width: 4, height: 4, indices: new Uint8Array(16).fill(0x55) }\n      const icons = new Map([[6, iconImage(0x86)]])\n      const fb = createFramebuffer()\n      fillSentinel(fb)\n      drawEquipMenu({\n        fb,\n        state: menu,\n        gs,\n        playerRoles: roles,\n        items,\n        uiSpriteFrames: frames,\n        glyphs: positionGlyphs,\n        equipBg,\n        itemIcons: icons,\n      })\n      expect(pixel(fb, 1, 1)).toBe(SENTINEL)\n      expect(pixel(fb, 16, 16)).toBe(SENTINEL)\n    })\n    it('G06-C05 角色光标越过队伍时图标已画，攻击数字不画', () => {\n      const { gs, roles } = makeLiveScene()\n      const items = [firstRoleSword()]\n      const menu = openFirstRolePicker(gs, [0, 1])\n      menu.playerCursor = 5\n      gs.PlayerRolesRuntime.rgwAttackStrength[0] = 23\n      const frames = makeUiFrames()\n      const icons = new Map([[6, iconImage(0x86)]])\n      const fb = createFramebuffer()\n      fillSentinel(fb)\n      const restore = freezeNow(0)\n      try {\n        drawEquipMenu({\n          fb,\n          state: menu,\n          gs,\n          playerRoles: roles,\n          items,\n          uiSpriteFrames: frames,\n          glyphs: positionGlyphs,\n          itemIcons: icons,\n        })\n      } finally {\n        restore()\n      }\n      expect(pixel(fb, 16, 16)).toBe(0x86)\n      expect(pixel(fb, rightDigitX(260, 4, 0), 14)).toBe(SENTINEL)\n      expect(pixel(fb, 2, 95)).toBe(SENTINEL)\n    })\n    it('G06-C06 现行数量为 0 时不画青色数字，物品名仍是确认色', () => {\n      const { gs, roles } = makeLiveScene()\n      const items = [firstRoleSword()]\n      const menu = openFirstRolePicker(gs, [0, 1])\n      const entry = gs.inventory[0]\n      if (!entry) throw new Error('inventory entry missing')\n      entry.count = 0\n      const frames = makeUiFrames()\n      const fb = createFramebuffer()\n      fillSentinel(fb)\n      const restore = freezeNow(0)\n      try {\n        drawEquipMenu({\n          fb,\n          state: menu,\n          gs,\n          playerRoles: roles,\n          items,\n          uiSpriteFrames: frames,\n          glyphs: positionGlyphs,\n        })\n      } finally {\n        restore()\n      }\n      const name = textDot('甲', 0, 5, 70)\n      expect(pixel(fb, rightDigitX(51, 2, 0), 57)).toBe(SENTINEL)\n\n      expect(pixel(fb, name.x, name.y)).toBe(CONFIRMED)\n    })\n    it('G06-C07 灵力预览在 y=36，是基础加效果；武术行仍是武术值', () => {\n      const { gs, roles } = makeLiveScene()\n      const items = [firstRoleSword()]\n      const menu = openFirstRolePicker(gs, [0, 1])\n      gs.PlayerRolesRuntime.rgwAttackStrength[0] = 20\n      gs.PlayerRolesRuntime.rgwMagicStrength[0] = 11\n      gs.rgEquipmentEffect[1]!.rgwMagicStrength[0] = 6\n      const frames = makeUiFrames()\n      const fb = createFramebuffer()\n      fillSentinel(fb)\n      const restore = freezeNow(0)\n      try {\n        drawEquipMenu({\n          fb,\n          state: menu,\n          gs,\n          playerRoles: roles,\n          items,\n          uiSpriteFrames: frames,\n          glyphs: positionGlyphs,\n        })\n      } finally {\n        restore()\n      }\n      expect(pixel(fb, rightDigitX(260, 4, 0), 36)).toBe(cyanDigit(7))\n      expect(pixel(fb, rightDigitX(260, 4, 1), 36)).toBe(cyanDigit(1))\n      expect(pixel(fb, rightDigitX(260, 4, 0), 14)).toBe(cyanDigit(0))\n      expect(pixel(fb, rightDigitX(260, 4, 1), 14)).toBe(cyanDigit(2))\n    })\n    it('G06-C08 防御预览在 y=58，取防御基础值', () => {\n      const { gs, roles } = makeLiveScene()\n      const items = [firstRoleSword()]\n      const menu = openFirstRolePicker(gs, [0, 1])\n      gs.PlayerRolesRuntime.rgwDefense[0] = 31\n      const frames = makeUiFrames()\n      const fb = createFramebuffer()\n      fillSentinel(fb)\n      drawEquipMenu({\n        fb,\n        state: menu,\n        gs,\n        playerRoles: roles,\n        items,\n        uiSpriteFrames: frames,\n        glyphs: positionGlyphs,\n      })\n      expect(pixel(fb, rightDigitX(260, 4, 0), 58)).toBe(cyanDigit(1))\n      expect(pixel(fb, rightDigitX(260, 4, 1), 58)).toBe(cyanDigit(3))\n    })\n    it('G06-C09 身法为一位数时只画个位，高位保持底色', () => {\n      const { gs, roles } = makeLiveScene()\n      const items = [firstRoleSword()]\n      const menu = openFirstRolePicker(gs, [0, 1])\n      gs.PlayerRolesRuntime.rgwDexterity[0] = 8\n      const frames = makeUiFrames()\n      const fb = createFramebuffer()\n      fillSentinel(fb)\n      drawEquipMenu({\n        fb,\n        state: menu,\n        gs,\n        playerRoles: roles,\n        items,\n        uiSpriteFrames: frames,\n        glyphs: positionGlyphs,\n      })\n      expect(pixel(fb, rightDigitX(260, 4, 0), 80)).toBe(cyanDigit(8))\n      expect(pixel(fb, rightDigitX(260, 4, 1), 80)).toBe(SENTINEL)\n    })\n    it('G06-C10 吉运预览在 y=102', () => {\n      const { gs, roles } = makeLiveScene()\n      const items = [firstRoleSword()]\n      const menu = openFirstRolePicker(gs, [0, 1])\n      gs.PlayerRolesRuntime.rgwFleeRate[0] = 46\n      const frames = makeUiFrames()\n      const fb = createFramebuffer()\n      fillSentinel(fb)\n      drawEquipMenu({\n        fb,\n        state: menu,\n        gs,\n        playerRoles: roles,\n        items,\n        uiSpriteFrames: frames,\n        glyphs: positionGlyphs,\n      })\n      expect(pixel(fb, rightDigitX(260, 4, 0), 102)).toBe(cyanDigit(6))\n      expect(pixel(fb, rightDigitX(260, 4, 1), 102)).toBe(cyanDigit(4))\n    })\n    it('G06-C11 数量读 gs 现行库存 8，列表快照仍是确认时的 3', () => {\n      const { gs, roles } = makeLiveScene()\n      const items = [firstRoleSword()]\n      const menu = openFirstRolePicker(gs, [0, 1])\n      const entry = gs.inventory[0]\n      const snap = menu.list.inventory[0]\n      if (!entry || !snap) throw new Error('inventory entry missing')\n      entry.count = 8\n      const frames = makeUiFrames()\n      const fb = createFramebuffer()\n      fillSentinel(fb)\n      const before = cloneInputs({ gs, menu, items, roles, frames })\n      drawEquipMenu({\n        fb,\n        state: menu,\n        gs,\n        playerRoles: roles,\n        items,\n        uiSpriteFrames: frames,\n        glyphs: positionGlyphs,\n      })\n      expect(pixel(fb, rightDigitX(51, 2, 0), 57)).toBe(cyanDigit(8))\n\n      expect(snap.count).toBe(3)\n      expect(entry.count).toBe(8)\n      expect(cloneInputs({ gs, menu, items, roles, frames })).toEqual(before)\n    })\n  })\n})\n",
+          "count": 1
+        }
+      ],
+      "reason": "Explicit private-name/semantic-helper/import/lifecycle and recorded callback-delta projection, audited separately; virtual post-move import spelling, no central analyzer change."
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/p03-equip.test.ts",
+      "id": "menu-equip-2",
+      "changes": [
+        {
+          "from": "import { afterEach, describe, expect, it } from 'vitest'\nimport { confirmEquipItem, createEquipMenu, equipMoveDown } from '../../../core/menu/equip-menu.js'\nimport {\n  MENUITEM_COLOR,\n  MENUITEM_COLOR_INACTIVE,\n  MENUITEM_COLOR_SELECTED_FIRST,\n  MENUITEM_COLOR_SELECTED_INACTIVE,\n} from '../../../core/menu/inventory-menu.js'\nimport { createFramebuffer } from '../../framebuffer.js'\nimport { drawEquipMenu } from '../../menu/draw-equip.js'\nimport { fixtureGlyphs, textDot } from '../glyph-fixtures.js'\nimport {\n  freezeNow,\n  makeGs,\n  makeItem,\n  makeRoles,\n  resetHostSingletons,\n} from '../menu-state-fixtures.js'\nimport { cyanDigit, makeUiFrames, rightDigitX } from '../menu-ui-fixtures.js'\nimport { fillSentinel, iconImage, pixel, SENTINEL } from '../raster-fixtures.js'\nimport { cloneInputs } from '../render-input-snapshots.js'\n\nconst glyphs = fixtureGlyphs()\nconst CONFIRMED = 0x2c\nconst SLOT_NAMES = ['子', '丑', '寅', '卯', '辰', '巳'] as const\nconst SLOT_POS = [\n  { x: 130, y: 11 },\n  { x: 130, y: 33 },\n  { x: 130, y: 55 },\n  { x: 130, y: 77 },\n  { x: 130, y: 99 },\n  { x: 130, y: 121 },\n] as const\n\nafterEach(() => {\n  resetHostSingletons()\n})\n\ndescribe('P03 装备绘制', () => {\n  it('P03 装备列表里不可装备项是暗色，可装备项保持可选色', () => {\n    const gs = makeGs()\n    const roles = makeRoles()\n    const sword = makeItem(41, '甲', { flags: { equipable: true, usable: true } })\n    const herb = makeItem(42, '乙', { flags: { usable: true } })\n    gs.inventory = [\n      { itemId: sword.id, count: 2 },\n      { itemId: herb.id, count: 2 },\n    ]\n    const items = [sword, herb]\n    const menu = createEquipMenu(gs, items)\n    const frames = makeUiFrames()\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    const before = cloneInputs({ gs, menu, items, roles, frames })\n    const restore = freezeNow(0)\n    try {\n      drawEquipMenu({\n        fb,\n        state: menu,\n        gs,\n        playerRoles: roles,\n        items,\n        uiSpriteFrames: frames,\n        glyphs,\n      })\n    } finally {\n      restore()\n    }\n    expect(cloneInputs({ gs, menu, items, roles, frames })).toEqual(before)\n    expect(pixel(fb, textDot('甲', 0, 15, 12).x, textDot('甲', 0, 15, 12).y)).toBe(\n      MENUITEM_COLOR_SELECTED_FIRST,\n    )\n    expect(pixel(fb, textDot('乙', 0, 115, 12).x, textDot('乙', 0, 115, 12).y)).toBe(\n      MENUITEM_COLOR_INACTIVE,\n    )\n    expect(pixel(fb, textDot('乙', 0, 115, 12).x, textDot('乙', 0, 115, 12).y)).not.toBe(\n      MENUITEM_COLOR,\n    )\n  })\n\n  it('P03 选人页画出六槽名称、选中图标、数量、预览攻击和背景', () => {\n    const gs = makeGs()\n    const roles = makeRoles()\n    const worn = SLOT_NAMES.map((name, slot) =>\n      makeItem(50 + slot, name, { bitmap: 7, flags: { equipable: true } }),\n    )\n    const other = makeItem(58, '午', { bitmap: 7, flags: { equipable: true } })\n    const sword = makeItem(40, '剑', {\n      bitmap: 6,\n      flags: {\n        equipable: true,\n        equipableBy: [false, false, false, false, true, false],\n      },\n    })\n    gs.partyMembers = [4, 1]\n    gs.inventory = [{ itemId: sword.id, count: 3 }]\n    for (let slot = 0; slot < 6; slot++)\n      gs.PlayerRolesRuntime.rgwEquipment[slot]![4] = worn[slot]!.id\n    gs.PlayerRolesRuntime.rgwEquipment[0]![1] = other.id\n    gs.PlayerRolesRuntime.rgwAttackStrength[4] = 20\n    gs.rgEquipmentEffect[2]!.rgwAttackStrength[4] = 3\n    gs.PlayerRolesRuntime.rgwAttackStrength[1] = 5\n    const items = [...worn, other, sword]\n    const menu = createEquipMenu(gs, items)\n    confirmEquipItem(menu, items)\n    expect(menu.phase).toBe('pick-role')\n    const frames = makeUiFrames()\n    const icons = new Map([[6, iconImage(0x86)]])\n    const bg = { width: 4, height: 4, indices: new Uint8Array(16).fill(0x55) }\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    const plain = { gs, menu, items, roles, frames, icons }\n    const beforePlain = cloneInputs(plain)\n    const restore = freezeNow(0)\n    try {\n      drawEquipMenu({\n        fb,\n        state: menu,\n        gs,\n        playerRoles: roles,\n        items,\n        uiSpriteFrames: frames,\n        glyphs,\n        itemIcons: icons,\n      })\n      expect(cloneInputs(plain)).toEqual(beforePlain)\n      expect(pixel(fb, 1, 1)).toBe(SENTINEL)\n      fillSentinel(fb)\n      const painted = { ...plain, equipBg: bg }\n      const beforeBg = cloneInputs(painted)\n      drawEquipMenu({\n        fb,\n        state: menu,\n        gs,\n        playerRoles: roles,\n        items,\n        uiSpriteFrames: frames,\n        glyphs,\n        itemIcons: icons,\n        equipBg: bg,\n      })\n      expect(cloneInputs(painted)).toEqual(beforeBg)\n      const beforeRepeat = cloneInputs(painted)\n      drawEquipMenu({\n        fb,\n        state: menu,\n        gs,\n        playerRoles: roles,\n        items,\n        uiSpriteFrames: frames,\n        glyphs,\n        itemIcons: icons,\n        equipBg: bg,\n      })\n      expect(cloneInputs(painted)).toEqual(beforeRepeat)\n    } finally {\n      restore()\n    }\n    expect(pixel(fb, 1, 1)).toBe(0x55)\n    expect(pixel(fb, 16, 16)).toBe(0x86)\n    expect(pixel(fb, textDot('剑', 0, 5, 70).x, textDot('剑', 0, 5, 70).y)).toBe(CONFIRMED)\n    expect(pixel(fb, rightDigitX(51, 2, 0), 57)).toBe(cyanDigit(3))\n    for (let slot = 0; slot < 6; slot++) {\n      const pos = SLOT_POS[slot]!\n      const dot = textDot(SLOT_NAMES[slot]!, 0, pos.x, pos.y)\n      expect(pixel(fb, dot.x, dot.y)).toBe(MENUITEM_COLOR)\n    }\n    expect(pixel(fb, rightDigitX(260, 4, 0), 14)).toBe(cyanDigit(3))\n    expect(pixel(fb, rightDigitX(260, 4, 1), 14)).toBe(cyanDigit(2))\n    const can = textDot('戊', 0, 15, 108)\n    const cannot = textDot('乙', 0, 15, 126)\n    expect(pixel(fb, can.x, can.y)).toBe(MENUITEM_COLOR_SELECTED_FIRST)\n    expect(pixel(fb, cannot.x, cannot.y)).toBe(MENUITEM_COLOR_INACTIVE)\n\n    equipMoveDown(menu)\n    fillSentinel(fb)\n    const movedInputs = { gs, menu, items, roles, frames, icons, equipBg: bg }\n    const moved = cloneInputs(movedInputs)\n    drawEquipMenu({\n      fb,\n      state: menu,\n      gs,\n      playerRoles: roles,\n      items,\n      uiSpriteFrames: frames,\n      glyphs,\n      itemIcons: icons,\n      equipBg: bg,\n    })\n    expect(cloneInputs(movedInputs)).toEqual(moved)\n    expect(pixel(fb, textDot('午', 0, 130, 11).x, textDot('午', 0, 130, 11).y)).toBe(MENUITEM_COLOR)\n    expect(pixel(fb, textDot('子', 0, 130, 11).x, textDot('子', 0, 130, 11).y)).not.toBe(\n      MENUITEM_COLOR,\n    )\n    expect(pixel(fb, rightDigitX(260, 4, 0), 14)).toBe(cyanDigit(5))\n    expect(pixel(fb, textDot('乙', 0, 15, 126).x, textDot('乙', 0, 15, 126).y)).toBe(\n      MENUITEM_COLOR_SELECTED_INACTIVE,\n    )\n    expect(pixel(fb, textDot('戊', 0, 15, 108).x, textDot('戊', 0, 15, 108).y)).toBe(MENUITEM_COLOR)\n    expect(gs.PlayerRolesRuntime.rgwEquipment[0]![4]).toBe(worn[0]!.id)\n  })\n})\n",
+          "to": "/** Equipment inventory, role selection and read-only pixel contracts. Synthetic glyphs distinguish positions, not original artwork. */\nimport { afterEach, beforeEach, describe, expect, it } from 'vitest'\nimport type { GameState } from '../../core/game-state.js'\nimport {\n  confirmEquipItem,\n  createEquipMenu,\n  equipMoveDown,\n  type EquipMenuState,\n} from '../../core/menu/equip-menu.js'\nimport {\n  MENUITEM_COLOR,\n  MENUITEM_COLOR_INACTIVE,\n  MENUITEM_COLOR_SELECTED_FIRST,\n  MENUITEM_COLOR_SELECTED_INACTIVE,\n} from '../../core/menu/inventory-menu.js'\nimport { fixtureGlyphs, textDot } from '../__tests__/glyph-fixtures.js'\nimport { beginChineseMenuText, freezeMenuClock } from '../__tests__/menu-text-fixture.js'\nimport {\n  freezeNow,\n  makeGs,\n  makeItem,\n  makeLiveScene,\n  makeRoles,\n} from '../__tests__/menu-state-fixtures.js'\nimport { BOX_STYLE0, cyanDigit, makeUiFrames, rightDigitX } from '../__tests__/menu-ui-fixtures.js'\nimport {\n  fillSentinel,\n  iconImage,\n  pixel,\n  SENTINEL,\n  sentinelFramebuffer,\n} from '../__tests__/raster-fixtures.js'\nimport { cloneInputs } from '../__tests__/render-input-snapshots.js'\nimport { uniformDotGlyphs, uniformTextDot } from '../__tests__/uniform-glyphs.js'\nimport { createFramebuffer } from '../framebuffer.js'\nimport { drawEquipMenu } from './draw-equip.js'\nconst uniformGlyphs = uniformDotGlyphs()\nconst positionGlyphs = fixtureGlyphs()\nconst CONFIRMED = 0x2c\nconst SLOT_NAMES = ['子', '丑', '寅', '卯', '辰', '巳'] as const\nconst SLOT_POS = [\n  { x: 130, y: 11 },\n  { x: 130, y: 33 },\n  { x: 130, y: 55 },\n  { x: 130, y: 77 },\n  { x: 130, y: 99 },\n  { x: 130, y: 121 },\n] as const\nconst BY_FIRST: [boolean, boolean, boolean, boolean, boolean, boolean] = [\n  true,\n  false,\n  false,\n  false,\n  false,\n  false,\n]\nconst roleThreeSword = makeItem(500, '丁', {\n  flags: { equipable: true, equipableBy: [false, false, false, true, false, false] }, // 仅 role 3 可装\n})\nfunction sceneWithRoleThreeSword() {\n  const { gs, roles } = makeLiveScene([3, 1])\n  gs.inventory = [{ itemId: 500, count: 1 }]\n  return { gs, roles }\n}\nfunction firstRoleSword() {\n  return makeItem(60, '甲', {\n    bitmap: 6,\n    flags: { equipable: true, equipableBy: BY_FIRST },\n  })\n}\nfunction openFirstRolePicker(gs: GameState, party: number[]): EquipMenuState {\n  gs.partyMembers = party\n  gs.inventory = [{ itemId: 60, count: 3 }]\n  const items = [firstRoleSword()]\n  const menu = createEquipMenu(gs, items)\n  confirmEquipItem(menu, items)\n  return menu\n}\nlet restoreMenuText: () => void\nbeforeEach(() => {\n  restoreMenuText = beginChineseMenuText()\n})\nafterEach(() => {\n  restoreMenuText()\n})\ndescribe('Equipment menu rendering', () => {\n  describe('Inventory and worn equipment', () => {\n    it('P03 装备列表里不可装备项是暗色，可装备项保持可选色', () => {\n      const gs = makeGs()\n      const roles = makeRoles()\n      const sword = makeItem(41, '甲', { flags: { equipable: true, usable: true } })\n      const herb = makeItem(42, '乙', { flags: { usable: true } })\n      gs.inventory = [\n        { itemId: sword.id, count: 2 },\n        { itemId: herb.id, count: 2 },\n      ]\n      const items = [sword, herb]\n      const menu = createEquipMenu(gs, items)\n      const frames = makeUiFrames()\n      const fb = createFramebuffer()\n      fillSentinel(fb)\n      const before = cloneInputs({ gs, menu, items, roles, frames })\n      const restore = freezeNow(0)\n      try {\n        drawEquipMenu({\n          fb,\n          state: menu,\n          gs,\n          playerRoles: roles,\n          items,\n          uiSpriteFrames: frames,\n          glyphs: positionGlyphs,\n        })\n      } finally {\n        restore()\n      }\n      expect(cloneInputs({ gs, menu, items, roles, frames })).toEqual(before)\n      expect(pixel(fb, textDot('甲', 0, 15, 12).x, textDot('甲', 0, 15, 12).y)).toBe(\n        MENUITEM_COLOR_SELECTED_FIRST,\n      )\n      expect(pixel(fb, textDot('乙', 0, 115, 12).x, textDot('乙', 0, 115, 12).y)).toBe(\n        MENUITEM_COLOR_INACTIVE,\n      )\n    })\n    it('P03 选人页画出六槽名称、选中图标、数量、预览攻击和背景', () => {\n      const gs = makeGs()\n      const roles = makeRoles()\n      const worn = SLOT_NAMES.map((name, slot) =>\n        makeItem(50 + slot, name, { bitmap: 7, flags: { equipable: true } }),\n      )\n      const other = makeItem(58, '午', { bitmap: 7, flags: { equipable: true } })\n      const sword = makeItem(40, '剑', {\n        bitmap: 6,\n        flags: {\n          equipable: true,\n          equipableBy: [false, false, false, false, true, false],\n        },\n      })\n      gs.partyMembers = [4, 1]\n      gs.inventory = [{ itemId: sword.id, count: 3 }]\n      for (let slot = 0; slot < 6; slot++)\n        gs.PlayerRolesRuntime.rgwEquipment[slot]![4] = worn[slot]!.id\n      gs.PlayerRolesRuntime.rgwEquipment[0]![1] = other.id\n      gs.PlayerRolesRuntime.rgwAttackStrength[4] = 20\n      gs.rgEquipmentEffect[2]!.rgwAttackStrength[4] = 3\n      gs.PlayerRolesRuntime.rgwAttackStrength[1] = 5\n      const items = [...worn, other, sword]\n      const menu = createEquipMenu(gs, items)\n      confirmEquipItem(menu, items)\n      expect(menu.phase).toBe('pick-role')\n      const frames = makeUiFrames()\n      const icons = new Map([[6, iconImage(0x86)]])\n      const bg = { width: 4, height: 4, indices: new Uint8Array(16).fill(0x55) }\n      const fb = createFramebuffer()\n      fillSentinel(fb)\n      const plain = { gs, menu, items, roles, frames, icons }\n      const beforePlain = cloneInputs(plain)\n      const restore = freezeNow(0)\n      try {\n        drawEquipMenu({\n          fb,\n          state: menu,\n          gs,\n          playerRoles: roles,\n          items,\n          uiSpriteFrames: frames,\n          glyphs: positionGlyphs,\n          itemIcons: icons,\n        })\n        expect(cloneInputs(plain)).toEqual(beforePlain)\n        expect(pixel(fb, 1, 1)).toBe(SENTINEL)\n        fillSentinel(fb)\n        const painted = { ...plain, equipBg: bg }\n        const beforeBg = cloneInputs(painted)\n        drawEquipMenu({\n          fb,\n          state: menu,\n          gs,\n          playerRoles: roles,\n          items,\n          uiSpriteFrames: frames,\n          glyphs: positionGlyphs,\n          itemIcons: icons,\n          equipBg: bg,\n        })\n        expect(cloneInputs(painted)).toEqual(beforeBg)\n        const beforeRepeat = cloneInputs(painted)\n        drawEquipMenu({\n          fb,\n          state: menu,\n          gs,\n          playerRoles: roles,\n          items,\n          uiSpriteFrames: frames,\n          glyphs: positionGlyphs,\n          itemIcons: icons,\n          equipBg: bg,\n        })\n        expect(cloneInputs(painted)).toEqual(beforeRepeat)\n      } finally {\n        restore()\n      }\n      expect(pixel(fb, 1, 1)).toBe(0x55)\n      expect(pixel(fb, 16, 16)).toBe(0x86)\n      expect(pixel(fb, textDot('剑', 0, 5, 70).x, textDot('剑', 0, 5, 70).y)).toBe(CONFIRMED)\n      expect(pixel(fb, rightDigitX(51, 2, 0), 57)).toBe(cyanDigit(3))\n      for (let slot = 0; slot < 6; slot++) {\n        const pos = SLOT_POS[slot]!\n        const dot = textDot(SLOT_NAMES[slot]!, 0, pos.x, pos.y)\n        expect(pixel(fb, dot.x, dot.y)).toBe(MENUITEM_COLOR)\n      }\n      expect(pixel(fb, rightDigitX(260, 4, 0), 14)).toBe(cyanDigit(3))\n      expect(pixel(fb, rightDigitX(260, 4, 1), 14)).toBe(cyanDigit(2))\n\n      equipMoveDown(menu)\n      fillSentinel(fb)\n      const movedInputs = { gs, menu, items, roles, frames, icons, equipBg: bg }\n      const moved = cloneInputs(movedInputs)\n      drawEquipMenu({\n        fb,\n        state: menu,\n        gs,\n        playerRoles: roles,\n        items,\n        uiSpriteFrames: frames,\n        glyphs: positionGlyphs,\n        itemIcons: icons,\n        equipBg: bg,\n      })\n      expect(cloneInputs(movedInputs)).toEqual(moved)\n      expect(pixel(fb, textDot('午', 0, 130, 11).x, textDot('午', 0, 130, 11).y)).toBe(\n        MENUITEM_COLOR,\n      )\n      expect(pixel(fb, textDot('子', 0, 130, 11).x, textDot('子', 0, 130, 11).y)).not.toBe(\n        MENUITEM_COLOR,\n      )\n      expect(pixel(fb, rightDigitX(260, 4, 0), 14)).toBe(cyanDigit(5))\n      expect(pixel(fb, textDot('乙', 0, 15, 126).x, textDot('乙', 0, 15, 126).y)).toBe(\n        MENUITEM_COLOR_SELECTED_INACTIVE,\n      )\n      expect(pixel(fb, textDot('戊', 0, 15, 108).x, textDot('戊', 0, 15, 108).y)).toBe(\n        MENUITEM_COLOR,\n      )\n      expect(gs.PlayerRolesRuntime.rgwEquipment[0]![4]).toBe(worn[0]!.id)\n    })\n  })\n})\n",
+          "count": 1
+        }
+      ],
+      "reason": "Explicit private-name/semantic-helper/import/lifecycle and recorded callback-delta projection, audited separately; virtual post-move import spelling, no central analyzer change."
+    }
+  ],
+  "replacements": [],
+  "registrations": [
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-equip.glm-phase1-leaves.test.ts",
+        "ordinal": 0,
+        "fullName": "L11 drawEquipMenu 剩余分支 pick-role 非顺序 party [3,1]：equipableBy 按 roleId 位着色，选中高亮按 party 序"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-equip.test.ts",
+        "titles": ["Equipment menu rendering", "Role identity and missing role data"],
+        "template": "pick-role 非顺序 party [3,1]：equipableBy 按 roleId 位着色，选中高亮按 party 序",
+        "fullName": "Equipment menu rendering Role identity and missing role data pick-role 非顺序 party [3,1]：equipableBy 按 roleId 位着色，选中高亮按 party 序"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-equip.glm-phase1-leaves.test.ts",
+        "ordinal": 1,
+        "fullName": "L11 drawEquipMenu 剩余分支 已装备槽 itemId 不在 catalog → `?id` tofu；空槽（0）不画"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-equip.test.ts",
+        "titles": ["Equipment menu rendering", "Role identity and missing role data"],
+        "template": "已装备槽 itemId 不在 catalog → `?id` tofu；空槽（0）不画",
+        "fullName": "Equipment menu rendering Role identity and missing role data 已装备槽 itemId 不在 catalog → `?id` tofu；空槽（0）不画"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-equip.glm-phase1-leaves.test.ts",
+        "ordinal": 2,
+        "fullName": "L11 drawEquipMenu 剩余分支 roles 缺 party 中某 roleId：该行跳过不崩，另一行正常"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-equip.test.ts",
+        "titles": ["Equipment menu rendering", "Role identity and missing role data"],
+        "template": "roles 缺 party 中某 roleId：该行跳过不崩，另一行正常",
+        "fullName": "Equipment menu rendering Role identity and missing role data roles 缺 party 中某 roleId：该行跳过不崩，另一行正常"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/equip-role-pixels.grok-r1.test.ts",
+        "ordinal": 0,
+        "fullName": "G06-C 装备选人像素 G06-C01 一人队伍不加空白内容行，底边在 y=103"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-equip.test.ts",
+        "titles": ["Equipment menu rendering", "Geometry and live values"],
+        "template": "G06-C01 一人队伍不加空白内容行，底边在 y=103",
+        "fullName": "Equipment menu rendering Geometry and live values G06-C01 一人队伍不加空白内容行，底边在 y=103"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/equip-role-pixels.grok-r1.test.ts",
+        "ordinal": 1,
+        "fullName": "G06-C 装备选人像素 G06-C02 phase 为 done 时整屏保持底色"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-equip.test.ts",
+        "titles": ["Equipment menu rendering", "Geometry and live values"],
+        "template": "G06-C02 phase 为 done 时整屏保持底色",
+        "fullName": "Equipment menu rendering Geometry and live values G06-C02 phase 为 done 时整屏保持底色"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/equip-role-pixels.grok-r1.test.ts",
+        "ordinal": 2,
+        "fullName": "G06-C 装备选人像素 G06-C03 selectedItemId 未定义时不铺装备背景"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-equip.test.ts",
+        "titles": ["Equipment menu rendering", "Geometry and live values"],
+        "template": "G06-C03 selectedItemId 未定义时不铺装备背景",
+        "fullName": "Equipment menu rendering Geometry and live values G06-C03 selectedItemId 未定义时不铺装备背景"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/equip-role-pixels.grok-r1.test.ts",
+        "ordinal": 3,
+        "fullName": "G06-C 装备选人像素 G06-C04 选中 id 不在目录时同样不铺背景也不画图标"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-equip.test.ts",
+        "titles": ["Equipment menu rendering", "Geometry and live values"],
+        "template": "G06-C04 选中 id 不在目录时同样不铺背景也不画图标",
+        "fullName": "Equipment menu rendering Geometry and live values G06-C04 选中 id 不在目录时同样不铺背景也不画图标"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/equip-role-pixels.grok-r1.test.ts",
+        "ordinal": 4,
+        "fullName": "G06-C 装备选人像素 G06-C05 角色光标越过队伍时图标已画，攻击数字不画"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-equip.test.ts",
+        "titles": ["Equipment menu rendering", "Geometry and live values"],
+        "template": "G06-C05 角色光标越过队伍时图标已画，攻击数字不画",
+        "fullName": "Equipment menu rendering Geometry and live values G06-C05 角色光标越过队伍时图标已画，攻击数字不画"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/equip-role-pixels.grok-r1.test.ts",
+        "ordinal": 5,
+        "fullName": "G06-C 装备选人像素 G06-C06 现行数量为 0 时不画青色数字，物品名仍是确认色"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-equip.test.ts",
+        "titles": ["Equipment menu rendering", "Geometry and live values"],
+        "template": "G06-C06 现行数量为 0 时不画青色数字，物品名仍是确认色",
+        "fullName": "Equipment menu rendering Geometry and live values G06-C06 现行数量为 0 时不画青色数字，物品名仍是确认色"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/equip-role-pixels.grok-r1.test.ts",
+        "ordinal": 6,
+        "fullName": "G06-C 装备选人像素 G06-C07 灵力预览在 y=36，是基础加效果；武术行仍是武术值"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-equip.test.ts",
+        "titles": ["Equipment menu rendering", "Geometry and live values"],
+        "template": "G06-C07 灵力预览在 y=36，是基础加效果；武术行仍是武术值",
+        "fullName": "Equipment menu rendering Geometry and live values G06-C07 灵力预览在 y=36，是基础加效果；武术行仍是武术值"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/equip-role-pixels.grok-r1.test.ts",
+        "ordinal": 7,
+        "fullName": "G06-C 装备选人像素 G06-C08 防御预览在 y=58，取防御基础值"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-equip.test.ts",
+        "titles": ["Equipment menu rendering", "Geometry and live values"],
+        "template": "G06-C08 防御预览在 y=58，取防御基础值",
+        "fullName": "Equipment menu rendering Geometry and live values G06-C08 防御预览在 y=58，取防御基础值"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/equip-role-pixels.grok-r1.test.ts",
+        "ordinal": 8,
+        "fullName": "G06-C 装备选人像素 G06-C09 身法为一位数时只画个位，高位保持底色"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-equip.test.ts",
+        "titles": ["Equipment menu rendering", "Geometry and live values"],
+        "template": "G06-C09 身法为一位数时只画个位，高位保持底色",
+        "fullName": "Equipment menu rendering Geometry and live values G06-C09 身法为一位数时只画个位，高位保持底色"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/equip-role-pixels.grok-r1.test.ts",
+        "ordinal": 9,
+        "fullName": "G06-C 装备选人像素 G06-C10 吉运预览在 y=102"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-equip.test.ts",
+        "titles": ["Equipment menu rendering", "Geometry and live values"],
+        "template": "G06-C10 吉运预览在 y=102",
+        "fullName": "Equipment menu rendering Geometry and live values G06-C10 吉运预览在 y=102"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/equip-role-pixels.grok-r1.test.ts",
+        "ordinal": 10,
+        "fullName": "G06-C 装备选人像素 G06-C11 数量读 gs 现行库存 8，列表快照仍是确认时的 3"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-equip.test.ts",
+        "titles": ["Equipment menu rendering", "Geometry and live values"],
+        "template": "G06-C11 数量读 gs 现行库存 8，列表快照仍是确认时的 3",
+        "fullName": "Equipment menu rendering Geometry and live values G06-C11 数量读 gs 现行库存 8，列表快照仍是确认时的 3"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/__tests__/grok-present/p03-equip.test.ts",
+        "ordinal": 0,
+        "fullName": "P03 装备绘制 P03 装备列表里不可装备项是暗色，可装备项保持可选色"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-equip.test.ts",
+        "titles": ["Equipment menu rendering", "Inventory and worn equipment"],
+        "template": "P03 装备列表里不可装备项是暗色，可装备项保持可选色",
+        "fullName": "Equipment menu rendering Inventory and worn equipment P03 装备列表里不可装备项是暗色，可装备项保持可选色"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/__tests__/grok-present/p03-equip.test.ts",
+        "ordinal": 1,
+        "fullName": "P03 装备绘制 P03 选人页画出六槽名称、选中图标、数量、预览攻击和背景"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-equip.test.ts",
+        "titles": ["Equipment menu rendering", "Inventory and worn equipment"],
+        "template": "P03 选人页画出六槽名称、选中图标、数量、预览攻击和背景",
+        "fullName": "Equipment menu rendering Inventory and worn equipment P03 选人页画出六槽名称、选中图标、数量、预览攻击和背景"
+      }
+    }
+  ],
+  "identities": [
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-equip.glm-phase1-leaves.test.ts",
+        "fullName": "L11 drawEquipMenu 剩余分支 pick-role 非顺序 party [3,1]：equipableBy 按 roleId 位着色，选中高亮按 party 序"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-equip.test.ts",
+        "fullName": "Equipment menu rendering Role identity and missing role data pick-role 非顺序 party [3,1]：equipableBy 按 roleId 位着色，选中高亮按 party 序"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-equip.glm-phase1-leaves.test.ts",
+        "fullName": "L11 drawEquipMenu 剩余分支 已装备槽 itemId 不在 catalog → `?id` tofu；空槽（0）不画"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-equip.test.ts",
+        "fullName": "Equipment menu rendering Role identity and missing role data 已装备槽 itemId 不在 catalog → `?id` tofu；空槽（0）不画"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-equip.glm-phase1-leaves.test.ts",
+        "fullName": "L11 drawEquipMenu 剩余分支 roles 缺 party 中某 roleId：该行跳过不崩，另一行正常"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-equip.test.ts",
+        "fullName": "Equipment menu rendering Role identity and missing role data roles 缺 party 中某 roleId：该行跳过不崩，另一行正常"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/equip-role-pixels.grok-r1.test.ts",
+        "fullName": "G06-C 装备选人像素 G06-C01 一人队伍不加空白内容行，底边在 y=103"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-equip.test.ts",
+        "fullName": "Equipment menu rendering Geometry and live values G06-C01 一人队伍不加空白内容行，底边在 y=103"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/equip-role-pixels.grok-r1.test.ts",
+        "fullName": "G06-C 装备选人像素 G06-C02 phase 为 done 时整屏保持底色"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-equip.test.ts",
+        "fullName": "Equipment menu rendering Geometry and live values G06-C02 phase 为 done 时整屏保持底色"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/equip-role-pixels.grok-r1.test.ts",
+        "fullName": "G06-C 装备选人像素 G06-C03 selectedItemId 未定义时不铺装备背景"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-equip.test.ts",
+        "fullName": "Equipment menu rendering Geometry and live values G06-C03 selectedItemId 未定义时不铺装备背景"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/equip-role-pixels.grok-r1.test.ts",
+        "fullName": "G06-C 装备选人像素 G06-C04 选中 id 不在目录时同样不铺背景也不画图标"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-equip.test.ts",
+        "fullName": "Equipment menu rendering Geometry and live values G06-C04 选中 id 不在目录时同样不铺背景也不画图标"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/equip-role-pixels.grok-r1.test.ts",
+        "fullName": "G06-C 装备选人像素 G06-C05 角色光标越过队伍时图标已画，攻击数字不画"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-equip.test.ts",
+        "fullName": "Equipment menu rendering Geometry and live values G06-C05 角色光标越过队伍时图标已画，攻击数字不画"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/equip-role-pixels.grok-r1.test.ts",
+        "fullName": "G06-C 装备选人像素 G06-C06 现行数量为 0 时不画青色数字，物品名仍是确认色"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-equip.test.ts",
+        "fullName": "Equipment menu rendering Geometry and live values G06-C06 现行数量为 0 时不画青色数字，物品名仍是确认色"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/equip-role-pixels.grok-r1.test.ts",
+        "fullName": "G06-C 装备选人像素 G06-C07 灵力预览在 y=36，是基础加效果；武术行仍是武术值"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-equip.test.ts",
+        "fullName": "Equipment menu rendering Geometry and live values G06-C07 灵力预览在 y=36，是基础加效果；武术行仍是武术值"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/equip-role-pixels.grok-r1.test.ts",
+        "fullName": "G06-C 装备选人像素 G06-C08 防御预览在 y=58，取防御基础值"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-equip.test.ts",
+        "fullName": "Equipment menu rendering Geometry and live values G06-C08 防御预览在 y=58，取防御基础值"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/equip-role-pixels.grok-r1.test.ts",
+        "fullName": "G06-C 装备选人像素 G06-C09 身法为一位数时只画个位，高位保持底色"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-equip.test.ts",
+        "fullName": "Equipment menu rendering Geometry and live values G06-C09 身法为一位数时只画个位，高位保持底色"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/equip-role-pixels.grok-r1.test.ts",
+        "fullName": "G06-C 装备选人像素 G06-C10 吉运预览在 y=102"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-equip.test.ts",
+        "fullName": "Equipment menu rendering Geometry and live values G06-C10 吉运预览在 y=102"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/equip-role-pixels.grok-r1.test.ts",
+        "fullName": "G06-C 装备选人像素 G06-C11 数量读 gs 现行库存 8，列表快照仍是确认时的 3"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-equip.test.ts",
+        "fullName": "Equipment menu rendering Geometry and live values G06-C11 数量读 gs 现行库存 8，列表快照仍是确认时的 3"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/__tests__/grok-present/p03-equip.test.ts",
+        "fullName": "P03 装备绘制 P03 装备列表里不可装备项是暗色，可装备项保持可选色"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-equip.test.ts",
+        "fullName": "Equipment menu rendering Inventory and worn equipment P03 装备列表里不可装备项是暗色，可装备项保持可选色"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/__tests__/grok-present/p03-equip.test.ts",
+        "fullName": "P03 装备绘制 P03 选人页画出六槽名称、选中图标、数量、预览攻击和背景"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-equip.test.ts",
+        "fullName": "Equipment menu rendering Inventory and worn equipment P03 选人页画出六槽名称、选中图标、数量、预览攻击和背景"
+      }
+    }
+  ],
+  "retirements": [],
+  "id": "menu-equip",
+  "namespace": "organization-menu-equip",
+  "cohortSubjects": [
+    {
+      "path": "packages/game/src/present/menu/draw-equip.glm-phase1-leaves.test.ts",
+      "sha256": "8dc64f80a5c01c1e37fae143ff89f8896af52c8003406c459f973f353e9921e2",
+      "priorCurrentBridges": [
+        {
+          "path": "packages/game/src/present/menu/draw-equip.glm-phase1-leaves.test.ts",
+          "sha256": "8dc64f80a5c01c1e37fae143ff89f8896af52c8003406c459f973f353e9921e2",
+          "member": "organization-game-render-fixtures/16.before",
+          "currentSha256": "caeaa72a2b0fb6a210f14eb1db82237737f9b40e376bb46ccccf19b1cc980903",
+          "evidence": "organization-game-render-fixtures.json"
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/present/menu/equip-role-pixels.grok-r1.test.ts",
+      "sha256": "2859f3fe866e6d94b1c2f727db565152d6504f09b4c35678cc77448b1f1ea8a3",
+      "priorCurrentBridges": [
+        {
+          "path": "packages/game/src/present/menu/equip-role-pixels.grok-r1.test.ts",
+          "sha256": "2859f3fe866e6d94b1c2f727db565152d6504f09b4c35678cc77448b1f1ea8a3",
+          "member": "organization-game-render-fixtures/13.before",
+          "currentSha256": "c5cb25e5039d376b215c95eebe631a773bf974bca4c6ac48edea5867591af1c4",
+          "evidence": "organization-game-render-fixtures.json"
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/p03-equip.test.ts",
+      "sha256": "e9191efb9fefdac8fb8bee091f4e4ab9363e23b7bddeb470044d5835ced40259",
+      "priorCurrentBridges": [
+        {
+          "path": "packages/game/src/present/__tests__/grok-present/p03-equip.test.ts",
+          "sha256": "e9191efb9fefdac8fb8bee091f4e4ab9363e23b7bddeb470044d5835ced40259",
+          "member": "organization-game-render-fixtures/33.before",
+          "currentSha256": "5542005da8a1f0b6e1e2da3957e6aef53ad5368a04b7c611431cb8cc7ed7a3e6",
+          "evidence": "organization-game-render-fixtures.json"
+        }
+      ]
+    }
+  ],
+  "preserved": [
+    {
+      "path": "packages/game/src/present/menu/draw-equip.ts",
+      "sha256": "a43f540896a97d1833e9ed3bbede943b03fd9c6eca3cde00b95608e15232d5b9"
+    },
+    {
+      "path": "packages/game/src/core/menu/equip-menu.ts",
+      "sha256": "246c70c277b254effb1d4b1717c46e262f738cc3ffb373a1802e88509e663293"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-menu.ts",
+      "sha256": "c0c56305f46464b8194bbb0d2a7e04683952b7f01266ec3949602b99c6f51566"
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-driver.ts",
+      "sha256": "81db674f145043b7a78aea5ac705baa8c975502cbce66bcf88908574acd596f5"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/glyph-fixtures.ts",
+      "sha256": "226f7b472f8c065034db07c1f308ba5b5cc03a5f6d31b6f624f9cef27b701e2f"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/uniform-glyphs.ts",
+      "sha256": "c1074d184e865cbe788b5e459b9390e32148c8ba9b2747aa4340861a85c01f87"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/menu-text-fixture.ts",
+      "sha256": "d21320cb5dfe391b2d90b947346ca191c5dbb0602cb1f62c46325178666fdc94"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/raster-fixtures.ts",
+      "sha256": "982d0ab4a7a73bd1d432554562ff9f628d097098be32af9e9b059bd1dbb2d291"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/menu-state-fixtures.ts",
+      "sha256": "0ce7df25cce554b54c080659494116c76908a531dd289359a32f4323fbabce7f"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/menu-ui-fixtures.ts",
+      "sha256": "2e6d73e10d4b98a5876000b1abebea747bbf62fc0bdfb159e44534ba068f3171"
+    },
+    {
+      "path": "packages/game/src/__tests__/glm-phase1-leaves/present-fixtures.ts",
+      "sha256": "4f8701a4dddcdae4010bdbd9b23eee56dd2d20335e906a5249a488308edaedea"
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-colors.ts",
+      "sha256": "43be7381df1880e54fba0430e9f5a18ae27dfeadb9156d99c60be740d4a18a6b"
+    }
+  ],
+  "neighborPaths": [
+    "packages/game/src/present/menu/draw-equip.test.ts",
+    "packages/game/src/present/menu/draw-menu.test.ts",
+    "packages/game/src/present/__tests__/grok-present/p05-menu-stack.test.ts",
+    "packages/game/src/core/menu/equip-menu.test.ts",
+    "packages/game/src/core/menu/equip-menu.boundaries.test.ts",
+    "packages/game/src/core/menu/equip-menu.glm-phase1-leaves.test.ts",
+    "packages/game/src/core/equip-effect.test.ts",
+    "packages/game/src/core/menu/inventory-menu.test.ts"
+  ],
+  "cleanExecutions": [
+    "before",
+    "reorganize-r2",
+    "format",
+    "proof-r3",
+    "counter-old-proof",
+    "counter-new-proof",
+    "neighbors",
+    "typecheck",
+    "module-preflight-r3",
+    "docs",
+    "content-review",
+    "lint",
+    "scoped",
+    "diff",
+    "ledger-final",
+    "projection-format"
+  ],
+  "lightweightGates": true,
+  "counters": ["counter-tail-write.json"],
+  "profiles": [
+    {
+      "path": "packages/game/src/present/menu/draw-equip.test.ts",
+      "subjects": [
+        "packages/game/src/present/menu/draw-equip.glm-phase1-leaves.test.ts",
+        "packages/game/src/present/menu/equip-role-pixels.grok-r1.test.ts",
+        "packages/game/src/present/__tests__/grok-present/p03-equip.test.ts"
+      ],
+      "axes": {
+        "A": "16例经真实create/confirm/equipMoveDown与drawEquipMenu，runtime已hydrate；list/pick-role/done、非顺序role3/party位置、六槽/属性投影/live库存分别核。缺角色、缺目录、越界cursor5是显式renderer防御输入，不声称普通流程可达。产品源不变。",
+        "B": "去模型/波次排重头，改同入口职责与合成字形边界。done整屏声明现有完整缓冲oracle支持；未知装备首像素只证placeholder绘制，不冒称字串逐字符验证或原盘观感。原机制/布局依据按当前C函数核范围，不重复重推全部。",
+        "C": "装备测试统一一入口、按角色/几何live值/列表与六槽分组，状态归各case；纯uniform与按字点位输入分开。显式before/after仅拥有注入词表/临时中文，复用精确窄text夹具，不再触达事件、魔法caster、物品target全局。",
+        "D": "两个重复初始选中/禁用色断言由独立角色身份例承接，保P03真实移动后的另两颜色/六槽/属性/背景；同合同UI/frame/Item构造迁现用helper，实际Item记录和63slot相同。旧40..43仅战斗图标不在菜单消费域，不宣称全frame全集等价。",
+        "E": "全部16身份保留、10回调经变量名/无副作用字面量死参桥保持，6显式delta：done完整缓冲蕴含旧3点；P03两颜色归独立例；4条同像素负向断言由保留正向literal蕴含。真实尾像素变异旧1绿/新单业务AssertionError、0pending，源恢复；8file107/TC0无诊断。",
+        "F": "draw-equip.test按现用绘制入口命名，sceneWithRoleThreeSword/openFirstRolePicker/roleThreeSword与uniformGlyphs/positionGlyphs表达输入；公共glyphs键不误改。GS/FB沿项目领域缩写，非作者分片。",
+        "G": "三历史专测归一职责文件，去宽reset与重复两业务断言/4恒等反面，保所有16非重复运行合同；两个Date实现/两类glyph语义不同，沿原调用域保留，不制造模式helper/新产品出口。",
+        "H": "真实Framebuffer/font/公开菜单API及独立literal/bitmap，clock在finally恢复；新窄环境沿前片精确provider/默认隔离与早失败证据复用。默认body复验只读，完整typed树同比较器正控/尾字段与断言负控、公有glyphs字段负控；不mock业务、不改central9tools。"
+      }
+    }
+  ],
+  "callbackProof": "organization-menu-equip/proof-r3.stdout.raw",
+  "callbackDeltas": "organization-menu-equip/callback-deltas.json",
+  "cohortOrigins": "organization-menu-equip/cohort-origins.json",
+  "reusedReviewMember": "organization-menu-equip/reused-reviews.json",
+  "reads": {
+    "fullInputs": [
+      {
+        "path": "packages/game/src/present/menu/draw-equip.glm-phase1-leaves.test.ts",
+        "sha256": "caeaa72a2b0fb6a210f14eb1db82237737f9b40e376bb46ccccf19b1cc980903",
+        "member": "organization-menu-equip/0.before",
+        "lines": 119
+      },
+      {
+        "path": "packages/game/src/present/menu/equip-role-pixels.grok-r1.test.ts",
+        "sha256": "c5cb25e5039d376b215c95eebe631a773bf974bca4c6ac48edea5867591af1c4",
+        "member": "organization-menu-equip/1.before",
+        "lines": 348
+      },
+      {
+        "path": "packages/game/src/present/__tests__/grok-present/p03-equip.test.ts",
+        "sha256": "5542005da8a1f0b6e1e2da3957e6aef53ad5368a04b7c611431cb8cc7ed7a3e6",
+        "member": "organization-menu-equip/2.before",
+        "lines": 202
+      }
+    ],
+    "fullImplementations": [
+      {
+        "path": "packages/game/src/present/menu/draw-equip.ts",
+        "sha256": "a43f540896a97d1833e9ed3bbede943b03fd9c6eca3cde00b95608e15232d5b9",
+        "scope": "Full current implementation read; no new whole-product closure."
+      },
+      {
+        "path": "packages/game/src/core/menu/equip-menu.ts",
+        "sha256": "246c70c277b254effb1d4b1717c46e262f738cc3ffb373a1802e88509e663293",
+        "scope": "Full current implementation read; no new whole-product closure."
+      }
+    ],
+    "callers": [
+      {
+        "path": "packages/game/src/present/menu/draw-menu.ts",
+        "sha256": "c0c56305f46464b8194bbb0d2a7e04683952b7f01266ec3949602b99c6f51566",
+        "ranges": [[1, 205]],
+        "scope": "Current menu assembly/actual equip forwarding read."
+      },
+      {
+        "path": "packages/game/src/core/menu/menu-driver.ts",
+        "sha256": "81db674f145043b7a78aea5ac705baa8c975502cbce66bcf88908574acd596f5",
+        "ranges": [[757, 842]],
+        "scope": "Actual open/confirm/role move/cancel/close and inventory refresh lifetime."
+      }
+    ],
+    "candidate": {
+      "path": "packages/game/src/present/menu/draw-equip.test.ts",
+      "sha256": "ba3399d2867a295ba7d4cf01d305dec2d3df9a1e7191de8b9d059ee60582156f",
+      "scope": "Full current candidate read; all16 callbacks/helper/import/hook deltas inspected."
+    }
+  },
+  "primarySources": [
+    {
+      "path": "reference/sdlpal/uigame.c",
+      "sha256": "f981b6a698b6248107ec7934b60ca988055bbab458e516e9aa2b113f8b5419c1",
+      "ranges": [[1793, 1832], [1894, 1970]],
+      "scope": "Current equipment display: role id flag/party cursor,stats/box/current amount; reference not original binary claim."
+    }
+  ],
+  "observations": [
+    {
+      "path": "packages/game/src/core/menu/equip-menu.ts",
+      "kind": "nonblocking outside current subject scope",
+      "detail": "Duplicated module docblock observed; defer to this source module own review; no implementation file closure credited."
+    }
+  ],
+  "processDisclosures": [
+    "First builder used wrong source-bridge field names; projected signatures rejected, prototype unaccepted and preserved; corrected to existing consumer path/changes schema. No checker/rule change.",
+    "Auxiliary proof positive self-test caught full SourceFile.text whitespace sensitivity; compare complete syntax children and leaf text, retain typed declarations and tail-negative guards. Next run found omitted ARROW_ID dependency in frame-only evaluation; exact declaration added, original FAILs retained. No business diagnostic suppressed.",
+    "16 identities retained; two initial role colors and4 implied negative assertions consolidated, no case removed. Late clone-input and actual navigation/stat/slot/pixel assertions preserved.",
+    "Ordinary gameplay reachability for missingrole/cursor5 not claimed; labels/glyphs are synthetic. Same-source providers reuse prior narrow lifecycle proof, not all E2E/visual behavior.",
+    "Whole check/official coverage/protected and publication remain deferred to stable large-window closeout.",
+    "First module preflight rejected virtual bridge quote/one-line hook formatting; Biome normalized only projection text with full typed-tree/tail-negative proof. Second preflight also read the original failed preflight receipt as a clean gate and correctly rejected it; current clean receipt explicitly points r3, all originals preserved. No actual test source or business result changed."
+  ],
+  "ledgerDispositions": {
+    "categories": {
+      "packages/game/src/present/menu/draw-equip.test.ts": "test"
+    }
+  },
+  "ledgerCounts": {
+    "inventory": 3449,
+    "closed": 554,
+    "review": 261,
+    "pending": 2634
+  }
+}

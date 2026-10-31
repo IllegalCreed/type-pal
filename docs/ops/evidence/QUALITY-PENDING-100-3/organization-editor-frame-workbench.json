@@ -1,0 +1,804 @@
+{
+  "id": "frame-workbench-test-responsibilities",
+  "namespace": "organization-editor-frame-workbench",
+  "inputs": [
+    {
+      "path": "packages/editor/src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx",
+      "sha256": "891d143621e72fe0e4fdc13a751ab4801be13c747f207dcada73f150f3ccc453",
+      "lines": 148,
+      "member": "organization-editor-frame-workbench/input-0.before"
+    },
+    {
+      "path": "packages/editor/src/ui/SpriteFrameWorkbench.test.tsx",
+      "sha256": "60759aa487a211d640da215cba3e9d0e9855f6071abfa2d34c0ff0dc45c70d71",
+      "lines": 303,
+      "member": "organization-editor-frame-workbench/input-1.before"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "packages/editor/src/ui/SpriteFrameWorkbench.drag-payload.test.ts",
+      "sha256": "0aecf6714f9d5e338264ed7803036809f4c1469d6cf52e95ab4e995050a62643",
+      "lines": 41
+    },
+    {
+      "path": "packages/editor/src/ui/SpriteSourceFramePicker.keyboard.test.tsx",
+      "sha256": "971126d1e820d9511469e417f6466e47a358c1d3bb461b7eb0ffccaa364860cf",
+      "lines": 78
+    },
+    {
+      "path": "packages/editor/src/ui/SpriteFrameCanvas.pixels.test.tsx",
+      "sha256": "8d03e6ae5e49cd7a0ba1659927200ec35cf7762f71956afd02fc03db0bac9989",
+      "lines": 52
+    },
+    {
+      "path": "packages/editor/src/ui/SpriteFrameWorkbench.test.tsx",
+      "sha256": "04abe9b8ec66d3648ac2b092a2224dab93de5b8bd78383aba9b0db44ef803ef7",
+      "lines": 295
+    }
+  ],
+  "replacements": [],
+  "sourceBridges": [
+    {
+      "path": "packages/editor/src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx",
+      "id": "organization-editor-frame-workbench-0",
+      "reason": "Registration context only. Full typed-module proof restricts every source change; audited lifecycle/metadata/oracle deltas are explicit,not claimed byte-equivalent to old.",
+      "changes": [
+        {
+          "from": "// @vitest-environment jsdom\n/**\n * TEST-CURSOR-ASSET-UI-LARGE-1 C05-G07：SpriteFrameWorkbench 拖拽 MIME 与源帧选择器。\n * 排重：SpriteFrameWorkbench.test 语义架；glm F04b RawFrameInspector；本组只测\n * inspect 拖拽 payload、SpriteSourceFramePicker 键盘/aria、SpriteFrameCanvas 真实像素。\n */\nimport { act } from 'react'\nimport { createRoot, type Root } from 'react-dom/client'\nimport { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'\nimport { C05_ASSET, openC05 } from '../__tests__/cursor-asset-r1/c05-action-fixtures.js'\nimport { setupC05Ui, teardownC05Ui } from '../__tests__/cursor-asset-r1/c05-action-ui.js'\nimport { colorCensus, requireRealCanvas2d } from '../__tests__/cursor-asset-r1/canvas-pixels.js'\nimport {\n  inspectSpriteFrameDragPayload,\n  SPRITE_FRAME_DRAG_MIME,\n  SpriteFrameCanvas,\n  type SpriteFrameView,\n  SpriteSourceFramePicker,\n} from './SpriteFrameWorkbench.js'\n\nlet root: Root | undefined\nlet host: HTMLDivElement | undefined\n\nbeforeEach(() => {\n  setupC05Ui()\n  host = document.createElement('div')\n  document.body.append(host)\n  root = createRoot(host)\n})\n\nafterEach(async () => {\n  if (root) await act(async () => root!.unmount())\n  host?.remove()\n  root = undefined\n  host = undefined\n  teardownC05Ui()\n})\n\nfunction renderPicker(\n  frames: readonly SpriteFrameView[],\n  selected: number,\n  onSelect = vi.fn(),\n): void {\n  act(() => {\n    root!.render(\n      <SpriteSourceFramePicker\n        asset={C05_ASSET}\n        frames={frames}\n        selectedFrame={selected}\n        onSelect={onSelect}\n        transferEnabled\n        ariaLabel=\"测试源帧\"\n        presentation=\"rail\"\n      />,\n    )\n  })\n}\n\ndescribe('C05-G07 拖拽协议与源帧选择器', () => {\n  test('C05-G07-01 inspect：缺 MIME 返回 absent', () => {\n    expect(inspectSpriteFrameDragPayload({ getData: () => '' })).toEqual({ kind: 'absent' })\n  })\n\n  test('C05-G07-02 inspect：非法 JSON 返回 invalid', () => {\n    const result = inspectSpriteFrameDragPayload({\n      getData: (type) => (type === SPRITE_FRAME_DRAG_MIME ? '{' : ''),\n    })\n    expect(result).toEqual({ kind: 'invalid' })\n  })\n\n  test('C05-G07-03 inspect：frame 非整数返回 invalid', () => {\n    const result = inspectSpriteFrameDragPayload({\n      getData: (type) =>\n        type === SPRITE_FRAME_DRAG_MIME ? JSON.stringify({ asset: C05_ASSET, frame: 1.5 }) : '',\n    })\n    expect(result).toEqual({ kind: 'invalid' })\n  })\n\n  test('C05-G07-04 inspect：合法 payload 可读回', () => {\n    const payload = inspectSpriteFrameDragPayload({\n      getData: (type) =>\n        type === SPRITE_FRAME_DRAG_MIME ? JSON.stringify({ asset: C05_ASSET, frame: 3 }) : '',\n    })\n    expect(payload).toEqual({ kind: 'payload', value: { asset: C05_ASSET, frame: 3 } })\n  })\n\n  test('C05-G07-05 inspect：JSON 标量不是拖拽 payload', () => {\n    expect(\n      inspectSpriteFrameDragPayload({\n        getData: (type) => (type === SPRITE_FRAME_DRAG_MIME ? '\"nope\"' : ''),\n      }),\n    ).toEqual({ kind: 'invalid' })\n  })\n\n  test('C05-G07-06 选中帧超出范围：安全钳到末帧且 status 播报末索引', async () => {\n    const open = await openC05('g07-06')\n    renderPicker(open.frames, 999)\n    expect(host!.textContent).toContain(`已选择源帧 ${open.frameCount - 1}`)\n  })\n\n  test('C05-G07-07 ArrowRight 从帧 0 选中帧 1 并回调 onSelect', async () => {\n    const open = await openC05('g07-07')\n    const onSelect = vi.fn()\n    renderPicker(open.frames, 0, onSelect)\n    const button = host!.querySelector<HTMLButtonElement>('[data-source-frame-index=\"0\"]')!\n    await act(async () => {\n      button.focus()\n      button.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }))\n    })\n    expect(onSelect).toHaveBeenCalledWith(1)\n  })\n\n  test('C05-G07-08 Home/End 键跳到首尾帧', async () => {\n    const open = await openC05('g07-08')\n    const onSelect = vi.fn()\n    renderPicker(open.frames, 2, onSelect)\n    const button = host!.querySelector<HTMLButtonElement>('[data-source-frame-index=\"2\"]')!\n    await act(async () => {\n      button.focus()\n      button.dispatchEvent(new KeyboardEvent('keydown', { key: 'Home', bubbles: true }))\n    })\n    expect(onSelect).toHaveBeenCalledWith(0)\n    await act(async () => {\n      button.dispatchEvent(new KeyboardEvent('keydown', { key: 'End', bubbles: true }))\n    })\n    expect(onSelect).toHaveBeenLastCalledWith(open.frameCount - 1)\n  })\n\n  test('C05-G07-09 SpriteFrameCanvas 绘制真实 bakeFrame 的非透明像素与透明留白', async () => {\n    requireRealCanvas2d()\n    const open = await openC05('g07-09')\n    act(() => {\n      root!.render(\n        <SpriteFrameCanvas\n          source={open.frames[0]?.canvas}\n          width={64}\n          height={64}\n          maxScale={4}\n          label=\"帧0\"\n        />,\n      )\n    })\n    const canvas = host!.querySelector('canvas')!\n    const census = colorCensus(canvas)\n    expect(census.opaque.size).toBeGreaterThanOrEqual(1)\n    expect(census.transparent).toBeGreaterThan(0)\n  })\n})\n",
+          "to": "import {describe}from\"vitest\"\nimport {expect}from\"vitest\"\nimport {inspectSpriteFrameDragPayload}from\"./SpriteFrameWorkbench.js\"\nimport {test}from\"vitest\"\nimport {SPRITE_FRAME_DRAG_MIME}from\"./SpriteFrameWorkbench.js\"\nimport {act}from\"react\"\nimport {afterEach}from\"vitest\"\nimport {beforeEach}from\"vitest\"\nimport {createRoot}from\"react-dom/client\"\nimport type {Root}from\"react-dom/client\"\nimport type {SpriteFrameView}from\"./SpriteFrameWorkbench.js\"\nimport {SpriteSourceFramePicker}from\"./SpriteFrameWorkbench.js\"\nimport {vi}from\"vitest\"\nimport {colorCensus}from\"../__tests__/cursor-asset-r1/canvas-pixels.js\"\nimport {installBrowserHardwarePorts}from\"../__tests__/cursor-asset-r1/frame-editor-ports.js\"\nimport {opaqueBounds}from\"../__tests__/cursor-asset-r1/canvas-pixels.js\"\nimport {openC05}from\"../__tests__/cursor-asset-r1/c05-action-fixtures.js\"\nimport {requireRealCanvas2d}from\"../__tests__/cursor-asset-r1/canvas-pixels.js\"\nimport {SpriteFrameCanvas}from\"./SpriteFrameWorkbench.js\"\ndescribe(\"Sprite frame drag payload\",()=>{\n\n\n\n  test('inspect：缺 MIME 返回 absent', () => {\n    expect(inspectSpriteFrameDragPayload({ getData: () => '' })).toEqual({ kind: 'absent' })\n  })\n})\ndescribe(\"Sprite frame drag payload\",()=>{\n\n\n\n\n  test('inspect：非法 JSON 返回 invalid', () => {\n    const result = inspectSpriteFrameDragPayload({\n      getData: (type) => (type === SPRITE_FRAME_DRAG_MIME ? '{' : ''),\n    })\n    expect(result).toEqual({ kind: 'invalid' })\n  })\n})\ndescribe(\"Sprite frame drag payload\",()=>{\n\n\n\n\n  test('inspect：frame 非整数返回 invalid', () => {\n    const result = inspectSpriteFrameDragPayload({\n      getData: (type) =>\n        type === SPRITE_FRAME_DRAG_MIME ? JSON.stringify({ asset: 'sprite.test', frame: 1.5 }) : '',\n    })\n    expect(result).toEqual({ kind: 'invalid' })\n  })\n})\ndescribe(\"Sprite frame drag payload\",()=>{\n\n\n\n\n  test('inspect：合法 payload 可读回', () => {\n    const payload = inspectSpriteFrameDragPayload({\n      getData: (type) =>\n        type === SPRITE_FRAME_DRAG_MIME ? JSON.stringify({ asset: 'sprite.test', frame: 3 }) : '',\n    })\n    expect(payload).toEqual({ kind: 'payload', value: { asset: 'sprite.test', frame: 3 } })\n  })\n})\ndescribe(\"Sprite frame drag payload\",()=>{\n\n\n\n\n  test('inspect：JSON 标量不是拖拽 payload', () => {\n    expect(\n      inspectSpriteFrameDragPayload({\n        getData: (type) => (type === SPRITE_FRAME_DRAG_MIME ? '\"nope\"' : ''),\n      }),\n    ).toEqual({ kind: 'invalid' })\n  })\n})\ndescribe(\"Sprite source frame selection\",()=>{\n\n\n// Selection uses frame metadata; loading and pixels have separate contracts.\nconst frames: readonly SpriteFrameView[] = Array.from({ length: 6 }, () => ({\n  canvas: undefined,\n  width: 8,\n  height: 8,\n}))\n\nlet root: Root\n\nlet host: HTMLDivElement\n\nfunction renderPicker(selected: number, onSelect = vi.fn()): void {\n  act(() =>\n    root.render(\n      <SpriteSourceFramePicker\n        asset=\"sprite.test\"\n        frames={frames}\n        selectedFrame={selected}\n        onSelect={onSelect}\n        transferEnabled\n        ariaLabel=\"Test source frames\"\n        presentation=\"rail\"\n      />,\n    ),\n  )\n}\n\nbeforeEach(() => {\n  vi.stubGlobal('IS_REACT_ACT_ENVIRONMENT', true)\n  vi.useFakeTimers({ toFake: ['requestAnimationFrame', 'cancelAnimationFrame'] })\n  host = document.createElement('div')\n  document.body.append(host)\n  root = createRoot(host)\n})\n\nafterEach(async () => {\n  try {\n    await act(async () => root.unmount())\n  } finally {\n    host.remove()\n    vi.useRealTimers()\n    vi.restoreAllMocks()\n    vi.unstubAllGlobals()\n  }\n})\n\n  test('选中帧超出范围：安全钳到末帧且 status 播报末索引', () => {\n    renderPicker(999)\n    expect(host.textContent).toContain('已选择源帧 5')\n  })\n})\ndescribe(\"Sprite source frame selection\",()=>{\n\n\n// Selection uses frame metadata; loading and pixels have separate contracts.\nconst frames: readonly SpriteFrameView[] = Array.from({ length: 6 }, () => ({\n  canvas: undefined,\n  width: 8,\n  height: 8,\n}))\n\nlet root: Root\n\nlet host: HTMLDivElement\n\nfunction renderPicker(selected: number, onSelect = vi.fn()): void {\n  act(() =>\n    root.render(\n      <SpriteSourceFramePicker\n        asset=\"sprite.test\"\n        frames={frames}\n        selectedFrame={selected}\n        onSelect={onSelect}\n        transferEnabled\n        ariaLabel=\"Test source frames\"\n        presentation=\"rail\"\n      />,\n    ),\n  )\n}\n\nbeforeEach(() => {\n  vi.stubGlobal('IS_REACT_ACT_ENVIRONMENT', true)\n  vi.useFakeTimers({ toFake: ['requestAnimationFrame', 'cancelAnimationFrame'] })\n  host = document.createElement('div')\n  document.body.append(host)\n  root = createRoot(host)\n})\n\nafterEach(async () => {\n  try {\n    await act(async () => root.unmount())\n  } finally {\n    host.remove()\n    vi.useRealTimers()\n    vi.restoreAllMocks()\n    vi.unstubAllGlobals()\n  }\n})\n\n\n  test('ArrowRight 从帧 0 选中帧 1 并回调 onSelect', async () => {\n    const onSelect = vi.fn()\n    renderPicker(0, onSelect)\n    const button = host.querySelector<HTMLButtonElement>('[data-source-frame-index=\"0\"]')!\n    await act(async () => {\n      button.focus()\n      button.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }))\n    })\n    expect(onSelect).toHaveBeenCalledWith(1)\n  })\n})\ndescribe(\"Sprite source frame selection\",()=>{\n\n\n// Selection uses frame metadata; loading and pixels have separate contracts.\nconst frames: readonly SpriteFrameView[] = Array.from({ length: 6 }, () => ({\n  canvas: undefined,\n  width: 8,\n  height: 8,\n}))\n\nlet root: Root\n\nlet host: HTMLDivElement\n\nfunction renderPicker(selected: number, onSelect = vi.fn()): void {\n  act(() =>\n    root.render(\n      <SpriteSourceFramePicker\n        asset=\"sprite.test\"\n        frames={frames}\n        selectedFrame={selected}\n        onSelect={onSelect}\n        transferEnabled\n        ariaLabel=\"Test source frames\"\n        presentation=\"rail\"\n      />,\n    ),\n  )\n}\n\nbeforeEach(() => {\n  vi.stubGlobal('IS_REACT_ACT_ENVIRONMENT', true)\n  vi.useFakeTimers({ toFake: ['requestAnimationFrame', 'cancelAnimationFrame'] })\n  host = document.createElement('div')\n  document.body.append(host)\n  root = createRoot(host)\n})\n\nafterEach(async () => {\n  try {\n    await act(async () => root.unmount())\n  } finally {\n    host.remove()\n    vi.useRealTimers()\n    vi.restoreAllMocks()\n    vi.unstubAllGlobals()\n  }\n})\n\n\n  test('Home/End 键跳到首尾帧', async () => {\n    const onSelect = vi.fn()\n    renderPicker(2, onSelect)\n    const button = host.querySelector<HTMLButtonElement>('[data-source-frame-index=\"2\"]')!\n    await act(async () => {\n      button.focus()\n      button.dispatchEvent(new KeyboardEvent('keydown', { key: 'Home', bubbles: true }))\n    })\n    expect(onSelect).toHaveBeenCalledWith(0)\n    await act(async () => {\n      button.dispatchEvent(new KeyboardEvent('keydown', { key: 'End', bubbles: true }))\n    })\n    expect(onSelect).toHaveBeenLastCalledWith(5)\n  })\n})\ndescribe(\"\",()=>{\n\n\n\n\ntest('SpriteFrameCanvas 绘制真实 bakeFrame 的非透明像素与透明留白', async () => {\n  const host = document.createElement('div')\n  document.body.append(host)\n  const root = createRoot(host)\n  try {\n    vi.stubGlobal('IS_REACT_ACT_ENVIRONMENT', true)\n    installBrowserHardwarePorts()\n    requireRealCanvas2d()\n    const open = await openC05('frame-canvas-pixels')\n    act(() => {\n      root.render(\n        <SpriteFrameCanvas\n          source={open.frames[0]?.canvas}\n          width={64}\n          height={64}\n          maxScale={4}\n          label=\"帧0\"\n        />,\n      )\n    })\n    const canvas = host.querySelector('canvas')\n    if (!canvas) throw new Error('frame canvas not mounted')\n    const census = colorCensus(canvas)\n    // The fixture's solid 8px frame scales to 32px: centered at x16, with a 4px bottom gap.\n    // Its [216,32,32] source quantizes to palette RGB [200,84,68].\n    expect(opaqueBounds(canvas)).toEqual({ minX: 16, maxX: 47, minY: 28, maxY: 59, count: 1024 })\n    expect([...census.opaque]).toEqual(['200,84,68,255'])\n    expect(census.transparent).toBe(3072)\n    expect(census.translucent).toBe(0)\n  } finally {\n    try {\n      await act(async () => root.unmount())\n    } finally {\n      host.remove()\n      vi.restoreAllMocks()\n      vi.unstubAllGlobals()\n    }\n  }\n})\n})\n",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "packages/editor/src/ui/SpriteFrameWorkbench.test.tsx",
+      "id": "organization-editor-frame-workbench-1",
+      "reason": "Registration context only. Full typed-module proof restricts every source change; audited lifecycle/metadata/oracle deltas are explicit,not claimed byte-equivalent to old.",
+      "changes": [
+        {
+          "from": "// @vitest-environment jsdom\n\nimport { act, useState } from 'react'\nimport { createRoot, type Root } from 'react-dom/client'\nimport { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'\nimport {\n  InstanceBehaviorShelf,\n  inspectSpriteFrameDragPayload,\n  SemanticFrameShelf,\n  SPRITE_FRAME_DRAG_MIME,\n  type SpriteFrameView,\n  SpriteSourceFramePicker,\n} from './SpriteFrameWorkbench.js'\n\ndescribe('SemanticFrameShelf', () => {\n  let host: HTMLDivElement\n  let root: Root\n  let contextSpy: ReturnType<typeof vi.spyOn>\n  let scrollDescriptor: PropertyDescriptor | undefined\n\n  beforeEach(() => {\n    ;(globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true\n    host = document.createElement('div')\n    document.body.append(host)\n    root = createRoot(host)\n    scrollDescriptor = Object.getOwnPropertyDescriptor(HTMLElement.prototype, 'scrollIntoView')\n    contextSpy = vi.spyOn(HTMLCanvasElement.prototype, 'getContext').mockReturnValue({\n      clearRect: vi.fn(),\n      drawImage: vi.fn(),\n      imageSmoothingEnabled: true,\n    } as unknown as CanvasRenderingContext2D)\n  })\n\n  afterEach(async () => {\n    await act(async () => root.unmount())\n    contextSpy.mockRestore()\n    host.remove()\n    if (scrollDescriptor)\n      Object.defineProperty(HTMLElement.prototype, 'scrollIntoView', scrollDescriptor)\n    else Reflect.deleteProperty(HTMLElement.prototype, 'scrollIntoView')\n    vi.unstubAllGlobals()\n    vi.useRealTimers()\n  })\n\n  test('单帧行只有具体帧，多帧行首格动画后跟完整帧序', async () => {\n    const frames: SpriteFrameView[] = Array.from({ length: 4 }, () => {\n      const canvas = document.createElement('canvas')\n      canvas.width = 20\n      canvas.height = 30\n      return { canvas, width: 20, height: 30 }\n    })\n    const onFrameSelect = vi.fn()\n    await act(async () => {\n      root.render(\n        <SemanticFrameShelf\n          frames={frames}\n          groups={[\n            {\n              id: 'fighter',\n              label: '战士',\n              typeLabel: '玩家战斗',\n              active: true,\n              rows: [\n                { id: 'defend', label: '防御', frames: [3] },\n                {\n                  id: 'attack',\n                  label: '普通攻击',\n                  frames: [1, 2, 0],\n                  playbackFrames: [1, 2, 0],\n                },\n              ],\n            },\n          ]}\n          onFrameSelect={onFrameSelect}\n        />,\n      )\n    })\n    const rows = host.querySelectorAll('.semantic-frame-row')\n    expect(rows).toHaveLength(2)\n    expect(rows[0]?.querySelector('.animated')).toBeNull()\n    expect(rows[0]?.querySelectorAll('.sprite-frame-cell')).toHaveLength(1)\n    expect(rows[1]?.querySelector('.sprite-frame-cell:first-child')?.classList).toContain(\n      'animated',\n    )\n    expect(rows[1]?.querySelectorAll('.sprite-frame-cell')).toHaveLength(4)\n    expect(rows[1]?.textContent).toContain('#1')\n    expect(rows[1]?.textContent).toContain('#2')\n    expect(rows[1]?.textContent).toContain('#0')\n\n    await act(async () =>\n      rows[1]?.querySelector<HTMLButtonElement>('[aria-label^=\"选择源帧 2\"]')?.click(),\n    )\n    expect(onFrameSelect).toHaveBeenCalledWith(2)\n  })\n\n  test('单用途嵌入式动作架不重复外层标题和用途身份头', async () => {\n    const canvas = document.createElement('canvas')\n    canvas.width = 20\n    canvas.height = 30\n    await act(async () => {\n      root.render(\n        <SemanticFrameShelf\n          presentation=\"embedded\"\n          ariaLabel=\"自定义动作预览\"\n          frames={[{ canvas, width: 20, height: 30 }]}\n          groups={[\n            {\n              id: 'fighter',\n              label: '战士',\n              typeLabel: '玩家战斗',\n              active: true,\n              rows: [{ id: 'idle', label: '待机', frames: [0] }],\n            },\n          ]}\n        />,\n      )\n    })\n\n    expect(host.querySelector('.semantic-frame-shelf--embedded')).not.toBeNull()\n    expect(host.querySelector('.semantic-frame-shelf')?.getAttribute('aria-label')).toBe(\n      '自定义动作预览',\n    )\n    expect(host.querySelector('.semantic-frame-shelf > header')).toBeNull()\n    expect(host.querySelector('.semantic-frame-group-head')).toBeNull()\n    expect(host.querySelector('.semantic-frame-row-label')?.textContent).toBe('待机')\n  })\n\n  test('实例自动行为单独成区，可预览稳定帧序并跳转使用位置', async () => {\n    const frames: SpriteFrameView[] = Array.from({ length: 4 }, () => {\n      const canvas = document.createElement('canvas')\n      canvas.width = 14\n      canvas.height = 21\n      return { canvas, width: 14, height: 21 }\n    })\n    const onOpenLocations = vi.fn()\n    await act(async () => {\n      root.render(\n        <InstanceBehaviorShelf\n          frames={frames}\n          groups={[\n            {\n              id: 'sprite-8',\n              label: '原精灵 8',\n              rows: [\n                {\n                  id: 'loop',\n                  label: '自动脚本切帧',\n                  frames: [1, 2, 3],\n                  playbackFrames: [1, 2, 3],\n                  instanceCount: 53,\n                  sceneCount: 8,\n                  note: '动态仅作帧序示意',\n                },\n              ],\n            },\n          ]}\n          onOpenLocations={onOpenLocations}\n        />,\n      )\n    })\n\n    const shelf = host.querySelector('.instance-behavior-shelf')!\n    expect(shelf.textContent).toContain('场景实例自动行为')\n    expect(shelf.textContent).toContain('53 个实例')\n    expect(shelf.querySelector('.sprite-frame-cell.animated')).not.toBeNull()\n    expect(shelf.querySelectorAll('.semantic-frame-track .sprite-frame-cell')).toHaveLength(4)\n\n    await act(async () =>\n      shelf.querySelector<HTMLButtonElement>('.instance-behavior-location-link')?.click(),\n    )\n    expect(onOpenLocations).toHaveBeenCalledWith('sprite-8')\n  })\n\n  test('随机脚本按可能路径分行预览，实例总数不按路径重复累计', async () => {\n    const frames: SpriteFrameView[] = Array.from({ length: 4 }, () => {\n      const canvas = document.createElement('canvas')\n      canvas.width = 44\n      canvas.height = 30\n      return { canvas, width: 44, height: 30 }\n    })\n    await act(async () => {\n      root.render(\n        <InstanceBehaviorShelf\n          frames={frames}\n          groups={[\n            {\n              id: 'sprite-72',\n              label: '原精灵 72',\n              instanceCount: 3,\n              rows: [\n                {\n                  id: 'special',\n                  label: '自动脚本随机切帧 · 条件分支（51%）',\n                  frames: [0, 2, 3, 2, 0],\n                  playbackSteps: [\n                    { frame: 0, holdMs: 200 },\n                    { frame: 2, holdMs: 280 },\n                    { frame: 3, holdMs: 640 },\n                    { frame: 2, holdMs: 240 },\n                    { frame: 0, holdMs: 160 },\n                  ],\n                  instanceCount: 3,\n                  sceneCount: 3,\n                },\n                {\n                  id: 'ordinary',\n                  label: '自动脚本随机切帧 · 未命中分支',\n                  frames: [0, 1],\n                  playbackSteps: [\n                    { frame: 0, holdMs: 200 },\n                    { frame: 1, holdMs: 360 },\n                  ],\n                  instanceCount: 3,\n                  sceneCount: 3,\n                },\n              ],\n            },\n          ]}\n        />,\n      )\n    })\n\n    const shelf = host.querySelector('.instance-behavior-shelf')!\n    expect(shelf.textContent).toContain('3 个实例')\n    expect(shelf.textContent).not.toContain('6 个实例')\n    expect(shelf.querySelectorAll('.semantic-frame-row')).toHaveLength(2)\n    expect(shelf.querySelectorAll('.sprite-frame-cell.animated')).toHaveLength(2)\n  })\n\n  test('共享源帧选择器只有一个 Tab 停靠点，并统一键盘与拖拽 payload', async () => {\n    const frames: SpriteFrameView[] = Array.from({ length: 4 }, () => ({\n      canvas: undefined,\n      width: 20,\n      height: 30,\n    }))\n    const scrollIntoView = vi.fn()\n    Object.defineProperty(HTMLElement.prototype, 'scrollIntoView', {\n      configurable: true,\n      value: scrollIntoView,\n    })\n    vi.useFakeTimers({ toFake: ['requestAnimationFrame', 'cancelAnimationFrame'] })\n    function Harness() {\n      const [selected, setSelected] = useState(1)\n      return (\n        <SpriteSourceFramePicker\n          asset=\"sprite.test\"\n          frames={frames}\n          selectedFrame={selected}\n          onSelect={setSelected}\n          transferEnabled\n          presentation=\"rail\"\n        />\n      )\n    }\n    await act(async () => root.render(<Harness />))\n    const buttons = [...host.querySelectorAll<HTMLButtonElement>('.sprite-frame-cell')]\n    expect(buttons.map((button) => button.tabIndex)).toEqual([-1, 0, -1, -1])\n    const end = new KeyboardEvent('keydown', { key: 'End', bubbles: true, cancelable: true })\n    await act(async () => buttons[1]!.dispatchEvent(end))\n    await act(async () => vi.advanceTimersToNextFrame())\n    expect(end.defaultPrevented).toBe(true)\n    expect(\n      [...host.querySelectorAll<HTMLButtonElement>('.sprite-frame-cell')].map(\n        (button) => button.tabIndex,\n      ),\n    ).toEqual([-1, -1, -1, 0])\n    expect(scrollIntoView).toHaveBeenCalled()\n    expect(document.activeElement).toBe(buttons[3])\n    expect(host.querySelector('[role=\"status\"]')?.textContent).toContain('源帧 3')\n    const boundary = new KeyboardEvent('keydown', {\n      key: 'ArrowRight',\n      bubbles: true,\n      cancelable: true,\n    })\n    await act(async () =>\n      host.querySelectorAll<HTMLButtonElement>('.sprite-frame-cell')[3]!.dispatchEvent(boundary),\n    )\n    expect(boundary.defaultPrevented).toBe(true)\n\n    const values = new Map<string, string>()\n    const transfer = {\n      effectAllowed: 'none',\n      setData: (type: string, value: string) => values.set(type, value),\n      getData: (type: string) => values.get(type) ?? '',\n    } as unknown as DataTransfer\n    const drag = new Event('dragstart', { bubbles: true, cancelable: true })\n    Object.defineProperty(drag, 'dataTransfer', { value: transfer })\n    await act(async () => buttons[2]!.dispatchEvent(drag))\n    expect(transfer.effectAllowed).toBe('copy')\n    expect(JSON.parse(values.get(SPRITE_FRAME_DRAG_MIME)!)).toEqual({\n      asset: 'sprite.test',\n      frame: 2,\n    })\n    expect(inspectSpriteFrameDragPayload(transfer)).toEqual({\n      kind: 'payload',\n      value: { asset: 'sprite.test', frame: 2 },\n    })\n    expect(\n      inspectSpriteFrameDragPayload({ getData: () => '{bad' } as Pick<DataTransfer, 'getData'>),\n    ).toEqual({ kind: 'invalid' })\n    vi.unstubAllGlobals()\n  })\n})\n",
+          "to": "import {describe}from\"vitest\"\nimport {act}from\"react\"\nimport {afterEach}from\"vitest\"\nimport {beforeEach}from\"vitest\"\nimport {createRoot}from\"react-dom/client\"\nimport {expect}from\"vitest\"\nimport type {Root}from\"react-dom/client\"\nimport {SemanticFrameShelf}from\"./SpriteFrameWorkbench.js\"\nimport type {SpriteFrameView}from\"./SpriteFrameWorkbench.js\"\nimport {test}from\"vitest\"\nimport {vi}from\"vitest\"\nimport {InstanceBehaviorShelf}from\"./SpriteFrameWorkbench.js\"\nimport {inspectSpriteFrameDragPayload}from\"./SpriteFrameWorkbench.js\"\nimport {SPRITE_FRAME_DRAG_MIME}from\"./SpriteFrameWorkbench.js\"\nimport {SpriteSourceFramePicker}from\"./SpriteFrameWorkbench.js\"\nimport {useState}from\"react\"\ndescribe(\"SemanticFrameShelf\",()=>{\n\n  let host: HTMLDivElement\n\n  let root: Root\n\n  let scrollDescriptor: PropertyDescriptor | undefined\n\n\n  beforeEach(() => {\n    vi.stubGlobal('IS_REACT_ACT_ENVIRONMENT', true)\n    host = document.createElement('div')\n    document.body.append(host)\n    root = createRoot(host)\n    scrollDescriptor = Object.getOwnPropertyDescriptor(HTMLElement.prototype, 'scrollIntoView')\n  })\n\n\n  afterEach(async () => {\n    try {\n      await act(async () => root.unmount())\n    } finally {\n      host.remove()\n      if (scrollDescriptor)\n        Object.defineProperty(HTMLElement.prototype, 'scrollIntoView', scrollDescriptor)\n      else Reflect.deleteProperty(HTMLElement.prototype, 'scrollIntoView')\n      vi.unstubAllGlobals()\n      vi.useRealTimers()\n    }\n  })\n\n\n  test('单帧行只有具体帧，多帧行首格动画后跟完整帧序', async () => {\n    const frames: SpriteFrameView[] = Array.from({ length: 4 }, () => {\n      const canvas = document.createElement('canvas')\n      canvas.width = 20\n      canvas.height = 30\n      return { canvas, width: 20, height: 30 }\n    })\n    const onFrameSelect = vi.fn()\n    await act(async () => {\n      root.render(\n        <SemanticFrameShelf\n          frames={frames}\n          groups={[\n            {\n              id: 'fighter',\n              label: '战士',\n              typeLabel: '玩家战斗',\n              active: true,\n              rows: [\n                { id: 'defend', label: '防御', frames: [3] },\n                {\n                  id: 'attack',\n                  label: '普通攻击',\n                  frames: [1, 2, 0],\n                  playbackFrames: [1, 2, 0],\n                },\n              ],\n            },\n          ]}\n          onFrameSelect={onFrameSelect}\n        />,\n      )\n    })\n    const rows = host.querySelectorAll('.semantic-frame-row')\n    expect(rows).toHaveLength(2)\n    expect(rows[0]?.querySelector('.animated')).toBeNull()\n    expect(rows[0]?.querySelectorAll('.sprite-frame-cell')).toHaveLength(1)\n    expect(rows[1]?.querySelector('.sprite-frame-cell:first-child')?.classList).toContain(\n      'animated',\n    )\n    expect(rows[1]?.querySelectorAll('.sprite-frame-cell')).toHaveLength(4)\n    expect(rows[1]?.textContent).toContain('#1')\n    expect(rows[1]?.textContent).toContain('#2')\n    expect(rows[1]?.textContent).toContain('#0')\n\n    await act(async () =>\n      rows[1]?.querySelector<HTMLButtonElement>('[aria-label^=\"选择源帧 2\"]')?.click(),\n    )\n    expect(onFrameSelect).toHaveBeenCalledWith(2)\n  })\n})\ndescribe(\"SemanticFrameShelf\",()=>{\n\n  let host: HTMLDivElement\n\n  let root: Root\n\n  let scrollDescriptor: PropertyDescriptor | undefined\n\n\n  beforeEach(() => {\n    vi.stubGlobal('IS_REACT_ACT_ENVIRONMENT', true)\n    host = document.createElement('div')\n    document.body.append(host)\n    root = createRoot(host)\n    scrollDescriptor = Object.getOwnPropertyDescriptor(HTMLElement.prototype, 'scrollIntoView')\n  })\n\n\n  afterEach(async () => {\n    try {\n      await act(async () => root.unmount())\n    } finally {\n      host.remove()\n      if (scrollDescriptor)\n        Object.defineProperty(HTMLElement.prototype, 'scrollIntoView', scrollDescriptor)\n      else Reflect.deleteProperty(HTMLElement.prototype, 'scrollIntoView')\n      vi.unstubAllGlobals()\n      vi.useRealTimers()\n    }\n  })\n\n\n  test('单用途嵌入式动作架不重复外层标题和用途身份头', async () => {\n    const canvas = document.createElement('canvas')\n    canvas.width = 20\n    canvas.height = 30\n    await act(async () => {\n      root.render(\n        <SemanticFrameShelf\n          presentation=\"embedded\"\n          ariaLabel=\"自定义动作预览\"\n          frames={[{ canvas, width: 20, height: 30 }]}\n          groups={[\n            {\n              id: 'fighter',\n              label: '战士',\n              typeLabel: '玩家战斗',\n              active: true,\n              rows: [{ id: 'idle', label: '待机', frames: [0] }],\n            },\n          ]}\n        />,\n      )\n    })\n\n    expect(host.querySelector('.semantic-frame-shelf--embedded')).not.toBeNull()\n    expect(host.querySelector('.semantic-frame-shelf')?.getAttribute('aria-label')).toBe(\n      '自定义动作预览',\n    )\n    expect(host.querySelector('.semantic-frame-shelf > header')).toBeNull()\n    expect(host.querySelector('.semantic-frame-group-head')).toBeNull()\n    expect(host.querySelector('.semantic-frame-row-label')?.textContent).toBe('待机')\n  })\n})\ndescribe(\"SemanticFrameShelf\",()=>{\n\n  let host: HTMLDivElement\n\n  let root: Root\n\n  let scrollDescriptor: PropertyDescriptor | undefined\n\n\n  beforeEach(() => {\n    vi.stubGlobal('IS_REACT_ACT_ENVIRONMENT', true)\n    host = document.createElement('div')\n    document.body.append(host)\n    root = createRoot(host)\n    scrollDescriptor = Object.getOwnPropertyDescriptor(HTMLElement.prototype, 'scrollIntoView')\n  })\n\n\n  afterEach(async () => {\n    try {\n      await act(async () => root.unmount())\n    } finally {\n      host.remove()\n      if (scrollDescriptor)\n        Object.defineProperty(HTMLElement.prototype, 'scrollIntoView', scrollDescriptor)\n      else Reflect.deleteProperty(HTMLElement.prototype, 'scrollIntoView')\n      vi.unstubAllGlobals()\n      vi.useRealTimers()\n    }\n  })\n\n\n  test('实例自动行为单独成区，可预览稳定帧序并跳转使用位置', async () => {\n    const frames: SpriteFrameView[] = Array.from({ length: 4 }, () => {\n      const canvas = document.createElement('canvas')\n      canvas.width = 14\n      canvas.height = 21\n      return { canvas, width: 14, height: 21 }\n    })\n    const onOpenLocations = vi.fn()\n    await act(async () => {\n      root.render(\n        <InstanceBehaviorShelf\n          frames={frames}\n          groups={[\n            {\n              id: 'sprite-8',\n              label: '原精灵 8',\n              rows: [\n                {\n                  id: 'loop',\n                  label: '自动脚本切帧',\n                  frames: [1, 2, 3],\n                  playbackFrames: [1, 2, 3],\n                  instanceCount: 53,\n                  sceneCount: 8,\n                  note: '动态仅作帧序示意',\n                },\n              ],\n            },\n          ]}\n          onOpenLocations={onOpenLocations}\n        />,\n      )\n    })\n\n    const shelf = host.querySelector('.instance-behavior-shelf')!\n    expect(shelf.textContent).toContain('场景实例自动行为')\n    expect(shelf.textContent).toContain('53 个实例')\n    expect(shelf.querySelector('.sprite-frame-cell.animated')).not.toBeNull()\n    expect(shelf.querySelectorAll('.semantic-frame-track .sprite-frame-cell')).toHaveLength(4)\n\n    await act(async () =>\n      shelf.querySelector<HTMLButtonElement>('.instance-behavior-location-link')?.click(),\n    )\n    expect(onOpenLocations).toHaveBeenCalledWith('sprite-8')\n  })\n})\ndescribe(\"SemanticFrameShelf\",()=>{\n\n  let host: HTMLDivElement\n\n  let root: Root\n\n  let scrollDescriptor: PropertyDescriptor | undefined\n\n\n  beforeEach(() => {\n    vi.stubGlobal('IS_REACT_ACT_ENVIRONMENT', true)\n    host = document.createElement('div')\n    document.body.append(host)\n    root = createRoot(host)\n    scrollDescriptor = Object.getOwnPropertyDescriptor(HTMLElement.prototype, 'scrollIntoView')\n  })\n\n\n  afterEach(async () => {\n    try {\n      await act(async () => root.unmount())\n    } finally {\n      host.remove()\n      if (scrollDescriptor)\n        Object.defineProperty(HTMLElement.prototype, 'scrollIntoView', scrollDescriptor)\n      else Reflect.deleteProperty(HTMLElement.prototype, 'scrollIntoView')\n      vi.unstubAllGlobals()\n      vi.useRealTimers()\n    }\n  })\n\n\n  test('随机脚本按可能路径分行预览，实例总数不按路径重复累计', async () => {\n    const frames: SpriteFrameView[] = Array.from({ length: 4 }, () => {\n      const canvas = document.createElement('canvas')\n      canvas.width = 44\n      canvas.height = 30\n      return { canvas, width: 44, height: 30 }\n    })\n    await act(async () => {\n      root.render(\n        <InstanceBehaviorShelf\n          frames={frames}\n          groups={[\n            {\n              id: 'sprite-72',\n              label: '原精灵 72',\n              instanceCount: 3,\n              rows: [\n                {\n                  id: 'special',\n                  label: '自动脚本随机切帧 · 条件分支（51%）',\n                  frames: [0, 2, 3, 2, 0],\n                  playbackSteps: [\n                    { frame: 0, holdMs: 200 },\n                    { frame: 2, holdMs: 280 },\n                    { frame: 3, holdMs: 640 },\n                    { frame: 2, holdMs: 240 },\n                    { frame: 0, holdMs: 160 },\n                  ],\n                  instanceCount: 3,\n                  sceneCount: 3,\n                },\n                {\n                  id: 'ordinary',\n                  label: '自动脚本随机切帧 · 未命中分支',\n                  frames: [0, 1],\n                  playbackSteps: [\n                    { frame: 0, holdMs: 200 },\n                    { frame: 1, holdMs: 360 },\n                  ],\n                  instanceCount: 3,\n                  sceneCount: 3,\n                },\n              ],\n            },\n          ]}\n        />,\n      )\n    })\n\n    const shelf = host.querySelector('.instance-behavior-shelf')!\n    expect(shelf.textContent).toContain('3 个实例')\n    expect(shelf.textContent).not.toContain('6 个实例')\n    expect(shelf.querySelectorAll('.semantic-frame-row')).toHaveLength(2)\n    expect(shelf.querySelectorAll('.sprite-frame-cell.animated')).toHaveLength(2)\n  })\n})\ndescribe(\"SemanticFrameShelf\",()=>{\n\n  let host: HTMLDivElement\n\n  let root: Root\n\n  let scrollDescriptor: PropertyDescriptor | undefined\n\n\n  beforeEach(() => {\n    vi.stubGlobal('IS_REACT_ACT_ENVIRONMENT', true)\n    host = document.createElement('div')\n    document.body.append(host)\n    root = createRoot(host)\n    scrollDescriptor = Object.getOwnPropertyDescriptor(HTMLElement.prototype, 'scrollIntoView')\n  })\n\n\n  afterEach(async () => {\n    try {\n      await act(async () => root.unmount())\n    } finally {\n      host.remove()\n      if (scrollDescriptor)\n        Object.defineProperty(HTMLElement.prototype, 'scrollIntoView', scrollDescriptor)\n      else Reflect.deleteProperty(HTMLElement.prototype, 'scrollIntoView')\n      vi.unstubAllGlobals()\n      vi.useRealTimers()\n    }\n  })\n\n\n  test('共享源帧选择器只有一个 Tab 停靠点，并统一键盘与拖拽 payload', async () => {\n    const frames: SpriteFrameView[] = Array.from({ length: 4 }, () => ({\n      canvas: undefined,\n      width: 20,\n      height: 30,\n    }))\n    const scrollIntoView = vi.fn()\n    Object.defineProperty(HTMLElement.prototype, 'scrollIntoView', {\n      configurable: true,\n      value: scrollIntoView,\n    })\n    vi.useFakeTimers({ toFake: ['requestAnimationFrame', 'cancelAnimationFrame'] })\n    function Harness() {\n      const [selected, setSelected] = useState(1)\n      return (\n        <SpriteSourceFramePicker\n          asset=\"sprite.test\"\n          frames={frames}\n          selectedFrame={selected}\n          onSelect={setSelected}\n          transferEnabled\n          presentation=\"rail\"\n        />\n      )\n    }\n    await act(async () => root.render(<Harness />))\n    const buttons = [...host.querySelectorAll<HTMLButtonElement>('.sprite-frame-cell')]\n    expect(buttons.map((button) => button.tabIndex)).toEqual([-1, 0, -1, -1])\n    const end = new KeyboardEvent('keydown', { key: 'End', bubbles: true, cancelable: true })\n    await act(async () => buttons[1]!.dispatchEvent(end))\n    await act(async () => vi.advanceTimersToNextFrame())\n    expect(end.defaultPrevented).toBe(true)\n    expect(\n      [...host.querySelectorAll<HTMLButtonElement>('.sprite-frame-cell')].map(\n        (button) => button.tabIndex,\n      ),\n    ).toEqual([-1, -1, -1, 0])\n    expect(scrollIntoView).toHaveBeenCalled()\n    expect(document.activeElement).toBe(buttons[3])\n    expect(host.querySelector('[role=\"status\"]')?.textContent).toContain('源帧 3')\n    const boundary = new KeyboardEvent('keydown', {\n      key: 'ArrowRight',\n      bubbles: true,\n      cancelable: true,\n    })\n    await act(async () =>\n      host.querySelectorAll<HTMLButtonElement>('.sprite-frame-cell')[3]!.dispatchEvent(boundary),\n    )\n    expect(boundary.defaultPrevented).toBe(true)\n\n    const values = new Map<string, string>()\n    const transfer = {\n      effectAllowed: 'none',\n      setData: (type: string, value: string) => values.set(type, value),\n      getData: (type: string) => values.get(type) ?? '',\n    } as unknown as DataTransfer\n    const drag = new Event('dragstart', { bubbles: true, cancelable: true })\n    Object.defineProperty(drag, 'dataTransfer', { value: transfer })\n    await act(async () => buttons[2]!.dispatchEvent(drag))\n    expect(transfer.effectAllowed).toBe('copy')\n    expect(JSON.parse(values.get(SPRITE_FRAME_DRAG_MIME)!)).toEqual({\n      asset: 'sprite.test',\n      frame: 2,\n    })\n    expect(inspectSpriteFrameDragPayload(transfer)).toEqual({\n      kind: 'payload',\n      value: { asset: 'sprite.test', frame: 2 },\n    })\n  })\n})\n",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "registrations": [
+    {
+      "old": {
+        "file": "packages/editor/src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx",
+        "ordinal": 0,
+        "fullName": "C05-G07 拖拽协议与源帧选择器 C05-G07-01 inspect：缺 MIME 返回 absent"
+      },
+      "current": {
+        "file": "packages/editor/src/ui/SpriteFrameWorkbench.drag-payload.test.ts",
+        "titles": ["Sprite frame drag payload"],
+        "template": "inspect：缺 MIME 返回 absent",
+        "fullName": "Sprite frame drag payload inspect：缺 MIME 返回 absent"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/editor/src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx",
+        "ordinal": 1,
+        "fullName": "C05-G07 拖拽协议与源帧选择器 C05-G07-02 inspect：非法 JSON 返回 invalid"
+      },
+      "current": {
+        "file": "packages/editor/src/ui/SpriteFrameWorkbench.drag-payload.test.ts",
+        "titles": ["Sprite frame drag payload"],
+        "template": "inspect：非法 JSON 返回 invalid",
+        "fullName": "Sprite frame drag payload inspect：非法 JSON 返回 invalid"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/editor/src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx",
+        "ordinal": 2,
+        "fullName": "C05-G07 拖拽协议与源帧选择器 C05-G07-03 inspect：frame 非整数返回 invalid"
+      },
+      "current": {
+        "file": "packages/editor/src/ui/SpriteFrameWorkbench.drag-payload.test.ts",
+        "titles": ["Sprite frame drag payload"],
+        "template": "inspect：frame 非整数返回 invalid",
+        "fullName": "Sprite frame drag payload inspect：frame 非整数返回 invalid"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/editor/src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx",
+        "ordinal": 3,
+        "fullName": "C05-G07 拖拽协议与源帧选择器 C05-G07-04 inspect：合法 payload 可读回"
+      },
+      "current": {
+        "file": "packages/editor/src/ui/SpriteFrameWorkbench.drag-payload.test.ts",
+        "titles": ["Sprite frame drag payload"],
+        "template": "inspect：合法 payload 可读回",
+        "fullName": "Sprite frame drag payload inspect：合法 payload 可读回"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/editor/src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx",
+        "ordinal": 4,
+        "fullName": "C05-G07 拖拽协议与源帧选择器 C05-G07-05 inspect：JSON 标量不是拖拽 payload"
+      },
+      "current": {
+        "file": "packages/editor/src/ui/SpriteFrameWorkbench.drag-payload.test.ts",
+        "titles": ["Sprite frame drag payload"],
+        "template": "inspect：JSON 标量不是拖拽 payload",
+        "fullName": "Sprite frame drag payload inspect：JSON 标量不是拖拽 payload"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/editor/src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx",
+        "ordinal": 5,
+        "fullName": "C05-G07 拖拽协议与源帧选择器 C05-G07-06 选中帧超出范围：安全钳到末帧且 status 播报末索引"
+      },
+      "current": {
+        "file": "packages/editor/src/ui/SpriteSourceFramePicker.keyboard.test.tsx",
+        "titles": ["Sprite source frame selection"],
+        "template": "选中帧超出范围：安全钳到末帧且 status 播报末索引",
+        "fullName": "Sprite source frame selection 选中帧超出范围：安全钳到末帧且 status 播报末索引"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/editor/src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx",
+        "ordinal": 6,
+        "fullName": "C05-G07 拖拽协议与源帧选择器 C05-G07-07 ArrowRight 从帧 0 选中帧 1 并回调 onSelect"
+      },
+      "current": {
+        "file": "packages/editor/src/ui/SpriteSourceFramePicker.keyboard.test.tsx",
+        "titles": ["Sprite source frame selection"],
+        "template": "ArrowRight 从帧 0 选中帧 1 并回调 onSelect",
+        "fullName": "Sprite source frame selection ArrowRight 从帧 0 选中帧 1 并回调 onSelect"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/editor/src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx",
+        "ordinal": 7,
+        "fullName": "C05-G07 拖拽协议与源帧选择器 C05-G07-08 Home/End 键跳到首尾帧"
+      },
+      "current": {
+        "file": "packages/editor/src/ui/SpriteSourceFramePicker.keyboard.test.tsx",
+        "titles": ["Sprite source frame selection"],
+        "template": "Home/End 键跳到首尾帧",
+        "fullName": "Sprite source frame selection Home/End 键跳到首尾帧"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/editor/src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx",
+        "ordinal": 8,
+        "fullName": "C05-G07 拖拽协议与源帧选择器 C05-G07-09 SpriteFrameCanvas 绘制真实 bakeFrame 的非透明像素与透明留白"
+      },
+      "current": {
+        "file": "packages/editor/src/ui/SpriteFrameCanvas.pixels.test.tsx",
+        "titles": [],
+        "template": "SpriteFrameCanvas 绘制真实 bakeFrame 的非透明像素与透明留白",
+        "fullName": "SpriteFrameCanvas 绘制真实 bakeFrame 的非透明像素与透明留白"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/editor/src/ui/SpriteFrameWorkbench.test.tsx",
+        "ordinal": 0,
+        "fullName": "SemanticFrameShelf 单帧行只有具体帧，多帧行首格动画后跟完整帧序"
+      },
+      "current": {
+        "file": "packages/editor/src/ui/SpriteFrameWorkbench.test.tsx",
+        "titles": ["SemanticFrameShelf"],
+        "template": "单帧行只有具体帧，多帧行首格动画后跟完整帧序",
+        "fullName": "SemanticFrameShelf 单帧行只有具体帧，多帧行首格动画后跟完整帧序"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/editor/src/ui/SpriteFrameWorkbench.test.tsx",
+        "ordinal": 1,
+        "fullName": "SemanticFrameShelf 单用途嵌入式动作架不重复外层标题和用途身份头"
+      },
+      "current": {
+        "file": "packages/editor/src/ui/SpriteFrameWorkbench.test.tsx",
+        "titles": ["SemanticFrameShelf"],
+        "template": "单用途嵌入式动作架不重复外层标题和用途身份头",
+        "fullName": "SemanticFrameShelf 单用途嵌入式动作架不重复外层标题和用途身份头"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/editor/src/ui/SpriteFrameWorkbench.test.tsx",
+        "ordinal": 2,
+        "fullName": "SemanticFrameShelf 实例自动行为单独成区，可预览稳定帧序并跳转使用位置"
+      },
+      "current": {
+        "file": "packages/editor/src/ui/SpriteFrameWorkbench.test.tsx",
+        "titles": ["SemanticFrameShelf"],
+        "template": "实例自动行为单独成区，可预览稳定帧序并跳转使用位置",
+        "fullName": "SemanticFrameShelf 实例自动行为单独成区，可预览稳定帧序并跳转使用位置"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/editor/src/ui/SpriteFrameWorkbench.test.tsx",
+        "ordinal": 3,
+        "fullName": "SemanticFrameShelf 随机脚本按可能路径分行预览，实例总数不按路径重复累计"
+      },
+      "current": {
+        "file": "packages/editor/src/ui/SpriteFrameWorkbench.test.tsx",
+        "titles": ["SemanticFrameShelf"],
+        "template": "随机脚本按可能路径分行预览，实例总数不按路径重复累计",
+        "fullName": "SemanticFrameShelf 随机脚本按可能路径分行预览，实例总数不按路径重复累计"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/editor/src/ui/SpriteFrameWorkbench.test.tsx",
+        "ordinal": 4,
+        "fullName": "SemanticFrameShelf 共享源帧选择器只有一个 Tab 停靠点，并统一键盘与拖拽 payload"
+      },
+      "current": {
+        "file": "packages/editor/src/ui/SpriteFrameWorkbench.test.tsx",
+        "titles": ["SemanticFrameShelf"],
+        "template": "共享源帧选择器只有一个 Tab 停靠点，并统一键盘与拖拽 payload",
+        "fullName": "SemanticFrameShelf 共享源帧选择器只有一个 Tab 停靠点，并统一键盘与拖拽 payload"
+      }
+    }
+  ],
+  "identities": [
+    {
+      "old": {
+        "file": "packages/editor/src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx",
+        "fullName": "C05-G07 拖拽协议与源帧选择器 C05-G07-01 inspect：缺 MIME 返回 absent"
+      },
+      "current": {
+        "file": "packages/editor/src/ui/SpriteFrameWorkbench.drag-payload.test.ts",
+        "fullName": "Sprite frame drag payload inspect：缺 MIME 返回 absent"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/editor/src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx",
+        "fullName": "C05-G07 拖拽协议与源帧选择器 C05-G07-02 inspect：非法 JSON 返回 invalid"
+      },
+      "current": {
+        "file": "packages/editor/src/ui/SpriteFrameWorkbench.drag-payload.test.ts",
+        "fullName": "Sprite frame drag payload inspect：非法 JSON 返回 invalid"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/editor/src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx",
+        "fullName": "C05-G07 拖拽协议与源帧选择器 C05-G07-03 inspect：frame 非整数返回 invalid"
+      },
+      "current": {
+        "file": "packages/editor/src/ui/SpriteFrameWorkbench.drag-payload.test.ts",
+        "fullName": "Sprite frame drag payload inspect：frame 非整数返回 invalid"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/editor/src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx",
+        "fullName": "C05-G07 拖拽协议与源帧选择器 C05-G07-04 inspect：合法 payload 可读回"
+      },
+      "current": {
+        "file": "packages/editor/src/ui/SpriteFrameWorkbench.drag-payload.test.ts",
+        "fullName": "Sprite frame drag payload inspect：合法 payload 可读回"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/editor/src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx",
+        "fullName": "C05-G07 拖拽协议与源帧选择器 C05-G07-05 inspect：JSON 标量不是拖拽 payload"
+      },
+      "current": {
+        "file": "packages/editor/src/ui/SpriteFrameWorkbench.drag-payload.test.ts",
+        "fullName": "Sprite frame drag payload inspect：JSON 标量不是拖拽 payload"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/editor/src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx",
+        "fullName": "C05-G07 拖拽协议与源帧选择器 C05-G07-06 选中帧超出范围：安全钳到末帧且 status 播报末索引"
+      },
+      "current": {
+        "file": "packages/editor/src/ui/SpriteSourceFramePicker.keyboard.test.tsx",
+        "fullName": "Sprite source frame selection 选中帧超出范围：安全钳到末帧且 status 播报末索引"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/editor/src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx",
+        "fullName": "C05-G07 拖拽协议与源帧选择器 C05-G07-07 ArrowRight 从帧 0 选中帧 1 并回调 onSelect"
+      },
+      "current": {
+        "file": "packages/editor/src/ui/SpriteSourceFramePicker.keyboard.test.tsx",
+        "fullName": "Sprite source frame selection ArrowRight 从帧 0 选中帧 1 并回调 onSelect"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/editor/src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx",
+        "fullName": "C05-G07 拖拽协议与源帧选择器 C05-G07-08 Home/End 键跳到首尾帧"
+      },
+      "current": {
+        "file": "packages/editor/src/ui/SpriteSourceFramePicker.keyboard.test.tsx",
+        "fullName": "Sprite source frame selection Home/End 键跳到首尾帧"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/editor/src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx",
+        "fullName": "C05-G07 拖拽协议与源帧选择器 C05-G07-09 SpriteFrameCanvas 绘制真实 bakeFrame 的非透明像素与透明留白"
+      },
+      "current": {
+        "file": "packages/editor/src/ui/SpriteFrameCanvas.pixels.test.tsx",
+        "fullName": "SpriteFrameCanvas 绘制真实 bakeFrame 的非透明像素与透明留白"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/editor/src/ui/SpriteFrameWorkbench.test.tsx",
+        "fullName": "SemanticFrameShelf 单帧行只有具体帧，多帧行首格动画后跟完整帧序"
+      },
+      "current": {
+        "file": "packages/editor/src/ui/SpriteFrameWorkbench.test.tsx",
+        "fullName": "SemanticFrameShelf 单帧行只有具体帧，多帧行首格动画后跟完整帧序"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/editor/src/ui/SpriteFrameWorkbench.test.tsx",
+        "fullName": "SemanticFrameShelf 单用途嵌入式动作架不重复外层标题和用途身份头"
+      },
+      "current": {
+        "file": "packages/editor/src/ui/SpriteFrameWorkbench.test.tsx",
+        "fullName": "SemanticFrameShelf 单用途嵌入式动作架不重复外层标题和用途身份头"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/editor/src/ui/SpriteFrameWorkbench.test.tsx",
+        "fullName": "SemanticFrameShelf 实例自动行为单独成区，可预览稳定帧序并跳转使用位置"
+      },
+      "current": {
+        "file": "packages/editor/src/ui/SpriteFrameWorkbench.test.tsx",
+        "fullName": "SemanticFrameShelf 实例自动行为单独成区，可预览稳定帧序并跳转使用位置"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/editor/src/ui/SpriteFrameWorkbench.test.tsx",
+        "fullName": "SemanticFrameShelf 随机脚本按可能路径分行预览，实例总数不按路径重复累计"
+      },
+      "current": {
+        "file": "packages/editor/src/ui/SpriteFrameWorkbench.test.tsx",
+        "fullName": "SemanticFrameShelf 随机脚本按可能路径分行预览，实例总数不按路径重复累计"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/editor/src/ui/SpriteFrameWorkbench.test.tsx",
+        "fullName": "SemanticFrameShelf 共享源帧选择器只有一个 Tab 停靠点，并统一键盘与拖拽 payload"
+      },
+      "current": {
+        "file": "packages/editor/src/ui/SpriteFrameWorkbench.test.tsx",
+        "fullName": "SemanticFrameShelf 共享源帧选择器只有一个 Tab 停靠点，并统一键盘与拖拽 payload"
+      }
+    }
+  ],
+  "retirements": [],
+  "cohortSubjects": [
+    {
+      "path": "packages/editor/src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx",
+      "sha256": "891d143621e72fe0e4fdc13a751ab4801be13c747f207dcada73f150f3ccc453",
+      "priorCurrentBridges": []
+    }
+  ],
+  "profiles": [
+    {
+      "path": "packages/editor/src/ui/SpriteFrameWorkbench.drag-payload.test.ts",
+      "subjects": ["packages/editor/src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx"],
+      "axes": {
+        "A": "Five real public inspect calls cover absent MIME,malformed JSON,fractional frame,valid object and scalar. Actual SpriteActionEditor acceptDrop separately owns same-asset and frame-range checks; parser only shape,so literal sprite.test is lawful without project loading. Full product and provider reads plus exact prior source pin support reuse.",
+        "B": "Replace contributor/task/dedupe claims with precise shape-only boundary comment. No claim to validate drop target range,asset existence or runtime sprite resources.",
+        "C": "Pure parser suite now runs in node; no React root,DOM,Canvas,crypto or loader lifecycle. Five contracts remain together at actual public parser owner.",
+        "D": "Keep distinct malformed syntax/scalar/fractional domains; remove one matching constant bad-JSON assertion from main,keep main real drag producer/parser integration. No new generic parser test factory.",
+        "E": "All five original cases and expected outcomes retained; only legal asset literal changed. Full typed layout protects conditions/arguments/expectations. No case retirement or false asset-registry coverage.",
+        "F": "SpriteFrameWorkbench.drag-payload describes production module and protocol; remove C05 numbering from test titles. Actual identity mapping preserves provenance outside names.",
+        "G": "No unnecessary fixture import,root,host or global hooks for pure shape checks. Constant main bad-JSON assertion has exact parser catch survivor; runtime identities retained.",
+        "H": "Direct deterministic public function with minimal Pick<DataTransfer,getData>; no core mock or private seam. Node execution proves no DOM setup needed; whole product source unchanged."
+      }
+    },
+    {
+      "path": "packages/editor/src/ui/SpriteSourceFramePicker.keyboard.test.tsx",
+      "subjects": ["packages/editor/src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx"],
+      "axes": {
+        "A": "Three controlled picker calls retain selected999,0,2 and Home/End/ArrowRight. Six valid 8x8 metadata frames preserve selector domain; canvas is optional by actual SpriteFrameView contract. Rendering pixels and project loading no longer implied by selection credit.",
+        "B": "Header explains why metadata is sufficient and loading/pixels belong elsewhere. Index/status expectation is independent literal5,not recalculated from SUT output.",
+        "C": "Picker spec owns only React root,DOM,act flag and real queued RAF fake clock. Avoids shared C05 synchronous RAF callback and un-restored prototype mutations. Pending-focus cleanup remains tested by separate live-source two-scheduler neighbor.",
+        "D": "One local render helper has three callers,same controlled props/lifetime. No loader or generalized UI fixture factory. Keep range reporting,one-step navigation and endpoints as distinct behavior axes.",
+        "E": "Three identities,selection arguments and callback/status assertions preserved; six loaded frame metadata replaced by literal metadata,not mock behavior. Home→0,End→5 and ArrowRight→1 remain independently specified. Full typed proof covers render props/hooks,then7files21neighbor regression.",
+        "F": "SpriteSourceFramePicker.keyboard names actual public component and function. No author/batch filename; local frames/root/host/renderPicker express role,not task provenance.",
+        "G": "Remove three unrelated project loader calls and hardware/scroll mocks. No new product API,mode boolean or exported helper. New optional-canvas fixtures intentionally do not claim rendered pixel quality.",
+        "H": "Real component and events; async RAF maintained and canceled on unmount,not synchronous callback substitution. Finally restores clock,globals,mocks and owned DOM. Main stateful tab/focus and neighbor cleanup remain complementary."
+      }
+    },
+    {
+      "path": "packages/editor/src/ui/SpriteFrameCanvas.pixels.test.tsx",
+      "subjects": ["packages/editor/src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx"],
+      "axes": {
+        "A": "Actual openC05→project loader→editor sprite cache→palette→bakeFrame→SpriteFrameCanvas path retained. Full fixture/seed/quantizer reads support literal uniform8px frame,color index10,32px display at x16/y28; caller dimensions/maxScale unchanged.",
+        "B": "Comment explains hand-derived bounds and quantized RGB; no two-color claim. Current exact colors,alpha and bounds assertions support stated scope; no human visual acceptance claim.",
+        "C": "One pixel contract owns real hardware ports and DOM; no picker RAF or prototype changes. Loader reader/cache remain real and per-case scoped. Finally restores global ports even on fixture or assertion failure.",
+        "D": "Reuse actual colorCensus/opaqueBounds helpers after full read; no duplicate pixel-loop or SUT-computed expected geometry. Loading fixture unchanged; human-readable project ID only changes isolated test project identity.",
+        "E": "Original presence assertions strengthened to exact bounds1024opaque,3072transparent,zero translucent and RGB200,84,68. Real one-pixel horizontal source mutant passes original selected case and causes exactly one business AssertionError here; source and temporary original spec restored exactly.",
+        "F": "SpriteFrameCanvas.pixels names component/output responsibility; test has descriptive behavior,project label frame-canvas-pixels. Existing provider paths remain adjacent provenance debt,not newly accepted files.",
+        "G": "One cohesive test retains actual decode/bake pipeline; no extra case inflation or copied fixtures. Guard for missing canvas fails explicitly instead of non-null cast hiding origin.",
+        "H": "Actual node-canvas readback,not canvas spy. Literal color oracle independently checks nearest palette arithmetic4256; no self-comparison. Full typed proof protects final alpha assertion and finally cleanup,with negative proof controls."
+      }
+    }
+  ],
+  "auxiliaryDeltaProfiles": [
+    {
+      "path": "packages/editor/src/ui/SpriteFrameWorkbench.test.tsx",
+      "axes": {
+        "A": "Auxiliary main full303-line read and five real shelf/picker tests retained. Runtime control semantics use actual React,DsPressable and currently unchanged product; precise source/fixture prior evidence reused. No full visual or animation timing credit inferred.",
+        "B": "Existing behavioral titles retained; no new coverage claim. Duplicate constant parser assertion removed only with direct parser survivor,not because package tests pass.",
+        "C": "Remove unnecessary getContext substitute; semantic/control tests use actual canvas backend. Scoped act flag and finally restore DOM,scroll descriptor and clock avoid leaking global test state.",
+        "D": "Real drag producer plus parser positive stays because it proves integration. Only separately fabricated bad JSON overlaps direct malformed-input parser case; remaining five case identities and all other business assertions retained.",
+        "E": "Complete typed proof conserves four exact callbacks and fifth except duplicate assertion and premature global unstub. Explicit tab stops,focus,preventDefault,payload and counts remain. Neighbor green is impact evidence,not new arbitrary library acceptance.",
+        "F": "Main name already matches its module; no semantic rename needed merely to claim a moved file. Test-local Harness remains confined to controlled picker state.",
+        "G": "Delete canvas mock variable/setup/restore,one duplicate bad-JSON expectation and premature per-case global reset. No case deleted; no product change or widened shared test host.",
+        "H": "Real canvas eliminates an unnecessary rendering substitute without changing UI assertions. Finally owns cleanup even when assertions/unmount fail; earlier pixel/animation/focus evidence remains version scoped."
+      }
+    }
+  ],
+  "preserved": [
+    {
+      "path": "packages/editor/src/ui/SpriteFrameWorkbench.tsx",
+      "sha256": "da110be6dfa1fbe80b13d4c61858f85bb30c3377b09258a93a042b29369a3b1d",
+      "lines": 693
+    },
+    {
+      "path": "packages/editor/src/ui/SpriteFrameWorkbench.glm-next-wave.test.tsx",
+      "sha256": "e32e8c3fdee44d320fc4e99e3afd0ea10edbf618b6fe9dde68e7726a05923921",
+      "lines": 159
+    },
+    {
+      "path": "packages/editor/src/ui/SpriteFrameWorkbench.focus-lifecycle.test.tsx",
+      "sha256": "69d296b7d58e220e49bab521969d11d3fb232580a64f087c52d620edf4fcfed2",
+      "lines": 49
+    },
+    {
+      "path": "packages/editor/src/ui/SpriteFrameWorkbench.animation-boundary.test.tsx",
+      "sha256": "3813f3c8c5bcdf7ec7115e24f9f060ca4d839ac8f13c8f9a1aea96c162aa015c",
+      "lines": 94
+    },
+    {
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/c05-action-fixtures.ts",
+      "sha256": "6543df8351a91dabe1e508e459c76488260a993c46abc044b6431e3b2c8180f9",
+      "lines": 206
+    },
+    {
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/c05-action-ui.ts",
+      "sha256": "9a000344ba9b975f2222aebba3566656f5f1d2b074c42b4e003433c69d368001",
+      "lines": 165
+    },
+    {
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/canvas-pixels.ts",
+      "sha256": "8eff315b1af6ae07b13e22cc80cd82c39b6c06862fd7e2b19f8aa60be1c052bb",
+      "lines": 122
+    },
+    {
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/sprite-fixtures.ts",
+      "sha256": "e7d1580d84771445a3d230f40a0a6c598ff847adcbbae33d13cc133d23c22aa2",
+      "lines": 147
+    },
+    {
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/frame-editor-ports.ts",
+      "sha256": "415ffa20164eaf6329b0d2973eb4e2b9c576eb2c2b870b24405fc3ac56000d90",
+      "lines": 36
+    },
+    {
+      "path": "packages/editor/src/core/seed-assets.ts",
+      "sha256": "97afb6faf0b311bcb03003b9f948021da6331aab99c34867e97c5427706eac77",
+      "lines": 136
+    },
+    {
+      "path": "packages/reforge/src/quantize.ts",
+      "sha256": "119dd796683ba01252637ceab849208cead0caea74b80ebf87a4d106de5a1b8d",
+      "lines": 82
+    },
+    {
+      "path": "packages/editor/src/core/sprite-assets.ts",
+      "sha256": "9ecff5971e0046e71fd7271608255b4117acdc9e80c7f06ad4203d66f1d3d05f",
+      "lines": 31
+    },
+    {
+      "path": "packages/editor/src/ui/SpriteActionEditor.tsx",
+      "sha256": "2263c9d4a990e0c91848958884b1a829e68c77cbe6dce7c8ae4581006c593cfb",
+      "lines": 828
+    },
+    {
+      "path": "packages/editor/src/ui/SpriteActionEditorDialog.tsx",
+      "sha256": "8d358a507c155cbace226361f07c013683afe6bf7ccf546ffb14c9b0b75d9236",
+      "lines": 428
+    },
+    {
+      "path": "packages/editor/src/ui/BattleSpriteLibrary.tsx",
+      "sha256": "ee26ec7a0e876f8ec7b674a5b7eef8cd8af28d3b8e8aaca34885fd23a99b0aeb",
+      "lines": 1793
+    },
+    {
+      "path": "packages/editor/src/ui/__tests__/kimi-editor-workflows/kit.ts",
+      "sha256": "63d89a1152e9830ebd7d603edbf5431f64e4bf58425c2891adc051debd322aba",
+      "lines": 294
+    },
+    {
+      "path": "packages/reforge/src/render.ts",
+      "sha256": "bca134f8488232b4f0bb5c3025aff645817bdbbc6577e46aa9bf500246cda3a1",
+      "lines": 619
+    },
+    {
+      "path": "packages/reforge/src/assets.ts",
+      "sha256": "8835c24554de4f37ce95532293771a759b578635fa2ac8f9db88db998c5ed025",
+      "lines": 621
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/review.json",
+      "sha256": "78319e8b862631857882d97c13e3e8cf7625b2a0c5fa2e2a29be6d6c78264f57",
+      "lines": 2153
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/workbench-reviewed.json",
+      "sha256": "d1d4340cb23123b1d1bf6ec2e0f4ee54f05236bd070bf2d01d39a0506cadf56a",
+      "lines": 240
+    }
+  ],
+  "neighborPaths": [
+    "packages/editor/src/ui/SpriteFrameCanvas.pixels.test.tsx",
+    "packages/editor/src/ui/SpriteFrameWorkbench.animation-boundary.test.tsx",
+    "packages/editor/src/ui/SpriteFrameWorkbench.drag-payload.test.ts",
+    "packages/editor/src/ui/SpriteFrameWorkbench.focus-lifecycle.test.tsx",
+    "packages/editor/src/ui/SpriteFrameWorkbench.glm-next-wave.test.tsx",
+    "packages/editor/src/ui/SpriteFrameWorkbench.test.tsx",
+    "packages/editor/src/ui/SpriteSourceFramePicker.keyboard.test.tsx"
+  ],
+  "cleanExecutions": [
+    "before",
+    "format",
+    "proof",
+    "neighbors",
+    "typecheck",
+    "docs",
+    "content-review",
+    "lint",
+    "scoped",
+    "diff",
+    "ledger-final",
+    "module-preflight"
+  ],
+  "receipts": {
+    "neighbors": "organization-editor-frame-workbench/neighbors-r2",
+    "ledger-final": "organization-editor-frame-workbench/ledger-final-r2",
+    "module-preflight": "organization-editor-frame-workbench/module-preflight-r2",
+    "docs": "organization-editor-frame-workbench/docs-r2",
+    "content-review": "organization-editor-frame-workbench/content-review-r2",
+    "scoped": "organization-editor-frame-workbench/scoped-r2"
+  },
+  "lightweightGates": true,
+  "callbackProof": "organization-editor-frame-workbench/proof.stdout.raw",
+  "qualityDelta": {
+    "historicalSubjects": 1,
+    "leafIdentities": 9,
+    "mainIdentities": 5,
+    "runtimeIdentities": 14,
+    "currentSpecs": 4,
+    "newCases": 0,
+    "retiredCases": 0,
+    "assertionsRemoved": 1,
+    "removedAssertionSurvivor": "drag-payload malformed JSON case,JSON.parse catch;real producer integration positive remains",
+    "productChanged": false
+  },
+  "reads": {
+    "fullReads": [
+      {
+        "path": "packages/editor/src/ui/SpriteFrameWorkbench.tsx",
+        "sha256": "da110be6dfa1fbe80b13d4c61858f85bb30c3377b09258a93a042b29369a3b1d",
+        "lines": 693
+      },
+      {
+        "path": "packages/editor/src/ui/SpriteFrameWorkbench.glm-next-wave.test.tsx",
+        "sha256": "e32e8c3fdee44d320fc4e99e3afd0ea10edbf618b6fe9dde68e7726a05923921",
+        "lines": 159
+      },
+      {
+        "path": "packages/editor/src/ui/SpriteFrameWorkbench.focus-lifecycle.test.tsx",
+        "sha256": "69d296b7d58e220e49bab521969d11d3fb232580a64f087c52d620edf4fcfed2",
+        "lines": 49
+      },
+      {
+        "path": "packages/editor/src/ui/SpriteFrameWorkbench.animation-boundary.test.tsx",
+        "sha256": "3813f3c8c5bcdf7ec7115e24f9f060ca4d839ac8f13c8f9a1aea96c162aa015c",
+        "lines": 94
+      },
+      {
+        "path": "packages/editor/src/__tests__/cursor-asset-r1/c05-action-fixtures.ts",
+        "sha256": "6543df8351a91dabe1e508e459c76488260a993c46abc044b6431e3b2c8180f9",
+        "lines": 206
+      },
+      {
+        "path": "packages/editor/src/__tests__/cursor-asset-r1/c05-action-ui.ts",
+        "sha256": "9a000344ba9b975f2222aebba3566656f5f1d2b074c42b4e003433c69d368001",
+        "lines": 165
+      },
+      {
+        "path": "packages/editor/src/__tests__/cursor-asset-r1/canvas-pixels.ts",
+        "sha256": "8eff315b1af6ae07b13e22cc80cd82c39b6c06862fd7e2b19f8aa60be1c052bb",
+        "lines": 122
+      },
+      {
+        "path": "packages/editor/src/__tests__/cursor-asset-r1/sprite-fixtures.ts",
+        "sha256": "e7d1580d84771445a3d230f40a0a6c598ff847adcbbae33d13cc133d23c22aa2",
+        "lines": 147
+      },
+      {
+        "path": "packages/editor/src/__tests__/cursor-asset-r1/frame-editor-ports.ts",
+        "sha256": "415ffa20164eaf6329b0d2973eb4e2b9c576eb2c2b870b24405fc3ac56000d90",
+        "lines": 36
+      },
+      {
+        "path": "packages/editor/src/core/seed-assets.ts",
+        "sha256": "97afb6faf0b311bcb03003b9f948021da6331aab99c34867e97c5427706eac77",
+        "lines": 136
+      },
+      {
+        "path": "packages/reforge/src/quantize.ts",
+        "sha256": "119dd796683ba01252637ceab849208cead0caea74b80ebf87a4d106de5a1b8d",
+        "lines": 82
+      },
+      {
+        "path": "packages/editor/src/core/sprite-assets.ts",
+        "sha256": "9ecff5971e0046e71fd7271608255b4117acdc9e80c7f06ad4203d66f1d3d05f",
+        "lines": 31
+      }
+    ],
+    "scopedReads": [
+      {
+        "path": "packages/editor/src/ui/SpriteActionEditor.tsx",
+        "sha256": "2263c9d4a990e0c91848958884b1a829e68c77cbe6dce7c8ae4581006c593cfb",
+        "lines": 828,
+        "ranges": [[330, 385], [640, 670]]
+      },
+      {
+        "path": "packages/editor/src/ui/SpriteActionEditorDialog.tsx",
+        "sha256": "8d358a507c155cbace226361f07c013683afe6bf7ccf546ffb14c9b0b75d9236",
+        "lines": 428,
+        "ranges": [[360, 388]]
+      },
+      {
+        "path": "packages/editor/src/ui/BattleSpriteLibrary.tsx",
+        "sha256": "ee26ec7a0e876f8ec7b674a5b7eef8cd8af28d3b8e8aaca34885fd23a99b0aeb",
+        "lines": 1793,
+        "ranges": [[1552, 1576], [1610, 1630]]
+      },
+      {
+        "path": "packages/editor/src/ui/__tests__/kimi-editor-workflows/kit.ts",
+        "sha256": "63d89a1152e9830ebd7d603edbf5431f64e4bf58425c2891adc051debd322aba",
+        "lines": 294,
+        "ranges": [[195, 275]]
+      },
+      {
+        "path": "packages/reforge/src/render.ts",
+        "sha256": "bca134f8488232b4f0bb5c3025aff645817bdbbc6577e46aa9bf500246cda3a1",
+        "lines": 619,
+        "ranges": [[1, 68]]
+      },
+      {
+        "path": "packages/reforge/src/assets.ts",
+        "sha256": "8835c24554de4f37ce95532293771a759b578635fa2ac8f9db88db998c5ed025",
+        "lines": 621,
+        "ranges": [[1, 85]]
+      }
+    ],
+    "priorPreparation": "frame-workbench-readiness-after173.json:three full specs;subsequent source/fixture/caller reads complete now",
+    "limits": "Not whole SpriteActionEditor/Dialog/BattleSpriteLibrary/reforge asset/render acceptance. No source mutation except temporary discriminant probe with exact restore.",
+    "fullInputs": [
+      {
+        "path": "packages/editor/src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx",
+        "sha256": "891d143621e72fe0e4fdc13a751ab4801be13c747f207dcada73f150f3ccc453",
+        "lines": 148,
+        "member": "organization-editor-frame-workbench/input-0.before"
+      },
+      {
+        "path": "packages/editor/src/ui/SpriteFrameWorkbench.test.tsx",
+        "sha256": "60759aa487a211d640da215cba3e9d0e9855f6071abfa2d34c0ff0dc45c70d71",
+        "lines": 303,
+        "member": "organization-editor-frame-workbench/input-1.before"
+      }
+    ],
+    "fullOutputs": [
+      {
+        "path": "packages/editor/src/ui/SpriteFrameWorkbench.drag-payload.test.ts",
+        "sha256": "0aecf6714f9d5e338264ed7803036809f4c1469d6cf52e95ab4e995050a62643",
+        "lines": 41
+      },
+      {
+        "path": "packages/editor/src/ui/SpriteSourceFramePicker.keyboard.test.tsx",
+        "sha256": "971126d1e820d9511469e417f6466e47a358c1d3bb461b7eb0ffccaa364860cf",
+        "lines": 78
+      },
+      {
+        "path": "packages/editor/src/ui/SpriteFrameCanvas.pixels.test.tsx",
+        "sha256": "8d03e6ae5e49cd7a0ba1659927200ec35cf7762f71956afd02fc03db0bac9989",
+        "lines": 52
+      },
+      {
+        "path": "packages/editor/src/ui/SpriteFrameWorkbench.test.tsx",
+        "sha256": "04abe9b8ec66d3648ac2b092a2224dab93de5b8bd78383aba9b0db44ef803ef7",
+        "lines": 295
+      }
+    ]
+  },
+  "reusedEvidence": {
+    "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/review.json",
+    "scope": "Exact subject/product SHA plus prior caller and lifecycle evidence. Current full reads supplement organization; no renewed arbitrary asset/library acceptance."
+  },
+  "discrimination": {
+    "record": "organization-editor-frame-workbench/position-counter.json",
+    "claim": "Real horizontal+1 error passes oldselected and fails current bounds;8filtered old cases get no execution credit."
+  },
+  "knownAdjacentObservations": [
+    "C05 hardware/fixture helper names and synchronous global setup remain outside fixed subject cohort; new pure/picker specs no longer consume that setup. Do not grant these helper files naming acceptance.",
+    "Inspector next-wave fixture fills before assigning fillStyle;its tests assert dimensions/status,not pixels. No changed behavior or unearned pixel credit.",
+    "Main five cases span semantic/instance shelves plus one controlled picker integration; kept as public workbench composition rather than forced split for file count."
+  ],
+  "processDisclosures": [
+    "One initial shell setup was rejected for non-UTF8 stdin and missing capture module before any files changed; retried ASCII setup separately and correct package baseline cwd.",
+    "Baseline14 completed before edits. Initial neighbor21 passed;final lifetime/project-label cleanup reran21 with exact raw.",
+    "Registration sourceBridges include current dependencies and hooks solely for lexical comparison;complete typed proof and real counter support explicit semantic deltas.",
+    "User naming policy clarification is a separate documentation delta,not a historical subject or new closure.",
+    "First ledger run correctly rejected stale live header counts;rows already matched3447/497/318/2632. Header corrected from machine actual,failed raw retained. Preflight also rejected that failed receipt;no root verify run before correction."
+  ],
+  "invalidations": "Recheck when parser shape/drop domain,frame metadata,selection ownership,scheduler,canvas geometry,fixture palette or loader/bake versions change. Product pins and genuine output assertions,not filenames alone,bind evidence.",
+  "ledgerCounts": {
+    "inventory": 3447,
+    "closed": 497,
+    "review": 318,
+    "pending": 2632
+  },
+  "quantitativeScreen": [
+    {
+      "path": "packages/editor/src/ui/SpriteFrameWorkbench.drag-payload.test.ts",
+      "method": "Syntactic decisions,reading pointer only",
+      "functions": 11,
+      "max": 2,
+      "over10": 0
+    },
+    {
+      "path": "packages/editor/src/ui/SpriteSourceFramePicker.keyboard.test.tsx",
+      "method": "Syntactic decisions,reading pointer only",
+      "functions": 13,
+      "max": 1,
+      "over10": 0
+    },
+    {
+      "path": "packages/editor/src/ui/SpriteFrameCanvas.pixels.test.tsx",
+      "method": "Syntactic decisions,reading pointer only",
+      "functions": 3,
+      "max": 2,
+      "over10": 0
+    },
+    {
+      "path": "packages/editor/src/ui/SpriteFrameWorkbench.test.tsx",
+      "method": "Syntactic decisions,reading pointer only",
+      "functions": 29,
+      "max": 2,
+      "over10": 0
+    }
+  ]
+}

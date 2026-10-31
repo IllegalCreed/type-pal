@@ -3,20 +3,20 @@
  * 移除挂载点后通过真实语言通知释放 UI 的脱离节点订阅，再结清本例的淡出回调。
  * 不替换进度状态、语言实现或 DOM，不提供产品 dispose 接口。
  */
-import { afterEach, beforeEach, vi } from 'vitest'
+import { vi } from 'vitest'
 import { getLanguage, useFallbackLanguage } from '../localization/language.js'
 
-export function installPrecacheUiTestHooks(): void {
+export function createPrecacheUiTestHost() {
   let language = getLanguage()
   let documentLanguage: string | null = null
-  beforeEach(() => {
+  function prepare(): void {
     language = getLanguage()
     documentLanguage = document.documentElement.getAttribute('lang')
     vi.useFakeTimers()
     document.body.replaceChildren()
     useFallbackLanguage('zh-CN')
-  })
-  afterEach(async () => {
+  }
+  async function close(): Promise<void> {
     try {
       document.body.replaceChildren()
       useFallbackLanguage(getLanguage() === 'en' ? 'zh-CN' : 'en')
@@ -27,7 +27,8 @@ export function installPrecacheUiTestHooks(): void {
       if (documentLanguage === null) document.documentElement.removeAttribute('lang')
       else document.documentElement.lang = documentLanguage
     }
-  })
+  }
+  return { prepare, close }
 }
 
 export function mountBootLoading(): void {

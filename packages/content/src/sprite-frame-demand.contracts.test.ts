@@ -4,7 +4,7 @@
  * 完整索引集合、最大索引+1、不改原输入。
  */
 import { describe, expect, test } from 'vitest'
-import { deepSnapshot } from './__tests__/glm-content-contract-fixtures.js'
+import { deepSnapshot } from './__tests__/value-snapshot.js'
 import type { SpriteDef } from './sprite.js'
 import { spriteDefinitionFrameDemand, spriteDefinitionFrameIndices } from './sprite.js'
 

@@ -1,0 +1,416 @@
+{
+  "id": "reforge-menu-public-layout-tests",
+  "namespace": "organization-menu-layout",
+  "inputs": [
+    {
+      "path": "packages/reforge/src/menu/menu-box.residual.glm.test.ts",
+      "sha256": "f390a5fcff69ce0f88104cb904bca5c532f5b039ca64b3f59b0d17ce5f287dda",
+      "lines": 450,
+      "member": "organization-menu-layout/0.before"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "packages/reforge/src/menu/menu-box.layout.test.ts",
+      "sha256": "099fb5098ad8fa954c73714879d5f284a257322548936ecca0dd781f9482d4e5",
+      "lines": 471
+    }
+  ],
+  "replacements": [],
+  "sourceBridges": [
+    {
+      "path": "packages/reforge/src/menu/menu-box.residual.glm.test.ts",
+      "id": "organization-menu-layout-typed-lifecycle",
+      "reason": "Explicit current lexical context for registration only; proof independently limits complete module delta and conserves all five original typed callbacks. Original module-level mock is replaced by owned typed passthrough spy, not silently ignored.",
+      "changes": [
+        {
+          "from": "/**\n * TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1（menu-box.ts 冻结源 9aa3bed8）。\n * 去重账：residual 覆盖数字右/左对齐、卷轴自然宽高、确认框位置与互斥；glm-runtime-resource\n * 覆盖 drawSlicedBox 平铺/阴影/缺角/零尺寸；glm-n 覆盖退化尺寸与缺字形臂；status-residual\n * 覆盖状态板毒行/立绘懒加载/成员钳制/阈值身份/图标缩放与级联文字颜色。本文件只做未占用合同：\n * 级联层框几何与金钱条、选中颜色残余臂（now 相位回绕/openPanel 让位/禁用选中）、属性九行\n * 数据驱动布局（行序/坐标/蓝青派发/effectiveStat 接线）、中栏名字与立绘定位、装备格 2×3\n * 网格与空槽跳过。oracle = renderSpans 调用记录（measureSpans 保持真实）+ drawImage 按位图身份过滤。\n */\nimport type { CharacterInstance, ItemDataMap, WorldState } from '@type-pal/content'\nimport { afterEach, describe, expect, test, vi } from 'vitest'\nimport { confirm, moveCursor, openMenu } from '../menu-state.js'\nimport type { GlyphTable } from '../text/glyph.js'\nimport { type MenuAssets, MenuBox } from './menu-box.js'\n\nconst textCalls = vi.hoisted(() => vi.fn((..._args: unknown[]) => 0))\nvi.mock('../text/text-render.js', async (original) => ({\n  ...(await original<typeof import('../text/text-render.js')>()),\n  renderSpans: (...args: unknown[]) => textCalls(...args),\n}))\n\nconst image = (id: string, width = 8, height = 8): ImageBitmap =>\n  ({ id, width, height, close() {} }) as ImageBitmap\n\n/** 九宫格：真实不规则 frame 尺寸（左8/中16/右9 列宽、上下行高4），box/scroll 各一套独立位图。 */\nfunction nine(prefix: string) {\n  return [\n    image(`${prefix}-tl`, 8, 4),\n    image(`${prefix}-top`, 16, 4),\n    image(`${prefix}-tr`, 13, 4),\n    image(`${prefix}-left`, 8, 18),\n    image(`${prefix}-center`, 16, 18),\n    image(`${prefix}-right`, 9, 18),\n    image(`${prefix}-bl`, 8, 4),\n    image(`${prefix}-bottom`, 16, 4),\n    image(`${prefix}-br`, 13, 4),\n  ]\n}\n\n/** 数字 0-9：宽 = 6+d（互异），右/左对齐排布可按位图身份 + 坐标判别。 */\nconst digits = (prefix: string): ImageBitmap[] =>\n  Array.from({ length: 10 }, (_, d) => image(`${prefix}-${d}`, 6 + d, 8))\n\nfunction host() {\n  const box = { tiles: nine('b') }\n  const scroll = { tiles: nine('s') }\n  const nums = digits('n')\n  const numsBlue = digits('nb')\n  const numsCyan = digits('nc')\n  const equipSlot = image('equip-slot', 34, 34)\n  const avatar = image('fallback-avatar', 32, 40)\n  const slash = image('slash', 3, 8)\n  const swordIcon = image('sword-icon', 28, 28)\n  const assets: MenuAssets = {\n    box,\n    statusBg: image('status-background', 320, 200),\n    equipSlot,\n    scroll,\n    nums,\n    avatar,\n    numsBlue,\n    numsCyan,\n    slash,\n    itemIcons: { 'icon-sword': swordIcon },\n    redBox: { tiles: nine('rb') },\n    magicPlayerBox: image('pbox'),\n    cursorGrid: image('cursor-grid'),\n    cursorUp: image('cursor-up'),\n    cursorUpRed: image('cursor-up-red'),\n    cursorDown: image('cursor-down'),\n    settleArrow: image('settle-arrow'),\n    battleIcons: [],\n    itembox: { tiles: nine('ib') },\n  }\n  const drawImage = vi.fn((..._args: unknown[]) => undefined)\n  const ctx = {\n    drawImage,\n    fillRect: vi.fn(),\n    save: vi.fn(),\n    restore: vi.fn(),\n    beginPath: vi.fn(),\n    rect: vi.fn(),\n    clip: vi.fn(),\n    globalAlpha: 1,\n    globalCompositeOperation: 'source-over',\n    imageSmoothingEnabled: true,\n    fillStyle: '',\n  } as unknown as CanvasRenderingContext2D\n  const glyphs: GlyphTable = { has: () => false, get: () => undefined }\n  textCalls.mockClear()\n  /** drawBoxShadow 离屏画布：独立 drawImage/fillRect，不污染主画布记录；可数创建次数。 */\n  const created: Array<{ width: number; height: number }> = []\n  const stubShadowCanvas = () => {\n    vi.stubGlobal('document', {\n      createElement(tag: string) {\n        if (tag !== 'canvas') throw new Error(`unexpected createElement(${tag})`)\n        const off = {\n          width: 0,\n          height: 0,\n          getContext: () => ({\n            ...ctx,\n            drawImage: vi.fn(),\n            fillRect: vi.fn(),\n          }),\n        }\n        created.push(off)\n        return off\n      },\n    })\n  }\n  /** 主画布上按位图身份过滤的全部调用参数。 */\n  const callsOf = (bitmap: unknown) => drawImage.mock.calls.filter((call) => call[0] === bitmap)\n  return {\n    assets,\n    avatar,\n    box,\n    callsOf,\n    created,\n    ctx,\n    drawImage,\n    glyphs,\n    nums,\n    numsBlue,\n    numsCyan,\n    scroll,\n    slash,\n    stubShadowCanvas,\n    swordIcon,\n    equipSlot,\n  }\n}\n\ninterface LabelRecord {\n  text: string\n  x: number\n  y: number\n  color: unknown\n}\n\nconst labels = (): LabelRecord[] =>\n  textCalls.mock.calls.map((call) => ({\n    text: (call[1] as Array<{ text: string }>).map((span) => span.text).join(''),\n    x: call[2] as number,\n    y: call[3] as number,\n    color: (call[4] as { forceRgba?: unknown }).forceRgba,\n  }))\n\nconst items: ItemDataMap = {\n  ring: {\n    id: 'ring',\n    name: '护符',\n    desc: [],\n    buyPrice: 30,\n    sellPrice: 15,\n    sellable: true,\n    icon: 'icon-ring',\n    equip: {\n      slot: 'accessory',\n      equipableBy: ['hero'],\n      effects: [{ kind: 'statBonus', stat: 'attack', delta: 2 }],\n    },\n  },\n  sword: {\n    id: 'sword',\n    name: '木剑',\n    desc: [],\n    buyPrice: 60,\n    sellPrice: 30,\n    sellable: true,\n    icon: 'icon-sword',\n    equip: {\n      slot: 'weapon',\n      equipableBy: ['hero'],\n      effects: [{ kind: 'statBonus', stat: 'attack', delta: 3 }],\n    },\n  },\n}\n\nfunction member(equipment: CharacterInstance['equipment']): CharacterInstance {\n  return {\n    id: 'hero-instance',\n    template: 'hero',\n    level: 1,\n    exp: 3,\n    hp: 45,\n    maxHP: 100,\n    mp: 8,\n    maxMP: 40,\n    attack: 10,\n    defense: 8,\n    magicAttack: 12,\n    speed: 5,\n    luck: 3,\n    equipment,\n    tags: [],\n  }\n}\n\nconst world = (party: CharacterInstance[]): WorldState => ({\n  party,\n  reserve: [],\n  money: 205,\n  inventory: [],\n  learnedSkills: {},\n})\n\nconst CASCADE_LOCALE = {\n  'menu.cash': '金钱',\n  'menu.status': '状态',\n  'menu.magic': '仙术',\n  'menu.item': '物品',\n  'menu.system': '系统',\n  'menu.equip': '装备',\n  'menu.use': '使用',\n}\n\nafterEach(() => vi.unstubAllGlobals())\n\ndescribe('当前 MenuBox 级联与面板公开布局残余', () => {\n  test('级联两级框几何与金钱条：卷轴(0,0)五段带影、金额右对齐(85,14)、框(3+27d,37+23d,61,22+18n)、项字随层偏移', () => {\n    const h = host()\n    h.stubShadowCanvas()\n    const box = new MenuBox(h.glyphs, CASCADE_LOCALE, h.assets, items)\n    box.render(h.ctx, confirm(moveCursor(openMenu(), 2)), world([member({})]), 0)\n\n    // 金钱条：卷轴 (0,0) nLen=5 → 宽 8+16×5+9=97、右列 x=88、下行 y=22；三框全带阴影\n    expect(h.callsOf(h.scroll.tiles[0])).toEqual([[h.scroll.tiles[0], 0, 0]])\n    expect(h.callsOf(h.scroll.tiles[8])).toEqual([[h.scroll.tiles[8], 88, 22]])\n    expect(h.created).toHaveLength(3)\n\n    // 金额 205：右缘 85 往左按字形实宽排（5→0→2），y=14\n    expect(\n      h.drawImage.mock.calls.filter((call) => h.nums.includes(call[0] as ImageBitmap)),\n    ).toEqual([\n      [h.nums[5], 74, 14],\n      [h.nums[0], 68, 14],\n      [h.nums[2], 60, 14],\n    ])\n\n    // 层框：depth0 (3,37) 4 项 → 高 22+72=94（下行 127）；depth1 (30,60) 2 项 → 高 58（下行 114）\n    expect(h.callsOf(h.box.tiles[0])).toEqual([\n      [h.box.tiles[0], 3, 37],\n      [h.box.tiles[0], 30, 60],\n    ])\n    expect(h.callsOf(h.box.tiles[2])).toEqual([\n      [h.box.tiles[2], 55, 37],\n      [h.box.tiles[2], 82, 60],\n    ])\n    expect(h.callsOf(h.box.tiles[6])).toEqual([\n      [h.box.tiles[6], 3, 127],\n      [h.box.tiles[6], 30, 114],\n    ])\n\n    // 项字：层内 (bx+13, by+13+idx×18)，逐层随 CASCADE_DX/DY 偏移\n    expect(labels().map((row) => [row.x, row.y])).toEqual([\n      [10, 10],\n      [16, 50],\n      [16, 68],\n      [16, 86],\n      [16, 104],\n      [43, 73],\n      [43, 91],\n    ])\n  })\n\n  test('级联选中颜色残余臂：最深层随 now 闪烁并整表回绕、系统面板期最深层转静态、禁用选中显红、未选中米白', () => {\n    const h = host()\n    h.stubShadowCanvas()\n    const box = new MenuBox(h.glyphs, CASCADE_LOCALE, h.assets, items)\n    const twoLevels = confirm(moveCursor(openMenu(), 2))\n    const colorOf = (text: string) => labels().find((row) => row.text === text)?.color\n\n    box.render(h.ctx, twoLevels, world([member({})]), 100)\n    expect(colorOf('装备')).toEqual([235, 211, 97]) // floor(100/100)=1\n\n    textCalls.mockClear()\n    box.render(h.ctx, twoLevels, world([member({})]), 600)\n    expect(colorOf('装备')).toEqual([247, 231, 109]) // floor(600/100)%6=0：整表回绕\n\n    // 系统面板期（confirm 系统叶 → openPanel='system'）主菜单为最深层：选中项「系统」闪烁让位静态高亮\n    textCalls.mockClear()\n    box.render(h.ctx, confirm(moveCursor(openMenu(), 3)), world([member({})]), 100)\n    expect(colorOf('系统')).toEqual([219, 174, 81])\n    expect(colorOf('状态')).toEqual([199, 186, 174])\n\n    // moveCursor 不跳过禁用项：光标停在禁用首项上 = 合法态；禁用选中/未选中两臂\n    const disabledSelected = structuredClone(openMenu())\n    disabledSelected.stack[0]!.nodes[0]!.enabled = false\n    textCalls.mockClear()\n    box.render(h.ctx, disabledSelected, world([member({})]), 0)\n    expect(colorOf('状态')).toEqual([215, 109, 93])\n    expect(colorOf('仙术')).toEqual([199, 186, 174])\n  })\n\n  test('属性九行数据驱动布局：行序与 label(8,10+20i)、值右对齐(70,14+20i)、HP·MP 斜杠+蓝max、exp 青max、攻击值走装备加成', () => {\n    const h = host()\n    const box = new MenuBox(\n      h.glyphs,\n      {\n        'name.hero': '主角',\n        'stat.exp': '经验',\n        'stat.level': '等级',\n        'stat.hp': '生命',\n        'stat.mp': '灵力',\n        'stat.attack': '攻击',\n        'stat.magicAttack': '法攻',\n        'stat.defense': '防御',\n        'stat.speed': '身法',\n        'stat.luck': '吉运',\n      },\n      h.assets,\n      items,\n      {\n        actorsById: {\n          hero: {\n            id: 'hero',\n            name: 'name.hero',\n            spriteId: 'walker',\n            battler: {\n              baseStats: {\n                level: 1,\n                hp: 80,\n                maxHP: 100,\n                mp: 30,\n                maxMP: 40,\n                attack: 10,\n                defense: 8,\n                magicAttack: 12,\n                speed: 5,\n                luck: 3,\n              },\n              initialEquipment: {},\n              initialMagic: [],\n              battleSprite: 'fighter',\n              leveling: { expTable: [0, 42] },\n            },\n          },\n        },\n      },\n    )\n    box.render(\n      h.ctx,\n      { ...openMenu(), openPanel: 'status' },\n      world([member({ accessory: 'ring' })]),\n      0,\n    )\n\n    // 行序 + label 坐标（x=8 过滤掉中栏名字与装备名）\n    expect(\n      labels()\n        .filter((row) => row.x === 8)\n        .map((row) => [row.text, row.y]),\n    ).toEqual([\n      ['经验', 10],\n      ['等级', 30],\n      ['生命', 50],\n      ['灵力', 70],\n      ['攻击', 90],\n      ['法攻', 110],\n      ['防御', 130],\n      ['身法', 150],\n      ['吉运', 170],\n    ])\n\n    // 值数字：黄、右对齐 x=70、y=14+20i；攻击 10+护符2=12（effectiveStat 接线）\n    expect(\n      h.drawImage.mock.calls.filter((call) => h.nums.includes(call[0] as ImageBitmap)),\n    ).toEqual([\n      [h.nums[3], 61, 14], // exp 3\n      [h.nums[1], 63, 34], // level 1\n      [h.nums[5], 59, 54], // hp 45\n      [h.nums[4], 49, 54],\n      [h.nums[8], 56, 74], // mp 8\n      [h.nums[2], 62, 94], // attack 12\n      [h.nums[1], 55, 94],\n      [h.nums[2], 62, 114], // magicAttack 12\n      [h.nums[1], 55, 114],\n      [h.nums[8], 56, 134], // defense 8\n      [h.nums[5], 59, 154], // speed 5\n      [h.nums[3], 61, 174], // luck 3\n    ])\n\n    // 斜杠只出现在带 max 的行：exp/hp/mp（level 与五维行无斜杠、无 max 数字）\n    expect(h.callsOf(h.slash)).toEqual([\n      [h.slash, 72, 14],\n      [h.slash, 72, 54],\n      [h.slash, 72, 74],\n    ])\n\n    // max 左对齐 (79, ny+5)：HP/MP 蓝、exp 青；level/五维行无 max 数字\n    expect(\n      h.drawImage.mock.calls.filter((call) => h.numsBlue.includes(call[0] as ImageBitmap)),\n    ).toEqual([\n      [h.numsBlue[1], 79, 59], // maxHP 100\n      [h.numsBlue[0], 86, 59],\n      [h.numsBlue[0], 92, 59],\n      [h.numsBlue[4], 79, 79], // maxMP 40\n      [h.numsBlue[0], 89, 79],\n    ])\n    expect(\n      h.drawImage.mock.calls.filter((call) => h.numsCyan.includes(call[0] as ImageBitmap)),\n    ).toEqual([\n      [h.numsCyan[4], 79, 19], // expToNext 42（level 1 → expTable[1]）\n      [h.numsCyan[2], 89, 19],\n    ])\n  })\n\n  test('中栏名字金黄居中于158、回落立绘按宽居中于(142,50)', () => {\n    const h = host()\n    const box = new MenuBox(h.glyphs, { 'name.hero': '主角' }, h.assets, items)\n    box.render(h.ctx, { ...openMenu(), openPanel: 'status' }, world([member({})]), 0)\n\n    // '主角' 2 字 × measureSpans 回退 16 = 32 → x = 158−16 = 142\n    const name = labels().find((row) => row.text === '主角')\n    expect([name?.x, name?.y, name?.color]).toEqual([142, 30, [255, 203, 113]])\n    // 回落立绘（32 宽）居中：round(158−16)=142, y=AVATAR_Y=50\n    expect(h.callsOf(h.avatar)).toEqual([[h.avatar, 142, 50]])\n  })\n\n  test('装备格2×3网格六格全画(56×56,列距62行距60)、空槽只留格、已装备图标内缩居中、物名0xBE格底居中', () => {\n    const h = host()\n    const box = new MenuBox(h.glyphs, {}, h.assets, items)\n    box.render(\n      h.ctx,\n      { ...openMenu(), openPanel: 'status' },\n      world([member({ weapon: 'sword' })]),\n      0,\n    )\n\n    // EQUIP_SLOT_IDS 序 weapon/head/body/cloak/feet/accessory → 网格 i=行列\n    expect(h.callsOf(h.equipSlot)).toEqual([\n      [h.equipSlot, 200, 6, 56, 56],\n      [h.equipSlot, 262, 6, 56, 56],\n      [h.equipSlot, 200, 66, 56, 56],\n      [h.equipSlot, 262, 66, 56, 56],\n      [h.equipSlot, 200, 126, 56, 56],\n      [h.equipSlot, 262, 126, 56, 56],\n    ])\n\n    // 已装备 weapon：图标 28×28 内缩区(42)原比例居中 (214,20)；空槽不画图标\n    expect(h.callsOf(h.swordIcon)).toEqual([[h.swordIcon, 214, 20, 28, 28]])\n\n    // 物名：格内底 gy+56−13=49 居中 x=200+(56−32)/2=212，色 0xBE。空槽零图标零物名：\n    // 全部文字 = 9 属性行 + 中栏名字 + 1 物名，无任何 '?槽位' 兜底\n    expect(labels().filter((row) => row.text === '木剑')).toEqual([\n      { text: '木剑', x: 212, y: 49, color: [231, 223, 195] },\n    ])\n    expect(labels()).toHaveLength(11)\n  })\n})\n",
+          "to": "/** Public MenuBox layout. Text spans and bitmap coordinates are observed; glyph pixels are outside this suite. */\nimport type { CharacterInstance, ItemDataMap, WorldState } from '@type-pal/content'\nimport { afterEach, beforeEach, describe, expect, type MockInstance, test, vi } from 'vitest'\nimport { confirm, moveCursor, openMenu } from '../menu-state.js'\nimport type { GlyphTable } from '../text/glyph.js'\nimport * as textRenderer from '../text/text-render.js'\nimport { type MenuAssets, MenuBox } from './menu-box.js'\n\nconst realRenderSpans = textRenderer.renderSpans\nlet textCalls: MockInstance<typeof textRenderer.renderSpans>\n\nbeforeEach(() => {\n  textCalls = vi.spyOn(textRenderer, 'renderSpans')\n})\n\nconst bitmapStub = (id: string, width = 8, height = 8): ImageBitmap =>\n  ({ id, width, height, close() {} }) as ImageBitmap\n\n/** 九宫格：真实不规则 frame 尺寸（左8/中16/右中9，右角13；上下行高4），box/scroll 各一套独立位图。 */\nfunction irregularBoxTiles(prefix: string) {\n  return [\n    bitmapStub(`${prefix}-tl`, 8, 4),\n    bitmapStub(`${prefix}-top`, 16, 4),\n    bitmapStub(`${prefix}-tr`, 13, 4),\n    bitmapStub(`${prefix}-left`, 8, 18),\n    bitmapStub(`${prefix}-center`, 16, 18),\n    bitmapStub(`${prefix}-right`, 9, 18),\n    bitmapStub(`${prefix}-bl`, 8, 4),\n    bitmapStub(`${prefix}-bottom`, 16, 4),\n    bitmapStub(`${prefix}-br`, 13, 4),\n  ]\n}\n\n/** 数字 0-9：宽 = 6+d（互异），右/左对齐排布可按位图身份 + 坐标判别。 */\nconst digitBitmaps = (prefix: string): ImageBitmap[] =>\n  Array.from({ length: 10 }, (_, d) => bitmapStub(`${prefix}-${d}`, 6 + d, 8))\n\nfunction layoutHost() {\n  const box = { tiles: irregularBoxTiles('b') }\n  const scroll = { tiles: irregularBoxTiles('s') }\n  const nums = digitBitmaps('n')\n  const numsBlue = digitBitmaps('nb')\n  const numsCyan = digitBitmaps('nc')\n  const equipSlot = bitmapStub('equip-slot', 34, 34)\n  const avatar = bitmapStub('fallback-avatar', 32, 40)\n  const slash = bitmapStub('slash', 3, 8)\n  const swordIcon = bitmapStub('sword-icon', 28, 28)\n  const assets: MenuAssets = {\n    box,\n    statusBg: bitmapStub('status-background', 320, 200),\n    equipSlot,\n    scroll,\n    nums,\n    avatar,\n    numsBlue,\n    numsCyan,\n    slash,\n    itemIcons: { 'icon-sword': swordIcon },\n    redBox: { tiles: irregularBoxTiles('rb') },\n    magicPlayerBox: bitmapStub('pbox'),\n    cursorGrid: bitmapStub('cursor-grid'),\n    cursorUp: bitmapStub('cursor-up'),\n    cursorUpRed: bitmapStub('cursor-up-red'),\n    cursorDown: bitmapStub('cursor-down'),\n    settleArrow: bitmapStub('settle-arrow'),\n    battleIcons: [],\n    itembox: { tiles: irregularBoxTiles('ib') },\n  }\n  const drawImage = vi.fn((..._args: unknown[]) => undefined)\n  const ctx = {\n    drawImage,\n    fillRect: vi.fn(),\n    save: vi.fn(),\n    restore: vi.fn(),\n    beginPath: vi.fn(),\n    rect: vi.fn(),\n    clip: vi.fn(),\n    globalAlpha: 1,\n    globalCompositeOperation: 'source-over',\n    imageSmoothingEnabled: true,\n    fillStyle: '',\n  } as unknown as CanvasRenderingContext2D\n  const glyphs: GlyphTable = { has: () => false, get: () => undefined }\n  /** drawBoxShadow 离屏画布：独立 drawImage/fillRect，不污染主画布记录；可数创建次数。 */\n  const created: Array<{ width: number; height: number }> = []\n  const stubShadowCanvas = () => {\n    vi.stubGlobal('document', {\n      createElement(tag: string) {\n        if (tag !== 'canvas') throw new Error(`unexpected createElement(${tag})`)\n        const off = {\n          width: 0,\n          height: 0,\n          getContext: () => ({\n            ...ctx,\n            drawImage: vi.fn(),\n            fillRect: vi.fn(),\n          }),\n        }\n        created.push(off)\n        return off\n      },\n    })\n  }\n  /** 主画布上按位图身份过滤的全部调用参数。 */\n  const callsOf = (bitmap: unknown) => drawImage.mock.calls.filter((call) => call[0] === bitmap)\n  return {\n    assets,\n    avatar,\n    box,\n    callsOf,\n    created,\n    ctx,\n    drawImage,\n    glyphs,\n    nums,\n    numsBlue,\n    numsCyan,\n    scroll,\n    slash,\n    stubShadowCanvas,\n    swordIcon,\n    equipSlot,\n  }\n}\n\nconst recordedLabels = () =>\n  textCalls.mock.calls.map(([, spans, x, y, opts]) => ({\n    text: spans.map((span) => span.text).join(''),\n    x,\n    y,\n    color: opts.forceRgba,\n  }))\n\nconst items: ItemDataMap = {\n  ring: {\n    id: 'ring',\n    name: '护符',\n    desc: [],\n    buyPrice: 30,\n    sellPrice: 15,\n    sellable: true,\n    icon: 'icon-ring',\n    equip: {\n      slot: 'accessory',\n      equipableBy: ['hero'],\n      effects: [{ kind: 'statBonus', stat: 'attack', delta: 2 }],\n    },\n  },\n  sword: {\n    id: 'sword',\n    name: '木剑',\n    desc: [],\n    buyPrice: 60,\n    sellPrice: 30,\n    sellable: true,\n    icon: 'icon-sword',\n    equip: {\n      slot: 'weapon',\n      equipableBy: ['hero'],\n      effects: [{ kind: 'statBonus', stat: 'attack', delta: 3 }],\n    },\n  },\n}\n\nfunction partyMember(equipment: CharacterInstance['equipment']): CharacterInstance {\n  return {\n    id: 'hero-instance',\n    template: 'hero',\n    level: 1,\n    exp: 3,\n    hp: 45,\n    maxHP: 100,\n    mp: 8,\n    maxMP: 40,\n    attack: 10,\n    defense: 8,\n    magicAttack: 12,\n    speed: 5,\n    luck: 3,\n    equipment,\n    tags: [],\n  }\n}\n\nconst worldWithParty = (party: CharacterInstance[]): WorldState => ({\n  party,\n  reserve: [],\n  money: 205,\n  inventory: [],\n  learnedSkills: {},\n})\n\nconst CASCADE_LOCALE = {\n  'menu.cash': '金钱',\n  'menu.status': '状态',\n  'menu.magic': '仙术',\n  'menu.item': '物品',\n  'menu.system': '系统',\n  'menu.equip': '装备',\n  'menu.use': '使用',\n}\n\nafterEach(() => {\n  try {\n    textCalls.mockRestore()\n    expect(textRenderer.renderSpans).toBe(realRenderSpans)\n  } finally {\n    vi.unstubAllGlobals()\n  }\n})\ndescribe('MenuBox cascade layout', () => {\n  test('级联框按深度布局，金钱数字按实际字形右对齐', () => {\n    const rendering = layoutHost()\n    rendering.stubShadowCanvas()\n    const box = new MenuBox(rendering.glyphs, CASCADE_LOCALE, rendering.assets, items)\n    box.render(\n      rendering.ctx,\n      confirm(moveCursor(openMenu(), 2)),\n      worldWithParty([partyMember({})]),\n      0,\n    )\n\n    // 金钱条：卷轴 (0,0) nLen=5 → 宽 8+16×5+9=97、右列 x=88、下行 y=22；三框全带阴影\n    expect(rendering.callsOf(rendering.scroll.tiles[0])).toEqual([\n      [rendering.scroll.tiles[0], 0, 0],\n    ])\n    expect(rendering.callsOf(rendering.scroll.tiles[8])).toEqual([\n      [rendering.scroll.tiles[8], 88, 22],\n    ])\n    expect(rendering.created).toHaveLength(3)\n\n    // 金额 205：右缘 85 往左按字形实宽排（5→0→2），y=14\n    expect(\n      rendering.drawImage.mock.calls.filter((call) =>\n        rendering.nums.includes(call[0] as ImageBitmap),\n      ),\n    ).toEqual([\n      [rendering.nums[5], 74, 14],\n      [rendering.nums[0], 68, 14],\n      [rendering.nums[2], 60, 14],\n    ])\n\n    // 层框：depth0 (3,37) 4 项 → 高 22+72=94（下行 127）；depth1 (30,60) 2 项 → 高 58（下行 114）\n    expect(rendering.callsOf(rendering.box.tiles[0])).toEqual([\n      [rendering.box.tiles[0], 3, 37],\n      [rendering.box.tiles[0], 30, 60],\n    ])\n    expect(rendering.callsOf(rendering.box.tiles[2])).toEqual([\n      [rendering.box.tiles[2], 55, 37],\n      [rendering.box.tiles[2], 82, 60],\n    ])\n    expect(rendering.callsOf(rendering.box.tiles[6])).toEqual([\n      [rendering.box.tiles[6], 3, 127],\n      [rendering.box.tiles[6], 30, 114],\n    ])\n\n    // 项字：层内 (bx+13, by+13+idx×18)，逐层随 CASCADE_DX/DY 偏移\n    expect(recordedLabels().map((row) => [row.x, row.y])).toEqual([\n      [10, 10],\n      [16, 50],\n      [16, 68],\n      [16, 86],\n      [16, 104],\n      [43, 73],\n      [43, 91],\n    ])\n  })\n\n  test('级联闪烁相位回绕，系统面板和禁用项各用自己的颜色', () => {\n    const rendering = layoutHost()\n    rendering.stubShadowCanvas()\n    const box = new MenuBox(rendering.glyphs, CASCADE_LOCALE, rendering.assets, items)\n    const twoLevels = confirm(moveCursor(openMenu(), 2))\n    const colorOf = (text: string) => recordedLabels().find((row) => row.text === text)?.color\n\n    box.render(rendering.ctx, twoLevels, worldWithParty([partyMember({})]), 100)\n    expect(colorOf('装备')).toEqual([235, 211, 97]) // floor(100/100)=1\n\n    textCalls.mockClear()\n    box.render(rendering.ctx, twoLevels, worldWithParty([partyMember({})]), 600)\n    expect(colorOf('装备')).toEqual([247, 231, 109]) // floor(600/100)%6=0：整表回绕\n\n    // 系统面板期（confirm 系统叶 → openPanel='system'）主菜单为最深层：选中项「系统」闪烁让位静态高亮\n    textCalls.mockClear()\n    box.render(\n      rendering.ctx,\n      confirm(moveCursor(openMenu(), 3)),\n      worldWithParty([partyMember({})]),\n      100,\n    )\n    expect(colorOf('系统')).toEqual([219, 174, 81])\n    expect(colorOf('状态')).toEqual([199, 186, 174])\n\n    // moveCursor 不跳过禁用项：光标停在禁用首项上 = 合法态；禁用选中/未选中两臂\n    const disabledSelected = structuredClone(openMenu())\n    disabledSelected.stack[0]!.nodes[0]!.enabled = false\n    textCalls.mockClear()\n    box.render(rendering.ctx, disabledSelected, worldWithParty([partyMember({})]), 0)\n    expect(colorOf('状态')).toEqual([215, 109, 93])\n    expect(colorOf('仙术')).toEqual([199, 186, 174])\n  })\n})\n\ndescribe('MenuBox status layout', () => {\n  test('状态页九行数值按坐标和颜色布局，攻击包含装备加成', () => {\n    const rendering = layoutHost()\n    const box = new MenuBox(\n      rendering.glyphs,\n      {\n        'name.hero': '主角',\n        'stat.exp': '经验',\n        'stat.level': '等级',\n        'stat.hp': '生命',\n        'stat.mp': '灵力',\n        'stat.attack': '攻击',\n        'stat.magicAttack': '法攻',\n        'stat.defense': '防御',\n        'stat.speed': '身法',\n        'stat.luck': '吉运',\n      },\n      rendering.assets,\n      items,\n      {\n        actorsById: {\n          hero: {\n            id: 'hero',\n            name: 'name.hero',\n            spriteId: 'walker',\n            battler: {\n              baseStats: {\n                level: 1,\n                hp: 80,\n                maxHP: 100,\n                mp: 30,\n                maxMP: 40,\n                attack: 10,\n                defense: 8,\n                magicAttack: 12,\n                speed: 5,\n                luck: 3,\n              },\n              initialEquipment: {},\n              initialMagic: [],\n              battleSprite: 'fighter',\n              leveling: { expTable: [0, 42] },\n            },\n          },\n        },\n      },\n    )\n    box.render(\n      rendering.ctx,\n      { ...openMenu(), openPanel: 'status' },\n      worldWithParty([partyMember({ accessory: 'ring' })]),\n      0,\n    )\n\n    // 行序 + label 坐标（x=8 过滤掉中栏名字与装备名）\n    expect(\n      recordedLabels()\n        .filter((row) => row.x === 8)\n        .map((row) => [row.text, row.y]),\n    ).toEqual([\n      ['经验', 10],\n      ['等级', 30],\n      ['生命', 50],\n      ['灵力', 70],\n      ['攻击', 90],\n      ['法攻', 110],\n      ['防御', 130],\n      ['身法', 150],\n      ['吉运', 170],\n    ])\n\n    // 值数字：黄、右对齐 x=70、y=14+20i；攻击 10+护符2=12（effectiveStat 接线）\n    expect(\n      rendering.drawImage.mock.calls.filter((call) =>\n        rendering.nums.includes(call[0] as ImageBitmap),\n      ),\n    ).toEqual([\n      [rendering.nums[3], 61, 14], // exp 3\n      [rendering.nums[1], 63, 34], // level 1\n      [rendering.nums[5], 59, 54], // hp 45\n      [rendering.nums[4], 49, 54],\n      [rendering.nums[8], 56, 74], // mp 8\n      [rendering.nums[2], 62, 94], // attack 12\n      [rendering.nums[1], 55, 94],\n      [rendering.nums[2], 62, 114], // magicAttack 12\n      [rendering.nums[1], 55, 114],\n      [rendering.nums[8], 56, 134], // defense 8\n      [rendering.nums[5], 59, 154], // speed 5\n      [rendering.nums[3], 61, 174], // luck 3\n    ])\n\n    // 斜杠只出现在带 max 的行：exp/hp/mp（level 与五维行无斜杠、无 max 数字）\n    expect(rendering.callsOf(rendering.slash)).toEqual([\n      [rendering.slash, 72, 14],\n      [rendering.slash, 72, 54],\n      [rendering.slash, 72, 74],\n    ])\n\n    // max 左对齐 (79, ny+5)：HP/MP 蓝、exp 青；level/五维行无 max 数字\n    expect(\n      rendering.drawImage.mock.calls.filter((call) =>\n        rendering.numsBlue.includes(call[0] as ImageBitmap),\n      ),\n    ).toEqual([\n      [rendering.numsBlue[1], 79, 59], // maxHP 100\n      [rendering.numsBlue[0], 86, 59],\n      [rendering.numsBlue[0], 92, 59],\n      [rendering.numsBlue[4], 79, 79], // maxMP 40\n      [rendering.numsBlue[0], 89, 79],\n    ])\n    expect(\n      rendering.drawImage.mock.calls.filter((call) =>\n        rendering.numsCyan.includes(call[0] as ImageBitmap),\n      ),\n    ).toEqual([\n      [rendering.numsCyan[4], 79, 19], // expToNext 42（level 1 → expTable[1]）\n      [rendering.numsCyan[2], 89, 19],\n    ])\n  })\n\n  test('角色名和回落立绘各自按宽度居中', () => {\n    const rendering = layoutHost()\n    const box = new MenuBox(rendering.glyphs, { 'name.hero': '主角' }, rendering.assets, items)\n    box.render(\n      rendering.ctx,\n      { ...openMenu(), openPanel: 'status' },\n      worldWithParty([partyMember({})]),\n      0,\n    )\n\n    // '主角' 2 字 × measureSpans 回退 16 = 32 → x = 158−16 = 142\n    const name = recordedLabels().find((row) => row.text === '主角')\n    expect([name?.x, name?.y, name?.color]).toEqual([142, 30, [255, 203, 113]])\n    // 回落立绘（32 宽）居中：round(158−16)=142, y=AVATAR_Y=50\n    expect(rendering.callsOf(rendering.avatar)).toEqual([[rendering.avatar, 142, 50]])\n  })\n\n  test('六个装备格按2×3排列，图标和物名居中，空槽不画内容', () => {\n    const rendering = layoutHost()\n    const box = new MenuBox(rendering.glyphs, {}, rendering.assets, items)\n    box.render(\n      rendering.ctx,\n      { ...openMenu(), openPanel: 'status' },\n      worldWithParty([partyMember({ weapon: 'sword' })]),\n      0,\n    )\n\n    // EQUIP_SLOT_IDS 序 weapon/head/body/cloak/feet/accessory → 网格 i=行列\n    expect(rendering.callsOf(rendering.equipSlot)).toEqual([\n      [rendering.equipSlot, 200, 6, 56, 56],\n      [rendering.equipSlot, 262, 6, 56, 56],\n      [rendering.equipSlot, 200, 66, 56, 56],\n      [rendering.equipSlot, 262, 66, 56, 56],\n      [rendering.equipSlot, 200, 126, 56, 56],\n      [rendering.equipSlot, 262, 126, 56, 56],\n    ])\n\n    // 已装备 weapon：图标 28×28 内缩区(42)原比例居中 (214,20)；空槽不画图标\n    expect(rendering.callsOf(rendering.swordIcon)).toEqual([[rendering.swordIcon, 214, 20, 28, 28]])\n\n    // 物名：格内底 gy+56−13=49 居中 x=200+(56−32)/2=212，色 0xBE。空槽零图标零物名：\n    // 全部文字 = 9 属性行 + 中栏名字 + 1 物名，无任何 '?槽位' 兜底\n    expect(recordedLabels().filter((row) => row.text === '木剑')).toEqual([\n      { text: '木剑', x: 212, y: 49, color: [231, 223, 195] },\n    ])\n    expect(recordedLabels()).toHaveLength(11)\n  })\n})\n",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "registrations": [
+    {
+      "old": {
+        "file": "packages/reforge/src/menu/menu-box.residual.glm.test.ts",
+        "ordinal": 0,
+        "fullName": "当前 MenuBox 级联与面板公开布局残余 级联两级框几何与金钱条：卷轴(0,0)五段带影、金额右对齐(85,14)、框(3+27d,37+23d,61,22+18n)、项字随层偏移"
+      },
+      "current": {
+        "file": "packages/reforge/src/menu/menu-box.layout.test.ts",
+        "titles": ["MenuBox cascade layout"],
+        "template": "级联框按深度布局，金钱数字按实际字形右对齐",
+        "fullName": "MenuBox cascade layout 级联框按深度布局，金钱数字按实际字形右对齐"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/reforge/src/menu/menu-box.residual.glm.test.ts",
+        "ordinal": 1,
+        "fullName": "当前 MenuBox 级联与面板公开布局残余 级联选中颜色残余臂：最深层随 now 闪烁并整表回绕、系统面板期最深层转静态、禁用选中显红、未选中米白"
+      },
+      "current": {
+        "file": "packages/reforge/src/menu/menu-box.layout.test.ts",
+        "titles": ["MenuBox cascade layout"],
+        "template": "级联闪烁相位回绕，系统面板和禁用项各用自己的颜色",
+        "fullName": "MenuBox cascade layout 级联闪烁相位回绕，系统面板和禁用项各用自己的颜色"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/reforge/src/menu/menu-box.residual.glm.test.ts",
+        "ordinal": 2,
+        "fullName": "当前 MenuBox 级联与面板公开布局残余 属性九行数据驱动布局：行序与 label(8,10+20i)、值右对齐(70,14+20i)、HP·MP 斜杠+蓝max、exp 青max、攻击值走装备加成"
+      },
+      "current": {
+        "file": "packages/reforge/src/menu/menu-box.layout.test.ts",
+        "titles": ["MenuBox status layout"],
+        "template": "状态页九行数值按坐标和颜色布局，攻击包含装备加成",
+        "fullName": "MenuBox status layout 状态页九行数值按坐标和颜色布局，攻击包含装备加成"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/reforge/src/menu/menu-box.residual.glm.test.ts",
+        "ordinal": 3,
+        "fullName": "当前 MenuBox 级联与面板公开布局残余 中栏名字金黄居中于158、回落立绘按宽居中于(142,50)"
+      },
+      "current": {
+        "file": "packages/reforge/src/menu/menu-box.layout.test.ts",
+        "titles": ["MenuBox status layout"],
+        "template": "角色名和回落立绘各自按宽度居中",
+        "fullName": "MenuBox status layout 角色名和回落立绘各自按宽度居中"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/reforge/src/menu/menu-box.residual.glm.test.ts",
+        "ordinal": 4,
+        "fullName": "当前 MenuBox 级联与面板公开布局残余 装备格2×3网格六格全画(56×56,列距62行距60)、空槽只留格、已装备图标内缩居中、物名0xBE格底居中"
+      },
+      "current": {
+        "file": "packages/reforge/src/menu/menu-box.layout.test.ts",
+        "titles": ["MenuBox status layout"],
+        "template": "六个装备格按2×3排列，图标和物名居中，空槽不画内容",
+        "fullName": "MenuBox status layout 六个装备格按2×3排列，图标和物名居中，空槽不画内容"
+      }
+    }
+  ],
+  "identities": [
+    {
+      "old": {
+        "file": "packages/reforge/src/menu/menu-box.residual.glm.test.ts",
+        "fullName": "当前 MenuBox 级联与面板公开布局残余 级联两级框几何与金钱条：卷轴(0,0)五段带影、金额右对齐(85,14)、框(3+27d,37+23d,61,22+18n)、项字随层偏移"
+      },
+      "current": {
+        "file": "packages/reforge/src/menu/menu-box.layout.test.ts",
+        "fullName": "MenuBox cascade layout 级联框按深度布局，金钱数字按实际字形右对齐"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/reforge/src/menu/menu-box.residual.glm.test.ts",
+        "fullName": "当前 MenuBox 级联与面板公开布局残余 级联选中颜色残余臂：最深层随 now 闪烁并整表回绕、系统面板期最深层转静态、禁用选中显红、未选中米白"
+      },
+      "current": {
+        "file": "packages/reforge/src/menu/menu-box.layout.test.ts",
+        "fullName": "MenuBox cascade layout 级联闪烁相位回绕，系统面板和禁用项各用自己的颜色"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/reforge/src/menu/menu-box.residual.glm.test.ts",
+        "fullName": "当前 MenuBox 级联与面板公开布局残余 属性九行数据驱动布局：行序与 label(8,10+20i)、值右对齐(70,14+20i)、HP·MP 斜杠+蓝max、exp 青max、攻击值走装备加成"
+      },
+      "current": {
+        "file": "packages/reforge/src/menu/menu-box.layout.test.ts",
+        "fullName": "MenuBox status layout 状态页九行数值按坐标和颜色布局，攻击包含装备加成"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/reforge/src/menu/menu-box.residual.glm.test.ts",
+        "fullName": "当前 MenuBox 级联与面板公开布局残余 中栏名字金黄居中于158、回落立绘按宽居中于(142,50)"
+      },
+      "current": {
+        "file": "packages/reforge/src/menu/menu-box.layout.test.ts",
+        "fullName": "MenuBox status layout 角色名和回落立绘各自按宽度居中"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/reforge/src/menu/menu-box.residual.glm.test.ts",
+        "fullName": "当前 MenuBox 级联与面板公开布局残余 装备格2×3网格六格全画(56×56,列距62行距60)、空槽只留格、已装备图标内缩居中、物名0xBE格底居中"
+      },
+      "current": {
+        "file": "packages/reforge/src/menu/menu-box.layout.test.ts",
+        "fullName": "MenuBox status layout 六个装备格按2×3排列，图标和物名居中，空槽不画内容"
+      }
+    }
+  ],
+  "retirements": [],
+  "cohortSubjects": [
+    {
+      "path": "packages/reforge/src/menu/menu-box.residual.glm.test.ts",
+      "sha256": "f390a5fcff69ce0f88104cb904bca5c532f5b039ca64b3f59b0d17ce5f287dda",
+      "priorCurrentBridges": []
+    }
+  ],
+  "profiles": [
+    {
+      "path": "packages/reforge/src/menu/menu-box.layout.test.ts",
+      "subjects": ["packages/reforge/src/menu/menu-box.residual.glm.test.ts"],
+      "axes": {
+        "A": "Full450-line subject and652-line MenuBox read; complete menu-state and text renderer,364-line status neighbor and149-line primitive neighbor examined. Real main construction/render paths and effectiveStat entry pinned. Source and original test equal CODE105/52 evidence. Legal fresh character/world,actual confirm/move/open state and explicit clone of disabled selection retained.",
+        "B": "Replace historical frozen-source/gap header with actual layout scope. Clarify irregular right-middle9/right-corner13 widths and remove residual/gap wording from titles. Source dimensions are synthetic unequal bitmap fixtures, not real PNG evidence; no canvas pixels or async portrait claim.",
+        "C": "Keep one layout-specific file with cascade/status groups: both use irregular frame geometry and unequal digit widths, while status neighbor owns uniform-bitmap async cache/failure/poison behavior. Do not merge into a universal harness. Module-global hoisted replacement becomes per-case owned spy; explicit restore and global-stub finally define lifecycle.",
+        "D": "Existing bitmap,irregular tiles,digits,member/world and label helpers have real multiple callers; names now reveal roles. No helper API or mode flags added. Same underlying color/icon branches in neighbor have distinct parent/disabled-unselected,wide-icon,missing-item and async assertions; current cases retain phase-wrap,system panel,disabled-selected,exact full grid and small-icon placement. No case retired.",
+        "E": "Five original typed callbacks and all business assertions preserved under private binding/title changes. Literal coordinates/colors/order remain independent,including final11 labels and complete digit arrays. Prior K1-K5 counters reused only with exact source and callback proof. New afterEach checks restoration identity; no fresh five-mutant replay or failure-teardown injection claimed.",
+        "F": "menu-box.layout.test.ts names public-render responsibility; cascade/status groups replace omnibus residual title. layoutHost,recordedLabels,partyMember,worldWithParty,bitmapStub,irregularBoxTiles,digitBitmaps replace vague names. Real renderSpans parameter tuple supplies label types, eliminating unknown-array projections and four argument casts.",
+        "G": "Remove hoisted factory/wrapper and redundant host mockClear: each case constructs one host after fresh beforeEach. Three within-case observation clears remain. No new case or ignored assertion; one restoration assertion per case is meaningful cleanup ownership. Existing synthetic Canvas/ImageBitmap casts unchanged,not new coercion to hide failures.",
+        "H": "Spy passes through real renderSpans; empty glyph table guarantees no glyph baking,while measureSpans stays real and MenuBox ignores text return at all8 call sites. Typed call tuples and owned restoration improve observability/isolation without product seams.33real neighbor cases and7text-render cases,reforgeTC0; no whole browser rendering acceptance."
+      }
+    }
+  ],
+  "preserved": [
+    {
+      "path": "packages/reforge/src/menu/menu-box.ts",
+      "sha256": "9c7c7b569e035fe5771fce79e5549e34aea1d66b7577569b2a6d98962ffcf2c1",
+      "lines": 652
+    },
+    {
+      "path": "packages/reforge/src/menu/menu-box.status-residual.test.ts",
+      "sha256": "511b2b2a4742384f39330f36a39d17e0507c5838a1f68e3a87176cc2e270421e",
+      "lines": 364
+    },
+    {
+      "path": "packages/reforge/src/menu/menu-box.residual.test.ts",
+      "sha256": "5c6eebe59f7a199094b9256e15595c3327fc3c33a34ad43d64b3b147d65236ec",
+      "lines": 149
+    },
+    {
+      "path": "packages/reforge/src/menu-state.ts",
+      "sha256": "e8435b8177aad78706e9a22f8c6bb515a000e8919fbfd40c1e83ab1cb2546930",
+      "lines": 90
+    },
+    {
+      "path": "packages/reforge/src/text/text-render.ts",
+      "sha256": "7976cd1ba1493b922fda9cc258ab980876e7c5109cb27157cef3bbcb7fa123e8",
+      "lines": 71
+    },
+    {
+      "path": "packages/reforge/src/main.ts",
+      "sha256": "089fd2bf41c03eccf02846ddaa314cbfabe22772f8334bb0fe9b16f494c2a260",
+      "lines": 6710
+    },
+    {
+      "path": "packages/content/src/character.ts",
+      "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93",
+      "lines": 351
+    },
+    {
+      "path": "packages/content/src/item.ts",
+      "sha256": "1a2ff2c2ef96070cf1609bd26c1f2756e851c9aec525749131582f6fd696963b",
+      "lines": 1215
+    },
+    {
+      "path": "packages/content/src/index.ts",
+      "sha256": "8e93f354c16e8b69ad95c5a21dc3498fed4db47816b4b705794f99053a4ea3e8",
+      "lines": 202
+    },
+    {
+      "path": "packages/reforge/src/text/glyph.ts",
+      "sha256": "8338a9af967ad9f0cb723ec3592cdd15b60b53b1d78203a6aa1aa8c8665accea",
+      "lines": 119
+    },
+    {
+      "path": "packages/reforge/src/menu/menu-box.glm-n.test.ts",
+      "sha256": "a5a7dfb2c1032d01e2bde30b5fa933247686af3c246101c344cb9b7d8ddfe482",
+      "lines": 158
+    },
+    {
+      "path": "packages/reforge/src/menu/menu-box.glm-runtime-resource.test.ts",
+      "sha256": "bbbf769c7c906b0ab99bc77fd683c03dcf9d62f15e2c0731ec554b1f60d685d3",
+      "lines": 63
+    },
+    {
+      "path": "packages/reforge/src/text/text-render.glm-runtime-resource.test.ts",
+      "sha256": "62b48d8866b32a1e2fd09d308e30986d8112331d07a54fe61a0ef262d5472a5e",
+      "lines": 113
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-105/codex-current-review.md",
+      "sha256": "763f5039c98fc389e749eb59551588999096cc82978a6e2005184798bcbce1d7",
+      "lines": 36
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-105/counterproof-current.txt",
+      "sha256": "4c4599bd860bd5367358843acd5f44e905ddb6602085b7038dbc6b6310230951",
+      "lines": 10
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/phase2-reviewed.json",
+      "sha256": "5b6e40faed48d4287b8225740a3743f4e34a487126eb4b062ef98bb25155c553",
+      "lines": 564
+    }
+  ],
+  "neighborPaths": [
+    "packages/reforge/src/menu-state.test.ts",
+    "packages/reforge/src/menu/menu-box.glm-n.test.ts",
+    "packages/reforge/src/menu/menu-box.glm-runtime-resource.test.ts",
+    "packages/reforge/src/menu/menu-box.layout.test.ts",
+    "packages/reforge/src/menu/menu-box.residual.test.ts",
+    "packages/reforge/src/menu/menu-box.status-residual.test.ts"
+  ],
+  "cleanExecutions": [
+    "before",
+    "reorganize",
+    "format",
+    "proof",
+    "neighbors",
+    "adjacent-text",
+    "typecheck",
+    "docs",
+    "content-review",
+    "lint",
+    "scoped",
+    "diff",
+    "ledger-final",
+    "module-preflight"
+  ],
+  "lightweightGates": true,
+  "callbackProof": "organization-menu-layout/proof-final.stdout.raw",
+  "qualityDelta": {
+    "historicalSubjects": 1,
+    "registrations": 5,
+    "runtimeIdentities": 5,
+    "currentSpecs": 1,
+    "newCases": 0,
+    "retiredCases": 0,
+    "businessAssertionsRemoved": 0,
+    "restorationAssertionsAdded": 1,
+    "productChanged": false
+  },
+  "reads": {
+    "fullReads": [
+      {
+        "path": "packages/reforge/src/menu/menu-box.residual.glm.test.ts",
+        "sha256": "f390a5fcff69ce0f88104cb904bca5c532f5b039ca64b3f59b0d17ce5f287dda",
+        "lines": 450
+      },
+      {
+        "path": "packages/reforge/src/menu/menu-box.ts",
+        "sha256": "9c7c7b569e035fe5771fce79e5549e34aea1d66b7577569b2a6d98962ffcf2c1",
+        "lines": 652
+      },
+      {
+        "path": "packages/reforge/src/menu/menu-box.status-residual.test.ts",
+        "sha256": "511b2b2a4742384f39330f36a39d17e0507c5838a1f68e3a87176cc2e270421e",
+        "lines": 364
+      },
+      {
+        "path": "packages/reforge/src/menu/menu-box.residual.test.ts",
+        "sha256": "5c6eebe59f7a199094b9256e15595c3327fc3c33a34ad43d64b3b147d65236ec",
+        "lines": 149
+      },
+      {
+        "path": "packages/reforge/src/menu-state.ts",
+        "sha256": "e8435b8177aad78706e9a22f8c6bb515a000e8919fbfd40c1e83ab1cb2546930",
+        "lines": 90
+      },
+      {
+        "path": "packages/reforge/src/text/text-render.ts",
+        "sha256": "7976cd1ba1493b922fda9cc258ab980876e7c5109cb27157cef3bbcb7fa123e8",
+        "lines": 71
+      }
+    ],
+    "scopedReads": [
+      {
+        "path": "packages/reforge/src/main.ts",
+        "sha256": "089fd2bf41c03eccf02846ddaa314cbfabe22772f8334bb0fe9b16f494c2a260",
+        "lines": 6710,
+        "ranges": [[5153, 5171], [5855, 5881]]
+      },
+      {
+        "path": "packages/content/src/character.ts",
+        "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93",
+        "lines": 351,
+        "ranges": [[205, 275]]
+      },
+      {
+        "path": "packages/content/src/item.ts",
+        "sha256": "1a2ff2c2ef96070cf1609bd26c1f2756e851c9aec525749131582f6fd696963b",
+        "lines": 1215,
+        "ranges": [[310, 375]]
+      },
+      {
+        "path": "packages/content/src/index.ts",
+        "sha256": "8e93f354c16e8b69ad95c5a21dc3498fed4db47816b4b705794f99053a4ea3e8",
+        "lines": 202,
+        "ranges": [[178, 178]]
+      },
+      {
+        "path": "packages/reforge/src/text/glyph.ts",
+        "sha256": "8338a9af967ad9f0cb723ec3592cdd15b60b53b1d78203a6aa1aa8c8665accea",
+        "lines": 119,
+        "ranges": [[1, 100]]
+      }
+    ],
+    "additionalFullReads": [
+      {
+        "path": "packages/reforge/src/text/text-render.glm-runtime-resource.test.ts",
+        "sha256": "62b48d8866b32a1e2fd09d308e30986d8112331d07a54fe61a0ef262d5472a5e",
+        "lines": 113
+      }
+    ],
+    "fullOutputs": [
+      {
+        "path": "packages/reforge/src/menu/menu-box.layout.test.ts",
+        "sha256": "d0566a33e7d0ae22ab1717ed7c67810d092095369b873651636a65a7f93f5a29",
+        "lines": 471
+      }
+    ]
+  },
+  "reusedEvidence": {
+    "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/phase2-reviewed.json",
+    "counterSummary": "docs/ops/evidence/CODE-QUALITY-105/counterproof-current.txt",
+    "scope": "Prior full A-E/H plus current full reads,source and subject hash equality,and five exact callback bridges. No new product-counter replay claimed; old raw/history not overwritten."
+  },
+  "adjacentEvidence": {
+    "receipt": "organization-menu-layout/adjacent-text",
+    "files": 1,
+    "cases": 7
+  },
+  "knownAdjacentObservations": [
+    "Neighbor status/primitive/GLM-N/runtime tests are unchanged and not credited as newly accepted naming work. Their remaining historical names belong to pending/noncohort work.",
+    "Passthrough text still uses absent glyphs in layout fixture; actual glyph pixel appearance requires browser evidence outside this test."
+  ],
+  "processDisclosures": [
+    "First finalizer compared printer hashes of preformat versus formatted test statements and rejected a typography difference; complete typed AST proof already passed. r2 uses that verified current module only as registration context,with original failed raw retained; no tests or central rules changed.",
+    "Initial neighbor command included nonexistent text-render.test.ts as one Vitest filter. Actual native result was6files33cases,not7files; actual text-render.glm-runtime-resource.test.ts then ran separately1file7cases with original receipts retained.",
+    "Earlier read-only discovery guessed missing derived-stats/config names; no repository mutation or acceptance was based on those failures. Actual effectiveStat is item.ts350 and was read; config unchanged.",
+    "Full typed proof covers mocks/hooks as well as callbacks. Registration bridges do not strip or weaken global effects in the central analyzer; current module has ordinary explicit hooks. Central verifier/tool rules unchanged.",
+    "Final comment explicitly names irregular bitmap substitutes rather than real frame sizes; proof-final reconfirms complete typed equivalence,with no runtime or assertion change."
+  ],
+  "invalidations": "Changes in layout assertions,stub geometry,spy lifecycle,text function signature/MenuBox return use,or caller state contracts require targeted revalidation. Prior full green alone does not prove these boundaries.",
+  "ledgerCounts": {
+    "inventory": 3445,
+    "closed": 498,
+    "review": 315,
+    "pending": 2632
+  },
+  "quantitativeScreen": [
+    {
+      "path": "packages/reforge/src/menu/menu-box.layout.test.ts",
+      "method": "Syntactic decisions,reading pointer only",
+      "functions": 39,
+      "max": 2,
+      "over10": 0
+    }
+  ],
+  "receipts": {
+    "proof": "organization-menu-layout/proof-final"
+  }
+}

@@ -1,0 +1,777 @@
+{
+  "inputs": [
+    {
+      "path": "packages/game/src/core/menu/item-select.glm-phase1-leaves.test.ts",
+      "sha256": "767dc6720228343197421a3e4e2a80237ca87a30fa3c8f1cff0fb77cf72276fa",
+      "member": "organization-menu-selection/0.before",
+      "lines": 83
+    },
+    {
+      "path": "packages/game/src/core/menu/__tests__/item-magic-select.test.ts",
+      "sha256": "eec5910d4d154a4c9af08b370e76e7199e9cca52c4ea6ea9b359ad734baa792e",
+      "member": "organization-menu-selection/1.before",
+      "lines": 106
+    },
+    {
+      "path": "packages/game/src/core/menu/magic-select.boundaries.test.ts",
+      "sha256": "01c9290e0f87266e70e33bc91336ba96031d0a73275ca064b13358d99fea7484",
+      "member": "organization-menu-selection/2.before",
+      "lines": 120
+    },
+    {
+      "path": "packages/game/src/core/menu/magic-select.glm-phase1-leaves.test.ts",
+      "sha256": "7426d25723fe5e8b006ffcd1d04c900e8cc0bb51da80c86bb07865f3b3c9521d",
+      "member": "organization-menu-selection/3.before",
+      "lines": 117
+    },
+    {
+      "path": "packages/game/src/core/menu/magic-select.ts",
+      "sha256": "60898f2b0a25d9aabf965cb247d2f7d00defad9f3450967259ea7ace0efe6fbb",
+      "member": "organization-menu-selection/4.before",
+      "lines": 56
+    }
+  ],
+  "outputs": [
+    {
+      "path": "packages/game/src/core/menu/item-select.test.ts",
+      "sha256": "05b2037277fbfba8a74500ce0517c1b1e1fdb35c90c671288c9e61be4aaf756a"
+    },
+    {
+      "path": "packages/game/src/core/menu/magic-select.test.ts",
+      "sha256": "201c6849702a5acd436a9d45a930ccb23e9d89eac00a6f626a94e6794b5155bc"
+    },
+    {
+      "path": "packages/game/src/core/menu/magic-select.ts",
+      "sha256": "bdf4336d4858245ec71283d20d0524845b210d898dd5a1ce3f04343b7eb32545"
+    }
+  ],
+  "sourceBridges": [
+    {
+      "path": "packages/game/src/core/menu/item-select.glm-phase1-leaves.test.ts",
+      "changes": [
+        {
+          "from": "/** Direct flag contracts; equip/usable integration remains in the real equip/inventory suites. */\nimport type { Item } from '@type-pal/shared'\nimport { describe, expect, it } from 'vitest'\nimport { matchesFilter } from './item-select.js'\n\nfunction mkItem(id: number, name: string | undefined, flags: Partial<Item['flags']>): Item {\n  return {\n    id,\n    _name: name,\n    bitmap: 0,\n    price: 100,\n    scriptOnUse: 0,\n    scriptOnEquip: 0,\n    scriptOnThrow: 0,\n    scriptDesc: 0,\n    flags: {\n      usable: false,\n      equipable: false,\n      throwable: false,\n      consuming: false,\n      applyToAll: false,\n      sellable: false,\n      equipableBy: [false, false, false, false, false, false],\n      ...flags,\n    },\n  }\n}\n\ndescribe('L01 matchesFilter 直接真值表（菜单级未覆盖的分支）', () => {\n  // IDs are in the production range; flags are synthetic predicate fixtures, not raw item data.\n  const cases = {\n    plain: mkItem(105, '白板', {}),\n    equipOnly: mkItem(106, '木剑', { equipable: true }),\n    usableOnly: mkItem(107, '观音符', { usable: true }),\n    usableEquip: mkItem(108, '风灵珠', { usable: true, equipable: true }),\n    throwableOnly: mkItem(109, '梅花镖', { throwable: true }),\n    usableConsuming: mkItem(110, '草药', { usable: true, consuming: true }),\n    throwableConsuming: mkItem(111, '飞镖', { throwable: true, consuming: true }),\n    importantStory: mkItem(112, '剧情玉', { sellable: false }),\n    sellableEquip: mkItem(113, '卖价装备', { equipable: true, sellable: true }),\n  } satisfies Record<string, Item>\n\n  it('potion = usable 且非装备非投掷：装备位/投掷位各自否决', () => {\n    expect(matchesFilter(cases.usableOnly, 'potion')).toBe(true)\n    expect(matchesFilter(cases.usableEquip, 'potion')).toBe(false) // equipable 否决\n    expect(matchesFilter(cases.usableConsuming, 'potion')).toBe(true)\n    expect(matchesFilter(cases.throwableOnly, 'potion')).toBe(false) // throwable+非usable 双因否决\n    // C5 更正(2026-10-15)：usable=true 且 throwable=true —— 隔离\"投掷位单独否决\"\n    // （原 throwableOnly 同时非 usable，否决被 !usable 遮蔽，投掷守卫未被独立证明）。\n    expect(\n      matchesFilter(mkItem(115, ' usable镖', { usable: true, throwable: true }), 'potion'),\n    ).toBe(false)\n  })\n\n  it('battle = throwable 或 (usable 且 consuming)：三分支各一', () => {\n    expect(matchesFilter(cases.throwableOnly, 'battle')).toBe(true) // throwable 单独命中\n    expect(matchesFilter(cases.throwableConsuming, 'battle')).toBe(true)\n    expect(matchesFilter(cases.usableConsuming, 'battle')).toBe(true) // usable+consuming 命中\n    expect(matchesFilter(cases.usableOnly, 'battle')).toBe(false) // 只 usable 不算战斗道具\n    expect(matchesFilter(cases.equipOnly, 'battle')).toBe(false)\n  })\n\n  it('important 两守卫各自独立否决', () => {\n    expect(matchesFilter(cases.importantStory, 'important')).toBe(true)\n    expect(matchesFilter(cases.plain, 'important')).toBe(true) // 白板：非卖非装备（fixture 默认双 false）\n    // C5 更正(2026-10-15)：原 sellableEquip 双真无法区分是哪个守卫否决；\n    // 补两个单真用例分别隔离 equipable 守卫与 sellable 守卫。\n    expect(matchesFilter(cases.equipOnly, 'important')).toBe(false) // equipable=true、sellable=false → 仅装备守卫否决\n    expect(\n      matchesFilter(mkItem(116, '可卖药', { usable: true, sellable: true }), 'important'),\n    ).toBe(false) // sellable=true、非装备 → 仅卖出守卫否决\n    expect(matchesFilter(cases.usableConsuming, 'important')).toBe(true) // 可用草药非卖 → 本判定也归 important\n  })\n\n  it('sellable 直接按标志', () => {\n    expect(matchesFilter(cases.sellableEquip, 'sellable')).toBe(true)\n    expect(matchesFilter(cases.importantStory, 'sellable')).toBe(false)\n  })\n\n  it('all 不依赖分类标志', () => {\n    expect(matchesFilter(cases.plain, 'all')).toBe(true) // all 与 flags 无关\n  })\n})\n",
+          "to": "/** Direct flag contracts; equip/usable integration remains in the real equip/inventory suites. */\nimport type { Item } from '@type-pal/shared'\nimport { describe, expect, it } from 'vitest'\nimport { matchesFilter } from './item-select.js'\n\nfunction itemWithFlags(id: number, name: string | undefined, flags: Partial<Item['flags']>): Item {\n  return {\n    id,\n    _name: name,\n    bitmap: 0,\n    price: 100,\n    scriptOnUse: 0,\n    scriptOnEquip: 0,\n    scriptOnThrow: 0,\n    scriptDesc: 0,\n    flags: {\n      usable: false,\n      equipable: false,\n      throwable: false,\n      consuming: false,\n      applyToAll: false,\n      sellable: false,\n      equipableBy: [false, false, false, false, false, false],\n      ...flags,\n    },\n  }\n}\n\ndescribe('Item flag classification', () => {\n  // IDs are in the production range; flags are synthetic predicate fixtures, not raw item data.\n  const cases = {\n    plain: itemWithFlags(105, '白板', {}),\n    equipOnly: itemWithFlags(106, '木剑', { equipable: true }),\n    usableOnly: itemWithFlags(107, '观音符', { usable: true }),\n    usableEquip: itemWithFlags(108, '风灵珠', { usable: true, equipable: true }),\n    throwableOnly: itemWithFlags(109, '梅花镖', { throwable: true }),\n    usableConsuming: itemWithFlags(110, '草药', { usable: true, consuming: true }),\n    throwableConsuming: itemWithFlags(111, '飞镖', { throwable: true, consuming: true }),\n    importantStory: itemWithFlags(112, '剧情玉', { sellable: false }),\n    sellableEquip: itemWithFlags(113, '卖价装备', { equipable: true, sellable: true }),\n  } satisfies Record<string, Item>\n\n  it('potion = usable 且非装备非投掷：装备位/投掷位各自否决', () => {\n    expect(matchesFilter(cases.usableOnly, 'potion')).toBe(true)\n    expect(matchesFilter(cases.usableEquip, 'potion')).toBe(false) // equipable 否决\n    expect(matchesFilter(cases.usableConsuming, 'potion')).toBe(true)\n    expect(matchesFilter(cases.throwableOnly, 'potion')).toBe(false) // throwable+非usable 双因否决\n    // 保持 usable=true，单独验证 throwable 的否决，避免非 usable 掩盖该守卫。\n    expect(\n      matchesFilter(itemWithFlags(115, ' usable镖', { usable: true, throwable: true }), 'potion'),\n    ).toBe(false)\n  })\n\n  it('battle = throwable 或 (usable 且 consuming)：三分支各一', () => {\n    expect(matchesFilter(cases.throwableOnly, 'battle')).toBe(true) // throwable 单独命中\n    expect(matchesFilter(cases.throwableConsuming, 'battle')).toBe(true)\n    expect(matchesFilter(cases.usableConsuming, 'battle')).toBe(true) // usable+consuming 命中\n    expect(matchesFilter(cases.usableOnly, 'battle')).toBe(false) // 只 usable 不算战斗道具\n    expect(matchesFilter(cases.equipOnly, 'battle')).toBe(false)\n  })\n\n  it('important 两守卫各自独立否决', () => {\n    expect(matchesFilter(cases.importantStory, 'important')).toBe(true)\n    // 两个单真输入分别隔离 equipable 与 sellable 否决，避免双真输入遮蔽守卫。\n    expect(matchesFilter(cases.equipOnly, 'important')).toBe(false) // equipable=true、sellable=false → 仅装备守卫否决\n    expect(\n      matchesFilter(itemWithFlags(116, '可卖药', { usable: true, sellable: true }), 'important'),\n    ).toBe(false) // sellable=true、非装备 → 仅卖出守卫否决\n    expect(matchesFilter(cases.usableConsuming, 'important')).toBe(true) // 可用草药非卖 → 本判定也归 important\n  })\n\n  it('sellable 直接按标志', () => {\n    expect(matchesFilter(cases.sellableEquip, 'sellable')).toBe(true)\n    expect(matchesFilter(cases.importantStory, 'sellable')).toBe(false)\n  })\n\n  it('all 不依赖分类标志', () => {\n    expect(matchesFilter(cases.plain, 'all')).toBe(true) // all 与 flags 无关\n  })\n})\n",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/core/menu/__tests__/item-magic-select.test.ts",
+      "changes": [
+        {
+          "from": "import type { Magic, PlayerRoles, Spell } from '@type-pal/shared'\nimport { describe, expect, it } from 'vitest'\nimport { makeRoleRecord as makeRole } from '../../../__tests__/battle-records.js'\n\nimport { createMagicSelectMenu } from '../magic-select.js'\nimport { getSelected } from '../primitives.js'\nimport { magicWithCost as makeMagic } from './magic-cost-fixture.js'\n\ndescribe('M-w0.2 MagicSelectionMenu', () => {\n  const makeSpell = (id: number, magicNumber: number, name: string): Spell => ({\n    id,\n    magicNumber,\n    scriptOnSuccess: 0,\n    scriptOnUse: 0,\n    scriptDesc: 0,\n    flags: {\n      usableOutsideBattle: false,\n      usableInBattle: true,\n      usableToEnemy: true,\n      applyToAll: false,\n    },\n    _name: name,\n  })\n\n  const magics: Magic[] = [makeMagic(1, 5), makeMagic(2, 30)]\n  const spells: Spell[] = [makeSpell(300, 1, '小火球'), makeSpell(301, 2, '大火球')]\n  const playerRoles: PlayerRoles = {\n    roles: [\n      makeRole(0, {\n        _name: 'leader',\n        maxHP: 100,\n        maxMP: 100,\n        hp: 100,\n        mp: 100,\n        attackStrength: 0,\n        magicStrength: 0,\n        defense: 0,\n        dexterity: 0,\n        fleeRate: 0,\n        walkFrames: 3,\n        magic: [300, 301, ...Array<number>(30).fill(0)],\n      }),\n    ],\n  }\n\n  it('MP 足够 → 列出全部 + 显 MP cost,光标在第一个', () => {\n    const s = createMagicSelectMenu({\n      roleId: 0,\n      playerRoles,\n      spells,\n      magics,\n      currentMp: 100,\n    })\n    expect(s.items.map((i) => i.label)).toEqual(['小火球', '大火球'])\n    expect(s.items[0]?.rightText).toBe('MP 5')\n    expect(s.items[1]?.rightText).toBe('MP 30')\n    expect(getSelected(s)?.id).toBe(300)\n  })\n\n  it('MP 不够 → disabled(灰色),初始 cursor 仍按默认项', () => {\n    const s = createMagicSelectMenu({\n      roleId: 0,\n      playerRoles,\n      spells,\n      magics,\n      currentMp: 10, // 大火球 30 不够\n    })\n    expect(s.items[0]?.disabled).toBe(false)\n    expect(s.items[1]?.disabled).toBe(true)\n    expect(s.cursor).toBe(0)\n  })\n\n  it('L38:第一个法术 MP 不足时 cursor 仍可落在灰项', () => {\n    const s = createMagicSelectMenu({\n      roleId: 0,\n      playerRoles,\n      spells,\n      magics,\n      currentMp: 3,\n    })\n    expect(s.items[0]?.disabled).toBe(true)\n    expect(s.cursor).toBe(0)\n  })\n\n  it('L36:法术按 ObjectID 升序排列(无论习得顺序),对齐 magicmenu.c:377-397', () => {\n    const rolesShuffled: PlayerRoles = {\n      roles: [\n        {\n          ...playerRoles.roles[0]!,\n          // 习得顺序 [2,1]:先学大火球(id2)后学小火球(id1) —— rgwMagic 按习得追加,乱序\n          magic: [301, 300, ...Array<number>(30).fill(0)],\n        },\n      ],\n    }\n    const s = createMagicSelectMenu({\n      roleId: 0,\n      playerRoles: rolesShuffled,\n      spells,\n      magics,\n      currentMp: 100,\n    })\n    // C 冒泡按 wMagic(spell ObjectID)升序 → 菜单恒 [小火球(300), 大火球(301)],不随习得序\n    expect(s.items.map((i) => i.id)).toEqual([300, 301])\n    expect(s.items.map((i) => i.label)).toEqual(['小火球', '大火球'])\n  })\n})\n",
+          "to": "/** Spell-list data contracts; casting, outside-battle filtering and rendering have their own callers. */\nimport type { Magic, PlayerRole, PlayerRoles, Spell } from '@type-pal/shared'\n\nimport { describe, expect, it } from 'vitest'\n\nimport { makeRoleRecord } from '../../__tests__/battle-records.js'\n\nimport { magicWithCost } from './__tests__/magic-cost-fixture.js'\n\nimport { createMagicSelectMenu } from './magic-select.js'\n\nimport { getSelected } from './primitives.js'\n\n\nfunction createSpellCaster(id: number, mp: number, magic: number[], level = 10): PlayerRole {\n  return {\n    id,\n    avatar: 0,\n    spriteNumInBattle: 0,\n    spriteNum: 0,\n    name: 0,\n    attackAll: 0,\n    level,\n    maxHP: 100,\n    maxMP: 100,\n    hp: 100,\n    mp,\n    attackStrength: 0,\n    magicStrength: 0,\n    defense: 0,\n    dexterity: 0,\n    fleeRate: 0,\n    poisonResistance: 0,\n    elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },\n    walkFrames: 3,\n    attackSound: 0,\n    weaponSound: 0,\n    criticalSound: 0,\n    magicSound: 0,\n    deathSound: 0,\n    magic,\n  }\n}\n\nfunction rolesOf(role: PlayerRole): PlayerRoles {\n  return { roles: [role] }\n}\n\ndescribe('MP cost and initial selection', () => {\n  const battleSpell = (id: number, magicNumber: number, name: string): Spell => ({\n    id,\n    magicNumber,\n    scriptOnSuccess: 0,\n    scriptOnUse: 0,\n    scriptDesc: 0,\n    flags: {\n      usableOutsideBattle: false,\n      usableInBattle: true,\n      usableToEnemy: true,\n      applyToAll: false,\n    },\n    _name: name,\n  })\n\n  const magics: Magic[] = [magicWithCost(1, 5), magicWithCost(2, 30)]\n  const spells: Spell[] = [battleSpell(300, 1, '小火球'), battleSpell(301, 2, '大火球')]\n  const playerRoles: PlayerRoles = {\n    roles: [\n      makeRoleRecord(0, {\n        _name: 'leader',\n        maxHP: 100,\n        maxMP: 100,\n        hp: 100,\n        mp: 100,\n        attackStrength: 0,\n        magicStrength: 0,\n        defense: 0,\n        dexterity: 0,\n        fleeRate: 0,\n        walkFrames: 3,\n        magic: [300, 301, ...Array<number>(30).fill(0)],\n      }),\n    ],\n  }\n\n  it('MP 足够 → 列出全部 + 显 MP cost,光标在第一个', () => {\n    const menu = createMagicSelectMenu({\n      roleId: 0,\n      playerRoles,\n      spells,\n      magics,\n      currentMp: 100,\n    })\n    expect(menu.items.map((i) => i.label)).toEqual(['小火球', '大火球'])\n    expect(menu.items[0]?.rightText).toBe('MP 5')\n    expect(menu.items[1]?.rightText).toBe('MP 30')\n    expect(getSelected(menu)?.id).toBe(300)\n  })\n\n  it('MP 不够 → disabled(灰色),初始 cursor 仍按默认项', () => {\n    const menu = createMagicSelectMenu({\n      roleId: 0,\n      playerRoles,\n      spells,\n      magics,\n      currentMp: 10, // 大火球 30 不够\n    })\n    expect(menu.items[0]?.disabled).toBe(false)\n    expect(menu.items[1]?.disabled).toBe(true)\n    expect(menu.cursor).toBe(0)\n  })\n\n  it('L38:第一个法术 MP 不足时 cursor 仍可落在灰项', () => {\n    const menu = createMagicSelectMenu({\n      roleId: 0,\n      playerRoles,\n      spells,\n      magics,\n      currentMp: 3,\n    })\n    expect(menu.items[0]?.disabled).toBe(true)\n    expect(menu.cursor).toBe(0)\n  })\n\n  it('L36:法术按 ObjectID 升序排列(无论习得顺序),对齐 magicmenu.c:377-397', () => {\n    const rolesShuffled: PlayerRoles = {\n      roles: [\n        {\n          ...playerRoles.roles[0]!,\n          // 习得顺序 [301,300]；展示按 ObjectID 排序，不改角色槽位。\n          magic: [301, 300, ...Array<number>(30).fill(0)],\n        },\n      ],\n    }\n    const menu = createMagicSelectMenu({\n      roleId: 0,\n      playerRoles: rolesShuffled,\n      spells,\n      magics,\n      currentMp: 100,\n    })\n    // C 冒泡按 wMagic(spell ObjectID)升序 → 菜单恒 [小火球(300), 大火球(301)],不随习得序\n    expect(menu.items.map((i) => i.id)).toEqual([300, 301])\n    expect(menu.items.map((i) => i.label)).toEqual(['小火球', '大火球'])\n  })\n})\n",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/core/menu/magic-select.boundaries.test.ts",
+      "changes": [
+        {
+          "from": "/**\n * TEST-GAME-MENU-BOUNDARIES-1 G04：magic-select 独立轴（magic-select.ts）。\n * 既有 __tests__/item-magic-select.test 已覆盖成本/灰/排序主干——不重复。本文件：\n * MP 恰等 cost 不禁用；排序不污染实际传入 playerRoles.roles[roleId].magic；非连续\n * wObjectID（如 295）返回 spell.id 而非 magicNumber；坏角色/缺 spell 静默空表。\n */\nimport type { Magic, PlayerRole, PlayerRoles, Spell } from '@type-pal/shared'\nimport { describe, expect, it } from 'vitest'\nimport { magicWithCost as magic } from './__tests__/magic-cost-fixture.js'\nimport { createMagicSelectMenu } from './magic-select.js'\n\nconst magics: Magic[] = [magic(1, 5), magic(2, 12)]\nconst spells: Spell[] = [\n  {\n    id: 300,\n    magicNumber: 1,\n    scriptOnSuccess: 0,\n    scriptOnUse: 0,\n    scriptDesc: 0,\n    flags: {\n      usableOutsideBattle: true,\n      usableInBattle: true,\n      usableToEnemy: false,\n      applyToAll: false,\n    },\n    _name: '甲',\n  },\n  {\n    id: 295,\n    magicNumber: 2,\n    scriptOnSuccess: 0,\n    scriptOnUse: 0,\n    scriptDesc: 0,\n    flags: {\n      usableOutsideBattle: true,\n      usableInBattle: false,\n      usableToEnemy: false,\n      applyToAll: false,\n    },\n    _name: '乙',\n  }, // 非连续（梦蛇 295 在段外）\n]\n\nfunction role(magic: number[]): PlayerRole {\n  return {\n    id: 0,\n    avatar: 0,\n    spriteNumInBattle: 0,\n    spriteNum: 0,\n    name: 0,\n    attackAll: 0,\n    level: 1,\n    maxHP: 100,\n    maxMP: 100,\n    hp: 100,\n    mp: 50,\n    attackStrength: 0,\n    magicStrength: 0,\n    defense: 0,\n    dexterity: 0,\n    fleeRate: 0,\n    poisonResistance: 0,\n    elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },\n    walkFrames: 3,\n    attackSound: 0,\n    weaponSound: 0,\n    criticalSound: 0,\n    magicSound: 0,\n    deathSound: 0,\n    magic,\n  }\n}\n\nfunction roles(magic: number[]): PlayerRoles {\n  return { roles: [role(magic)] }\n}\n\ndescribe('G04 createMagicSelectMenu', () => {\n  it('MP 恰等 cost 不禁用、差 1 禁用；排序后实际传入 roles.magic 不被污染', () => {\n    // 习得序乱序 [300, 295] → 排序展示 [295, 300]\n    const playerRoles = roles([300, 295])\n    const snapshot = structuredClone(playerRoles)\n    const menu = createMagicSelectMenu({\n      roleId: 0,\n      playerRoles,\n      spells,\n      magics,\n      currentMp: 5, // 甲(300,cost5) 恰等；乙(295,cost12) 差 7\n    })\n    expect(menu.items.map((item) => item.id)).toEqual([295, 300]) // 升序\n    expect(menu.items[0]).toMatchObject({ id: 295, disabled: true, rightText: 'MP 12' })\n    expect(menu.items[1]).toMatchObject({ id: 300, disabled: false, rightText: 'MP 5' })\n    expect(structuredClone(playerRoles)).toEqual(snapshot) // 实际传入不被排序污染\n\n    const oneLess = createMagicSelectMenu({\n      roleId: 0,\n      playerRoles: roles([300]),\n      spells,\n      magics,\n      currentMp: 4, // 差 1\n    })\n    expect(oneLess.items[0]!.disabled).toBe(true)\n  })\n  it('非连续 wObjectID 295 返回 spell.id 而非 magicNumber；缺 spell/坏角色空表（防御分类：当前 caller 域内不应触达的退化输入）', () => {\n    const menu = createMagicSelectMenu({\n      roleId: 0,\n      playerRoles: roles([295, 999]), // 999 无 spell 定义\n      spells,\n      magics,\n      currentMp: 99,\n    })\n    expect(menu.items).toHaveLength(1)\n    expect(menu.items[0]!.id).toBe(295) // spell.id，不是 magicNumber 2\n    expect(menu.items[0]!.label).toBe('乙')\n    expect(\n      createMagicSelectMenu({ roleId: 7, playerRoles: roles([300]), spells, magics, currentMp: 9 })\n        .items,\n    ).toEqual([])\n  })\n})\n",
+          "to": "/** Spell-list data contracts; casting, outside-battle filtering and rendering have their own callers. */\nimport type { Magic, PlayerRole, PlayerRoles, Spell } from '@type-pal/shared'\n\nimport { describe, expect, it } from 'vitest'\n\nimport { makeRoleRecord } from '../../__tests__/battle-records.js'\n\nimport { magicWithCost } from './__tests__/magic-cost-fixture.js'\n\nimport { createMagicSelectMenu } from './magic-select.js'\n\nimport { getSelected } from './primitives.js'\n\n\nfunction createSpellCaster(id: number, mp: number, magic: number[], level = 10): PlayerRole {\n  return {\n    id,\n    avatar: 0,\n    spriteNumInBattle: 0,\n    spriteNum: 0,\n    name: 0,\n    attackAll: 0,\n    level,\n    maxHP: 100,\n    maxMP: 100,\n    hp: 100,\n    mp,\n    attackStrength: 0,\n    magicStrength: 0,\n    defense: 0,\n    dexterity: 0,\n    fleeRate: 0,\n    poisonResistance: 0,\n    elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },\n    walkFrames: 3,\n    attackSound: 0,\n    weaponSound: 0,\n    criticalSound: 0,\n    magicSound: 0,\n    deathSound: 0,\n    magic,\n  }\n}\n\nfunction rolesOf(role: PlayerRole): PlayerRoles {\n  return { roles: [role] }\n}\n\n\ndescribe('Spell identity and input ownership', () => {\n  const magics: Magic[] = [magicWithCost(1, 5), magicWithCost(2, 12)]\n\n  const spells: Spell[] = [\n    {\n      id: 300,\n      magicNumber: 1,\n      scriptOnSuccess: 0,\n      scriptOnUse: 0,\n      scriptDesc: 0,\n      flags: {\n        usableOutsideBattle: true,\n        usableInBattle: true,\n        usableToEnemy: false,\n        applyToAll: false,\n      },\n      _name: '甲',\n    },\n    {\n      id: 295,\n      magicNumber: 2,\n      scriptOnSuccess: 0,\n      scriptOnUse: 0,\n      scriptDesc: 0,\n      flags: {\n        usableOutsideBattle: true,\n        usableInBattle: false,\n        usableToEnemy: false,\n        applyToAll: false,\n      },\n      _name: '乙',\n    }, // 非连续（梦蛇 295 在段外）\n  ]\n  function boundaryRoles(magic: number[]): PlayerRoles {\n    return { roles: [createSpellCaster(0, 50, magic, 1)] }\n  }\n\n  it('MP 恰等 cost 不禁用、差 1 禁用；排序后实际传入 roles.magic 不被污染', () => {\n    // 习得序乱序 [300, 295] → 排序展示 [295, 300]\n    const playerRoles = boundaryRoles([300, 295])\n    const snapshot = structuredClone(playerRoles)\n    const menu = createMagicSelectMenu({\n      roleId: 0,\n      playerRoles,\n      spells,\n      magics,\n      currentMp: 5, // 甲(300,cost5) 恰等；乙(295,cost12) 差 7\n    })\n    expect(menu.items.map((item) => item.id)).toEqual([295, 300]) // 升序\n    expect(menu.items[0]).toMatchObject({ id: 295, disabled: true, rightText: 'MP 12' })\n    expect(menu.items[1]).toMatchObject({ id: 300, disabled: false, rightText: 'MP 5' })\n    expect(playerRoles).toEqual(snapshot) // 实际传入不被排序污染\n\n    const oneLess = createMagicSelectMenu({\n      roleId: 0,\n      playerRoles: boundaryRoles([300]),\n      spells,\n      magics,\n      currentMp: 4, // 差 1\n    })\n    expect(oneLess.items[0]!.disabled).toBe(true)\n  })\n  it('非连续 wObjectID 295 返回 spell.id 而非 magicNumber；缺 spell/坏角色空表（防御分类：当前 caller 域内不应触达的退化输入）', () => {\n    const menu = createMagicSelectMenu({\n      roleId: 0,\n      playerRoles: boundaryRoles([295, 999]), // 999 无 spell 定义\n      spells,\n      magics,\n      currentMp: 99,\n    })\n    expect(menu.items).toHaveLength(1)\n    expect(menu.items[0]!.id).toBe(295) // spell.id，不是 magicNumber 2\n    expect(menu.items[0]!.label).toBe('乙')\n    expect(\n      createMagicSelectMenu({\n        roleId: 7,\n        playerRoles: boundaryRoles([300]),\n        spells,\n        magics,\n        currentMp: 9,\n      }).items,\n    ).toEqual([])\n  })\n})\n",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/core/menu/magic-select.glm-phase1-leaves.test.ts",
+      "changes": [
+        {
+          "from": "/**\n * TEST-GLM-PHASE1-LEAVES-3 L02（magic-select.ts）— 去重表：\n *  - __tests__/item-magic-select.test（MP cost/灰/排序主干）→ 不重复\n *  - magic-select.boundaries.test（MP 恰等/排序不污染/295 非连续/缺 spell/坏角色空表）→ 不重复\n *  - 新差异：spell 存在但 magicNumber 无 magic 定义 → 剔除、缺 _name 回退 magic#<id>、\n *    全空法术槽、costMP=0 在 MP=0 时仍可选、pageSize 覆写。\n * 显示 vs 执行：本组只核建表/禁用位；不跑 magic-script，不证明治疗/扣 MP 已发生。\n */\nimport type { PlayerRole, PlayerRoles, Spell } from '@type-pal/shared'\nimport { describe, expect, it } from 'vitest'\nimport { magicWithCost as mkMagic } from './__tests__/magic-cost-fixture.js'\nimport { createMagicSelectMenu } from './magic-select.js'\n\nfunction mkSpell(id: number, magicNumber: number, name: string | undefined): Spell {\n  return {\n    id,\n    magicNumber,\n    scriptOnSuccess: 0,\n    scriptOnUse: 0,\n    scriptDesc: 0,\n    flags: {\n      usableOutsideBattle: true,\n      usableInBattle: true,\n      usableToEnemy: false,\n      applyToAll: false,\n    },\n    _name: name,\n  }\n}\n\nfunction mkRole(id: number, mp: number, magic: number[]): PlayerRole {\n  return {\n    id,\n    avatar: 0,\n    spriteNumInBattle: 0,\n    spriteNum: 0,\n    name: 0,\n    attackAll: 0,\n    level: 10,\n    maxHP: 100,\n    maxMP: 100,\n    hp: 100,\n    mp,\n    attackStrength: 0,\n    magicStrength: 0,\n    defense: 0,\n    dexterity: 0,\n    fleeRate: 0,\n    poisonResistance: 0,\n    elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },\n    walkFrames: 3,\n    attackSound: 0,\n    weaponSound: 0,\n    criticalSound: 0,\n    magicSound: 0,\n    deathSound: 0,\n    magic,\n  }\n}\n\nfunction rolesOf(role: PlayerRole): PlayerRoles {\n  return { roles: [role] }\n}\n\ndescribe('L02 createMagicSelectMenu 剩余建表合同', () => {\n  const magics = [mkMagic(1, 5), mkMagic(2, 0)]\n  const spells = [mkSpell(300, 1, '甲'), mkSpell(301, 2, undefined)]\n\n  it('spell 存在但 magicNumber 无 magic 定义 → 该槽剔除（!magic 分支）', () => {\n    const dangling = mkSpell(302, 99, '悬空') // magicNumber 99 不在 magics\n    const s = createMagicSelectMenu({\n      roleId: 0,\n      playerRoles: rolesOf(mkRole(0, 50, [300, 302])),\n      spells: [...spells, dangling],\n      magics,\n      currentMp: 50,\n    })\n    expect(s.items.map((i) => i.id)).toEqual([300])\n  })\n\n  it('spell 缺 _name → label 回退 magic#<magic.id>（渲染文案缺名的合法降级）', () => {\n    const s = createMagicSelectMenu({\n      roleId: 0,\n      playerRoles: rolesOf(mkRole(0, 50, [301])),\n      spells,\n      magics,\n      currentMp: 50,\n    })\n    expect(s.items[0]?.label).toBe('magic#2')\n  })\n\n  it('costMP=0 的法术在 MP=0 时仍可选（0 < 0 不成立，不禁用）', () => {\n    const s = createMagicSelectMenu({\n      roleId: 0,\n      playerRoles: rolesOf(mkRole(0, 0, [301, 300])),\n      spells,\n      magics,\n      currentMp: 0,\n    })\n    expect(s.items.map((i) => i.id)).toEqual([300, 301]) // 升序\n    expect(s.items.map((i) => i.disabled)).toEqual([true, false]) // 甲(5) 禁；免费(0) 可选\n  })\n\n  it('全空法术槽（magic 全 0）→ 空表；pageSize 覆写进 state', () => {\n    const s = createMagicSelectMenu({\n      roleId: 0,\n      playerRoles: rolesOf(mkRole(0, 50, Array<number>(32).fill(0))),\n      spells,\n      magics,\n      currentMp: 50,\n      pageSize: 3,\n    })\n    expect(s.items).toEqual([])\n    expect(s.cursor).toBe(0)\n    expect(s.pageSize).toBe(3)\n  })\n})\n",
+          "to": "/** Spell-list data contracts; casting, outside-battle filtering and rendering have their own callers. */\nimport type { Magic, PlayerRole, PlayerRoles, Spell } from '@type-pal/shared'\n\nimport { describe, expect, it } from 'vitest'\n\nimport { makeRoleRecord } from '../../__tests__/battle-records.js'\n\nimport { magicWithCost } from './__tests__/magic-cost-fixture.js'\n\nimport { createMagicSelectMenu } from './magic-select.js'\n\nimport { getSelected } from './primitives.js'\n\n\nfunction createSpellCaster(id: number, mp: number, magic: number[], level = 10): PlayerRole {\n  return {\n    id,\n    avatar: 0,\n    spriteNumInBattle: 0,\n    spriteNum: 0,\n    name: 0,\n    attackAll: 0,\n    level,\n    maxHP: 100,\n    maxMP: 100,\n    hp: 100,\n    mp,\n    attackStrength: 0,\n    magicStrength: 0,\n    defense: 0,\n    dexterity: 0,\n    fleeRate: 0,\n    poisonResistance: 0,\n    elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },\n    walkFrames: 3,\n    attackSound: 0,\n    weaponSound: 0,\n    criticalSound: 0,\n    magicSound: 0,\n    deathSound: 0,\n    magic,\n  }\n}\n\nfunction rolesOf(role: PlayerRole): PlayerRoles {\n  return { roles: [role] }\n}\n\n\ndescribe('Learned slots and catalog fallbacks', () => {\n  function catalogSpell(id: number, magicNumber: number, name: string | undefined): Spell {\n    return {\n      id,\n      magicNumber,\n      scriptOnSuccess: 0,\n      scriptOnUse: 0,\n      scriptDesc: 0,\n      flags: {\n        usableOutsideBattle: true,\n        usableInBattle: true,\n        usableToEnemy: false,\n        applyToAll: false,\n      },\n      _name: name,\n    }\n  }\n\n  const magics = [magicWithCost(1, 5), magicWithCost(2, 0)]\n  const spells = [catalogSpell(300, 1, '甲'), catalogSpell(301, 2, undefined)]\n\n  it('spell 存在但 magicNumber 无 magic 定义 → 该槽剔除（!magic 分支）', () => {\n    const dangling = catalogSpell(302, 99, '悬空') // magicNumber 99 不在 magics\n    const menu = createMagicSelectMenu({\n      roleId: 0,\n      playerRoles: rolesOf(createSpellCaster(0, 50, [300, 302])),\n      spells: [...spells, dangling],\n      magics,\n      currentMp: 50,\n    })\n    expect(menu.items.map((i) => i.id)).toEqual([300])\n  })\n\n  it('spell 缺 _name → label 回退 magic#<magic.id>（渲染文案缺名的合法降级）', () => {\n    const menu = createMagicSelectMenu({\n      roleId: 0,\n      playerRoles: rolesOf(createSpellCaster(0, 50, [301])),\n      spells,\n      magics,\n      currentMp: 50,\n    })\n    expect(menu.items[0]?.label).toBe('magic#2')\n  })\n\n  it('costMP=0 的法术在 MP=0 时仍可选（0 < 0 不成立，不禁用）', () => {\n    const menu = createMagicSelectMenu({\n      roleId: 0,\n      playerRoles: rolesOf(createSpellCaster(0, 0, [301, 300])),\n      spells,\n      magics,\n      currentMp: 0,\n    })\n    expect(menu.items.map((i) => i.id)).toEqual([300, 301]) // 升序\n    expect(menu.items.map((i) => i.disabled)).toEqual([true, false]) // 甲(5) 禁；免费(0) 可选\n  })\n\n  it('全空法术槽（magic 全 0）→ 空表；pageSize 覆写进 state', () => {\n    const menu = createMagicSelectMenu({\n      roleId: 0,\n      playerRoles: rolesOf(createSpellCaster(0, 50, Array<number>(32).fill(0))),\n      spells,\n      magics,\n      currentMp: 50,\n      pageSize: 3,\n    })\n    expect(menu.items).toEqual([])\n    expect(menu.cursor).toBe(0)\n    expect(menu.pageSize).toBe(3)\n  })\n})\n",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/core/menu/magic-select.ts",
+      "changes": [
+        {
+          "from": "/**\n * M5.M-w0.2:MagicSelectionMenu — 法术列表(sdlpal `magicmenu.c:413`)。\n *\n * 显示 player 已学的全部 magic + MP cost,**MP 不够灰色 + 不可选**。\n * 数据层生成SelectionMenuItem；调用方负责大世界/战斗可用域过滤，呈现层读取状态。\n */\n\nimport type { Magic, PlayerRoles, Spell } from '@type-pal/shared'\nimport type { SelectionMenuState } from './primitives.js'\nimport { createSelectionMenu } from './primitives.js'\n\nexport interface MagicSelectMenuConfig {\n  /** 当前选择施法 player 的 roleId。 */\n  roleId: number\n  /** player roles(读 rgwMagic 已学法术槽位 + 当前 MP)。 */\n  playerRoles: PlayerRoles\n  /** 全部 spells.json — spell.magicNumber 反查 magic.json。 */\n  spells: Spell[]\n  /** 全部magic.json，按spell.magicNumber关联并读取costMP；名称来自Spell._name。 */\n  magics: Magic[]\n  /** 当前 player MP(运行时用,SAVEDGAME PlayerRoles.rgwMP[roleId] 等价)。 */\n  currentMp: number\n  pageSize?: number\n}\n\nexport function createMagicSelectMenu(cfg: MagicSelectMenuConfig): SelectionMenuState {\n  const role = cfg.playerRoles.roles[cfg.roleId]\n  if (!role) return createSelectionMenu([], cfg.pageSize ?? 8)\n\n  // sdlpal `rgwMagic[32][6]` SoA — role.magic 是该 player 32 个已学法术槽位\n  // (0 = 空,非 0 = spell wObjectID 296..397)。2026-05-29 id 体系统一:spells.json id\n  // 也是 wObjectID,故用 `spells.find(s => s.id === sid)` 直接命中(旧版误用 magicNumber 反查)。\n  // L36:C 在 PAL_MagicSelectionMenuInit 收集后冒泡按 wMagic(spell ObjectID)升序排(magicmenu.c:377-397),\n  //   菜单恒按法术编号排列、不随习得序。rgwMagic 按习得追加(global.c PAL_AddMagic)→ 必须在此排序。\n  //   战斗路径 battle-system.ts:976 已有同款 .sort,大世界路径此前漏写。\n  const learnedSpellIds = (role.magic ?? []).filter((sid) => sid !== 0).sort((a, b) => a - b)\n\n  const items = learnedSpellIds\n    .map((spellId) => {\n      const spell = cfg.spells.find((s) => s.id === spellId)\n      if (!spell) return null\n      const magic = cfg.magics.find((m) => m.id === spell.magicNumber)\n      if (!magic) return null\n      const mpCost = magic.costMP ?? 0\n      const insufficient = cfg.currentMp < mpCost\n      return {\n        id: spell.id,\n        label: spell._name ?? `magic#${magic.id}`,\n        rightText: `MP ${mpCost}`,\n        disabled: insufficient,\n      }\n    })\n    .filter((x): x is NonNullable<typeof x> => x !== null)\n\n  return createSelectionMenu(items, cfg.pageSize ?? 8)\n}\n",
+          "to": "/**\n * Learned-spell selection data; ordering follows PAL_MagicSelectionMenuInit.\n *\n * 显示 player 已学的全部 magic + MP cost,**MP 不够灰色 + 不可选**。\n * 数据层生成SelectionMenuItem；调用方负责大世界/战斗可用域过滤，呈现层读取状态。\n */\n\nimport type { Magic, PlayerRoles, Spell } from '@type-pal/shared'\nimport type { SelectionMenuState } from './primitives.js'\nimport { createSelectionMenu } from './primitives.js'\n\nexport interface MagicSelectMenuConfig {\n  /** 当前选择施法 player 的 roleId。 */\n  roleId: number\n  /** 角色表提供已学法术槽位；MP 只读取下面显式传入的 currentMp。 */\n  playerRoles: PlayerRoles\n  /** 全部 spells.json — spell.magicNumber 反查 magic.json。 */\n  spells: Spell[]\n  /** 全部magic.json，按spell.magicNumber关联并读取costMP；名称来自Spell._name。 */\n  magics: Magic[]\n  /** 当前 player MP(运行时用,SAVEDGAME PlayerRoles.rgwMP[roleId] 等价)。 */\n  currentMp: number\n  pageSize?: number\n}\n\nexport function createMagicSelectMenu(cfg: MagicSelectMenuConfig): SelectionMenuState {\n  const role = cfg.playerRoles.roles[cfg.roleId]\n  if (!role) return createSelectionMenu([], cfg.pageSize ?? 8)\n\n  // sdlpal `rgwMagic[32][6]` SoA — role.magic 是该 player 32 个已学法术槽位\n  // (0 = 空,非 0 = Spell.id，包含梦蛇 295)。spells.json id\n  // 也是 wObjectID,故用 `spells.find(s => s.id === sid)` 直接命中(旧版误用 magicNumber 反查)。\n  // L36:C 在 PAL_MagicSelectionMenuInit 收集后冒泡按 wMagic(spell ObjectID)升序排(magicmenu.c:377-397),\n  //   菜单恒按法术编号排列、不随习得序。rgwMagic 按习得追加(global.c PAL_AddMagic)→ 必须在此排序。\n  const learnedSpellIds = (role.magic ?? []).filter((sid) => sid !== 0).sort((a, b) => a - b)\n\n  const items = learnedSpellIds\n    .map((spellId) => {\n      const spell = cfg.spells.find((s) => s.id === spellId)\n      if (!spell) return null\n      const magic = cfg.magics.find((m) => m.id === spell.magicNumber)\n      if (!magic) return null\n      const mpCost = magic.costMP ?? 0\n      const insufficient = cfg.currentMp < mpCost\n      return {\n        id: spell.id,\n        label: spell._name ?? `magic#${magic.id}`,\n        rightText: `MP ${mpCost}`,\n        disabled: insufficient,\n      }\n    })\n    .filter((x): x is NonNullable<typeof x> => x !== null)\n\n  return createSelectionMenu(items, cfg.pageSize ?? 8)\n}\n",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "replacements": [],
+  "registrations": [
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/item-select.glm-phase1-leaves.test.ts",
+        "ordinal": 0,
+        "fullName": "L01 matchesFilter 直接真值表（菜单级未覆盖的分支） potion = usable 且非装备非投掷：装备位/投掷位各自否决"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/item-select.test.ts",
+        "titles": ["Item flag classification"],
+        "template": "potion = usable 且非装备非投掷：装备位/投掷位各自否决",
+        "fullName": "Item flag classification potion = usable 且非装备非投掷：装备位/投掷位各自否决"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/item-select.glm-phase1-leaves.test.ts",
+        "ordinal": 1,
+        "fullName": "L01 matchesFilter 直接真值表（菜单级未覆盖的分支） battle = throwable 或 (usable 且 consuming)：三分支各一"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/item-select.test.ts",
+        "titles": ["Item flag classification"],
+        "template": "battle = throwable 或 (usable 且 consuming)：三分支各一",
+        "fullName": "Item flag classification battle = throwable 或 (usable 且 consuming)：三分支各一"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/item-select.glm-phase1-leaves.test.ts",
+        "ordinal": 2,
+        "fullName": "L01 matchesFilter 直接真值表（菜单级未覆盖的分支） important 两守卫各自独立否决"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/item-select.test.ts",
+        "titles": ["Item flag classification"],
+        "template": "important 两守卫各自独立否决",
+        "fullName": "Item flag classification important 两守卫各自独立否决"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/item-select.glm-phase1-leaves.test.ts",
+        "ordinal": 3,
+        "fullName": "L01 matchesFilter 直接真值表（菜单级未覆盖的分支） sellable 直接按标志"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/item-select.test.ts",
+        "titles": ["Item flag classification"],
+        "template": "sellable 直接按标志",
+        "fullName": "Item flag classification sellable 直接按标志"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/item-select.glm-phase1-leaves.test.ts",
+        "ordinal": 4,
+        "fullName": "L01 matchesFilter 直接真值表（菜单级未覆盖的分支） all 不依赖分类标志"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/item-select.test.ts",
+        "titles": ["Item flag classification"],
+        "template": "all 不依赖分类标志",
+        "fullName": "Item flag classification all 不依赖分类标志"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/__tests__/item-magic-select.test.ts",
+        "ordinal": 0,
+        "fullName": "M-w0.2 MagicSelectionMenu MP 足够 → 列出全部 + 显 MP cost,光标在第一个"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/magic-select.test.ts",
+        "titles": ["MP cost and initial selection"],
+        "template": "MP 足够 → 列出全部 + 显 MP cost,光标在第一个",
+        "fullName": "MP cost and initial selection MP 足够 → 列出全部 + 显 MP cost,光标在第一个"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/__tests__/item-magic-select.test.ts",
+        "ordinal": 1,
+        "fullName": "M-w0.2 MagicSelectionMenu MP 不够 → disabled(灰色),初始 cursor 仍按默认项"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/magic-select.test.ts",
+        "titles": ["MP cost and initial selection"],
+        "template": "MP 不够 → disabled(灰色),初始 cursor 仍按默认项",
+        "fullName": "MP cost and initial selection MP 不够 → disabled(灰色),初始 cursor 仍按默认项"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/__tests__/item-magic-select.test.ts",
+        "ordinal": 2,
+        "fullName": "M-w0.2 MagicSelectionMenu L38:第一个法术 MP 不足时 cursor 仍可落在灰项"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/magic-select.test.ts",
+        "titles": ["MP cost and initial selection"],
+        "template": "L38:第一个法术 MP 不足时 cursor 仍可落在灰项",
+        "fullName": "MP cost and initial selection L38:第一个法术 MP 不足时 cursor 仍可落在灰项"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/__tests__/item-magic-select.test.ts",
+        "ordinal": 3,
+        "fullName": "M-w0.2 MagicSelectionMenu L36:法术按 ObjectID 升序排列(无论习得顺序),对齐 magicmenu.c:377-397"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/magic-select.test.ts",
+        "titles": ["MP cost and initial selection"],
+        "template": "L36:法术按 ObjectID 升序排列(无论习得顺序),对齐 magicmenu.c:377-397",
+        "fullName": "MP cost and initial selection L36:法术按 ObjectID 升序排列(无论习得顺序),对齐 magicmenu.c:377-397"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/magic-select.boundaries.test.ts",
+        "ordinal": 0,
+        "fullName": "G04 createMagicSelectMenu MP 恰等 cost 不禁用、差 1 禁用；排序后实际传入 roles.magic 不被污染"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/magic-select.test.ts",
+        "titles": ["Spell identity and input ownership"],
+        "template": "MP 恰等 cost 不禁用、差 1 禁用；排序后实际传入 roles.magic 不被污染",
+        "fullName": "Spell identity and input ownership MP 恰等 cost 不禁用、差 1 禁用；排序后实际传入 roles.magic 不被污染"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/magic-select.boundaries.test.ts",
+        "ordinal": 1,
+        "fullName": "G04 createMagicSelectMenu 非连续 wObjectID 295 返回 spell.id 而非 magicNumber；缺 spell/坏角色空表（防御分类：当前 caller 域内不应触达的退化输入）"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/magic-select.test.ts",
+        "titles": ["Spell identity and input ownership"],
+        "template": "非连续 wObjectID 295 返回 spell.id 而非 magicNumber；缺 spell/坏角色空表（防御分类：当前 caller 域内不应触达的退化输入）",
+        "fullName": "Spell identity and input ownership 非连续 wObjectID 295 返回 spell.id 而非 magicNumber；缺 spell/坏角色空表（防御分类：当前 caller 域内不应触达的退化输入）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/magic-select.glm-phase1-leaves.test.ts",
+        "ordinal": 0,
+        "fullName": "L02 createMagicSelectMenu 剩余建表合同 spell 存在但 magicNumber 无 magic 定义 → 该槽剔除（!magic 分支）"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/magic-select.test.ts",
+        "titles": ["Learned slots and catalog fallbacks"],
+        "template": "spell 存在但 magicNumber 无 magic 定义 → 该槽剔除（!magic 分支）",
+        "fullName": "Learned slots and catalog fallbacks spell 存在但 magicNumber 无 magic 定义 → 该槽剔除（!magic 分支）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/magic-select.glm-phase1-leaves.test.ts",
+        "ordinal": 1,
+        "fullName": "L02 createMagicSelectMenu 剩余建表合同 spell 缺 _name → label 回退 magic#<magic.id>（渲染文案缺名的合法降级）"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/magic-select.test.ts",
+        "titles": ["Learned slots and catalog fallbacks"],
+        "template": "spell 缺 _name → label 回退 magic#<magic.id>（渲染文案缺名的合法降级）",
+        "fullName": "Learned slots and catalog fallbacks spell 缺 _name → label 回退 magic#<magic.id>（渲染文案缺名的合法降级）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/magic-select.glm-phase1-leaves.test.ts",
+        "ordinal": 2,
+        "fullName": "L02 createMagicSelectMenu 剩余建表合同 costMP=0 的法术在 MP=0 时仍可选（0 < 0 不成立，不禁用）"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/magic-select.test.ts",
+        "titles": ["Learned slots and catalog fallbacks"],
+        "template": "costMP=0 的法术在 MP=0 时仍可选（0 < 0 不成立，不禁用）",
+        "fullName": "Learned slots and catalog fallbacks costMP=0 的法术在 MP=0 时仍可选（0 < 0 不成立，不禁用）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/magic-select.glm-phase1-leaves.test.ts",
+        "ordinal": 3,
+        "fullName": "L02 createMagicSelectMenu 剩余建表合同 全空法术槽（magic 全 0）→ 空表；pageSize 覆写进 state"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/magic-select.test.ts",
+        "titles": ["Learned slots and catalog fallbacks"],
+        "template": "全空法术槽（magic 全 0）→ 空表；pageSize 覆写进 state",
+        "fullName": "Learned slots and catalog fallbacks 全空法术槽（magic 全 0）→ 空表；pageSize 覆写进 state"
+      }
+    }
+  ],
+  "identities": [
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/item-select.glm-phase1-leaves.test.ts",
+        "fullName": "L01 matchesFilter 直接真值表（菜单级未覆盖的分支） potion = usable 且非装备非投掷：装备位/投掷位各自否决"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/item-select.test.ts",
+        "fullName": "Item flag classification potion = usable 且非装备非投掷：装备位/投掷位各自否决"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/item-select.glm-phase1-leaves.test.ts",
+        "fullName": "L01 matchesFilter 直接真值表（菜单级未覆盖的分支） battle = throwable 或 (usable 且 consuming)：三分支各一"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/item-select.test.ts",
+        "fullName": "Item flag classification battle = throwable 或 (usable 且 consuming)：三分支各一"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/item-select.glm-phase1-leaves.test.ts",
+        "fullName": "L01 matchesFilter 直接真值表（菜单级未覆盖的分支） important 两守卫各自独立否决"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/item-select.test.ts",
+        "fullName": "Item flag classification important 两守卫各自独立否决"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/item-select.glm-phase1-leaves.test.ts",
+        "fullName": "L01 matchesFilter 直接真值表（菜单级未覆盖的分支） sellable 直接按标志"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/item-select.test.ts",
+        "fullName": "Item flag classification sellable 直接按标志"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/item-select.glm-phase1-leaves.test.ts",
+        "fullName": "L01 matchesFilter 直接真值表（菜单级未覆盖的分支） all 不依赖分类标志"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/item-select.test.ts",
+        "fullName": "Item flag classification all 不依赖分类标志"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/magic-select.boundaries.test.ts",
+        "fullName": "G04 createMagicSelectMenu MP 恰等 cost 不禁用、差 1 禁用；排序后实际传入 roles.magic 不被污染"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/magic-select.test.ts",
+        "fullName": "Spell identity and input ownership MP 恰等 cost 不禁用、差 1 禁用；排序后实际传入 roles.magic 不被污染"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/magic-select.boundaries.test.ts",
+        "fullName": "G04 createMagicSelectMenu 非连续 wObjectID 295 返回 spell.id 而非 magicNumber；缺 spell/坏角色空表（防御分类：当前 caller 域内不应触达的退化输入）"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/magic-select.test.ts",
+        "fullName": "Spell identity and input ownership 非连续 wObjectID 295 返回 spell.id 而非 magicNumber；缺 spell/坏角色空表（防御分类：当前 caller 域内不应触达的退化输入）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/magic-select.glm-phase1-leaves.test.ts",
+        "fullName": "L02 createMagicSelectMenu 剩余建表合同 spell 存在但 magicNumber 无 magic 定义 → 该槽剔除（!magic 分支）"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/magic-select.test.ts",
+        "fullName": "Learned slots and catalog fallbacks spell 存在但 magicNumber 无 magic 定义 → 该槽剔除（!magic 分支）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/magic-select.glm-phase1-leaves.test.ts",
+        "fullName": "L02 createMagicSelectMenu 剩余建表合同 spell 缺 _name → label 回退 magic#<magic.id>（渲染文案缺名的合法降级）"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/magic-select.test.ts",
+        "fullName": "Learned slots and catalog fallbacks spell 缺 _name → label 回退 magic#<magic.id>（渲染文案缺名的合法降级）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/magic-select.glm-phase1-leaves.test.ts",
+        "fullName": "L02 createMagicSelectMenu 剩余建表合同 costMP=0 的法术在 MP=0 时仍可选（0 < 0 不成立，不禁用）"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/magic-select.test.ts",
+        "fullName": "Learned slots and catalog fallbacks costMP=0 的法术在 MP=0 时仍可选（0 < 0 不成立，不禁用）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/magic-select.glm-phase1-leaves.test.ts",
+        "fullName": "L02 createMagicSelectMenu 剩余建表合同 全空法术槽（magic 全 0）→ 空表；pageSize 覆写进 state"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/magic-select.test.ts",
+        "fullName": "Learned slots and catalog fallbacks 全空法术槽（magic 全 0）→ 空表；pageSize 覆写进 state"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/__tests__/item-magic-select.test.ts",
+        "fullName": "M-w0.2 MagicSelectionMenu MP 足够 → 列出全部 + 显 MP cost,光标在第一个"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/magic-select.test.ts",
+        "fullName": "MP cost and initial selection MP 足够 → 列出全部 + 显 MP cost,光标在第一个"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/__tests__/item-magic-select.test.ts",
+        "fullName": "M-w0.2 MagicSelectionMenu MP 不够 → disabled(灰色),初始 cursor 仍按默认项"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/magic-select.test.ts",
+        "fullName": "MP cost and initial selection MP 不够 → disabled(灰色),初始 cursor 仍按默认项"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/__tests__/item-magic-select.test.ts",
+        "fullName": "M-w0.2 MagicSelectionMenu L38:第一个法术 MP 不足时 cursor 仍可落在灰项"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/magic-select.test.ts",
+        "fullName": "MP cost and initial selection L38:第一个法术 MP 不足时 cursor 仍可落在灰项"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/__tests__/item-magic-select.test.ts",
+        "fullName": "M-w0.2 MagicSelectionMenu L36:法术按 ObjectID 升序排列(无论习得顺序),对齐 magicmenu.c:377-397"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/magic-select.test.ts",
+        "fullName": "MP cost and initial selection L36:法术按 ObjectID 升序排列(无论习得顺序),对齐 magicmenu.c:377-397"
+      }
+    }
+  ],
+  "retirements": [],
+  "groups": [
+    {
+      "old": 1,
+      "title": "MP cost and initial selection"
+    },
+    {
+      "old": 2,
+      "title": "Spell identity and input ownership"
+    },
+    {
+      "old": 3,
+      "title": "Learned slots and catalog fallbacks"
+    }
+  ],
+  "productionCommentChanges": [
+    {
+      "from": "M5.M-w0.2:MagicSelectionMenu — 法术列表(sdlpal `magicmenu.c:413`)。",
+      "to": "Learned-spell selection data; ordering follows PAL_MagicSelectionMenuInit."
+    },
+    {
+      "from": "player roles(读 rgwMagic 已学法术槽位 + 当前 MP)。",
+      "to": "角色表提供已学法术槽位；MP 只读取下面显式传入的 currentMp。"
+    },
+    {
+      "from": "(0 = 空,非 0 = spell wObjectID 296..397)。2026-05-29 id 体系统一:spells.json id",
+      "to": "(0 = 空,非 0 = Spell.id，包含梦蛇 295)。spells.json id"
+    },
+    {
+      "from": "  //   战斗路径 battle-system.ts:976 已有同款 .sort,大世界路径此前漏写。\n",
+      "to": ""
+    }
+  ],
+  "qualityDelta": {
+    "duplicateImportantAssertion": "    expect(matchesFilter(cases.plain, 'important')).toBe(true) // 白板：非卖非装备（fixture 默认双 false）\n",
+    "cloneRemoval": {
+      "from": "expect(structuredClone(playerRoles)).toEqual(snapshot)",
+      "to": "expect(playerRoles).toEqual(snapshot)"
+    },
+    "sharedRoleFactory": {
+      "oldCatalog": "function mkRole(id: number, mp: number, magic: number[]): PlayerRole {\n  return {\n    id,\n    avatar: 0,\n    spriteNumInBattle: 0,\n    spriteNum: 0,\n    name: 0,\n    attackAll: 0,\n    level: 10,\n    maxHP: 100,\n    maxMP: 100,\n    hp: 100,\n    mp,\n    attackStrength: 0,\n    magicStrength: 0,\n    defense: 0,\n    dexterity: 0,\n    fleeRate: 0,\n    poisonResistance: 0,\n    elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },\n    walkFrames: 3,\n    attackSound: 0,\n    weaponSound: 0,\n    criticalSound: 0,\n    magicSound: 0,\n    deathSound: 0,\n    magic,\n  }\n}",
+      "oldBoundary": "function role(magic: number[]): PlayerRole {\n  return {\n    id: 0,\n    avatar: 0,\n    spriteNumInBattle: 0,\n    spriteNum: 0,\n    name: 0,\n    attackAll: 0,\n    level: 1,\n    maxHP: 100,\n    maxMP: 100,\n    hp: 100,\n    mp: 50,\n    attackStrength: 0,\n    magicStrength: 0,\n    defense: 0,\n    dexterity: 0,\n    fleeRate: 0,\n    poisonResistance: 0,\n    elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },\n    walkFrames: 3,\n    attackSound: 0,\n    weaponSound: 0,\n    criticalSound: 0,\n    magicSound: 0,\n    deathSound: 0,\n    magic,\n  }\n}",
+      "current": "function createSpellCaster(id: number, mp: number, magic: number[], level = 10): PlayerRole {\n  return {\n    id,\n    avatar: 0,\n    spriteNumInBattle: 0,\n    spriteNum: 0,\n    name: 0,\n    attackAll: 0,\n    level,\n    maxHP: 100,\n    maxMP: 100,\n    hp: 100,\n    mp,\n    attackStrength: 0,\n    magicStrength: 0,\n    defense: 0,\n    dexterity: 0,\n    fleeRate: 0,\n    poisonResistance: 0,\n    elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },\n    walkFrames: 3,\n    attackSound: 0,\n    weaponSound: 0,\n    criticalSound: 0,\n    magicSound: 0,\n    deathSound: 0,\n    magic,\n  }\n}",
+      "oldBoundaryRoles": "function roles(magic: number[]): PlayerRoles {\n  return { roles: [role(magic)] }\n}",
+      "currentBoundaryRoles": "function boundaryRoles(magic: number[]): PlayerRoles {\n  return { roles: [createSpellCaster(0, 50, magic, 1)] }\n}"
+    }
+  },
+  "scope": "2historical subjects;4oldspec15identities ->2spec;common role factory preserves level10/1 and MP inputs;product comments only",
+  "processDisclosures": [
+    "Initial private-name rename also changed a public roles property key; caught by source inspection before any candidate runtime run. Complete invalid candidate retained. Restored roles key in actual file and virtual sources; independent public-key/value negative proof and typecheck required. Not claimed a product defect or formal counter.",
+    "First proof compared TypeScript printed layout,which preserves source multiline flags;format-only object wrap rejected. Final proof compares full typed AST with allchildren/lastfield/lastassertion negatives,no implementation change for proof. No raw overwritten.",
+    "Commentary initially said114neighbors from previousslice;actual report108,file set9 fixed and thismanifest uses actual108.",
+    "2subjects counted,2nonlabel testneighbors andcomment-only product reopenreview;0newclosed. Goal134/174 remaining40,fixed178138. All12tool pins unchanged,heavy gates/publication pending.",
+    "Manifest producer first tried nonexistent analyzer fullName,then accidentally applied the analyzer name shape to native reporter assertions. Both stopped before artifact creation;final identities derive original titles/template and actual native fullName separately. Independent proof also checks all typed constants,Spell factory and resolved old/current import targets;13callbacks conserved/2explicit changes,not blanket whole AST equality for specs.",
+    "Module preflight also uses TS printed statement fingerprints and rejected the same layout-only object wrap. Virtual source layout now taken from the final candidate suite after independent complete typed callback/helper/constant/import proofs;generic verifier/rules unchanged,original failure retained. No implementation/test source edit for this correction.",
+    "The two early manifest-producer exceptions were visible in tool transcript but not separately captured to raw attachments;this is process disclosure,not independently archived execution evidence. Formal before/neighbors/typecheck/proof/preflight/static receipts are complete files."
+  ],
+  "id": "menu-selection",
+  "namespace": "organization-menu-selection",
+  "cohortSubjects": [
+    {
+      "path": "packages/game/src/core/menu/item-select.glm-phase1-leaves.test.ts",
+      "sha256": "767dc6720228343197421a3e4e2a80237ca87a30fa3c8f1cff0fb77cf72276fa",
+      "priorCurrentBridges": []
+    },
+    {
+      "path": "packages/game/src/core/menu/magic-select.glm-phase1-leaves.test.ts",
+      "sha256": "7426d25723fe5e8b006ffcd1d04c900e8cc0bb51da80c86bb07865f3b3c9521d",
+      "priorCurrentBridges": []
+    }
+  ],
+  "preserved": [
+    {
+      "path": "packages/game/src/core/menu/item-select.ts",
+      "sha256": "869e931e9fa5b0ccde9655514920e146ad3b827aa4be23fbbf614f7d90a0591d"
+    },
+    {
+      "path": "packages/game/src/core/menu/primitives.ts",
+      "sha256": "16dcc14b8a072542614f6456b4649f086c07059d06dd3df993ff522cab81d6e1"
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-magic-menu.ts",
+      "sha256": "33ef8d4a1e71537533ebb38b799642f903b23c6f50ba53ae7ae30059d61ab14f"
+    },
+    {
+      "path": "packages/game/src/core/menu/equip-menu.ts",
+      "sha256": "246c70c277b254effb1d4b1717c46e262f738cc3ffb373a1802e88509e663293"
+    },
+    {
+      "path": "packages/game/src/core/menu/sell-menu.ts",
+      "sha256": "8c4b784a0ddd5e10708d19e6539d330ac41b8cdfc405b31ca592490ecfb860b2"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-inventory.ts",
+      "sha256": "666328fac00afefa8346f6554ffe0a1f080fc610972ac66d0e6ad27edd42e7a1"
+    },
+    {
+      "path": "packages/game/src/core/menu/__tests__/magic-cost-fixture.ts",
+      "sha256": "7fd3bf1ac0c7203c62dc66d316c6da092d2e0dce2a51e1468e76aedef82dd109"
+    },
+    {
+      "path": "packages/game/src/__tests__/battle-records.ts",
+      "sha256": "e06702ce034d7b7b7680b649d2c6d11d948acd6daa9aeac0ad20478c62afc575"
+    },
+    {
+      "path": "packages/shared/src/tables.ts",
+      "sha256": "fcf28b2d9e0f812a17f299fb81c9b3fc9ff186fe83e24e20f1d85296539ac06b"
+    },
+    {
+      "path": "packages/shared/src/index.ts",
+      "sha256": "6c8ccd23db2b01611579e30ac005018a6085abb5db6c4fb7f08927ccf1d18d35"
+    },
+    {
+      "path": "packages/game/vitest.config.ts",
+      "sha256": "3dd92ad4886bc72c88e7a7b2e6bdacc3aaf9e2a24ac72153f3b619ba37feb7d4"
+    },
+    {
+      "path": "scripts/coverage/config.mjs",
+      "sha256": "decb63dda5d12a2269bef1dd75c3d1eb4efca071887c759deca8e9b06ef17a25"
+    }
+  ],
+  "neighborPaths": [
+    "packages/game/src/core/menu/item-select.test.ts",
+    "packages/game/src/core/menu/magic-select.test.ts",
+    "packages/game/src/core/menu/primitives.test.ts",
+    "packages/game/src/core/menu/in-game-magic-menu.test.ts",
+    "packages/game/src/core/menu/in-game-magic-menu.boundaries.test.ts",
+    "packages/game/src/core/menu/in-game-magic-menu.glm-phase1-leaves.test.ts",
+    "packages/game/src/core/menu/equip-menu.test.ts",
+    "packages/game/src/core/menu/sell-menu.test.ts",
+    "packages/game/src/present/menu/draw-inventory.list.test.ts"
+  ],
+  "cleanExecutions": [
+    "before",
+    "reorganize",
+    "proof-complete",
+    "neighbors",
+    "typecheck",
+    "routing",
+    "complexity",
+    "module-preflight",
+    "docs",
+    "content-review",
+    "lint",
+    "scoped",
+    "diff",
+    "ledger-final"
+  ],
+  "lightweightGates": true,
+  "callbackProof": "organization-menu-selection/proof-complete.stdout.raw",
+  "ledgerCounts": {
+    "inventory": 3446,
+    "closed": 534,
+    "review": 278,
+    "pending": 2634
+  },
+  "profiles": [
+    {
+      "path": "packages/game/src/core/menu/item-select.test.ts",
+      "subjects": ["packages/game/src/core/menu/item-select.glm-phase1-leaves.test.ts"],
+      "axes": {
+        "A": "5 real matchesFilter contracts,synthetic valid ItemFlags with production IDs;equip/usable integration remains equip/inventory callers,important/potion/battle project classifications not raw bit truth.",
+        "B": "Purpose names replace L01 and retrospective batch comments;retain isolated veto reasons and explicit project approximation.",
+        "C": "Pure flag predicate tests with no IO/global/hook;classification separate from inventory availability and prices.",
+        "D": "One local itemWithFlags constructor reused by9catalog entries and2veto fixtures;exact body after private rename. No generic menu host.",
+        "E": "5identities retained. One plain-important true assertion removed:complete flags equal retained story fixture and production predicate reads only item.flags. Single-veto negatives remain;no runtime case retired.108neighbors/TC0.",
+        "F": "item-select.test names actual module,Item flag classification suite,itemWithFlags names override purpose.",
+        "G": "Retire contributor filename and one duplicate assertion;no old factory/export/fallback revived or new test case for counts.",
+        "H": "Real deterministic public predicate and independent literal booleans;fixtures fresh where needed and no mock sideeffects."
+      }
+    },
+    {
+      "path": "packages/game/src/core/menu/magic-select.test.ts",
+      "subjects": ["packages/game/src/core/menu/magic-select.glm-phase1-leaves.test.ts"],
+      "axes": {
+        "A": "10 real constructor cases:MP cost/default cursor/zero/equal/one-less,sort and actual input ownership,ObjectID295,dangling spell/magic,missing name,empty slots and page size. Badrole/missing definitions explicitly defensive,not ordinary story reachability.",
+        "B": "Three named responsibility suites replace batch/dedup claims;fix learned-ID comment301/300. Cost/selection scope does not imply execution,rendering or outside-battle filter acceptance.",
+        "C": "One cohesive spell-list constructor spec. Cost,identity/ownership,catalog scopes keep separate data;state driver/cast/IO outside. No global lifecycle.",
+        "D": "Unify two same-contract full typed role builders into createSpellCaster with actual level10/1 parameter;rolesOf and boundaryRoles preserve fresh array/borrowed slots. Different SpellFlags remain distinct factory/records,broader existing battle record helper retained.",
+        "E": "All10case titles/assertions retained;only outer structuredClone on actual ownership value removed,independent pre-call snapshot preserved.13callbacks unchanged after names across15total,2explicitqualitydeltas. Full typed helper reasoning+15bounded whole-record probes,public-key and tail-assertion negatives;108neighbors/TC0.",
+        "F": "magic-select.test absorbs misleading item-magic-select path. MP cost/initial selection,Spell identity/input ownership,Learned slots/catalog fallbacks identify actual contract;menu/battleSpell/catalogSpell/private caster names clear.",
+        "G": "Three old files ->one,no additional host/wrappers. Remove duplicate full role object and one intermediate clone;no test count increase,all15overall retained.",
+        "H": "Public pure builder with typed explicit fixtures,real word-free outputs and independent literal IDs/MP text/disabled flags. Clone only preserves original input for mutation oracle,not SUT self-comparison."
+      }
+    },
+    {
+      "path": "packages/game/src/core/menu/magic-select.ts",
+      "subjects": ["packages/game/src/core/menu/magic-select.glm-phase1-leaves.test.ts"],
+      "axes": {
+        "A": "Complete current implementation56lines read;only4comment changes,full typed executable AST identical. MP ownership andObjectID remain existing behavior.",
+        "B": "Correct role table vs explicit currentMp,include295 andremove stale battle-system line reference/batch header. Keep scoped namedSDL function anchor.",
+        "C": "No ownership/dependency/state changes;no fresh full architecture credit beyond comment delta and reused earlierA-E/H.",
+        "D": "No interface/helper/product sharing change or newfallback.",
+        "E": "All executable typed nodes unchanged;real9file108 neighbors/TC0. Source/wholefields/tailassertion negatives are structural proof,not new product red/green or visual acceptance.",
+        "F": "Module header names data responsibility,not obsolete milestone;public identifiers retained.",
+        "G": "Only obsolete comment line removed,no executable part or learned-slot zero policy changed.",
+        "H": "Existing deterministic state constructor remains testable without mocks;product evidence reused by exact declared source bridge,not newly granting all input domains."
+      }
+    }
+  ],
+  "reads": {
+    "fullInputs": [
+      {
+        "path": "packages/game/src/core/menu/item-select.glm-phase1-leaves.test.ts",
+        "sha256": "767dc6720228343197421a3e4e2a80237ca87a30fa3c8f1cff0fb77cf72276fa",
+        "lines": 83
+      },
+      {
+        "path": "packages/game/src/core/menu/__tests__/item-magic-select.test.ts",
+        "sha256": "eec5910d4d154a4c9af08b370e76e7199e9cca52c4ea6ea9b359ad734baa792e",
+        "lines": 106
+      },
+      {
+        "path": "packages/game/src/core/menu/magic-select.boundaries.test.ts",
+        "sha256": "01c9290e0f87266e70e33bc91336ba96031d0a73275ca064b13358d99fea7484",
+        "lines": 120
+      },
+      {
+        "path": "packages/game/src/core/menu/magic-select.glm-phase1-leaves.test.ts",
+        "sha256": "7426d25723fe5e8b006ffcd1d04c900e8cc0bb51da80c86bb07865f3b3c9521d",
+        "lines": 117
+      },
+      {
+        "path": "packages/game/src/core/menu/magic-select.ts",
+        "sha256": "60898f2b0a25d9aabf965cb247d2f7d00defad9f3450967259ea7ace0efe6fbb",
+        "lines": 56
+      }
+    ],
+    "fullImplementationInputs": [
+      {
+        "path": "packages/game/src/core/menu/item-select.ts",
+        "sha256": "869e931e9fa5b0ccde9655514920e146ad3b827aa4be23fbbf614f7d90a0591d",
+        "scope": "Full current file read;prior valid A-E/H reused for product mechanisms,not fresh full acceptance."
+      },
+      {
+        "path": "packages/game/src/core/menu/magic-select.ts",
+        "sha256": "bdf4336d4858245ec71283d20d0524845b210d898dd5a1ce3f04343b7eb32545",
+        "scope": "Full current file read;prior valid A-E/H reused for product mechanisms,not fresh full acceptance."
+      },
+      {
+        "path": "packages/game/src/core/menu/equip-menu.ts",
+        "sha256": "246c70c277b254effb1d4b1717c46e262f738cc3ffb373a1802e88509e663293",
+        "scope": "Full current file read;prior valid A-E/H reused for product mechanisms,not fresh full acceptance."
+      },
+      {
+        "path": "packages/game/src/core/menu/sell-menu.ts",
+        "sha256": "8c4b784a0ddd5e10708d19e6539d330ac41b8cdfc405b31ca592490ecfb860b2",
+        "scope": "Full current file read;prior valid A-E/H reused for product mechanisms,not fresh full acceptance."
+      },
+      {
+        "path": "packages/game/src/core/menu/in-game-magic-menu.ts",
+        "sha256": "33ef8d4a1e71537533ebb38b799642f903b23c6f50ba53ae7ae30059d61ab14f",
+        "scope": "Full current file read;prior valid A-E/H reused for product mechanisms,not fresh full acceptance."
+      },
+      {
+        "path": "packages/game/src/core/menu/__tests__/magic-cost-fixture.ts",
+        "sha256": "7fd3bf1ac0c7203c62dc66d316c6da092d2e0dce2a51e1468e76aedef82dd109",
+        "scope": "Full current file read;prior valid A-E/H reused for product mechanisms,not fresh full acceptance."
+      },
+      {
+        "path": "packages/game/src/__tests__/battle-records.ts",
+        "sha256": "e06702ce034d7b7b7680b649d2c6d11d948acd6daa9aeac0ad20478c62afc575",
+        "scope": "Full current file read;prior valid A-E/H reused for product mechanisms,not fresh full acceptance."
+      }
+    ],
+    "scoped": [
+      {
+        "path": "reference/sdlpal/magicmenu.c",
+        "start": 319,
+        "end": 412,
+        "sha256": "d3744426d40167d4130aeaa0fac686264df285e44d73cc3648dba56f3645d312"
+      },
+      {
+        "path": "reference/sdlpal/global.h",
+        "start": 130,
+        "end": 145,
+        "sha256": "07f307f91af62291fba50a345075c54adf170a33d1eba1f389852abf9c44d28c"
+      },
+      {
+        "path": "reference/sdlpal/play.c",
+        "start": 253,
+        "end": 273,
+        "sha256": "f13ba4e3a9c86c494390ea1eda121be1ae4c7fa5110f5e51cf4680321c742ef8"
+      },
+      {
+        "path": "reference/sdlpal/uigame.c",
+        "start": 1765,
+        "end": 1786,
+        "sha256": "f981b6a698b6248107ec7934b60ca988055bbab458e516e9aa2b113f8b5419c1"
+      },
+      {
+        "path": "packages/game/src/present/menu/draw-inventory.ts",
+        "start": 275,
+        "end": 313,
+        "sha256": "666328fac00afefa8346f6554ffe0a1f080fc610972ac66d0e6ad27edd42e7a1"
+      },
+      {
+        "path": "packages/shared/src/tables.ts",
+        "start": 40,
+        "end": 135,
+        "sha256": "fcf28b2d9e0f812a17f299fb81c9b3fc9ff186fe83e24e20f1d85296539ac06b"
+      },
+      {
+        "path": "packages/shared/src/tables.ts",
+        "start": 232,
+        "end": 284,
+        "sha256": "fcf28b2d9e0f812a17f299fb81c9b3fc9ff186fe83e24e20f1d85296539ac06b"
+      },
+      {
+        "path": "packages/shared/src/tables.ts",
+        "start": 468,
+        "end": 578,
+        "sha256": "fcf28b2d9e0f812a17f299fb81c9b3fc9ff186fe83e24e20f1d85296539ac06b"
+      }
+    ],
+    "publicExport": "packages/shared/src/index.ts",
+    "priorSources": [
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json",
+      "docs/ops/evidence/CODE-QUALITY-94/approved-closeout/review.json",
+      "docs/ops/tasks/CODE-QUALITY-107-game-menu-primitives-item-select-review.md"
+    ],
+    "scope": "No repeated credit for full dependent table/renderer/module;scoped ranges and version-aware earlier evidence only."
+  },
+  "invalidations": "Any callback/input/helper semantics,caller context,shared type/provider or production source change reopens affected scoped claims;oldraw/oldcloseout stays historical.",
+  "receipts": {
+    "module-preflight": "organization-menu-selection/module-preflight-final"
+  }
+}

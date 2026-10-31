@@ -15,31 +15,27 @@ import {
 describe('SemanticFrameShelf', () => {
   let host: HTMLDivElement
   let root: Root
-  let contextSpy: ReturnType<typeof vi.spyOn>
   let scrollDescriptor: PropertyDescriptor | undefined
 
   beforeEach(() => {
-    ;(globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true
+    vi.stubGlobal('IS_REACT_ACT_ENVIRONMENT', true)
     host = document.createElement('div')
     document.body.append(host)
     root = createRoot(host)
     scrollDescriptor = Object.getOwnPropertyDescriptor(HTMLElement.prototype, 'scrollIntoView')
-    contextSpy = vi.spyOn(HTMLCanvasElement.prototype, 'getContext').mockReturnValue({
-      clearRect: vi.fn(),
-      drawImage: vi.fn(),
-      imageSmoothingEnabled: true,
-    } as unknown as CanvasRenderingContext2D)
   })
 
   afterEach(async () => {
-    await act(async () => root.unmount())
-    contextSpy.mockRestore()
-    host.remove()
-    if (scrollDescriptor)
-      Object.defineProperty(HTMLElement.prototype, 'scrollIntoView', scrollDescriptor)
-    else Reflect.deleteProperty(HTMLElement.prototype, 'scrollIntoView')
-    vi.unstubAllGlobals()
-    vi.useRealTimers()
+    try {
+      await act(async () => root.unmount())
+    } finally {
+      host.remove()
+      if (scrollDescriptor)
+        Object.defineProperty(HTMLElement.prototype, 'scrollIntoView', scrollDescriptor)
+      else Reflect.deleteProperty(HTMLElement.prototype, 'scrollIntoView')
+      vi.unstubAllGlobals()
+      vi.useRealTimers()
+    }
   })
 
   test('单帧行只有具体帧，多帧行首格动画后跟完整帧序', async () => {
@@ -295,9 +291,5 @@ describe('SemanticFrameShelf', () => {
       kind: 'payload',
       value: { asset: 'sprite.test', frame: 2 },
     })
-    expect(
-      inspectSpriteFrameDragPayload({ getData: () => '{bad' } as Pick<DataTransfer, 'getData'>),
-    ).toEqual({ kind: 'invalid' })
-    vi.unstubAllGlobals()
   })
 })

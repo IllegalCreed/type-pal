@@ -14,6 +14,21 @@ const world = (money: number): WorldState => ({
 })
 
 describe('formal shop input', () => {
+  test('confirming an undefined constructor item preserves the current world', () => {
+    const ui = openShopUi('buy', ['constructor'])
+    let current = world(100)
+    const input = (key: string) =>
+      shopInput(ui, new Set([key]), current, {}, (next) => {
+        current = next
+      })
+    input('Enter')
+    input('ArrowRight')
+    expect(input('Enter')).toBeUndefined()
+    expect(current).toEqual(world(100))
+    expect(ui.phase).toBe('list')
+    expect(ui.confirmYes).toBe(false)
+  })
+
   test.each(['ArrowUp', 'ArrowDown', 'Enter', 'Escape'])('empty stock %s is safe', (key) => {
     const ui = openShopUi('buy', [])
     const before = world(100)

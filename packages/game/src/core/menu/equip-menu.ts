@@ -1,46 +1,10 @@
 /**
- * C5(2026-05-28):EquipItemMenu — sdlpal `uigame.c:1793-2056` PAL_EquipItemMenu 1:1 port。
- *
- * 整 callpath(sdlpal):
- *  - PAL_GameEquipItem(play.c:328-359):outer while → PAL_ItemSelectMenu(equipable)
- *    → PAL_EquipItemMenu(wItem) 内层 swap loop。
- *  - PAL_ItemSelectMenu(itemmenu.c:28-466):跟 InventoryMenu 用同一个 fn,只是 filter 不同。
- *    → ts 端复用 InventoryMenuState 全套 grid 渲染 + 8 key navigation。
- *  - PAL_EquipItemMenu(uigame.c:1793-2056):FBP 背景 + 6 装备槽 + role list + scriptOnEquip。
- *
- * ts 状态:
- *  - phase='list':**复用 InventoryMenuState**(grid + 8 key)— sdlpal PAL_ItemSelectMenu 全套
- *  - phase='pick-role':sdlpal PAL_EquipItemMenu — selectedItemId + playerCursor + swap 链
- *  - phase='done':dispatcher closeTopMenu
- *
- * 选 item Confirm → pick-role,Confirm role → 跑 scriptOnEquip(opcode 0x18 真做 swap +
- * 写 gs.wLastUnequippedItem)→ state.selectedItemId = gs.wLastUnequippedItem;
- * if newSelectedItem == 0 → 回 'list' 再选(sdlpal uigame.c:2016-2019 真值)。
- *
- * Menu key:pick-role → 回 list 选下一个;list → 'done'。
+ * 装备列表与队员选择状态，参考 PAL_GameEquipItem / PAL_EquipItemMenu。
+ * 本模块持有 phase、列表与队员光标，只返回装备请求。
+ * dispatcher 负责角色装备许可、执行脚本、换装后的库存刷新和菜单栈；呈现由 present 负责。
+ * 列表复用 InventoryMenuState；取消选人回列表，取消列表结束本菜单。
  */
 
-/**
- * C5(2026-05-28):EquipItemMenu — sdlpal `uigame.c:1793-2056` PAL_EquipItemMenu 1:1 port。
- *
- * 整 callpath(sdlpal):
- *  - PAL_GameEquipItem(play.c:328-359):outer while → PAL_ItemSelectMenu(equipable)
- *    → PAL_EquipItemMenu(wItem) 内层 swap loop。
- *  - PAL_ItemSelectMenu(itemmenu.c:28-466):跟 InventoryMenu 用同一个 fn,只是 filter 不同。
- *    → ts 端复用 InventoryMenuState 全套 grid 渲染 + 8 key navigation。
- *  - PAL_EquipItemMenu(uigame.c:1793-2056):FBP 背景 + 6 装备槽 + role list + scriptOnEquip。
- *
- * ts 状态:
- *  - phase='list':**复用 InventoryMenuState**(grid + 8 key)— sdlpal PAL_ItemSelectMenu 全套
- *  - phase='pick-role':sdlpal PAL_EquipItemMenu — selectedItemId + playerCursor + swap 链
- *  - phase='done':dispatcher closeTopMenu
- *
- * 选 item Confirm → pick-role,Confirm role → 跑 scriptOnEquip(opcode 0x18 真做 swap +
- * 写 gs.wLastUnequippedItem)→ state.selectedItemId = gs.wLastUnequippedItem;
- * if newSelectedItem == 0 → 回 'list' 再选(sdlpal uigame.c:2016-2019 真值)。
- *
- * Menu key:pick-role → 回 list 选下一个;list → 'done'。
- */
 import type { Item } from '@type-pal/shared'
 import type { GameState } from '../game-state.js'
 import { createInventoryMenu, type InventoryMenuState } from './inventory-menu.js'

@@ -1,6 +1,6 @@
 import type { AbstractKey, Command, InputSnapshot, PlayerRoles } from '@type-pal/shared'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { makeRole } from '../__tests__/coverage85-glm-game/harness.js'
+import { makeRoleRecord as makeRole } from '../__tests__/battle-records.js'
 import { SceneAssetsCache } from '../assets/loader.js'
 import { parseImportedSave, serializeSave } from '../tools/save-io.js'
 import { createCommandBus } from './command-bus.js'

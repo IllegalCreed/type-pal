@@ -1,7 +1,7 @@
-import { makeRole } from '../__tests__/coverage85-glm-game/harness.js'
+import { makeRoleRecord as makeRole } from '../__tests__/battle-records.js'
 import { createInitialGameState, loadDefaultGame } from './game-state.js'
 
-/** 事件玩家族的已初始化运行态；四份专测共享角色基线，不共享可变实例。 */
+/** 事件玩家族的已初始化运行态；专测共享角色基线，不共享可变实例。 */
 export function freshPlayerOpcodeState() {
   const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
   loadDefaultGame(gs, {

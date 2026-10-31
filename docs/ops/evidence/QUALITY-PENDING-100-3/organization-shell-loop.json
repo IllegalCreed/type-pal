@@ -1,0 +1,1018 @@
+{
+  "inputs": [
+    {
+      "path": "packages/game/src/shell/main-loop.test.ts",
+      "sha256": "e0318e6ca4ef86834cfcc5dee8f544d5f9c64865148ae1affc2f5082407d7366",
+      "member": "organization-shell-loop/0.before"
+    },
+    {
+      "path": "packages/game/src/shell/main-loop-gates.grok-r1.test.ts",
+      "sha256": "09911572de74de28ed2c238b64687a555901e41ad53e4fcfd58d921dccde80bd",
+      "member": "organization-shell-loop/1.before"
+    },
+    {
+      "path": "packages/game/src/shell/__tests__/loop-tilemap.ts",
+      "sha256": "7fe5d2a42be69889c5c529536be29d7d135f02bd127ff45082b587ec17232689",
+      "member": "organization-shell-loop/2.before"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "packages/game/src/shell/main-loop.test.ts",
+      "sha256": "c5b534e65e468eedc0d2d893dcb1bafc0cd4585ab03f614b41fd08839ab25124"
+    },
+    {
+      "path": "packages/game/src/shell/main-loop.lifecycle.test.ts",
+      "sha256": "f134d4649b34c04227a4bc9a673bc0768c5805a2ffa1247e0b499ed85a0e3957"
+    },
+    {
+      "path": "packages/game/src/shell/__tests__/loop-context.ts",
+      "sha256": "d938d2189a345dcc89fb08602aea1b07b7a08da481d4d944f1543549fea481cd"
+    },
+    {
+      "path": "packages/game/src/shell/__tests__/loop-tilemap.ts",
+      "sha256": "7fe5d2a42be69889c5c529536be29d7d135f02bd127ff45082b587ec17232689"
+    }
+  ],
+  "sourceBridges": [
+    {
+      "path": "packages/game/src/shell/main-loop.test.ts",
+      "id": "loop-0",
+      "reason": "Frame-kernel vs headless/rAF responsibility organization; explicitly prepare main Replaycontext,constructor-based gate fixture,retain distinct replay vs emptyIO ports. Case deltas and exact helper body transfers separately proven.",
+      "changes": [
+        {
+          "from": "import type { AbstractKey, InputSnapshot } from '@type-pal/shared'\nimport { FRAME_MS_BATTLE, FRAME_MS_EXPLORE } from '@type-pal/shared'\nimport { describe, expect, it, vi } from 'vitest'\nimport { createBattleState } from '../core/battle/battle-state.js'\nimport { createCommandBus } from '../core/command-bus.js'\nimport { createInitialGameState } from '../core/game-state.js'\nimport { buildPaletteFade } from '../core/palette-fade.js'\nimport { createSeedableRng } from '../core/rng.js'\nimport { walkableTilemap } from './__tests__/loop-tilemap.js'\nimport { ReplayInputSource } from './input.js'\nimport type { LoopContext } from './main-loop.js'\nimport { advanceRafFrame, logicIntervalMs, tickN } from './main-loop.js'\n\nfunction snap(held: AbstractKey[] = [], frameNum = 0): InputSnapshot {\n  return { held: new Set(held), pressed: new Set(), frameNum }\n}\n\nfunction mkFade() {\n  const start = Array.from({ length: 256 }, (): [number, number, number] => [0, 0, 0])\n  const target = Array.from({ length: 256 }, (): [number, number, number] => [9, 9, 9])\n  return buildPaletteFade(start, target, 600, 0)\n}\n\ndescribe('tickN', () => {\n  it('跑 N tick,每 tick 调 onPresent', () => {\n    const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'down' })\n    const bus = createCommandBus()\n    const presentFn = vi.fn()\n    const ctx: LoopContext = {\n      gs,\n      bus,\n      input: new ReplayInputSource([]),\n      tilemap: walkableTilemap(10, 10),\n      onPresent: presentFn,\n    }\n    tickN(3, ctx)\n    expect(presentFn).toHaveBeenCalledTimes(3)\n    expect(gs.frameNum).toBe(3)\n  })\n\n  it('Replay 向右走 3 步 → party.x + 3*16, party.y + 3*8 (East 右下)', () => {\n    // M5:起点 col8/row8 合法区(避开 fCheckRange 边缘带 blockX=5/blockY=7)\n    const gs = createInitialGameState({ x: 16 * 16, y: 16 * 8, facing: 'down' })\n    const bus = createCommandBus()\n    const ctx: LoopContext = {\n      gs,\n      bus,\n      input: new ReplayInputSource([snap(['Right'], 0), snap(['Right'], 1), snap(['Right'], 2)]),\n      tilemap: walkableTilemap(20, 20),\n      onPresent: () => {},\n    }\n    tickN(3, ctx)\n    // sdlpal scene.c:804-805 East: dx=+16, dy=+8 × 3 steps\n    expect(gs.party.x).toBe(19 * 16)\n    expect(gs.party.y).toBe(19 * 8)\n  })\n})\n\ndescribe('advanceRafFrame / logicIntervalMs(M1 三不变量)', () => {\n  function mkCtx(\n    gs: ReturnType<typeof createInitialGameState>,\n    onPresent: () => void,\n  ): LoopContext {\n    return {\n      gs,\n      bus: createCommandBus(),\n      input: new ReplayInputSource([]),\n      tilemap: walkableTilemap(10, 10),\n      onPresent,\n    }\n  }\n\n  it('① logicIntervalMs:battle 40 / 否则 100', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.mode = 'explore'\n    expect(logicIntervalMs(gs)).toBe(FRAME_MS_EXPLORE)\n    gs.mode = 'battle'\n    expect(logicIntervalMs(gs)).toBe(FRAME_MS_BATTLE)\n  })\n\n  it('② accumulator clamp:dt 巨大(>3×interval)→ 单 tick(非 catch-up 多 tick)+ 修 while-后死代码', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' }) // explore → interval 100\n    let ticks = 0\n    const ctx = mkCtx(gs, () => {})\n    const orig = ctx.input.nextSnapshot.bind(ctx.input)\n    ctx.input.nextSnapshot = (fn: number) => {\n      ticks++\n      return orig(fn)\n    }\n    const state = { lastTickTime: 0, accumulator: 0 }\n    advanceRafFrame(state, 1000, ctx) // dt=1000 = 10×interval → clamp 到 100 → 跑 1 tick(非 10)\n    expect(ticks).toBe(1)\n    expect(state.accumulator).toBe(0)\n  })\n\n  it('④ 稳态节奏:60Hz 显示器下 battle 应 25 tick/s(40ms/tick),不被累积器丢余量拖慢', () => {\n    // 回归(2026-06-13 user 报\"怪物死亡淡出比原版长\"):DM31 把 tick 后 `accumulator -= interval`\n    //   改成 `accumulator = 0`,丢弃了 [interval, interval+rafDt) 的溢出量。battle interval=40ms\n    //   不是 60Hz 帧时(16.667ms)的整数倍 → 每 tick 实际等 3 帧=50ms → 全战斗动画(含\n    //   PAL_BattleFadeScene 死亡淡出 72×16ms)在 60Hz 上慢 25%(此处 2s 只跑 40 tick,应 50)。\n    //   修复(结转余量 + 仅丢 >1 interval 的真积压)后 ALL 刷新率回到 ~25fps 忠实节奏。\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.mode = 'battle' // interval=40;battleState 未设 → tickBattle 早退(纯节奏 no-op)\n    let ticks = 0\n    const ctx = mkCtx(gs, () => {})\n    const state = { lastTickTime: 0, accumulator: 0 }\n    const rafDt = 1000 / 60\n    for (let i = 1; i <= 120; i++) {\n      // 2s @ 60Hz\n      if (advanceRafFrame(state, i * rafDt, ctx).ticked) ticks++\n    }\n    // 忠实节奏 = FPS_BATTLE × 2s = 50;DM31 缺陷给 40。容差 ±1 防浮点边界。\n    expect(ticks).toBeGreaterThanOrEqual(49)\n    expect(ticks).toBeLessThanOrEqual(51)\n  })\n\n  it('③ present 门控:无 tick + 无 fade → 不 present;有 paletteFade → present', () => {\n    const gs1 = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    const p1 = vi.fn()\n    const r1 = advanceRafFrame({ lastTickTime: 0, accumulator: 0 }, 10, mkCtx(gs1, p1)) // dt=10 < 100 → 无 tick\n    expect(r1.ticked).toBe(false)\n    expect(p1).not.toHaveBeenCalled()\n    const gs2 = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs2.paletteFadeState = mkFade()\n    const p2 = vi.fn()\n    advanceRafFrame({ lastTickTime: 0, accumulator: 0 }, 10, mkCtx(gs2, p2))\n    expect(p2).toHaveBeenCalled() // fade 进行中每帧 present\n  })\n\n  it('⑤ battleFade(D17 死亡淡出)门控:无 tick 也每 rAF present(wall-clock 细分平滑)', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.mode = 'battle'\n    gs.battleState = createBattleState({\n      gs,\n      playerRoles: { roles: [] },\n      enemies: [],\n      field: {\n        id: 0,\n        screenWave: 0,\n        magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },\n      },\n      isBoss: false,\n      rng: createSeedableRng(1),\n    })\n    gs.battleState.battleFade = { elapsedMs: 0 }\n    const present = vi.fn()\n    // dt=10 < 40(battle interval)→ 无逻辑 tick;但 battleFade active → 仍须 present(否则淡出顿挫在 25fps)\n    const r = advanceRafFrame({ lastTickTime: 0, accumulator: 0 }, 10, mkCtx(gs, present))\n    expect(r.ticked).toBe(false)\n    expect(present).toHaveBeenCalled()\n  })\n\n  it('⑥ frozen=true:累积达 interval 也不 tick(速通手动暂停冻结世界)', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' }) // explore interval 100\n    let ticks = 0\n    const ctx = mkCtx(gs, () => {})\n    const orig = ctx.input.nextSnapshot.bind(ctx.input)\n    ctx.input.nextSnapshot = (fn: number) => {\n      ticks++\n      return orig(fn)\n    }\n    const state = { lastTickTime: 0, accumulator: 0 }\n    const r = advanceRafFrame(state, 1000, ctx, undefined, true) // dt=1000≥interval,但 frozen\n    expect(ticks).toBe(0)\n    expect(r.ticked).toBe(false)\n    expect(state.accumulator).toBe(0)\n  })\n})\n\n// ── 战后渐变吞键回归(2026-06-12 user 报\"打完怪 fadeout 后卡一下按键\"):\n// C 真值:渐变期间清键(每步 PAL_ClearKeyState + dir=Unknown)**只有** PAL_SceneFade(0x93,\n// palette.c:314-316)和 PAL_PaletteFade 的 fUpdateScene 变体(0x80,palette.c:441-446)——\n// 恰好 = 我们 waiting='scene-fade' 的集合。PAL_FadeOut/FadeIn/ColorFade/FadeToRed(0x50/0x51/\n// 0x8C/0x4F/战后自动渐入)是纯色表 ramp,不清键:按键累积、按住的方向 fade 一结束立即生效。\n// 旧 DM30 把清键泛化到所有 paletteFadeState → 战后 ~1.2s 吞键 + 按住方向须松开重按。\ndescribe('渐变吞键仅限 scene-fade(palette.c 真值边界)', () => {\n  function run(gs: ReturnType<typeof createInitialGameState>) {\n    const suppress = vi.fn()\n    const ctx: LoopContext = {\n      gs,\n      bus: createCommandBus(),\n      input: { nextSnapshot: () => snap(), suppressHeldForFade: suppress },\n      tilemap: walkableTilemap(10, 10),\n      onPresent: () => {},\n    }\n    advanceRafFrame({ lastTickTime: 0, accumulator: 0 }, 10, ctx)\n    return suppress\n  }\n\n  it(\"waiting='scene-fade'(0x93/0x80-update)→ 每 rAF 抑制按键(C 每步清键)\", () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.mode = 'event'\n    gs.paletteFadeState = mkFade()\n    gs.eventCursor = { ip: 0, waiting: 'scene-fade' }\n    expect(run(gs)).toHaveBeenCalled()\n  })\n\n  it(\"waiting='palette-fade'(0x50/0x51/0x8C/0x4F)→ 不抑制(C 不清键,按键应累积)\", () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.mode = 'event'\n    gs.paletteFadeState = mkFade()\n    gs.eventCursor = { ip: 0, waiting: 'palette-fade' }\n    expect(run(gs)).not.toHaveBeenCalled()\n  })\n\n  it('无游标的自动渐入(战后/进场 PAL_FadeIn)→ 不抑制(战后卡键根因)', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.paletteFadeState = mkFade() // explore 自动渐入:无 eventCursor\n    expect(run(gs)).not.toHaveBeenCalled()\n  })\n\n  it('无渐变 → 不抑制', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    expect(run(gs)).not.toHaveBeenCalled()\n  })\n})\n",
+          "to": "import { heldSnapshot } from './__tests__/loop-context.js'\nimport { setSceneContext } from '../core/scene-system.js'\nimport type { AbstractKey, InputSnapshot } from '@type-pal/shared'\nimport { FRAME_MS_BATTLE, FRAME_MS_EXPLORE } from '@type-pal/shared'\nimport { describe, expect, it, vi } from 'vitest'\nimport { createBattleState } from '../core/battle/battle-state.js'\nimport { createCommandBus } from '../core/command-bus.js'\nimport { createInitialGameState } from '../core/game-state.js'\nimport { buildPaletteFade } from '../core/palette-fade.js'\nimport { createSeedableRng } from '../core/rng.js'\nimport { walkableTilemap } from './__tests__/loop-tilemap.js'\nimport { ReplayInputSource } from './input.js'\nimport type { LoopContext } from './main-loop.js'\nimport { advanceRafFrame, logicIntervalMs, tickN } from './main-loop.js'\n\nfunction paletteFadeFixture() {\n  const start = Array.from({ length: 256 }, (): [number, number, number] => [0, 0, 0])\n  const target = Array.from({ length: 256 }, (): [number, number, number] => [9, 9, 9])\n  return buildPaletteFade(start, target, 600, 0)\n}\n\ndescribe('tickN', () => {\n  it('跑 N tick,每 tick 调 onPresent', () => {\n    const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'down' })\n    const bus = createCommandBus()\n    const presentFn = vi.fn()\n    const ctx: LoopContext = {\n      gs,\n      bus,\n      input: new ReplayInputSource([]),\n      tilemap: walkableTilemap(10, 10),\n      onPresent: presentFn,\n    }\n    tickN(3, ctx)\n    expect(presentFn).toHaveBeenCalledTimes(3)\n    expect(gs.frameNum).toBe(3)\n  })\n\n  it('Replay 向右走 3 步 → party.x + 3*16, party.y + 3*8 (East 右下)', () => {\n    // M5:起点 col8/row8 合法区(避开 fCheckRange 边缘带 blockX=5/blockY=7)\n    const gs = createInitialGameState({ x: 16 * 16, y: 16 * 8, facing: 'down' })\n    const bus = createCommandBus()\n    const ctx: LoopContext = {\n      gs,\n      bus,\n      input: new ReplayInputSource([\n        heldSnapshot(['Right'], 0),\n        heldSnapshot(['Right'], 1),\n        heldSnapshot(['Right'], 2),\n      ]),\n      tilemap: walkableTilemap(20, 20),\n      onPresent: () => {},\n    }\n    tickN(3, ctx)\n    // sdlpal scene.c:804-805 East: dx=+16, dy=+8 × 3 steps\n    expect(gs.party.x).toBe(19 * 16)\n    expect(gs.party.y).toBe(19 * 8)\n  })\n})\n\ndescribe('advanceRafFrame / logicIntervalMs(M1 三不变量)', () => {\n  function prepareReplayLoopContext(\n    gs: ReturnType<typeof createInitialGameState>,\n    onPresent: () => void,\n  ): LoopContext {\n    const ctx: LoopContext = {\n      gs,\n      bus: createCommandBus(),\n      input: new ReplayInputSource([]),\n      tilemap: walkableTilemap(10, 10),\n      onPresent,\n    }\n    setSceneContext({ tilemap: ctx.tilemap })\n    return ctx\n  }\n\n  it('logicIntervalMs:battle 40 / 否则 100', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.mode = 'explore'\n    expect(logicIntervalMs(gs)).toBe(FRAME_MS_EXPLORE)\n    gs.mode = 'battle'\n    expect(logicIntervalMs(gs)).toBe(FRAME_MS_BATTLE)\n  })\n\n  it('accumulator clamp:巨大 dt 只推进一次逻辑，丢弃超过一间隔的剩余积压', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' }) // explore → interval 100\n    let ticks = 0\n    const ctx = prepareReplayLoopContext(gs, () => {})\n    const orig = ctx.input.nextSnapshot.bind(ctx.input)\n    ctx.input.nextSnapshot = (fn: number) => {\n      ticks++\n      return orig(fn)\n    }\n    const state = { lastTickTime: 0, accumulator: 0 }\n    advanceRafFrame(state, 1000, ctx) // dt=1000，先推进一次并减100；剩余900>100，故清为0，不追跑10次\n    expect(ticks).toBe(1)\n    expect(state.accumulator).toBe(0)\n  })\n\n  it('稳态节奏:60Hz 显示器下 battle 应 25 tick/s(40ms/tick),不被累积器丢余量拖慢', () => {\n    // 回归(2026-06-13 user 报\"怪物死亡淡出比原版长\"):DM31 把 tick 后 `accumulator -= interval`\n    //   改成 `accumulator = 0`,丢弃了 [interval, interval+rafDt) 的溢出量。battle interval=40ms\n    //   不是 60Hz 帧时(16.667ms)的整数倍 → 每 tick 实际等 3 帧=50ms → 全战斗动画(含\n    //   PAL_BattleFadeScene 死亡淡出 72×16ms)在 60Hz 上慢 25%(此处 2s 只跑 40 tick,应 50)。\n    //   本例只核 60Hz 下的逻辑节奏；不据此宣称所有刷新率或实际渲染表现。\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.mode = 'battle' // interval=40;battleState 未设 → tickBattle 早退(纯节奏 no-op)\n    let ticks = 0\n    const ctx = prepareReplayLoopContext(gs, () => {})\n    const state = { lastTickTime: 0, accumulator: 0 }\n    const rafDt = 1000 / 60\n    for (let i = 1; i <= 120; i++) {\n      // 2s @ 60Hz\n      if (advanceRafFrame(state, i * rafDt, ctx).ticked) ticks++\n    }\n    // 忠实节奏 = FPS_BATTLE × 2s = 50;DM31 缺陷给 40。容差 ±1 防浮点边界。\n    expect(ticks).toBeGreaterThanOrEqual(49)\n    expect(ticks).toBeLessThanOrEqual(51)\n  })\n\n  it('present 门控:无 tick + 无 fade → 不 present;有 paletteFade → present', () => {\n    const gs1 = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    const p1 = vi.fn()\n    const r1 = advanceRafFrame(\n      { lastTickTime: 0, accumulator: 0 },\n      10,\n      prepareReplayLoopContext(gs1, p1),\n    ) // dt=10 < 100 → 无 tick\n    expect(r1.ticked).toBe(false)\n    expect(p1).not.toHaveBeenCalled()\n    const gs2 = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs2.paletteFadeState = paletteFadeFixture()\n    const p2 = vi.fn()\n    advanceRafFrame({ lastTickTime: 0, accumulator: 0 }, 10, prepareReplayLoopContext(gs2, p2))\n    expect(p2).toHaveBeenCalled() // fade 进行中每帧 present\n  })\n\n  it('battleFade(D17 死亡淡出)门控:无 tick 也每 rAF present(wall-clock 细分平滑)', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.mode = 'battle'\n    gs.battleState = createPresentationBattle(gs)\n    gs.battleState.battleFade = { elapsedMs: 0 }\n    const present = vi.fn()\n    // dt=10 < 40(battle interval)→ 无逻辑 tick;但 battleFade active → 仍须 present(否则淡出顿挫在 25fps)\n    const r = advanceRafFrame(\n      { lastTickTime: 0, accumulator: 0 },\n      10,\n      prepareReplayLoopContext(gs, present),\n    )\n    expect(r.ticked).toBe(false)\n    expect(present).toHaveBeenCalled()\n  })\n\n  it('frozen=true:累积达 interval 也不 tick(速通手动暂停冻结世界)', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' }) // explore interval 100\n    let ticks = 0\n    const ctx = prepareReplayLoopContext(gs, () => {})\n    const orig = ctx.input.nextSnapshot.bind(ctx.input)\n    ctx.input.nextSnapshot = (fn: number) => {\n      ticks++\n      return orig(fn)\n    }\n    const state = { lastTickTime: 0, accumulator: 0 }\n    const r = advanceRafFrame(state, 1000, ctx, undefined, true) // dt=1000≥interval,但 frozen\n    expect(ticks).toBe(0)\n    expect(r.ticked).toBe(false)\n    expect(state.accumulator).toBe(0)\n  })\n})\n\n// ── 战后渐变吞键回归(2026-06-12 user 报\"打完怪 fadeout 后卡一下按键\"):\n// C 真值:渐变期间清键(每步 PAL_ClearKeyState + dir=Unknown)**只有** PAL_SceneFade(0x93,\n// palette.c:314-316)和 PAL_PaletteFade 的 fUpdateScene 变体(0x80,palette.c:441-446)——\n// 恰好 = 我们 waiting='scene-fade' 的集合。PAL_FadeOut/FadeIn/ColorFade/FadeToRed(0x50/0x51/\n// 0x8C/0x4F/战后自动渐入)是纯色表 ramp,不清键:按键累积、按住的方向 fade 一结束立即生效。\n// 旧 DM30 把清键泛化到所有 paletteFadeState → 战后 ~1.2s 吞键 + 按住方向须松开重按。\ndescribe('渐变吞键仅限 scene-fade(palette.c 真值边界)', () => {\n  function captureFadeSuppression(gs: ReturnType<typeof createInitialGameState>) {\n    const suppress = vi.fn()\n    const ctx: LoopContext = {\n      gs,\n      bus: createCommandBus(),\n      input: { nextSnapshot: () => heldSnapshot(), suppressHeldForFade: suppress },\n      tilemap: walkableTilemap(10, 10),\n      onPresent: () => {},\n    }\n    advanceRafFrame({ lastTickTime: 0, accumulator: 0 }, 10, ctx)\n    return suppress\n  }\n\n  it(\"waiting='scene-fade'(0x93/0x80-update)→ 每 rAF 抑制按键(C 每步清键)\", () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.mode = 'event'\n    gs.paletteFadeState = paletteFadeFixture()\n    gs.eventCursor = { ip: 0, waiting: 'scene-fade' }\n    expect(captureFadeSuppression(gs)).toHaveBeenCalled()\n  })\n\n  it(\"waiting='palette-fade'(0x50/0x51/0x8C/0x4F)→ 不抑制(C 不清键,按键应累积)\", () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.mode = 'event'\n    gs.paletteFadeState = paletteFadeFixture()\n    gs.eventCursor = { ip: 0, waiting: 'palette-fade' }\n    expect(captureFadeSuppression(gs)).not.toHaveBeenCalled()\n  })\n\n  it('无游标的自动渐入(战后/进场 PAL_FadeIn)→ 不抑制(战后卡键根因)', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.paletteFadeState = paletteFadeFixture() // explore 自动渐入:无 eventCursor\n    expect(captureFadeSuppression(gs)).not.toHaveBeenCalled()\n  })\n\n  it('无渐变 → 不抑制', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    expect(captureFadeSuppression(gs)).not.toHaveBeenCalled()\n  })\n})\n\n/** Only presence-based render gates at10ms; no battle logic/resource tick. */\nfunction createPresentationBattle(gs: ReturnType<typeof createInitialGameState>) {\n  return createBattleState({\n    gs,\n    playerRoles: { roles: [] },\n    enemies: [],\n    field: {\n      id: 0,\n      screenWave: 0,\n      magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },\n    },\n    isBoss: false,\n    rng: createSeedableRng(1),\n  })\n}\n",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/shell/main-loop-gates.grok-r1.test.ts",
+      "id": "loop-1",
+      "reason": "Frame-kernel vs headless/rAF responsibility organization; explicitly prepare main Replaycontext,constructor-based gate fixture,retain distinct replay vs emptyIO ports. Case deltas and exact helper body transfers separately proven.",
+      "changes": [
+        {
+          "from": "/**\n * TEST-GROK-RENDER-HOST-LARGE-1 G09-B。\n * 淡入门、余量边界、drain 和 rAF 取消。不重领 40/100、巨大 dt 和 palette/battleFade。\n */\nimport type { InputSource, Tilemap } from '@type-pal/shared'\nimport { describe, expect, it } from 'vitest'\nimport type { BattleState } from '../core/battle/battle-state.js'\nimport { type BusEntry, type CommandBus, createCommandBus } from '../core/command-bus.js'\nimport { createInitialGameState } from '../core/game-state.js'\nimport { createSeedableRng } from '../core/rng.js'\nimport { setSceneContext } from '../core/scene-system.js'\nimport {\n  advanceRafFrame,\n  type LoopContext,\n  type RafLoopState,\n  startRafLoop,\n  tickN,\n} from './main-loop.js'\n\nfunction flat(w: number, h: number): Tilemap {\n  const cells = Array.from({ length: h }, () =>\n    Array.from({ length: w }, () => ({ lower: 0, upper: 0 })),\n  )\n  return { width: w, height: h, cells, tileset: 'fake' }\n}\n\nfunction ctxOf(\n  gs = createInitialGameState({ x: 0, y: 0, facing: 'down' }),\n  onPresent: LoopContext['onPresent'] = () => {},\n): LoopContext {\n  const ctx: LoopContext = {\n    gs,\n    bus: createCommandBus(),\n    input: { nextSnapshot: (frameNum) => ({ held: new Set(), pressed: new Set(), frameNum }) },\n    tilemap: flat(8, 8),\n    onPresent,\n  }\n  setSceneContext({\n    tilemap: ctx.tilemap,\n  })\n  return ctx\n}\n\nfunction fresh(): RafLoopState {\n  return { lastTickTime: 0, accumulator: 0 }\n}\n\nfunction battleWithAnim(): BattleState {\n  return {\n    players: [\n      {\n        roleId: 0,\n        prevHp: 41,\n        prevMp: 12,\n        defending: false,\n        status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 },\n      },\n    ],\n    enemies: [],\n    field: {\n      id: 0,\n      screenWave: 0,\n      magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },\n    },\n    isBoss: false,\n    phase: 'selectAction',\n    turn: 1,\n    actionQueue: [],\n    currentActionIndex: 0,\n    pendingActions: new Map(),\n    uiState: 'selectMove',\n    menuState: 'main',\n    selectedAction: 0,\n    uiCursor: 0,\n    miscMenuCursor: 0,\n    miscSubMenuCursor: 0,\n    expGained: 0,\n    cashGained: 0,\n    rng: createSeedableRng(1),\n    phaseStallTicks: 0,\n    battleAnim: { frames: [{ durationMs: 40 }], idx: 0, frameElapsedMs: 0 },\n  }\n}\n\ndescribe('G09-B 主循环门控', () => {\n  it('G09-B01 dither fadeState 在未到逻辑间隔时仍 present，且 ticked 为 false', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.fadeState = { speed: 2, totalMs: 2160, startTimeMs: 0, appliedSteps: 0 }\n    let flag: boolean | null = null\n    const result = advanceRafFrame(\n      fresh(),\n      10,\n      ctxOf(gs, (_drained, ticked) => {\n        flag = ticked\n      }),\n    )\n    expect(result.ticked).toBe(false)\n    expect(result.presented).toBe(true)\n    expect(flag).toBe(false)\n  })\n\n  it('G09-B02 battleAnim 在未到逻辑间隔时仍 present', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.battleState = battleWithAnim()\n    const result = advanceRafFrame(fresh(), 10, ctxOf(gs))\n    expect(result.ticked).toBe(false)\n    expect(result.presented).toBe(true)\n  })\n\n  it('G09-B03 dt 150 只 tick 一次，并把 50ms 余量留在累加器', () => {\n    const state = fresh()\n    const result = advanceRafFrame(state, 150, ctxOf())\n    expect(result.ticked).toBe(true)\n    expect(state.accumulator).toBe(50)\n  })\n\n  it('G09-B04 dt 200 结转后余量正好等于间隔，不丢弃', () => {\n    const state = fresh()\n    const result = advanceRafFrame(state, 200, ctxOf())\n    expect(result.ticked).toBe(true)\n    expect(state.accumulator).toBe(100)\n  })\n\n  it('G09-B05 冻结时不足一个间隔的余量保留，且不 present', () => {\n    const state = fresh()\n    const result = advanceRafFrame(state, 40, ctxOf(), undefined, true)\n    expect(result.ticked).toBe(false)\n    expect(result.presented).toBe(false)\n    expect(state.accumulator).toBe(40)\n  })\n\n  it('G09-B06 逻辑 tick 把 bus.drain 的那一条命令交给 onPresent', () => {\n    const entry: BusEntry = { cmd: { op: 'stopMusic', fadeMs: 0 } }\n    const bus: CommandBus = {\n      emit: () => {},\n      drain: () => [entry],\n    }\n    let got: BusEntry[] = []\n    const ctx = ctxOf(undefined, (drained) => {\n      got = drained\n    })\n    ctx.bus = bus\n    const result = advanceRafFrame(fresh(), 100, ctx)\n    expect(result.ticked).toBe(true)\n    expect(got).toEqual([entry])\n  })\n\n  it('G09-B07 发生逻辑 tick 时 nowMs 写成这一帧的时间戳', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    advanceRafFrame(fresh(), 2500, ctxOf(gs))\n    expect(gs.nowMs).toBe(2500)\n  })\n\n  it('G09-B08 dump 使用调用方给出的 partyWalkFrames 4', () => {\n    const seen: number[] = []\n    const ctx = ctxOf()\n    ctx.partyWalkFrames = 4\n    advanceRafFrame(fresh(), 100, ctx, {\n      enabled: true,\n      push: (_gs, walkFrames) => {\n        seen.push(walkFrames)\n      },\n    })\n    expect(seen).toEqual([4])\n  })\n\n  it('G09-B09 未给 partyWalkFrames 时 dump 使用 3', () => {\n    const seen: number[] = []\n    advanceRafFrame(fresh(), 100, ctxOf(), {\n      enabled: true,\n      push: (_gs, walkFrames) => {\n        seen.push(walkFrames)\n      },\n    })\n    expect(seen).toEqual([3])\n  })\n\n  it('G09-B10 没有 suppressHeldForFade 的输入源在 scene-fade 里仍按 fadeState present', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.mode = 'event'\n    gs.eventCursor = { ip: 0, waiting: 'scene-fade' }\n    gs.fadeState = { speed: 1, totalMs: 720, startTimeMs: 0, appliedSteps: 0 }\n    const input: InputSource = {\n      nextSnapshot: (frameNum) => ({ held: new Set(), pressed: new Set(), frameNum }),\n    }\n    const ctx = ctxOf(gs)\n    ctx.input = input\n    const result = advanceRafFrame(fresh(), 10, ctx)\n    expect(result.ticked).toBe(false)\n    expect(result.presented).toBe(true)\n  })\n\n  it('G09-B11 探索累到 90 后切战斗，同一时间戳用 40ms 间隔 tick 一次并清掉超额余量', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    const state = fresh()\n    const ctx = ctxOf(gs)\n    const first = advanceRafFrame(state, 90, ctx)\n    expect(first.ticked).toBe(false)\n    expect(state.accumulator).toBe(90)\n    gs.mode = 'battle'\n    const second = advanceRafFrame(state, 90, ctx)\n    expect(second.ticked).toBe(true)\n    expect(state.accumulator).toBe(0)\n  })\n\n  it('G09-B12 tickN(0) 不 present，帧号保持 0', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    let calls = 0\n    tickN(\n      0,\n      ctxOf(gs, () => {\n        calls += 1\n      }),\n    )\n    expect(calls).toBe(0)\n    expect(gs.frameNum).toBe(0)\n  })\n\n  it('G09-B13 startRafLoop 的取消函数取消的是刚刚排上的那一帧', () => {\n    const origRaf = globalThis.requestAnimationFrame\n    const origCancel = globalThis.cancelAnimationFrame\n    let scheduled = 0\n    let canceled = -1\n    globalThis.requestAnimationFrame = ((cb: FrameRequestCallback) => {\n      void cb\n      scheduled = 41\n      return 41\n    }) as typeof requestAnimationFrame\n    globalThis.cancelAnimationFrame = (id: number) => {\n      canceled = id\n    }\n    try {\n      const cancel = startRafLoop(ctxOf())\n      expect(scheduled).toBe(41)\n      cancel()\n      expect(canceled).toBe(41)\n    } finally {\n      globalThis.requestAnimationFrame = origRaf\n      globalThis.cancelAnimationFrame = origCancel\n    }\n  })\n})\n",
+          "to": "import { prepareEmptyLoopContext } from './__tests__/loop-context.js'\nimport { createBattleState } from '../core/battle/battle-state.js'\nimport { vi } from 'vitest'\n/**\n * TEST-GROK-RENDER-HOST-LARGE-1 G09-B。\n * 淡入门、余量边界、drain 和 rAF 取消。不重领 40/100、巨大 dt 和 palette/battleFade。\n */\nimport type { InputSource, Tilemap } from '@type-pal/shared'\nimport { describe, expect, it } from 'vitest'\nimport type { BattleState } from '../core/battle/battle-state.js'\nimport { type BusEntry, type CommandBus, createCommandBus } from '../core/command-bus.js'\nimport { createInitialGameState } from '../core/game-state.js'\nimport { createSeedableRng } from '../core/rng.js'\nimport { setSceneContext } from '../core/scene-system.js'\nimport {\n  advanceRafFrame,\n  type LoopContext,\n  type RafLoopState,\n  startRafLoop,\n  tickN,\n} from './main-loop.js'\n\nfunction freshRafState(): RafLoopState {\n  return { lastTickTime: 0, accumulator: 0 }\n}\n\ndescribe('G09-B 主循环门控', () => {\n  it('dither fadeState 在未到逻辑间隔时仍 present，且 ticked 为 false', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.fadeState = { speed: 2, totalMs: 2160, startTimeMs: 0, appliedSteps: 0 }\n    let flag: boolean | null = null\n    const result = advanceRafFrame(\n      freshRafState(),\n      10,\n      prepareEmptyLoopContext(gs, (_drained, ticked) => {\n        flag = ticked\n      }),\n    )\n    expect(result.ticked).toBe(false)\n    expect(result.presented).toBe(true)\n    expect(flag).toBe(false)\n  })\n\n  it('battleAnim 在未到逻辑间隔时仍 present', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.battleState = createPresentationBattle(gs)\n    gs.battleState.battleAnim = { frames: [{ durationMs: 40 }], idx: 0, frameElapsedMs: 0 }\n    const result = advanceRafFrame(freshRafState(), 10, prepareEmptyLoopContext(gs))\n    expect(result.ticked).toBe(false)\n    expect(result.presented).toBe(true)\n  })\n\n  it('dt 150 只 tick 一次，并把 50ms 余量留在累加器', () => {\n    const state = freshRafState()\n    const result = advanceRafFrame(state, 150, prepareEmptyLoopContext())\n    expect(result.ticked).toBe(true)\n    expect(state.accumulator).toBe(50)\n  })\n\n  it('dt 200 结转后余量正好等于间隔，不丢弃', () => {\n    const state = freshRafState()\n    const result = advanceRafFrame(state, 200, prepareEmptyLoopContext())\n    expect(result.ticked).toBe(true)\n    expect(state.accumulator).toBe(100)\n  })\n\n  it('冻结时不足一个间隔的余量保留，且不 present', () => {\n    const state = freshRafState()\n    const result = advanceRafFrame(state, 40, prepareEmptyLoopContext(), undefined, true)\n    expect(result.ticked).toBe(false)\n    expect(result.presented).toBe(false)\n    expect(state.accumulator).toBe(40)\n  })\n\n  it('逻辑 tick 把 bus.drain 的那一条命令交给 onPresent', () => {\n    const entry: BusEntry = { cmd: { op: 'stopMusic', fadeMs: 0 } }\n    const bus: CommandBus = {\n      emit: () => {},\n      drain: () => [entry],\n    }\n    let got: BusEntry[] = []\n    const ctx = prepareEmptyLoopContext(undefined, (drained) => {\n      got = drained\n    })\n    ctx.bus = bus\n    const result = advanceRafFrame(freshRafState(), 100, ctx)\n    expect(result.ticked).toBe(true)\n    expect(got).toEqual([entry])\n  })\n\n  it('发生逻辑 tick 时 nowMs 写成这一帧的时间戳', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    advanceRafFrame(freshRafState(), 2500, prepareEmptyLoopContext(gs))\n    expect(gs.nowMs).toBe(2500)\n  })\n\n  it('dump 使用调用方给出的 partyWalkFrames 4', () => {\n    const seen: number[] = []\n    const ctx = prepareEmptyLoopContext()\n    ctx.partyWalkFrames = 4\n    advanceRafFrame(freshRafState(), 100, ctx, {\n      enabled: true,\n      push: (_gs, walkFrames) => {\n        seen.push(walkFrames)\n      },\n    })\n    expect(seen).toEqual([4])\n  })\n\n  it('未给 partyWalkFrames 时 dump 使用 3', () => {\n    const seen: number[] = []\n    advanceRafFrame(freshRafState(), 100, prepareEmptyLoopContext(), {\n      enabled: true,\n      push: (_gs, walkFrames) => {\n        seen.push(walkFrames)\n      },\n    })\n    expect(seen).toEqual([3])\n  })\n\n  it('没有 suppressHeldForFade 的输入源在 scene-fade 里仍按 fadeState present', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.mode = 'event'\n    gs.eventCursor = { ip: 0, waiting: 'scene-fade' }\n    gs.fadeState = { speed: 1, totalMs: 720, startTimeMs: 0, appliedSteps: 0 }\n    const input: InputSource = {\n      nextSnapshot: (frameNum) => ({ held: new Set(), pressed: new Set(), frameNum }),\n    }\n    const ctx = prepareEmptyLoopContext(gs)\n    ctx.input = input\n    const result = advanceRafFrame(freshRafState(), 10, ctx)\n    expect(result.ticked).toBe(false)\n    expect(result.presented).toBe(true)\n  })\n\n  it('探索累到 90 后切战斗，同一时间戳用 40ms 间隔 tick 一次并清掉超额余量', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    const state = freshRafState()\n    const ctx = prepareEmptyLoopContext(gs)\n    const first = advanceRafFrame(state, 90, ctx)\n    expect(first.ticked).toBe(false)\n    expect(state.accumulator).toBe(90)\n    gs.mode = 'battle'\n    const second = advanceRafFrame(state, 90, ctx)\n    expect(second.ticked).toBe(true)\n    expect(state.accumulator).toBe(0)\n  })\n\n  it('tickN(0) 不 present，帧号保持 0', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    let calls = 0\n    tickN(\n      0,\n      prepareEmptyLoopContext(gs, () => {\n        calls += 1\n      }),\n    )\n    expect(calls).toBe(0)\n    expect(gs.frameNum).toBe(0)\n  })\n\n  it('取消初帧与推进后最新帧，释放各自排队的回调', () => {\n    const pending = new Map<number, FrameRequestCallback>()\n    const canceled: number[] = []\n    const stops: Array<() => void> = []\n    const settings = new Map<string, string | null>()\n    for (const key of ['tp-speedrun-enabled', 'tp-fps-show'])\n      settings.set(key, localStorage.getItem(key))\n    let nextFrameId = 40\n    try {\n      for (const key of settings.keys()) localStorage.removeItem(key)\n      vi.spyOn(performance, 'now').mockReturnValue(0)\n      vi.spyOn(globalThis, 'requestAnimationFrame').mockImplementation((callback) => {\n        const id = ++nextFrameId\n        pending.set(id, callback)\n        return id\n      })\n      vi.spyOn(globalThis, 'cancelAnimationFrame').mockImplementation((id) => {\n        canceled.push(id)\n        pending.delete(id)\n      })\n      const stopInitial = startRafLoop(prepareEmptyLoopContext())\n      stops.push(stopInitial)\n      expect([...pending.keys()]).toEqual([41])\n      stopInitial()\n      expect(canceled).toEqual([41])\n      expect(pending.size).toBe(0)\n      const stopAdvanced = startRafLoop(prepareEmptyLoopContext())\n      stops.push(stopAdvanced)\n      expect([...pending.keys()]).toEqual([42])\n      const frame = pending.get(42)\n      pending.delete(42)\n      expect(frame).toBeTypeOf('function')\n      frame?.(10)\n      expect([...pending.keys()]).toEqual([43])\n      stopAdvanced()\n      expect(canceled).toEqual([41, 43])\n      expect(pending.size).toBe(0)\n    } finally {\n      try {\n        for (const stop of stops) stop()\n      } finally {\n        pending.clear()\n        vi.restoreAllMocks()\n        for (const [key, value] of settings) {\n          if (value === null) localStorage.removeItem(key)\n          else localStorage.setItem(key, value)\n        }\n      }\n    }\n  })\n})\n\n/** Only presence-based render gates at10ms; no battle logic/resource tick. */\nfunction createPresentationBattle(gs: ReturnType<typeof createInitialGameState>) {\n  return createBattleState({\n    gs,\n    playerRoles: { roles: [] },\n    enemies: [],\n    field: {\n      id: 0,\n      screenWave: 0,\n      magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },\n    },\n    isBoss: false,\n    rng: createSeedableRng(1),\n  })\n}\n",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "replacements": [],
+  "registrations": [
+    {
+      "old": {
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "ordinal": 0
+      },
+      "originalOrdinal": 0,
+      "current": {
+        "file": "packages/game/src/shell/main-loop.lifecycle.test.ts",
+        "titles": ["Headless loop"],
+        "template": "跑 N tick,每 tick 调 onPresent"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "ordinal": 1
+      },
+      "originalOrdinal": 1,
+      "current": {
+        "file": "packages/game/src/shell/main-loop.lifecycle.test.ts",
+        "titles": ["Headless loop"],
+        "template": "Replay 向右走 3 步 → party.x + 3*16, party.y + 3*8 (East 右下)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "ordinal": 2
+      },
+      "originalOrdinal": 2,
+      "current": {
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "titles": ["Frame intervals and accumulation"],
+        "template": "logicIntervalMs:battle 40 / 否则 100"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "ordinal": 3
+      },
+      "originalOrdinal": 3,
+      "current": {
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "titles": ["Frame intervals and accumulation"],
+        "template": "accumulator clamp:巨大 dt 只推进一次逻辑，丢弃超过一间隔的剩余积压"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "ordinal": 4
+      },
+      "originalOrdinal": 4,
+      "current": {
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "titles": ["Frame intervals and accumulation"],
+        "template": "稳态节奏:60Hz 显示器下 battle 应 25 tick/s(40ms/tick),不被累积器丢余量拖慢"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "ordinal": 5
+      },
+      "originalOrdinal": 5,
+      "current": {
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "titles": ["Frame intervals and accumulation"],
+        "template": "present 门控:无 tick + 无 fade → 不 present;有 paletteFade → present"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "ordinal": 6
+      },
+      "originalOrdinal": 6,
+      "current": {
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "titles": ["Frame intervals and accumulation"],
+        "template": "battleFade(D17 死亡淡出)门控:无 tick 也每 rAF present(wall-clock 细分平滑)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "ordinal": 7
+      },
+      "originalOrdinal": 7,
+      "current": {
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "titles": ["Frame intervals and accumulation"],
+        "template": "frozen=true:累积达 interval 也不 tick(速通手动暂停冻结世界)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "ordinal": 8
+      },
+      "originalOrdinal": 8,
+      "current": {
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "titles": ["Scene fade input suppression"],
+        "template": "waiting='scene-fade'(0x93/0x80-update)→ 每 rAF 抑制按键(C 每步清键)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "ordinal": 9
+      },
+      "originalOrdinal": 9,
+      "current": {
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "titles": ["Scene fade input suppression"],
+        "template": "waiting='palette-fade'(0x50/0x51/0x8C/0x4F)→ 不抑制(C 不清键,按键应累积)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "ordinal": 10
+      },
+      "originalOrdinal": 10,
+      "current": {
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "titles": ["Scene fade input suppression"],
+        "template": "无游标的自动渐入(战后/进场 PAL_FadeIn)→ 不抑制(战后卡键根因)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "ordinal": 11
+      },
+      "originalOrdinal": 11,
+      "current": {
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "titles": ["Scene fade input suppression"],
+        "template": "无渐变 → 不抑制"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/main-loop-gates.grok-r1.test.ts",
+        "ordinal": 0
+      },
+      "originalOrdinal": 0,
+      "current": {
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "titles": ["Present and input gates"],
+        "template": "dither fadeState 在未到逻辑间隔时仍 present，且 ticked 为 false"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/main-loop-gates.grok-r1.test.ts",
+        "ordinal": 1
+      },
+      "originalOrdinal": 1,
+      "current": {
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "titles": ["Present and input gates"],
+        "template": "battleAnim 在未到逻辑间隔时仍 present"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/main-loop-gates.grok-r1.test.ts",
+        "ordinal": 2
+      },
+      "originalOrdinal": 2,
+      "current": {
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "titles": ["Accumulator boundaries"],
+        "template": "dt 150 只 tick 一次，并把 50ms 余量留在累加器"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/main-loop-gates.grok-r1.test.ts",
+        "ordinal": 3
+      },
+      "originalOrdinal": 3,
+      "current": {
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "titles": ["Accumulator boundaries"],
+        "template": "dt 200 结转后余量正好等于间隔，不丢弃"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/main-loop-gates.grok-r1.test.ts",
+        "ordinal": 4
+      },
+      "originalOrdinal": 4,
+      "current": {
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "titles": ["Accumulator boundaries"],
+        "template": "冻结时不足一个间隔的余量保留，且不 present"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/main-loop-gates.grok-r1.test.ts",
+        "ordinal": 5
+      },
+      "originalOrdinal": 5,
+      "current": {
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "titles": ["Tick effects and dump forwarding"],
+        "template": "逻辑 tick 把 bus.drain 的那一条命令交给 onPresent"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/main-loop-gates.grok-r1.test.ts",
+        "ordinal": 6
+      },
+      "originalOrdinal": 6,
+      "current": {
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "titles": ["Tick effects and dump forwarding"],
+        "template": "发生逻辑 tick 时 nowMs 写成这一帧的时间戳"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/main-loop-gates.grok-r1.test.ts",
+        "ordinal": 7
+      },
+      "originalOrdinal": 7,
+      "current": {
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "titles": ["Tick effects and dump forwarding"],
+        "template": "dump 使用调用方给出的 partyWalkFrames 4"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/main-loop-gates.grok-r1.test.ts",
+        "ordinal": 8
+      },
+      "originalOrdinal": 8,
+      "current": {
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "titles": ["Tick effects and dump forwarding"],
+        "template": "未给 partyWalkFrames 时 dump 使用 3"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/main-loop-gates.grok-r1.test.ts",
+        "ordinal": 9
+      },
+      "originalOrdinal": 9,
+      "current": {
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "titles": ["Present and input gates"],
+        "template": "没有 suppressHeldForFade 的输入源在 scene-fade 里仍按 fadeState present"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/main-loop-gates.grok-r1.test.ts",
+        "ordinal": 10
+      },
+      "originalOrdinal": 10,
+      "current": {
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "titles": ["Accumulator boundaries"],
+        "template": "探索累到 90 后切战斗，同一时间戳用 40ms 间隔 tick 一次并清掉超额余量"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/main-loop-gates.grok-r1.test.ts",
+        "ordinal": 11
+      },
+      "originalOrdinal": 11,
+      "current": {
+        "file": "packages/game/src/shell/main-loop.lifecycle.test.ts",
+        "titles": ["Headless loop"],
+        "template": "tickN(0) 不 present，帧号保持 0"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/main-loop-gates.grok-r1.test.ts",
+        "ordinal": 12
+      },
+      "originalOrdinal": 12,
+      "current": {
+        "file": "packages/game/src/shell/main-loop.lifecycle.test.ts",
+        "titles": ["Animation frame loop lifecycle"],
+        "template": "取消初帧与推进后最新帧，释放各自排队的回调"
+      }
+    }
+  ],
+  "identities": [
+    {
+      "old": {
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "fullName": "tickN 跑 N tick,每 tick 调 onPresent"
+      },
+      "current": {
+        "file": "packages/game/src/shell/main-loop.lifecycle.test.ts",
+        "fullName": "Headless loop 跑 N tick,每 tick 调 onPresent"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "fullName": "tickN Replay 向右走 3 步 → party.x + 3*16, party.y + 3*8 (East 右下)"
+      },
+      "current": {
+        "file": "packages/game/src/shell/main-loop.lifecycle.test.ts",
+        "fullName": "Headless loop Replay 向右走 3 步 → party.x + 3*16, party.y + 3*8 (East 右下)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "fullName": "advanceRafFrame / logicIntervalMs(M1 三不变量) ① logicIntervalMs:battle 40 / 否则 100"
+      },
+      "current": {
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "fullName": "Frame intervals and accumulation logicIntervalMs:battle 40 / 否则 100"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "fullName": "advanceRafFrame / logicIntervalMs(M1 三不变量) ② accumulator clamp:dt 巨大(>3×interval)→ 单 tick(非 catch-up 多 tick)+ 修 while-后死代码"
+      },
+      "current": {
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "fullName": "Frame intervals and accumulation accumulator clamp:巨大 dt 只推进一次逻辑，丢弃超过一间隔的剩余积压"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "fullName": "advanceRafFrame / logicIntervalMs(M1 三不变量) ④ 稳态节奏:60Hz 显示器下 battle 应 25 tick/s(40ms/tick),不被累积器丢余量拖慢"
+      },
+      "current": {
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "fullName": "Frame intervals and accumulation 稳态节奏:60Hz 显示器下 battle 应 25 tick/s(40ms/tick),不被累积器丢余量拖慢"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "fullName": "advanceRafFrame / logicIntervalMs(M1 三不变量) ③ present 门控:无 tick + 无 fade → 不 present;有 paletteFade → present"
+      },
+      "current": {
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "fullName": "Frame intervals and accumulation present 门控:无 tick + 无 fade → 不 present;有 paletteFade → present"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "fullName": "advanceRafFrame / logicIntervalMs(M1 三不变量) ⑤ battleFade(D17 死亡淡出)门控:无 tick 也每 rAF present(wall-clock 细分平滑)"
+      },
+      "current": {
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "fullName": "Frame intervals and accumulation battleFade(D17 死亡淡出)门控:无 tick 也每 rAF present(wall-clock 细分平滑)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "fullName": "advanceRafFrame / logicIntervalMs(M1 三不变量) ⑥ frozen=true:累积达 interval 也不 tick(速通手动暂停冻结世界)"
+      },
+      "current": {
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "fullName": "Frame intervals and accumulation frozen=true:累积达 interval 也不 tick(速通手动暂停冻结世界)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "fullName": "渐变吞键仅限 scene-fade(palette.c 真值边界) waiting='scene-fade'(0x93/0x80-update)→ 每 rAF 抑制按键(C 每步清键)"
+      },
+      "current": {
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "fullName": "Scene fade input suppression waiting='scene-fade'(0x93/0x80-update)→ 每 rAF 抑制按键(C 每步清键)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "fullName": "渐变吞键仅限 scene-fade(palette.c 真值边界) waiting='palette-fade'(0x50/0x51/0x8C/0x4F)→ 不抑制(C 不清键,按键应累积)"
+      },
+      "current": {
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "fullName": "Scene fade input suppression waiting='palette-fade'(0x50/0x51/0x8C/0x4F)→ 不抑制(C 不清键,按键应累积)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "fullName": "渐变吞键仅限 scene-fade(palette.c 真值边界) 无游标的自动渐入(战后/进场 PAL_FadeIn)→ 不抑制(战后卡键根因)"
+      },
+      "current": {
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "fullName": "Scene fade input suppression 无游标的自动渐入(战后/进场 PAL_FadeIn)→ 不抑制(战后卡键根因)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "fullName": "渐变吞键仅限 scene-fade(palette.c 真值边界) 无渐变 → 不抑制"
+      },
+      "current": {
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "fullName": "Scene fade input suppression 无渐变 → 不抑制"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/main-loop-gates.grok-r1.test.ts",
+        "fullName": "G09-B 主循环门控 G09-B01 dither fadeState 在未到逻辑间隔时仍 present，且 ticked 为 false"
+      },
+      "current": {
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "fullName": "Present and input gates dither fadeState 在未到逻辑间隔时仍 present，且 ticked 为 false"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/main-loop-gates.grok-r1.test.ts",
+        "fullName": "G09-B 主循环门控 G09-B02 battleAnim 在未到逻辑间隔时仍 present"
+      },
+      "current": {
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "fullName": "Present and input gates battleAnim 在未到逻辑间隔时仍 present"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/main-loop-gates.grok-r1.test.ts",
+        "fullName": "G09-B 主循环门控 G09-B03 dt 150 只 tick 一次，并把 50ms 余量留在累加器"
+      },
+      "current": {
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "fullName": "Accumulator boundaries dt 150 只 tick 一次，并把 50ms 余量留在累加器"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/main-loop-gates.grok-r1.test.ts",
+        "fullName": "G09-B 主循环门控 G09-B04 dt 200 结转后余量正好等于间隔，不丢弃"
+      },
+      "current": {
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "fullName": "Accumulator boundaries dt 200 结转后余量正好等于间隔，不丢弃"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/main-loop-gates.grok-r1.test.ts",
+        "fullName": "G09-B 主循环门控 G09-B05 冻结时不足一个间隔的余量保留，且不 present"
+      },
+      "current": {
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "fullName": "Accumulator boundaries 冻结时不足一个间隔的余量保留，且不 present"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/main-loop-gates.grok-r1.test.ts",
+        "fullName": "G09-B 主循环门控 G09-B06 逻辑 tick 把 bus.drain 的那一条命令交给 onPresent"
+      },
+      "current": {
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "fullName": "Tick effects and dump forwarding 逻辑 tick 把 bus.drain 的那一条命令交给 onPresent"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/main-loop-gates.grok-r1.test.ts",
+        "fullName": "G09-B 主循环门控 G09-B07 发生逻辑 tick 时 nowMs 写成这一帧的时间戳"
+      },
+      "current": {
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "fullName": "Tick effects and dump forwarding 发生逻辑 tick 时 nowMs 写成这一帧的时间戳"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/main-loop-gates.grok-r1.test.ts",
+        "fullName": "G09-B 主循环门控 G09-B08 dump 使用调用方给出的 partyWalkFrames 4"
+      },
+      "current": {
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "fullName": "Tick effects and dump forwarding dump 使用调用方给出的 partyWalkFrames 4"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/main-loop-gates.grok-r1.test.ts",
+        "fullName": "G09-B 主循环门控 G09-B09 未给 partyWalkFrames 时 dump 使用 3"
+      },
+      "current": {
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "fullName": "Tick effects and dump forwarding 未给 partyWalkFrames 时 dump 使用 3"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/main-loop-gates.grok-r1.test.ts",
+        "fullName": "G09-B 主循环门控 G09-B10 没有 suppressHeldForFade 的输入源在 scene-fade 里仍按 fadeState present"
+      },
+      "current": {
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "fullName": "Present and input gates 没有 suppressHeldForFade 的输入源在 scene-fade 里仍按 fadeState present"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/main-loop-gates.grok-r1.test.ts",
+        "fullName": "G09-B 主循环门控 G09-B11 探索累到 90 后切战斗，同一时间戳用 40ms 间隔 tick 一次并清掉超额余量"
+      },
+      "current": {
+        "file": "packages/game/src/shell/main-loop.test.ts",
+        "fullName": "Accumulator boundaries 探索累到 90 后切战斗，同一时间戳用 40ms 间隔 tick 一次并清掉超额余量"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/main-loop-gates.grok-r1.test.ts",
+        "fullName": "G09-B 主循环门控 G09-B12 tickN(0) 不 present，帧号保持 0"
+      },
+      "current": {
+        "file": "packages/game/src/shell/main-loop.lifecycle.test.ts",
+        "fullName": "Headless loop tickN(0) 不 present，帧号保持 0"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/main-loop-gates.grok-r1.test.ts",
+        "fullName": "G09-B 主循环门控 G09-B13 startRafLoop 的取消函数取消的是刚刚排上的那一帧"
+      },
+      "current": {
+        "file": "packages/game/src/shell/main-loop.lifecycle.test.ts",
+        "fullName": "Animation frame loop lifecycle 取消初帧与推进后最新帧，释放各自排队的回调"
+      }
+    }
+  ],
+  "helperTransplants": [
+    {
+      "oldPath": "packages/game/src/shell/main-loop-gates.grok-r1.test.ts",
+      "oldName": "ctxOf",
+      "currentPath": "packages/game/src/shell/__tests__/loop-context.ts",
+      "currentName": "prepareEmptyLoopContext",
+      "changes": [
+        {
+          "from": "function ctxOf",
+          "to": "export function prepareEmptyLoopContext",
+          "count": 1
+        },
+        {
+          "from": "flat(8, 8)",
+          "to": "walkableTilemap(8, 8)",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "oldPath": "packages/game/src/shell/main-loop-gates.grok-r1.test.ts",
+      "oldName": "flat",
+      "currentPath": "packages/game/src/shell/__tests__/loop-tilemap.ts",
+      "currentName": "walkableTilemap",
+      "changes": [
+        {
+          "from": "function flat",
+          "to": "export function walkableTilemap",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "oldPath": "packages/game/src/shell/main-loop.test.ts",
+      "oldName": "snap",
+      "currentPath": "packages/game/src/shell/__tests__/loop-context.ts",
+      "currentName": "heldSnapshot",
+      "changes": [
+        {
+          "from": "function snap",
+          "to": "export function heldSnapshot",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "oldPath": "packages/game/src/shell/main-loop.test.ts",
+      "oldName": "mkFade",
+      "currentPath": "packages/game/src/shell/main-loop.test.ts",
+      "currentName": "paletteFadeFixture",
+      "changes": [
+        {
+          "from": "function mkFade",
+          "to": "function paletteFadeFixture",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "id": "shell-loop",
+  "kind": "loop",
+  "namespace": "organization-shell-loop",
+  "receipts": {
+    "before": "organization-shell-precache/neighbors",
+    "content-review": "organization-shell-loop/content-review-r2",
+    "docs": "organization-shell-loop/docs-r2",
+    "lint": "organization-shell-loop/lint-r2"
+  },
+  "cohortSubjects": [
+    {
+      "path": "packages/game/src/shell/main-loop-gates.grok-r1.test.ts",
+      "sha256": "09911572de74de28ed2c238b64687a555901e41ad53e4fcfd58d921dccde80bd",
+      "priorCurrentBridges": []
+    }
+  ],
+  "preserved": [
+    {
+      "path": "packages/game/src/shell/main-loop.ts",
+      "sha256": "2aa4ec075feb2ff8e218eb66cc32b376f3edb62a8b3073c0441596029e5bd07c"
+    },
+    {
+      "path": "packages/game/src/shell/main-loop.menu-input.test.ts",
+      "sha256": "e56dba5c6c2b0481bc607639d3c1ec289d8bb3c866eca2a543267a70a8437bbd"
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "sha256": "a4d007c9739873dc20f385b52b584de49ec57cd5c328cb11ca9d3b0b9f19fb0a"
+    },
+    {
+      "path": "packages/game/src/core/mode.ts",
+      "sha256": "2b47e4dd3e9e553369a3699fd1276166a73b743a239bfc9cbbc5a977a44df457"
+    },
+    {
+      "path": "packages/game/src/core/scene-context.ts",
+      "sha256": "23b3448b7d56f878882648eab0cde35d67a60364ea546c5dcf8be78cbe580e0e"
+    },
+    {
+      "path": "packages/shared/src/input.ts",
+      "sha256": "f986d4ca00d2661f76e10ae4974e40c2421734773094bcccdc4f104b9f8109c3"
+    },
+    {
+      "path": "packages/shared/src/index.ts",
+      "sha256": "6c8ccd23db2b01611579e30ac005018a6085abb5db6c4fb7f08927ccf1d18d35"
+    },
+    {
+      "path": "packages/game/src/dev/state-dump.ts",
+      "sha256": "99e47d97825563442027305087f2d49a6a5cb98fb7e3619d16782faecb4c0212"
+    },
+    {
+      "path": "packages/game/src/tools/fps-overlay.ts",
+      "sha256": "a6487b7d2b6ee2f5fe597d4fdfec11cd9c2ee9407f8fcfff580468b289c98020"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/index.ts",
+      "sha256": "26f79ca8271020de7f0663698cf52a665cf367e67db475af714167d996c241ad"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/store.ts",
+      "sha256": "3ed91fc0eba9daa62805e0d0b9d4e098cf55553a3db05b5b7f9f195326365d4b"
+    }
+  ],
+  "neighborPaths": [
+    "packages/game/src/shell/main-loop.lifecycle.test.ts",
+    "packages/game/src/shell/main-loop.menu-input.test.ts",
+    "packages/game/src/shell/main-loop.test.ts",
+    "packages/game/src/shell/precache-client.test.ts",
+    "packages/game/src/shell/precache-ui.test.ts",
+    "packages/game/src/shell/precache-widget.test.ts"
+  ],
+  "cleanExecutions": [
+    "before",
+    "organization",
+    "proof-r4",
+    "proof-precache-corrected",
+    "counter-old-proof",
+    "counter-new-proof",
+    "isolation-new",
+    "neighbors",
+    "typecheck",
+    "module-preflight-r3",
+    "docs-r2",
+    "content-review-r2",
+    "lint-r2",
+    "testing-docs-r2",
+    "diff-r2",
+    "scoped-r2",
+    "ledger-final",
+    "receipt-guards"
+  ],
+  "lightweightGates": true,
+  "counters": ["counter-cancel.json"],
+  "fixtureAndCallbackProof": "organization-shell-loop/proof-r4.stdout.raw",
+  "reusedReviewMember": "organization-shell-loop/reused-reviews.json",
+  "profiles": [
+    {
+      "path": "packages/game/src/shell/main-loop.test.ts",
+      "subjects": ["packages/game/src/shell/main-loop-gates.grok-r1.test.ts"],
+      "axes": {
+        "A": "21帧kernel例核40/100、60Hz节奏、单tick/余量边界、freeze、三类fade/battleAnim呈现、now/drain/dump及可选输入端口；原机制真值复用，当前172行实现/真实caller已核，不授完整战斗/键盘或逐Cdeadline信用。",
+        "B": "删作者/批次suite与数字序号，纠正巨大dt先减后丢而非先clamp；60Hz单例不宣称ALL刷新率。保wallclock/fade不变量；旧行号原范围不扩授。",
+        "C": "帧内核与headless/rAF入口分责。prepareReplayLoopContext各例发布自己的地图，消除对早先tickN的隐式依赖；run改captureFadeSuppression说明观察端口，不把10ms未tick输入空源当真实键盘。",
+        "D": "8x8即时空输入与10x10Replay不同端口保留；同合同flat cells使用原walkableTilemap，原函数严格比对。两呈现门共用当前createBattleState参数，只在10ms无逻辑tick检查presence，去手抄全状态。",
+        "E": "21运行身份及全部业务断言保留；25总回调22守恒、3明确fixture/生命周期变更。旧单选因未设context失败，新同业务断言单选1绿，明确为隔离证据不是产品counter；命令/drain与dump是窄端口转发，不冒称真实全管线。",
+        "F": "paletteFadeFixture/captureFadeSuppression/prepareReplayLoopContext/freshRafState/heldSnapshot按返回/观察职责命名；suite按累加/呈现/输入/drain分组。",
+        "G": "去Grok边界堆叠文件与手写BattleState大对象；删无用类型import，未退任何case。不同clamp/frozen/optional-port/phase语义不因相近断言合并。",
+        "H": "时间now与RafLoopState可直接注入，实际mode/core执行。每例自备地图/GS/IO；两个负控确认完整语法树遍历看得到断言尾部变化，68相邻/TC0。"
+      }
+    },
+    {
+      "path": "packages/game/src/shell/main-loop.lifecycle.test.ts",
+      "subjects": ["packages/game/src/shell/main-loop-gates.grok-r1.test.ts"],
+      "axes": {
+        "A": "4例核tickN3、合法East3步、tickN0、rAF初始与推进后取消；真实bootstrap从LoopContext启动，tickN不走wallclock。保持正常路径不改产品。",
+        "B": "生命周期文件名说明headless/rAF入口，去G09作者标题；保行走斜坐标与合法起点约束，取消标题限定实际初帧及最新帧。",
+        "C": "rAFcase拥有typed pending Map、performance/rAF/cancelspy和两工具setting值；finally先停所建loop，再恢复所有spy/值，驱动器只模拟外部浏览器队列。",
+        "D": "与kernel共用同合同emptycontext和heldSnapshot数据，菜单输入的pressed合同不同保留在未改相邻文件；不混进模式boolean或宽host。",
+        "E": "保初始41取消原合同，再执行第二loop的42→43真实回调，核cancel43和队列清空。实际源码改捕获initialID，旧1绿/新指定AssertionError。次数用于原有present合同且伴frameNum/位移；不是mock次数替业务。",
+        "F": "pending/canceled/nextFrameId和stopInitial/stopAdvanced明确各IO状态，不再void掉callback或手赋全局加cast。",
+        "G": "4原身份不增减；没有新单用包装层，heldSnapshot重复实现归唯一provider；不为覆盖率加空循环/弱例。",
+        "H": "只控制实际外部rAF/clock/storage，不mockcoremode、scene或工具业务。推进10ms不触发logic，真实工具走显式disabled配置，finally恢复旧值；无真实机器时序依赖。"
+      }
+    },
+    {
+      "path": "packages/game/src/shell/__tests__/loop-context.ts",
+      "subjects": ["packages/game/src/shell/main-loop-gates.grok-r1.test.ts"],
+      "axes": {
+        "A": "两个内部测试出口各有真实caller：prepareEmptyLoopContext建GS/bus/空输入/8x8map并发布，heldSnapshot造freshheld/pressed/frameNum。没有资源/worker/游戏机制修改。",
+        "B": "头注明确context发布副作用和正式入口会再次发布；空map仅未阻挡cells，不是原盘渲染资源或完整战斗场景。",
+        "C": "prepare名称揭示写入scenecontext；原ctxOf主体严格迁移，不依赖先前测试。heldSnapshot为纯数据构造，各次Set独立。产品仅被测试引用，无反向依赖。",
+        "D": "ctxOf→prepareEmptyLoopContext、snap→heldSnapshot正文由helperTransplants严格保全；不把ReplayInputSource与即时空源或不同地图维度强行合并。",
+        "E": "真实21kernel/4lifecycle例及68相邻执行provider；持有的LoopContext数据与原ctxOf同，新增共享snapshot也是原body，不用fixture自比代业务断言。",
+        "F": "函数名与文件loop-context说明测试准备/快照职责；不按贡献者分组，不暴露万能context模式。",
+        "G": "2现用出口，无多余选项/无关参数/注册hook隐藏行为；同体snapshot从两spec移成唯一来源。",
+        "H": "外部IO端口小且类型真实，GS/bus实际构造；只发布所需scenecontext，不引入产品dispose/全局reset API或私有访问。"
+      }
+    },
+    {
+      "path": "packages/game/src/shell/__tests__/loop-tilemap.ts",
+      "subjects": ["packages/game/src/shell/main-loop-gates.grok-r1.test.ts"],
+      "axes": {
+        "A": "未改的walkableTilemap每次返回新cells/lower0/upper0与fake tileset；只供无资源loop碰撞输入，不声称完整原盘地图。",
+        "B": "原头注说明headless movement与非renderedasset，语义准确；没有新噪音或覆盖率宣称。",
+        "C": "纯函数只分配数据，生命周期由各testcontext拥有；产品代码不反向依赖此provider。",
+        "D": "Grok旧flat与此函数按同w/h/domain、完整AST正文严格相同，故引用现有唯一实现，不增新flat重复。",
+        "E": "原走路/菜单邻接和本片25例复用；真实位置/frame oracle保留，纯数据等价只证明输入不漂移，不授业务正确性。",
+        "F": "walkableTilemap指向headless可走数据，w/h限定cell维度，返回Tilemap有明确类型。",
+        "G": "一个有真实消费者的出口；无模式、fallback或死导出，本片字节不变。",
+        "H": "确定性fresh数据，不访问IO/状态；同源输入与当前精确SHA绑定，typecheck无需cast/弱断言。"
+      }
+    }
+  ],
+  "primarySources": [
+    {
+      "path": "packages/game/src/shell/main-loop.ts",
+      "sha256": "2aa4ec075feb2ff8e218eb66cc32b376f3edb62a8b3073c0441596029e5bd07c",
+      "scope": "Full172line currentloopcontract; previousmechanismprimaryreused,productunchanged."
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "sha256": "a4d007c9739873dc20f385b52b584de49ec57cd5c328cb11ca9d3b0b9f19fb0a",
+      "ranges": [[515, 550], [1670, 1707]],
+      "scope": "ActualrootLoopContext andstartRafLoop caller; broaderbootstrapnotaccepted."
+    },
+    {
+      "path": "packages/game/src/core/scene-context.ts",
+      "sha256": "23b3448b7d56f878882648eab0cde35d67a60364ea546c5dcf8be78cbe580e0e",
+      "scope": "FullmodulecontextOwner,requiresuppliedcontextbeforekernel tick."
+    }
+  ],
+  "reads": {
+    "fullInputs": [
+      {
+        "path": "packages/game/src/shell/main-loop.test.ts",
+        "sha256": "e0318e6ca4ef86834cfcc5dee8f544d5f9c64865148ae1affc2f5082407d7366",
+        "member": "organization-shell-loop/0.before",
+        "lines": 216,
+        "provenance": "Full precedinggoalturn exactspec read reused,then currenthelper/deltas fullread."
+      },
+      {
+        "path": "packages/game/src/shell/main-loop-gates.grok-r1.test.ts",
+        "sha256": "09911572de74de28ed2c238b64687a555901e41ad53e4fcfd58d921dccde80bd",
+        "member": "organization-shell-loop/1.before",
+        "lines": 242,
+        "provenance": "Full precedinggoalturn exactspec read reused,then currenthelper/deltas fullread."
+      },
+      {
+        "path": "packages/game/src/shell/__tests__/loop-tilemap.ts",
+        "sha256": "7fe5d2a42be69889c5c529536be29d7d135f02bd127ff45082b587ec17232689",
+        "member": "organization-shell-loop/2.before",
+        "lines": 8,
+        "provenance": "Full precedinggoalturn exactspec read reused,then currenthelper/deltas fullread."
+      }
+    ],
+    "currentOutputs": [
+      {
+        "path": "packages/game/src/shell/main-loop.test.ts",
+        "sha256": "c5b534e65e468eedc0d2d893dcb1bafc0cd4585ab03f614b41fd08839ab25124",
+        "lines": 304,
+        "scope": "Full newmain/lifecycle/provider read plus finalnamed-helper/type-import/comment deltas inspected."
+      },
+      {
+        "path": "packages/game/src/shell/main-loop.lifecycle.test.ts",
+        "sha256": "f134d4649b34c04227a4bc9a673bc0768c5805a2ffa1247e0b499ed85a0e3957",
+        "lines": 111,
+        "scope": "Full newmain/lifecycle/provider read plus finalnamed-helper/type-import/comment deltas inspected."
+      },
+      {
+        "path": "packages/game/src/shell/__tests__/loop-context.ts",
+        "sha256": "d938d2189a345dcc89fb08602aea1b07b7a08da481d4d944f1543549fea481cd",
+        "lines": 30,
+        "scope": "Full newmain/lifecycle/provider read plus finalnamed-helper/type-import/comment deltas inspected."
+      },
+      {
+        "path": "packages/game/src/shell/__tests__/loop-tilemap.ts",
+        "sha256": "7fe5d2a42be69889c5c529536be29d7d135f02bd127ff45082b587ec17232689",
+        "lines": 8,
+        "scope": "Full newmain/lifecycle/provider read plus finalnamed-helper/type-import/comment deltas inspected."
+      }
+    ],
+    "fullContext": [
+      {
+        "path": "packages/game/src/shell/main-loop.ts",
+        "sha256": "2aa4ec075feb2ff8e218eb66cc32b376f3edb62a8b3073c0441596029e5bd07c",
+        "scope": "Full current dependency read for actual routing/IO cleanup,not newwholefileacceptance."
+      },
+      {
+        "path": "packages/game/src/core/mode.ts",
+        "sha256": "2b47e4dd3e9e553369a3699fd1276166a73b743a239bfc9cbbc5a977a44df457",
+        "scope": "Full current dependency read for actual routing/IO cleanup,not newwholefileacceptance."
+      },
+      {
+        "path": "packages/game/src/core/scene-context.ts",
+        "sha256": "23b3448b7d56f878882648eab0cde35d67a60364ea546c5dcf8be78cbe580e0e",
+        "scope": "Full current dependency read for actual routing/IO cleanup,not newwholefileacceptance."
+      },
+      {
+        "path": "packages/shared/src/input.ts",
+        "sha256": "f986d4ca00d2661f76e10ae4974e40c2421734773094bcccdc4f104b9f8109c3",
+        "scope": "Full current dependency read for actual routing/IO cleanup,not newwholefileacceptance."
+      },
+      {
+        "path": "packages/game/src/dev/state-dump.ts",
+        "sha256": "99e47d97825563442027305087f2d49a6a5cb98fb7e3619d16782faecb4c0212",
+        "scope": "Full current dependency read for actual routing/IO cleanup,not newwholefileacceptance."
+      },
+      {
+        "path": "packages/game/src/tools/fps-overlay.ts",
+        "sha256": "a6487b7d2b6ee2f5fe597d4fdfec11cd9c2ee9407f8fcfff580468b289c98020",
+        "scope": "Full current dependency read for actual routing/IO cleanup,not newwholefileacceptance."
+      },
+      {
+        "path": "packages/game/src/tools/speedrun/index.ts",
+        "sha256": "26f79ca8271020de7f0663698cf52a665cf367e67db475af714167d996c241ad",
+        "scope": "Full current dependency read for actual routing/IO cleanup,not newwholefileacceptance."
+      },
+      {
+        "path": "packages/game/src/tools/speedrun/store.ts",
+        "sha256": "3ed91fc0eba9daa62805e0d0b9d4e098cf55553a3db05b5b7f9f195326365d4b",
+        "scope": "Full current dependency read for actual routing/IO cleanup,not newwholefileacceptance."
+      }
+    ],
+    "ranges": [
+      {
+        "path": "packages/game/src/shell/bootstrap.ts",
+        "sha256": "a4d007c9739873dc20f385b52b584de49ec57cd5c328cb11ca9d3b0b9f19fb0a",
+        "ranges": [[515, 550], [1670, 1707]]
+      },
+      {
+        "path": "packages/game/src/core/battle/battle-state.ts",
+        "ranges": [[700, 728], [775, 870]],
+        "scope": "Constructor domain/zero-party/freshstate guard; sharedfixture reuses realAPI,not gameplayresource acceptance."
+      },
+      {
+        "path": "packages/game/src/core/battle/battle-system.ts",
+        "ranges": [[386, 411]],
+        "scope": "No-state earlyreturn vsmissingresource error; no logic tick inpresencefixtures."
+      },
+      {
+        "path": "packages/game/src/core/scene-system.ts",
+        "ranges": [[420, 435]],
+        "scope": "Actualkernel path requirescontext beforeheadlessexploration."
+      }
+    ]
+  },
+  "isolationRepair": {
+    "beforeReport": "organization-shell-loop/isolation-old-r2.native.json",
+    "afterReport": "organization-shell-loop/isolation-new.native.json",
+    "oldError": "scene-system: setSceneContext / ctxOverride 必须先设置",
+    "businessCounter": false,
+    "scope": "Same accumulator business assertions; oldsingle-selected runtime fixtureerror,current1pass. Initialisolation-old was ENOENT due wrongcwd,invalid probe retained without credit."
+  },
+  "processDisclosures": [
+    "Onehistoricalsubject andadjacentmain+samebyteTilemap→kernel21/lifecycle4+contextprovider.25identities preserved,0retired. Baselineis exact12+13subsetofprior90native result,not a new25filerun.",
+    "22callbacks conserved afterexplicitname/providerbridges;3runtime deltas:two presencefixtureconstructors andstronger cancellation. Huge-dt comment-only callbackrecord preservesAST. Replaycontext object/params exact,adds onlyexplicit setSceneContext; fivehelperbodies stricttransplants.",
+    "Oldsingle-selected accumulator testcase fails realmissingcontext Error; currentpasses afterfixtureownershiprepair. Thisisolationresultisnot productred/counter. First wrongcwd spawnENOENTinvalid,retained.",
+    "ActualcancelinitialID sourcevariant old1pass,new1businessAssertionError. Initial41contract retained,secondrealcallback42queues43,expectedcancel43. Product/testbytes restored; laterheldSnapshot/name/import/comment changes outside rAFcase bounded by current25callback proof/final68regression.",
+    "Customcallbackproducerfirstchild traversal bug surfaced: oldproof falselycompared25same ratherthanexpected22. Fixedvoid visitor plus2tail-assertionnegativeguards. Correctcurrentproof25 andpreviousprecache41 pass. Originalimmutableproducer/raw notrewritten; prevprecacheproof claim explicitlysuperseded. Centralorganizationanalyzer uses fullTSprinter andstays pinned.",
+    "Searchalsofound rejectedoriginalbattle-sprites script; acceptedr3alreadyhad voidvisitor+negativeguard anddoesnotneedrepeat/reopen. No sourcequalityruleorchecker weakened.",
+    "Name refinement firstbiome exit0 carried2unused-import warnings,notaccepted. Removed obsolete types manually;finalscoped/lintrequired0/0/0. Only actual zero-diagnostic runs recorded ascleangates.",
+    "68runtime/6exactrequestedpaths andgameTC0/stderr0. No wholecheck/officialcoverage/protected,commit/push/merge; 0newclosed.",
+    "Firstmodulepreflight rejected nested run in top-only helperTransplants. Moved thatitem to explicitnested transferproof: exactfunctionAST after name+snap bridge; other4remain genericstricttransplants. Sharedcheckerunchanged; failedrawretained.",
+    "Secondpreflight refused formatterlinewrap afterheldSnapshot longername: sourcebridge was transformed butnotreformatted. AppliedcurrentBiome todeclaredold→normalizedbridge; samefulltree proof/actualspecsunchanged,no checkerrelaxation.",
+    "Firststrictcontentreview caught ownedcode-quality paragraph afterSHA notprojected: initial testing-policy projector excludes code-quality. Read exactstandard/owningreviewentry,append narrowmaintenance withpriorSHA andcurrentevidence,projectonly actualaffected afterSHA chain. Rawfailurepreserved,finalstrictpassrequired.",
+    "Staticreader used literal namespace ratherthanits existing receiptalias contract,so originalcontent FAIL blocked validr2. Separatelyreviewed3path replacementsreuse resolver. Samezero patterns,2positive4negativeactualtoolcontrols,oldfailedrawpreserved. Thisistheoneexplicitexceptionto prior9toolpin; trackednewSHA/reason,rootverify/ASTanalyzerunchanged."
+  ],
+  "ledgerCounts": {
+    "inventory": 3462,
+    "closed": 565,
+    "review": 263,
+    "pending": 2634
+  },
+  "nestedHelperTransfers": [
+    {
+      "oldPath": "packages/game/src/shell/main-loop.test.ts",
+      "oldName": "run",
+      "currentPath": "packages/game/src/shell/main-loop.test.ts",
+      "currentName": "captureFadeSuppression",
+      "changes": [
+        {
+          "from": "function run",
+          "to": "function captureFadeSuppression",
+          "count": 1
+        },
+        {
+          "from": "snap()",
+          "to": "heldSnapshot()",
+          "count": 1
+        }
+      ],
+      "proof": "organization-shell-loop/proof-r4.stdout.raw",
+      "scope": "Originalrun is nested in describe,onlyimports/pureSnapshotfreebindings; strictwholefunction comparison after explicitname changes. Generic top-leveltransplantchecker keptunchanged."
+    }
+  ],
+  "auxiliaryToolMaintenance": {
+    "path": "docs/ops/evidence/QUALITY-PENDING-100-3/verify-module-organization.mjs",
+    "beforeSha256": "7aabcc7355f304384baf67778dc0ca13bcb4304a69ab87e89b5b4f2cea3c42ae",
+    "sha256": "4e5d6d7c405971da140aac1345ab692ce598e4d9e22f337f3f09a9efc317c7c0",
+    "scope": "Explicitreceiptpath consistency only; noqualityrulerelaxation",
+    "receipt": "organization-shell-loop/receipt-guards.stdout.raw"
+  }
+}

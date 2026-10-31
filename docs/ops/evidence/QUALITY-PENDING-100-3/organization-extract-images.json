@@ -1,0 +1,541 @@
+{
+  "id": "extract-item-images",
+  "namespace": "organization-extract-images",
+  "kind": "Responsibility reorganization only; no new cases/assertions/product change",
+  "inputs": [
+    {
+      "path": "packages/pal-extract/src/resources/parsers/items.glm-runtime-resource.test.ts",
+      "member": "organization-extract-images/items.glm-runtime-resource.test.ts.before",
+      "sha256": "81592b87fc9059b0af9b14ecfe86958653b1d4bc35aba48f51e8b325a08796b1"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/__tests__/items.boundaries.test.ts",
+      "member": "organization-extract-images/items.boundaries.test.ts.before",
+      "sha256": "1a30929969fabd469e935218314d6276b1ff376dcadaf51279801cccc678b3a7"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/ball.glm-runtime-resource.test.ts",
+      "member": "organization-extract-images/ball.glm-runtime-resource.test.ts.before",
+      "sha256": "bedc3f41fb32b825939d71248dee2af74a3a16f442d130a03447380ee4354908"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/rgm.glm-runtime-resource.test.ts",
+      "member": "organization-extract-images/rgm.glm-runtime-resource.test.ts.before",
+      "sha256": "839a757d15706298c91f6a9863208c4e6ee4cce2b66454479597936197823a3c"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "packages/pal-extract/src/resources/parsers/items.test.ts",
+      "purpose": "OBJECT_ITEM fields, flags, absolute identity, optional names and input ownership.",
+      "sha256": "b435800bab8c8a3da6ea70a8907c5b236a61a8d7b4d1fa9fae1e07373483a642"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/ball.test.ts",
+      "purpose": "BALL item icon frame admission, source chunk identity and independent PNG pixel oracles.",
+      "sha256": "ba2be0700cb5f004d48e34bc4c57b971b12ae3b8add849f5f37ae172c35c8732"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/rgm.test.ts",
+      "purpose": "RGM portrait frame admission, source chunk identity and independent PNG pixel oracles.",
+      "sha256": "11398e6f4268090ad2a1492fe6bc0acdf88d3d1bd278ec3fa13a9c54778590e0"
+    }
+  ],
+  "sourceBridges": [
+    {
+      "id": "relocate-inputs-and-clarify-builders-items.glm-runtime-resource.test.ts",
+      "path": "packages/pal-extract/src/resources/parsers/items.glm-runtime-resource.test.ts",
+      "reason": "Only relative module paths at destination, byte-buffer identifier; no input/parameter change.",
+      "changes": [
+        {
+          "from": "buf",
+          "to": "bytes",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": "relocate-inputs-and-clarify-builders-items.boundaries.test.ts",
+      "path": "packages/pal-extract/src/resources/parsers/__tests__/items.boundaries.test.ts",
+      "reason": "Only relative module paths at destination, byte-buffer identifier; no input/parameter change.",
+      "changes": [
+        {
+          "from": "from '../../../__tests__/",
+          "to": "from '../../__tests__/",
+          "count": 2
+        },
+        {
+          "from": "from '../items.js'",
+          "to": "from './items.js'",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "relocate-inputs-and-clarify-builders-ball.glm-runtime-resource.test.ts",
+      "path": "packages/pal-extract/src/resources/parsers/ball.glm-runtime-resource.test.ts",
+      "reason": "Only relative module paths at destination, byte-buffer identifier; no input/parameter change.",
+      "changes": [
+        {
+          "from": "buf",
+          "to": "bytes",
+          "count": 2
+        }
+      ]
+    },
+    {
+      "id": "relocate-inputs-and-clarify-builders-rgm.glm-runtime-resource.test.ts",
+      "path": "packages/pal-extract/src/resources/parsers/rgm.glm-runtime-resource.test.ts",
+      "reason": "Only relative module paths at destination, byte-buffer identifier; no input/parameter change.",
+      "changes": [
+        {
+          "from": "buf",
+          "to": "bytes",
+          "count": 2
+        }
+      ]
+    }
+  ],
+  "replacements": [],
+  "registrations": [
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/parsers/__tests__/items.boundaries.test.ts",
+        "ordinal": 0
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/parsers/items.test.ts",
+        "titles": ["item fields, flags and absolute identities"],
+        "template": "296×14B 表：234 条（61..294）逐条七 WORD 精确，梦蛇 295 排除且邻位完整"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/parsers/__tests__/items.boundaries.test.ts",
+        "ordinal": 1
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/parsers/items.test.ts",
+        "titles": ["item fields, flags and absolute identities"],
+        "template": "六基础 flag 一热 + 六角色装备许可位一热（同 role 号），295 不在断言域"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/parsers/__tests__/items.boundaries.test.ts",
+        "ordinal": 2
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/parsers/items.test.ts",
+        "titles": ["item fields, flags and absolute identities"],
+        "template": "parseItems：截断精确拒绝（报实测与所需字节数）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/parsers/items.glm-runtime-resource.test.ts",
+        "ordinal": 0
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/parsers/items.test.ts",
+        "titles": ["optional names and input ownership"],
+        "template": "words.items[0] 空串 → 无 _name 键；非空串 → 精确 _name"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/parsers/items.glm-runtime-resource.test.ts",
+        "ordinal": 1
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/parsers/items.test.ts",
+        "titles": ["optional names and input ownership"],
+        "template": "输入表零突变（parse 不改写 objBuf）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/parsers/ball.glm-runtime-resource.test.ts",
+        "ordinal": 0
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/parsers/ball.test.ts",
+        "titles": ["item icon frame admission and PNG pixels"],
+        "template": "byteLength < 4 → null（0 字节空槽）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/parsers/ball.glm-runtime-resource.test.ts",
+        "ordinal": 1
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/parsers/ball.test.ts",
+        "titles": ["item icon frame admission and PNG pixels"],
+        "template": "02 00 00 00 标记头剥离：2×1 帧（跳1 + opaque palette-0）→ PNG 真解码 alpha 0/255"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/parsers/ball.glm-runtime-resource.test.ts",
+        "ordinal": 2
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/parsers/ball.test.ts",
+        "titles": ["item icon frame admission and PNG pixels"],
+        "template": "无标记：同帧字节从 0 直解（独立手算期望，不相对带标记版）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/parsers/ball.glm-runtime-resource.test.ts",
+        "ordinal": 3
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/parsers/ball.test.ts",
+        "titles": ["item icon frame admission and PNG pixels"],
+        "template": "零尺寸帧是坏输入：标记与非标记均报告原始RLE错误并返回null"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/parsers/rgm.glm-runtime-resource.test.ts",
+        "ordinal": 0
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/parsers/rgm.test.ts",
+        "titles": ["portrait frame admission and PNG pixels"],
+        "template": "空槽：0 字节与 3 字节均 null"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/parsers/rgm.glm-runtime-resource.test.ts",
+        "ordinal": 1
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/parsers/rgm.test.ts",
+        "titles": ["portrait frame admission and PNG pixels"],
+        "template": "标记头剥离：2×2 帧逐像素 PNG 真解码（透明/opaque-0/实心 0xAA）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/parsers/rgm.glm-runtime-resource.test.ts",
+        "ordinal": 2
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/parsers/rgm.test.ts",
+        "titles": ["portrait frame admission and PNG pixels"],
+        "template": "非标记输入从 0 直解，不因缺 02 00 00 00 头报 null"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/parsers/rgm.glm-runtime-resource.test.ts",
+        "ordinal": 3
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/parsers/rgm.test.ts",
+        "titles": ["portrait frame admission and PNG pixels"],
+        "template": "decodeRgmPortrait：0 宽 / 0 高帧返回 null（不写 PNG）"
+      }
+    }
+  ],
+  "identities": [
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/parsers/__tests__/items.boundaries.test.ts",
+        "fullName": "P04 parseItems 全量七 WORD 字段保真 296×14B 表：234 条（61..294）逐条七 WORD 精确，梦蛇 295 排除且邻位完整"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/parsers/items.test.ts",
+        "fullName": "item fields, flags and absolute identities 296×14B 表：234 条（61..294）逐条七 WORD 精确，梦蛇 295 排除且邻位完整"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/parsers/__tests__/items.boundaries.test.ts",
+        "fullName": "P04 parseItems 全量七 WORD 字段保真 六基础 flag 一热 + 六角色装备许可位一热（同 role 号），295 不在断言域"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/parsers/items.test.ts",
+        "fullName": "item fields, flags and absolute identities 六基础 flag 一热 + 六角色装备许可位一热（同 role 号），295 不在断言域"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/parsers/__tests__/items.boundaries.test.ts",
+        "fullName": "parseItems：截断精确拒绝（报实测与所需字节数）"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/parsers/items.test.ts",
+        "fullName": "item fields, flags and absolute identities parseItems：截断精确拒绝（报实测与所需字节数）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/parsers/items.glm-runtime-resource.test.ts",
+        "fullName": "R07 parseItems _name 附加轴 words.items[0] 空串 → 无 _name 键；非空串 → 精确 _name"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/parsers/items.test.ts",
+        "fullName": "optional names and input ownership words.items[0] 空串 → 无 _name 键；非空串 → 精确 _name"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/parsers/items.glm-runtime-resource.test.ts",
+        "fullName": "R07 parseItems _name 附加轴 输入表零突变（parse 不改写 objBuf）"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/parsers/items.test.ts",
+        "fullName": "optional names and input ownership 输入表零突变（parse 不改写 objBuf）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/parsers/ball.glm-runtime-resource.test.ts",
+        "fullName": "R03 decodeBallIcon 空槽与标记头 byteLength < 4 → null（0 字节空槽）"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/parsers/ball.test.ts",
+        "fullName": "item icon frame admission and PNG pixels byteLength < 4 → null（0 字节空槽）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/parsers/ball.glm-runtime-resource.test.ts",
+        "fullName": "R03 decodeBallIcon 空槽与标记头 02 00 00 00 标记头剥离：2×1 帧（跳1 + opaque palette-0）→ PNG 真解码 alpha 0/255"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/parsers/ball.test.ts",
+        "fullName": "item icon frame admission and PNG pixels 02 00 00 00 标记头剥离：2×1 帧（跳1 + opaque palette-0）→ PNG 真解码 alpha 0/255"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/parsers/ball.glm-runtime-resource.test.ts",
+        "fullName": "R03 decodeBallIcon 空槽与标记头 无标记：同帧字节从 0 直解（独立手算期望，不相对带标记版）"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/parsers/ball.test.ts",
+        "fullName": "item icon frame admission and PNG pixels 无标记：同帧字节从 0 直解（独立手算期望，不相对带标记版）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/parsers/ball.glm-runtime-resource.test.ts",
+        "fullName": "R03 decodeBallIcon 空槽与标记头 零尺寸帧是坏输入：标记与非标记均报告原始RLE错误并返回null"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/parsers/ball.test.ts",
+        "fullName": "item icon frame admission and PNG pixels 零尺寸帧是坏输入：标记与非标记均报告原始RLE错误并返回null"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/parsers/rgm.glm-runtime-resource.test.ts",
+        "fullName": "R03 decodeRgmPortrait 空槽：0 字节与 3 字节均 null"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/parsers/rgm.test.ts",
+        "fullName": "portrait frame admission and PNG pixels 空槽：0 字节与 3 字节均 null"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/parsers/rgm.glm-runtime-resource.test.ts",
+        "fullName": "R03 decodeRgmPortrait 标记头剥离：2×2 帧逐像素 PNG 真解码（透明/opaque-0/实心 0xAA）"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/parsers/rgm.test.ts",
+        "fullName": "portrait frame admission and PNG pixels 标记头剥离：2×2 帧逐像素 PNG 真解码（透明/opaque-0/实心 0xAA）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/parsers/rgm.glm-runtime-resource.test.ts",
+        "fullName": "R03 decodeRgmPortrait 非标记输入从 0 直解，不因缺 02 00 00 00 头报 null"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/parsers/rgm.test.ts",
+        "fullName": "portrait frame admission and PNG pixels 非标记输入从 0 直解，不因缺 02 00 00 00 头报 null"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/parsers/rgm.glm-runtime-resource.test.ts",
+        "fullName": "decodeRgmPortrait：0 宽 / 0 高帧返回 null（不写 PNG）"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/parsers/rgm.test.ts",
+        "fullName": "portrait frame admission and PNG pixels decodeRgmPortrait：0 宽 / 0 高帧返回 null（不写 PNG）"
+      }
+    }
+  ],
+  "preserved": [
+    {
+      "path": "packages/pal-extract/src/resources/parsers/items.ts",
+      "sha256": "ce10629b77c6ca18c32e755e1b9f7dfd57287558da7eed0e27528fbac52ba7dc"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/ball.ts",
+      "sha256": "8a8f6de4be9ccaa69e6a50ad1adea06b1b9f20f6503fed8e2f358d0927f09688"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/rgm.ts",
+      "sha256": "92883a8e074005d2b9e25ff9ae3bc31e68619ff165dde4fed2c5a08c3e876b65"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/_utils.ts",
+      "sha256": "576549caabe28bf69bccc132b2ecc2ea36ee7019b6d2574457ef02e43ae4250b"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/data-assets.ts",
+      "sha256": "e1e1a9cee093d57bfbcf9080b920a75087a0388c0f3f77e5b53ea17e7feeb11d"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/bitmap-assets.ts",
+      "sha256": "d468feacaf206d7f053d1fec47d23579009678104206bfdcfcfdf0126a6f80d5"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/sprite.ts",
+      "sha256": "95e171528c60e7c06f3b82aade6e991bed39546b7cff93e62a69037334b15b9a"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/tables.ts",
+      "sha256": "74df97a4874d86525378189cc4f59d118e8d5a002caa3f852212c50c8a409ccd"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/tables.test.ts",
+      "sha256": "f1977858301e9d01e609ba2f3a0a6d6ecb5a9b38f875d2f4f62cb5a71947ac28"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/__tests__/misc-mkf.test.ts",
+      "sha256": "dbf7be2e9c8f1b929b6f44cd81b8b3848daa333c5c18cc88837a272da45631b3"
+    },
+    {
+      "path": "packages/shared/src/tables.ts",
+      "sha256": "fcf28b2d9e0f812a17f299fb81c9b3fc9ff186fe83e24e20f1d85296539ac06b"
+    },
+    {
+      "path": "packages/pal-extract/src/__tests__/table-records.ts",
+      "sha256": "7e308b3148287228dae9e60d1b65da87df4c5872c9c7f0f1c2e62c3cf01f1188"
+    },
+    {
+      "path": "packages/pal-extract/src/__tests__/parser-diagnostics.ts",
+      "sha256": "d954ce7981032757c50ecd5ee7ace2cd0c61416828126db91a5ed29d90ef1191"
+    },
+    {
+      "path": "packages/pal-extract/src/io/rle.ts",
+      "sha256": "3c1ec48e9586bf2202f6a4dba57bc9d65e33f0f93ef3f215ba382c4d83421b57"
+    },
+    {
+      "path": "packages/pal-extract/src/cli.ts",
+      "sha256": "a6cf5e24a0a1706d605fd288757035925843854f0aa379b9e963014908528d77"
+    }
+  ],
+  "cohortSubjects": [
+    {
+      "path": "packages/pal-extract/src/resources/parsers/ball.glm-runtime-resource.test.ts",
+      "sha256": "bedc3f41fb32b825939d71248dee2af74a3a16f442d130a03447380ee4354908",
+      "preservedEvidence": "[本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json)"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/items.glm-runtime-resource.test.ts",
+      "sha256": "b358e65af35a6f4d50585d42c254f08438cf7bb5f6a96f19292b7c8f9780db50",
+      "preservedEvidence": "[本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json)"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/rgm.glm-runtime-resource.test.ts",
+      "sha256": "839a757d15706298c91f6a9863208c4e6ee4cce2b66454479597936197823a3c",
+      "preservedEvidence": "[本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json)"
+    }
+  ],
+  "reusedReview": {
+    "member": "organization-extract-images/reused-review.json",
+    "source": "docs/ops/evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json",
+    "scope": "Four valid A-E/H judgments reused at exact source or the import-only fixture predecessor; new F/G decision is distinct from full review credit."
+  },
+  "neighborPaths": [
+    "packages/pal-extract/src/resources/animation-assets.fire.test.ts",
+    "packages/pal-extract/src/resources/parsers/__tests__/data-misc.boundaries.test.ts",
+    "packages/pal-extract/src/resources/parsers/__tests__/data-misc.test.ts",
+    "packages/pal-extract/src/resources/parsers/__tests__/enemies.boundaries.test.ts",
+    "packages/pal-extract/src/resources/parsers/__tests__/misc-mkf.test.ts",
+    "packages/pal-extract/src/resources/parsers/__tests__/player-roles.boundaries.test.ts",
+    "packages/pal-extract/src/resources/parsers/__tests__/player-roles.event-boundaries-1.test.ts",
+    "packages/pal-extract/src/resources/parsers/__tests__/rix.test.ts",
+    "packages/pal-extract/src/resources/parsers/__tests__/sounds.test.ts",
+    "packages/pal-extract/src/resources/parsers/__tests__/spells.boundaries.test.ts",
+    "packages/pal-extract/src/resources/parsers/ball.test.ts",
+    "packages/pal-extract/src/resources/parsers/battle-fields.test.ts",
+    "packages/pal-extract/src/resources/parsers/enemy-teams.test.ts",
+    "packages/pal-extract/src/resources/parsers/items.test.ts",
+    "packages/pal-extract/src/resources/parsers/rgm.test.ts",
+    "packages/pal-extract/src/resources/parsers/stores.test.ts",
+    "packages/pal-extract/src/resources/sprite.boundaries.test.ts",
+    "packages/pal-extract/src/resources/sprite.test.ts",
+    "packages/pal-extract/src/resources/tables.test.ts"
+  ],
+  "cleanExecutions": ["before", "scoped", "neighbors", "typecheck"],
+  "profiles": [
+    {
+      "path": "packages/pal-extract/src/resources/parsers/items.test.ts",
+      "sha256": "b435800bab8c8a3da6ea70a8907c5b236a61a8d7b4d1fa9fae1e07373483a642",
+      "subjects": [
+        "packages/pal-extract/src/resources/parsers/__tests__/items.boundaries.test.ts",
+        "packages/pal-extract/src/resources/parsers/items.glm-runtime-resource.test.ts"
+      ],
+      "axes": {
+        "A": "OBJECT_ITEM七WORD、234真实物品/梦蛇排除、六基础flag与六角色许可、可选名字和截断错误复用原验收；CLI实际parseItems后传writer，产品及DTO未变。",
+        "B": "移除按R07/P04互相宣称“只做未占用”的旧分工头；保留空词不产键、绝对OBJECT id、字段串位与装备角色位的真实说明。",
+        "C": "两个旧spec同一parseItems合同归一，字段/flags/尺寸与名字/输入所有权两组；Words只存在于实际用它的局部组，既不引入IO也不动writer所有权。",
+        "D": "沿用table-records独立非对称字节及预期标签，不把SUT解析结果作oracle；Words DTO只用于名字例，不扩充万能工厂。",
+        "E": "5旧身份、全部字段/flag/id/尺寸/_name与输入快照断言保持；原盘barrel金标和已有反控只在原范围复用，纯组织不重复造反控。",
+        "F": "items.test对应公开领域入口，两个语义组清楚；局部bytes替代buf，first/second指明相邻索引角色，未凭删除AI后缀授信用。",
+        "G": "2文件归1，旧路径删除；完整字段与可选名字/不突变轴不同不删，未新增兼容包装、导出、skip或cast。",
+        "H": "确定性真实parser加fresh byte table，无核心mock或私有seam；Words外部数组按原合同借用，回调及依赖闭包精确保全。"
+      },
+      "acceptance": "accepted-FG; uniform gates pending"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/ball.test.ts",
+      "sha256": "ba2be0700cb5f004d48e34bc4c57b971b12ae3b8add849f5f37ae172c35c8732",
+      "subjects": ["packages/pal-extract/src/resources/parsers/ball.glm-runtime-resource.test.ts"],
+      "axes": {
+        "A": "公开decodeBallIcon对应BALL物品图标，bitmap writer保留chunkIndex/PNG；空短槽、标记/非标记、坏RLE拒绝复用原合同，来源解码/格式不变。",
+        "B": "头部按BALL frame admission与PNG pixel oracle表达，移除R03作者/批次；原header与opaque palette-zero注释仍与真实字节一致。",
+        "C": "保留独立ball.test：与RGM虽共用RLE/PNG，其公开caller、资源索引及精确warn来源不同；原盘misc-mkf保留独立外部资源运行域。",
+        "D": "复用生产decodeRle/encodeIndexedPng，不为了测试行数将BALL/RGM错误来源揉成模式factory；输入字节与pngjs独立解码期望各自直接可读。",
+        "E": "4原身份完整保留；手列2×1标记与非标记RGBA、透明/opaque-zero、精确两次warn/null均保持，非魔数/大小弱断言；相邻包含真实RGM/BALL/FIRE oracle。",
+        "F": "ball.test对应ball.ts；语义suite替代R03，bytes替代buf；chunkIndex与PNG像素单位在代码本身可见。",
+        "G": "经核职责已单一，采用有理由的重命名而不强并；所有case/常量/import均有真实用途，无多余测试wrapper。",
+        "H": "真实PNG编码→独立pngjs像素观察，精确诊断函数/module URL仍指ball.ts；同步局部fresh输入，无环境mock或未清IO。"
+      },
+      "acceptance": "accepted-FG; uniform gates pending"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/rgm.test.ts",
+      "sha256": "11398e6f4268090ad2a1492fe6bc0acdf88d3d1bd278ec3fa13a9c54778590e0",
+      "subjects": ["packages/pal-extract/src/resources/parsers/rgm.glm-runtime-resource.test.ts"],
+      "axes": {
+        "A": "公开decodeRgmPortrait对应头像编号，writer不压缩空chunk ID；空短槽、两类输入与0宽/高错误合同复用，PNG/原盘规则不改。",
+        "B": "移除“同构克隆函数”作为组织依据的头注，改RGM frame/identity/pixel职责；保留零尺寸是坏RLE并应给原Error的限制。",
+        "C": "独立rgm.test只负责RGM入口与错误归属；和BALL按真实资源consumer区分，拒绝为表面重复扩张生产改造。",
+        "D": "固定2×2与1×1字节不是BALL的同一向量，保留独立oracle和decode函数；不造模式布尔helper来共享八行显式像素断言。",
+        "E": "4原身份保留，2×2完整RGBA、1×1裸帧、chunk17、两个不同零尺寸诊断及null都保持；独立PNG读取和原盘全头像oracle沿旧范围有效。",
+        "F": "rgm.test与对应source相邻，portrait/bytes/png名称反映数据阶段；suite无作者、模型或返工轮次。",
+        "G": "文件已经只有头像合同，保留一对一组织并删除旧路径；没有为了减少文件数混入BALL或原盘FS生命周期，未删必要反例。",
+        "H": "确定性公开入口，错误来源URL位置不变；直接观察真实PNG bytes/像素与null，不以mock次数或测试数授验收信用。"
+      },
+      "acceptance": "accepted-FG; uniform gates pending"
+    }
+  ],
+  "processDisclosure": [
+    "Three cohort subjects, four input files and three outputs;13 runtime identities retained. File movement is not new full A-H credit.",
+    "BALL/RGM remain separate for real resource consumer/diagnostic ownership; product clone extraction not implemented in this test-only batch.",
+    "Previous fixture-only import rewrites for both items inputs are connected through exact predecessor hashes."
+  ]
+}

@@ -5,12 +5,8 @@
  * 树归约向量由未改SDLPal树函数编码并由原C解码验证；期望来自独立字面序列，见shared-codecs证据。
  */
 import { describe, expect, it } from 'vitest'
-import {
-  YJ2_BACKREF_OVERLAP,
-  YJ2_EARLY_EOS,
-  YJ2_THREE_LITERALS,
-} from './__tests__/glm-foundation-fixtures.js'
 import rescale from './__tests__/yj2-rescale.json' with { type: 'json' }
+import { YJ2_BACKREF_OVERLAP, YJ2_EARLY_EOS, YJ2_THREE_LITERALS } from './__tests__/yj2-vectors.js'
 import { decompressYj2 } from './yj2.js'
 
 describe('decompressYj2 已定义头错误', () => {

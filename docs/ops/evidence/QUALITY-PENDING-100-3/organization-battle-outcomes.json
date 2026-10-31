@@ -1,0 +1,969 @@
+{
+  "id": "battle-growth-and-outcome-lifetimes",
+  "namespace": "organization-battle-outcomes",
+  "inputs": [
+    {
+      "path": "packages/game/src/core/battle/battle-progression.glm-next-wave.test.ts",
+      "member": "organization-battle-outcomes/0.before",
+      "sha256": "65b6a8feefc99323cfea1d5284a7ac5597546983bf9ec82ffbcb647fe69c192e",
+      "lines": 194
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+      "member": "organization-battle-outcomes/1.before",
+      "sha256": "b316f1ad01e30d1db46861cef7b29c0fb4d7069fffead3d509993b49be18da85",
+      "lines": 507
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-system.script-boundaries.test.ts",
+      "member": "organization-battle-outcomes/2.before",
+      "sha256": "096685444606e5417ef63b79270936f9032d4f5173e52afc4fca2f2561aa6abf",
+      "lines": 150
+    }
+  ],
+  "outputs": [
+    {
+      "path": "packages/game/src/core/battle/battle-progression.hidden-exp.test.ts",
+      "sha256": "1688e439a8f7fe465f6bfa8d86511d6b1911486a328e28d590b502f9a39fdc70",
+      "lines": 189
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-settlement.screens.test.ts",
+      "sha256": "8980d4aaa57417f060ecaeb0c5f3d22dfab190b2d809213fd68c3baa286cd32c",
+      "lines": 193
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-settlement.scripts.test.ts",
+      "sha256": "89061cc2ec89962aa9979a8a215ea66440d8c2684e9a9930e42ada2c94686456",
+      "lines": 286
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-system.script-boundaries.test.ts",
+      "sha256": "911c0b82ff995b9b6ee138da80a15733736f4faba3a716b10870830179c8ec8e",
+      "lines": 200
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-settlement.test-fixtures.ts",
+      "sha256": "659ac474aa8dccc3c2f130a86444e81de21b3163d5f579f06067d06d052a7fef",
+      "lines": 42
+    }
+  ],
+  "replacements": [],
+  "sourceBridges": [
+    {
+      "path": "packages/game/src/core/battle/battle-progression.glm-next-wave.test.ts",
+      "id": "organization-battle-outcomes-growth",
+      "changes": [
+        {
+          "from": "/**\n * TEST-GLM-NEW-H-1 / H02 — battle-progression 当前公开合同补测。\n *\n * applyHiddenExpGrowth 在 battle-system.test.ts 只有 3 条基础直测(单池/total=0/占比);\n * battle-levelup.test.ts 只测主升级。本文件按 CHECK_HIDDEN_EXP 宏(battle.c:1238-1293)一手真值补:\n *  - wLevel > 99 先钳 99(battle.c:1248-1252);99 级上 while 继续扣 exp 涨属性、wLevel 停 99\n *  - 隐藏涨点**无 STAT_LIMIT 999 钳**(宏内无 cap,主升级宏见global.c:2393-2401)\n *  - 七池按Health→…→Flee序消费RandomLong(1,2);身法只用存留经验,不伪造动作计数\n *  - battleWonLevelUp:隐藏经验抬了 maxHP 但**无主升级** → 不回满(battle.c:1287-1292 if(fLevelUp))\n */\nimport { describe, expect, it } from 'vitest'\nimport { recordingRng } from '../../__tests__/scripted-rng.js'\nimport { createBattleLifecycleFixture } from './battle-lifecycle.test-fixtures.js'\nimport { applyHiddenExpGrowth, battleWonLevelUp } from './battle-progression.js'\n\nconst oneRng: { rangeInclusive: (a: number, b: number) => number } = {\n  rangeInclusive: (_a: number, _b: number) => 1,\n}\n\ndescribe('applyHiddenExpGrowth —— CHECK_HIDDEN_EXP 宏边角(battle.c:1238-1293)', () => {\n  it('wLevel=120 先钳 99;99 级上继续扣阈值涨属性,wLevel 停 99 不再 ++', () => {\n    // 120级是有意的防御边界;不声称正常战斗会生成该隐藏等级。\n    const { gs } = createBattleLifecycleFixture({ role: { level: 1, hp: 100, maxHP: 100 } })\n    gs.Exp.rgHealthExp[0] = { wExp: 0, wLevel: 120, wCount: 1 } // >99 → 先钳 99\n    // levelUpExp[99]=100;dwExp = trunc(1000*1/1)*2 = 2000 → 99 级上扣 20 次,每次 +R(1,2)=1\n    const res = applyHiddenExpGrowth({\n      exp: gs.Exp,\n      rt: gs.PlayerRolesRuntime,\n      roleId: 0,\n      expGained: 1000,\n      levelUpExp: Array(100).fill(100),\n      rng: oneRng,\n    })\n    expect(gs.PlayerRolesRuntime.rgwMaxHP[0]).toBe(120) // 100 + 20×1\n    expect(gs.Exp.rgHealthExp[0]!.wLevel).toBe(99) // 停在 99(MAX_LEVELS)\n    expect(gs.Exp.rgHealthExp[0]!.wExp).toBe(0)\n    expect(res).toEqual([{ stat: 'rgwMaxHP', label: 'maxHP', statLabelWord: 49, delta: 20 }])\n  })\n\n  it('隐藏涨点无 STAT_LIMIT 999 钳:base 998 再涨 → 突破 999(与主升级 cap 明确不同)', () => {\n    const { gs } = createBattleLifecycleFixture({ role: { level: 1, attackStrength: 998 } })\n    gs.Exp.rgAttackExp[0] = { wExp: 0, wLevel: 1, wCount: 1 }\n    applyHiddenExpGrowth({\n      exp: gs.Exp,\n      rt: gs.PlayerRolesRuntime,\n      roleId: 0,\n      expGained: 100, // dwExp = 200 → 两级(阈值 100),998+1+1=1000\n      levelUpExp: Array(100).fill(100),\n      rng: oneRng,\n    })\n    expect(gs.PlayerRolesRuntime.rgwAttackStrength[0]).toBe(1000) // 无 999 clamp\n    expect(gs.Exp.rgAttackExp[0]!.wLevel).toBe(3)\n  })\n\n  it('七池映射与消费顺序:身法只结算存留经验,不伪造动作计数', () => {\n    const { gs } = createBattleLifecycleFixture({\n      role: {\n        maxHP: 100,\n        hp: 100,\n        maxMP: 110,\n        attackStrength: 120,\n        magicStrength: 130,\n        defense: 140,\n        dexterity: 150,\n        fleeRate: 160,\n      },\n    })\n    // 普攻、施法、防御、失败逃跑可形成这六项计数,身法没有动作累计源。\n    // 身法wExp=15是当前V1允许的存留值边界,不声称正常原盘战斗能积出它。\n    gs.Exp.rgHealthExp[0] = { wExp: 0, wLevel: 1, wCount: 2 }\n    gs.Exp.rgMagicExp[0] = { wExp: 0, wLevel: 1, wCount: 2 }\n    gs.Exp.rgAttackExp[0] = { wExp: 0, wLevel: 1, wCount: 1 }\n    gs.Exp.rgMagicPowerExp[0] = { wExp: 0, wLevel: 1, wCount: 1 }\n    gs.Exp.rgDefenseExp[0] = { wExp: 0, wLevel: 1, wCount: 2 }\n    gs.Exp.rgDexterityExp[0] = { wExp: 15, wLevel: 1, wCount: 0 }\n    gs.Exp.rgFleeExp[0] = { wExp: 0, wLevel: 1, wCount: 2 }\n    // 原盘阈值前缀0/15/40;只读取1、2级,其余级用正数占位。\n    const levelUpExp = Array<number>(100).fill(32000)\n    levelUpExp[0] = 0\n    levelUpExp[1] = 15\n    levelUpExp[2] = 40\n    const rng = recordingRng([2, 1, 2, 1, 2, 1, 2])\n    const rt = gs.PlayerRolesRuntime\n    const res = applyHiddenExpGrowth({\n      exp: gs.Exp,\n      rt,\n      roleId: 0,\n      expGained: 100, // 总计数10:六池获40/40/20/20/40/40,身法只用原有15。\n      levelUpExp,\n      rng,\n    })\n    expect([\n      rt.rgwMaxHP[0],\n      rt.rgwMaxMP[0],\n      rt.rgwAttackStrength[0],\n      rt.rgwMagicStrength[0],\n      rt.rgwDefense[0],\n      rt.rgwDexterity[0],\n      rt.rgwFleeRate[0],\n    ]).toEqual([102, 111, 122, 131, 142, 151, 162])\n    expect(res).toEqual([\n      { stat: 'rgwMaxHP', label: 'maxHP', statLabelWord: 49, delta: 2 },\n      { stat: 'rgwMaxMP', label: 'maxMP', statLabelWord: 50, delta: 1 },\n      { stat: 'rgwAttackStrength', label: 'attack', statLabelWord: 51, delta: 2 },\n      { stat: 'rgwMagicStrength', label: 'magic', statLabelWord: 52, delta: 1 },\n      { stat: 'rgwDefense', label: 'defense', statLabelWord: 53, delta: 2 },\n      { stat: 'rgwDexterity', label: 'dexterity', statLabelWord: 54, delta: 1 },\n      { stat: 'rgwFleeRate', label: 'fleeRate', statLabelWord: 55, delta: 2 },\n    ])\n    expect([\n      gs.Exp.rgHealthExp[0],\n      gs.Exp.rgMagicExp[0],\n      gs.Exp.rgAttackExp[0],\n      gs.Exp.rgMagicPowerExp[0],\n      gs.Exp.rgDefenseExp[0],\n      gs.Exp.rgDexterityExp[0],\n      gs.Exp.rgFleeExp[0],\n    ]).toEqual([\n      { wExp: 25, wLevel: 2, wCount: 2 },\n      { wExp: 25, wLevel: 2, wCount: 2 },\n      { wExp: 5, wLevel: 2, wCount: 1 },\n      { wExp: 5, wLevel: 2, wCount: 1 },\n      { wExp: 25, wLevel: 2, wCount: 2 },\n      { wExp: 0, wLevel: 2, wCount: 0 },\n      { wExp: 25, wLevel: 2, wCount: 2 },\n    ])\n    expect(rng.calls).toEqual(Array<string>(7).fill('rangeInclusive(1,2)'))\n  })\n})\n\ndescribe('battleWonLevelUp:隐藏经验抬 maxHP 与回满的先后(battle.c:1287-1292)', () => {\n  it('无主升级但隐藏涨 maxHP → HP 保持战后值不回满(if(fLevelUp) 才回满)', () => {\n    const { gs } = createBattleLifecycleFixture({\n      role: { level: 1, hp: 40, maxHP: 100, mp: 5, maxMP: 40 },\n    })\n    gs.Exp.rgPrimaryExp[0] = { wExp: 0, wLevel: 1, wCount: 0 }\n    // 一次普攻给Health2/Attack1;合法存留34使本次Health恰过阈值。\n    gs.Exp.rgHealthExp[0] = { wExp: 34, wLevel: 1, wCount: 2 }\n    gs.Exp.rgAttackExp[0] = { wExp: 0, wLevel: 1, wCount: 1 }\n    const results = battleWonLevelUp({\n      gs,\n      partyMembers: [0],\n      expGained: 50, // < 阈值 100 → 不主升级\n      levelUpExp: Array(100).fill(100),\n      levelUpMagic: [],\n      rng: recordingRng([1]), // 唯一一次 R(1,2)=1(隐藏涨点)\n    })\n    // 隐藏涨点成立:dwExp = trunc(50×2/3)×2+34 = 100 → 恰 1 隐藏级 → maxHP 100+1、结果条目产出\n    expect(results.length).toBe(1)\n    expect(results[0]).toMatchObject({ fromLevel: 1, toLevel: 1 })\n    expect(results[0]!.snapshot).toBeUndefined() // 无主升级 → 无升级 box\n    expect(results[0]!.hiddenExpGrowth).toEqual([\n      { stat: 'rgwMaxHP', label: 'maxHP', statLabelWord: 49, delta: 1 },\n    ])\n    expect(gs.PlayerRolesRuntime.rgwMaxHP[0]).toBe(101)\n    expect(gs.PlayerRolesRuntime.rgwHP[0]).toBe(40) // ★ 不回满:battle.c:1289 if(fLevelUp) 不成立\n  })\n\n  it('主升级成立 → 隐藏涨点后 HP/MP 回满到(可能更高的)新 max(battle.c:1289-1292)', () => {\n    const { gs } = createBattleLifecycleFixture({\n      role: { level: 1, hp: 40, maxHP: 100, mp: 5, maxMP: 40 },\n    })\n    gs.Exp.rgPrimaryExp[0] = { wExp: 50, wLevel: 1, wCount: 0 }\n    // 同一合法普攻计数;trunc(100*2/3)*2+68=200,Health恰涨两级。\n    gs.Exp.rgHealthExp[0] = { wExp: 68, wLevel: 1, wCount: 2 }\n    gs.Exp.rgAttackExp[0] = { wExp: 0, wLevel: 1, wCount: 1 }\n    const rng = recordingRng([1, 1, 1, 1, 1, 1, 1, 1]) // 主升级6抽、隐藏2抽;不依赖耗尽回退\n    const results = battleWonLevelUp({\n      gs,\n      partyMembers: [0],\n      expGained: 100, // dwExp=150 ≥ 100 → 主升级 1→2\n      levelUpExp: Array(100).fill(100),\n      levelUpMagic: [],\n      rng,\n    })\n    expect(results.length).toBe(1)\n    expect(results[0]).toMatchObject({ fromLevel: 1, toLevel: 2 })\n    expect(results[0]!.snapshot).toBeDefined() // 主升级 → 有升级 box\n    const curMax = gs.PlayerRolesRuntime.rgwMaxHP[0]!\n    expect(curMax).toBe(100 + 10 + 1 + 2) // 主升级 +10+R(0,7)=1;隐藏132+68=200 → 2 级 × R(1,2)=1\n    expect(gs.PlayerRolesRuntime.rgwHP[0]).toBe(curMax) // 回满到新 max(含隐藏抬升)\n    expect(gs.PlayerRolesRuntime.rgwMP[0]).toBe(gs.PlayerRolesRuntime.rgwMaxMP[0])\n    expect(rng.calls).toEqual([\n      'rangeInclusive(0,7)',\n      'rangeInclusive(0,5)',\n      'rangeInclusive(0,1)',\n      'rangeInclusive(0,1)',\n      'rangeInclusive(0,1)',\n      'rangeInclusive(0,1)',\n      'rangeInclusive(1,2)',\n      'rangeInclusive(1,2)',\n    ])\n  })\n})\n",
+          "to": "/**\n * 隐藏经验的数值边界及其与主升级回满的先后关系。\n * 使用已 hydrate 的运行态与公开成长函数；结算屏和逐 tick 生命周期由 settlement 专测负责。\n * SDLPal CHECK_HIDDEN_EXP 不套用主升级的 999 上限；超 WORD 后继续增长是获准的 TS 偏离。\n */\nimport { describe, expect, it } from 'vitest'\nimport { recordingRng } from '../../__tests__/scripted-rng.js'\nimport { createBattleLifecycleFixture } from './battle-lifecycle.test-fixtures.js'\nimport { applyHiddenExpGrowth, battleWonLevelUp } from './battle-progression.js'\n\nconst minimumHiddenGrowthRng: { rangeInclusive: (a: number, b: number) => number } = {\n  rangeInclusive: (_a: number, _b: number) => 1,\n}\n\ndescribe('Hidden experience growth', () => {\n  it('wLevel=120 先钳 99;99 级上继续扣阈值涨属性,wLevel 停 99 不再 ++', () => {\n    // 120级是有意的防御边界;不声称正常战斗会生成该隐藏等级。\n    const { gs } = createBattleLifecycleFixture({ role: { level: 1, hp: 100, maxHP: 100 } })\n    gs.Exp.rgHealthExp[0] = { wExp: 0, wLevel: 120, wCount: 1 } // >99 → 先钳 99\n    // levelUpExp[99]=100;dwExp = trunc(1000*1/1)*2 = 2000 → 99 级上扣 20 次,每次 +R(1,2)=1\n    const growth = applyHiddenExpGrowth({\n      exp: gs.Exp,\n      rt: gs.PlayerRolesRuntime,\n      roleId: 0,\n      expGained: 1000,\n      levelUpExp: Array(100).fill(100),\n      rng: minimumHiddenGrowthRng,\n    })\n    expect(gs.PlayerRolesRuntime.rgwMaxHP[0]).toBe(120) // 100 + 20×1\n    expect(gs.Exp.rgHealthExp[0]!.wLevel).toBe(99) // 停在 99(MAX_LEVELS)\n    expect(gs.Exp.rgHealthExp[0]!.wExp).toBe(0)\n    expect(growth).toEqual([{ stat: 'rgwMaxHP', label: 'maxHP', statLabelWord: 49, delta: 20 }])\n  })\n\n  it('隐藏涨点无 STAT_LIMIT 999 钳:base 998 再涨 → 突破 999(与主升级 cap 明确不同)', () => {\n    const { gs } = createBattleLifecycleFixture({ role: { level: 1, attackStrength: 998 } })\n    gs.Exp.rgAttackExp[0] = { wExp: 0, wLevel: 1, wCount: 1 }\n    applyHiddenExpGrowth({\n      exp: gs.Exp,\n      rt: gs.PlayerRolesRuntime,\n      roleId: 0,\n      expGained: 100, // dwExp = 200 → 两级(阈值 100),998+1+1=1000\n      levelUpExp: Array(100).fill(100),\n      rng: minimumHiddenGrowthRng,\n    })\n    expect(gs.PlayerRolesRuntime.rgwAttackStrength[0]).toBe(1000) // 无 999 clamp\n    expect(gs.Exp.rgAttackExp[0]!.wLevel).toBe(3)\n  })\n\n  it('七池映射与消费顺序:身法只结算存留经验,不伪造动作计数', () => {\n    const { gs } = createBattleLifecycleFixture({\n      role: {\n        maxHP: 100,\n        hp: 100,\n        maxMP: 110,\n        attackStrength: 120,\n        magicStrength: 130,\n        defense: 140,\n        dexterity: 150,\n        fleeRate: 160,\n      },\n    })\n    // 普攻、施法、防御、失败逃跑可形成这六项计数,身法没有动作累计源。\n    // 身法wExp=15是当前V1允许的存留值边界,不声称正常原盘战斗能积出它。\n    gs.Exp.rgHealthExp[0] = { wExp: 0, wLevel: 1, wCount: 2 }\n    gs.Exp.rgMagicExp[0] = { wExp: 0, wLevel: 1, wCount: 2 }\n    gs.Exp.rgAttackExp[0] = { wExp: 0, wLevel: 1, wCount: 1 }\n    gs.Exp.rgMagicPowerExp[0] = { wExp: 0, wLevel: 1, wCount: 1 }\n    gs.Exp.rgDefenseExp[0] = { wExp: 0, wLevel: 1, wCount: 2 }\n    gs.Exp.rgDexterityExp[0] = { wExp: 15, wLevel: 1, wCount: 0 }\n    gs.Exp.rgFleeExp[0] = { wExp: 0, wLevel: 1, wCount: 2 }\n    // 原盘阈值前缀0/15/40;只读取1、2级,其余级用正数占位。\n    const levelUpExp = Array<number>(100).fill(32000)\n    levelUpExp[0] = 0\n    levelUpExp[1] = 15\n    levelUpExp[2] = 40\n    const rng = recordingRng([2, 1, 2, 1, 2, 1, 2])\n    const rt = gs.PlayerRolesRuntime\n    const growth = applyHiddenExpGrowth({\n      exp: gs.Exp,\n      rt,\n      roleId: 0,\n      expGained: 100, // 总计数10:六池获40/40/20/20/40/40,身法只用原有15。\n      levelUpExp,\n      rng,\n    })\n    expect([\n      rt.rgwMaxHP[0],\n      rt.rgwMaxMP[0],\n      rt.rgwAttackStrength[0],\n      rt.rgwMagicStrength[0],\n      rt.rgwDefense[0],\n      rt.rgwDexterity[0],\n      rt.rgwFleeRate[0],\n    ]).toEqual([102, 111, 122, 131, 142, 151, 162])\n    expect(growth).toEqual([\n      { stat: 'rgwMaxHP', label: 'maxHP', statLabelWord: 49, delta: 2 },\n      { stat: 'rgwMaxMP', label: 'maxMP', statLabelWord: 50, delta: 1 },\n      { stat: 'rgwAttackStrength', label: 'attack', statLabelWord: 51, delta: 2 },\n      { stat: 'rgwMagicStrength', label: 'magic', statLabelWord: 52, delta: 1 },\n      { stat: 'rgwDefense', label: 'defense', statLabelWord: 53, delta: 2 },\n      { stat: 'rgwDexterity', label: 'dexterity', statLabelWord: 54, delta: 1 },\n      { stat: 'rgwFleeRate', label: 'fleeRate', statLabelWord: 55, delta: 2 },\n    ])\n    expect([\n      gs.Exp.rgHealthExp[0],\n      gs.Exp.rgMagicExp[0],\n      gs.Exp.rgAttackExp[0],\n      gs.Exp.rgMagicPowerExp[0],\n      gs.Exp.rgDefenseExp[0],\n      gs.Exp.rgDexterityExp[0],\n      gs.Exp.rgFleeExp[0],\n    ]).toEqual([\n      { wExp: 25, wLevel: 2, wCount: 2 },\n      { wExp: 25, wLevel: 2, wCount: 2 },\n      { wExp: 5, wLevel: 2, wCount: 1 },\n      { wExp: 5, wLevel: 2, wCount: 1 },\n      { wExp: 25, wLevel: 2, wCount: 2 },\n      { wExp: 0, wLevel: 2, wCount: 0 },\n      { wExp: 25, wLevel: 2, wCount: 2 },\n    ])\n    expect(rng.calls).toEqual(Array<string>(7).fill('rangeInclusive(1,2)'))\n  })\n})\n\ndescribe('Primary level-up and hidden growth recovery', () => {\n  it('无主升级但隐藏涨 maxHP → HP 保持战后值不回满(if(fLevelUp) 才回满)', () => {\n    const { gs } = createBattleLifecycleFixture({\n      role: { level: 1, hp: 40, maxHP: 100, mp: 5, maxMP: 40 },\n    })\n    gs.Exp.rgPrimaryExp[0] = { wExp: 0, wLevel: 1, wCount: 0 }\n    // 一次普攻给Health2/Attack1;合法存留34使本次Health恰过阈值。\n    gs.Exp.rgHealthExp[0] = { wExp: 34, wLevel: 1, wCount: 2 }\n    gs.Exp.rgAttackExp[0] = { wExp: 0, wLevel: 1, wCount: 1 }\n    const results = battleWonLevelUp({\n      gs,\n      partyMembers: [0],\n      expGained: 50, // < 阈值 100 → 不主升级\n      levelUpExp: Array(100).fill(100),\n      levelUpMagic: [],\n      rng: recordingRng([1]), // 唯一一次 R(1,2)=1(隐藏涨点)\n    })\n    // 隐藏涨点成立:dwExp = trunc(50×2/3)×2+34 = 100 → 恰 1 隐藏级 → maxHP 100+1、结果条目产出\n    expect(results.length).toBe(1)\n    expect(results[0]).toMatchObject({ fromLevel: 1, toLevel: 1 })\n    expect(results[0]!.snapshot).toBeUndefined() // 无主升级 → 无升级 box\n    expect(results[0]!.hiddenExpGrowth).toEqual([\n      { stat: 'rgwMaxHP', label: 'maxHP', statLabelWord: 49, delta: 1 },\n    ])\n    expect(gs.PlayerRolesRuntime.rgwMaxHP[0]).toBe(101)\n    expect(gs.PlayerRolesRuntime.rgwHP[0]).toBe(40) // ★ 不回满:battle.c:1289 if(fLevelUp) 不成立\n  })\n\n  it('主升级成立 → 隐藏涨点后 HP/MP 回满到(可能更高的)新 max(battle.c:1289-1292)', () => {\n    const { gs } = createBattleLifecycleFixture({\n      role: { level: 1, hp: 40, maxHP: 100, mp: 5, maxMP: 40 },\n    })\n    gs.Exp.rgPrimaryExp[0] = { wExp: 50, wLevel: 1, wCount: 0 }\n    // 同一合法普攻计数;trunc(100*2/3)*2+68=200,Health恰涨两级。\n    gs.Exp.rgHealthExp[0] = { wExp: 68, wLevel: 1, wCount: 2 }\n    gs.Exp.rgAttackExp[0] = { wExp: 0, wLevel: 1, wCount: 1 }\n    const rng = recordingRng([1, 1, 1, 1, 1, 1, 1, 1]) // 主升级6抽、隐藏2抽;不依赖耗尽回退\n    const results = battleWonLevelUp({\n      gs,\n      partyMembers: [0],\n      expGained: 100, // dwExp=150 ≥ 100 → 主升级 1→2\n      levelUpExp: Array(100).fill(100),\n      levelUpMagic: [],\n      rng,\n    })\n    expect(results.length).toBe(1)\n    expect(results[0]).toMatchObject({ fromLevel: 1, toLevel: 2 })\n    expect(results[0]!.snapshot).toBeDefined() // 主升级 → 有升级 box\n    const curMax = gs.PlayerRolesRuntime.rgwMaxHP[0]!\n    expect(curMax).toBe(100 + 10 + 1 + 2) // 主升级 +10+R(0,7)=1;隐藏132+68=200 → 2 级 × R(1,2)=1\n    expect(gs.PlayerRolesRuntime.rgwHP[0]).toBe(curMax) // 回满到新 max(含隐藏抬升)\n    expect(gs.PlayerRolesRuntime.rgwMP[0]).toBe(gs.PlayerRolesRuntime.rgwMaxMP[0])\n    expect(rng.calls).toEqual([\n      'rangeInclusive(0,7)',\n      'rangeInclusive(0,5)',\n      'rangeInclusive(0,1)',\n      'rangeInclusive(0,1)',\n      'rangeInclusive(0,1)',\n      'rangeInclusive(0,1)',\n      'rangeInclusive(1,2)',\n      'rangeInclusive(1,2)',\n    ])\n  })\n})\n",
+          "count": 1
+        }
+      ],
+      "reason": "Analysis-only registration context. Complete typed helper/input/callback/module proof and actual import targets establish semantics. Twelve placeholders only retain terminal ordinal; never executed or counted as tests."
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+      "id": "organization-battle-outcomes-settlement",
+      "changes": [
+        {
+          "from": "/**\n * 结算装配与逐tick生命周期。数值公式由progression专测负责,这里核实际caller接线。\n * SDLPal battle.c:991-1373定义屏序/脚本/恢复;play.c:603-639进入等键时清键。\n * TS首tick不收pressed是残键防护策略,不是C逐帧时序的直接等价。\n */\nimport type { InputSnapshot } from '@type-pal/shared'\nimport { describe, expect, it, vi } from 'vitest'\nimport { runScript } from '../event-system.js'\nimport {\n  type BattleLifecycleFixtureOptions,\n  createBattleLifecycleFixture,\n} from './battle-lifecycle.test-fixtures.js'\nimport { getBattleResources, setBattleRunScript } from './battle-runtime-context.js'\nimport { settlementScreenTimeoutMs, tickBattleSettlement } from './battle-settlement.js'\nimport { tickBattle } from './battle-system.js'\n\nconst NO_KEY: InputSnapshot = { held: new Set(), pressed: new Set(), frameNum: 0 }\nconst CONFIRM: InputSnapshot = { held: new Set(), pressed: new Set(['Confirm']), frameNum: 0 }\nconst HELD: InputSnapshot = { held: new Set(['Confirm']), pressed: new Set(), frameNum: 0 }\nconst MENU: InputSnapshot = { held: new Set(), pressed: new Set(['Menu']), frameNum: 0 }\n\nfunction wonFixture(options: BattleLifecycleFixtureOptions = {}) {\n  const fixture = createBattleLifecycleFixture({ ...options, enemyIds: [100] })\n  // 单敌全灭/淡出完成后的明确快照;奖励与该敌资源相同,不冒充实际打完整场。\n  fixture.state.phase = 'won'\n  fixture.state.enemies[0]!.e.health = 0\n  fixture.state.enemies[0]!.defeated = true\n  fixture.state.expGained = options.expGained ?? 1\n  fixture.state.cashGained = options.cashGained ?? 50\n  return fixture\n}\n\nfunction enterSettlement(fixture: ReturnType<typeof wonFixture>) {\n  tickBattle(fixture.gs, NO_KEY, fixture.bus)\n  const settlement = fixture.state.settlement\n  if (!settlement) throw new Error('won host tick must build settlement')\n  return settlement\n}\n\ndescribe('settlementScreenTimeoutMs(battle.c:1048/1218/1272/1324 PAL_WaitForAnyKey)', () => {\n  it('exp 屏 boss 5500ms / 普通战 3000ms;升级/隐藏涨点/练成屏一律 3000ms', () => {\n    const expBoss: Parameters<typeof settlementScreenTimeoutMs>[0] = {\n      kind: 'exp-cash',\n      expGained: 1,\n      cashGained: 0,\n      isBoss: true,\n    }\n    const expNormal: Parameters<typeof settlementScreenTimeoutMs>[0] = {\n      kind: 'exp-cash',\n      expGained: 1,\n      cashGained: 0,\n      isBoss: false,\n    }\n    expect(settlementScreenTimeoutMs(expBoss)).toBe(5500)\n    expect(settlementScreenTimeoutMs(expNormal)).toBe(3000)\n    expect(\n      settlementScreenTimeoutMs({\n        kind: 'level-up',\n        data: {\n          roleId: 0,\n          name: '李逍遥',\n          level: { old: 1, cur: 2 },\n          hp: { old: 10, oldMax: 100, cur: 120, curMax: 120 },\n          mp: { old: 5, oldMax: 20, cur: 25, curMax: 25 },\n          attack: { old: 10, cur: 14 },\n          magic: { old: 8, cur: 12 },\n          defense: { old: 6, cur: 8 },\n          dexterity: { old: 9, cur: 11 },\n          flee: { old: 3, cur: 5 },\n        },\n      }),\n    ).toBe(3000)\n    expect(\n      settlementScreenTimeoutMs({\n        kind: 'hidden-exp-up',\n        data: { roleId: 0, name: '李逍遥', statLabelWord: 49, delta: 1 },\n      }),\n    ).toBe(3000)\n    expect(\n      settlementScreenTimeoutMs({\n        kind: 'learn-magic',\n        data: { roleId: 0, name: '李逍遥', magicName: '天师符法' },\n      }),\n    ).toBe(3000)\n  })\n})\n\ndescribe('won首tick的结算装配', () => {\n  it('先回写战斗HP/MP再按存活角色入经验,未升级仅一屏且现金只入账一次', () => {\n    const f = wonFixture({ partyMembers: [0, 1], expGained: 10 })\n    f.playerRoles.roles[0]!.hp = 0\n    f.playerRoles.roles[0]!.mp = 9\n    f.playerRoles.roles[1]!.hp = 200\n    f.playerRoles.roles[1]!.mp = 5\n    const cashBefore = f.gs.dwCash\n    const s = enterSettlement(f)\n    expect(s).toEqual({\n      screens: [{ kind: 'exp-cash', expGained: 10, cashGained: 50, isBoss: false }],\n      index: 0,\n      shownMs: 0,\n    })\n    expect(f.gs.PlayerRolesRuntime.rgwHP.slice(0, 2)).toEqual([0, 200])\n    expect(f.gs.PlayerRolesRuntime.rgwMP.slice(0, 2)).toEqual([9, 5])\n    expect(f.gs.PlayerRolesRuntime.rgwLevel.slice(0, 2)).toEqual([10, 10])\n    expect([f.gs.Exp.rgPrimaryExp[0]!.wExp, f.gs.Exp.rgPrimaryExp[1]!.wExp]).toEqual([0, 10])\n    tickBattle(f.gs, NO_KEY, f.bus)\n    expect(f.gs.dwCash).toBe(cashBefore + 50)\n    expect(f.state.settlement).toBe(s)\n  })\n\n  it('按[1,0]队伍逐人排主升级/隐藏涨点/练成屏,名字与roleId匹配', () => {\n    const f = wonFixture({\n      partyMembers: [1, 0],\n      expGained: 100,\n      cashGained: 0,\n      role: { level: 1, hp: 50, maxHP: 100, mp: 5, maxMP: 40 },\n      levelUpMagic: [\n        [\n          { level: 2, magic: 349 },\n          { level: 2, magic: 350 },\n        ],\n      ],\n    })\n    f.gs.Exp.rgPrimaryExp[0]!.wExp = 50\n    f.gs.Exp.rgPrimaryExp[1]!.wExp = 50\n    // battle.c:1238-1282:health权重2/3,100*2/3截断后再乘2=132;attack权重不足一次涨点。\n    f.gs.Exp.rgHealthExp[1] = { wExp: 0, wLevel: 1, wCount: 2 }\n    f.gs.Exp.rgAttackExp[1] = { wExp: 0, wLevel: 1, wCount: 1 }\n    const screens = enterSettlement(f).screens\n    expect(screens.map((screen) => screen.kind)).toEqual([\n      'exp-cash',\n      'level-up',\n      'hidden-exp-up',\n      'learn-magic',\n      'level-up',\n      'learn-magic',\n    ])\n    expect(screens[1]).toMatchObject({\n      kind: 'level-up',\n      data: {\n        roleId: 1,\n        name: 'Role1',\n        level: { old: 1, cur: 2 },\n        hp: { old: 50, oldMax: 100 },\n      },\n    })\n    const levelUp = screens[1]\n    if (levelUp?.kind !== 'level-up') expect.unreachable('missing role1 level-up')\n    expect(levelUp.data.hp.curMax).toBeGreaterThan(100)\n    expect(levelUp.data.hp.cur).toBe(levelUp.data.hp.curMax)\n    expect(screens[2]).toEqual({\n      kind: 'hidden-exp-up',\n      data: {\n        roleId: 1,\n        name: 'Role1',\n        statLabelWord: 49,\n        delta: 1,\n      },\n    })\n    expect(screens[3]).toEqual({\n      kind: 'learn-magic',\n      data: {\n        roleId: 1,\n        name: 'Role1',\n        magicName: '五气朝元',\n        magicId: 350,\n      },\n    })\n    expect(screens[4]).toMatchObject({\n      kind: 'level-up',\n      data: { roleId: 0, name: 'Role0', level: { old: 1, cur: 2 } },\n    })\n    expect(screens[5]).toEqual({\n      kind: 'learn-magic',\n      data: { roleId: 0, name: 'Role0', magicName: '天师符法', magicId: 349 },\n    })\n  })\n})\n\ndescribe('逐屏输入与时间边界', () => {\n  it('每屏首tick吞残键,长按不翻页,次tick可由非Confirm按键翻页', () => {\n    const f = wonFixture({ levelUpMagic: [[{ level: 1, magic: 349 }]] })\n    const s = enterSettlement(f)\n    expect(s.screens.map((screen) => screen.kind)).toEqual(['exp-cash', 'learn-magic'])\n    tickBattle(f.gs, CONFIRM, f.bus)\n    expect(s.index).toBe(0)\n    tickBattle(f.gs, HELD, f.bus)\n    expect(s.index).toBe(0)\n    tickBattle(f.gs, MENU, f.bus)\n    expect([s.index, s.shownMs]).toEqual([1, 0])\n    tickBattle(f.gs, CONFIRM, f.bus)\n    expect(s.index).toBe(1)\n    tickBattle(f.gs, CONFIRM, f.bus)\n    expect([s.index, s.shownMs]).toEqual([2, 0])\n  })\n\n  it.each([\n    { isBoss: false, beforeTicks: 74, shownMs: 2960 },\n    { isBoss: true, beforeTicks: 137, shownMs: 5480 },\n  ])('isBoss=$isBoss:超时前一tick不翻页,下一tick翻页并清stall', ({\n    isBoss,\n    beforeTicks,\n    shownMs,\n  }) => {\n    const f = wonFixture({ isBoss })\n    const s = enterSettlement(f)\n    for (let i = 0; i < beforeTicks; i++) tickBattle(f.gs, NO_KEY, f.bus)\n    expect([s.index, s.shownMs]).toEqual([0, shownMs])\n    f.state.phaseStallTicks = 999\n    tickBattle(f.gs, NO_KEY, f.bus)\n    expect([s.index, s.shownMs, f.state.phaseStallTicks]).toEqual([1, 0, 0])\n  })\n})\n\ndescribe('Phase E→对话→恢复与释放', () => {\n  it('逐敌提示结束后才入下一份掉落,跳过空槽,末条超时后才半恢复和释放', () => {\n    const f = createBattleLifecycleFixture({\n      enemyIds: [100, 0, 101],\n      expGained: 0,\n      cashGained: 0,\n      scriptOnBattleEnd: 1,\n      commands: [\n        { op: 'end' },\n        { op: 'giveItem', itemId: 104, count: 0 },\n        { op: 'setDialogStyleNarration' },\n        { op: 'showDialog', messageIndex: 13115, text: '捡到一颗鼠儿果' },\n        { op: 'end' },\n      ],\n    })\n    // 隔离双敌全灭边界,奖励与资源一致;脚本取原盘41008–41011的leaf,仅搬到ip1。\n    // 中间0槽是startBattle保留的空占位,不能额外给物品或改变后敌的原槽顺序。\n    f.state.phase = 'won'\n    for (const enemy of f.state.enemies) {\n      enemy.e.health = 0\n      enemy.defeated = true\n    }\n    enterSettlement(f)\n    tickBattle(f.gs, NO_KEY, f.bus)\n    expect(f.gs.inventory).toEqual([{ itemId: 104, count: 1 }])\n    expect(f.state.battleDialogQueue).toHaveLength(1)\n    tickBattle(f.gs, NO_KEY, f.bus)\n    expect(f.gs.dialogBox).toMatchObject({\n      style: 'narration',\n      currentLineText: '捡到一颗鼠儿果',\n    })\n    expect(f.state.battleDialogQueue).toHaveLength(0)\n    expect(tickBattleSettlement(f.state, f.gs, NO_KEY, f.resources, f.bus)).toBe(true)\n    expect(f.gs.inventory).toEqual([{ itemId: 104, count: 1 }])\n    tickBattle(f.gs, CONFIRM, f.bus)\n    expect(f.gs.dialogBox).toBeUndefined()\n    expect(f.gs.inventory).toEqual([{ itemId: 104, count: 1 }])\n    expect(f.gs.mode).toBe('battle') // 关框按键由对话消费,本tick不执行下一敌。\n    tickBattle(f.gs, NO_KEY, f.bus)\n    expect(f.gs.inventory).toEqual([{ itemId: 104, count: 2 }])\n    expect(f.state.battleDialogQueue).toHaveLength(1)\n    tickBattle(f.gs, NO_KEY, f.bus)\n    for (let i = 0; i < 34; i++) tickBattle(f.gs, NO_KEY, f.bus)\n    expect(f.gs.dialogBox?.currentLineText).toBe('捡到一颗鼠儿果')\n    expect([f.gs.PlayerRolesRuntime.rgwHP[0], f.gs.PlayerRolesRuntime.rgwMP[0]]).toEqual([300, 10])\n    expect(getBattleResources(f.gs)).toBe(f.resources)\n    tickBattle(f.gs, NO_KEY, f.bus) // 第35个40ms tick达1.4秒,无残键,可恢复和退出。\n    expect(f.gs.inventory).toEqual([{ itemId: 104, count: 2 }])\n    expect([f.gs.PlayerRolesRuntime.rgwHP[0], f.gs.PlayerRolesRuntime.rgwMP[0]]).toEqual([400, 25])\n    expect(f.gs.dialogBox).toBeUndefined()\n    expect(f.gs.mode).toBe('explore')\n    expect(f.gs.battleState).toBeUndefined()\n    expect(getBattleResources(f.gs)).toBeUndefined()\n    expect(f.gs.fAutoBattle).toBe(false)\n  })\n\n  it('战后脚本的HP/MP治疗保留到半恢复和退出', () => {\n    const f = wonFixture({\n      scriptOnBattleEnd: 1,\n      expGained: 0,\n      commands: [\n        { op: 'end' },\n        { op: 'raw', opcode: 0x1b, operands: [1, 300, 0] },\n        { op: 'raw', opcode: 0x1c, operands: [1, 10, 0] },\n        { op: 'end' },\n      ],\n    })\n    // global.c:PAL_IncreaseHPMP与battle.c:PAL_BattleWon共用PlayerRoles。\n    // 300HP补至500;10MP补至20后恢复缺口一半,得到30。fixture仅隔离合法战后边界。\n    enterSettlement(f)\n    tickBattle(f.gs, NO_KEY, f.bus)\n    expect([f.gs.PlayerRolesRuntime.rgwHP[0], f.gs.PlayerRolesRuntime.rgwMP[0]]).toEqual([500, 30])\n    expect(f.gs.mode).toBe('explore')\n    expect(getBattleResources(f.gs)).toBeUndefined()\n  })\n\n  it('通用属性写入与战后治疗按指令顺序共用HP/MP,不以旧快照回填', () => {\n    const f = wonFixture({\n      scriptOnBattleEnd: 1,\n      expGained: 0,\n      commands: [\n        { op: 'end' },\n        { op: 'raw', opcode: 0x1a, operands: [9, 100, 1] },\n        { op: 'raw', opcode: 0x1b, operands: [1, 50, 0] },\n        { op: 'raw', opcode: 0x1c, operands: [1, 10, 0] },\n        { op: 'raw', opcode: 0x1a, operands: [10, 6, 1] },\n        { op: 'end' },\n      ],\n    })\n    // script.c:0x1A的row9/10是HP/MP,op2=1明确选role0。\n    // 同一状态应先100HP→150HP、10MP→20MP→6MP;半恢复后325HP/23MP。\n    enterSettlement(f)\n    tickBattle(f.gs, NO_KEY, f.bus)\n    expect([f.gs.PlayerRolesRuntime.rgwHP[0], f.gs.PlayerRolesRuntime.rgwMP[0]]).toEqual([325, 23])\n    expect(f.gs.mode).toBe('explore')\n    expect(getBattleResources(f.gs)).toBeUndefined()\n  })\n\n  it('第二敌槽的通用HP/MP指令默认选role1,不按[1,0]队伍位置换人', () => {\n    const f = createBattleLifecycleFixture({\n      partyMembers: [1, 0],\n      enemyIds: [100, 101],\n      expGained: 0,\n      cashGained: 0,\n      scriptOnBattleEnd: 1,\n      commands: [\n        { op: 'end' },\n        { op: 'raw', opcode: 0x1a, operands: [9, 100, 0] },\n        { op: 'raw', opcode: 0x1a, operands: [10, 6, 0] },\n        { op: 'end' },\n      ],\n    })\n    // 明确的双敌全灭边界;只第二槽有战后脚本。C传敌槽1作为eventObjectID,\n    // 0x1A的op2=0因此写role1,不是party[1]的role0。半恢复后各role常数见断言。\n    f.state.phase = 'won'\n    for (const enemy of f.state.enemies) {\n      enemy.e.health = 0\n      enemy.defeated = true\n    }\n    f.state.enemies[0]!.scriptOnBattleEnd = 0\n    enterSettlement(f)\n    tickBattle(f.gs, NO_KEY, f.bus)\n    expect(f.gs.PlayerRolesRuntime.rgwHP.slice(0, 2)).toEqual([400, 300])\n    expect(f.gs.PlayerRolesRuntime.rgwMP.slice(0, 2)).toEqual([25, 23])\n    expect(f.gs.mode).toBe('explore')\n    expect(getBattleResources(f.gs)).toBeUndefined()\n  })\n\n  it('真实战后脚本仅执行一次,队列转active box后仍hold,关框后才半恢复/释放', () => {\n    const f = wonFixture({\n      scriptOnBattleEnd: 1,\n      expGained: 0,\n      commands: [\n        { op: 'end' },\n        { op: 'raw', opcode: 0x33, operands: [0, 0, 0] },\n        { op: 'showDialog', messageIndex: 0, text: '战利品到手' },\n        { op: 'end', advance: true },\n      ],\n    })\n    const s = enterSettlement(f)\n    expect(s.screens).toEqual([])\n    tickBattle(f.gs, NO_KEY, f.bus)\n    expect([\n      s.postBattleScriptsDone,\n      f.gs.wCollectValue,\n      f.state.enemies[0]!.scriptOnBattleEnd,\n    ]).toEqual([true, 7, 1])\n    expect(f.state.battleDialogQueue).toHaveLength(1)\n    expect(f.gs.PlayerRolesRuntime.rgwHP[0]).toBe(300)\n    // 直接调用公开hold核队列守卫;随后由真实宿主把队列转成active box。\n    expect(tickBattleSettlement(f.state, f.gs, NO_KEY, f.resources, f.bus)).toBe(true)\n    expect(f.state.battleDialogQueue).toHaveLength(1)\n    tickBattle(f.gs, NO_KEY, f.bus)\n    expect(f.state.battleDialogQueue).toHaveLength(0)\n    expect(f.gs.dialogBox?.currentLineText).toBe('战利品到手')\n    expect(tickBattleSettlement(f.state, f.gs, NO_KEY, f.resources, f.bus)).toBe(true)\n    expect(f.gs.PlayerRolesRuntime.rgwHP[0]).toBe(300)\n    expect(f.gs.battleState).toBe(f.state)\n    expect(getBattleResources(f.gs)).toBe(f.resources)\n    tickBattle(f.gs, CONFIRM, f.bus) // skip-typing\n    tickBattle(f.gs, NO_KEY, f.bus) // line-done→waiting-end-key\n    tickBattle(f.gs, CONFIRM, f.bus) // dialog-end消费按键,这一tick仍hold\n    expect(f.gs.dialogBox).toBeUndefined()\n    expect(f.gs.mode).toBe('battle')\n    tickBattle(f.gs, NO_KEY, f.bus)\n    expect(f.gs.wCollectValue).toBe(7)\n    expect([f.gs.PlayerRolesRuntime.rgwHP[0], f.gs.PlayerRolesRuntime.rgwMP[0]]).toEqual([400, 25])\n    expect(f.gs.mode).toBe('explore')\n    expect(f.gs.battleState).toBeUndefined()\n    expect(getBattleResources(f.gs)).toBeUndefined()\n    expect(f.gs.fAutoBattle).toBe(false)\n  })\n\n  it('无对话时脚本观察到未恢复的HP/MP,返回后才恢复和释放', () => {\n    const f = wonFixture({\n      scriptOnBattleEnd: 1,\n      expGained: 0,\n      commands: [{ op: 'end' }, { op: 'raw', opcode: 0x33, operands: [0, 0, 0] }, { op: 'end' }],\n    })\n    const atScript: number[][] = []\n    // 公开runner端口的透传观察器:业务仍执行真实runScript与opcode,不替换核心oracle。\n    setBattleRunScript(f.gs, (options) => {\n      atScript.push([f.gs.PlayerRolesRuntime.rgwHP[0]!, f.gs.PlayerRolesRuntime.rgwMP[0]!])\n      return runScript(options)\n    })\n    enterSettlement(f)\n    f.state.phaseStallTicks = 999\n    tickBattle(f.gs, NO_KEY, f.bus)\n    expect(atScript).toEqual([[300, 10]])\n    expect(f.gs.wCollectValue).toBe(7)\n    expect([\n      f.gs.PlayerRolesRuntime.rgwHP[0],\n      f.gs.PlayerRolesRuntime.rgwMP[0],\n      f.state.phaseStallTicks,\n    ]).toEqual([400, 25, 0])\n    expect(f.gs.mode).toBe('explore')\n    expect(f.gs.battleState).toBeUndefined()\n    expect(f.gs.fAutoBattle).toBe(false)\n  })\n})\n\ndescribe('原盘战后掉落分支与特殊非胜利接回', () => {\n  it.each([\n    { roll: 21, sample: 0.2, count: 1 },\n    { roll: 22, sample: 0.21, count: 0 },\n  ])('黑毛球战后0x06:roll=$roll,掉落$count棵止血草,分支只执行一次', ({ sample, count }) => {\n    // SSS原盘41017–41021的同一leaf,仅搬到ip1;跳转0仍保留L_0。\n    // C的RandomLong(1,100)>=22跳走;这里只控制其TS实际宿主Math.random,不mock解释器。\n    const random = vi.spyOn(Math, 'random').mockReturnValue(sample)\n    try {\n      const f = wonFixture({\n        expGained: 0,\n        cashGained: 0,\n        scriptOnBattleEnd: 1,\n        commands: [\n          { op: 'end', label: 'L_0' },\n          { op: 'raw', opcode: 6, operands: [22, 0, 0] },\n          { op: 'giveItem', itemId: 99, count: 0 },\n          { op: 'setDialogStyleNarration' },\n          { op: 'showDialog', messageIndex: 13117, text: '获得一棵止血草' },\n          { op: 'end' },\n        ],\n      })\n      enterSettlement(f)\n      tickBattle(f.gs, NO_KEY, f.bus)\n      expect(f.gs.inventory.find((i) => i.itemId === 99)?.count ?? 0).toBe(count)\n      if (count === 1) {\n        expect(f.gs.mode).toBe('battle')\n        tickBattle(f.gs, NO_KEY, f.bus)\n        expect(f.gs.dialogBox).toMatchObject({\n          style: 'narration',\n          currentLineText: '获得一棵止血草',\n        })\n        tickBattle(f.gs, CONFIRM, f.bus)\n        tickBattle(f.gs, NO_KEY, f.bus)\n      } else {\n        expect(f.state.battleDialogQueue ?? []).toEqual([])\n        expect(f.gs.dialogBox).toBeUndefined()\n      }\n      expect(random).toHaveBeenCalledTimes(1)\n      expect(f.gs.inventory.find((i) => i.itemId === 99)?.count ?? 0).toBe(count)\n      expect(f.gs.battleState).toBeUndefined()\n      expect(f.gs.mode).toBe('explore')\n    } finally {\n      random.mockRestore()\n    }\n  })\n\n  it.each([\n    { result: 0, resumeIp: 5 },\n    { result: 1, resumeIp: 6 },\n    { result: 0xffff, resumeIp: 7 },\n  ])('0x89 result=$result不跑战后掉落/半恢复,接回ip$resumeIp', ({ result, resumeIp }) => {\n    // 当前原盘四处0x89只有result0;1/FFFF是C和typed opcode结果域,不声称剧情可达。\n    const f = createBattleLifecycleFixture({\n      scriptOnTurnStart: 1,\n      scriptOnBattleEnd: 3,\n      commands: [\n        { op: 'end' },\n        { op: 'raw', opcode: 0x89, operands: [result, 0, 0] },\n        { op: 'end' },\n        { op: 'giveItem', itemId: 104, count: 0 },\n        { op: 'end' },\n        { op: 'end' },\n        { op: 'end' },\n        { op: 'end' },\n      ],\n    })\n    f.gs.postBattleResume = {\n      wonIp: 5,\n      lostIp: 6,\n      fledIp: 7,\n      commands: f.resources.commands,\n      currentEventObjectId: 7,\n      triggerOwnerId: 7,\n    }\n    tickBattle(f.gs, NO_KEY, f.bus) // preBattle→selectAction\n    tickBattle(f.gs, NO_KEY, f.bus) // 真实turn-start runner执行0x89\n    tickBattle(f.gs, NO_KEY, f.bus) // 实际终态route→cleanup→resume\n    expect(f.gs.inventory).toEqual([])\n    expect([f.gs.PlayerRolesRuntime.rgwHP[0], f.gs.PlayerRolesRuntime.rgwMP[0]]).toEqual([300, 10])\n    expect(f.gs.eventCursor).toMatchObject({\n      ip: resumeIp,\n      currentEventObjectId: 7,\n      triggerOwnerId: 7,\n    })\n    expect(f.gs.eventCursor?.commands).toBe(f.resources.commands)\n    expect(f.gs.postBattleResume).toBeUndefined()\n    expect(f.gs.mode).toBe('event')\n    expect(f.gs.battleState).toBeUndefined()\n    expect(getBattleResources(f.gs)).toBeUndefined()\n  })\n})\n",
+          "to": "import {describe,expect,it,vi} from 'vitest'\nimport {runScript} from '../event-system.js'\nimport {createBattleLifecycleFixture} from './battle-lifecycle.test-fixtures.js'\nimport {getBattleResources,setBattleRunScript} from './battle-runtime-context.js'\nimport {CONFIRM_INPUT,HELD_CONFIRM_INPUT,IDLE_INPUT,MENU_INPUT,enterWonSettlement,makeWonBattle} from './battle-settlement.test-fixtures.js'\nimport {settlementScreenTimeoutMs,tickBattleSettlement} from './battle-settlement.js'\nimport {tickBattle} from './battle-system.js'\ndescribe('settlementScreenTimeoutMs(battle.c:1048/1218/1272/1324 PAL_WaitForAnyKey)', () => {\n  it('exp 屏 boss 5500ms / 普通战 3000ms;升级/隐藏涨点/练成屏一律 3000ms', () => {\n    const expBoss: Parameters<typeof settlementScreenTimeoutMs>[0] = {\n      kind: 'exp-cash',\n      expGained: 1,\n      cashGained: 0,\n      isBoss: true,\n    }\n    const expNormal: Parameters<typeof settlementScreenTimeoutMs>[0] = {\n      kind: 'exp-cash',\n      expGained: 1,\n      cashGained: 0,\n      isBoss: false,\n    }\n    expect(settlementScreenTimeoutMs(expBoss)).toBe(5500)\n    expect(settlementScreenTimeoutMs(expNormal)).toBe(3000)\n    expect(\n      settlementScreenTimeoutMs({\n        kind: 'level-up',\n        data: {\n          roleId: 0,\n          name: '李逍遥',\n          level: { old: 1, cur: 2 },\n          hp: { old: 10, oldMax: 100, cur: 120, curMax: 120 },\n          mp: { old: 5, oldMax: 20, cur: 25, curMax: 25 },\n          attack: { old: 10, cur: 14 },\n          magic: { old: 8, cur: 12 },\n          defense: { old: 6, cur: 8 },\n          dexterity: { old: 9, cur: 11 },\n          flee: { old: 3, cur: 5 },\n        },\n      }),\n    ).toBe(3000)\n    expect(\n      settlementScreenTimeoutMs({\n        kind: 'hidden-exp-up',\n        data: { roleId: 0, name: '李逍遥', statLabelWord: 49, delta: 1 },\n      }),\n    ).toBe(3000)\n    expect(\n      settlementScreenTimeoutMs({\n        kind: 'learn-magic',\n        data: { roleId: 0, name: '李逍遥', magicName: '天师符法' },\n      }),\n    ).toBe(3000)\n  })\n})\ndescribe('won首tick的结算装配', () => {\n  it('先回写战斗HP/MP再按存活角色入经验,未升级仅一屏且现金只入账一次', () => {\n    const fixture = makeWonBattle({ partyMembers: [0, 1], expGained: 10 })\n    fixture.playerRoles.roles[0]!.hp = 0\n    fixture.playerRoles.roles[0]!.mp = 9\n    fixture.playerRoles.roles[1]!.hp = 200\n    fixture.playerRoles.roles[1]!.mp = 5\n    const cashBefore = fixture.gs.dwCash\n    const settlement = enterWonSettlement(fixture)\n    expect(settlement).toEqual({\n      screens: [{ kind: 'exp-cash', expGained: 10, cashGained: 50, isBoss: false }],\n      index: 0,\n      shownMs: 0,\n    })\n    expect(fixture.gs.PlayerRolesRuntime.rgwHP.slice(0, 2)).toEqual([0, 200])\n    expect(fixture.gs.PlayerRolesRuntime.rgwMP.slice(0, 2)).toEqual([9, 5])\n    expect(fixture.gs.PlayerRolesRuntime.rgwLevel.slice(0, 2)).toEqual([10, 10])\n    expect([fixture.gs.Exp.rgPrimaryExp[0]!.wExp, fixture.gs.Exp.rgPrimaryExp[1]!.wExp]).toEqual([\n      0, 10,\n    ])\n    tickBattle(fixture.gs, IDLE_INPUT, fixture.bus)\n    expect(fixture.gs.dwCash).toBe(cashBefore + 50)\n    expect(fixture.state.settlement).toBe(settlement)\n  })\n\n  it('按[1,0]队伍逐人排主升级/隐藏涨点/练成屏,名字与roleId匹配', () => {\n    const fixture = makeWonBattle({\n      partyMembers: [1, 0],\n      expGained: 100,\n      cashGained: 0,\n      role: { level: 1, hp: 50, maxHP: 100, mp: 5, maxMP: 40 },\n      levelUpMagic: [\n        [\n          { level: 2, magic: 349 },\n          { level: 2, magic: 350 },\n        ],\n      ],\n    })\n    fixture.gs.Exp.rgPrimaryExp[0]!.wExp = 50\n    fixture.gs.Exp.rgPrimaryExp[1]!.wExp = 50\n    // battle.c:1238-1282:health权重2/3,100*2/3截断后再乘2=132;attack权重不足一次涨点。\n    fixture.gs.Exp.rgHealthExp[1] = { wExp: 0, wLevel: 1, wCount: 2 }\n    fixture.gs.Exp.rgAttackExp[1] = { wExp: 0, wLevel: 1, wCount: 1 }\n    const screens = enterWonSettlement(fixture).screens\n    expect(screens.map((screen) => screen.kind)).toEqual([\n      'exp-cash',\n      'level-up',\n      'hidden-exp-up',\n      'learn-magic',\n      'level-up',\n      'learn-magic',\n    ])\n    expect(screens[1]).toMatchObject({\n      kind: 'level-up',\n      data: {\n        roleId: 1,\n        name: 'Role1',\n        level: { old: 1, cur: 2 },\n        hp: { old: 50, oldMax: 100 },\n      },\n    })\n    const levelUp = screens[1]\n    if (levelUp?.kind !== 'level-up') expect.unreachable('missing role1 level-up')\n    expect(levelUp.data.hp.curMax).toBeGreaterThan(100)\n    expect(levelUp.data.hp.cur).toBe(levelUp.data.hp.curMax)\n    expect(screens[2]).toEqual({\n      kind: 'hidden-exp-up',\n      data: {\n        roleId: 1,\n        name: 'Role1',\n        statLabelWord: 49,\n        delta: 1,\n      },\n    })\n    expect(screens[3]).toEqual({\n      kind: 'learn-magic',\n      data: {\n        roleId: 1,\n        name: 'Role1',\n        magicName: '五气朝元',\n        magicId: 350,\n      },\n    })\n    expect(screens[4]).toMatchObject({\n      kind: 'level-up',\n      data: { roleId: 0, name: 'Role0', level: { old: 1, cur: 2 } },\n    })\n    expect(screens[5]).toEqual({\n      kind: 'learn-magic',\n      data: { roleId: 0, name: 'Role0', magicName: '天师符法', magicId: 349 },\n    })\n  })\n})\ndescribe('逐屏输入与时间边界', () => {\n  it('每屏首tick吞残键,长按不翻页,次tick可由非Confirm按键翻页', () => {\n    const fixture = makeWonBattle({ levelUpMagic: [[{ level: 1, magic: 349 }]] })\n    const settlement = enterWonSettlement(fixture)\n    expect(settlement.screens.map((screen) => screen.kind)).toEqual(['exp-cash', 'learn-magic'])\n    tickBattle(fixture.gs, CONFIRM_INPUT, fixture.bus)\n    expect(settlement.index).toBe(0)\n    tickBattle(fixture.gs, HELD_CONFIRM_INPUT, fixture.bus)\n    expect(settlement.index).toBe(0)\n    tickBattle(fixture.gs, MENU_INPUT, fixture.bus)\n    expect([settlement.index, settlement.shownMs]).toEqual([1, 0])\n    tickBattle(fixture.gs, CONFIRM_INPUT, fixture.bus)\n    expect(settlement.index).toBe(1)\n    tickBattle(fixture.gs, CONFIRM_INPUT, fixture.bus)\n    expect([settlement.index, settlement.shownMs]).toEqual([2, 0])\n  })\n\n  it.each([\n    { isBoss: false, beforeTicks: 74, shownMs: 2960 },\n    { isBoss: true, beforeTicks: 137, shownMs: 5480 },\n  ])('isBoss=$isBoss:超时前一tick不翻页,下一tick翻页并清stall', ({\n    isBoss,\n    beforeTicks,\n    shownMs,\n  }) => {\n    const fixture = makeWonBattle({ isBoss })\n    const settlement = enterWonSettlement(fixture)\n    for (let i = 0; i < beforeTicks; i++) tickBattle(fixture.gs, IDLE_INPUT, fixture.bus)\n    expect([settlement.index, settlement.shownMs]).toEqual([0, shownMs])\n    fixture.state.phaseStallTicks = 999\n    tickBattle(fixture.gs, IDLE_INPUT, fixture.bus)\n    expect([settlement.index, settlement.shownMs, fixture.state.phaseStallTicks]).toEqual([1, 0, 0])\n  })\n})\ndescribe('Phase E→对话→恢复与释放', () => {\n  it('逐敌提示结束后才入下一份掉落,跳过空槽,末条超时后才半恢复和释放', () => {\n    const fixture = createBattleLifecycleFixture({\n      enemyIds: [100, 0, 101],\n      expGained: 0,\n      cashGained: 0,\n      scriptOnBattleEnd: 1,\n      commands: [\n        { op: 'end' },\n        { op: 'giveItem', itemId: 104, count: 0 },\n        { op: 'setDialogStyleNarration' },\n        { op: 'showDialog', messageIndex: 13115, text: '捡到一颗鼠儿果' },\n        { op: 'end' },\n      ],\n    })\n    // 隔离双敌全灭边界,奖励与资源一致;脚本取原盘41008–41011的leaf,仅搬到ip1。\n    // 中间0槽是startBattle保留的空占位,不能额外给物品或改变后敌的原槽顺序。\n    fixture.state.phase = 'won'\n    for (const enemy of fixture.state.enemies) {\n      enemy.e.health = 0\n      enemy.defeated = true\n    }\n    enterWonSettlement(fixture)\n    tickBattle(fixture.gs, IDLE_INPUT, fixture.bus)\n    expect(fixture.gs.inventory).toEqual([{ itemId: 104, count: 1 }])\n    expect(fixture.state.battleDialogQueue).toHaveLength(1)\n    tickBattle(fixture.gs, IDLE_INPUT, fixture.bus)\n    expect(fixture.gs.dialogBox).toMatchObject({\n      style: 'narration',\n      currentLineText: '捡到一颗鼠儿果',\n    })\n    expect(fixture.state.battleDialogQueue).toHaveLength(0)\n    expect(\n      tickBattleSettlement(fixture.state, fixture.gs, IDLE_INPUT, fixture.resources, fixture.bus),\n    ).toBe(true)\n    expect(fixture.gs.inventory).toEqual([{ itemId: 104, count: 1 }])\n    tickBattle(fixture.gs, CONFIRM_INPUT, fixture.bus)\n    expect(fixture.gs.dialogBox).toBeUndefined()\n    expect(fixture.gs.inventory).toEqual([{ itemId: 104, count: 1 }])\n    expect(fixture.gs.mode).toBe('battle') // 关框按键由对话消费,本tick不执行下一敌。\n    tickBattle(fixture.gs, IDLE_INPUT, fixture.bus)\n    expect(fixture.gs.inventory).toEqual([{ itemId: 104, count: 2 }])\n    expect(fixture.state.battleDialogQueue).toHaveLength(1)\n    tickBattle(fixture.gs, IDLE_INPUT, fixture.bus)\n    for (let i = 0; i < 34; i++) tickBattle(fixture.gs, IDLE_INPUT, fixture.bus)\n    expect(fixture.gs.dialogBox?.currentLineText).toBe('捡到一颗鼠儿果')\n    expect([\n      fixture.gs.PlayerRolesRuntime.rgwHP[0],\n      fixture.gs.PlayerRolesRuntime.rgwMP[0],\n    ]).toEqual([300, 10])\n    expect(getBattleResources(fixture.gs)).toBe(fixture.resources)\n    tickBattle(fixture.gs, IDLE_INPUT, fixture.bus) // 第35个40ms tick达1.4秒,无残键,可恢复和退出。\n    expect(fixture.gs.inventory).toEqual([{ itemId: 104, count: 2 }])\n    expect([\n      fixture.gs.PlayerRolesRuntime.rgwHP[0],\n      fixture.gs.PlayerRolesRuntime.rgwMP[0],\n    ]).toEqual([400, 25])\n    expect(fixture.gs.dialogBox).toBeUndefined()\n    expect(fixture.gs.mode).toBe('explore')\n    expect(fixture.gs.battleState).toBeUndefined()\n    expect(getBattleResources(fixture.gs)).toBeUndefined()\n    expect(fixture.gs.fAutoBattle).toBe(false)\n  })\n\n  it('战后脚本的HP/MP治疗保留到半恢复和退出', () => {\n    const fixture = makeWonBattle({\n      scriptOnBattleEnd: 1,\n      expGained: 0,\n      commands: [\n        { op: 'end' },\n        { op: 'raw', opcode: 0x1b, operands: [1, 300, 0] },\n        { op: 'raw', opcode: 0x1c, operands: [1, 10, 0] },\n        { op: 'end' },\n      ],\n    })\n    // global.c:PAL_IncreaseHPMP与battle.c:PAL_BattleWon共用PlayerRoles。\n    // 300HP补至500;10MP补至20后恢复缺口一半,得到30。fixture仅隔离合法战后边界。\n    enterWonSettlement(fixture)\n    tickBattle(fixture.gs, IDLE_INPUT, fixture.bus)\n    expect([\n      fixture.gs.PlayerRolesRuntime.rgwHP[0],\n      fixture.gs.PlayerRolesRuntime.rgwMP[0],\n    ]).toEqual([500, 30])\n    expect(fixture.gs.mode).toBe('explore')\n    expect(getBattleResources(fixture.gs)).toBeUndefined()\n  })\n\n  it('通用属性写入与战后治疗按指令顺序共用HP/MP,不以旧快照回填', () => {\n    const fixture = makeWonBattle({\n      scriptOnBattleEnd: 1,\n      expGained: 0,\n      commands: [\n        { op: 'end' },\n        { op: 'raw', opcode: 0x1a, operands: [9, 100, 1] },\n        { op: 'raw', opcode: 0x1b, operands: [1, 50, 0] },\n        { op: 'raw', opcode: 0x1c, operands: [1, 10, 0] },\n        { op: 'raw', opcode: 0x1a, operands: [10, 6, 1] },\n        { op: 'end' },\n      ],\n    })\n    // script.c:0x1A的row9/10是HP/MP,op2=1明确选role0。\n    // 同一状态应先100HP→150HP、10MP→20MP→6MP;半恢复后325HP/23MP。\n    enterWonSettlement(fixture)\n    tickBattle(fixture.gs, IDLE_INPUT, fixture.bus)\n    expect([\n      fixture.gs.PlayerRolesRuntime.rgwHP[0],\n      fixture.gs.PlayerRolesRuntime.rgwMP[0],\n    ]).toEqual([325, 23])\n    expect(fixture.gs.mode).toBe('explore')\n    expect(getBattleResources(fixture.gs)).toBeUndefined()\n  })\n\n  it('第二敌槽的通用HP/MP指令默认选role1,不按[1,0]队伍位置换人', () => {\n    const fixture = createBattleLifecycleFixture({\n      partyMembers: [1, 0],\n      enemyIds: [100, 101],\n      expGained: 0,\n      cashGained: 0,\n      scriptOnBattleEnd: 1,\n      commands: [\n        { op: 'end' },\n        { op: 'raw', opcode: 0x1a, operands: [9, 100, 0] },\n        { op: 'raw', opcode: 0x1a, operands: [10, 6, 0] },\n        { op: 'end' },\n      ],\n    })\n    // 明确的双敌全灭边界;只第二槽有战后脚本。C传敌槽1作为eventObjectID,\n    // 0x1A的op2=0因此写role1,不是party[1]的role0。半恢复后各role常数见断言。\n    fixture.state.phase = 'won'\n    for (const enemy of fixture.state.enemies) {\n      enemy.e.health = 0\n      enemy.defeated = true\n    }\n    fixture.state.enemies[0]!.scriptOnBattleEnd = 0\n    enterWonSettlement(fixture)\n    tickBattle(fixture.gs, IDLE_INPUT, fixture.bus)\n    expect(fixture.gs.PlayerRolesRuntime.rgwHP.slice(0, 2)).toEqual([400, 300])\n    expect(fixture.gs.PlayerRolesRuntime.rgwMP.slice(0, 2)).toEqual([25, 23])\n    expect(fixture.gs.mode).toBe('explore')\n    expect(getBattleResources(fixture.gs)).toBeUndefined()\n  })\n\n  it('真实战后脚本仅执行一次,队列转active box后仍hold,关框后才半恢复/释放', () => {\n    const fixture = makeWonBattle({\n      scriptOnBattleEnd: 1,\n      expGained: 0,\n      commands: [\n        { op: 'end' },\n        { op: 'raw', opcode: 0x33, operands: [0, 0, 0] },\n        { op: 'showDialog', messageIndex: 0, text: '战利品到手' },\n        { op: 'end', advance: true },\n      ],\n    })\n    const settlement = enterWonSettlement(fixture)\n    expect(settlement.screens).toEqual([])\n    tickBattle(fixture.gs, IDLE_INPUT, fixture.bus)\n    expect([\n      settlement.postBattleScriptsDone,\n      fixture.gs.wCollectValue,\n      fixture.state.enemies[0]!.scriptOnBattleEnd,\n    ]).toEqual([true, 7, 1])\n    expect(fixture.state.battleDialogQueue).toHaveLength(1)\n    expect(fixture.gs.PlayerRolesRuntime.rgwHP[0]).toBe(300)\n    // 直接调用公开hold核队列守卫;随后由真实宿主把队列转成active box。\n    expect(\n      tickBattleSettlement(fixture.state, fixture.gs, IDLE_INPUT, fixture.resources, fixture.bus),\n    ).toBe(true)\n    expect(fixture.state.battleDialogQueue).toHaveLength(1)\n    tickBattle(fixture.gs, IDLE_INPUT, fixture.bus)\n    expect(fixture.state.battleDialogQueue).toHaveLength(0)\n    expect(fixture.gs.dialogBox?.currentLineText).toBe('战利品到手')\n    expect(\n      tickBattleSettlement(fixture.state, fixture.gs, IDLE_INPUT, fixture.resources, fixture.bus),\n    ).toBe(true)\n    expect(fixture.gs.PlayerRolesRuntime.rgwHP[0]).toBe(300)\n    expect(fixture.gs.battleState).toBe(fixture.state)\n    expect(getBattleResources(fixture.gs)).toBe(fixture.resources)\n    tickBattle(fixture.gs, CONFIRM_INPUT, fixture.bus) // skip-typing\n    tickBattle(fixture.gs, IDLE_INPUT, fixture.bus) // line-done→waiting-end-key\n    tickBattle(fixture.gs, CONFIRM_INPUT, fixture.bus) // dialog-end消费按键,这一tick仍hold\n    expect(fixture.gs.dialogBox).toBeUndefined()\n    expect(fixture.gs.mode).toBe('battle')\n    tickBattle(fixture.gs, IDLE_INPUT, fixture.bus)\n    expect(fixture.gs.wCollectValue).toBe(7)\n    expect([\n      fixture.gs.PlayerRolesRuntime.rgwHP[0],\n      fixture.gs.PlayerRolesRuntime.rgwMP[0],\n    ]).toEqual([400, 25])\n    expect(fixture.gs.mode).toBe('explore')\n    expect(fixture.gs.battleState).toBeUndefined()\n    expect(getBattleResources(fixture.gs)).toBeUndefined()\n    expect(fixture.gs.fAutoBattle).toBe(false)\n  })\n\n  it('无对话时脚本观察到未恢复的HP/MP,返回后才恢复和释放', () => {\n    const fixture = makeWonBattle({\n      scriptOnBattleEnd: 1,\n      expGained: 0,\n      commands: [{ op: 'end' }, { op: 'raw', opcode: 0x33, operands: [0, 0, 0] }, { op: 'end' }],\n    })\n    const atScript: number[][] = []\n    // 公开runner端口的透传观察器:业务仍执行真实runScript与opcode,不替换核心oracle。\n    setBattleRunScript(fixture.gs, (options) => {\n      atScript.push([\n        fixture.gs.PlayerRolesRuntime.rgwHP[0]!,\n        fixture.gs.PlayerRolesRuntime.rgwMP[0]!,\n      ])\n      return runScript(options)\n    })\n    enterWonSettlement(fixture)\n    fixture.state.phaseStallTicks = 999\n    tickBattle(fixture.gs, IDLE_INPUT, fixture.bus)\n    expect(atScript).toEqual([[300, 10]])\n    expect(fixture.gs.wCollectValue).toBe(7)\n    expect([\n      fixture.gs.PlayerRolesRuntime.rgwHP[0],\n      fixture.gs.PlayerRolesRuntime.rgwMP[0],\n      fixture.state.phaseStallTicks,\n    ]).toEqual([400, 25, 0])\n    expect(fixture.gs.mode).toBe('explore')\n    expect(fixture.gs.battleState).toBeUndefined()\n    expect(fixture.gs.fAutoBattle).toBe(false)\n  })\n})\ndescribe('Post-battle drop branching', () => {\n  it.each([\n    { roll: 21, sample: 0.2, count: 1 },\n    { roll: 22, sample: 0.21, count: 0 },\n  ])('黑毛球战后0x06:roll=$roll,掉落$count棵止血草,分支只执行一次', ({ sample, count }) => {\n    // SSS原盘41017–41021的同一leaf,仅搬到ip1;跳转0仍保留L_0。\n    // C的RandomLong(1,100)>=22跳走;这里只控制其TS实际宿主Math.random,不mock解释器。\n    const random = vi.spyOn(Math, 'random').mockReturnValue(sample)\n    try {\n      const fixture = makeWonBattle({\n        expGained: 0,\n        cashGained: 0,\n        scriptOnBattleEnd: 1,\n        commands: [\n          { op: 'end', label: 'L_0' },\n          { op: 'raw', opcode: 6, operands: [22, 0, 0] },\n          { op: 'giveItem', itemId: 99, count: 0 },\n          { op: 'setDialogStyleNarration' },\n          { op: 'showDialog', messageIndex: 13117, text: '获得一棵止血草' },\n          { op: 'end' },\n        ],\n      })\n      enterWonSettlement(fixture)\n      tickBattle(fixture.gs, IDLE_INPUT, fixture.bus)\n      expect(fixture.gs.inventory.find((i) => i.itemId === 99)?.count ?? 0).toBe(count)\n      if (count === 1) {\n        expect(fixture.gs.mode).toBe('battle')\n        tickBattle(fixture.gs, IDLE_INPUT, fixture.bus)\n        expect(fixture.gs.dialogBox).toMatchObject({\n          style: 'narration',\n          currentLineText: '获得一棵止血草',\n        })\n        tickBattle(fixture.gs, CONFIRM_INPUT, fixture.bus)\n        tickBattle(fixture.gs, IDLE_INPUT, fixture.bus)\n      } else {\n        expect(fixture.state.battleDialogQueue ?? []).toEqual([])\n        expect(fixture.gs.dialogBox).toBeUndefined()\n      }\n      expect(random).toHaveBeenCalledTimes(1)\n      expect(fixture.gs.inventory.find((i) => i.itemId === 99)?.count ?? 0).toBe(count)\n      expect(fixture.gs.battleState).toBeUndefined()\n      expect(fixture.gs.mode).toBe('explore')\n    } finally {\n      random.mockRestore()\n    }\n  })\n})\nit.each([\n    { result: 0, resumeIp: 5 },\n    { result: 1, resumeIp: 6 },\n    { result: 0xffff, resumeIp: 7 },\n  ])('0x89 result=$result不跑战后掉落/半恢复,接回ip$resumeIp', ({ result, resumeIp }) => {\n    // 当前原盘四处0x89只有result0;1/FFFF是C和typed opcode结果域,不声称剧情可达。\n    const fixture = createBattleLifecycleFixture({\n      scriptOnTurnStart: 1,\n      scriptOnBattleEnd: 3,\n      commands: [\n        { op: 'end' },\n        { op: 'raw', opcode: 0x89, operands: [result, 0, 0] },\n        { op: 'end' },\n        { op: 'giveItem', itemId: 104, count: 0 },\n        { op: 'end' },\n        { op: 'end' },\n        { op: 'end' },\n        { op: 'end' },\n      ],\n    })\n    fixture.gs.postBattleResume = {\n      wonIp: 5,\n      lostIp: 6,\n      fledIp: 7,\n      commands: fixture.resources.commands,\n      currentEventObjectId: 7,\n      triggerOwnerId: 7,\n    }\n    tickBattle(fixture.gs, IDLE_INPUT, fixture.bus) // preBattle→selectAction\n    tickBattle(fixture.gs, IDLE_INPUT, fixture.bus) // 真实turn-start runner执行0x89\n    tickBattle(fixture.gs, IDLE_INPUT, fixture.bus) // 实际终态route→cleanup→resume\n    expect(fixture.gs.inventory).toEqual([])\n    expect([\n      fixture.gs.PlayerRolesRuntime.rgwHP[0],\n      fixture.gs.PlayerRolesRuntime.rgwMP[0],\n    ]).toEqual([300, 10])\n    expect(fixture.gs.eventCursor).toMatchObject({\n      ip: resumeIp,\n      currentEventObjectId: 7,\n      triggerOwnerId: 7,\n    })\n    expect(fixture.gs.eventCursor?.commands).toBe(fixture.resources.commands)\n    expect(fixture.gs.postBattleResume).toBeUndefined()\n    expect(fixture.gs.mode).toBe('event')\n    expect(fixture.gs.battleState).toBeUndefined()\n    expect(getBattleResources(fixture.gs)).toBeUndefined()\n  })\n",
+          "count": 1
+        }
+      ],
+      "reason": "Analysis-only registration context. Complete typed helper/input/callback/module proof and actual import targets establish semantics. Twelve placeholders only retain terminal ordinal; never executed or counted as tests."
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+      "id": "organization-battle-outcomes-terminal-context",
+      "ordinals": [12],
+      "changes": [
+        {
+          "from": "import {describe,expect,it,vi} from 'vitest'\nimport {runScript} from '../event-system.js'\nimport {createBattleLifecycleFixture} from './battle-lifecycle.test-fixtures.js'\nimport {getBattleResources,setBattleRunScript} from './battle-runtime-context.js'\nimport {CONFIRM_INPUT,HELD_CONFIRM_INPUT,IDLE_INPUT,MENU_INPUT,enterWonSettlement,makeWonBattle} from './battle-settlement.test-fixtures.js'\nimport {settlementScreenTimeoutMs,tickBattleSettlement} from './battle-settlement.js'\nimport {tickBattle} from './battle-system.js'\ndescribe('settlementScreenTimeoutMs(battle.c:1048/1218/1272/1324 PAL_WaitForAnyKey)', () => {\n  it('exp 屏 boss 5500ms / 普通战 3000ms;升级/隐藏涨点/练成屏一律 3000ms', () => {\n    const expBoss: Parameters<typeof settlementScreenTimeoutMs>[0] = {\n      kind: 'exp-cash',\n      expGained: 1,\n      cashGained: 0,\n      isBoss: true,\n    }\n    const expNormal: Parameters<typeof settlementScreenTimeoutMs>[0] = {\n      kind: 'exp-cash',\n      expGained: 1,\n      cashGained: 0,\n      isBoss: false,\n    }\n    expect(settlementScreenTimeoutMs(expBoss)).toBe(5500)\n    expect(settlementScreenTimeoutMs(expNormal)).toBe(3000)\n    expect(\n      settlementScreenTimeoutMs({\n        kind: 'level-up',\n        data: {\n          roleId: 0,\n          name: '李逍遥',\n          level: { old: 1, cur: 2 },\n          hp: { old: 10, oldMax: 100, cur: 120, curMax: 120 },\n          mp: { old: 5, oldMax: 20, cur: 25, curMax: 25 },\n          attack: { old: 10, cur: 14 },\n          magic: { old: 8, cur: 12 },\n          defense: { old: 6, cur: 8 },\n          dexterity: { old: 9, cur: 11 },\n          flee: { old: 3, cur: 5 },\n        },\n      }),\n    ).toBe(3000)\n    expect(\n      settlementScreenTimeoutMs({\n        kind: 'hidden-exp-up',\n        data: { roleId: 0, name: '李逍遥', statLabelWord: 49, delta: 1 },\n      }),\n    ).toBe(3000)\n    expect(\n      settlementScreenTimeoutMs({\n        kind: 'learn-magic',\n        data: { roleId: 0, name: '李逍遥', magicName: '天师符法' },\n      }),\n    ).toBe(3000)\n  })\n})\ndescribe('won首tick的结算装配', () => {\n  it('先回写战斗HP/MP再按存活角色入经验,未升级仅一屏且现金只入账一次', () => {\n    const fixture = makeWonBattle({ partyMembers: [0, 1], expGained: 10 })\n    fixture.playerRoles.roles[0]!.hp = 0\n    fixture.playerRoles.roles[0]!.mp = 9\n    fixture.playerRoles.roles[1]!.hp = 200\n    fixture.playerRoles.roles[1]!.mp = 5\n    const cashBefore = fixture.gs.dwCash\n    const settlement = enterWonSettlement(fixture)\n    expect(settlement).toEqual({\n      screens: [{ kind: 'exp-cash', expGained: 10, cashGained: 50, isBoss: false }],\n      index: 0,\n      shownMs: 0,\n    })\n    expect(fixture.gs.PlayerRolesRuntime.rgwHP.slice(0, 2)).toEqual([0, 200])\n    expect(fixture.gs.PlayerRolesRuntime.rgwMP.slice(0, 2)).toEqual([9, 5])\n    expect(fixture.gs.PlayerRolesRuntime.rgwLevel.slice(0, 2)).toEqual([10, 10])\n    expect([fixture.gs.Exp.rgPrimaryExp[0]!.wExp, fixture.gs.Exp.rgPrimaryExp[1]!.wExp]).toEqual([\n      0, 10,\n    ])\n    tickBattle(fixture.gs, IDLE_INPUT, fixture.bus)\n    expect(fixture.gs.dwCash).toBe(cashBefore + 50)\n    expect(fixture.state.settlement).toBe(settlement)\n  })\n\n  it('按[1,0]队伍逐人排主升级/隐藏涨点/练成屏,名字与roleId匹配', () => {\n    const fixture = makeWonBattle({\n      partyMembers: [1, 0],\n      expGained: 100,\n      cashGained: 0,\n      role: { level: 1, hp: 50, maxHP: 100, mp: 5, maxMP: 40 },\n      levelUpMagic: [\n        [\n          { level: 2, magic: 349 },\n          { level: 2, magic: 350 },\n        ],\n      ],\n    })\n    fixture.gs.Exp.rgPrimaryExp[0]!.wExp = 50\n    fixture.gs.Exp.rgPrimaryExp[1]!.wExp = 50\n    // battle.c:1238-1282:health权重2/3,100*2/3截断后再乘2=132;attack权重不足一次涨点。\n    fixture.gs.Exp.rgHealthExp[1] = { wExp: 0, wLevel: 1, wCount: 2 }\n    fixture.gs.Exp.rgAttackExp[1] = { wExp: 0, wLevel: 1, wCount: 1 }\n    const screens = enterWonSettlement(fixture).screens\n    expect(screens.map((screen) => screen.kind)).toEqual([\n      'exp-cash',\n      'level-up',\n      'hidden-exp-up',\n      'learn-magic',\n      'level-up',\n      'learn-magic',\n    ])\n    expect(screens[1]).toMatchObject({\n      kind: 'level-up',\n      data: {\n        roleId: 1,\n        name: 'Role1',\n        level: { old: 1, cur: 2 },\n        hp: { old: 50, oldMax: 100 },\n      },\n    })\n    const levelUp = screens[1]\n    if (levelUp?.kind !== 'level-up') expect.unreachable('missing role1 level-up')\n    expect(levelUp.data.hp.curMax).toBeGreaterThan(100)\n    expect(levelUp.data.hp.cur).toBe(levelUp.data.hp.curMax)\n    expect(screens[2]).toEqual({\n      kind: 'hidden-exp-up',\n      data: {\n        roleId: 1,\n        name: 'Role1',\n        statLabelWord: 49,\n        delta: 1,\n      },\n    })\n    expect(screens[3]).toEqual({\n      kind: 'learn-magic',\n      data: {\n        roleId: 1,\n        name: 'Role1',\n        magicName: '五气朝元',\n        magicId: 350,\n      },\n    })\n    expect(screens[4]).toMatchObject({\n      kind: 'level-up',\n      data: { roleId: 0, name: 'Role0', level: { old: 1, cur: 2 } },\n    })\n    expect(screens[5]).toEqual({\n      kind: 'learn-magic',\n      data: { roleId: 0, name: 'Role0', magicName: '天师符法', magicId: 349 },\n    })\n  })\n})\ndescribe('逐屏输入与时间边界', () => {\n  it('每屏首tick吞残键,长按不翻页,次tick可由非Confirm按键翻页', () => {\n    const fixture = makeWonBattle({ levelUpMagic: [[{ level: 1, magic: 349 }]] })\n    const settlement = enterWonSettlement(fixture)\n    expect(settlement.screens.map((screen) => screen.kind)).toEqual(['exp-cash', 'learn-magic'])\n    tickBattle(fixture.gs, CONFIRM_INPUT, fixture.bus)\n    expect(settlement.index).toBe(0)\n    tickBattle(fixture.gs, HELD_CONFIRM_INPUT, fixture.bus)\n    expect(settlement.index).toBe(0)\n    tickBattle(fixture.gs, MENU_INPUT, fixture.bus)\n    expect([settlement.index, settlement.shownMs]).toEqual([1, 0])\n    tickBattle(fixture.gs, CONFIRM_INPUT, fixture.bus)\n    expect(settlement.index).toBe(1)\n    tickBattle(fixture.gs, CONFIRM_INPUT, fixture.bus)\n    expect([settlement.index, settlement.shownMs]).toEqual([2, 0])\n  })\n\n  it.each([\n    { isBoss: false, beforeTicks: 74, shownMs: 2960 },\n    { isBoss: true, beforeTicks: 137, shownMs: 5480 },\n  ])('isBoss=$isBoss:超时前一tick不翻页,下一tick翻页并清stall', ({\n    isBoss,\n    beforeTicks,\n    shownMs,\n  }) => {\n    const fixture = makeWonBattle({ isBoss })\n    const settlement = enterWonSettlement(fixture)\n    for (let i = 0; i < beforeTicks; i++) tickBattle(fixture.gs, IDLE_INPUT, fixture.bus)\n    expect([settlement.index, settlement.shownMs]).toEqual([0, shownMs])\n    fixture.state.phaseStallTicks = 999\n    tickBattle(fixture.gs, IDLE_INPUT, fixture.bus)\n    expect([settlement.index, settlement.shownMs, fixture.state.phaseStallTicks]).toEqual([1, 0, 0])\n  })\n})\ndescribe('Phase E→对话→恢复与释放', () => {\n  it('逐敌提示结束后才入下一份掉落,跳过空槽,末条超时后才半恢复和释放', () => {\n    const fixture = createBattleLifecycleFixture({\n      enemyIds: [100, 0, 101],\n      expGained: 0,\n      cashGained: 0,\n      scriptOnBattleEnd: 1,\n      commands: [\n        { op: 'end' },\n        { op: 'giveItem', itemId: 104, count: 0 },\n        { op: 'setDialogStyleNarration' },\n        { op: 'showDialog', messageIndex: 13115, text: '捡到一颗鼠儿果' },\n        { op: 'end' },\n      ],\n    })\n    // 隔离双敌全灭边界,奖励与资源一致;脚本取原盘41008–41011的leaf,仅搬到ip1。\n    // 中间0槽是startBattle保留的空占位,不能额外给物品或改变后敌的原槽顺序。\n    fixture.state.phase = 'won'\n    for (const enemy of fixture.state.enemies) {\n      enemy.e.health = 0\n      enemy.defeated = true\n    }\n    enterWonSettlement(fixture)\n    tickBattle(fixture.gs, IDLE_INPUT, fixture.bus)\n    expect(fixture.gs.inventory).toEqual([{ itemId: 104, count: 1 }])\n    expect(fixture.state.battleDialogQueue).toHaveLength(1)\n    tickBattle(fixture.gs, IDLE_INPUT, fixture.bus)\n    expect(fixture.gs.dialogBox).toMatchObject({\n      style: 'narration',\n      currentLineText: '捡到一颗鼠儿果',\n    })\n    expect(fixture.state.battleDialogQueue).toHaveLength(0)\n    expect(\n      tickBattleSettlement(fixture.state, fixture.gs, IDLE_INPUT, fixture.resources, fixture.bus),\n    ).toBe(true)\n    expect(fixture.gs.inventory).toEqual([{ itemId: 104, count: 1 }])\n    tickBattle(fixture.gs, CONFIRM_INPUT, fixture.bus)\n    expect(fixture.gs.dialogBox).toBeUndefined()\n    expect(fixture.gs.inventory).toEqual([{ itemId: 104, count: 1 }])\n    expect(fixture.gs.mode).toBe('battle') // 关框按键由对话消费,本tick不执行下一敌。\n    tickBattle(fixture.gs, IDLE_INPUT, fixture.bus)\n    expect(fixture.gs.inventory).toEqual([{ itemId: 104, count: 2 }])\n    expect(fixture.state.battleDialogQueue).toHaveLength(1)\n    tickBattle(fixture.gs, IDLE_INPUT, fixture.bus)\n    for (let i = 0; i < 34; i++) tickBattle(fixture.gs, IDLE_INPUT, fixture.bus)\n    expect(fixture.gs.dialogBox?.currentLineText).toBe('捡到一颗鼠儿果')\n    expect([\n      fixture.gs.PlayerRolesRuntime.rgwHP[0],\n      fixture.gs.PlayerRolesRuntime.rgwMP[0],\n    ]).toEqual([300, 10])\n    expect(getBattleResources(fixture.gs)).toBe(fixture.resources)\n    tickBattle(fixture.gs, IDLE_INPUT, fixture.bus) // 第35个40ms tick达1.4秒,无残键,可恢复和退出。\n    expect(fixture.gs.inventory).toEqual([{ itemId: 104, count: 2 }])\n    expect([\n      fixture.gs.PlayerRolesRuntime.rgwHP[0],\n      fixture.gs.PlayerRolesRuntime.rgwMP[0],\n    ]).toEqual([400, 25])\n    expect(fixture.gs.dialogBox).toBeUndefined()\n    expect(fixture.gs.mode).toBe('explore')\n    expect(fixture.gs.battleState).toBeUndefined()\n    expect(getBattleResources(fixture.gs)).toBeUndefined()\n    expect(fixture.gs.fAutoBattle).toBe(false)\n  })\n\n  it('战后脚本的HP/MP治疗保留到半恢复和退出', () => {\n    const fixture = makeWonBattle({\n      scriptOnBattleEnd: 1,\n      expGained: 0,\n      commands: [\n        { op: 'end' },\n        { op: 'raw', opcode: 0x1b, operands: [1, 300, 0] },\n        { op: 'raw', opcode: 0x1c, operands: [1, 10, 0] },\n        { op: 'end' },\n      ],\n    })\n    // global.c:PAL_IncreaseHPMP与battle.c:PAL_BattleWon共用PlayerRoles。\n    // 300HP补至500;10MP补至20后恢复缺口一半,得到30。fixture仅隔离合法战后边界。\n    enterWonSettlement(fixture)\n    tickBattle(fixture.gs, IDLE_INPUT, fixture.bus)\n    expect([\n      fixture.gs.PlayerRolesRuntime.rgwHP[0],\n      fixture.gs.PlayerRolesRuntime.rgwMP[0],\n    ]).toEqual([500, 30])\n    expect(fixture.gs.mode).toBe('explore')\n    expect(getBattleResources(fixture.gs)).toBeUndefined()\n  })\n\n  it('通用属性写入与战后治疗按指令顺序共用HP/MP,不以旧快照回填', () => {\n    const fixture = makeWonBattle({\n      scriptOnBattleEnd: 1,\n      expGained: 0,\n      commands: [\n        { op: 'end' },\n        { op: 'raw', opcode: 0x1a, operands: [9, 100, 1] },\n        { op: 'raw', opcode: 0x1b, operands: [1, 50, 0] },\n        { op: 'raw', opcode: 0x1c, operands: [1, 10, 0] },\n        { op: 'raw', opcode: 0x1a, operands: [10, 6, 1] },\n        { op: 'end' },\n      ],\n    })\n    // script.c:0x1A的row9/10是HP/MP,op2=1明确选role0。\n    // 同一状态应先100HP→150HP、10MP→20MP→6MP;半恢复后325HP/23MP。\n    enterWonSettlement(fixture)\n    tickBattle(fixture.gs, IDLE_INPUT, fixture.bus)\n    expect([\n      fixture.gs.PlayerRolesRuntime.rgwHP[0],\n      fixture.gs.PlayerRolesRuntime.rgwMP[0],\n    ]).toEqual([325, 23])\n    expect(fixture.gs.mode).toBe('explore')\n    expect(getBattleResources(fixture.gs)).toBeUndefined()\n  })\n\n  it('第二敌槽的通用HP/MP指令默认选role1,不按[1,0]队伍位置换人', () => {\n    const fixture = createBattleLifecycleFixture({\n      partyMembers: [1, 0],\n      enemyIds: [100, 101],\n      expGained: 0,\n      cashGained: 0,\n      scriptOnBattleEnd: 1,\n      commands: [\n        { op: 'end' },\n        { op: 'raw', opcode: 0x1a, operands: [9, 100, 0] },\n        { op: 'raw', opcode: 0x1a, operands: [10, 6, 0] },\n        { op: 'end' },\n      ],\n    })\n    // 明确的双敌全灭边界;只第二槽有战后脚本。C传敌槽1作为eventObjectID,\n    // 0x1A的op2=0因此写role1,不是party[1]的role0。半恢复后各role常数见断言。\n    fixture.state.phase = 'won'\n    for (const enemy of fixture.state.enemies) {\n      enemy.e.health = 0\n      enemy.defeated = true\n    }\n    fixture.state.enemies[0]!.scriptOnBattleEnd = 0\n    enterWonSettlement(fixture)\n    tickBattle(fixture.gs, IDLE_INPUT, fixture.bus)\n    expect(fixture.gs.PlayerRolesRuntime.rgwHP.slice(0, 2)).toEqual([400, 300])\n    expect(fixture.gs.PlayerRolesRuntime.rgwMP.slice(0, 2)).toEqual([25, 23])\n    expect(fixture.gs.mode).toBe('explore')\n    expect(getBattleResources(fixture.gs)).toBeUndefined()\n  })\n\n  it('真实战后脚本仅执行一次,队列转active box后仍hold,关框后才半恢复/释放', () => {\n    const fixture = makeWonBattle({\n      scriptOnBattleEnd: 1,\n      expGained: 0,\n      commands: [\n        { op: 'end' },\n        { op: 'raw', opcode: 0x33, operands: [0, 0, 0] },\n        { op: 'showDialog', messageIndex: 0, text: '战利品到手' },\n        { op: 'end', advance: true },\n      ],\n    })\n    const settlement = enterWonSettlement(fixture)\n    expect(settlement.screens).toEqual([])\n    tickBattle(fixture.gs, IDLE_INPUT, fixture.bus)\n    expect([\n      settlement.postBattleScriptsDone,\n      fixture.gs.wCollectValue,\n      fixture.state.enemies[0]!.scriptOnBattleEnd,\n    ]).toEqual([true, 7, 1])\n    expect(fixture.state.battleDialogQueue).toHaveLength(1)\n    expect(fixture.gs.PlayerRolesRuntime.rgwHP[0]).toBe(300)\n    // 直接调用公开hold核队列守卫;随后由真实宿主把队列转成active box。\n    expect(\n      tickBattleSettlement(fixture.state, fixture.gs, IDLE_INPUT, fixture.resources, fixture.bus),\n    ).toBe(true)\n    expect(fixture.state.battleDialogQueue).toHaveLength(1)\n    tickBattle(fixture.gs, IDLE_INPUT, fixture.bus)\n    expect(fixture.state.battleDialogQueue).toHaveLength(0)\n    expect(fixture.gs.dialogBox?.currentLineText).toBe('战利品到手')\n    expect(\n      tickBattleSettlement(fixture.state, fixture.gs, IDLE_INPUT, fixture.resources, fixture.bus),\n    ).toBe(true)\n    expect(fixture.gs.PlayerRolesRuntime.rgwHP[0]).toBe(300)\n    expect(fixture.gs.battleState).toBe(fixture.state)\n    expect(getBattleResources(fixture.gs)).toBe(fixture.resources)\n    tickBattle(fixture.gs, CONFIRM_INPUT, fixture.bus) // skip-typing\n    tickBattle(fixture.gs, IDLE_INPUT, fixture.bus) // line-done→waiting-end-key\n    tickBattle(fixture.gs, CONFIRM_INPUT, fixture.bus) // dialog-end消费按键,这一tick仍hold\n    expect(fixture.gs.dialogBox).toBeUndefined()\n    expect(fixture.gs.mode).toBe('battle')\n    tickBattle(fixture.gs, IDLE_INPUT, fixture.bus)\n    expect(fixture.gs.wCollectValue).toBe(7)\n    expect([\n      fixture.gs.PlayerRolesRuntime.rgwHP[0],\n      fixture.gs.PlayerRolesRuntime.rgwMP[0],\n    ]).toEqual([400, 25])\n    expect(fixture.gs.mode).toBe('explore')\n    expect(fixture.gs.battleState).toBeUndefined()\n    expect(getBattleResources(fixture.gs)).toBeUndefined()\n    expect(fixture.gs.fAutoBattle).toBe(false)\n  })\n\n  it('无对话时脚本观察到未恢复的HP/MP,返回后才恢复和释放', () => {\n    const fixture = makeWonBattle({\n      scriptOnBattleEnd: 1,\n      expGained: 0,\n      commands: [{ op: 'end' }, { op: 'raw', opcode: 0x33, operands: [0, 0, 0] }, { op: 'end' }],\n    })\n    const atScript: number[][] = []\n    // 公开runner端口的透传观察器:业务仍执行真实runScript与opcode,不替换核心oracle。\n    setBattleRunScript(fixture.gs, (options) => {\n      atScript.push([\n        fixture.gs.PlayerRolesRuntime.rgwHP[0]!,\n        fixture.gs.PlayerRolesRuntime.rgwMP[0]!,\n      ])\n      return runScript(options)\n    })\n    enterWonSettlement(fixture)\n    fixture.state.phaseStallTicks = 999\n    tickBattle(fixture.gs, IDLE_INPUT, fixture.bus)\n    expect(atScript).toEqual([[300, 10]])\n    expect(fixture.gs.wCollectValue).toBe(7)\n    expect([\n      fixture.gs.PlayerRolesRuntime.rgwHP[0],\n      fixture.gs.PlayerRolesRuntime.rgwMP[0],\n      fixture.state.phaseStallTicks,\n    ]).toEqual([400, 25, 0])\n    expect(fixture.gs.mode).toBe('explore')\n    expect(fixture.gs.battleState).toBeUndefined()\n    expect(fixture.gs.fAutoBattle).toBe(false)\n  })\n})\ndescribe('Post-battle drop branching', () => {\n  it.each([\n    { roll: 21, sample: 0.2, count: 1 },\n    { roll: 22, sample: 0.21, count: 0 },\n  ])('黑毛球战后0x06:roll=$roll,掉落$count棵止血草,分支只执行一次', ({ sample, count }) => {\n    // SSS原盘41017–41021的同一leaf,仅搬到ip1;跳转0仍保留L_0。\n    // C的RandomLong(1,100)>=22跳走;这里只控制其TS实际宿主Math.random,不mock解释器。\n    const random = vi.spyOn(Math, 'random').mockReturnValue(sample)\n    try {\n      const fixture = makeWonBattle({\n        expGained: 0,\n        cashGained: 0,\n        scriptOnBattleEnd: 1,\n        commands: [\n          { op: 'end', label: 'L_0' },\n          { op: 'raw', opcode: 6, operands: [22, 0, 0] },\n          { op: 'giveItem', itemId: 99, count: 0 },\n          { op: 'setDialogStyleNarration' },\n          { op: 'showDialog', messageIndex: 13117, text: '获得一棵止血草' },\n          { op: 'end' },\n        ],\n      })\n      enterWonSettlement(fixture)\n      tickBattle(fixture.gs, IDLE_INPUT, fixture.bus)\n      expect(fixture.gs.inventory.find((i) => i.itemId === 99)?.count ?? 0).toBe(count)\n      if (count === 1) {\n        expect(fixture.gs.mode).toBe('battle')\n        tickBattle(fixture.gs, IDLE_INPUT, fixture.bus)\n        expect(fixture.gs.dialogBox).toMatchObject({\n          style: 'narration',\n          currentLineText: '获得一棵止血草',\n        })\n        tickBattle(fixture.gs, CONFIRM_INPUT, fixture.bus)\n        tickBattle(fixture.gs, IDLE_INPUT, fixture.bus)\n      } else {\n        expect(fixture.state.battleDialogQueue ?? []).toEqual([])\n        expect(fixture.gs.dialogBox).toBeUndefined()\n      }\n      expect(random).toHaveBeenCalledTimes(1)\n      expect(fixture.gs.inventory.find((i) => i.itemId === 99)?.count ?? 0).toBe(count)\n      expect(fixture.gs.battleState).toBeUndefined()\n      expect(fixture.gs.mode).toBe('explore')\n    } finally {\n      random.mockRestore()\n    }\n  })\n})\nit.each([\n    { result: 0, resumeIp: 5 },\n    { result: 1, resumeIp: 6 },\n    { result: 0xffff, resumeIp: 7 },\n  ])('0x89 result=$result不跑战后掉落/半恢复,接回ip$resumeIp', ({ result, resumeIp }) => {\n    // 当前原盘四处0x89只有result0;1/FFFF是C和typed opcode结果域,不声称剧情可达。\n    const fixture = createBattleLifecycleFixture({\n      scriptOnTurnStart: 1,\n      scriptOnBattleEnd: 3,\n      commands: [\n        { op: 'end' },\n        { op: 'raw', opcode: 0x89, operands: [result, 0, 0] },\n        { op: 'end' },\n        { op: 'giveItem', itemId: 104, count: 0 },\n        { op: 'end' },\n        { op: 'end' },\n        { op: 'end' },\n        { op: 'end' },\n      ],\n    })\n    fixture.gs.postBattleResume = {\n      wonIp: 5,\n      lostIp: 6,\n      fledIp: 7,\n      commands: fixture.resources.commands,\n      currentEventObjectId: 7,\n      triggerOwnerId: 7,\n    }\n    tickBattle(fixture.gs, IDLE_INPUT, fixture.bus) // preBattle→selectAction\n    tickBattle(fixture.gs, IDLE_INPUT, fixture.bus) // 真实turn-start runner执行0x89\n    tickBattle(fixture.gs, IDLE_INPUT, fixture.bus) // 实际终态route→cleanup→resume\n    expect(fixture.gs.inventory).toEqual([])\n    expect([\n      fixture.gs.PlayerRolesRuntime.rgwHP[0],\n      fixture.gs.PlayerRolesRuntime.rgwMP[0],\n    ]).toEqual([300, 10])\n    expect(fixture.gs.eventCursor).toMatchObject({\n      ip: resumeIp,\n      currentEventObjectId: 7,\n      triggerOwnerId: 7,\n    })\n    expect(fixture.gs.eventCursor?.commands).toBe(fixture.resources.commands)\n    expect(fixture.gs.postBattleResume).toBeUndefined()\n    expect(fixture.gs.mode).toBe('event')\n    expect(fixture.gs.battleState).toBeUndefined()\n    expect(getBattleResources(fixture.gs)).toBeUndefined()\n  })\n",
+          "to": "import type { InputSnapshot } from '@type-pal/shared'\nimport { describe, expect, it } from 'vitest'\nimport { runScript } from '../event-system.js'\nimport { createBattleLifecycleFixture } from './battle-lifecycle.test-fixtures.js'\nimport { getBattleResources, setBattleRunScript } from './battle-runtime-context.js'\nimport { tickBattle } from './battle-system.js'\nconst IDLE_INPUT: InputSnapshot = { held: new Set(), pressed: new Set(), frameNum: 0 }\nconst CONFIRM_INPUT: InputSnapshot = { held: new Set(), pressed: new Set(['Confirm']), frameNum: 0 }\nit('analysis placeholder0',()=>{})\nit('analysis placeholder1',()=>{})\nit('analysis placeholder2',()=>{})\nit('analysis placeholder3',()=>{})\nit('analysis placeholder4',()=>{})\nit('analysis placeholder5',()=>{})\nit('analysis placeholder6',()=>{})\nit('analysis placeholder7',()=>{})\nit('analysis placeholder8',()=>{})\nit('analysis placeholder9',()=>{})\nit('analysis placeholder10',()=>{})\nit('analysis placeholder11',()=>{})\nit.each([\n    { result: 0, resumeIp: 5 },\n    { result: 1, resumeIp: 6 },\n    { result: 0xffff, resumeIp: 7 },\n  ])('0x89 result=$result不跑战后掉落/半恢复,接回ip$resumeIp', ({ result, resumeIp }) => {\n    // 当前原盘四处0x89只有result0;1/FFFF是C和typed opcode结果域,不声称剧情可达。\n    const fixture = createBattleLifecycleFixture({\n      scriptOnTurnStart: 1,\n      scriptOnBattleEnd: 3,\n      commands: [\n        { op: 'end' },\n        { op: 'raw', opcode: 0x89, operands: [result, 0, 0] },\n        { op: 'end' },\n        { op: 'giveItem', itemId: 104, count: 0 },\n        { op: 'end' },\n        { op: 'end' },\n        { op: 'end' },\n        { op: 'end' },\n      ],\n    })\n    fixture.gs.postBattleResume = {\n      wonIp: 5,\n      lostIp: 6,\n      fledIp: 7,\n      commands: fixture.resources.commands,\n      currentEventObjectId: 7,\n      triggerOwnerId: 7,\n    }\n    tickBattle(fixture.gs, IDLE_INPUT, fixture.bus) // preBattle→selectAction\n    tickBattle(fixture.gs, IDLE_INPUT, fixture.bus) // 真实turn-start runner执行0x89\n    tickBattle(fixture.gs, IDLE_INPUT, fixture.bus) // 实际终态route→cleanup→resume\n    expect(fixture.gs.inventory).toEqual([])\n    expect([\n      fixture.gs.PlayerRolesRuntime.rgwHP[0],\n      fixture.gs.PlayerRolesRuntime.rgwMP[0],\n    ]).toEqual([300, 10])\n    expect(fixture.gs.eventCursor).toMatchObject({\n      ip: resumeIp,\n      currentEventObjectId: 7,\n      triggerOwnerId: 7,\n    })\n    expect(fixture.gs.eventCursor?.commands).toBe(fixture.resources.commands)\n    expect(fixture.gs.postBattleResume).toBeUndefined()\n    expect(fixture.gs.mode).toBe('event')\n    expect(fixture.gs.battleState).toBeUndefined()\n    expect(getBattleResources(fixture.gs)).toBeUndefined()\n  })",
+          "count": 1
+        }
+      ],
+      "reason": "Analysis-only registration context. Complete typed helper/input/callback/module proof and actual import targets establish semantics. Twelve placeholders only retain terminal ordinal; never executed or counted as tests."
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-system.script-boundaries.test.ts",
+      "id": "organization-battle-outcomes-boundary",
+      "changes": [
+        {
+          "from": "// Public tickBattle script boundaries through the real lifecycle fixture.\n// 0x89[3] is a typed terminal-path fixture, not evidence of ordinary original-story reachability.\n\nimport type { InputSnapshot } from '@type-pal/shared'\nimport { describe, expect, it } from 'vitest'\nimport { runScript } from '../event-system.js'\nimport { createBattleLifecycleFixture } from './battle-lifecycle.test-fixtures.js'\nimport { getBattleResources, setBattleRunScript } from './battle-runtime-context.js'\nimport { tickBattle } from './battle-system.js'\n\nconst IDLE_INPUT: InputSnapshot = { held: new Set(), pressed: new Set(), frameNum: 0 }\nconst CONFIRM_INPUT: InputSnapshot = { held: new Set(), pressed: new Set(['Confirm']), frameNum: 0 }\n\ndescribe('Turn-start dialogue clear boundaries', () => {\n  it('turnStart 脚本内 0x05 → 首句对话带 clearBefore;脚本结束标记复位(不跨脚本泄漏)', () => {\n    const { gs, bus } = createBattleLifecycleFixture({\n      commands: [\n        { op: 'end' }, // ip 0\n        { op: 'raw', opcode: 0x05, operands: [0, 0, 0] }, // ip 1 ClearDialog\n        { op: 'showDialog', messageIndex: 0, text: '嘲讽' }, // ip 2\n        { op: 'end' }, // ip 3\n      ],\n      enemyIds: [100],\n    })\n    tickBattle(gs, IDLE_INPUT, bus) // preBattle → selectAction\n    const state = gs.battleState!\n    expect(state.enemies.map((enemy) => enemy.e.id)).toEqual([100])\n    state.enemies[0]!.scriptOnTurnStart = 1\n    tickBattle(gs, IDLE_INPUT, bus) // selectAction 起手 → runEnemyTurnStartScripts\n    const queue = state.battleDialogQueue ?? []\n    expect(queue.length).toBe(1)\n    expect(queue[0]).toMatchObject({ text: '嘲讽', clearBefore: true })\n    expect(state.battleDialogPendingClear).toBe(false) // runEnemyTurnStartScripts循环末复位\n  })\n\n  it('敌 A 的 0x05(无对话)不泄漏到敌 B 的对话(每脚本起手重置)', () => {\n    const { gs, bus } = createBattleLifecycleFixture({\n      commands: [\n        { op: 'end' }, // ip 0\n        { op: 'raw', opcode: 0x05, operands: [0, 0, 0] }, // ip 1(敌 A:只置标记,不出对话)\n        { op: 'end' }, // ip 2:结束标记；敌 B 从 ip 3 开始\n        { op: 'showDialog', messageIndex: 0, text: 'B 的台词' }, // ip 3\n        { op: 'end' }, // ip 4\n      ],\n      enemyIds: [100, 101],\n    })\n    tickBattle(gs, IDLE_INPUT, bus)\n    const state = gs.battleState!\n    state.enemies[0]!.scriptOnTurnStart = 1\n    state.enemies[1]!.scriptOnTurnStart = 3 // B 脚本入口 = showDialog 行\n    tickBattle(gs, IDLE_INPUT, bus)\n    const queue = state.battleDialogQueue ?? []\n    expect(queue.length).toBe(1)\n    expect(queue[0]).toMatchObject({ text: 'B 的台词' })\n    expect(queue[0]!.clearBefore).toBeUndefined() // A 置的标记在 B 脚本起手被重置\n    expect(state.battleDialogPendingClear).toBe(false)\n  })\n})\n\ndescribe('Terminal turn-start script stops later enemies', () => {\n  it('敌 A turnStart 0x89 [3] won → 敌 B turnStart 不跑、无对话;phase 进 won', () => {\n    const { gs, bus } = createBattleLifecycleFixture({\n      commands: [\n        { op: 'end' }, // ip 0\n        { op: 'raw', opcode: 0x89, operands: [3, 0, 0] }, // ip 1 敌 A:SetBattleResult won\n        { op: 'end' }, // ip 2:结束标记；敌 B 从 ip 3 开始\n        { op: 'showDialog', messageIndex: 0, text: '不该出现' }, // ip 3\n        { op: 'end' }, // ip 4\n        // 两个原盘战后leaf:41008–41011、41032–41035,搬到ip5/9。\n        { op: 'giveItem', itemId: 104, count: 0 },\n        { op: 'setDialogStyleNarration' },\n        { op: 'showDialog', messageIndex: 13115, text: '捡到一颗鼠儿果' },\n        { op: 'end' },\n        { op: 'giveItem', itemId: 97, count: 0 },\n        { op: 'setDialogStyleNarration' },\n        { op: 'showDialog', messageIndex: 13120, text: '得到孟婆汤' },\n        { op: 'end' },\n      ],\n      enemyIds: [100, 101],\n      enemyObjects: [\n        {\n          objectIndex: 100,\n          enemyId: 100,\n          resistanceToSorcery: 0,\n          scriptOnTurnStart: 1,\n          scriptOnReady: 0,\n          scriptOnBattleEnd: 5,\n        },\n        {\n          objectIndex: 101,\n          enemyId: 101,\n          resistanceToSorcery: 0,\n          scriptOnTurnStart: 3,\n          scriptOnReady: 0,\n          scriptOnBattleEnd: 9,\n        },\n      ],\n    })\n    const calls: Array<{ entry: number; enemyIdx: number | undefined }> = []\n    setBattleRunScript(gs, (options) => {\n      calls.push({ entry: options.ip, enemyIdx: options.battleCtx?.caster?.idx })\n      return runScript(options) // 此注入端口观察PhaseE;turnStart直接调用真实runScript,不列入calls\n    })\n    tickBattle(gs, IDLE_INPUT, bus)\n    const state = gs.battleState!\n    tickBattle(gs, IDLE_INPUT, bus)\n    expect(state.terminatedByEnemyEscape ?? false).toBe(false) // 非 0x69 terminated 变体\n    expect(state.phase).toBe('won')\n    expect(state.battleDialogQueue ?? []).toEqual([]) // 敌 B 台词未入队(loop break)\n    expect(state.enemies.map((e) => [e.e.health, !e.defeated])).toEqual([\n      [9000, true],\n      [9000, true],\n    ])\n    expect([state.expGained, state.cashGained]).toEqual([0, 0])\n    tickBattle(gs, IDLE_INPUT, bus) // won首tick,不是checkEnemyDeaths\n    expect(state.settlement?.screens).toEqual([])\n    expect(gs.dwCash).toBe(0)\n    expect(gs.Exp.rgPrimaryExp[0]!.wExp).toBe(0)\n    tickBattle(gs, IDLE_INPUT, bus) // PhaseE:活敌也按原槽运行,先等第一敌的提示。\n    expect(calls).toEqual([{ entry: 5, enemyIdx: 0 }])\n    expect(gs.inventory.map((i) => [i.itemId, i.count])).toEqual([[104, 1]])\n    tickBattle(gs, IDLE_INPUT, bus)\n    expect(gs.dialogBox).toMatchObject({ style: 'narration', currentLineText: '捡到一颗鼠儿果' })\n    tickBattle(gs, CONFIRM_INPUT, bus)\n    expect(calls).toEqual([{ entry: 5, enemyIdx: 0 }]) // 关框按键仍由本次对话消费。\n    tickBattle(gs, IDLE_INPUT, bus)\n    expect(calls).toEqual([\n      { entry: 5, enemyIdx: 0 },\n      { entry: 9, enemyIdx: 1 },\n    ])\n    expect(gs.inventory.map((i) => [i.itemId, i.count])).toEqual([\n      [104, 1],\n      [97, 1],\n    ])\n    tickBattle(gs, IDLE_INPUT, bus)\n    expect(gs.dialogBox).toMatchObject({ style: 'narration', currentLineText: '得到孟婆汤' })\n    expect(gs.mode).toBe('battle')\n    tickBattle(gs, CONFIRM_INPUT, bus)\n    tickBattle(gs, IDLE_INPUT, bus)\n    expect(calls).toHaveLength(2) // 展示期间不重跑PhaseE\n    expect(gs.inventory.map((i) => [i.itemId, i.count])).toEqual([\n      [104, 1],\n      [97, 1],\n    ])\n    expect([gs.PlayerRolesRuntime.rgwHP[0], gs.PlayerRolesRuntime.rgwMP[0]]).toEqual([400, 25])\n    expect(gs.mode).toBe('explore')\n    expect(gs.battleState).toBeUndefined()\n    expect(getBattleResources(gs)).toBeUndefined()\n  })\n})\n",
+          "to": "// Public tickBattle script boundaries through the real lifecycle fixture.\n// Terminal-result fixtures state their original-story reachability separately from the typed result domain.\n\nimport type { InputSnapshot } from '@type-pal/shared'\nimport { describe, expect, it } from 'vitest'\nimport { runScript } from '../event-system.js'\nimport { createBattleLifecycleFixture } from './battle-lifecycle.test-fixtures.js'\nimport { getBattleResources, setBattleRunScript } from './battle-runtime-context.js'\nimport { tickBattle } from './battle-system.js'\n\nconst IDLE_INPUT: InputSnapshot = { held: new Set(), pressed: new Set(), frameNum: 0 }\nconst CONFIRM_INPUT: InputSnapshot = { held: new Set(), pressed: new Set(['Confirm']), frameNum: 0 }\n\ndescribe('Turn-start dialogue clear boundaries', () => {\n  it('turnStart 脚本内 0x05 → 首句对话带 clearBefore;脚本结束标记复位(不跨脚本泄漏)', () => {\n    const { gs, bus } = createBattleLifecycleFixture({\n      commands: [\n        { op: 'end' }, // ip 0\n        { op: 'raw', opcode: 0x05, operands: [0, 0, 0] }, // ip 1 ClearDialog\n        { op: 'showDialog', messageIndex: 0, text: '嘲讽' }, // ip 2\n        { op: 'end' }, // ip 3\n      ],\n      enemyIds: [100],\n    })\n    tickBattle(gs, IDLE_INPUT, bus) // preBattle → selectAction\n    const state = gs.battleState!\n    expect(state.enemies.map((enemy) => enemy.e.id)).toEqual([100])\n    state.enemies[0]!.scriptOnTurnStart = 1\n    tickBattle(gs, IDLE_INPUT, bus) // selectAction 起手 → runEnemyTurnStartScripts\n    const queue = state.battleDialogQueue ?? []\n    expect(queue.length).toBe(1)\n    expect(queue[0]).toMatchObject({ text: '嘲讽', clearBefore: true })\n    expect(state.battleDialogPendingClear).toBe(false) // runEnemyTurnStartScripts循环末复位\n  })\n\n  it('敌 A 的 0x05(无对话)不泄漏到敌 B 的对话(每脚本起手重置)', () => {\n    const { gs, bus } = createBattleLifecycleFixture({\n      commands: [\n        { op: 'end' }, // ip 0\n        { op: 'raw', opcode: 0x05, operands: [0, 0, 0] }, // ip 1(敌 A:只置标记,不出对话)\n        { op: 'end' }, // ip 2:结束标记；敌 B 从 ip 3 开始\n        { op: 'showDialog', messageIndex: 0, text: 'B 的台词' }, // ip 3\n        { op: 'end' }, // ip 4\n      ],\n      enemyIds: [100, 101],\n    })\n    tickBattle(gs, IDLE_INPUT, bus)\n    const state = gs.battleState!\n    state.enemies[0]!.scriptOnTurnStart = 1\n    state.enemies[1]!.scriptOnTurnStart = 3 // B 脚本入口 = showDialog 行\n    tickBattle(gs, IDLE_INPUT, bus)\n    const queue = state.battleDialogQueue ?? []\n    expect(queue.length).toBe(1)\n    expect(queue[0]).toMatchObject({ text: 'B 的台词' })\n    expect(queue[0]!.clearBefore).toBeUndefined() // A 置的标记在 B 脚本起手被重置\n    expect(state.battleDialogPendingClear).toBe(false)\n  })\n})\n\ndescribe('Terminal turn-start script stops later enemies', () => {\n  it('敌 A turnStart 0x89 [3] won → 敌 B turnStart 不跑、无对话;phase 进 won', () => {\n    const { gs, bus } = createBattleLifecycleFixture({\n      commands: [\n        { op: 'end' }, // ip 0\n        { op: 'raw', opcode: 0x89, operands: [3, 0, 0] }, // ip 1 敌 A:SetBattleResult won\n        { op: 'end' }, // ip 2:结束标记；敌 B 从 ip 3 开始\n        { op: 'showDialog', messageIndex: 0, text: '不该出现' }, // ip 3\n        { op: 'end' }, // ip 4\n        // 两个原盘战后leaf:41008–41011、41032–41035,搬到ip5/9。\n        { op: 'giveItem', itemId: 104, count: 0 },\n        { op: 'setDialogStyleNarration' },\n        { op: 'showDialog', messageIndex: 13115, text: '捡到一颗鼠儿果' },\n        { op: 'end' },\n        { op: 'giveItem', itemId: 97, count: 0 },\n        { op: 'setDialogStyleNarration' },\n        { op: 'showDialog', messageIndex: 13120, text: '得到孟婆汤' },\n        { op: 'end' },\n      ],\n      enemyIds: [100, 101],\n      enemyObjects: [\n        {\n          objectIndex: 100,\n          enemyId: 100,\n          resistanceToSorcery: 0,\n          scriptOnTurnStart: 1,\n          scriptOnReady: 0,\n          scriptOnBattleEnd: 5,\n        },\n        {\n          objectIndex: 101,\n          enemyId: 101,\n          resistanceToSorcery: 0,\n          scriptOnTurnStart: 3,\n          scriptOnReady: 0,\n          scriptOnBattleEnd: 9,\n        },\n      ],\n    })\n    const calls: Array<{ entry: number; enemyIdx: number | undefined }> = []\n    setBattleRunScript(gs, (options) => {\n      calls.push({ entry: options.ip, enemyIdx: options.battleCtx?.caster?.idx })\n      return runScript(options) // 此注入端口观察PhaseE;turnStart直接调用真实runScript,不列入calls\n    })\n    tickBattle(gs, IDLE_INPUT, bus)\n    const state = gs.battleState!\n    tickBattle(gs, IDLE_INPUT, bus)\n    expect(state.terminatedByEnemyEscape ?? false).toBe(false) // 非 0x69 terminated 变体\n    expect(state.phase).toBe('won')\n    expect(state.battleDialogQueue ?? []).toEqual([]) // 敌 B 台词未入队(loop break)\n    expect(state.enemies.map((e) => [e.e.health, !e.defeated])).toEqual([\n      [9000, true],\n      [9000, true],\n    ])\n    expect([state.expGained, state.cashGained]).toEqual([0, 0])\n    tickBattle(gs, IDLE_INPUT, bus) // won首tick,不是checkEnemyDeaths\n    expect(state.settlement?.screens).toEqual([])\n    expect(gs.dwCash).toBe(0)\n    expect(gs.Exp.rgPrimaryExp[0]!.wExp).toBe(0)\n    tickBattle(gs, IDLE_INPUT, bus) // PhaseE:活敌也按原槽运行,先等第一敌的提示。\n    expect(calls).toEqual([{ entry: 5, enemyIdx: 0 }])\n    expect(gs.inventory.map((i) => [i.itemId, i.count])).toEqual([[104, 1]])\n    tickBattle(gs, IDLE_INPUT, bus)\n    expect(gs.dialogBox).toMatchObject({ style: 'narration', currentLineText: '捡到一颗鼠儿果' })\n    tickBattle(gs, CONFIRM_INPUT, bus)\n    expect(calls).toEqual([{ entry: 5, enemyIdx: 0 }]) // 关框按键仍由本次对话消费。\n    tickBattle(gs, IDLE_INPUT, bus)\n    expect(calls).toEqual([\n      { entry: 5, enemyIdx: 0 },\n      { entry: 9, enemyIdx: 1 },\n    ])\n    expect(gs.inventory.map((i) => [i.itemId, i.count])).toEqual([\n      [104, 1],\n      [97, 1],\n    ])\n    tickBattle(gs, IDLE_INPUT, bus)\n    expect(gs.dialogBox).toMatchObject({ style: 'narration', currentLineText: '得到孟婆汤' })\n    expect(gs.mode).toBe('battle')\n    tickBattle(gs, CONFIRM_INPUT, bus)\n    tickBattle(gs, IDLE_INPUT, bus)\n    expect(calls).toHaveLength(2) // 展示期间不重跑PhaseE\n    expect(gs.inventory.map((i) => [i.itemId, i.count])).toEqual([\n      [104, 1],\n      [97, 1],\n    ])\n    expect([gs.PlayerRolesRuntime.rgwHP[0], gs.PlayerRolesRuntime.rgwMP[0]]).toEqual([400, 25])\n    expect(gs.mode).toBe('explore')\n    expect(gs.battleState).toBeUndefined()\n    expect(getBattleResources(gs)).toBeUndefined()\n  })\n})",
+          "count": 1
+        }
+      ],
+      "reason": "Analysis-only registration context. Complete typed helper/input/callback/module proof and actual import targets establish semantics. Twelve placeholders only retain terminal ordinal; never executed or counted as tests."
+    }
+  ],
+  "registrations": [
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/battle-progression.glm-next-wave.test.ts",
+        "ordinal": 0,
+        "fullName": "applyHiddenExpGrowth —— CHECK_HIDDEN_EXP 宏边角(battle.c:1238-1293) wLevel=120 先钳 99;99 级上继续扣阈值涨属性,wLevel 停 99 不再 ++"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/battle-progression.hidden-exp.test.ts",
+        "titles": ["Hidden experience growth"],
+        "template": "wLevel=120 先钳 99;99 级上继续扣阈值涨属性,wLevel 停 99 不再 ++",
+        "fullName": "Hidden experience growth wLevel=120 先钳 99;99 级上继续扣阈值涨属性,wLevel 停 99 不再 ++"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/battle-progression.glm-next-wave.test.ts",
+        "ordinal": 1,
+        "fullName": "applyHiddenExpGrowth —— CHECK_HIDDEN_EXP 宏边角(battle.c:1238-1293) 隐藏涨点无 STAT_LIMIT 999 钳:base 998 再涨 → 突破 999(与主升级 cap 明确不同)"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/battle-progression.hidden-exp.test.ts",
+        "titles": ["Hidden experience growth"],
+        "template": "隐藏涨点无 STAT_LIMIT 999 钳:base 998 再涨 → 突破 999(与主升级 cap 明确不同)",
+        "fullName": "Hidden experience growth 隐藏涨点无 STAT_LIMIT 999 钳:base 998 再涨 → 突破 999(与主升级 cap 明确不同)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/battle-progression.glm-next-wave.test.ts",
+        "ordinal": 2,
+        "fullName": "applyHiddenExpGrowth —— CHECK_HIDDEN_EXP 宏边角(battle.c:1238-1293) 七池映射与消费顺序:身法只结算存留经验,不伪造动作计数"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/battle-progression.hidden-exp.test.ts",
+        "titles": ["Hidden experience growth"],
+        "template": "七池映射与消费顺序:身法只结算存留经验,不伪造动作计数",
+        "fullName": "Hidden experience growth 七池映射与消费顺序:身法只结算存留经验,不伪造动作计数"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/battle-progression.glm-next-wave.test.ts",
+        "ordinal": 3,
+        "fullName": "battleWonLevelUp:隐藏经验抬 maxHP 与回满的先后(battle.c:1287-1292) 无主升级但隐藏涨 maxHP → HP 保持战后值不回满(if(fLevelUp) 才回满)"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/battle-progression.hidden-exp.test.ts",
+        "titles": ["Primary level-up and hidden growth recovery"],
+        "template": "无主升级但隐藏涨 maxHP → HP 保持战后值不回满(if(fLevelUp) 才回满)",
+        "fullName": "Primary level-up and hidden growth recovery 无主升级但隐藏涨 maxHP → HP 保持战后值不回满(if(fLevelUp) 才回满)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/battle-progression.glm-next-wave.test.ts",
+        "ordinal": 4,
+        "fullName": "battleWonLevelUp:隐藏经验抬 maxHP 与回满的先后(battle.c:1287-1292) 主升级成立 → 隐藏涨点后 HP/MP 回满到(可能更高的)新 max(battle.c:1289-1292)"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/battle-progression.hidden-exp.test.ts",
+        "titles": ["Primary level-up and hidden growth recovery"],
+        "template": "主升级成立 → 隐藏涨点后 HP/MP 回满到(可能更高的)新 max(battle.c:1289-1292)",
+        "fullName": "Primary level-up and hidden growth recovery 主升级成立 → 隐藏涨点后 HP/MP 回满到(可能更高的)新 max(battle.c:1289-1292)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+        "ordinal": 0,
+        "fullName": "settlementScreenTimeoutMs(battle.c:1048/1218/1272/1324 PAL_WaitForAnyKey) exp 屏 boss 5500ms / 普通战 3000ms;升级/隐藏涨点/练成屏一律 3000ms"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/battle-settlement.screens.test.ts",
+        "titles": ["settlementScreenTimeoutMs(battle.c:1048/1218/1272/1324 PAL_WaitForAnyKey)"],
+        "template": "exp 屏 boss 5500ms / 普通战 3000ms;升级/隐藏涨点/练成屏一律 3000ms",
+        "fullName": "settlementScreenTimeoutMs(battle.c:1048/1218/1272/1324 PAL_WaitForAnyKey) exp 屏 boss 5500ms / 普通战 3000ms;升级/隐藏涨点/练成屏一律 3000ms"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+        "ordinal": 1,
+        "fullName": "won首tick的结算装配 先回写战斗HP/MP再按存活角色入经验,未升级仅一屏且现金只入账一次"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/battle-settlement.screens.test.ts",
+        "titles": ["won首tick的结算装配"],
+        "template": "先回写战斗HP/MP再按存活角色入经验,未升级仅一屏且现金只入账一次",
+        "fullName": "won首tick的结算装配 先回写战斗HP/MP再按存活角色入经验,未升级仅一屏且现金只入账一次"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+        "ordinal": 2,
+        "fullName": "won首tick的结算装配 按[1,0]队伍逐人排主升级/隐藏涨点/练成屏,名字与roleId匹配"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/battle-settlement.screens.test.ts",
+        "titles": ["won首tick的结算装配"],
+        "template": "按[1,0]队伍逐人排主升级/隐藏涨点/练成屏,名字与roleId匹配",
+        "fullName": "won首tick的结算装配 按[1,0]队伍逐人排主升级/隐藏涨点/练成屏,名字与roleId匹配"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+        "ordinal": 3,
+        "fullName": "逐屏输入与时间边界 每屏首tick吞残键,长按不翻页,次tick可由非Confirm按键翻页"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/battle-settlement.screens.test.ts",
+        "titles": ["逐屏输入与时间边界"],
+        "template": "每屏首tick吞残键,长按不翻页,次tick可由非Confirm按键翻页",
+        "fullName": "逐屏输入与时间边界 每屏首tick吞残键,长按不翻页,次tick可由非Confirm按键翻页"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+        "ordinal": 4,
+        "fullName": "逐屏输入与时间边界 isBoss=$isBoss:超时前一tick不翻页,下一tick翻页并清stall"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/battle-settlement.screens.test.ts",
+        "titles": ["逐屏输入与时间边界"],
+        "template": "isBoss=$isBoss:超时前一tick不翻页,下一tick翻页并清stall",
+        "fullName": "逐屏输入与时间边界 isBoss=$isBoss:超时前一tick不翻页,下一tick翻页并清stall"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+        "ordinal": 5,
+        "fullName": "Phase E→对话→恢复与释放 逐敌提示结束后才入下一份掉落,跳过空槽,末条超时后才半恢复和释放"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/battle-settlement.scripts.test.ts",
+        "titles": ["Phase E→对话→恢复与释放"],
+        "template": "逐敌提示结束后才入下一份掉落,跳过空槽,末条超时后才半恢复和释放",
+        "fullName": "Phase E→对话→恢复与释放 逐敌提示结束后才入下一份掉落,跳过空槽,末条超时后才半恢复和释放"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+        "ordinal": 6,
+        "fullName": "Phase E→对话→恢复与释放 战后脚本的HP/MP治疗保留到半恢复和退出"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/battle-settlement.scripts.test.ts",
+        "titles": ["Phase E→对话→恢复与释放"],
+        "template": "战后脚本的HP/MP治疗保留到半恢复和退出",
+        "fullName": "Phase E→对话→恢复与释放 战后脚本的HP/MP治疗保留到半恢复和退出"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+        "ordinal": 7,
+        "fullName": "Phase E→对话→恢复与释放 通用属性写入与战后治疗按指令顺序共用HP/MP,不以旧快照回填"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/battle-settlement.scripts.test.ts",
+        "titles": ["Phase E→对话→恢复与释放"],
+        "template": "通用属性写入与战后治疗按指令顺序共用HP/MP,不以旧快照回填",
+        "fullName": "Phase E→对话→恢复与释放 通用属性写入与战后治疗按指令顺序共用HP/MP,不以旧快照回填"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+        "ordinal": 8,
+        "fullName": "Phase E→对话→恢复与释放 第二敌槽的通用HP/MP指令默认选role1,不按[1,0]队伍位置换人"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/battle-settlement.scripts.test.ts",
+        "titles": ["Phase E→对话→恢复与释放"],
+        "template": "第二敌槽的通用HP/MP指令默认选role1,不按[1,0]队伍位置换人",
+        "fullName": "Phase E→对话→恢复与释放 第二敌槽的通用HP/MP指令默认选role1,不按[1,0]队伍位置换人"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+        "ordinal": 9,
+        "fullName": "Phase E→对话→恢复与释放 真实战后脚本仅执行一次,队列转active box后仍hold,关框后才半恢复/释放"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/battle-settlement.scripts.test.ts",
+        "titles": ["Phase E→对话→恢复与释放"],
+        "template": "真实战后脚本仅执行一次,队列转active box后仍hold,关框后才半恢复/释放",
+        "fullName": "Phase E→对话→恢复与释放 真实战后脚本仅执行一次,队列转active box后仍hold,关框后才半恢复/释放"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+        "ordinal": 10,
+        "fullName": "Phase E→对话→恢复与释放 无对话时脚本观察到未恢复的HP/MP,返回后才恢复和释放"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/battle-settlement.scripts.test.ts",
+        "titles": ["Phase E→对话→恢复与释放"],
+        "template": "无对话时脚本观察到未恢复的HP/MP,返回后才恢复和释放",
+        "fullName": "Phase E→对话→恢复与释放 无对话时脚本观察到未恢复的HP/MP,返回后才恢复和释放"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+        "ordinal": 11,
+        "fullName": "原盘战后掉落分支与特殊非胜利接回 黑毛球战后0x06:roll=$roll,掉落$count棵止血草,分支只执行一次"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/battle-settlement.scripts.test.ts",
+        "titles": ["Post-battle drop branching"],
+        "template": "黑毛球战后0x06:roll=$roll,掉落$count棵止血草,分支只执行一次",
+        "fullName": "Post-battle drop branching 黑毛球战后0x06:roll=$roll,掉落$count棵止血草,分支只执行一次"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+        "ordinal": 12,
+        "fullName": "原盘战后掉落分支与特殊非胜利接回 0x89 result=$result不跑战后掉落/半恢复,接回ip$resumeIp"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/battle-system.script-boundaries.test.ts",
+        "titles": ["Terminal results bypass victory settlement"],
+        "template": "0x89 result=$result不跑战后掉落/半恢复,接回ip$resumeIp",
+        "fullName": "Terminal results bypass victory settlement 0x89 result=$result不跑战后掉落/半恢复,接回ip$resumeIp"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/battle-system.script-boundaries.test.ts",
+        "ordinal": 0,
+        "fullName": "Turn-start dialogue clear boundaries turnStart 脚本内 0x05 → 首句对话带 clearBefore;脚本结束标记复位(不跨脚本泄漏)"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/battle-system.script-boundaries.test.ts",
+        "titles": ["Turn-start dialogue clear boundaries"],
+        "template": "turnStart 脚本内 0x05 → 首句对话带 clearBefore;脚本结束标记复位(不跨脚本泄漏)",
+        "fullName": "Turn-start dialogue clear boundaries turnStart 脚本内 0x05 → 首句对话带 clearBefore;脚本结束标记复位(不跨脚本泄漏)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/battle-system.script-boundaries.test.ts",
+        "ordinal": 1,
+        "fullName": "Turn-start dialogue clear boundaries 敌 A 的 0x05(无对话)不泄漏到敌 B 的对话(每脚本起手重置)"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/battle-system.script-boundaries.test.ts",
+        "titles": ["Turn-start dialogue clear boundaries"],
+        "template": "敌 A 的 0x05(无对话)不泄漏到敌 B 的对话(每脚本起手重置)",
+        "fullName": "Turn-start dialogue clear boundaries 敌 A 的 0x05(无对话)不泄漏到敌 B 的对话(每脚本起手重置)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/battle-system.script-boundaries.test.ts",
+        "ordinal": 2,
+        "fullName": "Terminal turn-start script stops later enemies 敌 A turnStart 0x89 [3] won → 敌 B turnStart 不跑、无对话;phase 进 won"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/battle-system.script-boundaries.test.ts",
+        "titles": ["Terminal turn-start script stops later enemies"],
+        "template": "敌 A turnStart 0x89 [3] won → 敌 B turnStart 不跑、无对话;phase 进 won",
+        "fullName": "Terminal turn-start script stops later enemies 敌 A turnStart 0x89 [3] won → 敌 B turnStart 不跑、无对话;phase 进 won"
+      }
+    }
+  ],
+  "identities": [
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/battle-progression.glm-next-wave.test.ts",
+        "fullName": "applyHiddenExpGrowth —— CHECK_HIDDEN_EXP 宏边角(battle.c:1238-1293) wLevel=120 先钳 99;99 级上继续扣阈值涨属性,wLevel 停 99 不再 ++"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/battle-progression.hidden-exp.test.ts",
+        "fullName": "Hidden experience growth wLevel=120 先钳 99;99 级上继续扣阈值涨属性,wLevel 停 99 不再 ++"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/battle-progression.glm-next-wave.test.ts",
+        "fullName": "applyHiddenExpGrowth —— CHECK_HIDDEN_EXP 宏边角(battle.c:1238-1293) 隐藏涨点无 STAT_LIMIT 999 钳:base 998 再涨 → 突破 999(与主升级 cap 明确不同)"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/battle-progression.hidden-exp.test.ts",
+        "fullName": "Hidden experience growth 隐藏涨点无 STAT_LIMIT 999 钳:base 998 再涨 → 突破 999(与主升级 cap 明确不同)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/battle-progression.glm-next-wave.test.ts",
+        "fullName": "applyHiddenExpGrowth —— CHECK_HIDDEN_EXP 宏边角(battle.c:1238-1293) 七池映射与消费顺序:身法只结算存留经验,不伪造动作计数"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/battle-progression.hidden-exp.test.ts",
+        "fullName": "Hidden experience growth 七池映射与消费顺序:身法只结算存留经验,不伪造动作计数"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/battle-progression.glm-next-wave.test.ts",
+        "fullName": "battleWonLevelUp:隐藏经验抬 maxHP 与回满的先后(battle.c:1287-1292) 无主升级但隐藏涨 maxHP → HP 保持战后值不回满(if(fLevelUp) 才回满)"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/battle-progression.hidden-exp.test.ts",
+        "fullName": "Primary level-up and hidden growth recovery 无主升级但隐藏涨 maxHP → HP 保持战后值不回满(if(fLevelUp) 才回满)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/battle-progression.glm-next-wave.test.ts",
+        "fullName": "battleWonLevelUp:隐藏经验抬 maxHP 与回满的先后(battle.c:1287-1292) 主升级成立 → 隐藏涨点后 HP/MP 回满到(可能更高的)新 max(battle.c:1289-1292)"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/battle-progression.hidden-exp.test.ts",
+        "fullName": "Primary level-up and hidden growth recovery 主升级成立 → 隐藏涨点后 HP/MP 回满到(可能更高的)新 max(battle.c:1289-1292)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+        "fullName": "settlementScreenTimeoutMs(battle.c:1048/1218/1272/1324 PAL_WaitForAnyKey) exp 屏 boss 5500ms / 普通战 3000ms;升级/隐藏涨点/练成屏一律 3000ms"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/battle-settlement.screens.test.ts",
+        "fullName": "settlementScreenTimeoutMs(battle.c:1048/1218/1272/1324 PAL_WaitForAnyKey) exp 屏 boss 5500ms / 普通战 3000ms;升级/隐藏涨点/练成屏一律 3000ms"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+        "fullName": "won首tick的结算装配 先回写战斗HP/MP再按存活角色入经验,未升级仅一屏且现金只入账一次"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/battle-settlement.screens.test.ts",
+        "fullName": "won首tick的结算装配 先回写战斗HP/MP再按存活角色入经验,未升级仅一屏且现金只入账一次"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+        "fullName": "won首tick的结算装配 按[1,0]队伍逐人排主升级/隐藏涨点/练成屏,名字与roleId匹配"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/battle-settlement.screens.test.ts",
+        "fullName": "won首tick的结算装配 按[1,0]队伍逐人排主升级/隐藏涨点/练成屏,名字与roleId匹配"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+        "fullName": "逐屏输入与时间边界 每屏首tick吞残键,长按不翻页,次tick可由非Confirm按键翻页"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/battle-settlement.screens.test.ts",
+        "fullName": "逐屏输入与时间边界 每屏首tick吞残键,长按不翻页,次tick可由非Confirm按键翻页"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+        "fullName": "逐屏输入与时间边界 isBoss=false:超时前一tick不翻页,下一tick翻页并清stall"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/battle-settlement.screens.test.ts",
+        "fullName": "逐屏输入与时间边界 isBoss=false:超时前一tick不翻页,下一tick翻页并清stall"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+        "fullName": "逐屏输入与时间边界 isBoss=true:超时前一tick不翻页,下一tick翻页并清stall"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/battle-settlement.screens.test.ts",
+        "fullName": "逐屏输入与时间边界 isBoss=true:超时前一tick不翻页,下一tick翻页并清stall"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+        "fullName": "Phase E→对话→恢复与释放 逐敌提示结束后才入下一份掉落,跳过空槽,末条超时后才半恢复和释放"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/battle-settlement.scripts.test.ts",
+        "fullName": "Phase E→对话→恢复与释放 逐敌提示结束后才入下一份掉落,跳过空槽,末条超时后才半恢复和释放"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+        "fullName": "Phase E→对话→恢复与释放 战后脚本的HP/MP治疗保留到半恢复和退出"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/battle-settlement.scripts.test.ts",
+        "fullName": "Phase E→对话→恢复与释放 战后脚本的HP/MP治疗保留到半恢复和退出"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+        "fullName": "Phase E→对话→恢复与释放 通用属性写入与战后治疗按指令顺序共用HP/MP,不以旧快照回填"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/battle-settlement.scripts.test.ts",
+        "fullName": "Phase E→对话→恢复与释放 通用属性写入与战后治疗按指令顺序共用HP/MP,不以旧快照回填"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+        "fullName": "Phase E→对话→恢复与释放 第二敌槽的通用HP/MP指令默认选role1,不按[1,0]队伍位置换人"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/battle-settlement.scripts.test.ts",
+        "fullName": "Phase E→对话→恢复与释放 第二敌槽的通用HP/MP指令默认选role1,不按[1,0]队伍位置换人"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+        "fullName": "Phase E→对话→恢复与释放 真实战后脚本仅执行一次,队列转active box后仍hold,关框后才半恢复/释放"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/battle-settlement.scripts.test.ts",
+        "fullName": "Phase E→对话→恢复与释放 真实战后脚本仅执行一次,队列转active box后仍hold,关框后才半恢复/释放"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+        "fullName": "Phase E→对话→恢复与释放 无对话时脚本观察到未恢复的HP/MP,返回后才恢复和释放"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/battle-settlement.scripts.test.ts",
+        "fullName": "Phase E→对话→恢复与释放 无对话时脚本观察到未恢复的HP/MP,返回后才恢复和释放"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+        "fullName": "原盘战后掉落分支与特殊非胜利接回 黑毛球战后0x06:roll=21,掉落1棵止血草,分支只执行一次"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/battle-settlement.scripts.test.ts",
+        "fullName": "Post-battle drop branching 黑毛球战后0x06:roll=21,掉落1棵止血草,分支只执行一次"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+        "fullName": "原盘战后掉落分支与特殊非胜利接回 黑毛球战后0x06:roll=22,掉落+0棵止血草,分支只执行一次"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/battle-settlement.scripts.test.ts",
+        "fullName": "Post-battle drop branching 黑毛球战后0x06:roll=22,掉落+0棵止血草,分支只执行一次"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+        "fullName": "原盘战后掉落分支与特殊非胜利接回 0x89 result=+0不跑战后掉落/半恢复,接回ip5"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/battle-system.script-boundaries.test.ts",
+        "fullName": "Terminal results bypass victory settlement 0x89 result=+0不跑战后掉落/半恢复,接回ip5"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+        "fullName": "原盘战后掉落分支与特殊非胜利接回 0x89 result=1不跑战后掉落/半恢复,接回ip6"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/battle-system.script-boundaries.test.ts",
+        "fullName": "Terminal results bypass victory settlement 0x89 result=1不跑战后掉落/半恢复,接回ip6"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+        "fullName": "原盘战后掉落分支与特殊非胜利接回 0x89 result=65535不跑战后掉落/半恢复,接回ip7"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/battle-system.script-boundaries.test.ts",
+        "fullName": "Terminal results bypass victory settlement 0x89 result=65535不跑战后掉落/半恢复,接回ip7"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/battle-system.script-boundaries.test.ts",
+        "fullName": "Turn-start dialogue clear boundaries turnStart 脚本内 0x05 → 首句对话带 clearBefore;脚本结束标记复位(不跨脚本泄漏)"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/battle-system.script-boundaries.test.ts",
+        "fullName": "Turn-start dialogue clear boundaries turnStart 脚本内 0x05 → 首句对话带 clearBefore;脚本结束标记复位(不跨脚本泄漏)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/battle-system.script-boundaries.test.ts",
+        "fullName": "Turn-start dialogue clear boundaries 敌 A 的 0x05(无对话)不泄漏到敌 B 的对话(每脚本起手重置)"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/battle-system.script-boundaries.test.ts",
+        "fullName": "Turn-start dialogue clear boundaries 敌 A 的 0x05(无对话)不泄漏到敌 B 的对话(每脚本起手重置)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/battle/battle-system.script-boundaries.test.ts",
+        "fullName": "Terminal turn-start script stops later enemies 敌 A turnStart 0x89 [3] won → 敌 B turnStart 不跑、无对话;phase 进 won"
+      },
+      "current": {
+        "file": "packages/game/src/core/battle/battle-system.script-boundaries.test.ts",
+        "fullName": "Terminal turn-start script stops later enemies 敌 A turnStart 0x89 [3] won → 敌 B turnStart 不跑、无对话;phase 进 won"
+      }
+    }
+  ],
+  "retirements": [],
+  "cohortSubjects": [
+    {
+      "path": "packages/game/src/core/battle/battle-progression.glm-next-wave.test.ts",
+      "sha256": "136e3b6867ca82b1a1b53dfb233f2bec829dbf25e6213a9b57b4fe04be481d7a",
+      "priorCurrentBridges": [
+        {
+          "path": "packages/game/src/core/battle/battle-progression.glm-next-wave.test.ts",
+          "sha256": "136e3b6867ca82b1a1b53dfb233f2bec829dbf25e6213a9b57b4fe04be481d7a",
+          "member": "organization-game-battle-fixtures/21.before",
+          "currentSha256": "65b6a8feefc99323cfea1d5284a7ac5597546983bf9ec82ffbcb647fe69c192e",
+          "changes": [],
+          "evidence": "organization-game-battle-fixtures.json"
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+      "sha256": "b316f1ad01e30d1db46861cef7b29c0fb4d7069fffead3d509993b49be18da85",
+      "priorCurrentBridges": []
+    }
+  ],
+  "profiles": [
+    {
+      "path": "packages/game/src/core/battle/battle-progression.hidden-exp.test.ts",
+      "subjects": ["packages/game/src/core/battle/battle-progression.glm-next-wave.test.ts"],
+      "axes": {
+        "A": "Full current growth194/settlement507/neighbor boundary150 and product progression308/settlement281 read. Hydrated runtime, legal counted inputs and explicit won/terminal snapshots retain exact context. Actual tick order and C CHECK_HIDDEN_EXP/post scripts/recovery checked; direct fixtures do not prove complete battles or original-story reachability.",
+        "B": "Growth header removes author/wave/count claims, separates approved TS WORD growth policy from C999 cap. Screen header retains TS first-tick versus C blocking/key-clear distinction. Existing per-case primary/defensive/relocated-original-leaf limits retained; terminal result reachability remains explicit.",
+        "C": "Five numeric contracts stay cohesive across direct hidden growth and primary-level-up recovery. Existing main-levelup11 uses separate runtime fixtures and primary-only cases; no indiscriminate merge.",
+        "D": "Reuse real lifecycle and recorded RNG. Stateless minimumHiddenGrowthRng deliberately returns lower bound1 for the only1..2 domain; it is not generalized to other ranges.",
+        "E": "21 static registrations expand to25 native identities before/after; all callbacks/tables/literal oracles and every original neighbor boundary statement preserved. Random spy remains try/finally, runner observer still delegates real runScript. Prior numeric/PhaseE controls reused within exact declaration/input bridges; no new red claim.228 actual neighbors/TC0 supplement semantic proof.",
+        "F": "hidden-exp/screens/scripts/test-fixtures paths express responsibilities. minimumHiddenGrowthRng, growth, fixture and settlement replace opaque locals. Terminal outcomes live with script boundary rather than victory. Existing giant host supplemental naming debt is registered, not falsely accepted here.",
+        "G": "No runtime test added/retired and no product/API/config change. Shared fixture has two consumers; all exported inputs used. Growth policy stub remains local, state/IO owners do not move. Do not merge unrelated broad main fixtures just to reduce file count.",
+        "H": "Actual public helper/tick/runner/resources observed with deterministic queues/seed. Full typed proof preserves declarations/types/last fields, defaults and relative target resolution; final cleanup-oracle negative retained. Fresh GS/resources per case; no shared mutable business state or new product test seam."
+      }
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-settlement.screens.test.ts",
+      "subjects": ["packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts"],
+      "axes": {
+        "A": "Full current growth194/settlement507/neighbor boundary150 and product progression308/settlement281 read. Hydrated runtime, legal counted inputs and explicit won/terminal snapshots retain exact context. Actual tick order and C CHECK_HIDDEN_EXP/post scripts/recovery checked; direct fixtures do not prove complete battles or original-story reachability.",
+        "B": "Growth header removes author/wave/count claims, separates approved TS WORD growth policy from C999 cap. Screen header retains TS first-tick versus C blocking/key-clear distinction. Existing per-case primary/defensive/relocated-original-leaf limits retained; terminal result reachability remains explicit.",
+        "C": "Numerical growth remains one cohesive5-case suite. Screen assembly/input6 separate from postscript/dialogue/runtime/cleanup8. Nonvictory terminal3 join existing script-boundary3 because they bypass settlement. Two real won consumers share only explicit snapshot/first-tick preparation; production formulas/runner/cleanup remain real owners.",
+        "D": "Local duplicate won preparation is extracted once with exact options/defaults/return and actual two consumers. Existing lifecycle factory still owns loadDefault/project/startBattle; shared snapshots preserve typed values and within-file identity. No generic mode flag, copied algorithm or future abstraction.",
+        "E": "21 static registrations expand to25 native identities before/after; all callbacks/tables/literal oracles and every original neighbor boundary statement preserved. Random spy remains try/finally, runner observer still delegates real runScript. Prior numeric/PhaseE controls reused within exact declaration/input bridges; no new red claim.228 actual neighbors/TC0 supplement semantic proof.",
+        "F": "hidden-exp/screens/scripts/test-fixtures paths express responsibilities. minimumHiddenGrowthRng, growth, fixture and settlement replace opaque locals. Terminal outcomes live with script boundary rather than victory. Existing giant host supplemental naming debt is registered, not falsely accepted here.",
+        "G": "No runtime test added/retired and no product/API/config change. Shared fixture has two consumers; all exported inputs used. Growth policy stub remains local, state/IO owners do not move. Do not merge unrelated broad main fixtures just to reduce file count.",
+        "H": "Actual public helper/tick/runner/resources observed with deterministic queues/seed. Full typed proof preserves declarations/types/last fields, defaults and relative target resolution; final cleanup-oracle negative retained. Fresh GS/resources per case; no shared mutable business state or new product test seam."
+      }
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-settlement.scripts.test.ts",
+      "subjects": ["packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts"],
+      "axes": {
+        "A": "Full current growth194/settlement507/neighbor boundary150 and product progression308/settlement281 read. Hydrated runtime, legal counted inputs and explicit won/terminal snapshots retain exact context. Actual tick order and C CHECK_HIDDEN_EXP/post scripts/recovery checked; direct fixtures do not prove complete battles or original-story reachability.",
+        "B": "Growth header removes author/wave/count claims, separates approved TS WORD growth policy from C999 cap. Screen header retains TS first-tick versus C blocking/key-clear distinction. Existing per-case primary/defensive/relocated-original-leaf limits retained; terminal result reachability remains explicit.",
+        "C": "Numerical growth remains one cohesive5-case suite. Screen assembly/input6 separate from postscript/dialogue/runtime/cleanup8. Nonvictory terminal3 join existing script-boundary3 because they bypass settlement. Two real won consumers share only explicit snapshot/first-tick preparation; production formulas/runner/cleanup remain real owners.",
+        "D": "Local duplicate won preparation is extracted once with exact options/defaults/return and actual two consumers. Existing lifecycle factory still owns loadDefault/project/startBattle; shared snapshots preserve typed values and within-file identity. No generic mode flag, copied algorithm or future abstraction.",
+        "E": "21 static registrations expand to25 native identities before/after; all callbacks/tables/literal oracles and every original neighbor boundary statement preserved. Random spy remains try/finally, runner observer still delegates real runScript. Prior numeric/PhaseE controls reused within exact declaration/input bridges; no new red claim.228 actual neighbors/TC0 supplement semantic proof.",
+        "F": "hidden-exp/screens/scripts/test-fixtures paths express responsibilities. minimumHiddenGrowthRng, growth, fixture and settlement replace opaque locals. Terminal outcomes live with script boundary rather than victory. Existing giant host supplemental naming debt is registered, not falsely accepted here.",
+        "G": "No runtime test added/retired and no product/API/config change. Shared fixture has two consumers; all exported inputs used. Growth policy stub remains local, state/IO owners do not move. Do not merge unrelated broad main fixtures just to reduce file count.",
+        "H": "Actual public helper/tick/runner/resources observed with deterministic queues/seed. Full typed proof preserves declarations/types/last fields, defaults and relative target resolution; final cleanup-oracle negative retained. Fresh GS/resources per case; no shared mutable business state or new product test seam."
+      }
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-system.script-boundaries.test.ts",
+      "subjects": ["packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts"],
+      "axes": {
+        "A": "Whole150-line existing boundary spec reread and preserved; append only existing terminal-result table from historical settlement. Same no-hook lifetime and original IDLE_INPUT value.",
+        "B": "Growth header removes author/wave/count claims, separates approved TS WORD growth policy from C999 cap. Screen header retains TS first-tick versus C blocking/key-clear distinction. Existing per-case primary/defensive/relocated-original-leaf limits retained; terminal result reachability remains explicit.",
+        "C": "Numerical growth remains one cohesive5-case suite. Screen assembly/input6 separate from postscript/dialogue/runtime/cleanup8. Nonvictory terminal3 join existing script-boundary3 because they bypass settlement. Two real won consumers share only explicit snapshot/first-tick preparation; production formulas/runner/cleanup remain real owners.",
+        "D": "Local duplicate won preparation is extracted once with exact options/defaults/return and actual two consumers. Existing lifecycle factory still owns loadDefault/project/startBattle; shared snapshots preserve typed values and within-file identity. No generic mode flag, copied algorithm or future abstraction.",
+        "E": "Three original boundary cases plus3 incoming terminal rows retained with complete bodies/commands/cleanup oracles. Existing prior module outputs preserved via exact new input checkpoint.",
+        "F": "hidden-exp/screens/scripts/test-fixtures paths express responsibilities. minimumHiddenGrowthRng, growth, fixture and settlement replace opaque locals. Terminal outcomes live with script boundary rather than victory. Existing giant host supplemental naming debt is registered, not falsely accepted here.",
+        "G": "No runtime test added/retired and no product/API/config change. Shared fixture has two consumers; all exported inputs used. Growth policy stub remains local, state/IO owners do not move. Do not merge unrelated broad main fixtures just to reduce file count.",
+        "H": "Actual public helper/tick/runner/resources observed with deterministic queues/seed. Full typed proof preserves declarations/types/last fields, defaults and relative target resolution; final cleanup-oracle negative retained. Fresh GS/resources per case; no shared mutable business state or new product test seam."
+      }
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-settlement.test-fixtures.ts",
+      "subjects": ["packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts"],
+      "axes": {
+        "A": "New provider consists only of the two complete original won helpers and four exact typed input snapshots, with actual same-directory imports. No production logic or automatic cleanup hidden.",
+        "B": "Growth header removes author/wave/count claims, separates approved TS WORD growth policy from C999 cap. Screen header retains TS first-tick versus C blocking/key-clear distinction. Existing per-case primary/defensive/relocated-original-leaf limits retained; terminal result reachability remains explicit.",
+        "C": "Numerical growth remains one cohesive5-case suite. Screen assembly/input6 separate from postscript/dialogue/runtime/cleanup8. Nonvictory terminal3 join existing script-boundary3 because they bypass settlement. Two real won consumers share only explicit snapshot/first-tick preparation; production formulas/runner/cleanup remain real owners.",
+        "D": "Local duplicate won preparation is extracted once with exact options/defaults/return and actual two consumers. Existing lifecycle factory still owns loadDefault/project/startBattle; shared snapshots preserve typed values and within-file identity. No generic mode flag, copied algorithm or future abstraction.",
+        "E": "Provider has no invented runtime case. Its complete exported bodies/defaults/types/values are proved against old local declarations; current14 direct consuming tests execute them.",
+        "F": "battle-settlement.test-fixtures.ts, makeWonBattle and enterWonSettlement state the phase and action; original createBattleLifecycleFixture remains preBattle-only.",
+        "G": "Two real consumers justify extraction. Four input exports are used, with no extra wrapper/type/parameter or fresh shared configuration.",
+        "H": "Actual public helper/tick/runner/resources observed with deterministic queues/seed. Full typed proof preserves declarations/types/last fields, defaults and relative target resolution; final cleanup-oracle negative retained. Fresh GS/resources per case; no shared mutable business state or new product test seam."
+      }
+    }
+  ],
+  "preserved": [
+    {
+      "path": "packages/game/src/core/battle/battle-progression.ts",
+      "sha256": "d7a3c1253d4a93fd6b1ae993371b15d4cc231f389b447de5a65934f5e8dc8f27",
+      "lines": 308
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-settlement.ts",
+      "sha256": "f37d735312ba546599694e3d11c426302d36fd9d04027abe3a1554799134f298",
+      "lines": 281
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-system.ts",
+      "sha256": "c3eaa90bd59c8a2be9da38c0b0655c24e1da11b683b5857cce3af0725b2289e4",
+      "lines": 2911
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-finalization.ts",
+      "sha256": "dafb38b53c861aab3b551d6e2c40a7cfe91703f996142239403f011b16a471c1",
+      "lines": 71
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-runtime-context.ts",
+      "sha256": "535c0f0400feb0c322222c2937335f3199cfc808d1e2092e030c5294db31cf1b",
+      "lines": 98
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-lifecycle.test-fixtures.ts",
+      "sha256": "c0e36172655ee59615290cd210a06956f26e0bae9e5f78691a7ca4e20da08a76",
+      "lines": 96
+    },
+    {
+      "path": "packages/game/src/__tests__/scripted-rng.ts",
+      "sha256": "a6938391f6d3169d3c62ffb0e93b9b6877eb1d9ae483157a3393689d48c3eb47",
+      "lines": 65
+    },
+    {
+      "path": "packages/game/src/__tests__/battle-records.ts",
+      "sha256": "e06702ce034d7b7b7680b649d2c6d11d948acd6daa9aeac0ad20478c62afc575",
+      "lines": 98
+    },
+    {
+      "path": "reference/sdlpal/battle.c",
+      "sha256": "45f38a01d08b864151390c99bcbb4622e3ba78a5da80a3657c276bf1c2fea33f",
+      "lines": 1858
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/review.json",
+      "sha256": "a78d19ab2031234a5f099d89747ce40c3bba72bdc81b9ed25a76ab97a3f19c3f",
+      "lines": 724
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/module-closeout.json",
+      "sha256": "79c45129c19a53e470eb1ba494bcdf40ec039dfdf816528afadd850cb835683c",
+      "lines": 120
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/dialog-order-fix.json",
+      "sha256": "28a8012a628df69322893c55dcaa6045baa7fe5767543104ecd3e5a34001ee47",
+      "lines": 1131
+    }
+  ],
+  "neighborPaths": [
+    "packages/game/src/core/battle/battle-finalization.test.ts",
+    "packages/game/src/core/battle/battle-progression.hidden-exp.test.ts",
+    "packages/game/src/core/battle/battle-settlement.screens.test.ts",
+    "packages/game/src/core/battle/battle-settlement.scripts.test.ts",
+    "packages/game/src/core/battle/battle-system.script-boundaries.test.ts",
+    "packages/game/src/core/battle/__tests__/battle-levelup.test.ts",
+    "packages/game/src/core/battle/__tests__/battle-system.test.ts"
+  ],
+  "receipts": {
+    "proof": "organization-battle-outcomes/proof-r2",
+    "docs": "organization-battle-outcomes/docs-r2",
+    "content-review": "organization-battle-outcomes/content-review-r2",
+    "scoped": "organization-battle-outcomes/scoped-r2",
+    "diff": "organization-battle-outcomes/diff-r2",
+    "ledger-final": "organization-battle-outcomes/ledger-final-r2"
+  },
+  "cleanExecutions": [
+    "before",
+    "reorganize",
+    "format",
+    "proof",
+    "neighbors",
+    "typecheck",
+    "version-diff",
+    "docs",
+    "content-review",
+    "lint",
+    "scoped",
+    "diff",
+    "ledger-final",
+    "module-preflight"
+  ],
+  "lightweightGates": true,
+  "callbackProof": "organization-battle-outcomes/proof-r2.stdout.raw",
+  "qualityDelta": {
+    "oldCases": 25,
+    "currentCases": 25,
+    "staticRegistrations": 21,
+    "newCases": 0,
+    "retirements": 0,
+    "growthCases": 5,
+    "screenCases": 6,
+    "postScriptCases": 8,
+    "boundaryCases": 6,
+    "sharedConsumers": 2,
+    "productUnchanged": true
+  },
+  "reads": {
+    "fullInputs": [
+      {
+        "path": "packages/game/src/core/battle/battle-progression.glm-next-wave.test.ts",
+        "member": "organization-battle-outcomes/0.before",
+        "sha256": "65b6a8feefc99323cfea1d5284a7ac5597546983bf9ec82ffbcb647fe69c192e",
+        "lines": 194
+      },
+      {
+        "path": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+        "member": "organization-battle-outcomes/1.before",
+        "sha256": "b316f1ad01e30d1db46861cef7b29c0fb4d7069fffead3d509993b49be18da85",
+        "lines": 507
+      },
+      {
+        "path": "packages/game/src/core/battle/battle-system.script-boundaries.test.ts",
+        "member": "organization-battle-outcomes/2.before",
+        "sha256": "096685444606e5417ef63b79270936f9032d4f5173e52afc4fca2f2561aa6abf",
+        "lines": 150
+      }
+    ],
+    "fullCurrentProducts": [
+      {
+        "path": "packages/game/src/core/battle/battle-progression.ts",
+        "sha256": "d7a3c1253d4a93fd6b1ae993371b15d4cc231f389b447de5a65934f5e8dc8f27",
+        "lines": 308
+      },
+      {
+        "path": "packages/game/src/core/battle/battle-settlement.ts",
+        "sha256": "f37d735312ba546599694e3d11c426302d36fd9d04027abe3a1554799134f298",
+        "lines": 281
+      }
+    ],
+    "fullProviders": [
+      {
+        "path": "packages/game/src/core/battle/battle-lifecycle.test-fixtures.ts",
+        "sha256": "c0e36172655ee59615290cd210a06956f26e0bae9e5f78691a7ca4e20da08a76",
+        "lines": 96
+      },
+      {
+        "path": "packages/game/src/__tests__/scripted-rng.ts",
+        "sha256": "a6938391f6d3169d3c62ffb0e93b9b6877eb1d9ae483157a3393689d48c3eb47",
+        "lines": 65
+      },
+      {
+        "path": "packages/game/src/__tests__/battle-records.ts",
+        "sha256": "e06702ce034d7b7b7680b649d2c6d11d948acd6daa9aeac0ad20478c62afc575",
+        "lines": 98
+      }
+    ],
+    "outputReview": "Complete typed callback/table/helper/module comparison plus changed headers/names/imports and full new42-line provider read; no claim of rereading unchanged copied bodies as additional files.",
+    "scopedHost": {
+      "path": "packages/game/src/core/battle/battle-system.ts",
+      "ranges": [[415, 450], [509, 527]]
+    },
+    "adjacentDedup": [
+      {
+        "path": "packages/game/src/core/battle/__tests__/battle-system.test.ts",
+        "ranges": [[1, 330]],
+        "scope": "Mixed numerical/lifecycle grouping observed; no whole-file acceptance."
+      },
+      {
+        "path": "packages/game/src/core/battle/__tests__/battle-levelup.test.ts",
+        "scope": "Primary-levelup fixtures and cases scoped read; initial combined output truncation repaired105-205, not claimed as whole-file acceptance."
+      }
+    ],
+    "primary": {
+      "path": "reference/sdlpal/battle.c",
+      "ranges": [[1238, 1294], [1330, 1373]]
+    },
+    "versionBridge": {
+      "revision": "c4278084b",
+      "sourceMember": "organization-battle-outcomes/prior-settlement.ts",
+      "testMember": "organization-battle-outcomes/prior-settlement.test.ts",
+      "unchangedFunctions": 4,
+      "wholeTestDelta": "Two magicId display fields only",
+      "raw": "organization-battle-outcomes/version-diff.stdout.raw"
+    },
+    "priorGrowth": "Source exact approved game-progression-input; original136e input linked via fixture-consumer21.before to current65b6."
+  },
+  "knownAdjacentObservation": {
+    "path": "packages/game/src/core/battle/__tests__/battle-system.test.ts",
+    "ranges": [[67, 310]],
+    "issue": "Outer applyHiddenExpGrowth group mixes3 numeric cases with host lifecycle and1 growth DTO case. Larger main organization candidate remains review scope; no wholesale main F/G credit this window."
+  },
+  "processDisclosures": [
+    "First proof failed because a broad magicName replacement accidentally targeted the timeout fixture when modeling a historical delta. Product/test code was unaffected. proof-r2 anchors the complete Role0 data object; old failed raw/script retained, no assertions or checks weakened.",
+    "Selected-ordinal12 bridge has12 empty placeholders only to carry actual destination imports/local IDLE context. They are analysis data, never tests or execution credit.",
+    "No new product mutant run: complete contracts and unaffected historical execution functions conserve prior valid controls. Current source localization changes are explicitly separated, not mislabeled byte-identical prior source."
+  ],
+  "invalidations": "Any changed mapped callback/helper/type/value/import or actual runtime ownership reopens affected evidence. C blocking timing, complete story battles, language switching and visual acceptance are not newly proved.",
+  "ledgerCounts": {
+    "inventory": 3451,
+    "closed": 506,
+    "review": 313,
+    "pending": 2632
+  },
+  "quantitativeScreen": [
+    {
+      "path": "packages/game/src/core/battle/battle-progression.hidden-exp.test.ts",
+      "method": "Own decision nodes; reading pointer only.",
+      "functions": 8,
+      "max": 1,
+      "over10": 0
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-settlement.screens.test.ts",
+      "method": "Own decision nodes; reading pointer only.",
+      "functions": 10,
+      "max": 2,
+      "over10": 0
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-settlement.scripts.test.ts",
+      "method": "Own decision nodes; reading pointer only.",
+      "functions": 12,
+      "max": 5,
+      "over10": 0
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-system.script-boundaries.test.ts",
+      "method": "Own decision nodes; reading pointer only.",
+      "functions": 13,
+      "max": 3,
+      "over10": 0
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-settlement.test-fixtures.ts",
+      "method": "Own decision nodes; reading pointer only.",
+      "functions": 2,
+      "max": 3,
+      "over10": 0
+    }
+  ],
+  "ledgerErratum": "First ledger run rejected stale declared inventory 3449; two net test-file additions require3451. Failed raw preserved; current count must be independently machine-verified."
+}

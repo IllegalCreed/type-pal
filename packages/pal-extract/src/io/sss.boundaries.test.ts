@@ -4,7 +4,8 @@
  * 各chunk拒绝轴独立执行；完整原盘结构oracle另在sss.test.ts。
  */
 import { describe, expect, test } from 'vitest'
-import { concatBytes, mkfContainer, sssChunks } from '../__tests__/glm-tb04-fixtures.js'
+import { concatBytes, mkfContainer } from '../__tests__/binary-fixtures.js'
+import { sssChunks } from '../__tests__/sss-fixtures.js'
 import { parseSss } from './sss.js'
 
 /** view本身不含保护区；比较父buffer才能覆盖前后各3B。 */

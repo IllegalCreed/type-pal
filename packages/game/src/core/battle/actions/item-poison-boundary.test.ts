@@ -5,7 +5,8 @@
  */
 import type { Command, Item } from '@type-pal/shared'
 import { afterEach, describe, expect, it } from 'vitest'
-import { makeBattle, makeRole } from '../../../__tests__/coverage85-glm-game/harness.js'
+import { makeRoleRecord as makeRole } from '../../../__tests__/battle-records.js'
+import { makeBattle } from '../../../__tests__/coverage85-glm-game/harness.js'
 import { getPlayerPoisonResistance } from '../../equipment-state.js'
 import { runScript } from '../../event-system.js'
 import { setObjectPoisons } from '../../player-poison-state.js'

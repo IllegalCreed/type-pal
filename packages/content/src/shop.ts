@@ -35,6 +35,7 @@ export function validateShops(value: unknown): ShopDef[] {
 
 /** 买 1 个:钱够 → 扣钱 + 入包(新 WorldState);钱不够/物品不存在 → null(UI 播错音/不动)。 */
 export function shopBuy(world: WorldState, itemId: string, items: ItemDataMap): WorldState | null {
+  if (!Object.hasOwn(items, itemId)) return null
   const it = items[itemId]
   if (!it || world.money < it.buyPrice) return null
   const inv = world.inventory.some((x) => x.itemId === itemId)

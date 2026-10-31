@@ -1,5 +1,9 @@
 import { describe, expect, it } from 'vitest'
-import { makeHEnemy, makeHField, makeHRole } from '../../../__tests__/glm-next-wave/H/harness.js'
+import {
+  makeBattleFieldRecord,
+  makeEnemyRecord,
+  makeRoleRecord,
+} from '../../../__tests__/battle-records.js'
 import {
   createInitialGameState,
   hydratePlayerRolesRuntime,
@@ -16,15 +20,15 @@ describe('approved magic strength intermediate assignment', () => {
   it('real hydrated damage caller rounds the FLOAT product before WORD assignment, without extra RNG draws', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.partyMembers = [0]
-    const baseline = { roles: [makeHRole(0, { magicStrength: 240 })] }
+    const baseline = { roles: [makeRoleRecord(0, { magicStrength: 240 })] }
     hydratePlayerRolesRuntime(gs.PlayerRolesRuntime, baseline)
     const roles = projectRuntimeToBattleRoles(gs.PlayerRolesRuntime, baseline, gs.rgEquipmentEffect)
     const rng = createSeedableRng(244049)
     const state = createBattleState({
       gs,
       playerRoles: roles,
-      enemies: [makeHEnemy({ level: 1, defense: 2 })],
-      field: makeHField(),
+      enemies: [makeEnemyRecord({ level: 1, defense: 2 })],
+      field: makeBattleFieldRecord(),
       isBoss: false,
       rng,
     })
@@ -79,7 +83,7 @@ describe('approved magic strength intermediate assignment', () => {
     gs.partyMembers = [0]
     const baseline = {
       roles: [
-        makeHRole(0, {
+        makeRoleRecord(0, {
           hp: 100,
           defense: 80,
           elemResistance: { ...zeroElements, wind: windResistance },
@@ -95,8 +99,8 @@ describe('approved magic strength intermediate assignment', () => {
     const state = createBattleState({
       gs,
       playerRoles,
-      enemies: [makeHEnemy({ magicStrength: 0, level: 1 })],
-      field: makeHField(),
+      enemies: [makeEnemyRecord({ magicStrength: 0, level: 1 })],
+      field: makeBattleFieldRecord(),
       isBoss: false,
       rng: createSeedableRng(7),
     })

@@ -1,113 +1,105 @@
-import type { AbstractKey, InputSnapshot, Tilemap } from '@type-pal/shared'
+import type { InputSource } from '@type-pal/shared'
 import { FRAME_MS_BATTLE, FRAME_MS_EXPLORE } from '@type-pal/shared'
 import { describe, expect, it, vi } from 'vitest'
 import { createBattleState } from '../core/battle/battle-state.js'
+import type { BusEntry, CommandBus } from '../core/command-bus.js'
 import { createCommandBus } from '../core/command-bus.js'
 import { createInitialGameState } from '../core/game-state.js'
 import { buildPaletteFade } from '../core/palette-fade.js'
 import { createSeedableRng } from '../core/rng.js'
+import { setSceneContext } from '../core/scene-system.js'
+import { heldSnapshot, prepareEmptyLoopContext } from './__tests__/loop-context.js'
+import { walkableTilemap } from './__tests__/loop-tilemap.js'
 import { ReplayInputSource } from './input.js'
-import { advanceRafFrame, type LoopContext, logicIntervalMs, tickN } from './main-loop.js'
+import type { LoopContext, RafLoopState } from './main-loop.js'
+import { advanceRafFrame, logicIntervalMs } from './main-loop.js'
 
-function flat(w: number, h: number): Tilemap {
-  const cells = Array.from({ length: h }, () =>
-    Array.from({ length: w }, () => ({ lower: 0, upper: 0 })),
-  )
-  return { width: w, height: h, cells, tileset: 'fake' }
+function prepareReplayLoopContext(
+  gs: ReturnType<typeof createInitialGameState>,
+  onPresent: () => void,
+): LoopContext {
+  const ctx: LoopContext = {
+    gs,
+    bus: createCommandBus(),
+    input: new ReplayInputSource([]),
+    tilemap: walkableTilemap(10, 10),
+    onPresent,
+  }
+  setSceneContext({ tilemap: ctx.tilemap })
+  return ctx
 }
 
-function snap(held: AbstractKey[] = [], frameNum = 0): InputSnapshot {
-  return { held: new Set(held), pressed: new Set(), frameNum }
-}
-
-function mkFade() {
+function paletteFadeFixture() {
   const start = Array.from({ length: 256 }, (): [number, number, number] => [0, 0, 0])
   const target = Array.from({ length: 256 }, (): [number, number, number] => [9, 9, 9])
   return buildPaletteFade(start, target, 600, 0)
 }
 
-describe('tickN', () => {
-  it('跑 N tick,每 tick 调 onPresent', () => {
-    const gs = createInitialGameState({ x: 5 * 16, y: 5 * 8, facing: 'down' })
-    const bus = createCommandBus()
-    const presentFn = vi.fn()
-    const ctx: LoopContext = {
-      gs,
-      bus,
-      input: new ReplayInputSource([]),
-      tilemap: flat(10, 10),
-      onPresent: presentFn,
-    }
-    tickN(3, ctx)
-    expect(presentFn).toHaveBeenCalledTimes(3)
-    expect(gs.frameNum).toBe(3)
+/** Only presence-based render gates at10ms; no battle logic/resource tick. */
+function createPresentationBattle(gs: ReturnType<typeof createInitialGameState>) {
+  return createBattleState({
+    gs,
+    playerRoles: { roles: [] },
+    enemies: [],
+    field: {
+      id: 0,
+      screenWave: 0,
+      magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+    },
+    isBoss: false,
+    rng: createSeedableRng(1),
   })
+}
 
-  it('Replay 向右走 3 步 → party.x + 3*16, party.y + 3*8 (East 右下)', () => {
-    // M5:起点 col8/row8 合法区(避开 fCheckRange 边缘带 blockX=5/blockY=7)
-    const gs = createInitialGameState({ x: 16 * 16, y: 16 * 8, facing: 'down' })
-    const bus = createCommandBus()
-    const ctx: LoopContext = {
-      gs,
-      bus,
-      input: new ReplayInputSource([snap(['Right'], 0), snap(['Right'], 1), snap(['Right'], 2)]),
-      tilemap: flat(20, 20),
-      onPresent: () => {},
-    }
-    tickN(3, ctx)
-    // sdlpal scene.c:804-805 East: dx=+16, dy=+8 × 3 steps
-    expect(gs.party.x).toBe(19 * 16)
-    expect(gs.party.y).toBe(19 * 8)
-  })
-})
-
-describe('advanceRafFrame / logicIntervalMs(M1 三不变量)', () => {
-  function mkCtx(
-    gs: ReturnType<typeof createInitialGameState>,
-    onPresent: () => void,
-  ): LoopContext {
-    return {
-      gs,
-      bus: createCommandBus(),
-      input: new ReplayInputSource([]),
-      tilemap: flat(10, 10),
-      onPresent,
-    }
+function captureFadeSuppression(gs: ReturnType<typeof createInitialGameState>) {
+  const suppress = vi.fn()
+  const ctx: LoopContext = {
+    gs,
+    bus: createCommandBus(),
+    input: { nextSnapshot: () => heldSnapshot(), suppressHeldForFade: suppress },
+    tilemap: walkableTilemap(10, 10),
+    onPresent: () => {},
   }
+  advanceRafFrame({ lastTickTime: 0, accumulator: 0 }, 10, ctx)
+  return suppress
+}
 
-  it('① logicIntervalMs:battle 40 / 否则 100', () => {
+function freshRafState(): RafLoopState {
+  return { lastTickTime: 0, accumulator: 0 }
+}
+
+describe('Frame intervals and accumulation', () => {
+  it('logicIntervalMs:battle 40 / 否则 100', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.mode = 'explore'
     expect(logicIntervalMs(gs)).toBe(FRAME_MS_EXPLORE)
     gs.mode = 'battle'
     expect(logicIntervalMs(gs)).toBe(FRAME_MS_BATTLE)
   })
-
-  it('② accumulator clamp:dt 巨大(>3×interval)→ 单 tick(非 catch-up 多 tick)+ 修 while-后死代码', () => {
+  it('accumulator clamp:巨大 dt 只推进一次逻辑，丢弃超过一间隔的剩余积压', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' }) // explore → interval 100
     let ticks = 0
-    const ctx = mkCtx(gs, () => {})
+    const ctx = prepareReplayLoopContext(gs, () => {})
     const orig = ctx.input.nextSnapshot.bind(ctx.input)
     ctx.input.nextSnapshot = (fn: number) => {
       ticks++
       return orig(fn)
     }
     const state = { lastTickTime: 0, accumulator: 0 }
-    advanceRafFrame(state, 1000, ctx) // dt=1000 = 10×interval → clamp 到 100 → 跑 1 tick(非 10)
+    advanceRafFrame(state, 1000, ctx) // dt=1000，先推进一次并减100；剩余900>100，故清为0，不追跑10次
     expect(ticks).toBe(1)
     expect(state.accumulator).toBe(0)
   })
-
-  it('④ 稳态节奏:60Hz 显示器下 battle 应 25 tick/s(40ms/tick),不被累积器丢余量拖慢', () => {
+  it('稳态节奏:60Hz 显示器下 battle 应 25 tick/s(40ms/tick),不被累积器丢余量拖慢', () => {
     // 回归(2026-06-13 user 报"怪物死亡淡出比原版长"):DM31 把 tick 后 `accumulator -= interval`
     //   改成 `accumulator = 0`,丢弃了 [interval, interval+rafDt) 的溢出量。battle interval=40ms
     //   不是 60Hz 帧时(16.667ms)的整数倍 → 每 tick 实际等 3 帧=50ms → 全战斗动画(含
     //   PAL_BattleFadeScene 死亡淡出 72×16ms)在 60Hz 上慢 25%(此处 2s 只跑 40 tick,应 50)。
-    //   修复(结转余量 + 仅丢 >1 interval 的真积压)后 ALL 刷新率回到 ~25fps 忠实节奏。
+    //   本例只核 60Hz 下的逻辑节奏；不据此宣称所有刷新率或实际渲染表现。
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.mode = 'battle' // interval=40;battleState 未设 → tickBattle 早退(纯节奏 no-op)
     let ticks = 0
-    const ctx = mkCtx(gs, () => {})
+    const ctx = prepareReplayLoopContext(gs, () => {})
     const state = { lastTickTime: 0, accumulator: 0 }
     const rafDt = 1000 / 60
     for (let i = 1; i <= 120; i++) {
@@ -118,47 +110,41 @@ describe('advanceRafFrame / logicIntervalMs(M1 三不变量)', () => {
     expect(ticks).toBeGreaterThanOrEqual(49)
     expect(ticks).toBeLessThanOrEqual(51)
   })
-
-  it('③ present 门控:无 tick + 无 fade → 不 present;有 paletteFade → present', () => {
+  it('present 门控:无 tick + 无 fade → 不 present;有 paletteFade → present', () => {
     const gs1 = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     const p1 = vi.fn()
-    const r1 = advanceRafFrame({ lastTickTime: 0, accumulator: 0 }, 10, mkCtx(gs1, p1)) // dt=10 < 100 → 无 tick
+    const r1 = advanceRafFrame(
+      { lastTickTime: 0, accumulator: 0 },
+      10,
+      prepareReplayLoopContext(gs1, p1),
+    ) // dt=10 < 100 → 无 tick
     expect(r1.ticked).toBe(false)
     expect(p1).not.toHaveBeenCalled()
     const gs2 = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    gs2.paletteFadeState = mkFade()
+    gs2.paletteFadeState = paletteFadeFixture()
     const p2 = vi.fn()
-    advanceRafFrame({ lastTickTime: 0, accumulator: 0 }, 10, mkCtx(gs2, p2))
+    advanceRafFrame({ lastTickTime: 0, accumulator: 0 }, 10, prepareReplayLoopContext(gs2, p2))
     expect(p2).toHaveBeenCalled() // fade 进行中每帧 present
   })
-
-  it('⑤ battleFade(D17 死亡淡出)门控:无 tick 也每 rAF present(wall-clock 细分平滑)', () => {
+  it('battleFade(D17 死亡淡出)门控:无 tick 也每 rAF present(wall-clock 细分平滑)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.mode = 'battle'
-    gs.battleState = createBattleState({
-      gs,
-      playerRoles: { roles: [] },
-      enemies: [],
-      field: {
-        id: 0,
-        screenWave: 0,
-        magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
-      },
-      isBoss: false,
-      rng: createSeedableRng(1),
-    })
+    gs.battleState = createPresentationBattle(gs)
     gs.battleState.battleFade = { elapsedMs: 0 }
     const present = vi.fn()
     // dt=10 < 40(battle interval)→ 无逻辑 tick;但 battleFade active → 仍须 present(否则淡出顿挫在 25fps)
-    const r = advanceRafFrame({ lastTickTime: 0, accumulator: 0 }, 10, mkCtx(gs, present))
+    const r = advanceRafFrame(
+      { lastTickTime: 0, accumulator: 0 },
+      10,
+      prepareReplayLoopContext(gs, present),
+    )
     expect(r.ticked).toBe(false)
     expect(present).toHaveBeenCalled()
   })
-
-  it('⑥ frozen=true:累积达 interval 也不 tick(速通手动暂停冻结世界)', () => {
+  it('frozen=true:累积达 interval 也不 tick(速通手动暂停冻结世界)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' }) // explore interval 100
     let ticks = 0
-    const ctx = mkCtx(gs, () => {})
+    const ctx = prepareReplayLoopContext(gs, () => {})
     const orig = ctx.input.nextSnapshot.bind(ctx.input)
     ctx.input.nextSnapshot = (fn: number) => {
       ticks++
@@ -172,50 +158,147 @@ describe('advanceRafFrame / logicIntervalMs(M1 三不变量)', () => {
   })
 })
 
-// ── 战后渐变吞键回归(2026-06-12 user 报"打完怪 fadeout 后卡一下按键"):
-// C 真值:渐变期间清键(每步 PAL_ClearKeyState + dir=Unknown)**只有** PAL_SceneFade(0x93,
-// palette.c:314-316)和 PAL_PaletteFade 的 fUpdateScene 变体(0x80,palette.c:441-446)——
-// 恰好 = 我们 waiting='scene-fade' 的集合。PAL_FadeOut/FadeIn/ColorFade/FadeToRed(0x50/0x51/
-// 0x8C/0x4F/战后自动渐入)是纯色表 ramp,不清键:按键累积、按住的方向 fade 一结束立即生效。
-// 旧 DM30 把清键泛化到所有 paletteFadeState → 战后 ~1.2s 吞键 + 按住方向须松开重按。
-describe('渐变吞键仅限 scene-fade(palette.c 真值边界)', () => {
-  function run(gs: ReturnType<typeof createInitialGameState>) {
-    const suppress = vi.fn()
-    const ctx: LoopContext = {
-      gs,
-      bus: createCommandBus(),
-      input: { nextSnapshot: () => snap(), suppressHeldForFade: suppress },
-      tilemap: flat(10, 10),
-      onPresent: () => {},
-    }
-    advanceRafFrame({ lastTickTime: 0, accumulator: 0 }, 10, ctx)
-    return suppress
-  }
-
+describe('Scene fade input suppression', () => {
   it("waiting='scene-fade'(0x93/0x80-update)→ 每 rAF 抑制按键(C 每步清键)", () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.mode = 'event'
-    gs.paletteFadeState = mkFade()
+    gs.paletteFadeState = paletteFadeFixture()
     gs.eventCursor = { ip: 0, waiting: 'scene-fade' }
-    expect(run(gs)).toHaveBeenCalled()
+    expect(captureFadeSuppression(gs)).toHaveBeenCalled()
   })
-
   it("waiting='palette-fade'(0x50/0x51/0x8C/0x4F)→ 不抑制(C 不清键,按键应累积)", () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.mode = 'event'
-    gs.paletteFadeState = mkFade()
+    gs.paletteFadeState = paletteFadeFixture()
     gs.eventCursor = { ip: 0, waiting: 'palette-fade' }
-    expect(run(gs)).not.toHaveBeenCalled()
+    expect(captureFadeSuppression(gs)).not.toHaveBeenCalled()
   })
-
   it('无游标的自动渐入(战后/进场 PAL_FadeIn)→ 不抑制(战后卡键根因)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    gs.paletteFadeState = mkFade() // explore 自动渐入:无 eventCursor
-    expect(run(gs)).not.toHaveBeenCalled()
+    gs.paletteFadeState = paletteFadeFixture() // explore 自动渐入:无 eventCursor
+    expect(captureFadeSuppression(gs)).not.toHaveBeenCalled()
   })
-
   it('无渐变 → 不抑制', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    expect(run(gs)).not.toHaveBeenCalled()
+    expect(captureFadeSuppression(gs)).not.toHaveBeenCalled()
+  })
+})
+
+describe('Present and input gates', () => {
+  it('dither fadeState 在未到逻辑间隔时仍 present，且 ticked 为 false', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.fadeState = { speed: 2, totalMs: 2160, startTimeMs: 0, appliedSteps: 0 }
+    let flag: boolean | null = null
+    const result = advanceRafFrame(
+      freshRafState(),
+      10,
+      prepareEmptyLoopContext(gs, (_drained, ticked) => {
+        flag = ticked
+      }),
+    )
+    expect(result.ticked).toBe(false)
+    expect(result.presented).toBe(true)
+    expect(flag).toBe(false)
+  })
+  it('battleAnim 在未到逻辑间隔时仍 present', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.battleState = createPresentationBattle(gs)
+    gs.battleState.battleAnim = { frames: [{ durationMs: 40 }], idx: 0, frameElapsedMs: 0 }
+    const result = advanceRafFrame(freshRafState(), 10, prepareEmptyLoopContext(gs))
+    expect(result.ticked).toBe(false)
+    expect(result.presented).toBe(true)
+  })
+  it('没有 suppressHeldForFade 的输入源在 scene-fade 里仍按 fadeState present', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.mode = 'event'
+    gs.eventCursor = { ip: 0, waiting: 'scene-fade' }
+    gs.fadeState = { speed: 1, totalMs: 720, startTimeMs: 0, appliedSteps: 0 }
+    const input: InputSource = {
+      nextSnapshot: (frameNum) => ({ held: new Set(), pressed: new Set(), frameNum }),
+    }
+    const ctx = prepareEmptyLoopContext(gs)
+    ctx.input = input
+    const result = advanceRafFrame(freshRafState(), 10, ctx)
+    expect(result.ticked).toBe(false)
+    expect(result.presented).toBe(true)
+  })
+})
+
+describe('Accumulator boundaries', () => {
+  it('dt 150 只 tick 一次，并把 50ms 余量留在累加器', () => {
+    const state = freshRafState()
+    const result = advanceRafFrame(state, 150, prepareEmptyLoopContext())
+    expect(result.ticked).toBe(true)
+    expect(state.accumulator).toBe(50)
+  })
+  it('dt 200 结转后余量正好等于间隔，不丢弃', () => {
+    const state = freshRafState()
+    const result = advanceRafFrame(state, 200, prepareEmptyLoopContext())
+    expect(result.ticked).toBe(true)
+    expect(state.accumulator).toBe(100)
+  })
+  it('冻结时不足一个间隔的余量保留，且不 present', () => {
+    const state = freshRafState()
+    const result = advanceRafFrame(state, 40, prepareEmptyLoopContext(), undefined, true)
+    expect(result.ticked).toBe(false)
+    expect(result.presented).toBe(false)
+    expect(state.accumulator).toBe(40)
+  })
+  it('探索累到 90 后切战斗，同一时间戳用 40ms 间隔 tick 一次并清掉超额余量', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const state = freshRafState()
+    const ctx = prepareEmptyLoopContext(gs)
+    const first = advanceRafFrame(state, 90, ctx)
+    expect(first.ticked).toBe(false)
+    expect(state.accumulator).toBe(90)
+    gs.mode = 'battle'
+    const second = advanceRafFrame(state, 90, ctx)
+    expect(second.ticked).toBe(true)
+    expect(state.accumulator).toBe(0)
+  })
+})
+
+describe('Tick effects and dump forwarding', () => {
+  it('逻辑 tick 把 bus.drain 的那一条命令交给 onPresent', () => {
+    const entry: BusEntry = { cmd: { op: 'stopMusic', fadeMs: 0 } }
+    const bus: CommandBus = {
+      emit: () => {},
+      drain: () => [entry],
+    }
+    let got: BusEntry[] = []
+    const ctx = prepareEmptyLoopContext(undefined, (drained) => {
+      got = drained
+    })
+    ctx.bus = bus
+    const result = advanceRafFrame(freshRafState(), 100, ctx)
+    expect(result.ticked).toBe(true)
+    expect(got).toEqual([entry])
+  })
+  it('发生逻辑 tick 时 nowMs 写成这一帧的时间戳', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    advanceRafFrame(freshRafState(), 2500, prepareEmptyLoopContext(gs))
+    expect(gs.nowMs).toBe(2500)
+  })
+  it('dump 使用调用方给出的 partyWalkFrames 4', () => {
+    const seen: number[] = []
+    const ctx = prepareEmptyLoopContext()
+    ctx.partyWalkFrames = 4
+    advanceRafFrame(freshRafState(), 100, ctx, {
+      enabled: true,
+      push: (_gs, walkFrames) => {
+        seen.push(walkFrames)
+      },
+    })
+    expect(seen).toEqual([4])
+  })
+  it('未给 partyWalkFrames 时 dump 使用 3', () => {
+    const seen: number[] = []
+    advanceRafFrame(freshRafState(), 100, prepareEmptyLoopContext(), {
+      enabled: true,
+      push: (_gs, walkFrames) => {
+        seen.push(walkFrames)
+      },
+    })
+    expect(seen).toEqual([3])
   })
 })

@@ -1,0 +1,696 @@
+{
+  "task": "QUALITY-GAME-PRESENT-HOST-TESTS-1",
+  "base": "f47f052fa1e732f7e574e70b268790d301dada3d",
+  "candidate": "uncommitted same governance worktree; file hashes freeze claims, no frozen commit claimed",
+  "branch": "codex/code-quality-94-102",
+  "owner": "Codex; single agent",
+  "ownerCheck": {
+    "activeBoardSha256AtStart": "recorded in context through base Git blob",
+    "result": "active board has no matching primary paths; historic Grok card done; primary main tree untouched"
+  },
+  "primaryFullReads": [
+    {
+      "path": "packages/game/src/present/present.test.ts",
+      "A": "全文1537行原版及1185行候选实际核读；真实入口为bootstrap.onPresent→presentFrame，帧选择/图层/hold/调色板借用关系核当前810行present。删非法菜单 fixture 与游标的不必要强转；合法typed状态/地图/遮罩通过公开factory构建。未改变产品行为，未发现需升级的直接产品缺陷。",
+      "B": "删互相矛盾DWORD与弃用collector说明；首个follower范围不再冒称产品只支持一个；去失效present行号，SceneFade单元集成不称e2e；保留SDLPal函数/公式、单位、所有权与取舍理由。",
+      "C": "file只验证present公开编排，不渗入IO/业务状态推进；时间、世界、资源每例独立，wave全局phase与spy统一afterEach清理。core rasterizer不替换；删除无调用且假类型的_trackDrawOrder。大文件按公开编排合同describe分区，未为行数强拆并制造跨文件fixture出口。",
+      "D": "8份同义1×1帧数组收为局部indexedFrames，map/ctx只构造typed输入；菜单与4×4cover复用已接受P12/P11的真像素合同，无泛化模式布尔。选帧与绘制顺序观察器各返回不同合同，不硬合并。",
+      "E": "逐例核58旧身份、caller/oracle/合法输入/反例与排重；52存续身份和6净减少的去向完整。排序要求完整对象序列，不能让indexOf(-1)假绿；零高度cover用完整地面阻断seam扩散且真精灵进入收集，旧67全绿/新61唯一业务红；SceneFade使用独立旧色/最终矩形而非两个产物自比。",
+      "F": "帧选择由有色位图+真实像素揭示意图，删除废弃collector计划；sort直接期望完整顺序，避免多组临时index变量。长场景用明确state/context和局部注释解释坐标，不增加万能宿主。",
+      "G": "删除死helper、旧fade手搭夹具/2个重复完成例、两条核心mock菜单、noThrow和重复4×4cover；保留未到时fade、4方向、runtime优先级、脚本姿势/缺资源、NPC视野、height48/camera等独立输入轴。不删除未知候选。",
+      "H": "公开入口直接驱动，唯一替身为performance时钟；drawSprite spy保留真实实现，最终frame/cover/dither可从Framebuffer读取；不暴露生产私有状态或引入产品测试接缝。",
+      "remaining": "无本片重要未修代码项；统一门/精确retirement数据与发布待百文件冻结。没有授present.ts全文八维关闭、真人演出或整条剧情信用。",
+      "sha256": "f325c8bfee7477442989bf5a7e71761cff7010cfeefe0fec8d2879b5325a18a8",
+      "lines": 1185,
+      "status": "code-accepted; review pending window integration gates"
+    },
+    {
+      "path": "packages/game/src/present/present-hold.grok-r1.test.ts",
+      "A": "全文175行原版与206行候选实际核读；9条输入核suspendRaf/sceneLoading/freeze/mode/no-state/center/Canvas/uint8边界。D04用真实createBattleState和六角色hydrate，真正命中保留battleState的menu guard；D03固定now100并核freeze前的色表推进。",
+      "B": "D04标题匹配真实战中菜单；D08不再暗示单点足以证明完整buffer。模块头明确与主测/P12分工，原G04-D provenance保留。",
+      "C": "仅公开present/framebuffer/真实canvas；移除PNG文件旁路及其import-time临时树副作用。hold状态和battle factory本例拥有，Canvas为未挂DOM的局部对象，无监听/定时器/跨例资源。",
+      "D": "保留已接受legalPalette/legalRole的typed资源构造；ramp只表达红绿两通道的身份差异，不扩大生产API或造通用helper。framebuffer Uint8转换与flush实际Canvas属不同合同。",
+      "E": "9旧身份7不变/2更正映射；整帧hold替换单哨兵；D08完整非对称RGBA/alpha/边界/源索引断言，首像素错误旧67全绿/新61唯一AssertionError。D06/D07分别保留identity与黑底文字色/箭头不轮转；D09独立uint8 300→44边界。",
+      "F": "D04数据和mode显式，D08手列6像素使行列、通道和原点可读；短helper名维持本describe上下文，无额外层。",
+      "G": "删除同结果PNG encode/write/read中间层；正式Canvas getImageData全像素仍保留，并增加之前看不见的损坏反例。9例不为数量强删，缺状态与战中菜单分支各有真实合同。",
+      "H": "真实Canvas/Framebuffer加可注入时钟即可直接观测；两个不同尺寸避免默认320步长假设，测试不依赖磁盘/原盘/网络或共享快照产物；afterEach还原spy和wave相位。",
+      "remaining": "无本片重要未修代码项；不认证共享dump工具的其它caller或实际浏览器观感。统一门/发布待百文件窗口。",
+      "sha256": "84b7076a0ddbc6def0b11aa2e89cd05019d4b0c7c889adef8826f6024129968b",
+      "lines": 206,
+      "status": "code-accepted; review pending window integration gates"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "packages/game/src/present/present.ts",
+      "sha256": "c4c6f411857d99c5f8e850bf5172c3e42f04181a64df0ce2a697fe1ec90569f9",
+      "scope": "全文810行当前caller/编排；与前窗asset-render绑定SHA相同"
+    },
+    {
+      "path": "packages/game/src/present/draw-tilemap.ts",
+      "sha256": "8ad57e0042e6d6797303bb863f8696312ea72e813da94e04d4a1829470272b1e",
+      "scope": "204–335 cover收集/高度/布局；其余复用primitive既有证据"
+    },
+    {
+      "path": "packages/game/src/present/framebuffer.ts",
+      "sha256": "fdd25deedeb33da252d5efa9392bc5af088365a2a6dab3129c2b373aeeb0e060",
+      "scope": "全文实际补读，Canvas数据ownership/uint8边界"
+    },
+    {
+      "path": "packages/game/src/present/draw-sprite.ts",
+      "sha256": "bd2fbc1abb0527267b032298e779ac5946089745fd83159181dd0af84f8ffcef",
+      "scope": "全文实际补读，真实调用及锚点"
+    },
+    {
+      "path": "packages/game/src/core/palette-fade.ts",
+      "sha256": "c32b60762cfc573fa28e6a372a6e3dafb8710216582e5c0cf565ddfaa06ec38e",
+      "scope": "135–172 builder、259–329 step/finalize；原真值证据复用"
+    },
+    {
+      "path": "packages/game/src/core/game-state.ts",
+      "sha256": "084718097eb0963c2ee3a9d72da59b313ca8fd401672f6a8b341ba21ae8b8906",
+      "scope": "1372–1408 hydrate；初始状态/类型复用既有53证据，不给本批完整信用"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-state.ts",
+      "sha256": "546e8e2e86ec08c45492b80cb03349cc1a9a182735626f5ba53248d672a1e386",
+      "scope": "CreateBattleStateInput与810–910 factory正式typed/null槽输入；其余复用既有3u"
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "sha256": "a4d007c9739873dc20f385b52b584de49ec57cd5c328cb11ca9d3b0b9f19fb0a",
+      "scope": "505–558 onPresent音频/modal/present/flush生命周期"
+    },
+    {
+      "path": "packages/game/src/__tests__/grok-render-r1/legal-host.ts",
+      "sha256": "66175247e57e482b79e43a05fcbe9861cadd5bd6cb549bd14b78f3f0cb6fabca",
+      "scope": "1–170公开角色/调色板构造，模块其余加载器不授全文信用"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-composition/p11-world-layers.test.ts",
+      "sha256": "61705a1a3d9fe61ff5140a12847cc8c56d59d763a0dc2a971e69f401a6b08e79",
+      "scope": "全文实际排重/复用既有八维；不计新主体"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-composition/p12-overlays.test.ts",
+      "sha256": "dc0e0fc8dcab93030d9ee08ae335804a34fc4a2c702b1d37bfa977109ac1cdec",
+      "scope": "全文实际排重/复用既有八维；不计新主体"
+    },
+    {
+      "path": "packages/game/src/present/framebuffer.test.ts",
+      "sha256": "e4b1f7da98483db3d25a31a2ce65838fd1bd92f045e690e80a9a909b2454a738",
+      "scope": "全文排重"
+    },
+    {
+      "path": "packages/game/src/present/framebuffer.glm-phase1-leaves.test.ts",
+      "sha256": "79ea8dece3af846c68872168fa2d2f2d5ed01356aea27c30a450ac0ffe4b490e",
+      "scope": "全文排重"
+    },
+    {
+      "path": "packages/game/vitest.config.ts",
+      "sha256": "e56a03b609ee6177c3e27f99521d6f142a5bd8c4c0d7ad865b2ce2b9e84d7a92",
+      "scope": "全文，既有runner不改"
+    },
+    {
+      "path": "packages/game/vitest.setup.ts",
+      "sha256": "9d1b923f6abc71a5af3e9be094d2945f853a2f4319a036aba9813e86f116e93e",
+      "scope": "当前宿主绑定；既有setup复用"
+    },
+    {
+      "path": "packages/shared/src/resources.ts",
+      "sha256": "d73a965595f25af28725bf4b387cf88bc92871cc595598f01a9460962df4be43",
+      "scope": "1–47 Tilemap/Palette当前公共类型"
+    },
+    {
+      "path": "packages/shared/src/tables.ts",
+      "sha256": "fcf28b2d9e0f812a17f299fb81c9b3fc9ff186fe83e24e20f1d85296539ac06b",
+      "scope": "468–581 PlayerRole/PlayerRoles当前公共类型"
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "sha256": "3e9c669950c68c0f996a7007fdd198270a079630e277b1e6de575ec1d738da65",
+      "scope": "当前依赖环境固定，非全文八维信用"
+    },
+    {
+      "path": "tsconfig.base.json",
+      "sha256": "9c29504dad2a45fb1c4e260b590372a8221ef27303f7fff1654554c90b57931c",
+      "scope": "当前TS类型合同，非全文八维信用"
+    }
+  ],
+  "primaryReferences": [
+    {
+      "path": "reference/sdlpal/scene.c",
+      "sha256": "bc4efef7cad3b83ddac5e3338423e3c5d9660bdbaae1d8e974e8841022e3bc8b",
+      "read": "230–370 NPC/顺序/落点，658–775队伍帧/偏移；既有PAL_CalcCoverTiles证据复用"
+    },
+    {
+      "path": "reference/sdlpal/text.c",
+      "sha256": "8e3c1be5111ea6bed1d0a8a480a2818235d0b3c22a6f73540f5701ac26cbc456",
+      "read": "1405–1448 center guard/0xF9..FE轮转；原版不是SDLPal本身"
+    }
+  ],
+  "caseReview": [
+    {
+      "file": "packages/game/src/present/present-hold.grok-r1.test.ts",
+      "fullName": "G04-D present 冻屏归属与调色板 G04-D01 suspendRaf 先于 blackScreenHold 返回，哨兵像素不被清掉",
+      "title": "G04-D01 suspendRaf 先于 blackScreenHold 返回，哨兵像素不被清掉",
+      "status": "passed",
+      "oracleAndLegalInput": "见逐文件A/E及每个稳定D编号；实际Canvas/全帧/源索引的独立字面值。",
+      "review": "全文逐例核输入、断言与其它case排重；名称中的输入/边界限定本case，不由绿数推定质量。"
+    },
+    {
+      "file": "packages/game/src/present/present-hold.grok-r1.test.ts",
+      "fullName": "G04-D present 冻屏归属与调色板 G04-D02 sceneLoading 保留哨兵，且不把波幅 40 加上 progression",
+      "title": "G04-D02 sceneLoading 保留哨兵，且不把波幅 40 加上 progression",
+      "status": "passed",
+      "oracleAndLegalInput": "见逐文件A/E及每个稳定D编号；实际Canvas/全帧/源索引的独立字面值。",
+      "review": "全文逐例核输入、断言与其它case排重；名称中的输入/边界限定本case，不由绿数推定质量。"
+    },
+    {
+      "file": "packages/game/src/present/present-hold.grok-r1.test.ts",
+      "fullName": "G04-D present 冻屏归属与调色板 G04-D03 paletteFade freeze 保留哨兵，且不递减 shakeTime",
+      "title": "G04-D03 paletteFade freeze 保留哨兵，且不递减 shakeTime",
+      "status": "passed",
+      "oracleAndLegalInput": "见逐文件A/E及每个稳定D编号；实际Canvas/全帧/源索引的独立字面值。",
+      "review": "全文逐例核输入、断言与其它case排重；名称中的输入/边界限定本case，不由绿数推定质量。"
+    },
+    {
+      "file": "packages/game/src/present/present-hold.grok-r1.test.ts",
+      "fullName": "G04-D present 冻屏归属与调色板 G04-D04 战中菜单持有 battleState 时返回 false 且不清除帧",
+      "title": "G04-D04 战中菜单持有 battleState 时返回 false 且不清除帧",
+      "status": "passed",
+      "oracleAndLegalInput": "见逐文件A/E及每个稳定D编号；实际Canvas/全帧/源索引的独立字面值。",
+      "review": "全文逐例核输入、断言与其它case排重；名称中的输入/边界限定本case，不由绿数推定质量。"
+    },
+    {
+      "file": "packages/game/src/present/present-hold.grok-r1.test.ts",
+      "fullName": "G04-D present 冻屏归属与调色板 G04-D05 mode=battle 但没有 battleState 时返回 false 且不清除哨兵",
+      "title": "G04-D05 mode=battle 但没有 battleState 时返回 false 且不清除哨兵",
+      "status": "passed",
+      "oracleAndLegalInput": "见逐文件A/E及每个稳定D编号；实际Canvas/全帧/源索引的独立字面值。",
+      "review": "全文逐例核输入、断言与其它case排重；名称中的输入/边界限定本case，不由绿数推定质量。"
+    },
+    {
+      "file": "packages/game/src/present/present-hold.grok-r1.test.ts",
+      "fullName": "G04-D present 冻屏归属与调色板 G04-D06 center 等键在 step 1 仍返回同一调色板引用",
+      "title": "G04-D06 center 等键在 step 1 仍返回同一调色板引用",
+      "status": "passed",
+      "oracleAndLegalInput": "见逐文件A/E及每个稳定D编号；实际Canvas/全帧/源索引的独立字面值。",
+      "review": "全文逐例核输入、断言与其它case排重；名称中的输入/边界限定本case，不由绿数推定质量。"
+    },
+    {
+      "file": "packages/game/src/present/present-hold.grok-r1.test.ts",
+      "fullName": "G04-D present 冻屏归属与调色板 G04-D07 黑屏 center 等键恢复文字色，但不轮转 0xF9",
+      "title": "G04-D07 黑屏 center 等键恢复文字色，但不轮转 0xF9",
+      "status": "passed",
+      "oracleAndLegalInput": "见逐文件A/E及每个稳定D编号；实际Canvas/全帧/源索引的独立字面值。",
+      "review": "全文逐例核输入、断言与其它case排重；名称中的输入/边界限定本case，不由绿数推定质量。"
+    },
+    {
+      "file": "packages/game/src/present/present-hold.grok-r1.test.ts",
+      "fullName": "G04-D present 冻屏归属与调色板 G04-D08 flushToCanvas 按原点写入完整异色 RGBA，保留边界和索引缓冲",
+      "title": "G04-D08 flushToCanvas 按原点写入完整异色 RGBA，保留边界和索引缓冲",
+      "status": "passed",
+      "oracleAndLegalInput": "见逐文件A/E及每个稳定D编号；实际Canvas/全帧/源索引的独立字面值。",
+      "review": "全文逐例核输入、断言与其它case排重；名称中的输入/边界限定本case，不由绿数推定质量。"
+    },
+    {
+      "file": "packages/game/src/present/present-hold.grok-r1.test.ts",
+      "fullName": "G04-D present 冻屏归属与调色板 G04-D09 writePixel(300) 截成 44，toImageData 读的是 44 号色",
+      "title": "G04-D09 writePixel(300) 截成 44，toImageData 读的是 44 号色",
+      "status": "passed",
+      "oracleAndLegalInput": "见逐文件A/E及每个稳定D编号；实际Canvas/全帧/源索引的独立字面值。",
+      "review": "全文逐例核输入、断言与其它case排重；名称中的输入/边界限定本case，不由绿数推定质量。"
+    },
+    {
+      "file": "packages/game/src/present/present.test.ts",
+      "fullName": "cursorless fade completion preserves the actual restored palette FadeIn without owning waiter (undefined) restores all target colors",
+      "title": "FadeIn without owning waiter (undefined) restores all target colors",
+      "status": "passed",
+      "oracleAndLegalInput": "真实builder/typed cursor及确定时钟；完整目标色表/60或63的64分母量化、fade对象和ip ownership。不是剧情或输入锁链实跑。",
+      "review": "全文逐例核输入、断言与其它case排重；名称中的输入/边界限定本case，不由绿数推定质量。"
+    },
+    {
+      "file": "packages/game/src/present/present.test.ts",
+      "fullName": "cursorless fade completion preserves the actual restored palette FadeIn without owning waiter (dialog) restores all target colors",
+      "title": "FadeIn without owning waiter (dialog) restores all target colors",
+      "status": "passed",
+      "oracleAndLegalInput": "真实builder/typed cursor及确定时钟；完整目标色表/60或63的64分母量化、fade对象和ip ownership。不是剧情或输入锁链实跑。",
+      "review": "全文逐例核输入、断言与其它case排重；名称中的输入/边界限定本case，不由绿数推定质量。"
+    },
+    {
+      "file": "packages/game/src/present/present.test.ts",
+      "fullName": "cursorless fade completion preserves the actual restored palette FadeIn without owning waiter (frame-wait) restores all target colors",
+      "title": "FadeIn without owning waiter (frame-wait) restores all target colors",
+      "status": "passed",
+      "oracleAndLegalInput": "真实builder/typed cursor及确定时钟；完整目标色表/60或63的64分母量化、fade对象和ip ownership。不是剧情或输入锁链实跑。",
+      "review": "全文逐例核输入、断言与其它case排重；名称中的输入/边界限定本case，不由绿数推定质量。"
+    },
+    {
+      "file": "packages/game/src/present/present.test.ts",
+      "fullName": "cursorless fade completion preserves the actual restored palette palette-fade remains owned by the event system",
+      "title": "palette-fade remains owned by the event system",
+      "status": "passed",
+      "oracleAndLegalInput": "真实builder/typed cursor及确定时钟；完整目标色表/60或63的64分母量化、fade对象和ip ownership。不是剧情或输入锁链实跑。",
+      "review": "全文逐例核输入、断言与其它case排重；名称中的输入/边界限定本case，不由绿数推定质量。"
+    },
+    {
+      "file": "packages/game/src/present/present.test.ts",
+      "fullName": "cursorless fade completion preserves the actual restored palette scene-fade remains owned by the event system",
+      "title": "scene-fade remains owned by the event system",
+      "status": "passed",
+      "oracleAndLegalInput": "真实builder/typed cursor及确定时钟；完整目标色表/60或63的64分母量化、fade对象和ip ownership。不是剧情或输入锁链实跑。",
+      "review": "全文逐例核输入、断言与其它case排重；名称中的输入/边界限定本case，不由绿数推定质量。"
+    },
+    {
+      "file": "packages/game/src/present/present.test.ts",
+      "fullName": "cursorless fade completion preserves the actual restored palette 无人等待且 FadeIn 尚未完成时保留状态和游标",
+      "title": "无人等待且 FadeIn 尚未完成时保留状态和游标",
+      "status": "passed",
+      "oracleAndLegalInput": "真实builder/typed cursor及确定时钟；完整目标色表/60或63的64分母量化、fade对象和ip ownership。不是剧情或输入锁链实跑。",
+      "review": "全文逐例核输入、断言与其它case排重；名称中的输入/边界限定本case，不由绿数推定质量。"
+    },
+    {
+      "file": "packages/game/src/present/present.test.ts",
+      "fullName": "cursorless fade completion preserves the actual restored palette cursorless SceneFade still keeps its documented 63/64 endpoint",
+      "title": "cursorless SceneFade still keeps its documented 63/64 endpoint",
+      "status": "passed",
+      "oracleAndLegalInput": "真实builder/typed cursor及确定时钟；完整目标色表/60或63的64分母量化、fade对象和ip ownership。不是剧情或输入锁链实跑。",
+      "review": "全文逐例核输入、断言与其它case排重；名称中的输入/边界限定本case，不由绿数推定质量。"
+    },
+    {
+      "file": "packages/game/src/present/present.test.ts",
+      "fullName": "presentFrame 有 dialogBox → 文本绘到 fb(sdlpal upper/center/lower 无 box bg,文本即唯一证据)",
+      "title": "有 dialogBox → 文本绘到 fb(sdlpal upper/center/lower 无 box bg,文本即唯一证据)",
+      "status": "passed",
+      "oracleAndLegalInput": "透明世界ctx；独特正文色与保持/重绘像素、RNG旧帧/污染消失；对话经公开start/tick，死亡与黑底分别核不同门。",
+      "review": "全文逐例核输入、断言与其它case排重；名称中的输入/边界限定本case，不由绿数推定质量。"
+    },
+    {
+      "file": "packages/game/src/present/present.test.ts",
+      "fullName": "presentFrame dialogBoxKept + dialogBox → 上下两侧对话同屏绘制",
+      "title": "dialogBoxKept + dialogBox → 上下两侧对话同屏绘制",
+      "status": "passed",
+      "oracleAndLegalInput": "透明世界ctx；独特正文色与保持/重绘像素、RNG旧帧/污染消失；对话经公开start/tick，死亡与黑底分别核不同门。",
+      "review": "全文逐例核输入、断言与其它case排重；名称中的输入/边界限定本case，不由绿数推定质量。"
+    },
+    {
+      "file": "packages/game/src/present/present.test.ts",
+      "fullName": "presentFrame deathHoldActive=true → 保持上一帧(不 fb.clear、不重绘世界):预写哨兵像素存活",
+      "title": "deathHoldActive=true → 保持上一帧(不 fb.clear、不重绘世界):预写哨兵像素存活",
+      "status": "passed",
+      "oracleAndLegalInput": "透明世界ctx；独特正文色与保持/重绘像素、RNG旧帧/污染消失；对话经公开start/tick，死亡与黑底分别核不同门。",
+      "review": "全文逐例核输入、断言与其它case排重；名称中的输入/边界限定本case，不由绿数推定质量。"
+    },
+    {
+      "file": "packages/game/src/present/present.test.ts",
+      "fullName": "presentFrame gameOverActive=true + dialogBox → 保持上一帧 + 画死亡对话",
+      "title": "gameOverActive=true + dialogBox → 保持上一帧 + 画死亡对话",
+      "status": "passed",
+      "oracleAndLegalInput": "透明世界ctx；独特正文色与保持/重绘像素、RNG旧帧/污染消失；对话经公开start/tick，死亡与黑底分别核不同门。",
+      "review": "全文逐例核输入、断言与其它case排重；名称中的输入/边界限定本case，不由绿数推定质量。"
+    },
+    {
+      "file": "packages/game/src/present/present.test.ts",
+      "fullName": "presentFrame 两者都 false(普通 explore)→ fb.clear()+正常重绘世界:哨兵被清",
+      "title": "两者都 false(普通 explore)→ fb.clear()+正常重绘世界:哨兵被清",
+      "status": "passed",
+      "oracleAndLegalInput": "透明世界ctx；独特正文色与保持/重绘像素、RNG旧帧/污染消失；对话经公开start/tick，死亡与黑底分别核不同门。",
+      "review": "全文逐例核输入、断言与其它case排重；名称中的输入/边界限定本case，不由绿数推定质量。"
+    },
+    {
+      "file": "packages/game/src/present/present.test.ts",
+      "fullName": "presentFrame blackScreenHold=true → 保持全黑背景,但仍叠加居中文字",
+      "title": "blackScreenHold=true → 保持全黑背景,但仍叠加居中文字",
+      "status": "passed",
+      "oracleAndLegalInput": "透明世界ctx；独特正文色与保持/重绘像素、RNG旧帧/污染消失；对话经公开start/tick，死亡与黑底分别核不同门。",
+      "review": "全文逐例核输入、断言与其它case排重；名称中的输入/边界限定本case，不由绿数推定质量。"
+    },
+    {
+      "file": "packages/game/src/present/present.test.ts",
+      "fullName": "presentFrame dialogPlayingRNG=true + rngDialogBackup → 恢复 RNG 动画画面(不重绘世界)+ 叠对话",
+      "title": "dialogPlayingRNG=true + rngDialogBackup → 恢复 RNG 动画画面(不重绘世界)+ 叠对话",
+      "status": "passed",
+      "oracleAndLegalInput": "透明世界ctx；独特正文色与保持/重绘像素、RNG旧帧/污染消失；对话经公开start/tick，死亡与黑底分别核不同门。",
+      "review": "全文逐例核输入、断言与其它case排重；名称中的输入/边界限定本case，不由绿数推定质量。"
+    },
+    {
+      "file": "packages/game/src/present/present.test.ts",
+      "fullName": "presentFrame dialogPlayingRNG=true 但无 rngDialogBackup → 退化为正常重绘(防御,不抛错)",
+      "title": "dialogPlayingRNG=true 但无 rngDialogBackup → 退化为正常重绘(防御,不抛错)",
+      "status": "passed",
+      "oracleAndLegalInput": "透明世界ctx；独特正文色与保持/重绘像素、RNG旧帧/污染消失；对话经公开start/tick，死亡与黑底分别核不同门。",
+      "review": "全文逐例核输入、断言与其它case排重；名称中的输入/边界限定本case，不由绿数推定质量。"
+    },
+    {
+      "file": "packages/game/src/present/present.test.ts",
+      "fullName": "P0.c party frame 取 stepFrame(sdlpal scene.c:678-685) walking=false → 站立帧:frameIdx = dir * walkFrames (P0.0 既有)",
+      "title": "walking=false → 站立帧:frameIdx = dir * walkFrames (P0.0 既有)",
+      "status": "passed",
+      "oracleAndLegalInput": "逐用例手列索引9/10/9/11/14/3、四方向0/3/6/9及runtime4覆盖ctx3；真实绘制落到(160,116)的唯一色，不复制partyFrameIndex作为oracle。",
+      "review": "全文逐例核输入、断言与其它case排重；名称中的输入/边界限定本case，不由绿数推定质量。"
+    },
+    {
+      "file": "packages/game/src/present/present.test.ts",
+      "fullName": "P0.c party frame 取 stepFrame(sdlpal scene.c:678-685) walking=true, walkFrames=3, stepFrame=0 → iStepFrameLeader=0 → frameIdx=dir*3+0",
+      "title": "walking=true, walkFrames=3, stepFrame=0 → iStepFrameLeader=0 → frameIdx=dir*3+0",
+      "status": "passed",
+      "oracleAndLegalInput": "逐用例手列索引9/10/9/11/14/3、四方向0/3/6/9及runtime4覆盖ctx3；真实绘制落到(160,116)的唯一色，不复制partyFrameIndex作为oracle。",
+      "review": "全文逐例核输入、断言与其它case排重；名称中的输入/边界限定本case，不由绿数推定质量。"
+    },
+    {
+      "file": "packages/game/src/present/present.test.ts",
+      "fullName": "P0.c party frame 取 stepFrame(sdlpal scene.c:678-685) walking=true, walkFrames=3, stepFrame=1 → iStepFrameLeader=1 → frameIdx=dir*3+1",
+      "title": "walking=true, walkFrames=3, stepFrame=1 → iStepFrameLeader=1 → frameIdx=dir*3+1",
+      "status": "passed",
+      "oracleAndLegalInput": "逐用例手列索引9/10/9/11/14/3、四方向0/3/6/9及runtime4覆盖ctx3；真实绘制落到(160,116)的唯一色，不复制partyFrameIndex作为oracle。",
+      "review": "全文逐例核输入、断言与其它case排重；名称中的输入/边界限定本case，不由绿数推定质量。"
+    },
+    {
+      "file": "packages/game/src/present/present.test.ts",
+      "fullName": "P0.c party frame 取 stepFrame(sdlpal scene.c:678-685) walking=true, walkFrames=3, stepFrame=2 → iStepFrameLeader=0 → frameIdx=dir*3+0",
+      "title": "walking=true, walkFrames=3, stepFrame=2 → iStepFrameLeader=0 → frameIdx=dir*3+0",
+      "status": "passed",
+      "oracleAndLegalInput": "逐用例手列索引9/10/9/11/14/3、四方向0/3/6/9及runtime4覆盖ctx3；真实绘制落到(160,116)的唯一色，不复制partyFrameIndex作为oracle。",
+      "review": "全文逐例核输入、断言与其它case排重；名称中的输入/边界限定本case，不由绿数推定质量。"
+    },
+    {
+      "file": "packages/game/src/present/present.test.ts",
+      "fullName": "P0.c party frame 取 stepFrame(sdlpal scene.c:678-685) walking=true, walkFrames=3, stepFrame=3 → iStepFrameLeader=2 → frameIdx=dir*3+2",
+      "title": "walking=true, walkFrames=3, stepFrame=3 → iStepFrameLeader=2 → frameIdx=dir*3+2",
+      "status": "passed",
+      "oracleAndLegalInput": "逐用例手列索引9/10/9/11/14/3、四方向0/3/6/9及runtime4覆盖ctx3；真实绘制落到(160,116)的唯一色，不复制partyFrameIndex作为oracle。",
+      "review": "全文逐例核输入、断言与其它case排重；名称中的输入/边界限定本case，不由绿数推定质量。"
+    },
+    {
+      "file": "packages/game/src/present/present.test.ts",
+      "fullName": "P0.c party frame 取 stepFrame(sdlpal scene.c:678-685) walking=true, walkFrames=4 → frameIdx=dir*4+stepFrame",
+      "title": "walking=true, walkFrames=4 → frameIdx=dir*4+stepFrame",
+      "status": "passed",
+      "oracleAndLegalInput": "逐用例手列索引9/10/9/11/14/3、四方向0/3/6/9及runtime4覆盖ctx3；真实绘制落到(160,116)的唯一色，不复制partyFrameIndex作为oracle。",
+      "review": "全文逐例核输入、断言与其它case排重；名称中的输入/边界限定本case，不由绿数推定质量。"
+    },
+    {
+      "file": "packages/game/src/present/present.test.ts",
+      "fullName": "P0.c party frame 取 stepFrame(sdlpal scene.c:678-685) M2:队首 walkFrames 读 PlayerRolesRuntime.rgwWalkFrames,不再固定 ctx.partyWalkFrames=3",
+      "title": "M2:队首 walkFrames 读 PlayerRolesRuntime.rgwWalkFrames,不再固定 ctx.partyWalkFrames=3",
+      "status": "passed",
+      "oracleAndLegalInput": "逐用例手列索引9/10/9/11/14/3、四方向0/3/6/9及runtime4覆盖ctx3；真实绘制落到(160,116)的唯一色，不复制partyFrameIndex作为oracle。",
+      "review": "全文逐例核输入、断言与其它case排重；名称中的输入/边界限定本case，不由绿数推定质量。"
+    },
+    {
+      "file": "packages/game/src/present/present.test.ts",
+      "fullName": "P0.c party frame 取 stepFrame(sdlpal scene.c:678-685) 4 方向 facing 映射:down=0/left=1/up=2/right=3(站立帧验证)",
+      "title": "4 方向 facing 映射:down=0/left=1/up=2/right=3(站立帧验证)",
+      "status": "passed",
+      "oracleAndLegalInput": "逐用例手列索引9/10/9/11/14/3、四方向0/3/6/9及runtime4覆盖ctx3；真实绘制落到(160,116)的唯一色，不复制partyFrameIndex作为oracle。",
+      "review": "全文逐例核输入、断言与其它case排重；名称中的输入/边界限定本case，不由绿数推定质量。"
+    },
+    {
+      "file": "packages/game/src/present/present.test.ts",
+      "fullName": "P0.d follower 占位 + 偏移(sdlpal scene.c:692-707) partyMembers=[0] 单人 → 不渲染 follower(只有 leader drawSprite)",
+      "title": "partyMembers=[0] 单人 → 不渲染 follower(只有 leader drawSprite)",
+      "status": "passed",
+      "oracleAndLegalInput": "队伍数量/非canonical角色资源/跟随者runtime4帧/scripted6≠trail9/缺资源；四向SDLPal首跟随公式手列(112,92)/(208,140)/(208,92)/(112,140)，短/空trail仅leader；真实drawSprite旁观。",
+      "review": "全文逐例核输入、断言与其它case排重；名称中的输入/边界限定本case，不由绿数推定质量。"
+    },
+    {
+      "file": "packages/game/src/present/present.test.ts",
+      "fullName": "P0.d follower 占位 + 偏移(sdlpal scene.c:692-707) 队首/跟随者按各自 rgwSpriteNum 渲染,不回退 role0 partyFrames",
+      "title": "队首/跟随者按各自 rgwSpriteNum 渲染,不回退 role0 partyFrames",
+      "status": "passed",
+      "oracleAndLegalInput": "队伍数量/非canonical角色资源/跟随者runtime4帧/scripted6≠trail9/缺资源；四向SDLPal首跟随公式手列(112,92)/(208,140)/(208,92)/(112,140)，短/空trail仅leader；真实drawSprite旁观。",
+      "review": "全文逐例核输入、断言与其它case排重；名称中的输入/边界限定本case，不由绿数推定质量。"
+    },
+    {
+      "file": "packages/game/src/present/present.test.ts",
+      "fullName": "P0.d follower 占位 + 偏移(sdlpal scene.c:692-707) M2:跟随队员按自己的 runtime walkFrames 取帧",
+      "title": "M2:跟随队员按自己的 runtime walkFrames 取帧",
+      "status": "passed",
+      "oracleAndLegalInput": "队伍数量/非canonical角色资源/跟随者runtime4帧/scripted6≠trail9/缺资源；四向SDLPal首跟随公式手列(112,92)/(208,140)/(208,92)/(112,140)，短/空trail仅leader；真实drawSprite旁观。",
+      "review": "全文逐例核输入、断言与其它case排重；名称中的输入/边界限定本case，不由绿数推定质量。"
+    },
+    {
+      "file": "packages/game/src/present/present.test.ts",
+      "fullName": "P0.d follower 占位 + 偏移(sdlpal scene.c:692-707) 0x15 给跟随者设 partyScriptedFrame(静止演出)→ 跟随者按脚本帧转身,不用 trail 朝向(刘兄「等一下」bug)",
+      "title": "0x15 给跟随者设 partyScriptedFrame(静止演出)→ 跟随者按脚本帧转身,不用 trail 朝向(刘兄「等一下」bug)",
+      "status": "passed",
+      "oracleAndLegalInput": "队伍数量/非canonical角色资源/跟随者runtime4帧/scripted6≠trail9/缺资源；四向SDLPal首跟随公式手列(112,92)/(208,140)/(208,92)/(112,140)，短/空trail仅leader；真实drawSprite旁观。",
+      "review": "全文逐例核输入、断言与其它case排重；名称中的输入/边界限定本case，不由绿数推定质量。"
+    },
+    {
+      "file": "packages/game/src/present/present.test.ts",
+      "fullName": "P0.d follower 占位 + 偏移(sdlpal scene.c:692-707) 已知队员 spriteNum 但资源未加载时,不把 follower 画成 role0",
+      "title": "已知队员 spriteNum 但资源未加载时,不把 follower 画成 role0",
+      "status": "passed",
+      "oracleAndLegalInput": "队伍数量/非canonical角色资源/跟随者runtime4帧/scripted6≠trail9/缺资源；四向SDLPal首跟随公式手列(112,92)/(208,140)/(208,92)/(112,140)，短/空trail仅leader；真实drawSprite旁观。",
+      "review": "全文逐例核输入、断言与其它case排重；名称中的输入/边界限定本case，不由绿数推定质量。"
+    },
+    {
+      "file": "packages/game/src/present/present.test.ts",
+      "fullName": "P0.d follower 占位 + 偏移(sdlpal scene.c:692-707) walking 时渲染 follower 在 trail[1] + 偏移(scene.c:692-707 扇形布局)",
+      "title": "walking 时渲染 follower 在 trail[1] + 偏移(scene.c:692-707 扇形布局)",
+      "status": "passed",
+      "oracleAndLegalInput": "队伍数量/非canonical角色资源/跟随者runtime4帧/scripted6≠trail9/缺资源；四向SDLPal首跟随公式手列(112,92)/(208,140)/(208,92)/(112,140)，短/空trail仅leader；真实drawSprite旁观。",
+      "review": "全文逐例核输入、断言与其它case排重；名称中的输入/边界限定本case，不由绿数推定质量。"
+    },
+    {
+      "file": "packages/game/src/present/present.test.ts",
+      "fullName": "P0.d follower 占位 + 偏移(sdlpal scene.c:692-707) dir=left(West) walking: isWS=true→offsetX=+16; isWN=true→offsetY=+8",
+      "title": "dir=left(West) walking: isWS=true→offsetX=+16; isWN=true→offsetY=+8",
+      "status": "passed",
+      "oracleAndLegalInput": "队伍数量/非canonical角色资源/跟随者runtime4帧/scripted6≠trail9/缺资源；四向SDLPal首跟随公式手列(112,92)/(208,140)/(208,92)/(112,140)，短/空trail仅leader；真实drawSprite旁观。",
+      "review": "全文逐例核输入、断言与其它case排重；名称中的输入/边界限定本case，不由绿数推定质量。"
+    },
+    {
+      "file": "packages/game/src/present/present.test.ts",
+      "fullName": "P0.d follower 占位 + 偏移(sdlpal scene.c:692-707) dir=down(South) walking: isWS=true→offsetX=+16; isWN=false→offsetY=-8",
+      "title": "dir=down(South) walking: isWS=true→offsetX=+16; isWN=false→offsetY=-8",
+      "status": "passed",
+      "oracleAndLegalInput": "队伍数量/非canonical角色资源/跟随者runtime4帧/scripted6≠trail9/缺资源；四向SDLPal首跟随公式手列(112,92)/(208,140)/(208,92)/(112,140)，短/空trail仅leader；真实drawSprite旁观。",
+      "review": "全文逐例核输入、断言与其它case排重；名称中的输入/边界限定本case，不由绿数推定质量。"
+    },
+    {
+      "file": "packages/game/src/present/present.test.ts",
+      "fullName": "P0.d follower 占位 + 偏移(sdlpal scene.c:692-707) dir=up(North) walking: isWS=false→offsetX=-16; isWN=true→offsetY=+8",
+      "title": "dir=up(North) walking: isWS=false→offsetX=-16; isWN=true→offsetY=+8",
+      "status": "passed",
+      "oracleAndLegalInput": "队伍数量/非canonical角色资源/跟随者runtime4帧/scripted6≠trail9/缺资源；四向SDLPal首跟随公式手列(112,92)/(208,140)/(208,92)/(112,140)，短/空trail仅leader；真实drawSprite旁观。",
+      "review": "全文逐例核输入、断言与其它case排重；名称中的输入/边界限定本case，不由绿数推定质量。"
+    },
+    {
+      "file": "packages/game/src/present/present.test.ts",
+      "fullName": "P0.d follower 占位 + 偏移(sdlpal scene.c:692-707) partyMembers.length > 1 但 trail.length <= 1 → 不渲染 follower(避免 crash)",
+      "title": "partyMembers.length > 1 但 trail.length <= 1 → 不渲染 follower(避免 crash)",
+      "status": "passed",
+      "oracleAndLegalInput": "队伍数量/非canonical角色资源/跟随者runtime4帧/scripted6≠trail9/缺资源；四向SDLPal首跟随公式手列(112,92)/(208,140)/(208,92)/(112,140)，短/空trail仅leader；真实drawSprite旁观。",
+      "review": "全文逐例核输入、断言与其它case排重；名称中的输入/边界限定本case，不由绿数推定质量。"
+    },
+    {
+      "file": "packages/game/src/present/present.test.ts",
+      "fullName": "P0.d follower 占位 + 偏移(sdlpal scene.c:692-707) partyMembers=[0, 1] 且 trail 为空 → 不渲染 follower",
+      "title": "partyMembers=[0, 1] 且 trail 为空 → 不渲染 follower",
+      "status": "passed",
+      "oracleAndLegalInput": "队伍数量/非canonical角色资源/跟随者runtime4帧/scripted6≠trail9/缺资源；四向SDLPal首跟随公式手列(112,92)/(208,140)/(208,92)/(112,140)，短/空trail仅leader；真实drawSprite旁观。",
+      "review": "全文逐例核输入、断言与其它case排重；名称中的输入/边界限定本case，不由绿数推定质量。"
+    },
+    {
+      "file": "packages/game/src/present/present.test.ts",
+      "fullName": "NPC 屏外剔除(sdlpal scene.c:286-314:屏外对象不画精灵、不产生 cover tile) 屏内 NPC 正常绘制(基准)",
+      "title": "屏内 NPC 正常绘制(基准)",
+      "status": "passed",
+      "oracleAndLegalInput": "16×24真实sprite，camera0，独立视口阈值left与vy（y-13），含部分可见控制；spy仅判断渲染入口是否实际收到该sprite，不用像素裁剪冒充剔除。",
+      "review": "全文逐例核输入、断言与其它case排重；名称中的输入/边界限定本case，不由绿数推定质量。"
+    },
+    {
+      "file": "packages/game/src/present/present.test.ts",
+      "fullName": "NPC 屏外剔除(sdlpal scene.c:286-314:屏外对象不画精灵、不产生 cover tile) 右侧屏外(left = sx-w/2 ≥ 320)→ 跳过",
+      "title": "右侧屏外(left = sx-w/2 ≥ 320)→ 跳过",
+      "status": "passed",
+      "oracleAndLegalInput": "16×24真实sprite，camera0，独立视口阈值left与vy（y-13），含部分可见控制；spy仅判断渲染入口是否实际收到该sprite，不用像素裁剪冒充剔除。",
+      "review": "全文逐例核输入、断言与其它case排重；名称中的输入/边界限定本case，不由绿数推定质量。"
+    },
+    {
+      "file": "packages/game/src/present/present.test.ts",
+      "fullName": "NPC 屏外剔除(sdlpal scene.c:286-314:屏外对象不画精灵、不产生 cover tile) 左侧完全屏外(left < -width)→ 跳过;部分可见仍绘制",
+      "title": "左侧完全屏外(left < -width)→ 跳过;部分可见仍绘制",
+      "status": "passed",
+      "oracleAndLegalInput": "16×24真实sprite，camera0，独立视口阈值left与vy（y-13），含部分可见控制；spy仅判断渲染入口是否实际收到该sprite，不用像素裁剪冒充剔除。",
+      "review": "全文逐例核输入、断言与其它case排重；名称中的输入/边界限定本case，不由绿数推定质量。"
+    },
+    {
+      "file": "packages/game/src/present/present.test.ts",
+      "fullName": "NPC 屏外剔除(sdlpal scene.c:286-314:屏外对象不画精灵、不产生 cover tile) 下方屏外(vy ≥ 200)→ 跳过;贴底仍绘制",
+      "title": "下方屏外(vy ≥ 200)→ 跳过;贴底仍绘制",
+      "status": "passed",
+      "oracleAndLegalInput": "16×24真实sprite，camera0，独立视口阈值left与vy（y-13），含部分可见控制；spy仅判断渲染入口是否实际收到该sprite，不用像素裁剪冒充剔除。",
+      "review": "全文逐例核输入、断言与其它case排重；名称中的输入/边界限定本case，不由绿数推定质量。"
+    },
+    {
+      "file": "packages/game/src/present/present.test.ts",
+      "fullName": "NPC 屏外剔除(sdlpal scene.c:286-314:屏外对象不画精灵、不产生 cover tile) 上方完全屏外(vy < -height)→ 跳过",
+      "title": "上方完全屏外(vy < -height)→ 跳过",
+      "status": "passed",
+      "oracleAndLegalInput": "16×24真实sprite，camera0，独立视口阈值left与vy（y-13），含部分可见控制；spy仅判断渲染入口是否实际收到该sprite，不用像素裁剪冒充剔除。",
+      "review": "全文逐例核输入、断言与其它case排重；名称中的输入/边界限定本case，不由绿数推定质量。"
+    },
+    {
+      "file": "packages/game/src/present/present.test.ts",
+      "fullName": "P0.b Y-sort + cover-tile party.y > npc.y → party 在 NPC 之下方(屏幕),Y-sort 后 NPC 先绘 / party 后绘",
+      "title": "party.y > npc.y → party 在 NPC 之下方(屏幕),Y-sort 后 NPC 先绘 / party 后绘",
+      "status": "passed",
+      "oracleAndLegalInput": "实际Y序完整身份，不允许缺对象；正/负vanish、非方向script13，height48/camera独占像素与可见height0拒绝。",
+      "review": "全文逐例核输入、断言与其它case排重；名称中的输入/边界限定本case，不由绿数推定质量。"
+    },
+    {
+      "file": "packages/game/src/present/present.test.ts",
+      "fullName": "P0.b Y-sort + cover-tile party.y < npc.y → NPC 在 party 之下方,Y-sort 后 party 先绘 / NPC 后绘",
+      "title": "party.y < npc.y → NPC 在 party 之下方,Y-sort 后 party 先绘 / NPC 后绘",
+      "status": "passed",
+      "oracleAndLegalInput": "实际Y序完整身份，不允许缺对象；正/负vanish、非方向script13，height48/camera独占像素与可见height0拒绝。",
+      "review": "全文逐例核输入、断言与其它case排重；名称中的输入/边界限定本case，不由绿数推定质量。"
+    },
+    {
+      "file": "packages/game/src/present/present.test.ts",
+      "fullName": "P0.b Y-sort + cover-tile 3 个 NPC 不同 y — Y-sort 正确(y 小先绘,y 大后绘)",
+      "title": "3 个 NPC 不同 y — Y-sort 正确(y 小先绘,y 大后绘)",
+      "status": "passed",
+      "oracleAndLegalInput": "实际Y序完整身份，不允许缺对象；正/负vanish、非方向script13，height48/camera独占像素与可见height0拒绝。",
+      "review": "全文逐例核输入、断言与其它case排重；名称中的输入/边界限定本case，不由绿数推定质量。"
+    },
+    {
+      "file": "packages/game/src/present/present.test.ts",
+      "fullName": "P0.b Y-sort + cover-tile vanishTime>0 隐藏 NPC;vanishTime<0 仍绘制但由更新层冻结",
+      "title": "vanishTime>0 隐藏 NPC;vanishTime<0 仍绘制但由更新层冻结",
+      "status": "passed",
+      "oracleAndLegalInput": "实际Y序完整身份，不允许缺对象；正/负vanish、非方向script13，height48/camera独占像素与可见height0拒绝。",
+      "review": "全文逐例核输入、断言与其它case排重；名称中的输入/边界限定本case，不由绿数推定质量。"
+    },
+    {
+      "file": "packages/game/src/present/present.test.ts",
+      "fullName": "P0.b Y-sort + cover-tile 非方向性姿势对象 nSpriteFrames=0 + scriptedFrame=13 → 实际绘制 frame 13",
+      "title": "非方向性姿势对象 nSpriteFrames=0 + scriptedFrame=13 → 实际绘制 frame 13",
+      "status": "passed",
+      "oracleAndLegalInput": "实际Y序完整身份，不允许缺对象；正/负vanish、非方向script13，height48/camera独占像素与可见height0拒绝。",
+      "review": "全文逐例核输入、断言与其它case排重；名称中的输入/边界限定本case，不由绿数推定质量。"
+    },
+    {
+      "file": "packages/game/src/present/present.test.ts",
+      "fullName": "P0.b Y-sort + cover-tile cover-tile blit_y 公式 = dy*16 + dh*8 + 7 - bitmap.height(sdlpal scene.c:358 相消化)",
+      "title": "cover-tile blit_y 公式 = dy*16 + dh*8 + 7 - bitmap.height(sdlpal scene.c:358 相消化)",
+      "status": "passed",
+      "oracleAndLegalInput": "实际Y序完整身份，不允许缺对象；正/负vanish、非方向script13，height48/camera独占像素与可见height0拒绝。",
+      "review": "全文逐例核输入、断言与其它case排重；名称中的输入/边界限定本case，不由绿数推定质量。"
+    },
+    {
+      "file": "packages/game/src/present/present.test.ts",
+      "fullName": "P0.b Y-sort + cover-tile cover-tile:零高度瓦片仍全画，但不在精灵队列中重画",
+      "title": "cover-tile:零高度瓦片仍全画，但不在精灵队列中重画",
+      "status": "passed",
+      "oracleAndLegalInput": "实际Y序完整身份，不允许缺对象；正/负vanish、非方向script13，height48/camera独占像素与可见height0拒绝。",
+      "review": "全文逐例核输入、断言与其它case排重；名称中的输入/边界限定本case，不由绿数推定质量。"
+    },
+    {
+      "file": "packages/game/src/present/present.test.ts",
+      "fullName": "applyDialogIconPaletteShift(dialog 箭头 palette 轮转) 非等键 phase(typing)→ 原样返回 base 同引用",
+      "title": "非等键 phase(typing)→ 原样返回 base 同引用",
+      "status": "passed",
+      "oracleAndLegalInput": "typed palette，控制performance 100/600；固定0xF9..FE左轮转及区间外值，黑底文字色/夜色；保留源palette不变。",
+      "review": "全文逐例核输入、断言与其它case排重；名称中的输入/边界限定本case，不由绿数推定质量。"
+    },
+    {
+      "file": "packages/game/src/present/present.test.ts",
+      "fullName": "applyDialogIconPaletteShift(dialog 箭头 palette 轮转) blackScreenHold + dialog → 保持背景黑色,恢复对话文字色槽",
+      "title": "blackScreenHold + dialog → 保持背景黑色,恢复对话文字色槽",
+      "status": "passed",
+      "oracleAndLegalInput": "typed palette，控制performance 100/600；固定0xF9..FE左轮转及区间外值，黑底文字色/夜色；保留源palette不变。",
+      "review": "全文逐例核输入、断言与其它case排重；名称中的输入/边界限定本case，不由绿数推定质量。"
+    },
+    {
+      "file": "packages/game/src/present/present.test.ts",
+      "fullName": "applyDialogIconPaletteShift(dialog 箭头 palette 轮转) blackScreenHold 文字色不受 nightPalette/nightColors 影响",
+      "title": "blackScreenHold 文字色不受 nightPalette/nightColors 影响",
+      "status": "passed",
+      "oracleAndLegalInput": "typed palette，控制performance 100/600；固定0xF9..FE左轮转及区间外值，黑底文字色/夜色；保留源palette不变。",
+      "review": "全文逐例核输入、断言与其它case排重；名称中的输入/边界限定本case，不由绿数推定质量。"
+    },
+    {
+      "file": "packages/game/src/present/present.test.ts",
+      "fullName": "applyDialogIconPaletteShift(dialog 箭头 palette 轮转) 等键 phase + step=1(t=100ms)→ 0xF9-0xFE 左轮转 1 格,区间外不动",
+      "title": "等键 phase + step=1(t=100ms)→ 0xF9-0xFE 左轮转 1 格,区间外不动",
+      "status": "passed",
+      "oracleAndLegalInput": "typed palette，控制performance 100/600；固定0xF9..FE左轮转及区间外值，黑底文字色/夜色；保留源palette不变。",
+      "review": "全文逐例核输入、断言与其它case排重；名称中的输入/边界限定本case，不由绿数推定质量。"
+    },
+    {
+      "file": "packages/game/src/present/present.test.ts",
+      "fullName": "applyDialogIconPaletteShift(dialog 箭头 palette 轮转) 等键 phase + step=0(整圈起点 t=600ms)→ 原样返回 base",
+      "title": "等键 phase + step=0(整圈起点 t=600ms)→ 原样返回 base",
+      "status": "passed",
+      "oracleAndLegalInput": "typed palette，控制performance 100/600；固定0xF9..FE左轮转及区间外值，黑底文字色/夜色；保留源palette不变。",
+      "review": "全文逐例核输入、断言与其它case排重；名称中的输入/边界限定本case，不由绿数推定质量。"
+    },
+    {
+      "file": "packages/game/src/present/present.test.ts",
+      "fullName": "G8 SceneFade 72 帧 dither 集成(present 驱动 — sdlpal video.c:1130 VIDEO_FadeScreen) snapshot backupPixels(clear 前)+ 按 elapsed 推进 0→36→72 + 显示 backupPixels",
+      "title": "snapshot backupPixels(clear 前)+ 按 elapsed 推进 0→36→72 + 显示 backupPixels",
+      "status": "passed",
+      "oracleAndLegalInput": "同一四时点序列0/360/720/9999与0/36/72上界；初始全0x35和独立16×24最终矩形，非alias。",
+      "review": "全文逐例核输入、断言与其它case排重；名称中的输入/边界限定本case，不由绿数推定质量。"
+    }
+  ],
+  "reuse": [
+    "QUALITY-PRE94-RETROSPECTIVE-1/present-primitives-quality",
+    "QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render: current present SHA c4c6f411857d99c5f8e850bf5172c3e42f04181a64df0ce2a697fe1ec90569f9 same; P11/P12 exact semantic reuse"
+  ],
+  "processCorrections": [
+    "directed-r1唯一红为新夹具遗漏seam扩散/真实party入口，非产品缺陷红；修正输入后r2和最终102绿。",
+    "counter首版4运行因独立目录缺root tsconfig/node_modules而0 collected；无反控信用；原件保留。r2保留正常workspace结构后成立。",
+    "初始外部备份命令相对cwd错，未改任何源；已用绝对源路径重新保存。",
+    "EventCursor的commands/labelMap是可选override；旧ip-only游标本身合法，只是不需要强转。已纠正首稿“不完整游标”表述，不把类型清理冒称业务输入修复。",
+    "只读verifier首稿误将Vitest numFailedTestSuites（含嵌套suite）当失败文件数，实际值2而仅一文件/一AssertionError；改核testResults真实失败文件数1，原单红/fullName/AssertionError/pending规则不变。首个控制器失败只在工具回执，随后同候选重放完整双流另存，不能冒称首次原件。"
+  ],
+  "runs": {
+    "baseline": {
+      "files": 2,
+      "passed": 67
+    },
+    "currentPrimary": {
+      "files": 2,
+      "passed": 61
+    },
+    "finalDirectedAdjacent": {
+      "files": 9,
+      "passed": 102,
+      "stderrBytes": 0
+    },
+    "typecheck": "exit0 stdout/stderr empty",
+    "scopedBiome": "2files exit0 0errors/0warnings/0infos"
+  },
+  "counters": [
+    {
+      "axis": "zero-height-cover",
+      "old": 67,
+      "current": 61,
+      "oldFailed": 0,
+      "currentFailed": 1,
+      "type": "AssertionError",
+      "idPrefix": "counter-r2-zero-height-cover"
+    },
+    {
+      "axis": "flush-first-pixel",
+      "old": 67,
+      "current": 61,
+      "oldFailed": 0,
+      "currentFailed": 1,
+      "type": "AssertionError",
+      "idPrefix": "counter-r2-flush-first-pixel"
+    }
+  ],
+  "limits": [
+    "Only 2 primary A-H credits in window100-2; no dependency/move/retirement credit.",
+    "No product modifications, new schema/save/API/assets behavior or browser/E2E assertion.",
+    "Whole check/official coverage/ratchet/protected and publication deferred to ~100; approved retirement data to append at freeze, no predicate/config/runner change."
+  ],
+  "invalidation": "Primary/source caller/type/input/geometry or dependency hashes drifting invalidates the affected claim; workflow prose change alone does not invalidate product results. Cheap verifier is byte/result/mapping proof, not an automatic semantic quality certificate."
+}

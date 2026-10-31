@@ -8,8 +8,8 @@
  * （boundary 16 条已覆盖），仅作正控引用不新增。
  */
 import { describe, expect, test } from 'vitest'
-import { deepSnapshot } from './__tests__/glm-content-contract-fixtures.js'
 import { expectAcceptsUnchanged, expectExactError } from './__tests__/guard-leaf-fixtures.js'
+import { deepSnapshot } from './__tests__/value-snapshot.js'
 import { validatePoisons, validateSkills } from './validate.js'
 
 const skill = (over: Record<string, unknown>) => ({

@@ -4,8 +4,8 @@
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "outDir": "dist",
     "rootDir": "src",
-    // 主代码浏览器目标(types: []),__tests__ 下 D29 对拍要 node:fs / node:path —— 仅
-    // 让 node 类型对测试可用;运行时业务代码不应 import 'node:*'(rootDir 强制 src/)
+    // src 内包含需要 node:fs/node:path 的原盘对拍测试，因此 Node 类型对整个 program 可见。
+    // rootDir 只约束源文件归属，不禁止浏览器业务 import node:*；浏览器依赖边界须另行审查。
     "types": ["node"]
   },
   "include": ["src/**/*"]

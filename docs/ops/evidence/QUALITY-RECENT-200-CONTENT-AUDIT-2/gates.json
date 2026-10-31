@@ -1,0 +1,148 @@
+{
+  "task": "QUALITY-RECENT-200-CONTENT-AUDIT-2",
+  "base": "6ebca402ae2c419ad9922f8d29097b45ea6a0df6",
+  "meaning": "Local acceptance snapshot before publication; complete raw members are in native.json.gz. No new runtime or coverage collection for receipt edits.",
+  "gates": {
+    "check": {
+      "execution": "uniform-check.execution.json",
+      "command": ["pnpm", "check"],
+      "exit": 0,
+      "stderrBytes": 0,
+      "start": "2026-10-28T12:48:25.546Z",
+      "end": "2026-10-28T13:06:50.858Z",
+      "packageTests": 20506,
+      "lintErrors": 0,
+      "lintWarnings": 0,
+      "lintInfos": 0
+    },
+    "docs": {
+      "execution": "final-docs.execution.json",
+      "command": ["pnpm", "check:docs"],
+      "exit": 0,
+      "stderrBytes": 0,
+      "start": "2026-10-28T13:56:31.670Z",
+      "end": "2026-10-28T13:57:05.384Z"
+    },
+    "lint": {
+      "execution": "publish-lint.execution.json",
+      "command": ["pnpm", "lint"],
+      "exit": 0,
+      "stderrBytes": 0,
+      "start": "2026-10-28T14:07:49.154Z",
+      "end": "2026-10-28T14:07:52.071Z",
+      "files": 6195,
+      "errors": 0,
+      "warnings": 0,
+      "infos": 0
+    },
+    "ledger": {
+      "execution": "publish-ledger.execution.json",
+      "command": ["node", "scripts/quality/code-quality-ledger.mjs"],
+      "exit": 0,
+      "stderrBytes": 0,
+      "start": "2026-10-28T14:07:49.154Z",
+      "end": "2026-10-28T14:07:50.873Z",
+      "inventory": 3464,
+      "closed": 797,
+      "review": 0,
+      "pending": 2667
+    },
+    "diff": {
+      "execution": "publish-diff.execution.json",
+      "command": ["git", "diff", "--check"],
+      "exit": 0,
+      "stderrBytes": 0,
+      "start": "2026-10-28T14:07:49.154Z",
+      "end": "2026-10-28T14:07:49.271Z"
+    },
+    "rawAndIdentity": {
+      "execution": "publish-verify.execution.json",
+      "command": ["node", "docs/ops/evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/verify.mjs"],
+      "exit": 0,
+      "stderrBytes": 0,
+      "start": "2026-10-28T14:07:49.154Z",
+      "end": "2026-10-28T14:07:49.387Z"
+    },
+    "policy": {
+      "execution": "policy-final.execution.json",
+      "command": [
+        "node",
+        "--test",
+        "scripts/coverage/approved-baseline-adjustments.test.mjs",
+        "scripts/coverage/approved-test-retirements.test.mjs"
+      ],
+      "exit": 0,
+      "stderrBytes": 0,
+      "start": "2026-10-28T13:31:18.621Z",
+      "end": "2026-10-28T13:31:18.703Z",
+      "passed": 107
+    },
+    "ratchet": {
+      "execution": "same-report-ratchet-r2.execution.json",
+      "command": [
+        "env",
+        "TYPE_PAL_COVERAGE_BASE_REF=6ebca402ae2c419ad9922f8d29097b45ea6a0df6",
+        "node",
+        "docs/ops/evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/coverage-replay.mjs",
+        "--ratchet"
+      ],
+      "exit": 0,
+      "stderrBytes": 0,
+      "start": "2026-10-28T13:31:01.617Z",
+      "end": "2026-10-28T13:31:02.382Z",
+      "sameFrozenReport": true
+    },
+    "protectedFast": {
+      "execution": "same-report-protected.execution.json",
+      "command": [
+        "env",
+        "TYPE_PAL_COVERAGE_BASE_REF=6ebca402ae2c419ad9922f8d29097b45ea6a0df6",
+        "node",
+        "docs/ops/evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/coverage-replay.mjs"
+      ],
+      "exit": 0,
+      "stderrBytes": 0,
+      "start": "2026-10-28T13:31:18.239Z",
+      "end": "2026-10-28T13:31:18.590Z",
+      "sameFrozenReport": true
+    },
+    "fetch": {
+      "execution": "fresh-main-before-publish.execution.json",
+      "command": [
+        "git",
+        "-c",
+        "http.proxy=",
+        "-c",
+        "http.version=HTTP/1.1",
+        "fetch",
+        "origin",
+        "--prune"
+      ],
+      "exit": 0,
+      "stderrBytes": 0,
+      "start": "2026-10-28T13:57:11.877Z",
+      "end": "2026-10-28T13:57:14.637Z"
+    }
+  },
+  "coverage": {
+    "sources": 810,
+    "tests": 20157,
+    "reportSha256": "73ec9053fcd505ecd1a55d0d53cee2dda806cf5586911bab6ce81c4017939cad",
+    "initialCollection": "uniform-official.execution.json: exit1, one existing CLI deadline; all completed stages retained",
+    "resumption": "uniform-official-resume.execution.json: remaining packages pass; old floor rejection exit1 before exact authorized data recount",
+    "limitation": "Unchanged failed CLI test passes4171ms under unchanged5000ms; one-off timing cause not established. Comparisons reuse the same810-source report; no new collection."
+  },
+  "publication": "Commit/push/merge are separate remote facts; this pre-publication acceptance does not assert them.",
+  "receiptSupplement": {
+    "lint": {
+      "execution": "receipt-lint-r2.execution.json",
+      "exit": 0,
+      "errors": 0,
+      "warnings": 0,
+      "infos": 0,
+      "scope": "After gates/audit JSON formatting repair; prior failure retained."
+    },
+    "documentation": "receipt-docs and receipt-content-review: exit0, stderr0",
+    "rawIntegrity": "receipt-verify: exit0; archive subsequently appended only immutable raw receipts, original members retained"
+  }
+}

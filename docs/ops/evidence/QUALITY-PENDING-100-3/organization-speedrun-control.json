@@ -1,0 +1,1093 @@
+{
+  "inputs": [
+    {
+      "path": "packages/game/src/tools/speedrun/index.test.ts",
+      "sha256": "0fe566225d01c12455a9b4f2e5f29881966b630f428651dc676b45180aae7cf7",
+      "member": "organization-speedrun-control/0.before"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/index.glm-phase1-leaves.test.ts",
+      "sha256": "65beee9b2b0d8d5d45305beef9e0076aec111e32d52243ba3c02d2ce63d037ac",
+      "member": "organization-speedrun-control/1.before"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/timer.test.ts",
+      "sha256": "7745df1232e6aa9f06b0256fe3fd1d641fb872ba81ab2e75fe44fc4fb5ac61a4",
+      "member": "organization-speedrun-control/2.before"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/timer.boundaries.test.ts",
+      "sha256": "d23e3b3a2e5cf85515c7769c4c8587b28f65e8ea429da916c7151110349b6d90",
+      "member": "organization-speedrun-control/3.before"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/timer.glm-phase1-leaves.test.ts",
+      "sha256": "41a4ca45cfedac0abc4a68c8f3393676238e7a3bb672e2a292d7bfc46c37abad",
+      "member": "organization-speedrun-control/4.before"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "packages/game/src/tools/speedrun/index.test.ts",
+      "sha256": "5518316a1a45d5b89b9c187fccf5a314ffaa0c432b15fd723c53e3a3a8ec3809"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/timer.test.ts",
+      "sha256": "1854cd0fd9324e6455d4bdd9f9b592ad2b1d2982532ebf61d925eb0f3b7c6a1f"
+    }
+  ],
+  "sourceBridges": [
+    {
+      "path": "packages/game/src/tools/speedrun/index.test.ts",
+      "id": "speedrun-control-0",
+      "reason": "Explicit4key/layout/ownedDOM/faketimer/hotkeyfixture,removeoneprovedF4duplicate;businesscallbacksretained.",
+      "changes": [
+        {
+          "from": "// index.test.ts\nimport { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'\nimport { createInitialGameState, type GameState } from '../../core/game-state.js'\nimport {\n  __resetSpeedrunForTest,\n  getSpeedrunBests,\n  getSpeedrunRun,\n  isSpeedrunPaused,\n  resetSpeedrun,\n  setupSpeedrunHotkeys,\n  tickSpeedrunTimer,\n  toggleSpeedrunPause,\n} from './index.js'\nimport { hideOverlay } from './overlay.js'\n\nfunction makeState(over: Partial<GameState>): GameState {\n  return {\n    ...createInitialGameState({ x: 0, y: 0, facing: 'down' }),\n    wNumScene: 1,\n    ...over,\n  }\n}\n\nbeforeEach(() => {\n  vi.useFakeTimers()\n  document.body.replaceChildren()\n  localStorage.clear()\n  __resetSpeedrunForTest()\n  resetSpeedrun()\n})\nlet unbindHotkeys: (() => void) | null = null\nafterEach(() => {\n  hideOverlay()\n  document.getElementById('tp-speedrun-style')?.remove()\n  unbindHotkeys?.()\n  unbindHotkeys = null\n  vi.clearAllTimers()\n  vi.useRealTimers()\n  localStorage.clear()\n  __resetSpeedrunForTest()\n  document.body.replaceChildren()\n})\n\ndescribe('tickSpeedrunTimer', () => {\n  it('未启用 → 不挂覆盖层、计时不动', () => {\n    tickSpeedrunTimer(makeState({}), 1000)\n    expect(document.getElementById('tp-speedrun-overlay')).toBeNull()\n    expect(getSpeedrunRun().elapsedMs).toBe(0)\n  })\n  it('启用后起表、挂覆盖层、wall-clock 累加', () => {\n    localStorage.setItem('tp-speedrun-enabled', '1')\n    tickSpeedrunTimer(makeState({ wNumScene: 1 }), 1000)\n    tickSpeedrunTimer(makeState({ wNumScene: 1 }), 1500)\n    expect(document.getElementById('tp-speedrun-overlay')).not.toBeNull()\n    expect(getSpeedrunRun().elapsedMs).toBe(500)\n  })\n  it('show=0 时不挂覆盖层但仍计时', () => {\n    localStorage.setItem('tp-speedrun-enabled', '1')\n    localStorage.setItem('tp-speedrun-show', '0')\n    tickSpeedrunTimer(makeState({ wNumScene: 1 }), 0)\n    tickSpeedrunTimer(makeState({ wNumScene: 1 }), 1000)\n    expect(document.getElementById('tp-speedrun-overlay')).toBeNull()\n    expect(getSpeedrunRun().elapsedMs).toBe(1000)\n  })\n})\n\ndescribe('bests 默认播种', () => {\n  it('首次读取用 CHECKPOINTS 默认参考线', () => {\n    expect(getSpeedrunBests().clear).toBe(9_452_000) // CHECKPOINTS 的 2:37:32\n  })\n})\n\ndescribe('setupSpeedrunHotkeys', () => {\n  it('F4 启用时重置本局', () => {\n    localStorage.setItem('tp-speedrun-enabled', '1')\n    unbindHotkeys = setupSpeedrunHotkeys()\n    tickSpeedrunTimer(makeState({ wNumScene: 1 }), 0)\n    tickSpeedrunTimer(makeState({ wNumScene: 1 }), 1000)\n    expect(getSpeedrunRun().elapsedMs).toBe(1000)\n    window.dispatchEvent(new KeyboardEvent('keydown', { code: 'F4' }))\n    expect(getSpeedrunRun().phase).toBe('idle')\n    expect(getSpeedrunRun().elapsedMs).toBe(0)\n  })\n  it('F4 未启用时不重置', () => {\n    localStorage.setItem('tp-speedrun-enabled', '1')\n    unbindHotkeys = setupSpeedrunHotkeys()\n    tickSpeedrunTimer(makeState({ wNumScene: 1 }), 0)\n    tickSpeedrunTimer(makeState({ wNumScene: 1 }), 1000)\n    localStorage.setItem('tp-speedrun-enabled', '0')\n    window.dispatchEvent(new KeyboardEvent('keydown', { code: 'F4' }))\n    expect(getSpeedrunRun().elapsedMs).toBe(1000)\n  })\n  it('F8 启用时暂停本局', () => {\n    localStorage.setItem('tp-speedrun-enabled', '1')\n    unbindHotkeys = setupSpeedrunHotkeys()\n    tickSpeedrunTimer(makeState({ wNumScene: 1 }), 0)\n    tickSpeedrunTimer(makeState({ wNumScene: 1 }), 1000)\n    // 按键从 performance.now 取时，须与上一帧的 1000ms 对齐。\n    vi.advanceTimersByTime(1000)\n    window.dispatchEvent(new KeyboardEvent('keydown', { code: 'F8' }))\n    expect(getSpeedrunRun().manualPaused).toBe(true)\n  })\n  it('F2 启用时切换覆盖层显隐设置', () => {\n    localStorage.setItem('tp-speedrun-enabled', '1')\n    unbindHotkeys = setupSpeedrunHotkeys()\n    window.dispatchEvent(new KeyboardEvent('keydown', { code: 'F2' }))\n    expect(localStorage.getItem('tp-speedrun-show')).toBe('0')\n    window.dispatchEvent(new KeyboardEvent('keydown', { code: 'F2' }))\n    expect(localStorage.getItem('tp-speedrun-show')).toBe('1')\n  })\n})\n\ndescribe('isSpeedrunPaused (主循环冻结门控)', () => {\n  it('手动暂停 → true(冻结游戏)', () => {\n    localStorage.setItem('tp-speedrun-enabled', '1')\n    tickSpeedrunTimer(makeState({ wNumScene: 1 }), 0)\n    toggleSpeedrunPause()\n    expect(isSpeedrunPaused()).toBe(true)\n  })\n  it('未暂停 → false', () => {\n    localStorage.setItem('tp-speedrun-enabled', '1')\n    tickSpeedrunTimer(makeState({ wNumScene: 1 }), 0)\n    expect(isSpeedrunPaused()).toBe(false)\n  })\n  it('香蕉树暂停 → false(不冻结,否则走不过去捡香蕉)', () => {\n    localStorage.setItem('tp-speedrun-enabled', '1')\n    localStorage.setItem('tp-speedrun-banana', '1')\n    tickSpeedrunTimer(makeState({ wNumScene: 1 }), 0) // 起表\n    tickSpeedrunTimer(\n      makeState({ wNumScene: 177, party: { x: 1280, y: 720, facing: 'down' } }),\n      100,\n    ) // 站香蕉格(中间格,世界坐标)\n    expect(getSpeedrunRun().bananaPaused).toBe(true)\n    expect(isSpeedrunPaused()).toBe(false)\n  })\n})\n",
+          "to": "import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'\nimport { createInitialGameState } from '../../core/game-state.js'\nimport type { GameState } from '../../core/game-state.js'\nimport {\n  __resetSpeedrunForTest,\n  getSpeedrunBests,\n  getSpeedrunRun,\n  isSpeedrunPaused,\n  resetSpeedrun,\n  setupSpeedrunHotkeys,\n  tickSpeedrunTimer,\n  toggleSpeedrunPause,\n} from './index.js'\nimport { hideOverlay } from './overlay.js'\n\nfunction gameState(overrides: Partial<GameState>): GameState {\n  return {\n    ...createInitialGameState({ x: 0, y: 0, facing: 'down' }),\n    wNumScene: 1,\n    ...overrides,\n  }\n}\n\ndescribe('tickSpeedrunTimer', () => {\n  it('未启用 → 不挂覆盖层、计时不动', () => {\n    tickSpeedrunTimer(gameState({}), 1000)\n    expect(document.getElementById('tp-speedrun-overlay')).toBeNull()\n    expect(getSpeedrunRun().elapsedMs).toBe(0)\n  })\n  it('启用后起表、挂覆盖层、wall-clock 累加', () => {\n    localStorage.setItem('tp-speedrun-enabled', '1')\n    tickSpeedrunTimer(gameState({ wNumScene: 1 }), 1000)\n    tickSpeedrunTimer(gameState({ wNumScene: 1 }), 1500)\n    expect(document.getElementById('tp-speedrun-overlay')).not.toBeNull()\n    expect(getSpeedrunRun().elapsedMs).toBe(500)\n  })\n  it('show=0 时不挂覆盖层但仍计时', () => {\n    localStorage.setItem('tp-speedrun-enabled', '1')\n    localStorage.setItem('tp-speedrun-show', '0')\n    tickSpeedrunTimer(gameState({ wNumScene: 1 }), 0)\n    tickSpeedrunTimer(gameState({ wNumScene: 1 }), 1000)\n    expect(document.getElementById('tp-speedrun-overlay')).toBeNull()\n    expect(getSpeedrunRun().elapsedMs).toBe(1000)\n  })\n})\n\ndescribe('bests 默认播种', () => {\n  it('首次读取用 CHECKPOINTS 默认参考线', () => {\n    expect(getSpeedrunBests().clear).toBe(9_452_000) // CHECKPOINTS 的 2:37:32\n  })\n})\n\ndescribe('setupSpeedrunHotkeys', () => {\n  it('F4 未启用时不重置', () => {\n    localStorage.setItem('tp-speedrun-enabled', '1')\n    unbindHotkeys = setupSpeedrunHotkeys()\n    tickSpeedrunTimer(gameState({ wNumScene: 1 }), 0)\n    tickSpeedrunTimer(gameState({ wNumScene: 1 }), 1000)\n    localStorage.setItem('tp-speedrun-enabled', '0')\n    window.dispatchEvent(new KeyboardEvent('keydown', { code: 'F4' }))\n    expect(getSpeedrunRun().elapsedMs).toBe(1000)\n  })\n  it('F8 启用时暂停本局', () => {\n    localStorage.setItem('tp-speedrun-enabled', '1')\n    unbindHotkeys = setupSpeedrunHotkeys()\n    tickSpeedrunTimer(gameState({ wNumScene: 1 }), 0)\n    tickSpeedrunTimer(gameState({ wNumScene: 1 }), 1000)\n    // 按键从 performance.now 取时，须与上一帧的 1000ms 对齐。\n    vi.advanceTimersByTime(1000)\n    window.dispatchEvent(new KeyboardEvent('keydown', { code: 'F8' }))\n    expect(getSpeedrunRun().manualPaused).toBe(true)\n  })\n  it('F2 启用时切换覆盖层显隐设置', () => {\n    localStorage.setItem('tp-speedrun-enabled', '1')\n    unbindHotkeys = setupSpeedrunHotkeys()\n    window.dispatchEvent(new KeyboardEvent('keydown', { code: 'F2' }))\n    expect(localStorage.getItem('tp-speedrun-show')).toBe('0')\n    window.dispatchEvent(new KeyboardEvent('keydown', { code: 'F2' }))\n    expect(localStorage.getItem('tp-speedrun-show')).toBe('1')\n  })\n})\n\ndescribe('isSpeedrunPaused (主循环冻结门控)', () => {\n  it('手动暂停 → true(冻结游戏)', () => {\n    localStorage.setItem('tp-speedrun-enabled', '1')\n    tickSpeedrunTimer(gameState({ wNumScene: 1 }), 0)\n    toggleSpeedrunPause()\n    expect(isSpeedrunPaused()).toBe(true)\n  })\n  it('未暂停 → false', () => {\n    localStorage.setItem('tp-speedrun-enabled', '1')\n    tickSpeedrunTimer(gameState({ wNumScene: 1 }), 0)\n    expect(isSpeedrunPaused()).toBe(false)\n  })\n  it('香蕉树暂停 → false(不冻结,否则走不过去捡香蕉)', () => {\n    localStorage.setItem('tp-speedrun-enabled', '1')\n    localStorage.setItem('tp-speedrun-banana', '1')\n    tickSpeedrunTimer(gameState({ wNumScene: 1 }), 0) // 起表\n    tickSpeedrunTimer(\n      gameState({ wNumScene: 177, party: { x: 1280, y: 720, facing: 'down' } }),\n      100,\n    ) // 站香蕉格(中间格,世界坐标)\n    expect(getSpeedrunRun().bananaPaused).toBe(true)\n    expect(isSpeedrunPaused()).toBe(false)\n  })\n})\n\nconst OWNED_STORAGE_KEYS = [\n  'tp-speedrun-enabled',\n  'tp-speedrun-show',\n  'tp-speedrun-banana',\n  'tp-speedrun-bests',\n] as const\nconst OWNED_NODE_IDS = [\n  'tp-speedrun-overlay',\n  'tp-speedrun-countdown',\n  'tp-toast-container',\n  'tp-speedrun-style',\n] as const\nconst previousValues = new Map<string, string | null>()\nlet previousLayout: string | undefined\nlet unbindHotkeys: (() => void) | null = null\nfunction clearOwnedNodes() {\n  for (const id of OWNED_NODE_IDS) document.getElementById(id)?.remove()\n}\nbeforeEach(() => {\n  previousValues.clear()\n  for (const key of OWNED_STORAGE_KEYS) {\n    previousValues.set(key, localStorage.getItem(key))\n    localStorage.removeItem(key)\n  }\n  previousLayout = document.documentElement.dataset.tpLayout\n  document.documentElement.dataset.tpLayout = 'desktop'\n  vi.useFakeTimers()\n  clearOwnedNodes()\n  __resetSpeedrunForTest()\n  resetSpeedrun()\n})\nafterEach(() => {\n  try {\n    unbindHotkeys?.()\n  } finally {\n    unbindHotkeys = null\n    __resetSpeedrunForTest()\n    vi.clearAllTimers()\n    vi.useRealTimers()\n    clearOwnedNodes()\n    for (const [key, value] of previousValues) {\n      if (value === null) localStorage.removeItem(key)\n      else localStorage.setItem(key, value)\n    }\n    if (previousLayout === undefined) delete document.documentElement.dataset.tpLayout\n    else document.documentElement.dataset.tpLayout = previousLayout\n  }\n})\n",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/index.glm-phase1-leaves.test.ts",
+      "id": "speedrun-control-1",
+      "reason": "Explicit4key/layout/ownedDOM/faketimer/hotkeyfixture,removeoneprovedF4duplicate;businesscallbacksretained.",
+      "changes": [
+        {
+          "from": "/**\n * TEST-GLM-PHASE1-LEAVES-3 L21（index.ts）— 去重表：\n *  - index.test（启用起表/覆盖层/默认参考线/F4/F8/F2/暂停冻结）→ 不重复\n *  - 新差异：setupSpeedrunHotkeys 返回的解绑函数移除监听（解绑后 F4 不再重置/不弹 toast）、\n *    未启用时按键直接短路。\n * 通过合法 GameState 实际起表，解绑后同时观察计时与 toast；每例清理自己的键盘监听和定时器。\n */\nimport { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'\nimport { createInitialGameState } from '../../core/game-state.js'\nimport {\n  __resetSpeedrunForTest,\n  getSpeedrunRun,\n  setupSpeedrunHotkeys,\n  tickSpeedrunTimer,\n} from './index.js'\n\nlet unbindHotkeys: (() => void) | undefined\n\nbeforeEach(() => {\n  vi.useFakeTimers()\n  localStorage.clear()\n  __resetSpeedrunForTest()\n  document.body.innerHTML = ''\n})\n\nafterEach(() => {\n  document.getElementById('tp-speedrun-style')?.remove()\n  unbindHotkeys?.()\n  unbindHotkeys = undefined\n  __resetSpeedrunForTest()\n  vi.clearAllTimers()\n  vi.useRealTimers()\n  localStorage.clear()\n  document.body.innerHTML = ''\n})\n\ndescribe('L21 setupSpeedrunHotkeys 解绑', () => {\n  it('启用时 F4 重置；解绑后 F4 不改变计时且无新 toast', () => {\n    localStorage.setItem('tp-speedrun-enabled', '1')\n    unbindHotkeys = setupSpeedrunHotkeys()\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.wNumScene = 1\n    tickSpeedrunTimer(gs, 0)\n    tickSpeedrunTimer(gs, 1000)\n    expect(getSpeedrunRun().elapsedMs).toBe(1000)\n    window.dispatchEvent(new KeyboardEvent('keydown', { code: 'F4' }))\n    expect(getSpeedrunRun().phase).toBe('idle')\n    expect(getSpeedrunRun().elapsedMs).toBe(0)\n    const container = document.getElementById('tp-toast-container')\n    const toastsAfterFirst = container?.childElementCount ?? 0\n    expect(toastsAfterFirst).toBe(1)\n    tickSpeedrunTimer(gs, 2000)\n    tickSpeedrunTimer(gs, 2500)\n    expect(getSpeedrunRun().elapsedMs).toBe(500)\n    unbindHotkeys()\n    window.dispatchEvent(new KeyboardEvent('keydown', { code: 'F4' }))\n    expect(getSpeedrunRun().elapsedMs).toBe(500)\n    expect(getSpeedrunRun().phase).toBe('running')\n    expect(document.getElementById('tp-toast-container')?.childElementCount).toBe(toastsAfterFirst)\n  })\n\n  it('未启用时按键短路（无 toast）；解绑函数幂等可重复调', () => {\n    unbindHotkeys = setupSpeedrunHotkeys()\n    window.dispatchEvent(new KeyboardEvent('keydown', { code: 'F4' }))\n    expect(document.getElementById('tp-toast-container')).toBeNull()\n    unbindHotkeys()\n    unbindHotkeys() // 幂等\n    window.dispatchEvent(new KeyboardEvent('keydown', { code: 'F4' }))\n    expect(document.getElementById('tp-toast-container')).toBeNull()\n  })\n})\n",
+          "to": "import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'\nimport { createInitialGameState } from '../../core/game-state.js'\nimport {\n  __resetSpeedrunForTest,\n  getSpeedrunRun,\n  setupSpeedrunHotkeys,\n  tickSpeedrunTimer,\n  resetSpeedrun,\n} from './index.js'\n\ndescribe('L21 setupSpeedrunHotkeys 解绑', () => {\n  it('启用时 F4 重置；解绑后 F4 不改变计时且无新 toast', () => {\n    localStorage.setItem('tp-speedrun-enabled', '1')\n    unbindHotkeys = setupSpeedrunHotkeys()\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.wNumScene = 1\n    tickSpeedrunTimer(gs, 0)\n    tickSpeedrunTimer(gs, 1000)\n    expect(getSpeedrunRun().elapsedMs).toBe(1000)\n    window.dispatchEvent(new KeyboardEvent('keydown', { code: 'F4' }))\n    expect(getSpeedrunRun().phase).toBe('idle')\n    expect(getSpeedrunRun().elapsedMs).toBe(0)\n    const container = document.getElementById('tp-toast-container')\n    const toastsAfterFirst = container?.childElementCount ?? 0\n    expect(toastsAfterFirst).toBe(1)\n    tickSpeedrunTimer(gs, 2000)\n    tickSpeedrunTimer(gs, 2500)\n    expect(getSpeedrunRun().elapsedMs).toBe(500)\n    unbindHotkeys()\n    window.dispatchEvent(new KeyboardEvent('keydown', { code: 'F4' }))\n    expect(getSpeedrunRun().elapsedMs).toBe(500)\n    expect(getSpeedrunRun().phase).toBe('running')\n    expect(document.getElementById('tp-toast-container')?.childElementCount).toBe(toastsAfterFirst)\n  })\n\n  it('未启用时按键短路（无 toast）；解绑函数幂等可重复调', () => {\n    unbindHotkeys = setupSpeedrunHotkeys()\n    window.dispatchEvent(new KeyboardEvent('keydown', { code: 'F4' }))\n    expect(document.getElementById('tp-toast-container')).toBeNull()\n    unbindHotkeys()\n    unbindHotkeys() // 幂等\n    window.dispatchEvent(new KeyboardEvent('keydown', { code: 'F4' }))\n    expect(document.getElementById('tp-toast-container')).toBeNull()\n  })\n})\n\nconst OWNED_STORAGE_KEYS = [\n  'tp-speedrun-enabled',\n  'tp-speedrun-show',\n  'tp-speedrun-banana',\n  'tp-speedrun-bests',\n] as const\nconst OWNED_NODE_IDS = [\n  'tp-speedrun-overlay',\n  'tp-speedrun-countdown',\n  'tp-toast-container',\n  'tp-speedrun-style',\n] as const\nconst previousValues = new Map<string, string | null>()\nlet previousLayout: string | undefined\nlet unbindHotkeys: (() => void) | null = null\nfunction clearOwnedNodes() {\n  for (const id of OWNED_NODE_IDS) document.getElementById(id)?.remove()\n}\nbeforeEach(() => {\n  previousValues.clear()\n  for (const key of OWNED_STORAGE_KEYS) {\n    previousValues.set(key, localStorage.getItem(key))\n    localStorage.removeItem(key)\n  }\n  previousLayout = document.documentElement.dataset.tpLayout\n  document.documentElement.dataset.tpLayout = 'desktop'\n  vi.useFakeTimers()\n  clearOwnedNodes()\n  __resetSpeedrunForTest()\n  resetSpeedrun()\n})\nafterEach(() => {\n  try {\n    unbindHotkeys?.()\n  } finally {\n    unbindHotkeys = null\n    __resetSpeedrunForTest()\n    vi.clearAllTimers()\n    vi.useRealTimers()\n    clearOwnedNodes()\n    for (const [key, value] of previousValues) {\n      if (value === null) localStorage.removeItem(key)\n      else localStorage.setItem(key, value)\n    }\n    if (previousLayout === undefined) delete document.documentElement.dataset.tpLayout\n    else document.documentElement.dataset.tpLayout = previousLayout\n  }\n})\n",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/timer.test.ts",
+      "id": "speedrun-control-2",
+      "reason": "Privatefixture names; timerboundaryBananaConfigcontextreplacescast;reset preservation oracle in meaningfulnonnullcase, notblankselfcomparison.",
+      "changes": [
+        {
+          "from": "// timer.test.ts\nimport { describe, expect, it } from 'vitest'\nimport type { BananaConfig, Checkpoint } from './checkpoints.js'\nimport { enterScene } from './detectors.js'\nimport type { ProgressSnapshot } from './snapshot.js'\nimport { SpeedrunTimer } from './timer.js'\n\nconst snap = (o: Partial<ProgressSnapshot>): ProgressSnapshot => ({\n  scene: 0,\n  canMove: true,\n  partyX: 0,\n  partyY: 0,\n  music: 0,\n  inventory: new Set(),\n  battle: null,\n  ...o,\n})\nconst CPS: Checkpoint[] = [\n  { id: 'a', name: 'A', defaultBestMs: 1000, detector: enterScene(2) },\n  { id: 'b', name: 'B', defaultBestMs: 2000, detector: enterScene(3) },\n]\nconst BAN: BananaConfig = { scene: 177, cells: [[10, 10]], tolX: 0, tolY: 0, itemId: 291 }\nconst mk = (bests = { a: 1000, b: 2000 }): SpeedrunTimer =>\n  new SpeedrunTimer(CPS, BAN, { ...bests })\n\ndescribe('SpeedrunTimer 起表与打点', () => {\n  it('scene>0 且可移动才起表,之后按 wall-clock 累加', () => {\n    const t = mk()\n    t.tick(snap({ scene: 0 }), 1000, { bananaEnabled: false })\n    expect(t.getRun().phase).toBe('idle')\n    t.tick(snap({ scene: 1 }), 2000, { bananaEnabled: false })\n    expect(t.getRun().phase).toBe('running')\n    t.tick(snap({ scene: 1 }), 2500, { bananaEnabled: false })\n    expect(t.getRun().elapsedMs).toBe(500) // 2500-2000\n  })\n  it('scene>0 但李逍遥不可移动(标题/开场演出/加载/淡入)→ 不起表', () => {\n    const t = mk()\n    // 场景已预载(scene>0)但 canMove=false:对齐 PalTimer「第一次能控制李逍遥」才起表。\n    t.tick(snap({ scene: 1, canMove: false }), 1000, { bananaEnabled: false })\n    expect(t.getRun().phase).toBe('idle')\n    t.tick(snap({ scene: 1, canMove: false }), 5000, { bananaEnabled: false })\n    expect(t.getRun().phase).toBe('idle')\n    expect(t.getRun().elapsedMs).toBe(0) // 演出期不计时\n    // 李逍遥可移动那一帧才起表\n    t.tick(snap({ scene: 1, canMove: true }), 6000, { bananaEnabled: false })\n    expect(t.getRun().phase).toBe('running')\n    t.tick(snap({ scene: 1, canMove: true }), 6500, { bananaEnabled: false })\n    expect(t.getRun().elapsedMs).toBe(500)\n  })\n  it('依序打点,一帧至多推进一个节点', () => {\n    const t = mk()\n    t.tick(snap({ scene: 1 }), 0, { bananaEnabled: false }) // 起表 t=0\n    t.tick(snap({ scene: 2 }), 1000, { bananaEnabled: false }) // 命中 A\n    expect(t.getRun().stepIndex).toBe(1)\n    expect(t.getRun().splits[0]).toBe(1000)\n    t.tick(snap({ scene: 3 }), 2000, { bananaEnabled: false }) // 命中 B → finished\n    expect(t.getRun().stepIndex).toBe(2)\n    expect(t.getRun().phase).toBe('finished')\n  })\n})\n\ndescribe('SpeedrunTimer setStep(手动跳节点,测试用)', () => {\n  it('跳过前面节点,从第 N 个起依序检测', () => {\n    const t = mk()\n    t.tick(snap({ scene: 1 }), 0, { bananaEnabled: false }) // 起表,stepIndex 0(等 A=enterScene2)\n    t.setStep(1) // 跳到 B(index 1),跳过 A\n    expect(t.getRun().stepIndex).toBe(1)\n    expect(t.getRun().phase).toBe('running')\n    expect(t.getRun().splits[0]).toBeNull() // 跳过的 A 未达成\n    t.tick(snap({ scene: 3 }), 1000, { bananaEnabled: false }) // 命中 B → finished\n    expect(t.getRun().stepIndex).toBe(2)\n    expect(t.getRun().splits[1]).toBe(1000)\n    expect(t.getRun().phase).toBe('finished')\n  })\n\n  it('已处于目标条件时(prevSnap 重置)下一帧立即命中 = 认\"读档已到此\"', () => {\n    const t = mk()\n    t.tick(snap({ scene: 2 }), 0, { bananaEnabled: false }) // 起表 + A 立即命中(enterScene2,prev=null)\n    t.tick(snap({ scene: 2 }), 100, { bananaEnabled: false }) // 仍 scene2 → prevSnap 现为 scene2\n    t.setStep(0) // 重新盯 A,prevSnap 重置为 null\n    t.tick(snap({ scene: 2 }), 200, { bananaEnabled: false }) // 仍 scene2 但 prev=null → A 再次命中(若不重置 prev 则不会)\n    expect(t.getRun().stepIndex).toBe(1)\n  })\n\n  it('finished 后 setStep 回到 running', () => {\n    const t = mk()\n    t.tick(snap({ scene: 1 }), 0, { bananaEnabled: false })\n    t.tick(snap({ scene: 2 }), 1000, { bananaEnabled: false })\n    t.tick(snap({ scene: 3 }), 2000, { bananaEnabled: false }) // finished\n    expect(t.getRun().phase).toBe('finished')\n    t.setStep(1)\n    expect(t.getRun().phase).toBe('running')\n    expect(t.getRun().stepIndex).toBe(1)\n    expect(t.getRun().manualPaused).toBe(false)\n  })\n})\n\ndescribe('SpeedrunTimer PB 更新', () => {\n  it('通关破纪录 → 整条覆盖 bests', () => {\n    const t = mk({ a: 5000, b: 9000 }) // 旧 PB 总 9000\n    t.tick(snap({ scene: 1 }), 0, { bananaEnabled: false })\n    t.tick(snap({ scene: 2 }), 1000, { bananaEnabled: false })\n    t.tick(snap({ scene: 3 }), 2000, { bananaEnabled: false }) // 本局总 2000 < 9000\n    expect(t.getBests()).toEqual({ a: 1000, b: 2000 })\n    expect(t.consumeBestsDirty()).toBe(true)\n  })\n  it('未破纪录 → 不动 bests', () => {\n    const t = mk({ a: 100, b: 200 })\n    t.tick(snap({ scene: 1 }), 0, { bananaEnabled: false })\n    t.tick(snap({ scene: 2 }), 1000, { bananaEnabled: false })\n    t.tick(snap({ scene: 3 }), 2000, { bananaEnabled: false }) // 本局 2000 > 200\n    expect(t.getBests()).toEqual({ a: 100, b: 200 })\n  })\n})\n\ndescribe('SpeedrunTimer 香蕉暂停 + 拿到直接恢复(无倒计时)', () => {\n  it('站到香蕉格暂停;拿香蕉直接恢复,不起倒计时', () => {\n    const t = mk()\n    t.tick(snap({ scene: 1 }), 0, { bananaEnabled: true }) // 起表\n    t.tick(snap({ scene: 177, partyX: 10, partyY: 10 }), 1000, { bananaEnabled: true }) // 站香蕉格 → 暂停\n    expect(t.getRun().bananaPaused).toBe(true)\n    const before = t.getRun().elapsedMs\n    t.tick(snap({ scene: 177, partyX: 10, partyY: 10 }), 2000, { bananaEnabled: true }) // 暂停期不走时\n    expect(t.getRun().elapsedMs).toBe(before)\n    t.tick(snap({ scene: 177, partyX: 10, partyY: 10, inventory: new Set([291]) }), 3000, {\n      bananaEnabled: true,\n    }) // 拿香蕉 → 直接恢复\n    expect(t.getRun().bananaPaused).toBe(false)\n    expect(t.getCountdownRemainingSec()).toBeNull() // 香蕉无倒计时\n    expect(t.consumeJustResumed()).toBe(true)\n    t.tick(snap({ scene: 50 }), 4000, { bananaEnabled: true }) // 恢复后继续累加(暂停期不计)\n    expect(t.getRun().elapsedMs).toBe(before + 1000) // 仅 3000→4000 的 1000ms\n  })\n})\n\ndescribe('SpeedrunTimer 手动操作', () => {\n  it('reset 清空本局', () => {\n    const t = mk()\n    t.tick(snap({ scene: 1 }), 0, { bananaEnabled: false })\n    t.tick(snap({ scene: 2 }), 1000, { bananaEnabled: false })\n    t.reset()\n    expect(t.getRun().phase).toBe('idle')\n    expect(t.getRun().splits).toEqual([null, null])\n  })\n  it('setBestsFromCurrentRun / clearBests / setBest', () => {\n    const t = mk({ a: 9000, b: 9000 })\n    t.tick(snap({ scene: 1 }), 0, { bananaEnabled: false })\n    t.tick(snap({ scene: 2 }), 1500, { bananaEnabled: false }) // split a=1500\n    t.setBestsFromCurrentRun()\n    expect(t.getBests().a).toBe(1500)\n    t.setBest('b', 4242)\n    expect(t.getBests().b).toBe(4242)\n    t.clearBests()\n    expect(t.getBests()).toEqual({ a: null, b: null })\n  })\n})\n\ndescribe('SpeedrunTimer 手动暂停/恢复', () => {\n  it('暂停停表;恢复起 3 秒倒计时;到点恢复后继续累加(不计暂停期)', () => {\n    const t = mk()\n    t.tick(snap({ scene: 1 }), 0, { bananaEnabled: false }) // 起表\n    t.tick(snap({ scene: 1 }), 1000, { bananaEnabled: false }) // 累计 1000\n    expect(t.getRun().elapsedMs).toBe(1000)\n    t.toggleManualPause(1000) // 暂停\n    expect(t.getRun().manualPaused).toBe(true)\n    t.tick(snap({ scene: 1 }), 3000, { bananaEnabled: false }) // 暂停期不走时\n    expect(t.getRun().elapsedMs).toBe(1000)\n    t.toggleManualPause(3000) // 恢复 → 起 3 秒倒计时\n    expect(t.getCountdownRemainingSec()).toBe(3)\n    t.tick(snap({ scene: 1 }), 5000, { bananaEnabled: false }) // 倒计时中,仍停表\n    expect(t.getRun().manualPaused).toBe(true)\n    expect(t.getRun().elapsedMs).toBe(1000)\n    t.tick(snap({ scene: 1 }), 6000, { bananaEnabled: false }) // 到点恢复(本帧 dt 归零)\n    expect(t.getRun().manualPaused).toBe(false)\n    expect(t.consumeJustResumed()).toBe(true)\n    expect(t.getRun().elapsedMs).toBe(1000) // 恢复帧不计暂停跨度\n    t.tick(snap({ scene: 1 }), 7000, { bananaEnabled: false }) // 恢复后继续\n    expect(t.getRun().elapsedMs).toBe(2000)\n  })\n  it('倒计时恢复中再切 → 取消恢复,留在暂停', () => {\n    const t = mk()\n    t.tick(snap({ scene: 1 }), 0, { bananaEnabled: false })\n    t.toggleManualPause(1000) // 暂停\n    t.toggleManualPause(2000) // 起倒计时\n    expect(t.getRun().countdownEndMs).not.toBeNull()\n    t.toggleManualPause(2500) // 取消恢复\n    expect(t.getRun().countdownEndMs).toBeNull()\n    expect(t.getRun().manualPaused).toBe(true)\n  })\n  it('非 running 态 toggle 无效', () => {\n    const t = mk() // idle\n    t.toggleManualPause(1000)\n    expect(t.getRun().manualPaused).toBe(false)\n  })\n})\n",
+          "to": "import { describe, expect, it } from 'vitest'\nimport type { BananaConfig, Checkpoint } from './checkpoints.js'\nimport { enterScene } from './detectors.js'\nimport type { ProgressSnapshot } from './snapshot.js'\nimport { SpeedrunTimer } from './timer.js'\n\nconst progressSnapshot = (overrides: Partial<ProgressSnapshot>): ProgressSnapshot => ({\n  scene: 0,\n  canMove: true,\n  partyX: 0,\n  partyY: 0,\n  music: 0,\n  inventory: new Set(),\n  battle: null,\n  ...overrides,\n})\nconst ROUTE_CHECKPOINTS: Checkpoint[] = [\n  { id: 'a', name: 'A', defaultBestMs: 1000, detector: enterScene(2) },\n  { id: 'b', name: 'B', defaultBestMs: 2000, detector: enterScene(3) },\n]\nconst BANANA_TREE: BananaConfig = { scene: 177, cells: [[10, 10]], tolX: 0, tolY: 0, itemId: 291 }\nconst createRouteTimer = (bests = { a: 1000, b: 2000 }): SpeedrunTimer =>\n  new SpeedrunTimer(ROUTE_CHECKPOINTS, BANANA_TREE, { ...bests })\n\ndescribe('SpeedrunTimer 起表与打点', () => {\n  it('scene>0 且可移动才起表,之后按 wall-clock 累加', () => {\n    const timer = createRouteTimer()\n    timer.tick(progressSnapshot({ scene: 0 }), 1000, { bananaEnabled: false })\n    expect(timer.getRun().phase).toBe('idle')\n    timer.tick(progressSnapshot({ scene: 1 }), 2000, { bananaEnabled: false })\n    expect(timer.getRun().phase).toBe('running')\n    timer.tick(progressSnapshot({ scene: 1 }), 2500, { bananaEnabled: false })\n    expect(timer.getRun().elapsedMs).toBe(500) // 2500-2000\n  })\n  it('scene>0 但李逍遥不可移动(标题/开场演出/加载/淡入)→ 不起表', () => {\n    const timer = createRouteTimer()\n    // 场景已预载(scene>0)但 canMove=false:对齐 PalTimer「第一次能控制李逍遥」才起表。\n    timer.tick(progressSnapshot({ scene: 1, canMove: false }), 1000, { bananaEnabled: false })\n    expect(timer.getRun().phase).toBe('idle')\n    timer.tick(progressSnapshot({ scene: 1, canMove: false }), 5000, { bananaEnabled: false })\n    expect(timer.getRun().phase).toBe('idle')\n    expect(timer.getRun().elapsedMs).toBe(0) // 演出期不计时\n    // 李逍遥可移动那一帧才起表\n    timer.tick(progressSnapshot({ scene: 1, canMove: true }), 6000, { bananaEnabled: false })\n    expect(timer.getRun().phase).toBe('running')\n    timer.tick(progressSnapshot({ scene: 1, canMove: true }), 6500, { bananaEnabled: false })\n    expect(timer.getRun().elapsedMs).toBe(500)\n  })\n  it('依序打点,一帧至多推进一个节点', () => {\n    const timer = createRouteTimer()\n    timer.tick(progressSnapshot({ scene: 1 }), 0, { bananaEnabled: false }) // 起表 timer=0\n    timer.tick(progressSnapshot({ scene: 2 }), 1000, { bananaEnabled: false }) // 命中 A\n    expect(timer.getRun().stepIndex).toBe(1)\n    expect(timer.getRun().splits[0]).toBe(1000)\n    timer.tick(progressSnapshot({ scene: 3 }), 2000, { bananaEnabled: false }) // 命中 B → finished\n    expect(timer.getRun().stepIndex).toBe(2)\n    expect(timer.getRun().phase).toBe('finished')\n  })\n})\n\ndescribe('SpeedrunTimer setStep(手动跳节点,测试用)', () => {\n  it('跳过前面节点,从第 N 个起依序检测', () => {\n    const timer = createRouteTimer()\n    timer.tick(progressSnapshot({ scene: 1 }), 0, { bananaEnabled: false }) // 起表,stepIndex 0(等 A=enterScene2)\n    timer.setStep(1) // 跳到 B(index 1),跳过 A\n    expect(timer.getRun().stepIndex).toBe(1)\n    expect(timer.getRun().phase).toBe('running')\n    expect(timer.getRun().splits[0]).toBeNull() // 跳过的 A 未达成\n    timer.tick(progressSnapshot({ scene: 3 }), 1000, { bananaEnabled: false }) // 命中 B → finished\n    expect(timer.getRun().stepIndex).toBe(2)\n    expect(timer.getRun().splits[1]).toBe(1000)\n    expect(timer.getRun().phase).toBe('finished')\n  })\n\n  it('已处于目标条件时(prevSnap 重置)下一帧立即命中 = 认\"读档已到此\"', () => {\n    const timer = createRouteTimer()\n    timer.tick(progressSnapshot({ scene: 2 }), 0, { bananaEnabled: false }) // 起表 + A 立即命中(enterScene2,prev=null)\n    timer.tick(progressSnapshot({ scene: 2 }), 100, { bananaEnabled: false }) // 仍 scene2 → prevSnap 现为 scene2\n    timer.setStep(0) // 重新盯 A,prevSnap 重置为 null\n    timer.tick(progressSnapshot({ scene: 2 }), 200, { bananaEnabled: false }) // 仍 scene2 但 prev=null → A 再次命中(若不重置 prev 则不会)\n    expect(timer.getRun().stepIndex).toBe(1)\n  })\n\n  it('finished 后 setStep 回到 running', () => {\n    const timer = createRouteTimer()\n    timer.tick(progressSnapshot({ scene: 1 }), 0, { bananaEnabled: false })\n    timer.tick(progressSnapshot({ scene: 2 }), 1000, { bananaEnabled: false })\n    timer.tick(progressSnapshot({ scene: 3 }), 2000, { bananaEnabled: false }) // finished\n    expect(timer.getRun().phase).toBe('finished')\n    timer.setStep(1)\n    expect(timer.getRun().phase).toBe('running')\n    expect(timer.getRun().stepIndex).toBe(1)\n    expect(timer.getRun().manualPaused).toBe(false)\n  })\n})\n\ndescribe('SpeedrunTimer PB 更新', () => {\n  it('通关破纪录 → 整条覆盖 bests', () => {\n    const timer = createRouteTimer({ a: 5000, b: 9000 }) // 旧 PB 总 9000\n    timer.tick(progressSnapshot({ scene: 1 }), 0, { bananaEnabled: false })\n    timer.tick(progressSnapshot({ scene: 2 }), 1000, { bananaEnabled: false })\n    timer.tick(progressSnapshot({ scene: 3 }), 2000, { bananaEnabled: false }) // 本局总 2000 < 9000\n    expect(timer.getBests()).toEqual({ a: 1000, b: 2000 })\n    expect(timer.consumeBestsDirty()).toBe(true)\n  })\n  it('未破纪录 → 不动 bests', () => {\n    const timer = createRouteTimer({ a: 100, b: 200 })\n    timer.tick(progressSnapshot({ scene: 1 }), 0, { bananaEnabled: false })\n    timer.tick(progressSnapshot({ scene: 2 }), 1000, { bananaEnabled: false })\n    timer.tick(progressSnapshot({ scene: 3 }), 2000, { bananaEnabled: false }) // 本局 2000 > 200\n    expect(timer.getBests()).toEqual({ a: 100, b: 200 })\n  })\n})\n\ndescribe('SpeedrunTimer 香蕉暂停 + 拿到直接恢复(无倒计时)', () => {\n  it('站到香蕉格暂停;拿香蕉直接恢复,不起倒计时', () => {\n    const timer = createRouteTimer()\n    timer.tick(progressSnapshot({ scene: 1 }), 0, { bananaEnabled: true }) // 起表\n    timer.tick(progressSnapshot({ scene: 177, partyX: 10, partyY: 10 }), 1000, {\n      bananaEnabled: true,\n    }) // 站香蕉格 → 暂停\n    expect(timer.getRun().bananaPaused).toBe(true)\n    const before = timer.getRun().elapsedMs\n    timer.tick(progressSnapshot({ scene: 177, partyX: 10, partyY: 10 }), 2000, {\n      bananaEnabled: true,\n    }) // 暂停期不走时\n    expect(timer.getRun().elapsedMs).toBe(before)\n    timer.tick(\n      progressSnapshot({ scene: 177, partyX: 10, partyY: 10, inventory: new Set([291]) }),\n      3000,\n      {\n        bananaEnabled: true,\n      },\n    ) // 拿香蕉 → 直接恢复\n    expect(timer.getRun().bananaPaused).toBe(false)\n    expect(timer.getCountdownRemainingSec()).toBeNull() // 香蕉无倒计时\n    expect(timer.consumeJustResumed()).toBe(true)\n    timer.tick(progressSnapshot({ scene: 50 }), 4000, { bananaEnabled: true }) // 恢复后继续累加(暂停期不计)\n    expect(timer.getRun().elapsedMs).toBe(before + 1000) // 仅 3000→4000 的 1000ms\n  })\n})\n\ndescribe('SpeedrunTimer 手动操作', () => {\n  it('reset 清空本局，保留已有最佳成绩', () => {\n    const timer = createRouteTimer()\n    timer.tick(progressSnapshot({ scene: 1 }), 0, { bananaEnabled: false })\n    timer.tick(progressSnapshot({ scene: 2 }), 1000, { bananaEnabled: false })\n    timer.reset()\n    expect(timer.getRun().phase).toBe('idle')\n    expect(timer.getRun().splits).toEqual([null, null])\n    expect(timer.getBests()).toEqual({ a: 1000, b: 2000 })\n  })\n  it('setBestsFromCurrentRun / clearBests / setBest', () => {\n    const timer = createRouteTimer({ a: 9000, b: 9000 })\n    timer.tick(progressSnapshot({ scene: 1 }), 0, { bananaEnabled: false })\n    timer.tick(progressSnapshot({ scene: 2 }), 1500, { bananaEnabled: false }) // split a=1500\n    timer.setBestsFromCurrentRun()\n    expect(timer.getBests().a).toBe(1500)\n    timer.setBest('b', 4242)\n    expect(timer.getBests().b).toBe(4242)\n    timer.clearBests()\n    expect(timer.getBests()).toEqual({ a: null, b: null })\n  })\n})\n\ndescribe('SpeedrunTimer 手动暂停/恢复', () => {\n  it('暂停停表;恢复起 3 秒倒计时;到点恢复后继续累加(不计暂停期)', () => {\n    const timer = createRouteTimer()\n    timer.tick(progressSnapshot({ scene: 1 }), 0, { bananaEnabled: false }) // 起表\n    timer.tick(progressSnapshot({ scene: 1 }), 1000, { bananaEnabled: false }) // 累计 1000\n    expect(timer.getRun().elapsedMs).toBe(1000)\n    timer.toggleManualPause(1000) // 暂停\n    expect(timer.getRun().manualPaused).toBe(true)\n    timer.tick(progressSnapshot({ scene: 1 }), 3000, { bananaEnabled: false }) // 暂停期不走时\n    expect(timer.getRun().elapsedMs).toBe(1000)\n    timer.toggleManualPause(3000) // 恢复 → 起 3 秒倒计时\n    expect(timer.getCountdownRemainingSec()).toBe(3)\n    timer.tick(progressSnapshot({ scene: 1 }), 5000, { bananaEnabled: false }) // 倒计时中,仍停表\n    expect(timer.getRun().manualPaused).toBe(true)\n    expect(timer.getRun().elapsedMs).toBe(1000)\n    timer.tick(progressSnapshot({ scene: 1 }), 6000, { bananaEnabled: false }) // 到点恢复(本帧 dt 归零)\n    expect(timer.getRun().manualPaused).toBe(false)\n    expect(timer.consumeJustResumed()).toBe(true)\n    expect(timer.getRun().elapsedMs).toBe(1000) // 恢复帧不计暂停跨度\n    timer.tick(progressSnapshot({ scene: 1 }), 7000, { bananaEnabled: false }) // 恢复后继续\n    expect(timer.getRun().elapsedMs).toBe(2000)\n  })\n  it('倒计时恢复中再切 → 取消恢复,留在暂停', () => {\n    const timer = createRouteTimer()\n    timer.tick(progressSnapshot({ scene: 1 }), 0, { bananaEnabled: false })\n    timer.toggleManualPause(1000) // 暂停\n    timer.toggleManualPause(2000) // 起倒计时\n    expect(timer.getRun().countdownEndMs).not.toBeNull()\n    timer.toggleManualPause(2500) // 取消恢复\n    expect(timer.getRun().countdownEndMs).toBeNull()\n    expect(timer.getRun().manualPaused).toBe(true)\n  })\n  it('非 running 态 toggle 无效', () => {\n    const timer = createRouteTimer() // idle\n    timer.toggleManualPause(1000)\n    expect(timer.getRun().manualPaused).toBe(false)\n  })\n})\n",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/timer.boundaries.test.ts",
+      "id": "speedrun-control-3",
+      "reason": "Privatefixture names; timerboundaryBananaConfigcontextreplacescast;reset preservation oracle in meaningfulnonnullcase, notblankselfcomparison.",
+      "changes": [
+        {
+          "from": "/**\n * H06 timer 的时钟、恢复边界与 setStep 状态隔离。\n * 原 H07 detector 合同归入 detectors.test.ts 的对应工厂用例；本文件只测真实 timer。\n * bestsDirty 二次消费归 timer.glm-phase1-leaves.test.ts，不重复 setBest 的相同断言。\n */\nimport { describe, expect, it } from 'vitest'\nimport { caiyiDetector, enterScene } from './detectors.js'\nimport type { ProgressSnapshot } from './snapshot.js'\nimport { SpeedrunTimer } from './timer.js'\n\nconst BANANA = {\n  scene: 9,\n  cells: [[0, 0]] as ReadonlyArray<readonly [number, number]>,\n  tolX: 8,\n  tolY: 8,\n  itemId: 77,\n}\n\nfunction snap(overrides: Partial<ProgressSnapshot> = {}): ProgressSnapshot {\n  return {\n    scene: 1,\n    canMove: true,\n    partyX: 100,\n    partyY: 100,\n    music: 1,\n    inventory: new Set<number>(),\n    battle: null,\n    ...overrides,\n  }\n}\n\nconst cp = (\n  id: string,\n  detector: ConstructorParameters<typeof SpeedrunTimer>[0][number]['detector'],\n) => ({\n  id,\n  name: id,\n  defaultBestMs: 60_000,\n  detector,\n})\n\ndescribe('H06 SpeedrunTimer 边界', () => {\n  it('running 同 now 双 tick 不累计，finished 后不再累计', () => {\n    const timer = new SpeedrunTimer([cp('end', enterScene(5))], BANANA, {})\n    timer.tick(snap(), 1000, { bananaEnabled: false }) // idle→running（scene1 canMove）\n    timer.tick(snap(), 1000, { bananaEnabled: false })\n    expect(timer.getRun().elapsedMs).toBe(0)\n    timer.tick(snap({ scene: 5 }), 2000, { bananaEnabled: false }) // 命中 → finished @1000ms\n    expect(timer.getRun().phase).toBe('finished')\n    expect(timer.getRun().elapsedMs).toBe(1000)\n    timer.tick(snap({ scene: 5 }), 2000, { bananaEnabled: false }) // 同 now\n    expect(timer.getRun().elapsedMs).toBe(1000)\n    timer.tick(snap({ scene: 5 }), 9999, { bananaEnabled: false }) // finished 后不累计\n    expect(timer.getRun().elapsedMs).toBe(1000)\n  })\n  it('手动暂停 3 秒倒计时精确边界：2999 未恢复、3000 恢复且恢复帧不计时；justResumed 一次', () => {\n    const timer = new SpeedrunTimer([cp('end', enterScene(5))], BANANA, {})\n    timer.tick(snap(), 0, { bananaEnabled: false })\n    timer.tick(snap(), 1000, { bananaEnabled: false }) // running，elapsed 1000\n    timer.toggleManualPause(1000)\n    timer.tick(snap(), 2000, { bananaEnabled: false }) // 暂停中不累计\n    timer.toggleManualPause(2000) // 起倒计时 end=5000\n    timer.tick(snap(), 4999, { bananaEnabled: false }) // 还差 1ms\n    expect(timer.getRun().manualPaused).toBe(true)\n    expect(timer.getRun().elapsedMs).toBe(1000)\n    expect(timer.getCountdownRemainingSec()).toBe(1)\n    timer.tick(snap(), 5000, { bananaEnabled: false }) // 到点：恢复 + dt 归零\n    expect(timer.getRun().manualPaused).toBe(false)\n    expect(timer.getRun().elapsedMs).toBe(1000)\n    expect(timer.consumeJustResumed()).toBe(true)\n    expect(timer.consumeJustResumed()).toBe(false)\n    timer.tick(snap(), 6000, { bananaEnabled: false })\n    expect(timer.getRun().elapsedMs).toBe(2000)\n  })\n  it('setStep 清手动暂停、倒计时和检测记忆，实例状态不串', () => {\n    const timer = new SpeedrunTimer([cp('a', caiyiDetector(71))], BANANA, { a: 1 })\n    timer.tick(snap({ battle: { enemyIds: new Set([71]), totalEnemyHp: 100 } }), 0, {\n      bananaEnabled: false,\n    })\n    timer.toggleManualPause(0)\n    timer.toggleManualPause(0)\n    expect(timer.getRun().manualPaused).toBe(true)\n    expect(timer.getRun().countdownEndMs).toBe(3000)\n    timer.setStep(0)\n    expect(timer.getRun().manualPaused).toBe(false)\n    expect(timer.getRun().countdownEndMs).toBeNull()\n    // 若未清 seen 记忆，boss 消失会在这里错误完成节点。\n    timer.tick(snap({ battle: null }), 100, { bananaEnabled: false })\n    expect(timer.getRun().phase).toBe('running')\n    expect(timer.getRun().stepIndex).toBe(0)\n    const other = new SpeedrunTimer([cp('a', enterScene(99))], BANANA, { a: 2 })\n    other.tick(snap({ scene: 99 }), 0, { bananaEnabled: false })\n    expect(other.getRun().phase).toBe('finished')\n    expect(timer.getRun().phase).toBe('running')\n    expect(timer.getBests()).toEqual({ a: 1 })\n    expect(other.getBests()).toEqual({ a: 0 })\n  })\n})\n",
+          "to": "import { describe, expect, it } from 'vitest'\nimport { caiyiDetector, enterScene } from './detectors.js'\nimport type { ProgressSnapshot } from './snapshot.js'\nimport { SpeedrunTimer } from './timer.js'\nimport type { BananaConfig, Checkpoint } from './checkpoints.js'\n\nconst REMOTE_BANANA_TREE: BananaConfig = {\n  scene: 9,\n  cells: [[0, 0]],\n  tolX: 8,\n  tolY: 8,\n  itemId: 77,\n}\n\nfunction movingSnapshot(overrides: Partial<ProgressSnapshot> = {}): ProgressSnapshot {\n  return {\n    scene: 1,\n    canMove: true,\n    partyX: 100,\n    partyY: 100,\n    music: 1,\n    inventory: new Set<number>(),\n    battle: null,\n    ...overrides,\n  }\n}\n\nconst checkpoint = (id: string, detector: Checkpoint['detector']) => ({\n  id,\n  name: id,\n  defaultBestMs: 60_000,\n  detector,\n})\n\ndescribe('H06 SpeedrunTimer 边界', () => {\n  it('running 同 now 双 tick 不累计，finished 后不再累计', () => {\n    const timer = new SpeedrunTimer([checkpoint('end', enterScene(5))], REMOTE_BANANA_TREE, {})\n    timer.tick(movingSnapshot(), 1000, { bananaEnabled: false }) // idle→running（scene1 canMove）\n    timer.tick(movingSnapshot(), 1000, { bananaEnabled: false })\n    expect(timer.getRun().elapsedMs).toBe(0)\n    timer.tick(movingSnapshot({ scene: 5 }), 2000, { bananaEnabled: false }) // 命中 → finished @1000ms\n    expect(timer.getRun().phase).toBe('finished')\n    expect(timer.getRun().elapsedMs).toBe(1000)\n    timer.tick(movingSnapshot({ scene: 5 }), 2000, { bananaEnabled: false }) // 同 now\n    expect(timer.getRun().elapsedMs).toBe(1000)\n    timer.tick(movingSnapshot({ scene: 5 }), 9999, { bananaEnabled: false }) // finished 后不累计\n    expect(timer.getRun().elapsedMs).toBe(1000)\n  })\n  it('手动暂停 3 秒倒计时精确边界：2999 未恢复、3000 恢复且恢复帧不计时；justResumed 一次', () => {\n    const timer = new SpeedrunTimer([checkpoint('end', enterScene(5))], REMOTE_BANANA_TREE, {})\n    timer.tick(movingSnapshot(), 0, { bananaEnabled: false })\n    timer.tick(movingSnapshot(), 1000, { bananaEnabled: false }) // running，elapsed 1000\n    timer.toggleManualPause(1000)\n    timer.tick(movingSnapshot(), 2000, { bananaEnabled: false }) // 暂停中不累计\n    timer.toggleManualPause(2000) // 起倒计时 end=5000\n    timer.tick(movingSnapshot(), 4999, { bananaEnabled: false }) // 还差 1ms\n    expect(timer.getRun().manualPaused).toBe(true)\n    expect(timer.getRun().elapsedMs).toBe(1000)\n    expect(timer.getCountdownRemainingSec()).toBe(1)\n    timer.tick(movingSnapshot(), 5000, { bananaEnabled: false }) // 到点：恢复 + dt 归零\n    expect(timer.getRun().manualPaused).toBe(false)\n    expect(timer.getRun().elapsedMs).toBe(1000)\n    expect(timer.consumeJustResumed()).toBe(true)\n    expect(timer.consumeJustResumed()).toBe(false)\n    timer.tick(movingSnapshot(), 6000, { bananaEnabled: false })\n    expect(timer.getRun().elapsedMs).toBe(2000)\n  })\n  it('setStep 清手动暂停、倒计时和检测记忆，实例状态不串', () => {\n    const timer = new SpeedrunTimer([checkpoint('a', caiyiDetector(71))], REMOTE_BANANA_TREE, {\n      a: 1,\n    })\n    timer.tick(movingSnapshot({ battle: { enemyIds: new Set([71]), totalEnemyHp: 100 } }), 0, {\n      bananaEnabled: false,\n    })\n    timer.toggleManualPause(0)\n    timer.toggleManualPause(0)\n    expect(timer.getRun().manualPaused).toBe(true)\n    expect(timer.getRun().countdownEndMs).toBe(3000)\n    timer.setStep(0)\n    expect(timer.getRun().manualPaused).toBe(false)\n    expect(timer.getRun().countdownEndMs).toBeNull()\n    // 若未清 seen 记忆，boss 消失会在这里错误完成节点。\n    timer.tick(movingSnapshot({ battle: null }), 100, { bananaEnabled: false })\n    expect(timer.getRun().phase).toBe('running')\n    expect(timer.getRun().stepIndex).toBe(0)\n    const other = new SpeedrunTimer([checkpoint('a', enterScene(99))], REMOTE_BANANA_TREE, { a: 2 })\n    other.tick(movingSnapshot({ scene: 99 }), 0, { bananaEnabled: false })\n    expect(other.getRun().phase).toBe('finished')\n    expect(timer.getRun().phase).toBe('running')\n    expect(timer.getBests()).toEqual({ a: 1 })\n    expect(other.getBests()).toEqual({ a: 0 })\n  })\n})\n",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/timer.glm-phase1-leaves.test.ts",
+      "id": "speedrun-control-4",
+      "reason": "Privatefixture names; timerboundaryBananaConfigcontextreplacescast;reset preservation oracle in meaningfulnonnullcase, notblankselfcomparison.",
+      "changes": [
+        {
+          "from": "/**\n * TEST-GLM-PHASE1-LEAVES-3 L20（timer.ts）— 去重表：\n *  - timer.test + timer.boundaries.test（起表门/依序打点/PB/香蕉暂停/3 秒倒计时/finished/\n *    双 tick 不累计/恢复精确边界/setStep/检测器边界）→ 不重复\n *  - 新差异：getCountdownRemainingSec 的 null 双来源（无倒计时 / 无主时钟）与 ceil 语义、\n *    consumeBestsDirty 一次性读（本文件执行 setBest/clearBests；整跑 PB 由主测覆盖）、\n *    reset 保留 bests 只清本局。\n */\nimport { describe, expect, it } from 'vitest'\nimport type { BananaConfig, Checkpoint } from './checkpoints.js'\nimport { enterScene } from './detectors.js'\nimport type { ProgressSnapshot } from './snapshot.js'\nimport { SpeedrunTimer } from './timer.js'\n\nfunction snap(): ProgressSnapshot {\n  return {\n    scene: 1,\n    canMove: true,\n    partyX: 9999,\n    partyY: 9999,\n    music: 0,\n    inventory: new Set<number>(),\n    battle: null,\n  }\n}\n\nfunction mkCheckpoint(id: string): Checkpoint {\n  return { id, name: `节点${id}`, defaultBestMs: 60_000, detector: enterScene(1) }\n}\n\nconst BANANA: BananaConfig = { scene: 1, cells: [[0, 0]], tolX: 1, tolY: 1, itemId: 999 }\n\nfunction mkTimer(): SpeedrunTimer {\n  return new SpeedrunTimer([mkCheckpoint('a'), mkCheckpoint('b')], BANANA, { a: 1000, b: null })\n}\n\ndescribe('L20 SpeedrunTimer 剩余合同', () => {\n  it('getCountdownRemainingSec：无倒计时或无主时钟返回 null，剩余秒向上取整，到点清除', () => {\n    const t = mkTimer()\n    expect(t.getCountdownRemainingSec()).toBeNull() // 无倒计时\n    const unclocked = mkTimer()\n    unclocked.setStep(0)\n    unclocked.toggleManualPause(10_000)\n    unclocked.toggleManualPause(10_000)\n    expect(unclocked.getRun().countdownEndMs).toBe(13_000)\n    expect(unclocked.getCountdownRemainingSec()).toBeNull() // 有倒计时但从未 tick\n    // setStep 进入 running；两段式手动暂停：一按停表、再按起 3 秒倒计时（恢复窗口）\n    t.setStep(0)\n    t.tick(snap(), 10_000, { bananaEnabled: true })\n    t.toggleManualPause(10_000)\n    expect(t.getRun().manualPaused).toBe(true)\n    expect(t.getRun().countdownEndMs).toBeNull() // 一按只停表\n    t.toggleManualPause(10_000)\n    expect(t.getRun().countdownEndMs).toBe(13_000)\n    t.tick(snap(), 10_500, { bananaEnabled: true })\n    expect(t.getCountdownRemainingSec()).toBe(3) // ceil(2500/1000)\n    t.tick(snap(), 13_000, { bananaEnabled: true }) // ≥ endMs → 恢复并清倒计时\n    expect(t.getRun().countdownEndMs).toBeNull()\n    expect(t.getRun().manualPaused).toBe(false)\n    expect(t.getCountdownRemainingSec()).toBeNull()\n  })\n\n  it('consumeBestsDirty 一次性读；reset 保留 bests 只清本局', () => {\n    const t = mkTimer()\n    expect(t.consumeBestsDirty()).toBe(false)\n    t.setBest('a', 500)\n    expect(t.consumeBestsDirty()).toBe(true)\n    expect(t.consumeBestsDirty()).toBe(false) // 一次性\n    t.clearBests()\n    expect(t.getBests()).toEqual({ a: null, b: null })\n    expect(t.consumeBestsDirty()).toBe(true)\n    // reset：本局清零（phase/splits），bests 保留\n    t.setStep(0)\n    t.tick(snap(), 1000, { bananaEnabled: true })\n    t.reset()\n    expect(t.getRun().phase).toBe('idle')\n    expect(t.getRun().splits).toEqual([null, null])\n    expect(t.getBests()).toEqual({ a: null, b: null })\n  })\n})\n",
+          "to": "import { describe, expect, it } from 'vitest'\nimport type { BananaConfig, Checkpoint } from './checkpoints.js'\nimport { enterScene } from './detectors.js'\nimport type { ProgressSnapshot } from './snapshot.js'\nimport { SpeedrunTimer } from './timer.js'\n\nfunction awayFromBananaSnapshot(): ProgressSnapshot {\n  return {\n    scene: 1,\n    canMove: true,\n    partyX: 9999,\n    partyY: 9999,\n    music: 0,\n    inventory: new Set<number>(),\n    battle: null,\n  }\n}\n\nfunction checkpointInFirstScene(id: string): Checkpoint {\n  return { id, name: `节点${id}`, defaultBestMs: 60_000, detector: enterScene(1) }\n}\n\nconst NEARBY_BANANA_TREE: BananaConfig = {\n  scene: 1,\n  cells: [[0, 0]],\n  tolX: 1,\n  tolY: 1,\n  itemId: 999,\n}\n\nfunction createShortRouteTimer(): SpeedrunTimer {\n  return new SpeedrunTimer(\n    [checkpointInFirstScene('a'), checkpointInFirstScene('b')],\n    NEARBY_BANANA_TREE,\n    { a: 1000, b: null },\n  )\n}\n\ndescribe('L20 SpeedrunTimer 剩余合同', () => {\n  it('getCountdownRemainingSec：无倒计时或无主时钟返回 null，剩余秒向上取整，到点清除', () => {\n    const timer = createShortRouteTimer()\n    expect(timer.getCountdownRemainingSec()).toBeNull() // 无倒计时\n    const unclocked = createShortRouteTimer()\n    unclocked.setStep(0)\n    unclocked.toggleManualPause(10_000)\n    unclocked.toggleManualPause(10_000)\n    expect(unclocked.getRun().countdownEndMs).toBe(13_000)\n    expect(unclocked.getCountdownRemainingSec()).toBeNull() // 有倒计时但从未 tick\n    // setStep 进入 running；两段式手动暂停：一按停表、再按起 3 秒倒计时（恢复窗口）\n    timer.setStep(0)\n    timer.tick(awayFromBananaSnapshot(), 10_000, { bananaEnabled: true })\n    timer.toggleManualPause(10_000)\n    expect(timer.getRun().manualPaused).toBe(true)\n    expect(timer.getRun().countdownEndMs).toBeNull() // 一按只停表\n    timer.toggleManualPause(10_000)\n    expect(timer.getRun().countdownEndMs).toBe(13_000)\n    timer.tick(awayFromBananaSnapshot(), 10_500, { bananaEnabled: true })\n    expect(timer.getCountdownRemainingSec()).toBe(3) // ceil(2500/1000)\n    timer.tick(awayFromBananaSnapshot(), 13_000, { bananaEnabled: true }) // ≥ endMs → 恢复并清倒计时\n    expect(timer.getRun().countdownEndMs).toBeNull()\n    expect(timer.getRun().manualPaused).toBe(false)\n    expect(timer.getCountdownRemainingSec()).toBeNull()\n  })\n\n  it('consumeBestsDirty：成绩变更只消费一次', () => {\n    const timer = createShortRouteTimer()\n    expect(timer.consumeBestsDirty()).toBe(false)\n    timer.setBest('a', 500)\n    expect(timer.consumeBestsDirty()).toBe(true)\n    expect(timer.consumeBestsDirty()).toBe(false) // 一次性\n    timer.clearBests()\n    expect(timer.getBests()).toEqual({ a: null, b: null })\n    expect(timer.consumeBestsDirty()).toBe(true)\n  })\n})\n",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "replacements": [],
+  "registrations": [
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/index.test.ts",
+        "ordinal": 0
+      },
+      "originalOrdinal": 0,
+      "current": {
+        "file": "packages/game/src/tools/speedrun/index.test.ts",
+        "titles": ["tickSpeedrunTimer"],
+        "template": "未启用 → 不挂覆盖层、计时不动"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/index.test.ts",
+        "ordinal": 1
+      },
+      "originalOrdinal": 1,
+      "current": {
+        "file": "packages/game/src/tools/speedrun/index.test.ts",
+        "titles": ["tickSpeedrunTimer"],
+        "template": "启用后起表、挂覆盖层、wall-clock 累加"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/index.test.ts",
+        "ordinal": 2
+      },
+      "originalOrdinal": 2,
+      "current": {
+        "file": "packages/game/src/tools/speedrun/index.test.ts",
+        "titles": ["tickSpeedrunTimer"],
+        "template": "show=0 时不挂覆盖层但仍计时"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/index.test.ts",
+        "ordinal": 3
+      },
+      "originalOrdinal": 3,
+      "current": {
+        "file": "packages/game/src/tools/speedrun/index.test.ts",
+        "titles": ["bests 默认播种"],
+        "template": "首次读取用 CHECKPOINTS 默认参考线"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/index.test.ts",
+        "ordinal": 4
+      },
+      "originalOrdinal": 5,
+      "current": {
+        "file": "packages/game/src/tools/speedrun/index.test.ts",
+        "titles": ["setupSpeedrunHotkeys"],
+        "template": "F4 未启用时不重置"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/index.test.ts",
+        "ordinal": 5
+      },
+      "originalOrdinal": 6,
+      "current": {
+        "file": "packages/game/src/tools/speedrun/index.test.ts",
+        "titles": ["setupSpeedrunHotkeys"],
+        "template": "F8 启用时暂停本局"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/index.test.ts",
+        "ordinal": 6
+      },
+      "originalOrdinal": 7,
+      "current": {
+        "file": "packages/game/src/tools/speedrun/index.test.ts",
+        "titles": ["setupSpeedrunHotkeys"],
+        "template": "F2 启用时切换覆盖层显隐设置"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/index.test.ts",
+        "ordinal": 7
+      },
+      "originalOrdinal": 8,
+      "current": {
+        "file": "packages/game/src/tools/speedrun/index.test.ts",
+        "titles": ["isSpeedrunPaused (主循环冻结门控)"],
+        "template": "手动暂停 → true(冻结游戏)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/index.test.ts",
+        "ordinal": 8
+      },
+      "originalOrdinal": 9,
+      "current": {
+        "file": "packages/game/src/tools/speedrun/index.test.ts",
+        "titles": ["isSpeedrunPaused (主循环冻结门控)"],
+        "template": "未暂停 → false"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/index.test.ts",
+        "ordinal": 9
+      },
+      "originalOrdinal": 10,
+      "current": {
+        "file": "packages/game/src/tools/speedrun/index.test.ts",
+        "titles": ["isSpeedrunPaused (主循环冻结门控)"],
+        "template": "香蕉树暂停 → false(不冻结,否则走不过去捡香蕉)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/index.glm-phase1-leaves.test.ts",
+        "ordinal": 0
+      },
+      "originalOrdinal": 0,
+      "current": {
+        "file": "packages/game/src/tools/speedrun/index.test.ts",
+        "titles": ["Speedrun hotkeys and teardown"],
+        "template": "启用时 F4 重置；解绑后 F4 不改变计时且无新 toast"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/index.glm-phase1-leaves.test.ts",
+        "ordinal": 1
+      },
+      "originalOrdinal": 1,
+      "current": {
+        "file": "packages/game/src/tools/speedrun/index.test.ts",
+        "titles": ["Speedrun hotkeys and teardown"],
+        "template": "未启用时按键短路（无 toast）；解绑函数幂等可重复调"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/timer.test.ts",
+        "ordinal": 0
+      },
+      "originalOrdinal": 0,
+      "current": {
+        "file": "packages/game/src/tools/speedrun/timer.test.ts",
+        "titles": ["SpeedrunTimer 起表与打点"],
+        "template": "scene>0 且可移动才起表,之后按 wall-clock 累加"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/timer.test.ts",
+        "ordinal": 1
+      },
+      "originalOrdinal": 1,
+      "current": {
+        "file": "packages/game/src/tools/speedrun/timer.test.ts",
+        "titles": ["SpeedrunTimer 起表与打点"],
+        "template": "scene>0 但李逍遥不可移动(标题/开场演出/加载/淡入)→ 不起表"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/timer.test.ts",
+        "ordinal": 2
+      },
+      "originalOrdinal": 2,
+      "current": {
+        "file": "packages/game/src/tools/speedrun/timer.test.ts",
+        "titles": ["SpeedrunTimer 起表与打点"],
+        "template": "依序打点,一帧至多推进一个节点"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/timer.test.ts",
+        "ordinal": 3
+      },
+      "originalOrdinal": 3,
+      "current": {
+        "file": "packages/game/src/tools/speedrun/timer.test.ts",
+        "titles": ["SpeedrunTimer setStep(手动跳节点,测试用)"],
+        "template": "跳过前面节点,从第 N 个起依序检测"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/timer.test.ts",
+        "ordinal": 4
+      },
+      "originalOrdinal": 4,
+      "current": {
+        "file": "packages/game/src/tools/speedrun/timer.test.ts",
+        "titles": ["SpeedrunTimer setStep(手动跳节点,测试用)"],
+        "template": "已处于目标条件时(prevSnap 重置)下一帧立即命中 = 认\"读档已到此\""
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/timer.test.ts",
+        "ordinal": 5
+      },
+      "originalOrdinal": 5,
+      "current": {
+        "file": "packages/game/src/tools/speedrun/timer.test.ts",
+        "titles": ["SpeedrunTimer setStep(手动跳节点,测试用)"],
+        "template": "finished 后 setStep 回到 running"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/timer.test.ts",
+        "ordinal": 6
+      },
+      "originalOrdinal": 6,
+      "current": {
+        "file": "packages/game/src/tools/speedrun/timer.test.ts",
+        "titles": ["SpeedrunTimer PB 更新"],
+        "template": "通关破纪录 → 整条覆盖 bests"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/timer.test.ts",
+        "ordinal": 7
+      },
+      "originalOrdinal": 7,
+      "current": {
+        "file": "packages/game/src/tools/speedrun/timer.test.ts",
+        "titles": ["SpeedrunTimer PB 更新"],
+        "template": "未破纪录 → 不动 bests"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/timer.test.ts",
+        "ordinal": 8
+      },
+      "originalOrdinal": 8,
+      "current": {
+        "file": "packages/game/src/tools/speedrun/timer.test.ts",
+        "titles": ["SpeedrunTimer 香蕉暂停 + 拿到直接恢复(无倒计时)"],
+        "template": "站到香蕉格暂停;拿香蕉直接恢复,不起倒计时"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/timer.test.ts",
+        "ordinal": 9
+      },
+      "originalOrdinal": 9,
+      "current": {
+        "file": "packages/game/src/tools/speedrun/timer.test.ts",
+        "titles": ["SpeedrunTimer 手动操作"],
+        "template": "reset 清空本局，保留已有最佳成绩"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/timer.test.ts",
+        "ordinal": 10
+      },
+      "originalOrdinal": 10,
+      "current": {
+        "file": "packages/game/src/tools/speedrun/timer.test.ts",
+        "titles": ["SpeedrunTimer 手动操作"],
+        "template": "setBestsFromCurrentRun / clearBests / setBest"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/timer.test.ts",
+        "ordinal": 11
+      },
+      "originalOrdinal": 11,
+      "current": {
+        "file": "packages/game/src/tools/speedrun/timer.test.ts",
+        "titles": ["SpeedrunTimer 手动暂停/恢复"],
+        "template": "暂停停表;恢复起 3 秒倒计时;到点恢复后继续累加(不计暂停期)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/timer.test.ts",
+        "ordinal": 12
+      },
+      "originalOrdinal": 12,
+      "current": {
+        "file": "packages/game/src/tools/speedrun/timer.test.ts",
+        "titles": ["SpeedrunTimer 手动暂停/恢复"],
+        "template": "倒计时恢复中再切 → 取消恢复,留在暂停"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/timer.test.ts",
+        "ordinal": 13
+      },
+      "originalOrdinal": 13,
+      "current": {
+        "file": "packages/game/src/tools/speedrun/timer.test.ts",
+        "titles": ["SpeedrunTimer 手动暂停/恢复"],
+        "template": "非 running 态 toggle 无效"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/timer.boundaries.test.ts",
+        "ordinal": 0
+      },
+      "originalOrdinal": 0,
+      "current": {
+        "file": "packages/game/src/tools/speedrun/timer.test.ts",
+        "titles": ["Clock boundaries and detector isolation"],
+        "template": "running 同 now 双 tick 不累计，finished 后不再累计"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/timer.boundaries.test.ts",
+        "ordinal": 1
+      },
+      "originalOrdinal": 1,
+      "current": {
+        "file": "packages/game/src/tools/speedrun/timer.test.ts",
+        "titles": ["Clock boundaries and detector isolation"],
+        "template": "手动暂停 3 秒倒计时精确边界：2999 未恢复、3000 恢复且恢复帧不计时；justResumed 一次"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/timer.boundaries.test.ts",
+        "ordinal": 2
+      },
+      "originalOrdinal": 2,
+      "current": {
+        "file": "packages/game/src/tools/speedrun/timer.test.ts",
+        "titles": ["Clock boundaries and detector isolation"],
+        "template": "setStep 清手动暂停、倒计时和检测记忆，实例状态不串"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/timer.glm-phase1-leaves.test.ts",
+        "ordinal": 0
+      },
+      "originalOrdinal": 0,
+      "current": {
+        "file": "packages/game/src/tools/speedrun/timer.test.ts",
+        "titles": ["Countdown queries and best-time notifications"],
+        "template": "getCountdownRemainingSec：无倒计时或无主时钟返回 null，剩余秒向上取整，到点清除"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/timer.glm-phase1-leaves.test.ts",
+        "ordinal": 1
+      },
+      "originalOrdinal": 1,
+      "current": {
+        "file": "packages/game/src/tools/speedrun/timer.test.ts",
+        "titles": ["Countdown queries and best-time notifications"],
+        "template": "consumeBestsDirty：成绩变更只消费一次"
+      }
+    }
+  ],
+  "identities": [
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/index.test.ts",
+        "fullName": "tickSpeedrunTimer 未启用 → 不挂覆盖层、计时不动"
+      },
+      "current": {
+        "file": "packages/game/src/tools/speedrun/index.test.ts",
+        "fullName": "tickSpeedrunTimer 未启用 → 不挂覆盖层、计时不动"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/index.test.ts",
+        "fullName": "tickSpeedrunTimer 启用后起表、挂覆盖层、wall-clock 累加"
+      },
+      "current": {
+        "file": "packages/game/src/tools/speedrun/index.test.ts",
+        "fullName": "tickSpeedrunTimer 启用后起表、挂覆盖层、wall-clock 累加"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/index.test.ts",
+        "fullName": "tickSpeedrunTimer show=0 时不挂覆盖层但仍计时"
+      },
+      "current": {
+        "file": "packages/game/src/tools/speedrun/index.test.ts",
+        "fullName": "tickSpeedrunTimer show=0 时不挂覆盖层但仍计时"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/index.test.ts",
+        "fullName": "bests 默认播种 首次读取用 CHECKPOINTS 默认参考线"
+      },
+      "current": {
+        "file": "packages/game/src/tools/speedrun/index.test.ts",
+        "fullName": "bests 默认播种 首次读取用 CHECKPOINTS 默认参考线"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/index.test.ts",
+        "fullName": "setupSpeedrunHotkeys F4 未启用时不重置"
+      },
+      "current": {
+        "file": "packages/game/src/tools/speedrun/index.test.ts",
+        "fullName": "setupSpeedrunHotkeys F4 未启用时不重置"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/index.test.ts",
+        "fullName": "setupSpeedrunHotkeys F8 启用时暂停本局"
+      },
+      "current": {
+        "file": "packages/game/src/tools/speedrun/index.test.ts",
+        "fullName": "setupSpeedrunHotkeys F8 启用时暂停本局"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/index.test.ts",
+        "fullName": "setupSpeedrunHotkeys F2 启用时切换覆盖层显隐设置"
+      },
+      "current": {
+        "file": "packages/game/src/tools/speedrun/index.test.ts",
+        "fullName": "setupSpeedrunHotkeys F2 启用时切换覆盖层显隐设置"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/index.test.ts",
+        "fullName": "isSpeedrunPaused (主循环冻结门控) 手动暂停 → true(冻结游戏)"
+      },
+      "current": {
+        "file": "packages/game/src/tools/speedrun/index.test.ts",
+        "fullName": "isSpeedrunPaused (主循环冻结门控) 手动暂停 → true(冻结游戏)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/index.test.ts",
+        "fullName": "isSpeedrunPaused (主循环冻结门控) 未暂停 → false"
+      },
+      "current": {
+        "file": "packages/game/src/tools/speedrun/index.test.ts",
+        "fullName": "isSpeedrunPaused (主循环冻结门控) 未暂停 → false"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/index.test.ts",
+        "fullName": "isSpeedrunPaused (主循环冻结门控) 香蕉树暂停 → false(不冻结,否则走不过去捡香蕉)"
+      },
+      "current": {
+        "file": "packages/game/src/tools/speedrun/index.test.ts",
+        "fullName": "isSpeedrunPaused (主循环冻结门控) 香蕉树暂停 → false(不冻结,否则走不过去捡香蕉)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/index.glm-phase1-leaves.test.ts",
+        "fullName": "L21 setupSpeedrunHotkeys 解绑 启用时 F4 重置；解绑后 F4 不改变计时且无新 toast"
+      },
+      "current": {
+        "file": "packages/game/src/tools/speedrun/index.test.ts",
+        "fullName": "Speedrun hotkeys and teardown 启用时 F4 重置；解绑后 F4 不改变计时且无新 toast"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/index.glm-phase1-leaves.test.ts",
+        "fullName": "L21 setupSpeedrunHotkeys 解绑 未启用时按键短路（无 toast）；解绑函数幂等可重复调"
+      },
+      "current": {
+        "file": "packages/game/src/tools/speedrun/index.test.ts",
+        "fullName": "Speedrun hotkeys and teardown 未启用时按键短路（无 toast）；解绑函数幂等可重复调"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/timer.test.ts",
+        "fullName": "SpeedrunTimer 起表与打点 scene>0 且可移动才起表,之后按 wall-clock 累加"
+      },
+      "current": {
+        "file": "packages/game/src/tools/speedrun/timer.test.ts",
+        "fullName": "SpeedrunTimer 起表与打点 scene>0 且可移动才起表,之后按 wall-clock 累加"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/timer.test.ts",
+        "fullName": "SpeedrunTimer 起表与打点 scene>0 但李逍遥不可移动(标题/开场演出/加载/淡入)→ 不起表"
+      },
+      "current": {
+        "file": "packages/game/src/tools/speedrun/timer.test.ts",
+        "fullName": "SpeedrunTimer 起表与打点 scene>0 但李逍遥不可移动(标题/开场演出/加载/淡入)→ 不起表"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/timer.test.ts",
+        "fullName": "SpeedrunTimer 起表与打点 依序打点,一帧至多推进一个节点"
+      },
+      "current": {
+        "file": "packages/game/src/tools/speedrun/timer.test.ts",
+        "fullName": "SpeedrunTimer 起表与打点 依序打点,一帧至多推进一个节点"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/timer.test.ts",
+        "fullName": "SpeedrunTimer setStep(手动跳节点,测试用) 跳过前面节点,从第 N 个起依序检测"
+      },
+      "current": {
+        "file": "packages/game/src/tools/speedrun/timer.test.ts",
+        "fullName": "SpeedrunTimer setStep(手动跳节点,测试用) 跳过前面节点,从第 N 个起依序检测"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/timer.test.ts",
+        "fullName": "SpeedrunTimer setStep(手动跳节点,测试用) 已处于目标条件时(prevSnap 重置)下一帧立即命中 = 认\"读档已到此\""
+      },
+      "current": {
+        "file": "packages/game/src/tools/speedrun/timer.test.ts",
+        "fullName": "SpeedrunTimer setStep(手动跳节点,测试用) 已处于目标条件时(prevSnap 重置)下一帧立即命中 = 认\"读档已到此\""
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/timer.test.ts",
+        "fullName": "SpeedrunTimer setStep(手动跳节点,测试用) finished 后 setStep 回到 running"
+      },
+      "current": {
+        "file": "packages/game/src/tools/speedrun/timer.test.ts",
+        "fullName": "SpeedrunTimer setStep(手动跳节点,测试用) finished 后 setStep 回到 running"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/timer.test.ts",
+        "fullName": "SpeedrunTimer PB 更新 通关破纪录 → 整条覆盖 bests"
+      },
+      "current": {
+        "file": "packages/game/src/tools/speedrun/timer.test.ts",
+        "fullName": "SpeedrunTimer PB 更新 通关破纪录 → 整条覆盖 bests"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/timer.test.ts",
+        "fullName": "SpeedrunTimer PB 更新 未破纪录 → 不动 bests"
+      },
+      "current": {
+        "file": "packages/game/src/tools/speedrun/timer.test.ts",
+        "fullName": "SpeedrunTimer PB 更新 未破纪录 → 不动 bests"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/timer.test.ts",
+        "fullName": "SpeedrunTimer 香蕉暂停 + 拿到直接恢复(无倒计时) 站到香蕉格暂停;拿香蕉直接恢复,不起倒计时"
+      },
+      "current": {
+        "file": "packages/game/src/tools/speedrun/timer.test.ts",
+        "fullName": "SpeedrunTimer 香蕉暂停 + 拿到直接恢复(无倒计时) 站到香蕉格暂停;拿香蕉直接恢复,不起倒计时"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/timer.test.ts",
+        "fullName": "SpeedrunTimer 手动操作 reset 清空本局"
+      },
+      "current": {
+        "file": "packages/game/src/tools/speedrun/timer.test.ts",
+        "fullName": "SpeedrunTimer 手动操作 reset 清空本局，保留已有最佳成绩"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/timer.test.ts",
+        "fullName": "SpeedrunTimer 手动操作 setBestsFromCurrentRun / clearBests / setBest"
+      },
+      "current": {
+        "file": "packages/game/src/tools/speedrun/timer.test.ts",
+        "fullName": "SpeedrunTimer 手动操作 setBestsFromCurrentRun / clearBests / setBest"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/timer.test.ts",
+        "fullName": "SpeedrunTimer 手动暂停/恢复 暂停停表;恢复起 3 秒倒计时;到点恢复后继续累加(不计暂停期)"
+      },
+      "current": {
+        "file": "packages/game/src/tools/speedrun/timer.test.ts",
+        "fullName": "SpeedrunTimer 手动暂停/恢复 暂停停表;恢复起 3 秒倒计时;到点恢复后继续累加(不计暂停期)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/timer.test.ts",
+        "fullName": "SpeedrunTimer 手动暂停/恢复 倒计时恢复中再切 → 取消恢复,留在暂停"
+      },
+      "current": {
+        "file": "packages/game/src/tools/speedrun/timer.test.ts",
+        "fullName": "SpeedrunTimer 手动暂停/恢复 倒计时恢复中再切 → 取消恢复,留在暂停"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/timer.test.ts",
+        "fullName": "SpeedrunTimer 手动暂停/恢复 非 running 态 toggle 无效"
+      },
+      "current": {
+        "file": "packages/game/src/tools/speedrun/timer.test.ts",
+        "fullName": "SpeedrunTimer 手动暂停/恢复 非 running 态 toggle 无效"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/timer.boundaries.test.ts",
+        "fullName": "H06 SpeedrunTimer 边界 running 同 now 双 tick 不累计，finished 后不再累计"
+      },
+      "current": {
+        "file": "packages/game/src/tools/speedrun/timer.test.ts",
+        "fullName": "Clock boundaries and detector isolation running 同 now 双 tick 不累计，finished 后不再累计"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/timer.boundaries.test.ts",
+        "fullName": "H06 SpeedrunTimer 边界 手动暂停 3 秒倒计时精确边界：2999 未恢复、3000 恢复且恢复帧不计时；justResumed 一次"
+      },
+      "current": {
+        "file": "packages/game/src/tools/speedrun/timer.test.ts",
+        "fullName": "Clock boundaries and detector isolation 手动暂停 3 秒倒计时精确边界：2999 未恢复、3000 恢复且恢复帧不计时；justResumed 一次"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/timer.boundaries.test.ts",
+        "fullName": "H06 SpeedrunTimer 边界 setStep 清手动暂停、倒计时和检测记忆，实例状态不串"
+      },
+      "current": {
+        "file": "packages/game/src/tools/speedrun/timer.test.ts",
+        "fullName": "Clock boundaries and detector isolation setStep 清手动暂停、倒计时和检测记忆，实例状态不串"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/timer.glm-phase1-leaves.test.ts",
+        "fullName": "L20 SpeedrunTimer 剩余合同 getCountdownRemainingSec：无倒计时或无主时钟返回 null，剩余秒向上取整，到点清除"
+      },
+      "current": {
+        "file": "packages/game/src/tools/speedrun/timer.test.ts",
+        "fullName": "Countdown queries and best-time notifications getCountdownRemainingSec：无倒计时或无主时钟返回 null，剩余秒向上取整，到点清除"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/timer.glm-phase1-leaves.test.ts",
+        "fullName": "L20 SpeedrunTimer 剩余合同 consumeBestsDirty 一次性读；reset 保留 bests 只清本局"
+      },
+      "current": {
+        "file": "packages/game/src/tools/speedrun/timer.test.ts",
+        "fullName": "Countdown queries and best-time notifications consumeBestsDirty：成绩变更只消费一次"
+      }
+    }
+  ],
+  "retirements": [
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/index.test.ts",
+        "ordinal": 4,
+        "fullName": "setupSpeedrunHotkeys F4 启用时重置本局",
+        "callbackSha256": "0e91ccc93d67500693b6ed9b95611b0a0da959c278472802867389c8af55fdaf",
+        "assertionStatements": 3
+      },
+      "identifierRenames": {},
+      "reason": "Exactsame enabledF4 reset contract and three businessassertions are contained in realunbind lifecyclecase; keep stronger timer+toast+detach case.",
+      "inputEquivalence": "Both realcreateInitialGameState x0/y0/down/scene1,ownedemptystorage/desktop,enabled1,realhotkey,0→1000ms ticks,F4. Strongcase assertsallthreebeforeanylaterunbind action.",
+      "current": {
+        "file": "packages/game/src/tools/speedrun/index.test.ts",
+        "titles": ["Speedrun hotkeys and teardown"],
+        "template": "启用时 F4 重置；解绑后 F4 不改变计时且无新 toast",
+        "fullName": "Speedrun hotkeys and teardown 启用时 F4 重置；解绑后 F4 不改变计时且无新 toast"
+      }
+    }
+  ],
+  "id": "speedrun-control",
+  "namespace": "organization-speedrun-control",
+  "cohortSubjects": [
+    {
+      "path": "packages/game/src/tools/speedrun/index.glm-phase1-leaves.test.ts",
+      "sha256": "65beee9b2b0d8d5d45305beef9e0076aec111e32d52243ba3c02d2ce63d037ac",
+      "priorCurrentBridges": []
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/timer.glm-phase1-leaves.test.ts",
+      "sha256": "41a4ca45cfedac0abc4a68c8f3393676238e7a3bb672e2a292d7bfc46c37abad",
+      "priorCurrentBridges": []
+    }
+  ],
+  "preserved": [
+    {
+      "path": "packages/game/src/tools/speedrun/index.ts",
+      "sha256": "26f79ca8271020de7f0663698cf52a665cf367e67db475af714167d996c241ad"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/timer.ts",
+      "sha256": "a5fcf2a7380eca2afc4e93832075b2847671ffba597c5f12e1b8e8a1cf252f2c"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/snapshot.ts",
+      "sha256": "496c27dbc9eedfc5a9e87eb00018ddad506886796b7cf4c4cd46a8784520cd62"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/store.ts",
+      "sha256": "3ed91fc0eba9daa62805e0d0b9d4e098cf55553a3db05b5b7f9f195326365d4b"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/checkpoints.ts",
+      "sha256": "2ad3aa9b736ec768d29ea865c98436b7792e6883a9d5896fae3e0e0c22c5cebb"
+    },
+    {
+      "path": "packages/game/src/tools/toast.ts",
+      "sha256": "fe6ab0697ded3905c0bbbb1635f5bb5e2363da860e2f717427dce899553bebfa"
+    },
+    {
+      "path": "packages/game/src/shell/main-loop.ts",
+      "sha256": "2aa4ec075feb2ff8e218eb66cc32b376f3edb62a8b3073c0441596029e5bd07c"
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "sha256": "a4d007c9739873dc20f385b52b584de49ec57cd5c328cb11ca9d3b0b9f19fb0a"
+    },
+    {
+      "path": "packages/game/src/shell/presentation.ts",
+      "sha256": "2c6229b3b85271c52c80d9143d7aa6568aa6e2c507f30a84d4722028f4fa06bd"
+    },
+    {
+      "path": "packages/game/src/core/game-state.ts",
+      "sha256": "084718097eb0963c2ee3a9d72da59b313ca8fd401672f6a8b341ba21ae8b8906"
+    },
+    {
+      "path": "packages/game/vitest.config.ts",
+      "sha256": "3dd92ad4886bc72c88e7a7b2e6bdacc3aaf9e2a24ac72153f3b619ba37feb7d4"
+    },
+    {
+      "path": "packages/game/vitest.setup.ts",
+      "sha256": "9d1b923f6abc71a5af3e9be094d2945f853a2f4319a036aba9813e86f116e93e"
+    }
+  ],
+  "neighborPaths": [
+    "src/tools/speedrun/checkpoints.test.ts",
+    "src/tools/speedrun/countdown.test.ts",
+    "src/tools/speedrun/detectors.test.ts",
+    "src/tools/speedrun/index.test.ts",
+    "src/tools/speedrun/overlay.test.ts",
+    "src/tools/speedrun/snapshot.test.ts",
+    "src/tools/speedrun/store.test.ts",
+    "src/tools/speedrun/time-format.test.ts",
+    "src/tools/speedrun/timer.test.ts"
+  ],
+  "cleanExecutions": [
+    "before",
+    "reorganize",
+    "proof-r2",
+    "counter-old-proof",
+    "counter-new-proof",
+    "cleanup-proof",
+    "module-preflight",
+    "neighbors",
+    "typecheck",
+    "docs",
+    "content-review",
+    "lint",
+    "testing-docs",
+    "diff",
+    "scoped",
+    "ledger-final"
+  ],
+  "lightweightGates": true,
+  "counters": ["counter-reset-bests.json"],
+  "cleanupProbe": {
+    "sourceTestPath": "packages/game/src/tools/speedrun/index.test.ts",
+    "currentSha256": "5518316a1a45d5b89b9c187fccf5a314ffaa0c432b15fd723c53e3a3a8ec3809",
+    "probeSha256": "2962adc8ab3ebc3f0641e1a454f6381d0adef3444a38bad96a99802c04f14b66",
+    "intentionalAssertionFailure": "Speedrun hotkeys and teardown 启用时 F4 重置；解绑后 F4 不改变计时且无新 toast",
+    "observation": {
+      "inside": {
+        "layout": "desktop",
+        "fakeTimers": true,
+        "toastPresent": true
+      },
+      "after": {
+        "values": {
+          "tp-speedrun-enabled": "1",
+          "tp-speedrun-show": "0",
+          "tp-speedrun-banana": "1",
+          "tp-speedrun-bests": "{\"prior\":234.5}",
+          "outside-speedrun-control": "keep"
+        },
+        "layout": "mobile",
+        "fakeTimers": false,
+        "ownedNodesPresent": [],
+        "foreignBodyPresent": true,
+        "foreignStylePresent": true
+      },
+      "detached": {
+        "elapsedBefore": 500,
+        "elapsedAfter": 500,
+        "noToast": true
+      }
+    },
+    "currentTestExact": true,
+    "scope": "Temporaryearlyfailure afterreal F4/toast. Realkeys/layout/faketimerstate/DOM and secondactualF4 verifycleanup. Observerrestoresitsownseeds. Not productbugred or hardware/E2E credit."
+  },
+  "fixtureAndCallbackProof": "organization-speedrun-control/proof-r2.stdout.raw",
+  "reusedReviewMember": "organization-speedrun-control/reused-reviews.json",
+  "profiles": [
+    {
+      "path": "packages/game/src/tools/speedrun/index.test.ts",
+      "subjects": ["packages/game/src/tools/speedrun/index.glm-phase1-leaves.test.ts"],
+      "axes": {
+        "A": "12例核未启用/可见性/clock、默认PB、F4启用解绑/禁用、F8/F2与手动暂停/香蕉不冻结。真实bootstrap安装键盘，mainloop每rAF传GS/now；typedGS由生产createInitial产生，desktop前提显式。未发现新产品缺陷，index源字节保持。",
+        "B": "删除AI/L21排重头和文件名复述，保performance.now须与上一帧同源的理由、香蕉暂停不冻结原因。文件标题指向实际编排/解绑；不冒称真实硬件、完整路线或产品bootstrap已拆卸。",
+        "C": "index作为真实Timer/Storage/UI编排独立于纯Timer专测。测试只拥有四速通key、desktop布局、四保留DOM标识、单一hotkey控制器与本轮fakeclock；按finally归还键位/原值/原布局，外部DOM/键不清。无过宽全GS模拟或跨层写入。",
+        "D": "同入口两spec统一生命周期与gameState(overrides)，未把timer纯函数夹具和有IO的index合成万能host。F4基础三业务断言由解绑强例原样包含，合法GS/时钟/键盘入口相同，删一重复例。",
+        "E": "13旧身份保12，已证重复F4三断言严格语法包含于存活强例；余12callback保持。旧禁用后正在运行的时钟不重置与初始禁用无toast不同，不误删。一次故意首toast后失败，真实观测4key/mobile/外部2节点恢复、realclock归还，后续真实F4不重置500ms/不新toast；86相邻/TC0。",
+        "F": "makeState(over)改gameState(overrides)，变量previousValues/previousLayout/OWNED_NODE_IDS表明资源归属；suite按tick/settings/pause/hotkey分组，未发现需要新增产品抽象的可读性负担。",
+        "G": "删一完整重复用例和作者分片/clear-all DOM/Storage，零新增运行时case；保真实时钟和toast两种业务后果，不用事件次数代替业务。无新export/模式helper/依赖层。",
+        "H": "真实createInitialGS、hotkey、Timer、DOM/Storage；fakeclock仅控制外部时间/自动toast。早失败后真实500ms第二轮F4验证解绑，非监听计数mock。共享生命周期减脆弱全局测试互扰，无需产品新注入API。"
+      }
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/timer.test.ts",
+      "subjects": ["packages/game/src/tools/speedrun/timer.glm-phase1-leaves.test.ts"],
+      "axes": {
+        "A": "19例核启动域/顺序打点/跳步/记忆隔离、PB整体更新、香蕉/手动暂停、精确2999/3000边界、ceil/null来源/一次消费。真实index传当前snapshot与同源now。新增nonnullPBreset oracle补真实维护风险；timer源不动。",
+        "B": "去H06/L20作者和旧文件去重指针，保单位ms、恢复帧dt清零、prevSnap记忆重置、无主时钟null的理由。私有t改timer时误及t=0的注释收窄为nowMs=0，产品PalTimer真值旧证不升格。",
+        "C": "三spec归同一纯状态机入口，所有资源为case本地Timer/Set，无IO/hook或隐式全局写入。main/body/memory三个测试输入场景与香蕉域不同，分别保独立小构造，未反向依赖index/DOM。",
+        "D": "短构造的缺省scene/xy/music和BananaConfig触发域不同，保progressSnapshot/movingSnapshot/awayFromBananaSnapshot的显式局部域；未引入带模式开关或隐藏defaults转换的跨spec万能fixture。12个typed准备声明仅私有名/明确上下文类型差异，正文全树核等。",
+        "E": "19身份不新增；17callback经私有名保持，两个既有case窄改：原dirty用例清PB再reset的空结果自比删除，phase/splits由现有reset已覆盖；现有reset新增a1000/b2000非空literal保留。真实reset清PB变异旧1绿/新指定AssertionError；dirty/setBest/clearBests原断言全保。",
+        "F": "mk/CPS/BAN/snap/t/cp按createRouteTimer/ROUTE_CHECKPOINTS/BANANA_TREE/progressSnapshot/timer/checkpoint显意；三合法输入准备名字揭示启动/可移动/离香蕉的领域，无批次命名。不同suite集中同一状态机容易定位。",
+        "G": "取消分片式boundaries/leaves目录入口，原reset重复phase/split与空PB自比迁入已有强例，不加新弱测试；精确边界与一般暂停情景保不同时间域。类型用BananaConfig/Checkpoint.detector替换不必要cast/过宽ConstructorParameters索引，不改公有合同。",
+        "H": "直接注入typed快照/now，纯状态对象易观察，未mock核心/暴露私有。完整body比较器正控及尾断言负控、typed声明树正负控均通过；初次printer仅因对象换行拒绝，改完整typed树后十二声明等同，原失败保留，非放宽消费者。"
+      }
+    }
+  ],
+  "primarySources": [
+    {
+      "path": "packages/game/src/tools/speedrun/index.ts",
+      "sha256": "26f79ca8271020de7f0663698cf52a665cf367e67db475af714167d996c241ad",
+      "scope": "Fullcurrentimplementation read; no productchange or SDLmechanism/newroute claim."
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/timer.ts",
+      "sha256": "a5fcf2a7380eca2afc4e93832075b2847671ffba597c5f12e1b8e8a1cf252f2c",
+      "scope": "Fullcurrentimplementation read; no productchange or SDLmechanism/newroute claim."
+    }
+  ],
+  "reads": {
+    "fullInputs": [
+      {
+        "path": "packages/game/src/tools/speedrun/index.test.ts",
+        "sha256": "0fe566225d01c12455a9b4f2e5f29881966b630f428651dc676b45180aae7cf7",
+        "member": "organization-speedrun-control/0.before",
+        "lines": 136,
+        "scope": "Fullcurrentcase/helper/hook read; timer tail/boundaries explicitlycompleted afterbatchedoutputtruncate."
+      },
+      {
+        "path": "packages/game/src/tools/speedrun/index.glm-phase1-leaves.test.ts",
+        "sha256": "65beee9b2b0d8d5d45305beef9e0076aec111e32d52243ba3c02d2ce63d037ac",
+        "member": "organization-speedrun-control/1.before",
+        "lines": 71,
+        "scope": "Fullcurrentcase/helper/hook read; timer tail/boundaries explicitlycompleted afterbatchedoutputtruncate."
+      },
+      {
+        "path": "packages/game/src/tools/speedrun/timer.test.ts",
+        "sha256": "7745df1232e6aa9f06b0256fe3fd1d641fb872ba81ab2e75fe44fc4fb5ac61a4",
+        "member": "organization-speedrun-control/2.before",
+        "lines": 195,
+        "scope": "Fullcurrentcase/helper/hook read; timer tail/boundaries explicitlycompleted afterbatchedoutputtruncate."
+      },
+      {
+        "path": "packages/game/src/tools/speedrun/timer.boundaries.test.ts",
+        "sha256": "d23e3b3a2e5cf85515c7769c4c8587b28f65e8ea429da916c7151110349b6d90",
+        "member": "organization-speedrun-control/3.before",
+        "lines": 98,
+        "scope": "Fullcurrentcase/helper/hook read; timer tail/boundaries explicitlycompleted afterbatchedoutputtruncate."
+      },
+      {
+        "path": "packages/game/src/tools/speedrun/timer.glm-phase1-leaves.test.ts",
+        "sha256": "41a4ca45cfedac0abc4a68c8f3393676238e7a3bb672e2a292d7bfc46c37abad",
+        "member": "organization-speedrun-control/4.before",
+        "lines": 80,
+        "scope": "Fullcurrentcase/helper/hook read; timer tail/boundaries explicitlycompleted afterbatchedoutputtruncate."
+      }
+    ],
+    "fullImplementations": [
+      {
+        "path": "packages/game/src/tools/speedrun/index.ts",
+        "sha256": "26f79ca8271020de7f0663698cf52a665cf367e67db475af714167d996c241ad",
+        "scope": "Fullcurrentimplementation read. No wholefileclosecredit."
+      },
+      {
+        "path": "packages/game/src/tools/speedrun/timer.ts",
+        "sha256": "a5fcf2a7380eca2afc4e93832075b2847671ffba597c5f12e1b8e8a1cf252f2c",
+        "scope": "Fullcurrentimplementation read. No wholefileclosecredit."
+      },
+      {
+        "path": "packages/game/src/tools/speedrun/store.ts",
+        "sha256": "3ed91fc0eba9daa62805e0d0b9d4e098cf55553a3db05b5b7f9f195326365d4b",
+        "scope": "Fullcurrentimplementation read. No wholefileclosecredit."
+      },
+      {
+        "path": "packages/game/src/tools/toast.ts",
+        "sha256": "fe6ab0697ded3905c0bbbb1635f5bb5e2363da860e2f717427dce899553bebfa",
+        "scope": "Fullcurrentimplementation read. No wholefileclosecredit."
+      }
+    ],
+    "currentOutputs": [
+      {
+        "path": "packages/game/src/tools/speedrun/index.test.ts",
+        "sha256": "5518316a1a45d5b89b9c187fccf5a314ffaa0c432b15fd723c53e3a3a8ec3809",
+        "lines": 189,
+        "scope": "Fullfinalspec read; finalcommentonly nowMs correctiondoesnotchangebody."
+      },
+      {
+        "path": "packages/game/src/tools/speedrun/timer.test.ts",
+        "sha256": "1854cd0fd9324e6455d4bdd9f9b592ad2b1d2982532ebf61d925eb0f3b7c6a1f",
+        "lines": 361,
+        "scope": "Fullfinalspec read; finalcommentonly nowMs correctiondoesnotchangebody."
+      }
+    ],
+    "callers": [
+      {
+        "path": "packages/game/src/shell/main-loop.ts",
+        "sha256": "2aa4ec075feb2ff8e218eb66cc32b376f3edb62a8b3073c0441596029e5bd07c",
+        "ranges": [[153, 172]],
+        "scope": "ActualcurrentrAFtick/freeze call,fullsameSHA previousloopreviewreused."
+      },
+      {
+        "path": "packages/game/src/shell/bootstrap.ts",
+        "sha256": "a4d007c9739873dc20f385b52b584de49ec57cd5c328cb11ca9d3b0b9f19fb0a",
+        "ranges": [[1065, 1080]],
+        "scope": "Actualpage-livedhotkeyinstallation,returnsnotheldbybootstrap; no newproductteardownclaim."
+      },
+      {
+        "path": "packages/game/src/tools/speedrun/snapshot.ts",
+        "sha256": "496c27dbc9eedfc5a9e87eb00018ddad506886796b7cf4c4cd46a8784520cd62",
+        "scope": "SameSHApreviousfullsnapshot/type/canMove readreused."
+      },
+      {
+        "path": "packages/game/src/core/game-state.ts",
+        "sha256": "084718097eb0963c2ee3a9d72da59b313ca8fd401672f6a8b341ba21ae8b8906",
+        "scope": "SameSHApriorfullcreateInitialGameState/phaseinputevidence reused."
+      }
+    ]
+  },
+  "processDisclosures": [
+    "5spec32identities→index12/timer19; oneprovedF4duplicate retired with3exactbusinessassertions in strongeractualunbindcase; legalGS/ticks/input equivalence documented. No product/APIschema change.",
+    "29callbacksafterprivate namesconserved;2explicitcallbackdeltas relocateblankresetcontract intoexistingnonnullreset. Allmeaningfuldirty/clear/start/split/pause assertions kept,zeroaddedruntimecases. 12fixture declarations exactafterexplicitnames andBananaConfig/Checkpoint typecontext, no implicitdefault merging.",
+    "Initialauxiliaryproof printer comparedobject singlelinevsmultiline andcorrectlystopped,notgivenproofcredit. CorrectedfulltypedAST samecomparison withformatpositive/tailfieldnegative,callbackpositive/twoassertiontailnegatives; raworiginalfailure retained. Central9toolSHAs unchanged.",
+    "ActualresetclearBests variant old1green/new1businessAssertionError; sourceexactrestore. Indexearlyfailureprobe validates4oldkeyvalues/mobilelayout/foreignDOM,restoresrealclock andsecondrealF4cannotresetoraddtoast. Observerfinallyrestoresitsownseeds.",
+    "Actualonce9files86neighbors/currentgameTC0,stderr empty. Wholecheck/officialcoverage/protected/publicationremain deferred; twoF/Gsubjects only,0newclosed."
+  ],
+  "ledgerCounts": {
+    "inventory": 3453,
+    "closed": 556,
+    "review": 263,
+    "pending": 2634
+  }
+}

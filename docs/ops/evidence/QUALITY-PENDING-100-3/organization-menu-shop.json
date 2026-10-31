@@ -1,0 +1,889 @@
+{
+  "inputs": [
+    {
+      "path": "packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+      "sha256": "d25fc265a5c95f7b0e8f440518324a0343c52e3a8401f473fa5b7a8e4cb31b15",
+      "member": "organization-menu-shop/0.before"
+    },
+    {
+      "path": "packages/game/src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+      "sha256": "0d9bb6a4818739c31be58119ee1da5104e50170c23ba22b6706e74bfbca63425",
+      "member": "organization-menu-shop/1.before"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/p04-shop.test.ts",
+      "sha256": "f3d4a05e32d6df834139ec88ef42b2870a90c0687a7a3d441a64f80a8fd3bdf9",
+      "member": "organization-menu-shop/2.before"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "packages/game/src/present/menu/draw-shop.test.ts",
+      "sha256": "b69434d811fd94923fd3315820ee83b9087988f360f8694611e442381a31a956"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-sell-overlay.test.ts",
+      "sha256": "6192187dec5f8416f49d97150c7b49490411853f9621d218d6cbcd8500f54ab0"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-shop.canvas.test.ts",
+      "sha256": "defe7694d378bcbc4ee49191461b5e20120dc2140fff9a16b3965eced0c629bc"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/shop-state-fixtures.ts",
+      "sha256": "832708399773559f19c2b117cebb88e0a0713e1da0e8f278d156eb4d35e327ce"
+    }
+  ],
+  "sourceBridges": [
+    {
+      "path": "packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+      "id": "menu-shop-0",
+      "changes": [
+        {
+          "from": "/**\n * TEST-GLM-PHASE1-LEAVES-3 L12（draw-shop.ts）— 去重表：\n *  - grok-present P04（买列表/确认层/现有量/金钱、卖 overlay 售价一半）→ 不重复\n *  - 新差异：ownedCount = 库存 + 全队已装备（sdlpal uigame.c:1554-1577 跨 role × slot）、\n *    空店铺列表（owned 0、无图标、不崩）、drawSellOverlay 光标项非 sellable → 框画但\n *    售价 label 与数字都不画、cursorItemId 缺省同。\n */\nimport { describe, expect, it } from 'vitest'\nimport {\n  BOX_STYLE0,\n  fixtureGlyphs,\n  iconImage,\n  makeUiFrames,\n  mkItem,\n  newFb,\n  pixel,\n  rightDigitX,\n} from '../../__tests__/glm-phase1-leaves/present-fixtures.js'\nimport type { GameState } from '../../core/game-state.js'\nimport { createBuyMenu } from '../../core/menu/shop-menu.js'\nimport { makeLiveScene } from '../__tests__/menu-state-fixtures.js'\nimport { drawSellOverlay, drawShopMenu } from './draw-shop.js'\n\nconst glyphs = fixtureGlyphs\n\nconst SWORD = mkItem(400, '甲', {\n  price: 50,\n  flags: {\n    sellable: true,\n    equipable: true,\n    equipableBy: [false, true, true, false, true, false],\n  },\n})\n\nfunction gsForShop(): GameState {\n  const { gs } = makeLiveScene([4, 1])\n  gs.dwCash = 7\n  gs.inventory = [{ itemId: 400, count: 2 }]\n  gs.PlayerRolesRuntime.rgwEquipment[3]![4] = SWORD.id // 队员4手部\n  gs.PlayerRolesRuntime.rgwEquipment[3]![1] = SWORD.id // 队员1手部\n  gs.PlayerRolesRuntime.rgwEquipment[3]![2] = SWORD.id // 非队员2:不得计入\n  return gs\n}\n\ndescribe('L12 drawShopMenu 剩余分支', () => {\n  it('ownedCount = 库存2 + 队员[4,1]各一件 = 4，非队员装备不计入', () => {\n    const gs = gsForShop()\n    const state = createBuyMenu([SWORD])\n    const fb = newFb()\n    drawShopMenu({ fb, state, gs, items: [SWORD], uiSpriteFrames: makeUiFrames(), glyphs })\n    // 「现有」数 right 6 位：个位在 rightDigitX(69,6,0)=99\n    expect(pixel(fb, rightDigitX(69, 6, 0), 115)).toBe(0xb4)\n  })\n\n  it('空店铺列表：框与两单行框照画，owned 0、无图标、不崩', () => {\n    const gs = gsForShop()\n    const state = createBuyMenu([])\n    const fb = newFb()\n    drawShopMenu({\n      fb,\n      state,\n      gs,\n      items: [SWORD], // 全局目录有物品,但本店没有列表项\n      itemIcons: new Map([[SWORD.bitmap, iconImage(0x82)]]),\n      uiSpriteFrames: makeUiFrames(),\n      glyphs,\n    })\n    expect(pixel(fb, 130, 16)).toBe(0x22) // style1 列表框内部\n    expect(pixel(fb, rightDigitX(69, 6, 0), 115)).toBe(0xb0) // owned 0\n    expect(pixel(fb, 48, 15)).toBe(0x5a) // 无选中 → 预览图标未画\n  })\n})\n\ndescribe('L12 drawSellOverlay 剩余分支', () => {\n  it('光标项非 sellable：两框照画，售价 label 与数字不画', () => {\n    const gs = gsForShop()\n    const unsellable = mkItem(401, '乙', { price: 30 }) // sellable=false\n    const fb = newFb()\n    drawSellOverlay({\n      fb,\n      gs,\n      items: [unsellable],\n      cursorItemId: 401,\n      uiSpriteFrames: makeUiFrames(),\n      glyphs,\n    })\n    // 金钱框 @(100,150) 内部 style0；金钱 label 黑点\n    expect(pixel(fb, 110, 154)).toBe(BOX_STYLE0)\n    // 售价框 @(224,150) 内部照画，但 label 位（字形亮点 y=164 在阴影带 156..163 之外）无字\n    expect(pixel(fb, 234, 154)).toBe(BOX_STYLE0)\n    expect(pixel(fb, 238, 164)).toBe(0x5a)\n    expect(pixel(fb, rightDigitX(272, 6, 0), 165)).toBe(0x5a)\n    // 金钱数字照画：cash 7 个位在 rightDigitX(148,6,0)=178\n    expect(pixel(fb, rightDigitX(148, 6, 0), 165)).toBe(0xb7)\n  })\n\n  it('cursorItemId 缺省：售价框照画，目录有可卖物品也不画售价', () => {\n    const gs = gsForShop()\n    const fb = newFb()\n    drawSellOverlay({ fb, gs, items: [SWORD], uiSpriteFrames: makeUiFrames(), glyphs })\n    expect(pixel(fb, 238, 164)).toBe(0x5a) // 无 cursorItemId → 不画售价\n    expect(pixel(fb, rightDigitX(272, 6, 0), 165)).toBe(0x5a)\n  })\n})\n",
+          "to": "import { afterEach, beforeEach, describe, expect, it } from 'vitest'\nimport { legalPalette } from '../../__tests__/asset-fixtures.js'\nimport { dumpFramebuffer } from '../../__tests__/grok-render-r1/dump-evidence.js'\nimport type { IndexedImage } from '../../assets/png.js'\nimport { MENUITEM_COLOR, MENUITEM_COLOR_SELECTED_FIRST } from '../../core/menu/inventory-menu.js'\nimport { createSellMenu } from '../../core/menu/sell-menu.js'\nimport { createBuyMenu, shopMoveDown, shopSelectItem } from '../../core/menu/shop-menu.js'\nimport { fixtureGlyphs, textDot } from '../__tests__/glyph-fixtures.js'\nimport { freezeNow, makeItem, makeLiveScene } from '../__tests__/menu-state-fixtures.js'\nimport { beginChineseMenuText } from '../__tests__/menu-text-fixture.js'\nimport {\n  BOX_STYLE0,\n  ITEMBOX_ID,\n  makeUiFrames,\n  rightDigitX,\n  yellowDigit,\n} from '../__tests__/menu-ui-fixtures.js'\nimport {\n  fillSentinel,\n  iconImage,\n  pixel,\n  SENTINEL,\n  sentinelFramebuffer,\n} from '../__tests__/raster-fixtures.js'\nimport { cloneInputs } from '../__tests__/render-input-snapshots.js'\nimport { shopSceneWithEquippedCopies, shopSword } from '../__tests__/shop-state-fixtures.js'\nimport { uniformDotGlyphs } from '../__tests__/uniform-glyphs.js'\nimport { createFramebuffer } from '../framebuffer.js'\nimport { flushToCanvas } from '../present.js'\nimport { drawSellOverlay, drawShopMenu } from './draw-shop.js'\nconst uniformGlyphs = uniformDotGlyphs()\nconst positionGlyphs = fixtureGlyphs()\nfunction uiFramesWithoutSlot(omittedSlot: number): IndexedImage[] {\n  const source = makeUiFrames()\n  const frames: IndexedImage[] = []\n  for (let slot = 0; slot < source.length; slot++) {\n    if (slot !== omittedSlot) frames[slot] = source[slot]!\n  }\n  return frames\n}\nlet restoreMenuText: () => void\nbeforeEach(() => {\n  restoreMenuText = beginChineseMenuText()\n})\nafterEach(() => {\n  restoreMenuText()\n})\ndescribe('Shop buying', () => {\n  it('ownedCount = 库存2 + 队员[4,1]各一件 = 4，非队员装备不计入', () => {\n    const gs = shopSceneWithEquippedCopies()\n    const state = createBuyMenu([shopSword])\n    const fb = sentinelFramebuffer()\n    drawShopMenu({\n      fb,\n      state,\n      gs,\n      items: [shopSword],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs: uniformGlyphs,\n    })\n    // 「现有」数 right 6 位：个位在 rightDigitX(69,6,0)=99\n    expect(pixel(fb, rightDigitX(69, 6, 0), 115)).toBe(0xb4)\n  })\n\n  it('空店铺列表：框与两单行框照画，owned 0、无图标、不崩', () => {\n    const gs = shopSceneWithEquippedCopies()\n    const state = createBuyMenu([])\n    const fb = sentinelFramebuffer()\n    drawShopMenu({\n      fb,\n      state,\n      gs,\n      items: [shopSword], // 全局目录有物品,但本店没有列表项\n      itemIcons: new Map([[shopSword.bitmap, iconImage(0x82)]]),\n      uiSpriteFrames: makeUiFrames(),\n      glyphs: uniformGlyphs,\n    })\n    expect(pixel(fb, 130, 16)).toBe(0x22) // style1 列表框内部\n    expect(pixel(fb, rightDigitX(69, 6, 0), 115)).toBe(0xb0) // owned 0\n    expect(pixel(fb, 48, 15)).toBe(0x5a) // 无选中 → 预览图标未画\n  })\n})\n\ndescribe('Sale overlay', () => {\n  it('光标项非 sellable：两框照画，售价 label 与数字不画', () => {\n    const gs = shopSceneWithEquippedCopies()\n    const unsellable = makeItem(401, '乙', { price: 30 }) // sellable=false\n    const fb = sentinelFramebuffer()\n    drawSellOverlay({\n      fb,\n      gs,\n      items: [unsellable],\n      cursorItemId: 401,\n      uiSpriteFrames: makeUiFrames(),\n      glyphs: uniformGlyphs,\n    })\n    // 金钱框 @(100,150) 内部 style0；金钱 label 黑点\n    expect(pixel(fb, 110, 154)).toBe(BOX_STYLE0)\n    // 售价框 @(224,150) 内部照画，但 label 位（字形亮点 y=164 在阴影带 156..163 之外）无字\n    expect(pixel(fb, 234, 154)).toBe(BOX_STYLE0)\n    expect(pixel(fb, 238, 164)).toBe(0x5a)\n    expect(pixel(fb, rightDigitX(272, 6, 0), 165)).toBe(0x5a)\n    // 金钱数字照画：cash 7 个位在 rightDigitX(148,6,0)=178\n    expect(pixel(fb, rightDigitX(148, 6, 0), 165)).toBe(0xb7)\n  })\n\n  it('cursorItemId 缺省：售价框照画，目录有可卖物品也不画售价', () => {\n    const gs = shopSceneWithEquippedCopies()\n    const fb = sentinelFramebuffer()\n    drawSellOverlay({\n      fb,\n      gs,\n      items: [shopSword],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs: uniformGlyphs,\n    })\n    expect(pixel(fb, 238, 164)).toBe(0x5a) // 无 cursorItemId → 不画售价\n    expect(pixel(fb, rightDigitX(272, 6, 0), 165)).toBe(0x5a)\n  })\n})\n\ndescribe('Shop canvas output', () => {})\n",
+          "count": 1
+        }
+      ],
+      "reason": "Private-name/input/factory and narrow text lifecycle projection; actual tests preserve all original callbacks except one implied sell-price negative."
+    },
+    {
+      "path": "packages/game/src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+      "id": "menu-shop-1",
+      "changes": [
+        {
+          "from": "/**\n * TEST-GROK-RENDER-HOST-LARGE-1 G07-B。\n * 商店列表价读菜单快照、预览阴影和缺帧，以及卖价向下取整到 0。\n * 不重复 P04 的 123/45、现有 3 和半价 40，也不重复 glm 的空店与不可卖。\n */\nimport { afterEach, describe, expect, it } from 'vitest'\nimport { legalPalette } from '../../__tests__/asset-fixtures.js'\nimport { dumpFramebuffer } from '../../__tests__/grok-render-r1/dump-evidence.js'\nimport type { IndexedImage } from '../../assets/png.js'\nimport { MENUITEM_COLOR, MENUITEM_COLOR_SELECTED_FIRST } from '../../core/menu/inventory-menu.js'\nimport { createBuyMenu, shopMoveDown, shopSelectItem } from '../../core/menu/shop-menu.js'\nimport { fixtureGlyphs, textDot } from '../__tests__/glyph-fixtures.js'\nimport {\n  freezeNow,\n  makeItem,\n  makeLiveScene,\n  resetHostSingletons,\n} from '../__tests__/menu-state-fixtures.js'\nimport {\n  ITEMBOX_ID,\n  makeUiFrames,\n  rightDigitX,\n  yellowDigit,\n} from '../__tests__/menu-ui-fixtures.js'\nimport { fillSentinel, iconImage, pixel, SENTINEL } from '../__tests__/raster-fixtures.js'\nimport { cloneInputs } from '../__tests__/render-input-snapshots.js'\nimport { createFramebuffer } from '../framebuffer.js'\nimport { flushToCanvas } from '../present.js'\nimport { drawSellOverlay, drawShopMenu } from './draw-shop.js'\n\nconst glyphs = fixtureGlyphs()\n\nafterEach(() => {\n  resetHostSingletons()\n})\n\nfunction withoutFrame(index: number): IndexedImage[] {\n  const source = makeUiFrames()\n  const frames: IndexedImage[] = []\n  for (let i = 0; i < source.length; i++) {\n    if (i !== index) frames[i] = source[i]!\n  }\n  return frames\n}\n\ndescribe('G07-B 商店预览像素', () => {\n  it('G07-B01 目录与快照不一致的防御输入：列表价读 rightText 15，不读目录价 99', () => {\n    const { gs } = makeLiveScene()\n    const bead = makeItem(31, '甲', { price: 99, bitmap: 2, flags: { sellable: true } })\n    const items = [bead]\n    const menu = createBuyMenu(items)\n    const row = menu.list.items[0]\n    if (!row) throw new Error('row missing')\n    row.rightText = '15'\n    const frames = makeUiFrames()\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    const before = cloneInputs({ gs, menu, items, frames })\n    const restore = freezeNow(0)\n    try {\n      drawShopMenu({ fb, state: menu, gs, items, uiSpriteFrames: frames, glyphs })\n    } finally {\n      restore()\n    }\n    const name = textDot('甲', 0, 150, 21)\n    expect(pixel(fb, rightDigitX(238, 6, 0), 26)).toBe(yellowDigit(5))\n    expect(pixel(fb, rightDigitX(238, 6, 1), 26)).toBe(yellowDigit(1))\n    expect(pixel(fb, name.x, name.y)).toBe(MENUITEM_COLOR_SELECTED_FIRST)\n    expect(cloneInputs({ gs, menu, items, frames })).toEqual(before)\n  })\n\n  it('G07-B02 预览物品框阴影把底色 0x5A 的低四位右移一位，正色在 (40,8)', () => {\n    const { gs } = makeLiveScene()\n    const bead = makeItem(32, '甲', { bitmap: 2, price: 10, flags: { sellable: true } })\n    const items = [bead]\n    const menu = createBuyMenu(items)\n    const frames = makeUiFrames()\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    const restore = freezeNow(0)\n    try {\n      drawShopMenu({ fb, state: menu, gs, items, uiSpriteFrames: frames, glyphs })\n    } finally {\n      restore()\n    }\n    expect(pixel(fb, 46, 14)).toBe(0x55)\n    expect(pixel(fb, 47, 14)).toBe(SENTINEL)\n    expect(pixel(fb, 40, 8)).toBe(ITEMBOX_ID)\n  })\n\n  it('G07-B03 缺少物品框帧时预览位保持底色，列表名仍画出', () => {\n    const { gs } = makeLiveScene()\n    const bead = makeItem(33, '甲', { bitmap: 2, price: 10, flags: { sellable: true } })\n    const items = [bead]\n    const menu = createBuyMenu(items)\n    const frames = withoutFrame(70)\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    const restore = freezeNow(0)\n    try {\n      drawShopMenu({ fb, state: menu, gs, items, uiSpriteFrames: frames, glyphs })\n    } finally {\n      restore()\n    }\n    const name = textDot('甲', 0, 150, 21)\n    expect(pixel(fb, 40, 8)).toBe(SENTINEL)\n    expect(pixel(fb, name.x, name.y)).toBe(MENUITEM_COLOR_SELECTED_FIRST)\n  })\n\n  it('G07-B04 图标表没有该 bitmap 时图标位保持底色，物品框照画', () => {\n    const { gs } = makeLiveScene()\n    const bead = makeItem(34, '甲', { bitmap: 4, price: 10, flags: { sellable: true } })\n    const items = [bead]\n    const menu = createBuyMenu(items)\n    const frames = makeUiFrames()\n    const icons = new Map([[2, iconImage(0x82)]])\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    const restore = freezeNow(0)\n    try {\n      drawShopMenu({\n        fb,\n        state: menu,\n        gs,\n        items,\n        uiSpriteFrames: frames,\n        itemIcons: icons,\n        glyphs,\n      })\n    } finally {\n      restore()\n    }\n    expect(pixel(fb, 48, 15)).toBe(SENTINEL)\n    expect(pixel(fb, 40, 8)).toBe(ITEMBOX_ID)\n  })\n\n  it('G07-B05 列表阶段不画确认框，选中名仍在', () => {\n    const { gs } = makeLiveScene()\n    const bead = makeItem(35, '甲', { price: 10, flags: { sellable: true } })\n    const items = [bead]\n    const menu = createBuyMenu(items)\n    expect(menu.phase).toBe('list')\n    const frames = makeUiFrames()\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    const restore = freezeNow(0)\n    try {\n      drawShopMenu({ fb, state: menu, gs, items, uiSpriteFrames: frames, glyphs })\n    } finally {\n      restore()\n    }\n    const name = textDot('甲', 0, 150, 21)\n    expect(pixel(fb, 140, 104)).toBe(SENTINEL)\n    expect(pixel(fb, name.x, name.y)).toBe(MENUITEM_COLOR_SELECTED_FIRST)\n  })\n\n  it('G07-B06 确认阶段 confirmYes 为真时闪烁色在「是」，「否」是未选中色', () => {\n    const { gs } = makeLiveScene()\n    const bead = makeItem(36, '甲', { price: 10, flags: { sellable: true } })\n    const items = [bead]\n    const menu = createBuyMenu(items)\n    gs.dwCash = 10\n    expect(shopSelectItem(menu, items, gs.dwCash)).toBe(true)\n    shopMoveDown(menu) // dispatchShopMenu 的 Right/Down 都走此入口\n    const frames = makeUiFrames()\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    const restore = freezeNow(0)\n    try {\n      drawShopMenu({ fb, state: menu, gs, items, uiSpriteFrames: frames, glyphs })\n    } finally {\n      restore()\n    }\n    const yes = textDot('是', 0, 220, 110)\n    const no = textDot('否', 0, 145, 110)\n    expect(pixel(fb, yes.x, yes.y)).toBe(MENUITEM_COLOR_SELECTED_FIRST)\n    expect(pixel(fb, no.x, no.y)).toBe(MENUITEM_COLOR)\n  })\n\n  it('G07-B07 不传图标表时图标位保持底色，物品框照画', () => {\n    const { gs } = makeLiveScene()\n    const bead = makeItem(37, '甲', { bitmap: 2, price: 10, flags: { sellable: true } })\n    const items = [bead]\n    const menu = createBuyMenu(items)\n    const frames = makeUiFrames()\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    const restore = freezeNow(0)\n    try {\n      drawShopMenu({ fb, state: menu, gs, items, uiSpriteFrames: frames, glyphs })\n    } finally {\n      restore()\n    }\n    expect(pixel(fb, 48, 15)).toBe(SENTINEL)\n    expect(pixel(fb, 40, 8)).toBe(ITEMBOX_ID)\n  })\n\n  it('G07-B08 现有数只加选中物品，另一件的库存 9 不加进去', () => {\n    const { gs } = makeLiveScene()\n    const bead = makeItem(38, '甲', { price: 10, flags: { sellable: true } })\n    const other = makeItem(39, '乙', { price: 10, flags: { sellable: true } })\n    const items = [bead, other]\n    gs.partyMembers = [4]\n    gs.inventory = [\n      { itemId: bead.id, count: 5 },\n      { itemId: other.id, count: 9 },\n    ]\n    const menu = createBuyMenu(items)\n    const frames = makeUiFrames()\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    const before = cloneInputs({ gs, menu, items, frames })\n    const restore = freezeNow(0)\n    try {\n      drawShopMenu({ fb, state: menu, gs, items, uiSpriteFrames: frames, glyphs })\n    } finally {\n      restore()\n    }\n    expect(pixel(fb, rightDigitX(69, 6, 0), 115)).toBe(yellowDigit(5))\n    expect(gs.inventory[1]?.count).toBe(9)\n    expect(cloneInputs({ gs, menu, items, frames })).toEqual(before)\n  })\n\n  it('G07-B09 金钱为 0 时仍画出一位黄 0，十位保持底色', () => {\n    const { gs } = makeLiveScene()\n    const bead = makeItem(40, '甲', { price: 10, flags: { sellable: true } })\n    const items = [bead]\n    gs.dwCash = 0\n    const menu = createBuyMenu(items)\n    const frames = makeUiFrames()\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    const restore = freezeNow(0)\n    try {\n      drawShopMenu({ fb, state: menu, gs, items, uiSpriteFrames: frames, glyphs })\n    } finally {\n      restore()\n    }\n    expect(pixel(fb, rightDigitX(69, 6, 0), 156)).toBe(yellowDigit(0))\n    expect(pixel(fb, rightDigitX(69, 6, 1), 156)).toBe(SENTINEL)\n  })\n\n  it('G07-B10 列表项不在目录时名字照画，现有数是黄 0，图标不画', () => {\n    const { gs } = makeLiveScene()\n    const bead = makeItem(41, '甲', { bitmap: 2, price: 10, flags: { sellable: true } })\n    const menu = createBuyMenu([bead])\n    const frames = makeUiFrames()\n    const icons = new Map([[2, iconImage(0x82)]])\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    const restore = freezeNow(0)\n    try {\n      drawShopMenu({\n        fb,\n        state: menu,\n        gs,\n        items: [],\n        uiSpriteFrames: frames,\n        itemIcons: icons,\n        glyphs,\n      })\n    } finally {\n      restore()\n    }\n    const name = textDot('甲', 0, 150, 21)\n    expect(pixel(fb, name.x, name.y)).toBe(MENUITEM_COLOR_SELECTED_FIRST)\n    expect(pixel(fb, rightDigitX(69, 6, 0), 115)).toBe(yellowDigit(0))\n    expect(pixel(fb, 48, 15)).toBe(SENTINEL)\n  })\n\n  it('G07-B11 售价 1 向下取整成黄 0，十位保持底色', () => {\n    const { gs } = makeLiveScene()\n    const bead = makeItem(42, '甲', { price: 1, flags: { sellable: true } })\n    gs.dwCash = 8\n    const frames = makeUiFrames()\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawSellOverlay({\n      fb,\n      gs,\n      items: [bead],\n      cursorItemId: bead.id,\n      uiSpriteFrames: frames,\n      glyphs,\n    })\n    expect(pixel(fb, rightDigitX(272, 6, 0), 165)).toBe(yellowDigit(0))\n    expect(pixel(fb, rightDigitX(272, 6, 1), 165)).toBe(SENTINEL)\n  })\n\n  it('G07-B12 无库存时两位队员的手部装备仍把现有数画成黄2', () => {\n    const { gs } = makeLiveScene()\n    const bead = makeItem(43, '甲', {\n      price: 10,\n      flags: {\n        sellable: true,\n        equipable: true,\n        equipableBy: [false, true, false, false, true, false],\n      },\n    })\n    const items = [bead]\n    gs.partyMembers = [4, 1]\n    gs.inventory = []\n    gs.PlayerRolesRuntime.rgwEquipment[3]![4] = bead.id\n    gs.PlayerRolesRuntime.rgwEquipment[3]![1] = bead.id\n    const menu = createBuyMenu(items)\n    const frames = makeUiFrames()\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    const restore = freezeNow(0)\n    try {\n      drawShopMenu({ fb, state: menu, gs, items, uiSpriteFrames: frames, glyphs })\n    } finally {\n      restore()\n    }\n    expect(pixel(fb, rightDigitX(69, 6, 0), 115)).toBe(yellowDigit(2))\n    expect(pixel(fb, rightDigitX(69, 6, 1), 115)).toBe(SENTINEL)\n  })\n\n  it('G07-B13 预览物品框索引 0x6E 经 flushToCanvas 写成调色板 RGB，缓冲仍是 0x6E', async () => {\n    const { gs } = makeLiveScene()\n    const bead = makeItem(44, '甲', { bitmap: 2, price: 10, flags: { sellable: true } })\n    const items = [bead]\n    const menu = createBuyMenu(items)\n    const frames = makeUiFrames()\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    const restore = freezeNow(0)\n    try {\n      drawShopMenu({ fb, state: menu, gs, items, uiSpriteFrames: frames, glyphs })\n    } finally {\n      restore()\n    }\n    const palette = legalPalette((colors) => {\n      colors[ITEMBOX_ID] = [40, 18, 70]\n    })\n    const canvas = document.createElement('canvas')\n    canvas.width = 320\n    canvas.height = 200\n    const ctx2d = canvas.getContext('2d')\n    if (!ctx2d) throw new Error('2d context unavailable')\n    flushToCanvas(fb, ctx2d, palette)\n    expect(Array.from(ctx2d.getImageData(40, 8, 1, 1).data)).toEqual([40, 18, 70, 255])\n    expect(pixel(fb, 40, 8)).toBe(ITEMBOX_ID)\n    const snap = ctx2d.getImageData(0, 0, 320, 200)\n    await dumpFramebuffer('G07-B13', 320, 200, snap.data, [\n      { x: 40, y: 8, rgba: [40, 18, 70, 255] },\n    ])\n  })\n})\n",
+          "to": "import { afterEach, beforeEach, describe, expect, it } from 'vitest'\nimport { legalPalette } from '../../__tests__/asset-fixtures.js'\nimport { dumpFramebuffer } from '../../__tests__/grok-render-r1/dump-evidence.js'\nimport type { IndexedImage } from '../../assets/png.js'\nimport { MENUITEM_COLOR, MENUITEM_COLOR_SELECTED_FIRST } from '../../core/menu/inventory-menu.js'\nimport { createSellMenu } from '../../core/menu/sell-menu.js'\nimport { createBuyMenu, shopMoveDown, shopSelectItem } from '../../core/menu/shop-menu.js'\nimport { fixtureGlyphs, textDot } from '../__tests__/glyph-fixtures.js'\nimport { freezeNow, makeItem, makeLiveScene } from '../__tests__/menu-state-fixtures.js'\nimport { beginChineseMenuText } from '../__tests__/menu-text-fixture.js'\nimport {\n  BOX_STYLE0,\n  ITEMBOX_ID,\n  makeUiFrames,\n  rightDigitX,\n  yellowDigit,\n} from '../__tests__/menu-ui-fixtures.js'\nimport {\n  fillSentinel,\n  iconImage,\n  pixel,\n  SENTINEL,\n  sentinelFramebuffer,\n} from '../__tests__/raster-fixtures.js'\nimport { cloneInputs } from '../__tests__/render-input-snapshots.js'\nimport { shopSceneWithEquippedCopies, shopSword } from '../__tests__/shop-state-fixtures.js'\nimport { uniformDotGlyphs } from '../__tests__/uniform-glyphs.js'\nimport { createFramebuffer } from '../framebuffer.js'\nimport { flushToCanvas } from '../present.js'\nimport { drawSellOverlay, drawShopMenu } from './draw-shop.js'\nconst uniformGlyphs = uniformDotGlyphs()\nconst positionGlyphs = fixtureGlyphs()\nfunction uiFramesWithoutSlot(omittedSlot: number): IndexedImage[] {\n  const source = makeUiFrames()\n  const frames: IndexedImage[] = []\n  for (let slot = 0; slot < source.length; slot++) {\n    if (slot !== omittedSlot) frames[slot] = source[slot]!\n  }\n  return frames\n}\nlet restoreMenuText: () => void\nbeforeEach(() => {\n  restoreMenuText = beginChineseMenuText()\n})\nafterEach(() => {\n  restoreMenuText()\n})\ndescribe('Shop buying', () => {\n  it('G07-B01 目录与快照不一致的防御输入：列表价读 rightText 15，不读目录价 99', () => {\n    const { gs } = makeLiveScene()\n    const item = makeItem(31, '甲', { price: 99, bitmap: 2, flags: { sellable: true } })\n    const items = [item]\n    const menu = createBuyMenu(items)\n    const row = menu.list.items[0]\n    if (!row) throw new Error('row missing')\n    row.rightText = '15'\n    const frames = makeUiFrames()\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    const before = cloneInputs({ gs, menu, items, frames })\n    const restore = freezeNow(0)\n    try {\n      drawShopMenu({ fb, state: menu, gs, items, uiSpriteFrames: frames, glyphs: positionGlyphs })\n    } finally {\n      restore()\n    }\n    const name = textDot('甲', 0, 150, 21)\n    expect(pixel(fb, rightDigitX(238, 6, 0), 26)).toBe(yellowDigit(5))\n    expect(pixel(fb, rightDigitX(238, 6, 1), 26)).toBe(yellowDigit(1))\n    expect(pixel(fb, name.x, name.y)).toBe(MENUITEM_COLOR_SELECTED_FIRST)\n    expect(cloneInputs({ gs, menu, items, frames })).toEqual(before)\n  })\n\n  it('G07-B02 预览物品框阴影把底色 0x5A 的低四位右移一位，正色在 (40,8)', () => {\n    const { gs } = makeLiveScene()\n    const item = makeItem(32, '甲', { bitmap: 2, price: 10, flags: { sellable: true } })\n    const items = [item]\n    const menu = createBuyMenu(items)\n    const frames = makeUiFrames()\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    const restore = freezeNow(0)\n    try {\n      drawShopMenu({ fb, state: menu, gs, items, uiSpriteFrames: frames, glyphs: positionGlyphs })\n    } finally {\n      restore()\n    }\n    expect(pixel(fb, 46, 14)).toBe(0x55)\n    expect(pixel(fb, 47, 14)).toBe(SENTINEL)\n    expect(pixel(fb, 40, 8)).toBe(ITEMBOX_ID)\n  })\n\n  it('G07-B03 缺少物品框帧时预览位保持底色，列表名仍画出', () => {\n    const { gs } = makeLiveScene()\n    const item = makeItem(33, '甲', { bitmap: 2, price: 10, flags: { sellable: true } })\n    const items = [item]\n    const menu = createBuyMenu(items)\n    const frames = uiFramesWithoutSlot(70)\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    const restore = freezeNow(0)\n    try {\n      drawShopMenu({ fb, state: menu, gs, items, uiSpriteFrames: frames, glyphs: positionGlyphs })\n    } finally {\n      restore()\n    }\n    const name = textDot('甲', 0, 150, 21)\n    expect(pixel(fb, 40, 8)).toBe(SENTINEL)\n    expect(pixel(fb, name.x, name.y)).toBe(MENUITEM_COLOR_SELECTED_FIRST)\n  })\n\n  it('G07-B04 图标表没有该 bitmap 时图标位保持底色，物品框照画', () => {\n    const { gs } = makeLiveScene()\n    const item = makeItem(34, '甲', { bitmap: 4, price: 10, flags: { sellable: true } })\n    const items = [item]\n    const menu = createBuyMenu(items)\n    const frames = makeUiFrames()\n    const icons = new Map([[2, iconImage(0x82)]])\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    const restore = freezeNow(0)\n    try {\n      drawShopMenu({\n        fb,\n        state: menu,\n        gs,\n        items,\n        uiSpriteFrames: frames,\n        itemIcons: icons,\n        glyphs: positionGlyphs,\n      })\n    } finally {\n      restore()\n    }\n    expect(pixel(fb, 48, 15)).toBe(SENTINEL)\n    expect(pixel(fb, 40, 8)).toBe(ITEMBOX_ID)\n  })\n\n  it('G07-B05 列表阶段不画确认框，选中名仍在', () => {\n    const { gs } = makeLiveScene()\n    const item = makeItem(35, '甲', { price: 10, flags: { sellable: true } })\n    const items = [item]\n    const menu = createBuyMenu(items)\n    expect(menu.phase).toBe('list')\n    const frames = makeUiFrames()\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    const restore = freezeNow(0)\n    try {\n      drawShopMenu({ fb, state: menu, gs, items, uiSpriteFrames: frames, glyphs: positionGlyphs })\n    } finally {\n      restore()\n    }\n    const name = textDot('甲', 0, 150, 21)\n    expect(pixel(fb, 140, 104)).toBe(SENTINEL)\n    expect(pixel(fb, name.x, name.y)).toBe(MENUITEM_COLOR_SELECTED_FIRST)\n  })\n\n  it('G07-B06 确认阶段 confirmYes 为真时闪烁色在「是」，「否」是未选中色', () => {\n    const { gs } = makeLiveScene()\n    const item = makeItem(36, '甲', { price: 10, flags: { sellable: true } })\n    const items = [item]\n    const menu = createBuyMenu(items)\n    gs.dwCash = 10\n    expect(shopSelectItem(menu, items, gs.dwCash)).toBe(true)\n    shopMoveDown(menu) // dispatchShopMenu 的 Right/Down 都走此入口\n    const frames = makeUiFrames()\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    const restore = freezeNow(0)\n    try {\n      drawShopMenu({ fb, state: menu, gs, items, uiSpriteFrames: frames, glyphs: positionGlyphs })\n    } finally {\n      restore()\n    }\n    const yes = textDot('是', 0, 220, 110)\n    const no = textDot('否', 0, 145, 110)\n    expect(pixel(fb, yes.x, yes.y)).toBe(MENUITEM_COLOR_SELECTED_FIRST)\n    expect(pixel(fb, no.x, no.y)).toBe(MENUITEM_COLOR)\n  })\n\n  it('G07-B07 不传图标表时图标位保持底色，物品框照画', () => {\n    const { gs } = makeLiveScene()\n    const item = makeItem(37, '甲', { bitmap: 2, price: 10, flags: { sellable: true } })\n    const items = [item]\n    const menu = createBuyMenu(items)\n    const frames = makeUiFrames()\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    const restore = freezeNow(0)\n    try {\n      drawShopMenu({ fb, state: menu, gs, items, uiSpriteFrames: frames, glyphs: positionGlyphs })\n    } finally {\n      restore()\n    }\n    expect(pixel(fb, 48, 15)).toBe(SENTINEL)\n    expect(pixel(fb, 40, 8)).toBe(ITEMBOX_ID)\n  })\n\n  it('G07-B08 现有数只加选中物品，另一件的库存 9 不加进去', () => {\n    const { gs } = makeLiveScene()\n    const item = makeItem(38, '甲', { price: 10, flags: { sellable: true } })\n    const other = makeItem(39, '乙', { price: 10, flags: { sellable: true } })\n    const items = [item, other]\n    gs.partyMembers = [4]\n    gs.inventory = [\n      { itemId: item.id, count: 5 },\n      { itemId: other.id, count: 9 },\n    ]\n    const menu = createBuyMenu(items)\n    const frames = makeUiFrames()\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    const before = cloneInputs({ gs, menu, items, frames })\n    const restore = freezeNow(0)\n    try {\n      drawShopMenu({ fb, state: menu, gs, items, uiSpriteFrames: frames, glyphs: positionGlyphs })\n    } finally {\n      restore()\n    }\n    expect(pixel(fb, rightDigitX(69, 6, 0), 115)).toBe(yellowDigit(5))\n    expect(gs.inventory[1]?.count).toBe(9)\n    expect(cloneInputs({ gs, menu, items, frames })).toEqual(before)\n  })\n\n  it('G07-B09 金钱为 0 时仍画出一位黄 0，十位保持底色', () => {\n    const { gs } = makeLiveScene()\n    const item = makeItem(40, '甲', { price: 10, flags: { sellable: true } })\n    const items = [item]\n    gs.dwCash = 0\n    const menu = createBuyMenu(items)\n    const frames = makeUiFrames()\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    const restore = freezeNow(0)\n    try {\n      drawShopMenu({ fb, state: menu, gs, items, uiSpriteFrames: frames, glyphs: positionGlyphs })\n    } finally {\n      restore()\n    }\n    expect(pixel(fb, rightDigitX(69, 6, 0), 156)).toBe(yellowDigit(0))\n    expect(pixel(fb, rightDigitX(69, 6, 1), 156)).toBe(SENTINEL)\n  })\n\n  it('G07-B10 列表项不在目录时名字照画，现有数是黄 0，图标不画', () => {\n    const { gs } = makeLiveScene()\n    const item = makeItem(41, '甲', { bitmap: 2, price: 10, flags: { sellable: true } })\n    const menu = createBuyMenu([item])\n    const frames = makeUiFrames()\n    const icons = new Map([[2, iconImage(0x82)]])\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    const restore = freezeNow(0)\n    try {\n      drawShopMenu({\n        fb,\n        state: menu,\n        gs,\n        items: [],\n        uiSpriteFrames: frames,\n        itemIcons: icons,\n        glyphs: positionGlyphs,\n      })\n    } finally {\n      restore()\n    }\n    const name = textDot('甲', 0, 150, 21)\n    expect(pixel(fb, name.x, name.y)).toBe(MENUITEM_COLOR_SELECTED_FIRST)\n    expect(pixel(fb, rightDigitX(69, 6, 0), 115)).toBe(yellowDigit(0))\n    expect(pixel(fb, 48, 15)).toBe(SENTINEL)\n  })\n\n  it('G07-B12 无库存时两位队员的手部装备仍把现有数画成黄2', () => {\n    const { gs } = makeLiveScene()\n    const item = makeItem(43, '甲', {\n      price: 10,\n      flags: {\n        sellable: true,\n        equipable: true,\n        equipableBy: [false, true, false, false, true, false],\n      },\n    })\n    const items = [item]\n    gs.partyMembers = [4, 1]\n    gs.inventory = []\n    gs.PlayerRolesRuntime.rgwEquipment[3]![4] = item.id\n    gs.PlayerRolesRuntime.rgwEquipment[3]![1] = item.id\n    const menu = createBuyMenu(items)\n    const frames = makeUiFrames()\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    const restore = freezeNow(0)\n    try {\n      drawShopMenu({ fb, state: menu, gs, items, uiSpriteFrames: frames, glyphs: positionGlyphs })\n    } finally {\n      restore()\n    }\n    expect(pixel(fb, rightDigitX(69, 6, 0), 115)).toBe(yellowDigit(2))\n    expect(pixel(fb, rightDigitX(69, 6, 1), 115)).toBe(SENTINEL)\n  })\n})\n\ndescribe('Sale overlay', () => {\n  it('G07-B11 售价 1 向下取整成黄 0，十位保持底色', () => {\n    const { gs } = makeLiveScene()\n    const item = makeItem(42, '甲', { price: 1, flags: { sellable: true } })\n    gs.dwCash = 8\n    const frames = makeUiFrames()\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawSellOverlay({\n      fb,\n      gs,\n      items: [item],\n      cursorItemId: item.id,\n      uiSpriteFrames: frames,\n      glyphs: positionGlyphs,\n    })\n    expect(pixel(fb, rightDigitX(272, 6, 0), 165)).toBe(yellowDigit(0))\n    expect(pixel(fb, rightDigitX(272, 6, 1), 165)).toBe(SENTINEL)\n  })\n})\n\ndescribe('Shop canvas output', () => {\n  it('G07-B13 预览物品框索引 0x6E 经 flushToCanvas 写成调色板 RGB，缓冲仍是 0x6E', async () => {\n    const { gs } = makeLiveScene()\n    const item = makeItem(44, '甲', { bitmap: 2, price: 10, flags: { sellable: true } })\n    const items = [item]\n    const menu = createBuyMenu(items)\n    const frames = makeUiFrames()\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    const restore = freezeNow(0)\n    try {\n      drawShopMenu({ fb, state: menu, gs, items, uiSpriteFrames: frames, glyphs: positionGlyphs })\n    } finally {\n      restore()\n    }\n    const palette = legalPalette((colors) => {\n      colors[ITEMBOX_ID] = [40, 18, 70]\n    })\n    const canvas = document.createElement('canvas')\n    canvas.width = 320\n    canvas.height = 200\n    const ctx2d = canvas.getContext('2d')\n    if (!ctx2d) throw new Error('2d context unavailable')\n    flushToCanvas(fb, ctx2d, palette)\n    expect(Array.from(ctx2d.getImageData(40, 8, 1, 1).data)).toEqual([40, 18, 70, 255])\n    expect(pixel(fb, 40, 8)).toBe(ITEMBOX_ID)\n    const snap = ctx2d.getImageData(0, 0, 320, 200)\n    await dumpFramebuffer('G07-B13', 320, 200, snap.data, [\n      { x: 40, y: 8, rgba: [40, 18, 70, 255] },\n    ])\n  })\n})\n",
+          "count": 1
+        }
+      ],
+      "reason": "Private-name/input/factory and narrow text lifecycle projection; actual tests preserve all original callbacks except one implied sell-price negative."
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/p04-shop.test.ts",
+      "id": "menu-shop-2",
+      "changes": [
+        {
+          "from": "import { afterEach, describe, expect, it } from 'vitest'\nimport { MENUITEM_COLOR, MENUITEM_COLOR_SELECTED_FIRST } from '../../../core/menu/inventory-menu.js'\nimport { createSellMenu } from '../../../core/menu/sell-menu.js'\nimport { createBuyMenu, shopSelectItem } from '../../../core/menu/shop-menu.js'\nimport { createFramebuffer } from '../../framebuffer.js'\nimport { drawSellOverlay, drawShopMenu } from '../../menu/draw-shop.js'\nimport { fixtureGlyphs, textDot } from '../glyph-fixtures.js'\nimport { freezeNow, makeItem, makeLiveScene, resetHostSingletons } from '../menu-state-fixtures.js'\nimport { makeUiFrames, rightDigitX, yellowDigit } from '../menu-ui-fixtures.js'\nimport { fillSentinel, iconImage, pixel, SENTINEL } from '../raster-fixtures.js'\nimport { cloneInputs } from '../render-input-snapshots.js'\n\nconst glyphs = fixtureGlyphs()\n\nafterEach(() => {\n  resetHostSingletons()\n})\n\ndescribe('P04 商店', () => {\n  it('P04 买列表、确认层、现有量和金钱用不同哨兵', () => {\n    const { gs } = makeLiveScene([4])\n    const bead = makeItem(31, '甲', {\n      bitmap: 2,\n      price: 123,\n      flags: {\n        sellable: true,\n        equipable: true,\n        equipableBy: [false, false, false, false, true, false],\n      },\n    })\n    const herb = makeItem(32, '乙', { bitmap: 8, price: 45, flags: { sellable: true } })\n    gs.dwCash = 500\n    gs.inventory = [{ itemId: bead.id, count: 2 }]\n    gs.PlayerRolesRuntime.rgwEquipment[1]![4] = bead.id\n    const items = [bead, herb]\n    const menu = createBuyMenu(items)\n    expect(shopSelectItem(menu, items, gs.dwCash)).toBe(true)\n    expect(menu.phase).toBe('confirm')\n    expect(menu.confirmYes).toBe(false)\n    const frames = makeUiFrames()\n    const icons = new Map([[2, iconImage(0x82)]])\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    const before = cloneInputs({ gs, menu, items, frames, icons })\n    const restore = freezeNow(0)\n    try {\n      drawShopMenu({ fb, state: menu, gs, items, uiSpriteFrames: frames, itemIcons: icons, glyphs })\n    } finally {\n      restore()\n    }\n    expect(cloneInputs({ gs, menu, items, frames, icons })).toEqual(before)\n    expect(gs.dwCash).toBe(500)\n    expect(gs.inventory[0]?.count).toBe(2)\n\n    expect(pixel(fb, textDot('甲', 0, 150, 21).x, textDot('甲', 0, 150, 21).y)).toBe(\n      MENUITEM_COLOR_SELECTED_FIRST,\n    )\n    expect(pixel(fb, textDot('乙', 0, 150, 39).x, textDot('乙', 0, 150, 39).y)).toBe(MENUITEM_COLOR)\n    expect(pixel(fb, rightDigitX(238, 6, 0), 26)).toBe(yellowDigit(3))\n    expect(pixel(fb, rightDigitX(238, 6, 1), 26)).toBe(yellowDigit(2))\n    expect(pixel(fb, rightDigitX(238, 6, 2), 26)).toBe(yellowDigit(1))\n    expect(pixel(fb, rightDigitX(238, 6, 0), 44)).toBe(yellowDigit(5))\n    expect(pixel(fb, 48, 15)).toBe(0x82)\n    expect(pixel(fb, textDot('现', 0, 30, 110).x, textDot('现', 0, 30, 110).y)).toBe(0)\n    expect(pixel(fb, rightDigitX(69, 6, 0), 115)).toBe(yellowDigit(3))\n    expect(pixel(fb, textDot('金', 0, 30, 151).x, textDot('金', 0, 30, 151).y)).toBe(0)\n    expect(pixel(fb, rightDigitX(69, 6, 2), 156)).toBe(yellowDigit(5))\n    expect(pixel(fb, textDot('否', 0, 145, 110).x, textDot('否', 0, 145, 110).y)).toBe(\n      MENUITEM_COLOR_SELECTED_FIRST,\n    )\n    expect(pixel(fb, textDot('是', 0, 220, 110).x, textDot('是', 0, 220, 110).y)).toBe(\n      MENUITEM_COLOR,\n    )\n    expect(pixel(fb, 300, 190)).toBe(SENTINEL)\n  })\n\n  it('P04 卖overlay画售价的一半，不执行买卖', () => {\n    const { gs } = makeLiveScene()\n    const bead = makeItem(31, '甲', { price: 81, flags: { sellable: true } })\n    const items = [bead]\n    gs.dwCash = 500\n    gs.inventory = [{ itemId: bead.id, count: 1 }]\n    const menu = createSellMenu(gs, items)\n    const frames = makeUiFrames()\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    const inputs = { gs, menu, items, frames }\n    const before = cloneInputs(inputs)\n    drawSellOverlay({\n      fb,\n      gs,\n      items,\n      cursorItemId: menu.grid.inventory[menu.grid.cursor]?.itemId,\n      uiSpriteFrames: frames,\n      glyphs,\n    })\n    expect(cloneInputs(inputs)).toEqual(before)\n    expect(pixel(fb, textDot('售', 0, 234, 160).x, textDot('售', 0, 234, 160).y)).toBe(0)\n    expect(pixel(fb, rightDigitX(272, 6, 0), 165)).toBe(yellowDigit(0))\n    expect(pixel(fb, rightDigitX(272, 6, 1), 165)).toBe(yellowDigit(4))\n    expect(pixel(fb, rightDigitX(272, 6, 1), 165)).not.toBe(yellowDigit(8))\n    expect(pixel(fb, rightDigitX(148, 6, 2), 165)).toBe(yellowDigit(5))\n    expect(gs.inventory[0]?.count).toBe(1)\n    expect(gs.dwCash).toBe(500)\n  })\n})\n",
+          "to": "import { afterEach, beforeEach, describe, expect, it } from 'vitest'\nimport { legalPalette } from '../../__tests__/asset-fixtures.js'\nimport { dumpFramebuffer } from '../../__tests__/grok-render-r1/dump-evidence.js'\nimport type { IndexedImage } from '../../assets/png.js'\nimport { MENUITEM_COLOR, MENUITEM_COLOR_SELECTED_FIRST } from '../../core/menu/inventory-menu.js'\nimport { createSellMenu } from '../../core/menu/sell-menu.js'\nimport { createBuyMenu, shopMoveDown, shopSelectItem } from '../../core/menu/shop-menu.js'\nimport { fixtureGlyphs, textDot } from '../__tests__/glyph-fixtures.js'\nimport { freezeNow, makeItem, makeLiveScene } from '../__tests__/menu-state-fixtures.js'\nimport { beginChineseMenuText } from '../__tests__/menu-text-fixture.js'\nimport {\n  BOX_STYLE0,\n  ITEMBOX_ID,\n  makeUiFrames,\n  rightDigitX,\n  yellowDigit,\n} from '../__tests__/menu-ui-fixtures.js'\nimport {\n  fillSentinel,\n  iconImage,\n  pixel,\n  SENTINEL,\n  sentinelFramebuffer,\n} from '../__tests__/raster-fixtures.js'\nimport { cloneInputs } from '../__tests__/render-input-snapshots.js'\nimport { shopSceneWithEquippedCopies, shopSword } from '../__tests__/shop-state-fixtures.js'\nimport { uniformDotGlyphs } from '../__tests__/uniform-glyphs.js'\nimport { createFramebuffer } from '../framebuffer.js'\nimport { flushToCanvas } from '../present.js'\nimport { drawSellOverlay, drawShopMenu } from './draw-shop.js'\nconst uniformGlyphs = uniformDotGlyphs()\nconst positionGlyphs = fixtureGlyphs()\nfunction uiFramesWithoutSlot(omittedSlot: number): IndexedImage[] {\n  const source = makeUiFrames()\n  const frames: IndexedImage[] = []\n  for (let slot = 0; slot < source.length; slot++) {\n    if (slot !== omittedSlot) frames[slot] = source[slot]!\n  }\n  return frames\n}\nlet restoreMenuText: () => void\nbeforeEach(() => {\n  restoreMenuText = beginChineseMenuText()\n})\nafterEach(() => {\n  restoreMenuText()\n})\ndescribe('Shop buying', () => {\n  it('P04 买列表、确认层、现有量和金钱用不同哨兵', () => {\n    const { gs } = makeLiveScene([4])\n    const item = makeItem(31, '甲', {\n      bitmap: 2,\n      price: 123,\n      flags: {\n        sellable: true,\n        equipable: true,\n        equipableBy: [false, false, false, false, true, false],\n      },\n    })\n    const otherItem = makeItem(32, '乙', { bitmap: 8, price: 45, flags: { sellable: true } })\n    gs.dwCash = 500\n    gs.inventory = [{ itemId: item.id, count: 2 }]\n    gs.PlayerRolesRuntime.rgwEquipment[1]![4] = item.id\n    const items = [item, otherItem]\n    const menu = createBuyMenu(items)\n    expect(shopSelectItem(menu, items, gs.dwCash)).toBe(true)\n    expect(menu.phase).toBe('confirm')\n    expect(menu.confirmYes).toBe(false)\n    const frames = makeUiFrames()\n    const icons = new Map([[2, iconImage(0x82)]])\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    const before = cloneInputs({ gs, menu, items, frames, icons })\n    const restore = freezeNow(0)\n    try {\n      drawShopMenu({\n        fb,\n        state: menu,\n        gs,\n        items,\n        uiSpriteFrames: frames,\n        itemIcons: icons,\n        glyphs: positionGlyphs,\n      })\n    } finally {\n      restore()\n    }\n    expect(cloneInputs({ gs, menu, items, frames, icons })).toEqual(before)\n    expect(gs.dwCash).toBe(500)\n    expect(gs.inventory[0]?.count).toBe(2)\n\n    expect(pixel(fb, textDot('甲', 0, 150, 21).x, textDot('甲', 0, 150, 21).y)).toBe(\n      MENUITEM_COLOR_SELECTED_FIRST,\n    )\n    expect(pixel(fb, textDot('乙', 0, 150, 39).x, textDot('乙', 0, 150, 39).y)).toBe(MENUITEM_COLOR)\n    expect(pixel(fb, rightDigitX(238, 6, 0), 26)).toBe(yellowDigit(3))\n    expect(pixel(fb, rightDigitX(238, 6, 1), 26)).toBe(yellowDigit(2))\n    expect(pixel(fb, rightDigitX(238, 6, 2), 26)).toBe(yellowDigit(1))\n    expect(pixel(fb, rightDigitX(238, 6, 0), 44)).toBe(yellowDigit(5))\n    expect(pixel(fb, 48, 15)).toBe(0x82)\n    expect(pixel(fb, textDot('现', 0, 30, 110).x, textDot('现', 0, 30, 110).y)).toBe(0)\n    expect(pixel(fb, rightDigitX(69, 6, 0), 115)).toBe(yellowDigit(3))\n    expect(pixel(fb, textDot('金', 0, 30, 151).x, textDot('金', 0, 30, 151).y)).toBe(0)\n    expect(pixel(fb, rightDigitX(69, 6, 2), 156)).toBe(yellowDigit(5))\n    expect(pixel(fb, textDot('否', 0, 145, 110).x, textDot('否', 0, 145, 110).y)).toBe(\n      MENUITEM_COLOR_SELECTED_FIRST,\n    )\n    expect(pixel(fb, textDot('是', 0, 220, 110).x, textDot('是', 0, 220, 110).y)).toBe(\n      MENUITEM_COLOR,\n    )\n    expect(pixel(fb, 300, 190)).toBe(SENTINEL)\n  })\n})\n\ndescribe('Sale overlay', () => {\n  it('P04 卖overlay画售价的一半，不执行买卖', () => {\n    const { gs } = makeLiveScene()\n    const item = makeItem(31, '甲', { price: 81, flags: { sellable: true } })\n    const items = [item]\n    gs.dwCash = 500\n    gs.inventory = [{ itemId: item.id, count: 1 }]\n    const menu = createSellMenu(gs, items)\n    const frames = makeUiFrames()\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    const inputs = { gs, menu, items, frames }\n    const before = cloneInputs(inputs)\n    drawSellOverlay({\n      fb,\n      gs,\n      items,\n      cursorItemId: menu.grid.inventory[menu.grid.cursor]?.itemId,\n      uiSpriteFrames: frames,\n      glyphs: positionGlyphs,\n    })\n    expect(cloneInputs(inputs)).toEqual(before)\n    expect(pixel(fb, textDot('售', 0, 234, 160).x, textDot('售', 0, 234, 160).y)).toBe(0)\n    expect(pixel(fb, rightDigitX(272, 6, 0), 165)).toBe(yellowDigit(0))\n    expect(pixel(fb, rightDigitX(272, 6, 1), 165)).toBe(yellowDigit(4))\n\n    expect(pixel(fb, rightDigitX(148, 6, 2), 165)).toBe(yellowDigit(5))\n    expect(gs.inventory[0]?.count).toBe(1)\n    expect(gs.dwCash).toBe(500)\n  })\n})\n\ndescribe('Shop canvas output', () => {})\n",
+          "count": 1
+        }
+      ],
+      "reason": "Private-name/input/factory and narrow text lifecycle projection; actual tests preserve all original callbacks except one implied sell-price negative."
+    }
+  ],
+  "replacements": [],
+  "registrations": [
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+        "ordinal": 0,
+        "originalOrdinal": 0,
+        "fullName": "L12 drawShopMenu 剩余分支 ownedCount = 库存2 + 队员[4,1]各一件 = 4，非队员装备不计入"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-shop.test.ts",
+        "titles": ["Shop buying"],
+        "template": "ownedCount = 库存2 + 队员[4,1]各一件 = 4，非队员装备不计入",
+        "fullName": "Shop buying ownedCount = 库存2 + 队员[4,1]各一件 = 4，非队员装备不计入"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+        "ordinal": 1,
+        "originalOrdinal": 1,
+        "fullName": "L12 drawShopMenu 剩余分支 空店铺列表：框与两单行框照画，owned 0、无图标、不崩"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-shop.test.ts",
+        "titles": ["Shop buying"],
+        "template": "空店铺列表：框与两单行框照画，owned 0、无图标、不崩",
+        "fullName": "Shop buying 空店铺列表：框与两单行框照画，owned 0、无图标、不崩"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+        "ordinal": 2,
+        "originalOrdinal": 2,
+        "fullName": "L12 drawSellOverlay 剩余分支 光标项非 sellable：两框照画，售价 label 与数字不画"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-sell-overlay.test.ts",
+        "titles": ["Sale overlay"],
+        "template": "光标项非 sellable：两框照画，售价 label 与数字不画",
+        "fullName": "Sale overlay 光标项非 sellable：两框照画，售价 label 与数字不画"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+        "ordinal": 3,
+        "originalOrdinal": 3,
+        "fullName": "L12 drawSellOverlay 剩余分支 cursorItemId 缺省：售价框照画，目录有可卖物品也不画售价"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-sell-overlay.test.ts",
+        "titles": ["Sale overlay"],
+        "template": "cursorItemId 缺省：售价框照画，目录有可卖物品也不画售价",
+        "fullName": "Sale overlay cursorItemId 缺省：售价框照画，目录有可卖物品也不画售价"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+        "ordinal": 0,
+        "originalOrdinal": 0,
+        "fullName": "G07-B 商店预览像素 G07-B01 目录与快照不一致的防御输入：列表价读 rightText 15，不读目录价 99"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-shop.test.ts",
+        "titles": ["Shop buying"],
+        "template": "G07-B01 目录与快照不一致的防御输入：列表价读 rightText 15，不读目录价 99",
+        "fullName": "Shop buying G07-B01 目录与快照不一致的防御输入：列表价读 rightText 15，不读目录价 99"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+        "ordinal": 1,
+        "originalOrdinal": 1,
+        "fullName": "G07-B 商店预览像素 G07-B02 预览物品框阴影把底色 0x5A 的低四位右移一位，正色在 (40,8)"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-shop.test.ts",
+        "titles": ["Shop buying"],
+        "template": "G07-B02 预览物品框阴影把底色 0x5A 的低四位右移一位，正色在 (40,8)",
+        "fullName": "Shop buying G07-B02 预览物品框阴影把底色 0x5A 的低四位右移一位，正色在 (40,8)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+        "ordinal": 2,
+        "originalOrdinal": 2,
+        "fullName": "G07-B 商店预览像素 G07-B03 缺少物品框帧时预览位保持底色，列表名仍画出"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-shop.test.ts",
+        "titles": ["Shop buying"],
+        "template": "G07-B03 缺少物品框帧时预览位保持底色，列表名仍画出",
+        "fullName": "Shop buying G07-B03 缺少物品框帧时预览位保持底色，列表名仍画出"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+        "ordinal": 3,
+        "originalOrdinal": 3,
+        "fullName": "G07-B 商店预览像素 G07-B04 图标表没有该 bitmap 时图标位保持底色，物品框照画"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-shop.test.ts",
+        "titles": ["Shop buying"],
+        "template": "G07-B04 图标表没有该 bitmap 时图标位保持底色，物品框照画",
+        "fullName": "Shop buying G07-B04 图标表没有该 bitmap 时图标位保持底色，物品框照画"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+        "ordinal": 4,
+        "originalOrdinal": 4,
+        "fullName": "G07-B 商店预览像素 G07-B05 列表阶段不画确认框，选中名仍在"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-shop.test.ts",
+        "titles": ["Shop buying"],
+        "template": "G07-B05 列表阶段不画确认框，选中名仍在",
+        "fullName": "Shop buying G07-B05 列表阶段不画确认框，选中名仍在"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+        "ordinal": 5,
+        "originalOrdinal": 5,
+        "fullName": "G07-B 商店预览像素 G07-B06 确认阶段 confirmYes 为真时闪烁色在「是」，「否」是未选中色"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-shop.test.ts",
+        "titles": ["Shop buying"],
+        "template": "G07-B06 确认阶段 confirmYes 为真时闪烁色在「是」，「否」是未选中色",
+        "fullName": "Shop buying G07-B06 确认阶段 confirmYes 为真时闪烁色在「是」，「否」是未选中色"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+        "ordinal": 6,
+        "originalOrdinal": 6,
+        "fullName": "G07-B 商店预览像素 G07-B07 不传图标表时图标位保持底色，物品框照画"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-shop.test.ts",
+        "titles": ["Shop buying"],
+        "template": "G07-B07 不传图标表时图标位保持底色，物品框照画",
+        "fullName": "Shop buying G07-B07 不传图标表时图标位保持底色，物品框照画"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+        "ordinal": 7,
+        "originalOrdinal": 7,
+        "fullName": "G07-B 商店预览像素 G07-B08 现有数只加选中物品，另一件的库存 9 不加进去"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-shop.test.ts",
+        "titles": ["Shop buying"],
+        "template": "G07-B08 现有数只加选中物品，另一件的库存 9 不加进去",
+        "fullName": "Shop buying G07-B08 现有数只加选中物品，另一件的库存 9 不加进去"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+        "ordinal": 8,
+        "originalOrdinal": 8,
+        "fullName": "G07-B 商店预览像素 G07-B09 金钱为 0 时仍画出一位黄 0，十位保持底色"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-shop.test.ts",
+        "titles": ["Shop buying"],
+        "template": "G07-B09 金钱为 0 时仍画出一位黄 0，十位保持底色",
+        "fullName": "Shop buying G07-B09 金钱为 0 时仍画出一位黄 0，十位保持底色"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+        "ordinal": 9,
+        "originalOrdinal": 9,
+        "fullName": "G07-B 商店预览像素 G07-B10 列表项不在目录时名字照画，现有数是黄 0，图标不画"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-shop.test.ts",
+        "titles": ["Shop buying"],
+        "template": "G07-B10 列表项不在目录时名字照画，现有数是黄 0，图标不画",
+        "fullName": "Shop buying G07-B10 列表项不在目录时名字照画，现有数是黄 0，图标不画"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+        "ordinal": 11,
+        "originalOrdinal": 10,
+        "fullName": "G07-B 商店预览像素 G07-B11 售价 1 向下取整成黄 0，十位保持底色"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-sell-overlay.test.ts",
+        "titles": ["Sale overlay"],
+        "template": "G07-B11 售价 1 向下取整成黄 0，十位保持底色",
+        "fullName": "Sale overlay G07-B11 售价 1 向下取整成黄 0，十位保持底色"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+        "ordinal": 10,
+        "originalOrdinal": 11,
+        "fullName": "G07-B 商店预览像素 G07-B12 无库存时两位队员的手部装备仍把现有数画成黄2"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-shop.test.ts",
+        "titles": ["Shop buying"],
+        "template": "G07-B12 无库存时两位队员的手部装备仍把现有数画成黄2",
+        "fullName": "Shop buying G07-B12 无库存时两位队员的手部装备仍把现有数画成黄2"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+        "ordinal": 12,
+        "originalOrdinal": 12,
+        "fullName": "G07-B 商店预览像素 G07-B13 预览物品框索引 0x6E 经 flushToCanvas 写成调色板 RGB，缓冲仍是 0x6E"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-shop.canvas.test.ts",
+        "titles": ["Shop canvas output"],
+        "template": "G07-B13 预览物品框索引 0x6E 经 flushToCanvas 写成调色板 RGB，缓冲仍是 0x6E",
+        "fullName": "Shop canvas output G07-B13 预览物品框索引 0x6E 经 flushToCanvas 写成调色板 RGB，缓冲仍是 0x6E"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/__tests__/grok-present/p04-shop.test.ts",
+        "ordinal": 0,
+        "originalOrdinal": 0,
+        "fullName": "P04 商店 P04 买列表、确认层、现有量和金钱用不同哨兵"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-shop.test.ts",
+        "titles": ["Shop buying"],
+        "template": "P04 买列表、确认层、现有量和金钱用不同哨兵",
+        "fullName": "Shop buying P04 买列表、确认层、现有量和金钱用不同哨兵"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/__tests__/grok-present/p04-shop.test.ts",
+        "ordinal": 1,
+        "originalOrdinal": 1,
+        "fullName": "P04 商店 P04 卖overlay画售价的一半，不执行买卖"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-sell-overlay.test.ts",
+        "titles": ["Sale overlay"],
+        "template": "P04 卖overlay画售价的一半，不执行买卖",
+        "fullName": "Sale overlay P04 卖overlay画售价的一半，不执行买卖"
+      }
+    }
+  ],
+  "identities": [
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+        "fullName": "L12 drawShopMenu 剩余分支 ownedCount = 库存2 + 队员[4,1]各一件 = 4，非队员装备不计入"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-shop.test.ts",
+        "fullName": "Shop buying ownedCount = 库存2 + 队员[4,1]各一件 = 4，非队员装备不计入"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+        "fullName": "L12 drawShopMenu 剩余分支 空店铺列表：框与两单行框照画，owned 0、无图标、不崩"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-shop.test.ts",
+        "fullName": "Shop buying 空店铺列表：框与两单行框照画，owned 0、无图标、不崩"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+        "fullName": "L12 drawSellOverlay 剩余分支 光标项非 sellable：两框照画，售价 label 与数字不画"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-sell-overlay.test.ts",
+        "fullName": "Sale overlay 光标项非 sellable：两框照画，售价 label 与数字不画"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+        "fullName": "L12 drawSellOverlay 剩余分支 cursorItemId 缺省：售价框照画，目录有可卖物品也不画售价"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-sell-overlay.test.ts",
+        "fullName": "Sale overlay cursorItemId 缺省：售价框照画，目录有可卖物品也不画售价"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+        "fullName": "G07-B 商店预览像素 G07-B01 目录与快照不一致的防御输入：列表价读 rightText 15，不读目录价 99"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-shop.test.ts",
+        "fullName": "Shop buying G07-B01 目录与快照不一致的防御输入：列表价读 rightText 15，不读目录价 99"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+        "fullName": "G07-B 商店预览像素 G07-B02 预览物品框阴影把底色 0x5A 的低四位右移一位，正色在 (40,8)"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-shop.test.ts",
+        "fullName": "Shop buying G07-B02 预览物品框阴影把底色 0x5A 的低四位右移一位，正色在 (40,8)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+        "fullName": "G07-B 商店预览像素 G07-B03 缺少物品框帧时预览位保持底色，列表名仍画出"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-shop.test.ts",
+        "fullName": "Shop buying G07-B03 缺少物品框帧时预览位保持底色，列表名仍画出"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+        "fullName": "G07-B 商店预览像素 G07-B04 图标表没有该 bitmap 时图标位保持底色，物品框照画"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-shop.test.ts",
+        "fullName": "Shop buying G07-B04 图标表没有该 bitmap 时图标位保持底色，物品框照画"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+        "fullName": "G07-B 商店预览像素 G07-B05 列表阶段不画确认框，选中名仍在"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-shop.test.ts",
+        "fullName": "Shop buying G07-B05 列表阶段不画确认框，选中名仍在"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+        "fullName": "G07-B 商店预览像素 G07-B06 确认阶段 confirmYes 为真时闪烁色在「是」，「否」是未选中色"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-shop.test.ts",
+        "fullName": "Shop buying G07-B06 确认阶段 confirmYes 为真时闪烁色在「是」，「否」是未选中色"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+        "fullName": "G07-B 商店预览像素 G07-B07 不传图标表时图标位保持底色，物品框照画"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-shop.test.ts",
+        "fullName": "Shop buying G07-B07 不传图标表时图标位保持底色，物品框照画"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+        "fullName": "G07-B 商店预览像素 G07-B08 现有数只加选中物品，另一件的库存 9 不加进去"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-shop.test.ts",
+        "fullName": "Shop buying G07-B08 现有数只加选中物品，另一件的库存 9 不加进去"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+        "fullName": "G07-B 商店预览像素 G07-B09 金钱为 0 时仍画出一位黄 0，十位保持底色"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-shop.test.ts",
+        "fullName": "Shop buying G07-B09 金钱为 0 时仍画出一位黄 0，十位保持底色"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+        "fullName": "G07-B 商店预览像素 G07-B10 列表项不在目录时名字照画，现有数是黄 0，图标不画"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-shop.test.ts",
+        "fullName": "Shop buying G07-B10 列表项不在目录时名字照画，现有数是黄 0，图标不画"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+        "fullName": "G07-B 商店预览像素 G07-B11 售价 1 向下取整成黄 0，十位保持底色"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-sell-overlay.test.ts",
+        "fullName": "Sale overlay G07-B11 售价 1 向下取整成黄 0，十位保持底色"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+        "fullName": "G07-B 商店预览像素 G07-B12 无库存时两位队员的手部装备仍把现有数画成黄2"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-shop.test.ts",
+        "fullName": "Shop buying G07-B12 无库存时两位队员的手部装备仍把现有数画成黄2"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+        "fullName": "G07-B 商店预览像素 G07-B13 预览物品框索引 0x6E 经 flushToCanvas 写成调色板 RGB，缓冲仍是 0x6E"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-shop.canvas.test.ts",
+        "fullName": "Shop canvas output G07-B13 预览物品框索引 0x6E 经 flushToCanvas 写成调色板 RGB，缓冲仍是 0x6E"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/__tests__/grok-present/p04-shop.test.ts",
+        "fullName": "P04 商店 P04 买列表、确认层、现有量和金钱用不同哨兵"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-shop.test.ts",
+        "fullName": "Shop buying P04 买列表、确认层、现有量和金钱用不同哨兵"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/__tests__/grok-present/p04-shop.test.ts",
+        "fullName": "P04 商店 P04 卖overlay画售价的一半，不执行买卖"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-sell-overlay.test.ts",
+        "fullName": "Sale overlay P04 卖overlay画售价的一半，不执行买卖"
+      }
+    }
+  ],
+  "retirements": [],
+  "helperTransplants": [
+    {
+      "oldPath": "packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+      "oldName": "gsForShop",
+      "currentPath": "packages/game/src/present/__tests__/shop-state-fixtures.ts",
+      "currentName": "shopSceneWithEquippedCopies",
+      "changes": [
+        {
+          "from": "function gsForShop",
+          "to": "export function shopSceneWithEquippedCopies",
+          "count": 1
+        },
+        {
+          "from": "SWORD",
+          "to": "shopSword",
+          "count": 3
+        }
+      ]
+    }
+  ],
+  "id": "menu-shop",
+  "namespace": "organization-menu-shop",
+  "cohortSubjects": [
+    {
+      "path": "packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+      "sha256": "6d8a21ba658297d226af7274718fffaead3e871d34b848f7fdea4cb9f23089f2",
+      "priorCurrentBridges": [
+        {
+          "path": "packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+          "sha256": "6d8a21ba658297d226af7274718fffaead3e871d34b848f7fdea4cb9f23089f2",
+          "member": "organization-game-render-fixtures/10.before",
+          "currentSha256": "d25fc265a5c95f7b0e8f440518324a0343c52e3a8401f473fa5b7a8e4cb31b15",
+          "evidence": "organization-game-render-fixtures.json"
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+      "sha256": "e89506fc4ecabbd79ed878342cbc9f74ce37dcd4d5ea32a9c88be24eb1f7cf90",
+      "priorCurrentBridges": [
+        {
+          "path": "packages/game/src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+          "sha256": "e89506fc4ecabbd79ed878342cbc9f74ce37dcd4d5ea32a9c88be24eb1f7cf90",
+          "member": "organization-game-asset-fixtures/13.before",
+          "currentSha256": "bcb35de9db42680be915259f0ba706169e66f35b479f247694710fcfe1b0d9c6",
+          "changes": [],
+          "evidence": "organization-game-asset-fixtures.json"
+        },
+        {
+          "path": "packages/game/src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+          "sha256": "bcb35de9db42680be915259f0ba706169e66f35b479f247694710fcfe1b0d9c6",
+          "member": "organization-game-render-fixtures/20.before",
+          "currentSha256": "0d9bb6a4818739c31be58119ee1da5104e50170c23ba22b6706e74bfbca63425",
+          "evidence": "organization-game-render-fixtures.json"
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/p04-shop.test.ts",
+      "sha256": "0899e5c48cc0c4bc634522bec7d8819a01c495657b527ef74e11f2c34c251ef2",
+      "priorCurrentBridges": [
+        {
+          "path": "packages/game/src/present/__tests__/grok-present/p04-shop.test.ts",
+          "sha256": "0899e5c48cc0c4bc634522bec7d8819a01c495657b527ef74e11f2c34c251ef2",
+          "member": "organization-game-render-fixtures/35.before",
+          "currentSha256": "f3d4a05e32d6df834139ec88ef42b2870a90c0687a7a3d441a64f80a8fd3bdf9",
+          "evidence": "organization-game-render-fixtures.json"
+        }
+      ]
+    }
+  ],
+  "preserved": [
+    {
+      "path": "packages/game/src/present/menu/draw-shop.ts",
+      "sha256": "0f1862745c4f80ba9bd1f7319ae0679e188ad4e947aee3286146e820d50afbe4"
+    },
+    {
+      "path": "packages/game/src/core/menu/shop-menu.ts",
+      "sha256": "5b2adaaf06fc5a053e04ff09e44842e6aa95d2fdd9f3c324df4e991f8623e9d4"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-menu.ts",
+      "sha256": "c0c56305f46464b8194bbb0d2a7e04683952b7f01266ec3949602b99c6f51566"
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-driver.ts",
+      "sha256": "81db674f145043b7a78aea5ac705baa8c975502cbce66bcf88908574acd596f5"
+    },
+    {
+      "path": "packages/game/src/__tests__/grok-render-r1/dump-evidence.ts",
+      "sha256": "0190fb4ea18357e24e30a552ece01049ecdb208539895e3117fda5c2e402a6c4"
+    },
+    {
+      "path": "packages/game/src/__tests__/asset-fixtures.ts",
+      "sha256": "cf3eae0a807ce26983299ee72ff140b7035cd64121a4547b6f145076547c12fc"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/glyph-fixtures.ts",
+      "sha256": "226f7b472f8c065034db07c1f308ba5b5cc03a5f6d31b6f624f9cef27b701e2f"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/uniform-glyphs.ts",
+      "sha256": "c1074d184e865cbe788b5e459b9390e32148c8ba9b2747aa4340861a85c01f87"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/menu-text-fixture.ts",
+      "sha256": "d21320cb5dfe391b2d90b947346ca191c5dbb0602cb1f62c46325178666fdc94"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/menu-state-fixtures.ts",
+      "sha256": "0ce7df25cce554b54c080659494116c76908a531dd289359a32f4323fbabce7f"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/menu-ui-fixtures.ts",
+      "sha256": "2e6d73e10d4b98a5876000b1abebea747bbf62fc0bdfb159e44534ba068f3171"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/raster-fixtures.ts",
+      "sha256": "982d0ab4a7a73bd1d432554562ff9f628d097098be32af9e9b059bd1dbb2d291"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/render-input-snapshots.ts",
+      "sha256": "f2faddfd6a3c6dcbefe752eff487e8fabd92035b62cf673bd6c81289d8dd17b6"
+    },
+    {
+      "path": "packages/game/src/__tests__/glm-phase1-leaves/present-fixtures.ts",
+      "sha256": "4f8701a4dddcdae4010bdbd9b23eee56dd2d20335e906a5249a488308edaedea"
+    },
+    {
+      "path": "packages/game/src/present/present.ts",
+      "sha256": "c4c6f411857d99c5f8e850bf5172c3e42f04181a64df0ce2a697fe1ec90569f9"
+    },
+    {
+      "path": "packages/game/vitest.config.ts",
+      "sha256": "3dd92ad4886bc72c88e7a7b2e6bdacc3aaf9e2a24ac72153f3b619ba37feb7d4"
+    },
+    {
+      "path": "scripts/coverage/config.mjs",
+      "sha256": "decb63dda5d12a2269bef1dd75c3d1eb4efca071887c759deca8e9b06ef17a25"
+    }
+  ],
+  "neighborPaths": [
+    "packages/game/src/present/menu/draw-shop.test.ts",
+    "packages/game/src/present/menu/draw-sell-overlay.test.ts",
+    "packages/game/src/present/menu/draw-shop.canvas.test.ts",
+    "packages/game/src/present/menu/draw-menu.test.ts",
+    "packages/game/src/core/menu/shop-menu.test.ts",
+    "packages/game/src/core/menu/sell-menu.test.ts",
+    "packages/game/src/present/menu/draw-confirm.test.ts",
+    "packages/game/src/present/draw-number.test.ts",
+    "packages/game/src/present/framebuffer.test.ts"
+  ],
+  "cleanExecutions": [
+    "before",
+    "reorganize",
+    "scoped-code-r2",
+    "proof",
+    "routing",
+    "neighbors",
+    "typecheck",
+    "module-preflight",
+    "docs",
+    "content-review",
+    "lint",
+    "scoped",
+    "diff",
+    "ledger-final",
+    "finalize"
+  ],
+  "lightweightGates": true,
+  "profiles": [
+    {
+      "path": "packages/game/src/present/menu/draw-shop.test.ts",
+      "subjects": [
+        "packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+        "packages/game/src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+        "packages/game/src/present/__tests__/grok-present/p04-shop.test.ts"
+      ],
+      "axes": {
+        "A": "14例实际drawShopMenu与create/select/move公共状态入口，列表snapshot价与catalog差异、真实party/nonparty装备计数、无库存装备边界、空表/缺目录/缺帧与图标域、现金0、确认两侧。防御输入不冒称正常剧情；当前实现/状态全文与caller核，产品源不改。",
+        "B": "去模型/批次去重头；手写字形/像素只证协议和位置，缺目录/价差明确为防御输入。UiFramesWithoutSlot名称说明遗漏槽位；原顶层宽字段/价格/owned说明不冒称原盘画面或所有极端域。",
+        "C": "同buy入口归一，文件不再加载flushToCanvas/PNG见证IO；Word/临时中文显式before/after归窄fixture，不reset事件/caster/target。GS由case或共享纯factory拥有，买卖副作用仍在driver；不把完整交易混入视图测试。",
+        "D": "GLM同体装备输入迁shop-state-fixtures，实际两个spec共享；其他不同seed仍在case。uniform与按字点位glyph、无图标表/有表缺key两分支、库存0+装备与库存+装备反例各有不同合同，未因近似删例。",
+        "E": "原buy14全保，所有callback经私有名/同合同factory import桥保持，原clone/literal/像素断言均在；常量用例不靠同SUT自比。真实原生9file70/TC0，3当前spec完整收集19/0pending/无诊断；不把包绿当全文信用。",
+        "F": "draw-shop.test与实际买入入口同名；item/otherItem、uiFramesWithoutSlot/omittedSlot、uniformGlyphs/positionGlyphs表意，公开glyphs键保持。去按作者切文件，保稳定历史case ID作追踪。",
+        "G": "14原例不新增凑数；缺表与缺key、空库存与无party等不同输入合同不误删。私有去槽helper只留一个现caller；共享state没有模式flag/万能上下文，无产品出口变化。",
+        "H": "真Framebuffer/font/状态函数，Date各例finally恢复，空列表/owned数字不需伪时钟；窄语言/Word夹具同SHA早失败/隔离证据复用。body完整树正负控和suite依赖负控，实际collection+typecheck补足仅比callback的局限。"
+      }
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-sell-overlay.test.ts",
+      "subjects": [
+        "packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+        "packages/game/src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+        "packages/game/src/present/__tests__/grok-present/p04-shop.test.ts"
+      ],
+      "axes": {
+        "A": "4例实际drawSellOverlay：不可卖/缺cursor框和cash保留、售价不画；1→0与81→40的整数半价，库存/现金输入不变。交易由driver处理，当前callback/输入合法，产品不改。",
+        "B": "文件/标题明确只金额叠层，不称完整卖网格；注释对应字形点/阴影带与frame坐标，原无交易断言保持。",
+        "C": "seller视图独立于买入列表与CanvasIO，共用同合同纯装备GS；仅Word/中文生命周期，其他游戏单例不碰。实际draw-menu先网格/本overlay/confirm的caller已读。",
+        "D": "库存/party同一旧工厂由两个spec真实复用，缺cursor与unsellable不是同输入；价格1边界和81奇数半价不同轴，均保留。两glyph策略不合一。",
+        "E": "4身份保全，唯一delta删除同像素not黄8：保留toBe黄4、已用实际yellowDigit证0xb4≠0xb8，其他业务断言/快照完整；18全片callback保持，1显式简化。70相邻/TC0/0pending。",
+        "F": "draw-sell-overlay.test按现入口命名，item代替虚构bead领域名，shopSceneWithEquippedCopies表达夹具约束。",
+        "G": "只删一条严格被正向literal蕴含的反面，不删半价0/不可卖/无cursor合同，无新测试或产品wrapper。",
+        "H": "同步真实framebuffer/pixel，数字oracle独立sprite色；无交易mock或调用次数充结果，失败时窄hook还原环境，完整body/proof/raw可复验。"
+      }
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-shop.canvas.test.ts",
+      "subjects": [
+        "packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+        "packages/game/src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+        "packages/game/src/present/__tests__/grok-present/p04-shop.test.ts"
+      ],
+      "axes": {
+        "A": "保留原1例真实drawShopMenu→flushToCanvas→getImageData→dumpFramebuffer PNG写/重读/解码，索引0x6e与RGB40/18/70/255分别核；只证该合成路径，不是原盘观感或E2E。",
+        "B": "Canvas文件名区分native/文件IO与纯像素，原literal checks保留，未把未使用dumpHost路径当截图。",
+        "C": "nativeCanvas/PNG依赖只在本spec加载，未混入另外两纯视图spec；Canvas局部未插DOM、无事件/定时器。Date在draw finally已归还，之后await IO失败也由afterEach还原文本环境。",
+        "D": "复用现用legalPalette/真实dumpFramebuffer，不造另一个PNG编码/镜像oracle；helper不在本cohort，不附带治理完成。",
+        "E": "原async callback仅私有名/fixture import变，await及RGB/索引/PNG检查全保；真实1case随9/70执行，非空runner/无skip，调用不是no-op。",
+        "F": "draw-shop.canvas.test直说Shop到Canvas输出，局部item/snap有明确阶段含义，稳定G07-B13只作沿革。",
+        "G": "一条现有IO合同独立文件，两个pure spec不再因unit数据测试创建PNG见证目录；未加假画面、重试、忽略或新用例。",
+        "H": "使用安装的native2D/PNG库、读回真实bytes，有界本地IO；可独立选择执行。不会把该case的通过外推到dumpHost/所有Canvas/完整视觉。"
+      }
+    },
+    {
+      "path": "packages/game/src/present/__tests__/shop-state-fixtures.ts",
+      "subjects": [
+        "packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+        "packages/game/src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+        "packages/game/src/present/__tests__/grok-present/p04-shop.test.ts"
+      ],
+      "axes": {
+        "A": "原SWORD和GS工厂完整迁移，cash7/库存2、party[4,1]与slot3中三role装备（含非party2）保持；actualItem记录逐字段等同，makeLiveScene真实导入目标相同、hydrate保持。",
+        "B": "头说明返回state归caller，非队员负控注释保留；常量是原共享seed，当前调用只读，不冒称冻结不可变对象。",
+        "C": "只有typedGameState与makeItem/makeLiveScene，创建返回fresh GS，不管理Word/DOM/clock/PNG/全局重置。shopSword维持旧共享只读使用，两个现caller已全文核。",
+        "D": "同一旧组已跨buy/sell两个spec，抽取有真实共同输入/生命周期；不扩大成带模式的商店host或把所有不同Item seed强合。",
+        "E": "const/函数完整typed树（仅export/私有名/import桥）和实际Item记录对照，两个消费者19身份/70邻例保真；不是只看caller省略工厂正文。",
+        "F": "shop-state-fixtures与shopSword/shopSceneWithEquippedCopies说明领域/约束，不含模型/波次，GameState是项目canonical类型。",
+        "G": "只两导出均有当前caller，旧gsForShop/SWORD不再复制在两个文件，不加未来泛化参数或setter。",
+        "H": "纯记录+现用完整state构造可直接消费，状态fresh而Item只读借用边界明确；两种字形/IO均由spec持有，不藏自动hook。"
+      }
+    }
+  ],
+  "callbackProof": "organization-menu-shop/proof.stdout.raw",
+  "cohortOrigins": "organization-menu-shop/cohort-origins.json",
+  "reusedReviewMember": "organization-menu-shop/reused-reviews.json",
+  "runnerEligibility": "organization-menu-shop/routing.stdout.raw",
+  "reads": {
+    "fullInputs": [
+      {
+        "path": "packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+        "sha256": "d25fc265a5c95f7b0e8f440518324a0343c52e3a8401f473fa5b7a8e4cb31b15",
+        "member": "organization-menu-shop/0.before",
+        "lines": 104
+      },
+      {
+        "path": "packages/game/src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+        "sha256": "0d9bb6a4818739c31be58119ee1da5104e50170c23ba22b6706e74bfbca63425",
+        "member": "organization-menu-shop/1.before",
+        "lines": 349
+      },
+      {
+        "path": "packages/game/src/present/__tests__/grok-present/p04-shop.test.ts",
+        "sha256": "f3d4a05e32d6df834139ec88ef42b2870a90c0687a7a3d441a64f80a8fd3bdf9",
+        "member": "organization-menu-shop/2.before",
+        "lines": 106
+      }
+    ],
+    "fullImplementations": [
+      {
+        "path": "packages/game/src/present/menu/draw-shop.ts",
+        "sha256": "0f1862745c4f80ba9bd1f7319ae0679e188ad4e947aee3286146e820d50afbe4",
+        "scope": "Full read, unchanged; dump helper remains outside current closure."
+      },
+      {
+        "path": "packages/game/src/core/menu/shop-menu.ts",
+        "sha256": "5b2adaaf06fc5a053e04ff09e44842e6aa95d2fdd9f3c324df4e991f8623e9d4",
+        "scope": "Full read, unchanged; dump helper remains outside current closure."
+      },
+      {
+        "path": "packages/game/src/__tests__/grok-render-r1/dump-evidence.ts",
+        "sha256": "0190fb4ea18357e24e30a552ece01049ecdb208539895e3117fda5c2e402a6c4",
+        "scope": "Full read, unchanged; dump helper remains outside current closure."
+      }
+    ],
+    "partialCallers": [
+      {
+        "path": "packages/game/src/present/menu/draw-menu.ts",
+        "sha256": "c0c56305f46464b8194bbb0d2a7e04683952b7f01266ec3949602b99c6f51566",
+        "ranges": [[190, 233]]
+      },
+      {
+        "path": "packages/game/src/core/menu/menu-driver.ts",
+        "sha256": "81db674f145043b7a78aea5ac705baa8c975502cbce66bcf88908574acd596f5",
+        "ranges": [[325, 435]]
+      }
+    ],
+    "currentOutputs": [
+      {
+        "path": "packages/game/src/present/menu/draw-shop.test.ts",
+        "sha256": "b69434d811fd94923fd3315820ee83b9087988f360f8694611e442381a31a956",
+        "lines": 402,
+        "scope": "Full candidate read; suite import fix is sole later dependency refinement, guarded and actual19 collected."
+      },
+      {
+        "path": "packages/game/src/present/menu/draw-sell-overlay.test.ts",
+        "sha256": "6192187dec5f8416f49d97150c7b49490411853f9621d218d6cbcd8500f54ab0",
+        "lines": 118,
+        "scope": "Full candidate read; suite import fix is sole later dependency refinement, guarded and actual19 collected."
+      },
+      {
+        "path": "packages/game/src/present/menu/draw-shop.canvas.test.ts",
+        "sha256": "defe7694d378bcbc4ee49191461b5e20120dc2140fff9a16b3965eced0c629bc",
+        "lines": 57,
+        "scope": "Full candidate read; suite import fix is sole later dependency refinement, guarded and actual19 collected."
+      },
+      {
+        "path": "packages/game/src/present/__tests__/shop-state-fixtures.ts",
+        "sha256": "832708399773559f19c2b117cebb88e0a0713e1da0e8f278d156eb4d35e327ce",
+        "lines": 20,
+        "scope": "Full candidate read; suite import fix is sole later dependency refinement, guarded and actual19 collected."
+      }
+    ]
+  },
+  "processDisclosures": [
+    "Producer initially pruned describe because case closure does not include parent suite registration. Full candidate read caught it before any candidate runtime/typecheck; unaccepted3spec snapshots and oldproducer preserved. Explicit suite import restored, producer updated; same-validator positive/missing-describe negative and actual19 collection/TC0 guard this separately. No central9tool/rule change.",
+    "All19 identities retained; registrations use originalOrdinal for frozen source while normalizedordinal addresses grouped projection. No callback silently matched by projected ordinal; independentproof checks original fullName/completecallback.",
+    "Only one implied same-pixel negative removed, with actualyellow4/8 values and positiveassert retained. 18callbacks conserved,1explicitdelta. No product red/fix claimed.",
+    "Two pure specs omit Canvas/PNG imports; native IO case unchanged and active. PNG helper outside fixedcohort not closed; no dumpHost/visual/E2E/sourcefullacceptance.",
+    "Fast/full selection configurations leave all6old/current testpaths eligible; routing receipt is static eligibility, not whole-profile collection/coverage. Actual9files70 includes all3newtests,0pending/stderr0.",
+    "Wholecheck/officialcoverage/protected and publication deferred to stable large-window closeout;0newclosed.",
+    "Initial one-hop-only finalizer rejected the preview source, with no output writes. Current resolver validates the actual two-hop prior asset→render import lineage and broken-edge negative control; first diagnostic exists only in tool transcript, not an independently captured raw. Both original and intermediate byte sources remain in existing immutable native archive."
+  ],
+  "ledgerDispositions": {
+    "categories": {
+      "packages/game/src/present/menu/draw-shop.test.ts": "test",
+      "packages/game/src/present/menu/draw-sell-overlay.test.ts": "test",
+      "packages/game/src/present/menu/draw-shop.canvas.test.ts": "test",
+      "packages/game/src/present/__tests__/shop-state-fixtures.ts": "fixture"
+    }
+  },
+  "ledgerCounts": {
+    "inventory": 3449,
+    "closed": 553,
+    "review": 262,
+    "pending": 2634
+  },
+  "lineageValidation": {
+    "hops": [1, 2, 1],
+    "checks": "Each original/intermediate frozen member hash matches its from-SHA, unique chain reaches actual current input-SHA; same resolver rejects broken actual edges. Original beforeMember must use first bridge, currentInputMember remains this batch input."
+  }
+}

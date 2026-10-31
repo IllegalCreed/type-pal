@@ -1,4 +1,6 @@
-import { describe, expect, it } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it } from 'vitest'
+import { beginChineseMenuText } from '../../__tests__/menu-text-fixture.js'
+import { setWordTable } from '../word-lookup.js'
 import {
   createOpeningMenu,
   type OpeningMenuChoice,
@@ -8,7 +10,18 @@ import {
   openingMenuUp,
 } from './opening-menu.js'
 
-describe('opening-menu state machine — sdlpal uigame.c:42-167 PAL_OpeningMenu', () => {
+let releaseMenuText: (() => void) | undefined
+
+beforeEach(() => {
+  releaseMenuText = beginChineseMenuText()
+})
+
+afterEach(() => {
+  releaseMenuText?.()
+  releaseMenuText = undefined
+})
+
+describe('Opening menu state', () => {
   it('createOpeningMenu 起手:2 项 fixed + cursor=0(新游戏)— sdlpal wDefaultItem=0 真值', () => {
     const s = createOpeningMenu()
     expect(s.selection.items).toHaveLength(2)
@@ -51,5 +64,28 @@ describe('opening-menu state machine — sdlpal uigame.c:42-167 PAL_OpeningMenu'
     expect(labels[0]!.id).toBe(7) // MAINMENU_LABEL_NEWGAME
     expect(labels[1]!.id).toBe(8) // MAINMENU_LABEL_LOADGAME
     expect(labels.map(({ label }) => label)).toEqual(['新的故事', '旧的回忆'])
+  })
+})
+
+describe('Opening menu words and empty state', () => {
+  // C5 排重(2026-10-15)：原"choice 映射 new→load→new"条与主测试
+  // 'createOpeningMenu 起手 new-game'/'Down 一次 → load-game'/'Down + Up → 来回'三面
+  // 完全重复，删除；本文件保留词表注入同步与空表防御两条新差异轴。
+
+  it('词表载入：菜单 items 与 openingMenuLabels 同取 flat[7]/flat[8]（单一文案源）', () => {
+    const flat: string[] = []
+    flat[7] = '新的故事X'
+    flat[8] = '旧的回忆X'
+    setWordTable(flat)
+    const s = createOpeningMenu()
+    expect(s.selection.items.map((it) => it.label)).toEqual(['新的故事X', '旧的回忆X'])
+    expect(openingMenuLabels().map((l) => l.label)).toEqual(['新的故事X', '旧的回忆X'])
+    expect(openingMenuLabels().map((l) => l.id)).toEqual([7, 8])
+  })
+
+  it('空表 choice 防御 undefined（直造状态可达）', () => {
+    const s = createOpeningMenu()
+    s.selection.items = []
+    expect(openingMenuChoice(s)).toBeUndefined()
   })
 })

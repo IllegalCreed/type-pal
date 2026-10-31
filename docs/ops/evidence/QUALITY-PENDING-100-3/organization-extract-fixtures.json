@@ -1,0 +1,720 @@
+{
+  "id": "extract-table-fixtures",
+  "kind": "fixture",
+  "namespace": "organization-extract-fixtures",
+  "cohortSubjects": [
+    {
+      "path": "packages/pal-extract/src/__tests__/glm-foundation-fixtures.ts",
+      "sha256": "baa86e8da472b8ab40460bb73d3db7f446621c810f8ba42c262d819e948ee9df",
+      "preservedEvidence": "[本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json)"
+    },
+    {
+      "path": "packages/pal-extract/src/__tests__/glm-tb04-fixtures.ts",
+      "sha256": "21b4a8a93f56ff7b4ae1fcc2b6d0224beaf6d77bface85f0454fc1d2b3e22f56",
+      "preservedEvidence": "[本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json)"
+    }
+  ],
+  "providers": {
+    "before": [
+      {
+        "path": "packages/pal-extract/src/__tests__/glm-foundation-fixtures.ts",
+        "member": "organization-extract-fixtures/0.before",
+        "sha256": "baa86e8da472b8ab40460bb73d3db7f446621c810f8ba42c262d819e948ee9df",
+        "changes": [
+          {
+            "from": "mkTable",
+            "to": "u16Table",
+            "count": 1
+          },
+          {
+            "from": "mkWords",
+            "to": "makeWords",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "path": "packages/pal-extract/src/__tests__/glm-tb04-fixtures.ts",
+        "member": "organization-extract-fixtures/1.before",
+        "sha256": "21b4a8a93f56ff7b4ae1fcc2b6d0224beaf6d77bface85f0454fc1d2b3e22f56",
+        "changes": [
+          {
+            "from": "export const WORD_SEGMENT_TABLE:",
+            "to": "const WORD_SEGMENT_TABLE:",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "path": "packages/pal-extract/src/__tests__/binary-fixtures.ts",
+        "member": "organization-extract-fixtures/2.before",
+        "sha256": "1a2f17ce1d2ca8d0447cf91bd77ff5cdaa1aee49bfbbcebf791abb7a64dfb252",
+        "changes": []
+      }
+    ],
+    "current": [
+      {
+        "path": "packages/pal-extract/src/__tests__/binary-fixtures.ts",
+        "sha256": "bcda9a289734c3072d3344a33bb54034ecc6f54e9b9e2a5b57375993ddca465b",
+        "imports": []
+      },
+      {
+        "path": "packages/pal-extract/src/__tests__/player-role-layout.ts",
+        "sha256": "2c6c18b09437286d4f07f7ef6bb06dbbdedc12621ce52da7e6dae9439fc64b68",
+        "imports": []
+      },
+      {
+        "path": "packages/pal-extract/src/__tests__/words-table.ts",
+        "sha256": "01b0a96273df16dd00ee046c1034445d58b1f1efe356b16ce56541f03299bbbf",
+        "imports": []
+      },
+      {
+        "path": "packages/pal-extract/src/__tests__/text-fixtures.ts",
+        "sha256": "4dd63e17deede94d5b3c2579625bede925a0a4a7b54e540594db336a0d8cb079",
+        "imports": [
+          {
+            "local": "concatBytes",
+            "imported": "concatBytes",
+            "target": "packages/pal-extract/src/__tests__/binary-fixtures.ts",
+            "typeOnly": false
+          },
+          {
+            "local": "iconv",
+            "imported": "default",
+            "target": "iconv-lite",
+            "typeOnly": false
+          }
+        ]
+      },
+      {
+        "path": "packages/pal-extract/src/__tests__/sss-fixtures.ts",
+        "sha256": "6f9ed027274f3a83c4123b612071b1570498e5208efa7ef5b15f16a26183fa96",
+        "imports": [
+          {
+            "local": "concatBytes",
+            "imported": "concatBytes",
+            "target": "packages/pal-extract/src/__tests__/binary-fixtures.ts",
+            "typeOnly": false
+          },
+          {
+            "local": "u16Bytes",
+            "imported": "u16Bytes",
+            "target": "packages/pal-extract/src/__tests__/binary-fixtures.ts",
+            "typeOnly": false
+          },
+          {
+            "local": "u32Bytes",
+            "imported": "u32Bytes",
+            "target": "packages/pal-extract/src/__tests__/binary-fixtures.ts",
+            "typeOnly": false
+          }
+        ]
+      },
+      {
+        "path": "packages/pal-extract/src/__tests__/table-records.ts",
+        "sha256": "7e308b3148287228dae9e60d1b65da87df4c5872c9c7f0f1c2e62c3cf01f1188",
+        "imports": [
+          {
+            "local": "concatBytes",
+            "imported": "concatBytes",
+            "target": "packages/pal-extract/src/__tests__/binary-fixtures.ts",
+            "typeOnly": false
+          },
+          {
+            "local": "u16Bytes",
+            "imported": "u16Bytes",
+            "target": "packages/pal-extract/src/__tests__/binary-fixtures.ts",
+            "typeOnly": false
+          }
+        ]
+      }
+    ]
+  },
+  "consumers": [
+    {
+      "path": "packages/pal-extract/src/resources/enemy-pos.boundaries.test.ts",
+      "member": "organization-extract-fixtures/3.before",
+      "sha256": "d8dc28e53680629b4408cb2f2b1429eb45dddb09cd88d7acf792dcfdf1e781d9",
+      "changes": [],
+      "currentSha256": "5b783f904640bb59d8b71e7744ddd5811a2d0e310c85e9893605cf574f9d57b5"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/__tests__/scene-fixtures.ts",
+      "member": "organization-extract-fixtures/4.before",
+      "sha256": "87cf447fc6768ac9cd22e8d23eb4cc444a6f61fbe03f268a6f72f5eed6361eb7",
+      "changes": [],
+      "currentSha256": "126940eb4ed758d8564f52522fb1a4f02293a4443c86473c44fab8c0775c21c8"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/battle-fields.glm-runtime-resource.test.ts",
+      "member": "organization-extract-fixtures/5.before",
+      "sha256": "e7b91eb0f1d310649ef8c8895b1161cca28ca5d33eb2ecdece9c35417281de85",
+      "changes": [],
+      "currentSha256": "38eb7fc592ea5e4dd84f70e248ab25ecebd89318967699a87d248d3c7fbd3f16"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/animation-assets.fire.test.ts",
+      "member": "organization-extract-fixtures/6.before",
+      "sha256": "ba4cd460bd6947c7a8afe3f44e56610ea27036bf6b39eb96bf44a53fc3b8e3d2",
+      "changes": [],
+      "currentSha256": "f477f257bff13d4f92f3bf854361a1a57c6139a54122eecab3a6ea9dff19c9ac"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/items.glm-runtime-resource.test.ts",
+      "member": "organization-extract-fixtures/7.before",
+      "sha256": "b358e65af35a6f4d50585d42c254f08438cf7bb5f6a96f19292b7c8f9780db50",
+      "changes": [],
+      "currentSha256": "81592b87fc9059b0af9b14ecfe86958653b1d4bc35aba48f51e8b325a08796b1"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/__tests__/player-roles.event-boundaries-1.test.ts",
+      "member": "organization-extract-fixtures/8.before",
+      "sha256": "1258a95223f061f15b018cf8cb2e8d1732b54830862a053d47d7be99cce5bd52",
+      "changes": [
+        {
+          "from": "mkMkf",
+          "to": "mkfContainer",
+          "count": 2
+        },
+        {
+          "from": "mkTable",
+          "to": "u16Table",
+          "count": 2
+        },
+        {
+          "from": "mkWords",
+          "to": "makeWords",
+          "count": 2
+        }
+      ],
+      "currentSha256": "e7688317d17e607b0da9133007dede8e72e00bb7ea368cd96e9f52b8898d3e47"
+    },
+    {
+      "path": "packages/pal-extract/src/io/msg.boundaries.test.ts",
+      "member": "organization-extract-fixtures/9.before",
+      "sha256": "fcdce8e656c2fb289e79a5f0181043885304111de80e0d36d3eb18bc5e41721f",
+      "changes": [],
+      "currentSha256": "adfba2475f2e95f445d03ad6ba41e474ca88ae4be1d56a64d12a04d3902db1ed"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/__tests__/enemy-teams.boundaries.test.ts",
+      "member": "organization-extract-fixtures/10.before",
+      "sha256": "b20e652c9d85ff27a6e5a64f97a56c18f88dcd09fe3bce7cbf8ddefbc48f19ea",
+      "changes": [],
+      "currentSha256": "38d6c4d57745ac0b9fc2302a0057be9b170889aeb7340c82bc032d32eb04f555"
+    },
+    {
+      "path": "packages/pal-extract/src/io/sss.boundaries.test.ts",
+      "member": "organization-extract-fixtures/11.before",
+      "sha256": "617dd83725bacfe92ca0af771cb3fb61b5b41ff1e801d46c0b22bef28da11eff",
+      "changes": [],
+      "currentSha256": "1de7fa8054bd415518991b281de35b7ded12d162d66470684d540e56f7944234"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/__tests__/player-roles.boundaries.test.ts",
+      "member": "organization-extract-fixtures/12.before",
+      "sha256": "7c0719614bf246e4d43ff5b5ccd0222a008551b1bf465bef56c5f554550bdff3",
+      "changes": [
+        {
+          "from": "mkMkf",
+          "to": "mkfContainer",
+          "count": 2
+        },
+        {
+          "from": "mkTable",
+          "to": "u16Table",
+          "count": 3
+        },
+        {
+          "from": "mkWords",
+          "to": "makeWords",
+          "count": 2
+        }
+      ],
+      "currentSha256": "5d87f17ed21a6cfda185e48e27c9912964b181dca201db99731768591bd7cffc"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/__tests__/spells.boundaries.test.ts",
+      "member": "organization-extract-fixtures/13.before",
+      "sha256": "7813761feba39a007c17b4aaad532cefa5a369a2b8c24ad6317a63c8e00ac69b",
+      "changes": [
+        {
+          "from": "mkTable",
+          "to": "u16Table",
+          "count": 9
+        },
+        {
+          "from": "mkWords",
+          "to": "makeWords",
+          "count": 2
+        }
+      ],
+      "currentSha256": "c9c804fb06faba04bd791f18d97bfa74e491c2000087410fe63822391dd12319"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/__tests__/stores.boundaries.test.ts",
+      "member": "organization-extract-fixtures/14.before",
+      "sha256": "4a21811ec94adb8f522efe7ea879e74254b4c484c46fa8b049d802664cbc5ecd",
+      "changes": [],
+      "currentSha256": "216e6abe32a40847daabd0a70aeaaa08165648da86493dfe36a317a47a598f93"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/__tests__/enemies.boundaries.test.ts",
+      "member": "organization-extract-fixtures/15.before",
+      "sha256": "ced78d3df8af9be40a002ab3945b7bea18c834c27adfe0f9e4632a0128e803f8",
+      "changes": [
+        {
+          "from": "mkTable",
+          "to": "u16Table",
+          "count": 6
+        },
+        {
+          "from": "mkWords",
+          "to": "makeWords",
+          "count": 3
+        },
+        {
+          "from": "const words = makeWords({ enemies: Array.from({ length: ENEMY_OBJ_COUNT }, (_, i) => `敌${i}`) })",
+          "to": "const words = makeWords({\n      enemies: Array.from({ length: ENEMY_OBJ_COUNT }, (_, i) => `敌${i}`),\n    })",
+          "count": 1,
+          "reason": "Biome wraps the longer renamed function call; the same single property/callback remains exact."
+        }
+      ],
+      "currentSha256": "170e11696f2fbd99d155ae24ada74d97337cdcea9a8025feb1edafb6577b70f3"
+    },
+    {
+      "path": "packages/pal-extract/src/io/word.boundaries.test.ts",
+      "member": "organization-extract-fixtures/16.before",
+      "sha256": "781f160a5bc93455fd9ba297a9cfd6a16ab1737d01d37c0b6eb2374f1f63482c",
+      "changes": [],
+      "currentSha256": "fb8533ca9ab11f184c49a9e3c795c9a5586325a045df897e35a91900e01bdc74"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/__tests__/data-misc.boundaries.test.ts",
+      "member": "organization-extract-fixtures/17.before",
+      "sha256": "7fbc1f8639c9190f32b886cf261115a0125c156fa6d11cdb5fa709662f6684b3",
+      "changes": [],
+      "currentSha256": "65e8a706b5adb0297ada093a68fa22be1b05254fc8dbd74900c1be492bf8e083"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/__tests__/items.boundaries.test.ts",
+      "member": "organization-extract-fixtures/18.before",
+      "sha256": "0f840c9b7cfa86150beb953c040abd1207922d9a0fc1cdb85b1b007607cd42cf",
+      "changes": [],
+      "currentSha256": "1a30929969fabd469e935218314d6276b1ff376dcadaf51279801cccc678b3a7"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/__tests__/battle-fields.boundaries.test.ts",
+      "member": "organization-extract-fixtures/19.before",
+      "sha256": "9d3646feafc2a359d41d57d0069724dc13d2c61600a59fbf9c0c8cb57d4767d2",
+      "changes": [],
+      "currentSha256": "1bbcfbfab5b168e6ba6822c24fab55d97e9d0438a0b87e0717f9216faab28b92"
+    }
+  ],
+  "exports": [
+    {
+      "oldPath": "packages/pal-extract/src/__tests__/glm-foundation-fixtures.ts",
+      "originalName": "mkMkf",
+      "oldName": "mkfContainer",
+      "currentName": "mkfContainer",
+      "currentPath": "packages/pal-extract/src/__tests__/binary-fixtures.ts"
+    },
+    {
+      "oldPath": "packages/pal-extract/src/__tests__/glm-foundation-fixtures.ts",
+      "originalName": "mkTable",
+      "oldName": "u16Table",
+      "currentName": "u16Table",
+      "currentPath": "packages/pal-extract/src/__tests__/binary-fixtures.ts"
+    },
+    {
+      "oldPath": "packages/pal-extract/src/__tests__/glm-foundation-fixtures.ts",
+      "originalName": "PLAYER_ROLE_ROWS",
+      "oldName": "PLAYER_ROLE_ROWS",
+      "currentName": "PLAYER_ROLE_ROWS",
+      "currentPath": "packages/pal-extract/src/__tests__/player-role-layout.ts"
+    },
+    {
+      "oldPath": "packages/pal-extract/src/__tests__/glm-foundation-fixtures.ts",
+      "originalName": "playerRoleCell",
+      "oldName": "playerRoleCell",
+      "currentName": "playerRoleCell",
+      "currentPath": "packages/pal-extract/src/__tests__/player-role-layout.ts"
+    },
+    {
+      "oldPath": "packages/pal-extract/src/__tests__/glm-foundation-fixtures.ts",
+      "originalName": "mkWords",
+      "oldName": "makeWords",
+      "currentName": "makeWords",
+      "currentPath": "packages/pal-extract/src/__tests__/words-table.ts"
+    },
+    {
+      "oldPath": "packages/pal-extract/src/__tests__/glm-tb04-fixtures.ts",
+      "originalName": "concatBytes",
+      "oldName": "concatBytes",
+      "currentName": "concatBytes",
+      "currentPath": "packages/pal-extract/src/__tests__/binary-fixtures.ts"
+    },
+    {
+      "oldPath": "packages/pal-extract/src/__tests__/glm-tb04-fixtures.ts",
+      "originalName": "mkfContainer",
+      "oldName": "mkfContainer",
+      "currentName": "mkfContainer",
+      "currentPath": "packages/pal-extract/src/__tests__/binary-fixtures.ts"
+    },
+    {
+      "oldPath": "packages/pal-extract/src/__tests__/glm-tb04-fixtures.ts",
+      "originalName": "u16Bytes",
+      "oldName": "u16Bytes",
+      "currentName": "u16Bytes",
+      "currentPath": "packages/pal-extract/src/__tests__/binary-fixtures.ts"
+    },
+    {
+      "oldPath": "packages/pal-extract/src/__tests__/glm-tb04-fixtures.ts",
+      "originalName": "u32Bytes",
+      "oldName": "u32Bytes",
+      "currentName": "u32Bytes",
+      "currentPath": "packages/pal-extract/src/__tests__/binary-fixtures.ts"
+    },
+    {
+      "oldPath": "packages/pal-extract/src/__tests__/glm-tb04-fixtures.ts",
+      "originalName": "gbk",
+      "oldName": "gbk",
+      "currentName": "gbk",
+      "currentPath": "packages/pal-extract/src/__tests__/text-fixtures.ts"
+    },
+    {
+      "oldPath": "packages/pal-extract/src/__tests__/glm-tb04-fixtures.ts",
+      "originalName": "sssChunks",
+      "oldName": "sssChunks",
+      "currentName": "sssChunks",
+      "currentPath": "packages/pal-extract/src/__tests__/sss-fixtures.ts"
+    },
+    {
+      "oldPath": "packages/pal-extract/src/__tests__/glm-tb04-fixtures.ts",
+      "originalName": "wordEntryText",
+      "oldName": "wordEntryText",
+      "currentName": "wordEntryText",
+      "currentPath": "packages/pal-extract/src/__tests__/text-fixtures.ts"
+    },
+    {
+      "oldPath": "packages/pal-extract/src/__tests__/glm-tb04-fixtures.ts",
+      "originalName": "wordDat",
+      "oldName": "wordDat",
+      "currentName": "wordDat",
+      "currentPath": "packages/pal-extract/src/__tests__/text-fixtures.ts"
+    },
+    {
+      "oldPath": "packages/pal-extract/src/__tests__/glm-tb04-fixtures.ts",
+      "originalName": "msgRegion",
+      "oldName": "msgRegion",
+      "currentName": "msgRegion",
+      "currentPath": "packages/pal-extract/src/__tests__/text-fixtures.ts"
+    },
+    {
+      "oldPath": "packages/pal-extract/src/__tests__/glm-tb04-fixtures.ts",
+      "originalName": "itemsObjectBytes",
+      "oldName": "itemsObjectBytes",
+      "currentName": "itemsObjectBytes",
+      "currentPath": "packages/pal-extract/src/__tests__/table-records.ts"
+    },
+    {
+      "oldPath": "packages/pal-extract/src/__tests__/glm-tb04-fixtures.ts",
+      "originalName": "expectedItemWords",
+      "oldName": "expectedItemWords",
+      "currentName": "expectedItemWords",
+      "currentPath": "packages/pal-extract/src/__tests__/table-records.ts"
+    },
+    {
+      "oldPath": "packages/pal-extract/src/__tests__/glm-tb04-fixtures.ts",
+      "originalName": "storesBytes",
+      "oldName": "storesBytes",
+      "currentName": "storesBytes",
+      "currentPath": "packages/pal-extract/src/__tests__/table-records.ts"
+    },
+    {
+      "oldPath": "packages/pal-extract/src/__tests__/glm-tb04-fixtures.ts",
+      "originalName": "battleFieldsBytes",
+      "oldName": "battleFieldsBytes",
+      "currentName": "battleFieldsBytes",
+      "currentPath": "packages/pal-extract/src/__tests__/table-records.ts"
+    },
+    {
+      "oldPath": "packages/pal-extract/src/__tests__/glm-tb04-fixtures.ts",
+      "originalName": "enemyTeamsBytes",
+      "oldName": "enemyTeamsBytes",
+      "currentName": "enemyTeamsBytes",
+      "currentPath": "packages/pal-extract/src/__tests__/table-records.ts"
+    },
+    {
+      "oldPath": "packages/pal-extract/src/__tests__/glm-tb04-fixtures.ts",
+      "originalName": "levelUpMagicBytes",
+      "oldName": "levelUpMagicBytes",
+      "currentName": "levelUpMagicBytes",
+      "currentPath": "packages/pal-extract/src/__tests__/table-records.ts"
+    },
+    {
+      "oldPath": "packages/pal-extract/src/__tests__/glm-tb04-fixtures.ts",
+      "originalName": "levelUpExpBytes",
+      "oldName": "levelUpExpBytes",
+      "currentName": "levelUpExpBytes",
+      "currentPath": "packages/pal-extract/src/__tests__/table-records.ts"
+    },
+    {
+      "oldPath": "packages/pal-extract/src/__tests__/glm-tb04-fixtures.ts",
+      "originalName": "battleEffectBytes",
+      "oldName": "battleEffectBytes",
+      "currentName": "battleEffectBytes",
+      "currentPath": "packages/pal-extract/src/__tests__/table-records.ts"
+    },
+    {
+      "oldPath": "packages/pal-extract/src/__tests__/glm-tb04-fixtures.ts",
+      "originalName": "enemyPosBytes",
+      "oldName": "enemyPosBytes",
+      "currentName": "enemyPosBytes",
+      "currentPath": "packages/pal-extract/src/__tests__/table-records.ts"
+    },
+    {
+      "oldPath": "packages/pal-extract/src/__tests__/glm-tb04-fixtures.ts",
+      "originalName": "expectedEnemyPos",
+      "oldName": "expectedEnemyPos",
+      "currentName": "expectedEnemyPos",
+      "currentPath": "packages/pal-extract/src/__tests__/table-records.ts"
+    }
+  ],
+  "retiredPaths": [
+    "packages/pal-extract/src/__tests__/glm-foundation-fixtures.ts",
+    "packages/pal-extract/src/__tests__/glm-tb04-fixtures.ts"
+  ],
+  "preserved": [
+    {
+      "path": "packages/pal-extract/src/cli.ts",
+      "sha256": "a6cf5e24a0a1706d605fd288757035925843854f0aa379b9e963014908528d77"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/_utils.ts",
+      "sha256": "576549caabe28bf69bccc132b2ecc2ea36ee7019b6d2574457ef02e43ae4250b"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/ball.ts",
+      "sha256": "8a8f6de4be9ccaa69e6a50ad1adea06b1b9f20f6503fed8e2f358d0927f09688"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/battle-fields.ts",
+      "sha256": "df5ed939b9761da191590e48fe9dd4c1b334c211b4a523cdc4b18df22a9848a2"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/data-misc.ts",
+      "sha256": "bae489b9c04bc8a4ec85d82419b0b08694c25dfdfdb8a9afdd389a1de5bab5f2"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/enemies.ts",
+      "sha256": "baa03979664ef61a55471bd81896060388dee839c4507793d12e62eadbfb6eb6"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/enemy-teams.ts",
+      "sha256": "eb8369584d1ea80317fca82764ef9c0a88f653b9bcf6d8808b5cb92e41c8f5b0"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/items.ts",
+      "sha256": "ce10629b77c6ca18c32e755e1b9f7dfd57287558da7eed0e27528fbac52ba7dc"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/player-roles.ts",
+      "sha256": "794fa125250d79568d151b69d8022ac49d46022b95d91de3e4ad8d2d9227d890"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/rgm.ts",
+      "sha256": "92883a8e074005d2b9e25ff9ae3bc31e68619ff165dde4fed2c5a08c3e876b65"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/rix.ts",
+      "sha256": "8d3dfe7dfcbbc5a56a588f32aaf7d15b9bbfb1a499538de7625710a402fa64a7"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/sounds.ts",
+      "sha256": "8e46e879621a448028ce3ed3cbd7a4aca5da85659191ea446b395f5d9e1dce64"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/spells.ts",
+      "sha256": "3bf94340d337fb9fee0ca019ce3a9a66f52cf42d671b748e9dfd68868ed4815d"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/stores.ts",
+      "sha256": "ac63cfe2cee9ba7ab01d6dd055fb93a78bf0b8a6d61648ac98be0d118d6fc0f4"
+    },
+    {
+      "path": "packages/pal-extract/src/io/word.ts",
+      "sha256": "dbcd851a23f10829f2f04ef7fd7ec427c0362ea3d0796714a7186da9f35323a6"
+    },
+    {
+      "path": "packages/pal-extract/src/io/msg.ts",
+      "sha256": "1aeede31eec0e5807ca450c7614d3b9719a2e3c1e8ac5940f8a2dd3a3f092006"
+    },
+    {
+      "path": "packages/pal-extract/src/io/sss.ts",
+      "sha256": "a1f950905bdeb18baef4086203a4e3590c2b43a71150c7d0a0dca2898842a518"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/enemy-pos.ts",
+      "sha256": "2fe29a2a1c485929009f6cffec7ad75a75ac695721e0929418f33edd30910505"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/animation-assets.ts",
+      "sha256": "ba474bac4b6dc2dcb034f165a92d25186f2a29a6343bad835016ce04e58645b9"
+    }
+  ],
+  "neighborPaths": [
+    "packages/pal-extract/src/io/msg.boundaries.test.ts",
+    "packages/pal-extract/src/io/msg.test.ts",
+    "packages/pal-extract/src/io/rle.test.ts",
+    "packages/pal-extract/src/io/slf.test.ts",
+    "packages/pal-extract/src/io/sss.boundaries.test.ts",
+    "packages/pal-extract/src/io/sss.test.ts",
+    "packages/pal-extract/src/io/word.boundaries.test.ts",
+    "packages/pal-extract/src/io/word.test.ts",
+    "packages/pal-extract/src/io/yj2.test.ts",
+    "packages/pal-extract/src/resources/animation-assets.fire.test.ts",
+    "packages/pal-extract/src/resources/enemy-pos.boundaries.test.ts",
+    "packages/pal-extract/src/resources/parsers/__tests__/battle-fields.boundaries.test.ts",
+    "packages/pal-extract/src/resources/parsers/__tests__/data-misc.boundaries.test.ts",
+    "packages/pal-extract/src/resources/parsers/__tests__/data-misc.test.ts",
+    "packages/pal-extract/src/resources/parsers/__tests__/enemies.boundaries.test.ts",
+    "packages/pal-extract/src/resources/parsers/__tests__/enemy-teams.boundaries.test.ts",
+    "packages/pal-extract/src/resources/parsers/__tests__/items.boundaries.test.ts",
+    "packages/pal-extract/src/resources/parsers/__tests__/misc-mkf.test.ts",
+    "packages/pal-extract/src/resources/parsers/__tests__/player-roles.boundaries.test.ts",
+    "packages/pal-extract/src/resources/parsers/__tests__/player-roles.event-boundaries-1.test.ts",
+    "packages/pal-extract/src/resources/parsers/__tests__/rix.test.ts",
+    "packages/pal-extract/src/resources/parsers/__tests__/sounds.test.ts",
+    "packages/pal-extract/src/resources/parsers/__tests__/spells.boundaries.test.ts",
+    "packages/pal-extract/src/resources/parsers/__tests__/stores.boundaries.test.ts",
+    "packages/pal-extract/src/resources/parsers/ball.glm-runtime-resource.test.ts",
+    "packages/pal-extract/src/resources/parsers/battle-fields.glm-runtime-resource.test.ts",
+    "packages/pal-extract/src/resources/parsers/enemy-teams.glm-runtime-resource.test.ts",
+    "packages/pal-extract/src/resources/parsers/items.glm-runtime-resource.test.ts",
+    "packages/pal-extract/src/resources/parsers/rgm.glm-runtime-resource.test.ts",
+    "packages/pal-extract/src/resources/parsers/stores.glm-runtime-resource.test.ts",
+    "packages/pal-extract/src/resources/scene-supplemental.test.ts",
+    "packages/pal-extract/src/resources/scene.glm-runtime-resource.test.ts",
+    "packages/pal-extract/src/resources/scene.test.ts"
+  ],
+  "cleanExecutions": [
+    "before",
+    "scoped",
+    "neighbors",
+    "typecheck",
+    "format-final",
+    "verify-r2",
+    "docs-final",
+    "content-review-final",
+    "lint-final",
+    "ledger-final",
+    "diff-final",
+    "fetch-http1"
+  ],
+  "profiles": [
+    {
+      "path": "packages/pal-extract/src/__tests__/binary-fixtures.ts",
+      "subjects": ["packages/pal-extract/src/__tests__/glm-foundation-fixtures.ts"],
+      "axes": {
+        "A": "独立LE/MKF拼接算法不变；稀疏u16写入只从旧provider迁入，offset仍为字节。",
+        "B": "删除“保留本组调用名”说明，非递减MKF offsets及稀疏写入单位保留。",
+        "C": "所有字节操作聚于无资源语义的底层，数据每次新分配；无反向产品依赖。",
+        "D": "mkMkf转发层移除，两角色consumer直接用现存mkfContainer，未合并任何不同格式codec。",
+        "E": "58个原consumer身份、输入/断言不变；固定字段/原盘oracle仍由消费测试独立持有。",
+        "F": "u16Table明确写入单位和值宽；叶模块名字反映二进制构造，不含作者批次。",
+        "G": "移除两个旧barrel转发，现存4工具声明不变；只增一个真实使用的纯builder。",
+        "H": "纯字节构造可直接用于真实parser，声明守恒/类型检查约束重组，无新增mock。"
+      },
+      "acceptance": "accepted-FG; unified gates pending"
+    },
+    {
+      "path": "packages/pal-extract/src/__tests__/player-role-layout.ts",
+      "subjects": ["packages/pal-extract/src/__tests__/glm-foundation-fixtures.ts"],
+      "axes": {
+        "A": "SoA行号、6角色列宽与row*12+player*2表达式精确保留。",
+        "B": "75行×12B实际布局和字节单位保留，不把合成数据当真实剧情。",
+        "C": "仅角色字段布局，由两个PLAYERROLES专测消费，与文本编码/敌人表分离。",
+        "D": "行常量与单元地址保持同一知识源；通用稀疏写入由binary负责。",
+        "E": "非对称装备/仙术首末及water/earth断言留consumer，helper不从被测结果算oracle。",
+        "F": "名称表示角色布局；PLAYER_ROLE_ROWS、playerRoleCell沿现有领域语言，非模型名。",
+        "G": "两consumer实际使用两出口；无兼容转发、模式开关或新算法。",
+        "H": "固定行常量和纯地址tuple可观察，分配由消费builder负责，无全局写状态。"
+      },
+      "acceptance": "accepted-FG; unified gates pending"
+    },
+    {
+      "path": "packages/pal-extract/src/__tests__/words-table.ts",
+      "subjects": ["packages/pal-extract/src/__tests__/glm-foundation-fixtures.ts"],
+      "axes": {
+        "A": "保留各Words必填段和可覆写四个命名段；引用/默认空数组语义不变。",
+        "B": "说明最小DTO与具名段用途，不声称构造完整原盘词表。",
+        "C": "只构造解析器的Words DTO，不引入GBK/IO编码依赖。",
+        "D": "四类表parser共享同一最小合同；不与WORD.DAT文件构造混成万能工厂。",
+        "E": "原场景/词表输入及独立名称期望保留，消费测试body只替换builder名称。",
+        "F": "makeWords表示构造具名Words，不再叫抽象mkWords。",
+        "G": "仅一个使用出口，无重导出/模式布尔；不扩充无消费者的字段配置。",
+        "H": "函数不做IO，每次未覆写字段新数组；传入数组仍按原合同借用，不伪称deep clone。"
+      },
+      "acceptance": "accepted-FG; unified gates pending"
+    },
+    {
+      "path": "packages/pal-extract/src/__tests__/text-fixtures.ts",
+      "subjects": ["packages/pal-extract/src/__tests__/glm-tb04-fixtures.ts"],
+      "axes": {
+        "A": "GBK编码、565×10记录、段标记、MSG sentinel输入精确保留；decoder真值证据复用原范围。",
+        "B": "保留iconv逆操作的证据限制、词尾q和尾offset约定，去作者批次头。",
+        "C": "文字编码/记录字节一起组织；不依赖表parser或角色布局。",
+        "D": "WORD和MSG共享真实GBK输入函数，不把二进制barrel继续转发给消费者。",
+        "E": "完整段界字面值、GBK字面正文与所有权断言保持；同库编码不宣称独立codec oracle。",
+        "F": "text-fixtures对应GBK/WORD/MSG；函数/变量仍显式给出记录和段语义。",
+        "G": "WORD_SEGMENT_TABLE仅在本模块使用，改私有；其数值及查找完全不变。",
+        "H": "纯fresh字节/offsets，调用者单独造offset视图/guard，不混入产品解析或core mocks。"
+      },
+      "acceptance": "accepted-FG; unified gates pending"
+    },
+    {
+      "path": "packages/pal-extract/src/__tests__/sss-fixtures.ts",
+      "subjects": ["packages/pal-extract/src/__tests__/glm-tb04-fixtures.ts"],
+      "axes": {
+        "A": "两EO/scene、对象/消息offset/bytecode五chunk向量逐声明相同。",
+        "B": "非对称字段、signed标记与chunk长度注释保持，不冒充可玩剧情。",
+        "C": "一个SSS原始输入工厂独立于文本与具体资源记录；无parseSss反向依赖。",
+        "D": "复用底层u16/u32/concat，保留SSS专属向量，不为去重抽可配置万能容器。",
+        "E": "手列EO/scene/bytecode和借用/复制断言留真实IO测试；场景fixture直接改引底层工具。",
+        "F": "sss-fixtures清楚表达原始SSS输入，与经parser创建typed场景的scene-fixtures职责不同。",
+        "G": "只有真实消费的sssChunks出口；旧多域barrel删除，不新增兼容旧名模块。",
+        "H": "返回fresh chunks，保留guard/byteOffset可控性，无模块可变状态或IO。"
+      },
+      "acceptance": "accepted-FG; unified gates pending"
+    },
+    {
+      "path": "packages/pal-extract/src/__tests__/table-records.ts",
+      "subjects": ["packages/pal-extract/src/__tests__/glm-tb04-fixtures.ts"],
+      "axes": {
+        "A": "OBJECT items、STORE/FIELD/TEAM、成长/效果/敌位向量的写入/顺序/公式不变。",
+        "B": "保留结构字节数、WORD符号和非对称标记，删除作者/覆盖率批次聚类头。",
+        "C": "纯资源记录向量聚合，只有binary叶依赖；与SSS结构/GBK编码/角色布局分离。",
+        "D": "共用实际同合同LE工具；items/位置期望helper描述输入数学标签，不复制产品parser算法。",
+        "E": "全部独立字面输出及输入所有权断言保持；不以本次文件数变化增加覆盖信用。",
+        "F": "table-records对应表parser消费者，函数保持具体表名，不按生成模型划分。",
+        "G": "全部10个出口有实际消费者，未造目录barrel、兼容别名或模式参数。",
+        "H": "每次分配fresh byte table，独立预期helper无SUT依赖，现有parser直接可测。"
+      },
+      "acceptance": "accepted-FG; unified gates pending"
+    }
+  ],
+  "reusedReview": {
+    "member": "organization-extract-fixtures/reused-review.json",
+    "scope": "Exact two former A-E/H judgments reused; F/G reorganized now, consumers body/import bridge only, not new full review"
+  },
+  "processDisclosure": [
+    "Initial consumer rewrite regexp rejected cross-import capture before writing the first consumer; provider split files had been written. All 17 consumer transforms were then derived again from their frozen inputs using a non-crossing pattern. Declaration/body verification covers final state.",
+    "GBK inverse-encoder input remains evidence of record layout, not independent codec correctness.",
+    "Main fetch HTTP2 failed after waiting; bounded HTTP1 retry receipt follows.",
+    "Local verifier initially rejected unchanged type-only imports; it now records their exact type-only flag. A second run rejected printer-preserved object multiline layout; only that exact one-property formatting delta is an explicit counted bridge. Failure raw kept; no assertion is masked.",
+    "Biome check --write exited 0 with two useTemplate info diagnostics in the new verifier. They were corrected directly; this first receipt is not counted as clean. Final static gate receipts are separate.",
+    "First ledger invocation failed because two deleted providers had not yet been staged as deletions. The existing index-based inventory was respected: only own retired paths were staged and five own new fixture paths added with intent-to-add; no inventory rule was changed. First raw retained; final machine counts are separate.",
+    "Default verify initially rejected two not-yet-resolved cohort consumers after their import-only change and the old preserved binary helper after appending u16Table. The current fixture bridge is now verified first, then only its exact frozen inputs are read at old evidence boundaries. Those consumer files remain unresolved F/G, and no historical result is rewritten as a new execution."
+  ]
+}

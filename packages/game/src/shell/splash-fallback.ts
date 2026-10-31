@@ -1,6 +1,6 @@
 /**
  * M5.6 T18 Step 5:Splash 卷轴动画(DOS build fallback)— sdlpal `PAL_SplashScreen`
- * `reference/sdlpal/main.c:206-456` 真值 1:1 port。
+ * 参考 `reference/sdlpal/main.c` 的 `PAL_SplashScreen`；浏览器端用异步定时器驱动。
  *
  * 视觉(sdlpal):
  *  1. 已按构建选择好的 SPLASH_UP/SPLASH_DOWN FBP 320×200 全屏背景
@@ -15,12 +15,12 @@
  *     rgb * dwTime/15000)
  *  5. 帧间隔 sdlpal 真值 `dwBeginTime + dwTime + 85ms`(SDL_GetTicks)≈ 12fps
  *  6. 按 Menu/Search 键:补完渐变 quick(+250ms 步进)+ 0.5s delay + break
- *  7. 退出时 fadeout(留 caller 处理或简版直接清屏)
+ *  7. 退出前在本播放器内淡黑，再移交 caller。
  *
  * 设计:
  *  - 不知 gs / suspendRaf — caller(bootstrap)try/finally 包
  *  - palette mutable per-frame(rgb 渐变);flushToCanvas 接 Palette,每帧构 fresh
- *  - 用 requestAnimationFrame loop + delta time(同 sdlpal SDL_GetTicks 等价)
+ *  - 用 setTimeout 等待下一帧，时钟由 nowFn 提供；不依赖 caller 的 RAF。
  */
 import type { Palette } from '@type-pal/shared'
 import type { IndexedImage } from '../assets/png.js'
@@ -47,7 +47,7 @@ export interface PlaySplashFallbackOptions {
   craneSprite: CraneSprite
   /** MGO chunk 71 SPLASH_TITLE 标题 sprite frame 0。 */
   titleFrame: IndexedImage
-  /** 跳过键,默认 Space/Enter/Escape(sdlpal `kKeyMenu | kKeySearch`,uigame.c:395)。 */
+  /** 跳过键,默认 Space/Enter/Escape；对应 PAL_SplashScreen 的 Menu/Search 检查。 */
   skipKeys?: string[]
   /** 测试 only:override timing source。 */
   nowFn?: () => number
@@ -87,22 +87,6 @@ function scalePalette(base: Palette, factor: number): Palette {
           number,
         ],
     ),
-  }
-}
-
-/** 320×200 全屏 indexed bitmap 整面 blit 到 fb(`fb.indices.set`)。 */
-function _blitFullScreen(fb: Framebuffer, bitmap: IndexedImage): void {
-  // bitmap 期望 320×200;不匹配时只 copy 重叠区域
-  if (bitmap.width === SCREEN_W && bitmap.height === SCREEN_H) {
-    fb.indices.set(bitmap.indices)
-    return
-  }
-  const w = Math.min(bitmap.width, SCREEN_W)
-  const h = Math.min(bitmap.height, SCREEN_H)
-  for (let y = 0; y < h; y++) {
-    for (let x = 0; x < w; x++) {
-      fb.writePixel(x, y, bitmap.indices[y * bitmap.width + x]!)
-    }
   }
 }
 
@@ -192,9 +176,9 @@ async function fadeOut(
 }
 
 /**
- * Splash fallback 主循环 — sdlpal `PAL_SplashScreen` 1:1 port。
+ * Splash fallback 主循环，参考 sdlpal `PAL_SplashScreen`。
  *
- * Promise resolve 时机 = palette 完全淡入 + 用户按跳过键 → 0.5s delay → resolve。
+ * Promise 在按键后补完淡入、等待0.5秒并完成退出淡黑后 resolve。
  * (sdlpal `while (TRUE)` 循环只能用按键退出 — 真值 splash 没自动 break。)
  */
 export async function playSplashFallback(options: PlaySplashFallbackOptions): Promise<void> {
@@ -232,11 +216,10 @@ export async function playSplashFallback(options: PlaySplashFallbackOptions): Pr
   let titleVisibleHeight = 0
   const titleHeight = options.titleFrame.height
   const dwBeginTime = now()
-  const dwTimeOffset = 0 // 跳过时 fast-forward palette 用
 
   try {
     while (true) {
-      const dwTime = now() - dwBeginTime + dwTimeOffset
+      const dwTime = now() - dwBeginTime
 
       // 1. palette 渐变(0 → 100% over FADE_IN_MS)
       const fadeFactor = Math.min(1, dwTime / FADE_IN_MS)

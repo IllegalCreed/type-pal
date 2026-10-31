@@ -36,6 +36,10 @@ Template: reference-canon-v1 / 1.0.0
 
 保全块的外层fence之外不属于骨架。按记录前缀/后缀提取即可逐字节等基点原文，不trim、替换或升级字段；嵌套YAML/testing-meta/代码保持原样。
 
+## 当前版本适用性扩展（2026-10-30）
+
+下方历史源块保持原字节；新建测试记录不填写活动 reviewBy。使用记录 revision 与 sourceRefs 比较版本适用性；lastVerified 只记真实核验日期，Quality gate 记录命令、原始诊断、evidence 与适用来源。详见[测试治理](../governance.md#版本适用性)。
+
 <!-- template-source-example:start -->
 ````markdown
 # Testing domain report

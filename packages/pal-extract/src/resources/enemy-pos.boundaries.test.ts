@@ -4,7 +4,7 @@
  * （x=k*2+1 / y=k*2+2，k=enemyIdx*5+maxIdx——转置/串维即红）；99/101 拒绝与 100B 正控。
  */
 import { describe, expect, test } from 'vitest'
-import { enemyPosBytes, expectedEnemyPos } from '../__tests__/glm-tb04-fixtures.js'
+import { enemyPosBytes, expectedEnemyPos } from '../__tests__/table-records.js'
 import { parseEnemyPos } from './enemy-pos.js'
 
 describe('P09 parseEnemyPos 五 layout 坐标保真', () => {

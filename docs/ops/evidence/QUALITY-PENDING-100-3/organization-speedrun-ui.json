@@ -1,0 +1,577 @@
+{
+  "inputs": [
+    {
+      "path": "packages/game/src/tools/speedrun/countdown.test.ts",
+      "sha256": "a684c34ac598bf934caff399c0616b2f24cc5ce8e3fcaefaa07eb9c300219833",
+      "member": "organization-speedrun-ui/0.before"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/countdown.glm-phase1-leaves.test.ts",
+      "sha256": "2abb8449f9eb418542b978538b4709f6104478e211c51032faba7faa82a71eb2",
+      "member": "organization-speedrun-ui/1.before"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/overlay.test.ts",
+      "sha256": "463f8c9b9b6e77391e3f050708671aa596238141519a9e74c4d534a903c1c5eb",
+      "member": "organization-speedrun-ui/2.before"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/overlay.glm-phase1-leaves.test.ts",
+      "sha256": "44f2d9135e744b3686bde3dc28bf83ab4ae0ad692c1d658878dc164597a5ec54",
+      "member": "organization-speedrun-ui/3.before"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "packages/game/src/tools/speedrun/countdown.test.ts",
+      "sha256": "108ebd9ed11281016c19f816ef4ba9421be3e5af998305db3c47741786a78053"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/overlay.test.ts",
+      "sha256": "47deea61ed573130d556b1a867e9ac605ae078929b49704cc772903f398470c9"
+    }
+  ],
+  "sourceBridges": [
+    {
+      "path": "packages/game/src/tools/speedrun/countdown.test.ts",
+      "id": "speedrun-ui-0",
+      "reason": "SharecountdownactualIO cleanup;restore document/spiesbefore productunmount,observerdisposalunchanged.",
+      "changes": [
+        {
+          "from": "import { afterEach, describe, expect, it } from 'vitest'\nimport { showCountdown } from './countdown.js'\n\nafterEach(() => showCountdown(null))\n\ndescribe('showCountdown', () => {\n  it('传字符串挂出、更新文本', () => {\n    showCountdown('3')\n    const el = document.getElementById('tp-speedrun-countdown')\n    expect(el?.textContent).toBe('3')\n    showCountdown('2')\n    expect(document.getElementById('tp-speedrun-countdown')).toBe(el)\n    expect(document.querySelectorAll('#tp-speedrun-countdown')).toHaveLength(1)\n    expect(el?.textContent).toBe('2')\n    expect(el?.style.pointerEvents).toBe('none')\n  })\n  it('传 null 移除', () => {\n    showCountdown('1')\n    const first = document.getElementById('tp-speedrun-countdown')\n    showCountdown(null)\n    expect(document.getElementById('tp-speedrun-countdown')).toBeNull()\n    showCountdown(null)\n    expect(document.getElementById('tp-speedrun-countdown')).toBeNull()\n    showCountdown('1')\n    const next = document.getElementById('tp-speedrun-countdown')\n    expect(next).not.toBe(first)\n    expect(next?.textContent).toBe('1')\n  })\n})\n",
+          "to": "import { afterEach, describe, expect, it, beforeEach, vi } from 'vitest'\nimport { showCountdown } from './countdown.js'\n\ndescribe('showCountdown', () => {\n  it('传字符串挂出、更新文本', () => {\n    showCountdown('3')\n    const el = document.getElementById('tp-speedrun-countdown')\n    expect(el?.textContent).toBe('3')\n    showCountdown('2')\n    expect(document.getElementById('tp-speedrun-countdown')).toBe(el)\n    expect(document.querySelectorAll('#tp-speedrun-countdown')).toHaveLength(1)\n    expect(el?.textContent).toBe('2')\n    expect(el?.style.pointerEvents).toBe('none')\n  })\n  it('传 null 移除', () => {\n    showCountdown('1')\n    const first = document.getElementById('tp-speedrun-countdown')\n    showCountdown(null)\n    expect(document.getElementById('tp-speedrun-countdown')).toBeNull()\n    showCountdown(null)\n    expect(document.getElementById('tp-speedrun-countdown')).toBeNull()\n    showCountdown('1')\n    const next = document.getElementById('tp-speedrun-countdown')\n    expect(next).not.toBe(first)\n    expect(next?.textContent).toBe('1')\n  })\n})\n\nbeforeEach(() => showCountdown(null))\nafterEach(() => {\n  vi.unstubAllGlobals()\n  vi.restoreAllMocks()\n  showCountdown(null)\n})\n",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/countdown.glm-phase1-leaves.test.ts",
+      "id": "speedrun-ui-1",
+      "reason": "SharecountdownactualIO cleanup;restore document/spiesbefore productunmount,observerdisposalunchanged.",
+      "changes": [
+        {
+          "from": "/**\n * countdown.test.ts 负责创建、更新时节点身份、移除/重建和 pointer-events。\n * 本文件只核每帧相同文字不触发 DOM 变更，以及无 document 时的宿主边界。\n * MutationObserver 可观察同文字的重复写入，节点数/文字相同不能替代此 oracle。\n */\nimport { afterEach, describe, expect, it, vi } from 'vitest'\nimport { showCountdown } from './countdown.js'\n\nconst ID = 'tp-speedrun-countdown'\n\nafterEach(() => {\n  vi.unstubAllGlobals()\n  vi.restoreAllMocks()\n  document.getElementById(ID)?.remove()\n})\n\ndescribe('L20 showCountdown 宿主边界', () => {\n  it('相同文字逐帧刷新时不触发 DOM 变更', () => {\n    showCountdown('3')\n    const first = document.getElementById(ID)!\n    const observer = new MutationObserver(() => {})\n    observer.observe(first, { childList: true, characterData: true, subtree: true })\n    try {\n      showCountdown('3')\n      expect(observer.takeRecords()).toHaveLength(0)\n    } finally {\n      observer.disconnect()\n    }\n  })\n\n  it('无 document 时字符串和 null 调用均不访问 DOM', () => {\n    const createElement = vi.spyOn(document, 'createElement')\n    vi.stubGlobal('document', undefined)\n    showCountdown('3')\n    showCountdown(null)\n    expect(createElement).not.toHaveBeenCalled()\n  })\n})\n",
+          "to": "import { afterEach, describe, expect, it, vi, beforeEach } from 'vitest'\nimport { showCountdown } from './countdown.js'\n\nconst ID = 'tp-speedrun-countdown'\n\ndescribe('L20 showCountdown 宿主边界', () => {\n  it('相同文字逐帧刷新时不触发 DOM 变更', () => {\n    showCountdown('3')\n    const first = document.getElementById(ID)!\n    const observer = new MutationObserver(() => {})\n    observer.observe(first, { childList: true, characterData: true, subtree: true })\n    try {\n      showCountdown('3')\n      expect(observer.takeRecords()).toHaveLength(0)\n    } finally {\n      observer.disconnect()\n    }\n  })\n\n  it('无 document 时字符串和 null 调用均不访问 DOM', () => {\n    const createElement = vi.spyOn(document, 'createElement')\n    vi.stubGlobal('document', undefined)\n    showCountdown('3')\n    showCountdown(null)\n    expect(createElement).not.toHaveBeenCalled()\n  })\n})\n\nbeforeEach(() => showCountdown(null))\nafterEach(() => {\n  vi.unstubAllGlobals()\n  vi.restoreAllMocks()\n  showCountdown(null)\n})\n",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/overlay.test.ts",
+      "id": "speedrun-ui-2",
+      "reason": "ShareexactbaseRunState/defaultBests construction andexplicitlocale/DOMtestownership;fixoneillegalelapsedfixture.",
+      "changes": [
+        {
+          "from": "import { afterEach, beforeEach, describe, expect, it } from 'vitest'\nimport { CHECKPOINTS } from './checkpoints.js'\nimport { hideOverlay, renderOverlay } from './overlay.js'\nimport type { RunState } from './timer.js'\n\nconst run = (o: Partial<RunState>): RunState => ({\n  phase: 'running',\n  elapsedMs: 0,\n  stepIndex: 0,\n  splits: CHECKPOINTS.map(() => null),\n  bananaPaused: false,\n  manualPaused: false,\n  hasUnCheated: false,\n  countdownEndMs: null,\n  ...o,\n})\nfunction cleanupOverlay() {\n  hideOverlay()\n  document.getElementById('tp-speedrun-style')?.remove()\n}\nbeforeEach(cleanupOverlay)\nafterEach(cleanupOverlay)\n\ndescribe('overlay', () => {\n  it('渲染 21 行 + 主计时', () => {\n    const bests = Object.fromEntries(CHECKPOINTS.map((c) => [c.id, c.defaultBestMs]))\n    renderOverlay(run({ elapsedMs: 65_000 }), CHECKPOINTS, bests)\n    const root = document.getElementById('tp-speedrun-overlay')\n    expect(root).not.toBeNull()\n    expect(root?.querySelectorAll('.tp-sr-row').length).toBe(21)\n    expect(root?.querySelector('.tp-sr-clock')?.textContent).toBe('0:01:05.00')\n  })\n  it('暂停加 * 前缀', () => {\n    const bests = Object.fromEntries(CHECKPOINTS.map((c) => [c.id, c.defaultBestMs]))\n    renderOverlay(run({ bananaPaused: true, elapsedMs: 1000 }), CHECKPOINTS, bests)\n    expect(document.querySelector('.tp-sr-clock')?.textContent).toBe('*0:00:01.00')\n  })\n  it('已完成节点显示最佳/差值，并用该差值推算预计通关', () => {\n    const bests = Object.fromEntries(CHECKPOINTS.map((c) => [c.id, c.defaultBestMs]))\n    bests.stele = 10_000\n    bests.clear = 20_000\n    renderOverlay(\n      run({ stepIndex: 1, splits: [8_000, ...CHECKPOINTS.slice(1).map(() => null)] }),\n      CHECKPOINTS,\n      bests,\n    )\n\n    const first = document.querySelector('.tp-sr-row')\n    expect(first?.querySelector('.tp-sr-best')?.textContent).toBe('0:00:10')\n    expect(first?.querySelector('.tp-sr-diff')?.textContent).toBe('-0:02')\n    expect(first?.querySelector('.tp-sr-diff')?.className).toContain('fast')\n    expect(document.querySelector('.tp-sr-eta')?.textContent).toBe('预计通关 0:00:18')\n  })\n  it('hideOverlay 移除真实根节点，再次移除保持为空', () => {\n    renderOverlay(run({}), CHECKPOINTS, {})\n    expect(document.getElementById('tp-speedrun-overlay')).not.toBeNull()\n    hideOverlay()\n    expect(document.getElementById('tp-speedrun-overlay')).toBeNull()\n    expect(() => hideOverlay()).not.toThrow()\n    expect(document.getElementById('tp-speedrun-overlay')).toBeNull()\n  })\n})\n",
+          "to": "import { afterEach, beforeEach, describe, expect, it } from 'vitest'\nimport { CHECKPOINTS } from './checkpoints.js'\nimport { hideOverlay, renderOverlay } from './overlay.js'\nimport type { RunState } from './timer.js'\nimport { getLanguage, useFallbackLanguage } from '../../localization/language.js'\nimport type { BestTimes } from './store.js'\n\nconst runState = (overrides: Partial<RunState>): RunState => ({\n  phase: 'running',\n  elapsedMs: 0,\n  stepIndex: 0,\n  splits: CHECKPOINTS.map(() => null),\n  bananaPaused: false,\n  manualPaused: false,\n  hasUnCheated: false,\n  countdownEndMs: null,\n  ...overrides,\n})\n\ndescribe('overlay', () => {\n  it('渲染 21 行 + 主计时', () => {\n    const bests = defaultBestTimes()\n    renderOverlay(runState({ elapsedMs: 65_000 }), CHECKPOINTS, bests)\n    const root = document.getElementById('tp-speedrun-overlay')\n    expect(root).not.toBeNull()\n    expect(root?.querySelectorAll('.tp-sr-row').length).toBe(21)\n    expect(root?.querySelector('.tp-sr-clock')?.textContent).toBe('0:01:05.00')\n  })\n  it('暂停加 * 前缀', () => {\n    const bests = defaultBestTimes()\n    renderOverlay(runState({ bananaPaused: true, elapsedMs: 1000 }), CHECKPOINTS, bests)\n    expect(document.querySelector('.tp-sr-clock')?.textContent).toBe('*0:00:01.00')\n  })\n  it('已完成节点显示最佳/差值，并用该差值推算预计通关', () => {\n    const bests = defaultBestTimes()\n    bests.stele = 10_000\n    bests.clear = 20_000\n    renderOverlay(\n      runState({\n        elapsedMs: 8_000,\n        stepIndex: 1,\n        splits: [8_000, ...CHECKPOINTS.slice(1).map(() => null)],\n      }),\n      CHECKPOINTS,\n      bests,\n    )\n\n    const first = document.querySelector('.tp-sr-row')\n    expect(first?.querySelector('.tp-sr-best')?.textContent).toBe('0:00:10')\n    expect(first?.querySelector('.tp-sr-diff')?.textContent).toBe('-0:02')\n    expect(first?.querySelector('.tp-sr-diff')?.className).toContain('fast')\n    expect(document.querySelector('.tp-sr-eta')?.textContent).toBe('预计通关 0:00:18')\n  })\n  it('hideOverlay 移除真实根节点，再次移除保持为空', () => {\n    renderOverlay(runState({}), CHECKPOINTS, {})\n    expect(document.getElementById('tp-speedrun-overlay')).not.toBeNull()\n    hideOverlay()\n    expect(document.getElementById('tp-speedrun-overlay')).toBeNull()\n    expect(() => hideOverlay()).not.toThrow()\n    expect(document.getElementById('tp-speedrun-overlay')).toBeNull()\n  })\n})\n\nfunction defaultBestTimes(): BestTimes {\n  return Object.fromEntries(CHECKPOINTS.map((c) => [c.id, c.defaultBestMs]))\n}\nconst ROOT_ID = 'tp-speedrun-overlay'\nconst STYLE_ID = 'tp-speedrun-style'\nlet previousLanguage = getLanguage()\nlet previousHtmlLanguage: string | null = null\nfunction clearOverlayNodes() {\n  hideOverlay()\n  document.getElementById(STYLE_ID)?.remove()\n}\nbeforeEach(() => {\n  previousLanguage = getLanguage()\n  previousHtmlLanguage = document.documentElement.getAttribute('lang')\n  clearOverlayNodes()\n  useFallbackLanguage('zh-CN')\n})\nafterEach(() => {\n  try {\n    clearOverlayNodes()\n  } finally {\n    useFallbackLanguage(previousLanguage)\n    if (previousHtmlLanguage === null) document.documentElement.removeAttribute('lang')\n    else document.documentElement.lang = previousHtmlLanguage\n  }\n})\n",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/overlay.glm-phase1-leaves.test.ts",
+      "id": "speedrun-ui-3",
+      "reason": "Fixedrun fixture becomes explicitsame-objectcase via sharedsamebaseconstructor; strongercallerfidelity/exactclock andlocale/DOMcleanup.",
+      "changes": [
+        {
+          "from": "/**\n * TEST-GLM-PHASE1-LEAVES-3 L21（overlay.ts）— 去重表：\n *  - overlay.test（渲染 21 行+主计时/暂停 * 前缀/hideOverlay 移除）→ 不重复\n *  - 新差异：renderOverlay 二次调用原位更新（单根节点不重复建）、样式注入幂等、\n *    hideOverlay 二次移除归回主测的真实挂载合同。\n */\nimport { afterEach, beforeEach, describe, expect, it } from 'vitest'\nimport { CHECKPOINTS } from './checkpoints.js'\nimport { hideOverlay, injectOverlayStyles, renderOverlay } from './overlay.js'\nimport type { BestTimes } from './store.js'\n\nconst ROOT_ID = 'tp-speedrun-overlay'\nconst STYLE_ID = 'tp-speedrun-style'\n\nfunction cleanupOverlay() {\n  hideOverlay()\n  document.getElementById(STYLE_ID)?.remove()\n}\nbeforeEach(cleanupOverlay)\nafterEach(cleanupOverlay)\n\nfunction run(): Parameters<typeof renderOverlay>[0] {\n  return {\n    phase: 'running',\n    elapsedMs: 65_432,\n    stepIndex: 1,\n    splits: [12_345, ...CHECKPOINTS.slice(1).map(() => null)],\n    bananaPaused: false,\n    manualPaused: false,\n    hasUnCheated: false,\n    countdownEndMs: null,\n  }\n}\n\nfunction bests(): BestTimes {\n  return Object.fromEntries(CHECKPOINTS.map((c) => [c.id, c.defaultBestMs]))\n}\n\ndescribe('L21 overlay 原位更新与幂等', () => {\n  it('render 两次 → 单根节点、文本随数据更新', () => {\n    renderOverlay(run(), CHECKPOINTS, bests())\n    const first = document.getElementById(ROOT_ID)!\n    renderOverlay({ ...run(), elapsedMs: 99_999 }, CHECKPOINTS, bests())\n    const second = document.getElementById(ROOT_ID)\n    expect(second).toBe(first)\n    expect(document.querySelectorAll(`#${ROOT_ID}`)).toHaveLength(1)\n    expect(first.textContent).toContain('1:39.99') // 99999ms → 1:39.99\n  })\n\n  it('injectOverlayStyles 创建指定样式，二次注入保留同一节点', () => {\n    expect(document.getElementById(STYLE_ID)).toBeNull()\n    injectOverlayStyles()\n    const style = document.getElementById(STYLE_ID)\n    expect(style).toBeInstanceOf(HTMLStyleElement)\n    expect(style?.textContent).toContain('#tp-speedrun-overlay')\n    expect(style?.textContent).toContain('pointer-events:none')\n    injectOverlayStyles()\n    expect(document.querySelectorAll(`#${STYLE_ID}`)).toHaveLength(1)\n    expect(document.getElementById(STYLE_ID)).toBe(style)\n  })\n})\n",
+          "to": "import { afterEach, beforeEach, describe, expect, it } from 'vitest'\nimport { CHECKPOINTS } from './checkpoints.js'\nimport { hideOverlay, injectOverlayStyles, renderOverlay } from './overlay.js'\nimport type { BestTimes } from './store.js'\nimport { getLanguage, useFallbackLanguage } from '../../localization/language.js'\nimport type { RunState } from './timer.js'\n\nfunction run(): Parameters<typeof renderOverlay>[0] {\n  return {\n    phase: 'running',\n    elapsedMs: 65_432,\n    stepIndex: 1,\n    splits: [12_345, ...CHECKPOINTS.slice(1).map(() => null)],\n    bananaPaused: false,\n    manualPaused: false,\n    hasUnCheated: false,\n    countdownEndMs: null,\n  }\n}\n\ndescribe('L21 overlay 原位更新与幂等', () => {\n  it('render 两次：同一 RunState 原位变化，保留根节点并更新主计时', () => {\n    const state = runState({\n      elapsedMs: 65_432,\n      stepIndex: 1,\n      splits: [12_345, ...CHECKPOINTS.slice(1).map(() => null)],\n    })\n    renderOverlay(state, CHECKPOINTS, defaultBestTimes())\n    const first = document.getElementById(ROOT_ID)!\n    state.elapsedMs = 99_999\n    renderOverlay(state, CHECKPOINTS, defaultBestTimes())\n    const second = document.getElementById(ROOT_ID)\n    expect(second).toBe(first)\n    expect(document.querySelectorAll(`#${ROOT_ID}`)).toHaveLength(1)\n    expect(first.textContent).toContain('1:39.99')\n    expect(first.querySelector('.tp-sr-clock')?.textContent).toBe('0:01:39.99')\n  })\n\n  it('injectOverlayStyles 创建指定样式，二次注入保留同一节点', () => {\n    expect(document.getElementById(STYLE_ID)).toBeNull()\n    injectOverlayStyles()\n    const style = document.getElementById(STYLE_ID)\n    expect(style).toBeInstanceOf(HTMLStyleElement)\n    expect(style?.textContent).toContain('#tp-speedrun-overlay')\n    expect(style?.textContent).toContain('pointer-events:none')\n    injectOverlayStyles()\n    expect(document.querySelectorAll(`#${STYLE_ID}`)).toHaveLength(1)\n    expect(document.getElementById(STYLE_ID)).toBe(style)\n  })\n})\n\nconst runState = (overrides: Partial<RunState>): RunState => ({\n  phase: 'running',\n  elapsedMs: 0,\n  stepIndex: 0,\n  splits: CHECKPOINTS.map(() => null),\n  bananaPaused: false,\n  manualPaused: false,\n  hasUnCheated: false,\n  countdownEndMs: null,\n  ...overrides,\n})\nfunction defaultBestTimes(): BestTimes {\n  return Object.fromEntries(CHECKPOINTS.map((c) => [c.id, c.defaultBestMs]))\n}\nconst ROOT_ID = 'tp-speedrun-overlay'\nconst STYLE_ID = 'tp-speedrun-style'\nlet previousLanguage = getLanguage()\nlet previousHtmlLanguage: string | null = null\nfunction clearOverlayNodes() {\n  hideOverlay()\n  document.getElementById(STYLE_ID)?.remove()\n}\nbeforeEach(() => {\n  previousLanguage = getLanguage()\n  previousHtmlLanguage = document.documentElement.getAttribute('lang')\n  clearOverlayNodes()\n  useFallbackLanguage('zh-CN')\n})\nafterEach(() => {\n  try {\n    clearOverlayNodes()\n  } finally {\n    useFallbackLanguage(previousLanguage)\n    if (previousHtmlLanguage === null) document.documentElement.removeAttribute('lang')\n    else document.documentElement.lang = previousHtmlLanguage\n  }\n})\n",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "replacements": [],
+  "registrations": [
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/countdown.test.ts",
+        "ordinal": 0
+      },
+      "originalOrdinal": 0,
+      "current": {
+        "file": "packages/game/src/tools/speedrun/countdown.test.ts",
+        "titles": ["Countdown DOM and host boundaries"],
+        "template": "传字符串挂出、更新文本"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/countdown.test.ts",
+        "ordinal": 1
+      },
+      "originalOrdinal": 1,
+      "current": {
+        "file": "packages/game/src/tools/speedrun/countdown.test.ts",
+        "titles": ["Countdown DOM and host boundaries"],
+        "template": "传 null 移除"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/countdown.glm-phase1-leaves.test.ts",
+        "ordinal": 0
+      },
+      "originalOrdinal": 0,
+      "current": {
+        "file": "packages/game/src/tools/speedrun/countdown.test.ts",
+        "titles": ["Countdown DOM and host boundaries"],
+        "template": "相同文字逐帧刷新时不触发 DOM 变更"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/countdown.glm-phase1-leaves.test.ts",
+        "ordinal": 1
+      },
+      "originalOrdinal": 1,
+      "current": {
+        "file": "packages/game/src/tools/speedrun/countdown.test.ts",
+        "titles": ["Countdown DOM and host boundaries"],
+        "template": "无 document 时字符串和 null 调用均不访问 DOM"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/overlay.test.ts",
+        "ordinal": 0
+      },
+      "originalOrdinal": 0,
+      "current": {
+        "file": "packages/game/src/tools/speedrun/overlay.test.ts",
+        "titles": ["Run rows, clock and lifecycle"],
+        "template": "渲染 21 行 + 主计时"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/overlay.test.ts",
+        "ordinal": 1
+      },
+      "originalOrdinal": 1,
+      "current": {
+        "file": "packages/game/src/tools/speedrun/overlay.test.ts",
+        "titles": ["Run rows, clock and lifecycle"],
+        "template": "暂停加 * 前缀"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/overlay.test.ts",
+        "ordinal": 2
+      },
+      "originalOrdinal": 2,
+      "current": {
+        "file": "packages/game/src/tools/speedrun/overlay.test.ts",
+        "titles": ["Run rows, clock and lifecycle"],
+        "template": "已完成节点显示最佳/差值，并用该差值推算预计通关"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/overlay.test.ts",
+        "ordinal": 3
+      },
+      "originalOrdinal": 3,
+      "current": {
+        "file": "packages/game/src/tools/speedrun/overlay.test.ts",
+        "titles": ["Run rows, clock and lifecycle"],
+        "template": "hideOverlay 移除真实根节点，再次移除保持为空"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/overlay.glm-phase1-leaves.test.ts",
+        "ordinal": 0
+      },
+      "originalOrdinal": 0,
+      "current": {
+        "file": "packages/game/src/tools/speedrun/overlay.test.ts",
+        "titles": ["In-place updates and stylesheet ownership"],
+        "template": "render 两次：同一 RunState 原位变化，保留根节点并更新主计时"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/overlay.glm-phase1-leaves.test.ts",
+        "ordinal": 1
+      },
+      "originalOrdinal": 1,
+      "current": {
+        "file": "packages/game/src/tools/speedrun/overlay.test.ts",
+        "titles": ["In-place updates and stylesheet ownership"],
+        "template": "injectOverlayStyles 创建指定样式，二次注入保留同一节点"
+      }
+    }
+  ],
+  "identities": [
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/countdown.test.ts",
+        "fullName": "showCountdown 传字符串挂出、更新文本"
+      },
+      "current": {
+        "file": "packages/game/src/tools/speedrun/countdown.test.ts",
+        "fullName": "Countdown DOM and host boundaries 传字符串挂出、更新文本"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/countdown.test.ts",
+        "fullName": "showCountdown 传 null 移除"
+      },
+      "current": {
+        "file": "packages/game/src/tools/speedrun/countdown.test.ts",
+        "fullName": "Countdown DOM and host boundaries 传 null 移除"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/countdown.glm-phase1-leaves.test.ts",
+        "fullName": "L20 showCountdown 宿主边界 相同文字逐帧刷新时不触发 DOM 变更"
+      },
+      "current": {
+        "file": "packages/game/src/tools/speedrun/countdown.test.ts",
+        "fullName": "Countdown DOM and host boundaries 相同文字逐帧刷新时不触发 DOM 变更"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/countdown.glm-phase1-leaves.test.ts",
+        "fullName": "L20 showCountdown 宿主边界 无 document 时字符串和 null 调用均不访问 DOM"
+      },
+      "current": {
+        "file": "packages/game/src/tools/speedrun/countdown.test.ts",
+        "fullName": "Countdown DOM and host boundaries 无 document 时字符串和 null 调用均不访问 DOM"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/overlay.test.ts",
+        "fullName": "overlay 渲染 21 行 + 主计时"
+      },
+      "current": {
+        "file": "packages/game/src/tools/speedrun/overlay.test.ts",
+        "fullName": "Run rows, clock and lifecycle 渲染 21 行 + 主计时"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/overlay.test.ts",
+        "fullName": "overlay 暂停加 * 前缀"
+      },
+      "current": {
+        "file": "packages/game/src/tools/speedrun/overlay.test.ts",
+        "fullName": "Run rows, clock and lifecycle 暂停加 * 前缀"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/overlay.test.ts",
+        "fullName": "overlay 已完成节点显示最佳/差值，并用该差值推算预计通关"
+      },
+      "current": {
+        "file": "packages/game/src/tools/speedrun/overlay.test.ts",
+        "fullName": "Run rows, clock and lifecycle 已完成节点显示最佳/差值，并用该差值推算预计通关"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/overlay.test.ts",
+        "fullName": "overlay hideOverlay 移除真实根节点，再次移除保持为空"
+      },
+      "current": {
+        "file": "packages/game/src/tools/speedrun/overlay.test.ts",
+        "fullName": "Run rows, clock and lifecycle hideOverlay 移除真实根节点，再次移除保持为空"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/overlay.glm-phase1-leaves.test.ts",
+        "fullName": "L21 overlay 原位更新与幂等 render 两次 → 单根节点、文本随数据更新"
+      },
+      "current": {
+        "file": "packages/game/src/tools/speedrun/overlay.test.ts",
+        "fullName": "In-place updates and stylesheet ownership render 两次：同一 RunState 原位变化，保留根节点并更新主计时"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/overlay.glm-phase1-leaves.test.ts",
+        "fullName": "L21 overlay 原位更新与幂等 injectOverlayStyles 创建指定样式，二次注入保留同一节点"
+      },
+      "current": {
+        "file": "packages/game/src/tools/speedrun/overlay.test.ts",
+        "fullName": "In-place updates and stylesheet ownership injectOverlayStyles 创建指定样式，二次注入保留同一节点"
+      }
+    }
+  ],
+  "helperTransplants": [
+    {
+      "oldPath": "packages/game/src/tools/speedrun/overlay.glm-phase1-leaves.test.ts",
+      "oldName": "bests",
+      "currentPath": "packages/game/src/tools/speedrun/overlay.test.ts",
+      "currentName": "defaultBestTimes",
+      "changes": [
+        {
+          "from": "function bests",
+          "to": "function defaultBestTimes",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "oldPath": "packages/game/src/tools/speedrun/overlay.glm-phase1-leaves.test.ts",
+      "oldName": "cleanupOverlay",
+      "currentPath": "packages/game/src/tools/speedrun/overlay.test.ts",
+      "currentName": "clearOverlayNodes",
+      "changes": [
+        {
+          "from": "function cleanupOverlay",
+          "to": "function clearOverlayNodes",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "id": "speedrun-ui",
+  "namespace": "organization-speedrun-ui",
+  "cohortSubjects": [
+    {
+      "path": "packages/game/src/tools/speedrun/countdown.glm-phase1-leaves.test.ts",
+      "sha256": "2abb8449f9eb418542b978538b4709f6104478e211c51032faba7faa82a71eb2",
+      "priorCurrentBridges": []
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/overlay.glm-phase1-leaves.test.ts",
+      "sha256": "44f2d9135e744b3686bde3dc28bf83ab4ae0ad692c1d658878dc164597a5ec54",
+      "priorCurrentBridges": []
+    }
+  ],
+  "preserved": [
+    {
+      "path": "packages/game/src/tools/speedrun/countdown.ts",
+      "sha256": "024f25580a64a2893451465ba832cab608089f26513e0584d68277640d461ad3"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/overlay.ts",
+      "sha256": "5faaa4fbff490389ccb36d9a24eeaac33fc1807443ca59686da0e81031b94a62"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/index.ts",
+      "sha256": "26f79ca8271020de7f0663698cf52a665cf367e67db475af714167d996c241ad"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/timer.ts",
+      "sha256": "a5fcf2a7380eca2afc4e93832075b2847671ffba597c5f12e1b8e8a1cf252f2c"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/checkpoints.ts",
+      "sha256": "2ad3aa9b736ec768d29ea865c98436b7792e6883a9d5896fae3e0e0c22c5cebb"
+    },
+    {
+      "path": "packages/game/src/localization/language.ts",
+      "sha256": "d3b5410d8b1565af885a84ccc59f74511b712fd0bb1470eef882ad276c330779"
+    },
+    {
+      "path": "packages/game/vitest.config.ts",
+      "sha256": "3dd92ad4886bc72c88e7a7b2e6bdacc3aaf9e2a24ac72153f3b619ba37feb7d4"
+    },
+    {
+      "path": "packages/game/vitest.setup.ts",
+      "sha256": "9d1b923f6abc71a5af3e9be094d2945f853a2f4319a036aba9813e86f116e93e"
+    }
+  ],
+  "neighborPaths": [
+    "src/tools/speedrun/checkpoints.test.ts",
+    "src/tools/speedrun/countdown.test.ts",
+    "src/tools/speedrun/detectors.test.ts",
+    "src/tools/speedrun/index.glm-phase1-leaves.test.ts",
+    "src/tools/speedrun/index.test.ts",
+    "src/tools/speedrun/overlay.test.ts",
+    "src/tools/speedrun/snapshot.test.ts",
+    "src/tools/speedrun/store.test.ts",
+    "src/tools/speedrun/time-format.test.ts",
+    "src/tools/speedrun/timer.boundaries.test.ts",
+    "src/tools/speedrun/timer.glm-phase1-leaves.test.ts",
+    "src/tools/speedrun/timer.test.ts"
+  ],
+  "cleanExecutions": [
+    "before",
+    "reorganize-r3",
+    "proof",
+    "counter-old-proof",
+    "counter-new-proof",
+    "cleanup-proof",
+    "module-preflight",
+    "neighbors",
+    "typecheck",
+    "docs",
+    "content-review",
+    "lint",
+    "testing-docs",
+    "diff",
+    "scoped",
+    "ledger-final"
+  ],
+  "lightweightGates": true,
+  "counters": ["counter-run-identity.json"],
+  "cleanupProbe": {
+    "sourceTestPath": "packages/game/src/tools/speedrun/overlay.test.ts",
+    "currentSha256": "47deea61ed573130d556b1a867e9ac605ae078929b49704cc772903f398470c9",
+    "probeSha256": "504af12b55c269e0a22eafb553eb613b6fb8b76b2e3f3d1f5ca4987d6146d722",
+    "intentionalAssertionFailure": "In-place updates and stylesheet ownership render 两次：同一 RunState 原位变化，保留根节点并更新主计时",
+    "observation": {
+      "inside": {
+        "language": "zh-CN",
+        "htmlLang": "zh-CN",
+        "rootPresent": true,
+        "stylePresent": true
+      },
+      "after": {
+        "language": "en",
+        "htmlLang": "probe-prior-html",
+        "rootPresent": false,
+        "stylePresent": false,
+        "foreignBodyPresent": true,
+        "foreignStylePresent": true
+      }
+    },
+    "currentTestExact": true,
+    "scope": "Temporary early failure demonstrates final test ownership/restoration. No product mutation or browser/E2E credit; observer restores its own language/html/foreign-node seeds in finally."
+  },
+  "fixtureAndCallbackProof": "organization-speedrun-ui/proof.stdout.raw",
+  "reusedReviewMember": "organization-speedrun-ui/reused-reviews.json",
+  "profiles": [
+    {
+      "path": "packages/game/src/tools/speedrun/countdown.test.ts",
+      "subjects": ["packages/game/src/tools/speedrun/countdown.glm-phase1-leaves.test.ts"],
+      "axes": {
+        "A": "4例核调用方文案创建/更新同节点/无指针拦截、null移除重建/幂等、同文字无DOM写与document缺失；真实index每rAF传String剩余秒或null，countdown不持时钟/订阅。未发现新的直接产品缺陷，产品全文字节保持。",
+        "B": "删除作者/波次和旧文件排重导读，保MutationObserver可捕捉重复文字写入但节点身份不能的理由；不冒称倒计时自管时间或语言。",
+        "C": "仅倒计时DOM宿主责任，observer在case finally断开；共用before清理/after先恢复document与spy再走showCountdown(null)，不与overlay语言/样式ownership混用。无新增隐式全局或反向依赖。",
+        "D": "两个同入口spec共一显式生命周期，不制造模式布尔/helper；保真实MutationObserver与document能力边界不同oracle，不合并成空泛不抛错。",
+        "E": "4原case完整回调/断言经私有名桥/全文AST验证保全；Observer.takeRecords和真实createElement能力spy，非复制实现oracle；基线4输入10例、当前2spec10例，12实际文件87相邻/TC0无诊断。未发现新的重复/弱化项，未退例。",
+        "F": "countdown.test按现用DOM入口命名，suite反映host职责，ID仅本模块用；正文短而直接，未发现需要产品拆分的可读性问题。",
+        "G": "去leaves文件和重复导入/hook，零新增/删除运行时case，未引入无关时钟/语言夹具或公共出口；已证不同输入/生命周期轴保留，不因文件短强合产品。",
+        "H": "直接jsdom DOM/MutationObserver，仅stub外部document能力，独立恢复；完整比较器正控和两尾断言负控通过，未发现需要生产注入接口的设计债。"
+      }
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/overlay.test.ts",
+      "subjects": ["packages/game/src/tools/speedrun/overlay.glm-phase1-leaves.test.ts"],
+      "axes": {
+        "A": "6例核21行/主clock、暂停、完成split的最佳/差值/ETA、hide实际移除/幂等、同一run原位变化和样式仅注入一次。index传Timer.getRun同一引用，Timer原位推进；已完成8000ms但elapsed0的非法测试夹具修为8000，产品不动。",
+        "B": "删除L21/作者与过时排重头，不冒称子DOM原位更新或hide移除页级样式：实际复用root、每次replaceChildren，样式生命周期更长。case标题改为同对象更新、确切clock与样式节点身份。",
+        "C": "overlay只显示typed run/checkpoint/bests，测试共享runState/defaultBestTimes属同数据合同；语言由真实模块管理，测试捕获/恢复有效语言及html.lang，ownedroot/style清理与其它DOM分开。无语言订阅或跨层游戏状态写入。",
+        "D": "同型基础RunState工厂按完整typed声明保全，固定首split数据在case显式override；默认PB纯构造复用原helper。两DOM宿主不硬造万能fixture，未发现其它有证据的共享抽象需求。",
+        "E": "6身份保留、原全部业务断言保留；4主测仅1夹具合法化，旧rerender加强真实稳定对象/主clock确串。真实WeakSet源码变异旧1绿/新指定AssertionError，证明新oracle有效；故意早失败探针证明清理/恢复，不把它当产品红例。",
+        "F": "runState/overrides/defaultBestTimes/clearOverlayNodes/previousLanguage说明数据和资源职责，suite区分行/计时与重复render/样式。未发现需生产重命名/搬目录的缺口。",
+        "G": "合两份同入口spec、复用两重复构造而不增加中间层；10总身份零退例/零新增。保root身份与精确clock两个不同合同，保style与hide生命周期区别。",
+        "H": "真实DOM与localize/Timer调用合同，不mock核心；每例显式中文且不持久写语言偏好，早失败后恢复en/customhtml并保外部两节点，探针自身finally清理。原生87相邻/TC0无诊断。"
+      }
+    }
+  ],
+  "primarySources": [
+    {
+      "path": "packages/game/src/tools/speedrun/countdown.ts",
+      "sha256": "024f25580a64a2893451465ba832cab608089f26513e0584d68277640d461ad3",
+      "scope": "Fullcurrentimplementation read; caller-owned input/UIonly, no SDLmechanism change."
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/overlay.ts",
+      "sha256": "5faaa4fbff490389ccb36d9a24eeaac33fc1807443ca59686da0e81031b94a62",
+      "scope": "Fullcurrentimplementation read; caller-owned input/UIonly, no SDLmechanism change."
+    }
+  ],
+  "reads": {
+    "fullInputs": [
+      {
+        "path": "packages/game/src/tools/speedrun/countdown.test.ts",
+        "sha256": "a684c34ac598bf934caff399c0616b2f24cc5ce8e3fcaefaa07eb9c300219833",
+        "member": "organization-speedrun-ui/0.before",
+        "lines": 29,
+        "scope": "Fullcurrenttest input/cases/hooks/fixtures read."
+      },
+      {
+        "path": "packages/game/src/tools/speedrun/countdown.glm-phase1-leaves.test.ts",
+        "sha256": "2abb8449f9eb418542b978538b4709f6104478e211c51032faba7faa82a71eb2",
+        "member": "organization-speedrun-ui/1.before",
+        "lines": 38,
+        "scope": "Fullcurrenttest input/cases/hooks/fixtures read."
+      },
+      {
+        "path": "packages/game/src/tools/speedrun/overlay.test.ts",
+        "sha256": "463f8c9b9b6e77391e3f050708671aa596238141519a9e74c4d534a903c1c5eb",
+        "member": "organization-speedrun-ui/2.before",
+        "lines": 62,
+        "scope": "Fullcurrenttest input/cases/hooks/fixtures read."
+      },
+      {
+        "path": "packages/game/src/tools/speedrun/overlay.glm-phase1-leaves.test.ts",
+        "sha256": "44f2d9135e744b3686bde3dc28bf83ab4ae0ad692c1d658878dc164597a5ec54",
+        "member": "organization-speedrun-ui/3.before",
+        "lines": 61,
+        "scope": "Fullcurrenttest input/cases/hooks/fixtures read."
+      }
+    ],
+    "fullImplementations": [
+      {
+        "path": "packages/game/src/tools/speedrun/countdown.ts",
+        "sha256": "024f25580a64a2893451465ba832cab608089f26513e0584d68277640d461ad3",
+        "scope": "Fullcurrentimplementation read. No newwholefileclosure."
+      },
+      {
+        "path": "packages/game/src/tools/speedrun/overlay.ts",
+        "sha256": "5faaa4fbff490389ccb36d9a24eeaac33fc1807443ca59686da0e81031b94a62",
+        "scope": "Fullcurrentimplementation read. No newwholefileclosure."
+      },
+      {
+        "path": "packages/game/src/localization/language.ts",
+        "sha256": "d3b5410d8b1565af885a84ccc59f74511b712fd0bb1470eef882ad276c330779",
+        "scope": "Fullcurrentimplementation read. No newwholefileclosure."
+      }
+    ],
+    "currentOutputs": [
+      {
+        "path": "packages/game/src/tools/speedrun/countdown.test.ts",
+        "sha256": "108ebd9ed11281016c19f816ef4ba9421be3e5af998305db3c47741786a78053",
+        "lines": 56,
+        "scope": "Fullfinalspec read after stableorganization."
+      },
+      {
+        "path": "packages/game/src/tools/speedrun/overlay.test.ts",
+        "sha256": "47deea61ed573130d556b1a867e9ac605ae078929b49704cc772903f398470c9",
+        "lines": 120,
+        "scope": "Fullfinalspec read after stableorganization."
+      }
+    ],
+    "callers": [
+      {
+        "path": "packages/game/src/tools/speedrun/index.ts",
+        "sha256": "26f79ca8271020de7f0663698cf52a665cf367e67db475af714167d996c241ad",
+        "ranges": [[1, 62]],
+        "scope": "ActualeveryrAF rendersgetRun stableidentity, preexistingfullsameSHA readreused."
+      },
+      {
+        "path": "packages/game/src/tools/speedrun/timer.ts",
+        "sha256": "a5fcf2a7380eca2afc4e93832075b2847671ffba597c5f12e1b8e8a1cf252f2c",
+        "ranges": [[1, 120]],
+        "scope": "getRun returnsstate; resetreplaces, setStep/tick mutate; preexistingfullsameSHA readreused."
+      }
+    ]
+  },
+  "processDisclosures": [
+    "4spec10identities→countdown4/overlay6,2historicalsubjects only; 8callbacksafterprivatefixture names conserved,2explicitdeltas retainalloldassertions: legalelapsed8000 andsame-objectclock oracle. Product/API/schema unchanged.",
+    "Fullcallbacktree comparator onepositive/twotailnegativecontrols,strict typedbaseRunState and8fixedfixturefields,2helperdeclarations exact. No sourcebridge alone used as equivalent proof.",
+    "Initiallocalbuilder failedimportobject propertyorder comparison beforewriting outputs; r2reachedoutputs butdeclarationtextleadingnewline doubledlifecycle,biomerejected. Correctedcomparison usesdeepEqual/trim; r3success andrawallretained. No rule/toolconsumer changed.",
+    "RealWeakSet sourcevariant old1green/current1businessAssertionError; source restored exactly. Temporary earlyAssertionError probe restoresoriginaleffective language/customhtml,removesownedroot/style andkeepsforeignbody/style, observerrestores its ownseeds.",
+    "Actualonce12file87neighbors/gameTC0,allstderr empty; no repeatedwholecheck/officialcoverage/protected. CountsareF/Gsupplement,nofullreviewcredit,0newclosed."
+  ],
+  "ledgerCounts": {
+    "inventory": 3456,
+    "closed": 559,
+    "review": 263,
+    "pending": 2634
+  }
+}

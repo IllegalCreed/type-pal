@@ -7,7 +7,7 @@
  * 条目尾缀 'q' 使段界断言可直用字面值（产品会剥词条尾标记 '1'，见专门轴）。
  */
 import { describe, expect, test } from 'vitest'
-import { gbk, wordDat, wordEntryText } from '../__tests__/glm-tb04-fixtures.js'
+import { gbk, wordDat, wordEntryText } from '../__tests__/text-fixtures.js'
 import { parseWordDat } from './word.js'
 
 /** 文本 + 尾空格补齐到 10B（真实词条布局：标记紧贴正文、空格只在尾）。 */
@@ -62,5 +62,18 @@ describe('P02 parseWordDat 合成全表段界', () => {
     expect(words.flat[0]).toBe('A C') // 内部空格保留、尾空格剥
     expect(words.persons[0]).toBe('p36') // 尾 '1' 剥（text.c:785-786）
     expect(words.flat[37]).toBe('BBBBBBBBBB') // 满长不截
+  })
+})
+
+test('parseWordDat：短缓冲只产完整flat记录，分类段保持固定长度与空文本', () => {
+  expect(parseWordDat(new Uint8Array(100).fill(0x20))).toEqual({
+    flat: Array(10).fill(''),
+    system: Array(36).fill(''),
+    persons: Array(6).fill(''),
+    battleUi: Array(19).fill(''),
+    items: Array(235).fill(''),
+    spells: Array(102).fill(''),
+    enemies: Array(153).fill(''),
+    scenes: Array(14).fill(''),
   })
 })

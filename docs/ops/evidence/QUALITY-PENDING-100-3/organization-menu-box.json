@@ -1,0 +1,792 @@
+{
+  "inputs": [
+    {
+      "path": "packages/game/src/present/menu/draw-box.test.ts",
+      "sha256": "a5fa29d9b440cebec03a20be4014696c47c3c14c3034d37e06dcb876cc1fe173",
+      "member": "organization-menu-box/0.before"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-box.glm-phase1-leaves.test.ts",
+      "sha256": "2ddaa6efbaf2016f40191c7c8cf49f77191ad62c187c76a2ac25aaa5e54c4295",
+      "member": "organization-menu-box/1.before"
+    },
+    {
+      "path": "packages/game/src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+      "sha256": "92d0697b68ba196235c1b89256c2e5d59aa72366e3ad7bb64818d9585ba55a2b",
+      "member": "organization-menu-box/2.before"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/raster-fixtures.ts",
+      "sha256": "d62741ab845759e2b42e992d4675e679b54464f207c3a8118af0f94dac9b5157",
+      "member": "organization-menu-box/3.before"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "packages/game/src/present/menu/draw-box.test.ts",
+      "sha256": "176df22835866bb25cc4e1112feceeac413ee271a0d2b47aa827836abb2c5714"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/raster-fixtures.ts",
+      "sha256": "982d0ab4a7a73bd1d432554562ff9f628d097098be32af9e9b059bd1dbb2d291"
+    }
+  ],
+  "sourceBridges": [
+    {
+      "path": "packages/game/src/present/menu/draw-box.test.ts",
+      "id": "menu-box-0",
+      "reason": "Privatefixture names andresponsibilitytitles only; alloriginaloracles retained.",
+      "changes": [
+        {
+          "from": "import { describe, expect, it } from 'vitest'\nimport type { IndexedImage } from '../../assets/png.js'\nimport { createFramebuffer } from '../framebuffer.js'\nimport { drawBox } from './draw-box.js'\n\n/**\n * 构造 9-slice 测试用 UI sprite frames。\n * 每个 tile 8×8,全 opaque,palette idx = base + i*3 + j(可识别区分)。\n * style 0 = idx 1-9;style 1 = idx 10-18。\n */\nfunction mockUiFrames(): IndexedImage[] {\n  const frames: IndexedImage[] = []\n  for (let k = 0; k < 18; k++) {\n    const w = 8,\n      h = 8\n    const indices = new Uint8Array(w * h).fill(k + 1) // 避开 0(0 在 Framebuffer 是 clear 色)\n    const opaque = new Uint8Array(w * h).fill(1)\n    frames.push({ width: w, height: h, indices, opaque })\n  }\n  // 余下 frame(18+)留 undefined,draw-box 越界检测应触发(但默认不进)\n  return frames\n}\n\ndescribe('M5.6 W0.c drawBox', () => {\n  it('画 1×1 内部 box(实际 3×3 tile)— 9 frame 全部 blit', () => {\n    const fb = createFramebuffer()\n    const frames = mockUiFrames()\n    drawBox({ fb, x: 0, y: 0, rows: 1, cols: 1, style: 0, shadowOffset: 0, uiSpriteFrames: frames })\n    // 左上 corner tile = frame 0(idx 1)\n    expect(fb.indices[0]).toBe(1)\n    // 上中 tile(8,0)= frame 1(idx 2)\n    expect(fb.indices[8]).toBe(2)\n    // 右上 corner tile(16,0)= frame 2(idx 3)\n    expect(fb.indices[16]).toBe(3)\n    // 中左(0,8)= frame 3(idx 4)\n    expect(fb.indices[8 * fb.width]).toBe(4)\n    // 中中(8,8)= frame 4(idx 5)\n    expect(fb.indices[8 * fb.width + 8]).toBe(5)\n    // 右下 corner(16,16)= frame 8(idx 9)\n    expect(fb.indices[16 * fb.width + 16]).toBe(9)\n  })\n\n  it('shadowOffset 6 → 阴影在 (6,6) 偏移位置应用 PAL_CalcShadowColor 到当前 fb pixel', () => {\n    const fb = createFramebuffer()\n    const frames = mockUiFrames()\n    fb.writePixel(39, 39, 0xab)\n    drawBox({\n      fb,\n      x: 10,\n      y: 10,\n      rows: 1,\n      cols: 1,\n      style: 0,\n      shadowOffset: 6,\n      uiSpriteFrames: frames,\n    })\n    expect(fb.indices[10 * fb.width + 10]).toBe(1) // 正色 box 左上\n    // PAL_CalcShadowColor(0xAB) = (0xAB & 0xF0) | ((0xAB & 0x0F) >> 1) = 0xA0 | (0x0B >> 1) = 0xA0 | 0x05 = 0xA5\n    expect(fb.indices[39 * fb.width + 39]).toBe(0xa5)\n  })\n\n  it('style 1 → 用 frame 9-17', () => {\n    const fb = createFramebuffer()\n    const frames = mockUiFrames()\n    drawBox({ fb, x: 0, y: 0, rows: 1, cols: 1, style: 1, shadowOffset: 0, uiSpriteFrames: frames })\n    // 左上 corner = frame 9(idx 10)\n    expect(fb.indices[0]).toBe(10)\n    expect(fb.indices[16 * fb.width + 16]).toBe(18) // 右下 corner = frame 17 idx 18\n  })\n\n  it('rows=2 cols=4 → 4×6 tile 网格', () => {\n    const fb = createFramebuffer()\n    const frames = mockUiFrames()\n    drawBox({ fb, x: 0, y: 0, rows: 2, cols: 4, style: 0, shadowOffset: 0, uiSpriteFrames: frames })\n    // 顶边中间应该是 frame 1(idx 2);取多个 x 验证\n    expect(fb.indices[8]).toBe(2) // 第二列顶 = m=0, n=1 = frame 1\n    expect(fb.indices[16]).toBe(2) // 第三列顶\n    expect(fb.indices[40]).toBe(3) // 最后列(第 6 个)顶 = m=0, n=2 = frame 2 idx 3\n  })\n\n  it('uiSpriteFrames 不足 9 个 → 抛错', () => {\n    const fb = createFramebuffer()\n    expect(() =>\n      drawBox({ fb, x: 0, y: 0, rows: 1, cols: 1, style: 0, uiSpriteFrames: [] }),\n    ).toThrow(/uiSpriteFrames\\[0\\] missing/)\n  })\n})\n",
+          "to": "import { describe, expect, it } from 'vitest'\nimport type { IndexedImage } from '../../assets/png.js'\nimport { createFramebuffer } from '../framebuffer.js'\nimport { drawBox } from './draw-box.js'\n\n/**\n * 构造 9-slice 测试用 UI sprite frames。\n * 每个 tile 8×8,全 opaque,palette idx = base + i*3 + j(可识别区分)。\n * style 0 = idx 1-9;style 1 = idx 10-18。\n */\nfunction distinctTileFrames(): IndexedImage[] {\n  const frames: IndexedImage[] = []\n  for (let k = 0; k < 18; k++) {\n    const w = 8,\n      h = 8\n    const indices = new Uint8Array(w * h).fill(k + 1) // 避开 0(0 在 Framebuffer 是 clear 色)\n    const opaque = new Uint8Array(w * h).fill(1)\n    frames.push({ width: w, height: h, indices, opaque })\n  }\n  // 余下 frame(18+)留 undefined,draw-box 越界检测应触发(但默认不进)\n  return frames\n}\n\ndescribe('M5.6 W0.c drawBox', () => {\n  it('画 1×1 内部 box(实际 3×3 tile)— 9 frame 全部 blit', () => {\n    const fb = createFramebuffer()\n    const frames = distinctTileFrames()\n    drawBox({ fb, x: 0, y: 0, rows: 1, cols: 1, style: 0, shadowOffset: 0, uiSpriteFrames: frames })\n    // 左上 corner tile = frame 0(idx 1)\n    expect(fb.indices[0]).toBe(1)\n    // 上中 tile(8,0)= frame 1(idx 2)\n    expect(fb.indices[8]).toBe(2)\n    // 右上 corner tile(16,0)= frame 2(idx 3)\n    expect(fb.indices[16]).toBe(3)\n    // 中左(0,8)= frame 3(idx 4)\n    expect(fb.indices[8 * fb.width]).toBe(4)\n    // 中中(8,8)= frame 4(idx 5)\n    expect(fb.indices[8 * fb.width + 8]).toBe(5)\n    // 右下 corner(16,16)= frame 8(idx 9)\n    expect(fb.indices[16 * fb.width + 16]).toBe(9)\n    expect(fb.indices[8 * fb.width + 16]).toBe(6)\n    expect(fb.indices[16 * fb.width]).toBe(7)\n    expect(fb.indices[16 * fb.width + 8]).toBe(8)\n  })\n\n  it('shadowOffset 6 → 阴影在 (6,6) 偏移位置应用 PAL_CalcShadowColor 到当前 fb pixel', () => {\n    const fb = createFramebuffer()\n    const frames = distinctTileFrames()\n    fb.writePixel(39, 39, 0xab)\n    drawBox({\n      fb,\n      x: 10,\n      y: 10,\n      rows: 1,\n      cols: 1,\n      style: 0,\n      shadowOffset: 6,\n      uiSpriteFrames: frames,\n    })\n    expect(fb.indices[10 * fb.width + 10]).toBe(1) // 正色 box 左上\n    // PAL_CalcShadowColor(0xAB) = (0xAB & 0xF0) | ((0xAB & 0x0F) >> 1) = 0xA0 | (0x0B >> 1) = 0xA0 | 0x05 = 0xA5\n    expect(fb.indices[39 * fb.width + 39]).toBe(0xa5)\n  })\n\n  it('style 1 → 用 frame 9-17', () => {\n    const fb = createFramebuffer()\n    const frames = distinctTileFrames()\n    drawBox({ fb, x: 0, y: 0, rows: 1, cols: 1, style: 1, shadowOffset: 0, uiSpriteFrames: frames })\n    // 左上 corner = frame 9(idx 10)\n    expect(fb.indices[0]).toBe(10)\n    expect(fb.indices[16 * fb.width + 16]).toBe(18) // 右下 corner = frame 17 idx 18\n  })\n\n  it('rows=2 cols=4 → 4×6 tile 网格', () => {\n    const fb = createFramebuffer()\n    const frames = distinctTileFrames()\n    drawBox({ fb, x: 0, y: 0, rows: 2, cols: 4, style: 0, shadowOffset: 0, uiSpriteFrames: frames })\n    // 顶边中间应该是 frame 1(idx 2);取多个 x 验证\n    expect(fb.indices[8]).toBe(2) // 第二列顶 = m=0, n=1 = frame 1\n    expect(fb.indices[16]).toBe(2) // 第三列顶\n    expect(fb.indices[40]).toBe(3) // 最后列(第 6 个)顶 = m=0, n=2 = frame 2 idx 3\n  })\n\n  it('uiSpriteFrames 不足 9 个 → 抛错', () => {\n    const fb = createFramebuffer()\n    expect(() =>\n      drawBox({ fb, x: 0, y: 0, rows: 1, cols: 1, style: 0, uiSpriteFrames: [] }),\n    ).toThrow(/uiSpriteFrames\\[0\\] missing/)\n  })\n})\n",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-box.glm-phase1-leaves.test.ts",
+      "id": "menu-box-1",
+      "reason": "Samepositivepixel/rasterinputscope; exactdefaultsentinelfactory andaccessedUIframes, CJK-onlywidthtable preservesmeasuredchars. Onefullcliporacle added.",
+      "changes": [
+        {
+          "from": "/**\n * TEST-GLM-PHASE1-LEAVES-3 L12（draw-box.ts）— 去重表：\n *  - draw-box.test（1×1 box/style1/2×4 网格/shadowOffset 6 阴影计算/9 帧缺失抛错）→ 不重复\n *  - 新差异：drawSingleLineBox 缺帧 fail-loud、shadowOffset 0 无阴影、box 越出 fb 右/下边裁剪\n *    不抛错、menuTextMaxCols 空表→1、ASCII 半角与 CJK 全角量化分叉。\n */\nimport { describe, expect, it } from 'vitest'\nimport {\n  BOX_STYLE0,\n  fixtureGlyphs,\n  makeUiFrames,\n  newFb,\n  pixel,\n  SENTINEL,\n} from '../../__tests__/glm-phase1-leaves/present-fixtures.js'\nimport { createFramebuffer } from '../framebuffer.js'\nimport { drawBox, drawSingleLineBox, menuTextMaxCols } from './draw-box.js'\n\ndescribe('L12 drawBox / drawSingleLineBox 剩余合同', () => {\n  it('drawSingleLineBox 缺 44-46 帧 → fail-loud 抛错（指名帧区间）', () => {\n    const fb = newFb()\n    expect(() => drawSingleLineBox({ fb, x: 0, y: 0, len: 2, uiSpriteFrames: [] })).toThrowError(\n      /44/,\n    )\n  })\n\n  it('shadowOffset 0：无阴影，框右侧的阴影域保持底色', () => {\n    const fb = newFb()\n    drawBox({\n      fb,\n      x: 10,\n      y: 10,\n      rows: 1,\n      cols: 2,\n      style: 0,\n      shadowOffset: 0,\n      uiSpriteFrames: makeUiFrames(),\n    })\n    expect(pixel(fb, 11, 11)).toBe(BOX_STYLE0)\n    // 框到x=41；若误画offset=6的阴影，会覆盖(44,18)，但不会覆盖旧采样(44,12)。\n    expect(pixel(fb, 44, 18)).toBe(SENTINEL)\n  })\n\n  it('box 越出 fb 右/下边界：裁剪不抛错，界内像素照画', () => {\n    const fb = createFramebuffer(40, 24)\n    fb.indices.fill(SENTINEL)\n    drawBox({\n      fb,\n      x: 30,\n      y: 14,\n      rows: 2,\n      cols: 4,\n      style: 0,\n      shadowOffset: 0,\n      uiSpriteFrames: makeUiFrames(),\n    })\n    expect(pixel(fb, 31, 15)).toBe(BOX_STYLE0) // 界内\n    // 越界部分不写（writePixel 边界检查），无异常即合同\n    expect(fb.indices.every((v) => v === BOX_STYLE0 || v === SENTINEL)).toBe(true)\n  })\n\n  it('menuTextMaxCols：空表 → 1（下限）；全角 4 字 → 3；缺字形 ASCII 按 16px 计', () => {\n    expect(menuTextMaxCols([], fixtureGlyphs)).toBe(1)\n    expect(menuTextMaxCols(['甲甲甲甲'], fixtureGlyphs)).toBe(3) // (4*16+8)>>4=4 → 4-1\n    expect(menuTextMaxCols(['甲甲'], fixtureGlyphs)).toBe(1) // (2*16+8)>>4=2 → 2-1，下限 1\n    // 'abcdefgh' 不在 fixture 字形表 → measureText 缺字 fallback 16px/字 → (8*16+8)>>4=8 → 7\n    expect(menuTextMaxCols(['abcdefgh'], fixtureGlyphs)).toBe(7)\n  })\n})\n",
+          "to": "import { describe, expect, it } from 'vitest'\nimport { BOX_STYLE0, makeUiFrames } from '../__tests__/menu-ui-fixtures.js'\nimport { sentinelFramebuffer, pixel, SENTINEL } from '../__tests__/raster-fixtures.js'\nimport { createFramebuffer } from '../framebuffer.js'\nimport { drawBox, drawSingleLineBox, menuTextMaxCols } from './draw-box.js'\nimport { glyphsOf } from '../__tests__/glyph-fixtures.js'\n\ndescribe('L12 drawBox / drawSingleLineBox 剩余合同', () => {\n  it('drawSingleLineBox 缺 44-46 帧 → fail-loud 抛错（指名帧区间）', () => {\n    const fb = sentinelFramebuffer()\n    expect(() => drawSingleLineBox({ fb, x: 0, y: 0, len: 2, uiSpriteFrames: [] })).toThrowError(\n      /44/,\n    )\n  })\n\n  it('shadowOffset 0：无阴影，框右侧的阴影域保持底色', () => {\n    const fb = sentinelFramebuffer()\n    drawBox({\n      fb,\n      x: 10,\n      y: 10,\n      rows: 1,\n      cols: 2,\n      style: 0,\n      shadowOffset: 0,\n      uiSpriteFrames: makeUiFrames(),\n    })\n    expect(pixel(fb, 11, 11)).toBe(BOX_STYLE0)\n    // 框到x=41；若误画offset=6的阴影，会覆盖(44,18)，但不会覆盖旧采样(44,12)。\n    expect(pixel(fb, 44, 18)).toBe(SENTINEL)\n  })\n\n  it('box 越出 fb 右/下边界：裁剪不抛错，界内像素照画', () => {\n    const fb = createFramebuffer(40, 24)\n    fb.indices.fill(SENTINEL)\n    drawBox({\n      fb,\n      x: 30,\n      y: 14,\n      rows: 2,\n      cols: 4,\n      style: 0,\n      shadowOffset: 0,\n      uiSpriteFrames: makeUiFrames(),\n    })\n    // 整缓冲oracle同时约束界内完整区域与框外底色。\n    const expected = new Uint8Array(40 * 24).fill(SENTINEL)\n    for (const y of [14, 15, 16, 17, 18, 19, 20, 21, 22, 23])\n      expected.fill(BOX_STYLE0, y * 40 + 30, y * 40 + 40)\n    expect(fb.indices).toEqual(expected)\n  })\n\n  it('menuTextMaxCols：空表 → 1（下限）；全角 4 字 → 3；缺字形 ASCII 按 16px 计', () => {\n    expect(menuTextMaxCols([], widthGlyphs)).toBe(1)\n    expect(menuTextMaxCols(['甲甲甲甲'], widthGlyphs)).toBe(3) // (4*16+8)>>4=4 → 4-1\n    expect(menuTextMaxCols(['甲甲'], widthGlyphs)).toBe(1) // (2*16+8)>>4=2 → 2-1，下限 1\n    // 'abcdefgh' 不在 fixture 字形表 → measureText 缺字 fallback 16px/字 → (8*16+8)>>4=8 → 7\n    expect(menuTextMaxCols(['abcdefgh'], widthGlyphs)).toBe(7)\n  })\n})\n\nconst widthGlyphs = glyphsOf(['甲'])\n",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+      "id": "menu-box-2",
+      "reason": "Privatefixture names andresponsibilitytitles only; alloriginaloracles retained.",
+      "changes": [
+        {
+          "from": "/**\n * TEST-GROK-RENDER-HOST-LARGE-1 G07-C。\n * 九宫格透明孔、单行框的节数和默认阴影，以及列数取最长一项。\n * 不重复旧测的 1×1 九帧、0xAB 阴影和 style 0 缺帧，也不重复 glm 的越界裁剪。\n */\nimport { describe, expect, it } from 'vitest'\nimport type { IndexedImage } from '../../assets/png.js'\nimport { fixtureGlyphs } from '../__tests__/glyph-fixtures.js'\nimport { BOX_STYLE0, makeUiFrames } from '../__tests__/menu-ui-fixtures.js'\nimport {\n  fillSentinel,\n  pixel,\n  SENTINEL,\n  solidIndexedImage as solidImage,\n} from '../__tests__/raster-fixtures.js'\nimport { createFramebuffer } from '../framebuffer.js'\nimport { drawBox, drawSingleLineBox, menuTextMaxCols } from './draw-box.js'\n\nconst glyphs = fixtureGlyphs()\n\nfunction holeFrames(): IndexedImage[] {\n  const frames: IndexedImage[] = []\n  for (let i = 0; i < 9; i++) frames[i] = solidImage(8, 8, BOX_STYLE0)\n  const hole = solidImage(8, 8, BOX_STYLE0)\n  hole.opaque[1] = 0\n  hole.indices[1] = 0\n  frames[0] = hole\n  return frames\n}\n\n/** 右下角块的最末一点透明。它的阴影会落到框外，相邻实点的阴影仍在。 */\nfunction cornerHoleFrames(): IndexedImage[] {\n  const frames: IndexedImage[] = []\n  for (let i = 0; i < 9; i++) frames[i] = solidImage(8, 8, BOX_STYLE0)\n  const hole = solidImage(8, 8, BOX_STYLE0)\n  hole.opaque[7 * 8 + 7] = 0\n  hole.indices[7 * 8 + 7] = 0\n  frames[8] = hole\n  return frames\n}\n\nfunction lineFrames(left: number, mid: number, right: number): IndexedImage[] {\n  const frames: IndexedImage[] = []\n  frames[44] = solidImage(8, 8, left)\n  frames[45] = solidImage(8, 8, mid)\n  frames[46] = solidImage(8, 8, right)\n  return frames\n}\n\ndescribe('G07-C 菜单框像素', () => {\n  it('G07-C01 角块透明孔不写像素，旁边的不透明点仍是框色', () => {\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawBox({\n      fb,\n      x: 0,\n      y: 0,\n      rows: 1,\n      cols: 1,\n      style: 0,\n      shadowOffset: 0,\n      uiSpriteFrames: holeFrames(),\n    })\n    expect(pixel(fb, 1, 0)).toBe(SENTINEL)\n    expect(pixel(fb, 0, 0)).toBe(BOX_STYLE0)\n    expect(pixel(fb, 2, 0)).toBe(BOX_STYLE0)\n  })\n\n  it('G07-C02 单行框 len 为 2 时中段重复两次，右帽在 x=24', () => {\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawSingleLineBox({\n      fb,\n      x: 0,\n      y: 0,\n      len: 2,\n      shadowOffset: 0,\n      uiSpriteFrames: lineFrames(1, 2, 3),\n    })\n    expect(pixel(fb, 8, 0)).toBe(2)\n    expect(pixel(fb, 16, 0)).toBe(2)\n    expect(pixel(fb, 24, 0)).toBe(3)\n    expect(pixel(fb, 32, 0)).toBe(SENTINEL)\n  })\n\n  it('G07-C03 单行框 shadowOffset 为 0 时 (6,8) 保持底色', () => {\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawSingleLineBox({\n      fb,\n      x: 0,\n      y: 0,\n      len: 1,\n      shadowOffset: 0,\n      uiSpriteFrames: makeUiFrames(),\n    })\n    expect(pixel(fb, 6, 8)).toBe(SENTINEL)\n    expect(pixel(fb, 0, 0)).toBe(BOX_STYLE0)\n  })\n\n  it('G07-C04 单行框默认阴影落在框身下方，低四位右移一位', () => {\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawSingleLineBox({\n      fb,\n      x: 0,\n      y: 0,\n      len: 1,\n      uiSpriteFrames: makeUiFrames(),\n    })\n    expect(pixel(fb, 6, 8)).toBe(0x55)\n    expect(pixel(fb, 6, 14)).toBe(SENTINEL)\n    expect(pixel(fb, 0, 0)).toBe(BOX_STYLE0)\n  })\n\n  it('G07-C05 右下角透明孔不投下阴影，旁边实点的阴影仍把底色变暗', () => {\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawBox({\n      fb,\n      x: 0,\n      y: 0,\n      rows: 1,\n      cols: 1,\n      style: 0,\n      shadowOffset: 6,\n      uiSpriteFrames: cornerHoleFrames(),\n    })\n    expect(pixel(fb, 29, 29)).toBe(SENTINEL)\n    expect(pixel(fb, 28, 29)).toBe(0x55)\n  })\n\n  it('G07-C06 style 1 缺少 frame 9 时抛错并指名该帧', () => {\n    const fb = createFramebuffer()\n    const frames = holeFrames()\n    expect(() =>\n      drawBox({\n        fb,\n        x: 0,\n        y: 0,\n        rows: 1,\n        cols: 1,\n        style: 1,\n        shadowOffset: 0,\n        uiSpriteFrames: frames,\n      }),\n    ).toThrow(/uiSpriteFrames\\[9\\] missing/)\n  })\n\n  it('G07-C07 八个半角 E 的列数是 3，不按缺字 16 像素计成 7', () => {\n    expect(menuTextMaxCols(['EEEEEEEE'], glyphs)).toBe(3)\n  })\n\n  it('G07-C08 内容行数为 0 时只留上下两边，y=16 保持底色', () => {\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawBox({\n      fb,\n      x: 0,\n      y: 0,\n      rows: 0,\n      cols: 1,\n      style: 0,\n      shadowOffset: 0,\n      uiSpriteFrames: makeUiFrames(),\n    })\n    expect(pixel(fb, 0, 16)).toBe(SENTINEL)\n    expect(pixel(fb, 0, 0)).toBe(BOX_STYLE0)\n    expect(pixel(fb, 0, 8)).toBe(BOX_STYLE0)\n  })\n\n  it('G07-C09 内容列数为 0 时只留左右两边，x=16 保持底色', () => {\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawBox({\n      fb,\n      x: 0,\n      y: 0,\n      rows: 1,\n      cols: 0,\n      style: 0,\n      shadowOffset: 0,\n      uiSpriteFrames: makeUiFrames(),\n    })\n    expect(pixel(fb, 16, 0)).toBe(SENTINEL)\n    expect(pixel(fb, 0, 0)).toBe(BOX_STYLE0)\n    expect(pixel(fb, 8, 0)).toBe(BOX_STYLE0)\n  })\n\n  it('G07-C10 不透明且索引为 0 的块仍覆盖底色', () => {\n    const frames: IndexedImage[] = []\n    for (let i = 0; i < 9; i++) frames[i] = solidImage(8, 8, 0)\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawBox({\n      fb,\n      x: 0,\n      y: 0,\n      rows: 1,\n      cols: 1,\n      style: 0,\n      shadowOffset: 0,\n      uiSpriteFrames: frames,\n    })\n    expect(pixel(fb, 0, 0)).toBe(0)\n    expect(pixel(fb, 24, 0)).toBe(SENTINEL)\n  })\n\n  it('G07-C11 列数取最长的一项，短项不把列数抬高', () => {\n    expect(menuTextMaxCols(['甲', '甲甲甲甲'], glyphs)).toBe(3)\n    expect(menuTextMaxCols(['甲甲甲甲', '甲'], glyphs)).toBe(3)\n    expect(menuTextMaxCols(['甲'], glyphs)).toBe(1)\n  })\n\n  it('G07-C12 单行框 len 为 0 时没有中段，右帽紧跟左帽', () => {\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawSingleLineBox({\n      fb,\n      x: 0,\n      y: 0,\n      len: 0,\n      shadowOffset: 0,\n      uiSpriteFrames: lineFrames(1, 2, 3),\n    })\n    expect(pixel(fb, 0, 0)).toBe(1)\n    expect(pixel(fb, 8, 0)).toBe(3)\n    expect(pixel(fb, 16, 0)).toBe(SENTINEL)\n  })\n})\n",
+          "to": "import { describe, expect, it } from 'vitest'\nimport type { IndexedImage } from '../../assets/png.js'\nimport { fixtureGlyphs } from '../__tests__/glyph-fixtures.js'\nimport { BOX_STYLE0, makeUiFrames } from '../__tests__/menu-ui-fixtures.js'\nimport { fillSentinel, pixel, SENTINEL, solidIndexedImage } from '../__tests__/raster-fixtures.js'\nimport { createFramebuffer } from '../framebuffer.js'\nimport { drawBox, drawSingleLineBox, menuTextMaxCols } from './draw-box.js'\n\nconst glyphs = fixtureGlyphs()\n\nfunction topLeftHoleFrames(): IndexedImage[] {\n  const frames: IndexedImage[] = []\n  for (let i = 0; i < 9; i++) frames[i] = solidIndexedImage(8, 8, BOX_STYLE0)\n  const hole = solidIndexedImage(8, 8, BOX_STYLE0)\n  hole.opaque[1] = 0\n  hole.indices[1] = 0\n  frames[0] = hole\n  return frames\n}\n\n/** 右下角块的最末一点透明。它的阴影会落到框外，相邻实点的阴影仍在。 */\nfunction bottomRightHoleFrames(): IndexedImage[] {\n  const frames: IndexedImage[] = []\n  for (let i = 0; i < 9; i++) frames[i] = solidIndexedImage(8, 8, BOX_STYLE0)\n  const hole = solidIndexedImage(8, 8, BOX_STYLE0)\n  hole.opaque[7 * 8 + 7] = 0\n  hole.indices[7 * 8 + 7] = 0\n  frames[8] = hole\n  return frames\n}\n\nfunction singleLineFrames(left: number, mid: number, right: number): IndexedImage[] {\n  const frames: IndexedImage[] = []\n  frames[44] = solidIndexedImage(8, 8, left)\n  frames[45] = solidIndexedImage(8, 8, mid)\n  frames[46] = solidIndexedImage(8, 8, right)\n  return frames\n}\n\ndescribe('G07-C 菜单框像素', () => {\n  it('角块透明孔不写像素，旁边的不透明点仍是框色', () => {\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawBox({\n      fb,\n      x: 0,\n      y: 0,\n      rows: 1,\n      cols: 1,\n      style: 0,\n      shadowOffset: 0,\n      uiSpriteFrames: topLeftHoleFrames(),\n    })\n    expect(pixel(fb, 1, 0)).toBe(SENTINEL)\n    expect(pixel(fb, 0, 0)).toBe(BOX_STYLE0)\n    expect(pixel(fb, 2, 0)).toBe(BOX_STYLE0)\n  })\n\n  it('单行框 len 为 2 时中段重复两次，右帽在 x=24', () => {\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawSingleLineBox({\n      fb,\n      x: 0,\n      y: 0,\n      len: 2,\n      shadowOffset: 0,\n      uiSpriteFrames: singleLineFrames(1, 2, 3),\n    })\n    expect(pixel(fb, 8, 0)).toBe(2)\n    expect(pixel(fb, 16, 0)).toBe(2)\n    expect(pixel(fb, 24, 0)).toBe(3)\n    expect(pixel(fb, 32, 0)).toBe(SENTINEL)\n  })\n\n  it('单行框 shadowOffset 为 0 时 (6,8) 保持底色', () => {\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawSingleLineBox({\n      fb,\n      x: 0,\n      y: 0,\n      len: 1,\n      shadowOffset: 0,\n      uiSpriteFrames: makeUiFrames(),\n    })\n    expect(pixel(fb, 6, 8)).toBe(SENTINEL)\n    expect(pixel(fb, 0, 0)).toBe(BOX_STYLE0)\n  })\n\n  it('单行框默认阴影落在框身下方，低四位右移一位', () => {\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawSingleLineBox({\n      fb,\n      x: 0,\n      y: 0,\n      len: 1,\n      uiSpriteFrames: makeUiFrames(),\n    })\n    expect(pixel(fb, 6, 8)).toBe(0x55)\n    expect(pixel(fb, 6, 14)).toBe(SENTINEL)\n    expect(pixel(fb, 0, 0)).toBe(BOX_STYLE0)\n  })\n\n  it('右下角透明孔不投下阴影，旁边实点的阴影仍把底色变暗', () => {\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawBox({\n      fb,\n      x: 0,\n      y: 0,\n      rows: 1,\n      cols: 1,\n      style: 0,\n      shadowOffset: 6,\n      uiSpriteFrames: bottomRightHoleFrames(),\n    })\n    expect(pixel(fb, 29, 29)).toBe(SENTINEL)\n    expect(pixel(fb, 28, 29)).toBe(0x55)\n  })\n\n  it('style 1 缺少 frame 9 时抛错并指名该帧', () => {\n    const fb = createFramebuffer()\n    const frames = topLeftHoleFrames()\n    expect(() =>\n      drawBox({\n        fb,\n        x: 0,\n        y: 0,\n        rows: 1,\n        cols: 1,\n        style: 1,\n        shadowOffset: 0,\n        uiSpriteFrames: frames,\n      }),\n    ).toThrow(/uiSpriteFrames\\[9\\] missing/)\n  })\n\n  it('八个半角 E 的列数是 3，不按缺字 16 像素计成 7', () => {\n    expect(menuTextMaxCols(['EEEEEEEE'], glyphs)).toBe(3)\n  })\n\n  it('内容行数为 0 时只留上下两边，y=16 保持底色', () => {\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawBox({\n      fb,\n      x: 0,\n      y: 0,\n      rows: 0,\n      cols: 1,\n      style: 0,\n      shadowOffset: 0,\n      uiSpriteFrames: makeUiFrames(),\n    })\n    expect(pixel(fb, 0, 16)).toBe(SENTINEL)\n    expect(pixel(fb, 0, 0)).toBe(BOX_STYLE0)\n    expect(pixel(fb, 0, 8)).toBe(BOX_STYLE0)\n  })\n\n  it('内容列数为 0 时只留左右两边，x=16 保持底色', () => {\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawBox({\n      fb,\n      x: 0,\n      y: 0,\n      rows: 1,\n      cols: 0,\n      style: 0,\n      shadowOffset: 0,\n      uiSpriteFrames: makeUiFrames(),\n    })\n    expect(pixel(fb, 16, 0)).toBe(SENTINEL)\n    expect(pixel(fb, 0, 0)).toBe(BOX_STYLE0)\n    expect(pixel(fb, 8, 0)).toBe(BOX_STYLE0)\n  })\n\n  it('不透明且索引为 0 的块仍覆盖底色', () => {\n    const frames: IndexedImage[] = []\n    for (let i = 0; i < 9; i++) frames[i] = solidIndexedImage(8, 8, 0)\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawBox({\n      fb,\n      x: 0,\n      y: 0,\n      rows: 1,\n      cols: 1,\n      style: 0,\n      shadowOffset: 0,\n      uiSpriteFrames: frames,\n    })\n    expect(pixel(fb, 0, 0)).toBe(0)\n    expect(pixel(fb, 24, 0)).toBe(SENTINEL)\n  })\n\n  it('列数取最长的一项，短项不把列数抬高', () => {\n    expect(menuTextMaxCols(['甲', '甲甲甲甲'], glyphs)).toBe(3)\n    expect(menuTextMaxCols(['甲甲甲甲', '甲'], glyphs)).toBe(3)\n    expect(menuTextMaxCols(['甲'], glyphs)).toBe(1)\n  })\n\n  it('单行框 len 为 0 时没有中段，右帽紧跟左帽', () => {\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawSingleLineBox({\n      fb,\n      x: 0,\n      y: 0,\n      len: 0,\n      shadowOffset: 0,\n      uiSpriteFrames: singleLineFrames(1, 2, 3),\n    })\n    expect(pixel(fb, 0, 0)).toBe(1)\n    expect(pixel(fb, 8, 0)).toBe(3)\n    expect(pixel(fb, 16, 0)).toBe(SENTINEL)\n  })\n})\n",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "replacements": [],
+  "registrations": [
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-box.test.ts",
+        "ordinal": 0
+      },
+      "originalOrdinal": 0,
+      "current": {
+        "file": "packages/game/src/present/menu/draw-box.test.ts",
+        "titles": ["Nine-slice geometry and frame availability"],
+        "template": "画 1×1 内部 box(实际 3×3 tile)— 9 frame 全部 blit"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-box.test.ts",
+        "ordinal": 1
+      },
+      "originalOrdinal": 1,
+      "current": {
+        "file": "packages/game/src/present/menu/draw-box.test.ts",
+        "titles": ["Nine-slice geometry and frame availability"],
+        "template": "shadowOffset 6 → 阴影在 (6,6) 偏移位置应用 PAL_CalcShadowColor 到当前 fb pixel"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-box.test.ts",
+        "ordinal": 2
+      },
+      "originalOrdinal": 2,
+      "current": {
+        "file": "packages/game/src/present/menu/draw-box.test.ts",
+        "titles": ["Nine-slice geometry and frame availability"],
+        "template": "style 1 → 用 frame 9-17"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-box.test.ts",
+        "ordinal": 3
+      },
+      "originalOrdinal": 3,
+      "current": {
+        "file": "packages/game/src/present/menu/draw-box.test.ts",
+        "titles": ["Nine-slice geometry and frame availability"],
+        "template": "rows=2 cols=4 → 4×6 tile 网格"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-box.test.ts",
+        "ordinal": 4
+      },
+      "originalOrdinal": 4,
+      "current": {
+        "file": "packages/game/src/present/menu/draw-box.test.ts",
+        "titles": ["Nine-slice geometry and frame availability"],
+        "template": "uiSpriteFrames 不足 9 个 → 抛错"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-box.glm-phase1-leaves.test.ts",
+        "ordinal": 0
+      },
+      "originalOrdinal": 0,
+      "current": {
+        "file": "packages/game/src/present/menu/draw-box.test.ts",
+        "titles": ["Single-line frames and shadows"],
+        "template": "drawSingleLineBox 缺 44-46 帧 → fail-loud 抛错（指名帧区间）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-box.glm-phase1-leaves.test.ts",
+        "ordinal": 1
+      },
+      "originalOrdinal": 1,
+      "current": {
+        "file": "packages/game/src/present/menu/draw-box.test.ts",
+        "titles": ["Nine-slice clipping and shadow control"],
+        "template": "shadowOffset 0：无阴影，框右侧的阴影域保持底色"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-box.glm-phase1-leaves.test.ts",
+        "ordinal": 2
+      },
+      "originalOrdinal": 2,
+      "current": {
+        "file": "packages/game/src/present/menu/draw-box.test.ts",
+        "titles": ["Nine-slice clipping and shadow control"],
+        "template": "box 越出 fb 右/下边界：裁剪不抛错，界内像素照画"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-box.glm-phase1-leaves.test.ts",
+        "ordinal": 3
+      },
+      "originalOrdinal": 3,
+      "current": {
+        "file": "packages/game/src/present/menu/draw-box.test.ts",
+        "titles": ["Text width and glyph availability"],
+        "template": "menuTextMaxCols：空表 → 1（下限）；全角 4 字 → 3；缺字形 ASCII 按 16px 计"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+        "ordinal": 0
+      },
+      "originalOrdinal": 0,
+      "current": {
+        "file": "packages/game/src/present/menu/draw-box.test.ts",
+        "titles": ["Nine-slice masks and zero-size content"],
+        "template": "角块透明孔不写像素，旁边的不透明点仍是框色"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+        "ordinal": 1
+      },
+      "originalOrdinal": 1,
+      "current": {
+        "file": "packages/game/src/present/menu/draw-box.test.ts",
+        "titles": ["Single-line frames and shadows"],
+        "template": "单行框 len 为 2 时中段重复两次，右帽在 x=24"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+        "ordinal": 2
+      },
+      "originalOrdinal": 2,
+      "current": {
+        "file": "packages/game/src/present/menu/draw-box.test.ts",
+        "titles": ["Single-line frames and shadows"],
+        "template": "单行框 shadowOffset 为 0 时 (6,8) 保持底色"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+        "ordinal": 3
+      },
+      "originalOrdinal": 3,
+      "current": {
+        "file": "packages/game/src/present/menu/draw-box.test.ts",
+        "titles": ["Single-line frames and shadows"],
+        "template": "单行框默认阴影落在框身下方，低四位右移一位"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+        "ordinal": 4
+      },
+      "originalOrdinal": 4,
+      "current": {
+        "file": "packages/game/src/present/menu/draw-box.test.ts",
+        "titles": ["Nine-slice masks and zero-size content"],
+        "template": "右下角透明孔不投下阴影，旁边实点的阴影仍把底色变暗"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+        "ordinal": 5
+      },
+      "originalOrdinal": 5,
+      "current": {
+        "file": "packages/game/src/present/menu/draw-box.test.ts",
+        "titles": ["Nine-slice masks and zero-size content"],
+        "template": "style 1 缺少 frame 9 时抛错并指名该帧"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+        "ordinal": 6
+      },
+      "originalOrdinal": 6,
+      "current": {
+        "file": "packages/game/src/present/menu/draw-box.test.ts",
+        "titles": ["Text width and glyph availability"],
+        "template": "八个半角 E 的列数是 3，不按缺字 16 像素计成 7"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+        "ordinal": 7
+      },
+      "originalOrdinal": 7,
+      "current": {
+        "file": "packages/game/src/present/menu/draw-box.test.ts",
+        "titles": ["Nine-slice masks and zero-size content"],
+        "template": "内容行数为 0 时只留上下两边，y=16 保持底色"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+        "ordinal": 8
+      },
+      "originalOrdinal": 8,
+      "current": {
+        "file": "packages/game/src/present/menu/draw-box.test.ts",
+        "titles": ["Nine-slice masks and zero-size content"],
+        "template": "内容列数为 0 时只留左右两边，x=16 保持底色"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+        "ordinal": 9
+      },
+      "originalOrdinal": 9,
+      "current": {
+        "file": "packages/game/src/present/menu/draw-box.test.ts",
+        "titles": ["Nine-slice masks and zero-size content"],
+        "template": "不透明且索引为 0 的块仍覆盖底色"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+        "ordinal": 10
+      },
+      "originalOrdinal": 10,
+      "current": {
+        "file": "packages/game/src/present/menu/draw-box.test.ts",
+        "titles": ["Text width and glyph availability"],
+        "template": "列数取最长的一项，短项不把列数抬高"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+        "ordinal": 11
+      },
+      "originalOrdinal": 11,
+      "current": {
+        "file": "packages/game/src/present/menu/draw-box.test.ts",
+        "titles": ["Single-line frames and shadows"],
+        "template": "单行框 len 为 0 时没有中段，右帽紧跟左帽"
+      }
+    }
+  ],
+  "identities": [
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-box.test.ts",
+        "fullName": "M5.6 W0.c drawBox 画 1×1 内部 box(实际 3×3 tile)— 9 frame 全部 blit"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-box.test.ts",
+        "fullName": "Nine-slice geometry and frame availability 画 1×1 内部 box(实际 3×3 tile)— 9 frame 全部 blit"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-box.test.ts",
+        "fullName": "M5.6 W0.c drawBox shadowOffset 6 → 阴影在 (6,6) 偏移位置应用 PAL_CalcShadowColor 到当前 fb pixel"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-box.test.ts",
+        "fullName": "Nine-slice geometry and frame availability shadowOffset 6 → 阴影在 (6,6) 偏移位置应用 PAL_CalcShadowColor 到当前 fb pixel"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-box.test.ts",
+        "fullName": "M5.6 W0.c drawBox style 1 → 用 frame 9-17"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-box.test.ts",
+        "fullName": "Nine-slice geometry and frame availability style 1 → 用 frame 9-17"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-box.test.ts",
+        "fullName": "M5.6 W0.c drawBox rows=2 cols=4 → 4×6 tile 网格"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-box.test.ts",
+        "fullName": "Nine-slice geometry and frame availability rows=2 cols=4 → 4×6 tile 网格"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-box.test.ts",
+        "fullName": "M5.6 W0.c drawBox uiSpriteFrames 不足 9 个 → 抛错"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-box.test.ts",
+        "fullName": "Nine-slice geometry and frame availability uiSpriteFrames 不足 9 个 → 抛错"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-box.glm-phase1-leaves.test.ts",
+        "fullName": "L12 drawBox / drawSingleLineBox 剩余合同 drawSingleLineBox 缺 44-46 帧 → fail-loud 抛错（指名帧区间）"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-box.test.ts",
+        "fullName": "Single-line frames and shadows drawSingleLineBox 缺 44-46 帧 → fail-loud 抛错（指名帧区间）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-box.glm-phase1-leaves.test.ts",
+        "fullName": "L12 drawBox / drawSingleLineBox 剩余合同 shadowOffset 0：无阴影，框右侧的阴影域保持底色"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-box.test.ts",
+        "fullName": "Nine-slice clipping and shadow control shadowOffset 0：无阴影，框右侧的阴影域保持底色"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-box.glm-phase1-leaves.test.ts",
+        "fullName": "L12 drawBox / drawSingleLineBox 剩余合同 box 越出 fb 右/下边界：裁剪不抛错，界内像素照画"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-box.test.ts",
+        "fullName": "Nine-slice clipping and shadow control box 越出 fb 右/下边界：裁剪不抛错，界内像素照画"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-box.glm-phase1-leaves.test.ts",
+        "fullName": "L12 drawBox / drawSingleLineBox 剩余合同 menuTextMaxCols：空表 → 1（下限）；全角 4 字 → 3；缺字形 ASCII 按 16px 计"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-box.test.ts",
+        "fullName": "Text width and glyph availability menuTextMaxCols：空表 → 1（下限）；全角 4 字 → 3；缺字形 ASCII 按 16px 计"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+        "fullName": "G07-C 菜单框像素 G07-C01 角块透明孔不写像素，旁边的不透明点仍是框色"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-box.test.ts",
+        "fullName": "Nine-slice masks and zero-size content 角块透明孔不写像素，旁边的不透明点仍是框色"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+        "fullName": "G07-C 菜单框像素 G07-C02 单行框 len 为 2 时中段重复两次，右帽在 x=24"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-box.test.ts",
+        "fullName": "Single-line frames and shadows 单行框 len 为 2 时中段重复两次，右帽在 x=24"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+        "fullName": "G07-C 菜单框像素 G07-C03 单行框 shadowOffset 为 0 时 (6,8) 保持底色"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-box.test.ts",
+        "fullName": "Single-line frames and shadows 单行框 shadowOffset 为 0 时 (6,8) 保持底色"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+        "fullName": "G07-C 菜单框像素 G07-C04 单行框默认阴影落在框身下方，低四位右移一位"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-box.test.ts",
+        "fullName": "Single-line frames and shadows 单行框默认阴影落在框身下方，低四位右移一位"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+        "fullName": "G07-C 菜单框像素 G07-C05 右下角透明孔不投下阴影，旁边实点的阴影仍把底色变暗"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-box.test.ts",
+        "fullName": "Nine-slice masks and zero-size content 右下角透明孔不投下阴影，旁边实点的阴影仍把底色变暗"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+        "fullName": "G07-C 菜单框像素 G07-C06 style 1 缺少 frame 9 时抛错并指名该帧"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-box.test.ts",
+        "fullName": "Nine-slice masks and zero-size content style 1 缺少 frame 9 时抛错并指名该帧"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+        "fullName": "G07-C 菜单框像素 G07-C07 八个半角 E 的列数是 3，不按缺字 16 像素计成 7"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-box.test.ts",
+        "fullName": "Text width and glyph availability 八个半角 E 的列数是 3，不按缺字 16 像素计成 7"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+        "fullName": "G07-C 菜单框像素 G07-C08 内容行数为 0 时只留上下两边，y=16 保持底色"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-box.test.ts",
+        "fullName": "Nine-slice masks and zero-size content 内容行数为 0 时只留上下两边，y=16 保持底色"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+        "fullName": "G07-C 菜单框像素 G07-C09 内容列数为 0 时只留左右两边，x=16 保持底色"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-box.test.ts",
+        "fullName": "Nine-slice masks and zero-size content 内容列数为 0 时只留左右两边，x=16 保持底色"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+        "fullName": "G07-C 菜单框像素 G07-C10 不透明且索引为 0 的块仍覆盖底色"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-box.test.ts",
+        "fullName": "Nine-slice masks and zero-size content 不透明且索引为 0 的块仍覆盖底色"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+        "fullName": "G07-C 菜单框像素 G07-C11 列数取最长的一项，短项不把列数抬高"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-box.test.ts",
+        "fullName": "Text width and glyph availability 列数取最长的一项，短项不把列数抬高"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+        "fullName": "G07-C 菜单框像素 G07-C12 单行框 len 为 0 时没有中段，右帽紧跟左帽"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-box.test.ts",
+        "fullName": "Single-line frames and shadows 单行框 len 为 0 时没有中段，右帽紧跟左帽"
+      }
+    }
+  ],
+  "id": "menu-box",
+  "namespace": "organization-menu-box",
+  "cohortSubjects": [
+    {
+      "path": "packages/game/src/present/menu/draw-box.glm-phase1-leaves.test.ts",
+      "sha256": "2ddaa6efbaf2016f40191c7c8cf49f77191ad62c187c76a2ac25aaa5e54c4295",
+      "priorCurrentBridges": []
+    },
+    {
+      "path": "packages/game/src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+      "sha256": "4adaf21e23bfd2d6da685430c237e7f1549377001d5fef2ea23145829650fee6",
+      "priorCurrentBridges": [
+        {
+          "path": "packages/game/src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+          "sha256": "4adaf21e23bfd2d6da685430c237e7f1549377001d5fef2ea23145829650fee6",
+          "member": "organization-game-render-fixtures/9.before",
+          "currentSha256": "92d0697b68ba196235c1b89256c2e5d59aa72366e3ad7bb64818d9585ba55a2b",
+          "changes": [],
+          "evidence": "organization-game-render-fixtures.json"
+        }
+      ]
+    }
+  ],
+  "preserved": [
+    {
+      "path": "packages/game/src/present/menu/draw-box.ts",
+      "sha256": "2ab2d6e4aafcaa9848cab7e74ccfef8ac0669678a4f4fe58c7577ac89bafb4b4"
+    },
+    {
+      "path": "packages/game/src/present/font.ts",
+      "sha256": "0af092f60efef7dd1f39c82f4c492512dbf957092f0d20b13da27b5518fd7fe4"
+    },
+    {
+      "path": "packages/game/src/present/framebuffer.ts",
+      "sha256": "fdd25deedeb33da252d5efa9392bc5af088365a2a6dab3129c2b373aeeb0e060"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/glyph-fixtures.ts",
+      "sha256": "226f7b472f8c065034db07c1f308ba5b5cc03a5f6d31b6f624f9cef27b701e2f"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/menu-ui-fixtures.ts",
+      "sha256": "2e6d73e10d4b98a5876000b1abebea747bbf62fc0bdfb159e44534ba068f3171"
+    },
+    {
+      "path": "packages/game/src/__tests__/glm-phase1-leaves/present-fixtures.ts",
+      "sha256": "4f8701a4dddcdae4010bdbd9b23eee56dd2d20335e906a5249a488308edaedea"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-menu.ts",
+      "sha256": "c0c56305f46464b8194bbb0d2a7e04683952b7f01266ec3949602b99c6f51566"
+    },
+    {
+      "path": "packages/game/vitest.config.ts",
+      "sha256": "3dd92ad4886bc72c88e7a7b2e6bdacc3aaf9e2a24ac72153f3b619ba37feb7d4"
+    },
+    {
+      "path": "packages/game/vitest.setup.ts",
+      "sha256": "9d1b923f6abc71a5af3e9be094d2945f853a2f4319a036aba9813e86f116e93e"
+    }
+  ],
+  "neighborPaths": [
+    "src/present/menu/draw-box.test.ts",
+    "src/present/menu/draw-confirm.glm-phase1-leaves.test.ts",
+    "src/present/menu/draw-opening-menu.test.ts",
+    "src/present/menu/draw-opening-menu.glm-phase1-leaves.test.ts",
+    "src/present/menu/opening-confirm-pixels.grok-r1.test.ts",
+    "src/present/menu/draw-menu.test.ts",
+    "src/present/framebuffer.test.ts",
+    "src/present/draw-sprite.test.ts",
+    "src/present/font-layout.test.ts"
+  ],
+  "cleanExecutions": [
+    "before",
+    "reorganize",
+    "refine",
+    "proof",
+    "counter-old-proof",
+    "counter-new-proof",
+    "module-preflight",
+    "neighbors",
+    "typecheck",
+    "docs",
+    "content-review",
+    "lint",
+    "testing-docs",
+    "diff",
+    "scoped",
+    "ledger-final"
+  ],
+  "lightweightGates": true,
+  "counters": ["counter-complete-clip.json"],
+  "fixtureAndCallbackProof": "organization-menu-box/proof.stdout.raw",
+  "reusedReviewMember": "organization-menu-box/reused-reviews.json",
+  "profiles": [
+    {
+      "path": "packages/game/src/present/menu/draw-box.test.ts",
+      "subjects": [
+        "packages/game/src/present/menu/draw-box.glm-phase1-leaves.test.ts",
+        "packages/game/src/present/menu/box-shadow-pixels.grok-r1.test.ts"
+      ],
+      "acceptance": "F/Gsupplement; unifiedgatespending",
+      "axes": {
+        "A": "21例覆盖9-slice样式/尺寸/缺帧/裁剪/阴影、单行len0/2与默认/禁影、透明mask/索引0、空表/缺字/半角/最长宽度。draw-menu真实caller给rows/cols和离屏fb；生产draw-box字节未变，未发现新产品缺陷。",
+        "B": "去模型/波次suite与过时排重头，mockUiFrames改distinctTileFrames，纠正“0=透明”易混注和帧18+释义。九帧全画旧标题只检查六槽，现补三literal槽使声称有据；裁剪导读准确指完整矩形。",
+        "C": "三个作者spec归同一入口，分九宫格/单行/字宽/裁剪/mask五suite。每case自有fb/frames，无全局状态/时钟/宽上下文；确认/开场的词表和Date归后续独立片，不顺手reset其单例。",
+        "D": "默认哨兵Framebuffer从旧混装helper整函数迁入现有纯raster支持。区分帧1..18用于槽位，素色帧用于几何，不能误合；仅甲16px表保缺ASCII输入，混合表的E8px另保。实际21访问槽字节匹配、甲abcdefgh字宽/可用性匹配，不宣称完整表等同。",
+        "E": "21身份保全、19callback经私有名保持，2明确补强：六槽补到九槽；单点/颜色集合换完整10x10界内矩形+外侧底色，蕴含旧两断言。真实稀疏2x2源码变异旧1绿/新指定AssertionError。无新增/退休例，无业务核心mock或类型强转；72相邻/TC0。",
+        "F": "文件按draw-box公共入口，helper按distinctTileFrames/topLeftHoleFrames/bottomRightHoleFrames/singleLineFrames命名，suite指真实合同。glyphs与widthGlyphs刻意说明不同可用字域；无作者/批次长期入口。",
+        "G": "移除两作者文件与重复导入，复用已有raster/GlyphTable能力，未造万能绘图host。完整缓冲替弱的点/颜色集合，不叠恒真断言；保单行/九宫格不同实现轴与透明0/opaque0区别。未改产品目录/接口。",
+        "H": "真实Framebuffer/绘制及手写索引输入，无全局清理或IO。完整AST比较同一比较器有正控/尾断言与尾字段负控；旧默认构造与五准备声明等同，旧raster所有声明保持。依赖证明只在实际访问域有效，测试文字/帧域变化须定向复核。"
+      }
+    },
+    {
+      "path": "packages/game/src/present/__tests__/raster-fixtures.ts",
+      "subjects": [
+        "packages/game/src/present/menu/draw-box.glm-phase1-leaves.test.ts",
+        "packages/game/src/present/menu/box-shadow-pixels.grok-r1.test.ts"
+      ],
+      "acceptance": "exactconstructoradditiveincrement; oldrasterbodypreserved",
+      "axes": {
+        "A": "仅辅助增量：sentinelFramebuffer调用生产默认320x200并填0x5a；旧newFb整函数除名称外保持，全部既有raster声明未变。各case得到freshfb，像素所有权由case持有。",
+        "B": "新注说明哨兵用于识别未绘制区域，保两种coordinateguard现有释义；不把索引0视为透明。",
+        "C": "放在现有纯raster输入模块，无词表/GS/角色/时钟依赖；新增依赖仅createFramebuffer内存分配，不引入业务或IO。",
+        "D": "复用实际已有默认构造，不另建模块或flag模式；其余旧legacy混装支持未改、仍implicitpending，不给整体关闭信用。",
+        "E": "新构造经原函数typed树等同，实际21绘图例调用后有像素结果；旧支持函数逐声明守恒，9file72相邻。新旧pixel正域guard/return同，越界错误文案不同未宣称等同；当前迁移无非法坐标。",
+        "F": "sentinelFramebuffer揭示背景用途，短函数直接表达“分配/填色/返回”，无不明缩写。",
+        "G": "新增一个有当前caller的构造，未改既有导出/guard/默认值，不增wrapper层或未用参数。",
+        "H": "纯内存、freshbuffer、无单例/时钟，实际caller可直接验证，不为测试暴露产品私有字段；本辅助增量不重授完整模块八维。"
+      }
+    }
+  ],
+  "primarySources": [
+    {
+      "path": "packages/game/src/present/menu/draw-box.ts",
+      "sha256": "2ab2d6e4aafcaa9848cab7e74ccfef8ac0669678a4f4fe58c7577ac89bafb4b4",
+      "scope": "FulldrawBox/SingleLine/menuTextMaxCols read,unchanged."
+    }
+  ],
+  "reads": {
+    "fullInputs": [
+      {
+        "path": "packages/game/src/present/menu/draw-box.test.ts",
+        "sha256": "a5fa29d9b440cebec03a20be4014696c47c3c14c3034d37e06dcb876cc1fe173",
+        "member": "organization-menu-box/0.before",
+        "lines": 87,
+        "scope": "Fulltest/helper input read."
+      },
+      {
+        "path": "packages/game/src/present/menu/draw-box.glm-phase1-leaves.test.ts",
+        "sha256": "2ddaa6efbaf2016f40191c7c8cf49f77191ad62c187c76a2ac25aaa5e54c4295",
+        "member": "organization-menu-box/1.before",
+        "lines": 69,
+        "scope": "Fulltest/helper input read."
+      },
+      {
+        "path": "packages/game/src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+        "sha256": "92d0697b68ba196235c1b89256c2e5d59aa72366e3ad7bb64818d9585ba55a2b",
+        "member": "organization-menu-box/2.before",
+        "lines": 230,
+        "scope": "Fulltest/helper input read."
+      },
+      {
+        "path": "packages/game/src/present/__tests__/raster-fixtures.ts",
+        "sha256": "d62741ab845759e2b42e992d4675e679b54464f207c3a8118af0f94dac9b5157",
+        "member": "organization-menu-box/3.before",
+        "lines": 116,
+        "scope": "Fulltest/helper input read."
+      }
+    ],
+    "fullImplementations": [
+      {
+        "path": "packages/game/src/present/menu/draw-box.ts",
+        "sha256": "2ab2d6e4aafcaa9848cab7e74ccfef8ac0669678a4f4fe58c7577ac89bafb4b4",
+        "scope": "Fullcurrentimplementation/helperread,no wholeproductclosecredit."
+      },
+      {
+        "path": "packages/game/src/present/framebuffer.ts",
+        "sha256": "fdd25deedeb33da252d5efa9392bc5af088365a2a6dab3129c2b373aeeb0e060",
+        "scope": "Fullcurrentimplementation/helperread,no wholeproductclosecredit."
+      },
+      {
+        "path": "packages/game/src/present/__tests__/glyph-fixtures.ts",
+        "sha256": "226f7b472f8c065034db07c1f308ba5b5cc03a5f6d31b6f624f9cef27b701e2f",
+        "scope": "Fullcurrentimplementation/helperread,no wholeproductclosecredit."
+      },
+      {
+        "path": "packages/game/src/present/__tests__/menu-ui-fixtures.ts",
+        "sha256": "2e6d73e10d4b98a5876000b1abebea747bbf62fc0bdfb159e44534ba068f3171",
+        "scope": "Fullcurrentimplementation/helperread,no wholeproductclosecredit."
+      }
+    ],
+    "legacyDependency": {
+      "path": "packages/game/src/__tests__/glm-phase1-leaves/present-fixtures.ts",
+      "sha256": "4f8701a4dddcdae4010bdbd9b23eee56dd2d20335e906a5249a488308edaedea",
+      "scope": "ActualnewFb/pixel/UiFrames/GlyphTable prefixread/proved; unrelatedItem/Role/GS stillpending."
+    },
+    "currentOutputs": [
+      {
+        "path": "packages/game/src/present/menu/draw-box.test.ts",
+        "sha256": "176df22835866bb25cc4e1112feceeac413ee271a0d2b47aa827836abb2c5714",
+        "lines": 356,
+        "scope": "Fullresultread thenexacttwo testbody/comment refinementsreviewed."
+      },
+      {
+        "path": "packages/game/src/present/__tests__/raster-fixtures.ts",
+        "sha256": "982d0ab4a7a73bd1d432554562ff9f628d097098be32af9e9b059bd1dbb2d291",
+        "lines": 123,
+        "scope": "Fullresultread thenexacttwo testbody/comment refinementsreviewed."
+      }
+    ],
+    "callers": [
+      {
+        "path": "packages/game/src/present/menu/draw-menu.ts",
+        "sha256": "c0c56305f46464b8194bbb0d2a7e04683952b7f01266ec3949602b99c6f51566",
+        "ranges": [[1, 165], [236, 282]],
+        "scope": "Realmenu-stack dispatch andin-game/systemrows/cols source; othermenusnotreclosed."
+      },
+      {
+        "path": "packages/game/src/present/font.ts",
+        "sha256": "0af092f60efef7dd1f39c82f4c492512dbf957092f0d20b13da27b5518fd7fe4",
+        "scope": "measureText GlyphTablewidth contract sameSHApriorfullfontreviewreused, relevantimplementationrechecked."
+      }
+    ]
+  },
+  "processDisclosures": [
+    "3spec21identities→oneactualdraw-box spec,2historicalsubjects only.19callbacksafterprivate names preserved,2explicitoracle improvements; no new/retiredruntimecases/productchanges.",
+    "MoveddefaultnewFb wholebodyintosentinelFramebuffer inexistingraster; alloldrasterdeclarations intact. Legacyhelper remainsunchangedimplicitpending. Existingsemantichelpers replaceoldimports onlywith21accessedUIframes byteexact andmeasured甲abcdefgh width/availability equality; fullglyph/table/unusedsprite slots notclaimed identical.",
+    "pixelguard/return identical,invaliderrortemplate differsbetweenlegacy/canonical; allmigratedactualprobes inrange,nomigrationofinvaliderrortestcontract. Two glyphconfigs andframecolorstrategies intentionallyremain distinct.",
+    "Nineframeclaim originallysampled6,newliteralcheckscoverall9. Clippingoldpoint+allowedset replacedstrictrect100pixels/background; sameexpectedbuffer impliesoldtwoassertions. Actual2x2sparsepaint variant oldgreen/newbusinessred,sourceexactrestore.",
+    "Once9files72neighbors/gameTC0,allstderr empty; wholecheck/officialcoverage/protected/publication deferred. Confirm/opening modules readforplanning butno subject/acceptance creditthisslice.",
+    "Firstrootverifierrejectedwrongoriginalcohortpointerforbox-shadow: currentinputalreadyhadverifiedearlierfixtureimportmigration. CorrectedresolutionbeforeMember/sha tooriginalfrozenconsumer, keptcurrentInputMember,addedexactpriorCurrentBridge. No source/tool/rule/count change; all101resolution originalSHA/member pairs rechecked. OriginalFAILretained; metadata-onlygates/newrootreceipt separate."
+  ],
+  "ledgerDispositions": {
+    "categories": {
+      "packages/game/src/present/menu/draw-box.test.ts": "test",
+      "packages/game/src/present/__tests__/raster-fixtures.ts": "fixture"
+    }
+  },
+  "ledgerCounts": {
+    "inventory": 3451,
+    "closed": 555,
+    "review": 262,
+    "pending": 2634
+  },
+  "receipts": {
+    "docs": "organization-menu-box/docs-r2",
+    "content-review": "organization-menu-box/content-review-r2",
+    "lint": "organization-menu-box/lint-r2",
+    "diff": "organization-menu-box/diff-r2",
+    "scoped": "organization-menu-box/scoped-r2"
+  },
+  "cohortBridgeProof": "organization-menu-box/cohort-bridge.json"
+}

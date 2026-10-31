@@ -3,7 +3,7 @@
  * 各现行 tag、显式 EntityAddress、整树/canonical 分域、rewrite 只改 typed 自身 scene。
  */
 import { describe, expect, test } from 'vitest'
-import { deepSnapshot } from './__tests__/glm-content-contract-fixtures.js'
+import { deepSnapshot } from './__tests__/value-snapshot.js'
 import {
   collectCanonicalCommandTargetReferences,
   collectCommandTargetReferences,

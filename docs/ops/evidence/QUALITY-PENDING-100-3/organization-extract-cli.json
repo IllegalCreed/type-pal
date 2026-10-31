@@ -1,0 +1,1326 @@
+{
+  "id": "extract-cli-contracts",
+  "namespace": "organization-extract-cli",
+  "kind": "CLI responsibility organization, internal input reuse, and accurate titles/comments",
+  "inputs": [
+    {
+      "path": "packages/pal-extract/src/cli-battle-assets.glm-q.test.ts",
+      "sha256": "be999366206ee7b5ecef6fef080ff33f3b1283e06d33b2ad3aa7d72d46812fd3",
+      "member": "organization-extract-cli/0.before"
+    },
+    {
+      "path": "packages/pal-extract/src/cli-font-lookup.glm-q.test.ts",
+      "sha256": "1bb734261d9d3d02d4c4f1f6fe227f3e502097be3026424aeab9550f99261b99",
+      "member": "organization-extract-cli/1.before"
+    },
+    {
+      "path": "packages/pal-extract/src/cli-global-entries.glm-q.test.ts",
+      "sha256": "06463a97bc33b79a41a4ce266fe1f4e8e8ba4a4d896c8f500291732a4abf64d7",
+      "member": "organization-extract-cli/2.before"
+    },
+    {
+      "path": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+      "sha256": "8a47c0f5e73416da51da8c50912840bada9bec1c34e9741e1583627374d76a98",
+      "member": "organization-extract-cli/3.before"
+    },
+    {
+      "path": "packages/pal-extract/src/cli-error-exits.kimi-r1.test.ts",
+      "sha256": "586c8987a642a1212d3d690da8775d3df2851c2b736afa3db0a7757ad117b16f",
+      "member": "organization-extract-cli/4.before"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "packages/pal-extract/src/cli-battle-assets.test.ts",
+      "purpose": "Real CLI battle sprite/background bytes, PNG pixels and admission; source-only process host owns isolation.",
+      "sha256": "fdb781b15d9eda4ba697bb3e076fda45c97d688347cbe1bea0398cdc5c53b54f"
+    },
+    {
+      "path": "packages/pal-extract/src/cli-font-lookup.test.ts",
+      "purpose": "Real CLI font and lookup outputs; glyph/word/message oracles remain independent of parsers.",
+      "sha256": "08ae8df73718ff587698f8c55895f2aa944b0d01b49c6801afb62182cb4b2ef7"
+    },
+    {
+      "path": "packages/pal-extract/src/cli-global-entries.test.ts",
+      "purpose": "Real CLI OBJECT-hook collection: four caller families, aliasing and scene ownership.",
+      "sha256": "94084e1282c03491c5757348f3a55aa66e97363dfcc7902ecb8d4ac97c9acf15"
+    },
+    {
+      "path": "packages/pal-extract/src/cli-pipeline.test.ts",
+      "purpose": "Real CLI stage order and whole synthetic pipeline; opaque audio inputs only verify byte transport.",
+      "sha256": "4232716a3d1974ec682bfe6ef1d8338b5b633fb4edf12d8b9696a35f50d73fb0"
+    },
+    {
+      "path": "packages/pal-extract/src/cli-preflight.test.ts",
+      "purpose": "Real CLI preflight failures, faithful roundtrip, ignored unknown arguments and output ownership.",
+      "sha256": "1e8b9baab7f89296d6745298e53aebb63bd4b4a8d37076e27673be77ba293e40"
+    }
+  ],
+  "sourceBridges": [
+    {
+      "id": "encapsulate-owned-background-input",
+      "path": "packages/pal-extract/src/cli-battle-assets.glm-q.test.ts",
+      "reason": "Same allocation/64000 deterministic assignments at module setup; name the byte builder, no input/oracle change.",
+      "changes": [
+        {
+          "from": "const bg64000 = new Uint8Array(320 * 200)\nfor (let i = 0; i < bg64000.length; i++) bg64000[i] = (i * 7) % 256",
+          "to": "function makeBattleBackground(): Uint8Array {\n  const pixels = new Uint8Array(320 * 200)\n  for (let i = 0; i < pixels.length; i++) pixels[i] = (i * 7) % 256\n  return pixels\n}\nconst bg64000 = makeBattleBackground()",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "purpose-and-common-inputs-0",
+      "path": "packages/pal-extract/src/cli-battle-assets.glm-q.test.ts",
+      "reason": "Responsibility titles/prefixes; exact private input constructors reuse canonical existing helpers, assertions unchanged.",
+      "changes": [
+        {
+          "from": "'Q10 CLI 战斗精灵 dump-all：F/ABC 合法 YJ2 sprite 解压落 gzip blob + raw 回退原文 + manifest'",
+          "to": "'战斗精灵 dump-all：F/ABC 合法 YJ2 sprite 解压落 gzip blob + raw 回退原文 + manifest'",
+          "count": 1
+        },
+        {
+          "from": "'Q10 CLI 战斗背景正向：合法 YJ2 64000B FBP → PNG + ids；解压后尺寸不符精确 warn skip'",
+          "to": "'战斗背景正向：合法 YJ2 64000B FBP → PNG + ids；解压后尺寸不符精确 warn skip'",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "purpose-and-common-inputs-1",
+      "path": "packages/pal-extract/src/cli-font-lookup.glm-q.test.ts",
+      "reason": "Responsibility titles/prefixes; exact private input constructors reuse canonical existing helpers, assertions unchanged.",
+      "changes": [
+        {
+          "from": "'glm-q-cli-fl-'",
+          "to": "'cli-font-lookup-'",
+          "count": 1
+        },
+        {
+          "from": "'Q10 CLI BDF 接线正向：合成 unifont-cn.bdf → data/font/glyphs.json 完整内容'",
+          "to": "'BDF 接线正向：合成 unifont-cn.bdf → data/font/glyphs.json 完整内容'",
+          "count": 1
+        },
+        {
+          "from": "'Q10 CLI lookup 产物：words.json 扁平/分类切片与 strings.json 消息表'",
+          "to": "'lookup 产物：words.json 扁平/分类切片与 strings.json 消息表'",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "purpose-and-common-inputs-2",
+      "path": "packages/pal-extract/src/cli-global-entries.glm-q.test.ts",
+      "reason": "Responsibility titles/prefixes; exact private input constructors reuse canonical existing helpers, assertions unchanged.",
+      "changes": [
+        {
+          "from": "'Q-NEXT1-01 item.use entry'",
+          "to": "'item.use entry'",
+          "count": 1
+        },
+        {
+          "from": "'Q-NEXT1-02 item.equip entry'",
+          "to": "'item.equip entry'",
+          "count": 1
+        },
+        {
+          "from": "'Q-NEXT1-03 item.throw entry'",
+          "to": "'item.throw entry'",
+          "count": 1
+        },
+        {
+          "from": "'Q-NEXT1-04 item.desc entry'",
+          "to": "'item.desc entry'",
+          "count": 1
+        },
+        {
+          "from": "'Q-NEXT1-05 spell.use entry'",
+          "to": "'spell.use entry'",
+          "count": 1
+        },
+        {
+          "from": "'Q-NEXT1-06 spell.success entry'",
+          "to": "'spell.success entry'",
+          "count": 1
+        },
+        {
+          "from": "'Q-NEXT1-07 spell.desc entry'",
+          "to": "'spell.desc entry'",
+          "count": 1
+        },
+        {
+          "from": "'Q-NEXT1-08 enemy.turnStart entry'",
+          "to": "'enemy.turnStart entry'",
+          "count": 1
+        },
+        {
+          "from": "'Q-NEXT1-09 enemy.battleEnd entry'",
+          "to": "'enemy.battleEnd entry'",
+          "count": 1
+        },
+        {
+          "from": "'Q-NEXT1-10 enemy.ready entry'",
+          "to": "'enemy.ready entry'",
+          "count": 1
+        },
+        {
+          "from": "'Q-NEXT1-11 player.friendDeath entry'",
+          "to": "'player.friendDeath entry'",
+          "count": 1
+        },
+        {
+          "from": "'Q-NEXT1-12 player.dying entry'",
+          "to": "'player.dying entry'",
+          "count": 1
+        },
+        {
+          "from": "'Q-NEXT1-13 shared entry alias'",
+          "to": "'shared entry alias'",
+          "count": 1
+        },
+        {
+          "from": "'Q-NEXT1-14 scene global overlap'",
+          "to": "'scene global overlap'",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "purpose-and-common-inputs-3",
+      "path": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+      "reason": "Responsibility titles/prefixes; exact private input constructors reuse canonical existing helpers, assertions unchanged.",
+      "changes": [
+        {
+          "from": "function u32(value: number): Uint8Array {\n  const out = new Uint8Array(4)\n  new DataView(out.buffer).setUint32(0, value, true)\n  return out\n}",
+          "to": "",
+          "count": 1
+        },
+        {
+          "from": "function u16(value: number): Uint8Array {\n  const out = new Uint8Array(2)\n  new DataView(out.buffer).setUint16(0, value, true)\n  return out\n}",
+          "to": "",
+          "count": 1
+        },
+        {
+          "from": "function mkf(chunks: Uint8Array[]): Uint8Array {\n  const headerSize = (chunks.length + 1) * 4\n  const bodyLength = chunks.reduce((sum, chunk) => sum + chunk.length, 0)\n  const buf = new Uint8Array(headerSize + bodyLength)\n  const view = new DataView(buf.buffer)\n  let offset = headerSize\n  for (const [index, chunk] of chunks.entries()) {\n    view.setUint32(index * 4, offset, true)\n    buf.set(chunk, offset)\n    offset += chunk.length\n  }\n  view.setUint32(chunks.length * 4, offset, true)\n  return buf\n}",
+          "to": "",
+          "count": 1
+        },
+        {
+          "from": "function yj2Compress(data: Uint8Array): Uint8Array {\n  return yj2EncodeLiterals(data)\n}",
+          "to": "",
+          "count": 1
+        },
+        {
+          "from": "function buildWordDat(): Uint8Array {\n  const buf = new Uint8Array(WORD_RECORDS * WORD_LENGTH).fill(0x20)\n  // 记录 61 = 物品段第 0 条：'ITEMNAME1'（尾部标记 '1' 由 parseWordDat 剥除）\n  const name = 'ITEMNAME1'\n  for (const [index, ch] of [...name].entries()) buf[61 * WORD_LENGTH + index] = ch.charCodeAt(0)\n  return buf\n}",
+          "to": "",
+          "count": 1
+        },
+        {
+          "from": "function buildDataMkf(): Uint8Array {\n  const store = new Uint8Array([...u16(61), ...new Uint8Array(16)])\n  const enemy = new Uint8Array(70)\n  const team = new Uint8Array(10)\n  const roles = new Uint8Array(900)\n  const rolesView = new DataView(roles.buffer)\n  rolesView.setUint16(24, 2, true) // SoA: avatar/spriteNumInBattle 之后第 3 字段 spriteNum, role 0\n  const magic = new Uint8Array(32)\n  const field = new Uint8Array(12)\n  const levelUpMagic = new Uint8Array(20)\n  const spriteChunk = encodeSpriteChunk([\n    { width: 4, height: 4, pixels: new Uint8Array(16).fill(3), opaque: new Uint8Array(16).fill(1) },\n  ])\n  const effectIndex = new Uint8Array(40)\n  const dialogIcons = new Uint8Array(282).fill(7)\n  const enemyPos = new Uint8Array(100)\n  const levelUpExp = new Uint8Array(200)\n  const chunks = [\n    store,\n    enemy,\n    team,\n    roles,\n    magic,\n    field,\n    levelUpMagic,\n    new Uint8Array(0),\n    new Uint8Array(0),\n    spriteChunk,\n    spriteChunk,\n    effectIndex,\n    dialogIcons,\n    enemyPos,\n    levelUpExp, // chunk10=原始 group（CLI 自行 gzip blob）\n  ]\n  return mkf(chunks)\n}",
+          "to": "",
+          "count": 1
+        },
+        {
+          "from": "import { createCliTestHost } from './__tests__/cli-host.js'",
+          "to": "import { createCliTestHost } from './__tests__/cli-host.js'\nimport { mkfContainer as mkf, u16Bytes as u16, u32Bytes as u32 } from './__tests__/binary-fixtures.js'\nimport { buildWordDatArchive as buildWordDat, buildDataMkfArchive as buildDataMkf } from './__tests__/cli-pipeline-inputs.js'",
+          "count": 1
+        },
+        {
+          "from": "import { yj2EncodeLiterals } from './__tests__/yj2-literals.js'",
+          "to": "import { yj2EncodeLiterals as yj2Compress } from './__tests__/yj2-literals.js'",
+          "count": 1
+        },
+        {
+          "from": "const WORD_RECORDS = 565",
+          "to": "",
+          "count": 1
+        },
+        {
+          "from": "const WORD_LENGTH = 10",
+          "to": "",
+          "count": 1
+        },
+        {
+          "from": "'glm-q-cli-'",
+          "to": "'cli-pipeline-'",
+          "count": 1
+        },
+        {
+          "from": "'Q10 CLI 隔离实跑：合成小输入走完事件管线（round-trip 门 + 切片落盘 + 词表注记）'",
+          "to": "'合成小输入走完事件管线（round-trip 门 + 切片落盘 + 词表注记）'",
+          "count": 1
+        },
+        {
+          "from": "'Q10 CLI 隔离实跑：合成 DATA.MKF 走完数据表段（逐表落盘 + SPRITEUI/effect blob）'",
+          "to": "'合成 DATA.MKF 走完数据表段（逐表落盘 + SPRITEUI/effect blob）'",
+          "count": 1
+        },
+        {
+          "from": "'Q10 CLI 隔离实跑：合成图像/音频段（RNG 空 chunk/RGM/BALL 合成 RLE/FIRE 空/SOUNDS/Musics），缺 FBP 边界拒绝'",
+          "to": "'合成图像/音频段（RNG 空 chunk/RGM/BALL 合成 RLE/FIRE 空/SOUNDS/Musics），缺 FBP 边界拒绝'",
+          "count": 1
+        },
+        {
+          "from": "'Q10 CLI 隔离实跑：全管线合成输入走到底（MAP/GOP tileset + PAT 调色板 + MGO 合法 YJ2 sprite + asset-manifest + done）'",
+          "to": "'全管线合成输入走到底（MAP/GOP tileset + PAT 调色板 + MGO 合法 YJ2 sprite + asset-manifest + done）'",
+          "count": 1
+        },
+        {
+          "from": "'Q10 CLI 隔离实跑：FBP 截短越界边界拒绝（chunk3/4 缺失 → splash readChunk throw → exit 1）'",
+          "to": "'FBP 截短越界边界拒绝（chunk3/4 缺失 → splash readChunk throw → exit 1）'",
+          "count": 1
+        },
+        {
+          "from": "'Q10 CLI 隔离实跑：截断 SSS chunk0 在解析边界精确拒绝且不产出事件文件'",
+          "to": "'截断 SSS chunk0 在解析边界精确拒绝且不产出事件文件'",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "purpose-and-common-inputs-4",
+      "path": "packages/pal-extract/src/cli-error-exits.kimi-r1.test.ts",
+      "reason": "Responsibility titles/prefixes; exact private input constructors reuse canonical existing helpers, assertions unchanged.",
+      "changes": [
+        {
+          "from": "function u32(value: number): Uint8Array {\n  const out = new Uint8Array(4)\n  new DataView(out.buffer).setUint32(0, value, true)\n  return out\n}",
+          "to": "",
+          "count": 1
+        },
+        {
+          "from": "function u16(value: number): Uint8Array {\n  const out = new Uint8Array(2)\n  new DataView(out.buffer).setUint16(0, value, true)\n  return out\n}",
+          "to": "",
+          "count": 1
+        },
+        {
+          "from": "function mkf(chunks: Uint8Array[]): Uint8Array {\n  const headerSize = (chunks.length + 1) * 4\n  const bodyLength = chunks.reduce((sum, chunk) => sum + chunk.length, 0)\n  const buf = new Uint8Array(headerSize + bodyLength)\n  const view = new DataView(buf.buffer)\n  let offset = headerSize\n  for (const [index, chunk] of chunks.entries()) {\n    view.setUint32(index * 4, offset, true)\n    buf.set(chunk, offset)\n    offset += chunk.length\n  }\n  view.setUint32(chunks.length * 4, offset, true)\n  return buf\n}",
+          "to": "",
+          "count": 1
+        },
+        {
+          "from": "import { createCliTestHost } from './__tests__/cli-host.js'",
+          "to": "import { createCliTestHost } from './__tests__/cli-host.js'\nimport { mkfContainer as mkf, u16Bytes as u16, u32Bytes as u32 } from './__tests__/binary-fixtures.js'",
+          "count": 1
+        },
+        {
+          "from": "'kimi-r1-cli-'",
+          "to": "'cli-preflight-'",
+          "count": 1
+        },
+        {
+          "from": "'KIMI-R1 CLI：ROUND-TRIP FAILED 精确诊断 + exit 2（setPalette 非 0 尾 operand）'",
+          "to": "'ROUND-TRIP FAILED 精确诊断 + exit 2（setPalette 非 0 尾 operand）'",
+          "count": 1
+        },
+        {
+          "from": "'KIMI-R1 CLI：M.MSG 缺失 → ENOENT + exit 1'",
+          "to": "'M.MSG 缺失 → ENOENT + exit 1'",
+          "count": 1
+        },
+        {
+          "from": "'KIMI-R1 CLI：WORD.DAT 缺失 → ENOENT + exit 1'",
+          "to": "'WORD.DAT 缺失 → ENOENT + exit 1'",
+          "count": 1
+        },
+        {
+          "from": "'KIMI-R1 CLI：SSS.MKF 头部过短 → MKF 精确诊断 + exit 1'",
+          "to": "'SSS.MKF 头部过短 → MKF 精确诊断 + exit 1'",
+          "count": 1
+        },
+        {
+          "from": "'KIMI-R1 CLI：SSS.MKF 首偏移非 4 对齐 → MKF 精确诊断 + exit 1'",
+          "to": "'SSS.MKF 首偏移非 4 对齐 → MKF 精确诊断 + exit 1'",
+          "count": 1
+        },
+        {
+          "from": "'KIMI-R1 CLI：输入预检失败保留既有产物与 videos'",
+          "to": "'输入预检失败保留既有产物与 videos'",
+          "count": 1
+        },
+        {
+          "from": "'KIMI-R1 CLI：命令面真值——不消费 argv，多余参数被忽略'",
+          "to": "'未知参数被忽略：仍执行输入预检并报告缺SSS'",
+          "count": 1
+        },
+        {
+          "from": "'KIMI-R1 CLI：OUT 根是共享 symlink 时，清理前拒绝且保留目标 marker'",
+          "to": "'OUT 根是共享 symlink 时，清理前拒绝且保留目标 marker'",
+          "count": 1
+        },
+        {
+          "from": "'KIMI-R1 CLI：data 父目录是共享 symlink 时，清理前拒绝且保留目标 marker'",
+          "to": "'data 父目录是共享 symlink 时，清理前拒绝且保留目标 marker'",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "replacements": [],
+  "registrations": [
+    {
+      "old": {
+        "file": "packages/pal-extract/src/cli-battle-assets.glm-q.test.ts",
+        "ordinal": 0
+      },
+      "current": {
+        "file": "packages/pal-extract/src/cli-battle-assets.test.ts",
+        "titles": [],
+        "template": "战斗精灵 dump-all：F/ABC 合法 YJ2 sprite 解压落 gzip blob + raw 回退原文 + manifest"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/cli-battle-assets.glm-q.test.ts",
+        "ordinal": 1
+      },
+      "current": {
+        "file": "packages/pal-extract/src/cli-battle-assets.test.ts",
+        "titles": [],
+        "template": "战斗背景正向：合法 YJ2 64000B FBP → PNG + ids；解压后尺寸不符精确 warn skip"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/cli-font-lookup.glm-q.test.ts",
+        "ordinal": 0
+      },
+      "current": {
+        "file": "packages/pal-extract/src/cli-font-lookup.test.ts",
+        "titles": [],
+        "template": "BDF 接线正向：合成 unifont-cn.bdf → data/font/glyphs.json 完整内容"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/cli-font-lookup.glm-q.test.ts",
+        "ordinal": 1
+      },
+      "current": {
+        "file": "packages/pal-extract/src/cli-font-lookup.test.ts",
+        "titles": [],
+        "template": "lookup 产物：words.json 扁平/分类切片与 strings.json 消息表"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/cli-global-entries.glm-q.test.ts",
+        "ordinal": 0
+      },
+      "current": {
+        "file": "packages/pal-extract/src/cli-global-entries.test.ts",
+        "titles": ["item hooks"],
+        "template": "item.use entry"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/cli-global-entries.glm-q.test.ts",
+        "ordinal": 1
+      },
+      "current": {
+        "file": "packages/pal-extract/src/cli-global-entries.test.ts",
+        "titles": ["item hooks"],
+        "template": "item.equip entry"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/cli-global-entries.glm-q.test.ts",
+        "ordinal": 2
+      },
+      "current": {
+        "file": "packages/pal-extract/src/cli-global-entries.test.ts",
+        "titles": ["item hooks"],
+        "template": "item.throw entry"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/cli-global-entries.glm-q.test.ts",
+        "ordinal": 3
+      },
+      "current": {
+        "file": "packages/pal-extract/src/cli-global-entries.test.ts",
+        "titles": ["item hooks"],
+        "template": "item.desc entry"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/cli-global-entries.glm-q.test.ts",
+        "ordinal": 4
+      },
+      "current": {
+        "file": "packages/pal-extract/src/cli-global-entries.test.ts",
+        "titles": ["spell hooks"],
+        "template": "spell.use entry"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/cli-global-entries.glm-q.test.ts",
+        "ordinal": 5
+      },
+      "current": {
+        "file": "packages/pal-extract/src/cli-global-entries.test.ts",
+        "titles": ["spell hooks"],
+        "template": "spell.success entry"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/cli-global-entries.glm-q.test.ts",
+        "ordinal": 6
+      },
+      "current": {
+        "file": "packages/pal-extract/src/cli-global-entries.test.ts",
+        "titles": ["spell hooks"],
+        "template": "spell.desc entry"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/cli-global-entries.glm-q.test.ts",
+        "ordinal": 7
+      },
+      "current": {
+        "file": "packages/pal-extract/src/cli-global-entries.test.ts",
+        "titles": ["enemy hooks"],
+        "template": "enemy.turnStart entry"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/cli-global-entries.glm-q.test.ts",
+        "ordinal": 8
+      },
+      "current": {
+        "file": "packages/pal-extract/src/cli-global-entries.test.ts",
+        "titles": ["enemy hooks"],
+        "template": "enemy.battleEnd entry"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/cli-global-entries.glm-q.test.ts",
+        "ordinal": 9
+      },
+      "current": {
+        "file": "packages/pal-extract/src/cli-global-entries.test.ts",
+        "titles": ["enemy hooks"],
+        "template": "enemy.ready entry"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/cli-global-entries.glm-q.test.ts",
+        "ordinal": 10
+      },
+      "current": {
+        "file": "packages/pal-extract/src/cli-global-entries.test.ts",
+        "titles": ["player hooks"],
+        "template": "player.friendDeath entry"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/cli-global-entries.glm-q.test.ts",
+        "ordinal": 11
+      },
+      "current": {
+        "file": "packages/pal-extract/src/cli-global-entries.test.ts",
+        "titles": ["player hooks"],
+        "template": "player.dying entry"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/cli-global-entries.glm-q.test.ts",
+        "ordinal": 12
+      },
+      "current": {
+        "file": "packages/pal-extract/src/cli-global-entries.test.ts",
+        "titles": ["shared aliases"],
+        "template": "shared entry alias"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/cli-global-entries.glm-q.test.ts",
+        "ordinal": 13
+      },
+      "current": {
+        "file": "packages/pal-extract/src/cli-global-entries.test.ts",
+        "titles": ["scene and global overlap"],
+        "template": "scene global overlap"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+        "ordinal": 0
+      },
+      "current": {
+        "file": "packages/pal-extract/src/cli-pipeline.test.ts",
+        "titles": [],
+        "template": "合成小输入走完事件管线（round-trip 门 + 切片落盘 + 词表注记）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+        "ordinal": 1
+      },
+      "current": {
+        "file": "packages/pal-extract/src/cli-pipeline.test.ts",
+        "titles": [],
+        "template": "合成 DATA.MKF 走完数据表段（逐表落盘 + SPRITEUI/effect blob）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+        "ordinal": 2
+      },
+      "current": {
+        "file": "packages/pal-extract/src/cli-pipeline.test.ts",
+        "titles": [],
+        "template": "合成图像/音频段（RNG 空 chunk/RGM/BALL 合成 RLE/FIRE 空/SOUNDS/Musics），缺 FBP 边界拒绝"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+        "ordinal": 3
+      },
+      "current": {
+        "file": "packages/pal-extract/src/cli-pipeline.test.ts",
+        "titles": [],
+        "template": "全管线合成输入走到底（MAP/GOP tileset + PAT 调色板 + MGO 合法 YJ2 sprite + asset-manifest + done）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+        "ordinal": 4
+      },
+      "current": {
+        "file": "packages/pal-extract/src/cli-pipeline.test.ts",
+        "titles": [],
+        "template": "FBP 截短越界边界拒绝（chunk3/4 缺失 → splash readChunk throw → exit 1）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+        "ordinal": 5
+      },
+      "current": {
+        "file": "packages/pal-extract/src/cli-pipeline.test.ts",
+        "titles": [],
+        "template": "截断 SSS chunk0 在解析边界精确拒绝且不产出事件文件"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/cli-error-exits.kimi-r1.test.ts",
+        "ordinal": 0
+      },
+      "current": {
+        "file": "packages/pal-extract/src/cli-preflight.test.ts",
+        "titles": [],
+        "template": "ROUND-TRIP FAILED 精确诊断 + exit 2（setPalette 非 0 尾 operand）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/cli-error-exits.kimi-r1.test.ts",
+        "ordinal": 1
+      },
+      "current": {
+        "file": "packages/pal-extract/src/cli-preflight.test.ts",
+        "titles": [],
+        "template": "M.MSG 缺失 → ENOENT + exit 1"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/cli-error-exits.kimi-r1.test.ts",
+        "ordinal": 2
+      },
+      "current": {
+        "file": "packages/pal-extract/src/cli-preflight.test.ts",
+        "titles": [],
+        "template": "WORD.DAT 缺失 → ENOENT + exit 1"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/cli-error-exits.kimi-r1.test.ts",
+        "ordinal": 3
+      },
+      "current": {
+        "file": "packages/pal-extract/src/cli-preflight.test.ts",
+        "titles": [],
+        "template": "SSS.MKF 头部过短 → MKF 精确诊断 + exit 1"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/cli-error-exits.kimi-r1.test.ts",
+        "ordinal": 4
+      },
+      "current": {
+        "file": "packages/pal-extract/src/cli-preflight.test.ts",
+        "titles": [],
+        "template": "SSS.MKF 首偏移非 4 对齐 → MKF 精确诊断 + exit 1"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/cli-error-exits.kimi-r1.test.ts",
+        "ordinal": 5
+      },
+      "current": {
+        "file": "packages/pal-extract/src/cli-preflight.test.ts",
+        "titles": [],
+        "template": "输入预检失败保留既有产物与 videos"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/cli-error-exits.kimi-r1.test.ts",
+        "ordinal": 6
+      },
+      "current": {
+        "file": "packages/pal-extract/src/cli-preflight.test.ts",
+        "titles": [],
+        "template": "未知参数被忽略：仍执行输入预检并报告缺SSS"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/cli-error-exits.kimi-r1.test.ts",
+        "ordinal": 7
+      },
+      "current": {
+        "file": "packages/pal-extract/src/cli-preflight.test.ts",
+        "titles": [],
+        "template": "OUT 根是共享 symlink 时，清理前拒绝且保留目标 marker"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/cli-error-exits.kimi-r1.test.ts",
+        "ordinal": 8
+      },
+      "current": {
+        "file": "packages/pal-extract/src/cli-preflight.test.ts",
+        "titles": [],
+        "template": "data 父目录是共享 symlink 时，清理前拒绝且保留目标 marker"
+      }
+    }
+  ],
+  "identities": [
+    {
+      "old": {
+        "file": "packages/pal-extract/src/cli-battle-assets.glm-q.test.ts",
+        "fullName": "Q10 CLI 战斗精灵 dump-all：F/ABC 合法 YJ2 sprite 解压落 gzip blob + raw 回退原文 + manifest"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/cli-battle-assets.test.ts",
+        "fullName": "战斗精灵 dump-all：F/ABC 合法 YJ2 sprite 解压落 gzip blob + raw 回退原文 + manifest"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/cli-battle-assets.glm-q.test.ts",
+        "fullName": "Q10 CLI 战斗背景正向：合法 YJ2 64000B FBP → PNG + ids；解压后尺寸不符精确 warn skip"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/cli-battle-assets.test.ts",
+        "fullName": "战斗背景正向：合法 YJ2 64000B FBP → PNG + ids；解压后尺寸不符精确 warn skip"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/cli-font-lookup.glm-q.test.ts",
+        "fullName": "Q10 CLI BDF 接线正向：合成 unifont-cn.bdf → data/font/glyphs.json 完整内容"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/cli-font-lookup.test.ts",
+        "fullName": "BDF 接线正向：合成 unifont-cn.bdf → data/font/glyphs.json 完整内容"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/cli-font-lookup.glm-q.test.ts",
+        "fullName": "Q10 CLI lookup 产物：words.json 扁平/分类切片与 strings.json 消息表"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/cli-font-lookup.test.ts",
+        "fullName": "lookup 产物：words.json 扁平/分类切片与 strings.json 消息表"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/cli-global-entries.glm-q.test.ts",
+        "fullName": "Q-NEXT1-01 item.use entry"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/cli-global-entries.test.ts",
+        "fullName": "item hooks item.use entry"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/cli-global-entries.glm-q.test.ts",
+        "fullName": "Q-NEXT1-02 item.equip entry"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/cli-global-entries.test.ts",
+        "fullName": "item hooks item.equip entry"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/cli-global-entries.glm-q.test.ts",
+        "fullName": "Q-NEXT1-03 item.throw entry"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/cli-global-entries.test.ts",
+        "fullName": "item hooks item.throw entry"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/cli-global-entries.glm-q.test.ts",
+        "fullName": "Q-NEXT1-04 item.desc entry"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/cli-global-entries.test.ts",
+        "fullName": "item hooks item.desc entry"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/cli-global-entries.glm-q.test.ts",
+        "fullName": "Q-NEXT1-05 spell.use entry"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/cli-global-entries.test.ts",
+        "fullName": "spell hooks spell.use entry"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/cli-global-entries.glm-q.test.ts",
+        "fullName": "Q-NEXT1-06 spell.success entry"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/cli-global-entries.test.ts",
+        "fullName": "spell hooks spell.success entry"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/cli-global-entries.glm-q.test.ts",
+        "fullName": "Q-NEXT1-07 spell.desc entry"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/cli-global-entries.test.ts",
+        "fullName": "spell hooks spell.desc entry"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/cli-global-entries.glm-q.test.ts",
+        "fullName": "Q-NEXT1-08 enemy.turnStart entry"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/cli-global-entries.test.ts",
+        "fullName": "enemy hooks enemy.turnStart entry"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/cli-global-entries.glm-q.test.ts",
+        "fullName": "Q-NEXT1-09 enemy.battleEnd entry"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/cli-global-entries.test.ts",
+        "fullName": "enemy hooks enemy.battleEnd entry"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/cli-global-entries.glm-q.test.ts",
+        "fullName": "Q-NEXT1-10 enemy.ready entry"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/cli-global-entries.test.ts",
+        "fullName": "enemy hooks enemy.ready entry"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/cli-global-entries.glm-q.test.ts",
+        "fullName": "Q-NEXT1-11 player.friendDeath entry"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/cli-global-entries.test.ts",
+        "fullName": "player hooks player.friendDeath entry"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/cli-global-entries.glm-q.test.ts",
+        "fullName": "Q-NEXT1-12 player.dying entry"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/cli-global-entries.test.ts",
+        "fullName": "player hooks player.dying entry"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/cli-global-entries.glm-q.test.ts",
+        "fullName": "Q-NEXT1-13 shared entry alias"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/cli-global-entries.test.ts",
+        "fullName": "shared aliases shared entry alias"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/cli-global-entries.glm-q.test.ts",
+        "fullName": "Q-NEXT1-14 scene global overlap"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/cli-global-entries.test.ts",
+        "fullName": "scene and global overlap scene global overlap"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+        "fullName": "Q10 CLI 隔离实跑：合成小输入走完事件管线（round-trip 门 + 切片落盘 + 词表注记）"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/cli-pipeline.test.ts",
+        "fullName": "合成小输入走完事件管线（round-trip 门 + 切片落盘 + 词表注记）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+        "fullName": "Q10 CLI 隔离实跑：合成 DATA.MKF 走完数据表段（逐表落盘 + SPRITEUI/effect blob）"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/cli-pipeline.test.ts",
+        "fullName": "合成 DATA.MKF 走完数据表段（逐表落盘 + SPRITEUI/effect blob）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+        "fullName": "Q10 CLI 隔离实跑：合成图像/音频段（RNG 空 chunk/RGM/BALL 合成 RLE/FIRE 空/SOUNDS/Musics），缺 FBP 边界拒绝"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/cli-pipeline.test.ts",
+        "fullName": "合成图像/音频段（RNG 空 chunk/RGM/BALL 合成 RLE/FIRE 空/SOUNDS/Musics），缺 FBP 边界拒绝"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+        "fullName": "Q10 CLI 隔离实跑：全管线合成输入走到底（MAP/GOP tileset + PAT 调色板 + MGO 合法 YJ2 sprite + asset-manifest + done）"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/cli-pipeline.test.ts",
+        "fullName": "全管线合成输入走到底（MAP/GOP tileset + PAT 调色板 + MGO 合法 YJ2 sprite + asset-manifest + done）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+        "fullName": "Q10 CLI 隔离实跑：FBP 截短越界边界拒绝（chunk3/4 缺失 → splash readChunk throw → exit 1）"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/cli-pipeline.test.ts",
+        "fullName": "FBP 截短越界边界拒绝（chunk3/4 缺失 → splash readChunk throw → exit 1）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+        "fullName": "Q10 CLI 隔离实跑：截断 SSS chunk0 在解析边界精确拒绝且不产出事件文件"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/cli-pipeline.test.ts",
+        "fullName": "截断 SSS chunk0 在解析边界精确拒绝且不产出事件文件"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/cli-error-exits.kimi-r1.test.ts",
+        "fullName": "KIMI-R1 CLI：ROUND-TRIP FAILED 精确诊断 + exit 2（setPalette 非 0 尾 operand）"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/cli-preflight.test.ts",
+        "fullName": "ROUND-TRIP FAILED 精确诊断 + exit 2（setPalette 非 0 尾 operand）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/cli-error-exits.kimi-r1.test.ts",
+        "fullName": "KIMI-R1 CLI：M.MSG 缺失 → ENOENT + exit 1"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/cli-preflight.test.ts",
+        "fullName": "M.MSG 缺失 → ENOENT + exit 1"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/cli-error-exits.kimi-r1.test.ts",
+        "fullName": "KIMI-R1 CLI：WORD.DAT 缺失 → ENOENT + exit 1"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/cli-preflight.test.ts",
+        "fullName": "WORD.DAT 缺失 → ENOENT + exit 1"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/cli-error-exits.kimi-r1.test.ts",
+        "fullName": "KIMI-R1 CLI：SSS.MKF 头部过短 → MKF 精确诊断 + exit 1"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/cli-preflight.test.ts",
+        "fullName": "SSS.MKF 头部过短 → MKF 精确诊断 + exit 1"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/cli-error-exits.kimi-r1.test.ts",
+        "fullName": "KIMI-R1 CLI：SSS.MKF 首偏移非 4 对齐 → MKF 精确诊断 + exit 1"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/cli-preflight.test.ts",
+        "fullName": "SSS.MKF 首偏移非 4 对齐 → MKF 精确诊断 + exit 1"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/cli-error-exits.kimi-r1.test.ts",
+        "fullName": "KIMI-R1 CLI：输入预检失败保留既有产物与 videos"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/cli-preflight.test.ts",
+        "fullName": "输入预检失败保留既有产物与 videos"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/cli-error-exits.kimi-r1.test.ts",
+        "fullName": "KIMI-R1 CLI：命令面真值——不消费 argv，多余参数被忽略"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/cli-preflight.test.ts",
+        "fullName": "未知参数被忽略：仍执行输入预检并报告缺SSS"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/cli-error-exits.kimi-r1.test.ts",
+        "fullName": "KIMI-R1 CLI：OUT 根是共享 symlink 时，清理前拒绝且保留目标 marker"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/cli-preflight.test.ts",
+        "fullName": "OUT 根是共享 symlink 时，清理前拒绝且保留目标 marker"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/cli-error-exits.kimi-r1.test.ts",
+        "fullName": "KIMI-R1 CLI：data 父目录是共享 symlink 时，清理前拒绝且保留目标 marker"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/cli-preflight.test.ts",
+        "fullName": "data 父目录是共享 symlink 时，清理前拒绝且保留目标 marker"
+      }
+    }
+  ],
+  "preserved": [
+    {
+      "path": "packages/pal-extract/src/cli.ts",
+      "sha256": "a6cf5e24a0a1706d605fd288757035925843854f0aa379b9e963014908528d77"
+    },
+    {
+      "path": "packages/pal-extract/src/__tests__/cli-host.ts",
+      "sha256": "6da3976c58acf663493472e23bddb6ad7eb9382d11c5257b9a3153445b23ea95"
+    },
+    {
+      "path": "packages/pal-extract/src/__tests__/binary-fixtures.ts",
+      "sha256": "bcda9a289734c3072d3344a33bb54034ecc6f54e9b9e2a5b57375993ddca465b"
+    },
+    {
+      "path": "packages/pal-extract/src/__tests__/cli-pipeline-inputs.ts",
+      "sha256": "054da557e9102686e8c4cd97ee29aaf746797431f9022375b71ebe7e3e449a99"
+    },
+    {
+      "path": "packages/pal-extract/src/__tests__/cli-global-entry-inputs.ts",
+      "sha256": "a79414c95001f72f7d888ec089b8d9b778508add45cd486c8d73f5dedec29c11"
+    },
+    {
+      "path": "packages/pal-extract/src/__tests__/yj2-literals.ts",
+      "sha256": "5cc1a271466cca13cdbf1d4292b2c3d99fc4bd26fc866e69dd1d86f19bb7a61f"
+    },
+    {
+      "path": "packages/pal-extract/src/events/script-entries.ts",
+      "sha256": "4ea2e6817e5fc3e7f36dcd2f5e17aa2e08d093a263f06d9ab7a7ae7f1dee9adf"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/bitmap-assets.ts",
+      "sha256": "d468feacaf206d7f053d1fec47d23579009678104206bfdcfcfdf0126a6f80d5"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/sprite-assets.ts",
+      "sha256": "1769334589117d87db9bf82e2c589a5f5c0897bbb7d090d390bb1f97a84e97af"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/lookup-assets.ts",
+      "sha256": "02edaa5ba40a47fdf7a4590f5da4c4933ba9176ebd0eb9b3ce28130b8963ec28"
+    }
+  ],
+  "reusedHelpers": [
+    {
+      "oldPath": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+      "name": "u32",
+      "from": "function u32(value: number): Uint8Array {\n  const out = new Uint8Array(4)\n  new DataView(out.buffer).setUint32(0, value, true)\n  return out\n}",
+      "targetPath": "packages/pal-extract/src/__tests__/binary-fixtures.ts",
+      "targetName": "u32Bytes"
+    },
+    {
+      "oldPath": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+      "name": "u16",
+      "from": "function u16(value: number): Uint8Array {\n  const out = new Uint8Array(2)\n  new DataView(out.buffer).setUint16(0, value, true)\n  return out\n}",
+      "targetPath": "packages/pal-extract/src/__tests__/binary-fixtures.ts",
+      "targetName": "u16Bytes"
+    },
+    {
+      "oldPath": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+      "name": "mkf",
+      "from": "function mkf(chunks: Uint8Array[]): Uint8Array {\n  const headerSize = (chunks.length + 1) * 4\n  const bodyLength = chunks.reduce((sum, chunk) => sum + chunk.length, 0)\n  const buf = new Uint8Array(headerSize + bodyLength)\n  const view = new DataView(buf.buffer)\n  let offset = headerSize\n  for (const [index, chunk] of chunks.entries()) {\n    view.setUint32(index * 4, offset, true)\n    buf.set(chunk, offset)\n    offset += chunk.length\n  }\n  view.setUint32(chunks.length * 4, offset, true)\n  return buf\n}",
+      "targetPath": "packages/pal-extract/src/__tests__/binary-fixtures.ts",
+      "targetName": "mkfContainer"
+    },
+    {
+      "oldPath": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+      "name": "yj2Compress",
+      "from": "function yj2Compress(data: Uint8Array): Uint8Array {\n  return yj2EncodeLiterals(data)\n}",
+      "targetPath": "packages/pal-extract/src/__tests__/yj2-literals.ts",
+      "targetName": "yj2EncodeLiterals"
+    },
+    {
+      "oldPath": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+      "name": "buildWordDat",
+      "from": "function buildWordDat(): Uint8Array {\n  const buf = new Uint8Array(WORD_RECORDS * WORD_LENGTH).fill(0x20)\n  // 记录 61 = 物品段第 0 条：'ITEMNAME1'（尾部标记 '1' 由 parseWordDat 剥除）\n  const name = 'ITEMNAME1'\n  for (const [index, ch] of [...name].entries()) buf[61 * WORD_LENGTH + index] = ch.charCodeAt(0)\n  return buf\n}",
+      "targetPath": "packages/pal-extract/src/__tests__/cli-pipeline-inputs.ts",
+      "targetName": "buildWordDatArchive"
+    },
+    {
+      "oldPath": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+      "name": "buildDataMkf",
+      "from": "function buildDataMkf(): Uint8Array {\n  const store = new Uint8Array([...u16(61), ...new Uint8Array(16)])\n  const enemy = new Uint8Array(70)\n  const team = new Uint8Array(10)\n  const roles = new Uint8Array(900)\n  const rolesView = new DataView(roles.buffer)\n  rolesView.setUint16(24, 2, true) // SoA: avatar/spriteNumInBattle 之后第 3 字段 spriteNum, role 0\n  const magic = new Uint8Array(32)\n  const field = new Uint8Array(12)\n  const levelUpMagic = new Uint8Array(20)\n  const spriteChunk = encodeSpriteChunk([\n    { width: 4, height: 4, pixels: new Uint8Array(16).fill(3), opaque: new Uint8Array(16).fill(1) },\n  ])\n  const effectIndex = new Uint8Array(40)\n  const dialogIcons = new Uint8Array(282).fill(7)\n  const enemyPos = new Uint8Array(100)\n  const levelUpExp = new Uint8Array(200)\n  const chunks = [\n    store,\n    enemy,\n    team,\n    roles,\n    magic,\n    field,\n    levelUpMagic,\n    new Uint8Array(0),\n    new Uint8Array(0),\n    spriteChunk,\n    spriteChunk,\n    effectIndex,\n    dialogIcons,\n    enemyPos,\n    levelUpExp, // chunk10=原始 group（CLI 自行 gzip blob）\n  ]\n  return mkf(chunks)\n}",
+      "targetPath": "packages/pal-extract/src/__tests__/cli-pipeline-inputs.ts",
+      "targetName": "buildDataMkfArchive"
+    },
+    {
+      "oldPath": "packages/pal-extract/src/cli-error-exits.kimi-r1.test.ts",
+      "name": "u32",
+      "from": "function u32(value: number): Uint8Array {\n  const out = new Uint8Array(4)\n  new DataView(out.buffer).setUint32(0, value, true)\n  return out\n}",
+      "targetPath": "packages/pal-extract/src/__tests__/binary-fixtures.ts",
+      "targetName": "u32Bytes"
+    },
+    {
+      "oldPath": "packages/pal-extract/src/cli-error-exits.kimi-r1.test.ts",
+      "name": "u16",
+      "from": "function u16(value: number): Uint8Array {\n  const out = new Uint8Array(2)\n  new DataView(out.buffer).setUint16(0, value, true)\n  return out\n}",
+      "targetPath": "packages/pal-extract/src/__tests__/binary-fixtures.ts",
+      "targetName": "u16Bytes"
+    },
+    {
+      "oldPath": "packages/pal-extract/src/cli-error-exits.kimi-r1.test.ts",
+      "name": "mkf",
+      "from": "function mkf(chunks: Uint8Array[]): Uint8Array {\n  const headerSize = (chunks.length + 1) * 4\n  const bodyLength = chunks.reduce((sum, chunk) => sum + chunk.length, 0)\n  const buf = new Uint8Array(headerSize + bodyLength)\n  const view = new DataView(buf.buffer)\n  let offset = headerSize\n  for (const [index, chunk] of chunks.entries()) {\n    view.setUint32(index * 4, offset, true)\n    buf.set(chunk, offset)\n    offset += chunk.length\n  }\n  view.setUint32(chunks.length * 4, offset, true)\n  return buf\n}",
+      "targetPath": "packages/pal-extract/src/__tests__/binary-fixtures.ts",
+      "targetName": "mkfContainer"
+    }
+  ],
+  "receipts": {
+    "before": "organization-extract-literals/neighbors"
+  },
+  "cohortSubjects": [
+    {
+      "path": "packages/pal-extract/src/cli-battle-assets.glm-q.test.ts",
+      "sha256": "acf20e9fda9aa82c66b64734a04344a410ab22cc5b4622727ae7b46966123fdc",
+      "priorCurrentBridge": {
+        "evidence": "organization-extract-literals.json",
+        "beforeMember": "organization-extract-literals/4.before",
+        "afterSha256": "be999366206ee7b5ecef6fef080ff33f3b1283e06d33b2ad3aa7d72d46812fd3"
+      }
+    },
+    {
+      "path": "packages/pal-extract/src/cli-font-lookup.glm-q.test.ts",
+      "sha256": "724102f0cc54b03400c287453ef2e3a60a04a946118a0ba636e95e0d30880a21",
+      "priorCurrentBridge": {
+        "evidence": "organization-extract-literals.json",
+        "beforeMember": "organization-extract-literals/5.before",
+        "afterSha256": "1bb734261d9d3d02d4c4f1f6fe227f3e502097be3026424aeab9550f99261b99"
+      }
+    },
+    {
+      "path": "packages/pal-extract/src/cli-global-entries.glm-q.test.ts",
+      "sha256": "f23e419c1849b7c25d4530332bbb071e2830e2431f215c6750da69ab8f4b6d89",
+      "priorCurrentBridge": {
+        "evidence": "organization-extract-literals.json",
+        "beforeMember": "organization-extract-literals/6.before",
+        "afterSha256": "06463a97bc33b79a41a4ce266fe1f4e8e8ba4a4d896c8f500291732a4abf64d7"
+      }
+    },
+    {
+      "path": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+      "sha256": "1b05cc32c9341086d46975558bfa1e145d81d3a0ee2a8dc26ca99e9cf664491c",
+      "priorCurrentBridge": {
+        "evidence": "organization-extract-literals.json",
+        "beforeMember": "organization-extract-literals/7.before",
+        "afterSha256": "8a47c0f5e73416da51da8c50912840bada9bec1c34e9741e1583627374d76a98"
+      }
+    },
+    {
+      "path": "packages/pal-extract/src/cli-error-exits.kimi-r1.test.ts",
+      "sha256": "586c8987a642a1212d3d690da8775d3df2851c2b736afa3db0a7757ad117b16f",
+      "priorCurrentBridge": "same bytes as cohort"
+    }
+  ],
+  "neighborPaths": [
+    "packages/pal-extract/src/__tests__/cli-host.test.ts",
+    "packages/pal-extract/src/cli-battle-assets.test.ts",
+    "packages/pal-extract/src/cli-entrypoint-paths.test.ts",
+    "packages/pal-extract/src/cli-font-lookup.test.ts",
+    "packages/pal-extract/src/cli-global-entries.test.ts",
+    "packages/pal-extract/src/cli-localization.test.ts",
+    "packages/pal-extract/src/cli-pipeline.test.ts",
+    "packages/pal-extract/src/cli-preflight.test.ts",
+    "packages/pal-extract/src/resources/animation-assets.rng.test.ts"
+  ],
+  "cleanExecutions": [
+    "before",
+    "neighbors",
+    "scoped",
+    "scoped-r2",
+    "typecheck",
+    "input-reuse",
+    "docs",
+    "content-review",
+    "lint"
+  ],
+  "lightweightGates": {
+    "lint": "lint",
+    "docs": "docs",
+    "contentReview": "content-review"
+  },
+  "inputReuse": {
+    "receipt": "organization-extract-cli/input-reuse",
+    "sourceMember": "organization-extract-cli/3.before",
+    "sourceSha256": "8a47c0f5e73416da51da8c50912840bada9bec1c34e9741e1583627374d76a98",
+    "scope": "exact two zero-argument DATA/WORD builders; all finite WORD/MKF fixture inputs retain byte semantics; no native-format credit"
+  },
+  "profiles": [
+    {
+      "path": "packages/pal-extract/src/cli-battle-assets.test.ts",
+      "subjects": ["packages/pal-extract/src/cli-battle-assets.glm-q.test.ts"],
+      "axes": {
+        "A": "两个真实CLI输入独立F/ABC及FBP：gzip后完整明文字节、manifest有序稀疏槽、独立pngjs完整RGBA/尺寸坏块拒绝均保持。读取当前CLI/host、既有资源阶段合同与原反控复用。",
+        "B": "头注按真实资源和隔离owner，保留raw降级与YJ2合法流限制；去Q10/新增批次。背景填充归具名小工厂。",
+        "C": "套件拥有资源输入/期望，host拥有复制树/进程/afterAll；背景builder只构造索引数组，无全局状态写入产品。",
+        "D": "复用公共CLI input和窄encoder/binary；sprite与背景输入/输出/错误合同不同，保留两个case不强合。",
+        "E": "原两身份/全部断言保全，真实像素与解压bytes不靠编码SUT自比；前片baseline和本轮相邻同声明/输入。反控沿已有有效针，不额外堆例。",
+        "F": "cli-battle-assets与makeBattleBackground表明用途，移除标题Q10；具体chunk/字节命名依实际输入域，不因数字多造上下文。",
+        "G": "零测试/业务断言退休，原顶层赋值封成同循环工厂；无新增wrapper或生产出口。",
+        "H": "真实子进程+独立像素解包可观察，明确空chunk/raw两分支，不mock核心提取器。"
+      },
+      "acceptance": "accepted-FG; unified gates pending"
+    },
+    {
+      "path": "packages/pal-extract/src/cli-font-lookup.test.ts",
+      "subjects": ["packages/pal-extract/src/cli-font-lookup.glm-q.test.ts"],
+      "axes": {
+        "A": "真实BDF ASCII/CJK两完整glyph和WORD分类/M.MSG内容保持；host源副本和输入全在自有树，current源写出预检/缺字库诊断未改。",
+        "B": "保留U+4E02丂的已核事实与合成/原盘边界；删除Q10和模型临时根，不冒称播放/真实资源验收。",
+        "C": "font/lookup同一实际CLI阶段但两个不同输入域，树/进程交host，BDF纯数据仅本suite使用。",
+        "D": "相同base/tail复用；字体builder与RLE/word布局不同不硬抽二进制万能factory，withBdf确有两真实调用分支。",
+        "E": "两原case保留完整glyph字节/宽高/编码点及strings，lookup少量字段用于实际接线；底层WORD全表合同沿原证据，非从当前输出构oracle。",
+        "F": "cli-font-lookup表达实际落盘职责，buildBdf/runTailCli参数含义可直读，内部domain术语无模型标记。",
+        "G": "不为去文件数合进所有资源测试；helper参数两支都在真实用，无死出口/重复业务case。",
+        "H": "固定输入+真实CLI/FS，独立glyph字节构造可反证decoder错误，host失败也统一清理。"
+      },
+      "acceptance": "accepted-FG; unified gates pending"
+    },
+    {
+      "path": "packages/pal-extract/src/cli-global-entries.test.ts",
+      "subjects": ["packages/pal-extract/src/cli-global-entries.glm-q.test.ts"],
+      "axes": {
+        "A": "12个字段+shared alias/scene重合14caller轴完整保留，enemy直接index1/placeholder/全量有序命令和scene归属由真实入口验证。",
+        "B": "去Q/NEXT/贡献者正控文字，保留独立四指令、直接enemyId与全局/scene归属说明；未称对全部slice算法的证明。",
+        "C": "common host/helper/module常量一次拥有，六describe仅按caller分组，不复制临时树或闭包；unknown guard不暴露产品内部状态。",
+        "D": "14例虽相似但各字段/组合反控不同，不为行数机械合为一例或删caller；现有common assertions/fixture真实共用。",
+        "E": "14条精确old→new身份映射、原回调/输入/断言/helper/afterAll闭包语法保持；原五代表collector省略反控有效，未新增弱计数。",
+        "F": "item/spell/enemy/player/alias/overlap直接展示职责；测试标题去编号，实际field/unit命名清楚。",
+        "G": "保留所有真实caller轴，module共有函数仍被引用，不以模型删文件退役测试或新增export。",
+        "H": "真实CLI和磁盘完整输出，无mock核心；Unknown JSON守卫使缺失字段fail loud，no casts。"
+      },
+      "acceptance": "accepted-FG; unified gates pending"
+    },
+    {
+      "path": "packages/pal-extract/src/cli-pipeline.test.ts",
+      "subjects": ["packages/pal-extract/src/cli-isolated.glm-q.test.ts"],
+      "axes": {
+        "A": "六场景分段/全程与FBP/SSS非法输入各保原停止点/exit、完整manifest及音频全字节oracle。复制host与CLI预检/输出写序当前已核。",
+        "B": "去隔离/Q10批次作为职责标签及已迁出构造器的悬空注释；保留音频opaque/FBP空样本与全程非原盘限定。",
+        "C": "cli-pipeline按阶段推进/最终扫盘组织；host独占进程和树，纯fixture独占布局。有限truncate选项分别合法/坏SSS两真实调用。",
+        "D": "移除LE/MKF三副本、DATA/WORD两同合同工厂与压缩转发；直接复用已接受provider。坏SSS入口、palette色1特例/阶段输入域保持局部，不加通用模式。",
+        "E": "六旧身份/全部断言和清理闭包保持；旧DATA/WORD函数真实执行后与共享builder完整字节相等另留回执，仅重构输入保全，不当独立正确性oracle。",
+        "F": "cli-pipeline替代泛化isolated；具名阶段输入/manifest独立FS oracle可读。临时根不带模型，删除无caller WORD尺寸常量。",
+        "G": "删六个冗余函数与两无用常量，无专属测试退休或产品fallback恢复；不同输入政策不强合。",
+        "H": "真实CLI/独立FS字节/hash可观察；无全局产品状态注入/核心mock，与原host生命周期合同一致。"
+      },
+      "acceptance": "accepted-FG; unified gates pending"
+    },
+    {
+      "path": "packages/pal-extract/src/cli-preflight.test.ts",
+      "subjects": ["packages/pal-extract/src/cli-error-exits.kimi-r1.test.ts"],
+      "axes": {
+        "A": "9个真实preflight域：往返exit2、输入缺失/容器诊断、原产物/videos保留、未知argv及共享链接目标保护；当前CLI仍解析faithful/English，未知参数忽略保留。",
+        "B": "修完全不消费argv错注/题为仅未知参数；移除Kimi临时根和悬空MKF注释，保留停止点/同树资源边界。",
+        "C": "source/out ownership/roundtrip均在落盘前准入，合为preflight职责；特殊全空WORD与指定bytecode由本suite拥有，host统一进程/目录。",
+        "D": "LE/MKF三同合同builder直借binary；空WORD与base带ITEMNAME的域不同，保留本地两行构造，不并成布尔工厂。",
+        "E": "九原身份/字节marker/exit/诊断/无events断言不改；先预检失败不清理的合同仍在，不把缺文件失败充普通成功。",
+        "F": "cli-preflight表示责任范围；标题明确未知argv而非全CLI忽略参数，函数/变量不含模型。",
+        "G": "只删三重复primitive，普通/坏容器/缺不同文件守不同公开失败，未为凑文件数机械删例或降断言。",
+        "H": "真实符号链接/文件系统/CLI不mock；afterAll先收进程再删准确根，无跨suite共享目录。"
+      },
+      "acceptance": "accepted-FG; unified gates pending"
+    }
+  ],
+  "processDisclosures": [
+    "Five source suites remain five responsibility files;14hook cases grouped by real caller, common host/data helpers remain shared once.33 cases retained, no added/deleted assertions.",
+    "Baseline is explicitly the original42-case neighbors receipt from prior simultaneous literal-input candidate, filtered to33 identities. No baseline retest or renamed raw.",
+    "Initial analyzer rejected destructuring before any source writes; bindings/interface/afterAll support added with lexical ownership rather than ignoring statements. Original failed script/receipts retained.",
+    "Two DATA/WORD helpers reuse exact shared fixed zero-argument builders, independently executed input-byte comparison retained. LE/MKF reuse is a reviewed finite fixture-domain semantic delta, not a claim that arbitrary invalid inputs behave identically.",
+    "Current TypeScript declarations/callbacks/import/lifecycle conservation uses exact counted semantic/naming bridges; comment cleanup is separate and product sources unchanged."
+  ]
+}

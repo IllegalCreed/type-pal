@@ -1,0 +1,1407 @@
+{
+  "userScope": "2026-10-28 user requires all remaining files in the original200; do not repeat reviewed files.",
+  "base": "6ebca402ae2c419ad9922f8d29097b45ea6a0df6",
+  "meaning": "Inventory/order only; queued files have no new semantic credit. Review result and current pins live in audit.json.",
+  "entries": [
+    {
+      "originalPath": "scripts/coverage/metrics.test.mjs",
+      "path": "scripts/coverage/metrics.test.mjs",
+      "queueSnapshotSha256": "14cae94528244dca0840baa81070b205b064a47920e4831e8b650d397bb35551",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "scripts/coverage/inventory.test.mjs",
+      "path": "scripts/coverage/inventory.test.mjs",
+      "queueSnapshotSha256": "80e6872c63096b94e8f6ec81aeca806214f06ba1bc772649481e3a7279eaf269",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "scripts/coverage/environment.test.mjs",
+      "path": "scripts/coverage/environment.test.mjs",
+      "queueSnapshotSha256": "62bf2ab51c6a7054a34910bfd86b0a3c5b1a48a4e79bdb148f01c1e65e63f3ff",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "scripts/coverage/full-inputs.test.mjs",
+      "path": "scripts/coverage/full-inputs.test.mjs",
+      "queueSnapshotSha256": "984319a163831af24029c07e4a999de9eb5d14138f98df670a3ae92a9487d16b",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "scripts/coverage/full-inputs.mjs",
+      "path": "scripts/coverage/full-inputs.mjs",
+      "queueSnapshotSha256": "ca07d82ee1ecfcc503d5733c56c462241606ff8735e725ea558a86acc36b1bdf",
+      "status": "prior-47-reused",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "scripts/coverage/config.test.mjs",
+      "path": "scripts/coverage/config.test.mjs",
+      "queueSnapshotSha256": "6f8f6b084ebe37406aba30610b0edb68bbee13c2149fdd0e7b6f4a59419dad82",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "scripts/coverage/protected-baseline.test.mjs",
+      "path": "scripts/coverage/protected-baseline.test.mjs",
+      "queueSnapshotSha256": "23cd620707e5f0b31c5cafdde9aa84fa504182f62c9cb34cd9c556fc0d1fd0e9",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "scripts/coverage/merge-initializers.test.mjs",
+      "path": "scripts/coverage/merge-initializers.test.mjs",
+      "queueSnapshotSha256": "6fd1a0e6c2c3597c0730b579e8d9c091ddd88a8e49c98cc6ce8f272cf0cea71d",
+      "status": "prior-47-reused",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "scripts/coverage/fixtures/initializers/capture.mjs",
+      "path": "scripts/coverage/fixtures/initializers/capture.mjs",
+      "queueSnapshotSha256": "819d5b85ebc7fe96937582feb5a42d223bc7da8a135bf283db06fda29dff012f",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "scripts/coverage/fixtures/initializers/native-subject.mjs",
+      "path": "scripts/coverage/fixtures/initializers/native-subject.mjs",
+      "queueSnapshotSha256": "5d8fa816793132556610ad74fa3423f7138c5999d22ba20a6f219095a55955ab",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "scripts/coverage/fixtures/initializers/subject.ts",
+      "path": "scripts/coverage/fixtures/initializers/subject.ts",
+      "queueSnapshotSha256": "7d355cacb9e61e95ef78de81801426cf16f32977ea2c954be48bc665748db1b5",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "scripts/coverage/fixtures/initializers/call.test.ts",
+      "path": "scripts/coverage/fixtures/initializers/call.test.ts",
+      "queueSnapshotSha256": "475c9576a433c08ebbf5ed696abffbf857d5867e4e854ba4e7bfe7d7388eaf75",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "scripts/coverage/fixtures/initializers/call.client.test.ts",
+      "path": "scripts/coverage/fixtures/initializers/call.client.test.ts",
+      "queueSnapshotSha256": "e6fc3da515ea14470ee3ddc87b05bd2eacb573f00e2e5525a6f339b47164771e",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "scripts/coverage/fixtures/initializers/import-one.test.ts",
+      "path": "scripts/coverage/fixtures/initializers/import-one.test.ts",
+      "queueSnapshotSha256": "f4f461635b656a33e9bb602a6c1a65d6c1f0547e905d6924e138240ead866322",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "scripts/coverage/fixtures/initializers/import-one.client.test.ts",
+      "path": "scripts/coverage/fixtures/initializers/import-one.client.test.ts",
+      "queueSnapshotSha256": "7e9f3a980e35d0ef6559f3d732ca523fc0ffcb336b25fc8c75d47df0985b8cfc",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "scripts/coverage/fixtures/initializers/import-two.test.ts",
+      "path": "scripts/coverage/fixtures/initializers/import-two.test.ts",
+      "queueSnapshotSha256": "b5c586fca451628db3e4bb5106d0104121803720cbe14ac7e0c6eb75cab70e55",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "scripts/coverage/fixtures/initializers/import-two.client.test.ts",
+      "path": "scripts/coverage/fixtures/initializers/import-two.client.test.ts",
+      "queueSnapshotSha256": "2a3d438a9fd90008c854433ce78fed1cbab7a26833d29027fe987aca71d8eca9",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "scripts/quality/lint-zero.test.mjs",
+      "path": "scripts/quality/lint-zero.test.mjs",
+      "queueSnapshotSha256": "1243af7572ae1ef2673e102fefca551497f04f81ecacc87f572c27d954853514",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/pal-extract/src/__tests__/asset-manifest.test.ts",
+      "path": "packages/pal-extract/src/__tests__/asset-manifest.test.ts",
+      "queueSnapshotSha256": "715509ad6b08d867259d7cbeeeadd0fd031bdd328ba45c0c2a48bdac195b9d7e",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/pal-extract/src/__tests__/asset-manifest.boundaries.test.ts",
+      "path": "packages/pal-extract/src/__tests__/asset-manifest.boundaries.test.ts",
+      "queueSnapshotSha256": "ba4bd0eba64a64e54f212f39890ef0d6d233c5795d0a2b483cceff2b4518f31e",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/pal-extract/src/resources/asset-manifest.glm-runtime-resource.test.ts",
+      "path": "packages/pal-extract/src/resources/asset-manifest.glm-runtime-resource.test.ts",
+      "queueSnapshotSha256": "33a353b880e4b9db3bff5761f33b3f223bbd266d37142b17b879864ff163f913",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/pal-extract/src/resources/parsers/__tests__/items.boundaries.test.ts",
+      "path": "packages/pal-extract/src/resources/parsers/__tests__/items.boundaries.test.ts",
+      "queueSnapshotSha256": "ba9c14a04f4232b19742a78a994cfdefe5985ef5d7e911667c2a7c8d375beed3",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/pal-extract/src/resources/parsers/__tests__/spells.boundaries.test.ts",
+      "path": "packages/pal-extract/src/resources/parsers/__tests__/spells.boundaries.test.ts",
+      "queueSnapshotSha256": "7813761feba39a007c17b4aaad532cefa5a369a2b8c24ad6317a63c8e00ac69b",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/pal-extract/src/__tests__/glm-foundation-fixtures.ts",
+      "path": "packages/pal-extract/src/__tests__/glm-foundation-fixtures.ts",
+      "queueSnapshotSha256": "9d9d723eddac9e1a0f68a218c7b88c89bf66cecb0edd6c1e80db3e87c90c4927",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/pal-extract/src/__tests__/glm-tb04-fixtures.ts",
+      "path": "packages/pal-extract/src/__tests__/glm-tb04-fixtures.ts",
+      "queueSnapshotSha256": "96b3d5a44958dbf894d2ab23535623482d26a072d5e639edf9b5950871fd1ae2",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/pal-extract/src/resources/parsers/__tests__/battle-fields.boundaries.test.ts",
+      "path": "packages/pal-extract/src/resources/parsers/__tests__/battle-fields.boundaries.test.ts",
+      "queueSnapshotSha256": "9d3646feafc2a359d41d57d0069724dc13d2c61600a59fbf9c0c8cb57d4767d2",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/pal-extract/src/resources/parsers/__tests__/enemy-teams.boundaries.test.ts",
+      "path": "packages/pal-extract/src/resources/parsers/__tests__/enemy-teams.boundaries.test.ts",
+      "queueSnapshotSha256": "b20e652c9d85ff27a6e5a64f97a56c18f88dcd09fe3bce7cbf8ddefbc48f19ea",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/pal-extract/src/resources/parsers/__tests__/stores.boundaries.test.ts",
+      "path": "packages/pal-extract/src/resources/parsers/__tests__/stores.boundaries.test.ts",
+      "queueSnapshotSha256": "4a21811ec94adb8f522efe7ea879e74254b4c484c46fa8b049d802664cbc5ecd",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/pal-extract/src/resources/parsers/__tests__/data-misc.boundaries.test.ts",
+      "path": "packages/pal-extract/src/resources/parsers/__tests__/data-misc.boundaries.test.ts",
+      "queueSnapshotSha256": "7fbc1f8639c9190f32b886cf261115a0125c156fa6d11cdb5fa709662f6684b3",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/pal-extract/src/resources/parsers/items.glm-runtime-resource.test.ts",
+      "path": "packages/pal-extract/src/resources/parsers/items.glm-runtime-resource.test.ts",
+      "queueSnapshotSha256": "b358e65af35a6f4d50585d42c254f08438cf7bb5f6a96f19292b7c8f9780db50",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/pal-extract/src/resources/parsers/stores.glm-runtime-resource.test.ts",
+      "path": "packages/pal-extract/src/resources/parsers/stores.glm-runtime-resource.test.ts",
+      "queueSnapshotSha256": "abd6c9babab37492856ba0d835ca91705bbbd4599d3e2bb1c78d0aa66a972fe3",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/pal-extract/src/resources/parsers/enemy-teams.glm-runtime-resource.test.ts",
+      "path": "packages/pal-extract/src/resources/parsers/enemy-teams.glm-runtime-resource.test.ts",
+      "queueSnapshotSha256": "1ec3c966a749e106fb1fe77af41a7a8acf425ae0421f5215b444cccc81513093",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/pal-extract/src/resources/parsers/battle-fields.glm-runtime-resource.test.ts",
+      "path": "packages/pal-extract/src/resources/parsers/battle-fields.glm-runtime-resource.test.ts",
+      "queueSnapshotSha256": "e7b91eb0f1d310649ef8c8895b1161cca28ca5d33eb2ecdece9c35417281de85",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/pal-extract/src/resources/palette.test.ts",
+      "path": "packages/pal-extract/src/resources/palette.test.ts",
+      "queueSnapshotSha256": "86787b9391c0447a044ae1bead66ee3d77aa9dc4fbfa50d65c636df4583cba22",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/pal-extract/src/resources/palette.boundaries.test.ts",
+      "path": "packages/pal-extract/src/resources/palette.boundaries.test.ts",
+      "queueSnapshotSha256": "86724be02c3415531d8ce0d8b502df7c4b1b67b73db3fbc6ce061fae1fc152bf",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/pal-extract/src/resources/palette.glm-runtime-resource.test.ts",
+      "path": "packages/pal-extract/src/resources/palette.glm-runtime-resource.test.ts",
+      "queueSnapshotSha256": "41588e1b1dadd9a09a423edd9d621ceefefee6f5afbde93bfc6d6d3c4d15385a",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/pal-extract/src/resources/enemy-pos.boundaries.test.ts",
+      "path": "packages/pal-extract/src/resources/enemy-pos.boundaries.test.ts",
+      "queueSnapshotSha256": "d8dc28e53680629b4408cb2f2b1429eb45dddb09cd88d7acf792dcfdf1e781d9",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/pal-extract/src/resources/parsers/__tests__/data-misc.test.ts",
+      "path": "packages/pal-extract/src/resources/parsers/__tests__/data-misc.test.ts",
+      "queueSnapshotSha256": "831237c3fe3f42969c0f204ad686202ae170e544d475bdd87fb6d298ad35470f",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/pal-extract/src/resources/parsers/__tests__/rix.test.ts",
+      "path": "packages/pal-extract/src/resources/parsers/__tests__/rix.test.ts",
+      "queueSnapshotSha256": "3a4743ecf73e394cb2625d909bfab2f4c591e0f4a85a9cc0d58d33cf7f56296d",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/pal-extract/src/resources/parsers/__tests__/sounds.test.ts",
+      "path": "packages/pal-extract/src/resources/parsers/__tests__/sounds.test.ts",
+      "queueSnapshotSha256": "1834d440a06c7ebf02d437b560c64246bd70fbd62e03bff6acee0f076872af1b",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/pal-extract/src/resources/parsers/__tests__/indexed-frame-digest.ts",
+      "path": "packages/pal-extract/src/resources/parsers/__tests__/indexed-frame-digest.ts",
+      "queueSnapshotSha256": "ccdb9eeb55af7027c94087451e27286bfb90a969730addcef0d9b39433284850",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/pal-extract/src/resources/parsers/__tests__/player-roles.event-boundaries-1.test.ts",
+      "path": "packages/pal-extract/src/resources/parsers/__tests__/player-roles.event-boundaries-1.test.ts",
+      "queueSnapshotSha256": "1258a95223f061f15b018cf8cb2e8d1732b54830862a053d47d7be99cce5bd52",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/pal-extract/src/font/__tests__/bdf-to-json.test.ts",
+      "path": "packages/pal-extract/src/font/__tests__/bdf-to-json.test.ts",
+      "queueSnapshotSha256": "cd19f360ffd314bf602920c5f5bfcc47e7d5ebe52db872300d56741742e2d4d6",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/pal-extract/src/font/__tests__/bdf-to-json.boundaries.test.ts",
+      "path": "packages/pal-extract/src/font/__tests__/bdf-to-json.boundaries.test.ts",
+      "queueSnapshotSha256": "ee4b53a175aaa4517f5635ff2a6524eb2271816221985eddec45dc1e18390770",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/pal-extract/src/font/bdf-to-json.glm-runtime-resource.test.ts",
+      "path": "packages/pal-extract/src/font/bdf-to-json.glm-runtime-resource.test.ts",
+      "queueSnapshotSha256": "a6ea7d00858b93f493ebea77794089c86c7a95730a3e621e2eb545addb21745b",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/pal-extract/src/__tests__/glm-runtime-resource/yj2-sprite-chunk-vector.ts",
+      "path": "packages/pal-extract/src/__tests__/glm-runtime-resource/yj2-sprite-chunk-vector.ts",
+      "queueSnapshotSha256": "1d66e57a508f69817a3b99a7745039a6e26d7a2577cdc3168c75069db5374407",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/pal-extract/src/resources/parsers/__tests__/misc-mkf.test.ts",
+      "path": "packages/pal-extract/src/resources/parsers/__tests__/misc-mkf.test.ts",
+      "queueSnapshotSha256": "dbf7be2e9c8f1b929b6f44cd81b8b3848daa333c5c18cc88837a272da45631b3",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/pal-extract/src/resources/animation-assets.fire.test.ts",
+      "path": "packages/pal-extract/src/resources/animation-assets.fire.test.ts",
+      "queueSnapshotSha256": "ba4cd460bd6947c7a8afe3f44e56610ea27036bf6b39eb96bf44a53fc3b8e3d2",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/pal-extract/src/resources/animation-assets.rng.test.ts",
+      "path": "packages/pal-extract/src/resources/animation-assets.rng.test.ts",
+      "queueSnapshotSha256": "50a55707f9ac594cf5c8bde3b60106f465b2d0736b337fcda015d7e72b36149c",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/pal-extract/src/resources/__tests__/scene-fixtures.ts",
+      "path": "packages/pal-extract/src/resources/__tests__/scene-fixtures.ts",
+      "queueSnapshotSha256": "87cf447fc6768ac9cd22e8d23eb4cc444a6f61fbe03f268a6f72f5eed6361eb7",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/pal-extract/src/resources/scene.test.ts",
+      "path": "packages/pal-extract/src/resources/scene.test.ts",
+      "queueSnapshotSha256": "bd602764b568f4a7610fd601d5dacca96abd3ab8dd9f55d1713489ef05851373",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/pal-extract/src/resources/scene.glm-runtime-resource.test.ts",
+      "path": "packages/pal-extract/src/resources/scene.glm-runtime-resource.test.ts",
+      "queueSnapshotSha256": "021124b1842f5f7ac94a497843a965e30ed095351e377d6fcfbe70260a3ab6cb",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/pal-extract/src/resources/map.test.ts",
+      "path": "packages/pal-extract/src/resources/map.test.ts",
+      "queueSnapshotSha256": "e12128fbee820a1b3b7f2f132af5ad8f5f9a60d3df5b12dba13b2dcad977bf5a",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/pal-extract/src/resources/parsers/ball.glm-runtime-resource.test.ts",
+      "path": "packages/pal-extract/src/resources/parsers/ball.glm-runtime-resource.test.ts",
+      "queueSnapshotSha256": "bedc3f41fb32b825939d71248dee2af74a3a16f442d130a03447380ee4354908",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/pal-extract/src/resources/parsers/rgm.glm-runtime-resource.test.ts",
+      "path": "packages/pal-extract/src/resources/parsers/rgm.glm-runtime-resource.test.ts",
+      "queueSnapshotSha256": "839a757d15706298c91f6a9863208c4e6ee4cce2b66454479597936197823a3c",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/pal-extract/src/events/disasm.test.ts",
+      "path": "packages/pal-extract/src/events/disasm.test.ts",
+      "queueSnapshotSha256": "eeb11963b6761c5ad16694df2046aab3e1a627161af891f2e1f613e8eef70df2",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/pal-extract/src/events/disasm.boundaries.test.ts",
+      "path": "packages/pal-extract/src/events/disasm.boundaries.test.ts",
+      "queueSnapshotSha256": "92304a41554e03943d4ba60a10095322b54d733652d93d349a9b3d6544700125",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/pal-extract/src/events/disasm.glm-runtime-resource.test.ts",
+      "path": "packages/pal-extract/src/events/disasm.glm-runtime-resource.test.ts",
+      "queueSnapshotSha256": "756b44f6c244f49c7e5237c04dbac6c0922605f14bab415b9590ac134ec26d28",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/pal-extract/src/events/disasm.kimi-r1.test.ts",
+      "path": "packages/pal-extract/src/events/disasm.kimi-r1.test.ts",
+      "queueSnapshotSha256": "79afba33bb03bd3c3da8c6ec40eaf03c30a46c28f79498d07e189d34454ffac9",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/pal-extract/src/events/recompile.test.ts",
+      "path": "packages/pal-extract/src/events/recompile.test.ts",
+      "queueSnapshotSha256": "aaddff17a00a99fb4bd73309a3f7b334c455a9508e2c82cc23bdbd906e7bc89b",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/pal-extract/src/events/recompile.boundaries.test.ts",
+      "path": "packages/pal-extract/src/events/recompile.boundaries.test.ts",
+      "queueSnapshotSha256": "f92fa04e2e176bbb442b63170892718c6a06fb9c664ea64f06afffa2759ac1e4",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/pal-extract/src/events/recompile.glm-runtime-resource.test.ts",
+      "path": "packages/pal-extract/src/events/recompile.glm-runtime-resource.test.ts",
+      "queueSnapshotSha256": "b3ebddbf2f5d628a7de18362c4689a2250f276194bf431f5b85d87a87b984ace",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/pal-extract/src/events/roundtrip.test.ts",
+      "path": "packages/pal-extract/src/events/roundtrip.test.ts",
+      "queueSnapshotSha256": "6b700c867db2afb4ae3d24acf6f901cb2595490688da89902ca544a9067eef35",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/pal-extract/src/events/roundtrip.kimi-r1.test.ts",
+      "path": "packages/pal-extract/src/events/roundtrip.kimi-r1.test.ts",
+      "queueSnapshotSha256": "d828fea762839b0542c6a1ba056f3ae5ce22382cec225d510ee7b10c37703f20",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/pal-extract/src/events/opcodes.test.ts",
+      "path": "packages/pal-extract/src/events/opcodes.test.ts",
+      "queueSnapshotSha256": "eb9378f39e57272a454489f378e12c064e4918c2dd726fba36e138b6cfb98d52",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/pal-extract/src/events/__tests__/bytecode-fixtures.ts",
+      "path": "packages/pal-extract/src/events/__tests__/bytecode-fixtures.ts",
+      "queueSnapshotSha256": "11f07a779d8da01db051ffbbe00790566b42531868dda76335bdc304e383ab58",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/pal-extract/src/__tests__/binary-fixtures.ts",
+      "path": "packages/pal-extract/src/__tests__/binary-fixtures.ts",
+      "queueSnapshotSha256": "1a2f17ce1d2ca8d0447cf91bd77ff5cdaa1aee49bfbbcebf791abb7a64dfb252",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/pal-extract/src/__tests__/glm-q/yj2-encoder.ts",
+      "path": "packages/pal-extract/src/__tests__/glm-q/yj2-encoder.ts",
+      "queueSnapshotSha256": "02b53ec4dc6a937bb20a9689a050407b16f01694c193f40d9327cd88b365b565",
+      "status": "prior-47-reused",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/pal-extract/src/io/rle.test.ts",
+      "path": "packages/pal-extract/src/io/rle.test.ts",
+      "queueSnapshotSha256": "16b2f6ab8b5cfe0a5b1aa2203aa45e16033085bf84cd7a79264289861f18b074",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/pal-extract/src/resources/tables.test.ts",
+      "path": "packages/pal-extract/src/resources/tables.test.ts",
+      "queueSnapshotSha256": "f1977858301e9d01e609ba2f3a0a6d6ecb5a9b38f875d2f4f62cb5a71947ac28",
+      "status": "prior-47-reused",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/game/src/assets/__tests__/snapshot-input.setup.ts",
+      "path": "packages/game/src/assets/__tests__/snapshot-input.setup.ts",
+      "queueSnapshotSha256": "10f6ed771ecabc5f21428dcf4d0882602a14cb94123d2caf30a26e4abeaecfb4",
+      "status": "prior-47-reused",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/game/src/assets/load-all-bounds.grok-r1.test.ts",
+      "path": "packages/game/src/assets/load-all-bounds.grok-r1.test.ts",
+      "queueSnapshotSha256": "8224427cc2efa1bc017d02b03e1e456934e4741e66da931fab2cd6ca6b9ec142",
+      "status": "prior-47-reused",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/game/src/assets/png-decode.grok-r1.test.ts",
+      "path": "packages/game/src/assets/png-decode.grok-r1.test.ts",
+      "queueSnapshotSha256": "58fa7709e4a859fdc57ab5eae736806a392e8cfe668df1c06c88e1ad05d097b7",
+      "status": "prior-47-reused",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/game/src/assets/rng-blob-snapshot.test.ts",
+      "path": "packages/game/src/assets/rng-blob-snapshot.test.ts",
+      "queueSnapshotSha256": "7bd1c50a2a7f914a128225e329e36093bf181aa4ff0c8ea7227ef3d3f8610fab",
+      "status": "prior-47-reused",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/game/src/assets/scene-cache.grok-mid-1.test.ts",
+      "path": "packages/game/src/assets/scene-cache.grok-mid-1.test.ts",
+      "queueSnapshotSha256": "1002504cda3af553c56e48dab05c9200a350d847aa28e3fc8f8c4ed4f861d4b3",
+      "status": "prior-47-reused",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/game/src/assets/scene-cache.grok-r1.test.ts",
+      "path": "packages/game/src/assets/scene-cache.grok-r1.test.ts",
+      "queueSnapshotSha256": "4ab6a1fa912fdfed0b961bf43b0734c7d69a41eb5e7b61eedc98d7da61e6dce0",
+      "status": "prior-47-reused",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/game/src/assets/snapshot-input-boundaries.test.ts",
+      "path": "packages/game/src/assets/snapshot-input-boundaries.test.ts",
+      "queueSnapshotSha256": "5300a49bdc66f1fb5d59d5391df587a3b70fa89c8fe91b1f51c6bf98fa54964a",
+      "status": "prior-47-reused",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/game/src/assets/sprite-blob-snapshot.test.ts",
+      "path": "packages/game/src/assets/sprite-blob-snapshot.test.ts",
+      "queueSnapshotSha256": "f944679735878bbd007426cd3ec2ab7c5331e4b6205e114c7903420c5af79a93",
+      "status": "prior-47-reused",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/game/src/present/__tests__/grok-present/font.ts",
+      "path": "packages/game/src/present/__tests__/grok-present/font.ts",
+      "queueSnapshotSha256": "1567d2a51b92f839b9c8ca2006d935521502b4bc1328437e05ee9c0b05366516",
+      "status": "prior-47-reused",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/game/src/present/__tests__/grok-present/images.ts",
+      "path": "packages/game/src/present/__tests__/grok-present/images.ts",
+      "queueSnapshotSha256": "85a3bf16fd33859a897ecf82d0c8a2f3c28b99eb03499e1f4d93d5cc4d792833",
+      "status": "prior-47-reused",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/game/src/present/__tests__/grok-present/world.ts",
+      "path": "packages/game/src/present/__tests__/grok-present/world.ts",
+      "queueSnapshotSha256": "79df71135f071a392f75fe1ebf22f2f57318a98e12164c458e00b59bcadf8192",
+      "status": "prior-47-reused",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/game/src/present/__tests__/grok-present/png-rgba.ts",
+      "path": "packages/game/src/present/__tests__/grok-present/png-rgba.ts",
+      "queueSnapshotSha256": "2d560bc0abf7a40698e3aa532b54580492eab080abf60f389bfd8c00a65aa00a",
+      "status": "prior-47-reused",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/game/src/present/__tests__/grok-present/p01-inventory-list.test.ts",
+      "path": "packages/game/src/present/__tests__/grok-present/p01-inventory-list.test.ts",
+      "queueSnapshotSha256": "6ad818d64316c447983a5e9a5615565e920bf73fd1d7894c2b3865473f1fa82f",
+      "status": "prior-47-reused",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/game/src/present/__tests__/grok-present/p02-inventory-target.test.ts",
+      "path": "packages/game/src/present/__tests__/grok-present/p02-inventory-target.test.ts",
+      "queueSnapshotSha256": "49abedabe81e7cb35703d7e4cedb355cd5d6295370a18c634a07227143fe569e",
+      "status": "prior-47-reused",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/game/src/present/__tests__/grok-present/p03-equip.test.ts",
+      "path": "packages/game/src/present/__tests__/grok-present/p03-equip.test.ts",
+      "queueSnapshotSha256": "e9191efb9fefdac8fb8bee091f4e4ab9363e23b7bddeb470044d5835ced40259",
+      "status": "prior-47-reused",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/game/src/present/__tests__/grok-present/p05-menu-stack.test.ts",
+      "path": "packages/game/src/present/__tests__/grok-present/p05-menu-stack.test.ts",
+      "queueSnapshotSha256": "11fcd1159850e7900e9dd3e4ff7eeef5076f9c97626deb1753227322586d75a7",
+      "status": "prior-47-reused",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/game/src/present/__tests__/grok-present/p06-magic.test.ts",
+      "path": "packages/game/src/present/__tests__/grok-present/p06-magic.test.ts",
+      "queueSnapshotSha256": "0c482d21a187011bb6265d21aed09cf49cbde5c2232c4f073e8867e48e3ff64c",
+      "status": "prior-47-reused",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/game/src/present/__tests__/grok-present/p07-status.test.ts",
+      "path": "packages/game/src/present/__tests__/grok-present/p07-status.test.ts",
+      "queueSnapshotSha256": "01518520443c966e47ded645245189ba834f7e422f57dae448fe41c49ab9c48d",
+      "status": "prior-47-reused",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/game/src/present/__tests__/grok-present/p08-settlement.test.ts",
+      "path": "packages/game/src/present/__tests__/grok-present/p08-settlement.test.ts",
+      "queueSnapshotSha256": "5cdcfa8baac98de16d32337767477d2ae6d79915ceb3795cc6b972705937b52e",
+      "status": "prior-47-reused",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/game/src/present/__tests__/grok-present/p09-background.test.ts",
+      "path": "packages/game/src/present/__tests__/grok-present/p09-background.test.ts",
+      "queueSnapshotSha256": "6922114384b0344f8ed710871edf9e21e9226db81d62ea4a8a34c14cb72f52f2",
+      "status": "prior-47-reused",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/game/src/present/__tests__/grok-present/p10-indexed-png.test.ts",
+      "path": "packages/game/src/present/__tests__/grok-present/p10-indexed-png.test.ts",
+      "queueSnapshotSha256": "86b33800ea983839dabdb49ed19d38518bed736c1aae7c8d807827c562296e35",
+      "status": "prior-47-reused",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/game/src/present/__tests__/grok-composition/fixtures/battle.ts",
+      "path": "packages/game/src/present/__tests__/grok-composition/fixtures/battle.ts",
+      "queueSnapshotSha256": "c8ea1ae59baf3bf5d942ae3cc5e1258430c2feaed6c7623ff92eee2bbd912038",
+      "status": "prior-47-reused",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/game/src/present/__tests__/grok-composition/fixtures/images.ts",
+      "path": "packages/game/src/present/__tests__/grok-composition/fixtures/images.ts",
+      "queueSnapshotSha256": "551bfb79ad15caf4de7ad4945336edd10ab626cef12d84475b782b392ef0683a",
+      "status": "prior-47-reused",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/game/src/present/__tests__/grok-composition/fixtures/world.ts",
+      "path": "packages/game/src/present/__tests__/grok-composition/fixtures/world.ts",
+      "queueSnapshotSha256": "7eedefb782fafaac9af4969e909e974a737ddb951d2a46735c3838970db8d7f8",
+      "status": "prior-47-reused",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/game/src/present/__tests__/grok-composition/p11-world-layers.test.ts",
+      "path": "packages/game/src/present/__tests__/grok-composition/p11-world-layers.test.ts",
+      "queueSnapshotSha256": "61705a1a3d9fe61ff5140a12847cc8c56d59d763a0dc2a971e69f401a6b08e79",
+      "status": "prior-47-reused",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/game/src/present/__tests__/grok-composition/p12-overlays.test.ts",
+      "path": "packages/game/src/present/__tests__/grok-composition/p12-overlays.test.ts",
+      "queueSnapshotSha256": "dc0e0fc8dcab93030d9ee08ae335804a34fc4a2c702b1d37bfa977109ac1cdec",
+      "status": "prior-47-reused",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/game/src/present/__tests__/grok-composition/p13-battle-commands.test.ts",
+      "path": "packages/game/src/present/__tests__/grok-composition/p13-battle-commands.test.ts",
+      "queueSnapshotSha256": "335fabb9c3e9f28657c6ea7edf6ce0adcda926a3eb108e029a7c9c7bf7f46aba",
+      "status": "prior-47-reused",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/game/src/present/__tests__/grok-composition/p14-battle-fades.test.ts",
+      "path": "packages/game/src/present/__tests__/grok-composition/p14-battle-fades.test.ts",
+      "queueSnapshotSha256": "91f643b92d235d87103d0efddc541539e3a9d44081bc618d8b71680fb81a5204",
+      "status": "prior-47-reused",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/game/src/present/__tests__/grok-composition/p15-battle-ui.test.ts",
+      "path": "packages/game/src/present/__tests__/grok-composition/p15-battle-ui.test.ts",
+      "queueSnapshotSha256": "bbe237b59ca12224e3a3ae290d0723e543e812b61ef4e6b850737fb3674fb429",
+      "status": "prior-47-reused",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/game/src/present/__tests__/grok-composition/p16-dialog.test.ts",
+      "path": "packages/game/src/present/__tests__/grok-composition/p16-dialog.test.ts",
+      "queueSnapshotSha256": "5d59b91b75769c369c9612d332b92abb2328b50473c83121fab6dbed68af49bf",
+      "status": "prior-47-reused",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/game/src/core/__tests__/stats/e1-effective-stats.test.ts",
+      "path": "packages/game/src/core/__tests__/stats/e1-effective-stats.test.ts",
+      "queueSnapshotSha256": "ebfea33072dcc9679f38aa635b20c9d6bb17594fdcf3a9b80408a728d71aa944",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/game/src/core/__tests__/stats/e3-player-stat-rows.test.ts",
+      "path": "packages/game/src/core/__tests__/stats/e3-player-stat-rows.test.ts",
+      "queueSnapshotSha256": "7c42960384b1ceacd9985f0ff1839efefda89636bdbd03a2bf2c324e504cea80",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/game/src/core/__tests__/stats/e5-update-all-equipments.test.ts",
+      "path": "packages/game/src/core/__tests__/stats/e5-update-all-equipments.test.ts",
+      "queueSnapshotSha256": "3e934371705c01d804b4b21c2724b626293ed7088d01ea72d089238261fc3ba2",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/game/src/core/__tests__/stats/e6-resync-battle-role-stats.test.ts",
+      "path": "packages/game/src/core/__tests__/stats/e6-resync-battle-role-stats.test.ts",
+      "queueSnapshotSha256": "6b92a1977a4ec6fa2e7d4da83b7d04c5e902e9aca2ffd5cf11d3a6858958c72c",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/game/src/core/__tests__/stats/i1-party-status-readouts.test.ts",
+      "path": "packages/game/src/core/__tests__/stats/i1-party-status-readouts.test.ts",
+      "queueSnapshotSha256": "7e1a16c4aa0c1b8ff5b52f25fcf8b8a52f57aee0ca688305b43706fcf4082e3a",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/game/src/core/__tests__/stats/i2-enemy-field-readouts.test.ts",
+      "path": "packages/game/src/core/__tests__/stats/i2-enemy-field-readouts.test.ts",
+      "queueSnapshotSha256": "935915f40374b40a53bc6e0637b561be2bfffa89657545e6c0045c471b1b9486",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/game/src/core/__tests__/stats/stats-test-fixtures.ts",
+      "path": "packages/game/src/core/__tests__/stats/stats-test-fixtures.ts",
+      "queueSnapshotSha256": "270f953dd0c5843f95319b208c4990c7ab86bd232a236dedd13bf6dc8cded652",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/game/src/shell/audio-rix.ts",
+      "path": "packages/game/src/shell/audio-rix.ts",
+      "queueSnapshotSha256": "f484bb9b5a6c8241785bb5535e05d4e9a50182046fdcafae49d2d29ad39bfd3a",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/game/src/shell/audio-rix.test.ts",
+      "path": "packages/game/src/shell/audio-rix.test.ts",
+      "queueSnapshotSha256": "095e9b523184653c7e4bf726287637a2981fffe45d54782bd2a6eec9da42e943",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/game/src/shell/music-source.ts",
+      "path": "packages/game/src/shell/music-source.ts",
+      "queueSnapshotSha256": "5ec5f2a68a4214cda4ba75b585d704ef8a32deb5fa26e01b97ac7c9028cfff4e",
+      "status": "prior-47-reused",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/game/src/shell/music-source.test.ts",
+      "path": "packages/game/src/shell/music-source.test.ts",
+      "queueSnapshotSha256": "af65e78150ff248a4096f8f85301fa9316707dac56d6834f2fbb9158d3967470",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/game/src/shell/rix-worklet.ts",
+      "path": "packages/game/src/shell/rix-worklet.ts",
+      "queueSnapshotSha256": "01ddea4525762fac2bf220e77ae82cabb1ba5accf655ea638a7def3542669f0f",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/game/src/shell/rix-worklet.test.ts",
+      "path": "packages/game/src/shell/rix-worklet.test.ts",
+      "queueSnapshotSha256": "5d52d95dd9325533f7baf9f2053dc583267a61d8a2f3c8af464be0f1b7505ba8",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/game/src/shell/rix/kernel.ts",
+      "path": "packages/game/src/shell/rix/kernel.ts",
+      "queueSnapshotSha256": "ef7c3965bf799df826900c13cee9444aae9d60b9a70f5e7dc82eb7ad8705d908",
+      "status": "prior-47-reused",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/game/src/shell/rix/kernel.test.ts",
+      "path": "packages/game/src/shell/rix/kernel.test.ts",
+      "queueSnapshotSha256": "731b88e52d6a5dda118b5d563f66fc932358da16638465460f2b6520ca899080",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/game/src/__tests__/rix-fixture.ts",
+      "path": "packages/game/src/__tests__/rix-fixture.ts",
+      "queueSnapshotSha256": "459a99c75a81e9e446ed11e3824a00a1d9dea004acf1cade49c38618f69fbc8e",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/game/src/shell/bootstrap-audio.test.ts",
+      "path": "packages/game/src/shell/bootstrap-audio.test.ts",
+      "queueSnapshotSha256": "29eaba6dce6ec57096d337f3b10d0810488136200c3b29d4ca330bf75010f8f8",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/game/src/shell/input-direction.ts",
+      "path": "packages/game/src/shell/input-direction.ts",
+      "queueSnapshotSha256": "9a7a7159df05493113165a5eac28c20cf6dc4343ade0cdb63c8df9a15a15d104",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/game/src/shell/input-rotation.ts",
+      "path": "packages/game/src/shell/input-rotation.ts",
+      "queueSnapshotSha256": "3607d404261b9012f63cca24f9b60248d242d62deaed9474a6c2c26a24d5d48e",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/game/src/shell/input-rotation.test.ts",
+      "path": "packages/game/src/shell/input-rotation.test.ts",
+      "queueSnapshotSha256": "b24a2fcc4824f0c074cdf108539be421222dc3d4156cde2e960451b7267b57e7",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/game/src/shell/gamepad-input.ts",
+      "path": "packages/game/src/shell/gamepad-input.ts",
+      "queueSnapshotSha256": "d8bfd6ce3cc90fb3942a3ecf12035ca6bcb2b79a9908f9fcca5f96c2a7d9a2ce",
+      "status": "prior-47-reused",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/game/src/shell/gamepad-input.test.ts",
+      "path": "packages/game/src/shell/gamepad-input.test.ts",
+      "queueSnapshotSha256": "b13e36c479b34b432a02e013d3e42fb9b97a9e821927c1c55f2ce2af0b1cba81",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/game/src/shell/gamepad-host.test.ts",
+      "path": "packages/game/src/shell/gamepad-host.test.ts",
+      "queueSnapshotSha256": "59dee7078b9806a0d9214fb5ba93f06fb69e61929b36fedc1e5cd2a2add22654",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/game/src/shell/touch-controls.ts",
+      "path": "packages/game/src/shell/touch-controls.ts",
+      "queueSnapshotSha256": "025ba5a83f315f0ec97f2161cbf9f6fe083f3aaddec16c5e184f31f51d6f9b56",
+      "status": "prior-47-reused",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/game/src/shell/touch-controls.test.ts",
+      "path": "packages/game/src/shell/touch-controls.test.ts",
+      "queueSnapshotSha256": "ca06bbe7830122617460dfb9ddd974e060e75713ebac65cd8f7bf02b14682e67",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/game/src/shell/touch-preference.ts",
+      "path": "packages/game/src/shell/touch-preference.ts",
+      "queueSnapshotSha256": "2722253cf5fd1e4f644da02a9d5e1af1e77cbff40742c750002da48548a0ab80",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/game/src/shell/touch-preference.test.ts",
+      "path": "packages/game/src/shell/touch-preference.test.ts",
+      "queueSnapshotSha256": "933a569485748e0ea8a6b58d548df320b0b406506843290a67b8347098ab367f",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/game/src/shell/modal-input.test.ts",
+      "path": "packages/game/src/shell/modal-input.test.ts",
+      "queueSnapshotSha256": "a16dbbae880e4a1b72e194e87002b055c32a3f4f68c8d8bbd24bcb9415a2c3ea",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/game/src/shell/menu-input-lock.glm-msio.test.ts",
+      "path": "packages/game/src/shell/menu-input-lock.glm-msio.test.ts",
+      "queueSnapshotSha256": "55696288cee8d118117109d254fe776e4351e3039e829bef85aa5598b0d895b4",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/game/src/shell/game-shell.ts",
+      "path": "packages/game/src/shell/game-shell.ts",
+      "queueSnapshotSha256": "84c8ecd98ca521888703ba6bc281eba312bceeed7393125c4a78caa7b43c07bb",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/game/src/shell/game-shell.test.ts",
+      "path": "packages/game/src/shell/game-shell.test.ts",
+      "queueSnapshotSha256": "0794a3cea59a2f5bdc89bfa38e1903f164a64dd0b8bfc201e550456692fa003b",
+      "status": "prior-47-reused",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/game/src/shell/presentation.ts",
+      "path": "packages/game/src/shell/presentation.ts",
+      "queueSnapshotSha256": "2c6229b3b85271c52c80d9143d7aa6568aa6e2c507f30a84d4722028f4fa06bd",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/game/src/tools/mobile-presentation.test.ts",
+      "path": "packages/game/src/tools/mobile-presentation.test.ts",
+      "queueSnapshotSha256": "fa9700ec52778e8677df598915053a66edd91e5f256092394a2f73ab1be6d1a1",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/game/src/tools/tools-panel.mobile.test.ts",
+      "path": "packages/game/src/tools/tools-panel.mobile.test.ts",
+      "queueSnapshotSha256": "772120d2e645e2da776e2bbc3ef05def2b19220f91865455bed6b99169895eda",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/content/src/grid.ts",
+      "path": "packages/content/src/grid.ts",
+      "queueSnapshotSha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/content/src/grid.test.ts",
+      "path": "packages/content/src/grid.test.ts",
+      "queueSnapshotSha256": "a0089d64b2f52fab7244c27406ba573d60b02135d538acda15c611423f62162b",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/content/src/rich-text.ts",
+      "path": "packages/content/src/rich-text.ts",
+      "queueSnapshotSha256": "1664f5b5ad63469c23f444c430d8ece1c7f0203dbd2fa330a01017658652146f",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/content/src/rich-text.test.ts",
+      "path": "packages/content/src/rich-text.test.ts",
+      "queueSnapshotSha256": "ef34a54aeea8973e9a3e091113bf745bf20345e016c29ebc75a66cddf9a65aa5",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/content/src/rich-text-residual.glm-o.test.ts",
+      "path": "packages/content/src/rich-text-residual.glm-o.test.ts",
+      "queueSnapshotSha256": "4b5f2a11d2600dedc06ac3787826895630042abdad991f844bf415c78f27083b",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/content/src/tileset.ts",
+      "path": "packages/content/src/tileset.ts",
+      "queueSnapshotSha256": "69b8c266e15ee8ef1e787e911fc394460c87747f7b3251257c0cf69bda8f01df",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/content/src/tileset.test.ts",
+      "path": "packages/content/src/tileset.test.ts",
+      "queueSnapshotSha256": "4ec5a81d6d549782064d990dafaf4fd1b6a37eaabaca1951de7062c7a330ee38",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/content/src/tileset.cursor-pure-wave2.test.ts",
+      "path": "packages/content/src/tileset.cursor-pure-wave2.test.ts",
+      "queueSnapshotSha256": "cc04d5b8e880bfe4fa01fe038b042864b91a0de4eab3e6e0f2ca53b44a8c0249",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/content/src/stamp.ts",
+      "path": "packages/content/src/stamp.ts",
+      "queueSnapshotSha256": "272fb28dcde6a8ce99dcb7a7adb24951afd11c7b3e25bcb9b1880ffbe48ce42a",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/content/src/stamp.test.ts",
+      "path": "packages/content/src/stamp.test.ts",
+      "queueSnapshotSha256": "0ff8ece572af647bc23548048cc3b91401619ab75fbc50ec0035406a0c8d3317",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/content/src/stamp.cursor-boundaries.test.ts",
+      "path": "packages/content/src/stamp.cursor-boundaries.test.ts",
+      "queueSnapshotSha256": "384bdc5c9bfdf135f9c4c2fefa0e1f4426cd829d34d95af437c3f6a35a134222",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/content/src/tileset-stamp.contracts.test.ts",
+      "path": "packages/content/src/tileset-stamp.contracts.test.ts",
+      "queueSnapshotSha256": "cc4383d7c4f8597597be632c28374dc27dbbba77a8c85725fe63c80007aa406e",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/content/src/map-index.test.ts",
+      "path": "packages/content/src/map-index.test.ts",
+      "queueSnapshotSha256": "ec0220598b0ca557009c16ab079d4f19e129518dc8a55b8790d1445ec3cddb1e",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/content/src/map-index.contracts.test.ts",
+      "path": "packages/content/src/map-index.contracts.test.ts",
+      "queueSnapshotSha256": "953969b3d583d0a433d686b3f126193de404a18698ba5a7640dbbcdae927d624",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/content/src/map-index.residual.test.ts",
+      "path": "packages/content/src/map-index.residual.test.ts",
+      "queueSnapshotSha256": "72dea3d5e5dd5a1a81ac510aa807e50578716bd3bc8677a872c111e0832b0dd4",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/content/src/ambience.ts",
+      "path": "packages/content/src/ambience.ts",
+      "queueSnapshotSha256": "b026a181db4daac4a2fc885a8ad0b22d89487bde96d7b56d7f4708a9441e3cd1",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/content/src/ambience.test.ts",
+      "path": "packages/content/src/ambience.test.ts",
+      "queueSnapshotSha256": "109e691a4add1f68328b7b5d7401dbb7e752389b866a9a05fa13ece5c422b1d8",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/content/src/ambience-skill.glm-o.test.ts",
+      "path": "packages/content/src/ambience-skill.glm-o.test.ts",
+      "queueSnapshotSha256": "03f049f8259fc27ef0fe3f729f1562c5cdb30ff590d4ca08ef5bd8e9f4857189",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/content/src/shop.ts",
+      "path": "packages/content/src/shop.ts",
+      "queueSnapshotSha256": "01ba2f28e378b10b00e35a12e48509dab8f292a67c637fd70b5617063dd11121",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/content/src/shop.test.ts",
+      "path": "packages/content/src/shop.test.ts",
+      "queueSnapshotSha256": "1fe3e993e5dce21fbeda7c8521641cb800bcee802f790e46b9af3b5834fc543b",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/content/src/shop.cursor-pure-wave2.test.ts",
+      "path": "packages/content/src/shop.cursor-pure-wave2.test.ts",
+      "queueSnapshotSha256": "564a698a62eff064c846786366f7427f72202d199973350ea64868628a5da612",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/content/src/world-variable.ts",
+      "path": "packages/content/src/world-variable.ts",
+      "queueSnapshotSha256": "ff1c655944da906e1eda84346bda1fde59cafa64af56683fbc09971f234fc198",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/content/src/world-variable.test.ts",
+      "path": "packages/content/src/world-variable.test.ts",
+      "queueSnapshotSha256": "7f5ba6130eb80dca82c362d7b2d555cb9ccb9f50452173e2fbc10a3ea26eb7ec",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/content/src/world-variable.glm-leaf-wave.test.ts",
+      "path": "packages/content/src/world-variable.glm-leaf-wave.test.ts",
+      "queueSnapshotSha256": "72b2d2760a847509cc755012683c23b7847103fe746c2f60bb0c655304e4f103",
+      "status": "prior-47-reused",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/content/src/author-dialogue.ts",
+      "path": "packages/content/src/author-dialogue.ts",
+      "queueSnapshotSha256": "c8251cb2e81aa7f9d62b897d660db001e1c7c681847389feede65851445667ab",
+      "status": "prior-47-reused",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/content/src/author-dialogue.test.ts",
+      "path": "packages/content/src/author-dialogue.test.ts",
+      "queueSnapshotSha256": "1fa2e0e48395b97c6dc58f2d52e80416efd9b7726cc4241cbb384051ac4cc245",
+      "status": "prior-47-reused",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/content/src/author-dialogue.contracts.test.ts",
+      "path": "packages/content/src/author-dialogue.contracts.test.ts",
+      "queueSnapshotSha256": "71df64259e2a54b0abdfa3b7ad76b9a8428bc1150a4f0b81e3a0079936bbea51",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/content/src/author-dialogue.cursor-pure-wave2.test.ts",
+      "path": "packages/content/src/author-dialogue.cursor-pure-wave2.test.ts",
+      "queueSnapshotSha256": "6311c69276341b2570b40f54f288ceb86e90e0112f064f76af7d3b4dc46ad453",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/content/src/author-dialogue.field-guards.test.ts",
+      "path": "packages/content/src/author-dialogue.field-guards.test.ts",
+      "queueSnapshotSha256": "89973181ea54cbe2f14c70d2e9c306e585dd69974e1acbe9fe9c8d8d54a65f5b",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/content/src/enemy-ai.ts",
+      "path": "packages/content/src/enemy-ai.ts",
+      "queueSnapshotSha256": "63c34d82705805c20eaa016eecf42790b236d7407dc082909613879c32b0c9c2",
+      "status": "prior-47-reused",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/content/src/enemy-ai.test.ts",
+      "path": "packages/content/src/enemy-ai.test.ts",
+      "queueSnapshotSha256": "96311c08d2729db5f7d00afe01f3e760893624c1e59a7bf65448a567bd6040be",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/content/src/enemy-ai.cursor-pure-wave2.test.ts",
+      "path": "packages/content/src/enemy-ai.cursor-pure-wave2.test.ts",
+      "queueSnapshotSha256": "644355305ae1e2a7de2178ad59fcc50defb9ad4794c40d332b99d0c4bdf52d54",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/content/src/enemy-validation-shapes.ts",
+      "path": "packages/content/src/enemy-validation-shapes.ts",
+      "queueSnapshotSha256": "012af705f55cca01000830fe6fed37962afe990e45fc2a75f52980667e8ec8b6",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/content/src/enemy-validation-shapes.leaf.test.ts",
+      "path": "packages/content/src/enemy-validation-shapes.leaf.test.ts",
+      "queueSnapshotSha256": "28441631a0fb818e44b101f0789f37432dd3fd96e68c12df19bb4efb656fc28b",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/content/src/scene-index.test.ts",
+      "path": "packages/content/src/scene-index.test.ts",
+      "queueSnapshotSha256": "d1b205d720ff60b55f0d4a5c1e3cc12af296483027ef3a1d0a0fb1ff65000c23",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/content/src/scene-index.boundaries.test.ts",
+      "path": "packages/content/src/scene-index.boundaries.test.ts",
+      "queueSnapshotSha256": "7767e3f911a0c7fe2eebc773a25f365051dd51f1274ee1725f47263a995ad855",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/content/src/locale.ts",
+      "path": "packages/content/src/locale.ts",
+      "queueSnapshotSha256": "e76c5286f6e540846bbef60ee4b2be56f5595d795f057ed2719f18eff9e5b1c6",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/content/src/locale.test.ts",
+      "path": "packages/content/src/locale.test.ts",
+      "queueSnapshotSha256": "4fa2ec9a40233013818a755e6abfba3c8b2a4417fe7e213d26279dad30b1e00c",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/content/src/migration-diagnostic.test.ts",
+      "path": "packages/content/src/migration-diagnostic.test.ts",
+      "queueSnapshotSha256": "11e987be2d2190253c8def7baabdb7935d1cc6e44ba793d01bcc7e74c6e38c35",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/content/src/migration-diagnostic.boundaries.test.ts",
+      "path": "packages/content/src/migration-diagnostic.boundaries.test.ts",
+      "queueSnapshotSha256": "e0009c6be7295405bf0b71143962f92deef4adef0d0b4c6274a81487111e9e9b",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/game/package.json",
+      "path": "packages/game/package.json",
+      "queueSnapshotSha256": "2cecf398149b696cecab75e9bc169026a49c6e993a729b627b06b5c73b5b5718",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/game/tsconfig.json",
+      "path": "packages/game/tsconfig.json",
+      "queueSnapshotSha256": "65ddf6bb2e5106f11f10c87eb9c2ed733603517ccbce4a27c226a4cf5e3aaa9c",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/game/vitest.config.ts",
+      "path": "packages/game/vitest.config.ts",
+      "queueSnapshotSha256": "e56a03b609ee6177c3e27f99521d6f142a5bd8c4c0d7ad865b2ce2b9e84d7a92",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/game/vitest.setup.ts",
+      "path": "packages/game/vitest.setup.ts",
+      "queueSnapshotSha256": "9d1b923f6abc71a5af3e9be094d2945f853a2f4319a036aba9813e86f116e93e",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/game/src/styles.d.ts",
+      "path": "packages/game/src/styles.d.ts",
+      "queueSnapshotSha256": "ccfc86914e457fcf4348a14cb5d58aaf76bbd50ba136a3246df2e6de493037bb",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/game/src/worker-url.d.ts",
+      "path": "packages/game/src/worker-url.d.ts",
+      "queueSnapshotSha256": "90519798a6ba845bafb60e6f53cdb3dac5a0953a6490f313d30531d599d9632d",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/content/package.json",
+      "path": "packages/content/package.json",
+      "queueSnapshotSha256": "1ad5ec2bbb0c299a424facd38a2b502c10694d02b6eaffde5ab7d416ba88c1d9",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/content/tsconfig.json",
+      "path": "packages/content/tsconfig.json",
+      "queueSnapshotSha256": "d17bc3179d3cfb306f1c4babbd1ad85da4985db4be4fb3ae78226256ea28a95c",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/content/src/__tests__/glm-content-contract-fixtures.ts",
+      "path": "packages/content/src/__tests__/glm-content-contract-fixtures.ts",
+      "queueSnapshotSha256": "9ed8274ed545289834dae589639f34461566e102cc721d1c60f2ad355c29f7b0",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/content/src/battle-sprite.test.ts",
+      "path": "packages/content/src/battle-sprite.test.ts",
+      "queueSnapshotSha256": "f725fc15822673cacf51e0576efe56df913b5cad93a94f987790c7678ea04464",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/content/src/battle-sprite.boundaries.test.ts",
+      "path": "packages/content/src/battle-sprite.boundaries.test.ts",
+      "queueSnapshotSha256": "0a8d1216656da6c8bab657657a8ccd4f184cee5d16eb59708b3c3a270c28d679",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/content/src/battle-sprite-profile.contracts.test.ts",
+      "path": "packages/content/src/battle-sprite-profile.contracts.test.ts",
+      "queueSnapshotSha256": "00dd05af072c446e1daf8baf28713dbbda9c697996cb55298c6f7883b8f2a5a9",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/content/src/frame-sequence.test.ts",
+      "path": "packages/content/src/frame-sequence.test.ts",
+      "queueSnapshotSha256": "5bf8e3e31a5e27d1b83e1e55fec6079217ee3742c362a497e9422ffc0117559c",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/content/src/frame-sequence.glm-leaf-wave.test.ts",
+      "path": "packages/content/src/frame-sequence.glm-leaf-wave.test.ts",
+      "queueSnapshotSha256": "7fbb21fc16a6c88dd43bdc3ff3363488efe724c82cee0328dbd591f72d8fb675",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/content/src/frame-sequence.contracts.test.ts",
+      "path": "packages/content/src/frame-sequence.contracts.test.ts",
+      "queueSnapshotSha256": "d2a03185a6acd2f236fc444369c934782118fdee7af11945ff0f5a90f4eebf63",
+      "status": "prior-47-reused",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/content/src/project-map.test.ts",
+      "path": "packages/content/src/project-map.test.ts",
+      "queueSnapshotSha256": "f6c87b7e7af8a096d71ccdccf60552e861bbac8208996cbf4226a813e7b70315",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/content/src/project-map.contracts.test.ts",
+      "path": "packages/content/src/project-map.contracts.test.ts",
+      "queueSnapshotSha256": "21cf589fe97b64bb94ba0766fb9d9b1fce1ec2333ac8a8004f7149c24dbeaa71",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/game/src/shell/fbp-player.test.ts",
+      "path": "packages/game/src/shell/fbp-player.test.ts",
+      "queueSnapshotSha256": "4e491437e1d52d74984fe87c96a14f84cd39852ad3cbb1dd2389240f0178498b",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/game/src/shell/fbp-scroll.grok-r1.test.ts",
+      "path": "packages/game/src/shell/fbp-scroll.grok-r1.test.ts",
+      "queueSnapshotSha256": "8c3e36bc0c58f2ae56224ac35d7122a18502e6e8ebc8975e001cb2ac63cc86d2",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/game/src/shell/ending-player.test.ts",
+      "path": "packages/game/src/shell/ending-player.test.ts",
+      "queueSnapshotSha256": "52c16d496724e1444ff7d5611a62aca7c155970538d8f34f221886f38e83825d",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/game/src/shell/ending-player.glm-next-wave.test.ts",
+      "path": "packages/game/src/shell/ending-player.glm-next-wave.test.ts",
+      "queueSnapshotSha256": "ea18fa44d067a776a54e8c191a4d0ce18fe8305082d3a30d298c5f53cf75cb7c",
+      "status": "prior-47-reused",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/game/src/shell/splash-fallback.test.ts",
+      "path": "packages/game/src/shell/splash-fallback.test.ts",
+      "queueSnapshotSha256": "8724a235a2b6ed1268ddd4d4fd68db1b6b6164758fcef896334d4ca607266753",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/game/src/shell/splash-fallback.glm-next-wave.test.ts",
+      "path": "packages/game/src/shell/splash-fallback.glm-next-wave.test.ts",
+      "queueSnapshotSha256": "36f4f153d500259c37d1bf4689b1672a97190332ad2f4759c8456f5f32a33624",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/game/src/__tests__/grok-boot-mid-1/legal.ts",
+      "path": "packages/game/src/__tests__/asset-fixtures.ts",
+      "queueSnapshotSha256": "cf3eae0a807ce26983299ee72ff140b7035cd64121a4547b6f145076547c12fc",
+      "status": "prior-47-reused",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/game/src/present/present.test.ts",
+      "path": "packages/game/src/present/present.test.ts",
+      "queueSnapshotSha256": "530b64cfb9f080bcc1132f75f7cb7b6f97d7da773e9086f02a409dc0a33c4e07",
+      "status": "prior-47-reused",
+      "identityOnly": true
+    },
+    {
+      "originalPath": "packages/game/src/present/present-hold.grok-r1.test.ts",
+      "path": "packages/game/src/present/present-hold.grok-r1.test.ts",
+      "queueSnapshotSha256": "84b7076a0ddbc6def0b11aa2e89cd05019d4b0c7c889adef8826f6024129968b",
+      "status": "reviewed-in-current-window",
+      "identityOnly": true
+    }
+  ]
+}

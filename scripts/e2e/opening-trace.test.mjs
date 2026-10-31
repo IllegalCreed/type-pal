@@ -174,6 +174,11 @@ test('real world projection records readiness after both successful exits, never
 
 test('real Game scene loader emits readiness only after awaited resources and restored actor binding', async () => {
   const file = 'packages/game/src/shell/bootstrap.ts'
+  // This fixture has no supplemental definitions; still execute the real new collaborator.
+  const supplyObjects = actualFunction(
+    source('packages/game/src/core/scene-supplemental-objects.ts'),
+    'supplySupplementalSceneObjects',
+  )
   for (const [instrument, hook] of [
     [instrumentOpeningTrace, '__openingMatrixGame'],
     [instrumentInnTrace, '__innGame'],
@@ -215,7 +220,10 @@ test('real Game scene loader emits readiness only after awaited resources and re
         [hook]: (gs, source) => points.push({ source, scene: gs.wNumScene, actors: gs.npcs }),
       },
     }
-    const load = new Function('scope', `with(scope) { ${code}; return loadSceneCommon; }`)(scope)
+    const load = new Function(
+      'scope',
+      `with(scope) { ${supplyObjects}; ${code}; return loadSceneCommon; }`,
+    )(scope)
     const loading = load(2, { fromSavedGame: true })
     await resourcesEntered
     assert.deepEqual(

@@ -137,11 +137,10 @@ test('nine governed views preserve independent catalog and legacy row oracles', 
       [],
       name,
     )
-    assert.match(
-      text,
-      name === 'by-stage.md' || name === 'by-status.md'
-        ? /^Last reviewed: 2026-10-30$/m
-        : /^Last reviewed: 2026-10-16$/m,
+    assert.ok(
+      text.includes(
+        `Last reviewed: ${['by-stage.md', 'by-status.md'].includes(name) ? '2026-10-30' : '2026-10-16'}\n`,
+      ),
     )
     assert.match(text, /不会续期日期/)
   }
@@ -286,11 +285,27 @@ test('legal dimension changes update membership and derived scope without changi
       assert.ok(scope.includes(`${members.length} 个成员关系`), dimension)
   }
   for (const [name, text] of Object.entries(views))
-    assert.match(
-      text,
-      name === 'by-stage.md' || name === 'by-status.md'
-        ? /^Last reviewed: 2026-10-30$/m
-        : /^Last reviewed: 2026-10-16$/m,
+    assert.ok(
+      text.includes(
+        `Last reviewed: ${['by-stage.md', 'by-status.md'].includes(name) ? '2026-10-30' : '2026-10-16'}\n`,
+      ),
     )
   assert.equal(entry.status, catalog.entries.find((item) => item.id === entry.id).status)
+})
+
+test('stage index projects recorded candidates and versions without promoting execution status', () => {
+  const input = structuredClone(catalog)
+  const stage = input.entries.find((entry) => entry.id === 'e2e-006')
+  stage.revision = { currentSha: 'c'.repeat(40), contentVersion: 42, minimumSaveVersion: 13 }
+  stage.lastVerified = '2001-01-01'
+  const before = structuredClone(input)
+  const view = renderIndexes(input)['by-stage.md']
+  assert.ok(
+    view.includes(
+      `| e2e-006 | ${'c'.repeat(40)} | 42 | 13 | ${stage.sourceRefs.length} | 2001-01-01 |`,
+    ),
+  )
+  assert.ok(records(view).some((row) => row.id === 'e2e-006' && row.status === 'rework'))
+  assert.match(view, /testing-revisions\.mjs/)
+  assert.deepEqual(input, before)
 })

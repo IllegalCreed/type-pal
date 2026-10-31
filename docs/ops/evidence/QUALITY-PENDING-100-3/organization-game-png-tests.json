@@ -1,0 +1,371 @@
+{
+  "id": "game-png-tests",
+  "namespace": "organization-game-png-tests",
+  "kind": "PNG decode and resource ownership, with independent encoded test input",
+  "inputs": [
+    {
+      "path": "packages/game/src/assets/png-decode.grok-r1.test.ts",
+      "sha256": "58fa7709e4a859fdc57ab5eae736806a392e8cfe668df1c06c88e1ad05d097b7",
+      "member": "organization-game-png-tests/0.before"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/p10-indexed-png.test.ts",
+      "sha256": "86b33800ea983839dabdb49ed19d38518bed736c1aae7c8d807827c562296e35",
+      "member": "organization-game-png-tests/1.before"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/png-rgba.ts",
+      "sha256": "2d560bc0abf7a40698e3aa532b54580492eab080abf60f389bfd8c00a65aa00a",
+      "member": "organization-game-png-tests/2.before"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "packages/game/src/assets/png.test.ts",
+      "sha256": "3a81cfe4f768d4cbb00543728ac87bc5cf3b0d89a21459e53d7b2350b7036d7f"
+    },
+    {
+      "path": "packages/game/src/__tests__/rgba-png.ts",
+      "sha256": "2d560bc0abf7a40698e3aa532b54580492eab080abf60f389bfd8c00a65aa00a"
+    }
+  ],
+  "sourceBridges": [
+    {
+      "id": "png-responsibility-0",
+      "path": "packages/game/src/assets/png-decode.grok-r1.test.ts",
+      "reason": "Six existing decoder/cleanup/real pixel consumer contracts share their production PNG entry; imports follow actual shared test-input owner. Only titles/import locations change.",
+      "changes": [
+        {
+          "from": "import { encodeRgbaPng } from '../present/__tests__/grok-present/png-rgba.js'",
+          "to": "import { encodeRgbaPng } from '../__tests__/rgba-png.js'",
+          "count": 1
+        },
+        {
+          "from": "'G02-A decodePngToIndices 通道与上下文'",
+          "to": "'PNG palette-index conversion and decode failure'",
+          "count": 1
+        },
+        {
+          "from": "'G02-A02 3×2 按行保留 R 索引、高位、透明孔与半透明调色板0'",
+          "to": "'3×2 按行保留 R 索引、高位、透明孔与半透明调色板0'",
+          "count": 1
+        },
+        {
+          "from": "'G02-A03 2d 上下文缺失时抛固定错误，并关闭已经创建的 bitmap'",
+          "to": "'2d 上下文缺失时抛固定错误，并关闭已经创建的 bitmap'",
+          "count": 1
+        },
+        {
+          "from": "'G02-A05 解码失败时把原始异常放在 Error.cause 上'",
+          "to": "'解码失败时把原始异常放在 Error.cause 上'",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "png-responsibility-1",
+      "path": "packages/game/src/present/__tests__/grok-present/p10-indexed-png.test.ts",
+      "reason": "Six existing decoder/cleanup/real pixel consumer contracts share their production PNG entry; imports follow actual shared test-input owner. Only titles/import locations change.",
+      "changes": [
+        {
+          "from": "import { decodePngToIndices } from '../../../assets/png.js'",
+          "to": "import { decodePngToIndices } from './png.js'",
+          "count": 1
+        },
+        {
+          "from": "import { drawSprite, toSpriteImages } from '../../draw-sprite.js'",
+          "to": "import { drawSprite, toSpriteImages } from '../present/draw-sprite.js'",
+          "count": 1
+        },
+        {
+          "from": "import { createFramebuffer } from '../../framebuffer.js'",
+          "to": "import { createFramebuffer } from '../present/framebuffer.js'",
+          "count": 1
+        },
+        {
+          "from": "import { fillSentinel, pixel, SENTINEL } from './images.js'",
+          "to": "import { fillSentinel, pixel, SENTINEL } from '../present/__tests__/grok-present/images.js'",
+          "count": 1
+        },
+        {
+          "from": "import { encodeRgbaPng } from './png-rgba.js'",
+          "to": "import { encodeRgbaPng } from '../__tests__/rgba-png.js'",
+          "count": 1
+        },
+        {
+          "from": "import { cloneInputs } from './world.js'",
+          "to": "import { cloneInputs } from '../present/__tests__/grok-present/world.js'",
+          "count": 1
+        },
+        {
+          "from": "'P10 PNG消费与释放'",
+          "to": "'decoded PNG consumer and bitmap cleanup'",
+          "count": 1
+        },
+        {
+          "from": "'P10 不透明0、透明孔和不同索引经解码后被drawSprite写进Framebuffer'",
+          "to": "'不透明0、透明孔和不同索引经解码后被drawSprite写进Framebuffer'",
+          "count": 1
+        },
+        {
+          "from": "'P10 getImageData失败仍关闭本次bitmap'",
+          "to": "'getImageData失败仍关闭本次bitmap'",
+          "count": 1
+        },
+        {
+          "from": "'P10 drawImage失败仍关闭本次bitmap'",
+          "to": "'drawImage失败仍关闭本次bitmap'",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "replacements": [],
+  "registrations": [
+    {
+      "old": {
+        "file": "packages/game/src/assets/png-decode.grok-r1.test.ts",
+        "ordinal": 0
+      },
+      "current": {
+        "file": "packages/game/src/assets/png.test.ts",
+        "titles": ["PNG palette-index conversion and decode failure"],
+        "template": "3×2 按行保留 R 索引、高位、透明孔与半透明调色板0"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/png-decode.grok-r1.test.ts",
+        "ordinal": 1
+      },
+      "current": {
+        "file": "packages/game/src/assets/png.test.ts",
+        "titles": ["PNG palette-index conversion and decode failure"],
+        "template": "2d 上下文缺失时抛固定错误，并关闭已经创建的 bitmap"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/png-decode.grok-r1.test.ts",
+        "ordinal": 2
+      },
+      "current": {
+        "file": "packages/game/src/assets/png.test.ts",
+        "titles": ["PNG palette-index conversion and decode failure"],
+        "template": "解码失败时把原始异常放在 Error.cause 上"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/__tests__/grok-present/p10-indexed-png.test.ts",
+        "ordinal": 0
+      },
+      "current": {
+        "file": "packages/game/src/assets/png.test.ts",
+        "titles": ["decoded PNG consumer and bitmap cleanup"],
+        "template": "不透明0、透明孔和不同索引经解码后被drawSprite写进Framebuffer"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/__tests__/grok-present/p10-indexed-png.test.ts",
+        "ordinal": 1
+      },
+      "current": {
+        "file": "packages/game/src/assets/png.test.ts",
+        "titles": ["decoded PNG consumer and bitmap cleanup"],
+        "template": "getImageData失败仍关闭本次bitmap"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/__tests__/grok-present/p10-indexed-png.test.ts",
+        "ordinal": 2
+      },
+      "current": {
+        "file": "packages/game/src/assets/png.test.ts",
+        "titles": ["decoded PNG consumer and bitmap cleanup"],
+        "template": "drawImage失败仍关闭本次bitmap"
+      }
+    }
+  ],
+  "identities": [
+    {
+      "old": {
+        "file": "packages/game/src/assets/png-decode.grok-r1.test.ts",
+        "fullName": "G02-A decodePngToIndices 通道与上下文 G02-A02 3×2 按行保留 R 索引、高位、透明孔与半透明调色板0"
+      },
+      "current": {
+        "file": "packages/game/src/assets/png.test.ts",
+        "fullName": "PNG palette-index conversion and decode failure 3×2 按行保留 R 索引、高位、透明孔与半透明调色板0"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/png-decode.grok-r1.test.ts",
+        "fullName": "G02-A decodePngToIndices 通道与上下文 G02-A03 2d 上下文缺失时抛固定错误，并关闭已经创建的 bitmap"
+      },
+      "current": {
+        "file": "packages/game/src/assets/png.test.ts",
+        "fullName": "PNG palette-index conversion and decode failure 2d 上下文缺失时抛固定错误，并关闭已经创建的 bitmap"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/png-decode.grok-r1.test.ts",
+        "fullName": "G02-A decodePngToIndices 通道与上下文 G02-A05 解码失败时把原始异常放在 Error.cause 上"
+      },
+      "current": {
+        "file": "packages/game/src/assets/png.test.ts",
+        "fullName": "PNG palette-index conversion and decode failure 解码失败时把原始异常放在 Error.cause 上"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/__tests__/grok-present/p10-indexed-png.test.ts",
+        "fullName": "P10 PNG消费与释放 P10 不透明0、透明孔和不同索引经解码后被drawSprite写进Framebuffer"
+      },
+      "current": {
+        "file": "packages/game/src/assets/png.test.ts",
+        "fullName": "decoded PNG consumer and bitmap cleanup 不透明0、透明孔和不同索引经解码后被drawSprite写进Framebuffer"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/__tests__/grok-present/p10-indexed-png.test.ts",
+        "fullName": "P10 PNG消费与释放 P10 getImageData失败仍关闭本次bitmap"
+      },
+      "current": {
+        "file": "packages/game/src/assets/png.test.ts",
+        "fullName": "decoded PNG consumer and bitmap cleanup getImageData失败仍关闭本次bitmap"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/__tests__/grok-present/p10-indexed-png.test.ts",
+        "fullName": "P10 PNG消费与释放 P10 drawImage失败仍关闭本次bitmap"
+      },
+      "current": {
+        "file": "packages/game/src/assets/png.test.ts",
+        "fullName": "decoded PNG consumer and bitmap cleanup drawImage失败仍关闭本次bitmap"
+      }
+    }
+  ],
+  "cohortSubjects": [
+    {
+      "path": "packages/game/src/assets/png-decode.grok-r1.test.ts",
+      "sha256": "58fa7709e4a859fdc57ab5eae736806a392e8cfe668df1c06c88e1ad05d097b7"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/p10-indexed-png.test.ts",
+      "sha256": "86b33800ea983839dabdb49ed19d38518bed736c1aae7c8d807827c562296e35"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/png-rgba.ts",
+      "sha256": "2d560bc0abf7a40698e3aa532b54580492eab080abf60f389bfd8c00a65aa00a"
+    }
+  ],
+  "helperTransplants": [
+    {
+      "oldPath": "packages/game/src/present/__tests__/grok-present/png-rgba.ts",
+      "oldName": "chunk",
+      "currentPath": "packages/game/src/__tests__/rgba-png.ts",
+      "currentName": "chunk",
+      "changes": []
+    },
+    {
+      "oldPath": "packages/game/src/present/__tests__/grok-present/png-rgba.ts",
+      "oldName": "encodeRgbaPng",
+      "currentPath": "packages/game/src/__tests__/rgba-png.ts",
+      "currentName": "encodeRgbaPng",
+      "changes": []
+    }
+  ],
+  "preserved": [
+    {
+      "path": "packages/game/src/assets/png.ts",
+      "sha256": "4954c8f732085b29f94904caf21a0b43a40aba9437aedcd0ab34d34a1286c2d5"
+    },
+    {
+      "path": "packages/game/src/assets/loader.ts",
+      "sha256": "9c3c3a333e5b04d25cd220e17d04863b0ff5c759e273d05c3b82af758756788f"
+    },
+    {
+      "path": "packages/game/src/present/draw-sprite.ts",
+      "sha256": "bd2fbc1abb0527267b032298e779ac5946089745fd83159181dd0af84f8ffcef"
+    },
+    {
+      "path": "packages/game/src/present/framebuffer.ts",
+      "sha256": "fdd25deedeb33da252d5efa9392bc5af088365a2a6dab3129c2b373aeeb0e060"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/images.ts",
+      "sha256": "85a3bf16fd33859a897ecf82d0c8a2f3c28b99eb03499e1f4d93d5cc4d792833"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/world.ts",
+      "sha256": "79df71135f071a392f75fe1ebf22f2f57318a98e12164c458e00b59bcadf8192"
+    },
+    {
+      "path": "packages/game/vitest.setup.ts",
+      "sha256": "9d1b923f6abc71a5af3e9be094d2945f853a2f4319a036aba9813e86f116e93e"
+    }
+  ],
+  "neighborPaths": [
+    "packages/game/src/assets/dialog-assets.lifecycle.test.ts",
+    "packages/game/src/assets/dialog-assets.loading.test.ts",
+    "packages/game/src/assets/load-all.assembly.test.ts",
+    "packages/game/src/assets/png.test.ts",
+    "packages/game/src/assets/tileset-blob.fetch.test.ts",
+    "packages/game/src/assets/tileset-blob.frames.test.ts",
+    "packages/game/src/assets/tileset-blob.gzip.test.ts",
+    "packages/game/src/present/draw-sprite-clip.grok-r1.test.ts",
+    "packages/game/src/present/draw-sprite.test.ts"
+  ],
+  "profiles": [
+    {
+      "path": "packages/game/src/assets/png.test.ts",
+      "subjects": [
+        "packages/game/src/assets/png-decode.grok-r1.test.ts",
+        "packages/game/src/present/__tests__/grok-present/p10-indexed-png.test.ts"
+      ],
+      "axes": {
+        "A": "六原合同完整保留R/A平面、高位索引、真实cause、缺context/两处canvas失败、sprite实际像素与close归属；PNG/drawSprite/Framebuffer源未改。",
+        "B": "按真实输入/失败/消费命名，去批次编号；透明孔RGB归零的宿主边界保留；close计数不冒充浏览器资源释放。",
+        "C": "同一PNG入口的六合同归一文件，转换/错误与消费/释放两个独立组，局部probe的嵌套finally所有权保全；无产品反向依赖。",
+        "D": "手写PNG与canvas encoder输入/失败策略不同，不强合；两probe出现方式不同且各自负责释放，未造万能host。",
+        "E": "六完整回调、断言、局部helper闭包逐语法保全；完整像素和真实Error.cause身份，既有两单红按原精确字节证据复用。",
+        "F": "assets/png.test与rgba-png清楚表达责任；两组名称按合同，不用G02/P10或模型标签。",
+        "G": "两批次入口合一，六合同非重复而全部保留；不新增测试、封装出口或宽松断言。",
+        "H": "真实PNG/canvas/公开SUT执行，独立字节oracle；只有失败点/probe受控且finally恢复，零生产测试seam。"
+      },
+      "acceptance": "accepted-FG; unified gates pending"
+    },
+    {
+      "path": "packages/game/src/__tests__/rgba-png.ts",
+      "subjects": ["packages/game/src/present/__tests__/grok-present/png-rgba.ts"],
+      "axes": {
+        "A": "完整34行编码器逐字节迁移，真实CRC/deflate/filter0由调用方小幅值尺寸与精确RGBA驱动。",
+        "B": "手写输入、独立于解码SUT的注释保留，不宣称完整PNG规范验证。",
+        "C": "公共测试输入层供assets使用，退出呈现批次目录；无DOM/state/cleanup依赖。",
+        "D": "独立编码是判别通道/透明的重要隔离，与现有canvas构造器不同而保留。",
+        "E": "旧三文件同版审查与完整plane/消费反控复用，当前六身份/六业务合同不变；两函数额外whole-declaration保全。",
+        "F": "rgba-png描述格式与输入，chunk/length/crc等局部名称符合PNG块单位。",
+        "G": "只有实际使用的两函数与Node zlib导入，不新增可选模式或输入协议。",
+        "H": "纯确定性字节构造无SUT自比，实际caller验证独立literal结果，不为helper另造恒真测试。"
+      },
+      "acceptance": "accepted-FG; unified gates pending"
+    }
+  ],
+  "cleanExecutions": ["before", "neighbors", "typecheck", "scoped"],
+  "reusedReviewMember": "organization-game-png-tests/reused-reviews.json",
+  "processDisclosures": [
+    "Initial root-only task/evidence commands ran under package cwd and failed with ENOENT; no product/source mutation occurred. Root capture was corrected before source edits. This collection-path error is not a business red.",
+    "Baseline6 actual cases preceded edits. PNG input helper remains byte-identical, manually assembles PNG CRC/zlib and does not call SUT or canvas encoder. Existing deterministic oracle and mutation evidence reused at exact source pins.",
+    "All six callbacks/assertions and their local helper closures preserved. Three palette/cause/context contracts and three normal-pixel/two-stage cleanup contracts stay independent groups; no test retired. Node canvas close probe proves invocation, not browser memory release.",
+    "Final fixture import migration is a later explicit module: PNG own73-neighbor/typecheck receipts remain at pre-fixture boundary, while the fixture38/253 current run includes all6PNG identities. The chronological exact-hash bridge supplies this earlier output; final consumer assertions are independently conserved."
+  ],
+  "receipts": {
+    "scoped": "organization-game-render-fixtures/scoped"
+  }
+}

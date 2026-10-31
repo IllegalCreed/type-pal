@@ -13,12 +13,12 @@
 
 import type { BattleField, Enemy, ObjectMagicView, PlayerRoles } from '@type-pal/shared'
 import { describe, expect, it } from 'vitest'
+import { makeBattleFixture } from '../../../__tests__/battle-fixture.js'
 import {
-  makeHBattle,
-  makeHEnemy,
-  makeHField,
-  makeHRole,
-} from '../../../__tests__/glm-next-wave/H/harness.js'
+  makeBattleFieldRecord,
+  makeEnemyRecord,
+  makeRoleRecord,
+} from '../../../__tests__/battle-records.js'
 import {
   createInitialGameState,
   hydratePlayerRolesRuntime,
@@ -32,10 +32,10 @@ function makeState(
   enemies: Partial<Enemy>[],
   fieldEffect?: BattleField['magicEffect'],
 ): BattleState {
-  const { state } = makeHBattle({
+  const { state } = makeBattleFixture({
     roles: [],
     party: [],
-    enemies: enemies.map((enemy) => makeHEnemy({ health: 100, defense: 30, ...enemy })),
+    enemies: enemies.map((enemy) => makeEnemyRecord({ health: 100, defense: 30, ...enemy })),
   })
   if (fieldEffect) state.field.magicEffect = fieldEffect
   // Direct arithmetic tests fix one legal normalized draw; RNG sequencing is checked separately.
@@ -244,7 +244,7 @@ function makeEnemyMagicState(
   rangeVal = 1, // 默认 !=0 → 不自卫
 ): { state: BattleState; playerRoles: PlayerRoles } {
   const roles = players.map((player, id) =>
-    makeHRole(id, {
+    makeRoleRecord(id, {
       hp: player.hp,
       maxHP: Math.max(500, player.hp),
       defense: player.defense ?? 0,
@@ -253,9 +253,9 @@ function makeEnemyMagicState(
       elemResistance: { wind: player.windRes ?? 0, thunder: 0, water: 0, fire: 0, earth: 0 },
     }),
   )
-  const { state, playerRoles } = makeHBattle({
+  const { state, playerRoles } = makeBattleFixture({
     roles,
-    enemies: [makeHEnemy(caster)],
+    enemies: [makeEnemyRecord(caster)],
   })
   for (const [index, player] of players.entries()) {
     const slot = state.players[index]!
@@ -271,7 +271,7 @@ describe('applyEnemyMagicDamage', () => {
     const results = [32767, 32768, 65535, 65536].map((defense) => {
       const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
       gs.partyMembers = [0]
-      const baseline = { roles: [makeHRole(0, { hp: 500, defense })] }
+      const baseline = { roles: [makeRoleRecord(0, { hp: 500, defense })] }
       hydratePlayerRolesRuntime(gs.PlayerRolesRuntime, baseline)
       const playerRoles = projectRuntimeToBattleRoles(
         gs.PlayerRolesRuntime,
@@ -282,8 +282,8 @@ describe('applyEnemyMagicDamage', () => {
       const state = createBattleState({
         gs,
         playerRoles,
-        enemies: [makeHEnemy({ magicStrength: 0, level: 0 })],
-        field: makeHField(),
+        enemies: [makeEnemyRecord({ magicStrength: 0, level: 0 })],
+        field: makeBattleFieldRecord(),
         isBoss: false,
         rng,
       })

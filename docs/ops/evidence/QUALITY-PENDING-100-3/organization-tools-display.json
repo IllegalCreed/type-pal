@@ -1,0 +1,798 @@
+{
+  "id": "tools-display",
+  "namespace": "organization-tools-display",
+  "inputs": [
+    {
+      "path": "packages/game/src/tools/display-scale.test.ts",
+      "member": "organization-tools-display/0.before",
+      "sha256": "26fbbf14371b6964f9f55588a3dfc8d60e0721c5abfb5e65ab5abf3eff26ff7d",
+      "lines": 51
+    },
+    {
+      "path": "packages/game/src/tools/display-scale.glm-phase1-leaves.test.ts",
+      "member": "organization-tools-display/1.before",
+      "sha256": "0c249bc261f9cc53aeae444a24f5cde5d94d543639b5ee3c205c391ceffd051b",
+      "lines": 113
+    },
+    {
+      "path": "packages/game/src/tools/fps-overlay.test.ts",
+      "member": "organization-tools-display/2.before",
+      "sha256": "333eb001db1f1168694a951e5b2114587bc0d674e0ad95f8b5a568a07bc82f74",
+      "lines": 101
+    }
+  ],
+  "outputs": [
+    {
+      "path": "packages/game/src/tools/display-scale.test.ts",
+      "sha256": "2f40fb5b81c14132019eddb28dd18927a9104fc9afd8e2764fc9e6234d7d00f6"
+    },
+    {
+      "path": "packages/game/src/tools/fps-overlay.test.ts",
+      "sha256": "b7aa396816301d072f587072514c9864fed4388706ec0b43ad1a5cbc29c360ab"
+    }
+  ],
+  "replacements": [],
+  "sourceBridges": [
+    {
+      "path": "packages/game/src/tools/display-scale.test.ts",
+      "id": "organization-tools-display",
+      "reason": "Declared callback/title/fixture/isolation deltas independently audited by readonly prove-r2; this bridge only reconciles analyzer closure identities, not a semantic proof by itself.",
+      "changes": [
+        {
+          "from": "import { beforeEach, describe, expect, it } from 'vitest'\nimport { createDisplayScaleController } from './display-scale.js'\n\nconst mkCanvas = (): HTMLCanvasElement => document.createElement('canvas')\n\ndescribe('display-scale', () => {\n  beforeEach(() => localStorage.clear())\n\n  it('默认 100% = 960×600(index.html 现状)', () => {\n    const c = mkCanvas()\n    const ctrl = createDisplayScaleController(c)\n    expect(ctrl.getPercent()).toBe(100)\n    expect(c.style.width).toBe('960px')\n    expect(c.style.height).toBe('600px')\n  })\n\n  it('setPercent 改 canvas + 持久;clamp [10,1000]', () => {\n    const c = mkCanvas()\n    const ctrl = createDisplayScaleController(c)\n    ctrl.setPercent(50)\n    expect(ctrl.getPercent()).toBe(50)\n    expect(c.style.width).toBe('480px') // 320 × 3 × 0.5\n    expect(c.style.height).toBe('300px')\n    expect(localStorage.getItem('tp-display-scale')).toBe('50')\n    ctrl.setPercent(5)\n    expect(ctrl.getPercent()).toBe(10) // 下限\n    ctrl.setPercent(2000)\n    expect(ctrl.getPercent()).toBe(1000) // 上限\n  })\n\n  it('1000% = 9600×6000', () => {\n    const c = mkCanvas()\n    const ctrl = createDisplayScaleController(c)\n    ctrl.setPercent(1000)\n    expect(c.style.width).toBe('9600px')\n  })\n\n  it('启动读回 localStorage', () => {\n    localStorage.setItem('tp-display-scale', '200')\n    const ctrl = createDisplayScaleController(mkCanvas())\n    expect(ctrl.getPercent()).toBe(200)\n  })\n\n  it.each(['foo', '0', '-12', 'NaN'])('损坏或非正存储 %s 回落到 100%，不得沿用脏值', (stored) => {\n    localStorage.setItem('tp-display-scale', stored)\n    const c = mkCanvas()\n    const ctrl = createDisplayScaleController(c)\n    expect(ctrl.getPercent()).toBe(100)\n    expect(c.style.width).toBe('960px')\n  })\n})\n",
+          "to": "import {afterEach} from \"vitest\"\nimport {beforeEach} from \"vitest\"\nimport {describe} from \"vitest\"\nimport {expect} from \"vitest\"\nimport {it} from \"vitest\"\nimport {vi} from \"vitest\"\nimport {createDisplayScaleController} from \"./display-scale.js\"\nimport {MAX_PERCENT} from \"./display-scale.js\"\nimport {MIN_PERCENT} from \"./display-scale.js\"\ndescribe(\"preserved module 0\",()=>{\nconst SCALE_KEY = 'tp-display-scale'\nlet previousScale: string | null\nbeforeEach(() => {\n  previousScale = localStorage.getItem(SCALE_KEY)\n  localStorage.removeItem(SCALE_KEY)\n})\nafterEach(() => {\n  if (previousScale === null) localStorage.removeItem(SCALE_KEY)\n  else localStorage.setItem(SCALE_KEY, previousScale)\n})\ndescribe('Standalone canvas scale and fullscreen delegation', () => {\n  it('Standalone canvas defaults to 100% at 960 by 600 CSS pixels', () => {\n    const canvas = document.createElement('canvas')\n    const controller = createDisplayScaleController(canvas)\n    expect(controller.getPercent()).toBe(100)\n    expect(canvas.style.width).toBe('960px')\n    expect(canvas.style.height).toBe('600px')\n  })\n\n  it('setPercent 改 canvas + 持久;clamp [10,1000]', () => {\n    const canvas = document.createElement('canvas')\n    const controller = createDisplayScaleController(canvas)\n    controller.setPercent(50)\n    expect(controller.getPercent()).toBe(50)\n    expect(canvas.style.width).toBe('480px') // 320 × 3 × 0.5\n    expect(canvas.style.height).toBe('300px')\n    expect(localStorage.getItem('tp-display-scale')).toBe('50')\n    controller.setPercent(5)\n    expect(controller.getPercent()).toBe(10) // 下限\n    controller.setPercent(2000)\n    expect(controller.getPercent()).toBe(1000) // 上限\n  })\n\n  it('1000% = 9600×6000', () => {\n    const canvas = document.createElement('canvas')\n    const controller = createDisplayScaleController(canvas)\n    controller.setPercent(1000)\n    expect(canvas.style.width).toBe('9600px')\n  })\n\n  it('启动读回 localStorage', () => {\n    localStorage.setItem('tp-display-scale', '200')\n    const controller = createDisplayScaleController(document.createElement('canvas'))\n    expect(controller.getPercent()).toBe(200)\n  })\n\n  it.each(['foo', '0', '-12', 'NaN'])('损坏或非正存储 %s 回落到 100%，不得沿用脏值', (stored) => {\n    localStorage.setItem('tp-display-scale', stored)\n    const canvas = document.createElement('canvas')\n    const controller = createDisplayScaleController(canvas)\n    expect(controller.getPercent()).toBe(100)\n    expect(canvas.style.width).toBe('960px')\n  })\n})\n})",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/tools/display-scale.glm-phase1-leaves.test.ts",
+      "id": "organization-tools-display",
+      "reason": "Declared callback/title/fixture/isolation deltas independently audited by readonly prove-r2; this bridge only reconciles analyzer closure identities, not a semantic proof by itself.",
+      "changes": [
+        {
+          "from": "/**\n * TEST-GLM-PHASE1-LEAVES-3 L19（display-scale.ts / fps-overlay.ts）— 去重表：\n *  - display-scale.test（默认 100/setPercent clamp 持久/1000%/读回）→ 不重复\n *  - fps-overlay.test（持久化/no-op/25-120fps/红绿阈值/启停脏帧）→ 不重复\n *  - 新差异：display-scale 非整数四舍五入、居中锚定样式、toggleFullscreen 委派\n *    requestFullscreen/exitFullscreen；fps-overlay hideFpsOverlay 从未创建时 no-op、\n *    创建后 hide 清 DOM 与样式留存、isFpsEnabled 非法值视为关。\n */\nimport { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'\nimport { createDisplayScaleController, MAX_PERCENT, MIN_PERCENT } from './display-scale.js'\nimport { hideFpsOverlay, isFpsEnabled, setFpsEnabled, tickFps } from './fps-overlay.js'\n\nconst SCALE_KEY = 'tp-display-scale'\nconst FPS_KEY = 'tp-fps-show'\nconst FPS_ROOT = 'tp-fps-overlay'\nconst FPS_STYLE = 'tp-fps-style'\n\nbeforeEach(() => {\n  localStorage.removeItem(SCALE_KEY)\n  localStorage.removeItem(FPS_KEY)\n  document.body.innerHTML = ''\n  document.getElementById(FPS_STYLE)?.remove()\n})\n\nafterEach(() => {\n  vi.restoreAllMocks()\n  localStorage.removeItem(SCALE_KEY)\n  localStorage.removeItem(FPS_KEY)\n  document.body.innerHTML = ''\n  document.getElementById(FPS_STYLE)?.remove()\n})\n\nfunction mkCanvas(): HTMLCanvasElement {\n  return document.createElement('canvas')\n}\n\ndescribe('L19 display-scale 剩余合同', () => {\n  it('NaN setPercent 回到默认 100%，不写入 NaN CSS 或 localStorage', () => {\n    const canvas = mkCanvas()\n    const ctl = createDisplayScaleController(canvas)\n    ctl.setPercent(Number.NaN)\n    expect(ctl.getPercent()).toBe(100)\n    expect(canvas.style.width).toBe('960px')\n    expect(localStorage.getItem(SCALE_KEY)).toBe('100')\n  })\n\n  it('非整数 setPercent 四舍五入（clampPct round 分支）', () => {\n    const canvas = mkCanvas()\n    const ctl = createDisplayScaleController(canvas)\n    ctl.setPercent(33.6)\n    expect(ctl.getPercent()).toBe(34)\n    expect(localStorage.getItem(SCALE_KEY)).toBe('34')\n  })\n\n  it('画布居中锚定样式（fixed/50%/translate -50%），常量边界 10/1000 可达', () => {\n    const canvas = mkCanvas()\n    const ctl = createDisplayScaleController(canvas)\n    expect(canvas.style.position).toBe('fixed')\n    expect(canvas.style.left).toBe('50%')\n    expect(canvas.style.transform).toBe('translate(-50%, -50%)')\n    ctl.setPercent(MIN_PERCENT)\n    expect(canvas.style.width).toBe('96px') // 320 * 3 * 0.1\n    ctl.setPercent(MAX_PERCENT)\n    expect(canvas.style.height).toBe('6000px') // 200 * 3 * 10\n  })\n\n  it('toggleFullscreen：无全屏元素 → canvas.requestFullscreen；有 → exitFullscreen', () => {\n    const canvas = mkCanvas()\n    const req = vi.fn()\n    Object.defineProperty(canvas, 'requestFullscreen', { configurable: true, value: req })\n    const ctl = createDisplayScaleController(canvas)\n    ctl.toggleFullscreen() // fullscreenElement 天然 undefined → 进全屏分支\n    expect(req).toHaveBeenCalledTimes(1)\n    Object.defineProperty(document, 'fullscreenElement', {\n      configurable: true,\n      value: document.body,\n    })\n    try {\n      const exit = vi.fn(() => Promise.resolve())\n      Object.defineProperty(document, 'exitFullscreen', {\n        configurable: true,\n        value: exit,\n      })\n      try {\n        ctl.toggleFullscreen()\n        expect(exit).toHaveBeenCalledTimes(1)\n      } finally {\n        delete (document as { exitFullscreen?: unknown }).exitFullscreen\n      }\n    } finally {\n      delete (document as { fullscreenElement?: unknown }).fullscreenElement\n    }\n  })\n})\n\ndescribe('L19 fps-overlay 剩余合同', () => {\n  it('hideFpsOverlay 从未创建 → no-op 不抛', () => {\n    expect(() => hideFpsOverlay()).not.toThrow()\n  })\n\n  it('启用建框后 hide 清根节点；样式留存（幂等注入不重复）；非法持久值视为关', () => {\n    setFpsEnabled(true)\n    tickFps(0) // 首帧建框\n    expect(document.getElementById(FPS_ROOT)).not.toBeNull()\n    const styleCount = () => document.querySelectorAll(`#${FPS_STYLE}`).length\n    expect(styleCount()).toBe(1)\n    hideFpsOverlay()\n    expect(document.getElementById(FPS_ROOT)).toBeNull()\n    expect(styleCount()).toBe(1) // 样式不随框删\n    localStorage.setItem(FPS_KEY, 'xxx')\n    expect(isFpsEnabled()).toBe(false) // 仅 '1' 为开\n  })\n})\n",
+          "to": "import {afterEach} from \"vitest\"\nimport {beforeEach} from \"vitest\"\nimport {describe} from \"vitest\"\nimport {expect} from \"vitest\"\nimport {it} from \"vitest\"\nimport {vi} from \"vitest\"\nimport {createDisplayScaleController} from \"./display-scale.js\"\nimport {MAX_PERCENT} from \"./display-scale.js\"\nimport {MIN_PERCENT} from \"./display-scale.js\"\nimport {hideFpsOverlay} from \"./fps-overlay.js\"\nimport {isFpsEnabled} from \"./fps-overlay.js\"\nimport {setFpsEnabled} from \"./fps-overlay.js\"\nimport {tickFps} from \"./fps-overlay.js\"\ndescribe(\"preserved module 0\",()=>{\nconst SCALE_KEY = 'tp-display-scale'\nlet previousScale: string | null\nbeforeEach(() => {\n  previousScale = localStorage.getItem(SCALE_KEY)\n  localStorage.removeItem(SCALE_KEY)\n})\nafterEach(() => {\n  if (previousScale === null) localStorage.removeItem(SCALE_KEY)\n  else localStorage.setItem(SCALE_KEY, previousScale)\n})\ndescribe('Standalone canvas scale and fullscreen delegation', () => {\n\n  it('NaN setPercent 回到默认 100%，不写入 NaN CSS 或 localStorage', () => {\n    const canvas = document.createElement('canvas')\n    const controller = createDisplayScaleController(canvas)\n    controller.setPercent(Number.NaN)\n    expect(controller.getPercent()).toBe(100)\n    expect(canvas.style.width).toBe('960px')\n    expect(localStorage.getItem(SCALE_KEY)).toBe('100')\n  })\n\n  it('Fractional percent rounds to an integer and persists that value', () => {\n    const canvas = document.createElement('canvas')\n    const controller = createDisplayScaleController(canvas)\n    controller.setPercent(33.6)\n    expect(controller.getPercent()).toBe(34)\n    expect(localStorage.getItem(SCALE_KEY)).toBe('34')\n  })\n\n  it('画布居中锚定样式（fixed/50%/translate -50%），常量边界 10/1000 可达', () => {\n    const canvas = document.createElement('canvas')\n    const controller = createDisplayScaleController(canvas)\n    expect(canvas.style.position).toBe('fixed')\n    expect(canvas.style.left).toBe('50%')\n    expect(canvas.style.top).toBe('50%')\n    expect(canvas.style.transform).toBe('translate(-50%, -50%)')\n    controller.setPercent(MIN_PERCENT)\n    expect(canvas.style.width).toBe('96px') // 320 * 3 * 0.1\n    controller.setPercent(MAX_PERCENT)\n    expect(canvas.style.height).toBe('6000px') // 200 * 3 * 10\n  })\n\n  it('toggleFullscreen：无全屏元素 → canvas.requestFullscreen；有 → exitFullscreen', () => {\n    const canvas = document.createElement('canvas')\n    const request = vi.fn(() => Promise.resolve())\n    Object.defineProperty(canvas, 'requestFullscreen', { configurable: true, value: request })\n    const fullscreenElement = Object.getOwnPropertyDescriptor(document, 'fullscreenElement')\n    const exitFullscreen = Object.getOwnPropertyDescriptor(document, 'exitFullscreen')\n    try {\n      Object.defineProperty(document, 'fullscreenElement', { configurable: true, value: null })\n      const controller = createDisplayScaleController(canvas)\n      controller.toggleFullscreen()\n      expect(request).toHaveBeenCalledTimes(1)\n      const exit = vi.fn(() => Promise.resolve())\n      Object.defineProperty(document, 'fullscreenElement', {\n        configurable: true,\n        value: document.body,\n      })\n      Object.defineProperty(document, 'exitFullscreen', { configurable: true, value: exit })\n      controller.toggleFullscreen()\n      expect(exit).toHaveBeenCalledTimes(1)\n      expect(request).toHaveBeenCalledTimes(1)\n    } finally {\n      if (fullscreenElement) Object.defineProperty(document, 'fullscreenElement', fullscreenElement)\n      else Reflect.deleteProperty(document, 'fullscreenElement')\n      if (exitFullscreen) Object.defineProperty(document, 'exitFullscreen', exitFullscreen)\n      else Reflect.deleteProperty(document, 'exitFullscreen')\n    }\n  })\n})\n})\ndescribe(\"preserved module 1\",()=>{\nconst ROOT_ID = 'tp-fps-overlay'\nconst STYLE_ID = 'tp-fps-style'\nconst FPS_KEY = 'tp-fps-show'\nlet previousPreference: string | null\nlet previousLayout: string | undefined\nbeforeEach(() => {\n  previousPreference = localStorage.getItem(FPS_KEY)\n  previousLayout = document.documentElement.dataset.tpLayout\n  document.documentElement.dataset.tpLayout = 'desktop'\n  setFpsEnabled(false)\n  localStorage.removeItem(FPS_KEY)\n  document.getElementById(STYLE_ID)?.remove()\n})\nafterEach(() => {\n  setFpsEnabled(false)\n  document.getElementById(STYLE_ID)?.remove()\n  if (previousPreference === null) localStorage.removeItem(FPS_KEY)\n  else localStorage.setItem(FPS_KEY, previousPreference)\n  if (previousLayout === undefined) delete document.documentElement.dataset.tpLayout\n  else document.documentElement.dataset.tpLayout = previousLayout\n})\ndescribe('FPS overlay sampling and visibility', () => {\n\n  it('Hiding an absent overlay is harmless', () => {\n    expect(() => hideFpsOverlay()).not.toThrow()\n  })\n\n  it('Hiding removes only the root and retains its style', () => {\n    setFpsEnabled(true)\n    tickFps(0) // 首帧建框\n    expect(document.getElementById(ROOT_ID)).not.toBeNull()\n    const styleCount = () => document.querySelectorAll(`#${STYLE_ID}`).length\n    expect(styleCount()).toBe(1)\n    hideFpsOverlay()\n    expect(document.getElementById(ROOT_ID)).toBeNull()\n    expect(styleCount()).toBe(1) // 样式不随框删\n  })\n})\n})",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/tools/fps-overlay.test.ts",
+      "id": "organization-tools-display",
+      "reason": "Declared callback/title/fixture/isolation deltas independently audited by readonly prove-r2; this bridge only reconciles analyzer closure identities, not a semantic proof by itself.",
+      "changes": [
+        {
+          "from": "// fps-overlay.test.ts —— 左上角 FPS 覆盖层:持久化 + 采样算法 + 显隐(jsdom)。\nimport { beforeEach, describe, expect, it } from 'vitest'\nimport { hideFpsOverlay, isFpsEnabled, setFpsEnabled, tickFps } from './fps-overlay.js'\n\nconst ROOT_ID = 'tp-fps-overlay'\n\ndescribe('fps-overlay', () => {\n  beforeEach(() => {\n    setFpsEnabled(false) // 复位 module 内采样态 + 隐藏 overlay\n    localStorage.clear()\n    hideFpsOverlay()\n  })\n\n  it('isFpsEnabled / setFpsEnabled 持久化 localStorage', () => {\n    expect(isFpsEnabled()).toBe(false)\n    setFpsEnabled(true)\n    expect(isFpsEnabled()).toBe(true)\n    expect(localStorage.getItem('tp-fps-show')).toBe('1')\n    setFpsEnabled(false)\n    expect(isFpsEnabled()).toBe(false)\n  })\n\n  it('未启用 → tickFps 纯 no-op,不建 overlay', () => {\n    tickFps(0)\n    tickFps(16)\n    expect(document.getElementById(ROOT_ID)).toBeNull()\n  })\n\n  it('启用 → 首帧立即建框,采样窗满后显示正确 FPS(120fps 模拟)', () => {\n    setFpsEnabled(true)\n    tickFps(0) // 锚点 + 立即建框\n    expect(document.getElementById(ROOT_ID)).not.toBeNull()\n    // 模拟 120fps:8.333ms/帧,跑 ~600ms(跨过 500ms 采样窗)\n    let t = 0\n    for (let i = 0; i < 72; i++) {\n      t += 1000 / 120\n      tickFps(t)\n    }\n    const shown = Number(document.getElementById(ROOT_ID)?.textContent?.replace(/\\D/g, ''))\n    expect(shown).toBeGreaterThanOrEqual(110)\n    expect(shown).toBeLessThanOrEqual(125)\n  })\n\n  it('启用 → 25fps(逻辑 tick 量化)如实显示 ~25', () => {\n    setFpsEnabled(true)\n    tickFps(0)\n    let t = 0\n    for (let i = 0; i < 20; i++) {\n      t += 40 // 25fps\n      tickFps(t)\n    }\n    const shown = Number(document.getElementById(ROOT_ID)?.textContent?.replace(/\\D/g, ''))\n    expect(shown).toBeGreaterThanOrEqual(22)\n    expect(shown).toBeLessThanOrEqual(28)\n  })\n\n  it('setFpsEnabled(false) → 立即隐藏 overlay', () => {\n    setFpsEnabled(true)\n    tickFps(0)\n    expect(document.getElementById(ROOT_ID)).not.toBeNull()\n    setFpsEnabled(false)\n    expect(document.getElementById(ROOT_ID)).toBeNull()\n  })\n\n  it('启用中途关闭(localStorage 改 0)→ tickFps 自清 overlay', () => {\n    setFpsEnabled(true)\n    tickFps(0)\n    expect(document.getElementById(ROOT_ID)).not.toBeNull()\n    localStorage.setItem('tp-fps-show', '0') // 模拟外部关闭(不走 setFpsEnabled)\n    tickFps(8)\n    expect(document.getElementById(ROOT_ID)).toBeNull()\n  })\n\n  it('采样满窗后 ≥50 为绿、<50 为红；49 不得误标绿', () => {\n    setFpsEnabled(true)\n    tickFps(0)\n    for (let i = 1; i <= 25; i++) tickFps(i * 20)\n    expect(document.querySelector('#tp-fps-overlay .v')?.className).toBe('v')\n    expect(document.querySelector('#tp-fps-overlay .v.lo')).toBeNull()\n    expect(document.querySelector('#tp-fps-overlay .v')?.textContent).toBe('50')\n\n    setFpsEnabled(false)\n    setFpsEnabled(true)\n    tickFps(0)\n    for (let i = 1; i <= 25; i++) tickFps(i * (510 / 25))\n    expect(document.querySelector('#tp-fps-overlay .v.lo')).not.toBeNull()\n    expect(document.querySelector('#tp-fps-overlay .v')?.textContent).toBe('49')\n  })\n\n  it('连续启停丢弃未满窗的脏帧计数，下一窗按新节奏采样', () => {\n    setFpsEnabled(true)\n    tickFps(0)\n    for (let i = 1; i <= 10; i++) tickFps(i * 8)\n    setFpsEnabled(false)\n    setFpsEnabled(true)\n    tickFps(10_000)\n    for (let i = 1; i <= 25; i++) tickFps(10_000 + i * 20)\n    expect(document.querySelector('#tp-fps-overlay .v')?.textContent).toBe('50')\n    expect(document.querySelector('#tp-fps-overlay .v.lo')).toBeNull()\n  })\n})\n",
+          "to": "import {afterEach} from \"vitest\"\nimport {beforeEach} from \"vitest\"\nimport {describe} from \"vitest\"\nimport {expect} from \"vitest\"\nimport {it} from \"vitest\"\nimport {hideFpsOverlay} from \"./fps-overlay.js\"\nimport {isFpsEnabled} from \"./fps-overlay.js\"\nimport {setFpsEnabled} from \"./fps-overlay.js\"\nimport {tickFps} from \"./fps-overlay.js\"\ndescribe(\"preserved module 0\",()=>{\nconst ROOT_ID = 'tp-fps-overlay'\nconst STYLE_ID = 'tp-fps-style'\nconst FPS_KEY = 'tp-fps-show'\nlet previousPreference: string | null\nlet previousLayout: string | undefined\nbeforeEach(() => {\n  previousPreference = localStorage.getItem(FPS_KEY)\n  previousLayout = document.documentElement.dataset.tpLayout\n  document.documentElement.dataset.tpLayout = 'desktop'\n  setFpsEnabled(false)\n  localStorage.removeItem(FPS_KEY)\n  document.getElementById(STYLE_ID)?.remove()\n})\nafterEach(() => {\n  setFpsEnabled(false)\n  document.getElementById(STYLE_ID)?.remove()\n  if (previousPreference === null) localStorage.removeItem(FPS_KEY)\n  else localStorage.setItem(FPS_KEY, previousPreference)\n  if (previousLayout === undefined) delete document.documentElement.dataset.tpLayout\n  else document.documentElement.dataset.tpLayout = previousLayout\n})\ndescribe('FPS overlay sampling and visibility', () => {\n  it('isFpsEnabled / setFpsEnabled 持久化 localStorage', () => {\n    expect(isFpsEnabled()).toBe(false)\n    setFpsEnabled(true)\n    expect(isFpsEnabled()).toBe(true)\n    expect(localStorage.getItem('tp-fps-show')).toBe('1')\n    setFpsEnabled(false)\n    expect(isFpsEnabled()).toBe(false)\n    localStorage.setItem(FPS_KEY, 'xxx')\n    expect(isFpsEnabled()).toBe(false)\n  })\n\n  it('未启用 → tickFps 纯 no-op,不建 overlay', () => {\n    tickFps(0)\n    tickFps(16)\n    expect(document.getElementById(ROOT_ID)).toBeNull()\n  })\n\n  it('启用 → 首帧立即建框,采样窗满后显示正确 FPS(120fps 模拟)', () => {\n    setFpsEnabled(true)\n    tickFps(0) // 锚点 + 立即建框\n    expect(document.getElementById(ROOT_ID)).not.toBeNull()\n    // 模拟 120fps:8.333ms/帧,跑 ~600ms(跨过 500ms 采样窗)\n    let t = 0\n    for (let i = 0; i < 72; i++) {\n      t += 1000 / 120\n      tickFps(t)\n    }\n    const shown = Number(document.getElementById(ROOT_ID)?.textContent?.replace(/\\D/g, ''))\n    expect(shown).toBeGreaterThanOrEqual(110)\n    expect(shown).toBeLessThanOrEqual(125)\n  })\n\n  it('启用 → 25fps(逻辑 tick 量化)如实显示 ~25', () => {\n    setFpsEnabled(true)\n    tickFps(0)\n    let t = 0\n    for (let i = 0; i < 20; i++) {\n      t += 40 // 25fps\n      tickFps(t)\n    }\n    const shown = Number(document.getElementById(ROOT_ID)?.textContent?.replace(/\\D/g, ''))\n    expect(shown).toBeGreaterThanOrEqual(22)\n    expect(shown).toBeLessThanOrEqual(28)\n  })\n\n  it('setFpsEnabled(false) → 立即隐藏 overlay', () => {\n    setFpsEnabled(true)\n    tickFps(0)\n    expect(document.getElementById(ROOT_ID)).not.toBeNull()\n    setFpsEnabled(false)\n    expect(document.getElementById(ROOT_ID)).toBeNull()\n  })\n\n  it('启用中途关闭(localStorage 改 0)→ tickFps 自清 overlay', () => {\n    setFpsEnabled(true)\n    tickFps(0)\n    expect(document.getElementById(ROOT_ID)).not.toBeNull()\n    localStorage.setItem('tp-fps-show', '0') // 模拟外部关闭(不走 setFpsEnabled)\n    tickFps(8)\n    expect(document.getElementById(ROOT_ID)).toBeNull()\n  })\n\n  it('采样满窗后 ≥50 为绿、<50 为红；49 不得误标绿', () => {\n    setFpsEnabled(true)\n    tickFps(0)\n    for (let i = 1; i <= 25; i++) tickFps(i * 20)\n    expect(document.querySelector('#tp-fps-overlay .v')?.className).toBe('v')\n    expect(document.querySelector('#tp-fps-overlay .v.lo')).toBeNull()\n    expect(document.querySelector('#tp-fps-overlay .v')?.textContent).toBe('50')\n\n    setFpsEnabled(false)\n    setFpsEnabled(true)\n    tickFps(0)\n    for (let i = 1; i <= 25; i++) tickFps(i * (510 / 25))\n    expect(document.querySelector('#tp-fps-overlay .v.lo')).not.toBeNull()\n    expect(document.querySelector('#tp-fps-overlay .v')?.textContent).toBe('49')\n  })\n\n  it('连续启停丢弃未满窗的脏帧计数，下一窗按新节奏采样', () => {\n    setFpsEnabled(true)\n    tickFps(0)\n    for (let i = 1; i <= 10; i++) tickFps(i * 8)\n    setFpsEnabled(false)\n    setFpsEnabled(true)\n    tickFps(10_000)\n    for (let i = 1; i <= 25; i++) tickFps(10_000 + i * 20)\n    expect(document.querySelector('#tp-fps-overlay .v')?.textContent).toBe('50')\n    expect(document.querySelector('#tp-fps-overlay .v.lo')).toBeNull()\n  })\n})\n})",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "registrations": [
+    {
+      "old": {
+        "file": "packages/game/src/tools/display-scale.test.ts",
+        "ordinal": 0,
+        "fullName": "display-scale 默认 100% = 960×600(index.html 现状)"
+      },
+      "current": {
+        "file": "packages/game/src/tools/display-scale.test.ts",
+        "titles": ["Standalone canvas scale and fullscreen delegation"],
+        "template": "Standalone canvas defaults to 100% at 960 by 600 CSS pixels",
+        "fullName": "Standalone canvas scale and fullscreen delegation Standalone canvas defaults to 100% at 960 by 600 CSS pixels"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/display-scale.test.ts",
+        "ordinal": 1,
+        "fullName": "display-scale setPercent 改 canvas + 持久;clamp [10,1000]"
+      },
+      "current": {
+        "file": "packages/game/src/tools/display-scale.test.ts",
+        "titles": ["Standalone canvas scale and fullscreen delegation"],
+        "template": "setPercent 改 canvas + 持久;clamp [10,1000]",
+        "fullName": "Standalone canvas scale and fullscreen delegation setPercent 改 canvas + 持久;clamp [10,1000]"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/display-scale.test.ts",
+        "ordinal": 2,
+        "fullName": "display-scale 1000% = 9600×6000"
+      },
+      "current": {
+        "file": "packages/game/src/tools/display-scale.test.ts",
+        "titles": ["Standalone canvas scale and fullscreen delegation"],
+        "template": "1000% = 9600×6000",
+        "fullName": "Standalone canvas scale and fullscreen delegation 1000% = 9600×6000"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/display-scale.test.ts",
+        "ordinal": 3,
+        "fullName": "display-scale 启动读回 localStorage"
+      },
+      "current": {
+        "file": "packages/game/src/tools/display-scale.test.ts",
+        "titles": ["Standalone canvas scale and fullscreen delegation"],
+        "template": "启动读回 localStorage",
+        "fullName": "Standalone canvas scale and fullscreen delegation 启动读回 localStorage"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/display-scale.test.ts",
+        "ordinal": 4,
+        "fullName": "display-scale 损坏或非正存储 %s 回落到 100%，不得沿用脏值"
+      },
+      "current": {
+        "file": "packages/game/src/tools/display-scale.test.ts",
+        "titles": ["Standalone canvas scale and fullscreen delegation"],
+        "template": "损坏或非正存储 %s 回落到 100%，不得沿用脏值",
+        "fullName": "Standalone canvas scale and fullscreen delegation 损坏或非正存储 %s 回落到 100%，不得沿用脏值"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/display-scale.glm-phase1-leaves.test.ts",
+        "ordinal": 0,
+        "fullName": "L19 display-scale 剩余合同 NaN setPercent 回到默认 100%，不写入 NaN CSS 或 localStorage"
+      },
+      "current": {
+        "file": "packages/game/src/tools/display-scale.test.ts",
+        "titles": ["Standalone canvas scale and fullscreen delegation"],
+        "template": "NaN setPercent 回到默认 100%，不写入 NaN CSS 或 localStorage",
+        "fullName": "Standalone canvas scale and fullscreen delegation NaN setPercent 回到默认 100%，不写入 NaN CSS 或 localStorage"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/display-scale.glm-phase1-leaves.test.ts",
+        "ordinal": 1,
+        "fullName": "L19 display-scale 剩余合同 非整数 setPercent 四舍五入（clampPct round 分支）"
+      },
+      "current": {
+        "file": "packages/game/src/tools/display-scale.test.ts",
+        "titles": ["Standalone canvas scale and fullscreen delegation"],
+        "template": "Fractional percent rounds to an integer and persists that value",
+        "fullName": "Standalone canvas scale and fullscreen delegation Fractional percent rounds to an integer and persists that value"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/display-scale.glm-phase1-leaves.test.ts",
+        "ordinal": 2,
+        "fullName": "L19 display-scale 剩余合同 画布居中锚定样式（fixed/50%/translate -50%），常量边界 10/1000 可达"
+      },
+      "current": {
+        "file": "packages/game/src/tools/display-scale.test.ts",
+        "titles": ["Standalone canvas scale and fullscreen delegation"],
+        "template": "画布居中锚定样式（fixed/50%/translate -50%），常量边界 10/1000 可达",
+        "fullName": "Standalone canvas scale and fullscreen delegation 画布居中锚定样式（fixed/50%/translate -50%），常量边界 10/1000 可达"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/display-scale.glm-phase1-leaves.test.ts",
+        "ordinal": 3,
+        "fullName": "L19 display-scale 剩余合同 toggleFullscreen：无全屏元素 → canvas.requestFullscreen；有 → exitFullscreen"
+      },
+      "current": {
+        "file": "packages/game/src/tools/display-scale.test.ts",
+        "titles": ["Standalone canvas scale and fullscreen delegation"],
+        "template": "toggleFullscreen：无全屏元素 → canvas.requestFullscreen；有 → exitFullscreen",
+        "fullName": "Standalone canvas scale and fullscreen delegation toggleFullscreen：无全屏元素 → canvas.requestFullscreen；有 → exitFullscreen"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/display-scale.glm-phase1-leaves.test.ts",
+        "ordinal": 4,
+        "fullName": "L19 fps-overlay 剩余合同 hideFpsOverlay 从未创建 → no-op 不抛"
+      },
+      "current": {
+        "file": "packages/game/src/tools/fps-overlay.test.ts",
+        "titles": ["FPS overlay sampling and visibility"],
+        "template": "Hiding an absent overlay is harmless",
+        "fullName": "FPS overlay sampling and visibility Hiding an absent overlay is harmless"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/display-scale.glm-phase1-leaves.test.ts",
+        "ordinal": 5,
+        "fullName": "L19 fps-overlay 剩余合同 启用建框后 hide 清根节点；样式留存（幂等注入不重复）；非法持久值视为关"
+      },
+      "current": {
+        "file": "packages/game/src/tools/fps-overlay.test.ts",
+        "titles": ["FPS overlay sampling and visibility"],
+        "template": "Hiding removes only the root and retains its style",
+        "fullName": "FPS overlay sampling and visibility Hiding removes only the root and retains its style"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/fps-overlay.test.ts",
+        "ordinal": 0,
+        "fullName": "fps-overlay isFpsEnabled / setFpsEnabled 持久化 localStorage"
+      },
+      "current": {
+        "file": "packages/game/src/tools/fps-overlay.test.ts",
+        "titles": ["FPS overlay sampling and visibility"],
+        "template": "isFpsEnabled / setFpsEnabled 持久化 localStorage",
+        "fullName": "FPS overlay sampling and visibility isFpsEnabled / setFpsEnabled 持久化 localStorage"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/fps-overlay.test.ts",
+        "ordinal": 1,
+        "fullName": "fps-overlay 未启用 → tickFps 纯 no-op,不建 overlay"
+      },
+      "current": {
+        "file": "packages/game/src/tools/fps-overlay.test.ts",
+        "titles": ["FPS overlay sampling and visibility"],
+        "template": "未启用 → tickFps 纯 no-op,不建 overlay",
+        "fullName": "FPS overlay sampling and visibility 未启用 → tickFps 纯 no-op,不建 overlay"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/fps-overlay.test.ts",
+        "ordinal": 2,
+        "fullName": "fps-overlay 启用 → 首帧立即建框,采样窗满后显示正确 FPS(120fps 模拟)"
+      },
+      "current": {
+        "file": "packages/game/src/tools/fps-overlay.test.ts",
+        "titles": ["FPS overlay sampling and visibility"],
+        "template": "启用 → 首帧立即建框,采样窗满后显示正确 FPS(120fps 模拟)",
+        "fullName": "FPS overlay sampling and visibility 启用 → 首帧立即建框,采样窗满后显示正确 FPS(120fps 模拟)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/fps-overlay.test.ts",
+        "ordinal": 3,
+        "fullName": "fps-overlay 启用 → 25fps(逻辑 tick 量化)如实显示 ~25"
+      },
+      "current": {
+        "file": "packages/game/src/tools/fps-overlay.test.ts",
+        "titles": ["FPS overlay sampling and visibility"],
+        "template": "启用 → 25fps(逻辑 tick 量化)如实显示 ~25",
+        "fullName": "FPS overlay sampling and visibility 启用 → 25fps(逻辑 tick 量化)如实显示 ~25"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/fps-overlay.test.ts",
+        "ordinal": 4,
+        "fullName": "fps-overlay setFpsEnabled(false) → 立即隐藏 overlay"
+      },
+      "current": {
+        "file": "packages/game/src/tools/fps-overlay.test.ts",
+        "titles": ["FPS overlay sampling and visibility"],
+        "template": "setFpsEnabled(false) → 立即隐藏 overlay",
+        "fullName": "FPS overlay sampling and visibility setFpsEnabled(false) → 立即隐藏 overlay"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/fps-overlay.test.ts",
+        "ordinal": 5,
+        "fullName": "fps-overlay 启用中途关闭(localStorage 改 0)→ tickFps 自清 overlay"
+      },
+      "current": {
+        "file": "packages/game/src/tools/fps-overlay.test.ts",
+        "titles": ["FPS overlay sampling and visibility"],
+        "template": "启用中途关闭(localStorage 改 0)→ tickFps 自清 overlay",
+        "fullName": "FPS overlay sampling and visibility 启用中途关闭(localStorage 改 0)→ tickFps 自清 overlay"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/fps-overlay.test.ts",
+        "ordinal": 6,
+        "fullName": "fps-overlay 采样满窗后 ≥50 为绿、<50 为红；49 不得误标绿"
+      },
+      "current": {
+        "file": "packages/game/src/tools/fps-overlay.test.ts",
+        "titles": ["FPS overlay sampling and visibility"],
+        "template": "采样满窗后 ≥50 为绿、<50 为红；49 不得误标绿",
+        "fullName": "FPS overlay sampling and visibility 采样满窗后 ≥50 为绿、<50 为红；49 不得误标绿"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/fps-overlay.test.ts",
+        "ordinal": 7,
+        "fullName": "fps-overlay 连续启停丢弃未满窗的脏帧计数，下一窗按新节奏采样"
+      },
+      "current": {
+        "file": "packages/game/src/tools/fps-overlay.test.ts",
+        "titles": ["FPS overlay sampling and visibility"],
+        "template": "连续启停丢弃未满窗的脏帧计数，下一窗按新节奏采样",
+        "fullName": "FPS overlay sampling and visibility 连续启停丢弃未满窗的脏帧计数，下一窗按新节奏采样"
+      }
+    }
+  ],
+  "identities": [
+    {
+      "old": {
+        "file": "packages/game/src/tools/display-scale.glm-phase1-leaves.test.ts",
+        "fullName": "L19 display-scale 剩余合同 NaN setPercent 回到默认 100%，不写入 NaN CSS 或 localStorage"
+      },
+      "current": {
+        "file": "packages/game/src/tools/display-scale.test.ts",
+        "fullName": "Standalone canvas scale and fullscreen delegation NaN setPercent 回到默认 100%，不写入 NaN CSS 或 localStorage"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/display-scale.glm-phase1-leaves.test.ts",
+        "fullName": "L19 display-scale 剩余合同 非整数 setPercent 四舍五入（clampPct round 分支）"
+      },
+      "current": {
+        "file": "packages/game/src/tools/display-scale.test.ts",
+        "fullName": "Standalone canvas scale and fullscreen delegation Fractional percent rounds to an integer and persists that value"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/display-scale.glm-phase1-leaves.test.ts",
+        "fullName": "L19 display-scale 剩余合同 画布居中锚定样式（fixed/50%/translate -50%），常量边界 10/1000 可达"
+      },
+      "current": {
+        "file": "packages/game/src/tools/display-scale.test.ts",
+        "fullName": "Standalone canvas scale and fullscreen delegation 画布居中锚定样式（fixed/50%/translate -50%），常量边界 10/1000 可达"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/display-scale.glm-phase1-leaves.test.ts",
+        "fullName": "L19 display-scale 剩余合同 toggleFullscreen：无全屏元素 → canvas.requestFullscreen；有 → exitFullscreen"
+      },
+      "current": {
+        "file": "packages/game/src/tools/display-scale.test.ts",
+        "fullName": "Standalone canvas scale and fullscreen delegation toggleFullscreen：无全屏元素 → canvas.requestFullscreen；有 → exitFullscreen"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/display-scale.glm-phase1-leaves.test.ts",
+        "fullName": "L19 fps-overlay 剩余合同 hideFpsOverlay 从未创建 → no-op 不抛"
+      },
+      "current": {
+        "file": "packages/game/src/tools/fps-overlay.test.ts",
+        "fullName": "FPS overlay sampling and visibility Hiding an absent overlay is harmless"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/display-scale.glm-phase1-leaves.test.ts",
+        "fullName": "L19 fps-overlay 剩余合同 启用建框后 hide 清根节点；样式留存（幂等注入不重复）；非法持久值视为关"
+      },
+      "current": {
+        "file": "packages/game/src/tools/fps-overlay.test.ts",
+        "fullName": "FPS overlay sampling and visibility Hiding removes only the root and retains its style"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/display-scale.test.ts",
+        "fullName": "display-scale 默认 100% = 960×600(index.html 现状)"
+      },
+      "current": {
+        "file": "packages/game/src/tools/display-scale.test.ts",
+        "fullName": "Standalone canvas scale and fullscreen delegation Standalone canvas defaults to 100% at 960 by 600 CSS pixels"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/display-scale.test.ts",
+        "fullName": "display-scale setPercent 改 canvas + 持久;clamp [10,1000]"
+      },
+      "current": {
+        "file": "packages/game/src/tools/display-scale.test.ts",
+        "fullName": "Standalone canvas scale and fullscreen delegation setPercent 改 canvas + 持久;clamp [10,1000]"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/display-scale.test.ts",
+        "fullName": "display-scale 1000% = 9600×6000"
+      },
+      "current": {
+        "file": "packages/game/src/tools/display-scale.test.ts",
+        "fullName": "Standalone canvas scale and fullscreen delegation 1000% = 9600×6000"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/display-scale.test.ts",
+        "fullName": "display-scale 启动读回 localStorage"
+      },
+      "current": {
+        "file": "packages/game/src/tools/display-scale.test.ts",
+        "fullName": "Standalone canvas scale and fullscreen delegation 启动读回 localStorage"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/display-scale.test.ts",
+        "fullName": "display-scale 损坏或非正存储 foo 回落到 100%，不得沿用脏值"
+      },
+      "current": {
+        "file": "packages/game/src/tools/display-scale.test.ts",
+        "fullName": "Standalone canvas scale and fullscreen delegation 损坏或非正存储 foo 回落到 100%，不得沿用脏值"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/display-scale.test.ts",
+        "fullName": "display-scale 损坏或非正存储 0 回落到 100%，不得沿用脏值"
+      },
+      "current": {
+        "file": "packages/game/src/tools/display-scale.test.ts",
+        "fullName": "Standalone canvas scale and fullscreen delegation 损坏或非正存储 0 回落到 100%，不得沿用脏值"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/display-scale.test.ts",
+        "fullName": "display-scale 损坏或非正存储 -12 回落到 100%，不得沿用脏值"
+      },
+      "current": {
+        "file": "packages/game/src/tools/display-scale.test.ts",
+        "fullName": "Standalone canvas scale and fullscreen delegation 损坏或非正存储 -12 回落到 100%，不得沿用脏值"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/display-scale.test.ts",
+        "fullName": "display-scale 损坏或非正存储 NaN 回落到 100%，不得沿用脏值"
+      },
+      "current": {
+        "file": "packages/game/src/tools/display-scale.test.ts",
+        "fullName": "Standalone canvas scale and fullscreen delegation 损坏或非正存储 NaN 回落到 100%，不得沿用脏值"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/fps-overlay.test.ts",
+        "fullName": "fps-overlay isFpsEnabled / setFpsEnabled 持久化 localStorage"
+      },
+      "current": {
+        "file": "packages/game/src/tools/fps-overlay.test.ts",
+        "fullName": "FPS overlay sampling and visibility isFpsEnabled / setFpsEnabled 持久化 localStorage"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/fps-overlay.test.ts",
+        "fullName": "fps-overlay 未启用 → tickFps 纯 no-op,不建 overlay"
+      },
+      "current": {
+        "file": "packages/game/src/tools/fps-overlay.test.ts",
+        "fullName": "FPS overlay sampling and visibility 未启用 → tickFps 纯 no-op,不建 overlay"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/fps-overlay.test.ts",
+        "fullName": "fps-overlay 启用 → 首帧立即建框,采样窗满后显示正确 FPS(120fps 模拟)"
+      },
+      "current": {
+        "file": "packages/game/src/tools/fps-overlay.test.ts",
+        "fullName": "FPS overlay sampling and visibility 启用 → 首帧立即建框,采样窗满后显示正确 FPS(120fps 模拟)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/fps-overlay.test.ts",
+        "fullName": "fps-overlay 启用 → 25fps(逻辑 tick 量化)如实显示 ~25"
+      },
+      "current": {
+        "file": "packages/game/src/tools/fps-overlay.test.ts",
+        "fullName": "FPS overlay sampling and visibility 启用 → 25fps(逻辑 tick 量化)如实显示 ~25"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/fps-overlay.test.ts",
+        "fullName": "fps-overlay setFpsEnabled(false) → 立即隐藏 overlay"
+      },
+      "current": {
+        "file": "packages/game/src/tools/fps-overlay.test.ts",
+        "fullName": "FPS overlay sampling and visibility setFpsEnabled(false) → 立即隐藏 overlay"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/fps-overlay.test.ts",
+        "fullName": "fps-overlay 启用中途关闭(localStorage 改 0)→ tickFps 自清 overlay"
+      },
+      "current": {
+        "file": "packages/game/src/tools/fps-overlay.test.ts",
+        "fullName": "FPS overlay sampling and visibility 启用中途关闭(localStorage 改 0)→ tickFps 自清 overlay"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/fps-overlay.test.ts",
+        "fullName": "fps-overlay 采样满窗后 ≥50 为绿、<50 为红；49 不得误标绿"
+      },
+      "current": {
+        "file": "packages/game/src/tools/fps-overlay.test.ts",
+        "fullName": "FPS overlay sampling and visibility 采样满窗后 ≥50 为绿、<50 为红；49 不得误标绿"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/fps-overlay.test.ts",
+        "fullName": "fps-overlay 连续启停丢弃未满窗的脏帧计数，下一窗按新节奏采样"
+      },
+      "current": {
+        "file": "packages/game/src/tools/fps-overlay.test.ts",
+        "fullName": "FPS overlay sampling and visibility 连续启停丢弃未满窗的脏帧计数，下一窗按新节奏采样"
+      }
+    }
+  ],
+  "retirements": [],
+  "cohortSubjects": [
+    {
+      "path": "packages/game/src/tools/display-scale.glm-phase1-leaves.test.ts",
+      "sha256": "0c249bc261f9cc53aeae444a24f5cde5d94d543639b5ee3c205c391ceffd051b",
+      "priorCurrentBridges": []
+    }
+  ],
+  "profiles": [
+    {
+      "path": "packages/game/src/tools/display-scale.test.ts",
+      "subjects": ["packages/game/src/tools/display-scale.glm-phase1-leaves.test.ts"],
+      "axes": {
+        "A": "12scale cases retain desktop standalone CSS/clamp/persistence/NaN/round and both fullscreen branches. Top50% explicit. Optional layout/mobile behavior is adjacent current-caller evidence, not these legacy canvas cases.",
+        "B": "Remove mixed-owner/batch and overbroad duplicate table; standalone title no longer attributes dimensions to index.html. Hide title says current absent root, not never-called module history; style test no longer claims reinjection proof.",
+        "C": "Only scale key restored to prior value. Fresh unattached canvases need no DOM host cleanup. Fullscreen document own descriptors saved before modifications and restored/deleted precisely in finally; no destructive global clear.",
+        "D": "Two zero-argument wrappers of document.createElement inlined. No shared universal DOM host; no lifecycle abstraction for unrelated scale/FPS state. Existing real tools-panel port tests and mobile tests remain separate caller contracts.",
+        "E": "19 syntactic registrations/22 runtime identities conserved. Four each values exact;15 callback trees conserved after declared private renames/inlining,top assertion added,invalid-preference two statements migrated intact to existing preference case. Fullscreen keeps two port delegations and adds no-second-request assertion; descriptors restored in finally. 6actualfiles34passed/TC0,stderr0;no new/retired runtime case.",
+        "F": "Two canonical module paths describe real responsibilities; canvas/controller/request names express roles. Explicit descriptor restore replaces typecast deletion; titles identify tested bounds, not contributor or coverage branch.",
+        "G": "Three specs become two by contract; no added fixture or product/API. All distinct hide-vs-tick,style-retention,round/clamp/NaN/fullscreen tests retained. Invalid preference no longer mixed into root/style lifecycle case; no weak padding or unproved deletion.",
+        "H": "Direct functions and independent literal CSS/storage/FPS oracles. Native DOM,deterministic timestamps,explicit fullscreen host ports; no private production reset export,clock/network/mock core. Readonly typed-AST/fullhook proof with tail-oracle negative check;hardware/visual/fullscreen permission not inferred."
+      }
+    },
+    {
+      "path": "packages/game/src/tools/fps-overlay.test.ts",
+      "subjects": ["packages/game/src/tools/display-scale.glm-phase1-leaves.test.ts"],
+      "axes": {
+        "A": "10FPS cases retain120/25sample windows,50/49color threshold,disable/restart/root/style/invalid preference. Public setFpsEnabled(false) resets window before and after;desktop explicit;displayFps cache intentionally not exposed/reset by test hook.",
+        "B": "Remove mixed-owner/batch and overbroad duplicate table; standalone title no longer attributes dimensions to index.html. Hide title says current absent root, not never-called module history; style test no longer claims reinjection proof.",
+        "C": "Only FPS key/layout restored andFPS-owned DOM/style removed. before/after publicdisable stops stale sample window even if assertions fail; no inherited scale key,fullscreen spy or body cleanup.",
+        "D": "Two zero-argument wrappers of document.createElement inlined. No shared universal DOM host; no lifecycle abstraction for unrelated scale/FPS state. Existing real tools-panel port tests and mobile tests remain separate caller contracts.",
+        "E": "19 syntactic registrations/22 runtime identities conserved. Four each values exact;15 callback trees conserved after declared private renames/inlining,top assertion added,invalid-preference two statements migrated intact to existing preference case. Fullscreen keeps two port delegations and adds no-second-request assertion; descriptors restored in finally. 6actualfiles34passed/TC0,stderr0;no new/retired runtime case.",
+        "F": "Two canonical module paths describe real responsibilities; canvas/controller/request names express roles. Explicit descriptor restore replaces typecast deletion; titles identify tested bounds, not contributor or coverage branch.",
+        "G": "Three specs become two by contract; no added fixture or product/API. All distinct hide-vs-tick,style-retention,round/clamp/NaN/fullscreen tests retained. Invalid preference no longer mixed into root/style lifecycle case; no weak padding or unproved deletion.",
+        "H": "Direct functions and independent literal CSS/storage/FPS oracles. Native DOM,deterministic timestamps,explicit fullscreen host ports; no private production reset export,clock/network/mock core. Readonly typed-AST/fullhook proof with tail-oracle negative check;hardware/visual/fullscreen permission not inferred."
+      }
+    }
+  ],
+  "preserved": [
+    {
+      "path": "packages/game/src/tools/display-scale.ts",
+      "sha256": "1485971b96faead4c8ef1acb3e1bdd5257a2c1755595d5f110db3a54e7c84df6",
+      "lines": 58
+    },
+    {
+      "path": "packages/game/src/tools/fps-overlay.ts",
+      "sha256": "a6487b7d2b6ee2f5fe597d4fdfec11cd9c2ee9407f8fcfff580468b289c98020",
+      "lines": 112
+    },
+    {
+      "path": "packages/game/src/shell/presentation.ts",
+      "sha256": "2c6229b3b85271c52c80d9143d7aa6568aa6e2c507f30a84d4722028f4fa06bd",
+      "lines": 10
+    },
+    {
+      "path": "packages/game/src/tools/mobile-presentation.test.ts",
+      "sha256": "3f1c4611f87cbd777974663ab19401e2d17e2949efeda484063f9cf053faf03c",
+      "lines": 41
+    },
+    {
+      "path": "packages/game/src/shell/game-shell.ts",
+      "sha256": "84c8ecd98ca521888703ba6bc281eba312bceeed7393125c4a78caa7b43c07bb",
+      "lines": 159
+    },
+    {
+      "path": "packages/game/src/shell/game-shell.test.ts",
+      "sha256": "0794a3cea59a2f5bdc89bfa38e1903f164a64dd0b8bfc201e550456692fa003b",
+      "lines": 224
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel.test-fixtures.ts",
+      "sha256": "e8509d85b2fd1b9f51b3ed59029d736aefd20f6e6e35d784517b897334cac083",
+      "lines": 89
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel.glm-phase1-leaves.test.ts",
+      "sha256": "96576ca3cddfd558a967aa36f8247191face17a03e73bc52b29f5cafe0efd490",
+      "lines": 72
+    },
+    {
+      "path": "packages/game/vitest.config.ts",
+      "sha256": "3dd92ad4886bc72c88e7a7b2e6bdacc3aaf9e2a24ac72153f3b619ba37feb7d4",
+      "lines": 13
+    },
+    {
+      "path": "scripts/coverage/config.mjs",
+      "sha256": "decb63dda5d12a2269bef1dd75c3d1eb4efca071887c759deca8e9b06ef17a25",
+      "lines": 264
+    }
+  ],
+  "neighborPaths": [
+    "packages/game/src/tools/display-scale.test.ts",
+    "packages/game/src/tools/fps-overlay.test.ts",
+    "packages/game/src/tools/mobile-presentation.test.ts",
+    "packages/game/src/tools/tools-panel.glm-phase1-leaves.test.ts",
+    "packages/game/src/tools/tools-panel.mobile.test.ts",
+    "packages/game/src/shell/game-shell.test.ts"
+  ],
+  "cleanExecutions": [
+    "before",
+    "reorganize",
+    "format",
+    "neighbors",
+    "typecheck",
+    "proof-r2",
+    "docs",
+    "content-review",
+    "lint",
+    "scoped",
+    "diff",
+    "ledger-final",
+    "module-preflight"
+  ],
+  "lightweightGates": true,
+  "callbackProof": "organization-tools-display/proof-r2.stdout.raw",
+  "qualityDelta": {
+    "titles": [
+      {
+        "from": "默认 100% = 960×600(index.html 现状)",
+        "to": "Standalone canvas defaults to 100% at 960 by 600 CSS pixels"
+      },
+      {
+        "from": "非整数 setPercent 四舍五入（clampPct round 分支）",
+        "to": "Fractional percent rounds to an integer and persists that value"
+      },
+      {
+        "from": "启用建框后 hide 清根节点；样式留存（幂等注入不重复）；非法持久值视为关",
+        "to": "Hiding removes only the root and retains its style"
+      },
+      {
+        "from": "hideFpsOverlay 从未创建 → no-op 不抛",
+        "to": "Hiding an absent overlay is harmless"
+      }
+    ],
+    "inlineCanvasFactories": 2,
+    "topAssertion": 1,
+    "invalidPreferenceStatementsMoved": 2,
+    "fullscreen": "Explicit null andbody branch,Promise-returning request,exit port;save/restore originaldocument descriptors in finally,one extra request count assertion.",
+    "scopedCleanup": true,
+    "productionChanged": false
+  },
+  "reads": {
+    "fullInputs": [
+      {
+        "path": "packages/game/src/tools/display-scale.test.ts",
+        "member": "organization-tools-display/0.before",
+        "sha256": "26fbbf14371b6964f9f55588a3dfc8d60e0721c5abfb5e65ab5abf3eff26ff7d",
+        "lines": 51
+      },
+      {
+        "path": "packages/game/src/tools/display-scale.glm-phase1-leaves.test.ts",
+        "member": "organization-tools-display/1.before",
+        "sha256": "0c249bc261f9cc53aeae444a24f5cde5d94d543639b5ee3c205c391ceffd051b",
+        "lines": 113
+      },
+      {
+        "path": "packages/game/src/tools/fps-overlay.test.ts",
+        "member": "organization-tools-display/2.before",
+        "sha256": "333eb001db1f1168694a951e5b2114587bc0d674e0ad95f8b5a568a07bc82f74",
+        "lines": 101
+      }
+    ],
+    "fullOutputs": [
+      {
+        "path": "packages/game/src/tools/display-scale.test.ts",
+        "sha256": "2f40fb5b81c14132019eddb28dd18927a9104fc9afd8e2764fc9e6234d7d00f6"
+      },
+      {
+        "path": "packages/game/src/tools/fps-overlay.test.ts",
+        "sha256": "b7aa396816301d072f587072514c9864fed4388706ec0b43ad1a5cbc29c360ab"
+      }
+    ],
+    "fullContext": [
+      {
+        "path": "packages/game/src/tools/display-scale.ts",
+        "sha256": "1485971b96faead4c8ef1acb3e1bdd5257a2c1755595d5f110db3a54e7c84df6",
+        "lines": 58
+      },
+      {
+        "path": "packages/game/src/tools/fps-overlay.ts",
+        "sha256": "a6487b7d2b6ee2f5fe597d4fdfec11cd9c2ee9407f8fcfff580468b289c98020",
+        "lines": 112
+      },
+      {
+        "path": "packages/game/src/shell/presentation.ts",
+        "sha256": "2c6229b3b85271c52c80d9143d7aa6568aa6e2c507f30a84d4722028f4fa06bd",
+        "lines": 10
+      },
+      {
+        "path": "packages/game/src/tools/mobile-presentation.test.ts",
+        "sha256": "3f1c4611f87cbd777974663ab19401e2d17e2949efeda484063f9cf053faf03c",
+        "lines": 41
+      },
+      {
+        "path": "packages/game/src/shell/game-shell.ts",
+        "sha256": "84c8ecd98ca521888703ba6bc281eba312bceeed7393125c4a78caa7b43c07bb",
+        "lines": 159
+      },
+      {
+        "path": "packages/game/src/shell/game-shell.test.ts",
+        "sha256": "0794a3cea59a2f5bdc89bfa38e1903f164a64dd0b8bfc201e550456692fa003b",
+        "lines": 224
+      },
+      {
+        "path": "packages/game/src/tools/tools-panel.test-fixtures.ts",
+        "sha256": "e8509d85b2fd1b9f51b3ed59029d736aefd20f6e6e35d784517b897334cac083",
+        "lines": 89
+      },
+      {
+        "path": "packages/game/src/tools/tools-panel.glm-phase1-leaves.test.ts",
+        "sha256": "96576ca3cddfd558a967aa36f8247191face17a03e73bc52b29f5cafe0efd490",
+        "lines": 72
+      }
+    ],
+    "scoped": [
+      {
+        "path": "packages/game/src/shell/bootstrap.ts",
+        "sha256": "a4d007c9739873dc20f385b52b584de49ec57cd5c328cb11ca9d3b0b9f19fb0a",
+        "lines": 1710,
+        "start": 1026,
+        "end": 1065
+      },
+      {
+        "path": "packages/game/src/tools/tools-panel.ts",
+        "sha256": "b7f45736b940fa55952d1f28272eabf37c6331090fb14d4b37701df83c5cc596",
+        "lines": 1083,
+        "start": 535,
+        "end": 595
+      },
+      {
+        "path": "packages/game/src/shell/main-loop.ts",
+        "sha256": "2aa4ec075feb2ff8e218eb66cc32b376f3edb62a8b3073c0441596029e5bd07c",
+        "lines": 172,
+        "start": 145,
+        "end": 182
+      }
+    ],
+    "priorSource": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-tools-quality/review.json",
+    "priorProductExact": true,
+    "olderReadBoundaries": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-scale-fps/read-boundaries.json",
+    "olderProductReusedAsCurrent": false
+  },
+  "processDisclosures": [
+    "Continuation received a previously applied input-key authorization. Current source/task/native receipts already accepted, so no duplicate implementation/test rerun of that repair.",
+    "Initial evidence-proof incorrectly accessed the extra expression level of it.each, failed TypeError after other checks; original raw and script retained. prove-r2 only fixesAST traversal, product/tests unchanged.",
+    "No new counter required for stable literal oracles;existing valid product behavior evidence reused by exact source andcurrent caller. Fullscreen permission/hardware andFPSperformance diagnosis not accepted."
+  ],
+  "invalidations": "Changed actual display/FPS/presentation/caller contract,storage key/layout policy,registration/oracle/hooks/fullscreen port orsource dimensions reopens affectedclaims. Hash/green alone does not certify design. Unifiedheavygates/publication pending.",
+  "ledgerCounts": {
+    "inventory": 3443,
+    "closed": 517,
+    "review": 294,
+    "pending": 2632
+  }
+}

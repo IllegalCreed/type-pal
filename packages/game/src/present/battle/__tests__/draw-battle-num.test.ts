@@ -1,9 +1,11 @@
 import { describe, expect, it } from 'vitest'
+import type { IndexedImage } from '../../../assets/png.js'
 import { createDigitFrames } from '../../__tests__/digit-frames.js'
+import { fillSentinel, pixel, SENTINEL } from '../../__tests__/raster-fixtures.js'
 import { createFramebuffer } from '../../framebuffer.js'
 import { FloatingNumsLayer } from '../draw-battle-num.js'
 
-describe('FloatingNumsLayer', () => {
+describe('floating number lifetime and colour slots', () => {
   it('缺 uiSpriteFrames → 不写像素(防御)', () => {
     const layer = new FloatingNumsLayer()
     const fb = createFramebuffer()
@@ -71,5 +73,73 @@ describe('FloatingNumsLayer', () => {
       expect(fb.indices[50 * 320 + 118]).toBe(tens)
       expect(fb.indices[50 * 320 + 124]).toBe(units)
     }
+  })
+})
+
+function floatingDigitFrames(): IndexedImage[] {
+  const frames: IndexedImage[] = []
+  for (let i = 0; i < 66; i++) {
+    frames.push({ width: 1, height: 1, indices: new Uint8Array([0]), opaque: new Uint8Array([0]) })
+  }
+  for (let digit = 0; digit <= 9; digit++) {
+    frames[19 + digit] = {
+      width: 1,
+      height: 1,
+      indices: new Uint8Array([0xb0 + digit]),
+      opaque: new Uint8Array([1]),
+    }
+    frames[29 + digit] = {
+      width: 1,
+      height: 1,
+      indices: new Uint8Array([0xd0 + digit]),
+      opaque: new Uint8Array([1]),
+    }
+  }
+  return frames
+}
+
+describe('floating number layout pixels', () => {
+  it('五位右对齐的个位在 x+24，十位不补零', () => {
+    const fb = createFramebuffer()
+    fillSentinel(fb)
+    const layer = new FloatingNumsLayer()
+    layer.emit({ x: 100, y: 50, value: 7, color: 'yellow', currentFrame: 0 })
+    layer.draw(fb, 0, floatingDigitFrames())
+    expect(pixel(fb, 124, 50)).toBe(0xb7)
+    expect(pixel(fb, 118, 50)).toBe(SENTINEL)
+  })
+
+  it('六位数只留低五位，最高位不画到个位左边第六格', () => {
+    const fb = createFramebuffer()
+    fillSentinel(fb)
+    const layer = new FloatingNumsLayer()
+    layer.emit({ x: 100, y: 50, value: 123456, color: 'yellow', currentFrame: 0 })
+    layer.draw(fb, 0, floatingDigitFrames())
+    expect(pixel(fb, 124, 50)).toBe(0xb6)
+    expect(pixel(fb, 100, 50)).toBe(0xb2)
+    expect(pixel(fb, 94, 50)).toBe(SENTINEL)
+  })
+
+  it('两条飘字各写自己的个位，黄 7 和蓝 3 不互相覆盖', () => {
+    const fb = createFramebuffer()
+    fillSentinel(fb)
+    const layer = new FloatingNumsLayer()
+    layer.emit({ x: 100, y: 50, value: 7, color: 'yellow', currentFrame: 0 })
+    layer.emit({ x: 200, y: 80, value: 3, color: 'blue', currentFrame: 0 })
+    layer.draw(fb, 0, floatingDigitFrames())
+    expect(pixel(fb, 124, 50)).toBe(0xb7)
+    expect(pixel(fb, 224, 80)).toBe(0xd3)
+    expect(layer.count).toBe(2)
+  })
+
+  it('数值 0 仍画一位黄 0，左边不补位', () => {
+    const fb = createFramebuffer()
+    fillSentinel(fb)
+    const layer = new FloatingNumsLayer()
+    layer.emit({ x: 100, y: 50, value: 0, color: 'yellow', currentFrame: 0 })
+    layer.draw(fb, 0, floatingDigitFrames())
+    expect(pixel(fb, 124, 50)).toBe(0xb0)
+    expect(pixel(fb, 118, 50)).toBe(SENTINEL)
+    expect(layer.count).toBe(1)
   })
 })

@@ -1,0 +1,577 @@
+{
+  "inputs": [
+    {
+      "path": "packages/game/src/shell/bootstrap-resources.test.ts",
+      "sha256": "9fe618c9e0e80eb56b04efe9168840334560928106f6f3c78679b53dd14ea04e",
+      "member": "organization-shell-resources/0.before"
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts",
+      "sha256": "9467ece07babd3f5d1125ff7d0091815540d0d2adb4998611be223239dea103f",
+      "member": "organization-shell-resources/1.before"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "packages/game/src/shell/bootstrap-resources.test.ts",
+      "sha256": "ef2fbd4bee9fe3224682f6b5f56525812194b03a65354eb36e10ea38a7df7f7e"
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap-resources.http.test.ts",
+      "sha256": "5b32efd82bf8a80475150893397aeb1aba5260580fee6bb539cce89fdfda8193"
+    },
+    {
+      "path": "packages/game/src/shell/__tests__/bootstrap-resource-load.ts",
+      "sha256": "9848955fd1153585a8cbd80d774748930dad84a80c2cc00299ea1b1565a98f4e"
+    }
+  ],
+  "sourceBridges": [
+    {
+      "path": "packages/game/src/shell/bootstrap-resources.test.ts",
+      "id": "resources-0",
+      "reason": "Explicit case-owned deferred/real returnedpromise cleanup; defaultHTTP separatefrominjectedports. assetToken pureforwarder removed; independentglyphdata/ports/assetreferences notmerged. Businessassertions unchanged.",
+      "changes": [
+        {
+          "from": "import { describe, expect, it, vi } from 'vitest'\nimport { legalLoadedAssets } from '../__tests__/asset-fixtures.js'\nimport type { DialogAssets } from '../assets/dialog-assets.js'\nimport type { LoadedAssets } from '../assets/loader.js'\nimport type { GlyphTable } from '../present/font.js'\nimport { type BootstrapResourcePorts, startBootstrapResourceLoad } from './bootstrap-resources.js'\n\nfunction deferred<T>() {\n  let resolve!: (value: T) => void\n  let reject!: (error: unknown) => void\n  const promise = new Promise<T>((onResolve, onReject) => {\n    resolve = onResolve\n    reject = onReject\n  })\n  return { promise, resolve, reject }\n}\n\nconst assets: LoadedAssets = legalLoadedAssets('bootstrap-main')\nconst glyphs: GlyphTable = { has: () => false, get: () => undefined }\nconst dialogAssets: DialogAssets = { portraitFrames: new Map(), iconFrames: new Map() }\n\nfunction ports(overrides: Partial<BootstrapResourcePorts> = {}): BootstrapResourcePorts {\n  return {\n    fetchSoundfont: async () => new ArrayBuffer(1),\n    loadAssets: async () => assets,\n    loadGlyphs: async () => glyphs,\n    loadDialogAssets: async () => dialogAssets,\n    warn: vi.fn(),\n    ...overrides,\n  }\n}\n\ndescribe('bootstrap resource lifecycle', () => {\n  it('FM boot loads the game resources without requesting or waiting for the MIDI soundfont', async () => {\n    const fetchSoundfont = vi.fn(async () => new ArrayBuffer(1))\n    const load = startBootstrapResourceLoad(7, ports({ fetchSoundfont }), false)\n    expect(fetchSoundfont).not.toHaveBeenCalled()\n    await expect(load.soundfontData).resolves.toHaveProperty('byteLength', 0)\n    await expect(load.resourcesReady).resolves.toEqual({ assets, glyphs, dialogAssets })\n    await expect(load.soundfontSettled).resolves.toBeUndefined()\n  })\n  it('starts soundfont first and all resource loaders before awaiting any result', async () => {\n    const order: string[] = []\n    const soundfont = deferred<ArrayBuffer>()\n    const load = startBootstrapResourceLoad(\n      7,\n      ports({\n        fetchSoundfont: () => {\n          order.push('soundfont')\n          return soundfont.promise\n        },\n        loadAssets: async (sceneId) => {\n          order.push(`assets:${sceneId}`)\n          return assets\n        },\n        loadGlyphs: async () => {\n          order.push('glyphs')\n          return glyphs\n        },\n        loadDialogAssets: async () => {\n          order.push('dialog')\n          return dialogAssets\n        },\n      }),\n    )\n\n    try {\n      expect(order).toEqual(['soundfont', 'assets:7', 'glyphs', 'dialog'])\n      await expect(load.resourcesReady).resolves.toEqual({ assets, glyphs, dialogAssets })\n\n      let settled = false\n      void load.soundfontSettled.then(() => {\n        settled = true\n      })\n      await Promise.resolve()\n      expect(settled).toBe(false)\n      soundfont.resolve(new ArrayBuffer(2))\n      await expect(load.soundfontSettled).resolves.toBeUndefined()\n    } finally {\n      soundfont.resolve(new ArrayBuffer(0))\n      await Promise.allSettled([load.resourcesReady, load.soundfontData, load.soundfontSettled])\n    }\n  })\n\n  it('keeps the original soundfont rejection while its settle barrier still resolves', async () => {\n    const soundfont = deferred<ArrayBuffer>()\n    const load = startBootstrapResourceLoad(0, ports({ fetchSoundfont: () => soundfont.promise }))\n\n    const originalError = new Error('soundfont failed')\n    try {\n      soundfont.reject(originalError)\n      await expect(load.soundfontData).rejects.toBe(originalError)\n      await expect(load.soundfontSettled).resolves.toBeUndefined()\n      await expect(load.resourcesReady).resolves.toEqual({ assets, glyphs, dialogAssets })\n    } finally {\n      soundfont.resolve(new ArrayBuffer(0))\n      await Promise.allSettled([load.resourcesReady, load.soundfontData, load.soundfontSettled])\n    }\n  })\n\n  it('场景资源拒绝不会升级成字形警告', async () => {\n    const error = new Error('scene 4 missing')\n    const warn = vi.fn()\n    const load = startBootstrapResourceLoad(\n      4,\n      ports({\n        loadAssets: async () => Promise.reject(error),\n        warn,\n      }),\n    )\n    let caught: unknown\n    try {\n      await load.resourcesReady\n    } catch (err) {\n      caught = err\n    }\n    expect(caught).toBe(error)\n    expect(warn).toHaveBeenCalledTimes(0)\n    await expect(load.soundfontSettled).resolves.toBeUndefined()\n  })\n})\n",
+          "to": "import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'\nimport { createBootstrapResourceOwner } from './__tests__/bootstrap-resource-load.js'\nimport { legalLoadedAssets } from '../__tests__/asset-fixtures.js'\nimport type { DialogAssets } from '../assets/dialog-assets.js'\nimport type { LoadedAssets } from '../assets/loader.js'\nimport type { GlyphTable } from '../present/font.js'\nimport { type BootstrapResourcePorts, startBootstrapResourceLoad } from './bootstrap-resources.js'\n\nconst assets: LoadedAssets = legalLoadedAssets('bootstrap-main')\nconst glyphs: GlyphTable = { has: () => false, get: () => undefined }\nconst dialogAssets: DialogAssets = { portraitFrames: new Map(), iconFrames: new Map() }\n\nfunction ports(overrides: Partial<BootstrapResourcePorts> = {}): BootstrapResourcePorts {\n  return {\n    fetchSoundfont: async () => new ArrayBuffer(1),\n    loadAssets: async () => assets,\n    loadGlyphs: async () => glyphs,\n    loadDialogAssets: async () => dialogAssets,\n    warn: vi.fn(),\n    ...overrides,\n  }\n}\n\ndescribe('bootstrap resource lifecycle', () => {\n  it('FM boot loads the game resources without requesting or waiting for the MIDI soundfont', async () => {\n    const fetchSoundfont = vi.fn(async () => new ArrayBuffer(1))\n    const load = resources.start(7, ports({ fetchSoundfont }), false)\n    expect(fetchSoundfont).not.toHaveBeenCalled()\n    await expect(load.soundfontData).resolves.toHaveProperty('byteLength', 0)\n    await expect(load.resourcesReady).resolves.toEqual({ assets, glyphs, dialogAssets })\n    await expect(load.soundfontSettled).resolves.toBeUndefined()\n  })\n  it('starts soundfont first and all resource loaders before awaiting any result', async () => {\n    const order: string[] = []\n    const soundfont = resources.deferred<ArrayBuffer>(new ArrayBuffer(0))\n    const load = resources.start(\n      7,\n      ports({\n        fetchSoundfont: () => {\n          order.push('soundfont')\n          return soundfont.promise\n        },\n        loadAssets: async (sceneId) => {\n          order.push(`assets:${sceneId}`)\n          return assets\n        },\n        loadGlyphs: async () => {\n          order.push('glyphs')\n          return glyphs\n        },\n        loadDialogAssets: async () => {\n          order.push('dialog')\n          return dialogAssets\n        },\n      }),\n    )\n\n    expect(order).toEqual(['soundfont', 'assets:7', 'glyphs', 'dialog'])\n    await expect(load.resourcesReady).resolves.toEqual({ assets, glyphs, dialogAssets })\n    let settled = false\n    void load.soundfontSettled.then(() => {\n      settled = true\n    })\n    await Promise.resolve()\n    expect(settled).toBe(false)\n    soundfont.resolve(new ArrayBuffer(2))\n    await expect(load.soundfontSettled).resolves.toBeUndefined()\n  })\n\n  it('keeps the original soundfont rejection while its settle barrier still resolves', async () => {\n    const soundfont = resources.deferred<ArrayBuffer>(new ArrayBuffer(0))\n    const load = resources.start(0, ports({ fetchSoundfont: () => soundfont.promise }))\n\n    const originalError = new Error('soundfont failed')\n    soundfont.reject(originalError)\n    await expect(load.soundfontData).rejects.toBe(originalError)\n    await expect(load.soundfontSettled).resolves.toBeUndefined()\n    await expect(load.resourcesReady).resolves.toEqual({ assets, glyphs, dialogAssets })\n  })\n\n  it('场景资源拒绝不会升级成字形警告', async () => {\n    const error = new Error('scene 4 missing')\n    const warn = vi.fn()\n    const load = resources.start(\n      4,\n      ports({\n        loadAssets: async () => Promise.reject(error),\n        warn,\n      }),\n    )\n    let caught: unknown\n    try {\n      await load.resourcesReady\n    } catch (err) {\n      caught = err\n    }\n    expect(caught).toBe(error)\n    expect(warn).toHaveBeenCalledTimes(0)\n    await expect(load.soundfontSettled).resolves.toBeUndefined()\n  })\n})\n\nlet resources: ReturnType<typeof createBootstrapResourceOwner>\nbeforeEach(() => {\n  resources = createBootstrapResourceOwner()\n})\nafterEach(async () => {\n  try {\n    await resources.close()\n  } finally {\n    vi.unstubAllGlobals()\n    vi.restoreAllMocks()\n  }\n})\n",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts",
+      "id": "resources-1",
+      "reason": "Explicit case-owned deferred/real returnedpromise cleanup; defaultHTTP separatefrominjectedports. assetToken pureforwarder removed; independentglyphdata/ports/assetreferences notmerged. Businessassertions unchanged.",
+      "changes": [
+        {
+          "from": "/**\n * TEST-GROK-BOOT-RESOURCES-MEDIUM-1。\n * 主测试保留启动顺序与原始 soundfont 拒绝身份；本组承接 glyph 降级与独立屏障。\n * 默认端口两例走真实 fetch Response，不替换 loadAll；所有受控请求在 teardown 结局。\n */\nimport { afterEach, describe, expect, it, vi } from 'vitest'\nimport { bytesToBase64, legalLoadedAssets, twoFrameChunk } from '../__tests__/asset-fixtures.js'\nimport type { DialogAssets } from '../assets/dialog-assets.js'\nimport type { LoadedAssets } from '../assets/loader.js'\nimport type { Glyph, GlyphTable } from '../present/font.js'\nimport { type BootstrapResourcePorts, startBootstrapResourceLoad } from './bootstrap-resources.js'\n\nconst pendingResources: Promise<unknown>[] = []\nconst releasePending: Array<() => void> = []\n\nfunction deferred<T>(fallback: T) {\n  let resolve!: (value: T) => void\n  let reject!: (error: unknown) => void\n  const promise = new Promise<T>((onResolve, onReject) => {\n    resolve = onResolve\n    reject = onReject\n  })\n  pendingResources.push(promise)\n  releasePending.push(() => resolve(fallback))\n  return { promise, resolve, reject }\n}\n\nfunction startResources(...args: Parameters<typeof startBootstrapResourceLoad>) {\n  const load = startBootstrapResourceLoad(...args)\n  pendingResources.push(load.resourcesReady, load.soundfontData, load.soundfontSettled)\n  return load\n}\n\n/** 只挂起四个初始资源请求；收尾以真实 Response 终结它们，scene 的 503 阻止后续加载。 */\nfunction heldResourceResponse(url: string): Promise<Response> {\n  let response: Response\n  if (url === '/extracted/data/scene/12.json') {\n    response = new Response(null, { status: 503 })\n  } else if (url === '/extracted/data/font/glyphs.json') {\n    response = Response.json({ glyphs: [] })\n  } else if (url === '/extracted/data/portraits.json') {\n    response = Response.json({ count: 0, portraits: [] })\n  } else if (url === '/extracted/data/dialog-icons-raw.json') {\n    const bytes = twoFrameChunk()\n    response = Response.json({\n      source: 'synthetic',\n      size: bytes.length,\n      base64: bytesToBase64(bytes),\n    })\n  } else {\n    throw new Error(`unexpected bootstrap resource URL: ${url}`)\n  }\n  return deferred(response).promise\n}\n\nfunction assetToken(label: string): LoadedAssets {\n  return legalLoadedAssets(label)\n}\n\nconst bootGlyph: Glyph = { width: 8, height: 16, bitmap: new Uint8Array(16) }\nconst glyphs: GlyphTable = {\n  has: (codepoint) => codepoint === 0x41,\n  get: (codepoint) => (codepoint === 0x41 ? bootGlyph : undefined),\n}\nconst dialogAssets: DialogAssets = { portraitFrames: new Map(), iconFrames: new Map() }\nconst sharedAssets = assetToken('shared')\n\nfunction ports(overrides: Partial<BootstrapResourcePorts> = {}): BootstrapResourcePorts {\n  return {\n    fetchSoundfont: async () => new ArrayBuffer(1),\n    loadAssets: async () => sharedAssets,\n    loadGlyphs: async () => glyphs,\n    loadDialogAssets: async () => dialogAssets,\n    warn: vi.fn(),\n    ...overrides,\n  }\n}\n\nasync function flush(): Promise<void> {\n  await Promise.resolve()\n  await Promise.resolve()\n}\n\nafterEach(async () => {\n  try {\n    for (const release of releasePending) release()\n    await Promise.allSettled(pendingResources)\n  } finally {\n    releasePending.length = 0\n    pendingResources.length = 0\n    vi.unstubAllGlobals()\n    vi.restoreAllMocks()\n  }\n})\n\ndescribe('grok-mid-1 bootstrap barriers', () => {\n  it('loadAssets 拒绝保持原错误对象，soundfont 仍可成功且 settle 独立', async () => {\n    const assetsError = new Error('assets down')\n    const soundfont = deferred<ArrayBuffer>(new ArrayBuffer(0))\n    const bytes = new ArrayBuffer(4)\n    const warn = vi.fn()\n    const load = startResources(\n      4,\n      ports({\n        fetchSoundfont: () => soundfont.promise,\n        loadAssets: async () => Promise.reject(assetsError),\n        warn,\n      }),\n    )\n\n    let caught: unknown\n    try {\n      await load.resourcesReady\n    } catch (error) {\n      caught = error\n    }\n    expect(caught).toBe(assetsError)\n    expect(warn).not.toHaveBeenCalled()\n    soundfont.resolve(bytes)\n    await expect(load.soundfontData).resolves.toBe(bytes)\n    await expect(load.soundfontSettled).resolves.toBeUndefined()\n  })\n\n  it('loadDialogAssets 拒绝保持原错误对象，resourcesReady 的成功回调不跑', async () => {\n    const dialogError = new Error('dialog down')\n    const soundfont = deferred<ArrayBuffer>(new ArrayBuffer(0))\n    const bytes = new ArrayBuffer(2)\n    let fulfilled = false\n    const load = startResources(\n      4,\n      ports({\n        fetchSoundfont: () => soundfont.promise,\n        loadDialogAssets: async () => Promise.reject(dialogError),\n      }),\n    )\n\n    void load.resourcesReady.then(\n      () => {\n        fulfilled = true\n      },\n      () => {},\n    )\n    await expect(load.resourcesReady).rejects.toBe(dialogError)\n    expect(fulfilled).toBe(false)\n    soundfont.resolve(bytes)\n    await expect(load.soundfontData).resolves.toBe(bytes)\n  })\n\n  it('soundfont 先 settle 时 resourcesReady 仍等待，随后装配同一引用', async () => {\n    const soundfont = deferred<ArrayBuffer>(new ArrayBuffer(0))\n    const assetsGate = deferred<LoadedAssets>(sharedAssets)\n    const glyphsGate = deferred<GlyphTable>(glyphs)\n    const dialogGate = deferred<DialogAssets>(dialogAssets)\n    const lateAssets = assetToken('late-assets')\n    const bytes = new ArrayBuffer(3)\n    const load = startResources(\n      9,\n      ports({\n        fetchSoundfont: () => soundfont.promise,\n        loadAssets: () => assetsGate.promise,\n        loadGlyphs: () => glyphsGate.promise,\n        loadDialogAssets: () => dialogGate.promise,\n      }),\n    )\n\n    soundfont.resolve(bytes)\n    let settled = false\n    void load.soundfontSettled.then(() => {\n      settled = true\n    })\n    let ready = false\n    void load.resourcesReady.then(() => {\n      ready = true\n    })\n    await flush()\n    expect(settled).toBe(true)\n    expect(ready).toBe(false)\n\n    assetsGate.resolve(lateAssets)\n    dialogGate.resolve(dialogAssets)\n    await Promise.all([assetsGate.promise, dialogGate.promise])\n    await flush()\n    expect(ready).toBe(false)\n\n    glyphsGate.resolve(glyphs)\n    const loaded = await load.resourcesReady\n    expect(loaded.assets).toBe(lateAssets)\n    expect(loaded.glyphs).toBe(glyphs)\n    expect(loaded.dialogAssets).toBe(dialogAssets)\n  })\n\n  it('dialog 未兑现时 resourcesReady 保持未就绪', async () => {\n    const dialogGate = deferred<DialogAssets>(dialogAssets)\n    const load = startResources(5, ports({ loadDialogAssets: () => dialogGate.promise }))\n    let ready = false\n    void load.resourcesReady.then(() => {\n      ready = true\n    })\n    await flush()\n    expect(ready).toBe(false)\n\n    dialogGate.resolve(dialogAssets)\n    const loaded = await load.resourcesReady\n    expect(loaded.dialogAssets).toBe(dialogAssets)\n    expect(loaded.assets).toBe(sharedAssets)\n    expect(loaded.glyphs).toBe(glyphs)\n  })\n\n  it('assets 未兑现时 resourcesReady 保持未就绪', async () => {\n    const assetsGate = deferred<LoadedAssets>(sharedAssets)\n    const lateAssets = assetToken('held-assets')\n    const load = startResources(6, ports({ loadAssets: () => assetsGate.promise }))\n    let ready = false\n    void load.resourcesReady.then(() => {\n      ready = true\n    })\n    await flush()\n    expect(ready).toBe(false)\n\n    assetsGate.resolve(lateAssets)\n    const loaded = await load.resourcesReady\n    expect(loaded.assets).toBe(lateAssets)\n    expect(loaded.dialogAssets).toBe(dialogAssets)\n    expect(loaded.glyphs).toBe(glyphs)\n  })\n\n  it('glyph 失败后 resourcesReady 仍等待 assets 与 dialog', async () => {\n    const glyphError = new Error('glyph late')\n    const warn = vi.fn()\n    const assetsGate = deferred<LoadedAssets>(sharedAssets)\n    const dialogGate = deferred<DialogAssets>(dialogAssets)\n    const lateAssets = assetToken('after-glyph')\n    const load = startResources(\n      2,\n      ports({\n        loadAssets: () => assetsGate.promise,\n        loadDialogAssets: () => dialogGate.promise,\n        loadGlyphs: async () => Promise.reject(glyphError),\n        warn,\n      }),\n    )\n\n    await flush()\n    expect(warn).toHaveBeenCalledExactlyOnceWith(\n      '[bootstrap] loadGlyphs failed, text will render as tofu:',\n      glyphError,\n    )\n    let ready = false\n    void load.resourcesReady.then(() => {\n      ready = true\n    })\n    await flush()\n    expect(ready).toBe(false)\n\n    assetsGate.resolve(lateAssets)\n    dialogGate.resolve(dialogAssets)\n    const loaded = await load.resourcesReady\n    expect(loaded.glyphs).toBeUndefined()\n    expect(loaded.assets).toBe(lateAssets)\n    expect(loaded.dialogAssets).toBe(dialogAssets)\n  })\n\n  it('默认端口用真实 Response 读出 soundfont 字节，且真实加载器已发出请求', async () => {\n    const seen: string[] = []\n    const payload = new Uint8Array([9, 8, 7, 6])\n    vi.stubGlobal('fetch', (input: RequestInfo | URL) => {\n      const url = String(input)\n      seen.push(url)\n      if (url === '/soundfont.sf3') return Promise.resolve(new Response(payload))\n      return heldResourceResponse(url)\n    })\n\n    const load = startResources(12)\n    const bytes = new Uint8Array(await load.soundfontData)\n    expect(Array.from(bytes)).toEqual([9, 8, 7, 6])\n    expect(seen).toEqual([\n      '/soundfont.sf3',\n      '/extracted/data/scene/12.json',\n      '/extracted/data/font/glyphs.json',\n      '/extracted/data/portraits.json',\n      '/extracted/data/dialog-icons-raw.json',\n    ])\n    let ready = false\n    void load.resourcesReady.then(\n      () => {\n        ready = true\n      },\n      () => {\n        ready = true\n      },\n    )\n    await flush()\n    expect(ready).toBe(false)\n  })\n\n  it('默认 soundfont HTTP 503 保留原文，settle 完成且资源仍未就绪', async () => {\n    const seen: string[] = []\n    vi.stubGlobal('fetch', (input: RequestInfo | URL) => {\n      const url = String(input)\n      seen.push(url)\n      if (url === '/soundfont.sf3') return Promise.resolve(new Response(null, { status: 503 }))\n      return heldResourceResponse(url)\n    })\n\n    const load = startResources(12)\n    await expect(load.soundfontData).rejects.toThrow('soundfont HTTP 503')\n    await expect(load.soundfontSettled).resolves.toBeUndefined()\n    expect(seen).toContain('/extracted/data/scene/12.json')\n    let ready = false\n    void load.resourcesReady.then(\n      () => {\n        ready = true\n      },\n      () => {\n        ready = true\n      },\n    )\n    await flush()\n    expect(ready).toBe(false)\n  })\n\n  it('两轮 boot 的拒绝与成功资产互不穿越', async () => {\n    const assetsB = assetToken('boot-b')\n    const soundA = deferred<ArrayBuffer>(new ArrayBuffer(0))\n    const soundB = deferred<ArrayBuffer>(new ArrayBuffer(0))\n    const bytesB = new ArrayBuffer(8)\n    const bootA = startResources(\n      1,\n      ports({\n        fetchSoundfont: () => soundA.promise,\n        loadAssets: async () => Promise.reject(new Error('boot A assets')),\n      }),\n    )\n    const bootB = startResources(\n      2,\n      ports({\n        fetchSoundfont: () => soundB.promise,\n        loadAssets: async () => assetsB,\n      }),\n    )\n\n    await expect(bootA.resourcesReady).rejects.toThrow('boot A assets')\n    soundB.resolve(bytesB)\n    const loadedB = await bootB.resourcesReady\n    expect(loadedB.assets).toBe(assetsB)\n    await expect(bootB.soundfontData).resolves.toBe(bytesB)\n\n    let fontARejected = false\n    void bootA.soundfontData.then(\n      () => {},\n      () => {\n        fontARejected = true\n      },\n    )\n    soundA.reject(new Error('boot A font'))\n    await flush()\n    expect(fontARejected).toBe(true)\n    await expect(bootB.soundfontData).resolves.toBe(bytesB)\n    await expect(bootB.soundfontSettled).resolves.toBeUndefined()\n  })\n})\n",
+          "to": "import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'\nimport { createBootstrapResourceOwner } from './__tests__/bootstrap-resource-load.js'\nimport { bytesToBase64, legalLoadedAssets, twoFrameChunk } from '../__tests__/asset-fixtures.js'\nimport type { DialogAssets } from '../assets/dialog-assets.js'\nimport type { LoadedAssets } from '../assets/loader.js'\nimport type { Glyph, GlyphTable } from '../present/font.js'\nimport { type BootstrapResourcePorts, startBootstrapResourceLoad } from './bootstrap-resources.js'\n\n/** 只挂起四个初始资源请求；收尾以真实 Response 终结它们，scene 的 503 阻止后续加载。 */\nfunction heldResourceResponse(url: string): Promise<Response> {\n  let response: Response\n  if (url === '/extracted/data/scene/12.json') {\n    response = new Response(null, { status: 503 })\n  } else if (url === '/extracted/data/font/glyphs.json') {\n    response = Response.json({ glyphs: [] })\n  } else if (url === '/extracted/data/portraits.json') {\n    response = Response.json({ count: 0, portraits: [] })\n  } else if (url === '/extracted/data/dialog-icons-raw.json') {\n    const bytes = twoFrameChunk()\n    response = Response.json({\n      source: 'synthetic',\n      size: bytes.length,\n      base64: bytesToBase64(bytes),\n    })\n  } else {\n    throw new Error(`unexpected bootstrap resource URL: ${url}`)\n  }\n  return resources.deferred(response).promise\n}\n\nconst bootGlyph: Glyph = { width: 8, height: 16, bitmap: new Uint8Array(16) }\nconst glyphs: GlyphTable = {\n  has: (codepoint) => codepoint === 0x41,\n  get: (codepoint) => (codepoint === 0x41 ? bootGlyph : undefined),\n}\nconst dialogAssets: DialogAssets = { portraitFrames: new Map(), iconFrames: new Map() }\nconst sharedAssets = legalLoadedAssets('shared')\n\nfunction ports(overrides: Partial<BootstrapResourcePorts> = {}): BootstrapResourcePorts {\n  return {\n    fetchSoundfont: async () => new ArrayBuffer(1),\n    loadAssets: async () => sharedAssets,\n    loadGlyphs: async () => glyphs,\n    loadDialogAssets: async () => dialogAssets,\n    warn: vi.fn(),\n    ...overrides,\n  }\n}\n\nasync function flush(): Promise<void> {\n  await Promise.resolve()\n  await Promise.resolve()\n}\n\ndescribe('grok-mid-1 bootstrap barriers', () => {\n  it('loadAssets 拒绝保持原错误对象，soundfont 仍可成功且 settle 独立', async () => {\n    const assetsError = new Error('assets down')\n    const soundfont = resources.deferred<ArrayBuffer>(new ArrayBuffer(0))\n    const bytes = new ArrayBuffer(4)\n    const warn = vi.fn()\n    const load = resources.start(\n      4,\n      ports({\n        fetchSoundfont: () => soundfont.promise,\n        loadAssets: async () => Promise.reject(assetsError),\n        warn,\n      }),\n    )\n\n    let caught: unknown\n    try {\n      await load.resourcesReady\n    } catch (error) {\n      caught = error\n    }\n    expect(caught).toBe(assetsError)\n    expect(warn).not.toHaveBeenCalled()\n    soundfont.resolve(bytes)\n    await expect(load.soundfontData).resolves.toBe(bytes)\n    await expect(load.soundfontSettled).resolves.toBeUndefined()\n  })\n\n  it('loadDialogAssets 拒绝保持原错误对象，resourcesReady 的成功回调不跑', async () => {\n    const dialogError = new Error('dialog down')\n    const soundfont = resources.deferred<ArrayBuffer>(new ArrayBuffer(0))\n    const bytes = new ArrayBuffer(2)\n    let fulfilled = false\n    const load = resources.start(\n      4,\n      ports({\n        fetchSoundfont: () => soundfont.promise,\n        loadDialogAssets: async () => Promise.reject(dialogError),\n      }),\n    )\n\n    void load.resourcesReady.then(\n      () => {\n        fulfilled = true\n      },\n      () => {},\n    )\n    await expect(load.resourcesReady).rejects.toBe(dialogError)\n    expect(fulfilled).toBe(false)\n    soundfont.resolve(bytes)\n    await expect(load.soundfontData).resolves.toBe(bytes)\n  })\n\n  it('soundfont 先 settle 时 resourcesReady 仍等待，随后装配同一引用', async () => {\n    const soundfont = resources.deferred<ArrayBuffer>(new ArrayBuffer(0))\n    const assetsGate = resources.deferred<LoadedAssets>(sharedAssets)\n    const glyphsGate = resources.deferred<GlyphTable>(glyphs)\n    const dialogGate = resources.deferred<DialogAssets>(dialogAssets)\n    const lateAssets = legalLoadedAssets('late-assets')\n    const bytes = new ArrayBuffer(3)\n    const load = resources.start(\n      9,\n      ports({\n        fetchSoundfont: () => soundfont.promise,\n        loadAssets: () => assetsGate.promise,\n        loadGlyphs: () => glyphsGate.promise,\n        loadDialogAssets: () => dialogGate.promise,\n      }),\n    )\n\n    soundfont.resolve(bytes)\n    let settled = false\n    void load.soundfontSettled.then(() => {\n      settled = true\n    })\n    let ready = false\n    void load.resourcesReady.then(() => {\n      ready = true\n    })\n    await flush()\n    expect(settled).toBe(true)\n    expect(ready).toBe(false)\n\n    assetsGate.resolve(lateAssets)\n    dialogGate.resolve(dialogAssets)\n    await Promise.all([assetsGate.promise, dialogGate.promise])\n    await flush()\n    expect(ready).toBe(false)\n\n    glyphsGate.resolve(glyphs)\n    const loaded = await load.resourcesReady\n    expect(loaded.assets).toBe(lateAssets)\n    expect(loaded.glyphs).toBe(glyphs)\n    expect(loaded.dialogAssets).toBe(dialogAssets)\n  })\n\n  it('dialog 未兑现时 resourcesReady 保持未就绪', async () => {\n    const dialogGate = resources.deferred<DialogAssets>(dialogAssets)\n    const load = resources.start(5, ports({ loadDialogAssets: () => dialogGate.promise }))\n    let ready = false\n    void load.resourcesReady.then(() => {\n      ready = true\n    })\n    await flush()\n    expect(ready).toBe(false)\n\n    dialogGate.resolve(dialogAssets)\n    const loaded = await load.resourcesReady\n    expect(loaded.dialogAssets).toBe(dialogAssets)\n    expect(loaded.assets).toBe(sharedAssets)\n    expect(loaded.glyphs).toBe(glyphs)\n  })\n\n  it('assets 未兑现时 resourcesReady 保持未就绪', async () => {\n    const assetsGate = resources.deferred<LoadedAssets>(sharedAssets)\n    const lateAssets = legalLoadedAssets('held-assets')\n    const load = resources.start(6, ports({ loadAssets: () => assetsGate.promise }))\n    let ready = false\n    void load.resourcesReady.then(() => {\n      ready = true\n    })\n    await flush()\n    expect(ready).toBe(false)\n\n    assetsGate.resolve(lateAssets)\n    const loaded = await load.resourcesReady\n    expect(loaded.assets).toBe(lateAssets)\n    expect(loaded.dialogAssets).toBe(dialogAssets)\n    expect(loaded.glyphs).toBe(glyphs)\n  })\n\n  it('glyph 失败后 resourcesReady 仍等待 assets 与 dialog', async () => {\n    const glyphError = new Error('glyph late')\n    const warn = vi.fn()\n    const assetsGate = resources.deferred<LoadedAssets>(sharedAssets)\n    const dialogGate = resources.deferred<DialogAssets>(dialogAssets)\n    const lateAssets = legalLoadedAssets('after-glyph')\n    const load = resources.start(\n      2,\n      ports({\n        loadAssets: () => assetsGate.promise,\n        loadDialogAssets: () => dialogGate.promise,\n        loadGlyphs: async () => Promise.reject(glyphError),\n        warn,\n      }),\n    )\n\n    await flush()\n    expect(warn).toHaveBeenCalledExactlyOnceWith(\n      '[bootstrap] loadGlyphs failed, text will render as tofu:',\n      glyphError,\n    )\n    let ready = false\n    void load.resourcesReady.then(() => {\n      ready = true\n    })\n    await flush()\n    expect(ready).toBe(false)\n\n    assetsGate.resolve(lateAssets)\n    dialogGate.resolve(dialogAssets)\n    const loaded = await load.resourcesReady\n    expect(loaded.glyphs).toBeUndefined()\n    expect(loaded.assets).toBe(lateAssets)\n    expect(loaded.dialogAssets).toBe(dialogAssets)\n  })\n\n  it('默认端口用真实 Response 读出 soundfont 字节，且真实加载器已发出请求', async () => {\n    const seen: string[] = []\n    const payload = new Uint8Array([9, 8, 7, 6])\n    vi.stubGlobal('fetch', (input: RequestInfo | URL) => {\n      const url = String(input)\n      seen.push(url)\n      if (url === '/soundfont.sf3') return Promise.resolve(new Response(payload))\n      return heldResourceResponse(url)\n    })\n\n    const load = resources.start(12)\n    const bytes = new Uint8Array(await load.soundfontData)\n    expect(Array.from(bytes)).toEqual([9, 8, 7, 6])\n    expect(seen).toEqual([\n      '/soundfont.sf3',\n      '/extracted/data/scene/12.json',\n      '/extracted/data/font/glyphs.json',\n      '/extracted/data/portraits.json',\n      '/extracted/data/dialog-icons-raw.json',\n    ])\n    let ready = false\n    void load.resourcesReady.then(\n      () => {\n        ready = true\n      },\n      () => {\n        ready = true\n      },\n    )\n    await flush()\n    expect(ready).toBe(false)\n  })\n\n  it('默认 soundfont HTTP 503 保留原文，settle 完成且资源仍未就绪', async () => {\n    const seen: string[] = []\n    vi.stubGlobal('fetch', (input: RequestInfo | URL) => {\n      const url = String(input)\n      seen.push(url)\n      if (url === '/soundfont.sf3') return Promise.resolve(new Response(null, { status: 503 }))\n      return heldResourceResponse(url)\n    })\n\n    const load = resources.start(12)\n    await expect(load.soundfontData).rejects.toThrow('soundfont HTTP 503')\n    await expect(load.soundfontSettled).resolves.toBeUndefined()\n    expect(seen).toContain('/extracted/data/scene/12.json')\n    let ready = false\n    void load.resourcesReady.then(\n      () => {\n        ready = true\n      },\n      () => {\n        ready = true\n      },\n    )\n    await flush()\n    expect(ready).toBe(false)\n  })\n\n  it('两轮 boot 的拒绝与成功资产互不穿越', async () => {\n    const assetsB = legalLoadedAssets('boot-b')\n    const soundA = resources.deferred<ArrayBuffer>(new ArrayBuffer(0))\n    const soundB = resources.deferred<ArrayBuffer>(new ArrayBuffer(0))\n    const bytesB = new ArrayBuffer(8)\n    const bootA = resources.start(\n      1,\n      ports({\n        fetchSoundfont: () => soundA.promise,\n        loadAssets: async () => Promise.reject(new Error('boot A assets')),\n      }),\n    )\n    const bootB = resources.start(\n      2,\n      ports({\n        fetchSoundfont: () => soundB.promise,\n        loadAssets: async () => assetsB,\n      }),\n    )\n\n    await expect(bootA.resourcesReady).rejects.toThrow('boot A assets')\n    soundB.resolve(bytesB)\n    const loadedB = await bootB.resourcesReady\n    expect(loadedB.assets).toBe(assetsB)\n    await expect(bootB.soundfontData).resolves.toBe(bytesB)\n\n    let fontARejected = false\n    void bootA.soundfontData.then(\n      () => {},\n      () => {\n        fontARejected = true\n      },\n    )\n    soundA.reject(new Error('boot A font'))\n    await flush()\n    expect(fontARejected).toBe(true)\n    await expect(bootB.soundfontData).resolves.toBe(bytesB)\n    await expect(bootB.soundfontSettled).resolves.toBeUndefined()\n  })\n})\n\nlet resources: ReturnType<typeof createBootstrapResourceOwner>\nbeforeEach(() => {\n  resources = createBootstrapResourceOwner()\n})\nafterEach(async () => {\n  try {\n    await resources.close()\n  } finally {\n    vi.unstubAllGlobals()\n    vi.restoreAllMocks()\n  }\n})\n",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "replacements": [],
+  "registrations": [
+    {
+      "old": {
+        "file": "packages/game/src/shell/bootstrap-resources.test.ts",
+        "ordinal": 0
+      },
+      "originalOrdinal": 0,
+      "current": {
+        "file": "packages/game/src/shell/bootstrap-resources.test.ts",
+        "titles": ["Startup order and music source"],
+        "template": "FM boot loads the game resources without requesting or waiting for the MIDI soundfont"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/bootstrap-resources.test.ts",
+        "ordinal": 1
+      },
+      "originalOrdinal": 1,
+      "current": {
+        "file": "packages/game/src/shell/bootstrap-resources.test.ts",
+        "titles": ["Startup order and music source"],
+        "template": "starts soundfont first and all resource loaders before awaiting any result"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/bootstrap-resources.test.ts",
+        "ordinal": 2
+      },
+      "originalOrdinal": 2,
+      "current": {
+        "file": "packages/game/src/shell/bootstrap-resources.test.ts",
+        "titles": ["Startup order and music source"],
+        "template": "keeps the original soundfont rejection while its settle barrier still resolves"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/bootstrap-resources.test.ts",
+        "ordinal": 3
+      },
+      "originalOrdinal": 3,
+      "current": {
+        "file": "packages/game/src/shell/bootstrap-resources.test.ts",
+        "titles": ["Startup order and music source"],
+        "template": "场景资源拒绝不会升级成字形警告"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts",
+        "ordinal": 0
+      },
+      "originalOrdinal": 0,
+      "current": {
+        "file": "packages/game/src/shell/bootstrap-resources.test.ts",
+        "titles": ["Resource readiness and failure isolation"],
+        "template": "loadAssets 拒绝保持原错误对象，soundfont 仍可成功且 settle 独立"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts",
+        "ordinal": 1
+      },
+      "originalOrdinal": 1,
+      "current": {
+        "file": "packages/game/src/shell/bootstrap-resources.test.ts",
+        "titles": ["Resource readiness and failure isolation"],
+        "template": "loadDialogAssets 拒绝保持原错误对象，resourcesReady 的成功回调不跑"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts",
+        "ordinal": 2
+      },
+      "originalOrdinal": 2,
+      "current": {
+        "file": "packages/game/src/shell/bootstrap-resources.test.ts",
+        "titles": ["Resource readiness and failure isolation"],
+        "template": "soundfont 先 settle 时 resourcesReady 仍等待，随后装配同一引用"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts",
+        "ordinal": 3
+      },
+      "originalOrdinal": 3,
+      "current": {
+        "file": "packages/game/src/shell/bootstrap-resources.test.ts",
+        "titles": ["Resource readiness and failure isolation"],
+        "template": "dialog 未兑现时 resourcesReady 保持未就绪"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts",
+        "ordinal": 4
+      },
+      "originalOrdinal": 4,
+      "current": {
+        "file": "packages/game/src/shell/bootstrap-resources.test.ts",
+        "titles": ["Resource readiness and failure isolation"],
+        "template": "assets 未兑现时 resourcesReady 保持未就绪"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts",
+        "ordinal": 5
+      },
+      "originalOrdinal": 5,
+      "current": {
+        "file": "packages/game/src/shell/bootstrap-resources.test.ts",
+        "titles": ["Resource readiness and failure isolation"],
+        "template": "glyph 失败后 resourcesReady 仍等待 assets 与 dialog"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts",
+        "ordinal": 6
+      },
+      "originalOrdinal": 6,
+      "current": {
+        "file": "packages/game/src/shell/bootstrap-resources.http.test.ts",
+        "titles": ["Default resource HTTP ports"],
+        "template": "默认端口用真实 Response 读出 soundfont 字节，且真实加载器已发出请求"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts",
+        "ordinal": 7
+      },
+      "originalOrdinal": 7,
+      "current": {
+        "file": "packages/game/src/shell/bootstrap-resources.http.test.ts",
+        "titles": ["Default resource HTTP ports"],
+        "template": "默认 soundfont HTTP 503 保留原文，settle 完成且资源仍未就绪"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts",
+        "ordinal": 8
+      },
+      "originalOrdinal": 8,
+      "current": {
+        "file": "packages/game/src/shell/bootstrap-resources.test.ts",
+        "titles": ["Resource readiness and failure isolation"],
+        "template": "两轮 boot 的拒绝与成功资产互不穿越"
+      }
+    }
+  ],
+  "identities": [
+    {
+      "old": {
+        "file": "packages/game/src/shell/bootstrap-resources.test.ts",
+        "fullName": "bootstrap resource lifecycle FM boot loads the game resources without requesting or waiting for the MIDI soundfont"
+      },
+      "current": {
+        "file": "packages/game/src/shell/bootstrap-resources.test.ts",
+        "fullName": "Startup order and music source FM boot loads the game resources without requesting or waiting for the MIDI soundfont"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/bootstrap-resources.test.ts",
+        "fullName": "bootstrap resource lifecycle starts soundfont first and all resource loaders before awaiting any result"
+      },
+      "current": {
+        "file": "packages/game/src/shell/bootstrap-resources.test.ts",
+        "fullName": "Startup order and music source starts soundfont first and all resource loaders before awaiting any result"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/bootstrap-resources.test.ts",
+        "fullName": "bootstrap resource lifecycle keeps the original soundfont rejection while its settle barrier still resolves"
+      },
+      "current": {
+        "file": "packages/game/src/shell/bootstrap-resources.test.ts",
+        "fullName": "Startup order and music source keeps the original soundfont rejection while its settle barrier still resolves"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/bootstrap-resources.test.ts",
+        "fullName": "bootstrap resource lifecycle 场景资源拒绝不会升级成字形警告"
+      },
+      "current": {
+        "file": "packages/game/src/shell/bootstrap-resources.test.ts",
+        "fullName": "Startup order and music source 场景资源拒绝不会升级成字形警告"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts",
+        "fullName": "grok-mid-1 bootstrap barriers loadAssets 拒绝保持原错误对象，soundfont 仍可成功且 settle 独立"
+      },
+      "current": {
+        "file": "packages/game/src/shell/bootstrap-resources.test.ts",
+        "fullName": "Resource readiness and failure isolation loadAssets 拒绝保持原错误对象，soundfont 仍可成功且 settle 独立"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts",
+        "fullName": "grok-mid-1 bootstrap barriers loadDialogAssets 拒绝保持原错误对象，resourcesReady 的成功回调不跑"
+      },
+      "current": {
+        "file": "packages/game/src/shell/bootstrap-resources.test.ts",
+        "fullName": "Resource readiness and failure isolation loadDialogAssets 拒绝保持原错误对象，resourcesReady 的成功回调不跑"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts",
+        "fullName": "grok-mid-1 bootstrap barriers soundfont 先 settle 时 resourcesReady 仍等待，随后装配同一引用"
+      },
+      "current": {
+        "file": "packages/game/src/shell/bootstrap-resources.test.ts",
+        "fullName": "Resource readiness and failure isolation soundfont 先 settle 时 resourcesReady 仍等待，随后装配同一引用"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts",
+        "fullName": "grok-mid-1 bootstrap barriers dialog 未兑现时 resourcesReady 保持未就绪"
+      },
+      "current": {
+        "file": "packages/game/src/shell/bootstrap-resources.test.ts",
+        "fullName": "Resource readiness and failure isolation dialog 未兑现时 resourcesReady 保持未就绪"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts",
+        "fullName": "grok-mid-1 bootstrap barriers assets 未兑现时 resourcesReady 保持未就绪"
+      },
+      "current": {
+        "file": "packages/game/src/shell/bootstrap-resources.test.ts",
+        "fullName": "Resource readiness and failure isolation assets 未兑现时 resourcesReady 保持未就绪"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts",
+        "fullName": "grok-mid-1 bootstrap barriers glyph 失败后 resourcesReady 仍等待 assets 与 dialog"
+      },
+      "current": {
+        "file": "packages/game/src/shell/bootstrap-resources.test.ts",
+        "fullName": "Resource readiness and failure isolation glyph 失败后 resourcesReady 仍等待 assets 与 dialog"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts",
+        "fullName": "grok-mid-1 bootstrap barriers 默认端口用真实 Response 读出 soundfont 字节，且真实加载器已发出请求"
+      },
+      "current": {
+        "file": "packages/game/src/shell/bootstrap-resources.http.test.ts",
+        "fullName": "Default resource HTTP ports 默认端口用真实 Response 读出 soundfont 字节，且真实加载器已发出请求"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts",
+        "fullName": "grok-mid-1 bootstrap barriers 默认 soundfont HTTP 503 保留原文，settle 完成且资源仍未就绪"
+      },
+      "current": {
+        "file": "packages/game/src/shell/bootstrap-resources.http.test.ts",
+        "fullName": "Default resource HTTP ports 默认 soundfont HTTP 503 保留原文，settle 完成且资源仍未就绪"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts",
+        "fullName": "grok-mid-1 bootstrap barriers 两轮 boot 的拒绝与成功资产互不穿越"
+      },
+      "current": {
+        "file": "packages/game/src/shell/bootstrap-resources.test.ts",
+        "fullName": "Resource readiness and failure isolation 两轮 boot 的拒绝与成功资产互不穿越"
+      }
+    }
+  ],
+  "helperTransplants": [],
+  "id": "shell-resources",
+  "kind": "resources",
+  "namespace": "organization-shell-resources",
+  "cohortSubjects": [
+    {
+      "path": "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts",
+      "sha256": "9467ece07babd3f5d1125ff7d0091815540d0d2adb4998611be223239dea103f",
+      "priorCurrentBridges": []
+    }
+  ],
+  "preserved": [
+    {
+      "path": "packages/game/src/shell/bootstrap-resources.ts",
+      "sha256": "7298c33038868dd9f514b04940f5f9f8dbcf29a5592201a6e83509d4b04ed6aa"
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "sha256": "a4d007c9739873dc20f385b52b584de49ec57cd5c328cb11ca9d3b0b9f19fb0a"
+    },
+    {
+      "path": "packages/game/src/assets/loader.ts",
+      "sha256": "9c3c3a333e5b04d25cd220e17d04863b0ff5c759e273d05c3b82af758756788f"
+    },
+    {
+      "path": "packages/game/src/assets/dialog-assets.ts",
+      "sha256": "4a5186879b7ae66abe0ef13a48a472e35e1234c0c69943ce932bcd26b9a67eed"
+    },
+    {
+      "path": "packages/game/src/present/font.ts",
+      "sha256": "0af092f60efef7dd1f39c82f4c492512dbf957092f0d20b13da27b5518fd7fe4"
+    },
+    {
+      "path": "packages/game/src/__tests__/asset-fixtures.ts",
+      "sha256": "cf3eae0a807ce26983299ee72ff140b7035cd64121a4547b6f145076547c12fc"
+    },
+    {
+      "path": "packages/game/src/assets/load-all.assembly.test.ts",
+      "sha256": "558eeb2568ef04db749925bbbda58faed1f67598eacd2f19309ae22125d9dffa"
+    }
+  ],
+  "neighborPaths": [
+    "packages/game/src/shell/boot-loading-host.grok-r1.test.ts",
+    "packages/game/src/shell/boot-loading.test.ts",
+    "packages/game/src/shell/bootstrap-resources.http.test.ts",
+    "packages/game/src/shell/bootstrap-resources.test.ts",
+    "packages/game/src/shell/fetch-retry.test.ts"
+  ],
+  "additionalNeighbors": [
+    {
+      "report": "organization-shell-resources/loader-neighbor.native.json",
+      "path": "packages/game/src/assets/load-all.assembly.test.ts",
+      "passed": 10,
+      "files": 1
+    }
+  ],
+  "cleanExecutions": [
+    "before",
+    "organization-r2",
+    "neighbors",
+    "loader-neighbor",
+    "typecheck",
+    "proof-r3",
+    "module-preflight",
+    "docs",
+    "content-review",
+    "lint",
+    "testing-docs",
+    "diff",
+    "scoped",
+    "ledger-final"
+  ],
+  "receipts": {
+    "proof": "organization-shell-resources/proof-r3"
+  },
+  "lightweightGates": true,
+  "counters": [],
+  "cleanupProbe": {
+    "sourceTestPath": "packages/game/src/shell/bootstrap-resources.http.test.ts",
+    "sourceTestSha256": "5b32efd82bf8a80475150893397aeb1aba5260580fee6bb539cce89fdfda8193",
+    "probeMember": "organization-shell-resources/cleanup-probe.ts",
+    "probeSha256": "1d77ea48f8e2ba45b90b9804b1d4a5a25ca8d44bc415bbcd1cd35ac28f4b778b",
+    "report": "organization-shell-resources/cleanup-probe.native.json",
+    "expectedPassed": 1,
+    "expectedFailed": 1,
+    "failingFullName": "Default resource HTTP ports 默认端口用真实 Response 读出 soundfont 字节，且真实加载器已发出请求",
+    "forcedFailureBeforeFirstAwait": true,
+    "afterEachAssertions": {
+      "originalFetchRestored": true,
+      "actualReturnedAndControlledPromisesSettled": 7,
+      "caseCount": 2
+    },
+    "scope": "Deliberate test assertion failure,not product mutant. Only injected business assertion fails; both afterEach guards observe4heldResponses+3actualreturnbarriers and originalfetch after close. Subsequent HTTP503 case succeeds. Probe discarded and originaltest/source restored."
+  },
+  "fixtureAndCallbackProof": "organization-shell-resources/proof-r3.stdout.raw",
+  "reusedReviewMember": "organization-shell-resources/reused-reviews.json",
+  "primarySources": [
+    {
+      "source": "packages/game/src/shell/bootstrap-resources.ts",
+      "sha256": "7298c33038868dd9f514b04940f5f9f8dbcf29a5592201a6e83509d4b04ed6aa",
+      "scope": "Browser-only orchestration; SDLPal N/A. Real bootstrap uses resource readiness, original MIDI promise and independent settle barrier."
+    }
+  ],
+  "profiles": [
+    {
+      "path": "packages/game/src/shell/bootstrap-resources.test.ts",
+      "subjects": [
+        "packages/game/src/shell/bootstrap-resources.test.ts",
+        "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts"
+      ],
+      "axes": {
+        "A": "11个注入端口用例：MIDI/FM、四下载同步起跑、原soundfont拒绝/settle、三类资源屏障及失败/跨boot隔离。当前67行源与真实bootstrap三处await/传参已核，未把单元接口当整启动验收。",
+        "B": "移除作者/批次/新增差异头；错误身份与glyph精确警告原样保持。主测场景失败发生在font已settle，另例在font仍pending时失败，明确为不同结局时序，不按同错误标题判重复。",
+        "C": "每例Owner拥有deferred和三个真实返回promise；原两个finally责任迁至afterEach，release并await后才unstub fetch。ports默认glyph为空或含A，保留两个局部scope与资产引用。",
+        "D": "同语义deferred/启动登记归case Owner；两个ports工厂的默认glyph/资产合同不同不强并。assetToken仅转发合法构造器，已核AST后直接用现有builder；不同barrier不可合成一个ready。",
+        "E": "13总身份无增删；11注入回调经显式Owner桥/两finally迁移后全业务AST与断言保持。精确Error/引用/warn及独立屏障oracle继续有效，旧反控只按适用范围复用。",
+        "F": "bootstrap-resources路径与启动/屏障失败两个suite直示职责。resources.start保留真实入口签名；deferred/fallback在调用点可见，不隐藏等待者归属。",
+        "G": "只保留当前11例；三单资源等待轴分别防漏等，与全组先后顺序不混作重复。不引通用场景工厂、模式布尔、额外生产接口或兼容层。",
+        "H": "实际编排器+typed端口，独立给定Error/资产/字节；没有clone被测算法当oracle。私有两次Promise推进只针对既有微任务阶段，不授任意网络队列已空信用。"
+      }
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap-resources.http.test.ts",
+      "subjects": ["packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts"],
+      "axes": {
+        "A": "2个默认端口例调用真实loadAll/loadGlyphs/loadDialogAssets，native Response验证soundfont字节/503原文与初始请求；四其它初始请求明确受控且最终scene503，未声称完整资源装配成功。",
+        "B": "文件/头义按HTTP接线区分注入端口；heldResourceResponse写清四URL及scene503终结策略，不称真实原盘/离线/可玩浏览器。",
+        "C": "本文件仅持有fetch stub和case Owner，close等待实际返回与受控Response后恢复全局；不带入无关glyph/LoadedAssets端口工厂。",
+        "D": "复用同一个case Owner的请求终结合同；具体Response路由留在HTTP spec，未做跨IO/纯数据万能helper。",
+        "E": "两原身份/字面量请求顺序/字节/错误/ready断言完整保留。故意首await前失败时，两例afterEach均证4受控+3返回promise已settle、fetch恢复；仅指定断言红、下一例绿，不冒充产品缺陷反例。",
+        "F": "http文件名、heldResourceResponse和请求清单揭示实际路由，不再混入作者命名文件或纯端口屏障测试。",
+        "G": "2例各覆盖成功字节和HTTP拒绝，独立结果不删除；无冗余资源typed工厂/全屏像素/完整boot宿主依赖。",
+        "H": "只替换外部fetch；真实Response和真实生产加载器运行。默认IO仍是有限入口证据，not-ready与controlled终结不当成功下载验收。"
+      }
+    },
+    {
+      "path": "packages/game/src/shell/__tests__/bootstrap-resource-load.ts",
+      "subjects": [
+        "packages/game/src/shell/bootstrap-resources.test.ts",
+        "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts"
+      ],
+      "axes": {
+        "A": "测试侧Owner只封装既有controlled deferred与真实startBootstrapResourceLoad返回值，三promise原样交回case，fallback仅用于收尾。",
+        "B": "头注说明case所有权和IO mock归调用方；allSettled只等待结局，业务仍检查原promise拒绝，不说取消生产下载。",
+        "C": "数组从模块级迁到每例factory闭包，close释放所有fallback后等待真实pending，finally清空闭包；调用方在其后恢复global。",
+        "D": "deferred/start两个函数正文经变量/入口名桥与原helper严格对等；只抽相同生命周期，不抽不同默认port数据。",
+        "E": "当前13case与54相邻运行该Owner；早断言探针直接观测7实际promise及fetch恢复，防只清数组假收尾。探针源码/原生JSON完整保留并精确恢复原spec。",
+        "F": "deferred/start/close三个名称和typed fallback直接表达职责；单个createBootstrapResourceOwner出口，不导出内部登记或借生产新增控制器。",
+        "G": "38行有真实两spec caller，无class/全局单例/barrel/未来选项；移除两旧清理重复与纯转发，而非只改后缀。",
+        "H": "控制的promise可确定释放，真实编排结果可独立观察；不改生产输入/返回接口、不加cast、ignore、console静音或超时放宽。"
+      }
+    }
+  ],
+  "reads": {
+    "fullInputs": [
+      {
+        "path": "packages/game/src/shell/bootstrap-resources.test.ts",
+        "sha256": "9fe618c9e0e80eb56b04efe9168840334560928106f6f3c78679b53dd14ea04e",
+        "member": "organization-shell-resources/0.before",
+        "lines": 121
+      },
+      {
+        "path": "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts",
+        "sha256": "9467ece07babd3f5d1125ff7d0091815540d0d2adb4998611be223239dea103f",
+        "member": "organization-shell-resources/1.before",
+        "lines": 361
+      }
+    ],
+    "fullImplementation": [
+      {
+        "path": "packages/game/src/shell/bootstrap-resources.ts",
+        "sha256": "7298c33038868dd9f514b04940f5f9f8dbcf29a5592201a6e83509d4b04ed6aa",
+        "lines": 67
+      }
+    ],
+    "currentFullOutputs": [
+      {
+        "path": "packages/game/src/shell/bootstrap-resources.test.ts",
+        "sha256": "ef2fbd4bee9fe3224682f6b5f56525812194b03a65354eb36e10ea38a7df7f7e",
+        "lines": 340
+      },
+      {
+        "path": "packages/game/src/shell/bootstrap-resources.http.test.ts",
+        "sha256": "5b32efd82bf8a80475150893397aeb1aba5260580fee6bb539cce89fdfda8193",
+        "lines": 101
+      },
+      {
+        "path": "packages/game/src/shell/__tests__/bootstrap-resource-load.ts",
+        "sha256": "9848955fd1153585a8cbd80d774748930dad84a80c2cc00299ea1b1565a98f4e",
+        "lines": 38
+      }
+    ],
+    "callers": [
+      {
+        "path": "packages/game/src/shell/bootstrap.ts",
+        "sha256": "a4d007c9739873dc20f385b52b584de49ec57cd5c328cb11ca9d3b0b9f19fb0a",
+        "ranges": [[232, 278], [480, 491], [1636, 1645]],
+        "scope": "resourcesReady装配/原soundfontData注入MIDI/视频前soundfontSettled三个真实Owner边界；不授bootstrap整文件验收。"
+      },
+      {
+        "path": "packages/game/src/assets/loader.ts",
+        "sha256": "9c3c3a333e5b04d25cd220e17d04863b0ff5c759e273d05c3b82af758756788f",
+        "ranges": [[50, 90]],
+        "scope": "LoadedAssets邻型已核；实现沿既有同源loadAll证据复用。"
+      },
+      {
+        "path": "packages/game/src/assets/dialog-assets.ts",
+        "sha256": "4a5186879b7ae66abe0ef13a48a472e35e1234c0c69943ce932bcd26b9a67eed",
+        "ranges": [[92, 119]],
+        "scope": "DialogAssets及两个下载入口错误降级所有权。"
+      },
+      {
+        "path": "packages/game/src/present/font.ts",
+        "sha256": "0af092f60efef7dd1f39c82f4c492512dbf957092f0d20b13da27b5518fd7fe4",
+        "ranges": [[9, 18], [39, 55]],
+        "scope": "Glyph/GlyphTable及真实loadGlyphs入口。"
+      }
+    ]
+  },
+  "processDisclosures": [
+    "1fixed historicalsubjectonly;2input13cases ->main11/http2+testOwner。相邻主测迁入场景错误例维持4原身份，不复用旧3主测计数。无新增closed。",
+    "Initialproducer限定finally时误包含业务catch，严格拒绝后仅选择有finally的try；实际业务catch不动。Proof初版对整个文件改method语法而parse拒绝，r2先取callback；purealias的单/多行打印差异以精确Return/Call/参数AST形状核定，未放宽共享helper正文或case比较。所有首失败原件保留。",
+    "Firstneighborcommand包含不存在旧筛选src/assets/loader.bootstrap.test.ts，被Vitest忽略；原native仅5文件44，不宣称6文件。另按真实存在load-all.assembly.test.ts补1文件10，合54；两轮路径/结果独立保留。后续定向先核实际路径集合。",
+    "Cleanup probe故意在第一HTTP case首await前失败；4个受控Response及3返回promise的7个实际结局、原fetch恢复均由两轮afterEach观察。只有指定AssertionError，另一HTTP503例通过；不是hosttimeout、产品红例或新增运行case。当前spec/source均精确恢复。",
+    "Product/schema/save/assetformat/publicinterface/network/visiblebehavior未改。重型wholecheck/coverage/protected及提交推送合并仍等大批稳定收尾。"
+  ],
+  "ledgerCounts": {
+    "inventory": 3461,
+    "closed": 570,
+    "review": 257,
+    "pending": 2634
+  }
+}

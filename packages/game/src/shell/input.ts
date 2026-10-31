@@ -61,7 +61,7 @@ const CODE_MAP: Record<string, AbstractKey> = {
 }
 
 export function codeToAbstractKey(code: string): AbstractKey | null {
-  return CODE_MAP[code] ?? null
+  return Object.hasOwn(CODE_MAP, code) ? (CODE_MAP[code] ?? null) : null
 }
 
 function isDirectionKey(key: AbstractKey): boolean {

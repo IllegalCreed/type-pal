@@ -54,6 +54,11 @@ historical。覆盖率与测试计数为 2026-09-29 时点。
 
 当前结论归 TEST-GLM-EVENT-WAVE-K-1 完成卡。
 
+## 2026-10-31 历史链接去向
+
+K04 原文件已按职责拆分；本页 quote 仍是原字节，不能改链后冒称直接逆回。历史代码可从[原候选冻结文件](https://github.com/IllegalCreed/type-pal/blob/1f26d421ab81090c83b704968973e369473d563a/packages/game/src/core/event-system.glm-event-k04.test.ts)核读，当前去向见[事件转换重组记录](../../../../../ops/evidence/QUALITY-PENDING-100-3/organization-event-transitions.json)。旧 quote 的原路径由本条明确解释；后续模板迁移须以固定 Git 原文围栏保全，不偷偷替换链接。
+
+
 ## 原文保全
 
 固定源 revision `b9af6517a6298e0fb247b97a3b653294d6b45fa2`，source SHA `7d3e86779215e03dace2408715e9ca824bed5c17d124545e3edef1b6fec52055`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。

@@ -1,0 +1,12 @@
+{
+  "date": "2026-10-28",
+  "action": "source-reference-lifecycle-test-bridge",
+  "base": "f47f052fa1e732f7e574e70b268790d301dada3d",
+  "source": "packages/game/src/shell/game-shell.test.ts",
+  "beforeSha256": "fcdbb4607f369754392d75aca6418db4b68b1a74f601420a73c6dbec1023264d",
+  "afterSha256": "0794a3cea59a2f5bdc89bfa38e1903f164a64dd0b8bfc201e550456692fa003b",
+  "beforeLine": "143",
+  "afterLine": "157",
+  "evidence": "docs/ops/evidence/QUALITY-PENDING-100-2/review.json",
+  "scope": "Only shell test teardown now releases language subscribers after removing temporary DOM and restores language/lang attribute. Referenced rotation test and remainder are byte-identical; native controls-after13files81passed/empty stderr. No new hardware/browser/visual/deployment claims; old runtime receipts and publication state remain unchanged."
+}

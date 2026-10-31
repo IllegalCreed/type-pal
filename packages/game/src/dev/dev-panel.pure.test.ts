@@ -15,7 +15,7 @@ import type {
   Spell,
 } from '@type-pal/shared'
 import { assert, describe, expect, it } from 'vitest'
-import { makeHEnemy, makeHRole } from '../__tests__/glm-next-wave/H/harness.js'
+import { makeEnemyRecord, makeRoleRecord } from '../__tests__/battle-records.js'
 import { SceneAssetsCache } from '../assets/loader.js'
 import { getBattleResources } from '../core/battle/battle-runtime-context.js'
 import { tickBattle } from '../core/battle/battle-system.js'
@@ -99,7 +99,7 @@ const LEVELUP_MAGIC_FIX: LevelUpMagicEntry[][] = [
 const LEVELUP_EXP_FIX = [0, 15, 40, 90, 165, 265, 390, 540, 715, 915, 1140, 1390, 1665, 1965]
 
 function minimalEnemy(id: number, over: Partial<Enemy> = {}): Enemy {
-  return makeHEnemy({
+  return makeEnemyRecord({
     id,
     _name: `e${id}`,
     health: 30,
@@ -118,7 +118,7 @@ function minimalEnemy(id: number, over: Partial<Enemy> = {}): Enemy {
   })
 }
 function minimalRole(id: number): PlayerRole {
-  return makeHRole(id, {
+  return makeRoleRecord(id, {
     _name: `r${id}`,
     level: 1,
     hp: 100,

@@ -1,10 +1,11 @@
 /**
  * TEST-FOUNDATION-COVERAGE-1 C3：法术 wrapper（OBJECT_MAGIC 段）/ MAGIC 表（chunk 4）
- * / object 三视图边界（spells.ts:38-320）。合成字节；OBJECT 与 MAGIC 表不混用：
+ * / object 三视图边界（spells.ts 的五个公开解析入口）。合成字节；OBJECT 与 MAGIC 表不混用：
  * parseSpells 吃 SSS chunk2 OBJECT 段，parseMagicTable 吃 DATA chunk4 32B 记录。
  */
 import { describe, expect, test } from 'vitest'
-import { mkTable, mkWords } from '../../../__tests__/glm-foundation-fixtures.js'
+import { u16Table } from '../../../__tests__/binary-fixtures.js'
+import { makeWords } from '../../../__tests__/words-table.js'
 import {
   parseMagicTable,
   parseObjectMagics,
@@ -28,19 +29,21 @@ describe('parseSpells · OBJECT_MAGIC 段', () => {
       [SPELL_OBJ_START * OBJ_SIZE + 4, 100],
       [SPELL_OBJ_START * OBJ_SIZE + 6, 200],
       [SPELL_OBJ_START * OBJ_SIZE + 10, 300],
-      [SPELL_OBJ_START * OBJ_SIZE + 12, 0b10011], // 外用|战内|敌用|全体
+      [SPELL_OBJ_START * OBJ_SIZE + 12, 0b10011], // 外用|战内|全体；敌用 bit3 未置
       // 末段 spell id397：flags=0b10（仅战内）
       [(SPELL_OBJ_START + SPELL_COUNT - 1) * OBJ_SIZE + 12, 0b10],
       // 梦蛇 295：flags=0b1（仅外用）
       [MENGSHE_OBJ_ID * OBJ_SIZE + 12, 0b1],
     ]
-    const words = mkWords({
+    const words = makeWords({
       items: Array.from({ length: 235 }, (_, i) => `物${i}`),
       spells: Array.from({ length: SPELL_COUNT }, (_, i) => `术${i}`),
     })
-    const out = parseSpells(mkTable(OBJ_BYTES, writes), words)
-    expect(out).toHaveLength(SPELL_COUNT + 1) // 102 段内 + 梦蛇
-    expect(out[0]!.id).toBe(296)
+    const out = parseSpells(u16Table(OBJ_BYTES, writes), words)
+    expect(out.map((spell) => spell.id)).toEqual([
+      ...Array.from({ length: SPELL_COUNT }, (_, index) => SPELL_OBJ_START + index),
+      MENGSHE_OBJ_ID,
+    ])
     expect(out[0]!.magicNumber).toBe(7)
     expect(out[0]!.scriptOnSuccess).toBe(100)
     expect(out[0]!.scriptOnUse).toBe(200)
@@ -53,7 +56,7 @@ describe('parseSpells · OBJECT_MAGIC 段', () => {
     })
     expect(out[0]!._name).toBe('术0')
     const last = out[SPELL_COUNT - 1]!
-    expect(last.id).toBe(397)
+    expect(last._name).toBe('术101')
     expect(last.flags).toEqual({
       usableOutsideBattle: false,
       usableInBattle: true,
@@ -62,17 +65,18 @@ describe('parseSpells · OBJECT_MAGIC 段', () => {
     })
     const mengshe = out.at(-1)!
     expect(mengshe.id).toBe(295)
+    expect(mengshe._name).toBe('物234')
     expect(mengshe.flags.usableOutsideBattle).toBe(true)
     expect(mengshe.flags.usableInBattle).toBe(false)
   })
   test('截断：< (296+102)×14B 拒绝', () => {
-    expect(() => parseSpells(mkTable(OBJ_BYTES - 1, []))).toThrow(/truncated/)
+    expect(() => parseSpells(u16Table(OBJ_BYTES - 1, []))).toThrow(/truncated/)
   })
 })
 
 describe('parseObjectMagics · 全 OBJECT 数组 magic 视图', () => {
   test('逐 14B 遍历，id=绝对下标，count=floor(len/14)（尾部半条不计）', () => {
-    const buf = mkTable(OBJ_SIZE * 3 + 6, [
+    const buf = u16Table(OBJ_SIZE * 3 + 6, [
       [0, 5], // id0 magicNumber
       [2 * OBJ_SIZE + 12, 0b1000], // id2 flags=usableToEnemy(bit3)
     ])
@@ -88,12 +92,18 @@ describe('parseObjectMagics · 全 OBJECT 数组 magic 视图', () => {
 describe('parseMagicTable · DATA chunk 4（32B/条）', () => {
   test('字段映射：type 枚举与 other 兜底、signed speed/sound', () => {
     const writes: Array<[number, number]> = [
-      [0, 1], // effect
+      [0, 11], // effect
       [2, 9], // type=9 → summon
       [4, 12], // xOffset
       [6, -8 & 0xffff], // yOffset(u16 原样)
       [8, 77], // special(union raw)
-      [10, 0xffff], // speed(SHORT → -1)
+      [10, 0xfffd], // speed(SHORT → -3)
+      [12, 1], // keepEffect
+      [14, 2], // fireDelay
+      [16, 3], // effectTimes
+      [18, 4], // shake
+      [20, 5], // wave
+      [22, 6], // unknown
       [24, 40], // costMP
       [26, 250], // baseDamage
       [28, 2], // elemental
@@ -101,26 +111,59 @@ describe('parseMagicTable · DATA chunk 4（32B/条）', () => {
       // 第二条 type=6 → 'other' 兜底
       [MAGIC_SIZE + 2, 6],
     ]
-    const out = parseMagicTable(mkTable(MAGIC_SIZE * 2, writes))
-    expect(out).toHaveLength(2)
-    expect(out[0]!.type).toBe('summon')
-    expect(out[0]!.speed).toBe(-1)
-    expect(out[0]!.sound).toBe(-1)
-    expect(out[0]!.costMP).toBe(40)
-    expect(out[0]!.baseDamage).toBe(250)
-    expect(out[1]!.type).toBe('other')
+    const out = parseMagicTable(u16Table(MAGIC_SIZE * 2, writes))
+    expect(out).toEqual([
+      {
+        id: 0,
+        effect: 11,
+        type: 'summon',
+        xOffset: 12,
+        yOffset: 65528,
+        special: 77,
+        speed: -3,
+        keepEffect: 1,
+        fireDelay: 2,
+        effectTimes: 3,
+        shake: 4,
+        wave: 5,
+        unknown: 6,
+        costMP: 40,
+        baseDamage: 250,
+        elemental: 2,
+        sound: -1,
+      },
+      {
+        id: 1,
+        effect: 0,
+        type: 'other',
+        xOffset: 0,
+        yOffset: 0,
+        special: 0,
+        speed: 0,
+        keepEffect: 0,
+        fireDelay: 0,
+        effectTimes: 0,
+        shake: 0,
+        wave: 0,
+        unknown: 0,
+        costMP: 0,
+        baseDamage: 0,
+        elemental: 0,
+        sound: 0,
+      },
+    ])
   })
   test('长度不能被 32 整除：已定义拒绝', () => {
-    expect(() => parseMagicTable(mkTable(MAGIC_SIZE + 1, []))).toThrow(/不能被 MAGIC_SIZE=32 整除/)
+    expect(() => parseMagicTable(u16Table(MAGIC_SIZE + 1, []))).toThrow(/不能被 MAGIC_SIZE=32 整除/)
   })
   test('零长度 → 空数组（合法边界）', () => {
     expect(parseMagicTable(Uint8Array.of())).toEqual([])
   })
 })
 
-describe('parseObjectPoisons · OBJECT_POISON 视图（spells.ts:195-230）', () => {
+describe('parseObjectPoisons · OBJECT_POISON 视图', () => {
   test('字段映射：level/color/playerScript/enemyScript + id=绝对下标 + floor 计数', () => {
-    const buf = mkTable(OBJ_SIZE * 2 + 6, [
+    const buf = u16Table(OBJ_SIZE * 2 + 6, [
       [0, 3], // id0 level
       [2, 16], // id0 color
       [4, 100], // id0 playerScript
@@ -136,12 +179,12 @@ describe('parseObjectPoisons · OBJECT_POISON 视图（spells.ts:195-230）', ()
   })
 })
 
-describe('parseObjectPlayers · OBJECT_PLAYER 段（spells.ts:234-265）', () => {
+describe('parseObjectPlayers · OBJECT_PLAYER 段', () => {
   const PLAYER_OBJ_START = 36
   const PLAYER_OBJ_COUNT = 6
   const PLAYER_BYTES = (PLAYER_OBJ_START + PLAYER_OBJ_COUNT) * OBJ_SIZE
   test('id=36..41 六条；scriptOnFriendDeath/scriptOnDying 按偏移 4/6 映射', () => {
-    const buf = mkTable(PLAYER_BYTES, [
+    const buf = u16Table(PLAYER_BYTES, [
       [PLAYER_OBJ_START * OBJ_SIZE + 4, 111], // role0 friendDeath
       [PLAYER_OBJ_START * OBJ_SIZE + 6, 222], // role0 dying
       [(PLAYER_OBJ_START + 2) * OBJ_SIZE + 4, 333], // role2 friendDeath
@@ -153,6 +196,6 @@ describe('parseObjectPlayers · OBJECT_PLAYER 段（spells.ts:234-265）', () =>
     expect(views[5]).toEqual({ id: 41, scriptOnFriendDeath: 0, scriptOnDying: 0 })
   })
   test('截断：< (36+6)×14B 拒绝', () => {
-    expect(() => parseObjectPlayers(mkTable(PLAYER_BYTES - 1, []))).toThrow(/< required/)
+    expect(() => parseObjectPlayers(u16Table(PLAYER_BYTES - 1, []))).toThrow(/< required/)
   })
 })

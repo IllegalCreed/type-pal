@@ -5,5 +5,5 @@ export type Locale = Record<TextId, string>
 
 /** 查表;未命中回退返回 id 本身,便于开发期发现漏填。 */
 export function lookupText(id: TextId, locale: Locale): string {
-  return locale[id] ?? id
+  return Object.hasOwn(locale, id) ? (locale[id] ?? id) : id
 }

@@ -88,7 +88,7 @@ function allowsWholeSubtreeFastPath(file: string): boolean {
   // traversed to reject an equal-but-invalid insertion. Opaque/content sidecars and scalar maps
   // may safely select an unchanged whole tree.
   return !(
-    file === 'content/assets/index.json' ||
+    file === 'assets/index.json' ||
     file === 'content/stamps.json' ||
     file === 'content/sprites.json' ||
     file === 'content/skills.json' ||
@@ -137,22 +137,29 @@ function mergeObject(base: Node, ours: Node, theirs: Node, path: string, ctx: Me
   const baseObject = isObject(base) ? base.value : {}
   const oursObject = (ours.value ?? {}) as Record<string, MigrationJson>
   const theirsObject = (theirs.value ?? {}) as Record<string, MigrationJson>
-  const keys = [
+  const keys = new Set([
     ...Object.keys(theirsObject),
-    ...Object.keys(oursObject).filter((key) => !(key in theirsObject)),
-    ...Object.keys(baseObject).filter((key) => !(key in theirsObject) && !(key in oursObject)),
-  ]
+    ...Object.keys(oursObject),
+    ...Object.keys(baseObject),
+  ])
   const value: Record<string, MigrationJson> = {}
   for (const key of keys) {
     const childPath = `${path}/${escapePointer(key)}`
     const merged = mergeNode(
-      key in baseObject ? present(baseObject[key]!) : absent(),
-      key in oursObject ? present(oursObject[key]!) : absent(),
-      key in theirsObject ? present(theirsObject[key]!) : absent(),
+      Object.hasOwn(baseObject, key) ? present(baseObject[key]!) : absent(),
+      Object.hasOwn(oursObject, key) ? present(oursObject[key]!) : absent(),
+      Object.hasOwn(theirsObject, key) ? present(theirsObject[key]!) : absent(),
       childPath,
       ctx,
     )
-    if (merged.present) value[key] = merged.value!
+    // JSON names such as __proto__ must be own data fields, without invoking inherited setters.
+    if (merged.present)
+      Object.defineProperty(value, key, {
+        value: merged.value!,
+        enumerable: true,
+        configurable: true,
+        writable: true,
+      })
   }
   return present(value)
 }
@@ -175,24 +182,6 @@ function identityMaps(values: MigrationJson[]):
   for (const value of values) {
     const id = identity(value)
     if (!id || map.has(id)) return undefined
-    map.set(id, value)
-    order.push(id)
-  }
-  return { map, order }
-}
-
-function primitiveIdentityMaps(values: MigrationJson[]):
-  | {
-      map: Map<string, MigrationJson>
-      order: string[]
-    }
-  | undefined {
-  const map = new Map<string, MigrationJson>()
-  const order: string[] = []
-  for (const value of values) {
-    if (typeof value !== 'string' && typeof value !== 'number') return undefined
-    const id = `${typeof value}:${value}`
-    if (map.has(id)) return undefined
     map.set(id, value)
     order.push(id)
   }
@@ -251,13 +240,11 @@ function mergeIdentityArray(
   theirs: Node & { value: MigrationJson[] },
   path: string,
   ctx: MergeContext,
-  primitive: boolean,
-  strictOrder = primitive,
+  strictOrder = false,
 ): Node {
-  const read = primitive ? primitiveIdentityMaps : identityMaps
-  const baseState = read(base.value)
-  const oursState = read(ours.value)
-  const theirsState = read(theirs.value)
+  const baseState = identityMaps(base.value)
+  const oursState = identityMaps(ours.value)
+  const theirsState = identityMaps(theirs.value)
   if (!baseState || !oursState || !theirsState) {
     ctx.conflicts.push(conflict(ctx.file, path, 'invalid-identity', base, ours, theirs))
     return cloneNode(ours)
@@ -357,15 +344,9 @@ function mergeNode(base: Node, ours: Node, theirs: Node, path: string, ctx: Merg
     if (oursOrigin === 'authored' && theirsOrigin !== 'authored') return cloneNode(ours)
   }
 
-  // Equal whole subtrees have no merge work left. This is especially important for large
-  // unowned sidecars and canonical content files: the previous path recursively allocated a
-  // detached object for every child even when one side was byte-for-byte unchanged. Keep the
-  // three-way precedence identical to mergeAtomicNode, but make the decision before array/object
-  // dispatch. The special authored/sprite rules above intentionally remain ahead of this fast
-  // path.
-  // Identity-bearing arrays (pages/stages/id lists) still need their order/identity validators,
-  // even when two sides happen to be deeply equal; an equal-but-invalid insertion must remain a
-  // fail-closed conflict. Object/primitive subtrees can take the whole-subtree shortcut safely.
+  // Files without identity/order/ownership policies can select unchanged subtrees as a unit.
+  // Policy-bearing files must traverse even equal ancestors, so nested author ownership and
+  // array identity validation still run; checking only the current node would bypass them.
   if (ctx.allowWholeSubtreeFastPath && !isArray(base) && !isArray(ours) && !isArray(theirs)) {
     if (same(ours, base)) return cloneNode(theirs)
     if (same(theirs, base) || same(ours, theirs)) return cloneNode(ours)
@@ -374,24 +355,22 @@ function mergeNode(base: Node, ours: Node, theirs: Node, path: string, ctx: Merg
   if (!base.present && isArray(ours) && isArray(theirs)) {
     const mode = arrayMode(ctx.file, path)
     const empty = present([]) as Node & { value: MigrationJson[] }
-    if (mode === 'id') return mergeIdentityArray(empty, ours, theirs, path, ctx, false)
-    if (mode === 'scene-index')
-      return mergeIdentityArray(empty, ours, theirs, path, ctx, false, true)
+    if (mode === 'id') return mergeIdentityArray(empty, ours, theirs, path, ctx)
+    if (mode === 'scene-index') return mergeIdentityArray(empty, ours, theirs, path, ctx, true)
     if (
       (mode === 'pages' || mode === 'stages') &&
       identityMaps(ours.value) &&
       identityMaps(theirs.value)
     )
-      return mergeIdentityArray(empty, ours, theirs, path, ctx, false)
+      return mergeIdentityArray(empty, ours, theirs, path, ctx)
   }
   if (isArray(base) && isArray(ours) && isArray(theirs)) {
     const mode = arrayMode(ctx.file, path)
-    if (mode === 'id') return mergeIdentityArray(base, ours, theirs, path, ctx, false)
-    if (mode === 'scene-index')
-      return mergeIdentityArray(base, ours, theirs, path, ctx, false, true)
+    if (mode === 'id') return mergeIdentityArray(base, ours, theirs, path, ctx)
+    if (mode === 'scene-index') return mergeIdentityArray(base, ours, theirs, path, ctx, true)
     if (mode === 'pages') {
       if (identityMaps(base.value) && identityMaps(ours.value) && identityMaps(theirs.value))
-        return mergeIdentityArray(base, ours, theirs, path, ctx, false)
+        return mergeIdentityArray(base, ours, theirs, path, ctx)
       return mergePages(base, ours, theirs, path, ctx)
     }
     if (
@@ -400,7 +379,7 @@ function mergeNode(base: Node, ours: Node, theirs: Node, path: string, ctx: Merg
       identityMaps(ours.value) &&
       identityMaps(theirs.value)
     )
-      return mergeIdentityArray(base, ours, theirs, path, ctx, false)
+      return mergeIdentityArray(base, ours, theirs, path, ctx)
   }
   if (isObject(base) && isObject(ours) && isObject(theirs))
     return mergeObject(base, ours, theirs, path, ctx)

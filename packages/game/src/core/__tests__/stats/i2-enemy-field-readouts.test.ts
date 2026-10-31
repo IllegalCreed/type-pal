@@ -2,7 +2,7 @@
  * I2: collectEnemyStatusReadouts / collectFieldInfoReadout 敌方与战场投影
  * 重点核验 (去重说明: 旧测试已测 attackEquivPoison、collectValue 及非战斗空态，此处严格去重):
  * 1. 正式战斗态中的 defeated 标记、受击后当前HP与开战满血
- * 2. 偷取物品、金钱与不可偷的不同读出
+ * 2. 偷取物品与金钱的不同读出（不可偷由既有主测覆盖）
  * 3. 敌人自身 debuff/buff 与敌人毒槽解析
  * 4. 战场 isBoss、screenWave 与有符号 magicEffect 正负场效
  */
@@ -27,13 +27,17 @@ describe('I2: 敌方与战场只读快照投影', () => {
     const gs = makeFreshGameState()
     const state = attachBattleState(gs, [makeEnemy({ health: 80 })])
     state.enemies[0]!.e.health = 30
-    state.enemies[0]!.defeated = true
-
     const readouts = collectEnemyStatusReadouts(gs)
     expect(readouts).toHaveLength(1)
-    expect(readouts[0]!.defeated).toBe(true)
+    expect(readouts[0]!.defeated).toBe(false)
     expect(readouts[0]!.hp).toBe(30)
     expect(readouts[0]!.maxHp).toBe(80) // createBattleState 的开战满血，不是旧 fixture fallback
+    state.enemies[0]!.e.health = 0
+    state.enemies[0]!.defeated = true
+    const defeated = collectEnemyStatusReadouts(gs)
+    expect(defeated[0]!.defeated).toBe(true)
+    expect(defeated[0]!.hp).toBe(0)
+    expect(defeated[0]!.maxHp).toBe(80)
   })
 
   it('I2-02 敌方偷取判定: 偷物品与偷金钱的区分展示', () => {

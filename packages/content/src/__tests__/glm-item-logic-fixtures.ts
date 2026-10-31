@@ -10,7 +10,7 @@ import { buildWorld, type CharacterInstance, instantiate, type WorldState } from
 import type { ItemData, ItemUseEffect } from '../item.js'
 import type { PoisonDef } from '../poison.js'
 import { validateActors, validateItems } from '../validate.js'
-import { deepSnapshot } from './glm-content-contract-fixtures.js'
+import { deepSnapshot } from './value-snapshot.js'
 
 const baseItem: ItemData = {
   id: 'base',

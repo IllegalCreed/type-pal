@@ -1,0 +1,286 @@
+{
+  "id": "dev-hotkeys",
+  "namespace": "organization-dev-hotkeys",
+  "inputs": [
+    {
+      "path": "packages/game/src/dev/dev-panel.glm-next-wave.test.ts",
+      "member": "organization-dev-hotkeys/0.before",
+      "sha256": "ba9b3b17067c32305fc1f1dec50e7fc26bb6f2011da56a6171c9987f020f9c9f",
+      "lines": 128
+    }
+  ],
+  "outputs": [
+    {
+      "path": "packages/game/src/dev/dev-panel.hotkeys.test.ts",
+      "sha256": "d619223cde59dba51609b7501546c4e882f04ff9fc330393a8fc9052e7e92724",
+      "lines": 117
+    }
+  ],
+  "replacements": [],
+  "sourceBridges": [
+    {
+      "path": "packages/game/src/dev/dev-panel.glm-next-wave.test.ts",
+      "id": "organization-dev-hotkeys",
+      "reason": "Analyzer bridge after independent complete callback/factory/setup/cleanup tree proof; one additional close-prevention oracle and per-case host lifecycle are explicit.",
+      "changes": [
+        {
+          "from": "/** GLM Wave I / I01 — `setupDevPanel` 显式控制与释放(dev-panel.ts,生产冻结 ced193f4)。\n *\n * 旧证去重(本文件不重复):\n *  - dev-panel.pure.test.ts:togglePartyMembership / buildCustomEnemyTeam /\n *    computeMagicGrantsByRole / roleMagicsAtLevel / applyFixture / applyCustomBattle /\n *    applyBossBattle / applyAutoBattleT37。\n *  - dev-panel.test.ts:BOSS_ROSTER story-grounded 数据自检。\n * 本文件核开关/模式门和真实dump输出；完整战中/探索换队合同由dev-panel-party-lifecycle.test.ts承接:\n *  1. `B`(探索模式)开 picker → 再按 B toggle 关闭,且对按键 preventDefault。\n *  2. 非 explore/battle 模式(如 event)B 不拦截、不开面板。\n *  3. `F1`(全局)console dump = gs 的深拷贝(后改 gs 不影响 dump,且非同引用)。\n * 未证登记:`!import.meta.env.DEV → 直接 return` 的 DEV 假分支在 vitest 下不可构造 ——\n * vitest 把 `import.meta.env.DEV` 编译期替换为 true,运行时翻转(stubEnv / env 对象赋值)\n * 均改变不了被测模块视角;生产侧由 dead-code-elimination 兜底。见 wave-I 回执。\n */\n\nimport { afterAll, afterEach, beforeAll, describe, expect, it, vi } from 'vitest'\nimport { SceneAssetsCache } from '../assets/loader.js'\nimport { createInitialGameState } from '../core/game-state.js'\nimport type { DevPanelDeps } from './dev-panel.js'\nimport { setupDevPanel } from './dev-panel.js'\n\nfunction makeDeps(): DevPanelDeps {\n  return {\n    gs: createInitialGameState({ x: 0, y: 0, facing: 'down' }),\n    fixtures: { fixtures: [] },\n    sceneJumps: { jumps: [] },\n    sceneAssetsCache: new SceneAssetsCache(() =>\n      Promise.reject(new Error('scene assets 未加载:本测试不开场景跳转')),\n    ),\n    resources: {\n      enemies: [],\n      enemyObjects: [],\n      enemyTeams: [],\n      battleFields: [],\n      playerRoles: { roles: [] },\n      levelUpExp: [],\n      levelUpMagic: [],\n      items: [],\n      spells: [],\n      magics: [],\n      objectMagics: [],\n      objectPoisons: [],\n      objectPlayers: [],\n      commands: [],\n      enemyPos: { layouts: [] },\n      battleEffectIndex: [],\n      magicSpriteFrameCounts: new Map(),\n    },\n  }\n}\n\ndescribe('setupDevPanel 显式控制与释放(DEV-only debug overlay)', () => {\n  const deps = makeDeps()\n\n  // vitest(vite)下 import.meta.env.DEV=true → 装配一次;后续用例共用同一批 keydown 监听。\n  const listenerCalls: Parameters<typeof window.addEventListener>[] = []\n  beforeAll(() => {\n    const listenerSpy = vi.spyOn(window, 'addEventListener')\n    try {\n      setupDevPanel(deps)\n    } finally {\n      listenerCalls.push(...listenerSpy.mock.calls)\n      listenerSpy.mockRestore()\n    }\n  })\n\n  afterAll(() => {\n    for (const [type, listener, options] of listenerCalls)\n      window.removeEventListener(type, listener, options)\n  })\n\n  afterEach(() => {\n    // 通过 owner handler 关闭，覆盖 observer/异步资源 cleanup；不直接摘 DOM 绕过 currentPicker。\n    document.querySelector<HTMLButtonElement>('.tp-dev-panel button[title=\"Close\"]')?.click()\n    vi.restoreAllMocks()\n  })\n\n  it('B(explore)开 picker;再按 B toggle 关闭;两次都对按键 preventDefault', () => {\n    deps.gs.mode = 'explore'\n    const open = new KeyboardEvent('keydown', { code: 'KeyB', cancelable: true })\n    window.dispatchEvent(open)\n    expect(open.defaultPrevented).toBe(true)\n    expect(document.querySelector('.tp-dev-panel')).not.toBeNull()\n\n    const close = new KeyboardEvent('keydown', { code: 'KeyB', cancelable: true })\n    window.dispatchEvent(close)\n    expect(document.querySelector('.tp-dev-panel')).toBeNull()\n  })\n\n  it('非 explore/battle 模式(event)按 B:不拦截、不开面板', () => {\n    deps.gs.mode = 'event'\n    const evt = new KeyboardEvent('keydown', { code: 'KeyB', cancelable: true })\n    window.dispatchEvent(evt)\n    expect(evt.defaultPrevented).toBe(false)\n    expect(document.querySelector('.tp-dev-panel')).toBeNull()\n    deps.gs.mode = 'explore'\n  })\n\n  it('F1(全局)dump gs 深拷贝:内容等于当时快照,后改 gs 不影响 dump,且非同引用', () => {\n    deps.gs.mode = 'explore'\n    deps.gs.wNumMusic = 42\n    deps.gs.party.x = 32\n    deps.gs.inventory = [{ itemId: 63, count: 2 }]\n    const expected = {\n      wNumMusic: 42,\n      party: { x: 32 },\n      inventory: [{ itemId: 63, count: 2 }],\n    }\n    const logSpy = vi.spyOn(console, 'log').mockImplementation(() => {})\n    const f1 = new KeyboardEvent('keydown', { code: 'F1', cancelable: true })\n    window.dispatchEvent(f1)\n    expect(f1.defaultPrevented).toBe(true)\n\n    const dumpCall = logSpy.mock.calls.find((c) => c[0] === '[dev] GameState dump:')\n    expect(logSpy).toHaveBeenCalledOnce()\n    expect(dumpCall).toBeDefined()\n    const dump = dumpCall?.[1]\n    expect(dump).toMatchObject(expected)\n    expect(dump).not.toBe(deps.gs)\n\n    // dump 是深拷贝:此后 mutate 原 gs,dump 保持快照值。\n    deps.gs.wNumMusic = 0\n    deps.gs.party.x = 64\n    deps.gs.inventory[0]!.count = 1\n    expect(dump).toMatchObject(expected)\n  })\n})\n",
+          "to": "// DEV-build hotkey routing only; roster, party edits and asynchronous picker work have separate contracts.\n// No runtime credit for the non-DEV compilation branch. Specs close the picker through its owner.\nimport { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'\nimport { SceneAssetsCache } from '../assets/loader.js'\nimport { createInitialGameState } from '../core/game-state.js'\nimport type { DevPanelDeps } from './dev-panel.js'\nimport { setupDevPanel } from './dev-panel.js'\n\nfunction makeHotkeyDeps(): DevPanelDeps {\n  return {\n    gs: createInitialGameState({ x: 0, y: 0, facing: 'down' }),\n    fixtures: { fixtures: [] },\n    sceneJumps: { jumps: [] },\n    sceneAssetsCache: new SceneAssetsCache(() =>\n      Promise.reject(new Error('scene assets 未加载:本测试不开场景跳转')),\n    ),\n    resources: {\n      enemies: [],\n      enemyObjects: [],\n      enemyTeams: [],\n      battleFields: [],\n      playerRoles: { roles: [] },\n      levelUpExp: [],\n      levelUpMagic: [],\n      items: [],\n      spells: [],\n      magics: [],\n      objectMagics: [],\n      objectPoisons: [],\n      objectPlayers: [],\n      commands: [],\n      enemyPos: { layouts: [] },\n      battleEffectIndex: [],\n      magicSpriteFrameCounts: new Map(),\n    },\n  }\n}\n\ndescribe('DEV hotkey routing and dump snapshots', () => {\n  let deps: DevPanelDeps\n\n  // A fresh game state and one owned listener installation per case.\n  const listenerCalls: Parameters<typeof window.addEventListener>[] = []\n  beforeEach(() => {\n    deps = makeHotkeyDeps()\n    listenerCalls.length = 0\n    const listenerSpy = vi.spyOn(window, 'addEventListener')\n    try {\n      setupDevPanel(deps)\n    } finally {\n      listenerCalls.push(...listenerSpy.mock.calls)\n      listenerSpy.mockRestore()\n    }\n  })\n\n  afterEach(() => {\n    try {\n      document.querySelector<HTMLButtonElement>('.tp-dev-panel button[title=\"Close\"]')?.click()\n    } finally {\n      for (const [type, listener, options] of listenerCalls)\n        window.removeEventListener(type, listener, options)\n      listenerCalls.length = 0\n      vi.restoreAllMocks()\n    }\n  })\n\n  it('B(explore)开 picker;再按 B toggle 关闭;两次都对按键 preventDefault', () => {\n    deps.gs.mode = 'explore'\n    const open = new KeyboardEvent('keydown', { code: 'KeyB', cancelable: true })\n    window.dispatchEvent(open)\n    expect(open.defaultPrevented).toBe(true)\n    expect(document.querySelector('.tp-dev-panel')).not.toBeNull()\n\n    const close = new KeyboardEvent('keydown', { code: 'KeyB', cancelable: true })\n    window.dispatchEvent(close)\n    expect(close.defaultPrevented).toBe(true)\n    expect(document.querySelector('.tp-dev-panel')).toBeNull()\n  })\n\n  it('非 explore/battle 模式(event)按 B:不拦截、不开面板', () => {\n    deps.gs.mode = 'event'\n    const evt = new KeyboardEvent('keydown', { code: 'KeyB', cancelable: true })\n    window.dispatchEvent(evt)\n    expect(evt.defaultPrevented).toBe(false)\n    expect(document.querySelector('.tp-dev-panel')).toBeNull()\n    deps.gs.mode = 'explore'\n  })\n\n  it('F1 dump keeps independent music, position and inventory snapshots', () => {\n    deps.gs.mode = 'explore'\n    deps.gs.wNumMusic = 42\n    deps.gs.party.x = 32\n    deps.gs.inventory = [{ itemId: 63, count: 2 }]\n    const expected = {\n      wNumMusic: 42,\n      party: { x: 32 },\n      inventory: [{ itemId: 63, count: 2 }],\n    }\n    const logSpy = vi.spyOn(console, 'log').mockImplementation(() => {})\n    const f1 = new KeyboardEvent('keydown', { code: 'F1', cancelable: true })\n    window.dispatchEvent(f1)\n    expect(f1.defaultPrevented).toBe(true)\n\n    const dumpCall = logSpy.mock.calls.find((c) => c[0] === '[dev] GameState dump:')\n    expect(logSpy).toHaveBeenCalledOnce()\n    expect(dumpCall).toBeDefined()\n    const dump = dumpCall?.[1]\n    expect(dump).toMatchObject(expected)\n    expect(dump).not.toBe(deps.gs)\n\n    // dump 是深拷贝:此后 mutate 原 gs,dump 保持快照值。\n    deps.gs.wNumMusic = 0\n    deps.gs.party.x = 64\n    deps.gs.inventory[0]!.count = 1\n    expect(dump).toMatchObject(expected)\n  })\n})\n",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "registrations": [
+    {
+      "old": {
+        "file": "packages/game/src/dev/dev-panel.glm-next-wave.test.ts",
+        "ordinal": 0,
+        "fullName": "setupDevPanel 显式控制与释放(DEV-only debug overlay) B(explore)开 picker;再按 B toggle 关闭;两次都对按键 preventDefault"
+      },
+      "current": {
+        "file": "packages/game/src/dev/dev-panel.hotkeys.test.ts",
+        "titles": ["DEV hotkey routing and dump snapshots"],
+        "template": "B(explore)开 picker;再按 B toggle 关闭;两次都对按键 preventDefault",
+        "fullName": "DEV hotkey routing and dump snapshots B(explore)开 picker;再按 B toggle 关闭;两次都对按键 preventDefault"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/dev/dev-panel.glm-next-wave.test.ts",
+        "ordinal": 1,
+        "fullName": "setupDevPanel 显式控制与释放(DEV-only debug overlay) 非 explore/battle 模式(event)按 B:不拦截、不开面板"
+      },
+      "current": {
+        "file": "packages/game/src/dev/dev-panel.hotkeys.test.ts",
+        "titles": ["DEV hotkey routing and dump snapshots"],
+        "template": "非 explore/battle 模式(event)按 B:不拦截、不开面板",
+        "fullName": "DEV hotkey routing and dump snapshots 非 explore/battle 模式(event)按 B:不拦截、不开面板"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/dev/dev-panel.glm-next-wave.test.ts",
+        "ordinal": 2,
+        "fullName": "setupDevPanel 显式控制与释放(DEV-only debug overlay) F1(全局)dump gs 深拷贝:内容等于当时快照,后改 gs 不影响 dump,且非同引用"
+      },
+      "current": {
+        "file": "packages/game/src/dev/dev-panel.hotkeys.test.ts",
+        "titles": ["DEV hotkey routing and dump snapshots"],
+        "template": "F1 dump keeps independent music, position and inventory snapshots",
+        "fullName": "DEV hotkey routing and dump snapshots F1 dump keeps independent music, position and inventory snapshots"
+      }
+    }
+  ],
+  "identities": [
+    {
+      "old": {
+        "file": "packages/game/src/dev/dev-panel.glm-next-wave.test.ts",
+        "fullName": "setupDevPanel 显式控制与释放(DEV-only debug overlay) B(explore)开 picker;再按 B toggle 关闭;两次都对按键 preventDefault"
+      },
+      "current": {
+        "file": "packages/game/src/dev/dev-panel.hotkeys.test.ts",
+        "fullName": "DEV hotkey routing and dump snapshots B(explore)开 picker;再按 B toggle 关闭;两次都对按键 preventDefault"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/dev/dev-panel.glm-next-wave.test.ts",
+        "fullName": "setupDevPanel 显式控制与释放(DEV-only debug overlay) 非 explore/battle 模式(event)按 B:不拦截、不开面板"
+      },
+      "current": {
+        "file": "packages/game/src/dev/dev-panel.hotkeys.test.ts",
+        "fullName": "DEV hotkey routing and dump snapshots 非 explore/battle 模式(event)按 B:不拦截、不开面板"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/dev/dev-panel.glm-next-wave.test.ts",
+        "fullName": "setupDevPanel 显式控制与释放(DEV-only debug overlay) F1(全局)dump gs 深拷贝:内容等于当时快照,后改 gs 不影响 dump,且非同引用"
+      },
+      "current": {
+        "file": "packages/game/src/dev/dev-panel.hotkeys.test.ts",
+        "fullName": "DEV hotkey routing and dump snapshots F1 dump keeps independent music, position and inventory snapshots"
+      }
+    }
+  ],
+  "retirements": [],
+  "cohortSubjects": [
+    {
+      "path": "packages/game/src/dev/dev-panel.glm-next-wave.test.ts",
+      "sha256": "ba9b3b17067c32305fc1f1dec50e7fc26bb6f2011da56a6171c9987f020f9c9f",
+      "priorCurrentBridges": []
+    }
+  ],
+  "profiles": [
+    {
+      "path": "packages/game/src/dev/dev-panel.hotkeys.test.ts",
+      "subjects": ["packages/game/src/dev/dev-panel.glm-next-wave.test.ts"],
+      "axes": {
+        "A": "Three existing DEV-build hotkey cases retained. Public setup/window events and actual GameState; empty resource catalog explicitly avoids party/battle/scene actions. Product1883-line SHA exactly matches prior dev-panel-quality whole-source evidence; reread complete setup/open/close ownership.",
+        "B": "Drop model/wave/frozen-commit header and broad release/production-DCE claims. F1 title now scopes the literal music/position/inventory snapshot, not every GameState field. Non-DEV branch remains untested, not accepted from this run.",
+        "C": "One coherent hotkeys spec, separate from asset roster, party mutation and asynchronous thumbnail lifecycle. Fresh GameState per case. Before hook captures exact listener/options and restores spy; after hook closes through owner, then always removes captured listeners/restores mocks in finally.",
+        "D": "Keep local empty-catalog dependency factory; party fixture has real equipment/poison and picker fixture hydrated roles/async callback, so inputs/lifecycles differ and no universal host is introduced. Complete original factory return/type/parameters unchanged after private rename.",
+        "E": "All3 old identities mapped; two callbacks fully unchanged, first gains close.defaultPrevented literal assertion. Real source mutant retains opening prevention and removes closing prevention: selected old passes, new exactly one business AssertionError. Exact source/test restore. Six adjacent files44/TC0. Original snapshot literals retained; no new/retired cases.",
+        "F": "dev-panel.hotkeys.test.ts names real responsibility. makeHotkeyDeps expresses local fixture domain. Existing event and dependency names are clear in their small lexical scope; no wholesale abbreviation policy or contributor labels remain.",
+        "G": "One128-line mixed-label spec remains one coherent spec after scope review, no gratuitous splitting. Shared suite state/setup become per-case; no implementation, public disposer, fixture export or shared configuration changes. Static CSS remains module-owned until isolated test environment teardown, not removed behind its injection flag.",
+        "H": "Real native events and public UI close entry; no core business mocks. Per-case state and listeners prevent cross-case dependence. Existing intentional console.log capture asserts actual dump data; warnings/errors not muted. DEV=false, full dump schema and production observer cleanup are separate claims, not inferred from green."
+      }
+    }
+  ],
+  "preserved": [
+    {
+      "path": "packages/game/src/dev/dev-panel.ts",
+      "sha256": "c6bd694889ef988f6ae8bc4e050ec497789aafe133316e279029911b8af939cf",
+      "lines": 1883
+    },
+    {
+      "path": "packages/game/src/dev/dev-panel.test.ts",
+      "sha256": "ad7cdc33e52173e681b22511f5f838258436ab4002b5b492ed8c485f83b2dd91",
+      "lines": 39
+    },
+    {
+      "path": "packages/game/src/dev/dev-panel-party-lifecycle.test.ts",
+      "sha256": "58aaae796a0ce6e078a55f946e54ed49294391bb9d5bb41a2e70549c70126bbf",
+      "lines": 218
+    },
+    {
+      "path": "packages/game/src/dev/dev-panel-picker-lifecycle.test.ts",
+      "sha256": "373d9e32a09ae2c1490389d017bd8282581344f3500f2f5f375e680504ef7cd2",
+      "lines": 303
+    },
+    {
+      "path": "packages/game/src/dev/dev-panel.pure.test.ts",
+      "sha256": "ea76f484d117bc40a22e1e109ff51bab6ca40bda0056f09a8a8632a772899fa3",
+      "lines": 623
+    },
+    {
+      "path": "packages/game/src/dev/dev-scene-panel.ts",
+      "sha256": "a6996812a362b2708dac1bd4119ea4365a3a4f030d81f0fda494ccd7a7d08ac7",
+      "lines": 231
+    },
+    {
+      "path": "packages/game/src/dev/dev-party-panel.ts",
+      "sha256": "68ae313ef7c400bd1c412d13465f4d59bc0b2cf6f38e7eebc3f48567077dfc5d",
+      "lines": 260
+    },
+    {
+      "path": "packages/game/src/core/game-state.ts",
+      "sha256": "084718097eb0963c2ee3a9d72da59b313ca8fd401672f6a8b341ba21ae8b8906",
+      "lines": 1905
+    },
+    {
+      "path": "packages/game/src/assets/loader.ts",
+      "sha256": "9c3c3a333e5b04d25cd220e17d04863b0ff5c759e273d05c3b82af758756788f",
+      "lines": 501
+    },
+    {
+      "path": "packages/game/vitest.config.ts",
+      "sha256": "3dd92ad4886bc72c88e7a7b2e6bdacc3aaf9e2a24ac72153f3b619ba37feb7d4",
+      "lines": 13
+    },
+    {
+      "path": "scripts/coverage/config.mjs",
+      "sha256": "decb63dda5d12a2269bef1dd75c3d1eb4efca071887c759deca8e9b06ef17a25",
+      "lines": 264
+    }
+  ],
+  "neighborPaths": [
+    "packages/game/src/dev/dev-indexed-image.test.ts",
+    "packages/game/src/dev/dev-panel-party-lifecycle.test.ts",
+    "packages/game/src/dev/dev-panel-picker-lifecycle.test.ts",
+    "packages/game/src/dev/dev-panel.hotkeys.test.ts",
+    "packages/game/src/dev/dev-panel.pure.test.ts",
+    "packages/game/src/dev/dev-panel.test.ts"
+  ],
+  "cleanExecutions": [
+    "before",
+    "format",
+    "counters",
+    "proof",
+    "neighbors",
+    "typecheck",
+    "docs",
+    "content-review",
+    "lint",
+    "scoped",
+    "diff",
+    "ledger-final",
+    "module-preflight"
+  ],
+  "lightweightGates": true,
+  "callbackProof": "organization-dev-hotkeys/proof.stdout.raw",
+  "counters": ["counter-close.json"],
+  "qualityDelta": {
+    "oldCases": 3,
+    "currentCases": 3,
+    "newCases": 0,
+    "retirements": 0,
+    "privateFactoryRenamed": true,
+    "perCaseStateAndListeners": true,
+    "closePreventionOracleAdded": true,
+    "sourceUnchanged": true
+  },
+  "reads": {
+    "fullInputs": [
+      {
+        "path": "packages/game/src/dev/dev-panel.glm-next-wave.test.ts",
+        "member": "organization-dev-hotkeys/0.before",
+        "sha256": "ba9b3b17067c32305fc1f1dec50e7fc26bb6f2011da56a6171c9987f020f9c9f",
+        "lines": 128
+      }
+    ],
+    "fullOutputs": [
+      {
+        "path": "packages/game/src/dev/dev-panel.hotkeys.test.ts",
+        "sha256": "d619223cde59dba51609b7501546c4e882f04ff9fc330393a8fc9052e7e92724",
+        "lines": 117
+      }
+    ],
+    "priorSource": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/dev-panel-quality/review.json",
+    "priorSourceExactSha256": "c6bd694889ef988f6ae8bc4e050ec497789aafe133316e279029911b8af939cf",
+    "scopedProduct": [[340, 418], [420, 438], [795, 885], [1600, 1620]],
+    "fullAdjacent": [
+      {
+        "path": "packages/game/src/dev/dev-panel.test.ts",
+        "sha256": "ad7cdc33e52173e681b22511f5f838258436ab4002b5b492ed8c485f83b2dd91",
+        "lines": 39
+      },
+      {
+        "path": "packages/game/src/dev/dev-panel-party-lifecycle.test.ts",
+        "sha256": "58aaae796a0ce6e078a55f946e54ed49294391bb9d5bb41a2e70549c70126bbf",
+        "lines": 218
+      },
+      {
+        "path": "packages/game/src/dev/dev-panel-picker-lifecycle.test.ts",
+        "sha256": "373d9e32a09ae2c1490389d017bd8282581344f3500f2f5f375e680504ef7cd2",
+        "lines": 303
+      }
+    ],
+    "caller": "bootstrap setup imports and installation inherited exact source read; no new full-bootstrap credit"
+  },
+  "neighborStdoutClassification": {
+    "diagnostics": 0,
+    "expectedConsoleLog": {
+      "setup": 12,
+      "applyFixture": 18
+    },
+    "source": "packages/game/src/dev/dev-panel.ts",
+    "lines": [409, 1660],
+    "rawRetained": true,
+    "notSilenced": true
+  },
+  "processDisclosures": [
+    "First metadata publisher predicted14 applyFixture logs; the full raw classifier measured18 and rejected before writing manifest. R2 records12 setup plus18 applyFixture operational logs from unchanged source, no test rerun or suppression.",
+    "Initial preparation stdin had a Python UTF-8 parse error before execution; subsequent attempted baseline launcher found no capture module and never ran tests. Repeated preparation used ASCII source; actual before native is3/3, separate from this no-execution setup failure.",
+    "Test-global CSS injection flag prevents removing/recreating its stylesheet per case. Root picker and listeners have explicit per-case owners; unchanged inert stylesheet remains module/environment-owned. No claim of full document/global teardown.",
+    "Original3 cases retained; fresh state/listener host does not change product behavior. 0newclosed. Heavy/fullcheck/officialcoverage/protected/publication deferred."
+  ],
+  "invalidations": "Reopen when hotkey routes/DEV compilation/setup signature/currentPicker ownership or dump serialization changes; no runtime non-DEV, whole GameState deep clone, browser style, asset roster or scene fetch correctness credit.",
+  "ledgerCounts": {
+    "inventory": 3450,
+    "closed": 510,
+    "review": 308,
+    "pending": 2632
+  }
+}

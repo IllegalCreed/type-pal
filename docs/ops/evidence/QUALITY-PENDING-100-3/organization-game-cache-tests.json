@@ -1,0 +1,722 @@
+{
+  "id": "game-cache-tests",
+  "namespace": "organization-game-cache-tests",
+  "kind": "Cache policy, admission and callback responsibilities; no behavior/assertion change",
+  "inputs": [
+    {
+      "path": "packages/game/src/assets/loader.test.ts",
+      "sha256": "4a22b726c34512988ee1e1714b06122eb0983effd5a0514b075c70af2582e7bb",
+      "member": "organization-game-cache-tests/0.before"
+    },
+    {
+      "path": "packages/game/src/assets/scene-cache.grok-r1.test.ts",
+      "sha256": "2fa4fac7306513cf04ae17411600aa736fd14992e38e52be1b3885e4b6f36c13",
+      "member": "organization-game-cache-tests/1.before"
+    },
+    {
+      "path": "packages/game/src/assets/scene-cache.grok-mid-1.test.ts",
+      "sha256": "1002504cda3af553c56e48dab05c9200a350d847aa28e3fc8f8c4ed4f861d4b3",
+      "member": "organization-game-cache-tests/2.before"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "packages/game/src/assets/scene-cache.eviction.test.ts",
+      "sha256": "5ca1c46fb150689aec32a4a31e7441afc991da9244542adf6bbe0a4cde3ae511"
+    },
+    {
+      "path": "packages/game/src/assets/scene-cache.lifecycle.test.ts",
+      "sha256": "881c955daef73112a380d627746532dd3127e0d3d4135922aa4ce40c656b8b9a"
+    },
+    {
+      "path": "packages/game/src/assets/scene-cache.callbacks.test.ts",
+      "sha256": "18d62c017b96c59a369d06a92f69c7e8635fd009e16a05123bf9f61d2166e967"
+    },
+    {
+      "path": "packages/game/src/__tests__/scene-cache-fixtures.ts",
+      "sha256": "4314b401bb67f4848e4de804527741829c92b1abc1dfd336634c8a6e851fe37d"
+    }
+  ],
+  "sourceBridges": [
+    {
+      "id": "cache-responsibilities-0",
+      "path": "packages/game/src/assets/loader.test.ts",
+      "reason": "Policy, ownership and callback effects have separate test contexts; only exact helper moves and titles change. Two different fetcher defaults stay distinct.",
+      "changes": [
+        {
+          "from": "function makeFetcher() {\n  return vi.fn(\n    async (sceneId: number): Promise<SceneAssets> => ({\n      sceneId,\n      mapNum: sceneId + 10,\n      tilemap: legalTilemap(`tileset/${sceneId + 10}.rle`),\n      palette: legalPalette(),\n      eventObjects: [],\n      npcSprites: new Map(),\n      eventCommands: [],\n      labelMap: {},\n    }),\n  )\n}",
+          "to": "import { makeLruSceneFetcher as makeFetcher } from '../__tests__/scene-cache-fixtures.js'",
+          "count": 1
+        },
+        {
+          "from": "describe('SceneAssetsCache LRU', () => {\n  it('超过 maxEntries → 淘汰最旧条目(重访需重 fetch)+ 触发 onEvict', async () => {\n    const fetcher = makeFetcher()\n    const evicted: number[] = []\n    const cache = new SceneAssetsCache(fetcher, {\n      maxEntries: 2,\n      onEvict: (id) => evicted.push(id),\n    })\n    const first = await cache.loadScene(1)\n    await cache.loadScene(2)\n    const third = await cache.loadScene(3)\n    expect(evicted).toEqual([1])\n    expect(fetcher).toHaveBeenCalledTimes(3)\n    const reloaded = await cache.loadScene(1)\n    expect(reloaded).not.toBe(first)\n    expect(reloaded.sceneId).toBe(1)\n    expect(reloaded.mapNum).toBe(11)\n    expect(evicted).toEqual([1, 2])\n    expect(fetcher).toHaveBeenCalledTimes(4)\n    expect(await cache.loadScene(3)).toBe(third)\n    expect(fetcher).toHaveBeenCalledTimes(4)\n  })\n\n  it('cache hit 刷新 recency:最近命中的不被淘汰', async () => {\n    const fetcher = makeFetcher()\n    const cache = new SceneAssetsCache(fetcher, { maxEntries: 2 })\n    const first = await cache.loadScene(1)\n    const second = await cache.loadScene(2)\n    expect(await cache.loadScene(1)).toBe(first)\n    await cache.loadScene(3)\n    expect(await cache.loadScene(1)).toBe(first)\n    expect(fetcher).toHaveBeenCalledTimes(3)\n    const reloaded = await cache.loadScene(2)\n    expect(reloaded).not.toBe(second)\n    expect(reloaded.sceneId).toBe(2)\n    expect(reloaded.mapNum).toBe(12)\n    expect(fetcher).toHaveBeenCalledTimes(4)\n  })\n\n  it('protect 返回的 sceneId 永不被淘汰(保护当前渲染场景,防黑屏)', async () => {\n    const fetcher = makeFetcher()\n    const evicted: number[] = []\n    const current = 1\n    const cache = new SceneAssetsCache(fetcher, {\n      maxEntries: 2,\n      onEvict: (id) => evicted.push(id),\n      protect: () => current,\n    })\n    const first = await cache.loadScene(1)\n    await cache.loadScene(2)\n    const third = await cache.loadScene(3)\n    expect(evicted).toEqual([2])\n    expect(await cache.loadScene(1)).toBe(first)\n    expect(await cache.loadScene(3)).toBe(third)\n    expect(fetcher).toHaveBeenCalledTimes(3)\n  })\n\n  it('不传 opts → 无限缓存(向后兼容,永不淘汰)', async () => {\n    const fetcher = makeFetcher()\n    const cache = new SceneAssetsCache(fetcher)\n    const originals: SceneAssets[] = []\n    for (let i = 0; i < 50; i++) originals.push(await cache.loadScene(i))\n    for (let i = 0; i < 50; i++) expect(await cache.loadScene(i)).toBe(originals[i])\n    expect(fetcher.mock.calls).toEqual(Array.from({ length: 50 }, (_, id) => [id]))\n  })\n})",
+          "to": "describe('LRU order and default capacity', () => {\nit('超过 maxEntries → 淘汰最旧条目(重访需重 fetch)+ 触发 onEvict', async () => {\n    const fetcher = makeFetcher()\n    const evicted: number[] = []\n    const cache = new SceneAssetsCache(fetcher, {\n      maxEntries: 2,\n      onEvict: (id) => evicted.push(id),\n    })\n    const first = await cache.loadScene(1)\n    await cache.loadScene(2)\n    const third = await cache.loadScene(3)\n    expect(evicted).toEqual([1])\n    expect(fetcher).toHaveBeenCalledTimes(3)\n    const reloaded = await cache.loadScene(1)\n    expect(reloaded).not.toBe(first)\n    expect(reloaded.sceneId).toBe(1)\n    expect(reloaded.mapNum).toBe(11)\n    expect(evicted).toEqual([1, 2])\n    expect(fetcher).toHaveBeenCalledTimes(4)\n    expect(await cache.loadScene(3)).toBe(third)\n    expect(fetcher).toHaveBeenCalledTimes(4)\n  })\n\nit('cache hit 刷新 recency:最近命中的不被淘汰', async () => {\n    const fetcher = makeFetcher()\n    const cache = new SceneAssetsCache(fetcher, { maxEntries: 2 })\n    const first = await cache.loadScene(1)\n    const second = await cache.loadScene(2)\n    expect(await cache.loadScene(1)).toBe(first)\n    await cache.loadScene(3)\n    expect(await cache.loadScene(1)).toBe(first)\n    expect(fetcher).toHaveBeenCalledTimes(3)\n    const reloaded = await cache.loadScene(2)\n    expect(reloaded).not.toBe(second)\n    expect(reloaded.sceneId).toBe(2)\n    expect(reloaded.mapNum).toBe(12)\n    expect(fetcher).toHaveBeenCalledTimes(4)\n  })\n\nit('protect 返回的 sceneId 永不被淘汰(保护当前渲染场景,防黑屏)', async () => {\n    const fetcher = makeFetcher()\n    const evicted: number[] = []\n    const current = 1\n    const cache = new SceneAssetsCache(fetcher, {\n      maxEntries: 2,\n      onEvict: (id) => evicted.push(id),\n      protect: () => current,\n    })\n    const first = await cache.loadScene(1)\n    await cache.loadScene(2)\n    const third = await cache.loadScene(3)\n    expect(evicted).toEqual([2])\n    expect(await cache.loadScene(1)).toBe(first)\n    expect(await cache.loadScene(3)).toBe(third)\n    expect(fetcher).toHaveBeenCalledTimes(3)\n  })\n\nit('不传 opts → 无限缓存(向后兼容,永不淘汰)', async () => {\n    const fetcher = makeFetcher()\n    const cache = new SceneAssetsCache(fetcher)\n    const originals: SceneAssets[] = []\n    for (let i = 0; i < 50; i++) originals.push(await cache.loadScene(i))\n    for (let i = 0; i < 50; i++) expect(await cache.loadScene(i)).toBe(originals[i])\n    expect(fetcher.mock.calls).toEqual(Array.from({ length: 50 }, (_, id) => [id]))\n  })\n})",
+          "count": 1
+        },
+        {
+          "from": "'不传 opts → 无限缓存(向后兼容,永不淘汰)'",
+          "to": "'省略容量时保留全部已加载场景'",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "cache-responsibilities-1",
+      "path": "packages/game/src/assets/scene-cache.grok-r1.test.ts",
+      "reason": "Policy, ownership and callback effects have separate test contexts; only exact helper moves and titles change. Two different fetcher defaults stay distinct.",
+      "changes": [
+        {
+          "from": "describe('G01-D SceneAssetsCache 归属与迟到', () => {\n  it('G01-D01 命中返回 fetcher 交出的同一对象引用', async () => {\n    const asset = legalSceneAssets(6, 20)\n    const fetcher = vi.fn(async () => asset)\n    const cache = new SceneAssetsCache(fetcher)\n    expect(await cache.loadScene(6)).toBe(asset)\n    expect(await cache.loadScene(6)).toBe(asset)\n    expect(fetcher).toHaveBeenCalledTimes(1)\n  })\n\n  it('G01-D02 fetcher 拒绝后该 id 不入缓存，下次重新 fetch 并成功', async () => {\n    const fetcher = vi.fn(async (sceneId: number) => {\n      if (fetcher.mock.calls.length === 1) throw new Error('net down')\n      return legalSceneAssets(sceneId, 30)\n    })\n    const cache = new SceneAssetsCache(fetcher)\n    await expect(cache.loadScene(3)).rejects.toThrow('net down')\n    const loaded = await cache.loadScene(3)\n    expect(loaded.sceneId).toBe(3)\n    expect(loaded.mapNum).toBe(30)\n    expect(loaded.palette.colors).toHaveLength(256)\n    expect(fetcher).toHaveBeenCalledTimes(2)\n  })\n\n  it('G01-D03 同一 id 的两次并发 load 各调一次 fetcher，缓存留下后写入的对象', async () => {\n    const pending: Array<(asset: SceneAssets) => void> = []\n    const fetcher = vi.fn(\n      () =>\n        new Promise<SceneAssets>((resolve) => {\n          pending.push(resolve)\n        }),\n    )\n    const cache = new SceneAssetsCache(fetcher)\n    const first = cache.loadScene(4)\n    const second = cache.loadScene(4)\n    expect(fetcher).toHaveBeenCalledTimes(2)\n    const early = legalSceneAssets(4, 1)\n    const late = legalSceneAssets(4, 2)\n    pending[0]?.(early)\n    pending[1]?.(late)\n    expect(await first).toBe(early)\n    expect(await second).toBe(late)\n    expect(await cache.loadScene(4)).toBe(late)\n    expect(fetcher).toHaveBeenCalledTimes(2)\n  })\n\n  it('G01-D04 protect 返回缓存中不存在的 id 时，仍淘汰最旧条目', async () => {\n    const evicted: number[] = []\n    const fetcher = vi.fn(async (sceneId: number) => legalSceneAssets(sceneId))\n    const cache = new SceneAssetsCache(fetcher, {\n      maxEntries: 2,\n      protect: () => 99,\n      onEvict: (sceneId) => evicted.push(sceneId),\n    })\n    await cache.loadScene(1)\n    await cache.loadScene(2)\n    await cache.loadScene(3)\n    expect(evicted).toEqual([1])\n    await cache.loadScene(1)\n    expect(fetcher).toHaveBeenCalledTimes(4)\n    await cache.loadScene(3)\n    expect(fetcher).toHaveBeenCalledTimes(4)\n  })\n\n  it('G01-D05 maxEntries 为 1 且保护旧条目时，新 fetch 的结果被淘汰但调用方仍拿到它', async () => {\n    const evicted: number[] = []\n    const fetcher = vi.fn(async (sceneId: number) => legalSceneAssets(sceneId, sceneId + 10))\n    const cache = new SceneAssetsCache(fetcher, {\n      maxEntries: 1,\n      protect: () => 1,\n      onEvict: (sceneId) => evicted.push(sceneId),\n    })\n    await cache.loadScene(1)\n    const fresh = await cache.loadScene(2)\n    expect(fresh.sceneId).toBe(2)\n    expect(fresh.mapNum).toBe(12)\n    expect(evicted).toEqual([2])\n    await cache.loadScene(1)\n    expect(fetcher).toHaveBeenCalledTimes(2)\n    await cache.loadScene(2)\n    expect(fetcher).toHaveBeenCalledTimes(3)\n  })\n\n  it('G01-D06 protect 返回 undefined 时 scene 0 可以被淘汰', async () => {\n    const evicted: number[] = []\n    const fetcher = vi.fn(async (sceneId: number) => legalSceneAssets(sceneId))\n    const cache = new SceneAssetsCache(fetcher, {\n      maxEntries: 1,\n      protect: () => undefined,\n      onEvict: (sceneId) => evicted.push(sceneId),\n    })\n    await cache.loadScene(0)\n    await cache.loadScene(5)\n    expect(evicted).toEqual([0])\n    await cache.loadScene(0)\n    expect(evicted).toEqual([0, 5])\n    expect(fetcher).toHaveBeenCalledTimes(3)\n    await cache.loadScene(0)\n    expect(fetcher).toHaveBeenCalledTimes(3)\n  })\n\n  it('G01-D07 条目数刚好等于 maxEntries 时不调用 onEvict', async () => {\n    const evicted: number[] = []\n    const fetcher = vi.fn(async (sceneId: number) => legalSceneAssets(sceneId))\n    const cache = new SceneAssetsCache(fetcher, {\n      maxEntries: 2,\n      onEvict: (sceneId) => evicted.push(sceneId),\n    })\n    await cache.loadScene(1)\n    await cache.loadScene(2)\n    expect(evicted).toEqual([])\n    expect(fetcher).toHaveBeenCalledTimes(2)\n    await cache.loadScene(1)\n    await cache.loadScene(2)\n    expect(fetcher).toHaveBeenCalledTimes(2)\n  })\n\n  it('G01-D08 被淘汰对象之后的字段改写不会污染重新 fetch 的结果', async () => {\n    const fetcher = vi.fn(async (sceneId: number) => legalSceneAssets(sceneId, 40 + sceneId))\n    const cache = new SceneAssetsCache(fetcher, { maxEntries: 2 })\n    const first = await cache.loadScene(1)\n    await cache.loadScene(2)\n    await cache.loadScene(3)\n    first.mapNum = 999\n    const again = await cache.loadScene(1)\n    expect(again).not.toBe(first)\n    expect(again.mapNum).toBe(41)\n    expect(again.palette.colors).toHaveLength(256)\n    expect(fetcher).toHaveBeenCalledTimes(4)\n  })\n\n  it('G01-D10 maxEntries 为 1 时后完成的 id 1 留下，先完成的 id 2 下次要重取', async () => {\n    const pending = new Map<number, (asset: SceneAssets) => void>()\n    let scripted = true\n    const fetcher = vi.fn((sceneId: number) => {\n      if (!scripted) return Promise.resolve(legalSceneAssets(sceneId, sceneId === 2 ? 22 : 11))\n      return new Promise<SceneAssets>((resolve) => {\n        pending.set(sceneId, resolve)\n      })\n    })\n    const cache = new SceneAssetsCache(fetcher, { maxEntries: 1 })\n    const slow = cache.loadScene(1)\n    const fast = cache.loadScene(2)\n    const second = legalSceneAssets(2, 22)\n    const first = legalSceneAssets(1, 11)\n    pending.get(2)?.(second)\n    expect(await fast).toBe(second)\n    pending.get(1)?.(first)\n    expect(await slow).toBe(first)\n    expect(await cache.loadScene(1)).toBe(first)\n    scripted = false\n    const refetched = await cache.loadScene(2)\n    expect(refetched).not.toBe(second)\n    expect(refetched.mapNum).toBe(22)\n    expect(fetcher).toHaveBeenCalledTimes(3)\n  })\n})",
+          "to": "describe('protected and boundary capacity', () => {\nit('G01-D04 protect 返回缓存中不存在的 id 时，仍淘汰最旧条目', async () => {\n    const evicted: number[] = []\n    const fetcher = vi.fn(async (sceneId: number) => legalSceneAssets(sceneId))\n    const cache = new SceneAssetsCache(fetcher, {\n      maxEntries: 2,\n      protect: () => 99,\n      onEvict: (sceneId) => evicted.push(sceneId),\n    })\n    await cache.loadScene(1)\n    await cache.loadScene(2)\n    await cache.loadScene(3)\n    expect(evicted).toEqual([1])\n    await cache.loadScene(1)\n    expect(fetcher).toHaveBeenCalledTimes(4)\n    await cache.loadScene(3)\n    expect(fetcher).toHaveBeenCalledTimes(4)\n  })\n\nit('G01-D05 maxEntries 为 1 且保护旧条目时，新 fetch 的结果被淘汰但调用方仍拿到它', async () => {\n    const evicted: number[] = []\n    const fetcher = vi.fn(async (sceneId: number) => legalSceneAssets(sceneId, sceneId + 10))\n    const cache = new SceneAssetsCache(fetcher, {\n      maxEntries: 1,\n      protect: () => 1,\n      onEvict: (sceneId) => evicted.push(sceneId),\n    })\n    await cache.loadScene(1)\n    const fresh = await cache.loadScene(2)\n    expect(fresh.sceneId).toBe(2)\n    expect(fresh.mapNum).toBe(12)\n    expect(evicted).toEqual([2])\n    await cache.loadScene(1)\n    expect(fetcher).toHaveBeenCalledTimes(2)\n    await cache.loadScene(2)\n    expect(fetcher).toHaveBeenCalledTimes(3)\n  })\n\nit('G01-D06 protect 返回 undefined 时 scene 0 可以被淘汰', async () => {\n    const evicted: number[] = []\n    const fetcher = vi.fn(async (sceneId: number) => legalSceneAssets(sceneId))\n    const cache = new SceneAssetsCache(fetcher, {\n      maxEntries: 1,\n      protect: () => undefined,\n      onEvict: (sceneId) => evicted.push(sceneId),\n    })\n    await cache.loadScene(0)\n    await cache.loadScene(5)\n    expect(evicted).toEqual([0])\n    await cache.loadScene(0)\n    expect(evicted).toEqual([0, 5])\n    expect(fetcher).toHaveBeenCalledTimes(3)\n    await cache.loadScene(0)\n    expect(fetcher).toHaveBeenCalledTimes(3)\n  })\n\nit('G01-D07 条目数刚好等于 maxEntries 时不调用 onEvict', async () => {\n    const evicted: number[] = []\n    const fetcher = vi.fn(async (sceneId: number) => legalSceneAssets(sceneId))\n    const cache = new SceneAssetsCache(fetcher, {\n      maxEntries: 2,\n      onEvict: (sceneId) => evicted.push(sceneId),\n    })\n    await cache.loadScene(1)\n    await cache.loadScene(2)\n    expect(evicted).toEqual([])\n    expect(fetcher).toHaveBeenCalledTimes(2)\n    await cache.loadScene(1)\n    await cache.loadScene(2)\n    expect(fetcher).toHaveBeenCalledTimes(2)\n  })\n})\n\ndescribe('scene ownership and asynchronous admission', () => {\nit('G01-D01 命中返回 fetcher 交出的同一对象引用', async () => {\n    const asset = legalSceneAssets(6, 20)\n    const fetcher = vi.fn(async () => asset)\n    const cache = new SceneAssetsCache(fetcher)\n    expect(await cache.loadScene(6)).toBe(asset)\n    expect(await cache.loadScene(6)).toBe(asset)\n    expect(fetcher).toHaveBeenCalledTimes(1)\n  })\n\nit('G01-D02 fetcher 拒绝后该 id 不入缓存，下次重新 fetch 并成功', async () => {\n    const fetcher = vi.fn(async (sceneId: number) => {\n      if (fetcher.mock.calls.length === 1) throw new Error('net down')\n      return legalSceneAssets(sceneId, 30)\n    })\n    const cache = new SceneAssetsCache(fetcher)\n    await expect(cache.loadScene(3)).rejects.toThrow('net down')\n    const loaded = await cache.loadScene(3)\n    expect(loaded.sceneId).toBe(3)\n    expect(loaded.mapNum).toBe(30)\n    expect(loaded.palette.colors).toHaveLength(256)\n    expect(fetcher).toHaveBeenCalledTimes(2)\n  })\n\nit('G01-D03 同一 id 的两次并发 load 各调一次 fetcher，缓存留下后写入的对象', async () => {\n    const pending: Array<(asset: SceneAssets) => void> = []\n    const fetcher = vi.fn(\n      () =>\n        new Promise<SceneAssets>((resolve) => {\n          pending.push(resolve)\n        }),\n    )\n    const cache = new SceneAssetsCache(fetcher)\n    const first = cache.loadScene(4)\n    const second = cache.loadScene(4)\n    expect(fetcher).toHaveBeenCalledTimes(2)\n    const early = legalSceneAssets(4, 1)\n    const late = legalSceneAssets(4, 2)\n    pending[0]?.(early)\n    pending[1]?.(late)\n    expect(await first).toBe(early)\n    expect(await second).toBe(late)\n    expect(await cache.loadScene(4)).toBe(late)\n    expect(fetcher).toHaveBeenCalledTimes(2)\n  })\n\nit('G01-D08 被淘汰对象之后的字段改写不会污染重新 fetch 的结果', async () => {\n    const fetcher = vi.fn(async (sceneId: number) => legalSceneAssets(sceneId, 40 + sceneId))\n    const cache = new SceneAssetsCache(fetcher, { maxEntries: 2 })\n    const first = await cache.loadScene(1)\n    await cache.loadScene(2)\n    await cache.loadScene(3)\n    first.mapNum = 999\n    const again = await cache.loadScene(1)\n    expect(again).not.toBe(first)\n    expect(again.mapNum).toBe(41)\n    expect(again.palette.colors).toHaveLength(256)\n    expect(fetcher).toHaveBeenCalledTimes(4)\n  })\n\nit('G01-D10 maxEntries 为 1 时后完成的 id 1 留下，先完成的 id 2 下次要重取', async () => {\n    const pending = new Map<number, (asset: SceneAssets) => void>()\n    let scripted = true\n    const fetcher = vi.fn((sceneId: number) => {\n      if (!scripted) return Promise.resolve(legalSceneAssets(sceneId, sceneId === 2 ? 22 : 11))\n      return new Promise<SceneAssets>((resolve) => {\n        pending.set(sceneId, resolve)\n      })\n    })\n    const cache = new SceneAssetsCache(fetcher, { maxEntries: 1 })\n    const slow = cache.loadScene(1)\n    const fast = cache.loadScene(2)\n    const second = legalSceneAssets(2, 22)\n    const first = legalSceneAssets(1, 11)\n    pending.get(2)?.(second)\n    expect(await fast).toBe(second)\n    pending.get(1)?.(first)\n    expect(await slow).toBe(first)\n    expect(await cache.loadScene(1)).toBe(first)\n    scripted = false\n    const refetched = await cache.loadScene(2)\n    expect(refetched).not.toBe(second)\n    expect(refetched.mapNum).toBe(22)\n    expect(fetcher).toHaveBeenCalledTimes(3)\n  })\n})",
+          "count": 1
+        },
+        {
+          "from": "'G01-D01 命中返回 fetcher 交出的同一对象引用'",
+          "to": "'命中返回 fetcher 交出的同一对象引用'",
+          "count": 1
+        },
+        {
+          "from": "'G01-D02 fetcher 拒绝后该 id 不入缓存，下次重新 fetch 并成功'",
+          "to": "'fetcher 拒绝后该 id 不入缓存，下次重新 fetch 并成功'",
+          "count": 1
+        },
+        {
+          "from": "'G01-D03 同一 id 的两次并发 load 各调一次 fetcher，缓存留下后写入的对象'",
+          "to": "'同一 id 的两次并发 load 各调一次 fetcher，缓存留下后写入的对象'",
+          "count": 1
+        },
+        {
+          "from": "'G01-D04 protect 返回缓存中不存在的 id 时，仍淘汰最旧条目'",
+          "to": "'protect 返回缓存中不存在的 id 时，仍淘汰最旧条目'",
+          "count": 1
+        },
+        {
+          "from": "'G01-D05 maxEntries 为 1 且保护旧条目时，新 fetch 的结果被淘汰但调用方仍拿到它'",
+          "to": "'maxEntries 为 1 且保护旧条目时，新 fetch 的结果被淘汰但调用方仍拿到它'",
+          "count": 1
+        },
+        {
+          "from": "'G01-D06 protect 返回 undefined 时 scene 0 可以被淘汰'",
+          "to": "'protect 返回 undefined 时 scene 0 可以被淘汰'",
+          "count": 1
+        },
+        {
+          "from": "'G01-D07 条目数刚好等于 maxEntries 时不调用 onEvict'",
+          "to": "'条目数刚好等于 maxEntries 时不调用 onEvict'",
+          "count": 1
+        },
+        {
+          "from": "'G01-D08 被淘汰对象之后的字段改写不会污染重新 fetch 的结果'",
+          "to": "'被淘汰对象之后的字段改写不会污染重新 fetch 的结果'",
+          "count": 1
+        },
+        {
+          "from": "'G01-D10 maxEntries 为 1 时后完成的 id 1 留下，先完成的 id 2 下次要重取'",
+          "to": "'maxEntries 为 1 时后完成的 id 1 留下，先完成的 id 2 下次要重取'",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "cache-responsibilities-2",
+      "path": "packages/game/src/assets/scene-cache.grok-mid-1.test.ts",
+      "reason": "Policy, ownership and callback effects have separate test contexts; only exact helper moves and titles change. Two different fetcher defaults stay distinct.",
+      "changes": [
+        {
+          "from": "function countingFetcher(rejectId?: number, message = 'scene down') {\n  const calls: number[] = []\n  const fetcher = async (sceneId: number): Promise<SceneAssets> => {\n    calls.push(sceneId)\n    if (sceneId === rejectId) throw new Error(message)\n    return legalSceneAssets(sceneId)\n  }\n  const count = (sceneId: number) => calls.filter((id) => id === sceneId).length\n  return { calls, fetcher, count }\n}",
+          "to": "import { countingSceneFetcher as countingFetcher } from '../__tests__/scene-cache-fixtures.js'",
+          "count": 1
+        },
+        {
+          "from": "describe('grok-mid-1 scene cache eviction', () => {\n  it('protect 切换后原先受保护的场景成为下一次淘汰对象', async () => {\n    const { fetcher, count } = countingFetcher()\n    const evicted: number[] = []\n    let protectedId = 1\n    const cache = new SceneAssetsCache(fetcher, {\n      maxEntries: 2,\n      onEvict: (sceneId) => evicted.push(sceneId),\n      protect: () => protectedId,\n    })\n\n    await cache.loadScene(1)\n    await cache.loadScene(2)\n    await cache.loadScene(3)\n    expect(evicted).toEqual([2])\n\n    protectedId = 3\n    await cache.loadScene(4)\n    expect(evicted).toEqual([2, 1])\n    expect(count(1)).toBe(1)\n    expect(count(3)).toBe(1)\n    expect(count(4)).toBe(1)\n    await cache.loadScene(3)\n    await cache.loadScene(4)\n    expect(count(3)).toBe(1)\n    expect(count(4)).toBe(1)\n    await cache.loadScene(1)\n    expect(count(1)).toBe(2)\n  })\n\n  it('onEvict 同步重入 loadScene 把仍在缓存的场景刷成最近', async () => {\n    const { fetcher, count } = countingFetcher()\n    const evicted: number[] = []\n    const cache = new SceneAssetsCache(fetcher, {\n      maxEntries: 2,\n      onEvict: (sceneId) => {\n        evicted.push(sceneId)\n        if (sceneId === 1) void cache.loadScene(2)\n      },\n    })\n\n    await cache.loadScene(1)\n    await cache.loadScene(2)\n    await cache.loadScene(3)\n    await cache.loadScene(4)\n    expect(evicted).toEqual([1, 3])\n    expect(count(2)).toBe(1)\n    await cache.loadScene(2)\n    expect(count(2)).toBe(1)\n    await cache.loadScene(3)\n    expect(count(3)).toBe(2)\n  })\n\n  it('maxEntries 为 0 时仍淘汰未受保护场景', async () => {\n    const { fetcher, count } = countingFetcher()\n    const evicted: number[] = []\n    const cache = new SceneAssetsCache(fetcher, {\n      maxEntries: 0,\n      onEvict: (sceneId) => evicted.push(sceneId),\n      protect: () => 1,\n    })\n\n    const first = await cache.loadScene(1)\n    expect(evicted).toEqual([])\n    const second = await cache.loadScene(2)\n    expect(evicted).toEqual([2])\n    expect(second.sceneId).toBe(2)\n    const again = await cache.loadScene(1)\n    expect(again).toBe(first)\n    expect(count(1)).toBe(1)\n    await cache.loadScene(2)\n    expect(count(2)).toBe(2)\n    expect(evicted).toEqual([2, 2])\n  })\n\n  it('fetcher 拒绝后兄弟场景仍命中且不触发 onEvict', async () => {\n    const { fetcher, count } = countingFetcher(2, 'scene 2 down')\n    const evicted: number[] = []\n    const cache = new SceneAssetsCache(fetcher, {\n      maxEntries: 2,\n      onEvict: (sceneId) => evicted.push(sceneId),\n    })\n\n    const first = await cache.loadScene(1)\n    await expect(cache.loadScene(2)).rejects.toThrow('scene 2 down')\n    expect(evicted).toEqual([])\n    expect(await cache.loadScene(1)).toBe(first)\n    expect(count(1)).toBe(1)\n    expect(count(2)).toBe(1)\n  })\n\n  it('onEvict 抛错时受害者已删除，兄弟缓存与另一实例不受影响', async () => {\n    const primary = countingFetcher()\n    const evicted: number[] = []\n    const evictError = new Error('evict broke')\n    const cache = new SceneAssetsCache(primary.fetcher, {\n      maxEntries: 2,\n      onEvict: (sceneId) => {\n        evicted.push(sceneId)\n        if (sceneId === 1) throw evictError\n      },\n    })\n    const other = countingFetcher()\n    const otherCache = new SceneAssetsCache(other.fetcher, { maxEntries: 2 })\n\n    await cache.loadScene(1)\n    await cache.loadScene(2)\n    const otherFirst = await otherCache.loadScene(8)\n    await expect(cache.loadScene(3)).rejects.toBe(evictError)\n    expect(evicted).toEqual([1])\n    expect(primary.count(3)).toBe(1)\n    await cache.loadScene(3)\n    expect(primary.count(3)).toBe(1)\n    await cache.loadScene(2)\n    expect(primary.count(2)).toBe(1)\n    await cache.loadScene(1)\n    expect(primary.count(1)).toBe(2)\n    expect(await otherCache.loadScene(8)).toBe(otherFirst)\n    expect(other.count(8)).toBe(1)\n  })\n\n  it('onEvict 重入重新获取受害者后继续淘汰下一个最旧场景', async () => {\n    const { fetcher, count } = countingFetcher()\n    const evicted: number[] = []\n    const cache = new SceneAssetsCache(fetcher, {\n      maxEntries: 2,\n      onEvict: (sceneId) => {\n        evicted.push(sceneId)\n        if (sceneId === 1) void cache.loadScene(1)\n      },\n    })\n\n    await cache.loadScene(1)\n    await cache.loadScene(2)\n    await cache.loadScene(3)\n    await Promise.resolve()\n    expect(evicted).toEqual([1, 2])\n    expect(count(1)).toBe(2)\n    expect(count(2)).toBe(1)\n    expect(count(3)).toBe(1)\n    await cache.loadScene(3)\n    await cache.loadScene(1)\n    expect(count(3)).toBe(1)\n    expect(count(1)).toBe(2)\n    await cache.loadScene(2)\n    expect(count(2)).toBe(2)\n  })\n})",
+          "to": "describe('moving protection and zero capacity', () => {\nit('protect 切换后原先受保护的场景成为下一次淘汰对象', async () => {\n    const { fetcher, count } = countingFetcher()\n    const evicted: number[] = []\n    let protectedId = 1\n    const cache = new SceneAssetsCache(fetcher, {\n      maxEntries: 2,\n      onEvict: (sceneId) => evicted.push(sceneId),\n      protect: () => protectedId,\n    })\n\n    await cache.loadScene(1)\n    await cache.loadScene(2)\n    await cache.loadScene(3)\n    expect(evicted).toEqual([2])\n\n    protectedId = 3\n    await cache.loadScene(4)\n    expect(evicted).toEqual([2, 1])\n    expect(count(1)).toBe(1)\n    expect(count(3)).toBe(1)\n    expect(count(4)).toBe(1)\n    await cache.loadScene(3)\n    await cache.loadScene(4)\n    expect(count(3)).toBe(1)\n    expect(count(4)).toBe(1)\n    await cache.loadScene(1)\n    expect(count(1)).toBe(2)\n  })\n\nit('maxEntries 为 0 时仍淘汰未受保护场景', async () => {\n    const { fetcher, count } = countingFetcher()\n    const evicted: number[] = []\n    const cache = new SceneAssetsCache(fetcher, {\n      maxEntries: 0,\n      onEvict: (sceneId) => evicted.push(sceneId),\n      protect: () => 1,\n    })\n\n    const first = await cache.loadScene(1)\n    expect(evicted).toEqual([])\n    const second = await cache.loadScene(2)\n    expect(evicted).toEqual([2])\n    expect(second.sceneId).toBe(2)\n    const again = await cache.loadScene(1)\n    expect(again).toBe(first)\n    expect(count(1)).toBe(1)\n    await cache.loadScene(2)\n    expect(count(2)).toBe(2)\n    expect(evicted).toEqual([2, 2])\n  })\n})\n\ndescribe('failed admission preserves other scenes', () => {\nit('fetcher 拒绝后兄弟场景仍命中且不触发 onEvict', async () => {\n    const { fetcher, count } = countingFetcher(2, 'scene 2 down')\n    const evicted: number[] = []\n    const cache = new SceneAssetsCache(fetcher, {\n      maxEntries: 2,\n      onEvict: (sceneId) => evicted.push(sceneId),\n    })\n\n    const first = await cache.loadScene(1)\n    await expect(cache.loadScene(2)).rejects.toThrow('scene 2 down')\n    expect(evicted).toEqual([])\n    expect(await cache.loadScene(1)).toBe(first)\n    expect(count(1)).toBe(1)\n    expect(count(2)).toBe(1)\n  })\n})\n\ndescribe('eviction callback reentrancy and errors', () => {\nit('onEvict 同步重入 loadScene 把仍在缓存的场景刷成最近', async () => {\n    const { fetcher, count } = countingFetcher()\n    const evicted: number[] = []\n    const cache = new SceneAssetsCache(fetcher, {\n      maxEntries: 2,\n      onEvict: (sceneId) => {\n        evicted.push(sceneId)\n        if (sceneId === 1) void cache.loadScene(2)\n      },\n    })\n\n    await cache.loadScene(1)\n    await cache.loadScene(2)\n    await cache.loadScene(3)\n    await cache.loadScene(4)\n    expect(evicted).toEqual([1, 3])\n    expect(count(2)).toBe(1)\n    await cache.loadScene(2)\n    expect(count(2)).toBe(1)\n    await cache.loadScene(3)\n    expect(count(3)).toBe(2)\n  })\n\nit('onEvict 抛错时受害者已删除，兄弟缓存与另一实例不受影响', async () => {\n    const primary = countingFetcher()\n    const evicted: number[] = []\n    const evictError = new Error('evict broke')\n    const cache = new SceneAssetsCache(primary.fetcher, {\n      maxEntries: 2,\n      onEvict: (sceneId) => {\n        evicted.push(sceneId)\n        if (sceneId === 1) throw evictError\n      },\n    })\n    const other = countingFetcher()\n    const otherCache = new SceneAssetsCache(other.fetcher, { maxEntries: 2 })\n\n    await cache.loadScene(1)\n    await cache.loadScene(2)\n    const otherFirst = await otherCache.loadScene(8)\n    await expect(cache.loadScene(3)).rejects.toBe(evictError)\n    expect(evicted).toEqual([1])\n    expect(primary.count(3)).toBe(1)\n    await cache.loadScene(3)\n    expect(primary.count(3)).toBe(1)\n    await cache.loadScene(2)\n    expect(primary.count(2)).toBe(1)\n    await cache.loadScene(1)\n    expect(primary.count(1)).toBe(2)\n    expect(await otherCache.loadScene(8)).toBe(otherFirst)\n    expect(other.count(8)).toBe(1)\n  })\n\nit('onEvict 重入重新获取受害者后继续淘汰下一个最旧场景', async () => {\n    const { fetcher, count } = countingFetcher()\n    const evicted: number[] = []\n    const cache = new SceneAssetsCache(fetcher, {\n      maxEntries: 2,\n      onEvict: (sceneId) => {\n        evicted.push(sceneId)\n        if (sceneId === 1) void cache.loadScene(1)\n      },\n    })\n\n    await cache.loadScene(1)\n    await cache.loadScene(2)\n    await cache.loadScene(3)\n    await Promise.resolve()\n    expect(evicted).toEqual([1, 2])\n    expect(count(1)).toBe(2)\n    expect(count(2)).toBe(1)\n    expect(count(3)).toBe(1)\n    await cache.loadScene(3)\n    await cache.loadScene(1)\n    expect(count(3)).toBe(1)\n    expect(count(1)).toBe(2)\n    await cache.loadScene(2)\n    expect(count(2)).toBe(2)\n  })\n})",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "helperTransplants": [
+    {
+      "oldPath": "packages/game/src/assets/loader.test.ts",
+      "oldName": "makeFetcher",
+      "currentPath": "packages/game/src/__tests__/scene-cache-fixtures.ts",
+      "currentName": "makeLruSceneFetcher",
+      "changes": [
+        {
+          "from": "function makeFetcher(",
+          "to": "export function makeLruSceneFetcher(",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "oldPath": "packages/game/src/assets/scene-cache.grok-mid-1.test.ts",
+      "oldName": "countingFetcher",
+      "currentPath": "packages/game/src/__tests__/scene-cache-fixtures.ts",
+      "currentName": "countingSceneFetcher",
+      "changes": [
+        {
+          "from": "function countingFetcher(",
+          "to": "export function countingSceneFetcher(",
+          "count": 1
+        },
+        {
+          "from": "return { calls, fetcher, count }",
+          "to": "return { fetcher, count }",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "replacements": [],
+  "registrations": [
+    {
+      "old": {
+        "file": "packages/game/src/assets/loader.test.ts",
+        "ordinal": 0
+      },
+      "originalOrdinal": 0,
+      "current": {
+        "file": "packages/game/src/assets/scene-cache.eviction.test.ts",
+        "titles": ["LRU order and default capacity"],
+        "template": "超过 maxEntries → 淘汰最旧条目(重访需重 fetch)+ 触发 onEvict"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/loader.test.ts",
+        "ordinal": 1
+      },
+      "originalOrdinal": 1,
+      "current": {
+        "file": "packages/game/src/assets/scene-cache.eviction.test.ts",
+        "titles": ["LRU order and default capacity"],
+        "template": "cache hit 刷新 recency:最近命中的不被淘汰"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/loader.test.ts",
+        "ordinal": 2
+      },
+      "originalOrdinal": 2,
+      "current": {
+        "file": "packages/game/src/assets/scene-cache.eviction.test.ts",
+        "titles": ["LRU order and default capacity"],
+        "template": "protect 返回的 sceneId 永不被淘汰(保护当前渲染场景,防黑屏)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/loader.test.ts",
+        "ordinal": 3
+      },
+      "originalOrdinal": 3,
+      "current": {
+        "file": "packages/game/src/assets/scene-cache.eviction.test.ts",
+        "titles": ["LRU order and default capacity"],
+        "template": "省略容量时保留全部已加载场景"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/scene-cache.grok-r1.test.ts",
+        "ordinal": 0
+      },
+      "originalOrdinal": 3,
+      "current": {
+        "file": "packages/game/src/assets/scene-cache.eviction.test.ts",
+        "titles": ["protected and boundary capacity"],
+        "template": "protect 返回缓存中不存在的 id 时，仍淘汰最旧条目"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/scene-cache.grok-r1.test.ts",
+        "ordinal": 1
+      },
+      "originalOrdinal": 4,
+      "current": {
+        "file": "packages/game/src/assets/scene-cache.eviction.test.ts",
+        "titles": ["protected and boundary capacity"],
+        "template": "maxEntries 为 1 且保护旧条目时，新 fetch 的结果被淘汰但调用方仍拿到它"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/scene-cache.grok-r1.test.ts",
+        "ordinal": 2
+      },
+      "originalOrdinal": 5,
+      "current": {
+        "file": "packages/game/src/assets/scene-cache.eviction.test.ts",
+        "titles": ["protected and boundary capacity"],
+        "template": "protect 返回 undefined 时 scene 0 可以被淘汰"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/scene-cache.grok-r1.test.ts",
+        "ordinal": 3
+      },
+      "originalOrdinal": 6,
+      "current": {
+        "file": "packages/game/src/assets/scene-cache.eviction.test.ts",
+        "titles": ["protected and boundary capacity"],
+        "template": "条目数刚好等于 maxEntries 时不调用 onEvict"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/scene-cache.grok-r1.test.ts",
+        "ordinal": 4
+      },
+      "originalOrdinal": 0,
+      "current": {
+        "file": "packages/game/src/assets/scene-cache.lifecycle.test.ts",
+        "titles": ["scene ownership and asynchronous admission"],
+        "template": "命中返回 fetcher 交出的同一对象引用"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/scene-cache.grok-r1.test.ts",
+        "ordinal": 5
+      },
+      "originalOrdinal": 1,
+      "current": {
+        "file": "packages/game/src/assets/scene-cache.lifecycle.test.ts",
+        "titles": ["scene ownership and asynchronous admission"],
+        "template": "fetcher 拒绝后该 id 不入缓存，下次重新 fetch 并成功"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/scene-cache.grok-r1.test.ts",
+        "ordinal": 6
+      },
+      "originalOrdinal": 2,
+      "current": {
+        "file": "packages/game/src/assets/scene-cache.lifecycle.test.ts",
+        "titles": ["scene ownership and asynchronous admission"],
+        "template": "同一 id 的两次并发 load 各调一次 fetcher，缓存留下后写入的对象"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/scene-cache.grok-r1.test.ts",
+        "ordinal": 7
+      },
+      "originalOrdinal": 7,
+      "current": {
+        "file": "packages/game/src/assets/scene-cache.lifecycle.test.ts",
+        "titles": ["scene ownership and asynchronous admission"],
+        "template": "被淘汰对象之后的字段改写不会污染重新 fetch 的结果"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/scene-cache.grok-r1.test.ts",
+        "ordinal": 8
+      },
+      "originalOrdinal": 8,
+      "current": {
+        "file": "packages/game/src/assets/scene-cache.lifecycle.test.ts",
+        "titles": ["scene ownership and asynchronous admission"],
+        "template": "maxEntries 为 1 时后完成的 id 1 留下，先完成的 id 2 下次要重取"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/scene-cache.grok-mid-1.test.ts",
+        "ordinal": 0
+      },
+      "originalOrdinal": 0,
+      "current": {
+        "file": "packages/game/src/assets/scene-cache.eviction.test.ts",
+        "titles": ["moving protection and zero capacity"],
+        "template": "protect 切换后原先受保护的场景成为下一次淘汰对象"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/scene-cache.grok-mid-1.test.ts",
+        "ordinal": 1
+      },
+      "originalOrdinal": 2,
+      "current": {
+        "file": "packages/game/src/assets/scene-cache.eviction.test.ts",
+        "titles": ["moving protection and zero capacity"],
+        "template": "maxEntries 为 0 时仍淘汰未受保护场景"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/scene-cache.grok-mid-1.test.ts",
+        "ordinal": 2
+      },
+      "originalOrdinal": 3,
+      "current": {
+        "file": "packages/game/src/assets/scene-cache.lifecycle.test.ts",
+        "titles": ["failed admission preserves other scenes"],
+        "template": "fetcher 拒绝后兄弟场景仍命中且不触发 onEvict"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/scene-cache.grok-mid-1.test.ts",
+        "ordinal": 3
+      },
+      "originalOrdinal": 1,
+      "current": {
+        "file": "packages/game/src/assets/scene-cache.callbacks.test.ts",
+        "titles": ["eviction callback reentrancy and errors"],
+        "template": "onEvict 同步重入 loadScene 把仍在缓存的场景刷成最近"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/scene-cache.grok-mid-1.test.ts",
+        "ordinal": 4
+      },
+      "originalOrdinal": 4,
+      "current": {
+        "file": "packages/game/src/assets/scene-cache.callbacks.test.ts",
+        "titles": ["eviction callback reentrancy and errors"],
+        "template": "onEvict 抛错时受害者已删除，兄弟缓存与另一实例不受影响"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/scene-cache.grok-mid-1.test.ts",
+        "ordinal": 5
+      },
+      "originalOrdinal": 5,
+      "current": {
+        "file": "packages/game/src/assets/scene-cache.callbacks.test.ts",
+        "titles": ["eviction callback reentrancy and errors"],
+        "template": "onEvict 重入重新获取受害者后继续淘汰下一个最旧场景"
+      }
+    }
+  ],
+  "identities": [
+    {
+      "old": {
+        "file": "packages/game/src/assets/loader.test.ts",
+        "fullName": "SceneAssetsCache LRU 超过 maxEntries → 淘汰最旧条目(重访需重 fetch)+ 触发 onEvict"
+      },
+      "current": {
+        "file": "packages/game/src/assets/scene-cache.eviction.test.ts",
+        "fullName": "LRU order and default capacity 超过 maxEntries → 淘汰最旧条目(重访需重 fetch)+ 触发 onEvict"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/loader.test.ts",
+        "fullName": "SceneAssetsCache LRU cache hit 刷新 recency:最近命中的不被淘汰"
+      },
+      "current": {
+        "file": "packages/game/src/assets/scene-cache.eviction.test.ts",
+        "fullName": "LRU order and default capacity cache hit 刷新 recency:最近命中的不被淘汰"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/loader.test.ts",
+        "fullName": "SceneAssetsCache LRU protect 返回的 sceneId 永不被淘汰(保护当前渲染场景,防黑屏)"
+      },
+      "current": {
+        "file": "packages/game/src/assets/scene-cache.eviction.test.ts",
+        "fullName": "LRU order and default capacity protect 返回的 sceneId 永不被淘汰(保护当前渲染场景,防黑屏)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/loader.test.ts",
+        "fullName": "SceneAssetsCache LRU 不传 opts → 无限缓存(向后兼容,永不淘汰)"
+      },
+      "current": {
+        "file": "packages/game/src/assets/scene-cache.eviction.test.ts",
+        "fullName": "LRU order and default capacity 省略容量时保留全部已加载场景"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/scene-cache.grok-r1.test.ts",
+        "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D04 protect 返回缓存中不存在的 id 时，仍淘汰最旧条目"
+      },
+      "current": {
+        "file": "packages/game/src/assets/scene-cache.eviction.test.ts",
+        "fullName": "protected and boundary capacity protect 返回缓存中不存在的 id 时，仍淘汰最旧条目"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/scene-cache.grok-r1.test.ts",
+        "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D05 maxEntries 为 1 且保护旧条目时，新 fetch 的结果被淘汰但调用方仍拿到它"
+      },
+      "current": {
+        "file": "packages/game/src/assets/scene-cache.eviction.test.ts",
+        "fullName": "protected and boundary capacity maxEntries 为 1 且保护旧条目时，新 fetch 的结果被淘汰但调用方仍拿到它"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/scene-cache.grok-r1.test.ts",
+        "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D06 protect 返回 undefined 时 scene 0 可以被淘汰"
+      },
+      "current": {
+        "file": "packages/game/src/assets/scene-cache.eviction.test.ts",
+        "fullName": "protected and boundary capacity protect 返回 undefined 时 scene 0 可以被淘汰"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/scene-cache.grok-r1.test.ts",
+        "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D07 条目数刚好等于 maxEntries 时不调用 onEvict"
+      },
+      "current": {
+        "file": "packages/game/src/assets/scene-cache.eviction.test.ts",
+        "fullName": "protected and boundary capacity 条目数刚好等于 maxEntries 时不调用 onEvict"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/scene-cache.grok-r1.test.ts",
+        "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D01 命中返回 fetcher 交出的同一对象引用"
+      },
+      "current": {
+        "file": "packages/game/src/assets/scene-cache.lifecycle.test.ts",
+        "fullName": "scene ownership and asynchronous admission 命中返回 fetcher 交出的同一对象引用"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/scene-cache.grok-r1.test.ts",
+        "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D02 fetcher 拒绝后该 id 不入缓存，下次重新 fetch 并成功"
+      },
+      "current": {
+        "file": "packages/game/src/assets/scene-cache.lifecycle.test.ts",
+        "fullName": "scene ownership and asynchronous admission fetcher 拒绝后该 id 不入缓存，下次重新 fetch 并成功"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/scene-cache.grok-r1.test.ts",
+        "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D03 同一 id 的两次并发 load 各调一次 fetcher，缓存留下后写入的对象"
+      },
+      "current": {
+        "file": "packages/game/src/assets/scene-cache.lifecycle.test.ts",
+        "fullName": "scene ownership and asynchronous admission 同一 id 的两次并发 load 各调一次 fetcher，缓存留下后写入的对象"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/scene-cache.grok-r1.test.ts",
+        "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D08 被淘汰对象之后的字段改写不会污染重新 fetch 的结果"
+      },
+      "current": {
+        "file": "packages/game/src/assets/scene-cache.lifecycle.test.ts",
+        "fullName": "scene ownership and asynchronous admission 被淘汰对象之后的字段改写不会污染重新 fetch 的结果"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/scene-cache.grok-r1.test.ts",
+        "fullName": "G01-D SceneAssetsCache 归属与迟到 G01-D10 maxEntries 为 1 时后完成的 id 1 留下，先完成的 id 2 下次要重取"
+      },
+      "current": {
+        "file": "packages/game/src/assets/scene-cache.lifecycle.test.ts",
+        "fullName": "scene ownership and asynchronous admission maxEntries 为 1 时后完成的 id 1 留下，先完成的 id 2 下次要重取"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/scene-cache.grok-mid-1.test.ts",
+        "fullName": "grok-mid-1 scene cache eviction protect 切换后原先受保护的场景成为下一次淘汰对象"
+      },
+      "current": {
+        "file": "packages/game/src/assets/scene-cache.eviction.test.ts",
+        "fullName": "moving protection and zero capacity protect 切换后原先受保护的场景成为下一次淘汰对象"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/scene-cache.grok-mid-1.test.ts",
+        "fullName": "grok-mid-1 scene cache eviction maxEntries 为 0 时仍淘汰未受保护场景"
+      },
+      "current": {
+        "file": "packages/game/src/assets/scene-cache.eviction.test.ts",
+        "fullName": "moving protection and zero capacity maxEntries 为 0 时仍淘汰未受保护场景"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/scene-cache.grok-mid-1.test.ts",
+        "fullName": "grok-mid-1 scene cache eviction fetcher 拒绝后兄弟场景仍命中且不触发 onEvict"
+      },
+      "current": {
+        "file": "packages/game/src/assets/scene-cache.lifecycle.test.ts",
+        "fullName": "failed admission preserves other scenes fetcher 拒绝后兄弟场景仍命中且不触发 onEvict"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/scene-cache.grok-mid-1.test.ts",
+        "fullName": "grok-mid-1 scene cache eviction onEvict 同步重入 loadScene 把仍在缓存的场景刷成最近"
+      },
+      "current": {
+        "file": "packages/game/src/assets/scene-cache.callbacks.test.ts",
+        "fullName": "eviction callback reentrancy and errors onEvict 同步重入 loadScene 把仍在缓存的场景刷成最近"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/scene-cache.grok-mid-1.test.ts",
+        "fullName": "grok-mid-1 scene cache eviction onEvict 抛错时受害者已删除，兄弟缓存与另一实例不受影响"
+      },
+      "current": {
+        "file": "packages/game/src/assets/scene-cache.callbacks.test.ts",
+        "fullName": "eviction callback reentrancy and errors onEvict 抛错时受害者已删除，兄弟缓存与另一实例不受影响"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/scene-cache.grok-mid-1.test.ts",
+        "fullName": "grok-mid-1 scene cache eviction onEvict 重入重新获取受害者后继续淘汰下一个最旧场景"
+      },
+      "current": {
+        "file": "packages/game/src/assets/scene-cache.callbacks.test.ts",
+        "fullName": "eviction callback reentrancy and errors onEvict 重入重新获取受害者后继续淘汰下一个最旧场景"
+      }
+    }
+  ],
+  "cohortSubjects": [
+    {
+      "path": "packages/game/src/assets/scene-cache.grok-r1.test.ts",
+      "sha256": "4ab6a1fa912fdfed0b961bf43b0734c7d69a41eb5e7b61eedc98d7da61e6dce0",
+      "priorCurrentBridge": {
+        "beforeMember": "organization-game-asset-fixtures/8.before",
+        "afterSha256": "2fa4fac7306513cf04ae17411600aa736fd14992e38e52be1b3885e4b6f36c13",
+        "evidence": "organization-game-asset-fixtures.json"
+      }
+    },
+    {
+      "path": "packages/game/src/assets/scene-cache.grok-mid-1.test.ts",
+      "sha256": "1002504cda3af553c56e48dab05c9200a350d847aa28e3fc8f8c4ed4f861d4b3",
+      "priorCurrentBridge": null
+    }
+  ],
+  "preserved": [
+    {
+      "path": "packages/game/src/assets/loader.ts",
+      "sha256": "9c3c3a333e5b04d25cd220e17d04863b0ff5c759e273d05c3b82af758756788f"
+    },
+    {
+      "path": "packages/game/src/__tests__/asset-fixtures.ts",
+      "sha256": "cf3eae0a807ce26983299ee72ff140b7035cd64121a4547b6f145076547c12fc"
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "sha256": "a4d007c9739873dc20f385b52b584de49ec57cd5c328cb11ca9d3b0b9f19fb0a"
+    }
+  ],
+  "neighborPaths": [
+    "packages/game/src/assets/dialog-assets.lifecycle.test.ts",
+    "packages/game/src/assets/dialog-assets.loading.test.ts",
+    "packages/game/src/assets/rle-decode.test.ts",
+    "packages/game/src/assets/scene-cache.callbacks.test.ts",
+    "packages/game/src/assets/scene-cache.eviction.test.ts",
+    "packages/game/src/assets/scene-cache.lifecycle.test.ts",
+    "packages/game/src/assets/tileset-blob.fetch.test.ts",
+    "packages/game/src/assets/tileset-blob.frames.test.ts",
+    "packages/game/src/assets/tileset-blob.gzip.test.ts"
+  ],
+  "profiles": [
+    {
+      "path": "packages/game/src/assets/scene-cache.eviction.test.ts",
+      "subjects": [
+        "packages/game/src/assets/loader.test.ts",
+        "packages/game/src/assets/scene-cache.grok-r1.test.ts",
+        "packages/game/src/assets/scene-cache.grok-mid-1.test.ts"
+      ],
+      "axes": {
+        "A": "原10个容量/recency/protect边界case保持返回引用、refetch身份和回调序列；真实bootstrap cap16/protect/currentScene/onEvict清并行位图caller已核。",
+        "B": "去作者/批次与泛化兼容措辞；标题直接说明LRU、容量边界和动态保护，不冒称视觉黑屏已验。",
+        "C": "只聚合淘汰政策；两不同数据默认fetcher由共享fixture拥有，每例独立cache/evicted记录，无隐式全局。",
+        "D": "基础LRU四例、scene0/缺席保护/cap边界及动态保护/zero cap反例不同，保留，不按相似序列机械删例。",
+        "E": "所有原断言/输入保全，四LRU强引用oracle与旧clone反控按精确源复用；19cache总身份保持，不以68全部充本文件。",
+        "F": "scene-cache.eviction表达实际责任，子组按LRU、保护边界、动态保护组织；模型标签与编号退出。",
+        "G": "不再把仅缓存测试放泛化loader.test；未新增测试/包装层，原未使用calls返回字段退出后仍保内部计数。",
+        "H": "真实class公开loadScene/onEvict/protect可直接观测，无私有Map读取、时钟mock或生产接口扩张。"
+      },
+      "acceptance": "accepted-FG; unified gates pending"
+    },
+    {
+      "path": "packages/game/src/assets/scene-cache.lifecycle.test.ts",
+      "subjects": [
+        "packages/game/src/assets/scene-cache.grok-r1.test.ts",
+        "packages/game/src/assets/scene-cache.grok-mid-1.test.ts"
+      ],
+      "axes": {
+        "A": "六条归属/失败/异步写入合同保留：相同对象、失败不入、同id并发、淘汰后新对象与跨id完成顺序；原Promise释放时序不改。",
+        "B": "不再写旧组排重宣称/贡献者上下文，具体测试名保留引用、scene与map差异。",
+        "C": "生命周期测试拥有pending resolve集合及cache，数据来源明确；LRU容量等只作为真实设置，不与策略文件混写。",
+        "D": "同id并发与跨id后完成淘汰不同，失败保兄弟与失败后重试也不同；保留原六判别轴。",
+        "E": "六原case、完整引用/字段/错误与计数双观测不改，所有pending按原合法路径释放；未以mock次数代替业务结果。",
+        "F": "scene-cache.lifecycle及admission子组说明真实归属，early/late/first/second继续标识完成顺序。",
+        "G": "只借有真实跨文件caller的窄fetcher，无通用Promise宿主或新增状态owner；旧作者文件退出。",
+        "H": "用可控Promise直接驱动真正loadScene，真实缓存再访问结果可证伪迟到写入，不新建测试专用产品出口。"
+      },
+      "acceptance": "accepted-FG; unified gates pending"
+    },
+    {
+      "path": "packages/game/src/assets/scene-cache.callbacks.test.ts",
+      "subjects": ["packages/game/src/assets/scene-cache.grok-mid-1.test.ts"],
+      "axes": {
+        "A": "三原onEvict合同保留同步reentry更新recency、抛错后删除/兄弟/实例隔离、受害者重载后继续淘汰；微任务等待保持。",
+        "B": "回调effects标题限定具体错误/重入，不称任意并发或跨进程原子性。",
+        "C": "同一class的回调边界聚合，evicted列表和第二实例由各case独占；helper只造SceneAssets不持cache。",
+        "D": "三case各控制不同callback副作用，不能因都用onEvict合成模糊万能参数表。",
+        "E": "原三完整断言/错误同一性/存活cache/refetch次数不变；回调重入使用现有端口，不mock缓存核心。",
+        "F": "scene-cache.callbacks明确被审边界，类内部Map不作为测试命名或oracle。",
+        "G": "不再继承其它作者组无关setup；没有case或必要断言删除，只有一个实际shared counting factory。",
+        "H": "可注入throw/reentrant callback并观察真实loadScene结果，保留原Promise flush而不加timeout。"
+      },
+      "acceptance": "accepted-FG; unified gates pending"
+    },
+    {
+      "path": "packages/game/src/__tests__/scene-cache-fixtures.ts",
+      "subjects": [
+        "packages/game/src/assets/loader.test.ts",
+        "packages/game/src/assets/scene-cache.grok-mid-1.test.ts"
+      ],
+      "axes": {
+        "A": "两旧函数原参数/返回值正文除名称/export和未用calls返回字段保全；typedSceneAssets默认差异明确，内部calls计数仍独占。",
+        "B": "头注解释不同默认值和失败政策，不声称完整可玩场景；移除贡献者信息。",
+        "C": "纯测试输入与fetcher观察工厂，不安装全局fetch、不持缓存或释放产品资源；仅type依赖loader。",
+        "D": "LRU用mapNum=id+10空events/mock记录，与counted默认合法场景/可选持久拒绝不同，两个工厂不强并。",
+        "E": "完整helperTransplants从真实旧函数到当前函数逐声明验证；实际19cache业务caller运行，没有为常量添加自比测试。",
+        "F": "scene-cache-fixtures、makeLruSceneFetcher、countingSceneFetcher表达用途，旧局部alias仅连接现有case输入。",
+        "G": "未读calls返回字段移除，私有calls仍服务count；一个真实共享叶不含万能选项或未来需求抽象。",
+        "H": "显式参数与可观测mock/count，三个测试文件直接复用；不增加产品API。"
+      },
+      "acceptance": "accepted-FG; unified gates pending"
+    }
+  ],
+  "cleanExecutions": ["before", "neighbors", "typecheck", "scoped"],
+  "receipts": {
+    "neighbors": "organization-game-cache-tests/neighbors",
+    "typecheck": "organization-game-cache-tests/typecheck",
+    "scoped": "organization-game-cache-tests/scoped-final"
+  },
+  "processDisclosures": [
+    "19original identities keep every assertion and caller input. Old noncohort loader.test contains only cache tests and participates; it is not an additional fixed-cohort subject.",
+    "LRU fetcher defaults mapNum=id+10 with empty events; counted fetcher uses legalSceneAssets and optional persistent rejection. They remain distinct factories with fresh local state. Only unused calls return field removed; all existing callers destructure fetcher/count or use their properties.",
+    "Two helper bodies move via explicit name/export and one unused property change; helperTransplants verifies their full declarations, not only the new callers.",
+    "Clarify title 不传 opts → 无限缓存(向后兼容,永不淘汰) -> 省略容量时保留全部已加载场景; no assertion/input/product diagnostic change.",
+    "First reconstruction compared pre-group ordinals after grouping and rejected before deleting input sources. Registration now uses actual normalized ordinal and separately records originalOrdinal; original file×fullName remains the immutable runtime identity. Original script/error retained.",
+    "After formatter, title literals use single quotes. First read-only check found statement hash mismatch while the complete callback body was identical. The recorded literal bridges now use actual quote style on both sides; no code, input, expectation or verifier criterion changed."
+  ],
+  "reusedReviewMember": "organization-game-cache-tests/reused-reviews.json"
+}

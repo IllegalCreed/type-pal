@@ -2,7 +2,8 @@ import type { Palette, PaletteCycle } from '@type-pal/shared'
 
 /**
  * 解一个 256-色块(768 字节)VGA(0-63)→ RGB(0-255)。
- * 升 8-bit 用 `(v << 2) | (v >> 4)`(等效 ×255/63,无浮点)。
+ * 升8-bit沿用TS位复制近似 `(v << 2) | (v >> 4)`，峰值255；
+ * SDLPal PAL_GetPalette使用 `v << 2`，峰值252，两者输入域的既有差异保持。
  * @param offset 块在 buf 内的起始字节(白天=0,夜间=768)。
  */
 function decodeColorBlock(buf: Uint8Array, offset: number): Palette['colors'] {
@@ -24,8 +25,7 @@ function decodeColorBlock(buf: Uint8Array, offset: number): Palette['colors'] {
  * 或 1536 字节(白天 256 + 夜间 256,sdlpal `PAL_GetPalette(n, fNight)` 真值,palette.c:
  * `buf[(fNight ? 256*3 : 0) + i*3]`)。实测 PAT.MKF 仅 chunk #0/#5 含夜间半。
  *
- * 循环动画段(cycles)在 M1 先返回空 —— 实施时若发现切片场景有循环段,
- * 再加从 MGO.MKF 解析的逻辑。
+ * cycles由caller提供并原样透传，不从PAT字节解析；省略时每次返回独立空数组。
  *
  * 参考 reference/sdlpal/palette.c PAL_GetPalette。
  */

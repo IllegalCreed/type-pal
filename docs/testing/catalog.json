@@ -7,16 +7,30 @@
       "kind": "contract",
       "title": "两阶段 E2E 与录像合同",
       "status": "current",
-      "phase": ["phase1", "phase2"],
-      "engines": ["game", "reforge", "editor"],
+      "phase": [
+        "phase1",
+        "phase2"
+      ],
+      "engines": [
+        "game",
+        "reforge",
+        "editor"
+      ],
       "owner": "Codex",
-      "provenance": ["Codex", "User"],
+      "provenance": [
+        "Codex",
+        "User"
+      ],
       "domain": "e2e",
       "module": "cross-stage-contract",
       "canonical": "e2e/contract.md",
       "index": "e2e/README.md",
       "evidence": "e2e/evidence/e2e-contract.json",
-      "tags": ["e2e", "governance", "capture"],
+      "tags": [
+        "e2e",
+        "governance",
+        "capture"
+      ],
       "lastVerified": "2026-10-04",
       "dependsOn": [],
       "sourceRefs": [
@@ -72,7 +86,11 @@
             "revision": "d02278dc0154dd73b5db24388a35c30bb096cc81",
             "date": "2026-10-04",
             "action": "source-and-publication-audit",
-            "notRun": ["runtime", "E2E", "coverage"]
+            "notRun": [
+              "runtime",
+              "E2E",
+              "coverage"
+            ]
           }
         ]
       },
@@ -92,18 +110,33 @@
       "kind": "design",
       "title": "双阶段快速通关路线方案",
       "status": "proposal",
-      "phase": ["phase1", "phase2"],
-      "engines": ["game", "reforge"],
+      "phase": [
+        "phase1",
+        "phase2"
+      ],
+      "engines": [
+        "game",
+        "reforge"
+      ],
       "owner": "Codex",
-      "provenance": ["Codex", "User"],
+      "provenance": [
+        "Codex",
+        "User"
+      ],
       "domain": "e2e",
       "module": "route-planning",
       "canonical": "e2e/route-proposal.md",
       "index": "e2e/README.md",
       "evidence": "e2e/evidence/e2e-route.json",
-      "tags": ["e2e", "route", "checkpoint"],
+      "tags": [
+        "e2e",
+        "route",
+        "checkpoint"
+      ],
       "lastVerified": "2026-10-04",
-      "dependsOn": ["e2e-contract"],
+      "dependsOn": [
+        "e2e-contract"
+      ],
       "sourceRefs": [
         {
           "path": "scripts/e2e/inn-contract.mjs",
@@ -120,15 +153,26 @@
           "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
         }
       ],
-      "publicCallers": ["pnpm e2e:001:both", "pnpm e2e:002:both"],
-      "legalInputs": ["fresh current project", "current-version checkpoint only"],
+      "publicCallers": [
+        "pnpm e2e:001:both",
+        "pnpm e2e:002:both"
+      ],
+      "legalInputs": [
+        "fresh current project",
+        "current-version checkpoint only"
+      ],
       "businessOracle": {
         "type": "route-admission",
-        "assertions": ["每段有明确前驱/终止条件", "路线失败不能被跳场景隐藏"]
+        "assertions": [
+          "每段有明确前驱/终止条件",
+          "路线失败不能被跳场景隐藏"
+        ]
       },
       "dedupe": {
         "result": "reviewed",
-        "against": ["e2e/stages/*/README.md"],
+        "against": [
+          "e2e/stages/*/README.md"
+        ],
         "notes": "方案不宣称任何阶段已运行通过。"
       },
       "revision": {
@@ -140,7 +184,11 @@
             "revision": "d02278dc0154dd73b5db24388a35c30bb096cc81",
             "date": "2026-10-04",
             "action": "source-and-publication-audit",
-            "notRun": ["runtime", "E2E", "coverage"]
+            "notRun": [
+              "runtime",
+              "E2E",
+              "coverage"
+            ]
           }
         ]
       },
@@ -180,18 +228,37 @@
       "kind": "audit",
       "title": "001–005 共性问题族",
       "status": "current",
-      "phase": ["phase1", "phase2"],
-      "engines": ["game", "reforge"],
+      "phase": [
+        "phase1",
+        "phase2"
+      ],
+      "engines": [
+        "game",
+        "reforge"
+      ],
       "owner": "Codex",
-      "provenance": ["Codex", "User"],
+      "provenance": [
+        "Codex",
+        "User"
+      ],
       "domain": "e2e",
       "module": "cross-stage-audit",
       "canonical": "e2e/cross-stage/common-issues.md",
       "index": "e2e/README.md",
       "evidence": "e2e/evidence/e2e-common-issues.json",
-      "tags": ["e2e", "audit", "script-governance"],
+      "tags": [
+        "e2e",
+        "audit",
+        "script-governance"
+      ],
       "lastVerified": "2026-10-04",
-      "dependsOn": ["e2e-001", "e2e-002", "e2e-003", "e2e-004", "e2e-005"],
+      "dependsOn": [
+        "e2e-001",
+        "e2e-002",
+        "e2e-003",
+        "e2e-004",
+        "e2e-005"
+      ],
       "sourceRefs": [
         {
           "path": "scripts/e2e/errand-contract.mjs",
@@ -230,10 +297,10 @@
         },
         {
           "path": "scripts/e2e/opening-trace.test.mjs",
-          "lines": "516-631",
+          "lines": "527-642",
           "anchor": "test('real Game world pass records every selected resource once after all entries; a later failed draw publishes nothing'",
           "role": "real transformed caller oracle",
-          "sha256": "487c80f3a5777d9e24fc23c73a40e1e0919eac602c9947129343cba1959d3f31"
+          "sha256": "965892932b391417a20cc2162dabd3c0dc6266e009bbbbc06e5cde5aceb9a9d7"
         }
       ],
       "publicCallers": [
@@ -249,7 +316,11 @@
       ],
       "businessOracle": {
         "type": "issue-family-closure",
-        "assertions": ["公共根因按族收敛", "路线/演出/存档失败分开归因", "源码核读不计作实跑"]
+        "assertions": [
+          "公共根因按族收敛",
+          "路线/演出/存档失败分开归因",
+          "源码核读不计作实跑"
+        ]
       },
       "dedupe": {
         "result": "reviewed",
@@ -271,7 +342,11 @@
             "revision": "d02278dc0154dd73b5db24388a35c30bb096cc81",
             "date": "2026-10-04",
             "action": "source-and-publication-audit",
-            "notRun": ["runtime", "E2E", "coverage"]
+            "notRun": [
+              "runtime",
+              "E2E",
+              "coverage"
+            ]
           }
         ]
       },
@@ -291,16 +366,29 @@
       "kind": "e2e-stage",
       "title": "001 开场",
       "status": "verified",
-      "phase": ["phase1", "phase2"],
-      "engines": ["game", "reforge"],
+      "phase": [
+        "phase1",
+        "phase2"
+      ],
+      "engines": [
+        "game",
+        "reforge"
+      ],
       "owner": "Codex",
-      "provenance": ["Codex"],
+      "provenance": [
+        "Codex"
+      ],
       "domain": "e2e",
       "module": "story-opening",
       "canonical": "e2e/stages/001-opening/report.md",
       "index": "e2e/stages/001-opening/README.md",
       "evidence": "e2e/evidence/e2e-001.json",
-      "tags": ["story", "opening", "dialogue", "checkpoint"],
+      "tags": [
+        "story",
+        "opening",
+        "dialogue",
+        "checkpoint"
+      ],
       "lastVerified": "2026-09-28",
       "dependsOn": [],
       "sourceRefs": [
@@ -348,14 +436,22 @@
         },
         {
           "path": "scripts/e2e/opening-trace.test.mjs",
-          "lines": "516-631",
+          "lines": "527-642",
           "anchor": "test('real Game world pass records every selected resource once after all entries; a later failed draw publishes nothing'",
           "role": "real transformed caller oracle",
-          "sha256": "487c80f3a5777d9e24fc23c73a40e1e0919eac602c9947129343cba1959d3f31"
+          "sha256": "965892932b391417a20cc2162dabd3c0dc6266e009bbbbc06e5cde5aceb9a9d7"
         }
       ],
-      "publicCallers": ["pnpm e2e:001", "pnpm e2e:001:reforge", "pnpm e2e:001:both"],
-      "legalInputs": ["fresh new story", "normal Enter/Escape/F5 flow", "same-engine save/load"],
+      "publicCallers": [
+        "pnpm e2e:001",
+        "pnpm e2e:001:reforge",
+        "pnpm e2e:001:both"
+      ],
+      "legalInputs": [
+        "fresh new story",
+        "normal Enter/Escape/F5 flow",
+        "same-engine save/load"
+      ],
       "businessOracle": {
         "type": "opening-dialogue-and-restore",
         "assertions": [
@@ -366,7 +462,11 @@
       },
       "dedupe": {
         "result": "reviewed",
-        "against": ["e2e-contract", "e2e-route", "e2e-002"],
+        "against": [
+          "e2e-contract",
+          "e2e-route",
+          "e2e-002"
+        ],
         "notes": "旧 SAVE/content 回执保留为历史，不升级为当前前驱。"
       },
       "revision": {
@@ -378,11 +478,15 @@
             "revision": "d02278dc0154dd73b5db24388a35c30bb096cc81",
             "date": "2026-10-04",
             "action": "source-and-publication-audit",
-            "notRun": ["runtime", "E2E", "coverage"]
+            "notRun": [
+              "runtime",
+              "E2E",
+              "coverage"
+            ]
           }
         ]
       },
-      "reviewScope": "source-and-historical-publication-review 2026-10-29; seven source pins and 55-row native contract checked; 25 tool contracts passed; no new runtime/save-restore/visual execution",
+      "reviewScope": "2026-10-29 source/publication review retained (25 tool contracts; no new execution); 2026-10-30 upstream publication/source review additionally retained in publicationReview (64 opening + 9 catalog tools; no browser/runtime/visual credit). Calendar expiry is retired; actual source/version boundaries govern applicability.",
       "reviewHistory": [
         {
           "date": "2026-10-29",
@@ -412,25 +516,73 @@
           "policy": "docs/testing/governance.md#版本适用性",
           "runtimeExecutionPerformed": false
         }
-      ]
+      ],
+      "publicationReview": {
+        "date": "2026-10-30",
+        "kind": "source-and-publication-only",
+        "reviewer": "Codex single agent",
+        "evidence": "docs/ops/evidence/QUALITY-PENDING-100-3/e2e001-publication-review.json",
+        "beforeReviewBy": "2026-10-28",
+        "reviewBy": "2026-11-29",
+        "scope": "Seven current source pins/anchors, current55-dialogue source inventory and raw text agreement, real CLI contracts, paired report/evidence/history boundaries;64opening tool and9catalog tests. No new browser/runtime/visual/preview/checkpoint acceptance.",
+        "preserved": {
+          "status": "verified",
+          "lastVerified": "2026-09-28",
+          "revision": {
+            "currentSha": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+            "contentVersion": 22,
+            "minimumSaveVersion": 11,
+            "history": [
+              {
+                "revision": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+                "date": "2026-10-04",
+                "action": "source-and-publication-audit",
+                "notRun": [
+                  "runtime",
+                  "E2E",
+                  "coverage"
+                ]
+              }
+            ]
+          }
+        },
+        "rationale": "Actual bounded publication/source review. The previous30-day publication interval is retained; runtime freshness is independent and no historical receipt is upgraded. A relevant source/caller/contract change invalidates its affected claim before the next date."
+      }
     },
     {
       "id": "e2e-002",
       "kind": "e2e-stage",
       "title": "002 客栈住客与赏银",
       "status": "verified",
-      "phase": ["phase1", "phase2"],
-      "engines": ["game", "reforge"],
+      "phase": [
+        "phase1",
+        "phase2"
+      ],
+      "engines": [
+        "game",
+        "reforge"
+      ],
       "owner": "Codex",
-      "provenance": ["Codex", "User"],
+      "provenance": [
+        "Codex",
+        "User"
+      ],
       "domain": "e2e",
       "module": "inn-guests-and-reward",
       "canonical": "e2e/stages/002-inn-guests-and-reward/report.md",
       "index": "e2e/stages/002-inn-guests-and-reward/README.md",
       "evidence": "e2e/evidence/e2e-002.json",
-      "tags": ["story", "inn", "dialogue", "script-governance", "checkpoint"],
+      "tags": [
+        "story",
+        "inn",
+        "dialogue",
+        "script-governance",
+        "checkpoint"
+      ],
       "lastVerified": "2026-10-02",
-      "dependsOn": ["e2e-001"],
+      "dependsOn": [
+        "e2e-001"
+      ],
       "sourceRefs": [
         {
           "path": "scripts/e2e/game-inn.mjs",
@@ -475,7 +627,11 @@
           "sha256": "34151d490e64013ce147fc415ea4478b6444350c0f14a63fef6073cbec5ec0f7"
         }
       ],
-      "publicCallers": ["pnpm e2e:002", "pnpm e2e:002:reforge", "pnpm e2e:002:both"],
+      "publicCallers": [
+        "pnpm e2e:002",
+        "pnpm e2e:002:reforge",
+        "pnpm e2e:002:both"
+      ],
       "legalInputs": [
         "same-engine current 001 end save",
         "normal movement into s003/e56",
@@ -491,7 +647,11 @@
       },
       "dedupe": {
         "result": "reviewed",
-        "against": ["e2e-001", "e2e-003", "docs/testing/e2e/stages/002-inn-guests-and-reward"],
+        "against": [
+          "e2e-001",
+          "e2e-003",
+          "docs/testing/e2e/stages/002-inn-guests-and-reward"
+        ],
         "notes": "e56/s003 是 sourceRefs 与稳定实体 ID，不再出现在 canonical 路径/标题。"
       },
       "revision": {
@@ -503,7 +663,11 @@
             "revision": "d02278dc0154dd73b5db24388a35c30bb096cc81",
             "date": "2026-10-04",
             "action": "source-and-publication-audit",
-            "notRun": ["runtime", "E2E", "coverage"]
+            "notRun": [
+              "runtime",
+              "E2E",
+              "coverage"
+            ]
           }
         ]
       },
@@ -523,18 +687,34 @@
       "kind": "e2e-stage",
       "title": "003 下楼、道士与厨房交代",
       "status": "verified",
-      "phase": ["phase1", "phase2"],
-      "engines": ["game", "reforge"],
+      "phase": [
+        "phase1",
+        "phase2"
+      ],
+      "engines": [
+        "game",
+        "reforge"
+      ],
       "owner": "Codex",
-      "provenance": ["Codex"],
+      "provenance": [
+        "Codex"
+      ],
       "domain": "e2e",
       "module": "stairs-and-kitchen-handoff",
       "canonical": "e2e/stages/003-kitchen/report.md",
       "index": "e2e/stages/003-kitchen/README.md",
       "evidence": "e2e/evidence/e2e-003.json",
-      "tags": ["story", "inn", "kitchen", "npc", "checkpoint"],
+      "tags": [
+        "story",
+        "inn",
+        "kitchen",
+        "npc",
+        "checkpoint"
+      ],
       "lastVerified": "2026-10-02",
-      "dependsOn": ["e2e-002"],
+      "dependsOn": [
+        "e2e-002"
+      ],
       "sourceRefs": [
         {
           "path": "scripts/e2e/kitchen-game.mjs",
@@ -586,7 +766,11 @@
           "sha256": "583e846bae766bf04ceb63edd91c1d7bdeb818b10f2b12e7f5904d195454cdca"
         }
       ],
-      "publicCallers": ["pnpm e2e:003", "pnpm e2e:003:reforge", "pnpm e2e:003:both"],
+      "publicCallers": [
+        "pnpm e2e:003",
+        "pnpm e2e:003:reforge",
+        "pnpm e2e:003:both"
+      ],
       "legalInputs": [
         "same-engine current 002 report.json",
         "held normal movement",
@@ -594,11 +778,18 @@
       ],
       "businessOracle": {
         "type": "stairs-dialogue-kitchen-handoff",
-        "assertions": ["楼梯真实12次提交", "14行正文完整", "停止于126/127并恢复控制"]
+        "assertions": [
+          "楼梯真实12次提交",
+          "14行正文完整",
+          "停止于126/127并恢复控制"
+        ]
       },
       "dedupe": {
         "result": "reviewed",
-        "against": ["e2e-002", "e2e-004"],
+        "against": [
+          "e2e-002",
+          "e2e-004"
+        ],
         "notes": "004取菜入口只登记，不把源码核读冒充003实跑。"
       },
       "revision": {
@@ -610,7 +801,11 @@
             "revision": "d02278dc0154dd73b5db24388a35c30bb096cc81",
             "date": "2026-10-04",
             "action": "source-and-publication-audit",
-            "notRun": ["runtime", "E2E", "coverage"]
+            "notRun": [
+              "runtime",
+              "E2E",
+              "coverage"
+            ]
           }
         ]
       },
@@ -630,18 +825,35 @@
       "kind": "e2e-stage",
       "title": "004 端菜、赠酒与道士离场",
       "status": "verified",
-      "phase": ["phase1", "phase2"],
-      "engines": ["game", "reforge"],
+      "phase": [
+        "phase1",
+        "phase2"
+      ],
+      "engines": [
+        "game",
+        "reforge"
+      ],
       "owner": "Codex",
-      "provenance": ["Codex", "User"],
+      "provenance": [
+        "Codex",
+        "User"
+      ],
       "domain": "e2e",
       "module": "meal-and-gift",
       "canonical": "e2e/stages/004-meal/report.md",
       "index": "e2e/stages/004-meal/README.md",
       "evidence": "e2e/evidence/e2e-004.json",
-      "tags": ["story", "items", "menu", "save-restore", "checkpoint"],
+      "tags": [
+        "story",
+        "items",
+        "menu",
+        "save-restore",
+        "checkpoint"
+      ],
       "lastVerified": "2026-10-02",
-      "dependsOn": ["e2e-003"],
+      "dependsOn": [
+        "e2e-003"
+      ],
       "sourceRefs": [
         {
           "path": "scripts/e2e/meal-game.mjs",
@@ -693,7 +905,11 @@
           "sha256": "78cb8d9b5de278ab89b4f5587efdb16804dd84af73c4d379626a19e950f45f63"
         }
       ],
-      "publicCallers": ["pnpm e2e:004", "pnpm e2e:004:reforge", "pnpm e2e:004:both"],
+      "publicCallers": [
+        "pnpm e2e:004",
+        "pnpm e2e:004:reforge",
+        "pnpm e2e:004:both"
+      ],
       "legalInputs": [
         "same-engine current 003 kitchen save",
         "normal menu use",
@@ -709,7 +925,11 @@
       },
       "dedupe": {
         "result": "reviewed",
-        "against": ["e2e-003", "e2e-005", "e2e/stages/004-meal/report.md#历史"],
+        "against": [
+          "e2e-003",
+          "e2e-005",
+          "e2e/stages/004-meal/report.md#历史"
+        ],
         "notes": "旧 failed/诊断回执保留，不把 receipt-only revalidation 伪装成新演出。"
       },
       "revision": {
@@ -721,7 +941,11 @@
             "revision": "d02278dc0154dd73b5db24388a35c30bb096cc81",
             "date": "2026-10-04",
             "action": "source-and-publication-audit",
-            "notRun": ["runtime", "E2E", "coverage"]
+            "notRun": [
+              "runtime",
+              "E2E",
+              "coverage"
+            ]
           }
         ]
       },
@@ -741,18 +965,35 @@
       "kind": "e2e-stage",
       "title": "005 买虾、报信与返程",
       "status": "verified",
-      "phase": ["phase1", "phase2"],
-      "engines": ["game", "reforge"],
+      "phase": [
+        "phase1",
+        "phase2"
+      ],
+      "engines": [
+        "game",
+        "reforge"
+      ],
       "owner": "Codex",
-      "provenance": ["Codex", "User"],
+      "provenance": [
+        "Codex",
+        "User"
+      ],
       "domain": "e2e",
       "module": "shrimp-errand-and-news",
       "canonical": "e2e/stages/005-shrimp/report.md",
       "index": "e2e/stages/005-shrimp/README.md",
       "evidence": "e2e/evidence/e2e-005.json",
-      "tags": ["story", "npc", "guards", "save-restore", "checkpoint"],
+      "tags": [
+        "story",
+        "npc",
+        "guards",
+        "save-restore",
+        "checkpoint"
+      ],
       "lastVerified": "2026-10-02",
-      "dependsOn": ["e2e-004"],
+      "dependsOn": [
+        "e2e-004"
+      ],
       "sourceRefs": [
         {
           "path": "scripts/e2e/errand-game.mjs",
@@ -811,7 +1052,11 @@
           "sha256": "24bd5a6f8d0ec836bee1968bd3be45a2629e94b87b4a00745a83d72dfcfd4963"
         }
       ],
-      "publicCallers": ["pnpm e2e:005", "pnpm e2e:005:reforge", "pnpm e2e:005:both"],
+      "publicCallers": [
+        "pnpm e2e:005",
+        "pnpm e2e:005:reforge",
+        "pnpm e2e:005:both"
+      ],
       "legalInputs": [
         "same-engine current 004 saves report",
         "normal route and dialogue",
@@ -827,7 +1072,11 @@
       },
       "dedupe": {
         "result": "reviewed",
-        "against": ["e2e-004", "e2e-006", "e2e/stages/005-shrimp/report.md#历史"],
+        "against": [
+          "e2e-004",
+          "e2e-006",
+          "e2e/stages/005-shrimp/report.md#历史"
+        ],
         "notes": "早期启动失败原样保留；当前六 case 结论与旧二阶段前驱分开。"
       },
       "revision": {
@@ -839,7 +1088,11 @@
             "revision": "d02278dc0154dd73b5db24388a35c30bb096cc81",
             "date": "2026-10-04",
             "action": "source-and-publication-audit",
-            "notRun": ["runtime", "E2E", "coverage"]
+            "notRun": [
+              "runtime",
+              "E2E",
+              "coverage"
+            ]
           }
         ]
       },
@@ -859,18 +1112,35 @@
       "kind": "e2e-stage",
       "title": "006 求药、出海与仙灵岛入口",
       "status": "rework",
-      "phase": ["phase1", "phase2"],
-      "engines": ["game", "reforge"],
+      "phase": [
+        "phase1",
+        "phase2"
+      ],
+      "engines": [
+        "game",
+        "reforge"
+      ],
       "owner": "Codex",
-      "provenance": ["Codex", "User"],
+      "provenance": [
+        "Codex",
+        "User"
+      ],
       "domain": "e2e",
       "module": "doctor-and-boat",
       "canonical": "e2e/stages/006-doctor-boat/report.md",
       "index": "e2e/stages/006-doctor-boat/README.md",
       "evidence": "e2e/evidence/e2e-006-current.json",
-      "tags": ["story", "npc", "boat", "visual", "rework"],
+      "tags": [
+        "story",
+        "npc",
+        "boat",
+        "visual",
+        "rework"
+      ],
       "lastVerified": "2026-10-03",
-      "dependsOn": ["e2e-005"],
+      "dependsOn": [
+        "e2e-005"
+      ],
       "sourceRefs": [
         {
           "path": "scripts/e2e/boat-game.mjs",
@@ -960,7 +1230,11 @@
             "revision": "d02278dc0154dd73b5db24388a35c30bb096cc81",
             "date": "2026-10-04",
             "action": "source-and-publication-audit",
-            "notRun": ["runtime", "E2E", "coverage"]
+            "notRun": [
+              "runtime",
+              "E2E",
+              "coverage"
+            ]
           },
           {
             "revision": "c68d369869dce63cb884e2203dab2b9e53f65e2f",
@@ -1003,16 +1277,26 @@
       "kind": "report",
       "title": "活动场景资源与镜头所有权",
       "status": "current",
-      "phase": ["phase2"],
-      "engines": ["reforge"],
+      "phase": [
+        "phase2"
+      ],
+      "engines": [
+        "reforge"
+      ],
       "owner": "Codex",
-      "provenance": ["Codex"],
+      "provenance": [
+        "Codex"
+      ],
       "domain": "runtime",
       "module": "scene",
       "canonical": "domains/runtime/scene/active-scene/report.md",
       "index": "domains/runtime/scene/active-scene/README.md",
       "evidence": "domains/runtime/scene/active-scene/evidence.json",
-      "tags": ["ownership", "scene", "document-audit"],
+      "tags": [
+        "ownership",
+        "scene",
+        "document-audit"
+      ],
       "lastVerified": "2026-10-04",
       "dependsOn": [],
       "publicCallers": [
@@ -1048,7 +1332,10 @@
         "originalEvidence": "active-scene-evidence.json",
         "supersededBy": "runtime-active-scene"
       },
-      "supersedes": ["active-scene-refactor.md", "active-scene-evidence.json"],
+      "supersedes": [
+        "active-scene-refactor.md",
+        "active-scene-evidence.json"
+      ],
       "sourceRefs": [
         {
           "path": "packages/reforge/src/main.ts",
@@ -1102,7 +1389,11 @@
             "revision": "d02278dc0154dd73b5db24388a35c30bb096cc81",
             "date": "2026-10-04",
             "action": "source-and-publication-audit",
-            "notRun": ["runtime", "E2E", "coverage"]
+            "notRun": [
+              "runtime",
+              "E2E",
+              "coverage"
+            ]
           }
         ]
       },
@@ -1122,16 +1413,26 @@
       "kind": "report",
       "title": "战斗宿主启动、取消与世界提交",
       "status": "current",
-      "phase": ["phase2"],
-      "engines": ["reforge"],
+      "phase": [
+        "phase2"
+      ],
+      "engines": [
+        "reforge"
+      ],
       "owner": "Codex",
-      "provenance": ["Codex"],
+      "provenance": [
+        "Codex"
+      ],
       "domain": "runtime",
       "module": "battle",
       "canonical": "domains/runtime/battle/battle-host/report.md",
       "index": "domains/runtime/battle/battle-host/README.md",
       "evidence": "domains/runtime/battle/battle-host/evidence.json",
-      "tags": ["ownership", "battle", "document-audit"],
+      "tags": [
+        "ownership",
+        "battle",
+        "document-audit"
+      ],
       "lastVerified": "2026-10-04",
       "dependsOn": [],
       "publicCallers": [
@@ -1167,7 +1468,10 @@
         "originalEvidence": "battle-host-refactor-evidence.json",
         "supersededBy": "runtime-battle-host"
       },
-      "supersedes": ["battle-host-refactor.md", "battle-host-refactor-evidence.json"],
+      "supersedes": [
+        "battle-host-refactor.md",
+        "battle-host-refactor-evidence.json"
+      ],
       "sourceRefs": [
         {
           "path": "packages/reforge/src/main.ts",
@@ -1214,7 +1518,11 @@
             "revision": "d02278dc0154dd73b5db24388a35c30bb096cc81",
             "date": "2026-10-04",
             "action": "source-and-publication-audit",
-            "notRun": ["runtime", "E2E", "coverage"]
+            "notRun": [
+              "runtime",
+              "E2E",
+              "coverage"
+            ]
           }
         ]
       },
@@ -1234,16 +1542,26 @@
       "kind": "report",
       "title": "战斗会话 readiness、结算与指令选择",
       "status": "current",
-      "phase": ["phase2"],
-      "engines": ["reforge"],
+      "phase": [
+        "phase2"
+      ],
+      "engines": [
+        "reforge"
+      ],
       "owner": "Codex",
-      "provenance": ["Codex"],
+      "provenance": [
+        "Codex"
+      ],
       "domain": "runtime",
       "module": "battle",
       "canonical": "domains/runtime/battle/battle-session-owners/report.md",
       "index": "domains/runtime/battle/battle-session-owners/README.md",
       "evidence": "domains/runtime/battle/battle-session-owners/evidence.json",
-      "tags": ["ownership", "battle", "document-audit"],
+      "tags": [
+        "ownership",
+        "battle",
+        "document-audit"
+      ],
       "lastVerified": "2026-10-04",
       "dependsOn": [],
       "publicCallers": [
@@ -1337,7 +1655,11 @@
             "revision": "d02278dc0154dd73b5db24388a35c30bb096cc81",
             "date": "2026-10-04",
             "action": "source-and-publication-audit",
-            "notRun": ["runtime", "E2E", "coverage"]
+            "notRun": [
+              "runtime",
+              "E2E",
+              "coverage"
+            ]
           }
         ]
       },
@@ -1357,16 +1679,26 @@
       "kind": "report",
       "title": "世界移动提交与绘制状态所有权",
       "status": "current",
-      "phase": ["phase2"],
-      "engines": ["reforge"],
+      "phase": [
+        "phase2"
+      ],
+      "engines": [
+        "reforge"
+      ],
       "owner": "Codex",
-      "provenance": ["Codex"],
+      "provenance": [
+        "Codex"
+      ],
       "domain": "runtime",
       "module": "world",
       "canonical": "domains/runtime/world/world-runtime/report.md",
       "index": "domains/runtime/world/world-runtime/README.md",
       "evidence": "domains/runtime/world/world-runtime/evidence.json",
-      "tags": ["ownership", "world", "document-audit"],
+      "tags": [
+        "ownership",
+        "world",
+        "document-audit"
+      ],
       "lastVerified": "2026-10-04",
       "dependsOn": [],
       "publicCallers": [
@@ -1403,7 +1735,10 @@
         "originalEvidence": "world-runtime-refactor-evidence.json",
         "supersededBy": "runtime-world-owners"
       },
-      "supersedes": ["world-runtime-refactor.md", "world-runtime-refactor-evidence.json"],
+      "supersedes": [
+        "world-runtime-refactor.md",
+        "world-runtime-refactor-evidence.json"
+      ],
       "sourceRefs": [
         {
           "path": "packages/reforge/src/main.ts",
@@ -1457,7 +1792,11 @@
             "revision": "d02278dc0154dd73b5db24388a35c30bb096cc81",
             "date": "2026-10-04",
             "action": "source-and-publication-audit",
-            "notRun": ["runtime", "E2E", "coverage"]
+            "notRun": [
+              "runtime",
+              "E2E",
+              "coverage"
+            ]
           }
         ]
       },
@@ -1477,16 +1816,32 @@
       "kind": "audit",
       "title": "Legacy flat 内容深审总账",
       "status": "current",
-      "phase": ["phase1", "phase2", "ops"],
-      "engines": ["game", "reforge", "editor", "content"],
+      "phase": [
+        "phase1",
+        "phase2",
+        "ops"
+      ],
+      "engines": [
+        "game",
+        "reforge",
+        "editor",
+        "content"
+      ],
       "owner": "Codex",
-      "provenance": ["Codex"],
+      "provenance": [
+        "Codex"
+      ],
       "domain": "ops",
       "module": "testing-governance",
       "canonical": "domains/ops/testing-governance/legacy-flat-audit.md",
       "index": "domains/ops/testing-governance/README.md",
       "evidence": "domains/ops/testing-governance/legacy-flat-audit.json",
-      "tags": ["governance", "legacy", "migration", "audit"],
+      "tags": [
+        "governance",
+        "legacy",
+        "migration",
+        "audit"
+      ],
       "lastVerified": "2026-10-04",
       "dependsOn": [],
       "sourceRefs": [
@@ -1533,7 +1888,10 @@
           "sha256": "01eb6b7156e958d68435f558cb35b4d2859f44f2b0c032500bd536cf28ba593f"
         }
       ],
-      "publicCallers": ["node scripts/docs/classify-testing-legacy.mjs", "pnpm check:testing-docs"],
+      "publicCallers": [
+        "node scripts/docs/classify-testing-legacy.mjs",
+        "pnpm check:testing-docs"
+      ],
       "legalInputs": [
         "tracked docs/testing root files",
         "legacy-flat.json entries and retired records",
@@ -1568,13 +1926,21 @@
             "revision": "35e2b8d07c310a15c69f5e013a6d748c2146042e",
             "date": "2026-10-04",
             "action": "full census + representative migration batch",
-            "notRun": ["product runtime", "old tests", "coverage"]
+            "notRun": [
+              "product runtime",
+              "old tests",
+              "coverage"
+            ]
           },
           {
             "revision": "fecf1dab93468b40752667987c7c75a29fe9af6b",
             "date": "2026-10-04",
             "action": "legacy full closeout: 209 archive moves + 122 tool stop-lines",
-            "notRun": ["product runtime", "old tests", "coverage"]
+            "notRun": [
+              "product runtime",
+              "old tests",
+              "coverage"
+            ]
           }
         ]
       },
@@ -1593,16 +1959,26 @@
       "kind": "report",
       "title": "编辑器命令表单族所有权",
       "status": "current",
-      "phase": ["phase2"],
-      "engines": ["editor"],
+      "phase": [
+        "phase2"
+      ],
+      "engines": [
+        "editor"
+      ],
       "owner": "Codex",
-      "provenance": ["Codex"],
+      "provenance": [
+        "Codex"
+      ],
       "domain": "editor",
       "module": "commands",
       "canonical": "domains/editor/commands/command-form-families/report.md",
       "index": "domains/editor/commands/command-form-families/README.md",
       "evidence": "domains/editor/commands/command-form-families/evidence.json",
-      "tags": ["ownership", "commands", "document-audit"],
+      "tags": [
+        "ownership",
+        "commands",
+        "document-audit"
+      ],
       "lastVerified": "2026-10-04",
       "dependsOn": [],
       "publicCallers": [
@@ -1688,7 +2064,11 @@
             "revision": "2aed1f0dbbbed8ce01cb3511315745ab1ccdf159",
             "date": "2026-10-04",
             "action": "source-and-publication-audit",
-            "notRun": ["runtime", "E2E", "coverage"]
+            "notRun": [
+              "runtime",
+              "E2E",
+              "coverage"
+            ]
           }
         ]
       },
@@ -1708,16 +2088,26 @@
       "kind": "report",
       "title": "Reforge 菜单与物品会话所有权",
       "status": "current",
-      "phase": ["phase2"],
-      "engines": ["reforge"],
+      "phase": [
+        "phase2"
+      ],
+      "engines": [
+        "reforge"
+      ],
       "owner": "Codex",
-      "provenance": ["Codex"],
+      "provenance": [
+        "Codex"
+      ],
       "domain": "runtime",
       "module": "menu",
       "canonical": "domains/runtime/menu/menu-session/report.md",
       "index": "domains/runtime/menu/menu-session/README.md",
       "evidence": "domains/runtime/menu/menu-session/evidence.json",
-      "tags": ["ownership", "menu", "document-audit"],
+      "tags": [
+        "ownership",
+        "menu",
+        "document-audit"
+      ],
       "lastVerified": "2026-10-04",
       "dependsOn": [],
       "publicCallers": [
@@ -1753,7 +2143,10 @@
         "originalEvidence": "menu-session-refactor-evidence.json",
         "supersededBy": "reforge-menu-session"
       },
-      "supersedes": ["menu-session-refactor.md", "menu-session-refactor-evidence.json"],
+      "supersedes": [
+        "menu-session-refactor.md",
+        "menu-session-refactor-evidence.json"
+      ],
       "sourceRefs": [
         {
           "path": "packages/reforge/src/menu/menu-session.ts",
@@ -1800,7 +2193,11 @@
             "revision": "2aed1f0dbbbed8ce01cb3511315745ab1ccdf159",
             "date": "2026-10-04",
             "action": "source-and-publication-audit",
-            "notRun": ["runtime", "E2E", "coverage"]
+            "notRun": [
+              "runtime",
+              "E2E",
+              "coverage"
+            ]
           }
         ]
       },
@@ -1820,16 +2217,26 @@
       "kind": "report",
       "title": "编辑器地图工作区会话所有权",
       "status": "current",
-      "phase": ["phase2"],
-      "engines": ["editor"],
+      "phase": [
+        "phase2"
+      ],
+      "engines": [
+        "editor"
+      ],
       "owner": "Codex",
-      "provenance": ["Codex"],
+      "provenance": [
+        "Codex"
+      ],
       "domain": "editor",
       "module": "map",
       "canonical": "domains/editor/map/map-workspace-sessions/report.md",
       "index": "domains/editor/map/map-workspace-sessions/README.md",
       "evidence": "domains/editor/map/map-workspace-sessions/evidence.json",
-      "tags": ["ownership", "map", "document-audit"],
+      "tags": [
+        "ownership",
+        "map",
+        "document-audit"
+      ],
       "lastVerified": "2026-10-04",
       "dependsOn": [],
       "publicCallers": [
@@ -1922,7 +2329,11 @@
             "revision": "2aed1f0dbbbed8ce01cb3511315745ab1ccdf159",
             "date": "2026-10-04",
             "action": "source-and-publication-audit",
-            "notRun": ["runtime", "E2E", "coverage"]
+            "notRun": [
+              "runtime",
+              "E2E",
+              "coverage"
+            ]
           }
         ]
       },
@@ -1942,16 +2353,26 @@
       "kind": "report",
       "title": "第一阶段依赖所有权拆分",
       "status": "current",
-      "phase": ["phase1"],
-      "engines": ["game"],
+      "phase": [
+        "phase1"
+      ],
+      "engines": [
+        "game"
+      ],
       "owner": "Codex",
-      "provenance": ["Codex"],
+      "provenance": [
+        "Codex"
+      ],
       "domain": "phase1-runtime",
       "module": "dependencies",
       "canonical": "domains/phase1-runtime/dependencies/dependency-ownership/report.md",
       "index": "domains/phase1-runtime/dependencies/dependency-ownership/README.md",
       "evidence": "domains/phase1-runtime/dependencies/dependency-ownership/evidence.json",
-      "tags": ["ownership", "dependencies", "document-audit"],
+      "tags": [
+        "ownership",
+        "dependencies",
+        "document-audit"
+      ],
       "lastVerified": "2026-10-04",
       "dependsOn": [],
       "publicCallers": [
@@ -1987,7 +2408,10 @@
         "originalEvidence": "phase1-dependency-refactor-evidence.json",
         "supersededBy": "phase1-dependency-ownership"
       },
-      "supersedes": ["phase1-dependency-refactor.md", "phase1-dependency-refactor-evidence.json"],
+      "supersedes": [
+        "phase1-dependency-refactor.md",
+        "phase1-dependency-refactor-evidence.json"
+      ],
       "sourceRefs": [
         {
           "path": "packages/game/src/core/script-catalog.ts",
@@ -2040,10 +2464,10 @@
         },
         {
           "path": "packages/game/src/core/cross-module-boundaries.test.ts",
-          "lines": "25",
+          "lines": "29",
           "anchor": "describe('G07",
           "role": "oracle",
-          "sha256": "18349e6552d9b5bf181d60db94a207b9a055bf4c2d76bbb72337e4d5575887c4"
+          "sha256": "a9c102b84743f778f82a35e155b5eb2b787f4cdd8fb821238d8bea7a5a570622"
         },
         {
           "path": "packages/content/src/character.ts",
@@ -2067,7 +2491,10 @@
             "sourceSha256": "7f18301a0ada526074c619586001fb40c3e28e52ea3377eef099d276a6e55c46",
             "scope": "Only correct closeTopMenu timing prose. Emitted JavaScript identical;resumeAfterMenusClosed owner/signature/body unchanged. No new D1 SCC/token/mutant/browser execution;historical status/candidate/versions/dates retained.",
             "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json",
-            "notRun": ["historical D1 audit/needles", "new browser/story E2E"]
+            "notRun": [
+              "historical D1 audit/needles",
+              "new browser/story E2E"
+            ]
           },
           {
             "revision": "b9bf6f7760d4d8b59e7dbc83b0f9aa0b74d9d9ce",
@@ -2077,7 +2504,10 @@
             "sourceSha256": "98a08d77f9a738a7f5945278624e87033569f927914d6ddbd0e3194d980a5ad8",
             "scope": "Only correct separate cure/heal prose;helper emitted JavaScript and owner signature identical to prior CODE53 proof. No new D1 SCC/token/needles/browser/execution credit;historical publication/versions/candidate/dates retained.",
             "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json",
-            "notRun": ["historical D1 audit/needles", "browser/story E2E"],
+            "notRun": [
+              "historical D1 audit/needles",
+              "browser/story E2E"
+            ],
             "previousSourceSha256": "3c7ed5879374144001595a6bc1c6d1ef1a71ab63a6407c55fd94bd89ec7bfa5a"
           },
           {
@@ -2089,7 +2519,11 @@
             "sourceSha256": "ab572e2c6f238f2f90d1e3835dbd3c03265aadc67884ac7dda17ef8798ac5081",
             "scope": "e0b332b90 removed stale claims that DualAttack/poison cleanup was unimplemented; f263ded94 corrected level>=99 poison commentary and its explicit compression limit. removeComments printed TypeScript bytes identical; owner export/caller contract unchanged. No new D1 SCC/token/mutant/browser/architecture acceptance. Historical versions, runtimeExecution, catalog status and execution dates retained.",
             "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json",
-            "notRun": ["D1 historical audit and needles", "browser", "E2E route execution"]
+            "notRun": [
+              "D1 historical audit and needles",
+              "browser",
+              "E2E route execution"
+            ]
           },
           {
             "revision": "27358f9d9e3ab65d777b7864fcc936638ed9373a",
@@ -2113,7 +2547,11 @@
             "revision": "2aed1f0dbbbed8ce01cb3511315745ab1ccdf159",
             "date": "2026-10-04",
             "action": "source-and-publication-audit",
-            "notRun": ["runtime", "E2E", "coverage"]
+            "notRun": [
+              "runtime",
+              "E2E",
+              "coverage"
+            ]
           },
           {
             "date": "2026-10-22",
@@ -2288,16 +2726,33 @@
       "kind": "report",
       "title": "两阶段脚本纠错与持久入口回归",
       "status": "active",
-      "phase": ["phase1", "phase2"],
-      "engines": ["pal-extract", "game", "reforge"],
+      "phase": [
+        "phase1",
+        "phase2"
+      ],
+      "engines": [
+        "pal-extract",
+        "game",
+        "reforge"
+      ],
       "owner": "Codex",
-      "provenance": ["Codex", "script_extract_impl", "script_runtime_impl", "script_author_impl"],
+      "provenance": [
+        "Codex",
+        "script_extract_impl",
+        "script_runtime_impl",
+        "script_author_impl"
+      ],
       "domain": "cross-phase",
       "module": "script-corrections",
       "canonical": "domains/cross-phase/script-corrections/report.md",
       "index": "domains/cross-phase/script-corrections/README.md",
       "evidence": "domains/cross-phase/script-corrections/evidence.json",
-      "tags": ["script-corrections", "source-integrity", "save", "regression"],
+      "tags": [
+        "script-corrections",
+        "source-integrity",
+        "save",
+        "regression"
+      ],
       "lastVerified": "2026-10-27",
       "dependsOn": [],
       "sourceRefs": [
@@ -2655,16 +3110,28 @@
       "kind": "report",
       "title": "第一阶段可选45°方向控制回归",
       "status": "verified",
-      "phase": ["phase1"],
-      "engines": ["game"],
+      "phase": [
+        "phase1"
+      ],
+      "engines": [
+        "game"
+      ],
       "owner": "Codex",
-      "provenance": ["Codex", "input_rotation"],
+      "provenance": [
+        "Codex",
+        "input_rotation"
+      ],
       "domain": "phase1-runtime",
       "module": "control-rotation",
       "canonical": "domains/phase1-runtime/control-rotation/report.md",
       "index": "domains/phase1-runtime/control-rotation/README.md",
       "evidence": "domains/phase1-runtime/control-rotation/evidence.json",
-      "tags": ["input", "mobile", "gamepad", "regression"],
+      "tags": [
+        "input",
+        "mobile",
+        "gamepad",
+        "regression"
+      ],
       "lastVerified": "2026-10-27",
       "dependsOn": [],
       "sourceRefs": [
@@ -2754,10 +3221,10 @@
         },
         {
           "path": "packages/game/src/shell/game-shell.test.ts",
-          "lines": "143",
+          "lines": "157",
           "anchor": "it('mounts the remembered rotated pad",
           "role": "integration-oracle",
-          "sha256": "fcdbb4607f369754392d75aca6418db4b68b1a74f601420a73c6dbec1023264d"
+          "sha256": "0794a3cea59a2f5bdc89bfa38e1903f164a64dd0b8bfc201e550456692fa003b"
         },
         {
           "path": "packages/game/src/tools/tools-panel.mobile.test.ts",
@@ -2827,6 +3294,18 @@
             "deployedCommit": "bde596695d9c4d90a8031443ddd1ea033edd5245",
             "evidence": "docs/ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/release.json",
             "scope": "Actual official20203/812, protected CI, merged fresh build/all deployment, origin+CDN semantics and finite browser smoke. Hardware, full-story and offline activation remain untested."
+          },
+          {
+            "date": "2026-10-28",
+            "action": "source-reference-lifecycle-test-bridge",
+            "base": "f47f052fa1e732f7e574e70b268790d301dada3d",
+            "source": "packages/game/src/shell/game-shell.test.ts",
+            "beforeSha256": "fcdbb4607f369754392d75aca6418db4b68b1a74f601420a73c6dbec1023264d",
+            "afterSha256": "0794a3cea59a2f5bdc89bfa38e1903f164a64dd0b8bfc201e550456692fa003b",
+            "beforeLine": "143",
+            "afterLine": "157",
+            "evidence": "docs/ops/evidence/QUALITY-PENDING-100-2/review.json",
+            "scope": "Only shell test teardown now releases language subscribers after removing temporary DOM and restores language/lang attribute. Referenced rotation test and remainder are byte-identical; native controls-after13files81passed/empty stderr. No new hardware/browser/visual/deployment claims; old runtime receipts and publication state remain unchanged."
           }
         ]
       },
@@ -2869,7 +3348,7 @@
       "schemaVersion/generatedBy/entries stay at the public top level; generatedBy names the index projection tool, which reads this manually maintained authority.",
       "Entry status is its published report/audit lifecycle. lastVerified/revision/candidate versions retain their original scope; current or verified is not a newly executed SAVE12 E2E pass.",
       "Dependencies require current/verified publication and acyclic IDs; actual runtime predecessors also need the fragment contract and same-engine current execution receipts.",
-      "Original reviewBy deadlines retain their dated scope; expired/rework entries cannot be silently renewed or upgraded by formatting. An explicit scoped publication review may set the next review deadline with rationale/history while preserving execution freshness and status.",
+      "User 2026-10-30: no calendar expiry or automatic periodic rerun. Compare recorded candidate/content/save/sourceRefs with current relevant boundaries; unrelated HEAD changes alone do not invalidate evidence. Matching is not a new execution claim.",
       "Canonical report, metadata and evidence remain paired. History/supersedes identify archived originals without making them current inputs."
     ],
     "runtimeExecutionPerformed": false,
@@ -2880,7 +3359,7 @@
       },
       {
         "id": "e2e-route",
-        "conclusion": "proposal 依赖共用合同；当前版本同引擎路线准入，不证明任何片段已执行。10-18 reviewBy 保留，不自动续期。"
+        "conclusion": "proposal 依赖共用合同；当前版本同引擎路线准入，不证明任何片段已执行。原10-18期限只留历史；当前适用性按版本/来源比较。"
       },
       {
         "id": "e2e-common-issues",
@@ -2908,7 +3387,7 @@
       },
       {
         "id": "e2e-006",
-        "conclusion": "10-27当前两端95正文/完整上岛收尾、零差异全比较、正式006终档与全新上下文读回通过；12入口/11静态状态已实际另存重开、播放重置。原native完整字节钉定、另配新execution；rework/lastVerified10-03/reviewBy11-02不改，独立及用户视觉未代签。"
+        "conclusion": "10-27当前两端95正文/完整上岛收尾、零差异全比较、正式006终档与全新上下文读回通过；12入口/11静态状态已实际另存重开、播放重置。原native完整字节钉定、另配新execution；rework/lastVerified10-03/reviewBy11-02不改，独立及用户视觉未代签。 2026-10-30取消日历期限；上句reviewBy仅为原审阅时点，不是活动复审门。既有实际执行与独立/视觉结论按其各自原件保留。"
       },
       {
         "id": "runtime-active-scene",
@@ -2965,29 +3444,50 @@
           {
             "id": "editor-command-form-families",
             "field": "engines",
-            "before": ["reforge"],
-            "after": ["editor"]
+            "before": [
+              "reforge"
+            ],
+            "after": [
+              "editor"
+            ]
           },
           {
             "id": "editor-map-workspace-sessions",
             "field": "engines",
-            "before": ["reforge"],
-            "after": ["editor"]
+            "before": [
+              "reforge"
+            ],
+            "after": [
+              "editor"
+            ]
           },
           {
             "id": "phase1-dependency-ownership",
             "field": "phase",
-            "before": ["phase2"],
-            "after": ["phase1"]
+            "before": [
+              "phase2"
+            ],
+            "after": [
+              "phase1"
+            ]
           },
           {
             "id": "phase1-dependency-ownership",
             "field": "engines",
-            "before": ["reforge"],
-            "after": ["game"]
+            "before": [
+              "reforge"
+            ],
+            "after": [
+              "game"
+            ]
           }
         ],
-        "notRun": ["runtime", "E2E", "visual", "coverage"]
+        "notRun": [
+          "runtime",
+          "E2E",
+          "visual",
+          "coverage"
+        ]
       },
       {
         "date": "2026-10-16",
@@ -3009,14 +3509,173 @@
         },
         "originalFailure": "validateCatalog(today=2026-10-16) rejected e2e-006 reviewBy10-15; original failure retained, not waived",
         "rationale": "Actual full paired publication/evidence/status review rather than formatting; next publication review in7days, no new execution claim",
-        "notRun": ["runtime", "E2E", "visual", "coverage"]
+        "notRun": [
+          "runtime",
+          "E2E",
+          "visual",
+          "coverage"
+        ]
       },
       {
         "date": "2026-10-30",
         "action": "S76-source-aware-parallel-publication-intake",
         "parallelSourceRevision": "72db417255d8ca4227522420e9185ef468462aa7",
-        "addedPublicationIds": ["game-script-corrections", "game-input-rotation"],
+        "addedPublicationIds": [
+          "game-script-corrections",
+          "game-input-rotation"
+        ],
         "scope": "Retain original18 accepted publication entries and their current stage/history boundaries; add two main publications at original scope; apply non-deadline source changes; no new execution or document migration credit. Former reviewBy values stay in fixed main history, not active fields."
+      },
+      {
+        "date": "2026-10-22",
+        "action": "add-script-correction-regression-publication",
+        "scope": "One new paired report plus D1 catalog-owner source delta; preserve all other entries and execution dates.",
+        "evidence": "docs/ops/tasks/GAME-SCRIPT-CORRECTIONS-1.md"
+      },
+      {
+        "date": "2026-10-27",
+        "action": "add-control-rotation-regression-publication",
+        "scope": "One new phase1/game active report/index/evidence and its reading; preserve the other19 entries and their original status,versions,dates and execution credit. Generated views reflect20 total entries.",
+        "previousScope": "Original eighteen published records plus one 2026-10-22 script-corrections report. This is not a census of all testing files, the frozen1838 cohort, migration completion or complete E2E readiness.",
+        "candidate": "0b0ce187e70f540ec2de198d671afd82ddaa99c5",
+        "evidence": "docs/ops/evidence/GAME-INPUT-ROTATION-1/review.json",
+        "runtimeExecutionPerformedByPublication": false
+      },
+      {
+        "date": "2026-10-27",
+        "action": "map204-independent-exit-publication",
+        "candidate": "e4a78b9d986902c9b07c1cb0ce485a52434c0d4b",
+        "evidence": "docs/ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/review.json",
+        "scope": "Only game-script-corrections current refs/contracts/readings; all other entries and old execution dates/history retained.",
+        "previousEntryReading": {
+          "id": "game-script-corrections",
+          "conclusion": "新增两阶段脚本/资源/入口持久化回归记录；支持本地原盘生成和canonical作者内容，精确区分业务红绿、存档与headless边界，未授完整E2E/视觉/发布信用。"
+        }
+      },
+      {
+        "date": "2026-10-27",
+        "action": "production-release-reading",
+        "id": "game-input-rotation",
+        "previousConclusion": "新增phase1/game可选45°输入报告，active等待统一窗/用户体验；复用60native、精确单红恢复与根两viewport真实pointer/刷新/双语证据；51旧合同保留、9新增、0退役，不授真机/完整剧情/覆盖率/部署信用。",
+        "evidence": "docs/ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/release.json"
+      },
+      {
+        "date": "2026-10-27",
+        "action": "production-release-reading",
+        "id": "game-script-corrections",
+        "previousConclusion": "2026-10-27只核独立新增出口/原敌保留/旧档加载与两阶段真实接触合同；复用83邻测+当前PAL5、extract49、Reforge5421和两有效业务反控及精确恢复，根提取/准备旧档浏览器另核；不续签历史coverage或完整剧情。",
+        "evidence": "docs/ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/release.json"
+      },
+      {
+        "date": "2026-10-30",
+        "action": "explicit-e2e001-publication-review-renewal",
+        "scope": "Only e2e-001; all other entries, old execution dates, candidate/versions and sourceRefs retained.",
+        "before": {
+          "reviewBy": "2026-10-28"
+        },
+        "after": {
+          "reviewBy": "2026-11-29",
+          "lastVerified": "2026-09-28",
+          "status": "verified"
+        },
+        "evidence": "docs/ops/evidence/QUALITY-PENDING-100-3/e2e001-publication-review.json",
+        "rationale": "Actual bounded publication/source review. The previous30-day publication interval is retained; runtime freshness is independent and no historical receipt is upgraded. A relevant source/caller/contract change invalidates its affected claim before the next date.",
+        "notRun": [
+          "browser",
+          "runtime E2E",
+          "visual",
+          "editor preview",
+          "coverage"
+        ]
+      },
+      {
+        "date": "2026-10-30",
+        "action": "user-approved-version-applicability-replaces-calendar-expiry",
+        "scope": "Retire active reviewBy from all20 published entries and six stage README metadata; preserve every status, lastVerified, revision, sourceRef, report and machine execution claim. Prior renewal history remains historical only.",
+        "retiredDeadlines": [
+          {
+            "id": "e2e-contract",
+            "reviewBy": "2026-11-04"
+          },
+          {
+            "id": "e2e-route",
+            "reviewBy": "2026-11-03"
+          },
+          {
+            "id": "e2e-common-issues",
+            "reviewBy": "2026-11-04"
+          },
+          {
+            "id": "e2e-001",
+            "reviewBy": "2026-11-29"
+          },
+          {
+            "id": "e2e-002",
+            "reviewBy": "2026-11-02"
+          },
+          {
+            "id": "e2e-003",
+            "reviewBy": "2026-11-02"
+          },
+          {
+            "id": "e2e-004",
+            "reviewBy": "2026-11-02"
+          },
+          {
+            "id": "e2e-005",
+            "reviewBy": "2026-11-02"
+          },
+          {
+            "id": "e2e-006",
+            "reviewBy": "2026-10-31"
+          },
+          {
+            "id": "runtime-active-scene",
+            "reviewBy": "2026-11-04"
+          },
+          {
+            "id": "runtime-battle-host",
+            "reviewBy": "2026-11-04"
+          },
+          {
+            "id": "runtime-battle-session-owners",
+            "reviewBy": "2026-11-04"
+          },
+          {
+            "id": "runtime-world-owners",
+            "reviewBy": "2026-11-04"
+          },
+          {
+            "id": "legacy-flat-audit",
+            "reviewBy": "2026-11-04"
+          },
+          {
+            "id": "editor-command-form-families",
+            "reviewBy": "2026-11-04"
+          },
+          {
+            "id": "reforge-menu-session",
+            "reviewBy": "2026-11-04"
+          },
+          {
+            "id": "editor-map-workspace-sessions",
+            "reviewBy": "2026-11-04"
+          },
+          {
+            "id": "phase1-dependency-ownership",
+            "reviewBy": "2026-11-04"
+          },
+          {
+            "id": "game-script-corrections",
+            "reviewBy": "2026-11-27"
+          },
+          {
+            "id": "game-input-rotation",
+            "reviewBy": "2026-11-27"
+          }
+        ],
+        "authority": "docs/ops/tasks/TESTING-EVIDENCE-REVISION-1.md",
+        "runtimeExecutionPerformed": false
       }
     ],
     "supersedes": [],
@@ -3070,12 +3729,22 @@
                 "revision": "d02278dc0154dd73b5db24388a35c30bb096cc81",
                 "date": "2026-10-04",
                 "action": "source-and-publication-audit",
-                "notRun": ["runtime", "E2E", "coverage"]
+                "notRun": [
+                  "runtime",
+                  "E2E",
+                  "coverage"
+                ]
               }
             ]
           }
         },
-        "notRun": ["runtime", "E2E", "visual", "editor-preview", "coverage"],
+        "notRun": [
+          "runtime",
+          "E2E",
+          "visual",
+          "editor-preview",
+          "coverage"
+        ],
         "semanticMigrationCreditAdded": 0
       },
       {
@@ -3113,7 +3782,11 @@
                 "revision": "d02278dc0154dd73b5db24388a35c30bb096cc81",
                 "date": "2026-10-04",
                 "action": "source-and-publication-audit",
-                "notRun": ["runtime", "E2E", "coverage"]
+                "notRun": [
+                  "runtime",
+                  "E2E",
+                  "coverage"
+                ]
               }
             ]
           }

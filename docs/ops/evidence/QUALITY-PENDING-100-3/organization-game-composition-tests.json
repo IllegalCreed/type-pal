@@ -1,0 +1,1033 @@
+{
+  "id": "game-composition-tests",
+  "kind": "Actual world, battle, selection UI and dialogue composition boundaries",
+  "namespace": "organization-game-composition-tests",
+  "inputs": [
+    {
+      "path": "packages/game/src/present/__tests__/grok-composition/p11-world-layers.test.ts",
+      "sha256": "1b0e8ded5209df3ebf5393589a10f1494bfa135a8979632426cdb3df986a2a5e",
+      "member": "organization-game-composition-tests/0.before"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-composition/p12-overlays.test.ts",
+      "sha256": "b3ac1522b52aa6bf2fab3d155c0c230303e709acd31c0c7ba4dcac29f7feaed0",
+      "member": "organization-game-composition-tests/1.before"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-composition/p13-battle-commands.test.ts",
+      "sha256": "7e4ce44bd2559efd06e6a79d7bb1e744e97285adaa55995bc9c1cd0c10f38b5d",
+      "member": "organization-game-composition-tests/2.before"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-composition/p14-battle-fades.test.ts",
+      "sha256": "a154354e874c725c4fc6caa3fd6e79173bc2a998da5d08e4d276e8d540cf131f",
+      "member": "organization-game-composition-tests/3.before"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-composition/p15-battle-ui.test.ts",
+      "sha256": "cf3fc06bf6fecfa28559c32241edd3dfabf5bc772ccca1d81bb66c6226715359",
+      "member": "organization-game-composition-tests/4.before"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-composition/p16-dialog.test.ts",
+      "sha256": "2a2959003f6967da284a5e1a818cdb8438f2fcac8ecf34eacfae82ea580926e2",
+      "member": "organization-game-composition-tests/5.before"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "packages/game/src/present/__tests__/world-composition.test.ts",
+      "sha256": "2403813cb65f21fc64cef3d5de59727aef9c28c1a370e874ce27aa55cff6796d"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/world-effects.test.ts",
+      "sha256": "a391ac3a7e3c611aaadfb831fdf240e5e4796a95c46569c5c15734b3457958e5"
+    },
+    {
+      "path": "packages/game/src/present/battle/__tests__/battle-feedback-composition.test.ts",
+      "sha256": "3cb8b69703b6322d4b5533ea55c39888ab245bc9186e493c5487709c283670b4"
+    },
+    {
+      "path": "packages/game/src/present/battle/__tests__/battle-effects-composition.test.ts",
+      "sha256": "c4883a17243502d45307378bd39ad750fb66fdec115d8b5fde92598589d06cbb"
+    },
+    {
+      "path": "packages/game/src/present/battle/__tests__/draw-battle-ui.selection-pixels.test.ts",
+      "sha256": "9139a15cb0612c41e36d4fe7e7c8c8a415dbcf79e3c7ed41a01b54d1c7776956"
+    },
+    {
+      "path": "packages/game/src/present/dialog-box.composition.test.ts",
+      "sha256": "a390b96d710377ec4e10daace4ac4eb978e5f79f40afbd13dae5960b56efc273"
+    }
+  ],
+  "sourceBridges": [
+    {
+      "id": "composition-responsibilities-0",
+      "path": "packages/game/src/present/__tests__/grok-composition/p11-world-layers.test.ts",
+      "reason": "Resolve each actual caller boundary and preserve every callback/literal/hook; only suite/title, explicit alpha-renames and relative imports change. P12 splits effects from overlay with its original cleanup per original case.",
+      "changes": [
+        {
+          "from": "import { createFramebuffer } from '../../framebuffer.js'",
+          "to": "import { createFramebuffer } from '../framebuffer.js'",
+          "count": 1
+        },
+        {
+          "from": "import { presentFrame } from '../../present.js'",
+          "to": "import { presentFrame } from '../present.js'",
+          "count": 1
+        },
+        {
+          "from": "import { COVER } from '../composition-colors.js'",
+          "to": "import { COVER } from './composition-colors.js'",
+          "count": 1
+        },
+        {
+          "from": "import { hiddenSprite, SENTINEL, sprite } from '../raster-fixtures.js'",
+          "to": "import { hiddenSprite, SENTINEL, sprite } from './raster-fixtures.js'",
+          "count": 1
+        },
+        {
+          "from": "import { bitmapView, worldView } from '../render-input-snapshots.js'",
+          "to": "import { bitmapView, worldView } from './render-input-snapshots.js'",
+          "count": 1
+        },
+        {
+          "from": "import { baseContext, emptyMap, exploreState } from '../world-render-fixtures.js'",
+          "to": "import { baseContext, emptyMap, exploreState } from './world-render-fixtures.js'",
+          "count": 1
+        },
+        {
+          "from": "describe('P11 大世界分层', () => {\n  it('P11 同屏队首跟随与NPC在sLayer翻转后交换前后，透明孔露出下一层', () => {\n    const { party, follower, npc } = stackSprites()\n    const gs = exploreState({ x: 160, y: 100 })\n    gs.partyMembers = [0, 1]\n    gs.PlayerRolesRuntime.rgwSpriteNum[1] = 8\n    gs.trail = [\n      { x: 160, y: 100, dir: 'down' },\n      { x: 160, y: 100, dir: 'down' },\n    ]\n    gs.npcs = [{ id: 1, x: 160, y: 97, spriteNum: 3, sState: 1, sLayer: 0 }]\n    const ctx = baseContext({\n      partyFrames: [party],\n      npcSprites: new Map([[3, npc]]),\n      npcSpriteFrames: new Map([[8, [follower]]]),\n    })\n    const fb = createFramebuffer()\n    fb.indices.fill(SENTINEL)\n\n    const beforeBits = [party, follower, npc].map((img) => bitmapView(img))\n    const beforeWorld = worldView(gs)\n    presentFrame(fb, gs, ctx)\n    expect([party, follower, npc].map((img) => bitmapView(img))).toEqual(beforeBits)\n    expect(worldView(gs)).toEqual(beforeWorld)\n    expect(fb.indices[0]).toBe(0)\n\n    // sLayer 0：NPC 排序键 106，队首/跟随 110。跟随在最上。\n    // (159,103) 跟随不透明 0x51；(160,103) 跟随孔见队首 0x42；(161,103) 跟随不透明 0。\n    expect(fb.indices[103 * 320 + 159]).toBe(0x51)\n    expect(fb.indices[103 * 320 + 160]).toBe(0x42)\n    expect(fb.indices[103 * 320 + 161]).toBe(0)\n\n    gs.npcs[0]!.sLayer = 1\n    const beforeRaised = worldView(gs)\n    presentFrame(fb, gs, ctx)\n    expect(worldView(gs)).toEqual(beforeRaised)\n    expect([party, follower, npc].map((img) => bitmapView(img))).toEqual(beforeBits)\n\n    // sLayer 1：NPC 排序键 114，画到最上，屏幕坐标不变。\n    // (159,103) NPC 孔见跟随 0x51，不是队首 0x41；(160,103) 双孔见队首 0x42；\n    // (161,103) NPC 不透明 0x61 盖住跟随的不透明 0。\n    expect(fb.indices[103 * 320 + 159]).toBe(0x51)\n    expect(fb.indices[103 * 320 + 160]).toBe(0x42)\n    expect(fb.indices[103 * 320 + 161]).toBe(0x61)\n  })\n\n  it('P11 前景cover盖住后排NPC，前排透明孔见cover色而不见后排', () => {\n    // 与 present.test.ts cover 几何相同：camera (0,-32)，cell(5,5) layer1 id 1、height 2。\n    // cover 重画落在 (144,115)，全画只到 y=104..107。后排 NPC 先画 0x41，cover 再盖成 7，\n    // 前排 sLayer=3 排在 cover 之后。\n    const cover = {\n      width: 4,\n      height: 4,\n      indices: new Uint8Array(16).fill(COVER),\n      opaque: new Uint8Array(16).fill(1),\n    }\n    const rear = sprite(\n      2,\n      2,\n      [\n        { x: 0, y: 0, index: 0x41 },\n        { x: 1, y: 0, index: 0x41 },\n        { x: 0, y: 1, index: 0x41 },\n        { x: 1, y: 1, index: 0x41 },\n      ],\n      { x: 1, y: 2 },\n    )\n    const front = sprite(\n      2,\n      2,\n      [\n        { x: 1, y: 0, index: 0x61 },\n        { x: 0, y: 1, index: 0 },\n      ],\n      { x: 1, y: 2 },\n    )\n    const map = emptyMap(10, 10)\n    map.cells[5]![5] = { lower: 0x02020000, upper: 0 }\n    const gs = exploreState({ x: 160, y: 80 })\n    gs.camera = { x: 0, y: -32 }\n    gs.npcs = [\n      { id: 1, x: 145, y: 78, spriteNum: 1, sState: 1, sLayer: 0 },\n      { id: 2, x: 145, y: 78, spriteNum: 2, sState: 1, sLayer: 3 },\n    ]\n    const party = hiddenSprite(16, 24)\n    const ctx = baseContext({\n      tilemap: map,\n      tileImages: { get: (index) => (index === 1 ? cover : undefined) },\n      partyFrames: [party],\n      npcSprites: new Map([\n        [1, rear],\n        [2, front],\n      ]),\n    })\n    const fb = createFramebuffer()\n    fb.indices.fill(SENTINEL)\n    const beforeBits = [bitmapView(cover), bitmapView(rear), bitmapView(front), bitmapView(party)]\n    const beforeWorld = worldView(gs)\n    presentFrame(fb, gs, ctx)\n    expect([bitmapView(cover), bitmapView(rear), bitmapView(front), bitmapView(party)]).toEqual(\n      beforeBits,\n    )\n    expect(worldView(gs)).toEqual(beforeWorld)\n\n    // (144,115) 前排孔见 cover 7，若 cover 没盖过后排则会是 0x41。\n    expect(fb.indices[115 * 320 + 144]).toBe(COVER)\n    expect(fb.indices[115 * 320 + 145]).toBe(0x61)\n    // 不透明索引 0 写成 0；旁边的孔仍是 cover。\n    expect(fb.indices[116 * 320 + 144]).toBe(0)\n    expect(fb.indices[116 * 320 + 145]).toBe(COVER)\n    // cover 带上方一像素不是这张 4×4 重画，也不能是后排色。\n    expect(fb.indices[114 * 320 + 144]).not.toBe(0x41)\n  })\n})",
+          "to": "describe('world actors and foreground occlusion', () => {\nit('同屏队首跟随与NPC在sLayer翻转后交换前后，透明孔露出下一层', () => {\n    const { party, follower, npc } = stackSprites()\n    const gs = exploreState({ x: 160, y: 100 })\n    gs.partyMembers = [0, 1]\n    gs.PlayerRolesRuntime.rgwSpriteNum[1] = 8\n    gs.trail = [\n      { x: 160, y: 100, dir: 'down' },\n      { x: 160, y: 100, dir: 'down' },\n    ]\n    gs.npcs = [{ id: 1, x: 160, y: 97, spriteNum: 3, sState: 1, sLayer: 0 }]\n    const ctx = baseContext({\n      partyFrames: [party],\n      npcSprites: new Map([[3, npc]]),\n      npcSpriteFrames: new Map([[8, [follower]]]),\n    })\n    const fb = createFramebuffer()\n    fb.indices.fill(SENTINEL)\n\n    const beforeBits = [party, follower, npc].map((img) => bitmapView(img))\n    const beforeWorld = worldView(gs)\n    presentFrame(fb, gs, ctx)\n    expect([party, follower, npc].map((img) => bitmapView(img))).toEqual(beforeBits)\n    expect(worldView(gs)).toEqual(beforeWorld)\n    expect(fb.indices[0]).toBe(0)\n\n    // sLayer 0：NPC 排序键 106，队首/跟随 110。跟随在最上。\n    // (159,103) 跟随不透明 0x51；(160,103) 跟随孔见队首 0x42；(161,103) 跟随不透明 0。\n    expect(fb.indices[103 * 320 + 159]).toBe(0x51)\n    expect(fb.indices[103 * 320 + 160]).toBe(0x42)\n    expect(fb.indices[103 * 320 + 161]).toBe(0)\n\n    gs.npcs[0]!.sLayer = 1\n    const beforeRaised = worldView(gs)\n    presentFrame(fb, gs, ctx)\n    expect(worldView(gs)).toEqual(beforeRaised)\n    expect([party, follower, npc].map((img) => bitmapView(img))).toEqual(beforeBits)\n\n    // sLayer 1：NPC 排序键 114，画到最上，屏幕坐标不变。\n    // (159,103) NPC 孔见跟随 0x51，不是队首 0x41；(160,103) 双孔见队首 0x42；\n    // (161,103) NPC 不透明 0x61 盖住跟随的不透明 0。\n    expect(fb.indices[103 * 320 + 159]).toBe(0x51)\n    expect(fb.indices[103 * 320 + 160]).toBe(0x42)\n    expect(fb.indices[103 * 320 + 161]).toBe(0x61)\n  })\n\nit('前景cover盖住后排NPC，前排透明孔见cover色而不见后排', () => {\n    // 与 present.test.ts cover 几何相同：camera (0,-32)，cell(5,5) layer1 id 1、height 2。\n    // cover 重画落在 (144,115)，全画只到 y=104..107。后排 NPC 先画 0x41，cover 再盖成 7，\n    // 前排 sLayer=3 排在 cover 之后。\n    const cover = {\n      width: 4,\n      height: 4,\n      indices: new Uint8Array(16).fill(COVER),\n      opaque: new Uint8Array(16).fill(1),\n    }\n    const rear = sprite(\n      2,\n      2,\n      [\n        { x: 0, y: 0, index: 0x41 },\n        { x: 1, y: 0, index: 0x41 },\n        { x: 0, y: 1, index: 0x41 },\n        { x: 1, y: 1, index: 0x41 },\n      ],\n      { x: 1, y: 2 },\n    )\n    const front = sprite(\n      2,\n      2,\n      [\n        { x: 1, y: 0, index: 0x61 },\n        { x: 0, y: 1, index: 0 },\n      ],\n      { x: 1, y: 2 },\n    )\n    const map = emptyMap(10, 10)\n    map.cells[5]![5] = { lower: 0x02020000, upper: 0 }\n    const gs = exploreState({ x: 160, y: 80 })\n    gs.camera = { x: 0, y: -32 }\n    gs.npcs = [\n      { id: 1, x: 145, y: 78, spriteNum: 1, sState: 1, sLayer: 0 },\n      { id: 2, x: 145, y: 78, spriteNum: 2, sState: 1, sLayer: 3 },\n    ]\n    const party = hiddenSprite(16, 24)\n    const ctx = baseContext({\n      tilemap: map,\n      tileImages: { get: (index) => (index === 1 ? cover : undefined) },\n      partyFrames: [party],\n      npcSprites: new Map([\n        [1, rear],\n        [2, front],\n      ]),\n    })\n    const fb = createFramebuffer()\n    fb.indices.fill(SENTINEL)\n    const beforeBits = [bitmapView(cover), bitmapView(rear), bitmapView(front), bitmapView(party)]\n    const beforeWorld = worldView(gs)\n    presentFrame(fb, gs, ctx)\n    expect([bitmapView(cover), bitmapView(rear), bitmapView(front), bitmapView(party)]).toEqual(\n      beforeBits,\n    )\n    expect(worldView(gs)).toEqual(beforeWorld)\n\n    // (144,115) 前排孔见 cover 7，若 cover 没盖过后排则会是 0x41。\n    expect(fb.indices[115 * 320 + 144]).toBe(COVER)\n    expect(fb.indices[115 * 320 + 145]).toBe(0x61)\n    // 不透明索引 0 写成 0；旁边的孔仍是 cover。\n    expect(fb.indices[116 * 320 + 144]).toBe(0)\n    expect(fb.indices[116 * 320 + 145]).toBe(COVER)\n    // cover 带上方一像素不是这张 4×4 重画，也不能是后排色。\n    expect(fb.indices[114 * 320 + 144]).not.toBe(0x41)\n  })\n})",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "composition-responsibilities-1",
+      "path": "packages/game/src/present/__tests__/grok-composition/p12-overlays.test.ts",
+      "reason": "Resolve each actual caller boundary and preserve every callback/literal/hook; only suite/title, explicit alpha-renames and relative imports change. P12 splits effects from overlay with its original cleanup per original case.",
+      "changes": [
+        {
+          "from": "import { createInventoryMenu } from '../../../core/menu/inventory-menu.js'",
+          "to": "import { createInventoryMenu } from '../../core/menu/inventory-menu.js'",
+          "count": 1
+        },
+        {
+          "from": "import { openMenu } from '../../../core/menu/menu-mode.js'",
+          "to": "import { openMenu } from '../../core/menu/menu-mode.js'",
+          "count": 1
+        },
+        {
+          "from": "import { startDialogLine } from '../../dialog-box.js'",
+          "to": "import { startDialogLine } from '../dialog-box.js'",
+          "count": 1
+        },
+        {
+          "from": "import { createFramebuffer } from '../../framebuffer.js'",
+          "to": "import { createFramebuffer } from '../framebuffer.js'",
+          "count": 1
+        },
+        {
+          "from": "import { presentFrame } from '../../present.js'",
+          "to": "import { presentFrame } from '../present.js'",
+          "count": 1
+        },
+        {
+          "from": "import { resetScreenWavePhase } from '../../screen-wave.js'",
+          "to": "import { resetScreenWavePhase } from '../screen-wave.js'",
+          "count": 1
+        },
+        {
+          "from": "import { BOX, DIALOG, WORLD_TILE_COLOR as TILE } from '../composition-colors.js'",
+          "to": "import { BOX, DIALOG, WORLD_TILE_COLOR } from './composition-colors.js'",
+          "count": 1
+        },
+        {
+          "from": "import { glyphsOf } from '../glyph-fixtures.js'",
+          "to": "import { glyphsOf } from './glyph-fixtures.js'",
+          "count": 1
+        },
+        {
+          "from": "import { solidIndexedImage as image, SENTINEL, sprite } from '../raster-fixtures.js'",
+          "to": "import { solidIndexedImage as image, SENTINEL, sprite } from './raster-fixtures.js'",
+          "count": 1
+        },
+        {
+          "from": "import { bitmapView, worldView } from '../render-input-snapshots.js'",
+          "to": "import { bitmapView, worldView } from './render-input-snapshots.js'",
+          "count": 1
+        },
+        {
+          "from": "import { baseContext, emptyMap, exploreState } from '../world-render-fixtures.js'",
+          "to": "import { baseContext, emptyMap, exploreState } from './world-render-fixtures.js'",
+          "count": 1
+        },
+        {
+          "from": "function layer0Tile(index: number) {\n  const map = emptyMap(12, 14)\n  const background = image(32, 16, 0)\n  const left = image(32, 16, 0)\n  const right = image(32, 16, 0)\n  // 黑底覆盖视口，只留 (16,8) 一个小孔，仍核实真实接缝修复先于水波/重映射。\n  // 西北邻居 (15,7) 提供确定颜色；避免用大片空洞的 16 轮扩散制造测试像素。\n  background.indices[7 * 32 + 15] = index\n  background.opaque![8 * 32 + 16] = 0\n  right.opaque![0] = 0\n  // 两个 lower 瓦片分别起于 (-16,8) 和 (16,8)，显式组成第 8 行 x=0..32 的标记条。\n  left.indices.fill(index, 16, 32)\n  right.indices.fill(index, 0, 17)\n  map.cells[1]![0] = { lower: 1, upper: 0 }\n  map.cells[1]![1] = { lower: 2, upper: 0 }\n  const tiles = [background, left, right]\n  return { map, tiles, tileImages: { get: (id: number) => tiles[id] } }\n}",
+          "to": "function markedWorldStrip(index: number) {\n  const map = emptyMap(12, 14)\n  const background = image(32, 16, 0)\n  const left = image(32, 16, 0)\n  const right = image(32, 16, 0)\n  // 黑底覆盖视口，只留 (16,8) 一个小孔，仍核实真实接缝修复先于水波/重映射。\n  // 西北邻居 (15,7) 提供确定颜色；避免用大片空洞的 16 轮扩散制造测试像素。\n  background.indices[7 * 32 + 15] = index\n  background.opaque![8 * 32 + 16] = 0\n  right.opaque![0] = 0\n  // 两个 lower 瓦片分别起于 (-16,8) 和 (16,8)，显式组成第 8 行 x=0..32 的标记条。\n  left.indices.fill(index, 16, 32)\n  right.indices.fill(index, 0, 17)\n  map.cells[1]![0] = { lower: 1, upper: 0 }\n  map.cells[1]![1] = { lower: 2, upper: 0 }\n  const tiles = [background, left, right]\n  return { map, tiles, tileImages: { get: (id: number) => tiles[id] } }\n}",
+          "count": 1
+        },
+        {
+          "from": "describe('P12 大世界叠层与补帧', () => {\n  it('P12 advanceEffects为false时波幅和相位不变，为true时同一行像素改道', () => {\n    resetScreenWavePhase()\n    const { map, tiles, tileImages } = layer0Tile(TILE)\n    const actor = sprite(1, 1, [{ x: 0, y: 0, index: 0x11 }], { x: 0, y: 1 })\n    const gs = exploreState({ x: 16, y: 17 })\n    gs.wScreenWave = 128\n    gs.sWaveProgression = -8\n    const ctx = baseContext({\n      tilemap: map,\n      tileImages,\n      partyFrames: [actor],\n    })\n    const fb = createFramebuffer()\n\n    const draw = (advance: boolean) => {\n      fb.indices.fill(SENTINEL)\n      const bits = tiles.map(bitmapView)\n      const actorBits = bitmapView(actor)\n      const world = worldView(gs)\n      presentFrame(fb, gs, ctx, advance)\n      expect(tiles.map(bitmapView)).toEqual(bits)\n      expect(bitmapView(actor)).toEqual(actorBits)\n      expect(worldView(gs).party).toEqual(world.party)\n      expect(worldView(gs).camera).toEqual(world.camera)\n    }\n\n    draw(false)\n    // 相位 0、波幅 128：第 8 行左移 126，显式标记条落在 x=194..226。\n    // (196,8) 和 (210,8) 有色，(230,8) 还没有。精灵在波之后，留在 (16,20)。\n    expect(gs.wScreenWave).toBe(128)\n    expect(gs.sWaveProgression).toBe(-8)\n    expect(fb.indices[8 * 320 + 210]).toBe(TILE)\n    expect(fb.indices[8 * 320 + 196]).toBe(TILE)\n    expect(fb.indices[8 * 320 + 230]).not.toBe(TILE)\n    expect(fb.indices[20 * 320 + 16]).toBe(0x11)\n\n    draw(false)\n    expect(gs.wScreenWave).toBe(128)\n    expect(gs.sWaveProgression).toBe(-8)\n    expect(fb.indices[8 * 320 + 210]).toBe(TILE)\n    expect(fb.indices[8 * 320 + 196]).toBe(TILE)\n    expect(fb.indices[20 * 320 + 16]).toBe(0x11)\n\n    draw(true)\n    // 本帧先把波幅加上 progression，相位仍是 0。波幅 120 时左移 118，原瓦片到 (218,8)。\n    // (230,8) 进入新卷动带，(196,8) 离开。\n    expect(gs.wScreenWave).toBe(120)\n    expect(gs.sWaveProgression).toBe(-8)\n    expect(fb.indices[8 * 320 + 218]).toBe(TILE)\n    expect(fb.indices[8 * 320 + 230]).toBe(TILE)\n    expect(fb.indices[8 * 320 + 196]).not.toBe(TILE)\n    expect(fb.indices[20 * 320 + 16]).toBe(0x11)\n\n    draw(true)\n    // 下一逻辑帧：波幅 112、相位 1，第 8 行左移 105，标记条在 x=215..247。\n    // 若只改波幅而不推进相位，条会在 x=210..242；两端像素能区分这两种结果。\n    expect(gs.wScreenWave).toBe(112)\n    expect(gs.sWaveProgression).toBe(-8)\n    expect(fb.indices[8 * 320 + 245]).toBe(TILE)\n    expect(fb.indices[8 * 320 + 212]).not.toBe(TILE)\n    expect(fb.indices[20 * 320 + 16]).toBe(0x11)\n  })\n\n  it('P12 偶数震屏补帧不减计数，再推进后改为上移', () => {\n    const actor = sprite(1, 1, [{ x: 0, y: 0, index: 0x11 }], { x: 0, y: 1 })\n    const gs = exploreState({ x: 16, y: 17 })\n    gs.shakeTime = 2\n    gs.shakeLevel = 1\n    const ctx = baseContext({ partyFrames: [actor] })\n    const fb = createFramebuffer()\n    const draw = (advance: boolean) => {\n      fb.indices.fill(SENTINEL)\n      const bits = bitmapView(actor)\n      presentFrame(fb, gs, ctx, advance)\n      expect(bitmapView(actor)).toEqual(bits)\n      expect(gs.party).toEqual({ x: 16, y: 17, facing: 'down' })\n    }\n\n    draw(false)\n    expect(gs.shakeTime).toBe(2)\n    expect(fb.indices[21 * 320 + 16]).toBe(0x11)\n    expect(fb.indices[20 * 320 + 16]).toBe(0)\n    expect(fb.indices[0]).toBe(0)\n\n    draw(false)\n    expect(gs.shakeTime).toBe(2)\n    expect(fb.indices[21 * 320 + 16]).toBe(0x11)\n\n    draw(true)\n    expect(gs.shakeTime).toBe(1)\n    expect(fb.indices[21 * 320 + 16]).toBe(0x11)\n\n    draw(true)\n    expect(gs.shakeTime).toBe(0)\n    expect(fb.indices[19 * 320 + 16]).toBe(0x11)\n    expect(fb.indices[21 * 320 + 16]).toBe(0)\n  })\n\n  it('P12 场景0x4F被remap成0x4E，对话框同索引保持0x4F', () => {\n    const { map, tiles, tileImages } = layer0Tile(DIALOG)\n    const actor = sprite(1, 1, [{ x: 0, y: 0, index: 0x11 }], { x: 0, y: 1 })\n    const gs = exploreState({ x: 16, y: 17 })\n    const colors = Array.from({ length: 256 }, () => [4, 5, 6] as [number, number, number])\n    const palette: Palette = { colors, cycles: [] }\n    gs.palette = palette\n    gs.paletteFadeState = {\n      startColors: colors.map((color) => [...color] as [number, number, number]),\n      targetColors: colors.map((color) => [...color] as [number, number, number]),\n      startTimeMs: performance.now(),\n      totalMs: 10_000_000,\n      mode: 'lerp',\n      steps: 1,\n      increment: 0,\n      remap: { from: DIALOG, to: 0x4e },\n    }\n    gs.dialogBox = startDialogLine('甲', { style: 'bottom', fontColor: DIALOG })\n    gs.dialogBox.charsRevealed = 1\n    const ctx = baseContext({\n      tilemap: map,\n      tileImages,\n      partyFrames: [actor],\n      glyphs: glyphsOf(['甲']),\n    })\n    const fb = createFramebuffer()\n    fb.indices.fill(SENTINEL)\n    const beforeTiles = tiles.map(bitmapView)\n    const beforeDialog = structuredClone(gs.dialogBox)\n    const beforeColors = palette.colors.map((color) => [...color])\n    presentFrame(fb, gs, ctx)\n    expect(tiles.map(bitmapView)).toEqual(beforeTiles)\n    expect(structuredClone(gs.dialogBox)).toEqual(beforeDialog)\n    expect(palette.colors).toEqual(beforeColors)\n    expect(gs.paletteFadeState?.remap).toEqual({ from: DIALOG, to: 0x4e })\n\n    // 瓦片在对话框之前被 0x4F→0x4E。正文仍用 0x4F。旁边的精灵不是 0x4F，保持 0x11。\n    expect(fb.indices[8 * 320 + 16]).toBe(0x4e)\n    expect(fb.indices[126 * 320 + 44]).toBe(DIALOG)\n    expect(fb.indices[20 * 320 + 16]).toBe(0x11)\n  })\n\n  it('P12 菜单模式盖住左上角，event模式同一菜单栈不盖，对话像素两种模式都在', () => {\n    const items: [] = []\n    const gs = exploreState({ x: 200, y: 97 })\n    openMenu(gs, { kind: 'inventory', state: createInventoryMenu(gs, items) })\n    gs.dialogBox = startDialogLine('甲', { style: 'bottom', fontColor: DIALOG })\n    gs.dialogBox.charsRevealed = 1\n    const actor = sprite(1, 1, [{ x: 0, y: 0, index: 0x41 }], { x: 0, y: 1 })\n    const frames = Array.from({ length: 18 }, () => image(8, 8, BOX))\n    const ctx = baseContext({\n      partyFrames: [actor],\n      uiSpriteFrames: frames,\n      items,\n      glyphs: glyphsOf(['甲']),\n    })\n    const fb = createFramebuffer()\n\n    fb.indices.fill(SENTINEL)\n    const beforeItems = items.map((entry) => entry)\n    const beforeMenu = structuredClone(gs.menuStack[0])\n    const beforeDialog = structuredClone(gs.dialogBox)\n    presentFrame(fb, gs, ctx)\n    expect(items.map((entry) => entry)).toEqual(beforeItems)\n    expect(structuredClone(gs.menuStack[0])).toEqual(beforeMenu)\n    expect(structuredClone(gs.dialogBox)).toEqual(beforeDialog)\n    expect(fb.indices[0 * 320 + 2]).toBe(BOX)\n    expect(fb.indices[100 * 320 + 200]).toBe(0x41)\n    expect(fb.indices[126 * 320 + 44]).toBe(DIALOG)\n\n    gs.mode = 'event'\n    fb.indices.fill(SENTINEL)\n    const beforeEvent = worldView(gs)\n    presentFrame(fb, gs, ctx)\n    expect(worldView(gs)).toEqual(beforeEvent)\n    expect(fb.indices[0 * 320 + 2]).toBe(0)\n    expect(fb.indices[100 * 320 + 200]).toBe(0x41)\n    expect(fb.indices[126 * 320 + 44]).toBe(DIALOG)\n  })\n})",
+          "to": "describe('world post-processing and supplemental frames', () => {\nit('advanceEffects为false时波幅和相位不变，为true时同一行像素改道', () => {\n    resetScreenWavePhase()\n    const { map, tiles, tileImages } = markedWorldStrip(WORLD_TILE_COLOR)\n    const actor = sprite(1, 1, [{ x: 0, y: 0, index: 0x11 }], { x: 0, y: 1 })\n    const gs = exploreState({ x: 16, y: 17 })\n    gs.wScreenWave = 128\n    gs.sWaveProgression = -8\n    const ctx = baseContext({\n      tilemap: map,\n      tileImages,\n      partyFrames: [actor],\n    })\n    const fb = createFramebuffer()\n\n    const draw = (advance: boolean) => {\n      fb.indices.fill(SENTINEL)\n      const bits = tiles.map(bitmapView)\n      const actorBits = bitmapView(actor)\n      const world = worldView(gs)\n      presentFrame(fb, gs, ctx, advance)\n      expect(tiles.map(bitmapView)).toEqual(bits)\n      expect(bitmapView(actor)).toEqual(actorBits)\n      expect(worldView(gs).party).toEqual(world.party)\n      expect(worldView(gs).camera).toEqual(world.camera)\n    }\n\n    draw(false)\n    // 相位 0、波幅 128：第 8 行左移 126，显式标记条落在 x=194..226。\n    // (196,8) 和 (210,8) 有色，(230,8) 还没有。精灵在波之后，留在 (16,20)。\n    expect(gs.wScreenWave).toBe(128)\n    expect(gs.sWaveProgression).toBe(-8)\n    expect(fb.indices[8 * 320 + 210]).toBe(WORLD_TILE_COLOR)\n    expect(fb.indices[8 * 320 + 196]).toBe(WORLD_TILE_COLOR)\n    expect(fb.indices[8 * 320 + 230]).not.toBe(WORLD_TILE_COLOR)\n    expect(fb.indices[20 * 320 + 16]).toBe(0x11)\n\n    draw(false)\n    expect(gs.wScreenWave).toBe(128)\n    expect(gs.sWaveProgression).toBe(-8)\n    expect(fb.indices[8 * 320 + 210]).toBe(WORLD_TILE_COLOR)\n    expect(fb.indices[8 * 320 + 196]).toBe(WORLD_TILE_COLOR)\n    expect(fb.indices[20 * 320 + 16]).toBe(0x11)\n\n    draw(true)\n    // 本帧先把波幅加上 progression，相位仍是 0。波幅 120 时左移 118，原瓦片到 (218,8)。\n    // (230,8) 进入新卷动带，(196,8) 离开。\n    expect(gs.wScreenWave).toBe(120)\n    expect(gs.sWaveProgression).toBe(-8)\n    expect(fb.indices[8 * 320 + 218]).toBe(WORLD_TILE_COLOR)\n    expect(fb.indices[8 * 320 + 230]).toBe(WORLD_TILE_COLOR)\n    expect(fb.indices[8 * 320 + 196]).not.toBe(WORLD_TILE_COLOR)\n    expect(fb.indices[20 * 320 + 16]).toBe(0x11)\n\n    draw(true)\n    // 下一逻辑帧：波幅 112、相位 1，第 8 行左移 105，标记条在 x=215..247。\n    // 若只改波幅而不推进相位，条会在 x=210..242；两端像素能区分这两种结果。\n    expect(gs.wScreenWave).toBe(112)\n    expect(gs.sWaveProgression).toBe(-8)\n    expect(fb.indices[8 * 320 + 245]).toBe(WORLD_TILE_COLOR)\n    expect(fb.indices[8 * 320 + 212]).not.toBe(WORLD_TILE_COLOR)\n    expect(fb.indices[20 * 320 + 16]).toBe(0x11)\n  })\n\nit('偶数震屏补帧不减计数，再推进后改为上移', () => {\n    const actor = sprite(1, 1, [{ x: 0, y: 0, index: 0x11 }], { x: 0, y: 1 })\n    const gs = exploreState({ x: 16, y: 17 })\n    gs.shakeTime = 2\n    gs.shakeLevel = 1\n    const ctx = baseContext({ partyFrames: [actor] })\n    const fb = createFramebuffer()\n    const draw = (advance: boolean) => {\n      fb.indices.fill(SENTINEL)\n      const bits = bitmapView(actor)\n      presentFrame(fb, gs, ctx, advance)\n      expect(bitmapView(actor)).toEqual(bits)\n      expect(gs.party).toEqual({ x: 16, y: 17, facing: 'down' })\n    }\n\n    draw(false)\n    expect(gs.shakeTime).toBe(2)\n    expect(fb.indices[21 * 320 + 16]).toBe(0x11)\n    expect(fb.indices[20 * 320 + 16]).toBe(0)\n    expect(fb.indices[0]).toBe(0)\n\n    draw(false)\n    expect(gs.shakeTime).toBe(2)\n    expect(fb.indices[21 * 320 + 16]).toBe(0x11)\n\n    draw(true)\n    expect(gs.shakeTime).toBe(1)\n    expect(fb.indices[21 * 320 + 16]).toBe(0x11)\n\n    draw(true)\n    expect(gs.shakeTime).toBe(0)\n    expect(fb.indices[19 * 320 + 16]).toBe(0x11)\n    expect(fb.indices[21 * 320 + 16]).toBe(0)\n  })\n\nit('场景0x4F被remap成0x4E，对话框同索引保持0x4F', () => {\n    const { map, tiles, tileImages } = markedWorldStrip(DIALOG)\n    const actor = sprite(1, 1, [{ x: 0, y: 0, index: 0x11 }], { x: 0, y: 1 })\n    const gs = exploreState({ x: 16, y: 17 })\n    const colors = Array.from({ length: 256 }, () => [4, 5, 6] as [number, number, number])\n    const palette: Palette = { colors, cycles: [] }\n    gs.palette = palette\n    gs.paletteFadeState = {\n      startColors: colors.map((color) => [...color] as [number, number, number]),\n      targetColors: colors.map((color) => [...color] as [number, number, number]),\n      startTimeMs: performance.now(),\n      totalMs: 10_000_000,\n      mode: 'lerp',\n      steps: 1,\n      increment: 0,\n      remap: { from: DIALOG, to: 0x4e },\n    }\n    gs.dialogBox = startDialogLine('甲', { style: 'bottom', fontColor: DIALOG })\n    gs.dialogBox.charsRevealed = 1\n    const ctx = baseContext({\n      tilemap: map,\n      tileImages,\n      partyFrames: [actor],\n      glyphs: glyphsOf(['甲']),\n    })\n    const fb = createFramebuffer()\n    fb.indices.fill(SENTINEL)\n    const beforeTiles = tiles.map(bitmapView)\n    const beforeDialog = structuredClone(gs.dialogBox)\n    const beforeColors = palette.colors.map((color) => [...color])\n    presentFrame(fb, gs, ctx)\n    expect(tiles.map(bitmapView)).toEqual(beforeTiles)\n    expect(structuredClone(gs.dialogBox)).toEqual(beforeDialog)\n    expect(palette.colors).toEqual(beforeColors)\n    expect(gs.paletteFadeState?.remap).toEqual({ from: DIALOG, to: 0x4e })\n\n    // 瓦片在对话框之前被 0x4F→0x4E。正文仍用 0x4F。旁边的精灵不是 0x4F，保持 0x11。\n    expect(fb.indices[8 * 320 + 16]).toBe(0x4e)\n    expect(fb.indices[126 * 320 + 44]).toBe(DIALOG)\n    expect(fb.indices[20 * 320 + 16]).toBe(0x11)\n  })\n})\n\ndescribe('menu and dialogue overlay order', () => {\nit('菜单模式盖住左上角，event模式同一菜单栈不盖，对话像素两种模式都在', () => {\n    const items: [] = []\n    const gs = exploreState({ x: 200, y: 97 })\n    openMenu(gs, { kind: 'inventory', state: createInventoryMenu(gs, items) })\n    gs.dialogBox = startDialogLine('甲', { style: 'bottom', fontColor: DIALOG })\n    gs.dialogBox.charsRevealed = 1\n    const actor = sprite(1, 1, [{ x: 0, y: 0, index: 0x41 }], { x: 0, y: 1 })\n    const frames = Array.from({ length: 18 }, () => image(8, 8, BOX))\n    const ctx = baseContext({\n      partyFrames: [actor],\n      uiSpriteFrames: frames,\n      items,\n      glyphs: glyphsOf(['甲']),\n    })\n    const fb = createFramebuffer()\n\n    fb.indices.fill(SENTINEL)\n    const beforeItems = items.map((entry) => entry)\n    const beforeMenu = structuredClone(gs.menuStack[0])\n    const beforeDialog = structuredClone(gs.dialogBox)\n    presentFrame(fb, gs, ctx)\n    expect(items.map((entry) => entry)).toEqual(beforeItems)\n    expect(structuredClone(gs.menuStack[0])).toEqual(beforeMenu)\n    expect(structuredClone(gs.dialogBox)).toEqual(beforeDialog)\n    expect(fb.indices[0 * 320 + 2]).toBe(BOX)\n    expect(fb.indices[100 * 320 + 200]).toBe(0x41)\n    expect(fb.indices[126 * 320 + 44]).toBe(DIALOG)\n\n    gs.mode = 'event'\n    fb.indices.fill(SENTINEL)\n    const beforeEvent = worldView(gs)\n    presentFrame(fb, gs, ctx)\n    expect(worldView(gs)).toEqual(beforeEvent)\n    expect(fb.indices[0 * 320 + 2]).toBe(0)\n    expect(fb.indices[100 * 320 + 200]).toBe(0x41)\n    expect(fb.indices[126 * 320 + 44]).toBe(DIALOG)\n  })\n})",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "composition-responsibilities-2",
+      "path": "packages/game/src/present/__tests__/grok-composition/p13-battle-commands.test.ts",
+      "reason": "Resolve each actual caller boundary and preserve every callback/literal/hook; only suite/title, explicit alpha-renames and relative imports change. P12 splits effects from overlay with its original cleanup per original case.",
+      "changes": [
+        {
+          "from": "import { BattlePresent } from '../../battle/present-battle.js'",
+          "to": "import { BattlePresent } from '../present-battle.js'",
+          "count": 1
+        },
+        {
+          "from": "import { battleEnemy, battleGs, battleState, enemy, solidBg } from '../battle-render-fixtures.js'",
+          "to": "import { battleEnemy, battleGs, battleState, enemy, solidBg } from '../../__tests__/battle-render-fixtures.js'",
+          "count": 1
+        },
+        {
+          "from": "import { BG, DIALOG, MESSAGE } from '../composition-colors.js'",
+          "to": "import { BG, DIALOG, MESSAGE } from '../../__tests__/composition-colors.js'",
+          "count": 1
+        },
+        {
+          "from": "import { glyphsOf } from '../glyph-fixtures.js'",
+          "to": "import { glyphsOf } from '../../__tests__/glyph-fixtures.js'",
+          "count": 1
+        },
+        {
+          "from": "import { digitFrames, yellowDigit } from '../menu-ui-fixtures.js'",
+          "to": "import { digitFrames, yellowDigit } from '../../__tests__/menu-ui-fixtures.js'",
+          "count": 1
+        },
+        {
+          "from": "import { at, solidIndexedImage as image } from '../raster-fixtures.js'",
+          "to": "import { at, solidIndexedImage as image } from '../../__tests__/raster-fixtures.js'",
+          "count": 1
+        },
+        {
+          "from": "import { battleView, bitmapView } from '../render-input-snapshots.js'",
+          "to": "import { battleView, bitmapView } from '../../__tests__/render-input-snapshots.js'",
+          "count": 1
+        },
+        {
+          "from": "function assets() {\n  const bg = solidBg(BG)\n  const frames = digitFrames()\n  frames[44] = image(4, 16, 0, 0)\n  frames[44]!.indices[0] = 0xb1\n  frames[44]!.opaque[0] = 1\n  frames[45] = image(8, 16, 0, 0)\n  frames[46] = image(4, 16, 0, 0)\n  return {\n    bg,\n    frames,\n    pack: {\n      battleSprites: new Map(),\n      battleBgs: new Map([[0, bg]]),\n      playerRoles: { roles: [] },\n      spells: [],\n      items: [],\n      glyphs: glyphsOf(['甲', '乙']),\n      uiSpriteFrames: frames,\n    },\n  }\n}",
+          "to": "function feedbackAssets() {\n  const bg = solidBg(BG)\n  const frames = digitFrames()\n  frames[44] = image(4, 16, 0, 0)\n  frames[44]!.indices[0] = 0xb1\n  frames[44]!.opaque[0] = 1\n  frames[45] = image(8, 16, 0, 0)\n  frames[46] = image(4, 16, 0, 0)\n  return {\n    bg,\n    frames,\n    pack: {\n      battleSprites: new Map(),\n      battleBgs: new Map([[0, bg]]),\n      playerRoles: { roles: [] },\n      spells: [],\n      items: [],\n      glyphs: glyphsOf(['甲', '乙']),\n      uiSpriteFrames: frames,\n    },\n  }\n}",
+          "count": 1
+        },
+        {
+          "from": "describe('P13 战斗命令与提示寿命', () => {\n  it('P13 后一条战斗消息替换前一条，对话盖住消息且到期后数字仍在上移', () => {\n    const { bg, frames, pack } = assets()\n    const present = new BattlePresent()\n    const gs = battleGs()\n    const foe = battleEnemy(enemy(9))\n    const state = battleState([], [foe])\n    gs.dialogBox = startDialogLine('甲', { style: 'bottom', fontColor: DIALOG })\n    gs.dialogBox.charsRevealed = 1\n    const commands = [\n      {\n        cmd: {\n          op: 'showDamageNum' as const,\n          target: { kind: 'enemy' as const, idx: 0 },\n          value: 7,\n          color: 'yellow' as const,\n        },\n      },\n      {\n        cmd: { op: 'showBattleMessage' as const, text: '甲', durationMs: 80, pos: { x: 8, y: 30 } },\n      },\n      {\n        cmd: {\n          op: 'showBattleMessage' as const,\n          text: '乙',\n          durationMs: 80,\n          pos: { x: 44, y: 126 },\n        },\n      },\n    ]\n    const fb = createFramebuffer()\n\n    const draw = (frame: number, withDialog: boolean) => {\n      if (!withDialog) gs.dialogBox = undefined\n      fb.indices.fill(0)\n      const beforeBg = bitmapView(bg)\n      const beforeFrames = bitmapView(frames[26]!)\n      const beforeState = battleView(state)\n      const beforeCmds = structuredClone(commands)\n      present.draw(fb, gs, state, frame === 0 && withDialog ? commands : [], pack, frame)\n      expect(bitmapView(bg)).toEqual(beforeBg)\n      expect(bitmapView(frames[26]!)).toEqual(beforeFrames)\n      expect(battleView(state)).toEqual(beforeState)\n      expect(commands).toEqual(beforeCmds)\n    }\n\n    draw(0, true)\n    // 单敌锚 (160,80)，伤害 x=136、y=10。5 位右对齐个位在 (160,10)，黄 7。\n    expect(at(fb, 160, 10)).toBe(yellowDigit(7))\n    // 第一条消息被第二条替换，(8,30) 没有消息色。\n    expect(at(fb, 8, 30)).toBe(BG)\n    // 对话画在消息之后，(44,126) 是正文 0x4F 而不是消息色 15。\n    expect(at(fb, 44, 126)).toBe(DIALOG)\n\n    draw(0, false)\n    expect(at(fb, 44, 126)).toBe(MESSAGE)\n    expect(at(fb, 160, 10)).toBe(yellowDigit(7))\n    expect(at(fb, 8, 30)).toBe(BG)\n\n    draw(2, false)\n    // 80ms → 2 帧，frame 2 到期。伤害 age 2，个位上移到 y=8。\n    expect(at(fb, 44, 126)).toBe(BG)\n    expect(at(fb, 160, 8)).toBe(yellowDigit(7))\n    expect(at(fb, 160, 10)).toBe(BG)\n\n    present.reset()\n    draw(2, false)\n    expect(at(fb, 160, 8)).toBe(BG)\n    expect(at(fb, 44, 126)).toBe(BG)\n  })\n\n  it('P13 结算框盖住消息点，演出结束后该点回到消息色', () => {\n    const { bg, frames, pack } = assets()\n    const present = new BattlePresent()\n    const gs = battleGs()\n    const state = battleState([], [])\n    state.settlement = {\n      screens: [{ kind: 'exp-cash', expGained: 0, cashGained: 0, isBoss: false }],\n      index: 0,\n      shownMs: 0,\n    }\n    const commands = [\n      {\n        cmd: {\n          op: 'showBattleMessage' as const,\n          text: '乙',\n          durationMs: 800,\n          pos: { x: 83, y: 60 },\n        },\n      },\n    ]\n    const fb = createFramebuffer()\n    fb.indices.fill(0)\n    const before = battleView(state)\n    present.draw(fb, gs, state, commands, pack, 0)\n    expect(battleView(state)).toEqual(before)\n    expect(bitmapView(bg)).toEqual(bitmapView(solidBg(BG)))\n    // 单行框左帧点在 (83,60)，盖住同坐标的消息色。\n    expect(at(fb, 83, 60)).toBe(0xb1)\n    expect(at(fb, 83, 60)).not.toBe(MESSAGE)\n\n    state.settlement.index = 1\n    fb.indices.fill(0)\n    const afterIndex = battleView(state)\n    present.draw(fb, gs, state, [], pack, 0)\n    expect(battleView(state)).toEqual(afterIndex)\n    expect(at(fb, 83, 60)).toBe(MESSAGE)\n\n    present.reset()\n    fb.indices.fill(0)\n    present.draw(fb, gs, state, [], pack, 0)\n    expect(at(fb, 83, 60)).toBe(BG)\n    expect(bitmapView(frames[44]!)?.indices[0]).toBe(0xb1)\n  })\n})",
+          "to": "describe('battle feedback lifetime and overlay order', () => {\nit('后一条战斗消息替换前一条，对话盖住消息且到期后数字仍在上移', () => {\n    const { bg, frames, pack } = feedbackAssets()\n    const present = new BattlePresent()\n    const gs = battleGs()\n    const foe = battleEnemy(enemy(9))\n    const state = battleState([], [foe])\n    gs.dialogBox = startDialogLine('甲', { style: 'bottom', fontColor: DIALOG })\n    gs.dialogBox.charsRevealed = 1\n    const commands = [\n      {\n        cmd: {\n          op: 'showDamageNum' as const,\n          target: { kind: 'enemy' as const, idx: 0 },\n          value: 7,\n          color: 'yellow' as const,\n        },\n      },\n      {\n        cmd: { op: 'showBattleMessage' as const, text: '甲', durationMs: 80, pos: { x: 8, y: 30 } },\n      },\n      {\n        cmd: {\n          op: 'showBattleMessage' as const,\n          text: '乙',\n          durationMs: 80,\n          pos: { x: 44, y: 126 },\n        },\n      },\n    ]\n    const fb = createFramebuffer()\n\n    const draw = (frame: number, withDialog: boolean) => {\n      if (!withDialog) gs.dialogBox = undefined\n      fb.indices.fill(0)\n      const beforeBg = bitmapView(bg)\n      const beforeFrames = bitmapView(frames[26]!)\n      const beforeState = battleView(state)\n      const beforeCmds = structuredClone(commands)\n      present.draw(fb, gs, state, frame === 0 && withDialog ? commands : [], pack, frame)\n      expect(bitmapView(bg)).toEqual(beforeBg)\n      expect(bitmapView(frames[26]!)).toEqual(beforeFrames)\n      expect(battleView(state)).toEqual(beforeState)\n      expect(commands).toEqual(beforeCmds)\n    }\n\n    draw(0, true)\n    // 单敌锚 (160,80)，伤害 x=136、y=10。5 位右对齐个位在 (160,10)，黄 7。\n    expect(at(fb, 160, 10)).toBe(yellowDigit(7))\n    // 第一条消息被第二条替换，(8,30) 没有消息色。\n    expect(at(fb, 8, 30)).toBe(BG)\n    // 对话画在消息之后，(44,126) 是正文 0x4F 而不是消息色 15。\n    expect(at(fb, 44, 126)).toBe(DIALOG)\n\n    draw(0, false)\n    expect(at(fb, 44, 126)).toBe(MESSAGE)\n    expect(at(fb, 160, 10)).toBe(yellowDigit(7))\n    expect(at(fb, 8, 30)).toBe(BG)\n\n    draw(2, false)\n    // 80ms → 2 帧，frame 2 到期。伤害 age 2，个位上移到 y=8。\n    expect(at(fb, 44, 126)).toBe(BG)\n    expect(at(fb, 160, 8)).toBe(yellowDigit(7))\n    expect(at(fb, 160, 10)).toBe(BG)\n\n    present.reset()\n    draw(2, false)\n    expect(at(fb, 160, 8)).toBe(BG)\n    expect(at(fb, 44, 126)).toBe(BG)\n  })\n\nit('结算框盖住消息点，演出结束后该点回到消息色', () => {\n    const { bg, frames, pack } = feedbackAssets()\n    const present = new BattlePresent()\n    const gs = battleGs()\n    const state = battleState([], [])\n    state.settlement = {\n      screens: [{ kind: 'exp-cash', expGained: 0, cashGained: 0, isBoss: false }],\n      index: 0,\n      shownMs: 0,\n    }\n    const commands = [\n      {\n        cmd: {\n          op: 'showBattleMessage' as const,\n          text: '乙',\n          durationMs: 800,\n          pos: { x: 83, y: 60 },\n        },\n      },\n    ]\n    const fb = createFramebuffer()\n    fb.indices.fill(0)\n    const before = battleView(state)\n    present.draw(fb, gs, state, commands, pack, 0)\n    expect(battleView(state)).toEqual(before)\n    expect(bitmapView(bg)).toEqual(bitmapView(solidBg(BG)))\n    // 单行框左帧点在 (83,60)，盖住同坐标的消息色。\n    expect(at(fb, 83, 60)).toBe(0xb1)\n    expect(at(fb, 83, 60)).not.toBe(MESSAGE)\n\n    state.settlement.index = 1\n    fb.indices.fill(0)\n    const afterIndex = battleView(state)\n    present.draw(fb, gs, state, [], pack, 0)\n    expect(battleView(state)).toEqual(afterIndex)\n    expect(at(fb, 83, 60)).toBe(MESSAGE)\n\n    present.reset()\n    fb.indices.fill(0)\n    present.draw(fb, gs, state, [], pack, 0)\n    expect(at(fb, 83, 60)).toBe(BG)\n    expect(bitmapView(frames[44]!)?.indices[0]).toBe(0xb1)\n  })\n})",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "composition-responsibilities-3",
+      "path": "packages/game/src/present/__tests__/grok-composition/p14-battle-fades.test.ts",
+      "reason": "Resolve each actual caller boundary and preserve every callback/literal/hook; only suite/title, explicit alpha-renames and relative imports change. P12 splits effects from overlay with its original cleanup per original case.",
+      "changes": [
+        {
+          "from": "import { BattlePresent } from '../../battle/present-battle.js'",
+          "to": "import { BattlePresent } from '../present-battle.js'",
+          "count": 1
+        },
+        {
+          "from": "import {\n  battleEnemy,\n  battleGs,\n  battlePlayer,\n  battleState,\n  enemy,\n  role,\n  rolesOf,\n  solidBg,\n} from '../battle-render-fixtures.js'",
+          "to": "import { battleEnemy, battleGs, battlePlayer, battleState, enemy, role, rolesOf, solidBg } from '../../__tests__/battle-render-fixtures.js'",
+          "count": 1
+        },
+        {
+          "from": "import { BG, SPRITE, SUMMON_TO, WORLD_TILE_COLOR as TILE, WORLD } from '../composition-colors.js'",
+          "to": "import { BG, SPRITE, SUMMON_TO, WORLD_TILE_COLOR, WORLD } from '../../__tests__/composition-colors.js'",
+          "count": 1
+        },
+        {
+          "from": "import { digitFrames, yellowDigit } from '../menu-ui-fixtures.js'",
+          "to": "import { digitFrames, yellowDigit } from '../../__tests__/menu-ui-fixtures.js'",
+          "count": 1
+        },
+        {
+          "from": "import { at, solidIndexedImage as image } from '../raster-fixtures.js'",
+          "to": "import { at, solidIndexedImage as image } from '../../__tests__/raster-fixtures.js'",
+          "count": 1
+        },
+        {
+          "from": "import { battleView, bitmapView } from '../render-input-snapshots.js'",
+          "to": "import { battleView, bitmapView } from '../../__tests__/render-input-snapshots.js'",
+          "count": 1
+        },
+        {
+          "from": "describe('P14 战斗画面渐变与补帧', () => {\n  it('P14 入场切换起点中段终点可区分，重复中段不变且伤害数字在切换之后', () => {\n    const bg = solidBg(BG)\n    const frames = digitFrames()\n    const present = new BattlePresent()\n    const gs = battleGs()\n    const state = battleState([], [battleEnemy(enemy(3))])\n    state.introFade = { step: 0, total: 6 }\n    const pack = {\n      battleSprites: new Map(),\n      battleBgs: new Map([[0, bg]]),\n      playerRoles: { roles: [] },\n      spells: [],\n      items: [],\n      uiSpriteFrames: frames,\n    }\n    const fb = createFramebuffer()\n    const commands = [\n      {\n        cmd: {\n          op: 'showDamageNum' as const,\n          target: { kind: 'enemy' as const, idx: 0 },\n          value: 7,\n          color: 'yellow' as const,\n        },\n      },\n    ]\n\n    const draw = (passCommands: boolean) => {\n      const beforeBg = bitmapView(bg)\n      const beforeFade = battleView(state)\n      present.draw(fb, gs, state, passCommands ? commands : [], pack, 0)\n      expect(bitmapView(bg)).toEqual(beforeBg)\n      expect(battleView(state)).toEqual(beforeFade)\n    }\n\n    fb.indices.fill(WORLD)\n    draw(true)\n    // step 0：完成轮数 0，场景像素仍是入场前的世界色。伤害在切换之后，个位仍是黄 7。\n    expect(at(fb, 0, 0)).toBe(WORLD)\n    expect(at(fb, 162, 10)).toBe(WORLD)\n    expect(at(fb, 160, 10)).toBe(yellowDigit(7))\n\n    state.introFade = { step: 3, total: 6 }\n    const mid = battleView(state)\n    draw(false)\n    expect(battleView(state)).toEqual(mid)\n    // completedRounds=3。k%6=0 已换入背景，k%6=2 仍是世界色。\n    expect(at(fb, 0, 0)).toBe(BG)\n    expect(at(fb, 162, 10)).toBe(WORLD)\n    expect(at(fb, 160, 10)).toBe(yellowDigit(7))\n    const midPixel = at(fb, 162, 10)\n\n    draw(false)\n    expect(at(fb, 162, 10)).toBe(midPixel)\n    expect(at(fb, 0, 0)).toBe(BG)\n    expect(battleView(state).introFade).toEqual({ step: 3, total: 6 })\n\n    state.introFade = { step: 6, total: 6 }\n    draw(false)\n    expect(at(fb, 0, 0)).toBe(BG)\n    expect(at(fb, 162, 10)).toBe(BG)\n    expect(at(fb, 160, 10)).toBe(yellowDigit(7))\n  })\n\n  it('P14 召唤crossfade高位立即换低位逐步逼近，重复终点不重开', () => {\n    const bg = solidBg(WORLD)\n    const god = image(1, 1, 0x77)\n    const present = new BattlePresent()\n    const gs = battleGs()\n    const state = battleState([], [])\n    state.battleAnim = summonAnim(undefined)\n    const pack = {\n      battleSprites: new Map([\n        ['god', { frames: [{ width: 1, height: 1, indices: god.indices, opaque: god.opaque }] }],\n      ]),\n      battleBgs: new Map([[0, bg]]),\n      playerRoles: { roles: [] },\n      spells: [],\n      items: [],\n    }\n    const fb = createFramebuffer()\n\n    const draw = () => {\n      const beforeBg = bitmapView(bg)\n      const beforeGod = bitmapView(god)\n      const before = battleView(state)\n      present.draw(fb, gs, state, [], pack, 0)\n      expect(bitmapView(bg)).toEqual(beforeBg)\n      expect(bitmapView(god)).toEqual(beforeGod)\n      expect(battleView(state)).toEqual(before)\n    }\n\n    fb.indices.fill(0)\n    draw()\n    expect(at(fb, 0, 0)).toBe(WORLD)\n\n    bg.indices.fill(SUMMON_TO)\n    state.battleAnim = summonAnim(0)\n    draw()\n    // 只走完相位 0：高位换成 5，低位留 3。相邻像素还没轮到，仍是上一帧。\n    expect(at(fb, 0, 0)).toBe(0x53)\n    expect(at(fb, 1, 0)).toBe(WORLD)\n\n    state.battleAnim = summonAnim(6)\n    draw()\n    expect(at(fb, 0, 0)).toBe(0x54)\n    expect(at(fb, 1, 0)).toBe(0x53)\n\n    state.battleAnim = summonAnim(42)\n    draw()\n    expect(at(fb, 0, 0)).toBe(SUMMON_TO)\n    expect(at(fb, 1, 0)).toBe(0x59)\n    draw()\n    expect(at(fb, 0, 0)).toBe(SUMMON_TO)\n    expect(at(fb, 1, 0)).toBe(0x59)\n    expect(state.battleAnim.summon?.fadeStep).toBe(42)\n  })\n\n  it('P14 战斗补帧不推进屏波，精灵像素留在原位', () => {\n    resetScreenWavePhase()\n    const bg = solidBg(BG)\n    bg.indices[8 * 320 + 16] = TILE\n    const body = image(1, 1, SPRITE)\n    const present = new BattlePresent()\n    const gs = battleGs()\n    gs.wScreenWave = 128\n    gs.sWaveProgression = -8\n    const player = battlePlayer(0)\n    const state = battleState([player], [])\n    const pack = {\n      battleSprites: new Map([\n        [\n          'player-1',\n          { frames: [{ width: 1, height: 1, indices: body.indices, opaque: body.opaque }] },\n        ],\n      ]),\n      battleBgs: new Map([[0, bg]]),\n      playerRoles: rolesOf([role(0, { spriteNumInBattle: 1 })]),\n      spells: [],\n      items: [],\n    }\n    const fb = createFramebuffer()\n    const draw = (advance: boolean) => {\n      const beforeBg = bitmapView(bg)\n      const beforeBody = bitmapView(body)\n      present.draw(fb, gs, state, [], pack, 0, advance)\n      expect(bitmapView(bg)).toEqual(beforeBg)\n      expect(bitmapView(body)).toEqual(beforeBody)\n      expect(gs.party).toEqual({ x: 0, y: 0, facing: 'down' })\n    }\n\n    draw(false)\n    expect(gs.wScreenWave).toBe(128)\n    expect(gs.sWaveProgression).toBe(-8)\n    // 背景 (16,8) 左移 126 到 (210,8)。一人锚 (240,170)，1×1 精灵在 (240,169)，不跟波走。\n    expect(at(fb, 210, 8)).toBe(TILE)\n    expect(at(fb, 240, 169)).toBe(SPRITE)\n\n    draw(false)\n    expect(gs.wScreenWave).toBe(128)\n    expect(at(fb, 210, 8)).toBe(TILE)\n    expect(at(fb, 240, 169)).toBe(SPRITE)\n\n    draw(true)\n    expect(gs.wScreenWave).toBe(120)\n    expect(gs.sWaveProgression).toBe(-8)\n    expect(at(fb, 218, 8)).toBe(TILE)\n    expect(at(fb, 210, 8)).not.toBe(TILE)\n    expect(at(fb, 240, 169)).toBe(SPRITE)\n  })\n})",
+          "to": "describe('battle transition and supplemental effects', () => {\nit('入场切换起点中段终点可区分，重复中段不变且伤害数字在切换之后', () => {\n    const bg = solidBg(BG)\n    const frames = digitFrames()\n    const present = new BattlePresent()\n    const gs = battleGs()\n    const state = battleState([], [battleEnemy(enemy(3))])\n    state.introFade = { step: 0, total: 6 }\n    const pack = {\n      battleSprites: new Map(),\n      battleBgs: new Map([[0, bg]]),\n      playerRoles: { roles: [] },\n      spells: [],\n      items: [],\n      uiSpriteFrames: frames,\n    }\n    const fb = createFramebuffer()\n    const commands = [\n      {\n        cmd: {\n          op: 'showDamageNum' as const,\n          target: { kind: 'enemy' as const, idx: 0 },\n          value: 7,\n          color: 'yellow' as const,\n        },\n      },\n    ]\n\n    const draw = (passCommands: boolean) => {\n      const beforeBg = bitmapView(bg)\n      const beforeFade = battleView(state)\n      present.draw(fb, gs, state, passCommands ? commands : [], pack, 0)\n      expect(bitmapView(bg)).toEqual(beforeBg)\n      expect(battleView(state)).toEqual(beforeFade)\n    }\n\n    fb.indices.fill(WORLD)\n    draw(true)\n    // step 0：完成轮数 0，场景像素仍是入场前的世界色。伤害在切换之后，个位仍是黄 7。\n    expect(at(fb, 0, 0)).toBe(WORLD)\n    expect(at(fb, 162, 10)).toBe(WORLD)\n    expect(at(fb, 160, 10)).toBe(yellowDigit(7))\n\n    state.introFade = { step: 3, total: 6 }\n    const mid = battleView(state)\n    draw(false)\n    expect(battleView(state)).toEqual(mid)\n    // completedRounds=3。k%6=0 已换入背景，k%6=2 仍是世界色。\n    expect(at(fb, 0, 0)).toBe(BG)\n    expect(at(fb, 162, 10)).toBe(WORLD)\n    expect(at(fb, 160, 10)).toBe(yellowDigit(7))\n    const midPixel = at(fb, 162, 10)\n\n    draw(false)\n    expect(at(fb, 162, 10)).toBe(midPixel)\n    expect(at(fb, 0, 0)).toBe(BG)\n    expect(battleView(state).introFade).toEqual({ step: 3, total: 6 })\n\n    state.introFade = { step: 6, total: 6 }\n    draw(false)\n    expect(at(fb, 0, 0)).toBe(BG)\n    expect(at(fb, 162, 10)).toBe(BG)\n    expect(at(fb, 160, 10)).toBe(yellowDigit(7))\n  })\n\nit('召唤crossfade高位立即换低位逐步逼近，重复终点不重开', () => {\n    const bg = solidBg(WORLD)\n    const god = image(1, 1, 0x77)\n    const present = new BattlePresent()\n    const gs = battleGs()\n    const state = battleState([], [])\n    state.battleAnim = summonAnim(undefined)\n    const pack = {\n      battleSprites: new Map([\n        ['god', { frames: [{ width: 1, height: 1, indices: god.indices, opaque: god.opaque }] }],\n      ]),\n      battleBgs: new Map([[0, bg]]),\n      playerRoles: { roles: [] },\n      spells: [],\n      items: [],\n    }\n    const fb = createFramebuffer()\n\n    const draw = () => {\n      const beforeBg = bitmapView(bg)\n      const beforeGod = bitmapView(god)\n      const before = battleView(state)\n      present.draw(fb, gs, state, [], pack, 0)\n      expect(bitmapView(bg)).toEqual(beforeBg)\n      expect(bitmapView(god)).toEqual(beforeGod)\n      expect(battleView(state)).toEqual(before)\n    }\n\n    fb.indices.fill(0)\n    draw()\n    expect(at(fb, 0, 0)).toBe(WORLD)\n\n    bg.indices.fill(SUMMON_TO)\n    state.battleAnim = summonAnim(0)\n    draw()\n    // 只走完相位 0：高位换成 5，低位留 3。相邻像素还没轮到，仍是上一帧。\n    expect(at(fb, 0, 0)).toBe(0x53)\n    expect(at(fb, 1, 0)).toBe(WORLD)\n\n    state.battleAnim = summonAnim(6)\n    draw()\n    expect(at(fb, 0, 0)).toBe(0x54)\n    expect(at(fb, 1, 0)).toBe(0x53)\n\n    state.battleAnim = summonAnim(42)\n    draw()\n    expect(at(fb, 0, 0)).toBe(SUMMON_TO)\n    expect(at(fb, 1, 0)).toBe(0x59)\n    draw()\n    expect(at(fb, 0, 0)).toBe(SUMMON_TO)\n    expect(at(fb, 1, 0)).toBe(0x59)\n    expect(state.battleAnim.summon?.fadeStep).toBe(42)\n  })\n\nit('战斗补帧不推进屏波，精灵像素留在原位', () => {\n    resetScreenWavePhase()\n    const bg = solidBg(BG)\n    bg.indices[8 * 320 + 16] = WORLD_TILE_COLOR\n    const body = image(1, 1, SPRITE)\n    const present = new BattlePresent()\n    const gs = battleGs()\n    gs.wScreenWave = 128\n    gs.sWaveProgression = -8\n    const player = battlePlayer(0)\n    const state = battleState([player], [])\n    const pack = {\n      battleSprites: new Map([\n        [\n          'player-1',\n          { frames: [{ width: 1, height: 1, indices: body.indices, opaque: body.opaque }] },\n        ],\n      ]),\n      battleBgs: new Map([[0, bg]]),\n      playerRoles: rolesOf([role(0, { spriteNumInBattle: 1 })]),\n      spells: [],\n      items: [],\n    }\n    const fb = createFramebuffer()\n    const draw = (advance: boolean) => {\n      const beforeBg = bitmapView(bg)\n      const beforeBody = bitmapView(body)\n      present.draw(fb, gs, state, [], pack, 0, advance)\n      expect(bitmapView(bg)).toEqual(beforeBg)\n      expect(bitmapView(body)).toEqual(beforeBody)\n      expect(gs.party).toEqual({ x: 0, y: 0, facing: 'down' })\n    }\n\n    draw(false)\n    expect(gs.wScreenWave).toBe(128)\n    expect(gs.sWaveProgression).toBe(-8)\n    // 背景 (16,8) 左移 126 到 (210,8)。一人锚 (240,170)，1×1 精灵在 (240,169)，不跟波走。\n    expect(at(fb, 210, 8)).toBe(WORLD_TILE_COLOR)\n    expect(at(fb, 240, 169)).toBe(SPRITE)\n\n    draw(false)\n    expect(gs.wScreenWave).toBe(128)\n    expect(at(fb, 210, 8)).toBe(WORLD_TILE_COLOR)\n    expect(at(fb, 240, 169)).toBe(SPRITE)\n\n    draw(true)\n    expect(gs.wScreenWave).toBe(120)\n    expect(gs.sWaveProgression).toBe(-8)\n    expect(at(fb, 218, 8)).toBe(WORLD_TILE_COLOR)\n    expect(at(fb, 210, 8)).not.toBe(WORLD_TILE_COLOR)\n    expect(at(fb, 240, 169)).toBe(SPRITE)\n  })\n})",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "composition-responsibilities-4",
+      "path": "packages/game/src/present/__tests__/grok-composition/p15-battle-ui.test.ts",
+      "reason": "Resolve each actual caller boundary and preserve every callback/literal/hook; only suite/title, explicit alpha-renames and relative imports change. P12 splits effects from overlay with its original cleanup per original case.",
+      "changes": [
+        {
+          "from": "import { drawBattleUI } from '../../battle/draw-battle-ui.js'",
+          "to": "import { drawBattleUI } from '../draw-battle-ui.js'",
+          "count": 1
+        },
+        {
+          "from": "import {\n  battleGs,\n  battlePlayer,\n  battleState,\n  item,\n  role,\n  rolesOf,\n} from '../battle-render-fixtures.js'",
+          "to": "import { battleGs, battlePlayer, battleState, item, role, rolesOf } from '../../__tests__/battle-render-fixtures.js'",
+          "count": 1
+        },
+        {
+          "from": "import { glyphsOf } from '../glyph-fixtures.js'",
+          "to": "import { glyphsOf } from '../../__tests__/glyph-fixtures.js'",
+          "count": 1
+        },
+        {
+          "from": "import { cyanDigit, digitFrames, yellowDigit } from '../menu-ui-fixtures.js'",
+          "to": "import { cyanDigit, digitFrames, yellowDigit } from '../../__tests__/menu-ui-fixtures.js'",
+          "count": 1
+        },
+        {
+          "from": "import { at, solidIndexedImage as image } from '../raster-fixtures.js'",
+          "to": "import { at, solidIndexedImage as image } from '../../__tests__/raster-fixtures.js'",
+          "count": 1
+        },
+        {
+          "from": "import { battleView } from '../render-input-snapshots.js'",
+          "to": "import { battleView } from '../../__tests__/render-input-snapshots.js'",
+          "count": 1
+        },
+        {
+          "from": "function uiFrames() {\n  const frames = digitFrames()\n  frames[40] = image(1, 1, 0x06)\n  frames[42] = image(1, 1, 0x06)\n  frames[68] = image(1, 1, 0x68)\n  return frames\n}",
+          "to": "function selectionFrames() {\n  const frames = digitFrames()\n  frames[40] = image(1, 1, 0x06)\n  frames[42] = image(1, 1, 0x06)\n  frames[68] = image(1, 1, 0x68)\n  return frames\n}",
+          "count": 1
+        },
+        {
+          "from": "function paint(count: number, hp: number[], frames: ReturnType<typeof uiFrames>) {\n  const players = hp.map((_, index) => battlePlayer(index))\n  const cast = rolesOf(hp.map((value, index) => role(index, { hp: value, maxHP: 200 })))\n  const state = battleState(players, [], {\n    uiState: 'selectMove',\n    menuState: 'main',\n    selectingPlayerIdx: count - 1,\n    selectedAction: 0,\n  })\n  const gs = battleGs()\n  const fb = createFramebuffer()\n  const before = battleView(state)\n  const beforeFrames = frames.map((frame) => frame.indices[0])\n  drawBattleUI(fb, state, cast, [], [], gs, undefined, frames)\n  expect(battleView(state)).toEqual(before)\n  expect(frames.map((frame) => frame.indices[0])).toEqual(beforeFrames)\n  return fb\n}",
+          "to": "function drawRoster(count: number, hp: number[], frames: ReturnType<typeof selectionFrames>) {\n  const players = hp.map((_, index) => battlePlayer(index))\n  const cast = rolesOf(hp.map((value, index) => role(index, { hp: value, maxHP: 200 })))\n  const state = battleState(players, [], {\n    uiState: 'selectMove',\n    menuState: 'main',\n    selectingPlayerIdx: count - 1,\n    selectedAction: 0,\n  })\n  const gs = battleGs()\n  const fb = createFramebuffer()\n  const before = battleView(state)\n  const beforeFrames = frames.map((frame) => frame.indices[0])\n  drawBattleUI(fb, state, cast, [], [], gs, undefined, frames)\n  expect(battleView(state)).toEqual(before)\n  expect(frames.map((frame) => frame.indices[0])).toEqual(beforeFrames)\n  return fb\n}",
+          "count": 1
+        },
+        {
+          "from": "describe('P15 战斗 UI 多态', () => {\n  beforeEach(() => {\n    vi.spyOn(Date, 'now').mockReturnValue(0)\n  })\n\n  afterEach(() => {\n    vi.restoreAllMocks()\n  })\n\n  it('P15 一人二人三人的当前行动箭头和HP个位落在各自锚点', () => {\n    const frames = uiFrames()\n    // HP 个位：框 x=91+77*i，右对齐 4 位，pos.x+26 的个位再 +18，y=170。\n    const hpAt = [\n      [135, 11],\n      [212, 22],\n      [289, 33],\n    ] as const\n    // 箭头 = 锚点 + (-8,-74)。一人 (240,170)、二人第二人 (256,152)、三人第三人 (270,146)。\n    const arrows = [\n      [232, 96],\n      [248, 78],\n      [262, 72],\n    ] as const\n\n    for (let count = 1; count <= 3; count++) {\n      const fb = paint(count, [11, 22, 33].slice(0, count), frames)\n      for (let slot = 0; slot < 3; slot++) {\n        const [x, hp] = hpAt[slot]!\n        const expected = slot < count ? yellowDigit(hp % 10) : 0\n        expect(at(fb, x, 170)).toBe(expected)\n      }\n      const [ax, ay] = arrows[count - 1]!\n      expect(at(fb, ax, ay)).toBe(0x68)\n      for (const [otherX, otherY] of arrows) {\n        if (otherX !== ax || otherY !== ay) expect(at(fb, otherX, otherY)).not.toBe(0x68)\n      }\n    }\n  })\n\n  it('P15 预填禁用菜单按需求9与8着色，运行时MP数字是8不是静态10', () => {\n    // drawBattleUI 只按 menu.items[].disabled 上色，青色现行数字读 rgwMP。\n    // MP 不足如何变成 disabled 不在本链：见 battle-system.test.ts\n    // 「建表:MP 不足 → disabled 灰项(magicmenu.c:347-352)」。\n    const frames = uiFrames()\n    const cast = rolesOf([role(0, { mp: 10 })])\n    const gs = battleGs()\n    gs.PlayerRolesRuntime.rgwMP[0] = 8\n    const menu = {\n      items: [\n        { id: 1, label: '甲', rightText: 'MP 9', disabled: true },\n        { id: 2, label: '乙', rightText: 'MP 8', disabled: false },\n      ],\n      cursor: 0,\n      pageSize: 15,\n      pageOffset: 0,\n    }\n    const state = battleState([battlePlayer(0)], [], {\n      uiState: 'selectMove',\n      menuState: 'magicSelect',\n      selectingPlayerIdx: 0,\n      magicSelect: menu,\n    })\n    const glyphs = glyphsOf(['甲', '乙'])\n    const fb = createFramebuffer()\n    const beforeRoleMp = cast.roles[0]!.mp\n    const beforeRuntime = gs.PlayerRolesRuntime.rgwMP[0]\n    const beforeMenu = structuredClone(menu)\n    drawBattleUI(fb, state, cast, [], [], gs, glyphs, frames)\n    expect(cast.roles[0]!.mp).toBe(beforeRoleMp)\n    expect(gs.PlayerRolesRuntime.rgwMP[0]).toBe(beforeRuntime)\n    expect(menu).toEqual(beforeMenu)\n    // 需求个位 (33,14)，现行个位 (68,14)。选中但 MP 不够是 0x1C。\n    expect(at(fb, 33, 14)).toBe(yellowDigit(9))\n    expect(at(fb, 68, 14)).toBe(cyanDigit(8))\n    expect(at(fb, 35, 54)).toBe(0x1c)\n\n    menu.cursor = 1\n    const fbOn = createFramebuffer()\n    drawBattleUI(fbOn, state, cast, [], [], gs, glyphs, frames)\n    expect(gs.PlayerRolesRuntime.rgwMP[0]).toBe(8)\n    expect(cast.roles[0]!.mp).toBe(10)\n    expect(at(fbOn, 33, 14)).toBe(yellowDigit(8))\n    expect(at(fbOn, 68, 14)).toBe(cyanDigit(8))\n    // 三项一列宽 87。光标在第二项时，第一项退回未选暗色 0x18，第二项是 0xF9。\n    expect(at(fbOn, 35, 54)).toBe(0x18)\n    expect(at(fbOn, 122, 54)).toBe(0xf9)\n  })\n\n  it('P15 正常单人队的物品数量2画青字，数量1不画', () => {\n    const frames = uiFrames()\n    const gs = battleGs()\n    const cast = rolesOf([role(0, { hp: 11 })])\n    const bead = item(1)\n    const items = [bead]\n    const itemMenu = {\n      items: [{ id: bead.id, label: '甲', rightText: '×2', disabled: false }],\n      cursor: 0,\n      pageSize: 21,\n      pageOffset: 0,\n    }\n    const withAmount = battleState([battlePlayer(0)], [], {\n      uiState: 'selectMove',\n      menuState: 'useItemSelect',\n      itemSelect: itemMenu,\n    })\n    const amountFb = createFramebuffer()\n    const beforeItems = items.map((entry) => ({ ...entry, flags: { ...entry.flags } }))\n    drawBattleUI(amountFb, withAmount, cast, [], items, gs, glyphsOf(['甲']), frames)\n    expect(items.map((entry) => ({ ...entry, flags: { ...entry.flags } }))).toEqual(beforeItems)\n    expect(at(amountFb, 102, 17)).toBe(cyanDigit(2))\n\n    itemMenu.items[0]!.rightText = '×1'\n    const oneFb = createFramebuffer()\n    drawBattleUI(oneFb, withAmount, cast, [], items, gs, glyphsOf(['甲']), frames)\n    expect(items).toHaveLength(1)\n    expect(items[0]?.id).toBe(bead.id)\n    expect(at(oneFb, 102, 17)).toBe(0)\n  })\n\n  it('P15 防御输入:未定义的roleId不画HP，已定义角色仍画', () => {\n    // roleId 99 不是可组队角色。正控是已定义的 role 0；99 只验证缺资料时跳过该槽。\n    const frames = uiFrames()\n    const gs = battleGs()\n    const cast = rolesOf([role(0, { hp: 11 })])\n    const missing = battleState([battlePlayer(0), battlePlayer(99)], [], {\n      uiState: 'selectMove',\n      menuState: 'main',\n    })\n    const fb = createFramebuffer()\n    const before = battleView(missing)\n    drawBattleUI(fb, missing, cast, [], [], gs, undefined, frames)\n    expect(battleView(missing)).toEqual(before)\n    expect(at(fb, 135, 170)).toBe(yellowDigit(1))\n    expect(at(fb, 212, 170)).toBe(0)\n  })\n\n  it('P15 单人合击图标更暗，两人健康时合击图标较亮', () => {\n    const frames = uiFrames()\n    const gs = battleGs()\n    const one = battleState([battlePlayer(0)], [], {\n      uiState: 'selectMove',\n      menuState: 'main',\n      selectedAction: 0,\n      selectingPlayerIdx: 0,\n    })\n    const fbOne = createFramebuffer()\n    drawBattleUI(fbOne, one, rolesOf([role(0)]), [], [], gs, undefined, frames)\n    // 图标低位 6 再减 4。不可用色带 0x10 → 0x12；可用色带 0 → 0x02。攻击选中仍是原色 0x06。\n    expect(at(fbOne, 54, 155)).toBe(0x12)\n    expect(at(fbOne, 27, 140)).toBe(0x06)\n\n    const two = battleState([battlePlayer(0), battlePlayer(1)], [], {\n      uiState: 'selectMove',\n      menuState: 'main',\n      selectedAction: 0,\n      selectingPlayerIdx: 0,\n    })\n    const fbTwo = createFramebuffer()\n    const before = battleView(two)\n    drawBattleUI(fbTwo, two, rolesOf([role(0), role(1)]), [], [], gs, undefined, frames)\n    expect(battleView(two)).toEqual(before)\n    expect(at(fbTwo, 54, 155)).toBe(0x02)\n    expect(at(fbTwo, 27, 140)).toBe(0x06)\n  })\n})",
+          "to": "describe('battle selection layout and value pixels', () => {\nbeforeEach(() => {\n    vi.spyOn(Date, 'now').mockReturnValue(0)\n  })\n\nafterEach(() => {\n    vi.restoreAllMocks()\n  })\n\nit('一人二人三人的当前行动箭头和HP个位落在各自锚点', () => {\n    const frames = selectionFrames()\n    // HP 个位：框 x=91+77*i，右对齐 4 位，pos.x+26 的个位再 +18，y=170。\n    const hpAt = [\n      [135, 11],\n      [212, 22],\n      [289, 33],\n    ] as const\n    // 箭头 = 锚点 + (-8,-74)。一人 (240,170)、二人第二人 (256,152)、三人第三人 (270,146)。\n    const arrows = [\n      [232, 96],\n      [248, 78],\n      [262, 72],\n    ] as const\n\n    for (let count = 1; count <= 3; count++) {\n      const fb = drawRoster(count, [11, 22, 33].slice(0, count), frames)\n      for (let slot = 0; slot < 3; slot++) {\n        const [x, hp] = hpAt[slot]!\n        const expected = slot < count ? yellowDigit(hp % 10) : 0\n        expect(at(fb, x, 170)).toBe(expected)\n      }\n      const [ax, ay] = arrows[count - 1]!\n      expect(at(fb, ax, ay)).toBe(0x68)\n      for (const [otherX, otherY] of arrows) {\n        if (otherX !== ax || otherY !== ay) expect(at(fb, otherX, otherY)).not.toBe(0x68)\n      }\n    }\n  })\n\nit('预填禁用菜单按需求9与8着色，运行时MP数字是8不是静态10', () => {\n    // drawBattleUI 只按 menu.items[].disabled 上色，青色现行数字读 rgwMP。\n    // MP 不足如何变成 disabled 不在本链：见 battle-system.test.ts\n    // 「建表:MP 不足 → disabled 灰项(magicmenu.c:347-352)」。\n    const frames = selectionFrames()\n    const cast = rolesOf([role(0, { mp: 10 })])\n    const gs = battleGs()\n    gs.PlayerRolesRuntime.rgwMP[0] = 8\n    const menu = {\n      items: [\n        { id: 1, label: '甲', rightText: 'MP 9', disabled: true },\n        { id: 2, label: '乙', rightText: 'MP 8', disabled: false },\n      ],\n      cursor: 0,\n      pageSize: 15,\n      pageOffset: 0,\n    }\n    const state = battleState([battlePlayer(0)], [], {\n      uiState: 'selectMove',\n      menuState: 'magicSelect',\n      selectingPlayerIdx: 0,\n      magicSelect: menu,\n    })\n    const glyphs = glyphsOf(['甲', '乙'])\n    const fb = createFramebuffer()\n    const beforeRoleMp = cast.roles[0]!.mp\n    const beforeRuntime = gs.PlayerRolesRuntime.rgwMP[0]\n    const beforeMenu = structuredClone(menu)\n    drawBattleUI(fb, state, cast, [], [], gs, glyphs, frames)\n    expect(cast.roles[0]!.mp).toBe(beforeRoleMp)\n    expect(gs.PlayerRolesRuntime.rgwMP[0]).toBe(beforeRuntime)\n    expect(menu).toEqual(beforeMenu)\n    // 需求个位 (33,14)，现行个位 (68,14)。选中但 MP 不够是 0x1C。\n    expect(at(fb, 33, 14)).toBe(yellowDigit(9))\n    expect(at(fb, 68, 14)).toBe(cyanDigit(8))\n    expect(at(fb, 35, 54)).toBe(0x1c)\n\n    menu.cursor = 1\n    const fbOn = createFramebuffer()\n    drawBattleUI(fbOn, state, cast, [], [], gs, glyphs, frames)\n    expect(gs.PlayerRolesRuntime.rgwMP[0]).toBe(8)\n    expect(cast.roles[0]!.mp).toBe(10)\n    expect(at(fbOn, 33, 14)).toBe(yellowDigit(8))\n    expect(at(fbOn, 68, 14)).toBe(cyanDigit(8))\n    // 三项一列宽 87。光标在第二项时，第一项退回未选暗色 0x18，第二项是 0xF9。\n    expect(at(fbOn, 35, 54)).toBe(0x18)\n    expect(at(fbOn, 122, 54)).toBe(0xf9)\n  })\n\nit('正常单人队的物品数量2画青字，数量1不画', () => {\n    const frames = selectionFrames()\n    const gs = battleGs()\n    const cast = rolesOf([role(0, { hp: 11 })])\n    const bead = item(1)\n    const items = [bead]\n    const itemMenu = {\n      items: [{ id: bead.id, label: '甲', rightText: '×2', disabled: false }],\n      cursor: 0,\n      pageSize: 21,\n      pageOffset: 0,\n    }\n    const withAmount = battleState([battlePlayer(0)], [], {\n      uiState: 'selectMove',\n      menuState: 'useItemSelect',\n      itemSelect: itemMenu,\n    })\n    const amountFb = createFramebuffer()\n    const beforeItems = items.map((entry) => ({ ...entry, flags: { ...entry.flags } }))\n    drawBattleUI(amountFb, withAmount, cast, [], items, gs, glyphsOf(['甲']), frames)\n    expect(items.map((entry) => ({ ...entry, flags: { ...entry.flags } }))).toEqual(beforeItems)\n    expect(at(amountFb, 102, 17)).toBe(cyanDigit(2))\n\n    itemMenu.items[0]!.rightText = '×1'\n    const oneFb = createFramebuffer()\n    drawBattleUI(oneFb, withAmount, cast, [], items, gs, glyphsOf(['甲']), frames)\n    expect(items).toHaveLength(1)\n    expect(items[0]?.id).toBe(bead.id)\n    expect(at(oneFb, 102, 17)).toBe(0)\n  })\n\nit('防御输入:未定义的roleId不画HP，已定义角色仍画', () => {\n    // roleId 99 不是可组队角色。正控是已定义的 role 0；99 只验证缺资料时跳过该槽。\n    const frames = selectionFrames()\n    const gs = battleGs()\n    const cast = rolesOf([role(0, { hp: 11 })])\n    const missing = battleState([battlePlayer(0), battlePlayer(99)], [], {\n      uiState: 'selectMove',\n      menuState: 'main',\n    })\n    const fb = createFramebuffer()\n    const before = battleView(missing)\n    drawBattleUI(fb, missing, cast, [], [], gs, undefined, frames)\n    expect(battleView(missing)).toEqual(before)\n    expect(at(fb, 135, 170)).toBe(yellowDigit(1))\n    expect(at(fb, 212, 170)).toBe(0)\n  })\n\nit('单人合击图标更暗，两人健康时合击图标较亮', () => {\n    const frames = selectionFrames()\n    const gs = battleGs()\n    const one = battleState([battlePlayer(0)], [], {\n      uiState: 'selectMove',\n      menuState: 'main',\n      selectedAction: 0,\n      selectingPlayerIdx: 0,\n    })\n    const fbOne = createFramebuffer()\n    drawBattleUI(fbOne, one, rolesOf([role(0)]), [], [], gs, undefined, frames)\n    // 图标低位 6 再减 4。不可用色带 0x10 → 0x12；可用色带 0 → 0x02。攻击选中仍是原色 0x06。\n    expect(at(fbOne, 54, 155)).toBe(0x12)\n    expect(at(fbOne, 27, 140)).toBe(0x06)\n\n    const two = battleState([battlePlayer(0), battlePlayer(1)], [], {\n      uiState: 'selectMove',\n      menuState: 'main',\n      selectedAction: 0,\n      selectingPlayerIdx: 0,\n    })\n    const fbTwo = createFramebuffer()\n    const before = battleView(two)\n    drawBattleUI(fbTwo, two, rolesOf([role(0), role(1)]), [], [], gs, undefined, frames)\n    expect(battleView(two)).toEqual(before)\n    expect(at(fbTwo, 54, 155)).toBe(0x02)\n    expect(at(fbTwo, 27, 140)).toBe(0x06)\n  })\n})",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "composition-responsibilities-5",
+      "path": "packages/game/src/present/__tests__/grok-composition/p16-dialog.test.ts",
+      "reason": "Resolve each actual caller boundary and preserve every callback/literal/hook; only suite/title, explicit alpha-renames and relative imports change. P12 splits effects from overlay with its original cleanup per original case.",
+      "changes": [
+        {
+          "from": "import { appendDialogLine, drawDialogBox, startDialogLine } from '../../dialog-box.js'",
+          "to": "import { appendDialogLine, drawDialogBox, startDialogLine } from './dialog-box.js'",
+          "count": 1
+        },
+        {
+          "from": "import { createFramebuffer } from '../../framebuffer.js'",
+          "to": "import { createFramebuffer } from './framebuffer.js'",
+          "count": 1
+        },
+        {
+          "from": "import { presentFrame } from '../../present.js'",
+          "to": "import { presentFrame } from './present.js'",
+          "count": 1
+        },
+        {
+          "from": "import { DIALOG, TITLE } from '../composition-colors.js'",
+          "to": "import { DIALOG, TITLE } from './__tests__/composition-colors.js'",
+          "count": 1
+        },
+        {
+          "from": "import { glyphsOf } from '../glyph-fixtures.js'",
+          "to": "import { glyphsOf } from './__tests__/glyph-fixtures.js'",
+          "count": 1
+        },
+        {
+          "from": "import { digitFrames, yellowDigit } from '../menu-ui-fixtures.js'",
+          "to": "import { digitFrames, yellowDigit } from './__tests__/menu-ui-fixtures.js'",
+          "count": 1
+        },
+        {
+          "from": "import {\n  at,\n  hiddenSprite,\n  solidIndexedImage as image,\n  SENTINEL,\n  sprite,\n} from '../raster-fixtures.js'",
+          "to": "import { at, hiddenSprite, solidIndexedImage as image, SENTINEL, sprite } from './__tests__/raster-fixtures.js'",
+          "count": 1
+        },
+        {
+          "from": "import { bitmapView, worldView } from '../render-input-snapshots.js'",
+          "to": "import { bitmapView, worldView } from './__tests__/render-input-snapshots.js'",
+          "count": 1
+        },
+        {
+          "from": "import { baseContext, emptyMap, exploreState } from '../world-render-fixtures.js'",
+          "to": "import { baseContext, emptyMap, exploreState } from './__tests__/world-render-fixtures.js'",
+          "count": 1
+        },
+        {
+          "from": "describe('P16 对话框绘制', () => {\n  it('P16 旁白数字走黄色精灵，缺UI帧时不画框并把数字当字形', () => {\n    const frames = narrationFrames()\n    const glyphs = glyphsOf(['甲', '3'])\n    const state = startDialogLine('甲3', { style: 'narration' })\n    state.charsRevealed = 2\n    const fb = createFramebuffer()\n    fb.indices.fill(SENTINEL)\n    const before = structuredClone(state)\n    const beforeFrame = bitmapView(frames[44]!)\n    drawDialogBox(fb, state, glyphs, { uiSpriteFrames: frames })\n    expect(structuredClone(state)).toEqual(before)\n    expect(bitmapView(frames[44]!)).toEqual(beforeFrame)\n    // len=3，框原点 (148,40)，文字 (160,50)。'3' 在全角之后，黄数字 y+4。\n    expect(at(fb, 148, 40)).toBe(0x44)\n    expect(at(fb, 160, 50)).toBe(0)\n    expect(at(fb, 176, 54)).toBe(yellowDigit(3))\n\n    const bare = createFramebuffer()\n    bare.indices.fill(SENTINEL)\n    drawDialogBox(bare, state, glyphs)\n    expect(at(bare, 148, 40)).toBe(SENTINEL)\n    expect(at(bare, 176, 54)).toBe(SENTINEL)\n    expect(at(bare, 160, 50)).toBe(0)\n    // 无 UI 帧时 '3' 走字形，落在正文行 (176,50)，不是黄精灵的 y+4。\n    expect(at(bare, 176, 50)).toBe(0)\n    expect(at(bare, 177, 50)).toBe(SENTINEL)\n    expect(structuredClone(state)).toEqual(before)\n  })\n\n  it('P16 立绘不透明0盖住底色，透明孔保留底色，缺立绘资源仍画正文', () => {\n    const portrait = sprite(\n      2,\n      2,\n      [\n        { x: 0, y: 0, index: 0 },\n        { x: 0, y: 1, index: 0x77 },\n      ],\n      { x: 1, y: 2 },\n    )\n    const glyphs = glyphsOf(['李', '甲', ':'])\n    const state = titled(4)\n    const fb = createFramebuffer()\n    fb.indices.fill(SENTINEL)\n    const before = structuredClone(state)\n    const beforePortrait = bitmapView(portrait)\n    drawDialogBox(fb, state, glyphs, { portraitFrames: new Map([[4, portrait]]) })\n    expect(structuredClone(state)).toEqual(before)\n    expect(bitmapView(portrait)).toEqual(beforePortrait)\n    // bottom 立绘锚 (270 - w/2, 144 - h/2) = (269,143)。\n    expect(at(fb, 269, 143)).toBe(0)\n    expect(at(fb, 270, 143)).toBe(SENTINEL)\n    expect(at(fb, 269, 144)).toBe(0x77)\n    expect(at(fb, 4, 108)).toBe(TITLE)\n    expect(at(fb, 20, 126)).toBe(DIALOG)\n\n    state.portraitIcon = 99\n    const missing = createFramebuffer()\n    missing.indices.fill(SENTINEL)\n    drawDialogBox(missing, state, glyphs, { portraitFrames: new Map([[4, portrait]]) })\n    expect(at(missing, 269, 143)).toBe(SENTINEL)\n    expect(at(missing, 270, 143)).toBe(SENTINEL)\n    expect(at(missing, 20, 126)).toBe(DIALOG)\n    expect(at(missing, 4, 108)).toBe(TITLE)\n  })\n\n  it('P16 presentFrame里立绘透明孔露出地块，不透明0写成0，姓名和正文颜色不同', () => {\n    const tile = image(2, 2, 0x41)\n    const map = emptyMap(2, 2)\n    map.cells[0]![0] = { lower: 1, upper: 0 }\n    const portrait = sprite(\n      2,\n      2,\n      [\n        { x: 0, y: 0, index: 0 },\n        { x: 0, y: 1, index: 0x77 },\n      ],\n      { x: 1, y: 2 },\n    )\n    const gs = exploreState({ x: 0, y: 0 })\n    gs.camera = { x: -285, y: -151 }\n    const state = titled(4)\n    gs.dialogBox = state\n    const ctx = baseContext({\n      tilemap: map,\n      tileImages: { get: (id) => (id === 1 ? tile : undefined) },\n      partyFrames: [hiddenSprite(1, 1)],\n      glyphs: glyphsOf(['李', '甲', ':']),\n      dialogAssets: { portraitFrames: new Map([[4, portrait]]) },\n    })\n    const fb = createFramebuffer()\n    fb.indices.fill(SENTINEL)\n    const beforeWorld = worldView(gs)\n    const beforeDialog = structuredClone(state)\n    const beforeTile = bitmapView(tile)\n    const beforePortrait = bitmapView(portrait)\n    presentFrame(fb, gs, ctx)\n    expect(worldView(gs)).toEqual(beforeWorld)\n    expect(structuredClone(gs.dialogBox)).toEqual(beforeDialog)\n    expect(bitmapView(tile)).toEqual(beforeTile)\n    expect(bitmapView(portrait)).toEqual(beforePortrait)\n    expect(at(fb, 269, 143)).toBe(0)\n    expect(at(fb, 270, 143)).toBe(0x41)\n    expect(at(fb, 269, 144)).toBe(0x77)\n    expect(at(fb, 4, 108)).toBe(TITLE)\n    expect(at(fb, 20, 126)).toBe(DIALOG)\n    expect(fb.indices[0]).toBe(0)\n\n    state.portraitIcon = 99\n    presentFrame(fb, gs, ctx)\n    expect(at(fb, 269, 143)).toBe(0x41)\n    expect(at(fb, 270, 143)).toBe(0x41)\n    expect(at(fb, 20, 126)).toBe(DIALOG)\n    expect(at(fb, 4, 108)).toBe(TITLE)\n    expect(structuredClone(state).portraitIcon).toBe(99)\n  })\n})",
+          "to": "describe('dialogue assets and world composition', () => {\nit('旁白数字走黄色精灵，缺UI帧时不画框并把数字当字形', () => {\n    const frames = narrationFrames()\n    const glyphs = glyphsOf(['甲', '3'])\n    const state = startDialogLine('甲3', { style: 'narration' })\n    state.charsRevealed = 2\n    const fb = createFramebuffer()\n    fb.indices.fill(SENTINEL)\n    const before = structuredClone(state)\n    const beforeFrame = bitmapView(frames[44]!)\n    drawDialogBox(fb, state, glyphs, { uiSpriteFrames: frames })\n    expect(structuredClone(state)).toEqual(before)\n    expect(bitmapView(frames[44]!)).toEqual(beforeFrame)\n    // len=3，框原点 (148,40)，文字 (160,50)。'3' 在全角之后，黄数字 y+4。\n    expect(at(fb, 148, 40)).toBe(0x44)\n    expect(at(fb, 160, 50)).toBe(0)\n    expect(at(fb, 176, 54)).toBe(yellowDigit(3))\n\n    const bare = createFramebuffer()\n    bare.indices.fill(SENTINEL)\n    drawDialogBox(bare, state, glyphs)\n    expect(at(bare, 148, 40)).toBe(SENTINEL)\n    expect(at(bare, 176, 54)).toBe(SENTINEL)\n    expect(at(bare, 160, 50)).toBe(0)\n    // 无 UI 帧时 '3' 走字形，落在正文行 (176,50)，不是黄精灵的 y+4。\n    expect(at(bare, 176, 50)).toBe(0)\n    expect(at(bare, 177, 50)).toBe(SENTINEL)\n    expect(structuredClone(state)).toEqual(before)\n  })\n\nit('立绘不透明0盖住底色，透明孔保留底色，缺立绘资源仍画正文', () => {\n    const portrait = sprite(\n      2,\n      2,\n      [\n        { x: 0, y: 0, index: 0 },\n        { x: 0, y: 1, index: 0x77 },\n      ],\n      { x: 1, y: 2 },\n    )\n    const glyphs = glyphsOf(['李', '甲', ':'])\n    const state = titled(4)\n    const fb = createFramebuffer()\n    fb.indices.fill(SENTINEL)\n    const before = structuredClone(state)\n    const beforePortrait = bitmapView(portrait)\n    drawDialogBox(fb, state, glyphs, { portraitFrames: new Map([[4, portrait]]) })\n    expect(structuredClone(state)).toEqual(before)\n    expect(bitmapView(portrait)).toEqual(beforePortrait)\n    // bottom 立绘锚 (270 - w/2, 144 - h/2) = (269,143)。\n    expect(at(fb, 269, 143)).toBe(0)\n    expect(at(fb, 270, 143)).toBe(SENTINEL)\n    expect(at(fb, 269, 144)).toBe(0x77)\n    expect(at(fb, 4, 108)).toBe(TITLE)\n    expect(at(fb, 20, 126)).toBe(DIALOG)\n\n    state.portraitIcon = 99\n    const missing = createFramebuffer()\n    missing.indices.fill(SENTINEL)\n    drawDialogBox(missing, state, glyphs, { portraitFrames: new Map([[4, portrait]]) })\n    expect(at(missing, 269, 143)).toBe(SENTINEL)\n    expect(at(missing, 270, 143)).toBe(SENTINEL)\n    expect(at(missing, 20, 126)).toBe(DIALOG)\n    expect(at(missing, 4, 108)).toBe(TITLE)\n  })\n\nit('presentFrame里立绘透明孔露出地块，不透明0写成0，姓名和正文颜色不同', () => {\n    const tile = image(2, 2, 0x41)\n    const map = emptyMap(2, 2)\n    map.cells[0]![0] = { lower: 1, upper: 0 }\n    const portrait = sprite(\n      2,\n      2,\n      [\n        { x: 0, y: 0, index: 0 },\n        { x: 0, y: 1, index: 0x77 },\n      ],\n      { x: 1, y: 2 },\n    )\n    const gs = exploreState({ x: 0, y: 0 })\n    gs.camera = { x: -285, y: -151 }\n    const state = titled(4)\n    gs.dialogBox = state\n    const ctx = baseContext({\n      tilemap: map,\n      tileImages: { get: (id) => (id === 1 ? tile : undefined) },\n      partyFrames: [hiddenSprite(1, 1)],\n      glyphs: glyphsOf(['李', '甲', ':']),\n      dialogAssets: { portraitFrames: new Map([[4, portrait]]) },\n    })\n    const fb = createFramebuffer()\n    fb.indices.fill(SENTINEL)\n    const beforeWorld = worldView(gs)\n    const beforeDialog = structuredClone(state)\n    const beforeTile = bitmapView(tile)\n    const beforePortrait = bitmapView(portrait)\n    presentFrame(fb, gs, ctx)\n    expect(worldView(gs)).toEqual(beforeWorld)\n    expect(structuredClone(gs.dialogBox)).toEqual(beforeDialog)\n    expect(bitmapView(tile)).toEqual(beforeTile)\n    expect(bitmapView(portrait)).toEqual(beforePortrait)\n    expect(at(fb, 269, 143)).toBe(0)\n    expect(at(fb, 270, 143)).toBe(0x41)\n    expect(at(fb, 269, 144)).toBe(0x77)\n    expect(at(fb, 4, 108)).toBe(TITLE)\n    expect(at(fb, 20, 126)).toBe(DIALOG)\n    expect(fb.indices[0]).toBe(0)\n\n    state.portraitIcon = 99\n    presentFrame(fb, gs, ctx)\n    expect(at(fb, 269, 143)).toBe(0x41)\n    expect(at(fb, 270, 143)).toBe(0x41)\n    expect(at(fb, 20, 126)).toBe(DIALOG)\n    expect(at(fb, 4, 108)).toBe(TITLE)\n    expect(structuredClone(state).portraitIcon).toBe(99)\n  })\n})",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "replacements": [],
+  "registrations": [
+    {
+      "old": {
+        "file": "packages/game/src/present/__tests__/grok-composition/p11-world-layers.test.ts",
+        "ordinal": 0
+      },
+      "originalOrdinal": 0,
+      "current": {
+        "file": "packages/game/src/present/__tests__/world-composition.test.ts",
+        "titles": ["world actors and foreground occlusion"],
+        "template": "同屏队首跟随与NPC在sLayer翻转后交换前后，透明孔露出下一层"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/__tests__/grok-composition/p11-world-layers.test.ts",
+        "ordinal": 1
+      },
+      "originalOrdinal": 1,
+      "current": {
+        "file": "packages/game/src/present/__tests__/world-composition.test.ts",
+        "titles": ["world actors and foreground occlusion"],
+        "template": "前景cover盖住后排NPC，前排透明孔见cover色而不见后排"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/__tests__/grok-composition/p12-overlays.test.ts",
+        "ordinal": 0
+      },
+      "originalOrdinal": 0,
+      "current": {
+        "file": "packages/game/src/present/__tests__/world-effects.test.ts",
+        "titles": ["world post-processing and supplemental frames"],
+        "template": "advanceEffects为false时波幅和相位不变，为true时同一行像素改道"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/__tests__/grok-composition/p12-overlays.test.ts",
+        "ordinal": 1
+      },
+      "originalOrdinal": 1,
+      "current": {
+        "file": "packages/game/src/present/__tests__/world-effects.test.ts",
+        "titles": ["world post-processing and supplemental frames"],
+        "template": "偶数震屏补帧不减计数，再推进后改为上移"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/__tests__/grok-composition/p12-overlays.test.ts",
+        "ordinal": 2
+      },
+      "originalOrdinal": 2,
+      "current": {
+        "file": "packages/game/src/present/__tests__/world-effects.test.ts",
+        "titles": ["world post-processing and supplemental frames"],
+        "template": "场景0x4F被remap成0x4E，对话框同索引保持0x4F"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/__tests__/grok-composition/p12-overlays.test.ts",
+        "ordinal": 3
+      },
+      "originalOrdinal": 3,
+      "current": {
+        "file": "packages/game/src/present/__tests__/world-composition.test.ts",
+        "titles": ["menu and dialogue overlay order"],
+        "template": "菜单模式盖住左上角，event模式同一菜单栈不盖，对话像素两种模式都在"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/__tests__/grok-composition/p13-battle-commands.test.ts",
+        "ordinal": 0
+      },
+      "originalOrdinal": 0,
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/battle-feedback-composition.test.ts",
+        "titles": ["battle feedback lifetime and overlay order"],
+        "template": "后一条战斗消息替换前一条，对话盖住消息且到期后数字仍在上移"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/__tests__/grok-composition/p13-battle-commands.test.ts",
+        "ordinal": 1
+      },
+      "originalOrdinal": 1,
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/battle-feedback-composition.test.ts",
+        "titles": ["battle feedback lifetime and overlay order"],
+        "template": "结算框盖住消息点，演出结束后该点回到消息色"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/__tests__/grok-composition/p14-battle-fades.test.ts",
+        "ordinal": 0
+      },
+      "originalOrdinal": 0,
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/battle-effects-composition.test.ts",
+        "titles": ["battle transition and supplemental effects"],
+        "template": "入场切换起点中段终点可区分，重复中段不变且伤害数字在切换之后"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/__tests__/grok-composition/p14-battle-fades.test.ts",
+        "ordinal": 1
+      },
+      "originalOrdinal": 1,
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/battle-effects-composition.test.ts",
+        "titles": ["battle transition and supplemental effects"],
+        "template": "召唤crossfade高位立即换低位逐步逼近，重复终点不重开"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/__tests__/grok-composition/p14-battle-fades.test.ts",
+        "ordinal": 2
+      },
+      "originalOrdinal": 2,
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/battle-effects-composition.test.ts",
+        "titles": ["battle transition and supplemental effects"],
+        "template": "战斗补帧不推进屏波，精灵像素留在原位"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/__tests__/grok-composition/p15-battle-ui.test.ts",
+        "ordinal": 0
+      },
+      "originalOrdinal": 0,
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-ui.selection-pixels.test.ts",
+        "titles": ["battle selection layout and value pixels"],
+        "template": "一人二人三人的当前行动箭头和HP个位落在各自锚点"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/__tests__/grok-composition/p15-battle-ui.test.ts",
+        "ordinal": 1
+      },
+      "originalOrdinal": 1,
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-ui.selection-pixels.test.ts",
+        "titles": ["battle selection layout and value pixels"],
+        "template": "预填禁用菜单按需求9与8着色，运行时MP数字是8不是静态10"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/__tests__/grok-composition/p15-battle-ui.test.ts",
+        "ordinal": 2
+      },
+      "originalOrdinal": 2,
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-ui.selection-pixels.test.ts",
+        "titles": ["battle selection layout and value pixels"],
+        "template": "正常单人队的物品数量2画青字，数量1不画"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/__tests__/grok-composition/p15-battle-ui.test.ts",
+        "ordinal": 3
+      },
+      "originalOrdinal": 3,
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-ui.selection-pixels.test.ts",
+        "titles": ["battle selection layout and value pixels"],
+        "template": "防御输入:未定义的roleId不画HP，已定义角色仍画"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/__tests__/grok-composition/p15-battle-ui.test.ts",
+        "ordinal": 4
+      },
+      "originalOrdinal": 4,
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-ui.selection-pixels.test.ts",
+        "titles": ["battle selection layout and value pixels"],
+        "template": "单人合击图标更暗，两人健康时合击图标较亮"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/__tests__/grok-composition/p16-dialog.test.ts",
+        "ordinal": 0
+      },
+      "originalOrdinal": 0,
+      "current": {
+        "file": "packages/game/src/present/dialog-box.composition.test.ts",
+        "titles": ["dialogue assets and world composition"],
+        "template": "旁白数字走黄色精灵，缺UI帧时不画框并把数字当字形"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/__tests__/grok-composition/p16-dialog.test.ts",
+        "ordinal": 1
+      },
+      "originalOrdinal": 1,
+      "current": {
+        "file": "packages/game/src/present/dialog-box.composition.test.ts",
+        "titles": ["dialogue assets and world composition"],
+        "template": "立绘不透明0盖住底色，透明孔保留底色，缺立绘资源仍画正文"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/__tests__/grok-composition/p16-dialog.test.ts",
+        "ordinal": 2
+      },
+      "originalOrdinal": 2,
+      "current": {
+        "file": "packages/game/src/present/dialog-box.composition.test.ts",
+        "titles": ["dialogue assets and world composition"],
+        "template": "presentFrame里立绘透明孔露出地块，不透明0写成0，姓名和正文颜色不同"
+      }
+    }
+  ],
+  "identities": [
+    {
+      "old": {
+        "file": "packages/game/src/present/__tests__/grok-composition/p11-world-layers.test.ts",
+        "fullName": "P11 大世界分层 P11 同屏队首跟随与NPC在sLayer翻转后交换前后，透明孔露出下一层"
+      },
+      "current": {
+        "file": "packages/game/src/present/__tests__/world-composition.test.ts",
+        "fullName": "world actors and foreground occlusion 同屏队首跟随与NPC在sLayer翻转后交换前后，透明孔露出下一层"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/__tests__/grok-composition/p11-world-layers.test.ts",
+        "fullName": "P11 大世界分层 P11 前景cover盖住后排NPC，前排透明孔见cover色而不见后排"
+      },
+      "current": {
+        "file": "packages/game/src/present/__tests__/world-composition.test.ts",
+        "fullName": "world actors and foreground occlusion 前景cover盖住后排NPC，前排透明孔见cover色而不见后排"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/__tests__/grok-composition/p12-overlays.test.ts",
+        "fullName": "P12 大世界叠层与补帧 P12 advanceEffects为false时波幅和相位不变，为true时同一行像素改道"
+      },
+      "current": {
+        "file": "packages/game/src/present/__tests__/world-effects.test.ts",
+        "fullName": "world post-processing and supplemental frames advanceEffects为false时波幅和相位不变，为true时同一行像素改道"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/__tests__/grok-composition/p12-overlays.test.ts",
+        "fullName": "P12 大世界叠层与补帧 P12 偶数震屏补帧不减计数，再推进后改为上移"
+      },
+      "current": {
+        "file": "packages/game/src/present/__tests__/world-effects.test.ts",
+        "fullName": "world post-processing and supplemental frames 偶数震屏补帧不减计数，再推进后改为上移"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/__tests__/grok-composition/p12-overlays.test.ts",
+        "fullName": "P12 大世界叠层与补帧 P12 场景0x4F被remap成0x4E，对话框同索引保持0x4F"
+      },
+      "current": {
+        "file": "packages/game/src/present/__tests__/world-effects.test.ts",
+        "fullName": "world post-processing and supplemental frames 场景0x4F被remap成0x4E，对话框同索引保持0x4F"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/__tests__/grok-composition/p12-overlays.test.ts",
+        "fullName": "P12 大世界叠层与补帧 P12 菜单模式盖住左上角，event模式同一菜单栈不盖，对话像素两种模式都在"
+      },
+      "current": {
+        "file": "packages/game/src/present/__tests__/world-composition.test.ts",
+        "fullName": "menu and dialogue overlay order 菜单模式盖住左上角，event模式同一菜单栈不盖，对话像素两种模式都在"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/__tests__/grok-composition/p13-battle-commands.test.ts",
+        "fullName": "P13 战斗命令与提示寿命 P13 后一条战斗消息替换前一条，对话盖住消息且到期后数字仍在上移"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/battle-feedback-composition.test.ts",
+        "fullName": "battle feedback lifetime and overlay order 后一条战斗消息替换前一条，对话盖住消息且到期后数字仍在上移"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/__tests__/grok-composition/p13-battle-commands.test.ts",
+        "fullName": "P13 战斗命令与提示寿命 P13 结算框盖住消息点，演出结束后该点回到消息色"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/battle-feedback-composition.test.ts",
+        "fullName": "battle feedback lifetime and overlay order 结算框盖住消息点，演出结束后该点回到消息色"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/__tests__/grok-composition/p14-battle-fades.test.ts",
+        "fullName": "P14 战斗画面渐变与补帧 P14 入场切换起点中段终点可区分，重复中段不变且伤害数字在切换之后"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/battle-effects-composition.test.ts",
+        "fullName": "battle transition and supplemental effects 入场切换起点中段终点可区分，重复中段不变且伤害数字在切换之后"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/__tests__/grok-composition/p14-battle-fades.test.ts",
+        "fullName": "P14 战斗画面渐变与补帧 P14 召唤crossfade高位立即换低位逐步逼近，重复终点不重开"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/battle-effects-composition.test.ts",
+        "fullName": "battle transition and supplemental effects 召唤crossfade高位立即换低位逐步逼近，重复终点不重开"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/__tests__/grok-composition/p14-battle-fades.test.ts",
+        "fullName": "P14 战斗画面渐变与补帧 P14 战斗补帧不推进屏波，精灵像素留在原位"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/battle-effects-composition.test.ts",
+        "fullName": "battle transition and supplemental effects 战斗补帧不推进屏波，精灵像素留在原位"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/__tests__/grok-composition/p15-battle-ui.test.ts",
+        "fullName": "P15 战斗 UI 多态 P15 一人二人三人的当前行动箭头和HP个位落在各自锚点"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-ui.selection-pixels.test.ts",
+        "fullName": "battle selection layout and value pixels 一人二人三人的当前行动箭头和HP个位落在各自锚点"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/__tests__/grok-composition/p15-battle-ui.test.ts",
+        "fullName": "P15 战斗 UI 多态 P15 预填禁用菜单按需求9与8着色，运行时MP数字是8不是静态10"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-ui.selection-pixels.test.ts",
+        "fullName": "battle selection layout and value pixels 预填禁用菜单按需求9与8着色，运行时MP数字是8不是静态10"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/__tests__/grok-composition/p15-battle-ui.test.ts",
+        "fullName": "P15 战斗 UI 多态 P15 正常单人队的物品数量2画青字，数量1不画"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-ui.selection-pixels.test.ts",
+        "fullName": "battle selection layout and value pixels 正常单人队的物品数量2画青字，数量1不画"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/__tests__/grok-composition/p15-battle-ui.test.ts",
+        "fullName": "P15 战斗 UI 多态 P15 防御输入:未定义的roleId不画HP，已定义角色仍画"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-ui.selection-pixels.test.ts",
+        "fullName": "battle selection layout and value pixels 防御输入:未定义的roleId不画HP，已定义角色仍画"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/__tests__/grok-composition/p15-battle-ui.test.ts",
+        "fullName": "P15 战斗 UI 多态 P15 单人合击图标更暗，两人健康时合击图标较亮"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-ui.selection-pixels.test.ts",
+        "fullName": "battle selection layout and value pixels 单人合击图标更暗，两人健康时合击图标较亮"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/__tests__/grok-composition/p16-dialog.test.ts",
+        "fullName": "P16 对话框绘制 P16 旁白数字走黄色精灵，缺UI帧时不画框并把数字当字形"
+      },
+      "current": {
+        "file": "packages/game/src/present/dialog-box.composition.test.ts",
+        "fullName": "dialogue assets and world composition 旁白数字走黄色精灵，缺UI帧时不画框并把数字当字形"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/__tests__/grok-composition/p16-dialog.test.ts",
+        "fullName": "P16 对话框绘制 P16 立绘不透明0盖住底色，透明孔保留底色，缺立绘资源仍画正文"
+      },
+      "current": {
+        "file": "packages/game/src/present/dialog-box.composition.test.ts",
+        "fullName": "dialogue assets and world composition 立绘不透明0盖住底色，透明孔保留底色，缺立绘资源仍画正文"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/__tests__/grok-composition/p16-dialog.test.ts",
+        "fullName": "P16 对话框绘制 P16 presentFrame里立绘透明孔露出地块，不透明0写成0，姓名和正文颜色不同"
+      },
+      "current": {
+        "file": "packages/game/src/present/dialog-box.composition.test.ts",
+        "fullName": "dialogue assets and world composition presentFrame里立绘透明孔露出地块，不透明0写成0，姓名和正文颜色不同"
+      }
+    }
+  ],
+  "cohortSubjects": [
+    {
+      "path": "packages/game/src/present/__tests__/grok-composition/p11-world-layers.test.ts",
+      "sha256": "61705a1a3d9fe61ff5140a12847cc8c56d59d763a0dc2a971e69f401a6b08e79",
+      "priorCurrentBridge": {
+        "beforeMember": "organization-game-render-fixtures/43.before",
+        "afterSha256": "1b0e8ded5209df3ebf5393589a10f1494bfa135a8979632426cdb3df986a2a5e",
+        "evidence": "organization-game-render-fixtures.json"
+      }
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-composition/p12-overlays.test.ts",
+      "sha256": "dc0e0fc8dcab93030d9ee08ae335804a34fc4a2c702b1d37bfa977109ac1cdec",
+      "priorCurrentBridge": {
+        "beforeMember": "organization-game-render-fixtures/38.before",
+        "afterSha256": "b3ac1522b52aa6bf2fab3d155c0c230303e709acd31c0c7ba4dcac29f7feaed0",
+        "evidence": "organization-game-render-fixtures.json"
+      }
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-composition/p13-battle-commands.test.ts",
+      "sha256": "335fabb9c3e9f28657c6ea7edf6ce0adcda926a3eb108e029a7c9c7bf7f46aba",
+      "priorCurrentBridge": {
+        "beforeMember": "organization-game-render-fixtures/39.before",
+        "afterSha256": "7e4ce44bd2559efd06e6a79d7bb1e744e97285adaa55995bc9c1cd0c10f38b5d",
+        "evidence": "organization-game-render-fixtures.json"
+      }
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-composition/p14-battle-fades.test.ts",
+      "sha256": "91f643b92d235d87103d0efddc541539e3a9d44081bc618d8b71680fb81a5204",
+      "priorCurrentBridge": {
+        "beforeMember": "organization-game-render-fixtures/42.before",
+        "afterSha256": "a154354e874c725c4fc6caa3fd6e79173bc2a998da5d08e4d276e8d540cf131f",
+        "evidence": "organization-game-render-fixtures.json"
+      }
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-composition/p15-battle-ui.test.ts",
+      "sha256": "bbe237b59ca12224e3a3ae290d0723e543e812b61ef4e6b850737fb3674fb429",
+      "priorCurrentBridge": {
+        "beforeMember": "organization-game-render-fixtures/40.before",
+        "afterSha256": "cf3fc06bf6fecfa28559c32241edd3dfabf5bc772ccca1d81bb66c6226715359",
+        "evidence": "organization-game-render-fixtures.json"
+      }
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-composition/p16-dialog.test.ts",
+      "sha256": "5d59b91b75769c369c9612d332b92abb2328b50473c83121fab6dbed68af49bf",
+      "priorCurrentBridge": {
+        "beforeMember": "organization-game-render-fixtures/41.before",
+        "afterSha256": "2a2959003f6967da284a5e1a818cdb8438f2fcac8ecf34eacfae82ea580926e2",
+        "evidence": "organization-game-render-fixtures.json"
+      }
+    }
+  ],
+  "preserved": [
+    {
+      "path": "packages/game/src/present/present.ts",
+      "sha256": "c4c6f411857d99c5f8e850bf5172c3e42f04181a64df0ce2a697fe1ec90569f9"
+    },
+    {
+      "path": "packages/game/src/present/battle/present-battle.ts",
+      "sha256": "f80d6676cd039c117a7efc6aa5ef35958b395b1e62d0f8a950fd8bde622c2453"
+    },
+    {
+      "path": "packages/game/src/present/battle/draw-battle-ui.ts",
+      "sha256": "c6b0b0d124d3aa62015f0a2cf91afef3136ec647e3d6623bb77a1eee16d51285"
+    },
+    {
+      "path": "packages/game/src/present/dialog-box.ts",
+      "sha256": "2340ef89b4173b22c11908f814a8d69a91a2dbd3eb699bd045f6294fe444a212"
+    },
+    {
+      "path": "packages/game/src/present/battle/__tests__/draw-battle-ui.test.ts",
+      "sha256": "627878c8732092781bc5a6fa5fc991f746900209c5b84abc5bc60dbf5385296a"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/raster-fixtures.ts",
+      "sha256": "d62741ab845759e2b42e992d4675e679b54464f207c3a8118af0f94dac9b5157"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/render-input-snapshots.ts",
+      "sha256": "f2faddfd6a3c6dcbefe752eff487e8fabd92035b62cf673bd6c81289d8dd17b6"
+    }
+  ],
+  "neighborPaths": [
+    "packages/game/src/present/__tests__/world-composition.test.ts",
+    "packages/game/src/present/__tests__/world-effects.test.ts",
+    "packages/game/src/present/battle/__tests__/battle-effects-composition.test.ts",
+    "packages/game/src/present/battle/__tests__/battle-feedback-composition.test.ts",
+    "packages/game/src/present/battle/__tests__/battle-present-lifecycle.test.ts",
+    "packages/game/src/present/battle/__tests__/draw-battle-ui.selection-pixels.test.ts",
+    "packages/game/src/present/battle/__tests__/draw-battle-ui.test.ts",
+    "packages/game/src/present/dialog-box.composition.test.ts",
+    "packages/game/src/present/dialog-box.test.ts",
+    "packages/game/src/present/present.test.ts",
+    "packages/game/src/present/screen-shake.test.ts",
+    "packages/game/src/present/screen-wave.test.ts"
+  ],
+  "profiles": [
+    {
+      "path": "packages/game/src/present/__tests__/world-composition.test.ts",
+      "subjects": [
+        "packages/game/src/present/__tests__/grok-composition/p11-world-layers.test.ts",
+        "packages/game/src/present/__tests__/grok-composition/p12-overlays.test.ts"
+      ],
+      "axes": {
+        "A": "原P11两分层/cover合同与P12的menu/event叠层保留独立literal像素和world/bitmap ownership；实际presentFrame入口与source不改。",
+        "B": "脚底锚、sLayer排序与cover几何说明保留；删除批次前缀和泛化文件头，不冒称真实剧情/视觉已验。",
+        "C": "同一世界层合成边界聚合；P11组无新hook，menu/dialog组单独拥有原wave cleanup，不让不相关case继承生命周期。",
+        "D": "entity/cover顺序与菜单mode切换观测不同层序，三例都保留；未与battle状态或纯dialog leaf盲并。",
+        "E": "原三完整callback、声明/import闭包、独立像素与状态断言保全；原alphas/有色0与孔都保留，未按相似pixel调用删例。",
+        "F": "world-composition与按层序命名的describe表达真实职责，P11/P12作者批次入口退出。",
+        "G": "删除混装菜单overlay与特效推进的组织负担，无新产品层、helper或测试数量变化。",
+        "H": "实际世界合成直接写Framebuffer，fresh GameState和独立输入snapshot可证伪顺序/ownership；不暴露产品私有状态。"
+      },
+      "acceptance": "accepted-FG; uniform gates pending"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/world-effects.test.ts",
+      "subjects": ["packages/game/src/present/__tests__/grok-composition/p12-overlays.test.ts"],
+      "axes": {
+        "A": "原wave advance=false/true、shake计数、palette remap三不同后处理轴完整保留；数值与顺序literal不变。",
+        "B": "手写行标记条/孔/相位演算说明保留，markedWorldStrip与WORLD_TILE_COLOR分清输入形状和调色板单位。",
+        "C": "三个presentFrame后处理合同聚合且保原top-level wave afterEach；原menu/event overlay退出，资源Owner不跨文件。",
+        "D": "wave/shake/remap失败域不同，不造模式测试或合一弱断言；只复用已有纯raster/world夹具。",
+        "E": "19回调/8helper独立AST alpha-only证明涵盖此三例；漏挂hook由强生命周期守卫先指定失败，再恢复原hook并最终回归。",
+        "F": "world-effects/markedWorldStrip/WORLD_TILE_COLOR直接说明用途，移除反直觉批次编号。",
+        "G": "无新增模拟效果/兼容代码、默认timeout或断言弱化；同一个局部标记条服务两个真实counter，不复制成新工厂。",
+        "H": "advanceEffects参数和明确phase reset控制确定性输入，真实特效执行；重复补帧与推进结果都能独立失败。"
+      },
+      "acceptance": "accepted-FG; uniform gates pending"
+    },
+    {
+      "path": "packages/game/src/present/battle/__tests__/battle-feedback-composition.test.ts",
+      "subjects": [
+        "packages/game/src/present/__tests__/grok-composition/p13-battle-commands.test.ts"
+      ],
+      "axes": {
+        "A": "两原BattlePresent消息替换/过期/伤害上移、dialog/settlement覆盖与reset合同保持；新实例每例独占缓存。",
+        "B": "持续帧/伤害锚/叠层解释保留，文件名用feedback而非已退休的通用命令协议名。",
+        "C": "实际BattlePresent.draw消费两类现用反馈，时间/缓存/reset同一Owner；不把预填UI规则混入反馈寿命。",
+        "D": "与battle-present-lifecycle的跨场资源Owner、leaf浮字/结算规则是不同caller层；两原复合观测共同表达一次帧序合同，不拆成无上下文数量。",
+        "E": "所有原literal像素、expiry、commands未改/输入ownership与reset断言保持；8helper alpha-only证明含feedbackAssets。",
+        "F": "feedbackAssets明确造返回pack与背景/帧输入，suite/title去P13；帧号与durationMs单位仍清楚。",
+        "G": "不复活空通知/编号/回执，不新增bus mock或无调用接口；两个现有反馈类型依旧真实执行。",
+        "H": "显式frame参数与fresh实例支持确定性寿命测试，不用等待或私有缓存读取。"
+      },
+      "acceptance": "accepted-FG; uniform gates pending"
+    },
+    {
+      "path": "packages/game/src/present/battle/__tests__/battle-effects-composition.test.ts",
+      "subjects": ["packages/game/src/present/__tests__/grok-composition/p14-battle-fades.test.ts"],
+      "axes": {
+        "A": "入场整像素置换、召唤nibble fade和advanceEffects屏波三合同保持原起点/中间/终点/重复帧像素及状态ownership。",
+        "B": "六轮整像素与高低nibble不同机制写清，SUMMON_TO与WORLD_TILE_COLOR是颜色而非尺寸；不冒称本轮重推SDL真值。",
+        "C": "同一BattlePresent特效合成与补帧边界聚合，保原wave phase清理；缓存推进仍由真实present入口拥有。",
+        "D": "三种过渡/补帧语义不同而保留，不同fade策略不合成布尔helper或同一oracle。",
+        "E": "原三完整callbacks和summonAnim局部声明保全；重复中点/终点与damage在fade之上均能区分故障。",
+        "F": "battle-effects-composition表达实际调用层；TILE歧义改WORLD_TILE_COLOR，frame/step名字保单位。",
+        "G": "没有新测试或中间产品层，没有私有状态dump，只通过实际像素与既有state字段观察。",
+        "H": "frame/step/advance受控，fresh实例和global reset隔离；真实renderer/cache不mock。"
+      },
+      "acceptance": "accepted-FG; uniform gates pending"
+    },
+    {
+      "path": "packages/game/src/present/battle/__tests__/draw-battle-ui.selection-pixels.test.ts",
+      "subjects": ["packages/game/src/present/__tests__/grok-composition/p15-battle-ui.test.ts"],
+      "axes": {
+        "A": "五原roster箭头/HP、预填disabled/MP、数量2vs1、缺role资料、单/双人合击色合同保持；MP机制建表另属battle-system。",
+        "B": "明确预填disabled与runtime数字合同，不冒称验证MP如何变disabled；保缺role是防御输入说明。",
+        "C": "direct drawBattleUI选择态像素独立于BattlePresent反馈类；Date.now beforeEach/vi.restoreAllMocks afterEach均保每case。",
+        "D": "相邻主测是phase/auto/description/status/资源门；L13的40ms红箭头/缺行动员门不同于本组0ms布局，G08健康边界另域，未根据同一SUT或mock强并。",
+        "E": "五完整callback/所有手列anchor/缺像素反例与输入ownership保留；不拿before clone或spy次数代替实际业务像素。",
+        "F": "selectionFrames/drawRoster与selection-pixels说明真实职责；不再用uiFrames/paint或P15笼统标签。",
+        "G": "不新增shared mode/helper，不为矩阵输入重复堆同义例；所有五原判别轴保留。",
+        "H": "实际UI绘制直接测，0ms只固定闪烁相位，原全局恢复保留，无timeout/核心mock/产品测试seam。"
+      },
+      "acceptance": "accepted-FG; uniform gates pending"
+    },
+    {
+      "path": "packages/game/src/present/dialog-box.composition.test.ts",
+      "subjects": ["packages/game/src/present/__tests__/grok-composition/p16-dialog.test.ts"],
+      "axes": {
+        "A": "原旁白UI帧/数字字形fallback、portrait opaque0/孔/缺资源、世界合成姓名/正文色三合同保持。",
+        "B": "字形与黄色精灵的位置、立绘锚与缺帧意义保留；不拿合成2x2当原盘/真实浏览器完整视觉证据。",
+        "C": "direct drawDialogBox和实际presentFrame消费同一对白资源约束，资源/文本ownership在各case显式观察，不借世界setup影响纯绘制。",
+        "D": "与leaf dialog chrome/逐字时序不同caller层；narrationFrames与titled仍是局部小输入，不建立万能dialog host。",
+        "E": "三callback与两个helper除alpha命名/标题外完整AST守恒，透明孔与opaque0/缺资源对照、状态不变断言全保留。",
+        "F": "dialog-box.composition与具体角色/帧函数说明真实消费职责，源码出口不再按贡献者/阶段编号组织。",
+        "G": "不造fallback产品实现，不新增case/生成物；现有必要资源反例保留，不为少文件合并不同错误域。",
+        "H": "独立手写glyph/raster经实际world/dialog入口写Framebuffer，输入snapshot与literal颜色互补，无核心mock。"
+      },
+      "acceptance": "accepted-FG; uniform gates pending"
+    }
+  ],
+  "cleanExecutions": ["neighbors", "typecheck", "scoped", "lifecycle-green", "alpha-proof-final"],
+  "receipts": {
+    "before": "organization-game-render-fixtures/neighbors",
+    "neighbors": "organization-game-composition-tests/neighbors-final",
+    "typecheck": "organization-game-composition-tests/typecheck-final"
+  },
+  "reusedReviewMember": "organization-game-composition-tests/reused-reviews.json",
+  "alphaRenames": {
+    "layer0Tile": "markedWorldStrip",
+    "assets": "feedbackAssets",
+    "paint": "drawRoster",
+    "uiFrames": "selectionFrames",
+    "TILE": "WORLD_TILE_COLOR"
+  },
+  "processDisclosures": [
+    "Baseline reused current253run, with exact current six source hashes/full-read pins and previous import-only bridge; only19selected identities belong to this module. No pre-change rerun.",
+    "P12 effects3 remain separate from its one menu/event overlay case; the latter joins world-composition with its own original wave cleanup, so original P11 cases gain no cleanup. Battle UI beforeEach clock/afterEach restore remain scoped.",
+    "Tests remain independent: BattlePresent feedback/transition caches, direct drawBattleUI prefilled selection pixels and drawDialogBox/actual world consumer have distinct production entries/lifecycles. Existing leaf state/status/alternate arrow blink tests are adjacent, not casually merged.",
+    "Only explicit identifier alpha-renames improve helper/color units; non-title literals, callbacks, assertions and hook dependencies are conserved. Auxiliary proof also checks raw callback syntax with identifier-only substitution, independent of normalized source bridges. No test or assertion retired, no product/API/mechanism/schema/output changes.",
+    "First split candidate omitted the original top-level wave-phase cleanup from world-effects. All19 raw callback/helper checks passed and initial adjacent tests were green, but the strengthened hook comparison reported missing1 on3effects cases. Saved candidate/initial receipts and formal lifecycle AssertionError; restored the exact original hook before acceptance, then lifecycle19/full neighbor/typecheck reran clean. No accepted missing-cleanup candidate.",
+    "Generic identical file headers were removed as noise; existing geometry/units/lifecycle comments remain. Adjacent L13/G08 references to old P15 are pending within those files own F/G review, not silently granted new acceptance here.",
+    "Recording helper initially printed files=42 using Vitest numPassedTestSuites; actual testResults and default reporter have12files. Output-label erratum only; neighborPaths, all175 test identities and file×fullName data were recorded correctly. Original helper output retained in tool transcript."
+  ],
+  "alphaProof": "organization-game-composition-tests/callback-renames-only-final.json",
+  "executionSummary": {
+    "selectedBaselineCases": 19,
+    "baselineRunCases": 253,
+    "currentNeighborCases": 175,
+    "currentNeighborFiles": 12,
+    "rawReportedPassedSuites": 42
+  }
+}

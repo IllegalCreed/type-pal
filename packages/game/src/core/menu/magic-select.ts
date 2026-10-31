@@ -1,5 +1,5 @@
 /**
- * M5.M-w0.2:MagicSelectionMenu — 法术列表(sdlpal `magicmenu.c:413`)。
+ * Learned-spell selection data; ordering follows PAL_MagicSelectionMenuInit.
  *
  * 显示 player 已学的全部 magic + MP cost,**MP 不够灰色 + 不可选**。
  * 数据层生成SelectionMenuItem；调用方负责大世界/战斗可用域过滤，呈现层读取状态。
@@ -12,7 +12,7 @@ import { createSelectionMenu } from './primitives.js'
 export interface MagicSelectMenuConfig {
   /** 当前选择施法 player 的 roleId。 */
   roleId: number
-  /** player roles(读 rgwMagic 已学法术槽位 + 当前 MP)。 */
+  /** 角色表提供已学法术槽位；MP 只读取下面显式传入的 currentMp。 */
   playerRoles: PlayerRoles
   /** 全部 spells.json — spell.magicNumber 反查 magic.json。 */
   spells: Spell[]
@@ -28,11 +28,10 @@ export function createMagicSelectMenu(cfg: MagicSelectMenuConfig): SelectionMenu
   if (!role) return createSelectionMenu([], cfg.pageSize ?? 8)
 
   // sdlpal `rgwMagic[32][6]` SoA — role.magic 是该 player 32 个已学法术槽位
-  // (0 = 空,非 0 = spell wObjectID 296..397)。2026-05-29 id 体系统一:spells.json id
+  // (0 = 空,非 0 = Spell.id，包含梦蛇 295)。spells.json id
   // 也是 wObjectID,故用 `spells.find(s => s.id === sid)` 直接命中(旧版误用 magicNumber 反查)。
   // L36:C 在 PAL_MagicSelectionMenuInit 收集后冒泡按 wMagic(spell ObjectID)升序排(magicmenu.c:377-397),
   //   菜单恒按法术编号排列、不随习得序。rgwMagic 按习得追加(global.c PAL_AddMagic)→ 必须在此排序。
-  //   战斗路径 battle-system.ts:976 已有同款 .sort,大世界路径此前漏写。
   const learnedSpellIds = (role.magic ?? []).filter((sid) => sid !== 0).sort((a, b) => a - b)
 
   const items = learnedSpellIds

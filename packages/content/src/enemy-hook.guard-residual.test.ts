@@ -10,8 +10,8 @@
  * rules 数组门/once 叶、onDefeated 数组门/wait/setVar/addVar/setFlag 叶。
  */
 import { describe, expect, test } from 'vitest'
-import { deepSnapshot } from './__tests__/glm-content-contract-fixtures.js'
 import { expectAcceptsUnchanged, expectExactError } from './__tests__/guard-leaf-fixtures.js'
+import { deepSnapshot } from './__tests__/value-snapshot.js'
 import { checkEnemyAi, checkEnemyHookFlow, checkEnemyOnDefeatedCommands } from './enemy-script.js'
 
 const hookFlow = () => ({

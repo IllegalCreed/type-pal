@@ -1,16 +1,28 @@
 // @vitest-environment node
 /** E-01: run the real resource suites under isolated FS inputs, never touch raw/extracted files. */
 import { spawnSync } from 'node:child_process'
-import { mkdtempSync, readFileSync, writeFileSync } from 'node:fs'
+import { cpSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { stripVTControlCharacters } from 'node:util'
-import { expect, test } from 'vitest'
+import { afterAll, expect, test } from 'vitest'
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '../../../..')
 const game = join(root, 'packages/game')
 const logs = mkdtempSync(join(tmpdir(), 'snapshot-input-boundaries-'))
+
+afterAll(() => {
+  try {
+    // Explicit review runs may retain raw child evidence outside the repository.
+    // Ordinary runs own only this private temporary directory and always remove it.
+    const destination = process.env.TYPE_PAL_SNAPSHOT_EVIDENCE_DIR
+    if (destination)
+      cpSync(logs, destination, { recursive: true, force: false, errorOnExist: true })
+  } finally {
+    rmSync(logs, { recursive: true, force: true })
+  }
+})
 
 function assertionCounts(output: string): number[] {
   // Vitest's ordinary CI reporter colors numeric console arguments; Agent mode does not.
@@ -64,6 +76,7 @@ const cases = [
   { mode: 'absent-tileset-directory', file: 'tileset', result: 'skip' },
   { mode: 'rng-control', file: 'rng', result: 'pass' },
   { mode: 'missing-rng-blob', file: 'rng', result: 'fail' },
+  { mode: 'changed-rng-padding', file: 'rng', result: 'fail' },
   { mode: 'empty-rng-chunk', file: 'rng', result: 'pass' },
   { mode: 'zero-rng-chunks', file: 'rng', result: 'fail' },
   { mode: 'tileset-control', file: 'tileset', title: 'mapNum=1:', result: 'pass' },
@@ -108,6 +121,12 @@ test.each(cases)('$mode → $result (real resource test runner)', (item) => {
   const output = (run.stdout ?? '') + (run.stderr ?? '')
   const log = join(logs, `${item.mode}.log`)
   writeFileSync(log, output)
+  writeFileSync(join(logs, `${item.mode}.stdout.raw`), run.stdout ?? '')
+  writeFileSync(join(logs, `${item.mode}.stderr.raw`), run.stderr ?? '')
+  writeFileSync(
+    join(logs, `${item.mode}.execution.json`),
+    JSON.stringify({ status: run.status, signal: run.signal, error: run.error?.message ?? null }),
+  )
   expect(run.error, log).toBeUndefined()
   expect(run.signal, log).toBeNull()
   expect(output, log).toContain(`SNAPSHOT_INPUT_CASE ${item.mode}`)
@@ -141,7 +160,8 @@ test.each(cases)('$mode → $result (real resource test runner)', (item) => {
   } else {
     expect(run.status, log).toBe(1)
     const failures = assertions.filter((entry) => entry.status === 'failed')
-    expect(failures.length, log).toBeGreaterThan(0)
+    expect(failures, log).toHaveLength(1)
+    if ('title' in item) expect(failures[0]?.title, log).toContain(item.title)
     expect(failures.flatMap((entry) => entry.failureMessages).join('\n'), log).toContain(
       'AssertionError',
     )

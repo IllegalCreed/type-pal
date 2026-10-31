@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest'
-import { deepSnapshot } from './__tests__/glm-content-contract-fixtures.js'
 import { expectAcceptsUnchanged, expectExactError } from './__tests__/guard-leaf-fixtures.js'
+import { deepSnapshot } from './__tests__/value-snapshot.js'
 import { checkAuthorScriptFlow } from './author-script.js'
 import { checkRuntimeScriptFlow } from './runtime-script.js'
 

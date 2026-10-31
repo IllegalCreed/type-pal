@@ -1,5 +1,5 @@
 /**
- * 商店卖菜单(全屏)— sdlpal `uigame.c:1755 PAL_SellMenu` 1:1 状态机。
+ * 商店卖菜单(全屏)— sdlpal `uigame.c:1755 PAL_SellMenu` 库存选择与确认状态。
  *
  * sdlpal 真值:`PAL_SellMenu` 不是紧凑列表(那是 `PAL_BuyMenu`),而是
  * `while (TRUE) { w = PAL_ItemSelectMenu(PAL_SellMenu_OnItemChange, kItemFlagSellable);
@@ -12,7 +12,6 @@
  * 渲染走 draw-inventory.ts(noDesc=true)+ draw-shop.ts drawSellOverlay。买菜单仍用紧凑
  * `shop-menu.ts`(sdlpal PAL_BuyMenu 本就是紧凑布局,忠实)。
  *
- * 2026-06-02:C9 由"紧凑卖菜单(视觉非 fullscreen)"补成全屏,user 决策不简化(对抗复核 high-conf REAL-WORK)。
  */
 
 import type { Item } from '@type-pal/shared'

@@ -131,7 +131,6 @@ export const coveragePackages = Object.freeze([
       'src/resources/parsers/__tests__/data-misc.test.ts',
       'src/resources/parsers/__tests__/misc-mkf.test.ts',
       'src/resources/parsers/rng-frames.test.ts',
-      'src/resources/sprite.test.ts',
       'src/resources/tables.test.ts',
     ],
   },

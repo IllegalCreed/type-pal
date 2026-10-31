@@ -1,0 +1,1139 @@
+{
+  "id": "game-battle-fixtures",
+  "kind": "fixture",
+  "namespace": "organization-game-battle-fixtures",
+  "cohortSubjects": [
+    {
+      "path": "packages/game/src/__tests__/glm-next-wave/H/harness.ts",
+      "sha256": "c28d66e9ea3785174362dfd1f64277313d60c64088b9ce81efc95e902da3df8c"
+    }
+  ],
+  "providers": {
+    "before": [
+      {
+        "path": "packages/game/src/__tests__/glm-next-wave/H/harness.ts",
+        "sha256": "c28d66e9ea3785174362dfd1f64277313d60c64088b9ce81efc95e902da3df8c",
+        "member": "organization-game-battle-fixtures/0.before",
+        "changes": [
+          {
+            "from": "export function makeHRole(id: number, overrides: Partial<PlayerRole> = {}): PlayerRole {\n  return {\n    id,\n    _name: `Role${id}`,\n    avatar: 0,\n    spriteNumInBattle: 0,\n    spriteNum: 0,\n    name: 0,\n    attackAll: 0,\n    level: 10,\n    maxHP: 500,\n    maxMP: 40,\n    hp: 500,\n    mp: 40,\n    attackStrength: 60,\n    magicStrength: 40,\n    defense: 30,\n    dexterity: 30,\n    fleeRate: 5,\n    poisonResistance: 0,\n    elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },\n    walkFrames: 0,\n    attackSound: 0,\n    weaponSound: 0,\n    criticalSound: 0,\n    magicSound: 0,\n    deathSound: 0,\n    ...overrides,\n  }\n}",
+            "to": "",
+            "count": 1
+          },
+          {
+            "from": "export function makeHEnemy(overrides: Partial<Enemy> = {}): Enemy {\n  return {\n    id: 100,\n    _name: 'Enemy100',\n    idleFrames: 0,\n    magicFrames: 0,\n    attackFrames: 0,\n    idleAnimSpeed: 0,\n    actWaitFrames: 0,\n    yPosOffset: 0,\n    attackSound: 0,\n    actionSound: 0,\n    magicSound: 0,\n    deathSound: 0,\n    callSound: 0,\n    health: 9000,\n    exp: 10,\n    cash: 30,\n    level: 5,\n    magic: 0,\n    magicRate: 0,\n    attackEquivItem: 0,\n    attackEquivItemRate: 0,\n    stealItem: 0,\n    stealItemCount: 0,\n    attackStrength: 20,\n    magicStrength: 10,\n    defense: 10,\n    dexterity: 20,\n    fleeRate: 5,\n    poisonResistance: 0,\n    elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },\n    physicalResistance: 1,\n    dualMove: 0,\n    collectValue: 0,\n    ...overrides,\n  }\n}",
+            "to": "",
+            "count": 1
+          },
+          {
+            "from": "export function makeHField(): BattleField {\n  return {\n    id: 0,\n    screenWave: 0,\n    magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },\n  }\n}",
+            "to": "",
+            "count": 1
+          },
+          {
+            "from": "makeHRole",
+            "to": "makeRoleRecord",
+            "count": 1
+          },
+          {
+            "from": "makeHEnemy",
+            "to": "makeEnemyRecord",
+            "count": 2
+          },
+          {
+            "from": "makeHField",
+            "to": "makeBattleFieldRecord",
+            "count": 1
+          },
+          {
+            "from": "emptyHSpell",
+            "to": "makeBattleSpellRecord",
+            "count": 1
+          },
+          {
+            "from": "makeHBattle",
+            "to": "makeBattleFixture",
+            "count": 1
+          },
+          {
+            "from": "MakeHBattleOpts",
+            "to": "BattleFixtureOptions",
+            "count": 2
+          },
+          {
+            "from": "HBattle",
+            "to": "BattleFixture",
+            "count": 2
+          },
+          {
+            "from": "export interface BattleFixtureOptions",
+            "to": "interface BattleFixtureOptions",
+            "count": 1
+          },
+          {
+            "from": "export interface BattleFixture",
+            "to": "interface BattleFixture",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "path": "packages/game/src/__tests__/coverage85-glm-game/harness.ts",
+        "sha256": "38ec76a9d15ce74f8eba10a911d951a30b37469b78d055a07bb95fee6a40a5c3",
+        "member": "organization-game-battle-fixtures/1.before",
+        "changes": [
+          {
+            "from": "makeRole",
+            "to": "makeRoleRecord",
+            "count": 2
+          },
+          {
+            "from": "makeEnemy",
+            "to": "makeEnemyRecord",
+            "count": 2
+          },
+          {
+            "from": "makeField",
+            "to": "makeBattleFieldRecord",
+            "count": 2
+          }
+        ]
+      }
+    ],
+    "current": [
+      {
+        "path": "packages/game/src/__tests__/battle-records.ts",
+        "sha256": "e06702ce034d7b7b7680b649d2c6d11d948acd6daa9aeac0ad20478c62afc575",
+        "imports": [
+          {
+            "local": "BattleField",
+            "imported": "BattleField",
+            "target": "@type-pal/shared",
+            "typeOnly": true
+          },
+          {
+            "local": "Enemy",
+            "imported": "Enemy",
+            "target": "@type-pal/shared",
+            "typeOnly": true
+          },
+          {
+            "local": "PlayerRole",
+            "imported": "PlayerRole",
+            "target": "@type-pal/shared",
+            "typeOnly": true
+          },
+          {
+            "local": "Spell",
+            "imported": "Spell",
+            "target": "@type-pal/shared",
+            "typeOnly": true
+          }
+        ]
+      },
+      {
+        "path": "packages/game/src/__tests__/battle-fixture.ts",
+        "sha256": "a206ad63f9f8f4302380b5996a5c2f96715e9b598e4b4a41b9501f40d446a32c",
+        "imports": [
+          {
+            "local": "BattleState",
+            "imported": "BattleState",
+            "target": "packages/game/src/core/battle/battle-state.ts",
+            "typeOnly": true
+          },
+          {
+            "local": "BusEntry",
+            "imported": "BusEntry",
+            "target": "packages/game/src/core/command-bus.ts",
+            "typeOnly": true
+          },
+          {
+            "local": "CommandBus",
+            "imported": "CommandBus",
+            "target": "packages/game/src/core/command-bus.ts",
+            "typeOnly": true
+          },
+          {
+            "local": "createBattleState",
+            "imported": "createBattleState",
+            "target": "packages/game/src/core/battle/battle-state.ts",
+            "typeOnly": false
+          },
+          {
+            "local": "createCommandBus",
+            "imported": "createCommandBus",
+            "target": "packages/game/src/core/command-bus.ts",
+            "typeOnly": false
+          },
+          {
+            "local": "createInitialGameState",
+            "imported": "createInitialGameState",
+            "target": "packages/game/src/core/game-state.ts",
+            "typeOnly": false
+          },
+          {
+            "local": "createSeedableRng",
+            "imported": "createSeedableRng",
+            "target": "packages/game/src/core/rng.ts",
+            "typeOnly": false
+          },
+          {
+            "local": "Enemy",
+            "imported": "Enemy",
+            "target": "@type-pal/shared",
+            "typeOnly": true
+          },
+          {
+            "local": "GameState",
+            "imported": "GameState",
+            "target": "packages/game/src/core/game-state.ts",
+            "typeOnly": true
+          },
+          {
+            "local": "makeBattleFieldRecord",
+            "imported": "makeBattleFieldRecord",
+            "target": "packages/game/src/__tests__/battle-records.ts",
+            "typeOnly": false
+          },
+          {
+            "local": "makeEnemyRecord",
+            "imported": "makeEnemyRecord",
+            "target": "packages/game/src/__tests__/battle-records.ts",
+            "typeOnly": false
+          },
+          {
+            "local": "makeRoleRecord",
+            "imported": "makeRoleRecord",
+            "target": "packages/game/src/__tests__/battle-records.ts",
+            "typeOnly": false
+          },
+          {
+            "local": "PlayerRole",
+            "imported": "PlayerRole",
+            "target": "@type-pal/shared",
+            "typeOnly": true
+          },
+          {
+            "local": "PlayerRoles",
+            "imported": "PlayerRoles",
+            "target": "@type-pal/shared",
+            "typeOnly": true
+          },
+          {
+            "local": "SeedableRng",
+            "imported": "SeedableRng",
+            "target": "packages/game/src/core/rng.ts",
+            "typeOnly": true
+          }
+        ]
+      },
+      {
+        "path": "packages/game/src/__tests__/scripted-rng.ts",
+        "sha256": "a6938391f6d3169d3c62ffb0e93b9b6877eb1d9ae483157a3393689d48c3eb47",
+        "imports": [
+          {
+            "local": "SeedableRng",
+            "imported": "SeedableRng",
+            "target": "packages/game/src/core/rng.ts",
+            "typeOnly": true
+          }
+        ]
+      },
+      {
+        "path": "packages/game/src/__tests__/coverage85-glm-game/harness.ts",
+        "sha256": "f8bb20fe42370423e506b4ef9ad1aa634fe3ca6ac8f547f2b85e2170d8071e5c",
+        "imports": [
+          {
+            "local": "BattleState",
+            "imported": "BattleState",
+            "target": "packages/game/src/core/battle/battle-state.ts",
+            "typeOnly": true
+          },
+          {
+            "local": "CommandBus",
+            "imported": "CommandBus",
+            "target": "packages/game/src/core/command-bus.ts",
+            "typeOnly": true
+          },
+          {
+            "local": "createBattleState",
+            "imported": "createBattleState",
+            "target": "packages/game/src/core/battle/battle-state.ts",
+            "typeOnly": false
+          },
+          {
+            "local": "createCommandBus",
+            "imported": "createCommandBus",
+            "target": "packages/game/src/core/command-bus.ts",
+            "typeOnly": false
+          },
+          {
+            "local": "createInitialGameState",
+            "imported": "createInitialGameState",
+            "target": "packages/game/src/core/game-state.ts",
+            "typeOnly": false
+          },
+          {
+            "local": "Enemy",
+            "imported": "Enemy",
+            "target": "@type-pal/shared",
+            "typeOnly": true
+          },
+          {
+            "local": "GameState",
+            "imported": "GameState",
+            "target": "packages/game/src/core/game-state.ts",
+            "typeOnly": true
+          },
+          {
+            "local": "makeBattleFieldRecord",
+            "imported": "makeBattleFieldRecord",
+            "target": "packages/game/src/__tests__/battle-records.ts",
+            "typeOnly": false
+          },
+          {
+            "local": "makeEnemyRecord",
+            "imported": "makeEnemyRecord",
+            "target": "packages/game/src/__tests__/battle-records.ts",
+            "typeOnly": false
+          },
+          {
+            "local": "makeRoleRecord",
+            "imported": "makeRoleRecord",
+            "target": "packages/game/src/__tests__/battle-records.ts",
+            "typeOnly": false
+          },
+          {
+            "local": "PlayerRole",
+            "imported": "PlayerRole",
+            "target": "@type-pal/shared",
+            "typeOnly": true
+          },
+          {
+            "local": "PlayerRoles",
+            "imported": "PlayerRoles",
+            "target": "@type-pal/shared",
+            "typeOnly": true
+          },
+          {
+            "local": "SeedableRng",
+            "imported": "SeedableRng",
+            "target": "packages/game/src/core/rng.ts",
+            "typeOnly": true
+          }
+        ]
+      }
+    ]
+  },
+  "consumers": [
+    {
+      "path": "packages/game/src/__tests__/glm-next-wave/H/harness.test.ts",
+      "sha256": "bf586246fcb61816b626564ce30d8d90f976d89cfd4fe42b8b434a5811cfa172",
+      "member": "organization-game-battle-fixtures/2.before",
+      "currentSha256": "0ea903b9660103b9743ddd7dda8367ea41bf3103119607eea4faf98126898f90",
+      "changes": [
+        {
+          "from": "makeHBattle",
+          "to": "makeBattleFixture",
+          "count": 2
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/battle-summon-slot-reuse.glm-q.test.ts",
+      "sha256": "fb7ec27c8c0f45bd91563b0351a8381a581063a73cea463ca0490f8a88cdafa6",
+      "member": "organization-game-battle-fixtures/3.before",
+      "currentSha256": "fb7ec27c8c0f45bd91563b0351a8381a581063a73cea463ca0490f8a88cdafa6",
+      "changes": []
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/attack-mate.test.ts",
+      "sha256": "9c5df1343e7d51d4ddb0b87ce75cc78c93a208182fa6bca8c953fdef5d0f1c8d",
+      "member": "organization-game-battle-fixtures/4.before",
+      "currentSha256": "41322fd42285e28b8c93825df11c4bacde847369fd3e068ee1f6555698552749",
+      "changes": [
+        {
+          "from": "makeHRole",
+          "to": "makeRoleRecord",
+          "count": 2
+        },
+        {
+          "from": "makeHBattle",
+          "to": "makeBattleFixture",
+          "count": 2
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/battle-levelup.test.ts",
+      "sha256": "0590f0197bbe19f04fa9b4a5fc0aa520d686f5d3b9f60c495d5211c7b4d2d168",
+      "member": "organization-game-battle-fixtures/5.before",
+      "currentSha256": "b0d7f5fd7565f21666b9e1e90c27b4d9a9ea9462fb15ab04bb69ccf33485612b",
+      "changes": [
+        {
+          "from": "makeHRole",
+          "to": "makeRoleRecord",
+          "count": 2
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+      "sha256": "07d776bf972413eeef685a6aa79e29082abdd7696a9b6a85cf7192d0c8c93057",
+      "member": "organization-game-battle-fixtures/6.before",
+      "currentSha256": "a0d28abcd40bd634b8ffab1b703d9713ae532abdcaaf4aa7f8af798d10673075",
+      "changes": []
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+      "sha256": "16c1f11837db4fb23df0ff9a07f9bebc9970db875b7e62a582eec9e57bf6d604",
+      "member": "organization-game-battle-fixtures/7.before",
+      "currentSha256": "252a9eb1e86c54beb093c9f1910eb740150fe00dca08b4af908025bc5ba596e6",
+      "changes": [
+        {
+          "from": "makeHRole",
+          "to": "makeRoleRecord",
+          "count": 2
+        },
+        {
+          "from": "makeHEnemy",
+          "to": "makeEnemyRecord",
+          "count": 2
+        },
+        {
+          "from": "makeHField",
+          "to": "makeBattleFieldRecord",
+          "count": 15
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/magic-damage.test.ts",
+      "sha256": "b86ca00b808df07427d45ce936b6e16300b8c8efd0e6509fa0a25771885a0a52",
+      "member": "organization-game-battle-fixtures/8.before",
+      "currentSha256": "a3e86e4dd730a83b3b5d6cae36197821ca8f194efb2a4f4ba353a446cdcfebf1",
+      "changes": [
+        {
+          "from": "makeHRole",
+          "to": "makeRoleRecord",
+          "count": 3
+        },
+        {
+          "from": "makeHEnemy",
+          "to": "makeEnemyRecord",
+          "count": 4
+        },
+        {
+          "from": "makeHField",
+          "to": "makeBattleFieldRecord",
+          "count": 2
+        },
+        {
+          "from": "makeHBattle",
+          "to": "makeBattleFixture",
+          "count": 3
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/magic-numeric-assignment.test.ts",
+      "sha256": "3e2bf24b8e665d2e6c5ed01008ff6407ebf6d587d823164b178210d9cdc02359",
+      "member": "organization-game-battle-fixtures/9.before",
+      "currentSha256": "a31d48fe788c85adf524784d66d7f88c6ab7f092ffc2e738f18faaa734d890d1",
+      "changes": [
+        {
+          "from": "makeHRole",
+          "to": "makeRoleRecord",
+          "count": 3
+        },
+        {
+          "from": "makeHEnemy",
+          "to": "makeEnemyRecord",
+          "count": 3
+        },
+        {
+          "from": "makeHField",
+          "to": "makeBattleFieldRecord",
+          "count": 3
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/magic-parity.test.ts",
+      "sha256": "80228bcb04fec4dbab1803868fcc4dc3dd12019ed9c1efda8aac7e3bca2dfcb4",
+      "member": "organization-game-battle-fixtures/10.before",
+      "currentSha256": "9ed8c47fa6411daa70486c8818a26ed67256f133ce92a6bd6c71ba729442e9a6",
+      "changes": [
+        {
+          "from": "makeHRole",
+          "to": "makeRoleRecord",
+          "count": 4
+        },
+        {
+          "from": "makeHEnemy",
+          "to": "makeEnemyRecord",
+          "count": 3
+        },
+        {
+          "from": "makeHBattle",
+          "to": "makeBattleFixture",
+          "count": 2
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/object-script-progress.test.ts",
+      "sha256": "5d71849943de52ee70fde458c0c34d400eae64d70961f7e21a8ed3120d1d92b9",
+      "member": "organization-game-battle-fixtures/11.before",
+      "currentSha256": "0ec25613899eec637e5a020c71975f718eb34cf71e8eb9552f1845abd71230c2",
+      "changes": [
+        {
+          "from": "makeHRole",
+          "to": "makeRoleRecord",
+          "count": 3
+        },
+        {
+          "from": "makeHBattle",
+          "to": "makeBattleFixture",
+          "count": 2
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/status.test.ts",
+      "sha256": "c6db00a9d1c3963487abda7a03d7bc49e90065eee560029062050ee8a8d6aca3",
+      "member": "organization-game-battle-fixtures/12.before",
+      "currentSha256": "1ccb13259e04b0d5032534c29532fc893587c2563daa698f16e9e9b620037b15",
+      "changes": [
+        {
+          "from": "makeHRole",
+          "to": "makeRoleRecord",
+          "count": 2
+        },
+        {
+          "from": "makeHEnemy",
+          "to": "makeEnemyRecord",
+          "count": 2
+        },
+        {
+          "from": "makeHBattle",
+          "to": "makeBattleFixture",
+          "count": 2
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/turn-queue-parity.test.ts",
+      "sha256": "eaf433ac4273e320b899ead0e1d5d686b68256bbfba5bff590ef5463ba65735d",
+      "member": "organization-game-battle-fixtures/13.before",
+      "currentSha256": "fd934eefee0494c1ac5ecf1fe20f1d973ad069ebbc1d12c3bd19e938f19ec335",
+      "changes": [
+        {
+          "from": "makeHRole",
+          "to": "makeRoleRecord",
+          "count": 2
+        },
+        {
+          "from": "makeHEnemy",
+          "to": "makeEnemyRecord",
+          "count": 3
+        },
+        {
+          "from": "makeHField",
+          "to": "makeBattleFieldRecord",
+          "count": 2
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/core/battle/actions/attack.glm-next-wave.test.ts",
+      "sha256": "46bc9913fd1ae91d03ed6f923920614bab64aab11a3c1e2e4db24962fa244995",
+      "member": "organization-game-battle-fixtures/14.before",
+      "currentSha256": "18528818d063d378480fda581861281dc82a2a8e71c41d9cf868edec7b22ce2e",
+      "changes": [
+        {
+          "from": "makeHRole",
+          "to": "makeRoleRecord",
+          "count": 2
+        },
+        {
+          "from": "makeHEnemy",
+          "to": "makeEnemyRecord",
+          "count": 2
+        },
+        {
+          "from": "makeHBattle",
+          "to": "makeBattleFixture",
+          "count": 2
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/core/battle/actions/coop-magic.glm-next-wave.test.ts",
+      "sha256": "5f9a47e4e36314c6aa4f31e58c5ff5fa1bec3a7d67e702e77ca570fa1665dfa8",
+      "member": "organization-game-battle-fixtures/15.before",
+      "currentSha256": "9a2313e98c10700b64789636262043fb79f48663434a988bc6fab4b705c78a78",
+      "changes": [
+        {
+          "from": "makeHRole",
+          "to": "makeRoleRecord",
+          "count": 7
+        },
+        {
+          "from": "makeHEnemy",
+          "to": "makeEnemyRecord",
+          "count": 4
+        },
+        {
+          "from": "makeHBattle",
+          "to": "makeBattleFixture",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/core/battle/actions/item-poison-boundary.test.ts",
+      "sha256": "2f2c8fa75c958784cccb34b478f8150b28bbc2b8c2ea09b2b7f708ed69aa1974",
+      "member": "organization-game-battle-fixtures/16.before",
+      "currentSha256": "9362e5a3a4a1ad9d89865276804722160712b6f2e6519a5999e00bd9b525120e",
+      "changes": []
+    },
+    {
+      "path": "packages/game/src/core/battle/actions/magic.glm-next-wave.test.ts",
+      "sha256": "c548405293d7262949852da273417fc57fa8a81182a268f0b72bcec1187bdf04",
+      "member": "organization-game-battle-fixtures/17.before",
+      "currentSha256": "3506f3b620e4abe12287a68ddf459cd07e528b2d767dc820d1455ad3ef8a85a0",
+      "changes": [
+        {
+          "from": "makeHRole",
+          "to": "makeRoleRecord",
+          "count": 2
+        },
+        {
+          "from": "makeHBattle",
+          "to": "makeBattleFixture",
+          "count": 2
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-lifecycle.test-fixtures.ts",
+      "sha256": "bd50465a15ff2ed9667c4eab31a8c0d35434f0780d433e493005892753264311",
+      "member": "organization-game-battle-fixtures/18.before",
+      "currentSha256": "c0e36172655ee59615290cd210a06956f26e0bae9e5f78691a7ca4e20da08a76",
+      "changes": [
+        {
+          "from": "makeHRole",
+          "to": "makeRoleRecord",
+          "count": 2
+        },
+        {
+          "from": "makeHEnemy",
+          "to": "makeEnemyRecord",
+          "count": 2
+        },
+        {
+          "from": "makeHField",
+          "to": "makeBattleFieldRecord",
+          "count": 2
+        },
+        {
+          "from": "emptyHSpell",
+          "to": "makeBattleSpellRecord",
+          "count": 3
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-opcodes.cov85.test.ts",
+      "sha256": "4deaa6d96c356b5951d5af8fde1efcd542f2490e5ff95cdc2313d5744b8b882b",
+      "member": "organization-game-battle-fixtures/19.before",
+      "currentSha256": "1f6111b858162c912dd31da675f1d0caa79e52ca91ccd5f1f02e93342d4747b5",
+      "changes": []
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-opcodes.glm-next-wave.test.ts",
+      "sha256": "abbb5b90bdafe77f1a5e50e65c86af7750e20ca8a6d28757a1e7db7ae465665f",
+      "member": "organization-game-battle-fixtures/20.before",
+      "currentSha256": "47e08676e7f666810ba2aa88135b911c3280ca1a5bafe268630de098778cc83c",
+      "changes": [
+        {
+          "from": "makeHBattle",
+          "to": "makeBattleFixture",
+          "count": 6
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-progression.glm-next-wave.test.ts",
+      "sha256": "136e3b6867ca82b1a1b53dfb233f2bec829dbf25e6213a9b57b4fe04be481d7a",
+      "member": "organization-game-battle-fixtures/21.before",
+      "currentSha256": "65b6a8feefc99323cfea1d5284a7ac5597546983bf9ec82ffbcb647fe69c192e",
+      "changes": []
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-state.glm-next-wave.test.ts",
+      "sha256": "cdbe9414af48e3da5dca54b77c7516f3df1ba5556ef0193adaa4771ed348128d",
+      "member": "organization-game-battle-fixtures/22.before",
+      "currentSha256": "4160c6b019099d4654893ba1117d13d0b11c43476eaa1d6985a1e84d7134c59a",
+      "changes": [
+        {
+          "from": "makeHRole",
+          "to": "makeRoleRecord",
+          "count": 2
+        },
+        {
+          "from": "makeHEnemy",
+          "to": "makeEnemyRecord",
+          "count": 2
+        },
+        {
+          "from": "makeHField",
+          "to": "makeBattleFieldRecord",
+          "count": 2
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-system.cov85.test.ts",
+      "sha256": "348bfaecc82391aee2975ca5ea1ebc2325f6b07ba3e0ac71b45bf20afd0d117b",
+      "member": "organization-game-battle-fixtures/23.before",
+      "currentSha256": "2535058ab864e0f3ede02d384d9e01aecab9028793a51326e96a4f8277675b22",
+      "changes": []
+    },
+    {
+      "path": "packages/game/src/core/cross-module-boundaries.test.ts",
+      "sha256": "18349e6552d9b5bf181d60db94a207b9a055bf4c2d76bbb72337e4d5575887c4",
+      "member": "organization-game-battle-fixtures/24.before",
+      "currentSha256": "a9c102b84743f778f82a35e155b5eb2b787f4cdd8fb821238d8bea7a5a570622",
+      "changes": [
+        {
+          "from": "makeHRole",
+          "to": "makeRoleRecord",
+          "count": 2
+        },
+        {
+          "from": "makeHEnemy",
+          "to": "makeEnemyRecord",
+          "count": 2
+        },
+        {
+          "from": "makeHField",
+          "to": "makeBattleFieldRecord",
+          "count": 2
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/core/event-opcode-player.test-fixtures.ts",
+      "sha256": "651558526481ad793272565a6335a50d0bb59d9d28dda62a3a8235b184d11083",
+      "member": "organization-game-battle-fixtures/25.before",
+      "currentSha256": "9b36c46273ae69e3cbb75d436c01673ae1bc169e3233262420e5478f7a530ca7",
+      "changes": []
+    },
+    {
+      "path": "packages/game/src/core/event-opcodes.cov85.test.ts",
+      "sha256": "a22288f963515156d65237009a045c966e718db134b2bd36b9c4d5532844484f",
+      "member": "organization-game-battle-fixtures/26.before",
+      "currentSha256": "77921c7c660aa1fd4c1254ae798c99df2dbe74ac096230b1a533f1ce99da15f7",
+      "changes": []
+    },
+    {
+      "path": "packages/game/src/core/event-system.glm-event-contracts.test.ts",
+      "sha256": "b31b85ccc8fd9e9826c7599dd3704c89b5a05646dd1de0b6b9d8c1f150933ad2",
+      "member": "organization-game-battle-fixtures/27.before",
+      "currentSha256": "61798186460528146afd938f94df33c76baff7d7b7c082e602a6f4e9ec9cf083",
+      "changes": []
+    },
+    {
+      "path": "packages/game/src/core/game-state.glm-next-wave.test.ts",
+      "sha256": "19c859e48659e23c9b0e0c839fcf56fa739a7ef660b200622c0220e4e1757638",
+      "member": "organization-game-battle-fixtures/28.before",
+      "currentSha256": "4fd77748ff4cdb22ab30cbc9d6e2c7984ecb9c49d585885f1fe7c59c4b1ce449",
+      "changes": [
+        {
+          "from": "makeHRole",
+          "to": "makeRoleRecord",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/core/inspect/battle-inspect.test.ts",
+      "sha256": "4ea35bf6d7faad7c189760cbdaacadf34ba542503785ada3f9728a7df4134842",
+      "member": "organization-game-battle-fixtures/29.before",
+      "currentSha256": "3b17b6ee6c6c71166a8f986283b705fa5b945cb47aaf1efaa9b1b4d249b34ffe",
+      "changes": []
+    },
+    {
+      "path": "packages/game/src/core/menu/__tests__/item-magic-select.test.ts",
+      "sha256": "8bdf986b89edbc5f7b74cd28ae1eccea91854ea00861d5037e736d92cbfcc702",
+      "member": "organization-game-battle-fixtures/30.before",
+      "currentSha256": "eec5910d4d154a4c9af08b370e76e7199e9cca52c4ea6ea9b359ad734baa792e",
+      "changes": []
+    },
+    {
+      "path": "packages/game/src/core/menu/inventory-menu.boundaries.test.ts",
+      "sha256": "8b5090115089be7fea06da73b794bf27a090654e07690bc0719d00d4c2725967",
+      "member": "organization-game-battle-fixtures/31.before",
+      "currentSha256": "d33f0cbe9c213fa7955dabcda4695f795f51b967b08f155d4f7cd1041378ac5a",
+      "changes": []
+    },
+    {
+      "path": "packages/game/src/core/menu/inventory-menu.test.ts",
+      "sha256": "55bd19ae8f4be2cf77c982ec600dfb91298fdaab614292967a2a134905f5391e",
+      "member": "organization-game-battle-fixtures/32.before",
+      "currentSha256": "1e9a1de57a7a47ff40e845420f4fa5e66966f1b8cd5064dedb5b800f3d1ca8dc",
+      "changes": []
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-driver.cov85.test.ts",
+      "sha256": "0116d81011945d0bd47e7304cfa402bf376ebc56a244a99811dd1b7f23f49946",
+      "member": "organization-game-battle-fixtures/33.before",
+      "currentSha256": "1d245e33205ccef8f15c87b29a8d56b5549471e430f3eacff75254c18cad688d",
+      "changes": []
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-driver.test.ts",
+      "sha256": "2c6f0da812e19c2afb08175d7198cd21ca0e907b9a4c5eed3705c8e9a43a15ac",
+      "member": "organization-game-battle-fixtures/34.before",
+      "currentSha256": "81695c8dc3d1176e74407b81c141728ff68183c6353dee7c6284282baac14f76",
+      "changes": []
+    },
+    {
+      "path": "packages/game/src/core/scene-system.test.ts",
+      "sha256": "e77c98fc469354e3fa0404b799590591714043f4df89acfa8e0e9ea781093259",
+      "member": "organization-game-battle-fixtures/35.before",
+      "currentSha256": "809da377c3b49295f718bd6b6bc72542710b158d08eb305464632dd94c7367c1",
+      "changes": []
+    },
+    {
+      "path": "packages/game/src/dev/dev-panel-party-lifecycle.test.ts",
+      "sha256": "3254fba36b18b39d4eabef28e8641a97173137d9fa7650cfc8a520b129922543",
+      "member": "organization-game-battle-fixtures/36.before",
+      "currentSha256": "58aaae796a0ce6e078a55f946e54ed49294391bb9d5bb41a2e70549c70126bbf",
+      "changes": []
+    },
+    {
+      "path": "packages/game/src/dev/dev-panel-picker-lifecycle.test.ts",
+      "sha256": "f09432cb5f7e93ddd4f9b79f9897fb45fb892fc998887ec68539eaf7b334330f",
+      "member": "organization-game-battle-fixtures/37.before",
+      "currentSha256": "373d9e32a09ae2c1490389d017bd8282581344f3500f2f5f375e680504ef7cd2",
+      "changes": []
+    },
+    {
+      "path": "packages/game/src/dev/dev-panel.pure.test.ts",
+      "sha256": "99a30801793fab0b8819b719e7750261426ac4e5c7f00b2a3e5e86cd17746b04",
+      "member": "organization-game-battle-fixtures/38.before",
+      "currentSha256": "ea76f484d117bc40a22e1e109ff51bab6ca40bda0056f09a8a8632a772899fa3",
+      "changes": [
+        {
+          "from": "makeHRole",
+          "to": "makeRoleRecord",
+          "count": 2
+        },
+        {
+          "from": "makeHEnemy",
+          "to": "makeEnemyRecord",
+          "count": 2
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/present/draw-number-nonfinite.test.ts",
+      "sha256": "d4169c259788e16a080762f332665a514c80a3ea6f0aff3f3f094478f6c78f7c",
+      "member": "organization-game-battle-fixtures/39.before",
+      "currentSha256": "74b92e8f7ac50c325b4a72c1dde7bc55822025f98d1ebdc3697976f0131303d5",
+      "changes": [
+        {
+          "from": "makeHField",
+          "to": "makeBattleFieldRecord",
+          "count": 2
+        }
+      ]
+    }
+  ],
+  "exports": [
+    {
+      "oldPath": "packages/game/src/__tests__/glm-next-wave/H/harness.ts",
+      "oldName": "makeRoleRecord",
+      "currentName": "makeRoleRecord",
+      "currentPath": "packages/game/src/__tests__/battle-records.ts",
+      "originalName": "makeHRole"
+    },
+    {
+      "oldPath": "packages/game/src/__tests__/glm-next-wave/H/harness.ts",
+      "oldName": "makeEnemyRecord",
+      "currentName": "makeEnemyRecord",
+      "currentPath": "packages/game/src/__tests__/battle-records.ts",
+      "originalName": "makeHEnemy"
+    },
+    {
+      "oldPath": "packages/game/src/__tests__/glm-next-wave/H/harness.ts",
+      "oldName": "makeBattleFieldRecord",
+      "currentName": "makeBattleFieldRecord",
+      "currentPath": "packages/game/src/__tests__/battle-records.ts",
+      "originalName": "makeHField"
+    },
+    {
+      "oldPath": "packages/game/src/__tests__/glm-next-wave/H/harness.ts",
+      "oldName": "makeBattleSpellRecord",
+      "currentName": "makeBattleSpellRecord",
+      "currentPath": "packages/game/src/__tests__/battle-records.ts",
+      "originalName": "emptyHSpell"
+    },
+    {
+      "oldPath": "packages/game/src/__tests__/glm-next-wave/H/harness.ts",
+      "oldName": "makeBattleFixture",
+      "currentName": "makeBattleFixture",
+      "currentPath": "packages/game/src/__tests__/battle-fixture.ts",
+      "originalName": "makeHBattle"
+    },
+    {
+      "oldPath": "packages/game/src/__tests__/glm-next-wave/H/harness.ts",
+      "oldName": "recordingRng",
+      "currentName": "recordingRng",
+      "currentPath": "packages/game/src/__tests__/scripted-rng.ts"
+    },
+    {
+      "oldPath": "packages/game/src/__tests__/coverage85-glm-game/harness.ts",
+      "oldName": "makeRole",
+      "currentName": "makeRoleRecord",
+      "currentPath": "packages/game/src/__tests__/battle-records.ts"
+    },
+    {
+      "oldPath": "packages/game/src/__tests__/coverage85-glm-game/harness.ts",
+      "oldName": "makeEnemy",
+      "currentName": "makeEnemyRecord",
+      "currentPath": "packages/game/src/__tests__/battle-records.ts"
+    },
+    {
+      "oldPath": "packages/game/src/__tests__/coverage85-glm-game/harness.ts",
+      "oldName": "makeField",
+      "currentName": "makeBattleFieldRecord",
+      "currentPath": "packages/game/src/__tests__/battle-records.ts"
+    },
+    {
+      "oldPath": "packages/game/src/__tests__/coverage85-glm-game/harness.ts",
+      "oldName": "freshGs",
+      "currentName": "freshGs",
+      "currentPath": "packages/game/src/__tests__/coverage85-glm-game/harness.ts"
+    },
+    {
+      "oldPath": "packages/game/src/__tests__/coverage85-glm-game/harness.ts",
+      "oldName": "seqRng",
+      "currentName": "seqRng",
+      "currentPath": "packages/game/src/__tests__/coverage85-glm-game/harness.ts"
+    },
+    {
+      "oldPath": "packages/game/src/__tests__/coverage85-glm-game/harness.ts",
+      "oldName": "makeBattle",
+      "currentName": "makeBattle",
+      "currentPath": "packages/game/src/__tests__/coverage85-glm-game/harness.ts"
+    },
+    {
+      "oldPath": "packages/game/src/__tests__/coverage85-glm-game/harness.ts",
+      "oldName": "BattleFixture",
+      "currentName": "BattleFixture",
+      "currentPath": "packages/game/src/__tests__/coverage85-glm-game/harness.ts"
+    }
+  ],
+  "retiredPaths": ["packages/game/src/__tests__/glm-next-wave/H/harness.ts"],
+  "removedHelpers": [
+    {
+      "oldPath": "packages/game/src/__tests__/glm-next-wave/H/harness.ts",
+      "name": "makeHRole",
+      "from": "export function makeHRole(id: number, overrides: Partial<PlayerRole> = {}): PlayerRole {\n  return {\n    id,\n    _name: `Role${id}`,\n    avatar: 0,\n    spriteNumInBattle: 0,\n    spriteNum: 0,\n    name: 0,\n    attackAll: 0,\n    level: 10,\n    maxHP: 500,\n    maxMP: 40,\n    hp: 500,\n    mp: 40,\n    attackStrength: 60,\n    magicStrength: 40,\n    defense: 30,\n    dexterity: 30,\n    fleeRate: 5,\n    poisonResistance: 0,\n    elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },\n    walkFrames: 0,\n    attackSound: 0,\n    weaponSound: 0,\n    criticalSound: 0,\n    magicSound: 0,\n    deathSound: 0,\n    ...overrides,\n  }\n}",
+      "targetPath": "packages/game/src/__tests__/battle-records.ts",
+      "targetName": "makeRoleRecord",
+      "domain": "identical body and parameter syntax in the two original providers"
+    },
+    {
+      "oldPath": "packages/game/src/__tests__/glm-next-wave/H/harness.ts",
+      "name": "makeHEnemy",
+      "from": "export function makeHEnemy(overrides: Partial<Enemy> = {}): Enemy {\n  return {\n    id: 100,\n    _name: 'Enemy100',\n    idleFrames: 0,\n    magicFrames: 0,\n    attackFrames: 0,\n    idleAnimSpeed: 0,\n    actWaitFrames: 0,\n    yPosOffset: 0,\n    attackSound: 0,\n    actionSound: 0,\n    magicSound: 0,\n    deathSound: 0,\n    callSound: 0,\n    health: 9000,\n    exp: 10,\n    cash: 30,\n    level: 5,\n    magic: 0,\n    magicRate: 0,\n    attackEquivItem: 0,\n    attackEquivItemRate: 0,\n    stealItem: 0,\n    stealItemCount: 0,\n    attackStrength: 20,\n    magicStrength: 10,\n    defense: 10,\n    dexterity: 20,\n    fleeRate: 5,\n    poisonResistance: 0,\n    elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },\n    physicalResistance: 1,\n    dualMove: 0,\n    collectValue: 0,\n    ...overrides,\n  }\n}",
+      "targetPath": "packages/game/src/__tests__/battle-records.ts",
+      "targetName": "makeEnemyRecord",
+      "domain": "identical body and parameter syntax in the two original providers"
+    },
+    {
+      "oldPath": "packages/game/src/__tests__/glm-next-wave/H/harness.ts",
+      "name": "makeHField",
+      "from": "export function makeHField(): BattleField {\n  return {\n    id: 0,\n    screenWave: 0,\n    magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },\n  }\n}",
+      "targetPath": "packages/game/src/__tests__/battle-records.ts",
+      "targetName": "makeBattleFieldRecord",
+      "domain": "all actual H consumers call with zero arguments"
+    }
+  ],
+  "duplicateProof": [
+    {
+      "h": "makeHRole",
+      "other": "makeRole",
+      "proof": "identical parameter/body syntax ignoring comments; no default changes"
+    },
+    {
+      "h": "makeHEnemy",
+      "other": "makeEnemy",
+      "proof": "identical parameter/body syntax ignoring comments; no default changes"
+    },
+    {
+      "h": "makeHField",
+      "other": "makeField",
+      "proof": "same literal fields and fresh nested object in the zero-argument domain; existing optional override remains only for consumers that already requested it"
+    }
+  ],
+  "preserved": [
+    {
+      "path": "packages/game/src/core/rng.ts",
+      "sha256": "93c4d82e1abf4622b166686762084083bc27410d2079f450c4e9dc75ee43cde8"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-state.ts",
+      "sha256": "546e8e2e86ec08c45492b80cb03349cc1a9a182735626f5ba53248d672a1e386"
+    },
+    {
+      "path": "packages/game/src/core/command-bus.ts",
+      "sha256": "202fa50fcefecdb5cab5e2da6ff4dfc5fa7e8dfbdfcdec1c27e2adb4dff5b1b8"
+    },
+    {
+      "path": "packages/game/src/core/game-state.ts",
+      "sha256": "084718097eb0963c2ee3a9d72da59b313ca8fd401672f6a8b341ba21ae8b8906"
+    },
+    {
+      "path": "packages/shared/src/tables.ts",
+      "sha256": "fcf28b2d9e0f812a17f299fb81c9b3fc9ff186fe83e24e20f1d85296539ac06b"
+    }
+  ],
+  "neighborPaths": [
+    "packages/game/src/__tests__/glm-next-wave/H/harness.test.ts",
+    "packages/game/src/battle-summon-slot-reuse.glm-q.test.ts",
+    "packages/game/src/core/battle/__tests__/attack-mate.test.ts",
+    "packages/game/src/core/battle/__tests__/battle-levelup.test.ts",
+    "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+    "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+    "packages/game/src/core/battle/__tests__/magic-damage.test.ts",
+    "packages/game/src/core/battle/__tests__/magic-numeric-assignment.test.ts",
+    "packages/game/src/core/battle/__tests__/magic-parity.test.ts",
+    "packages/game/src/core/battle/__tests__/object-script-progress.test.ts",
+    "packages/game/src/core/battle/__tests__/status.test.ts",
+    "packages/game/src/core/battle/__tests__/turn-queue-parity.test.ts",
+    "packages/game/src/core/battle/actions/attack.glm-next-wave.test.ts",
+    "packages/game/src/core/battle/actions/coop-magic.glm-next-wave.test.ts",
+    "packages/game/src/core/battle/actions/item-inventory-lifecycle.test.ts",
+    "packages/game/src/core/battle/actions/item-poison-boundary.test.ts",
+    "packages/game/src/core/battle/actions/magic.glm-next-wave.test.ts",
+    "packages/game/src/core/battle/battle-opcodes.cov85.test.ts",
+    "packages/game/src/core/battle/battle-opcodes.glm-next-wave.test.ts",
+    "packages/game/src/core/battle/battle-progression.glm-next-wave.test.ts",
+    "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+    "packages/game/src/core/battle/battle-state.glm-next-wave.test.ts",
+    "packages/game/src/core/battle/battle-system.cov85.test.ts",
+    "packages/game/src/core/battle/battle-system.glm-next-wave.test.ts",
+    "packages/game/src/core/cross-module-boundaries.test.ts",
+    "packages/game/src/core/equip-effect.test.ts",
+    "packages/game/src/core/event-opcode-player.cov85.test.ts",
+    "packages/game/src/core/event-opcode-player.glm-next-wave.test.ts",
+    "packages/game/src/core/event-opcode-player.glm-opcode-residual.test.ts",
+    "packages/game/src/core/event-opcode-player.test.ts",
+    "packages/game/src/core/event-opcodes.cov85.test.ts",
+    "packages/game/src/core/event-system.glm-event-contracts.test.ts",
+    "packages/game/src/core/game-state.glm-next-wave.test.ts",
+    "packages/game/src/core/inspect/battle-inspect.test.ts",
+    "packages/game/src/core/menu/__tests__/item-magic-select.test.ts",
+    "packages/game/src/core/menu/inventory-menu.boundaries.test.ts",
+    "packages/game/src/core/menu/inventory-menu.test.ts",
+    "packages/game/src/core/menu/menu-driver.cov85.test.ts",
+    "packages/game/src/core/menu/menu-driver.test.ts",
+    "packages/game/src/core/player-poison-equipment-lifecycle.test.ts",
+    "packages/game/src/core/scene-system.test.ts",
+    "packages/game/src/dev/dev-panel-party-lifecycle.test.ts",
+    "packages/game/src/dev/dev-panel-picker-lifecycle.test.ts",
+    "packages/game/src/dev/dev-panel.pure.test.ts",
+    "packages/game/src/localization/messages.test.ts",
+    "packages/game/src/localization/settlement-language.test.ts",
+    "packages/game/src/present/draw-number-nonfinite.test.ts",
+    "packages/game/src/tools/save-io.test.ts"
+  ],
+  "cleanExecutions": [
+    "before",
+    "neighbors",
+    "scoped-r2",
+    "typecheck",
+    "docs",
+    "content-review",
+    "lint"
+  ],
+  "profiles": [
+    {
+      "path": "packages/game/src/__tests__/battle-records.ts",
+      "axes": {
+        "A": "同默认role/enemy的参数/body去注释AST完全相同，field在H所有零参调用域与另provider默认输出字段相同；完整Spell原构造保持。override仍浅借用，未声称deep clone或hydrate。",
+        "B": "头注只说明fresh基础记录/caller持override，移除模型批次；记录字段沿原类型/已验合法输入，不冒称全游戏资源。",
+        "C": "DTO构造单一职责，无battle-state、GS、bus、随机或IO依赖；每次默认nested对象独立，不接状态推进。",
+        "D": "两个旧provider实际同语义/失败/生命周期的role/enemy合一，field只在已核默认域承接；有真实override caller的field参数保留，不加模式。",
+        "E": "所有旧caller业务输入与断言保全，825共同相邻保持；重复判定靠旧参数/body和field零参域证据，不靠包绿/相似文本。",
+        "F": "battle-records和makeRoleRecord/EnemyRecord/BattleFieldRecord/SpellRecord区分原始表值与运行态，去H与贡献者标签。",
+        "G": "三份重复函数退出，一个真实共享入口；Spell仍有真实生命周期caller，不能误当dead删除；没有兼容barrel。",
+        "H": "纯函数/typed overrides可直接构造并由真实battle/投影consumer观测，不mock核心；不新增镜像builder测试。"
+      }
+    },
+    {
+      "path": "packages/game/src/__tests__/battle-fixture.ts",
+      "axes": {
+        "A": "相同createInitialGameState/createBattleState/seed7生产RNG和state挂gs保持，角色/敌/field取相同数据。opts.party仍借用，默认roles顺序仍新map；不hydrate或假装startBattle。",
+        "B": "移除脆弱battle-system行号/模型批次，头注/函数注释明确partial和真实生命周期fixture的前提责任；null槽标注单位清楚。",
+        "C": "仅装配fresh gs/state/bus和drain闭包，数据factory与scripted随机独立；无catalog隐式安装/完整resources上下文。",
+        "D": "与旧coverage factory的默认随机/返回drain不同，保留两个装配入口；同数据构造共享，拒绝通用fixture模式选项。",
+        "E": "七fixture合同和真实hydrate/startBattle/actions/settlement的48相邻825例保持；没有因测试绿宣称完成所有consumer F/G。",
+        "F": "makeBattleFixture、BattleFixtureOptions/BattleFixture表达用途；所有H函数名在真实consumer换领域名，内部接口无外部类型caller改私有。",
+        "G": "不留旧harness barrel、类型export或多余wrapper；opts每项有实际caller，drain仍用真实bus不删有效便捷口。",
+        "H": "显式输入/RNG可注入，默认生产随机可重放；完整生命周期仍通过真实startBattle，测试不偷设已完成状态。"
+      }
+    },
+    {
+      "path": "packages/game/src/__tests__/scripted-rng.ts",
+      "axes": {
+        "A": "recordingRng全部算法/域拒绝/队列默认/trace时序正文相同，退化域不吃队列、next/getState固定0限制保留；生产PRNG未动。",
+        "B": "区分方法调用trace与PRNG抽样，队列、默认值/空域/seed不可重放均明示；不再混入战斗builder批次背景。",
+        "C": "每次私有ints/floats游标/calls，显式借trace用于即时事件顺序，无GS/bus/IO依赖。",
+        "D": "严格有界脚本stub与旧seqRng钳制/默认lo策略不同，保留各自合同，不因RNG接口同形合并。",
+        "E": "原七fixture例含四非法轴/合法顺序/退化/默认seed及动作真实callers保持，旧六指定业务红按冻结证据有效；未重做随机算法真值。",
+        "F": "scripted-rng文件说明脚本化draw职责，recordingRng表明可观察trace，不称LCG/seededRNG。",
+        "G": "一个有真实caller出口，finiteBounds有三方法共用且同失败策略；未复活旧复制PRNG/backcompat。",
+        "H": "同步确定stub可观察方法顺序与错误，真实随机仍来自生产factory；无需时钟/全局patch或核心mock。"
+      }
+    },
+    {
+      "path": "packages/game/src/__tests__/coverage85-glm-game/harness.ts",
+      "axes": {
+        "A": "辅助增量：仅role/enemy/field转共享，freshGs/makeBattle/seqRng全部正文除记录符号绑定保持；seqRng原钳制/退化域策略不动，不授其新正确性信用。",
+        "B": "旧LCG错误称谓修为queued clamping且说明不同默认；文件头不再写贡献者/批次或审核过程，剩余整体命名债另归pending。",
+        "C": "自身freshgs/旧随机/battle组合生命周期保持，基础记录抽出单向依赖，不从新battle装配反向借状态。",
+        "D": "三同合同基础工厂共享，两个battle装配的随机与返回接口不同不强合；实际outside consumers直接去数据模块，不留本文件barrel。",
+        "E": "38consumer只改binding/必要H符号，825相邻身份保持；本辅助原pending，不用这次绿授整文件八维。",
+        "F": "现有makeBattle/freshGs/seqRng名字保持实际旧职责；目录模型标签不在本固定closed cohort，整体仍pending不称完成。",
+        "G": "删除三数据工厂本地副本和相应多余type引用；不删仍有实际caller的旧context或改变返回值。",
+        "H": "旧seqRng是否符合所有生产数域不在本片授新信用；已有可注入输入与真实构造保持，完整治理仍待。"
+      }
+    }
+  ],
+  "reusedReviewMember": "organization-game-battle-fixtures/reused-review.json",
+  "auxiliaryScope": {
+    "path": "packages/game/src/__tests__/coverage85-glm-game/harness.ts",
+    "state": "pending maintained",
+    "notCohort": true,
+    "scope": "record-dependency delta and specific incorrect comment only; legacy RNG/naming debt not accepted"
+  },
+  "processDisclosures": [
+    "38direct consumers and48transitive tests derived by actual relative static import graph;825 baseline/current runtime cases do not count as audited subjects. Consumer non-import syntax is checked after exact H naming bridges.",
+    "First generation found import inside a comment when replacing the auxiliary header;scoped check rejected invalid header before tests. Exact bad source/first generator/full diagnostics retained. Header boundary corrected to the actual import statement; current825/TC0 only belong repaired source.",
+    "Role/enemy default values and body/parameters are identical; field equivalence limited to actual H zero-argument calls, checked before sharing the existing override-capable field builder. Default/validation/trace behavior of two RNG strategies stays distinct.",
+    "No whole auxiliary pending file, indirect consumer or product behavior accepted by this slice. Old H fixture and seven tests have exact version-bound prior evidence; default source/real startup remains separate.",
+    "Light documentation/content-review/lint receipts explicitly reuse the same current fixture source candidate from the user-authorized001 source/publication review. Names are original execution identities, not copied or new runs. The later default verifier validates archive bytes and every current source binding; checker changes receive their own static/syntax conservation checks."
+  ],
+  "receipts": {
+    "docs": "e2e001-publication/docs-first",
+    "content-review": "e2e001-publication/content-review-final",
+    "lint": "e2e001-publication/lint"
+  }
+}

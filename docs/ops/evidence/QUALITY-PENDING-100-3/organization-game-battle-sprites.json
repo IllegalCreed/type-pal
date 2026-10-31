@@ -1,0 +1,1706 @@
+{
+  "id": "game-battle-sprites",
+  "kind": "Pure sprite pose, pure blit/death-fade and state-driven sprite composition",
+  "namespace": "organization-game-battle-sprites",
+  "inputs": [
+    {
+      "path": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+      "sha256": "7cd301dd7793d46158b3ff2ce9795c685ce6df42e49d38b07a7f668a69b9dc2e",
+      "member": "organization-game-battle-sprites/0.before"
+    },
+    {
+      "path": "packages/game/src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+      "sha256": "5618eea1b49c3ad25435ea1d929b5ad10c5db040edd930390184388d2bc62778",
+      "member": "organization-game-battle-sprites/1.before"
+    },
+    {
+      "path": "packages/game/src/present/battle/draw-battle-sprites.glm-phase1-leaves.test.ts",
+      "sha256": "2891953e04cfb5200dad7bafb2985fb63a39fb3dd750a70b62c390027810320e",
+      "member": "organization-game-battle-sprites/2.before"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+      "sha256": "741c1edf76e98ca06147bb5039bd4cf4108f11110c3291afeee15bdabde75bf8"
+    },
+    {
+      "path": "packages/game/src/present/battle/__tests__/blit-battle-frame.test.ts",
+      "sha256": "42dc2c7d700275e320e797a7b832d7824880382e829ece2ad792635cae13d698"
+    },
+    {
+      "path": "packages/game/src/present/battle/__tests__/battle-sprite-pose.test.ts",
+      "sha256": "92abdc508bd67bec32c606879e6fa06bc7c5bb9f4adea466c7d24f9ab0aeda87"
+    },
+    {
+      "path": "packages/game/src/present/battle/__tests__/battle-sprite-state.ts",
+      "sha256": "5c5b325d666a1906fa1a7f7ca0a3c8a4abfdac139e01cdb09b2e8a201bfea4b4"
+    },
+    {
+      "path": "packages/game/src/present/battle/__tests__/battle-sprite-frames.ts",
+      "sha256": "11bb25a21c6e402b2cccd1fdfd04635f35ad5ed88e04e7a2d24a57d22abc1086"
+    }
+  ],
+  "sourceBridges": [
+    {
+      "id": "battle-sprites-0",
+      "path": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+      "reason": "Pure pose and blit contracts separated from renderer caller contracts; state/frames shared only after duplicate/finite-domain checks. One ownership assertion strengthened independently with counter evidence; all other callbacks preserved under explicit fixture/name bridges.",
+      "changes": [
+        {
+          "from": "import type { Enemy, PlayerRole, PlayerRoles } from '@type-pal/shared'\nimport { describe, expect, it } from 'vitest'\nimport type { BattleEnemy, BattlePlayer, BattleState } from '../../../core/battle/battle-state.js'\nimport { createSeedableRng } from '../../../core/rng.js'\nimport { createFramebuffer } from '../../framebuffer.js'\nimport {\n  blitFrameDeathFade,\n  computePlayerBattleIdleFrame,\n  confusedShakeDelta,\n  drawBattleSprites,\n  enemyTargetHighlightShift,\n  type SpriteAsset,\n  type SpriteFrame,\n} from '../draw-battle-sprites.js'\n\nfunction minimalRole(id: number, opts: Partial<PlayerRole> = {}): PlayerRole {\n  return {\n    id,\n    _name: `Role${id}`,\n    avatar: 0,\n    spriteNumInBattle: id,\n    spriteNum: 0,\n    name: 0,\n    attackAll: 0,\n    level: 10,\n    maxHP: 200,\n    maxMP: 30,\n    hp: 200,\n    mp: 30,\n    attackStrength: 0,\n    magicStrength: 0,\n    defense: 0,\n    dexterity: 30,\n    fleeRate: 5,\n    poisonResistance: 0,\n    elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },\n    walkFrames: 0,\n    attackSound: 0,\n    weaponSound: 0,\n    criticalSound: 0,\n    magicSound: 0,\n    deathSound: 0,\n    ...opts,\n  }\n}\n\nfunction minimalEnemy(id: number, health = 50): Enemy {\n  return {\n    id,\n    _name: 'TestEnemy',\n    idleFrames: 0,\n    magicFrames: 0,\n    attackFrames: 0,\n    idleAnimSpeed: 0,\n    actWaitFrames: 0,\n    yPosOffset: 0,\n    attackSound: 0,\n    actionSound: 0,\n    magicSound: 0,\n    deathSound: 0,\n    callSound: 0,\n    health,\n    exp: 10,\n    cash: 30,\n    level: 5,\n    magic: 0,\n    magicRate: 0,\n    attackEquivItem: 0,\n    attackEquivItemRate: 0,\n    stealItem: 0,\n    stealItemCount: 0,\n    attackStrength: 0,\n    magicStrength: 0,\n    defense: 0,\n    dexterity: 20,\n    fleeRate: 5,\n    poisonResistance: 0,\n    elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },\n    physicalResistance: 1,\n    dualMove: 0,\n    collectValue: 0,\n  }\n}\n\nfunction mkBattlePlayer(roleId: number): BattlePlayer {\n  return {\n    roleId,\n    prevHp: 200,\n    prevMp: 30,\n    defending: false,\n    status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 },\n  }\n}\n\nfunction mkBattleEnemy(e: Enemy): BattleEnemy {\n  return {\n    e: { ...e },\n    status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 },\n    prevHp: e.health,\n    scriptOnTurnStart: 0,\n    scriptOnBattleEnd: 0,\n    scriptOnReady: 0,\n  }\n}\n\nfunction mkState(players: BattlePlayer[], enemies: BattleEnemy[]): BattleState {\n  return {\n    players,\n    enemies,\n    field: {\n      id: 0,\n      screenWave: 0,\n      magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },\n    },\n    isBoss: false,\n    phase: 'selectAction',\n    turn: 1,\n    actionQueue: [],\n    currentActionIndex: 0,\n    pendingActions: new Map(),\n    uiState: 'selectMove',\n    menuState: 'main',\n    selectedAction: 0,\n    miscMenuCursor: 0,\n    miscSubMenuCursor: 0,\n    uiCursor: 0,\n    expGained: 0,\n    cashGained: 0,\n    rng: createSeedableRng(1),\n    phaseStallTicks: 0,\n  }\n}\n\nfunction mkSpriteAsset(w: number, h: number, fill: number): SpriteAsset {\n  const indices = new Uint8Array(w * h).fill(fill)\n  // M3.5 fix:opaque mask 全 1 = 完全 opaque(对应 RLE 全 direct run)。\n  const opaque = new Uint8Array(w * h).fill(1)\n  return { frames: [{ width: w, height: h, indices, opaque }] }\n}\n\ndescribe('drawBattleSprites', () => {\n  it('画一个队员 + 一个敌方,落在预期位置(底中 anchor)', () => {\n    const fb = createFramebuffer()\n    const role = minimalRole(0, { spriteNumInBattle: 1 })\n    const playerRoles: PlayerRoles = { roles: [role] }\n    const sprites = new Map<string, SpriteAsset>([\n      ['player-1', mkSpriteAsset(2, 2, 8)],\n      ['enemy-50', mkSpriteAsset(2, 2, 9)],\n    ])\n    const state = mkState([mkBattlePlayer(0)], [mkBattleEnemy(minimalEnemy(50))])\n    drawBattleSprites(fb, state, sprites, playerRoles, undefined)\n    // M3.5 fix:1 player 真位置 (240, 170)(sdlpal g_rgPlayerPos[0][0][])。\n    // anchor 底中:px = 240 - 1 = 239, py = 170 - 2 = 168\n    expect(fb.indices[168 * 320 + 239]).toBe(8)\n    expect(fb.indices[169 * 320 + 240]).toBe(8)\n    // 敌方位置 (160, 80)(M3 简版,M5 改 ENEMYPOS table),anchor 底中:px = 159, py = 78\n    expect(fb.indices[78 * 320 + 159]).toBe(9)\n    expect(fb.indices[79 * 320 + 160]).toBe(9)\n  })\n\n  it('死亡队员使用倒下帧2而非站立帧0', () => {\n    const fb = createFramebuffer()\n    const role = minimalRole(0, { spriteNumInBattle: 1, hp: 0 })\n    const playerRoles: PlayerRoles = { roles: [role] }\n    const sprites = new Map<string, SpriteAsset>([\n      ['player-1', { frames: [8, 18, 28].map((color) => mkSpriteAsset(2, 2, color).frames[0]!) }],\n      ['enemy-50', mkSpriteAsset(2, 2, 9)],\n    ])\n    const deadEnemy = minimalEnemy(50, 0)\n    const state = mkState([mkBattlePlayer(0)], [mkBattleEnemy(deadEnemy)])\n    drawBattleSprites(fb, state, sprites, playerRoles, undefined)\n    expect(fb.indices[168 * 320 + 239]).toBe(28)\n    // 死亡敌方 (159,78):deathFadeStep undefined(刚被打死、淡出未开始)→ **照常画**(非瞬隐)\n    expect(fb.indices[78 * 320 + 159]).toBe(9)\n  })\n\n  it('sprite Map 缺资源时跳过,不抛错', () => {\n    const fb = createFramebuffer()\n    const role = minimalRole(0, { spriteNumInBattle: 99 })\n    const playerRoles: PlayerRoles = { roles: [role] }\n    const sprites = new Map<string, SpriteAsset>() // 空\n    const state = mkState([mkBattlePlayer(0)], [mkBattleEnemy(minimalEnemy(50))])\n    fb.indices.fill(77)\n    drawBattleSprites(fb, state, sprites, playerRoles, undefined)\n    expect(fb.indices.every((value) => value === 77)).toBe(true)\n  })\n\n  it('sprite opaque=0 透明,不覆盖背景(M3.5 fix:透明判定走 opaque,不再 idx===0)', () => {\n    const fb = createFramebuffer()\n    // M3.5 fix:1 player 真位置 (240, 170),底中 anchor 后 (239, 168) 是 frame[0,0]\n    fb.writePixel(239, 168, 77)\n    const role = minimalRole(0, { spriteNumInBattle: 1 })\n    const playerRoles: PlayerRoles = { roles: [role] }\n    const indices = new Uint8Array(4) // 全 0\n    const opaque = new Uint8Array(4) // 全 0 = 全透明(RLE-skip)\n    const sprites = new Map<string, SpriteAsset>([\n      ['player-1', { frames: [{ width: 2, height: 2, indices, opaque }] }],\n    ])\n    const state = mkState([mkBattlePlayer(0)], [])\n    drawBattleSprites(fb, state, sprites, playerRoles, undefined)\n    expect(fb.indices[168 * 320 + 239]).toBe(77) // 未被透明像素覆盖\n  })\n})\n\n/**\n * D17a iColorShift blit — 对照 sdlpal palcommon.c:397-411 PAL_RLEBlitWithColorShift。\n * 每 opaque 像素低 nibble +shift clamp[0,0x0F],高 nibble(0xF0)保留;透明(opaque=0)跳过。\n * 通过 player render-state iColorShift 触发 drawBattleSprites 的染色路径(像素级断言)。\n */\ndescribe('drawBattleSprites — iColorShift 染色 blit(D17a,palcommon.c:397-411)', () => {\n  function mkOneFramePlayer(values: number[]): SpriteAsset {\n    // 1×N 单行 frame(便于逐像素断言);全 opaque。\n    const indices = new Uint8Array(values)\n    const opaque = new Uint8Array(values.length).fill(1)\n    return { frames: [{ width: values.length, height: 1, indices, opaque }] }\n  }\n\n  function drawPlayerWithShift(values: number[], iColorShift: number): Uint8Array {\n    const fb = createFramebuffer()\n    const role = minimalRole(0, { spriteNumInBattle: 1 })\n    const playerRoles: PlayerRoles = { roles: [role] }\n    const sprites = new Map<string, SpriteAsset>([['player-1', mkOneFramePlayer(values)]])\n    const state = mkState([mkBattlePlayer(0)], [])\n    // 注入 render-state pos + currentFrame=0 + iColorShift,触发染色路径\n    state.players[0]!.pos = { x: 240, y: 170 }\n    state.players[0]!.posOriginal = { x: 240, y: 170 }\n    state.players[0]!.currentFrame = 0\n    state.players[0]!.iColorShift = iColorShift\n    drawBattleSprites(fb, state, sprites, playerRoles, undefined)\n    return fb.indices\n  }\n\n  it('low-nibble 0x03 + 6 = 0x09', () => {\n    // 1×N frame,anchor 底中:baseY = 170-1 = 169;baseX = 240 - (N>>1)\n    const N = 4\n    const idx = drawPlayerWithShift([0x03, 0x03, 0x03, 0x03], 6)\n    const baseX = 240 - (N >> 1)\n    expect(idx[169 * 320 + baseX]).toBe(0x09)\n  })\n\n  it('low-nibble 0x0C + 6 = 0x12 → clamp 0x0F(高 nibble 0)', () => {\n    const N = 4\n    const idx = drawPlayerWithShift([0x0c, 0x0c, 0x0c, 0x0c], 6)\n    const baseX = 240 - (N >> 1)\n    expect(idx[169 * 320 + baseX]).toBe(0x0f)\n  })\n\n  it('high-nibble 0xF0 保留:0xF3 + 6 → 0xF9', () => {\n    const N = 4\n    const idx = drawPlayerWithShift([0xf3, 0xf3, 0xf3, 0xf3], 6)\n    const baseX = 240 - (N >> 1)\n    // (0x3+6=0x9) | 0xF0 = 0xF9\n    expect(idx[169 * 320 + baseX]).toBe(0xf9)\n  })\n\n  it('high-nibble 不变示例:0x53 + 6 → 0x59(高 nibble 5 保留)', () => {\n    const N = 4\n    const idx = drawPlayerWithShift([0x53, 0x53, 0x53, 0x53], 6)\n    const baseX = 240 - (N >> 1)\n    expect(idx[169 * 320 + baseX]).toBe(0x59)\n  })\n\n  it('opaque 像素 idx 值 0 → 也偏移(0+6=6)(sdlpal direct run 不豁免 0)', () => {\n    const N = 4\n    const idx = drawPlayerWithShift([0x00, 0x00, 0x00, 0x00], 6)\n    const baseX = 240 - (N >> 1)\n    expect(idx[169 * 320 + baseX]).toBe(6)\n  })\n\n  it('iColorShift=0:退化为原值(等价旧 blit,不染色)', () => {\n    const N = 4\n    const idx = drawPlayerWithShift([0x35, 0x35, 0x35, 0x35], 0)\n    const baseX = 240 - (N >> 1)\n    expect(idx[169 * 320 + baseX]).toBe(0x35)\n  })\n\n  it('透明像素(opaque=0)无视 shift,背景不变', () => {\n    const fb = createFramebuffer()\n    fb.writePixel(239, 169, 77) // frame 的第一个像素，而非精灵左侧屏外点\n    const role = minimalRole(0, { spriteNumInBattle: 1 })\n    const playerRoles: PlayerRoles = { roles: [role] }\n    const indices = new Uint8Array([0x03, 0x03])\n    const opaque = new Uint8Array([0, 1]) // 同一行同时核透明和着色正控\n    const sprites = new Map<string, SpriteAsset>([\n      ['player-1', { frames: [{ width: 2, height: 1, indices, opaque }] }],\n    ])\n    const state = mkState([mkBattlePlayer(0)], [])\n    state.players[0]!.pos = { x: 240, y: 170 }\n    state.players[0]!.iColorShift = 6\n    state.players[0]!.currentFrame = 0\n    drawBattleSprites(fb, state, sprites, playerRoles, undefined)\n    expect(fb.indices[169 * 320 + 239]).toBe(77)\n    expect(fb.indices[169 * 320 + 240]).toBe(9)\n  })\n})\n\n/**\n * D17a:render-state pos / currentFrame 优先 — drawBattleSprites 用 fighter.pos / currentFrame\n * (动画期间逐帧 mutate),未提供 render pos 时走共享 anchor；敌方空闲帧读 battle-system 写入的 idleFrame。\n */\ndescribe('drawBattleSprites — render-state pos/currentFrame(D17a)', () => {\n  function mkMultiFrameEnemy(fills: number[]): SpriteAsset {\n    return {\n      frames: fills.map((fill) => {\n        const indices = new Uint8Array(4).fill(fill)\n        const opaque = new Uint8Array(4).fill(1)\n        return { width: 2, height: 2, indices, opaque }\n      }),\n    }\n  }\n\n  it('enemy.pos 覆盖 anchor:画在 render-state pos 而非 EnemyPos 表', () => {\n    const fb = createFramebuffer()\n    const playerRoles: PlayerRoles = { roles: [] }\n    const e = minimalEnemy(50)\n    e.idleFrames = 1\n    e.idleAnimSpeed = 1\n    const be = mkBattleEnemy(e)\n    be.pos = { x: 100, y: 100 } // 动画 mutate 后的位置(非默认 160,80)\n    be.posOriginal = { x: 160, y: 80 }\n    be.currentFrame = 0\n    const sprites = new Map<string, SpriteAsset>([['enemy-50', mkMultiFrameEnemy([7])]])\n    const state = mkState([], [be])\n    drawBattleSprites(fb, state, sprites, playerRoles, undefined)\n    // anchor 底中 (100,100) → frame[0,0] 落在 (99,98)\n    expect(fb.indices[98 * 320 + 99]).toBe(7)\n    // 旧 anchor (160,80) 处不应有像素\n    expect(fb.indices[78 * 320 + 159]).toBe(0)\n  })\n\n  it('enemy.currentFrame 优先于 per-enemy idleFrame', () => {\n    const fb = createFramebuffer()\n    const playerRoles: PlayerRoles = { roles: [] }\n    const e = minimalEnemy(50)\n    e.idleFrames = 2\n    e.idleAnimSpeed = 1\n    const be = mkBattleEnemy(e)\n    be.pos = { x: 160, y: 80 }\n    be.currentFrame = 1 // 显式动画帧优先于 idleFrame\n    const sprites = new Map<string, SpriteAsset>([['enemy-50', mkMultiFrameEnemy([11, 22])]])\n    const state = mkState([], [be])\n    // idleFrame=0 与 currentFrame=1 冲突时，使用动画帧。\n    be.idleFrame = 0\n    drawBattleSprites(fb, state, sprites, playerRoles, undefined)\n    expect(fb.indices[78 * 320 + 159]).toBe(22)\n  })\n\n  it('Y-then-X 排序:Y 大的(屏幕下方)后画盖前', () => {\n    const fb = createFramebuffer()\n    const role = minimalRole(0, { spriteNumInBattle: 1 })\n    const playerRoles: PlayerRoles = { roles: [role] }\n    // 两个2×2精灵在 y=99 重叠；上/下独占行同时验证两个精灵确实绘制。\n    const be = mkBattleEnemy(minimalEnemy(50))\n    be.pos = { x: 160, y: 101 }\n    const sprites = new Map<string, SpriteAsset>([\n      [\n        'enemy-50',\n        {\n          frames: [\n            {\n              width: 2,\n              height: 2,\n              indices: new Uint8Array(4).fill(9),\n              opaque: new Uint8Array(4).fill(1),\n            },\n          ],\n        },\n      ],\n      [\n        'player-1',\n        {\n          frames: [\n            {\n              width: 2,\n              height: 2,\n              indices: new Uint8Array(4).fill(8),\n              opaque: new Uint8Array(4).fill(1),\n            },\n          ],\n        },\n      ],\n    ])\n    const bp = mkBattlePlayer(0)\n    bp.pos = { x: 160, y: 100 }\n    bp.currentFrame = 0\n    const state = mkState([bp], [be])\n    drawBattleSprites(fb, state, sprites, playerRoles, undefined)\n    expect(Array.from(fb.indices.slice(98 * 320 + 159, 98 * 320 + 161))).toEqual([8, 8])\n    expect(Array.from(fb.indices.slice(99 * 320 + 159, 99 * 320 + 161))).toEqual([9, 9])\n    expect(Array.from(fb.indices.slice(100 * 320 + 159, 100 * 320 + 161))).toEqual([9, 9])\n  })\n})\n\n/**\n * D17 死亡淡出 crossfade blit —— 对照 sdlpal PAL_BattleFadeScene(battle.c:608-682)。\n * 像素级:step=0 高 nibble 即换 bg、低 nibble 未移;step 增大 → 低 nibble 收敛到 bg low;\n * 只有轮到该像素的交错子步才推进；完成后的跳过由 drawBattleSprites 控制。透明像素跳过。\n */\ndescribe('blitFrameDeathFade — 死亡淡出 crossfade(D17,battle.c:650-662)', () => {\n  function mkFrame(values: number[], opaqueVals?: number[]): SpriteFrame {\n    const indices = new Uint8Array(values)\n    const opaque = new Uint8Array(opaqueVals ?? values.map(() => 1))\n    return { width: values.length, height: 1, indices, opaque }\n  }\n\n  // 注:像素落点 (12,0) → k=12 → residue 0 → jr=rgIndexInv[0]=0(块内第一个处理,step=0 即生效)。\n  it('residue 0 像素:step=0 高 nibble 立即换背景,低 nibble 未移(仍 bLow)', () => {\n    const fb = createFramebuffer()\n    // 背景 a = 0x57;sprite b = 0x32。1×1 frame anchor (12,1) → 落点 (12,0)\n    fb.writePixel(12, 0, 0x57)\n    blitFrameDeathFade(fb, mkFrame([0x32]), 12, 1, 0)\n    expect(fb.indices[0 * 320 + 12]).toBe(0x52) // high=a&0xF0=0x50;low=bLow(2 未移)\n  })\n\n  it('residue 0 像素 step 中途:低 nibble 朝 aLow 逼近 floor((step-jr)/6) 格', () => {\n    const fb = createFramebuffer()\n    fb.writePixel(12, 0, 0x09) // a high0 low9\n    // jr=0;b low=2;diff=9-2=7;step=18 → nudges=floor(18/6)=3 → low=2+3=5;high=0 → 0x05\n    blitFrameDeathFade(fb, mkFrame([0x02]), 12, 1, 18)\n    expect(fb.indices[0 * 320 + 12]).toBe(0x05)\n  })\n\n  it('6 帧节奏:同一外层 i 内(jr..jr+5)低 nibble 不动,+6 才推进 1 格(battle.c:634-650)', () => {\n    // residue 0(jr=0):diff=9-2=7。step=5 → nudges=0(仅高换 bg);step=6 → nudges=1。\n    const fb0 = createFramebuffer()\n    fb0.writePixel(12, 0, 0x09)\n    blitFrameDeathFade(fb0, mkFrame([0x02]), 12, 1, 5)\n    expect(fb0.indices[0 * 320 + 12]).toBe(0x02) // low 未移(仍 2),high=0\n    const fb1 = createFramebuffer()\n    fb1.writePixel(12, 0, 0x09)\n    blitFrameDeathFade(fb1, mkFrame([0x02]), 12, 1, 6)\n    expect(fb1.indices[0 * 320 + 12]).toBe(0x03) // nudges=1 → low=3\n  })\n\n  it('rgIndex 抖动错峰:residue!=0 的像素淡出起点 jr 滞后(step<jr 仍显原敌像素)', () => {\n    // (10,0):k=10,residue 4 → jr=rgIndexInv[4]=5;(12,0):residue 0 → jr=0。step=2 时:\n    //   r0 已换高 nibble,r4 还没轮到(显原敌像素)→ 抖动错峰的核心证据。\n    const fb = createFramebuffer()\n    fb.writePixel(10, 0, 0x57)\n    fb.writePixel(12, 0, 0x57)\n    blitFrameDeathFade(fb, mkFrame([0x32]), 10, 1, 2) // r4 jr5:step2<5 → 原像素 0x32\n    blitFrameDeathFade(fb, mkFrame([0x32]), 12, 1, 2) // r0 jr0:step2>=0 → 0x52\n    expect(fb.indices[0 * 320 + 10]).toBe(0x32) // 还没轮到 → 原敌像素\n    expect(fb.indices[0 * 320 + 12]).toBe(0x52) // 已换高 nibble\n  })\n\n  it('aLow < bLow:低 nibble 朝下逼近(diff<0)', () => {\n    const fb = createFramebuffer()\n    fb.writePixel(12, 0, 0x01) // aLow=1\n    // jr=0;bLow=9;diff=1-9=-8;step=18 → nudges=3 → low=9-3=6;high=0 → 0x06\n    blitFrameDeathFade(fb, mkFrame([0x09]), 12, 1, 18)\n    expect(fb.indices[0 * 320 + 12]).toBe(0x06)\n  })\n\n  it('step 足够大:低 nibble 完全收敛到 aLow → 像素 == 背景', () => {\n    const fb = createFramebuffer()\n    fb.writePixel(12, 0, 0x5a) // a high5 low10(0xA)\n    // jr=0;bLow=2;|diff|=8;step=66 → nudges=min(floor(66/6),8)=min(11,8)=8 → low=0xA;high=0x50 → 0x5A\n    blitFrameDeathFade(fb, mkFrame([0x32]), 12, 1, 66)\n    expect(fb.indices[0 * 320 + 12]).toBe(0x5a)\n  })\n\n  it('透明像素(opaque=0)跳过:背景不变', () => {\n    const fb = createFramebuffer()\n    fb.writePixel(12, 0, 0x77)\n    blitFrameDeathFade(fb, mkFrame([0x32], [0]), 12, 1, 5)\n    expect(fb.indices[0 * 320 + 12]).toBe(0x77) // 未写入\n  })\n})\n\n/**\n * D17 drawBattleSprites 死亡淡出集成 —— deathFadeStep 0..71 → crossfade blit;\n * undefined(活/刚死未开淡出)→ 照常画(受击帧可见);>=72(淡完)→ 不画。\n */\ndescribe('drawBattleSprites — 敌人死亡淡出集成(D17)', () => {\n  function mkSprite(fill: number): SpriteAsset {\n    const indices = new Uint8Array(4).fill(fill)\n    const opaque = new Uint8Array(4).fill(1)\n    return { frames: [{ width: 2, height: 2, indices, opaque }] }\n  }\n\n  it('health<=0 + deathFadeStep undefined:照常画(刚被打死、淡出未开始 → 受击帧仍可见,不瞬隐)', () => {\n    // 修\"先消失再淡出\"bug:攻击动画期间敌人 HP 已 0 但淡出未开始,不能提前瞬隐\n    //   (对照 sdlpal:wObjectID 仍 !=0 照常画,动画收尾才 FadeScene)。\n    const fb = createFramebuffer()\n    const playerRoles: PlayerRoles = { roles: [] }\n    const be = mkBattleEnemy(minimalEnemy(50, 0))\n    be.pos = { x: 160, y: 80 }\n    be.currentFrame = 0\n    // deathFadeStep 留 undefined → **照常 blit**(非瞬隐)\n    const sprites = new Map<string, SpriteAsset>([['enemy-50', mkSprite(9)]])\n    const state = mkState([], [be])\n    drawBattleSprites(fb, state, sprites, playerRoles, undefined)\n    expect(fb.indices[78 * 320 + 159]).toBe(9) // 照常画(非瞬隐 0)\n  })\n\n  it('health<=0 + deathFadeStep 已开始:crossfade 画(高 nibble 换背景)', () => {\n    const fb = createFramebuffer()\n    // 背景:落点 (159,78) 写 0x50(high5 low0)\n    fb.writePixel(159, 78, 0x50)\n    const playerRoles: PlayerRoles = { roles: [] }\n    const be = mkBattleEnemy(minimalEnemy(50, 0))\n    be.pos = { x: 160, y: 80 }\n    // (159,78):k=78*320+159=25119,residue 3 → jr=rgIndexInv[3]=1 → step=1 是该像素首次处理。\n    be.deathFadeStep = 1\n    be.currentFrame = 0\n    // sprite 像素 0x33(high3 low3);step=1>=jr=1,nudges=0 → high=a&F0=0x50,low=bLow=3 → 0x53\n    const sprites = new Map<string, SpriteAsset>([['enemy-50', mkSprite(0x33)]])\n    const state = mkState([], [be])\n    drawBattleSprites(fb, state, sprites, playerRoles, undefined)\n    expect(fb.indices[78 * 320 + 159]).toBe(0x53)\n  })\n\n  it('health<=0 + deathFadeStep>=72:不画(淡完消失)', () => {\n    const fb = createFramebuffer()\n    fb.writePixel(159, 78, 0x40)\n    const playerRoles: PlayerRoles = { roles: [] }\n    const be = mkBattleEnemy(minimalEnemy(50, 0))\n    be.pos = { x: 160, y: 80 }\n    be.deathFadeStep = 72\n    const sprites = new Map<string, SpriteAsset>([['enemy-50', mkSprite(0x33)]])\n    const state = mkState([], [be])\n    drawBattleSprites(fb, state, sprites, playerRoles, undefined)\n    expect(fb.indices[78 * 320 + 159]).toBe(0x40) // 背景保留,未画 sprite\n  })\n})\n\n/**\n * 敌方空闲帧由 battle-system 推进；这里验证渲染读取、睡眠门控与缺帧回退。\n */\ndescribe('drawBattleSprites — 敌人 idle 帧轮播(D17c)', () => {\n  function mkMultiFrameSprite(fills: number[]): SpriteAsset {\n    return {\n      frames: fills.map((fill) => {\n        const indices = new Uint8Array(4).fill(fill)\n        const opaque = new Uint8Array(4).fill(1)\n        return { width: 2, height: 2, indices, opaque }\n      }),\n    }\n  }\n\n  it('DM11:idle 帧读 per-enemy idleFrame(battle-system 推进,渲染不再走全局时钟)', () => {\n    const playerRoles: PlayerRoles = { roles: [] }\n    const enemyA = minimalEnemy(50)\n    enemyA.idleFrames = 2\n    enemyA.idleAnimSpeed = 1\n    const sprites = new Map<string, SpriteAsset>([['enemy-50', mkMultiFrameSprite([11, 22])]])\n    const state = mkState([], [mkBattleEnemy(enemyA)])\n\n    // 敌方位置 (160, 80),anchor 底中 → frame[0,0] 落在 (159, 78)\n    const fb0 = createFramebuffer()\n    state.enemies[0]!.idleFrame = 0\n    drawBattleSprites(fb0, state, sprites, playerRoles, undefined)\n    expect(fb0.indices[78 * 320 + 159]).toBe(11) // frames[0]\n\n    const fb1 = createFramebuffer()\n    state.enemies[0]!.idleFrame = 1\n    drawBattleSprites(fb1, state, sprites, playerRoles, undefined)\n    expect(fb1.indices[78 * 320 + 159]).toBe(22) // frames[1]\n  })\n\n  it('sleep>0:不轮播,任意帧恒画 frames[0]', () => {\n    const playerRoles: PlayerRoles = { roles: [] }\n    const enemyA = minimalEnemy(50)\n    enemyA.idleFrames = 2\n    enemyA.idleAnimSpeed = 1\n    const sprites = new Map<string, SpriteAsset>([['enemy-50', mkMultiFrameSprite([11, 22])]])\n    const be = mkBattleEnemy(enemyA)\n    be.status.sleep = 3\n    be.idleFrame = 1\n    const state = mkState([], [be])\n\n    const fb = createFramebuffer()\n    drawBattleSprites(fb, state, sprites, playerRoles, undefined)\n    expect(fb.indices[78 * 320 + 159]).toBe(11) // 定格 frames[0]\n  })\n\n  it('越界兜底:frames 仅 1 帧但 idleFrames=2 时不越界(fallback frames[0])', () => {\n    const playerRoles: PlayerRoles = { roles: [] }\n    const enemyA = minimalEnemy(50)\n    enemyA.idleFrames = 2\n    enemyA.idleAnimSpeed = 1\n    // sprite 只 1 帧(资源不全),idx=1 时 frames[1] === undefined → fallback frames[0]\n    const sprites = new Map<string, SpriteAsset>([['enemy-50', mkMultiFrameSprite([33])]])\n    const state = mkState([], [mkBattleEnemy(enemyA)])\n    state.enemies[0]!.idleFrame = 1\n\n    const fb = createFramebuffer()\n    expect(() => drawBattleSprites(fb, state, sprites, playerRoles, undefined)).not.toThrow()\n    expect(fb.indices[78 * 320 + 159]).toBe(33) // fallback frames[0]\n  })\n})\n\ndescribe('enemyTargetHighlightShift(敌方目标 ColorShift 高亮,sdlpal uibattle.c:1495-1510)', () => {\n  const mk = (\n    uiState: BattleState['uiState'],\n    uiCursor: number,\n    healths: number[],\n  ): BattleState => ({\n    ...mkState(\n      [],\n      healths.map((health, id) => mkBattleEnemy(minimalEnemy(id, health))),\n    ),\n    uiState,\n    uiCursor,\n  })\n\n  it('blinkOn=false → 恒 0(blink off 帧不高亮,sprite 正常)', () => {\n    expect(enemyTargetHighlightShift(mk('selectTargetEnemy', 0, [100]), 0, false)).toBe(0)\n  })\n  it('selectTargetEnemy:选中敌人(idx===uiCursor)+ 活 + blinkOn → 7,非选中 → 0', () => {\n    const s = mk('selectTargetEnemy', 1, [100, 100])\n    expect(enemyTargetHighlightShift(s, 1, true)).toBe(7)\n    expect(enemyTargetHighlightShift(s, 0, true)).toBe(0)\n  })\n  // PAL_CLASSIC:selectTargetEnemyAll 立即提交、**无任何高亮**(uibattle.c:1611-1617 \"Don't bother selecting\")。\n  //   全敌闪烁高亮是 #else WIN95 路径(uibattle.c:1628-1648),本项目 CLASSIC 基准不走 →\n  //   全体普攻/全体法术不该有选敌闪烁(user 2026-06-05 报\"都全体了选什么敌\")。\n  it('selectTargetEnemyAll(CLASSIC):无高亮 → 恒 0(立即提交,uibattle.c:1611-1617)', () => {\n    const s = mk('selectTargetEnemyAll', 0, [100, 100])\n    expect(enemyTargetHighlightShift(s, 0, true)).toBe(0)\n    expect(enemyTargetHighlightShift(s, 1, true)).toBe(0)\n  })\n  it('死敌(health<=0)→ 0(不高亮;单体选择 health guard)', () => {\n    expect(enemyTargetHighlightShift(mk('selectTargetEnemy', 0, [0, 100]), 0, true)).toBe(0)\n  })\n  it('非 target 选择阶段(selectMove)→ 0', () => {\n    expect(enemyTargetHighlightShift(mk('selectMove', 0, [100]), 0, true)).toBe(0)\n  })\n})\n\ndescribe('computePlayerBattleIdleFrame(玩家状态空闲帧,sdlpal fight.c:948-984)', () => {\n  const P = (s: Partial<{ sleep: number; puppet: number }>, defending = false) => ({\n    status: { sleep: 0, puppet: 0, ...s },\n    defending,\n  })\n  const R = (hp: number, maxHP = 200) => ({ hp, maxHP })\n\n  // sdlpal fight.c:948-957:hp==0 非傀儡 → 帧2(倒下死姿);傀儡(死后仍可动)→ 帧0 站立。死帧优先于眠/濒死/防御。\n  it('hp==0 非傀儡 → 帧2(倒下死姿)', () => {\n    expect(computePlayerBattleIdleFrame(P({}), R(0))).toBe(2)\n  })\n  it('hp==0 + 傀儡 → 帧0(站立)', () => {\n    expect(computePlayerBattleIdleFrame(P({ puppet: 5 }), R(0))).toBe(0)\n  })\n  it('hp==0 即使 sleep/defend 也优先死帧2(死帧最高优先,fight.c:948 先判)', () => {\n    expect(computePlayerBattleIdleFrame(P({ sleep: 3 }), R(0))).toBe(2)\n    expect(computePlayerBattleIdleFrame(P({}, true), R(0))).toBe(2)\n  })\n\n  it('sleep>0 → 帧1(濒死姿)', () => {\n    expect(computePlayerBattleIdleFrame(P({ sleep: 2 }), R(200))).toBe(1)\n  })\n  it('濒死(hp<min(100,maxHP/5))→ 帧1', () => {\n    expect(computePlayerBattleIdleFrame(P({}), R(30, 200))).toBe(1) // 30 < min(100,40)\n  })\n  it('防御 → 帧3', () => {\n    expect(computePlayerBattleIdleFrame(P({}, true), R(200))).toBe(3)\n  })\n  it('正常(非眠/非濒死/非防御)→ 帧0', () => {\n    expect(computePlayerBattleIdleFrame(P({}), R(200))).toBe(0)\n  })\n})\n\ndescribe('confusedShakeDelta(混乱 ±1px 抖动,sdlpal battle.c:121/196)', () => {\n  it('rand01 → {-1,0,1}(RandomLong(-1,1) 等价)', () => {\n    expect(confusedShakeDelta(0)).toBe(-1) // [0,1/3)\n    expect(confusedShakeDelta(0.5)).toBe(0) // [1/3,2/3)\n    expect(confusedShakeDelta(0.99)).toBe(1) // [2/3,1)\n  })\n})\n",
+          "to": "import {\n  spriteRole,\n  spriteEnemy,\n  battlePlayer,\n  battleEnemy,\n  spriteState,\n} from './battle-sprite-state.js'\nimport { twoByTwoSprites, rowFrame, markedFramebuffer } from './battle-sprite-frames.js'\nimport { solidIndexedImage as solidFrame } from '../../__tests__/raster-fixtures.js'\nimport type { Enemy, PlayerRole, PlayerRoles } from '@type-pal/shared'\nimport { describe, expect, it } from 'vitest'\nimport type { BattleEnemy, BattlePlayer, BattleState } from '../../../core/battle/battle-state.js'\nimport { createSeedableRng } from '../../../core/rng.js'\nimport { createFramebuffer } from '../../framebuffer.js'\nimport {\n  blitFrameDeathFade,\n  computePlayerBattleIdleFrame,\n  confusedShakeDelta,\n  drawBattleSprites,\n  enemyTargetHighlightShift,\n  type SpriteAsset,\n  type SpriteFrame,\n} from '../draw-battle-sprites.js'\n\n/**\n * D17a iColorShift blit — 对照 sdlpal palcommon.c:397-411 PAL_RLEBlitWithColorShift。\n * 每 opaque 像素低 nibble +shift clamp[0,0x0F],高 nibble(0xF0)保留;透明(opaque=0)跳过。\n * 通过 player render-state iColorShift 触发 drawBattleSprites 的染色路径(像素级断言)。\n */\n\n/**\n * D17a:render-state pos / currentFrame 优先 — drawBattleSprites 用 fighter.pos / currentFrame\n * (动画期间逐帧 mutate),未提供 render pos 时走共享 anchor；敌方空闲帧读 battle-system 写入的 idleFrame。\n */\n\n/**\n * D17 死亡淡出 crossfade blit —— 对照 sdlpal PAL_BattleFadeScene(battle.c:608-682)。\n * 像素级:step=0 高 nibble 即换 bg、低 nibble 未移;step 增大 → 低 nibble 收敛到 bg low;\n * 只有轮到该像素的交错子步才推进；完成后的跳过由 drawBattleSprites 控制。透明像素跳过。\n */\n\n/**\n * D17 drawBattleSprites 死亡淡出集成 —— deathFadeStep 0..71 → crossfade blit;\n * undefined(活/刚死未开淡出)→ 照常画(受击帧可见);>=72(淡完)→ 不画。\n */\n\n/**\n * 敌方空闲帧由 battle-system 推进；这里验证渲染读取、睡眠门控与缺帧回退。\n */\n\ndescribe('battle sprite resources and baseline anchors', () => {\n  it('画一个队员 + 一个敌方,落在预期位置(底中 anchor)', () => {\n    const fb = createFramebuffer()\n    const role = spriteRole(0, { spriteNumInBattle: 1 })\n    const playerRoles: PlayerRoles = { roles: [role] }\n    const sprites = new Map<string, SpriteAsset>([\n      ['player-1', twoByTwoSprites([8])],\n      ['enemy-50', twoByTwoSprites([9])],\n    ])\n    const state = spriteState([battlePlayer(0)], [battleEnemy(spriteEnemy(50))])\n    drawBattleSprites(fb, state, sprites, playerRoles, undefined)\n    // M3.5 fix:1 player 真位置 (240, 170)(sdlpal g_rgPlayerPos[0][0][])。\n    // anchor 底中:px = 240 - 1 = 239, py = 170 - 2 = 168\n    expect(fb.indices[168 * 320 + 239]).toBe(8)\n    expect(fb.indices[169 * 320 + 240]).toBe(8)\n    // 敌方位置 (160, 80)(M3 简版,M5 改 ENEMYPOS table),anchor 底中:px = 159, py = 78\n    expect(fb.indices[78 * 320 + 159]).toBe(9)\n    expect(fb.indices[79 * 320 + 160]).toBe(9)\n  })\n\n  it('死亡队员使用倒下帧2而非站立帧0', () => {\n    const fb = createFramebuffer()\n    const role = spriteRole(0, { spriteNumInBattle: 1, hp: 0 })\n    const playerRoles: PlayerRoles = { roles: [role] }\n    const sprites = new Map<string, SpriteAsset>([\n      ['player-1', { frames: [8, 18, 28].map((color) => twoByTwoSprites([color]).frames[0]!) }],\n      ['enemy-50', twoByTwoSprites([9])],\n    ])\n    const deadEnemy = spriteEnemy(50, 0)\n    const state = spriteState([battlePlayer(0)], [battleEnemy(deadEnemy)])\n    drawBattleSprites(fb, state, sprites, playerRoles, undefined)\n    expect(fb.indices[168 * 320 + 239]).toBe(28)\n    // 死亡敌方 (159,78):deathFadeStep undefined(刚被打死、淡出未开始)→ **照常画**(非瞬隐)\n    expect(fb.indices[78 * 320 + 159]).toBe(9)\n  })\n\n  it('sprite Map 缺资源时跳过,不抛错', () => {\n    const fb = createFramebuffer()\n    const role = spriteRole(0, { spriteNumInBattle: 99 })\n    const playerRoles: PlayerRoles = { roles: [role] }\n    const sprites = new Map<string, SpriteAsset>() // 空\n    const state = spriteState([battlePlayer(0)], [battleEnemy(spriteEnemy(50))])\n    fb.indices.fill(77)\n    drawBattleSprites(fb, state, sprites, playerRoles, undefined)\n    expect(fb.indices.every((value) => value === 77)).toBe(true)\n  })\n\n  it('sprite opaque=0 透明,不覆盖背景(M3.5 fix:透明判定走 opaque,不再 idx===0)', () => {\n    const fb = createFramebuffer()\n    // M3.5 fix:1 player 真位置 (240, 170),底中 anchor 后 (239, 168) 是 frame[0,0]\n    fb.writePixel(239, 168, 77)\n    const role = spriteRole(0, { spriteNumInBattle: 1 })\n    const playerRoles: PlayerRoles = { roles: [role] }\n    const indices = new Uint8Array(4) // 全 0\n    const opaque = new Uint8Array(4) // 全 0 = 全透明(RLE-skip)\n    const sprites = new Map<string, SpriteAsset>([\n      ['player-1', { frames: [{ width: 2, height: 2, indices, opaque }] }],\n    ])\n    const state = spriteState([battlePlayer(0)], [])\n    drawBattleSprites(fb, state, sprites, playerRoles, undefined)\n    expect(fb.indices[168 * 320 + 239]).toBe(77) // 未被透明像素覆盖\n  })\n})\n\ndescribe('render-state colour shift', () => {\n  function drawPlayerWithShift(values: number[], iColorShift: number): Uint8Array {\n    const fb = createFramebuffer()\n    const role = spriteRole(0, { spriteNumInBattle: 1 })\n    const playerRoles: PlayerRoles = { roles: [role] }\n    const sprites = new Map<string, SpriteAsset>([['player-1', { frames: [rowFrame(values)] }]])\n    const state = spriteState([battlePlayer(0)], [])\n    // 注入 render-state pos + currentFrame=0 + iColorShift,触发染色路径\n    state.players[0]!.pos = { x: 240, y: 170 }\n    state.players[0]!.posOriginal = { x: 240, y: 170 }\n    state.players[0]!.currentFrame = 0\n    state.players[0]!.iColorShift = iColorShift\n    drawBattleSprites(fb, state, sprites, playerRoles, undefined)\n    return fb.indices\n  }\n\n  it('low-nibble 0x03 + 6 = 0x09', () => {\n    // 1×N frame,anchor 底中:baseY = 170-1 = 169;baseX = 240 - (N>>1)\n    const rowWidth = 4\n    const pixels = drawPlayerWithShift([0x03, 0x03, 0x03, 0x03], 6)\n    const baseX = 240 - (rowWidth >> 1)\n    expect(pixels[169 * 320 + baseX]).toBe(0x09)\n  })\n\n  it('low-nibble 0x0C + 6 = 0x12 → clamp 0x0F(高 nibble 0)', () => {\n    const rowWidth = 4\n    const pixels = drawPlayerWithShift([0x0c, 0x0c, 0x0c, 0x0c], 6)\n    const baseX = 240 - (rowWidth >> 1)\n    expect(pixels[169 * 320 + baseX]).toBe(0x0f)\n  })\n\n  it('high-nibble 0xF0 保留:0xF3 + 6 → 0xF9', () => {\n    const rowWidth = 4\n    const pixels = drawPlayerWithShift([0xf3, 0xf3, 0xf3, 0xf3], 6)\n    const baseX = 240 - (rowWidth >> 1)\n    // (0x3+6=0x9) | 0xF0 = 0xF9\n    expect(pixels[169 * 320 + baseX]).toBe(0xf9)\n  })\n\n  it('high-nibble 不变示例:0x53 + 6 → 0x59(高 nibble 5 保留)', () => {\n    const rowWidth = 4\n    const pixels = drawPlayerWithShift([0x53, 0x53, 0x53, 0x53], 6)\n    const baseX = 240 - (rowWidth >> 1)\n    expect(pixels[169 * 320 + baseX]).toBe(0x59)\n  })\n\n  it('opaque 像素 idx 值 0 → 也偏移(0+6=6)(sdlpal direct run 不豁免 0)', () => {\n    const rowWidth = 4\n    const pixels = drawPlayerWithShift([0x00, 0x00, 0x00, 0x00], 6)\n    const baseX = 240 - (rowWidth >> 1)\n    expect(pixels[169 * 320 + baseX]).toBe(6)\n  })\n\n  it('iColorShift=0:退化为原值(等价旧 blit,不染色)', () => {\n    const rowWidth = 4\n    const pixels = drawPlayerWithShift([0x35, 0x35, 0x35, 0x35], 0)\n    const baseX = 240 - (rowWidth >> 1)\n    expect(pixels[169 * 320 + baseX]).toBe(0x35)\n  })\n\n  it('透明像素(opaque=0)无视 shift,背景不变', () => {\n    const fb = createFramebuffer()\n    fb.writePixel(239, 169, 77) // frame 的第一个像素，而非精灵左侧屏外点\n    const role = spriteRole(0, { spriteNumInBattle: 1 })\n    const playerRoles: PlayerRoles = { roles: [role] }\n    const indices = new Uint8Array([0x03, 0x03])\n    const opaque = new Uint8Array([0, 1]) // 同一行同时核透明和着色正控\n    const sprites = new Map<string, SpriteAsset>([\n      ['player-1', { frames: [{ width: 2, height: 1, indices, opaque }] }],\n    ])\n    const state = spriteState([battlePlayer(0)], [])\n    state.players[0]!.pos = { x: 240, y: 170 }\n    state.players[0]!.iColorShift = 6\n    state.players[0]!.currentFrame = 0\n    drawBattleSprites(fb, state, sprites, playerRoles, undefined)\n    expect(fb.indices[169 * 320 + 239]).toBe(77)\n    expect(fb.indices[169 * 320 + 240]).toBe(9)\n  })\n})\n\ndescribe('render position, frame precedence and ordering', () => {\n  it('enemy.pos 覆盖 anchor:画在 render-state pos 而非 EnemyPos 表', () => {\n    const fb = createFramebuffer()\n    const playerRoles: PlayerRoles = { roles: [] }\n    const e = spriteEnemy(50)\n    e.idleFrames = 1\n    e.idleAnimSpeed = 1\n    const be = battleEnemy(e)\n    be.pos = { x: 100, y: 100 } // 动画 mutate 后的位置(非默认 160,80)\n    be.posOriginal = { x: 160, y: 80 }\n    be.currentFrame = 0\n    const sprites = new Map<string, SpriteAsset>([['enemy-50', twoByTwoSprites([7])]])\n    const state = spriteState([], [be])\n    drawBattleSprites(fb, state, sprites, playerRoles, undefined)\n    // anchor 底中 (100,100) → frame[0,0] 落在 (99,98)\n    expect(fb.indices[98 * 320 + 99]).toBe(7)\n    // 旧 anchor (160,80) 处不应有像素\n    expect(fb.indices[78 * 320 + 159]).toBe(0)\n  })\n\n  it('enemy.currentFrame 优先于 per-enemy idleFrame', () => {\n    const fb = createFramebuffer()\n    const playerRoles: PlayerRoles = { roles: [] }\n    const e = spriteEnemy(50)\n    e.idleFrames = 2\n    e.idleAnimSpeed = 1\n    const be = battleEnemy(e)\n    be.pos = { x: 160, y: 80 }\n    be.currentFrame = 1 // 显式动画帧优先于 idleFrame\n    const sprites = new Map<string, SpriteAsset>([['enemy-50', twoByTwoSprites([11, 22])]])\n    const state = spriteState([], [be])\n    // idleFrame=0 与 currentFrame=1 冲突时，使用动画帧。\n    be.idleFrame = 0\n    drawBattleSprites(fb, state, sprites, playerRoles, undefined)\n    expect(fb.indices[78 * 320 + 159]).toBe(22)\n  })\n\n  it('Y-then-X 排序:Y 大的(屏幕下方)后画盖前', () => {\n    const fb = createFramebuffer()\n    const role = spriteRole(0, { spriteNumInBattle: 1 })\n    const playerRoles: PlayerRoles = { roles: [role] }\n    // 两个2×2精灵在 y=99 重叠；上/下独占行同时验证两个精灵确实绘制。\n    const be = battleEnemy(spriteEnemy(50))\n    be.pos = { x: 160, y: 101 }\n    const sprites = new Map<string, SpriteAsset>([\n      [\n        'enemy-50',\n        {\n          frames: [\n            {\n              width: 2,\n              height: 2,\n              indices: new Uint8Array(4).fill(9),\n              opaque: new Uint8Array(4).fill(1),\n            },\n          ],\n        },\n      ],\n      [\n        'player-1',\n        {\n          frames: [\n            {\n              width: 2,\n              height: 2,\n              indices: new Uint8Array(4).fill(8),\n              opaque: new Uint8Array(4).fill(1),\n            },\n          ],\n        },\n      ],\n    ])\n    const bp = battlePlayer(0)\n    bp.pos = { x: 160, y: 100 }\n    bp.currentFrame = 0\n    const state = spriteState([bp], [be])\n    drawBattleSprites(fb, state, sprites, playerRoles, undefined)\n    expect(Array.from(fb.indices.slice(98 * 320 + 159, 98 * 320 + 161))).toEqual([8, 8])\n    expect(Array.from(fb.indices.slice(99 * 320 + 159, 99 * 320 + 161))).toEqual([9, 9])\n    expect(Array.from(fb.indices.slice(100 * 320 + 159, 100 * 320 + 161))).toEqual([9, 9])\n  })\n})\n\ndescribe('death-fade pixels', () => {\n  // 注:像素落点 (12,0) → k=12 → residue 0 → jr=rgIndexInv[0]=0(块内第一个处理,step=0 即生效)。\n  it('residue 0 像素:step=0 高 nibble 立即换背景,低 nibble 未移(仍 bLow)', () => {\n    const fb = createFramebuffer()\n    // 背景 a = 0x57;sprite b = 0x32。1×1 frame anchor (12,1) → 落点 (12,0)\n    fb.writePixel(12, 0, 0x57)\n    blitFrameDeathFade(fb, rowFrame([0x32]), 12, 1, 0)\n    expect(fb.indices[0 * 320 + 12]).toBe(0x52) // high=a&0xF0=0x50;low=bLow(2 未移)\n  })\n\n  it('residue 0 像素 step 中途:低 nibble 朝 aLow 逼近 floor((step-jr)/6) 格', () => {\n    const fb = createFramebuffer()\n    fb.writePixel(12, 0, 0x09) // a high0 low9\n    // jr=0;b low=2;diff=9-2=7;step=18 → nudges=floor(18/6)=3 → low=2+3=5;high=0 → 0x05\n    blitFrameDeathFade(fb, rowFrame([0x02]), 12, 1, 18)\n    expect(fb.indices[0 * 320 + 12]).toBe(0x05)\n  })\n\n  it('6 帧节奏:同一外层 i 内(jr..jr+5)低 nibble 不动,+6 才推进 1 格(battle.c:634-650)', () => {\n    // residue 0(jr=0):diff=9-2=7。step=5 → nudges=0(仅高换 bg);step=6 → nudges=1。\n    const fb0 = createFramebuffer()\n    fb0.writePixel(12, 0, 0x09)\n    blitFrameDeathFade(fb0, rowFrame([0x02]), 12, 1, 5)\n    expect(fb0.indices[0 * 320 + 12]).toBe(0x02) // low 未移(仍 2),high=0\n    const fb1 = createFramebuffer()\n    fb1.writePixel(12, 0, 0x09)\n    blitFrameDeathFade(fb1, rowFrame([0x02]), 12, 1, 6)\n    expect(fb1.indices[0 * 320 + 12]).toBe(0x03) // nudges=1 → low=3\n  })\n\n  it('rgIndex 抖动错峰:residue!=0 的像素淡出起点 jr 滞后(step<jr 仍显原敌像素)', () => {\n    // (10,0):k=10,residue 4 → jr=rgIndexInv[4]=5;(12,0):residue 0 → jr=0。step=2 时:\n    //   r0 已换高 nibble,r4 还没轮到(显原敌像素)→ 抖动错峰的核心证据。\n    const fb = createFramebuffer()\n    fb.writePixel(10, 0, 0x57)\n    fb.writePixel(12, 0, 0x57)\n    blitFrameDeathFade(fb, rowFrame([0x32]), 10, 1, 2) // r4 jr5:step2<5 → 原像素 0x32\n    blitFrameDeathFade(fb, rowFrame([0x32]), 12, 1, 2) // r0 jr0:step2>=0 → 0x52\n    expect(fb.indices[0 * 320 + 10]).toBe(0x32) // 还没轮到 → 原敌像素\n    expect(fb.indices[0 * 320 + 12]).toBe(0x52) // 已换高 nibble\n  })\n\n  it('aLow < bLow:低 nibble 朝下逼近(diff<0)', () => {\n    const fb = createFramebuffer()\n    fb.writePixel(12, 0, 0x01) // aLow=1\n    // jr=0;bLow=9;diff=1-9=-8;step=18 → nudges=3 → low=9-3=6;high=0 → 0x06\n    blitFrameDeathFade(fb, rowFrame([0x09]), 12, 1, 18)\n    expect(fb.indices[0 * 320 + 12]).toBe(0x06)\n  })\n\n  it('step 足够大:低 nibble 完全收敛到 aLow → 像素 == 背景', () => {\n    const fb = createFramebuffer()\n    fb.writePixel(12, 0, 0x5a) // a high5 low10(0xA)\n    // jr=0;bLow=2;|diff|=8;step=66 → nudges=min(floor(66/6),8)=min(11,8)=8 → low=0xA;high=0x50 → 0x5A\n    blitFrameDeathFade(fb, rowFrame([0x32]), 12, 1, 66)\n    expect(fb.indices[0 * 320 + 12]).toBe(0x5a)\n  })\n\n  it('透明像素(opaque=0)跳过:背景不变', () => {\n    const fb = createFramebuffer()\n    fb.writePixel(12, 0, 0x77)\n    blitFrameDeathFade(fb, rowFrame([0x32], [0]), 12, 1, 5)\n    expect(fb.indices[0 * 320 + 12]).toBe(0x77) // 未写入\n  })\n})\n\ndescribe('enemy death-fade lifecycle', () => {\n  it('health<=0 + deathFadeStep undefined:照常画(刚被打死、淡出未开始 → 受击帧仍可见,不瞬隐)', () => {\n    // 修\"先消失再淡出\"bug:攻击动画期间敌人 HP 已 0 但淡出未开始,不能提前瞬隐\n    //   (对照 sdlpal:wObjectID 仍 !=0 照常画,动画收尾才 FadeScene)。\n    const fb = createFramebuffer()\n    const playerRoles: PlayerRoles = { roles: [] }\n    const be = battleEnemy(spriteEnemy(50, 0))\n    be.pos = { x: 160, y: 80 }\n    be.currentFrame = 0\n    // deathFadeStep 留 undefined → **照常 blit**(非瞬隐)\n    const sprites = new Map<string, SpriteAsset>([['enemy-50', twoByTwoSprites([9])]])\n    const state = spriteState([], [be])\n    drawBattleSprites(fb, state, sprites, playerRoles, undefined)\n    expect(fb.indices[78 * 320 + 159]).toBe(9) // 照常画(非瞬隐 0)\n  })\n\n  it('health<=0 + deathFadeStep 已开始:crossfade 画(高 nibble 换背景)', () => {\n    const fb = createFramebuffer()\n    // 背景:落点 (159,78) 写 0x50(high5 low0)\n    fb.writePixel(159, 78, 0x50)\n    const playerRoles: PlayerRoles = { roles: [] }\n    const be = battleEnemy(spriteEnemy(50, 0))\n    be.pos = { x: 160, y: 80 }\n    // (159,78):k=78*320+159=25119,residue 3 → jr=rgIndexInv[3]=1 → step=1 是该像素首次处理。\n    be.deathFadeStep = 1\n    be.currentFrame = 0\n    // sprite 像素 0x33(high3 low3);step=1>=jr=1,nudges=0 → high=a&F0=0x50,low=bLow=3 → 0x53\n    const sprites = new Map<string, SpriteAsset>([['enemy-50', twoByTwoSprites([0x33])]])\n    const state = spriteState([], [be])\n    drawBattleSprites(fb, state, sprites, playerRoles, undefined)\n    expect(fb.indices[78 * 320 + 159]).toBe(0x53)\n  })\n\n  it('health<=0 + deathFadeStep>=72:不画(淡完消失)', () => {\n    const fb = createFramebuffer()\n    fb.writePixel(159, 78, 0x40)\n    const playerRoles: PlayerRoles = { roles: [] }\n    const be = battleEnemy(spriteEnemy(50, 0))\n    be.pos = { x: 160, y: 80 }\n    be.deathFadeStep = 72\n    const sprites = new Map<string, SpriteAsset>([['enemy-50', twoByTwoSprites([0x33])]])\n    const state = spriteState([], [be])\n    drawBattleSprites(fb, state, sprites, playerRoles, undefined)\n    expect(fb.indices[78 * 320 + 159]).toBe(0x40) // 背景保留,未画 sprite\n  })\n})\n\ndescribe('enemy idle-frame consumption', () => {\n  it('DM11:idle 帧读 per-enemy idleFrame(battle-system 推进,渲染不再走全局时钟)', () => {\n    const playerRoles: PlayerRoles = { roles: [] }\n    const enemyA = spriteEnemy(50)\n    enemyA.idleFrames = 2\n    enemyA.idleAnimSpeed = 1\n    const sprites = new Map<string, SpriteAsset>([['enemy-50', twoByTwoSprites([11, 22])]])\n    const state = spriteState([], [battleEnemy(enemyA)])\n\n    // 敌方位置 (160, 80),anchor 底中 → frame[0,0] 落在 (159, 78)\n    const fb0 = createFramebuffer()\n    state.enemies[0]!.idleFrame = 0\n    drawBattleSprites(fb0, state, sprites, playerRoles, undefined)\n    expect(fb0.indices[78 * 320 + 159]).toBe(11) // frames[0]\n\n    const fb1 = createFramebuffer()\n    state.enemies[0]!.idleFrame = 1\n    drawBattleSprites(fb1, state, sprites, playerRoles, undefined)\n    expect(fb1.indices[78 * 320 + 159]).toBe(22) // frames[1]\n  })\n\n  it('sleep>0:不轮播,任意帧恒画 frames[0]', () => {\n    const playerRoles: PlayerRoles = { roles: [] }\n    const enemyA = spriteEnemy(50)\n    enemyA.idleFrames = 2\n    enemyA.idleAnimSpeed = 1\n    const sprites = new Map<string, SpriteAsset>([['enemy-50', twoByTwoSprites([11, 22])]])\n    const be = battleEnemy(enemyA)\n    be.status.sleep = 3\n    be.idleFrame = 1\n    const state = spriteState([], [be])\n\n    const fb = createFramebuffer()\n    drawBattleSprites(fb, state, sprites, playerRoles, undefined)\n    expect(fb.indices[78 * 320 + 159]).toBe(11) // 定格 frames[0]\n  })\n\n  it('越界兜底:frames 仅 1 帧但 idleFrames=2 时不越界(fallback frames[0])', () => {\n    const playerRoles: PlayerRoles = { roles: [] }\n    const enemyA = spriteEnemy(50)\n    enemyA.idleFrames = 2\n    enemyA.idleAnimSpeed = 1\n    // sprite 只 1 帧(资源不全),idx=1 时 frames[1] === undefined → fallback frames[0]\n    const sprites = new Map<string, SpriteAsset>([['enemy-50', twoByTwoSprites([33])]])\n    const state = spriteState([], [battleEnemy(enemyA)])\n    state.enemies[0]!.idleFrame = 1\n\n    const fb = createFramebuffer()\n    expect(() => drawBattleSprites(fb, state, sprites, playerRoles, undefined)).not.toThrow()\n    expect(fb.indices[78 * 320 + 159]).toBe(33) // fallback frames[0]\n  })\n})\n\ndescribe('enemy target highlighting', () => {\n  const targetSelection = (\n    uiState: BattleState['uiState'],\n    uiCursor: number,\n    healths: number[],\n  ): BattleState => ({\n    ...spriteState(\n      [],\n      healths.map((health, id) => battleEnemy(spriteEnemy(id, health))),\n    ),\n    uiState,\n    uiCursor,\n  })\n\n  it('blinkOn=false → 恒 0(blink off 帧不高亮,sprite 正常)', () => {\n    expect(\n      enemyTargetHighlightShift(targetSelection('selectTargetEnemy', 0, [100]), 0, false),\n    ).toBe(0)\n  })\n\n  it('selectTargetEnemy:选中敌人(idx===uiCursor)+ 活 + blinkOn → 7,非选中 → 0', () => {\n    const s = targetSelection('selectTargetEnemy', 1, [100, 100])\n    expect(enemyTargetHighlightShift(s, 1, true)).toBe(7)\n    expect(enemyTargetHighlightShift(s, 0, true)).toBe(0)\n  })\n\n  // PAL_CLASSIC:selectTargetEnemyAll 立即提交、**无任何高亮**(uibattle.c:1611-1617 \"Don't bother selecting\")。\n  //   全敌闪烁高亮是 #else WIN95 路径(uibattle.c:1628-1648),本项目 CLASSIC 基准不走 →\n  //   全体普攻/全体法术不该有选敌闪烁(user 2026-06-05 报\"都全体了选什么敌\")。\n  it('selectTargetEnemyAll(CLASSIC):无高亮 → 恒 0(立即提交,uibattle.c:1611-1617)', () => {\n    const s = targetSelection('selectTargetEnemyAll', 0, [100, 100])\n    expect(enemyTargetHighlightShift(s, 0, true)).toBe(0)\n    expect(enemyTargetHighlightShift(s, 1, true)).toBe(0)\n  })\n\n  it('死敌(health<=0)→ 0(不高亮;单体选择 health guard)', () => {\n    expect(\n      enemyTargetHighlightShift(targetSelection('selectTargetEnemy', 0, [0, 100]), 0, true),\n    ).toBe(0)\n  })\n\n  it('非 target 选择阶段(selectMove)→ 0', () => {\n    expect(enemyTargetHighlightShift(targetSelection('selectMove', 0, [100]), 0, true)).toBe(0)\n  })\n})\n\ndescribe('player idle pose precedence', () => {\n  const idlePlayer = (s: Partial<{ sleep: number; puppet: number }>, defending = false) => ({\n    status: { sleep: 0, puppet: 0, ...s },\n    defending,\n  })\n\n  const roleVitals = (hp: number, maxHP = 200) => ({ hp, maxHP })\n\n  // sdlpal fight.c:948-957:hp==0 非傀儡 → 帧2(倒下死姿);傀儡(死后仍可动)→ 帧0 站立。死帧优先于眠/濒死/防御。\n  it('hp==0 非傀儡 → 帧2(倒下死姿)', () => {\n    expect(computePlayerBattleIdleFrame(idlePlayer({}), roleVitals(0))).toBe(2)\n  })\n\n  it('hp==0 + 傀儡 → 帧0(站立)', () => {\n    expect(computePlayerBattleIdleFrame(idlePlayer({ puppet: 5 }), roleVitals(0))).toBe(0)\n  })\n\n  it('hp==0 即使 sleep/defend 也优先死帧2(死帧最高优先,fight.c:948 先判)', () => {\n    expect(computePlayerBattleIdleFrame(idlePlayer({ sleep: 3 }), roleVitals(0))).toBe(2)\n    expect(computePlayerBattleIdleFrame(idlePlayer({}, true), roleVitals(0))).toBe(2)\n  })\n\n  it('sleep>0 → 帧1(濒死姿)', () => {\n    expect(computePlayerBattleIdleFrame(idlePlayer({ sleep: 2 }), roleVitals(200))).toBe(1)\n  })\n\n  it('濒死(hp<min(100,maxHP/5))→ 帧1', () => {\n    expect(computePlayerBattleIdleFrame(idlePlayer({}), roleVitals(30, 200))).toBe(1) // 30 < min(100,40)\n  })\n\n  it('防御 → 帧3', () => {\n    expect(computePlayerBattleIdleFrame(idlePlayer({}, true), roleVitals(200))).toBe(3)\n  })\n\n  it('正常(非眠/非濒死/非防御)→ 帧0', () => {\n    expect(computePlayerBattleIdleFrame(idlePlayer({}), roleVitals(200))).toBe(0)\n  })\n})\n\ndescribe('confusion jitter quantization', () => {\n  it('rand01 → {-1,0,1}(RandomLong(-1,1) 等价)', () => {\n    expect(confusedShakeDelta(0)).toBe(-1) // [0,1/3)\n    expect(confusedShakeDelta(0.5)).toBe(0) // [1/3,2/3)\n    expect(confusedShakeDelta(0.99)).toBe(1) // [2/3,1)\n  })\n})\n",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "battle-sprites-1",
+      "path": "packages/game/src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+      "reason": "Pure pose and blit contracts separated from renderer caller contracts; state/frames shared only after duplicate/finite-domain checks. One ownership assertion strengthened independently with counter evidence; all other callbacks preserved under explicit fixture/name bridges.",
+      "changes": [
+        {
+          "from": "/**\n * TEST-GROK-RENDER-HOST-LARGE-1 G08-A。\n * 隐身、变身、空槽、动画帧和染色二次叠绘。不重领死亡淡出、idle 时钟和 Y 排序回调顺序。\n */\nimport type { Enemy, PlayerRole, PlayerRoles } from '@type-pal/shared'\nimport { describe, expect, it } from 'vitest'\nimport type { BattleEnemy, BattlePlayer, BattleState } from '../../core/battle/battle-state.js'\nimport { createSeedableRng } from '../../core/rng.js'\nimport { fillSentinel, pixel, SENTINEL } from '../__tests__/raster-fixtures.js'\nimport { createFramebuffer, type Framebuffer } from '../framebuffer.js'\nimport { drawBattleSprites, type SpriteAsset } from './draw-battle-sprites.js'\n\nfunction minimalRole(id: number, opts: Partial<PlayerRole> = {}): PlayerRole {\n  return {\n    id,\n    _name: `Role${id}`,\n    avatar: 0,\n    spriteNumInBattle: id,\n    spriteNum: 0,\n    name: 0,\n    attackAll: 0,\n    level: 10,\n    maxHP: 200,\n    maxMP: 30,\n    hp: 200,\n    mp: 30,\n    attackStrength: 0,\n    magicStrength: 0,\n    defense: 0,\n    dexterity: 30,\n    fleeRate: 5,\n    poisonResistance: 0,\n    elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },\n    walkFrames: 0,\n    attackSound: 0,\n    weaponSound: 0,\n    criticalSound: 0,\n    magicSound: 0,\n    deathSound: 0,\n    ...opts,\n  }\n}\n\nfunction minimalEnemy(id: number, health = 50): Enemy {\n  return {\n    id,\n    _name: 'TestEnemy',\n    idleFrames: 0,\n    magicFrames: 0,\n    attackFrames: 0,\n    idleAnimSpeed: 0,\n    actWaitFrames: 0,\n    yPosOffset: 0,\n    attackSound: 0,\n    actionSound: 0,\n    magicSound: 0,\n    deathSound: 0,\n    callSound: 0,\n    health,\n    exp: 10,\n    cash: 30,\n    level: 5,\n    magic: 0,\n    magicRate: 0,\n    attackEquivItem: 0,\n    attackEquivItemRate: 0,\n    stealItem: 0,\n    stealItemCount: 0,\n    attackStrength: 0,\n    magicStrength: 0,\n    defense: 0,\n    dexterity: 20,\n    fleeRate: 5,\n    poisonResistance: 0,\n    elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },\n    physicalResistance: 1,\n    dualMove: 0,\n    collectValue: 0,\n  }\n}\n\nfunction mkBattlePlayer(roleId: number): BattlePlayer {\n  return {\n    roleId,\n    prevHp: 200,\n    prevMp: 30,\n    defending: false,\n    status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 },\n  }\n}\n\nfunction mkBattleEnemy(e: Enemy): BattleEnemy {\n  return {\n    e: { ...e },\n    status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 },\n    prevHp: e.health,\n    scriptOnTurnStart: 0,\n    scriptOnBattleEnd: 0,\n    scriptOnReady: 0,\n  }\n}\n\nfunction mkState(players: BattlePlayer[], enemies: BattleEnemy[]): BattleState {\n  return {\n    players,\n    enemies,\n    field: {\n      id: 0,\n      screenWave: 0,\n      magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },\n    },\n    isBoss: false,\n    phase: 'selectAction',\n    turn: 1,\n    actionQueue: [],\n    currentActionIndex: 0,\n    pendingActions: new Map(),\n    uiState: 'selectMove',\n    menuState: 'main',\n    selectedAction: 0,\n    miscMenuCursor: 0,\n    miscSubMenuCursor: 0,\n    uiCursor: 0,\n    expGained: 0,\n    cashGained: 0,\n    rng: createSeedableRng(1),\n    phaseStallTicks: 0,\n  }\n}\n\nfunction spriteFills(fills: number[], w = 2, h = 2): SpriteAsset {\n  return {\n    frames: fills.map((fill) => ({\n      width: w,\n      height: h,\n      indices: new Uint8Array(w * h).fill(fill),\n      opaque: new Uint8Array(w * h).fill(1),\n    })),\n  }\n}\n\nfunction draw(\n  state: BattleState,\n  sprites: Map<string, SpriteAsset>,\n  roles: PlayerRoles,\n  hidePlayers = false,\n  overlays?: Array<{ x: number; sortY: number; draw: (fb: Framebuffer) => void }>,\n): Framebuffer {\n  const fb = createFramebuffer()\n  fillSentinel(fb)\n  drawBattleSprites(fb, state, sprites, roles, undefined, hidePlayers, overlays)\n  return fb\n}\n\ndescribe('G08-A 战斗精灵像素', () => {\n  it('G08-A01 染色精灵被后排盖住后，第二遍仍把重叠点染回低半字节', () => {\n    const player = mkBattlePlayer(0)\n    player.pos = { x: 80, y: 41 }\n    const enemy = mkBattleEnemy(minimalEnemy(7))\n    enemy.pos = { x: 80, y: 40 }\n    enemy.iColorShift = 1\n    const roles: PlayerRoles = { roles: [minimalRole(0, { spriteNumInBattle: 1 })] }\n    const sprites = new Map<string, SpriteAsset>([\n      ['player-1', spriteFills([0x21])],\n      ['enemy-7', spriteFills([0x13])],\n    ])\n    const fb = draw(mkState([player], [enemy]), sprites, roles)\n    // 敌 (79,38)-(80,39) 先画成 0x14；队员 (79,39)-(80,40) 盖住第 39 行；第二遍把 39 行染回。\n    expect(pixel(fb, 79, 39)).toBe(0x14)\n    expect(pixel(fb, 79, 38)).toBe(0x14)\n    expect(pixel(fb, 79, 40)).toBe(0x21)\n  })\n\n  it('G08-A02 召唤隐藏队员时敌方像素仍在，队员锚点保持哨兵', () => {\n    const player = mkBattlePlayer(0)\n    player.pos = { x: 100, y: 80 }\n    const enemy = mkBattleEnemy(minimalEnemy(7))\n    enemy.pos = { x: 40, y: 40 }\n    const role = minimalRole(0, { spriteNumInBattle: 1, hp: 180 })\n    const roles: PlayerRoles = { roles: [role] }\n    const sprites = new Map<string, SpriteAsset>([\n      ['player-1', spriteFills([8])],\n      ['enemy-7', spriteFills([9])],\n    ])\n    const fb = draw(mkState([player], [enemy]), sprites, roles, true)\n    expect(pixel(fb, 99, 78)).toBe(SENTINEL)\n    expect(pixel(fb, 39, 38)).toBe(9)\n    expect(role.hp).toBe(180)\n  })\n\n  it('G08-A03 隐身计时大于 0 且无染色时不画队员，计时本身不被消耗', () => {\n    const player = mkBattlePlayer(0)\n    player.pos = { x: 100, y: 80 }\n    player.iColorShift = 0\n    const enemy = mkBattleEnemy(minimalEnemy(7))\n    enemy.pos = { x: 40, y: 40 }\n    const state = mkState([player], [enemy])\n    state.iHidingTime = 6\n    const roles: PlayerRoles = { roles: [minimalRole(0, { spriteNumInBattle: 1 })] }\n    const sprites = new Map<string, SpriteAsset>([\n      ['player-1', spriteFills([8])],\n      ['enemy-7', spriteFills([9])],\n    ])\n    const fb = draw(state, sprites, roles)\n    expect(pixel(fb, 99, 78)).toBe(SENTINEL)\n    expect(pixel(fb, 39, 38)).toBe(9)\n    expect(state.iHidingTime).toBe(6)\n  })\n\n  it('G08-A04 隐身期间染色不为 0 仍画出偏移后的低半字节', () => {\n    const player = mkBattlePlayer(0)\n    player.pos = { x: 100, y: 80 }\n    player.iColorShift = 2\n    const state = mkState([player], [])\n    state.iHidingTime = 6\n    const roles: PlayerRoles = { roles: [minimalRole(0, { spriteNumInBattle: 1 })] }\n    const sprites = new Map<string, SpriteAsset>([['player-1', spriteFills([0x13])]])\n    const fb = draw(state, sprites, roles)\n    expect(pixel(fb, 99, 78)).toBe(0x15)\n    expect(pixel(fb, 70, 70)).toBe(SENTINEL)\n  })\n\n  it('G08-A05 负的隐身计时是待激活标记，队员照常画出', () => {\n    const player = mkBattlePlayer(0)\n    player.pos = { x: 100, y: 80 }\n    const state = mkState([player], [])\n    state.iHidingTime = -5\n    const roles: PlayerRoles = { roles: [minimalRole(0, { spriteNumInBattle: 1 })] }\n    const sprites = new Map<string, SpriteAsset>([['player-1', spriteFills([8])]])\n    const fb = draw(state, sprites, roles)\n    expect(pixel(fb, 99, 78)).toBe(8)\n    expect(state.iHidingTime).toBe(-5)\n  })\n\n  it('G08-A06 spriteNumOverride 取 player-覆盖号，不用角色战斗图号', () => {\n    const player = mkBattlePlayer(0)\n    player.pos = { x: 100, y: 80 }\n    player.spriteNumOverride = 4\n    const roles: PlayerRoles = { roles: [minimalRole(0, { spriteNumInBattle: 1 })] }\n    const sprites = new Map<string, SpriteAsset>([\n      ['player-1', spriteFills([8])],\n      ['player-4', spriteFills([22])],\n    ])\n    const fb = draw(mkState([player], []), sprites, roles)\n    expect(pixel(fb, 99, 78)).toBe(22)\n  })\n\n  it('G08-A07 覆盖号 0 不是空值，仍查 player-0', () => {\n    const player = mkBattlePlayer(0)\n    player.pos = { x: 100, y: 80 }\n    player.spriteNumOverride = 0\n    const roles: PlayerRoles = { roles: [minimalRole(0, { spriteNumInBattle: 1 })] }\n    const sprites = new Map<string, SpriteAsset>([\n      ['player-1', spriteFills([8])],\n      ['player-0', spriteFills([30])],\n    ])\n    const fb = draw(mkState([player], []), sprites, roles)\n    expect(pixel(fb, 99, 78)).toBe(30)\n  })\n\n  it('G08-A08 已击败且淡出未开始的空槽不画，旁边活敌照画', () => {\n    const empty = mkBattleEnemy(minimalEnemy(7, 0))\n    empty.defeated = true\n    empty.pos = { x: 30, y: 30 }\n    const live = mkBattleEnemy(minimalEnemy(8))\n    live.pos = { x: 50, y: 30 }\n    const sprites = new Map<string, SpriteAsset>([\n      ['enemy-7', spriteFills([9])],\n      ['enemy-8', spriteFills([8])],\n    ])\n    const fb = draw(mkState([], [empty, live]), sprites, { roles: [] })\n    expect(pixel(fb, 29, 28)).toBe(SENTINEL)\n    expect(pixel(fb, 49, 28)).toBe(8)\n  })\n\n  it('G08-A09 战斗动画进行时用 currentFrame，不用倒下帧 2', () => {\n    const player = mkBattlePlayer(0)\n    player.pos = { x: 100, y: 80 }\n    player.currentFrame = 0\n    const role = minimalRole(0, { spriteNumInBattle: 1, hp: 0 })\n    const state = mkState([player], [])\n    state.battleAnim = { frames: [{ durationMs: 40 }], idx: 0, frameElapsedMs: 0 }\n    const sprites = new Map<string, SpriteAsset>([['player-1', spriteFills([8, 9, 10])]])\n    const fb = draw(state, sprites, { roles: [role] })\n    expect(pixel(fb, 99, 78)).toBe(8)\n  })\n\n  it('G08-A10 动画帧号越界时退回第 0 帧，不退回倒下帧', () => {\n    const player = mkBattlePlayer(0)\n    player.pos = { x: 100, y: 80 }\n    player.currentFrame = 7\n    const role = minimalRole(0, { spriteNumInBattle: 1, hp: 0 })\n    const state = mkState([player], [])\n    state.battleAnim = { frames: [{ durationMs: 40 }], idx: 0, frameElapsedMs: 0 }\n    const sprites = new Map<string, SpriteAsset>([['player-1', spriteFills([8, 9, 10])]])\n    const fb = draw(state, sprites, { roles: [role] })\n    expect(pixel(fb, 99, 78)).toBe(8)\n  })\n\n  it('G08-A11 只有逃跑动画时也读 currentFrame', () => {\n    const player = mkBattlePlayer(0)\n    player.pos = { x: 100, y: 80 }\n    player.currentFrame = 1\n    const role = minimalRole(0, { spriteNumInBattle: 1, hp: 0 })\n    const state = mkState([player], [])\n    state.fleeAnim = { step: 0 }\n    const sprites = new Map<string, SpriteAsset>([['player-1', spriteFills([8, 9, 10])]])\n    const fb = draw(state, sprites, { roles: [role] })\n    expect(pixel(fb, 99, 78)).toBe(9)\n  })\n\n  it('G08-A12 角色资料缺失时跳过该队员，敌方像素保留', () => {\n    const player = mkBattlePlayer(4)\n    player.pos = { x: 100, y: 80 }\n    const enemy = mkBattleEnemy(minimalEnemy(7))\n    enemy.pos = { x: 40, y: 40 }\n    const sprites = new Map<string, SpriteAsset>([\n      ['player-1', spriteFills([8])],\n      ['enemy-7', spriteFills([9])],\n    ])\n    const fb = draw(mkState([player], [enemy]), sprites, { roles: [minimalRole(0)] })\n    expect(pixel(fb, 99, 78)).toBe(SENTINEL)\n    expect(pixel(fb, 39, 38)).toBe(9)\n  })\n\n  it('G08-A13 排序更靠前的法术回调盖住未染色敌方像素', () => {\n    const enemy = mkBattleEnemy(minimalEnemy(7))\n    enemy.pos = { x: 80, y: 40 }\n    const sprites = new Map<string, SpriteAsset>([['enemy-7', spriteFills([11])]])\n    const fb = draw(mkState([], [enemy]), sprites, { roles: [] }, false, [\n      {\n        x: 80,\n        sortY: 90,\n        draw: (surface) => {\n          surface.writePixel(79, 38, 77)\n        },\n      },\n    ])\n    expect(pixel(fb, 79, 38)).toBe(77)\n  })\n\n  it('G08-A14 排序更靠后的法术回调被敌方盖住，框外那一点留下', () => {\n    const enemy = mkBattleEnemy(minimalEnemy(7))\n    enemy.pos = { x: 80, y: 40 }\n    const sprites = new Map<string, SpriteAsset>([['enemy-7', spriteFills([11])]])\n    const fb = draw(mkState([], [enemy]), sprites, { roles: [] }, false, [\n      {\n        x: 10,\n        sortY: 10,\n        draw: (surface) => {\n          surface.writePixel(79, 38, 77)\n          surface.writePixel(12, 12, 77)\n        },\n      },\n    ])\n    expect(pixel(fb, 79, 38)).toBe(11)\n    expect(pixel(fb, 12, 12)).toBe(77)\n  })\n\n  it('G08-A15 绘制不改角色体力，也不改精灵帧里的索引', () => {\n    const player = mkBattlePlayer(0)\n    player.pos = { x: 100, y: 80 }\n    const role = minimalRole(0, { spriteNumInBattle: 1, hp: 144 })\n    const asset = spriteFills([8])\n    const before = asset.frames[0]?.indices[0]\n    const state = mkState([player], [])\n    state.iHidingTime = 0\n    draw(state, new Map([['player-1', asset]]), { roles: [role] })\n    expect(role.hp).toBe(144)\n    expect(asset.frames[0]?.indices[0]).toBe(before)\n    expect(state.iHidingTime).toBe(0)\n  })\n})\n",
+          "to": "import {\n  spriteRole,\n  spriteEnemy,\n  battlePlayer,\n  battleEnemy,\n  spriteState,\n} from './battle-sprite-state.js'\nimport { twoByTwoSprites, rowFrame, markedFramebuffer } from './battle-sprite-frames.js'\nimport { solidIndexedImage as solidFrame } from '../../__tests__/raster-fixtures.js'\n/**\n * TEST-GROK-RENDER-HOST-LARGE-1 G08-A。\n * 隐身、变身、空槽、动画帧和染色二次叠绘。不重领死亡淡出、idle 时钟和 Y 排序回调顺序。\n */\nimport type { Enemy, PlayerRole, PlayerRoles } from '@type-pal/shared'\nimport { describe, expect, it } from 'vitest'\nimport type { BattleEnemy, BattlePlayer, BattleState } from '../../../core/battle/battle-state.js'\nimport { createSeedableRng } from '../../../core/rng.js'\nimport { fillSentinel, pixel, SENTINEL } from '../../__tests__/raster-fixtures.js'\nimport { createFramebuffer, type Framebuffer } from '../../framebuffer.js'\nimport { drawBattleSprites, type SpriteAsset } from '../draw-battle-sprites.js'\n\nfunction renderSpriteState(\n  state: BattleState,\n  sprites: Map<string, SpriteAsset>,\n  roles: PlayerRoles,\n  hidePlayers = false,\n  overlays?: Array<{ x: number; sortY: number; draw: (fb: Framebuffer) => void }>,\n): Framebuffer {\n  const fb = markedFramebuffer()\n  drawBattleSprites(fb, state, sprites, roles, undefined, hidePlayers, overlays)\n  return fb\n}\n\nfunction spritePixelSnapshot(asset: SpriteAsset) {\n  return asset.frames.map((frame) => ({\n    width: frame.width,\n    height: frame.height,\n    indices: Array.from(frame.indices),\n    opaque: Array.from(frame.opaque),\n  }))\n}\ndescribe('battle visibility, animation and overlay ordering', () => {\n  it('染色精灵被前排队员盖住后，第二遍恢复重叠点的染色', () => {\n    const player = battlePlayer(0)\n    player.pos = { x: 80, y: 41 }\n    const enemy = battleEnemy(spriteEnemy(7))\n    enemy.pos = { x: 80, y: 40 }\n    enemy.iColorShift = 1\n    const roles: PlayerRoles = { roles: [spriteRole(0, { spriteNumInBattle: 1 })] }\n    const sprites = new Map<string, SpriteAsset>([\n      ['player-1', twoByTwoSprites([0x21])],\n      ['enemy-7', twoByTwoSprites([0x13])],\n    ])\n    const fb = renderSpriteState(spriteState([player], [enemy]), sprites, roles)\n    // 敌 (79,38)-(80,39) 先画成 0x14；队员 (79,39)-(80,40) 盖住第 39 行；第二遍把 39 行染回。\n    expect(pixel(fb, 79, 39)).toBe(0x14)\n    expect(pixel(fb, 79, 38)).toBe(0x14)\n    expect(pixel(fb, 79, 40)).toBe(0x21)\n  })\n\n  it('召唤隐藏队员时敌方像素仍在，队员锚点保持哨兵', () => {\n    const player = battlePlayer(0)\n    player.pos = { x: 100, y: 80 }\n    const enemy = battleEnemy(spriteEnemy(7))\n    enemy.pos = { x: 40, y: 40 }\n    const role = spriteRole(0, { spriteNumInBattle: 1, hp: 180 })\n    const roles: PlayerRoles = { roles: [role] }\n    const sprites = new Map<string, SpriteAsset>([\n      ['player-1', twoByTwoSprites([8])],\n      ['enemy-7', twoByTwoSprites([9])],\n    ])\n    const fb = renderSpriteState(spriteState([player], [enemy]), sprites, roles, true)\n    expect(pixel(fb, 99, 78)).toBe(SENTINEL)\n    expect(pixel(fb, 39, 38)).toBe(9)\n    expect(role.hp).toBe(180)\n  })\n\n  it('隐身计时大于 0 且无染色时不画队员，计时本身不被消耗', () => {\n    const player = battlePlayer(0)\n    player.pos = { x: 100, y: 80 }\n    player.iColorShift = 0\n    const enemy = battleEnemy(spriteEnemy(7))\n    enemy.pos = { x: 40, y: 40 }\n    const state = spriteState([player], [enemy])\n    state.iHidingTime = 6\n    const roles: PlayerRoles = { roles: [spriteRole(0, { spriteNumInBattle: 1 })] }\n    const sprites = new Map<string, SpriteAsset>([\n      ['player-1', twoByTwoSprites([8])],\n      ['enemy-7', twoByTwoSprites([9])],\n    ])\n    const fb = renderSpriteState(state, sprites, roles)\n    expect(pixel(fb, 99, 78)).toBe(SENTINEL)\n    expect(pixel(fb, 39, 38)).toBe(9)\n    expect(state.iHidingTime).toBe(6)\n  })\n\n  it('隐身期间染色不为 0 仍画出偏移后的低半字节', () => {\n    const player = battlePlayer(0)\n    player.pos = { x: 100, y: 80 }\n    player.iColorShift = 2\n    const state = spriteState([player], [])\n    state.iHidingTime = 6\n    const roles: PlayerRoles = { roles: [spriteRole(0, { spriteNumInBattle: 1 })] }\n    const sprites = new Map<string, SpriteAsset>([['player-1', twoByTwoSprites([0x13])]])\n    const fb = renderSpriteState(state, sprites, roles)\n    expect(pixel(fb, 99, 78)).toBe(0x15)\n    expect(pixel(fb, 70, 70)).toBe(SENTINEL)\n  })\n\n  it('负的隐身计时是待激活标记，队员照常画出', () => {\n    const player = battlePlayer(0)\n    player.pos = { x: 100, y: 80 }\n    const state = spriteState([player], [])\n    state.iHidingTime = -5\n    const roles: PlayerRoles = { roles: [spriteRole(0, { spriteNumInBattle: 1 })] }\n    const sprites = new Map<string, SpriteAsset>([['player-1', twoByTwoSprites([8])]])\n    const fb = renderSpriteState(state, sprites, roles)\n    expect(pixel(fb, 99, 78)).toBe(8)\n    expect(state.iHidingTime).toBe(-5)\n  })\n\n  it('spriteNumOverride 取 player-覆盖号，不用角色战斗图号', () => {\n    const player = battlePlayer(0)\n    player.pos = { x: 100, y: 80 }\n    player.spriteNumOverride = 4\n    const roles: PlayerRoles = { roles: [spriteRole(0, { spriteNumInBattle: 1 })] }\n    const sprites = new Map<string, SpriteAsset>([\n      ['player-1', twoByTwoSprites([8])],\n      ['player-4', twoByTwoSprites([22])],\n    ])\n    const fb = renderSpriteState(spriteState([player], []), sprites, roles)\n    expect(pixel(fb, 99, 78)).toBe(22)\n  })\n\n  it('覆盖号 0 不是空值，仍查 player-0', () => {\n    const player = battlePlayer(0)\n    player.pos = { x: 100, y: 80 }\n    player.spriteNumOverride = 0\n    const roles: PlayerRoles = { roles: [spriteRole(0, { spriteNumInBattle: 1 })] }\n    const sprites = new Map<string, SpriteAsset>([\n      ['player-1', twoByTwoSprites([8])],\n      ['player-0', twoByTwoSprites([30])],\n    ])\n    const fb = renderSpriteState(spriteState([player], []), sprites, roles)\n    expect(pixel(fb, 99, 78)).toBe(30)\n  })\n\n  it('已击败且淡出未开始的空槽不画，旁边活敌照画', () => {\n    const empty = battleEnemy(spriteEnemy(7, 0))\n    empty.defeated = true\n    empty.pos = { x: 30, y: 30 }\n    const live = battleEnemy(spriteEnemy(8))\n    live.pos = { x: 50, y: 30 }\n    const sprites = new Map<string, SpriteAsset>([\n      ['enemy-7', twoByTwoSprites([9])],\n      ['enemy-8', twoByTwoSprites([8])],\n    ])\n    const fb = renderSpriteState(spriteState([], [empty, live]), sprites, { roles: [] })\n    expect(pixel(fb, 29, 28)).toBe(SENTINEL)\n    expect(pixel(fb, 49, 28)).toBe(8)\n  })\n\n  it('战斗动画进行时用 currentFrame，不用倒下帧 2', () => {\n    const player = battlePlayer(0)\n    player.pos = { x: 100, y: 80 }\n    player.currentFrame = 0\n    const role = spriteRole(0, { spriteNumInBattle: 1, hp: 0 })\n    const state = spriteState([player], [])\n    state.battleAnim = { frames: [{ durationMs: 40 }], idx: 0, frameElapsedMs: 0 }\n    const sprites = new Map<string, SpriteAsset>([['player-1', twoByTwoSprites([8, 9, 10])]])\n    const fb = renderSpriteState(state, sprites, { roles: [role] })\n    expect(pixel(fb, 99, 78)).toBe(8)\n  })\n\n  it('动画帧号越界时退回第 0 帧，不退回倒下帧', () => {\n    const player = battlePlayer(0)\n    player.pos = { x: 100, y: 80 }\n    player.currentFrame = 7\n    const role = spriteRole(0, { spriteNumInBattle: 1, hp: 0 })\n    const state = spriteState([player], [])\n    state.battleAnim = { frames: [{ durationMs: 40 }], idx: 0, frameElapsedMs: 0 }\n    const sprites = new Map<string, SpriteAsset>([['player-1', twoByTwoSprites([8, 9, 10])]])\n    const fb = renderSpriteState(state, sprites, { roles: [role] })\n    expect(pixel(fb, 99, 78)).toBe(8)\n  })\n\n  it('只有逃跑动画时也读 currentFrame', () => {\n    const player = battlePlayer(0)\n    player.pos = { x: 100, y: 80 }\n    player.currentFrame = 1\n    const role = spriteRole(0, { spriteNumInBattle: 1, hp: 0 })\n    const state = spriteState([player], [])\n    state.fleeAnim = { step: 0 }\n    const sprites = new Map<string, SpriteAsset>([['player-1', twoByTwoSprites([8, 9, 10])]])\n    const fb = renderSpriteState(state, sprites, { roles: [role] })\n    expect(pixel(fb, 99, 78)).toBe(9)\n  })\n\n  it('角色资料缺失时跳过该队员，敌方像素保留', () => {\n    const player = battlePlayer(4)\n    player.pos = { x: 100, y: 80 }\n    const enemy = battleEnemy(spriteEnemy(7))\n    enemy.pos = { x: 40, y: 40 }\n    const sprites = new Map<string, SpriteAsset>([\n      ['player-1', twoByTwoSprites([8])],\n      ['enemy-7', twoByTwoSprites([9])],\n    ])\n    const fb = renderSpriteState(spriteState([player], [enemy]), sprites, {\n      roles: [spriteRole(0)],\n    })\n    expect(pixel(fb, 99, 78)).toBe(SENTINEL)\n    expect(pixel(fb, 39, 38)).toBe(9)\n  })\n\n  it('sortY=90 的法术在 y=40 敌人之后绘制并覆盖', () => {\n    const enemy = battleEnemy(spriteEnemy(7))\n    enemy.pos = { x: 80, y: 40 }\n    const sprites = new Map<string, SpriteAsset>([['enemy-7', twoByTwoSprites([11])]])\n    const fb = renderSpriteState(spriteState([], [enemy]), sprites, { roles: [] }, false, [\n      {\n        x: 80,\n        sortY: 90,\n        draw: (surface) => {\n          surface.writePixel(79, 38, 77)\n        },\n      },\n    ])\n    expect(pixel(fb, 79, 38)).toBe(77)\n  })\n\n  it('sortY=10 的法术先于 y=40 敌人绘制，框外像素保留', () => {\n    const enemy = battleEnemy(spriteEnemy(7))\n    enemy.pos = { x: 80, y: 40 }\n    const sprites = new Map<string, SpriteAsset>([['enemy-7', twoByTwoSprites([11])]])\n    const fb = renderSpriteState(spriteState([], [enemy]), sprites, { roles: [] }, false, [\n      {\n        x: 10,\n        sortY: 10,\n        draw: (surface) => {\n          surface.writePixel(79, 38, 77)\n          surface.writePixel(12, 12, 77)\n        },\n      },\n    ])\n    expect(pixel(fb, 79, 38)).toBe(11)\n    expect(pixel(fb, 12, 12)).toBe(77)\n  })\n\n  it('绘制保留角色体力、全部帧字节和隐身计数', () => {\n    const player = battlePlayer(0)\n    player.pos = { x: 100, y: 80 }\n    const role = spriteRole(0, { spriteNumInBattle: 1, hp: 144 })\n    const asset = twoByTwoSprites([8])\n    const before = spritePixelSnapshot(asset)\n    const state = spriteState([player], [])\n    state.iHidingTime = 0\n    renderSpriteState(state, new Map([['player-1', asset]]), { roles: [role] })\n    expect(role.hp).toBe(144)\n    expect(spritePixelSnapshot(asset)).toEqual(before)\n    expect(state.iHidingTime).toBe(0)\n  })\n})\n",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "battle-sprites-2",
+      "path": "packages/game/src/present/battle/draw-battle-sprites.glm-phase1-leaves.test.ts",
+      "reason": "Pure pose and blit contracts separated from renderer caller contracts; state/frames shared only after duplicate/finite-domain checks. One ownership assertion strengthened independently with counter evidence; all other callbacks preserved under explicit fixture/name bridges.",
+      "changes": [
+        {
+          "from": "/** 底中锚裁剪的完整像素域；业务姿态与淡出见其它精灵专测，不授宿主全管线信用。 */\nimport { describe, expect, it } from 'vitest'\nimport { createFramebuffer, type Framebuffer } from '../framebuffer.js'\nimport { blitFrame } from './draw-battle-sprites.js'\n\nfunction solid(w: number, h: number, index: number) {\n  const n = w * h\n  return {\n    width: w,\n    height: h,\n    indices: new Uint8Array(n).fill(index),\n    opaque: new Uint8Array(n).fill(1),\n  }\n}\n\nfunction freshFb(): Framebuffer {\n  const fb = createFramebuffer()\n  fb.indices.fill(0x5a)\n  return fb\n}\n\ndescribe('L14 blitFrame 边缘裁剪', () => {\n  it('8×8 精灵 anchor 右缘（baseX=316）：右侧 4 列被裁，界内 4 列照写、不抛错', () => {\n    const fb = freshFb()\n    blitFrame(fb, solid(8, 8, 0x33), 320, 100) // baseX = 320-4 = 316\n    // 固定屏幕矩形与所有外围像素，防止越界写串到下一行。\n    const expected = new Uint8Array(320 * 200).fill(0x5a)\n    for (let y = 92; y < 100; y++) expected.fill(0x33, y * 320 + 316, y * 320 + 320)\n    expect(Buffer.compare(fb.indices, expected)).toBe(0)\n  })\n\n  it('anchor 完全出右界（baseX=320）：全裁剪无写入', () => {\n    const fb = freshFb()\n    blitFrame(fb, solid(8, 8, 0x33), 324, 100)\n    expect(fb.indices.every((v) => v === 0x5a)).toBe(true)\n  })\n\n  it('anchorY 在顶缘（baseY<0）：顶部裁剪，底部行照写；iColorShift 仍应用', () => {\n    const fb = freshFb()\n    blitFrame(fb, solid(8, 8, 0x03), 160, 4, 6) // baseY = 4-8 = -4\n    const expected = new Uint8Array(320 * 200).fill(0x5a)\n    for (let y = 0; y < 4; y++) expected.fill(0x09, y * 320 + 156, y * 320 + 164)\n    expect(Buffer.compare(fb.indices, expected)).toBe(0)\n  })\n})\n",
+          "to": "import {\n  spriteRole,\n  spriteEnemy,\n  battlePlayer,\n  battleEnemy,\n  spriteState,\n} from './battle-sprite-state.js'\nimport { twoByTwoSprites, rowFrame, markedFramebuffer } from './battle-sprite-frames.js'\nimport { solidIndexedImage as solidFrame } from '../../__tests__/raster-fixtures.js'\n/** 底中锚裁剪的完整像素域；业务姿态与淡出见其它精灵专测，不授宿主全管线信用。 */\nimport { describe, expect, it } from 'vitest'\nimport { createFramebuffer, type Framebuffer } from '../../framebuffer.js'\nimport { blitFrame } from '../draw-battle-sprites.js'\n\ndescribe('bottom-centred blit clipping', () => {\n  it('8×8 精灵 anchor 右缘（baseX=316）：右侧 4 列被裁，界内 4 列照写、不抛错', () => {\n    const fb = markedFramebuffer()\n    blitFrame(fb, solidFrame(8, 8, 0x33), 320, 100) // baseX = 320-4 = 316\n    // 固定屏幕矩形与所有外围像素，防止越界写串到下一行。\n    const expected = new Uint8Array(320 * 200).fill(0x5a)\n    for (let y = 92; y < 100; y++) expected.fill(0x33, y * 320 + 316, y * 320 + 320)\n    expect(Buffer.compare(fb.indices, expected)).toBe(0)\n  })\n\n  it('anchor 完全出右界（baseX=320）：全裁剪无写入', () => {\n    const fb = markedFramebuffer()\n    blitFrame(fb, solidFrame(8, 8, 0x33), 324, 100)\n    expect(fb.indices.every((v) => v === 0x5a)).toBe(true)\n  })\n\n  it('anchorY 在顶缘（baseY<0）：顶部裁剪，底部行照写；iColorShift 仍应用', () => {\n    const fb = markedFramebuffer()\n    blitFrame(fb, solidFrame(8, 8, 0x03), 160, 4, 6) // baseY = 4-8 = -4\n    const expected = new Uint8Array(320 * 200).fill(0x5a)\n    for (let y = 0; y < 4; y++) expected.fill(0x09, y * 320 + 156, y * 320 + 164)\n    expect(Buffer.compare(fb.indices, expected)).toBe(0)\n  })\n})\n",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "replacements": [],
+  "registrations": [
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "ordinal": 0
+      },
+      "originalOrdinal": 0,
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "titles": ["battle sprite resources and baseline anchors"],
+        "template": "画一个队员 + 一个敌方,落在预期位置(底中 anchor)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "ordinal": 1
+      },
+      "originalOrdinal": 1,
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "titles": ["battle sprite resources and baseline anchors"],
+        "template": "死亡队员使用倒下帧2而非站立帧0"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "ordinal": 2
+      },
+      "originalOrdinal": 2,
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "titles": ["battle sprite resources and baseline anchors"],
+        "template": "sprite Map 缺资源时跳过,不抛错"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "ordinal": 3
+      },
+      "originalOrdinal": 3,
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "titles": ["battle sprite resources and baseline anchors"],
+        "template": "sprite opaque=0 透明,不覆盖背景(M3.5 fix:透明判定走 opaque,不再 idx===0)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "ordinal": 4
+      },
+      "originalOrdinal": 4,
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "titles": ["render-state colour shift"],
+        "template": "low-nibble 0x03 + 6 = 0x09"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "ordinal": 5
+      },
+      "originalOrdinal": 5,
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "titles": ["render-state colour shift"],
+        "template": "low-nibble 0x0C + 6 = 0x12 → clamp 0x0F(高 nibble 0)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "ordinal": 6
+      },
+      "originalOrdinal": 6,
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "titles": ["render-state colour shift"],
+        "template": "high-nibble 0xF0 保留:0xF3 + 6 → 0xF9"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "ordinal": 7
+      },
+      "originalOrdinal": 7,
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "titles": ["render-state colour shift"],
+        "template": "high-nibble 不变示例:0x53 + 6 → 0x59(高 nibble 5 保留)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "ordinal": 8
+      },
+      "originalOrdinal": 8,
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "titles": ["render-state colour shift"],
+        "template": "opaque 像素 idx 值 0 → 也偏移(0+6=6)(sdlpal direct run 不豁免 0)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "ordinal": 9
+      },
+      "originalOrdinal": 9,
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "titles": ["render-state colour shift"],
+        "template": "iColorShift=0:退化为原值(等价旧 blit,不染色)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "ordinal": 10
+      },
+      "originalOrdinal": 10,
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "titles": ["render-state colour shift"],
+        "template": "透明像素(opaque=0)无视 shift,背景不变"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "ordinal": 11
+      },
+      "originalOrdinal": 11,
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "titles": ["render position, frame precedence and ordering"],
+        "template": "enemy.pos 覆盖 anchor:画在 render-state pos 而非 EnemyPos 表"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "ordinal": 12
+      },
+      "originalOrdinal": 12,
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "titles": ["render position, frame precedence and ordering"],
+        "template": "enemy.currentFrame 优先于 per-enemy idleFrame"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "ordinal": 13
+      },
+      "originalOrdinal": 13,
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "titles": ["render position, frame precedence and ordering"],
+        "template": "Y-then-X 排序:Y 大的(屏幕下方)后画盖前"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "ordinal": 14
+      },
+      "originalOrdinal": 14,
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/blit-battle-frame.test.ts",
+        "titles": ["death-fade pixels"],
+        "template": "residue 0 像素:step=0 高 nibble 立即换背景,低 nibble 未移(仍 bLow)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "ordinal": 15
+      },
+      "originalOrdinal": 15,
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/blit-battle-frame.test.ts",
+        "titles": ["death-fade pixels"],
+        "template": "residue 0 像素 step 中途:低 nibble 朝 aLow 逼近 floor((step-jr)/6) 格"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "ordinal": 16
+      },
+      "originalOrdinal": 16,
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/blit-battle-frame.test.ts",
+        "titles": ["death-fade pixels"],
+        "template": "6 帧节奏:同一外层 i 内(jr..jr+5)低 nibble 不动,+6 才推进 1 格(battle.c:634-650)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "ordinal": 17
+      },
+      "originalOrdinal": 17,
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/blit-battle-frame.test.ts",
+        "titles": ["death-fade pixels"],
+        "template": "rgIndex 抖动错峰:residue!=0 的像素淡出起点 jr 滞后(step<jr 仍显原敌像素)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "ordinal": 18
+      },
+      "originalOrdinal": 18,
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/blit-battle-frame.test.ts",
+        "titles": ["death-fade pixels"],
+        "template": "aLow < bLow:低 nibble 朝下逼近(diff<0)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "ordinal": 19
+      },
+      "originalOrdinal": 19,
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/blit-battle-frame.test.ts",
+        "titles": ["death-fade pixels"],
+        "template": "step 足够大:低 nibble 完全收敛到 aLow → 像素 == 背景"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "ordinal": 20
+      },
+      "originalOrdinal": 20,
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/blit-battle-frame.test.ts",
+        "titles": ["death-fade pixels"],
+        "template": "透明像素(opaque=0)跳过:背景不变"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "ordinal": 21
+      },
+      "originalOrdinal": 21,
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "titles": ["enemy death-fade lifecycle"],
+        "template": "health<=0 + deathFadeStep undefined:照常画(刚被打死、淡出未开始 → 受击帧仍可见,不瞬隐)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "ordinal": 22
+      },
+      "originalOrdinal": 22,
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "titles": ["enemy death-fade lifecycle"],
+        "template": "health<=0 + deathFadeStep 已开始:crossfade 画(高 nibble 换背景)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "ordinal": 23
+      },
+      "originalOrdinal": 23,
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "titles": ["enemy death-fade lifecycle"],
+        "template": "health<=0 + deathFadeStep>=72:不画(淡完消失)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "ordinal": 24
+      },
+      "originalOrdinal": 24,
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "titles": ["enemy idle-frame consumption"],
+        "template": "DM11:idle 帧读 per-enemy idleFrame(battle-system 推进,渲染不再走全局时钟)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "ordinal": 25
+      },
+      "originalOrdinal": 25,
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "titles": ["enemy idle-frame consumption"],
+        "template": "sleep>0:不轮播,任意帧恒画 frames[0]"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "ordinal": 26
+      },
+      "originalOrdinal": 26,
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "titles": ["enemy idle-frame consumption"],
+        "template": "越界兜底:frames 仅 1 帧但 idleFrames=2 时不越界(fallback frames[0])"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "ordinal": 27
+      },
+      "originalOrdinal": 27,
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/battle-sprite-pose.test.ts",
+        "titles": ["enemy target highlighting"],
+        "template": "blinkOn=false → 恒 0(blink off 帧不高亮,sprite 正常)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "ordinal": 28
+      },
+      "originalOrdinal": 28,
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/battle-sprite-pose.test.ts",
+        "titles": ["enemy target highlighting"],
+        "template": "selectTargetEnemy:选中敌人(idx===uiCursor)+ 活 + blinkOn → 7,非选中 → 0"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "ordinal": 29
+      },
+      "originalOrdinal": 29,
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/battle-sprite-pose.test.ts",
+        "titles": ["enemy target highlighting"],
+        "template": "selectTargetEnemyAll(CLASSIC):无高亮 → 恒 0(立即提交,uibattle.c:1611-1617)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "ordinal": 30
+      },
+      "originalOrdinal": 30,
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/battle-sprite-pose.test.ts",
+        "titles": ["enemy target highlighting"],
+        "template": "死敌(health<=0)→ 0(不高亮;单体选择 health guard)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "ordinal": 31
+      },
+      "originalOrdinal": 31,
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/battle-sprite-pose.test.ts",
+        "titles": ["enemy target highlighting"],
+        "template": "非 target 选择阶段(selectMove)→ 0"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "ordinal": 32
+      },
+      "originalOrdinal": 32,
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/battle-sprite-pose.test.ts",
+        "titles": ["player idle pose precedence"],
+        "template": "hp==0 非傀儡 → 帧2(倒下死姿)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "ordinal": 33
+      },
+      "originalOrdinal": 33,
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/battle-sprite-pose.test.ts",
+        "titles": ["player idle pose precedence"],
+        "template": "hp==0 + 傀儡 → 帧0(站立)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "ordinal": 34
+      },
+      "originalOrdinal": 34,
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/battle-sprite-pose.test.ts",
+        "titles": ["player idle pose precedence"],
+        "template": "hp==0 即使 sleep/defend 也优先死帧2(死帧最高优先,fight.c:948 先判)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "ordinal": 35
+      },
+      "originalOrdinal": 35,
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/battle-sprite-pose.test.ts",
+        "titles": ["player idle pose precedence"],
+        "template": "sleep>0 → 帧1(濒死姿)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "ordinal": 36
+      },
+      "originalOrdinal": 36,
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/battle-sprite-pose.test.ts",
+        "titles": ["player idle pose precedence"],
+        "template": "濒死(hp<min(100,maxHP/5))→ 帧1"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "ordinal": 37
+      },
+      "originalOrdinal": 37,
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/battle-sprite-pose.test.ts",
+        "titles": ["player idle pose precedence"],
+        "template": "防御 → 帧3"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "ordinal": 38
+      },
+      "originalOrdinal": 38,
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/battle-sprite-pose.test.ts",
+        "titles": ["player idle pose precedence"],
+        "template": "正常(非眠/非濒死/非防御)→ 帧0"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "ordinal": 39
+      },
+      "originalOrdinal": 39,
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/battle-sprite-pose.test.ts",
+        "titles": ["confusion jitter quantization"],
+        "template": "rand01 → {-1,0,1}(RandomLong(-1,1) 等价)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+        "ordinal": 0
+      },
+      "originalOrdinal": 0,
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "titles": ["battle visibility, animation and overlay ordering"],
+        "template": "染色精灵被前排队员盖住后，第二遍恢复重叠点的染色"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+        "ordinal": 1
+      },
+      "originalOrdinal": 1,
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "titles": ["battle visibility, animation and overlay ordering"],
+        "template": "召唤隐藏队员时敌方像素仍在，队员锚点保持哨兵"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+        "ordinal": 2
+      },
+      "originalOrdinal": 2,
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "titles": ["battle visibility, animation and overlay ordering"],
+        "template": "隐身计时大于 0 且无染色时不画队员，计时本身不被消耗"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+        "ordinal": 3
+      },
+      "originalOrdinal": 3,
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "titles": ["battle visibility, animation and overlay ordering"],
+        "template": "隐身期间染色不为 0 仍画出偏移后的低半字节"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+        "ordinal": 4
+      },
+      "originalOrdinal": 4,
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "titles": ["battle visibility, animation and overlay ordering"],
+        "template": "负的隐身计时是待激活标记，队员照常画出"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+        "ordinal": 5
+      },
+      "originalOrdinal": 5,
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "titles": ["battle visibility, animation and overlay ordering"],
+        "template": "spriteNumOverride 取 player-覆盖号，不用角色战斗图号"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+        "ordinal": 6
+      },
+      "originalOrdinal": 6,
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "titles": ["battle visibility, animation and overlay ordering"],
+        "template": "覆盖号 0 不是空值，仍查 player-0"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+        "ordinal": 7
+      },
+      "originalOrdinal": 7,
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "titles": ["battle visibility, animation and overlay ordering"],
+        "template": "已击败且淡出未开始的空槽不画，旁边活敌照画"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+        "ordinal": 8
+      },
+      "originalOrdinal": 8,
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "titles": ["battle visibility, animation and overlay ordering"],
+        "template": "战斗动画进行时用 currentFrame，不用倒下帧 2"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+        "ordinal": 9
+      },
+      "originalOrdinal": 9,
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "titles": ["battle visibility, animation and overlay ordering"],
+        "template": "动画帧号越界时退回第 0 帧，不退回倒下帧"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+        "ordinal": 10
+      },
+      "originalOrdinal": 10,
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "titles": ["battle visibility, animation and overlay ordering"],
+        "template": "只有逃跑动画时也读 currentFrame"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+        "ordinal": 11
+      },
+      "originalOrdinal": 11,
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "titles": ["battle visibility, animation and overlay ordering"],
+        "template": "角色资料缺失时跳过该队员，敌方像素保留"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+        "ordinal": 12
+      },
+      "originalOrdinal": 12,
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "titles": ["battle visibility, animation and overlay ordering"],
+        "template": "sortY=90 的法术在 y=40 敌人之后绘制并覆盖"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+        "ordinal": 13
+      },
+      "originalOrdinal": 13,
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "titles": ["battle visibility, animation and overlay ordering"],
+        "template": "sortY=10 的法术先于 y=40 敌人绘制，框外像素保留"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+        "ordinal": 14
+      },
+      "originalOrdinal": 14,
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "titles": ["battle visibility, animation and overlay ordering"],
+        "template": "绘制保留角色体力、全部帧字节和隐身计数"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/draw-battle-sprites.glm-phase1-leaves.test.ts",
+        "ordinal": 0
+      },
+      "originalOrdinal": 0,
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/blit-battle-frame.test.ts",
+        "titles": ["bottom-centred blit clipping"],
+        "template": "8×8 精灵 anchor 右缘（baseX=316）：右侧 4 列被裁，界内 4 列照写、不抛错"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/draw-battle-sprites.glm-phase1-leaves.test.ts",
+        "ordinal": 1
+      },
+      "originalOrdinal": 1,
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/blit-battle-frame.test.ts",
+        "titles": ["bottom-centred blit clipping"],
+        "template": "anchor 完全出右界（baseX=320）：全裁剪无写入"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/draw-battle-sprites.glm-phase1-leaves.test.ts",
+        "ordinal": 2
+      },
+      "originalOrdinal": 2,
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/blit-battle-frame.test.ts",
+        "titles": ["bottom-centred blit clipping"],
+        "template": "anchorY 在顶缘（baseY<0）：顶部裁剪，底部行照写；iColorShift 仍应用"
+      }
+    }
+  ],
+  "identities": [
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "drawBattleSprites 画一个队员 + 一个敌方,落在预期位置(底中 anchor)"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "battle sprite resources and baseline anchors 画一个队员 + 一个敌方,落在预期位置(底中 anchor)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "drawBattleSprites 死亡队员使用倒下帧2而非站立帧0"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "battle sprite resources and baseline anchors 死亡队员使用倒下帧2而非站立帧0"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "drawBattleSprites sprite Map 缺资源时跳过,不抛错"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "battle sprite resources and baseline anchors sprite Map 缺资源时跳过,不抛错"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "drawBattleSprites sprite opaque=0 透明,不覆盖背景(M3.5 fix:透明判定走 opaque,不再 idx===0)"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "battle sprite resources and baseline anchors sprite opaque=0 透明,不覆盖背景(M3.5 fix:透明判定走 opaque,不再 idx===0)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "drawBattleSprites — iColorShift 染色 blit(D17a,palcommon.c:397-411) low-nibble 0x03 + 6 = 0x09"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "render-state colour shift low-nibble 0x03 + 6 = 0x09"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "drawBattleSprites — iColorShift 染色 blit(D17a,palcommon.c:397-411) low-nibble 0x0C + 6 = 0x12 → clamp 0x0F(高 nibble 0)"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "render-state colour shift low-nibble 0x0C + 6 = 0x12 → clamp 0x0F(高 nibble 0)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "drawBattleSprites — iColorShift 染色 blit(D17a,palcommon.c:397-411) high-nibble 0xF0 保留:0xF3 + 6 → 0xF9"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "render-state colour shift high-nibble 0xF0 保留:0xF3 + 6 → 0xF9"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "drawBattleSprites — iColorShift 染色 blit(D17a,palcommon.c:397-411) high-nibble 不变示例:0x53 + 6 → 0x59(高 nibble 5 保留)"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "render-state colour shift high-nibble 不变示例:0x53 + 6 → 0x59(高 nibble 5 保留)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "drawBattleSprites — iColorShift 染色 blit(D17a,palcommon.c:397-411) opaque 像素 idx 值 0 → 也偏移(0+6=6)(sdlpal direct run 不豁免 0)"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "render-state colour shift opaque 像素 idx 值 0 → 也偏移(0+6=6)(sdlpal direct run 不豁免 0)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "drawBattleSprites — iColorShift 染色 blit(D17a,palcommon.c:397-411) iColorShift=0:退化为原值(等价旧 blit,不染色)"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "render-state colour shift iColorShift=0:退化为原值(等价旧 blit,不染色)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "drawBattleSprites — iColorShift 染色 blit(D17a,palcommon.c:397-411) 透明像素(opaque=0)无视 shift,背景不变"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "render-state colour shift 透明像素(opaque=0)无视 shift,背景不变"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "drawBattleSprites — render-state pos/currentFrame(D17a) enemy.pos 覆盖 anchor:画在 render-state pos 而非 EnemyPos 表"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "render position, frame precedence and ordering enemy.pos 覆盖 anchor:画在 render-state pos 而非 EnemyPos 表"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "drawBattleSprites — render-state pos/currentFrame(D17a) enemy.currentFrame 优先于 per-enemy idleFrame"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "render position, frame precedence and ordering enemy.currentFrame 优先于 per-enemy idleFrame"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "drawBattleSprites — render-state pos/currentFrame(D17a) Y-then-X 排序:Y 大的(屏幕下方)后画盖前"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "render position, frame precedence and ordering Y-then-X 排序:Y 大的(屏幕下方)后画盖前"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "blitFrameDeathFade — 死亡淡出 crossfade(D17,battle.c:650-662) residue 0 像素:step=0 高 nibble 立即换背景,低 nibble 未移(仍 bLow)"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/blit-battle-frame.test.ts",
+        "fullName": "death-fade pixels residue 0 像素:step=0 高 nibble 立即换背景,低 nibble 未移(仍 bLow)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "blitFrameDeathFade — 死亡淡出 crossfade(D17,battle.c:650-662) residue 0 像素 step 中途:低 nibble 朝 aLow 逼近 floor((step-jr)/6) 格"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/blit-battle-frame.test.ts",
+        "fullName": "death-fade pixels residue 0 像素 step 中途:低 nibble 朝 aLow 逼近 floor((step-jr)/6) 格"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "blitFrameDeathFade — 死亡淡出 crossfade(D17,battle.c:650-662) 6 帧节奏:同一外层 i 内(jr..jr+5)低 nibble 不动,+6 才推进 1 格(battle.c:634-650)"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/blit-battle-frame.test.ts",
+        "fullName": "death-fade pixels 6 帧节奏:同一外层 i 内(jr..jr+5)低 nibble 不动,+6 才推进 1 格(battle.c:634-650)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "blitFrameDeathFade — 死亡淡出 crossfade(D17,battle.c:650-662) rgIndex 抖动错峰:residue!=0 的像素淡出起点 jr 滞后(step<jr 仍显原敌像素)"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/blit-battle-frame.test.ts",
+        "fullName": "death-fade pixels rgIndex 抖动错峰:residue!=0 的像素淡出起点 jr 滞后(step<jr 仍显原敌像素)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "blitFrameDeathFade — 死亡淡出 crossfade(D17,battle.c:650-662) aLow < bLow:低 nibble 朝下逼近(diff<0)"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/blit-battle-frame.test.ts",
+        "fullName": "death-fade pixels aLow < bLow:低 nibble 朝下逼近(diff<0)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "blitFrameDeathFade — 死亡淡出 crossfade(D17,battle.c:650-662) step 足够大:低 nibble 完全收敛到 aLow → 像素 == 背景"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/blit-battle-frame.test.ts",
+        "fullName": "death-fade pixels step 足够大:低 nibble 完全收敛到 aLow → 像素 == 背景"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "blitFrameDeathFade — 死亡淡出 crossfade(D17,battle.c:650-662) 透明像素(opaque=0)跳过:背景不变"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/blit-battle-frame.test.ts",
+        "fullName": "death-fade pixels 透明像素(opaque=0)跳过:背景不变"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "drawBattleSprites — 敌人死亡淡出集成(D17) health<=0 + deathFadeStep undefined:照常画(刚被打死、淡出未开始 → 受击帧仍可见,不瞬隐)"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "enemy death-fade lifecycle health<=0 + deathFadeStep undefined:照常画(刚被打死、淡出未开始 → 受击帧仍可见,不瞬隐)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "drawBattleSprites — 敌人死亡淡出集成(D17) health<=0 + deathFadeStep 已开始:crossfade 画(高 nibble 换背景)"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "enemy death-fade lifecycle health<=0 + deathFadeStep 已开始:crossfade 画(高 nibble 换背景)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "drawBattleSprites — 敌人死亡淡出集成(D17) health<=0 + deathFadeStep>=72:不画(淡完消失)"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "enemy death-fade lifecycle health<=0 + deathFadeStep>=72:不画(淡完消失)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "drawBattleSprites — 敌人 idle 帧轮播(D17c) DM11:idle 帧读 per-enemy idleFrame(battle-system 推进,渲染不再走全局时钟)"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "enemy idle-frame consumption DM11:idle 帧读 per-enemy idleFrame(battle-system 推进,渲染不再走全局时钟)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "drawBattleSprites — 敌人 idle 帧轮播(D17c) sleep>0:不轮播,任意帧恒画 frames[0]"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "enemy idle-frame consumption sleep>0:不轮播,任意帧恒画 frames[0]"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "drawBattleSprites — 敌人 idle 帧轮播(D17c) 越界兜底:frames 仅 1 帧但 idleFrames=2 时不越界(fallback frames[0])"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "enemy idle-frame consumption 越界兜底:frames 仅 1 帧但 idleFrames=2 时不越界(fallback frames[0])"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "enemyTargetHighlightShift(敌方目标 ColorShift 高亮,sdlpal uibattle.c:1495-1510) blinkOn=false → 恒 0(blink off 帧不高亮,sprite 正常)"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/battle-sprite-pose.test.ts",
+        "fullName": "enemy target highlighting blinkOn=false → 恒 0(blink off 帧不高亮,sprite 正常)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "enemyTargetHighlightShift(敌方目标 ColorShift 高亮,sdlpal uibattle.c:1495-1510) selectTargetEnemy:选中敌人(idx===uiCursor)+ 活 + blinkOn → 7,非选中 → 0"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/battle-sprite-pose.test.ts",
+        "fullName": "enemy target highlighting selectTargetEnemy:选中敌人(idx===uiCursor)+ 活 + blinkOn → 7,非选中 → 0"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "enemyTargetHighlightShift(敌方目标 ColorShift 高亮,sdlpal uibattle.c:1495-1510) selectTargetEnemyAll(CLASSIC):无高亮 → 恒 0(立即提交,uibattle.c:1611-1617)"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/battle-sprite-pose.test.ts",
+        "fullName": "enemy target highlighting selectTargetEnemyAll(CLASSIC):无高亮 → 恒 0(立即提交,uibattle.c:1611-1617)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "enemyTargetHighlightShift(敌方目标 ColorShift 高亮,sdlpal uibattle.c:1495-1510) 死敌(health<=0)→ 0(不高亮;单体选择 health guard)"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/battle-sprite-pose.test.ts",
+        "fullName": "enemy target highlighting 死敌(health<=0)→ 0(不高亮;单体选择 health guard)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "enemyTargetHighlightShift(敌方目标 ColorShift 高亮,sdlpal uibattle.c:1495-1510) 非 target 选择阶段(selectMove)→ 0"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/battle-sprite-pose.test.ts",
+        "fullName": "enemy target highlighting 非 target 选择阶段(selectMove)→ 0"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "computePlayerBattleIdleFrame(玩家状态空闲帧,sdlpal fight.c:948-984) hp==0 非傀儡 → 帧2(倒下死姿)"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/battle-sprite-pose.test.ts",
+        "fullName": "player idle pose precedence hp==0 非傀儡 → 帧2(倒下死姿)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "computePlayerBattleIdleFrame(玩家状态空闲帧,sdlpal fight.c:948-984) hp==0 + 傀儡 → 帧0(站立)"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/battle-sprite-pose.test.ts",
+        "fullName": "player idle pose precedence hp==0 + 傀儡 → 帧0(站立)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "computePlayerBattleIdleFrame(玩家状态空闲帧,sdlpal fight.c:948-984) hp==0 即使 sleep/defend 也优先死帧2(死帧最高优先,fight.c:948 先判)"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/battle-sprite-pose.test.ts",
+        "fullName": "player idle pose precedence hp==0 即使 sleep/defend 也优先死帧2(死帧最高优先,fight.c:948 先判)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "computePlayerBattleIdleFrame(玩家状态空闲帧,sdlpal fight.c:948-984) sleep>0 → 帧1(濒死姿)"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/battle-sprite-pose.test.ts",
+        "fullName": "player idle pose precedence sleep>0 → 帧1(濒死姿)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "computePlayerBattleIdleFrame(玩家状态空闲帧,sdlpal fight.c:948-984) 濒死(hp<min(100,maxHP/5))→ 帧1"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/battle-sprite-pose.test.ts",
+        "fullName": "player idle pose precedence 濒死(hp<min(100,maxHP/5))→ 帧1"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "computePlayerBattleIdleFrame(玩家状态空闲帧,sdlpal fight.c:948-984) 防御 → 帧3"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/battle-sprite-pose.test.ts",
+        "fullName": "player idle pose precedence 防御 → 帧3"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "computePlayerBattleIdleFrame(玩家状态空闲帧,sdlpal fight.c:948-984) 正常(非眠/非濒死/非防御)→ 帧0"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/battle-sprite-pose.test.ts",
+        "fullName": "player idle pose precedence 正常(非眠/非濒死/非防御)→ 帧0"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "confusedShakeDelta(混乱 ±1px 抖动,sdlpal battle.c:121/196) rand01 → {-1,0,1}(RandomLong(-1,1) 等价)"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/battle-sprite-pose.test.ts",
+        "fullName": "confusion jitter quantization rand01 → {-1,0,1}(RandomLong(-1,1) 等价)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+        "fullName": "G08-A 战斗精灵像素 G08-A01 染色精灵被后排盖住后，第二遍仍把重叠点染回低半字节"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "battle visibility, animation and overlay ordering 染色精灵被前排队员盖住后，第二遍恢复重叠点的染色"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+        "fullName": "G08-A 战斗精灵像素 G08-A02 召唤隐藏队员时敌方像素仍在，队员锚点保持哨兵"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "battle visibility, animation and overlay ordering 召唤隐藏队员时敌方像素仍在，队员锚点保持哨兵"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+        "fullName": "G08-A 战斗精灵像素 G08-A03 隐身计时大于 0 且无染色时不画队员，计时本身不被消耗"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "battle visibility, animation and overlay ordering 隐身计时大于 0 且无染色时不画队员，计时本身不被消耗"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+        "fullName": "G08-A 战斗精灵像素 G08-A04 隐身期间染色不为 0 仍画出偏移后的低半字节"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "battle visibility, animation and overlay ordering 隐身期间染色不为 0 仍画出偏移后的低半字节"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+        "fullName": "G08-A 战斗精灵像素 G08-A05 负的隐身计时是待激活标记，队员照常画出"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "battle visibility, animation and overlay ordering 负的隐身计时是待激活标记，队员照常画出"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+        "fullName": "G08-A 战斗精灵像素 G08-A06 spriteNumOverride 取 player-覆盖号，不用角色战斗图号"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "battle visibility, animation and overlay ordering spriteNumOverride 取 player-覆盖号，不用角色战斗图号"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+        "fullName": "G08-A 战斗精灵像素 G08-A07 覆盖号 0 不是空值，仍查 player-0"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "battle visibility, animation and overlay ordering 覆盖号 0 不是空值，仍查 player-0"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+        "fullName": "G08-A 战斗精灵像素 G08-A08 已击败且淡出未开始的空槽不画，旁边活敌照画"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "battle visibility, animation and overlay ordering 已击败且淡出未开始的空槽不画，旁边活敌照画"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+        "fullName": "G08-A 战斗精灵像素 G08-A09 战斗动画进行时用 currentFrame，不用倒下帧 2"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "battle visibility, animation and overlay ordering 战斗动画进行时用 currentFrame，不用倒下帧 2"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+        "fullName": "G08-A 战斗精灵像素 G08-A10 动画帧号越界时退回第 0 帧，不退回倒下帧"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "battle visibility, animation and overlay ordering 动画帧号越界时退回第 0 帧，不退回倒下帧"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+        "fullName": "G08-A 战斗精灵像素 G08-A11 只有逃跑动画时也读 currentFrame"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "battle visibility, animation and overlay ordering 只有逃跑动画时也读 currentFrame"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+        "fullName": "G08-A 战斗精灵像素 G08-A12 角色资料缺失时跳过该队员，敌方像素保留"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "battle visibility, animation and overlay ordering 角色资料缺失时跳过该队员，敌方像素保留"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+        "fullName": "G08-A 战斗精灵像素 G08-A13 排序更靠前的法术回调盖住未染色敌方像素"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "battle visibility, animation and overlay ordering sortY=90 的法术在 y=40 敌人之后绘制并覆盖"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+        "fullName": "G08-A 战斗精灵像素 G08-A14 排序更靠后的法术回调被敌方盖住，框外那一点留下"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "battle visibility, animation and overlay ordering sortY=10 的法术先于 y=40 敌人绘制，框外像素保留"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+        "fullName": "G08-A 战斗精灵像素 G08-A15 绘制不改角色体力，也不改精灵帧里的索引"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "fullName": "battle visibility, animation and overlay ordering 绘制保留角色体力、全部帧字节和隐身计数"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/draw-battle-sprites.glm-phase1-leaves.test.ts",
+        "fullName": "L14 blitFrame 边缘裁剪 8×8 精灵 anchor 右缘（baseX=316）：右侧 4 列被裁，界内 4 列照写、不抛错"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/blit-battle-frame.test.ts",
+        "fullName": "bottom-centred blit clipping 8×8 精灵 anchor 右缘（baseX=316）：右侧 4 列被裁，界内 4 列照写、不抛错"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/draw-battle-sprites.glm-phase1-leaves.test.ts",
+        "fullName": "L14 blitFrame 边缘裁剪 anchor 完全出右界（baseX=320）：全裁剪无写入"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/blit-battle-frame.test.ts",
+        "fullName": "bottom-centred blit clipping anchor 完全出右界（baseX=320）：全裁剪无写入"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/battle/draw-battle-sprites.glm-phase1-leaves.test.ts",
+        "fullName": "L14 blitFrame 边缘裁剪 anchorY 在顶缘（baseY<0）：顶部裁剪，底部行照写；iColorShift 仍应用"
+      },
+      "current": {
+        "file": "packages/game/src/present/battle/__tests__/blit-battle-frame.test.ts",
+        "fullName": "bottom-centred blit clipping anchorY 在顶缘（baseY<0）：顶部裁剪，底部行照写；iColorShift 仍应用"
+      }
+    }
+  ],
+  "cohortSubjects": [
+    {
+      "path": "packages/game/src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+      "sha256": "5b63c47a79607ca9100299fbe534fb11657e9972b1423c0fa31fe9b7f494e126",
+      "priorCurrentBridges": [
+        {
+          "evidence": "organization-game-render-fixtures.json",
+          "path": "packages/game/src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+          "sha256": "5b63c47a79607ca9100299fbe534fb11657e9972b1423c0fa31fe9b7f494e126",
+          "member": "organization-game-render-fixtures/22.before",
+          "currentSha256": "5618eea1b49c3ad25435ea1d929b5ad10c5db040edd930390184388d2bc62778"
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/present/battle/draw-battle-sprites.glm-phase1-leaves.test.ts",
+      "sha256": "2891953e04cfb5200dad7bafb2985fb63a39fb3dd750a70b62c390027810320e",
+      "priorCurrentBridges": []
+    }
+  ],
+  "preserved": [
+    {
+      "path": "packages/game/src/present/battle/draw-battle-sprites.ts",
+      "sha256": "3fc14745f59a500b8417db1dd0b7757d3279c54df778c91d0874942bbd295540"
+    },
+    {
+      "path": "packages/game/src/present/battle/present-battle.ts",
+      "sha256": "f80d6676cd039c117a7efc6aa5ef35958b395b1e62d0f8a950fd8bde622c2453"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-positions.ts",
+      "sha256": "d068e5b70e39af41d57672c9ccb7d952184e76de8836865756f714657d3e372d"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-state.ts",
+      "sha256": "546e8e2e86ec08c45492b80cb03349cc1a9a182735626f5ba53248d672a1e386"
+    },
+    {
+      "path": "packages/game/src/core/rng.ts",
+      "sha256": "93c4d82e1abf4622b166686762084083bc27410d2079f450c4e9dc75ee43cde8"
+    },
+    {
+      "path": "packages/game/src/present/framebuffer.ts",
+      "sha256": "fdd25deedeb33da252d5efa9392bc5af088365a2a6dab3129c2b373aeeb0e060"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/raster-fixtures.ts",
+      "sha256": "d62741ab845759e2b42e992d4675e679b54464f207c3a8118af0f94dac9b5157"
+    },
+    {
+      "path": "packages/game/vitest.config.ts",
+      "sha256": "3dd92ad4886bc72c88e7a7b2e6bdacc3aaf9e2a24ac72153f3b619ba37feb7d4"
+    },
+    {
+      "path": "packages/game/src/assets/png.ts",
+      "sha256": "4954c8f732085b29f94904caf21a0b43a40aba9437aedcd0ab34d34a1286c2d5"
+    }
+  ],
+  "neighborPaths": [
+    "packages/game/src/present/battle/__tests__/battle-feedback-composition.test.ts",
+    "packages/game/src/present/battle/__tests__/battle-present-lifecycle.test.ts",
+    "packages/game/src/present/battle/__tests__/battle-sprite-pose.test.ts",
+    "packages/game/src/present/battle/__tests__/blit-battle-frame.test.ts",
+    "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+    "packages/game/src/present/battle/__tests__/present-battle.test.ts"
+  ],
+  "profiles": [
+    {
+      "path": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+      "subjects": [
+        "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "packages/game/src/present/battle/battle-sprite-pixels.grok-r1.test.ts"
+      ],
+      "axes": {
+        "A": "35原renderer合同直接跑drawBattleSprites；保持资源/帧优先级/姿态/隐身/override0、排序/二次染色和deathFade生命周期，真实宿主liveRoles及overlay caller定向核，产品不改。",
+        "B": "后排误述改前排队员，sortY90/10明确绘制先后；旧M3/M5 future注改当前fallback，N×1单位与rowWidth一致，不冒称浏览器/原盘视觉。",
+        "C": "纯pose和纯blit退出renderer spec；实际state.iColorShift→画面接线仍留此层，零底与0x5a底输入分明，资源读取不接管核心状态。",
+        "D": "五同版完整状态factory抽共享；2×2色帧/单行色值借相同合同frame provider，保透明自定义frame；不同全局battle-record默认不强并。",
+        "E": "原35case不增删；一条首像素ownership断言升级全部frame尺寸/indices/opaque，真实源尾字节变异旧1绿/新1AssertionError，HP/hiding断言保留；其它callback经独立完整AST核。",
+        "F": "spriteRole/battleEnemy/renderSpriteState、rowWidth/pixels与具体资源/动画/层序组说明用途，删除泛mk/spriteFills/draw和作者标题。",
+        "G": "不将全部58例合成巨文件；删除重复factory/测试文件，未加规则豁免、SUT私有出口或额外测试数量。",
+        "H": "真实FB/renderer和显式state驱动；默认selectMove无随机/闪烁依赖，未用不必要Date mock，counter恢复Source/test/status完全一致。"
+      },
+      "acceptance": "accepted-FG; unified gates pending"
+    },
+    {
+      "path": "packages/game/src/present/battle/__tests__/blit-battle-frame.test.ts",
+      "subjects": [
+        "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "packages/game/src/present/battle/draw-battle-sprites.glm-phase1-leaves.test.ts"
+      ],
+      "axes": {
+        "A": "10原direct blit/fade合同保全：7错峰/高低nibble/收敛/透明、3四周平面裁剪；显式buffer、step、shift，不修改输入frames。",
+        "B": "像素residue/jr与半开步域说明保留，普通blit与死亡淡出调用分开，有限收敛例不扩称所有低位差。",
+        "C": "纯像素合同退出BattleState/role/enemy/RNG准备，仅依赖真实FB与frame generator，裁剪expected全64000字节仍独立。",
+        "D": "单行非均匀mask与solid8×8不强并成布尔helper；只共享typed必有mask的frame数据，保每次fresh buffer与0x5a底。",
+        "E": "原10完整callbacks/所有literal/expect保持，原全平面裁剪oracle保留；旧反控只按原证据边界复用，未用clone自比替代实际FB结果。",
+        "F": "blit-battle-frame与death-fade/clipping分组表达直接入口，rowFrame/solidFrame/markedFramebuffer体现图形和底色准备。",
+        "G": "不带unused状态fixture/时钟/RNG，不为少文件合并pose/IO；无测试或断言退役。",
+        "H": "直接可控步号/背景/索引，真实blit执行，pixel oracle手列与整平面互补，无私有cache/模拟算法。"
+      },
+      "acceptance": "accepted-FG; unified gates pending"
+    },
+    {
+      "path": "packages/game/src/present/battle/__tests__/battle-sprite-pose.test.ts",
+      "subjects": ["packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts"],
+      "axes": {
+        "A": "13原纯规则case保持：5目标高亮/7玩家姿态优先级/1随机量化；合法hp/puppet/sleep/defend与CLASSIC全体立即提交边界明确。",
+        "B": "保纯函数blink参数与CLASSIC参考范围，不把纯规则断言冒称真实随机抖动/交互或PNG验证。",
+        "C": "仅规则输入/输出，不导入FrameBuffer/位图helper；targetSelection使用完整typed状态，idlePlayer/roleVitals按纯函数最小输入。",
+        "D": "复用同合同state factory而不复制Enemy/BattleState；三规则输出语义不同，保分组，无模式万能helper。",
+        "E": "原13参数、固定期望与反例完整AST守恒，死亡同时sleep/defend、all-enemy不闪与非目标等不同判别轴保留。",
+        "F": "idlePlayer/roleVitals/targetSelection替代P/R/mk，文件名和组名直接表示姿态/选择规则。",
+        "G": "删无关渲染/资源准备和作者组织负担，不新加产品接口或运行例数。",
+        "H": "blink和rand01显式注入，状态独立、无Date/Math.random spy；函数结果是实际SUT返回，不复制公式当oracle。"
+      },
+      "acceptance": "accepted-FG; unified gates pending"
+    },
+    {
+      "path": "packages/game/src/present/battle/__tests__/battle-sprite-state.ts",
+      "subjects": [
+        "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "packages/game/src/present/battle/battle-sprite-pixels.grok-r1.test.ts"
+      ],
+      "axes": {
+        "A": "完整Enemy/Role/BattlePlayer/Enemy/State typed输入保持；默认数值/status/seed1按原声明保存，没有hydrate/机制改动。",
+        "B": "说明每调用fresh状态/queue/RNG，未将partial renderer fixture冒称完整生产startBattle。",
+        "C": "状态准备与像素准备分文件，两个真实spec consumer；无FrameBuffer/IO/呈现反向运行依赖。",
+        "D": "原main/Grok五factory完整声明同版相等后才共享；与其它battle-record默认/返回合同不同保留独立。",
+        "E": "五原声明export/alpha外由root helperTransplants逐整函数核，两个原用户58身份及87相邻承接，未制造无业务新用例。",
+        "F": "spriteRole/spriteEnemy/battlePlayer/battleEnemy/spriteState按数据域命名，无贡献者/批次词。",
+        "G": "五完整重复副本退出，只有实际跨文件调用才export；不用巨型host或新模式参数。",
+        "H": "纯数据factory，每次fresh Map/状态与seeded RNG；可由公开renderer/规则直接消费，没有global生命周期。"
+      },
+      "acceptance": "accepted-FG; unified gates pending"
+    },
+    {
+      "path": "packages/game/src/present/battle/__tests__/battle-sprite-frames.ts",
+      "subjects": [
+        "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "packages/game/src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+        "packages/game/src/present/battle/draw-battle-sprites.glm-phase1-leaves.test.ts"
+      ],
+      "axes": {
+        "A": "twoByTwoSprites/rowFrame/markedFramebuffer保持2×2、单行与320×200底色合同；2/8尺寸solid直接借既有solidIndexedImage，mask必有，每次fresh。",
+        "B": "明确required-mask和纯像素职责，不将零底与0x5a底互换，不冒称原盘资源解码。",
+        "C": "只type借SpriteFrame/Asset、直接借纯raster构造和实际FB，无战斗状态/RNG/loader；两个当前spec实际使用。",
+        "D": "同一solid数据构造直接复用既有raster solidIndexedImage（mask实际必填）；只保row非均匀mask与专用2×2帧列表，去掉新建副本，不靠类型强转。",
+        "E": "原scalar/multi-frame/row准备在实际使用域完整宽高/字节比较，业务像素/ownership断言独立；不调用SUT生成预期。",
+        "F": "twoByTwoSprites/rowFrame/markedFramebuffer区分帧列表、单行与底色；solid直接用现有raster入口，不新增模糊别名出口。",
+        "G": "删除多份帧factory后继续复用现有solid，不新增同体构造或过宽新接口；其它函数只供实际当前caller。",
+        "H": "纯同步分配输入，所有indices/mask独立，renderer不可改源；完整输入snapshot已由真实mutant反证。"
+      },
+      "acceptance": "accepted-FG; unified gates pending"
+    }
+  ],
+  "cleanExecutions": [
+    "before",
+    "neighbors",
+    "typecheck",
+    "scoped-final",
+    "proof-r3",
+    "ast-walker-green-r3",
+    "ownership-counter-r3",
+    "docs",
+    "content-review",
+    "lint",
+    "testing-docs",
+    "diff"
+  ],
+  "helperTransplants": [
+    {
+      "oldPath": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+      "oldName": "minimalRole",
+      "currentPath": "packages/game/src/present/battle/__tests__/battle-sprite-state.ts",
+      "currentName": "spriteRole",
+      "changes": [
+        {
+          "from": "function minimalRole",
+          "to": "export function spriteRole",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "oldPath": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+      "oldName": "minimalEnemy",
+      "currentPath": "packages/game/src/present/battle/__tests__/battle-sprite-state.ts",
+      "currentName": "spriteEnemy",
+      "changes": [
+        {
+          "from": "function minimalEnemy",
+          "to": "export function spriteEnemy",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "oldPath": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+      "oldName": "mkBattlePlayer",
+      "currentPath": "packages/game/src/present/battle/__tests__/battle-sprite-state.ts",
+      "currentName": "battlePlayer",
+      "changes": [
+        {
+          "from": "function mkBattlePlayer",
+          "to": "export function battlePlayer",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "oldPath": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+      "oldName": "mkBattleEnemy",
+      "currentPath": "packages/game/src/present/battle/__tests__/battle-sprite-state.ts",
+      "currentName": "battleEnemy",
+      "changes": [
+        {
+          "from": "function mkBattleEnemy",
+          "to": "export function battleEnemy",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "oldPath": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+      "oldName": "mkState",
+      "currentPath": "packages/game/src/present/battle/__tests__/battle-sprite-state.ts",
+      "currentName": "spriteState",
+      "changes": [
+        {
+          "from": "function mkState",
+          "to": "export function spriteState",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "reusedReviewMember": "organization-game-battle-sprites/reused-reviews.json",
+  "processDisclosures": [
+    "Three specs fully read including671-line main,386-line product read, actual BattlePresent239-272 and shared anchor source inspected; two historical cohort subjects, one main adjacent is not extra progress.",
+    "Renderer caller tests retain actual draw entry. Pure pose and direct blit/death-fade split into independent specs; state factories separately shared only after five duplicate complete declarations match, no hidden global/IO. Frame data separate from state/RNG.",
+    "Other battle-record/renderer fixture defaults differ; state seed1 remains, and the current required-mask raster solid implementation is directly reused. One-pixel source rows, fixed2x2 frame lists and8x8 clip rectangles retain domain-specific preparation.",
+    "Only one test oracle strengthened: old ownership checked source first pixel only, new snapshot checks all frame dimensions/indices/opaque plus original roleHP/hiding fields. Real product source unchanged except temporary restored counter; all other callbacks preserved by explicit fixture/name bridges.",
+    "Titles correct front player occlusion and explicit sortY=90/10 draw order; no visible behavior or mechanisms changed. No new cases/retirements, old58 identities mapped, provider/spec relocation alone is not full-review or closed credit.",
+    "Initial independent AST walker returned Array.push result from forEachChild, stopping after first child. That first proof is rejected, not acceptance. Formal tail-literal guard failed against frozen old script before fix; void visitor then passed guard and all58 full ordered callback comparisons. Existing module analyzer and earlier three proof namespaces do not contain that callback form. Original script/red/proof/r2 raw all retained; this is tooling evidence, not a product red.",
+    "Final read corrected old M3/M5 future-table comment to current fallback and 1xN/N caption to rowWidthx1. Ownership counter first ran before these comments; complete exact final candidate counter rerun preserved both receipts, all production bytes restored. Intentional counter filter executes1case each (14/34pending), not full-file runs; final87run has0pending.",
+    "Game Vitest config read: standard test discovery and no author/path exception; relocated *.test files remain selected, providers have no test suffix. Coverage config not edited; tests/fixtures remain test-only. No heavy gate or official coverage run.",
+    "Final type inspection contradicted the optional-mask rationale: IndexedImage.opaque is required. Corrected rationale and removed newly duplicated solid constructor; direct raster import and twoByTwoSprites now reuse actual solidIndexedImage. Prior new solid implementation frozen, no interface/type change/cast. Full new neighbor/typecheck/proof rerun after this actual dependency adjustment.",
+    "After removing duplicate solid constructor, final87neighbor/typecheck/complete callback+fixture proof and exact current ownership counter reran; first results retained. Current basis isr3proof/counter andr2neighbors. No product change retained."
+  ],
+  "counters": ["ownership-counter-r3.json"],
+  "fixtureAndCallbackProof": "organization-game-battle-sprites/callback-fixture-proof-r3.json",
+  "executionSummary": {
+    "originalFiles": 3,
+    "originalCases": 58,
+    "currentSpecFiles": 3,
+    "currentProviderFiles": 2,
+    "currentCases": 58,
+    "neighbors": 87,
+    "neighborFiles": 6,
+    "stateHelpersShared": 5,
+    "ownershipOracleStrengthened": 1
+  },
+  "reads": {
+    "full": [
+      {
+        "path": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "sha256": "7cd301dd7793d46158b3ff2ce9795c685ce6df42e49d38b07a7f668a69b9dc2e",
+        "member": "organization-game-battle-sprites/0.before"
+      },
+      {
+        "path": "packages/game/src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+        "sha256": "5618eea1b49c3ad25435ea1d929b5ad10c5db040edd930390184388d2bc62778",
+        "member": "organization-game-battle-sprites/1.before"
+      },
+      {
+        "path": "packages/game/src/present/battle/draw-battle-sprites.glm-phase1-leaves.test.ts",
+        "sha256": "2891953e04cfb5200dad7bafb2985fb63a39fb3dd750a70b62c390027810320e",
+        "member": "organization-game-battle-sprites/2.before"
+      },
+      {
+        "path": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "sha256": "741c1edf76e98ca06147bb5039bd4cf4108f11110c3291afeee15bdabde75bf8"
+      },
+      {
+        "path": "packages/game/src/present/battle/__tests__/blit-battle-frame.test.ts",
+        "sha256": "7cab8a88f6aea5395a631caa52a897312647b738b91230cd24e8af99b79436f4"
+      },
+      {
+        "path": "packages/game/src/present/battle/__tests__/battle-sprite-pose.test.ts",
+        "sha256": "92abdc508bd67bec32c606879e6fa06bc7c5bb9f4adea466c7d24f9ab0aeda87"
+      },
+      {
+        "path": "packages/game/src/present/battle/__tests__/battle-sprite-state.ts",
+        "sha256": "5c5b325d666a1906fa1a7f7ca0a3c8a4abfdac139e01cdb09b2e8a201bfea4b4"
+      },
+      {
+        "path": "packages/game/src/present/battle/__tests__/battle-sprite-frames.ts",
+        "sha256": "98a02386baf24e8a71efab6cc842b4f7a3910253c19b0874eff0c1744f2cffb2"
+      },
+      {
+        "path": "packages/game/src/present/battle/draw-battle-sprites.ts",
+        "sha256": "3fc14745f59a500b8417db1dd0b7757d3279c54df778c91d0874942bbd295540"
+      },
+      {
+        "path": "packages/game/src/core/battle/battle-positions.ts",
+        "sha256": "d068e5b70e39af41d57672c9ccb7d952184e76de8836865756f714657d3e372d"
+      },
+      {
+        "path": "packages/game/src/core/rng.ts",
+        "sha256": "93c4d82e1abf4622b166686762084083bc27410d2079f450c4e9dc75ee43cde8"
+      },
+      {
+        "path": "packages/game/vitest.config.ts",
+        "sha256": "3dd92ad4886bc72c88e7a7b2e6bdacc3aaf9e2a24ac72153f3b619ba37feb7d4"
+      }
+    ],
+    "targeted": [
+      {
+        "path": "packages/game/src/present/battle/present-battle.ts",
+        "ranges": [[239, 272]]
+      },
+      {
+        "path": "packages/game/src/core/battle/battle-state.ts",
+        "ranges": [[50, 123]]
+      },
+      {
+        "path": "packages/game/src/present/__tests__/raster-fixtures.ts",
+        "ranges": [[1, 55], [104, 115]]
+      },
+      {
+        "path": "packages/game/src/assets/png.ts",
+        "ranges": [[1, 26]]
+      }
+    ],
+    "reusedPreviousFullReads": ["packages/game/src/present/framebuffer.ts"],
+    "limits": "One noncohort main fully reviewed/reorganized but not additional cohort progress. Product methods reread to establish callers/fixture contracts, not granted new closed credit."
+  },
+  "receipts": {
+    "neighbors": "organization-game-battle-sprites/neighbors-r2",
+    "typecheck": "organization-game-battle-sprites/typecheck-r2"
+  },
+  "lightweightGates": true
+}

@@ -1,0 +1,455 @@
+{
+  "id": "extract-cli-inputs",
+  "kind": "fixture",
+  "namespace": "organization-extract-literals",
+  "cohortSubjects": [
+    {
+      "path": "packages/pal-extract/src/__tests__/glm-q/yj2-encoder.ts",
+      "sha256": "02b53ec4dc6a937bb20a9689a050407b16f01694c193f40d9327cd88b365b565",
+      "previousRow": "| `packages/pal-extract/src/__tests__/glm-q/yj2-encoder.ts` | fixture | 已验证 | [事件/夹具八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[事件/夹具八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/pal-extract/src/__tests__/glm-q/cli-pipeline-inputs.ts",
+      "sha256": "ef6393d93a79eba8ab3d1cdbc87e8ddcf2ce32887ee920fa99d8970936597dbd",
+      "previousRow": "| `packages/pal-extract/src/__tests__/glm-q/cli-pipeline-inputs.ts` | fixture | 已验证 | [本窗逐文件八维/先红后修/退役映射](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/README.md) | 整文件代码接受；真实caller/输入/责任与八维补齐，原生110/27与必要TC0；重门及发布等固定52阶段稳定，不外推资产格式/相邻范围 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[本窗逐文件八维/先红后修/退役映射](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/README.md)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/pal-extract/src/__tests__/glm-q/cli-global-entry-inputs.ts",
+      "sha256": "855cf2a0031725eb6af1f944c4ad7b7b67082031dd7bea038d6b0054fd915239",
+      "previousRow": "| `packages/pal-extract/src/__tests__/glm-q/cli-global-entry-inputs.ts` | fixture | 已验证 | [本窗逐文件八维/先红后修/退役映射](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/README.md) | 整文件代码接受；真实caller/输入/责任与八维补齐，原生110/27与必要TC0；重门及发布等固定52阶段稳定，不外推资产格式/相邻范围 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[本窗逐文件八维/先红后修/退役映射](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/README.md)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    }
+  ],
+  "providers": {
+    "before": [
+      {
+        "path": "packages/pal-extract/src/__tests__/glm-q/yj2-encoder.ts",
+        "sha256": "02b53ec4dc6a937bb20a9689a050407b16f01694c193f40d9327cd88b365b565",
+        "member": "organization-extract-literals/0.before",
+        "changes": []
+      },
+      {
+        "path": "packages/pal-extract/src/__tests__/glm-q/cli-pipeline-inputs.ts",
+        "sha256": "ef6393d93a79eba8ab3d1cdbc87e8ddcf2ce32887ee920fa99d8970936597dbd",
+        "member": "organization-extract-literals/1.before",
+        "changes": [
+          {
+            "from": "export function u16le(value: number): Uint8Array {\n  const out = new Uint8Array(2)\n  new DataView(out.buffer).setUint16(0, value, true)\n  return out\n}",
+            "to": "",
+            "count": 1
+          },
+          {
+            "from": "export function mkfArchive(chunks: Uint8Array[]): Uint8Array {\n  const headerSize = (chunks.length + 1) * 4\n  const bodyLength = chunks.reduce((sum, chunk) => sum + chunk.length, 0)\n  const buf = new Uint8Array(headerSize + bodyLength)\n  const view = new DataView(buf.buffer)\n  let offset = headerSize\n  for (const [index, chunk] of chunks.entries()) {\n    view.setUint32(index * 4, offset, true)\n    buf.set(chunk, offset)\n    offset += chunk.length\n  }\n  view.setUint32(chunks.length * 4, offset, true)\n  return buf\n}",
+            "to": "",
+            "count": 1
+          },
+          {
+            "from": "export function yj2Compress(data: Uint8Array): Uint8Array {\n  return yj2EncodeLiterals(data)\n}",
+            "to": "",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "path": "packages/pal-extract/src/__tests__/glm-q/cli-global-entry-inputs.ts",
+        "sha256": "855cf2a0031725eb6af1f944c4ad7b7b67082031dd7bea038d6b0054fd915239",
+        "member": "organization-extract-literals/2.before",
+        "changes": [
+          {
+            "from": "export const OBJ_SIZE",
+            "to": "const OBJ_SIZE",
+            "count": 1
+          },
+          {
+            "from": "export const OBJECT_SLOTS",
+            "to": "const OBJECT_SLOTS",
+            "count": 1
+          },
+          {
+            "from": "export function buildGlobalEntrySss",
+            "to": "function buildGlobalEntrySss",
+            "count": 1
+          },
+          {
+            "from": "export function buildGlobalEntryDataMkf",
+            "to": "function buildGlobalEntryDataMkf",
+            "count": 1
+          },
+          {
+            "from": "OBJ_SIZE",
+            "to": "OBJECT_RECORD_BYTES",
+            "count": 3
+          },
+          {
+            "from": "GE_ENEMY1_FIELDS",
+            "to": "ENEMY_REFERENCE_STATS",
+            "count": 5
+          }
+        ]
+      },
+      {
+        "path": "packages/pal-extract/src/__tests__/binary-fixtures.ts",
+        "sha256": "bcda9a289734c3072d3344a33bb54034ecc6f54e9b9e2a5b57375993ddca465b",
+        "member": "organization-extract-literals/3.before",
+        "changes": []
+      }
+    ],
+    "current": [
+      {
+        "path": "packages/pal-extract/src/__tests__/yj2-literals.ts",
+        "sha256": "5cc1a271466cca13cdbf1d4292b2c3d99fc4bd26fc866e69dd1d86f19bb7a61f",
+        "imports": []
+      },
+      {
+        "path": "packages/pal-extract/src/__tests__/cli-pipeline-inputs.ts",
+        "sha256": "054da557e9102686e8c4cd97ee29aaf746797431f9022375b71ebe7e3e449a99",
+        "imports": [
+          {
+            "local": "encodeSpriteChunk",
+            "imported": "encodeSpriteChunk",
+            "target": "@type-pal/shared",
+            "typeOnly": false
+          },
+          {
+            "local": "mkfArchive",
+            "imported": "mkfContainer",
+            "target": "packages/pal-extract/src/__tests__/binary-fixtures.ts",
+            "typeOnly": false
+          },
+          {
+            "local": "u16le",
+            "imported": "u16Bytes",
+            "target": "packages/pal-extract/src/__tests__/binary-fixtures.ts",
+            "typeOnly": false
+          },
+          {
+            "local": "yj2Compress",
+            "imported": "yj2EncodeLiterals",
+            "target": "packages/pal-extract/src/__tests__/yj2-literals.ts",
+            "typeOnly": false
+          }
+        ]
+      },
+      {
+        "path": "packages/pal-extract/src/__tests__/cli-global-entry-inputs.ts",
+        "sha256": "a79414c95001f72f7d888ec089b8d9b778508add45cd486c8d73f5dedec29c11",
+        "imports": [
+          {
+            "local": "buildTailPipelineInputs",
+            "imported": "buildTailPipelineInputs",
+            "target": "packages/pal-extract/src/__tests__/cli-pipeline-inputs.ts",
+            "typeOnly": false
+          },
+          {
+            "local": "buildWordDatArchive",
+            "imported": "buildWordDatArchive",
+            "target": "packages/pal-extract/src/__tests__/cli-pipeline-inputs.ts",
+            "typeOnly": false
+          },
+          {
+            "local": "encodeSpriteChunk",
+            "imported": "encodeSpriteChunk",
+            "target": "@type-pal/shared",
+            "typeOnly": false
+          },
+          {
+            "local": "mkfArchive",
+            "imported": "mkfContainer",
+            "target": "packages/pal-extract/src/__tests__/binary-fixtures.ts",
+            "typeOnly": false
+          },
+          {
+            "local": "u16le",
+            "imported": "u16Bytes",
+            "target": "packages/pal-extract/src/__tests__/binary-fixtures.ts",
+            "typeOnly": false
+          }
+        ]
+      },
+      {
+        "path": "packages/pal-extract/src/__tests__/binary-fixtures.ts",
+        "sha256": "bcda9a289734c3072d3344a33bb54034ecc6f54e9b9e2a5b57375993ddca465b",
+        "imports": []
+      }
+    ]
+  },
+  "consumers": [
+    {
+      "path": "packages/pal-extract/src/cli-battle-assets.glm-q.test.ts",
+      "sha256": "acf20e9fda9aa82c66b64734a04344a410ab22cc5b4622727ae7b46966123fdc",
+      "member": "organization-extract-literals/4.before",
+      "currentSha256": "be999366206ee7b5ecef6fef080ff33f3b1283e06d33b2ad3aa7d72d46812fd3",
+      "changes": []
+    },
+    {
+      "path": "packages/pal-extract/src/cli-font-lookup.glm-q.test.ts",
+      "sha256": "724102f0cc54b03400c287453ef2e3a60a04a946118a0ba636e95e0d30880a21",
+      "member": "organization-extract-literals/5.before",
+      "currentSha256": "1bb734261d9d3d02d4c4f1f6fe227f3e502097be3026424aeab9550f99261b99",
+      "changes": []
+    },
+    {
+      "path": "packages/pal-extract/src/cli-global-entries.glm-q.test.ts",
+      "sha256": "f23e419c1849b7c25d4530332bbb071e2830e2431f215c6750da69ab8f4b6d89",
+      "member": "organization-extract-literals/6.before",
+      "currentSha256": "06463a97bc33b79a41a4ce266fe1f4e8e8ba4a4d896c8f500291732a4abf64d7",
+      "changes": [
+        {
+          "from": "GE_ENEMY1_FIELDS",
+          "to": "ENEMY_REFERENCE_STATS",
+          "count": 5
+        }
+      ]
+    },
+    {
+      "path": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+      "sha256": "1b05cc32c9341086d46975558bfa1e145d81d3a0ee2a8dc26ca99e9cf664491c",
+      "member": "organization-extract-literals/7.before",
+      "currentSha256": "8a47c0f5e73416da51da8c50912840bada9bec1c34e9741e1583627374d76a98",
+      "changes": []
+    },
+    {
+      "path": "packages/pal-extract/src/cli-localization.test.ts",
+      "sha256": "324463cd3377ea6250a92f22dc7390a390f3bdd6cf10f0c891868da677b3c43b",
+      "member": "organization-extract-literals/8.before",
+      "currentSha256": "5a22eff6a35023efd64ce0ac65f5a7fef9a0dc1c7a52175f0d583b22dce328f1",
+      "changes": []
+    },
+    {
+      "path": "packages/pal-extract/src/resources/animation-assets.rng.test.ts",
+      "sha256": "50a55707f9ac594cf5c8bde3b60106f465b2d0736b337fcda015d7e72b36149c",
+      "member": "organization-extract-literals/9.before",
+      "currentSha256": "2de3d8eccbe4d0b857682f0a19052b383f05f1083561c544c56e2551f70ca397",
+      "changes": []
+    }
+  ],
+  "exports": [
+    {
+      "oldPath": "packages/pal-extract/src/__tests__/glm-q/cli-pipeline-inputs.ts",
+      "oldName": "buildSssArchive",
+      "currentName": "buildSssArchive",
+      "currentPath": "packages/pal-extract/src/__tests__/cli-pipeline-inputs.ts"
+    },
+    {
+      "oldPath": "packages/pal-extract/src/__tests__/glm-q/cli-pipeline-inputs.ts",
+      "oldName": "buildDataMkfArchive",
+      "currentName": "buildDataMkfArchive",
+      "currentPath": "packages/pal-extract/src/__tests__/cli-pipeline-inputs.ts"
+    },
+    {
+      "oldPath": "packages/pal-extract/src/__tests__/glm-q/cli-pipeline-inputs.ts",
+      "oldName": "buildWordDatArchive",
+      "currentName": "buildWordDatArchive",
+      "currentPath": "packages/pal-extract/src/__tests__/cli-pipeline-inputs.ts"
+    },
+    {
+      "oldPath": "packages/pal-extract/src/__tests__/glm-q/cli-pipeline-inputs.ts",
+      "oldName": "buildTailPipelineInputs",
+      "currentName": "buildTailPipelineInputs",
+      "currentPath": "packages/pal-extract/src/__tests__/cli-pipeline-inputs.ts"
+    },
+    {
+      "oldPath": "packages/pal-extract/src/__tests__/glm-q/cli-pipeline-inputs.ts",
+      "oldName": "u16le",
+      "currentName": "u16Bytes",
+      "currentPath": "packages/pal-extract/src/__tests__/binary-fixtures.ts"
+    },
+    {
+      "oldPath": "packages/pal-extract/src/__tests__/glm-q/cli-pipeline-inputs.ts",
+      "oldName": "mkfArchive",
+      "currentName": "mkfContainer",
+      "currentPath": "packages/pal-extract/src/__tests__/binary-fixtures.ts"
+    },
+    {
+      "oldPath": "packages/pal-extract/src/__tests__/glm-q/cli-pipeline-inputs.ts",
+      "oldName": "yj2Compress",
+      "currentName": "yj2EncodeLiterals",
+      "currentPath": "packages/pal-extract/src/__tests__/yj2-literals.ts"
+    },
+    {
+      "oldPath": "packages/pal-extract/src/__tests__/glm-q/yj2-encoder.ts",
+      "oldName": "yj2EncodeLiterals",
+      "currentName": "yj2EncodeLiterals",
+      "currentPath": "packages/pal-extract/src/__tests__/yj2-literals.ts"
+    },
+    {
+      "oldPath": "packages/pal-extract/src/__tests__/glm-q/cli-global-entry-inputs.ts",
+      "oldName": "buildGlobalEntryRawInputs",
+      "currentName": "buildGlobalEntryRawInputs",
+      "currentPath": "packages/pal-extract/src/__tests__/cli-global-entry-inputs.ts"
+    },
+    {
+      "oldPath": "packages/pal-extract/src/__tests__/glm-q/cli-global-entry-inputs.ts",
+      "oldName": "GLOBAL_ENTRY_MSG_TEXT",
+      "currentName": "GLOBAL_ENTRY_MSG_TEXT",
+      "currentPath": "packages/pal-extract/src/__tests__/cli-global-entry-inputs.ts"
+    },
+    {
+      "oldPath": "packages/pal-extract/src/__tests__/glm-q/cli-global-entry-inputs.ts",
+      "oldName": "GlobalEntryHook",
+      "currentName": "GlobalEntryHook",
+      "currentPath": "packages/pal-extract/src/__tests__/cli-global-entry-inputs.ts"
+    },
+    {
+      "oldPath": "packages/pal-extract/src/__tests__/glm-q/cli-global-entry-inputs.ts",
+      "oldName": "ENEMY_REFERENCE_STATS",
+      "currentName": "ENEMY_REFERENCE_STATS",
+      "currentPath": "packages/pal-extract/src/__tests__/cli-global-entry-inputs.ts"
+    }
+  ],
+  "retiredPaths": [
+    "packages/pal-extract/src/__tests__/glm-q/yj2-encoder.ts",
+    "packages/pal-extract/src/__tests__/glm-q/cli-pipeline-inputs.ts",
+    "packages/pal-extract/src/__tests__/glm-q/cli-global-entry-inputs.ts"
+  ],
+  "preserved": [
+    {
+      "path": "packages/pal-extract/src/cli.ts",
+      "sha256": "a6cf5e24a0a1706d605fd288757035925843854f0aa379b9e963014908528d77"
+    },
+    {
+      "path": "packages/pal-extract/src/__tests__/cli-host.ts",
+      "sha256": "6da3976c58acf663493472e23bddb6ad7eb9382d11c5257b9a3153445b23ea95"
+    },
+    {
+      "path": "packages/pal-extract/src/events/script-entries.ts",
+      "sha256": "4ea2e6817e5fc3e7f36dcd2f5e17aa2e08d093a263f06d9ab7a7ae7f1dee9adf"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/animation-assets.ts",
+      "sha256": "ba474bac4b6dc2dcb034f165a92d25186f2a29a6343bad835016ce04e58645b9"
+    },
+    {
+      "path": "packages/shared/src/yj2.ts",
+      "sha256": "d26cfe8fc7680330de5f167f30d9b970e74e68dc6a3ddebbc58daa46a7acd0b4"
+    }
+  ],
+  "neighborPaths": [
+    "packages/pal-extract/src/__tests__/cli-host.test.ts",
+    "packages/pal-extract/src/cli-battle-assets.glm-q.test.ts",
+    "packages/pal-extract/src/cli-error-exits.kimi-r1.test.ts",
+    "packages/pal-extract/src/cli-font-lookup.glm-q.test.ts",
+    "packages/pal-extract/src/cli-global-entries.glm-q.test.ts",
+    "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+    "packages/pal-extract/src/cli-localization.test.ts",
+    "packages/pal-extract/src/resources/animation-assets.rng.test.ts"
+  ],
+  "cleanExecutions": [
+    "before",
+    "neighbors",
+    "scoped",
+    "typecheck",
+    "input-before",
+    "input-after",
+    "docs",
+    "content-review",
+    "lint"
+  ],
+  "profiles": [
+    {
+      "path": "packages/pal-extract/src/__tests__/yj2-literals.ts",
+      "axes": {
+        "A": "Huffman/归约/终止符全部声明正文不变，原native0/1/65536B和EOS证据按exact02b5来源复用；当前consumer固定有限字节。没有任意不可信超大域信用。",
+        "B": "去模型/批次历史，保留literal-only及真EOS/TS提前返回限制，内部位长/树更新约束仍在。",
+        "C": "编码算法独立纯值模块，每次tree/bits新建，无FS/进程或CLI输入结构依赖。",
+        "D": "直接供pipeline/CLI输入及RNG writer；不泛化为通用LZSS或重新实现原盘decoder。",
+        "E": "当前codec声明去注释守恒；30consumer原身份/断言保全，原生EOS不以TS往返替代，现相邻不当新native验证。",
+        "F": "yj2-literals路径和yj2EncodeLiterals直接表明支持面，TreeNode/Tree局部符号清楚，内部算法不为命名大改。",
+        "G": "无未用回引、fixture返回空壳或模型目录，保留必要辅助私有算法；pipeline转发出口由实际编码器直接承接。",
+        "H": "确定输入/输出，无IO、时钟或mock；原有独立native边界可重放，当前字节与真实consumer可直接复验。"
+      }
+    },
+    {
+      "path": "packages/pal-extract/src/__tests__/cli-pipeline-inputs.ts",
+      "axes": {
+        "A": "SSS/WORD/DATA/tail固定布局及全部输入字节保持；15种global hook配置和base全产物digest前后相同。只构造合法合成样本，不认证实际音频格式。",
+        "B": "头注明确只造字节与suite覆盖资源，去批次/前波/专属与不可靠认证叙事；保留槽位/宽高/空archive说明。",
+        "C": "同一最小合法CLI输入组合归本模块，树/进程/磁盘由host持有；目录构造/断言均未侵入。",
+        "D": "相同LE/MKF合同直接借已有binary工具；literal压缩直接借窄encoder，不留仅转发函数或新barrel。全局专用end/敌引用不同故不加模式选项。",
+        "E": "所有builder余声明逐语法保留，base与15组hook每文件size/SHA相同；真实consumer30身份保全、完整相邻另列，opaque WAV/MIDI不冒充格式金标。",
+        "F": "cli-pipeline-inputs按用途，无模型标签；导入别名mkfArchive/u16le仅表达本地原布局术语，无新wrapper；函数名分别描述档案和阶段。",
+        "G": "删除重复u16/MKF及单转发compression三个声明，出口由真实现有helper绑定承接；余私有u32字段写和bitmap短literal保留局部，避免为了8行再跨模块拆知识。",
+        "H": "所有工厂返回新数组，无实际环境依赖；固定字节digest可只读核，host中实际CLI再消费，不mock解析器。"
+      }
+    },
+    {
+      "path": "packages/pal-extract/src/__tests__/cli-global-entry-inputs.ts",
+      "axes": {
+        "A": "保留plain-end终止、四指令分离入口和敌表真实index1，12hook/alias/scene-overlap真实caller输入前后逐文件完全相同；不改OBJECT或机制真值。",
+        "B": "删Q/NEXT/波次及已迁出文件名，保留以直接enemyId索引与placeholder区分的机制注释，不把fixture布局当schema普适验证。",
+        "C": "只造global-entry数据，借base尾段/词表和二进制基础；无测试断言/树/子进程所有权。专用SSS和DATA是内部实现。",
+        "D": "基础DATA只有单placeholder，本模块两记录且真实enemy1有意不同；两构造器不强合为可选上下文。共用相同tail/WORD/LE/MKF。",
+        "E": "十四hook调用的落盘完整命令/字段/标签与独立期望沿既有有效反控复用；consumer只有GE→领域名的精确符号桥，未换断言。",
+        "F": "OBJECT_RECORD_BYTES显式字节单位，ENEMY_REFERENCE_STATS表达直接索引的预期字段，目录/头注不含模型批次。",
+        "G": "两个无人外调的global中间builder及两个布局常量改私有，不留测试barrel。只导出真实被用的raw构造/type/msg/stats。",
+        "H": "hook数组显式、每次新bytes，真实CLI由已接受host隔离；不暴露mutable缓存或mock编码器。"
+      }
+    },
+    {
+      "path": "packages/pal-extract/src/__tests__/binary-fixtures.ts",
+      "axes": {
+        "A": "binary provider全字节不变；原u16 setUint16与现显式WORD掩码在本fixture有限WORD值域相同，MKF同一N+1偏移/顺序拼接/新分配合同。",
+        "B": "原布局/单位注释保持，未声称校验任意非法数值或通用最大容器。",
+        "C": "纯二进制构造叶，不反向依赖CLI/资源数据。",
+        "D": "真实CLI input新增复用相同LE/MKF工具，替代当前provider的两个副本，无新模式。",
+        "E": "原测试证据复用；base及15hook全输入size/SHA前后守恒，相邻使用实际文件和独立业务预期，不为helper另堆镜像测试。",
+        "F": "u16Bytes/mkfContainer为既有明确用途名，consumer保本地别名便于小差异审查。",
+        "G": "本文件零字节改动，不计新增主体或再次closed；各导出仍有已核caller。",
+        "H": "纯函数可直接调用，owned-array生命周期和确定性保持，无IO/mock。"
+      }
+    }
+  ],
+  "reusedEvidenceMember": "organization-extract-literals/reused-review.json",
+  "removedHelpers": [
+    {
+      "oldPath": "packages/pal-extract/src/__tests__/glm-q/cli-pipeline-inputs.ts",
+      "name": "u16le",
+      "from": "export function u16le(value: number): Uint8Array {\n  const out = new Uint8Array(2)\n  new DataView(out.buffer).setUint16(0, value, true)\n  return out\n}",
+      "targetPath": "packages/pal-extract/src/__tests__/binary-fixtures.ts",
+      "targetName": "u16Bytes",
+      "domain": "same LE/MKF byte contract; original finite integer fixture values and owned arrays; no error-policy or lifecycle difference"
+    },
+    {
+      "oldPath": "packages/pal-extract/src/__tests__/glm-q/cli-pipeline-inputs.ts",
+      "name": "mkfArchive",
+      "from": "export function mkfArchive(chunks: Uint8Array[]): Uint8Array {\n  const headerSize = (chunks.length + 1) * 4\n  const bodyLength = chunks.reduce((sum, chunk) => sum + chunk.length, 0)\n  const buf = new Uint8Array(headerSize + bodyLength)\n  const view = new DataView(buf.buffer)\n  let offset = headerSize\n  for (const [index, chunk] of chunks.entries()) {\n    view.setUint32(index * 4, offset, true)\n    buf.set(chunk, offset)\n    offset += chunk.length\n  }\n  view.setUint32(chunks.length * 4, offset, true)\n  return buf\n}",
+      "targetPath": "packages/pal-extract/src/__tests__/binary-fixtures.ts",
+      "targetName": "mkfContainer",
+      "domain": "same LE/MKF byte contract; original finite integer fixture values and owned arrays; no error-policy or lifecycle difference"
+    },
+    {
+      "oldPath": "packages/pal-extract/src/__tests__/glm-q/cli-pipeline-inputs.ts",
+      "name": "yj2Compress",
+      "from": "export function yj2Compress(data: Uint8Array): Uint8Array {\n  return yj2EncodeLiterals(data)\n}",
+      "targetPath": "packages/pal-extract/src/__tests__/yj2-literals.ts",
+      "targetName": "yj2EncodeLiterals",
+      "domain": "identity forwarding for every Uint8Array"
+    }
+  ],
+  "inputConservation": {
+    "before": "organization-extract-literals/input-before.stdout.raw",
+    "after": "organization-extract-literals/input-after.stdout.raw",
+    "sha256": "37ec88e07b6ff6d20f29bddccf6de98d15736b371d7c8483d2d463e77346c3c0",
+    "globalHookConfigurations": 15,
+    "scope": "specific actual fixture inputs and field configurations, not all possible builder/encoder inputs"
+  },
+  "processDisclosure": [
+    "Three provider cohort subjects only; six import consumers are not F/G accepted here. Binary provider is unchanged auxiliary reuse, not a fourth cohort subject.",
+    "Exact counted before transforms remove two duplicate constructors and one identity wrapper; these are reviewed semantic reuse deltas, not claimed as all declarations unchanged. Remaining declarations and consumer assertions are conserved.",
+    "Private helper exposure and GE symbol naming change only internal test fixtures, with actual callers enumerated. No product/public format/schema/asset behavior or generated files changed."
+  ]
+}

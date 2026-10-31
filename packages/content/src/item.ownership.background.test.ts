@@ -10,9 +10,9 @@
  * 与旁对象保真，不施加不可变合同。
  */
 import { describe, expect, test } from 'vitest'
-import { deepSnapshot } from './__tests__/glm-content-contract-fixtures.js'
 import { expectInputsUnchanged, hero, world } from './__tests__/glm-item-logic-fixtures.js'
 import { expectExactError } from './__tests__/guard-leaf-fixtures.js'
+import { deepSnapshot } from './__tests__/value-snapshot.js'
 import type { WorldState } from './character.js'
 import { ownedItemCount, removeOwnedItems, worldResourceValue } from './item.js'
 

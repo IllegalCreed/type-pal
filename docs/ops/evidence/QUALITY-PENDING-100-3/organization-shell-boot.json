@@ -1,0 +1,823 @@
+{
+  "inputs": [
+    {
+      "path": "packages/game/src/shell/boot-loading.test.ts",
+      "sha256": "ea42585dca3ed74721e7c2e8c09a3812dbe935882efd8a88e3437a0d07379a0a",
+      "member": "organization-shell-boot/0.before",
+      "read": "Full current input read,including all helper/hooks/callbacks; not yet accepted."
+    },
+    {
+      "path": "packages/game/src/shell/boot-loading-host.grok-r1.test.ts",
+      "sha256": "b9a8943cbdff28b47187317230a46145fa73f4408149c08d973caeb1180d2650",
+      "member": "organization-shell-boot/1.before",
+      "read": "Full current input read,including all helper/hooks/callbacks; not yet accepted."
+    }
+  ],
+  "outputs": [
+    {
+      "path": "packages/game/src/shell/boot-loading.test.ts",
+      "sha256": "82cb65c725151cea7430738c80a30106aa701aebb45b4803f62b9c550cc3eab2"
+    },
+    {
+      "path": "packages/game/src/shell/boot-loading.dom.test.ts",
+      "sha256": "55e0e7309ecfad8900c6f05d977faf407b8b567f8351bf17a9e5e4bb2c3aede2"
+    },
+    {
+      "path": "packages/game/src/shell/__tests__/boot-loading-host.ts",
+      "sha256": "7aa88d404bdb68d4eaa1e3b0af0e9dee6ac82f7d22fc6fdb35fbff0bd3e847c6"
+    }
+  ],
+  "sourceBridges": [
+    {
+      "path": "packages/game/src/shell/boot-loading.test.ts",
+      "id": "boot-0",
+      "reason": "Case-owned native fetch/fakeclock/locale/DOM cleanup; own frame progress instead of extra native rAF wait. Different markup scopes retained.3explicit clock/spycase deltas separately recorded; assertions otherwise conserved.",
+      "changes": [
+        {
+          "from": "import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'\nimport {\n  failBootLoading,\n  finishBootLoading,\n  initBootLoading,\n  restoreBootFetch,\n  setBootLoadingNote,\n} from './boot-loading.js'\n\n/** 注入 index.html 同款 overlay 骨架(id 必须与 boot-loading.ts 约定一致)。 */\nfunction mountOverlay(): void {\n  document.body.innerHTML = `\n    <div id=\"boot-loading\">\n      <div id=\"boot-loading-bar\"><div id=\"boot-loading-fill\"></div></div>\n      <div id=\"boot-loading-status\">正在加载…</div>\n    </div>`\n}\n\nlet transport = vi.fn<typeof fetch>()\n\nbeforeEach(() => {\n  vi.useFakeTimers()\n  transport = vi.fn<typeof fetch>(async () => new Response('{}'))\n  vi.stubGlobal('fetch', transport)\n})\n\nafterEach(async () => {\n  restoreBootFetch()\n  await flushRender() // Drain the pending render so its module-owned flag is cleared.\n  vi.clearAllTimers()\n  vi.unstubAllGlobals()\n  vi.useRealTimers()\n  document.body.replaceChildren()\n})\n\nasync function flushRender(): Promise<void> {\n  await vi.advanceTimersByTimeAsync(16)\n}\n\ndescribe('boot-loading(启动加载覆盖层)', () => {\n  it('init 后 fetch 计数驱动状态文本与进度条(分母 = max(已发起, 预估总量))', async () => {\n    mountOverlay()\n    initBootLoading(4) // 预估 4 项\n    expect(globalThis.fetch).not.toBe(transport)\n\n    await Promise.all([fetch('/a'), fetch('/b'), fetch('/c')])\n    await flushRender()\n\n    const status = document.getElementById('boot-loading-status')!\n    expect(status.textContent).toContain('3 / 4') // 完成 3 / 预估 4\n    const fill = document.getElementById('boot-loading-fill')!\n    expect(fill.style.width).toBe('75%')\n  })\n\n  it('进度单调不回退:新一波请求发起(分母涨)时显示值保持(2026-06-12 用户反馈条回退)', async () => {\n    mountOverlay()\n    initBootLoading(4)\n    // 第一波:4 项全完成 → raw 99(满格只由 finish 给)\n    await Promise.all([fetch('/1'), fetch('/2'), fetch('/3'), fetch('/4')])\n    await flushRender()\n    const fill = document.getElementById('boot-loading-fill')!\n    expect(fill.style.width).toBe('99%')\n    // 第二波:再发起 4 项未完成(挂着的 fetch 抬高分母)→ raw = 4/8 = 50,显示不回退仍 99\n    const resolveResponses: Array<(response: Response) => void> = []\n    transport.mockImplementation(\n      () => new Promise<Response>((resolve) => resolveResponses.push(resolve)),\n    )\n    const requests = ['/5', '/6', '/7', '/8'].map((url) => fetch(url))\n    try {\n      await flushRender()\n      expect(document.getElementById('boot-loading-status')!.textContent).toBe('正在加载资源 4 / 8')\n      expect(fill.style.width).toBe('99%')\n    } finally {\n      for (const resolve of resolveResponses) resolve(new Response('{}'))\n      await Promise.all(requests)\n    }\n  })\n\n  it('Request/init 与 Response 身份透传，包装层不丢 headers 或 signal', async () => {\n    mountOverlay()\n    const response = new Response('asset')\n    transport.mockResolvedValue(response)\n    initBootLoading()\n    const request = new Request('https://assets.test/table.json')\n    const init: RequestInit = {\n      headers: { 'X-Boot': 'resource' },\n      signal: new AbortController().signal,\n    }\n    expect(await fetch(request, init)).toBe(response)\n    expect(transport).toHaveBeenCalledTimes(1)\n    expect(transport).toHaveBeenCalledWith(request, init)\n  })\n\n  it('finish 还原 fetch、补满格并在 600ms 过渡后移除 overlay', () => {\n    mountOverlay()\n    initBootLoading()\n    const wrapped = globalThis.fetch\n    finishBootLoading()\n    expect(globalThis.fetch).not.toBe(wrapped) // fetch 已还原\n    expect(document.getElementById('boot-loading-fill')!.style.width).toBe('100%')\n    vi.advanceTimersByTime(599)\n    expect(document.getElementById('boot-loading')?.classList.contains('boot-loading-done')).toBe(\n      true,\n    )\n    vi.advanceTimersByTime(1)\n    expect(document.getElementById('boot-loading')).toBeNull()\n  })\n\n  it('setBootLoadingNote 追加说明到计数文本,清空恢复(soundfont 尾段等待文案)', async () => {\n    mountOverlay()\n    initBootLoading(4)\n    await fetch('/a')\n    setBootLoadingNote('音色库 31MB')\n    await flushRender()\n    const status = document.getElementById('boot-loading-status')!\n    expect(status.textContent).toBe('正在加载资源 1 / 4 — 音色库 31MB')\n    setBootLoadingNote('')\n    await flushRender()\n    expect(status.textContent).toBe('正在加载资源 1 / 4')\n  })\n\n  it('无 overlay 节点时不包装 fetch，公开入口安全', async () => {\n    expect(() => initBootLoading()).not.toThrow()\n    expect(() => finishBootLoading()).not.toThrow()\n    expect(() => failBootLoading('x')).not.toThrow()\n    expect(() => setBootLoadingNote('x')).not.toThrow()\n    expect(globalThis.fetch).toBe(transport)\n    await expect(fetch('/ok')).resolves.toBeInstanceOf(Response)\n  })\n\n  it('重复 init 幂等(不双层包 fetch)', () => {\n    mountOverlay()\n    initBootLoading()\n    const once = globalThis.fetch\n    initBootLoading()\n    expect(globalThis.fetch).toBe(once)\n  })\n\n  it('释放计数时保留后来安装的 fetch 层及其请求透传', async () => {\n    mountOverlay()\n    const onProgress = vi.fn<(fraction: number) => void>()\n    initBootLoading(2, onProgress)\n    const bootFetch = globalThis.fetch\n    const laterFetch: typeof fetch = (...args) => bootFetch(...args)\n    vi.stubGlobal('fetch', laterFetch)\n\n    restoreBootFetch()\n\n    expect(globalThis.fetch).toBe(laterFetch)\n    await fetch('/unrelated')\n    await flushRender()\n    expect(transport).toHaveBeenCalledExactlyOnceWith('/unrelated')\n    expect(onProgress).not.toHaveBeenCalled()\n  })\n\n  it('释放后在途请求照常完成，不计入随后新建的启动轮次', async () => {\n    mountOverlay()\n    let resolveResponse!: (response: Response) => void\n    transport.mockImplementationOnce(\n      () => new Promise<Response>((resolve) => (resolveResponse = resolve)),\n    )\n    initBootLoading(2)\n    const inFlight = fetch('/old-round')\n    const response = new Response('late asset')\n    try {\n      await flushRender()\n      restoreBootFetch()\n      const fractions: number[] = []\n      initBootLoading(2, (fraction) => fractions.push(fraction))\n      await fetch('/new-round')\n      await flushRender()\n      expect(fractions).toEqual([0.5])\n\n      resolveResponse(response)\n      expect(await inFlight).toBe(response)\n      await flushRender()\n      expect(fractions).toEqual([0.5])\n    } finally {\n      resolveResponse(response)\n      await inFlight\n    }\n  })\n\n  it('未 init(PROD 走 SW 统一进度)时 render 不抢写 #boot-loading-status/fill', async () => {\n    mountOverlay()\n    const status = document.getElementById('boot-loading-status')!\n    const fill = document.getElementById('boot-loading-fill')!\n    // 模拟 createUnifiedProgressUi 已写入统一进度\n    status.textContent = '已缓存 100/336MB (30%)'\n    fill.style.width = '30%'\n    // PROD 下 bootstrap 也会调 setBootLoadingNote,但未 initBootLoading → render 须 no-op,不得覆盖\n    setBootLoadingNote('音色库')\n    await flushRender()\n    expect(status.textContent).toBe('已缓存 100/336MB (30%)')\n    expect(fill.style.width).toBe('30%')\n  })\n\n  it('PROD 模式(传 onProgress)→ render 回调 fraction、不写 #boot-loading DOM', async () => {\n    mountOverlay()\n    const fractions: number[] = []\n    initBootLoading(4, (f) => fractions.push(f))\n    await Promise.all([fetch('/a'), fetch('/b')]) // _done 2 / max(2,4)\n    await flushRender()\n    expect(fractions.at(-1)).toBeCloseTo(0.5)\n    // DOM 未被 boot-loading 写(虚线前段由统一 UI 渲染)\n    expect(document.getElementById('boot-loading-status')!.textContent).toBe('正在加载…')\n    expect(document.getElementById('boot-loading-fill')!.style.width).toBe('')\n  })\n})\n",
+          "to": "import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'\nimport {\n  createBootLoadingHost,\n  mountBootOverlay,\n  mountProgressNodes,\n} from './__tests__/boot-loading-host.js'\nimport {\n  failBootLoading,\n  finishBootLoading,\n  initBootLoading,\n  restoreBootFetch,\n  setBootLoadingNote,\n} from './boot-loading.js'\n\ndescribe('boot-loading(启动加载覆盖层)', () => {\n  it('init 后 fetch 计数驱动状态文本与进度条(分母 = max(已发起, 预估总量))', async () => {\n    mountBootOverlay()\n    initBootLoading(4) // 预估 4 项\n    expect(globalThis.fetch).not.toBe(host.transport)\n\n    await Promise.all([fetch('/a'), fetch('/b'), fetch('/c')])\n    await host.advanceRenderFrame()\n\n    const status = document.getElementById('boot-loading-status')!\n    expect(status.textContent).toContain('3 / 4') // 完成 3 / 预估 4\n    const fill = document.getElementById('boot-loading-fill')!\n    expect(fill.style.width).toBe('75%')\n  })\n\n  it('进度单调不回退:新一波请求发起(分母涨)时显示值保持(2026-06-12 用户反馈条回退)', async () => {\n    mountBootOverlay()\n    initBootLoading(4)\n    // 第一波:4 项全完成 → raw 99(满格只由 finish 给)\n    await Promise.all([fetch('/1'), fetch('/2'), fetch('/3'), fetch('/4')])\n    await host.advanceRenderFrame()\n    const fill = document.getElementById('boot-loading-fill')!\n    expect(fill.style.width).toBe('99%')\n    // 第二波:再发起 4 项未完成(挂着的 fetch 抬高分母)→ raw = 4/8 = 50,显示不回退仍 99\n    const resolveResponses: Array<(response: Response) => void> = []\n    host.transport.mockImplementation(\n      () => new Promise<Response>((resolve) => resolveResponses.push(resolve)),\n    )\n    const requests = ['/5', '/6', '/7', '/8'].map((url) => fetch(url))\n    try {\n      await host.advanceRenderFrame()\n      expect(document.getElementById('boot-loading-status')!.textContent).toBe('正在加载资源 4 / 8')\n      expect(fill.style.width).toBe('99%')\n    } finally {\n      for (const resolve of resolveResponses) resolve(new Response('{}'))\n      await Promise.all(requests)\n    }\n  })\n\n  it('Request/init 与 Response 身份透传，包装层不丢 headers 或 signal', async () => {\n    mountBootOverlay()\n    const response = new Response('asset')\n    host.transport.mockResolvedValue(response)\n    initBootLoading()\n    const request = new Request('https://assets.test/table.json')\n    const init: RequestInit = {\n      headers: { 'X-Boot': 'resource' },\n      signal: new AbortController().signal,\n    }\n    expect(await fetch(request, init)).toBe(response)\n    expect(host.transport).toHaveBeenCalledTimes(1)\n    expect(host.transport).toHaveBeenCalledWith(request, init)\n  })\n\n  it('finish 还原 fetch、补满格并在 600ms 过渡后移除 overlay', () => {\n    mountBootOverlay()\n    initBootLoading()\n    const wrapped = globalThis.fetch\n    finishBootLoading()\n    expect(globalThis.fetch).not.toBe(wrapped) // fetch 已还原\n    expect(document.getElementById('boot-loading-fill')!.style.width).toBe('100%')\n    vi.advanceTimersByTime(599)\n    expect(document.getElementById('boot-loading')?.classList.contains('boot-loading-done')).toBe(\n      true,\n    )\n    vi.advanceTimersByTime(1)\n    expect(document.getElementById('boot-loading')).toBeNull()\n  })\n\n  it('setBootLoadingNote 追加说明到计数文本,清空恢复(soundfont 尾段等待文案)', async () => {\n    mountBootOverlay()\n    initBootLoading(4)\n    await fetch('/a')\n    setBootLoadingNote('音色库 31MB')\n    await host.advanceRenderFrame()\n    const status = document.getElementById('boot-loading-status')!\n    expect(status.textContent).toBe('正在加载资源 1 / 4 — 音色库 31MB')\n    setBootLoadingNote('')\n    await host.advanceRenderFrame()\n    expect(status.textContent).toBe('正在加载资源 1 / 4')\n  })\n\n  it('无 overlay 节点时不包装 fetch，公开入口安全', async () => {\n    expect(() => initBootLoading()).not.toThrow()\n    expect(() => finishBootLoading()).not.toThrow()\n    expect(() => failBootLoading('x')).not.toThrow()\n    expect(() => setBootLoadingNote('x')).not.toThrow()\n    expect(globalThis.fetch).toBe(host.transport)\n    await expect(fetch('/ok')).resolves.toBeInstanceOf(Response)\n  })\n\n  it('重复 init 幂等(不双层包 fetch)', () => {\n    mountBootOverlay()\n    initBootLoading()\n    const once = globalThis.fetch\n    initBootLoading()\n    expect(globalThis.fetch).toBe(once)\n  })\n\n  it('释放计数时保留后来安装的 fetch 层及其请求透传', async () => {\n    mountBootOverlay()\n    const onProgress = vi.fn<(fraction: number) => void>()\n    initBootLoading(2, onProgress)\n    const bootFetch = globalThis.fetch\n    const laterFetch: typeof fetch = (...args) => bootFetch(...args)\n    vi.stubGlobal('fetch', laterFetch)\n\n    restoreBootFetch()\n\n    expect(globalThis.fetch).toBe(laterFetch)\n    await fetch('/unrelated')\n    await host.advanceRenderFrame()\n    expect(host.transport).toHaveBeenCalledExactlyOnceWith('/unrelated')\n    expect(onProgress).not.toHaveBeenCalled()\n  })\n\n  it('释放后在途请求照常完成，不计入随后新建的启动轮次', async () => {\n    mountBootOverlay()\n    let resolveResponse!: (response: Response) => void\n    host.transport.mockImplementationOnce(\n      () => new Promise<Response>((resolve) => (resolveResponse = resolve)),\n    )\n    initBootLoading(2)\n    const inFlight = fetch('/old-round')\n    const response = new Response('late asset')\n    try {\n      await host.advanceRenderFrame()\n      restoreBootFetch()\n      const fractions: number[] = []\n      initBootLoading(2, (fraction) => fractions.push(fraction))\n      await fetch('/new-round')\n      await host.advanceRenderFrame()\n      expect(fractions).toEqual([0.5])\n\n      resolveResponse(response)\n      expect(await inFlight).toBe(response)\n      await host.advanceRenderFrame()\n      expect(fractions).toEqual([0.5])\n    } finally {\n      resolveResponse(response)\n      await inFlight\n    }\n  })\n\n  it('未 init(PROD 走 SW 统一进度)时 render 不抢写 #boot-loading-status/fill', async () => {\n    mountBootOverlay()\n    const status = document.getElementById('boot-loading-status')!\n    const fill = document.getElementById('boot-loading-fill')!\n    // 模拟 createUnifiedProgressUi 已写入统一进度\n    status.textContent = '已缓存 100/336MB (30%)'\n    fill.style.width = '30%'\n    // PROD 下 bootstrap 也会调 setBootLoadingNote,但未 initBootLoading → render 须 no-op,不得覆盖\n    setBootLoadingNote('音色库')\n    await host.advanceRenderFrame()\n    expect(status.textContent).toBe('已缓存 100/336MB (30%)')\n    expect(fill.style.width).toBe('30%')\n  })\n\n  it('PROD 模式(传 onProgress)→ render 回调 fraction、不写 #boot-loading DOM', async () => {\n    mountBootOverlay()\n    const fractions: number[] = []\n    initBootLoading(4, (f) => fractions.push(f))\n    await Promise.all([fetch('/a'), fetch('/b')]) // _done 2 / max(2,4)\n    await host.advanceRenderFrame()\n    expect(fractions.at(-1)).toBeCloseTo(0.5)\n    // DOM 未被 boot-loading 写(虚线前段由统一 UI 渲染)\n    expect(document.getElementById('boot-loading-status')!.textContent).toBe('正在加载…')\n    expect(document.getElementById('boot-loading-fill')!.style.width).toBe('')\n  })\n})\n\nlet host: ReturnType<typeof createBootLoadingHost>\nbeforeEach(() => {\n  host = createBootLoadingHost()\n})\nafterEach(async () => {\n  await host.close()\n})\n",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/shell/boot-loading-host.grok-r1.test.ts",
+      "id": "boot-1",
+      "reason": "Case-owned native fetch/fakeclock/locale/DOM cleanup; own frame progress instead of extra native rAF wait. Different markup scopes retained.3explicit clock/spycase deltas separately recorded; assertions otherwise conserved.",
+      "changes": [
+        {
+          "from": "/**\n * TEST-GROK-RENDER-HOST-LARGE-1 G09-C。\n * 默认分母、缺节点、合并刷新和还原 fetch。不重领 3/4、99 封顶和 onProgress 0.5。\n */\nimport { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'\nimport { dumpHost, readHost } from '../__tests__/grok-render-r1/dump-evidence.js'\nimport {\n  failBootLoading,\n  finishBootLoading,\n  initBootLoading,\n  restoreBootFetch,\n  setBootLoadingNote,\n} from './boot-loading.js'\n\nconst realFetch = globalThis.fetch\n\nfunction mount(opts: { fill?: boolean; status?: boolean } = {}): void {\n  const fill = opts.fill === false ? '' : '<div id=\"boot-loading-fill\"></div>'\n  const status = opts.status === false ? '' : '<div id=\"boot-loading-status\">正在加载…</div>'\n  document.body.innerHTML = `<div id=\"boot-loading\">${fill}${status}</div>`\n}\n\nasync function flushRender(): Promise<void> {\n  await new Promise((resolve) => {\n    requestAnimationFrame(() => resolve(undefined))\n  })\n}\n\nbeforeEach(() => {\n  globalThis.fetch = async () => new Response('{}')\n})\n\nafterEach(async () => {\n  restoreBootFetch()\n  if (vi.isFakeTimers()) {\n    await vi.advanceTimersByTimeAsync(16)\n    vi.clearAllTimers()\n  } else {\n    await flushRender()\n  }\n  globalThis.fetch = realFetch\n  document.body.innerHTML = ''\n  vi.useRealTimers()\n})\n\ndescribe('G09-C 启动加载宿主', () => {\n  it('G09-C01 不传预估总量时，状态文本的分母是 810，进度条为 0%', async () => {\n    mount()\n    initBootLoading()\n    setBootLoadingNote('')\n    await flushRender()\n    expect(document.getElementById('boot-loading-status')?.textContent).toBe('正在加载资源 0 / 810')\n    expect(document.getElementById('boot-loading-fill')?.style.width).toBe('0%')\n    await dumpHost('G09-C01', [\n      readHost(\n        'boot-default',\n        document.getElementById('boot-loading-status'),\n        document.getElementById('boot-loading-fill'),\n        document.getElementById('boot-loading'),\n      ),\n    ])\n  })\n\n  it('G09-C02 fetch 拒绝后完成数仍加一', async () => {\n    mount()\n    const failure = new Error('net')\n    globalThis.fetch = async () => {\n      throw failure\n    }\n    initBootLoading(2)\n    await expect(fetch('/a')).rejects.toBe(failure)\n    await flushRender()\n    expect(document.getElementById('boot-loading-status')?.textContent).toBe('正在加载资源 1 / 2')\n    expect(document.getElementById('boot-loading-fill')?.style.width).toBe('50%')\n  })\n\n  it('G09-C03 只有状态节点时写入 1 / 4', async () => {\n    mount({ fill: false })\n    initBootLoading(4)\n    await fetch('/a')\n    await flushRender()\n    expect(document.getElementById('boot-loading-fill')).toBeNull()\n    expect(document.getElementById('boot-loading-status')?.textContent).toBe('正在加载资源 1 / 4')\n  })\n\n  it('G09-C04 只有进度条时宽度写成 25%', async () => {\n    mount({ status: false })\n    initBootLoading(4)\n    await fetch('/a')\n    await flushRender()\n    expect(document.getElementById('boot-loading-status')).toBeNull()\n    expect(document.getElementById('boot-loading-fill')?.style.width).toBe('25%')\n    await dumpHost('G09-C04', [\n      readHost(\n        'fill-only',\n        document.getElementById('boot-loading-status'),\n        document.getElementById('boot-loading-fill'),\n        document.getElementById('boot-loading'),\n      ),\n    ])\n  })\n\n  it('G09-C05 没有状态节点时失败仍加上错误类，之后的说明不再改条宽', async () => {\n    mount({ status: false })\n    initBootLoading(4)\n    failBootLoading('无状态')\n    const root = document.getElementById('boot-loading')\n    const fill = document.getElementById('boot-loading-fill')\n    expect(root?.classList.contains('boot-loading-error')).toBe(true)\n    expect(document.getElementById('boot-loading-status')).toBeNull()\n    if (fill) fill.style.width = '12%'\n    setBootLoadingNote('不该写')\n    await flushRender()\n    expect(fill?.style.width).toBe('12%')\n  })\n\n  it('G09-C06 没有进度条时完成仍淡出并在 600ms 后移除', () => {\n    mount({ fill: false })\n    vi.useFakeTimers()\n    initBootLoading(4)\n    finishBootLoading()\n    const root = document.getElementById('boot-loading')\n    expect(root?.classList.contains('boot-loading-done')).toBe(true)\n    vi.advanceTimersByTime(600)\n    expect(document.getElementById('boot-loading')).toBeNull()\n  })\n\n  it('G09-C07 restoreBootFetch 还原 fetch，之后的请求不再回调进度', async () => {\n    mount()\n    const fractions: number[] = []\n    initBootLoading(4, (fraction) => {\n      fractions.push(fraction)\n    })\n    await fetch('/a')\n    await flushRender()\n    restoreBootFetch()\n    await fetch('/b')\n    await flushRender()\n    expect(fractions).toEqual([0.25])\n    expect(document.getElementById('boot-loading-status')?.textContent).toBe('正在加载…')\n  })\n\n  it('G09-C08 同一帧里的两次说明只排一次 rAF，文本留下后一次', async () => {\n    mount()\n    initBootLoading(4)\n    const orig = globalThis.requestAnimationFrame\n    let calls = 0\n    globalThis.requestAnimationFrame = (cb: FrameRequestCallback) => {\n      calls += 1\n      return orig.call(globalThis, cb)\n    }\n    try {\n      setBootLoadingNote('甲')\n      setBootLoadingNote('乙')\n      expect(calls).toBe(1)\n      await flushRender()\n      expect(document.getElementById('boot-loading-status')?.textContent).toBe(\n        '正在加载资源 0 / 4 — 乙',\n      )\n    } finally {\n      globalThis.requestAnimationFrame = orig\n    }\n  })\n\n  it('G09-C09 requestAnimationFrame 不是函数时，改用 16ms 的 setTimeout 写出说明', () => {\n    mount()\n    initBootLoading(4)\n    const origRaf = globalThis.requestAnimationFrame\n    const origTimeout = globalThis.setTimeout\n    const queued: Array<{ ms: number; run: () => void }> = []\n    Object.defineProperty(globalThis, 'requestAnimationFrame', {\n      configurable: true,\n      writable: true,\n      value: undefined,\n    })\n    globalThis.setTimeout = ((handler: TimerHandler, ms?: number) => {\n      if (typeof handler === 'function') queued.push({ ms: ms ?? 0, run: () => handler() })\n      return 0\n    }) as typeof setTimeout\n    try {\n      setBootLoadingNote('只等超时')\n      expect(queued.length).toBe(1)\n      expect(queued[0]?.ms).toBe(16)\n      queued.shift()?.run()\n      expect(document.getElementById('boot-loading-status')?.textContent).toBe(\n        '正在加载资源 0 / 4 — 只等超时',\n      )\n    } finally {\n      restoreBootFetch()\n      // A failed assertion can leave our virtual render queued; clear its module flag too.\n      for (const pending of queued.splice(0)) pending.run()\n      globalThis.setTimeout = origTimeout\n      Object.defineProperty(globalThis, 'requestAnimationFrame', {\n        configurable: true,\n        writable: true,\n        value: origRaf,\n      })\n    }\n  })\n\n  it('G09-C10 预估和已发起都是 0 时，进度回调得到 0 且不写 DOM', async () => {\n    mount()\n    const fractions: number[] = []\n    initBootLoading(0, (fraction) => {\n      fractions.push(fraction)\n    })\n    setBootLoadingNote('空分母')\n    await flushRender()\n    expect(fractions).toEqual([0])\n    expect(document.getElementById('boot-loading-status')?.textContent).toBe('正在加载…')\n    expect(document.getElementById('boot-loading-fill')?.style.width).toBe('')\n  })\n\n  it('G09-C11 失败文案是启动失败加原文，并带上错误类', async () => {\n    mount()\n    initBootLoading(4)\n    const root = document.getElementById('boot-loading')\n    const wrapped = globalThis.fetch\n    failBootLoading('磁盘满')\n    expect(globalThis.fetch).not.toBe(wrapped)\n    expect(document.getElementById('boot-loading')).toBe(root)\n    expect(document.getElementById('boot-loading-status')?.textContent).toBe('启动失败:磁盘满')\n    expect(document.getElementById('boot-loading')?.classList.contains('boot-loading-error')).toBe(\n      true,\n    )\n    await dumpHost('G09-C11', [\n      readHost(\n        'boot-failed',\n        document.getElementById('boot-loading-status'),\n        document.getElementById('boot-loading-fill'),\n        document.getElementById('boot-loading'),\n      ),\n    ])\n  })\n})\n",
+          "to": "import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'\nimport {\n  createBootLoadingHost,\n  mountBootOverlay,\n  mountProgressNodes,\n} from './__tests__/boot-loading-host.js'\nimport { dumpHost, readHost } from '../__tests__/grok-render-r1/dump-evidence.js'\nimport {\n  failBootLoading,\n  finishBootLoading,\n  initBootLoading,\n  restoreBootFetch,\n  setBootLoadingNote,\n} from './boot-loading.js'\n\ndescribe('G09-C 启动加载宿主', () => {\n  it('不传预估总量时，状态文本的分母是 810，进度条为 0%', async () => {\n    mountProgressNodes()\n    initBootLoading()\n    setBootLoadingNote('')\n    await host.advanceRenderFrame()\n    expect(document.getElementById('boot-loading-status')?.textContent).toBe('正在加载资源 0 / 810')\n    expect(document.getElementById('boot-loading-fill')?.style.width).toBe('0%')\n    await dumpHost('G09-C01', [\n      readHost(\n        'boot-default',\n        document.getElementById('boot-loading-status'),\n        document.getElementById('boot-loading-fill'),\n        document.getElementById('boot-loading'),\n      ),\n    ])\n  })\n\n  it('fetch 拒绝后完成数仍加一', async () => {\n    mountProgressNodes()\n    const failure = new Error('net')\n    globalThis.fetch = async () => {\n      throw failure\n    }\n    initBootLoading(2)\n    await expect(fetch('/a')).rejects.toBe(failure)\n    await host.advanceRenderFrame()\n    expect(document.getElementById('boot-loading-status')?.textContent).toBe('正在加载资源 1 / 2')\n    expect(document.getElementById('boot-loading-fill')?.style.width).toBe('50%')\n  })\n\n  it('只有状态节点时写入 1 / 4', async () => {\n    mountProgressNodes({ fill: false })\n    initBootLoading(4)\n    await fetch('/a')\n    await host.advanceRenderFrame()\n    expect(document.getElementById('boot-loading-fill')).toBeNull()\n    expect(document.getElementById('boot-loading-status')?.textContent).toBe('正在加载资源 1 / 4')\n  })\n\n  it('只有进度条时宽度写成 25%', async () => {\n    mountProgressNodes({ status: false })\n    initBootLoading(4)\n    await fetch('/a')\n    await host.advanceRenderFrame()\n    expect(document.getElementById('boot-loading-status')).toBeNull()\n    expect(document.getElementById('boot-loading-fill')?.style.width).toBe('25%')\n    await dumpHost('G09-C04', [\n      readHost(\n        'fill-only',\n        document.getElementById('boot-loading-status'),\n        document.getElementById('boot-loading-fill'),\n        document.getElementById('boot-loading'),\n      ),\n    ])\n  })\n\n  it('没有状态节点时失败仍加上错误类，之后的说明不再改条宽', async () => {\n    mountProgressNodes({ status: false })\n    initBootLoading(4)\n    failBootLoading('无状态')\n    const root = document.getElementById('boot-loading')\n    const fill = document.getElementById('boot-loading-fill')\n    expect(root?.classList.contains('boot-loading-error')).toBe(true)\n    expect(document.getElementById('boot-loading-status')).toBeNull()\n    if (fill) fill.style.width = '12%'\n    setBootLoadingNote('不该写')\n    await host.advanceRenderFrame()\n    expect(fill?.style.width).toBe('12%')\n  })\n\n  it('没有进度条时完成仍淡出并在 600ms 后移除', () => {\n    mountProgressNodes({ fill: false })\n\n    initBootLoading(4)\n    finishBootLoading()\n    const root = document.getElementById('boot-loading')\n    expect(root?.classList.contains('boot-loading-done')).toBe(true)\n    vi.advanceTimersByTime(600)\n    expect(document.getElementById('boot-loading')).toBeNull()\n  })\n\n  it('restoreBootFetch 还原 fetch，之后的请求不再回调进度', async () => {\n    mountProgressNodes()\n    const fractions: number[] = []\n    initBootLoading(4, (fraction) => {\n      fractions.push(fraction)\n    })\n    await fetch('/a')\n    await host.advanceRenderFrame()\n    restoreBootFetch()\n    await fetch('/b')\n    await host.advanceRenderFrame()\n    expect(fractions).toEqual([0.25])\n    expect(document.getElementById('boot-loading-status')?.textContent).toBe('正在加载…')\n  })\n\n  it('同一帧里的两次说明只排一次 rAF，文本留下后一次', async () => {\n    mountProgressNodes()\n    initBootLoading(4)\n    const schedule = vi.spyOn(globalThis, 'requestAnimationFrame')\n    setBootLoadingNote('甲')\n    setBootLoadingNote('乙')\n    expect(schedule).toHaveBeenCalledTimes(1)\n    await host.advanceRenderFrame()\n    expect(document.getElementById('boot-loading-status')?.textContent).toBe(\n      '正在加载资源 0 / 4 — 乙',\n    )\n  })\n\n  it('requestAnimationFrame 不是函数时，改用 16ms 的 setTimeout 写出说明', async () => {\n    mountProgressNodes()\n    initBootLoading(4)\n    vi.stubGlobal('requestAnimationFrame', undefined)\n    const timeout = vi.spyOn(globalThis, 'setTimeout')\n    setBootLoadingNote('只等超时')\n    expect(timeout.mock.calls.map((call) => call[1])).toEqual([16])\n    expect(vi.getTimerCount()).toBe(1)\n    await vi.advanceTimersByTimeAsync(15)\n    expect(document.getElementById('boot-loading-status')?.textContent).toBe('正在加载…')\n    await vi.advanceTimersByTimeAsync(1)\n    expect(document.getElementById('boot-loading-status')?.textContent).toBe(\n      '正在加载资源 0 / 4 — 只等超时',\n    )\n  })\n\n  it('预估和已发起都是 0 时，进度回调得到 0 且不写 DOM', async () => {\n    mountProgressNodes()\n    const fractions: number[] = []\n    initBootLoading(0, (fraction) => {\n      fractions.push(fraction)\n    })\n    setBootLoadingNote('空分母')\n    await host.advanceRenderFrame()\n    expect(fractions).toEqual([0])\n    expect(document.getElementById('boot-loading-status')?.textContent).toBe('正在加载…')\n    expect(document.getElementById('boot-loading-fill')?.style.width).toBe('')\n  })\n\n  it('失败文案是启动失败加原文，并带上错误类', async () => {\n    mountProgressNodes()\n    initBootLoading(4)\n    const root = document.getElementById('boot-loading')\n    const wrapped = globalThis.fetch\n    failBootLoading('磁盘满')\n    expect(globalThis.fetch).not.toBe(wrapped)\n    expect(document.getElementById('boot-loading')).toBe(root)\n    expect(document.getElementById('boot-loading-status')?.textContent).toBe('启动失败:磁盘满')\n    expect(document.getElementById('boot-loading')?.classList.contains('boot-loading-error')).toBe(\n      true,\n    )\n    await dumpHost('G09-C11', [\n      readHost(\n        'boot-failed',\n        document.getElementById('boot-loading-status'),\n        document.getElementById('boot-loading-fill'),\n        document.getElementById('boot-loading'),\n      ),\n    ])\n  })\n})\n\nlet host: ReturnType<typeof createBootLoadingHost>\nbeforeEach(() => {\n  host = createBootLoadingHost()\n})\nafterEach(async () => {\n  await host.close()\n})\n",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "replacements": [],
+  "registrations": [
+    {
+      "old": {
+        "file": "packages/game/src/shell/boot-loading.test.ts",
+        "ordinal": 0
+      },
+      "originalOrdinal": 0,
+      "current": {
+        "file": "packages/game/src/shell/boot-loading.test.ts",
+        "titles": ["Fetch accounting and ownership"],
+        "template": "init 后 fetch 计数驱动状态文本与进度条(分母 = max(已发起, 预估总量))"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/boot-loading.test.ts",
+        "ordinal": 1
+      },
+      "originalOrdinal": 1,
+      "current": {
+        "file": "packages/game/src/shell/boot-loading.test.ts",
+        "titles": ["Fetch accounting and ownership"],
+        "template": "进度单调不回退:新一波请求发起(分母涨)时显示值保持(2026-06-12 用户反馈条回退)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/boot-loading.test.ts",
+        "ordinal": 2
+      },
+      "originalOrdinal": 2,
+      "current": {
+        "file": "packages/game/src/shell/boot-loading.test.ts",
+        "titles": ["Fetch accounting and ownership"],
+        "template": "Request/init 与 Response 身份透传，包装层不丢 headers 或 signal"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/boot-loading.test.ts",
+        "ordinal": 3
+      },
+      "originalOrdinal": 3,
+      "current": {
+        "file": "packages/game/src/shell/boot-loading.dom.test.ts",
+        "titles": ["Overlay lifecycle and notes"],
+        "template": "finish 还原 fetch、补满格并在 600ms 过渡后移除 overlay"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/boot-loading.test.ts",
+        "ordinal": 4
+      },
+      "originalOrdinal": 4,
+      "current": {
+        "file": "packages/game/src/shell/boot-loading.dom.test.ts",
+        "titles": ["Overlay lifecycle and notes"],
+        "template": "setBootLoadingNote 追加说明到计数文本,清空恢复(soundfont 尾段等待文案)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/boot-loading.test.ts",
+        "ordinal": 5
+      },
+      "originalOrdinal": 5,
+      "current": {
+        "file": "packages/game/src/shell/boot-loading.dom.test.ts",
+        "titles": ["Overlay lifecycle and notes"],
+        "template": "无 overlay 节点时不包装 fetch，公开入口安全"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/boot-loading.test.ts",
+        "ordinal": 6
+      },
+      "originalOrdinal": 6,
+      "current": {
+        "file": "packages/game/src/shell/boot-loading.test.ts",
+        "titles": ["Fetch accounting and ownership"],
+        "template": "重复 init 幂等(不双层包 fetch)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/boot-loading.test.ts",
+        "ordinal": 7
+      },
+      "originalOrdinal": 7,
+      "current": {
+        "file": "packages/game/src/shell/boot-loading.test.ts",
+        "titles": ["Fetch accounting and ownership"],
+        "template": "释放计数时保留后来安装的 fetch 层及其请求透传"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/boot-loading.test.ts",
+        "ordinal": 8
+      },
+      "originalOrdinal": 8,
+      "current": {
+        "file": "packages/game/src/shell/boot-loading.test.ts",
+        "titles": ["Fetch accounting and ownership"],
+        "template": "释放后在途请求照常完成，不计入随后新建的启动轮次"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/boot-loading.test.ts",
+        "ordinal": 9
+      },
+      "originalOrdinal": 9,
+      "current": {
+        "file": "packages/game/src/shell/boot-loading.dom.test.ts",
+        "titles": ["Overlay lifecycle and notes"],
+        "template": "未 init(PROD 走 SW 统一进度)时 render 不抢写 #boot-loading-status/fill"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/boot-loading.test.ts",
+        "ordinal": 10
+      },
+      "originalOrdinal": 10,
+      "current": {
+        "file": "packages/game/src/shell/boot-loading.dom.test.ts",
+        "titles": ["Overlay lifecycle and notes"],
+        "template": "PROD 模式(传 onProgress)→ render 回调 fraction、不写 #boot-loading DOM"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/boot-loading-host.grok-r1.test.ts",
+        "ordinal": 0
+      },
+      "originalOrdinal": 0,
+      "current": {
+        "file": "packages/game/src/shell/boot-loading.dom.test.ts",
+        "titles": ["Progress nodes and render scheduling"],
+        "template": "不传预估总量时，状态文本的分母是 810，进度条为 0%"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/boot-loading-host.grok-r1.test.ts",
+        "ordinal": 1
+      },
+      "originalOrdinal": 1,
+      "current": {
+        "file": "packages/game/src/shell/boot-loading.test.ts",
+        "titles": ["Callback accounting boundaries"],
+        "template": "fetch 拒绝后完成数仍加一"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/boot-loading-host.grok-r1.test.ts",
+        "ordinal": 2
+      },
+      "originalOrdinal": 2,
+      "current": {
+        "file": "packages/game/src/shell/boot-loading.dom.test.ts",
+        "titles": ["Progress nodes and render scheduling"],
+        "template": "只有状态节点时写入 1 / 4"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/boot-loading-host.grok-r1.test.ts",
+        "ordinal": 3
+      },
+      "originalOrdinal": 3,
+      "current": {
+        "file": "packages/game/src/shell/boot-loading.dom.test.ts",
+        "titles": ["Progress nodes and render scheduling"],
+        "template": "只有进度条时宽度写成 25%"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/boot-loading-host.grok-r1.test.ts",
+        "ordinal": 4
+      },
+      "originalOrdinal": 4,
+      "current": {
+        "file": "packages/game/src/shell/boot-loading.dom.test.ts",
+        "titles": ["Progress nodes and render scheduling"],
+        "template": "没有状态节点时失败仍加上错误类，之后的说明不再改条宽"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/boot-loading-host.grok-r1.test.ts",
+        "ordinal": 5
+      },
+      "originalOrdinal": 5,
+      "current": {
+        "file": "packages/game/src/shell/boot-loading.dom.test.ts",
+        "titles": ["Progress nodes and render scheduling"],
+        "template": "没有进度条时完成仍淡出并在 600ms 后移除"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/boot-loading-host.grok-r1.test.ts",
+        "ordinal": 6
+      },
+      "originalOrdinal": 6,
+      "current": {
+        "file": "packages/game/src/shell/boot-loading.test.ts",
+        "titles": ["Callback accounting boundaries"],
+        "template": "restoreBootFetch 还原 fetch，之后的请求不再回调进度"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/boot-loading-host.grok-r1.test.ts",
+        "ordinal": 7
+      },
+      "originalOrdinal": 7,
+      "current": {
+        "file": "packages/game/src/shell/boot-loading.dom.test.ts",
+        "titles": ["Progress nodes and render scheduling"],
+        "template": "同一帧里的两次说明只排一次 rAF，文本留下后一次"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/boot-loading-host.grok-r1.test.ts",
+        "ordinal": 8
+      },
+      "originalOrdinal": 8,
+      "current": {
+        "file": "packages/game/src/shell/boot-loading.dom.test.ts",
+        "titles": ["Progress nodes and render scheduling"],
+        "template": "requestAnimationFrame 不是函数时，改用 16ms 的 setTimeout 写出说明"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/boot-loading-host.grok-r1.test.ts",
+        "ordinal": 9
+      },
+      "originalOrdinal": 9,
+      "current": {
+        "file": "packages/game/src/shell/boot-loading.test.ts",
+        "titles": ["Callback accounting boundaries"],
+        "template": "预估和已发起都是 0 时，进度回调得到 0 且不写 DOM"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/boot-loading-host.grok-r1.test.ts",
+        "ordinal": 10
+      },
+      "originalOrdinal": 10,
+      "current": {
+        "file": "packages/game/src/shell/boot-loading.dom.test.ts",
+        "titles": ["Progress nodes and render scheduling"],
+        "template": "失败文案是启动失败加原文，并带上错误类"
+      }
+    }
+  ],
+  "identities": [
+    {
+      "old": {
+        "file": "packages/game/src/shell/boot-loading.test.ts",
+        "fullName": "boot-loading(启动加载覆盖层) init 后 fetch 计数驱动状态文本与进度条(分母 = max(已发起, 预估总量))"
+      },
+      "current": {
+        "file": "packages/game/src/shell/boot-loading.test.ts",
+        "fullName": "Fetch accounting and ownership init 后 fetch 计数驱动状态文本与进度条(分母 = max(已发起, 预估总量))"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/boot-loading.test.ts",
+        "fullName": "boot-loading(启动加载覆盖层) 进度单调不回退:新一波请求发起(分母涨)时显示值保持(2026-06-12 用户反馈条回退)"
+      },
+      "current": {
+        "file": "packages/game/src/shell/boot-loading.test.ts",
+        "fullName": "Fetch accounting and ownership 进度单调不回退:新一波请求发起(分母涨)时显示值保持(2026-06-12 用户反馈条回退)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/boot-loading.test.ts",
+        "fullName": "boot-loading(启动加载覆盖层) Request/init 与 Response 身份透传，包装层不丢 headers 或 signal"
+      },
+      "current": {
+        "file": "packages/game/src/shell/boot-loading.test.ts",
+        "fullName": "Fetch accounting and ownership Request/init 与 Response 身份透传，包装层不丢 headers 或 signal"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/boot-loading.test.ts",
+        "fullName": "boot-loading(启动加载覆盖层) finish 还原 fetch、补满格并在 600ms 过渡后移除 overlay"
+      },
+      "current": {
+        "file": "packages/game/src/shell/boot-loading.dom.test.ts",
+        "fullName": "Overlay lifecycle and notes finish 还原 fetch、补满格并在 600ms 过渡后移除 overlay"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/boot-loading.test.ts",
+        "fullName": "boot-loading(启动加载覆盖层) setBootLoadingNote 追加说明到计数文本,清空恢复(soundfont 尾段等待文案)"
+      },
+      "current": {
+        "file": "packages/game/src/shell/boot-loading.dom.test.ts",
+        "fullName": "Overlay lifecycle and notes setBootLoadingNote 追加说明到计数文本,清空恢复(soundfont 尾段等待文案)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/boot-loading.test.ts",
+        "fullName": "boot-loading(启动加载覆盖层) 无 overlay 节点时不包装 fetch，公开入口安全"
+      },
+      "current": {
+        "file": "packages/game/src/shell/boot-loading.dom.test.ts",
+        "fullName": "Overlay lifecycle and notes 无 overlay 节点时不包装 fetch，公开入口安全"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/boot-loading.test.ts",
+        "fullName": "boot-loading(启动加载覆盖层) 重复 init 幂等(不双层包 fetch)"
+      },
+      "current": {
+        "file": "packages/game/src/shell/boot-loading.test.ts",
+        "fullName": "Fetch accounting and ownership 重复 init 幂等(不双层包 fetch)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/boot-loading.test.ts",
+        "fullName": "boot-loading(启动加载覆盖层) 释放计数时保留后来安装的 fetch 层及其请求透传"
+      },
+      "current": {
+        "file": "packages/game/src/shell/boot-loading.test.ts",
+        "fullName": "Fetch accounting and ownership 释放计数时保留后来安装的 fetch 层及其请求透传"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/boot-loading.test.ts",
+        "fullName": "boot-loading(启动加载覆盖层) 释放后在途请求照常完成，不计入随后新建的启动轮次"
+      },
+      "current": {
+        "file": "packages/game/src/shell/boot-loading.test.ts",
+        "fullName": "Fetch accounting and ownership 释放后在途请求照常完成，不计入随后新建的启动轮次"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/boot-loading.test.ts",
+        "fullName": "boot-loading(启动加载覆盖层) 未 init(PROD 走 SW 统一进度)时 render 不抢写 #boot-loading-status/fill"
+      },
+      "current": {
+        "file": "packages/game/src/shell/boot-loading.dom.test.ts",
+        "fullName": "Overlay lifecycle and notes 未 init(PROD 走 SW 统一进度)时 render 不抢写 #boot-loading-status/fill"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/boot-loading.test.ts",
+        "fullName": "boot-loading(启动加载覆盖层) PROD 模式(传 onProgress)→ render 回调 fraction、不写 #boot-loading DOM"
+      },
+      "current": {
+        "file": "packages/game/src/shell/boot-loading.dom.test.ts",
+        "fullName": "Overlay lifecycle and notes PROD 模式(传 onProgress)→ render 回调 fraction、不写 #boot-loading DOM"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/boot-loading-host.grok-r1.test.ts",
+        "fullName": "G09-C 启动加载宿主 G09-C01 不传预估总量时，状态文本的分母是 810，进度条为 0%"
+      },
+      "current": {
+        "file": "packages/game/src/shell/boot-loading.dom.test.ts",
+        "fullName": "Progress nodes and render scheduling 不传预估总量时，状态文本的分母是 810，进度条为 0%"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/boot-loading-host.grok-r1.test.ts",
+        "fullName": "G09-C 启动加载宿主 G09-C02 fetch 拒绝后完成数仍加一"
+      },
+      "current": {
+        "file": "packages/game/src/shell/boot-loading.test.ts",
+        "fullName": "Callback accounting boundaries fetch 拒绝后完成数仍加一"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/boot-loading-host.grok-r1.test.ts",
+        "fullName": "G09-C 启动加载宿主 G09-C03 只有状态节点时写入 1 / 4"
+      },
+      "current": {
+        "file": "packages/game/src/shell/boot-loading.dom.test.ts",
+        "fullName": "Progress nodes and render scheduling 只有状态节点时写入 1 / 4"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/boot-loading-host.grok-r1.test.ts",
+        "fullName": "G09-C 启动加载宿主 G09-C04 只有进度条时宽度写成 25%"
+      },
+      "current": {
+        "file": "packages/game/src/shell/boot-loading.dom.test.ts",
+        "fullName": "Progress nodes and render scheduling 只有进度条时宽度写成 25%"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/boot-loading-host.grok-r1.test.ts",
+        "fullName": "G09-C 启动加载宿主 G09-C05 没有状态节点时失败仍加上错误类，之后的说明不再改条宽"
+      },
+      "current": {
+        "file": "packages/game/src/shell/boot-loading.dom.test.ts",
+        "fullName": "Progress nodes and render scheduling 没有状态节点时失败仍加上错误类，之后的说明不再改条宽"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/boot-loading-host.grok-r1.test.ts",
+        "fullName": "G09-C 启动加载宿主 G09-C06 没有进度条时完成仍淡出并在 600ms 后移除"
+      },
+      "current": {
+        "file": "packages/game/src/shell/boot-loading.dom.test.ts",
+        "fullName": "Progress nodes and render scheduling 没有进度条时完成仍淡出并在 600ms 后移除"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/boot-loading-host.grok-r1.test.ts",
+        "fullName": "G09-C 启动加载宿主 G09-C07 restoreBootFetch 还原 fetch，之后的请求不再回调进度"
+      },
+      "current": {
+        "file": "packages/game/src/shell/boot-loading.test.ts",
+        "fullName": "Callback accounting boundaries restoreBootFetch 还原 fetch，之后的请求不再回调进度"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/boot-loading-host.grok-r1.test.ts",
+        "fullName": "G09-C 启动加载宿主 G09-C08 同一帧里的两次说明只排一次 rAF，文本留下后一次"
+      },
+      "current": {
+        "file": "packages/game/src/shell/boot-loading.dom.test.ts",
+        "fullName": "Progress nodes and render scheduling 同一帧里的两次说明只排一次 rAF，文本留下后一次"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/boot-loading-host.grok-r1.test.ts",
+        "fullName": "G09-C 启动加载宿主 G09-C09 requestAnimationFrame 不是函数时，改用 16ms 的 setTimeout 写出说明"
+      },
+      "current": {
+        "file": "packages/game/src/shell/boot-loading.dom.test.ts",
+        "fullName": "Progress nodes and render scheduling requestAnimationFrame 不是函数时，改用 16ms 的 setTimeout 写出说明"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/boot-loading-host.grok-r1.test.ts",
+        "fullName": "G09-C 启动加载宿主 G09-C10 预估和已发起都是 0 时，进度回调得到 0 且不写 DOM"
+      },
+      "current": {
+        "file": "packages/game/src/shell/boot-loading.test.ts",
+        "fullName": "Callback accounting boundaries 预估和已发起都是 0 时，进度回调得到 0 且不写 DOM"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/boot-loading-host.grok-r1.test.ts",
+        "fullName": "G09-C 启动加载宿主 G09-C11 失败文案是启动失败加原文，并带上错误类"
+      },
+      "current": {
+        "file": "packages/game/src/shell/boot-loading.dom.test.ts",
+        "fullName": "Progress nodes and render scheduling 失败文案是启动失败加原文，并带上错误类"
+      }
+    }
+  ],
+  "helperTransplants": [
+    {
+      "oldPath": "packages/game/src/shell/boot-loading.test.ts",
+      "oldName": "mountOverlay",
+      "currentPath": "packages/game/src/shell/__tests__/boot-loading-host.ts",
+      "currentName": "mountBootOverlay",
+      "changes": [
+        {
+          "from": "function mountOverlay",
+          "to": "export function mountBootOverlay",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "oldPath": "packages/game/src/shell/boot-loading-host.grok-r1.test.ts",
+      "oldName": "mount",
+      "currentPath": "packages/game/src/shell/__tests__/boot-loading-host.ts",
+      "currentName": "mountProgressNodes",
+      "changes": [
+        {
+          "from": "function mount",
+          "to": "export function mountProgressNodes",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "id": "shell-boot",
+  "kind": "boot",
+  "namespace": "organization-shell-boot",
+  "cohortSubjects": [
+    {
+      "path": "packages/game/src/shell/boot-loading-host.grok-r1.test.ts",
+      "sha256": "b9a8943cbdff28b47187317230a46145fa73f4408149c08d973caeb1180d2650",
+      "priorCurrentBridges": []
+    }
+  ],
+  "preserved": [
+    {
+      "path": "packages/game/src/shell/boot-loading.ts",
+      "sha256": "49711b04336e1ff4820de3f0f361a6b6bbbdc2e90fcfb727aa5fbf6f91def42a"
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "sha256": "a4d007c9739873dc20f385b52b584de49ec57cd5c328cb11ca9d3b0b9f19fb0a"
+    },
+    {
+      "path": "packages/game/src/main.ts",
+      "sha256": "a6314ef010da9e6d7add395e19993a002b7024607b8c51cc757486f200335a03"
+    },
+    {
+      "path": "packages/game/src/localization/language.ts",
+      "sha256": "d3b5410d8b1565af885a84ccc59f74511b712fd0bb1470eef882ad276c330779"
+    },
+    {
+      "path": "packages/game/index.html",
+      "sha256": "55a747276b155879353b1c1d5978d56cbddf7ebe1cca2e53281271ca21e08b9d"
+    },
+    {
+      "path": "packages/game/src/__tests__/grok-render-r1/dump-evidence.ts",
+      "sha256": "0190fb4ea18357e24e30a552ece01049ecdb208539895e3117fda5c2e402a6c4"
+    }
+  ],
+  "neighborPaths": [
+    "packages/game/src/localization/language.test.ts",
+    "packages/game/src/shell/boot-loading.dom.test.ts",
+    "packages/game/src/shell/boot-loading.test.ts",
+    "packages/game/src/shell/bootstrap-resources.http.test.ts",
+    "packages/game/src/shell/bootstrap-resources.test.ts",
+    "packages/game/src/shell/fetch-retry.test.ts"
+  ],
+  "cleanExecutions": [
+    "before",
+    "organization-r2",
+    "neighbors",
+    "typecheck",
+    "proof",
+    "counter-validation",
+    "module-preflight",
+    "docs",
+    "content-review",
+    "lint",
+    "testing-docs",
+    "diff",
+    "scoped",
+    "ledger-final"
+  ],
+  "lightweightGates": true,
+  "counters": ["counter-fallback.json"],
+  "cleanupProbe": {
+    "sourceTestPath": "packages/game/src/shell/boot-loading.dom.test.ts",
+    "sourceTestSha256": "55e0e7309ecfad8900c6f05d977faf407b8b567f8351bf17a9e5e4bb2c3aede2",
+    "probeMember": "organization-shell-boot/cleanup-probe.ts",
+    "probeSha256": "401f1eeb0a4902a0382ca1c63e27478b531240e9fc29fa9e9b3b746beac56133",
+    "report": "organization-shell-boot/cleanup-probe.native.json",
+    "expectedPassed": 1,
+    "expectedFailed": 1,
+    "failingFullName": "Progress nodes and render scheduling 同一帧里的两次说明只排一次 rAF，文本留下后一次",
+    "forcedFailureBeforePendingRaf": true,
+    "afterEachAssertions": {
+      "realClockRestored": true,
+      "originalFetchRestored": true,
+      "originalRafRestored": true,
+      "priorEnglishLanguageRestored": true,
+      "priorHtmlLangRestored": true,
+      "ownedBodyRemoved": true
+    },
+    "subsequentFallback16msOraclePasses": true,
+    "scope": "Deliberate testassertion failure,not productmutant. NextC09passesonlyif pending-render flag was drainedbeforeclockrestore. Both teardown guards verify nativeIO/clock/locale/DOM restoration despite earlyfailedcase."
+  },
+  "fixtureAndCallbackProof": "organization-shell-boot/proof.stdout.raw",
+  "reusedReviewMember": "organization-shell-boot/reused-reviews.json",
+  "primarySources": [
+    {
+      "source": "packages/game/src/shell/boot-loading.ts",
+      "sha256": "49711b04336e1ff4820de3f0f361a6b6bbbdc2e90fcfb727aa5fbf6f91def42a",
+      "scope": "Browser-only fetch accounting/DOM scheduling; SDLPal N/A. Actual current wrapper/render/restore code and real main/bootstrap owners are the production contract."
+    }
+  ],
+  "profiles": [
+    {
+      "path": "packages/game/src/shell/boot-loading.test.ts",
+      "subjects": [
+        "packages/game/src/shell/boot-loading.test.ts",
+        "packages/game/src/shell/boot-loading-host.grok-r1.test.ts"
+      ],
+      "axes": {
+        "A": "9例真实fetch包装/计数：3/4、99封顶、Request/init与Response身份、重复安装、后来网络层、旧轮迟到隔离、拒绝计数、释放后无回调和零分母。当前169行源与实际caller ownership已核。",
+        "B": "保留具体输入/边界说明，去作者/批次suite；不将GET计数当真实HTTP或将小节点骨架当完整index页面。时间/比例/字符串是直接独立oracle。 Correct firstwave raw99 misstatement: raw100percent,display capped99percent.",
+        "C": "每例host拥有新typed transport/时钟/语言/DOM；延期请求仍在各case finally resolve并await。restore撤本轮计数但不抢后来fetch，旧轮响应不污染新轮的断言保持。",
+        "D": "两种节点构造各从旧源移一次到同一测试host，函数正文按helperTransplants严格保全；两种骨架不硬并。不同在途响应/资产/进度收集归各例，不造模式场景工厂。",
+        "E": "9原case及业务callback在明确host/frame/builder桥后保持。Request/init/Response精确引用和真实DOM/数组结果仍是oracle；不是用mock次数代全部业务正确性。",
+        "F": "fetch accounting与callback边界suite明示职责，host.transport与advanceRenderFrame说明受控端口/单位；mountProgressNodes替代含糊mount。",
+        "G": "9例独立时序/输入域，不因状态文本相近删有价值case。去模块加载时即被beforeEach覆盖的闲置mock；保留真正使用的测试host能力。",
+        "H": "仅控制外部fetch与时钟/语言，实际包装/DOM执行。中文fixture显式设置且还原原语言，无localStorage持久写，不靠工作进程默认状态。"
+      }
+    },
+    {
+      "path": "packages/game/src/shell/boot-loading.dom.test.ts",
+      "subjects": [
+        "packages/game/src/shell/boot-loading.test.ts",
+        "packages/game/src/shell/boot-loading-host.grok-r1.test.ts"
+      ],
+      "axes": {
+        "A": "13例DOM/调度：完整/缺节点、600ms移除、说明文、统一UI独占、默认810、失败类与原文、rAF合并及fallback。22总身份全部保留，产品显示规则不改。",
+        "B": "mount骨架注释改为仅ID合同；保留G09 witness ID作历史追踪，dumpHost是序列化诊断图，明确不授实际界面截图、CSS或E2E视觉信用。",
+        "C": "host先restoreBootFetch并排16ms render，再恢复全局与语言/清DOM；C08 native spy自动恢复，C09不再手工伪造TimerHandle。早失败后下一C09正常验证私有pending标志已排。",
+        "D": "复用两种实际同合同节点构造及相同host收尾；缺fill/status是合法DOM输入轴，不合并为产品模式或通用UI上下文。",
+        "E": "C09由手造queue改真实受控时间，保留唯一16ms timer约束，补15ms未更新/16ms更新；真实早render+16ms空timer变异旧1绿、新1指定DOM AssertionError。C08仍1次rAF及最后说明，改call-through spy。",
+        "F": "dom文件与生命周期/调度suite按责任命名；不同fixture显式命名，移除模型路径。时钟检查直接体现15/16、599/600边界。",
+        "G": "13原case无新增/删除/skip。删重复fake-clock初始化及manualrAF/TimerHandler强转装置；三个dumpHost调用不扩为新产品验收。",
+        "H": "native DOM与实际product render，fake clock只控外部时间。source原字节恢复，probe前后spec精确一致；没有放宽超时或静音诊断。"
+      }
+    },
+    {
+      "path": "packages/game/src/shell/__tests__/boot-loading-host.ts",
+      "subjects": [
+        "packages/game/src/shell/boot-loading.test.ts",
+        "packages/game/src/shell/boot-loading-host.grok-r1.test.ts"
+      ],
+      "axes": {
+        "A": "case host明确管理fresh fetch/fakeclock/DOM/语言；两个builder仅写当前测试document，三个出口均有两spec真实caller。",
+        "B": "头注限定测试环境和节点ID，不冒称完整HTML页面/真实截图；cleanup注释解释为何先排render/撤订阅再恢复语言。",
+        "C": "保存getLanguage/html.lang并显式zh fixture；close在finally恢复native fetch/rAF/realclock/语言和DOM，生产boot listener先卸下。无额外持久状态或产品接口。",
+        "D": "两DOM函数是原两helper的严格正文迁移；不合并有bar与minimal骨架，避免用presence模式掩盖不同fixture。host工厂只共享确实相同的setup/disposal。",
+        "E": "48相邻/TC0执行当前host；早RAF断言失败探针的两轮afterEach验证六个外部状态，下一fallback通过。两个builder正文独立严格复验；未拿fixture自比当业务oracle。",
+        "F": "createBootLoadingHost、mountBootOverlay、mountProgressNodes按职责命名；transport/advanceRenderFrame/close是现用能力，不传宽游戏状态。",
+        "G": "3现用测试出口，无class/barrel/未来选项/静默fallback。去掉两spec复制的相同节点函数与setup，保留不同骨架。",
+        "H": "每例可确定推进16ms，不依赖机器rAF速度；真实编排与DOM仍运行。异常路径有actual-port/locale观测，未新增cast/ignore/排除或规则弱化。"
+      }
+    }
+  ],
+  "reads": {
+    "fullInputs": [
+      {
+        "path": "packages/game/src/shell/boot-loading.test.ts",
+        "sha256": "ea42585dca3ed74721e7c2e8c09a3812dbe935882efd8a88e3437a0d07379a0a",
+        "member": "organization-shell-boot/0.before",
+        "read": "Full current input read,including all helper/hooks/callbacks; not yet accepted.",
+        "lines": 209,
+        "provenance": "Previousgoalturn fullsame-byte input read; fingerprint revalidated before edits."
+      },
+      {
+        "path": "packages/game/src/shell/boot-loading-host.grok-r1.test.ts",
+        "sha256": "b9a8943cbdff28b47187317230a46145fa73f4408149c08d973caeb1180d2650",
+        "member": "organization-shell-boot/1.before",
+        "read": "Full current input read,including all helper/hooks/callbacks; not yet accepted.",
+        "lines": 235,
+        "provenance": "Previousgoalturn fullsame-byte input read; fingerprint revalidated before edits."
+      }
+    ],
+    "fullImplementation": [
+      {
+        "path": "packages/game/src/shell/boot-loading.ts",
+        "sha256": "49711b04336e1ff4820de3f0f361a6b6bbbdc2e90fcfb727aa5fbf6f91def42a",
+        "lines": 169,
+        "scope": "Priorfull169-line network/boot context read reused by exactfingerprint; current render/wrapper/disposal contracts reviewed."
+      },
+      {
+        "path": "packages/game/src/localization/language.ts",
+        "sha256": "d3b5410d8b1565af885a84ccc59f74511b712fd0bb1470eef882ad276c330779",
+        "scope": "Full53-line language source read fornonpersistentlanguage andsubscriberownership; no newwholefileacceptance."
+      }
+    ],
+    "currentOutputs": [
+      {
+        "path": "packages/game/src/shell/boot-loading.test.ts",
+        "sha256": "82cb65c725151cea7430738c80a30106aa701aebb45b4803f62b9c550cc3eab2",
+        "lines": 158,
+        "provenance": "Full first9/13case candidate read; exact sharedbuilder extraction/import delta reviewed; all22callbacks separately conserved/declared."
+      },
+      {
+        "path": "packages/game/src/shell/boot-loading.dom.test.ts",
+        "sha256": "55e0e7309ecfad8900c6f05d977faf407b8b567f8351bf17a9e5e4bb2c3aede2",
+        "lines": 195,
+        "provenance": "Full first9/13case candidate read; exact sharedbuilder extraction/import delta reviewed; all22callbacks separately conserved/declared."
+      },
+      {
+        "path": "packages/game/src/shell/__tests__/boot-loading-host.ts",
+        "sha256": "7aa88d404bdb68d4eaa1e3b0af0e9dee6ac82f7d22fc6fdb35fbff0bd3e847c6",
+        "lines": 51,
+        "provenance": "Full finaltesthost/builder read."
+      }
+    ],
+    "callers": [
+      {
+        "path": "packages/game/src/main.ts",
+        "sha256": "a6314ef010da9e6d7add395e19993a002b7024607b8c51cc757486f200335a03",
+        "ranges": [[43, 100]],
+        "scope": "PROD unifiedUI andfallback error/restore owner boundaries."
+      },
+      {
+        "path": "packages/game/src/shell/bootstrap.ts",
+        "sha256": "a4d007c9739873dc20f385b52b584de49ec57cd5c328cb11ca9d3b0b9f19fb0a",
+        "ranges": [[1690, 1705]],
+        "scope": "Actual firstframe loop start thenfinishBootLoading; no wholebootstrap acceptance."
+      },
+      {
+        "path": "packages/game/index.html",
+        "sha256": "55a747276b155879353b1c1d5978d56cbddf7ebe1cca2e53281271ca21e08b9d",
+        "ranges": [[110, 125]],
+        "scope": "Real HTML overlay IDs andextraoutermarkup; fixtures representboundednodes only."
+      }
+    ]
+  },
+  "adjacentPending": [
+    {
+      "path": "packages/game/src/__tests__/grok-render-r1/dump-evidence.ts",
+      "issue": "Historical name/header and synthesizeddumpHost raster remain outside fixed178 scope. Keepcalls and IDs but grant no screenshot/visual/E2E acceptance."
+    }
+  ],
+  "processDisclosures": [
+    "1historicalsubject+1adjacentmain only;2input22cases ->fetch9/dom13+testhost.19callbacks conserved afterhost/frame/builder bridges;3explicit cases cover clocksetup transfer,forwardingrAFspy,and stronger16msDOMoracle. No newclosed.",
+    "InitialPython admission prelude reported encoding error while independent shellcat still wrote a drafthelper; shell exit0 was not success. Draftsaved externally,removed,NodeASCIIpreconditions/cardadmission validated thenhelper restored before actualspecorganization. Original error is in tooltranscript only,not claimed externally capturedgate. Subsequentbuild steps sequential inside Node.",
+    "Firstvalid candidate copiedeachbuilder into2specs; readfoundactualduplicate,so r2 shares each exact functiononce. Two unequal DOMtrees staydistinct. No rule/checker changed.",
+    "Realcounter currenttest failed exactly initial-vs-updatedDOMafter15ms. Auxiliary validator incorrectly expected15inshort nativefailure stack; actualstackomitscodecontext. Correct readonlyvalidator checkedexactexpected/receivedtext plus fullrawdefaultcontext andhashes,no test rerun/resultrewrite. Source restored byteexact.",
+    "Failureprobe startswithen andcustomHTMLlang,forcesC08assertionwhileRAFpending,thenrunsC09. BothafterEach guards verifyrealclock/originalfetch/originalrAF/prioren/priorhtml/emptyownedDOM; onlyinjectedAssertionError andnextcasegreen. Probe/source/spec restored exactly,not a productfixcounter.",
+    "Actual6selectedfilepaths existed and equalnativeJSONfilelist;48passed/0pending/stderr0,gameTC0. Wholecheck/officialcoverage/protected andpublication remain deferred tolarge stable closeout.",
+    "Finalcommentread caught firstwave4/4 describedasraw99. Correctedtoraw100/display99,beforebytes/delta retained. All business statements/assertions unchanged; no test/typecheck rerun forcommentonlydelta."
+  ],
+  "ledgerCounts": {
+    "inventory": 3462,
+    "closed": 569,
+    "review": 259,
+    "pending": 2634
+  },
+  "commentErrata": [
+    {
+      "path": "packages/game/src/shell/boot-loading.test.ts",
+      "beforeMember": "organization-shell-boot/main.before-comment.ts",
+      "beforeSha256": "977cd37c148ac730439917f0c7f8fa0989b1ad28b4659d5bc24f7aed4118b714",
+      "afterSha256": "82cb65c725151cea7430738c80a30106aa701aebb45b4803f62b9c550cc3eab2",
+      "from": "// 第一波:4 项全完成 → raw 99(满格只由 finish 给)",
+      "to": "// 第一波完成 4/4，原始比例 100%，加载显示封顶 99%；finish 才补满。",
+      "scope": "Comment only. Actualraw=Math.floor(4/4*100)=100,shown=Math.min(99,raw)=99. No statement/assertion/behavior change."
+    }
+  ]
+}

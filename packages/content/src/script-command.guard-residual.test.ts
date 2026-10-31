@@ -12,8 +12,8 @@
  * 及同文件导出的四个投影小函数的现行合同。不复活磁盘旧格式。
  */
 import { describe, expect, test } from 'vitest'
-import { deepSnapshot } from './__tests__/glm-content-contract-fixtures.js'
 import { expectAcceptsUnchanged, expectExactError } from './__tests__/guard-leaf-fixtures.js'
+import { deepSnapshot } from './__tests__/value-snapshot.js'
 import {
   applyStageNext,
   checkCommands,

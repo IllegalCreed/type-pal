@@ -1,6 +1,6 @@
 import { runInNewContext } from 'node:vm'
 import { describe, expect, it } from 'vitest'
-import { makeHField } from '../__tests__/glm-next-wave/H/harness.js'
+import { makeBattleFieldRecord } from '../__tests__/battle-records.js'
 import { createBattleLifecycleFixture } from '../core/battle/battle-lifecycle.test-fixtures.js'
 import { startBattle } from '../core/battle/battle-system.js'
 import { updateAllEquipments } from '../core/equip-effect.js'
@@ -64,7 +64,7 @@ describe('drawNumber nonfinite failure isolation', () => {
       enemyTeams: [{ id: 0, enemies: [100, 0xffff, 0xffff, 0xffff, 0xffff] }],
       enemies: original.resources.enemies,
       enemyObjects: original.resources.enemyObjects,
-      battleFields: [makeHField()],
+      battleFields: [makeBattleFieldRecord()],
       playerRoles,
       items: [],
       spells: [],

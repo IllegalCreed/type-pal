@@ -161,6 +161,24 @@ current只指索引。历史执行资格、输入、覆盖、反控与独立性�
 
 任务状态取[任务索引](../tasks/index.md)与原卡；组织职责取[ops入口](../README.md)，审计问题取[审计导航](../audits/README.md)，历史材料取显式后继。本索引替代R39泛化导航正文，不替换任何执行原件。
 
+## 最新 main 的质量治理入口
+
+- [百文件窗口：工具专测与原生探针](QUALITY-TOOLS-CONTRACT-TESTS-1/README.md)：当前100主体文件八维、反控与原件；统一门和提交留约100文件窗口。
+- [第二窗口：present 主测与冻屏合同](QUALITY-GAME-PRESENT-HOST-TESTS-1/README.md)：两个主体八维、原始身份映射和有效反控；统一门等约100文件冻结。
+
+- [第二百文件窗口统一证据](QUALITY-PENDING-100-2/README.md)：100主体八维与完整原件，新增宿主叶/退役不凑数；统一门与发布单列。
+- [最近两百文件的证据返工与风险抽核](QUALITY-RECENT-200-ACCEPTANCE-AUDIT-1/README.md)：47既有主体、1相邻，旧回执勘误、获批对话引用修复及有限质量整改；不认证未抽核153文件。
+
+- [最近200剩余逐文件复核](QUALITY-RECENT-200-CONTENT-AUDIT-2/README.md)：前47复用、本轮153，累计200；排队0，商店/文本已批修复与八维返工完成；20506全仓、同报20157/810门通过，发布另据实际PR。
+- [第三治理窗口：迁移路径、基线与计划](QUALITY-PENDING-100-3/README.md)：29主体完成，6辅助单列；Kimi旧坏oracle转观察证据，当前PageId回归/业务反控与213含9目标；merge其它旧证保留，统一重门/覆盖率留稳定窗口。
+
+- [命名与组织补审及旧关闭信用撤回](QUALITY-PENDING-100-3/naming-review.json)：仅F/G静态候选登记，原有效证据保留；当前merge职责重组见同目录organization.json。
+
+- [当前命名/组织补审处置](QUALITY-PENDING-100-3/naming-resolutions.json)：迁移9项已补齐；历史178中145项F/G完成、33待续，旧证据按原身份保留，当前快检见同目录verify.mjs。
+
+- [E2E版本适用性规则与原件](TESTING-EVIDENCE-REVISION-1/README.md)：用户批准取消日历期限，候选/content/save/source指纹只读对比；历史报告与机器执行保持。
+
+
 ## 原文保全
 
 固定source revision `a1ac53bbea78b58ee88e5a3a53894a2fcaf595eb`、SHA `a48cc1db49991fc489f07063c2bf635a9996771647f07e025aa735d5a58ff851`。marker到EOF原样保留，包括R39之后另加的两个可见治理入口；不改旧结论/日期。

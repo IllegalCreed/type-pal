@@ -178,7 +178,8 @@ export function resolveDialogueIdentity(
       ...(identity.portrait !== undefined ? { portrait: { ...identity.portrait } } : {}),
     }
 
-  const actor = actorsById[identity.actor]
+  // Catalog names can equal Object prototype keys; only project definitions own a reference.
+  const actor = Object.hasOwn(actorsById, identity.actor) ? actorsById[identity.actor] : undefined
   if (!actor) throw new Error(`${path}.actor: 未知 Actor "${identity.actor}"`)
   let portrait: ResolvedDialogueIdentity['portrait']
   if (identity.portrait?.kind === 'default') {
@@ -186,7 +187,11 @@ export function resolveDialogueIdentity(
       throw new Error(`${path}.portrait: Actor "${identity.actor}" 缺 portraits.default`)
     portrait = { asset: actor.portraits.default, side: identity.portrait.side }
   } else if (identity.portrait?.kind === 'expression') {
-    const asset = actor.portraits?.expressions?.[identity.portrait.expression]
+    const expressions = actor.portraits?.expressions
+    const asset =
+      expressions && Object.hasOwn(expressions, identity.portrait.expression)
+        ? expressions[identity.portrait.expression]
+        : undefined
     if (!asset)
       throw new Error(
         `${path}.portrait.expression: Actor "${identity.actor}" 缺表情 "${identity.portrait.expression}"`,

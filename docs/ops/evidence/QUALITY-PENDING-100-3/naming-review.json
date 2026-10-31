@@ -1,0 +1,1802 @@
+{
+  "task": "QUALITY-NAMING-ORGANIZATION-1",
+  "date": "2026-10-29",
+  "kind": "static path triage and dimension-specific acceptance withdrawal",
+  "notCompletedFullReviews": true,
+  "scan": {
+    "base": {
+      "closed": 795,
+      "review": 37,
+      "pending": 2638
+    },
+    "inventory": 3470,
+    "candidates": 646,
+    "expression": "(?:^|[./_-])(?:glm|kimi|grok|gemini|codex|claude|opus|deepseek|qwen|cursor|gpt|sonnet|haiku|minimax|o3|o4)(?=[./_-]|$)",
+    "limits": "name-only scan; does not detect misleading business names, function/variable names or every cohesion problem",
+    "erratum": "Initial known-model list found172 closed candidates; adding Cursor contributor label finds6 more. Original triage/native bytes retained. Current final total178; this remains static path triage."
+  },
+  "withdrawnClosedCount": 178,
+  "files": [
+    {
+      "path": "packages/content/src/__tests__/glm-content-contract-fixtures.ts",
+      "sha256": "9ed8274ed545289834dae589639f34461566e102cc721d1c60f2ad355c29f7b0",
+      "previousRow": "| `packages/content/src/__tests__/glm-content-contract-fixtures.ts` | test | 已验证 | [本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json) | 既有关闭经当前153主体复核；具体caller/oracle/结构取舍及未修相邻风险逐项记录，不重复增加closed；统一门另核。 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/content/src/ambience-skill.glm-o.test.ts",
+      "sha256": "03f049f8259fc27ef0fe3f729f1562c5cdb30ff590d4ca08ef5bd8e9f4857189",
+      "previousRow": "| `packages/content/src/ambience-skill.glm-o.test.ts` | test | 已验证 | [本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json) | 既有关闭经当前153主体复核；具体caller/oracle/结构取舍及未修相邻风险逐项记录，不重复增加closed；统一门另核。 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/content/src/frame-sequence.glm-leaf-wave.test.ts",
+      "sha256": "58213a227dcfe7542b7afdaa4dde26570c72010b3abf69cce2a518a33ae6c38d",
+      "previousRow": "| `packages/content/src/frame-sequence.glm-leaf-wave.test.ts` | test | 已验证 | [本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json) | 既有关闭经当前153主体复核；具体caller/oracle/结构取舍及未修相邻风险逐项记录，不重复增加closed；统一门另核。 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/content/src/rich-text-residual.glm-o.test.ts",
+      "sha256": "4b5f2a11d2600dedc06ac3787826895630042abdad991f844bf415c78f27083b",
+      "previousRow": "| `packages/content/src/rich-text-residual.glm-o.test.ts` | test | 已验证 | [本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json) | 既有关闭经当前153主体复核；具体caller/oracle/结构取舍及未修相邻风险逐项记录，不重复增加closed；统一门另核。 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/content/src/world-variable.glm-leaf-wave.test.ts",
+      "sha256": "72b2d2760a847509cc755012683c23b7847103fe746c2f60bb0c655304e4f103",
+      "previousRow": "| `packages/content/src/world-variable.glm-leaf-wave.test.ts` | test | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；content-values |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/editor/src/ui/ItemTab.glm-m.test.tsx",
+      "sha256": "724c32814673c693b4d92149ed9b3c976d6550fbc97b92d8dfe24ef97fa20327",
+      "previousRow": "| `packages/editor/src/ui/ItemTab.glm-m.test.tsx` | test | 已验证 | QUALITY-REVIEW-52-CLOSEOUT-1 | 八维及已有源/调用/反控核用；BGM清timer2红到26绿，见phase2-reviewed；统一门待全52。 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "QUALITY-REVIEW-52-CLOSEOUT-1",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/editor/src/ui/ItemUseEffectEditor.glm-m.test.tsx",
+      "sha256": "e1b8237bbdadad3adc106e113840c39ca5db8f0a1aaae2f67cb7d2d1e50526f4",
+      "previousRow": "| `packages/editor/src/ui/ItemUseEffectEditor.glm-m.test.tsx` | test | 已验证 | QUALITY-REVIEW-52-CLOSEOUT-1 | 八维及已有源/调用/反控核用；BGM清timer2红到26绿，见phase2-reviewed；统一门待全52。 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "QUALITY-REVIEW-52-CLOSEOUT-1",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/editor/src/ui/ItemUseEffectEditor.residual.glm.test.tsx",
+      "sha256": "717e8bd12532609d14aef9b10c91794402666ffc7016bd6701694cd55ed2c69e",
+      "previousRow": "| `packages/editor/src/ui/ItemUseEffectEditor.residual.glm.test.tsx` | test | 已验证 | QUALITY-REVIEW-52-CLOSEOUT-1 | 八维及已有源/调用/反控核用；BGM清timer2红到26绿，见phase2-reviewed；统一门待全52。 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "QUALITY-REVIEW-52-CLOSEOUT-1",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/editor/src/ui/command-form-control.residual.glm.test.tsx",
+      "sha256": "438f11138ab83922f01a54b34dcdb1d59500043ad7da9656014e1f648a96e2a3",
+      "previousRow": "| `packages/editor/src/ui/command-form-control.residual.glm.test.tsx` | test | 已验证 | QUALITY-REVIEW-52-CLOSEOUT-1 | 八维及已有源/调用/反控核用；BGM清timer2红到26绿，见phase2-reviewed；统一门待全52。 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "QUALITY-REVIEW-52-CLOSEOUT-1",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/__tests__/glm-next-wave/H/harness.test.ts",
+      "sha256": "bf586246fcb61816b626564ce30d8d90f976d89cfd4fe42b8b434a5811cfa172",
+      "previousRow": "| `packages/game/src/__tests__/glm-next-wave/H/harness.test.ts` | test | 已验证 | QUALITY-REVIEW-52-CLOSEOUT-1 | 7例fixture域合同1绿6业务红到7绿；A-H见game-equipment-fixtures.extraTest。 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "QUALITY-REVIEW-52-CLOSEOUT-1",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/__tests__/glm-next-wave/H/harness.ts",
+      "sha256": "c28d66e9ea3785174362dfd1f64277313d60c64088b9ce81efc95e902da3df8c",
+      "previousRow": "| `packages/game/src/__tests__/glm-next-wave/H/harness.ts` | fixture | 已验证 | QUALITY-REVIEW-52-CLOSEOUT-1 | 装备/工厂/法术pair八维及原件闭合；统一门待全52，见game-equipment-fixtures.json。 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "QUALITY-REVIEW-52-CLOSEOUT-1",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/__tests__/grok-render-r1/legal-host.ts",
+      "sha256": "1383f22448f951984fb35769fa300026520f3499ed6748a08181416c3db95bdb",
+      "previousRow": "| `packages/game/src/__tests__/grok-render-r1/legal-host.ts` | test | 已验证 | [blob/宿主/对话有限收口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/blob-quality/README.md) | 逐文件A–H/真实caller与独立oracle、资源/全局清理及退休合同已核；当前单次统一门完成，未授完整可玩宿主或shared格式真值 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[blob/宿主/对话有限收口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/blob-quality/README.md)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/assets/dialog-assets.glm-phase1-leaves.test.ts",
+      "sha256": "60bf26531054a6f3e213703a18edcb7929f9c4e9806dfb76b64b10eb245cd744",
+      "previousRow": "| `packages/game/src/assets/dialog-assets.glm-phase1-leaves.test.ts` | test | 已验证 | [blob/宿主/对话有限收口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/blob-quality/README.md) | 逐文件A–H/真实caller与独立oracle、资源/全局清理及退休合同已核；当前单次统一门完成，未授完整可玩宿主或shared格式真值 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[blob/宿主/对话有限收口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/blob-quality/README.md)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+      "sha256": "564e9ec506c02ac82d217a0fb4c1ed9ad09e631864aa7720d9a3a24571173f79",
+      "previousRow": "| `packages/game/src/assets/dialog-icons.grok-r1.test.ts` | test | 已验证 | [集中门发现的PAL接线与全文八维](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/final-pre94-gates/README.md) | 13身份/全部像素失败断言保留；入口精确PAL并排除author，先全仓单红后13绿；纠正fixture真值注释，0新关闭，统一门未通过 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[集中门发现的PAL接线与全文八维](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/final-pre94-gates/README.md)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/assets/dialog-resources.grok-mid-1.test.ts",
+      "sha256": "9f2fb22b4bf8abbe2778962050ec5f5a5e9eebda1ed5b65488e0af0fb9192dcc",
+      "previousRow": "| `packages/game/src/assets/dialog-resources.grok-mid-1.test.ts` | test | 已验证 | [blob/宿主/对话有限收口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/blob-quality/README.md) | 逐文件A–H/真实caller与独立oracle、资源/全局清理及退休合同已核；当前单次统一门完成，未授完整可玩宿主或shared格式真值 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[blob/宿主/对话有限收口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/blob-quality/README.md)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/assets/load-all-assemble.grok-r1.test.ts",
+      "sha256": "1d21d4085cc12a016be2468928a8eb876fb5eb7ae337339463e0cf0eaee72228",
+      "previousRow": "| `packages/game/src/assets/load-all-assemble.grok-r1.test.ts` | test | 已验证 | [3h有限收口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/module-closeout.json) | 十装配合同八维；真实Enemy/角色36必需字段、强三字段oracle，A06复用精简/A09标题映射，所有断言去向保留 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[3h有限收口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/module-closeout.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/assets/load-all-bounds.grok-r1.test.ts",
+      "sha256": "8224427cc2efa1bc017d02b03e1e456934e4741e66da931fab2cd6ca6b9ec142",
+      "previousRow": "| `packages/game/src/assets/load-all-bounds.grok-r1.test.ts` | test | 已验证 | [资产/渲染逐文件八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[资产/渲染逐文件八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/assets/load-all-recover.grok-r1.test.ts",
+      "sha256": "bafbf8a7c6ca9b3197ea764cf112df7a94ca77f010527a264fc93fcd2059e059",
+      "previousRow": "| `packages/game/src/assets/load-all-recover.grok-r1.test.ts` | test | 已验证 | [3h有限收口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/module-closeout.json) | 十一恢复合同完整告警/错误参数/次数；C10纠正压紧oracle，C11保留独立物品失败合同；当前UI缺帧不移位 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[3h有限收口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/module-closeout.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/assets/png-decode.grok-r1.test.ts",
+      "sha256": "58fa7709e4a859fdc57ab5eae736806a392e8cfe668df1c06c88e1ad05d097b7",
+      "previousRow": "| `packages/game/src/assets/png-decode.grok-r1.test.ts` | test | 已验证 | [资产/渲染逐文件八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[资产/渲染逐文件八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/assets/scene-cache.grok-mid-1.test.ts",
+      "sha256": "1002504cda3af553c56e48dab05c9200a350d847aa28e3fc8f8c4ed4f861d4b3",
+      "previousRow": "| `packages/game/src/assets/scene-cache.grok-mid-1.test.ts` | test | 已验证 | [资产/渲染逐文件八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[资产/渲染逐文件八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/assets/scene-cache.grok-r1.test.ts",
+      "sha256": "4ab6a1fa912fdfed0b961bf43b0734c7d69a41eb5e7b61eedc98d7da61e6dce0",
+      "previousRow": "| `packages/game/src/assets/scene-cache.grok-r1.test.ts` | test | 已验证 | [资产/渲染逐文件八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[资产/渲染逐文件八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/assets/tileset-gzip.grok-r1.test.ts",
+      "sha256": "b855fe0b4072e7bc2f4c077aff77d8ed8bf2afc62a6d47d0f6ef8f4d77cd75e9",
+      "previousRow": "| `packages/game/src/assets/tileset-gzip.grok-r1.test.ts` | test | 已验证 | [blob/宿主/对话有限收口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/blob-quality/README.md) | 逐文件A–H/真实caller与独立oracle、资源/全局清理及退休合同已核；当前单次统一门完成，未授完整可玩宿主或shared格式真值 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[blob/宿主/对话有限收口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/blob-quality/README.md)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/assets/tileset-load.grok-r1.test.ts",
+      "sha256": "819feeba628a7010d3ec015e43a32e3e05ac56a4801b55c63458cd9c57e75efc",
+      "previousRow": "| `packages/game/src/assets/tileset-load.grok-r1.test.ts` | test | 已验证 | [blob/宿主/对话有限收口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/blob-quality/README.md) | 逐文件A–H/真实caller与独立oracle、资源/全局清理及退休合同已核；当前单次统一门完成，未授完整可玩宿主或shared格式真值 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[blob/宿主/对话有限收口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/blob-quality/README.md)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/battle-summon-slot-reuse.glm-q.test.ts",
+      "sha256": "fb7ec27c8c0f45bd91563b0351a8381a581063a73cea463ca0490f8a88cdafa6",
+      "previousRow": "| `packages/game/src/battle-summon-slot-reuse.glm-q.test.ts` | test | 已验证 | [3s／3t代码验收八维与原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-host-opcode-closeout/README.md) | 全文四例八维重核，typed真实state/合法RNG，非零毒与坏好状态清理、首空槽及room1不足两只；两有效反控，room0合同移主测既有例；刷新旧关闭不增数 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[3s／3t代码验收八维与原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-host-opcode-closeout/README.md)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/core/battle/actions/attack.glm-next-wave.test.ts",
+      "sha256": "46bc9913fd1ae91d03ed6f923920614bab64aab11a3c1e2e4db24962fa244995",
+      "previousRow": "| `packages/game/src/core/battle/actions/attack.glm-next-wave.test.ts` | test | 已验证 | [本窗逐文件八维与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/review.json) | 原合同与当前caller/源码绑定成立；必要结构/测试/授权重试返工及集中零诊断门已核；上下文、硬件或广域文件不附带关闭 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[本窗逐文件八维与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/review.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-opcodes.glm-next-wave.test.ts",
+      "sha256": "abbb5b90bdafe77f1a5e50e65c86af7750e20ca8a6d28757a1e7db7ae465665f",
+      "previousRow": "| `packages/game/src/core/battle/battle-opcodes.glm-next-wave.test.ts` | test | 已验证 | [3s／3t代码验收八维与原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-host-opcode-closeout/README.md) | 全文5例八维/旧关闭刷新，当前同版alias/一次clear/SHORT断言；241相邻与完整源码桥，0新增关闭 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[3s／3t代码验收八维与原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-host-opcode-closeout/README.md)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-progression.glm-next-wave.test.ts",
+      "sha256": "136e3b6867ca82b1a1b53dfb233f2bec829dbf25e6213a9b57b4fe04be481d7a",
+      "previousRow": "| `packages/game/src/core/battle/battle-progression.glm-next-wave.test.ts` | test | 已验证 | [经验/成长八维与集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/README.md) | 既有关闭按当前变更刷新；保留原合同与身份，无退役/弱化，具体限制与原件见回执 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[经验/成长八维与集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/README.md)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+      "sha256": "b316f1ad01e30d1db46861cef7b29c0fb4d7069fffead3d509993b49be18da85",
+      "previousRow": "| `packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts` | test | 已验证 | [3w模块收口/逐文件八维与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/module-closeout.json) | 仅本文件明确合同；Extra/HPMP/默认role/逐敌等待反例与原生身份；全仓20443、official/protected及零诊断；不认证whole battle-system/event-system或视觉E2E |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[3w模块收口/逐文件八维与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/module-closeout.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-state.glm-next-wave.test.ts",
+      "sha256": "cdbe9414af48e3da5dca54b77c7516f3df1ba5556ef0193adaa4771ed348128d",
+      "previousRow": "| `packages/game/src/core/battle/battle-state.glm-next-wave.test.ts` | test | 已验证 | [结算成长窗口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/README.md)；逐文件八维／实际caller及原生反控／当前模块门；详见review.json指定合同 | 仅本文件明确合同接受；3w非队员Extra／中间时序与3x WORD仍未闭合，未按包绿扩大信用 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[结算成长窗口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/README.md)；逐文件八维／实际caller及原生反控／当前模块门；详见review.json指定合同",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-system.glm-next-wave.test.ts",
+      "sha256": "37c477b6ee26cfa3850547c59a8c300cf367ab8f690221c22c776869adadf720",
+      "previousRow": "| `packages/game/src/core/battle/battle-system.glm-next-wave.test.ts` | test | 已验证 | [3w模块收口/逐文件八维与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/module-closeout.json) | 仅本文件明确合同；Extra/HPMP/默认role/逐敌等待反例与原生身份；全仓20443、official/protected及零诊断；不认证whole battle-system/event-system或视觉E2E |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[3w模块收口/逐文件八维与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/module-closeout.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/core/event-opcode-player.glm-next-wave.test.ts",
+      "sha256": "aae6743db5317e0e395f0a3cc0b42d8183e95455f0e8b4477a46014ecf926421",
+      "previousRow": "| `packages/game/src/core/event-opcode-player.glm-next-wave.test.ts` | test | 已验证 | [3o／3p逐文件代码验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-closeout/README.md) | 非法槽精确两条消息+参数+数量及GS零变异，另外三种no-op是不同opcode成员。 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[3o／3p逐文件代码验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-closeout/README.md)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/core/event-opcode-player.glm-opcode-residual.test.ts",
+      "sha256": "e3d61119342fae5e100a7fb5a3e38b10bdb4e6050ad2d8572094076f6597e34f",
+      "previousRow": "| `packages/game/src/core/event-opcode-player.glm-opcode-residual.test.ts` | test | 已验证 | [3o／3p逐文件代码验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-closeout/README.md) | 全队MP/HPMP先false后true，强制写true变异旧6绿/新2红；生死/钳顶、全空不写标志均保留。 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[3o／3p逐文件代码验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-closeout/README.md)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/core/event-system.glm-event-k04.test.ts",
+      "sha256": "1f36104eeb5acfcffbeb28cbe0b40aeba210ad82f533989578b095ff8f1e35c4",
+      "previousRow": "| `packages/game/src/core/event-system.glm-event-k04.test.ts` | test | 已验证 | [逐文件八维/正式反例](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/README.md)  [52接口版本桥](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/approved-remaining-reviewed.json) | 原2身份保留+1独立拒绝/后续声效/状态不侵入合同，真实Error与日志全参数精确一次，finally清注入；相邻391/TC0，静态和统一集成另核  本窗仅有限协议/实参版本桥，原全文信用复用，不新增关闭 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[逐文件八维/正式反例](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/README.md)  [52接口版本桥](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/approved-remaining-reviewed.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/core/game-state.glm-next-wave.test.ts",
+      "sha256": "19c859e48659e23c9b0e0c839fcf56fa739a7ef660b200622c0220e4e1757638",
+      "previousRow": "| `packages/game/src/core/game-state.glm-next-wave.test.ts` | test | 已验证 | [GS／导出错误逐文件八维](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/gamestate-save-closeout/README.md) | 四例完整核读；独立状态行/新初态反控，精灵零值标题与caller注释更正 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[GS／导出错误逐文件八维](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/gamestate-save-closeout/README.md)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/core/inspect/battle-inspect.glm-phase1-leaves.test.ts",
+      "sha256": "3551a652625b7dd3e3806f1473e2848d1e9811f88bf8b08e83f8a64e06ca2e26",
+      "previousRow": "| `packages/game/src/core/inspect/battle-inspect.glm-phase1-leaves.test.ts` | test | 已验证 | [五卡逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json) | 本轮逐文件八维/真实caller及oracle/整改与反控成立；指定未跑视觉不继承；统一门见回执 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[五卡逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/core/menu/equip-menu.glm-phase1-leaves.test.ts",
+      "sha256": "a909c7d48ab71a23b116c2d17b9e2af7c404b06720c04296b117fb99d60b8646",
+      "previousRow": "| `packages/game/src/core/menu/equip-menu.glm-phase1-leaves.test.ts` | test | 已验证 | [pre94菜单逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json) | 原卡合同、当前依赖/合法typed输入、测试判别力/隔离与必要质量返工成立；相邻广域模块不附带关闭 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[pre94菜单逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-magic-menu.glm-phase1-leaves.test.ts",
+      "sha256": "927a9fc1ee6696b4d632a7932b04847c72dd74d13df6788274b61a4b44da2abe",
+      "previousRow": "| `packages/game/src/core/menu/in-game-magic-menu.glm-phase1-leaves.test.ts` | test | 已验证 | [pre94菜单逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json) | 原卡合同、当前依赖/合法typed输入、测试判别力/隔离与必要质量返工成立；相邻广域模块不附带关闭 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[pre94菜单逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-menu.glm-phase1-leaves.test.ts",
+      "sha256": "3b2cfe9179561746f790cb72a67cfa33762b19c8d2565c5ee26d14ae20eb5a55",
+      "previousRow": "| `packages/game/src/core/menu/in-game-menu.glm-phase1-leaves.test.ts` | test | 已验证 | [pre94菜单逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json) | 原卡合同、当前依赖/合法typed输入、测试判别力/隔离与必要质量返工成立；相邻广域模块不附带关闭 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[pre94菜单逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/core/menu/inventory-action-menu.glm-phase1-leaves.test.ts",
+      "sha256": "537b1c67dfa7fa3a636ff77224a18eaaa987cd12bc938064adfa680cea90cc86",
+      "previousRow": "| `packages/game/src/core/menu/inventory-action-menu.glm-phase1-leaves.test.ts` | test | 已验证 | [pre94菜单逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json) | 原卡合同、当前依赖/合法typed输入、测试判别力/隔离与必要质量返工成立；相邻广域模块不附带关闭 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[pre94菜单逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/core/menu/inventory-menu.glm-phase1-leaves.test.ts",
+      "sha256": "e6e6fea658e4d97e6bf801750cf8833e8894a79b7fae6c239dae3813b16b5072",
+      "previousRow": "| `packages/game/src/core/menu/inventory-menu.glm-phase1-leaves.test.ts` | test | 已验证 | [pre94菜单逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json) | 原卡合同、当前依赖/合法typed输入、测试判别力/隔离与必要质量返工成立；相邻广域模块不附带关闭 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[pre94菜单逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/core/menu/item-select.glm-phase1-leaves.test.ts",
+      "sha256": "767dc6720228343197421a3e4e2a80237ca87a30fa3c8f1cff0fb77cf72276fa",
+      "previousRow": "| `packages/game/src/core/menu/item-select.glm-phase1-leaves.test.ts` | test | 已验证 | [94–102当前逐文件八维与统一原件](../evidence/CODE-QUALITY-94/approved-closeout/README.md) | 用户批准的接口退休/整数槽合同、连接ownership及测试判别力已闭合；实际caller/旧证据复用与本轮A–H逐项有据，统一门零诊断；不附带关闭相邻广域文件 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[94–102当前逐文件八维与统一原件](../evidence/CODE-QUALITY-94/approved-closeout/README.md)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/core/menu/magic-script.glm-next-wave.test.ts",
+      "sha256": "70b257f07528c82723c1aab2bc3491e1aeaf0181bf9fddb282a386382473c059",
+      "previousRow": "| `packages/game/src/core/menu/magic-script.glm-next-wave.test.ts` | test | 已验证 | [五卡逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json) | 本轮逐文件八维/真实caller及oracle/整改与反控成立；指定未跑视觉不继承；统一门见回执 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[五卡逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/core/menu/magic-select.glm-phase1-leaves.test.ts",
+      "sha256": "7426d25723fe5e8b006ffcd1d04c900e8cc0bb51da80c86bb07865f3b3c9521d",
+      "previousRow": "| `packages/game/src/core/menu/magic-select.glm-phase1-leaves.test.ts` | test | 已验证 | [pre94菜单逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json) | 原卡合同、当前依赖/合法typed输入、测试判别力/隔离与必要质量返工成立；相邻广域模块不附带关闭 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[pre94菜单逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/core/menu/opening-menu.glm-phase1-leaves.test.ts",
+      "sha256": "28c3ba868156fd1db229dd152f030b5bb7e4b0e228e511a4beec88df974bea46",
+      "previousRow": "| `packages/game/src/core/menu/opening-menu.glm-phase1-leaves.test.ts` | test | 已验证 | [94–102当前逐文件八维与统一原件](../evidence/CODE-QUALITY-94/approved-closeout/README.md) | 用户批准的接口退休/整数槽合同、连接ownership及测试判别力已闭合；实际caller/旧证据复用与本轮A–H逐项有据，统一门零诊断；不附带关闭相邻广域文件 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[94–102当前逐文件八维与统一原件](../evidence/CODE-QUALITY-94/approved-closeout/README.md)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/core/menu/primitives.glm-phase1-leaves.test.ts",
+      "sha256": "3deb623f2073ddf3b08aa8f459cf177f0bf9aec9a4c62f6cfe0e021944f4b0f9",
+      "previousRow": "| `packages/game/src/core/menu/primitives.glm-phase1-leaves.test.ts` | test | 已验证 | [94–102当前逐文件八维与统一原件](../evidence/CODE-QUALITY-94/approved-closeout/README.md) | 用户批准的接口退休/整数槽合同、连接ownership及测试判别力已闭合；实际caller/旧证据复用与本轮A–H逐项有据，统一门零诊断；不附带关闭相邻广域文件 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[94–102当前逐文件八维与统一原件](../evidence/CODE-QUALITY-94/approved-closeout/README.md)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/core/menu/save-slot-menu.glm-phase1-leaves.test.ts",
+      "sha256": "2e3c437b357204d67787d107be3bbbff7d83eced855d8640a437a5c5b7c43a7e",
+      "previousRow": "| `packages/game/src/core/menu/save-slot-menu.glm-phase1-leaves.test.ts` | test | 已验证 | [CODE-QUALITY-100 Codex当前独立复核](../evidence/CODE-QUALITY-100/codex-current-review.md)；公开工厂同步合同与 sdlpal defaultSlot oracle | 非顺序 id、越界 defaultSlot、空表 Up/Down 反例；与 IO/dispatcher 测试排重 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[CODE-QUALITY-100 Codex当前独立复核](../evidence/CODE-QUALITY-100/codex-current-review.md)；公开工厂同步合同与 sdlpal defaultSlot oracle",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/core/menu/sell-menu.glm-phase1-leaves.test.ts",
+      "sha256": "8d12759e5045d6cef2abcd52897ea9b1510c3ea0d89990e612f4a968e2509a5f",
+      "previousRow": "| `packages/game/src/core/menu/sell-menu.glm-phase1-leaves.test.ts` | test | 已验证 | [pre94菜单逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json) | 原卡合同、当前依赖/合法typed输入、测试判别力/隔离与必要质量返工成立；相邻广域模块不附带关闭 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[pre94菜单逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/core/menu/shop-menu.glm-phase1-leaves.test.ts",
+      "sha256": "fd3ccf333d7ecb95e11b2e890121d35e0ea57eb4ce58a801964d98b5baa934c2",
+      "previousRow": "| `packages/game/src/core/menu/shop-menu.glm-phase1-leaves.test.ts` | test | 已验证 | [pre94菜单逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json) | 原卡合同、当前依赖/合法typed输入、测试判别力/隔离与必要质量返工成立；相邻广域模块不附带关闭 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[pre94菜单逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/dev/dev-panel.glm-next-wave.test.ts",
+      "sha256": "ba9b3b17067c32305fc1f1dec50e7fc26bb6f2011da56a6171c9987f020f9c9f",
+      "previousRow": "| `packages/game/src/dev/dev-panel.glm-next-wave.test.ts` | test | 已验证 | [五卡逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json) | 本轮逐文件八维/真实caller及oracle/整改与反控成立；指定未跑视觉不继承；统一门见回执 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[五卡逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-composition/fixtures/battle.ts",
+      "sha256": "c8ea1ae59baf3bf5d942ae3cc5e1258430c2feaed6c7623ff92eee2bbd912038",
+      "previousRow": "| `packages/game/src/present/__tests__/grok-composition/fixtures/battle.ts` | fixture | 已验证 | [资产/渲染逐文件八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[资产/渲染逐文件八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-composition/fixtures/images.ts",
+      "sha256": "551bfb79ad15caf4de7ad4945336edd10ab626cef12d84475b782b392ef0683a",
+      "previousRow": "| `packages/game/src/present/__tests__/grok-composition/fixtures/images.ts` | fixture | 已验证 | [资产/渲染逐文件八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[资产/渲染逐文件八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-composition/fixtures/world.ts",
+      "sha256": "7eedefb782fafaac9af4969e909e974a737ddb951d2a46735c3838970db8d7f8",
+      "previousRow": "| `packages/game/src/present/__tests__/grok-composition/fixtures/world.ts` | fixture | 已验证 | [资产/渲染逐文件八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[资产/渲染逐文件八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-composition/p11-world-layers.test.ts",
+      "sha256": "61705a1a3d9fe61ff5140a12847cc8c56d59d763a0dc2a971e69f401a6b08e79",
+      "previousRow": "| `packages/game/src/present/__tests__/grok-composition/p11-world-layers.test.ts` | test | 已验证 | [资产/渲染逐文件八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[资产/渲染逐文件八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-composition/p12-overlays.test.ts",
+      "sha256": "dc0e0fc8dcab93030d9ee08ae335804a34fc4a2c702b1d37bfa977109ac1cdec",
+      "previousRow": "| `packages/game/src/present/__tests__/grok-composition/p12-overlays.test.ts` | test | 已验证 | [资产/渲染逐文件八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[资产/渲染逐文件八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-composition/p13-battle-commands.test.ts",
+      "sha256": "335fabb9c3e9f28657c6ea7edf6ce0adcda926a3eb108e029a7c9c7bf7f46aba",
+      "previousRow": "| `packages/game/src/present/__tests__/grok-composition/p13-battle-commands.test.ts` | test | 已验证 | [资产/渲染逐文件八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[资产/渲染逐文件八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-composition/p14-battle-fades.test.ts",
+      "sha256": "91f643b92d235d87103d0efddc541539e3a9d44081bc618d8b71680fb81a5204",
+      "previousRow": "| `packages/game/src/present/__tests__/grok-composition/p14-battle-fades.test.ts` | test | 已验证 | [资产/渲染逐文件八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[资产/渲染逐文件八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-composition/p15-battle-ui.test.ts",
+      "sha256": "bbe237b59ca12224e3a3ae290d0723e543e812b61ef4e6b850737fb3674fb429",
+      "previousRow": "| `packages/game/src/present/__tests__/grok-composition/p15-battle-ui.test.ts` | test | 已验证 | [资产/渲染逐文件八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[资产/渲染逐文件八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-composition/p16-dialog.test.ts",
+      "sha256": "5d59b91b75769c369c9612d332b92abb2328b50473c83121fab6dbed68af49bf",
+      "previousRow": "| `packages/game/src/present/__tests__/grok-composition/p16-dialog.test.ts` | test | 已验证 | [资产/渲染逐文件八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[资产/渲染逐文件八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/font.ts",
+      "sha256": "1567d2a51b92f839b9c8ca2006d935521502b4bc1328437e05ee9c0b05366516",
+      "previousRow": "| `packages/game/src/present/__tests__/grok-present/font.ts` | fixture | 已验证 | [资产/渲染逐文件八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[资产/渲染逐文件八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/images.ts",
+      "sha256": "85a3bf16fd33859a897ecf82d0c8a2f3c28b99eb03499e1f4d93d5cc4d792833",
+      "previousRow": "| `packages/game/src/present/__tests__/grok-present/images.ts` | fixture | 已验证 | [资产/渲染逐文件八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[资产/渲染逐文件八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/p01-inventory-list.test.ts",
+      "sha256": "6ad818d64316c447983a5e9a5615565e920bf73fd1d7894c2b3865473f1fa82f",
+      "previousRow": "| `packages/game/src/present/__tests__/grok-present/p01-inventory-list.test.ts` | test | 已验证 | [资产/渲染逐文件八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[资产/渲染逐文件八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/p02-inventory-target.test.ts",
+      "sha256": "49abedabe81e7cb35703d7e4cedb355cd5d6295370a18c634a07227143fe569e",
+      "previousRow": "| `packages/game/src/present/__tests__/grok-present/p02-inventory-target.test.ts` | test | 已验证 | [资产/渲染逐文件八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[资产/渲染逐文件八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/p03-equip.test.ts",
+      "sha256": "e9191efb9fefdac8fb8bee091f4e4ab9363e23b7bddeb470044d5835ced40259",
+      "previousRow": "| `packages/game/src/present/__tests__/grok-present/p03-equip.test.ts` | test | 已验证 | [资产/渲染逐文件八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[资产/渲染逐文件八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/p04-shop.test.ts",
+      "sha256": "0899e5c48cc0c4bc634522bec7d8819a01c495657b527ef74e11f2c34c251ef2",
+      "previousRow": "| `packages/game/src/present/__tests__/grok-present/p04-shop.test.ts` | test | 已验证 | [renderer逐文件A–H/合同迁移/集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-gates.json) | 明确原范围/共享叶/合法相邻fixture的八维与必要返工成立；无产品机制/存档/接口变化；宽域与未跑E2E不附带关闭 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[renderer逐文件A–H/合同迁移/集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-gates.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/p05-menu-stack.test.ts",
+      "sha256": "11fcd1159850e7900e9dd3e4ff7eeef5076f9c97626deb1753227322586d75a7",
+      "previousRow": "| `packages/game/src/present/__tests__/grok-present/p05-menu-stack.test.ts` | test | 已验证 | [资产/渲染逐文件八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[资产/渲染逐文件八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/p06-magic.test.ts",
+      "sha256": "0c482d21a187011bb6265d21aed09cf49cbde5c2232c4f073e8867e48e3ff64c",
+      "previousRow": "| `packages/game/src/present/__tests__/grok-present/p06-magic.test.ts` | test | 已验证 | [资产/渲染逐文件八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[资产/渲染逐文件八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/p07-status.test.ts",
+      "sha256": "01518520443c966e47ded645245189ba834f7e422f57dae448fe41c49ab9c48d",
+      "previousRow": "| `packages/game/src/present/__tests__/grok-present/p07-status.test.ts` | test | 已验证 | [资产/渲染逐文件八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[资产/渲染逐文件八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/p08-settlement.test.ts",
+      "sha256": "5cdcfa8baac98de16d32337767477d2ae6d79915ceb3795cc6b972705937b52e",
+      "previousRow": "| `packages/game/src/present/__tests__/grok-present/p08-settlement.test.ts` | test | 已验证 | [资产/渲染逐文件八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[资产/渲染逐文件八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/p09-background.test.ts",
+      "sha256": "6922114384b0344f8ed710871edf9e21e9226db81d62ea4a8a34c14cb72f52f2",
+      "previousRow": "| `packages/game/src/present/__tests__/grok-present/p09-background.test.ts` | test | 已验证 | [资产/渲染逐文件八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[资产/渲染逐文件八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/p10-indexed-png.test.ts",
+      "sha256": "86b33800ea983839dabdb49ed19d38518bed736c1aae7c8d807827c562296e35",
+      "previousRow": "| `packages/game/src/present/__tests__/grok-present/p10-indexed-png.test.ts` | test | 已验证 | [资产/渲染逐文件八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[资产/渲染逐文件八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/png-rgba.ts",
+      "sha256": "2d560bc0abf7a40698e3aa532b54580492eab080abf60f389bfd8c00a65aa00a",
+      "previousRow": "| `packages/game/src/present/__tests__/grok-present/png-rgba.ts` | fixture | 已验证 | [资产/渲染逐文件八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[资产/渲染逐文件八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/world.ts",
+      "sha256": "79df71135f071a392f75fe1ebf22f2f57318a98e12164c458e00b59bcadf8192",
+      "previousRow": "| `packages/game/src/present/__tests__/grok-present/world.ts` | fixture | 已验证 | [资产/渲染逐文件八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[资产/渲染逐文件八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/present/battle/battle-effect-num-pixels.grok-r1.test.ts",
+      "sha256": "1e5db81d8b831cc3f55f8a8f52d25dec26faa8f5e3cbb935769a47a029aed517",
+      "previousRow": "| `packages/game/src/present/battle/battle-effect-num-pixels.grok-r1.test.ts` | test | 已验证 | [3k／3l逐文件A–H与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-primitives-quality/README.md) | 当前八维、真实caller/ownership与测试合同已核；必要像素/生命周期补强及重复迁移见逐文件索引，统一门零诊断。 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[3k／3l逐文件A–H与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-primitives-quality/README.md)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/present/battle/battle-settlement-pixels.grok-r1.test.ts",
+      "sha256": "58af32b51be9a025ea5f12607750cb6cbc7e1850a7782e0db2e3d63417616493",
+      "previousRow": "| `packages/game/src/present/battle/battle-settlement-pixels.grok-r1.test.ts` | test | 已验证 | [3l四片逐文件A–H／完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-present-quality/README.md) | 当前八维、caller、像素合同与必要反控已核；测试去重／纯重构分提交，集中门零诊断，具体范围与限制见索引。 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[3l四片逐文件A–H／完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-present-quality/README.md)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+      "sha256": "5b63c47a79607ca9100299fbe534fb11657e9972b1423c0fa31fe9b7f494e126",
+      "previousRow": "| `packages/game/src/present/battle/battle-sprite-pixels.grok-r1.test.ts` | test | 已验证 | [3l四片逐文件A–H／完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-present-quality/README.md) | 当前八维、caller、像素合同与必要反控已核；测试去重／纯重构分提交，集中门零诊断，具体范围与限制见索引。 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[3l四片逐文件A–H／完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-present-quality/README.md)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/present/battle/battle-ui-pixels.grok-r1.test.ts",
+      "sha256": "a82d686149c924abd845c4ee62f951f7e3e7166f7025cb997b1ddd67aa8136b9",
+      "previousRow": "| `packages/game/src/present/battle/battle-ui-pixels.grok-r1.test.ts` | test | 已验证 | [3l四片逐文件A–H／完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-present-quality/README.md) | 当前八维、caller、像素合同与必要反控已核；测试去重／纯重构分提交，集中门零诊断，具体范围与限制见索引。 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[3l四片逐文件A–H／完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-present-quality/README.md)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/present/battle/draw-battle-settlement.glm-phase1-leaves.test.ts",
+      "sha256": "b321f904c77031a3cbbb4b9d5e205bfc3024a6b2e8abea256ad6620adf16b8ca",
+      "previousRow": "| `packages/game/src/present/battle/draw-battle-settlement.glm-phase1-leaves.test.ts` | test | 已验证 | [3l四片逐文件A–H／完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-present-quality/README.md) | 当前八维、caller、像素合同与必要反控已核；测试去重／纯重构分提交，集中门零诊断，具体范围与限制见索引。 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[3l四片逐文件A–H／完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-present-quality/README.md)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/present/battle/draw-battle-sprites.glm-phase1-leaves.test.ts",
+      "sha256": "2891953e04cfb5200dad7bafb2985fb63a39fb3dd750a70b62c390027810320e",
+      "previousRow": "| `packages/game/src/present/battle/draw-battle-sprites.glm-phase1-leaves.test.ts` | test | 已验证 | [3l四片逐文件A–H／完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-present-quality/README.md) | 当前八维、caller、像素合同与必要反控已核；测试去重／纯重构分提交，集中门零诊断，具体范围与限制见索引。 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[3l四片逐文件A–H／完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-present-quality/README.md)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/present/battle/draw-battle-ui.glm-phase1-leaves.test.ts",
+      "sha256": "6dcd3bc9ca16f22c9daae99bf853452bd641ad5ab9dfcde1c6c1b00debc1ef60",
+      "previousRow": "| `packages/game/src/present/battle/draw-battle-ui.glm-phase1-leaves.test.ts` | test | 已验证 | [3l四片逐文件A–H／完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-present-quality/README.md) | 当前八维、caller、像素合同与必要反控已核；测试去重／纯重构分提交，集中门零诊断，具体范围与限制见索引。 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[3l四片逐文件A–H／完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-present-quality/README.md)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/present/dialog-box-chrome.grok-r1.test.ts",
+      "sha256": "a91059d33c007b149b7ada27401f85952aa7dd5f6acb523f1273e9f42a4d7b0c",
+      "previousRow": "| `packages/game/src/present/dialog-box-chrome.grok-r1.test.ts` | test | 已验证 | [对话模块当前八维与原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/dialog-quality/README.md) | 逐文件A–H与实际caller/typed输入/oracle/排重；105直接+427相邻，重叠刷新不相加；全仓/coverage/PR待全部pre94 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[对话模块当前八维与原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/dialog-quality/README.md)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/present/dialog-box-pixels.grok-r1.test.ts",
+      "sha256": "8db70cbd80b02020d9be1547fea4447f615afeaff89cf46457e844c6c753353c",
+      "previousRow": "| `packages/game/src/present/dialog-box-pixels.grok-r1.test.ts` | test | 已验证 | [对话模块当前八维与原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/dialog-quality/README.md) | 逐文件A–H与实际caller/typed输入/oracle/排重；105直接+427相邻，重叠刷新不相加；全仓/coverage/PR待全部pre94 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[对话模块当前八维与原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/dialog-quality/README.md)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/present/dialog-box.glm-next-wave.test.ts",
+      "sha256": "7ecc0998e9e91193b08cb04e695aac99d71b8ed1afd9cb5355447d4529de6521",
+      "previousRow": "| `packages/game/src/present/dialog-box.glm-next-wave.test.ts` | test | 已验证 | [对话模块当前八维与原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/dialog-quality/README.md) | 逐文件A–H与实际caller/typed输入/oracle/排重；105直接+427相邻，重叠刷新不相加；全仓/coverage/PR待全部pre94 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[对话模块当前八维与原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/dialog-quality/README.md)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/present/dither-fade-nibble.grok-r1.test.ts",
+      "sha256": "cbeef1074d5ca20c20d60b45ed64035ddb4c5d201cb98c0993daf03296848a50",
+      "previousRow": "| `packages/game/src/present/dither-fade-nibble.grok-r1.test.ts` | test | 已验证 | [3k／3l逐文件A–H与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-primitives-quality/README.md) | 当前八维、真实caller/ownership与测试合同已核；必要像素/生命周期补强及重复迁移见逐文件索引，统一门零诊断。 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[3k／3l逐文件A–H与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-primitives-quality/README.md)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/present/draw-number-slots.grok-r1.test.ts",
+      "sha256": "6cb8a530e70a1797a35e1795cffd70e78353ccd4f7119f8bc960ffaa5b37e28c",
+      "previousRow": "| `packages/game/src/present/draw-number-slots.grok-r1.test.ts` | test | 已验证 | [3k数字当前八维与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3k-number-quality/README.md) | 当前逐文件合同、用户批准数值失败隔离与实际caller像素已核；自然剧情极值可达性未证，不外推Save或公式。 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[3k数字当前八维与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3k-number-quality/README.md)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/present/draw-sprite-clip.grok-r1.test.ts",
+      "sha256": "72e2e06ce3b72b4877c9b24cfe064699a880efe1d95394f7d3e30f53ea0d006d",
+      "previousRow": "| `packages/game/src/present/draw-sprite-clip.grok-r1.test.ts` | test | 已验证 | [Current A-H, evidence and gates](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-gates.json) | Original explicit scope/current callers and version, necessary rework or same-byte evidence; no broad/adjacent/visual credit |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[Current A-H, evidence and gates](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-gates.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/present/draw-tilemap-pixels.grok-r1.test.ts",
+      "sha256": "77d84c6b6a974bcb50631dcd3d59e18e3153d901016d5e0ea868fdac9bc82487",
+      "previousRow": "| `packages/game/src/present/draw-tilemap-pixels.grok-r1.test.ts` | test | 已验证 | [renderer逐文件A–H/合同迁移/集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-gates.json) | 明确原范围/共享叶/合法相邻fixture的八维与必要返工成立；无产品机制/存档/接口变化；宽域与未跑E2E不附带关闭 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[renderer逐文件A–H/合同迁移/集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-gates.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/present/follower-pos-axis.grok-r1.test.ts",
+      "sha256": "6d838ab74b66081af05cbda9c33641cbed9493d88113940c8698f9081177f7b7",
+      "previousRow": "| `packages/game/src/present/follower-pos-axis.grok-r1.test.ts` | test | 已验证 | [3k／3l逐文件A–H与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-primitives-quality/README.md) | 当前八维、真实caller/ownership与测试合同已核；必要像素/生命周期补强及重复迁移见逐文件索引，统一门零诊断。 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[3k／3l逐文件A–H与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-primitives-quality/README.md)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/present/follower-render-gap.grok-r1.test.ts",
+      "sha256": "546e86fa49e027289554d79297578a163b177358774b1e65253a247f00a326cc",
+      "previousRow": "| `packages/game/src/present/follower-render-gap.grok-r1.test.ts` | test | 已验证 | [Current A-H, evidence and gates](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-gates.json) | Original explicit scope/current callers and version, necessary rework or same-byte evidence; no broad/adjacent/visual credit |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[Current A-H, evidence and gates](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-gates.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/present/font-width.grok-r1.test.ts",
+      "sha256": "1b5024cd2d448c38a619cb8a545a3c92d51851185b7b1b7fcaf54a819cb616f3",
+      "previousRow": "| `packages/game/src/present/font-width.grok-r1.test.ts` | test | 已验证 | [Current A-H, evidence and gates](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-gates.json) | Original explicit scope/current callers and version, necessary rework or same-byte evidence; no broad/adjacent/visual credit |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[Current A-H, evidence and gates](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-gates.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/present/font.glm-phase1-leaves.test.ts",
+      "sha256": "5d96d0ae5501f96c5a7075ce996c3ac2a3b586f52641cf9198eb00c73174c693",
+      "previousRow": "| `packages/game/src/present/font.glm-phase1-leaves.test.ts` | test | 已验证 | [Current A-H, evidence and gates](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-gates.json) | Original explicit scope/current callers and version, necessary rework or same-byte evidence; no broad/adjacent/visual credit |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[Current A-H, evidence and gates](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-gates.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/present/framebuffer.glm-phase1-leaves.test.ts",
+      "sha256": "79ea8dece3af846c68872168fa2d2f2d5ed01356aea27c30a450ac0ffe4b490e",
+      "previousRow": "| `packages/game/src/present/framebuffer.glm-phase1-leaves.test.ts` | test | 已验证 | [3k／3l逐文件A–H与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-primitives-quality/README.md) | 当前八维、真实caller/ownership与测试合同已核；必要像素/生命周期补强及重复迁移见逐文件索引，统一门零诊断。 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[3k／3l逐文件A–H与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-primitives-quality/README.md)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+      "sha256": "4adaf21e23bfd2d6da685430c237e7f1549377001d5fef2ea23145829650fee6",
+      "previousRow": "| `packages/game/src/present/menu/box-shadow-pixels.grok-r1.test.ts` | test | 已验证 | [Current A-H, evidence and gates](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-gates.json) | Original explicit scope/current callers and version, necessary rework or same-byte evidence; no broad/adjacent/visual credit |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[Current A-H, evidence and gates](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-gates.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-box.glm-phase1-leaves.test.ts",
+      "sha256": "2ddaa6efbaf2016f40191c7c8cf49f77191ad62c187c76a2ac25aaa5e54c4295",
+      "previousRow": "| `packages/game/src/present/menu/draw-box.glm-phase1-leaves.test.ts` | test | 已验证 | [Current A-H, evidence and gates](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-gates.json) | Original explicit scope/current callers and version, necessary rework or same-byte evidence; no broad/adjacent/visual credit |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[Current A-H, evidence and gates](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-gates.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-confirm.glm-phase1-leaves.test.ts",
+      "sha256": "4f6eae08db3ab3cecddcba64a72ae62e4a51f62963954d01ce3ad74836d7b9d2",
+      "previousRow": "| `packages/game/src/present/menu/draw-confirm.glm-phase1-leaves.test.ts` | test | 已验证 | [Current A-H, evidence and gates](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-gates.json) | Original explicit scope/current callers and version, necessary rework or same-byte evidence; no broad/adjacent/visual credit |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[Current A-H, evidence and gates](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-gates.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-equip.glm-phase1-leaves.test.ts",
+      "sha256": "8dc64f80a5c01c1e37fae143ff89f8896af52c8003406c459f973f353e9921e2",
+      "previousRow": "| `packages/game/src/present/menu/draw-equip.glm-phase1-leaves.test.ts` | test | 已验证 | [pre94 present/speedrun逐文件A–H与集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json) | 原卡合同/合法输入、caller/oracle、八维与必要整改成立；批准的显示修复有先红后绿，精简合同已映射；上下文文件不附带关闭 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[pre94 present/speedrun逐文件A–H与集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-inventory.glm-phase1-leaves.test.ts",
+      "sha256": "ac6b9b743f291a3af65e23d730ab51abfdafa48f93b7c24062b8f18e7f2495e6",
+      "previousRow": "| `packages/game/src/present/menu/draw-inventory.glm-phase1-leaves.test.ts` | test | 已验证 | [pre94 present/speedrun逐文件A–H与集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json) | 原卡合同/合法输入、caller/oracle、八维与必要整改成立；批准的显示修复有先红后绿，精简合同已映射；上下文文件不附带关闭 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[pre94 present/speedrun逐文件A–H与集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-magic.glm-phase1-leaves.test.ts",
+      "sha256": "6809a92780779b772279a90fa9acf775ccb847d0e97f205c1bcd26b353d17846",
+      "previousRow": "| `packages/game/src/present/menu/draw-magic.glm-phase1-leaves.test.ts` | test | 已验证 | [pre94 present/speedrun逐文件A–H与集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json) | 原卡合同/合法输入、caller/oracle、八维与必要整改成立；批准的显示修复有先红后绿，精简合同已映射；上下文文件不附带关闭 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[pre94 present/speedrun逐文件A–H与集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-menu.glm-phase1-leaves.test.ts",
+      "sha256": "dfa26f65cac8879d0fe990d87d504049b8e2c3147e8c055a2ec78e6e2d5f6915",
+      "previousRow": "| `packages/game/src/present/menu/draw-menu.glm-phase1-leaves.test.ts` | test | 已验证 | [renderer逐文件A–H/合同迁移/集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-gates.json) | 明确原范围/共享叶/合法相邻fixture的八维与必要返工成立；无产品机制/存档/接口变化；宽域与未跑E2E不附带关闭 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[renderer逐文件A–H/合同迁移/集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-gates.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-opening-menu.glm-phase1-leaves.test.ts",
+      "sha256": "315d86f360b02b3f62ae7debc1f5f0f649715b7c8596888a6778a4b39c52c2a7",
+      "previousRow": "| `packages/game/src/present/menu/draw-opening-menu.glm-phase1-leaves.test.ts` | test | 已验证 | [renderer逐文件A–H/合同迁移/集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-gates.json) | 明确原范围/共享叶/合法相邻fixture的八维与必要返工成立；无产品机制/存档/接口变化；宽域与未跑E2E不附带关闭 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[renderer逐文件A–H/合同迁移/集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-gates.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-player-status.glm-phase1-leaves.test.ts",
+      "sha256": "2b62e7610e11be7bf435540e728d7d42ff95f546ff7f18dfa5bc952a14a8cc01",
+      "previousRow": "| `packages/game/src/present/menu/draw-player-status.glm-phase1-leaves.test.ts` | test | 已验证 | [五卡逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json) | 本轮逐文件八维/真实caller及oracle/整改与反控成立；指定未跑视觉不继承；统一门见回执 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[五卡逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+      "sha256": "6d8a21ba658297d226af7274718fffaead3e871d34b848f7fdea4cb9f23089f2",
+      "previousRow": "| `packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts` | test | 已验证 | [renderer逐文件A–H/合同迁移/集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-gates.json) | 明确原范围/共享叶/合法相邻fixture的八维与必要返工成立；无产品机制/存档/接口变化；宽域与未跑E2E不附带关闭 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[renderer逐文件A–H/合同迁移/集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-gates.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/present/menu/equip-role-pixels.grok-r1.test.ts",
+      "sha256": "2859f3fe866e6d94b1c2f727db565152d6504f09b4c35678cc77448b1f1ea8a3",
+      "previousRow": "| `packages/game/src/present/menu/equip-role-pixels.grok-r1.test.ts` | test | 已验证 | [pre94 present/speedrun逐文件A–H与集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json) | 原卡合同/合法输入、caller/oracle、八维与必要整改成立；批准的显示修复有先红后绿，精简合同已映射；上下文文件不附带关闭 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[pre94 present/speedrun逐文件A–H与集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/present/menu/inventory-desc-filter.grok-r1.test.ts",
+      "sha256": "8dc479efefc2d143cf70cdfe4a59d271140bbb0c9272d84006eb7f4e8a6905b4",
+      "previousRow": "| `packages/game/src/present/menu/inventory-desc-filter.grok-r1.test.ts` | test | 已验证 | CODE-QUALITY-49；49-draw-inventory；description/noDesc/filter framebuffer oracle | 全文核验描述行距、scriptDesc=0、noDesc、sellable/potion/important 过滤；与 P01/P02职责排重，执行通过 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "CODE-QUALITY-49；49-draw-inventory；description/noDesc/filter framebuffer oracle",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/present/menu/inventory-list-pixels.grok-r1.test.ts",
+      "sha256": "64dd8c71f90ccd213d485c12a428e808a3af44a9fe4b040ac083f3c3b3d22fff",
+      "previousRow": "| `packages/game/src/present/menu/inventory-list-pixels.grok-r1.test.ts` | test | 已验证 | [pre94 present/speedrun逐文件A–H与集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json) | 原卡合同/合法输入、caller/oracle、八维与必要整改成立；批准的显示修复有先红后绿，精简合同已映射；上下文文件不附带关闭 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[pre94 present/speedrun逐文件A–H与集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/present/menu/magic-menu-pixels.grok-r1.test.ts",
+      "sha256": "5cad30584be5d43a1d2073da5fa3bdf78df3d41d26e07538dfdf460dbcdbda58",
+      "previousRow": "| `packages/game/src/present/menu/magic-menu-pixels.grok-r1.test.ts` | test | 已验证 | [pre94 present/speedrun逐文件A–H与集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json) | 原卡合同/合法输入、caller/oracle、八维与必要整改成立；批准的显示修复有先红后绿，精简合同已映射；上下文文件不附带关闭 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[pre94 present/speedrun逐文件A–H与集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/present/menu/opening-confirm-pixels.grok-r1.test.ts",
+      "sha256": "1fc84cda595debed5b09e20db9d24a79edd1c44b1bbf030717e9f2cedea02abf",
+      "previousRow": "| `packages/game/src/present/menu/opening-confirm-pixels.grok-r1.test.ts` | test | 已验证 | [Current A-H, evidence and gates](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-gates.json) | Original explicit scope/current callers and version, necessary rework or same-byte evidence; no broad/adjacent/visual credit |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[Current A-H, evidence and gates](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-gates.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+      "sha256": "e89506fc4ecabbd79ed878342cbc9f74ce37dcd4d5ea32a9c88be24eb1f7cf90",
+      "previousRow": "| `packages/game/src/present/menu/shop-preview-pixels.grok-r1.test.ts` | test | 已验证 | [renderer逐文件A–H/合同迁移/集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-gates.json) | 明确原范围/共享叶/合法相邻fixture的八维与必要返工成立；无产品机制/存档/接口变化；宽域与未跑E2E不附带关闭 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[renderer逐文件A–H/合同迁移/集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-gates.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+      "sha256": "ce687bd8e9979db67da774d18de118250ef7be44519844bb4e39baee6428bd6c",
+      "previousRow": "| `packages/game/src/present/menu/status-vitals-pixels.grok-r1.test.ts` | test | 已验证 | [五卡逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json) | 本轮逐文件八维/真实caller及oracle/整改与反控成立；指定未跑视觉不继承；统一门见回执 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[五卡逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/present/present-hold.grok-r1.test.ts",
+      "sha256": "84b7076a0ddbc6def0b11aa2e89cd05019d4b0c7c889adef8826f6024129968b",
+      "previousRow": "| `packages/game/src/present/present-hold.grok-r1.test.ts` | test | 已验证 | [本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json) | 既有关闭经当前153主体复核；具体caller/oracle/结构取舍及未修相邻风险逐项记录，不重复增加closed；统一门另核。 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/present/screen-shake-bounds.grok-r1.test.ts",
+      "sha256": "21a83adc29a46a08ec200f568e8dd792fbfb7dd81f78842613e6ab2b5aca4304",
+      "previousRow": "| `packages/game/src/present/screen-shake-bounds.grok-r1.test.ts` | test | 已验证 | [3k／3l逐文件A–H与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-primitives-quality/README.md) | 当前八维、真实caller/ownership与测试合同已核；必要像素/生命周期补强及重复迁移见逐文件索引，统一门零诊断。 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[3k／3l逐文件A–H与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-primitives-quality/README.md)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/present/screen-wave-mirror.grok-r1.test.ts",
+      "sha256": "c88372255ff09d81c3d957c9dd729d65a990661b4d38aecae007b41cce179d4a",
+      "previousRow": "| `packages/game/src/present/screen-wave-mirror.grok-r1.test.ts` | test | 已验证 | [3k／3l逐文件A–H与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-primitives-quality/README.md) | 当前八维、真实caller/ownership与测试合同已核；必要像素/生命周期补强及重复迁移见逐文件索引，统一门零诊断。 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[3k／3l逐文件A–H与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-primitives-quality/README.md)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/present/screen-wave.glm-phase1-leaves.test.ts",
+      "sha256": "7a0758ed115203df0d0cea41cf5f2beb95120a25985d482a65f00c72f78f7a81",
+      "previousRow": "| `packages/game/src/present/screen-wave.glm-phase1-leaves.test.ts` | test | 已验证 | [3k／3l逐文件A–H与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-primitives-quality/README.md) | 当前八维、真实caller/ownership与测试合同已核；必要像素/生命周期补强及重复迁移见逐文件索引，统一门零诊断。 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[3k／3l逐文件A–H与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-primitives-quality/README.md)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/shell/audio.glm-phase1-leaves.test.ts",
+      "sha256": "8745b7ef54dd4ed3593d043c87c4a5e6e7694fbde4ac80030fb271f98cb1f6f8",
+      "previousRow": "| `packages/game/src/shell/audio.glm-phase1-leaves.test.ts` | test | 已验证 | [input/audio逐文件A–H与完整集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/input-audio-closeout.json) | CODE74原合同；用户批准缺口已处理，旧有效caller/oracle/反控按版本复用；不授广域上下文或听觉全流程信用 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[input/audio逐文件A–H与完整集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/input-audio-closeout.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/shell/avi-player.glm-next-wave.test.ts",
+      "sha256": "8b154915ffdcb01f7d0d31b761f85a621c4db4c11e4762686b9fb5b4866a08bf",
+      "previousRow": "| `packages/game/src/shell/avi-player.glm-next-wave.test.ts` | test | 已验证 | [本窗逐文件八维与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/review.json) | 原合同与当前caller/源码绑定成立；必要结构/测试/授权重试返工及集中零诊断门已核；上下文、硬件或广域文件不附带关闭 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[本窗逐文件八维与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/review.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/shell/boot-loading-host.grok-r1.test.ts",
+      "sha256": "b9a8943cbdff28b47187317230a46145fa73f4408149c08d973caeb1180d2650",
+      "previousRow": "| `packages/game/src/shell/boot-loading-host.grok-r1.test.ts` | test | 已验证 | [shell当前逐文件与集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/shell-lifecycle-local.json) | 原明确范围/75迁移、真实caller与八维证据；必要返工/同版原件复用；不附带广域或听感/剧情验收 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[shell当前逐文件与集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/shell-lifecycle-local.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts",
+      "sha256": "9467ece07babd3f5d1125ff7d0091815540d0d2adb4998611be223239dea103f",
+      "previousRow": "| `packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts` | test | 已验证 | [RLE／snapshot／启动取消逐文件收口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/rle-boot-quality/README.md) | 逐文件A–H、真实caller/独立oracle及ownership/排重去向已核；本窗口冻结后集中门完成，仅指定合同接受 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[RLE／snapshot／启动取消逐文件收口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/rle-boot-quality/README.md)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.glm-next-wave.test.ts",
+      "sha256": "facec95b90f51609c99047b7ba6d106c1be58b6e44736dd337b7ce982ff9fef0",
+      "previousRow": "| `packages/game/src/shell/bootstrap.glm-next-wave.test.ts` | test | 已验证 | [CODE57逐文件八维/完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/README.md) | 原2身份保留，真实400×250 Canvas call-through/像素，硬编码默认尺寸旧绿新单红；无假ctx强装；57相邻/TC0，统一门延后 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[CODE57逐文件八维/完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/README.md)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/shell/ending-player.glm-next-wave.test.ts",
+      "sha256": "ea18fa44d067a776a54e8c191a4d0ce18fe8305082d3a30d298c5f53cf75cb7c",
+      "previousRow": "| `packages/game/src/shell/ending-player.glm-next-wave.test.ts` | test | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；cutscene-tests |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/shell/fbp-scroll.grok-r1.test.ts",
+      "sha256": "8c3e36bc0c58f2ae56224ac35d7122a18502e6e8ebc8975e001cb2ac63cc86d2",
+      "previousRow": "| `packages/game/src/shell/fbp-scroll.grok-r1.test.ts` | test | 已验证 | [本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json) | 既有关闭经当前153主体复核；具体caller/oracle/结构取舍及未修相邻风险逐项记录，不重复增加closed；统一门另核。 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/shell/fetch-retry.glm-phase1-leaves.test.ts",
+      "sha256": "31fc4a19a67251f87ae251adf877f56a23104fca0833541a596d6fa8252eefeb",
+      "previousRow": "| `packages/game/src/shell/fetch-retry.glm-phase1-leaves.test.ts` | test | 已验证 | [Current A-H, evidence and gates](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-gates.json) | Original explicit scope/current callers and version, necessary rework or same-byte evidence; no broad/adjacent/visual credit |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[Current A-H, evidence and gates](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-gates.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/shell/input-replay.grok-r1.test.ts",
+      "sha256": "73e9a60b24aeeaff85822c0b6608ed0137b4dab7a91345c5c27595bbd50c2c00",
+      "previousRow": "| `packages/game/src/shell/input-replay.grok-r1.test.ts` | test | 已验证 | [input/audio逐文件A–H与完整集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/input-audio-closeout.json) | CODE73原合同；用户批准缺口已处理，旧有效caller/oracle/反控按版本复用；不授广域上下文或听觉全流程信用 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[input/audio逐文件A–H与完整集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/input-audio-closeout.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/shell/main-loop-gates.grok-r1.test.ts",
+      "sha256": "09911572de74de28ed2c238b64687a555901e41ad53e4fcfd58d921dccde80bd",
+      "previousRow": "| `packages/game/src/shell/main-loop-gates.grok-r1.test.ts` | test | 已验证 | [shell当前逐文件与集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/shell-lifecycle-local.json)  [52接口版本桥](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/approved-remaining-reviewed.json) | 原明确范围/75迁移、真实caller与八维证据；必要返工/同版原件复用；不附带广域或听感/剧情验收  本窗仅有限协议/实参版本桥，原全文信用复用，不新增关闭 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[shell当前逐文件与集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/shell-lifecycle-local.json)  [52接口版本桥](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/approved-remaining-reviewed.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/shell/menu-input-lock.glm-msio.test.ts",
+      "sha256": "55696288cee8d118117109d254fe776e4351e3039e829bef85aa5598b0d895b4",
+      "previousRow": "| `packages/game/src/shell/menu-input-lock.glm-msio.test.ts` | test | 已验证 | [本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json) | 既有关闭经当前153主体复核；具体caller/oracle/结构取舍及未修相邻风险逐项记录，不重复增加closed；统一门另核。 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/shell/precache-client.glm-phase1-leaves.test.ts",
+      "sha256": "67256f548bd47c406cfecaaedd1bcff9dec9ad005d5a3342ffeea5f1b717be5c",
+      "previousRow": "| `packages/game/src/shell/precache-client.glm-phase1-leaves.test.ts` | test | 已验证 | [CODE3i逐文件A–H/当前原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3i-dialog-precache/quality-closeout/README.md) | 当前caller/有限重构/合法输入、独立oracle和清理/排重已核；集中门通过，不附带广域宿主/离线/视觉信用 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[CODE3i逐文件A–H/当前原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3i-dialog-precache/quality-closeout/README.md)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/shell/precache-ui-host.grok-r1.test.ts",
+      "sha256": "fa3bd28549ee88ca59711a90ca10270db7e296f330d4309c4ade63eef1dd013f",
+      "previousRow": "| `packages/game/src/shell/precache-ui-host.grok-r1.test.ts` | test | 已验证 | [CODE3i逐文件A–H/当前原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3i-dialog-precache/quality-closeout/README.md) | 当前caller/有限重构/合法输入、独立oracle和清理/排重已核；集中门通过，不附带广域宿主/离线/视觉信用 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[CODE3i逐文件A–H/当前原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3i-dialog-precache/quality-closeout/README.md)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/shell/rng-player.glm-next-wave.test.ts",
+      "sha256": "145a3c12bebea0cb2f4199c046387b791717d34feca8fcddf879ce6e0d0ae3ae",
+      "previousRow": "| `packages/game/src/shell/rng-player.glm-next-wave.test.ts` | test | 已验证 | [shell当前逐文件与集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/shell-lifecycle-local.json) | 原明确范围/75迁移、真实caller与八维证据；必要返工/同版原件复用；不附带广域或听感/剧情验收 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[shell当前逐文件与集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/shell-lifecycle-local.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/shell/splash-fallback.glm-next-wave.test.ts",
+      "sha256": "36f4f153d500259c37d1bf4689b1672a97190332ad2f4759c8456f5f32a33624",
+      "previousRow": "| `packages/game/src/shell/splash-fallback.glm-next-wave.test.ts` | test | 已验证 | [本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json) | 既有关闭经当前153主体复核；具体caller/oracle/结构取舍及未修相邻风险逐项记录，不重复增加closed；统一门另核。 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/shell/trademark-splash.grok-r1.test.ts",
+      "sha256": "c5d2cfdce1a5b5d6372a1ee5249936be3e93beffd3b167f9579910ec010eb00b",
+      "previousRow": "| `packages/game/src/shell/trademark-splash.grok-r1.test.ts` | test | 已验证 | [CODE3i逐文件A–H/当前原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3i-dialog-precache/quality-closeout/README.md) | 当前caller/有限重构/合法输入、独立oracle和清理/排重已核；集中门通过，不附带广域宿主/离线/视觉信用 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[CODE3i逐文件A–H/当前原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3i-dialog-precache/quality-closeout/README.md)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/tools/display-scale.glm-phase1-leaves.test.ts",
+      "sha256": "0c249bc261f9cc53aeae444a24f5cde5d94d543639b5ee3c205c391ceffd051b",
+      "previousRow": "| `packages/game/src/tools/display-scale.glm-phase1-leaves.test.ts` | test | 已验证 | CODE-QUALITY-3j；NaN/round/fullscreen/FPS lifecycle 合同；删除 NaN guard 的 mutant 失败 | 合并现有 display-scale/FPS 合同，不堆弱断言 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "CODE-QUALITY-3j；NaN/round/fullscreen/FPS lifecycle 合同；删除 NaN guard 的 mutant 失败",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+      "sha256": "17055b8282521bd5fff700d171206f79f248ae7e344e769876efb1b253e863f7",
+      "previousRow": "| `packages/game/src/tools/minimap.glm-phase1-leaves.test.ts` | test | 已验证 | [CODE56逐文件八维与绑定证明](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/minimap-closeout/README.md) | 原scope及内部纯叶明确代码接受；22直接/32相邻、330核心与TC；旧九反控复用、新成功缓存业务单红，身份保持；全仓/coverage/PR待全部pre94 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[CODE56逐文件八维与绑定证明](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/minimap-closeout/README.md)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/countdown.glm-phase1-leaves.test.ts",
+      "sha256": "2abb8449f9eb418542b978538b4709f6104478e211c51032faba7faa82a71eb2",
+      "previousRow": "| `packages/game/src/tools/speedrun/countdown.glm-phase1-leaves.test.ts` | test | 已验证 | [CODE3j逐文件与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-tools-quality/README.md) | 逐文件A–H、真实caller/oracle、有效反控与集中零诊断门成立；上窗文件接受保留，整卡状态见最新局部校准；不外推路线或广域 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[CODE3j逐文件与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-tools-quality/README.md)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/detectors.glm-phase1-leaves.test.ts",
+      "sha256": "c13eaf0ad4f95c7e0d4cddcaa71824b9b685872ff7a3b7098089b8928ea5eacc",
+      "previousRow": "| `packages/game/src/tools/speedrun/detectors.glm-phase1-leaves.test.ts` | test | 已验证 | [pre94 present/speedrun逐文件A–H与集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json) | 原卡合同/合法输入、caller/oracle、八维与必要整改成立；批准的显示修复有先红后绿，精简合同已映射；上下文文件不附带关闭 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[pre94 present/speedrun逐文件A–H与集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/index.glm-phase1-leaves.test.ts",
+      "sha256": "65beee9b2b0d8d5d45305beef9e0076aec111e32d52243ba3c02d2ce63d037ac",
+      "previousRow": "| `packages/game/src/tools/speedrun/index.glm-phase1-leaves.test.ts` | test | 已验证 | [pre94 present/speedrun逐文件A–H与集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json) | 原卡合同/合法输入、caller/oracle、八维与必要整改成立；批准的显示修复有先红后绿，精简合同已映射；上下文文件不附带关闭 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[pre94 present/speedrun逐文件A–H与集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/overlay.glm-phase1-leaves.test.ts",
+      "sha256": "44f2d9135e744b3686bde3dc28bf83ab4ae0ad692c1d658878dc164597a5ec54",
+      "previousRow": "| `packages/game/src/tools/speedrun/overlay.glm-phase1-leaves.test.ts` | test | 已验证 | [pre94 present/speedrun逐文件A–H与集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json) | 原卡合同/合法输入、caller/oracle、八维与必要整改成立；批准的显示修复有先红后绿，精简合同已映射；上下文文件不附带关闭 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[pre94 present/speedrun逐文件A–H与集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/store.glm-phase1-leaves.test.ts",
+      "sha256": "25b0d4cf610529a4fc67bf97a1c488a3ce53233883c51a4c0003e987aa349d77",
+      "previousRow": "| `packages/game/src/tools/speedrun/store.glm-phase1-leaves.test.ts` | test | 已验证 | [pre94 present/speedrun逐文件A–H与集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json) | 原卡合同/合法输入、caller/oracle、八维与必要整改成立；批准的显示修复有先红后绿，精简合同已映射；上下文文件不附带关闭 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[pre94 present/speedrun逐文件A–H与集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/time-format.glm-phase1-leaves.test.ts",
+      "sha256": "79411da90343bc7a2346df5e4743c3ab47146df823e15d160e9f20d7ecab5076",
+      "previousRow": "| `packages/game/src/tools/speedrun/time-format.glm-phase1-leaves.test.ts` | test | 已验证 | [CODE3j逐文件与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-tools-quality/README.md) | 逐文件A–H、真实caller/oracle、有效反控与集中零诊断门成立；上窗文件接受保留，整卡状态见最新局部校准；不外推路线或广域 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[CODE3j逐文件与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-tools-quality/README.md)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/timer.glm-phase1-leaves.test.ts",
+      "sha256": "41a4ca45cfedac0abc4a68c8f3393676238e7a3bb672e2a292d7bfc46c37abad",
+      "previousRow": "| `packages/game/src/tools/speedrun/timer.glm-phase1-leaves.test.ts` | test | 已验证 | [pre94 present/speedrun逐文件A–H与集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json) | 原卡合同/合法输入、caller/oracle、八维与必要整改成立；批准的显示修复有先红后绿，精简合同已映射；上下文文件不附带关闭 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[pre94 present/speedrun逐文件A–H与集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel.glm-phase1-leaves.test.ts",
+      "sha256": "96576ca3cddfd558a967aa36f8247191face17a03e73bc52b29f5cafe0efd490",
+      "previousRow": "| `packages/game/src/tools/tools-panel.glm-phase1-leaves.test.ts` | test | 已验证 | [CODE58夹具/隔离勘误](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/58-tools-panel-fixtures/README.md)；70行全文、真实缩放/全屏/FPS输入 | 全屏/FPS拆职责；共用宿主恢复监听/音源/偏好与单例，正式合计19tests；新统一门未运行 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[CODE58夹具/隔离勘误](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/58-tools-panel-fixtures/README.md)；70行全文、真实缩放/全屏/FPS输入",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/pal-extract/src/__tests__/glm-foundation-fixtures.ts",
+      "sha256": "baa86e8da472b8ab40460bb73d3db7f446621c810f8ba42c262d819e948ee9df",
+      "previousRow": "| `packages/pal-extract/src/__tests__/glm-foundation-fixtures.ts` | fixture | 已验证 | [本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json) | 既有关闭经当前153主体复核；具体caller/oracle/结构取舍及未修相邻风险逐项记录，不重复增加closed；统一门另核。 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/pal-extract/src/__tests__/glm-q/cli-global-entry-inputs.ts",
+      "sha256": "855cf2a0031725eb6af1f944c4ad7b7b67082031dd7bea038d6b0054fd915239",
+      "previousRow": "| `packages/pal-extract/src/__tests__/glm-q/cli-global-entry-inputs.ts` | fixture | 已验证 | [本窗逐文件八维/先红后修/退役映射](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/README.md) | 整文件代码接受；真实caller/输入/责任与八维补齐，原生110/27与必要TC0；重门及发布等固定52阶段稳定，不外推资产格式/相邻范围 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[本窗逐文件八维/先红后修/退役映射](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/README.md)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/pal-extract/src/__tests__/glm-q/cli-pipeline-inputs.ts",
+      "sha256": "ef6393d93a79eba8ab3d1cdbc87e8ddcf2ce32887ee920fa99d8970936597dbd",
+      "previousRow": "| `packages/pal-extract/src/__tests__/glm-q/cli-pipeline-inputs.ts` | fixture | 已验证 | [本窗逐文件八维/先红后修/退役映射](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/README.md) | 整文件代码接受；真实caller/输入/责任与八维补齐，原生110/27与必要TC0；重门及发布等固定52阶段稳定，不外推资产格式/相邻范围 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[本窗逐文件八维/先红后修/退役映射](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/README.md)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/pal-extract/src/__tests__/glm-q/yj2-encoder.ts",
+      "sha256": "02b53ec4dc6a937bb20a9689a050407b16f01694c193f40d9327cd88b365b565",
+      "previousRow": "| `packages/pal-extract/src/__tests__/glm-q/yj2-encoder.ts` | fixture | 已验证 | [事件/夹具八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[事件/夹具八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/pal-extract/src/__tests__/glm-runtime-resource/yj2-sprite-chunk-vector.ts",
+      "sha256": "1d66e57a508f69817a3b99a7745039a6e26d7a2577cdc3168c75069db5374407",
+      "previousRow": "| `packages/pal-extract/src/__tests__/glm-runtime-resource/yj2-sprite-chunk-vector.ts` | fixture | 已验证 | [本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json) | 既有关闭经当前153主体复核；具体caller/oracle/结构取舍及未修相邻风险逐项记录，不重复增加closed；统一门另核。 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/pal-extract/src/__tests__/glm-tb04-fixtures.ts",
+      "sha256": "21b4a8a93f56ff7b4ae1fcc2b6d0224beaf6d77bface85f0454fc1d2b3e22f56",
+      "previousRow": "| `packages/pal-extract/src/__tests__/glm-tb04-fixtures.ts` | fixture | 已验证 | [本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json) | 既有关闭经当前153主体复核；具体caller/oracle/结构取舍及未修相邻风险逐项记录，不重复增加closed；统一门另核。 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/pal-extract/src/cli-battle-assets.glm-q.test.ts",
+      "sha256": "acf20e9fda9aa82c66b64734a04344a410ab22cc5b4622727ae7b46966123fdc",
+      "previousRow": "| `packages/pal-extract/src/cli-battle-assets.glm-q.test.ts` | test | 已验证 | [CLI/事件当前逐文件依据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/review.json) | 明确五文件范围逐项A–H、旧绿新红与完整冻结门；不附带关闭CLI或其它slice测试 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[CLI/事件当前逐文件依据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/review.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/pal-extract/src/cli-error-exits.kimi-r1.test.ts",
+      "sha256": "586c8987a642a1212d3d690da8775d3df2851c2b736afa3db0a7757ad117b16f",
+      "previousRow": "| `packages/pal-extract/src/cli-error-exits.kimi-r1.test.ts` | test | 已验证 | [当前逐文件A–H与四卡全门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3g/closeout/review.json) | 完整caller/输入/oracle/隔离与具体质量缺口成立；20390check及ratchet/protected各19992零诊断；不是包绿批量关闭或相邻广域信用 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[当前逐文件A–H与四卡全门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3g/closeout/review.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/pal-extract/src/cli-font-lookup.glm-q.test.ts",
+      "sha256": "724102f0cc54b03400c287453ef2e3a60a04a946118a0ba636e95e0d30880a21",
+      "previousRow": "| `packages/pal-extract/src/cli-font-lookup.glm-q.test.ts` | test | 已验证 | [当前逐文件A–H与四卡全门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3g/closeout/review.json) | 完整caller/输入/oracle/隔离与具体质量缺口成立；20390check及ratchet/protected各19992零诊断；不是包绿批量关闭或相邻广域信用 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[当前逐文件A–H与四卡全门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3g/closeout/review.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/pal-extract/src/cli-global-entries.glm-q.test.ts",
+      "sha256": "f23e419c1849b7c25d4530332bbb071e2830e2431f215c6750da69ab8f4b6d89",
+      "previousRow": "| `packages/pal-extract/src/cli-global-entries.glm-q.test.ts` | test | 已验证 | [CLI/事件当前逐文件依据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/review.json) | 明确五文件范围逐项A–H、旧绿新红与完整冻结门；不附带关闭CLI或其它slice测试 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[CLI/事件当前逐文件依据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/review.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+      "sha256": "1b05cc32c9341086d46975558bfa1e145d81d3a0ee2a8dc26ca99e9cf664491c",
+      "previousRow": "| `packages/pal-extract/src/cli-isolated.glm-q.test.ts` | test | 已验证 | [CLI IO逐文件八维与全门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-io-closeout/review.json) | 6旧身份不删；空MIDI旧6绿/新5绿1业务红，现全字节oracle及真实CLI恢复 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[CLI IO逐文件八维与全门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-io-closeout/review.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts",
+      "sha256": "cf18e63bd8be2d9ec4db111d0155bc12c1191975e17d3b1bdf22d500364285e7",
+      "previousRow": "| `packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts` | test | 已验证 | [CODE3/world逐文件代码裁定](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/extract-scene-closeout/README.md) | 复用3f完整八维/同版源码与oracle；CLI世界阶段搬移不影响注记，未重复计新关闭 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[CODE3/world逐文件代码裁定](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/extract-scene-closeout/README.md)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/pal-extract/src/events/disasm.glm-runtime-resource.test.ts",
+      "sha256": "4645cfabba700611e2c481e03ebdbefc5e02e1b64657ba8013a70e5fa994559d",
+      "previousRow": "| `packages/pal-extract/src/events/disasm.glm-runtime-resource.test.ts` | test | 已验证 | [本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json) | 既有关闭经当前153主体复核；具体caller/oracle/结构取舍及未修相邻风险逐项记录，不重复增加closed；统一门另核。 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/pal-extract/src/events/disasm.kimi-r1.test.ts",
+      "sha256": "e262665b39687fefac7112324fbb9cf45a447a1e5ea32163b5fd9aef48f634c3",
+      "previousRow": "| `packages/pal-extract/src/events/disasm.kimi-r1.test.ts` | test | 已验证 | [本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json) | 既有关闭经当前153主体复核；具体caller/oracle/结构取舍及未修相邻风险逐项记录，不重复增加closed；统一门另核。 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/pal-extract/src/events/recompile.glm-runtime-resource.test.ts",
+      "sha256": "b3ebddbf2f5d628a7de18362c4689a2250f276194bf431f5b85d87a87b984ace",
+      "previousRow": "| `packages/pal-extract/src/events/recompile.glm-runtime-resource.test.ts` | test | 已验证 | [本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json) | 既有关闭经当前153主体复核；具体caller/oracle/结构取舍及未修相邻风险逐项记录，不重复增加closed；统一门另核。 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/pal-extract/src/events/roundtrip.kimi-r1.test.ts",
+      "sha256": "d828fea762839b0542c6a1ba056f3ae5ce22382cec225d510ee7b10c37703f20",
+      "previousRow": "| `packages/pal-extract/src/events/roundtrip.kimi-r1.test.ts` | test | 已验证 | [本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json) | 既有关闭经当前153主体复核；具体caller/oracle/结构取舍及未修相邻风险逐项记录，不重复增加closed；统一门另核。 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/pal-extract/src/events/slice.glm-runtime-resource.test.ts",
+      "sha256": "4eb43b0557994037de968cddfef022ce4052a54e695de52cddd5eb9fff622f3d",
+      "previousRow": "| `packages/pal-extract/src/events/slice.glm-runtime-resource.test.ts` | test | 已验证 | [CODE3/world逐文件代码裁定](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/extract-scene-closeout/README.md) | 三批准控制流修复、旧有效反控及本窗35真实身份；全end误绿补精确地址，默认快检按原件/版本桥核 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[CODE3/world逐文件代码裁定](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/extract-scene-closeout/README.md)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/pal-extract/src/events/slice.kimi-r1.test.ts",
+      "sha256": "5a4688db42a86aa0f1763db89cd83e8d20452820979be9a4680d5f90a5e31fc1",
+      "previousRow": "| `packages/pal-extract/src/events/slice.kimi-r1.test.ts` | test | 已验证 | [CODE3/world逐文件代码裁定](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/extract-scene-closeout/README.md) | 三批准控制流修复、旧有效反控及本窗35真实身份；全end误绿补精确地址，默认快检按原件/版本桥核 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[CODE3/world逐文件代码裁定](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/extract-scene-closeout/README.md)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/pal-extract/src/font/bdf-to-json.glm-runtime-resource.test.ts",
+      "sha256": "a6ea7d00858b93f493ebea77794089c86c7a95730a3e621e2eb545addb21745b",
+      "previousRow": "| `packages/pal-extract/src/font/bdf-to-json.glm-runtime-resource.test.ts` | test | 已验证 | [本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json) | 既有关闭经当前153主体复核；具体caller/oracle/结构取舍及未修相邻风险逐项记录，不重复增加closed；统一门另核。 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/asset-manifest.glm-runtime-resource.test.ts",
+      "sha256": "33a353b880e4b9db3bff5761f33b3f223bbd266d37142b17b879864ff163f913",
+      "previousRow": "| `packages/pal-extract/src/resources/asset-manifest.glm-runtime-resource.test.ts` | test | 已验证 | [本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json) | 既有关闭经当前153主体复核；具体caller/oracle/结构取舍及未修相邻风险逐项记录，不重复增加closed；统一门另核。 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/palette.glm-runtime-resource.test.ts",
+      "sha256": "41588e1b1dadd9a09a423edd9d621ceefefee6f5afbde93bfc6d6d3c4d15385a",
+      "previousRow": "| `packages/pal-extract/src/resources/palette.glm-runtime-resource.test.ts` | test | 已验证 | [本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json) | 既有关闭经当前153主体复核；具体caller/oracle/结构取舍及未修相邻风险逐项记录，不重复增加closed；统一门另核。 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/ball.glm-runtime-resource.test.ts",
+      "sha256": "bedc3f41fb32b825939d71248dee2af74a3a16f442d130a03447380ee4354908",
+      "previousRow": "| `packages/pal-extract/src/resources/parsers/ball.glm-runtime-resource.test.ts` | test | 已验证 | [本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json) | 既有关闭经当前153主体复核；具体caller/oracle/结构取舍及未修相邻风险逐项记录，不重复增加closed；统一门另核。 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/battle-fields.glm-runtime-resource.test.ts",
+      "sha256": "e7b91eb0f1d310649ef8c8895b1161cca28ca5d33eb2ecdece9c35417281de85",
+      "previousRow": "| `packages/pal-extract/src/resources/parsers/battle-fields.glm-runtime-resource.test.ts` | test | 已验证 | [本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json) | 既有关闭经当前153主体复核；具体caller/oracle/结构取舍及未修相邻风险逐项记录，不重复增加closed；统一门另核。 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/enemy-teams.glm-runtime-resource.test.ts",
+      "sha256": "1ec3c966a749e106fb1fe77af41a7a8acf425ae0421f5215b444cccc81513093",
+      "previousRow": "| `packages/pal-extract/src/resources/parsers/enemy-teams.glm-runtime-resource.test.ts` | test | 已验证 | [本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json) | 既有关闭经当前153主体复核；具体caller/oracle/结构取舍及未修相邻风险逐项记录，不重复增加closed；统一门另核。 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/items.glm-runtime-resource.test.ts",
+      "sha256": "b358e65af35a6f4d50585d42c254f08438cf7bb5f6a96f19292b7c8f9780db50",
+      "previousRow": "| `packages/pal-extract/src/resources/parsers/items.glm-runtime-resource.test.ts` | test | 已验证 | [本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json) | 既有关闭经当前153主体复核；具体caller/oracle/结构取舍及未修相邻风险逐项记录，不重复增加closed；统一门另核。 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/rgm.glm-runtime-resource.test.ts",
+      "sha256": "839a757d15706298c91f6a9863208c4e6ee4cce2b66454479597936197823a3c",
+      "previousRow": "| `packages/pal-extract/src/resources/parsers/rgm.glm-runtime-resource.test.ts` | test | 已验证 | [本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json) | 既有关闭经当前153主体复核；具体caller/oracle/结构取舍及未修相邻风险逐项记录，不重复增加closed；统一门另核。 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/stores.glm-runtime-resource.test.ts",
+      "sha256": "abd6c9babab37492856ba0d835ca91705bbbd4599d3e2bb1c78d0aa66a972fe3",
+      "previousRow": "| `packages/pal-extract/src/resources/parsers/stores.glm-runtime-resource.test.ts` | test | 已验证 | [本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json) | 既有关闭经当前153主体复核；具体caller/oracle/结构取舍及未修相邻风险逐项记录，不重复增加closed；统一门另核。 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/scene.glm-runtime-resource.test.ts",
+      "sha256": "021124b1842f5f7ac94a497843a965e30ed095351e377d6fcfbe70260a3ab6cb",
+      "previousRow": "| `packages/pal-extract/src/resources/scene.glm-runtime-resource.test.ts` | test | 已验证 | [本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json) | 既有关闭经当前153主体复核；具体caller/oracle/结构取舍及未修相邻风险逐项记录，不重复增加closed；统一门另核。 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/sprite.glm-runtime-resource.test.ts",
+      "sha256": "c02fe8adea672225ac43017baa84d1b0039a23e762d6b24487455890e11acc80",
+      "previousRow": "| `packages/pal-extract/src/resources/sprite.glm-runtime-resource.test.ts` | test | 已验证 | [当前逐文件A–H与四卡全门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3d/closeout/review.json) | 完整caller/输入/oracle/隔离与具体质量缺口成立；20390check及ratchet/protected各19992零诊断；不是包绿批量关闭或相邻广域信用 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[当前逐文件A–H与四卡全门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3d/closeout/review.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/reforge/src/menu/menu-box.residual.glm.test.ts",
+      "sha256": "f390a5fcff69ce0f88104cb904bca5c532f5b039ca64b3f59b0d17ce5f287dda",
+      "previousRow": "| `packages/reforge/src/menu/menu-box.residual.glm.test.ts` | test | 已验证 | QUALITY-REVIEW-52-CLOSEOUT-1 | 八维及已有源/调用/反控核用；BGM清timer2红到26绿，见phase2-reviewed；统一门待全52。 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "QUALITY-REVIEW-52-CLOSEOUT-1",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/shared/src/__tests__/glm-foundation-fixtures.ts",
+      "sha256": "6444bc2f80029d5bd827699e2cac29e916fc278858447bf13d6492ac47a181d3",
+      "previousRow": "| `packages/shared/src/__tests__/glm-foundation-fixtures.ts` | test | 已验证 | [CODE2/2b当前逐文件八维与全门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/shared-codecs/evidence.json) | 有效native/反控复用、归约独立单红及必要精简成立；不扩展RLE/任意外部输入安全或广域caller |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[CODE2/2b当前逐文件八维与全门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/shared-codecs/evidence.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/shared/src/rle-encode.glm-runtime-resource.test.ts",
+      "sha256": "2a2bb0336aa3b579462c74832971bb113c7d7b302cecc5c731c8974256d4418e",
+      "previousRow": "| `packages/shared/src/rle-encode.glm-runtime-resource.test.ts` | test | 已验证 | 真实 runtime resource encoder contract | caller oracle |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "真实 runtime resource encoder contract",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/shared/src/rle.glm-o.test.ts",
+      "sha256": "f171b91761ded512468ec1ad80ef0ce853989dedfefb683c1c75afd121969780",
+      "previousRow": "| `packages/shared/src/rle.glm-o.test.ts` | test | 已验证 | [CODE1 RLE测试质量逐文件收口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/quality-closeout/README.md) | 独立oracle／精确排重／八维与三有效反控有据；产品格式和全部pre94统一门另计，不授整卡完成 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[CODE1 RLE测试质量逐文件收口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/quality-closeout/README.md)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/shared/src/rle.glm-runtime-resource.test.ts",
+      "sha256": "b1e37ee8f98bb29cfc740971120d5d17a30ffbfa1845d8d7876b89faa1e22fa6",
+      "previousRow": "| `packages/shared/src/rle.glm-runtime-resource.test.ts` | test | 已验证 | [CODE1 RLE测试质量逐文件收口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/quality-closeout/README.md) | 独立oracle／精确排重／八维与三有效反控有据；产品格式和全部pre94统一门另计，不授整卡完成 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[CODE1 RLE测试质量逐文件收口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/quality-closeout/README.md)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "model/contributor label in PAL test or fixture path; precise destination/cohesion requires focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/content/src/author-dialogue.cursor-pure-wave2.test.ts",
+      "sha256": "6311c69276341b2570b40f54f288ceb86e90e0112f064f76af7d3b4dc46ad453",
+      "previousRow": "| `packages/content/src/author-dialogue.cursor-pure-wave2.test.ts` | test | 已验证 | [本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json) | 既有关闭经当前153主体复核；具体caller/oracle/结构取舍及未修相邻风险逐项记录，不重复增加closed；统一门另核。 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "Cursor contributor label in PAL test path; destination/cohesion awaits focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/content/src/enemy-ai.cursor-pure-wave2.test.ts",
+      "sha256": "644355305ae1e2a7de2178ad59fcc50defb9ad4794c40d332b99d0c4bdf52d54",
+      "previousRow": "| `packages/content/src/enemy-ai.cursor-pure-wave2.test.ts` | test | 已验证 | [本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json) | 既有关闭经当前153主体复核；具体caller/oracle/结构取舍及未修相邻风险逐项记录，不重复增加closed；统一门另核。 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "Cursor contributor label in PAL test path; destination/cohesion awaits focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/content/src/shop.cursor-pure-wave2.test.ts",
+      "sha256": "564a698a62eff064c846786366f7427f72202d199973350ea64868628a5da612",
+      "previousRow": "| `packages/content/src/shop.cursor-pure-wave2.test.ts` | test | 已验证 | [本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json) | 既有关闭经当前153主体复核；具体caller/oracle/结构取舍及未修相邻风险逐项记录，不重复增加closed；统一门另核。 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "Cursor contributor label in PAL test path; destination/cohesion awaits focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/content/src/stamp.cursor-boundaries.test.ts",
+      "sha256": "384bdc5c9bfdf135f9c4c2fefa0e1f4426cd829d34d95af437c3f6a35a134222",
+      "previousRow": "| `packages/content/src/stamp.cursor-boundaries.test.ts` | test | 已验证 | [本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json) | 既有关闭经当前153主体复核；具体caller/oracle/结构取舍及未修相邻风险逐项记录，不重复增加closed；统一门另核。 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "Cursor contributor label in PAL test path; destination/cohesion awaits focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/content/src/tileset.cursor-pure-wave2.test.ts",
+      "sha256": "cc04d5b8e880bfe4fa01fe038b042864b91a0de4eab3e6e0f2ca53b44a8c0249",
+      "previousRow": "| `packages/content/src/tileset.cursor-pure-wave2.test.ts` | test | 已验证 | [本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json) | 既有关闭经当前153主体复核；具体caller/oracle/结构取舍及未修相邻风险逐项记录，不重复增加closed；统一门另核。 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "Cursor contributor label in PAL test path; destination/cohesion awaits focused review, not a proven behavior defect"
+    },
+    {
+      "path": "packages/editor/src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx",
+      "sha256": "891d143621e72fe0e4fdc13a751ab4801be13c747f207dcada73f150f3ccc453",
+      "previousRow": "| `packages/editor/src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx` | test | 已验证 | [52剩余逐文件八维](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/approved-remaining-reviewed.json) | 有限用户批准与实际caller/oracle；原红/当前回归保留；统一门另核 |",
+      "previousStatus": "已验证",
+      "preservedEvidence": "[52剩余逐文件八维](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/approved-remaining-reviewed.json)",
+      "scope": "F/G naming and organization only; prior A-E/H evidence retained subject to its original validity",
+      "status": "review",
+      "reason": "Cursor contributor label in PAL test path; destination/cohesion awaits focused review, not a proven behavior defect"
+    }
+  ],
+  "remaining": "module-by-module F/G examination; do not mass rename or repeat valid correctness/test audit; noncandidate names also require semantic judgment when their module is reviewed"
+}

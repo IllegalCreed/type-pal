@@ -1,0 +1,35 @@
+{
+  "authority": "User2026-10-28 full remaining200 audit; standing precise dedup/test migration and justified baseline adjustment. No blanket allowance.",
+  "base": "6ebca402ae2c419ad9922f8d29097b45ea6a0df6",
+  "producer": "original CLI inventory name/projection/occurrence/sort/identity formula; JSON assertion fullName is not CLI name and preliminary digest was not used",
+  "matchedUnchanged": 204,
+  "rows": [
+    {
+      "file": "packages/content/src/map-index.contracts.test.ts",
+      "previous": 8,
+      "current": 6,
+      "previousIdentityDigest": "4a91bda677af06f5dd5754baa005b4dc555fce8247bf290b4f2016a7d0e26092",
+      "currentIdentityDigest": "f078f7801ad6378be7561b8bac461fe9e4bb15053aa5ece0b3a506ecaff718a4",
+      "fileSha256": "56b758fc152ac41c936fd09db89e90532067e83d644f2c0f9b08635cf9605891"
+    },
+    {
+      "file": "packages/content/src/small-guards.glm-o.test.ts",
+      "previous": 14,
+      "current": 10,
+      "previousIdentityDigest": "68e8c56944d37d059494514cd15dc07de4f3805c16cc665312dc6e0b2a2fc367",
+      "currentIdentityDigest": "27b134b1bfa277e3e92022c145b9bde90bb7813d8d2fc79f7b28d79e6347ac5d",
+      "fileSha256": "5e48a098a1e2e62b10f1a7346e64ee0ea40ba05c9c30869bd6aca4c2cf40d8a8"
+    },
+    {
+      "file": "packages/pal-extract/src/events/disasm.glm-runtime-resource.test.ts",
+      "previous": 6,
+      "current": 5,
+      "previousIdentityDigest": "b1d7fda90c903b5b8440c70629e695c67f71f06a03c2e0bc8b80880d9b263c28",
+      "currentIdentityDigest": "a48af0663a3832eb57dceca95c8d5a0d05e5379f841ca97473a9dc7553fd9445",
+      "fileSha256": "4645cfabba700611e2c481e03ebdbefc5e02e1b64657ba8013a70e5fa994559d"
+    }
+  ],
+  "removedCases": 7,
+  "predicateUnchanged": true,
+  "mappings": "audit.json testContractMapping: map B6→tileset, four small-guards→shop, R05 named raw→KIMI complete targets+bytes"
+}

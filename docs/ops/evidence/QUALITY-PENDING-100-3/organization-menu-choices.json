@@ -1,0 +1,953 @@
+{
+  "inputs": [
+    {
+      "path": "packages/game/src/core/menu/inventory-action-menu.test.ts",
+      "sha256": "9a4e5a9005b994a76559aaf61f4c8f4263bdb6af25177a0280bc5b9d7996b8a4",
+      "member": "organization-menu-choices/0.before",
+      "lines": 37
+    },
+    {
+      "path": "packages/game/src/core/menu/inventory-action-menu.glm-phase1-leaves.test.ts",
+      "sha256": "537b1c67dfa7fa3a636ff77224a18eaaa987cd12bc938064adfa680cea90cc86",
+      "member": "organization-menu-choices/1.before",
+      "lines": 47
+    },
+    {
+      "path": "packages/game/src/core/menu/save-slot-menu.test.ts",
+      "sha256": "5a5dbbf360731197f763bd93921e968db9b6602d64ba681597d935942636ff41",
+      "member": "organization-menu-choices/2.before",
+      "lines": 196
+    },
+    {
+      "path": "packages/game/src/core/menu/save-slot-menu.glm-phase1-leaves.test.ts",
+      "sha256": "2e3c437b357204d67787d107be3bbbff7d83eced855d8640a437a5c5b7c43a7e",
+      "member": "organization-menu-choices/3.before",
+      "lines": 55
+    }
+  ],
+  "outputs": [
+    {
+      "path": "packages/game/src/core/menu/inventory-action-menu.test.ts",
+      "sha256": "8b6f76f95fe052eff989bdd17817d9019de69eb1d31749eb902162cf5ef5723f"
+    },
+    {
+      "path": "packages/game/src/core/menu/save-slot-menu.test.ts",
+      "sha256": "fff1072bc467edc6c95c089e00d640ed0ed123d80eadf3134ca1ca5ee49397be"
+    },
+    {
+      "path": "packages/game/src/core/menu/save-slot-menu.metadata.test.ts",
+      "sha256": "0de5883301f4a4fd6146b827d801721e244bb13ff22db939cb599be03e962351"
+    }
+  ],
+  "sourceBridges": [
+    {
+      "path": "packages/game/src/core/menu/inventory-action-menu.test.ts",
+      "changes": [
+        {
+          "from": "/**\n * InventoryActionMenu 1 级子菜单(装备/使用) — sdlpal uigame.c:878-919 真值。\n */\n\nimport { describe, expect, it } from 'vitest'\nimport {\n  createInventoryActionMenu,\n  inventoryActionChoice,\n  inventoryActionMenuDown,\n  inventoryActionMenuUp,\n} from './inventory-action-menu.js'\n\ndescribe('InventoryActionMenu(物品 / 装备 / 使用)', () => {\n  it('2 项真值顺序:装备 / 使用(sdlpal uigame.c:898-902)', () => {\n    const s = createInventoryActionMenu()\n    expect(s.selection.items.map((it) => it.label)).toEqual(['装备', '使用'])\n    expect(inventoryActionChoice(s)).toBe('equip')\n  })\n\n  it('id = 真 WORD id 22/23(ui.h:80-81 INVMENU_LABEL_EQUIP/USE,非下标)', () => {\n    const s = createInventoryActionMenu()\n    expect(s.selection.items.map((it) => it.id)).toEqual([22, 23])\n  })\n\n  it('defaultCursor=1 → 起手 use(sdlpal `static WORD w = 0` 跨调用记忆)', () => {\n    const s = createInventoryActionMenu(1)\n    expect(inventoryActionChoice(s)).toBe('use')\n  })\n\n  it('Down → use,Up → equip', () => {\n    const s = createInventoryActionMenu()\n    inventoryActionMenuDown(s)\n    expect(inventoryActionChoice(s)).toBe('use')\n    inventoryActionMenuUp(s)\n    expect(inventoryActionChoice(s)).toBe('equip')\n  })\n})\n",
+          "to": "/** Item-action state only; driver owns stack,dispatch and remembered choice. */\nimport { afterEach, beforeEach, describe, expect, it } from 'vitest'\nimport { beginChineseMenuText } from '../../__tests__/menu-text-fixture.js'\nimport { setWordTable } from '../word-lookup.js'\nimport {\n  createInventoryActionMenu,\n  inventoryActionChoice,\n  inventoryActionMenuDown,\n  inventoryActionMenuUp,\n} from './inventory-action-menu.js'\n\ndescribe('Inventory action labels and navigation', () => {\n  let releaseMenuText: (() => void) | undefined\n  beforeEach(() => {\n    releaseMenuText = beginChineseMenuText()\n  })\n  afterEach(() => {\n    releaseMenuText?.()\n    releaseMenuText = undefined\n  })\n\n  it('2 项真值顺序:装备 / 使用(sdlpal uigame.c:898-902)', () => {\n    const menu = createInventoryActionMenu()\n    expect(menu.selection.items.map((it) => it.label)).toEqual(['装备', '使用'])\n    expect(inventoryActionChoice(menu)).toBe('equip')\n  })\n\n  it('id = 真 WORD id 22/23(ui.h:80-81 INVMENU_LABEL_EQUIP/USE,非下标)', () => {\n    const menu = createInventoryActionMenu()\n    expect(menu.selection.items.map((it) => it.id)).toEqual([22, 23])\n  })\n\n  it('defaultCursor=1 → 起手 use(sdlpal `static WORD w = 0` 跨调用记忆)', () => {\n    const menu = createInventoryActionMenu(1)\n    expect(inventoryActionChoice(menu)).toBe('use')\n  })\n\n  it('Down → use,Up → equip', () => {\n    const menu = createInventoryActionMenu()\n    inventoryActionMenuDown(menu)\n    expect(inventoryActionChoice(menu)).toBe('use')\n    inventoryActionMenuUp(menu)\n    expect(inventoryActionChoice(menu)).toBe('equip')\n  })\n})\n",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/core/menu/inventory-action-menu.glm-phase1-leaves.test.ts",
+      "changes": [
+        {
+          "from": "/**\n * TEST-GLM-PHASE1-LEAVES-3 L03（inventory-action-menu.ts）— 去重表：\n *  - inventory-action-menu.test（装备/使用顺序、真 WORD id 22/23、defaultCursor=1、Down/Up）→ 不重复\n *  - 新差异：defaultCursor 越上界保持 0、Down 环绕 use→equip、词表载入时 label 取 flat[id]、\n *    空 selection 的 choice 防御 undefined。\n * 锚：sdlpal uigame.c:878-919（uigame.c:896 static w 记忆）。\n */\nimport { afterEach, describe, expect, it } from 'vitest'\nimport { setWordTable } from '../word-lookup.js'\nimport {\n  createInventoryActionMenu,\n  inventoryActionChoice,\n  inventoryActionMenuDown,\n} from './inventory-action-menu.js'\n\ndescribe('L03 InventoryActionMenu 剩余合同', () => {\n  afterEach(() => setWordTable([])) // 隔离词表\n\n  it('defaultCursor 越上界（≥ 项数）→ 保持建表默认 0（守卫分支）', () => {\n    const s = createInventoryActionMenu(5)\n    expect(s.selection.cursor).toBe(0)\n    expect(inventoryActionChoice(s)).toBe('equip')\n  })\n\n  it('Down 两连：use → 环绕回 equip（2 项 SelectionMenu 环绕合同）', () => {\n    const s = createInventoryActionMenu()\n    inventoryActionMenuDown(s)\n    expect(inventoryActionChoice(s)).toBe('use')\n    inventoryActionMenuDown(s)\n    expect(inventoryActionChoice(s)).toBe('equip')\n  })\n\n  it('词表载入 → label 取 flat[22]/flat[23]（WORD.DAT 单一文案源，同 uigame.c:901-902）', () => {\n    const flat: string[] = []\n    flat[22] = '装备X'\n    flat[23] = '使用X'\n    setWordTable(flat)\n    const s = createInventoryActionMenu()\n    expect(s.selection.items.map((it) => it.label)).toEqual(['装备X', '使用X'])\n  })\n\n  it('空 selection → choice 防御 undefined（直造状态可达的防御分支）', () => {\n    const s = createInventoryActionMenu()\n    s.selection.items = []\n    expect(inventoryActionChoice(s)).toBeUndefined()\n  })\n})\n",
+          "to": "/** Item-action state only; driver owns stack,dispatch and remembered choice. */\nimport { afterEach, beforeEach, describe, expect, it } from 'vitest'\nimport { beginChineseMenuText } from '../../__tests__/menu-text-fixture.js'\nimport { setWordTable } from '../word-lookup.js'\nimport {\n  createInventoryActionMenu,\n  inventoryActionChoice,\n  inventoryActionMenuDown,\n  inventoryActionMenuUp,\n} from './inventory-action-menu.js'\n\ndescribe('Inventory action labels and navigation', () => {\n  let releaseMenuText: (() => void) | undefined\n  beforeEach(() => {\n    releaseMenuText = beginChineseMenuText()\n  })\n  afterEach(() => {\n    releaseMenuText?.()\n    releaseMenuText = undefined\n  })\n  // 隔离词表\n\n  it('defaultCursor 越上界（≥ 项数）→ 保持建表默认 0（守卫分支）', () => {\n    const menu = createInventoryActionMenu(5)\n    expect(menu.selection.cursor).toBe(0)\n    expect(inventoryActionChoice(menu)).toBe('equip')\n  })\n\n  it('Down 两连：use → 环绕回 equip（2 项 SelectionMenu 环绕合同）', () => {\n    const menu = createInventoryActionMenu()\n    inventoryActionMenuDown(menu)\n    expect(inventoryActionChoice(menu)).toBe('use')\n    inventoryActionMenuDown(menu)\n    expect(inventoryActionChoice(menu)).toBe('equip')\n  })\n\n  it('词表载入 → label 取 flat[22]/flat[23]（WORD.DAT 单一文案源，同 uigame.c:901-902）', () => {\n    const flat: string[] = []\n    flat[22] = '装备X'\n    flat[23] = '使用X'\n    setWordTable(flat)\n    const menu = createInventoryActionMenu()\n    expect(menu.selection.items.map((it) => it.label)).toEqual(['装备X', '使用X'])\n  })\n\n  it('空 selection → choice 防御 undefined（直造状态可达的防御分支）', () => {\n    const menu = createInventoryActionMenu()\n    menu.selection.items = []\n    expect(inventoryActionChoice(menu)).toBeUndefined()\n  })\n})\n",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/core/menu/save-slot-menu.test.ts",
+      "changes": [
+        {
+          "from": "/**\n * SaveSlotMenu state machine 单测 — sdlpal uigame.c:169-242 真值。\n *\n * C8(2026-05-29)更新:加 slotMetas + fetchSlotMetas + Save.listSlots caller integration 防回归。\n */\n\nimport { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'\nimport { createInitialGameState } from '../game-state.js'\nimport { Save } from '../save/api.js'\nimport {\n  createSaveSlotMenu,\n  fetchSlotMetas,\n  saveSlotMenuCurrent,\n  saveSlotMenuDown,\n  saveSlotMenuUp,\n} from './save-slot-menu.js'\n\ndescribe('createSaveSlotMenu', () => {\n  it('默认 5 slot,label \"进度N\",mode 透传', () => {\n    const s = createSaveSlotMenu('save')\n    expect(s.mode).toBe('save')\n    expect(s.selection.items).toHaveLength(5)\n    expect(s.selection.items.map((it) => it.id)).toEqual([1, 2, 3, 4, 5])\n    expect(s.selection.items.map((it) => it.label)).toEqual([\n      '进度一',\n      '进度二',\n      '进度三',\n      '进度四',\n      '进度五',\n    ])\n  })\n\n  it('load mode', () => {\n    expect(createSaveSlotMenu('load').mode).toBe('load')\n  })\n\n  it('slotMeta override label', () => {\n    const s = createSaveSlotMenu('save', [\n      { slot: 1, label: 'Slot 1 (Lv 5)' },\n      { slot: 3, label: 'Slot 3 (Lv 12)' },\n    ])\n    expect(s.selection.items.map((it) => it.label)).toEqual(['Slot 1 (Lv 5)', 'Slot 3 (Lv 12)'])\n  })\n\n  it('初始 slotMetas 空 Map(fetchSlotMetas 异步填)', () => {\n    const s = createSaveSlotMenu('save')\n    expect(s.slotMetas).toBeInstanceOf(Map)\n    expect(s.slotMetas.size).toBe(0)\n  })\n})\n\ndescribe('saveSlotMenuUp/Down + Current', () => {\n  it('Down 切下一 slot', () => {\n    const s = createSaveSlotMenu('save')\n    expect(s.selection.cursor).toBe(0)\n    saveSlotMenuDown(s)\n    expect(s.selection.cursor).toBe(1)\n  })\n\n  it('Up 从中间项切上一 slot(SelectionMenu 委托)', () => {\n    const s = createSaveSlotMenu('save')\n    s.selection.cursor = 2\n    saveSlotMenuUp(s)\n    expect(s.selection.cursor).toBe(1)\n  })\n\n  it('Up 从首项环绕到末项(SelectionMenu 委托)', () => {\n    const s = createSaveSlotMenu('save')\n    saveSlotMenuUp(s)\n    expect(saveSlotMenuCurrent(s)).toBe(5)\n  })\n\n  it('Current 返回 slot id(1-based,sdlpal uigame.c:184 真值)', () => {\n    const s = createSaveSlotMenu('save')\n    expect(saveSlotMenuCurrent(s)).toBe(1)\n    saveSlotMenuDown(s)\n    expect(saveSlotMenuCurrent(s)).toBe(2)\n    saveSlotMenuDown(s)\n    saveSlotMenuDown(s)\n    saveSlotMenuDown(s)\n    expect(saveSlotMenuCurrent(s)).toBe(5)\n  })\n})\n\n// ── C8 Save IO integration ───────────────────────────────────────────────────\n\ndescribe('fetchSlotMetas + Save IO', () => {\n  beforeEach(async () => {\n    vi.stubGlobal('indexedDB', undefined)\n    await Save._clearAllForTest()\n  })\n\n  afterEach(async () => {\n    await Save._clearAllForTest()\n    vi.restoreAllMocks()\n    vi.unstubAllGlobals()\n  })\n\n  it('fetchSlotMetas 空 slots → slotMetas 仍空', async () => {\n    const s = createSaveSlotMenu('save')\n    await fetchSlotMetas(s)\n    expect(s.slotMetas.size).toBe(0)\n  })\n\n  it('save 后 fetchSlotMetas → slotMetas 含 SlotMeta', async () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.dwCash = 12345\n    gs.wNumScene = 7\n    gs.wSavedTimes = 3\n    gs.PlayerRolesRuntime.rgwLevel[0] = 15\n    await Save.saveSlot(2, gs)\n\n    const s = createSaveSlotMenu('load')\n    await fetchSlotMetas(s)\n    expect(s.slotMetas.size).toBe(1)\n    const meta = s.slotMetas.get(2)!\n    expect(meta.cash).toBe(12345)\n    expect(meta.sceneId).toBe(7)\n    expect(meta.savedTimes).toBe(3)\n    expect(meta.partyLevel).toBe(15)\n  })\n\n  it('多 slot save → fetchSlotMetas 全 fill', async () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    for (let slot = 1; slot <= 5; slot++) {\n      gs.wSavedTimes = slot * 10\n      await Save.saveSlot(slot, gs)\n    }\n    const s = createSaveSlotMenu('save')\n    await fetchSlotMetas(s)\n    expect(s.slotMetas.size).toBe(5)\n    expect(s.slotMetas.get(3)?.savedTimes).toBe(30)\n  })\n\n  it('fetchSlotMetas 在 listSlots resolve 前不写入状态，resolve 后按真实 id 填充', async () => {\n    type ListedSlot = Awaited<ReturnType<typeof Save.listSlots>>\n    let resolveSlots!: (slots: ListedSlot) => void\n    const pending = new Promise<ListedSlot>((resolve) => {\n      resolveSlots = resolve\n    })\n    vi.spyOn(Save, 'listSlots').mockReturnValue(pending)\n    const s = createSaveSlotMenu('load')\n\n    const fetching = fetchSlotMetas(s)\n    expect(s.slotMetas.size).toBe(0)\n    resolveSlots([\n      {\n        id: 4,\n        meta: { partyLevel: 8, cash: 400, sceneId: 6, savedAt: 2, savedTimes: 9 },\n      },\n    ])\n    await expect(fetching).resolves.toBeUndefined()\n    expect(s.slotMetas.get(4)?.savedTimes).toBe(9)\n    expect(s.slotMetas.get(0)).toBeUndefined()\n  })\n\n  it('刷新同 slot 会替换元数据并按 id 增加新 slot', async () => {\n    const s = createSaveSlotMenu('load')\n    s.slotMetas.set(2, { partyLevel: 1, cash: 10, sceneId: 1, savedAt: 1, savedTimes: 1 })\n    vi.spyOn(Save, 'listSlots').mockResolvedValue([\n      {\n        id: 2,\n        meta: { partyLevel: 3, cash: 30, sceneId: 3, savedAt: 3, savedTimes: 3 },\n      },\n      {\n        id: 5,\n        meta: { partyLevel: 5, cash: 50, sceneId: 5, savedAt: 5, savedTimes: 5 },\n      },\n    ])\n\n    await fetchSlotMetas(s)\n    expect(s.slotMetas.size).toBe(2)\n    expect(s.slotMetas.get(2)?.cash).toBe(30)\n    expect(s.slotMetas.get(5)?.cash).toBe(50)\n  })\n\n  it('Save.listSlots 失败 → 记录 warning 且不污染已有元数据', async () => {\n    const s = createSaveSlotMenu('load')\n    const existing = {\n      partyLevel: 9,\n      cash: 100,\n      sceneId: 2,\n      savedAt: 1,\n      savedTimes: 4,\n    }\n    s.slotMetas.set(1, existing)\n    const failure = new Error('storage unavailable')\n    const listSlots = vi.spyOn(Save, 'listSlots').mockRejectedValue(failure)\n    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})\n\n    await expect(fetchSlotMetas(s)).resolves.toBeUndefined()\n    expect(listSlots).toHaveBeenCalledOnce()\n    expect(warn).toHaveBeenCalledExactlyOnceWith('[save-slot-menu] fetchSlotMetas failed:', failure)\n    expect(s.slotMetas.get(1)).toEqual(existing)\n  })\n})\n",
+          "to": "import{afterEach,beforeEach,describe,expect,it,vi}from\"vitest\"\nimport{createSaveSlotMenu,fetchSlotMetas,saveSlotMenuCurrent,saveSlotMenuDown,saveSlotMenuUp}from\"./save-slot-menu.js\"\nimport{createInitialGameState}from\"../game-state.js\"\nimport{Save}from\"../save/api.js\"\n\n\ndescribe('Save slot defaults', () => {\n  it('默认 5 slot,label \"进度N\",mode 透传', () => {\n    const menu = createSaveSlotMenu('save')\n    expect(menu.mode).toBe('save')\n    expect(menu.selection.items).toHaveLength(5)\n    expect(menu.selection.items.map((it) => it.id)).toEqual([1, 2, 3, 4, 5])\n    expect(menu.selection.items.map((it) => it.label)).toEqual([\n      '进度一',\n      '进度二',\n      '进度三',\n      '进度四',\n      '进度五',\n    ])\n  })\n\n  it('load mode', () => {\n    expect(createSaveSlotMenu('load').mode).toBe('load')\n  })\n\n  it('slotMeta override label', () => {\n    const menu = createSaveSlotMenu('save', [\n      { slot: 1, label: 'Slot 1 (Lv 5)' },\n      { slot: 3, label: 'Slot 3 (Lv 12)' },\n    ])\n    expect(menu.selection.items.map((it) => it.label)).toEqual(['Slot 1 (Lv 5)', 'Slot 3 (Lv 12)'])\n  })\n\n  it('初始 slotMetas 空 Map(fetchSlotMetas 异步填)', () => {\n    const menu = createSaveSlotMenu('save')\n    expect(menu.slotMetas).toBeInstanceOf(Map)\n    expect(menu.slotMetas.size).toBe(0)\n  })\n})\n\n\ndescribe('Save slot cursor navigation', () => {\n  it('Down 切下一 slot', () => {\n    const menu = createSaveSlotMenu('save')\n    expect(menu.selection.cursor).toBe(0)\n    saveSlotMenuDown(menu)\n    expect(menu.selection.cursor).toBe(1)\n  })\n\n  it('Up 从中间项切上一 slot(SelectionMenu 委托)', () => {\n    const menu = createSaveSlotMenu('save')\n    menu.selection.cursor = 2\n    saveSlotMenuUp(menu)\n    expect(menu.selection.cursor).toBe(1)\n  })\n\n  it('Up 从首项环绕到末项(SelectionMenu 委托)', () => {\n    const menu = createSaveSlotMenu('save')\n    saveSlotMenuUp(menu)\n    expect(saveSlotMenuCurrent(menu)).toBe(5)\n  })\n\n  it('Current 返回 slot id(1-based,sdlpal uigame.c:184 真值)', () => {\n    const menu = createSaveSlotMenu('save')\n    expect(saveSlotMenuCurrent(menu)).toBe(1)\n    saveSlotMenuDown(menu)\n    expect(saveSlotMenuCurrent(menu)).toBe(2)\n    saveSlotMenuDown(menu)\n    saveSlotMenuDown(menu)\n    saveSlotMenuDown(menu)\n    expect(saveSlotMenuCurrent(menu)).toBe(5)\n  })\n})\n\n\ndescribe('Custom and default slot selection', () => {\n})\n\n\ndescribe('Save slot metadata', () => {\n  beforeEach(async () => {\n    vi.stubGlobal('indexedDB', undefined)\n    await Save._clearAllForTest()\n  })\n\n  afterEach(async () => {\n    try {\n      await Save._clearAllForTest()\n    } finally {\n      try {\n        vi.restoreAllMocks()\n      } finally {\n        vi.unstubAllGlobals()\n      }\n    }\n  })\n\n  it('fetchSlotMetas 空 slots → slotMetas 仍空', async () => {\n    const menu = createSaveSlotMenu('save')\n    await fetchSlotMetas(menu)\n    expect(menu.slotMetas.size).toBe(0)\n  })\n\n  it('save 后 fetchSlotMetas → slotMetas 含 SlotMeta', async () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.dwCash = 12345\n    gs.wNumScene = 7\n    gs.wSavedTimes = 3\n    gs.PlayerRolesRuntime.rgwLevel[0] = 15\n    await Save.saveSlot(2, gs)\n\n    const menu = createSaveSlotMenu('load')\n    await fetchSlotMetas(menu)\n    expect(menu.slotMetas.size).toBe(1)\n    const meta = menu.slotMetas.get(2)!\n    expect(meta.cash).toBe(12345)\n    expect(meta.sceneId).toBe(7)\n    expect(meta.savedTimes).toBe(3)\n    expect(meta.partyLevel).toBe(15)\n  })\n\n  it('多 slot save → fetchSlotMetas 全 fill', async () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    for (let slot = 1; slot <= 5; slot++) {\n      gs.wSavedTimes = slot * 10\n      await Save.saveSlot(slot, gs)\n    }\n    const menu = createSaveSlotMenu('save')\n    await fetchSlotMetas(menu)\n    expect(\n      [...menu.slotMetas.entries()]\n        .map(([id, meta]) => ({ id, savedTimes: meta.savedTimes }))\n        .sort((a, b) => a.id - b.id),\n    ).toEqual([\n      { id: 1, savedTimes: 10 },\n      { id: 2, savedTimes: 20 },\n      { id: 3, savedTimes: 30 },\n      { id: 4, savedTimes: 40 },\n      { id: 5, savedTimes: 50 },\n    ])\n  })\n\n  it('fetchSlotMetas 在 listSlots resolve 前不写入状态，resolve 后按真实 id 填充', async () => {\n    type ListedSlot = Awaited<ReturnType<typeof Save.listSlots>>\n    let resolveSlots!: (slots: ListedSlot) => void\n    const pending = new Promise<ListedSlot>((resolve) => {\n      resolveSlots = resolve\n    })\n    vi.spyOn(Save, 'listSlots').mockReturnValue(pending)\n    const menu = createSaveSlotMenu('load')\n\n    const fetching = fetchSlotMetas(menu)\n    try {\n      expect(menu.slotMetas.size).toBe(0)\n      resolveSlots([\n        {\n          id: 4,\n          meta: { partyLevel: 8, cash: 400, sceneId: 6, savedAt: 2, savedTimes: 9 },\n        },\n      ])\n      await expect(fetching).resolves.toBeUndefined()\n      expect(menu.slotMetas.get(4)?.savedTimes).toBe(9)\n      expect(menu.slotMetas.get(0)).toBeUndefined()\n    } finally {\n      resolveSlots([])\n      await fetching\n    }\n  })\n\n  it('刷新同 slot 会替换元数据并按 id 增加新 slot', async () => {\n    const menu = createSaveSlotMenu('load')\n    menu.slotMetas.set(2, { partyLevel: 1, cash: 10, sceneId: 1, savedAt: 1, savedTimes: 1 })\n    vi.spyOn(Save, 'listSlots').mockResolvedValue([\n      {\n        id: 2,\n        meta: { partyLevel: 3, cash: 30, sceneId: 3, savedAt: 3, savedTimes: 3 },\n      },\n      {\n        id: 5,\n        meta: { partyLevel: 5, cash: 50, sceneId: 5, savedAt: 5, savedTimes: 5 },\n      },\n    ])\n\n    await fetchSlotMetas(menu)\n    expect(menu.slotMetas.size).toBe(2)\n    expect(menu.slotMetas.get(2)?.cash).toBe(30)\n    expect(menu.slotMetas.get(5)?.cash).toBe(50)\n  })\n\n  it('Save.listSlots 失败 → 记录 warning 且不污染已有元数据', async () => {\n    const menu = createSaveSlotMenu('load')\n    const existing = {\n      partyLevel: 9,\n      cash: 100,\n      sceneId: 2,\n      savedAt: 1,\n      savedTimes: 4,\n    }\n    menu.slotMetas.set(1, existing)\n    const failure = new Error('storage unavailable')\n    const listSlots = vi.spyOn(Save, 'listSlots').mockRejectedValue(failure)\n    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})\n\n    await expect(fetchSlotMetas(menu)).resolves.toBeUndefined()\n    expect(listSlots).toHaveBeenCalledOnce()\n    expect(warn).toHaveBeenCalledExactlyOnceWith('[save-slot-menu] fetchSlotMetas failed:', failure)\n    expect(menu.slotMetas.get(1)).toEqual(existing)\n  })\n})",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/core/menu/save-slot-menu.glm-phase1-leaves.test.ts",
+      "changes": [
+        {
+          "from": "/**\n * TEST-GLM-PHASE1-LEAVES-3 L06（save-slot-menu.ts）— 去重表：\n *  - save-slot-menu.test（默认 5 slot/label/mode/slotMeta override/Up-Down wrap/current/\n *    fetchSlotMetas×内存 fallback Save）→ 不重复（2026-10-15 更正:测试环境无 IndexedDB,\n *    走 api.ts 内存路径;旧注\"×IndexedDB\"不实）\n *  - 本卡边界：**只测同步工厂/导航/current**，不调 fetchSlotMetas/Save API/真实 IndexedDB。\n *  - 新差异：defaultSlot 自定义槽号（uigame.c:582/605 bCurrentSaveSlot）、defaultSlot 越界\n *    保持 0、非顺序自定义 slot id 的 current 按 id 反查、空列表防御。\n */\nimport { describe, expect, it } from 'vitest'\nimport {\n  createSaveSlotMenu,\n  saveSlotMenuCurrent,\n  saveSlotMenuDown,\n  saveSlotMenuUp,\n} from './save-slot-menu.js'\n\ndescribe('L06 SaveSlotMenu 同步合同', () => {\n  it('defaultSlot 指定默认槽号（1-based → cursor=slot-1；uigame.c:225 真值）', () => {\n    const s = createSaveSlotMenu('save', undefined, 3)\n    expect(s.selection.cursor).toBe(2)\n    expect(saveSlotMenuCurrent(s)).toBe(3)\n  })\n\n  // C5 限定(2026-10-15)：slot 10/20 是公开工厂的防御输入（id 反查正确性），\n  // 不代表可传到 Save 生产域（生产槽位恒 1..5，超界会被 Save.saveSlot 拒绝）。\n  it('非顺序自定义 slot id：defaultSlot 按 id 反查非下标；current 返回真 id', () => {\n    const s = createSaveSlotMenu(\n      'load',\n      [\n        { slot: 10, label: 'A' },\n        { slot: 20, label: 'B' },\n      ],\n      20,\n    )\n    expect(s.selection.cursor).toBe(1)\n    expect(saveSlotMenuCurrent(s)).toBe(20)\n    saveSlotMenuUp(s)\n    expect(saveSlotMenuCurrent(s)).toBe(10)\n  })\n\n  it('defaultSlot 不在列表 → 保持建表默认 0（idx<0 分支）', () => {\n    const s = createSaveSlotMenu('save', undefined, 99)\n    expect(s.selection.cursor).toBe(0)\n    expect(saveSlotMenuCurrent(s)).toBe(1)\n  })\n\n  it('空列表：current undefined，Up/Down 不抛错（防御）', () => {\n    const s = createSaveSlotMenu('save', [])\n    saveSlotMenuUp(s)\n    saveSlotMenuDown(s)\n    expect(saveSlotMenuCurrent(s)).toBeUndefined()\n    expect(s.selection.cursor).toBe(0)\n  })\n})\n",
+          "to": "import{afterEach,beforeEach,describe,expect,it,vi}from\"vitest\"\nimport{createSaveSlotMenu,fetchSlotMetas,saveSlotMenuCurrent,saveSlotMenuDown,saveSlotMenuUp}from\"./save-slot-menu.js\"\nimport{createInitialGameState}from\"../game-state.js\"\nimport{Save}from\"../save/api.js\"\n\n\ndescribe('Save slot defaults', () => {\n})\n\n\ndescribe('Save slot cursor navigation', () => {\n})\n\n\ndescribe('Custom and default slot selection', () => {\n  it('defaultSlot 指定默认槽号（1-based → cursor=slot-1；uigame.c:225 真值）', () => {\n    const menu = createSaveSlotMenu('save', undefined, 3)\n    expect(menu.selection.cursor).toBe(2)\n    expect(saveSlotMenuCurrent(menu)).toBe(3)\n  })\n\n  // C5 限定(2026-10-15)：slot 10/20 是公开工厂的防御输入（id 反查正确性），\n  // 不代表可传到 Save 生产域（生产槽位恒 1..5，超界会被 Save.saveSlot 拒绝）。\n  it('非顺序自定义 slot id：defaultSlot 按 id 反查非下标；current 返回真 id', () => {\n    const menu = createSaveSlotMenu(\n      'load',\n      [\n        { slot: 10, label: 'A' },\n        { slot: 20, label: 'B' },\n      ],\n      20,\n    )\n    expect(menu.selection.cursor).toBe(1)\n    expect(saveSlotMenuCurrent(menu)).toBe(20)\n    saveSlotMenuUp(menu)\n    expect(saveSlotMenuCurrent(menu)).toBe(10)\n  })\n\n  it('defaultSlot 不在列表 → 保持建表默认 0（idx<0 分支）', () => {\n    const menu = createSaveSlotMenu('save', undefined, 99)\n    expect(menu.selection.cursor).toBe(0)\n    expect(saveSlotMenuCurrent(menu)).toBe(1)\n  })\n\n  it('空列表：current undefined，Up/Down 不抛错（防御）', () => {\n    const menu = createSaveSlotMenu('save', [])\n    saveSlotMenuUp(menu)\n    saveSlotMenuDown(menu)\n    expect(saveSlotMenuCurrent(menu)).toBeUndefined()\n    expect(menu.selection.cursor).toBe(0)\n  })\n})\n\n\ndescribe('Save slot metadata', () => {\n  beforeEach(async () => {\n    vi.stubGlobal('indexedDB', undefined)\n    await Save._clearAllForTest()\n  })\n\n  afterEach(async () => {\n    try {\n      await Save._clearAllForTest()\n    } finally {\n      try {\n        vi.restoreAllMocks()\n      } finally {\n        vi.unstubAllGlobals()\n      }\n    }\n  })\n})",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "replacements": [],
+  "registrations": [
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/inventory-action-menu.test.ts",
+        "ordinal": 0,
+        "fullName": "InventoryActionMenu(物品 / 装备 / 使用) 2 项真值顺序:装备 / 使用(sdlpal uigame.c:898-902)"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/inventory-action-menu.test.ts",
+        "titles": ["Inventory action labels and navigation"],
+        "template": "2 项真值顺序:装备 / 使用(sdlpal uigame.c:898-902)",
+        "fullName": "Inventory action labels and navigation 2 项真值顺序:装备 / 使用(sdlpal uigame.c:898-902)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/inventory-action-menu.test.ts",
+        "ordinal": 1,
+        "fullName": "InventoryActionMenu(物品 / 装备 / 使用) id = 真 WORD id 22/23(ui.h:80-81 INVMENU_LABEL_EQUIP/USE,非下标)"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/inventory-action-menu.test.ts",
+        "titles": ["Inventory action labels and navigation"],
+        "template": "id = 真 WORD id 22/23(ui.h:80-81 INVMENU_LABEL_EQUIP/USE,非下标)",
+        "fullName": "Inventory action labels and navigation id = 真 WORD id 22/23(ui.h:80-81 INVMENU_LABEL_EQUIP/USE,非下标)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/inventory-action-menu.test.ts",
+        "ordinal": 2,
+        "fullName": "InventoryActionMenu(物品 / 装备 / 使用) defaultCursor=1 → 起手 use(sdlpal `static WORD w = 0` 跨调用记忆)"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/inventory-action-menu.test.ts",
+        "titles": ["Inventory action labels and navigation"],
+        "template": "defaultCursor=1 → 起手 use(sdlpal `static WORD w = 0` 跨调用记忆)",
+        "fullName": "Inventory action labels and navigation defaultCursor=1 → 起手 use(sdlpal `static WORD w = 0` 跨调用记忆)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/inventory-action-menu.test.ts",
+        "ordinal": 3,
+        "fullName": "InventoryActionMenu(物品 / 装备 / 使用) Down → use,Up → equip"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/inventory-action-menu.test.ts",
+        "titles": ["Inventory action labels and navigation"],
+        "template": "Down → use,Up → equip",
+        "fullName": "Inventory action labels and navigation Down → use,Up → equip"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/inventory-action-menu.glm-phase1-leaves.test.ts",
+        "ordinal": 0,
+        "fullName": "L03 InventoryActionMenu 剩余合同 defaultCursor 越上界（≥ 项数）→ 保持建表默认 0（守卫分支）"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/inventory-action-menu.test.ts",
+        "titles": ["Inventory action labels and navigation"],
+        "template": "defaultCursor 越上界（≥ 项数）→ 保持建表默认 0（守卫分支）",
+        "fullName": "Inventory action labels and navigation defaultCursor 越上界（≥ 项数）→ 保持建表默认 0（守卫分支）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/inventory-action-menu.glm-phase1-leaves.test.ts",
+        "ordinal": 1,
+        "fullName": "L03 InventoryActionMenu 剩余合同 Down 两连：use → 环绕回 equip（2 项 SelectionMenu 环绕合同）"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/inventory-action-menu.test.ts",
+        "titles": ["Inventory action labels and navigation"],
+        "template": "Down 两连：use → 环绕回 equip（2 项 SelectionMenu 环绕合同）",
+        "fullName": "Inventory action labels and navigation Down 两连：use → 环绕回 equip（2 项 SelectionMenu 环绕合同）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/inventory-action-menu.glm-phase1-leaves.test.ts",
+        "ordinal": 2,
+        "fullName": "L03 InventoryActionMenu 剩余合同 词表载入 → label 取 flat[22]/flat[23]（WORD.DAT 单一文案源，同 uigame.c:901-902）"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/inventory-action-menu.test.ts",
+        "titles": ["Inventory action labels and navigation"],
+        "template": "词表载入 → label 取 flat[22]/flat[23]（WORD.DAT 单一文案源，同 uigame.c:901-902）",
+        "fullName": "Inventory action labels and navigation 词表载入 → label 取 flat[22]/flat[23]（WORD.DAT 单一文案源，同 uigame.c:901-902）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/inventory-action-menu.glm-phase1-leaves.test.ts",
+        "ordinal": 3,
+        "fullName": "L03 InventoryActionMenu 剩余合同 空 selection → choice 防御 undefined（直造状态可达的防御分支）"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/inventory-action-menu.test.ts",
+        "titles": ["Inventory action labels and navigation"],
+        "template": "空 selection → choice 防御 undefined（直造状态可达的防御分支）",
+        "fullName": "Inventory action labels and navigation 空 selection → choice 防御 undefined（直造状态可达的防御分支）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/save-slot-menu.test.ts",
+        "ordinal": 0,
+        "fullName": "createSaveSlotMenu 默认 5 slot,label \"进度N\",mode 透传"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/save-slot-menu.test.ts",
+        "titles": ["Save slot defaults"],
+        "template": "默认 5 slot,label \"进度N\",mode 透传",
+        "fullName": "Save slot defaults 默认 5 slot,label \"进度N\",mode 透传"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/save-slot-menu.test.ts",
+        "ordinal": 1,
+        "fullName": "createSaveSlotMenu load mode"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/save-slot-menu.test.ts",
+        "titles": ["Save slot defaults"],
+        "template": "load mode",
+        "fullName": "Save slot defaults load mode"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/save-slot-menu.test.ts",
+        "ordinal": 2,
+        "fullName": "createSaveSlotMenu slotMeta override label"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/save-slot-menu.test.ts",
+        "titles": ["Save slot defaults"],
+        "template": "slotMeta override label",
+        "fullName": "Save slot defaults slotMeta override label"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/save-slot-menu.test.ts",
+        "ordinal": 3,
+        "fullName": "createSaveSlotMenu 初始 slotMetas 空 Map(fetchSlotMetas 异步填)"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/save-slot-menu.test.ts",
+        "titles": ["Save slot defaults"],
+        "template": "初始 slotMetas 空 Map(fetchSlotMetas 异步填)",
+        "fullName": "Save slot defaults 初始 slotMetas 空 Map(fetchSlotMetas 异步填)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/save-slot-menu.test.ts",
+        "ordinal": 4,
+        "fullName": "saveSlotMenuUp/Down + Current Down 切下一 slot"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/save-slot-menu.test.ts",
+        "titles": ["Save slot cursor navigation"],
+        "template": "Down 切下一 slot",
+        "fullName": "Save slot cursor navigation Down 切下一 slot"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/save-slot-menu.test.ts",
+        "ordinal": 5,
+        "fullName": "saveSlotMenuUp/Down + Current Up 从中间项切上一 slot(SelectionMenu 委托)"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/save-slot-menu.test.ts",
+        "titles": ["Save slot cursor navigation"],
+        "template": "Up 从中间项切上一 slot(SelectionMenu 委托)",
+        "fullName": "Save slot cursor navigation Up 从中间项切上一 slot(SelectionMenu 委托)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/save-slot-menu.test.ts",
+        "ordinal": 6,
+        "fullName": "saveSlotMenuUp/Down + Current Up 从首项环绕到末项(SelectionMenu 委托)"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/save-slot-menu.test.ts",
+        "titles": ["Save slot cursor navigation"],
+        "template": "Up 从首项环绕到末项(SelectionMenu 委托)",
+        "fullName": "Save slot cursor navigation Up 从首项环绕到末项(SelectionMenu 委托)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/save-slot-menu.test.ts",
+        "ordinal": 7,
+        "fullName": "saveSlotMenuUp/Down + Current Current 返回 slot id(1-based,sdlpal uigame.c:184 真值)"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/save-slot-menu.test.ts",
+        "titles": ["Save slot cursor navigation"],
+        "template": "Current 返回 slot id(1-based,sdlpal uigame.c:184 真值)",
+        "fullName": "Save slot cursor navigation Current 返回 slot id(1-based,sdlpal uigame.c:184 真值)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/save-slot-menu.test.ts",
+        "ordinal": 8,
+        "fullName": "fetchSlotMetas + Save IO fetchSlotMetas 空 slots → slotMetas 仍空"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/save-slot-menu.metadata.test.ts",
+        "titles": ["Save slot metadata"],
+        "template": "fetchSlotMetas 空 slots → slotMetas 仍空",
+        "fullName": "Save slot metadata fetchSlotMetas 空 slots → slotMetas 仍空"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/save-slot-menu.test.ts",
+        "ordinal": 9,
+        "fullName": "fetchSlotMetas + Save IO save 后 fetchSlotMetas → slotMetas 含 SlotMeta"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/save-slot-menu.metadata.test.ts",
+        "titles": ["Save slot metadata"],
+        "template": "save 后 fetchSlotMetas → slotMetas 含 SlotMeta",
+        "fullName": "Save slot metadata save 后 fetchSlotMetas → slotMetas 含 SlotMeta"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/save-slot-menu.test.ts",
+        "ordinal": 10,
+        "fullName": "fetchSlotMetas + Save IO 多 slot save → fetchSlotMetas 全 fill"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/save-slot-menu.metadata.test.ts",
+        "titles": ["Save slot metadata"],
+        "template": "多 slot save → fetchSlotMetas 全 fill",
+        "fullName": "Save slot metadata 多 slot save → fetchSlotMetas 全 fill"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/save-slot-menu.test.ts",
+        "ordinal": 11,
+        "fullName": "fetchSlotMetas + Save IO fetchSlotMetas 在 listSlots resolve 前不写入状态，resolve 后按真实 id 填充"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/save-slot-menu.metadata.test.ts",
+        "titles": ["Save slot metadata"],
+        "template": "fetchSlotMetas 在 listSlots resolve 前不写入状态，resolve 后按真实 id 填充",
+        "fullName": "Save slot metadata fetchSlotMetas 在 listSlots resolve 前不写入状态，resolve 后按真实 id 填充"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/save-slot-menu.test.ts",
+        "ordinal": 12,
+        "fullName": "fetchSlotMetas + Save IO 刷新同 slot 会替换元数据并按 id 增加新 slot"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/save-slot-menu.metadata.test.ts",
+        "titles": ["Save slot metadata"],
+        "template": "刷新同 slot 会替换元数据并按 id 增加新 slot",
+        "fullName": "Save slot metadata 刷新同 slot 会替换元数据并按 id 增加新 slot"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/save-slot-menu.test.ts",
+        "ordinal": 13,
+        "fullName": "fetchSlotMetas + Save IO Save.listSlots 失败 → 记录 warning 且不污染已有元数据"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/save-slot-menu.metadata.test.ts",
+        "titles": ["Save slot metadata"],
+        "template": "Save.listSlots 失败 → 记录 warning 且不污染已有元数据",
+        "fullName": "Save slot metadata Save.listSlots 失败 → 记录 warning 且不污染已有元数据"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/save-slot-menu.glm-phase1-leaves.test.ts",
+        "ordinal": 0,
+        "fullName": "L06 SaveSlotMenu 同步合同 defaultSlot 指定默认槽号（1-based → cursor=slot-1；uigame.c:225 真值）"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/save-slot-menu.test.ts",
+        "titles": ["Custom and default slot selection"],
+        "template": "defaultSlot 指定默认槽号（1-based → cursor=slot-1；uigame.c:225 真值）",
+        "fullName": "Custom and default slot selection defaultSlot 指定默认槽号（1-based → cursor=slot-1；uigame.c:225 真值）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/save-slot-menu.glm-phase1-leaves.test.ts",
+        "ordinal": 1,
+        "fullName": "L06 SaveSlotMenu 同步合同 非顺序自定义 slot id：defaultSlot 按 id 反查非下标；current 返回真 id"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/save-slot-menu.test.ts",
+        "titles": ["Custom and default slot selection"],
+        "template": "非顺序自定义 slot id：defaultSlot 按 id 反查非下标；current 返回真 id",
+        "fullName": "Custom and default slot selection 非顺序自定义 slot id：defaultSlot 按 id 反查非下标；current 返回真 id"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/save-slot-menu.glm-phase1-leaves.test.ts",
+        "ordinal": 2,
+        "fullName": "L06 SaveSlotMenu 同步合同 defaultSlot 不在列表 → 保持建表默认 0（idx<0 分支）"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/save-slot-menu.test.ts",
+        "titles": ["Custom and default slot selection"],
+        "template": "defaultSlot 不在列表 → 保持建表默认 0（idx<0 分支）",
+        "fullName": "Custom and default slot selection defaultSlot 不在列表 → 保持建表默认 0（idx<0 分支）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/save-slot-menu.glm-phase1-leaves.test.ts",
+        "ordinal": 3,
+        "fullName": "L06 SaveSlotMenu 同步合同 空列表：current undefined，Up/Down 不抛错（防御）"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/save-slot-menu.test.ts",
+        "titles": ["Custom and default slot selection"],
+        "template": "空列表：current undefined，Up/Down 不抛错（防御）",
+        "fullName": "Custom and default slot selection 空列表：current undefined，Up/Down 不抛错（防御）"
+      }
+    }
+  ],
+  "identities": [
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/inventory-action-menu.glm-phase1-leaves.test.ts",
+        "fullName": "L03 InventoryActionMenu 剩余合同 defaultCursor 越上界（≥ 项数）→ 保持建表默认 0（守卫分支）"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/inventory-action-menu.test.ts",
+        "fullName": "Inventory action labels and navigation defaultCursor 越上界（≥ 项数）→ 保持建表默认 0（守卫分支）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/inventory-action-menu.glm-phase1-leaves.test.ts",
+        "fullName": "L03 InventoryActionMenu 剩余合同 Down 两连：use → 环绕回 equip（2 项 SelectionMenu 环绕合同）"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/inventory-action-menu.test.ts",
+        "fullName": "Inventory action labels and navigation Down 两连：use → 环绕回 equip（2 项 SelectionMenu 环绕合同）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/inventory-action-menu.glm-phase1-leaves.test.ts",
+        "fullName": "L03 InventoryActionMenu 剩余合同 词表载入 → label 取 flat[22]/flat[23]（WORD.DAT 单一文案源，同 uigame.c:901-902）"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/inventory-action-menu.test.ts",
+        "fullName": "Inventory action labels and navigation 词表载入 → label 取 flat[22]/flat[23]（WORD.DAT 单一文案源，同 uigame.c:901-902）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/inventory-action-menu.glm-phase1-leaves.test.ts",
+        "fullName": "L03 InventoryActionMenu 剩余合同 空 selection → choice 防御 undefined（直造状态可达的防御分支）"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/inventory-action-menu.test.ts",
+        "fullName": "Inventory action labels and navigation 空 selection → choice 防御 undefined（直造状态可达的防御分支）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/inventory-action-menu.test.ts",
+        "fullName": "InventoryActionMenu(物品 / 装备 / 使用) 2 项真值顺序:装备 / 使用(sdlpal uigame.c:898-902)"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/inventory-action-menu.test.ts",
+        "fullName": "Inventory action labels and navigation 2 项真值顺序:装备 / 使用(sdlpal uigame.c:898-902)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/inventory-action-menu.test.ts",
+        "fullName": "InventoryActionMenu(物品 / 装备 / 使用) id = 真 WORD id 22/23(ui.h:80-81 INVMENU_LABEL_EQUIP/USE,非下标)"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/inventory-action-menu.test.ts",
+        "fullName": "Inventory action labels and navigation id = 真 WORD id 22/23(ui.h:80-81 INVMENU_LABEL_EQUIP/USE,非下标)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/inventory-action-menu.test.ts",
+        "fullName": "InventoryActionMenu(物品 / 装备 / 使用) defaultCursor=1 → 起手 use(sdlpal `static WORD w = 0` 跨调用记忆)"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/inventory-action-menu.test.ts",
+        "fullName": "Inventory action labels and navigation defaultCursor=1 → 起手 use(sdlpal `static WORD w = 0` 跨调用记忆)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/inventory-action-menu.test.ts",
+        "fullName": "InventoryActionMenu(物品 / 装备 / 使用) Down → use,Up → equip"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/inventory-action-menu.test.ts",
+        "fullName": "Inventory action labels and navigation Down → use,Up → equip"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/save-slot-menu.glm-phase1-leaves.test.ts",
+        "fullName": "L06 SaveSlotMenu 同步合同 defaultSlot 指定默认槽号（1-based → cursor=slot-1；uigame.c:225 真值）"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/save-slot-menu.test.ts",
+        "fullName": "Custom and default slot selection defaultSlot 指定默认槽号（1-based → cursor=slot-1；uigame.c:225 真值）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/save-slot-menu.glm-phase1-leaves.test.ts",
+        "fullName": "L06 SaveSlotMenu 同步合同 非顺序自定义 slot id：defaultSlot 按 id 反查非下标；current 返回真 id"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/save-slot-menu.test.ts",
+        "fullName": "Custom and default slot selection 非顺序自定义 slot id：defaultSlot 按 id 反查非下标；current 返回真 id"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/save-slot-menu.glm-phase1-leaves.test.ts",
+        "fullName": "L06 SaveSlotMenu 同步合同 defaultSlot 不在列表 → 保持建表默认 0（idx<0 分支）"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/save-slot-menu.test.ts",
+        "fullName": "Custom and default slot selection defaultSlot 不在列表 → 保持建表默认 0（idx<0 分支）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/save-slot-menu.glm-phase1-leaves.test.ts",
+        "fullName": "L06 SaveSlotMenu 同步合同 空列表：current undefined，Up/Down 不抛错（防御）"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/save-slot-menu.test.ts",
+        "fullName": "Custom and default slot selection 空列表：current undefined，Up/Down 不抛错（防御）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/save-slot-menu.test.ts",
+        "fullName": "createSaveSlotMenu 默认 5 slot,label \"进度N\",mode 透传"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/save-slot-menu.test.ts",
+        "fullName": "Save slot defaults 默认 5 slot,label \"进度N\",mode 透传"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/save-slot-menu.test.ts",
+        "fullName": "createSaveSlotMenu load mode"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/save-slot-menu.test.ts",
+        "fullName": "Save slot defaults load mode"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/save-slot-menu.test.ts",
+        "fullName": "createSaveSlotMenu slotMeta override label"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/save-slot-menu.test.ts",
+        "fullName": "Save slot defaults slotMeta override label"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/save-slot-menu.test.ts",
+        "fullName": "createSaveSlotMenu 初始 slotMetas 空 Map(fetchSlotMetas 异步填)"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/save-slot-menu.test.ts",
+        "fullName": "Save slot defaults 初始 slotMetas 空 Map(fetchSlotMetas 异步填)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/save-slot-menu.test.ts",
+        "fullName": "saveSlotMenuUp/Down + Current Down 切下一 slot"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/save-slot-menu.test.ts",
+        "fullName": "Save slot cursor navigation Down 切下一 slot"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/save-slot-menu.test.ts",
+        "fullName": "saveSlotMenuUp/Down + Current Up 从中间项切上一 slot(SelectionMenu 委托)"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/save-slot-menu.test.ts",
+        "fullName": "Save slot cursor navigation Up 从中间项切上一 slot(SelectionMenu 委托)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/save-slot-menu.test.ts",
+        "fullName": "saveSlotMenuUp/Down + Current Up 从首项环绕到末项(SelectionMenu 委托)"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/save-slot-menu.test.ts",
+        "fullName": "Save slot cursor navigation Up 从首项环绕到末项(SelectionMenu 委托)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/save-slot-menu.test.ts",
+        "fullName": "saveSlotMenuUp/Down + Current Current 返回 slot id(1-based,sdlpal uigame.c:184 真值)"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/save-slot-menu.test.ts",
+        "fullName": "Save slot cursor navigation Current 返回 slot id(1-based,sdlpal uigame.c:184 真值)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/save-slot-menu.test.ts",
+        "fullName": "fetchSlotMetas + Save IO fetchSlotMetas 空 slots → slotMetas 仍空"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/save-slot-menu.metadata.test.ts",
+        "fullName": "Save slot metadata fetchSlotMetas 空 slots → slotMetas 仍空"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/save-slot-menu.test.ts",
+        "fullName": "fetchSlotMetas + Save IO save 后 fetchSlotMetas → slotMetas 含 SlotMeta"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/save-slot-menu.metadata.test.ts",
+        "fullName": "Save slot metadata save 后 fetchSlotMetas → slotMetas 含 SlotMeta"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/save-slot-menu.test.ts",
+        "fullName": "fetchSlotMetas + Save IO 多 slot save → fetchSlotMetas 全 fill"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/save-slot-menu.metadata.test.ts",
+        "fullName": "Save slot metadata 多 slot save → fetchSlotMetas 全 fill"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/save-slot-menu.test.ts",
+        "fullName": "fetchSlotMetas + Save IO fetchSlotMetas 在 listSlots resolve 前不写入状态，resolve 后按真实 id 填充"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/save-slot-menu.metadata.test.ts",
+        "fullName": "Save slot metadata fetchSlotMetas 在 listSlots resolve 前不写入状态，resolve 后按真实 id 填充"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/save-slot-menu.test.ts",
+        "fullName": "fetchSlotMetas + Save IO 刷新同 slot 会替换元数据并按 id 增加新 slot"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/save-slot-menu.metadata.test.ts",
+        "fullName": "Save slot metadata 刷新同 slot 会替换元数据并按 id 增加新 slot"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/save-slot-menu.test.ts",
+        "fullName": "fetchSlotMetas + Save IO Save.listSlots 失败 → 记录 warning 且不污染已有元数据"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/save-slot-menu.metadata.test.ts",
+        "fullName": "Save slot metadata Save.listSlots 失败 → 记录 warning 且不污染已有元数据"
+      }
+    }
+  ],
+  "retirements": [],
+  "qualityDelta": {
+    "cleanup": {
+      "from": "afterEach(async () => {\n    await Save._clearAllForTest()\n    vi.restoreAllMocks()\n    vi.unstubAllGlobals()\n  })",
+      "to": "afterEach(async () => {\n    try {\n      await Save._clearAllForTest()\n    } finally {\n      try {\n        vi.restoreAllMocks()\n      } finally {\n        vi.unstubAllGlobals()\n      }\n    }\n  })"
+    },
+    "map": {
+      "from": "expect(menu.slotMetas.size).toBe(5)\n    expect(menu.slotMetas.get(3)?.savedTimes).toBe(30)",
+      "to": "expect(\n      [...menu.slotMetas.entries()]\n        .map(([id, meta]) => ({ id, savedTimes: meta.savedTimes }))\n        .sort((a, b) => a.id - b.id),\n    ).toEqual([\n      { id: 1, savedTimes: 10 },\n      { id: 2, savedTimes: 20 },\n      { id: 3, savedTimes: 30 },\n      { id: 4, savedTimes: 40 },\n      { id: 5, savedTimes: 50 },\n    ])"
+    },
+    "deferred": {
+      "from": "async () => {\n    type ListedSlot = Awaited<ReturnType<typeof Save.listSlots>>\n    let resolveSlots!: (slots: ListedSlot) => void\n    const pending = new Promise<ListedSlot>((resolve) => {\n      resolveSlots = resolve\n    })\n    vi.spyOn(Save, 'listSlots').mockReturnValue(pending)\n    const menu = createSaveSlotMenu('load')\n\n    const fetching = fetchSlotMetas(menu)\n    expect(menu.slotMetas.size).toBe(0)\n    resolveSlots([\n      {\n        id: 4,\n        meta: { partyLevel: 8, cash: 400, sceneId: 6, savedAt: 2, savedTimes: 9 },\n      },\n    ])\n    await expect(fetching).resolves.toBeUndefined()\n    expect(menu.slotMetas.get(4)?.savedTimes).toBe(9)\n    expect(menu.slotMetas.get(0)).toBeUndefined()\n  }",
+      "to": "async () => {\n    type ListedSlot = Awaited<ReturnType<typeof Save.listSlots>>\n    let resolveSlots!: (slots: ListedSlot) => void\n    const pending = new Promise<ListedSlot>((resolve) => {\n      resolveSlots = resolve\n    })\n    vi.spyOn(Save, 'listSlots').mockReturnValue(pending)\n    const menu = createSaveSlotMenu('load')\n\n    const fetching = fetchSlotMetas(menu)\n    try {\n    expect(menu.slotMetas.size).toBe(0)\n    resolveSlots([\n      {\n        id: 4,\n        meta: { partyLevel: 8, cash: 400, sceneId: 6, savedAt: 2, savedTimes: 9 },\n      },\n    ])\n    await expect(fetching).resolves.toBeUndefined()\n    expect(menu.slotMetas.get(4)?.savedTimes).toBe(9)\n    expect(menu.slotMetas.get(0)).toBeUndefined()\n    } finally {\n      resolveSlots([])\n      await fetching\n    }\n  }"
+    },
+    "actionLifecycle": "let releaseMenuText:(()=>void)|undefined\nbeforeEach(()=>{releaseMenuText=beginChineseMenuText()})\nafterEach(()=>{releaseMenuText?.();releaseMenuText=undefined})\n"
+  },
+  "stateGroups": [
+    {
+      "old": 2,
+      "title": "Save slot defaults"
+    },
+    {
+      "old": 2,
+      "title": "Save slot cursor navigation"
+    },
+    {
+      "old": 3,
+      "title": "Custom and default slot selection"
+    }
+  ],
+  "scope": "Two historical subjects;26cases retained,state12/metadata6/action8. Product code unchanged.",
+  "id": "menu-choices",
+  "namespace": "organization-menu-choices",
+  "cohortSubjects": [
+    {
+      "path": "packages/game/src/core/menu/inventory-action-menu.glm-phase1-leaves.test.ts",
+      "sha256": "537b1c67dfa7fa3a636ff77224a18eaaa987cd12bc938064adfa680cea90cc86",
+      "priorCurrentBridges": []
+    },
+    {
+      "path": "packages/game/src/core/menu/save-slot-menu.glm-phase1-leaves.test.ts",
+      "sha256": "2e3c437b357204d67787d107be3bbbff7d83eced855d8640a437a5c5b7c43a7e",
+      "priorCurrentBridges": []
+    }
+  ],
+  "preserved": [
+    {
+      "path": "packages/game/src/core/menu/inventory-action-menu.ts",
+      "sha256": "f809ecede6a78cb803df3b23615fd7eaa2b910d76b9b16e756d2ed26064831fd"
+    },
+    {
+      "path": "packages/game/src/core/menu/save-slot-menu.ts",
+      "sha256": "0ef1c7ed2bf3c64cbb6630ddb20a6e28080b10303dc7ad0a0f7c059cd7546c1b"
+    },
+    {
+      "path": "packages/game/src/core/menu/primitives.ts",
+      "sha256": "16dcc14b8a072542614f6456b4649f086c07059d06dd3df993ff522cab81d6e1"
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-driver.ts",
+      "sha256": "617d1ccf1c8931b366420e514eb684cfe7846feb7052e253d289df203112513d"
+    },
+    {
+      "path": "packages/game/src/core/save/api.ts",
+      "sha256": "385f8df40e4e2b804dbb86ecd23e49c10f4a46f4f7e6f742b56bbed4cf5e7cd8"
+    },
+    {
+      "path": "packages/game/src/__tests__/menu-text-fixture.ts",
+      "sha256": "97b96d85209f644ada8e23f7bdaa3afeb930bc732f3592115e24a6748b017250"
+    },
+    {
+      "path": "packages/game/src/core/word-lookup.ts",
+      "sha256": "06b17311a3e47e82eacb5857aa87dd0a5d7ff706ac1240a00a4c12325458c934"
+    },
+    {
+      "path": "packages/game/src/localization/language.ts",
+      "sha256": "d3b5410d8b1565af885a84ccc59f74511b712fd0bb1470eef882ad276c330779"
+    },
+    {
+      "path": "packages/game/src/core/game-state.ts",
+      "sha256": "084718097eb0963c2ee3a9d72da59b313ca8fd401672f6a8b341ba21ae8b8906"
+    },
+    {
+      "path": "packages/game/vitest.config.ts",
+      "sha256": "3dd92ad4886bc72c88e7a7b2e6bdacc3aaf9e2a24ac72153f3b619ba37feb7d4"
+    },
+    {
+      "path": "scripts/coverage/config.mjs",
+      "sha256": "decb63dda5d12a2269bef1dd75c3d1eb4efca071887c759deca8e9b06ef17a25"
+    }
+  ],
+  "neighborPaths": [
+    "packages/game/src/core/menu/inventory-action-menu.test.ts",
+    "packages/game/src/core/menu/save-slot-menu.test.ts",
+    "packages/game/src/core/menu/save-slot-menu.metadata.test.ts",
+    "packages/game/src/core/menu/menu-driver.test.ts",
+    "packages/game/src/core/menu/menu-mode.test.ts",
+    "packages/game/src/core/menu/primitives.test.ts",
+    "packages/game/src/core/menu/in-game-menu.test.ts",
+    "packages/game/src/core/menu/opening-menu.test.ts",
+    "packages/game/src/core/save/__tests__/api.test.ts"
+  ],
+  "cleanExecutions": [
+    "before",
+    "reorganize",
+    "proof-complete",
+    "neighbors",
+    "typecheck",
+    "routing",
+    "complexity",
+    "module-preflight",
+    "docs",
+    "content-review",
+    "lint",
+    "scoped",
+    "diff",
+    "ledger-final"
+  ],
+  "lightweightGates": true,
+  "callbackProof": "organization-menu-choices/proof-complete.stdout.raw",
+  "counter": "counter.json",
+  "ledgerCounts": {
+    "inventory": 3445,
+    "closed": 532,
+    "review": 279,
+    "pending": 2634
+  },
+  "profiles": [
+    {
+      "path": "packages/game/src/core/menu/inventory-action-menu.test.ts",
+      "subjects": ["packages/game/src/core/menu/inventory-action-menu.glm-phase1-leaves.test.ts"],
+      "axes": {
+        "A": "8 real inventory-action constructors/choice/navigation contracts. WORD22/23,remembered1/default out-of-range,wrap,loadedlabels,explicit empty selection defense;driver dispatch/stack/memory ownership remains outside.",
+        "B": "Remove L03/wave/nonduplication header;retain real menu/WORD references and identify synthetic injected words as data not raw story.",
+        "C": "One cohesive state spec,driver owns effects. BeforeEach acquires package word/Chinese fixture;afterEach clears this isolated module table and restores previous language/HTML,not arbitrary old table contents.",
+        "D": "Reuse existing package word fixture body unchanged. No new generic menuhost/data builder,clock helper not imported.",
+        "E": "All8callback assertions/titles retained after private s->menu. Direction reversal vs twoDown wrap remain different transitions;literal labels/IDs andloaded table retained.26total exactidentities,actualneighbors/TC0.",
+        "F": "inventory-action-menu.test names actual state;Inventory action labels and navigation,menu locals,old author path retired.",
+        "G": "Two files ->one,no newcase,wrapper/fallback or ignored diagnostics. Remove incidental tablecleanup asymmetry by explicit owned lifecycle.",
+        "H": "Real state functions/wordlookup,no mocks/IO. Narrow setup/cleanup gives deterministic language and stable failure isolation;not new visual or product acceptance."
+      }
+    },
+    {
+      "path": "packages/game/src/core/menu/save-slot-menu.test.ts",
+      "subjects": ["packages/game/src/core/menu/save-slot-menu.glm-phase1-leaves.test.ts"],
+      "axes": {
+        "A": "12 synchronous slot factory/navigation/current contracts. Production domain1..5 retained;custom10/20 and99/empty list are public factory defense,never claimed legal Save API slots.",
+        "B": "Header names synchronous scope;remove batch/dedup claims. Existing label/default ID source notes remain;no async orIndexedDB claim.",
+        "C": "Pure selection state12 separate from metadata6;no vi,global IDB stub orSaveclear hooks on state cases. Product factory still imports its existing Save dependency;not claiming graph-level IO removal.",
+        "D": "Actual existing SelectionMenu delegation retained,mode/custom label andslot IDs explicit;no universal mockedSave fixture.",
+        "E": "All12callbacks/assertions/title strings retained after private name change. Mode/default five labels/nonsequential ID/cursor/empty oracles literal;clone not used as business oracle.",
+        "F": "save-slot-menu.test owns sync defaults,cursor,custom/default selection suites. menu variable names actual object,not author/milestone.",
+        "G": "One leaf file retired into actual sync spec;no dead async imports/hooks,compatibility path ornewcase.",
+        "H": "Real deterministic public state,independent exact labels/IDs/cursor;no storage/clock setup needed. Constructor defense stays bounded,not arbitrary persistedslot validity."
+      }
+    },
+    {
+      "path": "packages/game/src/core/menu/save-slot-menu.metadata.test.ts",
+      "subjects": ["packages/game/src/core/menu/save-slot-menu.glm-phase1-leaves.test.ts"],
+      "axes": {
+        "A": "6 real metadata contracts:empty,memorySave->meta,five-slot identity,deferred completion,refresh IDs,failure retention/warning. Source unchanged;memory backend explicitly selected,no browserIDB acceptance.",
+        "B": "Header states exact backend/seam. warning template/error identity remain exact,not muted output;separate source/selectedcounter/raw exclusions from fullnormal run.",
+        "C": "One metadata/Save IO lifecycle owner;beforeEach real memory clear plusIDBstub,afterEach nestedfinally restores spies/globals evenclear failure. Deferredlist Promise settles/awaits in finally if assertions fail.",
+        "D": "Reuse actual Save/createInitialGameState and publicSlotMeta inferredreturntype;no duplicateSaveimplementation or injectedfakebusinessalgorithm.",
+        "E": "6identities retained;five-slot size/get3 partialoracle ->independent literal entireid/savedTimes set. Actual source1/2swap oldselected1green/newselected1AssertionError;source/test exactrestore,then fullneighbors/TC0. Deferredsameassertions preserved aroundfinally;warn counts/messages/state remain.",
+        "F": "save-slot-menu.metadata.test names backend responsibility;Save slot metadata suite,menu locals;publicSlotMeta/API identifiers not changed.",
+        "G": "No newtest forcoverage. Full literal mapping entails oldsize5/get3=30,which are removed ratherthan duplicated. No wrapper/recoverypolicy orproduct fallback change.",
+        "H": "Real memory Save boundary and explicit deferred/rejectionseams deterministic. finally closes ownedpending work;no unhandled promise or retainedglobalstub,wholemodule typed AST proves only declared changes."
+      }
+    }
+  ],
+  "reads": {
+    "fullInputs": [
+      {
+        "path": "packages/game/src/core/menu/inventory-action-menu.test.ts",
+        "sha256": "9a4e5a9005b994a76559aaf61f4c8f4263bdb6af25177a0280bc5b9d7996b8a4",
+        "member": "organization-menu-choices/0.before",
+        "lines": 37
+      },
+      {
+        "path": "packages/game/src/core/menu/inventory-action-menu.glm-phase1-leaves.test.ts",
+        "sha256": "537b1c67dfa7fa3a636ff77224a18eaaa987cd12bc938064adfa680cea90cc86",
+        "member": "organization-menu-choices/1.before",
+        "lines": 47
+      },
+      {
+        "path": "packages/game/src/core/menu/save-slot-menu.test.ts",
+        "sha256": "5a5dbbf360731197f763bd93921e968db9b6602d64ba681597d935942636ff41",
+        "member": "organization-menu-choices/2.before",
+        "lines": 196
+      },
+      {
+        "path": "packages/game/src/core/menu/save-slot-menu.glm-phase1-leaves.test.ts",
+        "sha256": "2e3c437b357204d67787d107be3bbbff7d83eced855d8640a437a5c5b7c43a7e",
+        "member": "organization-menu-choices/3.before",
+        "lines": 55
+      }
+    ],
+    "fullReadProductsAndFixture": [
+      {
+        "path": "packages/game/src/core/menu/inventory-action-menu.ts",
+        "sha256": "f809ecede6a78cb803df3b23615fd7eaa2b910d76b9b16e756d2ed26064831fd",
+        "lines": 58
+      },
+      {
+        "path": "packages/game/src/core/menu/save-slot-menu.ts",
+        "sha256": "0ef1c7ed2bf3c64cbb6630ddb20a6e28080b10303dc7ad0a0f7c059cd7546c1b",
+        "lines": 93
+      },
+      {
+        "path": "packages/game/src/core/save/api.ts",
+        "sha256": "385f8df40e4e2b804dbb86ecd23e49c10f4a46f4f7e6f742b56bbed4cf5e7cd8",
+        "lines": 106
+      },
+      {
+        "path": "packages/game/src/__tests__/menu-text-fixture.ts",
+        "sha256": "97b96d85209f644ada8e23f7bdaa3afeb930bc732f3592115e24a6748b017250",
+        "lines": 23
+      }
+    ],
+    "scoped": [
+      {
+        "path": "packages/game/src/core/menu/menu-driver.ts",
+        "start": 448,
+        "end": 470,
+        "sha256": "617d1ccf1c8931b366420e514eb684cfe7846feb7052e253d289df203112513d"
+      },
+      {
+        "path": "packages/game/src/core/menu/menu-driver.ts",
+        "start": 576,
+        "end": 600,
+        "sha256": "617d1ccf1c8931b366420e514eb684cfe7846feb7052e253d289df203112513d"
+      },
+      {
+        "path": "packages/game/src/core/menu/menu-driver.ts",
+        "start": 631,
+        "end": 657,
+        "sha256": "617d1ccf1c8931b366420e514eb684cfe7846feb7052e253d289df203112513d"
+      },
+      {
+        "path": "reference/sdlpal/uigame.c",
+        "start": 878,
+        "end": 922,
+        "sha256": "f981b6a698b6248107ec7934b60ca988055bbab458e516e9aa2b113f8b5419c1"
+      },
+      {
+        "path": "reference/sdlpal/uigame.c",
+        "start": 180,
+        "end": 242,
+        "sha256": "f981b6a698b6248107ec7934b60ca988055bbab458e516e9aa2b113f8b5419c1"
+      }
+    ],
+    "priorSources": [
+      "docs/ops/evidence/CODE-QUALITY-94/approved-closeout/review.json",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json",
+      "organization-menu-state.json"
+    ],
+    "scope": "Driver1030-line fullread from prior unchanged module reused;thisslice actual caller ranges reread. Save/GameState/Word lifecycle prior valid evidence scoped,not newfull product acceptance."
+  },
+  "processDisclosures": [
+    "Four oldspec26cases becomeaction8/state12/metadata6.24callbacks exactafter private names,2explicit IOqualityrepairs;complete fullnonimport typedmodules/importtargets also proved.",
+    "Transient genuine source counter only,old/new-t deliberatelyexclude othercases and retain allrecords/counts;no excludedcase execution credit. Source andcandidate bytes restored exactly;normal finalrun separate.",
+    "Word fixture body reused unchanged;no new consumer fullread credit for its othercallers. Ordinary game/IDB/browser/visual/E2E coverage not renewed.",
+    "0newclosed;2priorclosed mains reopenreview. Fixed178140,goal136/174 remaining38;12tools unchanged,heavy gates/publication pending."
+  ],
+  "invalidations": "Changes to callbacks,fixture/Save/word semantics,sourcecounter marker orlive businesssource,caller lifetime orstatic rules reopen affectedclaim. Existing historicalraw stays historical."
+}

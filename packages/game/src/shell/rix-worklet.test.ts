@@ -11,6 +11,7 @@ interface Processor {
 type Constructor = new (options: {
   processorOptions: { module: WebAssembly.Module; archive: ArrayBuffer }
 }) => Processor
+const processors: Processor[] = []
 const module = new WebAssembly.Module(readFileSync(new URL('./rix/rix.wasm', import.meta.url)))
 
 async function processor(archive = rixFixture()): Promise<Processor> {
@@ -29,10 +30,20 @@ async function processor(archive = rixFixture()): Promise<Processor> {
   vi.resetModules()
   await import('./rix-worklet.js')
   if (!registered) throw new Error('Worklet not registered')
-  return new registered({ processorOptions: { module, archive } })
+  const result = new registered({ processorOptions: { module, archive } })
+  processors.push(result)
+  return result
 }
 
-afterEach(() => vi.unstubAllGlobals())
+afterEach(() => {
+  try {
+    for (const instance of processors.splice(0)) {
+      instance.port.onmessage(new MessageEvent('message', { data: { type: 'dispose' } }))
+    }
+  } finally {
+    vi.unstubAllGlobals()
+  }
+})
 describe('worklet messages and actual PCM output', () => {
   it('plays stereo output through the compiled kernel, stops to silence, and retires on dispose', async () => {
     const worklet = await processor()
@@ -44,11 +55,14 @@ describe('worklet messages and actual PCM output', () => {
     expect(worklet.process([], [output])).toBe(true)
     expect(output[0]?.some((sample) => sample !== 0)).toBe(true)
     const reference = createRixKernel(module, rixFixture(), 48000)
-    reference.play(1, true)
-    const expected = reference.render(128)
-    expect(output[0]).toEqual(expected.filter((_sample, index) => index % 2 === 0))
-    expect(output[1]).toEqual(expected.filter((_sample, index) => index % 2 === 1))
-    reference.dispose()
+    try {
+      reference.play(1, true)
+      const expected = reference.render(128)
+      expect(output[0]).toEqual(expected.filter((_sample, index) => index % 2 === 0))
+      expect(output[1]).toEqual(expected.filter((_sample, index) => index % 2 === 1))
+    } finally {
+      reference.dispose()
+    }
     worklet.port.onmessage(new MessageEvent('message', { data: { type: 'stop' } }))
     worklet.process([], [output])
     expect(output).toEqual([new Float32Array(128), new Float32Array(128)])

@@ -1,0 +1,2519 @@
+{
+  "base": "f47f052fa1e732f7e574e70b268790d301dada3d",
+  "candidate": "uncommitted; same governance worktree; hashes bind exact bytes",
+  "owner": "Codex single agent",
+  "priorPrimary": {
+    "count": 2,
+    "evidence": "../QUALITY-GAME-PRESENT-HOST-TESTS-1/review.json"
+  },
+  "files": [
+    {
+      "path": "packages/game/src/core/__tests__/stats/e1-effective-stats.test.ts",
+      "module": "stats",
+      "sha256": "ebfea33072dcc9679f38aa635b20c9d6bb17594fdcf3a9b80408a728d71aa944",
+      "lines": 82,
+      "read": "full before and delta after",
+      "axes": {
+        "A": "Extra槽6与六getter、跨角色0/1隔离、role2毒抗100/101/0/-1均由真实equipment-state公共出口计算；typed fixture与已批准TS增长/毒抗钳制合同相符。",
+        "B": "头注逐轴与3例实际断言一致；Extra格与role基线注释有直接数值依据，不把此处等同所有装备getter或SDL原版验证。",
+        "C": "仅纯状态求和/行写入口，不触发脚本、IO或UI；每例fresh state，role列ownership与effect槽独立。",
+        "D": "复用stats fixture真实六角色数组；六getter一起核同一Extra槽贡献是原子合同，不为统一matcher引入万能helper。",
+        "E": "3例逐条核合法输入/算术oracle/差异：Extra、跨角色污染、钳制相邻边界；对已接受主测的普通两槽求和不重复认证。",
+        "F": "roleA/B及roleId命名配合基线注释揭示不同维度，固定期待非从生产函数生成。",
+        "G": "三例各有不同输入边界，保留；无死export、无无效mock或仅类型断言用例。",
+        "H": "公开纯getter可直接观察，无私有状态接缝/时间/随机；现有反例充分，不为每个已支撑断言重复造反控。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "Necessary fixture/comment/oracle rework complete; no product changes or unresolved significant issue."
+    },
+    {
+      "path": "packages/game/src/core/__tests__/stats/e3-player-stat-rows.test.ts",
+      "module": "stats",
+      "sha256": "7c42960384b1ceacd9985f0ff1839efefda89636bdbd03a2bf2c324e504cea80",
+      "lines": 65,
+      "read": "full before and delta after",
+      "axes": {
+        "A": "真实add/set行出口；正负delta、iCurEquipPart=2重定向与-1基础写入/他角色不变；所有角色/part/row值在公开typed域。",
+        "B": "明确delta是数值扣减，不冒称毒opcode实跑；equipment进行中与正常分支说明一致。",
+        "C": "测试拥有fresh runtime/effect，配置iCurEquipPart不侵入脚本解释器；基础层和覆盖层写入归属分别断言。",
+        "D": "共享状态factory只造输入，不计算目标输出；两set分支不同ownership，保留独立用例。",
+        "E": "3例分别核连续加减算术、重定向且base不变、基础写且角色隔离；期待40/25/10/70等独立常量，未复制实现作oracle。",
+        "F": "roleA/B、part2和两层字段直接表达目标，不用动态field映射掩盖行指向。",
+        "G": "每例覆盖不同状态转换，无重复恒真、无新增抽象或无用变量。",
+        "H": "入口纯状态可控且结果直接观察；无需核心mock、强转、扩大timeout。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "Necessary fixture/comment/oracle rework complete; no product changes or unresolved significant issue."
+    },
+    {
+      "path": "packages/game/src/core/__tests__/stats/e5-update-all-equipments.test.ts",
+      "module": "stats",
+      "sha256": "3e934371705c01d804b4b21c2724b626293ed7088d01ea72d089238261fc3ba2",
+      "lines": 108,
+      "read": "full before and delta after",
+      "axes": {
+        "A": "全文核实际global catalog→同步equip runner→effect写入；修紧凑数组伪全局地址，701/703和703/705含end位置真实对齐；全角色/part归属合法。",
+        "B": "part1由错误Body更正披风；并行改逐项；删除本文件并未直接断言的无脚本skip宣称，保留实际清旧/重建两个轴。",
+        "C": "仅fixture脚本和items由本例拥有；全局catalog在afterEach清空，不写真实资源或生产脚本。",
+        "D": "本文件两次复用局部programAt保持地址语义；不为几行局部构造触碰已接受E4私有helper/增加产品出口。",
+        "E": "两例真实runner执行0x17，检查脏值消失、两部位重建和跨角色空位；不以mock次数当业务结果，全部旧身份保留。",
+        "F": "实际地址与终止指令的意义有局部说明，注释部位与operand一致，减少未来误读。",
+        "G": "保留两个不同重建/隔离合同；移除过度覆盖宣称而不堆用例。",
+        "H": "生产同步入口与typed指令可直接驱动；隔离catalog有对称cleanup，无时间和随机依赖。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "Necessary fixture/comment/oracle rework complete; no product changes or unresolved significant issue."
+    },
+    {
+      "path": "packages/game/src/core/__tests__/stats/e6-resync-battle-role-stats.test.ts",
+      "module": "stats",
+      "sha256": "6b92a1977a4ec6fa2e7d4da83b7d04c5e902e9aca2ffd5cf11d3a6858958c72c",
+      "lines": 75,
+      "read": "full before and delta after",
+      "axes": {
+        "A": "真实resync入口，live HP15/MP3必须保留、level/max与六有效属性从runtime/effect同步；合法不同战内/运行态值。",
+        "B": "头注讲明live ownership与静态/有效派生区别，未承诺调用完整战斗；与旧opcode局部轴差别真实。",
+        "C": "role副本由战斗caller拥有，runtime和effect为输入；测试同时检查保留与更新边界，未跨层造写Owner。",
+        "D": "复用当前typed role/gs fixture；固定算术80+30、12+10不从被测getter反算。",
+        "E": "两例分别live保留和完整同步，直接真实出口/独立预期；与旧只核两字段的集成例有残差，不盲删。",
+        "F": "battleRole命名与两份数据显式分开，注释给实际数值来源，控制流直线。",
+        "G": "无无用mock/export/未来抽象，两合同少而明确。",
+        "H": "入口确定性且只改传入role；无需暴露私有属性或新测试API，caller同版证据可复用。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "Necessary fixture/comment/oracle rework complete; no product changes or unresolved significant issue."
+    },
+    {
+      "path": "packages/game/src/core/__tests__/stats/i1-party-status-readouts.test.ts",
+      "module": "stats",
+      "sha256": "7e1a16c4aa0c1b8ff5b52f25fcf8b8a52f57aee0ca688305b43706fcf4082e3a",
+      "lines": 106,
+      "read": "full before and delta after",
+      "axes": {
+        "A": "真实生产inspect出口，非canonical队序[2,0]映射角色、持久status和隐藏经验typed域合法；毒用队伍槽，当前非canonical[2,0,1]验证结构化标签。",
+        "B": "毒键注释不再把roleId冒称canonical；持久态无slow及>999装备永久状态与用户既有裁决一致。",
+        "C": "pure readout不写产品状态，fresh输入与只读catalog各例独立；slot和roleId ownership有明确区分。",
+        "D": "复用fixture，既有inspect主测已有无名毒的slot映射，本片保留结构化有名毒/等级/脚本的不同输出合同，不重复追加映射测试。",
+        "E": "4例逐核HP/状态/五池阈值/毒；HP改独立150/100，避免实现改输入后同步假绿；毒断言完整列表与其它slot为空，独立源字面值。",
+        "F": "partySlot命名替代误导roleId，隐藏池使用互异值防错位，数组预期按标签明确。",
+        "G": "4不同读出合同保留，不为了复审数量增加新例；原测试身份保持。",
+        "H": "pure public caller可直接读结构化输出，不mockcollector或复制生产defs，状态factory与返回对象均测试局部拥有。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "Necessary fixture/comment/oracle rework complete; no product changes or unresolved significant issue."
+    },
+    {
+      "path": "packages/game/src/core/__tests__/stats/i2-enemy-field-readouts.test.ts",
+      "module": "stats",
+      "sha256": "935915f40374b40a53bc6e0637b561be2bfffa89657545e6c0045c471b1b9486",
+      "lines": 113,
+      "read": "full before and delta after",
+      "axes": {
+        "A": "真实createBattleState构造敌槽；修受击HP30却defeated=true非法组合，先核live30/false再核0/true/max80；偷取与signed场效合法。",
+        "B": "头注不可偷轴收窄为已由主测覆盖；maxHealth来源真实factory，未把本测试声称为完整战后演出。",
+        "C": "enemy工作副本、状态毒列表与field输入由fresh battle持有；readout不承担战斗推进，明确分步投影。",
+        "D": "共用真实attachBattleState、Enemy/Field typed builders，偷物/金钱用不同输入而非变换同一预期；无泛化mock。",
+        "E": "4例完整核defeated/HP/max、两类steal、状态/毒/巫抗与五元素正负；保留原身份与独立常量，非法组合改成两个合法生命周期时点。",
+        "F": "两个时点显式命名readouts/defeated，字段和预期可直接阅读，不靠注释掩饰自比。",
+        "G": "没有新增弱例，多个字段是同一状态读出的必要结果，未制造额外层。",
+        "H": "通过正式factory获得结构，不用强转BattleState；确定种子和fresh状态可直接复验，无真实音频或资源IO。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "Necessary fixture/comment/oracle rework complete; no product changes or unresolved significant issue."
+    },
+    {
+      "path": "packages/game/src/core/__tests__/stats/stats-test-fixtures.ts",
+      "module": "stats",
+      "sha256": "270f953dd0c5843f95319b208c4990c7ab86bd232a236dedd13bf6dc8cded652",
+      "lines": 249,
+      "read": "full before and delta after",
+      "axes": {
+        "A": "全文249行及实际import callers核过：六角色runtime/effect/五元素/状态维度正确，各工厂返回新的typed对象；attachBattleState走正式构造器。",
+        "B": "注释只说明测试基线和正式构造，未把手写fixture冒称原盘；名字role3巫后/role4阿奴与当前真值一致。",
+        "C": "只有测试目录调用，状态构造与纯数据默认独立；生产不反向导入本模块，覆写允许的Partial是明确测试边界。",
+        "D": "多处stats/event/inspect/battle专测真实使用exports；makeBattlePlayer/Enemy在opcodes测试有大量真实caller，不能当死导出删除。",
+        "E": "六pending专测及E2/E4与inspect/equip主测作为真实caller，输入无核心强转；不能从自身返回值当预期，具体oracle由caller提供。",
+        "F": "工厂按domain对象命名并保持直线literal，偏离默认通过overrides显式表达；没有魔术布尔模式。",
+        "G": "各export查到实际caller；fresh effect的显式初始化虽与初始factory相同，但清楚声明该夹具装备基线，不为省一行制造广泛夹具漂移。",
+        "H": "纯构造和有种子的battle factory，允许caller控制目标轴且无IO/全局单例；只返回需要的数据，不公开生产私有state。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "Necessary fixture/comment/oracle rework complete; no product changes or unresolved significant issue."
+    },
+    {
+      "path": "packages/game/src/shell/audio-rix.ts",
+      "module": "rix",
+      "sha256": "f484bb9b5a6c8241785bb5535e05d4e9a50182046fdcafae49d2d29ad39bfd3a",
+      "lines": 91,
+      "read": "full implementation/test and actual caller; old/delta recorded",
+      "axes": {
+        "A": "全文91行；bootstrap唯一工厂→source controller消费ready并在失败dispose。compile/fetch/addModule并行，disposed阻迟到输出，port ready/error与processorerror各有归属。",
+        "B": "源码无过时行为注释；HTTPS错误和用户错误消息与真实分支相符，不宣称硬件逐比特一致。",
+        "C": "后端拥有Context/Gain/abort/node；worklet拥有kernel，主线程不调合成。dispose幂等、abort后不再connect，caller处理ready失败。",
+        "D": "实现MusicBackend与MIDI共用意图协议，RIX特有module/archive加载不硬并入MIDI。",
+        "E": "四条现行真实WASM/IO宿主例逐核：latest意图、迟到disposed、404及ready后processor失败，核心合成未mock。",
+        "F": "ready、last、disposed和reportError命名清楚；生命周期直线且早退，未增加泛化状态层。",
+        "G": "内部每项状态/回调有实际producer与consumer，无死API；gain初始0与loop保留为实际静音合同。",
+        "H": "仅WebAudio/fetch为IO边界替身，actualWASM输入与消息可控；测试补失败时也dispose，不为测试加产品出口。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "Test cleanup/oracle improvements complete; no product behavior changes. Source-controller review is bounded to actual shell UI observers, not general reentrant extensions."
+    },
+    {
+      "path": "packages/game/src/shell/audio-rix.test.ts",
+      "module": "rix",
+      "sha256": "095e9b523184653c7e4bf726287637a2981fffe45d54782bd2a6eec9da42e943",
+      "lines": 132,
+      "read": "full implementation/test and actual caller; old/delta recorded",
+      "axes": {
+        "A": "全文119行旧及当前delta；真实backend与compiled module，四种加载/生命周期合法输入，deferred显式完成。",
+        "B": "标题对应实际IO边界，未把stub Context称真实浏览器；历史已另有浏览器证据，本片不续签。",
+        "C": "每例stub globals对称清理；新增tracked real backend保证断言失败也先dispose再unstub。",
+        "D": "共用只返回真实backend的owned列表helper，不替换业务核心或创建可复用产品测试API。",
+        "E": "四身份/断言不减，messages含track/loop精确、连接gain及数量可观测；404断言exact error，迟到无节点。",
+        "F": "deferred与Context/Worklet边界各有明确职责，清理集中afterEach，不散落错误路径。",
+        "G": "重复body dispose保留作幂等合同，afterEach是失败清理，不当重复用例；没有新增无业务执行case。",
+        "H": "只在IO处stub，realmodule compile未替换；不调用真实声音，owned对象有可追踪release路径。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "Test cleanup/oracle improvements complete; no product behavior changes. Source-controller review is bounded to actual shell UI observers, not general reentrant extensions."
+    },
+    {
+      "path": "packages/game/src/shell/music-source.ts",
+      "module": "rix",
+      "sha256": "5ec5f2a68a4214cda4ba75b585d704ef8a32deb5fa26e01b97ac7c9028cfff4e",
+      "lines": 115,
+      "read": "full implementation/test and actual caller; old/delta recorded",
+      "axes": {
+        "A": "全文115行与真实bootstrap/tools-panel caller；source异步代次guard、error后释放与retry、stop/loop/gain意图隔离有证据。",
+        "B": "注释仅说明browser preference及effective intention，不把偏好并入save；source state error字段与实际发布一致。",
+        "C": "单一controller拥有backend/代次，生产subscribe只更新UI；listeners副本不暴露state。未知通用回调重入不作本次已验证承诺。",
+        "D": "抽象只覆盖现用MIDI/RIX协议；factory注入是实际替换点，无第三种未来后端或兼容fallback。",
+        "E": "8例通过real AudioManager核静音/停止/loop/胜利曲/迟到ready与error、失败重试/偏好；不声称覆盖通用observer重入。",
+        "F": "select/fail与状态代次关系可读，接口和返回getState副本明确；当前调用域内没有无关上下文。",
+        "G": "source/key/listeners/last均有真实caller，不退役当前意图或error通道；新扩展重入支持需单独归因。",
+        "H": "factory/storage注入真实边界，ready用Promise驱动，无Wallclock依赖；无需为测试扩大公开API。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "Test cleanup/oracle improvements complete; no product behavior changes. Source-controller review is bounded to actual shell UI observers, not general reentrant extensions."
+    },
+    {
+      "path": "packages/game/src/shell/music-source.test.ts",
+      "module": "rix",
+      "sha256": "af65e78150ff248a4096f8f85301fa9316707dac56d6834f2fbb9158d3967470",
+      "lines": 217,
+      "read": "full implementation/test and actual caller; old/delta recorded",
+      "axes": {
+        "A": "全文194行旧与候选delta；真实controller→AudioManager，8合同的storage/ready/retry输入和then调度已核。",
+        "B": "标题指向实际音源意图，测试未冒称真实扬声器输出，偏好与存档隔离有key证据。",
+        "C": "新增每例保存/还原唯一tp-music-source key，不清理别人storage；owned controller在afterEach幂等dispose。",
+        "D": "共用实际factory跟踪wrapper仅作cleanup；后端fake是端口边界，真实选择器与AudioManager不mock。",
+        "E": "8身份及所有业务断言保留；latest loop、禁用、track0、late reject、retry等不同合同，无数量堆叠。",
+        "F": "source/backend/deferred语义分明；cleanup与业务步骤分离，读者可按状态序列理解。",
+        "G": "没有删停止/取消信用或增加弱测试；同步dispose body保留原意，hook保障失败收尾。",
+        "H": "无计时等待、扩timeout或私有状态；Promise手动resolve/reject控制时序，观察公开state与协议结果。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "Test cleanup/oracle improvements complete; no product behavior changes. Source-controller review is bounded to actual shell UI observers, not general reentrant extensions."
+    },
+    {
+      "path": "packages/game/src/shell/rix-worklet.ts",
+      "module": "rix",
+      "sha256": "01ddea4525762fac2bf220e77ae82cabb1ba5accf655ea638a7def3542669f0f",
+      "lines": 54,
+      "read": "full implementation/test and actual caller; old/delta recorded",
+      "axes": {
+        "A": "全文54行；browser registerProcessor入口、trusted主线程消息与AudioWorklet output；sampleRate来自音频宿主，kernel错误回传。",
+        "B": "无伪造兼容或原版一致性宣称；message名与真实producer一致，停止type映射track0。",
+        "C": "processor独占kernel，dispose清引用，process无核返回false交宿主退休；只写宿主提供output channel。",
+        "D": "共用真实kernel，无第二份FM核心；channel%2仅现有立体声输出配置2，未为将来需求抽象。",
+        "E": "实际PCM左右声道借由compiled kernel交织拆分对照，独立golden由kernel tests支撑；坏archive错误/无playable输出。",
+        "F": "构造、消息和block process分明，核心路径短，未引入配置模式布尔或反向依赖。",
+        "G": "全部声明/状态有当前用途；WebAudio ambient声明是工作let宿主类型，不恢复旧API。",
+        "H": "注册回调通过宿主stub捕获真实class，PCM核心不mock；无产品测试缝，输出可直接观察。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "Test cleanup/oracle improvements complete; no product behavior changes. Source-controller review is bounded to actual shell UI observers, not general reentrant extensions."
+    },
+    {
+      "path": "packages/game/src/shell/rix-worklet.test.ts",
+      "module": "rix",
+      "sha256": "5d52d95dd9325533f7baf9f2053dc583267a61d8a2f3c8af464be0f1b7505ba8",
+      "lines": 81,
+      "read": "full implementation/test and actual caller; old/delta recorded",
+      "axes": {
+        "A": "全文67行旧与delta，真实worklet注册/消息/PCM；Node模拟宿主只供应port/sampleRate，错误archive是IO域坏输入。",
+        "B": "说明actual PCM与实际oracle一致；referencekernel只核声道拆分，不把同核比较当音色独立证明。",
+        "C": "新增每例dispose owned processor再还原globals；referencekernel加finally，失败也释放合成器。",
+        "D": "注册class与processor实例各有边界；沿用同一合法author RIX，不制造另一个播放器副本。",
+        "E": "两身份保留，ready/PCM非零/左右声道/stop静音/disposefalse与badarchive exact error齐；四原生golden由相邻kernel支撑。",
+        "F": "processor helper只完成真实宿主入口，主例按play→render→stop→dispose顺序清晰。",
+        "G": "清理hook处理异常分支，原bodydispose仍核运行时退休，不是多余重复业务；不新增case堆数。",
+        "H": "真实module动态import，在IO注册边界stub，重置modules与globals对称，不依赖浏览器实声。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "Test cleanup/oracle improvements complete; no product behavior changes. Source-controller review is bounded to actual shell UI observers, not general reentrant extensions."
+    },
+    {
+      "path": "packages/game/src/shell/rix/kernel.ts",
+      "module": "rix",
+      "sha256": "ef7c3965bf799df826900c13cee9444aae9d60b9a70f5e7dc82eb7ad8705d908",
+      "lines": 51,
+      "read": "full implementation/test and actual caller; old/delta recorded",
+      "axes": {
+        "A": "全文51行及bridge全读；compiled exports/零imports实际验证。固定8MiB且禁止growth支撑借用Float32Array；archive由bridge复制后free，output由dispose释放。",
+        "B": "唯一注释same compiled kernel与测试/生产worklet实际一致，不把author fixture当原盘。",
+        "C": "每instance拥有独立WASM memory/engine/output，PCM返回借用subarray；caller跨render保留时显式slice。dispose幂等，4096上界与分配匹配。",
+        "D": "浏览器与Node共用合成核，bridge处理FM/70Hz，TS只处理ABI与ownership，不重复实现OPL。",
+        "E": "六现行例含四独立native黄金摘要/两率两loop，稀疏ID/坏archive/stop/dispose；source和wasm摘要匹配旧固定candidate。",
+        "F": "data/engine/output/pcm的用途与分配流程清楚，保持返回借用语义，不无故引入对象层。",
+        "G": "每个export消费已由actual module枚举，trusted RixExports cast由本仓固定ABI支撑，不新增cast或容错路径。",
+        "H": "Node可直接实例化同一WASM并观察PCM；不需假合成器或修改算法，既有golden原件可复用。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "Test cleanup/oracle improvements complete; no product behavior changes. Source-controller review is bounded to actual shell UI observers, not general reentrant extensions."
+    },
+    {
+      "path": "packages/game/src/shell/rix/kernel.test.ts",
+      "module": "rix",
+      "sha256": "731b88e52d6a5dda118b5d563f66fc932358da16638465460f2b6520ca899080",
+      "lines": 85,
+      "read": "full implementation/test and actual caller; old/delta recorded",
+      "axes": {
+        "A": "全文73行旧及delta；作者fixture和compiledWASM，合法rates44100/48000、blocks128/4096。坏archive针对明确decoder IO域。",
+        "B": "四golden注明unmodified reference与绝对deadline；已核native-reference.cpp，与bridge相对block记账算法独立。",
+        "C": "新增owned kernel afterEach释放，跨render first/last用slice正确避免借用缓冲覆盖；不共享实例。",
+        "D": "复用rixFixture但不拿同一kernel第二次输出充独立oracle；预期来自固定原生hash。",
+        "E": "六身份不增减；补first/last everyFinite，原音量/稀疏ID/差异/无效曲静音与四hash原断言保留，修补Infinity可过peak的缺口。",
+        "F": "peak只作为有输出阈值，finite断言明确；block loop和frame单位清楚。",
+        "G": "四参数行是rate×loop不同时间合同，非换数字堆例，坏archive四种结构错误仍单一拒绝case。",
+        "H": "真实CPU核确定性，无随机seed漂移；dispose后render静音仍直接验证，不依赖私有内存。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "Test cleanup/oracle improvements complete; no product behavior changes. Source-controller review is bounded to actual shell UI observers, not general reentrant extensions."
+    },
+    {
+      "path": "packages/game/src/__tests__/rix-fixture.ts",
+      "module": "rix",
+      "sha256": "459a99c75a81e9e446ed11e3824a00a1d9dea004acf1cade49c38618f69fbc8e",
+      "lines": 25,
+      "read": "full implementation/test and actual caller; old/delta recorded",
+      "axes": {
+        "A": "全文25行；作者单音RIX/MKF结构与bridge magic/header/instrument/music/terminator约束逐项对照；88track槽仅1/3/87非空。",
+        "B": "头注作者输入非原盘准确，未冒称SDLPAL生成；variation87音高72与默认60独立。",
+        "C": "每次new ArrayBuffer，slice variation避免三曲共享写入；无IO和全局状态，caller持有返回值。",
+        "D": "kernel/worklet/backend真实共同输入协议，稀疏编号有实际caller，不抽通用音频资产工厂。",
+        "E": "实际五test files为caller，golden分别核不同率/loop；fixture不能给自己计算预期，native hash在独立记录。",
+        "F": "字节偏移8/12/20/84与reader字段一一对应，20+52 instrument加保留0到84正确。",
+        "G": "每一填充字段用于reader，保留固定slot布局，不为简短删除空曲或sentinel。",
+        "H": "纯确定字节构造，无原盘/网络/生成物依赖，产物每caller自有并可直接损坏测试边界。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "Test cleanup/oracle improvements complete; no product behavior changes. Source-controller review is bounded to actual shell UI observers, not general reentrant extensions."
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap-audio.test.ts",
+      "module": "rix",
+      "sha256": "29eaba6dce6ec57096d337f3b10d0810488136200c3b29d4ca330bf75010f8f8",
+      "lines": 42,
+      "read": "full implementation/test and actual caller; old/delta recorded",
+      "axes": {
+        "A": "全文42行旧及delta，syncShellAudio真实入口，modal suspendRaf并不拦音频。fake只隔离AudioManager端口。",
+        "B": "标题限BGM/SFX意图转发，不把mock manager当实声播放。",
+        "C": "pendingSounds和gs局部拥有，stub sync按AudioManager contract清传入队列；不改共享游戏状态或bootstrap。",
+        "D": "本地AudioManager端口fake不替换生产syncShellAudio，沿用真实GameState factory。",
+        "E": "单身份保留；sync记录增加精确sounds[47]，避免错误改写SFX后仅清空仍绿；music16/looptrue/两个开关原顺序断言保留。",
+        "F": "call字符串直接列意图与顺序，独立期待不从被测输出反算。",
+        "G": "无死helper或额外恒真断言，不增运行时数量。",
+        "H": "无需启动完整bootstrap/浏览器，pure wiring通过真实入口观测协议参数，产品API未扩大。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "Test cleanup/oracle improvements complete; no product behavior changes. Source-controller review is bounded to actual shell UI observers, not general reentrant extensions."
+    },
+    {
+      "path": "packages/game/src/shell/input-direction.ts",
+      "module": "controls",
+      "sha256": "9a7a7159df05493113165a5eac28c20cf6dc4343ade0cdb63c8df9a15a15d104",
+      "lines": 10,
+      "read": "full implementation/tests and current caller/lifecycle; delta re-read for changed tests",
+      "axes": {
+        "A": "零向量由触控/摇杆死区隔离；旋转(dx=x+y,dy=y-x)与四斜向实际caller/原功能卡一致。",
+        "B": "两个转换说明足够，不把像素轴45度说成投影斜率。",
+        "C": "纯方向分类不读DOM/状态；两adapter共享此叶，状态留在contact Owner。",
+        "D": "相同原始轴语义后共享，十字键不经旋转。",
+        "E": "gamepad/touch四象限与平局垂直案例直接验证输出，非函数自比。",
+        "F": "dx/dy与旋转参数直述数学，四分支易读。",
+        "G": "没有死参数；此私有包内公共叶确有两生产caller。",
+        "H": "确定性数值入口，无副作用，adapter tests直接观察最终held键。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "No unresolved significant issue in actual page-lifetime usage. No product changes; no hardware/visual/unmount capability claim."
+    },
+    {
+      "path": "packages/game/src/shell/input-rotation.ts",
+      "module": "controls",
+      "sha256": "3607d404261b9012f63cca24f9b60248d242d62deaed9474a6c2c26a24d5d48e",
+      "lines": 24,
+      "read": "full implementation/tests and current caller/lifecycle; delta re-read for changed tests",
+      "axes": {
+        "A": "默认/未知值/受限存储有明确false或瞬时值；真实settings写，两个adapter监听。",
+        "B": "头注浏览器布局偏好与localStorage/transientPreference所有权一致；未写入存档或宣称角色方向机制。",
+        "C": "模块仅拥有偏好；不读取游戏状态，事件通知不推进世界。",
+        "D": "不和touch-visibility合万能bool helper，默认值和幂等通知合同不同。",
+        "E": "两现有测试核持久化、reimport、重复写不通知和SecurityError恢复。",
+        "F": "is/set命名与键名清楚；catch仅存储边界。",
+        "G": "两出口/事件常量都被生产消费，无旧兼容分支。",
+        "H": "Storage IO可用宿主spy，逻辑无需核心mock或专用测试API。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "No unresolved significant issue in actual page-lifetime usage. No product changes; no hardware/visual/unmount capability claim."
+    },
+    {
+      "path": "packages/game/src/shell/input-rotation.test.ts",
+      "module": "controls",
+      "sha256": "b24a2fcc4824f0c074cdf108539be421222dc3d4156cde2e960451b7267b57e7",
+      "lines": 52,
+      "read": "full implementation/tests and current caller/lifecycle; delta re-read for changed tests",
+      "axes": {
+        "A": "typed真实storage/event入口；失败spy恢复后检验可持久化。",
+        "B": "描述准确区分持久化与瞬态，不冒称真实手机。",
+        "C": "listener在finally释放，afterEach清本键/模块/mocks。",
+        "D": "默认、正常和失败恢复保留两原子测试，不复制adapter坐标轴合同。",
+        "E": "[true,false]精确通知与reimport读值独立oracle，非法旧值回默认有反例。",
+        "F": "一条正常路径一条受限路径，可直接读见状态转换。",
+        "G": "没有只核次数的业务替代或重复四象限测试。",
+        "H": "IO spy仅存储，事件/偏好逻辑实跑，时间无依赖。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "No unresolved significant issue in actual page-lifetime usage. No product changes; no hardware/visual/unmount capability claim."
+    },
+    {
+      "path": "packages/game/src/shell/gamepad-input.ts",
+      "module": "controls",
+      "sha256": "d8bfd6ce3cc90fb3942a3ecf12035ca6bcb2b79a9908f9fcca5f96c2a7d9a2ce",
+      "lines": 127,
+      "read": "full implementation/tests and current caller/lifecycle; delta re-read for changed tests",
+      "axes": {
+        "A": "稀疏设备、非standard、断开/失焦/隐藏/工具锁释放；0.35入0.2持有迟滞；旋转等回中后重开。",
+        "B": "contacts归属/迟滞说明与实现一致，硬件未实测边界保留。",
+        "C": "pure controller与浏览器rAF adapter分离；Map只存自己source联系，stop对称解绑。",
+        "D": "复用direction叶；gamepad与keyboard同键用不同source ownership不互删。",
+        "E": "真实KeyboardInputSource+合成Gamepad结构验证边沿和held；浏览器边界另测。",
+        "F": "begin/update/end式按设备联系映射可追踪；neutral等待显式集合。",
+        "G": "每分支对应当前断开/权限/切设置等输入域，不为未来设备加抽象。",
+        "H": "poll/update可直接驱动，getGamepads/rAF是可控宿主，生产无测试出口。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "No unresolved significant issue in actual page-lifetime usage. No product changes; no hardware/visual/unmount capability claim."
+    },
+    {
+      "path": "packages/game/src/shell/gamepad-input.test.ts",
+      "module": "controls",
+      "sha256": "b13e36c479b34b432a02e013d3e42fb9b97a9e821927c1c55f2ce2af0b1cba81",
+      "lines": 177,
+      "read": "full implementation/tests and current caller/lifecycle; delta re-read for changed tests",
+      "axes": {
+        "A": "10例合法standard typed状态覆盖稀疏/多个设备和键盘共持/短按/rotation/deadzone。",
+        "B": "死区数字与期望键明确，未称硬件验证。",
+        "C": "每例fresh input/controller，settings本键和mocks对称清理。",
+        "D": "四斜向同合同表驱动，button/Dpad与stick互不替代；保留有差异轴。",
+        "E": "真实snapshot期待完整集合，松开设备不误释放其他Owner，非只核dispatch次数。",
+        "F": "device/axis字段显式，动作顺序读得出因果。",
+        "G": "10例各有残差，不添加每个按键排列组合。",
+        "H": "无核心mock，Gamepad是外部IO数据，固定frame/axis可确定性复现。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "No unresolved significant issue in actual page-lifetime usage. No product changes; no hardware/visual/unmount capability claim."
+    },
+    {
+      "path": "packages/game/src/shell/gamepad-host.test.ts",
+      "module": "controls",
+      "sha256": "59dee7078b9806a0d9214fb5ba93f06fb69e61929b36fedc1e5cd2a2add22654",
+      "lines": 104,
+      "read": "full implementation/tests and current caller/lifecycle; delta re-read for changed tests",
+      "axes": {
+        "A": "rAF轮询、blur/隐藏恢复及getGamepads抛错退化键盘实际adapter。",
+        "B": "说明宿主调度和权限边界，不把API模拟写成手柄实测。",
+        "C": "frames Map与native listener由测试拥有，stop后cancel/removal有检查。",
+        "D": "与controller数值合同分层，不重跑按键矩阵。",
+        "E": "真实input held/pressed验证业务；权限失败后getGamepads不重复访问并键盘可用。",
+        "F": "raf回调手动推进揭示poll寿命，fixture紧凑。",
+        "G": "仅两个不同host合同，没有仅类型形状断言。",
+        "H": "可控RAF和navigator供给，输入逻辑实跑不增产品接缝。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "No unresolved significant issue in actual page-lifetime usage. No product changes; no hardware/visual/unmount capability claim."
+    },
+    {
+      "path": "packages/game/src/shell/touch-controls.ts",
+      "module": "controls",
+      "sha256": "025ba5a83f315f0ec97f2161cbf9f6fe083f3aaddec16c5e184f31f51d6f9b56",
+      "lines": 148,
+      "read": "full implementation/tests and current caller/lifecycle; delta re-read for changed tests",
+      "axes": {
+        "A": "WeakMap验证自建键；左键/捕获pointer身份/死区/assistive点击与键盘repeat，cancel/blur/隐藏/切旋转释放。",
+        "B": "说明命中圆盘/旋转与source身份，未把DOM click当物理手指。",
+        "C": "bind返回解绑，contact Map owned by binder；偏好和input分别外置。",
+        "D": "button与pad共享source管理但保留不同几何/边沿合同；direction叶复用。",
+        "E": "真实KeyboardInputSource测试多指/keyboard共持/取消/滑动/旋转，回收后无输入。",
+        "F": "contact类型区分pad/button，分支职责可跟踪，无巨型ctx。",
+        "G": "辅助技术键分支有真实button caller，不能以pointer测试替代删除。",
+        "H": "DOM geometry/capture可在IO边界控制；抽象键结果直接可见。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "No unresolved significant issue in actual page-lifetime usage. No product changes; no hardware/visual/unmount capability claim."
+    },
+    {
+      "path": "packages/game/src/shell/touch-controls.test.ts",
+      "module": "controls",
+      "sha256": "ca06bbe7830122617460dfb9ddd974e060e75713ebac65cd8f7bf02b14682e67",
+      "lines": 223,
+      "read": "full implementation/tests and current caller/lifecycle; delta re-read for changed tests",
+      "axes": {
+        "A": "12例真实DOM事件，合法pointer/按钮，取消与Owner共持完整集合。",
+        "B": "旋转角点和宿主stub边界写明。",
+        "C": "afterEach先unbind再移DOM，恢复rotation/storage/mocks/input。",
+        "D": "共享button factory只构造输入，pad geometry独立可控；无生产算法作oracle。",
+        "E": "四象限/滑动/两contact/quicktap/repeat/解绑各有业务差异。",
+        "F": "用pointerdown/up序列呈现意图，固定坐标推导可读。",
+        "G": "未扩测试矩阵凑覆盖，没有noThrow当业务断言。",
+        "H": "只stub capture/DOMRect，实际binder及input实跑。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "No unresolved significant issue in actual page-lifetime usage. No product changes; no hardware/visual/unmount capability claim."
+    },
+    {
+      "path": "packages/game/src/shell/touch-preference.ts",
+      "module": "controls",
+      "sha256": "2722253cf5fd1e4f644da02a9d5e1af1e77cbff40742c750002da48548a0ab80",
+      "lines": 22,
+      "read": "full implementation/tests and current caller/lifecycle; delta re-read for changed tests",
+      "axes": {
+        "A": "默认true与显式hide/show、storage失败瞬态和成功恢复边界成立。",
+        "B": "键名与事件职责清楚，浏览器偏好不入save。",
+        "C": "模块Own偏好；mounted shell订阅后决定bind，不操作输入。",
+        "D": "与rotation不同默认/通知幂等，保留分叶更清楚。",
+        "E": "新增SecurityError路径验证false/true可切换，既有测试核persist及通知。",
+        "F": "getter/setter命名直述，catch不吞业务异常。",
+        "G": "常量/出口均有caller，无旧兼容。",
+        "H": "外部Storage可模拟失败，瞬态状态无额外测试出口。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "No unresolved significant issue in actual page-lifetime usage. No product changes; no hardware/visual/unmount capability claim."
+    },
+    {
+      "path": "packages/game/src/shell/touch-preference.test.ts",
+      "module": "controls",
+      "sha256": "933a569485748e0ea8a6b58d548df320b0b406506843290a67b8347098ab367f",
+      "lines": 56,
+      "read": "full implementation/tests and current caller/lifecycle; delta re-read for changed tests",
+      "axes": {
+        "A": "新增受限Storage真实DOMException测试，原正常身份/断言不动。",
+        "B": "finally说明成功persist释放transient，与源码实际所有权一致。",
+        "C": "spy finally恢复、成功写清瞬态，再由afterEach恢复原本键。",
+        "D": "持久/失败路径不同合同，新增单例不重复通知已有轴。",
+        "E": "固定false/true值，删掉瞬态赋值会因hide断言失败；非只toHaveBeenCalled。",
+        "F": "两case正常/失败含恢复，过程短而明确。",
+        "G": "只补一个真实缺轴，无弱用例堆积。",
+        "H": "Storage是IO边界，其余真实逻辑；状态恢复即使断言失败也执行。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "No unresolved significant issue in actual page-lifetime usage. No product changes; no hardware/visual/unmount capability claim."
+    },
+    {
+      "path": "packages/game/src/shell/modal-input.test.ts",
+      "module": "controls",
+      "sha256": "a16dbbae880e4a1b72e194e87002b055c32a3f4f68c8d8bbd24bcb9415a2c3ea",
+      "lines": 112,
+      "read": "full implementation/tests and current caller/lifecycle; delta re-read for changed tests",
+      "axes": {
+        "A": "真实AVI skip499/500ms、waitForKey与DOS splash调用公开input；只消费本次边沿。",
+        "B": "时间单位与普通逻辑tick区别明确，不授视频解码/视觉信用。",
+        "C": "afterEach释放悬挂modal后detach input、清DOM/timer/mocks，避免失败悬挂。",
+        "D": "共享KeyboardInputSource跨gamepad/touch正确；三modal合同非重复适配器case。",
+        "E": "分别skip门槛/一次消费/无自动结束，真实pressed后新action可用。",
+        "F": "时间推进和snapshot顺序清楚，fixture不复制玩家状态机。",
+        "G": "3例保留不同等待所有权，无必要抽新helper。",
+        "H": "fake clock仅时间IO，核心modal和input都实跑。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "No unresolved significant issue in actual page-lifetime usage. No product changes; no hardware/visual/unmount capability claim."
+    },
+    {
+      "path": "packages/game/src/shell/menu-input-lock.glm-msio.test.ts",
+      "module": "controls",
+      "sha256": "55696288cee8d118117109d254fe776e4351e3039e829bef85aa5598b0d895b4",
+      "lines": 86,
+      "read": "full implementation/tests and current caller/lifecycle; delta re-read for changed tests",
+      "axes": {
+        "A": "tickN真实main-loop与菜单栈、合法flat地图；冻结后恢复East两步(+32,+16)。",
+        "B": "删全仓未覆盖宣称及脆弱行号/错字，只陈述已核两个相邻文件范围。",
+        "C": "纯state/bus/replay输入fresh，无全局IO；菜单拥有mode切换。",
+        "D": "两局部fixture只造typed context，不反算输出；不和目录别处私有helper硬合。",
+        "E": "A1完整party/cursor/stack/mode；A2真实tickMenu关闭后tickN行走，常量oracle。",
+        "F": "菜单开→tick→断言和关→tick顺序揭示因果。",
+        "G": "两例锁/释放各有残差，不用包绿替代核断言。",
+        "H": "headless公开入口与真实tick共用singleTick，非模拟caller。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "No unresolved significant issue in actual page-lifetime usage. No product changes; no hardware/visual/unmount capability claim."
+    },
+    {
+      "path": "packages/game/src/shell/game-shell.ts",
+      "module": "controls",
+      "sha256": "84c8ecd98ca521888703ba6bc281eba312bceeed7393125c4a78caa7b43c07bb",
+      "lines": 159,
+      "read": "full implementation/tests and current caller/lifecycle; delta re-read for changed tests",
+      "axes": {
+        "A": "main模块一次挂载/page寿命；connect重绑、tools/mobile gate与visibility释放实际caller成立。",
+        "B": "page-scoped边界按原功能卡保留，不声称任意unmount cleanup。",
+        "C": "layout IO/控件属于shell，输入/偏好/游戏世界分离；不侵入engine framebuffer。",
+        "D": "controller adapters复用，setScale只供已校验display-scale；无通用UI框架抽象。",
+        "E": "实际test核resize/desktop恢复、keyboard共持和tools遮挡/旋转触点。",
+        "F": "stage/dpad/actions与fit/updateLayout职责可见，状态写Owner在闭包。",
+        "G": "现API三个方法都有main/bootstrap/tools caller；page监听不为假想动态卸载增接口。",
+        "H": "IO边界matchMedia/ResizeObserver可控，实际DOM/input可观察；一般卸载能力未提供也未给信用。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "No unresolved significant issue in actual page-lifetime usage. No product changes; no hardware/visual/unmount capability claim."
+    },
+    {
+      "path": "packages/game/src/shell/game-shell.test.ts",
+      "module": "controls",
+      "sha256": "0794a3cea59a2f5bdc89bfa38e1903f164a64dd0b8bfc201e550456692fa003b",
+      "lines": 224,
+      "read": "full implementation/tests and current caller/lifecycle; delta re-read for changed tests",
+      "axes": {
+        "A": "三实际factory测试支持页面寿命合同；改cleanup触发真实language通知让已断开壳unsubscribe。",
+        "B": "补清理说明与产品self-unsubscribe一致，未冒称ResizeObserver真实浏览器。",
+        "C": "temporary page移除后通知/恢复语言及lang属性；既有window/document listener归属照旧对称。",
+        "D": "不mock language核心，也不为测试新增dispose产品出口。",
+        "E": "三例分别几何resize、visible/tools锁、旋转真实触点；按DOM+held结果判断。",
+        "F": "before/after显式记录语言快照，测试主体不混cleanup。",
+        "G": "只补隔离，不新增重复测试；未改三case身份和断言。",
+        "H": "宿主RAF/media/observer模拟，实际factory/touch/偏好路由执行。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "No unresolved significant issue in actual page-lifetime usage. No product changes; no hardware/visual/unmount capability claim."
+    },
+    {
+      "path": "packages/game/src/shell/presentation.ts",
+      "module": "controls",
+      "sha256": "2c6229b3b85271c52c80d9143d7aa6568aa6e2c507f30a84d4722028f4fa06bd",
+      "lines": 10,
+      "read": "full implementation/tests and current caller/lifecycle; delta re-read for changed tests",
+      "axes": {
+        "A": "SSR document缺失返回false；mobile dataset决定偏好key，存档/音源不混入。",
+        "B": "注释与移动布局隔离合同相符，不混手机硬件探测。",
+        "C": "小纯presentation边界读取布局，存储仍各Owner写。",
+        "D": "FPS/speedrun/scale复用后缀，不泛化所有持久数据。",
+        "E": "mobile-presentation与shell真实layout事件支持隔离与共享bests残差。",
+        "F": "两函数直接揭示环境与key意图。",
+        "G": "两出口都有生产caller，10行不等于自动关闭。",
+        "H": "可控document dataset和无document路径，逻辑无需IOmock。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "No unresolved significant issue in actual page-lifetime usage. No product changes; no hardware/visual/unmount capability claim."
+    },
+    {
+      "path": "packages/game/src/tools/mobile-presentation.test.ts",
+      "module": "controls",
+      "sha256": "fa9700ec52778e8677df598915053a66edd91e5f256092394a2f73ab1be6d1a1",
+      "lines": 41,
+      "read": "full implementation/tests and current caller/lifecycle; delta re-read for changed tests",
+      "axes": {
+        "A": "真实FPS/speedrun store：desktop设置不污染mobile默认，bests/rule跨layout共享。",
+        "B": "两例准确区分展示偏好与成绩/规则，不声称mobile实机。",
+        "C": "保存原layout和storage，afterEach完整恢复并清内存store。",
+        "D": "复用真实store而非并行模拟；两个namespace合同不能合一个恒真roundtrip。",
+        "E": "直接核false/true与1000ms固定best，非读取同一clone自比。",
+        "F": "桌面→手机→桌面序列清楚，输入常量表达用户选项。",
+        "G": "两独立合同、无多余mock或测试专用产品参数。",
+        "H": "store公开口与localStorage可控，无定时不确定性。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "No unresolved significant issue in actual page-lifetime usage. No product changes; no hardware/visual/unmount capability claim."
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel.mobile.test.ts",
+      "module": "controls",
+      "sha256": "772120d2e645e2da776e2bbc3ef05def2b19220f91865455bed6b99169895eda",
+      "lines": 102,
+      "read": "full implementation/tests and current caller/lifecycle; delta re-read for changed tests",
+      "axes": {
+        "A": "四例真实panel：layout切换、系统隐藏项、隐私handoff/focus、旋转记忆；只DOM合同。",
+        "B": "jsdom不支持真viewport视觉，此限制保留在证据。",
+        "C": "已接受test-host全文补读：panel listeners/timers/controllers/DOM/storage对称归还。",
+        "D": "复用host避免复制page IO；真实panel/source逻辑非mock业务。",
+        "E": "实际visibility/computedstyle/focus和偏好值，callback次数只辅助隐私handoff。",
+        "F": "各case用户动作和结果清晰，固定控件selector对应生产。",
+        "G": "四个残差保留，无逐项多次case凑数量。",
+        "H": "IO host可控，真实设置公开口可直接检查，无内部强转。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "No unresolved significant issue in actual page-lifetime usage. No product changes; no hardware/visual/unmount capability claim."
+    },
+    {
+      "path": "packages/content/src/grid.ts",
+      "module": "content-surfaces",
+      "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4",
+      "lines": 66,
+      "read": "full; actual loader/editor/render callers and canonical content/D16/D29 constraints read; affected diff re-read",
+      "axes": {
+        "A": "D16格轴16/8与height16px上移；实际walk/collision/camera caller和分数nudge都可达，输入有限性由加载/指令guard负责。",
+        "B": "把像素反解“唯一”改成各轴round，格点精确还原；不改变数学。",
+        "C": "仅数值转换和GridPos类型，无IO或运行态；content是editor/reforge共同底层。",
+        "D": "delta不round与absolute round是不同语义，不强合成mode helper。",
+        "E": "现11例独立1216/832锚、四向/quarter-step和height残差；往返只作补充非唯一oracle。",
+        "F": "col/row vs x/y区分明确，height与平面分离。",
+        "G": "常量/四转换都有生产caller，不为短文件自动接受。",
+        "H": "纯值函数确定性，几何输出可直接观测，无测试接口。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "Product executable bodies unchanged. No schema/pipeline behavior change; three redundant test files retired and excluded from primary count."
+    },
+    {
+      "path": "packages/content/src/grid.test.ts",
+      "module": "content-surfaces",
+      "sha256": "a0089d64b2f52fab7244c27406ba573d60b02135d538acda15c611423f62162b",
+      "lines": 82,
+      "read": "full; actual loader/editor/render callers and canonical content/D16/D29 constraints read; affected diff re-read",
+      "axes": {
+        "A": "legal整数与分数增量，固定D16坐标核四方向及height，不混lattice格。",
+        "B": "数学/单位和已核D16一致，不授原剧情或渲染视觉信用。",
+        "C": "每例局部值，无全局状态或渲染依赖。",
+        "D": "共享常量数值只来自D16，往返和固定锚有互补，不单靠生产自反。",
+        "E": "11例逐条核：quarter-step/四次累积/纯y/非格往返/锚/反解/height独立/四向/奇格/地面/升高；无skip。",
+        "F": "显式坐标期待能心算，fixture不绕行。",
+        "G": "两height关系测试有地面基线和非零上移残差，不堆数据组合。",
+        "H": "纯入口无mock、时钟或环境依赖。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "Product executable bodies unchanged. No schema/pipeline behavior change; three redundant test files retired and excluded from primary count."
+    },
+    {
+      "path": "packages/content/src/rich-text.ts",
+      "module": "content-surfaces",
+      "sha256": "1664f5b5ad63469c23f444c430d8ece1c7f0203dbd2fa330a01017658652146f",
+      "lines": 24,
+      "read": "full; actual loader/editor/render callers and canonical content/D16/D29 constraints read; affected diff re-read",
+      "axes": {
+        "A": "内容TextSpan中间值；dialog/layout及ScriptTree实际caller，颜色白名单/未闭合原样/非嵌套首闭合与空span合同。",
+        "B": "不声称XML解析器；单行颜色语法当前scope，嵌套/跨行能力未授。",
+        "C": "纯串→span，无DOM/locale存储，渲染色映射外置。",
+        "D": "两生产caller共享同一语法，非与一期in-band控制符混用。",
+        "E": "15现例固定完整span预期，unknown/case/mismatch等有独立拒绝轴；去掉任何字符路径会暴露断言。",
+        "F": "regex局部last/match索引可追踪；现capture assertion由白名单regex支撑，未新增强转。",
+        "G": "四颜色表确有消费；不引入完整XML parser或万能解析框架。",
+        "H": "纯确定性，输入直接可控；原有noAssignInExpressions例外未扩大/降规则。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "Product executable bodies unchanged. No schema/pipeline behavior change; three redundant test files retired and excluded from primary count."
+    },
+    {
+      "path": "packages/content/src/rich-text.test.ts",
+      "module": "content-surfaces",
+      "sha256": "ef34a54aeea8973e9a3e091113bf745bf20345e016c29ebc75a66cddf9a65aa5",
+      "lines": 40,
+      "read": "full; actual loader/editor/render callers and canonical content/D16/D29 constraints read; affected diff re-read",
+      "axes": {
+        "A": "6例真实parser纯文本/空串/中间与行首颜色/多色/未闭合合法字符串。",
+        "B": "头部和测试名与当前语法一致，不冒称跨行HTML。",
+        "C": "每例调用返回新值，本地变量无全局污染。",
+        "D": "颜色片段不同位置影响last游标，保留有残差；未知语法由残余文件负责。",
+        "E": "独立字面span数组和文字保留断言，无clone自比。",
+        "F": "小字符串表达输入边界，期待无需解释helper。",
+        "G": "6例有不同边界，无only/skip/低价值noThrow。",
+        "H": "零mock/IO/时间，不需要产品注入。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "Product executable bodies unchanged. No schema/pipeline behavior change; three redundant test files retired and excluded from primary count."
+    },
+    {
+      "path": "packages/content/src/rich-text-residual.glm-o.test.ts",
+      "module": "content-surfaces",
+      "sha256": "4b5f2a11d2600dedc06ac3787826895630042abdad991f844bf415c78f27083b",
+      "lines": 57,
+      "read": "full; actual loader/editor/render callers and canonical content/D16/D29 constraints read; affected diff re-read",
+      "axes": {
+        "A": "9例未知tag、错闭、空内容、相邻、嵌套、redAlt/red、大小写、孤儿、<字符，全部在宽容输入域。",
+        "B": "删易漂移行号/新文件治理噪音；交替标题现在用同串交替真验证。",
+        "C": "测试不读locale/global，独立调用parser。",
+        "D": "与主测普通单色分栏；redAlt与red相邻不同于cyan/red无前缀关系。",
+        "E": "完整span字面预期；增强交替输入一次parse，两个原颜色断言保留。",
+        "F": "每例一个语法轴，固定ASCII加中文容易读。",
+        "G": "不为九个已明确残差机械合并到一大case；无新helper。",
+        "H": "纯函数可直接测，非法标签是明确宽容语法而非非法fixture掩盖。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "Product executable bodies unchanged. No schema/pipeline behavior change; three redundant test files retired and excluded from primary count."
+    },
+    {
+      "path": "packages/content/src/tileset.ts",
+      "module": "content-surfaces",
+      "sha256": "69b8c266e15ee8ef1e787e911fc394460c87747f7b3251257c0cf69bda8f01df",
+      "lines": 62,
+      "read": "full; actual loader/editor/render callers and canonical content/D16/D29 constraints read; affected diff re-read",
+      "axes": {
+        "A": "当前schema稳定id→AssetId→catalog kind；loader实际传catalog，注册表guard不读物理路径。",
+        "B": "去掉未强制kebab-case的过度描述，保留不含斜杠/无高度所有权。",
+        "C": "类型/guard/resolver同一领域；无IO或跨层资源写入。",
+        "D": "catalog可选仅纯结构验证，生产loader边界显式校验，未新增fallback。",
+        "E": "主测全对象、cursor catalog缺失/错kind精确拒绝/不污染支持合同。",
+        "F": "fail path精确字段，map一步构造canonical对象清楚。",
+        "G": "resolve与validate均有生产caller，旧tiles/path拒绝是当前负边界非兼容分支。",
+        "H": "unknown边界直接可测，输入catalog注入，无测试专用接口。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "Product executable bodies unchanged. No schema/pipeline behavior change; three redundant test files retired and excluded from primary count."
+    },
+    {
+      "path": "packages/content/src/tileset.test.ts",
+      "module": "content-surfaces",
+      "sha256": "4ec5a81d6d549782064d990dafaf4fd1b6a37eaabaca1951de7062c7a330ee38",
+      "lines": 42,
+      "read": "full; actual loader/editor/render callers and canonical content/D16/D29 constraints read; affected diff re-read",
+      "axes": {
+        "A": "3例合法二条目、各负guard、resolver合法/未知/路径直通，unknown输入实际边界。",
+        "B": "合法原样标题由完整对象期待支撑；未知错误带id实际断言。",
+        "C": "无fixture级全局可变状态，reg只读输入。",
+        "D": "迁入leaf可读错误名残差，其余重复合同退役有映射。",
+        "E": "增强完整字段、未知id精确文本，旧负输入断言全部保留。",
+        "F": "合法base与单字段变体明确，错误定位直接。",
+        "G": "一个守卫组每次独立输入，不为每字段再造case。",
+        "H": "零IO/mock，返回与throw均直接观测。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "Product executable bodies unchanged. No schema/pipeline behavior change; three redundant test files retired and excluded from primary count."
+    },
+    {
+      "path": "packages/content/src/tileset.cursor-pure-wave2.test.ts",
+      "module": "content-surfaces",
+      "sha256": "f6aa6f6c726bf9e411068ce11e9c92ec54a2420501029c8ad24654ed7626b615",
+      "lines": 63,
+      "read": "full; actual loader/editor/render callers and canonical content/D16/D29 constraints read; affected diff re-read",
+      "axes": {
+        "A": "两例catalog正/缺asset/错sprite kind，catalog先过真实validateAssetCatalog。",
+        "B": "原缺失/错kind归属描述与当前存活tests一致，不宣称新coverage净增。",
+        "C": "snapshot只冻结输入，调用后原对象比较；无文件写入。",
+        "D": "复用typed catalog fixture不复制validator；同类错误不再保留music重复例。",
+        "E": "精确错误path/id/kind，正控全对象和旁记录保留；独立expect不以调用次数代替。",
+        "F": "catalog资产与tileset定义分开命名，输入变化易定位。",
+        "G": "两原子合同覆盖不同catalog可选分支，不扩矩阵。",
+        "H": "纯validator+真catalog，fixture深快照用途有限不靠其恒真helper。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "Product executable bodies unchanged. No schema/pipeline behavior change; three redundant test files retired and excluded from primary count."
+    },
+    {
+      "path": "packages/content/src/stamp.ts",
+      "module": "content-surfaces",
+      "sha256": "272fb28dcde6a8ce99dcb7a7adb24951afd11c7b3e25bcb9b1880ffbe48ce42a",
+      "lines": 77,
+      "read": "full; actual loader/editor/render callers and canonical content/D16/D29 constraints read; affected diff re-read",
+      "axes": {
+        "A": "共享ProjectMap v4 validator、nullable collision、anchor bounds、视觉非空及origin；真实load/save/draft调用。",
+        "B": "相对高度/null不参与/0可通行与D29一致；无未核原版宣称。",
+        "C": "stamp只加身份envelope，矩阵验证Owner在project-map；IO由source/save负责。",
+        "D": "复用canonical IsometricMapContent，dense/nullable不同合同用明确overload不双写算法。",
+        "E": "主测多来源/高度、空锚与越界、origin/slash；contracts矩阵行数/输入不变与migrated残差。",
+        "F": "recordAt/nonEmptyString范围窄，路径错误具名，控制流线性。",
+        "G": "format/parse及exports有实际load/save调用，不删单纯因为包装短。",
+        "H": "纯unknown guard与确定序列化直接可验，无磁盘接缝。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "Product executable bodies unchanged. No schema/pipeline behavior change; three redundant test files retired and excluded from primary count."
+    },
+    {
+      "path": "packages/content/src/stamp.test.ts",
+      "module": "content-surfaces",
+      "sha256": "2a538ce58ccc0f9848f6ee2d7461d4360e0f36df36a1304a08dadb582694366d",
+      "lines": 103,
+      "read": "full; actual loader/editor/render callers and canonical content/D16/D29 constraints read; affected diff re-read",
+      "axes": {
+        "A": "合法2x1两层多来源canonical fixture，height非零仅视觉位置，nullable collision实际调用。",
+        "B": "位置单位与空锚解释准确，origin/slash从leaf迁入既有拒绝case。",
+        "C": "每次fixture新矩阵，无引用污染，全null破坏时同步tiles/sources。",
+        "D": "同模板上分别改变一个轴，复用fixture不复制validator。",
+        "E": "增强category/相对heights直接值与LF，保留往返为补充；加入旧leaf origin/slash所有断言。",
+        "F": "2层source/height显式数据，独立预期防互相抵消。",
+        "G": "3case各族合同明确，重复leaf移除不计新接受文件。",
+        "H": "纯validator/format/parse真实执行；无强转、IO、时间。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "Product executable bodies unchanged. No schema/pipeline behavior change; three redundant test files retired and excluded from primary count."
+    },
+    {
+      "path": "packages/content/src/stamp.cursor-boundaries.test.ts",
+      "module": "content-surfaces",
+      "sha256": "384bdc5c9bfdf135f9c4c2fefa0e1f4426cd829d34d95af437c3f6a35a134222",
+      "lines": 54,
+      "read": "full; actual loader/editor/render callers and canonical content/D16/D29 constraints read; affected diff re-read",
+      "axes": {
+        "A": "row合法空格与仅col==width拒绝，失败前后input不变。",
+        "B": "头注正确只补列边界，行边界由主测承担。",
+        "C": "localfresh template，快照只做不变性对照。",
+        "D": "与row>=height*2不同边界，不按相近输入盲删。",
+        "E": "指定错误及合法空锚业务字段期待，零恒真clone自比。",
+        "F": "单case先正后负，可见col边界与row范围。",
+        "G": "一个残差case有判别力，保留；无无用生产helper。",
+        "H": "plain typed数据入口，无mock；快照JSON仅当前plain数据范围。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "Product executable bodies unchanged. No schema/pipeline behavior change; three redundant test files retired and excluded from primary count."
+    },
+    {
+      "path": "packages/content/src/tileset-stamp.contracts.test.ts",
+      "module": "content-surfaces",
+      "sha256": "cc4383d7c4f8597597be632c28374dc27dbbba77a8c85725fe63c80007aa406e",
+      "lines": 70,
+      "read": "full; actual loader/editor/render callers and canonical content/D16/D29 constraints read; affected diff re-read",
+      "axes": {
+        "A": "nullable矩阵/返回新数组、migrated+authored两条目；坏行数是单点非法输入。",
+        "B": "纠正null=无碰撞错误；更新B7题头；不再声称同测anchor。",
+        "C": "无全局状态，原输入和返回引用分别断言；deepSnapshot只用有效clone叶。",
+        "D": "行/列越界由主/cursor承担，退役双越界弱case；多origin/输入不变残差保留。",
+        "E": "删除不必要cast，真实validator矩阵结果+精确行数错误；not.toBe支撑新数组标题。",
+        "F": "两角色/同矩阵名直接，未重建生产算法。",
+        "G": "4→3例，仅删已覆盖anchor；不靠双坏输入或NoThrow。",
+        "H": "纯API可直接驱动；无测试专用公开出口。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "Product executable bodies unchanged. No schema/pipeline behavior change; three redundant test files retired and excluded from primary count."
+    },
+    {
+      "path": "packages/content/src/map-index.test.ts",
+      "module": "content-surfaces",
+      "sha256": "ec0220598b0ca557009c16ab079d4f19e129518dc8a55b8790d1445ec3cddb1e",
+      "lines": 87,
+      "read": "full; actual loader/editor/render callers and canonical content/D16/D29 constraints read; affected diff re-read",
+      "axes": {
+        "A": "public index export与validateScenes真实mapId域，路径规范化/id-name-path与新identity避双冲突。",
+        "B": "固定namespace和schema当前v1/v4来源，非旧兼容行为。",
+        "C": "localraw index无IO，与physical读写分离。",
+        "D": "吸收leaf duplicate separator/nested stem残差，现两个工具函数有真实editor创建caller。",
+        "E": "完整对象和home-3固定oracle、场景只accept稳定mapId，拒绝case不是泛空输入。",
+        "F": "数据和期望显式；一个identity case同时造id和path冲突。",
+        "G": "5case保留独立合同，旧leaf的弱notEqual identity由此强期待覆盖。",
+        "H": "纯API实际执行，fresh object，不用mock path分配算法。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "Product executable bodies unchanged. No schema/pipeline behavior change; three redundant test files retired and excluded from primary count."
+    },
+    {
+      "path": "packages/content/src/map-index.contracts.test.ts",
+      "module": "content-surfaces",
+      "sha256": "953969b3d583d0a433d686b3f126193de404a18698ba5a7640dbbcdae927d624",
+      "lines": 66,
+      "read": "full; actual loader/editor/render callers and canonical content/D16/D29 constraints read; affected diff re-read",
+      "axes": {
+        "A": "保留trim、反斜杠/后缀、非法id、lookup与nextId、tileset输入不变/缺asset，实际caller结构。",
+        "B": "描述按当前残差范围更新；错误kind重复移交cursor，未再声称不存在分支已测。",
+        "C": "fixtures本地，snapshot仅调用前值；没有存储/跨包副作用。",
+        "D": "与main/residual重复路径/id/self-index整例退役，独有名称trim/identity相同引用保留。",
+        "E": "lookup从Defined增强同一记录；剩余路径拒绝用精确消息族，旧弱重复退役有逐身份映射。",
+        "F": "表驱动命名输入和错误模式明确，无从生产生成期待。",
+        "G": "去掉空业务重复；单行table目前沿原参数化格式，非新抽象。",
+        "H": "无核心mock，纯unknown guard/lookup直接观测。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "Product executable bodies unchanged. No schema/pipeline behavior change; three redundant test files retired and excluded from primary count."
+    },
+    {
+      "path": "packages/content/src/map-index.residual.test.ts",
+      "module": "content-surfaces",
+      "sha256": "72dea3d5e5dd5a1a81ac510aa807e50578716bd3bc8677a872c111e0832b0dd4",
+      "lines": 26,
+      "read": "full; actual loader/editor/render callers and canonical content/D16/D29 constraints read; affected diff re-read",
+      "axes": {
+        "A": "根null/array、缺version/maps非数组/raw非对象/name空或空白/path数字，unknown入口真实支持拒绝。",
+        "B": "移除过时行号/未证明不重复，明确主测与contracts责任。",
+        "C": "const entry只展开不mutate，测试fresh root，本地无IO。",
+        "D": "退役version2和重复positive，主测精确版本错与正常索引承担。",
+        "E": "每项精确错误path/语义，根对象拒绝保留两不同结构；没有NoThrow作为正控信用。",
+        "F": "参数化短表表现同一守卫族，各非法字段读得出。",
+        "G": "8→7，重复而非缺口退役；name空/纯空白对trim分支有残差。",
+        "H": "unknown输入无强转，实际validator，无环境/时间。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "Product executable bodies unchanged. No schema/pipeline behavior change; three redundant test files retired and excluded from primary count."
+    },
+    {
+      "path": "packages/content/src/ambience.ts",
+      "module": "content-values",
+      "sha256": "b026a181db4daac4a2fc885a8ad0b22d89487bde96d7b56d7f4708a9441e3cd1",
+      "lines": 52,
+      "read": "full; actual runtime/editor/buildWorld caller slices and current type/contract read; changed diff re-read",
+      "axes": {
+        "A": "现行main 300ms乘色与editor通道0..255caller，只读借用颜色；t由有效时钟/时长产生，不当任意NaN输入转换器。",
+        "B": "明确day覆写/缺失回恒等与借用数组；原拟合系历史设计未新推听感/视觉。",
+        "C": "纯值解析/插值，无canvas/世界写入，实际compositor另层。",
+        "D": "runtime/editor共享语义；借用结果不clone，实际两caller创建新色不原地改。",
+        "E": "正常/未知/day覆写/254阈值/各t和非整数舍入现case独立常量支持。",
+        "F": "三个小函数命名清楚，default路径可直接跟踪。",
+        "G": "特定day允许覆写与其它id查找虽相似但缺省语义明确，未为两行提helper。",
+        "H": "所有输入纯值可控，不需改公共API或注入计时器。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "Only comments/tests changed. Actual existing finite-input/read-only borrowing bounds retained; no schema/save/commerce/color behavior changes."
+    },
+    {
+      "path": "packages/content/src/ambience.test.ts",
+      "module": "content-values",
+      "sha256": "109e691a4add1f68328b7b5d7401dbb7e752389b866a9a05fa13ece5c422b1d8",
+      "lines": 45,
+      "read": "full; actual runtime/editor/buildWorld caller slices and current type/contract read; changed diff re-read",
+      "axes": {
+        "A": "5例合法tuple及实际使用范围，白天/夜色常量与插值端点/中点/夹取。",
+        "B": "标明拟合不是完全复刻夜盘；未冒称真实绘图。",
+        "C": "常量DEFS只读使用，fresh warm数组，零环境状态。",
+        "D": "正常值与fractional在相邻契约分栏，未重复生成100颜色组合。",
+        "E": "固定117/229/186/242等算术oracle；fallback使用共享常量只作策略验证，另正常255字面基线防自比。",
+        "F": "每组两个纯函数相关度清楚，单位RGB。",
+        "G": "5例不同分支，保留，不为数量扩增。",
+        "H": "无mock/IO/时钟，直接可重复。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "Only comments/tests changed. Actual existing finite-input/read-only borrowing bounds retained; no schema/save/commerce/color behavior changes."
+    },
+    {
+      "path": "packages/content/src/ambience-skill.glm-o.test.ts",
+      "module": "content-values",
+      "sha256": "625c74f7b60cf55914b351fd5a8135fda514c92c49251f40f25561ceeee1a0b9",
+      "lines": 78,
+      "read": "full; actual runtime/editor/buildWorld caller slices and current type/contract read; changed diff re-read",
+      "axes": {
+        "A": "五纯值case分别核分数舍入、侧向override/静态闭包与unbound透传；skill定义typed合法。",
+        "B": "删未证明全仓零覆盖/行号断言；portrait浅拷贝标题补not.toBe。",
+        "C": "三组完全独立无共享状态/IO，暂保紧凑五case合同包；不引入产品跨域依赖。",
+        "D": "未再从生产生成oracle，side列表固定；不为一条小残差拆多宿主文件。",
+        "E": "值与引用身份区分：效果/动画借用、portrait新对象；新增not.toBe真正核标题，不靠等值clone。",
+        "F": "三个describe各直指生产symbol，短fixture可读。",
+        "G": "每case有不同合同，未新增弱case，不为格式改产品结构。",
+        "H": "纯公开口，zero核心mock；相邻skill/author resolver实际caller及边界补读。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "Only comments/tests changed. Actual existing finite-input/read-only borrowing bounds retained; no schema/save/commerce/color behavior changes."
+    },
+    {
+      "path": "packages/content/src/shop.ts",
+      "module": "content-values",
+      "sha256": "feb60e8a23a569b7a7448e7998d584839037c28cb104f489ec1e568a6c927920",
+      "lines": 62,
+      "read": "full; actual runtime/editor/buildWorld caller slices and current type/contract read; changed diff re-read",
+      "axes": {
+        "A": "ShopDef当前数值id/可重复货单；真实shopInput选项/确认后shopBuy/Sell/卖列表；只消费已校验world/item。",
+        "B": "每次1个/买价卖价和装备不在背包与当前调用一致。",
+        "C": "纯WorldState→新值结算；IO/确认phase与画面属于shop-box。",
+        "D": "结构guard/业务函数同域，未知物返回null为用户拒绝合同不兼容fallback。",
+        "E": "合法world/test item，买新/叠加/不足、卖光/剩一/不可卖/过滤；加强源inventory不变。",
+        "F": "it局部商品定义和inv一步转换，控制流直线且职责小。",
+        "G": "四出口+validator均实际caller，没把价格公式写到UI。",
+        "H": "纯参数可直接测试，不需商店宿主mock或副作用API。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "Only comments/tests changed. Actual existing finite-input/read-only borrowing bounds retained; no schema/save/commerce/color behavior changes."
+    },
+    {
+      "path": "packages/content/src/shop.test.ts",
+      "module": "content-values",
+      "sha256": "b9f34325abd95a072bbd1ea40ef25598d651dab993cd010c5ecc3e7b71badc38",
+      "lines": 113,
+      "read": "full; actual runtime/editor/buildWorld caller slices and current type/contract read; changed diff re-read",
+      "axes": {
+        "A": "合法party空但商店只用money/inventory，物品价/不可卖都typed定义；10坏table未知输入合适。",
+        "B": "源不变标题新增完整world常量支撑，不冒称没有触发结算时错误UI。",
+        "C": "每次新world/数组，ITEMS只读；无全局catalog或IO。",
+        "D": "多字段table守卫归一族，业务5case各有行为差异。",
+        "E": "新增买/卖前完整world期待，库存变异不再仅通过money断言；精确50/25钱数独立。",
+        "F": "固定商品名字/价与inv显式，故障位可定位。",
+        "G": "没有为了覆盖率恢复死路径，保持case总数。",
+        "H": "无mock/环境/时钟，直接结算口。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "Only comments/tests changed. Actual existing finite-input/read-only borrowing bounds retained; no schema/save/commerce/color behavior changes."
+    },
+    {
+      "path": "packages/content/src/shop.cursor-pure-wave2.test.ts",
+      "module": "content-values",
+      "sha256": "7f2a2f9a67412bd8f2eedfd4b673d1b38c7144b1cccae36c385cc386ae837725",
+      "lines": 38,
+      "read": "full; actual runtime/editor/buildWorld caller slices and current type/contract read; changed diff re-read",
+      "axes": {
+        "A": "rich未知商品拒绝与two→one卖出、未卖货保留，实际typedworld/legalitem。",
+        "B": "头注区别既有钱不够和卖光轴正确。",
+        "C": "snapshot对应实际同一传入world，非clone自己比较。",
+        "D": "复用typed WAVE2商品fixture，未硬并普通卖光case。",
+        "E": "完整money/party/skills/inventory与源count2，业务断言非mock次数。",
+        "F": "purse只造上下文，待测输入和独立预期清晰。",
+        "G": "单case两个负/正残差相互独立，必要断言不删。",
+        "H": "纯业务真实口，时间/IO不参与。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "Only comments/tests changed. Actual existing finite-input/read-only borrowing bounds retained; no schema/save/commerce/color behavior changes."
+    },
+    {
+      "path": "packages/content/src/world-variable.ts",
+      "module": "content-values",
+      "sha256": "ff1c655944da906e1eda84346bda1fde59cafa64af56683fbc09971f234fc198",
+      "lines": 116,
+      "read": "full; actual runtime/editor/buildWorld caller slices and current type/contract read; changed diff re-read",
+      "axes": {
+        "A": "author registry与buildWorld fresh flags/vars；id规则/sys保留、精确字段、有限数及128/80/500限制按当前卡/consumer。",
+        "B": "注释明确作者默认不是运行值，读档未回灌默认；不混旧全局变量舞蹈。",
+        "C": "validator owns canonical registry clone；初值构建返回运行态fresh maps，无全局写。",
+        "D": "同validator供loader/editor/buildWorld；不得从save猜定义，现模块无compat。",
+        "E": "主测类型/额外字段/finite/clone，加leaf长度与产物写回隔离，固定预期。",
+        "F": "discriminated flag/number与具名path便于读，record/exactKeys私有窄。",
+        "G": "公共限值被当前guard/测试消费，不能为无直接UI导入删约束；无旧upgrader。",
+        "H": "纯unknown输入可直接检验，output引用可观察，无核心mock。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "Only comments/tests changed. Actual existing finite-input/read-only borrowing bounds retained; no schema/save/commerce/color behavior changes."
+    },
+    {
+      "path": "packages/content/src/world-variable.test.ts",
+      "module": "content-values",
+      "sha256": "7f5ba6130eb80dca82c362d7b2d555cb9ccb9f50452173e2fbc10a3ea26eb7ec",
+      "lines": 70,
+      "read": "full; actual runtime/editor/buildWorld caller slices and current type/contract read; changed diff re-read",
+      "axes": {
+        "A": "8例实际validator与initial入口，合法2.5数值/falseflag；未知key/坏id/Infinity反例。",
+        "B": "detached title有根与子对象not.toBe支持。",
+        "C": "fresh输入/返回值引用隔离，不触发loader或实际存档。",
+        "D": "主测普通id/默认值，leaf剩长度/修改runtime后新开局残差。",
+        "E": "精确错误模式与独立flags/vars字面oracle；second equality仅辅以not.toBe。",
+        "F": "明示两种kind，有效false不被当缺值。",
+        "G": "输入族少而明确，不新增表格组合。",
+        "H": "纯口确定性，直接断言无helper偷算预期。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "Only comments/tests changed. Actual existing finite-input/read-only borrowing bounds retained; no schema/save/commerce/color behavior changes."
+    },
+    {
+      "path": "packages/content/src/world-variable.glm-leaf-wave.test.ts",
+      "module": "content-values",
+      "sha256": "72b2d2760a847509cc755012683c23b7847103fe746c2f60bb0c655304e4f103",
+      "lines": 71,
+      "read": "full; actual runtime/editor/buildWorld caller slices and current type/contract read; changed diff re-read",
+      "axes": {
+        "A": "3例长度/字段类型与初始化隔离；非法值经unknownguard无压类型。",
+        "B": "“修改产物”原注释现在真正执行修改，未再声称恒真读值算隔离。",
+        "C": "去无谓JSONclone，直接传作者registry后改runtime产物并复核作者/后来新档。",
+        "D": "删id空白/sys/模式重复断言留主测；leaf只128/129长度与类型/隔离。",
+        "E": "128/129用独立合同数字，flags false与vars99变异后作者true/7和later defaults固定预期。",
+        "F": "三case标题与实际行为一致，强断言因果清楚。",
+        "G": "case数仍3，不为填覆盖率堆assertions；重复域已精简。",
+        "H": "公开纯入口可测，registry const不被变异；无IO/随机/mocks。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "Only comments/tests changed. Actual existing finite-input/read-only borrowing bounds retained; no schema/save/commerce/color behavior changes."
+    },
+    {
+      "path": "packages/content/src/author-dialogue.ts",
+      "module": "author-dialogue",
+      "sha256": "d42cc16c8ab1ab46fb6b6f97ba00c85bf39d891f2898cb29190e1513dedda456",
+      "lines": 216,
+      "read": "full source and all four specs, current author-script projection/loader and ActorDef neighbours; diff reread",
+      "axes": {
+        "A": "full216行形状guard+actor/unbound/narration resolver；当前loader通过author-script树投影，asset/演员默认/表情缺失fail-loud。",
+        "B": "unbound是正式非人物表达而非兼容fallback；slot不参与身份，行speed/autoAdvance单位由邻接types约束。",
+        "C": "定义/守卫/纯投影同一领域，actors显式传入，无locale/文件/DOM全局。",
+        "D": "runtime/tree/editor共享一个resolver；不与一期in-band对话结构合并。",
+        "E": "当前四套18→15 identity映射核未知输入、零值复制和rows引用；业务结果真实。",
+        "F": "辅助guard名字对应窄职责，错误带path，联合case易定位。",
+        "G": "三个identity case是当前canonical，无历史upgrader；所有公共出口有生产caller。",
+        "H": "unknown边界与纯输出易测，IO分离，无专用测试接口。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "Tests only: removed duplicate/illegal-cast fixtures and strengthened full values/zero preservation/rows ownership. No product/schema/UI change."
+    },
+    {
+      "path": "packages/content/src/author-dialogue.test.ts",
+      "module": "author-dialogue",
+      "sha256": "574137c07c391986f2f8f2e81e18211979a3ea7874761c7a84195dca33a5b757",
+      "lines": 157,
+      "read": "full source and all four specs, current author-script projection/loader and ActorDef neighbours; diff reread",
+      "axes": {
+        "A": "五例实际actor默认/覆盖/表情、资源缺失、旧形状拒绝、树投影，ActorDef为合法完整/无portrait配置。",
+        "B": "未声称完整renderer/E2E；标题与实际未知引用错误一致。",
+        "C": "本地immutable演员对象，无全局registry或状态污染。",
+        "D": "资源三拒绝精确主测取代contracts重复弱case；树caller保留独有执行层。",
+        "E": "表达式输出从partial增强full对象+rows；负用例精确Actor/default/expression错误。",
+        "F": "身份与captionoverride明确，输入/期待语义独立。",
+        "G": "5例无减；不再由旁弱fixture强转case撑重复信用。",
+        "H": "纯guard/projection执行，不mock递归/actor解析。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "Tests only: removed duplicate/illegal-cast fixtures and strengthened full values/zero preservation/rows ownership. No product/schema/UI change."
+    },
+    {
+      "path": "packages/content/src/author-dialogue.contracts.test.ts",
+      "module": "author-dialogue",
+      "sha256": "71df64259e2a54b0abdfa3b7ad76b9a8428bc1150a4f0b81e3a0079936bbea51",
+      "lines": 87,
+      "read": "full source and all four specs, current author-script projection/loader and ActorDef neighbours; diff reread",
+      "axes": {
+        "A": "合法actor表与cue，补speed0/autoAdvance0/slot实际投影；坏kind及side单轴守卫。",
+        "B": "去脆弱行号，E2题头改完整值/输入归属；不冒称本文件还跑已移交缺资源例。",
+        "C": "cue及实际传入actor table先snapshot，返回rows/row不别名，所有值本地fresh。",
+        "D": "空rows/字符串rows归field-guards；缺Actor/default/expression归主测，不保留双cast旧弱fixture。",
+        "E": "完整resolved字面值、not.toBe行数组和对象、input不变；去Object.fromEntries无谓强转。",
+        "F": "删除大段加工坏Actor数据，剩余输入/期待直接。",
+        "G": "7→4例（两rows重复+一资源重复退役），没有删独有合同；原件/映射保留。",
+        "H": "未知坏kind从unknown入口，纯projection结果直接可测，无强转伪合法。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "Tests only: removed duplicate/illegal-cast fixtures and strengthened full values/zero preservation/rows ownership. No product/schema/UI change."
+    },
+    {
+      "path": "packages/content/src/author-dialogue.cursor-pure-wave2.test.ts",
+      "module": "author-dialogue",
+      "sha256": "6311c69276341b2570b40f54f288ceb86e90e0112f064f76af7d3b4dc46ad453",
+      "lines": 34,
+      "read": "full source and all four specs, current author-script projection/loader and ActorDef neighbours; diff reread",
+      "axes": {
+        "A": "无portrait合法Actor只speaker；slot top/cursor2透传且两份输入不变。",
+        "B": "说明只补slot/cursor与无portrait，不称角色图像渲染。",
+        "C": "actor/scene外部状态不写，snapshot针对真输入。",
+        "D": "此axis不同默认/表情身份分支，不重复主测。",
+        "E": "完整输出无portrait属性、top/2精确期待，不以notThrow代业务。",
+        "F": "短cue fixture与ActorDeffactory具名，intent可读。",
+        "G": "一个残差case，保留而不拓展全slot矩阵。",
+        "H": "真实guard/resolver调用，IO无关，typed合法输入。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "Tests only: removed duplicate/illegal-cast fixtures and strengthened full values/zero preservation/rows ownership. No product/schema/UI change."
+    },
+    {
+      "path": "packages/content/src/author-dialogue.field-guards.test.ts",
+      "module": "author-dialogue",
+      "sha256": "89973181ea54cbe2f14c70d2e9c306e585dd69974e1acbe9fe9c8d8d54a65f5b",
+      "lines": 81,
+      "read": "full source and all four specs, current author-script projection/loader and ActorDef neighbours; diff reread",
+      "axes": {
+        "A": "5族每次单坏字段，speed/advance0/小数合法；rows6不发明上限，slot4值/cursor0..2。",
+        "B": "头注与当前guard一致，无旧行号或全仓未覆盖宣称。",
+        "C": "base每次newcue，唯一snapshot针对实际withAdvance输入；无全局状态。",
+        "D": "rows重复从contracts退役，这里保留正反配对；不同数值域不强抽万能bad-fieldhelper。",
+        "E": "去全部as never，unknown字面反例由真实asserts入口接收；既有业务断言全保留。",
+        "F": "删除错误类型伪装后非法输入一眼可见，helper返回自然推断。",
+        "G": "5case同字段族原子，未新增重复轴/放宽断言。",
+        "H": "guard void API的合法不抛是实际准入合同；不mock核心，非法slot不强装AuthorDialogueCue。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "Tests only: removed duplicate/illegal-cast fixtures and strengthened full values/zero preservation/rows ownership. No product/schema/UI change."
+    },
+    {
+      "path": "packages/content/src/enemy-ai.ts",
+      "module": "enemy-ai",
+      "sha256": "63c34d82705805c20eaa016eecf42790b236d7407dc082909613879c32b0c9c2",
+      "lines": 160,
+      "read": "full implementation/specs; actual consumer slices/related types/canonical boundary read; changed delta re-read",
+      "axes": {
+        "A": "typed AiCond经enemy-script guard，BattleView由真实battle-core构造；rng有限[0,1)，players为活槽；once indices仅当前def数组并transform清空。",
+        "B": "更正tie取输入先出现，不承诺任意数组自动按slot排序；runtime恰按槽提供。",
+        "C": "纯策略与battle/session动作/IO分离，rng和fired显式输入，返回不写世界。",
+        "D": "hook/session共享eval；AI策略不混剧情演出词汇，未抽万能walker。",
+        "E": "9主测+tie残差/guard叶，强化strict threshold、any与短路/完整ruleIdx，实际runtime相邻回归。",
+        "F": "分支直接依cond.kind；局部规则序与first-match含义可读。",
+        "G": "所有exports有生产caller；short-circuit保持随机序，不把优化改成总遍历。",
+        "H": "纯view/rng可注入，no核心mock，必要反控仅验证新增any断言判别力。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "Only factual comments/tests changed; no product behavior/asset/schema/save/interface changes."
+    },
+    {
+      "path": "packages/content/src/enemy-ai.test.ts",
+      "module": "enemy-ai",
+      "sha256": "96311c08d2729db5f7d00afe01f3e760893624c1e59a7bf65448a567bd6040be",
+      "lines": 141,
+      "read": "full implementation/specs; actual consumer slices/related types/canonical boundary read; changed delta re-read",
+      "axes": {
+        "A": "合法typed rules/view/rng，hp百分比及活槽一致；equal threshold新增false防<→<=漂移。",
+        "B": "组合子标题现在真执行any/empty与短路，未冒称每个组合已穷尽。",
+        "C": "每例fresh fired；sharedrules从不改写，无随机全局和副作用。",
+        "D": "正常概率落空与规则条件/once组合有不同残差；精确旁GLM规则例仅邻接不计信用。",
+        "E": "once结果从kind增强完整action+ruleIdx；any真假/空集与不耗RNG和返回结果共同核。",
+        "F": "view override显式保留self字段，固定规则index期待直观。",
+        "G": "不添case只补现标题缺轴，无弱mock次数当业务唯一oracle。",
+        "H": "rng是设计注入端，vi.fn只观察随机消耗，真实eval/decide执行。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "Only factual comments/tests changed; no product behavior/asset/schema/save/interface changes."
+    },
+    {
+      "path": "packages/content/src/enemy-ai.cursor-pure-wave2.test.ts",
+      "module": "enemy-ai",
+      "sha256": "644355305ae1e2a7de2178ad59fcc50defb9ad4794c40d332b99d0c4bdf52d54",
+      "lines": 30,
+      "read": "full implementation/specs; actual consumer slices/related types/canonical boundary read; changed delta re-read",
+      "axes": {
+        "A": "highestHp不同槽2/3并列且输入不改，checkEnemyAi先核target合法。",
+        "B": "相邻主测random/lowest/strongest范围声明准确。",
+        "C": "实际players对象先snapshot，零持久状态。",
+        "D": "highestHp tie不与GLM strongest tie/uniquehighest盲删，函数输入语义不同。",
+        "E": "固定期望2与完整输入不变，非结果自比/只查非空。",
+        "F": "名字与最大200/并列值一眼可识别。",
+        "G": "单残差case，旁字段不变断言支持ownership不扩矩阵。",
+        "H": "纯target口，无IO或核心mock。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "Only factual comments/tests changed; no product behavior/asset/schema/save/interface changes."
+    },
+    {
+      "path": "packages/content/src/enemy-validation-shapes.ts",
+      "module": "enemy-ai",
+      "sha256": "012af705f55cca01000830fe6fed37962afe990e45fc2a75f52980667e8ec8b6",
+      "lines": 37,
+      "read": "full implementation/specs; actual consumer slices/related types/canonical boundary read; changed delta re-read",
+      "axes": {
+        "A": "六unknown叶actual enemy-script/condition/choreography caller；positiveInteger按当前正整数合同非safe上限，percent0..100先finite。",
+        "B": "无误导注释；未把纯shape验证冒称引用/业务全校验。",
+        "C": "只同域shape guard，无全局写；错误path由父传。",
+        "D": "exactKeys/finite/percent间共享实际同合同；其他schema空串/整数策略不同不强提全仓helper。",
+        "E": "叶cases直接核身份、路径、端点、错误类型，父validator相邻核组合。",
+        "F": "小函数名和错误信息直接表意，无过宽ctx。",
+        "G": "六出口均在实际父guard消费，Number转换仅已判整数，不新增兼容分支。",
+        "H": "纯值/throw易测，父函数不需要mockhelper。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "Only factual comments/tests changed; no product behavior/asset/schema/save/interface changes."
+    },
+    {
+      "path": "packages/content/src/enemy-validation-shapes.leaf.test.ts",
+      "module": "enemy-ai",
+      "sha256": "28441631a0fb818e44b101f0789f37432dd3fd96e68c12df19bb4efb656fc28b",
+      "lines": 142,
+      "read": "full implementation/specs; actual consumer slices/related types/canonical boundary read; changed delta re-read",
+      "axes": {
+        "A": "未知输入直入guard，合法同型control；对象snapshot是实际input，数字/字符串值直接期待。",
+        "B": "删无证全仓此前无直接test/旧R1过程噪音；保留明确direct-vs-parent边界。",
+        "C": "guard-leaf fixtures全文补读：run参数真正送同一input，error捕获全message，finally无全局spy。",
+        "D": "父组合和direct leaf身份/路径不同合同，保留；不以正控次数当净新增。",
+        "E": "完整精确错误，record透传同引用、percent两端/finite负小数合法；每负例预设正控，无skip。",
+        "F": "describe按六symbol分区，表项标明坏值意图。",
+        "G": "只有无谓as object删除；未堆机械覆盖率case或改变规则。",
+        "H": "真实leaf口+简单test helper，断言失败为业务AssertionError，非collection借口。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "Only factual comments/tests changed; no product behavior/asset/schema/save/interface changes."
+    },
+    {
+      "path": "packages/content/src/scene-index.test.ts",
+      "module": "content-index-diagnostics",
+      "sha256": "d1b205d720ff60b55f0d4a5c1e3cc12af296483027ef3a1d0a0fb1ff65000c23",
+      "lines": 72,
+      "read": "full implementation/specs; actual consumer slices/related types/canonical boundary read; changed delta re-read",
+      "axes": {
+        "A": "current v1索引/public出口，stable id/name/path与id+path双冲突，现行content-schema22目录合同。",
+        "B": "标题只指schema/index不称加载全部场景；无旧路径兼容宣称。",
+        "C": "pure构造数据不IO，indexsource全文补读与loader路径消费核。",
+        "D": "场景与地图命名回退/目录参数不同，不为相似短代码盲合；测试不复写identity算法。",
+        "E": "三个case完整对象/显式home-3预期，旧版本/坏id/name/重复id/path/根外/自覆盖各真实guard。",
+        "F": "输入冲突和固定输出有因果，可直接读。",
+        "G": "3例不同族保留；相邻boundaries补容器与自定义目录不重复普通默认。",
+        "H": "纯出口不mock，字段未知输入不强转，确定性。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "Only factual comments/tests changed; no product behavior/asset/schema/save/interface changes."
+    },
+    {
+      "path": "packages/content/src/scene-index.boundaries.test.ts",
+      "module": "content-index-diagnostics",
+      "sha256": "7767e3f911a0c7fe2eebc773a25f365051dd51f1274ee1725f47263a995ad855",
+      "lines": 66,
+      "read": "full implementation/specs; actual consumer slices/related types/canonical boundary read; changed delta re-read",
+      "axes": {
+        "A": "4坏容器+5危险路径+自定义目录case；每次其余字段合法，根/entry/path错误真实触发。",
+        "B": "标题/无变异与实际snapshot一致，path fallback为作者新id不是旧格式fallback。",
+        "C": "同对象snapshots；返回查找用同引用，对路径normalize不写source。",
+        "D": "默认路径由主测承担，这里customindex/非ASCIIstem和slash/case残差保留。",
+        "E": "精确字段消息、固定scene-2/room-a路径、lookup identity，安全路径正控可辨。",
+        "F": "表驱动同一拒绝族清楚，suffix碰撞通过明确input读出。",
+        "G": "未为坏值矩阵任意扩数量，10现例各有意义。",
+        "H": "零环境mock/真实磁盘，pure入口真实执行。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "Only factual comments/tests changed; no product behavior/asset/schema/save/interface changes."
+    },
+    {
+      "path": "packages/content/src/locale.ts",
+      "module": "content-index-diagnostics",
+      "sha256": "e76c5286f6e540846bbef60ee4b2be56f5595d795f057ed2719f18eff9e5b1c6",
+      "lines": 9,
+      "read": "full implementation/specs; actual consumer slices/related types/canonical boundary read; changed delta re-read",
+      "axes": {
+        "A": "TextId→译文、未命中回id；actual dialog resolveText/tree consumers，空译文与缺失不同。",
+        "B": "开发漏填可见策略说明准确，不称自动语言切换或fallback版本兼容。",
+        "C": "纯查表，与global选语言/资源加载分离；不mutate表。",
+        "D": "编辑/运行共享同一lookup，颜色解析另层。",
+        "E": "两case固定命中/缺失，新增现例中空串期待防||错误替代??。",
+        "F": "resolveText用nullish fallback单表达式明确“缺失才回id”；空串译文仍保留，不靠注释补隐藏控制流。",
+        "G": "export真caller多；无缓存/包装或无关默认参数。",
+        "H": "只需Locale映射与TextId两个值即可直测，零IO/时钟或全局语言服务；空串差异可由固定输入直接证伪。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "Only factual comments/tests changed; no product behavior/asset/schema/save/interface changes."
+    },
+    {
+      "path": "packages/content/src/locale.test.ts",
+      "module": "content-index-diagnostics",
+      "sha256": "4fa2ec9a40233013818a755e6abfba3c8b2a4417fe7e213d26279dad30b1e00c",
+      "lines": 15,
+      "read": "full implementation/specs; actual consumer slices/related types/canonical boundary read; changed delta re-read",
+      "axes": {
+        "A": "合法Locale含正常/空值，未知id为合法查表请求。",
+        "B": "新增注释明确空译文已存在，非资源失败fallback。",
+        "C": "常量表只读，每次独立lookup无模块状态。",
+        "D": "正常空串同一命中合同，放现例不新建弱case。",
+        "E": "literal游魂/空串/id fallback三期待独立，无clone自比。",
+        "F": "两个短case按命中/不命中划分。",
+        "G": "仍2case，补判别力而非增数量。",
+        "H": "真实lookup纯入口，无mock。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "Only factual comments/tests changed; no product behavior/asset/schema/save/interface changes."
+    },
+    {
+      "path": "packages/content/src/migration-diagnostic.test.ts",
+      "module": "content-index-diagnostics",
+      "sha256": "11e987be2d2190253c8def7baabdb7935d1cc6e44ba793d01bcc7e74c6e38c35",
+      "lines": 66,
+      "read": "full implementation/specs; actual consumer slices/related types/canonical boundary read; changed delta re-read",
+      "axes": {
+        "A": "合法完整record+empty、重复id/未知category/非法capability均单点改变，source完整合法。",
+        "B": "移除已迁boundary的空source标题；类别集用五字面期待支撑当前集合。",
+        "C": "fresh factory，duplicate只在该对象push，不触发实际item状态。",
+        "D": "source.label单点由更精确boundary承担；GLM两例独有empty/set并入本文件。",
+        "E": "unknowncategory这次用合法id/reason/target/source真正到category，而非先缺id失败；identitytoBe保持。",
+        "F": "三层数据显式对应领域，负例只改一个字段。",
+        "G": "仍2case；整份重复leaf不计新文件，映射保留。",
+        "H": "unknownvalidator真实执行，无mock/raw资产。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "Only factual comments/tests changed; no product behavior/asset/schema/save/interface changes."
+    },
+    {
+      "path": "packages/content/src/migration-diagnostic.boundaries.test.ts",
+      "module": "content-index-diagnostics",
+      "sha256": "e0009c6be7295405bf0b71143962f92deef4adef0d0b4c6274a81487111e9e9b",
+      "lines": 124,
+      "read": "full implementation/specs; actual consumer slices/related types/canonical boundary read; changed delta re-read",
+      "axes": {
+        "A": "legalDiagnostic先过guard，address0合法；target/source字段与category×capability当前域，负输入只坏指定轴。",
+        "B": "删旧行号；未知元信息改称当前元信息而非前向版本兼容。",
+        "C": "深快照针对同对象；diagnosticAt取新factory数据不共享修改。",
+        "D": "主测id/category/capability与此容器/字段/矩阵不同残差，重复source负轴集中此处。",
+        "E": "完整字段path预期、原输入不变/同对象返回；category集合独立字面oracle另在主测，矩阵不单靠生产表自证。",
+        "F": "badTarget/badSource薄变体名直述，for组合清楚。",
+        "G": "4现例族合同保留；不为15合法组合各拆一case，weakleaf删除。",
+        "H": "纯guard可直测，未知shape的局部cast为取known fixture field而非压非法业务类型；无新cast。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "Only factual comments/tests changed; no product behavior/asset/schema/save/interface changes."
+    },
+    {
+      "path": "packages/game/package.json",
+      "module": "configuration-fixtures",
+      "sha256": "2cecf398149b696cecab75e9bc169026a49c6e993a729b627b06b5c73b5b5718",
+      "lines": 25,
+      "read": "full primary; actual caller/type/lifecycle and changed delta read; dependencies not primary credit",
+      "axes": {
+        "A": "实际Vite/game shell/audio import与root pnpm workspace入口核对；private/ESM与源码扩展名一致，命令不改。",
+        "B": "没有过时机制注释；dev端口6005是声明而非E2E实跑保证。",
+        "C": "浏览器运行依赖shared、spessasynth与宿主测试依赖分开，根工具统一持有TS/Vitest。",
+        "D": "workspace shared复用当前公共数据；没有重复包或为未来需求新增工具。",
+        "E": "既有包脚本驱动真实typecheck/默认reporter；passWithNoTests不是本窗验收凭证，原件显示实际文件数。",
+        "F": "脚本名字表意且package私有属性明确，未发现命名缺口。",
+        "G": "依赖已有具体生产/构建/测试import，无无用新增项；不修改锁文件。",
+        "H": "确定命令和本地宿主已可运行；完整程序与browser构建边界由全仓门核，不拿短配置自动关闭。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "Test/comment/unused test-helper cleanup only; no product body/schema/save/asset/public runtime API change."
+    },
+    {
+      "path": "packages/game/tsconfig.json",
+      "module": "configuration-fixtures",
+      "sha256": "65ddf6bb2e5106f11f10c87eb9c2ed733603517ccbce4a27c226a4cf5e3aaa9c",
+      "lines": 12,
+      "read": "full primary; actual caller/type/lifecycle and changed delta read; dependencies not primary credit",
+      "axes": {
+        "A": "extends根strict配置，src包含业务和原盘测试，需要DOM/Node ambient；全文读取root配置与实际node导入。",
+        "B": "纠正rootDir能禁止业务node import的错误注释；明确它只约束源归属。",
+        "C": "配置职责与浏览器依赖边界分开，Node ambient对整个program生效不虚构隔离。",
+        "D": "沿用根strict规则；不复制大份compilerOptions，不降低任何检查。",
+        "E": "已有game tsc零诊断，注释变化不改编译选项；集中门再次核最新测试。",
+        "F": "少量局部选项与继承关系直述，不添加误导性抽象。",
+        "G": "所有override有包环境理由；未新增ignore/exclude/cast，rootDir/outDir仍实际作用。",
+        "H": "可直接tsc复验；配置JSONC语义与基点完全相同，compiler验证独立于文字。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "Test/comment/unused test-helper cleanup only; no product body/schema/save/asset/public runtime API change."
+    },
+    {
+      "path": "packages/game/vitest.config.ts",
+      "module": "configuration-fixtures",
+      "sha256": "e56a03b609ee6177c3e27f99521d6f142a5bd8c4c0d7ad865b2ce2b9e84d7a92",
+      "lines": 14,
+      "read": "full primary; actual caller/type/lifecycle and changed delta read; dependencies not primary credit",
+      "axes": {
+        "A": "jsdom、setup与Canvas/png真实宿主对应；既有e2e排除是Playwright域，未改选取。",
+        "B": "maxWorkers1解释真实全地图大内存输入，未以提高timeout来掩盖测试问题。",
+        "C": "宿主环境与业务断言分离，setup不拥有游戏状态；每文件Vitest隔离。",
+        "D": "统一设置复用包测试，不逐例重复创建同类全局mock。",
+        "E": "默认deadline保留；本窗native实际执行数与fixture反控另核，不以passWithNoTests算接受。",
+        "F": "14行设置直接揭示资源限制和环境，无隐藏模式参数。",
+        "G": "无新排除/ignore或未消费设置，workers1不代替业务反控。",
+        "H": "已实跑13等多个文件集；结果来自原生reporter，硬性诊断门仍集中执行。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "Test/comment/unused test-helper cleanup only; no product body/schema/save/asset/public runtime API change."
+    },
+    {
+      "path": "packages/game/vitest.setup.ts",
+      "module": "configuration-fixtures",
+      "sha256": "9d1b923f6abc71a5af3e9be094d2945f853a2f4319a036aba9813e86f116e93e",
+      "lines": 20,
+      "read": "full primary; actual caller/type/lifecycle and changed delta read; dependencies not primary credit",
+      "axes": {
+        "A": "createImageBitmap实际png caller传Blob；Canvas loadImage复制bytes，ImageData供framebuffer转换。",
+        "B": "现有ts-expect-error局限明确在宿主适配，不冒称完整ImageBitmap API。",
+        "C": "只在API缺席时安装，模块测试进程拥有全局，游戏业务无测试依赖。",
+        "D": "集中宿主桥复用真实Canvas，而非各spec伪造context原型；本窗删除多份假context。",
+        "E": "png像素与真实Canvas测试验证真实图像字节；并非把putImageData mock次数当正确。",
+        "F": "小桥接显式Blob→Buffer→Image，失败自然reject，无吞错。",
+        "G": "现有close no-op针对Node Image无GPU资源；不新增强转/屏蔽，也不泛化无用宿主。",
+        "H": "测试平台限制已说明；不能据此宣称真实浏览器bitmap关闭或性能验收。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "Test/comment/unused test-helper cleanup only; no product body/schema/save/asset/public runtime API change."
+    },
+    {
+      "path": "packages/game/src/styles.d.ts",
+      "module": "configuration-fixtures",
+      "sha256": "ccfc86914e457fcf4348a14cb5d58aaf76bbd50ba136a3246df2e6de493037bb",
+      "lines": 1,
+      "read": "full primary; actual caller/type/lifecycle and changed delta read; dependencies not primary credit",
+      "axes": {
+        "A": "实际game-shell导入CSS，Vite负责处理；声明用于TS识别side-effect资源导入。",
+        "B": "仅ambient声明无虚假运行时承诺，无需添复述代码注释。",
+        "C": "类型声明与CSS布局/挂载逻辑分离，无运行时所有权。",
+        "D": "通配声明覆盖现有CSS导入，不在每个组件复制。",
+        "E": "typecheck验证import；无需把类型层重复写成运行时用例。",
+        "F": "*.css名称准确表示资源域，一行没有隐式控制流。",
+        "G": "不是死声明：实际game-shell.css导入有caller。",
+        "H": "纯编译合同直接由tsc核，样式视觉验收不继承。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "Test/comment/unused test-helper cleanup only; no product body/schema/save/asset/public runtime API change."
+    },
+    {
+      "path": "packages/game/src/worker-url.d.ts",
+      "module": "configuration-fixtures",
+      "sha256": "90519798a6ba845bafb60e6f53cdb3dac5a0953a6490f313d30531d599d9632d",
+      "lines": 4,
+      "read": "full primary; actual caller/type/lifecycle and changed delta read; dependencies not primary credit",
+      "axes": {
+        "A": "actual audio-rix导入rix-worklet.ts?worker&url并传audioWorklet.addModule；url为string。",
+        "B": "不把worker URL声明误当worklet消息协议，无多余说明。",
+        "C": "编译声明与worklet处理器生命周期分离，不持有线程。",
+        "D": "匹配Vite同类导入而非各caller手写cast。",
+        "E": "typecheck加实际RIX宿主单测支撑接线，非真实音频设备信用。",
+        "F": "default url导出名表意，通配只覆盖worker&url后缀。",
+        "G": "检索有生产caller，不能按短文件当死类型删除。",
+        "H": "无IO副作用，可编译验证；Vite加载执行由实际构建而非声明自身保证。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "Test/comment/unused test-helper cleanup only; no product body/schema/save/asset/public runtime API change."
+    },
+    {
+      "path": "packages/content/package.json",
+      "module": "configuration-fixtures",
+      "sha256": "1ad5ec2bbb0c299a424facd38a2b502c10694d02b6eaffde5ab7d416ba88c1d9",
+      "lines": 16,
+      "read": "full primary; actual caller/type/lifecycle and changed delta read; dependencies not primary credit",
+      "axes": {
+        "A": "content公开入口index.ts供editor/reforge/migrate，ESM与workspace源码消费一致。",
+        "B": "没有过时运行时/兼容声明；版本0.0.0是private包不冒充发布。",
+        "C": "值合同包无新增IO依赖，浏览器与Node宿主消费同一纯源码。",
+        "D": "根工具集中共享，未复制workspace工具依赖或新增发布包装。",
+        "E": "包脚本执行真实tsc+Vitest，当前内容原生定向多组通过；空测不能代替审核。",
+        "F": "main/types/exports同点清楚，check组合直接。",
+        "G": "所有入口同当前index.ts，不保留旧生成物出口；零依赖新增。",
+        "H": "纯模块可直接测试，不依赖原盘资源；最终包门核整体出口一致性。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "Test/comment/unused test-helper cleanup only; no product body/schema/save/asset/public runtime API change."
+    },
+    {
+      "path": "packages/content/tsconfig.json",
+      "module": "configuration-fixtures",
+      "sha256": "d17bc3179d3cfb306f1c4babbd1ad85da4985db4be4fb3ae78226256ea28a95c",
+      "lines": 9,
+      "read": "full primary; actual caller/type/lifecycle and changed delta read; dependencies not primary credit",
+      "axes": {
+        "A": "content沿用根strict与ES2022，不在此包加入DOM/Node环境；actual源码纯值域。",
+        "B": "无误导注释或放宽环境说明；与独立包责任一致。",
+        "C": "编译归属src与输出dist分开，跨层IO仍在消费者。",
+        "D": "只override lib/rootDir/outDir复用根规则，无模板复制债。",
+        "E": "定向contentTC已过；最新测试类型随统一门再核，不造运行时类型assert。",
+        "F": "12行局部规则可直接解释，无隐藏分支。",
+        "G": "每项有用途，不新增排除/类型污染以绕过失败。",
+        "H": "tsc确定性验证源码出口及测试fixture，无网络/设备要求。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "Test/comment/unused test-helper cleanup only; no product body/schema/save/asset/public runtime API change."
+    },
+    {
+      "path": "packages/content/src/__tests__/glm-content-contract-fixtures.ts",
+      "module": "configuration-fixtures",
+      "sha256": "9ed8274ed545289834dae589639f34461566e102cc721d1c60f2ad355c29f7b0",
+      "lines": 38,
+      "read": "full primary; actual caller/type/lifecycle and changed delta read; dependencies not primary credit",
+      "axes": {
+        "A": "实际四十余专测引用deepSnapshot及spriteCatalog；只处理plain记录/数组/Date/Uint8Array，调用域已核。",
+        "B": "纠正structuredClone等价性/任意原型宣称，明确Map/Set未承诺。",
+        "C": "纯fresh数据构造器，不连接runtime/IO；调用方拥有快照和catalog。",
+        "D": "同一种合法asset薄工厂可复用，clone算法不拿来生成业务oracle。",
+        "E": "移除0-caller的expectInputUnchanged/mutateFirstNumber恒真分支；保留实际输入前像快照断言用途。",
+        "F": "缩为薄构造+clone，去死label和隐藏expect，意图更直接。",
+        "G": "只删零调用测试helper与死导入；deepSnapshot/clone/sprite两个函数可执行体原样。",
+        "H": "真实guard拒绝/identity/输入不变专测直接消费；不为helper删减堆镜像测试。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "Test/comment/unused test-helper cleanup only; no product body/schema/save/asset/public runtime API change."
+    },
+    {
+      "path": "packages/content/src/battle-sprite.test.ts",
+      "module": "battle-sprite-tests",
+      "sha256": "f725fc15822673cacf51e0576efe56df913b5cad93a94f987790c7678ea04464",
+      "lines": 134,
+      "read": "full primary; actual caller/type/lifecycle and changed delta read; dependencies not primary credit",
+      "axes": {
+        "A": "三profile合法定义、catalog kind、连续段与0tick、summon实际帧域走真实public出口。",
+        "B": "标题与每例边界一致，原盘/全UI能力未附带声明。",
+        "C": "当前editor readiness与reforge读取source补读；fixture只构造metadata不伪装可解码资产。",
+        "D": "主测普通帧需求与contracts稀疏/共享命名帧区分，重复辅助断言已在contracts精简。",
+        "E": "固定0..10及11/10/5/4期待，缺值/0/mismatch有真实错误文本；负输入其余字段合法。",
+        "F": "五例按profile与resolve分区，单文件可读，不依赖另测试执行。",
+        "G": "未新增弱测试，保留各不同合同；源大帧需求风险另卡pending。",
+        "H": "真实纯出口易观察，无IO mock；这些有限域测试不宣称极大count已安全。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "Test/comment/unused test-helper cleanup only; no product body/schema/save/asset/public runtime API change."
+    },
+    {
+      "path": "packages/content/src/battle-sprite.boundaries.test.ts",
+      "module": "battle-sprite-tests",
+      "sha256": "0a8d1216656da6c8bab657657a8ccd4f184cee5d16eb59708b3c3a270c28d679",
+      "lines": 84,
+      "read": "full primary; actual caller/type/lifecycle and changed delta read; dependencies not primary credit",
+      "axes": {
+        "A": "每负例先有合法enemy正控；空待机/偏移/断段/tick/小数/null等各到具体字段。",
+        "B": "标题只陈述对应拒绝/ownership，未称覆盖所有恶意资源。",
+        "C": "fresh fixture，parsed区段修改对实际input快照保持分离，状态Owner明确。",
+        "D": "parent/cursor与这里具体字段/深分离不同合同；不把所有guard堆重复case。",
+        "E": "精确路径error、原对象不变、empty合法及输出修改后输入仍原值是独立oracle。",
+        "F": "表格每项只有一个坏轴；几处合法段联动是保持其它约束的必要设置。",
+        "G": "14例不同输入/归属，不按数量争接受；source未随spec接受升级。",
+        "H": "同步纯校验真实执行，快照工具仅保存前像不复制guard算法。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "Test/comment/unused test-helper cleanup only; no product body/schema/save/asset/public runtime API change."
+    },
+    {
+      "path": "packages/content/src/battle-sprite-profile.contracts.test.ts",
+      "module": "battle-sprite-tests",
+      "sha256": "00dd05af072c446e1daf8baf28713dbbda9c697996cb55298c6f7883b8f2a5a9",
+      "lines": 94,
+      "read": "full primary; actual caller/type/lifecycle and changed delta read; dependencies not primary credit",
+      "axes": {
+        "A": "actual named frame/section/summon解析合同，typed player fixture不再as强转窄profile。",
+        "B": "删旧脆弱行号，标题明确共享绝对索引、稀疏steal，不用enemy无重复集合冒称去重。",
+        "C": "resolve返回引用从验证结果比对，输入与输出职责清楚，不引入资产IO。",
+        "D": "普通missing/single mismatch/0实际帧由main承担；本文件保留集合expected与非整数残差。",
+        "E": "完整indices[0,3..9,15]/demand16、actual summon[0,1,2]、exact resolve identity取代toBeDefined。",
+        "F": "每case按一个profile/resolve合同表达，无万能fixture模式参数。",
+        "G": "五身份原有数量不增加，仅更名与加强、删除重复assert；准确例数以native为准。",
+        "H": "纯真实函数无mock，未知大count风险独立记录，不能据24全绿称source安全。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "Test/comment/unused test-helper cleanup only; no product body/schema/save/asset/public runtime API change."
+    },
+    {
+      "path": "packages/content/src/frame-sequence.test.ts",
+      "module": "frame-map-tests",
+      "sha256": "5bf8e3e31a5e27d1b83e1e55fec6079217ee3742c362a497e9422ffc0117559c",
+      "lines": 231,
+      "read": "full primary; actual caller/type/lifecycle and changed delta read; dependencies not primary credit",
+      "axes": {
+        "A": "TPFS v1编码解码、pal-rle去标签、block边界及playback通过真实codec出口；保存caller encodeFrameAnimationRequest全文核。",
+        "B": "题注与字段长度/回放单位相符，未把roundtrip单独当格式兼容证明。",
+        "C": "压缩端口注入但容器校验真实；返回buffer/读取slice按显式字节oracle观测。",
+        "D": "从leaf迁回playback三重复族，同合同在现有主例核，未增加业务入口。",
+        "E": "主例增加start=end/越界/NaN和20fps独立50ms期待；frameOverride77与default40不再同数掩盖优先级。",
+        "F": "分块/帧/范围名具体，格式负例有明确字节偏移，不用any。",
+        "G": "叶重复case退出后主体承接有效断言；原native37总数不当增量信用。",
+        "H": "存储与deflate回调可替换，真实混合zlib由contracts支撑，不复制编码器生成期待。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "Test/comment/unused test-helper cleanup only; no product body/schema/save/asset/public runtime API change."
+    },
+    {
+      "path": "packages/content/src/frame-sequence.glm-leaf-wave.test.ts",
+      "module": "frame-map-tests",
+      "sha256": "7fbb21fc16a6c88dd43bdc3ff3363488efe724c82cee0328dbd591f72d8fb675",
+      "lines": 48,
+      "read": "full primary; actual caller/type/lifecycle and changed delta read; dependencies not primary credit",
+      "axes": {
+        "A": "合法index改为实际3帧一block768bytes；负例不再用空blocks导致前置非法。",
+        "B": "头注只指metadata字段，不保留旧全覆盖宣称；单位为字节/毫秒。",
+        "C": "对象fresh，unknown guard接受负域；metadata与payload分层。",
+        "D": "纯播放范围/时长三例迁main同合同，保留index字段与非法index两例。",
+        "E": "precise path错误在合法正控之后，payloadBytes768与block范围一致，拒绝具判别力。",
+        "F": "字段变体直接显示坏值，取消多处同值duration导致的自证。",
+        "G": "5→2不减少有效合同，退役三个身份有映射，不计三个文件。",
+        "H": "真实validateFrameSequenceIndex，无全局mock；假压缩不用于错误oracle。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "Test/comment/unused test-helper cleanup only; no product body/schema/save/asset/public runtime API change."
+    },
+    {
+      "path": "packages/content/src/frame-sequence.contracts.test.ts",
+      "module": "frame-map-tests",
+      "sha256": "97d294d9471462c24608ef28c3a58e126e4152743395f4a8166c8040fa0da55e",
+      "lines": 213,
+      "read": "full primary; actual caller/type/lifecycle and changed delta read; dependencies not primary credit",
+      "axes": {
+        "A": "头签名、版本、index/payload边界、frame元数据、真实zlib压缩/解压与borrow/owned字节域逐条核。",
+        "B": "移除全合同/仅DOM错误宣称；说明content无Node ambient并非代码不能被Node消费。",
+        "C": "bytes构造/deflate端口与纯容器判断分开，输入副本隔离被修改的byte数组。",
+        "D": "同schema不同负边界保留；纯playback常态在main，不再leaf重复。",
+        "E": "去options as never后真实合法类型仍通过；手写错误bytes与固定rgba对照不只roundtrip自比。",
+        "F": "命名与字段偏移可追踪；factory不隐藏非法版本输入。",
+        "G": "没有新skip/强转/timeout，源格式未改；拆分仅测试责任合理。",
+        "H": "实际runtime FrameSequenceReader与editor codec消费相同parse/decode，纯测试可重放，UI不授信用。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "Test/comment/unused test-helper cleanup only; no product body/schema/save/asset/public runtime API change."
+    },
+    {
+      "path": "packages/content/src/project-map.test.ts",
+      "module": "frame-map-tests",
+      "sha256": "f6c87b7e7af8a096d71ccdccf60552e861bbac8208996cbf4226a813e7b70315",
+      "lines": 139,
+      "read": "full primary; actual caller/type/lifecycle and changed delta read; dependencies not primary credit",
+      "axes": {
+        "A": "canonical v4 geometry/refs/heights/anchors，loader/save/stamp-draft消费与D16/D29约束复用。",
+        "B": "标题与作者字段/运行字段区分，无旧版本upgrader宣称。",
+        "C": "构造map与解析结果是独立数据，不调用实际文件IO；source做依赖不关闭。",
+        "D": "重复越界refs拒绝集中此精确路径例，contracts保留其它矩阵/ownership。",
+        "E": "format只比文本会掩盖字段丢失；现parse结果完整toEqual原map，固定来源下标error仍保留。",
+        "F": "对象层级对应真实schema，可直接读出矩阵行列/refs关系。",
+        "G": "未加测试数量或修改schema，两个完整值oracle补缺口。",
+        "H": "纯入口直接使用，正常输出与坏单字段可独立重跑；无浏览器/磁盘mock。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "Test/comment/unused test-helper cleanup only; no product body/schema/save/asset/public runtime API change."
+    },
+    {
+      "path": "packages/content/src/project-map.contracts.test.ts",
+      "module": "frame-map-tests",
+      "sha256": "21cf589fe97b64bb94ba0766fb9d9b1fce1ec2333ac8a8004f7149c24dbeaa71",
+      "lines": 99,
+      "read": "full primary; actual caller/type/lifecycle and changed delta read; dependencies not primary credit",
+      "axes": {
+        "A": "合法v4同型矩阵逐项单点改；空/宽度/lockstep/索引绑定各命中实际validator。",
+        "B": "标题仅对应本文件轴，未把已删除重复拒绝继续声称本地覆盖。",
+        "C": "actual input snapshot和parsed修改分离，author/runtime投影责任不混淆。",
+        "D": "删除refs越界重复case指向main；矩阵形状与不变性残差保留。",
+        "E": "大量无谓cast移除，row/type/lockstep错误期待具体path；完整输出与输入不变独立。",
+        "F": "类型推断后的字面数据更直观，错误case按字段划分。",
+        "G": "5→4例是合同去重，不删除unique断言、不降低guard。",
+        "H": "unknown校验口直接可测，不依赖生成资产；源仍pending而非包绿继承接受。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "Test/comment/unused test-helper cleanup only; no product body/schema/save/asset/public runtime API change."
+    },
+    {
+      "path": "packages/game/src/shell/fbp-player.test.ts",
+      "module": "cutscene-tests",
+      "sha256": "4e491437e1d52d74984fe87c96a14f84cd39852ad3cbb1dd2389240f0178498b",
+      "lines": 164,
+      "read": "full primary; actual caller/type/lifecycle and changed delta read; dependencies not primary credit",
+      "axes": {
+        "A": "真实showFbp/scrollFbp，bootstrap和dos-cutscenes caller复核；普通全屏/缺图/68特例/方向/dither/叠图。",
+        "B": "索引0不再误称非黑palette下的Canvas黑；修掉旧屏行号误导说明。",
+        "C": "fresh真实Canvas/framebuffer和固定timer，afterEach排空有限动画，业务无mock。",
+        "D": "共用真实canvas-host替代伪context；相邻专测承担DOS49、上滚与delay残差。",
+        "E": "完整全屏buffer和10×10 sprite矩形+邻边界替代单像素/非等值；中途先采样后await再断言。",
+        "F": "输入颜色明确来源与目标，控制流先运行结局再判断不留悬空任务。",
+        "G": "原七例保留不同合同；无为覆盖率新增弱例，不改产品。",
+        "H": "真实Canvas调用与索引一起可观察；虚拟clock注入环境，非真实浏览器演出验收。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "Test/comment/unused test-helper cleanup only; no product body/schema/save/asset/public runtime API change."
+    },
+    {
+      "path": "packages/game/src/shell/fbp-scroll.grok-r1.test.ts",
+      "module": "cutscene-tests",
+      "sha256": "8c3e36bc0c58f2ae56224ac35d7122a18502e6e8ebc8975e001cb2ac63cc86d2",
+      "lines": 126,
+      "read": "full primary; actual caller/type/lifecycle and changed delta read; dependencies not primary credit",
+      "axes": {
+        "A": "DOS49/WIN95同块不同规则、speed0与fade1真实delay、上滚/短buffer均在合法host下核。",
+        "B": "头注只列六合同；不复述其它专项全覆盖或旧作者结论。",
+        "C": "事件/IO无外部资源；定时器在断言前运行完、teardown兜底有限动画。",
+        "D": "调用同canvas-host消除伪原型；与main下滚/68互补，非重复常态。",
+        "E": "49完整屏期待、短buffer全域不变；spy调用数只用于真实delay合同，不替代像素。",
+        "F": "screen/N命名表达320×200，时钟中点采样与收尾顺序清楚。",
+        "G": "六现例不增加；whole-buffer替换端点不是复制实现算法。",
+        "H": "真实Canvas宿主和固定clock可重放；不要求改产品API增加测试钩子。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "Test/comment/unused test-helper cleanup only; no product body/schema/save/asset/public runtime API change."
+    },
+    {
+      "path": "packages/game/src/shell/ending-player.test.ts",
+      "module": "cutscene-tests",
+      "sha256": "52c16d496724e1444ff7d5611a62aca7c155970538d8f34f221886f38e83825d",
+      "lines": 113,
+      "read": "full primary; actual caller/type/lifecycle and changed delta read; dependencies not primary credit",
+      "axes": {
+        "A": "真实结局动画与blocking fades caller dos-cutscenes；四帧后女孩区域/背景与不足2beast帧边界。",
+        "B": "标题改为实际像素合同，不以putImageData曾调用冒称fade色值正确。",
+        "C": "每例freshfb/context，afterEach先 drain timers再restore；没有共享mock调用残留。",
+        "D": "三条fade同一调色板推进族可集中一例但每条实际色值独立核，不造万能helper。",
+        "E": "[104,52,26]中间色/全黑/原色/混色/终点固定RGBA；女孩完整区域边沿与单beast反例。",
+        "F": "命名dimmed/black/restored/blended区分时间点，期待字面数不由生产函数算。",
+        "G": "三例有效加强，零新case；移除强转假Canvas，不改源演出。",
+        "H": "可注入实际palette/frameCount/delay并用fakeclock，真实getImageData而非调用计数 oracle。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "Test/comment/unused test-helper cleanup only; no product body/schema/save/asset/public runtime API change."
+    },
+    {
+      "path": "packages/game/src/shell/ending-player.glm-next-wave.test.ts",
+      "module": "cutscene-tests",
+      "sha256": "ea18fa44d067a776a54e8c191a4d0ce18fe8305082d3a30d298c5f53cf75cb7c",
+      "lines": 140,
+      "read": "full primary; actual caller/type/lifecycle and changed delta read; dependencies not primary credit",
+      "axes": {
+        "A": "waitForKey默认/自定义、explicit skip终止和背景长度fallback；生产默认skip边界与直接可选输入分开。",
+        "B": "caller修为dos-cutscenes；无全原版视觉保证，索引0不误称彩色palette下黑像素。",
+        "C": "teardown释放Enter/KeyQ等待并排空有限动画，实际监听移除由再次event证明。",
+        "D": "共享真Canvas不重复原型fake；与main女角色/渐变合同不重叠。",
+        "E": "skip前两帧且RGBA正确、之后仍两帧；fallback顶行0/其余50与合法对照60精确完整分区。",
+        "F": "事件命中/未命中与promise时点清楚，记录原生preventDefault语义。",
+        "G": "四例不同生命周期，不按mock次数称业务accept；完全删除prototype伪context。",
+        "H": "真实DOM键与Canvas+fakeclock确定复演，少量spy透传实际绘制而不stub业务。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "Test/comment/unused test-helper cleanup only; no product body/schema/save/asset/public runtime API change."
+    },
+    {
+      "path": "packages/game/src/shell/splash-fallback.test.ts",
+      "module": "cutscene-tests",
+      "sha256": "8724a235a2b6ed1268ddd4d4fd68db1b6b6164758fcef896334d4ca607266753",
+      "lines": 165,
+      "read": "full primary; actual caller/type/lifecycle and changed delta read; dependencies not primary credit",
+      "axes": {
+        "A": "actual bootstrap splash与playSplashFallback真实调用；上下背景、默认Escape、自定义Q、早跳满标题、末帧黑。",
+        "B": "删除1:1及未测Enter宣称，第一例标题与up/down精确oracle一致，旧any-content不保留虚假blit证据。",
+        "C": "每例freshCanvas/随机0/固定Date，失败teardown发停止键再排定额时钟，监听由source finally收回。",
+        "D": "共享Canvas但跳过等待helper局限本spec，无模式布尔万能工具；删除bitmap-any弱重复。",
+        "E": "上下屏0x11/0x22独立期待，标题底部0x44，完整RGBA黑且length非空；自定义Space确实不消费。",
+        "F": "有界skipAndFinish避免坏skip无限drain；收尾后才检查内容。",
+        "G": "6→5，旧宽泛bitmap例映射第一精确例，10秒逐例timeout移除，无运行时行为变更。",
+        "H": "实时间等待换虚拟Date+timer，真实getImageData；Promise错误保留而不catch静音。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "Test/comment/unused test-helper cleanup only; no product body/schema/save/asset/public runtime API change."
+    },
+    {
+      "path": "packages/game/src/shell/splash-fallback.glm-next-wave.test.ts",
+      "module": "cutscene-tests",
+      "sha256": "36f4f153d500259c37d1bf4689b1672a97190332ad2f4759c8456f5f32a33624",
+      "lines": 69,
+      "read": "full primary; actual caller/type/lifecycle and changed delta read; dependencies not primary credit",
+      "axes": {
+        "A": "三次85ms停点对应visibleRows递增，透明cranes合法sprite isolates标题；实际source sleep非rAF。",
+        "B": "删重复假context说明/未证全旧测覆盖；明确软件像素非整体视觉验收。",
+        "C": "先采样三位置再结束播放器后断言，失败亦清理timer/listener，不漏给下例。",
+        "D": "主测只核跳过全标题，本例核跳过前逐行，因此保留单例。",
+        "E": "第10/12行固定0x44，第15行非title；合法异色bitmap避免恒真空像素。",
+        "F": "revealed采样数组明确时点，输入透明遮罩与fixedrandom解释干扰隔离。",
+        "G": "一例保留，移除不必要10s覆盖以及伪原型ctxSpy，未新增测试钩子。",
+        "H": "共享真实Canvas与固定Date可确定运行，source保持未修改/pending。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "Test/comment/unused test-helper cleanup only; no product body/schema/save/asset/public runtime API change."
+    },
+    {
+      "path": "packages/game/src/__tests__/grok-boot-mid-1/legal.ts",
+      "module": "cutscene-tests",
+      "sha256": "28dc3195ead8750a41de04ff0b142f89ac62a11cf773f3c21239d96a023dfd89",
+      "lines": 163,
+      "read": "full primary; actual caller/type/lifecycle and changed delta read; dependencies not primary credit",
+      "axes": {
+        "A": "四真实消费者全文核：cache/dialog/bootstrap两组；role0/首段仅屏障合法，不宣称完整可玩存档。",
+        "B": "twoFrameChunk word0双用途与已核PAL域一致；legalLoadedAssets有限前提已显式标注。",
+        "C": "fresh Map/数组与独立场景owner；PNG编码Canvas是IO叶，失败明确reject，资源局部GC。",
+        "D": "同启动资源合同复用一个thin fixture，未与全游戏庞大状态工厂强合。",
+        "E": "手工16字节两帧不同像素经真实decoder；PNG真实编码RGBA；cache行为不拿fixture自比冒充结果。",
+        "F": "palette/tilemap/event/scene命名具体，label只区分屏障引用。",
+        "G": "实际exports有消费者，无死mock/返回无关参数；纯fixture不为覆盖率新增case。",
+        "H": "无需原盘/网络即可构合法public类型；source untouched，本次22相邻例提供消费验证。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending",
+      "issues": "Test/comment/unused test-helper cleanup only; no product body/schema/save/asset/public runtime API change."
+    }
+  ],
+  "batches": [
+    {
+      "callerReuse": [
+        "equipment-state/equip-effect current production",
+        "battle-inspect current source and accepted main tests",
+        "E2/E4 current adjacent"
+      ],
+      "notCounted": ["E2/E4", "production dependencies"],
+      "nativeCounts": {
+        "stats-before": {
+          "files": 8,
+          "passed": 26,
+          "failed": 0,
+          "pending": 0,
+          "exit": 0,
+          "stderrBytes": 0
+        },
+        "stats-after": {
+          "files": 10,
+          "passed": 68,
+          "failed": 0,
+          "pending": 0,
+          "exit": 0,
+          "stderrBytes": 0
+        }
+      },
+      "module": "stats",
+      "primaryCount": 7,
+      "before": "stats-before",
+      "after": "stats-after"
+    },
+    {
+      "reuse": "current ABI plus frozen kernel/bridge/wasm exact byte check, four original PCM golden hashes and native-reference.cpp; source-manifest wrapper hash differs, only declared individual source digests reused",
+      "notCounted": [
+        "audio.ts/bootstrap.ts/tools-panel.ts",
+        "vendor/bridge.cpp",
+        "scripts/audio/build-rix.mjs",
+        "compiled wasm/source-manifest"
+      ],
+      "nativeCounts": {
+        "rix-before": {
+          "files": 5,
+          "passed": 21,
+          "failed": 0,
+          "pending": 0,
+          "exit": 0,
+          "stderrBytes": 0
+        },
+        "rix-after": {
+          "files": 6,
+          "passed": 39,
+          "failed": 0,
+          "pending": 0,
+          "exit": 0,
+          "stderrBytes": 0
+        }
+      },
+      "module": "rix",
+      "primaryCount": 10,
+      "before": "rix-before",
+      "after": "rix-after"
+    },
+    {
+      "module": "controls",
+      "primaryCount": 17,
+      "before": "controls-before",
+      "after": "controls-after",
+      "beforeTests": 41,
+      "afterTests": 81,
+      "afterFiles": 13,
+      "diagnostics": "explicit default+JSON; stderr 0; source input/gamepad/touch actual; no runtime errors",
+      "source": [
+        "GAME-MOBILE-LAYOUT-1 done",
+        "GAME-INPUT-ROTATION-1 done",
+        "packages/game/src/main.ts createGameShell once",
+        "tools/tools-panel.test-fixtures.ts"
+      ],
+      "changes": "one new blocked-storage test, language-subscriber cleanup in temporary game-shell tests, bounded menu-lock header; product unchanged",
+      "nativeCounts": {
+        "controls-before": {
+          "files": 10,
+          "passed": 41,
+          "failed": 0,
+          "pending": 0,
+          "exit": 0,
+          "stderrBytes": 0
+        },
+        "controls-after": {
+          "files": 13,
+          "passed": 81,
+          "failed": 0,
+          "pending": 0,
+          "exit": 0,
+          "stderrBytes": 0
+        }
+      }
+    },
+    {
+      "module": "content-surfaces",
+      "primaryCount": 15,
+      "before": "content-surfaces-before",
+      "after": "content-surfaces-final",
+      "adjacent": ["content-surfaces-reforge", "content-surfaces-editor"],
+      "changes": "comment precision, finite contract-based test dedup, migrated residual assertions and stronger literal/error/reference oracles; zero product body/API/asset changes",
+      "retiredFiles": [
+        "packages/content/src/tileset.glm-leaf-wave.test.ts",
+        "packages/content/src/stamp.glm-leaf-wave.test.ts",
+        "packages/content/src/map-index.glm-leaf-wave.test.ts"
+      ],
+      "limitation": "Rich-text single-line/non-nested semantics only; no new markup feature/visual credit. Geometry reuses D16, schema remains canonical v4; ED entity state task untouched.",
+      "nativeCounts": {
+        "content-surfaces-before": {
+          "files": 14,
+          "passed": 77,
+          "failed": 0,
+          "pending": 0,
+          "exit": 0,
+          "stderrBytes": 0
+        },
+        "content-surfaces-final": {
+          "files": 12,
+          "passed": 64,
+          "failed": 0,
+          "pending": 0,
+          "exit": 0,
+          "stderrBytes": 0
+        },
+        "content-surfaces-reforge": {
+          "files": 3,
+          "passed": 30,
+          "failed": 0,
+          "pending": 0,
+          "exit": 0,
+          "stderrBytes": 0
+        },
+        "content-surfaces-editor": {
+          "files": 3,
+          "passed": 35,
+          "failed": 0,
+          "pending": 0,
+          "exit": 0,
+          "stderrBytes": 0
+        }
+      }
+    },
+    {
+      "module": "content-values",
+      "primaryCount": 9,
+      "before": "content-values-before",
+      "after": "content-values-after",
+      "adjacent": ["content-values-reforge"],
+      "changes": "source inventory preservation, actual output mutation isolation, portrait reference assertion, ID length boundary instead of duplicate guards, accurate borrowed tint doc",
+      "limitations": "No new UI/visual/asset claim; initial defaults only apply new game; current runtime inputs finite.",
+      "nativeCounts": {
+        "content-values-before": {
+          "files": 6,
+          "passed": 38,
+          "failed": 0,
+          "pending": 0,
+          "exit": 0,
+          "stderrBytes": 0
+        },
+        "content-values-after": {
+          "files": 7,
+          "passed": 43,
+          "failed": 0,
+          "pending": 0,
+          "exit": 0,
+          "stderrBytes": 0
+        },
+        "content-values-reforge": {
+          "files": 2,
+          "passed": 10,
+          "failed": 0,
+          "pending": 0,
+          "exit": 0,
+          "stderrBytes": 0
+        }
+      }
+    },
+    {
+      "module": "author-dialogue",
+      "primaryCount": 5,
+      "before": "author-dialogue-before",
+      "after": "author-dialogue-after",
+      "changes": "as-never/unknown casts removed; duplicate rows/resource cases retired to precise existing contracts; full expression and zero-value row ownership oracles",
+      "limitations": "Pure author→runtime value projection only; no new renderer/preview/UI or runtime scheduler acceptance.",
+      "nativeCounts": {
+        "author-dialogue-before": {
+          "files": 4,
+          "passed": 18,
+          "failed": 0,
+          "pending": 0,
+          "exit": 0,
+          "stderrBytes": 0
+        },
+        "author-dialogue-after": {
+          "files": 6,
+          "passed": 33,
+          "failed": 0,
+          "pending": 0,
+          "exit": 0,
+          "stderrBytes": 0
+        }
+      }
+    },
+    {
+      "module": "enemy-ai",
+      "primaryCount": 5,
+      "before": "enemy-ai-before",
+      "after": "enemy-ai-after",
+      "adjacent": ["enemy-ai-reforge"],
+      "changes": "strict HP boundary, actual any/short-circuit and complete once decision oracles; accurate stable-input-order doc",
+      "nativeCounts": {
+        "enemy-ai-before": {
+          "files": 3,
+          "passed": 43,
+          "failed": 0,
+          "pending": 0,
+          "exit": 0,
+          "stderrBytes": 0
+        },
+        "enemy-ai-after": {
+          "files": 5,
+          "passed": 64,
+          "failed": 0,
+          "pending": 0,
+          "exit": 0,
+          "stderrBytes": 0
+        },
+        "enemy-ai-reforge": {
+          "files": 2,
+          "passed": 119,
+          "failed": 0,
+          "pending": 0,
+          "exit": 0,
+          "stderrBytes": 0
+        }
+      }
+    },
+    {
+      "module": "content-index-diagnostics",
+      "primaryCount": 6,
+      "before": "content-index-diagnostics-before",
+      "after": "content-index-diagnostics-after",
+      "changes": "empty-text oracle, independent category set/empty metadata positive, malformed weak/duplicate diagnostic file retired",
+      "retiredFiles": ["packages/content/src/migration-diagnostic.glm-leaf-wave.test.ts"],
+      "notCounted": ["migration-diagnostic.ts already closed; reread only"],
+      "nativeCounts": {
+        "content-index-diagnostics-before": {
+          "files": 6,
+          "passed": 23,
+          "failed": 0,
+          "pending": 0,
+          "exit": 0,
+          "stderrBytes": 0
+        },
+        "content-index-diagnostics-after": {
+          "files": 6,
+          "passed": 26,
+          "failed": 0,
+          "pending": 0,
+          "exit": 0,
+          "stderrBytes": 0
+        }
+      }
+    },
+    {
+      "module": "configuration-fixtures",
+      "primaryCount": 9,
+      "before": null,
+      "after": null,
+      "limitation": "Primary acceptance is limited to listed files; dependencies/source risk files not closed. Final cutscene oracle tightening after directed run is verified by subsequent frozen-window full check.",
+      "nativeCounts": {}
+    },
+    {
+      "module": "battle-sprite-tests",
+      "primaryCount": 3,
+      "before": "battle-sprite-before",
+      "after": "battle-sprite-after",
+      "limitation": "Primary acceptance is limited to listed files; dependencies/source risk files not closed. Final cutscene oracle tightening after directed run is verified by subsequent frozen-window full check.",
+      "nativeCounts": {
+        "battle-sprite-before": {
+          "files": 3,
+          "passed": 24,
+          "failed": 0,
+          "pending": 0,
+          "exit": 0,
+          "stderrBytes": 0
+        },
+        "battle-sprite-after": {
+          "files": 3,
+          "passed": 24,
+          "failed": 0,
+          "pending": 0,
+          "exit": 0,
+          "stderrBytes": 0
+        }
+      }
+    },
+    {
+      "module": "frame-map-tests",
+      "primaryCount": 5,
+      "before": "frame-sequence-before",
+      "after": "frame-and-map-after",
+      "limitation": "Primary acceptance is limited to listed files; dependencies/source risk files not closed. Final cutscene oracle tightening after directed run is verified by subsequent frozen-window full check.",
+      "nativeCounts": {
+        "frame-sequence-before": {
+          "files": 3,
+          "passed": 37,
+          "failed": 0,
+          "pending": 0,
+          "exit": 0,
+          "stderrBytes": 0
+        },
+        "frame-and-map-after": {
+          "files": 6,
+          "passed": 54,
+          "failed": 0,
+          "pending": 0,
+          "exit": 0,
+          "stderrBytes": 0
+        }
+      }
+    },
+    {
+      "module": "cutscene-tests",
+      "primaryCount": 7,
+      "before": "cutscene-tests-before",
+      "after": "cutscene-tests-final",
+      "limitation": "Six final primary specs26 green; earlier ten-file48 includes22 unchanged boot-fixture consumers. No new source-wide/cinematic visual acceptance.",
+      "adjacent": ["cutscene-tests-after"],
+      "nativeCounts": {
+        "cutscene-tests-before": {
+          "files": 6,
+          "passed": 27,
+          "failed": 0,
+          "pending": 0,
+          "exit": 0,
+          "stderrBytes": 0
+        },
+        "cutscene-tests-final": {
+          "files": 6,
+          "passed": 26,
+          "failed": 0,
+          "pending": 0,
+          "exit": 0,
+          "stderrBytes": 0
+        },
+        "cutscene-tests-after": {
+          "files": 10,
+          "passed": 48,
+          "failed": 0,
+          "pending": 0,
+          "exit": 0,
+          "stderrBytes": 0
+        }
+      }
+    }
+  ],
+  "limits": [
+    "No whole check/coverage/ratchet/protected or publication before about 100 actual A-H primaries.",
+    "Dependencies, retired/moved paths and earlier accepted files do not count."
+  ],
+  "observations": [
+    {
+      "paths": [
+        "packages/content/src/battle-field-reference.ts",
+        "packages/content/src/battle-field-reference.test.ts",
+        "packages/content/src/enemy-team-reference.ts",
+        "packages/content/src/enemy-team-reference.resource-boundaries.test.ts"
+      ],
+      "classification": "G debt / no new credit; keep pending",
+      "fact": "Both exported leaf collectors have no production call site in current compiler search; DEFAULT_BATTLE_FIELD_ID is consumed. Field scanner test also still uses obsolete teamId and does not validate commands.",
+      "disposition": "Do not close these files or delete public collectors in this window without interface-retirement decision; other pending modules continue. No product changes made."
+    },
+    {
+      "paths": ["packages/content/src/battle-sprite.ts"],
+      "classification": "proven demand failure / source pending",
+      "fact": "guard accepts enemy count=200000, FrameDemand(definition,1) enumerates then throws RangeError Maximum call stack size exceeded; bounded direct reproduction, no real project/UI reachability claim.",
+      "disposition": "QUALITY-BATTLE-SPRITE-DEMAND-BOUNDARY-1 draft; no implementation/upper-limit/API decision in this window."
+    },
+    {
+      "paths": ["packages/game/src/shell/splash-fallback.ts"],
+      "classification": "source quality debt / not reviewed primary",
+      "fact": "Existing source header says rAF while loop uses sleep; fadeout caller note and uigame skip anchor stale; _blitFullScreen unused.",
+      "disposition": "Keep pending for later source slice; six test files have their own bounded claims, not source-wide acceptance."
+    }
+  ],
+  "ancillary": [
+    {
+      "path": "packages/game/src/__tests__/canvas-host.ts",
+      "sha256": "d256670d81e2d3f20d1c170ac945067f8d1861be796565aeb5bd70f72116f221",
+      "lines": 9,
+      "primaryCredit": false,
+      "axes": {
+        "A": "六真实pixel test caller需要320×200 Canvas context，null明确抛错。",
+        "B": "说明context/canvas由caller持有，不冒称GPU或浏览器视觉验收。",
+        "C": "只造局部DOM无挂载/监听/timer，不反向依赖产品业务。",
+        "D": "同宿主合同确实重复，替代六份fake/局部constructor。",
+        "E": "getImageData真实像素由caller验证，不把mock flush次数当oracle。",
+        "F": "realCanvasContext表意，dimensions默认与游戏屏幕对应。",
+        "G": "仅9行必要IO seam，新增叶不计pending百文件主体。",
+        "H": "真实Canvas宿主可独立构造，无any/强转，错误显式传播。"
+      },
+      "status": "accepted; local uniform gates zero diagnostics; remote publication pending"
+    }
+  ],
+  "primaryCount": 100,
+  "previouslyAcceptedReplay": [
+    {
+      "path": "packages/content/src/migration-diagnostic.ts",
+      "module": "content-index-diagnostics",
+      "sha256": "c99ae1305ab1a75a81c6beab814db69380a9b1a3d6bc7cbd04218c11bfe2e4d1",
+      "lines": 96,
+      "read": "full implementation/specs; actual consumer slices/related types/canonical boundary read; changed delta re-read",
+      "axes": {
+        "A": "当前v1sidecar显式来源metadata，project loader/publisher和ItemTab/commands消费，legacy address只展示不执行。",
+        "B": "说明不属于runtime玩法且作者完成后可消解，与callerfilter一致；不把现行宽容元信息当upgrader。",
+        "C": "metadata类型/guard同模块，实际物品能力和生成/IO外置，不更改ItemData。",
+        "D": "同validator供load/publication；不与其它exactKeys schema强合，当前宽容策略保留。",
+        "E": "合法tableidentity、empty、五独立category字面及全组合、每字段负例与不变性；弱GLMleaf退役。",
+        "F": "字段at路径明确，guard顺序可追踪，名词对应displaycaller。",
+        "G": "diagnostic常量与validator均实际用；sourceslegacylabel属证据非退役运行时代码。",
+        "H": "纯unknown输入可测，无资产写盘或生成物依赖。"
+      },
+      "status": "prior accepted status retained; no new primary credit",
+      "issues": "Only factual comments/tests changed; no product behavior/asset/schema/save/interface changes."
+    }
+  ],
+  "countCorrection": "Freeze audit against HEAD ledger found migration-diagnostic.ts already closed. Its full A–H reread remains evidence but gives zero new primary credit. Earlier 77/101 draft totals overstated new primaries by one; corrected total100.",
+  "frozenNativeIndex": "native-index.json",
+  "freezeHead": "f47f052fa1e732f7e574e70b268790d301dada3d",
+  "verifierErrata": [
+    "首次本地只读复验因三个既有轴说明过短拒绝，tool输出保留、未另存raw；补具体ownership/空串语义与可测条件，未降低谓词。"
+  ],
+  "dependencyFingerprints": [
+    {
+      "path": "packages/game/src/core/equipment-state.ts",
+      "sha256": "4993411b4f30cb53f0f21a3c170748132c9d1ec8ab6ff4e94a931def846c2205",
+      "scope": "stats",
+      "credit": "dependency only; whole-file hash is drift detection, not a claim of whole-file semantic acceptance"
+    },
+    {
+      "path": "packages/game/src/core/equip-effect.ts",
+      "sha256": "6bc011bfde5ca4f2714392f774fa770d5ab32716bfc38669c983503352b0abdc",
+      "scope": "stats",
+      "credit": "dependency only; whole-file hash is drift detection, not a claim of whole-file semantic acceptance"
+    },
+    {
+      "path": "packages/game/src/core/inspect/battle-inspect.ts",
+      "sha256": "b0febbfa204ee8637cecca4305555e7426a7ec7bc8030254587c55bb56069819",
+      "scope": "stats",
+      "credit": "dependency only; whole-file hash is drift detection, not a claim of whole-file semantic acceptance"
+    },
+    {
+      "path": "packages/game/src/main.ts",
+      "sha256": "a6314ef010da9e6d7add395e19993a002b7024607b8c51cc757486f200335a03",
+      "scope": "controls-and-cutscenes",
+      "credit": "dependency only; whole-file hash is drift detection, not a claim of whole-file semantic acceptance"
+    },
+    {
+      "path": "packages/game/src/shell/input.ts",
+      "sha256": "271b6afdb6ff191939562da3cbb06e2f1eb4aab455aee381eb75f2705b078d09",
+      "scope": "controls-and-cutscenes",
+      "credit": "dependency only; whole-file hash is drift detection, not a claim of whole-file semantic acceptance"
+    },
+    {
+      "path": "packages/game/src/shell/main-loop.ts",
+      "sha256": "2aa4ec075feb2ff8e218eb66cc32b376f3edb62a8b3073c0441596029e5bd07c",
+      "scope": "controls-and-cutscenes",
+      "credit": "dependency only; whole-file hash is drift detection, not a claim of whole-file semantic acceptance"
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-mode.ts",
+      "sha256": "c4483791dac050510868af7c42edf485ebd5d37d954cbb0ee76c0fd0ac42cd90",
+      "scope": "controls-and-cutscenes",
+      "credit": "dependency only; whole-file hash is drift detection, not a claim of whole-file semantic acceptance"
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel.ts",
+      "sha256": "b7f45736b940fa55952d1f28272eabf37c6331090fb14d4b37701df83c5cc596",
+      "scope": "controls-and-cutscenes",
+      "credit": "dependency only; whole-file hash is drift detection, not a claim of whole-file semantic acceptance"
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "sha256": "a4d007c9739873dc20f385b52b584de49ec57cd5c328cb11ca9d3b0b9f19fb0a",
+      "scope": "controls-and-cutscenes",
+      "credit": "dependency only; whole-file hash is drift detection, not a claim of whole-file semantic acceptance"
+    },
+    {
+      "path": "packages/game/src/shell/dos-cutscenes.ts",
+      "sha256": "bd18018aa36e4291c8ef414848d77b98b1806d81214e98ad7c4fb10db48e7df8",
+      "scope": "controls-and-cutscenes",
+      "credit": "dependency only; whole-file hash is drift detection, not a claim of whole-file semantic acceptance"
+    },
+    {
+      "path": "packages/game/src/shell/fbp-player.ts",
+      "sha256": "ba1446541c29346fd98d84ecf97db75d36ec6070bddbfdce64f8e52904bba81a",
+      "scope": "controls-and-cutscenes",
+      "credit": "dependency only; whole-file hash is drift detection, not a claim of whole-file semantic acceptance"
+    },
+    {
+      "path": "packages/game/src/shell/ending-player.ts",
+      "sha256": "9099d346ac0a66353169d940d4b5dbc173f702c7ec22da4fe403c63e01ca3fdc",
+      "scope": "controls-and-cutscenes",
+      "credit": "dependency only; whole-file hash is drift detection, not a claim of whole-file semantic acceptance"
+    },
+    {
+      "path": "packages/game/src/shell/splash-fallback.ts",
+      "sha256": "67f2a8b128b07b6faf8da926660473de86d37737c72e4548aa482e1857d947c1",
+      "scope": "controls-and-cutscenes",
+      "credit": "dependency only; whole-file hash is drift detection, not a claim of whole-file semantic acceptance"
+    },
+    {
+      "path": "packages/reforge/src/battle/battle-core.ts",
+      "sha256": "e90dc0c682d4afcd5076b3c53e331da97109fd3118fb46dda41a1cf763fe2862",
+      "scope": "content-value-consumers",
+      "credit": "dependency only; whole-file hash is drift detection, not a claim of whole-file semantic acceptance"
+    },
+    {
+      "path": "packages/reforge/src/project-loader.ts",
+      "sha256": "ec07b4e235d13df2b6945870b3994eb2b3ab0031b4d80bbb0a6bf7ffe20bff1f",
+      "scope": "content-value-consumers",
+      "credit": "dependency only; whole-file hash is drift detection, not a claim of whole-file semantic acceptance"
+    },
+    {
+      "path": "packages/editor/src/core/project-io.ts",
+      "sha256": "c74ae36b08829570fd5f9e587ddf3ef66b5a4e4f7f1864b8c44c978e67cfa8bf",
+      "scope": "content-value-consumers",
+      "credit": "dependency only; whole-file hash is drift detection, not a claim of whole-file semantic acceptance"
+    },
+    {
+      "path": "packages/reforge/src/assets.ts",
+      "sha256": "8835c24554de4f37ce95532293771a759b578635fa2ac8f9db88db998c5ed025",
+      "scope": "content-value-consumers",
+      "credit": "dependency only; whole-file hash is drift detection, not a claim of whole-file semantic acceptance"
+    },
+    {
+      "path": "packages/editor/src/core/battle-sprite-commands.ts",
+      "sha256": "16041546eef69003ec20515cd91110b910b266df64c3cfbc84f47e9fda89b890",
+      "scope": "content-value-consumers",
+      "credit": "dependency only; whole-file hash is drift detection, not a claim of whole-file semantic acceptance"
+    },
+    {
+      "path": "packages/editor/src/core/frame-animation-codec.ts",
+      "sha256": "f4f0dd01c593de2ab15b4b56a68000f9dc42e25a9b1aebb290a0020cb68cca0b",
+      "scope": "content-value-consumers",
+      "credit": "dependency only; whole-file hash is drift detection, not a claim of whole-file semantic acceptance"
+    },
+    {
+      "path": "packages/reforge/src/frame-animation-player.ts",
+      "sha256": "056937a201ea2cc21a127b3aa93cc5b42c6b9860dc46f1a4a48f7256c36c1a2b",
+      "scope": "content-value-consumers",
+      "credit": "dependency only; whole-file hash is drift detection, not a claim of whole-file semantic acceptance"
+    },
+    {
+      "path": "packages/content/src/battle-sprite.ts",
+      "sha256": "fb076a98d028ca83645a709681d137e2b0faa10f511e1b52a498ca55b0277130",
+      "scope": "pure-source-dependencies",
+      "credit": "dependency only; whole-file hash is drift detection, not a claim of whole-file semantic acceptance"
+    },
+    {
+      "path": "packages/content/src/frame-sequence.ts",
+      "sha256": "c4d91861ebbb6f5f8590a98e5dc64c723c3cb0f76b474d5d91e9b82cf7994842",
+      "scope": "pure-source-dependencies",
+      "credit": "dependency only; whole-file hash is drift detection, not a claim of whole-file semantic acceptance"
+    },
+    {
+      "path": "packages/content/src/project-map.ts",
+      "sha256": "243364b913aaee6e9cdfa4aeff49955ea7e9e26b3cf825734ea3e28b332be9f8",
+      "scope": "pure-source-dependencies",
+      "credit": "dependency only; whole-file hash is drift detection, not a claim of whole-file semantic acceptance"
+    },
+    {
+      "path": "packages/content/src/map-index.ts",
+      "sha256": "2094da4342bfcf63093012e74fd49490d750a0d7e9b5b59f959e2e6d84ce6e85",
+      "scope": "pure-source-dependencies",
+      "credit": "dependency only; whole-file hash is drift detection, not a claim of whole-file semantic acceptance"
+    },
+    {
+      "path": "packages/content/src/scene-index.ts",
+      "sha256": "0751c817a4f9db1de7db94b6c9f0acfd37285d4c92361f450fb5ae2575ce6931",
+      "scope": "pure-source-dependencies",
+      "credit": "dependency only; whole-file hash is drift detection, not a claim of whole-file semantic acceptance"
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap-resources.ts",
+      "sha256": "7298c33038868dd9f514b04940f5f9f8dbcf29a5592201a6e83509d4b04ed6aa",
+      "scope": "boot-fixture-callers",
+      "credit": "dependency only; whole-file hash is drift detection, not a claim of whole-file semantic acceptance"
+    },
+    {
+      "path": "packages/game/src/assets/loader.ts",
+      "sha256": "9c3c3a333e5b04d25cd220e17d04863b0ff5c759e273d05c3b82af758756788f",
+      "scope": "boot-fixture-callers",
+      "credit": "dependency only; whole-file hash is drift detection, not a claim of whole-file semantic acceptance"
+    },
+    {
+      "path": "packages/game/src/assets/dialog-assets.ts",
+      "sha256": "4a5186879b7ae66abe0ef13a48a472e35e1234c0c69943ce932bcd26b9a67eed",
+      "scope": "boot-fixture-callers",
+      "credit": "dependency only; whole-file hash is drift detection, not a claim of whole-file semantic acceptance"
+    },
+    {
+      "path": "packages/game/src/assets/scene-cache.grok-mid-1.test.ts",
+      "sha256": "e9fe9e4a87d062c3c56efb0471f7ef14f08a5d8d3fb745622bb6bc3e4db53f09",
+      "scope": "boot-fixture-callers",
+      "credit": "dependency only; whole-file hash is drift detection, not a claim of whole-file semantic acceptance"
+    },
+    {
+      "path": "packages/game/src/assets/dialog-resources.grok-mid-1.test.ts",
+      "sha256": "9a661900eaa6cee0c939bae9dcf8df6ab4c702c3088db3d97ed269297278db72",
+      "scope": "boot-fixture-callers",
+      "credit": "dependency only; whole-file hash is drift detection, not a claim of whole-file semantic acceptance"
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts",
+      "sha256": "a24ecd452ca31eb32eb012dc3d7517524ab323066549ce746541c6a8236d62f3",
+      "scope": "boot-fixture-callers",
+      "credit": "dependency only; whole-file hash is drift detection, not a claim of whole-file semantic acceptance"
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap-resources.test.ts",
+      "sha256": "06dcb4cc62af1829205e6742d545918d3b5ac5abd8346cc520c5ddb43268b750",
+      "scope": "boot-fixture-callers",
+      "credit": "dependency only; whole-file hash is drift detection, not a claim of whole-file semantic acceptance"
+    }
+  ],
+  "identityReceiptCorrection": {
+    "reason": "Freeze review caught four title mappings pointing at an earlier successful run. Updated to final native identities, narrowed broad file-level mappings to exact surviving contracts, and made verifier prefer each file latest completed run. Product/tests unchanged; no test replay needed.",
+    "affectedOriginalRows": [348, 349, 351, 356]
+  },
+  "uniform": {
+    "status": "local gates passed, including final docs/ledger/lint deltas",
+    "packageCheckTests": 20503,
+    "officialTests": 20154,
+    "productionSources": 809,
+    "primaryAccepted": 100,
+    "ancillaryAccepted": 1,
+    "closed": 796,
+    "review": 0,
+    "pending": 2667,
+    "publication": "Fetch recovered 2026-10-28T04:11Z; origin/main f47, precommit0behind. Protected PR and merge CI pending; tracked by active goal."
+  }
+}

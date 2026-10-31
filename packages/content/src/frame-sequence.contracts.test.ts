@@ -1,13 +1,13 @@
 /**
  * TEST-CONTENT-CONTRACTS-1 C1-C7：TPFS 帧容器与纯数据时序（frame-sequence.ts）。
- * 极小确定性数据 + 独立 deflate/inflate 桥；header/index/像素/播放全合同。
+ * 极小确定性数据 + 独立 zlib deflate/inflate 桥；所列 header/像素/播放合同，不宣称格式全部拒绝分支。
  * 既有 35 帧跨块测试见旧测试；本文件补 header 各轴、index 校验、全像素 oracle、
  * playback 边界、byteOffset 视图与输入不变。
  */
-// @ts-expect-error Node-only test host; content production type environment is DOM-only.
+// @ts-expect-error Node-only test host; content type environment has no Node ambient declarations.
 import { deflateSync, inflateSync } from 'node:zlib'
 import { describe, expect, test } from 'vitest'
-import { deepSnapshot } from './__tests__/glm-content-contract-fixtures.js'
+import { deepSnapshot } from './__tests__/value-snapshot.js'
 import {
   decodeFrameSequenceBlock,
   type EncodeFrameSequenceInput,
@@ -136,8 +136,7 @@ describe('C4/C5 provider 入口与视图', () => {
     const view = padded.subarray(16)
     expect(view.byteOffset).toBe(16)
     expect(view).toEqual(bytes)
-    // 对该视图完整解码（parse + 全部 block + 全部帧像素）。解码失败本身也是合同违规，
-    // 统一落成值断言：decodeError 必须为 undefined、frames 必须逐像素等于输入。
+    // 对该视图完整解码（parse + 全部 block + 全部帧像素）；拒绝或像素不一致均失败。
     const decodeAll = async (): Promise<number[][]> => {
       const parsed = parse(view)
       const out: Uint8Array[] = []
@@ -145,18 +144,7 @@ describe('C4/C5 provider 入口与视图', () => {
         out.push(...(await decodeFrameSequenceBlock(parsed, b, (raw) => inflateSync(raw))))
       return out.map((f) => [...f])
     }
-    let frames: number[][] | undefined
-    let decodeError: unknown
-    await decodeAll().then(
-      (out) => {
-        frames = out
-      },
-      (error: unknown) => {
-        decodeError = error
-      },
-    )
-    expect(decodeError).toBeUndefined()
-    expect(frames).toEqual([
+    await expect(decodeAll()).resolves.toEqual([
       [...value.frames[0]!.rgba],
       [...value.frames[1]!.rgba],
       [...value.frames[2]!.rgba],
@@ -201,7 +189,7 @@ describe('C6 playback 纯计算', () => {
     ['NaN 帧率', { frameRate: Number.NaN }],
   ])('%s 拒绝', (_name, options) => {
     const parsed = parse(encode(input(3)))
-    expect(() => resolveFrameSequencePlayback(parsed.index, options as never)).toThrow()
+    expect(() => resolveFrameSequencePlayback(parsed.index, options)).toThrow()
   })
   test('帧时长优先级：显式 durationMs > defaultFrameMs', () => {
     const parsed = parse(encode(input(3, 250))) // 每帧 250ms

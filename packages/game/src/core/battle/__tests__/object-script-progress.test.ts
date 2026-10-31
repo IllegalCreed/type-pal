@@ -1,6 +1,7 @@
 import type { Command, Item, Magic, Spell } from '@type-pal/shared'
 import { afterEach, describe, expect, it } from 'vitest'
-import { makeHBattle, makeHRole } from '../../../__tests__/glm-next-wave/H/harness.js'
+import { makeBattleFixture } from '../../../__tests__/battle-fixture.js'
+import { makeRoleRecord } from '../../../__tests__/battle-records.js'
 import { parseImportedSave, serializeSave } from '../../../tools/save-io.js'
 import { runScript } from '../../event-system.js'
 import {
@@ -61,7 +62,7 @@ const magic: Magic = {
   sound: 301,
 }
 function battle() {
-  const b = makeHBattle({ roles: [makeHRole(0), makeHRole(1)], party: [1, 0] })
+  const b = makeBattleFixture({ roles: [makeRoleRecord(0), makeRoleRecord(1)], party: [1, 0] })
   hydratePlayerRolesRuntime(b.gs.PlayerRolesRuntime, b.playerRoles)
   b.gs.PlayerRolesRuntime.rgwMagic[0]![0] = 370
   b.gs.PlayerRolesRuntime.rgwMagic[1]![0] = 296

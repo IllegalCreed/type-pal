@@ -54,6 +54,7 @@ Template: governance-index-v1 / 1.0.0
 | [E2E-R4-1 — 路线驱动与合法检查点薄基线](E2E-R4-1-route-and-checkpoint-foundation.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [ED-ENTITY-STATE-PLAN-1 — 实体状态方案、脚本组合与编辑器预览](ED-ENTITY-STATE-PLAN-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [GAME-ACTION-QUEUE-TIE-ORDER-1 — 第一阶段同速行动排序分叉](GAME-ACTION-QUEUE-TIE-ORDER-1.md) | review | 以任务卡当前准入与看板分工为准。 |
+| [GAME-INPUT-KEYMAP-OWN-KEY-1 — 未定义键名的查表所有权](GAME-INPUT-KEYMAP-OWN-KEY-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [GAME-MAGIC-NUMERIC-ASSIGNMENT-1 — 第一阶段法术中间赋值与随机倍率数值差异](GAME-MAGIC-NUMERIC-ASSIGNMENT-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [GAME-MAP-RELOAD-FAILURE-OWNERSHIP-1 — 换图失败的活资源与拒绝归属](GAME-MAP-RELOAD-FAILURE-OWNERSHIP-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [GAME-OPENING-CANCEL-CURSOR-1 — 标题读档取消默认光标](GAME-OPENING-CANCEL-CURSOR-1.md) | review | 以任务卡当前准入与看板分工为准。 |
@@ -64,6 +65,7 @@ Template: governance-index-v1 / 1.0.0
 | [GAME-TOOLS-SAVE-IO-ERROR-FEEDBACK-1 — 工具面板导出失败提示](GAME-TOOLS-SAVE-IO-ERROR-FEEDBACK-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [GAME-VIDEO-PUBLISH-BOUNDARY-1 — 视频转码子路径所有权与失败发布](GAME-VIDEO-PUBLISH-BOUNDARY-1.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-BATTLE-MAGIC-PARITY-1 — pre-94 战斗模拟法术与自动防御返工](QUALITY-BATTLE-MAGIC-PARITY-1.md) | review | 以任务卡当前准入与看板分工为准。 |
+| [QUALITY-BATTLE-SPRITE-DEMAND-BOUNDARY-1 — 战斗精灵声明帧需求的资源边界](QUALITY-BATTLE-SPRITE-DEMAND-BOUNDARY-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-DOCS-GIT-PATH-ENUMERATION-1 — Git路径枚举缓冲区边界](QUALITY-DOCS-GIT-PATH-ENUMERATION-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-EDITOR-DIAGNOSTICS-1 — editor 测试异步生命周期诊断清理](QUALITY-EDITOR-DIAGNOSTICS-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-EDITOR-DIAGNOSTICS-2 — C02 宿主与删除生命周期](QUALITY-EDITOR-DIAGNOSTICS-2.md) | review | 以任务卡当前准入与看板分工为准。 |
@@ -79,6 +81,13 @@ Template: governance-index-v1 / 1.0.0
 | [QUALITY-FETCH-ABORT-LIFECYCLE-1 — GET重试等待期与Request取消停止线](QUALITY-FETCH-ABORT-LIFECYCLE-1.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-GAME-RUNTIME-DIAGNOSTICS-1 — game包17块运行时诊断核清](QUALITY-GAME-RUNTIME-DIAGNOSTICS-1.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-HOST-NAVIGATION-DIAGNOSTICS-1 — 测试宿主原生导航与真实事件](QUALITY-HOST-NAVIGATION-DIAGNOSTICS-1.md) | review | 以任务卡当前准入与看板分工为准。 |
+| [QUALITY-MIGRATION-ASSET-TAKEOVER-1 — 作者资源接管与三方快捷路径](QUALITY-MIGRATION-ASSET-TAKEOVER-1.md) | review | 以任务卡当前准入与看板分工为准。 |
+| [QUALITY-MIGRATION-BASELINE-PATH-DOMAIN-1 — 基线清单路径输入域](QUALITY-MIGRATION-BASELINE-PATH-DOMAIN-1.md) | review | 以任务卡当前准入与看板分工为准。 |
+| [QUALITY-MIGRATION-CONTROL-OWNERSHIP-1 — 事务内部写入路径所有权](QUALITY-MIGRATION-CONTROL-OWNERSHIP-1.md) | review | 以任务卡当前准入与看板分工为准。 |
+| [QUALITY-MIGRATION-MERGE-OWN-JSON-1 — 三方合并 JSON 字段所有权](QUALITY-MIGRATION-MERGE-OWN-JSON-1.md) | review | 以任务卡当前准入与看板分工为准。 |
+| [QUALITY-MIGRATION-UNMANAGED-AUDIT-RETIREMENT-1 — 无生产调用的非托管哈希接口](QUALITY-MIGRATION-UNMANAGED-AUDIT-RETIREMENT-1.md) | review | 以任务卡当前准入与看板分工为准。 |
+| [QUALITY-NAMING-ORGANIZATION-1 — 命名与文件职责补审](QUALITY-NAMING-ORGANIZATION-1.md) | review | 以任务卡当前准入与看板分工为准。 |
+| [QUALITY-PENDING-100-3 — 第三治理窗口：按复杂度逐片核验 pending](QUALITY-PENDING-100-3.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-RLE-COMMAND-TRUTH-1 — PAL RLE高位literal判定前提核验](QUALITY-RLE-COMMAND-TRUTH-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [REFORGE-OPENING-LOAD-ERROR-1 — 标题读档IO失败的悬空拒绝](REFORGE-OPENING-LOAD-ERROR-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [SCRIPT-AUTHOR-2 — 客栈脚本语义命名与坐标走位](SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | 以任务卡当前准入与看板分工为准。 |
@@ -524,9 +533,30 @@ Template: governance-index-v1 / 1.0.0
 | [GAME-UI-ASSET-FRAME-IDENTITY-1 — UI 单帧加载失败后的编号漂移](GAME-UI-ASSET-FRAME-IDENTITY-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [MIGRATION-LEGACY-SCRIPT-DISCOVERY-1 — 退役脚本索引与托管范围](MIGRATION-LEGACY-SCRIPT-DISCOVERY-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-BOOT-FAILURE-PROGRESS-1 — 启动失败后的进度所有权](QUALITY-BOOT-FAILURE-PROGRESS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [QUALITY-COVERAGE-PREFLIGHT-PROBES-1 — 工具预检与原生合并探针](QUALITY-COVERAGE-PREFLIGHT-PROBES-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [QUALITY-DIALOGUE-REFERENCE-OWNERSHIP-1 — 二阶段对话引用的定义归属](QUALITY-DIALOGUE-REFERENCE-OWNERSHIP-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [QUALITY-EXTRACT-EVENT-TESTS-1 — 事件编解码专测及原始夹具](QUALITY-EXTRACT-EVENT-TESTS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [QUALITY-EXTRACT-FONT-TESTS-1 — 字体专测合同与排重](QUALITY-EXTRACT-FONT-TESTS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [QUALITY-EXTRACT-MANIFEST-TESTS-1 — 资源清单三专测的oracle与ownership](QUALITY-EXTRACT-MANIFEST-TESTS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [QUALITY-EXTRACT-RAW-TABLE-TESTS-1 — 原盘表专测与散落守卫归属](QUALITY-EXTRACT-RAW-TABLE-TESTS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [QUALITY-EXTRACT-SCENE-IMAGE-TESTS-1 — 场景/地图与单帧图片专测](QUALITY-EXTRACT-SCENE-IMAGE-TESTS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [QUALITY-EXTRACT-TABLE-TESTS-1 — 二进制表与调色/音频专测](QUALITY-EXTRACT-TABLE-TESTS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [QUALITY-EXTRACT-UNUSED-ADAPTERS-1 — 提取器旧适配器退役候选](QUALITY-EXTRACT-UNUSED-ADAPTERS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [QUALITY-GAME-ASSET-RENDER-TESTS-1 — 资产读取与渲染专测的合同收口](QUALITY-GAME-ASSET-RENDER-TESTS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [QUALITY-GAME-PRESENT-HOST-TESTS-1 — present 主测与冻屏合同质量](QUALITY-GAME-PRESENT-HOST-TESTS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [QUALITY-INITIALIZER-FIXTURES-1 — 原生初始化器探针的九个 fixture](QUALITY-INITIALIZER-FIXTURES-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-LEGACY-OGG-RETIREMENT-1 — 未接入的旧OGG后端退役](QUALITY-LEGACY-OGG-RETIREMENT-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [QUALITY-LINT-ZERO-TEST-CONTRACT-1 — 零诊断专测输入排重](QUALITY-LINT-ZERO-TEST-CONTRACT-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [QUALITY-LOCALE-DEFINITION-OWNERSHIP-1 — 二阶段文本缺键回退](QUALITY-LOCALE-DEFINITION-OWNERSHIP-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [QUALITY-PENDING-100-1 — 约百文件代码治理窗口](QUALITY-PENDING-100-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [QUALITY-PENDING-100-2 — 第二个百文件代码治理窗口](QUALITY-PENDING-100-2.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-PRE94-RETROSPECTIVE-1 — 94前全部治理成果逐卡复审](QUALITY-PRE94-RETROSPECTIVE-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [QUALITY-RECENT-200-ACCEPTANCE-AUDIT-1 — 两百文件回执返工与风险抽核](QUALITY-RECENT-200-ACCEPTANCE-AUDIT-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [QUALITY-RECENT-200-CONTENT-AUDIT-2 — 最近两百文件剩余项逐文件复核](QUALITY-RECENT-200-CONTENT-AUDIT-2.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-REVIEW-52-CLOSEOUT-1 — 剩余52个review文件收口](QUALITY-REVIEW-52-CLOSEOUT-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [QUALITY-SHOP-DEFINITION-OWNERSHIP-1 — 二阶段商店物品定义归属](QUALITY-SHOP-DEFINITION-OWNERSHIP-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [QUALITY-TOOLS-CONTRACT-TESTS-1 — 覆盖率工具专测的合同与判别力](QUALITY-TOOLS-CONTRACT-TESTS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TESTING-EVIDENCE-REVISION-1 — 以版本适用性替代 E2E 日历期限](TESTING-EVIDENCE-REVISION-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 
 ## 已取消（superseded / historical）
 

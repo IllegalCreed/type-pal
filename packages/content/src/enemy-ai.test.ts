@@ -1,7 +1,9 @@
 /** 敌人 AI 规则求值器(M4c-1)—— 设计:enemy-ai-design.md §1/§2。 */
-import { describe, expect, test } from 'vitest'
+import { describe, expect, test, vi } from 'vitest'
+import { deepSnapshot } from './__tests__/value-snapshot.js'
 import type { AiBattleView, AiRule } from './enemy-ai.js'
 import { decideByRules, evalAiCond, pickAiTarget } from './enemy-ai.js'
+import { checkEnemyAi } from './enemy-script.js'
 
 const view = (
   over?: Omit<Partial<AiBattleView>, 'self'> & { self?: Partial<AiBattleView['self']> },
@@ -25,6 +27,8 @@ describe('evalAiCond', () => {
       evalAiCond({ kind: 'hpBelow', percent: 30 }, view({ self: { hpPercent: 20 } }), r0),
     ).toBe(true)
     expect(evalAiCond({ kind: 'hpAbove', percent: 50 }, view(), r0)).toBe(true)
+    expect(evalAiCond({ kind: 'hpBelow', percent: 100 }, view(), r0)).toBe(false)
+    expect(evalAiCond({ kind: 'hpAbove', percent: 100 }, view(), r0)).toBe(false)
     expect(evalAiCond({ kind: 'turn', op: '>=', value: 3 }, view({ turn: 3 }), r0)).toBe(true)
     expect(evalAiCond({ kind: 'turn', op: '==', value: 3 }, view({ turn: 4 }), r0)).toBe(false)
     expect(evalAiCond({ kind: 'aloneAlive' }, view({ allyCount: 1 }), r0)).toBe(true)
@@ -54,6 +58,36 @@ describe('evalAiCond', () => {
       ],
     }
     expect(evalAiCond(c, view(), r0)).toBe(true)
+    const random = vi.fn(() => 0.25)
+    expect(evalAiCond({ kind: 'any', of: [] }, view(), random)).toBe(false)
+    expect(
+      evalAiCond(
+        {
+          kind: 'any',
+          of: [
+            { kind: 'turn', op: '>=', value: 1 },
+            { kind: 'chance', percent: 50 },
+          ],
+        },
+        view(),
+        random,
+      ),
+    ).toBe(true)
+    expect(
+      evalAiCond(
+        {
+          kind: 'all',
+          of: [
+            { kind: 'hpBelow', percent: 10 },
+            { kind: 'chance', percent: 50 },
+          ],
+        },
+        view(),
+        random,
+      ),
+    ).toBe(false)
+    // Short-circuiting is observable RNG ownership, not merely an optimization.
+    expect(random).not.toHaveBeenCalled()
   })
 })
 
@@ -77,16 +111,26 @@ describe('decideByRules(首条命中 / once / 沉默跳 cast)', () => {
   })
   test('低血优先变身;once 已触发则跳过', () => {
     const v = view({ self: { hpPercent: 10 } })
-    expect(decideByRules(rules, v, r0, new Set())?.action.kind).toBe('transform')
-    expect(decideByRules(rules, v, r0, new Set([1]))?.action.kind).toBe('cast')
+    expect(decideByRules(rules, v, r0, new Set())).toEqual({
+      action: { kind: 'transform', enemyId: 'enemy-2' },
+      ruleIdx: 1,
+    })
+    expect(decideByRules(rules, v, r0, new Set([1]))).toEqual({
+      action: { kind: 'cast', skillId: '339' },
+      ruleIdx: 2,
+    })
   })
   test('沉默:cast 跳过继续匹配 → 普攻兜底', () => {
-    expect(
-      decideByRules(rules, view({ self: { silenced: true } }), r0, new Set())?.action.kind,
-    ).toBe('attack')
+    expect(decideByRules(rules, view({ self: { silenced: true } }), r0, new Set())).toEqual({
+      action: { kind: 'attack' },
+      ruleIdx: 3,
+    })
   })
   test('概率不中落到兜底;无命中返回 null', () => {
-    expect(decideByRules(rules, view(), r9, new Set())?.action.kind).toBe('attack')
+    expect(decideByRules(rules, view(), r9, new Set())).toEqual({
+      action: { kind: 'attack' },
+      ruleIdx: 3,
+    })
     expect(decideByRules([rules[2]!], view(), r9, new Set())).toBeNull()
   })
 })
@@ -99,5 +143,25 @@ describe('pickAiTarget(目标策略)', () => {
     expect(pickAiTarget('lowestHp', ps, r0)).toBe(2)
     expect(pickAiTarget('strongest', ps, r0)).toBe(0)
     expect(pickAiTarget('lowestMp', ps, r0)).toBe(2)
+  })
+
+  test('highestHp 取最高血；并列取槽序靠前，旁队员不改', () => {
+    checkEnemyAi(
+      {
+        resistanceToSorcery: 0,
+        rules: [{ at: 'act', do: { kind: 'attack', target: 'highestHp' } }],
+      },
+      'ai',
+    )
+    const players = [
+      { index: 0, hpPercent: 40, hp: 80, mp: 30, attack: 50, role: 'hero.li' },
+      { index: 2, hpPercent: 90, hp: 200, mp: 10, attack: 20, role: 'hero.zhao' },
+      { index: 3, hpPercent: 90, hp: 200, mp: 99, attack: 80, role: 'hero.lin' },
+    ]
+    const snap = deepSnapshot(players)
+    expect(pickAiTarget('highestHp', players, () => 0.99)).toBe(2)
+    expect(players).toEqual(snap)
+    expect(players[0]?.hp).toBe(80)
+    expect(players[2]?.index).toBe(3)
   })
 })

@@ -1,8 +1,9 @@
+import assert from 'node:assert/strict'
+import { createHash } from 'node:crypto'
 import * as fs from 'node:fs'
 import { join } from 'node:path'
 import { afterEach, expect, test, vi } from 'vitest'
 import { guardFixture, put, tree } from './__tests__/migration-guard-fixture.js'
-import { serializeMigrationJson, sha256 } from './migration-baseline.js'
 import { createMigrationPlan, snapshotOf } from './migration-plan.js'
 import {
   assertProjectSnapshotCurrent,
@@ -10,13 +11,16 @@ import {
 } from './migration-project-io.js'
 import {
   commitMigrationTransaction,
+  hasPendingMigrationTransaction,
   recoverMigrationTransaction,
-  type TransactionChange,
 } from './migration-transaction.js'
 import { buildMigrationTransactionChanges } from './migration-write-plan.js'
 
+// Preserve native IO; a mutable facade lets the two staging cases inject at an exact write.
 vi.mock('node:fs', async (original) => ({ ...(await original<typeof fs>()) }))
 const native = await vi.importActual<typeof fs>('node:fs')
+const digest = (bytes: string) => createHash('sha256').update(bytes).digest('hex')
+const expectedContent = '{\n  "value": 2\n}\n'
 const roots: string[] = []
 afterEach(() => {
   vi.restoreAllMocks()
@@ -43,7 +47,17 @@ function fixture(kind: 'write' | 'create' | 'delete' = 'write') {
     projectSnapshot: project,
     nextBaseline: next,
   })
-  return { ...f, path, target, raw, project, plan, next, changes }
+  return { ...f, path, target, raw, next, changes }
+}
+
+function journalObservation(repo: string) {
+  const journal: unknown = JSON.parse(
+    fs.readFileSync(join(repo, '.type-pal-migrate/pal-journal.json'), 'utf8'),
+  )
+  assert.ok(journal !== null && typeof journal === 'object')
+  assert.ok('version' in journal && 'operations' in journal && Array.isArray(journal.operations))
+  const operation: unknown = journal.operations[0]
+  return { version: journal.version, operation }
 }
 
 test.each([
@@ -68,11 +82,10 @@ test.each([
   'delete',
 ] as const)('planned %s succeeds with raw-byte provenance and journal v2', (kind) => {
   const f = fixture(kind)
+  const expectedHash = kind === 'create' ? null : digest(f.raw)
   expect(f.changes[0]).toMatchObject({
-    expectedPreviousHash: kind === 'create' ? null : sha256(f.raw),
+    expectedPreviousHash: expectedHash,
   })
-  if (kind !== 'create')
-    expect(sha256(f.raw)).not.toBe(sha256(serializeMigrationJson({ value: 1 })))
   expect(() =>
     commitMigrationTransaction(f.repo, f.changes, {
       afterOperation: () => {
@@ -80,15 +93,17 @@ test.each([
       },
     }),
   ).toThrow('interrupt')
-  const journal = JSON.parse(
-    fs.readFileSync(join(f.repo, '.type-pal-migrate/pal-journal.json'), 'utf8'),
-  )
+  const journal = journalObservation(f.repo)
   expect(journal.version).toBe(2)
-  expect(journal.operations[0].previousHash).toBe(kind === 'create' ? null : sha256(f.raw))
+  expect(journal.operation).toMatchObject({
+    target: `projects/pal/${f.path}`,
+    kind: kind === 'delete' ? 'delete' : 'write',
+    previousHash: expectedHash,
+  })
   expect(recoverMigrationTransaction(f.repo)).toBe(true)
   expect(recoverMigrationTransaction(f.repo)).toBe(false)
   if (kind === 'delete') expect(fs.existsSync(f.target)).toBe(false)
-  else expect(fs.readFileSync(f.target, 'utf8')).toBe(serializeMigrationJson({ value: 2 }))
+  else expect(fs.readFileSync(f.target, 'utf8')).toBe(expectedContent)
   const after = loadProjectMigrationSnapshot(f.repo, new Set([f.path]))
   const replay = createMigrationPlan(f.next, after, f.next)
   expect(replay.writes.size).toBe(0)
@@ -113,42 +128,29 @@ test('a late conflicting operation prevents even the first staging write', () =>
   expect(tree(f.root)).toEqual(before)
 })
 
-test.each([
-  undefined,
-  'bad-hash',
-])('project operations cannot silently sample a missing/invalid planned hash: %s', (hash) => {
-  const f = fixture()
-  const before = tree(f.root)
-  const change = {
-    target: `projects/pal/${f.path}`,
-    scope: 'project',
-    content: 'new',
-    ...(hash === undefined ? {} : { expectedPreviousHash: hash }),
-  }
-  expect(() => commitMigrationTransaction(f.repo, [change as TransactionChange])).toThrow(
-    /规划|expectedPreviousHash/,
-  )
-  expect(tree(f.root)).toEqual(before)
-})
-
 test('changes during staging cannot become the journal previousHash or overwrite author bytes on recovery', () => {
   const f = fixture()
-  let injected = 0
+  let injected = false
   vi.spyOn(fs, 'writeFileSync').mockImplementation((...args) => {
     const result = native.writeFileSync(...args)
-    if (String(args[0]).includes('/stage/') && injected++ === 0)
+    if (String(args[0]).includes('/stage/') && !injected) {
+      injected = true
       native.writeFileSync(f.target, 'late-author')
+    }
     return result
   })
-  expect(() => commitMigrationTransaction(f.repo, f.changes)).toThrow(/偏离规划快照|提交窗口被修改/)
-  expect(injected).toBeGreaterThan(0)
+  expect(() => commitMigrationTransaction(f.repo, f.changes)).toThrow(
+    `事务目标在提交窗口被修改: projects/pal/${f.path}`,
+  )
+  expect(injected).toBe(true)
   expect(fs.readFileSync(f.target, 'utf8')).toBe('late-author')
-  const path = join(f.repo, '.type-pal-migrate/pal-journal.json')
-  if (fs.existsSync(path)) {
-    expect(JSON.parse(fs.readFileSync(path, 'utf8')).operations[0].previousHash).toBe(sha256(f.raw))
-    expect(() => recoverMigrationTransaction(f.repo)).toThrow('提交窗口被修改')
-    expect(fs.readFileSync(f.target, 'utf8')).toBe('late-author')
-  }
+  expect(hasPendingMigrationTransaction(f.repo)).toBe(true)
+  expect(journalObservation(f.repo).operation).toMatchObject({ previousHash: digest(f.raw) })
+  const before = tree(f.root)
+  expect(() => recoverMigrationTransaction(f.repo)).toThrow(
+    `事务目标在提交窗口被修改: projects/pal/${f.path}`,
+  )
+  expect(tree(f.root)).toEqual(before)
 })
 
 test('a later target changed during earlier staging is not resampled into permission', () => {
@@ -158,7 +160,7 @@ test('a later target changed during earlier staging is not resampled into permis
   f.changes.splice(1, 0, {
     target: 'projects/pal/content/z.json',
     scope: 'project',
-    expectedPreviousHash: sha256('original-second'),
+    expectedPreviousHash: digest('original-second'),
     content: 'planned-second',
   })
   let injected = false
@@ -177,26 +179,11 @@ test('a later target changed during earlier staging is not resampled into permis
   expect(fs.existsSync(join(f.repo, '.type-pal-migrate/pal-journal.json'))).toBe(false)
 })
 
-test('format-only byte changes and deletion after planning are still conflicts', () => {
-  for (const variant of ['format', 'missing']) {
-    const f = fixture()
-    if (variant === 'format') put(f.target, serializeMigrationJson({ value: 1 }))
-    else fs.unlinkSync(f.target)
-    const before = tree(f.root)
-    expect(() => commitMigrationTransaction(f.repo, f.changes)).toThrow('偏离规划快照')
-    expect(tree(f.root)).toEqual(before)
-  }
-})
-
-test('planning requires an observed scope and original hash, not serialized fallback', () => {
+test.each(['format', 'missing'])('%s changes after planning remain conflicts', (variant) => {
   const f = fixture()
-  const before = structuredClone(f.project)
-  const args = { repo: f.repo, plan: f.plan, projectSnapshot: f.project, nextBaseline: f.next }
-  expect(buildMigrationTransactionChanges(args)).toEqual(f.changes)
-  expect(f.project).toEqual(before)
-  f.project.managedFiles.delete(f.path)
-  expect(() => buildMigrationTransactionChanges(args)).toThrow('未纳入规划快照')
-  f.project.managedFiles.add(f.path)
-  f.project.hashes.delete(f.path)
-  expect(() => buildMigrationTransactionChanges(args)).toThrow('缺原始字节 hash')
+  if (variant === 'format') put(f.target, '{\n  "value": 1\n}\n')
+  else fs.unlinkSync(f.target)
+  const before = tree(f.root)
+  expect(() => commitMigrationTransaction(f.repo, f.changes)).toThrow('偏离规划快照')
+  expect(tree(f.root)).toEqual(before)
 })

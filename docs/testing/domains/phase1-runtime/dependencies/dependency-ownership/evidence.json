@@ -60,10 +60,10 @@
     },
     {
       "path": "packages/game/src/core/cross-module-boundaries.test.ts",
-      "lines": "25",
+      "lines": "29",
       "anchor": "describe('G07",
       "role": "oracle",
-      "sha256": "18349e6552d9b5bf181d60db94a207b9a055bf4c2d76bbb72337e4d5575887c4"
+      "sha256": "a9c102b84743f778f82a35e155b5eb2b787f4cdd8fb821238d8bea7a5a570622"
     },
     {
       "path": "packages/content/src/character.ts",
@@ -110,7 +110,7 @@
         "packages/game/src/core/scene-identity.ts:6",
         "packages/game/src/core/menu/menu-stack.ts:12-19",
         "packages/game/src/core/dependency-ownership.test.ts:26",
-        "packages/game/src/core/cross-module-boundaries.test.ts:25",
+        "packages/game/src/core/cross-module-boundaries.test.ts:29",
         "packages/content/src/character.ts:168-170"
       ]
     }
@@ -382,6 +382,17 @@
     ],
     "supersedes": [],
     "stopLine": "静态publication审查与source-backed不产生runtime-backed；原raw缺失、旧counter、版本和历史结果不得升级为当前通过。",
-    "nextStep": "通过真实paired consumer后登记source/after SHA；后续动态验证使用实际任务与原始产物，不复写本次static证据。"
+    "nextStep": "通过真实paired consumer后登记source/after SHA；后续动态验证使用实际任务与原始产物，不复写本次static证据。",
+    "sourceBindingMaintenance": {
+      "date": "2026-10-30",
+      "path": "packages/game/src/core/cross-module-boundaries.test.ts",
+      "beforeSha256": "18349e6552d9b5bf181d60db94a207b9a055bf4c2d76bbb72337e4d5575887c4",
+      "afterSha256": "a9c102b84743f778f82a35e155b5eb2b787f4cdd8fb821238d8bea7a5a570622",
+      "anchorBefore": 25,
+      "anchorAfter": 29,
+      "evidence": "docs/ops/evidence/QUALITY-PENDING-100-3/organization-game-battle-fixtures.json",
+      "proofMember": "organization-game-battle-fixtures/phase1-source-bridge.json",
+      "scope": "Specific G07 import/name and source-binding delta only; no historical D1 SCC/token/needles, new architecture, browser or E2E execution credit"
+    }
   }
 }

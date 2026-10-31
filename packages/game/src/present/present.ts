@@ -634,9 +634,9 @@ export function presentFrame(
   // 6. 对话框/确认框(最上层)
   drawDialogOverlay(fb, gs, ctx)
 
-  // 7. fadeState — port sdlpal video.c:1130-1280 VIDEO_FadeScreen 真值 **per-frame 1 step**。
+  // 7. fadeState：沿用 sdlpal video.c:1130-1280 的 72 个离散步骤，按墙钟追赶目标步骤。
   //
-  //    sdlpal 算法 72 帧(12 outer × 6 inner):
+  //    sdlpal 算法 72 次更新(12 outer × 6 inner)：
   //    ```c
   //    for (i = 0; i < 12; i++)
   //      for (j = 0; j < 6; j++)
@@ -651,11 +651,11 @@ export function presentFrame(
   //        display backupCur
   //    ```
   //
-  //    每帧只跑 1 个 (i, j) step,所以 72 帧每帧都视觉不同(=真平滑)。
+  //    每次呈现可执行多个步骤或不推进；不保证每个 rAF 对应一个可见步骤。
   //    backupPixels 在 fadeState 启动时快照,然后每帧被 mutate(累积逼近 current)。
   //
-  //    **关键**:主角 sprite 在 backup(旧场景)和 current(新场景)都画过,所以 fade 全程主角可见
-  //    (palette nibble 渐变,不会突然消失)。
+  //    backupPixels 从旧画面快照，随后逐步向本次重绘的目标索引更新。
+  //    步骤计数和首尾像素不能单独证明整段剧情中间帧的视觉效果。
   if (gs.fadeState?.backupPixels) {
     const { totalMs, startTimeMs, appliedSteps, backupPixels } = gs.fadeState
     const current = fb.indices
@@ -669,7 +669,7 @@ export function presentFrame(
     applyDitherSteps(current, backupPixels, appliedSteps, targetSteps)
     gs.fadeState.appliedSteps = targetSteps
 
-    // 显示 backupPixels(累积态)— 不是 current。fade 全程主角可见因为两 buffer 都画过。
+    // 显示累积的 backupPixels，而非直接切到目标画面 current。
     current.set(backupPixels)
   }
 

@@ -1,0 +1,1588 @@
+{
+  "inputs": [
+    {
+      "path": "packages/game/src/core/menu/__tests__/primitives.test.ts",
+      "sha256": "f2a43473509d2a9fd6ea9bba334b027e6398f4c6fdb2ffd971944e00ff0031c3",
+      "member": "organization-menu-state/0.before"
+    },
+    {
+      "path": "packages/game/src/core/menu/primitives.boundaries.test.ts",
+      "sha256": "78bfaff615553f6dcb1d0e1645969958a64691ffb61a0135c99d762885a17a9f",
+      "member": "organization-menu-state/1.before"
+    },
+    {
+      "path": "packages/game/src/core/menu/primitives.glm-phase1-leaves.test.ts",
+      "sha256": "3deb623f2073ddf3b08aa8f459cf177f0bf9aec9a4c62f6cfe0e021944f4b0f9",
+      "member": "organization-menu-state/2.before"
+    },
+    {
+      "path": "packages/game/src/core/menu/opening-menu.test.ts",
+      "sha256": "33876ff331c8154363bde2c35894284c2c692132313b6319747920388d2d2812",
+      "member": "organization-menu-state/3.before"
+    },
+    {
+      "path": "packages/game/src/core/menu/opening-menu.glm-phase1-leaves.test.ts",
+      "sha256": "28c3ba868156fd1db229dd152f030b5bb7e4b0e228e511a4beec88df974bea46",
+      "member": "organization-menu-state/4.before"
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-menu.test.ts",
+      "sha256": "cb1f0690d798b860bbedcf2ada1bb372c74dfbbd616dad1eb30dcd39e8950645",
+      "member": "organization-menu-state/5.before"
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-menu.boundaries.test.ts",
+      "sha256": "af352cee89772ea59adf77c0b127250d837f9e84faf6751435a60bd313f1497e",
+      "member": "organization-menu-state/6.before"
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-menu.glm-phase1-leaves.test.ts",
+      "sha256": "3b2cfe9179561746f790cb72a67cfa33762b19c8d2565c5ee26d14ae20eb5a55",
+      "member": "organization-menu-state/7.before"
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-driver.ts",
+      "member": "organization-menu-state/8.before",
+      "sha256": "81db674f145043b7a78aea5ac705baa8c975502cbce66bcf88908574acd596f5"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "packages/game/src/core/menu/primitives.test.ts",
+      "sha256": "73a0fb3e328aa7de7ead1e9f60f9fbad5b287b72b4d5fb71e32f3b06d17f1d9d"
+    },
+    {
+      "path": "packages/game/src/core/menu/opening-menu.test.ts",
+      "sha256": "08100f04c49888db72a5d1a42a60777c414c6c39251b9b5374a0bb9764aff439"
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-menu.test.ts",
+      "sha256": "72f81daadc1071b55cbe19839fc53839b56a796f6170bfecee2d37e2efd68e23"
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-driver.ts",
+      "sha256": "617d1ccf1c8931b366420e514eb684cfe7846feb7052e253d289df203112513d"
+    }
+  ],
+  "sourceBridges": [
+    {
+      "path": "packages/game/src/core/menu/__tests__/primitives.test.ts",
+      "id": "menu-state-0",
+      "changes": [
+        {
+          "from": "import { describe, expect, it } from 'vitest'\nimport {\n  createSelectionMenu,\n  getSelected,\n  moveSelectionDown,\n  moveSelectionUp,\n} from '../primitives.js'\n\ndescribe('M-w0.1 SelectionMenu', () => {\n  it('L38:createSelectionMenu 初始 cursor 不跳 disabled(对齐 PAL_ReadMenu default item)', () => {\n    const s = createSelectionMenu([\n      { id: 1, label: 'a', disabled: true },\n      { id: 2, label: 'b' },\n      { id: 3, label: 'c' },\n    ])\n    expect(s.cursor).toBe(0)\n    expect(getSelected(s)?.disabled).toBe(true)\n  })\n\n  it('createSelectionMenu:defaultCursor 越界时 clamp', () => {\n    const s = createSelectionMenu(\n      [\n        { id: 1, label: 'a' },\n        { id: 2, label: 'b' },\n      ],\n      8,\n      99,\n    )\n    expect(s.cursor).toBe(1)\n  })\n\n  it('moveSelectionDown:循环越界回首', () => {\n    const s = createSelectionMenu([\n      { id: 1, label: 'a' },\n      { id: 2, label: 'b' },\n    ])\n    expect(s.cursor).toBe(0)\n    moveSelectionDown(s)\n    expect(s.cursor).toBe(1)\n    moveSelectionDown(s)\n    expect(s.cursor).toBe(0)\n  })\n\n  it('moveSelectionUp:循环越界回尾', () => {\n    const s = createSelectionMenu([\n      { id: 1, label: 'a' },\n      { id: 2, label: 'b' },\n    ])\n    moveSelectionUp(s)\n    expect(s.cursor).toBe(1)\n  })\n\n  it('L38:移动逐项停在 disabled 上(不跳过,对齐 sdlpal PAL_ReadMenu ui.c:510-572)', () => {\n    const s = createSelectionMenu([\n      { id: 1, label: 'a' },\n      { id: 2, label: 'b', disabled: true },\n      { id: 3, label: 'c' },\n    ])\n    // C 真值:wCurrentItem±1 环绕,光标可停在 fEnabled=FALSE 项上(画 SELECTED_INACTIVE),\n    //   确认时各菜单自行 `!sel.disabled` no-op。故移动逐项停留、不跳过 disabled。\n    moveSelectionDown(s)\n    expect(s.cursor).toBe(1) // 停在 disabled item 1(不跳到 2)\n    moveSelectionDown(s)\n    expect(s.cursor).toBe(2)\n    moveSelectionUp(s)\n    expect(s.cursor).toBe(1) // 反向也停在 disabled 上\n  })\n\n  it('cursor 超出 pageSize 自动翻页 pageOffset', () => {\n    const items = Array.from({ length: 10 }, (_, i) => ({ id: i, label: `i${i}` }))\n    const s = createSelectionMenu(items, 4)\n    expect(s.pageOffset).toBe(0)\n    // 推 cursor 到 5\n    for (let i = 0; i < 5; i++) moveSelectionDown(s)\n    expect(s.cursor).toBe(5)\n    expect(s.pageOffset).toBe(2) // 5 - 4 + 1 = 2\n  })\n\n  it('getSelected 返回当前 cursor 对应 item', () => {\n    const s = createSelectionMenu([\n      { id: 100, label: 'a' },\n      { id: 200, label: 'b' },\n    ])\n    moveSelectionDown(s)\n    expect(getSelected(s)?.id).toBe(200)\n  })\n})\n",
+          "to": "import { describe } from 'vitest'\nimport { expect } from 'vitest'\nimport { it } from 'vitest'\nimport { createSelectionMenu } from './primitives.js'\nimport { getSelected } from './primitives.js'\nimport { moveSelectionDown } from './primitives.js'\nimport { moveSelectionUp } from './primitives.js'\nimport { type SelectionMenuItem } from './primitives.js'\nimport { createOpeningMenu } from './opening-menu.js'\nimport { type OpeningMenuChoice } from './opening-menu.js'\nimport { openingMenuChoice } from './opening-menu.js'\nimport { openingMenuDown } from './opening-menu.js'\nimport { openingMenuLabels } from './opening-menu.js'\nimport { openingMenuUp } from './opening-menu.js'\nimport { afterEach } from 'vitest'\nimport { setWordTable } from '../word-lookup.js'\nimport { beforeEach } from 'vitest'\nimport { createInGameMenu } from './in-game-menu.js'\nimport { createSystemMenu } from './in-game-menu.js'\nimport { inGameMenuChoice } from './in-game-menu.js'\nimport { inGameMenuDown } from './in-game-menu.js'\nimport { inGameMenuUp } from './in-game-menu.js'\nimport { systemMenuChoice } from './in-game-menu.js'\nimport { systemMenuDown } from './in-game-menu.js'\nimport { systemMenuUp } from './in-game-menu.js'\nimport { systemMenuEnterConfirm } from './in-game-menu.js'\nimport { systemMenuEnterSwitch } from './in-game-menu.js'\nimport { systemMenuToggleConfirm } from './in-game-menu.js'\nimport { beginChineseMenuText } from '../../__tests__/menu-text-fixture.js'\n\nconst selectionItem = (id: number) => ({ id, label: `i${id}`, disabled: false })\ndescribe('Selection cursor movement', () => {\n  it('L38:createSelectionMenu 初始 cursor 不跳 disabled(对齐 PAL_ReadMenu default item)', () => {\n    const s = createSelectionMenu([\n      { id: 1, label: 'a', disabled: true },\n      { id: 2, label: 'b' },\n      { id: 3, label: 'c' },\n    ])\n    expect(s.cursor).toBe(0)\n    expect(getSelected(s)?.disabled).toBe(true)\n  })\n\n  it('createSelectionMenu:defaultCursor 越界时 clamp', () => {\n    const s = createSelectionMenu(\n      [\n        { id: 1, label: 'a' },\n        { id: 2, label: 'b' },\n      ],\n      8,\n      99,\n    )\n    expect(s.cursor).toBe(1)\n  })\n\n  it('moveSelectionDown:循环越界回首', () => {\n    const s = createSelectionMenu([\n      { id: 1, label: 'a' },\n      { id: 2, label: 'b' },\n    ])\n    expect(s.cursor).toBe(0)\n    moveSelectionDown(s)\n    expect(s.cursor).toBe(1)\n    moveSelectionDown(s)\n    expect(s.cursor).toBe(0)\n  })\n\n  it('moveSelectionUp:循环越界回尾', () => {\n    const s = createSelectionMenu([\n      { id: 1, label: 'a' },\n      { id: 2, label: 'b' },\n    ])\n    moveSelectionUp(s)\n    expect(s.cursor).toBe(1)\n  })\n\n  it('L38:移动逐项停在 disabled 上(不跳过,对齐 sdlpal PAL_ReadMenu ui.c:510-572)', () => {\n    const s = createSelectionMenu([\n      { id: 1, label: 'a' },\n      { id: 2, label: 'b', disabled: true },\n      { id: 3, label: 'c' },\n    ])\n    // C 真值:wCurrentItem±1 环绕,光标可停在 fEnabled=FALSE 项上(画 SELECTED_INACTIVE),\n    //   确认时各菜单自行 `!sel.disabled` no-op。故移动逐项停留、不跳过 disabled。\n    moveSelectionDown(s)\n    expect(s.cursor).toBe(1) // 停在 disabled item 1(不跳到 2)\n    moveSelectionDown(s)\n    expect(s.cursor).toBe(2)\n    moveSelectionUp(s)\n    expect(s.cursor).toBe(1) // 反向也停在 disabled 上\n  })\n\n  it('cursor 超出 pageSize 自动翻页 pageOffset', () => {\n    const items = Array.from({ length: 10 }, (_, i) => ({ id: i, label: `i${i}` }))\n    const s = createSelectionMenu(items, 4)\n    expect(s.pageOffset).toBe(0)\n    // 推 cursor 到 5\n    for (let i = 0; i < 5; i++) moveSelectionDown(s)\n    expect(s.cursor).toBe(5)\n    expect(s.pageOffset).toBe(2) // 5 - 4 + 1 = 2\n  })\n\n  it('getSelected 返回当前 cursor 对应 item', () => {\n    const s = createSelectionMenu([\n      { id: 100, label: 'a' },\n      { id: 200, label: 'b' },\n    ])\n    moveSelectionDown(s)\n    expect(getSelected(s)?.id).toBe(200)\n  })\n})\n",
+          "count": 1
+        }
+      ],
+      "reason": "All original callbacks/assertions preserved; responsible grouping and explicit Chinese fixture/cleanup. Original imports resolve to same live production modules, new fixture is declaration/import-resolution equivalent."
+    },
+    {
+      "path": "packages/game/src/core/menu/primitives.boundaries.test.ts",
+      "id": "menu-state-1",
+      "changes": [
+        {
+          "from": "/**\n * TEST-GAME-MENU-BOUNDARIES-1 G01：primitives 空表/单项/跨页（primitives.ts）。\n * 既有 __tests__/primitives.test 已覆盖 disabled 默认位/clamp/环绕/停 disabled——不重复。\n * 本文件：空表与单项 create、moveSelection 跨 page 后的 cursor/offset 视窗语义、\n * 入参 items 数组不被改写；不为已退役的通用翻页接口保活。\n */\nimport { describe, expect, it } from 'vitest'\nimport { createSelectionMenu, moveSelectionDown, moveSelectionUp } from './primitives.js'\n\nconst entry = (id: number, disabled = false) => ({ id, label: `i${id}`, disabled })\n\ndescribe('G01 createSelectionMenu 边界', () => {\n  it('空表 cursor/pageOffset 均 0', () => {\n    const empty = createSelectionMenu([], 8, 5)\n    expect(empty).toEqual({ items: [], cursor: 0, pageSize: 8, pageOffset: 0 })\n  })\n\n  it('单项 defaultCursor 越界 clamp 到 0', () => {\n    const single = createSelectionMenu([entry(7)], 8, 5)\n    expect(single.cursor).toBe(0)\n    expect(single.pageOffset).toBe(0)\n  })\n\n  it('建表和移动不改写借用的 items 数组', () => {\n    const items = [entry(1), entry(2)]\n    const snapshot = structuredClone(items)\n    const s = createSelectionMenu(items, 8, 1)\n    moveSelectionDown(s)\n    expect(items).toEqual(snapshot)\n  })\n  it('跨 page 移动：cursor 越界即推进 pageOffset；窗口内回落不动 offset', () => {\n    // pageSize 3，8项；跨窗口下边界推进offset，窗口内回移不主动回滚。\n    const items = [0, 1, 2, 3, 4, 5, 6, 7].map((id) => ({ id, label: `i${id}` }))\n    const s = createSelectionMenu(items, 3, 0)\n    expect(s.pageOffset).toBe(0)\n    s.cursor = 2\n    moveSelectionDown(s)\n    expect(s.cursor).toBe(3)\n    expect(s.pageOffset).toBe(1) // 跨页后 offset 推进\n    s.cursor = 3\n    moveSelectionUp(s)\n    expect(s.cursor).toBe(2)\n    expect(s.pageOffset).toBe(1) // cursor 2 仍在 [1,4) 视窗内 → offset 不主动回落\n  })\n})\n",
+          "to": "import { describe } from 'vitest'\nimport { expect } from 'vitest'\nimport { it } from 'vitest'\nimport { createSelectionMenu } from './primitives.js'\nimport { getSelected } from './primitives.js'\nimport { moveSelectionDown } from './primitives.js'\nimport { moveSelectionUp } from './primitives.js'\nimport { type SelectionMenuItem } from './primitives.js'\nimport { createOpeningMenu } from './opening-menu.js'\nimport { type OpeningMenuChoice } from './opening-menu.js'\nimport { openingMenuChoice } from './opening-menu.js'\nimport { openingMenuDown } from './opening-menu.js'\nimport { openingMenuLabels } from './opening-menu.js'\nimport { openingMenuUp } from './opening-menu.js'\nimport { afterEach } from 'vitest'\nimport { setWordTable } from '../word-lookup.js'\nimport { beforeEach } from 'vitest'\nimport { createInGameMenu } from './in-game-menu.js'\nimport { createSystemMenu } from './in-game-menu.js'\nimport { inGameMenuChoice } from './in-game-menu.js'\nimport { inGameMenuDown } from './in-game-menu.js'\nimport { inGameMenuUp } from './in-game-menu.js'\nimport { systemMenuChoice } from './in-game-menu.js'\nimport { systemMenuDown } from './in-game-menu.js'\nimport { systemMenuUp } from './in-game-menu.js'\nimport { systemMenuEnterConfirm } from './in-game-menu.js'\nimport { systemMenuEnterSwitch } from './in-game-menu.js'\nimport { systemMenuToggleConfirm } from './in-game-menu.js'\nimport { beginChineseMenuText } from '../../__tests__/menu-text-fixture.js'\n\nconst selectionItem = (id: number) => ({ id, label: `i${id}`, disabled: false })\ndescribe('Selection empty single and window bounds', () => {\n  it('空表 cursor/pageOffset 均 0', () => {\n    const empty = createSelectionMenu([], 8, 5)\n    expect(empty).toEqual({ items: [], cursor: 0, pageSize: 8, pageOffset: 0 })\n  })\n\n  it('单项 defaultCursor 越界 clamp 到 0', () => {\n    const single = createSelectionMenu([selectionItem(7)], 8, 5)\n    expect(single.cursor).toBe(0)\n    expect(single.pageOffset).toBe(0)\n  })\n\n  it('建表和移动不改写借用的 items 数组', () => {\n    const items = [selectionItem(1), selectionItem(2)]\n    const snapshot = structuredClone(items)\n    const s = createSelectionMenu(items, 8, 1)\n    moveSelectionDown(s)\n    expect(items).toEqual(snapshot)\n  })\n\n  it('跨 page 移动：cursor 越界即推进 pageOffset；窗口内回落不动 offset', () => {\n    // pageSize 3，8项；跨窗口下边界推进offset，窗口内回移不主动回滚。\n    const items = [0, 1, 2, 3, 4, 5, 6, 7].map((id) => ({ id, label: `i${id}` }))\n    const s = createSelectionMenu(items, 3, 0)\n    expect(s.pageOffset).toBe(0)\n    s.cursor = 2\n    moveSelectionDown(s)\n    expect(s.cursor).toBe(3)\n    expect(s.pageOffset).toBe(1) // 跨页后 offset 推进\n    s.cursor = 3\n    moveSelectionUp(s)\n    expect(s.cursor).toBe(2)\n    expect(s.pageOffset).toBe(1) // cursor 2 仍在 [1,4) 视窗内 → offset 不主动回落\n  })\n})\n",
+          "count": 1
+        }
+      ],
+      "reason": "All original callbacks/assertions preserved; responsible grouping and explicit Chinese fixture/cleanup. Original imports resolve to same live production modules, new fixture is declaration/import-resolution equivalent."
+    },
+    {
+      "path": "packages/game/src/core/menu/primitives.glm-phase1-leaves.test.ts",
+      "id": "menu-state-2",
+      "changes": [
+        {
+          "from": "/** Complements the main primitive suite with constructor bounds, empty selection and borrowed item identity. */\nimport { describe, expect, it } from 'vitest'\nimport { createSelectionMenu, getSelected, type SelectionMenuItem } from './primitives.js'\n\ndescribe('L01 primitives 零散边界', () => {\n  it('负 defaultCursor 归 0（Math.max 下界分支）', () => {\n    const s = createSelectionMenu(\n      [\n        { id: 1, label: 'a' },\n        { id: 2, label: 'b' },\n      ],\n      8,\n      -3,\n    )\n    expect(s.cursor).toBe(0)\n  })\n\n  it('空菜单 getSelected 返回 undefined', () => {\n    expect(getSelected(createSelectionMenu([]))).toBeUndefined()\n  })\n\n  it('primitive 透传 rightText 不消费：getSelected 返回同一 item 对象（identity）', () => {\n    const items: SelectionMenuItem[] = [\n      { id: 1, label: '草药', rightText: '×3' },\n      { id: 2, label: '木剑', rightText: '×1' },\n    ]\n    const s = createSelectionMenu(items, 8)\n    expect(s.items).toBe(items) // 不复制数组\n    expect(getSelected(s)).toBe(items[0]) // 同一对象引用\n    expect(getSelected(s)?.rightText).toBe('×3') // primitive 层不解析 rightText\n  })\n})\n",
+          "to": "import { describe } from 'vitest'\nimport { expect } from 'vitest'\nimport { it } from 'vitest'\nimport { createSelectionMenu } from './primitives.js'\nimport { getSelected } from './primitives.js'\nimport { moveSelectionDown } from './primitives.js'\nimport { moveSelectionUp } from './primitives.js'\nimport { type SelectionMenuItem } from './primitives.js'\nimport { createOpeningMenu } from './opening-menu.js'\nimport { type OpeningMenuChoice } from './opening-menu.js'\nimport { openingMenuChoice } from './opening-menu.js'\nimport { openingMenuDown } from './opening-menu.js'\nimport { openingMenuLabels } from './opening-menu.js'\nimport { openingMenuUp } from './opening-menu.js'\nimport { afterEach } from 'vitest'\nimport { setWordTable } from '../word-lookup.js'\nimport { beforeEach } from 'vitest'\nimport { createInGameMenu } from './in-game-menu.js'\nimport { createSystemMenu } from './in-game-menu.js'\nimport { inGameMenuChoice } from './in-game-menu.js'\nimport { inGameMenuDown } from './in-game-menu.js'\nimport { inGameMenuUp } from './in-game-menu.js'\nimport { systemMenuChoice } from './in-game-menu.js'\nimport { systemMenuDown } from './in-game-menu.js'\nimport { systemMenuUp } from './in-game-menu.js'\nimport { systemMenuEnterConfirm } from './in-game-menu.js'\nimport { systemMenuEnterSwitch } from './in-game-menu.js'\nimport { systemMenuToggleConfirm } from './in-game-menu.js'\nimport { beginChineseMenuText } from '../../__tests__/menu-text-fixture.js'\n\nconst selectionItem = (id: number) => ({ id, label: `i${id}`, disabled: false })\ndescribe('Selection constructor and borrowed items', () => {\n  it('负 defaultCursor 归 0（Math.max 下界分支）', () => {\n    const s = createSelectionMenu(\n      [\n        { id: 1, label: 'a' },\n        { id: 2, label: 'b' },\n      ],\n      8,\n      -3,\n    )\n    expect(s.cursor).toBe(0)\n  })\n\n  it('空菜单 getSelected 返回 undefined', () => {\n    expect(getSelected(createSelectionMenu([]))).toBeUndefined()\n  })\n\n  it('primitive 透传 rightText 不消费：getSelected 返回同一 item 对象（identity）', () => {\n    const items: SelectionMenuItem[] = [\n      { id: 1, label: '草药', rightText: '×3' },\n      { id: 2, label: '木剑', rightText: '×1' },\n    ]\n    const s = createSelectionMenu(items, 8)\n    expect(s.items).toBe(items) // 不复制数组\n    expect(getSelected(s)).toBe(items[0]) // 同一对象引用\n    expect(getSelected(s)?.rightText).toBe('×3') // primitive 层不解析 rightText\n  })\n})\n",
+          "count": 1
+        }
+      ],
+      "reason": "All original callbacks/assertions preserved; responsible grouping and explicit Chinese fixture/cleanup. Original imports resolve to same live production modules, new fixture is declaration/import-resolution equivalent."
+    },
+    {
+      "path": "packages/game/src/core/menu/opening-menu.test.ts",
+      "id": "menu-state-3",
+      "changes": [
+        {
+          "from": "import { describe, expect, it } from 'vitest'\nimport {\n  createOpeningMenu,\n  type OpeningMenuChoice,\n  openingMenuChoice,\n  openingMenuDown,\n  openingMenuLabels,\n  openingMenuUp,\n} from './opening-menu.js'\n\ndescribe('opening-menu state machine — sdlpal uigame.c:42-167 PAL_OpeningMenu', () => {\n  it('createOpeningMenu 起手:2 项 fixed + cursor=0(新游戏)— sdlpal wDefaultItem=0 真值', () => {\n    const s = createOpeningMenu()\n    expect(s.selection.items).toHaveLength(2)\n    expect(s.selection.cursor).toBe(0)\n    expect(openingMenuChoice(s)).toBe<OpeningMenuChoice>('new-game')\n  })\n\n  it('Down 一次 → cursor=1(读取存档)', () => {\n    const s = createOpeningMenu()\n    openingMenuDown(s)\n    expect(s.selection.cursor).toBe(1)\n    expect(openingMenuChoice(s)).toBe<OpeningMenuChoice>('load-game')\n  })\n\n  it('Down 两次 → wrap 回 cursor=0(sdlpal ui.c:512-515 真值循环)', () => {\n    const s = createOpeningMenu()\n    openingMenuDown(s)\n    openingMenuDown(s)\n    expect(s.selection.cursor).toBe(0)\n  })\n\n  it('Up 从 cursor=0 → wrap 到 cursor=1(sdlpal ui.c:565-572 真值循环)', () => {\n    const s = createOpeningMenu()\n    openingMenuUp(s)\n    expect(s.selection.cursor).toBe(1)\n  })\n\n  it('Down + Up → 来回 0↔1', () => {\n    const s = createOpeningMenu()\n    openingMenuDown(s)\n    expect(s.selection.cursor).toBe(1)\n    openingMenuUp(s)\n    expect(s.selection.cursor).toBe(0)\n    expect(openingMenuChoice(s)).toBe<OpeningMenuChoice>('new-game')\n  })\n\n  it('openingMenuLabels 暴露 2 项 + 真 WORD id 7/8 给渲染层(ui.h:48-49 MAINMENU_LABEL)', () => {\n    const labels = openingMenuLabels()\n    expect(labels).toHaveLength(2)\n    expect(labels[0]!.id).toBe(7) // MAINMENU_LABEL_NEWGAME\n    expect(labels[1]!.id).toBe(8) // MAINMENU_LABEL_LOADGAME\n    expect(labels.map(({ label }) => label)).toEqual(['新的故事', '旧的回忆'])\n  })\n})\n",
+          "to": "import { describe } from 'vitest'\nimport { expect } from 'vitest'\nimport { it } from 'vitest'\nimport { createSelectionMenu } from './primitives.js'\nimport { getSelected } from './primitives.js'\nimport { moveSelectionDown } from './primitives.js'\nimport { moveSelectionUp } from './primitives.js'\nimport { type SelectionMenuItem } from './primitives.js'\nimport { createOpeningMenu } from './opening-menu.js'\nimport { type OpeningMenuChoice } from './opening-menu.js'\nimport { openingMenuChoice } from './opening-menu.js'\nimport { openingMenuDown } from './opening-menu.js'\nimport { openingMenuLabels } from './opening-menu.js'\nimport { openingMenuUp } from './opening-menu.js'\nimport { afterEach } from 'vitest'\nimport { setWordTable } from '../word-lookup.js'\nimport { beforeEach } from 'vitest'\nimport { createInGameMenu } from './in-game-menu.js'\nimport { createSystemMenu } from './in-game-menu.js'\nimport { inGameMenuChoice } from './in-game-menu.js'\nimport { inGameMenuDown } from './in-game-menu.js'\nimport { inGameMenuUp } from './in-game-menu.js'\nimport { systemMenuChoice } from './in-game-menu.js'\nimport { systemMenuDown } from './in-game-menu.js'\nimport { systemMenuUp } from './in-game-menu.js'\nimport { systemMenuEnterConfirm } from './in-game-menu.js'\nimport { systemMenuEnterSwitch } from './in-game-menu.js'\nimport { systemMenuToggleConfirm } from './in-game-menu.js'\nimport { beginChineseMenuText } from '../../__tests__/menu-text-fixture.js'\n\nconst selectionItem = (id: number) => ({ id, label: `i${id}`, disabled: false })\nlet releaseMenuText: (() => void) | undefined\nbeforeEach(() => {\n  releaseMenuText = beginChineseMenuText()\n})\nafterEach(() => {\n  releaseMenuText?.()\n  releaseMenuText = undefined\n})\ndescribe('Opening menu state', () => {\n  it('createOpeningMenu 起手:2 项 fixed + cursor=0(新游戏)— sdlpal wDefaultItem=0 真值', () => {\n    const s = createOpeningMenu()\n    expect(s.selection.items).toHaveLength(2)\n    expect(s.selection.cursor).toBe(0)\n    expect(openingMenuChoice(s)).toBe<OpeningMenuChoice>('new-game')\n  })\n\n  it('Down 一次 → cursor=1(读取存档)', () => {\n    const s = createOpeningMenu()\n    openingMenuDown(s)\n    expect(s.selection.cursor).toBe(1)\n    expect(openingMenuChoice(s)).toBe<OpeningMenuChoice>('load-game')\n  })\n\n  it('Down 两次 → wrap 回 cursor=0(sdlpal ui.c:512-515 真值循环)', () => {\n    const s = createOpeningMenu()\n    openingMenuDown(s)\n    openingMenuDown(s)\n    expect(s.selection.cursor).toBe(0)\n  })\n\n  it('Up 从 cursor=0 → wrap 到 cursor=1(sdlpal ui.c:565-572 真值循环)', () => {\n    const s = createOpeningMenu()\n    openingMenuUp(s)\n    expect(s.selection.cursor).toBe(1)\n  })\n\n  it('Down + Up → 来回 0↔1', () => {\n    const s = createOpeningMenu()\n    openingMenuDown(s)\n    expect(s.selection.cursor).toBe(1)\n    openingMenuUp(s)\n    expect(s.selection.cursor).toBe(0)\n    expect(openingMenuChoice(s)).toBe<OpeningMenuChoice>('new-game')\n  })\n\n  it('openingMenuLabels 暴露 2 项 + 真 WORD id 7/8 给渲染层(ui.h:48-49 MAINMENU_LABEL)', () => {\n    const labels = openingMenuLabels()\n    expect(labels).toHaveLength(2)\n    expect(labels[0]!.id).toBe(7) // MAINMENU_LABEL_NEWGAME\n    expect(labels[1]!.id).toBe(8) // MAINMENU_LABEL_LOADGAME\n    expect(labels.map(({ label }) => label)).toEqual(['新的故事', '旧的回忆'])\n  })\n})\n",
+          "count": 1
+        }
+      ],
+      "reason": "All original callbacks/assertions preserved; responsible grouping and explicit Chinese fixture/cleanup. Original imports resolve to same live production modules, new fixture is declaration/import-resolution equivalent."
+    },
+    {
+      "path": "packages/game/src/core/menu/opening-menu.glm-phase1-leaves.test.ts",
+      "id": "menu-state-4",
+      "changes": [
+        {
+          "from": "/**\n * TEST-GLM-PHASE1-LEAVES-3 L06（opening-menu.ts）— 去重表：\n *  - opening-menu.test（2 项起手/Down→load-game/Up wrap/Down+Up 来回/labels 暴露真 WORD id 7/8）→ 不重复\n *  - 新差异：词表载入后 menu items 与 openingMenuLabels 同步取 flat[7]/flat[8]、\n *    空表 choice 防御 undefined。（原 choice 映射条已证重复删除，C5）\n * 锚：sdlpal uigame.c:105-109（value 0/1）+ ui.h:48-49（MAINMENU_LABEL 7/8）。\n */\nimport { afterEach, describe, expect, it } from 'vitest'\nimport { setWordTable } from '../word-lookup.js'\nimport { createOpeningMenu, openingMenuChoice, openingMenuLabels } from './opening-menu.js'\n\ndescribe('L06 OpeningMenu 剩余合同', () => {\n  afterEach(() => setWordTable([]))\n\n  // C5 排重(2026-10-15)：原\"choice 映射 new→load→new\"条与主测试\n  // 'createOpeningMenu 起手 new-game'/'Down 一次 → load-game'/'Down + Up → 来回'三面\n  // 完全重复，删除；本文件保留词表注入同步与空表防御两条新差异轴。\n\n  it('词表载入：菜单 items 与 openingMenuLabels 同取 flat[7]/flat[8]（单一文案源）', () => {\n    const flat: string[] = []\n    flat[7] = '新的故事X'\n    flat[8] = '旧的回忆X'\n    setWordTable(flat)\n    const s = createOpeningMenu()\n    expect(s.selection.items.map((it) => it.label)).toEqual(['新的故事X', '旧的回忆X'])\n    expect(openingMenuLabels().map((l) => l.label)).toEqual(['新的故事X', '旧的回忆X'])\n    expect(openingMenuLabels().map((l) => l.id)).toEqual([7, 8])\n  })\n\n  it('空表 choice 防御 undefined（直造状态可达）', () => {\n    const s = createOpeningMenu()\n    s.selection.items = []\n    expect(openingMenuChoice(s)).toBeUndefined()\n  })\n})\n",
+          "to": "import { describe } from 'vitest'\nimport { expect } from 'vitest'\nimport { it } from 'vitest'\nimport { createSelectionMenu } from './primitives.js'\nimport { getSelected } from './primitives.js'\nimport { moveSelectionDown } from './primitives.js'\nimport { moveSelectionUp } from './primitives.js'\nimport { type SelectionMenuItem } from './primitives.js'\nimport { createOpeningMenu } from './opening-menu.js'\nimport { type OpeningMenuChoice } from './opening-menu.js'\nimport { openingMenuChoice } from './opening-menu.js'\nimport { openingMenuDown } from './opening-menu.js'\nimport { openingMenuLabels } from './opening-menu.js'\nimport { openingMenuUp } from './opening-menu.js'\nimport { afterEach } from 'vitest'\nimport { setWordTable } from '../word-lookup.js'\nimport { beforeEach } from 'vitest'\nimport { createInGameMenu } from './in-game-menu.js'\nimport { createSystemMenu } from './in-game-menu.js'\nimport { inGameMenuChoice } from './in-game-menu.js'\nimport { inGameMenuDown } from './in-game-menu.js'\nimport { inGameMenuUp } from './in-game-menu.js'\nimport { systemMenuChoice } from './in-game-menu.js'\nimport { systemMenuDown } from './in-game-menu.js'\nimport { systemMenuUp } from './in-game-menu.js'\nimport { systemMenuEnterConfirm } from './in-game-menu.js'\nimport { systemMenuEnterSwitch } from './in-game-menu.js'\nimport { systemMenuToggleConfirm } from './in-game-menu.js'\nimport { beginChineseMenuText } from '../../__tests__/menu-text-fixture.js'\n\nconst selectionItem = (id: number) => ({ id, label: `i${id}`, disabled: false })\nlet releaseMenuText: (() => void) | undefined\nbeforeEach(() => {\n  releaseMenuText = beginChineseMenuText()\n})\nafterEach(() => {\n  releaseMenuText?.()\n  releaseMenuText = undefined\n})\ndescribe('Opening menu words and empty state', () => {\n  // C5 排重(2026-10-15)：原\"choice 映射 new→load→new\"条与主测试\n  // 'createOpeningMenu 起手 new-game'/'Down 一次 → load-game'/'Down + Up → 来回'三面\n  // 完全重复，删除；本文件保留词表注入同步与空表防御两条新差异轴。\n\n  it('词表载入：菜单 items 与 openingMenuLabels 同取 flat[7]/flat[8]（单一文案源）', () => {\n    const flat: string[] = []\n    flat[7] = '新的故事X'\n    flat[8] = '旧的回忆X'\n    setWordTable(flat)\n    const s = createOpeningMenu()\n    expect(s.selection.items.map((it) => it.label)).toEqual(['新的故事X', '旧的回忆X'])\n    expect(openingMenuLabels().map((l) => l.label)).toEqual(['新的故事X', '旧的回忆X'])\n    expect(openingMenuLabels().map((l) => l.id)).toEqual([7, 8])\n  })\n\n  it('空表 choice 防御 undefined（直造状态可达）', () => {\n    const s = createOpeningMenu()\n    s.selection.items = []\n    expect(openingMenuChoice(s)).toBeUndefined()\n  })\n})\n",
+          "count": 1
+        }
+      ],
+      "reason": "All original callbacks/assertions preserved; responsible grouping and explicit Chinese fixture/cleanup. Original imports resolve to same live production modules, new fixture is declaration/import-resolution equivalent."
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-menu.test.ts",
+      "id": "menu-state-5",
+      "changes": [
+        {
+          "from": "/**\n * InGameMenu + SystemMenu state machine 单测 —\n * sdlpal uigame.c:944-1048(InGame)/ 516-651(System) 真值。\n */\n\nimport { afterEach, beforeEach, describe, expect, it } from 'vitest'\nimport { setWordTable } from '../word-lookup.js'\nimport {\n  createInGameMenu,\n  createSystemMenu,\n  inGameMenuChoice,\n  inGameMenuDown,\n  inGameMenuUp,\n  systemMenuChoice,\n  systemMenuDown,\n  systemMenuUp,\n} from './in-game-menu.js'\n\nbeforeEach(() => setWordTable([]))\nafterEach(() => setWordTable([]))\n\n// C1/C2(getWord 重构):菜单项 id 必须是**真 WORD id**(ui.h GAMEMENU/SYSMENU),不是 0-based 下标;\n//   label 由 getWord(id) 取(WORD.DAT 单一文案源),表未载时退回硬编码 fallback(故旧 label 测仍绿)。\ndescribe('菜单项 id = 真 WORD id + label 由 getWord 取(ui.h:61-70 / words.json flat)', () => {\n  it('InGameMenu id = GAMEMENU_LABEL 真值 [3,4,5,6](状态/仙术/物品/系统)', () => {\n    const s = createInGameMenu()\n    expect(s.selection.items.map((it) => it.id)).toEqual([3, 4, 5, 6])\n  })\n\n  it('SystemMenu id = SYSMENU_LABEL 真值 [11,12,13,14,15]', () => {\n    const s = createSystemMenu()\n    expect(s.selection.items.map((it) => it.id)).toEqual([11, 12, 13, 14, 15])\n  })\n\n  it('词表载入 → label 取 flat[id](WORD.DAT 单一源)', () => {\n    const flat: string[] = []\n    flat[3] = '状态X'\n    flat[4] = '仙术X'\n    flat[5] = '物品X'\n    flat[6] = '系统X'\n    setWordTable(flat)\n    const s = createInGameMenu()\n    expect(s.selection.items.map((it) => it.label)).toEqual(['状态X', '仙术X', '物品X', '系统X'])\n  })\n\n  it('choice 反查在真 id 下仍正确(id 改值不破坏 choice 映射)', () => {\n    // 公开 state 防御合同：已有菜单项反序后仍按 WORD id 解释，不依赖 cursor。\n    const s = createInGameMenu()\n    s.selection.items.reverse()\n    expect(inGameMenuChoice(s)).toBe('system')\n    inGameMenuDown(s)\n    expect(inGameMenuChoice(s)).toBe('inventory')\n  })\n})\n\ndescribe('InGameMenu(主菜单 — 状态/仙术/物品/系统)', () => {\n  it('4 项真值顺序(sdlpal uigame.c:961-966)', () => {\n    const s = createInGameMenu()\n    expect(s.selection.items.map((it) => it.label)).toEqual(['状态', '仙术', '物品', '系统'])\n  })\n\n  it('默认 cursor=0 → choice \"status\"', () => {\n    const s = createInGameMenu()\n    expect(inGameMenuChoice(s)).toBe('status')\n  })\n\n  it('defaultCursor 起手记忆(sdlpal iCurMainMenuItem 真值)', () => {\n    const s = createInGameMenu(2)\n    expect(s.selection.cursor).toBe(2)\n    expect(inGameMenuChoice(s)).toBe('inventory')\n  })\n\n  it('Down 推进:状态 → 仙术 → 物品 → 系统', () => {\n    const s = createInGameMenu()\n    inGameMenuDown(s)\n    expect(inGameMenuChoice(s)).toBe('magic')\n    inGameMenuDown(s)\n    expect(inGameMenuChoice(s)).toBe('inventory')\n    inGameMenuDown(s)\n    expect(inGameMenuChoice(s)).toBe('system')\n  })\n\n  it('Up 反推', () => {\n    const s = createInGameMenu(3)\n    inGameMenuUp(s)\n    expect(inGameMenuChoice(s)).toBe('inventory')\n  })\n\n  it('defaultCursor 超出 = noop(防越界 crash)', () => {\n    const s = createInGameMenu(99)\n    expect(s.selection.cursor).toBe(0) // 应保持初始 0\n  })\n})\n\ndescribe('SystemMenu(系统菜单 — 储存/读取/音乐/音效/结束)', () => {\n  it('5 项真值顺序(sdlpal uigame.c:543-552 PAL_CLASSIC build)', () => {\n    const s = createSystemMenu()\n    expect(s.selection.items.map((it) => it.label)).toEqual([\n      '储存进度',\n      '读取进度',\n      '音乐',\n      '音效',\n      '结束游戏',\n    ])\n  })\n\n  it('choice 序列:save / load / music / sound / quit', () => {\n    const s = createSystemMenu()\n    expect(systemMenuChoice(s)).toBe('save')\n    systemMenuDown(s)\n    expect(systemMenuChoice(s)).toBe('load')\n    systemMenuDown(s)\n    expect(systemMenuChoice(s)).toBe('music')\n    systemMenuDown(s)\n    expect(systemMenuChoice(s)).toBe('sound')\n    systemMenuDown(s)\n    expect(systemMenuChoice(s)).toBe('quit')\n  })\n\n  it('defaultCursor 记忆(sdlpal iCurSystemMenuItem 真值)', () => {\n    const s = createSystemMenu(4)\n    expect(systemMenuChoice(s)).toBe('quit')\n  })\n\n  it('Up 反推', () => {\n    const s = createSystemMenu(2)\n    systemMenuUp(s)\n    expect(systemMenuChoice(s)).toBe('load')\n  })\n})\n",
+          "to": "import { describe } from 'vitest'\nimport { expect } from 'vitest'\nimport { it } from 'vitest'\nimport { createSelectionMenu } from './primitives.js'\nimport { getSelected } from './primitives.js'\nimport { moveSelectionDown } from './primitives.js'\nimport { moveSelectionUp } from './primitives.js'\nimport { type SelectionMenuItem } from './primitives.js'\nimport { createOpeningMenu } from './opening-menu.js'\nimport { type OpeningMenuChoice } from './opening-menu.js'\nimport { openingMenuChoice } from './opening-menu.js'\nimport { openingMenuDown } from './opening-menu.js'\nimport { openingMenuLabels } from './opening-menu.js'\nimport { openingMenuUp } from './opening-menu.js'\nimport { afterEach } from 'vitest'\nimport { setWordTable } from '../word-lookup.js'\nimport { beforeEach } from 'vitest'\nimport { createInGameMenu } from './in-game-menu.js'\nimport { createSystemMenu } from './in-game-menu.js'\nimport { inGameMenuChoice } from './in-game-menu.js'\nimport { inGameMenuDown } from './in-game-menu.js'\nimport { inGameMenuUp } from './in-game-menu.js'\nimport { systemMenuChoice } from './in-game-menu.js'\nimport { systemMenuDown } from './in-game-menu.js'\nimport { systemMenuUp } from './in-game-menu.js'\nimport { systemMenuEnterConfirm } from './in-game-menu.js'\nimport { systemMenuEnterSwitch } from './in-game-menu.js'\nimport { systemMenuToggleConfirm } from './in-game-menu.js'\nimport { beginChineseMenuText } from '../../__tests__/menu-text-fixture.js'\n\nconst selectionItem = (id: number) => ({ id, label: `i${id}`, disabled: false })\nlet releaseMenuText: (() => void) | undefined\nbeforeEach(() => {\n  releaseMenuText = beginChineseMenuText()\n})\nafterEach(() => {\n  releaseMenuText?.()\n  releaseMenuText = undefined\n})\ndescribe('菜单项 id = 真 WORD id + label 由 getWord 取(ui.h:61-70 / words.json flat)', () => {\n  it('InGameMenu id = GAMEMENU_LABEL 真值 [3,4,5,6](状态/仙术/物品/系统)', () => {\n    const s = createInGameMenu()\n    expect(s.selection.items.map((it) => it.id)).toEqual([3, 4, 5, 6])\n  })\n\n  it('SystemMenu id = SYSMENU_LABEL 真值 [11,12,13,14,15]', () => {\n    const s = createSystemMenu()\n    expect(s.selection.items.map((it) => it.id)).toEqual([11, 12, 13, 14, 15])\n  })\n\n  it('词表载入 → label 取 flat[id](WORD.DAT 单一源)', () => {\n    const flat: string[] = []\n    flat[3] = '状态X'\n    flat[4] = '仙术X'\n    flat[5] = '物品X'\n    flat[6] = '系统X'\n    setWordTable(flat)\n    const s = createInGameMenu()\n    expect(s.selection.items.map((it) => it.label)).toEqual(['状态X', '仙术X', '物品X', '系统X'])\n  })\n\n  it('choice 反查在真 id 下仍正确(id 改值不破坏 choice 映射)', () => {\n    // 公开 state 防御合同：已有菜单项反序后仍按 WORD id 解释，不依赖 cursor。\n    const s = createInGameMenu()\n    s.selection.items.reverse()\n    expect(inGameMenuChoice(s)).toBe('system')\n    inGameMenuDown(s)\n    expect(inGameMenuChoice(s)).toBe('inventory')\n  })\n})\n\ndescribe('InGameMenu(主菜单 — 状态/仙术/物品/系统)', () => {\n  it('4 项真值顺序(sdlpal uigame.c:961-966)', () => {\n    const s = createInGameMenu()\n    expect(s.selection.items.map((it) => it.label)).toEqual(['状态', '仙术', '物品', '系统'])\n  })\n\n  it('默认 cursor=0 → choice \"status\"', () => {\n    const s = createInGameMenu()\n    expect(inGameMenuChoice(s)).toBe('status')\n  })\n\n  it('defaultCursor 起手记忆(sdlpal iCurMainMenuItem 真值)', () => {\n    const s = createInGameMenu(2)\n    expect(s.selection.cursor).toBe(2)\n    expect(inGameMenuChoice(s)).toBe('inventory')\n  })\n\n  it('Down 推进:状态 → 仙术 → 物品 → 系统', () => {\n    const s = createInGameMenu()\n    inGameMenuDown(s)\n    expect(inGameMenuChoice(s)).toBe('magic')\n    inGameMenuDown(s)\n    expect(inGameMenuChoice(s)).toBe('inventory')\n    inGameMenuDown(s)\n    expect(inGameMenuChoice(s)).toBe('system')\n  })\n\n  it('Up 反推', () => {\n    const s = createInGameMenu(3)\n    inGameMenuUp(s)\n    expect(inGameMenuChoice(s)).toBe('inventory')\n  })\n\n  it('defaultCursor 超出 = noop(防越界 crash)', () => {\n    const s = createInGameMenu(99)\n    expect(s.selection.cursor).toBe(0) // 应保持初始 0\n  })\n})\n\ndescribe('SystemMenu(系统菜单 — 储存/读取/音乐/音效/结束)', () => {\n  it('5 项真值顺序(sdlpal uigame.c:543-552 PAL_CLASSIC build)', () => {\n    const s = createSystemMenu()\n    expect(s.selection.items.map((it) => it.label)).toEqual([\n      '储存进度',\n      '读取进度',\n      '音乐',\n      '音效',\n      '结束游戏',\n    ])\n  })\n\n  it('choice 序列:save / load / music / sound / quit', () => {\n    const s = createSystemMenu()\n    expect(systemMenuChoice(s)).toBe('save')\n    systemMenuDown(s)\n    expect(systemMenuChoice(s)).toBe('load')\n    systemMenuDown(s)\n    expect(systemMenuChoice(s)).toBe('music')\n    systemMenuDown(s)\n    expect(systemMenuChoice(s)).toBe('sound')\n    systemMenuDown(s)\n    expect(systemMenuChoice(s)).toBe('quit')\n  })\n\n  it('defaultCursor 记忆(sdlpal iCurSystemMenuItem 真值)', () => {\n    const s = createSystemMenu(4)\n    expect(systemMenuChoice(s)).toBe('quit')\n  })\n\n  it('Up 反推', () => {\n    const s = createSystemMenu(2)\n    systemMenuUp(s)\n    expect(systemMenuChoice(s)).toBe('load')\n  })\n})\n",
+          "count": 1
+        }
+      ],
+      "reason": "All original callbacks/assertions preserved; responsible grouping and explicit Chinese fixture/cleanup. Original imports resolve to same live production modules, new fixture is declaration/import-resolution equivalent."
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-menu.boundaries.test.ts",
+      "id": "menu-state-6",
+      "changes": [
+        {
+          "from": "/**\n * TEST-GAME-MENU-BOUNDARIES-1 G09：in-game-menu 系统菜单状态字段（in-game-menu.ts）。\n * 既有 in-game-menu.test 已覆盖词表/顺序/default/环绕——不重复。本文件：\n * systemMenuEnterConfirm/EnterSwitch/ToggleConfirm 三状态字段、\n * systemMenuChoice 按 id 而非数组位置。\n */\nimport { describe, expect, it } from 'vitest'\nimport {\n  createSystemMenu,\n  systemMenuChoice,\n  systemMenuEnterConfirm,\n  systemMenuEnterSwitch,\n  systemMenuToggleConfirm,\n} from './in-game-menu.js'\n\ndescribe('G09 SystemMenu 三阶段状态字段', () => {\n  it('EnterConfirm 重置已有 Yes；ToggleConfirm 在否/是之间切换', () => {\n    const s = createSystemMenu()\n    expect(s.phase).toBe('menu')\n    expect(s.confirmYes).toBe(false)\n    systemMenuToggleConfirm(s)\n    expect(s.confirmYes).toBe(true)\n    systemMenuEnterConfirm(s)\n    expect(s.phase).toBe('confirm')\n    expect(s.confirmYes).toBe(false) // 默认 否\n    systemMenuToggleConfirm(s)\n    expect(s.confirmYes).toBe(true)\n    systemMenuToggleConfirm(s)\n    expect(s.confirmYes).toBe(false)\n  })\n\n  it('EnterSwitch 按当前音频开关初始化目标和高亮', () => {\n    const s = createSystemMenu()\n    systemMenuEnterSwitch(s, 'music', true)\n    expect(s.phase).toBe('switch')\n    expect(s.switchTarget).toBe('music')\n    expect(s.confirmYes).toBe(true) // 当前开 → 高亮 开\n    systemMenuEnterSwitch(s, 'sound', false)\n    expect(s.phase).toBe('switch')\n    expect(s.switchTarget).toBe('sound')\n    expect(s.confirmYes).toBe(false) // 当前关 → 高亮 关\n  })\n  it('systemMenuChoice 按 label id 映射 choice，不按数组位置猜测', () => {\n    const s = createSystemMenu()\n    // 公开 state 的防御输入：重排已有合法菜单项，区分 WORD id 与 cursor；\n    // 生产 factory 仍使用固定顺序，本例不声称产品允许用户重排菜单。\n    s.selection.items.reverse()\n    expect(systemMenuChoice(s)).toBe('quit')\n    s.selection.cursor = 1\n    expect(systemMenuChoice(s)).toBe('sound')\n  })\n})\n",
+          "to": "import { describe } from 'vitest'\nimport { expect } from 'vitest'\nimport { it } from 'vitest'\nimport { createSelectionMenu } from './primitives.js'\nimport { getSelected } from './primitives.js'\nimport { moveSelectionDown } from './primitives.js'\nimport { moveSelectionUp } from './primitives.js'\nimport { type SelectionMenuItem } from './primitives.js'\nimport { createOpeningMenu } from './opening-menu.js'\nimport { type OpeningMenuChoice } from './opening-menu.js'\nimport { openingMenuChoice } from './opening-menu.js'\nimport { openingMenuDown } from './opening-menu.js'\nimport { openingMenuLabels } from './opening-menu.js'\nimport { openingMenuUp } from './opening-menu.js'\nimport { afterEach } from 'vitest'\nimport { setWordTable } from '../word-lookup.js'\nimport { beforeEach } from 'vitest'\nimport { createInGameMenu } from './in-game-menu.js'\nimport { createSystemMenu } from './in-game-menu.js'\nimport { inGameMenuChoice } from './in-game-menu.js'\nimport { inGameMenuDown } from './in-game-menu.js'\nimport { inGameMenuUp } from './in-game-menu.js'\nimport { systemMenuChoice } from './in-game-menu.js'\nimport { systemMenuDown } from './in-game-menu.js'\nimport { systemMenuUp } from './in-game-menu.js'\nimport { systemMenuEnterConfirm } from './in-game-menu.js'\nimport { systemMenuEnterSwitch } from './in-game-menu.js'\nimport { systemMenuToggleConfirm } from './in-game-menu.js'\nimport { beginChineseMenuText } from '../../__tests__/menu-text-fixture.js'\n\nconst selectionItem = (id: number) => ({ id, label: `i${id}`, disabled: false })\nlet releaseMenuText: (() => void) | undefined\nbeforeEach(() => {\n  releaseMenuText = beginChineseMenuText()\n})\nafterEach(() => {\n  releaseMenuText?.()\n  releaseMenuText = undefined\n})\ndescribe('System menu phases and choice identities', () => {\n  it('EnterConfirm 重置已有 Yes；ToggleConfirm 在否/是之间切换', () => {\n    const s = createSystemMenu()\n    expect(s.phase).toBe('menu')\n    expect(s.confirmYes).toBe(false)\n    systemMenuToggleConfirm(s)\n    expect(s.confirmYes).toBe(true)\n    systemMenuEnterConfirm(s)\n    expect(s.phase).toBe('confirm')\n    expect(s.confirmYes).toBe(false) // 默认 否\n    systemMenuToggleConfirm(s)\n    expect(s.confirmYes).toBe(true)\n    systemMenuToggleConfirm(s)\n    expect(s.confirmYes).toBe(false)\n  })\n\n  it('EnterSwitch 按当前音频开关初始化目标和高亮', () => {\n    const s = createSystemMenu()\n    systemMenuEnterSwitch(s, 'music', true)\n    expect(s.phase).toBe('switch')\n    expect(s.switchTarget).toBe('music')\n    expect(s.confirmYes).toBe(true) // 当前开 → 高亮 开\n    systemMenuEnterSwitch(s, 'sound', false)\n    expect(s.phase).toBe('switch')\n    expect(s.switchTarget).toBe('sound')\n    expect(s.confirmYes).toBe(false) // 当前关 → 高亮 关\n  })\n\n  it('systemMenuChoice 按 label id 映射 choice，不按数组位置猜测', () => {\n    const s = createSystemMenu()\n    // 公开 state 的防御输入：重排已有合法菜单项，区分 WORD id 与 cursor；\n    // 生产 factory 仍使用固定顺序，本例不声称产品允许用户重排菜单。\n    s.selection.items.reverse()\n    expect(systemMenuChoice(s)).toBe('quit')\n    s.selection.cursor = 1\n    expect(systemMenuChoice(s)).toBe('sound')\n  })\n})\n",
+          "count": 1
+        }
+      ],
+      "reason": "All original callbacks/assertions preserved; responsible grouping and explicit Chinese fixture/cleanup. Original imports resolve to same live production modules, new fixture is declaration/import-resolution equivalent."
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-menu.glm-phase1-leaves.test.ts",
+      "id": "menu-state-7",
+      "changes": [
+        {
+          "from": "/**\n * TEST-GLM-PHASE1-LEAVES-3 L04（in-game-menu.ts）— 去重表：\n *  - in-game-menu.test（真 WORD id/词表 label/顺序/defaultCursor 记忆/Down 序列/Up/越界）→ 不重复\n *  - in-game-menu.boundaries.test（SystemMenu 三相状态字段/choice 按 id）→ 不重复\n *  - 新差异：两菜单首尾环绕（cursor 0 Up→末项、末项 Down→0）、SystemMenu 词表文案、\n *    负 defaultCursor 防御与 SystemMenu 越界 defaultCursor 归 0。\n * 锚：sdlpal uigame.c:961-966（InGame）/ 543-552（System PAL_CLASSIC 5 项）。\n */\nimport { afterEach, beforeEach, describe, expect, it } from 'vitest'\nimport { setWordTable } from '../word-lookup.js'\nimport {\n  createInGameMenu,\n  createSystemMenu,\n  inGameMenuChoice,\n  inGameMenuDown,\n  inGameMenuUp,\n  systemMenuChoice,\n  systemMenuDown,\n  systemMenuUp,\n} from './in-game-menu.js'\n\nbeforeEach(() => setWordTable([]))\nafterEach(() => setWordTable([]))\n\ndescribe('L04 InGameMenu 首尾环绕', () => {\n  it('cursor 0 Up → 末项 system；末项 Down → 0 status', () => {\n    const s = createInGameMenu()\n    inGameMenuUp(s)\n    expect(s.selection.cursor).toBe(3)\n    expect(inGameMenuChoice(s)).toBe('system')\n    inGameMenuDown(s)\n    expect(s.selection.cursor).toBe(0)\n    expect(inGameMenuChoice(s)).toBe('status')\n  })\n\n  it('负 defaultCursor 防御归 0（不作为生产记忆游标的合法域证据）', () => {\n    expect(createInGameMenu(-1).selection.cursor).toBe(0)\n    expect(createSystemMenu(-1).selection.cursor).toBe(0)\n  })\n})\n\ndescribe('L04 SystemMenu 剩余合同', () => {\n  it('cursor 0 Up → quit；quit Down → save（5 项环绕）', () => {\n    const s = createSystemMenu()\n    systemMenuUp(s)\n    expect(s.selection.cursor).toBe(4)\n    expect(systemMenuChoice(s)).toBe('quit')\n    systemMenuDown(s)\n    expect(s.selection.cursor).toBe(0)\n    expect(systemMenuChoice(s)).toBe('save')\n  })\n\n  it('defaultCursor 越上界 → 归 0（守卫分支；词表断言在下一条）', () => {\n    expect(createSystemMenu(99).selection.cursor).toBe(0)\n  })\n\n  it('SystemMenu 词表载入取 flat[11..15] 文案', () => {\n    const flat: string[] = []\n    flat[11] = '存档X'\n    flat[12] = '读档X'\n    flat[13] = '音乐X'\n    flat[14] = '音效X'\n    flat[15] = '退出X'\n    setWordTable(flat)\n    const s = createSystemMenu()\n    expect(s.selection.items.map((it) => it.label)).toEqual([\n      '存档X',\n      '读档X',\n      '音乐X',\n      '音效X',\n      '退出X',\n    ])\n  })\n})\n",
+          "to": "import { describe } from 'vitest'\nimport { expect } from 'vitest'\nimport { it } from 'vitest'\nimport { createSelectionMenu } from './primitives.js'\nimport { getSelected } from './primitives.js'\nimport { moveSelectionDown } from './primitives.js'\nimport { moveSelectionUp } from './primitives.js'\nimport { type SelectionMenuItem } from './primitives.js'\nimport { createOpeningMenu } from './opening-menu.js'\nimport { type OpeningMenuChoice } from './opening-menu.js'\nimport { openingMenuChoice } from './opening-menu.js'\nimport { openingMenuDown } from './opening-menu.js'\nimport { openingMenuLabels } from './opening-menu.js'\nimport { openingMenuUp } from './opening-menu.js'\nimport { afterEach } from 'vitest'\nimport { setWordTable } from '../word-lookup.js'\nimport { beforeEach } from 'vitest'\nimport { createInGameMenu } from './in-game-menu.js'\nimport { createSystemMenu } from './in-game-menu.js'\nimport { inGameMenuChoice } from './in-game-menu.js'\nimport { inGameMenuDown } from './in-game-menu.js'\nimport { inGameMenuUp } from './in-game-menu.js'\nimport { systemMenuChoice } from './in-game-menu.js'\nimport { systemMenuDown } from './in-game-menu.js'\nimport { systemMenuUp } from './in-game-menu.js'\nimport { systemMenuEnterConfirm } from './in-game-menu.js'\nimport { systemMenuEnterSwitch } from './in-game-menu.js'\nimport { systemMenuToggleConfirm } from './in-game-menu.js'\nimport { beginChineseMenuText } from '../../__tests__/menu-text-fixture.js'\n\nconst selectionItem = (id: number) => ({ id, label: `i${id}`, disabled: false })\nlet releaseMenuText: (() => void) | undefined\nbeforeEach(() => {\n  releaseMenuText = beginChineseMenuText()\n})\nafterEach(() => {\n  releaseMenuText?.()\n  releaseMenuText = undefined\n})\ndescribe('Menu cursor boundaries', () => {\n  it('cursor 0 Up → 末项 system；末项 Down → 0 status', () => {\n    const s = createInGameMenu()\n    inGameMenuUp(s)\n    expect(s.selection.cursor).toBe(3)\n    expect(inGameMenuChoice(s)).toBe('system')\n    inGameMenuDown(s)\n    expect(s.selection.cursor).toBe(0)\n    expect(inGameMenuChoice(s)).toBe('status')\n  })\n\n  it('负 defaultCursor 防御归 0（不作为生产记忆游标的合法域证据）', () => {\n    expect(createInGameMenu(-1).selection.cursor).toBe(0)\n    expect(createSystemMenu(-1).selection.cursor).toBe(0)\n  })\n})\n\ndescribe('System menu wrapping and words', () => {\n  it('cursor 0 Up → quit；quit Down → save（5 项环绕）', () => {\n    const s = createSystemMenu()\n    systemMenuUp(s)\n    expect(s.selection.cursor).toBe(4)\n    expect(systemMenuChoice(s)).toBe('quit')\n    systemMenuDown(s)\n    expect(s.selection.cursor).toBe(0)\n    expect(systemMenuChoice(s)).toBe('save')\n  })\n\n  it('defaultCursor 越上界 → 归 0（守卫分支；词表断言在下一条）', () => {\n    expect(createSystemMenu(99).selection.cursor).toBe(0)\n  })\n\n  it('SystemMenu 词表载入取 flat[11..15] 文案', () => {\n    const flat: string[] = []\n    flat[11] = '存档X'\n    flat[12] = '读档X'\n    flat[13] = '音乐X'\n    flat[14] = '音效X'\n    flat[15] = '退出X'\n    setWordTable(flat)\n    const s = createSystemMenu()\n    expect(s.selection.items.map((it) => it.label)).toEqual([\n      '存档X',\n      '读档X',\n      '音乐X',\n      '音效X',\n      '退出X',\n    ])\n  })\n})\n",
+          "count": 1
+        }
+      ],
+      "reason": "All original callbacks/assertions preserved; responsible grouping and explicit Chinese fixture/cleanup. Original imports resolve to same live production modules, new fixture is declaration/import-resolution equivalent."
+    }
+  ],
+  "replacements": [],
+  "registrations": [
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/__tests__/primitives.test.ts",
+        "ordinal": 0,
+        "originalOrdinal": 0,
+        "template": "L38:createSelectionMenu 初始 cursor 不跳 disabled(对齐 PAL_ReadMenu default item)",
+        "fullName": "M-w0.1 SelectionMenu L38:createSelectionMenu 初始 cursor 不跳 disabled(对齐 PAL_ReadMenu default item)"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/primitives.test.ts",
+        "titles": ["Selection cursor movement"],
+        "template": "L38:createSelectionMenu 初始 cursor 不跳 disabled(对齐 PAL_ReadMenu default item)",
+        "fullName": "Selection cursor movement L38:createSelectionMenu 初始 cursor 不跳 disabled(对齐 PAL_ReadMenu default item)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/__tests__/primitives.test.ts",
+        "ordinal": 1,
+        "originalOrdinal": 1,
+        "template": "createSelectionMenu:defaultCursor 越界时 clamp",
+        "fullName": "M-w0.1 SelectionMenu createSelectionMenu:defaultCursor 越界时 clamp"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/primitives.test.ts",
+        "titles": ["Selection cursor movement"],
+        "template": "createSelectionMenu:defaultCursor 越界时 clamp",
+        "fullName": "Selection cursor movement createSelectionMenu:defaultCursor 越界时 clamp"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/__tests__/primitives.test.ts",
+        "ordinal": 2,
+        "originalOrdinal": 2,
+        "template": "moveSelectionDown:循环越界回首",
+        "fullName": "M-w0.1 SelectionMenu moveSelectionDown:循环越界回首"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/primitives.test.ts",
+        "titles": ["Selection cursor movement"],
+        "template": "moveSelectionDown:循环越界回首",
+        "fullName": "Selection cursor movement moveSelectionDown:循环越界回首"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/__tests__/primitives.test.ts",
+        "ordinal": 3,
+        "originalOrdinal": 3,
+        "template": "moveSelectionUp:循环越界回尾",
+        "fullName": "M-w0.1 SelectionMenu moveSelectionUp:循环越界回尾"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/primitives.test.ts",
+        "titles": ["Selection cursor movement"],
+        "template": "moveSelectionUp:循环越界回尾",
+        "fullName": "Selection cursor movement moveSelectionUp:循环越界回尾"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/__tests__/primitives.test.ts",
+        "ordinal": 4,
+        "originalOrdinal": 4,
+        "template": "L38:移动逐项停在 disabled 上(不跳过,对齐 sdlpal PAL_ReadMenu ui.c:510-572)",
+        "fullName": "M-w0.1 SelectionMenu L38:移动逐项停在 disabled 上(不跳过,对齐 sdlpal PAL_ReadMenu ui.c:510-572)"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/primitives.test.ts",
+        "titles": ["Selection cursor movement"],
+        "template": "L38:移动逐项停在 disabled 上(不跳过,对齐 sdlpal PAL_ReadMenu ui.c:510-572)",
+        "fullName": "Selection cursor movement L38:移动逐项停在 disabled 上(不跳过,对齐 sdlpal PAL_ReadMenu ui.c:510-572)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/__tests__/primitives.test.ts",
+        "ordinal": 5,
+        "originalOrdinal": 5,
+        "template": "cursor 超出 pageSize 自动翻页 pageOffset",
+        "fullName": "M-w0.1 SelectionMenu cursor 超出 pageSize 自动翻页 pageOffset"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/primitives.test.ts",
+        "titles": ["Selection cursor movement"],
+        "template": "cursor 超出 pageSize 自动翻页 pageOffset",
+        "fullName": "Selection cursor movement cursor 超出 pageSize 自动翻页 pageOffset"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/__tests__/primitives.test.ts",
+        "ordinal": 6,
+        "originalOrdinal": 6,
+        "template": "getSelected 返回当前 cursor 对应 item",
+        "fullName": "M-w0.1 SelectionMenu getSelected 返回当前 cursor 对应 item"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/primitives.test.ts",
+        "titles": ["Selection cursor movement"],
+        "template": "getSelected 返回当前 cursor 对应 item",
+        "fullName": "Selection cursor movement getSelected 返回当前 cursor 对应 item"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/primitives.boundaries.test.ts",
+        "ordinal": 0,
+        "originalOrdinal": 0,
+        "template": "空表 cursor/pageOffset 均 0",
+        "fullName": "G01 createSelectionMenu 边界 空表 cursor/pageOffset 均 0"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/primitives.test.ts",
+        "titles": ["Selection empty single and window bounds"],
+        "template": "空表 cursor/pageOffset 均 0",
+        "fullName": "Selection empty single and window bounds 空表 cursor/pageOffset 均 0"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/primitives.boundaries.test.ts",
+        "ordinal": 1,
+        "originalOrdinal": 1,
+        "template": "单项 defaultCursor 越界 clamp 到 0",
+        "fullName": "G01 createSelectionMenu 边界 单项 defaultCursor 越界 clamp 到 0"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/primitives.test.ts",
+        "titles": ["Selection empty single and window bounds"],
+        "template": "单项 defaultCursor 越界 clamp 到 0",
+        "fullName": "Selection empty single and window bounds 单项 defaultCursor 越界 clamp 到 0"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/primitives.boundaries.test.ts",
+        "ordinal": 2,
+        "originalOrdinal": 2,
+        "template": "建表和移动不改写借用的 items 数组",
+        "fullName": "G01 createSelectionMenu 边界 建表和移动不改写借用的 items 数组"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/primitives.test.ts",
+        "titles": ["Selection empty single and window bounds"],
+        "template": "建表和移动不改写借用的 items 数组",
+        "fullName": "Selection empty single and window bounds 建表和移动不改写借用的 items 数组"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/primitives.boundaries.test.ts",
+        "ordinal": 3,
+        "originalOrdinal": 3,
+        "template": "跨 page 移动：cursor 越界即推进 pageOffset；窗口内回落不动 offset",
+        "fullName": "G01 createSelectionMenu 边界 跨 page 移动：cursor 越界即推进 pageOffset；窗口内回落不动 offset"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/primitives.test.ts",
+        "titles": ["Selection empty single and window bounds"],
+        "template": "跨 page 移动：cursor 越界即推进 pageOffset；窗口内回落不动 offset",
+        "fullName": "Selection empty single and window bounds 跨 page 移动：cursor 越界即推进 pageOffset；窗口内回落不动 offset"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/primitives.glm-phase1-leaves.test.ts",
+        "ordinal": 0,
+        "originalOrdinal": 0,
+        "template": "负 defaultCursor 归 0（Math.max 下界分支）",
+        "fullName": "L01 primitives 零散边界 负 defaultCursor 归 0（Math.max 下界分支）"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/primitives.test.ts",
+        "titles": ["Selection constructor and borrowed items"],
+        "template": "负 defaultCursor 归 0（Math.max 下界分支）",
+        "fullName": "Selection constructor and borrowed items 负 defaultCursor 归 0（Math.max 下界分支）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/primitives.glm-phase1-leaves.test.ts",
+        "ordinal": 1,
+        "originalOrdinal": 1,
+        "template": "空菜单 getSelected 返回 undefined",
+        "fullName": "L01 primitives 零散边界 空菜单 getSelected 返回 undefined"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/primitives.test.ts",
+        "titles": ["Selection constructor and borrowed items"],
+        "template": "空菜单 getSelected 返回 undefined",
+        "fullName": "Selection constructor and borrowed items 空菜单 getSelected 返回 undefined"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/primitives.glm-phase1-leaves.test.ts",
+        "ordinal": 2,
+        "originalOrdinal": 2,
+        "template": "primitive 透传 rightText 不消费：getSelected 返回同一 item 对象（identity）",
+        "fullName": "L01 primitives 零散边界 primitive 透传 rightText 不消费：getSelected 返回同一 item 对象（identity）"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/primitives.test.ts",
+        "titles": ["Selection constructor and borrowed items"],
+        "template": "primitive 透传 rightText 不消费：getSelected 返回同一 item 对象（identity）",
+        "fullName": "Selection constructor and borrowed items primitive 透传 rightText 不消费：getSelected 返回同一 item 对象（identity）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/opening-menu.test.ts",
+        "ordinal": 0,
+        "originalOrdinal": 0,
+        "template": "createOpeningMenu 起手:2 项 fixed + cursor=0(新游戏)— sdlpal wDefaultItem=0 真值",
+        "fullName": "opening-menu state machine — sdlpal uigame.c:42-167 PAL_OpeningMenu createOpeningMenu 起手:2 项 fixed + cursor=0(新游戏)— sdlpal wDefaultItem=0 真值"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/opening-menu.test.ts",
+        "titles": ["Opening menu state"],
+        "template": "createOpeningMenu 起手:2 项 fixed + cursor=0(新游戏)— sdlpal wDefaultItem=0 真值",
+        "fullName": "Opening menu state createOpeningMenu 起手:2 项 fixed + cursor=0(新游戏)— sdlpal wDefaultItem=0 真值"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/opening-menu.test.ts",
+        "ordinal": 1,
+        "originalOrdinal": 1,
+        "template": "Down 一次 → cursor=1(读取存档)",
+        "fullName": "opening-menu state machine — sdlpal uigame.c:42-167 PAL_OpeningMenu Down 一次 → cursor=1(读取存档)"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/opening-menu.test.ts",
+        "titles": ["Opening menu state"],
+        "template": "Down 一次 → cursor=1(读取存档)",
+        "fullName": "Opening menu state Down 一次 → cursor=1(读取存档)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/opening-menu.test.ts",
+        "ordinal": 2,
+        "originalOrdinal": 2,
+        "template": "Down 两次 → wrap 回 cursor=0(sdlpal ui.c:512-515 真值循环)",
+        "fullName": "opening-menu state machine — sdlpal uigame.c:42-167 PAL_OpeningMenu Down 两次 → wrap 回 cursor=0(sdlpal ui.c:512-515 真值循环)"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/opening-menu.test.ts",
+        "titles": ["Opening menu state"],
+        "template": "Down 两次 → wrap 回 cursor=0(sdlpal ui.c:512-515 真值循环)",
+        "fullName": "Opening menu state Down 两次 → wrap 回 cursor=0(sdlpal ui.c:512-515 真值循环)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/opening-menu.test.ts",
+        "ordinal": 3,
+        "originalOrdinal": 3,
+        "template": "Up 从 cursor=0 → wrap 到 cursor=1(sdlpal ui.c:565-572 真值循环)",
+        "fullName": "opening-menu state machine — sdlpal uigame.c:42-167 PAL_OpeningMenu Up 从 cursor=0 → wrap 到 cursor=1(sdlpal ui.c:565-572 真值循环)"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/opening-menu.test.ts",
+        "titles": ["Opening menu state"],
+        "template": "Up 从 cursor=0 → wrap 到 cursor=1(sdlpal ui.c:565-572 真值循环)",
+        "fullName": "Opening menu state Up 从 cursor=0 → wrap 到 cursor=1(sdlpal ui.c:565-572 真值循环)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/opening-menu.test.ts",
+        "ordinal": 4,
+        "originalOrdinal": 4,
+        "template": "Down + Up → 来回 0↔1",
+        "fullName": "opening-menu state machine — sdlpal uigame.c:42-167 PAL_OpeningMenu Down + Up → 来回 0↔1"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/opening-menu.test.ts",
+        "titles": ["Opening menu state"],
+        "template": "Down + Up → 来回 0↔1",
+        "fullName": "Opening menu state Down + Up → 来回 0↔1"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/opening-menu.test.ts",
+        "ordinal": 5,
+        "originalOrdinal": 5,
+        "template": "openingMenuLabels 暴露 2 项 + 真 WORD id 7/8 给渲染层(ui.h:48-49 MAINMENU_LABEL)",
+        "fullName": "opening-menu state machine — sdlpal uigame.c:42-167 PAL_OpeningMenu openingMenuLabels 暴露 2 项 + 真 WORD id 7/8 给渲染层(ui.h:48-49 MAINMENU_LABEL)"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/opening-menu.test.ts",
+        "titles": ["Opening menu state"],
+        "template": "openingMenuLabels 暴露 2 项 + 真 WORD id 7/8 给渲染层(ui.h:48-49 MAINMENU_LABEL)",
+        "fullName": "Opening menu state openingMenuLabels 暴露 2 项 + 真 WORD id 7/8 给渲染层(ui.h:48-49 MAINMENU_LABEL)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/opening-menu.glm-phase1-leaves.test.ts",
+        "ordinal": 0,
+        "originalOrdinal": 0,
+        "template": "词表载入：菜单 items 与 openingMenuLabels 同取 flat[7]/flat[8]（单一文案源）",
+        "fullName": "L06 OpeningMenu 剩余合同 词表载入：菜单 items 与 openingMenuLabels 同取 flat[7]/flat[8]（单一文案源）"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/opening-menu.test.ts",
+        "titles": ["Opening menu words and empty state"],
+        "template": "词表载入：菜单 items 与 openingMenuLabels 同取 flat[7]/flat[8]（单一文案源）",
+        "fullName": "Opening menu words and empty state 词表载入：菜单 items 与 openingMenuLabels 同取 flat[7]/flat[8]（单一文案源）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/opening-menu.glm-phase1-leaves.test.ts",
+        "ordinal": 1,
+        "originalOrdinal": 1,
+        "template": "空表 choice 防御 undefined（直造状态可达）",
+        "fullName": "L06 OpeningMenu 剩余合同 空表 choice 防御 undefined（直造状态可达）"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/opening-menu.test.ts",
+        "titles": ["Opening menu words and empty state"],
+        "template": "空表 choice 防御 undefined（直造状态可达）",
+        "fullName": "Opening menu words and empty state 空表 choice 防御 undefined（直造状态可达）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-menu.test.ts",
+        "ordinal": 0,
+        "originalOrdinal": 0,
+        "template": "InGameMenu id = GAMEMENU_LABEL 真值 [3,4,5,6](状态/仙术/物品/系统)",
+        "fullName": "菜单项 id = 真 WORD id + label 由 getWord 取(ui.h:61-70 / words.json flat) InGameMenu id = GAMEMENU_LABEL 真值 [3,4,5,6](状态/仙术/物品/系统)"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-menu.test.ts",
+        "titles": ["菜单项 id = 真 WORD id + label 由 getWord 取(ui.h:61-70 / words.json flat)"],
+        "template": "InGameMenu id = GAMEMENU_LABEL 真值 [3,4,5,6](状态/仙术/物品/系统)",
+        "fullName": "菜单项 id = 真 WORD id + label 由 getWord 取(ui.h:61-70 / words.json flat) InGameMenu id = GAMEMENU_LABEL 真值 [3,4,5,6](状态/仙术/物品/系统)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-menu.test.ts",
+        "ordinal": 1,
+        "originalOrdinal": 1,
+        "template": "SystemMenu id = SYSMENU_LABEL 真值 [11,12,13,14,15]",
+        "fullName": "菜单项 id = 真 WORD id + label 由 getWord 取(ui.h:61-70 / words.json flat) SystemMenu id = SYSMENU_LABEL 真值 [11,12,13,14,15]"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-menu.test.ts",
+        "titles": ["菜单项 id = 真 WORD id + label 由 getWord 取(ui.h:61-70 / words.json flat)"],
+        "template": "SystemMenu id = SYSMENU_LABEL 真值 [11,12,13,14,15]",
+        "fullName": "菜单项 id = 真 WORD id + label 由 getWord 取(ui.h:61-70 / words.json flat) SystemMenu id = SYSMENU_LABEL 真值 [11,12,13,14,15]"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-menu.test.ts",
+        "ordinal": 2,
+        "originalOrdinal": 2,
+        "template": "词表载入 → label 取 flat[id](WORD.DAT 单一源)",
+        "fullName": "菜单项 id = 真 WORD id + label 由 getWord 取(ui.h:61-70 / words.json flat) 词表载入 → label 取 flat[id](WORD.DAT 单一源)"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-menu.test.ts",
+        "titles": ["菜单项 id = 真 WORD id + label 由 getWord 取(ui.h:61-70 / words.json flat)"],
+        "template": "词表载入 → label 取 flat[id](WORD.DAT 单一源)",
+        "fullName": "菜单项 id = 真 WORD id + label 由 getWord 取(ui.h:61-70 / words.json flat) 词表载入 → label 取 flat[id](WORD.DAT 单一源)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-menu.test.ts",
+        "ordinal": 3,
+        "originalOrdinal": 3,
+        "template": "choice 反查在真 id 下仍正确(id 改值不破坏 choice 映射)",
+        "fullName": "菜单项 id = 真 WORD id + label 由 getWord 取(ui.h:61-70 / words.json flat) choice 反查在真 id 下仍正确(id 改值不破坏 choice 映射)"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-menu.test.ts",
+        "titles": ["菜单项 id = 真 WORD id + label 由 getWord 取(ui.h:61-70 / words.json flat)"],
+        "template": "choice 反查在真 id 下仍正确(id 改值不破坏 choice 映射)",
+        "fullName": "菜单项 id = 真 WORD id + label 由 getWord 取(ui.h:61-70 / words.json flat) choice 反查在真 id 下仍正确(id 改值不破坏 choice 映射)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-menu.test.ts",
+        "ordinal": 4,
+        "originalOrdinal": 4,
+        "template": "4 项真值顺序(sdlpal uigame.c:961-966)",
+        "fullName": "InGameMenu(主菜单 — 状态/仙术/物品/系统) 4 项真值顺序(sdlpal uigame.c:961-966)"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-menu.test.ts",
+        "titles": ["InGameMenu(主菜单 — 状态/仙术/物品/系统)"],
+        "template": "4 项真值顺序(sdlpal uigame.c:961-966)",
+        "fullName": "InGameMenu(主菜单 — 状态/仙术/物品/系统) 4 项真值顺序(sdlpal uigame.c:961-966)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-menu.test.ts",
+        "ordinal": 5,
+        "originalOrdinal": 5,
+        "template": "默认 cursor=0 → choice \"status\"",
+        "fullName": "InGameMenu(主菜单 — 状态/仙术/物品/系统) 默认 cursor=0 → choice \"status\""
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-menu.test.ts",
+        "titles": ["InGameMenu(主菜单 — 状态/仙术/物品/系统)"],
+        "template": "默认 cursor=0 → choice \"status\"",
+        "fullName": "InGameMenu(主菜单 — 状态/仙术/物品/系统) 默认 cursor=0 → choice \"status\""
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-menu.test.ts",
+        "ordinal": 6,
+        "originalOrdinal": 6,
+        "template": "defaultCursor 起手记忆(sdlpal iCurMainMenuItem 真值)",
+        "fullName": "InGameMenu(主菜单 — 状态/仙术/物品/系统) defaultCursor 起手记忆(sdlpal iCurMainMenuItem 真值)"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-menu.test.ts",
+        "titles": ["InGameMenu(主菜单 — 状态/仙术/物品/系统)"],
+        "template": "defaultCursor 起手记忆(sdlpal iCurMainMenuItem 真值)",
+        "fullName": "InGameMenu(主菜单 — 状态/仙术/物品/系统) defaultCursor 起手记忆(sdlpal iCurMainMenuItem 真值)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-menu.test.ts",
+        "ordinal": 7,
+        "originalOrdinal": 7,
+        "template": "Down 推进:状态 → 仙术 → 物品 → 系统",
+        "fullName": "InGameMenu(主菜单 — 状态/仙术/物品/系统) Down 推进:状态 → 仙术 → 物品 → 系统"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-menu.test.ts",
+        "titles": ["InGameMenu(主菜单 — 状态/仙术/物品/系统)"],
+        "template": "Down 推进:状态 → 仙术 → 物品 → 系统",
+        "fullName": "InGameMenu(主菜单 — 状态/仙术/物品/系统) Down 推进:状态 → 仙术 → 物品 → 系统"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-menu.test.ts",
+        "ordinal": 8,
+        "originalOrdinal": 8,
+        "template": "Up 反推",
+        "fullName": "InGameMenu(主菜单 — 状态/仙术/物品/系统) Up 反推"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-menu.test.ts",
+        "titles": ["InGameMenu(主菜单 — 状态/仙术/物品/系统)"],
+        "template": "Up 反推",
+        "fullName": "InGameMenu(主菜单 — 状态/仙术/物品/系统) Up 反推"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-menu.test.ts",
+        "ordinal": 9,
+        "originalOrdinal": 9,
+        "template": "defaultCursor 超出 = noop(防越界 crash)",
+        "fullName": "InGameMenu(主菜单 — 状态/仙术/物品/系统) defaultCursor 超出 = noop(防越界 crash)"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-menu.test.ts",
+        "titles": ["InGameMenu(主菜单 — 状态/仙术/物品/系统)"],
+        "template": "defaultCursor 超出 = noop(防越界 crash)",
+        "fullName": "InGameMenu(主菜单 — 状态/仙术/物品/系统) defaultCursor 超出 = noop(防越界 crash)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-menu.test.ts",
+        "ordinal": 10,
+        "originalOrdinal": 10,
+        "template": "5 项真值顺序(sdlpal uigame.c:543-552 PAL_CLASSIC build)",
+        "fullName": "SystemMenu(系统菜单 — 储存/读取/音乐/音效/结束) 5 项真值顺序(sdlpal uigame.c:543-552 PAL_CLASSIC build)"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-menu.test.ts",
+        "titles": ["SystemMenu(系统菜单 — 储存/读取/音乐/音效/结束)"],
+        "template": "5 项真值顺序(sdlpal uigame.c:543-552 PAL_CLASSIC build)",
+        "fullName": "SystemMenu(系统菜单 — 储存/读取/音乐/音效/结束) 5 项真值顺序(sdlpal uigame.c:543-552 PAL_CLASSIC build)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-menu.test.ts",
+        "ordinal": 11,
+        "originalOrdinal": 11,
+        "template": "choice 序列:save / load / music / sound / quit",
+        "fullName": "SystemMenu(系统菜单 — 储存/读取/音乐/音效/结束) choice 序列:save / load / music / sound / quit"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-menu.test.ts",
+        "titles": ["SystemMenu(系统菜单 — 储存/读取/音乐/音效/结束)"],
+        "template": "choice 序列:save / load / music / sound / quit",
+        "fullName": "SystemMenu(系统菜单 — 储存/读取/音乐/音效/结束) choice 序列:save / load / music / sound / quit"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-menu.test.ts",
+        "ordinal": 12,
+        "originalOrdinal": 12,
+        "template": "defaultCursor 记忆(sdlpal iCurSystemMenuItem 真值)",
+        "fullName": "SystemMenu(系统菜单 — 储存/读取/音乐/音效/结束) defaultCursor 记忆(sdlpal iCurSystemMenuItem 真值)"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-menu.test.ts",
+        "titles": ["SystemMenu(系统菜单 — 储存/读取/音乐/音效/结束)"],
+        "template": "defaultCursor 记忆(sdlpal iCurSystemMenuItem 真值)",
+        "fullName": "SystemMenu(系统菜单 — 储存/读取/音乐/音效/结束) defaultCursor 记忆(sdlpal iCurSystemMenuItem 真值)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-menu.test.ts",
+        "ordinal": 13,
+        "originalOrdinal": 13,
+        "template": "Up 反推",
+        "fullName": "SystemMenu(系统菜单 — 储存/读取/音乐/音效/结束) Up 反推"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-menu.test.ts",
+        "titles": ["SystemMenu(系统菜单 — 储存/读取/音乐/音效/结束)"],
+        "template": "Up 反推",
+        "fullName": "SystemMenu(系统菜单 — 储存/读取/音乐/音效/结束) Up 反推"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-menu.boundaries.test.ts",
+        "ordinal": 0,
+        "originalOrdinal": 0,
+        "template": "EnterConfirm 重置已有 Yes；ToggleConfirm 在否/是之间切换",
+        "fullName": "G09 SystemMenu 三阶段状态字段 EnterConfirm 重置已有 Yes；ToggleConfirm 在否/是之间切换"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-menu.test.ts",
+        "titles": ["System menu phases and choice identities"],
+        "template": "EnterConfirm 重置已有 Yes；ToggleConfirm 在否/是之间切换",
+        "fullName": "System menu phases and choice identities EnterConfirm 重置已有 Yes；ToggleConfirm 在否/是之间切换"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-menu.boundaries.test.ts",
+        "ordinal": 1,
+        "originalOrdinal": 1,
+        "template": "EnterSwitch 按当前音频开关初始化目标和高亮",
+        "fullName": "G09 SystemMenu 三阶段状态字段 EnterSwitch 按当前音频开关初始化目标和高亮"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-menu.test.ts",
+        "titles": ["System menu phases and choice identities"],
+        "template": "EnterSwitch 按当前音频开关初始化目标和高亮",
+        "fullName": "System menu phases and choice identities EnterSwitch 按当前音频开关初始化目标和高亮"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-menu.boundaries.test.ts",
+        "ordinal": 2,
+        "originalOrdinal": 2,
+        "template": "systemMenuChoice 按 label id 映射 choice，不按数组位置猜测",
+        "fullName": "G09 SystemMenu 三阶段状态字段 systemMenuChoice 按 label id 映射 choice，不按数组位置猜测"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-menu.test.ts",
+        "titles": ["System menu phases and choice identities"],
+        "template": "systemMenuChoice 按 label id 映射 choice，不按数组位置猜测",
+        "fullName": "System menu phases and choice identities systemMenuChoice 按 label id 映射 choice，不按数组位置猜测"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-menu.glm-phase1-leaves.test.ts",
+        "ordinal": 0,
+        "originalOrdinal": 0,
+        "template": "cursor 0 Up → 末项 system；末项 Down → 0 status",
+        "fullName": "L04 InGameMenu 首尾环绕 cursor 0 Up → 末项 system；末项 Down → 0 status"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-menu.test.ts",
+        "titles": ["Menu cursor boundaries"],
+        "template": "cursor 0 Up → 末项 system；末项 Down → 0 status",
+        "fullName": "Menu cursor boundaries cursor 0 Up → 末项 system；末项 Down → 0 status"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-menu.glm-phase1-leaves.test.ts",
+        "ordinal": 1,
+        "originalOrdinal": 1,
+        "template": "负 defaultCursor 防御归 0（不作为生产记忆游标的合法域证据）",
+        "fullName": "L04 InGameMenu 首尾环绕 负 defaultCursor 防御归 0（不作为生产记忆游标的合法域证据）"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-menu.test.ts",
+        "titles": ["Menu cursor boundaries"],
+        "template": "负 defaultCursor 防御归 0（不作为生产记忆游标的合法域证据）",
+        "fullName": "Menu cursor boundaries 负 defaultCursor 防御归 0（不作为生产记忆游标的合法域证据）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-menu.glm-phase1-leaves.test.ts",
+        "ordinal": 2,
+        "originalOrdinal": 2,
+        "template": "cursor 0 Up → quit；quit Down → save（5 项环绕）",
+        "fullName": "L04 SystemMenu 剩余合同 cursor 0 Up → quit；quit Down → save（5 项环绕）"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-menu.test.ts",
+        "titles": ["System menu wrapping and words"],
+        "template": "cursor 0 Up → quit；quit Down → save（5 项环绕）",
+        "fullName": "System menu wrapping and words cursor 0 Up → quit；quit Down → save（5 项环绕）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-menu.glm-phase1-leaves.test.ts",
+        "ordinal": 3,
+        "originalOrdinal": 3,
+        "template": "defaultCursor 越上界 → 归 0（守卫分支；词表断言在下一条）",
+        "fullName": "L04 SystemMenu 剩余合同 defaultCursor 越上界 → 归 0（守卫分支；词表断言在下一条）"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-menu.test.ts",
+        "titles": ["System menu wrapping and words"],
+        "template": "defaultCursor 越上界 → 归 0（守卫分支；词表断言在下一条）",
+        "fullName": "System menu wrapping and words defaultCursor 越上界 → 归 0（守卫分支；词表断言在下一条）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-menu.glm-phase1-leaves.test.ts",
+        "ordinal": 4,
+        "originalOrdinal": 4,
+        "template": "SystemMenu 词表载入取 flat[11..15] 文案",
+        "fullName": "L04 SystemMenu 剩余合同 SystemMenu 词表载入取 flat[11..15] 文案"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-menu.test.ts",
+        "titles": ["System menu wrapping and words"],
+        "template": "SystemMenu 词表载入取 flat[11..15] 文案",
+        "fullName": "System menu wrapping and words SystemMenu 词表载入取 flat[11..15] 文案"
+      }
+    }
+  ],
+  "identities": [
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-menu.boundaries.test.ts",
+        "fullName": "G09 SystemMenu 三阶段状态字段 EnterConfirm 重置已有 Yes；ToggleConfirm 在否/是之间切换"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-menu.test.ts",
+        "fullName": "System menu phases and choice identities EnterConfirm 重置已有 Yes；ToggleConfirm 在否/是之间切换"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-menu.boundaries.test.ts",
+        "fullName": "G09 SystemMenu 三阶段状态字段 EnterSwitch 按当前音频开关初始化目标和高亮"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-menu.test.ts",
+        "fullName": "System menu phases and choice identities EnterSwitch 按当前音频开关初始化目标和高亮"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-menu.boundaries.test.ts",
+        "fullName": "G09 SystemMenu 三阶段状态字段 systemMenuChoice 按 label id 映射 choice，不按数组位置猜测"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-menu.test.ts",
+        "fullName": "System menu phases and choice identities systemMenuChoice 按 label id 映射 choice，不按数组位置猜测"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-menu.glm-phase1-leaves.test.ts",
+        "fullName": "L04 InGameMenu 首尾环绕 cursor 0 Up → 末项 system；末项 Down → 0 status"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-menu.test.ts",
+        "fullName": "Menu cursor boundaries cursor 0 Up → 末项 system；末项 Down → 0 status"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-menu.glm-phase1-leaves.test.ts",
+        "fullName": "L04 InGameMenu 首尾环绕 负 defaultCursor 防御归 0（不作为生产记忆游标的合法域证据）"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-menu.test.ts",
+        "fullName": "Menu cursor boundaries 负 defaultCursor 防御归 0（不作为生产记忆游标的合法域证据）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-menu.glm-phase1-leaves.test.ts",
+        "fullName": "L04 SystemMenu 剩余合同 cursor 0 Up → quit；quit Down → save（5 项环绕）"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-menu.test.ts",
+        "fullName": "System menu wrapping and words cursor 0 Up → quit；quit Down → save（5 项环绕）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-menu.glm-phase1-leaves.test.ts",
+        "fullName": "L04 SystemMenu 剩余合同 defaultCursor 越上界 → 归 0（守卫分支；词表断言在下一条）"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-menu.test.ts",
+        "fullName": "System menu wrapping and words defaultCursor 越上界 → 归 0（守卫分支；词表断言在下一条）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-menu.glm-phase1-leaves.test.ts",
+        "fullName": "L04 SystemMenu 剩余合同 SystemMenu 词表载入取 flat[11..15] 文案"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-menu.test.ts",
+        "fullName": "System menu wrapping and words SystemMenu 词表载入取 flat[11..15] 文案"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-menu.test.ts",
+        "fullName": "菜单项 id = 真 WORD id + label 由 getWord 取(ui.h:61-70 / words.json flat) InGameMenu id = GAMEMENU_LABEL 真值 [3,4,5,6](状态/仙术/物品/系统)"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-menu.test.ts",
+        "fullName": "菜单项 id = 真 WORD id + label 由 getWord 取(ui.h:61-70 / words.json flat) InGameMenu id = GAMEMENU_LABEL 真值 [3,4,5,6](状态/仙术/物品/系统)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-menu.test.ts",
+        "fullName": "菜单项 id = 真 WORD id + label 由 getWord 取(ui.h:61-70 / words.json flat) SystemMenu id = SYSMENU_LABEL 真值 [11,12,13,14,15]"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-menu.test.ts",
+        "fullName": "菜单项 id = 真 WORD id + label 由 getWord 取(ui.h:61-70 / words.json flat) SystemMenu id = SYSMENU_LABEL 真值 [11,12,13,14,15]"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-menu.test.ts",
+        "fullName": "菜单项 id = 真 WORD id + label 由 getWord 取(ui.h:61-70 / words.json flat) 词表载入 → label 取 flat[id](WORD.DAT 单一源)"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-menu.test.ts",
+        "fullName": "菜单项 id = 真 WORD id + label 由 getWord 取(ui.h:61-70 / words.json flat) 词表载入 → label 取 flat[id](WORD.DAT 单一源)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-menu.test.ts",
+        "fullName": "菜单项 id = 真 WORD id + label 由 getWord 取(ui.h:61-70 / words.json flat) choice 反查在真 id 下仍正确(id 改值不破坏 choice 映射)"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-menu.test.ts",
+        "fullName": "菜单项 id = 真 WORD id + label 由 getWord 取(ui.h:61-70 / words.json flat) choice 反查在真 id 下仍正确(id 改值不破坏 choice 映射)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-menu.test.ts",
+        "fullName": "InGameMenu(主菜单 — 状态/仙术/物品/系统) 4 项真值顺序(sdlpal uigame.c:961-966)"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-menu.test.ts",
+        "fullName": "InGameMenu(主菜单 — 状态/仙术/物品/系统) 4 项真值顺序(sdlpal uigame.c:961-966)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-menu.test.ts",
+        "fullName": "InGameMenu(主菜单 — 状态/仙术/物品/系统) 默认 cursor=0 → choice \"status\""
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-menu.test.ts",
+        "fullName": "InGameMenu(主菜单 — 状态/仙术/物品/系统) 默认 cursor=0 → choice \"status\""
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-menu.test.ts",
+        "fullName": "InGameMenu(主菜单 — 状态/仙术/物品/系统) defaultCursor 起手记忆(sdlpal iCurMainMenuItem 真值)"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-menu.test.ts",
+        "fullName": "InGameMenu(主菜单 — 状态/仙术/物品/系统) defaultCursor 起手记忆(sdlpal iCurMainMenuItem 真值)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-menu.test.ts",
+        "fullName": "InGameMenu(主菜单 — 状态/仙术/物品/系统) Down 推进:状态 → 仙术 → 物品 → 系统"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-menu.test.ts",
+        "fullName": "InGameMenu(主菜单 — 状态/仙术/物品/系统) Down 推进:状态 → 仙术 → 物品 → 系统"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-menu.test.ts",
+        "fullName": "InGameMenu(主菜单 — 状态/仙术/物品/系统) Up 反推"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-menu.test.ts",
+        "fullName": "InGameMenu(主菜单 — 状态/仙术/物品/系统) Up 反推"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-menu.test.ts",
+        "fullName": "InGameMenu(主菜单 — 状态/仙术/物品/系统) defaultCursor 超出 = noop(防越界 crash)"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-menu.test.ts",
+        "fullName": "InGameMenu(主菜单 — 状态/仙术/物品/系统) defaultCursor 超出 = noop(防越界 crash)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-menu.test.ts",
+        "fullName": "SystemMenu(系统菜单 — 储存/读取/音乐/音效/结束) 5 项真值顺序(sdlpal uigame.c:543-552 PAL_CLASSIC build)"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-menu.test.ts",
+        "fullName": "SystemMenu(系统菜单 — 储存/读取/音乐/音效/结束) 5 项真值顺序(sdlpal uigame.c:543-552 PAL_CLASSIC build)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-menu.test.ts",
+        "fullName": "SystemMenu(系统菜单 — 储存/读取/音乐/音效/结束) choice 序列:save / load / music / sound / quit"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-menu.test.ts",
+        "fullName": "SystemMenu(系统菜单 — 储存/读取/音乐/音效/结束) choice 序列:save / load / music / sound / quit"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-menu.test.ts",
+        "fullName": "SystemMenu(系统菜单 — 储存/读取/音乐/音效/结束) defaultCursor 记忆(sdlpal iCurSystemMenuItem 真值)"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-menu.test.ts",
+        "fullName": "SystemMenu(系统菜单 — 储存/读取/音乐/音效/结束) defaultCursor 记忆(sdlpal iCurSystemMenuItem 真值)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-menu.test.ts",
+        "fullName": "SystemMenu(系统菜单 — 储存/读取/音乐/音效/结束) Up 反推"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-menu.test.ts",
+        "fullName": "SystemMenu(系统菜单 — 储存/读取/音乐/音效/结束) Up 反推"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/opening-menu.glm-phase1-leaves.test.ts",
+        "fullName": "L06 OpeningMenu 剩余合同 词表载入：菜单 items 与 openingMenuLabels 同取 flat[7]/flat[8]（单一文案源）"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/opening-menu.test.ts",
+        "fullName": "Opening menu words and empty state 词表载入：菜单 items 与 openingMenuLabels 同取 flat[7]/flat[8]（单一文案源）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/opening-menu.glm-phase1-leaves.test.ts",
+        "fullName": "L06 OpeningMenu 剩余合同 空表 choice 防御 undefined（直造状态可达）"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/opening-menu.test.ts",
+        "fullName": "Opening menu words and empty state 空表 choice 防御 undefined（直造状态可达）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/opening-menu.test.ts",
+        "fullName": "opening-menu state machine — sdlpal uigame.c:42-167 PAL_OpeningMenu createOpeningMenu 起手:2 项 fixed + cursor=0(新游戏)— sdlpal wDefaultItem=0 真值"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/opening-menu.test.ts",
+        "fullName": "Opening menu state createOpeningMenu 起手:2 项 fixed + cursor=0(新游戏)— sdlpal wDefaultItem=0 真值"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/opening-menu.test.ts",
+        "fullName": "opening-menu state machine — sdlpal uigame.c:42-167 PAL_OpeningMenu Down 一次 → cursor=1(读取存档)"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/opening-menu.test.ts",
+        "fullName": "Opening menu state Down 一次 → cursor=1(读取存档)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/opening-menu.test.ts",
+        "fullName": "opening-menu state machine — sdlpal uigame.c:42-167 PAL_OpeningMenu Down 两次 → wrap 回 cursor=0(sdlpal ui.c:512-515 真值循环)"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/opening-menu.test.ts",
+        "fullName": "Opening menu state Down 两次 → wrap 回 cursor=0(sdlpal ui.c:512-515 真值循环)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/opening-menu.test.ts",
+        "fullName": "opening-menu state machine — sdlpal uigame.c:42-167 PAL_OpeningMenu Up 从 cursor=0 → wrap 到 cursor=1(sdlpal ui.c:565-572 真值循环)"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/opening-menu.test.ts",
+        "fullName": "Opening menu state Up 从 cursor=0 → wrap 到 cursor=1(sdlpal ui.c:565-572 真值循环)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/opening-menu.test.ts",
+        "fullName": "opening-menu state machine — sdlpal uigame.c:42-167 PAL_OpeningMenu Down + Up → 来回 0↔1"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/opening-menu.test.ts",
+        "fullName": "Opening menu state Down + Up → 来回 0↔1"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/opening-menu.test.ts",
+        "fullName": "opening-menu state machine — sdlpal uigame.c:42-167 PAL_OpeningMenu openingMenuLabels 暴露 2 项 + 真 WORD id 7/8 给渲染层(ui.h:48-49 MAINMENU_LABEL)"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/opening-menu.test.ts",
+        "fullName": "Opening menu state openingMenuLabels 暴露 2 项 + 真 WORD id 7/8 给渲染层(ui.h:48-49 MAINMENU_LABEL)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/primitives.boundaries.test.ts",
+        "fullName": "G01 createSelectionMenu 边界 空表 cursor/pageOffset 均 0"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/primitives.test.ts",
+        "fullName": "Selection empty single and window bounds 空表 cursor/pageOffset 均 0"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/primitives.boundaries.test.ts",
+        "fullName": "G01 createSelectionMenu 边界 单项 defaultCursor 越界 clamp 到 0"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/primitives.test.ts",
+        "fullName": "Selection empty single and window bounds 单项 defaultCursor 越界 clamp 到 0"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/primitives.boundaries.test.ts",
+        "fullName": "G01 createSelectionMenu 边界 建表和移动不改写借用的 items 数组"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/primitives.test.ts",
+        "fullName": "Selection empty single and window bounds 建表和移动不改写借用的 items 数组"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/primitives.boundaries.test.ts",
+        "fullName": "G01 createSelectionMenu 边界 跨 page 移动：cursor 越界即推进 pageOffset；窗口内回落不动 offset"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/primitives.test.ts",
+        "fullName": "Selection empty single and window bounds 跨 page 移动：cursor 越界即推进 pageOffset；窗口内回落不动 offset"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/primitives.glm-phase1-leaves.test.ts",
+        "fullName": "L01 primitives 零散边界 负 defaultCursor 归 0（Math.max 下界分支）"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/primitives.test.ts",
+        "fullName": "Selection constructor and borrowed items 负 defaultCursor 归 0（Math.max 下界分支）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/primitives.glm-phase1-leaves.test.ts",
+        "fullName": "L01 primitives 零散边界 空菜单 getSelected 返回 undefined"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/primitives.test.ts",
+        "fullName": "Selection constructor and borrowed items 空菜单 getSelected 返回 undefined"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/primitives.glm-phase1-leaves.test.ts",
+        "fullName": "L01 primitives 零散边界 primitive 透传 rightText 不消费：getSelected 返回同一 item 对象（identity）"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/primitives.test.ts",
+        "fullName": "Selection constructor and borrowed items primitive 透传 rightText 不消费：getSelected 返回同一 item 对象（identity）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/__tests__/primitives.test.ts",
+        "fullName": "M-w0.1 SelectionMenu L38:createSelectionMenu 初始 cursor 不跳 disabled(对齐 PAL_ReadMenu default item)"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/primitives.test.ts",
+        "fullName": "Selection cursor movement L38:createSelectionMenu 初始 cursor 不跳 disabled(对齐 PAL_ReadMenu default item)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/__tests__/primitives.test.ts",
+        "fullName": "M-w0.1 SelectionMenu createSelectionMenu:defaultCursor 越界时 clamp"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/primitives.test.ts",
+        "fullName": "Selection cursor movement createSelectionMenu:defaultCursor 越界时 clamp"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/__tests__/primitives.test.ts",
+        "fullName": "M-w0.1 SelectionMenu moveSelectionDown:循环越界回首"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/primitives.test.ts",
+        "fullName": "Selection cursor movement moveSelectionDown:循环越界回首"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/__tests__/primitives.test.ts",
+        "fullName": "M-w0.1 SelectionMenu moveSelectionUp:循环越界回尾"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/primitives.test.ts",
+        "fullName": "Selection cursor movement moveSelectionUp:循环越界回尾"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/__tests__/primitives.test.ts",
+        "fullName": "M-w0.1 SelectionMenu L38:移动逐项停在 disabled 上(不跳过,对齐 sdlpal PAL_ReadMenu ui.c:510-572)"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/primitives.test.ts",
+        "fullName": "Selection cursor movement L38:移动逐项停在 disabled 上(不跳过,对齐 sdlpal PAL_ReadMenu ui.c:510-572)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/__tests__/primitives.test.ts",
+        "fullName": "M-w0.1 SelectionMenu cursor 超出 pageSize 自动翻页 pageOffset"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/primitives.test.ts",
+        "fullName": "Selection cursor movement cursor 超出 pageSize 自动翻页 pageOffset"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/__tests__/primitives.test.ts",
+        "fullName": "M-w0.1 SelectionMenu getSelected 返回当前 cursor 对应 item"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/primitives.test.ts",
+        "fullName": "Selection cursor movement getSelected 返回当前 cursor 对应 item"
+      }
+    }
+  ],
+  "retirements": [],
+  "id": "menu-state",
+  "namespace": "organization-menu-state",
+  "cohortSubjects": [
+    {
+      "path": "packages/game/src/core/menu/primitives.glm-phase1-leaves.test.ts",
+      "sha256": "3deb623f2073ddf3b08aa8f459cf177f0bf9aec9a4c62f6cfe0e021944f4b0f9",
+      "priorCurrentBridges": []
+    },
+    {
+      "path": "packages/game/src/core/menu/opening-menu.glm-phase1-leaves.test.ts",
+      "sha256": "28c3ba868156fd1db229dd152f030b5bb7e4b0e228e511a4beec88df974bea46",
+      "priorCurrentBridges": []
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-menu.glm-phase1-leaves.test.ts",
+      "sha256": "3b2cfe9179561746f790cb72a67cfa33762b19c8d2565c5ee26d14ae20eb5a55",
+      "priorCurrentBridges": []
+    }
+  ],
+  "preserved": [
+    {
+      "path": "packages/game/src/core/menu/primitives.ts",
+      "sha256": "16dcc14b8a072542614f6456b4649f086c07059d06dd3df993ff522cab81d6e1"
+    },
+    {
+      "path": "packages/game/src/core/menu/opening-menu.ts",
+      "sha256": "fbd519602825bbb894f3aeb548c82a383ebae902d75708569d8cddb034a41f47"
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-menu.ts",
+      "sha256": "0252edd4a38dff6612decf42ef4d61d36fa689c0aa5471ab41b36be3115bc480"
+    },
+    {
+      "path": "packages/game/src/core/word-lookup.ts",
+      "sha256": "06b17311a3e47e82eacb5857aa87dd0a5d7ff706ac1240a00a4c12325458c934"
+    },
+    {
+      "path": "packages/game/src/localization/language.ts",
+      "sha256": "d3b5410d8b1565af885a84ccc59f74511b712fd0bb1470eef882ad276c330779"
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-stack.ts",
+      "sha256": "7f18301a0ada526074c619586001fb40c3e28e52ea3377eef099d276a6e55c46"
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-mode.ts",
+      "sha256": "c4483791dac050510868af7c42edf485ebd5d37d954cbb0ee76c0fd0ac42cd90"
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-driver.test.ts",
+      "sha256": "81695c8dc3d1176e74407b81c141728ff68183c6353dee7c6284282baac14f76"
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-mode.test.ts",
+      "sha256": "982556e365dc673d9ef7d45971c56d1037169e5319474ca21f1c7ecb3218a72b"
+    },
+    {
+      "path": "packages/game/vitest.config.ts",
+      "sha256": "3dd92ad4886bc72c88e7a7b2e6bdacc3aaf9e2a24ac72153f3b619ba37feb7d4"
+    },
+    {
+      "path": "scripts/coverage/config.mjs",
+      "sha256": "decb63dda5d12a2269bef1dd75c3d1eb4efca071887c759deca8e9b06ef17a25"
+    }
+  ],
+  "neighborPaths": [
+    "packages/game/src/core/menu/primitives.test.ts",
+    "packages/game/src/core/menu/opening-menu.test.ts",
+    "packages/game/src/core/menu/in-game-menu.test.ts",
+    "packages/game/src/present/menu/draw-inventory.list.test.ts",
+    "packages/game/src/present/menu/draw-player-status.test.ts",
+    "packages/game/src/present/menu/draw-inventory.description.test.ts",
+    "packages/game/src/present/menu/draw-equip.test.ts",
+    "packages/game/src/present/menu/draw-magic.caster.test.ts",
+    "packages/game/src/present/menu/draw-inventory.canvas.test.ts",
+    "packages/game/src/present/menu/draw-magic.test.ts",
+    "packages/game/src/present/menu/draw-confirm.test.ts",
+    "packages/game/src/present/menu/draw-player-status.poison.test.ts",
+    "packages/game/src/present/menu/draw-player-status.entry.test.ts",
+    "packages/game/src/present/menu/draw-shop.test.ts",
+    "packages/game/src/present/menu/draw-inventory.target.test.ts",
+    "packages/game/src/present/menu/draw-shop.canvas.test.ts",
+    "packages/game/src/present/menu/draw-magic.target.test.ts",
+    "packages/game/src/present/menu/draw-menu.test.ts",
+    "packages/game/src/present/menu/draw-sell-overlay.test.ts",
+    "packages/game/src/present/menu/draw-opening-menu.test.ts",
+    "packages/game/src/present/menu/draw-player-status.equipment.test.ts",
+    "packages/game/src/present/battle/__tests__/draw-battle-settlement.test.ts",
+    "packages/game/src/core/menu/menu-driver.test.ts",
+    "packages/game/src/core/menu/menu-mode.test.ts"
+  ],
+  "cleanExecutions": [
+    "before",
+    "reorganize",
+    "import-cleanup",
+    "neighbors-final",
+    "typecheck-final",
+    "tool-final",
+    "proof-current-final",
+    "routing",
+    "complexity",
+    "module-preflight",
+    "docs",
+    "content-review",
+    "lint",
+    "scoped",
+    "diff",
+    "ledger-final"
+  ],
+  "receipts": {
+    "neighbors": "organization-menu-state/neighbors-final",
+    "docs": "organization-menu-state/docs-final"
+  },
+  "lightweightGates": true,
+  "profiles": [
+    {
+      "path": "packages/game/src/core/menu/primitives.test.ts",
+      "subjects": [
+        "packages/game/src/core/menu/primitives.glm-phase1-leaves.test.ts",
+        "packages/game/src/core/menu/opening-menu.glm-phase1-leaves.test.ts",
+        "packages/game/src/core/menu/in-game-menu.glm-phase1-leaves.test.ts"
+      ],
+      "axes": {
+        "A": "14 direct selection contracts:constructor clamps/default disabled,empty/single,wrap,window offset,borrowed array/item metadata. All legitimate and defensive domains explicit; production page sizes positive,not newacceptance of arbitrary pageSize/fractional defaults.",
+        "B": "Replace author/batch suite buckets with cursor/window/borrowed-state names;retain meaningful source and defensive labels. No universal nondeduplication claim.",
+        "C": "Pure selection tests;no word/language/DOM/clock hooks. Rendering/confirmation eligibility remain real caller responsibilities.",
+        "D": "One local selectionItem factory,3actual calls with id1/2/7 only;remove never-supplied disabled param and keep literalfalse field. Missing-disabled vs explicitfalse inputs elsewhere remain distinct.",
+        "E": "All14 callbacks/assertions retained after entry alias,including rightText value after identity call:identity alone would not prove no mutation. Exact borrowed-array nonmutation and window/cursor values remain.251neighbors/TC0;no newgamecase.",
+        "F": "primitives.test beside implementation;selectionItem replaces entry. Names reflect movement,constructor and borrowed metadata.",
+        "G": "Private dead parameter only after3one-argument calls/type/default-field proof;oldtrue-secondarg differs outside domain and is not claimed generally equivalent. No product API retirement.",
+        "H": "Real deterministic public state helpers,independent literal results,not duplicated algorithms. No global/provider setup required."
+      }
+    },
+    {
+      "path": "packages/game/src/core/menu/opening-menu.test.ts",
+      "subjects": [
+        "packages/game/src/core/menu/primitives.glm-phase1-leaves.test.ts",
+        "packages/game/src/core/menu/opening-menu.glm-phase1-leaves.test.ts",
+        "packages/game/src/core/menu/in-game-menu.glm-phase1-leaves.test.ts"
+      ],
+      "axes": {
+        "A": "8 real opening constructor/choice/wrap/WORD7/8/fallback/injected-label and empty-state contracts. Empty array is controlled published-state defensive input,not ordinary factory output.",
+        "B": "Replace L06/author/absolute duplicate ledger header with actual responsibility. Existing phase1 truth stays bounded to state and sourceword IDs,not title-load/bootstrap implementation.",
+        "C": "One module owns label/selection tests;explicit Chinese fixture percase restores previous language/HTML and clears thisisolated module word table. No start/load IO folded in.",
+        "D": "Reuse same package word fixture as renderer,without importing a presentation directory. Clock is separate and unused here.",
+        "E": "All8callbacks/assertions/title strings retained;wholecase identities mapped to newdescribe names. Exact label values/IDs and choices,not self-derived oracle. No newor retiredcase.",
+        "F": "opening-menu.test names actual state;Opening menu words and empty state describes remaining domain. Author names remain only history.",
+        "G": "Remove duplicated file and incidental cleanup asymmetry;no compatibility wrapper/default-word path added.",
+        "H": "Real getWord/currentlanguage and public state,deterministicChinese setup with owned afterEach release. No scene/load/E2E credit;251 includes real39driver/7mode neighbors."
+      }
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-menu.test.ts",
+      "subjects": [
+        "packages/game/src/core/menu/primitives.glm-phase1-leaves.test.ts",
+        "packages/game/src/core/menu/opening-menu.glm-phase1-leaves.test.ts",
+        "packages/game/src/core/menu/in-game-menu.glm-phase1-leaves.test.ts"
+      ],
+      "axes": {
+        "A": "22 in-game/system state contracts:WORD IDs/order/labels,remembered cursor/wrap/defensive bounds,ID-based choices,confirm/switch target/highlight transitions. Samecall layer negative-memory family checks both constructors,not UI/IO aggregation.",
+        "B": "Purpose groups replace L04/G09 labels;fixture annotations distinguish defensive published-state reordering/negative defaults from actual menu factory behavior.",
+        "C": "Two related state constructors in same implementation kept inone cohesive spec with distinct suites. Driver owns stack/audio/save effects;language fixture owns test-only global word context.",
+        "D": "Shared generic word fixture;no generic menu-mode helper or hidden constructor options. Distinct four/five item metadata retained.",
+        "E": "22callbacks/assertions unchanged;every stage/result literal preserved,including reset-existingYes and sound/music initial values. Real outputnot mock callcounts;251neighbors/TC0,0pending/stderr.",
+        "F": "in-game-menu.test expresses shared module;groups name identities,phases and cursor boundaries instead of contributor/wave.",
+        "G": "Three oldbuckets merge withoutcase deletion. No dynamicstate wrapper or newexport/fallback.",
+        "H": "Actual pure state and real wordlookup;explicit percase setup/release. Dispatcher behavior observed only in unchanged neighboring runtime tests."
+      }
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-driver.ts",
+      "subjects": [
+        "packages/game/src/core/menu/primitives.glm-phase1-leaves.test.ts",
+        "packages/game/src/core/menu/opening-menu.glm-phase1-leaves.test.ts",
+        "packages/game/src/core/menu/in-game-menu.glm-phase1-leaves.test.ts"
+      ],
+      "axes": {
+        "A": "Production full1030line source read;complete executable typedAST equal to frozen candidate. Onlytwo switch comments corrected;Save,callbacks,dispatch,interfaces remain exact.",
+        "B": "Remove obsolete return-to-system-menu claim. Current implementation and SDLPal case3/4->SystemMenuTRUE->InGameMenugotoout close whole menu;cancel preserves previous boolean,confirm writes newone.",
+        "C": "No product ownership/dependency rewrite;prior fullquality scope retained,not new architecture acceptance of the broad dispatcher.",
+        "D": "No wrapper/interface/asset/save fallback introduced.",
+        "E": "Complete productAST proof plus final251realneighbors andTC0;scoped primary SwitchMenu368-392/SystemMenu596-655/InGame1018-1044 checked. No newmechanism or async/save acceptance claimed.",
+        "F": "Comments now express actual exit path;production names unchanged.",
+        "G": "No executable code restored/removed;source remainsreview for unifiedgates after bounded B correction.",
+        "H": "Actualdriver39/mode7 neighbors run with same candidate;no test-only product interface or runtime/E2E credit."
+      }
+    }
+  ],
+  "callbackProof": "organization-menu-state/proof-current-final.stdout.raw",
+  "productionCommentDelta": "organization-menu-state/production-comment-delta.json",
+  "reads": {
+    "fullInputs": [
+      {
+        "path": "packages/game/src/core/menu/__tests__/primitives.test.ts",
+        "sha256": "f2a43473509d2a9fd6ea9bba334b027e6398f4c6fdb2ffd971944e00ff0031c3",
+        "member": "organization-menu-state/0.before",
+        "lines": 87
+      },
+      {
+        "path": "packages/game/src/core/menu/primitives.boundaries.test.ts",
+        "sha256": "78bfaff615553f6dcb1d0e1645969958a64691ffb61a0135c99d762885a17a9f",
+        "member": "organization-menu-state/1.before",
+        "lines": 45
+      },
+      {
+        "path": "packages/game/src/core/menu/primitives.glm-phase1-leaves.test.ts",
+        "sha256": "3deb623f2073ddf3b08aa8f459cf177f0bf9aec9a4c62f6cfe0e021944f4b0f9",
+        "member": "organization-menu-state/2.before",
+        "lines": 32
+      },
+      {
+        "path": "packages/game/src/core/menu/opening-menu.test.ts",
+        "sha256": "33876ff331c8154363bde2c35894284c2c692132313b6319747920388d2d2812",
+        "member": "organization-menu-state/3.before",
+        "lines": 55
+      },
+      {
+        "path": "packages/game/src/core/menu/opening-menu.glm-phase1-leaves.test.ts",
+        "sha256": "28c3ba868156fd1db229dd152f030b5bb7e4b0e228e511a4beec88df974bea46",
+        "member": "organization-menu-state/4.before",
+        "lines": 35
+      },
+      {
+        "path": "packages/game/src/core/menu/in-game-menu.test.ts",
+        "sha256": "cb1f0690d798b860bbedcf2ada1bb372c74dfbbd616dad1eb30dcd39e8950645",
+        "member": "organization-menu-state/5.before",
+        "lines": 130
+      },
+      {
+        "path": "packages/game/src/core/menu/in-game-menu.boundaries.test.ts",
+        "sha256": "af352cee89772ea59adf77c0b127250d837f9e84faf6751435a60bd313f1497e",
+        "member": "organization-menu-state/6.before",
+        "lines": 52
+      },
+      {
+        "path": "packages/game/src/core/menu/in-game-menu.glm-phase1-leaves.test.ts",
+        "sha256": "3b2cfe9179561746f790cb72a67cfa33762b19c8d2565c5ee26d14ae20eb5a55",
+        "member": "organization-menu-state/7.before",
+        "lines": 74
+      },
+      {
+        "path": "packages/game/src/core/menu/menu-driver.ts",
+        "member": "organization-menu-state/8.before",
+        "sha256": "81db674f145043b7a78aea5ac705baa8c975502cbce66bcf88908574acd596f5",
+        "lines": 1030
+      }
+    ],
+    "fullImplementations": [
+      {
+        "path": "packages/game/src/core/menu/primitives.ts",
+        "sha256": "16dcc14b8a072542614f6456b4649f086c07059d06dd3df993ff522cab81d6e1",
+        "scope": "Full current module read,unchanged;prior bounded A-E/H evidence reused."
+      },
+      {
+        "path": "packages/game/src/core/menu/opening-menu.ts",
+        "sha256": "fbd519602825bbb894f3aeb548c82a383ebae902d75708569d8cddb034a41f47",
+        "scope": "Full current module read,unchanged;prior bounded A-E/H evidence reused."
+      },
+      {
+        "path": "packages/game/src/core/menu/in-game-menu.ts",
+        "sha256": "0252edd4a38dff6612decf42ef4d61d36fa689c0aa5471ab41b36be3115bc480",
+        "scope": "Full current module read,unchanged;prior bounded A-E/H evidence reused."
+      },
+      {
+        "path": "packages/game/src/core/word-lookup.ts",
+        "sha256": "06b17311a3e47e82eacb5857aa87dd0a5d7ff706ac1240a00a4c12325458c934",
+        "scope": "Full current module read,unchanged;prior bounded A-E/H evidence reused."
+      },
+      {
+        "path": "packages/game/src/localization/language.ts",
+        "sha256": "d3b5410d8b1565af885a84ccc59f74511b712fd0bb1470eef882ad276c330779",
+        "scope": "Full current module read,unchanged;prior bounded A-E/H evidence reused."
+      },
+      {
+        "path": "packages/game/src/core/menu/menu-stack.ts",
+        "sha256": "7f18301a0ada526074c619586001fb40c3e28e52ea3377eef099d276a6e55c46",
+        "scope": "Full current module read,unchanged;prior bounded A-E/H evidence reused."
+      },
+      {
+        "path": "packages/game/src/core/menu/menu-mode.ts",
+        "sha256": "c4483791dac050510868af7c42edf485ebd5d37d954cbb0ee76c0fd0ac42cd90",
+        "scope": "Full current module read,unchanged;prior bounded A-E/H evidence reused."
+      }
+    ],
+    "primarySources": [
+      {
+        "path": "reference/sdlpal/ui.c",
+        "ranges": [[486, 516], [550, 574]],
+        "sha256": "15a03e60ebe4c51ae45d479740b8dfdf8029805cc6bf8ca8fc39926d62cf2242"
+      },
+      {
+        "path": "reference/sdlpal/uigame.c",
+        "ranges": [[368, 409], [596, 655], [1018, 1044]],
+        "sha256": "f981b6a698b6248107ec7934b60ca988055bbab458e516e9aa2b113f8b5419c1"
+      }
+    ]
+  },
+  "ledgerCounts": {
+    "inventory": 3448,
+    "closed": 537,
+    "review": 277,
+    "pending": 2634
+  },
+  "processDisclosures": [
+    "3historicalsubjects10runtime cases(3+2+5) plus34existing=44,allcallbacks/assertions andindividualtitles retained;onlydescribe responsibilities change. No runtimecase added/retired.",
+    "3actualselectionItem calls id1/2/7 useoneargument. Olddisabled=true outsidecallerdomain differs;literalfalse retained,not generally equivalent. rightText assertion retained because referenceidentity doesnot entail nonmutation.",
+    "Language/sharedDate helpers split bydependency/lifetime;language hasnoVitest/mock import,clock hasno word/language/DOM import.19existingrenderconsumers import-only,not newwholequality/cohort credit.",
+    "Adjacent driver obsolete switch-exit comments fixed afterfullsource/primaryread;fullAST exact. Actualfinal251/TC0afterfinalsplit,not relying on initial251 as finalcandidate.",
+    "Initialread assumed rootprimitives.test;actualmain under__tests found before anytest selector run. Proof firstfailed on namespace import parser,then hookdomain incorrectly included comment-onlyproduct;failure rawkept. Correctproof handles allnamed/default/namespacebindings+attributes and checks lifecycle onlytestoutputs/productAST separately. Dedicatedfixtureverifier namespace restriction unchanged;existing fullmoduleverifier used for the completeconsumer/callback/closure mapping.",
+    "Tooltransport oldread boundary genuine5green1red/current19green;initial pending candidate6green2red/21Nodegreen later superseded by9guard/22Node final selection reconciliation. Exactread-call change and stronger fullrecord/status/count reconciliation only;source remainsphysicalcurrent. Sourcepins registered separately,all other verifier logic conserved.",
+    "Goal132/174 remaining42,fixed178136;0newclosed. Old5testmains andcomment-modifieddriver reopenreview;wholecheck/coverage/protected/publication deferred.",
+    "Initial candidate incorrectly required zero pending records for intentional -t counter runs. Native audit found explicitly skipped records. Final guard reconciles all record statuses/counts, accepts only exactly one executed selected identity, rejects unknown/pending/todo and inconsistent excluded counts; original raw unchanged. Nine verifier cases plus thirteen adjacent tool cases pass; no new game test credit.",
+    "Delivery producer first matched a duplicate historical ledger row outside the sole machine table and stopped before repository writes; narrowed to exact contiguous live table, historical text unchanged. A proof receipt expected22 from18 selected Node cases (one adjacent4-case suite omitted); corrected final tool run explicitly executes all four files22cases. Failed proof and18case success raw retained; no result rewritten. Two attempted evidence IDs already existed and wx prevented overwrite.",
+    "Final scoped Biome reordered two provider imports in8consumer files. Exact typed nonimport/binding proof rerun against final bytes; raw205/251 runtime belongs to same executable candidate with import-order-only bridge, not claimed a later rerun. Earlier proof rejected outdated consumer SHA as designed.",
+    "Docs first run rejected4links from historical approved-closeout README to now-retired specs; preserve displayed historical labels/claims,retarget only links to current exact map and append scoped navigation note. Frozen before README stored;final docs alias explicit,first failure retained."
+  ],
+  "invalidations": "State/caller/label semantics,word/language dependency or fixture body/lifecycle changes invalidate affectedclaims. Import-only relocation is separately bounded by fullprovider declarations/import resolution andconsumer AST;historicalcounter evidence never becomes a newruntime run."
+}

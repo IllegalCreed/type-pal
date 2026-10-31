@@ -5,12 +5,12 @@
  * 以及非零 byteOffset 输入视图。
  */
 import { describe, expect, test } from 'vitest'
+import { concatBytes } from '../../../__tests__/binary-fixtures.js'
 import {
   battleEffectBytes,
-  concatBytes,
   levelUpExpBytes,
   levelUpMagicBytes,
-} from '../../../__tests__/glm-tb04-fixtures.js'
+} from '../../../__tests__/table-records.js'
 import { parseBattleEffectIndex, parseLevelUpExp, parseLevelUpMagic } from '../data-misc.js'
 
 describe('P08 data-misc 完整数组与非零偏移', () => {

@@ -1,0 +1,631 @@
+{
+  "id": "canonical-script-self-test-ownership",
+  "namespace": "organization-editor-script-context",
+  "inputs": [
+    {
+      "path": "packages/editor/src/ui/command-form-control.residual.glm.test.tsx",
+      "member": "organization-editor-script-context/0.before",
+      "sha256": "438f11138ab83922f01a54b34dcdb1d59500043ad7da9656014e1f648a96e2a3",
+      "lines": 55
+    },
+    {
+      "path": "packages/editor/src/ui/ScriptEditor.coverage-workflows-2.test.tsx",
+      "member": "organization-editor-script-context/1.before",
+      "sha256": "40737dc7519f04cc8a142a8a8afc01e1a00d69ac3c9654ae435d4fbe85b30b90",
+      "lines": 223
+    }
+  ],
+  "outputs": [
+    {
+      "path": "packages/editor/src/ui/ScriptEditor.script-context.test.tsx",
+      "sha256": "6525d9f12402fd30f3c2a2e7dd164b317e9682a419d036cec97c610f19fe5d8a",
+      "lines": 78
+    },
+    {
+      "path": "packages/editor/src/ui/ScriptEditor.coverage-workflows-2.test.tsx",
+      "sha256": "189518553e704571ab1a3e23d2563da9091208306710f22b977fdfebe59a9ab8",
+      "lines": 194
+    }
+  ],
+  "replacements": [],
+  "sourceBridges": [
+    {
+      "path": "packages/editor/src/ui/command-form-control.residual.glm.test.tsx",
+      "id": "organization-editor-script-context-0",
+      "reason": "Registration context only; independent full typed proof conserves all15 callbacks and auxiliary helpers/imports. Only ownership/group/private binding changes.",
+      "changes": [
+        {
+          "from": "// @vitest-environment jsdom\n/**\n * TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1 残余合同（R-SELF-INVALID-1，唯一新增）。\n * 排重结论：ControlCommandForm 的 callScript/jumpScript self 臂在唯一产品调用方不可达\n * （作者方言 callScript 属 AUTHOR_CUSTOM_COMMAND_KINDS，bridge 拒绝后走 ScriptEditor 内联\n * 表单；运行时方言 ref+self:string 被 checkAuthorCommands 拒绝），真实调用方的 self 合同\n * 仅剩「悬空 self 地址」未证：explicit/inherit 已证于 coverage-workflows-2，required 已证于\n * 校验层 script-references.test。本合同经真实 CanonicalScriptBodyEditor 行双击 →\n * 聚合弹窗 → EntityAddressEditor：悬空场景呈「引用失效」禁用项、实体降级原始文本不伪装\n * 可选；重选合法场景自动改绑首个可接受实体，完成才提交可解析地址。\n */\nimport { act } from 'react'\nimport { expect, test } from 'vitest'\nimport { commandForm } from './__tests__/command-form-current-fixture.js'\n\nfunction selfSceneSelect(): HTMLButtonElement {\n  const trigger = document.querySelector<HTMLButtonElement>(\n    '[role=\"dialog\"] [role=\"combobox\"][aria-label=\"场景\"]',\n  )\n  expect(trigger, '聚合弹窗应暴露 self 场景选择器').not.toBeNull()\n  return trigger!\n}\n\ntest('共享脚本悬空 self 场景呈引用失效且实体降级文本，重选合法场景自动改绑首个实体', async () => {\n  const f = await commandForm(\n    { kind: 'callScript', script: 'shared/user/heal', self: { scene: 'gone', entity: 'npc-2' } },\n    {\n      requireLeafFormRow: false,\n      includeEntity: true,\n      includeSecondEntity: true,\n      includeSharedScript: true,\n    },\n  )\n  expect(selfSceneSelect().textContent).toContain('gone（引用失效）')\n  expect(\n    document.querySelector('[role=\"dialog\"] [role=\"combobox\"][aria-label=\"实体\"]'),\n    '场景悬空时实体不得伪装成可选下拉',\n  ).toBeNull()\n  const entityField = document.querySelector<HTMLInputElement>(\n    '[role=\"dialog\"] input[aria-label=\"实体\"]',\n  )\n  expect(entityField?.value).toBe('npc-2')\n  const trigger = selfSceneSelect()\n  await act(async () => trigger.click())\n  const start = [...document.querySelectorAll<HTMLElement>('[role=\"option\"]')].find(\n    (option) => option.textContent === 'start',\n  )\n  expect(start, '缺少合法场景选项 start').toBeDefined()\n  await act(async () => start!.click())\n  await f.finish({\n    kind: 'callScript',\n    script: 'shared/user/heal',\n    self: { scene: 'start', entity: 'npc' },\n  })\n})\n",
+          "to": "import {describe}from\"vitest\"\nimport {act}from\"react\"\nimport {commandForm}from\"./__tests__/command-form-current-fixture.js\"\nimport {expect}from\"vitest\"\nimport {test}from\"vitest\"\ndescribe(\"ScriptEditor 共享脚本作用实体\",()=>{\n\n\nfunction selfSceneTrigger(): HTMLButtonElement {\n  const trigger = document.querySelector<HTMLButtonElement>(\n    '[role=\"dialog\"] [role=\"combobox\"][aria-label=\"场景\"]',\n  )\n  expect(trigger, '聚合弹窗应暴露 self 场景选择器').not.toBeNull()\n  return trigger!\n}\n\n\n  test('共享脚本悬空 self 场景呈引用失效且实体降级文本，重选合法场景自动改绑首个实体', async () => {\n    const form = await commandForm(\n      { kind: 'callScript', script: 'shared/user/heal', self: { scene: 'gone', entity: 'npc-2' } },\n      {\n        requireLeafFormRow: false,\n        includeEntity: true,\n        includeSecondEntity: true,\n        includeSharedScript: true,\n      },\n    )\n    expect(selfSceneTrigger().textContent).toContain('gone（引用失效）')\n    expect(\n      document.querySelector('[role=\"dialog\"] [role=\"combobox\"][aria-label=\"实体\"]'),\n      '场景悬空时实体不得伪装成可选下拉',\n    ).toBeNull()\n    const entityField = document.querySelector<HTMLInputElement>(\n      '[role=\"dialog\"] input[aria-label=\"实体\"]',\n    )\n    expect(entityField?.value).toBe('npc-2')\n    const trigger = selfSceneTrigger()\n    await act(async () => trigger.click())\n    const start = [...document.querySelectorAll<HTMLElement>('[role=\"option\"]')].find(\n      (option) => option.textContent === 'start',\n    )\n    expect(start, '缺少合法场景选项 start').toBeDefined()\n    await act(async () => start!.click())\n    await form.finish({\n      kind: 'callScript',\n      script: 'shared/user/heal',\n      self: { scene: 'start', entity: 'npc' },\n    })\n  })\n})\n",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "packages/editor/src/ui/ScriptEditor.coverage-workflows-2.test.tsx",
+      "id": "organization-editor-script-context-1",
+      "reason": "Registration context only; independent full typed proof conserves all15 callbacks and auxiliary helpers/imports. Only ownership/group/private binding changes.",
+      "changes": [
+        {
+          "from": "// @vitest-environment jsdom\n\nimport type { AuthorCommand } from '@type-pal/content'\nimport { act } from 'react'\nimport { describe, expect, test } from 'vitest'\nimport { click, commandForm } from './__tests__/command-form-current-fixture.js'\n\nfunction field(label: string): HTMLElement {\n  const found = [...document.querySelectorAll<HTMLLabelElement>('[role=\"dialog\"] label')].find(\n    (candidate) => candidate.textContent?.trim() === label,\n  )\n  expect(found, `missing current field ${label}`).toBeDefined()\n  const control = document.getElementById(found!.htmlFor)\n  expect(control, `missing control ${label}`).not.toBeNull()\n  return control!\n}\n\nasync function enter(label: string, value: string | number) {\n  const control = field(label)\n  expect(control instanceof HTMLInputElement || control instanceof HTMLTextAreaElement).toBe(true)\n  const prototype =\n    control instanceof HTMLTextAreaElement\n      ? HTMLTextAreaElement.prototype\n      : HTMLInputElement.prototype\n  const setter = Object.getOwnPropertyDescriptor(prototype, 'value')?.set\n  expect(setter).toBeDefined()\n  await act(async () => {\n    setter!.call(control, String(value))\n    control.dispatchEvent(new Event('input', { bubbles: true }))\n  })\n}\n\nasync function select(label: string, option: string) {\n  const trigger = field(label)\n  expect(trigger.getAttribute('role')).toBe('combobox')\n  await act(async () => (trigger as HTMLButtonElement).click())\n  const choice = [...document.querySelectorAll<HTMLElement>('[role=\"option\"]')].find(\n    (candidate) => candidate.textContent?.trim() === option,\n  )\n  expect(choice, `missing ${label} option ${option}`).toBeDefined()\n  await act(async () => choice!.click())\n}\n\ndescribe('当前脚本属性弹窗的未覆盖作者工作流', () => {\n  test('镜头从跟随切为定位后提交精确二维落点', async () => {\n    const initial: AuthorCommand = { kind: 'cameraSnap' }\n    const f = await commandForm(initial, { requireLeafFormRow: false })\n    await select('镜头位置', '定位到指定格子')\n    await enter('横向格坐标', 7)\n    await enter('纵向格坐标', -2)\n    await f.finish({ kind: 'cameraSnap', to: { col: 7, row: -2, height: 0 } })\n  })\n\n  test('镜头从显式位置恢复跟随时只去掉位置，不制造零点坐标', async () => {\n    const f = await commandForm(\n      { kind: 'cameraSnap', to: { col: 7, row: 8, height: 2 } },\n      { requireLeafFormRow: false },\n    )\n    await select('镜头位置', '回到队伍并继续跟随')\n    await f.finish({ kind: 'cameraSnap', to: undefined })\n  })\n\n  test('追逐距离、速度和穿越地形三个输入保留独立意义', async () => {\n    const f = await commandForm({ kind: 'chasePlayer' }, { requireLeafFormRow: false })\n    await enter('开始追逐的格数', 3)\n    await enter('移动速度', 5)\n    const checkbox = [\n      ...document.querySelectorAll<HTMLInputElement>('[role=\"dialog\"] input[type=\"checkbox\"]'),\n    ].find((candidate) => candidate.labels?.[0]?.textContent?.includes('忽略地形'))\n    expect(checkbox).toBeDefined()\n    await act(async () => checkbox!.click())\n    await f.finish({ kind: 'chasePlayer', range: 3, speed: 5, floating: true })\n  })\n\n  test('全队资源的负数扣除与单独法力选择保持原样', async () => {\n    const f = await commandForm({ kind: 'increaseHpMp', delta: 10 }, { requireLeafFormRow: false })\n    await enter('恢复量（负数表示扣除）', -12)\n    await select('作用资源', '仅法力')\n    await f.finish({ kind: 'increaseHpMp', delta: -12, pools: 'mp' })\n  })\n\n  test('跟随者逐行输入只保留有效精灵身份和原有顺序', async () => {\n    const f = await commandForm(\n      { kind: 'setFollowers', sprites: [] },\n      { requireLeafFormRow: false },\n    )\n    await enter('跟随者精灵（每行一个，留空表示清除）', '  hero  \\n\\n  alternate  ')\n    await f.finish({ kind: 'setFollowers', sprites: ['hero', 'alternate'] })\n  })\n\n  test('战斗结束结果选择从终止切为胜利，不改指令类型', async () => {\n    const f = await commandForm(\n      { kind: 'endBattle', result: 'terminate' },\n      { requireLeafFormRow: false },\n    )\n    await select('结束结果', '判定玩家胜利')\n    await f.finish({ kind: 'endBattle', result: 'won' })\n  })\n\n  test('地图覆写明确选择另一场景，保留当前项目地图身份', async () => {\n    const f = await commandForm(\n      { kind: 'setSceneMapOverride', mapId: 'start' },\n      { requireLeafFormRow: false },\n    )\n    await select('场景', 'other')\n    await f.finish({ kind: 'setSceneMapOverride', scene: 'other', mapId: 'start' })\n  })\n\n  test('共享脚本可指定当前场景的真实实体作为 self，且不改脚本身份', async () => {\n    const f = await commandForm(\n      { kind: 'callScript', script: 'shared/user/heal' },\n      { requireLeafFormRow: false, includeEntity: true, includeSharedScript: true },\n    )\n    expect(document.querySelector('[role=\"dialog\"]')?.textContent).toContain(\n      '治疗 · shared/user/heal',\n    )\n    await click('指定另一个作用实体')\n    await f.finish({\n      kind: 'callScript',\n      script: 'shared/user/heal',\n      self: { scene: 'start', entity: 'npc' },\n    })\n  })\n\n  test('共享脚本切回当前执行者会删除显式 self，不留旧实体引用', async () => {\n    const f = await commandForm(\n      {\n        kind: 'callScript',\n        script: 'shared/user/heal',\n        self: { scene: 'start', entity: 'npc' },\n      },\n      { requireLeafFormRow: false, includeEntity: true, includeSharedScript: true },\n    )\n    await click('使用当前实体')\n    await f.finish({ kind: 'callScript', script: 'shared/user/heal', self: undefined })\n  })\n\n  test('当前实体的定位表单仅改目标格，保持目标稳定身份与高度', async () => {\n    const f = await commandForm(\n      {\n        kind: 'setEntityPos',\n        target: { scene: 'start', entity: 'npc' },\n        pos: { col: 1, row: 2, height: 3 },\n      },\n      { requireLeafFormRow: false, includeEntity: true },\n    )\n    await enter('横向格坐标', 9)\n    await enter('纵向格坐标', 6)\n    await f.finish({\n      kind: 'setEntityPos',\n      target: { scene: 'start', entity: 'npc' },\n      pos: { col: 9, row: 6, height: 3 },\n    })\n  })\n\n  test('实体触发方式从继承切到自定义触碰，精确保留当前目标与距离', async () => {\n    const f = await commandForm(\n      {\n        kind: 'setEntityTriggerActivation',\n        target: { scene: 'start', entity: 'npc' },\n        selection: { kind: 'inherit' },\n      },\n      { requireLeafFormRow: false, includeEntity: true },\n    )\n    await select('触发方式来源', '使用自定义方式')\n    await select('方式', '触碰')\n    await enter('距离', 2)\n    await f.finish({\n      kind: 'setEntityTriggerActivation',\n      target: { scene: 'start', entity: 'npc' },\n      selection: { kind: 'use', value: { on: 'touch', range: 2 } },\n    })\n  })\n\n  test('实体页面从继承改为当前登记的 silent 页面 ID', async () => {\n    const f = await commandForm(\n      {\n        kind: 'selectEntityPage',\n        target: { scene: 'start', entity: 'npc' },\n        selection: { kind: 'inherit' },\n      },\n      { requireLeafFormRow: false, includeEntity: true },\n    )\n    await select('页面选择', '静默 · silent')\n    await f.finish({\n      kind: 'selectEntityPage',\n      target: { scene: 'start', entity: 'npc' },\n      selection: { kind: 'use', value: 'silent' },\n    })\n  })\n\n  test('实体行为只选当前 trigger 注册表里的稳定方案，不写入显示标签', async () => {\n    const f = await commandForm(\n      {\n        kind: 'selectEntityBehavior',\n        target: { scene: 'start', entity: 'npc' },\n        channel: 'trigger',\n        selection: { kind: 'inherit' },\n      },\n      { requireLeafFormRow: false, includeEntity: true },\n    )\n    await select('选择', '交谈 · talk')\n    await f.finish({\n      kind: 'selectEntityBehavior',\n      target: { scene: 'start', entity: 'npc' },\n      channel: 'trigger',\n      selection: { kind: 'use', value: 'talk' },\n    })\n  })\n\n  test('确认双臂由指令树编辑，不再暴露结果标识', async () => {\n    const initial: AuthorCommand = {\n      kind: 'confirm',\n      onYes: [{ kind: 'wait', ms: 20 }],\n      onNo: [{ kind: 'wait', ms: 40 }],\n    }\n    const f = await commandForm(initial, { requireLeafFormRow: false })\n    expect(document.body.textContent).not.toContain('高级：结果识别名')\n    await click('完成')\n    f.pending()\n    expect(document.querySelector('[role=\"dialog\"]')).toBeNull()\n  })\n})\n",
+          "to": "import {describe}from\"vitest\"\nimport {act}from\"react\"\nimport type {AuthorCommand}from\"@type-pal/content\"\nimport {commandForm}from\"./__tests__/command-form-current-fixture.js\"\nimport {expect}from\"vitest\"\nimport {test}from\"vitest\"\nimport {click}from\"./__tests__/command-form-current-fixture.js\"\ndescribe(\"ScriptEditor 属性提交\",()=>{\n\n\nfunction field(label: string): HTMLElement {\n  const found = [...document.querySelectorAll<HTMLLabelElement>('[role=\"dialog\"] label')].find(\n    (candidate) => candidate.textContent?.trim() === label,\n  )\n  expect(found, `missing current field ${label}`).toBeDefined()\n  const control = document.getElementById(found!.htmlFor)\n  expect(control, `missing control ${label}`).not.toBeNull()\n  return control!\n}\n\n\nasync function enter(label: string, value: string | number) {\n  const control = field(label)\n  expect(control instanceof HTMLInputElement || control instanceof HTMLTextAreaElement).toBe(true)\n  const prototype =\n    control instanceof HTMLTextAreaElement\n      ? HTMLTextAreaElement.prototype\n      : HTMLInputElement.prototype\n  const setter = Object.getOwnPropertyDescriptor(prototype, 'value')?.set\n  expect(setter).toBeDefined()\n  await act(async () => {\n    setter!.call(control, String(value))\n    control.dispatchEvent(new Event('input', { bubbles: true }))\n  })\n}\n\n\nasync function select(label: string, option: string) {\n  const trigger = field(label)\n  expect(trigger.getAttribute('role')).toBe('combobox')\n  await act(async () => (trigger as HTMLButtonElement).click())\n  const choice = [...document.querySelectorAll<HTMLElement>('[role=\"option\"]')].find(\n    (candidate) => candidate.textContent?.trim() === option,\n  )\n  expect(choice, `missing ${label} option ${option}`).toBeDefined()\n  await act(async () => choice!.click())\n}\n\n  test('镜头从跟随切为定位后提交精确二维落点', async () => {\n    const initial: AuthorCommand = { kind: 'cameraSnap' }\n    const f = await commandForm(initial, { requireLeafFormRow: false })\n    await select('镜头位置', '定位到指定格子')\n    await enter('横向格坐标', 7)\n    await enter('纵向格坐标', -2)\n    await f.finish({ kind: 'cameraSnap', to: { col: 7, row: -2, height: 0 } })\n  })\n})\ndescribe(\"ScriptEditor 属性提交\",()=>{\n\n\nfunction field(label: string): HTMLElement {\n  const found = [...document.querySelectorAll<HTMLLabelElement>('[role=\"dialog\"] label')].find(\n    (candidate) => candidate.textContent?.trim() === label,\n  )\n  expect(found, `missing current field ${label}`).toBeDefined()\n  const control = document.getElementById(found!.htmlFor)\n  expect(control, `missing control ${label}`).not.toBeNull()\n  return control!\n}\n\n\nasync function select(label: string, option: string) {\n  const trigger = field(label)\n  expect(trigger.getAttribute('role')).toBe('combobox')\n  await act(async () => (trigger as HTMLButtonElement).click())\n  const choice = [...document.querySelectorAll<HTMLElement>('[role=\"option\"]')].find(\n    (candidate) => candidate.textContent?.trim() === option,\n  )\n  expect(choice, `missing ${label} option ${option}`).toBeDefined()\n  await act(async () => choice!.click())\n}\n\n\n  test('镜头从显式位置恢复跟随时只去掉位置，不制造零点坐标', async () => {\n    const f = await commandForm(\n      { kind: 'cameraSnap', to: { col: 7, row: 8, height: 2 } },\n      { requireLeafFormRow: false },\n    )\n    await select('镜头位置', '回到队伍并继续跟随')\n    await f.finish({ kind: 'cameraSnap', to: undefined })\n  })\n})\ndescribe(\"ScriptEditor 属性提交\",()=>{\n\n\nfunction field(label: string): HTMLElement {\n  const found = [...document.querySelectorAll<HTMLLabelElement>('[role=\"dialog\"] label')].find(\n    (candidate) => candidate.textContent?.trim() === label,\n  )\n  expect(found, `missing current field ${label}`).toBeDefined()\n  const control = document.getElementById(found!.htmlFor)\n  expect(control, `missing control ${label}`).not.toBeNull()\n  return control!\n}\n\n\nasync function enter(label: string, value: string | number) {\n  const control = field(label)\n  expect(control instanceof HTMLInputElement || control instanceof HTMLTextAreaElement).toBe(true)\n  const prototype =\n    control instanceof HTMLTextAreaElement\n      ? HTMLTextAreaElement.prototype\n      : HTMLInputElement.prototype\n  const setter = Object.getOwnPropertyDescriptor(prototype, 'value')?.set\n  expect(setter).toBeDefined()\n  await act(async () => {\n    setter!.call(control, String(value))\n    control.dispatchEvent(new Event('input', { bubbles: true }))\n  })\n}\n\n\n  test('追逐距离、速度和穿越地形三个输入保留独立意义', async () => {\n    const f = await commandForm({ kind: 'chasePlayer' }, { requireLeafFormRow: false })\n    await enter('开始追逐的格数', 3)\n    await enter('移动速度', 5)\n    const checkbox = [\n      ...document.querySelectorAll<HTMLInputElement>('[role=\"dialog\"] input[type=\"checkbox\"]'),\n    ].find((candidate) => candidate.labels?.[0]?.textContent?.includes('忽略地形'))\n    expect(checkbox).toBeDefined()\n    await act(async () => checkbox!.click())\n    await f.finish({ kind: 'chasePlayer', range: 3, speed: 5, floating: true })\n  })\n})\ndescribe(\"ScriptEditor 属性提交\",()=>{\n\n\nfunction field(label: string): HTMLElement {\n  const found = [...document.querySelectorAll<HTMLLabelElement>('[role=\"dialog\"] label')].find(\n    (candidate) => candidate.textContent?.trim() === label,\n  )\n  expect(found, `missing current field ${label}`).toBeDefined()\n  const control = document.getElementById(found!.htmlFor)\n  expect(control, `missing control ${label}`).not.toBeNull()\n  return control!\n}\n\n\nasync function enter(label: string, value: string | number) {\n  const control = field(label)\n  expect(control instanceof HTMLInputElement || control instanceof HTMLTextAreaElement).toBe(true)\n  const prototype =\n    control instanceof HTMLTextAreaElement\n      ? HTMLTextAreaElement.prototype\n      : HTMLInputElement.prototype\n  const setter = Object.getOwnPropertyDescriptor(prototype, 'value')?.set\n  expect(setter).toBeDefined()\n  await act(async () => {\n    setter!.call(control, String(value))\n    control.dispatchEvent(new Event('input', { bubbles: true }))\n  })\n}\n\n\nasync function select(label: string, option: string) {\n  const trigger = field(label)\n  expect(trigger.getAttribute('role')).toBe('combobox')\n  await act(async () => (trigger as HTMLButtonElement).click())\n  const choice = [...document.querySelectorAll<HTMLElement>('[role=\"option\"]')].find(\n    (candidate) => candidate.textContent?.trim() === option,\n  )\n  expect(choice, `missing ${label} option ${option}`).toBeDefined()\n  await act(async () => choice!.click())\n}\n\n\n  test('全队资源的负数扣除与单独法力选择保持原样', async () => {\n    const f = await commandForm({ kind: 'increaseHpMp', delta: 10 }, { requireLeafFormRow: false })\n    await enter('恢复量（负数表示扣除）', -12)\n    await select('作用资源', '仅法力')\n    await f.finish({ kind: 'increaseHpMp', delta: -12, pools: 'mp' })\n  })\n})\ndescribe(\"ScriptEditor 属性提交\",()=>{\n\n\nfunction field(label: string): HTMLElement {\n  const found = [...document.querySelectorAll<HTMLLabelElement>('[role=\"dialog\"] label')].find(\n    (candidate) => candidate.textContent?.trim() === label,\n  )\n  expect(found, `missing current field ${label}`).toBeDefined()\n  const control = document.getElementById(found!.htmlFor)\n  expect(control, `missing control ${label}`).not.toBeNull()\n  return control!\n}\n\n\nasync function enter(label: string, value: string | number) {\n  const control = field(label)\n  expect(control instanceof HTMLInputElement || control instanceof HTMLTextAreaElement).toBe(true)\n  const prototype =\n    control instanceof HTMLTextAreaElement\n      ? HTMLTextAreaElement.prototype\n      : HTMLInputElement.prototype\n  const setter = Object.getOwnPropertyDescriptor(prototype, 'value')?.set\n  expect(setter).toBeDefined()\n  await act(async () => {\n    setter!.call(control, String(value))\n    control.dispatchEvent(new Event('input', { bubbles: true }))\n  })\n}\n\n\n  test('跟随者逐行输入只保留有效精灵身份和原有顺序', async () => {\n    const f = await commandForm(\n      { kind: 'setFollowers', sprites: [] },\n      { requireLeafFormRow: false },\n    )\n    await enter('跟随者精灵（每行一个，留空表示清除）', '  hero  \\n\\n  alternate  ')\n    await f.finish({ kind: 'setFollowers', sprites: ['hero', 'alternate'] })\n  })\n})\ndescribe(\"ScriptEditor 属性提交\",()=>{\n\n\nfunction field(label: string): HTMLElement {\n  const found = [...document.querySelectorAll<HTMLLabelElement>('[role=\"dialog\"] label')].find(\n    (candidate) => candidate.textContent?.trim() === label,\n  )\n  expect(found, `missing current field ${label}`).toBeDefined()\n  const control = document.getElementById(found!.htmlFor)\n  expect(control, `missing control ${label}`).not.toBeNull()\n  return control!\n}\n\n\nasync function select(label: string, option: string) {\n  const trigger = field(label)\n  expect(trigger.getAttribute('role')).toBe('combobox')\n  await act(async () => (trigger as HTMLButtonElement).click())\n  const choice = [...document.querySelectorAll<HTMLElement>('[role=\"option\"]')].find(\n    (candidate) => candidate.textContent?.trim() === option,\n  )\n  expect(choice, `missing ${label} option ${option}`).toBeDefined()\n  await act(async () => choice!.click())\n}\n\n\n  test('战斗结束结果选择从终止切为胜利，不改指令类型', async () => {\n    const f = await commandForm(\n      { kind: 'endBattle', result: 'terminate' },\n      { requireLeafFormRow: false },\n    )\n    await select('结束结果', '判定玩家胜利')\n    await f.finish({ kind: 'endBattle', result: 'won' })\n  })\n})\ndescribe(\"ScriptEditor 属性提交\",()=>{\n\n\nfunction field(label: string): HTMLElement {\n  const found = [...document.querySelectorAll<HTMLLabelElement>('[role=\"dialog\"] label')].find(\n    (candidate) => candidate.textContent?.trim() === label,\n  )\n  expect(found, `missing current field ${label}`).toBeDefined()\n  const control = document.getElementById(found!.htmlFor)\n  expect(control, `missing control ${label}`).not.toBeNull()\n  return control!\n}\n\n\nasync function select(label: string, option: string) {\n  const trigger = field(label)\n  expect(trigger.getAttribute('role')).toBe('combobox')\n  await act(async () => (trigger as HTMLButtonElement).click())\n  const choice = [...document.querySelectorAll<HTMLElement>('[role=\"option\"]')].find(\n    (candidate) => candidate.textContent?.trim() === option,\n  )\n  expect(choice, `missing ${label} option ${option}`).toBeDefined()\n  await act(async () => choice!.click())\n}\n\n\n  test('地图覆写明确选择另一场景，保留当前项目地图身份', async () => {\n    const f = await commandForm(\n      { kind: 'setSceneMapOverride', mapId: 'start' },\n      { requireLeafFormRow: false },\n    )\n    await select('场景', 'other')\n    await f.finish({ kind: 'setSceneMapOverride', scene: 'other', mapId: 'start' })\n  })\n})\ndescribe(\"ScriptEditor 共享脚本作用实体\",()=>{\n\n\n  test('共享脚本可指定当前场景的真实实体作为 self，且不改脚本身份', async () => {\n    const form = await commandForm(\n      { kind: 'callScript', script: 'shared/user/heal' },\n      { requireLeafFormRow: false, includeEntity: true, includeSharedScript: true },\n    )\n    expect(document.querySelector('[role=\"dialog\"]')?.textContent).toContain(\n      '治疗 · shared/user/heal',\n    )\n    await click('指定另一个作用实体')\n    await form.finish({\n      kind: 'callScript',\n      script: 'shared/user/heal',\n      self: { scene: 'start', entity: 'npc' },\n    })\n  })\n})\ndescribe(\"ScriptEditor 共享脚本作用实体\",()=>{\n\n\n\n  test('共享脚本切回当前执行者会删除显式 self，不留旧实体引用', async () => {\n    const form = await commandForm(\n      {\n        kind: 'callScript',\n        script: 'shared/user/heal',\n        self: { scene: 'start', entity: 'npc' },\n      },\n      { requireLeafFormRow: false, includeEntity: true, includeSharedScript: true },\n    )\n    await click('使用当前实体')\n    await form.finish({ kind: 'callScript', script: 'shared/user/heal', self: undefined })\n  })\n})\ndescribe(\"ScriptEditor 属性提交\",()=>{\n\n\nfunction field(label: string): HTMLElement {\n  const found = [...document.querySelectorAll<HTMLLabelElement>('[role=\"dialog\"] label')].find(\n    (candidate) => candidate.textContent?.trim() === label,\n  )\n  expect(found, `missing current field ${label}`).toBeDefined()\n  const control = document.getElementById(found!.htmlFor)\n  expect(control, `missing control ${label}`).not.toBeNull()\n  return control!\n}\n\n\nasync function enter(label: string, value: string | number) {\n  const control = field(label)\n  expect(control instanceof HTMLInputElement || control instanceof HTMLTextAreaElement).toBe(true)\n  const prototype =\n    control instanceof HTMLTextAreaElement\n      ? HTMLTextAreaElement.prototype\n      : HTMLInputElement.prototype\n  const setter = Object.getOwnPropertyDescriptor(prototype, 'value')?.set\n  expect(setter).toBeDefined()\n  await act(async () => {\n    setter!.call(control, String(value))\n    control.dispatchEvent(new Event('input', { bubbles: true }))\n  })\n}\n\n\n  test('当前实体的定位表单仅改目标格，保持目标稳定身份与高度', async () => {\n    const f = await commandForm(\n      {\n        kind: 'setEntityPos',\n        target: { scene: 'start', entity: 'npc' },\n        pos: { col: 1, row: 2, height: 3 },\n      },\n      { requireLeafFormRow: false, includeEntity: true },\n    )\n    await enter('横向格坐标', 9)\n    await enter('纵向格坐标', 6)\n    await f.finish({\n      kind: 'setEntityPos',\n      target: { scene: 'start', entity: 'npc' },\n      pos: { col: 9, row: 6, height: 3 },\n    })\n  })\n})\ndescribe(\"ScriptEditor 属性提交\",()=>{\n\n\nfunction field(label: string): HTMLElement {\n  const found = [...document.querySelectorAll<HTMLLabelElement>('[role=\"dialog\"] label')].find(\n    (candidate) => candidate.textContent?.trim() === label,\n  )\n  expect(found, `missing current field ${label}`).toBeDefined()\n  const control = document.getElementById(found!.htmlFor)\n  expect(control, `missing control ${label}`).not.toBeNull()\n  return control!\n}\n\n\nasync function enter(label: string, value: string | number) {\n  const control = field(label)\n  expect(control instanceof HTMLInputElement || control instanceof HTMLTextAreaElement).toBe(true)\n  const prototype =\n    control instanceof HTMLTextAreaElement\n      ? HTMLTextAreaElement.prototype\n      : HTMLInputElement.prototype\n  const setter = Object.getOwnPropertyDescriptor(prototype, 'value')?.set\n  expect(setter).toBeDefined()\n  await act(async () => {\n    setter!.call(control, String(value))\n    control.dispatchEvent(new Event('input', { bubbles: true }))\n  })\n}\n\n\nasync function select(label: string, option: string) {\n  const trigger = field(label)\n  expect(trigger.getAttribute('role')).toBe('combobox')\n  await act(async () => (trigger as HTMLButtonElement).click())\n  const choice = [...document.querySelectorAll<HTMLElement>('[role=\"option\"]')].find(\n    (candidate) => candidate.textContent?.trim() === option,\n  )\n  expect(choice, `missing ${label} option ${option}`).toBeDefined()\n  await act(async () => choice!.click())\n}\n\n\n  test('实体触发方式从继承切到自定义触碰，精确保留当前目标与距离', async () => {\n    const f = await commandForm(\n      {\n        kind: 'setEntityTriggerActivation',\n        target: { scene: 'start', entity: 'npc' },\n        selection: { kind: 'inherit' },\n      },\n      { requireLeafFormRow: false, includeEntity: true },\n    )\n    await select('触发方式来源', '使用自定义方式')\n    await select('方式', '触碰')\n    await enter('距离', 2)\n    await f.finish({\n      kind: 'setEntityTriggerActivation',\n      target: { scene: 'start', entity: 'npc' },\n      selection: { kind: 'use', value: { on: 'touch', range: 2 } },\n    })\n  })\n})\ndescribe(\"ScriptEditor 属性提交\",()=>{\n\n\nfunction field(label: string): HTMLElement {\n  const found = [...document.querySelectorAll<HTMLLabelElement>('[role=\"dialog\"] label')].find(\n    (candidate) => candidate.textContent?.trim() === label,\n  )\n  expect(found, `missing current field ${label}`).toBeDefined()\n  const control = document.getElementById(found!.htmlFor)\n  expect(control, `missing control ${label}`).not.toBeNull()\n  return control!\n}\n\n\nasync function select(label: string, option: string) {\n  const trigger = field(label)\n  expect(trigger.getAttribute('role')).toBe('combobox')\n  await act(async () => (trigger as HTMLButtonElement).click())\n  const choice = [...document.querySelectorAll<HTMLElement>('[role=\"option\"]')].find(\n    (candidate) => candidate.textContent?.trim() === option,\n  )\n  expect(choice, `missing ${label} option ${option}`).toBeDefined()\n  await act(async () => choice!.click())\n}\n\n\n  test('实体页面从继承改为当前登记的 silent 页面 ID', async () => {\n    const f = await commandForm(\n      {\n        kind: 'selectEntityPage',\n        target: { scene: 'start', entity: 'npc' },\n        selection: { kind: 'inherit' },\n      },\n      { requireLeafFormRow: false, includeEntity: true },\n    )\n    await select('页面选择', '静默 · silent')\n    await f.finish({\n      kind: 'selectEntityPage',\n      target: { scene: 'start', entity: 'npc' },\n      selection: { kind: 'use', value: 'silent' },\n    })\n  })\n})\ndescribe(\"ScriptEditor 属性提交\",()=>{\n\n\nfunction field(label: string): HTMLElement {\n  const found = [...document.querySelectorAll<HTMLLabelElement>('[role=\"dialog\"] label')].find(\n    (candidate) => candidate.textContent?.trim() === label,\n  )\n  expect(found, `missing current field ${label}`).toBeDefined()\n  const control = document.getElementById(found!.htmlFor)\n  expect(control, `missing control ${label}`).not.toBeNull()\n  return control!\n}\n\n\nasync function select(label: string, option: string) {\n  const trigger = field(label)\n  expect(trigger.getAttribute('role')).toBe('combobox')\n  await act(async () => (trigger as HTMLButtonElement).click())\n  const choice = [...document.querySelectorAll<HTMLElement>('[role=\"option\"]')].find(\n    (candidate) => candidate.textContent?.trim() === option,\n  )\n  expect(choice, `missing ${label} option ${option}`).toBeDefined()\n  await act(async () => choice!.click())\n}\n\n\n  test('实体行为只选当前 trigger 注册表里的稳定方案，不写入显示标签', async () => {\n    const f = await commandForm(\n      {\n        kind: 'selectEntityBehavior',\n        target: { scene: 'start', entity: 'npc' },\n        channel: 'trigger',\n        selection: { kind: 'inherit' },\n      },\n      { requireLeafFormRow: false, includeEntity: true },\n    )\n    await select('选择', '交谈 · talk')\n    await f.finish({\n      kind: 'selectEntityBehavior',\n      target: { scene: 'start', entity: 'npc' },\n      channel: 'trigger',\n      selection: { kind: 'use', value: 'talk' },\n    })\n  })\n})\ndescribe(\"ScriptEditor 属性提交\",()=>{\n\n\n\n  test('确认双臂由指令树编辑，不再暴露结果标识', async () => {\n    const initial: AuthorCommand = {\n      kind: 'confirm',\n      onYes: [{ kind: 'wait', ms: 20 }],\n      onNo: [{ kind: 'wait', ms: 40 }],\n    }\n    const f = await commandForm(initial, { requireLeafFormRow: false })\n    expect(document.body.textContent).not.toContain('高级：结果识别名')\n    await click('完成')\n    f.pending()\n    expect(document.querySelector('[role=\"dialog\"]')).toBeNull()\n  })\n})\n",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "registrations": [
+    {
+      "old": {
+        "file": "packages/editor/src/ui/command-form-control.residual.glm.test.tsx",
+        "ordinal": 0,
+        "fullName": "共享脚本悬空 self 场景呈引用失效且实体降级文本，重选合法场景自动改绑首个实体"
+      },
+      "current": {
+        "file": "packages/editor/src/ui/ScriptEditor.script-context.test.tsx",
+        "titles": ["ScriptEditor 共享脚本作用实体"],
+        "template": "共享脚本悬空 self 场景呈引用失效且实体降级文本，重选合法场景自动改绑首个实体",
+        "fullName": "ScriptEditor 共享脚本作用实体 共享脚本悬空 self 场景呈引用失效且实体降级文本，重选合法场景自动改绑首个实体"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/editor/src/ui/ScriptEditor.coverage-workflows-2.test.tsx",
+        "ordinal": 0,
+        "fullName": "当前脚本属性弹窗的未覆盖作者工作流 镜头从跟随切为定位后提交精确二维落点"
+      },
+      "current": {
+        "file": "packages/editor/src/ui/ScriptEditor.coverage-workflows-2.test.tsx",
+        "titles": ["ScriptEditor 属性提交"],
+        "template": "镜头从跟随切为定位后提交精确二维落点",
+        "fullName": "ScriptEditor 属性提交 镜头从跟随切为定位后提交精确二维落点"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/editor/src/ui/ScriptEditor.coverage-workflows-2.test.tsx",
+        "ordinal": 1,
+        "fullName": "当前脚本属性弹窗的未覆盖作者工作流 镜头从显式位置恢复跟随时只去掉位置，不制造零点坐标"
+      },
+      "current": {
+        "file": "packages/editor/src/ui/ScriptEditor.coverage-workflows-2.test.tsx",
+        "titles": ["ScriptEditor 属性提交"],
+        "template": "镜头从显式位置恢复跟随时只去掉位置，不制造零点坐标",
+        "fullName": "ScriptEditor 属性提交 镜头从显式位置恢复跟随时只去掉位置，不制造零点坐标"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/editor/src/ui/ScriptEditor.coverage-workflows-2.test.tsx",
+        "ordinal": 2,
+        "fullName": "当前脚本属性弹窗的未覆盖作者工作流 追逐距离、速度和穿越地形三个输入保留独立意义"
+      },
+      "current": {
+        "file": "packages/editor/src/ui/ScriptEditor.coverage-workflows-2.test.tsx",
+        "titles": ["ScriptEditor 属性提交"],
+        "template": "追逐距离、速度和穿越地形三个输入保留独立意义",
+        "fullName": "ScriptEditor 属性提交 追逐距离、速度和穿越地形三个输入保留独立意义"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/editor/src/ui/ScriptEditor.coverage-workflows-2.test.tsx",
+        "ordinal": 3,
+        "fullName": "当前脚本属性弹窗的未覆盖作者工作流 全队资源的负数扣除与单独法力选择保持原样"
+      },
+      "current": {
+        "file": "packages/editor/src/ui/ScriptEditor.coverage-workflows-2.test.tsx",
+        "titles": ["ScriptEditor 属性提交"],
+        "template": "全队资源的负数扣除与单独法力选择保持原样",
+        "fullName": "ScriptEditor 属性提交 全队资源的负数扣除与单独法力选择保持原样"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/editor/src/ui/ScriptEditor.coverage-workflows-2.test.tsx",
+        "ordinal": 4,
+        "fullName": "当前脚本属性弹窗的未覆盖作者工作流 跟随者逐行输入只保留有效精灵身份和原有顺序"
+      },
+      "current": {
+        "file": "packages/editor/src/ui/ScriptEditor.coverage-workflows-2.test.tsx",
+        "titles": ["ScriptEditor 属性提交"],
+        "template": "跟随者逐行输入只保留有效精灵身份和原有顺序",
+        "fullName": "ScriptEditor 属性提交 跟随者逐行输入只保留有效精灵身份和原有顺序"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/editor/src/ui/ScriptEditor.coverage-workflows-2.test.tsx",
+        "ordinal": 5,
+        "fullName": "当前脚本属性弹窗的未覆盖作者工作流 战斗结束结果选择从终止切为胜利，不改指令类型"
+      },
+      "current": {
+        "file": "packages/editor/src/ui/ScriptEditor.coverage-workflows-2.test.tsx",
+        "titles": ["ScriptEditor 属性提交"],
+        "template": "战斗结束结果选择从终止切为胜利，不改指令类型",
+        "fullName": "ScriptEditor 属性提交 战斗结束结果选择从终止切为胜利，不改指令类型"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/editor/src/ui/ScriptEditor.coverage-workflows-2.test.tsx",
+        "ordinal": 6,
+        "fullName": "当前脚本属性弹窗的未覆盖作者工作流 地图覆写明确选择另一场景，保留当前项目地图身份"
+      },
+      "current": {
+        "file": "packages/editor/src/ui/ScriptEditor.coverage-workflows-2.test.tsx",
+        "titles": ["ScriptEditor 属性提交"],
+        "template": "地图覆写明确选择另一场景，保留当前项目地图身份",
+        "fullName": "ScriptEditor 属性提交 地图覆写明确选择另一场景，保留当前项目地图身份"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/editor/src/ui/ScriptEditor.coverage-workflows-2.test.tsx",
+        "ordinal": 7,
+        "fullName": "当前脚本属性弹窗的未覆盖作者工作流 共享脚本可指定当前场景的真实实体作为 self，且不改脚本身份"
+      },
+      "current": {
+        "file": "packages/editor/src/ui/ScriptEditor.script-context.test.tsx",
+        "titles": ["ScriptEditor 共享脚本作用实体"],
+        "template": "共享脚本可指定当前场景的真实实体作为 self，且不改脚本身份",
+        "fullName": "ScriptEditor 共享脚本作用实体 共享脚本可指定当前场景的真实实体作为 self，且不改脚本身份"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/editor/src/ui/ScriptEditor.coverage-workflows-2.test.tsx",
+        "ordinal": 8,
+        "fullName": "当前脚本属性弹窗的未覆盖作者工作流 共享脚本切回当前执行者会删除显式 self，不留旧实体引用"
+      },
+      "current": {
+        "file": "packages/editor/src/ui/ScriptEditor.script-context.test.tsx",
+        "titles": ["ScriptEditor 共享脚本作用实体"],
+        "template": "共享脚本切回当前执行者会删除显式 self，不留旧实体引用",
+        "fullName": "ScriptEditor 共享脚本作用实体 共享脚本切回当前执行者会删除显式 self，不留旧实体引用"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/editor/src/ui/ScriptEditor.coverage-workflows-2.test.tsx",
+        "ordinal": 9,
+        "fullName": "当前脚本属性弹窗的未覆盖作者工作流 当前实体的定位表单仅改目标格，保持目标稳定身份与高度"
+      },
+      "current": {
+        "file": "packages/editor/src/ui/ScriptEditor.coverage-workflows-2.test.tsx",
+        "titles": ["ScriptEditor 属性提交"],
+        "template": "当前实体的定位表单仅改目标格，保持目标稳定身份与高度",
+        "fullName": "ScriptEditor 属性提交 当前实体的定位表单仅改目标格，保持目标稳定身份与高度"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/editor/src/ui/ScriptEditor.coverage-workflows-2.test.tsx",
+        "ordinal": 10,
+        "fullName": "当前脚本属性弹窗的未覆盖作者工作流 实体触发方式从继承切到自定义触碰，精确保留当前目标与距离"
+      },
+      "current": {
+        "file": "packages/editor/src/ui/ScriptEditor.coverage-workflows-2.test.tsx",
+        "titles": ["ScriptEditor 属性提交"],
+        "template": "实体触发方式从继承切到自定义触碰，精确保留当前目标与距离",
+        "fullName": "ScriptEditor 属性提交 实体触发方式从继承切到自定义触碰，精确保留当前目标与距离"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/editor/src/ui/ScriptEditor.coverage-workflows-2.test.tsx",
+        "ordinal": 11,
+        "fullName": "当前脚本属性弹窗的未覆盖作者工作流 实体页面从继承改为当前登记的 silent 页面 ID"
+      },
+      "current": {
+        "file": "packages/editor/src/ui/ScriptEditor.coverage-workflows-2.test.tsx",
+        "titles": ["ScriptEditor 属性提交"],
+        "template": "实体页面从继承改为当前登记的 silent 页面 ID",
+        "fullName": "ScriptEditor 属性提交 实体页面从继承改为当前登记的 silent 页面 ID"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/editor/src/ui/ScriptEditor.coverage-workflows-2.test.tsx",
+        "ordinal": 12,
+        "fullName": "当前脚本属性弹窗的未覆盖作者工作流 实体行为只选当前 trigger 注册表里的稳定方案，不写入显示标签"
+      },
+      "current": {
+        "file": "packages/editor/src/ui/ScriptEditor.coverage-workflows-2.test.tsx",
+        "titles": ["ScriptEditor 属性提交"],
+        "template": "实体行为只选当前 trigger 注册表里的稳定方案，不写入显示标签",
+        "fullName": "ScriptEditor 属性提交 实体行为只选当前 trigger 注册表里的稳定方案，不写入显示标签"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/editor/src/ui/ScriptEditor.coverage-workflows-2.test.tsx",
+        "ordinal": 13,
+        "fullName": "当前脚本属性弹窗的未覆盖作者工作流 确认双臂由指令树编辑，不再暴露结果标识"
+      },
+      "current": {
+        "file": "packages/editor/src/ui/ScriptEditor.coverage-workflows-2.test.tsx",
+        "titles": ["ScriptEditor 属性提交"],
+        "template": "确认双臂由指令树编辑，不再暴露结果标识",
+        "fullName": "ScriptEditor 属性提交 确认双臂由指令树编辑，不再暴露结果标识"
+      }
+    }
+  ],
+  "identities": [
+    {
+      "old": {
+        "file": "packages/editor/src/ui/command-form-control.residual.glm.test.tsx",
+        "fullName": "共享脚本悬空 self 场景呈引用失效且实体降级文本，重选合法场景自动改绑首个实体"
+      },
+      "current": {
+        "file": "packages/editor/src/ui/ScriptEditor.script-context.test.tsx",
+        "fullName": "ScriptEditor 共享脚本作用实体 共享脚本悬空 self 场景呈引用失效且实体降级文本，重选合法场景自动改绑首个实体"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/editor/src/ui/ScriptEditor.coverage-workflows-2.test.tsx",
+        "fullName": "当前脚本属性弹窗的未覆盖作者工作流 镜头从跟随切为定位后提交精确二维落点"
+      },
+      "current": {
+        "file": "packages/editor/src/ui/ScriptEditor.coverage-workflows-2.test.tsx",
+        "fullName": "ScriptEditor 属性提交 镜头从跟随切为定位后提交精确二维落点"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/editor/src/ui/ScriptEditor.coverage-workflows-2.test.tsx",
+        "fullName": "当前脚本属性弹窗的未覆盖作者工作流 镜头从显式位置恢复跟随时只去掉位置，不制造零点坐标"
+      },
+      "current": {
+        "file": "packages/editor/src/ui/ScriptEditor.coverage-workflows-2.test.tsx",
+        "fullName": "ScriptEditor 属性提交 镜头从显式位置恢复跟随时只去掉位置，不制造零点坐标"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/editor/src/ui/ScriptEditor.coverage-workflows-2.test.tsx",
+        "fullName": "当前脚本属性弹窗的未覆盖作者工作流 追逐距离、速度和穿越地形三个输入保留独立意义"
+      },
+      "current": {
+        "file": "packages/editor/src/ui/ScriptEditor.coverage-workflows-2.test.tsx",
+        "fullName": "ScriptEditor 属性提交 追逐距离、速度和穿越地形三个输入保留独立意义"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/editor/src/ui/ScriptEditor.coverage-workflows-2.test.tsx",
+        "fullName": "当前脚本属性弹窗的未覆盖作者工作流 全队资源的负数扣除与单独法力选择保持原样"
+      },
+      "current": {
+        "file": "packages/editor/src/ui/ScriptEditor.coverage-workflows-2.test.tsx",
+        "fullName": "ScriptEditor 属性提交 全队资源的负数扣除与单独法力选择保持原样"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/editor/src/ui/ScriptEditor.coverage-workflows-2.test.tsx",
+        "fullName": "当前脚本属性弹窗的未覆盖作者工作流 跟随者逐行输入只保留有效精灵身份和原有顺序"
+      },
+      "current": {
+        "file": "packages/editor/src/ui/ScriptEditor.coverage-workflows-2.test.tsx",
+        "fullName": "ScriptEditor 属性提交 跟随者逐行输入只保留有效精灵身份和原有顺序"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/editor/src/ui/ScriptEditor.coverage-workflows-2.test.tsx",
+        "fullName": "当前脚本属性弹窗的未覆盖作者工作流 战斗结束结果选择从终止切为胜利，不改指令类型"
+      },
+      "current": {
+        "file": "packages/editor/src/ui/ScriptEditor.coverage-workflows-2.test.tsx",
+        "fullName": "ScriptEditor 属性提交 战斗结束结果选择从终止切为胜利，不改指令类型"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/editor/src/ui/ScriptEditor.coverage-workflows-2.test.tsx",
+        "fullName": "当前脚本属性弹窗的未覆盖作者工作流 地图覆写明确选择另一场景，保留当前项目地图身份"
+      },
+      "current": {
+        "file": "packages/editor/src/ui/ScriptEditor.coverage-workflows-2.test.tsx",
+        "fullName": "ScriptEditor 属性提交 地图覆写明确选择另一场景，保留当前项目地图身份"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/editor/src/ui/ScriptEditor.coverage-workflows-2.test.tsx",
+        "fullName": "当前脚本属性弹窗的未覆盖作者工作流 共享脚本可指定当前场景的真实实体作为 self，且不改脚本身份"
+      },
+      "current": {
+        "file": "packages/editor/src/ui/ScriptEditor.script-context.test.tsx",
+        "fullName": "ScriptEditor 共享脚本作用实体 共享脚本可指定当前场景的真实实体作为 self，且不改脚本身份"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/editor/src/ui/ScriptEditor.coverage-workflows-2.test.tsx",
+        "fullName": "当前脚本属性弹窗的未覆盖作者工作流 共享脚本切回当前执行者会删除显式 self，不留旧实体引用"
+      },
+      "current": {
+        "file": "packages/editor/src/ui/ScriptEditor.script-context.test.tsx",
+        "fullName": "ScriptEditor 共享脚本作用实体 共享脚本切回当前执行者会删除显式 self，不留旧实体引用"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/editor/src/ui/ScriptEditor.coverage-workflows-2.test.tsx",
+        "fullName": "当前脚本属性弹窗的未覆盖作者工作流 当前实体的定位表单仅改目标格，保持目标稳定身份与高度"
+      },
+      "current": {
+        "file": "packages/editor/src/ui/ScriptEditor.coverage-workflows-2.test.tsx",
+        "fullName": "ScriptEditor 属性提交 当前实体的定位表单仅改目标格，保持目标稳定身份与高度"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/editor/src/ui/ScriptEditor.coverage-workflows-2.test.tsx",
+        "fullName": "当前脚本属性弹窗的未覆盖作者工作流 实体触发方式从继承切到自定义触碰，精确保留当前目标与距离"
+      },
+      "current": {
+        "file": "packages/editor/src/ui/ScriptEditor.coverage-workflows-2.test.tsx",
+        "fullName": "ScriptEditor 属性提交 实体触发方式从继承切到自定义触碰，精确保留当前目标与距离"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/editor/src/ui/ScriptEditor.coverage-workflows-2.test.tsx",
+        "fullName": "当前脚本属性弹窗的未覆盖作者工作流 实体页面从继承改为当前登记的 silent 页面 ID"
+      },
+      "current": {
+        "file": "packages/editor/src/ui/ScriptEditor.coverage-workflows-2.test.tsx",
+        "fullName": "ScriptEditor 属性提交 实体页面从继承改为当前登记的 silent 页面 ID"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/editor/src/ui/ScriptEditor.coverage-workflows-2.test.tsx",
+        "fullName": "当前脚本属性弹窗的未覆盖作者工作流 实体行为只选当前 trigger 注册表里的稳定方案，不写入显示标签"
+      },
+      "current": {
+        "file": "packages/editor/src/ui/ScriptEditor.coverage-workflows-2.test.tsx",
+        "fullName": "ScriptEditor 属性提交 实体行为只选当前 trigger 注册表里的稳定方案，不写入显示标签"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/editor/src/ui/ScriptEditor.coverage-workflows-2.test.tsx",
+        "fullName": "当前脚本属性弹窗的未覆盖作者工作流 确认双臂由指令树编辑，不再暴露结果标识"
+      },
+      "current": {
+        "file": "packages/editor/src/ui/ScriptEditor.coverage-workflows-2.test.tsx",
+        "fullName": "ScriptEditor 属性提交 确认双臂由指令树编辑，不再暴露结果标识"
+      }
+    }
+  ],
+  "retirements": [],
+  "cohortSubjects": [
+    {
+      "path": "packages/editor/src/ui/command-form-control.residual.glm.test.tsx",
+      "sha256": "438f11138ab83922f01a54b34dcdb1d59500043ad7da9656014e1f648a96e2a3",
+      "priorCurrentBridges": []
+    }
+  ],
+  "profiles": [
+    {
+      "path": "packages/editor/src/ui/ScriptEditor.script-context.test.tsx",
+      "subjects": ["packages/editor/src/ui/command-form-control.residual.glm.test.tsx"],
+      "axes": {
+        "A": "Complete55-line subject,223-line mixed neighbor and current fixture read; exact prior CODE103/phase2 whole-source pins checked for ScriptEditor,CommandForm,ControlCommandForm and fixture. Actual canonical callScript/EntityAddressEditor owner reread. Legal author address shape with gone scene is repair input; real loader and checkAuthorCommands remain oracle boundaries.",
+        "B": "Remove contributor/residual/gap header and runtime-file misattribution. Concise module comment distinguishes canonical author object self from runtime string self; old audit preserved. Auxiliary group no longer claims these are currently uncovered cases.",
+        "C": "Three tests now share actual ScriptEditor public aggregate-dialog owner and same commandForm lifetime. Explicit self,inherited self and stale-reference repair belong together; unrelated twelve workflow callbacks stay in auxiliary suite. No broad test-harness abstraction or production layer change.",
+        "D": "Reuse existing commandForm/click and narrow twice-used scene trigger. Do not reuse cf-row choose helper for canonical span-label UI; their DOM contracts differ. Cases have distinct absent/explicit/invalid self transitions,not repeated positive paths.",
+        "E": "All15 original callbacks,types,fixture arguments and assertions preserved under f→form only for moved cases. Explicit literal npc versus stale npc-2 discriminates first-entity retargeting; finish checks pending,legal output,exact one commit,unchanged caller data and closed dialog. No case/assertion retirement,new runtime tests or fresh product-mutant claim.",
+        "F": "ScriptEditor.script-context names actual owner and operation;selfSceneTrigger reflects a button rather than native select. Local form replaces f in moved tests.12 auxiliary workflow bodies and all helper expressions remain exact.",
+        "G": "Remove one mislocated leaf and relocate two related cases from mixed suite; no copied fixture or artificial mode flag. Residual auxiliary organization remains outside fixed178 acceptance,with current edit limited to extraction/group wording.",
+        "H": "Real canonical editor/DOM and shared per-test cleanup remain unchanged. Public finish and precise addresses avoid private state mocks. Full typed proof protects complete callbacks and remaining auxiliary modules;64neighbor tests/TC0 zero stderr are impact evidence,not wholesale component acceptance."
+      }
+    }
+  ],
+  "preserved": [
+    {
+      "path": "packages/editor/src/ui/__tests__/command-form-current-fixture.ts",
+      "sha256": "a068284c7ca0e8419293d51a5b8329aa90405223915ff9e32c1e4c92bc892011",
+      "lines": 286
+    },
+    {
+      "path": "packages/editor/src/ui/CommandForm.author-control-contracts.test.tsx",
+      "sha256": "d8ea171b10ce7f4226c172be9e16c4b120352b85b06d8e451680212bcc499a3f",
+      "lines": 43
+    },
+    {
+      "path": "packages/editor/src/ui/command-form-control.glm-large-wave.test.tsx",
+      "sha256": "b2726000fd4a787063d69e868d46f10446eba82d4054e5328d311ecd959734c3",
+      "lines": 127
+    },
+    {
+      "path": "packages/editor/src/ui/ScriptEditor.tsx",
+      "sha256": "3c9055b5feffb0a85f6955b2d257177d7f0ee9a301283433dc7a7b35fef481e3",
+      "lines": 4417
+    },
+    {
+      "path": "packages/editor/src/ui/command-form-control.tsx",
+      "sha256": "e38402d7fc20ccb842c69aa95fef4237ec508a227e7d1f5f36e18e95156c88df",
+      "lines": 518
+    },
+    {
+      "path": "packages/editor/src/ui/CommandForm.tsx",
+      "sha256": "be02bf5a67b18e9f92901ec25013f4c7e16b36a24aeadc608d0b057bb042c3bb",
+      "lines": 209
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/phase2-reviewed.json",
+      "sha256": "5b6e40faed48d4287b8225740a3743f4e34a487126eb4b062ef98bb25155c553",
+      "lines": 564
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-103/codex-current-review.md",
+      "sha256": "98dedc0406cd51a9dc94874d589402a7fed00db51072f012f35d17efc5b3be89",
+      "lines": 64
+    }
+  ],
+  "neighborPaths": [
+    "packages/editor/src/ui/CommandForm.author-control-contracts.test.tsx",
+    "packages/editor/src/ui/CommandForm.current-data.test.tsx",
+    "packages/editor/src/ui/ScriptEditor.coverage-workflows-2.test.tsx",
+    "packages/editor/src/ui/ScriptEditor.script-context.test.tsx",
+    "packages/editor/src/ui/ScriptEditor.test.tsx",
+    "packages/editor/src/ui/command-form-control.glm-large-wave.test.tsx"
+  ],
+  "cleanExecutions": [
+    "before",
+    "reorganize",
+    "format",
+    "proof",
+    "neighbors",
+    "typecheck",
+    "docs",
+    "content-review",
+    "lint",
+    "scoped",
+    "diff",
+    "ledger-final",
+    "module-preflight"
+  ],
+  "lightweightGates": true,
+  "callbackProof": "organization-editor-script-context/proof.stdout.raw",
+  "qualityDelta": {
+    "historicalSubjects": 1,
+    "subjectIdentities": 1,
+    "movedAuxiliaryIdentities": 2,
+    "preservedAuxiliaryIdentities": 12,
+    "runtimeIdentities": 15,
+    "currentSpecs": 2,
+    "newCases": 0,
+    "retiredCases": 0,
+    "assertionsRemoved": 0,
+    "productChanged": false
+  },
+  "reads": {
+    "fullReads": [
+      {
+        "path": "packages/editor/src/ui/__tests__/command-form-current-fixture.ts",
+        "sha256": "a068284c7ca0e8419293d51a5b8329aa90405223915ff9e32c1e4c92bc892011",
+        "lines": 286
+      },
+      {
+        "path": "packages/editor/src/ui/CommandForm.author-control-contracts.test.tsx",
+        "sha256": "d8ea171b10ce7f4226c172be9e16c4b120352b85b06d8e451680212bcc499a3f",
+        "lines": 43
+      },
+      {
+        "path": "packages/editor/src/ui/command-form-control.glm-large-wave.test.tsx",
+        "sha256": "b2726000fd4a787063d69e868d46f10446eba82d4054e5328d311ecd959734c3",
+        "lines": 127
+      }
+    ],
+    "scopedReads": [
+      {
+        "path": "packages/editor/src/ui/ScriptEditor.tsx",
+        "sha256": "3c9055b5feffb0a85f6955b2d257177d7f0ee9a301283433dc7a7b35fef481e3",
+        "lines": 4417,
+        "ranges": [[1330, 1450], [2094, 2163]]
+      },
+      {
+        "path": "packages/editor/src/ui/command-form-control.tsx",
+        "sha256": "e38402d7fc20ccb842c69aa95fef4237ec508a227e7d1f5f36e18e95156c88df",
+        "lines": 518,
+        "ranges": [[400, 460]]
+      },
+      {
+        "path": "packages/editor/src/ui/CommandForm.tsx",
+        "sha256": "be02bf5a67b18e9f92901ec25013f4c7e16b36a24aeadc608d0b057bb042c3bb",
+        "lines": 209,
+        "ranges": [[1, 110]]
+      }
+    ],
+    "fullInputs": [
+      {
+        "path": "packages/editor/src/ui/command-form-control.residual.glm.test.tsx",
+        "member": "organization-editor-script-context/0.before",
+        "sha256": "438f11138ab83922f01a54b34dcdb1d59500043ad7da9656014e1f648a96e2a3",
+        "lines": 55
+      },
+      {
+        "path": "packages/editor/src/ui/ScriptEditor.coverage-workflows-2.test.tsx",
+        "member": "organization-editor-script-context/1.before",
+        "sha256": "40737dc7519f04cc8a142a8a8afc01e1a00d69ac3c9654ae435d4fbe85b30b90",
+        "lines": 223
+      }
+    ],
+    "fullOutputs": [
+      {
+        "path": "packages/editor/src/ui/ScriptEditor.script-context.test.tsx",
+        "sha256": "6525d9f12402fd30f3c2a2e7dd164b317e9682a419d036cec97c610f19fe5d8a",
+        "lines": 78
+      },
+      {
+        "path": "packages/editor/src/ui/ScriptEditor.coverage-workflows-2.test.tsx",
+        "sha256": "189518553e704571ab1a3e23d2563da9091208306710f22b977fdfebe59a9ab8",
+        "lines": 194
+      }
+    ]
+  },
+  "reusedEvidence": {
+    "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/phase2-reviewed.json",
+    "scope": "Exact current source/fixture/subject fingerprints plus prior CODE103 actual caller/oracle review; new whole subject and auxiliary reads supplement ownership. No unsupported full reread or fresh product counter claim."
+  },
+  "knownAdjacentObservations": [
+    "Auxiliary coverage-workflows-2 retains12 mixed workflows; only extracted self ownership and exact body conservation accepted here,not whole naming acceptance.",
+    "Real fixture owns body/data snapshots and cleanup; its implementation unchanged and no new fixture-quality credit assigned."
+  ],
+  "processDisclosures": [
+    "Current lexical sourceBridges serve identity/dependency comparison only; complete independent typed proof restricts all actual edits and protects last assertions.",
+    "No runtime self-form cleanup or public interface retirement is authorized by this test move.",
+    "Earlier search for a separate EntityAddressEditor file returned none; actual component is local to ScriptEditor and its full declaration was subsequently read.",
+    "First preflight correctly rejected an auxiliary-only delta entry inside accepted profiles with zero cohort subjects. Moved it to auxiliaryDeltaProfiles and removed it from aggregate accepted profiles;the one actual cohort profile remains. No counter,case,acceptance scope or verifier weakened. Failed preflight/root raw retained."
+  ],
+  "invalidations": "Recheck on canonical self/address/default-entity semantics,fixture commit/cleanup contracts or callback/hash drift. Neighbor green does not validate arbitrary editor paths.",
+  "ledgerCounts": {
+    "inventory": 3445,
+    "closed": 498,
+    "review": 315,
+    "pending": 2632
+  },
+  "quantitativeScreen": [
+    {
+      "path": "packages/editor/src/ui/ScriptEditor.script-context.test.tsx",
+      "method": "Syntactic decisions,reading pointer only",
+      "functions": 8,
+      "max": 1,
+      "over10": 0
+    },
+    {
+      "path": "packages/editor/src/ui/ScriptEditor.coverage-workflows-2.test.tsx",
+      "method": "Syntactic decisions,reading pointer only",
+      "functions": 23,
+      "max": 2,
+      "over10": 0
+    }
+  ],
+  "auxiliaryDeltaProfiles": [
+    {
+      "path": "packages/editor/src/ui/ScriptEditor.coverage-workflows-2.test.tsx",
+      "subjects": [],
+      "axes": {
+        "A": "Auxiliary delta only,not new cohort/full-file acceptance. Complete55-line subject,223-line mixed neighbor and current fixture read; exact prior CODE103/phase2 whole-source pins checked for ScriptEditor,CommandForm,ControlCommandForm and fixture. Actual canonical callScript/EntityAddressEditor owner reread. Legal author address shape with gone scene is repair input; real loader and checkAuthorCommands remain oracle boundaries.",
+        "B": "Auxiliary delta only,not new cohort/full-file acceptance. Remove contributor/residual/gap header and runtime-file misattribution. Concise module comment distinguishes canonical author object self from runtime string self; old audit preserved. Auxiliary group no longer claims these are currently uncovered cases.",
+        "C": "Auxiliary delta only,not new cohort/full-file acceptance. Three tests now share actual ScriptEditor public aggregate-dialog owner and same commandForm lifetime. Explicit self,inherited self and stale-reference repair belong together; unrelated twelve workflow callbacks stay in auxiliary suite. No broad test-harness abstraction or production layer change.",
+        "D": "Auxiliary delta only,not new cohort/full-file acceptance. Reuse existing commandForm/click and narrow twice-used scene trigger. Do not reuse cf-row choose helper for canonical span-label UI; their DOM contracts differ. Cases have distinct absent/explicit/invalid self transitions,not repeated positive paths.",
+        "E": "Auxiliary delta only,not new cohort/full-file acceptance. All15 original callbacks,types,fixture arguments and assertions preserved under f→form only for moved cases. Explicit literal npc versus stale npc-2 discriminates first-entity retargeting; finish checks pending,legal output,exact one commit,unchanged caller data and closed dialog. No case/assertion retirement,new runtime tests or fresh product-mutant claim.",
+        "F": "Auxiliary delta only,not new cohort/full-file acceptance. ScriptEditor.script-context names actual owner and operation;selfSceneTrigger reflects a button rather than native select. Local form replaces f in moved tests.12 auxiliary workflow bodies and all helper expressions remain exact.",
+        "G": "Auxiliary delta only,not new cohort/full-file acceptance. Remove one mislocated leaf and relocate two related cases from mixed suite; no copied fixture or artificial mode flag. Residual auxiliary organization remains outside fixed178 acceptance,with current edit limited to extraction/group wording.",
+        "H": "Auxiliary delta only,not new cohort/full-file acceptance. Real canonical editor/DOM and shared per-test cleanup remain unchanged. Public finish and precise addresses avoid private state mocks. Full typed proof protects complete callbacks and remaining auxiliary modules;64neighbor tests/TC0 zero stderr are impact evidence,not wholesale component acceptance."
+      }
+    }
+  ],
+  "receipts": {
+    "module-preflight": "organization-editor-script-context/module-preflight-r2",
+    "scoped": "organization-editor-script-context/scoped-r2"
+  }
+}

@@ -8,12 +8,12 @@
  * external 原引用路径。不伪造外部脚本执行：external 效果一律不在 content 层结算。
  */
 import { describe, expect, test } from 'vitest'
-import { deepSnapshot } from './__tests__/glm-content-contract-fixtures.js'
 import {
   expectInputsUnchanged,
   item as makeItem,
   world,
 } from './__tests__/glm-item-logic-fixtures.js'
+import { deepSnapshot } from './__tests__/value-snapshot.js'
 import type { WorldState } from './character.js'
 import type { ItemDataMap } from './item.js'
 import { completeExternalWorldItemUse, useItem } from './item.js'

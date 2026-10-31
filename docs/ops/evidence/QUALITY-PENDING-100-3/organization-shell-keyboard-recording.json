@@ -1,0 +1,1152 @@
+{
+  "id": "shell-keyboard-recording",
+  "kind": "shell-keyboard-recording",
+  "namespace": "organization-shell-input-audio",
+  "inputs": [
+    {
+      "path": "packages/game/src/shell/input.test.ts",
+      "sha256": "6b2629e4f965c32476a799255fea0c54c8303c87a9728a7a599c38cdcbbd4c4d",
+      "member": "organization-shell-input-audio/0.before",
+      "fullReadLines": 293
+    },
+    {
+      "path": "packages/game/src/shell/input.boundaries.test.ts",
+      "sha256": "44fba405429a739324bfb096959d04e081244b4631fb16b86067085093624e2f",
+      "member": "organization-shell-input-audio/1.before",
+      "fullReadLines": 72
+    },
+    {
+      "path": "packages/game/src/shell/input-replay.grok-r1.test.ts",
+      "sha256": "73e9a60b24aeeaff85822c0b6608ed0137b4dab7a91345c5c27595bbd50c2c00",
+      "member": "organization-shell-input-audio/2.before",
+      "fullReadLines": 156
+    }
+  ],
+  "outputs": [
+    {
+      "path": "packages/game/src/shell/input.keymap.test.ts",
+      "sha256": "3c485d94c03339146d5ae3cf9ae40520b343ccd57bbb7b7a24ba70f8f98ddb3a"
+    },
+    {
+      "path": "packages/game/src/shell/input.keyboard.test.ts",
+      "sha256": "fdcc27629aa01a9e027e590ac63242984344b1ec30a45183f3212151a799987a"
+    },
+    {
+      "path": "packages/game/src/shell/input.record-replay.test.ts",
+      "sha256": "dc648349cb04bbf02c53a8bf1a80fcf56e4c723655982193526a696285a3b5f9"
+    },
+    {
+      "path": "packages/game/src/shell/__tests__/keyboard-events.ts",
+      "sha256": "114a40f161efc139dfa68e01626cea6757e82957c9ec218637ab23f4187cb12c"
+    }
+  ],
+  "sourceBridges": [
+    {
+      "path": "packages/game/src/shell/input.test.ts",
+      "id": "shell-0",
+      "reason": "Explicit named helper/case organization; one old empty Replay case explicitly retired into its stronger survivor. All other business values and required finally remain.",
+      "changes": [
+        {
+          "from": "import { describe, expect, it } from 'vitest'\nimport {\n  codeToAbstractKey,\n  KeyboardInputSource,\n  RecordingInputSource,\n  ReplayInputSource,\n} from './input.js'\n\ndescribe('codeToAbstractKey', () => {\n  it('方向键映射', () => {\n    expect(codeToAbstractKey('ArrowUp')).toBe('Up')\n    expect(codeToAbstractKey('ArrowDown')).toBe('Down')\n    expect(codeToAbstractKey('ArrowLeft')).toBe('Left')\n    expect(codeToAbstractKey('ArrowRight')).toBe('Right')\n  })\n\n  // user 2026-05-31 决策\"以原版为准\":WASD 还原 sdlpal input.c:84-90 原义,**不再**当方向键。\n  it('WASD = sdlpal 原义(input.c:84-90),不是方向', () => {\n    expect(codeToAbstractKey('KeyW')).toBe('ThrowItem') // input.c:87\n    expect(codeToAbstractKey('KeyA')).toBe('Auto') // input.c:84\n    expect(codeToAbstractKey('KeyS')).toBe('Status') // input.c:90\n    expect(codeToAbstractKey('KeyD')).toBe('Defend') // input.c:85\n  })\n\n  it('确认 / 菜单(sdlpal input.c:66-74 真值)', () => {\n    expect(codeToAbstractKey('Space')).toBe('Confirm')\n    expect(codeToAbstractKey('Enter')).toBe('Confirm')\n    expect(codeToAbstractKey('NumpadEnter')).toBe('Confirm')\n    expect(codeToAbstractKey('ControlLeft')).toBe('Confirm')\n    expect(codeToAbstractKey('Escape')).toBe('Menu')\n    expect(codeToAbstractKey('AltLeft')).toBe('Menu')\n    expect(codeToAbstractKey('AltRight')).toBe('Menu')\n    expect(codeToAbstractKey('Insert')).toBe('Menu')\n    expect(codeToAbstractKey('Numpad0')).toBe('Menu')\n    expect(codeToAbstractKey('KeyM')).toBe('Menu') // KeyM = 本项目 dev 追加(sdlpal 键表无 m→Menu)\n  })\n\n  it('Numpad 方向键(sdlpal input.c:58-65)', () => {\n    expect(codeToAbstractKey('Numpad8')).toBe('Up')\n    expect(codeToAbstractKey('Numpad2')).toBe('Down')\n    expect(codeToAbstractKey('Numpad4')).toBe('Left')\n    expect(codeToAbstractKey('Numpad6')).toBe('Right')\n  })\n\n  it('翻页 / Home/End(sdlpal input.c:75-82)', () => {\n    expect(codeToAbstractKey('PageUp')).toBe('PgUp')\n    expect(codeToAbstractKey('Numpad9')).toBe('PgUp')\n    expect(codeToAbstractKey('PageDown')).toBe('PgDn')\n    expect(codeToAbstractKey('Numpad3')).toBe('PgDn')\n    expect(codeToAbstractKey('Home')).toBe('Home')\n    expect(codeToAbstractKey('Numpad7')).toBe('Home')\n    expect(codeToAbstractKey('End')).toBe('End')\n    expect(codeToAbstractKey('Numpad1')).toBe('End')\n  })\n\n  it('战斗 / 大世界专用键(sdlpal input.c:83-90)', () => {\n    expect(codeToAbstractKey('KeyR')).toBe('Repeat') // input.c:83\n    expect(codeToAbstractKey('KeyA')).toBe('Auto') // input.c:84\n    expect(codeToAbstractKey('KeyD')).toBe('Defend') // input.c:85\n    expect(codeToAbstractKey('KeyE')).toBe('UseItem') // input.c:86\n    expect(codeToAbstractKey('KeyW')).toBe('ThrowItem') // input.c:87\n    expect(codeToAbstractKey('KeyQ')).toBe('Flee') // input.c:88\n    expect(codeToAbstractKey('KeyF')).toBe('Force') // input.c:89\n    expect(codeToAbstractKey('KeyS')).toBe('Status') // input.c:90\n  })\n\n  it('未知键 → null', () => {\n    expect(codeToAbstractKey('KeyZ')).toBeNull()\n  })\n})\n\ndescribe('KeyboardInputSource', () => {\n  it('keydown/keyup 维护 held;snapshot 后 pressed 清空', () => {\n    const src = new KeyboardInputSource(window)\n    try {\n      window.dispatchEvent(new KeyboardEvent('keydown', { code: 'ArrowRight' }))\n      const s1 = src.nextSnapshot(0)\n      expect(s1.held.has('Right')).toBe(true)\n      expect(s1.pressed.has('Right')).toBe(true)\n\n      const s2 = src.nextSnapshot(1)\n      expect(s2.held.has('Right')).toBe(true)\n      expect(s2.pressed.has('Right')).toBe(false)\n\n      window.dispatchEvent(new KeyboardEvent('keyup', { code: 'ArrowRight' }))\n      const s3 = src.nextSnapshot(2)\n      expect(s3.held.has('Right')).toBe(false)\n    } finally {\n      src.detach()\n    }\n  })\n\n  // BUG fix(2026-06-02):跳过开场 AVI 的残留 Space 泄漏进 OpeningMenu 被误确认开新游戏。\n  //   clearPressed = sdlpal PAL_ClearKeyState()(input.c:1206),进 menu 前清残留初次按下键。\n  it('clearPressed 清掉未消费的 pressed(等价 sdlpal PAL_ClearKeyState),held 保留', () => {\n    const src = new KeyboardInputSource(window)\n    try {\n      window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space' }))\n      src.clearPressed()\n      const s = src.nextSnapshot(0)\n      expect(s.pressed.has('Confirm')).toBe(false) // 残留 Space 被清 → 菜单首帧不会误确认\n      expect(s.held.has('Confirm')).toBe(true) // held(物理按住态)保留,由 keyup 自然配对\n    } finally {\n      src.detach()\n    }\n  })\n\n  // sdlpal input.c:180-189 PAL_GetCurrDirection — \"最后按的方向键优先\"。\n  describe('last-press priority (sdlpal input.c:180-189)', () => {\n    it('Up 然后 Down → held Set 末位 = Down', () => {\n      const src = new KeyboardInputSource(window)\n      try {\n        window.dispatchEvent(new KeyboardEvent('keydown', { code: 'ArrowUp' }))\n        window.dispatchEvent(new KeyboardEvent('keydown', { code: 'ArrowDown' }))\n        const arr = Array.from(src.nextSnapshot(0).held)\n        expect(arr).toContain('Up')\n        expect(arr).toContain('Down')\n        expect(arr[arr.length - 1]).toBe('Down')\n      } finally {\n        src.detach()\n      }\n    })\n\n    it('Up,keyup Up,再按 Up → 末位还是 Up(delete-then-add 刷新顺序)', () => {\n      const src = new KeyboardInputSource(window)\n      try {\n        window.dispatchEvent(new KeyboardEvent('keydown', { code: 'ArrowRight' }))\n        window.dispatchEvent(new KeyboardEvent('keydown', { code: 'ArrowUp' }))\n        window.dispatchEvent(new KeyboardEvent('keyup', { code: 'ArrowUp' }))\n        window.dispatchEvent(new KeyboardEvent('keydown', { code: 'ArrowUp' }))\n        const arr = Array.from(src.nextSnapshot(0).held)\n        expect(arr[arr.length - 1]).toBe('Up')\n      } finally {\n        src.detach()\n      }\n    })\n\n    it('e.repeat=true 不刷新 held order(sdlpal input.c:213)', () => {\n      // hold key 时 browser 自动重复触发 keydown(e.repeat=true);\n      // 若不过滤,被 hold 的键持续推到末尾,挤掉后按的键 → \"后按优先\" 失效。\n      const src = new KeyboardInputSource(window)\n      try {\n        // 初按 Up + 初按 Down → held = [Up, Down]\n        window.dispatchEvent(new KeyboardEvent('keydown', { code: 'ArrowUp' }))\n        window.dispatchEvent(new KeyboardEvent('keydown', { code: 'ArrowDown' }))\n        // Up repeat 触发(模拟 OS 自动重复)→ 不应刷新 order\n        window.dispatchEvent(new KeyboardEvent('keydown', { code: 'ArrowUp', repeat: true }))\n        const arr = Array.from(src.nextSnapshot(0).held)\n        expect(arr[arr.length - 1]).toBe('Down') // Down 仍在末尾,Up repeat 无效\n      } finally {\n        src.detach()\n      }\n    })\n\n    it('repeat 也不污染 pressed(只在初次按下时 add pressed)', () => {\n      const src = new KeyboardInputSource(window)\n      try {\n        window.dispatchEvent(new KeyboardEvent('keydown', { code: 'ArrowUp' }))\n        const s1 = src.nextSnapshot(0)\n        expect(s1.pressed.has('Up')).toBe(true)\n        // repeat 触发 → 不应再加 pressed(已 held)\n        window.dispatchEvent(new KeyboardEvent('keydown', { code: 'ArrowUp', repeat: true }))\n        const s2 = src.nextSnapshot(1)\n        expect(s2.pressed.has('Up')).toBe(false) // pressed 是 edge,repeat 不触发\n      } finally {\n        src.detach()\n      }\n    })\n  })\n})\n\ndescribe('ReplayInputSource', () => {\n  it('按帧顺序回放', () => {\n    const snaps = [\n      { held: new Set<'Confirm'>(), pressed: new Set<'Confirm'>(['Confirm']), frameNum: 0 },\n      { held: new Set<'Right'>(['Right']), pressed: new Set<'Right'>(), frameNum: 1 },\n    ]\n    const src = new ReplayInputSource(snaps)\n    expect(src.nextSnapshot(0).pressed.has('Confirm')).toBe(true)\n    expect(src.nextSnapshot(1).held.has('Right')).toBe(true)\n  })\n\n  it('超出序列 → 空快照', () => {\n    const src = new ReplayInputSource([])\n    const s = src.nextSnapshot(0)\n    expect(s.held.size).toBe(0)\n    expect(s.pressed.size).toBe(0)\n  })\n})\n\ndescribe('RecordingInputSource', () => {\n  it('装饰任意 source,把每帧 snapshot 留档', () => {\n    const inner = new ReplayInputSource([\n      { held: new Set<'Right'>(['Right']), pressed: new Set<'Right'>(), frameNum: 0 },\n    ])\n    const rec = new RecordingInputSource(inner)\n    rec.nextSnapshot(0)\n    expect(rec.getRecording()).toHaveLength(1)\n    expect(rec.getRecording()[0]?.held.has('Right')).toBe(true)\n  })\n})\n\ndescribe('DM30:fade 抑制按住的方向键(palette.c:313-316)', () => {\n  it('suppressHeldForFade 后按住的方向键不进 held,keyup 重按恢复;pressed 被清', () => {\n    const src = new KeyboardInputSource(window)\n    try {\n      window.dispatchEvent(new KeyboardEvent('keydown', { code: 'ArrowUp' }))\n      window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space' }))\n      src.suppressHeldForFade()\n      let snap = src.nextSnapshot(0)\n      expect(snap.held.has('Up')).toBe(false) // 抑制中(按住穿 fade 不续走)\n      expect(snap.pressed.size).toBe(0) // PAL_ClearKeyState\n      snap = src.nextSnapshot(1)\n      expect(snap.held.has('Up')).toBe(false) // fade 后仍按住 → 不恢复\n      window.dispatchEvent(new KeyboardEvent('keyup', { code: 'ArrowUp' }))\n      window.dispatchEvent(new KeyboardEvent('keydown', { code: 'ArrowUp' }))\n      snap = src.nextSnapshot(2)\n      expect(snap.held.has('Up')).toBe(true) // 物理松开重按 → 恢复\n    } finally {\n      src.detach()\n    }\n  })\n})\n\ndescribe('scene-fade 后由方向事件恢复当前方向', () => {\n  function down(code: string, repeat = false): void {\n    window.dispatchEvent(new KeyboardEvent('keydown', { code, repeat }))\n  }\n\n  function up(code: string): void {\n    window.dispatchEvent(new KeyboardEvent('keyup', { code }))\n  }\n\n  it('松开后按的方向时，恢复仍按住的另一个方向，不制造 pressed', () => {\n    const source = new KeyboardInputSource(window)\n    try {\n      down('ArrowLeft')\n      down('ArrowRight')\n      source.suppressHeldForFade()\n      expect([...source.nextSnapshot(0).held]).toEqual([])\n\n      up('ArrowRight')\n      const resumed = source.nextSnapshot(1)\n      expect([...resumed.held]).toEqual(['Left'])\n      expect([...resumed.pressed]).toEqual([])\n    } finally {\n      source.detach()\n    }\n  })\n\n  it('非重复方向按下恢复原有方向，保留后按优先和真实新按下边沿', () => {\n    const source = new KeyboardInputSource(window)\n    try {\n      down('ArrowLeft')\n      down('ArrowRight')\n      source.suppressHeldForFade()\n\n      down('ArrowUp')\n      const resumed = source.nextSnapshot(1)\n      expect([...resumed.held]).toEqual(['Left', 'Right', 'Up'])\n      expect([...resumed.pressed]).toEqual(['Up'])\n    } finally {\n      source.detach()\n    }\n  })\n\n  it('repeat、非方向和未知事件不解除抑制；未按住方向的 keyup 仍重算', () => {\n    const source = new KeyboardInputSource(window)\n    try {\n      down('ArrowLeft')\n      down('ArrowRight')\n      source.suppressHeldForFade()\n      down('ArrowLeft', true)\n      down('Space')\n      const nonDirection = source.nextSnapshot(1)\n      expect([...nonDirection.held]).toEqual(['Confirm'])\n      expect([...nonDirection.pressed]).toEqual(['Confirm'])\n\n      up('Space')\n      up('KeyZ')\n      const stillSuppressed = source.nextSnapshot(2)\n      expect([...stillSuppressed.held]).toEqual([])\n      expect([...stillSuppressed.pressed]).toEqual([])\n\n      up('ArrowUp')\n      const resumed = source.nextSnapshot(3)\n      expect([...resumed.held]).toEqual(['Left', 'Right'])\n      expect([...resumed.pressed]).toEqual([])\n    } finally {\n      source.detach()\n    }\n  })\n})\n",
+          "to": "import { keyDown, keyUp } from './__tests__/keyboard-events.js'\nimport { describe, expect, it } from 'vitest'\nimport {\n  codeToAbstractKey,\n  KeyboardInputSource,\n  RecordingInputSource,\n  ReplayInputSource,\n} from './input.js'\n\ndescribe('physical-key mapping', () => {\n  it('方向键映射', () => {\n    expect(codeToAbstractKey('ArrowUp')).toBe('Up')\n    expect(codeToAbstractKey('ArrowDown')).toBe('Down')\n    expect(codeToAbstractKey('ArrowLeft')).toBe('Left')\n    expect(codeToAbstractKey('ArrowRight')).toBe('Right')\n  })\n\n  // user 2026-05-31 决策\"以原版为准\":WASD 还原 sdlpal input.c:84-90 原义,**不再**当方向键。\n  it('WASD = sdlpal 原义(input.c:84-90),不是方向', () => {\n    expect(codeToAbstractKey('KeyW')).toBe('ThrowItem') // input.c:87\n    expect(codeToAbstractKey('KeyA')).toBe('Auto') // input.c:84\n    expect(codeToAbstractKey('KeyS')).toBe('Status') // input.c:90\n    expect(codeToAbstractKey('KeyD')).toBe('Defend') // input.c:85\n  })\n\n  it('确认 / 菜单(sdlpal input.c:66-74 真值)', () => {\n    expect(codeToAbstractKey('Space')).toBe('Confirm')\n    expect(codeToAbstractKey('Enter')).toBe('Confirm')\n    expect(codeToAbstractKey('NumpadEnter')).toBe('Confirm')\n    expect(codeToAbstractKey('ControlLeft')).toBe('Confirm')\n    expect(codeToAbstractKey('Escape')).toBe('Menu')\n    expect(codeToAbstractKey('AltLeft')).toBe('Menu')\n    expect(codeToAbstractKey('AltRight')).toBe('Menu')\n    expect(codeToAbstractKey('Insert')).toBe('Menu')\n    expect(codeToAbstractKey('Numpad0')).toBe('Menu')\n    expect(codeToAbstractKey('KeyM')).toBe('Menu') // KeyM = 本项目 dev 追加(sdlpal 键表无 m→Menu)\n  })\n\n  it('Numpad 方向键(sdlpal input.c:58-65)', () => {\n    expect(codeToAbstractKey('Numpad8')).toBe('Up')\n    expect(codeToAbstractKey('Numpad2')).toBe('Down')\n    expect(codeToAbstractKey('Numpad4')).toBe('Left')\n    expect(codeToAbstractKey('Numpad6')).toBe('Right')\n  })\n\n  it('翻页 / Home/End(sdlpal input.c:75-82)', () => {\n    expect(codeToAbstractKey('PageUp')).toBe('PgUp')\n    expect(codeToAbstractKey('Numpad9')).toBe('PgUp')\n    expect(codeToAbstractKey('PageDown')).toBe('PgDn')\n    expect(codeToAbstractKey('Numpad3')).toBe('PgDn')\n    expect(codeToAbstractKey('Home')).toBe('Home')\n    expect(codeToAbstractKey('Numpad7')).toBe('Home')\n    expect(codeToAbstractKey('End')).toBe('End')\n    expect(codeToAbstractKey('Numpad1')).toBe('End')\n  })\n\n  it('战斗 / 大世界专用键(sdlpal input.c:83-90)', () => {\n    expect(codeToAbstractKey('KeyR')).toBe('Repeat') // input.c:83\n    expect(codeToAbstractKey('KeyA')).toBe('Auto') // input.c:84\n    expect(codeToAbstractKey('KeyD')).toBe('Defend') // input.c:85\n    expect(codeToAbstractKey('KeyE')).toBe('UseItem') // input.c:86\n    expect(codeToAbstractKey('KeyW')).toBe('ThrowItem') // input.c:87\n    expect(codeToAbstractKey('KeyQ')).toBe('Flee') // input.c:88\n    expect(codeToAbstractKey('KeyF')).toBe('Force') // input.c:89\n    expect(codeToAbstractKey('KeyS')).toBe('Status') // input.c:90\n  })\n\n  it('未知键 → null', () => {\n    expect(codeToAbstractKey('KeyZ')).toBeNull()\n  })\n})\n\ndescribe('keyboard edges, order and scene-fade', () => {\n  it('keydown/keyup 维护 held;snapshot 后 pressed 清空', () => {\n    const src = new KeyboardInputSource(window)\n    try {\n      window.dispatchEvent(new KeyboardEvent('keydown', { code: 'ArrowRight' }))\n      const s1 = src.nextSnapshot(0)\n      expect(s1.held.has('Right')).toBe(true)\n      expect(s1.pressed.has('Right')).toBe(true)\n\n      const s2 = src.nextSnapshot(1)\n      expect(s2.held.has('Right')).toBe(true)\n      expect(s2.pressed.has('Right')).toBe(false)\n\n      window.dispatchEvent(new KeyboardEvent('keyup', { code: 'ArrowRight' }))\n      const s3 = src.nextSnapshot(2)\n      expect(s3.held.has('Right')).toBe(false)\n    } finally {\n      src.detach()\n    }\n  })\n\n  // BUG fix(2026-06-02):跳过开场 AVI 的残留 Space 泄漏进 OpeningMenu 被误确认开新游戏。\n  //   clearPressed = sdlpal PAL_ClearKeyState()(input.c:1206),进 menu 前清残留初次按下键。\n  it('clearPressed 清掉未消费的 pressed(等价 sdlpal PAL_ClearKeyState),held 保留', () => {\n    const src = new KeyboardInputSource(window)\n    try {\n      window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space' }))\n      src.clearPressed()\n      const s = src.nextSnapshot(0)\n      expect(s.pressed.has('Confirm')).toBe(false) // 残留 Space 被清 → 菜单首帧不会误确认\n      expect(s.held.has('Confirm')).toBe(true) // held(物理按住态)保留,由 keyup 自然配对\n    } finally {\n      src.detach()\n    }\n  })\n\n  it('Up 然后 Down → held Set 末位 = Down', () => {\n    const src = new KeyboardInputSource(window)\n    try {\n      window.dispatchEvent(new KeyboardEvent('keydown', { code: 'ArrowUp' }))\n      window.dispatchEvent(new KeyboardEvent('keydown', { code: 'ArrowDown' }))\n      const arr = Array.from(src.nextSnapshot(0).held)\n      expect(arr).toContain('Up')\n      expect(arr).toContain('Down')\n      expect(arr[arr.length - 1]).toBe('Down')\n    } finally {\n      src.detach()\n    }\n  })\n\n  it('Up,keyup Up,再按 Up → 末位还是 Up(delete-then-add 刷新顺序)', () => {\n    const src = new KeyboardInputSource(window)\n    try {\n      window.dispatchEvent(new KeyboardEvent('keydown', { code: 'ArrowRight' }))\n      window.dispatchEvent(new KeyboardEvent('keydown', { code: 'ArrowUp' }))\n      window.dispatchEvent(new KeyboardEvent('keyup', { code: 'ArrowUp' }))\n      window.dispatchEvent(new KeyboardEvent('keydown', { code: 'ArrowUp' }))\n      const arr = Array.from(src.nextSnapshot(0).held)\n      expect(arr[arr.length - 1]).toBe('Up')\n    } finally {\n      src.detach()\n    }\n  })\n\n  it('e.repeat=true 不刷新 held order(sdlpal input.c:213)', () => {\n    // hold key 时 browser 自动重复触发 keydown(e.repeat=true);\n    // 若不过滤,被 hold 的键持续推到末尾,挤掉后按的键 → \"后按优先\" 失效。\n    const src = new KeyboardInputSource(window)\n    try {\n      // 初按 Up + 初按 Down → held = [Up, Down]\n      window.dispatchEvent(new KeyboardEvent('keydown', { code: 'ArrowUp' }))\n      window.dispatchEvent(new KeyboardEvent('keydown', { code: 'ArrowDown' }))\n      // Up repeat 触发(模拟 OS 自动重复)→ 不应刷新 order\n      window.dispatchEvent(new KeyboardEvent('keydown', { code: 'ArrowUp', repeat: true }))\n      const arr = Array.from(src.nextSnapshot(0).held)\n      expect(arr[arr.length - 1]).toBe('Down') // Down 仍在末尾,Up repeat 无效\n    } finally {\n      src.detach()\n    }\n  })\n\n  it('repeat 也不污染 pressed(只在初次按下时 add pressed)', () => {\n    const src = new KeyboardInputSource(window)\n    try {\n      window.dispatchEvent(new KeyboardEvent('keydown', { code: 'ArrowUp' }))\n      const s1 = src.nextSnapshot(0)\n      expect(s1.pressed.has('Up')).toBe(true)\n      // repeat 触发 → 不应再加 pressed(已 held)\n      window.dispatchEvent(new KeyboardEvent('keydown', { code: 'ArrowUp', repeat: true }))\n      const s2 = src.nextSnapshot(1)\n      expect(s2.pressed.has('Up')).toBe(false) // pressed 是 edge,repeat 不触发\n    } finally {\n      src.detach()\n    }\n  })\n\n  it('suppressHeldForFade 后按住的方向键不进 held,keyup 重按恢复;pressed 被清', () => {\n    const src = new KeyboardInputSource(window)\n    try {\n      window.dispatchEvent(new KeyboardEvent('keydown', { code: 'ArrowUp' }))\n      window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space' }))\n      src.suppressHeldForFade()\n      let snap = src.nextSnapshot(0)\n      expect(snap.held.has('Up')).toBe(false) // 抑制中(按住穿 fade 不续走)\n      expect(snap.pressed.size).toBe(0) // PAL_ClearKeyState\n      snap = src.nextSnapshot(1)\n      expect(snap.held.has('Up')).toBe(false) // fade 后仍按住 → 不恢复\n      window.dispatchEvent(new KeyboardEvent('keyup', { code: 'ArrowUp' }))\n      window.dispatchEvent(new KeyboardEvent('keydown', { code: 'ArrowUp' }))\n      snap = src.nextSnapshot(2)\n      expect(snap.held.has('Up')).toBe(true) // 物理松开重按 → 恢复\n    } finally {\n      src.detach()\n    }\n  })\n\n  it('松开后按的方向时，恢复仍按住的另一个方向，不制造 pressed', () => {\n    const source = new KeyboardInputSource(window)\n    try {\n      keyDown(window, 'ArrowLeft')\n      keyDown(window, 'ArrowRight')\n      source.suppressHeldForFade()\n      expect([...source.nextSnapshot(0).held]).toEqual([])\n\n      keyUp(window, 'ArrowRight')\n      const resumed = source.nextSnapshot(1)\n      expect([...resumed.held]).toEqual(['Left'])\n      expect([...resumed.pressed]).toEqual([])\n    } finally {\n      source.detach()\n    }\n  })\n\n  it('非重复方向按下恢复原有方向，保留后按优先和真实新按下边沿', () => {\n    const source = new KeyboardInputSource(window)\n    try {\n      keyDown(window, 'ArrowLeft')\n      keyDown(window, 'ArrowRight')\n      source.suppressHeldForFade()\n\n      keyDown(window, 'ArrowUp')\n      const resumed = source.nextSnapshot(1)\n      expect([...resumed.held]).toEqual(['Left', 'Right', 'Up'])\n      expect([...resumed.pressed]).toEqual(['Up'])\n    } finally {\n      source.detach()\n    }\n  })\n\n  it('repeat、非方向和未知事件不解除抑制；未按住方向的 keyup 仍重算', () => {\n    const source = new KeyboardInputSource(window)\n    try {\n      keyDown(window, 'ArrowLeft')\n      keyDown(window, 'ArrowRight')\n      source.suppressHeldForFade()\n      keyDown(window, 'ArrowLeft', true)\n      keyDown(window, 'Space')\n      const nonDirection = source.nextSnapshot(1)\n      expect([...nonDirection.held]).toEqual(['Confirm'])\n      expect([...nonDirection.pressed]).toEqual(['Confirm'])\n\n      keyUp(window, 'Space')\n      keyUp(window, 'KeyZ')\n      const stillSuppressed = source.nextSnapshot(2)\n      expect([...stillSuppressed.held]).toEqual([])\n      expect([...stillSuppressed.pressed]).toEqual([])\n\n      keyUp(window, 'ArrowUp')\n      const resumed = source.nextSnapshot(3)\n      expect([...resumed.held]).toEqual(['Left', 'Right'])\n      expect([...resumed.pressed]).toEqual([])\n    } finally {\n      source.detach()\n    }\n  })\n})\n\ndescribe('recorded snapshot ownership', () => {\n  it('按帧顺序回放', () => {\n    const snaps = [\n      { held: new Set<'Confirm'>(), pressed: new Set<'Confirm'>(['Confirm']), frameNum: 0 },\n      { held: new Set<'Right'>(['Right']), pressed: new Set<'Right'>(), frameNum: 1 },\n    ]\n    const src = new ReplayInputSource(snaps)\n    expect(src.nextSnapshot(0).pressed.has('Confirm')).toBe(true)\n    expect(src.nextSnapshot(1).held.has('Right')).toBe(true)\n  })\n\n  it('装饰任意 source,把每帧 snapshot 留档', () => {\n    const inner = new ReplayInputSource([\n      { held: new Set<'Right'>(['Right']), pressed: new Set<'Right'>(), frameNum: 0 },\n    ])\n    const rec = new RecordingInputSource(inner)\n    rec.nextSnapshot(0)\n    expect(rec.getRecording()).toHaveLength(1)\n    expect(rec.getRecording()[0]?.held.has('Right')).toBe(true)\n  })\n})\n",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/shell/input.boundaries.test.ts",
+      "id": "shell-1",
+      "reason": "Explicit named helper/case organization; one old empty Replay case explicitly retired into its stronger survivor. All other business values and required finally remain.",
+      "changes": [
+        {
+          "from": "/**\n * TEST-GAME-HOST-BOUNDARIES-1 H02：input 宿主边界（shell/input.ts）。\n * 既有 input.test 已覆盖 held/pressed/多键/repeat/fade 主干——不重复。本文件：\n * detach 后真实事件不再入、两个 snapshot Set 防别名（改返回 Set 不污染内部）、\n * 未知 keyup 不清合法 held、fade 只抑制方向保留非方向。\n */\nimport { describe, expect, it } from 'vitest'\nimport { KeyboardInputSource } from './input.js'\n\nfunction fire(target: { dispatchEvent: (e: Event) => boolean }, code: string, repeat = false) {\n  const event = new KeyboardEvent('keydown', { code, repeat })\n  target.dispatchEvent(event)\n}\nfunction fireUp(target: { dispatchEvent: (e: Event) => boolean }, code: string) {\n  const event = new KeyboardEvent('keyup', { code })\n  target.dispatchEvent(event)\n}\n\ndescribe('H02 KeyboardInputSource 宿主边界', () => {\n  it('真实 Window 事件驱动；两个 snapshot Set 防别名（改返回集合不动内部）', () => {\n    const source = new KeyboardInputSource(window)\n    try {\n      fire(window, 'ArrowUp')\n      fire(window, 'Space')\n      const snap = source.nextSnapshot(1)\n      expect([...snap.held]).toEqual(['Up', 'Confirm'])\n      expect([...snap.pressed]).toEqual(['Up', 'Confirm'])\n      // 防别名：改返回 Set 不影响内部\n      ;(snap.held as Set<string>).add('Down')\n      ;(snap.pressed as Set<string>).add('Down')\n      const again = source.nextSnapshot(2)\n      expect(again.held.has('Down')).toBe(false)\n      expect(again.pressed.has('Down')).toBe(false)\n      expect(again.held.has('Up')).toBe(true) // held 保持\n      expect(again.pressed.has('Up')).toBe(false) // pressed 每帧清\n    } finally {\n      source.detach()\n    }\n  })\n  it('未知 keyup 不清合法 held；fade 抑制只针对方向键且物理松开解除', () => {\n    const source = new KeyboardInputSource(window)\n    try {\n      fire(window, 'ArrowLeft')\n      fireUp(window, 'KeyZ') // 未知键 keyup\n      expect(source.nextSnapshot(1).held.has('Left')).toBe(true)\n      // fade：方向进抑制、非方向保留\n      fire(window, 'KeyS') // Status 非方向\n      source.suppressHeldForFade()\n      const faded = source.nextSnapshot(2)\n      expect(faded.held.has('Left')).toBe(false) // 方向被抑制\n      expect(faded.held.has('Status')).toBe(true) // 非方向保留\n      expect(faded.pressed.size).toBe(0) // fade 清 pressed\n      // 物理松开解除\n      fireUp(window, 'ArrowLeft')\n      fire(window, 'ArrowLeft')\n      expect(source.nextSnapshot(3).held.has('Left')).toBe(true)\n    } finally {\n      source.detach()\n    }\n  })\n  it('detach 后真实事件不再进入', () => {\n    const source = new KeyboardInputSource(window)\n    fire(window, 'ArrowUp')\n    source.detach()\n    fire(window, 'ArrowDown')\n    fireUp(window, 'ArrowUp')\n    const snap = source.nextSnapshot(1)\n    expect(snap.held.has('Down')).toBe(false)\n    expect(snap.held.has('Up')).toBe(true) // detach 后 keyup 也不再处理\n    expect(snap.pressed.has('Down')).toBe(false)\n  })\n})\n",
+          "to": "import { keyDown, keyUp } from './__tests__/keyboard-events.js'\n/**\n * TEST-GAME-HOST-BOUNDARIES-1 H02：input 宿主边界（shell/input.ts）。\n * 既有 input.test 已覆盖 held/pressed/多键/repeat/fade 主干——不重复。本文件：\n * detach 后真实事件不再入、两个 snapshot Set 防别名（改返回 Set 不污染内部）、\n * 未知 keyup 不清合法 held、fade 只抑制方向保留非方向。\n */\nimport { describe, expect, it } from 'vitest'\nimport { KeyboardInputSource } from './input.js'\n\ndescribe('keyboard snapshot and listener boundaries', () => {\n  it('真实 Window 事件驱动；两个 snapshot Set 防别名（改返回集合不动内部）', () => {\n    const source = new KeyboardInputSource(window)\n    try {\n      keyDown(window, 'ArrowUp')\n      keyDown(window, 'Space')\n      const snap = source.nextSnapshot(1)\n      expect([...snap.held]).toEqual(['Up', 'Confirm'])\n      expect([...snap.pressed]).toEqual(['Up', 'Confirm'])\n      // 防别名：改返回 Set 不影响内部\n      if (!(snap.held instanceof Set) || !(snap.pressed instanceof Set))\n        throw new Error('Alias-isolation requires actual Set snapshots')\n      snap.held.add('Down')\n      snap.pressed.add('Down')\n      const again = source.nextSnapshot(2)\n      expect(again.held.has('Down')).toBe(false)\n      expect(again.pressed.has('Down')).toBe(false)\n      expect(again.held.has('Up')).toBe(true) // held 保持\n      expect(again.pressed.has('Up')).toBe(false) // pressed 每帧清\n    } finally {\n      source.detach()\n    }\n  })\n\n  it('未知 keyup 不清合法 held；fade 抑制只针对方向键且物理松开解除', () => {\n    const source = new KeyboardInputSource(window)\n    try {\n      keyDown(window, 'ArrowLeft')\n      keyUp(window, 'KeyZ') // 未知键 keyup\n      expect(source.nextSnapshot(1).held.has('Left')).toBe(true)\n      // fade：方向进抑制、非方向保留\n      keyDown(window, 'KeyS') // Status 非方向\n      source.suppressHeldForFade()\n      const faded = source.nextSnapshot(2)\n      expect(faded.held.has('Left')).toBe(false) // 方向被抑制\n      expect(faded.held.has('Status')).toBe(true) // 非方向保留\n      expect(faded.pressed.size).toBe(0) // fade 清 pressed\n      // 物理松开解除\n      keyUp(window, 'ArrowLeft')\n      keyDown(window, 'ArrowLeft')\n      expect(source.nextSnapshot(3).held.has('Left')).toBe(true)\n    } finally {\n      source.detach()\n    }\n  })\n\n  it('detach 后真实事件不再进入', () => {\n    const source = new KeyboardInputSource(window)\n    keyDown(window, 'ArrowUp')\n    source.detach()\n    keyDown(window, 'ArrowDown')\n    keyUp(window, 'ArrowUp')\n    const snap = source.nextSnapshot(1)\n    expect(snap.held.has('Down')).toBe(false)\n    expect(snap.held.has('Up')).toBe(true) // detach 后 keyup 也不再处理\n    expect(snap.pressed.has('Down')).toBe(false)\n  })\n})\n",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/shell/input-replay.grok-r1.test.ts",
+      "id": "shell-2",
+      "reason": "Explicit named helper/case organization; one old empty Replay case explicitly retired into its stronger survivor. All other business values and required finally remain.",
+      "changes": [
+        {
+          "from": "/**\n * TEST-GROK-RENDER-HOST-LARGE-1 G09-A。\n * 键序、回放游标和录制数组的归属。不重领键位表、repeat 和单源 detach。\n */\nimport type { InputSnapshot } from '@type-pal/shared'\nimport { describe, expect, it } from 'vitest'\nimport {\n  codeToAbstractKey,\n  KeyboardInputSource,\n  RecordingInputSource,\n  ReplayInputSource,\n} from './input.js'\n\nfunction down(code: string, repeat = false): void {\n  window.dispatchEvent(new KeyboardEvent('keydown', { code, repeat }))\n}\n\nfunction up(code: string): void {\n  window.dispatchEvent(new KeyboardEvent('keyup', { code }))\n}\n\nfunction snap(frameNum: number, held: InputSnapshot['held'] = new Set()): InputSnapshot {\n  return { held, pressed: new Set(), frameNum }\n}\n\ndescribe('G09-A 输入回放与按键归属', () => {\n  it('G09-A01 未松开的 Up 再次 keydown 会把 Up 挪到 held 末位', () => {\n    const src = new KeyboardInputSource(window)\n    try {\n      down('ArrowUp')\n      src.nextSnapshot(1)\n      down('ArrowDown')\n      down('ArrowUp')\n      expect([...src.nextSnapshot(2).held]).toEqual(['Down', 'Up'])\n    } finally {\n      src.detach()\n    }\n  })\n\n  it('G09-A02 已经按住的 Up 再次 keydown 不再写入 pressed', () => {\n    const src = new KeyboardInputSource(window)\n    try {\n      down('ArrowUp')\n      src.nextSnapshot(1)\n      down('ArrowDown')\n      down('ArrowUp')\n      expect([...src.nextSnapshot(2).pressed]).toEqual(['Down'])\n    } finally {\n      src.detach()\n    }\n  })\n\n  it('G09-A03 未知键的 keydown 不改已按住的 Right', () => {\n    const src = new KeyboardInputSource(window)\n    try {\n      down('ArrowRight')\n      down('KeyZ')\n      const shot = src.nextSnapshot(1)\n      expect([...shot.held]).toEqual(['Right'])\n      expect([...shot.pressed]).toEqual(['Right'])\n    } finally {\n      src.detach()\n    }\n  })\n\n  it('G09-A04 ControlRight 不是确认键', () => {\n    expect(codeToAbstractKey('ControlRight')).toBeNull()\n  })\n\n  it('G09-A05 拆掉一个键盘源后，另一个源仍接收后续按键', () => {\n    const first = new KeyboardInputSource(window)\n    const second = new KeyboardInputSource(window)\n    try {\n      down('ArrowUp')\n      first.detach()\n      down('ArrowDown')\n      expect([...first.nextSnapshot(1).held]).toEqual(['Up'])\n      expect([...second.nextSnapshot(1).held]).toEqual(['Up', 'Down'])\n    } finally {\n      first.detach()\n      second.detach()\n    }\n  })\n\n  it('G09-A06 clearPressed 不解除方向键的 fade 抑制', () => {\n    const src = new KeyboardInputSource(window)\n    try {\n      down('ArrowLeft')\n      down('Space')\n      src.suppressHeldForFade()\n      src.clearPressed()\n      const shot = src.nextSnapshot(1)\n      expect([...shot.held]).toEqual(['Confirm'])\n      expect(shot.pressed.size).toBe(0)\n    } finally {\n      src.detach()\n      up('ArrowLeft')\n      up('Space')\n    }\n  })\n\n  it('G09-A07 回放耗尽时，空快照的帧号等于本次入参', () => {\n    const src = new ReplayInputSource([])\n    const shot = src.nextSnapshot(8)\n    expect(shot.frameNum).toBe(8)\n    expect(shot.held.size).toBe(0)\n    expect(shot.pressed.size).toBe(0)\n  })\n\n  it('G09-A08 回放游标越过末帧后，调用方再追加的快照不会被读到', () => {\n    const first = snap(0, new Set(['Up']))\n    const second = snap(1, new Set(['Down']))\n    const shots: InputSnapshot[] = [first, second]\n    const src = new ReplayInputSource(shots)\n    expect(src.nextSnapshot(99)).toBe(first)\n    const mid = src.nextSnapshot(99)\n    expect(mid.frameNum).toBe(1)\n    expect(mid).toBe(second)\n    expect(src.nextSnapshot(9).frameNum).toBe(9)\n    shots.push(snap(2, new Set(['Left'])))\n    const after = src.nextSnapshot(11)\n    expect(after.frameNum).toBe(11)\n    expect(after.held.size).toBe(0)\n  })\n\n  it('G09-A09 录制源返回的就是内层那一个快照对象', () => {\n    const shot = snap(4, new Set(['Menu']))\n    const rec = new RecordingInputSource({ nextSnapshot: () => shot })\n    expect(rec.nextSnapshot(4)).toBe(shot)\n  })\n\n  it('G09-A10 getRecording 一直是同一个数组，第二次快照追加在后面', () => {\n    const first = snap(1, new Set(['Menu']))\n    const second = snap(2, new Set(['Confirm']))\n    const queued = [first, second]\n    const rec = new RecordingInputSource({\n      nextSnapshot: () => queued.shift() ?? snap(0),\n    })\n    rec.nextSnapshot(1)\n    const log = rec.getRecording()\n    expect(rec.getRecording()).toBe(log)\n    expect(log[0]).toBe(first)\n    rec.nextSnapshot(2)\n    expect(log).toEqual([first, second])\n  })\n\n  it('G09-A11 键盘快照的帧号原样使用主循环传入的帧号', () => {\n    const src = new KeyboardInputSource(window)\n    try {\n      down('Enter')\n      expect(src.nextSnapshot(6).frameNum).toBe(6)\n    } finally {\n      src.detach()\n    }\n  })\n})\n",
+          "to": "import { keyDown, keyUp } from './__tests__/keyboard-events.js'\n/**\n * TEST-GROK-RENDER-HOST-LARGE-1 G09-A。\n * 键序、回放游标和录制数组的归属。不重领键位表、repeat 和单源 detach。\n */\nimport type { InputSnapshot } from '@type-pal/shared'\nimport { describe, expect, it } from 'vitest'\nimport {\n  codeToAbstractKey,\n  KeyboardInputSource,\n  RecordingInputSource,\n  ReplayInputSource,\n} from './input.js'\n\nfunction recordedSnapshot(\n  frameNum: number,\n  held: InputSnapshot['held'] = new Set(),\n): InputSnapshot {\n  return { held, pressed: new Set(), frameNum }\n}\n\ndescribe('keyboard contact ordering and ownership', () => {\n  it('未松开的 Up 再次 keydown 会把 Up 挪到 held 末位', () => {\n    const src = new KeyboardInputSource(window)\n    try {\n      keyDown(window, 'ArrowUp')\n      src.nextSnapshot(1)\n      keyDown(window, 'ArrowDown')\n      keyDown(window, 'ArrowUp')\n      expect([...src.nextSnapshot(2).held]).toEqual(['Down', 'Up'])\n    } finally {\n      src.detach()\n    }\n  })\n\n  it('已经按住的 Up 再次 keydown 不再写入 pressed', () => {\n    const src = new KeyboardInputSource(window)\n    try {\n      keyDown(window, 'ArrowUp')\n      src.nextSnapshot(1)\n      keyDown(window, 'ArrowDown')\n      keyDown(window, 'ArrowUp')\n      expect([...src.nextSnapshot(2).pressed]).toEqual(['Down'])\n    } finally {\n      src.detach()\n    }\n  })\n\n  it('未知键的 keydown 不改已按住的 Right', () => {\n    const src = new KeyboardInputSource(window)\n    try {\n      keyDown(window, 'ArrowRight')\n      keyDown(window, 'KeyZ')\n      const shot = src.nextSnapshot(1)\n      expect([...shot.held]).toEqual(['Right'])\n      expect([...shot.pressed]).toEqual(['Right'])\n    } finally {\n      src.detach()\n    }\n  })\n\n  it('拆掉一个键盘源后，另一个源仍接收后续按键', () => {\n    const first = new KeyboardInputSource(window)\n    const second = new KeyboardInputSource(window)\n    try {\n      keyDown(window, 'ArrowUp')\n      first.detach()\n      keyDown(window, 'ArrowDown')\n      expect([...first.nextSnapshot(1).held]).toEqual(['Up'])\n      expect([...second.nextSnapshot(1).held]).toEqual(['Up', 'Down'])\n    } finally {\n      first.detach()\n      second.detach()\n    }\n  })\n\n  it('clearPressed 不解除方向键的 fade 抑制', () => {\n    const src = new KeyboardInputSource(window)\n    try {\n      keyDown(window, 'ArrowLeft')\n      keyDown(window, 'Space')\n      src.suppressHeldForFade()\n      src.clearPressed()\n      const shot = src.nextSnapshot(1)\n      expect([...shot.held]).toEqual(['Confirm'])\n      expect(shot.pressed.size).toBe(0)\n    } finally {\n      src.detach()\n      keyUp(window, 'ArrowLeft')\n      keyUp(window, 'Space')\n    }\n  })\n\n  it('键盘快照的帧号原样使用主循环传入的帧号', () => {\n    const src = new KeyboardInputSource(window)\n    try {\n      keyDown(window, 'Enter')\n      expect(src.nextSnapshot(6).frameNum).toBe(6)\n    } finally {\n      src.detach()\n    }\n  })\n})\n\ndescribe('physical-key mapping', () => {\n  it('ControlRight 不是确认键', () => {\n    expect(codeToAbstractKey('ControlRight')).toBeNull()\n  })\n})\n\ndescribe('recorded snapshot ownership', () => {\n  it('回放耗尽时，空快照的帧号等于本次入参', () => {\n    const src = new ReplayInputSource([])\n    const shot = src.nextSnapshot(8)\n    expect(shot.frameNum).toBe(8)\n    expect(shot.held.size).toBe(0)\n    expect(shot.pressed.size).toBe(0)\n  })\n\n  it('回放游标越过末帧后，调用方再追加的快照不会被读到', () => {\n    const first = recordedSnapshot(0, new Set(['Up']))\n    const second = recordedSnapshot(1, new Set(['Down']))\n    const shots: InputSnapshot[] = [first, second]\n    const src = new ReplayInputSource(shots)\n    expect(src.nextSnapshot(99)).toBe(first)\n    const mid = src.nextSnapshot(99)\n    expect(mid.frameNum).toBe(1)\n    expect(mid).toBe(second)\n    expect(src.nextSnapshot(9).frameNum).toBe(9)\n    shots.push(recordedSnapshot(2, new Set(['Left'])))\n    const after = src.nextSnapshot(11)\n    expect(after.frameNum).toBe(11)\n    expect(after.held.size).toBe(0)\n  })\n\n  it('录制源返回的就是内层那一个快照对象', () => {\n    const shot = recordedSnapshot(4, new Set(['Menu']))\n    const rec = new RecordingInputSource({ nextSnapshot: () => shot })\n    expect(rec.nextSnapshot(4)).toBe(shot)\n  })\n\n  it('getRecording 一直是同一个数组，第二次快照追加在后面', () => {\n    const first = recordedSnapshot(1, new Set(['Menu']))\n    const second = recordedSnapshot(2, new Set(['Confirm']))\n    const queued = [first, second]\n    const rec = new RecordingInputSource({\n      nextSnapshot: () => queued.shift() ?? recordedSnapshot(0),\n    })\n    rec.nextSnapshot(1)\n    const log = rec.getRecording()\n    expect(rec.getRecording()).toBe(log)\n    expect(log[0]).toBe(first)\n    rec.nextSnapshot(2)\n    expect(log).toEqual([first, second])\n  })\n})\n",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "replacements": [],
+  "registrations": [
+    {
+      "old": {
+        "file": "packages/game/src/shell/input.test.ts",
+        "ordinal": 0
+      },
+      "originalOrdinal": 0,
+      "current": {
+        "file": "packages/game/src/shell/input.keymap.test.ts",
+        "titles": ["physical-key mapping"],
+        "template": "方向键映射"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/input.test.ts",
+        "ordinal": 1
+      },
+      "originalOrdinal": 1,
+      "current": {
+        "file": "packages/game/src/shell/input.keymap.test.ts",
+        "titles": ["physical-key mapping"],
+        "template": "WASD = sdlpal 原义(input.c:84-90),不是方向"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/input.test.ts",
+        "ordinal": 2
+      },
+      "originalOrdinal": 2,
+      "current": {
+        "file": "packages/game/src/shell/input.keymap.test.ts",
+        "titles": ["physical-key mapping"],
+        "template": "确认 / 菜单(sdlpal input.c:66-74 真值)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/input.test.ts",
+        "ordinal": 3
+      },
+      "originalOrdinal": 3,
+      "current": {
+        "file": "packages/game/src/shell/input.keymap.test.ts",
+        "titles": ["physical-key mapping"],
+        "template": "Numpad 方向键(sdlpal input.c:58-65)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/input.test.ts",
+        "ordinal": 4
+      },
+      "originalOrdinal": 4,
+      "current": {
+        "file": "packages/game/src/shell/input.keymap.test.ts",
+        "titles": ["physical-key mapping"],
+        "template": "翻页 / Home/End(sdlpal input.c:75-82)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/input.test.ts",
+        "ordinal": 5
+      },
+      "originalOrdinal": 5,
+      "current": {
+        "file": "packages/game/src/shell/input.keymap.test.ts",
+        "titles": ["physical-key mapping"],
+        "template": "战斗 / 大世界专用键(sdlpal input.c:83-90)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/input.test.ts",
+        "ordinal": 6
+      },
+      "originalOrdinal": 6,
+      "current": {
+        "file": "packages/game/src/shell/input.keymap.test.ts",
+        "titles": ["physical-key mapping"],
+        "template": "未知键 → null"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/input.test.ts",
+        "ordinal": 7
+      },
+      "originalOrdinal": 7,
+      "current": {
+        "file": "packages/game/src/shell/input.keyboard.test.ts",
+        "titles": ["keyboard edges, order and scene-fade"],
+        "template": "keydown/keyup 维护 held;snapshot 后 pressed 清空"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/input.test.ts",
+        "ordinal": 8
+      },
+      "originalOrdinal": 8,
+      "current": {
+        "file": "packages/game/src/shell/input.keyboard.test.ts",
+        "titles": ["keyboard edges, order and scene-fade"],
+        "template": "clearPressed 清掉未消费的 pressed(等价 sdlpal PAL_ClearKeyState),held 保留"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/input.test.ts",
+        "ordinal": 9
+      },
+      "originalOrdinal": 9,
+      "current": {
+        "file": "packages/game/src/shell/input.keyboard.test.ts",
+        "titles": ["keyboard edges, order and scene-fade"],
+        "template": "Up 然后 Down → held Set 末位 = Down"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/input.test.ts",
+        "ordinal": 10
+      },
+      "originalOrdinal": 10,
+      "current": {
+        "file": "packages/game/src/shell/input.keyboard.test.ts",
+        "titles": ["keyboard edges, order and scene-fade"],
+        "template": "Up,keyup Up,再按 Up → 末位还是 Up(delete-then-add 刷新顺序)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/input.test.ts",
+        "ordinal": 11
+      },
+      "originalOrdinal": 11,
+      "current": {
+        "file": "packages/game/src/shell/input.keyboard.test.ts",
+        "titles": ["keyboard edges, order and scene-fade"],
+        "template": "e.repeat=true 不刷新 held order(sdlpal input.c:213)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/input.test.ts",
+        "ordinal": 12
+      },
+      "originalOrdinal": 12,
+      "current": {
+        "file": "packages/game/src/shell/input.keyboard.test.ts",
+        "titles": ["keyboard edges, order and scene-fade"],
+        "template": "repeat 也不污染 pressed(只在初次按下时 add pressed)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/input.test.ts",
+        "ordinal": 17
+      },
+      "originalOrdinal": 13,
+      "current": {
+        "file": "packages/game/src/shell/input.record-replay.test.ts",
+        "titles": ["recorded snapshot ownership"],
+        "template": "按帧顺序回放"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/input.test.ts",
+        "ordinal": 18
+      },
+      "originalOrdinal": 15,
+      "current": {
+        "file": "packages/game/src/shell/input.record-replay.test.ts",
+        "titles": ["recorded snapshot ownership"],
+        "template": "装饰任意 source,把每帧 snapshot 留档"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/input.test.ts",
+        "ordinal": 13
+      },
+      "originalOrdinal": 16,
+      "current": {
+        "file": "packages/game/src/shell/input.keyboard.test.ts",
+        "titles": ["keyboard edges, order and scene-fade"],
+        "template": "suppressHeldForFade 后按住的方向键不进 held,keyup 重按恢复;pressed 被清"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/input.test.ts",
+        "ordinal": 14
+      },
+      "originalOrdinal": 17,
+      "current": {
+        "file": "packages/game/src/shell/input.keyboard.test.ts",
+        "titles": ["keyboard edges, order and scene-fade"],
+        "template": "松开后按的方向时，恢复仍按住的另一个方向，不制造 pressed"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/input.test.ts",
+        "ordinal": 15
+      },
+      "originalOrdinal": 18,
+      "current": {
+        "file": "packages/game/src/shell/input.keyboard.test.ts",
+        "titles": ["keyboard edges, order and scene-fade"],
+        "template": "非重复方向按下恢复原有方向，保留后按优先和真实新按下边沿"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/input.test.ts",
+        "ordinal": 16
+      },
+      "originalOrdinal": 19,
+      "current": {
+        "file": "packages/game/src/shell/input.keyboard.test.ts",
+        "titles": ["keyboard edges, order and scene-fade"],
+        "template": "repeat、非方向和未知事件不解除抑制；未按住方向的 keyup 仍重算"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/input.boundaries.test.ts",
+        "ordinal": 0
+      },
+      "originalOrdinal": 0,
+      "current": {
+        "file": "packages/game/src/shell/input.keyboard.test.ts",
+        "titles": ["keyboard snapshot and listener boundaries"],
+        "template": "真实 Window 事件驱动；两个 snapshot Set 防别名（改返回集合不动内部）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/input.boundaries.test.ts",
+        "ordinal": 1
+      },
+      "originalOrdinal": 1,
+      "current": {
+        "file": "packages/game/src/shell/input.keyboard.test.ts",
+        "titles": ["keyboard snapshot and listener boundaries"],
+        "template": "未知 keyup 不清合法 held；fade 抑制只针对方向键且物理松开解除"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/input.boundaries.test.ts",
+        "ordinal": 2
+      },
+      "originalOrdinal": 2,
+      "current": {
+        "file": "packages/game/src/shell/input.keyboard.test.ts",
+        "titles": ["keyboard snapshot and listener boundaries"],
+        "template": "detach 后真实事件不再进入"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/input-replay.grok-r1.test.ts",
+        "ordinal": 0
+      },
+      "originalOrdinal": 0,
+      "current": {
+        "file": "packages/game/src/shell/input.keyboard.test.ts",
+        "titles": ["keyboard contact ordering and ownership"],
+        "template": "未松开的 Up 再次 keydown 会把 Up 挪到 held 末位"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/input-replay.grok-r1.test.ts",
+        "ordinal": 1
+      },
+      "originalOrdinal": 1,
+      "current": {
+        "file": "packages/game/src/shell/input.keyboard.test.ts",
+        "titles": ["keyboard contact ordering and ownership"],
+        "template": "已经按住的 Up 再次 keydown 不再写入 pressed"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/input-replay.grok-r1.test.ts",
+        "ordinal": 2
+      },
+      "originalOrdinal": 2,
+      "current": {
+        "file": "packages/game/src/shell/input.keyboard.test.ts",
+        "titles": ["keyboard contact ordering and ownership"],
+        "template": "未知键的 keydown 不改已按住的 Right"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/input-replay.grok-r1.test.ts",
+        "ordinal": 6
+      },
+      "originalOrdinal": 3,
+      "current": {
+        "file": "packages/game/src/shell/input.keymap.test.ts",
+        "titles": ["physical-key mapping"],
+        "template": "ControlRight 不是确认键"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/input-replay.grok-r1.test.ts",
+        "ordinal": 3
+      },
+      "originalOrdinal": 4,
+      "current": {
+        "file": "packages/game/src/shell/input.keyboard.test.ts",
+        "titles": ["keyboard contact ordering and ownership"],
+        "template": "拆掉一个键盘源后，另一个源仍接收后续按键"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/input-replay.grok-r1.test.ts",
+        "ordinal": 4
+      },
+      "originalOrdinal": 5,
+      "current": {
+        "file": "packages/game/src/shell/input.keyboard.test.ts",
+        "titles": ["keyboard contact ordering and ownership"],
+        "template": "clearPressed 不解除方向键的 fade 抑制"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/input-replay.grok-r1.test.ts",
+        "ordinal": 7
+      },
+      "originalOrdinal": 6,
+      "current": {
+        "file": "packages/game/src/shell/input.record-replay.test.ts",
+        "titles": ["recorded snapshot ownership"],
+        "template": "回放耗尽时，空快照的帧号等于本次入参"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/input-replay.grok-r1.test.ts",
+        "ordinal": 8
+      },
+      "originalOrdinal": 7,
+      "current": {
+        "file": "packages/game/src/shell/input.record-replay.test.ts",
+        "titles": ["recorded snapshot ownership"],
+        "template": "回放游标越过末帧后，调用方再追加的快照不会被读到"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/input-replay.grok-r1.test.ts",
+        "ordinal": 9
+      },
+      "originalOrdinal": 8,
+      "current": {
+        "file": "packages/game/src/shell/input.record-replay.test.ts",
+        "titles": ["recorded snapshot ownership"],
+        "template": "录制源返回的就是内层那一个快照对象"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/input-replay.grok-r1.test.ts",
+        "ordinal": 10
+      },
+      "originalOrdinal": 9,
+      "current": {
+        "file": "packages/game/src/shell/input.record-replay.test.ts",
+        "titles": ["recorded snapshot ownership"],
+        "template": "getRecording 一直是同一个数组，第二次快照追加在后面"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/input-replay.grok-r1.test.ts",
+        "ordinal": 5
+      },
+      "originalOrdinal": 10,
+      "current": {
+        "file": "packages/game/src/shell/input.keyboard.test.ts",
+        "titles": ["keyboard contact ordering and ownership"],
+        "template": "键盘快照的帧号原样使用主循环传入的帧号"
+      }
+    }
+  ],
+  "identities": [
+    {
+      "old": {
+        "file": "packages/game/src/shell/input.test.ts",
+        "fullName": "codeToAbstractKey 方向键映射"
+      },
+      "current": {
+        "file": "packages/game/src/shell/input.keymap.test.ts",
+        "fullName": "physical-key mapping 方向键映射"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/input.test.ts",
+        "fullName": "codeToAbstractKey WASD = sdlpal 原义(input.c:84-90),不是方向"
+      },
+      "current": {
+        "file": "packages/game/src/shell/input.keymap.test.ts",
+        "fullName": "physical-key mapping WASD = sdlpal 原义(input.c:84-90),不是方向"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/input.test.ts",
+        "fullName": "codeToAbstractKey 确认 / 菜单(sdlpal input.c:66-74 真值)"
+      },
+      "current": {
+        "file": "packages/game/src/shell/input.keymap.test.ts",
+        "fullName": "physical-key mapping 确认 / 菜单(sdlpal input.c:66-74 真值)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/input.test.ts",
+        "fullName": "codeToAbstractKey Numpad 方向键(sdlpal input.c:58-65)"
+      },
+      "current": {
+        "file": "packages/game/src/shell/input.keymap.test.ts",
+        "fullName": "physical-key mapping Numpad 方向键(sdlpal input.c:58-65)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/input.test.ts",
+        "fullName": "codeToAbstractKey 翻页 / Home/End(sdlpal input.c:75-82)"
+      },
+      "current": {
+        "file": "packages/game/src/shell/input.keymap.test.ts",
+        "fullName": "physical-key mapping 翻页 / Home/End(sdlpal input.c:75-82)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/input.test.ts",
+        "fullName": "codeToAbstractKey 战斗 / 大世界专用键(sdlpal input.c:83-90)"
+      },
+      "current": {
+        "file": "packages/game/src/shell/input.keymap.test.ts",
+        "fullName": "physical-key mapping 战斗 / 大世界专用键(sdlpal input.c:83-90)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/input.test.ts",
+        "fullName": "codeToAbstractKey 未知键 → null"
+      },
+      "current": {
+        "file": "packages/game/src/shell/input.keymap.test.ts",
+        "fullName": "physical-key mapping 未知键 → null"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/input.test.ts",
+        "fullName": "KeyboardInputSource keydown/keyup 维护 held;snapshot 后 pressed 清空"
+      },
+      "current": {
+        "file": "packages/game/src/shell/input.keyboard.test.ts",
+        "fullName": "keyboard edges, order and scene-fade keydown/keyup 维护 held;snapshot 后 pressed 清空"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/input.test.ts",
+        "fullName": "KeyboardInputSource clearPressed 清掉未消费的 pressed(等价 sdlpal PAL_ClearKeyState),held 保留"
+      },
+      "current": {
+        "file": "packages/game/src/shell/input.keyboard.test.ts",
+        "fullName": "keyboard edges, order and scene-fade clearPressed 清掉未消费的 pressed(等价 sdlpal PAL_ClearKeyState),held 保留"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/input.test.ts",
+        "fullName": "KeyboardInputSource last-press priority (sdlpal input.c:180-189) Up 然后 Down → held Set 末位 = Down"
+      },
+      "current": {
+        "file": "packages/game/src/shell/input.keyboard.test.ts",
+        "fullName": "keyboard edges, order and scene-fade Up 然后 Down → held Set 末位 = Down"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/input.test.ts",
+        "fullName": "KeyboardInputSource last-press priority (sdlpal input.c:180-189) Up,keyup Up,再按 Up → 末位还是 Up(delete-then-add 刷新顺序)"
+      },
+      "current": {
+        "file": "packages/game/src/shell/input.keyboard.test.ts",
+        "fullName": "keyboard edges, order and scene-fade Up,keyup Up,再按 Up → 末位还是 Up(delete-then-add 刷新顺序)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/input.test.ts",
+        "fullName": "KeyboardInputSource last-press priority (sdlpal input.c:180-189) e.repeat=true 不刷新 held order(sdlpal input.c:213)"
+      },
+      "current": {
+        "file": "packages/game/src/shell/input.keyboard.test.ts",
+        "fullName": "keyboard edges, order and scene-fade e.repeat=true 不刷新 held order(sdlpal input.c:213)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/input.test.ts",
+        "fullName": "KeyboardInputSource last-press priority (sdlpal input.c:180-189) repeat 也不污染 pressed(只在初次按下时 add pressed)"
+      },
+      "current": {
+        "file": "packages/game/src/shell/input.keyboard.test.ts",
+        "fullName": "keyboard edges, order and scene-fade repeat 也不污染 pressed(只在初次按下时 add pressed)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/input.test.ts",
+        "fullName": "ReplayInputSource 按帧顺序回放"
+      },
+      "current": {
+        "file": "packages/game/src/shell/input.record-replay.test.ts",
+        "fullName": "recorded snapshot ownership 按帧顺序回放"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/input.test.ts",
+        "fullName": "RecordingInputSource 装饰任意 source,把每帧 snapshot 留档"
+      },
+      "current": {
+        "file": "packages/game/src/shell/input.record-replay.test.ts",
+        "fullName": "recorded snapshot ownership 装饰任意 source,把每帧 snapshot 留档"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/input.test.ts",
+        "fullName": "DM30:fade 抑制按住的方向键(palette.c:313-316) suppressHeldForFade 后按住的方向键不进 held,keyup 重按恢复;pressed 被清"
+      },
+      "current": {
+        "file": "packages/game/src/shell/input.keyboard.test.ts",
+        "fullName": "keyboard edges, order and scene-fade suppressHeldForFade 后按住的方向键不进 held,keyup 重按恢复;pressed 被清"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/input.test.ts",
+        "fullName": "scene-fade 后由方向事件恢复当前方向 松开后按的方向时，恢复仍按住的另一个方向，不制造 pressed"
+      },
+      "current": {
+        "file": "packages/game/src/shell/input.keyboard.test.ts",
+        "fullName": "keyboard edges, order and scene-fade 松开后按的方向时，恢复仍按住的另一个方向，不制造 pressed"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/input.test.ts",
+        "fullName": "scene-fade 后由方向事件恢复当前方向 非重复方向按下恢复原有方向，保留后按优先和真实新按下边沿"
+      },
+      "current": {
+        "file": "packages/game/src/shell/input.keyboard.test.ts",
+        "fullName": "keyboard edges, order and scene-fade 非重复方向按下恢复原有方向，保留后按优先和真实新按下边沿"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/input.test.ts",
+        "fullName": "scene-fade 后由方向事件恢复当前方向 repeat、非方向和未知事件不解除抑制；未按住方向的 keyup 仍重算"
+      },
+      "current": {
+        "file": "packages/game/src/shell/input.keyboard.test.ts",
+        "fullName": "keyboard edges, order and scene-fade repeat、非方向和未知事件不解除抑制；未按住方向的 keyup 仍重算"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/input.boundaries.test.ts",
+        "fullName": "H02 KeyboardInputSource 宿主边界 真实 Window 事件驱动；两个 snapshot Set 防别名（改返回集合不动内部）"
+      },
+      "current": {
+        "file": "packages/game/src/shell/input.keyboard.test.ts",
+        "fullName": "keyboard snapshot and listener boundaries 真实 Window 事件驱动；两个 snapshot Set 防别名（改返回集合不动内部）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/input.boundaries.test.ts",
+        "fullName": "H02 KeyboardInputSource 宿主边界 未知 keyup 不清合法 held；fade 抑制只针对方向键且物理松开解除"
+      },
+      "current": {
+        "file": "packages/game/src/shell/input.keyboard.test.ts",
+        "fullName": "keyboard snapshot and listener boundaries 未知 keyup 不清合法 held；fade 抑制只针对方向键且物理松开解除"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/input.boundaries.test.ts",
+        "fullName": "H02 KeyboardInputSource 宿主边界 detach 后真实事件不再进入"
+      },
+      "current": {
+        "file": "packages/game/src/shell/input.keyboard.test.ts",
+        "fullName": "keyboard snapshot and listener boundaries detach 后真实事件不再进入"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/input-replay.grok-r1.test.ts",
+        "fullName": "G09-A 输入回放与按键归属 G09-A01 未松开的 Up 再次 keydown 会把 Up 挪到 held 末位"
+      },
+      "current": {
+        "file": "packages/game/src/shell/input.keyboard.test.ts",
+        "fullName": "keyboard contact ordering and ownership 未松开的 Up 再次 keydown 会把 Up 挪到 held 末位"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/input-replay.grok-r1.test.ts",
+        "fullName": "G09-A 输入回放与按键归属 G09-A02 已经按住的 Up 再次 keydown 不再写入 pressed"
+      },
+      "current": {
+        "file": "packages/game/src/shell/input.keyboard.test.ts",
+        "fullName": "keyboard contact ordering and ownership 已经按住的 Up 再次 keydown 不再写入 pressed"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/input-replay.grok-r1.test.ts",
+        "fullName": "G09-A 输入回放与按键归属 G09-A03 未知键的 keydown 不改已按住的 Right"
+      },
+      "current": {
+        "file": "packages/game/src/shell/input.keyboard.test.ts",
+        "fullName": "keyboard contact ordering and ownership 未知键的 keydown 不改已按住的 Right"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/input-replay.grok-r1.test.ts",
+        "fullName": "G09-A 输入回放与按键归属 G09-A04 ControlRight 不是确认键"
+      },
+      "current": {
+        "file": "packages/game/src/shell/input.keymap.test.ts",
+        "fullName": "physical-key mapping ControlRight 不是确认键"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/input-replay.grok-r1.test.ts",
+        "fullName": "G09-A 输入回放与按键归属 G09-A05 拆掉一个键盘源后，另一个源仍接收后续按键"
+      },
+      "current": {
+        "file": "packages/game/src/shell/input.keyboard.test.ts",
+        "fullName": "keyboard contact ordering and ownership 拆掉一个键盘源后，另一个源仍接收后续按键"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/input-replay.grok-r1.test.ts",
+        "fullName": "G09-A 输入回放与按键归属 G09-A06 clearPressed 不解除方向键的 fade 抑制"
+      },
+      "current": {
+        "file": "packages/game/src/shell/input.keyboard.test.ts",
+        "fullName": "keyboard contact ordering and ownership clearPressed 不解除方向键的 fade 抑制"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/input-replay.grok-r1.test.ts",
+        "fullName": "G09-A 输入回放与按键归属 G09-A07 回放耗尽时，空快照的帧号等于本次入参"
+      },
+      "current": {
+        "file": "packages/game/src/shell/input.record-replay.test.ts",
+        "fullName": "recorded snapshot ownership 回放耗尽时，空快照的帧号等于本次入参"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/input-replay.grok-r1.test.ts",
+        "fullName": "G09-A 输入回放与按键归属 G09-A08 回放游标越过末帧后，调用方再追加的快照不会被读到"
+      },
+      "current": {
+        "file": "packages/game/src/shell/input.record-replay.test.ts",
+        "fullName": "recorded snapshot ownership 回放游标越过末帧后，调用方再追加的快照不会被读到"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/input-replay.grok-r1.test.ts",
+        "fullName": "G09-A 输入回放与按键归属 G09-A09 录制源返回的就是内层那一个快照对象"
+      },
+      "current": {
+        "file": "packages/game/src/shell/input.record-replay.test.ts",
+        "fullName": "recorded snapshot ownership 录制源返回的就是内层那一个快照对象"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/input-replay.grok-r1.test.ts",
+        "fullName": "G09-A 输入回放与按键归属 G09-A10 getRecording 一直是同一个数组，第二次快照追加在后面"
+      },
+      "current": {
+        "file": "packages/game/src/shell/input.record-replay.test.ts",
+        "fullName": "recorded snapshot ownership getRecording 一直是同一个数组，第二次快照追加在后面"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/input-replay.grok-r1.test.ts",
+        "fullName": "G09-A 输入回放与按键归属 G09-A11 键盘快照的帧号原样使用主循环传入的帧号"
+      },
+      "current": {
+        "file": "packages/game/src/shell/input.keyboard.test.ts",
+        "fullName": "keyboard contact ordering and ownership 键盘快照的帧号原样使用主循环传入的帧号"
+      }
+    }
+  ],
+  "cohortSubjects": [
+    {
+      "path": "packages/game/src/shell/input-replay.grok-r1.test.ts",
+      "sha256": "73e9a60b24aeeaff85822c0b6608ed0137b4dab7a91345c5c27595bbd50c2c00",
+      "priorCurrentBridges": []
+    }
+  ],
+  "preserved": [
+    {
+      "path": "packages/game/src/shell/input.ts",
+      "sha256": "55a394a61514d6a6c4b4bae97f0fb30a257f741a4dc9dbc55a8de3eb0678640f"
+    },
+    {
+      "path": "packages/game/src/shell/audio-midi.ts",
+      "sha256": "505aacc33f806af3fcbf522b4342a891bbf3ea591d9e1eef52000ca89199baf4"
+    },
+    {
+      "path": "packages/game/src/shell/main-loop.ts",
+      "sha256": "2aa4ec075feb2ff8e218eb66cc32b376f3edb62a8b3073c0441596029e5bd07c"
+    },
+    {
+      "path": "packages/game/src/core/mode.ts",
+      "sha256": "2b47e4dd3e9e553369a3699fd1276166a73b743a239bfc9cbbc5a977a44df457"
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-mode.ts",
+      "sha256": "c4483791dac050510868af7c42edf485ebd5d37d954cbb0ee76c0fd0ac42cd90"
+    },
+    {
+      "path": "packages/shared/src/input.ts",
+      "sha256": "f986d4ca00d2661f76e10ae4974e40c2421734773094bcccdc4f104b9f8109c3"
+    },
+    {
+      "path": "packages/game/src/shell/input.keymap-ownership.test.ts",
+      "sha256": "e0ff559bf1873b2edaa36ce8d0ea235ce6343707fde9979f7f76d8f1ee0f789e"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PENDING-100-3/input-keymap-own-key.json",
+      "sha256": "be7a5d8792fa161f686d44c198a3b060031b121e0fa8c20ab499dc3258107c49"
+    }
+  ],
+  "neighborPaths": [
+    "packages/game/src/shell/audio-midi.fallback.test.ts",
+    "packages/game/src/shell/audio-midi.test.ts",
+    "packages/game/src/shell/audio.test.ts",
+    "packages/game/src/shell/game-shell.test.ts",
+    "packages/game/src/shell/gamepad-input.test.ts",
+    "packages/game/src/shell/input-rotation.test.ts",
+    "packages/game/src/shell/input.keyboard.test.ts",
+    "packages/game/src/shell/input.keymap-ownership.test.ts",
+    "packages/game/src/shell/input.keymap.test.ts",
+    "packages/game/src/shell/input.record-replay.test.ts",
+    "packages/game/src/shell/main-loop.menu-input.test.ts",
+    "packages/game/src/shell/main-loop.test.ts",
+    "packages/game/src/shell/modal-input.test.ts",
+    "packages/game/src/shell/touch-controls.test.ts"
+  ],
+  "profiles": [
+    {
+      "path": "packages/game/src/shell/input.keymap.test.ts",
+      "subjects": [
+        "packages/game/src/shell/input.test.ts",
+        "packages/game/src/shell/input.boundaries.test.ts",
+        "packages/game/src/shell/input-replay.grok-r1.test.ts"
+      ],
+      "axes": {
+        "A": "34已定义键结果与修前保持，8原case核支持/拒绝键；获批的继承属性修复另卡两正式红绿，不冒称普通键盘已遇到。",
+        "B": "原SDL/KeyM dev取舍说明保留；文件不按作者或审查批次分组。",
+        "C": "只做物理code映射，离开事件监听/录放/世界推进层。",
+        "D": "ControlRight负例补充已支持ControlLeft，非通用KeyZ重复；不合并其它不同caller。",
+        "E": "8callback常量oracle保持；未知键修复有真实API/事件两条AssertionError先红后绿。",
+        "F": "keymap路径/physical-key mapping揭示查表职责。",
+        "G": "不携带无用KeyboardInputSource/录放导入，无case增补或退休归到本文件。",
+        "H": "纯公开函数，无时间/DOM/核心mock；34个修前修后相等只证保留，不当SDL正确性oracle。"
+      }
+    },
+    {
+      "path": "packages/game/src/shell/input.keyboard.test.ts",
+      "subjects": [
+        "packages/game/src/shell/input.test.ts",
+        "packages/game/src/shell/input.boundaries.test.ts",
+        "packages/game/src/shell/input-replay.grok-r1.test.ts"
+      ],
+      "axes": {
+        "A": "19原case核事件边沿、last press、repeat、fade恢复、snapshot隔离和listener detach；真实Window事件而非模拟键盘算法。",
+        "B": "保留方向抑制与事件时序原因；Set别名探针明确运行于实际Set返回，不强转ReadonlySet为Set<string>。",
+        "C": "source实例由每例持有/释放；finally及两个source各自detach保持，无Core状态越层修改。",
+        "D": "相同native-event准备共用target显式的keyDown/keyUp；录放Set对象归属另文件，不因同InputSource强并。",
+        "E": "19callback原预期/清理保持；原强转换instanceof检查再实际改返回Set，没改成复制后自比。",
+        "F": "三个分组说明事件/边界/contact顺序；移除G09/H02审查分组标签。",
+        "G": "退出重复down/up/fire构造，保留不同事件顺序/pressed与held的独立失败方式，不删未知候选。",
+        "H": "可控Native KeyboardEvent、同步snapshot和finally；无timer/网络/核心stub，未授硬件/触屏现场信用。"
+      }
+    },
+    {
+      "path": "packages/game/src/shell/input.record-replay.test.ts",
+      "subjects": [
+        "packages/game/src/shell/input.test.ts",
+        "packages/game/src/shell/input.boundaries.test.ts",
+        "packages/game/src/shell/input-replay.grok-r1.test.ts"
+      ],
+      "axes": {
+        "A": "6现用case核顺序、EOF帧号、数组游标和对象引用；追加已越过索引不会回读，不声称Replay复制或冻结调用方数组。",
+        "B": "标题/组名按recorded snapshot ownership；说明调用方帧号与记录帧号区别，非原生键盘重复实验。",
+        "C": "录放对象/数组归属与物理listener分开；无Window或时间生命周期。",
+        "D": "原空回放2断言已被现用含frame8的3断言覆盖，登记一条退休；真实Replay→Recording组合与任意InputSource引用合同仍各有用例。",
+        "E": "每条退休断言按真实raw callback指纹和变量别名逐条比对；缺值/缺断言/条件隐藏/无注册承接均由工具拒绝。其它6callback保全。",
+        "F": "recordedSnapshot只构造数据，record-replay名称表达共同流与引用合同。",
+        "G": "两个同名无hook describe合为一个，不增万能source/compat helper；真正退一条重复，不为双射工具保留弱例。",
+        "H": "真实Replay/Recording类与独立字面量/reference oracle，无mock执行游标，不clone自身输出求期望。"
+      }
+    },
+    {
+      "path": "packages/game/src/shell/__tests__/keyboard-events.ts",
+      "subjects": [
+        "packages/game/src/shell/input.test.ts",
+        "packages/game/src/shell/input.boundaries.test.ts",
+        "packages/game/src/shell/input-replay.grok-r1.test.ts"
+      ],
+      "axes": {
+        "A": "完整原fire/fireUp声明迁移；参数target/code/repeat与native KeyboardEvent构造/dispatch顺序保持。",
+        "B": "头注说明仅发事件，listener由测试source Owner负责detach。",
+        "C": "无listener/clock/状态Owner，显式target避免全局绑定藏在helper内。",
+        "D": "main fade与Grok相同down/up已全文比较；固定window调用桥传相同target，未共享生产输入判断。",
+        "E": "2个原helper完整声明核验，19真实keyboard例覆盖实际caller；没有把fixture本身当业务oracle。",
+        "F": "keyDown/keyUp按发出的原生事件命名。",
+        "G": "两个重复事件工厂退出；不新造模式布尔或万能InputSource。",
+        "H": "纯host端口构造和dispatch，caller可观察真实事件，不引生产私有seam。"
+      }
+    }
+  ],
+  "cleanExecutions": [
+    "before",
+    "neighbors",
+    "typecheck",
+    "scoped",
+    "proof",
+    "retirement-tool-tests",
+    "typecheck-current",
+    "retirement-tool-tests-current",
+    "module-preflight-current",
+    "scoped-current",
+    "import-bridge",
+    "docs",
+    "content-review",
+    "lint",
+    "testing-docs",
+    "diff"
+  ],
+  "reusedReviewMember": "organization-shell-input-audio/reused-reviews.json",
+  "retirements": [
+    {
+      "old": {
+        "file": "packages/game/src/shell/input.test.ts",
+        "ordinal": 14,
+        "fullName": "ReplayInputSource 超出序列 → 空快照",
+        "callbackSha256": "3ff8064690e649af0d77752557669e255e4dd4ae64b890edd62422348a36ce5a",
+        "assertionStatements": 2
+      },
+      "current": {
+        "file": "packages/game/src/shell/input.record-replay.test.ts",
+        "titles": ["recorded snapshot ownership"],
+        "template": "回放耗尽时，空快照的帧号等于本次入参",
+        "fullName": "recorded snapshot ownership 回放耗尽时，空快照的帧号等于本次入参"
+      },
+      "identifierRenames": {
+        "s": "shot"
+      },
+      "reason": "Two empty held/pressed assertions are exactly present in the retained empty-source case, which also asserts caller frame8.",
+      "inputEquivalence": "Both construct ReplayInputSource([]) and perform its first nextSnapshot. The current method only uses frameNum in the returned frame field; it does not affect empty held/pressed sets.0 and8 are legal frame numbers; actual producer/source read."
+    }
+  ],
+  "helperTransplants": [
+    {
+      "oldPath": "packages/game/src/shell/input.boundaries.test.ts",
+      "oldName": "fire",
+      "currentPath": "packages/game/src/shell/__tests__/keyboard-events.ts",
+      "currentName": "keyDown",
+      "changes": [
+        {
+          "from": "function fire",
+          "to": "export function keyDown",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "oldPath": "packages/game/src/shell/input.boundaries.test.ts",
+      "oldName": "fireUp",
+      "currentPath": "packages/game/src/shell/__tests__/keyboard-events.ts",
+      "currentName": "keyUp",
+      "changes": [
+        {
+          "from": "function fireUp",
+          "to": "export function keyUp",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "processDisclosures": [
+    "Three historical cohort subjects; actual original6specs49cases, retained48 and one explicitly subsumed duplicate.2new inherited-key cases are separate approved behavior repair, no added cohort credit.",
+    "Current input source has exactly one approved own-property return guard,34 supported keys unchanged; two formal business failures precede fix. Source/user/card evidence separate from test-only organization.",
+    "Audio prior closeout claimed scoped stubs but exact17-line source had none; corrected now, not inherited as valid C/H evidence. New no-IO control proves actual old-pass/new-fail, no MIDI product patch retained.",
+    "Historical rotation report/catalog command/dedupe lists and retired-baseline approvals are fixed original revisions and remain byte-unchanged; current route is this mapping, not a rewritten historical execution. Historical nine-intake witnesses target their original worktrees and are not current consumers.",
+    "Current host-mutants producer input route selects the original3 boundary titles within19keyboard cases; no broadened counter count. Its pre-existing stale source needle/config remain explicitly pending, not run or granted current counter credit. Header and executed-vs-filtered count disclosure corrected.",
+    "Final read moved two test-only providers into shell/__tests__, preventing them being mistaken for production sources/coverage targets. Three consumer changes are exact import-path edits and helper bytes unchanged;110 receipt is the prior import location, current resolution rechecked by TC and explicit bridge, no fabricated fresh run.",
+    "Initial module preflight correctly rejected the product class as unsupported by the test-declaration parser. Removed product from test-only input/output lists; its approved source change is separately bound in input-keymap-own-key.json and callback-proof, while all three modules retain the actual current dependency SHA. No parser relaxation.",
+    "Risk receipt JSON was formatted after its first dependency binding; original JSON serialization recovered with exact old SHA and retained, parsed object unchanged. Updated only this known format fingerprint, not execution facts."
+  ],
+  "fixtureAndCallbackProof": "organization-shell-input-audio/callback-proof.json",
+  "reads": {
+    "fullInputs": [
+      {
+        "path": "packages/game/src/shell/input.test.ts",
+        "sha256": "6b2629e4f965c32476a799255fea0c54c8303c87a9728a7a599c38cdcbbd4c4d",
+        "member": "organization-shell-input-audio/0.before",
+        "fullReadLines": 293
+      },
+      {
+        "path": "packages/game/src/shell/input.boundaries.test.ts",
+        "sha256": "44fba405429a739324bfb096959d04e081244b4631fb16b86067085093624e2f",
+        "member": "organization-shell-input-audio/1.before",
+        "fullReadLines": 72
+      },
+      {
+        "path": "packages/game/src/shell/input-replay.grok-r1.test.ts",
+        "sha256": "73e9a60b24aeeaff85822c0b6608ed0137b4dab7a91345c5c27595bbd50c2c00",
+        "member": "organization-shell-input-audio/2.before",
+        "fullReadLines": 156
+      },
+      {
+        "path": "packages/game/src/shell/audio.glm-phase1-leaves.test.ts",
+        "sha256": "8745b7ef54dd4ed3593d043c87c4a5e6e7694fbde4ac80030fb271f98cb1f6f8",
+        "member": "organization-shell-input-audio/3.before",
+        "fullReadLines": 17
+      },
+      {
+        "path": "packages/game/src/shell/menu-input-lock.glm-msio.test.ts",
+        "sha256": "55696288cee8d118117109d254fe776e4351e3039e829bef85aa5598b0d895b4",
+        "member": "organization-shell-input-audio/4.before",
+        "fullReadLines": 86
+      },
+      {
+        "path": "packages/game/src/shell/main-loop.test.ts",
+        "sha256": "1c9c7fe5c4e1cf6e2a96bb43ce2efa8acabd7a72893e772e2d502f212b277b99",
+        "member": "organization-shell-input-audio/5.before",
+        "fullReadLines": 221
+      }
+    ],
+    "fullOutputs": [
+      {
+        "path": "packages/game/src/shell/input.keymap.test.ts",
+        "sha256": "3c485d94c03339146d5ae3cf9ae40520b343ccd57bbb7b7a24ba70f8f98ddb3a",
+        "lines": 69
+      },
+      {
+        "path": "packages/game/src/shell/input.keyboard.test.ts",
+        "sha256": "89fdb12a124511319a4497eaa69f3e427a8dbec6eacf042ae933836a9940cf9e",
+        "lines": 322
+      },
+      {
+        "path": "packages/game/src/shell/input.record-replay.test.ts",
+        "sha256": "dc648349cb04bbf02c53a8bf1a80fcf56e4c723655982193526a696285a3b5f9",
+        "lines": 76
+      },
+      {
+        "path": "packages/game/src/shell/__tests__/keyboard-events.ts",
+        "sha256": "114a40f161efc139dfa68e01626cea6757e82957c9ec218637ab23f4187cb12c",
+        "lines": 14,
+        "previousPath": "packages/game/src/shell/keyboard-events.ts",
+        "scope": "Full original source read; current test-only path has identical bytes, no new review credit"
+      }
+    ],
+    "fullImplementation": [
+      {
+        "path": "packages/game/src/shell/input.ts",
+        "sha256": "55a394a61514d6a6c4b4bae97f0fb30a257f741a4dc9dbc55a8de3eb0678640f"
+      },
+      {
+        "path": "packages/game/src/shell/audio-midi.ts",
+        "sha256": "505aacc33f806af3fcbf522b4342a891bbf3ea591d9e1eef52000ca89199baf4"
+      },
+      {
+        "path": "packages/game/src/shell/main-loop.ts",
+        "sha256": "2aa4ec075feb2ff8e218eb66cc32b376f3edb62a8b3073c0441596029e5bd07c"
+      },
+      {
+        "path": "packages/game/src/core/mode.ts",
+        "sha256": "2b47e4dd3e9e553369a3699fd1276166a73b743a239bfc9cbbc5a977a44df457"
+      },
+      {
+        "path": "packages/game/src/core/menu/menu-mode.ts",
+        "sha256": "c4483791dac050510868af7c42edf485ebd5d37d954cbb0ee76c0fd0ac42cd90"
+      },
+      {
+        "path": "packages/shared/src/input.ts",
+        "sha256": "f986d4ca00d2661f76e10ae4974e40c2421734773094bcccdc4f104b9f8109c3"
+      }
+    ],
+    "callerTargeted": [
+      {
+        "path": "packages/game/src/shell/bootstrap.ts",
+        "start": 460,
+        "end": 511,
+        "scope": "Actual KeyboardInputSource and MIDI SourceController setup"
+      },
+      {
+        "path": "packages/game/src/shell/game-shell.ts",
+        "scope": "Full current shell/contact lifecycle read; no new closure credit"
+      }
+    ]
+  },
+  "executionVersionBridge": [
+    {
+      "path": "packages/game/src/shell/input.keyboard.test.ts",
+      "beforeMember": "organization-shell-input-audio/input.keyboard.test.ts.at-run.ts",
+      "beforeSha256": "89fdb12a124511319a4497eaa69f3e427a8dbec6eacf042ae933836a9940cf9e",
+      "afterSha256": "fdcc27629aa01a9e027e590ac63242984344b1ec30a45183f3212151a799987a",
+      "scope": "Import path only; helper implementation moved byte-exact into explicit test-only directory"
+    },
+    {
+      "path": "packages/game/src/shell/main-loop.test.ts",
+      "beforeMember": "organization-shell-input-audio/main-loop.test.ts.at-run.ts",
+      "beforeSha256": "cac42566d16be0cfe9e5b9f394bf2a20a5436ff628f585d274358d86ee1c3bb4",
+      "afterSha256": "e0318e6ca4ef86834cfcc5dee8f544d5f9c64865148ae1affc2f5082407d7366",
+      "scope": "Import path only; helper implementation moved byte-exact into explicit test-only directory"
+    },
+    {
+      "path": "packages/game/src/shell/main-loop.menu-input.test.ts",
+      "beforeMember": "organization-shell-input-audio/main-loop.menu-input.test.ts.at-run.ts",
+      "beforeSha256": "e9072227633a40c4724911897af2ebe63c5a476523dae85fe3da1d5c503d0299",
+      "afterSha256": "e56dba5c6c2b0481bc607639d3c1ec289d8bb3c866eca2a543267a70a8437bbd",
+      "scope": "Import path only; helper implementation moved byte-exact into explicit test-only directory"
+    }
+  ],
+  "receipts": {
+    "typecheck": "organization-shell-input-audio/typecheck-current"
+  },
+  "lightweightGates": true
+}

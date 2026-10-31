@@ -1,0 +1,1799 @@
+{
+  "id": "event-player-transitions-and-map-layer-lifetimes",
+  "namespace": "organization-event-transitions",
+  "inputs": [
+    {
+      "path": "packages/game/src/core/event-opcode-player.glm-next-wave.test.ts",
+      "member": "organization-event-transitions/0.before",
+      "sha256": "aae6743db5317e0e395f0a3cc0b42d8183e95455f0e8b4477a46014ecf926421",
+      "lines": 147
+    },
+    {
+      "path": "packages/game/src/core/event-opcode-player.glm-opcode-residual.test.ts",
+      "member": "organization-event-transitions/1.before",
+      "sha256": "e3d61119342fae5e100a7fb5a3e38b10bdb4e6050ad2d8572094076f6597e34f",
+      "lines": 178
+    },
+    {
+      "path": "packages/game/src/core/event-system.glm-event-k04.test.ts",
+      "member": "organization-event-transitions/2.before",
+      "sha256": "1f36104eeb5acfcffbeb28cbe0b40aeba210ad82f533989578b095ff8f1e35c4",
+      "lines": 148
+    },
+    {
+      "path": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+      "member": "organization-event-transitions/3.before",
+      "sha256": "ee3754bd43750893e9dd1f2b3c465ca97ddf645d10462a48801f60ff1aa1001c",
+      "lines": 599
+    },
+    {
+      "path": "packages/game/src/core/event-opcode-player.test-fixtures.ts",
+      "member": "organization-event-transitions/4.before",
+      "sha256": "9b36c46273ae69e3cbb75d436c01673ae1bc169e3233262420e5478f7a530ca7",
+      "lines": 13
+    }
+  ],
+  "outputs": [
+    {
+      "path": "packages/game/src/core/event-opcode-player.state-transitions.test.ts",
+      "sha256": "5268d4622ea6771b29d458a7a2bbf854e75bf04e5366658a1e57203e3ad8459b",
+      "lines": 304
+    },
+    {
+      "path": "packages/game/src/core/event-system.object-layer.test.ts",
+      "sha256": "15ba81c7fbca2b044e38d5f027d65fb7908f4a96734f80efe143a21eda7bdd6f",
+      "lines": 47
+    },
+    {
+      "path": "packages/game/src/core/event-system.map-change.test.ts",
+      "sha256": "1d22c39edb1744da89e4da3e27b4cbcba3c1b48a8bc9c2a5901e049dc46681f6",
+      "lines": 100
+    },
+    {
+      "path": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+      "sha256": "c76b60c9e44575586fa313ae98fa018e27f33b0b7612734abbb19e431773a901",
+      "lines": 595
+    },
+    {
+      "path": "packages/game/src/core/event-opcode-player.test-fixtures.ts",
+      "sha256": "6555d6ce7f6737b3eac355ae211b9d6ffec5e77ee3fcaf18e3f4ca73e1af21ea",
+      "lines": 13
+    }
+  ],
+  "replacements": [],
+  "sourceBridges": [
+    {
+      "path": "packages/game/src/core/event-opcode-player.glm-next-wave.test.ts",
+      "id": "organization-event-transitions-0",
+      "reason": "Registration/dependency destination context only. Separate proof conserves every full typed group/adapter/import/table and cleanup; no arbitrary text substitution is treated as behavior evidence.",
+      "changes": [
+        {
+          "from": "/**\n * 事件玩家族的解毒、指定槽卸装、战斗保留族和非法槽合同。\n * 直接调用生产 applyPlayerOpcode；毒定义由其真实 owner 注入，按队伍槽观察结果。\n * 这里只证明这些输入的处理与拒绝，不据测试文件名声称“全仓无重复”或整模块覆盖。\n */\n\nimport { afterEach, describe, expect, it, vi } from 'vitest'\nimport {\n  applyPlayerOpcode,\n  OP_CURE_PLAYER_POISON_KIND,\n  OP_CURE_PLAYER_POISON_LEVEL,\n  OP_DAMAGE_ENEMY,\n  OP_EQUIP_ITEM,\n  OP_POISON_ENEMY,\n  OP_REMOVE_EQUIPMENT,\n  OP_SET_ENEMY_STATUS,\n  type PlayerOpcodeInput,\n} from './event-opcode-player.js'\nimport { freshPlayerOpcodeState } from './event-opcode-player.test-fixtures.js'\nimport { addPoisonForPlayer, setObjectPoisons } from './player-poison-state.js'\n\nconst poisonRunner = (): number => 0\n\nfunction input(\n  gs: ReturnType<typeof freshPlayerOpcodeState>,\n  opcode: number,\n  operands: [number, number, number],\n  currentEventObjectId?: number,\n): PlayerOpcodeInput {\n  return { gs, opcode, operands, currentEventObjectId, runPlayerPoisonEntry: poisonRunner }\n}\n\nafterEach(() => {\n  vi.restoreAllMocks()\n  setObjectPoisons([])\n})\n\ndescribe('0x2b OP_CURE_PLAYER_POISON_KIND(事件侧解指定种毒)', () => {\n  it('单体:只清该 role 的该种毒(wPoisonID→0),同 role 异种毒与异 role 同种毒原样保留', () => {\n    const gs = freshPlayerOpcodeState()\n    gs.partyMembers = [1, 2]\n    setObjectPoisons([\n      { id: 77, level: 2, color: 0, playerScript: 0, enemyScript: 0 },\n      { id: 88, level: 99, color: 0, playerScript: 0, enemyScript: 0 },\n    ])\n    addPoisonForPlayer(gs, 1, 77)\n    addPoisonForPlayer(gs, 1, 88)\n    addPoisonForPlayer(gs, 2, 77)\n\n    expect(applyPlayerOpcode(input(gs, OP_CURE_PLAYER_POISON_KIND, [0, 77, 0], 1))).toBe(true)\n\n    expect(gs.rgPoisonStatus['0_0']).toEqual({ wPoisonID: 0, wPoisonScript: 0 })\n    expect(gs.rgPoisonStatus['1_0']).toEqual({ wPoisonID: 88, wPoisonScript: 0 })\n    expect(gs.rgPoisonStatus['0_1']).toEqual({ wPoisonID: 77, wPoisonScript: 0 })\n  })\n\n  it('applyAll=1:全队该种毒清除,异种毒保留', () => {\n    const gs = freshPlayerOpcodeState()\n    gs.partyMembers = [0, 1]\n    setObjectPoisons([\n      { id: 77, level: 2, color: 0, playerScript: 0, enemyScript: 0 },\n      { id: 88, level: 2, color: 0, playerScript: 0, enemyScript: 0 },\n    ])\n    addPoisonForPlayer(gs, 0, 77)\n    addPoisonForPlayer(gs, 0, 88)\n    addPoisonForPlayer(gs, 1, 77)\n\n    expect(applyPlayerOpcode(input(gs, OP_CURE_PLAYER_POISON_KIND, [1, 77, 0]))).toBe(true)\n\n    expect(gs.rgPoisonStatus['0_0']).toEqual({ wPoisonID: 0, wPoisonScript: 0 })\n    expect(gs.rgPoisonStatus['1_0']).toEqual({ wPoisonID: 88, wPoisonScript: 0 })\n    expect(gs.rgPoisonStatus['0_1']).toEqual({ wPoisonID: 0, wPoisonScript: 0 })\n  })\n})\n\ndescribe('0x2c OP_CURE_PLAYER_POISON_LEVEL(事件侧按等级解毒)', () => {\n  it('清除level≤3的毒,保留level 99装备毒(PAL_CurePoisonByLevel)', () => {\n    const gs = freshPlayerOpcodeState()\n    gs.partyMembers = [0]\n    setObjectPoisons([\n      { id: 77, level: 2, color: 0, playerScript: 0, enemyScript: 0 },\n      { id: 88, level: 99, color: 0, playerScript: 0, enemyScript: 0 },\n    ])\n    addPoisonForPlayer(gs, 0, 77) // slot 0\n    addPoisonForPlayer(gs, 0, 88) // slot 1\n\n    expect(applyPlayerOpcode(input(gs, OP_CURE_PLAYER_POISON_LEVEL, [0, 3, 0], 0))).toBe(true)\n\n    expect(gs.rgPoisonStatus['0_0']).toEqual({ wPoisonID: 0, wPoisonScript: 0 })\n    expect(gs.rgPoisonStatus['1_0']).toEqual({ wPoisonID: 88, wPoisonScript: 0 })\n  })\n})\n\ndescribe('战斗保留族(0x21/0x28/0x2e):事件侧消费为 no-op、归战斗侧所有', () => {\n  it.each([\n    ['OP_DAMAGE_ENEMY 0x21', OP_DAMAGE_ENEMY],\n    ['OP_POISON_ENEMY 0x28', OP_POISON_ENEMY],\n    ['OP_SET_ENEMY_STATUS 0x2e', OP_SET_ENEMY_STATUS],\n  ])('%s 返回 true 且 gs 零变异(与旧证 0x2a 合成完整家族)', (_name, opcode) => {\n    const gs = freshPlayerOpcodeState()\n    const before = structuredClone(gs)\n    expect(applyPlayerOpcode(input(gs, opcode, [1, 2, 3], 0))).toBe(true)\n    expect(gs).toEqual(before)\n  })\n})\n\ndescribe('0x23 OP_REMOVE_EQUIPMENT 卸指定单槽(slotPlusOne≠0 分支)', () => {\n  it('只卸 roleId 指定槽:该槽归零 + 背包 +1,其余槽与异 role 槽不动', () => {\n    const gs = freshPlayerOpcodeState()\n    gs.PlayerRolesRuntime.rgwEquipment[0]![0] = 111 // 邻槽哨兵(role0 头部)\n    gs.PlayerRolesRuntime.rgwEquipment[2]![0] = 150 // 目标槽(role0 身体)\n    gs.PlayerRolesRuntime.rgwEquipment[2]![1] = 151 // 同槽异 role 哨兵\n    gs.inventory = [{ itemId: 200, count: 2 }]\n\n    expect(applyPlayerOpcode(input(gs, OP_REMOVE_EQUIPMENT, [0, 3, 0]))).toBe(true)\n\n    expect(gs.PlayerRolesRuntime.rgwEquipment[0]?.[0]).toBe(111)\n    expect(gs.PlayerRolesRuntime.rgwEquipment[2]?.[0]).toBe(0)\n    expect(gs.PlayerRolesRuntime.rgwEquipment[2]?.[1]).toBe(151)\n    expect(gs.inventory).toEqual([\n      { itemId: 200, count: 2 },\n      { itemId: 150, count: 1 },\n    ])\n  })\n})\n\ndescribe('0x18 OP_EQUIP_ITEM 非法槽边界', () => {\n  it('operands[0] 越出 [0x0b,0x10] → 警告 + gs 零变异(不写 iCurEquipPart / 背包 / 装备)', () => {\n    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})\n\n    const low = freshPlayerOpcodeState()\n    const lowBefore = structuredClone(low)\n    expect(applyPlayerOpcode(input(low, OP_EQUIP_ITEM, [0x08, 200, 0], 0))).toBe(true)\n    expect(low).toEqual(lowBefore)\n\n    const high = freshPlayerOpcodeState()\n    const highBefore = structuredClone(high)\n    expect(applyPlayerOpcode(input(high, OP_EQUIP_ITEM, [0x11, 200, 0], 0))).toBe(true)\n    expect(high).toEqual(highBefore)\n\n    expect(warn).toHaveBeenCalledTimes(2)\n    expect(warn.mock.calls).toEqual([\n      ['event-system: equipItem invalid slot=-3(op[0]=8)'],\n      ['event-system: equipItem invalid slot=6(op[0]=17)'],\n    ])\n  })\n})\n",
+          "to": "/**\n * 玩家指令的状态转换边界：装备与效果层、毒槽、恢复成功标志及战斗族归属。\n * 直接调用生产 owner；角色基线已 hydrate，poisonEntry 只观察入口，不替换毒算法。\n * 与主测的单体成功路径、相邻分支专测保留不同输入域；不声称整个家族已穷尽。\n */\nimport { afterEach, describe, expect, it, vi } from 'vitest'\nimport { getPlayerAttackStrength, PLAYERROLES_ROW } from './equipment-state.js'\nimport {\n  applyPlayerOpcode,\n  OP_CURE_PLAYER_POISON_KIND,\n  OP_CURE_PLAYER_POISON_LEVEL,\n  OP_DAMAGE_ENEMY,\n  OP_EQUIP_ITEM,\n  OP_INCREASE_HP_MP,\n  OP_INCREASE_MP,\n  OP_POISON_ENEMY,\n  OP_POISON_PLAYER,\n  OP_REMOVE_EQUIPMENT,\n  OP_SET_ENEMY_STATUS,\n  OP_SET_PLAYER_EXTRA_ATTR,\n  type PlayerOpcodeInput,\n} from './event-opcode-player.js'\nimport { freshPlayerOpcodeState } from './event-opcode-player.test-fixtures.js'\nimport { addPoisonForPlayer, isPlayerPoisoned, setObjectPoisons } from './player-poison-state.js'\n\nconst poisonEntry = vi.fn(() => 0)\n\nfunction applyOpcode(\n  gs: ReturnType<typeof freshPlayerOpcodeState>,\n  opcode: number,\n  operands: [number, number, number],\n  currentEventObjectId?: number,\n): boolean {\n  const input: PlayerOpcodeInput = {\n    gs,\n    opcode,\n    operands,\n    currentEventObjectId,\n    runPlayerPoisonEntry: poisonEntry,\n  }\n  return applyPlayerOpcode(input)\n}\n\nafterEach(() => {\n  vi.restoreAllMocks()\n  poisonEntry.mockClear()\n  setObjectPoisons([])\n})\ndescribe('0x2b OP_CURE_PLAYER_POISON_KIND(事件侧解指定种毒)', () => {\n  it('单体:只清该 role 的该种毒(wPoisonID→0),同 role 异种毒与异 role 同种毒原样保留', () => {\n    const gs = freshPlayerOpcodeState()\n    gs.partyMembers = [1, 2]\n    setObjectPoisons([\n      { id: 77, level: 2, color: 0, playerScript: 0, enemyScript: 0 },\n      { id: 88, level: 99, color: 0, playerScript: 0, enemyScript: 0 },\n    ])\n    addPoisonForPlayer(gs, 1, 77)\n    addPoisonForPlayer(gs, 1, 88)\n    addPoisonForPlayer(gs, 2, 77)\n\n    expect(applyOpcode(gs, OP_CURE_PLAYER_POISON_KIND, [0, 77, 0], 1)).toBe(true)\n\n    expect(gs.rgPoisonStatus['0_0']).toEqual({ wPoisonID: 0, wPoisonScript: 0 })\n    expect(gs.rgPoisonStatus['1_0']).toEqual({ wPoisonID: 88, wPoisonScript: 0 })\n    expect(gs.rgPoisonStatus['0_1']).toEqual({ wPoisonID: 77, wPoisonScript: 0 })\n  })\n\n  it('applyAll=1:全队该种毒清除,异种毒保留', () => {\n    const gs = freshPlayerOpcodeState()\n    gs.partyMembers = [0, 1]\n    setObjectPoisons([\n      { id: 77, level: 2, color: 0, playerScript: 0, enemyScript: 0 },\n      { id: 88, level: 2, color: 0, playerScript: 0, enemyScript: 0 },\n    ])\n    addPoisonForPlayer(gs, 0, 77)\n    addPoisonForPlayer(gs, 0, 88)\n    addPoisonForPlayer(gs, 1, 77)\n\n    expect(applyOpcode(gs, OP_CURE_PLAYER_POISON_KIND, [1, 77, 0])).toBe(true)\n\n    expect(gs.rgPoisonStatus['0_0']).toEqual({ wPoisonID: 0, wPoisonScript: 0 })\n    expect(gs.rgPoisonStatus['1_0']).toEqual({ wPoisonID: 88, wPoisonScript: 0 })\n    expect(gs.rgPoisonStatus['0_1']).toEqual({ wPoisonID: 0, wPoisonScript: 0 })\n  })\n})\ndescribe('0x2c OP_CURE_PLAYER_POISON_LEVEL(事件侧按等级解毒)', () => {\n  it('清除level≤3的毒,保留level 99装备毒(PAL_CurePoisonByLevel)', () => {\n    const gs = freshPlayerOpcodeState()\n    gs.partyMembers = [0]\n    setObjectPoisons([\n      { id: 77, level: 2, color: 0, playerScript: 0, enemyScript: 0 },\n      { id: 88, level: 99, color: 0, playerScript: 0, enemyScript: 0 },\n    ])\n    addPoisonForPlayer(gs, 0, 77) // slot 0\n    addPoisonForPlayer(gs, 0, 88) // slot 1\n\n    expect(applyOpcode(gs, OP_CURE_PLAYER_POISON_LEVEL, [0, 3, 0], 0)).toBe(true)\n\n    expect(gs.rgPoisonStatus['0_0']).toEqual({ wPoisonID: 0, wPoisonScript: 0 })\n    expect(gs.rgPoisonStatus['1_0']).toEqual({ wPoisonID: 88, wPoisonScript: 0 })\n  })\n})\ndescribe('战斗保留族(0x21/0x28/0x2e):事件侧消费为 no-op、归战斗侧所有', () => {\n  it.each([\n    ['OP_DAMAGE_ENEMY 0x21', OP_DAMAGE_ENEMY],\n    ['OP_POISON_ENEMY 0x28', OP_POISON_ENEMY],\n    ['OP_SET_ENEMY_STATUS 0x2e', OP_SET_ENEMY_STATUS],\n  ])('%s 返回 true 且 gs 零变异(与旧证 0x2a 合成完整家族)', (_name, opcode) => {\n    const gs = freshPlayerOpcodeState()\n    const before = structuredClone(gs)\n    expect(applyOpcode(gs, opcode, [1, 2, 3], 0)).toBe(true)\n    expect(gs).toEqual(before)\n  })\n})\ndescribe('0x23 OP_REMOVE_EQUIPMENT 卸指定单槽(slotPlusOne≠0 分支)', () => {\n  it('只卸 roleId 指定槽:该槽归零 + 背包 +1,其余槽与异 role 槽不动', () => {\n    const gs = freshPlayerOpcodeState()\n    gs.PlayerRolesRuntime.rgwEquipment[0]![0] = 111 // 邻槽哨兵(role0 头部)\n    gs.PlayerRolesRuntime.rgwEquipment[2]![0] = 150 // 目标槽(role0 身体)\n    gs.PlayerRolesRuntime.rgwEquipment[2]![1] = 151 // 同槽异 role 哨兵\n    gs.inventory = [{ itemId: 200, count: 2 }]\n\n    expect(applyOpcode(gs, OP_REMOVE_EQUIPMENT, [0, 3, 0])).toBe(true)\n\n    expect(gs.PlayerRolesRuntime.rgwEquipment[0]?.[0]).toBe(111)\n    expect(gs.PlayerRolesRuntime.rgwEquipment[2]?.[0]).toBe(0)\n    expect(gs.PlayerRolesRuntime.rgwEquipment[2]?.[1]).toBe(151)\n    expect(gs.inventory).toEqual([\n      { itemId: 200, count: 2 },\n      { itemId: 150, count: 1 },\n    ])\n  })\n})\ndescribe('0x18 OP_EQUIP_ITEM 非法槽边界', () => {\n  it('operands[0] 越出 [0x0b,0x10] → 警告 + gs 零变异(不写 iCurEquipPart / 背包 / 装备)', () => {\n    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})\n\n    const low = freshPlayerOpcodeState()\n    const lowBefore = structuredClone(low)\n    expect(applyOpcode(low, OP_EQUIP_ITEM, [0x08, 200, 0], 0)).toBe(true)\n    expect(low).toEqual(lowBefore)\n\n    const high = freshPlayerOpcodeState()\n    const highBefore = structuredClone(high)\n    expect(applyOpcode(high, OP_EQUIP_ITEM, [0x11, 200, 0], 0)).toBe(true)\n    expect(high).toEqual(highBefore)\n\n    expect(warn).toHaveBeenCalledTimes(2)\n    expect(warn.mock.calls).toEqual([\n      ['event-system: equipItem invalid slot=-3(op[0]=8)'],\n      ['event-system: equipItem invalid slot=6(op[0]=17)'],\n    ])\n  })\n})",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/core/event-opcode-player.glm-opcode-residual.test.ts",
+      "id": "organization-event-transitions-1",
+      "reason": "Registration/dependency destination context only. Separate proof conserves every full typed group/adapter/import/table and cleanup; no arbitrary text substitution is treated as behavior evidence.",
+      "changes": [
+        {
+          "from": "/**\n * 事件玩家族的相邻接线合同：效果层撤除、全队 HP/MP 成功标志和抗性等值边界。\n * applyPlayerOpcode 与公开属性/毒查询共同观察结果，不替换装备或毒的业务算法。\n * 全卸与单槽空位的差异参考 PAL_InterpretInstruction 的 0x23；全队 MP/HPMP 保留成功标志。\n */\nimport { afterEach, describe, expect, it, vi } from 'vitest'\nimport { getPlayerAttackStrength, PLAYERROLES_ROW } from './equipment-state.js'\nimport {\n  applyPlayerOpcode,\n  OP_EQUIP_ITEM,\n  OP_INCREASE_HP_MP,\n  OP_INCREASE_MP,\n  OP_POISON_PLAYER,\n  OP_REMOVE_EQUIPMENT,\n  OP_SET_PLAYER_EXTRA_ATTR,\n  type PlayerOpcodeInput,\n} from './event-opcode-player.js'\nimport { freshPlayerOpcodeState } from './event-opcode-player.test-fixtures.js'\nimport { isPlayerPoisoned, setObjectPoisons } from './player-poison-state.js'\n\nconst poisonRunner = vi.fn(() => 0)\n\nfunction apply(\n  gs: ReturnType<typeof freshPlayerOpcodeState>,\n  opcode: number,\n  operands: [number, number, number],\n  currentEventObjectId?: number,\n): boolean {\n  const input: PlayerOpcodeInput = {\n    gs,\n    opcode,\n    operands,\n    currentEventObjectId,\n    runPlayerPoisonEntry: poisonRunner,\n  }\n  return applyPlayerOpcode(input)\n}\n\nafterEach(() => {\n  vi.restoreAllMocks()\n  poisonRunner.mockClear()\n  setObjectPoisons([])\n})\n\ndescribe('0x18/0x23 装备效果层撤除接线(event-opcode-player.ts:96/221/227)', () => {\n  it('0x18 换装先撤旧部位效果层(script.c:768-775):0x17 种入的加成清 0,有效攻击回落 base', () => {\n    const gs = freshPlayerOpcodeState()\n    const base = getPlayerAttackStrength(gs, 0)\n    // 合法种入:0x17 正是 scriptOnEquip 写装备加成的生产路径(part3=Hand,row17=攻击)\n    expect(\n      apply(gs, OP_SET_PLAYER_EXTRA_ATTR, [0x0b + 3, PLAYERROLES_ROW.ATTACK_STRENGTH, 12], 0),\n    ).toBe(true)\n    expect(getPlayerAttackStrength(gs, 0)).toBe(base + 12) // 种入生效\n    gs.PlayerRolesRuntime.rgwEquipment[3]![0] = 100 // 旧武器\n    gs.inventory = [{ itemId: 163, count: 1 }] // 新武器(唯一实例 → 原位换)\n\n    expect(apply(gs, OP_EQUIP_ITEM, [0x0b + 3, 163, 0], 0)).toBe(true)\n\n    expect(gs.rgEquipmentEffect[3]!.rgwAttackStrength[0]).toBe(0) // 效果层撤\n    expect(getPlayerAttackStrength(gs, 0)).toBe(base) // 有效值回落\n    expect(gs.PlayerRolesRuntime.rgwEquipment[3]![0]).toBe(163) // 换上\n    expect(gs.inventory).toEqual([{ itemId: 100, count: 1 }]) // 旧物原位顶替\n  })\n\n  it('0x23 单槽卸下:有物槽撤效果层;空槽残留不动(itemId!==0 守卫两侧,script.c:1122-1131)', () => {\n    // 有物槽:效果层随卸下清 0\n    const equipped = freshPlayerOpcodeState()\n    expect(\n      apply(equipped, OP_SET_PLAYER_EXTRA_ATTR, [0x0b + 3, PLAYERROLES_ROW.ATTACK_STRENGTH, 9], 0),\n    ).toBe(true)\n    equipped.PlayerRolesRuntime.rgwEquipment[3]![0] = 163\n    expect(apply(equipped, OP_REMOVE_EQUIPMENT, [0, 4, 0])).toBe(true) // slotPlusOne=4 → Hand\n    expect(equipped.rgEquipmentEffect[3]!.rgwAttackStrength[0]).toBe(0) // 撤\n    expect(equipped.PlayerRolesRuntime.rgwEquipment[3]![0]).toBe(0)\n    expect(equipped.inventory).toEqual([{ itemId: 163, count: 1 }]) // 回包\n\n    // 空槽:残留效果保留(与全卸臂不对称,sdlpal 单槽分支只在有物时撤)\n    const empty = freshPlayerOpcodeState()\n    expect(\n      apply(empty, OP_SET_PLAYER_EXTRA_ATTR, [0x0b + 3, PLAYERROLES_ROW.ATTACK_STRENGTH, 9], 0),\n    ).toBe(true)\n    expect(apply(empty, OP_REMOVE_EQUIPMENT, [0, 4, 0])).toBe(true)\n    expect(empty.rgEquipmentEffect[3]!.rgwAttackStrength[0]).toBe(9) // 残留不动\n    expect(empty.inventory).toEqual([]) // 无物回包\n  })\n\n  it('0x23 全卸无条件清每个部位效果层,含无物槽残留(script.c:1112-1121 循环臂)', () => {\n    const gs = freshPlayerOpcodeState()\n    // 用公开0x17准备无装备的效果层，核全卸分支；不声称原盘剧情会产生此组合。\n    expect(\n      apply(gs, OP_SET_PLAYER_EXTRA_ATTR, [0x0b + 2, PLAYERROLES_ROW.ATTACK_STRENGTH, 30], 0),\n    ).toBe(true)\n    expect(gs.rgEquipmentEffect[2]!.rgwAttackStrength[0]).toBe(30)\n\n    expect(apply(gs, OP_REMOVE_EQUIPMENT, [0, 0, 0])).toBe(true) // 全卸\n\n    expect(gs.rgEquipmentEffect[2]!.rgwAttackStrength[0]).toBe(0) // 残留被清\n    expect(gs.inventory).toEqual([]) // 全身无物,零回包\n  })\n})\n\ndescribe('0x1c/0x1d applyAll 全队臂(script.c:896-919/923-947)', () => {\n  it('0x1c 全队 MP:活人改动+钳制、死人跳过,fScriptSuccess 不被写(与 0x1b applyAll 相异)', () => {\n    const gs = freshPlayerOpcodeState()\n    gs.partyMembers = [0, 1, 2]\n    const rt = gs.PlayerRolesRuntime\n    rt.rgwHP[0] = 0 // 死人(global.c:1282 PAL_IncreaseHPMP 只处理活人)\n    rt.rgwMP[0] = 7\n    rt.rgwMaxMP[0] = 50\n    rt.rgwHP[1] = 10\n    rt.rgwMP[1] = 30\n    rt.rgwMaxMP[1] = 45\n    rt.rgwHP[2] = 10\n    rt.rgwMP[2] = 45\n    rt.rgwMaxMP[2] = 45 // 已满 → 钳制零改\n    gs.fScriptSuccess = false // 先用 false，不能让“无条件写 true”冒充保留标志。\n\n    expect(apply(gs, OP_INCREASE_MP, [1, 20, 0], 0)).toBe(true)\n\n    expect([rt.rgwMP[0], rt.rgwMP[1], rt.rgwMP[2]]).toEqual([7, 45, 45]) // 死跳/钳顶/满不动\n    expect([rt.rgwHP[0], rt.rgwHP[1], rt.rgwHP[2]]).toEqual([0, 10, 10]) // HP 不动\n    expect(gs.fScriptSuccess).toBe(false)\n\n    // 再跑一次:活人全满 → 全队零改,applyAll 臂仍不写标志(script.c:896-919 无该写入)\n    gs.fScriptSuccess = true\n    expect(apply(gs, OP_INCREASE_MP, [1, 20, 0], 0)).toBe(true)\n    expect([rt.rgwMP[0], rt.rgwMP[1], rt.rgwMP[2]]).toEqual([7, 45, 45])\n    expect(gs.fScriptSuccess).toBe(true)\n  })\n\n  it('0x1d 全队 HP+MP 双轨:死人两轨都跳,活人双加,fScriptSuccess 不被写', () => {\n    const gs = freshPlayerOpcodeState()\n    gs.partyMembers = [0, 1]\n    const rt = gs.PlayerRolesRuntime\n    rt.rgwHP[0] = 0\n    rt.rgwMP[0] = 4\n    rt.rgwMaxHP[0] = 100\n    rt.rgwMaxMP[0] = 60\n    rt.rgwHP[1] = 30\n    rt.rgwMP[1] = 10\n    rt.rgwMaxHP[1] = 100\n    rt.rgwMaxMP[1] = 40\n    gs.fScriptSuccess = false\n\n    expect(apply(gs, OP_INCREASE_HP_MP, [1, 15, 0], 0)).toBe(true)\n\n    expect([rt.rgwHP[0], rt.rgwMP[0]]).toEqual([0, 4]) // 死人两轨原样\n    expect([rt.rgwHP[1], rt.rgwMP[1]]).toEqual([45, 25]) // 活人双加\n    expect(gs.fScriptSuccess).toBe(false)\n\n    // 活人顶满后再跑:全队零改,applyAll 臂仍不写标志(script.c:923-947 无该写入)\n    rt.rgwHP[1] = 100\n    rt.rgwMP[1] = 40\n    gs.fScriptSuccess = true\n    expect(apply(gs, OP_INCREASE_HP_MP, [1, 15, 0], 0)).toBe(true)\n    expect([rt.rgwHP[0], rt.rgwMP[0]]).toEqual([0, 4])\n    expect(gs.fScriptSuccess).toBe(true)\n  })\n})\n\ndescribe('0x29 抗性等值边界(event-opcode-player.ts:244)', () => {\n  it('roll==resist → 抗性方胜(<=inclusive):50 掷对 50 抗被挡,51 掷命中', () => {\n    const gs = freshPlayerOpcodeState()\n    gs.partyMembers = [0]\n    gs.PlayerRolesRuntime.rgwPoisonResistance[0] = 50\n    setObjectPoisons([{ id: 77, level: 2, color: 0, playerScript: 11, enemyScript: 0 }])\n    const random = vi.spyOn(Math, 'random')\n    random.mockReturnValueOnce(0.49) // floor(49)+1 = 50;50<=50 → 挡\n    expect(apply(gs, OP_POISON_PLAYER, [0, 77, 0], 0)).toBe(true)\n    expect(isPlayerPoisoned(gs, 0, 77)).toBe(false)\n    expect(poisonRunner).not.toHaveBeenCalled()\n\n    random.mockReturnValueOnce(0.5) // floor(50)+1 = 51;51>50 → 中\n    expect(apply(gs, OP_POISON_PLAYER, [0, 77, 0], 0)).toBe(true)\n    expect(isPlayerPoisoned(gs, 0, 77)).toBe(true)\n    expect(poisonRunner).toHaveBeenCalledWith(gs, 0, 11)\n  })\n})\n",
+          "to": "/**\n * 玩家指令的状态转换边界：装备与效果层、毒槽、恢复成功标志及战斗族归属。\n * 直接调用生产 owner；角色基线已 hydrate，poisonEntry 只观察入口，不替换毒算法。\n * 与主测的单体成功路径、相邻分支专测保留不同输入域；不声称整个家族已穷尽。\n */\nimport { afterEach, describe, expect, it, vi } from 'vitest'\nimport { getPlayerAttackStrength, PLAYERROLES_ROW } from './equipment-state.js'\nimport {\n  applyPlayerOpcode,\n  OP_CURE_PLAYER_POISON_KIND,\n  OP_CURE_PLAYER_POISON_LEVEL,\n  OP_DAMAGE_ENEMY,\n  OP_EQUIP_ITEM,\n  OP_INCREASE_HP_MP,\n  OP_INCREASE_MP,\n  OP_POISON_ENEMY,\n  OP_POISON_PLAYER,\n  OP_REMOVE_EQUIPMENT,\n  OP_SET_ENEMY_STATUS,\n  OP_SET_PLAYER_EXTRA_ATTR,\n  type PlayerOpcodeInput,\n} from './event-opcode-player.js'\nimport { freshPlayerOpcodeState } from './event-opcode-player.test-fixtures.js'\nimport { addPoisonForPlayer, isPlayerPoisoned, setObjectPoisons } from './player-poison-state.js'\n\nconst poisonEntry = vi.fn(() => 0)\n\nfunction applyOpcode(\n  gs: ReturnType<typeof freshPlayerOpcodeState>,\n  opcode: number,\n  operands: [number, number, number],\n  currentEventObjectId?: number,\n): boolean {\n  const input: PlayerOpcodeInput = {\n    gs,\n    opcode,\n    operands,\n    currentEventObjectId,\n    runPlayerPoisonEntry: poisonEntry,\n  }\n  return applyPlayerOpcode(input)\n}\n\nafterEach(() => {\n  vi.restoreAllMocks()\n  poisonEntry.mockClear()\n  setObjectPoisons([])\n})\ndescribe('0x18/0x23 装备效果层撤除接线', () => {\n  it('0x18 换装先撤旧部位效果层(script.c:768-775):0x17 种入的加成清 0,有效攻击回落 base', () => {\n    const gs = freshPlayerOpcodeState()\n    const base = getPlayerAttackStrength(gs, 0)\n    // 合法种入:0x17 正是 scriptOnEquip 写装备加成的生产路径(part3=Hand,row17=攻击)\n    expect(\n      applyOpcode(gs, OP_SET_PLAYER_EXTRA_ATTR, [0x0b + 3, PLAYERROLES_ROW.ATTACK_STRENGTH, 12], 0),\n    ).toBe(true)\n    expect(getPlayerAttackStrength(gs, 0)).toBe(base + 12) // 种入生效\n    gs.PlayerRolesRuntime.rgwEquipment[3]![0] = 100 // 旧武器\n    gs.inventory = [{ itemId: 163, count: 1 }] // 新武器(唯一实例 → 原位换)\n\n    expect(applyOpcode(gs, OP_EQUIP_ITEM, [0x0b + 3, 163, 0], 0)).toBe(true)\n\n    expect(gs.rgEquipmentEffect[3]!.rgwAttackStrength[0]).toBe(0) // 效果层撤\n    expect(getPlayerAttackStrength(gs, 0)).toBe(base) // 有效值回落\n    expect(gs.PlayerRolesRuntime.rgwEquipment[3]![0]).toBe(163) // 换上\n    expect(gs.inventory).toEqual([{ itemId: 100, count: 1 }]) // 旧物原位顶替\n  })\n\n  it('0x23 单槽卸下:有物槽撤效果层;空槽残留不动(itemId!==0 守卫两侧,script.c:1122-1131)', () => {\n    // 有物槽:效果层随卸下清 0\n    const equipped = freshPlayerOpcodeState()\n    expect(\n      applyOpcode(\n        equipped,\n        OP_SET_PLAYER_EXTRA_ATTR,\n        [0x0b + 3, PLAYERROLES_ROW.ATTACK_STRENGTH, 9],\n        0,\n      ),\n    ).toBe(true)\n    equipped.PlayerRolesRuntime.rgwEquipment[3]![0] = 163\n    expect(applyOpcode(equipped, OP_REMOVE_EQUIPMENT, [0, 4, 0])).toBe(true) // slotPlusOne=4 → Hand\n    expect(equipped.rgEquipmentEffect[3]!.rgwAttackStrength[0]).toBe(0) // 撤\n    expect(equipped.PlayerRolesRuntime.rgwEquipment[3]![0]).toBe(0)\n    expect(equipped.inventory).toEqual([{ itemId: 163, count: 1 }]) // 回包\n\n    // 空槽:残留效果保留(与全卸臂不对称,sdlpal 单槽分支只在有物时撤)\n    const empty = freshPlayerOpcodeState()\n    expect(\n      applyOpcode(\n        empty,\n        OP_SET_PLAYER_EXTRA_ATTR,\n        [0x0b + 3, PLAYERROLES_ROW.ATTACK_STRENGTH, 9],\n        0,\n      ),\n    ).toBe(true)\n    expect(applyOpcode(empty, OP_REMOVE_EQUIPMENT, [0, 4, 0])).toBe(true)\n    expect(empty.rgEquipmentEffect[3]!.rgwAttackStrength[0]).toBe(9) // 残留不动\n    expect(empty.inventory).toEqual([]) // 无物回包\n  })\n\n  it('0x23 全卸无条件清每个部位效果层,含无物槽残留(script.c:1112-1121 循环臂)', () => {\n    const gs = freshPlayerOpcodeState()\n    // 用公开0x17准备无装备的效果层，核全卸分支；不声称原盘剧情会产生此组合。\n    expect(\n      applyOpcode(gs, OP_SET_PLAYER_EXTRA_ATTR, [0x0b + 2, PLAYERROLES_ROW.ATTACK_STRENGTH, 30], 0),\n    ).toBe(true)\n    expect(gs.rgEquipmentEffect[2]!.rgwAttackStrength[0]).toBe(30)\n\n    expect(applyOpcode(gs, OP_REMOVE_EQUIPMENT, [0, 0, 0])).toBe(true) // 全卸\n\n    expect(gs.rgEquipmentEffect[2]!.rgwAttackStrength[0]).toBe(0) // 残留被清\n    expect(gs.inventory).toEqual([]) // 全身无物,零回包\n  })\n})\ndescribe('0x1c/0x1d applyAll 全队臂(script.c:896-919/923-947)', () => {\n  it('0x1c 全队 MP:活人改动+钳制、死人跳过,fScriptSuccess 不被写(与 0x1b applyAll 相异)', () => {\n    const gs = freshPlayerOpcodeState()\n    gs.partyMembers = [0, 1, 2]\n    const rt = gs.PlayerRolesRuntime\n    rt.rgwHP[0] = 0 // 死人(global.c:1282 PAL_IncreaseHPMP 只处理活人)\n    rt.rgwMP[0] = 7\n    rt.rgwMaxMP[0] = 50\n    rt.rgwHP[1] = 10\n    rt.rgwMP[1] = 30\n    rt.rgwMaxMP[1] = 45\n    rt.rgwHP[2] = 10\n    rt.rgwMP[2] = 45\n    rt.rgwMaxMP[2] = 45 // 已满 → 钳制零改\n    gs.fScriptSuccess = false // 先用 false，不能让“无条件写 true”冒充保留标志。\n\n    expect(applyOpcode(gs, OP_INCREASE_MP, [1, 20, 0], 0)).toBe(true)\n\n    expect([rt.rgwMP[0], rt.rgwMP[1], rt.rgwMP[2]]).toEqual([7, 45, 45]) // 死跳/钳顶/满不动\n    expect([rt.rgwHP[0], rt.rgwHP[1], rt.rgwHP[2]]).toEqual([0, 10, 10]) // HP 不动\n    expect(gs.fScriptSuccess).toBe(false)\n\n    // 再跑一次:活人全满 → 全队零改,applyAll 臂仍不写标志(script.c:896-919 无该写入)\n    gs.fScriptSuccess = true\n    expect(applyOpcode(gs, OP_INCREASE_MP, [1, 20, 0], 0)).toBe(true)\n    expect([rt.rgwMP[0], rt.rgwMP[1], rt.rgwMP[2]]).toEqual([7, 45, 45])\n    expect(gs.fScriptSuccess).toBe(true)\n  })\n\n  it('0x1d 全队 HP+MP 双轨:死人两轨都跳,活人双加,fScriptSuccess 不被写', () => {\n    const gs = freshPlayerOpcodeState()\n    gs.partyMembers = [0, 1]\n    const rt = gs.PlayerRolesRuntime\n    rt.rgwHP[0] = 0\n    rt.rgwMP[0] = 4\n    rt.rgwMaxHP[0] = 100\n    rt.rgwMaxMP[0] = 60\n    rt.rgwHP[1] = 30\n    rt.rgwMP[1] = 10\n    rt.rgwMaxHP[1] = 100\n    rt.rgwMaxMP[1] = 40\n    gs.fScriptSuccess = false\n\n    expect(applyOpcode(gs, OP_INCREASE_HP_MP, [1, 15, 0], 0)).toBe(true)\n\n    expect([rt.rgwHP[0], rt.rgwMP[0]]).toEqual([0, 4]) // 死人两轨原样\n    expect([rt.rgwHP[1], rt.rgwMP[1]]).toEqual([45, 25]) // 活人双加\n    expect(gs.fScriptSuccess).toBe(false)\n\n    // 活人顶满后再跑:全队零改,applyAll 臂仍不写标志(script.c:923-947 无该写入)\n    rt.rgwHP[1] = 100\n    rt.rgwMP[1] = 40\n    gs.fScriptSuccess = true\n    expect(applyOpcode(gs, OP_INCREASE_HP_MP, [1, 15, 0], 0)).toBe(true)\n    expect([rt.rgwHP[0], rt.rgwMP[0]]).toEqual([0, 4])\n    expect(gs.fScriptSuccess).toBe(true)\n  })\n})\ndescribe('0x29 抗性等值边界', () => {\n  it('roll==resist → 抗性方胜(<=inclusive):50 掷对 50 抗被挡,51 掷命中', () => {\n    const gs = freshPlayerOpcodeState()\n    gs.partyMembers = [0]\n    gs.PlayerRolesRuntime.rgwPoisonResistance[0] = 50\n    setObjectPoisons([{ id: 77, level: 2, color: 0, playerScript: 11, enemyScript: 0 }])\n    const random = vi.spyOn(Math, 'random')\n    random.mockReturnValueOnce(0.49) // floor(49)+1 = 50;50<=50 → 挡\n    expect(applyOpcode(gs, OP_POISON_PLAYER, [0, 77, 0], 0)).toBe(true)\n    expect(isPlayerPoisoned(gs, 0, 77)).toBe(false)\n    expect(poisonEntry).not.toHaveBeenCalled()\n\n    random.mockReturnValueOnce(0.5) // floor(50)+1 = 51;51>50 → 中\n    expect(applyOpcode(gs, OP_POISON_PLAYER, [0, 77, 0], 0)).toBe(true)\n    expect(isPlayerPoisoned(gs, 0, 77)).toBe(true)\n    expect(poisonEntry).toHaveBeenCalledWith(gs, 0, 11)\n  })\n})",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/core/event-system.glm-event-k04.test.ts",
+      "id": "organization-event-transitions-2",
+      "reason": "Registration/dependency destination context only. Separate proof conserves every full typed group/adapter/import/table and cleanup; no arbitrary text substitution is treated as behavior evidence.",
+      "changes": [
+        {
+          "from": "/**\n * K04: current-scene map replacement and signed object layers.\n * Production tick/trigger/auto-script paths share applyRawOpcode in event-system.ts.\n * Primary: global.h EVENTOBJECT.sLayer is SHORT; script.c case 0x0099 changes the\n * current map without restarting onEnter. SDLPal's synchronous IO does not define\n * browser failure recovery; retain-on-failure is the user's 2026-10-25 decision.\n * event-system.test.ts covers positive layers/named-scene overrides; cov85 covers\n * successful reload notification. Here the negative layer, same-frame continuation,\n * absent loader, and rejected loader retain their separate observable contracts.\n */\nimport type { AbstractKey, Command, InputSnapshot } from '@type-pal/shared'\nimport { describe, expect, it, vi } from 'vitest'\n\nimport {\n  buildLabelMap,\n  OP_CHANGE_MAP,\n  OP_NOOP_A7,\n  OP_PLAY_SOUND,\n  OP_SET_OBJECT_LAYER,\n  setMapReloader,\n  tickEventSystem,\n} from './event-system.js'\nimport { createInitialGameState, type GameState } from './game-state.js'\n\nfunction snap(pressed: AbstractKey[] = []): InputSnapshot {\n  return { held: new Set(), pressed: new Set(pressed), frameNum: 0 }\n}\n\nfunction soundsOf(gs: GameState): number[] {\n  return gs.pendingSounds ?? []\n}\n\ndescribe('K04 opcode 0x7E setObjectLayer:sLayer 是 SHORT(global.h:78)——op1 按 16 位有符号写', () => {\n  it('op1=0xFFFE → sLayer=-2(SHORT wrap,立交/负层合同);单轴对照 op1=3 → 3(正数直通)', () => {\n    // —— 负值 wrap:op1=0xFFFE(WORD 视角 65534)→ SHORT -2 ——\n    const gsNeg = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    const negCmds: Command[] = [\n      { op: 'raw', opcode: OP_SET_OBJECT_LAYER, operands: [0xffff, 0xfffe, 0] }, // self\n      { op: 'end' },\n    ]\n    gsNeg.npcs = [{ id: 7, x: 0, y: 0, spriteNum: 1, sState: 2 }]\n    gsNeg.eventCursor = {\n      commands: negCmds,\n      labelMap: buildLabelMap(negCmds),\n      ip: 0,\n      currentEventObjectId: 7,\n    }\n    gsNeg.mode = 'event'\n    tickEventSystem(gsNeg, snap())\n    expect(gsNeg.npcs[0]?.sLayer).toBe(-2)\n\n    // —— 单轴对照:同脚本仅 op1 改 3 → 正数直通(排除\"恒取负\"式误实现) ——\n    const gsPos = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    const posCmds: Command[] = [\n      { op: 'raw', opcode: OP_SET_OBJECT_LAYER, operands: [0xffff, 3, 0] },\n      { op: 'end' },\n    ]\n    gsPos.npcs = [{ id: 7, x: 0, y: 0, spriteNum: 1, sState: 2 }]\n    gsPos.eventCursor = {\n      commands: posCmds,\n      labelMap: buildLabelMap(posCmds),\n      ip: 0,\n      currentEventObjectId: 7,\n    }\n    gsPos.mode = 'event'\n    tickEventSystem(gsPos, snap())\n    expect(gsPos.npcs[0]?.sLayer).toBe(3)\n  })\n})\n\ndescribe('K04 opcode 0x99 changeMap op0=0xFFFF:当前场景只换地图 + 立即 reload,脚本继续(sdlpal script.c:2743-2748)', () => {\n  it('0x99[0xFFFF,99] → sceneMapNumOverride[wNumScene]=99 + mapReloader(99) 一次;当帧后续 op 照跑', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.wNumScene = 5\n    const reloadedMaps: number[] = []\n    const commands: Command[] = [\n      { op: 'raw', opcode: OP_CHANGE_MAP, operands: [0xffff, 99, 0] }, // ip0:当前 scene 换图\n      { op: 'raw', opcode: OP_PLAY_SOUND, operands: [77, 0, 0] }, // ip1:脚本继续(reload 异步不阻塞)\n      { op: 'raw', opcode: OP_NOOP_A7, operands: [0, 0, 0] }, // ip2\n      { op: 'end' }, // ip3\n    ]\n    try {\n      setMapReloader((mapNum) => {\n        reloadedMaps.push(mapNum)\n        return Promise.resolve()\n      })\n      gs.eventCursor = { commands, labelMap: buildLabelMap(commands), ip: 0 }\n      gs.mode = 'event'\n      tickEventSystem(gs, snap())\n      // 当前场景(1-based wNumScene=5)地图被改写为 99\n      expect(gs.sceneMapNumOverride?.[5]).toBe(99)\n      // 负控:其它 scene 未被误改(单键覆盖)\n      expect(Object.keys(gs.sceneMapNumOverride ?? {})).toEqual(['5'])\n      // PAL_LoadResources 等价:mapReloader 恰一次、参数 = 新 mapNum(fire-and-forget 不挂 waiting)\n      expect(reloadedMaps).toEqual([99])\n      // 脚本继续合同:换图当帧后续 opcode 照常执行、脚本正常收尾\n      expect(soundsOf(gs)).toEqual([77])\n      expect(gs.mode).toBe('explore')\n\n      // 守卫臂(单轴:唯一变量 = 撤下注入):setMapReloader(null) 后再跑同脚本\n      // → 仍改写 override、不触发 reload(reloadedMaps 保持 [99])、不崩\n      setMapReloader(null)\n      const gsNoReloader = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n      gsNoReloader.wNumScene = 2\n      gsNoReloader.eventCursor = { commands, labelMap: buildLabelMap(commands), ip: 0 }\n      gsNoReloader.mode = 'event'\n      tickEventSystem(gsNoReloader, snap())\n      expect(gsNoReloader.sceneMapNumOverride?.[2]).toBe(99)\n      expect(gsNoReloader.mode).toBe('explore')\n      expect(reloadedMaps).toEqual([99]) // 撤下注入后未再触发 reload\n    } finally {\n      setMapReloader(null)\n    }\n  })\n  it('logs a rejected map replacement without interrupting the remaining script or owning its state', async () => {\n    const gs = createInitialGameState({ x: 160, y: 112, facing: 'down' })\n    gs.wNumScene = 5\n    const npcs = gs.npcs\n    const failure = new Error('tileset-blob: fetch /extracted/data/tileset/99.rle failed (500)')\n    const error = vi.spyOn(console, 'error').mockImplementation(() => {})\n    const commands: Command[] = [\n      { op: 'raw', opcode: OP_CHANGE_MAP, operands: [0xffff, 99, 0] },\n      { op: 'raw', opcode: OP_PLAY_SOUND, operands: [77, 0, 0] },\n      { op: 'end' },\n    ]\n    try {\n      setMapReloader(async () => {\n        throw failure\n      })\n      gs.eventCursor = { commands, labelMap: buildLabelMap(commands), ip: 0 }\n      gs.mode = 'event'\n      tickEventSystem(gs, snap())\n      await Promise.resolve()\n      expect(error).toHaveBeenCalledExactlyOnceWith(\n        'event-system: mapReloader(99) failed:',\n        failure,\n      )\n      expect(soundsOf(gs)).toEqual([77])\n      expect(gs.mode).toBe('explore')\n      expect(gs.sceneLoading).toBeUndefined()\n      expect(gs.npcs).toBe(npcs)\n      expect(gs.party).toEqual({ x: 160, y: 112, facing: 'down' })\n    } finally {\n      setMapReloader(null)\n      error.mockRestore()\n    }\n  })\n})\n",
+          "to": "/**\n * 当前场景换图通知的事件生命周期：成功、无 loader、拒绝时均继续后续脚本。\n * SDLPal PAL_InterpretInstruction 0x0099 是同步 IO；浏览器拒绝的日志与资源归属遵循本项目合同。\n * event-opcodes.cov85.test.ts 已核简单通知；这里额外核当帧声音、无 loader 和拒绝后的状态边界。\n * loader/日志观察器在 finally 释放；这里只核事件层，不授 Shell 下载或画面替换信用。\n */\nimport type { Command, InputSnapshot } from '@type-pal/shared'\nimport { describe, expect, it, vi } from 'vitest'\nimport {\n  buildLabelMap,\n  OP_CHANGE_MAP,\n  OP_NOOP_A7,\n  OP_PLAY_SOUND,\n  OP_SET_OBJECT_LAYER,\n  setMapReloader,\n  tickEventSystem,\n} from './event-system.js'\nimport { createInitialGameState } from './game-state.js'\n\nfunction idleInput(): InputSnapshot {\n  return { held: new Set(), pressed: new Set(), frameNum: 0 }\n}\ndescribe('opcode 0x7e — signed event-object layer', () => {\n  it('op1=0xFFFE → sLayer=-2(SHORT wrap,立交/负层合同);单轴对照 op1=3 → 3(正数直通)', () => {\n    // —— 负值 wrap:op1=0xFFFE(WORD 视角 65534)→ SHORT -2 ——\n    const gsNeg = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    const negCmds: Command[] = [\n      { op: 'raw', opcode: OP_SET_OBJECT_LAYER, operands: [0xffff, 0xfffe, 0] }, // self\n      { op: 'end' },\n    ]\n    gsNeg.npcs = [{ id: 7, x: 0, y: 0, spriteNum: 1, sState: 2 }]\n    gsNeg.eventCursor = {\n      commands: negCmds,\n      labelMap: buildLabelMap(negCmds),\n      ip: 0,\n      currentEventObjectId: 7,\n    }\n    gsNeg.mode = 'event'\n    tickEventSystem(gsNeg, idleInput())\n    expect(gsNeg.npcs[0]?.sLayer).toBe(-2)\n\n    // —— 单轴对照:同脚本仅 op1 改 3 → 正数直通(排除\"恒取负\"式误实现) ——\n    const gsPos = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    const posCmds: Command[] = [\n      { op: 'raw', opcode: OP_SET_OBJECT_LAYER, operands: [0xffff, 3, 0] },\n      { op: 'end' },\n    ]\n    gsPos.npcs = [{ id: 7, x: 0, y: 0, spriteNum: 1, sState: 2 }]\n    gsPos.eventCursor = {\n      commands: posCmds,\n      labelMap: buildLabelMap(posCmds),\n      ip: 0,\n      currentEventObjectId: 7,\n    }\n    gsPos.mode = 'event'\n    tickEventSystem(gsPos, idleInput())\n    expect(gsPos.npcs[0]?.sLayer).toBe(3)\n  })\n})\ndescribe('opcode 0x99 — current-scene map replacement', () => {\n  it('0x99[0xFFFF,99] → sceneMapNumOverride[wNumScene]=99 + mapReloader(99) 一次;当帧后续 op 照跑', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.wNumScene = 5\n    const reloadedMaps: number[] = []\n    const commands: Command[] = [\n      { op: 'raw', opcode: OP_CHANGE_MAP, operands: [0xffff, 99, 0] }, // ip0:当前 scene 换图\n      { op: 'raw', opcode: OP_PLAY_SOUND, operands: [77, 0, 0] }, // ip1:脚本继续(reload 异步不阻塞)\n      { op: 'raw', opcode: OP_NOOP_A7, operands: [0, 0, 0] }, // ip2\n      { op: 'end' }, // ip3\n    ]\n    try {\n      setMapReloader((mapNum) => {\n        reloadedMaps.push(mapNum)\n        return Promise.resolve()\n      })\n      gs.eventCursor = { commands, labelMap: buildLabelMap(commands), ip: 0 }\n      gs.mode = 'event'\n      tickEventSystem(gs, idleInput())\n      // 当前场景(1-based wNumScene=5)地图被改写为 99\n      expect(gs.sceneMapNumOverride?.[5]).toBe(99)\n      // 负控:其它 scene 未被误改(单键覆盖)\n      expect(Object.keys(gs.sceneMapNumOverride ?? {})).toEqual(['5'])\n      // 通知 mapReloader 一次并传入新编号；TS 异步请求不阻塞脚本，不据此声称 C 同步 IO 时序等价。\n      expect(reloadedMaps).toEqual([99])\n      // 脚本继续合同:换图当帧后续 opcode 照常执行、脚本正常收尾\n      expect(gs.pendingSounds ?? []).toEqual([77])\n      expect(gs.mode).toBe('explore')\n\n      // 无 loader 的独立场景：setMapReloader(null) 后再跑同脚本\n      // → 仍改写 override、不触发 reload(reloadedMaps 保持 [99])、不崩\n      setMapReloader(null)\n      const gsNoReloader = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n      gsNoReloader.wNumScene = 2\n      gsNoReloader.eventCursor = { commands, labelMap: buildLabelMap(commands), ip: 0 }\n      gsNoReloader.mode = 'event'\n      tickEventSystem(gsNoReloader, idleInput())\n      expect(gsNoReloader.sceneMapNumOverride?.[2]).toBe(99)\n      expect(gsNoReloader.mode).toBe('explore')\n      expect(reloadedMaps).toEqual([99]) // 撤下注入后未再触发 reload\n    } finally {\n      setMapReloader(null)\n    }\n  })\n  it('logs a rejected map replacement without interrupting the remaining script or owning its state', async () => {\n    const gs = createInitialGameState({ x: 160, y: 112, facing: 'down' })\n    gs.wNumScene = 5\n    const npcs = gs.npcs\n    const failure = new Error('tileset-blob: fetch /extracted/data/tileset/99.rle failed (500)')\n    const error = vi.spyOn(console, 'error').mockImplementation(() => {})\n    const commands: Command[] = [\n      { op: 'raw', opcode: OP_CHANGE_MAP, operands: [0xffff, 99, 0] },\n      { op: 'raw', opcode: OP_PLAY_SOUND, operands: [77, 0, 0] },\n      { op: 'end' },\n    ]\n    try {\n      setMapReloader(async () => {\n        throw failure\n      })\n      gs.eventCursor = { commands, labelMap: buildLabelMap(commands), ip: 0 }\n      gs.mode = 'event'\n      tickEventSystem(gs, idleInput())\n      await Promise.resolve()\n      expect(error).toHaveBeenCalledExactlyOnceWith(\n        'event-system: mapReloader(99) failed:',\n        failure,\n      )\n      expect(gs.pendingSounds ?? []).toEqual([77])\n      expect(gs.mode).toBe('explore')\n      expect(gs.sceneLoading).toBeUndefined()\n      expect(gs.npcs).toBe(npcs)\n      expect(gs.party).toEqual({ x: 160, y: 112, facing: 'down' })\n    } finally {\n      setMapReloader(null)\n      error.mockRestore()\n    }\n  })\n})",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "registrations": [
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.glm-next-wave.test.ts",
+        "ordinal": 0,
+        "fullName": "0x2b OP_CURE_PLAYER_POISON_KIND(事件侧解指定种毒) 单体:只清该 role 的该种毒(wPoisonID→0),同 role 异种毒与异 role 同种毒原样保留"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.state-transitions.test.ts",
+        "titles": ["0x2b OP_CURE_PLAYER_POISON_KIND(事件侧解指定种毒)"],
+        "template": "单体:只清该 role 的该种毒(wPoisonID→0),同 role 异种毒与异 role 同种毒原样保留",
+        "fullName": "0x2b OP_CURE_PLAYER_POISON_KIND(事件侧解指定种毒) 单体:只清该 role 的该种毒(wPoisonID→0),同 role 异种毒与异 role 同种毒原样保留"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.glm-next-wave.test.ts",
+        "ordinal": 1,
+        "fullName": "0x2b OP_CURE_PLAYER_POISON_KIND(事件侧解指定种毒) applyAll=1:全队该种毒清除,异种毒保留"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.state-transitions.test.ts",
+        "titles": ["0x2b OP_CURE_PLAYER_POISON_KIND(事件侧解指定种毒)"],
+        "template": "applyAll=1:全队该种毒清除,异种毒保留",
+        "fullName": "0x2b OP_CURE_PLAYER_POISON_KIND(事件侧解指定种毒) applyAll=1:全队该种毒清除,异种毒保留"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.glm-next-wave.test.ts",
+        "ordinal": 2,
+        "fullName": "0x2c OP_CURE_PLAYER_POISON_LEVEL(事件侧按等级解毒) 清除level≤3的毒,保留level 99装备毒(PAL_CurePoisonByLevel)"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.state-transitions.test.ts",
+        "titles": ["0x2c OP_CURE_PLAYER_POISON_LEVEL(事件侧按等级解毒)"],
+        "template": "清除level≤3的毒,保留level 99装备毒(PAL_CurePoisonByLevel)",
+        "fullName": "0x2c OP_CURE_PLAYER_POISON_LEVEL(事件侧按等级解毒) 清除level≤3的毒,保留level 99装备毒(PAL_CurePoisonByLevel)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.glm-next-wave.test.ts",
+        "ordinal": 3,
+        "fullName": "战斗保留族(0x21/0x28/0x2e):事件侧消费为 no-op、归战斗侧所有 %s 返回 true 且 gs 零变异(与旧证 0x2a 合成完整家族)"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.state-transitions.test.ts",
+        "titles": ["战斗保留族(0x21/0x28/0x2e):事件侧消费为 no-op、归战斗侧所有"],
+        "template": "%s 返回 true 且 gs 零变异(与旧证 0x2a 合成完整家族)",
+        "fullName": "战斗保留族(0x21/0x28/0x2e):事件侧消费为 no-op、归战斗侧所有 %s 返回 true 且 gs 零变异(与旧证 0x2a 合成完整家族)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.glm-next-wave.test.ts",
+        "ordinal": 4,
+        "fullName": "0x23 OP_REMOVE_EQUIPMENT 卸指定单槽(slotPlusOne≠0 分支) 只卸 roleId 指定槽:该槽归零 + 背包 +1,其余槽与异 role 槽不动"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.state-transitions.test.ts",
+        "titles": ["0x23 OP_REMOVE_EQUIPMENT 卸指定单槽(slotPlusOne≠0 分支)"],
+        "template": "只卸 roleId 指定槽:该槽归零 + 背包 +1,其余槽与异 role 槽不动",
+        "fullName": "0x23 OP_REMOVE_EQUIPMENT 卸指定单槽(slotPlusOne≠0 分支) 只卸 roleId 指定槽:该槽归零 + 背包 +1,其余槽与异 role 槽不动"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.glm-next-wave.test.ts",
+        "ordinal": 5,
+        "fullName": "0x18 OP_EQUIP_ITEM 非法槽边界 operands[0] 越出 [0x0b,0x10] → 警告 + gs 零变异(不写 iCurEquipPart / 背包 / 装备)"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.state-transitions.test.ts",
+        "titles": ["0x18 OP_EQUIP_ITEM 非法槽边界"],
+        "template": "operands[0] 越出 [0x0b,0x10] → 警告 + gs 零变异(不写 iCurEquipPart / 背包 / 装备)",
+        "fullName": "0x18 OP_EQUIP_ITEM 非法槽边界 operands[0] 越出 [0x0b,0x10] → 警告 + gs 零变异(不写 iCurEquipPart / 背包 / 装备)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.glm-opcode-residual.test.ts",
+        "ordinal": 0,
+        "fullName": "0x18/0x23 装备效果层撤除接线(event-opcode-player.ts:96/221/227) 0x18 换装先撤旧部位效果层(script.c:768-775):0x17 种入的加成清 0,有效攻击回落 base"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.state-transitions.test.ts",
+        "titles": ["0x18/0x23 装备效果层撤除接线"],
+        "template": "0x18 换装先撤旧部位效果层(script.c:768-775):0x17 种入的加成清 0,有效攻击回落 base",
+        "fullName": "0x18/0x23 装备效果层撤除接线 0x18 换装先撤旧部位效果层(script.c:768-775):0x17 种入的加成清 0,有效攻击回落 base"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.glm-opcode-residual.test.ts",
+        "ordinal": 1,
+        "fullName": "0x18/0x23 装备效果层撤除接线(event-opcode-player.ts:96/221/227) 0x23 单槽卸下:有物槽撤效果层;空槽残留不动(itemId!==0 守卫两侧,script.c:1122-1131)"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.state-transitions.test.ts",
+        "titles": ["0x18/0x23 装备效果层撤除接线"],
+        "template": "0x23 单槽卸下:有物槽撤效果层;空槽残留不动(itemId!==0 守卫两侧,script.c:1122-1131)",
+        "fullName": "0x18/0x23 装备效果层撤除接线 0x23 单槽卸下:有物槽撤效果层;空槽残留不动(itemId!==0 守卫两侧,script.c:1122-1131)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.glm-opcode-residual.test.ts",
+        "ordinal": 2,
+        "fullName": "0x18/0x23 装备效果层撤除接线(event-opcode-player.ts:96/221/227) 0x23 全卸无条件清每个部位效果层,含无物槽残留(script.c:1112-1121 循环臂)"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.state-transitions.test.ts",
+        "titles": ["0x18/0x23 装备效果层撤除接线"],
+        "template": "0x23 全卸无条件清每个部位效果层,含无物槽残留(script.c:1112-1121 循环臂)",
+        "fullName": "0x18/0x23 装备效果层撤除接线 0x23 全卸无条件清每个部位效果层,含无物槽残留(script.c:1112-1121 循环臂)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.glm-opcode-residual.test.ts",
+        "ordinal": 3,
+        "fullName": "0x1c/0x1d applyAll 全队臂(script.c:896-919/923-947) 0x1c 全队 MP:活人改动+钳制、死人跳过,fScriptSuccess 不被写(与 0x1b applyAll 相异)"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.state-transitions.test.ts",
+        "titles": ["0x1c/0x1d applyAll 全队臂(script.c:896-919/923-947)"],
+        "template": "0x1c 全队 MP:活人改动+钳制、死人跳过,fScriptSuccess 不被写(与 0x1b applyAll 相异)",
+        "fullName": "0x1c/0x1d applyAll 全队臂(script.c:896-919/923-947) 0x1c 全队 MP:活人改动+钳制、死人跳过,fScriptSuccess 不被写(与 0x1b applyAll 相异)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.glm-opcode-residual.test.ts",
+        "ordinal": 4,
+        "fullName": "0x1c/0x1d applyAll 全队臂(script.c:896-919/923-947) 0x1d 全队 HP+MP 双轨:死人两轨都跳,活人双加,fScriptSuccess 不被写"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.state-transitions.test.ts",
+        "titles": ["0x1c/0x1d applyAll 全队臂(script.c:896-919/923-947)"],
+        "template": "0x1d 全队 HP+MP 双轨:死人两轨都跳,活人双加,fScriptSuccess 不被写",
+        "fullName": "0x1c/0x1d applyAll 全队臂(script.c:896-919/923-947) 0x1d 全队 HP+MP 双轨:死人两轨都跳,活人双加,fScriptSuccess 不被写"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.glm-opcode-residual.test.ts",
+        "ordinal": 5,
+        "fullName": "0x29 抗性等值边界(event-opcode-player.ts:244) roll==resist → 抗性方胜(<=inclusive):50 掷对 50 抗被挡,51 掷命中"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.state-transitions.test.ts",
+        "titles": ["0x29 抗性等值边界"],
+        "template": "roll==resist → 抗性方胜(<=inclusive):50 掷对 50 抗被挡,51 掷命中",
+        "fullName": "0x29 抗性等值边界 roll==resist → 抗性方胜(<=inclusive):50 掷对 50 抗被挡,51 掷命中"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-system.glm-event-k04.test.ts",
+        "ordinal": 0,
+        "fullName": "K04 opcode 0x7E setObjectLayer:sLayer 是 SHORT(global.h:78)——op1 按 16 位有符号写 op1=0xFFFE → sLayer=-2(SHORT wrap,立交/负层合同);单轴对照 op1=3 → 3(正数直通)"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-system.object-layer.test.ts",
+        "titles": ["opcode 0x7e — signed event-object layer"],
+        "template": "op1=0xFFFE → sLayer=-2(SHORT wrap,立交/负层合同);单轴对照 op1=3 → 3(正数直通)",
+        "fullName": "opcode 0x7e — signed event-object layer op1=0xFFFE → sLayer=-2(SHORT wrap,立交/负层合同);单轴对照 op1=3 → 3(正数直通)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-system.glm-event-k04.test.ts",
+        "ordinal": 1,
+        "fullName": "K04 opcode 0x99 changeMap op0=0xFFFF:当前场景只换地图 + 立即 reload,脚本继续(sdlpal script.c:2743-2748) 0x99[0xFFFF,99] → sceneMapNumOverride[wNumScene]=99 + mapReloader(99) 一次;当帧后续 op 照跑"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-system.map-change.test.ts",
+        "titles": ["opcode 0x99 — current-scene map replacement"],
+        "template": "0x99[0xFFFF,99] → sceneMapNumOverride[wNumScene]=99 + mapReloader(99) 一次;当帧后续 op 照跑",
+        "fullName": "opcode 0x99 — current-scene map replacement 0x99[0xFFFF,99] → sceneMapNumOverride[wNumScene]=99 + mapReloader(99) 一次;当帧后续 op 照跑"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-system.glm-event-k04.test.ts",
+        "ordinal": 2,
+        "fullName": "K04 opcode 0x99 changeMap op0=0xFFFF:当前场景只换地图 + 立即 reload,脚本继续(sdlpal script.c:2743-2748) logs a rejected map replacement without interrupting the remaining script or owning its state"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-system.map-change.test.ts",
+        "titles": ["opcode 0x99 — current-scene map replacement"],
+        "template": "logs a rejected map replacement without interrupting the remaining script or owning its state",
+        "fullName": "opcode 0x99 — current-scene map replacement logs a rejected map replacement without interrupting the remaining script or owning its state"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "ordinal": 0,
+        "fullName": "cov85 0x8d OP_INCREASE_PLAYER_LEVEL 守卫与封顶 无 role 上下文(undefined 与 0xffff)→ 警告跳过,等级与经验零变异"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "titles": ["cov85 0x8d OP_INCREASE_PLAYER_LEVEL 守卫与封顶"],
+        "template": "无 role 上下文(undefined 与 0xffff)→ 警告跳过,等级与经验零变异",
+        "fullName": "cov85 0x8d OP_INCREASE_PLAYER_LEVEL 守卫与封顶 无 role 上下文(undefined 与 0xffff)→ 警告跳过,等级与经验零变异"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "ordinal": 1,
+        "fullName": "cov85 0x8d OP_INCREASE_PLAYER_LEVEL 守卫与封顶 未知 role(数组外下标)→ 警告跳过不炸"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "titles": ["cov85 0x8d OP_INCREASE_PLAYER_LEVEL 守卫与封顶"],
+        "template": "未知 role(数组外下标)→ 警告跳过不炸",
+        "fullName": "cov85 0x8d OP_INCREASE_PLAYER_LEVEL 守卫与封顶 未知 role(数组外下标)→ 警告跳过不炸"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "ordinal": 2,
+        "fullName": "cov85 0x8d OP_INCREASE_PLAYER_LEVEL 守卫与封顶 level 封顶 99;stat 封顶 999;Exp 主行 wExp 清 0 且 wLevel 同步新等级"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "titles": ["cov85 0x8d OP_INCREASE_PLAYER_LEVEL 守卫与封顶"],
+        "template": "level 封顶 99;stat 封顶 999;Exp 主行 wExp 清 0 且 wLevel 同步新等级",
+        "fullName": "cov85 0x8d OP_INCREASE_PLAYER_LEVEL 守卫与封顶 level 封顶 99;stat 封顶 999;Exp 主行 wExp 清 0 且 wLevel 同步新等级"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "ordinal": 3,
+        "fullName": "cov85 0x17 OP_SET_PLAYER_EXTRA_ATTR 装备效果层直写 无 role 上下文 → 警告且装备效果层零变异"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "titles": ["cov85 0x17 OP_SET_PLAYER_EXTRA_ATTR 装备效果层直写"],
+        "template": "无 role 上下文 → 警告且装备效果层零变异",
+        "fullName": "cov85 0x17 OP_SET_PLAYER_EXTRA_ATTR 装备效果层直写 无 role 上下文 → 警告且装备效果层零变异"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "ordinal": 4,
+        "fullName": "cov85 0x17 OP_SET_PLAYER_EXTRA_ATTR 装备效果层直写 合法写:partIdx=op0-0x0b 落 rgEquipmentEffect[part].rgwLevel[role];负值按 i16 符号扩展"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "titles": ["cov85 0x17 OP_SET_PLAYER_EXTRA_ATTR 装备效果层直写"],
+        "template": "合法写:partIdx=op0-0x0b 落 rgEquipmentEffect[part].rgwLevel[role];负值按 i16 符号扩展",
+        "fullName": "cov85 0x17 OP_SET_PLAYER_EXTRA_ATTR 装备效果层直写 合法写:partIdx=op0-0x0b 落 rgEquipmentEffect[part].rgwLevel[role];负值按 i16 符号扩展"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "ordinal": 5,
+        "fullName": "cov85 0x18 OP_EQUIP_ITEM 装备交换分支 无 role 上下文 → 警告跳过,装备与背包零变异"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "titles": ["cov85 0x18 OP_EQUIP_ITEM 装备交换分支"],
+        "template": "无 role 上下文 → 警告跳过,装备与背包零变异",
+        "fullName": "cov85 0x18 OP_EQUIP_ITEM 装备交换分支 无 role 上下文 → 警告跳过,装备与背包零变异"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "ordinal": 6,
+        "fullName": "cov85 0x18 OP_EQUIP_ITEM 装备交换分支 首次装备(旧槽空)→ 只消耗新物品,不回添任何旧物"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "titles": ["cov85 0x18 OP_EQUIP_ITEM 装备交换分支"],
+        "template": "首次装备(旧槽空)→ 只消耗新物品,不回添任何旧物",
+        "fullName": "cov85 0x18 OP_EQUIP_ITEM 装备交换分支 首次装备(旧槽空)→ 只消耗新物品,不回添任何旧物"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "ordinal": 7,
+        "fullName": "cov85 0x18 OP_EQUIP_ITEM 装备交换分支 换装且旧物已在包(非唯一实例)→ 全量交换:新物 -1、旧物 +1"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "titles": ["cov85 0x18 OP_EQUIP_ITEM 装备交换分支"],
+        "template": "换装且旧物已在包(非唯一实例)→ 全量交换:新物 -1、旧物 +1",
+        "fullName": "cov85 0x18 OP_EQUIP_ITEM 装备交换分支 换装且旧物已在包(非唯一实例)→ 全量交换:新物 -1、旧物 +1"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "ordinal": 8,
+        "fullName": "cov85 0x18 OP_EQUIP_ITEM 装备交换分支 同物重装(oldItem===newItem)不交换装备行与背包"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "titles": ["cov85 0x18 OP_EQUIP_ITEM 装备交换分支"],
+        "template": "同物重装(oldItem===newItem)不交换装备行与背包",
+        "fullName": "cov85 0x18 OP_EQUIP_ITEM 装备交换分支 同物重装(oldItem===newItem)不交换装备行与背包"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "ordinal": 9,
+        "fullName": "cov85 0x19/0x1a 显式 role 操作数 0x19 op2≠0 → 显式 role=op2-1,当前事件对象被忽略"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "titles": ["cov85 0x19/0x1a 显式 role 操作数"],
+        "template": "0x19 op2≠0 → 显式 role=op2-1,当前事件对象被忽略",
+        "fullName": "cov85 0x19/0x1a 显式 role 操作数 0x19 op2≠0 → 显式 role=op2-1,当前事件对象被忽略"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "ordinal": 10,
+        "fullName": "cov85 0x19/0x1a 显式 role 操作数 0x19 op2=0 且无上下文 → 警告跳过"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "titles": ["cov85 0x19/0x1a 显式 role 操作数"],
+        "template": "0x19 op2=0 且无上下文 → 警告跳过",
+        "fullName": "cov85 0x19/0x1a 显式 role 操作数 0x19 op2=0 且无上下文 → 警告跳过"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "ordinal": 11,
+        "fullName": "cov85 0x19/0x1a 显式 role 操作数 0x1a op2≠0 → setPlayerStatRow 直写显式 role(非装备层)"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "titles": ["cov85 0x19/0x1a 显式 role 操作数"],
+        "template": "0x1a op2≠0 → setPlayerStatRow 直写显式 role(非装备层)",
+        "fullName": "cov85 0x19/0x1a 显式 role 操作数 0x1a op2≠0 → setPlayerStatRow 直写显式 role(非装备层)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "ordinal": 12,
+        "fullName": "cov85 0x19/0x1a 显式 role 操作数 0x1a 上下文 0xffff → 警告跳过"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "titles": ["cov85 0x19/0x1a 显式 role 操作数"],
+        "template": "0x1a 上下文 0xffff → 警告跳过",
+        "fullName": "cov85 0x19/0x1a 显式 role 操作数 0x1a 上下文 0xffff → 警告跳过"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "ordinal": 13,
+        "fullName": "cov85 0x1b/0x1c/0x1d fScriptSuccess 语义 0x1b applyAll:任一队员真改 → true;全员满血零改 → false"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "titles": ["cov85 0x1b/0x1c/0x1d fScriptSuccess 语义"],
+        "template": "0x1b applyAll:任一队员真改 → true;全员满血零改 → false",
+        "fullName": "cov85 0x1b/0x1c/0x1d fScriptSuccess 语义 0x1b applyAll:任一队员真改 → true;全员满血零改 → false"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "ordinal": 14,
+        "fullName": "cov85 0x1b/0x1c/0x1d fScriptSuccess 语义 0x1c 单体无改动(已满 MP)→ fScriptSuccess=false;有改动保持 true"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "titles": ["cov85 0x1b/0x1c/0x1d fScriptSuccess 语义"],
+        "template": "0x1c 单体无改动(已满 MP)→ fScriptSuccess=false;有改动保持 true",
+        "fullName": "cov85 0x1b/0x1c/0x1d fScriptSuccess 语义 0x1c 单体无改动(已满 MP)→ fScriptSuccess=false;有改动保持 true"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "ordinal": 15,
+        "fullName": "cov85 0x1b/0x1c/0x1d fScriptSuccess 语义 0x1d 单体无改动 → false;死人(hp=0)不被治疗"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "titles": ["cov85 0x1b/0x1c/0x1d fScriptSuccess 语义"],
+        "template": "0x1d 单体无改动 → false;死人(hp=0)不被治疗",
+        "fullName": "cov85 0x1b/0x1c/0x1d fScriptSuccess 语义 0x1d 单体无改动 → false;死人(hp=0)不被治疗"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "ordinal": 16,
+        "fullName": "cov85 0x22 OP_REVIVE_PLAYER 复活分支 applyAll:只复活 hp=0 者(比例恢复+清≤3 级毒+清≤999 状态),活人不动,fScriptSuccess=revivedAny"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "titles": ["cov85 0x22 OP_REVIVE_PLAYER 复活分支"],
+        "template": "applyAll:只复活 hp=0 者(比例恢复+清≤3 级毒+清≤999 状态),活人不动,fScriptSuccess=revivedAny",
+        "fullName": "cov85 0x22 OP_REVIVE_PLAYER 复活分支 applyAll:只复活 hp=0 者(比例恢复+清≤3 级毒+清≤999 状态),活人不动,fScriptSuccess=revivedAny"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "ordinal": 17,
+        "fullName": "cov85 0x22 OP_REVIVE_PLAYER 复活分支 单体复活活人 → fScriptSuccess=false;无上下文单体 → 空目标集零变异"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "titles": ["cov85 0x22 OP_REVIVE_PLAYER 复活分支"],
+        "template": "单体复活活人 → fScriptSuccess=false;无上下文单体 → 空目标集零变异",
+        "fullName": "cov85 0x22 OP_REVIVE_PLAYER 复活分支 单体复活活人 → fScriptSuccess=false;无上下文单体 → 空目标集零变异"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "ordinal": 18,
+        "fullName": "cov85 0x23 OP_REMOVE_EQUIPMENT 空槽分支 指定单槽为空 → 背包与装备层零变异"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "titles": ["cov85 0x23 OP_REMOVE_EQUIPMENT 空槽分支"],
+        "template": "指定单槽为空 → 背包与装备层零变异",
+        "fullName": "cov85 0x23 OP_REMOVE_EQUIPMENT 空槽分支 指定单槽为空 → 背包与装备层零变异"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "ordinal": 19,
+        "fullName": "cov85 0x29 OP_POISON_PLAYER applyAll 与空目标 op0≠0 全队:0 抗必中(入口脚本跑一次)、100 抗必不中"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "titles": ["cov85 0x29 OP_POISON_PLAYER applyAll 与空目标"],
+        "template": "op0≠0 全队:0 抗必中(入口脚本跑一次)、100 抗必不中",
+        "fullName": "cov85 0x29 OP_POISON_PLAYER applyAll 与空目标 op0≠0 全队:0 抗必中(入口脚本跑一次)、100 抗必不中"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "ordinal": 20,
+        "fullName": "cov85 0x29 OP_POISON_PLAYER applyAll 与空目标 op0=0 且无上下文 → 空目标集,毒槽零变异"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "titles": ["cov85 0x29 OP_POISON_PLAYER applyAll 与空目标"],
+        "template": "op0=0 且无上下文 → 空目标集,毒槽零变异",
+        "fullName": "cov85 0x29 OP_POISON_PLAYER applyAll 与空目标 op0=0 且无上下文 → 空目标集,毒槽零变异"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "ordinal": 21,
+        "fullName": "cov85 0x2d OP_SET_PLAYER_STATUS 状态分支 statusId 越界(≥行宽)→ 跳过不炸;无上下文 → 全队为目标"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "titles": ["cov85 0x2d OP_SET_PLAYER_STATUS 状态分支"],
+        "template": "statusId 越界(≥行宽)→ 跳过不炸;无上下文 → 全队为目标",
+        "fullName": "cov85 0x2d OP_SET_PLAYER_STATUS 状态分支 statusId 越界(≥行宽)→ 跳过不炸;无上下文 → 全队为目标"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "ordinal": 22,
+        "fullName": "cov85 0x2d OP_SET_PLAYER_STATUS 状态分支 坏状态(≤3)已有(≠0)不刷新,为 0 才写"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "titles": ["cov85 0x2d OP_SET_PLAYER_STATUS 状态分支"],
+        "template": "坏状态(≤3)已有(≠0)不刷新,为 0 才写",
+        "fullName": "cov85 0x2d OP_SET_PLAYER_STATUS 状态分支 坏状态(≤3)已有(≠0)不刷新,为 0 才写"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "ordinal": 23,
+        "fullName": "cov85 0x2d OP_SET_PLAYER_STATUS 状态分支 傀儡(4):死人取更大 rounds;活人 → fScriptSuccess=false"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "titles": ["cov85 0x2d OP_SET_PLAYER_STATUS 状态分支"],
+        "template": "傀儡(4):死人取更大 rounds;活人 → fScriptSuccess=false",
+        "fullName": "cov85 0x2d OP_SET_PLAYER_STATUS 状态分支 傀儡(4):死人取更大 rounds;活人 → fScriptSuccess=false"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "ordinal": 24,
+        "fullName": "cov85 0x2d OP_SET_PLAYER_STATUS 状态分支 好状态(>4):死人不动;活人 rounds 更大才覆盖,更小保持"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "titles": ["cov85 0x2d OP_SET_PLAYER_STATUS 状态分支"],
+        "template": "好状态(>4):死人不动;活人 rounds 更大才覆盖,更小保持",
+        "fullName": "cov85 0x2d OP_SET_PLAYER_STATUS 状态分支 好状态(>4):死人不动;活人 rounds 更大才覆盖,更小保持"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "ordinal": 25,
+        "fullName": "cov85 0x2f OP_REMOVE_PLAYER_STATUS 边界 >999 装备态不清;≤999 清 0;越界下标不炸"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "titles": ["cov85 0x2f OP_REMOVE_PLAYER_STATUS 边界"],
+        "template": ">999 装备态不清;≤999 清 0;越界下标不炸",
+        "fullName": "cov85 0x2f OP_REMOVE_PLAYER_STATUS 边界 >999 装备态不清;≤999 清 0;越界下标不炸"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "ordinal": 26,
+        "fullName": "cov85 0x55/0x56 学/忘法术边界 0x55:重复学术不占新槽;spellObjectId=0 no-op;满 32 槽 no-op"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "titles": ["cov85 0x55/0x56 学/忘法术边界"],
+        "template": "0x55:重复学术不占新槽;spellObjectId=0 no-op;满 32 槽 no-op",
+        "fullName": "cov85 0x55/0x56 学/忘法术边界 0x55:重复学术不占新槽;spellObjectId=0 no-op;满 32 槽 no-op"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "ordinal": 27,
+        "fullName": "cov85 0x55/0x56 学/忘法术边界 0x55:op1≠0 → 显式 role;role 越界 no-op"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "titles": ["cov85 0x55/0x56 学/忘法术边界"],
+        "template": "0x55:op1≠0 → 显式 role;role 越界 no-op",
+        "fullName": "cov85 0x55/0x56 学/忘法术边界 0x55:op1≠0 → 显式 role;role 越界 no-op"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "ordinal": 28,
+        "fullName": "cov85 0x55/0x56 学/忘法术边界 0x56:忘已学术清槽;未学/越界 no-op;op1≠0 显式 role"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "titles": ["cov85 0x55/0x56 学/忘法术边界"],
+        "template": "0x56:忘已学术清槽;未学/越界 no-op;op1≠0 显式 role",
+        "fullName": "cov85 0x55/0x56 学/忘法术边界 0x56:忘已学术清槽;未学/越界 no-op;op1≠0 显式 role"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "ordinal": 29,
+        "fullName": "cov85 家族归属 非本族 opcode(0x01)→ false 交还调用方"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "titles": ["cov85 家族归属"],
+        "template": "非本族 opcode(0x01)→ false 交还调用方",
+        "fullName": "cov85 家族归属 非本族 opcode(0x01)→ false 交还调用方"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "ordinal": 30,
+        "fullName": "cov85r3 玩家 opcode 补臂 0x17 roleId=0xffff → 警告跳过;partIdx>0 落对应效果槽(71-80)"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "titles": ["cov85r3 玩家 opcode 补臂"],
+        "template": "0x17 roleId=0xffff → 警告跳过;partIdx>0 落对应效果槽(71-80)",
+        "fullName": "cov85r3 玩家 opcode 补臂 0x17 roleId=0xffff → 警告跳过;partIdx>0 落对应效果槽(71-80)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "ordinal": 31,
+        "fullName": "cov85r3 玩家 opcode 补臂 0x18 roleId=0xffff → 警告跳过,装备层与背包零变异(84-87)"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "titles": ["cov85r3 玩家 opcode 补臂"],
+        "template": "0x18 roleId=0xffff → 警告跳过,装备层与背包零变异(84-87)",
+        "fullName": "cov85r3 玩家 opcode 补臂 0x18 roleId=0xffff → 警告跳过,装备层与背包零变异(84-87)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "ordinal": 32,
+        "fullName": "cov85r3 玩家 opcode 补臂 0x19/0x1a op2=0 且有上下文 → 作用 currentEventObjectId(119,131 cond 另一侧)"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "titles": ["cov85r3 玩家 opcode 补臂"],
+        "template": "0x19/0x1a op2=0 且有上下文 → 作用 currentEventObjectId(119,131 cond 另一侧)",
+        "fullName": "cov85r3 玩家 opcode 补臂 0x19/0x1a op2=0 且有上下文 → 作用 currentEventObjectId(119,131 cond 另一侧)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "ordinal": 33,
+        "fullName": "cov85r3 玩家 opcode 补臂 0x22 单体 ctx=0xffff → 空目标集零变异(185-191 cond 臂)"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "titles": ["cov85r3 玩家 opcode 补臂"],
+        "template": "0x22 单体 ctx=0xffff → 空目标集零变异(185-191 cond 臂)",
+        "fullName": "cov85r3 玩家 opcode 补臂 0x22 单体 ctx=0xffff → 空目标集零变异(185-191 cond 臂)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "ordinal": 34,
+        "fullName": "cov85r3 玩家 opcode 补臂 0x23 全卸槽位混合:有物槽回包、空槽跳过(211-216 loop 两臂)"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "titles": ["cov85r3 玩家 opcode 补臂"],
+        "template": "0x23 全卸槽位混合:有物槽回包、空槽跳过(211-216 loop 两臂)",
+        "fullName": "cov85r3 玩家 opcode 补臂 0x23 全卸槽位混合:有物槽回包、空槽跳过(211-216 loop 两臂)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "ordinal": 35,
+        "fullName": "cov85r3 玩家 opcode 补臂 0x29 单体 ctx 命中 + 100 抗必不中(236-247 单体臂)"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "titles": ["cov85r3 玩家 opcode 补臂"],
+        "template": "0x29 单体 ctx 命中 + 100 抗必不中(236-247 单体臂)",
+        "fullName": "cov85r3 玩家 opcode 补臂 0x29 单体 ctx 命中 + 100 抗必不中(236-247 单体臂)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "ordinal": 36,
+        "fullName": "cov85r3 玩家 opcode 补臂 0x2d/0x2f ctx=0xffff → 全队为目标(263-268,286-290 cond 臂)"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "titles": ["cov85r3 玩家 opcode 补臂"],
+        "template": "0x2d/0x2f ctx=0xffff → 全队为目标(263-268,286-290 cond 臂)",
+        "fullName": "cov85r3 玩家 opcode 补臂 0x2d/0x2f ctx=0xffff → 全队为目标(263-268,286-290 cond 臂)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "ordinal": 37,
+        "fullName": "cov85r3 玩家 opcode 补臂 0x55/0x56 显式 role 越界(op1-1 ≥ roleCount)→ no-op(303-310,321-326)"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "titles": ["cov85r3 玩家 opcode 补臂"],
+        "template": "0x55/0x56 显式 role 越界(op1-1 ≥ roleCount)→ no-op(303-310,321-326)",
+        "fullName": "cov85r3 玩家 opcode 补臂 0x55/0x56 显式 role 越界(op1-1 ≥ roleCount)→ no-op(303-310,321-326)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "ordinal": 38,
+        "fullName": "cov85r3 玩家 opcode 补臂 0x55 空 rgwMagic 表(roleCount=0)→ no-op 不炸(408-409)"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "titles": ["cov85r3 玩家 opcode 补臂"],
+        "template": "0x55 空 rgwMagic 表(roleCount=0)→ no-op 不炸(408-409)",
+        "fullName": "cov85r3 玩家 opcode 补臂 0x55 空 rgwMagic 表(roleCount=0)→ no-op 不炸(408-409)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "ordinal": 39,
+        "fullName": "cov85r3 玩家 opcode 补臂 0x8d 多级升级:保留六抽/级与精确成长;缺Exp行时仍能执行"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "titles": ["cov85r3 玩家 opcode 补臂"],
+        "template": "0x8d 多级升级:保留六抽/级与精确成长;缺Exp行时仍能执行",
+        "fullName": "cov85r3 玩家 opcode 补臂 0x8d 多级升级:保留六抽/级与精确成长;缺Exp行时仍能执行"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "ordinal": 40,
+        "fullName": "cov85r3 玩家 opcode 补臂 0x1d HP/MP 各自钳 max 双向(341-361 clamp 臂)"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "titles": ["cov85r3 玩家 opcode 补臂"],
+        "template": "0x1d HP/MP 各自钳 max 双向(341-361 clamp 臂)",
+        "fullName": "cov85r3 玩家 opcode 补臂 0x1d HP/MP 各自钳 max 双向(341-361 clamp 臂)"
+      }
+    }
+  ],
+  "identities": [
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "fullName": "cov85 0x8d OP_INCREASE_PLAYER_LEVEL 守卫与封顶 无 role 上下文(undefined 与 0xffff)→ 警告跳过,等级与经验零变异"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "fullName": "cov85 0x8d OP_INCREASE_PLAYER_LEVEL 守卫与封顶 无 role 上下文(undefined 与 0xffff)→ 警告跳过,等级与经验零变异"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "fullName": "cov85 0x8d OP_INCREASE_PLAYER_LEVEL 守卫与封顶 未知 role(数组外下标)→ 警告跳过不炸"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "fullName": "cov85 0x8d OP_INCREASE_PLAYER_LEVEL 守卫与封顶 未知 role(数组外下标)→ 警告跳过不炸"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "fullName": "cov85 0x8d OP_INCREASE_PLAYER_LEVEL 守卫与封顶 level 封顶 99;stat 封顶 999;Exp 主行 wExp 清 0 且 wLevel 同步新等级"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "fullName": "cov85 0x8d OP_INCREASE_PLAYER_LEVEL 守卫与封顶 level 封顶 99;stat 封顶 999;Exp 主行 wExp 清 0 且 wLevel 同步新等级"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "fullName": "cov85 0x17 OP_SET_PLAYER_EXTRA_ATTR 装备效果层直写 无 role 上下文 → 警告且装备效果层零变异"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "fullName": "cov85 0x17 OP_SET_PLAYER_EXTRA_ATTR 装备效果层直写 无 role 上下文 → 警告且装备效果层零变异"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "fullName": "cov85 0x17 OP_SET_PLAYER_EXTRA_ATTR 装备效果层直写 合法写:partIdx=op0-0x0b 落 rgEquipmentEffect[part].rgwLevel[role];负值按 i16 符号扩展"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "fullName": "cov85 0x17 OP_SET_PLAYER_EXTRA_ATTR 装备效果层直写 合法写:partIdx=op0-0x0b 落 rgEquipmentEffect[part].rgwLevel[role];负值按 i16 符号扩展"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "fullName": "cov85 0x18 OP_EQUIP_ITEM 装备交换分支 无 role 上下文 → 警告跳过,装备与背包零变异"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "fullName": "cov85 0x18 OP_EQUIP_ITEM 装备交换分支 无 role 上下文 → 警告跳过,装备与背包零变异"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "fullName": "cov85 0x18 OP_EQUIP_ITEM 装备交换分支 首次装备(旧槽空)→ 只消耗新物品,不回添任何旧物"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "fullName": "cov85 0x18 OP_EQUIP_ITEM 装备交换分支 首次装备(旧槽空)→ 只消耗新物品,不回添任何旧物"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "fullName": "cov85 0x18 OP_EQUIP_ITEM 装备交换分支 换装且旧物已在包(非唯一实例)→ 全量交换:新物 -1、旧物 +1"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "fullName": "cov85 0x18 OP_EQUIP_ITEM 装备交换分支 换装且旧物已在包(非唯一实例)→ 全量交换:新物 -1、旧物 +1"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "fullName": "cov85 0x18 OP_EQUIP_ITEM 装备交换分支 同物重装(oldItem===newItem)不交换装备行与背包"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "fullName": "cov85 0x18 OP_EQUIP_ITEM 装备交换分支 同物重装(oldItem===newItem)不交换装备行与背包"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "fullName": "cov85 0x19/0x1a 显式 role 操作数 0x19 op2≠0 → 显式 role=op2-1,当前事件对象被忽略"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "fullName": "cov85 0x19/0x1a 显式 role 操作数 0x19 op2≠0 → 显式 role=op2-1,当前事件对象被忽略"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "fullName": "cov85 0x19/0x1a 显式 role 操作数 0x19 op2=0 且无上下文 → 警告跳过"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "fullName": "cov85 0x19/0x1a 显式 role 操作数 0x19 op2=0 且无上下文 → 警告跳过"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "fullName": "cov85 0x19/0x1a 显式 role 操作数 0x1a op2≠0 → setPlayerStatRow 直写显式 role(非装备层)"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "fullName": "cov85 0x19/0x1a 显式 role 操作数 0x1a op2≠0 → setPlayerStatRow 直写显式 role(非装备层)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "fullName": "cov85 0x19/0x1a 显式 role 操作数 0x1a 上下文 0xffff → 警告跳过"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "fullName": "cov85 0x19/0x1a 显式 role 操作数 0x1a 上下文 0xffff → 警告跳过"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "fullName": "cov85 0x1b/0x1c/0x1d fScriptSuccess 语义 0x1b applyAll:任一队员真改 → true;全员满血零改 → false"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "fullName": "cov85 0x1b/0x1c/0x1d fScriptSuccess 语义 0x1b applyAll:任一队员真改 → true;全员满血零改 → false"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "fullName": "cov85 0x1b/0x1c/0x1d fScriptSuccess 语义 0x1c 单体无改动(已满 MP)→ fScriptSuccess=false;有改动保持 true"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "fullName": "cov85 0x1b/0x1c/0x1d fScriptSuccess 语义 0x1c 单体无改动(已满 MP)→ fScriptSuccess=false;有改动保持 true"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "fullName": "cov85 0x1b/0x1c/0x1d fScriptSuccess 语义 0x1d 单体无改动 → false;死人(hp=0)不被治疗"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "fullName": "cov85 0x1b/0x1c/0x1d fScriptSuccess 语义 0x1d 单体无改动 → false;死人(hp=0)不被治疗"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "fullName": "cov85 0x22 OP_REVIVE_PLAYER 复活分支 applyAll:只复活 hp=0 者(比例恢复+清≤3 级毒+清≤999 状态),活人不动,fScriptSuccess=revivedAny"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "fullName": "cov85 0x22 OP_REVIVE_PLAYER 复活分支 applyAll:只复活 hp=0 者(比例恢复+清≤3 级毒+清≤999 状态),活人不动,fScriptSuccess=revivedAny"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "fullName": "cov85 0x22 OP_REVIVE_PLAYER 复活分支 单体复活活人 → fScriptSuccess=false;无上下文单体 → 空目标集零变异"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "fullName": "cov85 0x22 OP_REVIVE_PLAYER 复活分支 单体复活活人 → fScriptSuccess=false;无上下文单体 → 空目标集零变异"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "fullName": "cov85 0x23 OP_REMOVE_EQUIPMENT 空槽分支 指定单槽为空 → 背包与装备层零变异"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "fullName": "cov85 0x23 OP_REMOVE_EQUIPMENT 空槽分支 指定单槽为空 → 背包与装备层零变异"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "fullName": "cov85 0x29 OP_POISON_PLAYER applyAll 与空目标 op0≠0 全队:0 抗必中(入口脚本跑一次)、100 抗必不中"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "fullName": "cov85 0x29 OP_POISON_PLAYER applyAll 与空目标 op0≠0 全队:0 抗必中(入口脚本跑一次)、100 抗必不中"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "fullName": "cov85 0x29 OP_POISON_PLAYER applyAll 与空目标 op0=0 且无上下文 → 空目标集,毒槽零变异"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "fullName": "cov85 0x29 OP_POISON_PLAYER applyAll 与空目标 op0=0 且无上下文 → 空目标集,毒槽零变异"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "fullName": "cov85 0x2d OP_SET_PLAYER_STATUS 状态分支 statusId 越界(≥行宽)→ 跳过不炸;无上下文 → 全队为目标"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "fullName": "cov85 0x2d OP_SET_PLAYER_STATUS 状态分支 statusId 越界(≥行宽)→ 跳过不炸;无上下文 → 全队为目标"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "fullName": "cov85 0x2d OP_SET_PLAYER_STATUS 状态分支 坏状态(≤3)已有(≠0)不刷新,为 0 才写"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "fullName": "cov85 0x2d OP_SET_PLAYER_STATUS 状态分支 坏状态(≤3)已有(≠0)不刷新,为 0 才写"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "fullName": "cov85 0x2d OP_SET_PLAYER_STATUS 状态分支 傀儡(4):死人取更大 rounds;活人 → fScriptSuccess=false"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "fullName": "cov85 0x2d OP_SET_PLAYER_STATUS 状态分支 傀儡(4):死人取更大 rounds;活人 → fScriptSuccess=false"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "fullName": "cov85 0x2d OP_SET_PLAYER_STATUS 状态分支 好状态(>4):死人不动;活人 rounds 更大才覆盖,更小保持"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "fullName": "cov85 0x2d OP_SET_PLAYER_STATUS 状态分支 好状态(>4):死人不动;活人 rounds 更大才覆盖,更小保持"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "fullName": "cov85 0x2f OP_REMOVE_PLAYER_STATUS 边界 >999 装备态不清;≤999 清 0;越界下标不炸"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "fullName": "cov85 0x2f OP_REMOVE_PLAYER_STATUS 边界 >999 装备态不清;≤999 清 0;越界下标不炸"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "fullName": "cov85 0x55/0x56 学/忘法术边界 0x55:重复学术不占新槽;spellObjectId=0 no-op;满 32 槽 no-op"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "fullName": "cov85 0x55/0x56 学/忘法术边界 0x55:重复学术不占新槽;spellObjectId=0 no-op;满 32 槽 no-op"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "fullName": "cov85 0x55/0x56 学/忘法术边界 0x55:op1≠0 → 显式 role;role 越界 no-op"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "fullName": "cov85 0x55/0x56 学/忘法术边界 0x55:op1≠0 → 显式 role;role 越界 no-op"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "fullName": "cov85 0x55/0x56 学/忘法术边界 0x56:忘已学术清槽;未学/越界 no-op;op1≠0 显式 role"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "fullName": "cov85 0x55/0x56 学/忘法术边界 0x56:忘已学术清槽;未学/越界 no-op;op1≠0 显式 role"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "fullName": "cov85 家族归属 非本族 opcode(0x01)→ false 交还调用方"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "fullName": "cov85 家族归属 非本族 opcode(0x01)→ false 交还调用方"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "fullName": "cov85r3 玩家 opcode 补臂 0x17 roleId=0xffff → 警告跳过;partIdx>0 落对应效果槽(71-80)"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "fullName": "cov85r3 玩家 opcode 补臂 0x17 roleId=0xffff → 警告跳过;partIdx>0 落对应效果槽(71-80)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "fullName": "cov85r3 玩家 opcode 补臂 0x18 roleId=0xffff → 警告跳过,装备层与背包零变异(84-87)"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "fullName": "cov85r3 玩家 opcode 补臂 0x18 roleId=0xffff → 警告跳过,装备层与背包零变异(84-87)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "fullName": "cov85r3 玩家 opcode 补臂 0x19/0x1a op2=0 且有上下文 → 作用 currentEventObjectId(119,131 cond 另一侧)"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "fullName": "cov85r3 玩家 opcode 补臂 0x19/0x1a op2=0 且有上下文 → 作用 currentEventObjectId(119,131 cond 另一侧)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "fullName": "cov85r3 玩家 opcode 补臂 0x22 单体 ctx=0xffff → 空目标集零变异(185-191 cond 臂)"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "fullName": "cov85r3 玩家 opcode 补臂 0x22 单体 ctx=0xffff → 空目标集零变异(185-191 cond 臂)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "fullName": "cov85r3 玩家 opcode 补臂 0x23 全卸槽位混合:有物槽回包、空槽跳过(211-216 loop 两臂)"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "fullName": "cov85r3 玩家 opcode 补臂 0x23 全卸槽位混合:有物槽回包、空槽跳过(211-216 loop 两臂)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "fullName": "cov85r3 玩家 opcode 补臂 0x29 单体 ctx 命中 + 100 抗必不中(236-247 单体臂)"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "fullName": "cov85r3 玩家 opcode 补臂 0x29 单体 ctx 命中 + 100 抗必不中(236-247 单体臂)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "fullName": "cov85r3 玩家 opcode 补臂 0x2d/0x2f ctx=0xffff → 全队为目标(263-268,286-290 cond 臂)"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "fullName": "cov85r3 玩家 opcode 补臂 0x2d/0x2f ctx=0xffff → 全队为目标(263-268,286-290 cond 臂)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "fullName": "cov85r3 玩家 opcode 补臂 0x55/0x56 显式 role 越界(op1-1 ≥ roleCount)→ no-op(303-310,321-326)"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "fullName": "cov85r3 玩家 opcode 补臂 0x55/0x56 显式 role 越界(op1-1 ≥ roleCount)→ no-op(303-310,321-326)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "fullName": "cov85r3 玩家 opcode 补臂 0x55 空 rgwMagic 表(roleCount=0)→ no-op 不炸(408-409)"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "fullName": "cov85r3 玩家 opcode 补臂 0x55 空 rgwMagic 表(roleCount=0)→ no-op 不炸(408-409)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "fullName": "cov85r3 玩家 opcode 补臂 0x8d 多级升级:保留六抽/级与精确成长;缺Exp行时仍能执行"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "fullName": "cov85r3 玩家 opcode 补臂 0x8d 多级升级:保留六抽/级与精确成长;缺Exp行时仍能执行"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "fullName": "cov85r3 玩家 opcode 补臂 0x1d HP/MP 各自钳 max 双向(341-361 clamp 臂)"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "fullName": "cov85r3 玩家 opcode 补臂 0x1d HP/MP 各自钳 max 双向(341-361 clamp 臂)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.glm-next-wave.test.ts",
+        "fullName": "0x2b OP_CURE_PLAYER_POISON_KIND(事件侧解指定种毒) 单体:只清该 role 的该种毒(wPoisonID→0),同 role 异种毒与异 role 同种毒原样保留"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.state-transitions.test.ts",
+        "fullName": "0x2b OP_CURE_PLAYER_POISON_KIND(事件侧解指定种毒) 单体:只清该 role 的该种毒(wPoisonID→0),同 role 异种毒与异 role 同种毒原样保留"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.glm-next-wave.test.ts",
+        "fullName": "0x2b OP_CURE_PLAYER_POISON_KIND(事件侧解指定种毒) applyAll=1:全队该种毒清除,异种毒保留"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.state-transitions.test.ts",
+        "fullName": "0x2b OP_CURE_PLAYER_POISON_KIND(事件侧解指定种毒) applyAll=1:全队该种毒清除,异种毒保留"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.glm-next-wave.test.ts",
+        "fullName": "0x2c OP_CURE_PLAYER_POISON_LEVEL(事件侧按等级解毒) 清除level≤3的毒,保留level 99装备毒(PAL_CurePoisonByLevel)"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.state-transitions.test.ts",
+        "fullName": "0x2c OP_CURE_PLAYER_POISON_LEVEL(事件侧按等级解毒) 清除level≤3的毒,保留level 99装备毒(PAL_CurePoisonByLevel)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.glm-next-wave.test.ts",
+        "fullName": "战斗保留族(0x21/0x28/0x2e):事件侧消费为 no-op、归战斗侧所有 OP_DAMAGE_ENEMY 0x21 返回 true 且 gs 零变异(与旧证 0x2a 合成完整家族)"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.state-transitions.test.ts",
+        "fullName": "战斗保留族(0x21/0x28/0x2e):事件侧消费为 no-op、归战斗侧所有 OP_DAMAGE_ENEMY 0x21 返回 true 且 gs 零变异(与旧证 0x2a 合成完整家族)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.glm-next-wave.test.ts",
+        "fullName": "战斗保留族(0x21/0x28/0x2e):事件侧消费为 no-op、归战斗侧所有 OP_POISON_ENEMY 0x28 返回 true 且 gs 零变异(与旧证 0x2a 合成完整家族)"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.state-transitions.test.ts",
+        "fullName": "战斗保留族(0x21/0x28/0x2e):事件侧消费为 no-op、归战斗侧所有 OP_POISON_ENEMY 0x28 返回 true 且 gs 零变异(与旧证 0x2a 合成完整家族)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.glm-next-wave.test.ts",
+        "fullName": "战斗保留族(0x21/0x28/0x2e):事件侧消费为 no-op、归战斗侧所有 OP_SET_ENEMY_STATUS 0x2e 返回 true 且 gs 零变异(与旧证 0x2a 合成完整家族)"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.state-transitions.test.ts",
+        "fullName": "战斗保留族(0x21/0x28/0x2e):事件侧消费为 no-op、归战斗侧所有 OP_SET_ENEMY_STATUS 0x2e 返回 true 且 gs 零变异(与旧证 0x2a 合成完整家族)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.glm-next-wave.test.ts",
+        "fullName": "0x23 OP_REMOVE_EQUIPMENT 卸指定单槽(slotPlusOne≠0 分支) 只卸 roleId 指定槽:该槽归零 + 背包 +1,其余槽与异 role 槽不动"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.state-transitions.test.ts",
+        "fullName": "0x23 OP_REMOVE_EQUIPMENT 卸指定单槽(slotPlusOne≠0 分支) 只卸 roleId 指定槽:该槽归零 + 背包 +1,其余槽与异 role 槽不动"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.glm-next-wave.test.ts",
+        "fullName": "0x18 OP_EQUIP_ITEM 非法槽边界 operands[0] 越出 [0x0b,0x10] → 警告 + gs 零变异(不写 iCurEquipPart / 背包 / 装备)"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.state-transitions.test.ts",
+        "fullName": "0x18 OP_EQUIP_ITEM 非法槽边界 operands[0] 越出 [0x0b,0x10] → 警告 + gs 零变异(不写 iCurEquipPart / 背包 / 装备)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.glm-opcode-residual.test.ts",
+        "fullName": "0x18/0x23 装备效果层撤除接线(event-opcode-player.ts:96/221/227) 0x18 换装先撤旧部位效果层(script.c:768-775):0x17 种入的加成清 0,有效攻击回落 base"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.state-transitions.test.ts",
+        "fullName": "0x18/0x23 装备效果层撤除接线 0x18 换装先撤旧部位效果层(script.c:768-775):0x17 种入的加成清 0,有效攻击回落 base"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.glm-opcode-residual.test.ts",
+        "fullName": "0x18/0x23 装备效果层撤除接线(event-opcode-player.ts:96/221/227) 0x23 单槽卸下:有物槽撤效果层;空槽残留不动(itemId!==0 守卫两侧,script.c:1122-1131)"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.state-transitions.test.ts",
+        "fullName": "0x18/0x23 装备效果层撤除接线 0x23 单槽卸下:有物槽撤效果层;空槽残留不动(itemId!==0 守卫两侧,script.c:1122-1131)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.glm-opcode-residual.test.ts",
+        "fullName": "0x18/0x23 装备效果层撤除接线(event-opcode-player.ts:96/221/227) 0x23 全卸无条件清每个部位效果层,含无物槽残留(script.c:1112-1121 循环臂)"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.state-transitions.test.ts",
+        "fullName": "0x18/0x23 装备效果层撤除接线 0x23 全卸无条件清每个部位效果层,含无物槽残留(script.c:1112-1121 循环臂)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.glm-opcode-residual.test.ts",
+        "fullName": "0x1c/0x1d applyAll 全队臂(script.c:896-919/923-947) 0x1c 全队 MP:活人改动+钳制、死人跳过,fScriptSuccess 不被写(与 0x1b applyAll 相异)"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.state-transitions.test.ts",
+        "fullName": "0x1c/0x1d applyAll 全队臂(script.c:896-919/923-947) 0x1c 全队 MP:活人改动+钳制、死人跳过,fScriptSuccess 不被写(与 0x1b applyAll 相异)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.glm-opcode-residual.test.ts",
+        "fullName": "0x1c/0x1d applyAll 全队臂(script.c:896-919/923-947) 0x1d 全队 HP+MP 双轨:死人两轨都跳,活人双加,fScriptSuccess 不被写"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.state-transitions.test.ts",
+        "fullName": "0x1c/0x1d applyAll 全队臂(script.c:896-919/923-947) 0x1d 全队 HP+MP 双轨:死人两轨都跳,活人双加,fScriptSuccess 不被写"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-opcode-player.glm-opcode-residual.test.ts",
+        "fullName": "0x29 抗性等值边界(event-opcode-player.ts:244) roll==resist → 抗性方胜(<=inclusive):50 掷对 50 抗被挡,51 掷命中"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-opcode-player.state-transitions.test.ts",
+        "fullName": "0x29 抗性等值边界 roll==resist → 抗性方胜(<=inclusive):50 掷对 50 抗被挡,51 掷命中"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-system.glm-event-k04.test.ts",
+        "fullName": "K04 opcode 0x7E setObjectLayer:sLayer 是 SHORT(global.h:78)——op1 按 16 位有符号写 op1=0xFFFE → sLayer=-2(SHORT wrap,立交/负层合同);单轴对照 op1=3 → 3(正数直通)"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-system.object-layer.test.ts",
+        "fullName": "opcode 0x7e — signed event-object layer op1=0xFFFE → sLayer=-2(SHORT wrap,立交/负层合同);单轴对照 op1=3 → 3(正数直通)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-system.glm-event-k04.test.ts",
+        "fullName": "K04 opcode 0x99 changeMap op0=0xFFFF:当前场景只换地图 + 立即 reload,脚本继续(sdlpal script.c:2743-2748) 0x99[0xFFFF,99] → sceneMapNumOverride[wNumScene]=99 + mapReloader(99) 一次;当帧后续 op 照跑"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-system.map-change.test.ts",
+        "fullName": "opcode 0x99 — current-scene map replacement 0x99[0xFFFF,99] → sceneMapNumOverride[wNumScene]=99 + mapReloader(99) 一次;当帧后续 op 照跑"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/event-system.glm-event-k04.test.ts",
+        "fullName": "K04 opcode 0x99 changeMap op0=0xFFFF:当前场景只换地图 + 立即 reload,脚本继续(sdlpal script.c:2743-2748) logs a rejected map replacement without interrupting the remaining script or owning its state"
+      },
+      "current": {
+        "file": "packages/game/src/core/event-system.map-change.test.ts",
+        "fullName": "opcode 0x99 — current-scene map replacement logs a rejected map replacement without interrupting the remaining script or owning its state"
+      }
+    }
+  ],
+  "retirements": [],
+  "cohortSubjects": [
+    {
+      "path": "packages/game/src/core/event-opcode-player.glm-next-wave.test.ts",
+      "sha256": "aae6743db5317e0e395f0a3cc0b42d8183e95455f0e8b4477a46014ecf926421",
+      "priorCurrentBridges": []
+    },
+    {
+      "path": "packages/game/src/core/event-opcode-player.glm-opcode-residual.test.ts",
+      "sha256": "e3d61119342fae5e100a7fb5a3e38b10bdb4e6050ad2d8572094076f6597e34f",
+      "priorCurrentBridges": []
+    },
+    {
+      "path": "packages/game/src/core/event-system.glm-event-k04.test.ts",
+      "sha256": "1f36104eeb5acfcffbeb28cbe0b40aeba210ad82f533989578b095ff8f1e35c4",
+      "priorCurrentBridges": []
+    }
+  ],
+  "profiles": [
+    {
+      "path": "packages/game/src/core/event-opcode-player.state-transitions.test.ts",
+      "subjects": [
+        "packages/game/src/core/event-opcode-player.glm-next-wave.test.ts",
+        "packages/game/src/core/event-opcode-player.glm-opcode-residual.test.ts"
+      ],
+      "axes": {
+        "A": "Two full147/178-line inputs and full current state-transition spec read. Real applyPlayerOpcode421 and actual applyRawOpcode delegation read; hydrated six-role provider and current values lawful except explicitly invalid equipment slots. Full previous source differs only canonical OP_ADD_MAGIC import/re-export, proved. Prior poison/equipment truth retained; no new gameplay reachability claim.",
+        "B": "Remove two obsolete TS line references; no author/wave label or exhaustive-coverage claim. Explain initialized state, state ownership and injected entry observer; existing C anchors keep original narrow scope. Sparse-poison slots are actual owner output, not a role-ID shortcut.",
+        "C": "Merge two arbitrary contribution leaves at one production owner/input/lifetime boundary. Equipment/poison/HPMP/routing groups are contiguous; one typed applyOpcode forwarder and one restore/reset hook. No model/IO/presentation code or broad reusable harness introduced.",
+        "D": "Reuse identical four-argument input contract and full former apply helper. Former plain zero-return poison callback becomes same zero-return observer used by resistance group; no first-file test asserts its old function identity. No extra product algorithm. Main six overview cases,41 neighbor branches and these14 precondition/result cases have different axes; parameterized battle-only members remain separate opcodes.",
+        "E": "All14 identities and full callbacks/literal oracles/tables preserved. Off-party poison isolation, equipment sentinel slots, exact two warnings, effect撤除, MP/HPMP false-and-true preservation and50/51 resistance remain discriminating. Historical forced-success old6green/new2businessred archived bytes validated; current full source canonical bridge and callbacks conserve applicability, no new red run claimed.",
+        "F": "state-transitions names the shared responsibility; groups sorted by equipment,poison,recovery,routing rather than author chronology. applyOpcode reveals the actual call and avoids nested input wrappers; removed generic input/apply duplication without adding modes.",
+        "G": "Two test files become one; no tests deleted/added, no production exports or fixtures invented. Duplicate top-level input construction and hook removed through an explicit full-body bridge. Two tiny idle-input helpers in unrelated event specs remain local; no common provider for three-line setup.",
+        "H": "Real algorithms execute; only Math.random/console and poison entry observation are controlled, all reset per case. Independent typed-tree proof includes parameters, return, imports, final assertions and negative AST control; native execution binds all58 involved identities and427 neighboringcases."
+      }
+    },
+    {
+      "path": "packages/game/src/core/event-system.object-layer.test.ts",
+      "subjects": ["packages/game/src/core/event-system.glm-event-k04.test.ts"],
+      "axes": {
+        "A": "Complete148-line prior mixed input and full current layer file read. Actual applyRawOpcode OP_SET_OBJECT_LAYER and SDLPal script.c2285-2290/global EVENTOBJECT SHORT examined; word0xfffe ->-2 and positive3 both use real tick/self context.",
+        "B": "Header and suite now name signed layer instead of K04; do not claim visual scene acceptance. Positive/negative pair intentionally documents sign-extension contrast. Old global.h:78 title pointed at OBJECTSTATE, actual EVENTOBJECT.sLayer is line100; new suite uses semantic anchor.",
+        "C": "Pure synchronous object-layer assertion separated from unrelated asynchronous map loader; only constructor/script/tick imports remain. No inherited hooks or global loader state.",
+        "D": "Fresh idle snapshots are local, zero-argument; a separate shared fixture would add indirection for three lines. Main event-system positive3 test is an overview; paired negative and positive contrast is one existing distinct identity, not an extra duplicate.",
+        "E": "Original full callback, two scripts/npc records/cursor fields and-2/3 oracles unchanged. Actual1case plus427neighbors; no newly simulated product mutation reported.",
+        "F": "event-system.object-layer.test.ts states responsibility; remove unused pressed parameter and AbstractKey import. Suite no longer depends on contributor ID or mutable line citation.",
+        "G": "One retained contract, no extra scenario or factory/API export. Unused sound wrapper and map dependencies absent from this file.",
+        "H": "Actual deterministic event interpreter, no mock business logic, fresh state/input for each side. Whole typed callback and import-owner proof catches tail/literal changes; no E2E credit."
+      }
+    },
+    {
+      "path": "packages/game/src/core/event-system.map-change.test.ts",
+      "subjects": ["packages/game/src/core/event-system.glm-event-k04.test.ts"],
+      "axes": {
+        "A": "Complete current file and prior148-line file read. Actual setMapReloader/OP_CHANGE_MAP/catch continuation examined. Exact current OP_CHANGE_MAP branch equals prior52 baseline65f0d8d; no whole giant event-system equality claimed. Successful,absent,rejected loader scopes remain event-layer only.",
+        "B": "Correct prior PAL_LoadResources equivalence wording: C synchronous IO does not specify TS asynchronous ordering. Specify actual neighboring event-opcodes.cov85 notification test; absence arm changes scene too, so no false single-variable claim.",
+        "C": "Separate asynchronous notification ownership from signed NPC-layer mutation. Loader runs via real interpreter, owns no replacement assets here; finally removes loader and restores logger. Independent cases keep their own state and observation.",
+        "D": "Neighbor32-case opcode suite has simple notification; this spec adds sound continuation,absent hook,and rejected callback with state boundaries. Preserve those distinctions; no generic loader harness or borrowed browser ownership claim.",
+        "E": "Both callbacks and exact Error/log/count/party/NPC/sceneLoading assertions preserved; one old sound wrapper expression inlined.58baseline/427neighbors native identities,zero failures/pending/stderr. No new rejection counter claimed; established accepted branch unchanged.",
+        "F": "map-change filename and current-scene suite expose lifetime; idleInput has no unused option. Optional pendingSounds fallback is visible at assertions rather than hidden by a trivial helper.",
+        "G": "Remove soundsOf and unused GameState/AbstractKey imports; no added tests, dispatch parameters or product hooks. Keep no-loader arm as its own explicit input state.",
+        "H": "Real typed scripts and real tick; loader is the existing external IO seam. Rejection awaits the same microtask and finally cleanup remains exact. No timers/cross-test shared state; no shell download/pixel acceptance."
+      }
+    },
+    {
+      "path": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+      "subjects": [
+        "packages/game/src/core/event-opcode-player.glm-next-wave.test.ts",
+        "packages/game/src/core/event-opcode-player.glm-opcode-residual.test.ts"
+      ],
+      "axes": {
+        "A": "Existing complete599-line neighboring test and13-line provider reread; original A-E/H evidence retained through exact typed module equality.41native identities unchanged; provider still hydrates fresh six-role records.",
+        "B": "Only header repairs: remove obsolete retired-path/coverage-batch claims and hardcoded four-consumer count. Body,types,assertions and imports remain identical.",
+        "C": "No ownership or lifetime change. Same provider constructs each fresh state,existing tests restore mocks/catalog; no shared mutable returned instance.",
+        "D": "Existing provider already has actual consumers; no new abstraction. Header does not assert universal deduplication, only neighboring responsibility. No extra whole-family acceptance.",
+        "E": "All41 auxiliary test callbacks/identities exact; original count is historical evidence, not acceptance by quantity. Same current neighbor run includes41; no new case or retired identity.",
+        "F": "Only comments corrected to current role; cov85 filename/title organization remains outside fixed AI-name cohort and is explicitly not freshly credited F/G.",
+        "G": "Zero body/exports/parameters changes. No new tests, no fixture shape weakening, no additional cohort credit for these auxiliary edits.",
+        "H": "Whole typed-module proof and same actual41-case run verify limited delta; prior provider forwarding bridge already accepted in organization-game-battle-fixtures."
+      }
+    },
+    {
+      "path": "packages/game/src/core/event-opcode-player.test-fixtures.ts",
+      "subjects": [
+        "packages/game/src/core/event-opcode-player.glm-next-wave.test.ts",
+        "packages/game/src/core/event-opcode-player.glm-opcode-residual.test.ts"
+      ],
+      "axes": {
+        "A": "Existing complete599-line neighboring test and13-line provider reread; original A-E/H evidence retained through exact typed module equality.41native identities unchanged; provider still hydrates fresh six-role records.",
+        "B": "Only header repairs: remove obsolete retired-path/coverage-batch claims and hardcoded four-consumer count. Body,types,assertions and imports remain identical.",
+        "C": "No ownership or lifetime change. Same provider constructs each fresh state,existing tests restore mocks/catalog; no shared mutable returned instance.",
+        "D": "Existing provider already has actual consumers; no new abstraction. Header does not assert universal deduplication, only neighboring responsibility. No extra whole-family acceptance.",
+        "E": "All41 auxiliary test callbacks/identities exact; original count is historical evidence, not acceptance by quantity. Same current neighbor run includes41; no new case or retired identity.",
+        "F": "Only comments corrected to current role; cov85 filename/title organization remains outside fixed AI-name cohort and is explicitly not freshly credited F/G.",
+        "G": "Zero body/exports/parameters changes. No new tests, no fixture shape weakening, no additional cohort credit for these auxiliary edits.",
+        "H": "Whole typed-module proof and same actual41-case run verify limited delta; prior provider forwarding bridge already accepted in organization-game-battle-fixtures."
+      }
+    }
+  ],
+  "preserved": [
+    {
+      "path": "packages/game/src/core/event-opcode-player.ts",
+      "sha256": "84580af1ab2a5f5ff9a331aa2494eef7d6a54e86e2808a21d691c7496065014e",
+      "lines": 421
+    },
+    {
+      "path": "packages/game/src/core/event-system.ts",
+      "sha256": "3b8490fa48d2992f693ab0eb611954dd0bfacbc22dc3eda58378cc4bc7a4b5f4",
+      "lines": 4967
+    },
+    {
+      "path": "packages/game/src/core/game-state.ts",
+      "sha256": "084718097eb0963c2ee3a9d72da59b313ca8fd401672f6a8b341ba21ae8b8906",
+      "lines": 1905
+    },
+    {
+      "path": "packages/game/src/core/equipment-state.ts",
+      "sha256": "4993411b4f30cb53f0f21a3c170748132c9d1ec8ab6ff4e94a931def846c2205",
+      "lines": 391
+    },
+    {
+      "path": "packages/game/src/core/player-poison-state.ts",
+      "sha256": "840f44416c30932d1044eb9e2f422d6b44ce95542289b84329b1c9968fc499f0",
+      "lines": 158
+    },
+    {
+      "path": "packages/game/src/core/inventory-state.ts",
+      "sha256": "61bedc73a9a72cd587b7bb202162528b4c2ad5e1bd5dfd9c6d0eea35ec0d8d25",
+      "lines": 31
+    },
+    {
+      "path": "packages/game/src/core/script-opcode-ids.ts",
+      "sha256": "1c78cbdf887755ccef0fa6958fe6937366fad3c4e1503dc0daa46234f44a7705",
+      "lines": 6
+    },
+    {
+      "path": "packages/game/src/__tests__/battle-records.ts",
+      "sha256": "e06702ce034d7b7b7680b649d2c6d11d948acd6daa9aeac0ad20478c62afc575",
+      "lines": 98
+    },
+    {
+      "path": "packages/game/src/core/event-opcode-player.test.ts",
+      "sha256": "acdbc63a5aca4b0f88903549da86d65c864e0e1748c9b4c0a0619ccf4606d57a",
+      "lines": 212
+    },
+    {
+      "path": "packages/game/src/core/event-system.test.ts",
+      "sha256": "59d37f447df59d6d3c44602390d248f5a934e03688bcf0e5c76a76915ec8d1d2",
+      "lines": 5996
+    },
+    {
+      "path": "packages/game/src/core/event-opcodes.cov85.test.ts",
+      "sha256": "77921c7c660aa1fd4c1254ae798c99df2dbe74ac096230b1a533f1ce99da15f7",
+      "lines": 519
+    },
+    {
+      "path": "reference/sdlpal/script.c",
+      "sha256": "f5332e015b27018ad03385b4ceab6c44dc0509e81ace7e8785d1843ae88cd017",
+      "lines": 3652
+    },
+    {
+      "path": "reference/sdlpal/global.h",
+      "sha256": "07f307f91af62291fba50a345075c54adf170a33d1eba1f389852abf9c44d28c",
+      "lines": 757
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-closeout/review.json",
+      "sha256": "c1ca527f22db7df41ad6088db7c6419bd73d809996c45a6a8b66fa70f4afa81d",
+      "lines": 579
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-quality/review.json",
+      "sha256": "418d8516e22da24fe9a060e5a9850249f61eea954afc1dcae5b3c7db72c9facf",
+      "lines": 501
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/review.json",
+      "sha256": "189f13fefca9a3a1a6c0342ed65e903b242aeda10ce6c8fdc777a34a56dea2ed",
+      "lines": 569
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/approved-remaining-reviewed.json",
+      "sha256": "ad6438cf6e0a6d5feb2bb0b7240cd61e95aa95d6179c9ae5988bb3d02eed50ba",
+      "lines": 800
+    }
+  ],
+  "neighborPaths": [
+    "packages/game/src/core/event-opcode-player.cov85.test.ts",
+    "packages/game/src/core/event-opcode-player.state-transitions.test.ts",
+    "packages/game/src/core/event-opcode-player.test.ts",
+    "packages/game/src/core/event-opcodes.cov85.test.ts",
+    "packages/game/src/core/event-system.map-change.test.ts",
+    "packages/game/src/core/event-system.object-layer.test.ts",
+    "packages/game/src/core/event-system.test.ts",
+    "packages/game/src/core/player-poison-equipment-lifecycle.test.ts"
+  ],
+  "receipts": {
+    "docs": "organization-event-transitions/docs-r2",
+    "content-review": "organization-event-transitions/content-review-r2",
+    "scoped": "organization-event-transitions/scoped-r2",
+    "diff": "organization-event-transitions/diff-r2",
+    "ledger-final": "organization-event-transitions/ledger-final-r2"
+  },
+  "cleanExecutions": [
+    "before",
+    "reorganize",
+    "format",
+    "refine-adapter",
+    "format-r2",
+    "proof",
+    "reused-controls",
+    "neighbors",
+    "typecheck",
+    "docs",
+    "content-review",
+    "lint",
+    "scoped",
+    "diff",
+    "ledger-final",
+    "module-preflight",
+    "repair-registration-r2"
+  ],
+  "lightweightGates": true,
+  "callbackProof": "organization-event-transitions/proof.stdout.raw",
+  "qualityDelta": {
+    "historicalSubjects": 3,
+    "subjectIdentities": 17,
+    "auxiliaryIdentities": 41,
+    "registrations": 56,
+    "runtimeIdentities": 58,
+    "playerGroups": 8,
+    "currentSpecs": 4,
+    "providerCommentsOnly": true,
+    "newCases": 0,
+    "retiredCases": 0,
+    "productChanged": false
+  },
+  "reusedControls": {
+    "verification": "organization-event-transitions/reused-controls.stdout.raw",
+    "scope": "Archive SHA/member hashes and prior mutation source SHA; current production canonical-only source bridge and unchanged full callbacks. No new red execution.",
+    "mapBranch": "Exact prior52 OP_CHANGE_MAP block only; not giant whole-source credit"
+  },
+  "reads": {
+    "fullInputs": [
+      {
+        "path": "packages/game/src/core/event-opcode-player.glm-next-wave.test.ts",
+        "member": "organization-event-transitions/0.before",
+        "sha256": "aae6743db5317e0e395f0a3cc0b42d8183e95455f0e8b4477a46014ecf926421",
+        "lines": 147
+      },
+      {
+        "path": "packages/game/src/core/event-opcode-player.glm-opcode-residual.test.ts",
+        "member": "organization-event-transitions/1.before",
+        "sha256": "e3d61119342fae5e100a7fb5a3e38b10bdb4e6050ad2d8572094076f6597e34f",
+        "lines": 178
+      },
+      {
+        "path": "packages/game/src/core/event-system.glm-event-k04.test.ts",
+        "member": "organization-event-transitions/2.before",
+        "sha256": "1f36104eeb5acfcffbeb28cbe0b40aeba210ad82f533989578b095ff8f1e35c4",
+        "lines": 148
+      },
+      {
+        "path": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "member": "organization-event-transitions/3.before",
+        "sha256": "ee3754bd43750893e9dd1f2b3c465ca97ddf645d10462a48801f60ff1aa1001c",
+        "lines": 599
+      },
+      {
+        "path": "packages/game/src/core/event-opcode-player.test-fixtures.ts",
+        "member": "organization-event-transitions/4.before",
+        "sha256": "9b36c46273ae69e3cbb75d436c01673ae1bc169e3233262420e5478f7a530ca7",
+        "lines": 13
+      }
+    ],
+    "fullOutputs": [
+      {
+        "path": "packages/game/src/core/event-opcode-player.state-transitions.test.ts",
+        "sha256": "5268d4622ea6771b29d458a7a2bbf854e75bf04e5366658a1e57203e3ad8459b",
+        "lines": 304
+      },
+      {
+        "path": "packages/game/src/core/event-system.object-layer.test.ts",
+        "sha256": "15ba81c7fbca2b044e38d5f027d65fb7908f4a96734f80efe143a21eda7bdd6f",
+        "lines": 47
+      },
+      {
+        "path": "packages/game/src/core/event-system.map-change.test.ts",
+        "sha256": "1d22c39edb1744da89e4da3e27b4cbcba3c1b48a8bc9c2a5901e049dc46681f6",
+        "lines": 100
+      }
+    ],
+    "auxiliaryOutputsViaExactTypedBodyReuse": [
+      {
+        "path": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+        "sha256": "c76b60c9e44575586fa313ae98fa018e27f33b0b7612734abbb19e431773a901",
+        "lines": 595
+      },
+      {
+        "path": "packages/game/src/core/event-opcode-player.test-fixtures.ts",
+        "sha256": "6555d6ce7f6737b3eac355ae211b9d6ffec5e77ee3fcaf18e3f4ca73e1af21ea",
+        "lines": 13
+      }
+    ],
+    "fullPlayerOwner": {
+      "path": "packages/game/src/core/event-opcode-player.ts",
+      "sha256": "84580af1ab2a5f5ff9a331aa2494eef7d6a54e86e2808a21d691c7496065014e",
+      "lines": 421
+    },
+    "fullPlayerMain": {
+      "path": "packages/game/src/core/event-opcode-player.test.ts",
+      "sha256": "acdbc63a5aca4b0f88903549da86d65c864e0e1748c9b4c0a0619ccf4606d57a",
+      "lines": 212
+    },
+    "scopedEventOwner": [[640, 660], [3414, 3446], [4039, 4066], [4458, 4495]],
+    "scopedMain": [[2010, 2026], [4715, 4720]],
+    "scopedOpcodeNeighbor": [[450, 485]],
+    "primary": {
+      "path": "reference/sdlpal/script.c",
+      "ranges": [[760, 786], [2280, 2293], [2736, 2757]]
+    },
+    "priorDependencyScope": "Earlier accepted equipment/poison/game-state/battle-records evidence reused under current recorded pins; no fresh full giant-source claim.",
+    "primaryType": {
+      "path": "reference/sdlpal/global.h",
+      "ranges": [[95, 113]]
+    }
+  },
+  "processDisclosures": [
+    "First manifest producer omitted a separating newline before reconstructed analysis-only groups; parser rejected before manifest write. r2 restores the delimiter, keeps all assertions, and never changes executable tests or central verifier.",
+    "Initial two-wrapper draft retained nested applyPlayerOpcode(playerInput(...)); before any test rerun refined to existing complete typed applyOpcode adapter for readability. Both producer scripts/format runs retained.",
+    "Auxiliary cov85 header and provider count changed only comments; no fresh cohort credit or whole cov85 naming closure. Prior full review records and exact AST retained.",
+    "Merged first-file zero callback now shares former second-file zero-return spy; instrumentation is explicit and cleared after every case, all state/assertion contracts preserved.",
+    "First docs run found one quoted historical K04 link dangling after split; rebound only that link to verified original Git blob and provided exact inverse URL+quote reconstruction. First ledger run found blank removed-row delimiter prematurely ended live table; deleted only that delimiter, no count/rule weakening.",
+    "First inverse-quote proof added one extra final newline and rejected before repository writes; r2 matches the original3625-byte quote framing, retains SHA equality and failed raw."
+  ],
+  "knownAdjacentObservations": [
+    "Neighbor event-opcode-player.cov85.test.ts retains coverage/r3 titles; its41 complete bodies were read but current delta is comments only, outside fixed178 AI-name subjects. No new task expansion or false whole F/G acceptance."
+  ],
+  "invalidations": "Change in player dispatcher,poison/equipment owners,hook/lifetime/input wrapper or mapped callbacks invalidates corresponding claim. Map tests certify event notification/rejection continuation, not Shell asset IO or actual rendered maps.",
+  "ledgerCounts": {
+    "inventory": 3451,
+    "closed": 506,
+    "review": 313,
+    "pending": 2632
+  },
+  "quantitativeScreen": [
+    {
+      "path": "packages/game/src/core/event-opcode-player.state-transitions.test.ts",
+      "method": "Own syntactic decisions; reading pointer only, not acceptance target",
+      "functions": 24,
+      "max": 1,
+      "over10": 0
+    },
+    {
+      "path": "packages/game/src/core/event-system.object-layer.test.ts",
+      "method": "Own syntactic decisions; reading pointer only, not acceptance target",
+      "functions": 3,
+      "max": 1,
+      "over10": 0
+    },
+    {
+      "path": "packages/game/src/core/event-system.map-change.test.ts",
+      "method": "Own syntactic decisions; reading pointer only, not acceptance target",
+      "functions": 7,
+      "max": 3,
+      "over10": 0
+    }
+  ],
+  "historicalLinkRepair": {
+    "path": "docs/testing/archive/legacy/batches/glm-event-wave-k/codex-accept-r2-1f26d421.md",
+    "beforeSha256": "650f439ad6603c7dcbe18dab18b1d844297b953ed72fcf176e91f43d2a1aa8ae",
+    "afterSha256": "f490060fe53e73644c65d52bb7482b90a6ee7b379fa8fa87712054d0fbf67f1f",
+    "beforeMember": "organization-event-transitions/historical-link.before",
+    "oldTarget": "../../../../../../packages/game/src/core/event-system.glm-event-k04.test.ts",
+    "newTarget": "https://github.com/IllegalCreed/type-pal/blob/1f26d421ab81090c83b704968973e369473d563a/packages/game/src/core/event-system.glm-event-k04.test.ts",
+    "frozenTarget": {
+      "revision": "1f26d421ab81090c83b704968973e369473d563a",
+      "path": "packages/game/src/core/event-system.glm-event-k04.test.ts",
+      "blob": "703cb1f03d60e83fef3eda83a1f25dc9cf29dae7",
+      "sha256": "0edf6bd6b9af543164baa7b13e0dfce41a6e14bcbc419fb55b66300d2465919c"
+    },
+    "originalSourceSha256": "7d3e86779215e03dace2408715e9ca824bed5c17d124545e3edef1b6fec52055",
+    "inverseExact": true,
+    "scope": "One historical URL + explicit reversible maintenance note; no original facts/counters/counts replaced. Ledger repair removes exactly one blank row that accidentally terminated live table; no machine rule/ignore change."
+  }
+}

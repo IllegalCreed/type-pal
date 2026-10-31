@@ -1,7 +1,7 @@
 /** CODE81 — picker-owned observer/thumbnail work must obey the picker lifetime. */
 
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { makeRole } from '../__tests__/coverage85-glm-game/harness.js'
+import { makeRoleRecord as makeRole } from '../__tests__/battle-records.js'
 import { SceneAssetsCache } from '../assets/loader.js'
 import { createInitialGameState, hydratePlayerRolesRuntime } from '../core/game-state.js'
 import type { DevPanelDeps, SceneJump } from './dev-panel.js'

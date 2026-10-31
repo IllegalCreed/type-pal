@@ -11,10 +11,7 @@ describe('全量 events round-trip', () => {
     const sssBuf = new Uint8Array(readFileSync(SSS_MKF))
     const msgBuf = new Uint8Array(readFileSync(M_MSG))
     const result = roundtripCheck(sssBuf, msgBuf)
-    if (!result.ok) {
-      console.error('ROUND-TRIP FAILED:', result)
-    }
-    expect(result.ok).toBe(true)
-    expect(result.originalSize).toBe(result.recompiledSize)
+    // 固定原盘chunk4长度由独立MKF头读取，不能让两边同样选错空数据而通过。
+    expect(result).toEqual({ ok: true, originalSize: 348024, recompiledSize: 348024 })
   })
 })

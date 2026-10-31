@@ -29,11 +29,24 @@ test.each([
   expect(() => assertMigrationFilePath(f.repo, path, 'test')).toThrow('规范仓库相对路径')
   expect(tree(f.root)).toEqual(before)
 })
-test('missing hierarchy and regular targets are valid, non-directory parents and directory leaves are not', () => {
+test('inspects missing hierarchy and regular targets without creating or changing files', () => {
   const f = fixture()
+  const missing = tree(f.root)
   expect(assertMigrationFilePath(f.repo, 'a/b/c', 'test')).toBe(join(f.repo, 'a/b/c'))
+  expect(tree(f.root)).toEqual(missing)
   put(join(f.repo, 'a/b/c'), 'data')
+  const existing = tree(f.root)
   expect(assertMigrationFilePath(f.repo, 'a/b/c', 'test')).toBe(join(f.repo, 'a/b/c'))
-  expect(() => assertMigrationFilePath(f.repo, 'a/b', 'test')).toThrow('路径类型无效')
-  expect(() => assertMigrationFilePath(f.repo, 'a/b/c/d', 'test')).toThrow('路径类型无效')
+  expect(tree(f.root)).toEqual(existing)
+})
+
+test.each([
+  { name: 'directory leaves', path: 'a/b' },
+  { name: 'non-directory parents', path: 'a/b/c/d' },
+])('rejects $name without writes', ({ path }) => {
+  const f = fixture()
+  put(join(f.repo, 'a/b/c'), 'data')
+  const before = tree(f.root)
+  expect(() => assertMigrationFilePath(f.repo, path, 'test')).toThrow('路径类型无效')
+  expect(tree(f.root)).toEqual(before)
 })

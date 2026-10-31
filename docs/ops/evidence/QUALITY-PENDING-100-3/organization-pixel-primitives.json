@@ -1,0 +1,1141 @@
+{
+  "inputs": [
+    {
+      "path": "packages/game/src/present/draw-number-slots.grok-r1.test.ts",
+      "sha256": "6cb8a530e70a1797a35e1795cffd70e78353ccd4f7119f8bc960ffaa5b37e28c",
+      "member": "organization-pixel-primitives/0.before"
+    },
+    {
+      "path": "packages/game/src/present/draw-tilemap-pixels.grok-r1.test.ts",
+      "sha256": "77d84c6b6a974bcb50631dcd3d59e18e3153d901016d5e0ea868fdac9bc82487",
+      "member": "organization-pixel-primitives/1.before"
+    },
+    {
+      "path": "packages/game/src/present/draw-number.test.ts",
+      "sha256": "4251c96b758cb2eae081861eada535db545e695e636239cc408e0a795ec03e9e",
+      "member": "organization-pixel-primitives/2.before"
+    },
+    {
+      "path": "packages/game/src/present/draw-tilemap.test.ts",
+      "sha256": "6d05455949e1f87ce1208236cd4fd1e1e98a8a27772246ba022cfc4a8813c794",
+      "member": "organization-pixel-primitives/3.before"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "packages/game/src/present/draw-number.test.ts",
+      "sha256": "8bf78783295ffebe9a1545fb1dfb0b5582f6e1be8ee59a5a2bb26b244c49ceb9"
+    },
+    {
+      "path": "packages/game/src/present/draw-tilemap.test.ts",
+      "sha256": "7e977efeb8fbbad90eab4e7f413619021690623b8e73a2438d4e8f59a4ae951d"
+    },
+    {
+      "path": "packages/game/src/present/draw-tilemap-seams.test.ts",
+      "sha256": "ba1d40a35da50ca04d3f8c8a40d26301c4fda80a96d2ee3234f09de85b9d813f"
+    }
+  ],
+  "sourceBridges": [
+    {
+      "path": "packages/game/src/present/draw-number-slots.grok-r1.test.ts",
+      "id": "pixel-primitives-0",
+      "changes": [
+        {
+          "from": "/**\n * TEST-GROK-RENDER-HOST-LARGE-1 G05-C。\n * 不重复 draw-number.test 的右对齐/左对齐/截断/缺帧不抛，\n * 也不重复结算画面已经钉死的一位中对齐。\n */\nimport { describe, expect, it } from 'vitest'\nimport type { IndexedImage } from '../assets/png.js'\nimport { createDigitFrames } from './__tests__/digit-frames.js'\nimport { drawNumber } from './draw-number.js'\nimport { createFramebuffer } from './framebuffer.js'\n\nfunction frameAt(\n  slot: number,\n  paint: (indices: Uint8Array, opaque: Uint8Array) => void,\n): IndexedImage[] {\n  const frames = createDigitFrames()\n  const indices = new Uint8Array(48)\n  const opaque = new Uint8Array(48)\n  paint(indices, opaque)\n  frames[slot] = { width: 6, height: 8, indices, opaque }\n  return frames\n}\n\ndescribe('G05-C draw-number 空位与掩码', () => {\n  it('G05-C01 透明孔保留底色，旁边的不透明点写入精灵索引 44', () => {\n    const fb = createFramebuffer()\n    fb.indices.fill(7)\n    const frames = frameAt(19, (indices, opaque) => {\n      indices[0] = 99\n      opaque[0] = 0\n      indices[1] = 44\n      opaque[1] = 1\n      indices[2] = 0\n      opaque[2] = 1\n    })\n    drawNumber(fb, 0, 1, { x: 20, y: 10 }, 'yellow', 'left', frames)\n    const expected = Buffer.alloc(320 * 200, 7)\n    expected[10 * 320 + 21] = 44\n    expected[10 * 320 + 22] = 0 // 不透明黑色不能被当成透明孔。\n    expect(Buffer.compare(fb.indices, expected)).toBe(0)\n  })\n\n  it('G05-C02 只点亮最后一行时，像素写在 y+7，首行保持底色', () => {\n    const fb = createFramebuffer()\n    fb.indices.fill(7)\n    const frames = frameAt(19, (indices, opaque) => {\n      indices[7 * 6] = 44\n      opaque[7 * 6] = 1\n    })\n    drawNumber(fb, 0, 1, { x: 30, y: 12 }, 'yellow', 'left', frames)\n    const expected = Buffer.alloc(320 * 200, 7)\n    expected[19 * 320 + 30] = 44\n    expect(Buffer.compare(fb.indices, expected)).toBe(0)\n  })\n\n  it('G05-C03 个位帧缺失时仍把十位画到左移 6 像素的位置', () => {\n    const fb = createFramebuffer()\n    const frames = createDigitFrames()\n    delete frames[19]\n    drawNumber(fb, 10, 2, { x: 49, y: 14 }, 'yellow', 'left', frames)\n    const expected = Buffer.alloc(320 * 200)\n    for (let row = 14; row < 22; row++) expected.fill(20, row * 320 + 49, row * 320 + 55)\n    expect(Buffer.compare(fb.indices, expected)).toBe(0)\n  })\n\n  it('G05-C04 nLength 为 0 且数字大于 0 时，一个数字像素都不写', () => {\n    const fb = createFramebuffer()\n    fb.indices.fill(7)\n    drawNumber(fb, 5, 0, { x: 49, y: 14 }, 'yellow', 'left', createDigitFrames())\n    expect(Buffer.compare(fb.indices, Buffer.alloc(320 * 200, 7))).toBe(0)\n  })\n\n  it('G05-C05 数字 0 且 nLength 为 0 时，右对齐把这一位画在 pos.x-6', () => {\n    const fb = createFramebuffer()\n    drawNumber(fb, 0, 0, { x: 49, y: 14 }, 'yellow', 'right', createDigitFrames())\n    const expected = Buffer.alloc(320 * 200)\n    for (let row = 14; row < 22; row++) expected.fill(19, row * 320 + 43, row * 320 + 49)\n    expect(Buffer.compare(fb.indices, expected)).toBe(0)\n  })\n})\n",
+          "to": "import type { Tilemap } from '@type-pal/shared'\nimport { describe, expect, it } from 'vitest'\nimport type { IndexedImage } from '../assets/png.js'\nimport { createDigitFrames } from './__tests__/digit-frames.js'\nimport { drawNumber } from './draw-number.js'\nimport { drawTilemap, repairTilemapSeams, type TileImage, type TileImages } from './draw-tilemap.js'\nimport { createFramebuffer, type Framebuffer } from './framebuffer.js'\nfunction digitFramesWithMask(\n  slot: number,\n  paint: (indices: Uint8Array, opaque: Uint8Array) => void,\n): IndexedImage[] {\n  const frames = createDigitFrames()\n  const indices = new Uint8Array(48)\n  const opaque = new Uint8Array(48)\n  paint(indices, opaque)\n  frames[slot] = { width: 6, height: 8, indices, opaque }\n  return frames\n}\nfunction expectDigitPixels(\n  fb: Framebuffer,\n  digits: { x: number; y: number; index: number }[],\n): void {\n  const expected = Buffer.alloc(fb.width * fb.height)\n  for (const { x, y, index } of digits) {\n    for (let row = y; row < y + 8; row++)\n      expected.fill(index, row * fb.width + x, row * fb.width + x + 6)\n  }\n  expect(Buffer.compare(fb.indices, expected)).toBe(0)\n}\nfunction solidTileImage(index: number, width = 1, height = 1): TileImage {\n  const count = width * height\n  return {\n    width,\n    height,\n    indices: new Uint8Array(count).fill(index),\n    opaque: new Uint8Array(count).fill(1),\n  }\n}\nfunction tilemapFromCells(cells: Tilemap['cells']): Tilemap {\n  return { width: cells[0]?.length ?? 0, height: cells.length, cells, tileset: 'g03' }\n}\ndescribe('Number sprite layout and mask pixels', () => {\n  it('G05-C01 透明孔保留底色，旁边的不透明点写入精灵索引 44', () => {\n    const fb = createFramebuffer()\n    fb.indices.fill(7)\n    const frames = digitFramesWithMask(19, (indices, opaque) => {\n      indices[0] = 99\n      opaque[0] = 0\n      indices[1] = 44\n      opaque[1] = 1\n      indices[2] = 0\n      opaque[2] = 1\n    })\n    drawNumber(fb, 0, 1, { x: 20, y: 10 }, 'yellow', 'left', frames)\n    const expected = Buffer.alloc(320 * 200, 7)\n    expected[10 * 320 + 21] = 44\n    expected[10 * 320 + 22] = 0 // 不透明黑色不能被当成透明孔。\n    expect(Buffer.compare(fb.indices, expected)).toBe(0)\n  })\n\n  it('G05-C02 只点亮最后一行时，像素写在 y+7，首行保持底色', () => {\n    const fb = createFramebuffer()\n    fb.indices.fill(7)\n    const frames = digitFramesWithMask(19, (indices, opaque) => {\n      indices[7 * 6] = 44\n      opaque[7 * 6] = 1\n    })\n    drawNumber(fb, 0, 1, { x: 30, y: 12 }, 'yellow', 'left', frames)\n    const expected = Buffer.alloc(320 * 200, 7)\n    expected[19 * 320 + 30] = 44\n    expect(Buffer.compare(fb.indices, expected)).toBe(0)\n  })\n\n  it('G05-C03 个位帧缺失时仍把十位画到左移 6 像素的位置', () => {\n    const fb = createFramebuffer()\n    const frames = createDigitFrames()\n    delete frames[19]\n    drawNumber(fb, 10, 2, { x: 49, y: 14 }, 'yellow', 'left', frames)\n    const expected = Buffer.alloc(320 * 200)\n    for (let row = 14; row < 22; row++) expected.fill(20, row * 320 + 49, row * 320 + 55)\n    expect(Buffer.compare(fb.indices, expected)).toBe(0)\n  })\n\n  it('G05-C04 nLength 为 0 且数字大于 0 时，一个数字像素都不写', () => {\n    const fb = createFramebuffer()\n    fb.indices.fill(7)\n    drawNumber(fb, 5, 0, { x: 49, y: 14 }, 'yellow', 'left', createDigitFrames())\n    expect(Buffer.compare(fb.indices, Buffer.alloc(320 * 200, 7))).toBe(0)\n  })\n\n  it('G05-C05 数字 0 且 nLength 为 0 时，右对齐把这一位画在 pos.x-6', () => {\n    const fb = createFramebuffer()\n    drawNumber(fb, 0, 0, { x: 49, y: 14 }, 'yellow', 'right', createDigitFrames())\n    const expected = Buffer.alloc(320 * 200)\n    for (let row = 14; row < 22; row++) expected.fill(19, row * 320 + 43, row * 320 + 49)\n    expect(Buffer.compare(fb.indices, expected)).toBe(0)\n  })\n})\n",
+          "count": 1
+        }
+      ],
+      "reason": "Private fixture names, unused fourth tile-helper parameter removal, explicit one fence oracle strengthening; originalOrdinal/fullName retained."
+    },
+    {
+      "path": "packages/game/src/present/draw-tilemap-pixels.grok-r1.test.ts",
+      "id": "pixel-primitives-1",
+      "changes": [
+        {
+          "from": "/**\n * G03-A。旧 draw-tilemap 测了子行坐标、fence 的 get 次数、9-bit id、全不透明 coverage，\n * 以及接缝在邻居同值时能填上。本组补缺失帧回落、半裁剪的 coverage、行/列剔除和邻居顺序。\n */\nimport type { Tilemap } from '@type-pal/shared'\nimport { describe, expect, it } from 'vitest'\nimport { drawTilemap, repairTilemapSeams, type TileImage, type TileImages } from './draw-tilemap.js'\nimport { createFramebuffer } from './framebuffer.js'\n\nfunction tile(index: number, width = 1, height = 1, opaque?: number): TileImage {\n  const count = width * height\n  return {\n    width,\n    height,\n    indices: new Uint8Array(count).fill(index),\n    opaque: new Uint8Array(count).fill(opaque ?? 1),\n  }\n}\n\nfunction mapOf(cells: Tilemap['cells']): Tilemap {\n  return { width: cells[0]?.length ?? 0, height: cells.length, cells, tileset: 'g03' }\n}\n\ndescribe('G03-A drawTilemap 像素与接缝', () => {\n  it('G03-A01 layer 0 的 lower 图缺失时，画面用 tile 0，upper 仍用自己的图', () => {\n    const fb = createFramebuffer()\n    const tiles: TileImages = {\n      get(idx) {\n        if (idx === 0) return tile(9)\n        if (idx === 2) return tile(3)\n        return undefined\n      },\n    }\n    drawTilemap(fb, mapOf([[{ lower: 5, upper: 2 }]]), tiles, { x: -26, y: -18 }, 0)\n    expect(fb.indices[10 * 320 + 10]).toBe(9)\n    expect(fb.indices[18 * 320 + 26]).toBe(3)\n  })\n\n  it('G03-A02 layer 1 的 upper 有 id 但没有图时，不回落 tile 0', () => {\n    const fb = createFramebuffer()\n    fb.writePixel(20, 20, 6)\n    const seen: number[] = []\n    const tiles: TileImages = {\n      get(idx) {\n        seen.push(idx)\n        if (idx === 0) return tile(9)\n        return undefined\n      },\n    }\n    drawTilemap(fb, mapOf([[{ lower: 0, upper: 0x00050000 }]]), tiles, { x: -20, y: -20 }, 1)\n    expect(fb.indices[20 * 320 + 20]).toBe(6)\n    expect(seen).not.toContain(0)\n    expect(seen).toContain(4)\n  })\n\n  it('G03-A03 layer 1 的 lower 图缺失时仍回落 tile 0，upper 的 -1 不画', () => {\n    const fb = createFramebuffer()\n    fb.writePixel(24, 16, 6)\n    const tiles: TileImages = {\n      get(idx) {\n        if (idx === 0) return tile(9)\n        return undefined\n      },\n    }\n    drawTilemap(fb, mapOf([[{ lower: 0x00050000, upper: 0 }]]), tiles, { x: -24, y: -16 }, 1)\n    expect(fb.indices[8 * 320 + 8]).toBe(9)\n    expect(fb.indices[16 * 320 + 24]).toBe(6)\n  })\n\n  it('G03-A04 透明像素不记 coverage，不透明的 index 0 会写入并记 coverage', () => {\n    const fb = createFramebuffer()\n    fb.writePixel(30, 30, 4)\n    const image = tile(0, 2, 1)\n    image.indices[0] = 7\n    image.opaque[0] = 0\n    const tiles: TileImages = {\n      get(idx) {\n        if (idx === 1) return image\n        return undefined\n      },\n    }\n    const coverage = new Uint8Array(320 * 200)\n    drawTilemap(fb, mapOf([[{ lower: 1, upper: 0 }]]), tiles, { x: -46, y: -38 }, 0, coverage)\n    expect(fb.indices[30 * 320 + 30]).toBe(4)\n    expect(coverage[30 * 320 + 30]).toBe(0)\n    expect(fb.indices[30 * 320 + 31]).toBe(0)\n    expect(coverage[30 * 320 + 31]).toBe(1)\n  })\n\n  it('G03-A05 瓦片跨过 x=0 时，负列不记 coverage，屏内列写入 9', () => {\n    const fb = createFramebuffer()\n    const image = tile(0, 2, 1)\n    image.indices[0] = 8\n    image.indices[1] = 9\n    const tiles: TileImages = {\n      get(idx) {\n        if (idx === 1) return image\n        return undefined\n      },\n    }\n    const coverage = new Uint8Array(320 * 200)\n    drawTilemap(fb, mapOf([[{ lower: 1, upper: 0 }]]), tiles, { x: -15, y: -13 }, 0, coverage)\n    expect(fb.indices[5 * 320]).toBe(9)\n    expect(coverage[5 * 320]).toBe(1)\n    expect(coverage[5 * 320 - 1]).toBe(0)\n  })\n\n  it('G03-A06 瓦片跨过 y=0 时，屏内那一行写入 9，再下一行保持空白', () => {\n    const fb = createFramebuffer()\n    const image = tile(0, 1, 2)\n    image.indices[0] = 8\n    image.indices[1] = 9\n    const tiles: TileImages = {\n      get(idx) {\n        if (idx === 1) return image\n        return undefined\n      },\n    }\n    drawTilemap(fb, mapOf([[{ lower: 1, upper: 0 }]]), tiles, { x: -19, y: -7 }, 0)\n    expect(fb.indices[3]).toBe(9)\n    expect(fb.indices[320 + 3]).toBe(0)\n  })\n\n  it('G03-A07 整行落在屏幕下方时不取该行的 tile id', () => {\n    const seen: number[] = []\n    const tiles: TileImages = {\n      get(idx) {\n        seen.push(idx)\n        return undefined\n      },\n    }\n    // 第 0 行在屏内（lower=4）。第 13 行 rowPxY-8=200，整行被剔除。\n    // 右 fence 用的是 cells[0][0]，不能把禁取 id 放在那里。\n    const cells = Array.from({ length: 14 }, (_, r) => [\n      { lower: r === 13 ? 3 : r === 0 ? 4 : 0, upper: 0 },\n    ])\n    drawTilemap(createFramebuffer(), mapOf(cells), tiles, { x: 0, y: 0 }, 0)\n    expect(seen).not.toContain(3)\n    expect(seen).toContain(4)\n  })\n\n  it('G03-A08 整列落在屏幕右边界外时不取该列的 tile id', () => {\n    const seen: number[] = []\n    const tiles: TileImages = {\n      get(idx) {\n        seen.push(idx)\n        return undefined\n      },\n    }\n    // c=11 的 cellPxX-16=336≥320，整列剔除。底 fence 在第 14 行，同样出屏。\n    const cells = Array.from({ length: 14 }, () =>\n      Array.from({ length: 12 }, (_, c) => ({\n        lower: c === 11 ? 3 : c === 0 ? 4 : 0,\n        upper: 0,\n      })),\n    )\n    drawTilemap(createFramebuffer(), mapOf(cells), tiles, { x: 0, y: 0 }, 0)\n    expect(seen).not.toContain(3)\n    expect(seen).toContain(4)\n  })\n\n  it('G03-A09 接缝先取扫描顺序里的西北邻居，不取东边更晚的邻居', () => {\n    const fb = createFramebuffer(3, 3)\n    const coverage = new Uint8Array(9)\n    fb.writePixel(0, 0, 4)\n    coverage[0] = 1\n    fb.writePixel(2, 1, 9)\n    coverage[5] = 1\n    repairTilemapSeams(fb, coverage, 1)\n    expect(fb.indices[4]).toBe(4)\n  })\n\n  it('G03-A10 maxPasses 为 1 时只填到紧邻已覆盖像素的一圈', () => {\n    const fb = createFramebuffer(5, 1)\n    const coverage = new Uint8Array(5)\n    fb.writePixel(0, 0, 3)\n    coverage[0] = 1\n    fb.writePixel(4, 0, 3)\n    coverage[4] = 1\n    repairTilemapSeams(fb, coverage, 1)\n    expect(Array.from(fb.indices)).toEqual([3, 3, 0, 3, 3])\n  })\n})\n",
+          "to": "import type { Tilemap } from '@type-pal/shared'\nimport { describe, expect, it } from 'vitest'\nimport type { IndexedImage } from '../assets/png.js'\nimport { createDigitFrames } from './__tests__/digit-frames.js'\nimport { drawNumber } from './draw-number.js'\nimport { drawTilemap, repairTilemapSeams, type TileImage, type TileImages } from './draw-tilemap.js'\nimport { createFramebuffer, type Framebuffer } from './framebuffer.js'\nfunction digitFramesWithMask(\n  slot: number,\n  paint: (indices: Uint8Array, opaque: Uint8Array) => void,\n): IndexedImage[] {\n  const frames = createDigitFrames()\n  const indices = new Uint8Array(48)\n  const opaque = new Uint8Array(48)\n  paint(indices, opaque)\n  frames[slot] = { width: 6, height: 8, indices, opaque }\n  return frames\n}\nfunction expectDigitPixels(\n  fb: Framebuffer,\n  digits: { x: number; y: number; index: number }[],\n): void {\n  const expected = Buffer.alloc(fb.width * fb.height)\n  for (const { x, y, index } of digits) {\n    for (let row = y; row < y + 8; row++)\n      expected.fill(index, row * fb.width + x, row * fb.width + x + 6)\n  }\n  expect(Buffer.compare(fb.indices, expected)).toBe(0)\n}\nfunction solidTileImage(index: number, width = 1, height = 1): TileImage {\n  const count = width * height\n  return {\n    width,\n    height,\n    indices: new Uint8Array(count).fill(index),\n    opaque: new Uint8Array(count).fill(1),\n  }\n}\nfunction tilemapFromCells(cells: Tilemap['cells']): Tilemap {\n  return { width: cells[0]?.length ?? 0, height: cells.length, cells, tileset: 'g03' }\n}\ndescribe('Tilemap base layer pixels', () => {\n  it('G03-A01 layer 0 的 lower 图缺失时，画面用 tile 0，upper 仍用自己的图', () => {\n    const fb = createFramebuffer()\n    const tiles: TileImages = {\n      get(idx) {\n        if (idx === 0) return solidTileImage(9)\n        if (idx === 2) return solidTileImage(3)\n        return undefined\n      },\n    }\n    drawTilemap(fb, tilemapFromCells([[{ lower: 5, upper: 2 }]]), tiles, { x: -26, y: -18 }, 0)\n    expect(fb.indices[10 * 320 + 10]).toBe(9)\n    expect(fb.indices[18 * 320 + 26]).toBe(3)\n  })\n\n  it('G03-A02 layer 1 的 upper 有 id 但没有图时，不回落 tile 0', () => {\n    const fb = createFramebuffer()\n    fb.writePixel(20, 20, 6)\n    const seen: number[] = []\n    const tiles: TileImages = {\n      get(idx) {\n        seen.push(idx)\n        if (idx === 0) return solidTileImage(9)\n        return undefined\n      },\n    }\n    drawTilemap(\n      fb,\n      tilemapFromCells([[{ lower: 0, upper: 0x00050000 }]]),\n      tiles,\n      { x: -20, y: -20 },\n      1,\n    )\n    expect(fb.indices[20 * 320 + 20]).toBe(6)\n    expect(seen).not.toContain(0)\n    expect(seen).toContain(4)\n  })\n\n  it('G03-A03 layer 1 的 lower 图缺失时仍回落 tile 0，upper 的 -1 不画', () => {\n    const fb = createFramebuffer()\n    fb.writePixel(24, 16, 6)\n    const tiles: TileImages = {\n      get(idx) {\n        if (idx === 0) return solidTileImage(9)\n        return undefined\n      },\n    }\n    drawTilemap(\n      fb,\n      tilemapFromCells([[{ lower: 0x00050000, upper: 0 }]]),\n      tiles,\n      { x: -24, y: -16 },\n      1,\n    )\n    expect(fb.indices[8 * 320 + 8]).toBe(9)\n    expect(fb.indices[16 * 320 + 24]).toBe(6)\n  })\n\n  it('G03-A04 透明像素不记 coverage，不透明的 index 0 会写入并记 coverage', () => {\n    const fb = createFramebuffer()\n    fb.writePixel(30, 30, 4)\n    const image = solidTileImage(0, 2, 1)\n    image.indices[0] = 7\n    image.opaque[0] = 0\n    const tiles: TileImages = {\n      get(idx) {\n        if (idx === 1) return image\n        return undefined\n      },\n    }\n    const coverage = new Uint8Array(320 * 200)\n    drawTilemap(\n      fb,\n      tilemapFromCells([[{ lower: 1, upper: 0 }]]),\n      tiles,\n      { x: -46, y: -38 },\n      0,\n      coverage,\n    )\n    expect(fb.indices[30 * 320 + 30]).toBe(4)\n    expect(coverage[30 * 320 + 30]).toBe(0)\n    expect(fb.indices[30 * 320 + 31]).toBe(0)\n    expect(coverage[30 * 320 + 31]).toBe(1)\n  })\n\n  it('G03-A05 瓦片跨过 x=0 时，负列不记 coverage，屏内列写入 9', () => {\n    const fb = createFramebuffer()\n    const image = solidTileImage(0, 2, 1)\n    image.indices[0] = 8\n    image.indices[1] = 9\n    const tiles: TileImages = {\n      get(idx) {\n        if (idx === 1) return image\n        return undefined\n      },\n    }\n    const coverage = new Uint8Array(320 * 200)\n    drawTilemap(\n      fb,\n      tilemapFromCells([[{ lower: 1, upper: 0 }]]),\n      tiles,\n      { x: -15, y: -13 },\n      0,\n      coverage,\n    )\n    expect(fb.indices[5 * 320]).toBe(9)\n    expect(coverage[5 * 320]).toBe(1)\n    expect(coverage[5 * 320 - 1]).toBe(0)\n  })\n\n  it('G03-A06 瓦片跨过 y=0 时，屏内那一行写入 9，再下一行保持空白', () => {\n    const fb = createFramebuffer()\n    const image = solidTileImage(0, 1, 2)\n    image.indices[0] = 8\n    image.indices[1] = 9\n    const tiles: TileImages = {\n      get(idx) {\n        if (idx === 1) return image\n        return undefined\n      },\n    }\n    drawTilemap(fb, tilemapFromCells([[{ lower: 1, upper: 0 }]]), tiles, { x: -19, y: -7 }, 0)\n    expect(fb.indices[3]).toBe(9)\n    expect(fb.indices[320 + 3]).toBe(0)\n  })\n\n  it('G03-A07 整行落在屏幕下方时不取该行的 tile id', () => {\n    const seen: number[] = []\n    const tiles: TileImages = {\n      get(idx) {\n        seen.push(idx)\n        return undefined\n      },\n    }\n    // 第 0 行在屏内（lower=4）。第 13 行 rowPxY-8=200，整行被剔除。\n    // 右 fence 用的是 cells[0][0]，不能把禁取 id 放在那里。\n    const cells = Array.from({ length: 14 }, (_, r) => [\n      { lower: r === 13 ? 3 : r === 0 ? 4 : 0, upper: 0 },\n    ])\n    drawTilemap(createFramebuffer(), tilemapFromCells(cells), tiles, { x: 0, y: 0 }, 0)\n    expect(seen).not.toContain(3)\n    expect(seen).toContain(4)\n  })\n\n  it('G03-A08 整列落在屏幕右边界外时不取该列的 tile id', () => {\n    const seen: number[] = []\n    const tiles: TileImages = {\n      get(idx) {\n        seen.push(idx)\n        return undefined\n      },\n    }\n    // c=11 的 cellPxX-16=336≥320，整列剔除。底 fence 在第 14 行，同样出屏。\n    const cells = Array.from({ length: 14 }, () =>\n      Array.from({ length: 12 }, (_, c) => ({\n        lower: c === 11 ? 3 : c === 0 ? 4 : 0,\n        upper: 0,\n      })),\n    )\n    drawTilemap(createFramebuffer(), tilemapFromCells(cells), tiles, { x: 0, y: 0 }, 0)\n    expect(seen).not.toContain(3)\n    expect(seen).toContain(4)\n  })\n})\n\ndescribe('Tilemap seam repair pixels', () => {\n  it('G03-A09 接缝先取扫描顺序里的西北邻居，不取东边更晚的邻居', () => {\n    const fb = createFramebuffer(3, 3)\n    const coverage = new Uint8Array(9)\n    fb.writePixel(0, 0, 4)\n    coverage[0] = 1\n    fb.writePixel(2, 1, 9)\n    coverage[5] = 1\n    repairTilemapSeams(fb, coverage, 1)\n    expect(fb.indices[4]).toBe(4)\n  })\n\n  it('G03-A10 maxPasses 为 1 时只填到紧邻已覆盖像素的一圈', () => {\n    const fb = createFramebuffer(5, 1)\n    const coverage = new Uint8Array(5)\n    fb.writePixel(0, 0, 3)\n    coverage[0] = 1\n    fb.writePixel(4, 0, 3)\n    coverage[4] = 1\n    repairTilemapSeams(fb, coverage, 1)\n    expect(Array.from(fb.indices)).toEqual([3, 3, 0, 3, 3])\n  })\n})\n",
+          "count": 1
+        }
+      ],
+      "reason": "Private fixture names, unused fourth tile-helper parameter removal, explicit one fence oracle strengthening; originalOrdinal/fullName retained."
+    },
+    {
+      "path": "packages/game/src/present/draw-number.test.ts",
+      "id": "pixel-primitives-2",
+      "changes": [
+        {
+          "from": "import { describe, expect, it } from 'vitest'\nimport { createDigitFrames } from './__tests__/digit-frames.js'\nimport { drawNumber } from './draw-number.js'\nimport { createFramebuffer, type Framebuffer } from './framebuffer.js'\n\n/** 期望矩形位置由每例给出；不重算 drawNumber 的对齐或取位公式。 */\nfunction expectDigits(fb: Framebuffer, digits: { x: number; y: number; index: number }[]): void {\n  const expected = Buffer.alloc(fb.width * fb.height)\n  for (const { x, y, index } of digits) {\n    for (let row = y; row < y + 8; row++)\n      expected.fill(index, row * fb.width + x, row * fb.width + x + 6)\n  }\n  expect(Buffer.compare(fb.indices, expected)).toBe(0)\n}\n\ndescribe('drawNumber — sdlpal ui.c:640-732 PAL_DrawNumber port', () => {\n  it('num=0,nLength=6,right-align 到 (49, 14) — 1 个 0 digit 在 (79, 14)', () => {\n    const fb = createFramebuffer()\n    drawNumber(fb, 0, 6, { x: 49, y: 14 }, 'yellow', 'right', createDigitFrames())\n    expectDigits(fb, [{ x: 79, y: 14, index: 19 }])\n  })\n\n  it('num=123,nLength=6,right-align — 3 digits 末位 3 在 (79, 14),2 在 (73, 14),1 在 (67, 14)', () => {\n    const fb = createFramebuffer()\n    drawNumber(fb, 123, 6, { x: 49, y: 14 }, 'yellow', 'right', createDigitFrames())\n    expectDigits(fb, [\n      { x: 67, y: 14, index: 20 },\n      { x: 73, y: 14, index: 21 },\n      { x: 79, y: 14, index: 22 },\n    ])\n  })\n\n  it('blue color → base frame 29', () => {\n    const fb = createFramebuffer()\n    drawNumber(fb, 5, 1, { x: 100, y: 50 }, 'blue', 'right', createDigitFrames())\n    expectDigits(fb, [{ x: 100, y: 50, index: 34 }])\n  })\n\n  it('cyan color → base frame 56', () => {\n    const fb = createFramebuffer()\n    drawNumber(fb, 7, 1, { x: 100, y: 50 }, 'cyan', 'right', createDigitFrames())\n    expectDigits(fb, [{ x: 100, y: 50, index: 63 }])\n  })\n\n  it('left-align num=42,nLength=6 — digit 起 (49 - 6 + 6*2 = 55) — 2 在 55,4 在 49', () => {\n    const fb = createFramebuffer()\n    drawNumber(fb, 42, 6, { x: 49, y: 14 }, 'yellow', 'left', createDigitFrames())\n    expectDigits(fb, [\n      { x: 49, y: 14, index: 23 },\n      { x: 55, y: 14, index: 21 },\n    ])\n  })\n\n  it('mid-align num=42,nLength=6：两位居中于六位槽，首位在 61，末位在 67', () => {\n    const fb = createFramebuffer()\n    drawNumber(fb, 42, 6, { x: 49, y: 14 }, 'yellow', 'mid', createDigitFrames())\n    expectDigits(fb, [\n      { x: 61, y: 14, index: 23 },\n      { x: 67, y: 14, index: 21 },\n    ])\n  })\n\n  it('num 超过 nLength → truncate(actualLength = nLength)', () => {\n    const fb = createFramebuffer()\n    // num=12345,nLength=3 → 只画 3 位最低位 345\n    drawNumber(fb, 12345, 3, { x: 49, y: 14 }, 'yellow', 'right', createDigitFrames())\n    expectDigits(fb, [\n      { x: 49, y: 14, index: 22 },\n      { x: 55, y: 14, index: 23 },\n      { x: 61, y: 14, index: 24 },\n    ])\n  })\n\n  it('uiSpriteFrames 缺失对应 base+digit 时跳过 blit 不抛', () => {\n    const fb = createFramebuffer()\n    const empty: ReturnType<typeof createDigitFrames> = []\n    expect(() => drawNumber(fb, 0, 1, { x: 49, y: 14 }, 'yellow', 'right', empty)).not.toThrow()\n    // fb 应全 0\n    expect(fb.indices.every((v) => v === 0)).toBe(true)\n  })\n})\n",
+          "to": "import type { Tilemap } from '@type-pal/shared'\nimport { describe, expect, it } from 'vitest'\nimport type { IndexedImage } from '../assets/png.js'\nimport { createDigitFrames } from './__tests__/digit-frames.js'\nimport { drawNumber } from './draw-number.js'\nimport { drawTilemap, repairTilemapSeams, type TileImage, type TileImages } from './draw-tilemap.js'\nimport { createFramebuffer, type Framebuffer } from './framebuffer.js'\nfunction digitFramesWithMask(\n  slot: number,\n  paint: (indices: Uint8Array, opaque: Uint8Array) => void,\n): IndexedImage[] {\n  const frames = createDigitFrames()\n  const indices = new Uint8Array(48)\n  const opaque = new Uint8Array(48)\n  paint(indices, opaque)\n  frames[slot] = { width: 6, height: 8, indices, opaque }\n  return frames\n}\nfunction expectDigitPixels(\n  fb: Framebuffer,\n  digits: { x: number; y: number; index: number }[],\n): void {\n  const expected = Buffer.alloc(fb.width * fb.height)\n  for (const { x, y, index } of digits) {\n    for (let row = y; row < y + 8; row++)\n      expected.fill(index, row * fb.width + x, row * fb.width + x + 6)\n  }\n  expect(Buffer.compare(fb.indices, expected)).toBe(0)\n}\nfunction solidTileImage(index: number, width = 1, height = 1): TileImage {\n  const count = width * height\n  return {\n    width,\n    height,\n    indices: new Uint8Array(count).fill(index),\n    opaque: new Uint8Array(count).fill(1),\n  }\n}\nfunction tilemapFromCells(cells: Tilemap['cells']): Tilemap {\n  return { width: cells[0]?.length ?? 0, height: cells.length, cells, tileset: 'g03' }\n}\ndescribe('Number sprite layout and mask pixels', () => {\n  it('num=0,nLength=6,right-align 到 (49, 14) — 1 个 0 digit 在 (79, 14)', () => {\n    const fb = createFramebuffer()\n    drawNumber(fb, 0, 6, { x: 49, y: 14 }, 'yellow', 'right', createDigitFrames())\n    expectDigitPixels(fb, [{ x: 79, y: 14, index: 19 }])\n  })\n\n  it('num=123,nLength=6,right-align — 3 digits 末位 3 在 (79, 14),2 在 (73, 14),1 在 (67, 14)', () => {\n    const fb = createFramebuffer()\n    drawNumber(fb, 123, 6, { x: 49, y: 14 }, 'yellow', 'right', createDigitFrames())\n    expectDigitPixels(fb, [\n      { x: 67, y: 14, index: 20 },\n      { x: 73, y: 14, index: 21 },\n      { x: 79, y: 14, index: 22 },\n    ])\n  })\n\n  it('blue color → base frame 29', () => {\n    const fb = createFramebuffer()\n    drawNumber(fb, 5, 1, { x: 100, y: 50 }, 'blue', 'right', createDigitFrames())\n    expectDigitPixels(fb, [{ x: 100, y: 50, index: 34 }])\n  })\n\n  it('cyan color → base frame 56', () => {\n    const fb = createFramebuffer()\n    drawNumber(fb, 7, 1, { x: 100, y: 50 }, 'cyan', 'right', createDigitFrames())\n    expectDigitPixels(fb, [{ x: 100, y: 50, index: 63 }])\n  })\n\n  it('left-align num=42,nLength=6 — digit 起 (49 - 6 + 6*2 = 55) — 2 在 55,4 在 49', () => {\n    const fb = createFramebuffer()\n    drawNumber(fb, 42, 6, { x: 49, y: 14 }, 'yellow', 'left', createDigitFrames())\n    expectDigitPixels(fb, [\n      { x: 49, y: 14, index: 23 },\n      { x: 55, y: 14, index: 21 },\n    ])\n  })\n\n  it('mid-align num=42,nLength=6：两位居中于六位槽，首位在 61，末位在 67', () => {\n    const fb = createFramebuffer()\n    drawNumber(fb, 42, 6, { x: 49, y: 14 }, 'yellow', 'mid', createDigitFrames())\n    expectDigitPixels(fb, [\n      { x: 61, y: 14, index: 23 },\n      { x: 67, y: 14, index: 21 },\n    ])\n  })\n\n  it('num 超过 nLength → truncate(actualLength = nLength)', () => {\n    const fb = createFramebuffer()\n    // num=12345,nLength=3 → 只画 3 位最低位 345\n    drawNumber(fb, 12345, 3, { x: 49, y: 14 }, 'yellow', 'right', createDigitFrames())\n    expectDigitPixels(fb, [\n      { x: 49, y: 14, index: 22 },\n      { x: 55, y: 14, index: 23 },\n      { x: 61, y: 14, index: 24 },\n    ])\n  })\n\n  it('uiSpriteFrames 缺失对应 base+digit 时跳过 blit 不抛', () => {\n    const fb = createFramebuffer()\n    const empty: ReturnType<typeof createDigitFrames> = []\n    expect(() => drawNumber(fb, 0, 1, { x: 49, y: 14 }, 'yellow', 'right', empty)).not.toThrow()\n    // fb 应全 0\n    expect(fb.indices.every((v) => v === 0)).toBe(true)\n  })\n})\n",
+          "count": 1
+        }
+      ],
+      "reason": "Private fixture names, unused fourth tile-helper parameter removal, explicit one fence oracle strengthening; originalOrdinal/fullName retained."
+    },
+    {
+      "path": "packages/game/src/present/draw-tilemap.test.ts",
+      "id": "pixel-primitives-3",
+      "changes": [
+        {
+          "from": "import type { Tilemap } from '@type-pal/shared'\nimport { describe, expect, it } from 'vitest'\nimport { drawTilemap, repairTilemapSeams, type TileImages } from './draw-tilemap.js'\nimport { createFramebuffer } from './framebuffer.js'\n\ndescribe('drawTilemap', () => {\n  it('lower (h=0) 画在 (-16,-8) 子行;upper (h=1) 画在 col/row baseline', () => {\n    // sdlpal map.c:398-414 真实公式 + camera 语义 = sdlpal viewport(屏幕左上 world 坐标):\n    //   screen = world - camera\n    //   h=0:xPos = 32*x - 16 - camera.x, yPos = -8 + 16*y - camera.y\n    //   h=1:xPos = 32*x - camera.x,      yPos =      16*y - camera.y\n    // camera=(-160, -112) → cell(0,0) 落屏幕 (160, 112);lower 落 (144, 104)。\n    const fb = createFramebuffer()\n    const lower = new Uint8Array(4 * 4).fill(1)\n    const upper = new Uint8Array(4 * 4).fill(2)\n    const lowerOpaque = new Uint8Array(4 * 4).fill(1)\n    const upperOpaque = new Uint8Array(4 * 4).fill(1)\n    const tiles: TileImages = {\n      get(idx) {\n        if (idx === 1) return { width: 4, height: 4, indices: lower, opaque: lowerOpaque }\n        if (idx === 2) return { width: 4, height: 4, indices: upper, opaque: upperOpaque }\n        return undefined\n      },\n    }\n    const map: Tilemap = {\n      width: 1,\n      height: 1,\n      cells: [[{ lower: 1, upper: 2 }]],\n      tileset: 'fake',\n    }\n    drawTilemap(fb, map, tiles, { x: -160, y: -112 }, 0)\n    // lower (h=0) 落 (144, 104) → 该像素值 1\n    expect(fb.indices[104 * 320 + 144]).toBe(1)\n    // upper (h=1) 落 (160, 112) → 该像素值 2\n    expect(fb.indices[112 * 320 + 160]).toBe(2)\n  })\n\n  it('±1 fence(M3.5 T6 修):layer 0 fence 位置回落到 tile(cells[0][0].lower 的 h=0)', () => {\n    // 给 1×1 map,设 cells[0][0] = { lower: 5, upper: 0 }(tileIdLayer0(5)=5)。\n    // fence(r=-1/height, c=-1/width)位置 cell=null,layer 0 应 fallback 到 id 5。\n    // 验证手段:tiles.get 被调用时记录 id,fence 触发 id 5 多次调用。\n    const fb = createFramebuffer()\n    const callCounts = new Map<number, number>()\n    const tiles: TileImages = {\n      get(idx) {\n        callCounts.set(idx, (callCounts.get(idx) ?? 0) + 1)\n        return undefined\n      },\n    }\n    const map: Tilemap = {\n      width: 1,\n      height: 1,\n      cells: [[{ lower: 5, upper: 0 }]],\n      tileset: 'fake',\n    }\n    drawTilemap(fb, map, tiles, { x: 0, y: 0 }, 0)\n    // 中心格 lower id 5 + fence 8 圈每圈 lower+upper 都 fenceFill=5。\n    // 调用次数远 > 1 即证明 fence 触发(无 fence 时 layer 0 只会拿 1 次 id 5)。\n    expect(callCounts.get(5) ?? 0).toBeGreaterThan(1)\n  })\n\n  it('±1 fence:layer 1 fence 位置 fallback = -1,fence 不调 tiles.get', () => {\n    // layer 1:fenceFill = -1。1×1 map, cells[0][0] = { lower: 0, upper: 0xff0000 }\n    // → tileIdLayer1(0xff0000) = ((0xff & 0xff) | ((0xff >> 4) & 0x100)) - 1\n    //                          = (0xff | 0x000) - 1 = 0xfe\n    // 中心格 upper 调 tiles.get(0xfe) 一次;fence 位置 layer 1 跳过不调。\n    const fb = createFramebuffer()\n    const calls: number[] = []\n    const tiles: TileImages = {\n      get(idx) {\n        calls.push(idx)\n        return undefined\n      },\n    }\n    const map: Tilemap = {\n      width: 1,\n      height: 1,\n      cells: [[{ lower: 0, upper: 0xff0000 }]],\n      tileset: 'fake',\n    }\n    drawTilemap(fb, map, tiles, { x: 0, y: 0 }, 1)\n    // 唯一调用应该是中心格 upper 的 0xfe;另外 lower 在 layer 1 下\n    // tileIdLayer1(0)=-1 跳过;fence 全部跳过。\n    expect(calls).toEqual([0xfe])\n  })\n\n  it('layer 0:9-bit tile id 从低 16 bit 提取 (d & 0xff) | ((d >> 4) & 0x100)', () => {\n    const fb = createFramebuffer()\n    const captured: number[] = []\n    const tiles: TileImages = {\n      get(idx) {\n        captured.push(idx)\n        return undefined\n      },\n    }\n    // d=0x1010 → low8=0x10, (d>>4)&0x100=0x100 → id=0x110\n    const map: Tilemap = {\n      width: 1,\n      height: 1,\n      cells: [[{ lower: 0x1010, upper: 0 }]],\n      tileset: 'fake',\n    }\n    drawTilemap(fb, map, tiles, { x: 0, y: 0 }, 0)\n    expect(captured).toContain(0x110)\n  })\n\n  it('layer 1:tile id 从高 16 bit 提取且 -1;高 16 bit = 0 → id < 0 → skip', () => {\n    const fb = createFramebuffer()\n    const captured: number[] = []\n    const tiles: TileImages = {\n      get(idx) {\n        captured.push(idx)\n        return undefined\n      },\n    }\n    // d=0x10100000:高 16 = 0x1010 → 同上算 id 0x110,再 -1 = 0x10F\n    const cellWithTop = { lower: 0x10100000, upper: 0 }\n    const cellNoTop = { lower: 0x10, upper: 0 } // 高 16 = 0 → id = -1 skip\n    const map: Tilemap = {\n      width: 2,\n      height: 1,\n      cells: [[cellWithTop, cellNoTop]],\n      tileset: 'fake',\n    }\n    drawTilemap(fb, map, tiles, { x: 0, y: 0 }, 1)\n    expect(captured).toContain(0x10f)\n    expect(captured).not.toContain(-1) // 跳过,不调 tiles.get\n  })\n\n  it('传入 coverage 时标记已画像素;远处未画处不标记', () => {\n    // coverage 区分未画像素与已画的 index 0；接缝补偿只允许填前者。\n    const fb = createFramebuffer()\n    const tiles: TileImages = {\n      get(idx) {\n        if (idx === 1)\n          return {\n            width: 4,\n            height: 4,\n            indices: new Uint8Array(16).fill(1),\n            opaque: new Uint8Array(16).fill(1),\n          }\n        return undefined\n      },\n    }\n    const map: Tilemap = {\n      width: 1,\n      height: 1,\n      cells: [[{ lower: 1, upper: 0 }]],\n      tileset: 'fake',\n    }\n    const coverage = new Uint8Array(320 * 200)\n    // camera=(-160,-112) → cell(0,0) lower(h=0) 落 (144,104),4×4 不透明 tile 1。\n    drawTilemap(fb, map, tiles, { x: -160, y: -112 }, 0, coverage)\n    expect(coverage[104 * 320 + 144]).toBe(1) // 画过 → 标记\n    expect(coverage[0]).toBe(0) // 远处未画 → 不标记\n  })\n})\n\ndescribe('repairTilemapSeams 接缝补偿', () => {\n  it('未覆盖像素从同值的已覆盖邻居填充', () => {\n    const fb = createFramebuffer(3, 3)\n    const coverage = new Uint8Array(9)\n    // 覆盖除中心(1,1)外的 8 格,像素值都设 5。\n    for (let i = 0; i < 9; i++) {\n      if (i === 4) continue\n      fb.writePixel(i % 3, Math.floor(i / 3), 5)\n      coverage[i] = 1\n    }\n    expect(fb.indices[4]).toBe(0) // clear 后中心为 0(漏黑)\n    repairTilemapSeams(fb, coverage)\n    expect(fb.indices[4]).toBe(5) // 用邻居 5 填充\n  })\n\n  it('已覆盖像素保持不变,即使其值为 0(合法的不透明 index-0,不能当漏黑)', () => {\n    const fb = createFramebuffer(2, 1)\n    const coverage = new Uint8Array(2)\n    fb.writePixel(0, 0, 0)\n    coverage[0] = 1 // 瓦片真画的 opaque index-0\n    fb.writePixel(1, 0, 9)\n    coverage[1] = 1\n    repairTilemapSeams(fb, coverage)\n    expect(fb.indices[0]).toBe(0) // 不被邻居 9 污染\n    expect(fb.indices[1]).toBe(9)\n  })\n\n  it('填宽接缝:逐圈向内扩散直到填满', () => {\n    // 5×1:两端覆盖(值 3),中间 3 px 未覆盖 → 需多趟扩散填满。\n    const fb = createFramebuffer(5, 1)\n    const coverage = new Uint8Array(5)\n    fb.writePixel(0, 0, 3)\n    coverage[0] = 1\n    fb.writePixel(4, 0, 3)\n    coverage[4] = 1\n    repairTilemapSeams(fb, coverage)\n    expect([...fb.indices]).toEqual([3, 3, 3, 3, 3])\n  })\n})\n",
+          "to": "import type { Tilemap } from '@type-pal/shared'\nimport { describe, expect, it } from 'vitest'\nimport type { IndexedImage } from '../assets/png.js'\nimport { createDigitFrames } from './__tests__/digit-frames.js'\nimport { drawNumber } from './draw-number.js'\nimport { drawTilemap, repairTilemapSeams, type TileImage, type TileImages } from './draw-tilemap.js'\nimport { createFramebuffer, type Framebuffer } from './framebuffer.js'\nfunction digitFramesWithMask(\n  slot: number,\n  paint: (indices: Uint8Array, opaque: Uint8Array) => void,\n): IndexedImage[] {\n  const frames = createDigitFrames()\n  const indices = new Uint8Array(48)\n  const opaque = new Uint8Array(48)\n  paint(indices, opaque)\n  frames[slot] = { width: 6, height: 8, indices, opaque }\n  return frames\n}\nfunction expectDigitPixels(\n  fb: Framebuffer,\n  digits: { x: number; y: number; index: number }[],\n): void {\n  const expected = Buffer.alloc(fb.width * fb.height)\n  for (const { x, y, index } of digits) {\n    for (let row = y; row < y + 8; row++)\n      expected.fill(index, row * fb.width + x, row * fb.width + x + 6)\n  }\n  expect(Buffer.compare(fb.indices, expected)).toBe(0)\n}\nfunction solidTileImage(index: number, width = 1, height = 1): TileImage {\n  const count = width * height\n  return {\n    width,\n    height,\n    indices: new Uint8Array(count).fill(index),\n    opaque: new Uint8Array(count).fill(1),\n  }\n}\nfunction tilemapFromCells(cells: Tilemap['cells']): Tilemap {\n  return { width: cells[0]?.length ?? 0, height: cells.length, cells, tileset: 'g03' }\n}\ndescribe('Tilemap base layer pixels', () => {\n  it('lower (h=0) 画在 (-16,-8) 子行;upper (h=1) 画在 col/row baseline', () => {\n    // sdlpal map.c:398-414 真实公式 + camera 语义 = sdlpal viewport(屏幕左上 world 坐标):\n    //   screen = world - camera\n    //   h=0:xPos = 32*x - 16 - camera.x, yPos = -8 + 16*y - camera.y\n    //   h=1:xPos = 32*x - camera.x,      yPos =      16*y - camera.y\n    // camera=(-160, -112) → cell(0,0) 落屏幕 (160, 112);lower 落 (144, 104)。\n    const fb = createFramebuffer()\n    const lower = new Uint8Array(4 * 4).fill(1)\n    const upper = new Uint8Array(4 * 4).fill(2)\n    const lowerOpaque = new Uint8Array(4 * 4).fill(1)\n    const upperOpaque = new Uint8Array(4 * 4).fill(1)\n    const tiles: TileImages = {\n      get(idx) {\n        if (idx === 1) return { width: 4, height: 4, indices: lower, opaque: lowerOpaque }\n        if (idx === 2) return { width: 4, height: 4, indices: upper, opaque: upperOpaque }\n        return undefined\n      },\n    }\n    const map: Tilemap = {\n      width: 1,\n      height: 1,\n      cells: [[{ lower: 1, upper: 2 }]],\n      tileset: 'fake',\n    }\n    drawTilemap(fb, map, tiles, { x: -160, y: -112 }, 0)\n    // lower (h=0) 落 (144, 104) → 该像素值 1\n    expect(fb.indices[104 * 320 + 144]).toBe(1)\n    // upper (h=1) 落 (160, 112) → 该像素值 2\n    expect(fb.indices[112 * 320 + 160]).toBe(2)\n  })\n\n  it('±1 fence(M3.5 T6 修):layer 0 fence 位置回落到 tile(cells[0][0].lower 的 h=0)', () => {\n    const fb = createFramebuffer()\n    const tiles: TileImages = {\n      get(index) {\n        return index === 5 ? solidTileImage(9) : undefined\n      },\n    }\n    const map: Tilemap = { width: 1, height: 1, cells: [[{ lower: 5, upper: 0 }]], tileset: 'fake' }\n    drawTilemap(fb, map, tiles, { x: 0, y: 0 }, 0)\n    // Literal visible fence points for a one-pixel tile; other pixels must remain clear.\n    const expected = Buffer.alloc(320 * 200)\n    expected[32] = 9\n    expected[16 * 320] = 9\n    expected[8 * 320 + 16] = 9\n    expected[16 * 320 + 32] = 9\n    expect(Buffer.compare(fb.indices, expected)).toBe(0)\n  })\n\n  it('±1 fence:layer 1 fence 位置 fallback = -1,fence 不调 tiles.get', () => {\n    // layer 1:fenceFill = -1。1×1 map, cells[0][0] = { lower: 0, upper: 0xff0000 }\n    // → tileIdLayer1(0xff0000) = ((0xff & 0xff) | ((0xff >> 4) & 0x100)) - 1\n    //                          = (0xff | 0x000) - 1 = 0xfe\n    // 中心格 upper 调 tiles.get(0xfe) 一次;fence 位置 layer 1 跳过不调。\n    const fb = createFramebuffer()\n    const calls: number[] = []\n    const tiles: TileImages = {\n      get(idx) {\n        calls.push(idx)\n        return undefined\n      },\n    }\n    const map: Tilemap = {\n      width: 1,\n      height: 1,\n      cells: [[{ lower: 0, upper: 0xff0000 }]],\n      tileset: 'fake',\n    }\n    drawTilemap(fb, map, tiles, { x: 0, y: 0 }, 1)\n    // 唯一调用应该是中心格 upper 的 0xfe;另外 lower 在 layer 1 下\n    // tileIdLayer1(0)=-1 跳过;fence 全部跳过。\n    expect(calls).toEqual([0xfe])\n  })\n\n  it('layer 0:9-bit tile id 从低 16 bit 提取 (d & 0xff) | ((d >> 4) & 0x100)', () => {\n    const fb = createFramebuffer()\n    const captured: number[] = []\n    const tiles: TileImages = {\n      get(idx) {\n        captured.push(idx)\n        return undefined\n      },\n    }\n    // d=0x1010 → low8=0x10, (d>>4)&0x100=0x100 → id=0x110\n    const map: Tilemap = {\n      width: 1,\n      height: 1,\n      cells: [[{ lower: 0x1010, upper: 0 }]],\n      tileset: 'fake',\n    }\n    drawTilemap(fb, map, tiles, { x: 0, y: 0 }, 0)\n    expect(captured).toContain(0x110)\n  })\n\n  it('layer 1:tile id 从高 16 bit 提取且 -1;高 16 bit = 0 → id < 0 → skip', () => {\n    const fb = createFramebuffer()\n    const captured: number[] = []\n    const tiles: TileImages = {\n      get(idx) {\n        captured.push(idx)\n        return undefined\n      },\n    }\n    // d=0x10100000:高 16 = 0x1010 → 同上算 id 0x110,再 -1 = 0x10F\n    const cellWithTop = { lower: 0x10100000, upper: 0 }\n    const cellNoTop = { lower: 0x10, upper: 0 } // 高 16 = 0 → id = -1 skip\n    const map: Tilemap = {\n      width: 2,\n      height: 1,\n      cells: [[cellWithTop, cellNoTop]],\n      tileset: 'fake',\n    }\n    drawTilemap(fb, map, tiles, { x: 0, y: 0 }, 1)\n    expect(captured).toContain(0x10f)\n    expect(captured).not.toContain(-1) // 跳过,不调 tiles.get\n  })\n\n  it('传入 coverage 时标记已画像素;远处未画处不标记', () => {\n    // coverage 区分未画像素与已画的 index 0；接缝补偿只允许填前者。\n    const fb = createFramebuffer()\n    const tiles: TileImages = {\n      get(idx) {\n        if (idx === 1)\n          return {\n            width: 4,\n            height: 4,\n            indices: new Uint8Array(16).fill(1),\n            opaque: new Uint8Array(16).fill(1),\n          }\n        return undefined\n      },\n    }\n    const map: Tilemap = {\n      width: 1,\n      height: 1,\n      cells: [[{ lower: 1, upper: 0 }]],\n      tileset: 'fake',\n    }\n    const coverage = new Uint8Array(320 * 200)\n    // camera=(-160,-112) → cell(0,0) lower(h=0) 落 (144,104),4×4 不透明 tile 1。\n    drawTilemap(fb, map, tiles, { x: -160, y: -112 }, 0, coverage)\n    expect(coverage[104 * 320 + 144]).toBe(1) // 画过 → 标记\n    expect(coverage[0]).toBe(0) // 远处未画 → 不标记\n  })\n})\n\ndescribe('Tilemap seam repair pixels', () => {\n  it('未覆盖像素从同值的已覆盖邻居填充', () => {\n    const fb = createFramebuffer(3, 3)\n    const coverage = new Uint8Array(9)\n    // 覆盖除中心(1,1)外的 8 格,像素值都设 5。\n    for (let i = 0; i < 9; i++) {\n      if (i === 4) continue\n      fb.writePixel(i % 3, Math.floor(i / 3), 5)\n      coverage[i] = 1\n    }\n    expect(fb.indices[4]).toBe(0) // clear 后中心为 0(漏黑)\n    repairTilemapSeams(fb, coverage)\n    expect(fb.indices[4]).toBe(5) // 用邻居 5 填充\n  })\n\n  it('已覆盖像素保持不变,即使其值为 0(合法的不透明 index-0,不能当漏黑)', () => {\n    const fb = createFramebuffer(2, 1)\n    const coverage = new Uint8Array(2)\n    fb.writePixel(0, 0, 0)\n    coverage[0] = 1 // 瓦片真画的 opaque index-0\n    fb.writePixel(1, 0, 9)\n    coverage[1] = 1\n    repairTilemapSeams(fb, coverage)\n    expect(fb.indices[0]).toBe(0) // 不被邻居 9 污染\n    expect(fb.indices[1]).toBe(9)\n  })\n\n  it('填宽接缝:逐圈向内扩散直到填满', () => {\n    // 5×1:两端覆盖(值 3),中间 3 px 未覆盖 → 需多趟扩散填满。\n    const fb = createFramebuffer(5, 1)\n    const coverage = new Uint8Array(5)\n    fb.writePixel(0, 0, 3)\n    coverage[0] = 1\n    fb.writePixel(4, 0, 3)\n    coverage[4] = 1\n    repairTilemapSeams(fb, coverage)\n    expect([...fb.indices]).toEqual([3, 3, 3, 3, 3])\n  })\n})\n",
+          "count": 1
+        }
+      ],
+      "reason": "Private fixture names, unused fourth tile-helper parameter removal, explicit one fence oracle strengthening; originalOrdinal/fullName retained."
+    }
+  ],
+  "replacements": [],
+  "registrations": [
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-number.test.ts",
+        "ordinal": 0,
+        "originalOrdinal": 0,
+        "fullName": "drawNumber — sdlpal ui.c:640-732 PAL_DrawNumber port num=0,nLength=6,right-align 到 (49, 14) — 1 个 0 digit 在 (79, 14)"
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-number.test.ts",
+        "titles": ["Number sprite layout and mask pixels"],
+        "template": "num=0,nLength=6,right-align 到 (49, 14) — 1 个 0 digit 在 (79, 14)",
+        "fullName": "Number sprite layout and mask pixels num=0,nLength=6,right-align 到 (49, 14) — 1 个 0 digit 在 (79, 14)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-number.test.ts",
+        "ordinal": 1,
+        "originalOrdinal": 1,
+        "fullName": "drawNumber — sdlpal ui.c:640-732 PAL_DrawNumber port num=123,nLength=6,right-align — 3 digits 末位 3 在 (79, 14),2 在 (73, 14),1 在 (67, 14)"
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-number.test.ts",
+        "titles": ["Number sprite layout and mask pixels"],
+        "template": "num=123,nLength=6,right-align — 3 digits 末位 3 在 (79, 14),2 在 (73, 14),1 在 (67, 14)",
+        "fullName": "Number sprite layout and mask pixels num=123,nLength=6,right-align — 3 digits 末位 3 在 (79, 14),2 在 (73, 14),1 在 (67, 14)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-number.test.ts",
+        "ordinal": 2,
+        "originalOrdinal": 2,
+        "fullName": "drawNumber — sdlpal ui.c:640-732 PAL_DrawNumber port blue color → base frame 29"
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-number.test.ts",
+        "titles": ["Number sprite layout and mask pixels"],
+        "template": "blue color → base frame 29",
+        "fullName": "Number sprite layout and mask pixels blue color → base frame 29"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-number.test.ts",
+        "ordinal": 3,
+        "originalOrdinal": 3,
+        "fullName": "drawNumber — sdlpal ui.c:640-732 PAL_DrawNumber port cyan color → base frame 56"
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-number.test.ts",
+        "titles": ["Number sprite layout and mask pixels"],
+        "template": "cyan color → base frame 56",
+        "fullName": "Number sprite layout and mask pixels cyan color → base frame 56"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-number.test.ts",
+        "ordinal": 4,
+        "originalOrdinal": 4,
+        "fullName": "drawNumber — sdlpal ui.c:640-732 PAL_DrawNumber port left-align num=42,nLength=6 — digit 起 (49 - 6 + 6*2 = 55) — 2 在 55,4 在 49"
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-number.test.ts",
+        "titles": ["Number sprite layout and mask pixels"],
+        "template": "left-align num=42,nLength=6 — digit 起 (49 - 6 + 6*2 = 55) — 2 在 55,4 在 49",
+        "fullName": "Number sprite layout and mask pixels left-align num=42,nLength=6 — digit 起 (49 - 6 + 6*2 = 55) — 2 在 55,4 在 49"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-number.test.ts",
+        "ordinal": 5,
+        "originalOrdinal": 5,
+        "fullName": "drawNumber — sdlpal ui.c:640-732 PAL_DrawNumber port mid-align num=42,nLength=6：两位居中于六位槽，首位在 61，末位在 67"
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-number.test.ts",
+        "titles": ["Number sprite layout and mask pixels"],
+        "template": "mid-align num=42,nLength=6：两位居中于六位槽，首位在 61，末位在 67",
+        "fullName": "Number sprite layout and mask pixels mid-align num=42,nLength=6：两位居中于六位槽，首位在 61，末位在 67"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-number.test.ts",
+        "ordinal": 6,
+        "originalOrdinal": 6,
+        "fullName": "drawNumber — sdlpal ui.c:640-732 PAL_DrawNumber port num 超过 nLength → truncate(actualLength = nLength)"
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-number.test.ts",
+        "titles": ["Number sprite layout and mask pixels"],
+        "template": "num 超过 nLength → truncate(actualLength = nLength)",
+        "fullName": "Number sprite layout and mask pixels num 超过 nLength → truncate(actualLength = nLength)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-number.test.ts",
+        "ordinal": 7,
+        "originalOrdinal": 7,
+        "fullName": "drawNumber — sdlpal ui.c:640-732 PAL_DrawNumber port uiSpriteFrames 缺失对应 base+digit 时跳过 blit 不抛"
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-number.test.ts",
+        "titles": ["Number sprite layout and mask pixels"],
+        "template": "uiSpriteFrames 缺失对应 base+digit 时跳过 blit 不抛",
+        "fullName": "Number sprite layout and mask pixels uiSpriteFrames 缺失对应 base+digit 时跳过 blit 不抛"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-number-slots.grok-r1.test.ts",
+        "ordinal": 0,
+        "originalOrdinal": 0,
+        "fullName": "G05-C draw-number 空位与掩码 G05-C01 透明孔保留底色，旁边的不透明点写入精灵索引 44"
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-number.test.ts",
+        "titles": ["Number sprite layout and mask pixels"],
+        "template": "G05-C01 透明孔保留底色，旁边的不透明点写入精灵索引 44",
+        "fullName": "Number sprite layout and mask pixels G05-C01 透明孔保留底色，旁边的不透明点写入精灵索引 44"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-number-slots.grok-r1.test.ts",
+        "ordinal": 1,
+        "originalOrdinal": 1,
+        "fullName": "G05-C draw-number 空位与掩码 G05-C02 只点亮最后一行时，像素写在 y+7，首行保持底色"
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-number.test.ts",
+        "titles": ["Number sprite layout and mask pixels"],
+        "template": "G05-C02 只点亮最后一行时，像素写在 y+7，首行保持底色",
+        "fullName": "Number sprite layout and mask pixels G05-C02 只点亮最后一行时，像素写在 y+7，首行保持底色"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-number-slots.grok-r1.test.ts",
+        "ordinal": 2,
+        "originalOrdinal": 2,
+        "fullName": "G05-C draw-number 空位与掩码 G05-C03 个位帧缺失时仍把十位画到左移 6 像素的位置"
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-number.test.ts",
+        "titles": ["Number sprite layout and mask pixels"],
+        "template": "G05-C03 个位帧缺失时仍把十位画到左移 6 像素的位置",
+        "fullName": "Number sprite layout and mask pixels G05-C03 个位帧缺失时仍把十位画到左移 6 像素的位置"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-number-slots.grok-r1.test.ts",
+        "ordinal": 3,
+        "originalOrdinal": 3,
+        "fullName": "G05-C draw-number 空位与掩码 G05-C04 nLength 为 0 且数字大于 0 时，一个数字像素都不写"
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-number.test.ts",
+        "titles": ["Number sprite layout and mask pixels"],
+        "template": "G05-C04 nLength 为 0 且数字大于 0 时，一个数字像素都不写",
+        "fullName": "Number sprite layout and mask pixels G05-C04 nLength 为 0 且数字大于 0 时，一个数字像素都不写"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-number-slots.grok-r1.test.ts",
+        "ordinal": 4,
+        "originalOrdinal": 4,
+        "fullName": "G05-C draw-number 空位与掩码 G05-C05 数字 0 且 nLength 为 0 时，右对齐把这一位画在 pos.x-6"
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-number.test.ts",
+        "titles": ["Number sprite layout and mask pixels"],
+        "template": "G05-C05 数字 0 且 nLength 为 0 时，右对齐把这一位画在 pos.x-6",
+        "fullName": "Number sprite layout and mask pixels G05-C05 数字 0 且 nLength 为 0 时，右对齐把这一位画在 pos.x-6"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-tilemap.test.ts",
+        "ordinal": 0,
+        "originalOrdinal": 0,
+        "fullName": "drawTilemap lower (h=0) 画在 (-16,-8) 子行;upper (h=1) 画在 col/row baseline"
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-tilemap.test.ts",
+        "titles": ["Tilemap base layer pixels"],
+        "template": "lower (h=0) 画在 (-16,-8) 子行;upper (h=1) 画在 col/row baseline",
+        "fullName": "Tilemap base layer pixels lower (h=0) 画在 (-16,-8) 子行;upper (h=1) 画在 col/row baseline"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-tilemap.test.ts",
+        "ordinal": 1,
+        "originalOrdinal": 1,
+        "fullName": "drawTilemap ±1 fence(M3.5 T6 修):layer 0 fence 位置回落到 tile(cells[0][0].lower 的 h=0)"
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-tilemap.test.ts",
+        "titles": ["Tilemap base layer pixels"],
+        "template": "±1 fence(M3.5 T6 修):layer 0 fence 位置回落到 tile(cells[0][0].lower 的 h=0)",
+        "fullName": "Tilemap base layer pixels ±1 fence(M3.5 T6 修):layer 0 fence 位置回落到 tile(cells[0][0].lower 的 h=0)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-tilemap.test.ts",
+        "ordinal": 2,
+        "originalOrdinal": 2,
+        "fullName": "drawTilemap ±1 fence:layer 1 fence 位置 fallback = -1,fence 不调 tiles.get"
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-tilemap.test.ts",
+        "titles": ["Tilemap base layer pixels"],
+        "template": "±1 fence:layer 1 fence 位置 fallback = -1,fence 不调 tiles.get",
+        "fullName": "Tilemap base layer pixels ±1 fence:layer 1 fence 位置 fallback = -1,fence 不调 tiles.get"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-tilemap.test.ts",
+        "ordinal": 3,
+        "originalOrdinal": 3,
+        "fullName": "drawTilemap layer 0:9-bit tile id 从低 16 bit 提取 (d & 0xff) | ((d >> 4) & 0x100)"
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-tilemap.test.ts",
+        "titles": ["Tilemap base layer pixels"],
+        "template": "layer 0:9-bit tile id 从低 16 bit 提取 (d & 0xff) | ((d >> 4) & 0x100)",
+        "fullName": "Tilemap base layer pixels layer 0:9-bit tile id 从低 16 bit 提取 (d & 0xff) | ((d >> 4) & 0x100)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-tilemap.test.ts",
+        "ordinal": 4,
+        "originalOrdinal": 4,
+        "fullName": "drawTilemap layer 1:tile id 从高 16 bit 提取且 -1;高 16 bit = 0 → id < 0 → skip"
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-tilemap.test.ts",
+        "titles": ["Tilemap base layer pixels"],
+        "template": "layer 1:tile id 从高 16 bit 提取且 -1;高 16 bit = 0 → id < 0 → skip",
+        "fullName": "Tilemap base layer pixels layer 1:tile id 从高 16 bit 提取且 -1;高 16 bit = 0 → id < 0 → skip"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-tilemap.test.ts",
+        "ordinal": 5,
+        "originalOrdinal": 5,
+        "fullName": "drawTilemap 传入 coverage 时标记已画像素;远处未画处不标记"
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-tilemap.test.ts",
+        "titles": ["Tilemap base layer pixels"],
+        "template": "传入 coverage 时标记已画像素;远处未画处不标记",
+        "fullName": "Tilemap base layer pixels 传入 coverage 时标记已画像素;远处未画处不标记"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-tilemap.test.ts",
+        "ordinal": 6,
+        "originalOrdinal": 6,
+        "fullName": "repairTilemapSeams 接缝补偿 未覆盖像素从同值的已覆盖邻居填充"
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-tilemap-seams.test.ts",
+        "titles": ["Tilemap seam repair pixels"],
+        "template": "未覆盖像素从同值的已覆盖邻居填充",
+        "fullName": "Tilemap seam repair pixels 未覆盖像素从同值的已覆盖邻居填充"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-tilemap.test.ts",
+        "ordinal": 7,
+        "originalOrdinal": 7,
+        "fullName": "repairTilemapSeams 接缝补偿 已覆盖像素保持不变,即使其值为 0(合法的不透明 index-0,不能当漏黑)"
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-tilemap-seams.test.ts",
+        "titles": ["Tilemap seam repair pixels"],
+        "template": "已覆盖像素保持不变,即使其值为 0(合法的不透明 index-0,不能当漏黑)",
+        "fullName": "Tilemap seam repair pixels 已覆盖像素保持不变,即使其值为 0(合法的不透明 index-0,不能当漏黑)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-tilemap.test.ts",
+        "ordinal": 8,
+        "originalOrdinal": 8,
+        "fullName": "repairTilemapSeams 接缝补偿 填宽接缝:逐圈向内扩散直到填满"
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-tilemap-seams.test.ts",
+        "titles": ["Tilemap seam repair pixels"],
+        "template": "填宽接缝:逐圈向内扩散直到填满",
+        "fullName": "Tilemap seam repair pixels 填宽接缝:逐圈向内扩散直到填满"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-tilemap-pixels.grok-r1.test.ts",
+        "ordinal": 0,
+        "originalOrdinal": 0,
+        "fullName": "G03-A drawTilemap 像素与接缝 G03-A01 layer 0 的 lower 图缺失时，画面用 tile 0，upper 仍用自己的图"
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-tilemap.test.ts",
+        "titles": ["Tilemap base layer pixels"],
+        "template": "G03-A01 layer 0 的 lower 图缺失时，画面用 tile 0，upper 仍用自己的图",
+        "fullName": "Tilemap base layer pixels G03-A01 layer 0 的 lower 图缺失时，画面用 tile 0，upper 仍用自己的图"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-tilemap-pixels.grok-r1.test.ts",
+        "ordinal": 1,
+        "originalOrdinal": 1,
+        "fullName": "G03-A drawTilemap 像素与接缝 G03-A02 layer 1 的 upper 有 id 但没有图时，不回落 tile 0"
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-tilemap.test.ts",
+        "titles": ["Tilemap base layer pixels"],
+        "template": "G03-A02 layer 1 的 upper 有 id 但没有图时，不回落 tile 0",
+        "fullName": "Tilemap base layer pixels G03-A02 layer 1 的 upper 有 id 但没有图时，不回落 tile 0"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-tilemap-pixels.grok-r1.test.ts",
+        "ordinal": 2,
+        "originalOrdinal": 2,
+        "fullName": "G03-A drawTilemap 像素与接缝 G03-A03 layer 1 的 lower 图缺失时仍回落 tile 0，upper 的 -1 不画"
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-tilemap.test.ts",
+        "titles": ["Tilemap base layer pixels"],
+        "template": "G03-A03 layer 1 的 lower 图缺失时仍回落 tile 0，upper 的 -1 不画",
+        "fullName": "Tilemap base layer pixels G03-A03 layer 1 的 lower 图缺失时仍回落 tile 0，upper 的 -1 不画"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-tilemap-pixels.grok-r1.test.ts",
+        "ordinal": 3,
+        "originalOrdinal": 3,
+        "fullName": "G03-A drawTilemap 像素与接缝 G03-A04 透明像素不记 coverage，不透明的 index 0 会写入并记 coverage"
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-tilemap.test.ts",
+        "titles": ["Tilemap base layer pixels"],
+        "template": "G03-A04 透明像素不记 coverage，不透明的 index 0 会写入并记 coverage",
+        "fullName": "Tilemap base layer pixels G03-A04 透明像素不记 coverage，不透明的 index 0 会写入并记 coverage"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-tilemap-pixels.grok-r1.test.ts",
+        "ordinal": 4,
+        "originalOrdinal": 4,
+        "fullName": "G03-A drawTilemap 像素与接缝 G03-A05 瓦片跨过 x=0 时，负列不记 coverage，屏内列写入 9"
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-tilemap.test.ts",
+        "titles": ["Tilemap base layer pixels"],
+        "template": "G03-A05 瓦片跨过 x=0 时，负列不记 coverage，屏内列写入 9",
+        "fullName": "Tilemap base layer pixels G03-A05 瓦片跨过 x=0 时，负列不记 coverage，屏内列写入 9"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-tilemap-pixels.grok-r1.test.ts",
+        "ordinal": 5,
+        "originalOrdinal": 5,
+        "fullName": "G03-A drawTilemap 像素与接缝 G03-A06 瓦片跨过 y=0 时，屏内那一行写入 9，再下一行保持空白"
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-tilemap.test.ts",
+        "titles": ["Tilemap base layer pixels"],
+        "template": "G03-A06 瓦片跨过 y=0 时，屏内那一行写入 9，再下一行保持空白",
+        "fullName": "Tilemap base layer pixels G03-A06 瓦片跨过 y=0 时，屏内那一行写入 9，再下一行保持空白"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-tilemap-pixels.grok-r1.test.ts",
+        "ordinal": 6,
+        "originalOrdinal": 6,
+        "fullName": "G03-A drawTilemap 像素与接缝 G03-A07 整行落在屏幕下方时不取该行的 tile id"
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-tilemap.test.ts",
+        "titles": ["Tilemap base layer pixels"],
+        "template": "G03-A07 整行落在屏幕下方时不取该行的 tile id",
+        "fullName": "Tilemap base layer pixels G03-A07 整行落在屏幕下方时不取该行的 tile id"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-tilemap-pixels.grok-r1.test.ts",
+        "ordinal": 7,
+        "originalOrdinal": 7,
+        "fullName": "G03-A drawTilemap 像素与接缝 G03-A08 整列落在屏幕右边界外时不取该列的 tile id"
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-tilemap.test.ts",
+        "titles": ["Tilemap base layer pixels"],
+        "template": "G03-A08 整列落在屏幕右边界外时不取该列的 tile id",
+        "fullName": "Tilemap base layer pixels G03-A08 整列落在屏幕右边界外时不取该列的 tile id"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-tilemap-pixels.grok-r1.test.ts",
+        "ordinal": 8,
+        "originalOrdinal": 8,
+        "fullName": "G03-A drawTilemap 像素与接缝 G03-A09 接缝先取扫描顺序里的西北邻居，不取东边更晚的邻居"
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-tilemap-seams.test.ts",
+        "titles": ["Tilemap seam repair pixels"],
+        "template": "G03-A09 接缝先取扫描顺序里的西北邻居，不取东边更晚的邻居",
+        "fullName": "Tilemap seam repair pixels G03-A09 接缝先取扫描顺序里的西北邻居，不取东边更晚的邻居"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-tilemap-pixels.grok-r1.test.ts",
+        "ordinal": 9,
+        "originalOrdinal": 9,
+        "fullName": "G03-A drawTilemap 像素与接缝 G03-A10 maxPasses 为 1 时只填到紧邻已覆盖像素的一圈"
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-tilemap-seams.test.ts",
+        "titles": ["Tilemap seam repair pixels"],
+        "template": "G03-A10 maxPasses 为 1 时只填到紧邻已覆盖像素的一圈",
+        "fullName": "Tilemap seam repair pixels G03-A10 maxPasses 为 1 时只填到紧邻已覆盖像素的一圈"
+      }
+    }
+  ],
+  "identities": [
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-number.test.ts",
+        "fullName": "drawNumber — sdlpal ui.c:640-732 PAL_DrawNumber port num=0,nLength=6,right-align 到 (49, 14) — 1 个 0 digit 在 (79, 14)"
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-number.test.ts",
+        "fullName": "Number sprite layout and mask pixels num=0,nLength=6,right-align 到 (49, 14) — 1 个 0 digit 在 (79, 14)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-number.test.ts",
+        "fullName": "drawNumber — sdlpal ui.c:640-732 PAL_DrawNumber port num=123,nLength=6,right-align — 3 digits 末位 3 在 (79, 14),2 在 (73, 14),1 在 (67, 14)"
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-number.test.ts",
+        "fullName": "Number sprite layout and mask pixels num=123,nLength=6,right-align — 3 digits 末位 3 在 (79, 14),2 在 (73, 14),1 在 (67, 14)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-number.test.ts",
+        "fullName": "drawNumber — sdlpal ui.c:640-732 PAL_DrawNumber port blue color → base frame 29"
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-number.test.ts",
+        "fullName": "Number sprite layout and mask pixels blue color → base frame 29"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-number.test.ts",
+        "fullName": "drawNumber — sdlpal ui.c:640-732 PAL_DrawNumber port cyan color → base frame 56"
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-number.test.ts",
+        "fullName": "Number sprite layout and mask pixels cyan color → base frame 56"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-number.test.ts",
+        "fullName": "drawNumber — sdlpal ui.c:640-732 PAL_DrawNumber port left-align num=42,nLength=6 — digit 起 (49 - 6 + 6*2 = 55) — 2 在 55,4 在 49"
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-number.test.ts",
+        "fullName": "Number sprite layout and mask pixels left-align num=42,nLength=6 — digit 起 (49 - 6 + 6*2 = 55) — 2 在 55,4 在 49"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-number.test.ts",
+        "fullName": "drawNumber — sdlpal ui.c:640-732 PAL_DrawNumber port mid-align num=42,nLength=6：两位居中于六位槽，首位在 61，末位在 67"
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-number.test.ts",
+        "fullName": "Number sprite layout and mask pixels mid-align num=42,nLength=6：两位居中于六位槽，首位在 61，末位在 67"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-number.test.ts",
+        "fullName": "drawNumber — sdlpal ui.c:640-732 PAL_DrawNumber port num 超过 nLength → truncate(actualLength = nLength)"
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-number.test.ts",
+        "fullName": "Number sprite layout and mask pixels num 超过 nLength → truncate(actualLength = nLength)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-number.test.ts",
+        "fullName": "drawNumber — sdlpal ui.c:640-732 PAL_DrawNumber port uiSpriteFrames 缺失对应 base+digit 时跳过 blit 不抛"
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-number.test.ts",
+        "fullName": "Number sprite layout and mask pixels uiSpriteFrames 缺失对应 base+digit 时跳过 blit 不抛"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-number-slots.grok-r1.test.ts",
+        "fullName": "G05-C draw-number 空位与掩码 G05-C01 透明孔保留底色，旁边的不透明点写入精灵索引 44"
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-number.test.ts",
+        "fullName": "Number sprite layout and mask pixels G05-C01 透明孔保留底色，旁边的不透明点写入精灵索引 44"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-number-slots.grok-r1.test.ts",
+        "fullName": "G05-C draw-number 空位与掩码 G05-C02 只点亮最后一行时，像素写在 y+7，首行保持底色"
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-number.test.ts",
+        "fullName": "Number sprite layout and mask pixels G05-C02 只点亮最后一行时，像素写在 y+7，首行保持底色"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-number-slots.grok-r1.test.ts",
+        "fullName": "G05-C draw-number 空位与掩码 G05-C03 个位帧缺失时仍把十位画到左移 6 像素的位置"
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-number.test.ts",
+        "fullName": "Number sprite layout and mask pixels G05-C03 个位帧缺失时仍把十位画到左移 6 像素的位置"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-number-slots.grok-r1.test.ts",
+        "fullName": "G05-C draw-number 空位与掩码 G05-C04 nLength 为 0 且数字大于 0 时，一个数字像素都不写"
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-number.test.ts",
+        "fullName": "Number sprite layout and mask pixels G05-C04 nLength 为 0 且数字大于 0 时，一个数字像素都不写"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-number-slots.grok-r1.test.ts",
+        "fullName": "G05-C draw-number 空位与掩码 G05-C05 数字 0 且 nLength 为 0 时，右对齐把这一位画在 pos.x-6"
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-number.test.ts",
+        "fullName": "Number sprite layout and mask pixels G05-C05 数字 0 且 nLength 为 0 时，右对齐把这一位画在 pos.x-6"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-tilemap.test.ts",
+        "fullName": "drawTilemap lower (h=0) 画在 (-16,-8) 子行;upper (h=1) 画在 col/row baseline"
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-tilemap.test.ts",
+        "fullName": "Tilemap base layer pixels lower (h=0) 画在 (-16,-8) 子行;upper (h=1) 画在 col/row baseline"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-tilemap.test.ts",
+        "fullName": "drawTilemap ±1 fence(M3.5 T6 修):layer 0 fence 位置回落到 tile(cells[0][0].lower 的 h=0)"
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-tilemap.test.ts",
+        "fullName": "Tilemap base layer pixels ±1 fence(M3.5 T6 修):layer 0 fence 位置回落到 tile(cells[0][0].lower 的 h=0)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-tilemap.test.ts",
+        "fullName": "drawTilemap ±1 fence:layer 1 fence 位置 fallback = -1,fence 不调 tiles.get"
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-tilemap.test.ts",
+        "fullName": "Tilemap base layer pixels ±1 fence:layer 1 fence 位置 fallback = -1,fence 不调 tiles.get"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-tilemap.test.ts",
+        "fullName": "drawTilemap layer 0:9-bit tile id 从低 16 bit 提取 (d & 0xff) | ((d >> 4) & 0x100)"
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-tilemap.test.ts",
+        "fullName": "Tilemap base layer pixels layer 0:9-bit tile id 从低 16 bit 提取 (d & 0xff) | ((d >> 4) & 0x100)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-tilemap.test.ts",
+        "fullName": "drawTilemap layer 1:tile id 从高 16 bit 提取且 -1;高 16 bit = 0 → id < 0 → skip"
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-tilemap.test.ts",
+        "fullName": "Tilemap base layer pixels layer 1:tile id 从高 16 bit 提取且 -1;高 16 bit = 0 → id < 0 → skip"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-tilemap.test.ts",
+        "fullName": "drawTilemap 传入 coverage 时标记已画像素;远处未画处不标记"
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-tilemap.test.ts",
+        "fullName": "Tilemap base layer pixels 传入 coverage 时标记已画像素;远处未画处不标记"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-tilemap.test.ts",
+        "fullName": "repairTilemapSeams 接缝补偿 未覆盖像素从同值的已覆盖邻居填充"
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-tilemap-seams.test.ts",
+        "fullName": "Tilemap seam repair pixels 未覆盖像素从同值的已覆盖邻居填充"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-tilemap.test.ts",
+        "fullName": "repairTilemapSeams 接缝补偿 已覆盖像素保持不变,即使其值为 0(合法的不透明 index-0,不能当漏黑)"
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-tilemap-seams.test.ts",
+        "fullName": "Tilemap seam repair pixels 已覆盖像素保持不变,即使其值为 0(合法的不透明 index-0,不能当漏黑)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-tilemap.test.ts",
+        "fullName": "repairTilemapSeams 接缝补偿 填宽接缝:逐圈向内扩散直到填满"
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-tilemap-seams.test.ts",
+        "fullName": "Tilemap seam repair pixels 填宽接缝:逐圈向内扩散直到填满"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-tilemap-pixels.grok-r1.test.ts",
+        "fullName": "G03-A drawTilemap 像素与接缝 G03-A01 layer 0 的 lower 图缺失时，画面用 tile 0，upper 仍用自己的图"
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-tilemap.test.ts",
+        "fullName": "Tilemap base layer pixels G03-A01 layer 0 的 lower 图缺失时，画面用 tile 0，upper 仍用自己的图"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-tilemap-pixels.grok-r1.test.ts",
+        "fullName": "G03-A drawTilemap 像素与接缝 G03-A02 layer 1 的 upper 有 id 但没有图时，不回落 tile 0"
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-tilemap.test.ts",
+        "fullName": "Tilemap base layer pixels G03-A02 layer 1 的 upper 有 id 但没有图时，不回落 tile 0"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-tilemap-pixels.grok-r1.test.ts",
+        "fullName": "G03-A drawTilemap 像素与接缝 G03-A03 layer 1 的 lower 图缺失时仍回落 tile 0，upper 的 -1 不画"
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-tilemap.test.ts",
+        "fullName": "Tilemap base layer pixels G03-A03 layer 1 的 lower 图缺失时仍回落 tile 0，upper 的 -1 不画"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-tilemap-pixels.grok-r1.test.ts",
+        "fullName": "G03-A drawTilemap 像素与接缝 G03-A04 透明像素不记 coverage，不透明的 index 0 会写入并记 coverage"
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-tilemap.test.ts",
+        "fullName": "Tilemap base layer pixels G03-A04 透明像素不记 coverage，不透明的 index 0 会写入并记 coverage"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-tilemap-pixels.grok-r1.test.ts",
+        "fullName": "G03-A drawTilemap 像素与接缝 G03-A05 瓦片跨过 x=0 时，负列不记 coverage，屏内列写入 9"
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-tilemap.test.ts",
+        "fullName": "Tilemap base layer pixels G03-A05 瓦片跨过 x=0 时，负列不记 coverage，屏内列写入 9"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-tilemap-pixels.grok-r1.test.ts",
+        "fullName": "G03-A drawTilemap 像素与接缝 G03-A06 瓦片跨过 y=0 时，屏内那一行写入 9，再下一行保持空白"
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-tilemap.test.ts",
+        "fullName": "Tilemap base layer pixels G03-A06 瓦片跨过 y=0 时，屏内那一行写入 9，再下一行保持空白"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-tilemap-pixels.grok-r1.test.ts",
+        "fullName": "G03-A drawTilemap 像素与接缝 G03-A07 整行落在屏幕下方时不取该行的 tile id"
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-tilemap.test.ts",
+        "fullName": "Tilemap base layer pixels G03-A07 整行落在屏幕下方时不取该行的 tile id"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-tilemap-pixels.grok-r1.test.ts",
+        "fullName": "G03-A drawTilemap 像素与接缝 G03-A08 整列落在屏幕右边界外时不取该列的 tile id"
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-tilemap.test.ts",
+        "fullName": "Tilemap base layer pixels G03-A08 整列落在屏幕右边界外时不取该列的 tile id"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-tilemap-pixels.grok-r1.test.ts",
+        "fullName": "G03-A drawTilemap 像素与接缝 G03-A09 接缝先取扫描顺序里的西北邻居，不取东边更晚的邻居"
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-tilemap-seams.test.ts",
+        "fullName": "Tilemap seam repair pixels G03-A09 接缝先取扫描顺序里的西北邻居，不取东边更晚的邻居"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-tilemap-pixels.grok-r1.test.ts",
+        "fullName": "G03-A drawTilemap 像素与接缝 G03-A10 maxPasses 为 1 时只填到紧邻已覆盖像素的一圈"
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-tilemap-seams.test.ts",
+        "fullName": "Tilemap seam repair pixels G03-A10 maxPasses 为 1 时只填到紧邻已覆盖像素的一圈"
+      }
+    }
+  ],
+  "retirements": [],
+  "id": "pixel-primitives",
+  "namespace": "organization-pixel-primitives",
+  "cohortSubjects": [
+    {
+      "path": "packages/game/src/present/draw-number-slots.grok-r1.test.ts",
+      "sha256": "6cb8a530e70a1797a35e1795cffd70e78353ccd4f7119f8bc960ffaa5b37e28c",
+      "priorCurrentBridges": []
+    },
+    {
+      "path": "packages/game/src/present/draw-tilemap-pixels.grok-r1.test.ts",
+      "sha256": "77d84c6b6a974bcb50631dcd3d59e18e3153d901016d5e0ea868fdac9bc82487",
+      "priorCurrentBridges": []
+    }
+  ],
+  "preserved": [
+    {
+      "path": "packages/game/src/present/draw-number.ts",
+      "sha256": "148ad2df307b8b9aa316662d71440153762714fdc0027a5c3486e3f7af8e3684"
+    },
+    {
+      "path": "packages/game/src/present/draw-tilemap.ts",
+      "sha256": "8ad57e0042e6d6797303bb863f8696312ea72e813da94e04d4a1829470272b1e"
+    },
+    {
+      "path": "packages/game/src/present/blit-indexed-sprite.ts",
+      "sha256": "28b22d87ba93cac1b09b8c2b909b65fed9ca075d3e079f7fab3a1919170f4c8f"
+    },
+    {
+      "path": "packages/game/src/present/framebuffer.ts",
+      "sha256": "fdd25deedeb33da252d5efa9392bc5af088365a2a6dab3129c2b373aeeb0e060"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/digit-frames.ts",
+      "sha256": "8be72033de104a3a86d08a34f0d74b1ef99e9d69daa13b44358e4f7368b2b7fd"
+    },
+    {
+      "path": "packages/game/src/present/present.ts",
+      "sha256": "c4c6f411857d99c5f8e850bf5172c3e42f04181a64df0ce2a697fe1ec90569f9"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-player-status.ts",
+      "sha256": "8ec3e60ee883c1fb4ed74109b3b2498f59a637d6a1b396e603da3b8d06bcc4c9"
+    },
+    {
+      "path": "packages/game/src/present/battle/draw-battle-settlement.ts",
+      "sha256": "86e247937a178a7052b7c30ed18fe842ba063b97cfdd27602598de9c2290450e"
+    },
+    {
+      "path": "packages/shared/src/resources.ts",
+      "sha256": "d73a965595f25af28725bf4b387cf88bc92871cc595598f01a9460962df4be43"
+    },
+    {
+      "path": "packages/game/src/assets/png.ts",
+      "sha256": "4954c8f732085b29f94904caf21a0b43a40aba9437aedcd0ab34d34a1286c2d5"
+    },
+    {
+      "path": "packages/game/vitest.config.ts",
+      "sha256": "3dd92ad4886bc72c88e7a7b2e6bdacc3aaf9e2a24ac72153f3b619ba37feb7d4"
+    },
+    {
+      "path": "scripts/coverage/config.mjs",
+      "sha256": "decb63dda5d12a2269bef1dd75c3d1eb4efca071887c759deca8e9b06ef17a25"
+    }
+  ],
+  "neighborPaths": [
+    "src/present/draw-number.test.ts",
+    "src/present/draw-tilemap.test.ts",
+    "src/present/draw-tilemap-seams.test.ts",
+    "src/present/draw-number-nonfinite.test.ts",
+    "src/present/framebuffer.test.ts",
+    "src/present/__tests__/world-composition.test.ts",
+    "src/present/battle/__tests__/draw-battle-settlement.test.ts"
+  ],
+  "cleanExecutions": [
+    "before",
+    "reorganize",
+    "scoped-code",
+    "proof",
+    "routing",
+    "neighbors",
+    "typecheck",
+    "complexity",
+    "module-preflight",
+    "docs",
+    "content-review",
+    "lint",
+    "scoped",
+    "diff",
+    "ledger-final"
+  ],
+  "lightweightGates": true,
+  "profiles": [
+    {
+      "path": "packages/game/src/present/draw-number.test.ts",
+      "subjects": [
+        "packages/game/src/present/draw-number-slots.grok-r1.test.ts",
+        "packages/game/src/present/draw-tilemap-pixels.grok-r1.test.ts"
+      ],
+      "axes": {
+        "A": "13 actual drawNumber identities:0/123right,blue/cyan base,left/mid,truncation,missingframe,transparenthole vs opaque0,lastrow,missingones retainingtens spacing,positive/zero value with nLength0. Real renderer/blitter/framebuffer read. nLength0 is valid nonnegative public-helper input and C branch behavior, ordinary menu caller uses2/4/5 slots; no claim ordinary0slot reachability.",
+        "B": "Removed old author/wave absolute nonduplication header. Kept explicit digit dimensions, fixed coordinates, opaque0 and truncation explanations. No assertion that snapshot or callcount proves pixel output; no new misleading annotation found within candidate.",
+        "C": "Layout/color/slot/mask raster contracts live in number main; fresh framebuffer and owned digit arrays percase, shared factory returns independent buffers. No gameglobal, IO/async cancellation/clock lifecycle needed. Base map and seam heuristics stay separate.",
+        "D": "Reuse same canonical createDigitFrames at exact version; private digitFramesWithMask replaces one slot with explicit mask/indices. expectDigitPixels fills expected literal rectangles without recomputing SUT alignment/digits. No universal image host or extra shared export.",
+        "E": "All13callbacks/assertions typed-alpha-conserved. Full-frame Buffer expected checksmask/row/spacing and drawbounds; existing color/mid/truncate oracles stay literal. Real7files58/58,gameTC0,0pending/stderr. No new count/coverage-only cases or testretirement.",
+        "F": "draw-number.test now owns formerly author-based mask/slot cases. digitFramesWithMask and expectDigitPixels describe array return and raster assertion; stable G05 IDs only caseprovenance. Source/public parameter names unchanged.",
+        "G": "Remove separate author-spec wrapper/imports while retain distinct0slot branches, transparency and lastrow. Two actual mask factory callers justify local helper; no dead export/parameter or speculative flag introduced.",
+        "H": "Direct deterministic number and blit execution with independent full pixel oracle, no mocked painter, timing or private-state exposure. Fullcallback/declaration proof and suite-import/tailfield/lastassertion negatives; no current visual/E2E claim."
+      }
+    },
+    {
+      "path": "packages/game/src/present/draw-tilemap.test.ts",
+      "subjects": [
+        "packages/game/src/present/draw-number-slots.grok-r1.test.ts",
+        "packages/game/src/present/draw-tilemap-pixels.grok-r1.test.ts"
+      ],
+      "axes": {
+        "A": "14 true drawTilemap cases:lower/upper half-cell positions,layer0fence physicalpixels,layer1no-fence/9bit decoding,coverage/opaque0,croppednegativecols/rows,missinglower fallback0/missingupper skip and row/col culling. Missing-resource strategy is currentTS contract, not renewed complete SDL missing-bitmap parity. Tiny1x1/2x1/4x4 assets controlled IndexedImage domain, not actual extracted game tiles.",
+        "B": "Removed stale wholeheader coverage comparison; weak repeated-get explanatory block replaced with literal fence pixel comment. Existing lower/upper DWORD vs layer distinctions kept. C map382-418 read narrowly, no binary claim. No remaining newly found misleading scope in output.",
+        "C": "Base layer resource lookup/coverage grouped separately from post-base seam heuristic. Framebuffer owns clipping; private image/map factories only build inputs. Present caller orders two layers -> repair -> wave/sprites; tests do not change that pipeline or resourceownership.",
+        "D": "solidTileImage/tilemapFromCells used across actual main cases; no sharing with digit6x8sprites because semanticshape/opaque defaults differ. Remove tile helper fourthopaque parameter: every oldreference directcall<=3args/nospread, complete output records equal. No configurability for unused future domains.",
+        "E": "14 identities,13callbacks conserved after private names;1old count>1 observation replaced with real1px asset and full320x200 literal4point oracle. Same map/camera, newly supplied bitmap, not same fixturebytes claim. Actual one-source mutant shifts fence h1 onepixel: old1green/new1AssertionError,0pending,source/test restored. Resource routing ID checks retained where forbidden requests are actual contract.58neighbors/TC0.",
+        "F": "Canonical map painter spec owns map/camera/layer/coverage; solidTileImage names opaque image, tilemapFromCells names shape. No authorfolder or deadopaque argument. Seam tests get own responsibility filename.",
+        "G": "One private unused parameter/default removed with call/type/body/data proof. Count-frequency weak oracle retired in same identity in favor of business pixels, not preserved for count. Othermissing-resource/culling cases retained as distinct branches. No product fallback restoration or rule/config edits.",
+        "H": "True indexed tile painter/framebuffer; complete currentpixel output and literal expectedlocations independent from source loop. Counter uses real source exact site, standalone selected callback/fullhelpers/parents no testfilter; no environment/collection failure credit. Complete dependency/native exactset proof; no realasset/visual/E2E acceptance."
+      }
+    },
+    {
+      "path": "packages/game/src/present/draw-tilemap-seams.test.ts",
+      "subjects": [
+        "packages/game/src/present/draw-number-slots.grok-r1.test.ts",
+        "packages/game/src/present/draw-tilemap-pixels.grok-r1.test.ts"
+      ],
+      "axes": {
+        "A": "5 actual repairTilemapSeams identities:hole surrounded equalneighbors,covered opaque0 untouched,default multi-pass fullfill,NW-beforeeast priority and maxPasses1 onlynearest ring. Mutates only owned framebuffer/coverage; TS heuristic not SDL persistent-screen equivalence. Product file fully read, algorithm unchanged.",
+        "B": "File/suite explicitly call seam repair, not faithful SDL reconstruction. Literal tiny-grid comments retain currently tested algorithm and covered-index0 invariant; no false sourcecoverage or normal-scene pixel claim.",
+        "C": "Only framebuffer/coverage/maxPasses input/output; no map/camera/TileImages/digitfixtures imports. Separate test lifecycle from base painter because it operates after both layers and before wave/sprites. Local synchronous buffers need no cleanuphooks.",
+        "D": "No generic fixture for five tiny independentgrids. Equalneighbor fill vs priority amongdifferentneighbors and full16pass vs singlepass are different oracles; do not merge solely because same function called.",
+        "E": "All5callbacks/assertions conserved from two source files; same-length fullarrays or literal pixels assert real results, no count/mocks.32total identities retained across3outputs,58neighbors/TC0,0pending/stderr. No addedweakcoverage cases.",
+        "F": "draw-tilemap-seams.test expresses focused responsibility; descriptive originaltitles retained, G03 IDs only provenance. No new vague helper/export.",
+        "G": "Drop unused map/layer/tilefixture imports through actual caseclosure pruning; zero localhelper or configurable host. Preserve useful passlimit/neighbororder rather than minimize testcount mechanically.",
+        "H": "Direct deterministic purebuffer processing with independent literal grid expectations. Complete callback and actual import/suite registration proof; no current pipeline timing/English/visual/E2E acceptance."
+      }
+    }
+  ],
+  "callbackProof": "organization-pixel-primitives/proof.stdout.raw",
+  "cohortOrigins": "organization-pixel-primitives/cohort-origins.json",
+  "reusedReviewMember": "organization-pixel-primitives/reused-reviews.json",
+  "runnerEligibility": "organization-pixel-primitives/routing.stdout.raw",
+  "reads": {
+    "fullInputs": [
+      {
+        "path": "packages/game/src/present/draw-number-slots.grok-r1.test.ts",
+        "sha256": "6cb8a530e70a1797a35e1795cffd70e78353ccd4f7119f8bc960ffaa5b37e28c",
+        "member": "organization-pixel-primitives/0.before",
+        "lines": 80
+      },
+      {
+        "path": "packages/game/src/present/draw-tilemap-pixels.grok-r1.test.ts",
+        "sha256": "77d84c6b6a974bcb50631dcd3d59e18e3153d901016d5e0ea868fdac9bc82487",
+        "member": "organization-pixel-primitives/1.before",
+        "lines": 183
+      },
+      {
+        "path": "packages/game/src/present/draw-number.test.ts",
+        "sha256": "4251c96b758cb2eae081861eada535db545e695e636239cc408e0a795ec03e9e",
+        "member": "organization-pixel-primitives/2.before",
+        "lines": 81
+      },
+      {
+        "path": "packages/game/src/present/draw-tilemap.test.ts",
+        "sha256": "6d05455949e1f87ce1208236cd4fd1e1e98a8a27772246ba022cfc4a8813c794",
+        "member": "organization-pixel-primitives/3.before",
+        "lines": 197
+      }
+    ],
+    "fullImplementations": [
+      {
+        "path": "packages/game/src/present/draw-number.ts",
+        "sha256": "148ad2df307b8b9aa316662d71440153762714fdc0027a5c3486e3f7af8e3684",
+        "scope": "Full current file read, including unmodified coverhelper context without renewed fullcover algorithm acceptance."
+      },
+      {
+        "path": "packages/game/src/present/draw-tilemap.ts",
+        "sha256": "8ad57e0042e6d6797303bb863f8696312ea72e813da94e04d4a1829470272b1e",
+        "scope": "Full current file read, including unmodified coverhelper context without renewed fullcover algorithm acceptance."
+      },
+      {
+        "path": "packages/game/src/present/blit-indexed-sprite.ts",
+        "sha256": "28b22d87ba93cac1b09b8c2b909b65fed9ca075d3e079f7fab3a1919170f4c8f",
+        "scope": "Full current file read, including unmodified coverhelper context without renewed fullcover algorithm acceptance."
+      },
+      {
+        "path": "packages/game/src/present/framebuffer.ts",
+        "sha256": "fdd25deedeb33da252d5efa9392bc5af088365a2a6dab3129c2b373aeeb0e060",
+        "scope": "Full current file read, including unmodified coverhelper context without renewed fullcover algorithm acceptance."
+      },
+      {
+        "path": "packages/game/src/present/__tests__/digit-frames.ts",
+        "sha256": "8be72033de104a3a86d08a34f0d74b1ef99e9d69daa13b44358e4f7368b2b7fd",
+        "scope": "Full current file read, including unmodified coverhelper context without renewed fullcover algorithm acceptance."
+      }
+    ],
+    "scopedCallers": [
+      {
+        "path": "packages/game/src/present/present.ts",
+        "sha256": "c4c6f411857d99c5f8e850bf5172c3e42f04181a64df0ce2a697fe1ec90569f9",
+        "ranges": [[291, 323]]
+      },
+      {
+        "path": "packages/game/src/present/menu/draw-player-status.ts",
+        "sha256": "8ec3e60ee883c1fb4ed74109b3b2498f59a637d6a1b396e603da3b8d06bcc4c9",
+        "ranges": [[329, 365]]
+      },
+      {
+        "path": "packages/shared/src/resources.ts",
+        "sha256": "d73a965595f25af28725bf4b387cf88bc92871cc595598f01a9460962df4be43",
+        "ranges": [[1, 22]]
+      },
+      {
+        "path": "packages/game/src/assets/png.ts",
+        "sha256": "4954c8f732085b29f94904caf21a0b43a40aba9437aedcd0ab34d34a1286c2d5",
+        "ranges": [[1, 22]]
+      }
+    ],
+    "primarySources": [
+      {
+        "path": "reference/sdlpal/ui.c",
+        "sha256": "15a03e60ebe4c51ae45d479740b8dfdf8029805cc6bf8ca8fc39926d62cf2242",
+        "ranges": [[648, 735]],
+        "scope": "Narrow number layout/body, no new fulloriginal binary credit."
+      },
+      {
+        "path": "reference/sdlpal/map.c",
+        "sha256": "0b707730f6e89b2d99f7a8564382c226381c3cec2f13867ad54c816805b1357f",
+        "ranges": [[382, 418]],
+        "scope": "Narrow blit/fence loop; currentTS missing-frame strategy not asserted equivalent for all SDLmissingbitmap inputs."
+      }
+    ],
+    "currentOutputs": [
+      {
+        "path": "packages/game/src/present/draw-number.test.ts",
+        "sha256": "8bf78783295ffebe9a1545fb1dfb0b5582f6e1be8ee59a5a2bb26b244c49ceb9",
+        "lines": 152,
+        "scope": "Full final candidate read; typed/projection/native proofs separate."
+      },
+      {
+        "path": "packages/game/src/present/draw-tilemap.test.ts",
+        "sha256": "7e977efeb8fbbad90eab4e7f413619021690623b8e73a2438d4e8f59a4ae951d",
+        "lines": 328,
+        "scope": "Full final candidate read; typed/projection/native proofs separate."
+      },
+      {
+        "path": "packages/game/src/present/draw-tilemap-seams.test.ts",
+        "sha256": "ba1d40a35da50ca04d3f8c8a40d26301c4fda80a96d2ee3234f09de85b9d813f",
+        "lines": 65,
+        "scope": "Full final candidate read; typed/projection/native proofs separate."
+      }
+    ]
+  },
+  "processDisclosures": [
+    "Only2historicalsubjects15identities counted; adjacentmains17 all32 retained->number13/map14/seams5. Bothclosedmains reopenreview,0newclosed. Product unchanged.",
+    "31callbacks preserved afterprivate names;one weak repeated-get fence observation replaced by real1px asset/full64000pixel expected with4literal positives. Same map/camera, not identical bitmap input claim. Source shifts fenceh1 by1pixel, actual old1green/new1businessAssertionError,0pending,source/test restored. No productbug/fix claimed.",
+    "Private tile helper fourthopaque parameter has0provided arguments: everyreference directcall<=3args/nospread. Complete typed declaration onlyparam/default removal and actual4inputshape records equal; threeotherhelper bodies exact under private names. No hidden helper API/futuremode.",
+    "All32titles/identities retained; numeric0slot, tinyimages and TS missing-frame/seam behavior scoped, not ordinary game/completeSDL originalvisual parity. Actual7paths58/TC0,complete raw/native and11centralcurrenttool pins unchanged.",
+    "Evidence transport uses declared volume catalog; original5742member volume frozen. Newraw append toextension only, original schema/checks preserved. Heavywholecheck/officialcoverage/protected/publication deferred to stablelargecloseout."
+  ],
+  "ledgerDispositions": {
+    "categories": {
+      "packages/game/src/present/draw-number.test.ts": "test",
+      "packages/game/src/present/draw-tilemap.test.ts": "test",
+      "packages/game/src/present/draw-tilemap-seams.test.ts": "test"
+    }
+  },
+  "ledgerCounts": {
+    "inventory": 3445,
+    "closed": 546,
+    "review": 265,
+    "pending": 2634
+  }
+}

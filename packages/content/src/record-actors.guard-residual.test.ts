@@ -7,8 +7,8 @@
  * tempStatBuff stat 域与 percent 非整数，以及非战斗人物+可选域全量正控。
  */
 import { describe, expect, test } from 'vitest'
-import { deepSnapshot } from './__tests__/glm-content-contract-fixtures.js'
 import { expectAcceptsUnchanged, expectExactError } from './__tests__/guard-leaf-fixtures.js'
+import { deepSnapshot } from './__tests__/value-snapshot.js'
 import { validateActors } from './validate.js'
 
 const nonCombatActor = () => ({

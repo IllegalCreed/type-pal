@@ -7,8 +7,8 @@
  * cursor.at kind 叶与 mapOverride 空串叶。不测运行时读档政策。
  */
 import { describe, expect, test } from 'vitest'
-import { deepSnapshot } from './__tests__/glm-content-contract-fixtures.js'
 import { expectAcceptsUnchanged, expectExactError } from './__tests__/guard-leaf-fixtures.js'
+import { deepSnapshot } from './__tests__/value-snapshot.js'
 import { checkWorldScriptState, emptyWorldScriptState } from './author-script-core.js'
 
 describe('G2 world script state 残差', () => {

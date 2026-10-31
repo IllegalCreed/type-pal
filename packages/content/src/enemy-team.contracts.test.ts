@@ -3,7 +3,7 @@
  * 0%→值得直接核边界；空/非空/null 槽、上限 5、重复 ID、坏槽、缺敌人；输入不污染。
  */
 import { describe, expect, test } from 'vitest'
-import { deepSnapshot } from './__tests__/glm-content-contract-fixtures.js'
+import { deepSnapshot } from './__tests__/value-snapshot.js'
 import { validateEnemyTeams } from './enemy-team.js'
 
 describe('D5 validateEnemyTeams · 结构边界', () => {

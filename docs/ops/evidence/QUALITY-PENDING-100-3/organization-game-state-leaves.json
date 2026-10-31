@@ -1,0 +1,1645 @@
+{
+  "id": "game-state-sprites-and-status-initialization",
+  "namespace": "organization-game-state-leaves",
+  "inputs": [
+    {
+      "path": "packages/game/src/core/game-state.test.ts",
+      "member": "organization-game-state-leaves/0.before",
+      "sha256": "59fa4eda5dc5f088df79d4e6c8e8bc0bb8c3d89c7b832967470cd714bb2b664c",
+      "lines": 1027
+    },
+    {
+      "path": "packages/game/src/core/game-state.glm-next-wave.test.ts",
+      "member": "organization-game-state-leaves/1.before",
+      "sha256": "4fd77748ff4cdb22ab30cbc9d6e2c7984ecb9c49d585885f1fe7c59c4b1ce449",
+      "lines": 62
+    }
+  ],
+  "outputs": [
+    {
+      "path": "packages/game/src/core/game-state.test.ts",
+      "sha256": "873b1b3aa52836b1bf8c38fc8a8bff8d4a097f26155f3b9342a4bae3177830c3",
+      "lines": 1041
+    },
+    {
+      "path": "packages/game/src/core/game-state.sprites.test.ts",
+      "sha256": "d329359ee35ebbe75fb090535b0a4f593d57b3b94f0c82a3b52273771aae8642",
+      "lines": 38
+    }
+  ],
+  "replacements": [],
+  "sourceBridges": [
+    {
+      "path": "packages/game/src/core/game-state.test.ts",
+      "id": "organization-game-state-leaves-0",
+      "reason": "Registration-only destination context; independent complete typed-main remainder, all callbacks, helper/import/body proof establishes semantics. No arbitrary replacement is itself acceptance evidence.",
+      "changes": [
+        {
+          "from": "import type { Command, PlayerRole, SceneEventObject } from '@type-pal/shared'\nimport { describe, expect, it } from 'vitest'\nimport { startDialogLine } from '../present/dialog-box.js'\nimport {\n  clearHiddenExpCounts,\n  createInitialGameState,\n  type GameState,\n  hydrateNpcStaticDefaults,\n  hydratePlayerRolesRuntime,\n  initExpLevelsFromLevels,\n  loadDefaultGame,\n  type NpcState,\n  normalizePlayerRolesRuntime,\n  npcFromEventObject,\n  type PlayerRolesRuntime,\n  projectRuntimeToBattleRoles,\n  resetPresentationTransients,\n  resetSceneRuntimeForNewGame,\n  resumePostBattleScript,\n  scriptRunHits0x4F,\n  sliceSceneEventObjects,\n  writeBackBattleRolesToRuntime,\n} from './game-state.js'\nimport { blackColors } from './palette-fade.js'\n\nfunction changedEventObject(): GameState['rgEventObject'][number] {\n  return {\n    sState: -1,\n    x: 100,\n    y: 100,\n    sLayer: 0,\n    wTriggerScript: 0,\n    wAutoScript: 0,\n    wTriggerMode: 0,\n    wSpriteNum: 3,\n    nSpriteFrames: 4,\n    wDirection: 2,\n    wCurrentFrameNum: 0,\n    nScriptIdleFrame: 0,\n    wSpritePtrOffset: 0,\n    nSpriteFramesAuto: 0,\n    wScriptIdleFrameCountAuto: 0,\n    sVanishTime: 0,\n  }\n}\n\n// E04(隐藏属性经验):wCount 是 ExpEntry 第三字段(sdlpal EXPERIENCE.wCount),战前清零 7 隐藏池(非主经验)。\ndescribe('clearHiddenExpCounts(隐藏经验 wCount 战前清零,battle.c:1565-1586)', () => {\n  it('清 7 隐藏池各 role 的 wCount,**不动** rgPrimaryExp', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    // 预置:7 隐藏池 + 主经验都给 wCount\n    const pools = [\n      gs.Exp.rgHealthExp,\n      gs.Exp.rgMagicExp,\n      gs.Exp.rgAttackExp,\n      gs.Exp.rgMagicPowerExp,\n      gs.Exp.rgDefenseExp,\n      gs.Exp.rgDexterityExp,\n      gs.Exp.rgFleeExp,\n    ]\n    for (const p of pools) for (const e of p) e.wCount = 5\n    gs.Exp.rgPrimaryExp[0]!.wCount = 7 // 主经验不该被清\n    clearHiddenExpCounts(gs)\n    for (const p of pools) for (const e of p) expect(e.wCount).toBe(0)\n    expect(gs.Exp.rgPrimaryExp[0]!.wCount).toBe(7) // 主经验保留\n  })\n\n  it('createInitialGameState 的 Exp wCount 初始 0', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    expect(gs.Exp.rgAttackExp[0]!.wCount).toBe(0)\n  })\n})\n\n// F1(新游戏默认值核对):sdlpal PAL_LoadDefaultGame(global.c:455-465)memset Exp 全 0 后,\n//   for i<MAX_PLAYER_ROLES 把全 8 类经验的 .wLevel 设为 rgwLevel[i](角色等级),wExp 保持 0。\n//   ts createEmptyExp 全 0、hydrate 不碰 Exp → 新游戏后 Exp.wLevel 全 0,与真值不符(本测锁定修复)。\ndescribe('initExpLevelsFromLevels(新游戏 Exp.wLevel 初始化,global.c:455-465)', () => {\n  it('8 类经验 × 6 角色 wLevel 全 = 对应等级,wExp 不动', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    expect(gs.Exp.rgPrimaryExp[3]?.wLevel).toBe(0) // 前置:createEmptyExp 全 0\n    const levels = [1, 5, 3, 48, 28, 40] // player-roles.json role0..5 真默认等级\n    initExpLevelsFromLevels(gs.Exp, levels)\n    const cats = [\n      gs.Exp.rgPrimaryExp,\n      gs.Exp.rgHealthExp,\n      gs.Exp.rgMagicExp,\n      gs.Exp.rgAttackExp,\n      gs.Exp.rgMagicPowerExp,\n      gs.Exp.rgDefenseExp,\n      gs.Exp.rgDexterityExp,\n      gs.Exp.rgFleeExp,\n    ]\n    for (const cat of cats) {\n      for (let i = 0; i < 6; i++) {\n        expect(cat[i]?.wLevel).toBe(levels[i])\n        expect(cat[i]?.wExp).toBe(0)\n      }\n    }\n  })\n\n  it('rgwLevel 缺项(undefined)→ 该角色 wLevel 退化 0,不抛错', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    initExpLevelsFromLevels(gs.Exp, [7]) // 只给 role0\n    expect(gs.Exp.rgPrimaryExp[0]?.wLevel).toBe(7)\n    expect(gs.Exp.rgPrimaryExp[5]?.wLevel).toBe(0)\n  })\n})\n\n// H1(2026-06-07 sdlpal 差异审查):通关/退出回标题后再开新游戏,gs 沿用上一局脏数据\n//   (金钱/背包/毒/队伍/经验等)。sdlpal PAL_LoadDefaultGame(global.c:434-465)每次新游戏都把\n//   这组字段重置为默认。本测锁定 loadDefaultGame 的重置语义。\ndescribe('loadDefaultGame(新游戏重置,PAL_LoadDefaultGame global.c:434-465)', () => {\n  const fixtureRoles: import('@type-pal/shared').PlayerRoles = {\n    roles: [\n      {\n        id: 0,\n        avatar: 0,\n        spriteNumInBattle: 0,\n        spriteNum: 0,\n        name: 0,\n        attackAll: 0,\n        level: 5,\n        maxHP: 100,\n        maxMP: 50,\n        hp: 80,\n        mp: 40,\n        attackStrength: 10,\n        magicStrength: 5,\n        defense: 8,\n        dexterity: 12,\n        fleeRate: 3,\n        poisonResistance: 0,\n        elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },\n        walkFrames: 3,\n        attackSound: -1,\n        weaponSound: -1,\n        criticalSound: -1,\n        magicSound: -1,\n        deathSound: -1,\n      },\n    ],\n  }\n\n  it('清空上一局金钱/背包/毒/队伍/trail/采集值,标量回默认(global.c:434-453)', () => {\n    const gs = createInitialGameState({ x: 5, y: 5, facing: 'up' })\n    // 弄脏:模拟玩过一局\n    gs.dwCash = 9999\n    gs.inventory = [{ itemId: 61, count: 1 }]\n    gs.rgPoisonStatus = { '0_0': { wPoisonID: 552, wPoisonScript: 40866 } }\n    gs.partyMembers = [1, 2]\n    gs.trail = [{ x: 5, y: 5, dir: 'up' }]\n    gs.wCollectValue = 50\n    gs.nightPalette = true\n    gs.wLayer = 8\n    gs.nFollower = 2\n    gs.wChaseRange = 5\n    gs.numPalette = 3\n    gs.wNumMusic = 7\n    gs.wBattleSpeed = 4\n    gs.iCurInvMenuItem = 9 // L6:弄脏物品菜单光标\n    gs.currentSaveSlot = 3\n\n    loadDefaultGame(gs, fixtureRoles)\n\n    expect(gs.dwCash).toBe(0)\n    expect(gs.inventory).toEqual([])\n    expect(gs.rgPoisonStatus).toEqual({})\n    // memset(rgParty)+wMaxPartyMemberIndex=0 表示队伍含 role0,不是空队伍。\n    expect(gs.partyMembers).toEqual([0])\n    expect(gs.trail).toEqual([])\n    expect(gs.wCollectValue).toBe(0)\n    expect(gs.nightPalette).toBe(false)\n    expect(gs.wLayer).toBe(0)\n    expect(gs.nFollower).toBe(0)\n    expect(gs.wChaseRange).toBe(1) // sdlpal global.c:444 default = 1(非 0)\n    expect(gs.numPalette).toBe(0)\n    expect(gs.wNumMusic).toBe(0)\n    expect(gs.wBattleSpeed).toBe(2) // sdlpal global.c:446 default = 2\n    expect(gs.iCurInvMenuItem).toBe(0) // L6:PAL_InitGameData global.c:948 复位物品菜单光标\n    expect(gs.currentSaveSlot).toBe(0) // PAL_InitGameData(0):新游戏不得沿用上一存档槽\n  })\n\n  it('hydrate PlayerRoles 基线 + 8 类经验 wLevel = 角色等级(global.c:455-465)', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    // 弄脏 runtime + Exp\n    gs.PlayerRolesRuntime.rgwHP[0] = 1\n    gs.Exp.rgPrimaryExp[0]!.wLevel = 99\n\n    loadDefaultGame(gs, fixtureRoles)\n\n    // hydrate 回基线\n    expect(gs.PlayerRolesRuntime.rgwHP[0]).toBe(80)\n    expect(gs.PlayerRolesRuntime.rgwMaxHP[0]).toBe(100)\n    expect(gs.PlayerRolesRuntime.rgwLevel[0]).toBe(5)\n    // 8 类经验 wLevel = level 5,wExp 不动\n    expect(gs.Exp.rgPrimaryExp[0]!.wLevel).toBe(5)\n    expect(gs.Exp.rgAttackExp[0]!.wLevel).toBe(5)\n    expect(gs.Exp.rgFleeExp[0]!.wLevel).toBe(5)\n  })\n\n  it('M6:清 rgPlayerStatus(大世界施放的持久状态不带入新游戏,PAL_InitGameData global.c:951)', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.rgPlayerStatus[1]![5] = 99 // 弄脏:role1 某 status 非 0(大世界上的护身/勇气等)\n    loadDefaultGame(gs, fixtureRoles)\n    expect(gs.rgPlayerStatus[1]![5]).toBe(0) // 清零(非装备持久状态丢弃,装备状态由 updateEquipments 重建)\n  })\n})\n\n// H1 续:scene 运行时复位(通关后重开,清上一局 scene flag/对象状态/onEnter 停点 + 重建全局对象表)\ndescribe('resetSceneRuntimeForNewGame(新游戏 scene 运行时复位)', () => {\n  it('清 scene 持久 records + 从初始对象表重建 allEventObjects', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    // 弄脏:上一局 scene 进度\n    gs.rgScene = {\n      1: { wMapNum: 1, wScriptOnEnter: 5, wScriptOnTeleport: 0, wEventObjectIndex: 0 },\n    }\n    gs.sceneOnEnterIp = { 1: 5 }\n    gs.sceneOnEnterOverride = { 2: 123 }\n    gs.sceneOnTeleportOverride = { 2: 456 }\n    gs.sceneOnTeleportEntry = 789\n    gs.rgObject = { 1: { rgwData: [1, 2, 3, 4, 5, 6, 7] } }\n    gs.rgEventObject = { 1: changedEventObject() }\n    gs.allEventObjects = [\n      npcFromEventObject({ id: 99, x: 32, y: 16, spriteNum: 1, triggerMode: 0 }),\n    ]\n    gs.eventCursor = { ip: 123 }\n    gs.gameOverActive = true\n    gs.deathHoldActive = true\n    gs.blackScreenHold = true\n    gs.paletteFadeState = {\n      startColors: blackColors(),\n      targetColors: blackColors(),\n      startTimeMs: 100,\n      totalMs: 200,\n      mode: 'lerp',\n      steps: 16,\n      increment: 0,\n    }\n    gs.fadeState = {\n      speed: 2,\n      totalMs: 2160,\n      startTimeMs: 100,\n      appliedSteps: 1,\n      backupPixels: new Uint8Array(320 * 200),\n    }\n    gs.needToFadeIn = true\n    gs.sceneLoading = true\n    gs.pendingSceneLoad = 9\n    gs.dialogBox = startDialogLine('上一局对白', { style: 'top' })\n    gs.dialogBoxKept = startDialogLine('上一局保留画面', { style: 'bottom' })\n    gs.currentDialogPortraitIcon = 88\n    // DM25:上一局残留的波/震/战斗域/追逐周期/跟随者\n    gs.wScreenWave = 4\n    gs.sWaveProgression = 0\n    gs.shakeTime = 6\n    gs.shakeLevel = 3\n    gs.wNumBattleMusic = 17\n    gs.wNumBattleField = 9\n    gs.wChasespeedChangeCycles = 5\n    gs.followers = [3]\n\n    const initial = [\n      { id: 1, x: 10, y: 20, spriteNum: 5, triggerMode: 0 },\n      { id: 2, x: 30, y: 40, spriteNum: 6, triggerMode: 0 },\n    ]\n    resetSceneRuntimeForNewGame(gs, initial)\n\n    expect(gs.rgScene).toEqual({})\n    expect(gs.sceneOnEnterIp).toEqual({})\n    expect(gs.sceneOnEnterOverride).toEqual({})\n    expect(gs.sceneOnTeleportOverride).toEqual({})\n    expect(gs.sceneOnTeleportEntry).toBe(0)\n    expect(gs.rgObject).toEqual({})\n    expect(gs.rgEventObject).toEqual({})\n    expect(gs.eventCursor).toBeUndefined()\n    expect(gs.gameOverActive).toBe(false)\n    // DM25:新游戏语义恒 0(C 进程静态零/FreeGlobals memset,global.c:262)\n    expect(gs.wScreenWave).toBe(0)\n    expect(gs.sWaveProgression).toBe(0)\n    expect(gs.shakeTime).toBe(0)\n    expect(gs.shakeLevel).toBe(0)\n    expect(gs.wNumBattleMusic).toBe(0)\n    expect(gs.wNumBattleField).toBe(0)\n    expect(gs.wChasespeedChangeCycles).toBe(0)\n    expect(gs.followers).toEqual([])\n    expect(gs.deathHoldActive).toBe(false)\n    expect(gs.blackScreenHold).toBe(false)\n    expect(gs.paletteFadeState).toBeUndefined()\n    expect(gs.fadeState).toBeUndefined()\n    expect(gs.needToFadeIn).toBe(false)\n    expect(gs.sceneLoading).toBe(false)\n    expect(gs.pendingSceneLoad).toBeUndefined()\n    expect(gs.dialogBox).toBeUndefined()\n    expect(gs.dialogBoxKept).toBeUndefined()\n    expect(gs.currentDialogPortraitIcon).toBeUndefined()\n    // allEventObjects 从初始表重建(不再是脏的 [{id:99}])\n    expect(gs.allEventObjects?.length).toBe(2)\n    expect(gs.allEventObjects?.map((o) => o.id)).toEqual([1, 2])\n  })\n})\n\ndescribe('GameState', () => {\n  it('初始态:无 NPC、explore 模式、无对话框', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    expect(gs.party.x).toBe(0)\n    expect(gs.mode).toBe('explore')\n    expect(gs.dialogBox).toBeUndefined()\n    expect(gs.eventCursor).toBeUndefined()\n    expect(gs.currentDialogStyle).toBe('top') // sdlpal PAL_InitText 默认 kDialogUpper\n    expect(gs.frameNum).toBe(0)\n  })\n\n  it('初始态:partyMembers / inventory 默认空数组,battleState 缺省', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    expect(gs.partyMembers).toEqual([])\n    expect(gs.inventory).toEqual([])\n    expect(gs.battleState).toBeUndefined()\n  })\n})\n\ndescribe('Sync.1 GameState 全字段冻结(SAVEDGAME_WIN 倒推)', () => {\n  it('initial state 初始化存档字段和定长运行态数组', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    // 平铺杂项字段\n    expect(gs.wSavedTimes).toBe(0)\n    expect(gs.wNumScene).toBe(0)\n    expect(gs.wPaletteOffset).toBe(0)\n    expect(gs.wNumMusic).toBe(0)\n    expect(gs.wNumBattleMusic).toBe(0)\n    expect(gs.wNumBattleField).toBe(0)\n    expect(gs.wScreenWave).toBe(0)\n    expect(gs.wBattleSpeed).toBe(2) // sdlpal global.c default\n    expect(gs.wCollectValue).toBe(0)\n    expect(gs.wLayer).toBe(0)\n    expect(gs.wChaseRange).toBe(1)\n    expect(gs.wChasespeedChangeCycles).toBe(0)\n    expect(gs.nFollower).toBe(0)\n    expect(gs.dwCash).toBe(0)\n    expect(gs.blackScreenHold).toBe(false)\n    // 嵌套 struct\n    expect(gs.Exp).toBeDefined()\n    expect(gs.Exp.rgPrimaryExp).toBeInstanceOf(Array)\n    expect(gs.Exp.rgPrimaryExp).toHaveLength(6) // MAX_PLAYER_ROLES\n    expect(gs.Exp.rgHealthExp).toHaveLength(6)\n    expect(gs.Exp.rgMagicExp).toHaveLength(6)\n    expect(gs.Exp.rgAttackExp).toHaveLength(6)\n    expect(gs.Exp.rgMagicPowerExp).toHaveLength(6)\n    expect(gs.Exp.rgDefenseExp).toHaveLength(6)\n    expect(gs.Exp.rgDexterityExp).toHaveLength(6)\n    expect(gs.Exp.rgFleeExp).toHaveLength(6)\n    expect(gs.PlayerRolesRuntime).toBeDefined()\n    expect(gs.PlayerRolesRuntime.rgwHP).toHaveLength(6)\n    expect(gs.PlayerRolesRuntime.rgwLevel).toHaveLength(6)\n    expect(gs.PlayerRolesRuntime.rgwEquipment).toHaveLength(6) // MAX_PLAYER_EQUIPMENTS\n    expect(gs.PlayerRolesRuntime.rgwMagic).toHaveLength(32) // MAX_PLAYER_MAGICS\n    expect(gs.PlayerRolesRuntime.rgwElementalResistance).toHaveLength(5) // NUM_MAGIC_ELEMENTAL\n    expect(gs.rgPoisonStatus).toEqual({})\n    expect(gs.rgScene).toEqual({})\n    expect(gs.rgObject).toEqual({})\n    expect(gs.rgEventObject).toEqual({})\n  })\n\n  it('sparse Record:rgEventObject 只存改过的 EventObject', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    expect(Object.keys(gs.rgEventObject)).toHaveLength(0)\n    gs.rgEventObject[5] = changedEventObject()\n    expect(Object.keys(gs.rgEventObject)).toHaveLength(1)\n    expect(gs.rgEventObject[5]?.sState).toBe(-1)\n  })\n\n  it('sparse Record:rgScene / rgObject 初始空,可单独写入', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    expect(Object.keys(gs.rgScene)).toHaveLength(0)\n    expect(Object.keys(gs.rgObject)).toHaveLength(0)\n    gs.rgScene[15] = { wMapNum: 3, wScriptOnEnter: 42, wScriptOnTeleport: 0, wEventObjectIndex: 10 }\n    gs.rgObject[100] = { rgwData: [1, 2, 3, 4, 5, 6, 7] }\n    expect(Object.keys(gs.rgScene)).toHaveLength(1)\n    expect(Object.keys(gs.rgObject)).toHaveLength(1)\n  })\n\n  it('AllExperience 初始值全零 ExpEntry', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    for (const entry of gs.Exp.rgPrimaryExp) {\n      expect(entry.wExp).toBe(0)\n      expect(entry.wLevel).toBe(0)\n    }\n  })\n\n  it('PlayerRolesRuntime 初始值全零', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    expect(gs.PlayerRolesRuntime.rgwHP.every((v) => v === 0)).toBe(true)\n    expect(gs.PlayerRolesRuntime.rgwLevel.every((v) => v === 0)).toBe(true)\n    expect(gs.PlayerRolesRuntime.rgwMagic.every((row) => row.every((v) => v === 0))).toBe(true)\n  })\n})\n\ndescribe('npcFromEventObject', () => {\n  it('System A:eo.x/y 直接透传(1:1 sdlpal pixel),其它字段透传', () => {\n    const eo: SceneEventObject = {\n      id: 3,\n      x: 512,\n      y: 800,\n      spriteNum: 42,\n      triggerLabel: 'L_59',\n      triggerMode: 0,\n    }\n    const npc = npcFromEventObject(eo)\n    expect(npc.id).toBe(3)\n    expect(npc.x).toBe(512)\n    expect(npc.y).toBe(800)\n    expect(npc.spriteNum).toBe(42)\n    expect(npc.triggerLabel).toBe('L_59')\n  })\n\n  it('半 tile 位置原样保留(eo.x=720 / eo.y=664)', () => {\n    // System A 1:1 透传,sdlpal scene.c:301-322 +7 锚点偏移在 present 渲染层加,\n    // 不写进 logical x/y(contact 距离判断 scene.c:624 用原 eo.x/y)。\n    const eo: SceneEventObject = {\n      id: 7,\n      x: 720,\n      y: 664,\n      spriteNum: 0,\n      triggerMode: 0,\n    }\n    const npc = npcFromEventObject(eo)\n    expect(npc.x).toBe(720)\n    expect(npc.y).toBe(664)\n  })\n\n  it('初始 currentFrameNum 透传为 scriptedFrame(水月宫拜谢李逍遥姿势 frame13)', () => {\n    const eo: SceneEventObject = {\n      id: 346,\n      x: 1200,\n      y: 1176,\n      spriteNum: 193,\n      triggerMode: 0,\n      sState: 0,\n      nSpriteFrames: 0,\n      direction: 0,\n      currentFrameNum: 13,\n    }\n    const npc = npcFromEventObject(eo)\n    expect(npc.scriptedFrame).toBe(13)\n  })\n\n  it('初始 vanishTime 透传为 sVanishTime(非 0 时不触发/不跑 autoScript)', () => {\n    const eo: SceneEventObject = {\n      id: 9,\n      x: 0,\n      y: 0,\n      spriteNum: 1,\n      triggerMode: 5,\n      vanishTime: -15,\n    }\n    expect(npcFromEventObject(eo).sVanishTime).toBe(-15)\n  })\n\n  it('triggerLabel 缺时透传 undefined', () => {\n    const eo: SceneEventObject = { id: 0, x: 0, y: 0, spriteNum: 0, triggerMode: 0 }\n    expect(npcFromEventObject(eo).triggerLabel).toBeUndefined()\n  })\n\n  // ── 扬州太守领赏 bug(tp 层修原版「书案太长够不到太守」data/布局 bug)─────────────\n  // 太守(场景 81 obj 1518)原版是 Confirm-search(triggerMode 3),但公案在 map84 用 obstacle tile\n  // 围成斜墙,玩家挤不到能搜查命中的格 → 5500 文赏金领不到(实测最近只到加权 160 被挡)。\n  // 纠错资源将 obj 1518 设为走近自动触发(mode 6)+ autoTriggerOnce 只触发一次(防修好可达性后凭空\n  // 多出原版没有的刷钱漏洞)。门禁靠 scene 81 只在擒贼后载入(结构性),不在此层加 flag。\n  it('纠错资源的自动触发元数据透传，NPC造型位置保持原值', () => {\n    const eo: SceneEventObject = {\n      id: 1518,\n      x: 1616,\n      y: 968,\n      spriteNum: 382,\n      triggerLabel: 'L_15293',\n      triggerMode: 6,\n      autoTriggerOnce: true,\n      autoTriggerAnchorX: 1600,\n      autoTriggerAnchorY: 1040,\n      sState: 1,\n    }\n    const npc = npcFromEventObject(eo)\n    expect(npc.triggerMode).toBe(6) // sdlpal kTriggerTouchNear=4 起为自动触发区\n    expect(npc.autoTriggerOnce).toBe(true)\n    // 触发判定中心挪到书案前站立点(非太守 sprite)→ 出发点不在附近,不自动触发(速通不强制领赏)\n    expect(npc.autoTriggerAnchorX).toBe(1600)\n    expect(npc.autoTriggerAnchorY).toBe(1040)\n    expect([npc.x, npc.y]).toEqual([1616, 968])\n  })\n\n  it('没有纠错元数据时不按对象编号暗改触发方式', () => {\n    const eo: SceneEventObject = {\n      id: 1518,\n      x: 1616,\n      y: 968,\n      spriteNum: 382,\n      triggerLabel: 'L_15293',\n      triggerMode: 3,\n      sState: 1,\n    }\n    const npc = npcFromEventObject(eo)\n    expect(npc.triggerMode).toBe(3)\n    expect(npc.autoTriggerOnce).toBeUndefined()\n  })\n})\n\n// ── 忠实全局 event object 数组(2026-05-28 李大娘重进重现回归)──────────────────\ndescribe('sliceSceneEventObjects(sdlpal lprgEventObject 切片)', () => {\n  it('gs.npcs = 当前 scene 切片,元素是 allEventObjects 引用 → 脚本改动持久', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.allEventObjects = [\n      { id: 0, x: 0, y: 0, spriteNum: 1, sState: 1 },\n      { id: 1, x: 0, y: 0, spriteNum: 1, sState: 1 },\n      { id: 2, x: 0, y: 0, spriteNum: 1, sState: 1 },\n    ]\n    gs.sceneEventRanges = { 1: [1, 3] } // scene index 1(wNum 2)拥有 [1,3)\n    gs.sceneLabelMap = {}\n    const slice = sliceSceneEventObjects(gs, 2)\n    expect(slice?.map((n) => n.id)).toEqual([1, 2])\n    // 引用:改切片元素 = 改全局数组(脚本改动持久,重进保留)\n    slice![0]!.sState = 0\n    expect(gs.allEventObjects[1]!.sState).toBe(0)\n  })\n\n  it('首访延迟解析 autoCursor(P2#5:autoLabel = L_<全局下标>,identity 解析)', () => {\n    // globalIpFromLabel:autoLabel = 'L_<n>' → 全局 ip = n(恒等),\n    // 不再走 per-scene sceneLabelMap。sceneLabelMap 即使存在也被忽略。\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.allEventObjects = [{ id: 0, x: 0, y: 0, spriteNum: 1, sState: 1, autoLabel: 'L_100' }]\n    gs.sceneEventRanges = { 0: [0, 1] }\n    gs.sceneLabelMap = { L_100: 42 } // 旧 per-scene 映射:P2#5 下被忽略,不影响解析结果\n    expect(sliceSceneEventObjects(gs, 1)?.[0]?.autoCursor).toEqual({ ip: 100 })\n  })\n\n  it('已推进的 autoCursor 不重解(保留 autoscript 进度)', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.allEventObjects = [\n      { id: 0, x: 0, y: 0, spriteNum: 1, sState: 1, autoLabel: 'L_100', autoCursor: { ip: 55 } },\n    ]\n    gs.sceneEventRanges = { 0: [0, 1] }\n    gs.sceneLabelMap = { L_100: 42 }\n    expect(sliceSceneEventObjects(gs, 1)?.[0]?.autoCursor).toEqual({ ip: 55 }) // 不重解为 42\n  })\n\n  it('全局表缺失 → undefined(调用方兜底从 dump 建)', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    expect(sliceSceneEventObjects(gs, 2)).toBeUndefined()\n  })\n})\n\ndescribe('hydrateNpcStaticDefaults(旧全局对象 / 旧存档字段迁移)', () => {\n  const poseObject: SceneEventObject = {\n    id: 346,\n    x: 1200,\n    y: 1176,\n    spriteNum: 193,\n    triggerMode: 0,\n    sState: 0,\n    nSpriteFrames: 0,\n    direction: 0,\n    currentFrameNum: 13,\n  }\n\n  it('scriptedFrame 缺失 → 补场景初始 frame 13(水月宫抱拳拜谢)', () => {\n    const npcs = [{ id: 346, x: 1200, y: 1176, spriteNum: 193, sState: 0 }]\n    hydrateNpcStaticDefaults(npcs, [poseObject])\n    expect(npcs[0]).toMatchObject({ nSpriteFrames: 0, scriptedFrame: 13, facing: 'down' })\n  })\n\n  it('sVanishTime 缺失 → 补场景初始 vanishTime', () => {\n    const npcs: NpcState[] = [{ id: 346, x: 1200, y: 1176, spriteNum: 193, sState: 1 }]\n    hydrateNpcStaticDefaults(npcs, [{ ...poseObject, vanishTime: -15 }])\n    expect(npcs[0]?.sVanishTime).toBe(-15)\n  })\n\n  it('scriptedFrame 已被脚本明确设为 0 → 不用场景默认 13 覆盖', () => {\n    const npcs = [\n      {\n        id: 346,\n        x: 1200,\n        y: 1176,\n        spriteNum: 193,\n        sState: 1,\n        nSpriteFrames: 0,\n        scriptedFrame: 0,\n        facing: 'right' as const,\n      },\n    ]\n    hydrateNpcStaticDefaults(npcs, [poseObject])\n    expect(npcs[0]).toMatchObject({ nSpriteFrames: 0, scriptedFrame: 0, facing: 'right' })\n  })\n})\n\n// ============================================================================\n// player-roles 数据模型边界:projectRuntimeToBattleRoles(runtime→战斗 object)+\n//   writeBackBattleRolesToRuntime(战斗→runtime)。战斗用 runtime 当前属性 + 战果持久化。\n// ============================================================================\n\nfunction staticRole(id: number, over: Partial<PlayerRole> = {}): PlayerRole {\n  return {\n    id,\n    _name: `role${id}`,\n    avatar: id,\n    spriteNumInBattle: 10 + id,\n    spriteNum: 0,\n    name: id,\n    attackAll: 0,\n    level: 1,\n    maxHP: 100,\n    maxMP: 30,\n    hp: 100,\n    mp: 30,\n    attackStrength: 5,\n    magicStrength: 5,\n    defense: 5,\n    dexterity: 5,\n    fleeRate: 5,\n    poisonResistance: 0,\n    elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },\n    walkFrames: 0,\n    attackSound: 0,\n    weaponSound: 0,\n    criticalSound: 0,\n    magicSound: 0,\n    deathSound: 0,\n    ...over,\n  }\n}\n\ndescribe('player-roles 战斗数据模型边界', () => {\n  it('投影:runtime当前值覆盖静态基础,未覆盖资料保留', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    const rt = gs.PlayerRolesRuntime\n    // 模拟升级后 runtime:role0 level 50 / hp 123 / maxHP 500 / attack 99 / 风抗 60 / name 7\n    rt.rgwLevel[0] = 50\n    rt.rgwHP[0] = 123\n    rt.rgwMaxHP[0] = 500\n    rt.rgwMP[0] = 40\n    rt.rgwMaxMP[0] = 80\n    rt.rgwAttackStrength[0] = 99\n    rt.rgwMagicStrength[0] = 77\n    rt.rgwDefense[0] = 33\n    rt.rgwDexterity[0] = 44\n    rt.rgwFleeRate[0] = 22\n    rt.rgwPoisonResistance[0] = 10\n    rt.rgwElementalResistance[0]![0] = 60\n    rt.rgwName[0] = 7\n    const staticRoles = {\n      roles: [\n        staticRole(0, {\n          _name: '李逍遥',\n          spriteNumInBattle: 5,\n          level: 1,\n          hp: 100,\n          attackStrength: 5,\n        }),\n      ],\n    }\n    const r = projectRuntimeToBattleRoles(rt, staticRoles).roles[0]!\n    // runtime 当前属性(非静态 1 级基线)\n    expect(r.level).toBe(50)\n    expect(r.hp).toBe(123)\n    expect(r.maxHP).toBe(500)\n    expect(r.attackStrength).toBe(99)\n    expect(r.magicStrength).toBe(77)\n    expect(r.elemResistance.wind).toBe(60)\n    expect(r.poisonResistance).toBe(10)\n    expect(r.name).toBe(7)\n    // 未被当前runtime值覆盖的资料与造型回退\n    expect(r._name).toBe('李逍遥')\n    expect(r.spriteNumInBattle).toBe(5)\n    expect(r.id).toBe(0)\n  })\n\n  it('D14:投影并入装备 effect — 战斗 stat = base + Σ rgEquipmentEffect[0..6](attack/magic/def/dex/flee/poison/elem)', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    const rt = gs.PlayerRolesRuntime\n    rt.rgwAttackStrength[0] = 100\n    rt.rgwMagicStrength[0] = 60\n    rt.rgwDefense[0] = 40\n    rt.rgwDexterity[0] = 20\n    rt.rgwFleeRate[0] = 10\n    rt.rgwPoisonResistance[0] = 30\n    rt.rgwElementalResistance[3]![0] = 25 // 火抗 base\n    // 装备 effect:手(part 3)+15 攻 / +5 火抗;Extra(part 6,0x30 战内 buff)+30 攻\n    gs.rgEquipmentEffect[3]!.rgwAttackStrength[0] = 15\n    gs.rgEquipmentEffect[3]!.rgwElementalResistance[3]![0] = 5\n    gs.rgEquipmentEffect[6]!.rgwAttackStrength[0] = 30\n    gs.rgEquipmentEffect[2]!.rgwDefense[0] = 7\n    gs.rgEquipmentEffect[1]!.rgwPoisonResistance[0] = 90 // → clamp 30+90=120 → 100\n    const staticRoles = { roles: [staticRole(0)] }\n    const r = projectRuntimeToBattleRoles(rt, staticRoles, gs.rgEquipmentEffect).roles[0]!\n    expect(r.attackStrength).toBe(145) // 100 + 15(手)+ 30(Extra)\n    expect(r.magicStrength).toBe(60) // 无装备 effect\n    expect(r.defense).toBe(47) // 40 + 7\n    expect(r.dexterity).toBe(20)\n    expect(r.fleeRate).toBe(10)\n    expect(r.poisonResistance).toBe(100) // clamp [0,100]\n    expect(r.elemResistance.fire).toBe(30) // 25 + 5\n  })\n\n  it('装备 override:attackAll(任一槽非0)/ spriteNumInBattle(末个非0 override)/ cooperativeMagic(末个非0 override)', () => {\n    // sdlpal PAL_PlayerCanAttackAll(global.c:2047,任一槽 !=0)/ PAL_GetPlayerBattleSprite(2009,末非0 override)\n    //   / PAL_GetPlayerCooperativeMagic(2044,末非0 override)。长鞭 attackAll=1 + sprite=6;圣灵珠 coopMagic=351。\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    const staticRoles = {\n      roles: [staticRole(0, { attackAll: 0, spriteNumInBattle: 10, cooperativeMagic: 5 })],\n    }\n    gs.rgEquipmentEffect[1]!.rgwSpriteNumInBattle[0] = 3\n    gs.rgEquipmentEffect[1]!.rgwCooperativeMagic[0] = 8\n    gs.rgEquipmentEffect[3]!.rgwAttackAll[0] = 1 // 长鞭(Hand)群攻\n    gs.rgEquipmentEffect[3]!.rgwSpriteNumInBattle[0] = 6 // 长鞭换战斗精灵\n    gs.rgEquipmentEffect[5]!.rgwCooperativeMagic[0] = 351 // 圣灵珠(Wear)改合击\n    const r = projectRuntimeToBattleRoles(gs.PlayerRolesRuntime, staticRoles, gs.rgEquipmentEffect)\n      .roles[0]!\n    expect(r.attackAll).toBe(1) // 装备群攻 → 战斗 role.attackAll!=0(battle-system 读此判全体攻)\n    expect(r.spriteNumInBattle).toBe(6) // 末个非0 override 静态 10\n    expect(r.cooperativeMagic).toBe(351) // 末个非0 override 静态 5\n  })\n\n  it('装备 override:无装备 effect → attackAll/sprite/coopMagic 退回 base(coopMagic 走 hydrate 后 runtime)', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    const staticRoles = {\n      roles: [staticRole(0, { attackAll: 0, spriteNumInBattle: 10, cooperativeMagic: 5 })],\n    }\n    hydratePlayerRolesRuntime(gs.PlayerRolesRuntime, staticRoles) // base coopMagic 5 → runtime(真实流程)\n    const r = projectRuntimeToBattleRoles(gs.PlayerRolesRuntime, staticRoles, gs.rgEquipmentEffect)\n      .roles[0]!\n    expect(r.attackAll).toBe(0) // runtime零值按覆盖类字段约定回退静态base\n    expect(r.spriteNumInBattle).toBe(10)\n    expect(r.cooperativeMagic).toBe(5) // hydrate 后 runtime.rgwCooperativeMagic=5\n  })\n\n  it('大世界 spriteNum hydrate 到 runtime,投影也读取 runtime 当前值', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    const staticRoles = {\n      roles: [staticRole(0, { spriteNum: 2 }), staticRole(1, { spriteNum: 3 })],\n    }\n    hydratePlayerRolesRuntime(gs.PlayerRolesRuntime, staticRoles)\n    expect(gs.PlayerRolesRuntime.rgwSpriteNum[0]).toBe(2)\n    expect(gs.PlayerRolesRuntime.rgwSpriteNum[1]).toBe(3)\n\n    gs.PlayerRolesRuntime.rgwSpriteNum[1] = 208\n    const roles = projectRuntimeToBattleRoles(gs.PlayerRolesRuntime, staticRoles).roles\n    expect(roles[1]!.spriteNum).toBe(208)\n  })\n\n  it('D14:不传 equipmentEffect → 投影退回纯 base(向后兼容,装备 effect 不并入)', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    const rt = gs.PlayerRolesRuntime\n    rt.rgwAttackStrength[0] = 100\n    gs.rgEquipmentEffect[3]!.rgwAttackStrength[0] = 15\n    const r = projectRuntimeToBattleRoles(rt, { roles: [staticRole(0)] }).roles[0]!\n    expect(r.attackStrength).toBe(100) // 装备 effect 未并入(无 3rd 参)\n  })\n\n  it('回写:战斗 HP/MP 战果回写 runtime;仅 party 成员(非 party 不碰)', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    const rt = gs.PlayerRolesRuntime\n    rt.rgwHP[0] = 50\n    rt.rgwMP[0] = 10\n    rt.rgwHP[1] = 80\n    rt.rgwMP[1] = 20\n    // 战后:role0 残血 30 / 扣 mp 至 5;role1 满血 200;role2(非 party)不该被碰\n    const battleRoles = {\n      roles: [\n        staticRole(0, { hp: 30, mp: 5 }),\n        staticRole(1, { hp: 200, mp: 0 }),\n        staticRole(2, { hp: 999, mp: 999 }),\n      ],\n    }\n    writeBackBattleRolesToRuntime(battleRoles, rt, [0, 1])\n    expect(rt.rgwHP[0]).toBe(30)\n    expect(rt.rgwMP[0]).toBe(5)\n    expect(rt.rgwHP[1]).toBe(200)\n    expect(rt.rgwMP[1]).toBe(0)\n    expect(rt.rgwHP[2]).toBe(0) // 非 party,未回写(初始 0)\n  })\n\n  it('往返:残血进战斗 → 治满 → 出战斗 → runtime 反映\"加满\"(原打完复原的 bug 修了)', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    const rt = gs.PlayerRolesRuntime\n    rt.rgwHP[0] = 50\n    rt.rgwMaxHP[0] = 200\n    rt.rgwMP[0] = 10\n    rt.rgwMaxMP[0] = 50\n    const staticRoles = { roles: [staticRole(0)] }\n    // 进战斗:投影 → 带 runtime 残血 50\n    const battle = projectRuntimeToBattleRoles(rt, staticRoles)\n    expect(battle.roles[0]!.hp).toBe(50)\n    expect(battle.roles[0]!.maxHP).toBe(200)\n    // 战斗里治满(模拟治疗 opcode 写 res.playerRoles)\n    battle.roles[0]!.hp = battle.roles[0]!.maxHP // 200\n    battle.roles[0]!.mp = battle.roles[0]!.maxMP // 50\n    // 出战斗:回写\n    writeBackBattleRolesToRuntime(battle, rt, [0])\n    expect(rt.rgwHP[0]).toBe(200) // 大世界反映满血战果\n    expect(rt.rgwMP[0]).toBe(50)\n  })\n\n  it('resumePostBattleScript:胜→wonIp + 恢复 currentEventObjectId + mode=event(打完怪接回 0x52 隐藏)', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.mode = 'explore'\n    gs.postBattleResume = {\n      wonIp: 1,\n      lostIp: 41075,\n      fledIp: 41073,\n      currentEventObjectId: 3,\n      triggerOwnerId: 3,\n    }\n    resumePostBattleScript(gs, 'won')\n    expect(gs.eventCursor?.ip).toBe(1)\n    expect(gs.eventCursor?.currentEventObjectId).toBe(3) // 隐藏的是开战那只怪\n    expect(gs.eventCursor?.triggerOwnerId).toBe(3)\n    expect(gs.mode).toBe('event')\n    expect(gs.postBattleResume).toBeUndefined() // 消耗\n  })\n\n  it('resumePostBattleScript:负→lostIp(op[1]) / 逃→fledIp(op[2])', () => {\n    const gsL = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gsL.postBattleResume = { wonIp: 1, lostIp: 41075, fledIp: 41073 }\n    resumePostBattleScript(gsL, 'lost')\n    expect(gsL.eventCursor?.ip).toBe(41075)\n\n    const gsF = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gsF.postBattleResume = { wonIp: 1, lostIp: 41075, fledIp: 41073 }\n    resumePostBattleScript(gsF, 'fled')\n    expect(gsF.eventCursor?.ip).toBe(41073)\n  })\n\n  it('resumePostBattleScript:负/逃但无对应分支 → 退回 wonIp(sdlpal else ip++)', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.postBattleResume = { wonIp: 1 } // 无 lostIp/fledIp\n    resumePostBattleScript(gs, 'lost')\n    expect(gs.eventCursor?.ip).toBe(1)\n  })\n\n  // ── C2(gameOverActive 重构):lost + lostIp 指死亡脚本(含 0x4F)→ 置 deathHoldActive(过渡帧 hold) ──\n  // 不再由 outcome==='lost' 无条件置 gameOverActive(它误伤石长老/team21/team29 续剧情);\n  // 改用 scriptRunHits0x4F 预判 lostIp 指向的脚本是否真死亡。gameOverActive 改由 0x4F handler 置(C4)。\n  it('resumePostBattleScript:lost + lostIp 指死亡脚本(含 0x4F)→ 置 deathHoldActive,不置 gameOverActive', () => {\n    const death: Command[] = [\n      { op: 'raw', opcode: 0x43, operands: [1, 1, 0] }, // ip0 音乐\n      { op: 'raw', opcode: 0x4f, operands: [0, 0, 0] }, // ip1 FadeToRed\n      { op: 'end' },\n    ]\n    const gsL = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gsL.postBattleResume = { wonIp: 9, lostIp: 0, commands: death } // lostIp=0(死亡脚本起点)\n    resumePostBattleScript(gsL, 'lost')\n    expect(gsL.eventCursor?.ip).toBe(0) // 跳进死亡脚本\n    expect(gsL.deathHoldActive).toBe(true) // T0 过渡帧 hold(0x4F 预判命中)\n    expect(gsL.gameOverActive).toBeFalsy() // 不在此置(改由 0x4F handler)\n  })\n\n  it('resumePostBattleScript:lost + lostIp 续剧情(0x4F 前撞 goto,team21 式)→ 不置 deathHoldActive', () => {\n    const cont: Command[] = [\n      { op: 'raw', opcode: 0x4b, operands: [0, 0, 0] }, // ip0 对白前\n      { op: 'goto', to: 'L_41075' }, // ip1 跳死亡脚本(0x4F 之前)\n      { op: 'raw', opcode: 0x4f, operands: [0, 0, 0] },\n    ]\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.postBattleResume = { wonIp: 9, lostIp: 0, commands: cont }\n    resumePostBattleScript(gs, 'lost')\n    expect(gs.eventCursor?.ip).toBe(0) // 跳进续剧情(先播对白)\n    expect(gs.deathHoldActive).toBeFalsy() // 遇 goto 停 → 不 pre-light(正常重绘对白)\n    expect(gs.gameOverActive).toBeFalsy()\n  })\n\n  it('resumePostBattleScript:lost 但 lostIp=undefined(石长老 op[1]=0)→ 回退 wonIp,不置死亡 hold', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.postBattleResume = { wonIp: 5 } // 无 lostIp\n    resumePostBattleScript(gs, 'lost')\n    expect(gs.eventCursor?.ip).toBe(5) // 续剧情(石长老必败续剧情)\n    expect(gs.deathHoldActive).toBeFalsy()\n    expect(gs.gameOverActive).toBeFalsy()\n  })\n\n  it('resumePostBattleScript:won → 不置任何死亡 hold(正常返回大世界)', () => {\n    const gsW = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gsW.postBattleResume = { wonIp: 1 }\n    resumePostBattleScript(gsW, 'won')\n    expect(gsW.deathHoldActive).toBeFalsy()\n    expect(gsW.gameOverActive).toBeFalsy()\n  })\n\n  it('resumePostBattleScript:无 postBattleResume → no-op(非 0x07 触发的战斗 / dev panel 战斗)', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.mode = 'explore'\n    resumePostBattleScript(gs, 'won')\n    expect(gs.eventCursor).toBeUndefined()\n    expect(gs.mode).toBe('explore')\n  })\n\n  // ── C1(gameOverActive 重构):scriptRunHits0x4F 死亡帧预判 ──\n  // 从 lostIp 起线性扫描脚本 run(遇首个 end/goto 停),命中 0x4F(死亡红屏)→ true。\n  // 数据真值:死亡脚本 L_41075 = 41075 0x43 → 41076 0x4F;team21 lostIp=6186 在 0x4F 前撞 goto。\n  describe('scriptRunHits0x4F(死亡帧预判)', () => {\n    const raw = (opcode: number): Command => ({ op: 'raw', opcode, operands: [0, 0, 0] })\n\n    it('run 含 0x4F(死亡脚本 41075:0x43→0x4F)→ true', () => {\n      const cmds: Command[] = [raw(0x43), raw(0x4f), { op: 'end' }]\n      expect(scriptRunHits0x4F(cmds, 0)).toBe(true)\n    })\n\n    it('run 在 0x4F 前撞 goto(team21:对白→goto L_41075)→ false(不跨 goto 追)', () => {\n      const cmds: Command[] = [raw(0x4b), { op: 'goto', to: 'L_41075' }, raw(0x4f)]\n      expect(scriptRunHits0x4F(cmds, 0)).toBe(false)\n    })\n\n    it('run 遇 end 前无 0x4F(续剧情)→ false', () => {\n      const cmds: Command[] = [raw(0x78), raw(0x49), { op: 'end' }, raw(0x4f)]\n      expect(scriptRunHits0x4F(cmds, 0)).toBe(false)\n    })\n\n    it('commands undefined → false', () => {\n      expect(scriptRunHits0x4F(undefined, 0)).toBe(false)\n    })\n\n    it('startIp 越过 0x43 从 0x4F 处起 → true', () => {\n      const cmds: Command[] = [raw(0x43), raw(0x4f), { op: 'end' }]\n      expect(scriptRunHits0x4F(cmds, 1)).toBe(true)\n    })\n  })\n\n  it('往返:满血进战斗 → 受伤残血 → 出战斗 → runtime 反映伤害(伤害持久化)', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    const rt = gs.PlayerRolesRuntime\n    rt.rgwHP[0] = 200\n    rt.rgwMaxHP[0] = 200\n    const battle = projectRuntimeToBattleRoles(rt, { roles: [staticRole(0)] })\n    battle.roles[0]!.hp = 45 // 战斗受伤残血\n    writeBackBattleRolesToRuntime(battle, rt, [0])\n    expect(rt.rgwHP[0]).toBe(45) // 伤害持久化(原 finalizeBattle 不回写 → 复原 200)\n  })\n})\n\n// ============================================================================\n// 读档归一化:旧 schema 存档缺后续版本新增的 runtime 字段 — 回归(ESC 开菜单崩溃)。\n//   bootstrap.loadGameFromSlot 的 Object.assign(gs, loadedGs) 用存档那份 PlayerRolesRuntime\n//   整体替换了 createInitialGameState 建好的完整 runtime。2026-06-07 加的 rgwAvatar/rgwWalkFrames\n//   在更早的存档里不存在 → 替换后字段 undefined → ESC 开菜单时 projectRuntimeToBattleRoles 读\n//   runtime.rgwAvatar[0] = undefined[0] 抛 \"Cannot read properties of undefined\"。\n// ============================================================================\ndescribe('normalizePlayerRolesRuntime(读档归一化 — 旧存档缺新增字段回归)', () => {\n  /** 模拟 2026-06-07 之前旧代码存的档:rgwAvatar/rgwWalkFrames 当时不在 schema 里。 */\n  function staleRuntime(): Partial<PlayerRolesRuntime> {\n    const rt: Partial<PlayerRolesRuntime> = createInitialGameState({\n      x: 0,\n      y: 0,\n      facing: 'down',\n    }).PlayerRolesRuntime\n    delete rt.rgwAvatar\n    delete rt.rgwWalkFrames\n    return rt\n  }\n\n  it('归一化补齐缺失字段(rgwAvatar/rgwWalkFrames),投影不再崩', () => {\n    const fixed = normalizePlayerRolesRuntime(staleRuntime())\n    expect(fixed.rgwAvatar).toHaveLength(6)\n    expect(fixed.rgwWalkFrames).toHaveLength(6)\n    expect(() => projectRuntimeToBattleRoles(fixed, { roles: [staticRole(0)] })).not.toThrow()\n  })\n\n  it('存档已有的真实数据原样保留(归一化只补缺失键,不覆盖)', () => {\n    const stale = staleRuntime()\n    stale.rgwHP = [123, 0, 0, 0, 0, 0]\n    stale.rgwLevel = [50, 0, 0, 0, 0, 0]\n    stale.rgwName = [7, 0, 0, 0, 0, 0]\n    const fixed = normalizePlayerRolesRuntime(stale)\n    expect(fixed.rgwHP[0]).toBe(123)\n    expect(fixed.rgwLevel[0]).toBe(50)\n    expect(fixed.rgwName[0]).toBe(7)\n  })\n\n  it('runtime 整体缺失(极旧档无 PlayerRolesRuntime)→ 返回全零完整 runtime', () => {\n    const fixed = normalizePlayerRolesRuntime(undefined)\n    expect(fixed.rgwAvatar).toHaveLength(6)\n    expect(fixed.rgwMagic).toHaveLength(32)\n    expect(fixed.rgwElementalResistance).toHaveLength(5)\n  })\n})\n\n// 结局片尾回主菜单 bug:0xA0 QUIT 从「拜月投河 RNG(chunk9)演出对话」期触发,播完片尾 4/5/6.mp4 后\n//   returnToTitle 若漏清 dialogPlayingRNG+rngDialogBackup,present.ts 命中短路分支画结局 RNG 末帧(血池)\n//   盖住主菜单 + return → user 报「看完片尾自动回 RNG 末帧、全部按键无效」(菜单其实在响应,只是被盖住)。\ndescribe('resetPresentationTransients(回标题/新游戏清演出残留)', () => {\n  it('清结局 RNG 演出残留 + 黑屏/fade/死亡演出/eventCursor', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    // 模拟结局 0xA0 QUIT 触发瞬间的残留(拜月投河 RNG 演出对话期)\n    gs.dialogPlayingRNG = true\n    gs.rngDialogBackup = new Uint8Array(320 * 200).fill(7)\n    gs.rngFrameActive = true\n    gs.blackScreenHold = true\n    gs.gameOverActive = true\n    gs.deathHoldActive = true\n    gs.needToFadeIn = true\n    gs.sceneLoading = true\n    gs.eventCursor = { ip: 35621 }\n\n    resetPresentationTransients(gs)\n\n    // present.ts 短路分支 `if (dialogPlayingRNG && rngDialogBackup)` 依赖的两字段必须清 → 主菜单不再被盖\n    expect(gs.dialogPlayingRNG).toBe(false)\n    expect(gs.rngDialogBackup).toBeUndefined()\n    expect(gs.rngFrameActive).toBe(false)\n    expect(gs.blackScreenHold).toBe(false)\n    expect(gs.gameOverActive).toBe(false)\n    expect(gs.deathHoldActive).toBe(false)\n    expect(gs.needToFadeIn).toBe(false)\n    expect(gs.sceneLoading).toBe(false)\n    expect(gs.eventCursor).toBeUndefined()\n  })\n\n  it('resetSceneRuntimeForNewGame 复用 helper:同样清掉结局 RNG 残留(防重构回归)', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.dialogPlayingRNG = true\n    gs.rngDialogBackup = new Uint8Array(320 * 200)\n    gs.rngFrameActive = true\n    gs.blackScreenHold = true\n\n    resetSceneRuntimeForNewGame(gs, [])\n\n    expect(gs.dialogPlayingRNG).toBe(false)\n    expect(gs.rngDialogBackup).toBeUndefined()\n    expect(gs.rngFrameActive).toBe(false)\n    expect(gs.blackScreenHold).toBe(false)\n  })\n})\n",
+          "to": "import type { Command, PlayerRole, SceneEventObject } from '@type-pal/shared'\nimport { describe, expect, it } from 'vitest'\nimport { startDialogLine } from '../present/dialog-box.js'\nimport {\n  clearHiddenExpCounts,\n  createInitialGameState,\n  createInitialPlayerStatus,\n  type GameState,\n  hydrateNpcStaticDefaults,\n  hydratePlayerRolesRuntime,\n  initExpLevelsFromLevels,\n  loadDefaultGame,\n  type NpcState,\n  normalizePlayerRolesRuntime,\n  npcFromEventObject,\n  type PlayerRolesRuntime,\n  projectRuntimeToBattleRoles,\n  resetPresentationTransients,\n  resetSceneRuntimeForNewGame,\n  resumePostBattleScript,\n  scriptRunHits0x4F,\n  sliceSceneEventObjects,\n  writeBackBattleRolesToRuntime,\n} from './game-state.js'\nimport { blackColors } from './palette-fade.js'\n\nfunction changedEventObject(): GameState['rgEventObject'][number] {\n  return {\n    sState: -1,\n    x: 100,\n    y: 100,\n    sLayer: 0,\n    wTriggerScript: 0,\n    wAutoScript: 0,\n    wTriggerMode: 0,\n    wSpriteNum: 3,\n    nSpriteFrames: 4,\n    wDirection: 2,\n    wCurrentFrameNum: 0,\n    nScriptIdleFrame: 0,\n    wSpritePtrOffset: 0,\n    nSpriteFramesAuto: 0,\n    wScriptIdleFrameCountAuto: 0,\n    sVanishTime: 0,\n  }\n}\n\n// E04(隐藏属性经验):wCount 是 ExpEntry 第三字段(sdlpal EXPERIENCE.wCount),战前清零 7 隐藏池(非主经验)。\ndescribe('clearHiddenExpCounts(隐藏经验 wCount 战前清零,battle.c:1565-1586)', () => {\n  it('清 7 隐藏池各 role 的 wCount,**不动** rgPrimaryExp', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    // 预置:7 隐藏池 + 主经验都给 wCount\n    const pools = [\n      gs.Exp.rgHealthExp,\n      gs.Exp.rgMagicExp,\n      gs.Exp.rgAttackExp,\n      gs.Exp.rgMagicPowerExp,\n      gs.Exp.rgDefenseExp,\n      gs.Exp.rgDexterityExp,\n      gs.Exp.rgFleeExp,\n    ]\n    for (const p of pools) for (const e of p) e.wCount = 5\n    gs.Exp.rgPrimaryExp[0]!.wCount = 7 // 主经验不该被清\n    clearHiddenExpCounts(gs)\n    for (const p of pools) for (const e of p) expect(e.wCount).toBe(0)\n    expect(gs.Exp.rgPrimaryExp[0]!.wCount).toBe(7) // 主经验保留\n  })\n\n  it('createInitialGameState 的 Exp wCount 初始 0', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    expect(gs.Exp.rgAttackExp[0]!.wCount).toBe(0)\n  })\n})\n\n// F1(新游戏默认值核对):sdlpal PAL_LoadDefaultGame(global.c:455-465)memset Exp 全 0 后,\n//   for i<MAX_PLAYER_ROLES 把全 8 类经验的 .wLevel 设为 rgwLevel[i](角色等级),wExp 保持 0。\n//   ts createEmptyExp 全 0、hydrate 不碰 Exp → 新游戏后 Exp.wLevel 全 0,与真值不符(本测锁定修复)。\ndescribe('initExpLevelsFromLevels(新游戏 Exp.wLevel 初始化,global.c:455-465)', () => {\n  it('8 类经验 × 6 角色 wLevel 全 = 对应等级,wExp 不动', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    expect(gs.Exp.rgPrimaryExp[3]?.wLevel).toBe(0) // 前置:createEmptyExp 全 0\n    const levels = [1, 5, 3, 48, 28, 40] // player-roles.json role0..5 真默认等级\n    initExpLevelsFromLevels(gs.Exp, levels)\n    const cats = [\n      gs.Exp.rgPrimaryExp,\n      gs.Exp.rgHealthExp,\n      gs.Exp.rgMagicExp,\n      gs.Exp.rgAttackExp,\n      gs.Exp.rgMagicPowerExp,\n      gs.Exp.rgDefenseExp,\n      gs.Exp.rgDexterityExp,\n      gs.Exp.rgFleeExp,\n    ]\n    for (const cat of cats) {\n      for (let i = 0; i < 6; i++) {\n        expect(cat[i]?.wLevel).toBe(levels[i])\n        expect(cat[i]?.wExp).toBe(0)\n      }\n    }\n  })\n\n  it('rgwLevel 缺项(undefined)→ 该角色 wLevel 退化 0,不抛错', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    initExpLevelsFromLevels(gs.Exp, [7]) // 只给 role0\n    expect(gs.Exp.rgPrimaryExp[0]?.wLevel).toBe(7)\n    expect(gs.Exp.rgPrimaryExp[5]?.wLevel).toBe(0)\n  })\n})\n\n// H1(2026-06-07 sdlpal 差异审查):通关/退出回标题后再开新游戏,gs 沿用上一局脏数据\n//   (金钱/背包/毒/队伍/经验等)。sdlpal PAL_LoadDefaultGame(global.c:434-465)每次新游戏都把\n//   这组字段重置为默认。本测锁定 loadDefaultGame 的重置语义。\ndescribe('loadDefaultGame(新游戏重置,PAL_LoadDefaultGame global.c:434-465)', () => {\n  const fixtureRoles: import('@type-pal/shared').PlayerRoles = {\n    roles: [\n      {\n        id: 0,\n        avatar: 0,\n        spriteNumInBattle: 0,\n        spriteNum: 0,\n        name: 0,\n        attackAll: 0,\n        level: 5,\n        maxHP: 100,\n        maxMP: 50,\n        hp: 80,\n        mp: 40,\n        attackStrength: 10,\n        magicStrength: 5,\n        defense: 8,\n        dexterity: 12,\n        fleeRate: 3,\n        poisonResistance: 0,\n        elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },\n        walkFrames: 3,\n        attackSound: -1,\n        weaponSound: -1,\n        criticalSound: -1,\n        magicSound: -1,\n        deathSound: -1,\n      },\n    ],\n  }\n\n  it('清空上一局金钱/背包/毒/队伍/trail/采集值,标量回默认(global.c:434-453)', () => {\n    const gs = createInitialGameState({ x: 5, y: 5, facing: 'up' })\n    // 弄脏:模拟玩过一局\n    gs.dwCash = 9999\n    gs.inventory = [{ itemId: 61, count: 1 }]\n    gs.rgPoisonStatus = { '0_0': { wPoisonID: 552, wPoisonScript: 40866 } }\n    gs.partyMembers = [1, 2]\n    gs.trail = [{ x: 5, y: 5, dir: 'up' }]\n    gs.wCollectValue = 50\n    gs.nightPalette = true\n    gs.wLayer = 8\n    gs.nFollower = 2\n    gs.wChaseRange = 5\n    gs.numPalette = 3\n    gs.wNumMusic = 7\n    gs.wBattleSpeed = 4\n    gs.iCurInvMenuItem = 9 // L6:弄脏物品菜单光标\n    gs.currentSaveSlot = 3\n\n    loadDefaultGame(gs, fixtureRoles)\n\n    expect(gs.dwCash).toBe(0)\n    expect(gs.inventory).toEqual([])\n    expect(gs.rgPoisonStatus).toEqual({})\n    // memset(rgParty)+wMaxPartyMemberIndex=0 表示队伍含 role0,不是空队伍。\n    expect(gs.partyMembers).toEqual([0])\n    expect(gs.trail).toEqual([])\n    expect(gs.wCollectValue).toBe(0)\n    expect(gs.nightPalette).toBe(false)\n    expect(gs.wLayer).toBe(0)\n    expect(gs.nFollower).toBe(0)\n    expect(gs.wChaseRange).toBe(1) // sdlpal global.c:444 default = 1(非 0)\n    expect(gs.numPalette).toBe(0)\n    expect(gs.wNumMusic).toBe(0)\n    expect(gs.wBattleSpeed).toBe(2) // sdlpal global.c:446 default = 2\n    expect(gs.iCurInvMenuItem).toBe(0) // L6:PAL_InitGameData global.c:948 复位物品菜单光标\n    expect(gs.currentSaveSlot).toBe(0) // PAL_InitGameData(0):新游戏不得沿用上一存档槽\n  })\n\n  it('hydrate PlayerRoles 基线 + 8 类经验 wLevel = 角色等级(global.c:455-465)', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    // 弄脏 runtime + Exp\n    gs.PlayerRolesRuntime.rgwHP[0] = 1\n    gs.Exp.rgPrimaryExp[0]!.wLevel = 99\n\n    loadDefaultGame(gs, fixtureRoles)\n\n    // hydrate 回基线\n    expect(gs.PlayerRolesRuntime.rgwHP[0]).toBe(80)\n    expect(gs.PlayerRolesRuntime.rgwMaxHP[0]).toBe(100)\n    expect(gs.PlayerRolesRuntime.rgwLevel[0]).toBe(5)\n    // 8 类经验 wLevel = level 5,wExp 不动\n    expect(gs.Exp.rgPrimaryExp[0]!.wLevel).toBe(5)\n    expect(gs.Exp.rgAttackExp[0]!.wLevel).toBe(5)\n    expect(gs.Exp.rgFleeExp[0]!.wLevel).toBe(5)\n  })\n\n  it('M6:清 rgPlayerStatus(大世界施放的持久状态不带入新游戏,PAL_InitGameData global.c:951)', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.rgPlayerStatus[1]![5] = 99 // 弄脏:role1 某 status 非 0(大世界上的护身/勇气等)\n    loadDefaultGame(gs, fixtureRoles)\n    expect(gs.rgPlayerStatus[1]![5]).toBe(0) // 清零(非装备持久状态丢弃,装备状态由 updateEquipments 重建)\n  })\n})\n\n// H1 续:scene 运行时复位(通关后重开,清上一局 scene flag/对象状态/onEnter 停点 + 重建全局对象表)\ndescribe('resetSceneRuntimeForNewGame(新游戏 scene 运行时复位)', () => {\n  it('清 scene 持久 records + 从初始对象表重建 allEventObjects', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    // 弄脏:上一局 scene 进度\n    gs.rgScene = {\n      1: { wMapNum: 1, wScriptOnEnter: 5, wScriptOnTeleport: 0, wEventObjectIndex: 0 },\n    }\n    gs.sceneOnEnterIp = { 1: 5 }\n    gs.sceneOnEnterOverride = { 2: 123 }\n    gs.sceneOnTeleportOverride = { 2: 456 }\n    gs.sceneOnTeleportEntry = 789\n    gs.rgObject = { 1: { rgwData: [1, 2, 3, 4, 5, 6, 7] } }\n    gs.rgEventObject = { 1: changedEventObject() }\n    gs.allEventObjects = [\n      npcFromEventObject({ id: 99, x: 32, y: 16, spriteNum: 1, triggerMode: 0 }),\n    ]\n    gs.eventCursor = { ip: 123 }\n    gs.gameOverActive = true\n    gs.deathHoldActive = true\n    gs.blackScreenHold = true\n    gs.paletteFadeState = {\n      startColors: blackColors(),\n      targetColors: blackColors(),\n      startTimeMs: 100,\n      totalMs: 200,\n      mode: 'lerp',\n      steps: 16,\n      increment: 0,\n    }\n    gs.fadeState = {\n      speed: 2,\n      totalMs: 2160,\n      startTimeMs: 100,\n      appliedSteps: 1,\n      backupPixels: new Uint8Array(320 * 200),\n    }\n    gs.needToFadeIn = true\n    gs.sceneLoading = true\n    gs.pendingSceneLoad = 9\n    gs.dialogBox = startDialogLine('上一局对白', { style: 'top' })\n    gs.dialogBoxKept = startDialogLine('上一局保留画面', { style: 'bottom' })\n    gs.currentDialogPortraitIcon = 88\n    // DM25:上一局残留的波/震/战斗域/追逐周期/跟随者\n    gs.wScreenWave = 4\n    gs.sWaveProgression = 0\n    gs.shakeTime = 6\n    gs.shakeLevel = 3\n    gs.wNumBattleMusic = 17\n    gs.wNumBattleField = 9\n    gs.wChasespeedChangeCycles = 5\n    gs.followers = [3]\n\n    const initial = [\n      { id: 1, x: 10, y: 20, spriteNum: 5, triggerMode: 0 },\n      { id: 2, x: 30, y: 40, spriteNum: 6, triggerMode: 0 },\n    ]\n    resetSceneRuntimeForNewGame(gs, initial)\n\n    expect(gs.rgScene).toEqual({})\n    expect(gs.sceneOnEnterIp).toEqual({})\n    expect(gs.sceneOnEnterOverride).toEqual({})\n    expect(gs.sceneOnTeleportOverride).toEqual({})\n    expect(gs.sceneOnTeleportEntry).toBe(0)\n    expect(gs.rgObject).toEqual({})\n    expect(gs.rgEventObject).toEqual({})\n    expect(gs.eventCursor).toBeUndefined()\n    expect(gs.gameOverActive).toBe(false)\n    // DM25:新游戏语义恒 0(C 进程静态零/FreeGlobals memset,global.c:262)\n    expect(gs.wScreenWave).toBe(0)\n    expect(gs.sWaveProgression).toBe(0)\n    expect(gs.shakeTime).toBe(0)\n    expect(gs.shakeLevel).toBe(0)\n    expect(gs.wNumBattleMusic).toBe(0)\n    expect(gs.wNumBattleField).toBe(0)\n    expect(gs.wChasespeedChangeCycles).toBe(0)\n    expect(gs.followers).toEqual([])\n    expect(gs.deathHoldActive).toBe(false)\n    expect(gs.blackScreenHold).toBe(false)\n    expect(gs.paletteFadeState).toBeUndefined()\n    expect(gs.fadeState).toBeUndefined()\n    expect(gs.needToFadeIn).toBe(false)\n    expect(gs.sceneLoading).toBe(false)\n    expect(gs.pendingSceneLoad).toBeUndefined()\n    expect(gs.dialogBox).toBeUndefined()\n    expect(gs.dialogBoxKept).toBeUndefined()\n    expect(gs.currentDialogPortraitIcon).toBeUndefined()\n    // allEventObjects 从初始表重建(不再是脏的 [{id:99}])\n    expect(gs.allEventObjects?.length).toBe(2)\n    expect(gs.allEventObjects?.map((o) => o.id)).toEqual([1, 2])\n  })\n})\n\ndescribe('GameState', () => {\n  it('初始态:无 NPC、explore 模式、无对话框', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    expect(gs.party.x).toBe(0)\n    expect(gs.mode).toBe('explore')\n    expect(gs.dialogBox).toBeUndefined()\n    expect(gs.eventCursor).toBeUndefined()\n    expect(gs.currentDialogStyle).toBe('top') // sdlpal PAL_InitText 默认 kDialogUpper\n    expect(gs.frameNum).toBe(0)\n  })\n\n  it('初始态:partyMembers / inventory 默认空数组,battleState 缺省', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    expect(gs.partyMembers).toEqual([])\n    expect(gs.inventory).toEqual([])\n    expect(gs.battleState).toBeUndefined()\n  })\n})\n\ndescribe('Sync.1 GameState 全字段冻结(SAVEDGAME_WIN 倒推)', () => {\n  it('initial state 初始化存档字段和定长运行态数组', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    // 平铺杂项字段\n    expect(gs.wSavedTimes).toBe(0)\n    expect(gs.wNumScene).toBe(0)\n    expect(gs.wPaletteOffset).toBe(0)\n    expect(gs.wNumMusic).toBe(0)\n    expect(gs.wNumBattleMusic).toBe(0)\n    expect(gs.wNumBattleField).toBe(0)\n    expect(gs.wScreenWave).toBe(0)\n    expect(gs.wBattleSpeed).toBe(2) // sdlpal global.c default\n    expect(gs.wCollectValue).toBe(0)\n    expect(gs.wLayer).toBe(0)\n    expect(gs.wChaseRange).toBe(1)\n    expect(gs.wChasespeedChangeCycles).toBe(0)\n    expect(gs.nFollower).toBe(0)\n    expect(gs.dwCash).toBe(0)\n    expect(gs.blackScreenHold).toBe(false)\n    // 嵌套 struct\n    expect(gs.Exp).toBeDefined()\n    expect(gs.Exp.rgPrimaryExp).toBeInstanceOf(Array)\n    expect(gs.Exp.rgPrimaryExp).toHaveLength(6) // MAX_PLAYER_ROLES\n    expect(gs.Exp.rgHealthExp).toHaveLength(6)\n    expect(gs.Exp.rgMagicExp).toHaveLength(6)\n    expect(gs.Exp.rgAttackExp).toHaveLength(6)\n    expect(gs.Exp.rgMagicPowerExp).toHaveLength(6)\n    expect(gs.Exp.rgDefenseExp).toHaveLength(6)\n    expect(gs.Exp.rgDexterityExp).toHaveLength(6)\n    expect(gs.Exp.rgFleeExp).toHaveLength(6)\n    expect(gs.PlayerRolesRuntime).toBeDefined()\n    expect(gs.PlayerRolesRuntime.rgwHP).toHaveLength(6)\n    expect(gs.PlayerRolesRuntime.rgwLevel).toHaveLength(6)\n    expect(gs.PlayerRolesRuntime.rgwEquipment).toHaveLength(6) // MAX_PLAYER_EQUIPMENTS\n    expect(gs.PlayerRolesRuntime.rgwMagic).toHaveLength(32) // MAX_PLAYER_MAGICS\n    expect(gs.PlayerRolesRuntime.rgwElementalResistance).toHaveLength(5) // NUM_MAGIC_ELEMENTAL\n    expect(gs.rgPoisonStatus).toEqual({})\n    expect(gs.rgScene).toEqual({})\n    expect(gs.rgObject).toEqual({})\n    expect(gs.rgEventObject).toEqual({})\n  })\n\n  it('sparse Record:rgEventObject 只存改过的 EventObject', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    expect(Object.keys(gs.rgEventObject)).toHaveLength(0)\n    gs.rgEventObject[5] = changedEventObject()\n    expect(Object.keys(gs.rgEventObject)).toHaveLength(1)\n    expect(gs.rgEventObject[5]?.sState).toBe(-1)\n  })\n\n  it('sparse Record:rgScene / rgObject 初始空,可单独写入', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    expect(Object.keys(gs.rgScene)).toHaveLength(0)\n    expect(Object.keys(gs.rgObject)).toHaveLength(0)\n    gs.rgScene[15] = { wMapNum: 3, wScriptOnEnter: 42, wScriptOnTeleport: 0, wEventObjectIndex: 10 }\n    gs.rgObject[100] = { rgwData: [1, 2, 3, 4, 5, 6, 7] }\n    expect(Object.keys(gs.rgScene)).toHaveLength(1)\n    expect(Object.keys(gs.rgObject)).toHaveLength(1)\n  })\n\n  it('AllExperience 初始值全零 ExpEntry', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    for (const entry of gs.Exp.rgPrimaryExp) {\n      expect(entry.wExp).toBe(0)\n      expect(entry.wLevel).toBe(0)\n    }\n  })\n\n  it('PlayerRolesRuntime 初始值全零', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    expect(gs.PlayerRolesRuntime.rgwHP.every((v) => v === 0)).toBe(true)\n    expect(gs.PlayerRolesRuntime.rgwLevel.every((v) => v === 0)).toBe(true)\n    expect(gs.PlayerRolesRuntime.rgwMagic.every((row) => row.every((v) => v === 0))).toBe(true)\n  })\n})\n\ndescribe('npcFromEventObject', () => {\n  it('System A:eo.x/y 直接透传(1:1 sdlpal pixel),其它字段透传', () => {\n    const eo: SceneEventObject = {\n      id: 3,\n      x: 512,\n      y: 800,\n      spriteNum: 42,\n      triggerLabel: 'L_59',\n      triggerMode: 0,\n    }\n    const npc = npcFromEventObject(eo)\n    expect(npc.id).toBe(3)\n    expect(npc.x).toBe(512)\n    expect(npc.y).toBe(800)\n    expect(npc.spriteNum).toBe(42)\n    expect(npc.triggerLabel).toBe('L_59')\n  })\n\n  it('半 tile 位置原样保留(eo.x=720 / eo.y=664)', () => {\n    // System A 1:1 透传,sdlpal scene.c:301-322 +7 锚点偏移在 present 渲染层加,\n    // 不写进 logical x/y(contact 距离判断 scene.c:624 用原 eo.x/y)。\n    const eo: SceneEventObject = {\n      id: 7,\n      x: 720,\n      y: 664,\n      spriteNum: 0,\n      triggerMode: 0,\n    }\n    const npc = npcFromEventObject(eo)\n    expect(npc.x).toBe(720)\n    expect(npc.y).toBe(664)\n  })\n\n  it('初始 currentFrameNum 透传为 scriptedFrame(水月宫拜谢李逍遥姿势 frame13)', () => {\n    const eo: SceneEventObject = {\n      id: 346,\n      x: 1200,\n      y: 1176,\n      spriteNum: 193,\n      triggerMode: 0,\n      sState: 0,\n      nSpriteFrames: 0,\n      direction: 0,\n      currentFrameNum: 13,\n    }\n    const npc = npcFromEventObject(eo)\n    expect(npc.scriptedFrame).toBe(13)\n  })\n\n  it('初始 vanishTime 透传为 sVanishTime(非 0 时不触发/不跑 autoScript)', () => {\n    const eo: SceneEventObject = {\n      id: 9,\n      x: 0,\n      y: 0,\n      spriteNum: 1,\n      triggerMode: 5,\n      vanishTime: -15,\n    }\n    expect(npcFromEventObject(eo).sVanishTime).toBe(-15)\n  })\n\n  it('triggerLabel 缺时透传 undefined', () => {\n    const eo: SceneEventObject = { id: 0, x: 0, y: 0, spriteNum: 0, triggerMode: 0 }\n    expect(npcFromEventObject(eo).triggerLabel).toBeUndefined()\n  })\n\n  // ── 扬州太守领赏 bug(tp 层修原版「书案太长够不到太守」data/布局 bug)─────────────\n  // 太守(场景 81 obj 1518)原版是 Confirm-search(triggerMode 3),但公案在 map84 用 obstacle tile\n  // 围成斜墙,玩家挤不到能搜查命中的格 → 5500 文赏金领不到(实测最近只到加权 160 被挡)。\n  // 纠错资源将 obj 1518 设为走近自动触发(mode 6)+ autoTriggerOnce 只触发一次(防修好可达性后凭空\n  // 多出原版没有的刷钱漏洞)。门禁靠 scene 81 只在擒贼后载入(结构性),不在此层加 flag。\n  it('纠错资源的自动触发元数据透传，NPC造型位置保持原值', () => {\n    const eo: SceneEventObject = {\n      id: 1518,\n      x: 1616,\n      y: 968,\n      spriteNum: 382,\n      triggerLabel: 'L_15293',\n      triggerMode: 6,\n      autoTriggerOnce: true,\n      autoTriggerAnchorX: 1600,\n      autoTriggerAnchorY: 1040,\n      sState: 1,\n    }\n    const npc = npcFromEventObject(eo)\n    expect(npc.triggerMode).toBe(6) // sdlpal kTriggerTouchNear=4 起为自动触发区\n    expect(npc.autoTriggerOnce).toBe(true)\n    // 触发判定中心挪到书案前站立点(非太守 sprite)→ 出发点不在附近,不自动触发(速通不强制领赏)\n    expect(npc.autoTriggerAnchorX).toBe(1600)\n    expect(npc.autoTriggerAnchorY).toBe(1040)\n    expect([npc.x, npc.y]).toEqual([1616, 968])\n  })\n\n  it('没有纠错元数据时不按对象编号暗改触发方式', () => {\n    const eo: SceneEventObject = {\n      id: 1518,\n      x: 1616,\n      y: 968,\n      spriteNum: 382,\n      triggerLabel: 'L_15293',\n      triggerMode: 3,\n      sState: 1,\n    }\n    const npc = npcFromEventObject(eo)\n    expect(npc.triggerMode).toBe(3)\n    expect(npc.autoTriggerOnce).toBeUndefined()\n  })\n})\n\n// ── 忠实全局 event object 数组(2026-05-28 李大娘重进重现回归)──────────────────\ndescribe('sliceSceneEventObjects(sdlpal lprgEventObject 切片)', () => {\n  it('gs.npcs = 当前 scene 切片,元素是 allEventObjects 引用 → 脚本改动持久', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.allEventObjects = [\n      { id: 0, x: 0, y: 0, spriteNum: 1, sState: 1 },\n      { id: 1, x: 0, y: 0, spriteNum: 1, sState: 1 },\n      { id: 2, x: 0, y: 0, spriteNum: 1, sState: 1 },\n    ]\n    gs.sceneEventRanges = { 1: [1, 3] } // scene index 1(wNum 2)拥有 [1,3)\n    gs.sceneLabelMap = {}\n    const slice = sliceSceneEventObjects(gs, 2)\n    expect(slice?.map((n) => n.id)).toEqual([1, 2])\n    // 引用:改切片元素 = 改全局数组(脚本改动持久,重进保留)\n    slice![0]!.sState = 0\n    expect(gs.allEventObjects[1]!.sState).toBe(0)\n  })\n\n  it('首访延迟解析 autoCursor(P2#5:autoLabel = L_<全局下标>,identity 解析)', () => {\n    // globalIpFromLabel:autoLabel = 'L_<n>' → 全局 ip = n(恒等),\n    // 不再走 per-scene sceneLabelMap。sceneLabelMap 即使存在也被忽略。\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.allEventObjects = [{ id: 0, x: 0, y: 0, spriteNum: 1, sState: 1, autoLabel: 'L_100' }]\n    gs.sceneEventRanges = { 0: [0, 1] }\n    gs.sceneLabelMap = { L_100: 42 } // 旧 per-scene 映射:P2#5 下被忽略,不影响解析结果\n    expect(sliceSceneEventObjects(gs, 1)?.[0]?.autoCursor).toEqual({ ip: 100 })\n  })\n\n  it('已推进的 autoCursor 不重解(保留 autoscript 进度)', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.allEventObjects = [\n      { id: 0, x: 0, y: 0, spriteNum: 1, sState: 1, autoLabel: 'L_100', autoCursor: { ip: 55 } },\n    ]\n    gs.sceneEventRanges = { 0: [0, 1] }\n    gs.sceneLabelMap = { L_100: 42 }\n    expect(sliceSceneEventObjects(gs, 1)?.[0]?.autoCursor).toEqual({ ip: 55 }) // 不重解为 42\n  })\n\n  it('全局表缺失 → undefined(调用方兜底从 dump 建)', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    expect(sliceSceneEventObjects(gs, 2)).toBeUndefined()\n  })\n})\n\ndescribe('hydrateNpcStaticDefaults(旧全局对象 / 旧存档字段迁移)', () => {\n  const poseObject: SceneEventObject = {\n    id: 346,\n    x: 1200,\n    y: 1176,\n    spriteNum: 193,\n    triggerMode: 0,\n    sState: 0,\n    nSpriteFrames: 0,\n    direction: 0,\n    currentFrameNum: 13,\n  }\n\n  it('scriptedFrame 缺失 → 补场景初始 frame 13(水月宫抱拳拜谢)', () => {\n    const npcs = [{ id: 346, x: 1200, y: 1176, spriteNum: 193, sState: 0 }]\n    hydrateNpcStaticDefaults(npcs, [poseObject])\n    expect(npcs[0]).toMatchObject({ nSpriteFrames: 0, scriptedFrame: 13, facing: 'down' })\n  })\n\n  it('sVanishTime 缺失 → 补场景初始 vanishTime', () => {\n    const npcs: NpcState[] = [{ id: 346, x: 1200, y: 1176, spriteNum: 193, sState: 1 }]\n    hydrateNpcStaticDefaults(npcs, [{ ...poseObject, vanishTime: -15 }])\n    expect(npcs[0]?.sVanishTime).toBe(-15)\n  })\n\n  it('scriptedFrame 已被脚本明确设为 0 → 不用场景默认 13 覆盖', () => {\n    const npcs = [\n      {\n        id: 346,\n        x: 1200,\n        y: 1176,\n        spriteNum: 193,\n        sState: 1,\n        nSpriteFrames: 0,\n        scriptedFrame: 0,\n        facing: 'right' as const,\n      },\n    ]\n    hydrateNpcStaticDefaults(npcs, [poseObject])\n    expect(npcs[0]).toMatchObject({ nSpriteFrames: 0, scriptedFrame: 0, facing: 'right' })\n  })\n})\n\n// ============================================================================\n// player-roles 数据模型边界:projectRuntimeToBattleRoles(runtime→战斗 object)+\n//   writeBackBattleRolesToRuntime(战斗→runtime)。战斗用 runtime 当前属性 + 战果持久化。\n// ============================================================================\n\nfunction staticRole(id: number, over: Partial<PlayerRole> = {}): PlayerRole {\n  return {\n    id,\n    _name: `role${id}`,\n    avatar: id,\n    spriteNumInBattle: 10 + id,\n    spriteNum: 0,\n    name: id,\n    attackAll: 0,\n    level: 1,\n    maxHP: 100,\n    maxMP: 30,\n    hp: 100,\n    mp: 30,\n    attackStrength: 5,\n    magicStrength: 5,\n    defense: 5,\n    dexterity: 5,\n    fleeRate: 5,\n    poisonResistance: 0,\n    elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },\n    walkFrames: 0,\n    attackSound: 0,\n    weaponSound: 0,\n    criticalSound: 0,\n    magicSound: 0,\n    deathSound: 0,\n    ...over,\n  }\n}\n\ndescribe('player-roles 战斗数据模型边界', () => {\n  it('投影:runtime当前值覆盖静态基础,未覆盖资料保留', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    const rt = gs.PlayerRolesRuntime\n    // 模拟升级后 runtime:role0 level 50 / hp 123 / maxHP 500 / attack 99 / 风抗 60 / name 7\n    rt.rgwLevel[0] = 50\n    rt.rgwHP[0] = 123\n    rt.rgwMaxHP[0] = 500\n    rt.rgwMP[0] = 40\n    rt.rgwMaxMP[0] = 80\n    rt.rgwAttackStrength[0] = 99\n    rt.rgwMagicStrength[0] = 77\n    rt.rgwDefense[0] = 33\n    rt.rgwDexterity[0] = 44\n    rt.rgwFleeRate[0] = 22\n    rt.rgwPoisonResistance[0] = 10\n    rt.rgwElementalResistance[0]![0] = 60\n    rt.rgwName[0] = 7\n    const staticRoles = {\n      roles: [\n        staticRole(0, {\n          _name: '李逍遥',\n          spriteNumInBattle: 5,\n          level: 1,\n          hp: 100,\n          attackStrength: 5,\n        }),\n      ],\n    }\n    const r = projectRuntimeToBattleRoles(rt, staticRoles).roles[0]!\n    // runtime 当前属性(非静态 1 级基线)\n    expect(r.level).toBe(50)\n    expect(r.hp).toBe(123)\n    expect(r.maxHP).toBe(500)\n    expect(r.attackStrength).toBe(99)\n    expect(r.magicStrength).toBe(77)\n    expect(r.elemResistance.wind).toBe(60)\n    expect(r.poisonResistance).toBe(10)\n    expect(r.name).toBe(7)\n    // 未被当前runtime值覆盖的资料与造型回退\n    expect(r._name).toBe('李逍遥')\n    expect(r.spriteNumInBattle).toBe(5)\n    expect(r.id).toBe(0)\n  })\n\n  it('D14:投影并入装备 effect — 战斗 stat = base + Σ rgEquipmentEffect[0..6](attack/magic/def/dex/flee/poison/elem)', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    const rt = gs.PlayerRolesRuntime\n    rt.rgwAttackStrength[0] = 100\n    rt.rgwMagicStrength[0] = 60\n    rt.rgwDefense[0] = 40\n    rt.rgwDexterity[0] = 20\n    rt.rgwFleeRate[0] = 10\n    rt.rgwPoisonResistance[0] = 30\n    rt.rgwElementalResistance[3]![0] = 25 // 火抗 base\n    // 装备 effect:手(part 3)+15 攻 / +5 火抗;Extra(part 6,0x30 战内 buff)+30 攻\n    gs.rgEquipmentEffect[3]!.rgwAttackStrength[0] = 15\n    gs.rgEquipmentEffect[3]!.rgwElementalResistance[3]![0] = 5\n    gs.rgEquipmentEffect[6]!.rgwAttackStrength[0] = 30\n    gs.rgEquipmentEffect[2]!.rgwDefense[0] = 7\n    gs.rgEquipmentEffect[1]!.rgwPoisonResistance[0] = 90 // → clamp 30+90=120 → 100\n    const staticRoles = { roles: [staticRole(0)] }\n    const r = projectRuntimeToBattleRoles(rt, staticRoles, gs.rgEquipmentEffect).roles[0]!\n    expect(r.attackStrength).toBe(145) // 100 + 15(手)+ 30(Extra)\n    expect(r.magicStrength).toBe(60) // 无装备 effect\n    expect(r.defense).toBe(47) // 40 + 7\n    expect(r.dexterity).toBe(20)\n    expect(r.fleeRate).toBe(10)\n    expect(r.poisonResistance).toBe(100) // clamp [0,100]\n    expect(r.elemResistance.fire).toBe(30) // 25 + 5\n  })\n\n  it('装备 override:attackAll(任一槽非0)/ spriteNumInBattle(末个非0 override)/ cooperativeMagic(末个非0 override)', () => {\n    // sdlpal PAL_PlayerCanAttackAll(global.c:2047,任一槽 !=0)/ PAL_GetPlayerBattleSprite(2009,末非0 override)\n    //   / PAL_GetPlayerCooperativeMagic(2044,末非0 override)。长鞭 attackAll=1 + sprite=6;圣灵珠 coopMagic=351。\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    const staticRoles = {\n      roles: [staticRole(0, { attackAll: 0, spriteNumInBattle: 10, cooperativeMagic: 5 })],\n    }\n    gs.rgEquipmentEffect[1]!.rgwSpriteNumInBattle[0] = 3\n    gs.rgEquipmentEffect[1]!.rgwCooperativeMagic[0] = 8\n    gs.rgEquipmentEffect[3]!.rgwAttackAll[0] = 1 // 长鞭(Hand)群攻\n    gs.rgEquipmentEffect[3]!.rgwSpriteNumInBattle[0] = 6 // 长鞭换战斗精灵\n    gs.rgEquipmentEffect[5]!.rgwCooperativeMagic[0] = 351 // 圣灵珠(Wear)改合击\n    const r = projectRuntimeToBattleRoles(gs.PlayerRolesRuntime, staticRoles, gs.rgEquipmentEffect)\n      .roles[0]!\n    expect(r.attackAll).toBe(1) // 装备群攻 → 战斗 role.attackAll!=0(battle-system 读此判全体攻)\n    expect(r.spriteNumInBattle).toBe(6) // 末个非0 override 静态 10\n    expect(r.cooperativeMagic).toBe(351) // 末个非0 override 静态 5\n  })\n\n  it('装备 override:无装备 effect → attackAll/sprite/coopMagic 退回 base(coopMagic 走 hydrate 后 runtime)', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    const staticRoles = {\n      roles: [staticRole(0, { attackAll: 0, spriteNumInBattle: 10, cooperativeMagic: 5 })],\n    }\n    hydratePlayerRolesRuntime(gs.PlayerRolesRuntime, staticRoles) // base coopMagic 5 → runtime(真实流程)\n    const r = projectRuntimeToBattleRoles(gs.PlayerRolesRuntime, staticRoles, gs.rgEquipmentEffect)\n      .roles[0]!\n    expect(r.attackAll).toBe(0) // runtime零值按覆盖类字段约定回退静态base\n    expect(r.spriteNumInBattle).toBe(10)\n    expect(r.cooperativeMagic).toBe(5) // hydrate 后 runtime.rgwCooperativeMagic=5\n  })\n\n  it('大世界 spriteNum hydrate 到 runtime,投影也读取 runtime 当前值', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    const staticRoles = {\n      roles: [staticRole(0, { spriteNum: 2 }), staticRole(1, { spriteNum: 3 })],\n    }\n    hydratePlayerRolesRuntime(gs.PlayerRolesRuntime, staticRoles)\n    expect(gs.PlayerRolesRuntime.rgwSpriteNum[0]).toBe(2)\n    expect(gs.PlayerRolesRuntime.rgwSpriteNum[1]).toBe(3)\n\n    gs.PlayerRolesRuntime.rgwSpriteNum[1] = 208\n    const roles = projectRuntimeToBattleRoles(gs.PlayerRolesRuntime, staticRoles).roles\n    expect(roles[1]!.spriteNum).toBe(208)\n  })\n\n  it('D14:不传 equipmentEffect → 投影退回纯 base(向后兼容,装备 effect 不并入)', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    const rt = gs.PlayerRolesRuntime\n    rt.rgwAttackStrength[0] = 100\n    gs.rgEquipmentEffect[3]!.rgwAttackStrength[0] = 15\n    const r = projectRuntimeToBattleRoles(rt, { roles: [staticRole(0)] }).roles[0]!\n    expect(r.attackStrength).toBe(100) // 装备 effect 未并入(无 3rd 参)\n  })\n\n  it('回写:战斗 HP/MP 战果回写 runtime;仅 party 成员(非 party 不碰)', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    const rt = gs.PlayerRolesRuntime\n    rt.rgwHP[0] = 50\n    rt.rgwMP[0] = 10\n    rt.rgwHP[1] = 80\n    rt.rgwMP[1] = 20\n    // 战后:role0 残血 30 / 扣 mp 至 5;role1 满血 200;role2(非 party)不该被碰\n    const battleRoles = {\n      roles: [\n        staticRole(0, { hp: 30, mp: 5 }),\n        staticRole(1, { hp: 200, mp: 0 }),\n        staticRole(2, { hp: 999, mp: 999 }),\n      ],\n    }\n    writeBackBattleRolesToRuntime(battleRoles, rt, [0, 1])\n    expect(rt.rgwHP[0]).toBe(30)\n    expect(rt.rgwMP[0]).toBe(5)\n    expect(rt.rgwHP[1]).toBe(200)\n    expect(rt.rgwMP[1]).toBe(0)\n    expect(rt.rgwHP[2]).toBe(0) // 非 party,未回写(初始 0)\n  })\n\n  it('往返:残血进战斗 → 治满 → 出战斗 → runtime 反映\"加满\"(原打完复原的 bug 修了)', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    const rt = gs.PlayerRolesRuntime\n    rt.rgwHP[0] = 50\n    rt.rgwMaxHP[0] = 200\n    rt.rgwMP[0] = 10\n    rt.rgwMaxMP[0] = 50\n    const staticRoles = { roles: [staticRole(0)] }\n    // 进战斗:投影 → 带 runtime 残血 50\n    const battle = projectRuntimeToBattleRoles(rt, staticRoles)\n    expect(battle.roles[0]!.hp).toBe(50)\n    expect(battle.roles[0]!.maxHP).toBe(200)\n    // 战斗里治满(模拟治疗 opcode 写 res.playerRoles)\n    battle.roles[0]!.hp = battle.roles[0]!.maxHP // 200\n    battle.roles[0]!.mp = battle.roles[0]!.maxMP // 50\n    // 出战斗:回写\n    writeBackBattleRolesToRuntime(battle, rt, [0])\n    expect(rt.rgwHP[0]).toBe(200) // 大世界反映满血战果\n    expect(rt.rgwMP[0]).toBe(50)\n  })\n\n  it('resumePostBattleScript:胜→wonIp + 恢复 currentEventObjectId + mode=event(打完怪接回 0x52 隐藏)', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.mode = 'explore'\n    gs.postBattleResume = {\n      wonIp: 1,\n      lostIp: 41075,\n      fledIp: 41073,\n      currentEventObjectId: 3,\n      triggerOwnerId: 3,\n    }\n    resumePostBattleScript(gs, 'won')\n    expect(gs.eventCursor?.ip).toBe(1)\n    expect(gs.eventCursor?.currentEventObjectId).toBe(3) // 隐藏的是开战那只怪\n    expect(gs.eventCursor?.triggerOwnerId).toBe(3)\n    expect(gs.mode).toBe('event')\n    expect(gs.postBattleResume).toBeUndefined() // 消耗\n  })\n\n  it('resumePostBattleScript:负→lostIp(op[1]) / 逃→fledIp(op[2])', () => {\n    const gsL = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gsL.postBattleResume = { wonIp: 1, lostIp: 41075, fledIp: 41073 }\n    resumePostBattleScript(gsL, 'lost')\n    expect(gsL.eventCursor?.ip).toBe(41075)\n\n    const gsF = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gsF.postBattleResume = { wonIp: 1, lostIp: 41075, fledIp: 41073 }\n    resumePostBattleScript(gsF, 'fled')\n    expect(gsF.eventCursor?.ip).toBe(41073)\n  })\n\n  it('resumePostBattleScript:负/逃但无对应分支 → 退回 wonIp(sdlpal else ip++)', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.postBattleResume = { wonIp: 1 } // 无 lostIp/fledIp\n    resumePostBattleScript(gs, 'lost')\n    expect(gs.eventCursor?.ip).toBe(1)\n  })\n\n  // ── C2(gameOverActive 重构):lost + lostIp 指死亡脚本(含 0x4F)→ 置 deathHoldActive(过渡帧 hold) ──\n  // 不再由 outcome==='lost' 无条件置 gameOverActive(它误伤石长老/team21/team29 续剧情);\n  // 改用 scriptRunHits0x4F 预判 lostIp 指向的脚本是否真死亡。gameOverActive 改由 0x4F handler 置(C4)。\n  it('resumePostBattleScript:lost + lostIp 指死亡脚本(含 0x4F)→ 置 deathHoldActive,不置 gameOverActive', () => {\n    const death: Command[] = [\n      { op: 'raw', opcode: 0x43, operands: [1, 1, 0] }, // ip0 音乐\n      { op: 'raw', opcode: 0x4f, operands: [0, 0, 0] }, // ip1 FadeToRed\n      { op: 'end' },\n    ]\n    const gsL = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gsL.postBattleResume = { wonIp: 9, lostIp: 0, commands: death } // lostIp=0(死亡脚本起点)\n    resumePostBattleScript(gsL, 'lost')\n    expect(gsL.eventCursor?.ip).toBe(0) // 跳进死亡脚本\n    expect(gsL.deathHoldActive).toBe(true) // T0 过渡帧 hold(0x4F 预判命中)\n    expect(gsL.gameOverActive).toBeFalsy() // 不在此置(改由 0x4F handler)\n  })\n\n  it('resumePostBattleScript:lost + lostIp 续剧情(0x4F 前撞 goto,team21 式)→ 不置 deathHoldActive', () => {\n    const cont: Command[] = [\n      { op: 'raw', opcode: 0x4b, operands: [0, 0, 0] }, // ip0 对白前\n      { op: 'goto', to: 'L_41075' }, // ip1 跳死亡脚本(0x4F 之前)\n      { op: 'raw', opcode: 0x4f, operands: [0, 0, 0] },\n    ]\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.postBattleResume = { wonIp: 9, lostIp: 0, commands: cont }\n    resumePostBattleScript(gs, 'lost')\n    expect(gs.eventCursor?.ip).toBe(0) // 跳进续剧情(先播对白)\n    expect(gs.deathHoldActive).toBeFalsy() // 遇 goto 停 → 不 pre-light(正常重绘对白)\n    expect(gs.gameOverActive).toBeFalsy()\n  })\n\n  it('resumePostBattleScript:lost 但 lostIp=undefined(石长老 op[1]=0)→ 回退 wonIp,不置死亡 hold', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.postBattleResume = { wonIp: 5 } // 无 lostIp\n    resumePostBattleScript(gs, 'lost')\n    expect(gs.eventCursor?.ip).toBe(5) // 续剧情(石长老必败续剧情)\n    expect(gs.deathHoldActive).toBeFalsy()\n    expect(gs.gameOverActive).toBeFalsy()\n  })\n\n  it('resumePostBattleScript:won → 不置任何死亡 hold(正常返回大世界)', () => {\n    const gsW = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gsW.postBattleResume = { wonIp: 1 }\n    resumePostBattleScript(gsW, 'won')\n    expect(gsW.deathHoldActive).toBeFalsy()\n    expect(gsW.gameOverActive).toBeFalsy()\n  })\n\n  it('resumePostBattleScript:无 postBattleResume → no-op(非 0x07 触发的战斗 / dev panel 战斗)', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.mode = 'explore'\n    resumePostBattleScript(gs, 'won')\n    expect(gs.eventCursor).toBeUndefined()\n    expect(gs.mode).toBe('explore')\n  })\n\n  // ── C1(gameOverActive 重构):scriptRunHits0x4F 死亡帧预判 ──\n  // 从 lostIp 起线性扫描脚本 run(遇首个 end/goto 停),命中 0x4F(死亡红屏)→ true。\n  // 数据真值:死亡脚本 L_41075 = 41075 0x43 → 41076 0x4F;team21 lostIp=6186 在 0x4F 前撞 goto。\n  describe('scriptRunHits0x4F(死亡帧预判)', () => {\n    const raw = (opcode: number): Command => ({ op: 'raw', opcode, operands: [0, 0, 0] })\n\n    it('run 含 0x4F(死亡脚本 41075:0x43→0x4F)→ true', () => {\n      const cmds: Command[] = [raw(0x43), raw(0x4f), { op: 'end' }]\n      expect(scriptRunHits0x4F(cmds, 0)).toBe(true)\n    })\n\n    it('run 在 0x4F 前撞 goto(team21:对白→goto L_41075)→ false(不跨 goto 追)', () => {\n      const cmds: Command[] = [raw(0x4b), { op: 'goto', to: 'L_41075' }, raw(0x4f)]\n      expect(scriptRunHits0x4F(cmds, 0)).toBe(false)\n    })\n\n    it('run 遇 end 前无 0x4F(续剧情)→ false', () => {\n      const cmds: Command[] = [raw(0x78), raw(0x49), { op: 'end' }, raw(0x4f)]\n      expect(scriptRunHits0x4F(cmds, 0)).toBe(false)\n    })\n\n    it('commands undefined → false', () => {\n      expect(scriptRunHits0x4F(undefined, 0)).toBe(false)\n    })\n\n    it('startIp 越过 0x43 从 0x4F 处起 → true', () => {\n      const cmds: Command[] = [raw(0x43), raw(0x4f), { op: 'end' }]\n      expect(scriptRunHits0x4F(cmds, 1)).toBe(true)\n    })\n  })\n\n  it('往返:满血进战斗 → 受伤残血 → 出战斗 → runtime 反映伤害(伤害持久化)', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    const rt = gs.PlayerRolesRuntime\n    rt.rgwHP[0] = 200\n    rt.rgwMaxHP[0] = 200\n    const battle = projectRuntimeToBattleRoles(rt, { roles: [staticRole(0)] })\n    battle.roles[0]!.hp = 45 // 战斗受伤残血\n    writeBackBattleRolesToRuntime(battle, rt, [0])\n    expect(rt.rgwHP[0]).toBe(45) // 伤害持久化(原 finalizeBattle 不回写 → 复原 200)\n  })\n})\n\n// ============================================================================\n// 读档归一化:旧 schema 存档缺后续版本新增的 runtime 字段 — 回归(ESC 开菜单崩溃)。\n//   bootstrap.loadGameFromSlot 的 Object.assign(gs, loadedGs) 用存档那份 PlayerRolesRuntime\n//   整体替换了 createInitialGameState 建好的完整 runtime。2026-06-07 加的 rgwAvatar/rgwWalkFrames\n//   在更早的存档里不存在 → 替换后字段 undefined → ESC 开菜单时 projectRuntimeToBattleRoles 读\n//   runtime.rgwAvatar[0] = undefined[0] 抛 \"Cannot read properties of undefined\"。\n// ============================================================================\ndescribe('normalizePlayerRolesRuntime(读档归一化 — 旧存档缺新增字段回归)', () => {\n  /** 模拟 2026-06-07 之前旧代码存的档:rgwAvatar/rgwWalkFrames 当时不在 schema 里。 */\n  function staleRuntime(): Partial<PlayerRolesRuntime> {\n    const rt: Partial<PlayerRolesRuntime> = createInitialGameState({\n      x: 0,\n      y: 0,\n      facing: 'down',\n    }).PlayerRolesRuntime\n    delete rt.rgwAvatar\n    delete rt.rgwWalkFrames\n    return rt\n  }\n\n  it('归一化补齐缺失字段(rgwAvatar/rgwWalkFrames),投影不再崩', () => {\n    const fixed = normalizePlayerRolesRuntime(staleRuntime())\n    expect(fixed.rgwAvatar).toHaveLength(6)\n    expect(fixed.rgwWalkFrames).toHaveLength(6)\n    expect(() => projectRuntimeToBattleRoles(fixed, { roles: [staticRole(0)] })).not.toThrow()\n  })\n\n  it('存档已有的真实数据原样保留(归一化只补缺失键,不覆盖)', () => {\n    const stale = staleRuntime()\n    stale.rgwHP = [123, 0, 0, 0, 0, 0]\n    stale.rgwLevel = [50, 0, 0, 0, 0, 0]\n    stale.rgwName = [7, 0, 0, 0, 0, 0]\n    const fixed = normalizePlayerRolesRuntime(stale)\n    expect(fixed.rgwHP[0]).toBe(123)\n    expect(fixed.rgwLevel[0]).toBe(50)\n    expect(fixed.rgwName[0]).toBe(7)\n  })\n\n  it('runtime 整体缺失(极旧档无 PlayerRolesRuntime)→ 返回全零完整 runtime', () => {\n    const fixed = normalizePlayerRolesRuntime(undefined)\n    expect(fixed.rgwAvatar).toHaveLength(6)\n    expect(fixed.rgwMagic).toHaveLength(32)\n    expect(fixed.rgwElementalResistance).toHaveLength(5)\n  })\n})\n\n// 结局片尾回主菜单 bug:0xA0 QUIT 从「拜月投河 RNG(chunk9)演出对话」期触发,播完片尾 4/5/6.mp4 后\n//   returnToTitle 若漏清 dialogPlayingRNG+rngDialogBackup,present.ts 命中短路分支画结局 RNG 末帧(血池)\n//   盖住主菜单 + return → user 报「看完片尾自动回 RNG 末帧、全部按键无效」(菜单其实在响应,只是被盖住)。\ndescribe('resetPresentationTransients(回标题/新游戏清演出残留)', () => {\n  it('清结局 RNG 演出残留 + 黑屏/fade/死亡演出/eventCursor', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    // 模拟结局 0xA0 QUIT 触发瞬间的残留(拜月投河 RNG 演出对话期)\n    gs.dialogPlayingRNG = true\n    gs.rngDialogBackup = new Uint8Array(320 * 200).fill(7)\n    gs.rngFrameActive = true\n    gs.blackScreenHold = true\n    gs.gameOverActive = true\n    gs.deathHoldActive = true\n    gs.needToFadeIn = true\n    gs.sceneLoading = true\n    gs.eventCursor = { ip: 35621 }\n\n    resetPresentationTransients(gs)\n\n    // present.ts 短路分支 `if (dialogPlayingRNG && rngDialogBackup)` 依赖的两字段必须清 → 主菜单不再被盖\n    expect(gs.dialogPlayingRNG).toBe(false)\n    expect(gs.rngDialogBackup).toBeUndefined()\n    expect(gs.rngFrameActive).toBe(false)\n    expect(gs.blackScreenHold).toBe(false)\n    expect(gs.gameOverActive).toBe(false)\n    expect(gs.deathHoldActive).toBe(false)\n    expect(gs.needToFadeIn).toBe(false)\n    expect(gs.sceneLoading).toBe(false)\n    expect(gs.eventCursor).toBeUndefined()\n  })\n\n  it('resetSceneRuntimeForNewGame 复用 helper:同样清掉结局 RNG 残留(防重构回归)', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.dialogPlayingRNG = true\n    gs.rngDialogBackup = new Uint8Array(320 * 200)\n    gs.rngFrameActive = true\n    gs.blackScreenHold = true\n\n    resetSceneRuntimeForNewGame(gs, [])\n\n    expect(gs.dialogPlayingRNG).toBe(false)\n    expect(gs.rngDialogBackup).toBeUndefined()\n    expect(gs.rngFrameActive).toBe(false)\n    expect(gs.blackScreenHold).toBe(false)\n  })\n})\n",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/core/game-state.glm-next-wave.test.ts",
+      "id": "organization-game-state-leaves-1",
+      "reason": "Registration-only destination context; independent complete typed-main remainder, all callbacks, helper/import/body proof establishes semantics. No arbitrary replacement is itself acceptance evidence.",
+      "changes": [
+        {
+          "from": "/**\n * TEST-GLM-NEW-H-1 / H04 — game-state 当前公开合同补测。\n *\n * getOverworldSpriteNum由present/bootstrap消费：role0镜像覆盖 → runtime精灵号>0 → 静态表。\n * createInitialPlayerStatus(global.h:522 6×9 全零)同文件补一条布局合同。\n */\nimport type { PlayerRoles } from '@type-pal/shared'\nimport { describe, expect, it } from 'vitest'\nimport { makeRoleRecord } from '../__tests__/battle-records.js'\nimport {\n  createInitialGameState,\n  createInitialPlayerStatus,\n  getOverworldSpriteNum,\n} from './game-state.js'\n\nfunction staticRoles(): PlayerRoles {\n  return {\n    roles: [\n      makeRoleRecord(0, { spriteNum: 1 }),\n      makeRoleRecord(1, { spriteNum: 2 }),\n      makeRoleRecord(2, { spriteNum: 3 }),\n    ],\n  }\n}\n\ndescribe('getOverworldSpriteNum 三级快照解析(present/bootstrap 现行 caller)', () => {\n  it('role0 + 旧字段 partyLeaderSpriteId → 最高优先(旧存档/0x65 镜像)', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.partyLeaderSpriteId = 77\n    gs.PlayerRolesRuntime.rgwSpriteNum[0] = 5\n    expect(getOverworldSpriteNum(gs, 0, staticRoles())).toBe(77)\n  })\n\n  it('无旧字段 → runtime rgwSpriteNum>0 生效;=0 跳过(0x65 变身写 runtime 的当前值)', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.PlayerRolesRuntime.rgwSpriteNum[1] = 42\n    expect(getOverworldSpriteNum(gs, 1, staticRoles())).toBe(42)\n    gs.PlayerRolesRuntime.rgwSpriteNum[1] = 0\n    expect(getOverworldSpriteNum(gs, 1, staticRoles())).toBe(2) // 0表示没有runtime覆盖,按公开合同回退静态表\n  })\n\n  it('runtime精灵号为0时回退静态表,未提供静态表则undefined', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    expect(getOverworldSpriteNum(gs, 2, staticRoles())).toBe(3)\n    expect(getOverworldSpriteNum(gs, 2)).toBeUndefined() // 无静态表 → undefined(caller 兜底)\n  })\n})\n\ndescribe('createInitialPlayerStatus(sdlpal global.h:522 布局)', () => {\n  it('6 role × 9 状态槽全零(Confused0..DualAttack8)', () => {\n    const st = createInitialPlayerStatus()\n    expect(st.length).toBe(6)\n    for (const row of st) {\n      expect(row.length).toBe(9)\n      expect(row.every((v) => v === 0)).toBe(true)\n    }\n    // 形状/全零不足以证明所有权：修改一行不能连带其它角色或下一份初态。\n    st[0]![0] = 3\n    expect(st[1]![0]).toBe(0)\n    expect(createInitialPlayerStatus()[0]![0]).toBe(0)\n  })\n})\n",
+          "to": "/** Current overworld sprite priority from runtime snapshots and optional static roles. */\nimport type { PlayerRoles } from '@type-pal/shared'\nimport { describe, expect, it } from 'vitest'\nimport { makeRoleRecord } from '../__tests__/battle-records.js'\nimport { createInitialGameState, createInitialPlayerStatus, getOverworldSpriteNum } from './game-state.js'\n\nfunction makeSpriteRoles(): PlayerRoles {\n  return {\n    roles: [\n      makeRoleRecord(0, { spriteNum: 1 }),\n      makeRoleRecord(1, { spriteNum: 2 }),\n      makeRoleRecord(2, { spriteNum: 3 }),\n    ],\n  }\n}\n\ndescribe('Overworld sprite selection', () => {\n  it('role zero explicit mirror overrides runtime and static sprite', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.partyLeaderSpriteId = 77\n    gs.PlayerRolesRuntime.rgwSpriteNum[0] = 5\n    expect(getOverworldSpriteNum(gs, 0, makeSpriteRoles())).toBe(77)\n  })\n\n  it('positive runtime sprite overrides static; zero restores static fallback', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.PlayerRolesRuntime.rgwSpriteNum[1] = 42\n    expect(getOverworldSpriteNum(gs, 1, makeSpriteRoles())).toBe(42)\n    gs.PlayerRolesRuntime.rgwSpriteNum[1] = 0\n    expect(getOverworldSpriteNum(gs, 1, makeSpriteRoles())).toBe(2) // 0表示没有runtime覆盖,按公开合同回退静态表\n  })\n\n  it('zero runtime uses static role sprite or returns undefined without a table', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    expect(getOverworldSpriteNum(gs, 2, makeSpriteRoles())).toBe(3)\n    expect(getOverworldSpriteNum(gs, 2)).toBeUndefined() // 无静态表 → undefined(caller 兜底)\n  })\n})\n\nit('creates independent zeroed player-status rows and instances', () => {\n    const status = createInitialPlayerStatus()\n    expect(status.length).toBe(6)\n    for (const row of status) {\n      expect(row.length).toBe(9)\n      expect(row.every((v) => v === 0)).toBe(true)\n    }\n    // 形状/全零不足以证明所有权：修改一行不能连带其它角色或下一份初态。\n    status[0]![0] = 3\n    expect(status[1]![0]).toBe(0)\n    expect(createInitialPlayerStatus()[0]![0]).toBe(0)\n  })\n",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "registrations": [
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "ordinal": 0,
+        "fullName": "clearHiddenExpCounts(隐藏经验 wCount 战前清零,battle.c:1565-1586) 清 7 隐藏池各 role 的 wCount,**不动** rgPrimaryExp"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "titles": ["clearHiddenExpCounts(隐藏经验 wCount 战前清零,battle.c:1565-1586)"],
+        "template": "清 7 隐藏池各 role 的 wCount,**不动** rgPrimaryExp",
+        "fullName": "clearHiddenExpCounts(隐藏经验 wCount 战前清零,battle.c:1565-1586) 清 7 隐藏池各 role 的 wCount,**不动** rgPrimaryExp"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "ordinal": 1,
+        "fullName": "clearHiddenExpCounts(隐藏经验 wCount 战前清零,battle.c:1565-1586) createInitialGameState 的 Exp wCount 初始 0"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "titles": ["clearHiddenExpCounts(隐藏经验 wCount 战前清零,battle.c:1565-1586)"],
+        "template": "createInitialGameState 的 Exp wCount 初始 0",
+        "fullName": "clearHiddenExpCounts(隐藏经验 wCount 战前清零,battle.c:1565-1586) createInitialGameState 的 Exp wCount 初始 0"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "ordinal": 2,
+        "fullName": "initExpLevelsFromLevels(新游戏 Exp.wLevel 初始化,global.c:455-465) 8 类经验 × 6 角色 wLevel 全 = 对应等级,wExp 不动"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "titles": ["initExpLevelsFromLevels(新游戏 Exp.wLevel 初始化,global.c:455-465)"],
+        "template": "8 类经验 × 6 角色 wLevel 全 = 对应等级,wExp 不动",
+        "fullName": "initExpLevelsFromLevels(新游戏 Exp.wLevel 初始化,global.c:455-465) 8 类经验 × 6 角色 wLevel 全 = 对应等级,wExp 不动"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "ordinal": 3,
+        "fullName": "initExpLevelsFromLevels(新游戏 Exp.wLevel 初始化,global.c:455-465) rgwLevel 缺项(undefined)→ 该角色 wLevel 退化 0,不抛错"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "titles": ["initExpLevelsFromLevels(新游戏 Exp.wLevel 初始化,global.c:455-465)"],
+        "template": "rgwLevel 缺项(undefined)→ 该角色 wLevel 退化 0,不抛错",
+        "fullName": "initExpLevelsFromLevels(新游戏 Exp.wLevel 初始化,global.c:455-465) rgwLevel 缺项(undefined)→ 该角色 wLevel 退化 0,不抛错"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "ordinal": 4,
+        "fullName": "loadDefaultGame(新游戏重置,PAL_LoadDefaultGame global.c:434-465) 清空上一局金钱/背包/毒/队伍/trail/采集值,标量回默认(global.c:434-453)"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "titles": ["loadDefaultGame(新游戏重置,PAL_LoadDefaultGame global.c:434-465)"],
+        "template": "清空上一局金钱/背包/毒/队伍/trail/采集值,标量回默认(global.c:434-453)",
+        "fullName": "loadDefaultGame(新游戏重置,PAL_LoadDefaultGame global.c:434-465) 清空上一局金钱/背包/毒/队伍/trail/采集值,标量回默认(global.c:434-453)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "ordinal": 5,
+        "fullName": "loadDefaultGame(新游戏重置,PAL_LoadDefaultGame global.c:434-465) hydrate PlayerRoles 基线 + 8 类经验 wLevel = 角色等级(global.c:455-465)"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "titles": ["loadDefaultGame(新游戏重置,PAL_LoadDefaultGame global.c:434-465)"],
+        "template": "hydrate PlayerRoles 基线 + 8 类经验 wLevel = 角色等级(global.c:455-465)",
+        "fullName": "loadDefaultGame(新游戏重置,PAL_LoadDefaultGame global.c:434-465) hydrate PlayerRoles 基线 + 8 类经验 wLevel = 角色等级(global.c:455-465)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "ordinal": 6,
+        "fullName": "loadDefaultGame(新游戏重置,PAL_LoadDefaultGame global.c:434-465) M6:清 rgPlayerStatus(大世界施放的持久状态不带入新游戏,PAL_InitGameData global.c:951)"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "titles": ["loadDefaultGame(新游戏重置,PAL_LoadDefaultGame global.c:434-465)"],
+        "template": "M6:清 rgPlayerStatus(大世界施放的持久状态不带入新游戏,PAL_InitGameData global.c:951)",
+        "fullName": "loadDefaultGame(新游戏重置,PAL_LoadDefaultGame global.c:434-465) M6:清 rgPlayerStatus(大世界施放的持久状态不带入新游戏,PAL_InitGameData global.c:951)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "ordinal": 7,
+        "fullName": "resetSceneRuntimeForNewGame(新游戏 scene 运行时复位) 清 scene 持久 records + 从初始对象表重建 allEventObjects"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "titles": ["resetSceneRuntimeForNewGame(新游戏 scene 运行时复位)"],
+        "template": "清 scene 持久 records + 从初始对象表重建 allEventObjects",
+        "fullName": "resetSceneRuntimeForNewGame(新游戏 scene 运行时复位) 清 scene 持久 records + 从初始对象表重建 allEventObjects"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "ordinal": 8,
+        "fullName": "GameState 初始态:无 NPC、explore 模式、无对话框"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "titles": ["GameState"],
+        "template": "初始态:无 NPC、explore 模式、无对话框",
+        "fullName": "GameState 初始态:无 NPC、explore 模式、无对话框"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "ordinal": 9,
+        "fullName": "GameState 初始态:partyMembers / inventory 默认空数组,battleState 缺省"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "titles": ["GameState"],
+        "template": "初始态:partyMembers / inventory 默认空数组,battleState 缺省",
+        "fullName": "GameState 初始态:partyMembers / inventory 默认空数组,battleState 缺省"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "ordinal": 10,
+        "fullName": "Sync.1 GameState 全字段冻结(SAVEDGAME_WIN 倒推) initial state 初始化存档字段和定长运行态数组"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "titles": ["Sync.1 GameState 全字段冻结(SAVEDGAME_WIN 倒推)"],
+        "template": "initial state 初始化存档字段和定长运行态数组",
+        "fullName": "Sync.1 GameState 全字段冻结(SAVEDGAME_WIN 倒推) initial state 初始化存档字段和定长运行态数组"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "ordinal": 11,
+        "fullName": "Sync.1 GameState 全字段冻结(SAVEDGAME_WIN 倒推) sparse Record:rgEventObject 只存改过的 EventObject"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "titles": ["Sync.1 GameState 全字段冻结(SAVEDGAME_WIN 倒推)"],
+        "template": "sparse Record:rgEventObject 只存改过的 EventObject",
+        "fullName": "Sync.1 GameState 全字段冻结(SAVEDGAME_WIN 倒推) sparse Record:rgEventObject 只存改过的 EventObject"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "ordinal": 12,
+        "fullName": "Sync.1 GameState 全字段冻结(SAVEDGAME_WIN 倒推) sparse Record:rgScene / rgObject 初始空,可单独写入"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "titles": ["Sync.1 GameState 全字段冻结(SAVEDGAME_WIN 倒推)"],
+        "template": "sparse Record:rgScene / rgObject 初始空,可单独写入",
+        "fullName": "Sync.1 GameState 全字段冻结(SAVEDGAME_WIN 倒推) sparse Record:rgScene / rgObject 初始空,可单独写入"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "ordinal": 13,
+        "fullName": "Sync.1 GameState 全字段冻结(SAVEDGAME_WIN 倒推) AllExperience 初始值全零 ExpEntry"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "titles": ["Sync.1 GameState 全字段冻结(SAVEDGAME_WIN 倒推)"],
+        "template": "AllExperience 初始值全零 ExpEntry",
+        "fullName": "Sync.1 GameState 全字段冻结(SAVEDGAME_WIN 倒推) AllExperience 初始值全零 ExpEntry"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "ordinal": 14,
+        "fullName": "Sync.1 GameState 全字段冻结(SAVEDGAME_WIN 倒推) PlayerRolesRuntime 初始值全零"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "titles": ["Sync.1 GameState 全字段冻结(SAVEDGAME_WIN 倒推)"],
+        "template": "PlayerRolesRuntime 初始值全零",
+        "fullName": "Sync.1 GameState 全字段冻结(SAVEDGAME_WIN 倒推) PlayerRolesRuntime 初始值全零"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "ordinal": 15,
+        "fullName": "npcFromEventObject System A:eo.x/y 直接透传(1:1 sdlpal pixel),其它字段透传"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "titles": ["npcFromEventObject"],
+        "template": "System A:eo.x/y 直接透传(1:1 sdlpal pixel),其它字段透传",
+        "fullName": "npcFromEventObject System A:eo.x/y 直接透传(1:1 sdlpal pixel),其它字段透传"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "ordinal": 16,
+        "fullName": "npcFromEventObject 半 tile 位置原样保留(eo.x=720 / eo.y=664)"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "titles": ["npcFromEventObject"],
+        "template": "半 tile 位置原样保留(eo.x=720 / eo.y=664)",
+        "fullName": "npcFromEventObject 半 tile 位置原样保留(eo.x=720 / eo.y=664)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "ordinal": 17,
+        "fullName": "npcFromEventObject 初始 currentFrameNum 透传为 scriptedFrame(水月宫拜谢李逍遥姿势 frame13)"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "titles": ["npcFromEventObject"],
+        "template": "初始 currentFrameNum 透传为 scriptedFrame(水月宫拜谢李逍遥姿势 frame13)",
+        "fullName": "npcFromEventObject 初始 currentFrameNum 透传为 scriptedFrame(水月宫拜谢李逍遥姿势 frame13)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "ordinal": 18,
+        "fullName": "npcFromEventObject 初始 vanishTime 透传为 sVanishTime(非 0 时不触发/不跑 autoScript)"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "titles": ["npcFromEventObject"],
+        "template": "初始 vanishTime 透传为 sVanishTime(非 0 时不触发/不跑 autoScript)",
+        "fullName": "npcFromEventObject 初始 vanishTime 透传为 sVanishTime(非 0 时不触发/不跑 autoScript)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "ordinal": 19,
+        "fullName": "npcFromEventObject triggerLabel 缺时透传 undefined"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "titles": ["npcFromEventObject"],
+        "template": "triggerLabel 缺时透传 undefined",
+        "fullName": "npcFromEventObject triggerLabel 缺时透传 undefined"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "ordinal": 20,
+        "fullName": "npcFromEventObject 纠错资源的自动触发元数据透传，NPC造型位置保持原值"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "titles": ["npcFromEventObject"],
+        "template": "纠错资源的自动触发元数据透传，NPC造型位置保持原值",
+        "fullName": "npcFromEventObject 纠错资源的自动触发元数据透传，NPC造型位置保持原值"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "ordinal": 21,
+        "fullName": "npcFromEventObject 没有纠错元数据时不按对象编号暗改触发方式"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "titles": ["npcFromEventObject"],
+        "template": "没有纠错元数据时不按对象编号暗改触发方式",
+        "fullName": "npcFromEventObject 没有纠错元数据时不按对象编号暗改触发方式"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "ordinal": 22,
+        "fullName": "sliceSceneEventObjects(sdlpal lprgEventObject 切片) gs.npcs = 当前 scene 切片,元素是 allEventObjects 引用 → 脚本改动持久"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "titles": ["sliceSceneEventObjects(sdlpal lprgEventObject 切片)"],
+        "template": "gs.npcs = 当前 scene 切片,元素是 allEventObjects 引用 → 脚本改动持久",
+        "fullName": "sliceSceneEventObjects(sdlpal lprgEventObject 切片) gs.npcs = 当前 scene 切片,元素是 allEventObjects 引用 → 脚本改动持久"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "ordinal": 23,
+        "fullName": "sliceSceneEventObjects(sdlpal lprgEventObject 切片) 首访延迟解析 autoCursor(P2#5:autoLabel = L_<全局下标>,identity 解析)"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "titles": ["sliceSceneEventObjects(sdlpal lprgEventObject 切片)"],
+        "template": "首访延迟解析 autoCursor(P2#5:autoLabel = L_<全局下标>,identity 解析)",
+        "fullName": "sliceSceneEventObjects(sdlpal lprgEventObject 切片) 首访延迟解析 autoCursor(P2#5:autoLabel = L_<全局下标>,identity 解析)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "ordinal": 24,
+        "fullName": "sliceSceneEventObjects(sdlpal lprgEventObject 切片) 已推进的 autoCursor 不重解(保留 autoscript 进度)"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "titles": ["sliceSceneEventObjects(sdlpal lprgEventObject 切片)"],
+        "template": "已推进的 autoCursor 不重解(保留 autoscript 进度)",
+        "fullName": "sliceSceneEventObjects(sdlpal lprgEventObject 切片) 已推进的 autoCursor 不重解(保留 autoscript 进度)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "ordinal": 25,
+        "fullName": "sliceSceneEventObjects(sdlpal lprgEventObject 切片) 全局表缺失 → undefined(调用方兜底从 dump 建)"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "titles": ["sliceSceneEventObjects(sdlpal lprgEventObject 切片)"],
+        "template": "全局表缺失 → undefined(调用方兜底从 dump 建)",
+        "fullName": "sliceSceneEventObjects(sdlpal lprgEventObject 切片) 全局表缺失 → undefined(调用方兜底从 dump 建)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "ordinal": 26,
+        "fullName": "hydrateNpcStaticDefaults(旧全局对象 / 旧存档字段迁移) scriptedFrame 缺失 → 补场景初始 frame 13(水月宫抱拳拜谢)"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "titles": ["hydrateNpcStaticDefaults(旧全局对象 / 旧存档字段迁移)"],
+        "template": "scriptedFrame 缺失 → 补场景初始 frame 13(水月宫抱拳拜谢)",
+        "fullName": "hydrateNpcStaticDefaults(旧全局对象 / 旧存档字段迁移) scriptedFrame 缺失 → 补场景初始 frame 13(水月宫抱拳拜谢)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "ordinal": 27,
+        "fullName": "hydrateNpcStaticDefaults(旧全局对象 / 旧存档字段迁移) sVanishTime 缺失 → 补场景初始 vanishTime"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "titles": ["hydrateNpcStaticDefaults(旧全局对象 / 旧存档字段迁移)"],
+        "template": "sVanishTime 缺失 → 补场景初始 vanishTime",
+        "fullName": "hydrateNpcStaticDefaults(旧全局对象 / 旧存档字段迁移) sVanishTime 缺失 → 补场景初始 vanishTime"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "ordinal": 28,
+        "fullName": "hydrateNpcStaticDefaults(旧全局对象 / 旧存档字段迁移) scriptedFrame 已被脚本明确设为 0 → 不用场景默认 13 覆盖"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "titles": ["hydrateNpcStaticDefaults(旧全局对象 / 旧存档字段迁移)"],
+        "template": "scriptedFrame 已被脚本明确设为 0 → 不用场景默认 13 覆盖",
+        "fullName": "hydrateNpcStaticDefaults(旧全局对象 / 旧存档字段迁移) scriptedFrame 已被脚本明确设为 0 → 不用场景默认 13 覆盖"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "ordinal": 29,
+        "fullName": "player-roles 战斗数据模型边界 投影:runtime当前值覆盖静态基础,未覆盖资料保留"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "titles": ["player-roles 战斗数据模型边界"],
+        "template": "投影:runtime当前值覆盖静态基础,未覆盖资料保留",
+        "fullName": "player-roles 战斗数据模型边界 投影:runtime当前值覆盖静态基础,未覆盖资料保留"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "ordinal": 30,
+        "fullName": "player-roles 战斗数据模型边界 D14:投影并入装备 effect — 战斗 stat = base + Σ rgEquipmentEffect[0..6](attack/magic/def/dex/flee/poison/elem)"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "titles": ["player-roles 战斗数据模型边界"],
+        "template": "D14:投影并入装备 effect — 战斗 stat = base + Σ rgEquipmentEffect[0..6](attack/magic/def/dex/flee/poison/elem)",
+        "fullName": "player-roles 战斗数据模型边界 D14:投影并入装备 effect — 战斗 stat = base + Σ rgEquipmentEffect[0..6](attack/magic/def/dex/flee/poison/elem)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "ordinal": 31,
+        "fullName": "player-roles 战斗数据模型边界 装备 override:attackAll(任一槽非0)/ spriteNumInBattle(末个非0 override)/ cooperativeMagic(末个非0 override)"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "titles": ["player-roles 战斗数据模型边界"],
+        "template": "装备 override:attackAll(任一槽非0)/ spriteNumInBattle(末个非0 override)/ cooperativeMagic(末个非0 override)",
+        "fullName": "player-roles 战斗数据模型边界 装备 override:attackAll(任一槽非0)/ spriteNumInBattle(末个非0 override)/ cooperativeMagic(末个非0 override)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "ordinal": 32,
+        "fullName": "player-roles 战斗数据模型边界 装备 override:无装备 effect → attackAll/sprite/coopMagic 退回 base(coopMagic 走 hydrate 后 runtime)"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "titles": ["player-roles 战斗数据模型边界"],
+        "template": "装备 override:无装备 effect → attackAll/sprite/coopMagic 退回 base(coopMagic 走 hydrate 后 runtime)",
+        "fullName": "player-roles 战斗数据模型边界 装备 override:无装备 effect → attackAll/sprite/coopMagic 退回 base(coopMagic 走 hydrate 后 runtime)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "ordinal": 33,
+        "fullName": "player-roles 战斗数据模型边界 大世界 spriteNum hydrate 到 runtime,投影也读取 runtime 当前值"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "titles": ["player-roles 战斗数据模型边界"],
+        "template": "大世界 spriteNum hydrate 到 runtime,投影也读取 runtime 当前值",
+        "fullName": "player-roles 战斗数据模型边界 大世界 spriteNum hydrate 到 runtime,投影也读取 runtime 当前值"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "ordinal": 34,
+        "fullName": "player-roles 战斗数据模型边界 D14:不传 equipmentEffect → 投影退回纯 base(向后兼容,装备 effect 不并入)"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "titles": ["player-roles 战斗数据模型边界"],
+        "template": "D14:不传 equipmentEffect → 投影退回纯 base(向后兼容,装备 effect 不并入)",
+        "fullName": "player-roles 战斗数据模型边界 D14:不传 equipmentEffect → 投影退回纯 base(向后兼容,装备 effect 不并入)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "ordinal": 35,
+        "fullName": "player-roles 战斗数据模型边界 回写:战斗 HP/MP 战果回写 runtime;仅 party 成员(非 party 不碰)"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "titles": ["player-roles 战斗数据模型边界"],
+        "template": "回写:战斗 HP/MP 战果回写 runtime;仅 party 成员(非 party 不碰)",
+        "fullName": "player-roles 战斗数据模型边界 回写:战斗 HP/MP 战果回写 runtime;仅 party 成员(非 party 不碰)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "ordinal": 36,
+        "fullName": "player-roles 战斗数据模型边界 往返:残血进战斗 → 治满 → 出战斗 → runtime 反映\"加满\"(原打完复原的 bug 修了)"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "titles": ["player-roles 战斗数据模型边界"],
+        "template": "往返:残血进战斗 → 治满 → 出战斗 → runtime 反映\"加满\"(原打完复原的 bug 修了)",
+        "fullName": "player-roles 战斗数据模型边界 往返:残血进战斗 → 治满 → 出战斗 → runtime 反映\"加满\"(原打完复原的 bug 修了)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "ordinal": 37,
+        "fullName": "player-roles 战斗数据模型边界 resumePostBattleScript:胜→wonIp + 恢复 currentEventObjectId + mode=event(打完怪接回 0x52 隐藏)"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "titles": ["player-roles 战斗数据模型边界"],
+        "template": "resumePostBattleScript:胜→wonIp + 恢复 currentEventObjectId + mode=event(打完怪接回 0x52 隐藏)",
+        "fullName": "player-roles 战斗数据模型边界 resumePostBattleScript:胜→wonIp + 恢复 currentEventObjectId + mode=event(打完怪接回 0x52 隐藏)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "ordinal": 38,
+        "fullName": "player-roles 战斗数据模型边界 resumePostBattleScript:负→lostIp(op[1]) / 逃→fledIp(op[2])"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "titles": ["player-roles 战斗数据模型边界"],
+        "template": "resumePostBattleScript:负→lostIp(op[1]) / 逃→fledIp(op[2])",
+        "fullName": "player-roles 战斗数据模型边界 resumePostBattleScript:负→lostIp(op[1]) / 逃→fledIp(op[2])"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "ordinal": 39,
+        "fullName": "player-roles 战斗数据模型边界 resumePostBattleScript:负/逃但无对应分支 → 退回 wonIp(sdlpal else ip++)"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "titles": ["player-roles 战斗数据模型边界"],
+        "template": "resumePostBattleScript:负/逃但无对应分支 → 退回 wonIp(sdlpal else ip++)",
+        "fullName": "player-roles 战斗数据模型边界 resumePostBattleScript:负/逃但无对应分支 → 退回 wonIp(sdlpal else ip++)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "ordinal": 40,
+        "fullName": "player-roles 战斗数据模型边界 resumePostBattleScript:lost + lostIp 指死亡脚本(含 0x4F)→ 置 deathHoldActive,不置 gameOverActive"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "titles": ["player-roles 战斗数据模型边界"],
+        "template": "resumePostBattleScript:lost + lostIp 指死亡脚本(含 0x4F)→ 置 deathHoldActive,不置 gameOverActive",
+        "fullName": "player-roles 战斗数据模型边界 resumePostBattleScript:lost + lostIp 指死亡脚本(含 0x4F)→ 置 deathHoldActive,不置 gameOverActive"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "ordinal": 41,
+        "fullName": "player-roles 战斗数据模型边界 resumePostBattleScript:lost + lostIp 续剧情(0x4F 前撞 goto,team21 式)→ 不置 deathHoldActive"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "titles": ["player-roles 战斗数据模型边界"],
+        "template": "resumePostBattleScript:lost + lostIp 续剧情(0x4F 前撞 goto,team21 式)→ 不置 deathHoldActive",
+        "fullName": "player-roles 战斗数据模型边界 resumePostBattleScript:lost + lostIp 续剧情(0x4F 前撞 goto,team21 式)→ 不置 deathHoldActive"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "ordinal": 42,
+        "fullName": "player-roles 战斗数据模型边界 resumePostBattleScript:lost 但 lostIp=undefined(石长老 op[1]=0)→ 回退 wonIp,不置死亡 hold"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "titles": ["player-roles 战斗数据模型边界"],
+        "template": "resumePostBattleScript:lost 但 lostIp=undefined(石长老 op[1]=0)→ 回退 wonIp,不置死亡 hold",
+        "fullName": "player-roles 战斗数据模型边界 resumePostBattleScript:lost 但 lostIp=undefined(石长老 op[1]=0)→ 回退 wonIp,不置死亡 hold"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "ordinal": 43,
+        "fullName": "player-roles 战斗数据模型边界 resumePostBattleScript:won → 不置任何死亡 hold(正常返回大世界)"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "titles": ["player-roles 战斗数据模型边界"],
+        "template": "resumePostBattleScript:won → 不置任何死亡 hold(正常返回大世界)",
+        "fullName": "player-roles 战斗数据模型边界 resumePostBattleScript:won → 不置任何死亡 hold(正常返回大世界)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "ordinal": 44,
+        "fullName": "player-roles 战斗数据模型边界 resumePostBattleScript:无 postBattleResume → no-op(非 0x07 触发的战斗 / dev panel 战斗)"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "titles": ["player-roles 战斗数据模型边界"],
+        "template": "resumePostBattleScript:无 postBattleResume → no-op(非 0x07 触发的战斗 / dev panel 战斗)",
+        "fullName": "player-roles 战斗数据模型边界 resumePostBattleScript:无 postBattleResume → no-op(非 0x07 触发的战斗 / dev panel 战斗)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "ordinal": 45,
+        "fullName": "player-roles 战斗数据模型边界 scriptRunHits0x4F(死亡帧预判) run 含 0x4F(死亡脚本 41075:0x43→0x4F)→ true"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "titles": ["player-roles 战斗数据模型边界", "scriptRunHits0x4F(死亡帧预判)"],
+        "template": "run 含 0x4F(死亡脚本 41075:0x43→0x4F)→ true",
+        "fullName": "player-roles 战斗数据模型边界 scriptRunHits0x4F(死亡帧预判) run 含 0x4F(死亡脚本 41075:0x43→0x4F)→ true"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "ordinal": 46,
+        "fullName": "player-roles 战斗数据模型边界 scriptRunHits0x4F(死亡帧预判) run 在 0x4F 前撞 goto(team21:对白→goto L_41075)→ false(不跨 goto 追)"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "titles": ["player-roles 战斗数据模型边界", "scriptRunHits0x4F(死亡帧预判)"],
+        "template": "run 在 0x4F 前撞 goto(team21:对白→goto L_41075)→ false(不跨 goto 追)",
+        "fullName": "player-roles 战斗数据模型边界 scriptRunHits0x4F(死亡帧预判) run 在 0x4F 前撞 goto(team21:对白→goto L_41075)→ false(不跨 goto 追)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "ordinal": 47,
+        "fullName": "player-roles 战斗数据模型边界 scriptRunHits0x4F(死亡帧预判) run 遇 end 前无 0x4F(续剧情)→ false"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "titles": ["player-roles 战斗数据模型边界", "scriptRunHits0x4F(死亡帧预判)"],
+        "template": "run 遇 end 前无 0x4F(续剧情)→ false",
+        "fullName": "player-roles 战斗数据模型边界 scriptRunHits0x4F(死亡帧预判) run 遇 end 前无 0x4F(续剧情)→ false"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "ordinal": 48,
+        "fullName": "player-roles 战斗数据模型边界 scriptRunHits0x4F(死亡帧预判) commands undefined → false"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "titles": ["player-roles 战斗数据模型边界", "scriptRunHits0x4F(死亡帧预判)"],
+        "template": "commands undefined → false",
+        "fullName": "player-roles 战斗数据模型边界 scriptRunHits0x4F(死亡帧预判) commands undefined → false"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "ordinal": 49,
+        "fullName": "player-roles 战斗数据模型边界 scriptRunHits0x4F(死亡帧预判) startIp 越过 0x43 从 0x4F 处起 → true"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "titles": ["player-roles 战斗数据模型边界", "scriptRunHits0x4F(死亡帧预判)"],
+        "template": "startIp 越过 0x43 从 0x4F 处起 → true",
+        "fullName": "player-roles 战斗数据模型边界 scriptRunHits0x4F(死亡帧预判) startIp 越过 0x43 从 0x4F 处起 → true"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "ordinal": 50,
+        "fullName": "player-roles 战斗数据模型边界 往返:满血进战斗 → 受伤残血 → 出战斗 → runtime 反映伤害(伤害持久化)"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "titles": ["player-roles 战斗数据模型边界"],
+        "template": "往返:满血进战斗 → 受伤残血 → 出战斗 → runtime 反映伤害(伤害持久化)",
+        "fullName": "player-roles 战斗数据模型边界 往返:满血进战斗 → 受伤残血 → 出战斗 → runtime 反映伤害(伤害持久化)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "ordinal": 51,
+        "fullName": "normalizePlayerRolesRuntime(读档归一化 — 旧存档缺新增字段回归) 归一化补齐缺失字段(rgwAvatar/rgwWalkFrames),投影不再崩"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "titles": ["normalizePlayerRolesRuntime(读档归一化 — 旧存档缺新增字段回归)"],
+        "template": "归一化补齐缺失字段(rgwAvatar/rgwWalkFrames),投影不再崩",
+        "fullName": "normalizePlayerRolesRuntime(读档归一化 — 旧存档缺新增字段回归) 归一化补齐缺失字段(rgwAvatar/rgwWalkFrames),投影不再崩"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "ordinal": 52,
+        "fullName": "normalizePlayerRolesRuntime(读档归一化 — 旧存档缺新增字段回归) 存档已有的真实数据原样保留(归一化只补缺失键,不覆盖)"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "titles": ["normalizePlayerRolesRuntime(读档归一化 — 旧存档缺新增字段回归)"],
+        "template": "存档已有的真实数据原样保留(归一化只补缺失键,不覆盖)",
+        "fullName": "normalizePlayerRolesRuntime(读档归一化 — 旧存档缺新增字段回归) 存档已有的真实数据原样保留(归一化只补缺失键,不覆盖)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "ordinal": 53,
+        "fullName": "normalizePlayerRolesRuntime(读档归一化 — 旧存档缺新增字段回归) runtime 整体缺失(极旧档无 PlayerRolesRuntime)→ 返回全零完整 runtime"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "titles": ["normalizePlayerRolesRuntime(读档归一化 — 旧存档缺新增字段回归)"],
+        "template": "runtime 整体缺失(极旧档无 PlayerRolesRuntime)→ 返回全零完整 runtime",
+        "fullName": "normalizePlayerRolesRuntime(读档归一化 — 旧存档缺新增字段回归) runtime 整体缺失(极旧档无 PlayerRolesRuntime)→ 返回全零完整 runtime"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "ordinal": 54,
+        "fullName": "resetPresentationTransients(回标题/新游戏清演出残留) 清结局 RNG 演出残留 + 黑屏/fade/死亡演出/eventCursor"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "titles": ["resetPresentationTransients(回标题/新游戏清演出残留)"],
+        "template": "清结局 RNG 演出残留 + 黑屏/fade/死亡演出/eventCursor",
+        "fullName": "resetPresentationTransients(回标题/新游戏清演出残留) 清结局 RNG 演出残留 + 黑屏/fade/死亡演出/eventCursor"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "ordinal": 55,
+        "fullName": "resetPresentationTransients(回标题/新游戏清演出残留) resetSceneRuntimeForNewGame 复用 helper:同样清掉结局 RNG 残留(防重构回归)"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "titles": ["resetPresentationTransients(回标题/新游戏清演出残留)"],
+        "template": "resetSceneRuntimeForNewGame 复用 helper:同样清掉结局 RNG 残留(防重构回归)",
+        "fullName": "resetPresentationTransients(回标题/新游戏清演出残留) resetSceneRuntimeForNewGame 复用 helper:同样清掉结局 RNG 残留(防重构回归)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.glm-next-wave.test.ts",
+        "ordinal": 0,
+        "fullName": "getOverworldSpriteNum 三级快照解析(present/bootstrap 现行 caller) role0 + 旧字段 partyLeaderSpriteId → 最高优先(旧存档/0x65 镜像)"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.sprites.test.ts",
+        "titles": ["Overworld sprite selection"],
+        "template": "role zero explicit mirror overrides runtime and static sprite",
+        "fullName": "Overworld sprite selection role zero explicit mirror overrides runtime and static sprite"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.glm-next-wave.test.ts",
+        "ordinal": 1,
+        "fullName": "getOverworldSpriteNum 三级快照解析(present/bootstrap 现行 caller) 无旧字段 → runtime rgwSpriteNum>0 生效;=0 跳过(0x65 变身写 runtime 的当前值)"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.sprites.test.ts",
+        "titles": ["Overworld sprite selection"],
+        "template": "positive runtime sprite overrides static; zero restores static fallback",
+        "fullName": "Overworld sprite selection positive runtime sprite overrides static; zero restores static fallback"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.glm-next-wave.test.ts",
+        "ordinal": 2,
+        "fullName": "getOverworldSpriteNum 三级快照解析(present/bootstrap 现行 caller) runtime精灵号为0时回退静态表,未提供静态表则undefined"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.sprites.test.ts",
+        "titles": ["Overworld sprite selection"],
+        "template": "zero runtime uses static role sprite or returns undefined without a table",
+        "fullName": "Overworld sprite selection zero runtime uses static role sprite or returns undefined without a table"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.glm-next-wave.test.ts",
+        "ordinal": 3,
+        "fullName": "createInitialPlayerStatus(sdlpal global.h:522 布局) 6 role × 9 状态槽全零(Confused0..DualAttack8)"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "titles": ["GameState"],
+        "template": "creates independent zeroed player-status rows and instances",
+        "fullName": "GameState creates independent zeroed player-status rows and instances"
+      }
+    }
+  ],
+  "identities": [
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "clearHiddenExpCounts(隐藏经验 wCount 战前清零,battle.c:1565-1586) 清 7 隐藏池各 role 的 wCount,**不动** rgPrimaryExp"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "clearHiddenExpCounts(隐藏经验 wCount 战前清零,battle.c:1565-1586) 清 7 隐藏池各 role 的 wCount,**不动** rgPrimaryExp"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "clearHiddenExpCounts(隐藏经验 wCount 战前清零,battle.c:1565-1586) createInitialGameState 的 Exp wCount 初始 0"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "clearHiddenExpCounts(隐藏经验 wCount 战前清零,battle.c:1565-1586) createInitialGameState 的 Exp wCount 初始 0"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "initExpLevelsFromLevels(新游戏 Exp.wLevel 初始化,global.c:455-465) 8 类经验 × 6 角色 wLevel 全 = 对应等级,wExp 不动"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "initExpLevelsFromLevels(新游戏 Exp.wLevel 初始化,global.c:455-465) 8 类经验 × 6 角色 wLevel 全 = 对应等级,wExp 不动"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "initExpLevelsFromLevels(新游戏 Exp.wLevel 初始化,global.c:455-465) rgwLevel 缺项(undefined)→ 该角色 wLevel 退化 0,不抛错"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "initExpLevelsFromLevels(新游戏 Exp.wLevel 初始化,global.c:455-465) rgwLevel 缺项(undefined)→ 该角色 wLevel 退化 0,不抛错"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "loadDefaultGame(新游戏重置,PAL_LoadDefaultGame global.c:434-465) 清空上一局金钱/背包/毒/队伍/trail/采集值,标量回默认(global.c:434-453)"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "loadDefaultGame(新游戏重置,PAL_LoadDefaultGame global.c:434-465) 清空上一局金钱/背包/毒/队伍/trail/采集值,标量回默认(global.c:434-453)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "loadDefaultGame(新游戏重置,PAL_LoadDefaultGame global.c:434-465) hydrate PlayerRoles 基线 + 8 类经验 wLevel = 角色等级(global.c:455-465)"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "loadDefaultGame(新游戏重置,PAL_LoadDefaultGame global.c:434-465) hydrate PlayerRoles 基线 + 8 类经验 wLevel = 角色等级(global.c:455-465)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "loadDefaultGame(新游戏重置,PAL_LoadDefaultGame global.c:434-465) M6:清 rgPlayerStatus(大世界施放的持久状态不带入新游戏,PAL_InitGameData global.c:951)"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "loadDefaultGame(新游戏重置,PAL_LoadDefaultGame global.c:434-465) M6:清 rgPlayerStatus(大世界施放的持久状态不带入新游戏,PAL_InitGameData global.c:951)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "resetSceneRuntimeForNewGame(新游戏 scene 运行时复位) 清 scene 持久 records + 从初始对象表重建 allEventObjects"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "resetSceneRuntimeForNewGame(新游戏 scene 运行时复位) 清 scene 持久 records + 从初始对象表重建 allEventObjects"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "GameState 初始态:无 NPC、explore 模式、无对话框"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "GameState 初始态:无 NPC、explore 模式、无对话框"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "GameState 初始态:partyMembers / inventory 默认空数组,battleState 缺省"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "GameState 初始态:partyMembers / inventory 默认空数组,battleState 缺省"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "Sync.1 GameState 全字段冻结(SAVEDGAME_WIN 倒推) initial state 初始化存档字段和定长运行态数组"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "Sync.1 GameState 全字段冻结(SAVEDGAME_WIN 倒推) initial state 初始化存档字段和定长运行态数组"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "Sync.1 GameState 全字段冻结(SAVEDGAME_WIN 倒推) sparse Record:rgEventObject 只存改过的 EventObject"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "Sync.1 GameState 全字段冻结(SAVEDGAME_WIN 倒推) sparse Record:rgEventObject 只存改过的 EventObject"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "Sync.1 GameState 全字段冻结(SAVEDGAME_WIN 倒推) sparse Record:rgScene / rgObject 初始空,可单独写入"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "Sync.1 GameState 全字段冻结(SAVEDGAME_WIN 倒推) sparse Record:rgScene / rgObject 初始空,可单独写入"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "Sync.1 GameState 全字段冻结(SAVEDGAME_WIN 倒推) AllExperience 初始值全零 ExpEntry"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "Sync.1 GameState 全字段冻结(SAVEDGAME_WIN 倒推) AllExperience 初始值全零 ExpEntry"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "Sync.1 GameState 全字段冻结(SAVEDGAME_WIN 倒推) PlayerRolesRuntime 初始值全零"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "Sync.1 GameState 全字段冻结(SAVEDGAME_WIN 倒推) PlayerRolesRuntime 初始值全零"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "npcFromEventObject System A:eo.x/y 直接透传(1:1 sdlpal pixel),其它字段透传"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "npcFromEventObject System A:eo.x/y 直接透传(1:1 sdlpal pixel),其它字段透传"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "npcFromEventObject 半 tile 位置原样保留(eo.x=720 / eo.y=664)"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "npcFromEventObject 半 tile 位置原样保留(eo.x=720 / eo.y=664)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "npcFromEventObject 初始 currentFrameNum 透传为 scriptedFrame(水月宫拜谢李逍遥姿势 frame13)"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "npcFromEventObject 初始 currentFrameNum 透传为 scriptedFrame(水月宫拜谢李逍遥姿势 frame13)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "npcFromEventObject 初始 vanishTime 透传为 sVanishTime(非 0 时不触发/不跑 autoScript)"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "npcFromEventObject 初始 vanishTime 透传为 sVanishTime(非 0 时不触发/不跑 autoScript)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "npcFromEventObject triggerLabel 缺时透传 undefined"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "npcFromEventObject triggerLabel 缺时透传 undefined"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "npcFromEventObject 纠错资源的自动触发元数据透传，NPC造型位置保持原值"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "npcFromEventObject 纠错资源的自动触发元数据透传，NPC造型位置保持原值"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "npcFromEventObject 没有纠错元数据时不按对象编号暗改触发方式"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "npcFromEventObject 没有纠错元数据时不按对象编号暗改触发方式"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "sliceSceneEventObjects(sdlpal lprgEventObject 切片) gs.npcs = 当前 scene 切片,元素是 allEventObjects 引用 → 脚本改动持久"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "sliceSceneEventObjects(sdlpal lprgEventObject 切片) gs.npcs = 当前 scene 切片,元素是 allEventObjects 引用 → 脚本改动持久"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "sliceSceneEventObjects(sdlpal lprgEventObject 切片) 首访延迟解析 autoCursor(P2#5:autoLabel = L_<全局下标>,identity 解析)"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "sliceSceneEventObjects(sdlpal lprgEventObject 切片) 首访延迟解析 autoCursor(P2#5:autoLabel = L_<全局下标>,identity 解析)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "sliceSceneEventObjects(sdlpal lprgEventObject 切片) 已推进的 autoCursor 不重解(保留 autoscript 进度)"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "sliceSceneEventObjects(sdlpal lprgEventObject 切片) 已推进的 autoCursor 不重解(保留 autoscript 进度)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "sliceSceneEventObjects(sdlpal lprgEventObject 切片) 全局表缺失 → undefined(调用方兜底从 dump 建)"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "sliceSceneEventObjects(sdlpal lprgEventObject 切片) 全局表缺失 → undefined(调用方兜底从 dump 建)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "hydrateNpcStaticDefaults(旧全局对象 / 旧存档字段迁移) scriptedFrame 缺失 → 补场景初始 frame 13(水月宫抱拳拜谢)"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "hydrateNpcStaticDefaults(旧全局对象 / 旧存档字段迁移) scriptedFrame 缺失 → 补场景初始 frame 13(水月宫抱拳拜谢)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "hydrateNpcStaticDefaults(旧全局对象 / 旧存档字段迁移) sVanishTime 缺失 → 补场景初始 vanishTime"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "hydrateNpcStaticDefaults(旧全局对象 / 旧存档字段迁移) sVanishTime 缺失 → 补场景初始 vanishTime"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "hydrateNpcStaticDefaults(旧全局对象 / 旧存档字段迁移) scriptedFrame 已被脚本明确设为 0 → 不用场景默认 13 覆盖"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "hydrateNpcStaticDefaults(旧全局对象 / 旧存档字段迁移) scriptedFrame 已被脚本明确设为 0 → 不用场景默认 13 覆盖"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "player-roles 战斗数据模型边界 投影:runtime当前值覆盖静态基础,未覆盖资料保留"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "player-roles 战斗数据模型边界 投影:runtime当前值覆盖静态基础,未覆盖资料保留"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "player-roles 战斗数据模型边界 D14:投影并入装备 effect — 战斗 stat = base + Σ rgEquipmentEffect[0..6](attack/magic/def/dex/flee/poison/elem)"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "player-roles 战斗数据模型边界 D14:投影并入装备 effect — 战斗 stat = base + Σ rgEquipmentEffect[0..6](attack/magic/def/dex/flee/poison/elem)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "player-roles 战斗数据模型边界 装备 override:attackAll(任一槽非0)/ spriteNumInBattle(末个非0 override)/ cooperativeMagic(末个非0 override)"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "player-roles 战斗数据模型边界 装备 override:attackAll(任一槽非0)/ spriteNumInBattle(末个非0 override)/ cooperativeMagic(末个非0 override)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "player-roles 战斗数据模型边界 装备 override:无装备 effect → attackAll/sprite/coopMagic 退回 base(coopMagic 走 hydrate 后 runtime)"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "player-roles 战斗数据模型边界 装备 override:无装备 effect → attackAll/sprite/coopMagic 退回 base(coopMagic 走 hydrate 后 runtime)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "player-roles 战斗数据模型边界 大世界 spriteNum hydrate 到 runtime,投影也读取 runtime 当前值"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "player-roles 战斗数据模型边界 大世界 spriteNum hydrate 到 runtime,投影也读取 runtime 当前值"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "player-roles 战斗数据模型边界 D14:不传 equipmentEffect → 投影退回纯 base(向后兼容,装备 effect 不并入)"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "player-roles 战斗数据模型边界 D14:不传 equipmentEffect → 投影退回纯 base(向后兼容,装备 effect 不并入)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "player-roles 战斗数据模型边界 回写:战斗 HP/MP 战果回写 runtime;仅 party 成员(非 party 不碰)"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "player-roles 战斗数据模型边界 回写:战斗 HP/MP 战果回写 runtime;仅 party 成员(非 party 不碰)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "player-roles 战斗数据模型边界 往返:残血进战斗 → 治满 → 出战斗 → runtime 反映\"加满\"(原打完复原的 bug 修了)"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "player-roles 战斗数据模型边界 往返:残血进战斗 → 治满 → 出战斗 → runtime 反映\"加满\"(原打完复原的 bug 修了)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "player-roles 战斗数据模型边界 resumePostBattleScript:胜→wonIp + 恢复 currentEventObjectId + mode=event(打完怪接回 0x52 隐藏)"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "player-roles 战斗数据模型边界 resumePostBattleScript:胜→wonIp + 恢复 currentEventObjectId + mode=event(打完怪接回 0x52 隐藏)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "player-roles 战斗数据模型边界 resumePostBattleScript:负→lostIp(op[1]) / 逃→fledIp(op[2])"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "player-roles 战斗数据模型边界 resumePostBattleScript:负→lostIp(op[1]) / 逃→fledIp(op[2])"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "player-roles 战斗数据模型边界 resumePostBattleScript:负/逃但无对应分支 → 退回 wonIp(sdlpal else ip++)"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "player-roles 战斗数据模型边界 resumePostBattleScript:负/逃但无对应分支 → 退回 wonIp(sdlpal else ip++)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "player-roles 战斗数据模型边界 resumePostBattleScript:lost + lostIp 指死亡脚本(含 0x4F)→ 置 deathHoldActive,不置 gameOverActive"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "player-roles 战斗数据模型边界 resumePostBattleScript:lost + lostIp 指死亡脚本(含 0x4F)→ 置 deathHoldActive,不置 gameOverActive"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "player-roles 战斗数据模型边界 resumePostBattleScript:lost + lostIp 续剧情(0x4F 前撞 goto,team21 式)→ 不置 deathHoldActive"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "player-roles 战斗数据模型边界 resumePostBattleScript:lost + lostIp 续剧情(0x4F 前撞 goto,team21 式)→ 不置 deathHoldActive"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "player-roles 战斗数据模型边界 resumePostBattleScript:lost 但 lostIp=undefined(石长老 op[1]=0)→ 回退 wonIp,不置死亡 hold"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "player-roles 战斗数据模型边界 resumePostBattleScript:lost 但 lostIp=undefined(石长老 op[1]=0)→ 回退 wonIp,不置死亡 hold"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "player-roles 战斗数据模型边界 resumePostBattleScript:won → 不置任何死亡 hold(正常返回大世界)"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "player-roles 战斗数据模型边界 resumePostBattleScript:won → 不置任何死亡 hold(正常返回大世界)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "player-roles 战斗数据模型边界 resumePostBattleScript:无 postBattleResume → no-op(非 0x07 触发的战斗 / dev panel 战斗)"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "player-roles 战斗数据模型边界 resumePostBattleScript:无 postBattleResume → no-op(非 0x07 触发的战斗 / dev panel 战斗)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "player-roles 战斗数据模型边界 scriptRunHits0x4F(死亡帧预判) run 含 0x4F(死亡脚本 41075:0x43→0x4F)→ true"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "player-roles 战斗数据模型边界 scriptRunHits0x4F(死亡帧预判) run 含 0x4F(死亡脚本 41075:0x43→0x4F)→ true"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "player-roles 战斗数据模型边界 scriptRunHits0x4F(死亡帧预判) run 在 0x4F 前撞 goto(team21:对白→goto L_41075)→ false(不跨 goto 追)"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "player-roles 战斗数据模型边界 scriptRunHits0x4F(死亡帧预判) run 在 0x4F 前撞 goto(team21:对白→goto L_41075)→ false(不跨 goto 追)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "player-roles 战斗数据模型边界 scriptRunHits0x4F(死亡帧预判) run 遇 end 前无 0x4F(续剧情)→ false"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "player-roles 战斗数据模型边界 scriptRunHits0x4F(死亡帧预判) run 遇 end 前无 0x4F(续剧情)→ false"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "player-roles 战斗数据模型边界 scriptRunHits0x4F(死亡帧预判) commands undefined → false"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "player-roles 战斗数据模型边界 scriptRunHits0x4F(死亡帧预判) commands undefined → false"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "player-roles 战斗数据模型边界 scriptRunHits0x4F(死亡帧预判) startIp 越过 0x43 从 0x4F 处起 → true"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "player-roles 战斗数据模型边界 scriptRunHits0x4F(死亡帧预判) startIp 越过 0x43 从 0x4F 处起 → true"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "player-roles 战斗数据模型边界 往返:满血进战斗 → 受伤残血 → 出战斗 → runtime 反映伤害(伤害持久化)"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "player-roles 战斗数据模型边界 往返:满血进战斗 → 受伤残血 → 出战斗 → runtime 反映伤害(伤害持久化)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "normalizePlayerRolesRuntime(读档归一化 — 旧存档缺新增字段回归) 归一化补齐缺失字段(rgwAvatar/rgwWalkFrames),投影不再崩"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "normalizePlayerRolesRuntime(读档归一化 — 旧存档缺新增字段回归) 归一化补齐缺失字段(rgwAvatar/rgwWalkFrames),投影不再崩"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "normalizePlayerRolesRuntime(读档归一化 — 旧存档缺新增字段回归) 存档已有的真实数据原样保留(归一化只补缺失键,不覆盖)"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "normalizePlayerRolesRuntime(读档归一化 — 旧存档缺新增字段回归) 存档已有的真实数据原样保留(归一化只补缺失键,不覆盖)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "normalizePlayerRolesRuntime(读档归一化 — 旧存档缺新增字段回归) runtime 整体缺失(极旧档无 PlayerRolesRuntime)→ 返回全零完整 runtime"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "normalizePlayerRolesRuntime(读档归一化 — 旧存档缺新增字段回归) runtime 整体缺失(极旧档无 PlayerRolesRuntime)→ 返回全零完整 runtime"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "resetPresentationTransients(回标题/新游戏清演出残留) 清结局 RNG 演出残留 + 黑屏/fade/死亡演出/eventCursor"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "resetPresentationTransients(回标题/新游戏清演出残留) 清结局 RNG 演出残留 + 黑屏/fade/死亡演出/eventCursor"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "resetPresentationTransients(回标题/新游戏清演出残留) resetSceneRuntimeForNewGame 复用 helper:同样清掉结局 RNG 残留(防重构回归)"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "resetPresentationTransients(回标题/新游戏清演出残留) resetSceneRuntimeForNewGame 复用 helper:同样清掉结局 RNG 残留(防重构回归)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.glm-next-wave.test.ts",
+        "fullName": "getOverworldSpriteNum 三级快照解析(present/bootstrap 现行 caller) role0 + 旧字段 partyLeaderSpriteId → 最高优先(旧存档/0x65 镜像)"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.sprites.test.ts",
+        "fullName": "Overworld sprite selection role zero explicit mirror overrides runtime and static sprite"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.glm-next-wave.test.ts",
+        "fullName": "getOverworldSpriteNum 三级快照解析(present/bootstrap 现行 caller) 无旧字段 → runtime rgwSpriteNum>0 生效;=0 跳过(0x65 变身写 runtime 的当前值)"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.sprites.test.ts",
+        "fullName": "Overworld sprite selection positive runtime sprite overrides static; zero restores static fallback"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.glm-next-wave.test.ts",
+        "fullName": "getOverworldSpriteNum 三级快照解析(present/bootstrap 现行 caller) runtime精灵号为0时回退静态表,未提供静态表则undefined"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.sprites.test.ts",
+        "fullName": "Overworld sprite selection zero runtime uses static role sprite or returns undefined without a table"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/game-state.glm-next-wave.test.ts",
+        "fullName": "createInitialPlayerStatus(sdlpal global.h:522 布局) 6 role × 9 状态槽全零(Confused0..DualAttack8)"
+      },
+      "current": {
+        "file": "packages/game/src/core/game-state.test.ts",
+        "fullName": "GameState creates independent zeroed player-status rows and instances"
+      }
+    }
+  ],
+  "retirements": [],
+  "cohortSubjects": [
+    {
+      "path": "packages/game/src/core/game-state.glm-next-wave.test.ts",
+      "sha256": "19c859e48659e23c9b0e0c839fcf56fa739a7ef660b200622c0220e4e1757638",
+      "priorCurrentBridges": [
+        {
+          "path": "packages/game/src/core/game-state.glm-next-wave.test.ts",
+          "sha256": "19c859e48659e23c9b0e0c839fcf56fa739a7ef660b200622c0220e4e1757638",
+          "member": "organization-game-battle-fixtures/28.before",
+          "currentSha256": "4fd77748ff4cdb22ab30cbc9d6e2c7984ecb9c49d585885f1fe7c59c4b1ce449",
+          "changes": [
+            {
+              "from": "makeHRole",
+              "to": "makeRoleRecord",
+              "count": 4
+            }
+          ],
+          "evidence": "organization-game-battle-fixtures.json"
+        }
+      ]
+    }
+  ],
+  "profiles": [
+    {
+      "path": "packages/game/src/core/game-state.test.ts",
+      "subjects": ["packages/game/src/core/game-state.glm-next-wave.test.ts"],
+      "axes": {
+        "A": "Full62-line leaf and complete current sprite spec read. Current1905-line source and1027-line prior main match gamestate-save-closeout hashes; reuse full A-E/H, scoped getter/factory/reset and actual present/bootstrap callers reread. Runtime0 means no sprite override, optional static absence returns undefined. Inputs are direct snapshots, not actual save/opcode execution.",
+        "B": "Remove model/wave provenance and old-save/opcode-execution claims from titles. Titles describe explicit mirror, runtime-positive/zero and optional table. Status title now states independent rows/instances already actually asserted; comment explains ownership counter. No inferred asset/pixel parity.",
+        "C": "Three sprite-selection cases remain a local cohesive spec beside model. Pure status-factory contract moves to existing initialization group in canonical main; other56 cases and all helpers/imports/types remain exact. No extra fixture file, shared mutable state or inherited hooks.",
+        "D": "Three actual callers reuse local makeSpriteRoles and existing makeRoleRecord; no universal helper or duplicated role factory. Status fixture requires no roles, so separate data requirements are preserved. Main reset/shape checks and independent status-row alias checks are distinct contracts; no forced dedup.",
+        "E": "All60 old identities retained:56 main plus3sprite and1status. Every full callback and literal oracle unchanged under fixture/status binding rename. Prior sealed shared-row mutant source equals current source with exact documented replacement; prior native3green/1AssertionError and restored source SHA verified. No new red run claimed. Current60 plus separate9 neighboring-extra-follower cases green; no missing-path execution credit.",
+        "F": "One status factory test joins existing GameState initialization group. Entire other56-case module exact; no fresh full-main F/G credit.",
+        "G": "Delete old mixed author-wave file; no new/retired tests, product API or compatibility paths. Three sprite cases share their meaningful fixture while status does not import it. Existing main scope is not gratuitously split for this one migrated constructor contract.",
+        "H": "Real constructors/getter with deterministic plain records and literal outputs. Complete typed-module remainder and callback proof includes declaration kinds/final fields and tail-assertion negative. Prior control reuse verified against immutable raw and current source; no core mocks or new test seam."
+      }
+    },
+    {
+      "path": "packages/game/src/core/game-state.sprites.test.ts",
+      "subjects": ["packages/game/src/core/game-state.glm-next-wave.test.ts"],
+      "axes": {
+        "A": "Full62-line leaf and complete current sprite spec read. Current1905-line source and1027-line prior main match gamestate-save-closeout hashes; reuse full A-E/H, scoped getter/factory/reset and actual present/bootstrap callers reread. Runtime0 means no sprite override, optional static absence returns undefined. Inputs are direct snapshots, not actual save/opcode execution.",
+        "B": "Remove model/wave provenance and old-save/opcode-execution claims from titles. Titles describe explicit mirror, runtime-positive/zero and optional table. Status title now states independent rows/instances already actually asserted; comment explains ownership counter. No inferred asset/pixel parity.",
+        "C": "Three sprite-selection cases remain a local cohesive spec beside model. Pure status-factory contract moves to existing initialization group in canonical main; other56 cases and all helpers/imports/types remain exact. No extra fixture file, shared mutable state or inherited hooks.",
+        "D": "Three actual callers reuse local makeSpriteRoles and existing makeRoleRecord; no universal helper or duplicated role factory. Status fixture requires no roles, so separate data requirements are preserved. Main reset/shape checks and independent status-row alias checks are distinct contracts; no forced dedup.",
+        "E": "All60 old identities retained:56 main plus3sprite and1status. Every full callback and literal oracle unchanged under fixture/status binding rename. Prior sealed shared-row mutant source equals current source with exact documented replacement; prior native3green/1AssertionError and restored source SHA verified. No new red run claimed. Current60 plus separate9 neighboring-extra-follower cases green; no missing-path execution credit.",
+        "F": "game-state.sprites.test.ts states query responsibility; makeSpriteRoles and status reveal values. Status test belongs with initialization rather than arbitrary supplemental batch. Existing broad main remainder has exact earlier review credit, not a new whole-main naming acceptance.",
+        "G": "Delete old mixed author-wave file; no new/retired tests, product API or compatibility paths. Three sprite cases share their meaningful fixture while status does not import it. Existing main scope is not gratuitously split for this one migrated constructor contract.",
+        "H": "Real constructors/getter with deterministic plain records and literal outputs. Complete typed-module remainder and callback proof includes declaration kinds/final fields and tail-assertion negative. Prior control reuse verified against immutable raw and current source; no core mocks or new test seam."
+      }
+    }
+  ],
+  "preserved": [
+    {
+      "path": "packages/game/src/core/game-state.ts",
+      "sha256": "084718097eb0963c2ee3a9d72da59b313ca8fd401672f6a8b341ba21ae8b8906",
+      "lines": 1905
+    },
+    {
+      "path": "packages/game/src/__tests__/battle-records.ts",
+      "sha256": "e06702ce034d7b7b7680b649d2c6d11d948acd6daa9aeac0ad20478c62afc575",
+      "lines": 98
+    },
+    {
+      "path": "packages/game/src/present/present.ts",
+      "sha256": "05d47d41a8933fcdd8eab65fc340d9098c202ae813d901a6038a0367bf371219",
+      "lines": 810
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "sha256": "a4d007c9739873dc20f385b52b584de49ec57cd5c328cb11ca9d3b0b9f19fb0a",
+      "lines": 1710
+    },
+    {
+      "path": "packages/game/src/present/follower-render.test.ts",
+      "sha256": "623847d2ed93579bc3bc8351cf4be638fe1e6db288b04afae5a3c71759c8ea69",
+      "lines": 105
+    },
+    {
+      "path": "reference/sdlpal/global.h",
+      "sha256": "07f307f91af62291fba50a345075c54adf170a33d1eba1f389852abf9c44d28c",
+      "lines": 757
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/gamestate-save-closeout/review.json",
+      "sha256": "0f25ae62b24ee903f4e3c2439e39bb5b9cc28a457413e4772bc74f6299e18d25",
+      "lines": 1307
+    }
+  ],
+  "neighborPaths": [
+    "packages/game/src/core/game-state.sprites.test.ts",
+    "packages/game/src/core/game-state.test.ts"
+  ],
+  "receipts": {},
+  "cleanExecutions": [
+    "before",
+    "reorganize",
+    "format",
+    "proof",
+    "reused-control",
+    "neighbors",
+    "adjacent-render",
+    "typecheck",
+    "docs",
+    "content-review",
+    "lint",
+    "scoped",
+    "diff",
+    "ledger-final",
+    "module-preflight"
+  ],
+  "lightweightGates": true,
+  "callbackProof": "organization-game-state-leaves/proof.stdout.raw",
+  "qualityDelta": {
+    "oldCases": 60,
+    "currentCases": 60,
+    "newCases": 0,
+    "retirements": 0,
+    "mainOtherCallbacks": 56,
+    "spriteCallbacks": 3,
+    "statusCallbacks": 1,
+    "productUnchanged": true
+  },
+  "reusedControl": {
+    "receipt": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/gamestate-save-closeout/receipts.json.gz",
+    "sha256": "3ee3627cc11f585414decc37ff9eabfceef84e74187653a771dfbc3e651b0e9c",
+    "members": [
+      "controls-sealed.json",
+      "status-row-sealed.native.json",
+      "status-row-sealed.mutated-source"
+    ],
+    "verification": "organization-game-state-leaves/reused-control.stdout.raw",
+    "newRedRun": false
+  },
+  "reads": {
+    "fullInput": {
+      "path": "packages/game/src/core/game-state.glm-next-wave.test.ts",
+      "member": "organization-game-state-leaves/1.before",
+      "sha256": "4fd77748ff4cdb22ab30cbc9d6e2c7984ecb9c49d585885f1fe7c59c4b1ce449",
+      "lines": 62
+    },
+    "fullSpriteOutput": {
+      "path": "packages/game/src/core/game-state.sprites.test.ts",
+      "sha256": "d329359ee35ebbe75fb090535b0a4f593d57b3b94f0c82a3b52273771aae8642",
+      "lines": 38
+    },
+    "priorMain": {
+      "path": "packages/game/src/core/game-state.test.ts",
+      "member": "organization-game-state-leaves/0.before",
+      "sha256": "59fa4eda5dc5f088df79d4e6c8e8bc0bb8c3d89c7b832967470cd714bb2b664c",
+      "lines": 1027
+    },
+    "priorSource": {
+      "path": "packages/game/src/core/game-state.ts",
+      "sha256": "084718097eb0963c2ee3a9d72da59b313ca8fd401672f6a8b341ba21ae8b8906",
+      "lines": 1905
+    },
+    "priorScope": "Exact source/main hashes reuse gamestate-save-closeout whole reads; no fresh full1027/1905 read claim.",
+    "scopedMain": [[1, 48], [302, 397]],
+    "scopedSource": [
+      {
+        "path": "packages/game/src/core/game-state.ts",
+        "ranges": [[1445, 1463], [1590, 1645], [1680, 1720], [1757, 1772]]
+      },
+      {
+        "path": "packages/game/src/present/present.ts",
+        "ranges": [[340, 357], [435, 455]]
+      },
+      {
+        "path": "packages/game/src/shell/bootstrap.ts",
+        "ranges": [[565, 590], [1495, 1513]]
+      }
+    ],
+    "primary": {
+      "path": "reference/sdlpal/global.h",
+      "ranges": [[514, 526]]
+    },
+    "wholeRecordsProvider": {
+      "path": "packages/game/src/__tests__/battle-records.ts",
+      "sha256": "e06702ce034d7b7b7680b649d2c6d11d948acd6daa9aeac0ad20478c62afc575",
+      "lines": 98
+    }
+  },
+  "processDisclosures": [
+    "Initial combined read output was truncated; relevant present/reset ranges were reread explicitly. No credit for omitted content. rg hook search exit1 means no matching hooks, confirmed whole typed module.",
+    "Initial neighbors command included nonexistent src/present/world-followers.test.ts. Vitest actually ran only current main57 and sprites3; native paths bind those2files, not the requested3. Separate actual follower-render9 is an extra-follower unit neighbor, not getOverworldSpriteNum integration or rendering E2E. No source/test changes between runs."
+  ],
+  "invalidations": "Changed model/getter/factory/provider or mapped callback/title/import reopens its claim. Current direct snapshots do not certify loaded saves, actual0x65 scripts, all viewport rendering or browser sprites.",
+  "ledgerCounts": {
+    "inventory": 3449,
+    "closed": 506,
+    "review": 311,
+    "pending": 2632
+  },
+  "quantitativeScreen": [
+    {
+      "path": "packages/game/src/core/game-state.sprites.test.ts",
+      "method": "Own decision nodes; reading pointer only. Existing main not freshly screened as whole-file acceptance.",
+      "functions": 5,
+      "max": 1,
+      "over10": 0
+    }
+  ]
+}

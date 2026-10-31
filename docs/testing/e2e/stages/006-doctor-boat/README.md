@@ -34,3 +34,7 @@ canonicalReport: report.md
 唯一前驱`e2e-005`；本轮只运行004/005 saves，不认证其余专项或一镜到底001–006连续演示。完整确认1886/1888/1889/1890、剧情结束和控制返回是路线停止线；不进入岛上后续剧情。
 
 [活动006卡](../../../../ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md)负责当前停止线；[10-11连续卡](../../../../ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md)的历史done保持自己的冻结候选和日期。旧文档复核和期限可在base `14e0336fe045d038a29ab773acaa639696d31ea8`读取，不追溯改写。技术两路accept与用户2026-10-27“没问题了都”继续有效；本次只审文档的角色、历史和配对，不重跑E2E、不让GLM代签技术验收。
+
+## 2026-10-30 版本适用性规则
+
+按[测试治理](../../../governance.md#版本适用性)取消活动 `reviewBy`。上文旧到期／续期只作历史，不再触发复核或重跑。运行 `node scripts/docs/testing-revisions.mjs e2e-006` 对比原候选、content/save版本及已声明源码指纹；记录缺失为unknown，相关边界不同为changed，匹配也不新增执行信用。status、lastVerified、原报告和机器证据保持原范围。

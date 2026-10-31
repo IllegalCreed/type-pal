@@ -1,6 +1,10 @@
 import type { AbstractKey, InputSnapshot, PlayerRoles } from '@type-pal/shared'
 import { describe, expect, it } from 'vitest'
-import { makeHEnemy, makeHField, makeHRole } from '../../../__tests__/glm-next-wave/H/harness.js'
+import {
+  makeBattleFieldRecord,
+  makeEnemyRecord,
+  makeRoleRecord,
+} from '../../../__tests__/battle-records.js'
 import { createCommandBus } from '../../command-bus.js'
 import { createInitialGameState, hydratePlayerRolesRuntime } from '../../game-state.js'
 import { clearBattleRuntimeContext } from '../battle-runtime-context.js'
@@ -124,11 +128,11 @@ describe('SDLPal CLASSIC queue parity', () => {
   it('startBattle / Confirm caller preserves RNG draws and C tie order', () => {
     const gs = createInitialGameState({ x: 160, y: 160, facing: 'right' })
     gs.partyMembers = [0]
-    const playerRoles: PlayerRoles = { roles: [makeHRole(0, { dexterity: 100 })] }
+    const playerRoles: PlayerRoles = { roles: [makeRoleRecord(0, { dexterity: 100 })] }
     hydratePlayerRolesRuntime(gs.PlayerRolesRuntime, playerRoles)
     const enemies = [
-      makeHEnemy({ id: 100, level: 1, dexterity: 9 }), // (1+6)*3+9=30
-      makeHEnemy({ id: 101, level: 1, dexterity: 9 }),
+      makeEnemyRecord({ id: 100, level: 1, dexterity: 9 }), // (1+6)*3+9=30
+      makeEnemyRecord({ id: 101, level: 1, dexterity: 9 }),
     ]
     const bus = createCommandBus()
     const input = (keys: AbstractKey[], frameNum: number): InputSnapshot => ({
@@ -144,7 +148,7 @@ describe('SDLPal CLASSIC queue parity', () => {
         isBoss: false,
         enemies,
         enemyTeams: [{ id: 0, enemies: [100, 101, 0xffff, 0xffff, 0xffff] }],
-        battleFields: [makeHField()],
+        battleFields: [makeBattleFieldRecord()],
         playerRoles,
         items: [],
         spells: [],
