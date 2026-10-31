@@ -86,7 +86,12 @@ export function inspectIncrementalCohort(records) {
       ]),
       'row governance location changed',
     )
-    demand(incrementalQualificationIssues(row).length === 0, `invalid grant: ${row.path}`)
+    demand(
+      row.contentReviewStatus === 'content-reviewed' &&
+        row.templateCompliance === 'template-compliant' &&
+        incrementalQualificationIssues(row).length === 0,
+      `invalid grant: ${row.path}`,
+    )
     byPath.set(row.path, { row, index: index + incrementalEntryOffset })
   }
   for (const [owner, value] of records)
