@@ -447,7 +447,7 @@
         }
       ],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "80dce522187baf84c90eb39e7390fecdc1fd2e55a82c6b00d8988315e39db503",
+      "afterSha256": "fd35f919aa8f310a01131e01ac2bc13df6d56079f17b3cc1691fa35bc1a2c86d",
       "publicCallers": [
         "node scripts/docs/check-testing.mjs",
         "node scripts/docs/check-document-model.mjs",
@@ -1886,6 +1886,14 @@
           "interpretation": "Earlier accepted semantic scope retained; fixed-source integration delta observed separately, not new runtime acceptance.",
           "newSemanticCredit": 0,
           "runtimeCredit": false
+        },
+        {
+          "kind": "incremental-publication-after-pin",
+          "date": "2026-10-31",
+          "beforeSha256": "80dce522187baf84c90eb39e7390fecdc1fd2e55a82c6b00d8988315e39db503",
+          "afterSha256": "fd35f919aa8f310a01131e01ac2bc13df6d56079f17b3cc1691fa35bc1a2c86d",
+          "runtimeCredit": false,
+          "newSemanticCredit": 0
         }
       ],
       "applicability": "Current author-produced E2E006 technical evidence, not non-author/user acceptance. Real95-row dual story/control, zero-finding comparison, formal terminal saves/fresh restores and12 saved static NPC entry Play/Reset proofs exist; no audio/continuous/full-runtime-preview/downstream or full-doc completion credit.",

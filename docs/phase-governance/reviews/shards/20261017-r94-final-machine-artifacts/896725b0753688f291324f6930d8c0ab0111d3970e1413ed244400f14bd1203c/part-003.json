@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
-  "generation": "c8bcbbd67698469faa58df5491ecce466fdf90b4026f969a4bc8d775e826129f",
+  "generation": "896725b0753688f291324f6930d8c0ab0111d3970e1413ed244400f14bd1203c",
   "key": "part-003",
   "positions": [33, 34, 35, 36],
   "entries": [
@@ -42,7 +42,7 @@
         }
       ],
       "sourceSha256": "6e57ca2e495f40c6645e1bbafbdc929b93b03dbc49f4b190c8b7653a581136e1",
-      "afterSha256": "40c3a08da8e1e3b5568e9bb95f7e45276b0b87ab2c5d4c3afa551ab7f0f1e0ef",
+      "afterSha256": "59d9342336d0f0f6d3f89b20a17fed6988b55a2bf8b1a0dcd82837641599e849",
       "publicCallers": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "legalInputs": [
         "固定eeba候选的本路径原件和当前明确作者差异；原历史与来源轴保持。",
@@ -1549,6 +1549,14 @@
           "interpretation": "Earlier accepted semantic scope retained; fixed-source integration delta observed separately, not new runtime acceptance.",
           "newSemanticCredit": 0,
           "runtimeCredit": false
+        },
+        {
+          "kind": "incremental-publication-after-pin",
+          "date": "2026-10-31",
+          "beforeSha256": "40c3a08da8e1e3b5568e9bb95f7e45276b0b87ab2c5d4c3afa551ab7f0f1e0ef",
+          "afterSha256": "59d9342336d0f0f6d3f89b20a17fed6988b55a2bf8b1a0dcd82837641599e849",
+          "runtimeCredit": false,
+          "newSemanticCredit": 0
         }
       ],
       "readDomain": {
