@@ -1,5 +1,39 @@
 # CODE2b YJ2逐文件复审与独立字节oracle
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: audit-report-v1 / 1.0.0
+
+## 审计问题
+
+原审计「CODE2b YJ2逐文件复审与独立字节oracle」的主题按原文时点保留(摘录:> 2026-10-21当前accept：[shared逐文件A–H与完整门](../shared-codecs/evidence.json)。归约/重复缺口已闭合，O-5限支持域；以下partial)。
+
+## 范围与证据
+
+原报告含章节[CODE2b YJ2逐文件复审与独立字节oracle、实际完整读取与结论、独立primary和真实输入、判别力、排重与精确退役、当前门与剩余]、10个链接;固定main源5705B(SHA 0a55a00f3e17)。当前存活入口:[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)、[evidence.json](../shared-codecs/evidence.json)、[after-proof.json](after-proof.json)、[before-proof.json](before-proof.json)、[gates.md](gates.md)、[native-probe.py](native-probe.py)
+
+## 发现
+
+原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+
+## 结论
+
+原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+
+## 整改与复核
+
+本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 5705B / SHA-256 0a55a00f3e17fa5baad9e4a0479f8578c77d717dcad08b4a6af65f23ff4c7538；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE2b YJ2逐文件复审与独立字节oracle
+
 > 2026-10-21当前accept：[shared逐文件A–H与完整门](../shared-codecs/evidence.json)。归约/重复缺口已闭合，O-5限支持域；以下partial/未跑/旧计数均为历史片段，保留原件，不作为当前门。
 归[全83卡复审](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)，起点8bac3254d/main=f98d0ddd8，单Agent、唯一3y分支。生产YJ2与extract重导出字节未改；本片只修测试/注释与精确退役支持数据，整卡partial、0新增关闭。
 
@@ -34,3 +68,5 @@
 [静态门](gates.md)另记；全仓check、官方ratchet、protected fast未重跑，editor诊断未清，不合main。shared规范边界仍review；混合文件旧关闭撤回review、extract新登记review，0新关闭，机器计数以本片ledger原命令为准。下一片CODE3c工程runner确定性，再回CODE3 extraction模块；RLE格式专卡仍draft，94–102/editor原返工保留。
 
 本片机器已重新对账：3287 inventory /215closed /209review /2863pending。标准边界原本review不重复撤回；只撤回混合文件一条旧关闭、将extract待核项登记review。
+```
+<!-- incremental-original-source:end -->

@@ -1,5 +1,39 @@
 # CODE3事件切分/标注成果复审
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: audit-report-v1 / 1.0.0
+
+## 审计问题
+
+原审计「CODE3事件切分/标注成果复审」的主题按原文时点保留(摘录:归[全83卡复审](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)。起点605585752/main=f98d0ddd8，唯一3y分支、单Agent。)。
+
+## 范围与证据
+
+原报告含章节[CODE3事件切分/标注成果复审、实际读取、职责与当前结论、真值与高风险停线、真实输入与可复跑探针、判别力、精简边界与恢复、当前门、账本与交接]、14个链接;固定main源8021B(SHA db24e7ddcb21)。当前存活入口:[QUALITY-EVENT-SLICE-CONTROL-TRUTH-1.md](../../../tasks/QUALITY-EVENT-SLICE-CONTROL-TRUTH-1.md)、[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)、[README.md](../3-annotate/README.md)、[after-proof.json](after-proof.json)、[before-proof.json](before-proof.json)、[control-command.json](control-command.json)
+
+## 发现
+
+原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+
+## 结论
+
+原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+
+## 整改与复核
+
+本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 8021B / SHA-256 db24e7ddcb2174b1aa480e339ec41390dbf9fe1f43cb0062921fb31eec667767；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE3事件切分/标注成果复审
+
 归[全83卡复审](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)。起点605585752/main=f98d0ddd8，唯一3y分支、单Agent。本片只补两份切分测试，生产/生成物不改，整卡partial、0新增关闭。
 
 ## 实际读取、职责与当前结论
@@ -52,3 +86,5 @@
 探针也继承extract现行strict/noUncheckedIndexedAccess配置额外[检查](probe-typecheck.json)：初次9条索引未收窄诊断保留原件，改为明确存在断言后exit0且输出为空；临时配置仅扩大rootDir/include，不放宽规则或改仓库配置。最终探针重新执行，输入/SHA/清理复核通过。账本已原命令确认3287 inventory /211closed /214review /2862pending。
 
 2026-10-16 后续[annotation完整stderr复查](../3-annotate/README.md)：本页旧434原始包日志保留，但仅act/环境/navigation三模式为0不能称“零诊断”。同一两份原盘测试此前也走错误packages/data/raw并早退；当前已确认六条假绿，完整包结果不验收。新增draft原盘执行卡优先处理，未改生产/原件、不追溯涂改日志。
+```
+<!-- incremental-original-source:end -->
