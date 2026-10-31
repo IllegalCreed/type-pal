@@ -1,5 +1,39 @@
 # CODE3q 场景职责与测试质量返工
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「CODE3q 场景职责与测试质量返工」的治理候选页;证据原件即下方逐字节保全的固定main源(3777B,SHA a43e1fb7de07)。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原1个链接处置见作者review的linkDisposition。当前存活入口:[README.md](../3q-scene-system/README.md)
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 3777B / SHA-256 a43e1fb7de070df56e750028cbbcb0e87bbd19f37c829f1cd79423e59942769d；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE3q 场景职责与测试质量返工
+
 Status: local technical review; unified pre94 gates deferred
 Owner: Codex（单Agent）
 Base: c6b0c2c19250e8fca3b577b53d59828a7ea4799e
@@ -19,3 +53,5 @@ Code: 85399a332（职责拆分）／610f747f4（测试整改、精确迁移记�
 仍登记的结构取舍：公共SceneContext两旧脚本字段、tick的bus参数在当前路径未读；本片保留已有接口，未扩大前次仅针对script label查询的接口清理授权。复杂度初筛>10的三个函数见review.json；它们是明确有序遍历/菱形判定，未为指标拆成无意义helper。显式loadScene未增加取消/竞态策略；真实dev UI可达竞态尚无直接缺陷证据，不能仅因async签名加防御协议。
 
 下一片为3r事件系统的过宽上下文与直接主测余项，复用已读域、保存的机制反例与本片拆分证据；不扩94–102，不开中间PR。
+```
+<!-- incremental-original-source:end -->
