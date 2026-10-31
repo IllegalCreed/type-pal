@@ -1,6 +1,60 @@
 # QUALITY-BOOT-FAILURE-PROGRESS-1 — 启动失败后的进度所有权
 
 Status: done
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+保留原卡「QUALITY-BOOT-FAILURE-PROGRESS-1 — 启动失败后的进度所有权」的任务归属与历史边界。原目标见原文(摘录:修复第一阶段 PROD+SW 必要资源阶段失败后的进度所有权：启动失败提示不能被迟到的资源进度覆盖，计数包装和回调应按本轮 ownership 释放。用户已批准本卡窄修，不改变进入游戏门、重试策略、资源请求取消、UI形态或公共API。);本页治理不重开已终态任务。
+
+## 范围
+
+原卡含章节[QUALITY-BOOT-FAILURE-PROGRESS-1 — 启动失败后的进度所有权、目标、2026-10-23 当前收口、当前准入（2026-10-18，历史）、范围、前提真值门],共4个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+
+## 前提与证据
+
+固定main源8966B(SHA c34d5011d797);原卡前提按原时点保留。当前存活入口:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3i-dialog-precache/quality-closeout/README.md)、[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/README.md)、[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/approved-fix/README.md)、[failure-repro.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/failure-repro.json)
+
+## 验收
+
+本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+
+## 状态与交接
+
+done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+
+## 历史范围
+
+原卡属固定main时点;QUALITY-BOOT-FAILURE-PROGRESS-1 — 启动失败后的进度所有权的原始范围与日期在保全块内逐字保留。
+
+## 原始结论
+
+原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+
+## 当时证据
+
+原文4个链接与当时回执属原时点证据;本页不重跑、不复授。
+
+## 当前有效性
+
+仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+
+## 继任文档
+
+接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3i-dialog-precache/quality-closeout/README.md)、[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/README.md)、[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/approved-fix/README.md)、[failure-repro.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/failure-repro.json)
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 8966B / SHA-256 c34d5011d797a9a255b0d7201c45b8b429dfc7f8d02f4d0d126725efd6a84bc2；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# QUALITY-BOOT-FAILURE-PROGRESS-1 — 启动失败后的进度所有权
+
+Status: done
 Owner: Codex
 Phase: phase1 game / boot lifecycle
 Capability: PROD boot failure progress ownership
@@ -99,3 +153,5 @@ Branch: codex/code-quality-3y
 无下一位 Agent 提示词；Codex单Agent按当前准入继续，旧冻结描述不覆盖本轮明确批准。
 
 - 2026-10-18 Codex：收到用户明确批准后按当前准入完成三源窄修与四反例；原生相邻58绿、精确原红重放1绿、实际PROD失败/正常进场和截图核验完成。状态review，统一门/合并仍未收口；源码头注释另提交cee6cee69，未混入主工作树。
+```
+<!-- incremental-original-source:end -->

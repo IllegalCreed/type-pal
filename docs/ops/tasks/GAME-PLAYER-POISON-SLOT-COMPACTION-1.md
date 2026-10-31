@@ -1,6 +1,40 @@
 # GAME-PLAYER-POISON-SLOT-COMPACTION-1 — 卸装备后的毒列表压缩差异
 
 Status: review
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+保留原卡「GAME-PLAYER-POISON-SLOT-COMPACTION-1 — 卸装备后的毒列表压缩差异」的任务归属与历史边界。原目标见原文(摘录:先厘清第一阶段卸Wear后毒列表压缩在真实生命周期中的影响，再提出可裁决修复；当前只读player-poison-state/equipment及毒施加/tick/query/save caller和原C。范围外为队伍角色键迁移、装备>99);本页治理不重开已终态任务。
+
+## 范围
+
+原卡含章节[GAME-PLAYER-POISON-SLOT-COMPACTION-1 — 卸装备后的毒列表压缩差异、2026-10-24 当前批准与技术结果、2026-10-18 历史发现记录、发现与停止线、直接证据、当前限制与下一步],共5个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+
+## 前提与证据
+
+固定main源10687B(SHA 8958f88fe23d);原卡前提按原时点保留。当前存活入口:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/poison-progression-comments/README.md)、[primary-counters.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/primary-counters.json)、[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-closeout/README.md)、[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-quality/README.md)、[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/poison-entry-ownership/README.md)
+
+## 验收
+
+本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:review),治理不改写。
+
+## 状态与交接
+
+review保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 10687B / SHA-256 8958f88fe23d45e528f77ad47262b76b5fc317180edcaad4ab38a7794809ddbd；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# GAME-PLAYER-POISON-SLOT-COMPACTION-1 — 卸装备后的毒列表压缩差异
+
+Status: review
 Phase: phase1
 Capability: pre-94 CODE3o / equipment poison lifecycle
 Coding Owner: Codex
@@ -112,3 +146,5 @@ Codex/3y单一Owner，仅只读核证已准入；物理差异verified、行为�
 ef012023a先占毒记录再执行入口；续点直接更新该record，Wear前移同一record，入口清毒后不复活；异常撤自己的占位并原样传播，不回滚其它效果。全16去重/洞后不丢毒、party-slot及Save保持。正式7例四业务红后绿，当前精确spec/旧源重放同四红并恢复7绿；复制移动record的变异恰一条续点业务红、源码还原完整。相邻11文件491例、game TC0，原盘普通剧情嵌套可达未证。
 
 [当前正式原件与边界](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/poison-entry-ownership/README.md)、[3o原范围八维接受](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-closeout/README.md)。本卡仍review等待全部pre94统一集成门，不能把技术接受说成全门/视觉/合main完成；上方“复制幸存ID”是初次Wear修复记录，现记录移动身份另有正式反控。
+```
+<!-- incremental-original-source:end -->

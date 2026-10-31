@@ -1,6 +1,40 @@
 # GAME-MAP-RELOAD-FAILURE-OWNERSHIP-1 — 换图失败的活资源与拒绝归属
 
 Status: review
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+保留原卡「GAME-MAP-RELOAD-FAILURE-OWNERSHIP-1 — 换图失败的活资源与拒绝归属」的任务归属与历史边界。原目标见原文(摘录:使替换地图失败不会提前销毁当前可绘制瓦片，并由调用方消费IO拒绝。用户2026-10-25批准“失败保留当前地图并记录错误”；build allowed。不新增失败提示、重试、生成物、存档或剧情规则。候选涉及shell/bootstrap.);本页治理不重开已终态任务。
+
+## 范围
+
+原卡含章节[GAME-MAP-RELOAD-FAILURE-OWNERSHIP-1 — 换图失败的活资源与拒绝归属、目标与范围、前提真值门、证据与当前裁定、验收与停止线、交接],共1个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+
+## 前提与证据
+
+固定main源5483B(SHA e51c6f158280);原卡前提按原时点保留。当前存活入口:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/README.md)
+
+## 验收
+
+本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:review),治理不改写。
+
+## 状态与交接
+
+review保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 5483B / SHA-256 e51c6f158280f844e9b99e28042e2c166ce3b88b974b15726377ac6e903a7f03；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# GAME-MAP-RELOAD-FAILURE-OWNERSHIP-1 — 换图失败的活资源与拒绝归属
+
+Status: review
 Phase: phase1 game
 Capability: Q3 shell / async resource ownership
 Coding Owner: Codex（同一治理树单一写入Owner）
@@ -50,3 +84,5 @@ Owner仍Codex，白名单仅bootstrap.ts、其现役场景身份说明的必要�
 ## 当前实现交付
 
 失败保留及成功编号/重访两项批准均已完成代码修复；七真实浏览器合同、391相邻/TC0及精确旧版本回放/单守卫反控有完整原件。修前“待批/未修”均是原时点，现无本卡未修counter。代码验收成立；父卡统一门和最终集成仍开放，不以故障注入日志冒称console空。
+```
+<!-- incremental-original-source:end -->

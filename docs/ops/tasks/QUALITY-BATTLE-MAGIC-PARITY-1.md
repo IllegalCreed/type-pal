@@ -1,6 +1,40 @@
 # QUALITY-BATTLE-MAGIC-PARITY-1 — pre-94 战斗模拟法术与自动防御返工
 
 Status: review
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+保留原卡「QUALITY-BATTLE-MAGIC-PARITY-1 — pre-94 战斗模拟法术与自动防御返工」的任务归属与历史边界。原目标见原文(摘录:修复用户转交 GLM 独立审计指出的三条第一阶段分叉：模拟法术优先上次存活目标、0x66 使用运行时基础武术、敌方非伤害法术也预掷自动防御并传递防御姿。三条均先落失败反例再改生产实现；不把局部修复当作整文件或波次验收。);本页治理不重开已终态任务。
+
+## 范围
+
+原卡含章节[QUALITY-BATTLE-MAGIC-PARITY-1 — pre-94 战斗模拟法术与自动防御返工、2026-10-20 GLM交付续审的高风险补项、目标、范围、前提真值门、一句话行为 / 工程前提],共2个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+
+## 前提与证据
+
+固定main源14143B(SHA 4a95936ab46b);原卡前提按原时点保留。当前存活入口:[README.md](../evidence/QUALITY-BATTLE-MAGIC-PARITY-1/README.md)、[codex-dead-removals.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-dead-removals.json)
+
+## 验收
+
+本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:review),治理不改写。
+
+## 状态与交接
+
+review保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 14143B / SHA-256 4a95936ab46b2b8069e23136ca2408185d5c8325565ee201a31ba4673d844fd2；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# QUALITY-BATTLE-MAGIC-PARITY-1 — pre-94 战斗模拟法术与自动防御返工
+
+Status: review
 Phase: phase1
 Capability: pre-94 / CODE3m、3t 战斗机制 counter
 Coding Owner: Codex（单一写入 Owner）
@@ -136,3 +170,5 @@ H01测试判别力另修一行：敌B入口ip2=end→ip3=对话；漏终态break
 [GLM正文删除与复活返工原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-dead-removals.json)保存两条实际修前AssertionError（1000/32760被清零）、原源/测试身份及当前103定向+181相邻。原全体例只加强与更正标题，新增1个单体非顺序队伍例：party[1,0]、目标slot1是role0，确认不影响活队友。修复保持十字段新对象形状，只用同一本地数值谓词保留>999；HP、毒等级、目标优先级和帧刷新不变。两侧临界999/1000与真实32760有直接业务断言，未用mock次数代替。无公共接口/schema/save/二阶段或资产变化。
 
 当前284game用例无stderr、game tsc0；与本缺陷无关的BGM24另记，不把它们充战斗覆盖。本卡恢复review，局部源码/反例完成，统一门和视觉未签收。原三项证据保留，未重跑其旧935套件。无下一位Agent提示词；Codex继续本批GLM剩余交付返工。
+```
+<!-- incremental-original-source:end -->

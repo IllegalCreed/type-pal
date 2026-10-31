@@ -1,6 +1,60 @@
 # GAME-INPUT-ROTATION-1 - 手柄摇杆与虚拟方向键旋转
 
 Status: done
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+保留原卡「GAME-INPUT-ROTATION-1 - 手柄摇杆与虚拟方向键旋转」的任务归属与历史边界。原目标见原文(摘录:按用户2026-10-27与[issue #24](https://github.com/IllegalCreed/type-pal/issues/24)，增加可记忆的45°旋转设置，使手机方向键与手柄左摇杆的斜向输入对应画面上的移动方向。);本页治理不重开已终态任务。
+
+## 范围
+
+原卡含章节[GAME-INPUT-ROTATION-1 - 手柄摇杆与虚拟方向键旋转、目标、范围、前提真值门、一句话行为 / 工程前提、真值矩阵],共13个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+
+## 前提与证据
+
+固定main源8216B(SHA 235859c0229a);原卡前提按原时点保留。当前存活入口:[CLAUDE.md](../../../CLAUDE.md)、[governance.md](../../testing/governance.md)、[agent-workflow.md](../agent-workflow.md)、[code-quality.md](../code-quality.md)、[review.json](../evidence/GAME-INPUT-ROTATION-1/review.json)、[integration-gates.json](../evidence/GAME-NANZHAO-ROOM-EXIT-1/integration-gates.json)
+
+## 验收
+
+本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+
+## 状态与交接
+
+done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+
+## 历史范围
+
+原卡属固定main时点;GAME-INPUT-ROTATION-1 - 手柄摇杆与虚拟方向键旋转的原始范围与日期在保全块内逐字保留。
+
+## 原始结论
+
+原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+
+## 当时证据
+
+原文13个链接与当时回执属原时点证据;本页不重跑、不复授。
+
+## 当前有效性
+
+仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+
+## 继任文档
+
+接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[CLAUDE.md](../../../CLAUDE.md)、[governance.md](../../testing/governance.md)、[agent-workflow.md](../agent-workflow.md)、[code-quality.md](../code-quality.md)、[review.json](../evidence/GAME-INPUT-ROTATION-1/review.json)、[integration-gates.json](../evidence/GAME-NANZHAO-ROOM-EXIT-1/integration-gates.json)
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 8216B / SHA-256 235859c0229aae16c836be04648e2bd9ce5bfb9252348e532613c7941a9640e8；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# GAME-INPUT-ROTATION-1 - 手柄摇杆与虚拟方向键旋转
+
+Status: done
 Phase: phase1
 Capability: 玩家输入与移动端
 Coding Owner: input_rotation（隔离实现）；Codex（集成）
@@ -103,3 +157,5 @@ Branch: codex/map204-input-rotation
 用户本地验收已确认。PR [#28](https://github.com/IllegalCreed/type-pal/pull/28) 的 documentation / fast-coverage（Actions App15368）在最新base、精确候选`c42e333385fe464805de88a51b95ab092abb9f6a`上通过；按保护规则合并为`bde596695d9c4d90a8031443ddd1ea033edd5245`。本地官方20,203例/812源、七包类型检查、lint与完整文档门零诊断见[本地门](../evidence/GAME-NANZHAO-ROOM-EXIT-1/release-gates.json)。
 
 实际从合并树新构建并部署阿里云应用和资源；源站/CDN逐字节及完整资源清单、浏览器设置/刷新回退验证通过，两个issue已回复并关闭；第一阶段[v1.1.0](https://github.com/IllegalCreed/type-pal/releases/tag/v1.1.0)固定该部署提交。实现分支已按可恢复备份清理；一份临时worktree已归档，当前聊天主工作树按工具保护规则保留并同步最新main。完整命令、原件、CDN任务、备份与限制见[发布回执](../evidence/GAME-NANZHAO-ROOM-EXIT-1/release.json)。未宣称实物手柄、issue原存档、离线激活或自然全剧情E2E。无下一位Agent；收尾文档继续走受保护PR。
+```
+<!-- incremental-original-source:end -->

@@ -1,6 +1,40 @@
 # GAME-OUTSIDE-MAGIC-DISABLED-1 — 大世界已学法术的显示与禁用
 
 Status: draft
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+保留原卡「GAME-OUTSIDE-MAGIC-DISABLED-1 — 大世界已学法术的显示与禁用」的任务归属与历史边界。原目标见原文(摘录:SDLPal 保留已学的战斗专用法术并禁用；当前 TS 在大世界预过滤，测试要求隐藏。);本页治理不重开已终态任务。
+
+## 范围
+
+原卡含章节[GAME-OUTSIDE-MAGIC-DISABLED-1 — 大世界已学法术的显示与禁用、目标与范围、前提真值门、上下文与验收、2026-10-15 三验后的待裁决最小方案、先前交接记录（历史）],共1个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+
+## 前提与证据
+
+固定main源4759B(SHA 6324fd0f8442);原卡前提按原时点保留。当前存活入口:[codex-r2-review.md](../evidence/CODE-QUALITY-94/codex-r2-review.md)
+
+## 验收
+
+本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:draft),治理不改写。
+
+## 状态与交接
+
+draft保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 4759B / SHA-256 6324fd0f844287861364a023c103c10ae49a6f438e2cb19162a59b55107e3561；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# GAME-OUTSIDE-MAGIC-DISABLED-1 — 大世界已学法术的显示与禁用
+
+Status: draft
 Phase: phase1
 Capability: magic menu fidelity
 Coding Owner: Unassigned
@@ -61,3 +95,5 @@ uigame.c大世界caller：:732传FALSE，magicmenu.c:245-291对入表项无隐�
 
 下一位 Agent 提示词：先核本卡/R2 C2/SDLPal及真实 caller，提交最窄方案、合法失败 oracle 和独占白名单。
 当前 draft，**不得开始实现、不得标 done，不擅改公共接口或机制真值**。
+```
+<!-- incremental-original-source:end -->

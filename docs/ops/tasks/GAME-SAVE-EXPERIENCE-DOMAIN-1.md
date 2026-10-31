@@ -1,6 +1,60 @@
 # GAME-SAVE-EXPERIENCE-DOMAIN-1 — 导入经验余数与结算终止性
 
 Status: done
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+保留原卡「GAME-SAVE-EXPERIENCE-DOMAIN-1 — 导入经验余数与结算终止性」的任务归属与历史边界。原目标见原文(摘录:解决V1导入接受极大有限经验余数后，正式胜利结算不能终止的跨边界问题。该余数与本场获得的经验、角色武术/体力等属性分别管理，不改用户已批准的隐藏属性持续增长决定。);本页治理不重开已终态任务。
+
+## 范围
+
+原卡含章节[GAME-SAVE-EXPERIENCE-DOMAIN-1 — 导入经验余数与结算终止性、目标、范围、前提真值门、设计与风险、上下文锚点],共3个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+
+## 前提与证据
+
+固定main源5693B(SHA 594532060c12);原卡前提按原时点保留。当前存活入口:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/README.md)、[GAME-SAVE-IMPORT-PAYLOAD-VALIDATION-1.md](GAME-SAVE-IMPORT-PAYLOAD-VALIDATION-1.md)、[QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)
+
+## 验收
+
+本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+
+## 状态与交接
+
+done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+
+## 历史范围
+
+原卡属固定main时点;GAME-SAVE-EXPERIENCE-DOMAIN-1 — 导入经验余数与结算终止性的原始范围与日期在保全块内逐字保留。
+
+## 原始结论
+
+原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+
+## 当时证据
+
+原文3个链接与当时回执属原时点证据;本页不重跑、不复授。
+
+## 当前有效性
+
+仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+
+## 继任文档
+
+接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/README.md)、[GAME-SAVE-IMPORT-PAYLOAD-VALIDATION-1.md](GAME-SAVE-IMPORT-PAYLOAD-VALIDATION-1.md)、[QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 5693B / SHA-256 594532060c1265b5f2e750c2fe204e4a8870b14dffbb96497a54236f7e84be08；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# GAME-SAVE-EXPERIENCE-DOMAIN-1 — 导入经验余数与结算终止性
+
+Status: done
 Owner: Codex
 Phase: phase1
 Capability: save input / battle progression liveness
@@ -62,3 +116,5 @@ SDLPal global.h:475–493的EXPERIENCE.wExp是WORD；当前合法历史样本均
 无下一位Agent，Codex单Owner。按本卡明确批准的八池经验余数合同完成先红后绿；不扩展其它数值政策，不把旧观察的outer exit0计成通过门。
 
 2026-10-22最终源交接：守卫/两例提交0016e1a15；纯成长整理e0b1e0439，获批物品上下文a52b7dc3a另提交。源门完整零诊断及当前计数见同目录gates.json；最终文档静态/推送/main/远端CI由实际回执补记，无下一位Agent，继续pre94剩余24partial。
+```
+<!-- incremental-original-source:end -->

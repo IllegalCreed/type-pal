@@ -1,6 +1,40 @@
 # GAME-TOOLS-SAVE-IO-ERROR-FEEDBACK-1 — 工具面板导出失败提示
 
 Status: review
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+保留原卡「GAME-TOOLS-SAVE-IO-ERROR-FEEDBACK-1 — 工具面板导出失败提示」的任务归属与历史边界。原目标见原文(摘录:Reviewer: Codex Capability: Q3 tools / IO error boundary Visual Verification Timing: functional-ui);本页治理不重开已终态任务。
+
+## 范围
+
+原卡含章节[GAME-TOOLS-SAVE-IO-ERROR-FEEDBACK-1 — 工具面板导出失败提示、前提与停止线、已批准范围、准入与验收、交接、2026-10-24 实施与独立核验],共1个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+
+## 前提与证据
+
+固定main源2836B(SHA 10a2399ccb52);原卡前提按原时点保留。当前存活入口:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/gamestate-save-closeout/README.md)
+
+## 验收
+
+本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:review),治理不改写。
+
+## 状态与交接
+
+review保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 2836B / SHA-256 10a2399ccb529828363d96e4b66f5d2125b3a464c37fb035381e584c38bfc406；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# GAME-TOOLS-SAVE-IO-ERROR-FEEDBACK-1 — 工具面板导出失败提示
+
+Status: review
 Owner: Codex
 Reviewer: Codex
 Phase: phase1 game
@@ -29,3 +63,5 @@ CODE58当前读取发现：工具面板“导出”按钮直接启动异步函�
 ## 2026-10-24 实施与独立核验
 
 用户批准后实际先红：导出拒绝缺toast一个AssertionError，并有一个未处理拒绝；随后局部try/catch及URL finally，四条不同IO合同全绿、实际V1 Blob／文件名可核。真实Chrome的Save/IDB readonly平台失败显示原因，恢复后再次读取正常，未写任何槽位。两次功能图及原件边界、八维／类型纠正和失败记录见[唯一证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/gamestate-save-closeout/README.md)。代码修复已接受，整卡review等全部pre94的统一零诊断门与PR；不以本次340例或已有toast视觉代替统一门。
+```
+<!-- incremental-original-source:end -->

@@ -1,6 +1,60 @@
 # GAME-PRE94-MENU-PIXEL-PARITY-1 — pre94三处既有菜单显示分歧
 
 Status: done
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+保留原卡「GAME-PRE94-MENU-PIXEL-PARITY-1 — pre94三处既有菜单显示分歧」的任务归属与历史边界。原目标见原文(摘录:Reviewer: Codex（不冒充第三方） Branch: codex/code-quality-3y Capability: pre94 menu pixel parity);本页治理不重开已终态任务。
+
+## 范围
+
+原卡含章节[GAME-PRE94-MENU-PIXEL-PARITY-1 — pre94三处既有菜单显示分歧、范围与停止线、当前源码与primary、用户裁决与验证方案、交接、2026-10-20 build allowed],共2个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+
+## 前提与证据
+
+固定main源4727B(SHA 6e704c62391a);原卡前提按原时点保留。当前存活入口:[present-speedrun-gates.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json)、[present-speedrun-local.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-local.json)
+
+## 验收
+
+本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+
+## 状态与交接
+
+done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+
+## 历史范围
+
+原卡属固定main时点;GAME-PRE94-MENU-PIXEL-PARITY-1 — pre94三处既有菜单显示分歧的原始范围与日期在保全块内逐字保留。
+
+## 原始结论
+
+原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+
+## 当时证据
+
+原文2个链接与当时回执属原时点证据;本页不重跑、不复授。
+
+## 当前有效性
+
+仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+
+## 继任文档
+
+接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[present-speedrun-gates.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json)、[present-speedrun-local.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-local.json)
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 4727B / SHA-256 6e704c62391a17b9a7822f4d6a9e1b13f54b406cb975423a125b8851fc3195c0；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# GAME-PRE94-MENU-PIXEL-PARITY-1 — pre94三处既有菜单显示分歧
+
+Status: done
 Owner: Codex
 Reviewer: Codex（不冒充第三方）
 Coding Owner: Codex
@@ -40,3 +94,5 @@ Codex唯一Owner；与GAME-MAGIC-PLAYERINFO-STATUS-1共用present窗口。①死
 ## 2026-10-21 完成裁定
 
 批准显示范围已完成；共享纯提取与行为修复分别提交，红/绿/真实菜单三阶段、相邻回归和本次完整质量门见[集中回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json)。只授本卡显示合同与明确文件结论；HP0为批准的防御显示，未声称完整逃跑生产路径已测；浏览器观感/E2E仍沿原卡集中延后，不改状态机制/存档/资产或跨包公共接口。
+```
+<!-- incremental-original-source:end -->

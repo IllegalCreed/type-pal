@@ -1,6 +1,60 @@
 # GAME-SCRIPT-CORRECTIONS-1 - 原盘脚本纠错与英文补丁差异核对
 
 Status: done
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+保留原卡「GAME-SCRIPT-CORRECTIONS-1 - 原盘脚本纠错与英文补丁差异核对」的任务归属与历史边界。原目标见原文(摘录:核对用户放入 `data/en/` 的 SDLPal 英文补丁：列全相对当前 Win 原盘的脚本差异，说明涉及什么剧情、为什么修改、当前是否已修复，以及应在数据、引擎还是语言层处理。把已有宝箱、玉佛珠门禁、酒神和扬州赏金修复一起核对，形成可);本页治理不重开已终态任务。
+
+## 范围
+
+原卡含章节[GAME-SCRIPT-CORRECTIONS-1 - 原盘脚本纠错与英文补丁差异核对、目标、范围、当前实施准入（2026-10-22）、实施核定与审计勘误（2026-10-22）、前提真值门],共33个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+
+## 前提与证据
+
+固定main源45505B(SHA a100578bede5);原卡前提按原时点保留。当前存活入口:[CLAUDE.md](../../../CLAUDE.md)、[timeline.md](../../lore/timeline.md)、[game-mechanics.md](../../phase1/game-mechanics.md)、[content-publication.md](../../phase2/guides/content-publication.md)、[contract.md](../../testing/e2e/contract.md)、[governance.md](../../testing/governance.md)
+
+## 验收
+
+本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+
+## 状态与交接
+
+done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+
+## 历史范围
+
+原卡属固定main时点;GAME-SCRIPT-CORRECTIONS-1 - 原盘脚本纠错与英文补丁差异核对的原始范围与日期在保全块内逐字保留。
+
+## 原始结论
+
+原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+
+## 当时证据
+
+原文33个链接与当时回执属原时点证据;本页不重跑、不复授。
+
+## 当前有效性
+
+仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+
+## 继任文档
+
+接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[CLAUDE.md](../../../CLAUDE.md)、[timeline.md](../../lore/timeline.md)、[game-mechanics.md](../../phase1/game-mechanics.md)、[content-publication.md](../../phase2/guides/content-publication.md)、[contract.md](../../testing/e2e/contract.md)、[governance.md](../../testing/governance.md)
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 45505B / SHA-256 a100578bede51cf3c0780fb9a827ab920d2db2a1b797da392c95da7824d8865d；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# GAME-SCRIPT-CORRECTIONS-1 - 原盘脚本纠错与英文补丁差异核对
+
+Status: done
 Phase: phase1 + phase2
 Capability: resource extraction / script corrections / language preparation
 Coding Owner: Codex（已接收隔离候选并接手集成收尾）；extract/runtime/author 原候选作者
@@ -297,3 +351,5 @@ Branch: codex/script-corrections（集成）；三个隔离 worktree 交付候�
 ## 下一位 Agent 提示词
 
 当前为已授权实施。先读顶部当前准入和白名单，再核历史 D/E 表及 evidence。两阶段逐项记录修复、验证或有证据的不适用理由；未核项继续调查。不得上传 raw/en/EXE，不得把任一阶段通过替代另一阶段验收。
+```
+<!-- incremental-original-source:end -->

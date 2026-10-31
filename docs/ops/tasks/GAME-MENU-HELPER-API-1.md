@@ -1,6 +1,60 @@
 # GAME-MENU-HELPER-API-1 — menu helper 公共出口删除准入
 
 Status: done
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+保留原卡「GAME-MENU-HELPER-API-1 — menu helper 公共出口删除准入」的任务归属与历史边界。原目标见原文(摘录:Capability: menu helper public API ownership Reviewer: Codex Visual Verification Timing: N/A（公共出口/测试);本页治理不重开已终态任务。
+
+## 范围
+
+原卡含章节[GAME-MENU-HELPER-API-1 — menu helper 公共出口删除准入、2026-10-25 本地统一门收口（当前）、当前裁决与准入（2026-10-25）、发现与停止线（历史，2026-10-17）、事实锚点、准入条件],共2个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+
+## 前提与证据
+
+固定main源4582B(SHA d6e1047c2cf2);原卡前提按原时点保留。当前存活入口:[codex-current-review.md](../evidence/CODE-QUALITY-107/codex-current-review.md)、[README.md](../evidence/CODE-QUALITY-94/approved-closeout/README.md)
+
+## 验收
+
+本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+
+## 状态与交接
+
+done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+
+## 历史范围
+
+原卡属固定main时点;GAME-MENU-HELPER-API-1 — menu helper 公共出口删除准入的原始范围与日期在保全块内逐字保留。
+
+## 原始结论
+
+原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+
+## 当时证据
+
+原文2个链接与当时回执属原时点证据;本页不重跑、不复授。
+
+## 当前有效性
+
+仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+
+## 继任文档
+
+接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[codex-current-review.md](../evidence/CODE-QUALITY-107/codex-current-review.md)、[README.md](../evidence/CODE-QUALITY-94/approved-closeout/README.md)
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 4582B / SHA-256 d6e1047c2cf21b880107767ac94bc448ccabf7f29670f2a5a83a69bf85ca82c7；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# GAME-MENU-HELPER-API-1 — menu helper 公共出口删除准入
+
+Status: done
 Phase: phase1
 Capability: menu helper public API ownership
 Coding Owner: Codex
@@ -59,3 +113,5 @@ CODE-QUALITY-107 对 menu helper 实现、测试、真实 caller 和 SDLPal prim
 4. 不用 `as`、ignore、exclude、导出重命名或空壳包装绕过接口变化。
 
 在准入前，CODE-QUALITY-107 的 E-4/E-5 保持 review，相关文件不标已验证。
+```
+<!-- incremental-original-source:end -->

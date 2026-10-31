@@ -1,6 +1,40 @@
 # GAME-ACTION-QUEUE-TIE-ORDER-1 — 第一阶段同速行动排序分叉
 
 Status: review
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+保留原卡「GAME-ACTION-QUEUE-TIE-ORDER-1 — 第一阶段同速行动排序分叉」的任务归属与历史边界。原目标见原文(摘录:恢复第一阶段合法行动队列与SDLPal同样的排序及消费先后，消除同速项被较快项交换后的分叉；以用户本轮授权为准，不恢复其它历史兼容实现。);本页治理不重开已终态任务。
+
+## 范围
+
+原卡含章节[GAME-ACTION-QUEUE-TIE-ORDER-1 — 第一阶段同速行动排序分叉、前提与停止线、直接反例与caller、验收条件与剩余域、开工交接（c3d943dde历史）、目标],共2个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+
+## 前提与证据
+
+固定main源8671B(SHA 7565da243e18);原卡前提按原时点保留。当前存活入口:[primary-counters.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/primary-counters.json)、[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/queue-approved-fix/README.md)
+
+## 验收
+
+本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:review),治理不改写。
+
+## 状态与交接
+
+review保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 8671B / SHA-256 7565da243e18ff4a347b68c61a243eee496e4e3ccd26a2041cdc2c9d9faa2666；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# GAME-ACTION-QUEUE-TIE-ORDER-1 — 第一阶段同速行动排序分叉
+
+Status: review
 Phase: phase1
 Capability: pre-94 CODE3m / battle action ordering
 Coding Owner: Codex
@@ -95,3 +129,5 @@ Visual Verification Timing: e2e-deferred
 剩余：超过原3玩家/5敌容量、非整数/NaN/无穷、caller极端SHORT结果/浮点→WORD转换、缺省dex2既有近似均不据本片自动接受；未增加非法输入兼容/校验策略，也未改公开签名。新parity测试与H fixture登记review，队列源/旧测继续review，0新closed。用户观感/实际动作动画与统一check/official ratchet/protected fast未执行，任务review、done blocked。两条旧测试fullName勘误映射保存，baseline/退役payload本片均未改，身份门待大窗口实际核对。
 
 下一步回pre94剩余8组注释与两UI差异核证；毒列表压缩保持只读。无需再次询问本卡已经批准的排序方向。
+```
+<!-- incremental-original-source:end -->

@@ -1,6 +1,60 @@
 # GAME-ENGLISH-1 - 第一阶段英文语言包与界面
 
 Status: done
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+保留原卡「GAME-ENGLISH-1 - 第一阶段英文语言包与界面」的任务归属与历史边界。原目标见原文(摘录:第一阶段可选择简体中文或 English，记住选择；英文覆盖剧情、名称、菜单与玩家工具。两种语言使用相同的已修正玩法脚本与存档，英文文本较长时仍可读、可翻页。用户于2026-10-22授权继续英文版工作。);本页治理不重开已终态任务。
+
+## 范围
+
+原卡含章节[GAME-ENGLISH-1 - 第一阶段英文语言包与界面、目标、范围、前提真值门、一句话行为 / 工程前提、真值矩阵],共20个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+
+## 前提与证据
+
+固定main源20949B(SHA 12d0ddf73411);原卡前提按原时点保留。当前存活入口:[CLAUDE.md](../../../CLAUDE.md)、[game-mechanics.md](../../phase1/game-mechanics.md)、[contract.md](../../testing/e2e/contract.md)、[agent-workflow.md](../agent-workflow.md)、[code-quality-file-ledger.md](../audits/code-quality-file-ledger.md)、[code-quality.md](../code-quality.md)
+
+## 验收
+
+本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+
+## 状态与交接
+
+done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+
+## 历史范围
+
+原卡属固定main时点;GAME-ENGLISH-1 - 第一阶段英文语言包与界面的原始范围与日期在保全块内逐字保留。
+
+## 原始结论
+
+原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+
+## 当时证据
+
+原文20个链接与当时回执属原时点证据;本页不重跑、不复授。
+
+## 当前有效性
+
+仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+
+## 继任文档
+
+接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[CLAUDE.md](../../../CLAUDE.md)、[game-mechanics.md](../../phase1/game-mechanics.md)、[contract.md](../../testing/e2e/contract.md)、[agent-workflow.md](../agent-workflow.md)、[code-quality-file-ledger.md](../audits/code-quality-file-ledger.md)、[code-quality.md](../code-quality.md)
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 20949B / SHA-256 12d0ddf73411f315804979c20eff804af3844c0bfc48fb95e7069edbfce965d8；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# GAME-ENGLISH-1 - 第一阶段英文语言包与界面
+
+Status: done
 Phase: phase1
 Capability: 第一阶段多语言展示
 Coding Owner: Codex（集成与画布界面）；english_patch_audit（提取）；english_runtime_audit（对话）；english_shell_audit（DOM壳层）
@@ -153,3 +207,5 @@ Branch: codex/game-english
 ## 下一位 Agent 提示词
 
 无新产品交接。功能与生产发布已完成；Codex独立审核本收尾候选后，另经保护分支PR和两项必需CI合入，再清理已核退休分支/worktree。清理尚未执行；旧冻结门、正式剧情E2E和本次线上有限smoke各保留实际边界。
+```
+<!-- incremental-original-source:end -->

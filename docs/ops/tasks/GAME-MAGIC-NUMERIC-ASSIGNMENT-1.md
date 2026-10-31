@@ -1,6 +1,40 @@
 # GAME-MAGIC-NUMERIC-ASSIGNMENT-1 — 第一阶段法术中间赋值与随机倍率数值差异
 
 Status: review
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+保留原卡「GAME-MAGIC-NUMERIC-ASSIGNMENT-1 — 第一阶段法术中间赋值与随机倍率数值差异」的任务归属与历史边界。原目标见原文(摘录:核清第一阶段法术数值与SDLPal的已复现分叉，按裁决确定有限修复。);本页治理不重开已终态任务。
+
+## 范围
+
+原卡含章节[GAME-MAGIC-NUMERIC-ASSIGNMENT-1 — 第一阶段法术中间赋值与随机倍率数值差异、目标、范围、前提真值门、直接证据、发现与停止线],共3个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+
+## 前提与证据
+
+固定main源8714B(SHA 990db0ee3fa5);原卡前提按原时点保留。当前存活入口:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/approved-boundaries/README.md)、[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-fade-quality/README.md)、[numeric-counter.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/formula-numeric-audit/numeric-counter.json)
+
+## 验收
+
+本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:review),治理不改写。
+
+## 状态与交接
+
+review保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 8714B / SHA-256 990db0ee3fa5ca99cb2157c8d2d1ac620139fb066a948918dc8361f6572895b1；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# GAME-MAGIC-NUMERIC-ASSIGNMENT-1 — 第一阶段法术中间赋值与随机倍率数值差异
+
+Status: review
 Phase: phase1
 Capability: pre-94 CODE3m / battle damage numerical fidelity
 Coding Owner: Codex
@@ -93,3 +127,5 @@ call_400efa7c97674487ba183635ba343d7f 第0项批准保留TS极值速度并记录
 已请求仅对0..65535整数防御去掉错误有符号解释，扩展域处理保持原状、正式红例后修；用户尚未答复，未改实现。该范围独立于前面的速度回绕取舍，magic-damage及其直接专测继续review。当前原件将与本轮RNG判别力/八维版本桥同存battle-core-closeout，不新建编号任务。
 
 2026-10-25实施：正防御正式旧源红后修，域外65536结果及RNG序保留；速度按用户选择不改算法。131相关例／game TC通过，见[当前八维和完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/approved-boundaries/README.md)。仅代码接受，统一门未跑。
+```
+<!-- incremental-original-source:end -->

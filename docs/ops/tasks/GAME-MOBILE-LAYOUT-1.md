@@ -1,6 +1,60 @@
 # GAME-MOBILE-LAYOUT-1 - 第一阶段移动端与标准手柄支持
 
 Status: done
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+保留原卡「GAME-MOBILE-LAYOUT-1 - 第一阶段移动端与标准手柄支持」的任务归属与历史边界。原目标见原文(摘录:按用户 2026-10-22「大改试一下移动端按照你的方案布局能不能放得下」的授权，做可运行的横竖屏布局，);本页治理不重开已终态任务。
+
+## 范围
+
+原卡含章节[GAME-MOBILE-LAYOUT-1 - 第一阶段移动端与标准手柄支持、目标、范围、前提真值门、一句话行为 / 工程前提、真值矩阵],共54个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+
+## 前提与证据
+
+固定main源27295B(SHA 956257e0e191);原卡前提按原时点保留。当前存活入口:[CLAUDE.md](../../../CLAUDE.md)、[governance.md](../../testing/governance.md)、[agent-workflow.md](../agent-workflow.md)、[code-quality.md](../code-quality.md)、[aliyun-browser.json](../evidence/GAME-MOBILE-LAYOUT-1/aliyun-browser.json)、[aliyun-mobile-portrait.png](../evidence/GAME-MOBILE-LAYOUT-1/aliyun-mobile-portrait.png)
+
+## 验收
+
+本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+
+## 状态与交接
+
+done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+
+## 历史范围
+
+原卡属固定main时点;GAME-MOBILE-LAYOUT-1 - 第一阶段移动端与标准手柄支持的原始范围与日期在保全块内逐字保留。
+
+## 原始结论
+
+原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+
+## 当时证据
+
+原文54个链接与当时回执属原时点证据;本页不重跑、不复授。
+
+## 当前有效性
+
+仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+
+## 继任文档
+
+接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[CLAUDE.md](../../../CLAUDE.md)、[governance.md](../../testing/governance.md)、[agent-workflow.md](../agent-workflow.md)、[code-quality.md](../code-quality.md)、[aliyun-browser.json](../evidence/GAME-MOBILE-LAYOUT-1/aliyun-browser.json)、[aliyun-mobile-portrait.png](../evidence/GAME-MOBILE-LAYOUT-1/aliyun-mobile-portrait.png)
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 27295B / SHA-256 956257e0e191ad4a31d0387ddcda0865eee67050da1d36899598b1829513ef3a；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# GAME-MOBILE-LAYOUT-1 - 第一阶段移动端与标准手柄支持
+
+Status: done
 Phase: phase1
 Capability: mobile presentation / touch / gamepad input
 Coding Owner: Codex
@@ -226,3 +280,5 @@ Branch: codex/game-mobile-layout
 - 375×667线上页面实测：运行脚本为新hash，320×200画布按375×234.375显示；实际启动进入客栈对白、虚拟确认已执行，六键与工具可见。设置关闭虚拟键后刷新仍关闭，工具入口保留；已恢复原开启选择，临时视口/测试标签已清理。[线上画面](../evidence/GAME-MOBILE-LAYOUT-1/aliyun-mobile-portrait.png)、[设置](../evidence/GAME-MOBILE-LAYOUT-1/aliyun-mobile-settings.png)、[浏览器记录](../evidence/GAME-MOBILE-LAYOUT-1/aliyun-browser.json)；捕获warn/error均0。本轮为入口、进场和显示设置烟测，完整剧情未验。
 - 回滚保留dist.old，旧index SHA与发布前一致；另有`/var/www/type-pal/release-backups/mobile-gamepad-20261021T231748Z.tgz`，gzip可读且备份index与旧站一致。没有修改nginx、证书或凭据。
 - 浏览器模拟视口仍不等于实体手机，手柄只交付已核standard映射，尚无实体手柄实测；此前硬件限制继续有效。
+```
+<!-- incremental-original-source:end -->

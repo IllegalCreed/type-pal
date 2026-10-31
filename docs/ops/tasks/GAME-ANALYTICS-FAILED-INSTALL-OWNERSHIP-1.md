@@ -1,6 +1,60 @@
 # GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1 — GA安装失败后的订阅所有权
 
 Status: done
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+保留原卡「GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1 — GA安装失败后的订阅所有权」的任务归属与历史边界。原目标见原文(摘录:安装在返回controller前失败，应由创建者撤已取得的监听和本次隐私UI，保留原错误供main隔离；本次停用，刷新后重新安装。用户2026-10-18已明确批准A，不重复请求。);本页治理不重开已终态任务。
+
+## 范围
+
+原卡含章节[GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1 — GA安装失败后的订阅所有权、目标、范围、前提真值门、反证与替代解释、用户裁决与准入],共4个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+
+## 前提与证据
+
+固定main源6234B(SHA 32901bfa37b9);原卡前提按原时点保留。当前存活入口:[OPS-GA4-consent-pageviews.md](../archive/tasks/done/OPS-GA4-consent-pageviews.md)、[README.md](../evidence/GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1/README.md)、[initialization-probe.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3z-google-analytics/initialization-probe.json)、[QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)
+
+## 验收
+
+本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+
+## 状态与交接
+
+done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+
+## 历史范围
+
+原卡属固定main时点;GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1 — GA安装失败后的订阅所有权的原始范围与日期在保全块内逐字保留。
+
+## 原始结论
+
+原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+
+## 当时证据
+
+原文4个链接与当时回执属原时点证据;本页不重跑、不复授。
+
+## 当前有效性
+
+仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+
+## 继任文档
+
+接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[OPS-GA4-consent-pageviews.md](../archive/tasks/done/OPS-GA4-consent-pageviews.md)、[README.md](../evidence/GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1/README.md)、[initialization-probe.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3z-google-analytics/initialization-probe.json)、[QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 6234B / SHA-256 32901bfa37b915834d73e23233515f1df37fc0eb689bcd7f3c6323bf31da2f4f；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1 — GA安装失败后的订阅所有权
+
+Status: done
 Owner: Codex
 Phase: phase1 project analytics extension
 Capability: optional analytics / initialization ownership
@@ -75,3 +129,5 @@ A产品方向已批准。本地浏览器诊断宿主实际看到失败后无控�
 ## 2026-10-21 analytics四卡收口
 
 本卡批准A修复的两实现与专测已据当前版本接受；现版发射JS同先前批准实现，五红/两单针/原生浏览器失败刷新证据复用。统一check/ratchet/protected及严格静态门已通过，当前控件工作流/原件由父卡analytics-closeout.json承载。外部unsubscribe自行抛错/多property/真实Google网络不是本卡承诺。当前风险卡done，不外推CODE109或整个pre94完成；Git发布另核。
+```
+<!-- incremental-original-source:end -->

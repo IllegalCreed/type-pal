@@ -1,6 +1,60 @@
 # GAME-AVI-RETRY-OWNERSHIP-1 — 视频再次播放失败后的重试入口
 
 Status: done
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+保留原卡「GAME-AVI-RETRY-OWNERSHIP-1 — 视频再次播放失败后的重试入口」的任务归属与历史边界。原目标见原文(摘录:核清并裁定视频自动播放失败、第一次点击重试也失败后，仍可见的“点击屏幕开始”提示是否继续接受点击。);本页治理不重开已终态任务。
+
+## 范围
+
+原卡含章节[GAME-AVI-RETRY-OWNERSHIP-1 — 视频再次播放失败后的重试入口、目标、范围、前提真值门、Draft: 设计与风险、上下文锚点],共4个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+
+## 前提与证据
+
+固定main源4880B(SHA ca543efb085a);原卡前提按原时点保留。当前存活入口:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/README.md)、[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/mobile-revalidation/README.md)、[avi-repeat.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/mobile-revalidation/avi-repeat.json)、[QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)
+
+## 验收
+
+本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+
+## 状态与交接
+
+done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+
+## 历史范围
+
+原卡属固定main时点;GAME-AVI-RETRY-OWNERSHIP-1 — 视频再次播放失败后的重试入口的原始范围与日期在保全块内逐字保留。
+
+## 原始结论
+
+原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+
+## 当时证据
+
+原文4个链接与当时回执属原时点证据;本页不重跑、不复授。
+
+## 当前有效性
+
+仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+
+## 继任文档
+
+接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/README.md)、[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/mobile-revalidation/README.md)、[avi-repeat.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/mobile-revalidation/avi-repeat.json)、[QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 4880B / SHA-256 ca543efb085a91b4b3f66284c19bcb2fefd73d7496f636fd24ba9c2bb65c72ec；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# GAME-AVI-RETRY-OWNERSHIP-1 — 视频再次播放失败后的重试入口
+
+Status: done
 Owner: Codex
 Phase: phase1
 Capability: shell / AVI error recovery
@@ -67,3 +121,5 @@ build allowed：Codex唯一Owner，同一3y，仅上述重试监听ownership与�
 ## 2026-10-22 Codex收口
 
 用户授权内两正式红例先行，窄修与61相邻/全check20432/official fast及同报告strict/protected零诊断成立，CODE78与AVI实现恢复接受。旧once失效/旧节点监听反例永久保留；当前只读源与原件快检见[统一回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/README.md)。done不表示实体手机权限/编解码/完整剧情或用户真机体验已验收。提交推送合并状态按实际Git记录。
+```
+<!-- incremental-original-source:end -->

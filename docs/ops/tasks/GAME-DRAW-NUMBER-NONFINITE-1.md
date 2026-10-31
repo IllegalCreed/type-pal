@@ -1,6 +1,60 @@
 # GAME-DRAW-NUMBER-NONFINITE-1 — 非有限数字阻塞绘制
 
 Status: done
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+保留原卡「GAME-DRAW-NUMBER-NONFINITE-1 — 非有限数字阻塞绘制」的任务归属与历史边界。原目标见原文(摘录:只处理drawNumber收到非有限number时的非终止；候选策略为跳过该数字，正常绘制其它内容。限定draw-number.ts及其专测/真实caller回归。不改变V1数据合同、存档值、属性成长、战斗公式或原盘脚本。关联[pre94父);本页治理不重开已终态任务。
+
+## 范围
+
+原卡含章节[GAME-DRAW-NUMBER-NONFINITE-1 — 非有限数字阻塞绘制、目标与范围、前提真值门、上下文与依据、验收条件、当前模式推进记录],共1个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+
+## 前提与证据
+
+固定main源6157B(SHA 8ef98e60a211);原卡前提按原时点保留。当前存活入口:[QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)
+
+## 验收
+
+本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+
+## 状态与交接
+
+done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+
+## 历史范围
+
+原卡属固定main时点;GAME-DRAW-NUMBER-NONFINITE-1 — 非有限数字阻塞绘制的原始范围与日期在保全块内逐字保留。
+
+## 原始结论
+
+原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+
+## 当时证据
+
+原文1个链接与当时回执属原时点证据;本页不重跑、不复授。
+
+## 当前有效性
+
+仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+
+## 继任文档
+
+接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 6157B / SHA-256 8ef98e60a2111f6676d5bf7dab9d7c19c5f848052b64cb5561eed806729c8e47；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# GAME-DRAW-NUMBER-NONFINITE-1 — 非有限数字阻塞绘制
+
+Status: done
 Phase: phase1
 Capability: CODE3k / numeric presentation boundary
 Coding Owner: Codex
@@ -66,3 +120,5 @@ Codex有限范围accept/done allowed。2026-10-24 CODE3k数字质量收口：2�
 本卡有限收口。仅从其余16张pre94 partial核Owner与最新main，不扩94–102。
 
 2026-10-24封存补核：纠正原SDLPal注释链接的一级目录错误，完整源码仅该URL字节不同；不重跑本地全仓/覆盖率，原冻结与失败证据保留，同报告protected及最终静态/远端CI另记。关闭数不变。
+```
+<!-- incremental-original-source:end -->

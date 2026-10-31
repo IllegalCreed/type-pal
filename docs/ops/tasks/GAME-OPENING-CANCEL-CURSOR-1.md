@@ -1,6 +1,40 @@
 # GAME-OPENING-CANCEL-CURSOR-1 — 标题读档取消默认光标
 
 Status: review
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+保留原卡「GAME-OPENING-CANCEL-CURSOR-1 — 标题读档取消默认光标」的任务归属与历史边界。原目标见原文(摘录:修复前候选：标题选读档、槽位取消后，SDLPal 默认项复位为新游戏，TS 保留读档项。);本页治理不重开已终态任务。
+
+## 范围
+
+原卡含章节[GAME-OPENING-CANCEL-CURSOR-1 — 标题读档取消默认光标、2026-10-15 最终模块窗口（当前）、目标与范围、前提真值门、上下文与验收、2026-10-15 用户批准与最小方案],共2个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+
+## 前提与证据
+
+固定main源5350B(SHA 4a6f2875a066);原卡前提按原时点保留。当前存活入口:[codex-final-window.md](../evidence/CODE-QUALITY-94/codex-final-window.md)、[codex-r2-review.md](../evidence/CODE-QUALITY-94/codex-r2-review.md)
+
+## 验收
+
+本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:review),治理不改写。
+
+## 状态与交接
+
+review保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 5350B / SHA-256 4a6f2875a066ba5123856ea766b3d055c642cc5c440e6c08725e1d802aeec8ac；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# GAME-OPENING-CANCEL-CURSOR-1 — 标题读档取消默认光标
+
+Status: review
 Phase: phase1
 Capability: opening menu fidelity
 Coding Owner: Codex
@@ -72,3 +106,5 @@ Coding Owner=Codex；按上述build白名单实施，完整验收前不标done�
 
 下一位 Agent 提示词：先重核本卡/R2 C3/SDLPal，提交最窄方案、真实 caller 失败 oracle 与独占白名单。
 当前 draft，**不得开始实现、不得标 done，不扩展 UI/接口/Save 范围**。
+```
+<!-- incremental-original-source:end -->

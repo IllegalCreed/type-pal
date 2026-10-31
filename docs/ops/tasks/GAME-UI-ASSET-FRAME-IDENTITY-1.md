@@ -1,6 +1,60 @@
 # GAME-UI-ASSET-FRAME-IDENTITY-1 — UI 单帧加载失败后的编号漂移
 
 Status: done
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+保留原卡「GAME-UI-ASSET-FRAME-IDENTITY-1 — UI 单帧加载失败后的编号漂移」的任务归属与历史边界。原目标见原文(摘录:单个 UI PNG 返回404后，旧loadAll压紧数组而呈现按原SPRITEUI编号取帧，导致后面的图片画成当前数字或边框。现按用户批准保留原编号和缺帧位置；呈现缺帧处理、资源格式与其它资源策略保持。);本页治理不重开已终态任务。
+
+## 范围
+
+原卡含章节[GAME-UI-ASSET-FRAME-IDENTITY-1 — UI 单帧加载失败后的编号漂移、目标、范围、前提真值门、反证与替代解释、上下文锚点],共6个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+
+## 前提与证据
+
+固定main源4769B(SHA 7609e53581cb);原卡前提按原时点保留。当前存活入口:[CODE-QUALITY-3h-game-assets-shell.md](../archive/tasks/done/CODE-QUALITY-3h-game-assets-shell.md)、[code-quality.md](../code-quality.md)、[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/README.md)、[module-closeout.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/module-closeout.json)、[ui-fix.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/ui-fix.json)、[QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)
+
+## 验收
+
+本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+
+## 状态与交接
+
+done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+
+## 历史范围
+
+原卡属固定main时点;GAME-UI-ASSET-FRAME-IDENTITY-1 — UI 单帧加载失败后的编号漂移的原始范围与日期在保全块内逐字保留。
+
+## 原始结论
+
+原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+
+## 当时证据
+
+原文6个链接与当时回执属原时点证据;本页不重跑、不复授。
+
+## 当前有效性
+
+仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+
+## 继任文档
+
+接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[CODE-QUALITY-3h-game-assets-shell.md](../archive/tasks/done/CODE-QUALITY-3h-game-assets-shell.md)、[code-quality.md](../code-quality.md)、[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/README.md)、[module-closeout.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/module-closeout.json)、[ui-fix.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/ui-fix.json)、[QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 4769B / SHA-256 7609e53581cbd8c2e59cc47d7a40307fb50f1571feb17977919a73b3dbb29162；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# GAME-UI-ASSET-FRAME-IDENTITY-1 — UI 单帧加载失败后的编号漂移
+
+Status: done
 Phase: phase1
 Capability: assets / UI frame identity
 Coding Owner: Codex（用户2026-10-22批准，三文件窄build allowed）
@@ -60,3 +114,5 @@ Template: task-card-v1 / 1.0.0
 ## 下一位 Agent 提示词
 
 本卡代码与模块门已完成。后续按父卡3h剩余范围推进；用户原编号裁决已固化，不重开相同修复，不扩94–102。
+```
+<!-- incremental-original-source:end -->

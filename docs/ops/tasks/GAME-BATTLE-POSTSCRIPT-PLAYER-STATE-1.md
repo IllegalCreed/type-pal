@@ -1,6 +1,60 @@
 # GAME-BATTLE-POSTSCRIPT-PLAYER-STATE-1 — 战后脚本角色状态归属
 
 Status: done
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+保留原卡「GAME-BATTLE-POSTSCRIPT-PLAYER-STATE-1 — 战后脚本角色状态归属」的任务归属与历史边界。原目标见原文(摘录:核清并修复战后脚本的HP/MP写入与最终结算状态Owner。当前已证可被V1接受的改动存档让真实战斗结束后的治疗丢失；正常原盘剧情可达性未证。用户2026-10-22已批准保留脚本的体力／真气效果，再执行现有半恢复。);本页治理不重开已终态任务。
+
+## 范围
+
+原卡含章节[GAME-BATTLE-POSTSCRIPT-PLAYER-STATE-1 — 战后脚本角色状态归属、目标、范围、前提真值门、反证与替代解释、上下文锚点],共6个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+
+## 前提与证据
+
+固定main源7393B(SHA 1b3878052349);原卡前提按原时点保留。当前存活入口:[code-quality.md](../code-quality.md)、[extra-cleanup-fix.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/extra-cleanup-fix.json)、[module-closeout.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/module-closeout.json)、[post-player-context.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/post-player-context.json)、[post-player-state-fix.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/post-player-state-fix.json)、[QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)
+
+## 验收
+
+本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+
+## 状态与交接
+
+done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+
+## 历史范围
+
+原卡属固定main时点;GAME-BATTLE-POSTSCRIPT-PLAYER-STATE-1 — 战后脚本角色状态归属的原始范围与日期在保全块内逐字保留。
+
+## 原始结论
+
+原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+
+## 当时证据
+
+原文6个链接与当时回执属原时点证据;本页不重跑、不复授。
+
+## 当前有效性
+
+仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+
+## 继任文档
+
+接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[code-quality.md](../code-quality.md)、[extra-cleanup-fix.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/extra-cleanup-fix.json)、[module-closeout.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/module-closeout.json)、[post-player-context.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/post-player-context.json)、[post-player-state-fix.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/post-player-state-fix.json)、[QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 7393B / SHA-256 1b38780523498d4610d04146f5f52ca52fd60b79a45895cb807123ad4ecbfe68；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# GAME-BATTLE-POSTSCRIPT-PLAYER-STATE-1 — 战后脚本角色状态归属
+
+Status: done
 Phase: phase1
 Capability: battle / post-battle player state ownership
 Owner: Codex
@@ -81,3 +135,5 @@ Template: task-card-v1 / 1.0.0
 无下一位Agent，Codex单Owner。复用本原件实施两文件已批窄修，保留正式先红后绿；不重做无关全文或逐片跑覆盖率，不扩94–102。
 
 - 2026-10-22 Codex模块验收：已批有限行为与五文件A–H均据证收口。完整check20443/七包TC/工具684，官方20045项/保护同报告均零诊断；首轮12超时及重跑原件未删。见[模块收口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/module-closeout.json)。仅core原合同，不冒充视觉或整个解释器验收。
+```
+<!-- incremental-original-source:end -->

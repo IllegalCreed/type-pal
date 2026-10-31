@@ -1,6 +1,40 @@
 # QUALITY-DOCS-GIT-PATH-ENUMERATION-1 — Git路径枚举缓冲区边界
 
 Status: review
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+保留原卡「QUALITY-DOCS-GIT-PATH-ENUMERATION-1 — Git路径枚举缓冲区边界」的任务归属与历史边界。原目标见原文(摘录:修复真实仓库路径清单超过默认1MiB后，任务索引生成及代码库存枚举的ENOBUFS。必须完整消费原NUL路径清单，不裁范围、不忽略文件、不放宽文档/ledger诊断。);本页治理不重开已终态任务。
+
+## 范围
+
+原卡含章节[QUALITY-DOCS-GIT-PATH-ENUMERATION-1 — Git路径枚举缓冲区边界、目标、范围、前提真值门、反证与替代解释、上下文锚点],共2个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+
+## 前提与证据
+
+固定main源4639B(SHA a43a6dd3bb08);原卡前提按原时点保留。当前存活入口:[README.md](../evidence/QUALITY-DOCS-GIT-PATH-ENUMERATION-1/README.md)、[QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)
+
+## 验收
+
+本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:review),治理不改写。
+
+## 状态与交接
+
+review保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 4639B / SHA-256 a43a6dd3bb082351962ee70d329ab72865e1799b3e6ec9d447bf04efb16f27f3；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# QUALITY-DOCS-GIT-PATH-ENUMERATION-1 — Git路径枚举缓冲区边界
+
+Status: review
 Owner: Codex
 Phase: cross-phase engineering tooling
 Capability: docs / quality / Git inventory
@@ -71,3 +105,5 @@ N/A，纯CLI修复且不改变产品行为；无新的产品取舍。
 无下一位Agent提示词，Codex完成后恢复保存的3u/3w WIP及其精确SHA，再继续原全部83卡目标。
 
 本片回执：quality40、docs工具125/实际五消费者与lint-zero5365零诊断、ledger3316/259closed/92review/2965pending；0新关闭，2旧工具重开review/1原pending测试转review，原pre94队列53/30/0不变。MJS实际Node解析通过，package typecheck N/A。fresh fetch0behind，完整check/coverage/protected未跑、不合main；同3y提交推送后恢复十文件WIP并按新HEAD重基文档计数，不丢工具补证。
+```
+<!-- incremental-original-source:end -->
