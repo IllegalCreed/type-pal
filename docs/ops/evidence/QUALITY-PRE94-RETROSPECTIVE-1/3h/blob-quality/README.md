@@ -1,5 +1,39 @@
 # CODE3h blob、测试宿主与对话资源质量
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「CODE3h blob、测试宿主与对话资源质量」的治理候选页;证据原件即下方逐字节保全的固定main源(4157B,SHA 1346a7198f25)。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原7个链接处置见作者review的linkDisposition。当前存活入口:[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)、[README.md](../README.md)、[README.md](../assets-quality/README.md)、[body-invariance.json](body-invariance.json)、[identities.json](identities.json)、[review.json](review.json)
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 4157B / SHA-256 1346a7198f25d133c14ec4fd118b5b944cb904311b9b224bbc2a864782a81289；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE3h blob、测试宿主与对话资源质量
+
 本窗审查[逐文件八维与处置](review.json)列明的11文件，接受其中9文件，RLE适配层及其专测继续review。基点acb96a123，同一codex/code-quality-3y、Codex单Owner；运行时是带文件指纹的未提交候选，不能将执行HEAD误当产品字节。七文件新关闭、一旧关闭撤回，净增6；账本3374/388closed/111review/2875pending，固定83仍62accept/21partial。3h/3i整卡、shared格式与pre94未接受，94–102不扩展。
 
 源码差异为两生产文件的注释、测试宿主的类型标注及三个无外部调用导出私有化；其它修改为测试/精确退役数据。[正文证据](body-invariance.json)检查生产parsedTS/发射JS逐字一致；宿主仅规范指定三个export后核发射JS token kind/text，保留字符串内容，不以空白差异误报机制变化。类型合法性另经game typecheck验证。
@@ -21,3 +55,5 @@
 前窗[GitHub Coverage](https://github.com/IllegalCreed/type-pal/actions/runs/39779473486)已成功，完整日志项目act/stderr为0；7条Action/Node平台提示另存原件，未称全平台零。新发布状态以Git与对应新CI为准。
 
 上游导航：[3h](../README.md)、[前窗五文件收口](../assets-quality/README.md)、[父卡](../../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)。
+```
+<!-- incremental-original-source:end -->

@@ -1,5 +1,39 @@
 # CODE3h PNG 测试质量复审切片
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: audit-report-v1 / 1.0.0
+
+## 审计问题
+
+原审计「CODE3h PNG 测试质量复审切片」的主题按原文时点保留(摘录:2026-10-23 [RLE出口／运输snapshot／启动取消收口](rle-boot-quality/README.md)：七文件新关闭，原3h六生产文件逐项接受，63accept/20part)。
+
+## 范围与证据
+
+原报告含章节[CODE3h PNG 测试质量复审切片、逐文件结论与真实消费链、先旧绿再新红，转移证据单列、身份、排重与实际覆盖、验证与剩余范围]、17个链接;固定main源8589B(SHA 753e49c77a9d)。当前存活入口:[CODE-QUALITY-3h-game-assets-shell.md](../../../archive/tasks/done/CODE-QUALITY-3h-game-assets-shell.md)、[after-proof.json](after-proof.json)、[README.md](assets-quality/README.md)、[before-proof.json](before-proof.json)、[README.md](blob-quality/README.md)、[README.md](bootstrap/README.md)
+
+## 发现
+
+原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+
+## 结论
+
+原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+
+## 整改与复核
+
+本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 8589B / SHA-256 753e49c77a9d317c67e4d9f13d3db8affb9b87b17fab13b67db6b654d5f40392；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE3h PNG 测试质量复审切片
+
 2026-10-23 [RLE出口／运输snapshot／启动取消收口](rle-boot-quality/README.md)：七文件新关闭，原3h六生产文件逐项接受，63accept/20partial；同步英文main后的check20601+691工具、official20172/774与同报告protected通过，PR状态另核。其余历史段按各自时点保留，shared格式/3i余项不随本窗接受。
 
 当前相邻增量：[blob、公共宿主与对话资源质量](blob-quality/README.md)，独立八维、原生身份/退休映射、隔离及诊断反控；统一门状态以该入口为准，未据定向绿接受整卡。
@@ -58,3 +92,5 @@ fixture复用现有32行png-rgba.ts（zlib/CRC、自给字节，不调用SUT）�
 四测试只从pending登记review，六旧生产关闭保留历史身份，本片未重新accept、也没有直接生产counter便批量撤回。全83卡当前13partial/70pending/0整卡accept。其它旧卡、assets cache/loader/blob、shell启动屏障的整文件合同/测试质量，以及94–102/editor诊断仍待；CLI清理策略继续等既有用户裁决。全仓check/official ratchet/protected本片未新跑，editor最新全包仍有诊断，未合main。
 
 下一有限片：3h的bootstrap-resources两测试与fetch-retry boundary合同，先核合法LoadedAssets fixture、真实bootstrap caller与混合断言/排重；不改bootstrap.ts或未决产品/资产策略。完整模块稳定窗口再集中统一门。无下一位Agent提示词，Codex单Agent继续全部83卡。
+```
+<!-- incremental-original-source:end -->

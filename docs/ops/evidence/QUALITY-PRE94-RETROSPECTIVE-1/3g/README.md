@@ -1,5 +1,39 @@
 # CODE3g：CLI IO、输出所有权与测试证据复审
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「CODE3g：CLI IO、输出所有权与测试证据复审」的治理候选页;证据原件即下方逐字节保全的固定main源(6066B,SHA a560f9ca447e)。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原14个链接处置见作者review的linkDisposition。当前存活入口:[CODE-QUALITY-3g-pal-extract-cli-io.md](../../../archive/tasks/done/CODE-QUALITY-3g-pal-extract-cli-io.md)、[QUALITY-EXTRACT-OUTPUT-BOUNDARY-1.md](../../../tasks/QUALITY-EXTRACT-OUTPUT-BOUNDARY-1.md)、[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)、[gates.md](../3d/gates.md)、[README.md](closeout/README.md)、[font-comment-delta.json](font-comment-delta.json)
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 6066B / SHA-256 a560f9ca447efe3d1c6249c7e4d75ebf2971682bfadf0a9ad9667e4e2d2a1d5a；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE3g：CLI IO、输出所有权与测试证据复审
+
 归属[94前全部83卡](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)，原[3g卡](../../../archive/tasks/done/CODE-QUALITY-3g-pal-extract-cli-io.md)的done保留为历史。基点c2fee5a9e、唯一codex/code-quality-3y、main=f98d0ddd8；本轮3g仅partial，0新关闭。
 
 ## 已实际读取与职责
@@ -45,3 +79,5 @@
 资产输出修复只等该裁决，其他83卡与94–102/editor范围可继续。当前83卡12partial/71pending/0整卡accept；下一片3h assets/shell，或用户批准后先修输出guard。完整check/official ratchet/protected fast等待稳定窗口，editor运行时诊断未清，不合main。
 
 2026-10-21 多卡窗口增量见[八维复核与保留项](closeout/README.md)；历史原件保持原版本边界。
+```
+<!-- incremental-original-source:end -->
