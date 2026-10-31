@@ -1,5 +1,39 @@
 # CODE3o／3p代码复审收口
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「CODE3o／3p代码复审收口」的治理候选页;证据原件即下方逐字节保全的固定main源(1771B,SHA 6e0744bc377a)。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原5个链接处置见作者review的linkDisposition。当前存活入口:[README.md](../mode-player-quality/README.md)、[README.md](../poison-entry-ownership/README.md)、[review.json](review.json)、[static.json](static.json)、[verify.mjs](verify.mjs)
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 1771B / SHA-256 6e0744bc377a0ba239b292734a78747eb3817cb715f618544535e71b9d05e5c2；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE3o／3p代码复审收口
+
 Status: code accepted; final pre94 integration deferred
 Owner: Codex（单Agent，自审，不虚构第三方）
 
@@ -12,3 +46,5 @@ Owner: Codex（单Agent，自审，不虚构第三方）
 剩余pre94仍须继续，94–102不扩展。机器账与固定83卡以父卡/all-cards和ledger实际计数为准；本窗只授3o四helper与3p原玩家opcode代码范围，不附带Save/完整核心装配或浏览器信用。
 
 [最终局部／静态结果与完整双流](static.json)：六实际文档消费者、ledger和lint-zero均通过；lint实际6003文件，error/warning/info=0/0/0。缺省脚本不重新跑测试，源失效返回STALE。官方/统一门与PR仍延后。
+```
+<!-- incremental-original-source:end -->

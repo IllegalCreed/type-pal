@@ -1,5 +1,39 @@
 # CODE56 小地图代码质量收口
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「CODE56 小地图代码质量收口」的治理候选页;证据原件即下方逐字节保全的固定main源(3081B,SHA 196b684cda37)。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原6个链接处置见作者review的linkDisposition。当前存活入口:[prove-bindings.mjs](prove-bindings.mjs)、[prove-split.mjs](prove-split.mjs)、[receipts.json.gz](receipts.json.gz)、[review.json](review.json)、[static.json](static.json)、[verify.mjs](verify.mjs)
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 3081B / SHA-256 196b684cda37d76e0eaebf90796b303fafaa1970ebaec81c4da026cd6670696f；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE56 小地图代码质量收口
+
 Status: named code scope accepted; final pre94 integration deferred
 Owner: Codex（单Agent，自审身份明确）
 
@@ -14,3 +48,5 @@ Owner: Codex（单Agent，自审身份明确）
 六文件新关闭，CODE56原范围代码accept；固定83为77accept／6partial。原58源1332行和两专测已完整核读，本窗未改；其IO失败与职责／类型问题已留在review.next58Review，后续只续该差异，不再重新全文读一轮。3m与42等待各自实际产品答复，不挡独立范围。
 
 初始拆分漏computeView／多余import、构造器返回值lint拒绝、无效selector预检、组织出口／证明器引号顺序假失败和新证据工具info全部如实留原件，不能计产品红或干净门。后继只纠正真实问题，未静音、未放宽规则。搬移后的常量注释逐项重绑，旧全局CSS说明纠正；最后注释段全文TS不变。未宣称浏览器剧情／完整缩略图／全仓验收或main合并。
+```
+<!-- incremental-original-source:end -->

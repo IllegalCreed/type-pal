@@ -1,5 +1,39 @@
 # CODE3k／3l 基础呈现质量窗口
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「CODE3k／3l 基础呈现质量窗口」的治理候选页;证据原件即下方逐字节保全的固定main源(3268B,SHA 0a8a88660b73)。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原2个链接处置见作者review的linkDisposition。当前存活入口:[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)、[review.json](review.json)
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 3268B / SHA-256 0a8a88660b73c7b9b81ef74f0d778563b730f3537828e84e449b259c3088c284；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE3k／3l 基础呈现质量窗口
+
 Owner: Codex（单Agent）；基点 `4897a215dd3e7fd6987f1082006d9d8cc9f22bb8`，同一 `codex/code-quality-3y`。
 
 范围是3k六个primitive及13专测，3l背景／overlay／飘字三源及四专测，另一个三处共享数字夹具。当前有限范围审查与本地集中门完成，远端发布待实际检查；3k与3l仍partial，未扩展94–102。
@@ -19,3 +53,5 @@ Owner: Codex（单Agent）；基点 `4897a215dd3e7fd6987f1082006d9d8cc9f22bb8`�
 远端PR／合并回执单独核，不能将本地完成写成已合并。复验器不重跑覆盖率；完整archive保留首轮计数断言失败、修正后的全门及同一报告protected结果。
 
 首轮官方采集完成20160例，但ratchet以exit1拒绝：本批重算条目误填原始文件摘要，未匹配consumer要求的canonical JSON摘要。只修正此精确指纹，保留原172字节stderr；以原runner的收集后判据和同一summary完成ratchet，再带最新main基点执行fast/protected，均exit0。未重新采集、未改比较器或阈值。终态check:docs、lint、ledger和只读快检另实跑通过。
+```
+<!-- incremental-original-source:end -->
