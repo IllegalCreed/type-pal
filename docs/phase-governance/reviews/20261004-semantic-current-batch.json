@@ -447,7 +447,7 @@
         }
       ],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "fd35f919aa8f310a01131e01ac2bc13df6d56079f17b3cc1691fa35bc1a2c86d",
+      "afterSha256": "aad8b546ece8d7b03319e816796f08fb37e1f72c2e1361e311ef1bf7cd575642",
       "publicCallers": [
         "node scripts/docs/check-testing.mjs",
         "node scripts/docs/check-document-model.mjs",
@@ -1892,6 +1892,14 @@
           "date": "2026-10-31",
           "beforeSha256": "80dce522187baf84c90eb39e7390fecdc1fd2e55a82c6b00d8988315e39db503",
           "afterSha256": "fd35f919aa8f310a01131e01ac2bc13df6d56079f17b3cc1691fa35bc1a2c86d",
+          "runtimeCredit": false,
+          "newSemanticCredit": 0
+        },
+        {
+          "kind": "incremental-publication-after-pin",
+          "date": "2026-10-31",
+          "beforeSha256": "fd35f919aa8f310a01131e01ac2bc13df6d56079f17b3cc1691fa35bc1a2c86d",
+          "afterSha256": "aad8b546ece8d7b03319e816796f08fb37e1f72c2e1361e311ef1bf7cd575642",
           "runtimeCredit": false,
           "newSemanticCredit": 0
         }
