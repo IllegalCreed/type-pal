@@ -1,5 +1,39 @@
 # CODE3j time-format 当前复审切片
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: audit-report-v1 / 1.0.0
+
+## 审计问题
+
+原审计「CODE3j time-format 当前复审切片」的主题按原文时点保留(摘录:基点：`7057dddd9`（已合并最新 `origin/main`）；分支：`codex/code-quality-3y`。这是 CODE-QUALITY-3j 的有限 pre-94 复审切片，只核)。
+
+## 范围与证据
+
+原报告含章节[CODE3j time-format 当前复审切片、逐文件读取与事实边界、发现与处理、验证、当前结论与下一批]、1个链接;固定main源3661B(SHA 6f9bd4bbdb45)。当前存活入口:[read-boundaries.json](read-boundaries.json)
+
+## 发现
+
+原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+
+## 结论
+
+原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+
+## 整改与复核
+
+本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 3661B / SHA-256 6f9bd4bbdb459187dec37c49082104d3ab8d8c32a441ab4b34ba9f1a8fd1a52e；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE3j time-format 当前复审切片
+
 基点：`7057dddd9`（已合并最新 `origin/main`）；分支：`codex/code-quality-3y`。这是 CODE-QUALITY-3j 的有限 pre-94 复审切片，只核 `time-format` 实现、三份直接合同测试和持久化/显示 caller；3j 其余 display-scale、FPS、toast、map-names、countdown、checkpoints 仍未在本轮重审。3j 整卡保持 `partial`，本切片不新增 ledger closed。
 
 ## 逐文件读取与事实边界
@@ -28,3 +62,5 @@
 ## 当前结论与下一批
 
 本切片把 `time-format.ts` 和三份直接测试从 pre-94 的结构性 pending 推进到“已逐文件读取、发现并修复一项输入边界、当前仍需整卡复核”的状态；不把 3j 整卡或任何历史 `done` 直接升为 `accept`。下一批可核 `3j` 的 `countdown.ts` 与其三份测试，或继续回到 all-cards 队列中的 `3i`；94–102 仍按用户优先级排在 pre-94 全部复审之后。
+```
+<!-- incremental-original-source:end -->

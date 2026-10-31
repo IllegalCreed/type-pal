@@ -1,5 +1,39 @@
 # CODE3j 检查点局部校准
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「CODE3j 检查点局部校准」的治理候选页;证据原件即下方逐字节保全的固定main源(4844B,SHA 161b66cb68b4)。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原3个链接处置见作者review的linkDisposition。当前存活入口:[README.md](../3j-tools-quality/README.md)、[receipts.json.gz](receipts.json.gz)、[review.json](review.json)
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 4844B / SHA-256 161b66cb68b4a28a1b64197ce1cc05fd55f7e9ca5c73312dda5ef3eec6702145；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE3j 检查点局部校准
+
 2026-10-23，Codex 单 Owner；基点 `38d6b2d136dc38589df9729242590bc37a5a27e2`，同一 `codex/code-quality-3y`。本增量补齐上一[八维质量窗口](../3j-tools-quality/README.md)的七项校准缺口。只修 `checkpoints.ts` 注释，配置、实现、测试、PB 和公共接口均未改变；正文守恒由只读快检复算。
 
 ## 结果与边界
@@ -31,3 +65,5 @@
 合并基点 main 的 Documentation `39913781974` 与 Coverage `39913781939` 已 completed/success，App15368 两 required checks annotation 均 0；完整日志核零项目/平台诊断，20170 例／774 源，lint5942文件 error/warning/info 全 0。PR15 的全 check、official ratchet 与 protected fast 原件沿上窗复用，本次没有重采覆盖率或重跑未变测试。当前增量 check:docs、lint-zero（5944 文件，error/warning/info 均 0）、ledger、diff 与只读快检通过；首轮仅 all-cards 格式诊断，原件保留，格式化后清零。打包后的直接文档/静态复验及提交/推送/PR 门另存发布回执；不能把基点 CI 当新提交 CI。
 
 所有本次场景成功记录的 pageerror、console warning/error 均为空；未新增完整剧情 E2E、音视频成品或二阶段编辑器预览信用。下一有限范围可转 pre94 3k；无下一位 Agent 提示词，Codex 继续负责。只读复验失效时按具体变动补核，不从头重审已接受文件。
+```
+<!-- incremental-original-source:end -->

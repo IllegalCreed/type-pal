@@ -1,5 +1,39 @@
 # CODE3i 预缓存 UI／客户端／商标质量收口
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: audit-report-v1 / 1.0.0
+
+## 审计问题
+
+原审计「CODE3i 预缓存 UI／客户端／商标质量收口」的主题按原文时点保留(摘录:[b658 完整远端门与两条原生 annotation](runner-rework.json)、[完整原件](runner-rework-receipts.json.gz)：Documentatio)。
+
+## 范围与证据
+
+原报告含章节[CODE3i 预缓存 UI／客户端／商标质量收口、2026-10-23 runner 迁移通知窄修、2026-10-23 PR14 CI 增量、证据身份、来源与输入、断言与业务 oracle]、8个链接;固定main源6395B(SHA 3c07d4af9ce2)。当前存活入口:[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)、[README.md](../README.md)、[ci-rework-receipts.json.gz](ci-rework-receipts.json.gz)、[ci-rework.json](ci-rework.json)、[receipts.json.gz](receipts.json.gz)、[review.json](review.json)
+
+## 发现
+
+原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+
+## 结论
+
+原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+
+## 整改与复核
+
+本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 6395B / SHA-256 3c07d4af9ce2c33b84c8ca5d3c5b9992e6bbf5c780277907b0b56b81728a2f5a；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE3i 预缓存 UI／客户端／商标质量收口
+
 ## 2026-10-23 runner 迁移通知窄修
 
 [b658 完整远端门与两条原生 annotation](runner-rework.json)、[完整原件](runner-rework-receipts.json.gz)：Documentation39894317671与Coverage39894317718均success；20,172例/774源，硬门与原7条Action/Node提示0。GitHub原生check-runs API另有每工作流1条ubuntu-latest迁移notice，控制台raw没有这些提示，不能据raw零计数宣称全平台零。两任务实际Image均ubuntu-24.04；按官方runner-images #14748仅将两个runs-on固定该现用镜像，恢复两标签后与b658全文字节一致。不改规则/timeout/权限/命令/项目Node，无产品或测试变化。只读verify显式核原生通知与当前两标签版本桥；当前必需远端补门待跑，本地全仓/coverage复用。发布状态看实际后继Git/PR。
@@ -39,3 +73,5 @@ UI 使用真实 DOM/语言，宿主移除 roots 后通知语言释放订阅，�
 pre94当前64accept/19partial，3i仅本轮原五源范围接受，10文件新关闭/3旧接受刷新；3404tracked/405closed/104review/2895pending。shared格式、广域bootstrap/main、splash源码和94–102不附带关闭。dialog外层防御catch登记结构候选，SW多次注册无生产caller，商标中间fade已明确既有差异；未知不强行实现。提交/推送/PR与合并状态以Git和实际CI为准。
 
 上游：[3i](../README.md)、[父卡](../../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)。
+```
+<!-- incremental-original-source:end -->

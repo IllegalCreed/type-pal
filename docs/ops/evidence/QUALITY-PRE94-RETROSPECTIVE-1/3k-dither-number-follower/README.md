@@ -1,5 +1,39 @@
 # CODE3k dither / number / follower 当前复审切片
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: audit-report-v1 / 1.0.0
+
+## 审计问题
+
+原审计「CODE3k dither / number / follower 当前复审切片」的主题按原文时点保留(摘录:基点：`6aa56ea80`；分支：`codex/code-quality-3y`，相对 `origin/main` 为 `0 behind / 192 ahead`。本切片完成 CODE-QUALI)。
+
+## 范围与证据
+
+原报告含章节[CODE3k dither / number / follower 当前复审切片、逐文件与真值边界、判别力与结论、验证]、1个链接;固定main源2618B(SHA c469b1da3bcf)。当前存活入口:[read-boundaries.json](read-boundaries.json)
+
+## 发现
+
+原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+
+## 结论
+
+原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+
+## 整改与复核
+
+本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 2618B / SHA-256 c469b1da3bcf00ad1ec5434deb71d419beb46c9c430d9c295e65402f34478b65；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE3k dither / number / follower 当前复审切片
+
 基点：`6aa56ea80`；分支：`codex/code-quality-3y`，相对 `origin/main` 为 `0 behind / 192 ahead`。本切片完成 CODE-QUALITY-3k 剩余三个实现文件及直接测试的逐文件阅读；3k 整卡仍 `partial`，不把本片当作整卡 `accept`。
 
 ## 逐文件与真值边界
@@ -20,3 +54,5 @@
 
 按用户成本约束，本小片未运行 coverage、official ratchet、protected fast 或全仓 `pnpm check`；这些门留到完整大模块收口前集中执行。后续可继续处理 `drawNumber` 非有限输入的高风险边界裁决或进入下一张 pre-94 pending 卡；94–102 仍后置。
 
+```
+<!-- incremental-original-source:end -->

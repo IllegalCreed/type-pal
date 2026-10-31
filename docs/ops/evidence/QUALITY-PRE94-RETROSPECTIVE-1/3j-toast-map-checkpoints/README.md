@@ -1,5 +1,39 @@
 # CODE3j toast / map-names / checkpoints 当前复审切片
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: audit-report-v1 / 1.0.0
+
+## 审计问题
+
+原审计「CODE3j toast / map-names / checkpoints 当前复审切片」的主题按原文时点保留(摘录:基点：`cfed1430e`；分支：`codex/code-quality-3y`，相对 `origin/main` `0 behind`。这是 CODE-QUALITY-3j 的第三个有限切片，核三)。
+
+## 范围与证据
+
+原报告含章节[CODE3j toast / map-names / checkpoints 当前复审切片、逐文件与 caller、判别力与结论]、1个链接;固定main源2109B(SHA cc316a24f1e2)。当前存活入口:[read-boundaries.json](read-boundaries.json)
+
+## 发现
+
+原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+
+## 结论
+
+原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+
+## 整改与复核
+
+本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 2109B / SHA-256 cc316a24f1e2865722772bb4f0bca781720097fc3d00d22eb608f73ff907a791；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE3j toast / map-names / checkpoints 当前复审切片
+
 基点：`cfed1430e`；分支：`codex/code-quality-3y`，相对 `origin/main` `0 behind`。这是 CODE-QUALITY-3j 的第三个有限切片，核三个剩余生产小文件、直接测试和相邻 detector/store/共享 map-name caller。3j 整卡仍 partial。
 
 ## 逐文件与 caller
@@ -15,3 +49,5 @@
 定向 `toast.test.ts`、`map-names.test.ts`、`checkpoints.test.ts`、`detectors.test.ts`、`detectors.glm-phase1-leaves.test.ts`：`5 files / 22 tests passed`，0 failure/skip/stderr。未发现 toast timer/container ownership、map fallback、checkpoint id/时间或 detector 纯函数的直接缺陷；未知项仅是速通路线/坐标的真实运行验证，不修改数据、不改玩法。
 
 本片不运行 coverage、official ratchet、protected fast 或全仓 `pnpm check`；按用户规则留到完整大模块收口。3j 七个生产文件现均有直接切片证据，但整卡仍 partial，checkpoint 实跑未知保持显式 pending。
+```
+<!-- incremental-original-source:end -->

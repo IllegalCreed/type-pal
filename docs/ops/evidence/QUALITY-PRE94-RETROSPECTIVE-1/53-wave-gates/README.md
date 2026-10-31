@@ -1,5 +1,39 @@
 # Pre-94 47–52 波次质量门证据
 
+Status: rework
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: audit-report-v1 / 1.0.0
+
+## 审计问题
+
+原审计「Pre-94 47–52 波次质量门证据」的主题按原文时点保留(摘录:`f544b9b94` 的“pnpm check 通过/波次收口”缺少完整未裁剪原件、按来源统计的诊断计数和零诊断结论，不能满足 AGENTS 的 error/warning/info 清零门。**撤)。
+
+## 范围与证据
+
+原报告含章节[Pre-94 47–52 波次质量门证据、当前裁定、GLM独立审计四项返工后续、原回执（历史，已撤回通过/收口信用）]、3个链接;固定main源5647B(SHA 8e9d0b386fa6)。当前存活入口:[README.md](receipt-audit/README.md)、[audit.json](receipt-audit/audit.json)、[original-readme.md.gz](receipt-audit/original-readme.md.gz)
+
+## 发现
+
+原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+
+## 结论
+
+原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+
+## 整改与复核
+
+本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 5647B / SHA-256 8e9d0b386fa627f342d04c1771ed87f6c30c0704650ab94600a14bb559816582；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# Pre-94 47–52 波次质量门证据
+
 Status: rework（2026-10-18 撤回统一门通过与收口信用）
 
 ## 当前裁定
@@ -50,3 +84,5 @@ C10 的完整原件已重核 SHA，并重数624条 act、243条环境告警（�
 > - `packages/game/src/present/menu/inventory-list-pixels.grok-r1.test.ts` 与 `shop-preview-pixels.grok-r1.test.ts` 的直接像素测试仍分别有 `document is not defined` 环境诊断，保留 `review`，未改环境、未跳过、未静音。
 > - `packages/game/src/present/menu/draw-magic.ts` 仍为 `review`：SDLPal `PlayerInfoBox` 的毒/状态视觉与当前实现存在高风险边界，已由 `GAME-MAGIC-PLAYERINFO-STATUS-1` 单独停线等待裁决。
 > - 下一批继续从 pre-94 的 pending 中选不与活跃任务重叠的最小切片；不把 94–102 或后续卡提前纳入本波次。
+```
+<!-- incremental-original-source:end -->

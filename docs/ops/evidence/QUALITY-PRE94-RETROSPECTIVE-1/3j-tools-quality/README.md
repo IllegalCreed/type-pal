@@ -1,5 +1,39 @@
 # CODE3j tools／speedrun 质量窗口
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「CODE3j tools／speedrun 质量窗口」的治理候选页;证据原件即下方逐字节保全的固定main源(6238B,SHA 4a6311b574a6)。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原2个链接处置见作者review的linkDisposition。当前存活入口:[receipts.json.gz](receipts.json.gz)、[review.json](review.json)
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 6238B / SHA-256 4a6311b574a64b1ce34ecc2dd2d96b68af796ac3879ced2e4c645f5b1021b8bf；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE3j tools／speedrun 质量窗口
+
 2026-10-23，Codex 单 Owner，同一 `codex/code-quality-3y`，基点 `1880db84a18aa40574d768621dd3ae6ddc7c9df9`。原卡七个生产文件及必要专测；不扩展 94–102，不改节点、坐标、PB、默认时间、游戏机制或公共接口。当前统一门与文件裁定以 [逐文件记录](review.json) 的 `integration` 为准，历史定向通过不代替当前全仓门。
 
 ## 复验入口
@@ -34,3 +68,5 @@
 单次官方报告采集（原 ratchet 因一项结构计数拒绝）：20170 例／774 源；加入精确 -1/-1 默认分支结构协调后，同报告官方策略重放与 strict/protected fast 零回退，完整 stdout 与前窗业务日志逐块核对：只有 author baseline 的 elapsedMs 自然变化（IO 计数全相同），已全文核该 console.info 来源。最终策略重放/protected 的 stderr 空；原 ratchet 的 166 字节拒绝 stderr 原样保留，不记首跑通过。只移除实际已删的 toast 两例文件；旧文件内退役表与保护判据不变，仅私有默认参数已覆盖分支 -1/-1 的精确结构协调。最终基线采用本次原生投影。
 
 三文件新关闭：time-format.ts、toast.test.ts、map-names.test.ts；checkpoints.ts 旧关闭撤回 review，其余 11 个同版接受刷新。当前 3403 tracked／407 closed／104 review／2892 pending；固定 83 卡仍 64 accept／19 partial／0 pending。checkpoints 五坐标、BGM86、三入口仍待真实校准，不把包绿当路线完成。
+```
+<!-- incremental-original-source:end -->

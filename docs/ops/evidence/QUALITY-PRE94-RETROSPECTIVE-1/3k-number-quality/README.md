@@ -1,5 +1,39 @@
 # CODE3k 数字布局、共享blit与非有限隔离
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「CODE3k 数字布局、共享blit与非有限隔离」的治理候选页;证据原件即下方逐字节保全的固定main源(2832B,SHA eb47f12ab9a9)。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原5个链接处置见作者review的linkDisposition。当前存活入口:[GAME-DRAW-NUMBER-NONFINITE-1.md](../../../tasks/GAME-DRAW-NUMBER-NONFINITE-1.md)、[README.md](../present-primitives-quality/README.md)、[prove-blit.mjs](prove-blit.mjs)、[review.json](review.json)、[verify.mjs](verify.mjs)
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 2832B / SHA-256 eb47f12ab9a9650c387b7b8d1a7444d5d2f7d3e380f0c57c38bcbd2d698785c7；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE3k 数字布局、共享blit与非有限隔离
+
 同一3y，Codex单Owner，基点f5457a14；main合并后两CI完整日志0诊断。复用[原primitive逐文件证据](../present-primitives-quality/README.md)，只补number余项；有限窗口已接受，发布状态按后继分支/PR回执。
 
 [五项逐文件A–H、实际读域/调用链与限制](review.json)，[默认只读语句证明](prove-blit.mjs)。三个当前实施文件为draw-number.ts、slots专测、新nonfinite专测；原8布局例与共享叶未改。
@@ -15,3 +49,5 @@
 [默认只读复验](verify.mjs)核当前指纹、全部原件分片、原生红绿/反控身份与main CI日志；不重跑测试或覆盖率。完整集中门回执列于review.json的gateReceiptParts。两次文档前置失败保留，后一次为续期引用的一层SHA漏更新；最终全部归零。E2E006仍rework，无新增执行/视觉信用。
 
 封存补核：旧SDLPal注释链接少一级../，已纠正为实际存在的根reference路径；其余源码字节与f2d4ba3b9完整候选一致。原冻结件/原件不重写，commentDelta说明唯一差异；复用同一覆盖率报告，最终Git候选/CI以后继回执为准。
+```
+<!-- incremental-original-source:end -->

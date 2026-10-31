@@ -1,5 +1,39 @@
 # 用户转达的GLM独立审计：四项收口纪律返工
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: audit-report-v1 / 1.0.0
+
+## 审计问题
+
+原审计「用户转达的GLM独立审计：四项收口纪律返工」的主题按原文时点保留(摘录:基点291b7b59d，唯一codex/code-quality-3y，Codex单一Owner。用户转达内容层通过（五修复、71锚、测试diff、baseline和六退役）；本轮没有取得GLM原始脚)。
+
+## 范围与证据
+
+原报告含章节[用户转达的GLM独立审计：四项收口纪律返工、逐项裁定、一手来源与范围、质量门与未完成]、6个链接;固定main源4604B(SHA 13fc6cf3287f)。当前存活入口:[anchor-corrections.json](anchor-corrections.json)、[authorization-instructions.json](authorization-instructions.json)、[gates-followup.json](gates-followup.json)、[retirement-authorizations.json](retirement-authorizations.json)、[retirement-proof-after-comments.json](retirement-proof-after-comments.json)、[retirement-proof-before-comments.json](retirement-proof-before-comments.json)
+
+## 发现
+
+原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+
+## 结论
+
+原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+
+## 整改与复核
+
+本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 4604B / SHA-256 13fc6cf3287fe1769c7680c6e266af90016e89914a800e8ba6f5e0cd98429b25；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# 用户转达的GLM独立审计：四项收口纪律返工
+
 基点291b7b59d，唯一codex/code-quality-3y，Codex单一Owner。用户转达内容层通过（五修复、71锚、测试diff、baseline和六退役）；本轮没有取得GLM原始脚本/逐项记录，不把摘要升级为Codex已独立重验全部内容。
 
 ## 逐项裁定
@@ -28,3 +62,5 @@
 [gates-followup.json](gates-followup.json)记录定向既有判据、相邻inventory/metrics工具回归及docs/lint/ledger/diff的实际完整输出。对注释更正不新增镜像测试；源锚直接读取、授权原文与前后predicate/payload重建分别留证。本次全仓check、官方ratchet、protected fast、产品测试、E2E均未运行，不修改baseline，不补造历史完整日志。
 
 零新增文件关闭；账本仍3312 tracked /289closed/47review/2976pending，83卡49partial/34pending/0accept。47–52原回执仍rework，修正3/4不自动消除1/2证据缺口；未来大模块另保完整stdout/stderr、分项诊断计数后再验当前统一门。后续继续UI测试合同/隔离和73卡，不把治理缩成回执修饰，也不宣布全仓完成。
+```
+<!-- incremental-original-source:end -->

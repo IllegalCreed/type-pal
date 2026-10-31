@@ -1,5 +1,39 @@
 # CODE3i 对话资源 / 预缓存 / 音量 / 商标复审切片
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: audit-report-v1 / 1.0.0
+
+## 审计问题
+
+原审计「CODE3i 对话资源 / 预缓存 / 音量 / 商标复审切片」的主题按原文时点保留(摘录:2026-10-23 当前补八维及测试质量：[UI／客户端／商标窗口](quality-closeout/README.md)。复用本页与72已有有效证据，补生命周期隔离、真实消息/渲染oracle和)。
+
+## 范围与证据
+
+原报告含章节[CODE3i 对话资源 / 预缓存 / 音量 / 商标复审切片、逐文件范围与真实边界、发现、修复与保留、验证、2026-10-18 当前counter、2026-10-18 用户批准后的窄修]、5个链接;固定main源5061B(SHA 27e349b102df)。当前存活入口:[QUALITY-BOOT-FAILURE-PROGRESS-1.md](../../../tasks/QUALITY-BOOT-FAILURE-PROGRESS-1.md)、[README.md](../72-boot-loading/README.md)、[README.md](../72-boot-loading/approved-fix/README.md)、[README.md](quality-closeout/README.md)、[read-boundaries.json](read-boundaries.json)
+
+## 发现
+
+原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+
+## 结论
+
+原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+
+## 整改与复核
+
+本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 5061B / SHA-256 27e349b102df9ecf6df64e35f01c892d1c2394e32929a756a825b91aaa54ebc4；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE3i 对话资源 / 预缓存 / 音量 / 商标复审切片
+
 2026-10-23 当前补八维及测试质量：[UI／客户端／商标窗口](quality-closeout/README.md)。复用本页与72已有有效证据，补生命周期隔离、真实消息/渲染oracle和三份有效反控；源码仅注释与私有同合同formatter合并。本窗集中门已零项目诊断通过，原五源范围接受、固定83为64accept/19partial；平台提示清零与PR发布待真实远端核。下文是历史时点，不覆盖当前回执。
 
 基点：`f2ebb196f`；分支：`codex/code-quality-3y`，复核前已 `git fetch origin --prune`，相对 `origin/main` 为 `0 behind / 190 ahead`。本切片继续只处理 94 之前的 CODE-QUALITY-3i；94–102 与 103+ 未触碰。整卡仍 `partial`，不把本切片当作整项 `accept`。
@@ -30,3 +64,5 @@ primary source 为 `reference/sdlpal/main.c:197-203` 的 DOS 商标顺序，资�
 ## 2026-10-18 用户批准后的窄修
 
 [批准修复证据](../72-boot-loading/approved-fix/README.md)替代上述“未修/冻结”的当前状态：三个生产文件按批准修复失败进度与计数ownership，四条先红后绿、相邻58绿/原红精确重放1绿、game typecheck及实际PROD失败/正常进场与看图完成。boot-loading.ts新增闭合，main/UI仍review，UI主测试新增review；289closed/47review/2976pending。旧counter和原NaN/测试历史原件保留，不把整卡升格accept。全仓check/ratchet/protected未运行，47–52旧门信用已撤回；下一步同片UI测试合同/隔离，再续73。
+```
+<!-- incremental-original-source:end -->
