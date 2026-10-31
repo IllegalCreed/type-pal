@@ -325,134 +325,38 @@
               "sourceSha256": "81f8d39f2b0fa818a74ac7335b7293d2ca3b2cc968a74fd9d63197935b0e4b8d",
               "lineCount": 475,
               "headings": [
-                {
-                  "line": 1,
-                  "text": "多 Agent 工作流"
-                },
-                {
-                  "line": 7,
-                  "text": "测试质量验收（用户 2026-10-03 固化）"
-                },
-                {
-                  "line": 19,
-                  "text": "历史三贤人流程（以下供查旧任务）"
-                },
-                {
-                  "line": 25,
-                  "text": "文件分工"
-                },
-                {
-                  "line": 37,
-                  "text": "角色分工"
-                },
-                {
-                  "line": 48,
-                  "text": "状态机"
-                },
-                {
-                  "line": 60,
-                  "text": "Step 0:前提真值门"
-                },
-                {
-                  "line": 66,
-                  "text": "Coding Owner 先交付什么"
-                },
-                {
-                  "line": 81,
-                  "text": "审查方如何独立反证"
-                },
-                {
-                  "line": 90,
-                  "text": "停线与签字失效"
-                },
-                {
-                  "line": 102,
-                  "text": "推进签字"
-                },
-                {
-                  "line": 106,
-                  "text": "进入 build 前:设计签字"
-                },
-                {
-                  "line": 122,
-                  "text": "进入 done 前:审查签字"
-                },
-                {
-                  "line": 132,
-                  "text": "向用户发起复验"
-                },
-                {
-                  "line": 145,
-                  "text": "缺签豁免"
-                },
-                {
-                  "line": 154,
-                  "text": "交接提示词"
-                },
-                {
-                  "line": 158,
-                  "text": "Kimi / GLM 并行审查（2026-09-04 用户拍板）"
-                },
-                {
-                  "line": 206,
-                  "text": "任务分级"
-                },
-                {
-                  "line": 216,
-                  "text": "迁移缺陷优先级"
-                },
-                {
-                  "line": 229,
-                  "text": "审查规则"
-                },
-                {
-                  "line": 258,
-                  "text": "开发期旧版本兼容审查门"
-                },
-                {
-                  "line": 274,
-                  "text": "上下文锚点"
-                },
-                {
-                  "line": 315,
-                  "text": "额度耗尽与代班规则"
-                },
-                {
-                  "line": 333,
-                  "text": "Coding Owner 规则"
-                },
-                {
-                  "line": 346,
-                  "text": "共享工作树与 stash"
-                },
-                {
-                  "line": 379,
-                  "text": "资源生成规则"
-                },
-                {
-                  "line": 394,
-                  "text": "视觉验证能力"
-                },
-                {
-                  "line": 403,
-                  "text": "验证时机分层（用户拍板，2026-08-08）"
-                },
-                {
-                  "line": 424,
-                  "text": "看板规则"
-                },
-                {
-                  "line": 436,
-                  "text": "任务卡规则"
-                },
-                {
-                  "line": 457,
-                  "text": "阶段纪律"
-                },
-                {
-                  "line": 466,
-                  "text": "Done 标准"
-                }
+                { "line": 1, "text": "多 Agent 工作流" },
+                { "line": 7, "text": "测试质量验收（用户 2026-10-03 固化）" },
+                { "line": 19, "text": "历史三贤人流程（以下供查旧任务）" },
+                { "line": 25, "text": "文件分工" },
+                { "line": 37, "text": "角色分工" },
+                { "line": 48, "text": "状态机" },
+                { "line": 60, "text": "Step 0:前提真值门" },
+                { "line": 66, "text": "Coding Owner 先交付什么" },
+                { "line": 81, "text": "审查方如何独立反证" },
+                { "line": 90, "text": "停线与签字失效" },
+                { "line": 102, "text": "推进签字" },
+                { "line": 106, "text": "进入 build 前:设计签字" },
+                { "line": 122, "text": "进入 done 前:审查签字" },
+                { "line": 132, "text": "向用户发起复验" },
+                { "line": 145, "text": "缺签豁免" },
+                { "line": 154, "text": "交接提示词" },
+                { "line": 158, "text": "Kimi / GLM 并行审查（2026-09-04 用户拍板）" },
+                { "line": 206, "text": "任务分级" },
+                { "line": 216, "text": "迁移缺陷优先级" },
+                { "line": 229, "text": "审查规则" },
+                { "line": 258, "text": "开发期旧版本兼容审查门" },
+                { "line": 274, "text": "上下文锚点" },
+                { "line": 315, "text": "额度耗尽与代班规则" },
+                { "line": 333, "text": "Coding Owner 规则" },
+                { "line": 346, "text": "共享工作树与 stash" },
+                { "line": 379, "text": "资源生成规则" },
+                { "line": 394, "text": "视觉验证能力" },
+                { "line": 403, "text": "验证时机分层（用户拍板，2026-08-08）" },
+                { "line": 424, "text": "看板规则" },
+                { "line": 436, "text": "任务卡规则" },
+                { "line": 457, "text": "阶段纪律" },
+                { "line": 466, "text": "Done 标准" }
               ],
               "unresolvedSignals": [
                 "3:> **当前模式（用户 2026-09-25 决定）**：Codex 分派任务，其他 Agent 在隔离范围执行，Codex 独立验收、集成与收口；不再要求 Codex/Kimi/GLM 固定三席签字。下文保留三贤人时期流程作历史参考，与当前模式冲突时以 [`AGENTS.md`](../../AGENTS.md) 顶部「当前临时模式」为准。用户恢复三贤人制",
@@ -542,7 +446,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "290e610459a08648d8c68dc8fba1a5754af4c1f36e7612fcbb790c7bb6a385ba",
-      "afterSha256": "f32f38f5dc9d5d54573d268148ef9a25c2c8f025ef2b5ffdf2eebbafa95679e6",
+      "afterSha256": "cd8c42b147b3c6a9e65d47d0bde95a09adb8064a18bb7161a32579946f453c0c",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -571,7 +475,7 @@
       },
       "revision": {
         "currentSha": "ce5f6cc05f113054d748108ccc4f9ddb50f24a8d39184cf773fb627e20f48f11",
-        "implementationSha": "fb6b2bff968d81d63044a5e20f22158890d8a41fbd82edf7f3ecf64906ea02bf",
+        "implementationSha": "cd8c42b147b3c6a9e65d47d0bde95a09adb8064a18bb7161a32579946f453c0c",
         "contentVersion": 47,
         "minimumSaveVersion": 12,
         "history": [
@@ -948,14 +852,8 @@
               "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
               "lineCount": 97,
               "headings": [
-                {
-                  "line": 1,
-                  "text": "多 Agent 任务看板"
-                },
-                {
-                  "line": 17,
-                  "text": "看板规则"
-                }
+                { "line": 1, "text": "多 Agent 任务看板" },
+                { "line": 17, "text": "看板规则" }
               ],
               "unresolvedSignals": [
                 "3:当前看板只记录尚未终态的任务；历史状态快照见 [board-history/board-20261004.md](archive/board-history/board-20261004.md)。任务卡、证据与审计入口见 [ops README](README.md)。",
@@ -980,14 +878,8 @@
                   "sha256": "51b1a6c3b0223e4b8fdd71c2db5fab6a8ca32edb769886999f2593c66f8c35e6",
                   "lineCount": 22,
                   "headings": [
-                    {
-                      "line": 1,
-                      "text": "多 Agent 任务看板"
-                    },
-                    {
-                      "line": 17,
-                      "text": "看板规则"
-                    }
+                    { "line": 1, "text": "多 Agent 任务看板" },
+                    { "line": 17, "text": "看板规则" }
                   ],
                   "scope": "2026-10-08 finite contract dispatch navigation only: canonical script interaction, item alchemy boundaries and project loading. Previous 2026-10-07 three-card closure remains valid; no new acceptance or coverage/hosted CI claim."
                 },
@@ -996,14 +888,8 @@
                   "sha256": "f85ad147dbe5393346520997cf179389bba6900a1d6359863f76d639b75316a1",
                   "lineCount": 19,
                   "headings": [
-                    {
-                      "line": 1,
-                      "text": "多 Agent 任务看板"
-                    },
-                    {
-                      "line": 14,
-                      "text": "看板规则"
-                    }
+                    { "line": 1, "text": "多 Agent 任务看板" },
+                    { "line": 14, "text": "看板规则" }
                   ],
                   "scope": "2026-10-11 三个 GLM 有限测试包经 Codex 独立验收，六/七/十四合同与六/七/十五针，任务归档 done；看板移除三卡，生成索引接到实际归档顶部状态。其它活动卡与历史 E2E 结论未改动；托管 CI 必须另核新 HEAD。",
                   "method": "prior-full-text-review-plus-current-delta-and-state-reconciliation"
@@ -1013,14 +899,8 @@
                   "sha256": "e0a7d72b9145fd4dd5fa36b85c0cfa0e4f557a4a644caf0b2dc0485c9291cd64",
                   "lineCount": 20,
                   "headings": [
-                    {
-                      "line": 1,
-                      "text": "多 Agent 任务看板"
-                    },
-                    {
-                      "line": 15,
-                      "text": "看板规则"
-                    }
+                    { "line": 1, "text": "多 Agent 任务看板" },
+                    { "line": 15, "text": "看板规则" }
                   ],
                   "scope": "2026-10-11 新增 ED-ENTITY-STATE-PLAN-1 draft 任务入口；需求已追溯至 E2E 原始讨论，完整设计待用户审阅。仅新增该行，其它活动卡与历史验收状态不变；没有产品 build 或新 E2E 通过声明。",
                   "method": "prior-full-text-review-plus-current-delta-and-state-reconciliation",
@@ -1041,14 +921,8 @@
                   "sha256": "e03207942bee814c505325cd0beb5ab3f967aba65e6fbb2efd0fb6ef882c2a08",
                   "lineCount": 20,
                   "headings": [
-                    {
-                      "line": 1,
-                      "text": "多 Agent 任务看板"
-                    },
-                    {
-                      "line": 15,
-                      "text": "看板规则"
-                    }
+                    { "line": 1, "text": "多 Agent 任务看板" },
+                    { "line": 15, "text": "看板规则" }
                   ],
                   "scope": "2026-10-12：ED-ENTITY-STATE-PLAN-1 静态首批经用户验收、维持review，完整现场/E2E采集待续；TEST-GLM-GAME-TURN-BOUNDARIES-1 的先前accept经原件复核撤回，重新登记rework。其余活动任务保留原状态，不借文档一致性检查升级产品、剧情或CI结论。",
                   "method": "current-full-text-and-primary-evidence-read-20261012",
@@ -1745,13 +1619,43 @@
             "scope": "Only owned window/present rows removed on local done; risk stays draft. Other Owners untouched.",
             "evidence": "docs/ops/evidence/QUALITY-PENDING-100-2/README.md",
             "notRun": ["new runtime or E2E or visual or coverage by this documentation bridge"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-11-01",
+            "action": "remaining-five-reviewed-delta",
+            "previousAfterSha256": "f32f38f5dc9d5d54573d268148ef9a25c2c8f025ef2b5ffdf2eebbafa95679e6",
+            "afterSha256": "217df3e4f647ccb56ac9ca9304d111d3408de76d88e9d85e72d4c1894e64415d",
+            "scope": "Reopen only naming task for five remaining review inputs; single Owner and heavy-at-end admission.",
+            "evidence": "docs/ops/evidence/QUALITY-NAMING-ORGANIZATION-1/remaining-five/README.md",
+            "notRun": ["runtime/E2E/visual by documentation bridge"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-11-01",
+            "action": "remaining-five-reviewed-delta",
+            "previousAfterSha256": "217df3e4f647ccb56ac9ca9304d111d3408de76d88e9d85e72d4c1894e64415d",
+            "afterSha256": "8f814a886248ba5f1e7a3725dfb6148eaebf1ac1fcda9763f5ea1dcb199eb206",
+            "scope": "Finite five-review closeout status, mapping/navigation or their direct reviewed metadata projection; preserve old facts and other entries.",
+            "evidence": "docs/ops/evidence/QUALITY-NAMING-ORGANIZATION-1/remaining-five/README.md",
+            "notRun": ["runtime/E2E/visual by document metadata"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-11-01",
+            "action": "remaining-five-reviewed-delta",
+            "previousAfterSha256": "8f814a886248ba5f1e7a3725dfb6148eaebf1ac1fcda9763f5ea1dcb199eb206",
+            "afterSha256": "cd8c42b147b3c6a9e65d47d0bde95a09adb8064a18bb7161a32579946f453c0c",
+            "scope": "Finite five-review closeout status, mapping/navigation or their direct reviewed metadata projection; preserve old facts and other entries.",
+            "evidence": "docs/ops/evidence/QUALITY-NAMING-ORGANIZATION-1/remaining-five/README.md",
+            "notRun": ["runtime/E2E/visual by document metadata"]
           }
         ]
       },
       "evidence": {
         "kind": "owned-release-preparation",
         "path": "docs/ops/board.md",
-        "afterSha256": "fb6b2bff968d81d63044a5e20f22158890d8a41fbd82edf7f3ecf64906ea02bf",
+        "afterSha256": "cd8c42b147b3c6a9e65d47d0bde95a09adb8064a18bb7161a32579946f453c0c",
         "scope": "Release delta.",
         "lineCount": 83,
         "currentMaintenance": {
@@ -3072,10 +2976,7 @@
             "path": "docs/phase-governance/reviews/20261004-semantic-current-batch.json"
           }
         },
-        {
-          "action": "3l-20261023",
-          "previousCommit": "402128e6d4ed3be5783abf4fc941e267cc5c3e4b"
-        },
+        { "action": "3l-20261023", "previousCommit": "402128e6d4ed3be5783abf4fc941e267cc5c3e4b" },
         {
           "date": "2026-10-25",
           "previousAfterSha256": "290e610459a08648d8c68dc8fba1a5754af4c1f36e7612fcbb790c7bb6a385ba",
@@ -3083,11 +2984,7 @@
           "scope": "Owned94–102 review delta; prior full record remains in base8eb Git. No other entry refreshed.",
           "evidence": "docs/ops/evidence/CODE-QUALITY-94/current-review/review.json"
         },
-        {
-          "date": "2026-10-25",
-          "revision": "b8b2ffaf4",
-          "action": "94–102 approved closeout"
-        },
+        { "date": "2026-10-25", "revision": "b8b2ffaf4", "action": "94–102 approved closeout" },
         {
           "date": "2026-10-25",
           "revision": "0e14c184eed91841ee0f48323b98c98b734a3129",
@@ -3113,7 +3010,7 @@
       "supersedes": [],
       "stopLine": "This scoped document maintenance does not grant complete story/runtime/visual/deployment acceptance or refresh unrelated historical evidence.",
       "userVisibleBeforeAfter": "现有治理入口保留 → 补齐 governance-index-v1 结构与可追溯元数据，任务状态和历史事实不变。",
-      "reviewedLines": "1-85",
+      "reviewedLines": "1-92",
       "reviewNotes": "看板移除已完成 DOCS-CATALOG-SPLIT-1 活动行；当前卡已完成 catalog schema 迁移，但不授予全 docs 或产品执行信用。\n2026-10-18: Codex read current authorized delta. Prior non-author/provenance applies only to its historical SHA. No new third-party or product execution credit.\n2026-10-18: independent RLE pilot calibration; only named current delta reviewed, no inherited product acceptance.\n2026-10-18: user explicitly replaces default duplicate Codex full review with evidence-based independent acceptance and targeted escalation.\n2026-10-18: user requests one large delegated task to reduce relays; no quality/risk rule weakened.\n2026-10-18: GLM stage1 evidence-first acceptance; only named current delta/withdrawal provenance reviewed, no full-file eight-axis reacceptance or historical raw-zero credit.\n2026-10-18: User assigns checkpoint rework to Codex;scope,14case compiler mapping,ledger withdrawal and ongoing unknowns recorded;no new closure/unified gate credit.\n2026-10-19: WORD/GBK scope,20current identities,two actual business counters,ledger withdrawals and unchanged input/public-field policies recorded;no new closure/unified gate credit.\n2026-10-19: CODE82 exact two-file scope/private length and naming cleanup,8unchanged identities/raw byte-equal/precise business counter;0newclosed or unified gate credit.\n2026-10-19: CODE6a4file A-H,old13identities retained+7targeted cases;20direct/47including20;exact cache-epoch stream and native failures retained;0newclosed or unified gate credit.\n2026-10-20: GLM enemy/role4file A-H,5+4old identities retained(one title mapping),11currentdirect/89rawadjacent0stderr;2oldgreen/newred assertion counters and first missing-SSS failure retained;0newclosed or unified gate credit.\n2026-10-20: GLM remaining5noncomment deltas accounted;revive2actual failures before fix;103+181+24current cases0stderr;oldconsole not invented. Only41-source checkpoint rework continues,0newclosed.\n2026-10-20 finite29changedsource+2testcase rework;41source records complete,0newclosed;test identity/native/limitations in linked receipt.\n2026-10-20: Only GLM finite gate-closeout row changed; same3y, actual E2E publication review and exact authorized structural normalization; no other83/94-102expansion. Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\n2026-10-20: Only GLM finite gate-closeout row changed; same3y, actual E2E publication review and exact authorized structural normalization; no other83/94-102expansion. Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\n2026-10-21: Owned pre94 present/speedrun candidate rows; all36 candidates review, 0newcard acceptance; actual ledger consumer count and unchanged historical fence checked. Whole check stopped at these stale document SHAs before package execution; no passed gate credit invented.\n2026-10-21 final: This supersedes only the prior owned candidate row/status note. Current static document hashes/line counts are paired; full runtime/coverage proof is external, not inferred from document review.\n2026-10-21 final: This supersedes only the prior owned candidate row/status note. Current static document hashes/line counts are paired; full runtime/coverage proof is external, not inferred from document review.",
       "integrationReview": {
         "reviewer": "Codex",
@@ -3371,18 +3268,9 @@
               "sourceSha256": "29b0e324cf58b8840ecbe9afb9c82b8b464c04bab172a2ad43d3137c389f0473",
               "lineCount": 21,
               "headings": [
-                {
-                  "line": 1,
-                  "text": "协作与工程维护"
-                },
-                {
-                  "line": 7,
-                  "text": "分类入口"
-                },
-                {
-                  "line": 16,
-                  "text": "文档与附件"
-                }
+                { "line": 1, "text": "协作与工程维护" },
+                { "line": 7, "text": "分类入口" },
+                { "line": 16, "text": "文档与附件" }
               ],
               "unresolvedSignals": []
             },
@@ -3433,7 +3321,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "c1df42497db373493f35f52056fc685ada73dc963edbf2af8f27a44ec0aad448",
-      "afterSha256": "4549404175b3c09b59dff5cf26b9c078665689e7d8de3f3578de52a8ad17512a",
+      "afterSha256": "8d7efa6651b6c2f73fac682a3d92fe7dadfb54266faf88bc0c6f0d33539a0ebb",
       "publicCallers": [
         "docs/ops/tasks/README.md → index.md",
         "docs/ops/board.md → tasks/index.md",
@@ -3454,7 +3342,7 @@
       },
       "revision": {
         "currentSha": "7685e5fbde52aba8c34b18c116728f7d14c83da85f10fbf677c7ed413b024f41",
-        "implementationSha": "31b6446459c2075b196e98653981da7a537c5ba4b41848b3a9314a863f254551",
+        "implementationSha": "8d7efa6651b6c2f73fac682a3d92fe7dadfb54266faf88bc0c6f0d33539a0ebb",
         "contentVersion": 33,
         "minimumSaveVersion": 12,
         "history": [
@@ -3822,13 +3710,43 @@
             "scope": "Deterministic task-top projection for three owned cards; source task states explicit.",
             "evidence": "docs/ops/evidence/QUALITY-PENDING-100-2/README.md",
             "notRun": ["new runtime or E2E or visual or coverage by this documentation bridge"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-11-01",
+            "action": "remaining-five-reviewed-delta",
+            "previousAfterSha256": "4549404175b3c09b59dff5cf26b9c078665689e7d8de3f3578de52a8ad17512a",
+            "afterSha256": "c8776dacea785731a0e4e78483b897e1f118cee8d52ebc3a5ea7d692a53126e8",
+            "scope": "Task top build status projection only.",
+            "evidence": "docs/ops/evidence/QUALITY-NAMING-ORGANIZATION-1/remaining-five/README.md",
+            "notRun": ["runtime/E2E/visual by documentation bridge"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-11-01",
+            "action": "remaining-five-reviewed-delta",
+            "previousAfterSha256": "c8776dacea785731a0e4e78483b897e1f118cee8d52ebc3a5ea7d692a53126e8",
+            "afterSha256": "1d0db3e0a89c4144aacbbac629d69a7344db7e747a75062ef3cb0a7d42c42413",
+            "scope": "Finite five-review closeout status, mapping/navigation or their direct reviewed metadata projection; preserve old facts and other entries.",
+            "evidence": "docs/ops/evidence/QUALITY-NAMING-ORGANIZATION-1/remaining-five/README.md",
+            "notRun": ["runtime/E2E/visual by document metadata"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-11-01",
+            "action": "remaining-five-reviewed-delta",
+            "previousAfterSha256": "1d0db3e0a89c4144aacbbac629d69a7344db7e747a75062ef3cb0a7d42c42413",
+            "afterSha256": "8d7efa6651b6c2f73fac682a3d92fe7dadfb54266faf88bc0c6f0d33539a0ebb",
+            "scope": "Finite five-review closeout status, mapping/navigation or their direct reviewed metadata projection; preserve old facts and other entries.",
+            "evidence": "docs/ops/evidence/QUALITY-NAMING-ORGANIZATION-1/remaining-five/README.md",
+            "notRun": ["runtime/E2E/visual by document metadata"]
           }
         ]
       },
       "evidence": {
         "kind": "owned-release-preparation",
         "path": "docs/ops/tasks/index.md",
-        "afterSha256": "31b6446459c2075b196e98653981da7a537c5ba4b41848b3a9314a863f254551",
+        "afterSha256": "8d7efa6651b6c2f73fac682a3d92fe7dadfb54266faf88bc0c6f0d33539a0ebb",
         "scope": "Release delta.",
         "lineCount": 537,
         "currentMaintenance": {
@@ -4095,22 +4013,10 @@
             "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
             "lineCount": 515,
             "headings": [
-              {
-                "line": 1,
-                "text": "任务卡索引"
-              },
-              {
-                "line": 7,
-                "text": "活动任务"
-              },
-              {
-                "line": 18,
-                "text": "已完成（historical）"
-              },
-              {
-                "line": 349,
-                "text": "已取消（superseded / historical）"
-              }
+              { "line": 1, "text": "任务卡索引" },
+              { "line": 7, "text": "活动任务" },
+              { "line": 18, "text": "已完成（historical）" },
+              { "line": 349, "text": "已取消（superseded / historical）" }
             ],
             "unresolvedSignals": [
               "181:| [EDITOR-LEAVE-GUARD-1 - 未保存修改的离开保护](../archive/tasks/done/EDITOR-LEAVE-GUARD-1-unsaved-project-changes.md) | done | 完成证据、历史签字与交接见原卡。 |",
@@ -4131,22 +4037,10 @@
                 "sha256": "0ea24369d1c912ca628ba9ec3367ca38f8bc5734757a21636d525b0d4d51c8f2",
                 "lineCount": 373,
                 "headings": [
-                  {
-                    "line": 1,
-                    "text": "任务卡索引"
-                  },
-                  {
-                    "line": 7,
-                    "text": "活动任务"
-                  },
-                  {
-                    "line": 21,
-                    "text": "已完成（historical）"
-                  },
-                  {
-                    "line": 364,
-                    "text": "已取消（superseded / historical）"
-                  }
+                  { "line": 1, "text": "任务卡索引" },
+                  { "line": 7, "text": "活动任务" },
+                  { "line": 21, "text": "已完成（historical）" },
+                  { "line": 364, "text": "已取消（superseded / historical）" }
                 ],
                 "scope": "2026-10-08 finite contract dispatch navigation only: canonical script interaction, item alchemy boundaries and project loading. Previous 2026-10-07 three-card closure remains valid; no new acceptance or coverage/hosted CI claim."
               },
@@ -4155,22 +4049,10 @@
                 "sha256": "d2eaa0dfe730972de8002b10aa32835f384940133f7c05fe30f007d43cbcb63a",
                 "lineCount": 374,
                 "headings": [
-                  {
-                    "line": 1,
-                    "text": "任务卡索引"
-                  },
-                  {
-                    "line": 7,
-                    "text": "活动任务"
-                  },
-                  {
-                    "line": 18,
-                    "text": "已完成（historical）"
-                  },
-                  {
-                    "line": 365,
-                    "text": "已取消（superseded / historical）"
-                  }
+                  { "line": 1, "text": "任务卡索引" },
+                  { "line": 7, "text": "活动任务" },
+                  { "line": 18, "text": "已完成（historical）" },
+                  { "line": 365, "text": "已取消（superseded / historical）" }
                 ],
                 "scope": "2026-10-11 三个 GLM 有限测试包经 Codex 独立验收，六/七/十四合同与六/七/十五针，任务归档 done；看板移除三卡，生成索引接到实际归档顶部状态。其它活动卡与历史 E2E 结论未改动；托管 CI 必须另核新 HEAD。",
                 "method": "prior-full-text-review-plus-current-delta-and-state-reconciliation"
@@ -4180,22 +4062,10 @@
                 "sha256": "6eda6ec55eee909b5b9e655c779a79764fc5f9ffc804bc45bca1e4845ebd6454",
                 "lineCount": 375,
                 "headings": [
-                  {
-                    "line": 1,
-                    "text": "任务卡索引"
-                  },
-                  {
-                    "line": 7,
-                    "text": "活动任务"
-                  },
-                  {
-                    "line": 19,
-                    "text": "已完成（historical）"
-                  },
-                  {
-                    "line": 366,
-                    "text": "已取消（superseded / historical）"
-                  }
+                  { "line": 1, "text": "任务卡索引" },
+                  { "line": 7, "text": "活动任务" },
+                  { "line": 19, "text": "已完成（historical）" },
+                  { "line": 366, "text": "已取消（superseded / historical）" }
                 ],
                 "scope": "2026-10-11 新增 ED-ENTITY-STATE-PLAN-1 draft 任务入口；需求已追溯至 E2E 原始讨论，完整设计待用户审阅。仅新增该行，其它活动卡与历史验收状态不变；没有产品 build 或新 E2E 通过声明。",
                 "method": "prior-full-text-review-plus-current-delta-and-state-reconciliation",
@@ -4212,22 +4082,10 @@
                 "sha256": "d71ee3f91ecbe2e0cb0a7e8f5ec0db0802131490106573a36b8060b6cd6f79d5",
                 "lineCount": 378,
                 "headings": [
-                  {
-                    "line": 1,
-                    "text": "任务卡索引"
-                  },
-                  {
-                    "line": 7,
-                    "text": "活动任务"
-                  },
-                  {
-                    "line": 19,
-                    "text": "已完成（historical）"
-                  },
-                  {
-                    "line": 369,
-                    "text": "已取消（superseded / historical）"
-                  }
+                  { "line": 1, "text": "任务卡索引" },
+                  { "line": 7, "text": "活动任务" },
+                  { "line": 19, "text": "已完成（historical）" },
+                  { "line": 369, "text": "已取消（superseded / historical）" }
                 ],
                 "scope": "2026-10-12：由官方 --print-task-index 按358张任务卡重新生成。ED-ENTITY-STATE-PLAN-1 为review，TURN-BOUNDARIES 为rework并回到活动区；最新main的ControlForm、ItemEffect、MenuBox三卡保持已完成归档。生成链接与排序不等于重新验收全部历史任务。",
                 "method": "prior-full-text-review + current-delta-and-primary-evidence-read-20261012",
@@ -4822,11 +4680,7 @@
           "scope": "Owned94–102 review delta; prior full record remains in base8eb Git. No other entry refreshed.",
           "evidence": "docs/ops/evidence/CODE-QUALITY-94/current-review/review.json"
         },
-        {
-          "date": "2026-10-25",
-          "revision": "b8b2ffaf4",
-          "action": "94–102 approved closeout"
-        },
+        { "date": "2026-10-25", "revision": "b8b2ffaf4", "action": "94–102 approved closeout" },
         {
           "date": "2026-10-25",
           "revision": "0e14c184eed91841ee0f48323b98c98b734a3129",
@@ -4847,7 +4701,7 @@
       "supersedes": [],
       "stopLine": "This scoped document maintenance does not grant complete story/runtime/visual/deployment acceptance or refresh unrelated historical evidence.",
       "userVisibleBeforeAfter": "现有治理入口保留 → 补齐 governance-index-v1 结构与可追溯元数据，任务状态和历史事实不变。",
-      "reviewedLines": "1-554",
+      "reviewedLines": "1-568",
       "reviewNotes": "任务索引将 DOCS-CATALOG-SPLIT-1 投影到 historical done；当前卡已完成 catalog schema 迁移，但不授予全 docs 或产品执行信用。\n2026-10-21: Owned pre94 present/speedrun candidate rows; all36 candidates review, 0newcard acceptance; actual ledger consumer count and unchanged historical fence checked. Whole check stopped at these stale document SHAs before package execution; no passed gate credit invented.\n2026-10-21 final: This supersedes only the prior owned candidate row/status note. Current static document hashes/line counts are paired; full runtime/coverage proof is external, not inferred from document review.\n2026-10-21 final: This supersedes only the prior owned candidate row/status note. Current static document hashes/line counts are paired; full runtime/coverage proof is external, not inferred from document review.",
       "integrationReview": {
         "reviewer": "Codex",
@@ -5062,18 +4916,9 @@
               "sourceSha256": "6aec8429b8778cc3ae2ba58cd184fc859ef6737702cd8997460db9f209d78fe7",
               "lineCount": 59,
               "headings": [
-                {
-                  "line": 1,
-                  "text": "多 Agent 任务卡"
-                },
-                {
-                  "line": 19,
-                  "text": "前提真值门与模板升级"
-                },
-                {
-                  "line": 48,
-                  "text": "目录状态与阅读须知（2026-09-06 增）"
-                }
+                { "line": 1, "text": "多 Agent 任务卡" },
+                { "line": 19, "text": "前提真值门与模板升级" },
+                { "line": 48, "text": "目录状态与阅读须知（2026-09-06 增）" }
               ],
               "unresolvedSignals": [
                 "13:当前二阶段和目标,逐项附 `file:line` 或一手证据;关键前提未知时保持 `blocked`。",
@@ -5314,16 +5159,7 @@
               "path": "docs/ops/templates/README.md",
               "sourceSha256": "3976d2bbda8a770fb94520c76747a78a0706b136a05ff8e39e078da00ce88dcd",
               "lineCount": 11,
-              "headings": [
-                {
-                  "line": 1,
-                  "text": "任务模板"
-                },
-                {
-                  "line": 7,
-                  "text": "文档与附件"
-                }
-              ],
+              "headings": [{ "line": 1, "text": "任务模板" }, { "line": 7, "text": "文档与附件" }],
               "unresolvedSignals": []
             },
             "history": [

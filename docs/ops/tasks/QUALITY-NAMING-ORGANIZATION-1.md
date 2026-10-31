@@ -1,12 +1,24 @@
 # QUALITY-NAMING-ORGANIZATION-1 — 命名与文件职责补审
 
-Status: review
+Status: done
 Owner: Codex
 Reviewer: Codex（单 Agent；无第三方复核信用）
 Phase: ops（具体模块沿其阶段合同）
 Capability: code-quality
 Visual Verification Timing: N/A（无产品或显示变化）
 Branch: codex/code-quality-94-102
+
+## 当前完成范围（2026-11-01）
+
+本卡代码与本地验收已完成：固定178历史主体的补审及范围外最后5份review均收口。五原主体按职责形成14专测+3夹具，逐输出八维接受；177保留/4有强例承接的退役。机器账3459 inventory／827closed／0review／2632pending，未核pending不动。全部门的原失败和修复补验见[本轮回执](../evidence/QUALITY-NAMING-ORGANIZATION-1/remaining-five/README.md)。发布操作由同一治理分支的PR记录提交、CI及合并实况；本地完成不声称尚未发生的远端成功。下方build准入和待门描述为各时点历史。
+
+## 当前有限准入：剩余五份测试的职责与质量（2026-11-01）
+
+Codex build allowed，单一 Coding Owner Codex。用户明确要求收口五份 cov85 专测：battle-opcodes、battle-system、event-opcode-player、event-opcodes、menu-driver；不是新百文件窗口。已 fetch，治理分支与 origin/main 同为 `5e66fa6b6291f94330fb5d7fc9828062e0eb8a51`，工作树干净，ahead/behind 0/0。GLM 回合卡仅允许写其新增测试，不与本片旧测试重叠。主工作树及其它工作树不动。
+
+此前固定178及剩余174目标已随 PR #34 合并，main 两门已通过；下文“publication pending”等保留为当时历史回执，不作为本批当前状态。五份是此前明确排除于固定178之外的 F/G review，旧行为证据复用不等于新全文信用。本批先冻结五份3647行原件和运行身份，再按实际调度、状态、脚本与测试生命周期组织；允许直接相邻测试作为去重／归属依据，不扩展其它产品治理。
+
+完整核读五份及必要 caller/fixture，逐项记录八维与旧→新身份、断言承接和未决项。修正误导标题、无判别力断言和无用夹具，不以去后缀或包级全绿收口。产品行为／公共接口／存档／资产不在本批实现范围；发现新高风险取舍另停线。定向与必要相邻验证按切片执行；全部五份完成后才集中全仓 check、官方 coverage/ratchet、protected、lint-zero、docs 和 ledger，诊断清零后同一分支提交推送、PR 合并并核 main CI。
 
 ## Current bounded admission: dialogue producer and blow state contracts
 
@@ -1250,3 +1262,16 @@ Actual7neighbor files21pass,editorTC0,zero stderr;local review goal174/174,fixed
 ## 2026-10-31 本地门与发布交接
 
 本窗口代码接收、完整原件及最终文档/静态复验已完成；check20,548、单次fast20,199、同报告ratchet/protected、6301文件lint零诊断。行为修复1c0de481a与职责重组7f6b41d9a分提交；本卡转review只等待同一治理分支的PR、远端必需检查与合并，未声称已发布。历史阶段性待门文本按当时范围保留，以本节及窗口local-closeout为当前本地状态。固定cohort178已补审，本goal174无剩余；范围外5项F/G仍review、2632pending不动。无下一位Agent提示词，由Codex完成发布。
+
+
+## 2026-11-01 Five-review code acceptance; unified gates entry
+
+Five original cov85 files3647lines fully read. Responsibilities now14spec+3fixtures;177 survivors/4 proven subsumed cases. One22-file950 adjacent run and initialgameTC0. Real flee old-green/new-single-business-red, actual unknown-row guard, legal fixtures, precise titles and cleanup ownership in [full A-H and raw receipts](../evidence/QUALITY-NAMING-ORGANIZATION-1/remaining-five/README.md). Product unchanged.17 output paths stay review until consolidated gates; prior178 historical window not reopened and otherpending untouched.
+
+First title regex accidentally edited numeric calls; early incapacitated-action oracle also failed. Both corrected, original failures retained. Readonly identity/dependency verification passed. Fetch confirms main5e66/HEAD0behind0ahead; uncommitted tree safely archived outside repo. Same governance branch; next only consolidated gates, then zero-diagnostic commit/push/merge.
+
+## 2026-11-01 最后五份review本地收口
+
+177身份保留、4重复有逐条强oracle承接，14专测与3真实共用夹具按职责命名；24回调的合法输入、真实守卫、断言／清理改动明确记录。真实跳过performFlee反控旧绿、新唯一业务红，源精确恢复。产品实现／接口／格式未改。950定向相邻、七包20,544测试和typecheck通过；首次pnpm check在末尾lint失败，5格式＋1大小诊断已修并复验，不倒写一次全绿。三个完整活动审查投影迁入既有R94账，140记录的历史／语义字段只读复验，三registry路由变化；原历史evidence指针保留。
+
+只采集一次official fast20,195／815source，ratchet与同报告protected通过。3共用夹具纳入现行选择，旧源码逐项覆盖计数不变；8项比例上升，没有放宽规则或调低baseline。最终docs/lint/ledger/证据快检及完整原件由gates.json登记。下一步仅发布同一治理分支并核远端CI；其它2632pending不在本批范围，不自动开启新窗口。

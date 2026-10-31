@@ -1,0 +1,126 @@
+{
+  "base": "5e66fa6b6291f94330fb5d7fc9828062e0eb8a51",
+  "note": "Version/context pins, not a claim that every pinned dependency was newly read in full. Read/reuse boundaries in review.json.",
+  "files": [
+    {
+      "path": "packages/game/src/core/battle/battle-system.ts",
+      "sha256": "c3eaa90bd59c8a2be9da38c0b0655c24e1da11b683b5857cce3af0725b2289e4"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-opcodes.ts",
+      "sha256": "b9574dbbaf3527d6f48211e70e18f7004e2174c902548a593921645dc2f14539"
+    },
+    {
+      "path": "packages/game/src/core/battle/actions/flee.ts",
+      "sha256": "9baeac60c72bfec5c04dfa6e7e534ff1f53c351965025cdbb1a4b544eb6bf463"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-state.ts",
+      "sha256": "546e8e2e86ec08c45492b80cb03349cc1a9a182735626f5ba53248d672a1e386"
+    },
+    {
+      "path": "packages/game/src/core/event-opcode-player.ts",
+      "sha256": "84580af1ab2a5f5ff9a331aa2494eef7d6a54e86e2808a21d691c7496065014e"
+    },
+    {
+      "path": "packages/game/src/core/event-system.ts",
+      "sha256": "3b8490fa48d2992f693ab0eb611954dd0bfacbc22dc3eda58378cc4bc7a4b5f4"
+    },
+    {
+      "path": "packages/game/src/core/game-state.ts",
+      "sha256": "084718097eb0963c2ee3a9d72da59b313ca8fd401672f6a8b341ba21ae8b8906"
+    },
+    {
+      "path": "packages/game/src/core/equipment-state.ts",
+      "sha256": "4993411b4f30cb53f0f21a3c170748132c9d1ec8ab6ff4e94a931def846c2205"
+    },
+    {
+      "path": "packages/game/src/core/equip-effect.ts",
+      "sha256": "6bc011bfde5ca4f2714392f774fa770d5ab32716bfc38669c983503352b0abdc"
+    },
+    {
+      "path": "packages/game/src/core/player-poison-state.ts",
+      "sha256": "840f44416c30932d1044eb9e2f422d6b44ce95542289b84329b1c9968fc499f0"
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-driver.ts",
+      "sha256": "9aa46527f424b15f03e2ca78b302885a70d4ee2b18462261c9a0cce03da3269c"
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-mode.ts",
+      "sha256": "c4483791dac050510868af7c42edf485ebd5d37d954cbb0ee76c0fd0ac42cd90"
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-stack.ts",
+      "sha256": "7f18301a0ada526074c619586001fb40c3e28e52ea3377eef099d276a6e55c46"
+    },
+    {
+      "path": "packages/game/src/core/menu/magic-script.ts",
+      "sha256": "af2cbcd4e13bb8315a7ce23f34af46a773015fda68c06391cd31de2c7eac8c4d"
+    },
+    {
+      "path": "packages/game/src/core/save/api.ts",
+      "sha256": "385f8df40e4e2b804dbb86ecd23e49c10f4a46f4f7e6f742b56bbed4cf5e7cd8"
+    },
+    {
+      "path": "packages/game/src/core/command-bus.ts",
+      "sha256": "202fa50fcefecdb5cab5e2da6ff4dfc5fa7e8dfbdfcdec1c27e2adb4dff5b1b8"
+    },
+    {
+      "path": "packages/game/src/core/script-catalog.ts",
+      "sha256": "ec8f3713ed670a0af5efdf0d9e1bc940b6a5048a794b344bcd171d99b0617cc1"
+    },
+    {
+      "path": "packages/game/src/__tests__/battle-records.ts",
+      "sha256": "e06702ce034d7b7b7680b649d2c6d11d948acd6daa9aeac0ad20478c62afc575"
+    },
+    {
+      "path": "packages/game/src/__tests__/coverage85-glm-game/harness.ts",
+      "sha256": "f8bb20fe42370423e506b4ef9ad1aa634fe3ca6ac8f547f2b85e2170d8071e5c"
+    },
+    {
+      "path": "packages/game/src/core/event-opcode-player.test-fixtures.ts",
+      "sha256": "6555d6ce7f6737b3eac355ae211b9d6ffec5e77ee3fcaf18e3f4ca73e1af21ea"
+    },
+    {
+      "path": "packages/game/src/core/menu/__tests__/inventory-fixture.ts",
+      "sha256": "f15703ad4128d029d190bf7dbb21a5a63d70494af1e5f1f94789357baf85fd3c"
+    },
+    {
+      "path": "packages/game/src/core/menu/__tests__/magic-cost-fixture.ts",
+      "sha256": "7fd3bf1ac0c7203c62dc66d316c6da092d2e0dce2a51e1468e76aedef82dd109"
+    },
+    {
+      "path": "reference/sdlpal/fight.c",
+      "sha256": "6d71434242de081d3cd2d5a0578d05485948e7c6cd507407805d0eafa3e761f5"
+    },
+    {
+      "path": "reference/sdlpal/script.c",
+      "sha256": "f5332e015b27018ad03385b4ceab6c44dc0509e81ace7e8785d1843ae88cd017"
+    },
+    {
+      "path": "reference/sdlpal/global.c",
+      "sha256": "6e7162374dca7af62e3e67b5ab1359f1dc0e040ac3a94612ae32f3ca37d82ddc"
+    },
+    {
+      "path": "reference/sdlpal/uigame.c",
+      "sha256": "f981b6a698b6248107ec7934b60ca988055bbab458e516e9aa2b113f8b5419c1"
+    },
+    {
+      "path": "packages/game/vitest.config.ts",
+      "sha256": "3dd92ad4886bc72c88e7a7b2e6bdacc3aaf9e2a24ac72153f3b619ba37feb7d4"
+    },
+    {
+      "path": "packages/game/vitest.setup.ts",
+      "sha256": "9d1b923f6abc71a5af3e9be094d2945f853a2f4319a036aba9813e86f116e93e"
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "sha256": "3e9c669950c68c0f996a7007fdd198270a079630e277b1e6de575ec1d738da65"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PENDING-100-3/organization-program.mjs",
+      "sha256": "61bf594c92f43b9781e85d6cb4ad201911befa40b3e0dbe34c904ed8c811a20a"
+    }
+  ]
+}

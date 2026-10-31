@@ -38,7 +38,7 @@ id：CODE-QUALITY-94/approved-closeout；schemaVersion：1；Owner：Codex，单
 | [packages/game/src/core/menu/__tests__/primitives.test.ts](../../QUALITY-PENDING-100-3/organization-menu-state.json) | 本轮review→已验证 |
 | [packages/game/src/core/menu/item-select.glm-phase1-leaves.test.ts](../../QUALITY-PENDING-100-3/organization-menu-selection.json) | 本轮review→已验证 |
 | [packages/game/src/core/menu/item-select.ts](../../../../../packages/game/src/core/menu/item-select.ts) | 本轮review→已验证 |
-| [packages/game/src/core/menu/menu-driver.cov85.test.ts](../../../../../packages/game/src/core/menu/menu-driver.cov85.test.ts) | 本轮review→已验证 |
+| [packages/game/src/core/menu/menu-driver.cov85.test.ts (2026-11-01 responsibility mapping)](../../QUALITY-NAMING-ORGANIZATION-1/remaining-five/mapping.json) | 本轮review→已验证 |
 | [packages/game/src/core/menu/menu-driver.test.ts](../../../../../packages/game/src/core/menu/menu-driver.test.ts) | 本轮review→已验证 |
 | [packages/game/src/core/menu/menu-driver.ts](../../../../../packages/game/src/core/menu/menu-driver.ts) | 本轮review→已验证 |
 | [packages/game/src/core/menu/opening-menu.glm-phase1-leaves.test.ts](../../QUALITY-PENDING-100-3/organization-menu-state.json) | 本轮review→已验证 |
