@@ -7,11 +7,11 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「CODE3i 预缓存 UI／客户端／商标质量收口」的主题按原文时点保留(摘录:[b658 完整远端门与两条原生 annotation](runner-rework.json)、[完整原件](runner-rework-receipts.json.gz)：Documentatio)。
+原审计「CODE3i 预缓存 UI／客户端／商标质量收口」的主题按原文时点保留(摘录:b658 完整远端门与两条原生 annotation、完整原件：Documentation39894317671与Coverage39894317718均success；20,17)。
 
 ## 范围与证据
 
-原报告含章节[CODE3i 预缓存 UI／客户端／商标质量收口、2026-10-23 runner 迁移通知窄修、2026-10-23 PR14 CI 增量、证据身份、来源与输入、断言与业务 oracle]、8个链接;固定main源6395B(SHA 3c07d4af9ce2)。当前存活入口:[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)、[README.md](../README.md)、[ci-rework-receipts.json.gz](ci-rework-receipts.json.gz)、[ci-rework.json](ci-rework.json)、[receipts.json.gz](receipts.json.gz)、[review.json](review.json)
+原报告含章节[CODE3i 预缓存 UI／客户端／商标质量收口、2026-10-23 runner 迁移通知窄修、2026-10-23 PR14 CI 增量、证据身份、来源与输入、断言与业务 oracle]、8个链接;固定main源6395B(SHA 3c07d4af9ce2)。当前存活入口:[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) [README.md](../README.md) [ci-rework-receipts.json.gz](ci-rework-receipts.json.gz) [ci-rework.json](ci-rework.json) [receipts.json.gz](receipts.json.gz) [review.json](review.json) [runner-rework-receipts.json.gz](runner-rework-receipts.json.gz) [runner-rework.json](runner-rework.json)。
 
 ## 发现
 

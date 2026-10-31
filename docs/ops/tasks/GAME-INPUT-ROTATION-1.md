@@ -7,7 +7,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「GAME-INPUT-ROTATION-1 - 手柄摇杆与虚拟方向键旋转」的任务归属与历史边界。原目标见原文(摘录:按用户2026-10-27与[issue #24](https://github.com/IllegalCreed/type-pal/issues/24)，增加可记忆的45°旋转设置，使手机方向键与手柄左摇杆的斜向输入对应画面上的移动方向。);本页治理不重开已终态任务。
+保留原卡「GAME-INPUT-ROTATION-1 - 手柄摇杆与虚拟方向键旋转」的任务归属与历史边界。原目标见原文(摘录:按用户2026-10-27与issue #24，增加可记忆的45°旋转设置，使手机方向键与手柄左摇杆的斜向输入对应画面上的移动方向。);本页治理不重开已终态任务。
 
 ## 范围
 
@@ -15,7 +15,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 前提与证据
 
-固定main源8216B(SHA 235859c0229a);原卡前提按原时点保留。当前存活入口:[CLAUDE.md](../../../CLAUDE.md)、[governance.md](../../testing/governance.md)、[agent-workflow.md](../agent-workflow.md)、[code-quality.md](../code-quality.md)、[review.json](../evidence/GAME-INPUT-ROTATION-1/review.json)、[integration-gates.json](../evidence/GAME-NANZHAO-ROOM-EXIT-1/integration-gates.json)
+固定main源8216B(SHA 235859c0229a);原卡前提按原时点保留。当前存活入口:[CLAUDE.md](../../../CLAUDE.md) [governance.md](../../testing/governance.md) [agent-workflow.md](../agent-workflow.md) [code-quality.md](../code-quality.md) [review.json](../evidence/GAME-INPUT-ROTATION-1/review.json) [integration-gates.json](../evidence/GAME-NANZHAO-ROOM-EXIT-1/integration-gates.json) [release-gates.json](../evidence/GAME-NANZHAO-ROOM-EXIT-1/release-gates.json) [release-preparation.json](../evidence/GAME-NANZHAO-ROOM-EXIT-1/release-preparation.json) [release.json](../evidence/GAME-NANZHAO-ROOM-EXIT-1/release.json) [GAME-MOBILE-LAYOUT-1.md](GAME-MOBILE-LAYOUT-1.md)。
 
 ## 验收
 
@@ -43,7 +43,7 @@ done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者
 
 ## 继任文档
 
-接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[CLAUDE.md](../../../CLAUDE.md)、[governance.md](../../testing/governance.md)、[agent-workflow.md](../agent-workflow.md)、[code-quality.md](../code-quality.md)、[review.json](../evidence/GAME-INPUT-ROTATION-1/review.json)、[integration-gates.json](../evidence/GAME-NANZHAO-ROOM-EXIT-1/integration-gates.json)
+接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[CLAUDE.md](../../../CLAUDE.md) [governance.md](../../testing/governance.md) [agent-workflow.md](../agent-workflow.md) [code-quality.md](../code-quality.md) [review.json](../evidence/GAME-INPUT-ROTATION-1/review.json) [integration-gates.json](../evidence/GAME-NANZHAO-ROOM-EXIT-1/integration-gates.json) [release-gates.json](../evidence/GAME-NANZHAO-ROOM-EXIT-1/release-gates.json) [release-preparation.json](../evidence/GAME-NANZHAO-ROOM-EXIT-1/release-preparation.json) [release.json](../evidence/GAME-NANZHAO-ROOM-EXIT-1/release.json) [GAME-MOBILE-LAYOUT-1.md](GAME-MOBILE-LAYOUT-1.md)。
 
 
 ## 原文保全

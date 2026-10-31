@@ -15,7 +15,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 前提与证据
 
-固定main源8154B(SHA e118f960e5ac);原卡前提按原时点保留。当前存活入口:[code-quality.md](../code-quality.md)、[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/README.md)、[dialog-order-counter.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/dialog-order-counter.json)、[dialog-order-fix.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/dialog-order-fix.json)、[module-closeout.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/module-closeout.json)、[QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)
+固定main源8154B(SHA e118f960e5ac);原卡前提按原时点保留。当前存活入口:[code-quality.md](../code-quality.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/README.md) [dialog-order-counter.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/dialog-order-counter.json) [dialog-order-fix.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/dialog-order-fix.json) [module-closeout.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/module-closeout.json) [QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)。
 
 ## 验收
 
@@ -43,7 +43,7 @@ done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者
 
 ## 继任文档
 
-接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[code-quality.md](../code-quality.md)、[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/README.md)、[dialog-order-counter.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/dialog-order-counter.json)、[dialog-order-fix.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/dialog-order-fix.json)、[module-closeout.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/module-closeout.json)、[QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)
+接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[code-quality.md](../code-quality.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/README.md) [dialog-order-counter.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/dialog-order-counter.json) [dialog-order-fix.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/dialog-order-fix.json) [module-closeout.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/module-closeout.json) [QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)。
 
 
 ## 原文保全

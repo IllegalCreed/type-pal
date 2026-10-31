@@ -7,11 +7,11 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「CODE1 shared RLE有限复审」的主题按原文时点保留(摘录:归[全83卡复审](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)，起点07b856bc2/main=f98d0ddd8，单Agent/唯一3y分支。)。
+原审计「CODE1 shared RLE有限复审」的主题按原文时点保留(摘录:归全83卡复审，起点07b856bc2/main=f98d0ddd8，单Agent/唯一3y分支。仅修改rle.test.ts现有一例的字节与oracle；没有修改解码/编码实现、)。
 
 ## 范围与证据
 
-原报告含章节[CODE1 shared RLE有限复审、实际读取与四文件结论、测试判别力与隔离、SDLPal直接证据与停线、复用、注释与剩余、2026-10-18 GLM首批的Codex独立校准]、14个链接;固定main源7655B(SHA 33ae3285d6ec)。当前存活入口:[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)、[QUALITY-RLE-COMMAND-TRUTH-1.md](../../../tasks/QUALITY-RLE-COMMAND-TRUTH-1.md)、[README.md](../code1-closeout/README.md)、[adjacent.json](adjacent.json)、[README.md](calibration-20261018/README.md)、[catch-improved.json](catch-improved.json)
+原报告含章节[CODE1 shared RLE有限复审、实际读取与四文件结论、测试判别力与隔离、SDLPal直接证据与停线、复用、注释与剩余、2026-10-18 GLM首批的Codex独立校准]、14个链接;固定main源7655B(SHA 33ae3285d6ec)。当前存活入口:[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) [QUALITY-RLE-COMMAND-TRUTH-1.md](../../../tasks/QUALITY-RLE-COMMAND-TRUTH-1.md) [README.md](../code1-closeout/README.md) [adjacent.json](adjacent.json) [README.md](calibration-20261018/README.md) [catch-improved.json](catch-improved.json) [catch-proof.json](catch-proof.json) [README.md](copy-fix-r1/README.md) [gates.md](gates.md) [gop-trace.json](gop-trace.json) [primary-probe.json](primary-probe.json) [primary-probe.py](primary-probe.py) [README.md](quality-closeout/README.md) [verification.json](verification.json)。
 
 ## 发现
 

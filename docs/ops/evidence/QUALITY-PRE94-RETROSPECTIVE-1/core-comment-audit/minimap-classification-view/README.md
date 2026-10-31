@@ -11,7 +11,7 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原7个链接处置见作者review的linkDisposition。当前存活入口:[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)、[controls.json](controls.json)、[emit-identity.json](emit-identity.json)、[gates.json](gates.json)、[raw-quantity-audit.json](raw-quantity-audit.json)、[read-boundaries.json](read-boundaries.json)
+来源为固定Git载体,非本次运行;原7个链接处置见作者review的linkDisposition。当前存活入口:[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) [controls.json](controls.json) [emit-identity.json](emit-identity.json) [gates.json](gates.json) [raw-quantity-audit.json](raw-quantity-audit.json) [read-boundaries.json](read-boundaries.json) [test-identity-delta.json](test-identity-delta.json)。
 
 ## 断言与业务 oracle
 

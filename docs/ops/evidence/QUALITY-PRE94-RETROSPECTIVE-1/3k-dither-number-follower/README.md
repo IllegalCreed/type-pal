@@ -7,11 +7,11 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「CODE3k dither / number / follower 当前复审切片」的主题按原文时点保留(摘录:基点：`6aa56ea80`；分支：`codex/code-quality-3y`，相对 `origin/main` 为 `0 behind / 192 ahead`。本切片完成 CODE-QUALI)。
+原审计「CODE3k dither / number / follower 当前复审切片」的主题按原文时点保留(摘录:基点：`6aa56ea80`；分支：`codex/code-quality-3y`，相对 `origin/main` 为 `0 behind / 192 ahead`。本切片完成)。
 
 ## 范围与证据
 
-原报告含章节[CODE3k dither / number / follower 当前复审切片、逐文件与真值边界、判别力与结论、验证]、1个链接;固定main源2618B(SHA c469b1da3bcf)。当前存活入口:[read-boundaries.json](read-boundaries.json)
+原报告含章节[CODE3k dither / number / follower 当前复审切片、逐文件与真值边界、判别力与结论、验证]、1个链接;固定main源2618B(SHA c469b1da3bcf)。当前存活入口:[read-boundaries.json](read-boundaries.json)。
 
 ## 发现
 

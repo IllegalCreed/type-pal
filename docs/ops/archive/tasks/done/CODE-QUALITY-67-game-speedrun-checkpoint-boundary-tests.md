@@ -7,7 +7,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「CODE-QUALITY-67 — game speedrun checkpoint boundary tests」的任务归属与历史边界。原目标见原文(摘录:逐文件核验 speedrun checkpoint data oracle 与 timer boundary suite，确认 21 节点唯一/单调、香蕉配置、同 now/finished/暂停/step/mem 隔离及 detector );本页治理不重开已终态任务。
+保留原卡「CODE-QUALITY-67 — game speedrun checkpoint boundary tests」的任务归属与历史边界。原目标见原文(摘录:逐文件核验 speedrun checkpoint data oracle 与 timer boundary suite，确认 21 节点唯一/单调、香蕉配置、同 now/finished/暂停/step/mem 隔离及 detector);本页治理不重开已终态任务。
 
 ## 范围
 

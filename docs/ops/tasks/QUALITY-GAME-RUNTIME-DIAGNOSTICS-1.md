@@ -15,7 +15,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 前提与证据
 
-固定main源4839B(SHA f7cd9d81f63c);原卡前提按原时点保留。当前存活入口:[game-diagnostics.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/fetch-retry/game-diagnostics.json)、[test-gates.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/fetch-retry/initial-candidate/test-gates.json)、[QUALITY-FETCH-ABORT-LIFECYCLE-1.md](QUALITY-FETCH-ABORT-LIFECYCLE-1.md)
+固定main源4839B(SHA f7cd9d81f63c);原卡前提按原时点保留。当前存活入口:[game-diagnostics.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/fetch-retry/game-diagnostics.json) [test-gates.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/fetch-retry/initial-candidate/test-gates.json) [QUALITY-FETCH-ABORT-LIFECYCLE-1.md](QUALITY-FETCH-ABORT-LIFECYCLE-1.md)。
 
 ## 验收
 

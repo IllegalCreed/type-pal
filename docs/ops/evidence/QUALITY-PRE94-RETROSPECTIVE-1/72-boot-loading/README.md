@@ -7,11 +7,11 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「CODE72 启动加载逐文件复审与错误态风险」的主题按原文时点保留(摘录:基点 `0587d8714`，唯一 `codex/code-quality-3y`。Codex单一Owner，build allowed仅两份boot-loading测试及治理证据；实现/主入口/进度)。
+原审计「CODE72 启动加载逐文件复审与错误态风险」的主题按原文时点保留(摘录:基点 `0587d8714`，唯一 `codex/code-quality-3y`。Codex单一Owner，build allowed仅两份boot-loading测试及治理证据)。
 
 ## 范围与证据
 
-原报告含章节[CODE72 启动加载逐文件复审与错误态风险、全文读取、真实caller与primary、两测试的处理与排重、高风险直接反例与旧关闭撤回、验证、账本与下一批、2026-10-18 用户批准后的窄修]、9个链接;固定main源5032B(SHA 5df78529de78)。当前存活入口:[QUALITY-BOOT-FAILURE-PROGRESS-1.md](../../../tasks/QUALITY-BOOT-FAILURE-PROGRESS-1.md)、[after-proof.json](after-proof.json)、[README.md](approved-fix/README.md)、[before-proof.json](before-proof.json)、[contracts.json](contracts.json)、[failure-repro.json](failure-repro.json)
+原报告含章节[CODE72 启动加载逐文件复审与错误态风险、全文读取、真实caller与primary、两测试的处理与排重、高风险直接反例与旧关闭撤回、验证、账本与下一批、2026-10-18 用户批准后的窄修]、9个链接;固定main源5032B(SHA 5df78529de78)。当前存活入口:[QUALITY-BOOT-FAILURE-PROGRESS-1.md](../../../tasks/QUALITY-BOOT-FAILURE-PROGRESS-1.md) [after-proof.json](after-proof.json) [README.md](approved-fix/README.md) [before-proof.json](before-proof.json) [contracts.json](contracts.json) [failure-repro.json](failure-repro.json) [read-boundaries.json](read-boundaries.json) [static-gates.json](static-gates.json) [test-gates.json](test-gates.json)。
 
 ## 发现
 

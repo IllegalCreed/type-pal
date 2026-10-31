@@ -15,7 +15,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 前提与证据
 
-固定main源7723B(SHA 66ddcf636b80);原卡前提按原时点保留。当前存活入口:[README.md](../evidence/QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1/README.md)、[README.md](../evidence/QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1/recovery/README.md)
+固定main源7723B(SHA 66ddcf636b80);原卡前提按原时点保留。当前存活入口:[README.md](../evidence/QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1/README.md) [README.md](../evidence/QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1/recovery/README.md)。
 
 ## 验收
 

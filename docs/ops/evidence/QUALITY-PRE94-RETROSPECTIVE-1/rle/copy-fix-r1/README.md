@@ -11,7 +11,7 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原13个链接处置见作者review的linkDisposition。当前存活入口:[code-quality.md](../../../../code-quality.md)、[README.md](../calibration-20261018/README.md)、[copy-fix-r1-codex-final.json](../copy-fix-r1-codex-final.json)、[after-targeted.json](after-targeted.json)、[base-targeted.json](base-targeted.json)、[body-invariance.json](body-invariance.json)
+来源为固定Git载体,非本次运行;原13个链接处置见作者review的linkDisposition。当前存活入口:[code-quality.md](../../../../code-quality.md) [README.md](../calibration-20261018/README.md) [copy-fix-r1-codex-final.json](../copy-fix-r1-codex-final.json) [after-targeted.json](after-targeted.json) [base-targeted.json](base-targeted.json) [body-invariance.json](body-invariance.json) [c2-readonly-run.raw](c2-readonly-run.raw) [docs-final.raw.gz](docs-final.raw.gz) [docs-first.raw.gz](docs-first.raw.gz) [gates-r2.json](gates-r2.json) [gates.json](gates.json) [identity-mapping.json](identity-mapping.json) [prove-body-invariance.mjs](prove-body-invariance.mjs)。
 
 ## 断言与业务 oracle
 

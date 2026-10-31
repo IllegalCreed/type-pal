@@ -7,11 +7,11 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「battle-state + battle-runtime-context B–G 补维（glm-foundation 模块 7 批 12）」的主题按原文时点保留(摘录:> Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见[当前返工记录](../codex-stage2-rework.json))。
+原审计「battle-state + battle-runtime-context B–G 补维（glm-foundation 模块 7 批 12）」的主题按原文时点保留(摘录:> Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见当前返工记录。 范围：`core/battle/bat)。
 
 ## 范围与证据
 
-原报告含章节[battle-state + battle-runtime-context B–G 补维（glm-foundation 模块 7 批 12）、短回执、八维结论（B–G 补维重点）、复验入口（只读）]、1个链接;固定main源3007B(SHA bd573efb27e2)。当前存活入口:[codex-stage2-rework.json](../codex-stage2-rework.json)
+原报告含章节[battle-state + battle-runtime-context B–G 补维（glm-foundation 模块 7 批 12）、短回执、八维结论（B–G 补维重点）、复验入口（只读）]、1个链接;固定main源3007B(SHA bd573efb27e2)。当前存活入口:[codex-stage2-rework.json](../codex-stage2-rework.json)。
 
 ## 发现
 

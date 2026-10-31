@@ -7,11 +7,11 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「CODE1 RLE测试质量与真实资源影响域收口」的主题按原文时点保留(摘录:> 2026-10-25当前：原盘格式停止线已获批准并修复，见[PAL来源修复及当前只读复验](../../code1-closeout/pal-source-fix/README.md)。本文测试质)。
+原审计「CODE1 RLE测试质量与真实资源影响域收口」的主题按原文时点保留(摘录:> 2026-10-25当前：原盘格式停止线已获批准并修复，见PAL来源修复及当前只读复验。本文测试质量原件保持；格式冻结措辞为历史时点，统一门另记。 Date: 2026-10-)。
 
 ## 范围与证据
 
-原报告含章节[CODE1 RLE测试质量与真实资源影响域收口、结论和边界、实际读取、caller与取舍、执行与诊断、格式停止线：MGO571由未知变成真实counter、低成本复验和失效]、8个链接;固定main源7200B(SHA 6e48eb3f68e7)。当前存活入口:[QUALITY-RLE-COMMAND-TRUTH-1.md](../../../../tasks/QUALITY-RLE-COMMAND-TRUTH-1.md)、[README.md](../../code1-closeout/pal-source-fix/README.md)、[ending-actual.png](ending-actual.png)、[ending-native-reference.png](ending-native-reference.png)、[identity-mapping.json](identity-mapping.json)、[receipts.json.gz](receipts.json.gz)
+原报告含章节[CODE1 RLE测试质量与真实资源影响域收口、结论和边界、实际读取、caller与取舍、执行与诊断、格式停止线：MGO571由未知变成真实counter、低成本复验和失效]、8个链接;固定main源7200B(SHA 6e48eb3f68e7)。当前存活入口:[QUALITY-RLE-COMMAND-TRUTH-1.md](../../../../tasks/QUALITY-RLE-COMMAND-TRUTH-1.md) [README.md](../../code1-closeout/pal-source-fix/README.md) [ending-actual.png](ending-actual.png) [ending-native-reference.png](ending-native-reference.png) [identity-mapping.json](identity-mapping.json) [receipts.json.gz](receipts.json.gz) [review.json](review.json) [static.json](static.json)。
 
 ## 发现
 

@@ -7,11 +7,11 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「CODE2 RNG 三文件复审（glm-foundation 批 2）」的主题按原文时点保留(摘录:范围：`packages/shared/src/rng.ts`、`rng.test.ts`、`rng.boundaries.test.ts`。开工核对：无他人 RNG Owner/未提交修改（rng.)。
+原审计「CODE2 RNG 三文件复审（glm-foundation 批 2）」的主题按原文时点保留(摘录:范围：`packages/shared/src/rng.ts`、`rng.test.ts`、`rng.boundaries.test.ts`。开工核对：无他人 RNG Owner/)。
 
 ## 范围与证据
 
-原报告含章节[CODE2 RNG 三文件复审（glm-foundation 批 2）、短回执、八维结论、问题与登记、复验入口（只读）、Codex阶段1接收说明（2026-10-18）]、2个链接;固定main源5420B(SHA 6d982f64e9db)。当前存活入口:[codex-stage1.json](../codex-stage1.json)、[directed.json](directed.json)
+原报告含章节[CODE2 RNG 三文件复审（glm-foundation 批 2）、短回执、八维结论、问题与登记、复验入口（只读）、Codex阶段1接收说明（2026-10-18）]、2个链接;固定main源5420B(SHA 6d982f64e9db)。当前存活入口:[codex-stage1.json](../codex-stage1.json) [directed.json](directed.json)。
 
 ## 发现
 

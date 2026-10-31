@@ -7,11 +7,11 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「CODE3l battle-present 三文件复审切片」的主题按原文时点保留(摘录:基点：`24b0451f6`；分支：`codex/code-quality-3y`，相对 `origin/main` 为 `0 behind / 193 ahead`。本切片只处理 CODE-QUAL)。
+原审计「CODE3l battle-present 三文件复审切片」的主题按原文时点保留(摘录:基点：`24b0451f6`；分支：`codex/code-quality-3y`，相对 `origin/main` 为 `0 behind / 193 ahead`。本切片只处理)。
 
 ## 范围与证据
 
-原报告含章节[CODE3l battle-present 三文件复审切片、逐文件与真值边界、判别力与结论、验证]、2个链接;固定main源2436B(SHA dba39d040e11)。当前存活入口:[anchor-corrections.json](../53-wave-gates/receipt-audit/anchor-corrections.json)、[read-boundaries.json](read-boundaries.json)
+原报告含章节[CODE3l battle-present 三文件复审切片、逐文件与真值边界、判别力与结论、验证]、2个链接;固定main源2436B(SHA dba39d040e11)。当前存活入口:[anchor-corrections.json](../53-wave-gates/receipt-audit/anchor-corrections.json) [read-boundaries.json](read-boundaries.json)。
 
 ## 发现
 

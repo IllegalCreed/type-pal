@@ -11,7 +11,7 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原5个链接处置见作者review的linkDisposition。当前存活入口:[GAME-DRAW-NUMBER-NONFINITE-1.md](../../../tasks/GAME-DRAW-NUMBER-NONFINITE-1.md)、[README.md](../present-primitives-quality/README.md)、[prove-blit.mjs](prove-blit.mjs)、[review.json](review.json)、[verify.mjs](verify.mjs)
+来源为固定Git载体,非本次运行;原5个链接处置见作者review的linkDisposition。当前存活入口:[GAME-DRAW-NUMBER-NONFINITE-1.md](../../../tasks/GAME-DRAW-NUMBER-NONFINITE-1.md) [README.md](../present-primitives-quality/README.md) [prove-blit.mjs](prove-blit.mjs) [review.json](review.json) [verify.mjs](verify.mjs)。
 
 ## 断言与业务 oracle
 

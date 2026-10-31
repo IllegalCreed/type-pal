@@ -7,11 +7,11 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「CODE-QUALITY-105 evidence — Reforge MenuBox 残余测试复核」的主题按原文时点保留(摘录:本目录记录当前树对 `packages/reforge/src/menu/menu-box.residual.glm.test.ts` 的逐文件复核， 以及与 `menu-box.ts` 公开 cal)。
+原审计「CODE-QUALITY-105 evidence — Reforge MenuBox 残余测试复核」的主题按原文时点保留(摘录:本目录记录当前树对 `packages/reforge/src/menu/menu-box.residual.glm.test.ts` 的逐文件复核， 以及与 `menu-box.)。
 
 ## 范围与证据
 
-原报告含章节[CODE-QUALITY-105 evidence — Reforge MenuBox 残余测试复核]、8个链接;固定main源1417B(SHA 0f07977ab991)。当前存活入口:[adjacent.txt](adjacent.txt)、[codex-current-review.md](codex-current-review.md)、[counterproof-current.txt](counterproof-current.txt)、[full-check.txt](full-check.txt)、[protected-fast.txt](protected-fast.txt)、[ratchet.txt](ratchet.txt)
+原报告含章节[CODE-QUALITY-105 evidence — Reforge MenuBox 残余测试复核]、8个链接;固定main源1417B(SHA 0f07977ab991)。当前存活入口:[adjacent.txt](adjacent.txt) [codex-current-review.md](codex-current-review.md) [counterproof-current.txt](counterproof-current.txt) [full-check.txt](full-check.txt) [protected-fast.txt](protected-fast.txt) [ratchet.txt](ratchet.txt) [targeted.txt](targeted.txt) [typecheck.txt](typecheck.txt)。
 
 ## 发现
 

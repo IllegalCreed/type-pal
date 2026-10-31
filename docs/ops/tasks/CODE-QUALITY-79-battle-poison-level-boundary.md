@@ -7,7 +7,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「CODE-QUALITY-79 — 战斗0x61装备伪毒判定边界」的任务归属与历史边界。原目标见原文(摘录:> 2026-10-20本次正式验收：本卡既定合同已由Codex接受并收口，见[pre94收口裁定](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/complet);本页治理不重开已终态任务。
+保留原卡「CODE-QUALITY-79 — 战斗0x61装备伪毒判定边界」的任务归属与历史边界。原目标见原文(摘录:> 2026-10-20本次正式验收：本卡既定合同已由Codex接受并收口，见pre94收口裁定。当前done只覆盖下述原卡范围，不把共享大文件或其它卡自动关闭；旧pending/review/失败按);本页治理不重开已终态任务。
 
 ## 范围
 
@@ -15,7 +15,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 前提与证据
 
-固定main源6917B(SHA 2818199851b9);原卡前提按原时点保留。当前存活入口:[completion.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/completion.json)、[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/README.md)
+固定main源6917B(SHA 2818199851b9);原卡前提按原时点保留。当前存活入口:[completion.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/completion.json) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/README.md)。
 
 ## 验收
 
@@ -43,7 +43,7 @@ done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者
 
 ## 继任文档
 
-接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[completion.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/completion.json)、[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/README.md)
+接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[completion.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/completion.json) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/README.md)。
 
 
 ## 原文保全

@@ -19,7 +19,7 @@ historical(治理候选);原时点状态与日期在保全块。
 
 ## 入口与责任
 
-当前存活入口:[QUALITY-HOST-NAVIGATION-DIAGNOSTICS-1.md](../../tasks/QUALITY-HOST-NAVIGATION-DIAGNOSTICS-1.md)、[window-review.md](../QUALITY-EDITOR-FORM-FIXTURES-1/window-review.md) 其余原链接仅在保全块保留,理由见linkDisposition。
+当前存活入口:[QUALITY-HOST-NAVIGATION-DIAGNOSTICS-1.md](../../tasks/QUALITY-HOST-NAVIGATION-DIAGNOSTICS-1.md) [window-review.md](../QUALITY-EDITOR-FORM-FIXTURES-1/window-review.md)。 其余原链接仅在保全块保留,理由见linkDisposition。
 
 ## 证据与下一步
 

@@ -11,7 +11,7 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原5个链接处置见作者review的linkDisposition。当前存活入口:[export-failure.png](export-failure.png)、[prove-module.cjs](prove-module.cjs)、[receipts.json.gz](receipts.json.gz)、[review.json](review.json)、[static.json](static.json)
+来源为固定Git载体,非本次运行;原5个链接处置见作者review的linkDisposition。当前存活入口:[export-failure.png](export-failure.png) [prove-module.cjs](prove-module.cjs) [receipts.json.gz](receipts.json.gz) [review.json](review.json) [static.json](static.json)。
 
 ## 断言与业务 oracle
 

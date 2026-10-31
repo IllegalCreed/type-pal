@@ -15,7 +15,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 前提与证据
 
-固定main源8671B(SHA 7565da243e18);原卡前提按原时点保留。当前存活入口:[primary-counters.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/primary-counters.json)、[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/queue-approved-fix/README.md)
+固定main源8671B(SHA 7565da243e18);原卡前提按原时点保留。当前存活入口:[primary-counters.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/primary-counters.json) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/queue-approved-fix/README.md)。
 
 ## 验收
 

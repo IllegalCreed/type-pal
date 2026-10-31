@@ -7,11 +7,11 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「CODE3w结算复审」的主题按原文时点保留(摘录:Date: 2026-10-18 Base: `9bc478671044f2dff222581b6326884694e5b9e2` Branch: `codex/code-quality-3y`)。
+原审计「CODE3w结算复审」的主题按原文时点保留(摘录:Date: 2026-10-18 Base: `9bc478671044f2dff222581b6326884694e5b9e2` Branch: `codex/code-qual)。
 
 ## 范围与证据
 
-原报告含章节[CODE3w结算复审、范围与实际证据、修改与测试质量、实测与反控、当前结论与继续范围]、9个链接;固定main源4126B(SHA a77273716dca)。当前存活入口:[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)、[README.md](../3u-3w-finalization/README.md)、[assertion-transfers.json](assertion-transfers.json)、[before-sources.json](before-sources.json)、[control-sources.json](control-sources.json)、[controls.json](controls.json)
+原报告含章节[CODE3w结算复审、范围与实际证据、修改与测试质量、实测与反控、当前结论与继续范围]、9个链接;固定main源4126B(SHA a77273716dca)。当前存活入口:[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) [README.md](../3u-3w-finalization/README.md) [assertion-transfers.json](assertion-transfers.json) [before-sources.json](before-sources.json) [control-sources.json](control-sources.json) [controls.json](controls.json) [gates.json](gates.json) [native-archives.json](native-archives.json) [read-boundaries.json](read-boundaries.json)。
 
 ## 发现
 

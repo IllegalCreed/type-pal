@@ -11,7 +11,7 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原10个链接处置见作者review的linkDisposition。当前存活入口:[GAME-TOOLS-SAVE-IO-ERROR-FEEDBACK-1.md](../../../tasks/GAME-TOOLS-SAVE-IO-ERROR-FEEDBACK-1.md)、[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)、[after-party-reset.png](after-party-reset.png)、[duplicate-first-slot.png](duplicate-first-slot.png)、[duplicate-third-slot.png](duplicate-third-slot.png)、[prove-refactor.cjs](prove-refactor.cjs)
+来源为固定Git载体,非本次运行;原10个链接处置见作者review的linkDisposition。当前存活入口:[GAME-TOOLS-SAVE-IO-ERROR-FEEDBACK-1.md](../../../tasks/GAME-TOOLS-SAVE-IO-ERROR-FEEDBACK-1.md) [QUALITY-PRE94-RETROSPECTIVE-1.md](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) [after-party-reset.png](after-party-reset.png) [duplicate-first-slot.png](duplicate-first-slot.png) [duplicate-third-slot.png](duplicate-third-slot.png) [prove-refactor.cjs](prove-refactor.cjs) [receipts.json.gz](receipts.json.gz) [review.json](review.json) [runtime-zero.png](runtime-zero.png) [static.json](static.json)。
 
 ## 断言与业务 oracle
 

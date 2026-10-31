@@ -7,11 +7,11 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「CODE3i 对话资源 / 预缓存 / 音量 / 商标复审切片」的主题按原文时点保留(摘录:2026-10-23 当前补八维及测试质量：[UI／客户端／商标窗口](quality-closeout/README.md)。复用本页与72已有有效证据，补生命周期隔离、真实消息/渲染oracle和)。
+原审计「CODE3i 对话资源 / 预缓存 / 音量 / 商标复审切片」的主题按原文时点保留(摘录:2026-10-23 当前补八维及测试质量：UI／客户端／商标窗口。复用本页与72已有有效证据，补生命周期隔离、真实消息/渲染oracle和三份有效反控；源码仅注释与私有同合同fo)。
 
 ## 范围与证据
 
-原报告含章节[CODE3i 对话资源 / 预缓存 / 音量 / 商标复审切片、逐文件范围与真实边界、发现、修复与保留、验证、2026-10-18 当前counter、2026-10-18 用户批准后的窄修]、5个链接;固定main源5061B(SHA 27e349b102df)。当前存活入口:[QUALITY-BOOT-FAILURE-PROGRESS-1.md](../../../tasks/QUALITY-BOOT-FAILURE-PROGRESS-1.md)、[README.md](../72-boot-loading/README.md)、[README.md](../72-boot-loading/approved-fix/README.md)、[README.md](quality-closeout/README.md)、[read-boundaries.json](read-boundaries.json)
+原报告含章节[CODE3i 对话资源 / 预缓存 / 音量 / 商标复审切片、逐文件范围与真实边界、发现、修复与保留、验证、2026-10-18 当前counter、2026-10-18 用户批准后的窄修]、5个链接;固定main源5061B(SHA 27e349b102df)。当前存活入口:[QUALITY-BOOT-FAILURE-PROGRESS-1.md](../../../tasks/QUALITY-BOOT-FAILURE-PROGRESS-1.md) [README.md](../72-boot-loading/README.md) [README.md](../72-boot-loading/approved-fix/README.md) [README.md](quality-closeout/README.md) [read-boundaries.json](read-boundaries.json)。
 
 ## 发现
 

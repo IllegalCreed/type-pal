@@ -7,11 +7,11 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「CODE2 MKF/RNG逐文件复审」的主题按原文时点保留(摘录:> 2026-10-21当前accept：[shared逐文件A–H与完整门](../shared-codecs/evidence.json)。归约/重复缺口已闭合，O-5限支持域；以下partial)。
+原审计「CODE2 MKF/RNG逐文件复审」的主题按原文时点保留(摘录:> 2026-10-21当前accept：shared逐文件A–H与完整门。归约/重复缺口已闭合，O-5限支持域；以下partial/未跑/旧计数均为历史片段，保留原件，不作为当前)。
 
 ## 范围与证据
 
-原报告含章节[CODE2 MKF/RNG逐文件复审、实际读取与文件结论、判别力、排重与身份、当前真实数据与native oracle、门、未修项与下一批]、13个链接;固定main源6982B(SHA 70893b26a06b)。当前存活入口:[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)、[evidence.json](../shared-codecs/evidence.json)、[adjacent.json](adjacent.json)、[final-tests.json](final-tests.json)、[gates.md](gates.md)、[new-counter-proof.json](new-counter-proof.json)
+原报告含章节[CODE2 MKF/RNG逐文件复审、实际读取与文件结论、判别力、排重与身份、当前真实数据与native oracle、门、未修项与下一批]、13个链接;固定main源6982B(SHA 70893b26a06b)。当前存活入口:[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) [evidence.json](../shared-codecs/evidence.json) [adjacent.json](adjacent.json) [final-tests.json](final-tests.json) [gates.md](gates.md) [new-counter-proof.json](new-counter-proof.json) [old-counter-proof.json](old-counter-proof.json) [raw-primary-probe.py](raw-primary-probe.py) [raw-primary-proof.json](raw-primary-proof.json) [retirement.json](retirement.json) [transfer-after.json](transfer-after.json) [transfer-before.json](transfer-before.json) [verification.json](verification.json)。
 
 ## 发现
 

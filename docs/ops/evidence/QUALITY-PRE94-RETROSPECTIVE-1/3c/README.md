@@ -11,7 +11,7 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原13个链接处置见作者review的linkDisposition。当前存活入口:[CODE-QUALITY-3c-editor-coverage-determinism.md](../../../archive/tasks/done/CODE-QUALITY-3c-editor-coverage-determinism.md)、[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)、[after-proof.json](after-proof.json)、[before-proof.json](before-proof.json)、[closeout-gates.json](closeout-gates.json)、[closeout-native.json.gz](closeout-native.json.gz)
+来源为固定Git载体,非本次运行;原13个链接处置见作者review的linkDisposition。当前存活入口:[CODE-QUALITY-3c-editor-coverage-determinism.md](../../../archive/tasks/done/CODE-QUALITY-3c-editor-coverage-determinism.md) [QUALITY-PRE94-RETROSPECTIVE-1.md](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) [after-proof.json](after-proof.json) [before-proof.json](before-proof.json) [closeout-gates.json](closeout-gates.json) [closeout-native.json.gz](closeout-native.json.gz) [closeout.json](closeout.json) [gates.md](gates.md) [probe.py](probe.py) [read-boundaries.json](read-boundaries.json) [tests.json](tests.json) [verification.json](verification.json) [verify-closeout.mjs](verify-closeout.mjs)。
 
 ## 断言与业务 oracle
 

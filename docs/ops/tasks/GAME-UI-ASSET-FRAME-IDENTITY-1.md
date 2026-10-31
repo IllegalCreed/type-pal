@@ -15,7 +15,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 前提与证据
 
-固定main源4769B(SHA 7609e53581cb);原卡前提按原时点保留。当前存活入口:[CODE-QUALITY-3h-game-assets-shell.md](../archive/tasks/done/CODE-QUALITY-3h-game-assets-shell.md)、[code-quality.md](../code-quality.md)、[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/README.md)、[module-closeout.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/module-closeout.json)、[ui-fix.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/ui-fix.json)、[QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)
+固定main源4769B(SHA 7609e53581cb);原卡前提按原时点保留。当前存活入口:[CODE-QUALITY-3h-game-assets-shell.md](../archive/tasks/done/CODE-QUALITY-3h-game-assets-shell.md) [code-quality.md](../code-quality.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/README.md) [module-closeout.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/module-closeout.json) [ui-fix.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/ui-fix.json) [QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)。
 
 ## 验收
 
@@ -43,7 +43,7 @@ done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者
 
 ## 继任文档
 
-接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[CODE-QUALITY-3h-game-assets-shell.md](../archive/tasks/done/CODE-QUALITY-3h-game-assets-shell.md)、[code-quality.md](../code-quality.md)、[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/README.md)、[module-closeout.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/module-closeout.json)、[ui-fix.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/ui-fix.json)、[QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)
+接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[CODE-QUALITY-3h-game-assets-shell.md](../archive/tasks/done/CODE-QUALITY-3h-game-assets-shell.md) [code-quality.md](../code-quality.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/README.md) [module-closeout.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/module-closeout.json) [ui-fix.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/ui-fix.json) [QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)。
 
 
 ## 原文保全

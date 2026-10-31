@@ -11,7 +11,7 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原8个链接处置见作者review的linkDisposition。当前存活入口:[README.md](../63-speedrun-snapshot/README.md)、[README.md](../65-speedrun-index/README.md)、[after-proof.json](after-proof.json)、[before-proof.json](before-proof.json)、[contracts.json](contracts.json)、[read-boundaries.json](read-boundaries.json)
+来源为固定Git载体,非本次运行;原8个链接处置见作者review的linkDisposition。当前存活入口:[README.md](../63-speedrun-snapshot/README.md) [README.md](../65-speedrun-index/README.md) [after-proof.json](after-proof.json) [before-proof.json](before-proof.json) [contracts.json](contracts.json) [read-boundaries.json](read-boundaries.json) [static-gates.json](static-gates.json) [test-gates.json](test-gates.json)。
 
 ## 断言与业务 oracle
 

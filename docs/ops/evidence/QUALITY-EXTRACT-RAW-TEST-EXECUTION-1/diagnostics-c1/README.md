@@ -11,7 +11,7 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原12个链接处置见作者review的linkDisposition。当前存活入口:[QUALITY-EXTRACT-RAW-TEST-EXECUTION-1.md](../../../tasks/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1.md)、[after-coverage.json](after-coverage.json)、[after-proof.json](after-proof.json)、[before-coverage.json](before-coverage.json)、[before-proof.json](before-proof.json)、[counter-probe.py](counter-probe.py)
+来源为固定Git载体,非本次运行;原12个链接处置见作者review的linkDisposition。当前存活入口:[QUALITY-EXTRACT-RAW-TEST-EXECUTION-1.md](../../../tasks/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1.md) [after-coverage.json](after-coverage.json) [after-proof.json](after-proof.json) [before-coverage.json](before-coverage.json) [before-proof.json](before-proof.json) [counter-probe.py](counter-probe.py) [gates.md](gates.md) [read-boundaries.json](read-boundaries.json) [retirement-proof.mjs](retirement-proof.mjs) [retirement.json](retirement.json) [verification.json](verification.json) [verify.py](verify.py)。
 
 ## 断言与业务 oracle
 

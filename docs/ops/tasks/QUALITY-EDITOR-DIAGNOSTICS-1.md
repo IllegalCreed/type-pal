@@ -15,7 +15,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 前提与证据
 
-固定main源7993B(SHA f6cd4a83b7eb);原卡前提按原时点保留。当前存活入口:[codex-final-window.md](../evidence/CODE-QUALITY-94/codex-final-window.md)、[README.md](../evidence/QUALITY-EDITOR-DIAGNOSTICS-1/README.md)、[window-review.md](../evidence/QUALITY-EDITOR-DIAGNOSTICS-1/window-review.md)
+固定main源7993B(SHA f6cd4a83b7eb);原卡前提按原时点保留。当前存活入口:[codex-final-window.md](../evidence/CODE-QUALITY-94/codex-final-window.md) [README.md](../evidence/QUALITY-EDITOR-DIAGNOSTICS-1/README.md) [window-review.md](../evidence/QUALITY-EDITOR-DIAGNOSTICS-1/window-review.md)。
 
 ## 验收
 

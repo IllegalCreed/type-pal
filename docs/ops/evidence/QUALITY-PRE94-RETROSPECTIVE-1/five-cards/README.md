@@ -7,11 +7,11 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「pre94 五张遗留卡复审」的主题按原文时点保留(摘录:任务：[QUALITY-PRE94-RETROSPECTIVE-1](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)。基点 `b9bf6f7760d4)。
+原审计「pre94 五张遗留卡复审」的主题按原文时点保留(摘录:任务：QUALITY-PRE94-RETROSPECTIVE-1。基点 `b9bf6f7760d4d8b59e7dbc83b0f9aa0b74d9d9ce`；唯一集成分支 `cod)。
 
 ## 范围与证据
 
-原报告含章节[pre94 五张遗留卡复审、本批整改与证据、低成本复验、集中门与当前裁定、剩余风险与下一步]、3个链接;固定main源5525B(SHA b9e1c138f248)。当前存活入口:[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)、[native.json.gz](native.json.gz)、[review.json](review.json)
+原报告含章节[pre94 五张遗留卡复审、本批整改与证据、低成本复验、集中门与当前裁定、剩余风险与下一步]、3个链接;固定main源5525B(SHA b9e1c138f248)。当前存活入口:[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) [native.json.gz](native.json.gz) [review.json](review.json)。
 
 ## 发现
 

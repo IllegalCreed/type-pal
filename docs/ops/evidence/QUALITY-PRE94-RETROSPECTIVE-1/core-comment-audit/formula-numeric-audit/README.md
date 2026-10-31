@@ -11,7 +11,7 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原10个链接处置见作者review的linkDisposition。当前存活入口:[GAME-MAGIC-NUMERIC-ASSIGNMENT-1.md](../../../../tasks/GAME-MAGIC-NUMERIC-ASSIGNMENT-1.md)、[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)、[controls.json](controls.json)、[emit-identity.json](emit-identity.json)、[gates.json](gates.json)、[mapping-oracle.json](mapping-oracle.json)
+来源为固定Git载体,非本次运行;原10个链接处置见作者review的linkDisposition。当前存活入口:[GAME-MAGIC-NUMERIC-ASSIGNMENT-1.md](../../../../tasks/GAME-MAGIC-NUMERIC-ASSIGNMENT-1.md) [QUALITY-PRE94-RETROSPECTIVE-1.md](../../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) [controls.json](controls.json) [emit-identity.json](emit-identity.json) [gates.json](gates.json) [mapping-oracle.json](mapping-oracle.json) [numeric-counter.json](numeric-counter.json) [poison-oracle.json](poison-oracle.json) [read-boundaries.json](read-boundaries.json) [test-title-mappings.json](test-title-mappings.json)。
 
 ## 断言与业务 oracle
 

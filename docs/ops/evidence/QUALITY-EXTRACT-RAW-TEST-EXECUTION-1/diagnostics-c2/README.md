@@ -7,11 +7,11 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「C2 敌队翻译与诊断合同复核」的主题按原文时点保留(摘录:归[原盘执行完整性任务](../../../tasks/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1.md)与[全部83卡复审](../../../tasks/QUALIT)。
+原审计「C2 敌队翻译与诊断合同复核」的主题按原文时点保留(摘录:归原盘执行完整性任务与全部83卡复审。起点3bcdaadc3，唯一codex/code-quality-3y；origin/main=f98d0ddd8。只改两份测试，生产pars)。
 
 ## 范围与证据
 
-原报告含章节[C2 敌队翻译与诊断合同复核、逐文件结论、判别力、排重和覆盖率、回归与剩余门]、13个链接;固定main源5540B(SHA 61b738a444a9)。当前存活入口:[QUALITY-EXTRACT-RAW-TEST-EXECUTION-1.md](../../../tasks/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1.md)、[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)、[after-coverage.json](after-coverage.json)、[after-proof.json](after-proof.json)、[before-coverage.json](before-coverage.json)、[before-proof.json](before-proof.json)
+原报告含章节[C2 敌队翻译与诊断合同复核、逐文件结论、判别力、排重和覆盖率、回归与剩余门]、13个链接;固定main源5540B(SHA 61b738a444a9)。当前存活入口:[QUALITY-EXTRACT-RAW-TEST-EXECUTION-1.md](../../../tasks/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1.md) [QUALITY-PRE94-RETROSPECTIVE-1.md](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) [after-coverage.json](after-coverage.json) [after-proof.json](after-proof.json) [before-coverage.json](before-coverage.json) [before-proof.json](before-proof.json) [counter-probe.py](counter-probe.py) [gates.md](gates.md) [inventory.json](inventory.json) [read-boundaries.json](read-boundaries.json) [regressions.json](regressions.json) [verification.json](verification.json) [verify.py](verify.py)。
 
 ## 发现
 

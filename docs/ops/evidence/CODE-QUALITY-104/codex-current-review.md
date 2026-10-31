@@ -7,7 +7,7 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「CODE-QUALITY-104 — Codex 当前验收（2026-10-17）」的主题按原文时点保留(摘录:范围仅为两个测试文件： - `packages/editor/src/ui/ItemTab.glm-m.test.tsx` - `packages/editor/src/ui/ItemUseEffec)。
+原审计「CODE-QUALITY-104 — Codex 当前验收（2026-10-17）」的主题按原文时点保留(摘录:范围仅为两个测试文件： - `packages/editor/src/ui/ItemTab.glm-m.test.tsx` - `packages/editor/src/ui/It)。
 
 ## 范围与证据
 

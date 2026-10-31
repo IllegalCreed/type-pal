@@ -15,7 +15,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 前提与证据
 
-固定main源10687B(SHA 8958f88fe23d);原卡前提按原时点保留。当前存活入口:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/poison-progression-comments/README.md)、[primary-counters.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/primary-counters.json)、[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-closeout/README.md)、[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-quality/README.md)、[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/poison-entry-ownership/README.md)
+固定main源10687B(SHA 8958f88fe23d);原卡前提按原时点保留。当前存活入口:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/poison-progression-comments/README.md) [primary-counters.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/primary-counters.json) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-closeout/README.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-quality/README.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/poison-entry-ownership/README.md)。
 
 ## 验收
 

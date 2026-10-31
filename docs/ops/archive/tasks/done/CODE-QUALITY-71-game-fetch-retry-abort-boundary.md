@@ -15,7 +15,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 前提与证据
 
-固定main源3998B(SHA 90474217ff02);原卡前提按原时点保留。当前存活入口:[present-leaves-gates.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-gates.json)、[present-shell-readonly.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-shell-readonly.json)
+固定main源3998B(SHA 90474217ff02);原卡前提按原时点保留。当前存活入口:[present-leaves-gates.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-gates.json) [present-shell-readonly.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-shell-readonly.json)。
 
 ## 验收
 
@@ -43,7 +43,7 @@ done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者
 
 ## 继任文档
 
-接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[present-leaves-gates.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-gates.json)、[present-shell-readonly.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-shell-readonly.json)
+接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[present-leaves-gates.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-gates.json) [present-shell-readonly.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-shell-readonly.json)。
 
 
 ## 原文保全

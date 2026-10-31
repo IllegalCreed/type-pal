@@ -7,7 +7,7 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「CODE-QUALITY-109 — Codex 当前验收（2026-10-17）」的主题按原文时点保留(摘录:完整读取： - `packages/game/src/analytics/install-analytics.ts`（57 行） - `packages/game/src/analytics/inst)。
+原审计「CODE-QUALITY-109 — Codex 当前验收（2026-10-17）」的主题按原文时点保留(摘录:完整读取： - `packages/game/src/analytics/install-analytics.ts`（57 行） - `packages/game/src/anal)。
 
 ## 范围与证据
 

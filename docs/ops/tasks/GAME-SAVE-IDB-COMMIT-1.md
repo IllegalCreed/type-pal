@@ -15,7 +15,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 前提与证据
 
-固定main源6254B(SHA 30997984d2f3);原卡前提按原时点保留。当前存活入口:[codex-final-window.md](../evidence/CODE-QUALITY-94/codex-final-window.md)、[codex-r2-review.md](../evidence/CODE-QUALITY-94/codex-r2-review.md)
+固定main源6254B(SHA 30997984d2f3);原卡前提按原时点保留。当前存活入口:[codex-final-window.md](../evidence/CODE-QUALITY-94/codex-final-window.md) [codex-r2-review.md](../evidence/CODE-QUALITY-94/codex-r2-review.md)。
 
 ## 验收
 

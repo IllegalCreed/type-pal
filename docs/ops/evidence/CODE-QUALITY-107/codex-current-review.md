@@ -7,7 +7,7 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「CODE-QUALITY-107 — Codex 当前验收（2026-10-17）」的主题按原文时点保留(摘录:完整读取 `primitives.ts`、`item-select.ts` 和五个专属测试；读取 `inventory-menu.ts`、 `sell-menu.ts`、`equip-menu.ts`)。
+原审计「CODE-QUALITY-107 — Codex 当前验收（2026-10-17）」的主题按原文时点保留(摘录:完整读取 `primitives.ts`、`item-select.ts` 和五个专属测试；读取 `inventory-menu.ts`、 `sell-menu.ts`、`equi)。
 
 ## 范围与证据
 

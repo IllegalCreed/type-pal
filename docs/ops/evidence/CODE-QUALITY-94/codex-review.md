@@ -7,7 +7,7 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「CODE94/95 — Codex 独立验收 counter（2026-10-15）」的主题按原文时点保留(摘录:Reviewer: Codex。实现候选钉 `5cb6b9d22`（GLM CODE94/95 交付）；后续到 `e45378a81` 仅 CODE97–102 文档，不改变该候选的 packages)。
+原审计「CODE94/95 — Codex 独立验收 counter（2026-10-15）」的主题按原文时点保留(摘录:Reviewer: Codex。实现候选钉 `5cb6b9d22`（GLM CODE94/95 交付）；后续到 `e45378a81` 仅 CODE97–102 文档，不改变该候选)。
 
 ## 范围与证据
 

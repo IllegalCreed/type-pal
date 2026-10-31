@@ -7,7 +7,7 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「CODE-QUALITY-94 — GLM 逐文件复核结论（2026-10-14/15）」的主题按原文时点保留(摘录:对象：`source-manifest.json` 30 条候选，分支 `codex/code-quality-menu-integration`（基 `origin/main=cddf65557`）)。
+原审计「CODE-QUALITY-94 — GLM 逐文件复核结论（2026-10-14/15）」的主题按原文时点保留(摘录:对象：`source-manifest.json` 30 条候选，分支 `codex/code-quality-menu-integration`（基 `origin/main=c)。
 
 ## 范围与证据
 

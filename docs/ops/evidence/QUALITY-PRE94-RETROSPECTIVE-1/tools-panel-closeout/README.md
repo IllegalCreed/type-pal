@@ -11,7 +11,7 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原8个链接处置见作者review的linkDisposition。当前存活入口:[README.md](../58-tools-panel-fixtures/README.md)、[README.md](../gamestate-save-closeout/README.md)、[README.md](../status-tools-closeout/README.md)、[import-reader-error.png](import-reader-error.png)、[prove-refactor.cjs](prove-refactor.cjs)、[receipts.json.gz](receipts.json.gz)
+来源为固定Git载体,非本次运行;原8个链接处置见作者review的linkDisposition。当前存活入口:[README.md](../58-tools-panel-fixtures/README.md) [README.md](../gamestate-save-closeout/README.md) [README.md](../status-tools-closeout/README.md) [import-reader-error.png](import-reader-error.png) [prove-refactor.cjs](prove-refactor.cjs) [receipts.json.gz](receipts.json.gz) [review.json](review.json) [static.json](static.json)。
 
 ## 断言与业务 oracle
 

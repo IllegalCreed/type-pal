@@ -7,11 +7,11 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「CODE3事件切分/标注成果复审」的主题按原文时点保留(摘录:归[全83卡复审](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)。起点605585752/main=f98d0ddd8，唯一3y分支、单Agent。)。
+原审计「CODE3事件切分/标注成果复审」的主题按原文时点保留(摘录:归全83卡复审。起点605585752/main=f98d0ddd8，唯一3y分支、单Agent。本片只补两份切分测试，生产/生成物不改，整卡partial、0新增关闭。 完整路径)。
 
 ## 范围与证据
 
-原报告含章节[CODE3事件切分/标注成果复审、实际读取、职责与当前结论、真值与高风险停线、真实输入与可复跑探针、判别力、精简边界与恢复、当前门、账本与交接]、14个链接;固定main源8021B(SHA db24e7ddcb21)。当前存活入口:[QUALITY-EVENT-SLICE-CONTROL-TRUTH-1.md](../../../tasks/QUALITY-EVENT-SLICE-CONTROL-TRUTH-1.md)、[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)、[README.md](../3-annotate/README.md)、[after-proof.json](after-proof.json)、[before-proof.json](before-proof.json)、[control-command.json](control-command.json)
+原报告含章节[CODE3事件切分/标注成果复审、实际读取、职责与当前结论、真值与高风险停线、真实输入与可复跑探针、判别力、精简边界与恢复、当前门、账本与交接]、14个链接;固定main源8021B(SHA db24e7ddcb21)。当前存活入口:[QUALITY-EVENT-SLICE-CONTROL-TRUTH-1.md](../../../tasks/QUALITY-EVENT-SLICE-CONTROL-TRUTH-1.md) [QUALITY-PRE94-RETROSPECTIVE-1.md](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) [README.md](../3-annotate/README.md) [after-proof.json](after-proof.json) [before-proof.json](before-proof.json) [control-command.json](control-command.json) [control-probe.mts](control-probe.mts) [control-proof.json](control-proof.json) [counter-probe.py](counter-probe.py) [gates.md](gates.md) [probe-typecheck.json](probe-typecheck.json) [read-boundaries.json](read-boundaries.json) [tests.json](tests.json) [verification.json](verification.json)。
 
 ## 发现
 

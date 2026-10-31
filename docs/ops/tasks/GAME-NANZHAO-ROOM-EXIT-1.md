@@ -7,7 +7,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「GAME-NANZHAO-ROOM-EXIT-1 - 南诏地宫中间房间出口回归」的任务归属与历史边界。原目标见原文(摘录:修复[issue #27](https://github.com/IllegalCreed/type-pal/issues/27)：第一阶段scene287/map204中间房间可进入且能离开；核清与此前D10脚本修复的关系，同时核第二阶段);本页治理不重开已终态任务。
+保留原卡「GAME-NANZHAO-ROOM-EXIT-1 - 南诏地宫中间房间出口回归」的任务归属与历史边界。原目标见原文(摘录:修复issue #27：第一阶段scene287/map204中间房间可进入且能离开；核清与此前D10脚本修复的关系，同时核第二阶段对应内容，避免单边修复。);本页治理不重开已终态任务。
 
 ## 范围
 
@@ -15,7 +15,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 前提与证据
 
-固定main源9623B(SHA 5c372c4a3d81);原卡前提按原时点保留。当前存活入口:[CLAUDE.md](../../../CLAUDE.md)、[READ-FIRST.md](../../phase2/READ-FIRST.md)、[contract.md](../../testing/e2e/contract.md)、[code-quality.md](../code-quality.md)、[integration-gates.json](../evidence/GAME-NANZHAO-ROOM-EXIT-1/integration-gates.json)、[release-gates.json](../evidence/GAME-NANZHAO-ROOM-EXIT-1/release-gates.json)
+固定main源9623B(SHA 5c372c4a3d81);原卡前提按原时点保留。当前存活入口:[CLAUDE.md](../../../CLAUDE.md) [READ-FIRST.md](../../phase2/READ-FIRST.md) [contract.md](../../testing/e2e/contract.md) [code-quality.md](../code-quality.md) [integration-gates.json](../evidence/GAME-NANZHAO-ROOM-EXIT-1/integration-gates.json) [release-gates.json](../evidence/GAME-NANZHAO-ROOM-EXIT-1/release-gates.json) [release-preparation.json](../evidence/GAME-NANZHAO-ROOM-EXIT-1/release-preparation.json) [release.json](../evidence/GAME-NANZHAO-ROOM-EXIT-1/release.json) [review.json](../evidence/GAME-NANZHAO-ROOM-EXIT-1/review.json) [GAME-SCRIPT-CORRECTIONS-1.md](GAME-SCRIPT-CORRECTIONS-1.md)。
 
 ## 验收
 
@@ -43,7 +43,7 @@ done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者
 
 ## 继任文档
 
-接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[CLAUDE.md](../../../CLAUDE.md)、[READ-FIRST.md](../../phase2/READ-FIRST.md)、[contract.md](../../testing/e2e/contract.md)、[code-quality.md](../code-quality.md)、[integration-gates.json](../evidence/GAME-NANZHAO-ROOM-EXIT-1/integration-gates.json)、[release-gates.json](../evidence/GAME-NANZHAO-ROOM-EXIT-1/release-gates.json)
+接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[CLAUDE.md](../../../CLAUDE.md) [READ-FIRST.md](../../phase2/READ-FIRST.md) [contract.md](../../testing/e2e/contract.md) [code-quality.md](../code-quality.md) [integration-gates.json](../evidence/GAME-NANZHAO-ROOM-EXIT-1/integration-gates.json) [release-gates.json](../evidence/GAME-NANZHAO-ROOM-EXIT-1/release-gates.json) [release-preparation.json](../evidence/GAME-NANZHAO-ROOM-EXIT-1/release-preparation.json) [release.json](../evidence/GAME-NANZHAO-ROOM-EXIT-1/release.json) [review.json](../evidence/GAME-NANZHAO-ROOM-EXIT-1/review.json) [GAME-SCRIPT-CORRECTIONS-1.md](GAME-SCRIPT-CORRECTIONS-1.md)。
 
 
 ## 原文保全

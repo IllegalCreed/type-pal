@@ -7,11 +7,11 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「battle actions 家族四文件 B–G 补维（glm-foundation 模块 6 批 9）」的主题按原文时点保留(摘录:> Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见[当前返工记录](../codex-stage2-rework.json))。
+原审计「battle actions 家族四文件 B–G 补维（glm-foundation 模块 6 批 9）」的主题按原文时点保留(摘录:> Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见当前返工记录。 范围：`actions/{attack)。
 
 ## 范围与证据
 
-原报告含章节[battle actions 家族四文件 B–G 补维（glm-foundation 模块 6 批 9）、短回执、八维结论（B–G 补维重点）、登记（不动）、复验入口（只读）、Codex 2026-10-20 当前有限裁定]、2个链接;固定main源3400B(SHA 279b4647d493)。当前存活入口:[codex-dead-removals.json](../codex-dead-removals.json)、[codex-stage2-rework.json](../codex-stage2-rework.json)
+原报告含章节[battle actions 家族四文件 B–G 补维（glm-foundation 模块 6 批 9）、短回执、八维结论（B–G 补维重点）、登记（不动）、复验入口（只读）、Codex 2026-10-20 当前有限裁定]、2个链接;固定main源3400B(SHA 279b4647d493)。当前存活入口:[codex-dead-removals.json](../codex-dead-removals.json) [codex-stage2-rework.json](../codex-stage2-rework.json)。
 
 ## 发现
 

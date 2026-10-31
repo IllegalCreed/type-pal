@@ -15,7 +15,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 前提与证据
 
-固定main源7393B(SHA 1b3878052349);原卡前提按原时点保留。当前存活入口:[code-quality.md](../code-quality.md)、[extra-cleanup-fix.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/extra-cleanup-fix.json)、[module-closeout.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/module-closeout.json)、[post-player-context.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/post-player-context.json)、[post-player-state-fix.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/post-player-state-fix.json)、[QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)
+固定main源7393B(SHA 1b3878052349);原卡前提按原时点保留。当前存活入口:[code-quality.md](../code-quality.md) [extra-cleanup-fix.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/extra-cleanup-fix.json) [module-closeout.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/module-closeout.json) [post-player-context.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/post-player-context.json) [post-player-state-fix.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/post-player-state-fix.json) [QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)。
 
 ## 验收
 
@@ -43,7 +43,7 @@ done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者
 
 ## 继任文档
 
-接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[code-quality.md](../code-quality.md)、[extra-cleanup-fix.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/extra-cleanup-fix.json)、[module-closeout.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/module-closeout.json)、[post-player-context.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/post-player-context.json)、[post-player-state-fix.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/post-player-state-fix.json)、[QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)
+接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[code-quality.md](../code-quality.md) [extra-cleanup-fix.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/extra-cleanup-fix.json) [module-closeout.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/module-closeout.json) [post-player-context.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/post-player-context.json) [post-player-state-fix.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/post-player-state-fix.json) [QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)。
 
 
 ## 原文保全

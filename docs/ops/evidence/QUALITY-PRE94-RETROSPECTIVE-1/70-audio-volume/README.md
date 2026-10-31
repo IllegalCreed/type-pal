@@ -7,11 +7,11 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「CODE70 音量测试逐文件复审」的主题按原文时点保留(摘录:基点 `9cd270f26`；唯一 `codex/code-quality-3y`。Codex单一Owner，build allowed仅`audio-volume.test.ts`、相邻`audio)。
+原审计「CODE70 音量测试逐文件复审」的主题按原文时点保留(摘录:基点 `9cd270f26`；唯一 `codex/code-quality-3y`。Codex单一Owner，build allowed仅`audio-volume.test.ts)。
 
 ## 范围与证据
 
-原报告含章节[CODE70 音量测试逐文件复审、实际读取、caller与oracle、发现与处理、反控、验证与未关闭]、6个链接;固定main源3370B(SHA 3a224241e0f3)。当前存活入口:[after-proof.json](after-proof.json)、[before-proof.json](before-proof.json)、[contracts.json](contracts.json)、[read-boundaries.json](read-boundaries.json)、[static-gates.json](static-gates.json)、[test-gates.json](test-gates.json)
+原报告含章节[CODE70 音量测试逐文件复审、实际读取、caller与oracle、发现与处理、反控、验证与未关闭]、6个链接;固定main源3370B(SHA 3a224241e0f3)。当前存活入口:[after-proof.json](after-proof.json) [before-proof.json](before-proof.json) [contracts.json](contracts.json) [read-boundaries.json](read-boundaries.json) [static-gates.json](static-gates.json) [test-gates.json](test-gates.json)。
 
 ## 发现
 

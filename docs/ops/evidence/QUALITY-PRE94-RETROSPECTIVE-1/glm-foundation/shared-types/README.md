@@ -7,11 +7,11 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「shared 纯类型/合同六文件复审（glm-foundation 模块 2）」的主题按原文时点保留(摘录:> Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见[当前返工记录](../codex-stage2-rework.json))。
+原审计「shared 纯类型/合同六文件复审（glm-foundation 模块 2）」的主题按原文时点保留(摘录:> Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见当前返工记录。 范围：`resources.ts`、`)。
 
 ## 范围与证据
 
-原报告含章节[shared 纯类型/合同六文件复审（glm-foundation 模块 2）、短回执、八维结论（按文件）、登记（公共出口删除须 Codex 裁定，本批不动）、复验入口（只读）、Codex当前勘误与接管（2026-10-19）]、4个链接;固定main源6099B(SHA 55d9191f6c18)。当前存活入口:[codex-stage2-rework.json](../codex-stage2-rework.json)、[directed.json](directed.json)、[tables.after.d.ts](tables.after.d.ts)、[tables.base.d.ts](tables.base.d.ts)
+原报告含章节[shared 纯类型/合同六文件复审（glm-foundation 模块 2）、短回执、八维结论（按文件）、登记（公共出口删除须 Codex 裁定，本批不动）、复验入口（只读）、Codex当前勘误与接管（2026-10-19）]、4个链接;固定main源6099B(SHA 55d9191f6c18)。当前存活入口:[codex-stage2-rework.json](../codex-stage2-rework.json) [directed.json](directed.json) [tables.after.d.ts](tables.after.d.ts) [tables.base.d.ts](tables.base.d.ts)。
 
 ## 发现
 

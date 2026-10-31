@@ -7,11 +7,11 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「移动端对pre94已接受文件的增量复核」的主题按原文时点保留(摘录:Template: evidence-receipt-v1 / 1.0.0 当前同一3y，起点868323003。移动端净diff直接改变7个此前closed生产文件；初始7 SHA均匹配移动端已独立)。
+原审计「移动端对pre94已接受文件的增量复核」的主题按原文时点保留(摘录:Template: evidence-receipt-v1 / 1.0.0 当前同一3y，起点868323003。移动端净diff直接改变7个此前closed生产文件；初始7 SH)。
 
 ## 范围与证据
 
-原报告含章节[移动端对pre94已接受文件的增量复核、证据身份、来源与输入、断言与业务oracle、结果、限制与复核]、4个链接;固定main源2145B(SHA f13162c6b36c)。当前存活入口:[GAME-AVI-RETRY-OWNERSHIP-1.md](../../../tasks/GAME-AVI-RETRY-OWNERSHIP-1.md)、[README.md](../game-actions-mobile/README.md)、[avi-repeat-native.json.gz](avi-repeat-native.json.gz)、[avi-repeat.json](avi-repeat.json)
+原报告含章节[移动端对pre94已接受文件的增量复核、证据身份、来源与输入、断言与业务oracle、结果、限制与复核]、4个链接;固定main源2145B(SHA f13162c6b36c)。当前存活入口:[GAME-AVI-RETRY-OWNERSHIP-1.md](../../../tasks/GAME-AVI-RETRY-OWNERSHIP-1.md) [README.md](../game-actions-mobile/README.md) [avi-repeat-native.json.gz](avi-repeat-native.json.gz) [avi-repeat.json](avi-repeat.json)。
 
 ## 发现
 

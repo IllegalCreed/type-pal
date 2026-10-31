@@ -15,7 +15,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 前提与证据
 
-固定main源9840B(SHA 5b33d878ef81);原卡前提按原时点保留。当前存活入口:[README.md](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/53-wave-gates/README.md)、[renderer-gates.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-gates.json)、[renderer-local.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-local.json)
+固定main源9840B(SHA 5b33d878ef81);原卡前提按原时点保留。当前存活入口:[README.md](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/53-wave-gates/README.md) [renderer-gates.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-gates.json) [renderer-local.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-local.json)。
 
 ## 验收
 
@@ -43,7 +43,7 @@ done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者
 
 ## 继任文档
 
-接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[README.md](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/53-wave-gates/README.md)、[renderer-gates.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-gates.json)、[renderer-local.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-local.json)
+接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[README.md](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/53-wave-gates/README.md) [renderer-gates.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-gates.json) [renderer-local.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-local.json)。
 
 
 ## 原文保全

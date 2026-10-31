@@ -7,11 +7,11 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「批50:reforge main.ts 6710 行（零整改批,reforge 包收口）」的主题按原文时点保留(摘录:> Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见[当前返工记录](../codex-stage2-rework.json))。
+原审计「批50:reforge main.ts 6710 行（零整改批,reforge 包收口）」的主题按原文时点保留(摘录:> Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见当前返工记录。 范围：`packages/reforg)。
 
 ## 范围与证据
 
-原报告含章节[批50:reforge main.ts 6710 行（零整改批,reforge 包收口）、结论(组合根质量)、登记移交（无新增）、验证]、1个链接;固定main源3276B(SHA 0a44ec6b2887)。当前存活入口:[codex-stage2-rework.json](../codex-stage2-rework.json)
+原报告含章节[批50:reforge main.ts 6710 行（零整改批,reforge 包收口）、结论(组合根质量)、登记移交（无新增）、验证]、1个链接;固定main源3276B(SHA 0a44ec6b2887)。当前存活入口:[codex-stage2-rework.json](../codex-stage2-rework.json)。
 
 ## 发现
 

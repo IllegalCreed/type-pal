@@ -15,7 +15,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 前提与证据
 
-固定main源14143B(SHA 4a95936ab46b);原卡前提按原时点保留。当前存活入口:[README.md](../evidence/QUALITY-BATTLE-MAGIC-PARITY-1/README.md)、[codex-dead-removals.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-dead-removals.json)
+固定main源14143B(SHA 4a95936ab46b);原卡前提按原时点保留。当前存活入口:[README.md](../evidence/QUALITY-BATTLE-MAGIC-PARITY-1/README.md) [codex-dead-removals.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-dead-removals.json)。
 
 ## 验收
 

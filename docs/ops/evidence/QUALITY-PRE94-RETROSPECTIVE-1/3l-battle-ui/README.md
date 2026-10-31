@@ -7,7 +7,7 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「CODE3l 战斗 UI 复审切片」的主题按原文时点保留(摘录:基点：`e203872e4`；分支：`codex/code-quality-3y`，相对 `origin/main` 为 `0 behind / 196 ahead`。本片完整核 `draw-batt)。
+原审计「CODE3l 战斗 UI 复审切片」的主题按原文时点保留(摘录:基点：`e203872e4`；分支：`codex/code-quality-3y`，相对 `origin/main` 为 `0 behind / 196 ahead`。本片完整核)。
 
 ## 范围与证据
 

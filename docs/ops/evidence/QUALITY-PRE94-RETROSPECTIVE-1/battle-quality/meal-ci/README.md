@@ -7,11 +7,11 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「385主线CI的meal夹具窄返工与隐藏成长裁决」的主题按原文时点保留(摘录:Template: evidence-receipt-v1 / 1.0.0 同一`codex/code-quality-3y`，基点38502c046；本包只接受pal-meal-shell测试输入准)。
+原审计「385主线CI的meal夹具窄返工与隐藏成长裁决」的主题按原文时点保留(摘录:Template: evidence-receipt-v1 / 1.0.0 同一`codex/code-quality-3y`，基点38502c046；本包只接受pal-meal-)。
 
 ## 范围与证据
 
-原报告含章节[385主线CI的meal夹具窄返工与隐藏成长裁决、证据身份、来源与输入、断言与业务 oracle、结果、限制与复核]、5个链接;固定main源4780B(SHA b1cab8ba4650)。当前存活入口:[GAME-BATTLE-HIDDEN-WORD-BOUNDARY-1.md](../../../../tasks/GAME-BATTLE-HIDDEN-WORD-BOUNDARY-1.md)、[integration-native.json.gz](integration-native.json.gz)、[integration.json](integration.json)、[native.json.gz](native.json.gz)、[review.json](review.json)
+原报告含章节[385主线CI的meal夹具窄返工与隐藏成长裁决、证据身份、来源与输入、断言与业务 oracle、结果、限制与复核]、5个链接;固定main源4780B(SHA b1cab8ba4650)。当前存活入口:[GAME-BATTLE-HIDDEN-WORD-BOUNDARY-1.md](../../../../tasks/GAME-BATTLE-HIDDEN-WORD-BOUNDARY-1.md) [integration-native.json.gz](integration-native.json.gz) [integration.json](integration.json) [native.json.gz](native.json.gz) [review.json](review.json)。
 
 ## 发现
 

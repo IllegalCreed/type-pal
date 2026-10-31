@@ -7,11 +7,11 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「game core 3o/3n 余量四件复审（glm-foundation 模块 5 批 4）」的主题按原文时点保留(摘录:> Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见[当前返工记录](../codex-stage2-rework.json))。
+原审计「game core 3o/3n 余量四件复审（glm-foundation 模块 5 批 4）」的主题按原文时点保留(摘录:> Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见当前返工记录。 范围：`core/{player-po)。
 
 ## 范围与证据
 
-原报告含章节[game core 3o/3n 余量四件复审（glm-foundation 模块 5 批 4）、短回执、八维结论（B–G 补维重点）、登记（不动）、复验入口（只读）]、1个链接;固定main源2840B(SHA 8b9f4ee210ae)。当前存活入口:[codex-stage2-rework.json](../codex-stage2-rework.json)
+原报告含章节[game core 3o/3n 余量四件复审（glm-foundation 模块 5 批 4）、短回执、八维结论（B–G 补维重点）、登记（不动）、复验入口（只读）]、1个链接;固定main源2840B(SHA 8b9f4ee210ae)。当前存活入口:[codex-stage2-rework.json](../codex-stage2-rework.json)。
 
 ## 发现
 

@@ -7,11 +7,11 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「extract events 核心四文件复审（glm-foundation 模块 3 批 1）」的主题按原文时点保留(摘录:> Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见[当前返工记录](../codex-stage2-rework.json))。
+原审计「extract events 核心四文件复审（glm-foundation 模块 3 批 1）」的主题按原文时点保留(摘录:> Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见当前返工记录。 范围：`packages/pal-ex)。
 
 ## 范围与证据
 
-原报告含章节[extract events 核心四文件复审（glm-foundation 模块 3 批 1）、短回执、八维结论、登记（不动）、复验入口（只读）、真盘 roundtrip 需 data/raw/{SSS.MKF,M.MSG}（worktree 内为指向主树的只读软链）]、2个链接;固定main源4730B(SHA 388243d71d4d)。当前存活入口:[codex-stage2-rework.json](../codex-stage2-rework.json)、[directed.json](directed.json)
+原报告含章节[extract events 核心四文件复审（glm-foundation 模块 3 批 1）、短回执、八维结论、登记（不动）、复验入口（只读）、真盘 roundtrip 需 data/raw/{SSS.MKF,M.MSG}（worktree 内为指向主树的只读软链）]、2个链接;固定main源4730B(SHA 388243d71d4d)。当前存活入口:[codex-stage2-rework.json](../codex-stage2-rework.json) [directed.json](directed.json)。
 
 ## 发现
 

@@ -11,7 +11,7 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原11个链接处置见作者review的linkDisposition。当前存活入口:[CODE-QUALITY-3d-pal-extract-png-inputs.md](../../../archive/tasks/done/CODE-QUALITY-3d-pal-extract-png-inputs.md)、[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)、[QUALITY-RLE-COMMAND-TRUTH-1.md](../../../tasks/QUALITY-RLE-COMMAND-TRUTH-1.md)、[after-proof.json](after-proof.json)、[before-proof.json](before-proof.json)、[README.md](closeout/README.md)
+来源为固定Git载体,非本次运行;原11个链接处置见作者review的linkDisposition。当前存活入口:[CODE-QUALITY-3d-pal-extract-png-inputs.md](../../../archive/tasks/done/CODE-QUALITY-3d-pal-extract-png-inputs.md) [QUALITY-PRE94-RETROSPECTIVE-1.md](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) [QUALITY-RLE-COMMAND-TRUTH-1.md](../../../tasks/QUALITY-RLE-COMMAND-TRUTH-1.md) [after-proof.json](after-proof.json) [before-proof.json](before-proof.json) [README.md](closeout/README.md) [gates.md](gates.md) [read-boundaries.json](read-boundaries.json) [regressions.json](regressions.json) [verification.json](verification.json) [verify.py](verify.py)。
 
 ## 断言与业务 oracle
 

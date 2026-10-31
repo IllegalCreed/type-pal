@@ -7,7 +7,7 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「CODE-QUALITY-103 — Codex 当前逐文件复核（2026-10-17）」的主题按原文时点保留(摘录:- `packages/editor/src/ui/command-form-control.residual.glm.test.tsx` - `packages/editor/src/ui/Item)。
+原审计「CODE-QUALITY-103 — Codex 当前逐文件复核（2026-10-17）」的主题按原文时点保留(摘录:- `packages/editor/src/ui/command-form-control.residual.glm.test.tsx` - `packages/editor/s)。
 
 ## 范围与证据
 

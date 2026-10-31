@@ -7,11 +7,11 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「CODE58 tools-panel 夹具与隔离勘误」的主题按原文时点保留(摘录:基点 `ba45329cc`，唯一 `codex/code-quality-3y`；Codex 单一 Owner，build allowed 只含两份 tools-panel 测试、新的共用测试宿主及)。
+原审计「CODE58 tools-panel 夹具与隔离勘误」的主题按原文时点保留(摘录:基点 `ba45329cc`，唯一 `codex/code-quality-3y`；Codex 单一 Owner，build allowed 只含两份 tools-panel 测试)。
 
 ## 范围与证据
 
-原报告含章节[CODE58 tools-panel 夹具与隔离勘误、直接反例与旧结论勘误、逐文件与输入/caller/oracle、判别力、测试与未关闭边界]、7个链接;固定main源3740B(SHA f98dc02e475d)。当前存活入口:[README.md](../58-tools-panel/README.md)、[after-proof.json](after-proof.json)、[before-proof.json](before-proof.json)、[case-review.json](case-review.json)、[read-boundaries.json](read-boundaries.json)、[static-gates.json](static-gates.json)
+原报告含章节[CODE58 tools-panel 夹具与隔离勘误、直接反例与旧结论勘误、逐文件与输入/caller/oracle、判别力、测试与未关闭边界]、7个链接;固定main源3740B(SHA f98dc02e475d)。当前存活入口:[README.md](../58-tools-panel/README.md) [after-proof.json](after-proof.json) [before-proof.json](before-proof.json) [case-review.json](case-review.json) [read-boundaries.json](read-boundaries.json) [static-gates.json](static-gates.json) [test-gates.json](test-gates.json)。
 
 ## 发现
 

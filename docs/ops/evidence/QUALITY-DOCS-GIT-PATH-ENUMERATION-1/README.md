@@ -11,7 +11,7 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原7个链接处置见作者review的linkDisposition。当前存活入口:[QUALITY-DOCS-GIT-PATH-ENUMERATION-1.md](../../tasks/QUALITY-DOCS-GIT-PATH-ENUMERATION-1.md)、[controls.json](controls.json)、[gates.json](gates.json)、[green.json](green.json)、[read-boundaries.json](read-boundaries.json)、[red.json](red.json)
+来源为固定Git载体,非本次运行;原7个链接处置见作者review的linkDisposition。当前存活入口:[QUALITY-DOCS-GIT-PATH-ENUMERATION-1.md](../../tasks/QUALITY-DOCS-GIT-PATH-ENUMERATION-1.md) [controls.json](controls.json) [gates.json](gates.json) [green.json](green.json) [read-boundaries.json](read-boundaries.json) [red.json](red.json)。
 
 ## 断言与业务 oracle
 

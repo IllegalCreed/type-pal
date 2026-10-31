@@ -15,7 +15,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 前提与证据
 
-固定main源3966B(SHA 592f86e97857);原卡前提按原时点保留。当前存活入口:[README.md](../evidence/QUALITY-EDITOR-WORLD-SPRITE-DIAGNOSTICS-1/README.md)
+固定main源3966B(SHA 592f86e97857);原卡前提按原时点保留。当前存活入口:[README.md](../evidence/QUALITY-EDITOR-WORLD-SPRITE-DIAGNOSTICS-1/README.md)。
 
 ## 验收
 

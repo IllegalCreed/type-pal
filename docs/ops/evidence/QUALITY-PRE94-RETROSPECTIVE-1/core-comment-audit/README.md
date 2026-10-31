@@ -11,7 +11,7 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原14个链接处置见作者review的linkDisposition。当前存活入口:[GAME-ACTION-QUEUE-TIE-ORDER-1.md](../../../tasks/GAME-ACTION-QUEUE-TIE-ORDER-1.md)、[GAME-PLAYER-POISON-SLOT-COMPACTION-1.md](../../../tasks/GAME-PLAYER-POISON-SLOT-COMPACTION-1.md)、[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)、[README.md](formula-numeric-audit/README.md)、[README.md](initial-compile/README.md)、[README.md](minimap-classification-view/README.md)
+来源为固定Git载体,非本次运行;原14个链接处置见作者review的linkDisposition。当前存活入口:[GAME-ACTION-QUEUE-TIE-ORDER-1.md](../../../tasks/GAME-ACTION-QUEUE-TIE-ORDER-1.md) [GAME-PLAYER-POISON-SLOT-COMPACTION-1.md](../../../tasks/GAME-PLAYER-POISON-SLOT-COMPACTION-1.md) [QUALITY-PRE94-RETROSPECTIVE-1.md](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) [README.md](formula-numeric-audit/README.md) [README.md](initial-compile/README.md) [README.md](minimap-classification-view/README.md) [README.md](palette-approach-tests/README.md) [README.md](poison-progression-comments/README.md) [primary-counters.json](primary-counters.json) [README.md](queue-approved-fix/README.md) [read-boundaries.json](read-boundaries.json) [README.md](runtime-projection-comments/README.md) [README.md](shop-layout-tests/README.md) [README.md](tools-thumbnail-hotkeys/README.md)。
 
 ## 断言与业务 oracle
 

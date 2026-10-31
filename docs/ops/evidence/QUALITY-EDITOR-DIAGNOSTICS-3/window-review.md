@@ -7,7 +7,7 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「C02 导入与历史回流：稳定模块窗口」的主题按原文时点保留(摘录:源码候选 `addf1dca1400cf864535ce4b67257ab0adcdcb5e`；protected main `f98d0ddd89ebdee7b04502ee35de26ee82c6)。
+原审计「C02 导入与历史回流：稳定模块窗口」的主题按原文时点保留(摘录:源码候选 `addf1dca1400cf864535ce4b67257ab0adcdcb5e`；protected main `f98d0ddd89ebdee7b04502ee35)。
 
 ## 范围与证据
 

@@ -11,7 +11,7 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原4个链接处置见作者review的linkDisposition。当前存活入口:[QUALITY-EDITOR-DIAGNOSTICS-1.md](../../tasks/QUALITY-EDITOR-DIAGNOSTICS-1.md)、[window-review.md](../QUALITY-EDITOR-DIAGNOSTICS-2/window-review.md)、[codex-final-window.md](codex-final-window.md)、[codex-r3-review.md](codex-r3-review.md)
+来源为固定Git载体,非本次运行;原4个链接处置见作者review的linkDisposition。当前存活入口:[QUALITY-EDITOR-DIAGNOSTICS-1.md](../../tasks/QUALITY-EDITOR-DIAGNOSTICS-1.md) [window-review.md](../QUALITY-EDITOR-DIAGNOSTICS-2/window-review.md) [codex-final-window.md](codex-final-window.md) [codex-r3-review.md](codex-r3-review.md)。
 
 ## 断言与业务 oracle
 

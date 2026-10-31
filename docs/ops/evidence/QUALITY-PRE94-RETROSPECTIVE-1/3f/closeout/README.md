@@ -7,11 +7,11 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「CODE3f 当前八维复核」的主题按原文时点保留(摘录:Template: evidence-index-v1 / 1.0.0 收窄三处私有依赖，并纠正测试深克隆暗示；没有扩展为新的通用注释框架。旧真值/反控直接复用，补当前C/F/G/H与真实caller)。
+原审计「CODE3f 当前八维复核」的主题按原文时点保留(摘录:Template: evidence-index-v1 / 1.0.0 收窄三处私有依赖，并纠正测试深克隆暗示；没有扩展为新的通用注释框架。旧真值/反控直接复用，补当前C/F/G/)。
 
 ## 范围与证据
 
-原报告含章节[CODE3f 当前八维复核、2026-10-21 当前最终结果]、2个链接;固定main源887B(SHA 319034c553ec)。当前存活入口:[evidence.json](../../3b/closeout/evidence.json)、[review.json](review.json)
+原报告含章节[CODE3f 当前八维复核、2026-10-21 当前最终结果]、2个链接;固定main源887B(SHA 319034c553ec)。当前存活入口:[evidence.json](../../3b/closeout/evidence.json) [review.json](review.json)。
 
 ## 发现
 

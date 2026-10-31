@@ -7,11 +7,11 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「CODE66 speedrun overlay 当前复审切片」的主题按原文时点保留(摘录:> 2026-10-18 波次门勘误：本页引用的 [47–52统一门回执](../53-wave-gates/README.md) 已撤回“通过/收口”信用，未证明零诊断；不得沿用为本片验收或合并依据)。
+原审计「CODE66 speedrun overlay 当前复审切片」的主题按原文时点保留(摘录:> 2026-10-18 波次门勘误：本页引用的 47–52统一门回执 已撤回“通过/收口”信用，未证明零诊断；不得沿用为本片验收或合并依据。本页原逐文件/定向结果按各自证据保留，)。
 
 ## 范围与证据
 
-原报告含章节[CODE66 speedrun overlay 当前复审切片、实际读取与依据、逐文件结论、验证]、1个链接;固定main源2415B(SHA 61c0d57a54ce)。当前存活入口:[README.md](../53-wave-gates/README.md)
+原报告含章节[CODE66 speedrun overlay 当前复审切片、实际读取与依据、逐文件结论、验证]、1个链接;固定main源2415B(SHA 61c0d57a54ce)。当前存活入口:[README.md](../53-wave-gates/README.md)。
 
 ## 发现
 

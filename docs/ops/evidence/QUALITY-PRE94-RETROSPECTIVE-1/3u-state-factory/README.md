@@ -7,11 +7,11 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「CODE3u BattleState工厂专测复审」的主题按原文时点保留(摘录:Date: 2026-10-18 Base: `9c2c5eabe143bc81ad8df1c9234aa741b130aabc` Branch: `codex/code-quality-3y`)。
+原审计「CODE3u BattleState工厂专测复审」的主题按原文时点保留(摘录:Date: 2026-10-18 Base: `9c2c5eabe143bc81ad8df1c9234aa741b130aabc` Branch: `codex/code-qual)。
 
 ## 范围与证据
 
-原报告含章节[CODE3u BattleState工厂专测复审、范围与证据、实际修改、排重和输入、判别力和实际验证、当前结论与后续]、9个链接;固定main源4417B(SHA 405bb1ce86f8)。当前存活入口:[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)、[README.md](../3u-3w-finalization/README.md)、[assertion-transfers.json](assertion-transfers.json)、[before.json](before.json)、[controls.json](controls.json)、[early-candidate-limit.json](early-candidate-limit.json)
+原报告含章节[CODE3u BattleState工厂专测复审、范围与证据、实际修改、排重和输入、判别力和实际验证、当前结论与后续]、9个链接;固定main源4417B(SHA 405bb1ce86f8)。当前存活入口:[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) [README.md](../3u-3w-finalization/README.md) [assertion-transfers.json](assertion-transfers.json) [before.json](before.json) [controls.json](controls.json) [early-candidate-limit.json](early-candidate-limit.json) [gates.json](gates.json) [read-boundaries.json](read-boundaries.json) [snapshot-conservation.json](snapshot-conservation.json)。
 
 ## 发现
 

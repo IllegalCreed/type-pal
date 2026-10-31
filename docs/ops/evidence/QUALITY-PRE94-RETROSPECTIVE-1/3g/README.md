@@ -11,7 +11,7 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原14个链接处置见作者review的linkDisposition。当前存活入口:[CODE-QUALITY-3g-pal-extract-cli-io.md](../../../archive/tasks/done/CODE-QUALITY-3g-pal-extract-cli-io.md)、[QUALITY-EXTRACT-OUTPUT-BOUNDARY-1.md](../../../tasks/QUALITY-EXTRACT-OUTPUT-BOUNDARY-1.md)、[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)、[gates.md](../3d/gates.md)、[README.md](closeout/README.md)、[font-comment-delta.json](font-comment-delta.json)
+来源为固定Git载体,非本次运行;原14个链接处置见作者review的linkDisposition。当前存活入口:[CODE-QUALITY-3g-pal-extract-cli-io.md](../../../archive/tasks/done/CODE-QUALITY-3g-pal-extract-cli-io.md) [QUALITY-EXTRACT-OUTPUT-BOUNDARY-1.md](../../../tasks/QUALITY-EXTRACT-OUTPUT-BOUNDARY-1.md) [QUALITY-PRE94-RETROSPECTIVE-1.md](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) [gates.md](../3d/gates.md) [README.md](closeout/README.md) [font-comment-delta.json](font-comment-delta.json) [gates.md](gates.md) [output-boundary.json](output-boundary.json) [probe-setup-failure.json](probe-setup-failure.json) [read-boundaries.json](read-boundaries.json) [regressions.json](regressions.json) [verify.py](verify.py)。
 
 ## 断言与业务 oracle
 

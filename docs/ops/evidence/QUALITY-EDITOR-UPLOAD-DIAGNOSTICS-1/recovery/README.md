@@ -11,7 +11,7 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原14个链接处置见作者review的linkDisposition。当前存活入口:[QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1.md](../../../tasks/QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1.md)、[after-proof.json](after-proof.json)、[before-proof.json](before-proof.json)、[editor-diagnostics-by-file.json](editor-diagnostics-by-file.json)、[editor-full.json](editor-full.json)、[final-source-delta.json](final-source-delta.json)
+来源为固定Git载体,非本次运行;原14个链接处置见作者review的linkDisposition。当前存活入口:[QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1.md](../../../tasks/QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1.md) [after-proof.json](after-proof.json) [before-proof.json](before-proof.json) [editor-diagnostics-by-file.json](editor-diagnostics-by-file.json) [editor-full.json](editor-full.json) [final-source-delta.json](final-source-delta.json) [gates.md](gates.md) [pre-import-style.original.json.gz](pre-import-style.original.json.gz) [read-boundaries.json](read-boundaries.json) [regressions.json](regressions.json) [retirement.json](retirement.json) [verification.json](verification.json) [verify.py](verify.py)。
 
 ## 断言与业务 oracle
 

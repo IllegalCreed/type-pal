@@ -7,11 +7,11 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「pre-94 独立审计：证据簿记返工」的主题按原文时点保留(摘录:Date: 2026-10-18 Base: `770f9168e3422aea1d98bac2a3bd447a1c6f2216` Branch: `codex/code-quality-3y`)。
+原审计「pre-94 独立审计：证据簿记返工」的主题按原文时点保留(摘录:Date: 2026-10-18 Base: `770f9168e3422aea1d98bac2a3bd447a1c6f2216` Branch: `codex/code-qual)。
 
 ## 范围与证据
 
-原报告含章节[pre-94 独立审计：证据簿记返工、逐项结果、原件、恢复与验证、保留事项]、4个链接;固定main源3676B(SHA 9bf789a24d68)。当前存活入口:[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)、[README.md](../53-wave-gates/receipt-audit/README.md)、[read-boundaries.json](../55-draw-menu/read-boundaries.json)、[corrections.json](corrections.json)
+原报告含章节[pre-94 独立审计：证据簿记返工、逐项结果、原件、恢复与验证、保留事项]、4个链接;固定main源3676B(SHA 9bf789a24d68)。当前存活入口:[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) [README.md](../53-wave-gates/receipt-audit/README.md) [read-boundaries.json](../55-draw-menu/read-boundaries.json) [corrections.json](corrections.json)。
 
 ## 发现
 

@@ -7,11 +7,11 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「CODE56 minimap 当前复审切片」的主题按原文时点保留(摘录:> 2026-10-18 当前更正：旧“手算像素/合法核心夹具/完整隔离/坏zoom已核”信用撤回：L18使用被测变换与颜色常量生成oracle、重复primitive几何且未清rAF/window/)。
+原审计「CODE56 minimap 当前复审切片」的主题按原文时点保留(摘录:> 2026-10-18 当前更正：旧“手算像素/合法核心夹具/完整隔离/坏zoom已核”信用撤回：L18使用被测变换与颜色常量生成oracle、重复primitive几何且未清r)。
 
 ## 范围与证据
 
-原报告含章节[CODE56 minimap 当前复审切片、读取与事实边界、判别力与反控、验证与未关闭风险]、2个链接;固定main源3551B(SHA 68768bba56fd)。当前存活入口:[README.md](../53-wave-gates/README.md)、[README.md](../core-comment-audit/tools-thumbnail-hotkeys/README.md)
+原报告含章节[CODE56 minimap 当前复审切片、读取与事实边界、判别力与反控、验证与未关闭风险]、2个链接;固定main源3551B(SHA 68768bba56fd)。当前存活入口:[README.md](../53-wave-gates/README.md) [README.md](../core-comment-audit/tools-thumbnail-hotkeys/README.md)。
 
 ## 发现
 

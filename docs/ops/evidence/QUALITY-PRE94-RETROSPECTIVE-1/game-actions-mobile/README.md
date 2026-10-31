@@ -7,11 +7,11 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「pre94 基础战斗动作与移动端影响复核」的主题按原文时点保留(摘录:Template: evidence-receipt-v1 / 1.0.0 3v/78两卡原合同接受，固定83卡58accept/25partial/0pending。16文件明确范围中attack/)。
+原审计「pre94 基础战斗动作与移动端影响复核」的主题按原文时点保留(摘录:Template: evidence-receipt-v1 / 1.0.0 3v/78两卡原合同接受，固定83卡58accept/25partial/0pending。16文件明确)。
 
 ## 范围与证据
 
-原报告含章节[pre94 基础战斗动作与移动端影响复核、当前收口、证据身份、来源与输入、断言与业务oracle、构建时点结果（3eb，保留）]、6个链接;固定main源4467B(SHA 7bebdbfd7c8e)。当前存活入口:[gates-native.json.gz](gates-native.json.gz)、[gates.json](gates.json)、[native.json.gz](native.json.gz)、[recount.json](recount.json)、[review.json](review.json)、[verify.mjs](verify.mjs)
+原报告含章节[pre94 基础战斗动作与移动端影响复核、当前收口、证据身份、来源与输入、断言与业务oracle、构建时点结果（3eb，保留）]、6个链接;固定main源4467B(SHA 7bebdbfd7c8e)。当前存活入口:[gates-native.json.gz](gates-native.json.gz) [gates.json](gates.json) [native.json.gz](native.json.gz) [recount.json](recount.json) [review.json](review.json) [verify.mjs](verify.mjs)。
 
 ## 发现
 

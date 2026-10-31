@@ -7,7 +7,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「QUALITY-EVENT-SLICE-CONTROL-TRUTH-1 — 事件切分控制流与人读元数据边界」的任务归属与历史边界。原目标见原文(摘录:Reviewer: Codex（事实核验，不冒充第三方） Capability: pal-extract reachability truth Visual Verification Timing: );本页治理不重开已终态任务。
+保留原卡「QUALITY-EVENT-SLICE-CONTROL-TRUTH-1 — 事件切分控制流与人读元数据边界」的任务归属与历史边界。原目标见原文(摘录:Reviewer: Codex（事实核验，不冒充第三方） Capability: pal-extract reachability truth Visual Verification Timing:);本页治理不重开已终态任务。
 
 ## 范围
 
@@ -15,7 +15,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 前提与证据
 
-固定main源12221B(SHA ba0ae280e264);原卡前提按原时点保留。当前存活入口:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3/README.md)、[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/README.md)、[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-battle-returns/README.md)、[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-slice-approved/README.md)
+固定main源12221B(SHA ba0ae280e264);原卡前提按原时点保留。当前存活入口:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3/README.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/README.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-battle-returns/README.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-slice-approved/README.md)。
 
 ## 验收
 

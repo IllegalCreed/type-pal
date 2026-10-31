@@ -7,7 +7,7 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「C02 删除生命周期：完整窗口」的主题按原文时点保留(摘录:源码候选 `7433f71f555e457dd06f56122fa7273033f9bb4e`；protected main `f98d0ddd89ebdee7b04502ee35de26ee82c6)。
+原审计「C02 删除生命周期：完整窗口」的主题按原文时点保留(摘录:源码候选 `7433f71f555e457dd06f56122fa7273033f9bb4e`；protected main `f98d0ddd89ebdee7b04502ee35)。
 
 ## 范围与证据
 

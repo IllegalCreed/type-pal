@@ -7,11 +7,11 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「批51:editor core 微/小件 74 文件（零整改批,editor 包开工）」的主题按原文时点保留(摘录:> Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见[当前返工记录](../codex-stage2-rework.json))。
+原审计「批51:editor core 微/小件 74 文件（零整改批,editor 包开工）」的主题按原文时点保留(摘录:> Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见当前返工记录。 范围:`packages/editor)。
 
 ## 范围与证据
 
-原报告含章节[批51:editor core 微/小件 74 文件（零整改批,editor 包开工）、结论(要点)、登记移交（无新增）、验证、原生附件无损迁移（Codex，2026-10-19）]、2个链接;固定main源2847B(SHA d3ecbe3c94e2)。当前存活入口:[codex-stage2-rework.json](../codex-stage2-rework.json)、[directed.json.gz](directed.json.gz)
+原报告含章节[批51:editor core 微/小件 74 文件（零整改批,editor 包开工）、结论(要点)、登记移交（无新增）、验证、原生附件无损迁移（Codex，2026-10-19）]、2个链接;固定main源2847B(SHA d3ecbe3c94e2)。当前存活入口:[codex-stage2-rework.json](../codex-stage2-rework.json) [directed.json.gz](directed.json.gz)。
 
 ## 发现
 

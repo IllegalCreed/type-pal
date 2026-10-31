@@ -15,7 +15,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 前提与证据
 
-固定main源5649B(SHA 67d22284ef4f);原卡前提按原时点保留。当前存活入口:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/README.md)、[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/meal-ci/README.md)、[QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)
+固定main源5649B(SHA 67d22284ef4f);原卡前提按原时点保留。当前存活入口:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/README.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/meal-ci/README.md) [QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)。
 
 ## 验收
 
@@ -43,7 +43,7 @@ done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者
 
 ## 继任文档
 
-接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/README.md)、[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/meal-ci/README.md)、[QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)
+接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/README.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/meal-ci/README.md) [QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)。
 
 
 ## 原文保全

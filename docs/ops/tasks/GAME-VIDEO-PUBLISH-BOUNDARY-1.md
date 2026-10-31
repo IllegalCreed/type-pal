@@ -15,7 +15,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 前提与证据
 
-固定main源3633B(SHA e1bc9ee79af2);原卡前提按原时点保留。当前存活入口:[video-boundary.json](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/video-boundary.json)、[video-red.json.gz](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/video-red.json.gz)、[QUALITY-REVIEW-52-CLOSEOUT-1.md](QUALITY-REVIEW-52-CLOSEOUT-1.md)
+固定main源3633B(SHA e1bc9ee79af2);原卡前提按原时点保留。当前存活入口:[video-boundary.json](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/video-boundary.json) [video-red.json.gz](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/video-red.json.gz) [QUALITY-REVIEW-52-CLOSEOUT-1.md](QUALITY-REVIEW-52-CLOSEOUT-1.md)。
 
 ## 验收
 

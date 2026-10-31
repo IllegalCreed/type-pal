@@ -7,11 +7,11 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「CODE3h/CODE71 fetch-retry 成果复审」的主题按原文时点保留(摘录:基点dfd03a811，main=f98d0ddd8，唯一codex/code-quality-3y。三测试有限补证，生产源/接口/规则/baseline/精确退役表未改；0新增关闭。[CODE71原)。
+原审计「CODE3h/CODE71 fetch-retry 成果复审」的主题按原文时点保留(摘录:基点dfd03a811，main=f98d0ddd8，唯一codex/code-quality-3y。三测试有限补证，生产源/接口/规则/baseline/精确退役表未改；0新增关)。
 
 ## 范围与证据
 
-原报告含章节[CODE3h/CODE71 fetch-retry 成果复审、逐文件、真实caller与停止线、反控：三个新缺口，三个原oracle保留/转移、测试域修正与初始候选、身份、排重与局部覆盖、真实取消风险与完整game门]、16个链接;固定main源8092B(SHA 9295ea028a5e)。当前存活入口:[CODE-QUALITY-71-game-fetch-retry-abort-boundary.md](../../../../archive/tasks/done/CODE-QUALITY-71-game-fetch-retry-abort-boundary.md)、[QUALITY-FETCH-ABORT-LIFECYCLE-1.md](../../../../tasks/QUALITY-FETCH-ABORT-LIFECYCLE-1.md)、[QUALITY-GAME-RUNTIME-DIAGNOSTICS-1.md](../../../../tasks/QUALITY-GAME-RUNTIME-DIAGNOSTICS-1.md)、[after-proof.json](after-proof.json)、[before-proof.json](before-proof.json)、[collection.json](collection.json)
+原报告含章节[CODE3h/CODE71 fetch-retry 成果复审、逐文件、真实caller与停止线、反控：三个新缺口，三个原oracle保留/转移、测试域修正与初始候选、身份、排重与局部覆盖、真实取消风险与完整game门]、16个链接;固定main源8092B(SHA 9295ea028a5e)。当前存活入口:[CODE-QUALITY-71-game-fetch-retry-abort-boundary.md](../../../../archive/tasks/done/CODE-QUALITY-71-game-fetch-retry-abort-boundary.md) [QUALITY-FETCH-ABORT-LIFECYCLE-1.md](../../../../tasks/QUALITY-FETCH-ABORT-LIFECYCLE-1.md) [QUALITY-GAME-RUNTIME-DIAGNOSTICS-1.md](../../../../tasks/QUALITY-GAME-RUNTIME-DIAGNOSTICS-1.md) [after-proof.json](after-proof.json) [before-proof.json](before-proof.json) [collection.json](collection.json) [game-diagnostics.json](game-diagnostics.json) [gates.md](gates.md) [README.md](initial-candidate/README.md) [read-boundaries.json](read-boundaries.json) [real-abort-proof.json](real-abort-proof.json) [scope-proof.json](scope-proof.json) [snapshot-comparison.json](snapshot-comparison.json) [test-gates.json](test-gates.json) [verify.py](verify.py)。
 
 ## 发现
 

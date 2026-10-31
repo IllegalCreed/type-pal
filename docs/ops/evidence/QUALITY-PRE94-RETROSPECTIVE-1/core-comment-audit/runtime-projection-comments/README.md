@@ -7,11 +7,11 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「pre94 runtime投影与战斗宿主事实注释」的主题按原文时点保留(摘录:Date: 2026-10-18 Base: `bcec7f0fe1ecac8612c8d83374e4882f2c8f8f0a` Branch: `codex/code-quality-3y`)。
+原审计「pre94 runtime投影与战斗宿主事实注释」的主题按原文时点保留(摘录:Date: 2026-10-18 Base: `bcec7f0fe1ecac8612c8d83374e4882f2c8f8f0a` Branch: `codex/code-qual)。
 
 ## 范围与证据
 
-原报告含章节[pre94 runtime投影与战斗宿主事实注释、证据身份与准入、逐文件发现与修复、Primary、caller与oracle、测试与可执行不变证据、状态、门与限制]、2个链接;固定main源5301B(SHA bafc648e6f37)。当前存活入口:[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)、[read-boundaries.json](read-boundaries.json)
+原报告含章节[pre94 runtime投影与战斗宿主事实注释、证据身份与准入、逐文件发现与修复、Primary、caller与oracle、测试与可执行不变证据、状态、门与限制]、2个链接;固定main源5301B(SHA bafc648e6f37)。当前存活入口:[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) [read-boundaries.json](read-boundaries.json)。
 
 ## 发现
 

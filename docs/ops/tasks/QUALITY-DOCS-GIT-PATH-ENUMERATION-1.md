@@ -15,7 +15,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 前提与证据
 
-固定main源4639B(SHA a43a6dd3bb08);原卡前提按原时点保留。当前存活入口:[README.md](../evidence/QUALITY-DOCS-GIT-PATH-ENUMERATION-1/README.md)、[QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)
+固定main源4639B(SHA a43a6dd3bb08);原卡前提按原时点保留。当前存活入口:[README.md](../evidence/QUALITY-DOCS-GIT-PATH-ENUMERATION-1/README.md) [QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)。
 
 ## 验收
 

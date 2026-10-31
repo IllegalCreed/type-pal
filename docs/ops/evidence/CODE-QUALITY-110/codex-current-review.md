@@ -7,7 +7,7 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「CODE-QUALITY-110 — Codex 当前验收（2026-10-17）」的主题按原文时点保留(摘录:完整读取： - `packages/game/src/present/draw-sprite.ts`（49 行） - `packages/game/src/present/draw-sprite.te)。
+原审计「CODE-QUALITY-110 — Codex 当前验收（2026-10-17）」的主题按原文时点保留(摘录:完整读取： - `packages/game/src/present/draw-sprite.ts`（49 行） - `packages/game/src/present/draw)。
 
 ## 范围与证据
 

@@ -7,7 +7,7 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「fetch-retry 取消生命周期 C1 证据」的主题按原文时点保留(摘录:旧基点为治理分支 `8f5a9af5d314`；同步后的复跑基点为合并提交 `89bf84e16`，相对 `origin/main=36caec0251b48f94fa5b9d5c4c78657103)。
+原审计「fetch-retry 取消生命周期 C1 证据」的主题按原文时点保留(摘录:旧基点为治理分支 `8f5a9af5d314`；同步后的复跑基点为合并提交 `89bf84e16`，相对 `origin/main=36caec0251b48f94fa5b9d5c)。
 
 ## 范围与证据
 

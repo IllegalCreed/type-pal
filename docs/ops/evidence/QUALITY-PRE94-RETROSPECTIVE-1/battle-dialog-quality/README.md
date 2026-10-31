@@ -11,7 +11,7 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原3个链接处置见作者review的linkDisposition。当前存活入口:[README.md](../3s-battle-system/README.md)、[README.md](../battle-lifecycle-quality/README.md)、[codex-final29.json](../glm-foundation/codex-final29.json)
+来源为固定Git载体,非本次运行;原3个链接处置见作者review的linkDisposition。当前存活入口:[README.md](../3s-battle-system/README.md) [README.md](../battle-lifecycle-quality/README.md) [codex-final29.json](../glm-foundation/codex-final29.json)。
 
 ## 断言与业务 oracle
 

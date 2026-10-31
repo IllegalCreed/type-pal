@@ -7,11 +7,11 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「CODE3h PNG 测试质量复审切片」的主题按原文时点保留(摘录:2026-10-23 [RLE出口／运输snapshot／启动取消收口](rle-boot-quality/README.md)：七文件新关闭，原3h六生产文件逐项接受，63accept/20part)。
+原审计「CODE3h PNG 测试质量复审切片」的主题按原文时点保留(摘录:2026-10-23 RLE出口／运输snapshot／启动取消收口：七文件新关闭，原3h六生产文件逐项接受，63accept/20partial；同步英文main后的check2)。
 
 ## 范围与证据
 
-原报告含章节[CODE3h PNG 测试质量复审切片、逐文件结论与真实消费链、先旧绿再新红，转移证据单列、身份、排重与实际覆盖、验证与剩余范围]、17个链接;固定main源8589B(SHA 753e49c77a9d)。当前存活入口:[CODE-QUALITY-3h-game-assets-shell.md](../../../archive/tasks/done/CODE-QUALITY-3h-game-assets-shell.md)、[after-proof.json](after-proof.json)、[README.md](assets-quality/README.md)、[before-proof.json](before-proof.json)、[README.md](blob-quality/README.md)、[README.md](bootstrap/README.md)
+原报告含章节[CODE3h PNG 测试质量复审切片、逐文件结论与真实消费链、先旧绿再新红，转移证据单列、身份、排重与实际覆盖、验证与剩余范围]、17个链接;固定main源8589B(SHA 753e49c77a9d)。当前存活入口:[CODE-QUALITY-3h-game-assets-shell.md](../../../archive/tasks/done/CODE-QUALITY-3h-game-assets-shell.md) [after-proof.json](after-proof.json) [README.md](assets-quality/README.md) [before-proof.json](before-proof.json) [README.md](blob-quality/README.md) [README.md](bootstrap/README.md) [classifier-diagnostic.json](classifier-diagnostic.json) [collection.json](collection.json) [README.md](fetch-retry/README.md) [gates.md](gates.md) [initial-test-static.json](initial-test-static.json) [read-boundaries.json](read-boundaries.json) [retirement.json](retirement.json) [README.md](rle-boot-quality/README.md) [test-gates.json](test-gates.json) [verify.py](verify.py)。
 
 ## 发现
 

@@ -19,7 +19,7 @@ active(治理候选);原时点状态与日期在保全块。
 
 ## 入口与责任
 
-当前存活入口:[GAME-SCRIPT-CORRECTIONS-1.md](../../../../ops/tasks/GAME-SCRIPT-CORRECTIONS-1.md)、[evidence.json](evidence.json)、[report.md](report.md) 其余原链接仅在保全块保留,理由见linkDisposition。
+当前存活入口:[GAME-SCRIPT-CORRECTIONS-1.md](../../../../ops/tasks/GAME-SCRIPT-CORRECTIONS-1.md) [evidence.json](evidence.json) [report.md](report.md)。 其余原链接仅在保全块保留,理由见linkDisposition。
 
 ## 证据与下一步
 

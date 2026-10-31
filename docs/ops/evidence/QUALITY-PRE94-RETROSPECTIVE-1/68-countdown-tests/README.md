@@ -7,11 +7,11 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「CODE68 countdown 测试复审与去重」的主题按原文时点保留(摘录:> 2026-10-18 波次门勘误：本页引用的 [47–52统一门回执](../53-wave-gates/README.md) 已撤回“通过/收口”信用，未证明零诊断；不得沿用为本片验收或合并依据)。
+原审计「CODE68 countdown 测试复审与去重」的主题按原文时点保留(摘录:> 2026-10-18 波次门勘误：本页引用的 47–52统一门回执 已撤回“通过/收口”信用，未证明零诊断；不得沿用为本片验收或合并依据。本页原逐文件/定向结果按各自证据保留，)。
 
 ## 范围与证据
 
-原报告含章节[CODE68 countdown 测试复审与去重、实际读取、caller 与 oracle、发现与处理、可证伪验证]、6个链接;固定main源3552B(SHA 861f74702c0a)。当前存活入口:[README.md](../53-wave-gates/README.md)、[after-proof.json](after-proof.json)、[before-proof.json](before-proof.json)、[read-boundaries.json](read-boundaries.json)、[static-gates.json](static-gates.json)、[test-gates.json](test-gates.json)
+原报告含章节[CODE68 countdown 测试复审与去重、实际读取、caller 与 oracle、发现与处理、可证伪验证]、6个链接;固定main源3552B(SHA 861f74702c0a)。当前存活入口:[README.md](../53-wave-gates/README.md) [after-proof.json](after-proof.json) [before-proof.json](before-proof.json) [read-boundaries.json](read-boundaries.json) [static-gates.json](static-gates.json) [test-gates.json](test-gates.json)。
 
 ## 发现
 

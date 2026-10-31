@@ -7,11 +7,11 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「CODE-QUALITY-101 — Codex 当前逐文件复核（2026-10-17）」的主题按原文时点保留(摘录:2026-10-18 当前勘误：2daed1bb7的“完全重复/等价迁移”判断不成立；Save域旧roundtrip缺五类字段，读侧克隆也不能由存侧替代。现已在api.test补回六字段及独立读侧克隆)。
+原审计「CODE-QUALITY-101 — Codex 当前逐文件复核（2026-10-17）」的主题按原文时点保留(摘录:2026-10-18 当前勘误：2daed1bb7的“完全重复/等价迁移”判断不成立；Save域旧roundtrip缺五类字段，读侧克隆也不能由存侧替代。现已在api.test补回)。
 
 ## 范围与证据
 
-原报告含章节[CODE-QUALITY-101 — Codex 当前逐文件复核（2026-10-17）、逐文件结论、`api.ts` — review，公共输入域未裁决、`indexed-db.ts` — review，事务风险分离，连接生命周期仍未知、`api.test.ts` — review，内存 oracle 有效但缺双路径输入合同、验证与门状态]、3个链接;固定main源4824B(SHA 5a4ef56618e2)。当前存活入口:[GAME-SAVE-IDB-COMMIT-1.md](../../tasks/GAME-SAVE-IDB-COMMIT-1.md)、[GAME-SAVE-INPUT-DOMAIN-1.md](../../tasks/GAME-SAVE-INPUT-DOMAIN-1.md)、[README.md](../QUALITY-PRE94-RETROSPECTIVE-1/supplementary-audit/README.md)
+原报告含章节[CODE-QUALITY-101 — Codex 当前逐文件复核（2026-10-17）、逐文件结论、`api.ts` — review，公共输入域未裁决、`indexed-db.ts` — review，事务风险分离，连接生命周期仍未知、`api.test.ts` — review，内存 oracle 有效但缺双路径输入合同、验证与门状态]、3个链接;固定main源4824B(SHA 5a4ef56618e2)。当前存活入口:[GAME-SAVE-IDB-COMMIT-1.md](../../tasks/GAME-SAVE-IDB-COMMIT-1.md) [GAME-SAVE-INPUT-DOMAIN-1.md](../../tasks/GAME-SAVE-INPUT-DOMAIN-1.md) [README.md](../QUALITY-PRE94-RETROSPECTIVE-1/supplementary-audit/README.md)。
 
 ## 发现
 

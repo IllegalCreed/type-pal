@@ -15,7 +15,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 前提与证据
 
-固定main源4632B(SHA 57cc540051c0);原卡前提按原时点保留。当前存活入口:[README.md](../evidence/QUALITY-EDITOR-DIAGNOSTICS-2/README.md)、[window-review.md](../evidence/QUALITY-EDITOR-DIAGNOSTICS-2/window-review.md)
+固定main源4632B(SHA 57cc540051c0);原卡前提按原时点保留。当前存活入口:[README.md](../evidence/QUALITY-EDITOR-DIAGNOSTICS-2/README.md) [window-review.md](../evidence/QUALITY-EDITOR-DIAGNOSTICS-2/window-review.md)。
 
 ## 验收
 

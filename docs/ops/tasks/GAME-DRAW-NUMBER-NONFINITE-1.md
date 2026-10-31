@@ -7,7 +7,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「GAME-DRAW-NUMBER-NONFINITE-1 — 非有限数字阻塞绘制」的任务归属与历史边界。原目标见原文(摘录:只处理drawNumber收到非有限number时的非终止；候选策略为跳过该数字，正常绘制其它内容。限定draw-number.ts及其专测/真实caller回归。不改变V1数据合同、存档值、属性成长、战斗公式或原盘脚本。关联[pre94父);本页治理不重开已终态任务。
+保留原卡「GAME-DRAW-NUMBER-NONFINITE-1 — 非有限数字阻塞绘制」的任务归属与历史边界。原目标见原文(摘录:只处理drawNumber收到非有限number时的非终止；候选策略为跳过该数字，正常绘制其它内容。限定draw-number.ts及其专测/真实caller回归。不改变V1数据合同、存档值、属性成长、战斗公式或原盘脚本。关联pre94父卡);本页治理不重开已终态任务。
 
 ## 范围
 
@@ -15,7 +15,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 前提与证据
 
-固定main源6157B(SHA 8ef98e60a211);原卡前提按原时点保留。当前存活入口:[QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)
+固定main源6157B(SHA 8ef98e60a211);原卡前提按原时点保留。当前存活入口:[QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)。
 
 ## 验收
 
@@ -43,7 +43,7 @@ done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者
 
 ## 继任文档
 
-接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)
+接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)。
 
 
 ## 原文保全

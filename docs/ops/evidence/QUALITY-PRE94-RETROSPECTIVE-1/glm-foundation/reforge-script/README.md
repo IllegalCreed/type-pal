@@ -7,11 +7,11 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「批45:reforge script 族 13 文件（零整改批 + 1 登记候选）」的主题按原文时点保留(摘录:> Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见[当前返工记录](../codex-stage2-rework.json))。
+原审计「批45:reforge script 族 13 文件（零整改批 + 1 登记候选）」的主题按原文时点保留(摘录:> Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见当前返工记录。 范围：`script-activity)。
 
 ## 范围与证据
 
-原报告含章节[批45:reforge script 族 13 文件（零整改批 + 1 登记候选）、逐件结论（要点）、登记移交（1 项,非本批整改）、验证]、1个链接;固定main源4389B(SHA ace2d4125763)。当前存活入口:[codex-stage2-rework.json](../codex-stage2-rework.json)
+原报告含章节[批45:reforge script 族 13 文件（零整改批 + 1 登记候选）、逐件结论（要点）、登记移交（1 项,非本批整改）、验证]、1个链接;固定main源4389B(SHA ace2d4125763)。当前存活入口:[codex-stage2-rework.json](../codex-stage2-rework.json)。
 
 ## 发现
 

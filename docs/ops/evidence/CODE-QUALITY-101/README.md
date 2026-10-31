@@ -11,7 +11,7 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原6个链接处置见作者review的linkDisposition。当前存活入口:[GAME-SAVE-INPUT-DOMAIN-1.md](../../tasks/GAME-SAVE-INPUT-DOMAIN-1.md)、[codex-current-review.md](codex-current-review.md)、[docs-gate.txt](docs-gate.txt)、[ledger-gate.txt](ledger-gate.txt)、[lint-gate.txt](lint-gate.txt)、[targeted.txt](targeted.txt)
+来源为固定Git载体,非本次运行;原6个链接处置见作者review的linkDisposition。当前存活入口:[GAME-SAVE-INPUT-DOMAIN-1.md](../../tasks/GAME-SAVE-INPUT-DOMAIN-1.md) [codex-current-review.md](codex-current-review.md) [docs-gate.txt](docs-gate.txt) [ledger-gate.txt](ledger-gate.txt) [lint-gate.txt](lint-gate.txt) [targeted.txt](targeted.txt)。
 
 ## 断言与业务 oracle
 

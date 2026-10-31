@@ -7,11 +7,11 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「CODE3j time-format 当前复审切片」的主题按原文时点保留(摘录:基点：`7057dddd9`（已合并最新 `origin/main`）；分支：`codex/code-quality-3y`。这是 CODE-QUALITY-3j 的有限 pre-94 复审切片，只核)。
+原审计「CODE3j time-format 当前复审切片」的主题按原文时点保留(摘录:基点：`7057dddd9`（已合并最新 `origin/main`）；分支：`codex/code-quality-3y`。这是 CODE-QUALITY-3j 的有限 pre-)。
 
 ## 范围与证据
 
-原报告含章节[CODE3j time-format 当前复审切片、逐文件读取与事实边界、发现与处理、验证、当前结论与下一批]、1个链接;固定main源3661B(SHA 6f9bd4bbdb45)。当前存活入口:[read-boundaries.json](read-boundaries.json)
+原报告含章节[CODE3j time-format 当前复审切片、逐文件读取与事实边界、发现与处理、验证、当前结论与下一批]、1个链接;固定main源3661B(SHA 6f9bd4bbdb45)。当前存活入口:[read-boundaries.json](read-boundaries.json)。
 
 ## 发现
 

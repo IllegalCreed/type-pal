@@ -15,7 +15,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 前提与证据
 
-固定main源20949B(SHA 12d0ddf73411);原卡前提按原时点保留。当前存活入口:[CLAUDE.md](../../../CLAUDE.md)、[game-mechanics.md](../../phase1/game-mechanics.md)、[contract.md](../../testing/e2e/contract.md)、[agent-workflow.md](../agent-workflow.md)、[code-quality-file-ledger.md](../audits/code-quality-file-ledger.md)、[code-quality.md](../code-quality.md)
+固定main源20949B(SHA 12d0ddf73411);原卡前提按原时点保留。当前存活入口:[CLAUDE.md](../../../CLAUDE.md) [game-mechanics.md](../../phase1/game-mechanics.md) [contract.md](../../testing/e2e/contract.md) [agent-workflow.md](../agent-workflow.md) [code-quality-file-ledger.md](../audits/code-quality-file-ledger.md) [code-quality.md](../code-quality.md) [branch-protection.json](../evidence/GAME-ENGLISH-1/branch-protection.json) [dialog-review.json](../evidence/GAME-ENGLISH-1/dialog-review.json) [docs-maintenance.json](../evidence/GAME-ENGLISH-1/docs-maintenance.json) [integration-review.json](../evidence/GAME-ENGLISH-1/integration-review.json) [main-sync-2-gates.json](../evidence/GAME-ENGLISH-1/main-sync-2-gates.json) [main-sync-2.json](../evidence/GAME-ENGLISH-1/main-sync-2.json) [native-publication.json](../evidence/GAME-ENGLISH-1/native-publication.json) [opening-browser.json](../evidence/GAME-ENGLISH-1/opening-browser.json) [release-gates.json](../evidence/GAME-ENGLISH-1/release-gates.json) [release-preflight.json](../evidence/GAME-ENGLISH-1/release-preflight.json) [release.json](../evidence/GAME-ENGLISH-1/release.json) [shell-review.json](../evidence/GAME-ENGLISH-1/shell-review.json) [text-review.json](../evidence/GAME-ENGLISH-1/text-review.json) [GAME-SCRIPT-CORRECTIONS-1.md](GAME-SCRIPT-CORRECTIONS-1.md)。
 
 ## 验收
 
@@ -43,7 +43,7 @@ done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者
 
 ## 继任文档
 
-接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[CLAUDE.md](../../../CLAUDE.md)、[game-mechanics.md](../../phase1/game-mechanics.md)、[contract.md](../../testing/e2e/contract.md)、[agent-workflow.md](../agent-workflow.md)、[code-quality-file-ledger.md](../audits/code-quality-file-ledger.md)、[code-quality.md](../code-quality.md)
+接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[CLAUDE.md](../../../CLAUDE.md) [game-mechanics.md](../../phase1/game-mechanics.md) [contract.md](../../testing/e2e/contract.md) [agent-workflow.md](../agent-workflow.md) [code-quality-file-ledger.md](../audits/code-quality-file-ledger.md) [code-quality.md](../code-quality.md) [branch-protection.json](../evidence/GAME-ENGLISH-1/branch-protection.json) [dialog-review.json](../evidence/GAME-ENGLISH-1/dialog-review.json) [docs-maintenance.json](../evidence/GAME-ENGLISH-1/docs-maintenance.json) [integration-review.json](../evidence/GAME-ENGLISH-1/integration-review.json) [main-sync-2-gates.json](../evidence/GAME-ENGLISH-1/main-sync-2-gates.json) [main-sync-2.json](../evidence/GAME-ENGLISH-1/main-sync-2.json) [native-publication.json](../evidence/GAME-ENGLISH-1/native-publication.json) [opening-browser.json](../evidence/GAME-ENGLISH-1/opening-browser.json) [release-gates.json](../evidence/GAME-ENGLISH-1/release-gates.json) [release-preflight.json](../evidence/GAME-ENGLISH-1/release-preflight.json) [release.json](../evidence/GAME-ENGLISH-1/release.json) [shell-review.json](../evidence/GAME-ENGLISH-1/shell-review.json) [text-review.json](../evidence/GAME-ENGLISH-1/text-review.json) [GAME-SCRIPT-CORRECTIONS-1.md](GAME-SCRIPT-CORRECTIONS-1.md)。
 
 
 ## 原文保全

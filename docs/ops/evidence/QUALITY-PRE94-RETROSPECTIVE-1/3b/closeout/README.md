@@ -11,7 +11,7 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原8个链接处置见作者review的linkDisposition。当前存活入口:[code-quality.md#5-按影响范围验证并集中收口](../../../../code-quality.md#5-按影响范围验证并集中收口)、[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)、[evidence.json](../../3b/closeout/evidence.json)、[README.md](../README.md)、[README.md](../raw-tests/README.md)、[evidence.json](evidence.json)
+来源为固定Git载体,非本次运行;原8个链接处置见作者review的linkDisposition。当前存活入口:[code-quality.md#5-按影响范围验证并集中收口](../../../../code-quality.md#5-按影响范围验证并集中收口) [QUALITY-PRE94-RETROSPECTIVE-1.md](../../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) [evidence.json](../../3b/closeout/evidence.json) [README.md](../README.md) [README.md](../raw-tests/README.md) [evidence.json](evidence.json) [raw.json.gz](raw.json.gz) [verify.mjs](verify.mjs)。
 
 ## 断言与业务 oracle
 

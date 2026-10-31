@@ -7,7 +7,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「CODE-QUALITY-59 — game save import version boundary」的任务归属与历史边界。原目标见原文(摘录:核定工具层导入存档的 version ownership 与 canonical schema，先停止实现。当前 `parseImportedSave` 检查 `format`、`partyMembers`、`wNumScene`，但忽略 );本页治理不重开已终态任务。
+保留原卡「CODE-QUALITY-59 — game save import version boundary」的任务归属与历史边界。原目标见原文(摘录:核定工具层导入存档的 version ownership 与 canonical schema，先停止实现。当前 `parseImportedSave` 检查 `format`、`partyMembers`、`wNumScene`，但忽略);本页治理不重开已终态任务。
 
 ## 范围
 
@@ -15,7 +15,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 前提与证据
 
-固定main源4955B(SHA 50c580ed9388);原卡前提按原时点保留。当前存活入口:[save-v1-local.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-v1-local.json)
+固定main源4955B(SHA 50c580ed9388);原卡前提按原时点保留。当前存活入口:[save-v1-local.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-v1-local.json)。
 
 ## 验收
 
@@ -43,7 +43,7 @@ done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者
 
 ## 继任文档
 
-接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[save-v1-local.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-v1-local.json)
+接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[save-v1-local.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-v1-local.json)。
 
 
 ## 原文保全

@@ -15,7 +15,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 前提与证据
 
-固定main源8586B(SHA acb3bebf344a);原卡前提按原时点保留。当前存活入口:[README.md](../evidence/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/README.md)、[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/code1-closeout/README.md)、[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/code1-closeout/pal-source-fix/README.md)、[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/calibration-20261018/README.md)、[primary-probe.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/primary-probe.json)、[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/quality-closeout/README.md)
+固定main源8586B(SHA acb3bebf344a);原卡前提按原时点保留。当前存活入口:[README.md](../evidence/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/README.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/code1-closeout/README.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/code1-closeout/pal-source-fix/README.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/calibration-20261018/README.md) [primary-probe.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/primary-probe.json) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/quality-closeout/README.md)。
 
 ## 验收
 

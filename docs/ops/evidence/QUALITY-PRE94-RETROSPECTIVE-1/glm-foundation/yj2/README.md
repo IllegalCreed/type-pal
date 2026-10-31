@@ -7,11 +7,11 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「CODE2b YJ2 两文件复审（glm-foundation 批 3）」的主题按原文时点保留(摘录:范围：`packages/shared/src/yj2.ts`、`yj2.boundaries.test.ts`。开工核对：无他人 Owner/未提交修改。 - **改动**：仅注释 1 处——bou)。
+原审计「CODE2b YJ2 两文件复审（glm-foundation 批 3）」的主题按原文时点保留(摘录:范围：`packages/shared/src/yj2.ts`、`yj2.boundaries.test.ts`。开工核对：无他人 Owner/未提交修改。 - **改动**：仅注)。
 
 ## 范围与证据
 
-原报告含章节[CODE2b YJ2 两文件复审（glm-foundation 批 3）、短回执、八维结论、问题与登记（不动）、复验入口（只读）、Codex阶段1接收说明（2026-10-18）]、2个链接;固定main源4255B(SHA d30299f0455d)。当前存活入口:[codex-stage1.json](../codex-stage1.json)、[directed.json](directed.json)
+原报告含章节[CODE2b YJ2 两文件复审（glm-foundation 批 3）、短回执、八维结论、问题与登记（不动）、复验入口（只读）、Codex阶段1接收说明（2026-10-18）]、2个链接;固定main源4255B(SHA d30299f0455d)。当前存活入口:[codex-stage1.json](../codex-stage1.json) [directed.json](directed.json)。
 
 ## 发现
 

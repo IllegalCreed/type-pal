@@ -7,11 +7,11 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「CODE58 tools-panel 当前复审切片」的主题按原文时点保留(摘录:> 2026-10-18 当前更正：头注仍把小地图写成96，bootstrap实际传640；battleSig只拼选定字段，不能当完整实时checksum。源事实注释已修并保持AST/JS相同，旧源关)。
+原审计「CODE58 tools-panel 当前复审切片」的主题按原文时点保留(摘录:> 2026-10-18 当前更正：头注仍把小地图写成96，bootstrap实际传640；battleSig只拼选定字段，不能当完整实时checksum。源事实注释已修并保持AS)。
 
 ## 范围与证据
 
-原报告含章节[CODE58 tools-panel 当前复审切片、读取与事实边界、测试与结论、2026-10-18 夹具/隔离结论勘误]、3个链接;固定main源3364B(SHA 5510f886dc67)。当前存活入口:[README.md](../53-wave-gates/README.md)、[README.md](../58-tools-panel-fixtures/README.md)、[README.md](../core-comment-audit/tools-thumbnail-hotkeys/README.md)
+原报告含章节[CODE58 tools-panel 当前复审切片、读取与事实边界、测试与结论、2026-10-18 夹具/隔离结论勘误]、3个链接;固定main源3364B(SHA 5510f886dc67)。当前存活入口:[README.md](../53-wave-gates/README.md) [README.md](../58-tools-panel-fixtures/README.md) [README.md](../core-comment-audit/tools-thumbnail-hotkeys/README.md)。
 
 ## 发现
 

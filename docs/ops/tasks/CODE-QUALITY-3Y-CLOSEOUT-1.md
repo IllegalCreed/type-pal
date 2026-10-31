@@ -15,7 +15,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 前提与证据
 
-固定main源8245B(SHA 7f94bdba59b3);原卡前提按原时点保留。当前存活入口:[README.md](../evidence/CODE-QUALITY-3Y-CLOSEOUT-1/midi-review/README.md)、[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/final-pre94-gates/README.md)
+固定main源8245B(SHA 7f94bdba59b3);原卡前提按原时点保留。当前存活入口:[README.md](../evidence/CODE-QUALITY-3Y-CLOSEOUT-1/midi-review/README.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/final-pre94-gates/README.md)。
 
 ## 验收
 

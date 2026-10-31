@@ -7,11 +7,11 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「pre94毒/升级：源码注释与测试判别力返工」的主题按原文时点保留(摘录:Date: 2026-10-18 Base: `27358f9d9e3ab65d777b7864fcc936638ed9373a` Branch: `codex/code-quality-3y`)。
+原审计「pre94毒/升级：源码注释与测试判别力返工」的主题按原文时点保留(摘录:Date: 2026-10-18 Base: `27358f9d9e3ab65d777b7864fcc936638ed9373a` Branch: `codex/code-qual)。
 
 ## 范围与证据
 
-原报告含章节[pre94毒/升级：源码注释与测试判别力返工、证据身份与范围、实际读取与primary/caller、测试合法性、oracle与反控、发现、限制与后续、验证与交接]、4个链接;固定main源6222B(SHA d86de9146669)。当前存活入口:[GAME-PLAYER-POISON-SLOT-COMPACTION-1.md](../../../../tasks/GAME-PLAYER-POISON-SLOT-COMPACTION-1.md)、[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)、[read-boundaries.json](read-boundaries.json)、[test-title-mapping.json](test-title-mapping.json)
+原报告含章节[pre94毒/升级：源码注释与测试判别力返工、证据身份与范围、实际读取与primary/caller、测试合法性、oracle与反控、发现、限制与后续、验证与交接]、4个链接;固定main源6222B(SHA d86de9146669)。当前存活入口:[GAME-PLAYER-POISON-SLOT-COMPACTION-1.md](../../../../tasks/GAME-PLAYER-POISON-SLOT-COMPACTION-1.md) [QUALITY-PRE94-RETROSPECTIVE-1.md](../../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) [read-boundaries.json](read-boundaries.json) [test-title-mapping.json](test-title-mapping.json)。
 
 ## 发现
 

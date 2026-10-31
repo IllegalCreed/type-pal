@@ -11,7 +11,7 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原12个链接处置见作者review的linkDisposition。当前存活入口:[QUALITY-BOOT-FAILURE-PROGRESS-1.md](../../../../tasks/QUALITY-BOOT-FAILURE-PROGRESS-1.md)、[README.md](../../53-wave-gates/README.md)、[failure-repro.json](../failure-repro.json)、[before-fix.json](before-fix.json)、[contracts.json](contracts.json)、[original-replay.json](original-replay.json)
+来源为固定Git载体,非本次运行;原12个链接处置见作者review的linkDisposition。当前存活入口:[QUALITY-BOOT-FAILURE-PROGRESS-1.md](../../../../tasks/QUALITY-BOOT-FAILURE-PROGRESS-1.md) [README.md](../../53-wave-gates/README.md) [failure-repro.json](../failure-repro.json) [before-fix.json](before-fix.json) [contracts.json](contracts.json) [original-replay.json](original-replay.json) [read-boundaries.json](read-boundaries.json) [runtime-initial.json](runtime-initial.json) [runtime-positive.json](runtime-positive.json) [runtime.json](runtime.json) [static-gates.json](static-gates.json) [test-gates.json](test-gates.json)。
 
 ## 断言与业务 oracle
 

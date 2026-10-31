@@ -7,11 +7,11 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「Pre-94 47–52 波次质量门证据」的主题按原文时点保留(摘录:`f544b9b94` 的“pnpm check 通过/波次收口”缺少完整未裁剪原件、按来源统计的诊断计数和零诊断结论，不能满足 AGENTS 的 error/warning/info 清零门。**撤)。
+原审计「Pre-94 47–52 波次质量门证据」的主题按原文时点保留(摘录:`f544b9b94` 的“pnpm check 通过/波次收口”缺少完整未裁剪原件、按来源统计的诊断计数和零诊断结论，不能满足 AGENTS 的 error/warning/in)。
 
 ## 范围与证据
 
-原报告含章节[Pre-94 47–52 波次质量门证据、当前裁定、GLM独立审计四项返工后续、原回执（历史，已撤回通过/收口信用）]、3个链接;固定main源5647B(SHA 8e9d0b386fa6)。当前存活入口:[README.md](receipt-audit/README.md)、[audit.json](receipt-audit/audit.json)、[original-readme.md.gz](receipt-audit/original-readme.md.gz)
+原报告含章节[Pre-94 47–52 波次质量门证据、当前裁定、GLM独立审计四项返工后续、原回执（历史，已撤回通过/收口信用）]、3个链接;固定main源5647B(SHA 8e9d0b386fa6)。当前存活入口:[README.md](receipt-audit/README.md) [audit.json](receipt-audit/audit.json) [original-readme.md.gz](receipt-audit/original-readme.md.gz)。
 
 ## 发现
 

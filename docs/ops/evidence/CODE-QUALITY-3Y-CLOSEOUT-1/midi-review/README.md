@@ -7,11 +7,11 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「Y01：CODE75 MIDI旧测试复审」的主题按原文时点保留(摘录:2026-10-16，唯一治理分支`codex/code-quality-3y`，候选995cd8aee，main=f98d0ddd8。父分支保全与删除证明见[统一治理线](../README.md))。
+原审计「Y01：CODE75 MIDI旧测试复审」的主题按原文时点保留(摘录:2026-10-16，唯一治理分支`codex/code-quality-3y`，候选995cd8aee，main=f98d0ddd8。父分支保全与删除证明见统一治理线。本片仅处理)。
 
 ## 范围与证据
 
-原报告含章节[Y01：CODE75 MIDI旧测试复审、实际读取与合同、验证与反控、当前结论与待续]、5个链接;固定main源4232B(SHA 35e0397c76fa)。当前存活入口:[README.md](../README.md)、[rereview-progress.json](../rereview-progress.json)、[counter-run.py](counter-run.py)、[counter-split-verification.json](counter-split-verification.json)、[read-and-retirement.json](read-and-retirement.json)
+原报告含章节[Y01：CODE75 MIDI旧测试复审、实际读取与合同、验证与反控、当前结论与待续]、5个链接;固定main源4232B(SHA 35e0397c76fa)。当前存活入口:[README.md](../README.md) [rereview-progress.json](../rereview-progress.json) [counter-run.py](counter-run.py) [counter-split-verification.json](counter-split-verification.json) [read-and-retirement.json](read-and-retirement.json)。
 
 ## 发现
 

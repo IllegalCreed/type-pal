@@ -7,11 +7,11 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「extract parsers 小件四文件复审（glm-foundation 模块 3 批 4）」的主题按原文时点保留(摘录:> Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见[当前返工记录](../codex-stage2-rework.json))。
+原审计「extract parsers 小件四文件复审（glm-foundation 模块 3 批 4）」的主题按原文时点保留(摘录:> Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见当前返工记录。 范围：`resources/parse)。
 
 ## 范围与证据
 
-原报告含章节[extract parsers 小件四文件复审（glm-foundation 模块 3 批 4）、短回执、八维结论、复验入口（只读）、真盘用例需 data/raw/{DATA,RGM,BALL,FIRE,RNG}.MKF 软链、勘误（2026-10-18 晚补）]、2个链接;固定main源4627B(SHA 326b77499d1d)。当前存活入口:[codex-final29.json](../codex-final29.json)、[codex-stage2-rework.json](../codex-stage2-rework.json)
+原报告含章节[extract parsers 小件四文件复审（glm-foundation 模块 3 批 4）、短回执、八维结论、复验入口（只读）、真盘用例需 data/raw/{DATA,RGM,BALL,FIRE,RNG}.MKF 软链、勘误（2026-10-18 晚补）]、2个链接;固定main源4627B(SHA 326b77499d1d)。当前存活入口:[codex-final29.json](../codex-final29.json) [codex-stage2-rework.json](../codex-stage2-rework.json)。
 
 ## 发现
 

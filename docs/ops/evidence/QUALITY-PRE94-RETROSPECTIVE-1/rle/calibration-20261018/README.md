@@ -11,7 +11,7 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原17个链接处置见作者review的linkDisposition。当前存活入口:[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)、[QUALITY-RLE-COMMAND-TRUTH-1.md](../../../../tasks/QUALITY-RLE-COMMAND-TRUTH-1.md)、[README.md](../README.md)、[artifact-format.json](artifact-format.json)、[docs-final.json](docs-final.json)、[docs.json](docs.json)
+来源为固定Git载体,非本次运行;原17个链接处置见作者review的linkDisposition。当前存活入口:[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) [QUALITY-RLE-COMMAND-TRUTH-1.md](../../../../tasks/QUALITY-RLE-COMMAND-TRUTH-1.md) [README.md](../README.md) [artifact-format.json](artifact-format.json) [docs-final.json](docs-final.json) [docs.json](docs.json) [fast.json](fast.json) [ledger-drift.json](ledger-drift.json) [ledger.json](ledger.json) [lint-final.json](lint-final.json) [lint.json](lint.json) [manifest.json](manifest.json) [scope-final.json](scope-final.json) [scope-verification.json](scope-verification.json) [targeted.json](targeted.json) [targeted.native.json.gz](targeted.native.json.gz) [targeted.raw.gz](targeted.raw.gz)。
 
 ## 断言与业务 oracle
 

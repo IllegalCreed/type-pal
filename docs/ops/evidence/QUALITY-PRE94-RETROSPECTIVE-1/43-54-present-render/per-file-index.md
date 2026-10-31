@@ -19,7 +19,7 @@ historical(治理候选);原时点状态与日期在保全块。
 
 ## 入口与责任
 
-当前存活入口:[per-file-index.md](../73-78-shell-lifecycle/per-file-index.md)、[codex-pending27-acceptance.json](../codex-pending27-acceptance.json)、[read-boundaries.json](read-boundaries.json) 其余原链接仅在保全块保留,理由见linkDisposition。
+当前存活入口:[per-file-index.md](../73-78-shell-lifecycle/per-file-index.md) [codex-pending27-acceptance.json](../codex-pending27-acceptance.json) [read-boundaries.json](read-boundaries.json)。 其余原链接仅在保全块保留,理由见linkDisposition。
 
 ## 证据与下一步
 

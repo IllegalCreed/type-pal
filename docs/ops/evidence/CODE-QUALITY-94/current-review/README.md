@@ -7,11 +7,11 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「CODE94–102：当前复审与有限返工」的主题按原文时点保留(摘录:- id：CODE-QUALITY-94/current-review；schemaVersion：1；status：recorded，尚未集成收口。 - Owner：Codex，单Agent；基点 )。
+原审计「CODE94–102：当前复审与有限返工」的主题按原文时点保留(摘录:- id：CODE-QUALITY-94/current-review；schemaVersion：1；status：recorded，尚未集成收口。 - Owner：Codex，)。
 
 ## 范围与证据
 
-原报告含章节[CODE94–102：当前复审与有限返工、证据身份、来源与输入、断言与业务oracle、结果、限制与复核]、4个链接;固定main源4311B(SHA 4a0956c2a553)。当前存活入口:[postflight.json.gz](postflight.json.gz)、[receipts.json.gz](receipts.json.gz)、[review.json](review.json)
+原报告含章节[CODE94–102：当前复审与有限返工、证据身份、来源与输入、断言与业务oracle、结果、限制与复核]、4个链接;固定main源4311B(SHA 4a0956c2a553)。当前存活入口:[postflight.json.gz](postflight.json.gz) [receipts.json.gz](receipts.json.gz) [review.json](review.json)。
 
 ## 发现
 

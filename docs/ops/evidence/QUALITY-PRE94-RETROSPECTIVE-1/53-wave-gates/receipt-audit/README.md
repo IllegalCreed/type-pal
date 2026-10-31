@@ -7,11 +7,11 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「用户转达的GLM独立审计：四项收口纪律返工」的主题按原文时点保留(摘录:基点291b7b59d，唯一codex/code-quality-3y，Codex单一Owner。用户转达内容层通过（五修复、71锚、测试diff、baseline和六退役）；本轮没有取得GLM原始脚)。
+原审计「用户转达的GLM独立审计：四项收口纪律返工」的主题按原文时点保留(摘录:基点291b7b59d，唯一codex/code-quality-3y，Codex单一Owner。用户转达内容层通过（五修复、71锚、测试diff、baseline和六退役）；本轮)。
 
 ## 范围与证据
 
-原报告含章节[用户转达的GLM独立审计：四项收口纪律返工、逐项裁定、一手来源与范围、质量门与未完成]、6个链接;固定main源4604B(SHA 13fc6cf3287f)。当前存活入口:[anchor-corrections.json](anchor-corrections.json)、[authorization-instructions.json](authorization-instructions.json)、[gates-followup.json](gates-followup.json)、[retirement-authorizations.json](retirement-authorizations.json)、[retirement-proof-after-comments.json](retirement-proof-after-comments.json)、[retirement-proof-before-comments.json](retirement-proof-before-comments.json)
+原报告含章节[用户转达的GLM独立审计：四项收口纪律返工、逐项裁定、一手来源与范围、质量门与未完成]、6个链接;固定main源4604B(SHA 13fc6cf3287f)。当前存活入口:[anchor-corrections.json](anchor-corrections.json) [authorization-instructions.json](authorization-instructions.json) [gates-followup.json](gates-followup.json) [retirement-authorizations.json](retirement-authorizations.json) [retirement-proof-after-comments.json](retirement-proof-after-comments.json) [retirement-proof-before-comments.json](retirement-proof-before-comments.json)。
 
 ## 发现
 

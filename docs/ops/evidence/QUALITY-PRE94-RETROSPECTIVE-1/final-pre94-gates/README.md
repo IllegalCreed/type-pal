@@ -11,7 +11,7 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原12个链接处置见作者review的linkDisposition。当前存活入口:[act-ci-receipts.json.gz](act-ci-receipts.json.gz)、[bootstrap-receipts.json.gz](bootstrap-receipts.json.gz)、[bootstrap.json](bootstrap.json)、[config-contract-receipts.json.gz](config-contract-receipts.json.gz)、[final-receipts.json.gz](final-receipts.json.gz)、[initial-receipts.json.gz](initial-receipts.json.gz)
+来源为固定Git载体,非本次运行;原12个链接处置见作者review的linkDisposition。当前存活入口:[act-ci-receipts.json.gz](act-ci-receipts.json.gz) [bootstrap-receipts.json.gz](bootstrap-receipts.json.gz) [bootstrap.json](bootstrap.json) [config-contract-receipts.json.gz](config-contract-receipts.json.gz) [final-receipts.json.gz](final-receipts.json.gz) [initial-receipts.json.gz](initial-receipts.json.gz) [recount.json](recount.json) [review.json](review.json) [serial-ci-receipts.json.gz](serial-ci-receipts.json.gz) [verify.mjs](verify.mjs) [worker-budget.json](worker-budget.json) [worker-receipts.json.gz](worker-receipts.json.gz)。
 
 ## 断言与业务 oracle
 

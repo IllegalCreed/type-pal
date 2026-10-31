@@ -15,7 +15,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 前提与证据
 
-固定main源9689B(SHA 7976f2ed5fa8);原卡前提按原时点保留。当前存活入口:[CODE-QUALITY-71-game-fetch-retry-abort-boundary.md](../archive/tasks/done/CODE-QUALITY-71-game-fetch-retry-abort-boundary.md)、[README.md](../evidence/QUALITY-FETCH-ABORT-LIFECYCLE-1/c1/README.md)、[real-abort-proof.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/fetch-retry/real-abort-proof.json)
+固定main源9689B(SHA 7976f2ed5fa8);原卡前提按原时点保留。当前存活入口:[CODE-QUALITY-71-game-fetch-retry-abort-boundary.md](../archive/tasks/done/CODE-QUALITY-71-game-fetch-retry-abort-boundary.md) [README.md](../evidence/QUALITY-FETCH-ABORT-LIFECYCLE-1/c1/README.md) [real-abort-proof.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/fetch-retry/real-abort-proof.json)。
 
 ## 验收
 

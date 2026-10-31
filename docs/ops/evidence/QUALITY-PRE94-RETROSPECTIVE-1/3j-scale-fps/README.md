@@ -7,11 +7,11 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「CODE3j display-scale / fps-overlay 当前复审切片」的主题按原文时点保留(摘录:基点：`b42eb9065`；分支：`codex/code-quality-3y`，相对 `origin/main` `0 behind`。本片核 display-scale、fps-overlay )。
+原审计「CODE3j display-scale / fps-overlay 当前复审切片」的主题按原文时点保留(摘录:基点：`b42eb9065`；分支：`codex/code-quality-3y`，相对 `origin/main` `0 behind`。本片核 display-scale、fp)。
 
 ## 范围与证据
 
-原报告含章节[CODE3j display-scale / fps-overlay 当前复审切片、逐文件、caller 与生命周期、测试判别力与结论]、1个链接;固定main源2110B(SHA 493476fb0367)。当前存活入口:[read-boundaries.json](read-boundaries.json)
+原报告含章节[CODE3j display-scale / fps-overlay 当前复审切片、逐文件、caller 与生命周期、测试判别力与结论]、1个链接;固定main源2110B(SHA 493476fb0367)。当前存活入口:[read-boundaries.json](read-boundaries.json)。
 
 ## 发现
 

@@ -7,7 +7,7 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「CODE-QUALITY-102 Codex 独立逐文件复核（2026-10-17）」的主题按原文时点保留(摘录:范围为 `packages/game/src/tools/quick-save.ts` 与 `packages/game/src/tools/quick-save.test.ts`，相邻 oracle)。
+原审计「CODE-QUALITY-102 Codex 独立逐文件复核（2026-10-17）」的主题按原文时点保留(摘录:范围为 `packages/game/src/tools/quick-save.ts` 与 `packages/game/src/tools/quick-save.test.ts`)。
 
 ## 范围与证据
 

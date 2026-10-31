@@ -7,7 +7,7 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「Codex 三验：CODE94、95、97–102」的主题按原文时点保留(摘录:日期：2026-10-15。独立候选 `5477af1e45a80fffe8afc56502659bc7785823bf`； `origin/main=f98d0ddd89ebdee7b04502ee)。
+原审计「Codex 三验：CODE94、95、97–102」的主题按原文时点保留(摘录:日期：2026-10-15。独立候选 `5477af1e45a80fffe8afc56502659bc7785823bf`； `origin/main=f98d0ddd89ebde)。
 
 ## 范围与证据
 

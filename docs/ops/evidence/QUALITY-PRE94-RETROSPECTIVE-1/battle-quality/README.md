@@ -11,7 +11,7 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原5个链接处置见作者review的linkDisposition。当前存活入口:[GAME-BATTLE-HIDDEN-WORD-BOUNDARY-1.md](../../../tasks/GAME-BATTLE-HIDDEN-WORD-BOUNDARY-1.md)、[GAME-BATTLE-NONPARTY-EXTRA-CLEANUP-1.md](../../../tasks/GAME-BATTLE-NONPARTY-EXTRA-CLEANUP-1.md)、[README.md](meal-ci/README.md)、[native.json.gz](native.json.gz)、[review.json](review.json)
+来源为固定Git载体,非本次运行;原5个链接处置见作者review的linkDisposition。当前存活入口:[GAME-BATTLE-HIDDEN-WORD-BOUNDARY-1.md](../../../tasks/GAME-BATTLE-HIDDEN-WORD-BOUNDARY-1.md) [GAME-BATTLE-NONPARTY-EXTRA-CLEANUP-1.md](../../../tasks/GAME-BATTLE-NONPARTY-EXTRA-CLEANUP-1.md) [README.md](meal-ci/README.md) [native.json.gz](native.json.gz) [review.json](review.json)。
 
 ## 断言与业务 oracle
 

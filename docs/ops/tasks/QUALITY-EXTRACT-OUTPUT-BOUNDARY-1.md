@@ -15,7 +15,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 前提与证据
 
-固定main源12940B(SHA 5c454bd711fc);原卡前提按原时点保留。当前存活入口:[README.md](../evidence/QUALITY-EXTRACT-OUTPUT-BOUNDARY-1/c1/README.md)、[README.md](../evidence/QUALITY-EXTRACT-OUTPUT-BOUNDARY-1/entrypoint-followup/README.md)、[output-boundary.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3g/output-boundary.json)、[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/supplementary-audit/README.md)
+固定main源12940B(SHA 5c454bd711fc);原卡前提按原时点保留。当前存活入口:[README.md](../evidence/QUALITY-EXTRACT-OUTPUT-BOUNDARY-1/c1/README.md) [README.md](../evidence/QUALITY-EXTRACT-OUTPUT-BOUNDARY-1/entrypoint-followup/README.md) [output-boundary.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3g/output-boundary.json) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/supplementary-audit/README.md)。
 
 ## 验收
 

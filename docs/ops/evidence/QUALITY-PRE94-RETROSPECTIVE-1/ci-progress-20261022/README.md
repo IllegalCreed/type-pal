@@ -7,11 +7,11 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「pre94 收口 GitHub Documentation CI 返工」的主题按原文时点保留(摘录:基点e8566c2c7ea1fbdccdbc782bd54216f94cd0823e，同一3y；当前为未提交候选。[机器记录与模板版次指针](record.json)。主树只读。 GitHub run)。
+原审计「pre94 收口 GitHub Documentation CI 返工」的主题按原文时点保留(摘录:基点e8566c2c7ea1fbdccdbc782bd54216f94cd0823e，同一3y；当前为未提交候选。机器记录与模板版次指针。主树只读。 GitHub run39624)。
 
 ## 范围与证据
 
-原报告含章节[pre94 收口 GitHub Documentation CI 返工、证据身份、来源与输入、断言与业务 oracle、结果、限制与复核]、1个链接;固定main源2087B(SHA 3821a1a5dfc6)。当前存活入口:[record.json](record.json)
+原报告含章节[pre94 收口 GitHub Documentation CI 返工、证据身份、来源与输入、断言与业务 oracle、结果、限制与复核]、1个链接;固定main源2087B(SHA 3821a1a5dfc6)。当前存活入口:[record.json](record.json)。
 
 ## 发现
 

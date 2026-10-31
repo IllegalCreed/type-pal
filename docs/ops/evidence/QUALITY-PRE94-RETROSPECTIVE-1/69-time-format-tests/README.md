@@ -7,11 +7,11 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「CODE69 time-format 测试复审」的主题按原文时点保留(摘录:基点 `d49de5240`，唯一 `codex/code-quality-3y`。修改白名单为三份 time-format 测试及治理记录；生产实现未改，未改 UI、schema/save、资产管线)。
+原审计「CODE69 time-format 测试复审」的主题按原文时点保留(摘录:基点 `d49de5240`，唯一 `codex/code-quality-3y`。修改白名单为三份 time-format 测试及治理记录；生产实现未改，未改 UI、schema)。
 
 ## 范围与证据
 
-原报告含章节[CODE69 time-format 测试复审、读取、caller 与 primary、发现与逐文件处理、反控与恢复、验证、账本与后续]、5个链接;固定main源3718B(SHA 150ea842896b)。当前存活入口:[after-proof.json](after-proof.json)、[before-proof.json](before-proof.json)、[read-boundaries.json](read-boundaries.json)、[static-gates.json](static-gates.json)、[test-gates.json](test-gates.json)
+原报告含章节[CODE69 time-format 测试复审、读取、caller 与 primary、发现与逐文件处理、反控与恢复、验证、账本与后续]、5个链接;固定main源3718B(SHA 150ea842896b)。当前存活入口:[after-proof.json](after-proof.json) [before-proof.json](before-proof.json) [read-boundaries.json](read-boundaries.json) [static-gates.json](static-gates.json) [test-gates.json](test-gates.json)。
 
 ## 发现
 

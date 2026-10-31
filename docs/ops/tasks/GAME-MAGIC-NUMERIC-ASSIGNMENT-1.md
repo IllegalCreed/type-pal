@@ -15,7 +15,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 前提与证据
 
-固定main源8714B(SHA 990db0ee3fa5);原卡前提按原时点保留。当前存活入口:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/approved-boundaries/README.md)、[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-fade-quality/README.md)、[numeric-counter.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/formula-numeric-audit/numeric-counter.json)
+固定main源8714B(SHA 990db0ee3fa5);原卡前提按原时点保留。当前存活入口:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/approved-boundaries/README.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-fade-quality/README.md) [numeric-counter.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/formula-numeric-audit/numeric-counter.json)。
 
 ## 验收
 

@@ -7,11 +7,11 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「CODE3j toast / map-names / checkpoints 当前复审切片」的主题按原文时点保留(摘录:基点：`cfed1430e`；分支：`codex/code-quality-3y`，相对 `origin/main` `0 behind`。这是 CODE-QUALITY-3j 的第三个有限切片，核三)。
+原审计「CODE3j toast / map-names / checkpoints 当前复审切片」的主题按原文时点保留(摘录:基点：`cfed1430e`；分支：`codex/code-quality-3y`，相对 `origin/main` `0 behind`。这是 CODE-QUALITY-3j 的)。
 
 ## 范围与证据
 
-原报告含章节[CODE3j toast / map-names / checkpoints 当前复审切片、逐文件与 caller、判别力与结论]、1个链接;固定main源2109B(SHA cc316a24f1e2)。当前存活入口:[read-boundaries.json](read-boundaries.json)
+原报告含章节[CODE3j toast / map-names / checkpoints 当前复审切片、逐文件与 caller、判别力与结论]、1个链接;固定main源2109B(SHA cc316a24f1e2)。当前存活入口:[read-boundaries.json](read-boundaries.json)。
 
 ## 发现
 

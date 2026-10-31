@@ -7,11 +7,11 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「CODE3g 当前八维复核」的主题按原文时点保留(摘录:Template: evidence-index-v1 / 1.0.0 本片替换三个重复子进程宿主，补真实所有权与清理顺序证据。清单新增实际目录全量oracle；精确stderr补强。900行产品CL)。
+原审计「CODE3g 当前八维复核」的主题按原文时点保留(摘录:Template: evidence-index-v1 / 1.0.0 本片替换三个重复子进程宿主，补真实所有权与清理顺序证据。清单新增实际目录全量oracle；精确stderr补)。
 
 ## 范围与证据
 
-原报告含章节[CODE3g 当前八维复核、2026-10-21 当前最终结果]、2个链接;固定main源946B(SHA 3780c7957c55)。当前存活入口:[evidence.json](../../3b/closeout/evidence.json)、[review.json](review.json)
+原报告含章节[CODE3g 当前八维复核、2026-10-21 当前最终结果]、2个链接;固定main源946B(SHA 3780c7957c55)。当前存活入口:[evidence.json](../../3b/closeout/evidence.json) [review.json](review.json)。
 
 ## 发现
 

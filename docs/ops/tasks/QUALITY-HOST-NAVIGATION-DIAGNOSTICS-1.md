@@ -15,7 +15,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 前提与证据
 
-固定main源4019B(SHA d92be91707b8);原卡前提按原时点保留。当前存活入口:[window-review.md](../evidence/QUALITY-EDITOR-FORM-FIXTURES-1/window-review.md)、[README.md](../evidence/QUALITY-HOST-NAVIGATION-DIAGNOSTICS-1/README.md)
+固定main源4019B(SHA d92be91707b8);原卡前提按原时点保留。当前存活入口:[window-review.md](../evidence/QUALITY-EDITOR-FORM-FIXTURES-1/window-review.md) [README.md](../evidence/QUALITY-HOST-NAVIGATION-DIAGNOSTICS-1/README.md)。
 
 ## 验收
 

@@ -15,7 +15,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 前提与证据
 
-固定main源8966B(SHA c34d5011d797);原卡前提按原时点保留。当前存活入口:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3i-dialog-precache/quality-closeout/README.md)、[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/README.md)、[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/approved-fix/README.md)、[failure-repro.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/failure-repro.json)
+固定main源8966B(SHA c34d5011d797);原卡前提按原时点保留。当前存活入口:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3i-dialog-precache/quality-closeout/README.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/README.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/approved-fix/README.md) [failure-repro.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/failure-repro.json)。
 
 ## 验收
 
@@ -43,7 +43,7 @@ done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者
 
 ## 继任文档
 
-接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3i-dialog-precache/quality-closeout/README.md)、[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/README.md)、[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/approved-fix/README.md)、[failure-repro.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/failure-repro.json)
+接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3i-dialog-precache/quality-closeout/README.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/README.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/approved-fix/README.md) [failure-repro.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/failure-repro.json)。
 
 
 ## 原文保全

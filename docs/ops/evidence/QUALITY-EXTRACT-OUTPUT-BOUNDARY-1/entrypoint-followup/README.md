@@ -7,11 +7,11 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「提取输出与链接入口补审」的主题按原文时点保留(摘录:Date: 2026-10-18 Branch: `codex/code-quality-3y` Base: `298136f19c9b5acb51867a5d96275fe5438c06a7`)。
+原审计「提取输出与链接入口补审」的主题按原文时点保留(摘录:Date: 2026-10-18 Branch: `codex/code-quality-3y` Base: `298136f19c9b5acb51867a5d96275fe543)。
 
 ## 范围与证据
 
-原报告含章节[提取输出与链接入口补审、准入与读域、问题与最小实现、先红后修与测试质量、当前结论与下一步]、9个链接;固定main源3800B(SHA 4b4b8b9ec9c0)。当前存活入口:[QUALITY-EXTRACT-OUTPUT-BOUNDARY-1.md](../../../tasks/QUALITY-EXTRACT-OUTPUT-BOUNDARY-1.md)、[before-sources.json](before-sources.json)、[gates.json](gates.json)、[module.json](module.json)、[native-archives.json](native-archives.json)、[read-boundaries.json](read-boundaries.json)
+原报告含章节[提取输出与链接入口补审、准入与读域、问题与最小实现、先红后修与测试质量、当前结论与下一步]、9个链接;固定main源3800B(SHA 4b4b8b9ec9c0)。当前存活入口:[QUALITY-EXTRACT-OUTPUT-BOUNDARY-1.md](../../../tasks/QUALITY-EXTRACT-OUTPUT-BOUNDARY-1.md) [before-sources.json](before-sources.json) [gates.json](gates.json) [module.json](module.json) [native-archives.json](native-archives.json) [read-boundaries.json](read-boundaries.json) [red.json](red.json) [typecheck.json](typecheck.json)。
 
 ## 发现
 

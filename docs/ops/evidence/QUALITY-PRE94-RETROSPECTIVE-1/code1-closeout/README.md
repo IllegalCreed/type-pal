@@ -11,7 +11,7 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原10个链接处置见作者review的linkDisposition。当前存活入口:[QUALITY-RLE-COMMAND-TRUTH-1.md](../../../tasks/QUALITY-RLE-COMMAND-TRUTH-1.md)、[fixture-inputs.json](fixture-inputs.json)、[README.md](pal-source-fix/README.md)、[prove-rle-comments.cjs](prove-rle-comments.cjs)、[prove-split.cjs](prove-split.cjs)、[receipts.json.gz](receipts.json.gz)
+来源为固定Git载体,非本次运行;原10个链接处置见作者review的linkDisposition。当前存活入口:[QUALITY-RLE-COMMAND-TRUTH-1.md](../../../tasks/QUALITY-RLE-COMMAND-TRUTH-1.md) [fixture-inputs.json](fixture-inputs.json) [README.md](pal-source-fix/README.md) [prove-rle-comments.cjs](prove-rle-comments.cjs) [prove-split.cjs](prove-split.cjs) [receipts.json.gz](receipts.json.gz) [review.json](review.json) [rle-comments.json](rle-comments.json) [split.json](split.json) [static.json](static.json)。
 
 ## 断言与业务 oracle
 

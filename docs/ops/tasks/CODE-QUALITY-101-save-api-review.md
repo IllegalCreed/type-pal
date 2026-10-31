@@ -15,7 +15,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 前提与证据
 
-固定main源16516B(SHA 97bb20c352d7);原卡前提按原时点保留。当前存活入口:[README.md](../evidence/CODE-QUALITY-94/approved-closeout/README.md)、[codex-final-window.md](../evidence/CODE-QUALITY-94/codex-final-window.md)、[codex-r2-review.md](../evidence/CODE-QUALITY-94/codex-r2-review.md)、[codex-r3-review.md](../evidence/CODE-QUALITY-94/codex-r3-review.md)、[codex-takeover.md](../evidence/CODE-QUALITY-94/codex-takeover.md)、[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/supplementary-audit/README.md)
+固定main源16516B(SHA 97bb20c352d7);原卡前提按原时点保留。当前存活入口:[README.md](../evidence/CODE-QUALITY-94/approved-closeout/README.md) [codex-final-window.md](../evidence/CODE-QUALITY-94/codex-final-window.md) [codex-r2-review.md](../evidence/CODE-QUALITY-94/codex-r2-review.md) [codex-r3-review.md](../evidence/CODE-QUALITY-94/codex-r3-review.md) [codex-takeover.md](../evidence/CODE-QUALITY-94/codex-takeover.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/supplementary-audit/README.md) [GAME-SAVE-IDB-COMMIT-1.md](GAME-SAVE-IDB-COMMIT-1.md) [GAME-SAVE-INPUT-DOMAIN-1.md](GAME-SAVE-INPUT-DOMAIN-1.md)。
 
 ## 验收
 
@@ -43,7 +43,7 @@ done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者
 
 ## 继任文档
 
-接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[README.md](../evidence/CODE-QUALITY-94/approved-closeout/README.md)、[codex-final-window.md](../evidence/CODE-QUALITY-94/codex-final-window.md)、[codex-r2-review.md](../evidence/CODE-QUALITY-94/codex-r2-review.md)、[codex-r3-review.md](../evidence/CODE-QUALITY-94/codex-r3-review.md)、[codex-takeover.md](../evidence/CODE-QUALITY-94/codex-takeover.md)、[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/supplementary-audit/README.md)
+接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[README.md](../evidence/CODE-QUALITY-94/approved-closeout/README.md) [codex-final-window.md](../evidence/CODE-QUALITY-94/codex-final-window.md) [codex-r2-review.md](../evidence/CODE-QUALITY-94/codex-r2-review.md) [codex-r3-review.md](../evidence/CODE-QUALITY-94/codex-r3-review.md) [codex-takeover.md](../evidence/CODE-QUALITY-94/codex-takeover.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/supplementary-audit/README.md) [GAME-SAVE-IDB-COMMIT-1.md](GAME-SAVE-IDB-COMMIT-1.md) [GAME-SAVE-INPUT-DOMAIN-1.md](GAME-SAVE-INPUT-DOMAIN-1.md)。
 
 
 ## 原文保全

@@ -11,7 +11,7 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原4个链接处置见作者review的linkDisposition。当前存活入口:[GAME-ACTION-QUEUE-TIE-ORDER-1.md](../../../../tasks/GAME-ACTION-QUEUE-TIE-ORDER-1.md)、[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)、[read-boundaries.json](read-boundaries.json)、[test-title-mapping.json](test-title-mapping.json)
+来源为固定Git载体,非本次运行;原4个链接处置见作者review的linkDisposition。当前存活入口:[GAME-ACTION-QUEUE-TIE-ORDER-1.md](../../../../tasks/GAME-ACTION-QUEUE-TIE-ORDER-1.md) [QUALITY-PRE94-RETROSPECTIVE-1.md](../../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) [read-boundaries.json](read-boundaries.json) [test-title-mapping.json](test-title-mapping.json)。
 
 ## 断言与业务 oracle
 

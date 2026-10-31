@@ -7,11 +7,11 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「九笔代码补审：Save漏迁合同与交接勘误」的主题按原文时点保留(摘录:Date: 2026-10-18 Base: `835bd059bb4ed815e844a153ee02d577d339af0f` Branch: `codex/code-quality-3y`)。
+原审计「九笔代码补审：Save漏迁合同与交接勘误」的主题按原文时点保留(摘录:Date: 2026-10-18 Base: `835bd059bb4ed815e844a153ee02d577d339af0f` Branch: `codex/code-qual)。
 
 ## 范围与证据
 
-原报告含章节[九笔代码补审：Save漏迁合同与交接勘误、证据身份、来源与输入、断言与业务oracle、结果、限制与复核]、8个链接;固定main源4406B(SHA 19471ab433a0)。当前存活入口:[CODE-QUALITY-100-save-slot-menu-review.md](../../../tasks/CODE-QUALITY-100-save-slot-menu-review.md)、[CODE-QUALITY-101-save-api-review.md](../../../tasks/CODE-QUALITY-101-save-api-review.md)、[QUALITY-BATTLE-MAGIC-PARITY-1.md](../../../tasks/QUALITY-BATTLE-MAGIC-PARITY-1.md)、[QUALITY-EXTRACT-OUTPUT-BOUNDARY-1.md](../../../tasks/QUALITY-EXTRACT-OUTPUT-BOUNDARY-1.md)、[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)、[controls-current.json](controls-current.json)
+原报告含章节[九笔代码补审：Save漏迁合同与交接勘误、证据身份、来源与输入、断言与业务oracle、结果、限制与复核]、8个链接;固定main源4406B(SHA 19471ab433a0)。当前存活入口:[CODE-QUALITY-100-save-slot-menu-review.md](../../../tasks/CODE-QUALITY-100-save-slot-menu-review.md) [CODE-QUALITY-101-save-api-review.md](../../../tasks/CODE-QUALITY-101-save-api-review.md) [QUALITY-BATTLE-MAGIC-PARITY-1.md](../../../tasks/QUALITY-BATTLE-MAGIC-PARITY-1.md) [QUALITY-EXTRACT-OUTPUT-BOUNDARY-1.md](../../../tasks/QUALITY-EXTRACT-OUTPUT-BOUNDARY-1.md) [QUALITY-PRE94-RETROSPECTIVE-1.md](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) [controls-current.json](controls-current.json) [gates.json](gates.json) [read-boundaries.json](read-boundaries.json)。
 
 ## 发现
 

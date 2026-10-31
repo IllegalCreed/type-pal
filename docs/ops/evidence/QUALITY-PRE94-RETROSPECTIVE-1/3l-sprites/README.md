@@ -7,7 +7,7 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「CODE3l 战斗精灵复审切片」的主题按原文时点保留(摘录:基点：`6937c7a70`；分支：`codex/code-quality-3y`，相对 `origin/main` 为 `0 behind / 195 ahead`。本片只核 `draw-battl)。
+原审计「CODE3l 战斗精灵复审切片」的主题按原文时点保留(摘录:基点：`6937c7a70`；分支：`codex/code-quality-3y`，相对 `origin/main` 为 `0 behind / 195 ahead`。本片只核 `)。
 
 ## 范围与证据
 

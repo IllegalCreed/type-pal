@@ -11,7 +11,7 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原8个链接处置见作者review的linkDisposition。当前存活入口:[GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1.md](../../tasks/GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1.md)、[before.json](before.json)、[browser.json](browser.json)、[controls.json](controls.json)、[gates.json](gates.json)、[read-boundaries.json](read-boundaries.json)
+来源为固定Git载体,非本次运行;原8个链接处置见作者review的linkDisposition。当前存活入口:[GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1.md](../../tasks/GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1.md) [before.json](before.json) [browser.json](browser.json) [controls.json](controls.json) [gates.json](gates.json) [read-boundaries.json](read-boundaries.json) [red-before-fix.json](red-before-fix.json) [test-contracts.json](test-contracts.json)。
 
 ## 断言与业务 oracle
 

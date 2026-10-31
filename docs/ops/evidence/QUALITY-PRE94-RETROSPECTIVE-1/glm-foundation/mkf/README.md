@@ -7,11 +7,11 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「CODE2 MKF 两文件复审（glm-foundation 批 1）」的主题按原文时点保留(摘录:范围：`packages/shared/src/mkf.ts`、`packages/shared/src/mkf.boundaries.test.ts`。开工核对：看板无他人 MKF Owner、四个)。
+原审计「CODE2 MKF 两文件复审（glm-foundation 批 1）」的主题按原文时点保留(摘录:范围：`packages/shared/src/mkf.ts`、`packages/shared/src/mkf.boundaries.test.ts`。开工核对：看板无他人 MK)。
 
 ## 范围与证据
 
-原报告含章节[CODE2 MKF 两文件复审（glm-foundation 批 1）、短回执、八维结论、问题与登记、复验入口（只读）、Codex阶段1接收说明（2026-10-18）]、2个链接;固定main源5275B(SHA 4e6627111fdb)。当前存活入口:[codex-stage1.json](../codex-stage1.json)、[directed.json](directed.json)
+原报告含章节[CODE2 MKF 两文件复审（glm-foundation 批 1）、短回执、八维结论、问题与登记、复验入口（只读）、Codex阶段1接收说明（2026-10-18）]、2个链接;固定main源5275B(SHA 4e6627111fdb)。当前存活入口:[codex-stage1.json](../codex-stage1.json) [directed.json](directed.json)。
 
 ## 发现
 

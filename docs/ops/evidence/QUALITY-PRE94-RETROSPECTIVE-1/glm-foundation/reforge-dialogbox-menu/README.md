@@ -7,11 +7,11 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「批43:reforge dialog-box / menu-box / menu-session（零整改批）」的主题按原文时点保留(摘录:> Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见[当前返工记录](../codex-stage2-rework.json))。
+原审计「批43:reforge dialog-box / menu-box / menu-session（零整改批）」的主题按原文时点保留(摘录:> Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见当前返工记录。 范围：`packages/reforg)。
 
 ## 范围与证据
 
-原报告含章节[批43:reforge dialog-box / menu-box / menu-session（零整改批）、逐文件结论、dialog/dialog-box.ts（490行）、menu/menu-box.ts（652行）、menu/menu-session.ts（544行）、验证]、1个链接;固定main源3212B(SHA feb3f2703729)。当前存活入口:[codex-stage2-rework.json](../codex-stage2-rework.json)
+原报告含章节[批43:reforge dialog-box / menu-box / menu-session（零整改批）、逐文件结论、dialog/dialog-box.ts（490行）、menu/menu-box.ts（652行）、menu/menu-session.ts（544行）、验证]、1个链接;固定main源3212B(SHA feb3f2703729)。当前存活入口:[codex-stage2-rework.json](../codex-stage2-rework.json)。
 
 ## 发现
 

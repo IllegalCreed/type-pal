@@ -11,7 +11,7 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原20个链接处置见作者review的linkDisposition。当前存活入口:[QUALITY-EXTRACT-RAW-TEST-EXECUTION-1.md](../../tasks/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1.md)、[all-cards.md](../QUALITY-PRE94-RETROSPECTIVE-1/all-cards.md)、[after-proof.json](after-proof.json)、[before-proof.json](before-proof.json)、[counter-probe.py](counter-probe.py)、[README.md](diagnostics-c1/README.md)
+来源为固定Git载体,非本次运行;原20个链接处置见作者review的linkDisposition。当前存活入口:[QUALITY-EXTRACT-RAW-TEST-EXECUTION-1.md](../../tasks/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1.md) [all-cards.md](../QUALITY-PRE94-RETROSPECTIVE-1/all-cards.md) [after-proof.json](after-proof.json) [before-proof.json](before-proof.json) [counter-probe.py](counter-probe.py) [README.md](diagnostics-c1/README.md) [README.md](diagnostics-c2/README.md) [empty-transfer.json](empty-transfer.json) [fast-scope.json](fast-scope.json) [gates.md](gates.md) [after-proof.json](initial-after/after-proof.json) [missing-input.json](missing-input.json) [native-identities.json](native-identities.json) [native-primary.c.gz](native-primary.c.gz) [native-probe.py](native-probe.py) [native-proof.json](native-proof.json) [native-rgba.bin.gz](native-rgba.bin.gz) [read-boundaries.json](read-boundaries.json) [verification.json](verification.json) [verify.py](verify.py)。
 
 ## 断言与业务 oracle
 

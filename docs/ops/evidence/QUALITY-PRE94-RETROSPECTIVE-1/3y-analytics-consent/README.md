@@ -7,11 +7,11 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「CODE-QUALITY-3y analytics consent当前复审」的主题按原文时点保留(摘录:Date: 2026-10-18 Base: `28fcfbe310815bcfd712b2f3da1849e0f4076092` Branch: `codex/code-quality-3y`)。
+原审计「CODE-QUALITY-3y analytics consent当前复审」的主题按原文时点保留(摘录:Date: 2026-10-18 Base: `28fcfbe310815bcfd712b2f3da1849e0f4076092` Branch: `codex/code-qual)。
 
 ## 范围与证据
 
-原报告含章节[CODE-QUALITY-3y analytics consent当前复审、身份、准入与逐文件读取、Primary、caller、ownership与实现结论、测试问题、修复与排重、当前状态、门与限制、交接与下一批]、6个链接;固定main源5921B(SHA 9618f867acda)。当前存活入口:[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)、[assertion-transfers.json](assertion-transfers.json)、[controls.json](controls.json)、[emit-identity.json](emit-identity.json)、[gates.json](gates.json)、[read-boundaries.json](read-boundaries.json)
+原报告含章节[CODE-QUALITY-3y analytics consent当前复审、身份、准入与逐文件读取、Primary、caller、ownership与实现结论、测试问题、修复与排重、当前状态、门与限制、交接与下一批]、6个链接;固定main源5921B(SHA 9618f867acda)。当前存活入口:[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) [assertion-transfers.json](assertion-transfers.json) [controls.json](controls.json) [emit-identity.json](emit-identity.json) [gates.json](gates.json) [read-boundaries.json](read-boundaries.json)。
 
 ## 发现
 

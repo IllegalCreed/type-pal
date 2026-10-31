@@ -7,11 +7,11 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「CODE3b：SSS/M.MSG成果复审」的主题按原文时点保留(摘录:2026-10-21后继模块收口见[当前六文件回执](closeout/README.md)；下方均保留各原切片时点，不沿用旧门诊断。 归[全83卡任务](../../../tasks/QUALITY)。
+原审计「CODE3b：SSS/M.MSG成果复审」的主题按原文时点保留(摘录:2026-10-21后继模块收口见当前六文件回执；下方均保留各原切片时点，不沿用旧门诊断。 归全83卡任务，原3b历史卡保持历史done/签字，不冒充本轮accept。起点8843)。
 
 ## 范围与证据
 
-原报告含章节[CODE3b：SSS/M.MSG成果复审、原件、caller与逐文件结论、判别力与原始数据、回归与交接]、15个链接;固定main源6703B(SHA cdd6917d4151)。当前存活入口:[CODE-QUALITY-3b-pal-extract-io-boundaries.md](../../../archive/tasks/done/CODE-QUALITY-3b-pal-extract-io-boundaries.md)、[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)、[after-proof.json](after-proof.json)、[before-proof.json](before-proof.json)、[README.md](closeout/README.md)、[counter-probe.py](counter-probe.py)
+原报告含章节[CODE3b：SSS/M.MSG成果复审、原件、caller与逐文件结论、判别力与原始数据、回归与交接]、15个链接;固定main源6703B(SHA cdd6917d4151)。当前存活入口:[CODE-QUALITY-3b-pal-extract-io-boundaries.md](../../../archive/tasks/done/CODE-QUALITY-3b-pal-extract-io-boundaries.md) [QUALITY-PRE94-RETROSPECTIVE-1.md](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) [after-proof.json](after-proof.json) [before-proof.json](before-proof.json) [README.md](closeout/README.md) [counter-probe.py](counter-probe.py) [gates.md](gates.md) [identity-change.json](identity-change.json) [raw-probe.py](raw-probe.py) [raw-proof.json](raw-proof.json) [README.md](raw-tests/README.md) [read-boundaries.json](read-boundaries.json) [regressions.json](regressions.json) [verification.json](verification.json) [verify.py](verify.py)。
 
 ## 发现
 

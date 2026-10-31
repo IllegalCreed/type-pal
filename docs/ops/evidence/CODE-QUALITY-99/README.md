@@ -11,7 +11,7 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原2个链接处置见作者review的linkDisposition。当前存活入口:[CODE-QUALITY-99-menu-driver-review.md](../../tasks/CODE-QUALITY-99-menu-driver-review.md)
+来源为固定Git载体,非本次运行;原2个链接处置见作者review的linkDisposition。当前存活入口:[CODE-QUALITY-99-menu-driver-review.md](../../tasks/CODE-QUALITY-99-menu-driver-review.md)。
 
 ## 断言与业务 oracle
 

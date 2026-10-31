@@ -7,11 +7,11 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「CODE-QUALITY-100 Codex 当前独立复核（2026-10-17）」的主题按原文时点保留(摘录:2026-10-18 当前勘误：2daed1bb7的“完全重复/等价迁移”判断不成立；Save域旧roundtrip缺五类字段，读侧克隆也不能由存侧替代。现已在api.test补回六字段及独立读侧克隆)。
+原审计「CODE-QUALITY-100 Codex 当前独立复核（2026-10-17）」的主题按原文时点保留(摘录:2026-10-18 当前勘误：2daed1bb7的“完全重复/等价迁移”判断不成立；Save域旧roundtrip缺五类字段，读侧克隆也不能由存侧替代。现已在api.test补回)。
 
 ## 范围与证据
 
-原报告含章节[CODE-QUALITY-100 Codex 当前独立复核（2026-10-17）、范围与实际读取、结论、验证]、1个链接;固定main源4889B(SHA f08b186e0d6f)。当前存活入口:[README.md](../QUALITY-PRE94-RETROSPECTIVE-1/supplementary-audit/README.md)
+原报告含章节[CODE-QUALITY-100 Codex 当前独立复核（2026-10-17）、范围与实际读取、结论、验证]、1个链接;固定main源4889B(SHA f08b186e0d6f)。当前存活入口:[README.md](../QUALITY-PRE94-RETROSPECTIVE-1/supplementary-audit/README.md)。
 
 ## 发现
 

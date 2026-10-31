@@ -7,11 +7,11 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「经验输入与真实结算终止性」的主题按原文时点保留(摘录:Template: evidence-receipt-v1 / 1.0.0 同一3y，基点31c9775ce。修复前八个source指纹、四轮完整双流/ready/done/退出信息在[observa)。
+原审计「经验输入与真实结算终止性」的主题按原文时点保留(摘录:Template: evidence-receipt-v1 / 1.0.0 同一3y，基点31c9775ce。修复前八个source指纹、四轮完整双流/ready/done/退出信)。
 
 ## 范围与证据
 
-原报告含章节[经验输入与真实结算终止性、证据身份、来源与输入、断言与业务oracle、结果、限制与复核]、8个链接;固定main源4438B(SHA 22d566f35da5)。当前存活入口:[GAME-SAVE-EXPERIENCE-DOMAIN-1.md](../../../tasks/GAME-SAVE-EXPERIENCE-DOMAIN-1.md)、[game-item-role-context-review.json](../game-item-role-context-review.json)、[gates.json](gates.json)、[local-native.json.gz](local-native.json.gz)、[native.json.gz](native.json.gz)、[observation.json](observation.json)
+原报告含章节[经验输入与真实结算终止性、证据身份、来源与输入、断言与业务oracle、结果、限制与复核]、8个链接;固定main源4438B(SHA 22d566f35da5)。当前存活入口:[GAME-SAVE-EXPERIENCE-DOMAIN-1.md](../../../tasks/GAME-SAVE-EXPERIENCE-DOMAIN-1.md) [game-item-role-context-review.json](../game-item-role-context-review.json) [gates.json](gates.json) [local-native.json.gz](local-native.json.gz) [native.json.gz](native.json.gz) [observation.json](observation.json) [review.json](review.json) [verify.mjs](verify.mjs)。
 
 ## 发现
 

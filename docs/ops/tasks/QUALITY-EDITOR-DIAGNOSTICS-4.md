@@ -15,7 +15,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 前提与证据
 
-固定main源4641B(SHA 441b61c927de);原卡前提按原时点保留。当前存活入口:[TEST-KIMI-EDITOR-WORKFLOWS-1-twelve-groups.md](../archive/tasks/done/TEST-KIMI-EDITOR-WORKFLOWS-1-twelve-groups.md)、[README.md](../evidence/QUALITY-EDITOR-DIAGNOSTICS-4/README.md)、[window-review.md](../evidence/QUALITY-EDITOR-FORM-FIXTURES-1/window-review.md)
+固定main源4641B(SHA 441b61c927de);原卡前提按原时点保留。当前存活入口:[TEST-KIMI-EDITOR-WORKFLOWS-1-twelve-groups.md](../archive/tasks/done/TEST-KIMI-EDITOR-WORKFLOWS-1-twelve-groups.md) [README.md](../evidence/QUALITY-EDITOR-DIAGNOSTICS-4/README.md) [window-review.md](../evidence/QUALITY-EDITOR-FORM-FIXTURES-1/window-review.md)。
 
 ## 验收
 

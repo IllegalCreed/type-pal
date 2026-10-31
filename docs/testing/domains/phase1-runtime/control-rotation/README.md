@@ -19,7 +19,7 @@ verified(治理候选);原时点状态与日期在保全块。
 
 ## 入口与责任
 
-当前存活入口:[review.json](../../../../ops/evidence/GAME-INPUT-ROTATION-1/review.json)、[release.json](../../../../ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/release.json)、[GAME-INPUT-ROTATION-1.md](../../../../ops/tasks/GAME-INPUT-ROTATION-1.md)、[evidence.json](evidence.json)、[report.md](report.md) 其余原链接仅在保全块保留,理由见linkDisposition。
+当前存活入口:[review.json](../../../../ops/evidence/GAME-INPUT-ROTATION-1/review.json) [release.json](../../../../ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/release.json) [GAME-INPUT-ROTATION-1.md](../../../../ops/tasks/GAME-INPUT-ROTATION-1.md) [evidence.json](evidence.json) [report.md](report.md)。 其余原链接仅在保全块保留,理由见linkDisposition。
 
 ## 证据与下一步
 

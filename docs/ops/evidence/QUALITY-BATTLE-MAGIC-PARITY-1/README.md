@@ -7,11 +7,11 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「pre-94 战斗三机制 counter 返工」的主题按原文时点保留(摘录:Date: 2026-10-18 Base: `0e3fc84fe5949f7ca9c3eb87b1d2a284be945f3c` Branch: `codex/code-quality-3y`)。
+原审计「pre-94 战斗三机制 counter 返工」的主题按原文时点保留(摘录:Date: 2026-10-18 Base: `0e3fc84fe5949f7ca9c3eb87b1d2a284be945f3c` Branch: `codex/code-qual)。
 
 ## 范围与证据
 
-原报告含章节[pre-94 战斗三机制 counter 返工、实际读取与边界、一手真值、caller、oracle、先红后绿与精确反控、逐文件结果与未修项、下一批]、7个链接;固定main源6506B(SHA f556dbcd9724)。当前存活入口:[QUALITY-BATTLE-MAGIC-PARITY-1.md](../../tasks/QUALITY-BATTLE-MAGIC-PARITY-1.md)、[adjacent-legal.json](adjacent-legal.json)、[controls.json](controls.json)、[gates.json](gates.json)、[h01-control.json](h01-control.json)、[read-boundaries.json](read-boundaries.json)
+原报告含章节[pre-94 战斗三机制 counter 返工、实际读取与边界、一手真值、caller、oracle、先红后绿与精确反控、逐文件结果与未修项、下一批]、7个链接;固定main源6506B(SHA f556dbcd9724)。当前存活入口:[QUALITY-BATTLE-MAGIC-PARITY-1.md](../../tasks/QUALITY-BATTLE-MAGIC-PARITY-1.md) [adjacent-legal.json](adjacent-legal.json) [controls.json](controls.json) [gates.json](gates.json) [h01-control.json](h01-control.json) [read-boundaries.json](read-boundaries.json) [red-legal.json](red-legal.json)。
 
 ## 发现
 
