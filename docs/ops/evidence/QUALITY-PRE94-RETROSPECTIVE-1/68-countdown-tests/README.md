@@ -1,5 +1,39 @@
 # CODE68 countdown 测试复审与去重
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: audit-report-v1 / 1.0.0
+
+## 审计问题
+
+原审计「CODE68 countdown 测试复审与去重」的主题按原文时点保留(摘录:> 2026-10-18 波次门勘误：本页引用的 [47–52统一门回执](../53-wave-gates/README.md) 已撤回“通过/收口”信用，未证明零诊断；不得沿用为本片验收或合并依据)。
+
+## 范围与证据
+
+原报告含章节[CODE68 countdown 测试复审与去重、实际读取、caller 与 oracle、发现与处理、可证伪验证]、6个链接;固定main源3552B(SHA 861f74702c0a)。当前存活入口:[README.md](../53-wave-gates/README.md)、[after-proof.json](after-proof.json)、[before-proof.json](before-proof.json)、[read-boundaries.json](read-boundaries.json)、[static-gates.json](static-gates.json)、[test-gates.json](test-gates.json)
+
+## 发现
+
+原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+
+## 结论
+
+原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+
+## 整改与复核
+
+本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 3552B / SHA-256 861f74702c0a4eeb4af5d19ac71c36ab1a9a48cb5b132aa21d70293277121ef1；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE68 countdown 测试复审与去重
+
 > 2026-10-18 波次门勘误：本页引用的 [47–52统一门回执](../53-wave-gates/README.md) 已撤回“通过/收口”信用，未证明零诊断；不得沿用为本片验收或合并依据。本页原逐文件/定向结果按各自证据保留，旧计数不改写为0。
 
 基点 `4121531c7`，唯一分支 `codex/code-quality-3y`。修改白名单为两份 countdown 测试与本批治理记录；生产 `countdown.ts`、UI、公共 API、schema/save、资产管线均未修改。本片不作整卡 accept，CODE68 当前为 partial。
@@ -31,3 +65,5 @@
 [test-gates](test-gates.json)：整个 speedrun 相邻模块与 tools-panel 两测试实际 **20 files / 104 tests passed**，0 failed/pending/stderr；game typecheck 退出 0、无诊断。提交前 docs/lint/ledger/diff 结果记 [static-gates](static-gates.json)。本片未运行全仓 check、coverage ratchet、protected fast，53-wave-gates 仅是早先候选回执，不能认证本片；昂贵门留到完整模块/集成窗口。
 
 两份测试登记已验证，ledger 为 3311 tracked / 282 closed / 44 review / 2985 pending。全 83 卡为 46 partial / 37 pending / 0 accept；69 的 time-format 重复与相邻输入/隔离缺口继续待核。本片不触碰活跃 53/57/79/80/81/90 的实现，不合 main。
+```
+<!-- incremental-original-source:end -->

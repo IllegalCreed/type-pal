@@ -1,5 +1,39 @@
 # CODE56 minimap 当前复审切片
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: audit-report-v1 / 1.0.0
+
+## 审计问题
+
+原审计「CODE56 minimap 当前复审切片」的主题按原文时点保留(摘录:> 2026-10-18 当前更正：旧“手算像素/合法核心夹具/完整隔离/坏zoom已核”信用撤回：L18使用被测变换与颜色常量生成oracle、重复primitive几何且未清rAF/window/)。
+
+## 范围与证据
+
+原报告含章节[CODE56 minimap 当前复审切片、读取与事实边界、判别力与反控、验证与未关闭风险]、2个链接;固定main源3551B(SHA 68768bba56fd)。当前存活入口:[README.md](../53-wave-gates/README.md)、[README.md](../core-comment-audit/tools-thumbnail-hotkeys/README.md)
+
+## 发现
+
+原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+
+## 结论
+
+原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+
+## 整改与复核
+
+本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 3551B / SHA-256 68768bba56fd614e57bf0ab1f84ecbf338f0257c44c898d45564f237269f7e36；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE56 minimap 当前复审切片
+
 > 2026-10-18 当前更正：旧“手算像素/合法核心夹具/完整隔离/坏zoom已核”信用撤回：L18使用被测变换与颜色常量生成oracle、重复primitive几何且未清rAF/window/DOM；主测原有缺字段核心强转。本片L18用独立精确RGBA/crop与自有宿主补强；同模块已补正式主测夹具并精确迁移原点六位/X320断言，两测保持review，20绿不作整文件证据。详见[当前有限返工](../core-comment-audit/tools-thumbnail-hotkeys/README.md)。旧原件保留，历史门不恢复。
 
 > 2026-10-18 波次门勘误：本页引用的 [47–52统一门回执](../53-wave-gates/README.md) 已撤回“通过/收口”信用，未证明零诊断；不得沿用为本片验收或合并依据。本页原逐文件/定向结果按各自证据保留，旧计数不改写为0。
@@ -24,3 +58,5 @@
 - `pnpm lint`：上一批已通过 5002 files、0 errors / 0 warnings / 0 infos；本片没有生产文件变更
 - coverage/ratchet/protected/full check：沿用已收口的 [`53-wave-gates`](../53-wave-gates/README.md)，本片不重复运行昂贵 coverage
 - 未关闭：bootstrap thumbnail 不调用 `repairTilemapSeams` 的视觉差异属于 CODE-QUALITY-57，未在本片扩张；小地图输入的异常外部 canvas/view 形态也未改变公共 API。CODE56 当前 `partial`，不是整卡 `accept/done`。
+```
+<!-- incremental-original-source:end -->

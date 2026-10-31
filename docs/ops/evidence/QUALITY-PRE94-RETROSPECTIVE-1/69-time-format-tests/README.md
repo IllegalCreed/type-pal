@@ -1,5 +1,39 @@
 # CODE69 time-format 测试复审
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: audit-report-v1 / 1.0.0
+
+## 审计问题
+
+原审计「CODE69 time-format 测试复审」的主题按原文时点保留(摘录:基点 `d49de5240`，唯一 `codex/code-quality-3y`。修改白名单为三份 time-format 测试及治理记录；生产实现未改，未改 UI、schema/save、资产管线)。
+
+## 范围与证据
+
+原报告含章节[CODE69 time-format 测试复审、读取、caller 与 primary、发现与逐文件处理、反控与恢复、验证、账本与后续]、5个链接;固定main源3718B(SHA 150ea842896b)。当前存活入口:[after-proof.json](after-proof.json)、[before-proof.json](before-proof.json)、[read-boundaries.json](read-boundaries.json)、[static-gates.json](static-gates.json)、[test-gates.json](test-gates.json)
+
+## 发现
+
+原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+
+## 结论
+
+原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+
+## 整改与复核
+
+本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 3718B / SHA-256 150ea842896b06f14441300a59a7f577d988a76dbfbe3d104c9b1b23f6e0ac0e；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE69 time-format 测试复审
+
 基点 `d49de5240`，唯一 `codex/code-quality-3y`。修改白名单为三份 time-format 测试及治理记录；生产实现未改，未改 UI、schema/save、资产管线、公共出口、静态或覆盖率规则。本轮 CODE69 当前 partial，旧 done 不作为新的 accept。
 
 ## 读取、caller 与 primary
@@ -31,3 +65,5 @@
 [test-gates](test-gates.json)：完整 speedrun 与 tools-panel 相邻测试 **20 files / 108 tests passed**，无 failed/pending/stderr；game typecheck 退出0，无诊断。最终 docs/lint/ledger/diff 见 [static-gates](static-gates.json)。本批未运行新全仓 check、coverage ratchet 或 protected fast；旧53波次不能认证本候选，昂贵门留完整模块/集成窗口。
 
 三测试登记已验证：3311 tracked / 285 closed / 44 review / 2982 pending；`time-format.ts` 仍 review，未自行扩大非有限显示输入合同。83卡为47 partial / 36 pending / 0 accept。tools-panel 相邻测试仅作回归，未由本片认证其整文件合法夹具；后续先回查已发现的夹具强转与入口，再继续70及剩余pre‑94卡，94–102/editor优先级不变。
+```
+<!-- incremental-original-source:end -->

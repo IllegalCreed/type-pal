@@ -1,5 +1,39 @@
 # CODE58 tools-panel 夹具与隔离勘误
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: audit-report-v1 / 1.0.0
+
+## 审计问题
+
+原审计「CODE58 tools-panel 夹具与隔离勘误」的主题按原文时点保留(摘录:基点 `ba45329cc`，唯一 `codex/code-quality-3y`；Codex 单一 Owner，build allowed 只含两份 tools-panel 测试、新的共用测试宿主及)。
+
+## 范围与证据
+
+原报告含章节[CODE58 tools-panel 夹具与隔离勘误、直接反例与旧结论勘误、逐文件与输入/caller/oracle、判别力、测试与未关闭边界]、7个链接;固定main源3740B(SHA f98dc02e475d)。当前存活入口:[README.md](../58-tools-panel/README.md)、[after-proof.json](after-proof.json)、[before-proof.json](before-proof.json)、[case-review.json](case-review.json)、[read-boundaries.json](read-boundaries.json)、[static-gates.json](static-gates.json)
+
+## 发现
+
+原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+
+## 结论
+
+原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+
+## 整改与复核
+
+本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 3740B / SHA-256 f98dc02e475d4387b1e4f3bba897f35dbdff567a4b7675893b714c51e282e7d0；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE58 tools-panel 夹具与隔离勘误
+
 基点 `ba45329cc`，唯一 `codex/code-quality-3y`；Codex 单一 Owner，build allowed 只含两份 tools-panel 测试、新的共用测试宿主及治理证据。生产实现、UI、公共接口、存档/资产、规则和 baseline 均未改。58仍为 partial，83卡仍47 partial / 36 pending / 0 accept。
 
 ## 直接反例与旧结论勘误
@@ -25,3 +59,5 @@
 账本3312 tracked / 286 closed / 44 review / 2982 pending：旧两测试修正证据，没有重复增加closed；新增测试宿主1项有直接证据后登记fixture已验证。生产tools-panel.ts沿用旧源审查记录，不因新相邻全绿增加整卡accept。存档导入导出仍是59边界；本片未实跑其IO、计时器编辑回写、完整快捷键机制、视觉或E2E。无新全仓check/coverage ratchet/protected fast；53波次是历史候选，不能认证本候选，昂贵门留较大模块收尾窗口。
 
 下一步核63/65既有测试的核心状态夹具，再续70及剩余36张pre-94卡；94–102/editor顺序保持。
+```
+<!-- incremental-original-source:end -->

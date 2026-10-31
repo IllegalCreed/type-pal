@@ -1,5 +1,39 @@
 # CODE58 tools-panel 当前复审切片
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: audit-report-v1 / 1.0.0
+
+## 审计问题
+
+原审计「CODE58 tools-panel 当前复审切片」的主题按原文时点保留(摘录:> 2026-10-18 当前更正：头注仍把小地图写成96，bootstrap实际传640；battleSig只拼选定字段，不能当完整实时checksum。源事实注释已修并保持AST/JS相同，旧源关)。
+
+## 范围与证据
+
+原报告含章节[CODE58 tools-panel 当前复审切片、读取与事实边界、测试与结论、2026-10-18 夹具/隔离结论勘误]、3个链接;固定main源3364B(SHA 5510f886dc67)。当前存活入口:[README.md](../53-wave-gates/README.md)、[README.md](../58-tools-panel-fixtures/README.md)、[README.md](../core-comment-audit/tools-thumbnail-hotkeys/README.md)
+
+## 发现
+
+原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+
+## 结论
+
+原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+
+## 整改与复核
+
+本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 3364B / SHA-256 5510f886dc67cbb45c82abaab6ca5420590ff880369f7c985b30251dfa8be96a；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE58 tools-panel 当前复审切片
+
 > 2026-10-18 当前更正：头注仍把小地图写成96，bootstrap实际传640；battleSig只拼选定字段，不能当完整实时checksum。源事实注释已修并保持AST/JS相同，旧源关闭转review；已有58测试宿主修复保留原范围，不新授save/完整UI信用。详见[当前有限返工](../core-comment-audit/tools-thumbnail-hotkeys/README.md)。旧原件保留，历史门不恢复。
 
 > 2026-10-18 波次门勘误：本页引用的 [47–52统一门回执](../53-wave-gates/README.md) 已撤回“通过/收口”信用，未证明零诊断；不得沿用为本片验收或合并依据。本页原逐文件/定向结果按各自证据保留，旧计数不改写为0。
@@ -24,3 +58,5 @@
 ## 2026-10-18 夹具/隔离结论勘误
 
 本页18绿和“测试只验证真实注入依赖”的陈述不足以认证主测试合法性或隔离：后续发现核心`as never`伪造不完整状态、body/timer清理遗漏window监听器。上述两项精确由[58夹具勘误](../58-tools-panel-fixtures/README.md)替代，旧raw和当时结论保留。新片已改正式构造器/hydrate与共用宿主；跨例旧单红新绿、正式19例和相邻199例通过。新片无全仓/coverage/protected门，不能用本页53波次认证新候选；整卡仍partial。
+```
+<!-- incremental-original-source:end -->

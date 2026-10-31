@@ -1,5 +1,39 @@
 # CODE55 draw-menu 当前复审切片
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「CODE55 draw-menu 当前复审切片」的治理候选页;证据原件即下方逐字节保全的固定main源(3861B,SHA 8d7449c9e519)。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原3个链接处置见作者review的linkDisposition。当前存活入口:[README.md](../53-wave-gates/README.md)、[README.md](../core-comment-audit/shop-layout-tests/README.md)、[read-boundaries.json](read-boundaries.json)
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 3861B / SHA-256 8d7449c9e519181dfbd9ad208a43f09275ab8614a0c076e4ad66d799c1396a4e；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE55 draw-menu 当前复审切片
+
 > 2026-10-18 波次门勘误：本页引用的 [47–52统一门回执](../53-wave-gates/README.md) 已撤回“通过/收口”信用，未证明零诊断；不得沿用为本片验收或合并依据。本页原逐文件/定向结果按各自证据保留，旧计数不改写为0。
 
 基点：`f544b9b94`；分支：`codex/code-quality-3y`。本片重新复审历史 CODE-QUALITY-55 的唯一未登记范围，不把历史 `done` 或旧波次回执当作当前整卡验收。当前卡复审为 `partial`。
@@ -36,3 +70,5 @@
 2026-10-18 补证：[read-boundaries.json](read-boundaries.json)是当前770f9168e候选的实际后补全文核读，明确区分历史f544报告，不能冒充当时缺失原件；三个draw-menu文件及menu mode/stack已补读，caller边界单列。旧15/197摘要保留，不为补元数据重跑产品/coverage。上文“已通过”仅原错误回执的历史表述，53统一门当前仍rework，不能用于本片收口。
 
 2026-10-18 新反控：丢grid、丢图标、漏noDesc各旧5绿→新4绿1指定AssertionError；5例不增量。调用drawMenuStack时未真实按键路由，不冒称浏览器或完整交易链。旧README字节在本片55-report.before.gz保留，原55 source的448行数只精确修账，不授新增质量关闭信用。
+```
+<!-- incremental-original-source:end -->

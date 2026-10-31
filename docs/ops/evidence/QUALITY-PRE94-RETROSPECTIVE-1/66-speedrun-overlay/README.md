@@ -1,5 +1,39 @@
 # CODE66 speedrun overlay 当前复审切片
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: audit-report-v1 / 1.0.0
+
+## 审计问题
+
+原审计「CODE66 speedrun overlay 当前复审切片」的主题按原文时点保留(摘录:> 2026-10-18 波次门勘误：本页引用的 [47–52统一门回执](../53-wave-gates/README.md) 已撤回“通过/收口”信用，未证明零诊断；不得沿用为本片验收或合并依据)。
+
+## 范围与证据
+
+原报告含章节[CODE66 speedrun overlay 当前复审切片、实际读取与依据、逐文件结论、验证]、1个链接;固定main源2415B(SHA 61c0d57a54ce)。当前存活入口:[README.md](../53-wave-gates/README.md)
+
+## 发现
+
+原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+
+## 结论
+
+原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+
+## 整改与复核
+
+本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 2415B / SHA-256 61c0d57a54ce98ad427eda571f85dfd0aa7c1693982ca25b9ba530cf80b7f5d0；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE66 speedrun overlay 当前复审切片
+
 > 2026-10-18 波次门勘误：本页引用的 [47–52统一门回执](../53-wave-gates/README.md) 已撤回“通过/收口”信用，未证明零诊断；不得沿用为本片验收或合并依据。本页原逐文件/定向结果按各自证据保留，旧计数不改写为0。
 
 基点：`746776368`；分支：`codex/code-quality-3y`。本片只复核 overlay DOM ownership、数据映射、清理和测试判别力，不改变 UI 形态或 timer API；CODE-QUALITY-66 当前复审为 `partial`。
@@ -23,3 +57,5 @@
 - 覆盖率、protected fast、全仓 `pnpm check`：沿用 [`53-wave-gates`](../53-wave-gates/README.md) 稳定波次证据，本小批不重复运行昂贵门。
 
 未关闭 countdown、checkpoint 实跑或其它 pre‑94 卡；未知保持 pending/partial。
+```
+<!-- incremental-original-source:end -->
