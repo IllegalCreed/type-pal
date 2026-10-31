@@ -1,371 +1,101 @@
-/**
- * InventoryMenu + pickItemRowColor 防回归单测。
- *
- * 覆盖范围:
- *  - pickItemRowColor 6-case 真值表(sdlpal itemmenu.c:135-181)
- *  - matchesFilter × 不同 ItemFilter 组合
- *  - createInventoryMenu filter='equip' vs 'usable' visible 列表正确
- *  - 8-key navigation cursor clamp([0, n-1] 不 wrap,sdlpal itemmenu.c:107-112)
- *  - confirmInventoryItem 切 phase / cancelInventoryMenu rollback
- *  - **regression**:filter color bug(2026-05-29 user 怒怼"李逍遥能装的木剑红色")
- */
-
-import type { Item, PlayerRoles } from '@type-pal/shared'
 import { describe, expect, it } from 'vitest'
-import { makeRole } from '../../__tests__/coverage85-glm-game/harness.js'
 import { createInitialGameState } from '../game-state.js'
 import {
-  cancelInventoryMenu,
-  confirmInventoryItem,
-  createInventoryMenu,
-  inventoryEnd,
-  inventoryHome,
-  inventoryMoveDown,
-  inventoryMoveLeft,
-  inventoryMoveRight,
-  inventoryMoveUp,
-  inventoryPageDown,
-  inventoryPageUp,
-  MENUITEM_COLOR,
-  MENUITEM_COLOR_EQUIPPEDITEM,
-  MENUITEM_COLOR_INACTIVE,
-  MENUITEM_COLOR_SELECTED_FIRST,
-  MENUITEM_COLOR_SELECTED_INACTIVE,
-  pickItemRowColor,
-} from './inventory-menu.js'
-import { matchesFilter } from './item-select.js'
+  mixedInventoryItems,
+  selectionItems,
+  targetMemoryItems,
+} from './__tests__/inventory-fixture.js'
+import { createInventoryMenu } from './inventory-menu.js'
 
-// ── fixtures ────────────────────────────────────────────────────────────────
-function mkItem(id: number, name: string, flagsPart: Partial<Item['flags']>): Item {
-  return {
-    id,
-    bitmap: id,
-    price: 0,
-    scriptOnUse: 0,
-    scriptOnEquip: 0,
-    scriptOnThrow: 0,
-    scriptDesc: 0,
-    flags: {
-      usable: false,
-      equipable: false,
-      throwable: false,
-      consuming: false,
-      applyToAll: false,
-      sellable: false,
-      equipableBy: [false, false, false, false, false, false],
-      ...flagsPart,
-    },
-    _name: name,
-  }
+function inventoryGameState(): ReturnType<typeof createInitialGameState> {
+  const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+  gs.partyMembers = [0, 1]
+  gs.inventory = [
+    { itemId: 200, count: 2 },
+    { itemId: 201, count: 1 },
+  ]
+  return gs
 }
+describe('Inventory construction and snapshots', () => {
+  describe('createInventoryMenu — sdlpal itemmenu.c:331-377 全库存入列,不按 flag 过滤', () => {
+    it("filter='equip':非可装备项(观音符)仍入列表,不被剔除", () => {
+      const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+      gs.inventory = [
+        { itemId: 105, count: 2 }, // 木剑 equipable
+        { itemId: 200, count: 1 }, // 观音符 usable only — 不可装备但仍显示
+        { itemId: 201, count: 1 }, // 玉佛珠 equipable
+      ]
+      const state = createInventoryMenu(gs, mixedInventoryItems, 'equip')
+      expect(state.inventory.map((e) => e.itemId)).toEqual([105, 200, 201])
+      expect(state.filter).toBe('equip')
+    })
 
-const ITEMS: Item[] = [
-  mkItem(105, '木剑', { equipable: true, equipableBy: [true, false, true, false, false, false] }),
-  mkItem(106, '短刀', { equipable: true, equipableBy: [true, false, true, false, false, false] }),
-  // R4(2026-10-15):单体检伤类合成 fixture —— 真实 caller(menu-driver dispatchInventoryMenu)
-  // 只对非 applyToAll 物品进 use-target 选人(applyToAll 直接跑脚本,play.c:268-323 同);
-  // 名字/flags 为合成示意,不声明是 items.json 原始物品属性。
-  mkItem(200, '观音符', { usable: true, consuming: true }),
-  mkItem(201, '玉佛珠', {
-    equipable: true,
-    equipableBy: [false, true, false, false, false, false],
-  }),
-  mkItem(202, '风灵珠', { usable: true, equipable: true, applyToAll: true }),
-]
+    it("filter='usable':非可用项(木剑)仍入列表，filter 保留供 renderer 判色", () => {
+      const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+      gs.inventory = [
+        { itemId: 105, count: 1 }, // 木剑 not usable — 红色显示
+        { itemId: 200, count: 1 }, // 观音符 usable
+        { itemId: 202, count: 1 }, // 风灵珠 usable
+      ]
+      const state = createInventoryMenu(gs, mixedInventoryItems, 'usable')
+      // 全部 3 项都在列表(原版全显示)
+      expect(state.inventory.map((e) => e.itemId)).toEqual([105, 200, 202])
+      expect(state.filter).toBe('usable')
+    })
 
-// ── pickItemRowColor 6-case truth table(防 filter bug 回归)──────────────────
+    it("L39:filter='usable' 追加全队装备槽里 usable 的已装备物(itemmenu.c:352-376)", () => {
+      const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+      gs.partyMembers = [0]
+      gs.inventory = [{ itemId: 200, count: 1 }] // 背包:观音符(usable)
+      gs.PlayerRolesRuntime.rgwEquipment[5]![0] = 202 // 队员0 在饰品槽装了风灵珠(usable)
+      const state = createInventoryMenu(gs, mixedInventoryItems, 'usable')
+      // 背包观音符 + 追加的已装备风灵珠(穿戴中仍可从「用物品」菜单使用)
+      expect(state.inventory.map((e) => e.itemId)).toEqual([200, 202])
+      const lingZhu = state.inventory.find((e) => e.itemId === 202)!
+      expect(lingZhu.count).toBe(0) // nAmount=0
+      expect(lingZhu.count - (lingZhu.inUse ?? 0)).toBeGreaterThan(0) // 0-(-1)=1 → 可选
+    })
 
-describe('pickItemRowColor — sdlpal itemmenu.c:135-181 6-case 真值', () => {
-  // 闪烁色固定 tick=0 → SELECTED_FIRST + 0 = 0xF9
-  const tick0 = 0
-
-  it('selected + usable + non-equipped → SELECTED_FIRST 闪烁起始', () => {
-    expect(
-      pickItemRowColor({
-        isSelected: true,
-        isUsable: true,
-        isEquipped: false,
-        selectedFlashTickMs: tick0,
-      }),
-    ).toBe(MENUITEM_COLOR_SELECTED_FIRST)
+    it("L39:filter='equip' 不追加装备槽物(仅 usable 入口追加,itemmenu.c:352)", () => {
+      const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+      gs.partyMembers = [0]
+      gs.inventory = [{ itemId: 105, count: 1 }]
+      gs.PlayerRolesRuntime.rgwEquipment[5]![0] = 202 // 装了风灵珠
+      const state = createInventoryMenu(gs, mixedInventoryItems, 'equip')
+      expect(state.inventory.map((e) => e.itemId)).toEqual([105]) // 不追加
+    })
   })
+  describe('createInventoryMenu 起始光标与快照默认', () => {
+    it('gs.iCurInvMenuItem 恢复为起始 cursor；越界 clamp 到末项', () => {
+      const gs = inventoryGameState()
+      gs.iCurInvMenuItem = 1
+      expect(createInventoryMenu(gs, targetMemoryItems).cursor).toBe(1)
+      gs.iCurInvMenuItem = 9 // 越界（库存 2 条）
+      expect(createInventoryMenu(gs, targetMemoryItems).cursor).toBe(1)
+    })
 
-  it('selected + usable + equipped → EQUIPPEDITEM 0xC8', () => {
-    expect(
-      pickItemRowColor({
-        isSelected: true,
-        isUsable: true,
-        isEquipped: true,
-        selectedFlashTickMs: tick0,
-      }),
-    ).toBe(MENUITEM_COLOR_EQUIPPEDITEM)
+    it('条目缺 inUse 运行时字段 → slot.inUse 默认 0（?? 0 分支，合法 InventoryEntry）', () => {
+      const gs = inventoryGameState()
+      const menu = createInventoryMenu(gs, targetMemoryItems)
+      expect(menu.inventory).toEqual([
+        { itemId: 200, count: 2, inUse: 0 },
+        { itemId: 201, count: 1, inUse: 0 },
+      ])
+    })
   })
-
-  it('selected + !usable(filter 不命中)→ SELECTED_INACTIVE 0x1C', () => {
-    expect(pickItemRowColor({ isSelected: true, isUsable: false, isEquipped: false })).toBe(
-      MENUITEM_COLOR_SELECTED_INACTIVE,
-    )
-  })
-
-  it('!selected + usable + non-equipped → MENUITEM_COLOR 0x4F', () => {
-    expect(pickItemRowColor({ isSelected: false, isUsable: true, isEquipped: false })).toBe(
-      MENUITEM_COLOR,
-    )
-  })
-
-  it('!selected + usable + equipped → EQUIPPEDITEM 0xC8', () => {
-    expect(pickItemRowColor({ isSelected: false, isUsable: true, isEquipped: true })).toBe(
-      MENUITEM_COLOR_EQUIPPEDITEM,
-    )
-  })
-
-  it('!selected + !usable(filter 不命中)→ INACTIVE 0x18(防 EquipMenu 装备类全红 bug)', () => {
-    // 2026-05-29 user 怒怼场景:EquipMenu 复用 drawInventoryMenu 时 isUsable 取 flags.usable
-    // 错误判定,equipable item 被当 "不可选" → INACTIVE 红色。修后用 matchesFilter 判命中。
-    expect(pickItemRowColor({ isSelected: false, isUsable: false, isEquipped: false })).toBe(
-      MENUITEM_COLOR_INACTIVE,
-    )
-  })
-
-  it('selected + flash tick 推进 → cycle 0xF9..0xFE', () => {
-    expect(
-      pickItemRowColor({
-        isSelected: true,
-        isUsable: true,
-        isEquipped: false,
-        selectedFlashTickMs: 100,
-      }),
-    ).toBe(MENUITEM_COLOR_SELECTED_FIRST + 1)
-    expect(
-      pickItemRowColor({
-        isSelected: true,
-        isUsable: true,
-        isEquipped: false,
-        selectedFlashTickMs: 500,
-      }),
-    ).toBe(MENUITEM_COLOR_SELECTED_FIRST + 5)
-    // cycle 回 0
-    expect(
-      pickItemRowColor({
-        isSelected: true,
-        isUsable: true,
-        isEquipped: false,
-        selectedFlashTickMs: 600,
-      }),
-    ).toBe(MENUITEM_COLOR_SELECTED_FIRST + 0)
-  })
-})
-
-// ── matchesFilter regression(防 isUsable hardcode flags.usable 再发生)──────
-
-describe('matchesFilter — sdlpal kItemFlag* 真值', () => {
-  const wooden = ITEMS[0]! // 木剑 equipable only
-  const charm = ITEMS[2]! // 观音符 usable only
-  const lingZhu = ITEMS[4]! // 风灵珠 usable + equipable
-
-  it("filter='equip' 命中 equipable item", () => {
-    expect(matchesFilter(wooden, 'equip')).toBe(true)
-    expect(matchesFilter(charm, 'equip')).toBe(false)
-    expect(matchesFilter(lingZhu, 'equip')).toBe(true)
-  })
-
-  it("filter='usable' 命中 usable item(EquipMenu 不该用此 filter)", () => {
-    expect(matchesFilter(wooden, 'usable')).toBe(false)
-    expect(matchesFilter(charm, 'usable')).toBe(true)
-    expect(matchesFilter(lingZhu, 'usable')).toBe(true)
-  })
-
-  it("filter='all' 全命中", () => {
-    expect(matchesFilter(wooden, 'all')).toBe(true)
-    expect(matchesFilter(charm, 'all')).toBe(true)
-  })
-})
-
-// ── createInventoryMenu visible 列表 ──────────────────────────────────────
-//
-// sdlpal `PAL_ItemSelectMenuInit`(itemmenu.c:331-377)**不按 wItemFlags 过滤列表** —
-// while 循环把整个库存全部计入 g_iNumInventory,g_wItemFlags 只在 PAL_ItemSelectMenuUpdate
-// (itemmenu.c:148/171)决定颜色:不匹配 filter 的物品**照样显示**,只是画成 INACTIVE 红色
-// (0x18 暗红 / 光标停其上 0x1C 橙红)。所以「使用/装备/卖」菜单都是全显示 + 非匹配项红色,
-// 不是把非匹配项从列表里删掉。
-
-describe('createInventoryMenu — sdlpal itemmenu.c:331-377 全库存入列,不按 flag 过滤', () => {
-  it("filter='equip':非可装备项(观音符)仍入列表,不被剔除", () => {
-    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    gs.inventory = [
-      { itemId: 105, count: 2 }, // 木剑 equipable
-      { itemId: 200, count: 1 }, // 观音符 usable only — 不可装备但仍显示
-      { itemId: 201, count: 1 }, // 玉佛珠 equipable
-    ]
-    const state = createInventoryMenu(gs, ITEMS, 'equip')
-    expect(state.inventory.map((e) => e.itemId)).toEqual([105, 200, 201])
-    expect(state.filter).toBe('equip')
-  })
-
-  it("filter='usable':非可用项(木剑)仍入列表，filter 保留供 renderer 判色", () => {
-    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    gs.inventory = [
-      { itemId: 105, count: 1 }, // 木剑 not usable — 红色显示
-      { itemId: 200, count: 1 }, // 观音符 usable
-      { itemId: 202, count: 1 }, // 风灵珠 usable
-    ]
-    const state = createInventoryMenu(gs, ITEMS, 'usable')
-    // 全部 3 项都在列表(原版全显示)
-    expect(state.inventory.map((e) => e.itemId)).toEqual([105, 200, 202])
-    expect(state.filter).toBe('usable')
-  })
-
-  it("L39:filter='usable' 追加全队装备槽里 usable 的已装备物(itemmenu.c:352-376)", () => {
-    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    gs.partyMembers = [0]
-    gs.inventory = [{ itemId: 200, count: 1 }] // 背包:观音符(usable)
-    gs.PlayerRolesRuntime.rgwEquipment[3]![0] = 202 // 队员0 在饰品槽装了风灵珠(usable)
-    const state = createInventoryMenu(gs, ITEMS, 'usable')
-    // 背包观音符 + 追加的已装备风灵珠(穿戴中仍可从「用物品」菜单使用)
-    expect(state.inventory.map((e) => e.itemId)).toEqual([200, 202])
-    const lingZhu = state.inventory.find((e) => e.itemId === 202)!
-    expect(lingZhu.count).toBe(0) // nAmount=0
-    expect(lingZhu.count - (lingZhu.inUse ?? 0)).toBeGreaterThan(0) // 0-(-1)=1 → 可选
-  })
-
-  it("L39:filter='equip' 不追加装备槽物(仅 usable 入口追加,itemmenu.c:352)", () => {
-    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    gs.partyMembers = [0]
-    gs.inventory = [{ itemId: 105, count: 1 }]
-    gs.PlayerRolesRuntime.rgwEquipment[3]![0] = 202 // 装了风灵珠
-    const state = createInventoryMenu(gs, ITEMS, 'equip')
-    expect(state.inventory.map((e) => e.itemId)).toEqual([105]) // 不追加
-  })
-})
-
-// ── 8-key navigation cursor clamp(sdlpal itemmenu.c:107-112)─────────────────
-
-describe('inventoryMove* navigation', () => {
-  function mkState(n: number) {
-    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    gs.inventory = Array.from({ length: n }, (_, i) => ({ itemId: 105 + i, count: 1 }))
-    // 加足够 items 让 createInventoryMenu visible n 个
-    const items: Item[] = Array.from({ length: n }, (_, i) =>
-      mkItem(105 + i, `item${i}`, { equipable: true }),
-    )
-    return createInventoryMenu(gs, items, 'equip')
-  }
-
-  it('Up = -3(iItemsPerLine);clamp 0', () => {
-    const s = mkState(10)
-    s.cursor = 5
-    inventoryMoveUp(s)
-    expect(s.cursor).toBe(2)
-    inventoryMoveUp(s)
-    expect(s.cursor).toBe(0)
-    inventoryMoveUp(s) // 再 up 不 wrap
-    expect(s.cursor).toBe(0)
-  })
-
-  it('Down = +3(iItemsPerLine);clamp inventory.length - 1', () => {
-    const s = mkState(10)
-    s.cursor = 0
-    inventoryMoveDown(s)
-    expect(s.cursor).toBe(3)
-    inventoryMoveDown(s)
-    expect(s.cursor).toBe(6)
-    inventoryMoveDown(s)
-    expect(s.cursor).toBe(9)
-    inventoryMoveDown(s) // 不 wrap
-    expect(s.cursor).toBe(9)
-  })
-
-  it('Left/Right = ±1', () => {
-    const s = mkState(10)
-    s.cursor = 5
-    inventoryMoveLeft(s)
-    expect(s.cursor).toBe(4)
-    inventoryMoveRight(s)
-    expect(s.cursor).toBe(5)
-    s.cursor = 0
-    inventoryMoveLeft(s) // 不 wrap
-    expect(s.cursor).toBe(0)
-  })
-
-  it('PgUp/PgDn = ±(3 * 7);clamp [0, length-1]', () => {
-    const s = mkState(50) // 足够多让 +21 不被 clamp
-    s.cursor = 15
-    inventoryPageDown(s)
-    expect(s.cursor).toBe(15 + 21)
-    s.cursor = 25
-    inventoryPageUp(s)
-    expect(s.cursor).toBe(25 - 21)
-    // Clamp 验证
-    s.cursor = 45
-    inventoryPageDown(s)
-    expect(s.cursor).toBe(49) // clamp to length-1
-    s.cursor = 5
-    inventoryPageUp(s)
-    expect(s.cursor).toBe(0)
-  })
-
-  it('Home/End = 0 / length - 1', () => {
-    const s = mkState(10)
-    s.cursor = 5
-    inventoryHome(s)
-    expect(s.cursor).toBe(0)
-    inventoryEnd(s)
-    expect(s.cursor).toBe(9)
-  })
-
-  it('inventory 空时 cursor 保 0', () => {
-    const s = mkState(0)
-    expect(s.cursor).toBe(0)
-    inventoryMoveDown(s)
-    expect(s.cursor).toBe(0)
-  })
-})
-
-// ── phase 状态机 ─────────────────────────────────────────────────────────────
-
-describe('confirmInventoryItem / cancelInventoryMenu phase', () => {
-  function mkState() {
-    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    gs.inventory = [{ itemId: 200, count: 3 }]
-    gs.partyMembers = [0]
-    return { gs, state: createInventoryMenu(gs, ITEMS, 'usable') }
-  }
-
-  it('空角色/队伍防御：仍建空 targetMenu 并保留 selectedItemId', () => {
-    const { state } = mkState()
-    // 公开入口的空列表边界，不冒充真实生产队伍。
-    confirmInventoryItem(state, ITEMS, { roles: [] }, [])
-    // 目标 menu 应建好(无 role 也建空 targetMenu)
-    expect(state.phase).toBe('use-target')
-    expect(state.selectedItemId).toBe(200)
-    expect(state.targetMenu?.items).toEqual([])
-  })
-
-  it('H2(sdlpal 审查):目标列表不禁选死人 — 死人可选作目标(复活药前提;uigame.c:1383-1495 无 disabled)', () => {
-    const { state } = mkState()
-    const roles: PlayerRoles = {
-      roles: [
-        makeRole(0, { hp: 100, _name: '李逍遥' }),
-        makeRole(1, { hp: 0, _name: '赵灵儿' }), // 阵亡
-      ],
-    }
-    confirmInventoryItem(state, ITEMS, roles, [0, 1])
-    expect(state.phase).toBe('use-target')
-    const deadTarget = state.targetMenu?.items.find((t) => t.id === 1)
-    expect(deadTarget).toBeDefined()
-    // sdlpal PAL_ItemUseMenu 对死人无 disabled → 可用还魂香 / 孟婆汤等复活
-    expect(deadTarget?.disabled).toBeFalsy()
-  })
-
-  it('Cancel use-target → 回 list;Cancel list → done', () => {
-    const { state } = mkState()
-    confirmInventoryItem(state, ITEMS, { roles: [makeRole(0)] }, [0])
-    expect(state.phase).toBe('use-target')
-    cancelInventoryMenu(state)
-    expect(state.phase).toBe('list')
-    expect(state.selectedItemId).toBeUndefined()
-
-    cancelInventoryMenu(state)
-    expect(state.phase).toBe('done')
+  describe('Item use and target requests', () => {
+    it('createInventoryMenu:list 阶段 + 含全部 inventory items', () => {
+      const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+      gs.inventory = [
+        { itemId: 105, count: 3 },
+        { itemId: 106, count: 1 },
+      ]
+      const menu = createInventoryMenu(gs, selectionItems, 'all')
+      expect(menu.phase).toBe('list')
+      expect(menu.inventory).toEqual([
+        { itemId: 105, count: 3, inUse: 0 },
+        { itemId: 106, count: 1, inUse: 0 },
+      ])
+    })
   })
 })

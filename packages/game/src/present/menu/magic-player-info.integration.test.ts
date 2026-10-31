@@ -9,15 +9,10 @@ import {
   inGameMagicMoveDown,
 } from '../../core/menu/in-game-magic-menu.js'
 import { openMenu } from '../../core/menu/menu-stack.js'
-import { fixtureGlyphs } from '../__tests__/grok-present/font.js'
-import {
-  fillSentinel,
-  makeUiFrames,
-  pixel,
-  SENTINEL,
-  sparseImage,
-} from '../__tests__/grok-present/images.js'
-import { makeGs, makeRoles, resetHostSingletons } from '../__tests__/grok-present/world.js'
+import { fixtureGlyphs } from '../__tests__/glyph-fixtures.js'
+import { makeGs, makeRoles, resetHostSingletons } from '../__tests__/menu-state-fixtures.js'
+import { makeUiFrames } from '../__tests__/menu-ui-fixtures.js'
+import { fillSentinel, pixel, SENTINEL, sparseImage } from '../__tests__/raster-fixtures.js'
 import type { Glyph, GlyphTable } from '../font.js'
 import { createFramebuffer } from '../framebuffer.js'
 import { drawMenuStack } from './draw-menu.js'

@@ -15,12 +15,13 @@
 
 import type { PlayerRole } from '@type-pal/shared'
 import { describe, expect, it } from 'vitest'
-import { makeHBattle, makeHRole } from '../../../__tests__/glm-next-wave/H/harness.js'
+import { makeBattleFixture } from '../../../__tests__/battle-fixture.js'
+import { makeRoleRecord } from '../../../__tests__/battle-records.js'
 import { createSeedableRng, type SeedableRng } from '../../rng.js'
 import { performAttackMate } from '../actions/attack-mate.js'
 
 function makeRole(opts: Partial<PlayerRole> = {}): PlayerRole {
-  return makeHRole(opts.id ?? 0, {
+  return makeRoleRecord(opts.id ?? 0, {
     _name: 'R',
     maxHP: 200,
     maxMP: 30,
@@ -39,7 +40,7 @@ function makeState(roles: PlayerRole[], rngSeq?: number[], party = roles.map((ro
   const rng: SeedableRng = rngSeq
     ? { ...createSeedableRng(1), rangeInclusive: () => rngSeq[i++ % rngSeq.length]! }
     : createSeedableRng(1)
-  const battle = makeHBattle({ roles, party, rng })
+  const battle = makeBattleFixture({ roles, party, rng })
   battle.state.phase = 'performAction'
   battle.state.turn = 1
   return battle

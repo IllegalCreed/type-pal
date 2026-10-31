@@ -1,9 +1,7 @@
 import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest'
-import {
-  indexedPng,
-  installLoadAll,
-  loadAllScript,
-} from '../__tests__/grok-render-r1/legal-host.js'
+import { installAssetFetch } from '../__tests__/asset-fetch-fixture.js'
+import { indexedPng } from '../__tests__/asset-fixtures.js'
+import { makeAssetLoadScenario } from '../__tests__/asset-load-scenario.js'
 import { drawNumber } from '../present/draw-number.js'
 import { createFramebuffer } from '../present/framebuffer.js'
 import { drawBox } from '../present/menu/draw-box.js'
@@ -29,7 +27,7 @@ afterEach(() => {
 describe('loadAll SPRITEUI frame identity', () => {
   it('完整清单保留全部帧号，黄色数字1使用frame20', async () => {
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
-    installLoadAll(loadAllScript({ uiFrames: frameIds }), pngs)
+    installAssetFetch(makeAssetLoadScenario({ uiFrames: frameIds }), pngs)
     const assets = await loadAll(7)
     expect(warn).not.toHaveBeenCalled()
     expect(assets.uiSpriteFrames).toHaveLength(71)
@@ -44,7 +42,7 @@ describe('loadAll SPRITEUI frame identity', () => {
 
   it('frame19失败后数字1仍用frame20，缺失的数字0沿用跳过', async () => {
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
-    installLoadAll(loadAllScript({ uiFrames: frameIds, fail: { uiFrames: [19] } }), pngs)
+    installAssetFetch(makeAssetLoadScenario({ uiFrames: frameIds, fail: { uiFrames: [19] } }), pngs)
     const assets = await loadAll(7)
     expect(warn).toHaveBeenCalledExactlyOnceWith(
       'assets: ui-sprite frame 19 load failed:',
@@ -62,7 +60,7 @@ describe('loadAll SPRITEUI frame identity', () => {
 
   it('必要边框frame1失败后报原编号缺失，不用frame2补位', async () => {
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
-    installLoadAll(loadAllScript({ uiFrames: frameIds, fail: { uiFrames: [1] } }), pngs)
+    installAssetFetch(makeAssetLoadScenario({ uiFrames: frameIds, fail: { uiFrames: [1] } }), pngs)
     const assets = await loadAll(7)
     expect(warn).toHaveBeenCalledExactlyOnceWith(
       'assets: ui-sprite frame 1 load failed:',

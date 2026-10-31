@@ -5,11 +5,8 @@ import { join } from 'node:path'
 import { gunzipSync } from 'node:zlib'
 import { parsePalSpriteChunk } from '@type-pal/shared'
 import { expect, test } from 'vitest'
-import {
-  SPRITE_CHUNK_2X2,
-  YJ2_SPRITE_CHUNK_2X2,
-} from '../__tests__/glm-runtime-resource/yj2-sprite-chunk-vector.js'
-import { mkfContainer } from '../__tests__/glm-tb04-fixtures.js'
+import { mkfContainer } from '../__tests__/binary-fixtures.js'
+import { SPRITE_CHUNK_2X2, YJ2_SPRITE_CHUNK_2X2 } from '../__tests__/yj2-sprite-vector.js'
 import { writeFireAssets } from './animation-assets.js'
 
 function publish(chunks: Uint8Array[], registerCleanup: (cleanup: () => void) => void) {

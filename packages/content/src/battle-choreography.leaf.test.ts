@@ -15,7 +15,6 @@
  * 坏输入从合法 turn 复制仅改 op；通用三 hook 输入只作自身正控，不再代替单轴对照。
  */
 import { describe, expect, test } from 'vitest'
-import { deepSnapshot } from './__tests__/glm-content-contract-fixtures.js'
 import {
   castEffectAction,
   dialogAction,
@@ -28,6 +27,7 @@ import {
   stopMusicAction,
   waitAction,
 } from './__tests__/guard-leaf-fixtures.js'
+import { deepSnapshot } from './__tests__/value-snapshot.js'
 import type { BattleChoreographyAction } from './battle-choreography.js'
 import {
   checkBattleChoreography,

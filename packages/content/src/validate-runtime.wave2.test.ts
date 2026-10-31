@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest'
 import { runtimeScene } from './__tests__/coverage-wave2/e-enemy-author.js'
-import { deepSnapshot } from './__tests__/glm-content-contract-fixtures.js'
+import { deepSnapshot } from './__tests__/value-snapshot.js'
 import { validateRuntimeScenes } from './validate-runtime.js'
 
 test('no-pages entity retains its complete current behavior registry through the real outer guard', () => {

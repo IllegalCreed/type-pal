@@ -11,7 +11,7 @@ import {
   writeFileSync,
 } from 'node:fs'
 import { dirname, isAbsolute, resolve } from 'node:path'
-import { sha256 } from './migration-baseline.js'
+import { sha256 } from './migration-hash.js'
 import { assertMigrationFilePath } from './migration-path.js'
 
 const CONTROL_REL = '.type-pal-migrate'

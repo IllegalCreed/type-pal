@@ -3,7 +3,7 @@
  * 与地图 dense collision 分栏：stamp 碰撞是 number|null（nullable）。
  */
 import { describe, expect, test } from 'vitest'
-import { deepSnapshot } from './__tests__/glm-content-contract-fixtures.js'
+import { deepSnapshot } from './__tests__/value-snapshot.js'
 import type { StampTemplate } from './stamp.js'
 import { formatStampTemplates, parseStampTemplates, validateStampTemplates } from './stamp.js'
 

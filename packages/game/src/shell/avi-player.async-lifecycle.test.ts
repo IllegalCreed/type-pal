@@ -1,22 +1,4 @@
-/** TEST-GAME-MEDIA-LIFECYCLE-1 — avi-player.ts 迟到结果与跨视频资源所有权未证公开合同(产品冻结 2f0fe6d2f)。
- *
- * 旧证去重(逐断言核对,非标题搜索):
- *  - avi-player.test.ts 已证 <video> 创建/三跳过键/非跳过键/error 事件 resolve/cleanup 幂等/
- *    视频音量四合同(套用/实时刷新/钳制/cleanup 解除跟踪)。
- *  - avi-player.glm-next-wave.test.ts 已证 play() 拒绝→overlay→点击重试成功→ended 清理(重试结果
- *    **早于** ended),warm-up 立即 resolve(pause 一次)/立即 reject(静默不 pause)。
- *  - ending-avi-host.grok-r1.test.ts G10-D04 已证跳过后 499ms 仍在/500ms 移除(单键单视频时序)。
- * 本文件只补上列未覆盖的迟到与跨视频边界(M1/M2/M4/M5/M8,逐轴见 docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1):
- *  - M1 视频已 ended 收尾后原 play() Promise 才 reject → 不重建重试层、不再次播放。
- *  - M2 重试 play() 结果迟于 ended → 收尾自行退休重试层,迟到结果不重建 overlay、也不再播放。
- *  - M4 跳过 500ms 收尾窗口内的重复跳过键与 ended 只完成一次;残留定时器不触及下一段顺序视频
- *    (bootstrap.ts:980/1751/1847 的顺序 await 模式)。
- *  - M5 前段视频的迟到 play() reject 不抢下段视频的音量(curVideoEl)与 DOM 所有权。
- *  - M8 warm-up play() resolve 迟到 → 只清理自己的临时 video,不触及正式播放的 video(main.ts:52 caller)。
- * IO 控制(A-R1-02):play/pause 用 typed `vi.spyOn` 原型端口(restoreAllMocks 恢复真实 jsdom 实现,
- * 不做裸赋值);deferred 登记 + afterEach 双路径收尾——正常路径用例自 settle,提前断言失败路径由
- * afterEach 经公开事件(ended)收妥在途播放器、settle 残留 deferred、排空 fake timers 后再恢复端口。
- */
+/** Deferred play/warm-up completions cannot take ownership from a later AVI. */
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { playAvi, setVideoVolume, warmUpVideoAutoplay } from './avi-player.js'
@@ -153,7 +135,7 @@ afterEach(async () => {
 
 describe('avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1', () => {
   it('M1 视频已 ended 收尾后原 play() 才 reject — 不重建重试层、不再次播放', async () => {
-    vi.spyOn(console, 'warn').mockImplementation(() => {})
+    const warning = vi.spyOn(console, 'warn').mockImplementation(() => {})
     const port = stubFirstPlayDeferred()
 
     const finished = playAvi({ src: '/extracted/videos/3.mp4' })
@@ -167,10 +149,15 @@ describe('avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE
     expect(port.played, 'M1: settled 后迟到 reject 不得再次发起 play()').toHaveLength(1)
     expect(overlayCount(), 'M1: settled 后迟到 reject 不得重建点击重试层').toBe(0)
     expect(document.querySelectorAll('video'), 'M1: 收尾结果保持不变').toHaveLength(0)
+    expect(warning.mock.calls).toEqual([
+      [
+        '[avi-player] play() rejected (autoplay policy?): Error: NotAllowedError: late rejection after ended',
+      ],
+    ])
   })
 
   it('M2 重试 play 结果迟于 ended — 收尾自行退休重试层,迟到结果不重建 overlay 也不再播放', async () => {
-    vi.spyOn(console, 'warn').mockImplementation(() => {})
+    const warning = vi.spyOn(console, 'warn').mockImplementation(() => {})
     const port = stubRejectThenDeferred()
 
     const finished = playAvi({ src: '/extracted/videos/1.mp4' })
@@ -193,6 +180,11 @@ describe('avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE
     expect(overlayCount(), 'M2: 迟到重试结果不得重建 overlay').toBe(0)
     expect(port.played, 'M2: 迟到重试结果不得再次播放').toHaveLength(2)
     expect(document.querySelectorAll('video')).toHaveLength(0)
+    expect(warning.mock.calls).toEqual([
+      [
+        '[avi-player] play() rejected (autoplay policy?): Error: NotAllowedError: play() rejected (autoplay policy)',
+      ],
+    ])
   })
 
   it('M4 跳过 500ms 收尾窗口内的重复跳过键与 ended 只完成一次,残留定时器不触及下一段顺序视频', async () => {
@@ -241,7 +233,7 @@ describe('avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE
   })
 
   it('M5 前段视频的迟到 play() reject 不抢下段视频的音量与 DOM 所有权', async () => {
-    vi.spyOn(console, 'warn').mockImplementation(() => {})
+    const warning = vi.spyOn(console, 'warn').mockImplementation(() => {})
     const port = stubFirstPlayDeferred()
 
     const first = playAvi({ src: '/extracted/videos/1.mp4' })
@@ -263,6 +255,11 @@ describe('avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE
 
     video2.dispatchEvent(new Event('ended'))
     await second
+    expect(warning.mock.calls).toEqual([
+      [
+        '[avi-player] play() rejected (autoplay policy?): Error: NotAllowedError: late rejection from previous video',
+      ],
+    ])
   })
 
   it('M8 warm-up play() resolve 迟到 — 只清理自己的临时 video,不触及正式播放的 video', async () => {
@@ -278,7 +275,7 @@ describe('avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE
     expect(formalEl).not.toBe(warmupEl)
     expect(document.body.querySelectorAll('video')).toHaveLength(1) // warm-up 临时 video 从未入 DOM
 
-    port.firstPlay.resolve() // warm-up 迟到成功(main.ts:52 的手势预热晚于正式播放)
+    port.firstPlay.resolve() // warm-up 迟到成功(main.ts 的 click 手势预热晚于正式播放)
     await flushMicrotasks()
     expect(port.paused, 'M8: 迟到 resolve 只 pause warm-up 自己的临时 video').toEqual([warmupEl])
     expect(document.body.querySelectorAll('video'), 'M8: 正式播放的 video 不得被移除').toHaveLength(

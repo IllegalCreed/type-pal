@@ -1,6 +1,6 @@
 /**
  * TEST-RUNTIME-STATE-BOUNDARIES-1 A1-A4：作者世界变量边界（world-variable.ts）。
- * world-variable.test.ts:9/40/58 已覆盖判别 registry/未知字段/非有限默认/fresh 初始化；
+ * See world-variable.test.ts for ordinary validation and initialization contracts.
  * 本文件补长度边界精确轴、错型错误路径、空文本域规则与初始化双向独立性。
  */
 import { describe, expect, test } from 'vitest'

@@ -1,66 +1,45 @@
 import type { Palette } from '@type-pal/shared'
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
+import { legalPalette } from '../__tests__/asset-fixtures.js'
+import { realCanvasContext } from '../__tests__/canvas-host.js'
 import type { IndexedImage } from '../assets/png.js'
 import { createFramebuffer } from '../present/framebuffer.js'
+import {
+  blackPalette,
+  fetchSequentialFrame,
+  fetchThreeFrameManifest,
+  rngFrame,
+  rngManifest,
+} from './__tests__/rng-frames.js'
 import { __setRngChunkLoaderForTest, playRng } from './rng-player.js'
 
-const MOCK_MANIFEST = {
-  chunks: [{ chunkIndex: 6, frameCount: 3, frames: [{ index: 0 }, { index: 1 }, { index: 2 }] }],
-}
-
-function mockManifestOk(): () => Promise<typeof MOCK_MANIFEST> {
-  return async () => MOCK_MANIFEST
-}
-
-/** 每帧 indices 全填 (frameIdx+1) — 验最后一帧 fb 是哪个 frame。 */
-function mockFrameFiller(): (chunkIdx: number, frameIdx: number) => Promise<IndexedImage> {
-  return async (_chunkIdx, frameIdx) => ({
-    width: 320,
-    height: 200,
-    indices: new Uint8Array(320 * 200).fill(frameIdx + 1),
-    opaque: new Uint8Array(320 * 200).fill(1),
-  })
-}
-
-const mockPalette: Palette = {
-  colors: Array.from({ length: 256 }, () => [0, 0, 0] as [number, number, number]),
-  cycles: [],
-}
-
-function canvasContext() {
-  const ctx = document.createElement('canvas').getContext('2d')
-  if (!ctx) throw new Error('RNG test requires a 2D canvas context')
-  const putImageData = vi.spyOn(ctx, 'putImageData').mockImplementation(() => {})
-  return { ctx, putImageData }
-}
-
-let mockCanvasCtx: CanvasRenderingContext2D
-beforeEach(() => {
-  mockCanvasCtx = canvasContext().ctx
+afterEach(async () => {
+  try {
+    if (vi.isFakeTimers()) await vi.runAllTimersAsync()
+  } finally {
+    __setRngChunkLoaderForTest(null)
+    vi.restoreAllMocks()
+    vi.useRealTimers()
+  }
 })
-
-afterEach(() => {
-  vi.restoreAllMocks()
-  __setRngChunkLoaderForTest(null) // 复原默认 loader + 清 chunk 缓存
-})
-
-describe('playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4)', () => {
+describe('RNG frame playback', () => {
   it('全部帧播完 → fb.indices = 末帧填充', async () => {
     const fb = createFramebuffer()
     await playRng({
       chunkIdx: 6,
       frameDelayMs: 1,
       fb,
-      canvasCtx: mockCanvasCtx,
-      palette: mockPalette,
-      fetchManifest: mockManifestOk(),
-      fetchFrame: mockFrameFiller(),
+      canvasCtx: realCanvasContext(),
+      palette: blackPalette,
+      fetchManifest: fetchThreeFrameManifest,
+      fetchFrame: fetchSequentialFrame,
     })
     // 末帧 frameIdx=2 → indices 全填 3
     expect(fb.indices[0]).toBe(3)
     expect(fb.indices[100 * 320 + 100]).toBe(3)
+    expect(fb.indices).toHaveLength(320 * 200)
+    expect(fb.indices.findIndex((pixel) => pixel !== 3)).toBe(-1)
   })
-
   it('Space 按键跳过 → 不到末帧停', async () => {
     vi.useFakeTimers()
     try {
@@ -70,10 +49,10 @@ describe('playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4)', () => {
         frameDelayMs: 50,
         skipKeys: ['Space'],
         fb,
-        canvasCtx: mockCanvasCtx,
-        palette: mockPalette,
-        fetchManifest: mockManifestOk(),
-        fetchFrame: mockFrameFiller(),
+        canvasCtx: realCanvasContext(),
+        palette: blackPalette,
+        fetchManifest: fetchThreeFrameManifest,
+        fetchFrame: fetchSequentialFrame,
       })
       await vi.advanceTimersByTimeAsync(0)
       window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space' }))
@@ -84,7 +63,6 @@ describe('playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4)', () => {
       vi.useRealTimers()
     }
   })
-
   it('manifest 缺该 chunk → 警告 + return,不抛', async () => {
     const fb = createFramebuffer()
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
@@ -92,79 +70,74 @@ describe('playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4)', () => {
       chunkIdx: 999,
       frameDelayMs: 1,
       fb,
-      canvasCtx: mockCanvasCtx,
-      palette: mockPalette,
-      fetchManifest: mockManifestOk(),
-      fetchFrame: mockFrameFiller(),
+      canvasCtx: realCanvasContext(),
+      palette: blackPalette,
+      fetchManifest: fetchThreeFrameManifest,
+      fetchFrame: fetchSequentialFrame,
     })
-    expect(warn).toHaveBeenCalledWith(expect.stringContaining('999 不在 manifest'))
+    expect(warn.mock.calls).toEqual([['[rng-player] chunk 999 不在 manifest']])
     expect(fb.indices.every((v) => v === 0)).toBe(true)
   })
-
   it('startFrame > endFrame → 立即 return 不播', async () => {
     const fb = createFramebuffer()
     await playRng({
       chunkIdx: 6,
       frameDelayMs: 1,
       fb,
-      canvasCtx: mockCanvasCtx,
-      palette: mockPalette,
+      canvasCtx: realCanvasContext(),
+      palette: blackPalette,
       startFrame: 5,
       endFrame: 1,
-      fetchManifest: mockManifestOk(),
-      fetchFrame: mockFrameFiller(),
+      fetchManifest: fetchThreeFrameManifest,
+      fetchFrame: fetchSequentialFrame,
     })
     expect(fb.indices.every((v) => v === 0)).toBe(true)
   })
-
   it('endFrame=-1 → 默认播到 frameCount-1', async () => {
     const fb = createFramebuffer()
     await playRng({
       chunkIdx: 6,
       frameDelayMs: 1,
       fb,
-      canvasCtx: mockCanvasCtx,
-      palette: mockPalette,
+      canvasCtx: realCanvasContext(),
+      palette: blackPalette,
       endFrame: -1,
-      fetchManifest: mockManifestOk(),
-      fetchFrame: mockFrameFiller(),
+      fetchManifest: fetchThreeFrameManifest,
+      fetchFrame: fetchSequentialFrame,
     })
     expect(fb.indices[0]).toBe(3)
   })
-
   it('manifest fetch throw → 警告 + return,不抛', async () => {
+    const failure = new Error('mock fail')
     const fb = createFramebuffer()
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
     await playRng({
       chunkIdx: 6,
       frameDelayMs: 1,
       fb,
-      canvasCtx: mockCanvasCtx,
-      palette: mockPalette,
+      canvasCtx: realCanvasContext(),
+      palette: blackPalette,
       fetchManifest: async () => {
-        throw new Error('mock fail')
+        throw failure
       },
-      fetchFrame: mockFrameFiller(),
+      fetchFrame: fetchSequentialFrame,
     })
-    expect(warn).toHaveBeenCalledWith(
-      expect.stringContaining('manifest fetch failed'),
-      expect.any(Error),
-    )
+    expect(warn.mock.calls).toEqual([['[rng-player] manifest fetch failed:', failure]])
     expect(fb.indices.every((v) => v === 0)).toBe(true)
   })
-
   it('单帧 fetch throw → warn + skip 该帧 + 继续', async () => {
+    const failure = new Error('mock frame 1 fail')
     const fb = createFramebuffer()
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
     await playRng({
       chunkIdx: 6,
       frameDelayMs: 1,
       fb,
-      canvasCtx: mockCanvasCtx,
-      palette: mockPalette,
-      fetchManifest: mockManifestOk(),
+      canvasCtx: realCanvasContext(),
+      palette: blackPalette,
+      fetchManifest: fetchThreeFrameManifest,
       fetchFrame: async (_, frameIdx) => {
-        if (frameIdx === 1) throw new Error('mock frame 1 fail')
+        if (frameIdx === 1) throw failure
         return {
           width: 320,
           height: 200,
@@ -173,176 +146,251 @@ describe('playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4)', () => {
         }
       },
     })
-    expect(warn).toHaveBeenCalledWith(
-      expect.stringContaining('frame 1 fetch fail'),
-      expect.any(Error),
-    )
+    expect(warn.mock.calls).toEqual([['[rng-player] frame 1 fetch fail, skip:', failure]])
     // 末帧 frameIdx=2 仍画到 fb
     expect(fb.indices[0]).toBe(3)
   })
+})
 
-  // sdlpal rngplay.c:436:每帧 PAL_RNGBlitToSurface 后 VIDEO_UpdateScreen(NULL)(video.c:571-616)——
-  // shake 进行中对视频帧本身施加垂直跳动 + g_wShakeTime--。漏接 → 0x35 震屏计数在 RNG 播放期间冻结,
-  // 整段泄漏进下一场景(僵尸王→血池演出全程狂抖,2026-06-10)。
-  describe('shakeState 透传(VIDEO_UpdateScreen shake 分支)', () => {
-    it('shakeTime 随每显示帧递减(3 帧视频:65→62)', async () => {
-      const fb = createFramebuffer()
-      const shakeState = { shakeTime: 65, shakeLevel: 4 }
-      await playRng({
-        chunkIdx: 6,
-        frameDelayMs: 0,
-        fb,
-        canvasCtx: mockCanvasCtx,
-        palette: mockPalette,
-        fetchManifest: mockManifestOk(),
-        fetchFrame: mockFrameFiller(),
-        shakeState,
-      })
-      expect(shakeState.shakeTime).toBe(62)
-    })
-
-    it('视频帧本身被震:偶 shakeTime 帧整幅下移 shakeLevel 行,顶部填黑', async () => {
-      const fb = createFramebuffer()
-      const shakeState = { shakeTime: 2, shakeLevel: 4 }
-      await playRng({
-        chunkIdx: 6,
-        frameDelayMs: 0,
-        fb,
-        canvasCtx: mockCanvasCtx,
-        palette: mockPalette,
-        startFrame: 0,
-        endFrame: 0, // 单帧(frameIdx 0 → 填 1)
-        fetchManifest: mockManifestOk(),
-        fetchFrame: mockFrameFiller(),
-        shakeState,
-      })
-      // 偶帧分支(video.c dstrect.y=shakeLevel):内容下移 4 行,顶部 4 行黑(index 0)
-      expect(fb.indices[0]).toBe(0)
-      expect(fb.indices[3 * 320]).toBe(0)
-      expect(fb.indices[4 * 320]).toBe(1)
-      expect(shakeState.shakeTime).toBe(1)
-    })
-
-    it('shakeTime 中途耗尽 → 剩余帧不震不再递减(不下穿 0)', async () => {
-      const fb = createFramebuffer()
-      const shakeState = { shakeTime: 1, shakeLevel: 4 }
-      await playRng({
-        chunkIdx: 6,
-        frameDelayMs: 0,
-        fb,
-        canvasCtx: mockCanvasCtx,
-        palette: mockPalette,
-        fetchManifest: mockManifestOk(),
-        fetchFrame: mockFrameFiller(),
-        shakeState,
-      })
-      expect(shakeState.shakeTime).toBe(0)
-      // 末帧(frameIdx 2 → 填 3)无 shake 残留:第 0 行就是帧内容
-      expect(fb.indices[0]).toBe(3)
-    })
-
-    it('跳过键提前结束 → 未显示帧的递减一次性结清(与完整播完一致)', async () => {
-      vi.useFakeTimers()
-      try {
-        const fb = createFramebuffer()
-        const shakeState = { shakeTime: 100, shakeLevel: 4 }
-        const promise = playRng({
-          chunkIdx: 6,
-          frameDelayMs: 50,
-          skipKeys: ['Space'],
-          fb,
-          canvasCtx: mockCanvasCtx,
-          palette: mockPalette,
-          fetchManifest: mockManifestOk(),
-          fetchFrame: mockFrameFiller(),
-          shakeState,
-        })
-        await vi.advanceTimersByTimeAsync(0)
-        window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space' }))
-        await vi.runAllTimersAsync()
-        await promise
-        expect(fb.indices[4 * 320]).toBe(1)
-        expect(shakeState.shakeTime).toBe(97)
-      } finally {
-        vi.useRealTimers()
-      }
-    })
-
-    it('不传 shakeState → 行为不变', async () => {
-      const fb = createFramebuffer()
-      await playRng({
-        chunkIdx: 6,
-        frameDelayMs: 0,
-        fb,
-        canvasCtx: mockCanvasCtx,
-        palette: mockPalette,
-        fetchManifest: mockManifestOk(),
-        fetchFrame: mockFrameFiller(),
-      })
-      expect(fb.indices[0]).toBe(3)
-    })
-  })
-
-  it('initialFadeInMs:第一帧先按黑 palette 显示,再恢复目标 palette', async () => {
-    const fb = createFramebuffer()
-    const { ctx, putImageData } = canvasContext()
-    const palette: Palette = {
-      colors: Array.from({ length: 256 }, () => [0, 0, 0] as [number, number, number]),
-      cycles: [],
+describe('RNG requested frame window', () => {
+  const palette: Palette = {
+    colors: Array.from({ length: 256 }, (): [number, number, number] => [10, 20, 30]),
+    cycles: [],
+  }
+  it('窗口 [1,2]:fetchFrame 恰被调 2 次(frame 1、2),窗外帧 0/3 零请求,末屏 = frame 2', async () => {
+    const manifest = {
+      chunks: [
+        {
+          chunkIndex: 5,
+          frameCount: 4,
+          frames: [{ index: 0 }, { index: 1 }, { index: 2 }, { index: 3 }],
+        },
+      ],
     }
-    palette.colors[1] = [180, 120, 60]
+    const fetchManifest = vi.fn(() => Promise.resolve(manifest))
+    const fetchFrame = vi.fn((_chunkIdx: number, frameIdx: number) =>
+      Promise.resolve(rngFrame(10 + frameIdx)),
+    )
+    const fb = createFramebuffer()
+    const ctx = realCanvasContext()
 
     await playRng({
-      chunkIdx: 6,
-      frameDelayMs: 0,
-      // 两次 performance.now() 之间无 await；20ms 保证至少走一次 sleep，避免覆盖率随机器时序抖动。
-      initialFadeInMs: 20,
+      chunkIdx: 5,
+      frameDelayMs: 1,
       fb,
       canvasCtx: ctx,
       palette,
-      startFrame: 0,
-      endFrame: 0,
-      fetchManifest: mockManifestOk(),
-      fetchFrame: mockFrameFiller(),
+      startFrame: 1,
+      endFrame: 2,
+      fetchManifest,
+      fetchFrame,
     })
 
-    const renderedColors = putImageData.mock.calls.map(([frame]) =>
-      Array.from(frame.data.slice(0, 3)),
-    )
-    expect(renderedColors[0]).toEqual([0, 0, 0])
-    expect(renderedColors.at(-1)).toEqual([180, 120, 60])
+    expect(fetchManifest).toHaveBeenCalledTimes(1)
+    expect(fetchFrame.mock.calls).toEqual([
+      [5, 1],
+      [5, 2],
+    ])
+    // 每窗帧整幅覆盖 fb → 末屏即窗口末帧(填 12 = 10 + frameIdx 2)。
+    expect(fb.indices.every((v) => v === 12)).toBe(true)
+    expect([...ctx.getImageData(0, 0, 1, 1).data]).toEqual([10, 20, 30, 255])
   })
+})
 
-  // 资源管线优化(2026-06-22)后,playRng 用 `Promise.all(frames.map(fetchFrame))` 并发取帧,默认
-  //   fetchFrame → loadRngChunk(chunkIdx)。loadRngChunk 旧实现 cache.set 在 await 之后 → 同一 chunk 的
-  //   N 个并发取帧全部 cache-miss,重复 fetch+decompressGzip+decodeRngFrames **整个 chunk** N 次 = O(N²)。
-  //   山神庙酒剑仙(chunk 帧多)实测 5 秒黑屏。修复:loadRngChunk 缓存 in-flight Promise,并发复用。
-  it('单次 playRng:同一 chunk 的 N 帧并发只触发一次底层加载(防 O(N²) stampede)', async () => {
-    let loadCount = 0
-    __setRngChunkLoaderForTest(async () => {
-      loadCount++
-      await new Promise((r) => setTimeout(r, 5)) // 放大并发窗口,确保 N 帧在首个加载未完成时都进来
-      const map = new Map<number, IndexedImage>()
-      for (let i = 0; i < 3; i++) {
-        map.set(i, {
-          width: 320,
-          height: 200,
-          indices: new Uint8Array(320 * 200).fill(i + 1),
-          opaque: new Uint8Array(320 * 200).fill(1),
-        })
-      }
-      return map
+describe('RNG manifest order and listener cleanup', () => {
+  /** colors[i] = [i,0,0]:flushToCanvas 后 ImageData 首像素 R 通道 = 调色板索引,可直接读帧序。 */
+  const palette: Palette = {
+    colors: Array.from({ length: 256 }, (_, i): [number, number, number] => [i, 0, 0]),
+    cycles: [],
+  }
+
+  interface DeferredFrame {
+    promise: Promise<IndexedImage>
+    resolve: (frame: IndexedImage) => void
+  }
+
+  function createDeferredFrame(): DeferredFrame {
+    let resolve!: (frame: IndexedImage) => void
+    const promise = new Promise<IndexedImage>((res) => {
+      resolve = res
     })
+    return { promise, resolve }
+  }
+
+  /** 两轮微任务:让 playRng 走过 manifest await、挂好全部帧 Promise。 */
+  async function flushMicrotasks(): Promise<void> {
+    await new Promise<void>((resolve) => {
+      queueMicrotask(resolve)
+    })
+    await new Promise<void>((resolve) => {
+      queueMicrotask(resolve)
+    })
+  }
+  it('成功帧乱序迟到 + 中间帧失败 — 顺序保持、末屏为最后成功帧、结束后归还输入监听', async () => {
+    const failure = new Error('frame 1 io failure')
+    const warning = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    const manifest = {
+      chunks: [
+        { chunkIndex: 9, frameCount: 3, frames: [{ index: 0 }, { index: 1 }, { index: 2 }] },
+      ],
+    }
+    const frame0 = createDeferredFrame()
+    const frame2 = createDeferredFrame()
+    const fetchFrame = vi.fn((chunkIdx: number, frameIdx: number): Promise<IndexedImage> => {
+      if (chunkIdx !== 9) throw new Error(`unexpected chunk ${chunkIdx}`)
+      if (frameIdx === 0) return frame0.promise
+      if (frameIdx === 1) return Promise.reject(failure)
+      return frame2.promise
+    })
+    const ctx = realCanvasContext()
+    const putImageData = vi.spyOn(ctx, 'putImageData') // 记录参数并转发真实绘制
     const fb = createFramebuffer()
-    // 不注入 fetchFrame → 走默认 defaultFetchFrame → loadRngChunk → 注入的 loader
-    await playRng({
-      chunkIdx: 6, // MOCK_MANIFEST chunk 6 = 3 帧 → Promise.all 并发 3 次取帧
+
+    const pending = playRng({
+      chunkIdx: 9,
       frameDelayMs: 0,
       fb,
-      canvasCtx: mockCanvasCtx,
-      palette: mockPalette,
-      fetchManifest: mockManifestOk(),
+      canvasCtx: ctx,
+      palette,
+      skipKeys: ['Space'],
+      fetchManifest: () => Promise.resolve(manifest),
+      fetchFrame,
     })
-    expect(loadCount).toBe(1) // 修复前:3(每帧 cache-miss);修复后:1
+
+    try {
+      await flushMicrotasks()
+      expect(fetchFrame).toHaveBeenCalledTimes(3) // 三个帧 Promise 均已挂起
+      frame2.resolve(rngFrame(12)) // 末帧先到(乱序)
+      await flushMicrotasks()
+      frame0.resolve(rngFrame(10)) // 首帧迟到
+      await pending
+
+      const shown = putImageData.mock.calls.map((call) => call[0].data[0]) // 原生 ImageData,零强转
+      expect(shown, 'M7: 成功帧按 manifest 顺序显示(0→2),失败帧跳过').toEqual([10, 12])
+      expect(fb.indices[0], 'M7: 末屏为最后成功帧').toBe(12)
+
+      // cancelable: true — 合成事件默认不可取消,preventDefault 无效会让本断言假绿
+      const event = new KeyboardEvent('keydown', { code: 'Space', cancelable: true })
+      window.dispatchEvent(event)
+      expect(event.defaultPrevented, 'M7: 结束后跳过键监听已归还(不再被消费)').toBe(false)
+      expect(warning.mock.calls).toEqual([['[rng-player] frame 1 fetch fail, skip:', failure]])
+      expect(fb.indices).toHaveLength(320 * 200)
+      expect(fb.indices.findIndex((pixel) => pixel !== 12)).toBe(-1)
+    } finally {
+      frame0.resolve(rngFrame(10))
+      frame2.resolve(rngFrame(12))
+      await pending
+    }
+  })
+})
+
+describe('RNG direct-option and default IO contracts', () => {
+  it('省略跳过键时 Space 仍播到末帧', async () => {
+    const fb = createFramebuffer()
+    const pending = playRng({
+      chunkIdx: 6,
+      frameDelayMs: 0,
+      fb,
+      canvasCtx: realCanvasContext(),
+      palette: legalPalette(),
+      fetchManifest: async () => rngManifest(2),
+      fetchFrame: async (_chunk, frameIdx) => rngFrame(frameIdx + 1),
+    })
+    window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space' }))
+    await pending
+    expect(fb.indices[0]).toBe(2)
+  })
+  it('endFrame -2 播到 frameCount-1', async () => {
+    const fb = createFramebuffer()
+    await playRng({
+      chunkIdx: 6,
+      frameDelayMs: 0,
+      endFrame: -2,
+      fb,
+      canvasCtx: realCanvasContext(),
+      palette: legalPalette(),
+      fetchManifest: async () => rngManifest(2),
+      fetchFrame: async (_chunk, frameIdx) => rngFrame(frameIdx + 1),
+    })
+    expect(fb.indices[0]).toBe(2)
+  })
+  it('startFrame 等于 endFrame 只取该帧', async () => {
+    const fb = createFramebuffer()
+    const seen: number[] = []
+    await playRng({
+      chunkIdx: 6,
+      frameDelayMs: 0,
+      startFrame: 1,
+      endFrame: 1,
+      fb,
+      canvasCtx: realCanvasContext(),
+      palette: legalPalette(),
+      fetchManifest: async () => rngManifest(3),
+      fetchFrame: async (_chunk, frameIdx) => {
+        seen.push(frameIdx)
+        return rngFrame(frameIdx + 4)
+      },
+    })
+    expect(seen).toEqual([1])
+    expect(fb.indices[0]).toBe(5)
+  })
+  it('manifest 418 的错误文本带状态码', async () => {
+    const fb = createFramebuffer()
+    fb.indices[0] = 9
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    const origFetch = globalThis.fetch
+    globalThis.fetch = async () => new Response(null, { status: 418 })
+    try {
+      await playRng({
+        chunkIdx: 6,
+        frameDelayMs: 0,
+        fb,
+        canvasCtx: realCanvasContext(),
+        palette: legalPalette(),
+      })
+      const warned = warn.mock.calls[0]?.[1]
+      expect(warned).toBeInstanceOf(Error)
+      if (!(warned instanceof Error)) throw new Error('manifest warn is not Error')
+      expect(warned.message).toBe('rng-player: manifest fetch failed (418)')
+      expect(fb.indices[0]).toBe(9)
+    } finally {
+      globalThis.fetch = origFetch
+    }
+    expect(warn.mock.calls).toEqual([
+      [
+        '[rng-player] manifest fetch failed:',
+        expect.objectContaining({ message: 'rng-player: manifest fetch failed (418)' }),
+      ],
+    ])
+  })
+  it('默认块地址是 rng-07.rle', async () => {
+    const warning = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    const seen: string[] = []
+    const origFetch = globalThis.fetch
+    globalThis.fetch = async (input: RequestInfo | URL) => {
+      seen.push(String(input))
+      return new Response(null, { status: 404 })
+    }
+    try {
+      await playRng({
+        chunkIdx: 7,
+        frameDelayMs: 0,
+        fb: createFramebuffer(),
+        canvasCtx: realCanvasContext(),
+        palette: legalPalette(),
+        fetchManifest: async () => rngManifest(1, 7),
+      })
+      expect(seen).toEqual(['/extracted/data/animation/rng-07.rle'])
+      expect(warning.mock.calls).toEqual([
+        [
+          '[rng-player] frame 0 fetch fail, skip:',
+          expect.objectContaining({
+            message: 'rng-player: fetch /extracted/data/animation/rng-07.rle failed (404)',
+          }),
+        ],
+      ])
+    } finally {
+      globalThis.fetch = origFetch
+    }
   })
 })

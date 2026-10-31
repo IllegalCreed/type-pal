@@ -4,6 +4,7 @@ import { startDialogLine } from '../present/dialog-box.js'
 import {
   clearHiddenExpCounts,
   createInitialGameState,
+  createInitialPlayerStatus,
   type GameState,
   hydrateNpcStaticDefaults,
   hydratePlayerRolesRuntime,
@@ -315,6 +316,19 @@ describe('GameState', () => {
     expect(gs.partyMembers).toEqual([])
     expect(gs.inventory).toEqual([])
     expect(gs.battleState).toBeUndefined()
+  })
+
+  it('creates independent zeroed player-status rows and instances', () => {
+    const status = createInitialPlayerStatus()
+    expect(status.length).toBe(6)
+    for (const row of status) {
+      expect(row.length).toBe(9)
+      expect(row.every((v) => v === 0)).toBe(true)
+    }
+    // 形状/全零不足以证明所有权：修改一行不能连带其它角色或下一份初态。
+    status[0]![0] = 3
+    expect(status[1]![0]).toBe(0)
+    expect(createInitialPlayerStatus()[0]![0]).toBe(0)
   })
 })
 

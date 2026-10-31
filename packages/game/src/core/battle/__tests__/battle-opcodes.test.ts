@@ -9,12 +9,12 @@ import type {
   PlayerRole,
 } from '@type-pal/shared'
 import { afterEach, describe, expect, it } from 'vitest'
+import { makeBattleFixture } from '../../../__tests__/battle-fixture.js'
 import {
-  makeBattle,
-  makeEnemy as makeEnemyStats,
-  makeRole,
-  seqRng,
-} from '../../../__tests__/coverage85-glm-game/harness.js'
+  makeEnemyRecord as makeEnemyStats,
+  makeRoleRecord as makeRole,
+} from '../../../__tests__/battle-records.js'
+import { makeBattle, seqRng } from '../../../__tests__/coverage85-glm-game/harness.js'
 import {
   makeBattleEnemy,
   makeBattlePlayer,
@@ -925,10 +925,20 @@ describe('Batch A 状态/数据 opcode', () => {
     expect(ctx.state.iHidingTime).toBe(-3)
   })
 
-  it('0x6B blow away:iBlow = op0', () => {
+  it('0x6B replaces prior blow strength and reports consumption', () => {
     const ctx = stateCtx()
+    const state = ctx.state
+    const r = dispatchBattleOpcode(0x6b, [4, 0, 0], ctx)
+    expect(r.consumed).toBe(true)
+    expect(state.iBlow).toBe(4)
     dispatchBattleOpcode(0x6b, [5, 0, 0], ctx)
     expect(ctx.state.iBlow).toBe(5)
+  })
+
+  it('0x6B stores WORD 0xFFFF as signed -1', () => {
+    const { state } = makeBattleFixture()
+    dispatchBattleOpcode(0x6b, [0xffff, 0, 0], { state, caster: { type: 'enemy', idx: 0 } })
+    expect(state.iBlow).toBe(-1)
   })
 
   it('0x89 set battle result:3→won / 1→lost / 0xFFFF→fleed', () => {

@@ -5,7 +5,11 @@
 
 import type { Item } from '@type-pal/shared'
 import { describe, expect, test } from 'vitest'
-import { makeHEnemy, makeHField, makeHRole } from '../__tests__/glm-next-wave/H/harness.js'
+import {
+  makeBattleFieldRecord,
+  makeEnemyRecord,
+  makeRoleRecord,
+} from '../__tests__/battle-records.js'
 import { dispatchBattleOpcode } from './battle/battle-opcodes.js'
 import { createBattleState } from './battle/battle-state.js'
 import {
@@ -37,7 +41,7 @@ describe('G07 第一阶段模块边界', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     const roleId = 0
     gs.partyMembers = [roleId]
-    const baseline = { roles: [makeHRole(roleId)] }
+    const baseline = { roles: [makeRoleRecord(roleId)] }
     hydratePlayerRolesRuntime(gs.PlayerRolesRuntime, baseline)
     const playerRoles = projectRuntimeToBattleRoles(
       gs.PlayerRolesRuntime,
@@ -47,8 +51,8 @@ describe('G07 第一阶段模块边界', () => {
     const state = createBattleState({
       gs,
       playerRoles,
-      enemies: [makeHEnemy()],
-      field: makeHField(),
+      enemies: [makeEnemyRecord()],
+      field: makeBattleFieldRecord(),
       isBoss: false,
       rng: createSeedableRng(7),
     })

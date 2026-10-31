@@ -9,6 +9,11 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
+import {
+  foundationTestFiles,
+  onlyFoundationBoundaryCases,
+} from './foundation-migration-selection.mjs'
+
 const root = fileURLToPath(new URL('../../../../../..', import.meta.url))
 const logs = mkdtempSync(join(tmpdir(), 'fc1-mutants-'))
 const sha = (value) => createHash('sha256').update(value).digest('hex')
@@ -32,11 +37,7 @@ const TESTS = {
     'src/resources/parsers/__tests__/player-roles.boundaries.test.ts',
     'src/resources/parsers/__tests__/spells.boundaries.test.ts',
   ],
-  migrate: [
-    'src/migration-merge.boundaries.test.ts',
-    'src/migration-plan.boundaries.test.ts',
-    'src/migration-baseline-pure.boundaries.test.ts',
-  ],
+  migrate: [...foundationTestFiles],
 }
 
 const cases = [
@@ -212,7 +213,7 @@ export default {
   console.log('MUTATION_HIT',mutation.name);
   return after;
  }}],
- test:{include:${JSON.stringify(TESTS[item.pkg])},maxWorkers:1,fileParallelism:false}
+ test:{include:${JSON.stringify(TESTS[item.pkg])},${item.pkg === 'migrate' ? `testNamePattern:${JSON.stringify(onlyFoundationBoundaryCases)},` : ''}maxWorkers:1,fileParallelism:false}
 };
 `,
   )

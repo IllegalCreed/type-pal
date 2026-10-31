@@ -1,4 +1,4 @@
-import { concatBytes, mkfContainer, u16Bytes } from '../../__tests__/glm-tb04-fixtures.js'
+import { concatBytes, mkfContainer, u16Bytes } from '../../__tests__/binary-fixtures.js'
 import { parseSss } from '../../io/sss.js'
 
 export type SceneWords = readonly [

@@ -1,29 +1,13 @@
 /**
- * C7(2026-05-29):大世界 magic script 同步 runner —
- * 按 sdlpal uigame.c 的施法调用顺序消费 scriptOnUse / scriptOnSuccess;
- * 本模块只实现已核大世界法术链所需的同步子集,不是完整脚本解释器。
+ * 第一阶段大世界法术的同步子集，不是完整剧情解释器。
+ * 顺序参照 SDLPal PAL_MagicMenu：先 scriptOnUse，成功才执行 scriptOnSuccess；
+ * 脚本进度写回当前 GameState 的 OBJECT overlay，不修改共享 Spell 资源。
+ * menu-driver 持有目标选择、施法者和 MP 成本；本模块只运行脚本并返回成功标志。
  *
- * **outside-battle spell 真值实测**(7 个 spell scriptOnSuccess chain 全 opcode hist):
- *  - 0x1B (27) `OP_INCREASE_HP` × 5 次:气疗术 / 观音咒 / 凝神归元 / 元灵归心术 / 五气朝元
- *  - 0x22 (34) `OP_REVIVE_PLAYER` × 2 次:还魂咒 / 赎魂
- *  - **无 showDialog / fade / wait** — 全是纯数据 op,可同步跑
- *
- * 流程(sdlpal uigame.c:740-873 真值):
- *  1. applyToAll 分支:
- *     - PAL_RunTriggerScript(scriptOnUse, 0)  ← currentEventObjectID=0
- *     - if (g_fScriptSuccess) PAL_RunTriggerScript(scriptOnSuccess, 0)
- *     - if (g_fScriptSuccess) caster.MP -= costMP
- *  2. single target 分支(picker 内 Confirm 时):
- *     - PAL_RunTriggerScript(scriptOnUse, targetRole)
- *     - if (g_fScriptSuccess) PAL_RunTriggerScript(scriptOnSuccess, targetRole)
- *     - if (g_fScriptSuccess) caster.MP -= costMP
- *
- * 注:**outside-battle spell scriptOnUse 实测全为 0**(7/7),只跑 scriptOnSuccess + MP 扣。
- * 但本 runner 通用支持 scriptOnUse 非零情况(battle-only spell 真值 chain 含其它 opcode,
- * 但 battle ctx 由 runScript / dispatchBattleOpcode 处理,本 runner 仅大世界用)。
- *
- * scriptSuccess 默认 true,HP/MP与复活分支按各自规则更新;入口或跳转无效、
- * 越界或达到步数上限时返回false。menu-driver仅在成功后扣MP,本runner不扣成本。
+ * 旧 CODE90 资源核验中的七种大世界法术 use 入口均为 0，success 链只含数值／复活；
+ * 这是该版本的资源记录，不是所有新脚本的输入约束，非零 use 阶段仍须按序执行。
+ * 未支持的 raw 静默跳过，具名非 raw 警告后跳过；入口／跳转无效、越界或超步时失败，
+ * 已执行的副作用保留，不做事务回滚。战斗脚本由独立的 battle runner 持有。
  */
 
 import type { Spell } from '@type-pal/shared'
@@ -34,7 +18,7 @@ import { getGlobalCommands, getGlobalLabelMap } from '../script-catalog.js'
 
 const SCRIPT_TICK_LIMIT = 256
 
-/** SHORT signed 16-bit cast(sdlpal `(SHORT)operand[N]` 真值)。 */
+/** SHORT 有符号转换；入参是提取器提供的无符号 WORD（0–65535）。 */
 function signExtendI16(u: number): number {
   return u & 0x8000 ? u - 0x10000 : u
 }
@@ -45,7 +29,8 @@ function signExtendI16(u: number): number {
 // (single = role id;all = 0xFFFF;0 = single 用 wEventObjectID 默认值)。
 // clamp [0, maxHP/maxMP](sdlpal PAL_IncreaseHPMP 等价)。
 
-// M10(2026-06-07 sdlpal 审查):1:1 移植 PAL_IncreaseHPMP(global.c:1254-1330)。
+// 参照 PAL_IncreaseHPMP(global.c:1254-1330)的活人、上下限和变化判定。
+// TS 使用数值钳制，不复制 C 的 WORD/SHORT 回绕；扩展数值域的保真不在本片验收范围。
 //   返回是否真发生变化(= sdlpal fSuccess):
 //   - 仅活人(hp>0)生效 —— 死人不抬血(否则成廉价复活,global.c:1287)。
 //   - clamp [0, max] 后 origHP==newHP && origMP==newMP → false("Avoid over treatment",global.c:1324)。
@@ -121,7 +106,7 @@ function revivePlayerAll(gs: GameState, ratioTenths: number): boolean {
  * 同步消费 magic script chain。
  * @param scriptId scriptOnUse 或 scriptOnSuccess id(从 spell.scriptOnUse / scriptOnSuccess)
  * @param targetRoleIdOrAll 0xFFFF=applyToAll;else=单个 target role id
- * @returns success(等价 sdlpal `g_fScriptSuccess`)
+ * @returns 同步子集成功标志；无效目录或超步返回 false。
  */
 export function runMagicScriptSync(
   gs: GameState,
@@ -182,7 +167,7 @@ function runMagicScriptWithEntry(
       continue
     }
 
-    const [a, b, _c] = cmd.operands
+    const [a, b] = cmd.operands
     const applyAll = (a ?? 0) !== 0
     const delta = signExtendI16(b ?? 0)
 
@@ -249,18 +234,9 @@ function runMagicScriptWithEntry(
  * - success → scriptOnSuccess
  * - 返回success后由caller扣MP,再更新法术列表/目标picker
  *
- * @returns success — caller 据此决定是否扣 MP + 是否退 picker(MP 不足)
+ * @returns 两脚本阶段是否成功；MP 成本与 picker 退出条件由 caller 判定。
  */
-export function castOverworldMagic(
-  gs: GameState,
-  spell: Spell,
-  costMP: number,
-  casterRoleId: number,
-  targetIdOrAll: number,
-): boolean {
-  void costMP // dispatcher 负责扣 MP — runner 只跑 script
-  void casterRoleId
-
+export function castOverworldMagic(gs: GameState, spell: Spell, targetIdOrAll: number): boolean {
   // 1. scriptOnUse(可能 = 0,runMagicScriptSync 直接 return true skip)
   const sidUse = getMagicScriptEntry(gs, spell, 'scriptOnUse')
   const use = runMagicScriptWithEntry(gs, sidUse, targetIdOrAll)

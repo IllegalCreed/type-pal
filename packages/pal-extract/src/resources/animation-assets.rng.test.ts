@@ -5,7 +5,7 @@ import { gunzipSync } from 'node:zlib'
 import { decodeRngFrames } from '@type-pal/shared'
 import { expect, test } from 'vitest'
 import { mkfContainer } from '../__tests__/binary-fixtures.js'
-import { yj2EncodeLiterals } from '../__tests__/glm-q/yj2-encoder.js'
+import { yj2EncodeLiterals } from '../__tests__/yj2-literals.js'
 import { writeRngAssets } from './animation-assets.js'
 
 // Fast owns self-contained writer/byte/index contracts. The unchanged original-disc

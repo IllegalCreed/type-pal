@@ -1,4 +1,3 @@
-import { createHash } from 'node:crypto'
 import { existsSync, readFileSync } from 'node:fs'
 import { isAbsolute, resolve } from 'node:path'
 import {
@@ -8,6 +7,9 @@ import {
   type StampTemplate,
 } from '@type-pal/content'
 import type { MigrationJson } from './migration-files.js'
+import { sha256 } from './migration-hash.js'
+
+export { sha256 }
 
 export const PAL_BASELINE_REL = 'packages/migrate/baselines/pal'
 
@@ -49,10 +51,6 @@ export function serializeMigrationJson(value: MigrationJson, path?: string): str
   return `${JSON.stringify(value, null, 2)}\n`
 }
 
-export function sha256(value: string | Uint8Array): string {
-  return createHash('sha256').update(value).digest('hex')
-}
-
 export function snapshotFilePresent(snapshot: MigrationSnapshot, path: string): boolean {
   return snapshot.files.has(path) || snapshot.hashes?.has(path) === true
 }
@@ -92,7 +90,7 @@ export function baselineWrites(snapshot: MigrationSnapshot): Map<string, string>
   return writes
 }
 
-function loadPalBaselineInternal(repo: string): MigrationSnapshot | undefined {
+export function loadPalBaseline(repo: string): MigrationSnapshot | undefined {
   const root = resolve(repo, PAL_BASELINE_REL)
   const statePath = resolve(root, '_state.json')
   if (!existsSync(statePath)) return undefined
@@ -120,11 +118,13 @@ function loadPalBaselineInternal(repo: string): MigrationSnapshot | undefined {
   }
 }
 
-export function loadPalBaseline(repo: string): MigrationSnapshot | undefined {
-  return loadPalBaselineInternal(repo)
-}
-
-function assertPalBaselineSnapshotCurrentInternal(repo: string, snapshot: MigrationSnapshot): void {
+/**
+ * 长耗时生成/审计结束后的 TOCTOU 复核。
+ *
+ * baseline 的非原子文件和 `_state.json` 必须仍与最初加载的 snapshot 完全一致；
+ * 原子 map 正文不落 baseline，只由 `_state.json` 中的 hash 代表。
+ */
+export function assertPalBaselineSnapshotCurrent(repo: string, snapshot: MigrationSnapshot): void {
   const root = resolve(repo, PAL_BASELINE_REL)
   const expectedState = serializeMigrationJson(baselineState(snapshot) as unknown as MigrationJson)
   const statePath = resolve(root, '_state.json')
@@ -137,14 +137,4 @@ function assertPalBaselineSnapshotCurrentInternal(repo: string, snapshot: Migrat
     const actual = existsSync(full) ? sha256(readFileSync(full)) : undefined
     if (actual !== expected) throw new Error(`迁移计划后 PAL baseline 已变更: ${path}`)
   }
-}
-
-/**
- * 长耗时生成/审计结束后的 TOCTOU 复核。
- *
- * baseline 的非原子文件和 `_state.json` 必须仍与最初加载的 snapshot 完全一致；
- * 原子 map 正文不落 baseline，只由 `_state.json` 中的 hash 代表。
- */
-export function assertPalBaselineSnapshotCurrent(repo: string, snapshot: MigrationSnapshot): void {
-  assertPalBaselineSnapshotCurrentInternal(repo, snapshot)
 }

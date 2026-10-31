@@ -9,17 +9,13 @@ import { createInitialGameState, hydratePlayerRolesRuntime } from '../core/game-
 import { createSeedableRng } from '../core/rng.js'
 import { createMusicSourceController } from '../shell/music-source.js'
 import { setupToolsPanel } from './tools-panel.js'
-import { mkVol, useToolsPanelTestHost } from './tools-panel.test-fixtures.js'
+import {
+  makeVolumeController,
+  openSystemTab,
+  useToolsPanelTestHost,
+} from './tools-panel.test-fixtures.js'
 
 const mkDeps = useToolsPanelTestHost()
-
-/** 打开面板并切到「系统」tab。 */
-function openSystemTab(): void {
-  window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Backquote' }))
-  ;[...document.querySelectorAll('.tp-tab')]
-    .find((b) => b.textContent === '系统')!
-    .dispatchEvent(new MouseEvent('click', { bubbles: true }))
-}
 
 describe('tools-panel 框架', () => {
   it('战斗页250ms轮询由受控时间推进：变化刷新、相同签名和关闭时不重绘', () => {
@@ -214,7 +210,7 @@ describe('tools-panel 框架', () => {
   })
 
   it('系统 tab:视频滑块 input → videoVolume.setVolume(0..1)', () => {
-    const videoVolume = mkVol()
+    const videoVolume = makeVolumeController()
     setupToolsPanel(mkDeps({ videoVolume }))
     openSystemTab()
     const row = [...document.querySelectorAll('.tp-ctrl-row')].find(
@@ -227,9 +223,9 @@ describe('tools-panel 框架', () => {
   })
 
   it('主静音按钮:一键 静音/恢复 音乐+音效+视频', () => {
-    const audioVolume = mkVol()
-    const sfxVolume = mkVol()
-    const videoVolume = mkVol()
+    const audioVolume = makeVolumeController()
+    const sfxVolume = makeVolumeController()
+    const videoVolume = makeVolumeController()
     setupToolsPanel(mkDeps({ audioVolume, sfxVolume, videoVolume }))
     openSystemTab()
     const muteBtn = [...document.querySelectorAll('.tp-btn')].find((b) =>
@@ -249,7 +245,7 @@ describe('tools-panel 框架', () => {
   })
 
   it('主静音按钮:初始已静音 → 显示「已静音」态', () => {
-    setupToolsPanel(mkDeps({ audioVolume: mkVol(true) }))
+    setupToolsPanel(mkDeps({ audioVolume: makeVolumeController(true) }))
     openSystemTab()
     const muteBtn = [...document.querySelectorAll('.tp-btn')].find((b) =>
       b.textContent?.includes('静音'),

@@ -3,7 +3,7 @@
  * narration/actor/unbound 合法联合与非法半状态；portrait.side/rows 对象；resolver fail-loud 无 fallback。
  */
 import { describe, expect, test } from 'vitest'
-import { deepSnapshot } from './__tests__/glm-content-contract-fixtures.js'
+import { deepSnapshot } from './__tests__/value-snapshot.js'
 import type { ActorDef } from './actor.js'
 import type { AuthorDialogueCue } from './author-dialogue.js'
 import { checkAuthorDialogueCue, resolveAuthorDialogueCue } from './author-dialogue.js'

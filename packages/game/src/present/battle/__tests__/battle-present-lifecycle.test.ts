@@ -5,16 +5,11 @@ import { startBattle, tickBattle } from '../../../core/battle/battle-system.js'
 import { createCommandBus } from '../../../core/command-bus.js'
 import { createInitialGameState, hydratePlayerRolesRuntime } from '../../../core/game-state.js'
 import { closeTopMenu, resumeAfterMenusClosed } from '../../../core/menu/menu-stack.js'
-import { enemy, role, solidBg } from '../../__tests__/grok-composition/fixtures/battle.js'
-import {
-  at,
-  BG,
-  digitFrames,
-  glyphsOf,
-  MESSAGE,
-  WORLD,
-  yellowDigit,
-} from '../../__tests__/grok-composition/fixtures/images.js'
+import { enemy, role, solidBg } from '../../__tests__/battle-render-fixtures.js'
+import { BG, MESSAGE, WORLD } from '../../__tests__/composition-colors.js'
+import { glyphsOf } from '../../__tests__/glyph-fixtures.js'
+import { digitFrames, yellowDigit } from '../../__tests__/menu-ui-fixtures.js'
+import { at } from '../../__tests__/raster-fixtures.js'
 import { createFramebuffer } from '../../framebuffer.js'
 import { presentBattleFrame } from '../../present.js'
 import { type BattleAssets, BattlePresent } from '../present-battle.js'

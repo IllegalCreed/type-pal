@@ -4,18 +4,14 @@
  * 水/土以不相等的行列标记验证，预期为显式五键对象，不由被测输出生成。
  */
 import { describe, expect, test } from 'vitest'
-import {
-  mkMkf,
-  mkTable,
-  mkWords,
-  PLAYER_ROLE_ROWS,
-  playerRoleCell,
-} from '../../../__tests__/glm-foundation-fixtures.js'
+import { mkfContainer, u16Table } from '../../../__tests__/binary-fixtures.js'
+import { PLAYER_ROLE_ROWS, playerRoleCell } from '../../../__tests__/player-role-layout.js'
+import { makeWords } from '../../../__tests__/words-table.js'
 import { parsePlayerRoles } from '../player-roles.js'
 
-const mkRolesChunk = (cells: ReadonlyArray<[number, number]>) => mkTable(900, cells)
+const mkRolesChunk = (cells: ReadonlyArray<[number, number]>) => u16Table(900, cells)
 const mkDataMkf = (rolesChunk: Uint8Array) =>
-  mkMkf([Uint8Array.of(1), Uint8Array.of(2), Uint8Array.of(3), rolesChunk])
+  mkfContainer([Uint8Array.of(1), Uint8Array.of(2), Uint8Array.of(3), rolesChunk])
 
 describe('TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1 · parsePlayerRoles 名称缺省与元素键映射', () => {
   test('rgwName 指针越 persons 表或 0 哨兵 → 该 role 安全缺省 _name，表内命中与 3/4 对调不受污染', () => {
@@ -31,7 +27,7 @@ describe('TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1 · parsePlayerRoles 名称缺�
       playerRoleCell(PLAYER_ROLE_ROWS.name, 5, 41),
       playerRoleCell(PLAYER_ROLE_ROWS.level, 1, 33),
     ]
-    const words = mkWords({ persons: ['李逍遥', '赵灵儿', '林月如', '阿奴', '巫后'] })
+    const words = makeWords({ persons: ['李逍遥', '赵灵儿', '林月如', '阿奴', '巫后'] })
     const { roles } = parsePlayerRoles(mkDataMkf(mkRolesChunk(cells)), words)
     expect(roles.map((r) => r._name)).toEqual([
       '李逍遥',

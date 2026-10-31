@@ -11,7 +11,9 @@
  */
 import type { Magic, ObjectMagicView, Spell } from '@type-pal/shared'
 import { describe, expect, it } from 'vitest'
-import { makeHBattle, makeHRole, recordingRng } from '../../../__tests__/glm-next-wave/H/harness.js'
+import { makeBattleFixture } from '../../../__tests__/battle-fixture.js'
+import { makeRoleRecord } from '../../../__tests__/battle-records.js'
+import { recordingRng } from '../../../__tests__/scripted-rng.js'
 import type { RunScriptOptions } from '../../event-system.js'
 import { performMagic } from './magic.js'
 
@@ -60,8 +62,8 @@ interface CastResult {
 
 /** 敌方施 SLEEP_SPELL 打队员 0;scriptOnUse 按 sleepByScript 决定是否给目标上睡眠。 */
 function castEnemyMagic(opts: { sleepByScript: boolean; autoDefendRoll: number }): CastResult {
-  const role = makeHRole(0, { hp: 500, maxHP: 500, defense: 30 })
-  const battle = makeHBattle({ roles: [role] })
+  const role = makeRoleRecord(0, { hp: 500, maxHP: 500, defense: 30 })
+  const battle = makeBattleFixture({ roles: [role] })
   const { state, playerRoles, gs, bus } = battle
   const trace: string[] = []
   const rng = recordingRng([opts.autoDefendRoll], [10, 10, 10], trace)

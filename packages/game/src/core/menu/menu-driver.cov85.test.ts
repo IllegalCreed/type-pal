@@ -17,7 +17,7 @@ import type {
   Spell,
 } from '@type-pal/shared'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { makeRole } from '../../__tests__/coverage85-glm-game/harness.js'
+import { makeRoleRecord as makeRole } from '../../__tests__/battle-records.js'
 
 import { setGlobalEvents, tickEventSystem } from '../event-system.js'
 import {

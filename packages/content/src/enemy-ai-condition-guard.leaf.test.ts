@@ -12,8 +12,8 @@
  * turn 复制仅改 op，不由别的 kind 代替。
  */
 import { describe, expect, test } from 'vitest'
-import { deepSnapshot } from './__tests__/glm-content-contract-fixtures.js'
 import { expectAcceptsUnchanged, expectExactError } from './__tests__/guard-leaf-fixtures.js'
+import { deepSnapshot } from './__tests__/value-snapshot.js'
 import { checkEnemyAiCondition } from './enemy-ai-condition-guard.js'
 
 describe('G2 四类百分比条件共用 percent 叶（直入口变体）', () => {

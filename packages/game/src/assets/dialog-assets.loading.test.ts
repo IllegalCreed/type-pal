@@ -1,0 +1,314 @@
+/** Synthetic dialog resource inputs; exact decoded pixels, keys and isolated failures. */
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { bytesToBase64, indexedPng, twoFrameChunk } from '../__tests__/asset-fixtures.js'
+import { loadDialogAssets } from './dialog-assets.js'
+
+const iconBytes = twoFrameChunk(0x11, 0x22)
+
+const iconBase64 = bytesToBase64(iconBytes)
+
+function iconJson(size = iconBytes.length): string {
+  return JSON.stringify({ source: 't', size, base64: iconBase64 })
+}
+
+async function rgbaPngResponse(rgba: readonly number[]): Promise<Response> {
+  const bytes = await indexedPng(2, 1, rgba)
+  return new Response(bytes.slice(), { status: 200, headers: { 'content-type': 'image/png' } })
+}
+
+describe('dialog resource decoding and partial failures', () => {
+  let expectedWarnings: Array<[string, unknown]>
+
+  beforeEach(() => {
+    expectedWarnings = []
+    vi.spyOn(console, 'warn').mockImplementation(() => {})
+  })
+
+  afterEach(() => {
+    try {
+      // 两路资源可交错完成，只约束完整诊断及次数，不约束无关完成顺序。
+      expect(
+        Array.from(vi.mocked(console.warn).mock.calls).sort((a, b) =>
+          String(a[0]).localeCompare(String(b[0])),
+        ),
+      ).toStrictEqual(Array.from(expectedWarnings).sort((a, b) => a[0].localeCompare(b[0])))
+    } finally {
+      vi.unstubAllGlobals()
+      vi.restoreAllMocks()
+    }
+  })
+
+  it('portraits.json 500 时头像为空，两帧图标仍按 0 与 1 入 map', async () => {
+    expectedWarnings = [
+      [
+        '[dialog-assets] portraits failed, skip:',
+        new Error('dialog-assets: portraits.json fetch failed (500)'),
+      ],
+    ]
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async (input: RequestInfo | URL) => {
+        const url = String(input)
+        if (url.endsWith('/data/portraits.json')) return new Response('', { status: 500 })
+        if (url.endsWith('/data/dialog-icons-raw.json')) return new Response(iconJson())
+        throw new Error(`unmocked ${url}`)
+      }),
+    )
+    const assets = await loadDialogAssets()
+    expect(assets.portraitFrames.size).toBe(0)
+    expect(assets.iconFrames.size).toBe(2)
+    expect(Array.from(assets.iconFrames.get(0)?.indices ?? [])).toEqual([0x11])
+    expect(Array.from(assets.iconFrames.get(1)?.indices ?? [])).toEqual([0x22])
+    expect(Array.from(assets.iconFrames.get(1)?.opaque ?? [])).toEqual([1])
+  })
+
+  it('manifest 写 99×99 时，头像宽高和遮罩以 PNG 为准', async () => {
+    expectedWarnings = [
+      [
+        '[dialog-assets] icons failed, skip:',
+        new Error('dialog-assets: dialog-icons-raw.json fetch failed (404)'),
+      ],
+    ]
+    const png = await rgbaPngResponse([0, 1, 2, 0, 3, 4, 5, 255])
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async (input: RequestInfo | URL) => {
+        const url = String(input)
+        if (url.endsWith('/data/portraits.json')) {
+          return Response.json({
+            count: 1,
+            portraits: [{ chunkIndex: 12, width: 99, height: 99 }],
+          })
+        }
+        if (url.endsWith('/images/portraits/12.png')) return png
+        if (url.endsWith('/data/dialog-icons-raw.json')) return new Response('', { status: 404 })
+        throw new Error(`unmocked ${url}`)
+      }),
+    )
+    const assets = await loadDialogAssets()
+    const portrait = assets.portraitFrames.get(12)
+    expect(portrait?.width).toBe(2)
+    expect(portrait?.height).toBe(1)
+    expect(Array.from(portrait?.indices ?? [])).toEqual([0, 3])
+    expect(Array.from(portrait?.opaque ?? [])).toEqual([0, 1])
+    expect(assets.iconFrames.size).toBe(0)
+  })
+
+  it('chunk 0 的头像 URL 补成 portraits/00.png', async () => {
+    expectedWarnings = [
+      [
+        '[dialog-assets] icons failed, skip:',
+        new Error('dialog-assets: dialog-icons-raw.json fetch failed (404)'),
+      ],
+    ]
+    const png = await rgbaPngResponse([8, 0, 0, 255, 9, 0, 0, 255])
+    const calls: string[] = []
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async (input: RequestInfo | URL) => {
+        const url = String(input)
+        calls.push(url)
+        if (url.endsWith('/data/portraits.json')) {
+          return Response.json({
+            count: 1,
+            portraits: [{ chunkIndex: 0, width: 2, height: 1 }],
+          })
+        }
+        if (url.endsWith('/images/portraits/00.png')) return png
+        if (url.endsWith('/data/dialog-icons-raw.json')) return new Response('', { status: 404 })
+        throw new Error(`unmocked ${url}`)
+      }),
+    )
+    const assets = await loadDialogAssets()
+    expect(calls.some((url) => url.endsWith('/images/portraits/00.png'))).toBe(true)
+    expect(Array.from(assets.portraitFrames.get(0)?.indices ?? [])).toEqual([8, 9])
+  })
+
+  it('头像清单为空数组时不请求 PNG，图标照常解码', async () => {
+    const calls: string[] = []
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async (input: RequestInfo | URL) => {
+        const url = String(input)
+        calls.push(url)
+        if (url.endsWith('/data/portraits.json')) {
+          return Response.json({ count: 0, portraits: [] })
+        }
+        if (url.endsWith('/data/dialog-icons-raw.json')) return new Response(iconJson())
+        throw new Error(`unmocked ${url}`)
+      }),
+    )
+    const assets = await loadDialogAssets()
+    expect(calls.some((url) => url.includes('/images/portraits/'))).toBe(false)
+    expect(assets.portraitFrames.size).toBe(0)
+    expect(Array.from(assets.iconFrames.get(0)?.indices ?? [])).toEqual([0x11])
+  })
+
+  it('图标 base64 非法时图标 map 为空，已成功的头像保留', async () => {
+    expectedWarnings = [
+      [
+        '[dialog-assets] icons failed, skip:',
+        expect.objectContaining({ name: 'InvalidCharacterError', message: 'Invalid character' }),
+      ],
+    ]
+    const png = await rgbaPngResponse([6, 0, 0, 255, 7, 0, 0, 255])
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async (input: RequestInfo | URL) => {
+        const url = String(input)
+        if (url.endsWith('/data/portraits.json')) {
+          return Response.json({
+            count: 1,
+            portraits: [{ chunkIndex: 3, width: 2, height: 1 }],
+          })
+        }
+        if (url.endsWith('/images/portraits/03.png')) return png
+        if (url.endsWith('/data/dialog-icons-raw.json')) {
+          return Response.json({ source: 't', size: 1, base64: '***' })
+        }
+        throw new Error(`unmocked ${url}`)
+      }),
+    )
+    const assets = await loadDialogAssets()
+    expect(Array.from(assets.portraitFrames.get(3)?.indices ?? [])).toEqual([6, 7])
+    expect(assets.iconFrames.size).toBe(0)
+  })
+
+  it('两张头像分别以 chunk 8 和 12 为键', async () => {
+    expectedWarnings = [
+      [
+        '[dialog-assets] icons failed, skip:',
+        new Error('dialog-assets: dialog-icons-raw.json fetch failed (404)'),
+      ],
+    ]
+    const first = await rgbaPngResponse([8, 0, 0, 255, 1, 0, 0, 255])
+    const second = await rgbaPngResponse([12, 0, 0, 255, 2, 0, 0, 255])
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async (input: RequestInfo | URL) => {
+        const url = String(input)
+        if (url.endsWith('/data/portraits.json')) {
+          return Response.json({
+            count: 2,
+            portraits: [
+              { chunkIndex: 8, width: 2, height: 1 },
+              { chunkIndex: 12, width: 2, height: 1 },
+            ],
+          })
+        }
+        if (url.endsWith('/images/portraits/08.png')) return first
+        if (url.endsWith('/images/portraits/12.png')) return second
+        if (url.endsWith('/data/dialog-icons-raw.json')) return new Response('', { status: 404 })
+        throw new Error(`unmocked ${url}`)
+      }),
+    )
+    const assets = await loadDialogAssets()
+    expect(Array.from(assets.portraitFrames.get(8)?.indices ?? [])).toEqual([8, 1])
+    expect(Array.from(assets.portraitFrames.get(12)?.indices ?? [])).toEqual([12, 2])
+    expect(assets.portraitFrames.size).toBe(2)
+  })
+
+  it('单张头像失败的 warn 带上 chunk 4，成功的 chunk 8 仍在', async () => {
+    expectedWarnings = [
+      ['dialog-assets: portrait 4 load failed, skip:', new Error('HTTP 404')],
+      [
+        '[dialog-assets] icons failed, skip:',
+        new Error('dialog-assets: dialog-icons-raw.json fetch failed (404)'),
+      ],
+    ]
+    const png = await rgbaPngResponse([8, 0, 0, 255, 1, 0, 0, 255])
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async (input: RequestInfo | URL) => {
+        const url = String(input)
+        if (url.endsWith('/data/portraits.json')) {
+          return Response.json({
+            count: 2,
+            portraits: [
+              { chunkIndex: 8, width: 2, height: 1 },
+              { chunkIndex: 4, width: 2, height: 1 },
+            ],
+          })
+        }
+        if (url.endsWith('/images/portraits/08.png')) return png
+        if (url.endsWith('/images/portraits/04.png')) return new Response('', { status: 404 })
+        if (url.endsWith('/data/dialog-icons-raw.json')) return new Response('', { status: 404 })
+        throw new Error(`unmocked ${url}`)
+      }),
+    )
+    const assets = await loadDialogAssets()
+    expect(Array.from(assets.portraitFrames.get(8)?.indices ?? [])).toEqual([8, 1])
+    expect(assets.portraitFrames.has(4)).toBe(false)
+  })
+
+  it('size 字段与字节数不一致时，仍按 base64 解出两帧', async () => {
+    expectedWarnings = [
+      [
+        '[dialog-assets] portraits failed, skip:',
+        new Error('dialog-assets: portraits.json fetch failed (404)'),
+      ],
+    ]
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async (input: RequestInfo | URL) => {
+        const url = String(input)
+        if (url.endsWith('/data/portraits.json')) return new Response('', { status: 404 })
+        if (url.endsWith('/data/dialog-icons-raw.json')) return new Response(iconJson(1))
+        throw new Error(`unmocked ${url}`)
+      }),
+    )
+    const assets = await loadDialogAssets()
+    expect(assets.iconFrames.size).toBe(2)
+    expect(Array.from(assets.iconFrames.get(0)?.indices ?? [])).toEqual([0x11])
+  })
+
+  it('图标帧的透明孔写入 opaque 0，宽高来自 RLE', async () => {
+    expectedWarnings = [
+      [
+        '[dialog-assets] portraits failed, skip:',
+        new Error('dialog-assets: portraits.json fetch failed (404)'),
+      ],
+    ]
+    const mask = Uint8Array.of(0x01, 0x00, 0x02, 0x00, 0x01, 0x00, 0x81, 0x01, 0x22)
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async (input: RequestInfo | URL) => {
+        const url = String(input)
+        if (url.endsWith('/data/portraits.json')) return new Response('', { status: 404 })
+        if (url.endsWith('/data/dialog-icons-raw.json')) {
+          return Response.json({ source: 't', size: mask.length, base64: bytesToBase64(mask) })
+        }
+        throw new Error(`unmocked ${url}`)
+      }),
+    )
+    const assets = await loadDialogAssets()
+    const icon = assets.iconFrames.get(0)
+    expect(icon?.width).toBe(2)
+    expect(icon?.height).toBe(1)
+    expect(Array.from(icon?.indices ?? [])).toEqual([0, 0x22])
+    expect(Array.from(icon?.opaque ?? [])).toEqual([0, 1])
+  })
+
+  it('单张头像 404 不会清掉已经解码的图标', async () => {
+    expectedWarnings = [['dialog-assets: portrait 4 load failed, skip:', new Error('HTTP 404')]]
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async (input: RequestInfo | URL) => {
+        const url = String(input)
+        if (url.endsWith('/data/portraits.json')) {
+          return Response.json({
+            count: 1,
+            portraits: [{ chunkIndex: 4, width: 2, height: 1 }],
+          })
+        }
+        if (url.endsWith('/images/portraits/04.png')) return new Response('', { status: 404 })
+        if (url.endsWith('/data/dialog-icons-raw.json')) return new Response(iconJson())
+        throw new Error(`unmocked ${url}`)
+      }),
+    )
+    const assets = await loadDialogAssets()
+    expect(assets.portraitFrames.size).toBe(0)
+    expect(Array.from(assets.iconFrames.get(0)?.indices ?? [])).toEqual([0x11])
+    expect(assets.iconFrames.size).toBe(2)
+  })
+})

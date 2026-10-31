@@ -1,5 +1,5 @@
 /**
- * 商店**买**菜单(紧凑布局)— sdlpal `uigame.c:1615 PAL_BuyMenu` 1:1 状态机。
+ * 商店**买**菜单(紧凑布局)— sdlpal `uigame.c:1615 PAL_BuyMenu` 选择与确认状态；交易由caller执行。
  *
  * sdlpal 真值流程(**无数量选择** — 每次确认买 1 个,然后 loop 留在菜单):
  *  买(PAL_BuyMenu, store.rgwItems):
@@ -28,7 +28,7 @@ export type ShopPhase = 'list' | 'confirm'
 export interface ShopMenuState {
   mode: ShopMode
   phase: ShopPhase
-  /** 物品列表(买:店铺出售物品;卖:玩家 inventory 中 sellable 物品)。 */
+  /** 买菜单的商品列表；生产卖菜单使用独立SellMenuState.grid。 */
   list: SelectionMenuState
   /** confirm 阶段选中的物品 OBJECT id(= items.json id)。 */
   selectedItemId?: number

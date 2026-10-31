@@ -37,3 +37,11 @@ export function mkfContainer(chunks: readonly Uint8Array[]): Uint8Array {
   const header = u32Bytes(...offsets)
   return concatBytes([header, ...chunks])
 }
+
+/** 全零表 + 指定 u16 LE 写入点（offset 单位=字节）。 */
+export function u16Table(totalBytes: number, writes: ReadonlyArray<[number, number]>): Uint8Array {
+  const out = new Uint8Array(totalBytes)
+  const view = new DataView(out.buffer)
+  for (const [offset, value] of writes) view.setUint16(offset, value, true)
+  return out
+}

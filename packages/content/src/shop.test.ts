@@ -1,4 +1,6 @@
 import { describe, expect, test } from 'vitest'
+import { WAVE2_SHOP_ITEMS as remainderItems } from './__tests__/cursor-pure-wave2-fixtures.js'
+import { deepSnapshot } from './__tests__/value-snapshot.js'
 import type { WorldState } from './character.js'
 import type { ItemDataMap } from './item.js'
 import { sellableItems, shopBuy, shopSell, validateShops } from './shop.js'
@@ -111,6 +113,13 @@ describe('shopBuy(每次 1 个;钱不够 null)', () => {
     expect(w1.inventory).toEqual([{ itemId: '61', count: 1 }])
     expect(w1.money).toBe(50)
   })
+
+  test('钱够但未知物买为 null，源世界不动', () => {
+    const rich = world(999, [])
+    const richSnap = deepSnapshot(rich)
+    expect(shopBuy(rich, 'item.ghost', remainderItems)).toBeNull()
+    expect(rich).toEqual(richSnap)
+  })
 })
 
 describe('shopSell(按 sellPrice;不可卖/没货 null)', () => {
@@ -129,6 +138,25 @@ describe('shopSell(按 sellPrice;不可卖/没货 null)', () => {
   test('不可卖(sellable=false)/背包没有 → null', () => {
     expect(shopSell(world(0, [{ itemId: '267', count: 1 }]), '267', ITEMS)).toBeNull()
     expect(shopSell(world(0, []), '166', ITEMS)).toBeNull()
+  })
+
+  test('卖 2 件剩 1，保留其它物品且源世界不动', () => {
+    const packed = world(0, [
+      { itemId: 'item.sword', count: 2 },
+      { itemId: 'item.charm', count: 1 },
+    ])
+    const packedSnap = deepSnapshot(packed)
+    expect(shopSell(packed, 'item.sword', remainderItems)).toEqual({
+      party: [],
+      money: 25,
+      learnedSkills: {},
+      inventory: [
+        { itemId: 'item.sword', count: 1 },
+        { itemId: 'item.charm', count: 1 },
+      ],
+    })
+    expect(packed).toEqual(packedSnap)
+    expect(packed.inventory[0]?.count).toBe(2)
   })
 })
 

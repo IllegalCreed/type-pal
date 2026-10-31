@@ -1,19 +1,18 @@
-/**
- * TEST-COVERAGE85-GLM-GAME-1 专属 typed fixture harness。
- * 只走公开构造器/公开字段(createInitialGameState / createBattleState / setMenuCatalogs 等),
- * 不用 any / 双强转 / 业务核心 mock;各测试文件只 import 本文件,不互相依赖。
+/** Fresh battle state and bus with the legacy queued clamping RNG policy.
+ * Base records are shared; runtime hydration and startBattle resources belong to callers.
  */
-import type { BattleField, Enemy, PlayerRole, PlayerRoles } from '@type-pal/shared'
+import type { Enemy, PlayerRole, PlayerRoles } from '@type-pal/shared'
 import { type BattleState, createBattleState } from '../../core/battle/battle-state.js'
 import { type CommandBus, createCommandBus } from '../../core/command-bus.js'
 import { createInitialGameState, type GameState } from '../../core/game-state.js'
 import type { SeedableRng } from '../../core/rng.js'
+import { makeBattleFieldRecord, makeEnemyRecord, makeRoleRecord } from '../battle-records.js'
 
 export function freshGs(): GameState {
   return createInitialGameState({ x: 0, y: 0, facing: 'down' })
 }
 
-/** 确定性 LCG rng(H 波同思路,本卡自持):seq 可预测,断言可用。 */
+/** Queued integer stub with legacy clamping/default-low policy; not an LCG or seed replay. */
 export function seqRng(seq: number[] = []): SeedableRng & { calls: string[] } {
   const calls: string[] = []
   let i = 0
@@ -38,85 +37,6 @@ export function seqRng(seq: number[] = []): SeedableRng & { calls: string[] } {
   }
 }
 
-export function makeRole(id: number, overrides: Partial<PlayerRole> = {}): PlayerRole {
-  return {
-    id,
-    _name: `Role${id}`,
-    avatar: 0,
-    spriteNumInBattle: 0,
-    spriteNum: 0,
-    name: 0,
-    attackAll: 0,
-    level: 10,
-    maxHP: 500,
-    maxMP: 40,
-    hp: 500,
-    mp: 40,
-    attackStrength: 60,
-    magicStrength: 40,
-    defense: 30,
-    dexterity: 30,
-    fleeRate: 5,
-    poisonResistance: 0,
-    elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
-    walkFrames: 0,
-    attackSound: 0,
-    weaponSound: 0,
-    criticalSound: 0,
-    magicSound: 0,
-    deathSound: 0,
-    ...overrides,
-  }
-}
-
-export function makeEnemy(overrides: Partial<Enemy> = {}): Enemy {
-  return {
-    id: 100,
-    _name: 'Enemy100',
-    idleFrames: 0,
-    magicFrames: 0,
-    attackFrames: 0,
-    idleAnimSpeed: 0,
-    actWaitFrames: 0,
-    yPosOffset: 0,
-    attackSound: 0,
-    actionSound: 0,
-    magicSound: 0,
-    deathSound: 0,
-    callSound: 0,
-    health: 9000,
-    exp: 10,
-    cash: 30,
-    level: 5,
-    magic: 0,
-    magicRate: 0,
-    attackEquivItem: 0,
-    attackEquivItemRate: 0,
-    stealItem: 0,
-    stealItemCount: 0,
-    attackStrength: 20,
-    magicStrength: 10,
-    defense: 10,
-    dexterity: 20,
-    fleeRate: 5,
-    poisonResistance: 0,
-    elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
-    physicalResistance: 1,
-    dualMove: 0,
-    collectValue: 0,
-    ...overrides,
-  }
-}
-
-export function makeField(overrides: Partial<BattleField> = {}): BattleField {
-  return {
-    id: 0,
-    screenWave: 0,
-    magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
-    ...overrides,
-  }
-}
-
 export interface BattleFixture {
   gs: GameState
   state: BattleState
@@ -134,7 +54,7 @@ export function makeBattle(
     rng?: SeedableRng
   } = {},
 ): BattleFixture {
-  const roles = opts.roles ?? [makeRole(0)]
+  const roles = opts.roles ?? [makeRoleRecord(0)]
   const party = opts.party ?? roles.map((r) => r.id)
   const gs = freshGs()
   gs.partyMembers = party
@@ -142,8 +62,8 @@ export function makeBattle(
   const state = createBattleState({
     gs,
     playerRoles,
-    enemies: opts.enemies ?? [makeEnemy()],
-    field: makeField(),
+    enemies: opts.enemies ?? [makeEnemyRecord()],
+    field: makeBattleFieldRecord(),
     isBoss: opts.isBoss ?? false,
     rng: opts.rng ?? seqRng(),
   })

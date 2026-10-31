@@ -1,5 +1,6 @@
 import { afterEach, beforeEach, vi } from 'vitest'
 import { createInitialGameState } from '../core/game-state.js'
+import { getLanguage, useFallbackLanguage } from '../localization/language.js'
 import type { AudioVolumeController } from '../shell/audio-volume.js'
 import { createMusicSourceController, type MusicSourceController } from '../shell/music-source.js'
 import { setFpsEnabled } from './fps-overlay.js'
@@ -7,7 +8,7 @@ import { __resetSpeedrunForTest } from './speedrun/index.js'
 import type { ToolsPanelDeps } from './tools-panel.js'
 
 /** Keep the mute readback stateful so the second click exercises the opposite action. */
-export function mkVol(initialMuted = false): AudioVolumeController {
+export function makeVolumeController(initialMuted = false): AudioVolumeController {
   let muted = initialMuted
   return {
     getVolume: () => 0.8,
@@ -21,14 +22,17 @@ export function mkVol(initialMuted = false): AudioVolumeController {
 
 /**
  * The production panel lives for the page lifetime. Each test owns a shorter host:
- * remove its window listeners, timers, controllers, DOM and preferences even on failure.
+ * remove its page listeners/subscribers, timers, controllers, DOM and preferences even on failure.
  * Listener spying calls through; it does not replace panel/minimap event behavior.
  */
-export function useToolsPanelTestHost(): (over?: Partial<ToolsPanelDeps>) => ToolsPanelDeps {
+export function useToolsPanelTestHost(): (overrides?: Partial<ToolsPanelDeps>) => ToolsPanelDeps {
   const musicSources = new Set<MusicSourceController>()
   let releaseHost = (): void => {}
 
   beforeEach(() => {
+    const previousLanguage = getLanguage()
+    const previousDocumentLanguage = document.documentElement.getAttribute('lang')
+    useFallbackLanguage('zh-CN')
     const savedPreferences = new Map<string, string>()
     for (const key of Object.keys(localStorage)) {
       const value = localStorage.getItem(key)
@@ -54,6 +58,11 @@ export function useToolsPanelTestHost(): (over?: Partial<ToolsPanelDeps>) => Too
       vi.clearAllTimers()
       vi.useRealTimers()
       document.body.replaceChildren()
+      // Disconnected page-owned subscribers release themselves on a language notification.
+      useFallbackLanguage(previousLanguage === 'en' ? 'zh-CN' : 'en')
+      useFallbackLanguage(previousLanguage)
+      if (previousDocumentLanguage === null) document.documentElement.removeAttribute('lang')
+      else document.documentElement.setAttribute('lang', previousDocumentLanguage)
       for (const id of ['tp-tools-style', 'tp-fps-style']) {
         document.getElementById(id)?.remove()
       }
@@ -63,11 +72,11 @@ export function useToolsPanelTestHost(): (over?: Partial<ToolsPanelDeps>) => Too
   })
   afterEach(() => releaseHost())
 
-  return (over = {}) => {
+  return (overrides = {}) => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.wNumScene = 1
     const musicSource =
-      over.musicSource ?? createMusicSourceController(() => ({ play() {}, stop() {} }), 'midi')
+      overrides.musicSource ?? createMusicSourceController(() => ({ play() {}, stop() {} }), 'midi')
     musicSources.add(musicSource)
     return {
       getGs: () => gs,
@@ -78,12 +87,20 @@ export function useToolsPanelTestHost(): (over?: Partial<ToolsPanelDeps>) => Too
         toggleFullscreen: vi.fn(),
       },
       musicSource,
-      audioVolume: mkVol(),
-      sfxVolume: mkVol(),
-      videoVolume: mkVol(),
+      audioVolume: makeVolumeController(),
+      sfxVolume: makeVolumeController(),
+      videoVolume: makeVolumeController(),
       saveSlot: async () => {},
       loadSlot: async () => null,
-      ...over,
+      ...overrides,
     }
   }
+}
+
+/** Open the real system tab; stable tab identity is independent of translated button text. */
+export function openSystemTab(): void {
+  window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Backquote' }))
+  const tab = document.querySelector<HTMLButtonElement>('.tp-tab[data-key="system"]')
+  if (!tab) throw new Error('System tools tab missing')
+  tab.click()
 }

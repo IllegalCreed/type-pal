@@ -5,7 +5,7 @@
  * 输入一律由 createBattleState 公开工厂构造真实 typed BattleState;表(objectMagics/magics/
  * summonTables/poisons)是公开注入的 ctx 依赖,按注入 API 传值,不 mock 业务核心。
  * 本文件核直接dispatch的分支/依赖缺失/状态结果；跨层action专测另证完整接线。
- * 0x64/0x67/0x61主要入口在主测，0x05/0x8E/0x6B在glm-next-wave；
+ * Dialogue flag producers live in battle-dialog.script.test.ts; signed 0x6B values live in the main opcode spec.
  * 0x42与action专测有入口交集，不能把不同层次的例数当独立机制数量。
  */
 import type {
@@ -37,11 +37,10 @@ function damageNums(entries: BusEntry[]): Array<{
 
 import { afterEach, describe, expect, it } from 'vitest'
 import {
-  makeBattle,
-  makeEnemy,
-  makeRole,
-  seqRng,
-} from '../../__tests__/coverage85-glm-game/harness.js'
+  makeEnemyRecord as makeEnemy,
+  makeRoleRecord as makeRole,
+} from '../../__tests__/battle-records.js'
+import { makeBattle, seqRng } from '../../__tests__/coverage85-glm-game/harness.js'
 import { type BattleCtx, runScript } from '../event-system.js'
 import { hydratePlayerRolesRuntime } from '../game-state.js'
 import { addPoisonForPlayer, setObjectPoisons } from '../player-poison-state.js'
