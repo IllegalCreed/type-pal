@@ -19,6 +19,7 @@ import { historicalHtmlAdmissions } from './historical-html-admission.mjs'
 import { nativeArtifactBindings } from './historical-native-artifact-admission.mjs'
 import { nativeFamilyAdmissions } from './historical-native-family-admission.mjs'
 import { historicalVitestContract } from './historical-vitest-native.mjs'
+import { readIncrementalGitSource } from './incremental-git-source.mjs'
 import { assertReviewRecordSourceUnchanged, loadReviewRecords } from './review-record-storage.mjs'
 
 const root = fileURLToPath(new URL('../../', import.meta.url))
@@ -54,6 +55,7 @@ const sourceOptions = {
   readSource: (pin) => readGitDocumentSource(root, pin),
   readBuffer,
   readSourceBuffer: (pin) => readGitDocumentSnapshot(root, pin),
+  readIncrementalSourceBuffer: (pin) => readIncrementalGitSource(root, pin),
   readHtmlSourceBuffer: (pin) => readGitHtmlSnapshot(root, pin),
 }
 const baseline = inspectFrozenDocumentBaseline(read, sourceOptions.readSource, sourceOptions)

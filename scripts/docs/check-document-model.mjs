@@ -9,6 +9,7 @@ import { readGitHtmlSnapshot } from './git-html-snapshot.mjs'
 import { historicalHtmlAdmissions } from './historical-html-admission.mjs'
 import { nativeArtifactBindings } from './historical-native-artifact-admission.mjs'
 import { nativeFamilyAdmissions } from './historical-native-family-admission.mjs'
+import { readIncrementalGitSource } from './incremental-git-source.mjs'
 import { assertReviewRecordSourceUnchanged, loadReviewRecords } from './review-record-storage.mjs'
 
 const root = fileURLToPath(new URL('../../', import.meta.url))
@@ -54,6 +55,7 @@ const issues = checkDocumentModel(config, registry, read, {
   readSource: (pin) => readGitDocumentSource(root, pin),
   readBuffer,
   readSourceBuffer: (pin) => readGitDocumentSnapshot(root, pin),
+  readIncrementalSourceBuffer: (pin) => readIncrementalGitSource(root, pin),
   readHtmlSourceBuffer: (pin) => readGitHtmlSnapshot(root, pin),
   reviewReader,
   reviewGroupReader,

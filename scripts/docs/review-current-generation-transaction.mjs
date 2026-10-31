@@ -21,6 +21,7 @@ import { checkMigratedDocument } from './document-model.mjs'
 import { readGitDocumentSnapshot } from './git-document-snapshot.mjs'
 import { nativeArtifactBindings } from './historical-native-artifact-bindings.mjs'
 import { historicalVitestCohort } from './historical-vitest-cohort.mjs'
+import { readIncrementalGitSource } from './incremental-git-source.mjs'
 import { assertIncrementalOwnerSet, inspectIncrementalCohort } from './incremental-review.mjs'
 import { incrementalReviewAdmission } from './incremental-review-admission.mjs'
 import { incrementalReviewPath } from './incremental-review-content.mjs'
@@ -175,6 +176,7 @@ function publicReadback(root, plan) {
         .map((entry) => group.records.get(entry.reviewRecord).entries[entry.index]),
     ]
     const sourceCache = new Map()
+    const incrementalSourceCache = new Map()
     const readSourceBuffer = (pin) => {
       const key = `${pin.revision}:${pin.path}`
       if (!sourceCache.has(key)) sourceCache.set(key, readGitDocumentSnapshot(plan.root, pin))
@@ -194,6 +196,12 @@ function publicReadback(root, plan) {
           root,
           readBuffer,
           readSourceBuffer,
+          readIncrementalSourceBuffer: (pin) => {
+            const key = `${pin.revision}:${pin.path}`
+            if (!incrementalSourceCache.has(key))
+              incrementalSourceCache.set(key, readIncrementalGitSource(plan.root, pin))
+            return incrementalSourceCache.get(key)
+          },
           reviewGroupReader: () => group,
           reviewReader: (path) => group.records.get(path),
         },

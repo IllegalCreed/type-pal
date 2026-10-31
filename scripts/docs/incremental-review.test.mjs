@@ -11,6 +11,8 @@ import {
   summarizeDocumentRegistry,
   writeDocumentRegistry,
 } from './document-registry.mjs'
+import { readGitDocumentSnapshot } from './git-document-snapshot.mjs'
+import { readIncrementalGitSource } from './incremental-git-source.mjs'
 import { assertIncrementalOwnerSet, inspectIncrementalCohort } from './incremental-review.mjs'
 import {
   grantIncrementalReview,
@@ -53,6 +55,27 @@ const registryEntry = (path) => ({
   templateCompliance: 'needs-migration',
   reviewStatus: 'unread',
   reviewRecord: 'isolated-fixture.json',
+})
+
+test('the fixed-main companion resolves Markdown bytes without broadening the JSON source reader', () => {
+  const root = fileURLToPath(new URL('../..', import.meta.url))
+  const pin = {
+    revision: '72db417255d8ca4227522420e9185ef468462aa7',
+    path: 'docs/ops/archive/tasks/cancelled/GAME-PLAYER-POISON-KEY-DOMAIN-1.md',
+  }
+  const actual = readIncrementalGitSource(root, pin)
+  assert.equal(actual.mode, '100644')
+  assert.deepEqual(
+    actual.buffer,
+    execFileSync('git', ['cat-file', 'blob', `${pin.revision}:${pin.path}`], { cwd: root }),
+  )
+  assert.equal(readGitDocumentSnapshot(root, pin), undefined)
+  for (const bad of [
+    { ...pin, revision: '6995a8ec10598695e62df67e6f1d38da72bba38f' },
+    { ...pin, path: 'docs/../AGENTS.md' },
+    { ...pin, path: 'docs/ops/absent.md' },
+  ])
+    assert.equal(readIncrementalGitSource(root, bad), undefined)
 })
 
 test('normalization preserves contributor facts and records the administrative relocation and SHA meaning', () => {

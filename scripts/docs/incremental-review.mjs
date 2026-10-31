@@ -146,7 +146,8 @@ export function incrementalDocumentIssues(doc, template, contract, read, options
     const item = cohort?.byPath.get(doc.path)
     if (!item) return undefined
     demand(
-      typeof options.readBuffer === 'function' && typeof options.readSourceBuffer === 'function',
+      typeof options.readBuffer === 'function' &&
+        typeof options.readIncrementalSourceBuffer === 'function',
       'real body/source byte providers required',
     )
     const { row, index } = item
@@ -164,7 +165,7 @@ export function incrementalDocumentIssues(doc, template, contract, read, options
       'accepted body byte identity differs',
     )
     const pin = row.primarySource[0]
-    const source = options.readSourceBuffer(pin)
+    const source = options.readIncrementalSourceBuffer(pin)
     demand(
       source?.mode === '100644' &&
         source.path === doc.path &&
