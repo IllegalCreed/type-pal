@@ -150,6 +150,14 @@ export function assertVisiblePolicy(path, prefix, source) {
   )
 }
 
+/** The builder retains live metadata. Existing historical spans stay in the draft. */
+export function rollforwardDraftPrefix(source) {
+  const original = source.toString('utf8')
+  const front = /^---\s*\n[\s\S]*?\n---\s*\n/u.exec(original)?.[0] ?? ''
+  const testing = /<!-- testing-meta\s*\n[\s\S]*?\n-->/u.exec(original)?.[0] ?? ''
+  return original.slice(front.length).replace(testing, '')
+}
+
 export function prepareRollforwardCandidate({ draft, admission, source, registry, read }) {
   assert(
     !Object.hasOwn(draft.review ?? {}, 'currentIndependentAcceptance'),
@@ -215,7 +223,15 @@ export function prepareRollforwardCandidate({ draft, admission, source, registry
     }
   }
   assertVisiblePolicy(draft.path, draft.prefix ?? '', source)
-  const result = prepareIncrementalCandidate({ draft, admission, source, registry, read })
+  const result = prepareIncrementalCandidate({
+    draft,
+    admission,
+    source,
+    registry,
+    read,
+    markdownMode:
+      admission.kind === 'amendment' ? 'existing-template-amendment' : 'fixed-source-fence',
+  })
   // A prospective location is not an additional central owner or a new sidecar.
   result.row.fieldRoles.governance = [`external-candidate-bundle#entries/${admission.index}`]
   result.row.proposedBinding = {

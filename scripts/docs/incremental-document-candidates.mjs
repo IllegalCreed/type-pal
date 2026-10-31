@@ -60,8 +60,62 @@ export function assertIncrementalPreservation(candidate, source) {
   )
 }
 
+const preservedMarkerPairs = [
+  [incrementalSourceMarker, endMarker],
+  ['<!-- original-source-quote:start -->', '<!-- original-source-quote:end -->'],
+  ['<!-- original-source-fenced:start -->', '<!-- original-source-fenced:end -->'],
+  ['<!-- template-source-example:start -->', '<!-- template-source-example:end -->'],
+]
+
+/** Amend a current template in place, retaining its existing historical blocks.
+ * The full pre-amendment document is a pinned Git blob, not another inline copy.
+ */
+export function assertPreservedMarkdownSpans(candidate, source) {
+  const spans = (bytes, start, end) => {
+    const result = []
+    let offset = 0
+    while (true) {
+      const begin = bytes.indexOf(start, offset)
+      if (begin < 0) break
+      const finish = bytes.indexOf(end, begin + Buffer.byteLength(start))
+      demand(finish >= 0, 'historical source marker is unclosed')
+      offset = finish + Buffer.byteLength(end)
+      result.push(bytes.subarray(begin, offset))
+    }
+    demand(
+      bytes.toString('utf8').split(end).length - 1 === result.length,
+      'unmatched historical source end marker',
+    )
+    return result
+  }
+  return preservedMarkerPairs.map(([start, end]) => {
+    const before = spans(source, start, end),
+      after = spans(candidate, start, end)
+    demand(
+      before.length === after.length && before.every((b, i) => b.equals(after[i])),
+      'existing historical source span changed',
+    )
+    return {
+      marker: start,
+      blocks: before.length,
+      sha256: incrementalDigest(Buffer.concat(before)),
+    }
+  })
+}
+
 /** Source identities and state fields are derived, never supplied as author hashes. */
-export function prepareIncrementalCandidate({ draft, admission, source, registry, read }) {
+export function prepareIncrementalCandidate({
+  draft,
+  admission,
+  source,
+  registry,
+  read,
+  markdownMode = 'fixed-source-fence',
+}) {
+  demand(
+    ['fixed-source-fence', 'existing-template-amendment'].includes(markdownMode),
+    'unknown Markdown preservation mode',
+  )
   demand(draft.path === admission.path, 'draft/admission path mismatch')
   demand(
     incrementalDigest(source) === admission.sourceSha256 && source.length === admission.bytes,
@@ -128,13 +182,33 @@ export function prepareIncrementalCandidate({ draft, admission, source, registry
     const front = /^---\s*\n[\s\S]*?\n---\s*\n/u.exec(original)?.[0] ?? ''
     const testing = /<!-- testing-meta\s*\n[\s\S]*?\n-->/u.exec(original)?.[0] ?? ''
     demand(!/^---\s*\n/u.test(draft.prefix), 'builder retains original live front matter')
+    const liveDraft =
+      markdownMode === 'existing-template-amendment'
+        ? draft.prefix.slice(
+            0,
+            Math.min(
+              ...preservedMarkerPairs
+                .map(([start]) => draft.prefix.indexOf(start))
+                .filter((n) => n >= 0),
+              draft.prefix.length,
+            ),
+          )
+        : draft.prefix
     demand(
-      !draft.prefix.includes('<!-- testing-meta'),
+      markdownMode === 'existing-template-amendment'
+        ? !/<!-- testing-meta\s*\n/u.test(liveDraft)
+        : !liveDraft.includes('<!-- testing-meta'),
       'builder retains original live testing metadata',
     )
     const prefix = `${front}${testing ? `\n${testing}\n\n` : ''}${draft.prefix}`
-    body = renderIncrementalMarkdown(prefix, source)
-    assertIncrementalPreservation(body, source)
+    body =
+      markdownMode === 'existing-template-amendment'
+        ? Buffer.from(prefix)
+        : renderIncrementalMarkdown(prefix, source)
+    if (markdownMode === 'existing-template-amendment') {
+      demand(Buffer.from(source.toString('utf8')).equals(source), 'lossless UTF8 source required')
+      assertPreservedMarkdownSpans(body, source)
+    } else assertIncrementalPreservation(body, source)
     const originalTitle = /^# (.+)$/mu.exec(source.toString('utf8'))?.[1]
     if (originalTitle)
       demand(
@@ -155,9 +229,18 @@ export function prepareIncrementalCandidate({ draft, admission, source, registry
     )
     demand(issues.length === 0, `body contract: ${issues.join('; ')}`)
     evidence = {
-      kind: 'incremental-preserved-markdown',
+      kind:
+        markdownMode === 'existing-template-amendment'
+          ? 'incremental-existing-template-amendment'
+          : 'incremental-preserved-markdown',
       originalBytes: source.length,
       originalSha256: pin.sha256,
+      ...(markdownMode === 'existing-template-amendment'
+        ? {
+            preservedSpans: assertPreservedMarkdownSpans(body, source),
+            fullSourcePreservedIn: 'pinned-git-blob',
+          }
+        : {}),
     }
   }
   const row = {

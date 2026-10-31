@@ -22,6 +22,7 @@ import {
 } from './document-rollforward-candidates.mjs'
 import {
   assertIncrementalPreservation,
+  assertPreservedMarkdownSpans,
   incrementalDigest,
 } from './incremental-document-candidates.mjs'
 import { parseTerminalJson } from './terminal-json.mjs'
@@ -215,7 +216,10 @@ export function runRollforwardCandidates(argv) {
       assert(current.equals(result.body), 'Owner pilot rendering changed')
     }
     if (!current.equals(result.body)) {
-      if (!current.equals(source)) assertIncrementalPreservation(current, source)
+      if (!current.equals(source)) {
+        if (admission.kind === 'amendment') assertPreservedMarkdownSpans(current, source)
+        else assertIncrementalPreservation(current, source)
+      }
       outputs.push({ target, before: current, after: result.body, path: draft.path })
     }
     prepared.push(result.row)

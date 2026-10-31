@@ -16,7 +16,11 @@ import {
   rollforwardSeedMatches,
   rollforwardSourceRows,
 } from './document-rollforward-candidates.mjs'
-import { incrementalDigest } from './incremental-document-candidates.mjs'
+import {
+  assertPreservedMarkdownSpans,
+  incrementalDigest,
+} from './incremental-document-candidates.mjs'
+import { markdownLinks } from './markdown.mjs'
 
 const root = fileURLToPath(new URL('../..', import.meta.url))
 let sources
@@ -171,4 +175,82 @@ test('CLI invalid or conflicting modes refuse before source writes', () => {
     assert.throws(() => runRollforwardCandidates(argv))
   assert(git('status', '--porcelain', '--untracked-files=all').equals(before))
   assert(readFileSync(`${root}/docs/phase-governance/templates/registry.json`).length > 0)
+})
+
+test('an existing current template can be reused without adding another copy of its source', () => {
+  const path = 'docs/ops/code-quality.md',
+    value = snapshot(),
+    source = value.sources.get(path)
+  const sourceQuote = '文件按模块、功能和职责组织'
+  const draft = {
+    path,
+    templateId: 'guide-runbook-v1',
+    prefix: source.toString('utf8'),
+    review: {
+      coreConclusion:
+        'The current policy requires responsibility-based organization; this test checks amendment reuse, not product quality.',
+      owner: 'isolated-contract-test',
+      provenance: 'real fixed Git document',
+      readDomain: {
+        coverage: 'full-file',
+        actual: 'Fixed document read for preservation self-test',
+        reusedFrom: [],
+        notRead: ['No product execution'],
+      },
+      semanticAssessment: {
+        perFileChecked: true,
+        claims: [{ sourceQuote, claim: 'The exact policy clause remains visible.' }],
+      },
+      truthAnchors: [sourceQuote],
+      dependencies: [],
+      publicCallers: [path],
+      unresolved: [],
+      businessOracle: {
+        type: 'document-preservation',
+        assertions: ['No new source wrapper and exact existing historical span'],
+      },
+      dedupe: { result: 'reuse accepted template, not another inline copy', against: [] },
+      historyBoundary: 'fixed Git source only',
+      stopLine: 'reject source-span mutation',
+      nextStep: 'independent candidate acceptance',
+      runtimeExecutionPerformed: false,
+      linkDisposition: [
+        ...new Set(markdownLinks(source.toString('utf8')).map((l) => l.target)),
+      ].map((target) => ({ source: target, target, kind: 'live' })),
+    },
+  }
+  const result = prepareRollforwardCandidate({
+    draft,
+    admission: value.rows.find((r) => r.path === path),
+    source,
+    registry: JSON.parse(readFileSync(`${root}/docs/phase-governance/templates/registry.json`)),
+    read: (p) => readFileSync(`${root}/${p}`, 'utf8'),
+  })
+  assert(result.body.equals(source))
+  assert.equal(result.row.evidence.kind, 'incremental-existing-template-amendment')
+  assert.equal(result.row.evidence.fullSourcePreservedIn, 'pinned-git-blob')
+})
+
+test('amendment preservation rejects historical tail mutation or another nested source span', () => {
+  const source = snapshot().sources.get('docs/ops/code-quality.md')
+  assert.doesNotThrow(() => assertPreservedMarkdownSpans(Buffer.from(source), source))
+  const altered = Buffer.from(source)
+  const end = altered.indexOf('<!-- incremental-original-source:end -->')
+  assert(end > 3)
+  altered[end - 3] ^= 1
+  assert.throws(
+    () => assertPreservedMarkdownSpans(altered, source),
+    /existing historical source span changed/,
+  )
+  assert.throws(
+    () =>
+      assertPreservedMarkdownSpans(
+        Buffer.concat([
+          source,
+          source.subarray(source.indexOf('<!-- incremental-original-source:start -->')),
+        ]),
+        source,
+      ),
+    /existing historical source span changed/,
+  )
 })
