@@ -19,6 +19,7 @@ import {
   currentStructuralReviewStorageUpgrade,
 } from './current-review-ledger-storage-admission.mjs'
 import { checkMigratedDocument } from './document-model.mjs'
+import { loadDocumentRegistry } from './document-registry.mjs'
 import { readGitDocumentSnapshot } from './git-document-snapshot.mjs'
 import { nativeArtifactBindings } from './historical-native-artifact-bindings.mjs'
 import { historicalVitestCohort } from './historical-vitest-cohort.mjs'
@@ -196,6 +197,18 @@ function publicReadback(root, plan) {
   assertAllPins(group.records, readBuffer, plan.expectedPins)
   assertProtectedNative(readBuffer, plan.incremental ? group.records : undefined)
   if (plan.incremental) {
+    const { registry } = loadDocumentRegistry({
+      manifestPath: join(root, 'docs/phase-governance/document-registry.json'),
+    })
+    demand(
+      registry.entries.length === plan.expectedPins && registry.shards.length === 9,
+      'staged registry requires the complete admitted9/4351 projection',
+    )
+    equal(
+      registry.entries.map((row) => row.path).sort(),
+      [...group.records.values()].flatMap((record) => record.entries.map((row) => row.path)).sort(),
+      'staged registry/review membership',
+    )
     const templates = JSON.parse(readBuffer('docs/phase-governance/templates/registry.json'))
     const cohort = inspectIncrementalCohort(group.records)
     const targets = [
@@ -359,7 +372,18 @@ export function prepareCurrentReviewTransaction({
     readBuffer(entry.path)
   }
   if (incremental)
-    for (const path of ['AGENTS.md', 'CLAUDE.md']) {
+    for (const path of [
+      'AGENTS.md',
+      'CLAUDE.md',
+      // These parts are explicit physical artifacts rather than semantic rows.
+      // After first publication, capture them as real inputs for every later
+      // transaction; root descriptors alone do not guard prepare-to-write drift.
+      ...(group.records.get(incrementalReviewPath).entries.length > 28
+        ? incrementalReviewAdmission.registryPartitions.map(
+            (part) => `docs/phase-governance/${part.path}`,
+          )
+        : []),
+    ]) {
       referenced.add(path)
       readBuffer(path)
     }
