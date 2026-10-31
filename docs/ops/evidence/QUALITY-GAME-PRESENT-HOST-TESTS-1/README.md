@@ -1,5 +1,40 @@
 # present 主测与冻屏合同质量
 
+Status: current
+Owner: Codex（原证据作者；本轮导航pilot）
+Last reviewed: 2026-10-31
+Template: governance-index-v1 / 1.0.0
+
+## 目的
+
+导航到present与冻屏两主体的原质量审查、身份迁移和原件。current仅指导航可用，不是新执行或整个模块通过。
+
+## 范围
+
+原1537/175行两主体、现810行present与bootstrap onPresent调用边界。67旧身份有保留/迁移/替代映射；当前52+9=61例，有限邻域9文件102绿。SDLPal仅参考，不扩成原版保真或浏览器观感验收。
+
+## 当前状态
+
+原两主体已局部接受；height<=0改<0及flush首像素破坏各旧67绿/新61恰一业务AssertionError。四轮宿主0collection无信用，r2保持workspace后才成立；首cover夹具一红修正是测试修复，不冒称产品反例。原片内重门未跑，10-28才追加百主体本地门更新，两时点保留、不相加。
+
+## 入口与责任
+
+- [任务卡](../../tasks/QUALITY-GAME-PRESENT-HOST-TESTS-1.md)、[父窗口](../../tasks/QUALITY-PENDING-100-2.md)：准入与发布。
+- [逐文件审查](review.json)、[67身份映射](identities.json)：A–H与保留去向。
+- [统一门原件](../QUALITY-PENDING-100-2/uniform/README.md)：后来集中门范围，不能倒签片内。
+
+## 证据与下一步
+
+原目录verify.mjs只核指纹/原件/身份与两针，不重跑产品或认证设计优良。当前内容含真实像素、整帧、排序与接触生命周期oracle，不以noThrow/同义数组取代。发生源码/caller/输入变化只重核受影响claim；本轮未运行Vitest、coverage或浏览器。旧文中的退役测试命令指原时点，后继位置由命名组织窗口解释。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 4347B / SHA-256 169edf2df0cfe478b5b2541246dd285b41118db9d0cda8aff6e0e51a9d94b1b2；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# present 主测与冻屏合同质量
+
 Owner: Codex（单 Agent）。基点 `f47f052fa1e732f7e574e70b268790d301dada3d`，同一 `codex/code-quality-94-102`；候选为未提交工作树，逐文件指纹绑定，不冒称冻结提交。
 
 ## 范围与裁定
@@ -33,3 +68,5 @@ G04-D04 使用真实 battle factory 与六角色 hydrate，真正进入战中菜
 全仓 check、official coverage ratchet、protected fast、精确退役数据和提交/PR留约100实际主体冻结后；当前未运行、未声称通过。其它 pending 保持原状态，不授依赖或整模块关闭信用。
 
 2026-10-28 集中门更新：已随100主体通过本地全仓check、official同报ratchet/protected及零诊断，旧“未运行”段保留为片内历史。远端发布待GitHub网络恢复，[统一原件](../QUALITY-PENDING-100-2/uniform/README.md)。
+```
+<!-- incremental-original-source:end -->
