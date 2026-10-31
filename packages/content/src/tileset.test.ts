@@ -1,16 +1,18 @@
 import { describe, expect, test } from 'vitest'
-import { deepSnapshot } from './__tests__/glm-content-contract-fixtures.js'
+import { tilesetCatalogRecord } from './__tests__/cursor-pure-wave2-fixtures.js'
+import { deepSnapshot } from './__tests__/value-snapshot.js'
+import { validateAssetCatalog } from './asset.js'
 import { resolveTilesetAsset, validateTilesets } from './tileset.js'
 
-describe('validateTilesets(W7B)', () => {
+describe('validateTilesets', () => {
   test('合法条目原样返回', () => {
     const raw = [
       { id: 'grass', name: '草地', category: 'outdoor', asset: 'tileset.grass' },
       { id: 'pal-20', name: '原版·仙灵岛', category: 'builtin', asset: 'tileset.pal.020' },
     ]
     const before = deepSnapshot(raw)
-    const v = validateTilesets(raw)
-    expect(v).toEqual([
+    const validated = validateTilesets(raw)
+    expect(validated).toEqual([
       { id: 'grass', name: '草地', category: 'outdoor', asset: 'tileset.grass' },
       { id: 'pal-20', name: '原版·仙灵岛', category: 'builtin', asset: 'tileset.pal.020' },
     ])
@@ -37,13 +39,65 @@ describe('validateTilesets(W7B)', () => {
       '已退役',
     )
   })
+
+  test('匹配 tileset catalog 通过且输入不变，旁 sprite 记录不入解析', () => {
+    const catalog = validateAssetCatalog({
+      version: 1,
+      assets: {
+        'tileset.grass': tilesetCatalogRecord('tileset.grass'),
+        'sprite.unused': {
+          kind: 'sprite',
+          path: 'assets/generated/sprite.unused.png',
+          mediaType: 'image/png',
+          bytes: 3,
+          sha256: 'b'.repeat(64),
+          origin: { kind: 'generated' },
+        },
+      },
+    })
+    const tilesets = [{ id: 'grass', name: '草地', category: 'outdoor', asset: 'tileset.grass' }]
+    const catalogSnap = deepSnapshot(catalog)
+    const tilesetSnap = deepSnapshot(tilesets)
+    expect(validateTilesets(tilesets, catalog)).toEqual(tilesets)
+    expect(tilesets).toEqual(tilesetSnap)
+    expect(catalog).toEqual(catalogSnap)
+    expect(resolveTilesetAsset('grass', tilesets)).toBe('tileset.grass')
+  })
+
+  test('catalog 缺 AssetId 与 kind 不符各自精确拒绝，输入不变', () => {
+    const spriteOnly = validateAssetCatalog({
+      version: 1,
+      assets: {
+        'sprite.x': {
+          kind: 'sprite',
+          path: 'assets/generated/sprite.x.png',
+          mediaType: 'image/png',
+          bytes: 3,
+          sha256: 'c'.repeat(64),
+          origin: { kind: 'generated' },
+        },
+      },
+    })
+    const missing = [{ id: 'grass', name: '草地', category: 'outdoor', asset: 'tileset.ghost' }]
+    const mismatch = [{ id: 'grass', name: '草地', category: 'outdoor', asset: 'sprite.x' }]
+    const missingSnap = deepSnapshot(missing)
+    const mismatchSnap = deepSnapshot(mismatch)
+    expect(() => validateTilesets(missing, spriteOnly)).toThrow(
+      'tilesets[0].asset: AssetId "tileset.ghost" 不在 catalog',
+    )
+    expect(() => validateTilesets(mismatch, spriteOnly)).toThrow(
+      'tilesets[0].asset: AssetId "sprite.x" 期望 tileset，实际 sprite',
+    )
+    expect(missing).toEqual(missingSnap)
+    expect(mismatch).toEqual(mismatchSnap)
+  })
 })
 
 describe('resolveTilesetAsset', () => {
-  const reg = [{ id: 'grass', name: '草', category: 'outdoor', asset: 'tileset.grass' }]
+  const tilesets = [{ id: 'grass', name: '草', category: 'outdoor', asset: 'tileset.grass' }]
   test('注册表 id → AssetId；路径直通与未知 id 均报错', () => {
-    expect(resolveTilesetAsset('grass', reg)).toBe('tileset.grass')
-    expect(() => resolveTilesetAsset('tileset/20.rle', reg)).toThrow('不在注册表')
-    expect(() => resolveTilesetAsset('nope', reg)).toThrow('tileset "nope" 不在注册表')
+    expect(resolveTilesetAsset('grass', tilesets)).toBe('tileset.grass')
+    expect(() => resolveTilesetAsset('tileset/20.rle', tilesets)).toThrow('不在注册表')
+    expect(() => resolveTilesetAsset('nope', tilesets)).toThrow('tileset "nope" 不在注册表')
   })
 })

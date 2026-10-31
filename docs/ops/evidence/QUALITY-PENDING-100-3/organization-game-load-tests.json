@@ -1,0 +1,1034 @@
+{
+  "id": "game-load-tests",
+  "kind": "Responsibility reorganization; three loadAll contracts and a separate palette caller",
+  "namespace": "organization-game-load-tests",
+  "inputs": [
+    {
+      "path": "packages/game/src/assets/load-all-assemble.grok-r1.test.ts",
+      "member": "organization-game-load-tests/0.before",
+      "sha256": "3dc0ceb1be6bebf97e1af676ba82c09ef0daecad51aa4a931ea256e712a9b7ba"
+    },
+    {
+      "path": "packages/game/src/assets/load-all-bounds.grok-r1.test.ts",
+      "member": "organization-game-load-tests/1.before",
+      "sha256": "8e2d65449b3bfa2e84bcf88aa719fd3cefca32f49c282937cb041057a627be73"
+    },
+    {
+      "path": "packages/game/src/assets/load-all-recover.grok-r1.test.ts",
+      "member": "organization-game-load-tests/2.before",
+      "sha256": "93dc54c2c28c055c2417cc49a704126e286713c555331b0e68628e6dc68f0253"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "packages/game/src/assets/load-all.assembly.test.ts",
+      "sha256": "558eeb2568ef04db749925bbbda58faed1f67598eacd2f19309ae22125d9dffa"
+    },
+    {
+      "path": "packages/game/src/assets/load-all.boundaries.test.ts",
+      "sha256": "5cafb9da014b2bb4deccad3044651414255a56662c91836ddb5b45112fc6b287"
+    },
+    {
+      "path": "packages/game/src/assets/load-all.optional-assets.test.ts",
+      "sha256": "6a0fd1f45afe5d870c0b75dac1f2830b0cd3c25cbd5c052fc7ea7f4ebf038b1c"
+    },
+    {
+      "path": "packages/game/src/assets/fetch-palette.test.ts",
+      "sha256": "3776b8675b6e58baeb4290b3c9a21596930558bb1d04ce60c02e095e69d88213"
+    }
+  ],
+  "sourceBridges": [
+    {
+      "id": "responsibility-and-palette-lifecycle-0",
+      "path": "packages/game/src/assets/load-all-assemble.grok-r1.test.ts",
+      "reason": "Suite/case responsibility names only, callbacks and hooks unchanged.",
+      "changes": [
+        {
+          "from": "'G01-A loadAll 合法装配'",
+          "to": "'loadAll assembled resources'",
+          "count": 1
+        },
+        {
+          "from": "'G01-A01 scene 7 用 mapNum 12 取 tilemap 与 tileset，不按 sceneId 取图'",
+          "to": "'scene 7 用 mapNum 12 取 tilemap 与 tileset，不按 sceneId 取图'",
+          "count": 1
+        },
+        {
+          "from": "'G01-A02 scene 7 的事件脚本 URL 补零为 scene-007，段名原样返回'",
+          "to": "'scene 7 的事件脚本 URL 补零为 scene-007，段名原样返回'",
+          "count": 1
+        },
+        {
+          "from": "'G01-A03 首屏调色板固定取 palette/0，256 色与循环段原样进入结果'",
+          "to": "'首屏调色板固定取 palette/0，256 色与循环段原样进入结果'",
+          "count": 1
+        },
+        {
+          "from": "'G01-A04 tileset RLE 经真实解码进入 tileImages，键 0/1 像素为 AA/BB'",
+          "to": "'tileset RLE 经真实解码进入 tileImages，键 0/1 像素为 AA/BB'",
+          "count": 1
+        },
+        {
+          "from": "'G01-A05 角色精灵键为队长、事件对象、71 与 73，5×3 帧锚点为 2,3'",
+          "to": "'角色精灵键为队长、事件对象、71 与 73，5×3 帧锚点为 2,3'",
+          "count": 1
+        },
+        {
+          "from": "'G01-A06 队长与两个事件对象共用 sprite 9 时只 fetch 一次'",
+          "to": "'队长与两个事件对象共用 sprite 9 时只 fetch 一次'",
+          "count": 1
+        },
+        {
+          "from": "'G01-A07 战斗精灵键为 kind-id，背景 8 的像素来自对应 PNG'",
+          "to": "'战斗精灵键为 kind-id，背景 8 的像素来自对应 PNG'",
+          "count": 1
+        },
+        {
+          "from": "'G01-A08 法术精灵只加载被引用且 frameCount>0 的 chunk，含 effect 0'",
+          "to": "'法术精灵只加载被引用且 frameCount>0 的 chunk，含 effect 0'",
+          "count": 1
+        },
+        {
+          "from": "'G01-A09 物品图标按 chunkIndex 入 map，UI 帧保留原编号'",
+          "to": "'物品图标按 chunkIndex 入 map，UI 帧保留原编号'",
+          "count": 1
+        },
+        {
+          "from": "'G01-A10 词表、商店、升级表、敌人 id 与敌位布局原样透传'",
+          "to": "'词表、商店、升级表、敌人 id 与敌位布局原样透传'",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "responsibility-and-palette-lifecycle-1",
+      "path": "packages/game/src/assets/load-all-bounds.grok-r1.test.ts",
+      "reason": "Separate the actual fetchPalette caller. Its two requests never touch PNG input; drop unrelated PNG beforeAll only for those two cases, retain cleanup and all business assertions. Other8loadAll cases keep exact atlas lifecycle. The two palette cases now use a narrow JSON/status fetch IO fake; existing expect statements and cleanup unchanged, no unrelated scenario/RLE-gzip setup.",
+      "changes": [
+        {
+          "from": "describe('G01-B loadAll 边界守卫', () => {\n  let pngs: Map<number, Uint8Array>\n\n  beforeAll(async () => {\n    pngs = await pngAtlas([0, 1, 2, 3, 8, 12])\n  })\n\n  afterEach(() => {\n    vi.unstubAllGlobals()\n    vi.restoreAllMocks()\n  })\n\n  it('G01-B01 sceneId 0 使用 scene/0.json 与 events/scene-000.json', async () => {\n    const script = makeAssetLoadScenario({\n      scene: { sceneId: 0, mapNum: 4, eventObjects: [] },\n      eventsName: 'scene-000.onEnter',\n      roles: [makeAssetRole(0, 2)],\n    })\n    const { calls } = installAssetFetch(script, pngs)\n    const assets = await loadAll(0)\n    expect(callsEnding(calls, '/data/scene/0.json')).toHaveLength(1)\n    expect(callsEnding(calls, '/events/scene-000.json')).toHaveLength(1)\n    expect(callsEnding(calls, '/data/tilemap/4.json')).toHaveLength(1)\n    expect(assets.events.segments[0]?.name).toBe('scene-000.onEnter')\n    expect(assets.scene.sceneId).toBe(0)\n  })\n\n  it('G01-B02 roles 为空时在精灵请求前抛 roles[0] missing，且已取过 tileset', async () => {\n    const { calls } = installAssetFetch(makeAssetLoadScenario({ roles: [] }), pngs)\n    await expect(loadAll(7)).rejects.toThrow('assets: player-roles.json roles[0] missing')\n    expect(callsEnding(calls, '/data/tileset/12.rle')).toHaveLength(1)\n    expect(callsEnding(calls, '/data/sprite/71.rle')).toHaveLength(0)\n    expect(calls.some((url) => url.includes('/data/sprite/'))).toBe(false)\n  })\n\n  it('G01-B03 spriteNum 0 的队长和事件对象都不进集合，只剩固定 71 与 73', async () => {\n    const script = makeAssetLoadScenario({\n      roles: [makeAssetRole(0, 0)],\n      scene: {\n        sceneId: 7,\n        mapNum: 12,\n        eventObjects: [{ id: 3, x: 1, y: 1, spriteNum: 0, triggerMode: 0 }],\n      },\n    })\n    const { calls } = installAssetFetch(script, pngs)\n    const assets = await loadAll(7)\n    expect([...assets.characterSprites.keys()].sort((a, b) => a - b)).toEqual([71, 73])\n    expect(callsEnding(calls, '/data/sprite/0.rle')).toHaveLength(0)\n    expect(callsEnding(calls, '/data/sprite/71.rle')).toHaveLength(1)\n    expect(callsEnding(calls, '/data/sprite/73.rle')).toHaveLength(1)\n  })\n\n  it('G01-B04 frameCount 为 0 的被引用 chunk 不取 fire RLE，未引用 chunk 也不取', async () => {\n    const script = makeAssetLoadScenario({\n      magics: [\n        {\n          ...makeAssetLoadScenario().magics[0]!,\n          id: 0,\n          effect: 0,\n        },\n        {\n          ...makeAssetLoadScenario().magics[1]!,\n          id: 1,\n          effect: 4,\n        },\n      ],\n      fireChunks: [\n        { chunkIndex: 0, frameCount: 2 },\n        { chunkIndex: 4, frameCount: 0 },\n        { chunkIndex: 7, frameCount: 2 },\n      ],\n    })\n    const { calls } = installAssetFetch(script, pngs)\n    const assets = await loadAll(7)\n    expect([...assets.magicSprites.keys()]).toEqual([0])\n    expect(callsEnding(calls, '/data/magic/fire-00.rle')).toHaveLength(1)\n    expect(callsEnding(calls, '/data/magic/fire-04.rle')).toHaveLength(0)\n    expect(callsEnding(calls, '/data/magic/fire-07.rle')).toHaveLength(0)\n  })\n\n  it('G01-B05 空战斗 manifest 仍读取清单文件，但不请求任何精灵或背景成员', async () => {\n    const script = makeAssetLoadScenario({ battleSprites: [], battleBgIds: [] })\n    const { calls } = installAssetFetch(script, pngs)\n    const assets = await loadAll(7)\n    expect(callsEnding(calls, '/data/battle-sprites.json')).toHaveLength(1)\n    expect(callsEnding(calls, '/data/battle-bgs.json')).toHaveLength(1)\n    expect(calls.some((url) => url.includes('/battle-sprite/'))).toBe(false)\n    expect(calls.some((url) => url.includes('/images/battle/bg/'))).toBe(false)\n    expect(assets.battleSprites.size).toBe(0)\n    expect(assets.battleBgs.size).toBe(0)\n  })\n\n  it('G01-B06 words.json 没有 flat 字段时词表为空数组', async () => {\n    const { calls } = installAssetFetch(makeAssetLoadScenario({ words: {} }), pngs)\n    const assets = await loadAll(7)\n    expect(callsEnding(calls, '/lookup/words.json')).toHaveLength(1)\n    expect(assets.words).toEqual([])\n  })\n\n  it('G01-B07 scene JSON 404 时错误带 scene URL，且不会再请求 tilemap', async () => {\n    const { calls } = installAssetFetch(makeAssetLoadScenario(), pngs)\n    await expect(loadAll(4)).rejects.toThrow(\n      'assets: fetch /extracted/data/scene/4.json failed (404)',\n    )\n    expect(calls).toEqual(['/extracted/data/scene/4.json'])\n  })\n\n  it('G01-B08 tilemap 404 时错误带 mapNum URL，且 tileset 尚未请求', async () => {\n    const { calls } = installAssetFetch(makeAssetLoadScenario({ fail: { tilemap: 404 } }), pngs)\n    await expect(loadAll(7)).rejects.toThrow(\n      'assets: fetch /extracted/data/tilemap/12.json failed (404)',\n    )\n    expect(callsEnding(calls, '/data/scene/7.json')).toHaveLength(1)\n    expect(callsEnding(calls, '/data/tilemap/12.json')).toHaveLength(1)\n    expect(calls.some((url) => url.includes('/tileset/'))).toBe(false)\n  })\n\n  it('G01-B09 fetchPalette(5) 读取 palette/5.json 并返回完整 256 色', async () => {\n    const palette = legalPalette((colors) => {\n      colors[5] = [9, 8, 7]\n    })\n    const { calls } = installAssetFetch(\n      makeAssetLoadScenario({ extraPalettes: { 5: palette } }),\n      pngs,\n    )\n    const loaded = await fetchPalette(5)\n    expect(calls).toEqual(['/extracted/data/palette/5.json'])\n    expect(loaded.colors).toHaveLength(256)\n    expect(loaded.colors[5]).toEqual([9, 8, 7])\n    expect(loaded.cycles).toEqual([{ start: 10, length: 4, step: 1, frameInterval: 3 }])\n  })\n\n  it('G01-B10 fetchPalette(12) 503 的错误同时包含 URL 与状态码', async () => {\n    const { calls } = installAssetFetch(\n      makeAssetLoadScenario({ fail: { palettes: { 12: 503 } } }),\n      pngs,\n    )\n    await expect(fetchPalette(12)).rejects.toThrow(\n      'assets: fetch /extracted/data/palette/12.json failed (503)',\n    )\n    expect(calls).toEqual(['/extracted/data/palette/12.json'])\n  })\n})",
+          "to": "describe('loadAll request and input boundaries', () => {\nlet pngs: Map<number, Uint8Array>\n\nbeforeAll(async () => {\n    pngs = await pngAtlas([0, 1, 2, 3, 8, 12])\n  })\n\nafterEach(() => {\n    vi.unstubAllGlobals()\n    vi.restoreAllMocks()\n  })\n\nit('G01-B01 sceneId 0 使用 scene/0.json 与 events/scene-000.json', async () => {\n    const script = makeAssetLoadScenario({\n      scene: { sceneId: 0, mapNum: 4, eventObjects: [] },\n      eventsName: 'scene-000.onEnter',\n      roles: [makeAssetRole(0, 2)],\n    })\n    const { calls } = installAssetFetch(script, pngs)\n    const assets = await loadAll(0)\n    expect(callsEnding(calls, '/data/scene/0.json')).toHaveLength(1)\n    expect(callsEnding(calls, '/events/scene-000.json')).toHaveLength(1)\n    expect(callsEnding(calls, '/data/tilemap/4.json')).toHaveLength(1)\n    expect(assets.events.segments[0]?.name).toBe('scene-000.onEnter')\n    expect(assets.scene.sceneId).toBe(0)\n  })\n\nit('G01-B02 roles 为空时在精灵请求前抛 roles[0] missing，且已取过 tileset', async () => {\n    const { calls } = installAssetFetch(makeAssetLoadScenario({ roles: [] }), pngs)\n    await expect(loadAll(7)).rejects.toThrow('assets: player-roles.json roles[0] missing')\n    expect(callsEnding(calls, '/data/tileset/12.rle')).toHaveLength(1)\n    expect(callsEnding(calls, '/data/sprite/71.rle')).toHaveLength(0)\n    expect(calls.some((url) => url.includes('/data/sprite/'))).toBe(false)\n  })\n\nit('G01-B03 spriteNum 0 的队长和事件对象都不进集合，只剩固定 71 与 73', async () => {\n    const script = makeAssetLoadScenario({\n      roles: [makeAssetRole(0, 0)],\n      scene: {\n        sceneId: 7,\n        mapNum: 12,\n        eventObjects: [{ id: 3, x: 1, y: 1, spriteNum: 0, triggerMode: 0 }],\n      },\n    })\n    const { calls } = installAssetFetch(script, pngs)\n    const assets = await loadAll(7)\n    expect([...assets.characterSprites.keys()].sort((a, b) => a - b)).toEqual([71, 73])\n    expect(callsEnding(calls, '/data/sprite/0.rle')).toHaveLength(0)\n    expect(callsEnding(calls, '/data/sprite/71.rle')).toHaveLength(1)\n    expect(callsEnding(calls, '/data/sprite/73.rle')).toHaveLength(1)\n  })\n\nit('G01-B04 frameCount 为 0 的被引用 chunk 不取 fire RLE，未引用 chunk 也不取', async () => {\n    const script = makeAssetLoadScenario({\n      magics: [\n        {\n          ...makeAssetLoadScenario().magics[0]!,\n          id: 0,\n          effect: 0,\n        },\n        {\n          ...makeAssetLoadScenario().magics[1]!,\n          id: 1,\n          effect: 4,\n        },\n      ],\n      fireChunks: [\n        { chunkIndex: 0, frameCount: 2 },\n        { chunkIndex: 4, frameCount: 0 },\n        { chunkIndex: 7, frameCount: 2 },\n      ],\n    })\n    const { calls } = installAssetFetch(script, pngs)\n    const assets = await loadAll(7)\n    expect([...assets.magicSprites.keys()]).toEqual([0])\n    expect(callsEnding(calls, '/data/magic/fire-00.rle')).toHaveLength(1)\n    expect(callsEnding(calls, '/data/magic/fire-04.rle')).toHaveLength(0)\n    expect(callsEnding(calls, '/data/magic/fire-07.rle')).toHaveLength(0)\n  })\n\nit('G01-B05 空战斗 manifest 仍读取清单文件，但不请求任何精灵或背景成员', async () => {\n    const script = makeAssetLoadScenario({ battleSprites: [], battleBgIds: [] })\n    const { calls } = installAssetFetch(script, pngs)\n    const assets = await loadAll(7)\n    expect(callsEnding(calls, '/data/battle-sprites.json')).toHaveLength(1)\n    expect(callsEnding(calls, '/data/battle-bgs.json')).toHaveLength(1)\n    expect(calls.some((url) => url.includes('/battle-sprite/'))).toBe(false)\n    expect(calls.some((url) => url.includes('/images/battle/bg/'))).toBe(false)\n    expect(assets.battleSprites.size).toBe(0)\n    expect(assets.battleBgs.size).toBe(0)\n  })\n\nit('G01-B06 words.json 没有 flat 字段时词表为空数组', async () => {\n    const { calls } = installAssetFetch(makeAssetLoadScenario({ words: {} }), pngs)\n    const assets = await loadAll(7)\n    expect(callsEnding(calls, '/lookup/words.json')).toHaveLength(1)\n    expect(assets.words).toEqual([])\n  })\n\nit('G01-B07 scene JSON 404 时错误带 scene URL，且不会再请求 tilemap', async () => {\n    const { calls } = installAssetFetch(makeAssetLoadScenario(), pngs)\n    await expect(loadAll(4)).rejects.toThrow(\n      'assets: fetch /extracted/data/scene/4.json failed (404)',\n    )\n    expect(calls).toEqual(['/extracted/data/scene/4.json'])\n  })\n\nit('G01-B08 tilemap 404 时错误带 mapNum URL，且 tileset 尚未请求', async () => {\n    const { calls } = installAssetFetch(makeAssetLoadScenario({ fail: { tilemap: 404 } }), pngs)\n    await expect(loadAll(7)).rejects.toThrow(\n      'assets: fetch /extracted/data/tilemap/12.json failed (404)',\n    )\n    expect(callsEnding(calls, '/data/scene/7.json')).toHaveLength(1)\n    expect(callsEnding(calls, '/data/tilemap/12.json')).toHaveLength(1)\n    expect(calls.some((url) => url.includes('/tileset/'))).toBe(false)\n  })\n})\n\ndescribe('fetchPalette requests and failures', () => {\nafterEach(() => {\n    vi.unstubAllGlobals()\n    vi.restoreAllMocks()\n  })\n\nit('G01-B09 fetchPalette(5) 读取 palette/5.json 并返回完整 256 色', async () => {\n    const palette = legalPalette((colors) => {\n      colors[5] = [9, 8, 7]\n    })\n    const calls: string[] = []\nvi.stubGlobal('fetch', async (input: RequestInfo | URL) => {\n  calls.push(String(input))\n  return Response.json(palette)\n})\n    const loaded = await fetchPalette(5)\n    expect(calls).toEqual(['/extracted/data/palette/5.json'])\n    expect(loaded.colors).toHaveLength(256)\n    expect(loaded.colors[5]).toEqual([9, 8, 7])\n    expect(loaded.cycles).toEqual([{ start: 10, length: 4, step: 1, frameInterval: 3 }])\n  })\n\nit('G01-B10 fetchPalette(12) 503 的错误同时包含 URL 与状态码', async () => {\n    const calls: string[] = []\nvi.stubGlobal('fetch', async (input: RequestInfo | URL) => {\n  calls.push(String(input))\n  return new Response(null, { status: 503 })\n})\n    await expect(fetchPalette(12)).rejects.toThrow(\n      'assets: fetch /extracted/data/palette/12.json failed (503)',\n    )\n    expect(calls).toEqual(['/extracted/data/palette/12.json'])\n  })\n})",
+          "count": 1
+        },
+        {
+          "from": "'G01-B01 sceneId 0 使用 scene/0.json 与 events/scene-000.json'",
+          "to": "'sceneId 0 使用 scene/0.json 与 events/scene-000.json'",
+          "count": 1
+        },
+        {
+          "from": "'G01-B02 roles 为空时在精灵请求前抛 roles[0] missing，且已取过 tileset'",
+          "to": "'roles 为空时在精灵请求前抛 roles[0] missing，且已取过 tileset'",
+          "count": 1
+        },
+        {
+          "from": "'G01-B03 spriteNum 0 的队长和事件对象都不进集合，只剩固定 71 与 73'",
+          "to": "'spriteNum 0 的队长和事件对象都不进集合，只剩固定 71 与 73'",
+          "count": 1
+        },
+        {
+          "from": "'G01-B04 frameCount 为 0 的被引用 chunk 不取 fire RLE，未引用 chunk 也不取'",
+          "to": "'frameCount 为 0 的被引用 chunk 不取 fire RLE，未引用 chunk 也不取'",
+          "count": 1
+        },
+        {
+          "from": "'G01-B05 空战斗 manifest 仍读取清单文件，但不请求任何精灵或背景成员'",
+          "to": "'空战斗 manifest 仍读取清单文件，但不请求任何精灵或背景成员'",
+          "count": 1
+        },
+        {
+          "from": "'G01-B06 words.json 没有 flat 字段时词表为空数组'",
+          "to": "'words.json 没有 flat 字段时词表为空数组'",
+          "count": 1
+        },
+        {
+          "from": "'G01-B07 scene JSON 404 时错误带 scene URL，且不会再请求 tilemap'",
+          "to": "'scene JSON 404 时错误带 scene URL，且不会再请求 tilemap'",
+          "count": 1
+        },
+        {
+          "from": "'G01-B08 tilemap 404 时错误带 mapNum URL，且 tileset 尚未请求'",
+          "to": "'tilemap 404 时错误带 mapNum URL，且 tileset 尚未请求'",
+          "count": 1
+        },
+        {
+          "from": "'G01-B09 fetchPalette(5) 读取 palette/5.json 并返回完整 256 色'",
+          "to": "'fetchPalette(5) 读取 palette/5.json 并返回完整 256 色'",
+          "count": 1
+        },
+        {
+          "from": "'G01-B10 fetchPalette(12) 503 的错误同时包含 URL 与状态码'",
+          "to": "'fetchPalette(12) 503 的错误同时包含 URL 与状态码'",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "responsibility-and-palette-lifecycle-2",
+      "path": "packages/game/src/assets/load-all-recover.grok-r1.test.ts",
+      "reason": "Suite/case responsibility names only, callbacks and hooks unchanged.",
+      "changes": [
+        {
+          "from": "'G01-C loadAll 失败恢复'",
+          "to": "'loadAll optional asset failures'",
+          "count": 1
+        },
+        {
+          "from": "'G01-C01 object-players 404 时结果为空数组，敌人表仍在'",
+          "to": "'object-players 404 时结果为空数组，敌人表仍在'",
+          "count": 1
+        },
+        {
+          "from": "'G01-C02 words.json 500 时词表为空，商店表仍透传'",
+          "to": "'words.json 500 时词表为空，商店表仍透传'",
+          "count": 1
+        },
+        {
+          "from": "'G01-C03 battle-sprites.json 404 时精灵 map 为空，背景 8 仍解码'",
+          "to": "'battle-sprites.json 404 时精灵 map 为空，背景 8 仍解码'",
+          "count": 1
+        },
+        {
+          "from": "'G01-C04 battle-bgs.json 404 时背景 map 为空，player-2 精灵仍在'",
+          "to": "'battle-bgs.json 404 时背景 map 为空，player-2 精灵仍在'",
+          "count": 1
+        },
+        {
+          "from": "'G01-C05 事件精灵 9 的 RLE 404 被跳过，71 与 73 仍在'",
+          "to": "'事件精灵 9 的 RLE 404 被跳过，71 与 73 仍在'",
+          "count": 1
+        },
+        {
+          "from": "'G01-C06 enemy-4 RLE 404 被跳过，player-2 的第二帧像素仍是 0x22'",
+          "to": "'enemy-4 RLE 404 被跳过，player-2 的第二帧像素仍是 0x22'",
+          "count": 1
+        },
+        {
+          "from": "'G01-C07 背景 8 的 PNG 404 被跳过，背景 9 的像素保留'",
+          "to": "'背景 8 的 PNG 404 被跳过，背景 9 的像素保留'",
+          "count": 1
+        },
+        {
+          "from": "'G01-C08 effect.rle 404 时 effectSprite 缺席，法术 chunk 0 仍在'",
+          "to": "'effect.rle 404 时 effectSprite 缺席，法术 chunk 0 仍在'",
+          "count": 1
+        },
+        {
+          "from": "'G01-C09 fire-sprites.json 404 时法术 map 为空，命中特效帧仍加载'",
+          "to": "'fire-sprites.json 404 时法术 map 为空，命中特效帧仍加载'",
+          "count": 1
+        },
+        {
+          "from": "'G01-C10 UI 帧 1 失败时，缺失位置留空，其余帧保留原编号'",
+          "to": "'UI 帧 1 失败时，缺失位置留空，其余帧保留原编号'",
+          "count": 1
+        },
+        {
+          "from": "'G01-C11 物品 12 失败时省略该键，物品 3 的像素保留'",
+          "to": "'物品 12 失败时省略该键，物品 3 的像素保留'",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "replacements": [],
+  "registrations": [
+    {
+      "old": {
+        "file": "packages/game/src/assets/load-all-assemble.grok-r1.test.ts",
+        "ordinal": 0
+      },
+      "current": {
+        "file": "packages/game/src/assets/load-all.assembly.test.ts",
+        "titles": ["loadAll assembled resources"],
+        "template": "scene 7 用 mapNum 12 取 tilemap 与 tileset，不按 sceneId 取图"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/load-all-assemble.grok-r1.test.ts",
+        "ordinal": 1
+      },
+      "current": {
+        "file": "packages/game/src/assets/load-all.assembly.test.ts",
+        "titles": ["loadAll assembled resources"],
+        "template": "scene 7 的事件脚本 URL 补零为 scene-007，段名原样返回"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/load-all-assemble.grok-r1.test.ts",
+        "ordinal": 2
+      },
+      "current": {
+        "file": "packages/game/src/assets/load-all.assembly.test.ts",
+        "titles": ["loadAll assembled resources"],
+        "template": "首屏调色板固定取 palette/0，256 色与循环段原样进入结果"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/load-all-assemble.grok-r1.test.ts",
+        "ordinal": 3
+      },
+      "current": {
+        "file": "packages/game/src/assets/load-all.assembly.test.ts",
+        "titles": ["loadAll assembled resources"],
+        "template": "tileset RLE 经真实解码进入 tileImages，键 0/1 像素为 AA/BB"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/load-all-assemble.grok-r1.test.ts",
+        "ordinal": 4
+      },
+      "current": {
+        "file": "packages/game/src/assets/load-all.assembly.test.ts",
+        "titles": ["loadAll assembled resources"],
+        "template": "角色精灵键为队长、事件对象、71 与 73，5×3 帧锚点为 2,3"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/load-all-assemble.grok-r1.test.ts",
+        "ordinal": 5
+      },
+      "current": {
+        "file": "packages/game/src/assets/load-all.assembly.test.ts",
+        "titles": ["loadAll assembled resources"],
+        "template": "队长与两个事件对象共用 sprite 9 时只 fetch 一次"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/load-all-assemble.grok-r1.test.ts",
+        "ordinal": 6
+      },
+      "current": {
+        "file": "packages/game/src/assets/load-all.assembly.test.ts",
+        "titles": ["loadAll assembled resources"],
+        "template": "战斗精灵键为 kind-id，背景 8 的像素来自对应 PNG"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/load-all-assemble.grok-r1.test.ts",
+        "ordinal": 7
+      },
+      "current": {
+        "file": "packages/game/src/assets/load-all.assembly.test.ts",
+        "titles": ["loadAll assembled resources"],
+        "template": "法术精灵只加载被引用且 frameCount>0 的 chunk，含 effect 0"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/load-all-assemble.grok-r1.test.ts",
+        "ordinal": 8
+      },
+      "current": {
+        "file": "packages/game/src/assets/load-all.assembly.test.ts",
+        "titles": ["loadAll assembled resources"],
+        "template": "物品图标按 chunkIndex 入 map，UI 帧保留原编号"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/load-all-assemble.grok-r1.test.ts",
+        "ordinal": 9
+      },
+      "current": {
+        "file": "packages/game/src/assets/load-all.assembly.test.ts",
+        "titles": ["loadAll assembled resources"],
+        "template": "词表、商店、升级表、敌人 id 与敌位布局原样透传"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/load-all-bounds.grok-r1.test.ts",
+        "ordinal": 0
+      },
+      "current": {
+        "file": "packages/game/src/assets/load-all.boundaries.test.ts",
+        "titles": ["loadAll request and input boundaries"],
+        "template": "sceneId 0 使用 scene/0.json 与 events/scene-000.json"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/load-all-bounds.grok-r1.test.ts",
+        "ordinal": 1
+      },
+      "current": {
+        "file": "packages/game/src/assets/load-all.boundaries.test.ts",
+        "titles": ["loadAll request and input boundaries"],
+        "template": "roles 为空时在精灵请求前抛 roles[0] missing，且已取过 tileset"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/load-all-bounds.grok-r1.test.ts",
+        "ordinal": 2
+      },
+      "current": {
+        "file": "packages/game/src/assets/load-all.boundaries.test.ts",
+        "titles": ["loadAll request and input boundaries"],
+        "template": "spriteNum 0 的队长和事件对象都不进集合，只剩固定 71 与 73"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/load-all-bounds.grok-r1.test.ts",
+        "ordinal": 3
+      },
+      "current": {
+        "file": "packages/game/src/assets/load-all.boundaries.test.ts",
+        "titles": ["loadAll request and input boundaries"],
+        "template": "frameCount 为 0 的被引用 chunk 不取 fire RLE，未引用 chunk 也不取"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/load-all-bounds.grok-r1.test.ts",
+        "ordinal": 4
+      },
+      "current": {
+        "file": "packages/game/src/assets/load-all.boundaries.test.ts",
+        "titles": ["loadAll request and input boundaries"],
+        "template": "空战斗 manifest 仍读取清单文件，但不请求任何精灵或背景成员"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/load-all-bounds.grok-r1.test.ts",
+        "ordinal": 5
+      },
+      "current": {
+        "file": "packages/game/src/assets/load-all.boundaries.test.ts",
+        "titles": ["loadAll request and input boundaries"],
+        "template": "words.json 没有 flat 字段时词表为空数组"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/load-all-bounds.grok-r1.test.ts",
+        "ordinal": 6
+      },
+      "current": {
+        "file": "packages/game/src/assets/load-all.boundaries.test.ts",
+        "titles": ["loadAll request and input boundaries"],
+        "template": "scene JSON 404 时错误带 scene URL，且不会再请求 tilemap"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/load-all-bounds.grok-r1.test.ts",
+        "ordinal": 7
+      },
+      "current": {
+        "file": "packages/game/src/assets/load-all.boundaries.test.ts",
+        "titles": ["loadAll request and input boundaries"],
+        "template": "tilemap 404 时错误带 mapNum URL，且 tileset 尚未请求"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/load-all-bounds.grok-r1.test.ts",
+        "ordinal": 8
+      },
+      "current": {
+        "file": "packages/game/src/assets/fetch-palette.test.ts",
+        "titles": ["fetchPalette requests and failures"],
+        "template": "fetchPalette(5) 读取 palette/5.json 并返回完整 256 色"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/load-all-bounds.grok-r1.test.ts",
+        "ordinal": 9
+      },
+      "current": {
+        "file": "packages/game/src/assets/fetch-palette.test.ts",
+        "titles": ["fetchPalette requests and failures"],
+        "template": "fetchPalette(12) 503 的错误同时包含 URL 与状态码"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/load-all-recover.grok-r1.test.ts",
+        "ordinal": 0
+      },
+      "current": {
+        "file": "packages/game/src/assets/load-all.optional-assets.test.ts",
+        "titles": ["loadAll optional asset failures"],
+        "template": "object-players 404 时结果为空数组，敌人表仍在"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/load-all-recover.grok-r1.test.ts",
+        "ordinal": 1
+      },
+      "current": {
+        "file": "packages/game/src/assets/load-all.optional-assets.test.ts",
+        "titles": ["loadAll optional asset failures"],
+        "template": "words.json 500 时词表为空，商店表仍透传"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/load-all-recover.grok-r1.test.ts",
+        "ordinal": 2
+      },
+      "current": {
+        "file": "packages/game/src/assets/load-all.optional-assets.test.ts",
+        "titles": ["loadAll optional asset failures"],
+        "template": "battle-sprites.json 404 时精灵 map 为空，背景 8 仍解码"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/load-all-recover.grok-r1.test.ts",
+        "ordinal": 3
+      },
+      "current": {
+        "file": "packages/game/src/assets/load-all.optional-assets.test.ts",
+        "titles": ["loadAll optional asset failures"],
+        "template": "battle-bgs.json 404 时背景 map 为空，player-2 精灵仍在"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/load-all-recover.grok-r1.test.ts",
+        "ordinal": 4
+      },
+      "current": {
+        "file": "packages/game/src/assets/load-all.optional-assets.test.ts",
+        "titles": ["loadAll optional asset failures"],
+        "template": "事件精灵 9 的 RLE 404 被跳过，71 与 73 仍在"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/load-all-recover.grok-r1.test.ts",
+        "ordinal": 5
+      },
+      "current": {
+        "file": "packages/game/src/assets/load-all.optional-assets.test.ts",
+        "titles": ["loadAll optional asset failures"],
+        "template": "enemy-4 RLE 404 被跳过，player-2 的第二帧像素仍是 0x22"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/load-all-recover.grok-r1.test.ts",
+        "ordinal": 6
+      },
+      "current": {
+        "file": "packages/game/src/assets/load-all.optional-assets.test.ts",
+        "titles": ["loadAll optional asset failures"],
+        "template": "背景 8 的 PNG 404 被跳过，背景 9 的像素保留"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/load-all-recover.grok-r1.test.ts",
+        "ordinal": 7
+      },
+      "current": {
+        "file": "packages/game/src/assets/load-all.optional-assets.test.ts",
+        "titles": ["loadAll optional asset failures"],
+        "template": "effect.rle 404 时 effectSprite 缺席，法术 chunk 0 仍在"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/load-all-recover.grok-r1.test.ts",
+        "ordinal": 8
+      },
+      "current": {
+        "file": "packages/game/src/assets/load-all.optional-assets.test.ts",
+        "titles": ["loadAll optional asset failures"],
+        "template": "fire-sprites.json 404 时法术 map 为空，命中特效帧仍加载"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/load-all-recover.grok-r1.test.ts",
+        "ordinal": 9
+      },
+      "current": {
+        "file": "packages/game/src/assets/load-all.optional-assets.test.ts",
+        "titles": ["loadAll optional asset failures"],
+        "template": "UI 帧 1 失败时，缺失位置留空，其余帧保留原编号"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/load-all-recover.grok-r1.test.ts",
+        "ordinal": 10
+      },
+      "current": {
+        "file": "packages/game/src/assets/load-all.optional-assets.test.ts",
+        "titles": ["loadAll optional asset failures"],
+        "template": "物品 12 失败时省略该键，物品 3 的像素保留"
+      }
+    }
+  ],
+  "identities": [
+    {
+      "old": {
+        "file": "packages/game/src/assets/load-all-assemble.grok-r1.test.ts",
+        "fullName": "G01-A loadAll 合法装配 G01-A01 scene 7 用 mapNum 12 取 tilemap 与 tileset，不按 sceneId 取图"
+      },
+      "current": {
+        "file": "packages/game/src/assets/load-all.assembly.test.ts",
+        "fullName": "loadAll assembled resources scene 7 用 mapNum 12 取 tilemap 与 tileset，不按 sceneId 取图"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/load-all-assemble.grok-r1.test.ts",
+        "fullName": "G01-A loadAll 合法装配 G01-A02 scene 7 的事件脚本 URL 补零为 scene-007，段名原样返回"
+      },
+      "current": {
+        "file": "packages/game/src/assets/load-all.assembly.test.ts",
+        "fullName": "loadAll assembled resources scene 7 的事件脚本 URL 补零为 scene-007，段名原样返回"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/load-all-assemble.grok-r1.test.ts",
+        "fullName": "G01-A loadAll 合法装配 G01-A03 首屏调色板固定取 palette/0，256 色与循环段原样进入结果"
+      },
+      "current": {
+        "file": "packages/game/src/assets/load-all.assembly.test.ts",
+        "fullName": "loadAll assembled resources 首屏调色板固定取 palette/0，256 色与循环段原样进入结果"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/load-all-assemble.grok-r1.test.ts",
+        "fullName": "G01-A loadAll 合法装配 G01-A04 tileset RLE 经真实解码进入 tileImages，键 0/1 像素为 AA/BB"
+      },
+      "current": {
+        "file": "packages/game/src/assets/load-all.assembly.test.ts",
+        "fullName": "loadAll assembled resources tileset RLE 经真实解码进入 tileImages，键 0/1 像素为 AA/BB"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/load-all-assemble.grok-r1.test.ts",
+        "fullName": "G01-A loadAll 合法装配 G01-A05 角色精灵键为队长、事件对象、71 与 73，5×3 帧锚点为 2,3"
+      },
+      "current": {
+        "file": "packages/game/src/assets/load-all.assembly.test.ts",
+        "fullName": "loadAll assembled resources 角色精灵键为队长、事件对象、71 与 73，5×3 帧锚点为 2,3"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/load-all-assemble.grok-r1.test.ts",
+        "fullName": "G01-A loadAll 合法装配 G01-A06 队长与两个事件对象共用 sprite 9 时只 fetch 一次"
+      },
+      "current": {
+        "file": "packages/game/src/assets/load-all.assembly.test.ts",
+        "fullName": "loadAll assembled resources 队长与两个事件对象共用 sprite 9 时只 fetch 一次"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/load-all-assemble.grok-r1.test.ts",
+        "fullName": "G01-A loadAll 合法装配 G01-A07 战斗精灵键为 kind-id，背景 8 的像素来自对应 PNG"
+      },
+      "current": {
+        "file": "packages/game/src/assets/load-all.assembly.test.ts",
+        "fullName": "loadAll assembled resources 战斗精灵键为 kind-id，背景 8 的像素来自对应 PNG"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/load-all-assemble.grok-r1.test.ts",
+        "fullName": "G01-A loadAll 合法装配 G01-A08 法术精灵只加载被引用且 frameCount>0 的 chunk，含 effect 0"
+      },
+      "current": {
+        "file": "packages/game/src/assets/load-all.assembly.test.ts",
+        "fullName": "loadAll assembled resources 法术精灵只加载被引用且 frameCount>0 的 chunk，含 effect 0"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/load-all-assemble.grok-r1.test.ts",
+        "fullName": "G01-A loadAll 合法装配 G01-A09 物品图标按 chunkIndex 入 map，UI 帧保留原编号"
+      },
+      "current": {
+        "file": "packages/game/src/assets/load-all.assembly.test.ts",
+        "fullName": "loadAll assembled resources 物品图标按 chunkIndex 入 map，UI 帧保留原编号"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/load-all-assemble.grok-r1.test.ts",
+        "fullName": "G01-A loadAll 合法装配 G01-A10 词表、商店、升级表、敌人 id 与敌位布局原样透传"
+      },
+      "current": {
+        "file": "packages/game/src/assets/load-all.assembly.test.ts",
+        "fullName": "loadAll assembled resources 词表、商店、升级表、敌人 id 与敌位布局原样透传"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/load-all-bounds.grok-r1.test.ts",
+        "fullName": "G01-B loadAll 边界守卫 G01-B01 sceneId 0 使用 scene/0.json 与 events/scene-000.json"
+      },
+      "current": {
+        "file": "packages/game/src/assets/load-all.boundaries.test.ts",
+        "fullName": "loadAll request and input boundaries sceneId 0 使用 scene/0.json 与 events/scene-000.json"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/load-all-bounds.grok-r1.test.ts",
+        "fullName": "G01-B loadAll 边界守卫 G01-B02 roles 为空时在精灵请求前抛 roles[0] missing，且已取过 tileset"
+      },
+      "current": {
+        "file": "packages/game/src/assets/load-all.boundaries.test.ts",
+        "fullName": "loadAll request and input boundaries roles 为空时在精灵请求前抛 roles[0] missing，且已取过 tileset"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/load-all-bounds.grok-r1.test.ts",
+        "fullName": "G01-B loadAll 边界守卫 G01-B03 spriteNum 0 的队长和事件对象都不进集合，只剩固定 71 与 73"
+      },
+      "current": {
+        "file": "packages/game/src/assets/load-all.boundaries.test.ts",
+        "fullName": "loadAll request and input boundaries spriteNum 0 的队长和事件对象都不进集合，只剩固定 71 与 73"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/load-all-bounds.grok-r1.test.ts",
+        "fullName": "G01-B loadAll 边界守卫 G01-B04 frameCount 为 0 的被引用 chunk 不取 fire RLE，未引用 chunk 也不取"
+      },
+      "current": {
+        "file": "packages/game/src/assets/load-all.boundaries.test.ts",
+        "fullName": "loadAll request and input boundaries frameCount 为 0 的被引用 chunk 不取 fire RLE，未引用 chunk 也不取"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/load-all-bounds.grok-r1.test.ts",
+        "fullName": "G01-B loadAll 边界守卫 G01-B05 空战斗 manifest 仍读取清单文件，但不请求任何精灵或背景成员"
+      },
+      "current": {
+        "file": "packages/game/src/assets/load-all.boundaries.test.ts",
+        "fullName": "loadAll request and input boundaries 空战斗 manifest 仍读取清单文件，但不请求任何精灵或背景成员"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/load-all-bounds.grok-r1.test.ts",
+        "fullName": "G01-B loadAll 边界守卫 G01-B06 words.json 没有 flat 字段时词表为空数组"
+      },
+      "current": {
+        "file": "packages/game/src/assets/load-all.boundaries.test.ts",
+        "fullName": "loadAll request and input boundaries words.json 没有 flat 字段时词表为空数组"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/load-all-bounds.grok-r1.test.ts",
+        "fullName": "G01-B loadAll 边界守卫 G01-B07 scene JSON 404 时错误带 scene URL，且不会再请求 tilemap"
+      },
+      "current": {
+        "file": "packages/game/src/assets/load-all.boundaries.test.ts",
+        "fullName": "loadAll request and input boundaries scene JSON 404 时错误带 scene URL，且不会再请求 tilemap"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/load-all-bounds.grok-r1.test.ts",
+        "fullName": "G01-B loadAll 边界守卫 G01-B08 tilemap 404 时错误带 mapNum URL，且 tileset 尚未请求"
+      },
+      "current": {
+        "file": "packages/game/src/assets/load-all.boundaries.test.ts",
+        "fullName": "loadAll request and input boundaries tilemap 404 时错误带 mapNum URL，且 tileset 尚未请求"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/load-all-bounds.grok-r1.test.ts",
+        "fullName": "G01-B loadAll 边界守卫 G01-B09 fetchPalette(5) 读取 palette/5.json 并返回完整 256 色"
+      },
+      "current": {
+        "file": "packages/game/src/assets/fetch-palette.test.ts",
+        "fullName": "fetchPalette requests and failures fetchPalette(5) 读取 palette/5.json 并返回完整 256 色"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/load-all-bounds.grok-r1.test.ts",
+        "fullName": "G01-B loadAll 边界守卫 G01-B10 fetchPalette(12) 503 的错误同时包含 URL 与状态码"
+      },
+      "current": {
+        "file": "packages/game/src/assets/fetch-palette.test.ts",
+        "fullName": "fetchPalette requests and failures fetchPalette(12) 503 的错误同时包含 URL 与状态码"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/load-all-recover.grok-r1.test.ts",
+        "fullName": "G01-C loadAll 失败恢复 G01-C01 object-players 404 时结果为空数组，敌人表仍在"
+      },
+      "current": {
+        "file": "packages/game/src/assets/load-all.optional-assets.test.ts",
+        "fullName": "loadAll optional asset failures object-players 404 时结果为空数组，敌人表仍在"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/load-all-recover.grok-r1.test.ts",
+        "fullName": "G01-C loadAll 失败恢复 G01-C02 words.json 500 时词表为空，商店表仍透传"
+      },
+      "current": {
+        "file": "packages/game/src/assets/load-all.optional-assets.test.ts",
+        "fullName": "loadAll optional asset failures words.json 500 时词表为空，商店表仍透传"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/load-all-recover.grok-r1.test.ts",
+        "fullName": "G01-C loadAll 失败恢复 G01-C03 battle-sprites.json 404 时精灵 map 为空，背景 8 仍解码"
+      },
+      "current": {
+        "file": "packages/game/src/assets/load-all.optional-assets.test.ts",
+        "fullName": "loadAll optional asset failures battle-sprites.json 404 时精灵 map 为空，背景 8 仍解码"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/load-all-recover.grok-r1.test.ts",
+        "fullName": "G01-C loadAll 失败恢复 G01-C04 battle-bgs.json 404 时背景 map 为空，player-2 精灵仍在"
+      },
+      "current": {
+        "file": "packages/game/src/assets/load-all.optional-assets.test.ts",
+        "fullName": "loadAll optional asset failures battle-bgs.json 404 时背景 map 为空，player-2 精灵仍在"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/load-all-recover.grok-r1.test.ts",
+        "fullName": "G01-C loadAll 失败恢复 G01-C05 事件精灵 9 的 RLE 404 被跳过，71 与 73 仍在"
+      },
+      "current": {
+        "file": "packages/game/src/assets/load-all.optional-assets.test.ts",
+        "fullName": "loadAll optional asset failures 事件精灵 9 的 RLE 404 被跳过，71 与 73 仍在"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/load-all-recover.grok-r1.test.ts",
+        "fullName": "G01-C loadAll 失败恢复 G01-C06 enemy-4 RLE 404 被跳过，player-2 的第二帧像素仍是 0x22"
+      },
+      "current": {
+        "file": "packages/game/src/assets/load-all.optional-assets.test.ts",
+        "fullName": "loadAll optional asset failures enemy-4 RLE 404 被跳过，player-2 的第二帧像素仍是 0x22"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/load-all-recover.grok-r1.test.ts",
+        "fullName": "G01-C loadAll 失败恢复 G01-C07 背景 8 的 PNG 404 被跳过，背景 9 的像素保留"
+      },
+      "current": {
+        "file": "packages/game/src/assets/load-all.optional-assets.test.ts",
+        "fullName": "loadAll optional asset failures 背景 8 的 PNG 404 被跳过，背景 9 的像素保留"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/load-all-recover.grok-r1.test.ts",
+        "fullName": "G01-C loadAll 失败恢复 G01-C08 effect.rle 404 时 effectSprite 缺席，法术 chunk 0 仍在"
+      },
+      "current": {
+        "file": "packages/game/src/assets/load-all.optional-assets.test.ts",
+        "fullName": "loadAll optional asset failures effect.rle 404 时 effectSprite 缺席，法术 chunk 0 仍在"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/load-all-recover.grok-r1.test.ts",
+        "fullName": "G01-C loadAll 失败恢复 G01-C09 fire-sprites.json 404 时法术 map 为空，命中特效帧仍加载"
+      },
+      "current": {
+        "file": "packages/game/src/assets/load-all.optional-assets.test.ts",
+        "fullName": "loadAll optional asset failures fire-sprites.json 404 时法术 map 为空，命中特效帧仍加载"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/load-all-recover.grok-r1.test.ts",
+        "fullName": "G01-C loadAll 失败恢复 G01-C10 UI 帧 1 失败时，缺失位置留空，其余帧保留原编号"
+      },
+      "current": {
+        "file": "packages/game/src/assets/load-all.optional-assets.test.ts",
+        "fullName": "loadAll optional asset failures UI 帧 1 失败时，缺失位置留空，其余帧保留原编号"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/assets/load-all-recover.grok-r1.test.ts",
+        "fullName": "G01-C loadAll 失败恢复 G01-C11 物品 12 失败时省略该键，物品 3 的像素保留"
+      },
+      "current": {
+        "file": "packages/game/src/assets/load-all.optional-assets.test.ts",
+        "fullName": "loadAll optional asset failures 物品 12 失败时省略该键，物品 3 的像素保留"
+      }
+    }
+  ],
+  "cohortSubjects": [
+    {
+      "path": "packages/game/src/assets/load-all-assemble.grok-r1.test.ts",
+      "sha256": "1d21d4085cc12a016be2468928a8eb876fb5eb7ae337339463e0cf0eaee72228",
+      "priorCurrentBridge": {
+        "evidence": "organization-game-asset-fixtures.json",
+        "beforeMember": "organization-game-asset-fixtures/3.before",
+        "afterSha256": "3dc0ceb1be6bebf97e1af676ba82c09ef0daecad51aa4a931ea256e712a9b7ba"
+      }
+    },
+    {
+      "path": "packages/game/src/assets/load-all-bounds.grok-r1.test.ts",
+      "sha256": "8224427cc2efa1bc017d02b03e1e456934e4741e66da931fab2cd6ca6b9ec142",
+      "priorCurrentBridge": {
+        "evidence": "organization-game-asset-fixtures.json",
+        "beforeMember": "organization-game-asset-fixtures/4.before",
+        "afterSha256": "8e2d65449b3bfa2e84bcf88aa719fd3cefca32f49c282937cb041057a627be73"
+      }
+    },
+    {
+      "path": "packages/game/src/assets/load-all-recover.grok-r1.test.ts",
+      "sha256": "bafbf8a7c6ca9b3197ea764cf112df7a94ca77f010527a264fc93fcd2059e059",
+      "priorCurrentBridge": {
+        "evidence": "organization-game-asset-fixtures.json",
+        "beforeMember": "organization-game-asset-fixtures/5.before",
+        "afterSha256": "93dc54c2c28c055c2417cc49a704126e286713c555331b0e68628e6dc68f0253"
+      }
+    }
+  ],
+  "preserved": [
+    {
+      "path": "packages/game/src/assets/loader.ts",
+      "sha256": "9c3c3a333e5b04d25cd220e17d04863b0ff5c759e273d05c3b82af758756788f"
+    },
+    {
+      "path": "packages/game/src/__tests__/asset-fetch-fixture.ts",
+      "sha256": "ff84eca6c30fea07e3b00828b2c4be96716751e7509f1531eb88d9625d6e504a"
+    },
+    {
+      "path": "packages/game/src/__tests__/asset-load-scenario.ts",
+      "sha256": "5f934ec14f37768b9418ed5a693084e644d279257b5abf99cbdad595424b259d"
+    },
+    {
+      "path": "packages/game/src/__tests__/asset-fixtures.ts",
+      "sha256": "cf3eae0a807ce26983299ee72ff140b7035cd64121a4547b6f145076547c12fc"
+    },
+    {
+      "path": "packages/game/src/__tests__/png-atlas.ts",
+      "sha256": "33aae796cd3b4cbeea4430f6a43d91025f4939b5eff47466f9b752e72b42eef6"
+    },
+    {
+      "path": "packages/game/src/assets/load-all-ui-frame-identity.test.ts",
+      "sha256": "d0623dc9fcaa0bde0fb905fcf4eca1b4016c745bc07ab887ae367ce128568312"
+    }
+  ],
+  "neighborPaths": [
+    "packages/game/src/assets/fetch-palette.test.ts",
+    "packages/game/src/assets/load-all-ui-frame-identity.test.ts",
+    "packages/game/src/assets/load-all.assembly.test.ts",
+    "packages/game/src/assets/load-all.boundaries.test.ts",
+    "packages/game/src/assets/load-all.optional-assets.test.ts",
+    "packages/game/src/assets/loader.test.ts"
+  ],
+  "cleanExecutions": ["before", "neighbors", "typecheck", "scoped-final-r2"],
+  "receipts": {
+    "before": "organization-game-asset-fixtures/neighbors"
+  },
+  "profiles": [
+    {
+      "path": "packages/game/src/assets/load-all.assembly.test.ts",
+      "subjects": ["packages/game/src/assets/load-all-assemble.grok-r1.test.ts"],
+      "axes": {
+        "A": "十原装配case逐回调保留真实loadAll路由、RLE/PNG结果与tables字段，前片共享fixture当前字节与baseline154精确匹配；不把全部154叫本片31。",
+        "B": "去G01-A批次/弱404旧交叉引用，头注限定required/declared assembly；保留场景号/地图号、字节和字段本身的业务说明。",
+        "C": "成功装配聚合于同一公开caller，beforeAll atlas与afterEach global/spy cleanup完整保留；HTTP adapter只在已核provider。",
+        "D": "十case逐资源/路由/透传的反例轴不同，不因相似install代码删业务case；共用真正的record/atlas/fetch叶。",
+        "E": "原十身份全部映射，完整像素/锚点/表字段与请求归属期望不改；旧A06精简/强三字段oracle与counter按fixture-refresh精确复用。",
+        "F": "load-all.assembly邻接loader，标题直接讲scene/map/像素/字段，不按贡献者或编号分组；局部script仍是显式scenario输入，无隐藏owner。",
+        "G": "三主职责文件保留，不为少文件把全部success/error/optional混成巨套件；没有新导出/弱测试或SUT自比。",
+        "H": "真实Response/canvas/decode及公开loadAll可观测；所有oracle仍独立literal，不新增生产seam或核心mock。"
+      },
+      "acceptance": "accepted-FG; unified gates pending"
+    },
+    {
+      "path": "packages/game/src/assets/load-all.boundaries.test.ts",
+      "subjects": ["packages/game/src/assets/load-all-bounds.grok-r1.test.ts"],
+      "axes": {
+        "A": "八真实边界保留scene0/缺role/零sprite/零frame/空manifest/缺词表及scene、tilemap失败的URL和停止点；palette两case移到自己的caller合同。",
+        "B": "头注/describe不再讲旧弱404历史或G01-B编号；各标题说明输入和可观测结果，错误字符串与用户行为未改。",
+        "C": "只剩loadAll caller，原6PNG atlas、hook和test-local overrides不变；不再挂fetchPalette无关调用，独立错误顺序仍直接观察。",
+        "D": "空manifest与零frame不是同一业务轴，保持独立；不因都是empty而合并非法role与合法空可选列表。",
+        "E": "八原callback/断言/输入/hooks保持，另外两case明确迁移而非删除；B07/08完整URL/请求边界与原反控继续有效。",
+        "F": "load-all.boundaries表达输入域与请求失败边界，去模型与G01编号；原合法scene0说明保留，非仅grep坏输入。",
+        "G": "未用legalPalette import移除；首scoped与final虽然exit0却带warning，原件保留且不计clean，手工清掉后r2 stderr0。",
+        "H": "真实loadAll/loader不mock，factory只造合法或显式畸形输入；内存calls观察与返回/错误双向校验，不靠次数替代业务。"
+      },
+      "acceptance": "accepted-FG; unified gates pending"
+    },
+    {
+      "path": "packages/game/src/assets/load-all.optional-assets.test.ts",
+      "subjects": ["packages/game/src/assets/load-all-recover.grok-r1.test.ts"],
+      "axes": {
+        "A": "十一原optional failures与同批存活成员保持；C10缺帧保原编号已按后继ui-fix证据，不沿更早压紧断言授信用。",
+        "B": "恢复改称optional asset failures，现有case没有重试行为；注释仍明确精确告警不等于缺图后的视觉验收。",
+        "C": "失败选择、surviving resource与完整console诊断同一caller合同，beforeEach warn capture/afterEach cleanup保持每例隔离。",
+        "D": "各资源清单/成员失败有不同容器与fallback责任，不为重复行数合一万能测试；同helper只由真实共享provider拥有。",
+        "E": "十一旧身份/全部像素或表值、缺席与告警参数/次数保全；warn只为精确捕获并逐例断言，没有静音未声明诊断。",
+        "F": "load-all.optional-assets及直接资源标题避免recover误称重试，失败member与存活member命名明确。",
+        "G": "保留有独立边界的UI索引/图标缺键等合同；不恢复已退役重复case，也不增加空绿测试。",
+        "H": "真实fetch/Response/RLE/PNG路径仍执行，能控制单个失败资源并观察真实结果，无核心mock或公开产品接口扩张。"
+      },
+      "acceptance": "accepted-FG; unified gates pending"
+    },
+    {
+      "path": "packages/game/src/assets/fetch-palette.test.ts",
+      "subjects": ["packages/game/src/assets/load-all-bounds.grok-r1.test.ts"],
+      "axes": {
+        "A": "真实fetchPalette只调用单次fetchJson，id5 JSON成功与id12 503拒绝各保原完整URL/字段/错误断言；inline Response相同body/状态。",
+        "B": "头注解释不需要PNG或loadAll启动输入；不称完整颜色管线/原盘palette真值。",
+        "C": "独立caller只依赖legalPalette和窄fetch IO响应，移除未消费PNG atlas/role/scenario/RLE-gzip setup；每例cleanup原样。",
+        "D": "不为两不同Response造通用模式工厂；两个case局部声明calls与IO结果，轻量重复有不同成功/拒绝合同，保持直读。",
+        "E": "两旧case的所有expect语句、literal值/错误类/精确请求数组保持；只重构输入响应和无关beforeAll，不弱化业务oracle。旧→新fullName逐条映射。",
+        "F": "fetch-palette文件与公开函数同名，测试标题含具体id和HTTP状态，变量calls/palette达意。",
+        "G": "无unused PNG、完整scenario、canvas和decoder依赖；零测试/断言退役，不为文件短塞入其它caller。",
+        "H": "IO边界直接返回真实Response JSON/status，产品fetchJson/fetchPalette完整执行；请求URL与真实结果同时观察，易独立运行无需资源宿主。"
+      },
+      "acceptance": "accepted-FG; unified gates pending"
+    }
+  ],
+  "paletteIndependence": {
+    "path": "packages/game/src/assets/loader.ts",
+    "symbol": "fetchPalette",
+    "body": "return fetchJson<Palette>(`${BASE}/data/palette/${id}.json`)",
+    "callers": "Two exact sole-URL assertions retained; fetch fixture palette branch constructs JSON before any pngOf route.",
+    "dropped": "Unused six-PNG beforeAll only for the two palette cases; empty typed Map cannot affect this actual caller. Full scenario/fetch-host dependency is also removed; only two inline per-case JSON/status responses and their observed requested URLs remain."
+  },
+  "reusedReviewMember": "organization-game-load-tests/reused-reviews.json",
+  "processDisclosures": [
+    "31cases retained, baseline reused from same154-case candidate by exact input/current-consumer SHA.154 is full run, not31audited cases.",
+    "Three responsibility suites remain separate: success assembly/input edges/optional failures. Existing names assembly/bounds had real roles; only recover mislabeled one-shot tolerance as retry.",
+    "Two palette cases gain their own caller-adjacent file and no longer construct six unrelated PNGs; exact source bridge separately discloses this IO-lifecycle cleanup, not body-level pure equality to the original hook graph.",
+    "No product source/policy/format/save/coverage-rule changes, and no test/expectation retired.",
+    "Palette-only cases now stub the fetch IO response directly, leaving all business expect statements unchanged. They no longer construct unused RLE gzip/role/scenario data through the broad asset host. No product/core mock is introduced.",
+    "First format and scoped-final both exited0 with unused legalPalette warning; neither is a clean gate. Exact import removed after tests/TC terminal. Final scoped-r2 validates0diagnostics; runtime/assertions and all used bindings unchanged, so the same38case/TC receipts are retained instead of rerunning them for an unused-import deletion."
+  ]
+}

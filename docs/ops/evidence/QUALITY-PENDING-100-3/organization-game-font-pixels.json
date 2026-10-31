@@ -1,0 +1,1414 @@
+{
+  "id": "game-font-pixels",
+  "kind": "Font IO/layout/pixel separation; framebuffer and sprite contract consolidation",
+  "namespace": "organization-game-font-pixels",
+  "inputs": [
+    {
+      "path": "packages/game/src/present/font.test.ts",
+      "sha256": "d502acc90f477b56a28eef745e17e4f219514ffacb9bbcf96d39992d3219cc6f",
+      "member": "organization-game-font-pixels/0.before"
+    },
+    {
+      "path": "packages/game/src/present/font-width.grok-r1.test.ts",
+      "sha256": "1b5024cd2d448c38a619cb8a545a3c92d51851185b7b1b7fcaf54a819cb616f3",
+      "member": "organization-game-font-pixels/1.before"
+    },
+    {
+      "path": "packages/game/src/present/font.glm-phase1-leaves.test.ts",
+      "sha256": "5d96d0ae5501f96c5a7075ce996c3ac2a3b586f52641cf9198eb00c73174c693",
+      "member": "organization-game-font-pixels/2.before"
+    },
+    {
+      "path": "packages/game/src/present/framebuffer.test.ts",
+      "sha256": "e4b1f7da98483db3d25a31a2ce65838fd1bd92f045e690e80a9a909b2454a738",
+      "member": "organization-game-font-pixels/3.before"
+    },
+    {
+      "path": "packages/game/src/present/framebuffer.glm-phase1-leaves.test.ts",
+      "sha256": "79ea8dece3af846c68872168fa2d2f2d5ed01356aea27c30a450ac0ffe4b490e",
+      "member": "organization-game-font-pixels/4.before"
+    },
+    {
+      "path": "packages/game/src/present/draw-sprite.test.ts",
+      "sha256": "7b362e551d29920b87d3739da0d0d377429f65019f945c380f7336887977f364",
+      "member": "organization-game-font-pixels/5.before"
+    },
+    {
+      "path": "packages/game/src/present/draw-sprite-clip.grok-r1.test.ts",
+      "sha256": "72e2e06ce3b72b4877c9b24cfe064699a880efe1d95394f7d3e30f53ea0d006d",
+      "member": "organization-game-font-pixels/6.before"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "packages/game/src/present/font-layout.test.ts",
+      "sha256": "3a634ccf185cfa226f01fcff1abca663478628a89789b6665b2c6adcfb253ce4"
+    },
+    {
+      "path": "packages/game/src/present/font-loading.test.ts",
+      "sha256": "b827c3fb915b2c0b4021553b3b3d7afe621eedc53b9295e19574f9e856bc5a06"
+    },
+    {
+      "path": "packages/game/src/present/font.test.ts",
+      "sha256": "c882888716c896d59970011ecafa27981e3eb50b6e4d1d4f3fb223213a429dce"
+    },
+    {
+      "path": "packages/game/src/present/framebuffer.test.ts",
+      "sha256": "8d535fe086951edaffed98a9873d151bc1c71c45f07d32b14731ede02abbbf57"
+    },
+    {
+      "path": "packages/game/src/present/draw-sprite.test.ts",
+      "sha256": "e8d1cb90d5b16e76dfd7018b73d522e3af44c1f1990cd6cb6a3d44e994c88c07"
+    }
+  ],
+  "sourceBridges": [
+    {
+      "id": "font-pixels-0",
+      "path": "packages/game/src/present/font.test.ts",
+      "reason": "Explicit identifier/title/group mapping. Six pure cases shed unrelated global fetch cleanup; four actual IO cases retain it. Three glyph table preparations reuse the existing provider within the exact16px/empty domain, proven separately. No product/assertion changes.",
+      "changes": [
+        {
+          "from": "import { describe, expect, it } from 'vitest'\nimport {\n  type Glyph,\n  type GlyphTable,\n  measureText,\n  palCharWidth,\n  palWordWidth,\n  renderText,\n} from './font.js'\nimport { createFramebuffer } from './framebuffer.js'\n\n// 可打印ASCII/CJK的菜单宽度近似；其它码点边界见font.ts。\n//   PAL_CharWidth = font_width[ch]>>1(标准字体 ASCII<0x80=8 / CJK=16);PAL_WordWidth = (Σ+8)>>4。\n//   **不**复用 measureText(它依赖 glyph 加载且 ASCII fallback 成 16,见 measureText)。\ndescribe('palCharWidth / palWordWidth(sdlpal font.c:611-629 / ui.c:836-861)', () => {\n  it('palCharWidth:ASCII<0x80=8,CJK=16', () => {\n    expect(palCharWidth('A'.codePointAt(0)!)).toBe(8)\n    expect(palCharWidth('9'.codePointAt(0)!)).toBe(8)\n    expect(palCharWidth('新'.codePointAt(0)!)).toBe(16)\n    expect(palCharWidth('中'.codePointAt(0)!)).toBe(16)\n  })\n\n  it(\"palWordWidth:'新的故事'(4 CJK)→ (64+8)>>4 = 4\", () => {\n    expect(palWordWidth('新的故事')).toBe(4)\n  })\n\n  it('palWordWidth:5 CJK → (80+8)>>4 = 5;6 CJK → (96+8)>>4 = 6', () => {\n    expect(palWordWidth('读取上次存档')).toBe(6) // 6 CJK\n    expect(palWordWidth('新新新新新')).toBe(5) // 5 CJK\n  })\n\n  it('palWordWidth:8 ASCII → (64+8)>>4 = 4(ASCII 半宽,不等于 length)', () => {\n    expect(palWordWidth('NEWGAME!')).toBe(4) // 8×8=64 → 4,而非 length 8\n  })\n})\n\n// ── mock GlyphTable ───────────────────────────────────────────────────\n// A (U+0041): 8×16, 第 0 行全亮(0xFF)\n// 中 (U+4E2D): 16×16, 第 0 行全亮(0xFF 0xFF)\n\nconst mockGlyphs: GlyphTable = {\n  has: (cp: number) => cp === 65 || cp === 0x4e2d,\n  get: (cp: number): Glyph | undefined => {\n    if (cp === 65) {\n      // 8px wide, 16 rows, bytesPerRow = 1\n      const b = new Uint8Array(16)\n      b[0] = 0xff // 第 0 行全亮 8 个像素\n      return { width: 8, height: 16, bitmap: b }\n    }\n    if (cp === 0x4e2d) {\n      // 16px wide, 16 rows, bytesPerRow = 2\n      const b = new Uint8Array(32)\n      b[0] = 0xff // 第 0 行左 8 px 全亮\n      b[1] = 0xff // 第 0 行右 8 px 全亮\n      return { width: 16, height: 16, bitmap: b }\n    }\n    return undefined\n  },\n}\n\n// ── renderText ────────────────────────────────────────────────────────\n\ndescribe('renderText (P4.T3)', () => {\n  it('blits ASCII A: top row 8 pixels lit at fgColor', () => {\n    const fb = createFramebuffer()\n    renderText(fb, 'A', 0, 0, 0xff, mockGlyphs)\n    // 第 0 行 8 个像素应为 0xFF(fgColor)\n    for (let i = 0; i < 8; i++) {\n      expect(fb.indices[i]).toBe(0xff)\n    }\n    // 第 0 行第 8 个像素不属于 A\n    expect(fb.indices[8]).toBe(0)\n  })\n\n  it('CJK 中: top row 16 pixels lit at fgColor', () => {\n    const fb = createFramebuffer()\n    renderText(fb, '中', 0, 0, 0xff, mockGlyphs)\n    for (let i = 0; i < 16; i++) {\n      expect(fb.indices[i]).toBe(0xff)\n    }\n    expect(fb.indices[16]).toBe(0)\n  })\n\n  it('mixed glyph widths advance from a nonzero origin', () => {\n    const fb = createFramebuffer()\n    const w = renderText(fb, 'A中', 4, 8, 0xff, mockGlyphs)\n    expect(w).toBe(24) // 8 + 16\n    // A 的首行位于 (4,8) 起的 8 像素\n    for (let i = 0; i < 8; i++) expect(fb.indices[8 * 320 + 4 + i]).toBe(0xff)\n    // 中紧跟在 x=12 起的 16 像素\n    for (let i = 8; i < 24; i++) expect(fb.indices[8 * 320 + 4 + i]).toBe(0xff)\n  })\n\n  it('missing glyph between known letters uses tofu and advances by 16 pixels', () => {\n    const fb = createFramebuffer()\n    fb.indices.fill(77)\n    expect(renderText(fb, 'A乙A', 4, 8, 0x22, mockGlyphs)).toBe(32)\n    expect(fb.indices[8 * 320 + 4]).toBe(0x22)\n    expect(fb.indices[8 * 320 + 12]).toBe(0x22)\n    expect(fb.indices[8 * 320 + 27]).toBe(77)\n    expect(fb.indices[8 * 320 + 28]).toBe(0x22)\n    expect(fb.indices[8 * 320 + 36]).toBe(77)\n  })\n})\n\n// ── measureText ───────────────────────────────────────────────────────\n\ndescribe('measureText (P4.T3)', () => {\n  it('8 for A', () => {\n    expect(measureText('A', mockGlyphs)).toBe(8)\n  })\n\n  it('16 for 中', () => {\n    expect(measureText('中', mockGlyphs)).toBe(16)\n  })\n\n  it('24 for A中', () => {\n    expect(measureText('A中', mockGlyphs)).toBe(24)\n  })\n\n  it('unknown char defaults to 16', () => {\n    expect(measureText('\\u0000', mockGlyphs)).toBe(16)\n  })\n\n  it('empty string → 0', () => {\n    expect(measureText('', mockGlyphs)).toBe(0)\n  })\n})\n",
+          "to": "import { describe, expect, it } from 'vitest'\nimport {\n  type Glyph,\n  type GlyphTable,\n  measureText,\n  palCharWidth,\n  palWordWidth,\n  renderText,\n} from './font.js'\nimport { createFramebuffer } from './framebuffer.js'\n\n// 可打印ASCII/CJK的菜单宽度近似；其它码点边界见font.ts。\n//   PAL_CharWidth = font_width[ch]>>1(标准字体 ASCII<0x80=8 / CJK=16);PAL_WordWidth = (Σ+8)>>4。\n//   **不**复用 measureText(它依赖 glyph 加载且 ASCII fallback 成 16,见 measureText)。\n\n// ── mock GlyphTable ───────────────────────────────────────────────────\n// A (U+0041): 8×16, 第 0 行全亮(0xFF)\n// 中 (U+4E2D): 16×16, 第 0 行全亮(0xFF 0xFF)\n\nconst latinAndCjkGlyphs: GlyphTable = {\n  has: (cp: number) => cp === 65 || cp === 0x4e2d,\n  get: (cp: number): Glyph | undefined => {\n    if (cp === 65) {\n      // 8px wide, 16 rows, bytesPerRow = 1\n      const b = new Uint8Array(16)\n      b[0] = 0xff // 第 0 行全亮 8 个像素\n      return { width: 8, height: 16, bitmap: b }\n    }\n    if (cp === 0x4e2d) {\n      // 16px wide, 16 rows, bytesPerRow = 2\n      const b = new Uint8Array(32)\n      b[0] = 0xff // 第 0 行左 8 px 全亮\n      b[1] = 0xff // 第 0 行右 8 px 全亮\n      return { width: 16, height: 16, bitmap: b }\n    }\n    return undefined\n  },\n}\n\n// ── renderText ────────────────────────────────────────────────────────\n\n// ── measureText ───────────────────────────────────────────────────────\n\ndescribe('static PAL layout widths', () => {\n  it('palCharWidth:ASCII<0x80=8,CJK=16', () => {\n    expect(palCharWidth('A'.codePointAt(0)!)).toBe(8)\n    expect(palCharWidth('9'.codePointAt(0)!)).toBe(8)\n    expect(palCharWidth('新'.codePointAt(0)!)).toBe(16)\n    expect(palCharWidth('中'.codePointAt(0)!)).toBe(16)\n  })\n\n  it(\"palWordWidth:'新的故事'(4 CJK)→ (64+8)>>4 = 4\", () => {\n    expect(palWordWidth('新的故事')).toBe(4)\n  })\n\n  it('palWordWidth:5 CJK → (80+8)>>4 = 5;6 CJK → (96+8)>>4 = 6', () => {\n    expect(palWordWidth('读取上次存档')).toBe(6) // 6 CJK\n    expect(palWordWidth('新新新新新')).toBe(5) // 5 CJK\n  })\n\n  it('palWordWidth:8 ASCII → (64+8)>>4 = 4(ASCII 半宽,不等于 length)', () => {\n    expect(palWordWidth('NEWGAME!')).toBe(4) // 8×8=64 → 4,而非 length 8\n  })\n})\n\ndescribe('monochrome glyph pixels', () => {\n  it('blits ASCII A: top row 8 pixels lit at fgColor', () => {\n    const fb = createFramebuffer()\n    renderText(fb, 'A', 0, 0, 0xff, latinAndCjkGlyphs)\n    // 第 0 行 8 个像素应为 0xFF(fgColor)\n    for (let i = 0; i < 8; i++) {\n      expect(fb.indices[i]).toBe(0xff)\n    }\n    // 第 0 行第 8 个像素不属于 A\n    expect(fb.indices[8]).toBe(0)\n  })\n\n  it('CJK 中: top row 16 pixels lit at fgColor', () => {\n    const fb = createFramebuffer()\n    renderText(fb, '中', 0, 0, 0xff, latinAndCjkGlyphs)\n    for (let i = 0; i < 16; i++) {\n      expect(fb.indices[i]).toBe(0xff)\n    }\n    expect(fb.indices[16]).toBe(0)\n  })\n\n  it('mixed glyph widths advance from a nonzero origin', () => {\n    const fb = createFramebuffer()\n    const w = renderText(fb, 'A中', 4, 8, 0xff, latinAndCjkGlyphs)\n    expect(w).toBe(24) // 8 + 16\n    // A 的首行位于 (4,8) 起的 8 像素\n    for (let i = 0; i < 8; i++) expect(fb.indices[8 * 320 + 4 + i]).toBe(0xff)\n    // 中紧跟在 x=12 起的 16 像素\n    for (let i = 8; i < 24; i++) expect(fb.indices[8 * 320 + 4 + i]).toBe(0xff)\n  })\n\n  it('missing glyph between known letters uses tofu and advances by 16 pixels', () => {\n    const fb = createFramebuffer()\n    fb.indices.fill(77)\n    expect(renderText(fb, 'A乙A', 4, 8, 0x22, latinAndCjkGlyphs)).toBe(32)\n    expect(fb.indices[8 * 320 + 4]).toBe(0x22)\n    expect(fb.indices[8 * 320 + 12]).toBe(0x22)\n    expect(fb.indices[8 * 320 + 27]).toBe(77)\n    expect(fb.indices[8 * 320 + 28]).toBe(0x22)\n    expect(fb.indices[8 * 320 + 36]).toBe(77)\n  })\n})\n\ndescribe('loaded glyph measurements', () => {\n  it('8 for A', () => {\n    expect(measureText('A', latinAndCjkGlyphs)).toBe(8)\n  })\n\n  it('16 for 中', () => {\n    expect(measureText('中', latinAndCjkGlyphs)).toBe(16)\n  })\n\n  it('24 for A中', () => {\n    expect(measureText('A中', latinAndCjkGlyphs)).toBe(24)\n  })\n\n  it('unknown char defaults to 16', () => {\n    expect(measureText('\\u0000', latinAndCjkGlyphs)).toBe(16)\n  })\n\n  it('empty string → 0', () => {\n    expect(measureText('', latinAndCjkGlyphs)).toBe(0)\n  })\n})\n",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "font-pixels-1",
+      "path": "packages/game/src/present/font-width.grok-r1.test.ts",
+      "reason": "Explicit identifier/title/group mapping. Six pure cases shed unrelated global fetch cleanup; four actual IO cases retain it. Three glyph table preparations reuse the existing provider within the exact16px/empty domain, proven separately. No product/assertion changes.",
+      "changes": [
+        {
+          "from": "/**\n * TEST-GROK-RENDER-HOST-LARGE-1 G05-B。\n * 不重复 font.glm 的逐字色、豆腐框和缺字形 16px 测量。\n */\nimport { afterEach, describe, expect, it, vi } from 'vitest'\nimport {\n  type Glyph,\n  type GlyphTable,\n  loadGlyphs,\n  palCharWidth,\n  palWordWidth,\n  renderText,\n} from './font.js'\nimport { createFramebuffer, type Framebuffer } from './framebuffer.js'\n\nfunction at(fb: Framebuffer, x: number, y: number): number {\n  return fb.indices[y * 320 + x] ?? 0\n}\n\nfunction dotGlyph(width: number): Glyph {\n  const bytesPerRow = Math.ceil(width / 8)\n  const bitmap = new Uint8Array(bytesPerRow * 16)\n  bitmap[0] = 0x80\n  return { width, height: 16, bitmap }\n}\n\nfunction glyphs(specs: Record<string, number>): GlyphTable {\n  const map = new Map<number, Glyph>()\n  for (const [ch, width] of Object.entries(specs)) {\n    const cp = ch.codePointAt(0)\n    if (cp === undefined) continue\n    map.set(cp, dotGlyph(width))\n  }\n  return {\n    has: (cp) => map.has(cp),\n    get: (cp) => map.get(cp),\n  }\n}\n\ndescribe('G05-B font 宽度与字形装载', () => {\n  afterEach(() => {\n    vi.unstubAllGlobals()\n  })\n\n  it('G05-B01 palCharWidth 在 0x7F 仍是 8，0x80 起是 16', () => {\n    expect(palCharWidth(0x7f)).toBe(8)\n    expect(palCharWidth(0x80)).toBe(16)\n  })\n\n  it('G05-B02 空串的 palWordWidth 是 0', () => {\n    expect(palWordWidth('')).toBe(0)\n  })\n\n  it('G05-B05 两个 ASCII 加一个全角的 palWordWidth 是 2，不是 3', () => {\n    expect(palWordWidth('AA金')).toBe(2)\n  })\n\n  it('G05-B06 loadGlyphs 把 bitmapBase64 解成字节，并能按码位取回', async () => {\n    const bitmap = new Uint8Array(16)\n    bitmap[0] = 0x80\n    bitmap[1] = 0x3c\n    const bitmapBase64 = btoa(String.fromCharCode(...bitmap))\n    vi.stubGlobal('fetch', () =>\n      Promise.resolve(\n        new Response(\n          JSON.stringify({\n            glyphs: [{ codepoint: 0x41, width: 8, height: 16, bitmapBase64 }],\n          }),\n          { status: 200 },\n        ),\n      ),\n    )\n    const table = await loadGlyphs()\n    expect(table.has(0x41)).toBe(true)\n    expect(table.get(0x41)?.width).toBe(8)\n    expect(table.get(0x41)?.height).toBe(16)\n    expect(Array.from(table.get(0x41)?.bitmap ?? [])).toEqual(Array.from(bitmap))\n    expect(table.has(0x42)).toBe(false)\n    expect(table.get(0x42)).toBeUndefined()\n  })\n\n  it('G05-B07 loadGlyphs 把调用方给的 baseUrl 接到 /data/font/glyphs.json', async () => {\n    const calls: string[] = []\n    vi.stubGlobal('fetch', (input: RequestInfo | URL) => {\n      calls.push(String(input))\n      return Promise.resolve(new Response(JSON.stringify({ glyphs: [] }), { status: 200 }))\n    })\n    await loadGlyphs('https://cdn.example/pack')\n    expect(calls).toEqual(['https://cdn.example/pack/data/font/glyphs.json'])\n  })\n\n  it('G05-B08 字形清单 HTTP 失败时，错误文本带上状态码', async () => {\n    vi.stubGlobal('fetch', () => Promise.resolve(new Response('no', { status: 404 })))\n    let message = ''\n    try {\n      await loadGlyphs('/missing')\n    } catch (error) {\n      message = error instanceof Error ? error.message : ''\n    }\n    expect(message).toBe('font: fetch glyphs.json failed (404)')\n  })\n\n  it('G05-B09 字形清单为空时，has 为假且 get 为 undefined', async () => {\n    vi.stubGlobal('fetch', () =>\n      Promise.resolve(new Response(JSON.stringify({ glyphs: [] }), { status: 200 })),\n    )\n    const table = await loadGlyphs('/empty')\n    expect(table.has(0x41)).toBe(false)\n    expect(table.get(0x41)).toBeUndefined()\n  })\n\n  it('G05-B12 renderText 打开阴影时，右、下、右下三点是 0，原点仍是前景', () => {\n    const fb = createFramebuffer()\n    fb.indices.fill(77)\n    renderText(fb, '甲', 10, 20, 0x11, glyphs({ 甲: 16 }), true)\n    expect(at(fb, 10, 20)).toBe(0x11)\n    expect(at(fb, 11, 20)).toBe(0)\n    expect(at(fb, 10, 21)).toBe(0)\n    expect(at(fb, 11, 21)).toBe(0)\n  })\n\n  it('G05-B13 renderText 关闭阴影时，右、下、右下保持底色', () => {\n    const fb = createFramebuffer()\n    fb.indices.fill(77)\n    renderText(fb, '甲', 10, 20, 0x11, glyphs({ 甲: 16 }), false)\n    expect(at(fb, 10, 20)).toBe(0x11)\n    expect(at(fb, 11, 20)).toBe(77)\n    expect(at(fb, 10, 21)).toBe(77)\n    expect(at(fb, 11, 21)).toBe(77)\n  })\n\n  it('G05-B14 空字符串 renderText 返回 0，并且不改像素', () => {\n    const fb = createFramebuffer()\n    fb.indices.fill(77)\n    expect(renderText(fb, '', 4, 8, 0x22, glyphs({}), false)).toBe(0)\n    expect(fb.indices.every((value) => value === 77)).toBe(true)\n  })\n})\n",
+          "to": "import { glyphsOf } from './__tests__/glyph-fixtures.js'\n/**\n * TEST-GROK-RENDER-HOST-LARGE-1 G05-B。\n * 不重复 font.glm 的逐字色、豆腐框和缺字形 16px 测量。\n */\nimport { afterEach, describe, expect, it, vi } from 'vitest'\nimport {\n  type Glyph,\n  type GlyphTable,\n  loadGlyphs,\n  palCharWidth,\n  palWordWidth,\n  renderText,\n} from './font.js'\nimport { createFramebuffer, type Framebuffer } from './framebuffer.js'\n\nfunction pixelAt(fb: Framebuffer, x: number, y: number): number {\n  return fb.indices[y * 320 + x] ?? 0\n}\n\ndescribe('static layout edge cases', () => {\n  it('palCharWidth 在 0x7F 仍是 8，0x80 起是 16', () => {\n    expect(palCharWidth(0x7f)).toBe(8)\n    expect(palCharWidth(0x80)).toBe(16)\n  })\n\n  it('空串的 palWordWidth 是 0', () => {\n    expect(palWordWidth('')).toBe(0)\n  })\n\n  it('两个 ASCII 加一个全角的 palWordWidth 是 2，不是 3', () => {\n    expect(palWordWidth('AA金')).toBe(2)\n  })\n})\n\ndescribe('glyph loading', () => {\n  afterEach(() => {\n    vi.unstubAllGlobals()\n  })\n\n  it('loadGlyphs 把 bitmapBase64 解成字节，并能按码位取回', async () => {\n    const bitmap = new Uint8Array(16)\n    bitmap[0] = 0x80\n    bitmap[1] = 0x3c\n    const bitmapBase64 = btoa(String.fromCharCode(...bitmap))\n    vi.stubGlobal('fetch', () =>\n      Promise.resolve(\n        new Response(\n          JSON.stringify({\n            glyphs: [{ codepoint: 0x41, width: 8, height: 16, bitmapBase64 }],\n          }),\n          { status: 200 },\n        ),\n      ),\n    )\n    const table = await loadGlyphs()\n    expect(table.has(0x41)).toBe(true)\n    expect(table.get(0x41)?.width).toBe(8)\n    expect(table.get(0x41)?.height).toBe(16)\n    expect(Array.from(table.get(0x41)?.bitmap ?? [])).toEqual(Array.from(bitmap))\n    expect(table.has(0x42)).toBe(false)\n    expect(table.get(0x42)).toBeUndefined()\n  })\n\n  it('loadGlyphs 把调用方给的 baseUrl 接到 /data/font/glyphs.json', async () => {\n    const calls: string[] = []\n    vi.stubGlobal('fetch', (input: RequestInfo | URL) => {\n      calls.push(String(input))\n      return Promise.resolve(new Response(JSON.stringify({ glyphs: [] }), { status: 200 }))\n    })\n    await loadGlyphs('https://cdn.example/pack')\n    expect(calls).toEqual(['https://cdn.example/pack/data/font/glyphs.json'])\n  })\n\n  it('字形清单 HTTP 失败时，错误文本带上状态码', async () => {\n    vi.stubGlobal('fetch', () => Promise.resolve(new Response('no', { status: 404 })))\n    let message = ''\n    try {\n      await loadGlyphs('/missing')\n    } catch (error) {\n      message = error instanceof Error ? error.message : ''\n    }\n    expect(message).toBe('font: fetch glyphs.json failed (404)')\n  })\n\n  it('字形清单为空时，has 为假且 get 为 undefined', async () => {\n    vi.stubGlobal('fetch', () =>\n      Promise.resolve(new Response(JSON.stringify({ glyphs: [] }), { status: 200 })),\n    )\n    const table = await loadGlyphs('/empty')\n    expect(table.has(0x41)).toBe(false)\n    expect(table.get(0x41)).toBeUndefined()\n  })\n})\n\ndescribe('monochrome text shadows and empty input', () => {\n  it('renderText 打开阴影时，右、下、右下三点是 0，原点仍是前景', () => {\n    const fb = createFramebuffer()\n    fb.indices.fill(77)\n    renderText(fb, '甲', 10, 20, 0x11, glyphsOf(['甲']), true)\n    expect(pixelAt(fb, 10, 20)).toBe(0x11)\n    expect(pixelAt(fb, 11, 20)).toBe(0)\n    expect(pixelAt(fb, 10, 21)).toBe(0)\n    expect(pixelAt(fb, 11, 21)).toBe(0)\n  })\n\n  it('renderText 关闭阴影时，右、下、右下保持底色', () => {\n    const fb = createFramebuffer()\n    fb.indices.fill(77)\n    renderText(fb, '甲', 10, 20, 0x11, glyphsOf(['甲']), false)\n    expect(pixelAt(fb, 10, 20)).toBe(0x11)\n    expect(pixelAt(fb, 11, 20)).toBe(77)\n    expect(pixelAt(fb, 10, 21)).toBe(77)\n    expect(pixelAt(fb, 11, 21)).toBe(77)\n  })\n\n  it('空字符串 renderText 返回 0，并且不改像素', () => {\n    const fb = createFramebuffer()\n    fb.indices.fill(77)\n    expect(renderText(fb, '', 4, 8, 0x22, glyphsOf([]), false)).toBe(0)\n    expect(fb.indices.every((value) => value === 77)).toBe(true)\n  })\n})\n",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "font-pixels-2",
+      "path": "packages/game/src/present/font.glm-phase1-leaves.test.ts",
+      "reason": "Explicit identifier/title/group mapping. Six pure cases shed unrelated global fetch cleanup; four actual IO cases retain it. Three glyph table preparations reuse the existing provider within the exact16px/empty domain, proven separately. No product/assertion changes.",
+      "changes": [
+        {
+          "from": "/**\n * 逐字颜色与缺色回退、非零底图上的三影、缺表/缺字形的tofu像素。\n * 主测试覆盖混合字宽/缺字推进；font-width覆盖装载IO和普通文字的阴影开关。\n */\nimport { describe, expect, it } from 'vitest'\nimport { type Glyph, type GlyphTable, measureText, renderColoredText, renderText } from './font.js'\nimport { createFramebuffer } from './framebuffer.js'\n\nfunction oneDotGlyph(): Glyph {\n  const bitmap = new Uint8Array(32)\n  bitmap[8] = 0x08 // row 4, col 4（bytesPerRow=2）\n  return { width: 16, height: 16, bitmap }\n}\n\nconst glyphs: GlyphTable = {\n  has: (cp) => cp === 0x7532 || cp === 0x20bb7,\n  get: (cp) => (cp === 0x7532 || cp === 0x20bb7 ? oneDotGlyph() : undefined),\n}\n\ndescribe('L16 renderColoredText（逐字符色）', () => {\n  it('逐字符颜色数组按 code point 对位上色', () => {\n    const fb = createFramebuffer()\n    const colors = [0x11, 0x22]\n    renderColoredText(fb, '𠮷甲', colors, 10, 20, glyphs)\n    // 第 1 字主色 0x11；第 2 字 0x22\n    expect(fb.indices[24 * 320 + 14]).toBe(0x11) // y=20+4, x=10+4\n    expect(fb.indices[24 * 320 + 30]).toBe(0x22) // x=10+16+4\n  })\n\n  it('colors 缺项回退 0x4F；fShadow 三影写黑 0', () => {\n    const fb = createFramebuffer()\n    fb.indices.fill(0x5a)\n    renderColoredText(fb, '甲甲', [0x11], 10, 20, glyphs, true)\n    // 第 2 字缺色 → 0x4F\n    expect(fb.indices[24 * 320 + 30]).toBe(0x4f)\n    // 主字 (14,24)；三影 (15,24)/(14,25)/(15,25) 黑 0\n    expect(fb.indices[24 * 320 + 14]).toBe(0x11)\n    expect(fb.indices[24 * 320 + 15]).toBe(0)\n    expect(fb.indices[25 * 320 + 14]).toBe(0)\n    expect(fb.indices[25 * 320 + 15]).toBe(0)\n  })\n})\n\ndescribe('L16 tofu 缺字形回退', () => {\n  it('缺字形或未注入字表 → tofu顶底行0-14亮，中间行只有0/14亮', () => {\n    for (const table of [glyphs, undefined]) {\n      const fb = createFramebuffer()\n      fb.indices.fill(0x5a)\n      expect(renderText(fb, '乙', 0, 0, 0x44, table)).toBe(16)\n      expect(fb.indices[0]).toBe(0x44)\n      expect(fb.indices[14]).toBe(0x44)\n      expect(fb.indices[15]).toBe(0x5a)\n      expect(fb.indices[5 * 320]).toBe(0x44)\n      expect(fb.indices[5 * 320 + 14]).toBe(0x44)\n      expect(fb.indices[5 * 320 + 4]).toBe(0x5a)\n      expect(fb.indices[5 * 320 + 9]).toBe(0x5a)\n      expect(fb.indices[15 * 320]).toBe(0x44)\n      expect(fb.indices[15 * 320 + 15]).toBe(0x5a)\n    }\n  })\n\n  it('measureText 缺ASCII字形按16px计，已加载汉字保持字形宽度', () => {\n    expect(measureText('abc', glyphs)).toBe(48)\n    expect(measureText('甲甲', glyphs)).toBe(32)\n  })\n})\n",
+          "to": "/**\n * 逐字颜色与缺色回退、非零底图上的三影、缺表/缺字形的tofu像素。\n * 主测试覆盖混合字宽/缺字推进；font-width覆盖装载IO和普通文字的阴影开关。\n */\nimport { describe, expect, it } from 'vitest'\nimport { type Glyph, type GlyphTable, measureText, renderColoredText, renderText } from './font.js'\nimport { createFramebuffer } from './framebuffer.js'\n\nfunction interiorDotGlyph(): Glyph {\n  const bitmap = new Uint8Array(32)\n  bitmap[8] = 0x08 // row 4, col 4（bytesPerRow=2）\n  return { width: 16, height: 16, bitmap }\n}\n\nconst interiorDotGlyphs: GlyphTable = {\n  has: (cp) => cp === 0x7532 || cp === 0x20bb7,\n  get: (cp) => (cp === 0x7532 || cp === 0x20bb7 ? interiorDotGlyph() : undefined),\n}\n\ndescribe('per-codepoint colours', () => {\n  it('逐字符颜色数组按 code point 对位上色', () => {\n    const fb = createFramebuffer()\n    const colors = [0x11, 0x22]\n    renderColoredText(fb, '𠮷甲', colors, 10, 20, interiorDotGlyphs)\n    // 第 1 字主色 0x11；第 2 字 0x22\n    expect(fb.indices[24 * 320 + 14]).toBe(0x11) // y=20+4, x=10+4\n    expect(fb.indices[24 * 320 + 30]).toBe(0x22) // x=10+16+4\n  })\n\n  it('colors 缺项回退 0x4F；fShadow 三影写黑 0', () => {\n    const fb = createFramebuffer()\n    fb.indices.fill(0x5a)\n    renderColoredText(fb, '甲甲', [0x11], 10, 20, interiorDotGlyphs, true)\n    // 第 2 字缺色 → 0x4F\n    expect(fb.indices[24 * 320 + 30]).toBe(0x4f)\n    // 主字 (14,24)；三影 (15,24)/(14,25)/(15,25) 黑 0\n    expect(fb.indices[24 * 320 + 14]).toBe(0x11)\n    expect(fb.indices[24 * 320 + 15]).toBe(0)\n    expect(fb.indices[25 * 320 + 14]).toBe(0)\n    expect(fb.indices[25 * 320 + 15]).toBe(0)\n  })\n})\n\ndescribe('missing glyph rendering and measurements', () => {\n  it('缺字形或未注入字表 → tofu顶底行0-14亮，中间行只有0/14亮', () => {\n    for (const table of [interiorDotGlyphs, undefined]) {\n      const fb = createFramebuffer()\n      fb.indices.fill(0x5a)\n      expect(renderText(fb, '乙', 0, 0, 0x44, table)).toBe(16)\n      expect(fb.indices[0]).toBe(0x44)\n      expect(fb.indices[14]).toBe(0x44)\n      expect(fb.indices[15]).toBe(0x5a)\n      expect(fb.indices[5 * 320]).toBe(0x44)\n      expect(fb.indices[5 * 320 + 14]).toBe(0x44)\n      expect(fb.indices[5 * 320 + 4]).toBe(0x5a)\n      expect(fb.indices[5 * 320 + 9]).toBe(0x5a)\n      expect(fb.indices[15 * 320]).toBe(0x44)\n      expect(fb.indices[15 * 320 + 15]).toBe(0x5a)\n    }\n  })\n\n  it('measureText 缺ASCII字形按16px计，已加载汉字保持字形宽度', () => {\n    expect(measureText('abc', interiorDotGlyphs)).toBe(48)\n    expect(measureText('甲甲', interiorDotGlyphs)).toBe(32)\n  })\n})\n",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "font-pixels-3",
+      "path": "packages/game/src/present/framebuffer.test.ts",
+      "reason": "Explicit identifier/title/group mapping. Six pure cases shed unrelated global fetch cleanup; four actual IO cases retain it. Three glyph table preparations reuse the existing provider within the exact16px/empty domain, proven separately. No product/assertion changes.",
+      "changes": [
+        {
+          "from": "import type { Palette } from '@type-pal/shared'\nimport { describe, expect, it } from 'vitest'\nimport { createFramebuffer } from './framebuffer.js'\n\ndescribe('Framebuffer', () => {\n  it('320×200,初始全 0', () => {\n    const fb = createFramebuffer()\n    expect(fb.width).toBe(320)\n    expect(fb.height).toBe(200)\n    expect(fb.indices.length).toBe(320 * 200)\n    expect(fb.indices.every((value) => value === 0)).toBe(true)\n  })\n\n  it('writePixel + clear', () => {\n    const fb = createFramebuffer()\n    fb.writePixel(10, 5, 42)\n    expect(fb.indices[5 * 320 + 10]).toBe(42)\n    fb.indices.fill(42)\n    fb.clear()\n    expect(fb.indices.every((value) => value === 0)).toBe(true)\n  })\n\n  it('toImageData(palette) —— 索引 → RGBA', () => {\n    const fb = createFramebuffer()\n    fb.writePixel(0, 0, 1)\n    fb.writePixel(1, 0, 2)\n    const palette: Palette = {\n      colors: [\n        [0, 0, 0],\n        [100, 0, 0],\n        [0, 100, 0],\n        ...Array.from({ length: 253 }, (): [number, number, number] => [0, 0, 0]),\n      ],\n      cycles: [],\n    }\n    const img = fb.toImageData(palette)\n    expect(img.width).toBe(320)\n    expect(img.height).toBe(200)\n    expect(Array.from(img.data.subarray(0, 8))).toEqual([100, 0, 0, 255, 0, 100, 0, 255])\n    expect(Array.from(img.data.subarray(-4))).toEqual([0, 0, 0, 255])\n  })\n})\n",
+          "to": "import type { Palette } from '@type-pal/shared'\nimport { describe, expect, it } from 'vitest'\nimport { createFramebuffer } from './framebuffer.js'\n\ndescribe('Framebuffer', () => {\n  it('320×200,初始全 0', () => {\n    const fb = createFramebuffer()\n    expect(fb.width).toBe(320)\n    expect(fb.height).toBe(200)\n    expect(fb.indices.length).toBe(320 * 200)\n    expect(fb.indices.every((value) => value === 0)).toBe(true)\n  })\n\n  it('writePixel + clear', () => {\n    const fb = createFramebuffer()\n    fb.writePixel(10, 5, 42)\n    expect(fb.indices[5 * 320 + 10]).toBe(42)\n    fb.indices.fill(42)\n    fb.clear()\n    expect(fb.indices.every((value) => value === 0)).toBe(true)\n  })\n\n  it('toImageData(palette) —— 索引 → RGBA', () => {\n    const fb = createFramebuffer()\n    fb.writePixel(0, 0, 1)\n    fb.writePixel(1, 0, 2)\n    const palette: Palette = {\n      colors: [\n        [0, 0, 0],\n        [100, 0, 0],\n        [0, 100, 0],\n        ...Array.from({ length: 253 }, (): [number, number, number] => [0, 0, 0]),\n      ],\n      cycles: [],\n    }\n    const img = fb.toImageData(palette)\n    expect(img.width).toBe(320)\n    expect(img.height).toBe(200)\n    expect(Array.from(img.data.subarray(0, 8))).toEqual([100, 0, 0, 255, 0, 100, 0, 255])\n    expect(Array.from(img.data.subarray(-4))).toEqual([0, 0, 0, 255])\n  })\n})\n",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "font-pixels-4",
+      "path": "packages/game/src/present/framebuffer.glm-phase1-leaves.test.ts",
+      "reason": "Explicit identifier/title/group mapping. Six pure cases shed unrelated global fetch cleanup; four actual IO cases retain it. Three glyph table preparations reuse the existing provider within the exact16px/empty domain, proven separately. No product/assertion changes.",
+      "changes": [
+        {
+          "from": "/**\n * TEST-GLM-PHASE1-LEAVES-3 L16（framebuffer.ts / screen-wave.ts）— 去重表：\n *  - framebuffer.test（320×200 初始/writePixel+clear/toImageData RGBA）→ 不重复\n *  - 新差异：writePixel 越界静默、自定义尺寸缓冲、toImageData 缺色 fallback [0,0,0]。\n */\nimport type { Palette } from '@type-pal/shared'\nimport { describe, expect, it } from 'vitest'\nimport { createFramebuffer } from './framebuffer.js'\n\ndescribe('L16 framebuffer 剩余合同', () => {\n  it('writePixel 越界（负值/超宽高）静默不写不抛', () => {\n    const fb = createFramebuffer(4, 4)\n    fb.writePixel(-1, 1, 9) // 若漏负 x 守卫，会误写上一行末像素\n    fb.writePixel(4, 0, 9)\n    fb.writePixel(0, -1, 9)\n    fb.writePixel(0, 4, 9)\n    expect(fb.indices.every((v) => v === 0)).toBe(true)\n    fb.writePixel(3, 3, 7)\n    expect(fb.indices[3 * 4 + 3]).toBe(7)\n  })\n\n  it('自定义尺寸离屏缓冲的末像素写入与 RGBA 尺寸', () => {\n    const fb = createFramebuffer(10, 5)\n    expect(fb.width).toBe(10)\n    expect(fb.height).toBe(5)\n    expect(fb.indices.length).toBe(50)\n    fb.writePixel(9, 4, 1)\n    const image = fb.toImageData({\n      colors: [\n        [0, 0, 0],\n        [4, 5, 6],\n      ],\n      cycles: [],\n    })\n    expect([image.width, image.height, image.data.length]).toEqual([10, 5, 200])\n    expect(Array.from(image.data.subarray(-8))).toEqual([0, 0, 0, 255, 4, 5, 6, 255])\n  })\n\n  it('toImageData：palette 缺该索引颜色 → fallback [0,0,0]、alpha 恒 255', () => {\n    const fb = createFramebuffer(2, 1)\n    fb.writePixel(0, 0, 250) // 超出 palette 提供范围\n    fb.writePixel(1, 0, 1)\n    const palette: Palette = {\n      colors: [\n        [10, 20, 30],\n        [40, 50, 60],\n      ],\n      cycles: [],\n    }\n    const img = fb.toImageData(palette)\n    expect(Array.from(img.data.slice(0, 4))).toEqual([0, 0, 0, 255])\n    expect(Array.from(img.data.slice(4, 8))).toEqual([40, 50, 60, 255])\n  })\n})\n",
+          "to": "/**\n * TEST-GLM-PHASE1-LEAVES-3 L16（framebuffer.ts / screen-wave.ts）— 去重表：\n *  - framebuffer.test（320×200 初始/writePixel+clear/toImageData RGBA）→ 不重复\n *  - 新差异：writePixel 越界静默、自定义尺寸缓冲、toImageData 缺色 fallback [0,0,0]。\n */\nimport type { Palette } from '@type-pal/shared'\nimport { describe, expect, it } from 'vitest'\nimport { createFramebuffer } from './framebuffer.js'\n\ndescribe('framebuffer clipping and palette boundaries', () => {\n  it('writePixel 越界（负值/超宽高）静默不写不抛', () => {\n    const fb = createFramebuffer(4, 4)\n    fb.writePixel(-1, 1, 9) // 若漏负 x 守卫，会误写上一行末像素\n    fb.writePixel(4, 0, 9)\n    fb.writePixel(0, -1, 9)\n    fb.writePixel(0, 4, 9)\n    expect(fb.indices.every((v) => v === 0)).toBe(true)\n    fb.writePixel(3, 3, 7)\n    expect(fb.indices[3 * 4 + 3]).toBe(7)\n  })\n\n  it('自定义尺寸离屏缓冲的末像素写入与 RGBA 尺寸', () => {\n    const fb = createFramebuffer(10, 5)\n    expect(fb.width).toBe(10)\n    expect(fb.height).toBe(5)\n    expect(fb.indices.length).toBe(50)\n    fb.writePixel(9, 4, 1)\n    const image = fb.toImageData({\n      colors: [\n        [0, 0, 0],\n        [4, 5, 6],\n      ],\n      cycles: [],\n    })\n    expect([image.width, image.height, image.data.length]).toEqual([10, 5, 200])\n    expect(Array.from(image.data.subarray(-8))).toEqual([0, 0, 0, 255, 4, 5, 6, 255])\n  })\n\n  it('toImageData：palette 缺该索引颜色 → fallback [0,0,0]、alpha 恒 255', () => {\n    const fb = createFramebuffer(2, 1)\n    fb.writePixel(0, 0, 250) // 超出 palette 提供范围\n    fb.writePixel(1, 0, 1)\n    const palette: Palette = {\n      colors: [\n        [10, 20, 30],\n        [40, 50, 60],\n      ],\n      cycles: [],\n    }\n    const img = fb.toImageData(palette)\n    expect(Array.from(img.data.slice(0, 4))).toEqual([0, 0, 0, 255])\n    expect(Array.from(img.data.slice(4, 8))).toEqual([40, 50, 60, 255])\n  })\n})\n",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "font-pixels-5",
+      "path": "packages/game/src/present/draw-sprite.test.ts",
+      "reason": "Explicit identifier/title/group mapping. Six pure cases shed unrelated global fetch cleanup; four actual IO cases retain it. Three glyph table preparations reuse the existing provider within the exact16px/empty domain, proven separately. No product/assertion changes.",
+      "changes": [
+        {
+          "from": "import { describe, expect, it } from 'vitest'\nimport { drawSprite, toSpriteImages } from './draw-sprite.js'\nimport { createFramebuffer } from './framebuffer.js'\n\ndescribe('toSpriteImages 逐帧 anchor(密道攀爬偏下根因回归)', () => {\n  const mk = (w: number, h: number) => ({\n    width: w,\n    height: h,\n    indices: new Uint8Array(w * h),\n    opaque: new Uint8Array(w * h),\n  })\n\n  it('每帧 anchorY = 自身高度,anchorX = 自身宽度/2(非整组钉死 frame0)', () => {\n    // chunk193 爬行精灵真实高度剖面:frame0=31,爬帧 frame3..6=54/56/65/73\n    const sprites = toSpriteImages([\n      mk(45, 31),\n      mk(45, 63),\n      mk(45, 41),\n      mk(45, 54),\n      mk(45, 56),\n      mk(45, 65),\n      mk(45, 73),\n    ])\n    expect(sprites[0]!.anchorY).toBe(31)\n    expect(sprites[6]!.anchorY).toBe(73) // ← bug 时会是 31(frame0),脚底下溢 42px\n    expect(sprites[5]!.anchorY).toBe(65)\n    expect(sprites.map((s) => s.anchorX)).toEqual([22, 22, 22, 22, 22, 22, 22])\n  })\n\n  it('脚底对齐:任意高度帧在 drawSprite(cy) 处底边都落在同一行(sdlpal PAL_RLEGetHeight 逐帧)', () => {\n    // anchorY=height → 底边 = cy - anchorY + (height-1) = cy - 1,与帧高无关\n    const cy = 100\n    for (const h of [31, 54, 73]) {\n      const fb = createFramebuffer()\n      const s = toSpriteImages([mk(2, h)])[0]!\n      s.opaque.fill(1)\n      s.indices.fill(7)\n      drawSprite(fb, s, 10, cy)\n      const bottomRow = cy - 1 // 底边像素行\n      expect(fb.indices[bottomRow * 320 + (10 - 1)]).toBe(7)\n      // 底边再往下一行必须空(没有向下溢出)\n      expect(fb.indices[(bottomRow + 1) * 320 + (10 - 1)]).toBe(0)\n    }\n  })\n})\n\ndescribe('drawSprite', () => {\n  it('画一个 2×2 精灵,anchor 在底部中心 (1, 2)', () => {\n    const fb = createFramebuffer()\n    const indices = new Uint8Array([1, 2, 3, 4])\n    const opaque = new Uint8Array([1, 1, 1, 1])\n    drawSprite(fb, { width: 2, height: 2, indices, opaque, anchorX: 1, anchorY: 2 }, 10, 10)\n    expect(fb.indices[8 * 320 + 9]).toBe(1)\n    expect(fb.indices[8 * 320 + 10]).toBe(2)\n    expect(fb.indices[9 * 320 + 9]).toBe(3)\n    expect(fb.indices[9 * 320 + 10]).toBe(4)\n  })\n\n  it('opaque=0 不覆盖底面(M3.5 fix:透明判定走 opaque mask,非 idx===0)', () => {\n    const fb = createFramebuffer()\n    fb.writePixel(10, 10, 99)\n    const indices = new Uint8Array([0])\n    const opaque = new Uint8Array([0])\n    drawSprite(fb, { width: 1, height: 1, indices, opaque, anchorX: 0, anchorY: 0 }, 10, 10)\n    expect(fb.indices[10 * 320 + 10]).toBe(99)\n  })\n\n  it('opaque=1 且 idx=0 仍画(palette index 0 是合法 opaque 像素,M3.5 fix)', () => {\n    const fb = createFramebuffer()\n    fb.writePixel(10, 10, 99)\n    const indices = new Uint8Array([0])\n    const opaque = new Uint8Array([1])\n    drawSprite(fb, { width: 1, height: 1, indices, opaque, anchorX: 0, anchorY: 0 }, 10, 10)\n    expect(fb.indices[10 * 320 + 10]).toBe(0)\n  })\n\n  it('左上角跨界时仍写入屏内的右下像素', () => {\n    const fb = createFramebuffer()\n    const indices = new Uint8Array(4).fill(5)\n    const opaque = new Uint8Array(4).fill(1)\n    drawSprite(fb, { width: 2, height: 2, indices, opaque, anchorX: 0, anchorY: 0 }, -1, -1)\n    expect(fb.indices[0]).toBe(5)\n    expect(fb.indices[1]).toBe(0)\n  })\n})\n",
+          "to": "import { describe, expect, it } from 'vitest'\nimport { drawSprite, toSpriteImages } from './draw-sprite.js'\nimport { createFramebuffer } from './framebuffer.js'\n\ndescribe('per-frame sprite anchors', () => {\n  const emptyFrame = (w: number, h: number) => ({\n    width: w,\n    height: h,\n    indices: new Uint8Array(w * h),\n    opaque: new Uint8Array(w * h),\n  })\n\n  it('每帧 anchorY = 自身高度,anchorX = 自身宽度/2(非整组钉死 frame0)', () => {\n    // chunk193 爬行精灵真实高度剖面:frame0=31,爬帧 frame3..6=54/56/65/73\n    const sprites = toSpriteImages([\n      emptyFrame(45, 31),\n      emptyFrame(45, 63),\n      emptyFrame(45, 41),\n      emptyFrame(45, 54),\n      emptyFrame(45, 56),\n      emptyFrame(45, 65),\n      emptyFrame(45, 73),\n    ])\n    expect(sprites[0]!.anchorY).toBe(31)\n    expect(sprites[6]!.anchorY).toBe(73) // ← bug 时会是 31(frame0),脚底下溢 42px\n    expect(sprites[5]!.anchorY).toBe(65)\n    expect(sprites.map((s) => s.anchorX)).toEqual([22, 22, 22, 22, 22, 22, 22])\n  })\n\n  it('脚底对齐:任意高度帧在 drawSprite(cy) 处底边都落在同一行(sdlpal PAL_RLEGetHeight 逐帧)', () => {\n    // anchorY=height → 底边 = cy - anchorY + (height-1) = cy - 1,与帧高无关\n    const cy = 100\n    for (const h of [31, 54, 73]) {\n      const fb = createFramebuffer()\n      const s = toSpriteImages([emptyFrame(2, h)])[0]!\n      s.opaque.fill(1)\n      s.indices.fill(7)\n      drawSprite(fb, s, 10, cy)\n      const bottomRow = cy - 1 // 底边像素行\n      expect(fb.indices[bottomRow * 320 + (10 - 1)]).toBe(7)\n      // 底边再往下一行必须空(没有向下溢出)\n      expect(fb.indices[(bottomRow + 1) * 320 + (10 - 1)]).toBe(0)\n    }\n  })\n})\n\ndescribe('sprite pixels and transparency', () => {\n  it('画一个 2×2 精灵,anchor 在底部中心 (1, 2)', () => {\n    const fb = createFramebuffer()\n    const indices = new Uint8Array([1, 2, 3, 4])\n    const opaque = new Uint8Array([1, 1, 1, 1])\n    drawSprite(fb, { width: 2, height: 2, indices, opaque, anchorX: 1, anchorY: 2 }, 10, 10)\n    expect(fb.indices[8 * 320 + 9]).toBe(1)\n    expect(fb.indices[8 * 320 + 10]).toBe(2)\n    expect(fb.indices[9 * 320 + 9]).toBe(3)\n    expect(fb.indices[9 * 320 + 10]).toBe(4)\n  })\n\n  it('opaque=0 不覆盖底面(M3.5 fix:透明判定走 opaque mask,非 idx===0)', () => {\n    const fb = createFramebuffer()\n    fb.writePixel(10, 10, 99)\n    const indices = new Uint8Array([0])\n    const opaque = new Uint8Array([0])\n    drawSprite(fb, { width: 1, height: 1, indices, opaque, anchorX: 0, anchorY: 0 }, 10, 10)\n    expect(fb.indices[10 * 320 + 10]).toBe(99)\n  })\n\n  it('opaque=1 且 idx=0 仍画(palette index 0 是合法 opaque 像素,M3.5 fix)', () => {\n    const fb = createFramebuffer()\n    fb.writePixel(10, 10, 99)\n    const indices = new Uint8Array([0])\n    const opaque = new Uint8Array([1])\n    drawSprite(fb, { width: 1, height: 1, indices, opaque, anchorX: 0, anchorY: 0 }, 10, 10)\n    expect(fb.indices[10 * 320 + 10]).toBe(0)\n  })\n\n  it('左上角跨界时仍写入屏内的右下像素', () => {\n    const fb = createFramebuffer()\n    const indices = new Uint8Array(4).fill(5)\n    const opaque = new Uint8Array(4).fill(1)\n    drawSprite(fb, { width: 2, height: 2, indices, opaque, anchorX: 0, anchorY: 0 }, -1, -1)\n    expect(fb.indices[0]).toBe(5)\n    expect(fb.indices[1]).toBe(0)\n  })\n})\n",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "font-pixels-6",
+      "path": "packages/game/src/present/draw-sprite-clip.grok-r1.test.ts",
+      "reason": "Explicit identifier/title/group mapping. Six pure cases shed unrelated global fetch cleanup; four actual IO cases retain it. Three glyph table preparations reuse the existing provider within the exact16px/empty domain, proven separately. No product/assertion changes.",
+      "changes": [
+        {
+          "from": "/**\n * G03-B。主测试覆盖逐帧奇数宽锚点、2×2 落点和整像素透明。\n * 本组补不同帧宽度、缓冲区归属，以及四边裁剪后的存活像素。\n */\nimport { describe, expect, it } from 'vitest'\nimport { drawSprite, type SpriteImage, toSpriteImages } from './draw-sprite.js'\nimport { createFramebuffer } from './framebuffer.js'\n\nfunction frame(width: number, height: number, pixels: number[], mask?: number[]) {\n  return {\n    width,\n    height,\n    indices: Uint8Array.from(pixels),\n    opaque: Uint8Array.from(mask ?? pixels.map(() => 1)),\n  }\n}\n\nfunction sprite(width: number, height: number, pixels: number[], mask?: number[]): SpriteImage {\n  return { ...frame(width, height, pixels, mask), anchorX: 0, anchorY: 0 }\n}\n\ndescribe('G03-B drawSprite 锚点与裁剪', () => {\n  it('G03-B02 宽 1 的帧 anchorX 为 0，不跟相邻更宽的帧', () => {\n    const images = toSpriteImages([frame(1, 2, [4, 5]), frame(6, 2, Array(12).fill(1))])\n    expect(images[0]?.anchorX).toBe(0)\n    expect(images[1]?.anchorX).toBe(3)\n    expect(images[0]?.anchorY).toBe(2)\n  })\n\n  it('G03-B03 toSpriteImages 复用调用方的 indices 与 opaque', () => {\n    const source = frame(2, 1, [1, 2])\n    const [image] = toSpriteImages([source])\n    expect(image?.indices).toBe(source.indices)\n    expect(image?.opaque).toBe(source.opaque)\n  })\n\n  it('G03-B04 左缘外的像素不写，紧挨着的屏内像素写入 9', () => {\n    const fb = createFramebuffer()\n    drawSprite(fb, sprite(2, 1, [8, 9]), -1, 5)\n    expect(fb.indices[5 * 320]).toBe(9)\n    expect(fb.indices[5 * 320 + 1]).toBe(0)\n  })\n\n  it('G03-B05 顶缘外的像素不写，下一行屏内像素写入 9', () => {\n    const fb = createFramebuffer()\n    drawSprite(fb, sprite(1, 2, [8, 9]), 3, -1)\n    expect(fb.indices[3]).toBe(9)\n    expect(fb.indices[320 + 3]).toBe(0)\n  })\n\n  it('G03-B06 右缘只写下 x=319 的像素，调用不抛错', () => {\n    const fb = createFramebuffer()\n    drawSprite(fb, sprite(2, 1, [8, 9]), 319, 4)\n    expect(fb.indices[4 * 320 + 319]).toBe(8)\n  })\n\n  it('G03-B07 底缘只写下 y=199 的像素，不绕回首行', () => {\n    const fb = createFramebuffer()\n    drawSprite(fb, sprite(1, 2, [8, 9]), 3, 199)\n    expect(fb.indices[199 * 320 + 3]).toBe(8)\n    expect(fb.indices[3]).toBe(0)\n  })\n\n  it('G03-B08 中间透明孔不挡住右侧不透明像素', () => {\n    const fb = createFramebuffer()\n    fb.writePixel(11, 7, 4)\n    drawSprite(fb, sprite(3, 1, [1, 2, 3], [1, 0, 1]), 10, 7)\n    expect(fb.indices[7 * 320 + 10]).toBe(1)\n    expect(fb.indices[7 * 320 + 11]).toBe(4)\n    expect(fb.indices[7 * 320 + 12]).toBe(3)\n  })\n})\n",
+          "to": "/**\n * G03-B。主测试覆盖逐帧奇数宽锚点、2×2 落点和整像素透明。\n * 本组补不同帧宽度、缓冲区归属，以及四边裁剪后的存活像素。\n */\nimport { describe, expect, it } from 'vitest'\nimport { drawSprite, type SpriteImage, toSpriteImages } from './draw-sprite.js'\nimport { createFramebuffer } from './framebuffer.js'\n\nfunction pixelFrame(width: number, height: number, pixels: number[], mask?: number[]) {\n  return {\n    width,\n    height,\n    indices: Uint8Array.from(pixels),\n    opaque: Uint8Array.from(mask ?? pixels.map(() => 1)),\n  }\n}\n\nfunction topLeftSprite(\n  width: number,\n  height: number,\n  pixels: number[],\n  mask?: number[],\n): SpriteImage {\n  return { ...pixelFrame(width, height, pixels, mask), anchorX: 0, anchorY: 0 }\n}\n\ndescribe('sprite frame ownership and edge clipping', () => {\n  it('宽 1 的帧 anchorX 为 0，不跟相邻更宽的帧', () => {\n    const images = toSpriteImages([pixelFrame(1, 2, [4, 5]), pixelFrame(6, 2, Array(12).fill(1))])\n    expect(images[0]?.anchorX).toBe(0)\n    expect(images[1]?.anchorX).toBe(3)\n    expect(images[0]?.anchorY).toBe(2)\n  })\n\n  it('toSpriteImages 复用调用方的 indices 与 opaque', () => {\n    const source = pixelFrame(2, 1, [1, 2])\n    const [image] = toSpriteImages([source])\n    expect(image?.indices).toBe(source.indices)\n    expect(image?.opaque).toBe(source.opaque)\n  })\n\n  it('左缘外的像素不写，紧挨着的屏内像素写入 9', () => {\n    const fb = createFramebuffer()\n    drawSprite(fb, topLeftSprite(2, 1, [8, 9]), -1, 5)\n    expect(fb.indices[5 * 320]).toBe(9)\n    expect(fb.indices[5 * 320 + 1]).toBe(0)\n  })\n\n  it('顶缘外的像素不写，下一行屏内像素写入 9', () => {\n    const fb = createFramebuffer()\n    drawSprite(fb, topLeftSprite(1, 2, [8, 9]), 3, -1)\n    expect(fb.indices[3]).toBe(9)\n    expect(fb.indices[320 + 3]).toBe(0)\n  })\n\n  it('右缘只写下 x=319 的像素，调用不抛错', () => {\n    const fb = createFramebuffer()\n    drawSprite(fb, topLeftSprite(2, 1, [8, 9]), 319, 4)\n    expect(fb.indices[4 * 320 + 319]).toBe(8)\n  })\n\n  it('底缘只写下 y=199 的像素，不绕回首行', () => {\n    const fb = createFramebuffer()\n    drawSprite(fb, topLeftSprite(1, 2, [8, 9]), 3, 199)\n    expect(fb.indices[199 * 320 + 3]).toBe(8)\n    expect(fb.indices[3]).toBe(0)\n  })\n\n  it('中间透明孔不挡住右侧不透明像素', () => {\n    const fb = createFramebuffer()\n    fb.writePixel(11, 7, 4)\n    drawSprite(fb, topLeftSprite(3, 1, [1, 2, 3], [1, 0, 1]), 10, 7)\n    expect(fb.indices[7 * 320 + 10]).toBe(1)\n    expect(fb.indices[7 * 320 + 11]).toBe(4)\n    expect(fb.indices[7 * 320 + 12]).toBe(3)\n  })\n})\n",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "replacements": [],
+  "registrations": [
+    {
+      "old": {
+        "file": "packages/game/src/present/font.test.ts",
+        "ordinal": 0
+      },
+      "current": {
+        "file": "packages/game/src/present/font-layout.test.ts",
+        "titles": ["static PAL layout widths"],
+        "template": "palCharWidth:ASCII<0x80=8,CJK=16"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/font.test.ts",
+        "ordinal": 1
+      },
+      "current": {
+        "file": "packages/game/src/present/font-layout.test.ts",
+        "titles": ["static PAL layout widths"],
+        "template": "palWordWidth:'新的故事'(4 CJK)→ (64+8)>>4 = 4"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/font.test.ts",
+        "ordinal": 2
+      },
+      "current": {
+        "file": "packages/game/src/present/font-layout.test.ts",
+        "titles": ["static PAL layout widths"],
+        "template": "palWordWidth:5 CJK → (80+8)>>4 = 5;6 CJK → (96+8)>>4 = 6"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/font.test.ts",
+        "ordinal": 3
+      },
+      "current": {
+        "file": "packages/game/src/present/font-layout.test.ts",
+        "titles": ["static PAL layout widths"],
+        "template": "palWordWidth:8 ASCII → (64+8)>>4 = 4(ASCII 半宽,不等于 length)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/font.test.ts",
+        "ordinal": 4
+      },
+      "current": {
+        "file": "packages/game/src/present/font.test.ts",
+        "titles": ["monochrome glyph pixels"],
+        "template": "blits ASCII A: top row 8 pixels lit at fgColor"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/font.test.ts",
+        "ordinal": 5
+      },
+      "current": {
+        "file": "packages/game/src/present/font.test.ts",
+        "titles": ["monochrome glyph pixels"],
+        "template": "CJK 中: top row 16 pixels lit at fgColor"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/font.test.ts",
+        "ordinal": 6
+      },
+      "current": {
+        "file": "packages/game/src/present/font.test.ts",
+        "titles": ["monochrome glyph pixels"],
+        "template": "mixed glyph widths advance from a nonzero origin"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/font.test.ts",
+        "ordinal": 7
+      },
+      "current": {
+        "file": "packages/game/src/present/font.test.ts",
+        "titles": ["monochrome glyph pixels"],
+        "template": "missing glyph between known letters uses tofu and advances by 16 pixels"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/font.test.ts",
+        "ordinal": 8
+      },
+      "current": {
+        "file": "packages/game/src/present/font.test.ts",
+        "titles": ["loaded glyph measurements"],
+        "template": "8 for A"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/font.test.ts",
+        "ordinal": 9
+      },
+      "current": {
+        "file": "packages/game/src/present/font.test.ts",
+        "titles": ["loaded glyph measurements"],
+        "template": "16 for 中"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/font.test.ts",
+        "ordinal": 10
+      },
+      "current": {
+        "file": "packages/game/src/present/font.test.ts",
+        "titles": ["loaded glyph measurements"],
+        "template": "24 for A中"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/font.test.ts",
+        "ordinal": 11
+      },
+      "current": {
+        "file": "packages/game/src/present/font.test.ts",
+        "titles": ["loaded glyph measurements"],
+        "template": "unknown char defaults to 16"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/font.test.ts",
+        "ordinal": 12
+      },
+      "current": {
+        "file": "packages/game/src/present/font.test.ts",
+        "titles": ["loaded glyph measurements"],
+        "template": "empty string → 0"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/font-width.grok-r1.test.ts",
+        "ordinal": 0
+      },
+      "current": {
+        "file": "packages/game/src/present/font-layout.test.ts",
+        "titles": ["static layout edge cases"],
+        "template": "palCharWidth 在 0x7F 仍是 8，0x80 起是 16"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/font-width.grok-r1.test.ts",
+        "ordinal": 1
+      },
+      "current": {
+        "file": "packages/game/src/present/font-layout.test.ts",
+        "titles": ["static layout edge cases"],
+        "template": "空串的 palWordWidth 是 0"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/font-width.grok-r1.test.ts",
+        "ordinal": 2
+      },
+      "current": {
+        "file": "packages/game/src/present/font-layout.test.ts",
+        "titles": ["static layout edge cases"],
+        "template": "两个 ASCII 加一个全角的 palWordWidth 是 2，不是 3"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/font-width.grok-r1.test.ts",
+        "ordinal": 3
+      },
+      "current": {
+        "file": "packages/game/src/present/font-loading.test.ts",
+        "titles": ["glyph loading"],
+        "template": "loadGlyphs 把 bitmapBase64 解成字节，并能按码位取回"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/font-width.grok-r1.test.ts",
+        "ordinal": 4
+      },
+      "current": {
+        "file": "packages/game/src/present/font-loading.test.ts",
+        "titles": ["glyph loading"],
+        "template": "loadGlyphs 把调用方给的 baseUrl 接到 /data/font/glyphs.json"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/font-width.grok-r1.test.ts",
+        "ordinal": 5
+      },
+      "current": {
+        "file": "packages/game/src/present/font-loading.test.ts",
+        "titles": ["glyph loading"],
+        "template": "字形清单 HTTP 失败时，错误文本带上状态码"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/font-width.grok-r1.test.ts",
+        "ordinal": 6
+      },
+      "current": {
+        "file": "packages/game/src/present/font-loading.test.ts",
+        "titles": ["glyph loading"],
+        "template": "字形清单为空时，has 为假且 get 为 undefined"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/font-width.grok-r1.test.ts",
+        "ordinal": 7
+      },
+      "current": {
+        "file": "packages/game/src/present/font.test.ts",
+        "titles": ["monochrome text shadows and empty input"],
+        "template": "renderText 打开阴影时，右、下、右下三点是 0，原点仍是前景"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/font-width.grok-r1.test.ts",
+        "ordinal": 8
+      },
+      "current": {
+        "file": "packages/game/src/present/font.test.ts",
+        "titles": ["monochrome text shadows and empty input"],
+        "template": "renderText 关闭阴影时，右、下、右下保持底色"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/font-width.grok-r1.test.ts",
+        "ordinal": 9
+      },
+      "current": {
+        "file": "packages/game/src/present/font.test.ts",
+        "titles": ["monochrome text shadows and empty input"],
+        "template": "空字符串 renderText 返回 0，并且不改像素"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/font.glm-phase1-leaves.test.ts",
+        "ordinal": 0
+      },
+      "current": {
+        "file": "packages/game/src/present/font.test.ts",
+        "titles": ["per-codepoint colours"],
+        "template": "逐字符颜色数组按 code point 对位上色"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/font.glm-phase1-leaves.test.ts",
+        "ordinal": 1
+      },
+      "current": {
+        "file": "packages/game/src/present/font.test.ts",
+        "titles": ["per-codepoint colours"],
+        "template": "colors 缺项回退 0x4F；fShadow 三影写黑 0"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/font.glm-phase1-leaves.test.ts",
+        "ordinal": 2
+      },
+      "current": {
+        "file": "packages/game/src/present/font.test.ts",
+        "titles": ["missing glyph rendering and measurements"],
+        "template": "缺字形或未注入字表 → tofu顶底行0-14亮，中间行只有0/14亮"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/font.glm-phase1-leaves.test.ts",
+        "ordinal": 3
+      },
+      "current": {
+        "file": "packages/game/src/present/font.test.ts",
+        "titles": ["missing glyph rendering and measurements"],
+        "template": "measureText 缺ASCII字形按16px计，已加载汉字保持字形宽度"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/framebuffer.test.ts",
+        "ordinal": 0
+      },
+      "current": {
+        "file": "packages/game/src/present/framebuffer.test.ts",
+        "titles": ["Framebuffer"],
+        "template": "320×200,初始全 0"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/framebuffer.test.ts",
+        "ordinal": 1
+      },
+      "current": {
+        "file": "packages/game/src/present/framebuffer.test.ts",
+        "titles": ["Framebuffer"],
+        "template": "writePixel + clear"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/framebuffer.test.ts",
+        "ordinal": 2
+      },
+      "current": {
+        "file": "packages/game/src/present/framebuffer.test.ts",
+        "titles": ["Framebuffer"],
+        "template": "toImageData(palette) —— 索引 → RGBA"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/framebuffer.glm-phase1-leaves.test.ts",
+        "ordinal": 0
+      },
+      "current": {
+        "file": "packages/game/src/present/framebuffer.test.ts",
+        "titles": ["framebuffer clipping and palette boundaries"],
+        "template": "writePixel 越界（负值/超宽高）静默不写不抛"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/framebuffer.glm-phase1-leaves.test.ts",
+        "ordinal": 1
+      },
+      "current": {
+        "file": "packages/game/src/present/framebuffer.test.ts",
+        "titles": ["framebuffer clipping and palette boundaries"],
+        "template": "自定义尺寸离屏缓冲的末像素写入与 RGBA 尺寸"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/framebuffer.glm-phase1-leaves.test.ts",
+        "ordinal": 2
+      },
+      "current": {
+        "file": "packages/game/src/present/framebuffer.test.ts",
+        "titles": ["framebuffer clipping and palette boundaries"],
+        "template": "toImageData：palette 缺该索引颜色 → fallback [0,0,0]、alpha 恒 255"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-sprite.test.ts",
+        "ordinal": 0
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-sprite.test.ts",
+        "titles": ["per-frame sprite anchors"],
+        "template": "每帧 anchorY = 自身高度,anchorX = 自身宽度/2(非整组钉死 frame0)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-sprite.test.ts",
+        "ordinal": 1
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-sprite.test.ts",
+        "titles": ["per-frame sprite anchors"],
+        "template": "脚底对齐:任意高度帧在 drawSprite(cy) 处底边都落在同一行(sdlpal PAL_RLEGetHeight 逐帧)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-sprite.test.ts",
+        "ordinal": 2
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-sprite.test.ts",
+        "titles": ["sprite pixels and transparency"],
+        "template": "画一个 2×2 精灵,anchor 在底部中心 (1, 2)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-sprite.test.ts",
+        "ordinal": 3
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-sprite.test.ts",
+        "titles": ["sprite pixels and transparency"],
+        "template": "opaque=0 不覆盖底面(M3.5 fix:透明判定走 opaque mask,非 idx===0)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-sprite.test.ts",
+        "ordinal": 4
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-sprite.test.ts",
+        "titles": ["sprite pixels and transparency"],
+        "template": "opaque=1 且 idx=0 仍画(palette index 0 是合法 opaque 像素,M3.5 fix)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-sprite.test.ts",
+        "ordinal": 5
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-sprite.test.ts",
+        "titles": ["sprite pixels and transparency"],
+        "template": "左上角跨界时仍写入屏内的右下像素"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-sprite-clip.grok-r1.test.ts",
+        "ordinal": 0
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-sprite.test.ts",
+        "titles": ["sprite frame ownership and edge clipping"],
+        "template": "宽 1 的帧 anchorX 为 0，不跟相邻更宽的帧"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-sprite-clip.grok-r1.test.ts",
+        "ordinal": 1
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-sprite.test.ts",
+        "titles": ["sprite frame ownership and edge clipping"],
+        "template": "toSpriteImages 复用调用方的 indices 与 opaque"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-sprite-clip.grok-r1.test.ts",
+        "ordinal": 2
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-sprite.test.ts",
+        "titles": ["sprite frame ownership and edge clipping"],
+        "template": "左缘外的像素不写，紧挨着的屏内像素写入 9"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-sprite-clip.grok-r1.test.ts",
+        "ordinal": 3
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-sprite.test.ts",
+        "titles": ["sprite frame ownership and edge clipping"],
+        "template": "顶缘外的像素不写，下一行屏内像素写入 9"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-sprite-clip.grok-r1.test.ts",
+        "ordinal": 4
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-sprite.test.ts",
+        "titles": ["sprite frame ownership and edge clipping"],
+        "template": "右缘只写下 x=319 的像素，调用不抛错"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-sprite-clip.grok-r1.test.ts",
+        "ordinal": 5
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-sprite.test.ts",
+        "titles": ["sprite frame ownership and edge clipping"],
+        "template": "底缘只写下 y=199 的像素，不绕回首行"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-sprite-clip.grok-r1.test.ts",
+        "ordinal": 6
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-sprite.test.ts",
+        "titles": ["sprite frame ownership and edge clipping"],
+        "template": "中间透明孔不挡住右侧不透明像素"
+      }
+    }
+  ],
+  "identities": [
+    {
+      "old": {
+        "file": "packages/game/src/present/font.test.ts",
+        "fullName": "palCharWidth / palWordWidth(sdlpal font.c:611-629 / ui.c:836-861) palCharWidth:ASCII<0x80=8,CJK=16"
+      },
+      "current": {
+        "file": "packages/game/src/present/font-layout.test.ts",
+        "fullName": "static PAL layout widths palCharWidth:ASCII<0x80=8,CJK=16"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/font.test.ts",
+        "fullName": "palCharWidth / palWordWidth(sdlpal font.c:611-629 / ui.c:836-861) palWordWidth:'新的故事'(4 CJK)→ (64+8)>>4 = 4"
+      },
+      "current": {
+        "file": "packages/game/src/present/font-layout.test.ts",
+        "fullName": "static PAL layout widths palWordWidth:'新的故事'(4 CJK)→ (64+8)>>4 = 4"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/font.test.ts",
+        "fullName": "palCharWidth / palWordWidth(sdlpal font.c:611-629 / ui.c:836-861) palWordWidth:5 CJK → (80+8)>>4 = 5;6 CJK → (96+8)>>4 = 6"
+      },
+      "current": {
+        "file": "packages/game/src/present/font-layout.test.ts",
+        "fullName": "static PAL layout widths palWordWidth:5 CJK → (80+8)>>4 = 5;6 CJK → (96+8)>>4 = 6"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/font.test.ts",
+        "fullName": "palCharWidth / palWordWidth(sdlpal font.c:611-629 / ui.c:836-861) palWordWidth:8 ASCII → (64+8)>>4 = 4(ASCII 半宽,不等于 length)"
+      },
+      "current": {
+        "file": "packages/game/src/present/font-layout.test.ts",
+        "fullName": "static PAL layout widths palWordWidth:8 ASCII → (64+8)>>4 = 4(ASCII 半宽,不等于 length)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/font.test.ts",
+        "fullName": "renderText (P4.T3) blits ASCII A: top row 8 pixels lit at fgColor"
+      },
+      "current": {
+        "file": "packages/game/src/present/font.test.ts",
+        "fullName": "monochrome glyph pixels blits ASCII A: top row 8 pixels lit at fgColor"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/font.test.ts",
+        "fullName": "renderText (P4.T3) CJK 中: top row 16 pixels lit at fgColor"
+      },
+      "current": {
+        "file": "packages/game/src/present/font.test.ts",
+        "fullName": "monochrome glyph pixels CJK 中: top row 16 pixels lit at fgColor"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/font.test.ts",
+        "fullName": "renderText (P4.T3) mixed glyph widths advance from a nonzero origin"
+      },
+      "current": {
+        "file": "packages/game/src/present/font.test.ts",
+        "fullName": "monochrome glyph pixels mixed glyph widths advance from a nonzero origin"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/font.test.ts",
+        "fullName": "renderText (P4.T3) missing glyph between known letters uses tofu and advances by 16 pixels"
+      },
+      "current": {
+        "file": "packages/game/src/present/font.test.ts",
+        "fullName": "monochrome glyph pixels missing glyph between known letters uses tofu and advances by 16 pixels"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/font.test.ts",
+        "fullName": "measureText (P4.T3) 8 for A"
+      },
+      "current": {
+        "file": "packages/game/src/present/font.test.ts",
+        "fullName": "loaded glyph measurements 8 for A"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/font.test.ts",
+        "fullName": "measureText (P4.T3) 16 for 中"
+      },
+      "current": {
+        "file": "packages/game/src/present/font.test.ts",
+        "fullName": "loaded glyph measurements 16 for 中"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/font.test.ts",
+        "fullName": "measureText (P4.T3) 24 for A中"
+      },
+      "current": {
+        "file": "packages/game/src/present/font.test.ts",
+        "fullName": "loaded glyph measurements 24 for A中"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/font.test.ts",
+        "fullName": "measureText (P4.T3) unknown char defaults to 16"
+      },
+      "current": {
+        "file": "packages/game/src/present/font.test.ts",
+        "fullName": "loaded glyph measurements unknown char defaults to 16"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/font.test.ts",
+        "fullName": "measureText (P4.T3) empty string → 0"
+      },
+      "current": {
+        "file": "packages/game/src/present/font.test.ts",
+        "fullName": "loaded glyph measurements empty string → 0"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/font-width.grok-r1.test.ts",
+        "fullName": "G05-B font 宽度与字形装载 G05-B01 palCharWidth 在 0x7F 仍是 8，0x80 起是 16"
+      },
+      "current": {
+        "file": "packages/game/src/present/font-layout.test.ts",
+        "fullName": "static layout edge cases palCharWidth 在 0x7F 仍是 8，0x80 起是 16"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/font-width.grok-r1.test.ts",
+        "fullName": "G05-B font 宽度与字形装载 G05-B02 空串的 palWordWidth 是 0"
+      },
+      "current": {
+        "file": "packages/game/src/present/font-layout.test.ts",
+        "fullName": "static layout edge cases 空串的 palWordWidth 是 0"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/font-width.grok-r1.test.ts",
+        "fullName": "G05-B font 宽度与字形装载 G05-B05 两个 ASCII 加一个全角的 palWordWidth 是 2，不是 3"
+      },
+      "current": {
+        "file": "packages/game/src/present/font-layout.test.ts",
+        "fullName": "static layout edge cases 两个 ASCII 加一个全角的 palWordWidth 是 2，不是 3"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/font-width.grok-r1.test.ts",
+        "fullName": "G05-B font 宽度与字形装载 G05-B06 loadGlyphs 把 bitmapBase64 解成字节，并能按码位取回"
+      },
+      "current": {
+        "file": "packages/game/src/present/font-loading.test.ts",
+        "fullName": "glyph loading loadGlyphs 把 bitmapBase64 解成字节，并能按码位取回"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/font-width.grok-r1.test.ts",
+        "fullName": "G05-B font 宽度与字形装载 G05-B07 loadGlyphs 把调用方给的 baseUrl 接到 /data/font/glyphs.json"
+      },
+      "current": {
+        "file": "packages/game/src/present/font-loading.test.ts",
+        "fullName": "glyph loading loadGlyphs 把调用方给的 baseUrl 接到 /data/font/glyphs.json"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/font-width.grok-r1.test.ts",
+        "fullName": "G05-B font 宽度与字形装载 G05-B08 字形清单 HTTP 失败时，错误文本带上状态码"
+      },
+      "current": {
+        "file": "packages/game/src/present/font-loading.test.ts",
+        "fullName": "glyph loading 字形清单 HTTP 失败时，错误文本带上状态码"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/font-width.grok-r1.test.ts",
+        "fullName": "G05-B font 宽度与字形装载 G05-B09 字形清单为空时，has 为假且 get 为 undefined"
+      },
+      "current": {
+        "file": "packages/game/src/present/font-loading.test.ts",
+        "fullName": "glyph loading 字形清单为空时，has 为假且 get 为 undefined"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/font-width.grok-r1.test.ts",
+        "fullName": "G05-B font 宽度与字形装载 G05-B12 renderText 打开阴影时，右、下、右下三点是 0，原点仍是前景"
+      },
+      "current": {
+        "file": "packages/game/src/present/font.test.ts",
+        "fullName": "monochrome text shadows and empty input renderText 打开阴影时，右、下、右下三点是 0，原点仍是前景"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/font-width.grok-r1.test.ts",
+        "fullName": "G05-B font 宽度与字形装载 G05-B13 renderText 关闭阴影时，右、下、右下保持底色"
+      },
+      "current": {
+        "file": "packages/game/src/present/font.test.ts",
+        "fullName": "monochrome text shadows and empty input renderText 关闭阴影时，右、下、右下保持底色"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/font-width.grok-r1.test.ts",
+        "fullName": "G05-B font 宽度与字形装载 G05-B14 空字符串 renderText 返回 0，并且不改像素"
+      },
+      "current": {
+        "file": "packages/game/src/present/font.test.ts",
+        "fullName": "monochrome text shadows and empty input 空字符串 renderText 返回 0，并且不改像素"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/font.glm-phase1-leaves.test.ts",
+        "fullName": "L16 renderColoredText（逐字符色） 逐字符颜色数组按 code point 对位上色"
+      },
+      "current": {
+        "file": "packages/game/src/present/font.test.ts",
+        "fullName": "per-codepoint colours 逐字符颜色数组按 code point 对位上色"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/font.glm-phase1-leaves.test.ts",
+        "fullName": "L16 renderColoredText（逐字符色） colors 缺项回退 0x4F；fShadow 三影写黑 0"
+      },
+      "current": {
+        "file": "packages/game/src/present/font.test.ts",
+        "fullName": "per-codepoint colours colors 缺项回退 0x4F；fShadow 三影写黑 0"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/font.glm-phase1-leaves.test.ts",
+        "fullName": "L16 tofu 缺字形回退 缺字形或未注入字表 → tofu顶底行0-14亮，中间行只有0/14亮"
+      },
+      "current": {
+        "file": "packages/game/src/present/font.test.ts",
+        "fullName": "missing glyph rendering and measurements 缺字形或未注入字表 → tofu顶底行0-14亮，中间行只有0/14亮"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/font.glm-phase1-leaves.test.ts",
+        "fullName": "L16 tofu 缺字形回退 measureText 缺ASCII字形按16px计，已加载汉字保持字形宽度"
+      },
+      "current": {
+        "file": "packages/game/src/present/font.test.ts",
+        "fullName": "missing glyph rendering and measurements measureText 缺ASCII字形按16px计，已加载汉字保持字形宽度"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/framebuffer.test.ts",
+        "fullName": "Framebuffer 320×200,初始全 0"
+      },
+      "current": {
+        "file": "packages/game/src/present/framebuffer.test.ts",
+        "fullName": "Framebuffer 320×200,初始全 0"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/framebuffer.test.ts",
+        "fullName": "Framebuffer writePixel + clear"
+      },
+      "current": {
+        "file": "packages/game/src/present/framebuffer.test.ts",
+        "fullName": "Framebuffer writePixel + clear"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/framebuffer.test.ts",
+        "fullName": "Framebuffer toImageData(palette) —— 索引 → RGBA"
+      },
+      "current": {
+        "file": "packages/game/src/present/framebuffer.test.ts",
+        "fullName": "Framebuffer toImageData(palette) —— 索引 → RGBA"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/framebuffer.glm-phase1-leaves.test.ts",
+        "fullName": "L16 framebuffer 剩余合同 writePixel 越界（负值/超宽高）静默不写不抛"
+      },
+      "current": {
+        "file": "packages/game/src/present/framebuffer.test.ts",
+        "fullName": "framebuffer clipping and palette boundaries writePixel 越界（负值/超宽高）静默不写不抛"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/framebuffer.glm-phase1-leaves.test.ts",
+        "fullName": "L16 framebuffer 剩余合同 自定义尺寸离屏缓冲的末像素写入与 RGBA 尺寸"
+      },
+      "current": {
+        "file": "packages/game/src/present/framebuffer.test.ts",
+        "fullName": "framebuffer clipping and palette boundaries 自定义尺寸离屏缓冲的末像素写入与 RGBA 尺寸"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/framebuffer.glm-phase1-leaves.test.ts",
+        "fullName": "L16 framebuffer 剩余合同 toImageData：palette 缺该索引颜色 → fallback [0,0,0]、alpha 恒 255"
+      },
+      "current": {
+        "file": "packages/game/src/present/framebuffer.test.ts",
+        "fullName": "framebuffer clipping and palette boundaries toImageData：palette 缺该索引颜色 → fallback [0,0,0]、alpha 恒 255"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-sprite.test.ts",
+        "fullName": "toSpriteImages 逐帧 anchor(密道攀爬偏下根因回归) 每帧 anchorY = 自身高度,anchorX = 自身宽度/2(非整组钉死 frame0)"
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-sprite.test.ts",
+        "fullName": "per-frame sprite anchors 每帧 anchorY = 自身高度,anchorX = 自身宽度/2(非整组钉死 frame0)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-sprite.test.ts",
+        "fullName": "toSpriteImages 逐帧 anchor(密道攀爬偏下根因回归) 脚底对齐:任意高度帧在 drawSprite(cy) 处底边都落在同一行(sdlpal PAL_RLEGetHeight 逐帧)"
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-sprite.test.ts",
+        "fullName": "per-frame sprite anchors 脚底对齐:任意高度帧在 drawSprite(cy) 处底边都落在同一行(sdlpal PAL_RLEGetHeight 逐帧)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-sprite.test.ts",
+        "fullName": "drawSprite 画一个 2×2 精灵,anchor 在底部中心 (1, 2)"
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-sprite.test.ts",
+        "fullName": "sprite pixels and transparency 画一个 2×2 精灵,anchor 在底部中心 (1, 2)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-sprite.test.ts",
+        "fullName": "drawSprite opaque=0 不覆盖底面(M3.5 fix:透明判定走 opaque mask,非 idx===0)"
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-sprite.test.ts",
+        "fullName": "sprite pixels and transparency opaque=0 不覆盖底面(M3.5 fix:透明判定走 opaque mask,非 idx===0)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-sprite.test.ts",
+        "fullName": "drawSprite opaque=1 且 idx=0 仍画(palette index 0 是合法 opaque 像素,M3.5 fix)"
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-sprite.test.ts",
+        "fullName": "sprite pixels and transparency opaque=1 且 idx=0 仍画(palette index 0 是合法 opaque 像素,M3.5 fix)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-sprite.test.ts",
+        "fullName": "drawSprite 左上角跨界时仍写入屏内的右下像素"
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-sprite.test.ts",
+        "fullName": "sprite pixels and transparency 左上角跨界时仍写入屏内的右下像素"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-sprite-clip.grok-r1.test.ts",
+        "fullName": "G03-B drawSprite 锚点与裁剪 G03-B02 宽 1 的帧 anchorX 为 0，不跟相邻更宽的帧"
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-sprite.test.ts",
+        "fullName": "sprite frame ownership and edge clipping 宽 1 的帧 anchorX 为 0，不跟相邻更宽的帧"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-sprite-clip.grok-r1.test.ts",
+        "fullName": "G03-B drawSprite 锚点与裁剪 G03-B03 toSpriteImages 复用调用方的 indices 与 opaque"
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-sprite.test.ts",
+        "fullName": "sprite frame ownership and edge clipping toSpriteImages 复用调用方的 indices 与 opaque"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-sprite-clip.grok-r1.test.ts",
+        "fullName": "G03-B drawSprite 锚点与裁剪 G03-B04 左缘外的像素不写，紧挨着的屏内像素写入 9"
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-sprite.test.ts",
+        "fullName": "sprite frame ownership and edge clipping 左缘外的像素不写，紧挨着的屏内像素写入 9"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-sprite-clip.grok-r1.test.ts",
+        "fullName": "G03-B drawSprite 锚点与裁剪 G03-B05 顶缘外的像素不写，下一行屏内像素写入 9"
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-sprite.test.ts",
+        "fullName": "sprite frame ownership and edge clipping 顶缘外的像素不写，下一行屏内像素写入 9"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-sprite-clip.grok-r1.test.ts",
+        "fullName": "G03-B drawSprite 锚点与裁剪 G03-B06 右缘只写下 x=319 的像素，调用不抛错"
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-sprite.test.ts",
+        "fullName": "sprite frame ownership and edge clipping 右缘只写下 x=319 的像素，调用不抛错"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-sprite-clip.grok-r1.test.ts",
+        "fullName": "G03-B drawSprite 锚点与裁剪 G03-B07 底缘只写下 y=199 的像素，不绕回首行"
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-sprite.test.ts",
+        "fullName": "sprite frame ownership and edge clipping 底缘只写下 y=199 的像素，不绕回首行"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/draw-sprite-clip.grok-r1.test.ts",
+        "fullName": "G03-B drawSprite 锚点与裁剪 G03-B08 中间透明孔不挡住右侧不透明像素"
+      },
+      "current": {
+        "file": "packages/game/src/present/draw-sprite.test.ts",
+        "fullName": "sprite frame ownership and edge clipping 中间透明孔不挡住右侧不透明像素"
+      }
+    }
+  ],
+  "cohortSubjects": [
+    {
+      "path": "packages/game/src/present/font-width.grok-r1.test.ts",
+      "sha256": "1b5024cd2d448c38a619cb8a545a3c92d51851185b7b1b7fcaf54a819cb616f3"
+    },
+    {
+      "path": "packages/game/src/present/font.glm-phase1-leaves.test.ts",
+      "sha256": "5d96d0ae5501f96c5a7075ce996c3ac2a3b586f52641cf9198eb00c73174c693"
+    },
+    {
+      "path": "packages/game/src/present/framebuffer.glm-phase1-leaves.test.ts",
+      "sha256": "79ea8dece3af846c68872168fa2d2f2d5ed01356aea27c30a450ac0ffe4b490e"
+    },
+    {
+      "path": "packages/game/src/present/draw-sprite-clip.grok-r1.test.ts",
+      "sha256": "72e2e06ce3b72b4877c9b24cfe064699a880efe1d95394f7d3e30f53ea0d006d"
+    }
+  ],
+  "preserved": [
+    {
+      "path": "packages/game/src/present/font.ts",
+      "sha256": "0af092f60efef7dd1f39c82f4c492512dbf957092f0d20b13da27b5518fd7fe4"
+    },
+    {
+      "path": "packages/game/src/present/framebuffer.ts",
+      "sha256": "fdd25deedeb33da252d5efa9392bc5af088365a2a6dab3129c2b373aeeb0e060"
+    },
+    {
+      "path": "packages/game/src/present/draw-sprite.ts",
+      "sha256": "bd2fbc1abb0527267b032298e779ac5946089745fd83159181dd0af84f8ffcef"
+    },
+    {
+      "path": "packages/game/src/present/present.ts",
+      "sha256": "c4c6f411857d99c5f8e850bf5172c3e42f04181a64df0ce2a697fe1ec90569f9"
+    },
+    {
+      "path": "packages/game/src/present/dialog-draw.ts",
+      "sha256": "755ed6019d3d070024ca9663dc79ba0b634abaf492c0675e3e5b7ceb300172ec"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/glyph-fixtures.ts",
+      "sha256": "226f7b472f8c065034db07c1f308ba5b5cc03a5f6d31b6f624f9cef27b701e2f"
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "sha256": "a4d007c9739873dc20f385b52b584de49ec57cd5c328cb11ca9d3b0b9f19fb0a"
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap-resources.ts",
+      "sha256": "7298c33038868dd9f514b04940f5f9f8dbcf29a5592201a6e83509d4b04ed6aa"
+    },
+    {
+      "path": "packages/game/src/shell/scene-thumbnail.ts",
+      "sha256": "2eb15d46f4fb08c60fc8ebd679edf635f3b1fb523d874226f1c2ec4411830c5f"
+    },
+    {
+      "path": "packages/game/src/shell/fbp-player.ts",
+      "sha256": "68c9049e1825c67e008d3cc5942b3452923ca5fcfe10196f3b30119bfd8b5750"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-opening-menu.ts",
+      "sha256": "28265833b5bfdf3a79354022de5e05637b0ab59ce8b9bfdf13b5cd82e3418549"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-box.ts",
+      "sha256": "2ab2d6e4aafcaa9848cab7e74ccfef8ac0669678a4f4fe58c7577ac89bafb4b4"
+    }
+  ],
+  "neighborPaths": [
+    "packages/game/src/assets/png.test.ts",
+    "packages/game/src/present/dialog-box.composition.test.ts",
+    "packages/game/src/present/draw-sprite.test.ts",
+    "packages/game/src/present/font-layout.test.ts",
+    "packages/game/src/present/font-loading.test.ts",
+    "packages/game/src/present/font.test.ts",
+    "packages/game/src/present/framebuffer.test.ts",
+    "packages/game/src/present/menu/draw-box.test.ts",
+    "packages/game/src/present/menu/draw-opening-menu.test.ts"
+  ],
+  "profiles": [
+    {
+      "path": "packages/game/src/present/font-layout.test.ts",
+      "subjects": [
+        "packages/game/src/present/font.test.ts",
+        "packages/game/src/present/font-width.grok-r1.test.ts"
+      ],
+      "axes": {
+        "A": "静态palCharWidth/WordWidth七例原边界/字宽单位保持，核真实openingItemX与菜单caller。当前TS近似并非逐码点SDL字体表等价，未改公式/接口。",
+        "B": "显式说明0x7F/0x80核当前近似边界，保半/全角单位，不把measureText缺字16px回退当静态布局合同。",
+        "C": "纯静态布局从IO/bitmap绘制中抽离，当前仅依赖两个公开函数与vitest；三个纯宽度例无fetch/global stub，移除无关unstub hook。",
+        "D": "四字默认与五/六字宽度对应真实菜单超过4的左移边界；ASCII/CJK混合与0x80政策不同，不因同函数调用盲删。",
+        "E": "七原callbacks/全部literal/assertion保留，身份映射明确，原A-E/H/counter同版复用；实际相邻openingItemX/UI坐标例通过。",
+        "F": "font-layout.test与static PAL layout/edge cases说明单位和输入边界，无作者/批次后缀或加载宽度歧义。",
+        "G": "不再附带字体网络/FrameBuffer/bitmap工厂；没有新增测试/API/配置/ignore，静态与已加载宽度保留明确分工。",
+        "H": "纯函数参数直接可控、无需字体/画布或网络；输出为量化全角字数和像素字宽，零全局清理依赖。"
+      },
+      "acceptance": "accepted-FG; unified gates pending"
+    },
+    {
+      "path": "packages/game/src/present/font-loading.test.ts",
+      "subjects": ["packages/game/src/present/font-width.grok-r1.test.ts"],
+      "axes": {
+        "A": "四原loadGlyphs真实Response/base64/URL/HTTP失败/空表合同保留；正式bootstrap资源barrier降级caller已全文核，网络错误传播策略未改。",
+        "B": "标题明确装载/HTTP状态/空表，不冒称像素绘制或整个启动流程由此四例覆盖。",
+        "C": "网络IO合同独立于布局/渲染，只保loadGlyphs和vi；原afterEach按四实际fetch stub case保留，不把清理推给纯case。",
+        "D": "四例各核解析结构、定位、错误归属或空表，fixture只造合法16byte 8x16字形；没有万能boot host或stub核心算法。",
+        "E": "四完整callbacks/height/width/bitmap/has/get/URL/精确错误断言不变，旧height1业务counter按同版来源复用。",
+        "F": "font-loading说明异步IO职责，读者无需从font-width或G05-B猜測测试域。",
+        "G": "从混装专测分离，没有复制加载helper、增加case或退役有效断言；静态布局与绘制入口退出此文件。",
+        "H": "只在真实fetch边界替换Response，逐例restore；无时钟/共享资源或私有测试seam，失败与成功路径均可直接观察。"
+      },
+      "acceptance": "accepted-FG; unified gates pending"
+    },
+    {
+      "path": "packages/game/src/present/font.test.ts",
+      "subjects": [
+        "packages/game/src/present/font.test.ts",
+        "packages/game/src/present/font-width.grok-r1.test.ts",
+        "packages/game/src/present/font.glm-phase1-leaves.test.ts"
+      ],
+      "axes": {
+        "A": "16原绘制/loaded measure/缺字/tofu/逐codepoint色/普通阴影合同保持；真实dialog draw与menuTextMaxCols定向核，公开实现不改。",
+        "B": "去mock/批次装饰标题，具体首行/内点/阴影/Unicode位置注释保留；不把PAL静态宽度与缺字度量混说。",
+        "C": "只有纯glyph→pixel/measurement合同；不引fetch清理或字体加载。latinAndCjkGlyphs、interiorDotGlyphs与局部单点输入Owner分明。",
+        "D": "两top-left dot准备函数在实际三个调用域（甲16/空表）与现有glyphsOf逐byte/宽高/has/get相等后复用；内点和整行字形oracle不同，保留独立。",
+        "E": "16原callbacks保所有业务expect/参数/控制流；仅3个fixture准备表达式有已证等价替换，其余literal只alpha变化。未以新旧SUT自比作oracle；66相邻包含真实dialog/box消费。",
+        "F": "按monochrome/measure/shadows/per-codepoint/fallback分组；latinAndCjkGlyphs/interiorDotGlyph/pixelAt说明输入点位和采样用途。",
+        "G": "删除两个无必要的私有builder副本并借既有provider，不新造万能字形层；三个无IO例移除无关global cleanup，所有case/断言保留。",
+        "H": "实际Framebuffer/renderer直接执行，手写不同字形与literal像素观察；现有glyphsOf每调用fresh map/bitmap，无共享输入寿命变化或产品私有state。"
+      },
+      "acceptance": "accepted-FG; unified gates pending"
+    },
+    {
+      "path": "packages/game/src/present/framebuffer.test.ts",
+      "subjects": [
+        "packages/game/src/present/framebuffer.test.ts",
+        "packages/game/src/present/framebuffer.glm-phase1-leaves.test.ts"
+      ],
+      "axes": {
+        "A": "六原默认尺寸/写清/完整RGBA与末像素、负坐标/四边界、自定义尺寸/缺palette色fallback合同保持；完整实现和真实缩略图caller已读。",
+        "B": "删过时phase/leaves去重头，实际负x可跨行及missing palette alpha说明保留，未声称所有number输入或真实canvas视觉已验。",
+        "C": "同一buffer持有indices、write/clear/RGBA转化的合同集中相邻专测，无独立作者层或共享可变fixture。",
+        "D": "默认屏幕与缩略图自定义尺寸为不同生产域，缺色fallback与普通RGBA为不同失败/正常合同，不按同toImageData调用盲删。",
+        "E": "原六完整callbacks/全部尺寸/长度/正反pixel/RGBA literal与expect保持；原负x跨行counter按same-source证据复用。",
+        "F": "framebuffer.test与boundary分组直接说明职责；Palette合法有限输入与末尾像素样本清楚。",
+        "G": "两个短文件聚合六合同，不增模式helper、不制造参数/接口或为了行数删边界。",
+        "H": "真实Framebuffer可小尺寸直接验证；ImageData环境沿用原fixture，无计时器/网络或核心mock。"
+      },
+      "acceptance": "accepted-FG; unified gates pending"
+    },
+    {
+      "path": "packages/game/src/present/draw-sprite.test.ts",
+      "subjects": [
+        "packages/game/src/present/draw-sprite.test.ts",
+        "packages/game/src/present/draw-sprite-clip.grok-r1.test.ts"
+      ],
+      "axes": {
+        "A": "13原逐帧anchor/脚底、indices/opaque借用、黑色0/透明孔与四边裁剪合同保持；bootstrap逐帧装配/present脚底/FBP顶点caller已定向核。",
+        "B": "保chunk193高度剖面、cy-1脚底、palette0不是透明等原因；去G03-B分类/旧专测去重头，不冒称真实剧情视觉。",
+        "C": "同一SpriteImage装配与真实writePixel blit合同集中，nested emptyFrame只属anchor组，topLeftSprite明确取消底部锚以单测边缘。",
+        "D": "emptyFrame的零mask与pixelFrame默认全opaque输入不同，保留两小工厂而不造布尔模式；pixelFrame/topLeftSprite内部组合是同输入域复用。",
+        "E": "原13callbacks/所有借用identity和literal像素/负坐标反例原样，仅必要identifier/title变化；PNG真实解码消费相邻通过，未复制产品blit当oracle。",
+        "F": "emptyFrame/pixelFrame/topLeftSprite替代mk/frame/sprite的泛名，分组按anchor、mask与clipping，贡献者路径退出。",
+        "G": "补充七例并回现用draw-sprite专测，不新增公开接口/helper层或删掉极界存活像素断言。",
+        "H": "实际SpriteImage/Framebuffer执行，逐例fresh像素，引用ownership直接观察，无私有seam/时间或宿主mock。"
+      },
+      "acceptance": "accepted-FG; unified gates pending"
+    }
+  ],
+  "cleanExecutions": [
+    "neighbors",
+    "typecheck",
+    "scoped",
+    "proof",
+    "before",
+    "docs",
+    "content-review",
+    "lint",
+    "testing-docs",
+    "diff"
+  ],
+  "receipts": {
+    "before": "organization-game-font-pixels/before-r2"
+  },
+  "reusedReviewMember": "organization-game-font-pixels/reused-reviews.json",
+  "processDisclosures": [
+    "Seven full spec reads plus three implementations and existing glyph fixture; bootstrap-resource/scene-thumbnail full read for caller ownership, other callers targeted ranges only. Four fixed historical subjects, three adjacent main files not extra cohort progress.",
+    "Baseline command first launched from wrong cwd and failed spawn ENOENT before test execution. Original execution retained; actual before-r2 from game package completed46 cases. No overwritten raw.",
+    "Split font into static PAL layout, async glyph IO, and pure text pixels/loaded measurements. Loading retains original afterEach unstubAllGlobals; six pure width/shadow/empty cases do not own any fetch/global stub, so shed unrelated cleanup explicitly.",
+    "Reuse glyphsOf only for three actual16px/empty preparations; same fresh Map/get/has/bitmap domain separately proven, distinct interior/full-row glyphs remain independent. No test/assertion retired, no implementation/public API/schema/save/mechanism change.",
+    "Framebuffer/sprite supplemental specs join their actual implementation main specs. Frame factories with zero masks versus default opaque masks remain separate; no generic boolean helper or API expansion.",
+    "First organizer attempt used wrong AST parent access before any source write; seven sources rehashed exact to frozen inputs, original script/tool transcript preserved (no separate stderr raw), revised script completed. Current purpose names pixelFrame/topLeftSprite/emptyFrame/latinAndCjkGlyphs distinguish frame-mask and glyph oracles; no implementation moved.",
+    "Normalized source bridges use the same Biome formatting after explicit transformations; independent ordered AST proof below retains node kinds, flags, literals, parameter/control flow and all assertions, excludes formatting/comment trivia only."
+  ],
+  "executionSummary": {
+    "selectedBaselineCases": 46,
+    "baselineRunCases": 46,
+    "currentNeighborCases": 66,
+    "currentNeighborFiles": 9
+  },
+  "reads": {
+    "full": [
+      {
+        "path": "packages/game/src/present/font.test.ts",
+        "sha256": "d502acc90f477b56a28eef745e17e4f219514ffacb9bbcf96d39992d3219cc6f",
+        "member": "organization-game-font-pixels/0.before"
+      },
+      {
+        "path": "packages/game/src/present/font-width.grok-r1.test.ts",
+        "sha256": "1b5024cd2d448c38a619cb8a545a3c92d51851185b7b1b7fcaf54a819cb616f3",
+        "member": "organization-game-font-pixels/1.before"
+      },
+      {
+        "path": "packages/game/src/present/font.glm-phase1-leaves.test.ts",
+        "sha256": "5d96d0ae5501f96c5a7075ce996c3ac2a3b586f52641cf9198eb00c73174c693",
+        "member": "organization-game-font-pixels/2.before"
+      },
+      {
+        "path": "packages/game/src/present/framebuffer.test.ts",
+        "sha256": "e4b1f7da98483db3d25a31a2ce65838fd1bd92f045e690e80a9a909b2454a738",
+        "member": "organization-game-font-pixels/3.before"
+      },
+      {
+        "path": "packages/game/src/present/framebuffer.glm-phase1-leaves.test.ts",
+        "sha256": "79ea8dece3af846c68872168fa2d2f2d5ed01356aea27c30a450ac0ffe4b490e",
+        "member": "organization-game-font-pixels/4.before"
+      },
+      {
+        "path": "packages/game/src/present/draw-sprite.test.ts",
+        "sha256": "7b362e551d29920b87d3739da0d0d377429f65019f945c380f7336887977f364",
+        "member": "organization-game-font-pixels/5.before"
+      },
+      {
+        "path": "packages/game/src/present/draw-sprite-clip.grok-r1.test.ts",
+        "sha256": "72e2e06ce3b72b4877c9b24cfe064699a880efe1d95394f7d3e30f53ea0d006d",
+        "member": "organization-game-font-pixels/6.before"
+      },
+      {
+        "path": "packages/game/src/present/font.ts",
+        "sha256": "0af092f60efef7dd1f39c82f4c492512dbf957092f0d20b13da27b5518fd7fe4"
+      },
+      {
+        "path": "packages/game/src/present/framebuffer.ts",
+        "sha256": "fdd25deedeb33da252d5efa9392bc5af088365a2a6dab3129c2b373aeeb0e060"
+      },
+      {
+        "path": "packages/game/src/present/draw-sprite.ts",
+        "sha256": "bd2fbc1abb0527267b032298e779ac5946089745fd83159181dd0af84f8ffcef"
+      },
+      {
+        "path": "packages/game/src/present/__tests__/glyph-fixtures.ts",
+        "sha256": "226f7b472f8c065034db07c1f308ba5b5cc03a5f6d31b6f624f9cef27b701e2f"
+      },
+      {
+        "path": "packages/game/src/shell/bootstrap-resources.ts",
+        "sha256": "7298c33038868dd9f514b04940f5f9f8dbcf29a5592201a6e83509d4b04ed6aa"
+      },
+      {
+        "path": "packages/game/src/shell/scene-thumbnail.ts",
+        "sha256": "2eb15d46f4fb08c60fc8ebd679edf635f3b1fb523d874226f1c2ec4411830c5f"
+      }
+    ],
+    "targeted": [
+      {
+        "path": "packages/game/src/shell/bootstrap.ts",
+        "ranges": [[230, 257], [350, 388]]
+      },
+      {
+        "path": "packages/game/src/present/present.ts",
+        "ranges": [[359, 377], [719, 732]]
+      },
+      {
+        "path": "packages/game/src/present/dialog-draw.ts",
+        "ranges": [[244, 268]]
+      },
+      {
+        "path": "packages/game/src/present/menu/draw-opening-menu.ts",
+        "ranges": [[18, 50]]
+      },
+      {
+        "path": "packages/game/src/present/menu/draw-box.ts",
+        "ranges": [[10, 42]]
+      },
+      {
+        "path": "packages/game/src/shell/fbp-player.ts",
+        "ranges": [[20, 39]]
+      }
+    ],
+    "limits": "Full/targeted ranges separate; adjacent caller files get no new cohort completion. Original A-E/H evidence reused only at recorded exact bytes."
+  },
+  "fixtureProof": "organization-game-font-pixels/fixture-call-conservation-r2.json",
+  "callbackAndLifecycleProof": "organization-game-font-pixels/ordered-ast-lifecycle-proof.json",
+  "lightweightGates": true
+}

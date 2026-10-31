@@ -411,11 +411,7 @@ export function validateLegacyClassification(root = testingRoot) {
   return issues
 }
 
-export function validateCatalog(
-  catalog,
-  root = testingRoot,
-  today = new Date().toISOString().slice(0, 10),
-) {
+export function validateCatalog(catalog, root = testingRoot) {
   const issues = []
   if (!catalog || typeof catalog !== 'object' || !Array.isArray(catalog.entries))
     return ['catalog.entries must be an array']
@@ -441,7 +437,6 @@ export function validateCatalog(
       'index',
       'tags',
       'lastVerified',
-      'reviewBy',
       'dependsOn',
       'provenance',
       'domain',
@@ -470,10 +465,9 @@ export function validateCatalog(
       !entry.dependsOn.every((dep) => typeof dep === 'string' && dep)
     )
       issues.push(`${entry.id}: dependsOn must be an array of IDs`)
-    for (const field of ['lastVerified', 'reviewBy'])
-      if (!validDate(entry[field])) issues.push(`${entry.id}: invalid date ${field}`)
-    if (entry.reviewBy < today && !['archived', 'superseded'].includes(entry.status))
-      fail(issues, `${entry.id}: reviewBy ${entry.reviewBy} is before ${today}`)
+    if (!validDate(entry.lastVerified)) issues.push(`${entry.id}: invalid date lastVerified`)
+    if (Object.hasOwn(entry, 'reviewBy'))
+      issues.push(`${entry.id}: reviewBy is retired; record revision/sourceRefs instead`)
     for (const path of [entry.canonical, entry.index, entry.evidence])
       if (path && agentPathPattern.test(path))
         fail(issues, `${entry.id}: agent name cannot appear in canonical/index/evidence path`)
@@ -518,7 +512,8 @@ export function validateCatalog(
       fail(issues, `${entry.id}: stage README metadata does not match catalog`)
     if (entry.kind === 'e2e-stage' && safePath(entry.index) && existsSync(stageReadme)) {
       const text = readFileSync(stageReadme, 'utf8')
-      for (const field of ['status', 'lastVerified', 'reviewBy'])
+      if (/^reviewBy:/m.test(text)) issues.push(`${entry.id}: stage README reviewBy is retired`)
+      for (const field of ['status', 'lastVerified'])
         if (!text.includes(`${field}: ${entry[field]}\n`))
           issues.push(`${entry.id}: stage README ${field} mismatch`)
     }
@@ -597,7 +592,7 @@ export function validateLegacyFlat(
 
 export function auditTestingDocs({ root = testingRoot, today } = {}) {
   const catalog = loadCatalog(root)
-  const catalogIssues = validateCatalog(catalog, root, today)
+  const catalogIssues = validateCatalog(catalog, root)
   if (catalogIssues.length) return catalogIssues
   return [
     ...catalog.entries.flatMap((entry) => validateCanonicalEvidence(entry, root)),

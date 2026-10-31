@@ -6,18 +6,14 @@
  * 装备/仙术断言取完整数组长度+首末槽与不同角色的非对称标记，防 slice 截断类坏实现。
  */
 import { describe, expect, test } from 'vitest'
-import {
-  mkMkf,
-  mkTable,
-  mkWords,
-  PLAYER_ROLE_ROWS,
-  playerRoleCell,
-} from '../../../__tests__/glm-foundation-fixtures.js'
+import { mkfContainer, u16Table } from '../../../__tests__/binary-fixtures.js'
+import { PLAYER_ROLE_ROWS, playerRoleCell } from '../../../__tests__/player-role-layout.js'
+import { makeWords } from '../../../__tests__/words-table.js'
 import { parsePlayerRoles } from '../player-roles.js'
 
-const mkRolesChunk = (cells: ReadonlyArray<[number, number]>) => mkTable(900, cells)
+const mkRolesChunk = (cells: ReadonlyArray<[number, number]>) => u16Table(900, cells)
 const mkDataMkf = (rolesChunk: Uint8Array) =>
-  mkMkf([Uint8Array.of(1), Uint8Array.of(2), Uint8Array.of(3), rolesChunk])
+  mkfContainer([Uint8Array.of(1), Uint8Array.of(2), Uint8Array.of(3), rolesChunk])
 
 describe('parsePlayerRoles · SoA 布局合同', () => {
   test('行=字段 列=角色：标量/signed/五行抗/装备轴向/仙术槽/走帧/声音', () => {
@@ -77,7 +73,7 @@ describe('parsePlayerRoles · SoA 布局合同', () => {
     expect(r2!.attackSound).toBe(-1)
   })
   test('chunk 3 尺寸门：898B 拒绝（sizeof=900）', () => {
-    expect(() => parsePlayerRoles(mkDataMkf(mkTable(898, [])))).toThrow(
+    expect(() => parsePlayerRoles(mkDataMkf(u16Table(898, [])))).toThrow(
       /chunk 3 size 898 ≠ sizeof\(PLAYERROLES\)=900/,
     )
   })
@@ -91,7 +87,7 @@ describe('parsePlayerRoles · SoA 布局合同', () => {
     const cells = [0, 1, 2, 3, 4, 5].map((p) =>
       playerRoleCell(PLAYER_ROLE_ROWS.name, p, [36, 37, 38, 40, 39, 41][p]!),
     )
-    const words = mkWords({ persons: ['李逍遥', '赵灵儿', '林月如', '阿奴', '巫后', ''] })
+    const words = makeWords({ persons: ['李逍遥', '赵灵儿', '林月如', '阿奴', '巫后', ''] })
     const { roles } = parsePlayerRoles(mkDataMkf(mkRolesChunk(cells)), words)
     expect(roles[0]!._name).toBe('李逍遥')
     expect(roles[2]!._name).toBe('林月如')

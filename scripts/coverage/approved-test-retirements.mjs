@@ -7,6 +7,97 @@
 // Exact historical snapshots only; this is not a scope-removal switch.
 export const approvedTestRetirements = Object.freeze(
   [
+    // User2026-10-29/31: responsibility-based reorganization and exact approved deduplication.
+    // Eleven current snapshots; most case-count changes are transfers, not retired contracts.
+    // Full identity maps and superseded snapshots: QUALITY-PENDING-100-3/coverage-recount.json.
+    {
+      file: 'packages/migrate/src/migration-write-guard.test.ts',
+      previous: 13,
+      current: 11,
+      previousIdentityDigest: 'acc08f52ebb21e75a037cf9eec89011c877960b5cde914c2cd2ba194eb02b396',
+      currentIdentityDigest: 'ad274e903804e9622c7bf40d5b55565c3ee5ab5a3f40d2387c6c83bf8f6a0a99',
+      fileSha256: '36c11c4d5f3aeda40b52e9db2816127abc91010a0c1e3f16b3d05984c467bc8f',
+    },
+    {
+      file: 'packages/game/src/core/menu/inventory-menu.test.ts',
+      previous: 23,
+      current: 7,
+      previousIdentityDigest: '9d059a4497c84faf46c46c91976bbde1fb4d91556d609707954feb45604b263d',
+      currentIdentityDigest: '35d4b1d6da8e1bb549383c58348e7457e7825512c4abdcdd5e98d4f2e540c09b',
+      fileSha256: 'c3e79347951efb08c9661d84f09abd6741709b5c9a0816abef09805032f32b70',
+    },
+    {
+      file: 'packages/game/src/core/menu/magic-script.test.ts',
+      previous: 31,
+      current: 4,
+      previousIdentityDigest: 'b0cd51bab955bbc043143ffe6608ffd9a856f5e190cb85a66a313b49b2ecb228',
+      currentIdentityDigest: '70ce18a7601021e63de99343213b091a4e351891a1a5e088447ae444845a1a61',
+      fileSha256: '62cb16ed0f10305f9b809bb5970dd60b5e8d9ec6cc61cd5885dfe6bf03d6a570',
+    },
+    {
+      file: 'packages/game/src/core/menu/save-slot-menu.test.ts',
+      previous: 14,
+      current: 12,
+      previousIdentityDigest: 'f6a16d9a1cc984e5883367385e63e5417fae61b51a39366aac5c47eda15a582c',
+      currentIdentityDigest: '47a0d6b16f5b9be98c03e91dc4aa2bac79713a33fa89137668124d718517542a',
+      fileSha256: 'fff1072bc467edc6c95c089e00d640ed0ed123d80eadf3134ca1ca5ee49397be',
+    },
+    {
+      file: 'packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts',
+      previous: 40,
+      current: 35,
+      previousIdentityDigest: '189ff0e5a0f5f6a61faf4c7cb1ff117f98b293fa1a2c5a2978c85fb0e9d2be7b',
+      currentIdentityDigest: 'a9601284d2bd8d69b009bff995b78bcb7eb1b2f2412037e2fae6abf9b5160acc',
+      fileSha256: '741c1edf76e98ca06147bb5039bd4cf4108f11110c3291afeee15bdabde75bf8',
+    },
+    {
+      file: 'packages/game/src/present/battle/__tests__/draw-battle-ui.test.ts',
+      previous: 21,
+      current: 7,
+      previousIdentityDigest: '2f12e8c8f92e6f2e77adb15780750428dc1ee43c7adadfc056dcc9ec1e3ea9d3',
+      currentIdentityDigest: '1b505e2b3ade52d9655e135d0e918cb31c83921fe3228fe508c9ff75ed529696',
+      fileSha256: 'd283ca82dfed5b42661360afa97af77fa10c04b5825758ecda0725ef4726196c',
+    },
+    {
+      file: 'packages/game/src/present/dialog-box.test.ts',
+      previous: 68,
+      current: 32,
+      previousIdentityDigest: 'b4234ba5b207bef23640e8280bd55b65bef884176645266f9b0e3bf0868d2470',
+      currentIdentityDigest: '3decd0cef2b269379267a6120ce381a5922f03ac2f77e74469fb8b54ad4ce999',
+      fileSha256: 'a0d8da9139561d8f3d454ceb1ec565b8d6b4dfaaaaa57b53fc69205c955c9554',
+    },
+    {
+      file: 'packages/game/src/present/present.test.ts',
+      previous: 52,
+      current: 13,
+      previousIdentityDigest: '8c37c01f705877b4c9c704de9db7cf35a3260f8b6fbdecabe3c2a748f4b881f3',
+      currentIdentityDigest: 'ab9140aef6e87b202136b980a1ff61e0374f146701b1f453076f046dfc7f7aa7',
+      fileSha256: 'e7e130033bf84abe1c84818ff31f67367e78e8704c2dc3d735be58901bb9a7f3',
+    },
+    {
+      file: 'packages/game/src/shell/avi-player.test.ts',
+      previous: 12,
+      current: 9,
+      previousIdentityDigest: 'c81fb7cbeb7e6da820ce1e48328b783f63e14e7f27cc7ec29d5facd1b1bd137b',
+      currentIdentityDigest: 'f341e804f635796f52e52fbf730721fdf94007fe6942e6ceea5f9dbddbe2f08a',
+      fileSha256: '4933e3396ca51f24a51c46f544b82b7b779b719236f26dc31f6a57fc248b5056',
+    },
+    {
+      file: 'packages/game/src/shell/boot-loading.test.ts',
+      previous: 11,
+      current: 9,
+      previousIdentityDigest: '7558b87f9f460cbe37b81675163c477ed61408f6a3ea32a95c3e368b81b4d3e3',
+      currentIdentityDigest: 'c5aa7c942a1063bf6a7be8a6ef8840a7b9112f25b08d080fdb53dc4e55e9d8d4',
+      fileSha256: '82cb65c725151cea7430738c80a30106aa701aebb45b4803f62b9c550cc3eab2',
+    },
+    {
+      file: 'packages/editor/src/ui/ScriptEditor.coverage-workflows-2.test.tsx',
+      previous: 14,
+      current: 12,
+      previousIdentityDigest: '21acfb5a30c9cdd277ae078a4fb1d22bbb7d153d2e18e26cc677566471417797',
+      currentIdentityDigest: '164b6f0dc635a6815f79ea170acd50f8d2fb17a920f7ff6d749f45c6693d551e',
+      fileSha256: '189518553e704571ab1a3e23d2563da9091208306710f22b977fdfebe59a9ab8',
+    },
     // User2026-10-28 remaining200 recheck + standing precise-dedup authority.
     // Exact snapshots/contracts: QUALITY-RECENT-200-CONTENT-AUDIT-2/retirement-recount.json.
     {
@@ -74,14 +165,6 @@ export const approvedTestRetirements = Object.freeze(
       previousIdentityDigest: '6c36033e381396720c5af700e12a2ca28e4c2b08c284ce90490cf05c7b6626bd',
       currentIdentityDigest: '409023099b0db69014dfce795633f21893f50850102105f102dc76c9ba0a135d',
       fileSha256: 'cc4383d7c4f8597597be632c28374dc27dbbba77a8c85725fe63c80007aa406e',
-    },
-    {
-      file: 'packages/game/src/present/present.test.ts',
-      previous: 58,
-      current: 52,
-      previousIdentityDigest: '992b2a82b701ccf6f7af575f20895d0b6f701ed4d91aed9c13fbca814c1c1b95',
-      currentIdentityDigest: '8c37c01f705877b4c9c704de9db7cf35a3260f8b6fbdecabe3c2a748f4b881f3',
-      fileSha256: 'f325c8bfee7477442989bf5a7e71761cff7010cfeefe0fec8d2879b5325a18a8',
     },
     {
       file: 'packages/game/src/shell/splash-fallback.test.ts',
@@ -187,14 +270,6 @@ export const approvedTestRetirements = Object.freeze(
       currentIdentityDigest: 'ac2379ec430460fc1ab5b6f2c13672192b3ef5930ac12a7c4bb1adf3c1a4a97b',
       fileSha256: 'a91059d33c007b149b7ada27401f85952aa7dd5f6acb523f1273e9f42a4d7b0c',
     },
-    {
-      file: 'packages/game/src/present/dialog-box.test.ts',
-      previous: 69,
-      current: 68,
-      previousIdentityDigest: 'f6d9ffd17c974be20f3ec3f3582735926eac4be082e46ee0c61dcdc3a394fe2d',
-      currentIdentityDigest: 'b4234ba5b207bef23640e8280bd55b65bef884176645266f9b0e3bf0868d2470',
-      fileSha256: 'bb5f191093ab1ed738bd4df29af5a18c3add9a88f07b0725f97a610bc052c6fe',
-    },
     // User2026-10-24 pre94 quality scope and standing exact-dedup authority.
     // Same-position keep assertion transfers to exact append content case; see battle-dialog-quality.
     {
@@ -237,22 +312,6 @@ export const approvedTestRetirements = Object.freeze(
     },
     // CODE3l: standing user authority for proven dead-code and duplicate-test retirement.
     // Exact old-to-new contracts and native originals: pre94/battle-present-quality/review.json.
-    {
-      file: 'packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts',
-      previous: 51,
-      current: 40,
-      previousIdentityDigest: 'ad981d1daf19bc820424df598189311402fbdb6c5c3537d2cf3652ac7c9aef56',
-      currentIdentityDigest: '189ff0e5a0f5f6a61faf4c7cb1ff117f98b293fa1a2c5a2978c85fb0e9d2be7b',
-      fileSha256: '7cd301dd7793d46158b3ff2ce9795c685ce6df42e49d38b07a7f668a69b9dc2e',
-    },
-    {
-      file: 'packages/game/src/present/battle/__tests__/draw-battle-ui.test.ts',
-      previous: 31,
-      current: 21,
-      previousIdentityDigest: 'aa82218faf15e82bb4436380f9c087b58fe8447b2100cfb39ab7f33fa3a3787f',
-      currentIdentityDigest: '2f12e8c8f92e6f2e77adb15780750428dc1ee43c7adadfc056dcc9ec1e3ea9d3',
-      fileSha256: '04ede6eb0d4e913868d4d1f1c211af2495d41cf0598633535af4cbb41d1457bd',
-    },
     {
       file: 'packages/game/src/present/battle/__tests__/present-battle.test.ts',
       previous: 25,
@@ -500,14 +559,6 @@ export const approvedTestRetirements = Object.freeze(
     // Exact native old/new identities,assertion transfers and business counters:
     // docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json
     {
-      file: 'packages/game/src/core/menu/magic-script.test.ts',
-      previous: 37,
-      current: 31,
-      previousIdentityDigest: 'b54cf21e965db09f3701c947dbb2401a5b4cd9ab1676d2e77a542cf41df4b9ba',
-      currentIdentityDigest: 'b0cd51bab955bbc043143ffe6608ffd9a856f5e190cb85a66a313b49b2ecb228',
-      fileSha256: 'e9128ddd85480e1230c2bde6b7eb809d1a28116d4b67266451a0d9afe1a4d796',
-    },
-    {
       file: 'packages/game/src/dev/dev-panel.glm-next-wave.test.ts',
       previous: 4,
       current: 3,
@@ -603,14 +654,6 @@ export const approvedTestRetirements = Object.freeze(
     // User2026-10-25 94–102 quality repair and standing proven-dedup authority.
     // savedTimes=42 moves to the existing API list case; old approval snapshot
     // remains in Git and CODE94/current-review/review.json. Predicate unchanged.
-    {
-      file: 'packages/game/src/core/menu/save-slot-menu.test.ts',
-      previous: 15,
-      current: 14,
-      previousIdentityDigest: '4338d808cd9f5745822ba6621d8a53a07ed8306eda97dd13d8d63e21ea808f63',
-      currentIdentityDigest: 'f6a16d9a1cc984e5883367385e63e5417fae61b51a39366aac5c47eda15a582c',
-      fileSha256: '5a5dbbf360731197f763bd93921e968db9b6602d64ba681597d935942636ff41',
-    },
     // User-approved 2026-10-03 audit baseline reconciliation. These six files
     // were already stale relative to main 8efe0486; pin exact identities so
     // protected strict distinguishes this migration from later deletions.

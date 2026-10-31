@@ -1,0 +1,538 @@
+{
+  "inputs": [
+    {
+      "path": "packages/game/src/shell/fbp-player.test.ts",
+      "sha256": "4e491437e1d52d74984fe87c96a14f84cd39852ad3cbb1dd2389240f0178498b",
+      "member": "organization-shell-fbp/0.before"
+    },
+    {
+      "path": "packages/game/src/shell/fbp-scroll.grok-r1.test.ts",
+      "sha256": "5f7b2d35fd5c255f36d9580afdd0bc09c815bc2fc9b645abe6aa2b7187d3dd62",
+      "member": "organization-shell-fbp/1.before"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "packages/game/src/shell/fbp-player.test.ts",
+      "sha256": "b5b979e6a0e665024311e805ef65e29f8398ad461dbd402897de0422ce9e3906"
+    },
+    {
+      "path": "packages/game/src/shell/fbp-player.scroll.test.ts",
+      "sha256": "b63d93f406235d2b73cc3fd30c3df82bb5458ad2632c04c49dc22d0f7703c0a4"
+    }
+  ],
+  "sourceBridges": [
+    {
+      "path": "packages/game/src/shell/fbp-player.test.ts",
+      "id": "fbp-0",
+      "reason": "Same full-screen helper and common failure-safe timer teardown; two timer-only cases explicitly gain real intermediate-frame oracles. All old business assertions remain.",
+      "changes": [
+        {
+          "from": "import type { Palette } from '@type-pal/shared'\nimport { afterEach, describe, expect, it, vi } from 'vitest'\nimport { realCanvasContext } from '../__tests__/canvas-host.js'\nimport { createFramebuffer } from '../present/framebuffer.js'\nimport { scrollFbp, showFbp } from './fbp-player.js'\n\nconst palette: Palette = {\n  colors: Array.from({ length: 256 }, (_, index): [number, number, number] => [index, 20, 40]),\n  cycles: [],\n}\n\nafterEach(async () => {\n  if (vi.isFakeTimers()) await vi.runAllTimersAsync()\n  vi.useRealTimers()\n  vi.restoreAllMocks()\n})\n\nfunction fbpFill(val: number): Uint8Array {\n  return new Uint8Array(320 * 200).fill(val)\n}\n\ndescribe('特效 B fbp-player showFbp(PAL_ShowFBP port)', () => {\n  it('fade=0 → 整屏 = target FBP indices(瞬时 blit)', async () => {\n    const fb = createFramebuffer()\n    fb.indices.fill(99)\n    await showFbp({\n      fbpIndices: fbpFill(0x3c),\n      fade: 0,\n      chunkNum: 10,\n      isWin95: true,\n      fb,\n      canvasCtx: realCanvasContext(),\n      palette,\n    })\n    expect(fb.indices).toEqual(fbpFill(0x3c))\n  })\n\n  it('无图(indices 长度不符)→ framebuffer 索引清零', async () => {\n    const fb = createFramebuffer()\n    fb.indices.fill(99)\n    await showFbp({\n      fbpIndices: new Uint8Array(10),\n      fade: 0,\n      chunkNum: 65535,\n      isWin95: true,\n      fb,\n      canvasCtx: realCanvasContext(),\n      palette,\n    })\n    expect(fb.indices.every((v) => v === 0)).toBe(true)\n  })\n\n  it('HACKHACK chunk(win95=68)fade=0 → 跳过最终 blit,fb 保持原样', async () => {\n    const fb = createFramebuffer()\n    fb.indices.fill(99)\n    await showFbp({\n      fbpIndices: fbpFill(0x3c),\n      fade: 0,\n      chunkNum: 68,\n      isWin95: true,\n      fb,\n      canvasCtx: realCanvasContext(),\n      palette,\n    })\n    expect(fb.indices).toEqual(fbpFill(99)) // HACKHACK:不被 target 覆盖\n  })\n\n  it('fade>0 + HACKHACK chunk → dither 自身收敛到 target(高 nibble 跳 + 低 nibble migrate 满)', async () => {\n    vi.useFakeTimers()\n    const fb = createFramebuffer()\n    fb.indices.fill(0x10) // backup: high=1 low=0\n    // chunk 68(win95 HACKHACK)→ 无最终 blit,fb 完全 = dither 结果\n    const p = showFbp({\n      fbpIndices: fbpFill(0x3c),\n      fade: 1,\n      chunkNum: 68,\n      isWin95: true,\n      fb,\n      canvasCtx: realCanvasContext(),\n      palette,\n    })\n    await vi.runAllTimersAsync()\n    await p\n    // target 0x3C(high=3 low=12):high 首触即跳 3;low 0→12 在 16 外圈内 migrate 满 → 0x3C\n    expect(fb.indices).toEqual(fbpFill(0x3c))\n  })\n})\n\ndescribe('特效 B fbp-player scrollFbp(PAL_ScrollFBP port)', () => {\n  it('下滑卷入完成 → 整屏 = 新图(末帧 CopyEntireSurface)', async () => {\n    vi.useFakeTimers()\n    const fb = createFramebuffer()\n    fb.indices.fill(0x11) // 旧屏\n    const p = scrollFbp({\n      fbpIndices: fbpFill(0x22),\n      speed: 100,\n      fScrollDown: true,\n      fb,\n      canvasCtx: realCanvasContext(),\n      palette,\n    })\n    await vi.runAllTimersAsync()\n    await p\n    expect(fb.indices.every((v) => v === 0x22)).toBe(true) // 全是新图\n    vi.useRealTimers()\n  })\n\n  it('滚动中间帧 = 旧屏下移 + 新图自顶推入(下滑方向)', async () => {\n    vi.useFakeTimers()\n    const fb = createFramebuffer()\n    // 旧屏索引 100，新图索引 200，独立观察两侧归属。\n    fb.indices.fill(100)\n    const target = new Uint8Array(320 * 200).fill(200)\n    const p = scrollFbp({\n      fbpIndices: target,\n      speed: 100,\n      fScrollDown: true,\n      fb,\n      canvasCtx: realCanvasContext(),\n      palette,\n    })\n    // 推进到约一半(110 步)再看:顶部应是新图(200),底部应是旧屏(100)\n    await vi.advanceTimersByTimeAsync(8 * 110) // delay=800/100=8ms × 110 步\n    const top = fb.indices[0]! // 顶部行\n    const bottom = fb.indices[320 * 199]! // 底部行\n    await vi.runAllTimersAsync()\n    await p\n    expect(top).toBe(200) // 顶部 = 新图(自顶推入)\n    expect(bottom).toBe(100) // 底部 = 旧屏(下移中)\n    vi.useRealTimers()\n  })\n})\n\ndescribe('特效 B FBP effectSprite 叠加(g_wCurEffectSprite)', () => {\n  it('fade>0 + HACKHACK chunk + effectSprite → 渐变期叠 MGO 精灵帧(末帧无 final blit 故精灵保留)', async () => {\n    vi.useFakeTimers()\n    const fb = createFramebuffer()\n    fb.indices.fill(0x10)\n    // 10×10 全不透明精灵帧,填 0xAB,贴 (0,0)\n    const spr = {\n      width: 10,\n      height: 10,\n      indices: new Uint8Array(100).fill(0xab),\n      opaque: new Uint8Array(100).fill(1),\n    }\n    const p = showFbp({\n      fbpIndices: fbpFill(0x3c),\n      fade: 1,\n      chunkNum: 68,\n      isWin95: true, // chunk 68 = win95 HACKHACK → 无 final blit\n      fb,\n      canvasCtx: realCanvasContext(),\n      palette,\n      effectSpriteFrames: [spr],\n    })\n    await vi.runAllTimersAsync()\n    await p\n    for (let y = 0; y < 10; y++) {\n      expect(fb.indices.slice(y * 320, y * 320 + 10)).toEqual(new Uint8Array(10).fill(0xab))\n      expect(fb.indices[y * 320 + 10]).toBe(0x3c)\n    }\n    expect(fb.indices[10 * 320]).toBe(0x3c)\n  })\n})\n",
+          "to": "import type { Palette } from '@type-pal/shared'\nimport { afterEach, describe, expect, it, vi } from 'vitest'\nimport { realCanvasContext } from '../__tests__/canvas-host.js'\nimport { createFramebuffer } from '../present/framebuffer.js'\nimport { scrollFbp, showFbp } from './fbp-player.js'\n\nconst palette: Palette = {\n  colors: Array.from({ length: 256 }, (_, index): [number, number, number] => [index, 20, 40]),\n  cycles: [],\n}\n\nafterEach(async () => {\n  try {\n    if (vi.isFakeTimers()) await vi.runAllTimersAsync()\n  } finally {\n    vi.restoreAllMocks()\n    vi.useRealTimers()\n  }\n})\n\nfunction filledScreenIndices(index: number): Uint8Array {\n  return new Uint8Array(320 * 200).fill(index)\n}\n\ndescribe('特效 B fbp-player showFbp(PAL_ShowFBP port)', () => {\n  it('fade=0 → 整屏 = target FBP indices(瞬时 blit)', async () => {\n    const fb = createFramebuffer()\n    fb.indices.fill(99)\n    await showFbp({\n      fbpIndices: filledScreenIndices(0x3c),\n      fade: 0,\n      chunkNum: 10,\n      isWin95: true,\n      fb,\n      canvasCtx: realCanvasContext(),\n      palette,\n    })\n    expect(fb.indices).toEqual(filledScreenIndices(0x3c))\n  })\n\n  it('无图(indices 长度不符)→ framebuffer 索引清零', async () => {\n    const fb = createFramebuffer()\n    fb.indices.fill(99)\n    await showFbp({\n      fbpIndices: new Uint8Array(10),\n      fade: 0,\n      chunkNum: 65535,\n      isWin95: true,\n      fb,\n      canvasCtx: realCanvasContext(),\n      palette,\n    })\n    expect(fb.indices.every((v) => v === 0)).toBe(true)\n  })\n\n  it('HACKHACK chunk(win95=68)fade=0 → 跳过最终 blit,fb 保持原样', async () => {\n    const fb = createFramebuffer()\n    fb.indices.fill(99)\n    await showFbp({\n      fbpIndices: filledScreenIndices(0x3c),\n      fade: 0,\n      chunkNum: 68,\n      isWin95: true,\n      fb,\n      canvasCtx: realCanvasContext(),\n      palette,\n    })\n    expect(fb.indices).toEqual(filledScreenIndices(99)) // HACKHACK:不被 target 覆盖\n  })\n\n  it('fade>0 + HACKHACK chunk → dither 自身收敛到 target(高 nibble 跳 + 低 nibble migrate 满)', async () => {\n    vi.useFakeTimers()\n    const fb = createFramebuffer()\n    fb.indices.fill(0x10) // backup: high=1 low=0\n    // chunk 68(win95 HACKHACK)→ 无最终 blit,fb 完全 = dither 结果\n    const p = showFbp({\n      fbpIndices: filledScreenIndices(0x3c),\n      fade: 1,\n      chunkNum: 68,\n      isWin95: true,\n      fb,\n      canvasCtx: realCanvasContext(),\n      palette,\n    })\n    await vi.runAllTimersAsync()\n    await p\n    // target 0x3C(high=3 low=12):high 首触即跳 3;low 0→12 在 16 外圈内 migrate 满 → 0x3C\n    expect(fb.indices).toEqual(filledScreenIndices(0x3c))\n  })\n})\n\ndescribe('特效 B fbp-player scrollFbp(PAL_ScrollFBP port)', () => {\n  it('下滑卷入完成 → 整屏 = 新图(末帧 CopyEntireSurface)', async () => {\n    vi.useFakeTimers()\n    const fb = createFramebuffer()\n    fb.indices.fill(0x11) // 旧屏\n    const p = scrollFbp({\n      fbpIndices: filledScreenIndices(0x22),\n      speed: 100,\n      fScrollDown: true,\n      fb,\n      canvasCtx: realCanvasContext(),\n      palette,\n    })\n    await vi.runAllTimersAsync()\n    await p\n    expect(fb.indices.every((v) => v === 0x22)).toBe(true) // 全是新图\n    vi.useRealTimers()\n  })\n\n  it('滚动中间帧 = 旧屏下移 + 新图自顶推入(下滑方向)', async () => {\n    vi.useFakeTimers()\n    const fb = createFramebuffer()\n    // 旧屏索引 100，新图索引 200，独立观察两侧归属。\n    fb.indices.fill(100)\n    const target = new Uint8Array(320 * 200).fill(200)\n    const p = scrollFbp({\n      fbpIndices: target,\n      speed: 100,\n      fScrollDown: true,\n      fb,\n      canvasCtx: realCanvasContext(),\n      palette,\n    })\n    // 推进到约一半(110 步)再看:顶部应是新图(200),底部应是旧屏(100)\n    await vi.advanceTimersByTimeAsync(8 * 110) // delay=800/100=8ms × 110 步\n    const top = fb.indices[0]! // 顶部行\n    const bottom = fb.indices[320 * 199]! // 底部行\n    await vi.runAllTimersAsync()\n    await p\n    expect(top).toBe(200) // 顶部 = 新图(自顶推入)\n    expect(bottom).toBe(100) // 底部 = 旧屏(下移中)\n    vi.useRealTimers()\n  })\n})\n\ndescribe('特效 B FBP effectSprite 叠加(g_wCurEffectSprite)', () => {\n  it('fade>0 + HACKHACK chunk + effectSprite → 渐变期叠 MGO 精灵帧(末帧无 final blit 故精灵保留)', async () => {\n    vi.useFakeTimers()\n    const fb = createFramebuffer()\n    fb.indices.fill(0x10)\n    // 10×10 全不透明精灵帧,填 0xAB,贴 (0,0)\n    const spr = {\n      width: 10,\n      height: 10,\n      indices: new Uint8Array(100).fill(0xab),\n      opaque: new Uint8Array(100).fill(1),\n    }\n    const p = showFbp({\n      fbpIndices: filledScreenIndices(0x3c),\n      fade: 1,\n      chunkNum: 68,\n      isWin95: true, // chunk 68 = win95 HACKHACK → 无 final blit\n      fb,\n      canvasCtx: realCanvasContext(),\n      palette,\n      effectSpriteFrames: [spr],\n    })\n    await vi.runAllTimersAsync()\n    await p\n    for (let y = 0; y < 10; y++) {\n      expect(fb.indices.slice(y * 320, y * 320 + 10)).toEqual(new Uint8Array(10).fill(0xab))\n      expect(fb.indices[y * 320 + 10]).toBe(0x3c)\n    }\n    expect(fb.indices[10 * 320]).toBe(0x3c)\n  })\n})\n",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/shell/fbp-scroll.grok-r1.test.ts",
+      "id": "fbp-1",
+      "reason": "Same full-screen helper and common failure-safe timer teardown; two timer-only cases explicitly gain real intermediate-frame oracles. All old business assertions remain.",
+      "changes": [
+        {
+          "from": "/**\n * TEST-GROK-RENDER-HOST-LARGE-1 G10-C。\n * DOS/WIN95 的 HACKHACK 块号、speed 0、上滚中途、短缓冲和 fade 步进。\n */\nimport { afterEach, describe, expect, it, vi } from 'vitest'\nimport { legalPalette } from '../__tests__/asset-fixtures.js'\nimport { realCanvasContext } from '../__tests__/canvas-host.js'\nimport { createFramebuffer } from '../present/framebuffer.js'\nimport { scrollFbp, showFbp } from './fbp-player.js'\n\nconst N = 320 * 200\n\nfunction screen(fill: number): Uint8Array {\n  return new Uint8Array(N).fill(fill)\n}\n\nafterEach(async () => {\n  if (vi.isFakeTimers()) await vi.runAllTimersAsync()\n  vi.restoreAllMocks()\n  vi.useRealTimers()\n})\n\ndescribe('G10-C FBP 块号滚动与步进', () => {\n  it('G10-C01 DOS 块 49 跳过最终 blit', async () => {\n    const fb = createFramebuffer()\n    fb.indices.fill(99)\n    await showFbp({\n      fbpIndices: screen(0x3c),\n      fade: 0,\n      chunkNum: 49,\n      isWin95: false,\n      fb,\n      canvasCtx: realCanvasContext(),\n      palette: legalPalette(),\n    })\n    expect(fb.indices).toEqual(screen(99))\n  })\n\n  it('G10-C02 WIN95 下块 49 仍整屏写入', async () => {\n    const fb = createFramebuffer()\n    fb.indices.fill(99)\n    await showFbp({\n      fbpIndices: screen(0x3c),\n      fade: 0,\n      chunkNum: 49,\n      isWin95: true,\n      fb,\n      canvasCtx: realCanvasContext(),\n      palette: legalPalette(),\n    })\n    expect(fb.indices).toEqual(screen(0x3c))\n  })\n\n  it('G10-C03 speed 0 的步进等待是 800 毫秒', async () => {\n    vi.useFakeTimers()\n    const spy = vi.spyOn(globalThis, 'setTimeout')\n    const fb = createFramebuffer()\n    const pending = scrollFbp({\n      fbpIndices: screen(0x22),\n      speed: 0,\n      fScrollDown: true,\n      fb,\n      canvasCtx: realCanvasContext(),\n      palette: legalPalette(),\n    })\n    const firstDelay = spy.mock.calls[0]?.[1]\n    await vi.runAllTimersAsync()\n    await pending\n    expect(firstDelay).toBe(800)\n  })\n\n  it('G10-C04 上滚中途顶行是旧屏底行是新图', async () => {\n    vi.useFakeTimers()\n    const fb = createFramebuffer()\n    fb.indices.fill(100)\n    const pending = scrollFbp({\n      fbpIndices: screen(200),\n      speed: 100,\n      fScrollDown: false,\n      fb,\n      canvasCtx: realCanvasContext(),\n      palette: legalPalette(),\n    })\n    await vi.advanceTimersByTimeAsync(8 * 110)\n    const top = fb.indices[0]\n    const bottom = fb.indices[199 * 320]\n    await vi.runAllTimersAsync()\n    await pending\n    expect(top).toBe(100)\n    expect(bottom).toBe(200)\n  })\n\n  it('G10-C05 长度不足的滚动不改 framebuffer', async () => {\n    const fb = createFramebuffer()\n    fb.indices.fill(77)\n    await scrollFbp({\n      fbpIndices: new Uint8Array(10),\n      speed: 1,\n      fScrollDown: true,\n      fb,\n      canvasCtx: realCanvasContext(),\n      palette: legalPalette(),\n    })\n    expect(fb.indices).toEqual(screen(77))\n  })\n\n  it('G10-C06 fade 1 的每步等待是 20 毫秒', async () => {\n    vi.useFakeTimers()\n    const spy = vi.spyOn(globalThis, 'setTimeout')\n    const fb = createFramebuffer()\n    fb.indices.fill(0x10)\n    const pending = showFbp({\n      fbpIndices: screen(0x3c),\n      fade: 1,\n      chunkNum: 68,\n      isWin95: true,\n      fb,\n      canvasCtx: realCanvasContext(),\n      palette: legalPalette(),\n    })\n    const firstDelay = spy.mock.calls[0]?.[1]\n    await vi.runAllTimersAsync()\n    await pending\n    expect(firstDelay).toBe(20)\n  })\n})\n",
+          "to": "/**\n * TEST-GROK-RENDER-HOST-LARGE-1 G10-C。\n * DOS/WIN95 的 HACKHACK 块号、speed 0、上滚中途、短缓冲和 fade 步进。\n */\nimport { afterEach, describe, expect, it, vi } from 'vitest'\nimport { legalPalette } from '../__tests__/asset-fixtures.js'\nimport { realCanvasContext } from '../__tests__/canvas-host.js'\nimport { createFramebuffer } from '../present/framebuffer.js'\nimport { scrollFbp, showFbp } from './fbp-player.js'\n\nfunction filledScreenIndices(index: number): Uint8Array {\n  return new Uint8Array(320 * 200).fill(index)\n}\n\nafterEach(async () => {\n  try {\n    if (vi.isFakeTimers()) await vi.runAllTimersAsync()\n  } finally {\n    vi.restoreAllMocks()\n    vi.useRealTimers()\n  }\n})\n\ndescribe('G10-C FBP 块号滚动与步进', () => {\n  it('DOS 块 49 跳过最终 blit', async () => {\n    const fb = createFramebuffer()\n    fb.indices.fill(99)\n    await showFbp({\n      fbpIndices: filledScreenIndices(0x3c),\n      fade: 0,\n      chunkNum: 49,\n      isWin95: false,\n      fb,\n      canvasCtx: realCanvasContext(),\n      palette: legalPalette(),\n    })\n    expect(fb.indices).toEqual(filledScreenIndices(99))\n  })\n\n  it('WIN95 下块 49 仍整屏写入', async () => {\n    const fb = createFramebuffer()\n    fb.indices.fill(99)\n    await showFbp({\n      fbpIndices: filledScreenIndices(0x3c),\n      fade: 0,\n      chunkNum: 49,\n      isWin95: true,\n      fb,\n      canvasCtx: realCanvasContext(),\n      palette: legalPalette(),\n    })\n    expect(fb.indices).toEqual(filledScreenIndices(0x3c))\n  })\n\n  it('speed 0 的步进等待是 800 毫秒', async () => {\n    vi.useFakeTimers()\n    const spy = vi.spyOn(globalThis, 'setTimeout')\n    const fb = createFramebuffer()\n    const pending = scrollFbp({\n      fbpIndices: filledScreenIndices(0x22),\n      speed: 0,\n      fScrollDown: true,\n      fb,\n      canvasCtx: realCanvasContext(),\n      palette: legalPalette(),\n    })\n    const firstDelay = spy.mock.calls[0]?.[1]\n    await vi.advanceTimersByTimeAsync(799)\n    expect(fb.indices).toEqual(filledScreenIndices(0))\n    await vi.advanceTimersByTimeAsync(1)\n    expect(fb.indices[0]).toBe(0x22)\n    expect(fb.indices[199 * 320]).toBe(0)\n    await vi.runAllTimersAsync()\n    await pending\n    expect(firstDelay).toBe(800)\n  })\n\n  it('上滚中途顶行是旧屏底行是新图', async () => {\n    vi.useFakeTimers()\n    const fb = createFramebuffer()\n    fb.indices.fill(100)\n    const pending = scrollFbp({\n      fbpIndices: filledScreenIndices(200),\n      speed: 100,\n      fScrollDown: false,\n      fb,\n      canvasCtx: realCanvasContext(),\n      palette: legalPalette(),\n    })\n    await vi.advanceTimersByTimeAsync(8 * 110)\n    const top = fb.indices[0]\n    const bottom = fb.indices[199 * 320]\n    await vi.runAllTimersAsync()\n    await pending\n    expect(top).toBe(100)\n    expect(bottom).toBe(200)\n  })\n\n  it('长度不足的滚动不改 framebuffer', async () => {\n    const fb = createFramebuffer()\n    fb.indices.fill(77)\n    await scrollFbp({\n      fbpIndices: new Uint8Array(10),\n      speed: 1,\n      fScrollDown: true,\n      fb,\n      canvasCtx: realCanvasContext(),\n      palette: legalPalette(),\n    })\n    expect(fb.indices).toEqual(filledScreenIndices(77))\n  })\n\n  it('fade 1 的每步等待是 20 毫秒', async () => {\n    vi.useFakeTimers()\n    const spy = vi.spyOn(globalThis, 'setTimeout')\n    const fb = createFramebuffer()\n    fb.indices.fill(0x10)\n    const pending = showFbp({\n      fbpIndices: filledScreenIndices(0x3c),\n      fade: 1,\n      chunkNum: 68,\n      isWin95: true,\n      fb,\n      canvasCtx: realCanvasContext(),\n      palette: legalPalette(),\n    })\n    const firstDelay = spy.mock.calls[0]?.[1]\n    await vi.advanceTimersByTimeAsync(19)\n    expect(fb.indices[3]).toBe(0x10)\n    await vi.advanceTimersByTimeAsync(1)\n    expect(fb.indices[3]).toBe(0x30)\n    await vi.runAllTimersAsync()\n    await pending\n    expect(firstDelay).toBe(20)\n  })\n})\n",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "replacements": [],
+  "registrations": [
+    {
+      "old": {
+        "file": "packages/game/src/shell/fbp-player.test.ts",
+        "ordinal": 0
+      },
+      "current": {
+        "file": "packages/game/src/shell/fbp-player.test.ts",
+        "titles": ["特效 B fbp-player showFbp(PAL_ShowFBP port)"],
+        "template": "fade=0 → 整屏 = target FBP indices(瞬时 blit)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/fbp-player.test.ts",
+        "ordinal": 1
+      },
+      "current": {
+        "file": "packages/game/src/shell/fbp-player.test.ts",
+        "titles": ["特效 B fbp-player showFbp(PAL_ShowFBP port)"],
+        "template": "无图(indices 长度不符)→ framebuffer 索引清零"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/fbp-player.test.ts",
+        "ordinal": 2
+      },
+      "current": {
+        "file": "packages/game/src/shell/fbp-player.test.ts",
+        "titles": ["特效 B fbp-player showFbp(PAL_ShowFBP port)"],
+        "template": "HACKHACK chunk(win95=68)fade=0 → 跳过最终 blit,fb 保持原样"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/fbp-player.test.ts",
+        "ordinal": 3
+      },
+      "current": {
+        "file": "packages/game/src/shell/fbp-player.test.ts",
+        "titles": ["特效 B fbp-player showFbp(PAL_ShowFBP port)"],
+        "template": "fade>0 + HACKHACK chunk → dither 自身收敛到 target(高 nibble 跳 + 低 nibble migrate 满)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/fbp-player.test.ts",
+        "ordinal": 6
+      },
+      "current": {
+        "file": "packages/game/src/shell/fbp-player.test.ts",
+        "titles": ["特效 B FBP effectSprite 叠加(g_wCurEffectSprite)"],
+        "template": "fade>0 + HACKHACK chunk + effectSprite → 渐变期叠 MGO 精灵帧(末帧无 final blit 故精灵保留)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/fbp-player.test.ts",
+        "ordinal": 4
+      },
+      "current": {
+        "file": "packages/game/src/shell/fbp-player.scroll.test.ts",
+        "titles": ["特效 B fbp-player scrollFbp(PAL_ScrollFBP port)"],
+        "template": "下滑卷入完成 → 整屏 = 新图(末帧 CopyEntireSurface)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/fbp-player.test.ts",
+        "ordinal": 5
+      },
+      "current": {
+        "file": "packages/game/src/shell/fbp-player.scroll.test.ts",
+        "titles": ["特效 B fbp-player scrollFbp(PAL_ScrollFBP port)"],
+        "template": "滚动中间帧 = 旧屏下移 + 新图自顶推入(下滑方向)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/fbp-scroll.grok-r1.test.ts",
+        "ordinal": 0
+      },
+      "current": {
+        "file": "packages/game/src/shell/fbp-player.test.ts",
+        "titles": ["FBP display boundaries"],
+        "template": "DOS 块 49 跳过最终 blit"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/fbp-scroll.grok-r1.test.ts",
+        "ordinal": 1
+      },
+      "current": {
+        "file": "packages/game/src/shell/fbp-player.test.ts",
+        "titles": ["FBP display boundaries"],
+        "template": "WIN95 下块 49 仍整屏写入"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/fbp-scroll.grok-r1.test.ts",
+        "ordinal": 5
+      },
+      "current": {
+        "file": "packages/game/src/shell/fbp-player.test.ts",
+        "titles": ["FBP display boundaries"],
+        "template": "fade 1 的每步等待是 20 毫秒"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/fbp-scroll.grok-r1.test.ts",
+        "ordinal": 2
+      },
+      "current": {
+        "file": "packages/game/src/shell/fbp-player.scroll.test.ts",
+        "titles": ["FBP scroll boundaries"],
+        "template": "speed 0 的步进等待是 800 毫秒"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/fbp-scroll.grok-r1.test.ts",
+        "ordinal": 3
+      },
+      "current": {
+        "file": "packages/game/src/shell/fbp-player.scroll.test.ts",
+        "titles": ["FBP scroll boundaries"],
+        "template": "上滚中途顶行是旧屏底行是新图"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/fbp-scroll.grok-r1.test.ts",
+        "ordinal": 4
+      },
+      "current": {
+        "file": "packages/game/src/shell/fbp-player.scroll.test.ts",
+        "titles": ["FBP scroll boundaries"],
+        "template": "长度不足的滚动不改 framebuffer"
+      }
+    }
+  ],
+  "identities": [
+    {
+      "old": {
+        "file": "packages/game/src/shell/fbp-player.test.ts",
+        "fullName": "特效 B fbp-player showFbp(PAL_ShowFBP port) fade=0 → 整屏 = target FBP indices(瞬时 blit)"
+      },
+      "current": {
+        "file": "packages/game/src/shell/fbp-player.test.ts",
+        "fullName": "特效 B fbp-player showFbp(PAL_ShowFBP port) fade=0 → 整屏 = target FBP indices(瞬时 blit)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/fbp-player.test.ts",
+        "fullName": "特效 B fbp-player showFbp(PAL_ShowFBP port) 无图(indices 长度不符)→ framebuffer 索引清零"
+      },
+      "current": {
+        "file": "packages/game/src/shell/fbp-player.test.ts",
+        "fullName": "特效 B fbp-player showFbp(PAL_ShowFBP port) 无图(indices 长度不符)→ framebuffer 索引清零"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/fbp-player.test.ts",
+        "fullName": "特效 B fbp-player showFbp(PAL_ShowFBP port) HACKHACK chunk(win95=68)fade=0 → 跳过最终 blit,fb 保持原样"
+      },
+      "current": {
+        "file": "packages/game/src/shell/fbp-player.test.ts",
+        "fullName": "特效 B fbp-player showFbp(PAL_ShowFBP port) HACKHACK chunk(win95=68)fade=0 → 跳过最终 blit,fb 保持原样"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/fbp-player.test.ts",
+        "fullName": "特效 B fbp-player showFbp(PAL_ShowFBP port) fade>0 + HACKHACK chunk → dither 自身收敛到 target(高 nibble 跳 + 低 nibble migrate 满)"
+      },
+      "current": {
+        "file": "packages/game/src/shell/fbp-player.test.ts",
+        "fullName": "特效 B fbp-player showFbp(PAL_ShowFBP port) fade>0 + HACKHACK chunk → dither 自身收敛到 target(高 nibble 跳 + 低 nibble migrate 满)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/fbp-player.test.ts",
+        "fullName": "特效 B FBP effectSprite 叠加(g_wCurEffectSprite) fade>0 + HACKHACK chunk + effectSprite → 渐变期叠 MGO 精灵帧(末帧无 final blit 故精灵保留)"
+      },
+      "current": {
+        "file": "packages/game/src/shell/fbp-player.test.ts",
+        "fullName": "特效 B FBP effectSprite 叠加(g_wCurEffectSprite) fade>0 + HACKHACK chunk + effectSprite → 渐变期叠 MGO 精灵帧(末帧无 final blit 故精灵保留)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/fbp-player.test.ts",
+        "fullName": "特效 B fbp-player scrollFbp(PAL_ScrollFBP port) 下滑卷入完成 → 整屏 = 新图(末帧 CopyEntireSurface)"
+      },
+      "current": {
+        "file": "packages/game/src/shell/fbp-player.scroll.test.ts",
+        "fullName": "特效 B fbp-player scrollFbp(PAL_ScrollFBP port) 下滑卷入完成 → 整屏 = 新图(末帧 CopyEntireSurface)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/fbp-player.test.ts",
+        "fullName": "特效 B fbp-player scrollFbp(PAL_ScrollFBP port) 滚动中间帧 = 旧屏下移 + 新图自顶推入(下滑方向)"
+      },
+      "current": {
+        "file": "packages/game/src/shell/fbp-player.scroll.test.ts",
+        "fullName": "特效 B fbp-player scrollFbp(PAL_ScrollFBP port) 滚动中间帧 = 旧屏下移 + 新图自顶推入(下滑方向)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/fbp-scroll.grok-r1.test.ts",
+        "fullName": "G10-C FBP 块号滚动与步进 G10-C01 DOS 块 49 跳过最终 blit"
+      },
+      "current": {
+        "file": "packages/game/src/shell/fbp-player.test.ts",
+        "fullName": "FBP display boundaries DOS 块 49 跳过最终 blit"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/fbp-scroll.grok-r1.test.ts",
+        "fullName": "G10-C FBP 块号滚动与步进 G10-C02 WIN95 下块 49 仍整屏写入"
+      },
+      "current": {
+        "file": "packages/game/src/shell/fbp-player.test.ts",
+        "fullName": "FBP display boundaries WIN95 下块 49 仍整屏写入"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/fbp-scroll.grok-r1.test.ts",
+        "fullName": "G10-C FBP 块号滚动与步进 G10-C06 fade 1 的每步等待是 20 毫秒"
+      },
+      "current": {
+        "file": "packages/game/src/shell/fbp-player.test.ts",
+        "fullName": "FBP display boundaries fade 1 的每步等待是 20 毫秒"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/fbp-scroll.grok-r1.test.ts",
+        "fullName": "G10-C FBP 块号滚动与步进 G10-C03 speed 0 的步进等待是 800 毫秒"
+      },
+      "current": {
+        "file": "packages/game/src/shell/fbp-player.scroll.test.ts",
+        "fullName": "FBP scroll boundaries speed 0 的步进等待是 800 毫秒"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/fbp-scroll.grok-r1.test.ts",
+        "fullName": "G10-C FBP 块号滚动与步进 G10-C04 上滚中途顶行是旧屏底行是新图"
+      },
+      "current": {
+        "file": "packages/game/src/shell/fbp-player.scroll.test.ts",
+        "fullName": "FBP scroll boundaries 上滚中途顶行是旧屏底行是新图"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/fbp-scroll.grok-r1.test.ts",
+        "fullName": "G10-C FBP 块号滚动与步进 G10-C05 长度不足的滚动不改 framebuffer"
+      },
+      "current": {
+        "file": "packages/game/src/shell/fbp-player.scroll.test.ts",
+        "fullName": "FBP scroll boundaries 长度不足的滚动不改 framebuffer"
+      }
+    }
+  ],
+  "id": "shell-fbp",
+  "kind": "fbp",
+  "namespace": "organization-shell-fbp",
+  "cohortSubjects": [
+    {
+      "path": "packages/game/src/shell/fbp-scroll.grok-r1.test.ts",
+      "sha256": "8c3e36bc0c58f2ae56224ac35d7122a18502e6e8ebc8975e001cb2ac63cc86d2",
+      "priorCurrentBridges": [
+        {
+          "path": "packages/game/src/shell/fbp-scroll.grok-r1.test.ts",
+          "sha256": "8c3e36bc0c58f2ae56224ac35d7122a18502e6e8ebc8975e001cb2ac63cc86d2",
+          "member": "organization-game-asset-fixtures/16.before",
+          "currentSha256": "5f7b2d35fd5c255f36d9580afdd0bc09c815bc2fc9b645abe6aa2b7187d3dd62",
+          "changes": []
+        }
+      ]
+    }
+  ],
+  "preserved": [
+    {
+      "path": "packages/game/src/shell/fbp-player.ts",
+      "sha256": "68c9049e1825c67e008d3cc5942b3452923ca5fcfe10196f3b30119bfd8b5750"
+    },
+    {
+      "path": "packages/game/src/shell/dos-cutscenes.ts",
+      "sha256": "bd18018aa36e4291c8ef414848d77b98b1806d81214e98ad7c4fb10db48e7df8"
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "sha256": "a4d007c9739873dc20f385b52b584de49ec57cd5c328cb11ca9d3b0b9f19fb0a"
+    },
+    {
+      "path": "packages/game/src/core/event-system.ts",
+      "sha256": "3b8490fa48d2992f693ab0eb611954dd0bfacbc22dc3eda58378cc4bc7a4b5f4"
+    },
+    {
+      "path": "packages/game/src/__tests__/canvas-host.ts",
+      "sha256": "d256670d81e2d3f20d1c170ac945067f8d1861be796565aeb5bd70f72116f221"
+    },
+    {
+      "path": "packages/game/src/__tests__/asset-fixtures.ts",
+      "sha256": "cf3eae0a807ce26983299ee72ff140b7035cd64121a4547b6f145076547c12fc"
+    }
+  ],
+  "neighborPaths": [
+    "packages/game/src/shell/ending-player.palette.test.ts",
+    "packages/game/src/shell/ending-player.test.ts",
+    "packages/game/src/shell/ending-player.wait-key.test.ts",
+    "packages/game/src/shell/fbp-player.scroll.test.ts",
+    "packages/game/src/shell/fbp-player.test.ts"
+  ],
+  "cleanExecutions": [
+    "before",
+    "organization",
+    "neighbors",
+    "typecheck",
+    "proof",
+    "module-preflight",
+    "docs",
+    "content-review",
+    "lint",
+    "testing-docs",
+    "diff",
+    "scoped",
+    "ledger-final"
+  ],
+  "lightweightGates": true,
+  "counters": ["counter-scroll.json", "counter-fade.json"],
+  "reusedReviewMember": "organization-shell-fbp/reused-reviews.json",
+  "fixtureAndCallbackProof": "organization-shell-fbp/proof.stdout.raw",
+  "primarySource": {
+    "source": "/Users/zhangxu/illegal/type-pal/reference/sdlpal/ending.c",
+    "sha256": "ddaaf5014cbc173cbdf2dadf369f29cecba2244b1eaf0ff30b52f63c6c697971",
+    "fullFunctionReadRanges": [[48, 150], [152, 279]],
+    "capturedMember": "organization-shell-fbp/primary-ending.c.txt",
+    "scope": "ShowFBP and ScrollFBP actual loops; no whole-ending visual acceptance"
+  },
+  "profiles": [
+    {
+      "path": "packages/game/src/shell/fbp-player.test.ts",
+      "subjects": [
+        "packages/game/src/shell/fbp-player.test.ts",
+        "packages/game/src/shell/fbp-scroll.grok-r1.test.ts"
+      ],
+      "axes": {
+        "A": "8showFBP contracts preserve invalid-input fallback,DOS/WIN95 block discrimination,nibble convergence and effect-sprite output; actual handler/DOS caller read.",
+        "B": "Remove contributor/batch grouping; index values and palette colors remain distinct. Current timing claims now observe actual intermediate output.",
+        "C": "Test file owns only show frames/palette and finite fake clock; finally restores spies before real timers even if draining fails. Caller retains RAF/event cursor ownership.",
+        "D": "Identical full-screen byte constructors coalesce within this spec after exact actual-input comparison; palette singleton and fresh legalPalette lifetimes remain separate.",
+        "E": "All old assertions remain;20ms case gains independent19/20ms nibble-phase pixel assertions. Source intermediate-blit mutant old1pass/new1AssertionError, exact restoration.",
+        "F": "Display groups reveal showFBP/chunk/effect responsibilities; filledScreenIndices names full-screen indexed data rather than an ambiguous screen operation.",
+        "G": "8display cases and one tiny pure local constructor; no public shared helper or unused scroll import remains. No added/retired runtime cases.",
+        "H": "Real Canvas/framebuffer with controlled clock,actual showFBP; no algorithm or draw mock. Independent C rgIndex/nibble/delay read supports literal0x10/0x30 oracle."
+      }
+    },
+    {
+      "path": "packages/game/src/shell/fbp-player.scroll.test.ts",
+      "subjects": [
+        "packages/game/src/shell/fbp-player.test.ts",
+        "packages/game/src/shell/fbp-scroll.grok-r1.test.ts"
+      ],
+      "axes": {
+        "A": "5scroll contracts retain upward/downward middle and final ownership,speed0 fallback and invalid-short-input preservation.",
+        "B": "Titles state scrolling domain; explicit speed/direction do not hide policy in a boolean fixture mode. No full SDL wave/fade-in parity claim.",
+        "C": "Player owns key listener only within playback and finally removes it; tests own/drain finite clocks and restore host spies. No global fetch/menu cleanup moves here.",
+        "D": "Share only equal filled-screen data factory within the spec; timing/setup and fresh palette are not forced into one cross-layer context.",
+        "E": "Preserve all old output and first-delay assertions;799ms fulloldscreen and800ms top-new/bottom-old prevent timer-only false green. Single omit-intermediate-blit mutant oldgreen/newbusinessred.",
+        "F": "scroll filename and filledScreenIndices expose actual responsibility and units; contributor label is retired.",
+        "G": "5distinct scroll inputs; no duplicated down-scroll case,no case removal, no compatibility path retained for history.",
+        "H": "Actual indexed renderer plus deterministic fake time,not mock count as frame correctness. Primary C speed0 normalization and delay/movement loop read independently."
+      }
+    }
+  ],
+  "reads": {
+    "fullInputs": [
+      {
+        "path": "packages/game/src/shell/fbp-player.test.ts",
+        "sha256": "4e491437e1d52d74984fe87c96a14f84cd39852ad3cbb1dd2389240f0178498b",
+        "member": "organization-shell-fbp/0.before",
+        "lines": 164
+      },
+      {
+        "path": "packages/game/src/shell/fbp-scroll.grok-r1.test.ts",
+        "sha256": "5f7b2d35fd5c255f36d9580afdd0bc09c815bc2fc9b645abe6aa2b7187d3dd62",
+        "member": "organization-shell-fbp/1.before",
+        "lines": 126
+      }
+    ],
+    "fullImplementation": [
+      {
+        "path": "packages/game/src/shell/fbp-player.ts",
+        "sha256": "68c9049e1825c67e008d3cc5942b3452923ca5fcfe10196f3b30119bfd8b5750",
+        "lines": 173
+      }
+    ],
+    "currentFullOutputs": [
+      {
+        "path": "packages/game/src/shell/fbp-player.test.ts",
+        "sha256": "b5b979e6a0e665024311e805ef65e29f8398ad461dbd402897de0422ce9e3906",
+        "lines": 171
+      },
+      {
+        "path": "packages/game/src/shell/fbp-player.scroll.test.ts",
+        "sha256": "b63d93f406235d2b73cc3fd30c3df82bb5458ad2632c04c49dc22d0f7703c0a4",
+        "lines": 123
+      }
+    ],
+    "callers": [
+      {
+        "path": "packages/game/src/shell/dos-cutscenes.ts",
+        "scope": "Full216-line current file read in preceding same-byte media slice; reused by exact preserved source fingerprint."
+      },
+      {
+        "path": "packages/game/src/shell/bootstrap.ts",
+        "ranges": [[1244, 1298]],
+        "scope": "Both real show/scroll call sites,errors and caller-owned finally resume."
+      },
+      {
+        "path": "packages/game/src/core/event-system.ts",
+        "ranges": [[765, 846]],
+        "scope": "Public handler types and registration,not entire interpreter review."
+      }
+    ],
+    "rngContextOnly": [
+      {
+        "path": "packages/game/src/shell/rng-player.ts",
+        "sha256": "726d13f8e6293bb3f50ef42637f3a45e54f20f7d66bb7a9c056c78d3b15c6f04",
+        "fullRead": true,
+        "fgCompleted": false,
+        "source": "Current full read; context only, no RDF/closed credit"
+      },
+      {
+        "path": "packages/game/src/shell/rng-player.test.ts",
+        "sha256": "9de20bd177a4da6e7b221ff0a3b0fa6012c51669c0061fbb80a23ef70c056042",
+        "fullRead": true,
+        "fgCompleted": false,
+        "source": "Current full read; context only, no RDF/closed credit"
+      },
+      {
+        "path": "packages/game/src/shell/rng-player.glm-next-wave.test.ts",
+        "sha256": "145a3c12bebea0cb2f4199c046387b791717d34feca8fcddf879ce6e0d0ae3ae",
+        "fullRead": true,
+        "fgCompleted": false,
+        "source": "Current full read; context only, no RDF/closed credit"
+      },
+      {
+        "path": "packages/game/src/shell/rng-player.io-lifecycle.test.ts",
+        "sha256": "20b26965a72562dc41f741dc303229da1ecbe14b3ef21d40603ea0e17252f4ae",
+        "fullRead": true,
+        "fgCompleted": false,
+        "source": "Current full read; context only, no RDF/closed credit"
+      }
+    ]
+  },
+  "processDisclosures": [
+    "Cohort-byte preflight initially rejected because prior palette-fixture import relocation changed current bytes. Bind the exact already-verified asset-fixtures consumer edge8c3->5f7 and original member16.before; do not equate current input with original cohort or rewrite its original audit.",
+    "Only1fixed historical subject. Adjacent main follows responsibility split but grants no extra cohort/full-review count.2inputs13cases ->2spec13cases;11callback runtime ASTs retain exact values after named helper bridge,2explicit timing/oracle additions retain every old assertion.",
+    "Existing audit E wording about timer progression was broader than the original argument-only assertions; current evidence corrects this dimension without rewriting original audit/raw bytes.",
+    "Common cleanup now uses finally and restores mocked timeout before switching to real timers. No product body,schema/save,asset/public API,rules or baseline changed.",
+    "Tiny full-screen helper remains local to each responsibility spec to avoid a new cross-module test dependency; identical constructors were compared for all8actual supplied values. Different palette ownership retained.",
+    "Primary C ShowFBP/ScrollFBP whole functions read; no claim of complete DOS ending visual parity or of implementing C global wave/fNeedToFadeIn in this API. Existing product header Phase3 wording is adjacent comment debt,unchanged.",
+    "RNG4files were read and exact versions journaled only. Prototype Canvas,coarse/silent diagnostics,pending-deferred cleanup and count-only delivery oracle are candidate rework,not F/G completion or new confirmed product bugs.",
+    "Heavy whole check/official coverage/protected/publication deferred; all current paths remain review until centralized gates."
+  ],
+  "ledgerCounts": {
+    "inventory": 3462,
+    "closed": 573,
+    "review": 253,
+    "pending": 2636
+  }
+}

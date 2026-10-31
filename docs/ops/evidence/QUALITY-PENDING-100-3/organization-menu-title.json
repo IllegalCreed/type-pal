@@ -1,0 +1,907 @@
+{
+  "inputs": [
+    {
+      "path": "packages/game/src/present/menu/draw-confirm.glm-phase1-leaves.test.ts",
+      "sha256": "4f6eae08db3ab3cecddcba64a72ae62e4a51f62963954d01ce3ad74836d7b9d2",
+      "member": "organization-menu-title/0.before"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-opening-menu.test.ts",
+      "sha256": "e95f8638f167900a8600086c126d1a770d04624793459cc37bbd69795e27dd36",
+      "member": "organization-menu-title/1.before"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-opening-menu.glm-phase1-leaves.test.ts",
+      "sha256": "315d86f360b02b3f62ae7debc1f5f0f649715b7c8596888a6778a4b39c52c2a7",
+      "member": "organization-menu-title/2.before"
+    },
+    {
+      "path": "packages/game/src/present/menu/opening-confirm-pixels.grok-r1.test.ts",
+      "sha256": "34f0d3ee60f932ff85c040b373ad5cc986f5ca3d1268b5a1bb047ebcdd6db863",
+      "member": "organization-menu-title/3.before"
+    }
+  ],
+  "unchangedReadDependencies": [
+    {
+      "path": "packages/game/src/present/__tests__/glyph-fixtures.ts",
+      "sha256": "226f7b472f8c065034db07c1f308ba5b5cc03a5f6d31b6f624f9cef27b701e2f",
+      "member": "organization-menu-title/4.before"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "packages/game/src/present/menu/draw-confirm.test.ts",
+      "sha256": "0c4e14549439359bd3b83e1a1d74fb3605cfd4787c00681ee694ee3a4dbfb99c"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-opening-menu.test.ts",
+      "sha256": "5d3a4c012f2d611c77620ef2a05eb73573c9d0158f61cebd0ea933654efda803"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/uniform-glyphs.ts",
+      "sha256": "c1074d184e865cbe788b5e459b9390e32148c8ba9b2747aa4340861a85c01f87"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/menu-text-fixture.ts",
+      "sha256": "d21320cb5dfe391b2d90b947346ca191c5dbb0602cb1f62c46325178666fdc94"
+    }
+  ],
+  "sourceBridges": [
+    {
+      "path": "packages/game/src/present/menu/draw-confirm.glm-phase1-leaves.test.ts",
+      "id": "menu-title-0",
+      "reason": "Uniformcenter glyph/data/function transplant,dropunusedpureliteraltext argument,semanticpureframe/clock helpers,explicitisolatedword/lang lifecycle.",
+      "changes": [
+        {
+          "from": "/**\n * 确认框的选中侧/时钟、两框坐标、三影和合法关/开标签。\n * 相邻opening-confirm像素例保留空标签与固定布局的边界。\n */\nimport { describe, expect, it, vi } from 'vitest'\nimport {\n  fixtureGlyphs,\n  freezeNow,\n  makeUiFrames,\n  newFb,\n  pixel,\n  textDot,\n} from '../../__tests__/glm-phase1-leaves/present-fixtures.js'\nimport { drawConfirmBox } from './draw-confirm.js'\n\nconst glyphs = fixtureGlyphs\n\ndescribe('L09 drawConfirmBox', () => {\n  it('默认 否/是：左项随时钟闪烁，右项常态；两框体已画', () => {\n    const fb = newFb()\n    const now = vi.spyOn(Date, 'now')\n    try {\n      const fou = textDot('否', 0, 145, 110)\n      const shi = textDot('是', 0, 220, 110)\n      for (const { ms, color } of [\n        { ms: 0, color: 0xf9 },\n        { ms: 100, color: 0xfa },\n        { ms: 600, color: 0xf9 },\n      ]) {\n        now.mockReturnValue(ms)\n        drawConfirmBox(fb, false, makeUiFrames(), glyphs)\n        expect(pixel(fb, fou.x, fou.y)).toBe(color)\n        expect(pixel(fb, shi.x, shi.y)).toBe(0x4f)\n      }\n    } finally {\n      now.mockRestore()\n    }\n    // 左框 (130,100) / 右框 (205,100) 内部 style0 素色\n    expect(pixel(fb, 140, 104)).toBe(0x11)\n    expect(pixel(fb, 215, 104)).toBe(0x11)\n  })\n\n  it('rightSelected=true 高亮换右；fShadow 三影：字亮点右/下/右下为黑 0', () => {\n    const fb = newFb()\n    const restore = freezeNow(0)\n    try {\n      drawConfirmBox(fb, true, makeUiFrames(), glyphs)\n    } finally {\n      restore()\n    }\n    const shi = textDot('是', 0, 220, 110)\n    expect(pixel(fb, shi.x, shi.y)).toBe(0xf9)\n    // 主字 (x,y) 前先画 (x+1,y)/(x,y+1)/(x+1,y+1) 黑 0（同字形点亮位）\n    expect(pixel(fb, shi.x + 1, shi.y)).toBe(0)\n    expect(pixel(fb, shi.x, shi.y + 1)).toBe(0)\n    expect(pixel(fb, shi.x + 1, shi.y + 1)).toBe(0)\n  })\n\n  it('自定义 关/开 标签（PAL_SwitchMenu 复用）：同布局不同字', () => {\n    const fb = newFb()\n    const restore = freezeNow(0)\n    try {\n      drawConfirmBox(fb, true, makeUiFrames(), glyphs, { left: '关', right: '开' })\n    } finally {\n      restore()\n    }\n    const guan = textDot('关', 0, 145, 110)\n    const kai = textDot('开', 0, 220, 110)\n    expect(pixel(fb, guan.x, guan.y)).toBe(0x4f)\n    expect(pixel(fb, kai.x, kai.y)).toBe(0xf9)\n  })\n})\n",
+          "to": "import { describe, expect, it, vi, beforeEach, afterEach } from 'vitest'\nimport { uniformDotGlyphs, uniformTextDot } from '../__tests__/uniform-glyphs.js'\nimport { freezeMenuClock, beginChineseMenuText } from '../__tests__/menu-text-fixture.js'\nimport { makeUiFrames } from '../__tests__/menu-ui-fixtures.js'\nimport { sentinelFramebuffer, pixel } from '../__tests__/raster-fixtures.js'\nimport { drawConfirmBox } from './draw-confirm.js'\n\ndescribe('L09 drawConfirmBox', () => {\n  it('默认 否/是：左项随时钟闪烁，右项常态；两框体已画', () => {\n    const fb = sentinelFramebuffer()\n    const now = vi.spyOn(Date, 'now')\n    try {\n      const fou = uniformTextDot(0, 145, 110)\n      const shi = uniformTextDot(0, 220, 110)\n      for (const { ms, color } of [\n        { ms: 0, color: 0xf9 },\n        { ms: 100, color: 0xfa },\n        { ms: 600, color: 0xf9 },\n      ]) {\n        now.mockReturnValue(ms)\n        drawConfirmBox(fb, false, makeUiFrames(), uniformGlyphs)\n        expect(pixel(fb, fou.x, fou.y)).toBe(color)\n        expect(pixel(fb, shi.x, shi.y)).toBe(0x4f)\n      }\n    } finally {\n      now.mockRestore()\n    }\n    // 左框 (130,100) / 右框 (205,100) 内部 style0 素色\n    expect(pixel(fb, 140, 104)).toBe(0x11)\n    expect(pixel(fb, 215, 104)).toBe(0x11)\n  })\n\n  it('rightSelected=true 高亮换右；fShadow 三影：字亮点右/下/右下为黑 0', () => {\n    const fb = sentinelFramebuffer()\n    const restore = freezeMenuClock(0)\n    try {\n      drawConfirmBox(fb, true, makeUiFrames(), uniformGlyphs)\n    } finally {\n      restore()\n    }\n    const shi = uniformTextDot(0, 220, 110)\n    expect(pixel(fb, shi.x, shi.y)).toBe(0xf9)\n    // 主字 (x,y) 前先画 (x+1,y)/(x,y+1)/(x+1,y+1) 黑 0（同字形点亮位）\n    expect(pixel(fb, shi.x + 1, shi.y)).toBe(0)\n    expect(pixel(fb, shi.x, shi.y + 1)).toBe(0)\n    expect(pixel(fb, shi.x + 1, shi.y + 1)).toBe(0)\n  })\n\n  it('自定义 关/开 标签（PAL_SwitchMenu 复用）：同布局不同字', () => {\n    const fb = sentinelFramebuffer()\n    const restore = freezeMenuClock(0)\n    try {\n      drawConfirmBox(fb, true, makeUiFrames(), uniformGlyphs, { left: '关', right: '开' })\n    } finally {\n      restore()\n    }\n    const guan = uniformTextDot(0, 145, 110)\n    const kai = uniformTextDot(0, 220, 110)\n    expect(pixel(fb, guan.x, guan.y)).toBe(0x4f)\n    expect(pixel(fb, kai.x, kai.y)).toBe(0xf9)\n  })\n})\n\nconst uniformGlyphs = uniformDotGlyphs()\nlet restoreMenuText: (() => void) | undefined\nbeforeEach(() => {\n  restoreMenuText = beginChineseMenuText()\n})\nafterEach(() => {\n  try {\n    restoreMenuText?.()\n  } finally {\n    restoreMenuText = undefined\n  }\n})\n",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-opening-menu.test.ts",
+      "id": "menu-title-1",
+      "reason": "Privatefixture names,responsibilityroutes andsameword/lang lifecycle; oneexplicitD04subsumption plususedwordsreadback.",
+      "changes": [
+        {
+          "from": "import { describe, expect, it } from 'vitest'\nimport { createOpeningMenu } from '../../core/menu/opening-menu.js'\nimport type { BattleBgAsset } from '../battle/draw-battle-bg.js'\nimport { createFramebuffer } from '../framebuffer.js'\nimport { drawOpeningMenu, openingItemX } from './draw-opening-menu.js'\n\n// ── A4:OpeningMenu 选项 x 坐标公式(sdlpal uigame.c:107-108)──\n//   x = 125 - (w > 4 ? (w-4)*8 : 0),w = PAL_WordWidth(label)。\n//   shipped 真值 label = getWord(7)='新的故事' / getWord(8)='旧的回忆'(words.json flat[7/8]),都是 4 字 → w=4 → x=125。\ndescribe('openingItemX — 选项 x 公式(uigame.c:107-108)', () => {\n  it(\"真 label('新的故事'/'旧的回忆',各 4 字)→ w=4 → x=125(回归钉死:对 shipped 数据零变化)\", () => {\n    expect(openingItemX('新的故事')).toBe(125) // flat[7] 新游戏\n    expect(openingItemX('旧的回忆')).toBe(125) // flat[8] 读档(真 label,非\"读取存档\")\n  })\n\n  it('5 字 → w=5 → x=117;6 字 → w=6 → x=109(公式对长文案左移)', () => {\n    expect(openingItemX('新新新新新')).toBe(117)\n    expect(openingItemX('读取上次存档')).toBe(109)\n  })\n\n  it('w<=4 不左移(8 ASCII → w=4 → x=125,非 length 8)', () => {\n    expect(openingItemX('NEWGAME!')).toBe(125)\n  })\n})\n\n/** 全屏 320×200 mock bg,所有像素 = 0xAB(便于验证 bg blit)。 */\nfunction mockBg(): BattleBgAsset {\n  const w = 320\n  const h = 200\n  const indices = new Uint8Array(w * h).fill(0xab)\n  return { width: w, height: h, indices }\n}\n\ndescribe('drawOpeningMenu — sdlpal uigame.c:42-167 PAL_OpeningMenu 渲染', () => {\n  it('320×200 全屏背景 blit — center pixel = bg.indices[center]', () => {\n    const fb = createFramebuffer()\n    const state = createOpeningMenu()\n    drawOpeningMenu({ fb, state, bg: mockBg() })\n    // 中心 (160, 100) 应该被 bg blit 写成 0xAB(无字符覆盖)\n    expect(fb.indices[100 * fb.width + 160]).toBe(0xab)\n  })\n\n  it('2 个 menu item 坐标 (125,95) (125,112) 字像素被写 — 覆盖 bg', () => {\n    const fb = createFramebuffer()\n    const state = createOpeningMenu()\n    // glyphs undefined → 画 TOFU_GLYPH(16×16 空心框,只有顶/底行 + 左/右列亮 pixel)\n    drawOpeningMenu({ fb, state, bg: mockBg() })\n    // 第一行字 顶边 (130, 95):TOFU bitmap b[0]=0xFF 顶行 bit 5 = 1 → fgColor 写入,非 bg\n    expect(fb.indices[95 * fb.width + 130]).not.toBe(0xab)\n    // 第二行字 顶边 (130, 112)\n    expect(fb.indices[112 * fb.width + 130]).not.toBe(0xab)\n  })\n\n  it('bg 缺失时保留既有像素，菜单文字仍画出', () => {\n    const fb = createFramebuffer()\n    fb.indices.fill(0x3f)\n    const state = createOpeningMenu()\n    drawOpeningMenu({ fb, state })\n    expect(fb.indices[100 * fb.width + 160]).toBe(0x3f)\n    expect(fb.indices[95 * fb.width + 125]).not.toBe(0x3f)\n  })\n})\n",
+          "to": "import { describe, expect, it, beforeEach, afterEach } from 'vitest'\nimport { createOpeningMenu } from '../../core/menu/opening-menu.js'\nimport type { BattleBgAsset } from '../battle/draw-battle-bg.js'\nimport { createFramebuffer } from '../framebuffer.js'\nimport { drawOpeningMenu, openingItemX } from './draw-opening-menu.js'\nimport { beginChineseMenuText } from '../__tests__/menu-text-fixture.js'\n\n// ── A4:OpeningMenu 选项 x 坐标公式(sdlpal uigame.c:107-108)──\n//   x = 125 - (w > 4 ? (w-4)*8 : 0),w = PAL_WordWidth(label)。\n//   shipped 真值 label = getWord(7)='新的故事' / getWord(8)='旧的回忆'(words.json flat[7/8]),都是 4 字 → w=4 → x=125。\ndescribe('openingItemX — 选项 x 公式(uigame.c:107-108)', () => {\n  it(\"真 label('新的故事'/'旧的回忆',各 4 字)→ w=4 → x=125(回归钉死:对 shipped 数据零变化)\", () => {\n    expect(openingItemX('新的故事')).toBe(125) // flat[7] 新游戏\n    expect(openingItemX('旧的回忆')).toBe(125) // flat[8] 读档(真 label,非\"读取存档\")\n  })\n\n  it('5 字 → w=5 → x=117;6 字 → w=6 → x=109(公式对长文案左移)', () => {\n    expect(openingItemX('新新新新新')).toBe(117)\n    expect(openingItemX('读取上次存档')).toBe(109)\n  })\n\n  it('w<=4 不左移(8 ASCII → w=4 → x=125,非 length 8)', () => {\n    expect(openingItemX('NEWGAME!')).toBe(125)\n  })\n})\n\n/** 全屏 320×200 mock bg,所有像素 = 0xAB(便于验证 bg blit)。 */\nfunction coloredBackground(): BattleBgAsset {\n  const w = 320\n  const h = 200\n  const indices = new Uint8Array(w * h).fill(0xab)\n  return { width: w, height: h, indices }\n}\n\ndescribe('drawOpeningMenu — sdlpal uigame.c:42-167 PAL_OpeningMenu 渲染', () => {\n  it('320×200 全屏背景 blit — center pixel = bg.indices[center]', () => {\n    const fb = createFramebuffer()\n    const state = createOpeningMenu()\n    drawOpeningMenu({ fb, state, bg: coloredBackground() })\n    // 中心 (160, 100) 应该被 bg blit 写成 0xAB(无字符覆盖)\n    expect(fb.indices[100 * fb.width + 160]).toBe(0xab)\n  })\n\n  it('2 个 menu item 坐标 (125,95) (125,112) 字像素被写 — 覆盖 bg', () => {\n    const fb = createFramebuffer()\n    const state = createOpeningMenu()\n    // glyphs undefined → 画 TOFU_GLYPH(16×16 空心框,只有顶/底行 + 左/右列亮 pixel)\n    drawOpeningMenu({ fb, state, bg: coloredBackground() })\n    // 第一行字 顶边 (130, 95):TOFU bitmap b[0]=0xFF 顶行 bit 5 = 1 → fgColor 写入,非 bg\n    expect(fb.indices[95 * fb.width + 130]).not.toBe(0xab)\n    // 第二行字 顶边 (130, 112)\n    expect(fb.indices[112 * fb.width + 130]).not.toBe(0xab)\n  })\n\n  it('bg 缺失时保留既有像素，菜单文字仍画出', () => {\n    const fb = createFramebuffer()\n    fb.indices.fill(0x3f)\n    const state = createOpeningMenu()\n    drawOpeningMenu({ fb, state })\n    expect(fb.indices[100 * fb.width + 160]).toBe(0x3f)\n    expect(fb.indices[95 * fb.width + 125]).not.toBe(0x3f)\n  })\n})\n\nlet restoreMenuText: (() => void) | undefined\nbeforeEach(() => {\n  restoreMenuText = beginChineseMenuText()\n})\nafterEach(() => {\n  try {\n    restoreMenuText?.()\n  } finally {\n    restoreMenuText = undefined\n  }\n})\n",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-opening-menu.glm-phase1-leaves.test.ts",
+      "id": "menu-title-2",
+      "reason": "Uniformcenter glyph/data/function transplant,dropunusedpureliteraltext argument,semanticpureframe/clock helpers,explicitisolatedword/lang lifecycle.",
+      "changes": [
+        {
+          "from": "/**\n * 开场文字的精确颜色、完整四字词条、阴影与六色闪烁。\n * 主测试保留布局/背景合同；相邻 Grok 像素例覆盖背景裁剪、词条区分和对角阴影。\n * “无需frames”旧例的第四字断言已迁入首例，独立覆盖其真实绘制合同。\n */\nimport { afterEach, describe, expect, it, vi } from 'vitest'\nimport {\n  fixtureGlyphs,\n  freezeNow,\n  newFb,\n  pixel,\n  textDot,\n} from '../../__tests__/glm-phase1-leaves/present-fixtures.js'\nimport { createOpeningMenu } from '../../core/menu/opening-menu.js'\nimport { setWordTable } from '../../core/word-lookup.js'\nimport { drawOpeningMenu } from './draw-opening-menu.js'\n\nconst glyphs = fixtureGlyphs\n\nafterEach(() => setWordTable([]))\n\ndescribe('L12 drawOpeningMenu 剩余合同', () => {\n  it('cursor 0：第 1 行 0xF9、第 2 行 0x4F（词表 4 字 label → x=125）', () => {\n    const flat: string[] = []\n    flat[7] = '甲甲甲甲'\n    flat[8] = '乙乙乙乙'\n    setWordTable(flat)\n    const state = createOpeningMenu()\n    const fb = newFb()\n    const restore = freezeNow(0)\n    try {\n      drawOpeningMenu({ fb, state, glyphs })\n    } finally {\n      restore()\n    }\n    const row0 = textDot('甲甲甲甲', 0, 125, 95)\n    const row1 = textDot('乙乙乙乙', 0, 125, 112)\n    expect(pixel(fb, row0.x, row0.y)).toBe(0xf9)\n    expect(pixel(fb, row1.x, row1.y)).toBe(0x4f)\n    expect(pixel(fb, 177, 99)).toBe(0xf9)\n    expect(pixel(fb, 177, 116)).toBe(0x4f)\n    // fShadow：主点右侧/下侧黑 0\n    expect(pixel(fb, row0.x + 1, row0.y)).toBe(0)\n    expect(pixel(fb, row0.x, row0.y + 1)).toBe(0)\n  })\n\n  it('cursor 1：高亮换读档行；fallback 词表未载 → fallback 文案（tofu 像素仍可断言色）', () => {\n    const state = createOpeningMenu()\n    state.selection.cursor = 1\n    const fb = newFb()\n    const restore = freezeNow(0)\n    try {\n      drawOpeningMenu({ fb, state, glyphs })\n    } finally {\n      restore()\n    }\n    // fallback 4 字 label 不在字形表 → tofu：顶行首像素即主色\n    expect(pixel(fb, 125, 95)).toBe(0x4f)\n    expect(pixel(fb, 125, 112)).toBe(0xf9)\n  })\n\n  it('选中色按100ms推进六色，600ms回到首色，未选项保持常态色', () => {\n    const flat: string[] = []\n    flat[7] = '丙丙丙丙'\n    flat[8] = '丁丁丁丁'\n    setWordTable(flat)\n    const state = createOpeningMenu()\n    const fb = newFb()\n    const now = vi.spyOn(Date, 'now')\n    try {\n      for (const { ms, color } of [\n        { ms: 0, color: 0xf9 },\n        { ms: 99, color: 0xf9 },\n        { ms: 100, color: 0xfa },\n        { ms: 200, color: 0xfb },\n        { ms: 300, color: 0xfc },\n        { ms: 400, color: 0xfd },\n        { ms: 500, color: 0xfe },\n        { ms: 599, color: 0xfe },\n        { ms: 600, color: 0xf9 },\n      ]) {\n        now.mockReturnValue(ms)\n        drawOpeningMenu({ fb, state, glyphs })\n        expect(pixel(fb, 129, 99)).toBe(color)\n        expect(pixel(fb, 129, 116)).toBe(0x4f)\n      }\n    } finally {\n      now.mockRestore()\n    }\n  })\n})\n",
+          "to": "import { describe, expect, it, vi, beforeEach, afterEach } from 'vitest'\nimport { uniformDotGlyphs, uniformTextDot } from '../__tests__/uniform-glyphs.js'\nimport { freezeMenuClock, beginChineseMenuText } from '../__tests__/menu-text-fixture.js'\nimport { sentinelFramebuffer, pixel } from '../__tests__/raster-fixtures.js'\nimport { createOpeningMenu } from '../../core/menu/opening-menu.js'\nimport { setWordTable } from '../../core/word-lookup.js'\nimport { drawOpeningMenu } from './draw-opening-menu.js'\n\ndescribe('L12 drawOpeningMenu 剩余合同', () => {\n  it('cursor 0：第 1 行 0xF9、第 2 行 0x4F（词表 4 字 label → x=125）', () => {\n    const flat: string[] = []\n    flat[7] = '甲甲甲甲'\n    flat[8] = '乙乙乙乙'\n    setWordTable(flat)\n    const state = createOpeningMenu()\n    const fb = sentinelFramebuffer()\n    const restore = freezeMenuClock(0)\n    try {\n      drawOpeningMenu({ fb, state, glyphs: uniformGlyphs })\n    } finally {\n      restore()\n    }\n    const row0 = uniformTextDot(0, 125, 95)\n    const row1 = uniformTextDot(0, 125, 112)\n    expect(pixel(fb, row0.x, row0.y)).toBe(0xf9)\n    expect(pixel(fb, row1.x, row1.y)).toBe(0x4f)\n    expect(pixel(fb, 177, 99)).toBe(0xf9)\n    expect(pixel(fb, 177, 116)).toBe(0x4f)\n    // fShadow：主点右侧/下侧黑 0\n    expect(pixel(fb, row0.x + 1, row0.y)).toBe(0)\n    expect(pixel(fb, row0.x, row0.y + 1)).toBe(0)\n  })\n\n  it('cursor 1：高亮换读档行；fallback 词表未载 → fallback 文案（tofu 像素仍可断言色）', () => {\n    const state = createOpeningMenu()\n    state.selection.cursor = 1\n    const fb = sentinelFramebuffer()\n    const restore = freezeMenuClock(0)\n    try {\n      drawOpeningMenu({ fb, state, glyphs: uniformGlyphs })\n    } finally {\n      restore()\n    }\n    // fallback 4 字 label 不在字形表 → tofu：顶行首像素即主色\n    expect(pixel(fb, 125, 95)).toBe(0x4f)\n    expect(pixel(fb, 125, 112)).toBe(0xf9)\n  })\n\n  it('选中色按100ms推进六色，600ms回到首色，未选项保持常态色', () => {\n    const flat: string[] = []\n    flat[7] = '丙丙丙丙'\n    flat[8] = '丁丁丁丁'\n    setWordTable(flat)\n    const state = createOpeningMenu()\n    const fb = sentinelFramebuffer()\n    const now = vi.spyOn(Date, 'now')\n    try {\n      for (const { ms, color } of [\n        { ms: 0, color: 0xf9 },\n        { ms: 99, color: 0xf9 },\n        { ms: 100, color: 0xfa },\n        { ms: 200, color: 0xfb },\n        { ms: 300, color: 0xfc },\n        { ms: 400, color: 0xfd },\n        { ms: 500, color: 0xfe },\n        { ms: 599, color: 0xfe },\n        { ms: 600, color: 0xf9 },\n      ]) {\n        now.mockReturnValue(ms)\n        drawOpeningMenu({ fb, state, glyphs: uniformGlyphs })\n        expect(pixel(fb, 129, 99)).toBe(color)\n        expect(pixel(fb, 129, 116)).toBe(0x4f)\n      }\n    } finally {\n      now.mockRestore()\n    }\n  })\n})\n\nconst uniformGlyphs = uniformDotGlyphs()\nlet restoreMenuText: (() => void) | undefined\nbeforeEach(() => {\n  restoreMenuText = beginChineseMenuText()\n})\nafterEach(() => {\n  try {\n    restoreMenuText?.()\n  } finally {\n    restoreMenuText = undefined\n  }\n})\n",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/present/menu/opening-confirm-pixels.grok-r1.test.ts",
+      "id": "menu-title-3",
+      "reason": "Privatefixture names,responsibilityroutes andsameword/lang lifecycle; oneexplicitD04subsumption plususedwordsreadback.",
+      "changes": [
+        {
+          "from": "/**\n * TEST-GROK-RENDER-HOST-LARGE-1 G07-D。\n * 开场背景连索引 0 也铺上、小图不拉伸、光标越界两行都是常态色。\n * 确认框空标签不写字。不重复 glm 的 0xF9/0x4F、关/开 和四字横坐标。\n */\nimport { afterEach, describe, expect, it } from 'vitest'\nimport { createOpeningMenu } from '../../core/menu/opening-menu.js'\nimport { setWordTable } from '../../core/word-lookup.js'\nimport { fixtureGlyphs, textDot } from '../__tests__/glyph-fixtures.js'\nimport { freezeNow, resetHostSingletons } from '../__tests__/menu-state-fixtures.js'\nimport { BOX_STYLE0, makeUiFrames } from '../__tests__/menu-ui-fixtures.js'\nimport { fillSentinel, pixel, SENTINEL } from '../__tests__/raster-fixtures.js'\nimport { cloneInputs } from '../__tests__/render-input-snapshots.js'\nimport type { BattleBgAsset } from '../battle/draw-battle-bg.js'\nimport { createFramebuffer } from '../framebuffer.js'\nimport { drawConfirmBox } from './draw-confirm.js'\nimport { drawOpeningMenu } from './draw-opening-menu.js'\n\nconst glyphs = fixtureGlyphs()\nconst SELECTED = 0xf9\nconst NORMAL = 0x4f\n\nafterEach(() => {\n  resetHostSingletons()\n})\n\nfunction words(): void {\n  const flat: string[] = []\n  flat[7] = '甲甲甲甲'\n  flat[8] = '乙乙乙乙'\n  setWordTable(flat)\n}\n\nfunction zeroBg(): BattleBgAsset {\n  return { width: 320, height: 200, indices: new Uint8Array(320 * 200) }\n}\n\ndescribe('G07-D 开场与确认像素', () => {\n  it('G07-D01 背景索引 0 覆盖底色，选中字仍是闪烁色', () => {\n    words()\n    const state = createOpeningMenu()\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    const bg = zeroBg()\n    const before = cloneInputs({ menu: state, battleBg: bg })\n    const restore = freezeNow(0)\n    try {\n      drawOpeningMenu({ fb, state, bg, glyphs })\n    } finally {\n      restore()\n    }\n    const name = textDot('甲甲甲甲', 0, 125, 95)\n    expect(pixel(fb, 1, 1)).toBe(0)\n    expect(pixel(fb, name.x, name.y)).toBe(SELECTED)\n    expect(cloneInputs({ menu: state, battleBg: bg })).toEqual(before)\n  })\n\n  it('G07-D02 4×4 背景只铺到自己的矩形，外侧保持底色', () => {\n    words()\n    const state = createOpeningMenu()\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    const bg: BattleBgAsset = { width: 4, height: 4, indices: new Uint8Array(16).fill(0x55) }\n    const restore = freezeNow(0)\n    try {\n      drawOpeningMenu({ fb, state, bg, glyphs })\n    } finally {\n      restore()\n    }\n    const name = textDot('甲甲甲甲', 0, 125, 95)\n    expect(pixel(fb, 1, 1)).toBe(0x55)\n    expect(pixel(fb, 4, 1)).toBe(SENTINEL)\n    expect(pixel(fb, name.x, name.y)).toBe(SELECTED)\n  })\n\n  it('G07-D03 光标越过两项时两行都是未选中色', () => {\n    words()\n    const state = createOpeningMenu()\n    state.selection.cursor = 5\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    const restore = freezeNow(0)\n    try {\n      drawOpeningMenu({ fb, state, bg: zeroBg(), glyphs })\n    } finally {\n      restore()\n    }\n    const row0 = textDot('甲甲甲甲', 0, 125, 95)\n    const row1 = textDot('乙乙乙乙', 0, 125, 112)\n    expect(pixel(fb, row0.x, row0.y)).toBe(NORMAL)\n    expect(pixel(fb, row1.x, row1.y)).toBe(NORMAL)\n    expect(pixel(fb, row0.x, row0.y)).not.toBe(SELECTED)\n  })\n\n  it('G07-D04 绘制不改光标，也不改词表给出的标签', () => {\n    words()\n    const state = createOpeningMenu()\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    const bg = zeroBg()\n    const before = cloneInputs({ menu: state, battleBg: bg })\n    const restore = freezeNow(0)\n    try {\n      drawOpeningMenu({ fb, state, bg, glyphs })\n    } finally {\n      restore()\n    }\n    expect(state.selection.cursor).toBe(0)\n    expect(state.selection.items[0]?.label).toBe('甲甲甲甲')\n    expect(state.selection.items[1]?.label).toBe('乙乙乙乙')\n    expect(cloneInputs({ menu: state, battleBg: bg })).toEqual(before)\n  })\n\n  it('G07-D05 左标签两个字仍从 (145,110) 起笔，左右框原点不动', () => {\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    const frames = makeUiFrames()\n    const restore = freezeNow(0)\n    try {\n      drawConfirmBox(fb, false, frames, glyphs, { left: '甲乙', right: '是' })\n    } finally {\n      restore()\n    }\n    const first = textDot('甲乙', 0, 145, 110)\n    const second = textDot('甲乙', 1, 145, 110)\n    const yes = textDot('是', 0, 220, 110)\n    expect(pixel(fb, second.x, second.y)).toBe(SELECTED)\n    expect(pixel(fb, first.x, first.y)).toBe(SELECTED)\n    expect(pixel(fb, yes.x, yes.y)).toBe(NORMAL)\n    expect(pixel(fb, 140, 104)).toBe(BOX_STYLE0)\n    expect(pixel(fb, 215, 104)).toBe(BOX_STYLE0)\n  })\n\n  it('G07-D06 左右标签都是空串时不写字，两框照画', () => {\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    const frames = makeUiFrames()\n    const restore = freezeNow(0)\n    try {\n      drawConfirmBox(fb, false, frames, glyphs, { left: '', right: '' })\n    } finally {\n      restore()\n    }\n    const no = textDot('否', 0, 145, 110)\n    const yes = textDot('是', 0, 220, 110)\n    expect(pixel(fb, no.x, no.y)).toBe(SENTINEL)\n    expect(pixel(fb, yes.x, yes.y)).toBe(SENTINEL)\n    expect(pixel(fb, 140, 104)).toBe(BOX_STYLE0)\n    expect(pixel(fb, 215, 104)).toBe(BOX_STYLE0)\n  })\n\n  it('G07-D07 背景索引 0x55 上的字影是 0，字本体仍是闪烁色', () => {\n    words()\n    const state = createOpeningMenu()\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    const bg: BattleBgAsset = {\n      width: 320,\n      height: 200,\n      indices: new Uint8Array(320 * 200).fill(0x55),\n    }\n    const restore = freezeNow(0)\n    try {\n      drawOpeningMenu({ fb, state, bg, glyphs })\n    } finally {\n      restore()\n    }\n    const name = textDot('甲甲甲甲', 0, 125, 95)\n    expect(pixel(fb, name.x + 1, name.y + 1)).toBe(0)\n    expect(pixel(fb, name.x, name.y)).toBe(SELECTED)\n    expect(pixel(fb, 1, 1)).toBe(0x55)\n  })\n})\n",
+          "to": "import { describe, expect, it, beforeEach, afterEach } from 'vitest'\nimport { createOpeningMenu } from '../../core/menu/opening-menu.js'\nimport { setWordTable, getWord } from '../../core/word-lookup.js'\nimport { fixtureGlyphs, textDot } from '../__tests__/glyph-fixtures.js'\nimport { freezeMenuClock, beginChineseMenuText } from '../__tests__/menu-text-fixture.js'\nimport { BOX_STYLE0, makeUiFrames } from '../__tests__/menu-ui-fixtures.js'\nimport { fillSentinel, pixel, SENTINEL } from '../__tests__/raster-fixtures.js'\nimport { cloneInputs } from '../__tests__/render-input-snapshots.js'\nimport type { BattleBgAsset } from '../battle/draw-battle-bg.js'\nimport { createFramebuffer } from '../framebuffer.js'\nimport { drawConfirmBox } from './draw-confirm.js'\nimport { drawOpeningMenu } from './draw-opening-menu.js'\n\nconst positionGlyphs = fixtureGlyphs()\nconst SELECTED = 0xf9\nconst NORMAL = 0x4f\n\nfunction installOpeningWords(): void {\n  const flat: string[] = []\n  flat[7] = '甲甲甲甲'\n  flat[8] = '乙乙乙乙'\n  setWordTable(flat)\n}\n\nfunction zeroBackground(): BattleBgAsset {\n  return { width: 320, height: 200, indices: new Uint8Array(320 * 200) }\n}\n\ndescribe('G07-D 开场与确认像素', () => {\n  it('背景索引 0 覆盖底色，选中字仍是闪烁色', () => {\n    installOpeningWords()\n    const state = createOpeningMenu()\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    const bg = zeroBackground()\n    const before = cloneInputs({ menu: state, battleBg: bg })\n    const restore = freezeMenuClock(0)\n    try {\n      drawOpeningMenu({ fb, state, bg, glyphs: positionGlyphs })\n    } finally {\n      restore()\n    }\n    const name = textDot('甲甲甲甲', 0, 125, 95)\n    expect(pixel(fb, 1, 1)).toBe(0)\n    expect(pixel(fb, name.x, name.y)).toBe(SELECTED)\n    expect(state.selection.cursor).toBe(0)\n    expect(state.selection.items[0]?.label).toBe('甲甲甲甲')\n    expect(state.selection.items[1]?.label).toBe('乙乙乙乙')\n    expect(getWord(7)).toBe('甲甲甲甲')\n    expect(getWord(8)).toBe('乙乙乙乙')\n    expect(cloneInputs({ menu: state, battleBg: bg })).toEqual(before)\n  })\n\n  it('4×4 背景只铺到自己的矩形，外侧保持底色', () => {\n    installOpeningWords()\n    const state = createOpeningMenu()\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    const bg: BattleBgAsset = { width: 4, height: 4, indices: new Uint8Array(16).fill(0x55) }\n    const restore = freezeMenuClock(0)\n    try {\n      drawOpeningMenu({ fb, state, bg, glyphs: positionGlyphs })\n    } finally {\n      restore()\n    }\n    const name = textDot('甲甲甲甲', 0, 125, 95)\n    expect(pixel(fb, 1, 1)).toBe(0x55)\n    expect(pixel(fb, 4, 1)).toBe(SENTINEL)\n    expect(pixel(fb, name.x, name.y)).toBe(SELECTED)\n  })\n\n  it('光标越过两项时两行都是未选中色', () => {\n    installOpeningWords()\n    const state = createOpeningMenu()\n    state.selection.cursor = 5\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    const restore = freezeMenuClock(0)\n    try {\n      drawOpeningMenu({ fb, state, bg: zeroBackground(), glyphs: positionGlyphs })\n    } finally {\n      restore()\n    }\n    const row0 = textDot('甲甲甲甲', 0, 125, 95)\n    const row1 = textDot('乙乙乙乙', 0, 125, 112)\n    expect(pixel(fb, row0.x, row0.y)).toBe(NORMAL)\n    expect(pixel(fb, row1.x, row1.y)).toBe(NORMAL)\n    expect(pixel(fb, row0.x, row0.y)).not.toBe(SELECTED)\n  })\n\n  it('左标签两个字仍从 (145,110) 起笔，左右框原点不动', () => {\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    const frames = makeUiFrames()\n    const restore = freezeMenuClock(0)\n    try {\n      drawConfirmBox(fb, false, frames, positionGlyphs, { left: '甲乙', right: '是' })\n    } finally {\n      restore()\n    }\n    const first = textDot('甲乙', 0, 145, 110)\n    const second = textDot('甲乙', 1, 145, 110)\n    const yes = textDot('是', 0, 220, 110)\n    expect(pixel(fb, second.x, second.y)).toBe(SELECTED)\n    expect(pixel(fb, first.x, first.y)).toBe(SELECTED)\n    expect(pixel(fb, yes.x, yes.y)).toBe(NORMAL)\n    expect(pixel(fb, 140, 104)).toBe(BOX_STYLE0)\n    expect(pixel(fb, 215, 104)).toBe(BOX_STYLE0)\n  })\n\n  it('左右标签都是空串时不写字，两框照画', () => {\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    const frames = makeUiFrames()\n    const restore = freezeMenuClock(0)\n    try {\n      drawConfirmBox(fb, false, frames, positionGlyphs, { left: '', right: '' })\n    } finally {\n      restore()\n    }\n    const no = textDot('否', 0, 145, 110)\n    const yes = textDot('是', 0, 220, 110)\n    expect(pixel(fb, no.x, no.y)).toBe(SENTINEL)\n    expect(pixel(fb, yes.x, yes.y)).toBe(SENTINEL)\n    expect(pixel(fb, 140, 104)).toBe(BOX_STYLE0)\n    expect(pixel(fb, 215, 104)).toBe(BOX_STYLE0)\n  })\n\n  it('背景索引 0x55 上的字影是 0，字本体仍是闪烁色', () => {\n    installOpeningWords()\n    const state = createOpeningMenu()\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    const bg: BattleBgAsset = {\n      width: 320,\n      height: 200,\n      indices: new Uint8Array(320 * 200).fill(0x55),\n    }\n    const restore = freezeMenuClock(0)\n    try {\n      drawOpeningMenu({ fb, state, bg, glyphs: positionGlyphs })\n    } finally {\n      restore()\n    }\n    const name = textDot('甲甲甲甲', 0, 125, 95)\n    expect(pixel(fb, name.x + 1, name.y + 1)).toBe(0)\n    expect(pixel(fb, name.x, name.y)).toBe(SELECTED)\n    expect(pixel(fb, 1, 1)).toBe(0x55)\n  })\n})\n\nlet restoreMenuText: (() => void) | undefined\nbeforeEach(() => {\n  restoreMenuText = beginChineseMenuText()\n})\nafterEach(() => {\n  try {\n    restoreMenuText?.()\n  } finally {\n    restoreMenuText = undefined\n  }\n})\n",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "replacements": [],
+  "registrations": [
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-confirm.glm-phase1-leaves.test.ts",
+        "ordinal": 0
+      },
+      "originalOrdinal": 0,
+      "current": {
+        "file": "packages/game/src/present/menu/draw-confirm.test.ts",
+        "titles": ["Selection colors, shadows and switch labels"],
+        "template": "默认 否/是：左项随时钟闪烁，右项常态；两框体已画"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-confirm.glm-phase1-leaves.test.ts",
+        "ordinal": 1
+      },
+      "originalOrdinal": 1,
+      "current": {
+        "file": "packages/game/src/present/menu/draw-confirm.test.ts",
+        "titles": ["Selection colors, shadows and switch labels"],
+        "template": "rightSelected=true 高亮换右；fShadow 三影：字亮点右/下/右下为黑 0"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-confirm.glm-phase1-leaves.test.ts",
+        "ordinal": 2
+      },
+      "originalOrdinal": 2,
+      "current": {
+        "file": "packages/game/src/present/menu/draw-confirm.test.ts",
+        "titles": ["Selection colors, shadows and switch labels"],
+        "template": "自定义 关/开 标签（PAL_SwitchMenu 复用）：同布局不同字"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-opening-menu.test.ts",
+        "ordinal": 0
+      },
+      "originalOrdinal": 0,
+      "current": {
+        "file": "packages/game/src/present/menu/draw-opening-menu.test.ts",
+        "titles": ["Opening item width and coordinates"],
+        "template": "真 label('新的故事'/'旧的回忆',各 4 字)→ w=4 → x=125(回归钉死:对 shipped 数据零变化)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-opening-menu.test.ts",
+        "ordinal": 1
+      },
+      "originalOrdinal": 1,
+      "current": {
+        "file": "packages/game/src/present/menu/draw-opening-menu.test.ts",
+        "titles": ["Opening item width and coordinates"],
+        "template": "5 字 → w=5 → x=117;6 字 → w=6 → x=109(公式对长文案左移)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-opening-menu.test.ts",
+        "ordinal": 2
+      },
+      "originalOrdinal": 2,
+      "current": {
+        "file": "packages/game/src/present/menu/draw-opening-menu.test.ts",
+        "titles": ["Opening item width and coordinates"],
+        "template": "w<=4 不左移(8 ASCII → w=4 → x=125,非 length 8)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-opening-menu.test.ts",
+        "ordinal": 3
+      },
+      "originalOrdinal": 3,
+      "current": {
+        "file": "packages/game/src/present/menu/draw-opening-menu.test.ts",
+        "titles": ["Background and missing glyphs"],
+        "template": "320×200 全屏背景 blit — center pixel = bg.indices[center]"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-opening-menu.test.ts",
+        "ordinal": 4
+      },
+      "originalOrdinal": 4,
+      "current": {
+        "file": "packages/game/src/present/menu/draw-opening-menu.test.ts",
+        "titles": ["Background and missing glyphs"],
+        "template": "2 个 menu item 坐标 (125,95) (125,112) 字像素被写 — 覆盖 bg"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-opening-menu.test.ts",
+        "ordinal": 5
+      },
+      "originalOrdinal": 5,
+      "current": {
+        "file": "packages/game/src/present/menu/draw-opening-menu.test.ts",
+        "titles": ["Background and missing glyphs"],
+        "template": "bg 缺失时保留既有像素，菜单文字仍画出"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-opening-menu.glm-phase1-leaves.test.ts",
+        "ordinal": 0
+      },
+      "originalOrdinal": 0,
+      "current": {
+        "file": "packages/game/src/present/menu/draw-opening-menu.test.ts",
+        "titles": ["Selection colors, glyphs and blink clock"],
+        "template": "cursor 0：第 1 行 0xF9、第 2 行 0x4F（词表 4 字 label → x=125）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-opening-menu.glm-phase1-leaves.test.ts",
+        "ordinal": 1
+      },
+      "originalOrdinal": 1,
+      "current": {
+        "file": "packages/game/src/present/menu/draw-opening-menu.test.ts",
+        "titles": ["Selection colors, glyphs and blink clock"],
+        "template": "cursor 1：高亮换读档行；fallback 词表未载 → fallback 文案（tofu 像素仍可断言色）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-opening-menu.glm-phase1-leaves.test.ts",
+        "ordinal": 2
+      },
+      "originalOrdinal": 2,
+      "current": {
+        "file": "packages/game/src/present/menu/draw-opening-menu.test.ts",
+        "titles": ["Selection colors, glyphs and blink clock"],
+        "template": "选中色按100ms推进六色，600ms回到首色，未选项保持常态色"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/opening-confirm-pixels.grok-r1.test.ts",
+        "ordinal": 0
+      },
+      "originalOrdinal": 0,
+      "current": {
+        "file": "packages/game/src/present/menu/draw-opening-menu.test.ts",
+        "titles": ["Background pixels and read-only inputs"],
+        "template": "背景索引 0 覆盖底色，选中字仍是闪烁色"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/opening-confirm-pixels.grok-r1.test.ts",
+        "ordinal": 1
+      },
+      "originalOrdinal": 1,
+      "current": {
+        "file": "packages/game/src/present/menu/draw-opening-menu.test.ts",
+        "titles": ["Background pixels and read-only inputs"],
+        "template": "4×4 背景只铺到自己的矩形，外侧保持底色"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/opening-confirm-pixels.grok-r1.test.ts",
+        "ordinal": 2
+      },
+      "originalOrdinal": 2,
+      "current": {
+        "file": "packages/game/src/present/menu/draw-opening-menu.test.ts",
+        "titles": ["Renderer boundary states"],
+        "template": "光标越过两项时两行都是未选中色"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/opening-confirm-pixels.grok-r1.test.ts",
+        "ordinal": 3
+      },
+      "originalOrdinal": 4,
+      "current": {
+        "file": "packages/game/src/present/menu/draw-confirm.test.ts",
+        "titles": ["Fixed label layout and empty strings"],
+        "template": "左标签两个字仍从 (145,110) 起笔，左右框原点不动"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/opening-confirm-pixels.grok-r1.test.ts",
+        "ordinal": 4
+      },
+      "originalOrdinal": 5,
+      "current": {
+        "file": "packages/game/src/present/menu/draw-confirm.test.ts",
+        "titles": ["Fixed label layout and empty strings"],
+        "template": "左右标签都是空串时不写字，两框照画"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/opening-confirm-pixels.grok-r1.test.ts",
+        "ordinal": 5
+      },
+      "originalOrdinal": 6,
+      "current": {
+        "file": "packages/game/src/present/menu/draw-opening-menu.test.ts",
+        "titles": ["Background pixels and read-only inputs"],
+        "template": "背景索引 0x55 上的字影是 0，字本体仍是闪烁色"
+      }
+    }
+  ],
+  "identities": [
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-confirm.glm-phase1-leaves.test.ts",
+        "fullName": "L09 drawConfirmBox 默认 否/是：左项随时钟闪烁，右项常态；两框体已画"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-confirm.test.ts",
+        "fullName": "Selection colors, shadows and switch labels 默认 否/是：左项随时钟闪烁，右项常态；两框体已画"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-confirm.glm-phase1-leaves.test.ts",
+        "fullName": "L09 drawConfirmBox rightSelected=true 高亮换右；fShadow 三影：字亮点右/下/右下为黑 0"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-confirm.test.ts",
+        "fullName": "Selection colors, shadows and switch labels rightSelected=true 高亮换右；fShadow 三影：字亮点右/下/右下为黑 0"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-confirm.glm-phase1-leaves.test.ts",
+        "fullName": "L09 drawConfirmBox 自定义 关/开 标签（PAL_SwitchMenu 复用）：同布局不同字"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-confirm.test.ts",
+        "fullName": "Selection colors, shadows and switch labels 自定义 关/开 标签（PAL_SwitchMenu 复用）：同布局不同字"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-opening-menu.test.ts",
+        "fullName": "openingItemX — 选项 x 公式(uigame.c:107-108) 真 label('新的故事'/'旧的回忆',各 4 字)→ w=4 → x=125(回归钉死:对 shipped 数据零变化)"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-opening-menu.test.ts",
+        "fullName": "Opening item width and coordinates 真 label('新的故事'/'旧的回忆',各 4 字)→ w=4 → x=125(回归钉死:对 shipped 数据零变化)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-opening-menu.test.ts",
+        "fullName": "openingItemX — 选项 x 公式(uigame.c:107-108) 5 字 → w=5 → x=117;6 字 → w=6 → x=109(公式对长文案左移)"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-opening-menu.test.ts",
+        "fullName": "Opening item width and coordinates 5 字 → w=5 → x=117;6 字 → w=6 → x=109(公式对长文案左移)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-opening-menu.test.ts",
+        "fullName": "openingItemX — 选项 x 公式(uigame.c:107-108) w<=4 不左移(8 ASCII → w=4 → x=125,非 length 8)"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-opening-menu.test.ts",
+        "fullName": "Opening item width and coordinates w<=4 不左移(8 ASCII → w=4 → x=125,非 length 8)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-opening-menu.test.ts",
+        "fullName": "drawOpeningMenu — sdlpal uigame.c:42-167 PAL_OpeningMenu 渲染 320×200 全屏背景 blit — center pixel = bg.indices[center]"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-opening-menu.test.ts",
+        "fullName": "Background and missing glyphs 320×200 全屏背景 blit — center pixel = bg.indices[center]"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-opening-menu.test.ts",
+        "fullName": "drawOpeningMenu — sdlpal uigame.c:42-167 PAL_OpeningMenu 渲染 2 个 menu item 坐标 (125,95) (125,112) 字像素被写 — 覆盖 bg"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-opening-menu.test.ts",
+        "fullName": "Background and missing glyphs 2 个 menu item 坐标 (125,95) (125,112) 字像素被写 — 覆盖 bg"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-opening-menu.test.ts",
+        "fullName": "drawOpeningMenu — sdlpal uigame.c:42-167 PAL_OpeningMenu 渲染 bg 缺失时保留既有像素，菜单文字仍画出"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-opening-menu.test.ts",
+        "fullName": "Background and missing glyphs bg 缺失时保留既有像素，菜单文字仍画出"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-opening-menu.glm-phase1-leaves.test.ts",
+        "fullName": "L12 drawOpeningMenu 剩余合同 cursor 0：第 1 行 0xF9、第 2 行 0x4F（词表 4 字 label → x=125）"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-opening-menu.test.ts",
+        "fullName": "Selection colors, glyphs and blink clock cursor 0：第 1 行 0xF9、第 2 行 0x4F（词表 4 字 label → x=125）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-opening-menu.glm-phase1-leaves.test.ts",
+        "fullName": "L12 drawOpeningMenu 剩余合同 cursor 1：高亮换读档行；fallback 词表未载 → fallback 文案（tofu 像素仍可断言色）"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-opening-menu.test.ts",
+        "fullName": "Selection colors, glyphs and blink clock cursor 1：高亮换读档行；fallback 词表未载 → fallback 文案（tofu 像素仍可断言色）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-opening-menu.glm-phase1-leaves.test.ts",
+        "fullName": "L12 drawOpeningMenu 剩余合同 选中色按100ms推进六色，600ms回到首色，未选项保持常态色"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-opening-menu.test.ts",
+        "fullName": "Selection colors, glyphs and blink clock 选中色按100ms推进六色，600ms回到首色，未选项保持常态色"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/opening-confirm-pixels.grok-r1.test.ts",
+        "fullName": "G07-D 开场与确认像素 G07-D01 背景索引 0 覆盖底色，选中字仍是闪烁色"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-opening-menu.test.ts",
+        "fullName": "Background pixels and read-only inputs 背景索引 0 覆盖底色，选中字仍是闪烁色"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/opening-confirm-pixels.grok-r1.test.ts",
+        "fullName": "G07-D 开场与确认像素 G07-D02 4×4 背景只铺到自己的矩形，外侧保持底色"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-opening-menu.test.ts",
+        "fullName": "Background pixels and read-only inputs 4×4 背景只铺到自己的矩形，外侧保持底色"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/opening-confirm-pixels.grok-r1.test.ts",
+        "fullName": "G07-D 开场与确认像素 G07-D03 光标越过两项时两行都是未选中色"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-opening-menu.test.ts",
+        "fullName": "Renderer boundary states 光标越过两项时两行都是未选中色"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/opening-confirm-pixels.grok-r1.test.ts",
+        "fullName": "G07-D 开场与确认像素 G07-D05 左标签两个字仍从 (145,110) 起笔，左右框原点不动"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-confirm.test.ts",
+        "fullName": "Fixed label layout and empty strings 左标签两个字仍从 (145,110) 起笔，左右框原点不动"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/opening-confirm-pixels.grok-r1.test.ts",
+        "fullName": "G07-D 开场与确认像素 G07-D06 左右标签都是空串时不写字，两框照画"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-confirm.test.ts",
+        "fullName": "Fixed label layout and empty strings 左右标签都是空串时不写字，两框照画"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/opening-confirm-pixels.grok-r1.test.ts",
+        "fullName": "G07-D 开场与确认像素 G07-D07 背景索引 0x55 上的字影是 0，字本体仍是闪烁色"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-opening-menu.test.ts",
+        "fullName": "Background pixels and read-only inputs 背景索引 0x55 上的字影是 0，字本体仍是闪烁色"
+      }
+    }
+  ],
+  "retirements": [
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/opening-confirm-pixels.grok-r1.test.ts",
+        "ordinal": 3,
+        "fullName": "G07-D 开场与确认像素 G07-D04 绘制不改光标，也不改词表给出的标签",
+        "callbackSha256": "de32872f88975e3b791554407a54682a4c55d98156befed76cdc2d9efc405210",
+        "assertionStatements": 4
+      },
+      "identifierRenames": {},
+      "reason": "Same actualwords/state/zero-background/frozenclock/draw andfourbusinessassertions nowcontained in zero-background strongerexistingcase.",
+      "inputEquivalence": "Both same words7/8,samecreateOpeningMenu,samezero320x200bitmap,sentinelfb,Date0,per-characterglyphs and identicaldraw call. ExtraD01 pixel assertions remain.",
+      "current": {
+        "file": "packages/game/src/present/menu/draw-opening-menu.test.ts",
+        "titles": ["Background pixels and read-only inputs"],
+        "template": "背景索引 0 覆盖底色，选中字仍是闪烁色",
+        "fullName": "Background pixels and read-only inputs 背景索引 0 覆盖底色，选中字仍是闪烁色"
+      }
+    }
+  ],
+  "id": "menu-title",
+  "namespace": "organization-menu-title",
+  "cohortSubjects": [
+    {
+      "path": "packages/game/src/present/menu/draw-confirm.glm-phase1-leaves.test.ts",
+      "sha256": "4f6eae08db3ab3cecddcba64a72ae62e4a51f62963954d01ce3ad74836d7b9d2",
+      "priorCurrentBridges": []
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-opening-menu.glm-phase1-leaves.test.ts",
+      "sha256": "315d86f360b02b3f62ae7debc1f5f0f649715b7c8596888a6778a4b39c52c2a7",
+      "priorCurrentBridges": []
+    },
+    {
+      "path": "packages/game/src/present/menu/opening-confirm-pixels.grok-r1.test.ts",
+      "sha256": "1fc84cda595debed5b09e20db9d24a79edd1c44b1bbf030717e9f2cedea02abf",
+      "priorCurrentBridges": [
+        {
+          "path": "packages/game/src/present/menu/opening-confirm-pixels.grok-r1.test.ts",
+          "sha256": "1fc84cda595debed5b09e20db9d24a79edd1c44b1bbf030717e9f2cedea02abf",
+          "member": "organization-game-render-fixtures/18.before",
+          "currentSha256": "34f0d3ee60f932ff85c040b373ad5cc986f5ca3d1268b5a1bb047ebcdd6db863",
+          "changes": [],
+          "evidence": "organization-game-render-fixtures.json"
+        }
+      ]
+    }
+  ],
+  "preserved": [
+    {
+      "path": "packages/game/src/present/menu/draw-confirm.ts",
+      "sha256": "1134c80e0808aa838bb3f5d1ea9aa47db616ce26ce3a7cc68114228bafd94f12"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-opening-menu.ts",
+      "sha256": "28265833b5bfdf3a79354022de5e05637b0ab59ce8b9bfdf13b5cd82e3418549"
+    },
+    {
+      "path": "packages/game/src/core/menu/opening-menu.ts",
+      "sha256": "fbd519602825bbb894f3aeb548c82a383ebae902d75708569d8cddb034a41f47"
+    },
+    {
+      "path": "packages/game/src/core/word-lookup.ts",
+      "sha256": "06b17311a3e47e82eacb5857aa87dd0a5d7ff706ac1240a00a4c12325458c934"
+    },
+    {
+      "path": "packages/game/src/localization/language.ts",
+      "sha256": "d3b5410d8b1565af885a84ccc59f74511b712fd0bb1470eef882ad276c330779"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/glyph-fixtures.ts",
+      "sha256": "226f7b472f8c065034db07c1f308ba5b5cc03a5f6d31b6f624f9cef27b701e2f"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/raster-fixtures.ts",
+      "sha256": "982d0ab4a7a73bd1d432554562ff9f628d097098be32af9e9b059bd1dbb2d291"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/menu-ui-fixtures.ts",
+      "sha256": "2e6d73e10d4b98a5876000b1abebea747bbf62fc0bdfb159e44534ba068f3171"
+    },
+    {
+      "path": "packages/game/src/__tests__/glm-phase1-leaves/present-fixtures.ts",
+      "sha256": "4f8701a4dddcdae4010bdbd9b23eee56dd2d20335e906a5249a488308edaedea"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/menu-state-fixtures.ts",
+      "sha256": "0ce7df25cce554b54c080659494116c76908a531dd289359a32f4323fbabce7f"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-menu.ts",
+      "sha256": "c0c56305f46464b8194bbb0d2a7e04683952b7f01266ec3949602b99c6f51566"
+    },
+    {
+      "path": "packages/game/src/present/font.ts",
+      "sha256": "0af092f60efef7dd1f39c82f4c492512dbf957092f0d20b13da27b5518fd7fe4"
+    },
+    {
+      "path": "packages/game/vitest.config.ts",
+      "sha256": "3dd92ad4886bc72c88e7a7b2e6bdacc3aaf9e2a24ac72153f3b619ba37feb7d4"
+    },
+    {
+      "path": "packages/game/vitest.setup.ts",
+      "sha256": "9d1b923f6abc71a5af3e9be094d2945f853a2f4319a036aba9813e86f116e93e"
+    }
+  ],
+  "neighborPaths": [
+    "src/present/menu/draw-confirm.test.ts",
+    "src/present/menu/draw-opening-menu.test.ts",
+    "src/present/menu/draw-box.test.ts",
+    "src/present/menu/draw-menu.test.ts",
+    "src/present/framebuffer.test.ts",
+    "src/present/draw-sprite.test.ts",
+    "src/present/font-layout.test.ts"
+  ],
+  "cleanExecutions": [
+    "before",
+    "reorganize-r2",
+    "proof-r3",
+    "counter-old-proof",
+    "counter-new-final-proof",
+    "cleanup-proof",
+    "module-preflight",
+    "neighbors",
+    "typecheck",
+    "docs",
+    "content-review",
+    "lint",
+    "testing-docs",
+    "diff",
+    "scoped",
+    "ledger-final",
+    "organize-imports",
+    "import-sort-proof"
+  ],
+  "lightweightGates": true,
+  "counters": ["counter-word-ownership-r2.json"],
+  "cleanupProbe": {
+    "sourceTestPath": "packages/game/src/present/menu/draw-opening-menu.test.ts",
+    "currentSha256": "270ac916c2dca54d15645b9bdc91f9a4a0a341f491650002b1fd17fd9ae77704",
+    "probeSha256": "de6b5761ac03403f2b9a489c31c6d8f10b0ddaaa15f7e438fed1a08c2a6d8699",
+    "intentionalFailure": "Background pixels and read-only inputs 背景索引 0 覆盖底色，选中字仍是闪烁色",
+    "observation": {
+      "inside": {
+        "language": "zh-CN",
+        "html": "zh-CN",
+        "clock": 0,
+        "word7": "甲甲甲甲"
+      },
+      "after": {
+        "language": "en",
+        "html": "probe-original-html",
+        "clockRestored": true,
+        "clock": 7654321,
+        "word7": "__empty",
+        "languagePreference": "keep-language-pref",
+        "foreignPresent": true
+      }
+    },
+    "currentTestExact": true,
+    "scope": "One temporaryforced assertion insideactualdraw try/finally. Clearsownedisolatedwordtable; restorespriorlanguage/html/Date function,keepspersistedpref/foreignDOM; observerrestoresitsownseed. Not productbug or unknownpriorwordtable restoration.",
+    "currentAfterImportOrderSha256": "5d3a4c012f2d611c77620ef2a05eb73573c9d0158f61cebd0ea933654efda803"
+  },
+  "fixtureAndCallbackProof": "organization-menu-title/proof-r3.stdout.raw",
+  "isolationProof": "organization-menu-title/isolation-proof-final.json",
+  "cohortOrigins": "organization-menu-title/cohort-origins.json",
+  "reusedReviewMember": "organization-menu-title/reused-reviews.json",
+  "profiles": [
+    {
+      "path": "packages/game/src/present/menu/draw-confirm.test.ts",
+      "subjects": [
+        "packages/game/src/present/menu/draw-confirm.glm-phase1-leaves.test.ts",
+        "packages/game/src/present/menu/draw-opening-menu.glm-phase1-leaves.test.ts",
+        "packages/game/src/present/menu/opening-confirm-pixels.grok-r1.test.ts"
+      ],
+      "axes": {
+        "A": "5例核真实Confirm/Switch固定两框：选中左右/100ms闪烁/三影、关开、自定两字与空标签。draw-menu实际确认/开关caller与两实现全文已核；产品字节不变，无新产品缺陷。",
+        "B": "去L09/作者导读，固定长标签布局是当前helper合同，未冒称SDL任意标签动态扩框；颜色/坐标/阴影oracle保原字面量。",
+        "C": "确认框独立于opening背景/光标；只写本例fb，窄text夹具管理沙箱词表/语言，Date各例finally负责；无GS/事件/背包无关reset。",
+        "D": "统一(4,4)与按字区分点位的glyph两表输入语义不同分别保留；UI44..46/newFb正域守恒沿上一片同源证明复用，clock原体迁窄helper。",
+        "E": "原3确认＋混装2例全部保留；回调私有名/纯literal无用参数桥后保持，未复制SUT作oracle，空串和双字不同合同不误合。71相邻/TC0。",
+        "F": "draw-confirm.test按入口命名；uniformGlyphs/positionGlyphs表明两种oracle，uniformTextDot只取全角index与原点，无无用文本参数。",
+        "G": "去按作者分片与重复导入，复用现用raster/UI，不新增模式参数或万能host；两种glyph合同不硬合。",
+        "H": "真实Framebuffer/font/draw与手写bitmap，Date.now显式finally，未mock业务；语言/HTML由窄夹具归还，失败探针与隔离依据另列。"
+      }
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-opening-menu.test.ts",
+      "subjects": [
+        "packages/game/src/present/menu/draw-confirm.glm-phase1-leaves.test.ts",
+        "packages/game/src/present/menu/draw-opening-menu.glm-phase1-leaves.test.ts",
+        "packages/game/src/present/menu/opening-confirm-pixels.grok-r1.test.ts"
+      ],
+      "axes": {
+        "A": "13例核label宽度/坐标、背景0/0x55/4x4/缺失、fallback字形、两光标与六色边界、输入ownership。cursor5为显式异常状态的renderer防御输入，不声称普通流程可达。",
+        "B": "mockBg改coloredBackground并说明合成0xAB；去模型/波次排重头；D04原只核state标签，迁入强例并补真实WORD7/8读回，不冒称全词表身份已测。",
+        "C": "词表属于当前隔离模块，before/after只清本文件注入表，原语言/html恢复；不再reset事件/法术/物品目标单例。状态/背景由case持有并快照实际入参，SUT不推进菜单。",
+        "D": "D01/D04同words/state/bg/clock/glyph/draw，D04四断言完整归D01，保像素与输入快照两不同后果。字体缺失和各字独立bitmap不合成单一mock。",
+        "E": "14旧opening身份保13；17全片callback经明确私有桥保持，唯一增强例保三原断言并承四退休断言、加真实getWord7/8。实际清表变异旧1绿/新业务红；新候选71相邻/TC0。",
+        "F": "coloredBackground/zeroBackground/installOpeningWords揭示输入，suite按坐标/背景/选择色/异常状态分责；公开glyphs字段保名，局部uniformGlyphs/positionGlyphs换名。",
+        "G": "退役一个同输入重复身份，不为覆盖率加新case；去混装文件与宽reset，窄共享text生命周期无隐藏hook或新产品出口。",
+        "H": "真实公开draw/createOpeningMenu/getWord，独立字面量/bitmap oracle；首render故意失败后clock函数、语言/html、偏好/外部DOM均核，桌面/E2E/观感不附带验收。"
+      }
+    },
+    {
+      "path": "packages/game/src/present/__tests__/uniform-glyphs.ts",
+      "subjects": [
+        "packages/game/src/present/menu/draw-confirm.glm-phase1-leaves.test.ts",
+        "packages/game/src/present/menu/draw-opening-menu.glm-phase1-leaves.test.ts",
+        "packages/game/src/present/menu/opening-confirm-pixels.grok-r1.test.ts"
+      ],
+      "axes": {
+        "A": "31字的宽高/bitmap/可用性与旧表全保，fallback字缺失保持；每spec显式造fresh表，单点仍(4,4)、全角距16px，旧_text确实无引用且迁移实参都是无副作用字面量。",
+        "B": "uniform命名表意一致点位，不称(4,4)为几何中心；坐标注释限定全角16px、独立于绘制实现。",
+        "C": "纯glyph数据/坐标独立模块，只有font类型依赖；Map在工厂中归输入拥有者，原按字点位模块原字节保持。",
+        "D": "两个现用spec共享同一字形合同；按字变点位与uniform点位分开，两类输入不强并。",
+        "E": "全typedMap/loop/return与原数据对照，实际全部31记录＋fallback可用性等同；坐标公式除unused参数/私有名外保留，比较器正负控同源。",
+        "F": "uniformDotGlyphs/uniformTextDot/UNIFORM_GLYPH_CHARS揭示能力与单位，工厂无作者标签或含糊center命名。",
+        "G": "删除新接口中的无用文本参数，工厂只保实际原字集与lookup，不增扩展flag/万能注册层。",
+        "H": "纯数据/函数可直接执行比较；fresh对象、无IO/单例hook/业务依赖，仍须当前fixture有效范围，不把指纹当设计证明。"
+      }
+    },
+    {
+      "path": "packages/game/src/present/__tests__/menu-text-fixture.ts",
+      "subjects": [
+        "packages/game/src/present/menu/draw-confirm.glm-phase1-leaves.test.ts",
+        "packages/game/src/present/menu/draw-opening-menu.glm-phase1-leaves.test.ts",
+        "packages/game/src/present/menu/opening-confirm-pixels.grok-r1.test.ts"
+      ],
+      "axes": {
+        "A": "仅本隔离Vitest模块的注入词表和中文语言，结束清表并归还原有效语言/html；不冒称恢复未知原词表。当前配置不覆写isolate，已核4.1.7默认true。",
+        "B": "注释明示词表Owner、显式hook及clock finally责任，不称全局游戏状态已重置或生产UI清理。",
+        "C": "只依赖word/lang/vi，去GS/event/背包/法术反向耦合；自身不登记hook，调用spec显式before/after。语言与HTML归还使用嵌套finally。",
+        "D": "两入口同测试环境共享窄生命周期；freezeMenuClock保旧vi spy原体，未把状态/IO/显示混进万能fixture。",
+        "E": "实际早失败观测zh/clock0→原en/html/Date函数，owned词表空、存储偏好及外部button保留。观测器finally还原自己的seed，非产品缺陷红例。",
+        "F": "beginChineseMenuText/restoreMenuText/freezeMenuClock(ms)表达获取/归还与毫秒，两个短函数无隐式自动注册。",
+        "G": "避免每spec复制环境管理，不引产品getter/格式/公共接口；沙箱词表清理限本场景，未知外部表不靠强转偷取。",
+        "H": "真实Date/word/lang接口、失败收尾可观察；body复验默认只读，porcelain与三冻结附件运行前后相同；旧写附件producer原件保留、当前仅stdout/exit。"
+      }
+    }
+  ],
+  "primarySources": [
+    {
+      "path": "packages/game/src/present/menu/draw-confirm.ts",
+      "sha256": "1134c80e0808aa838bb3f5d1ea9aa47db616ce26ce3a7cc68114228bafd94f12",
+      "scope": "Fullcurrentproject implementation read, unchanged; olderSDL primary scope reused."
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-opening-menu.ts",
+      "sha256": "28265833b5bfdf3a79354022de5e05637b0ab59ce8b9bfdf13b5cd82e3418549",
+      "scope": "Fullcurrentproject implementation read, unchanged; olderSDL primary scope reused."
+    }
+  ],
+  "reads": {
+    "fullInputs": [
+      {
+        "path": "packages/game/src/present/menu/draw-confirm.glm-phase1-leaves.test.ts",
+        "sha256": "4f6eae08db3ab3cecddcba64a72ae62e4a51f62963954d01ce3ad74836d7b9d2",
+        "member": "organization-menu-title/0.before",
+        "lines": 72,
+        "scope": "Fulltest/case/fixture/hook read."
+      },
+      {
+        "path": "packages/game/src/present/menu/draw-opening-menu.test.ts",
+        "sha256": "e95f8638f167900a8600086c126d1a770d04624793459cc37bbd69795e27dd36",
+        "member": "organization-menu-title/1.before",
+        "lines": 62,
+        "scope": "Fulltest/case/fixture/hook read."
+      },
+      {
+        "path": "packages/game/src/present/menu/draw-opening-menu.glm-phase1-leaves.test.ts",
+        "sha256": "315d86f360b02b3f62ae7debc1f5f0f649715b7c8596888a6778a4b39c52c2a7",
+        "member": "organization-menu-title/2.before",
+        "lines": 91,
+        "scope": "Fulltest/case/fixture/hook read."
+      },
+      {
+        "path": "packages/game/src/present/menu/opening-confirm-pixels.grok-r1.test.ts",
+        "sha256": "34f0d3ee60f932ff85c040b373ad5cc986f5ca3d1268b5a1bb047ebcdd6db863",
+        "member": "organization-menu-title/3.before",
+        "lines": 173,
+        "scope": "Fulltest/case/fixture/hook read."
+      }
+    ],
+    "fullImplementations": [
+      {
+        "path": "packages/game/src/present/menu/draw-confirm.ts",
+        "sha256": "1134c80e0808aa838bb3f5d1ea9aa47db616ce26ce3a7cc68114228bafd94f12",
+        "scope": "Fullcurrentimplementation/data read; notwholefileclosurecredit."
+      },
+      {
+        "path": "packages/game/src/present/menu/draw-opening-menu.ts",
+        "sha256": "28265833b5bfdf3a79354022de5e05637b0ab59ce8b9bfdf13b5cd82e3418549",
+        "scope": "Fullcurrentimplementation/data read; notwholefileclosurecredit."
+      },
+      {
+        "path": "packages/game/src/core/menu/opening-menu.ts",
+        "sha256": "fbd519602825bbb894f3aeb548c82a383ebae902d75708569d8cddb034a41f47",
+        "scope": "Fullcurrentimplementation/data read; notwholefileclosurecredit."
+      },
+      {
+        "path": "packages/game/src/core/word-lookup.ts",
+        "sha256": "06b17311a3e47e82eacb5857aa87dd0a5d7ff706ac1240a00a4c12325458c934",
+        "scope": "Fullcurrentimplementation/data read; notwholefileclosurecredit."
+      },
+      {
+        "path": "packages/game/src/localization/language.ts",
+        "sha256": "d3b5410d8b1565af885a84ccc59f74511b712fd0bb1470eef882ad276c330779",
+        "scope": "Fullcurrentimplementation/data read; notwholefileclosurecredit."
+      },
+      {
+        "path": "packages/game/src/present/__tests__/glyph-fixtures.ts",
+        "sha256": "226f7b472f8c065034db07c1f308ba5b5cc03a5f6d31b6f624f9cef27b701e2f",
+        "scope": "Fullcurrentimplementation/data read; notwholefileclosurecredit."
+      }
+    ],
+    "currentOutputs": [
+      {
+        "path": "packages/game/src/present/menu/draw-confirm.test.ts",
+        "sha256": "8d2d2150a572bb27d735a362b0a1c4ed5f4af4cd204e865159dc753e0d41f9d1",
+        "lines": 121,
+        "scope": "Fullcandidate read plus finalprivate-name/property-key/comment refinement verified bysamecanonicalbody proof."
+      },
+      {
+        "path": "packages/game/src/present/menu/draw-opening-menu.test.ts",
+        "sha256": "270ac916c2dca54d15645b9bdc91f9a4a0a341f491650002b1fd17fd9ae77704",
+        "lines": 247,
+        "scope": "Fullcandidate read plus finalprivate-name/property-key/comment refinement verified bysamecanonicalbody proof."
+      },
+      {
+        "path": "packages/game/src/present/__tests__/uniform-glyphs.ts",
+        "sha256": "c1074d184e865cbe788b5e459b9390e32148c8ba9b2747aa4340861a85c01f87",
+        "lines": 24,
+        "scope": "Fullcandidate read plus finalprivate-name/property-key/comment refinement verified bysamecanonicalbody proof."
+      },
+      {
+        "path": "packages/game/src/present/__tests__/menu-text-fixture.ts",
+        "sha256": "d21320cb5dfe391b2d90b947346ca191c5dbb0602cb1f62c46325178666fdc94",
+        "lines": 27,
+        "scope": "Fullcandidate read plus finalprivate-name/property-key/comment refinement verified bysamecanonicalbody proof."
+      }
+    ],
+    "callers": [
+      {
+        "path": "packages/game/src/present/menu/draw-menu.ts",
+        "sha256": "c0c56305f46464b8194bbb0d2a7e04683952b7f01266ec3949602b99c6f51566",
+        "ranges": [[90, 110], [280, 305]],
+        "scope": "Actualopening/confirm/switchdispatch, otherfullmenu code notrenewed."
+      },
+      {
+        "path": "packages/game/src/present/font.ts",
+        "sha256": "0af092f60efef7dd1f39c82f4c492512dbf957092f0d20b13da27b5518fd7fe4",
+        "scope": "SameSHA priorfullfont read/actual GlyphTable read-onlywidth/bitmapuse reused."
+      }
+    ]
+  },
+  "processDisclosures": [
+    "4spec19cases→confirm5/opening13,oneD04duplicate retiredwithall4assertions instrongerzero-bgcase;17callbacksafterprivate aliases/unusedliteralargument bridge preserved,oneexplicitstate+usedwordgetter enhancement.",
+    "Initialbuilderunsupported top-levelglyphloop rejected; unacceptedprototype also hadwrongrenamedobjectshorthand. Correctedvariable-onlyASTrename keepsglyphs property (positive/negativeguard), restoredoriginalglyphmodulebyteexact; uniformglyph input getsownfreshpurefactory module, no checker/rulechange. InitialFAILretained.",
+    "All31glyph records andfallback availability retained, coordinateunused_textbodyreference0 andallremovedargumentspureStringLiteral. Clockspy bodyexact; two glyphoracles remain distinct.",
+    "Finaluniform-name graph realclear-word-after-draw sourcevariant replay oldgreen/newbusinessred;sourceexactrestored. Earlyfailure probe validates clock/lang/html restoration,ownedwordcleanup,persistedpref/foreignDOMkeep.",
+    "Firstauxproof producedisolationattachment; frozenproducer retained. Finalproof onlystdout/exit; actualdefaultreadonly audit comparesporcelain and3frozeninputs. No broadcoremock/ignore/cast/ruleweakening.",
+    "One final7file71neighbors/TC0,stderr0. Originalcohort ancestry resolvedbeforeintegration (currentimport-migratedinputs are not originalSHA). Wholecheck/officialcoverage/protected/publication deferred.",
+    "Firstscoped/lint rejectedtwo unsortedimportsafterfinaluniformfilenamerelabel. FixedexistingorganizeImportsrule; fullnonimporttypedtrees/bindingmultisetpositive/tailnegativeproofmatches. Native71/TC0/sourcecounter/earlyfailure receipts reusedunderexactimport-orderbridge; rawfirstFAILretained,newmeta/staticreceipts aliases. No testbody/rulechanges."
+  ],
+  "ledgerDispositions": {
+    "categories": {
+      "packages/game/src/present/menu/draw-confirm.test.ts": "test",
+      "packages/game/src/present/menu/draw-opening-menu.test.ts": "test",
+      "packages/game/src/present/__tests__/uniform-glyphs.ts": "fixture",
+      "packages/game/src/present/__tests__/menu-text-fixture.ts": "fixture"
+    }
+  },
+  "ledgerCounts": {
+    "inventory": 3451,
+    "closed": 554,
+    "review": 263,
+    "pending": 2634
+  },
+  "receipts": {
+    "docs": "organization-menu-title/docs-r2",
+    "content-review": "organization-menu-title/content-review-r2",
+    "lint": "organization-menu-title/lint-r2",
+    "scoped": "organization-menu-title/scoped-r2",
+    "diff": "organization-menu-title/diff-r2"
+  },
+  "importOrderProof": {
+    "versions": [
+      {
+        "path": "packages/game/src/present/menu/draw-confirm.test.ts",
+        "beforeMember": "organization-menu-title/before-import-sort-0.ts",
+        "beforeSha256": "8d2d2150a572bb27d735a362b0a1c4ed5f4af4cd204e865159dc753e0d41f9d1",
+        "afterSha256": "0c4e14549439359bd3b83e1a1d74fb3605cfd4787c00681ee694ee3a4dbfb99c"
+      },
+      {
+        "path": "packages/game/src/present/menu/draw-opening-menu.test.ts",
+        "beforeMember": "organization-menu-title/before-import-sort-1.ts",
+        "beforeSha256": "270ac916c2dca54d15645b9bdc91f9a4a0a341f491650002b1fd17fd9ae77704",
+        "afterSha256": "5d3a4c012f2d611c77620ef2a05eb73573c9d0158f61cebd0ea933654efda803"
+      }
+    ],
+    "fullNonImportTreesEqual": true,
+    "importBindingsEqual": true,
+    "comparatorPositive": 1,
+    "tailNegatives": 2,
+    "scope": "Onlyimportorder changed; importsareordinarynamedbindings, modulesreviewednofixturesideeffects; 71native/TC0 andsourcecounter/cleanupreadbody claims reused. No runtime/coverage rerun."
+  }
+}

@@ -1,0 +1,1268 @@
+{
+  "id": "magic-menu-state",
+  "namespace": "organization-magic-menu-state",
+  "inputs": [
+    {
+      "path": "packages/game/src/core/menu/in-game-magic-menu.test.ts",
+      "member": "organization-magic-menu-state/0.before",
+      "sha256": "2448a923a06960f0461c4a0c3a65edbba38e0f40b063268dd819be7cf9492188",
+      "lines": 481
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-magic-menu.boundaries.test.ts",
+      "member": "organization-magic-menu-state/1.before",
+      "sha256": "be6d3c92e120609fa7f78413d9acc2560e2a20f2d1935de27ff703d72954e219",
+      "lines": 160
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-magic-menu.glm-phase1-leaves.test.ts",
+      "member": "organization-magic-menu-state/2.before",
+      "sha256": "927a9fc1ee6696b4d632a7932b04847c72dd74d13df6788274b61a4b44da2abe",
+      "lines": 225
+    }
+  ],
+  "outputs": [
+    {
+      "path": "packages/game/src/core/menu/in-game-magic-menu.casters.test.ts",
+      "sha256": "06a75045b96d3ce34df1f94ad7586fd6d7df46c4c5a4c29644d545d9ba4862ac"
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-magic-menu.requests.test.ts",
+      "sha256": "89de252cf61cc2b9c09d96e854d8158a53b46207a4c9717b12185b5c9ccce16f"
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-magic-menu.navigation.test.ts",
+      "sha256": "68a4af79505df6029d16e4928aea6cf18039f6f24815320ab6f6b52698ae2ce7"
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-magic-menu.lifecycle.test.ts",
+      "sha256": "841bddd3aee6891ec3ae8e3f8ac98c7ce7814703ec4204a099738204de6fc4cb"
+    },
+    {
+      "path": "packages/game/src/core/menu/__tests__/magic-menu-catalog.ts",
+      "sha256": "80262794f8523ccc6f514ad8d10c681adbbb6f2c6882b2326639a1739d4a2844"
+    },
+    {
+      "path": "packages/game/src/core/menu/__tests__/magic-menu-scenario.ts",
+      "sha256": "c6ec8ddfa0526096309bb57ffa200c4bc3596c630ea5456ea7ba4578832a29c4"
+    }
+  ],
+  "replacements": [],
+  "sourceBridges": [
+    {
+      "path": "packages/game/src/core/menu/in-game-magic-menu.test.ts",
+      "id": "organization-magic-menu-state",
+      "reason": "Registration analyzer bridge only; full callback trees, three explicit quality deltas, complete record values and actual phase progression independently proved in proof-r3 and records-probe.",
+      "changes": [
+        {
+          "from": "/**\n * InGameMagicMenu state machine 防回归单测 —\n * sdlpal uigame.c:653-875 + magicmenu.c:413-484 真值。\n *\n * 覆盖:\n *  - state machine 4 phase 转换(pick-caster → pick-spell → pick-target → done)\n *  - cancelInGameMagic 回退路径\n *  - playerCursor 边界 noop(sdlpal uigame.c:841/849 真值:不 wrap)\n *  - confirmCaster / confirmSpell / confirmTarget 返回值\n *  - refreshSpellMenu MP 减后 disabled 状态更新\n *  - MP 不足 spell disabled\n */\n\nimport type { Magic, PlayerRole, PlayerRoles, Spell } from '@type-pal/shared'\nimport { afterEach, beforeEach, describe, expect, it } from 'vitest'\nimport { magicWithCost as mkMagic } from './__tests__/magic-cost-fixture.js'\nimport {\n  cancelInGameMagic,\n  confirmCaster,\n  confirmSpell,\n  confirmTarget,\n  createInGameMagicMenu,\n  inGameMagicEnd,\n  inGameMagicHome,\n  inGameMagicMoveDown,\n  inGameMagicMoveLeft,\n  inGameMagicMoveRight,\n  inGameMagicMoveUp,\n  inGameMagicPageDown,\n  inGameMagicPageUp,\n  refreshSpellMenu,\n  rememberMagicCasterCursor,\n} from './in-game-magic-menu.js'\n\nbeforeEach(() => rememberMagicCasterCursor(0))\nafterEach(() => rememberMagicCasterCursor(0))\n\n// ── fixtures ────────────────────────────────────────────────────────────────\n\nfunction mkRole(id: number, name: string, mp: number, magic: number[]): PlayerRole {\n  return {\n    id,\n    _name: name,\n    avatar: 0,\n    spriteNumInBattle: 0,\n    spriteNum: 0,\n    name: 0,\n    attackAll: 0,\n    level: 5,\n    maxHP: 200,\n    maxMP: 100,\n    hp: 100,\n    mp,\n    attackStrength: 50,\n    magicStrength: 30,\n    defense: 20,\n    dexterity: 30,\n    fleeRate: 10,\n    poisonResistance: 0,\n    equipment: [0, 0, 0, 0, 0, 0],\n    magic,\n    coveredBy: 0,\n    cooperativeMagic: 0,\n    elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },\n    walkFrames: 3,\n    attackSound: 0,\n    weaponSound: 0,\n    criticalSound: 0,\n    magicSound: 0,\n    deathSound: 0,\n  }\n}\n\nconst PLAYER_ROLES: PlayerRoles = {\n  roles: [\n    // role.magic 真值是 sdlpal `rgwMagic[32][role]` = spell wObjectID(296..397)。\n    // 2026-05-29 id 体系统一:spells.json id 也是 wObjectID,createMagicSelectMenu /\n    // hasOutsideMagic 用 spells.find(s => s.id === sid) 反查。\n    mkRole(0, '李逍遥', 80, [296, 297, 298, ...Array(29).fill(0)]), // 气疗 / 观音 / 凝神\n    mkRole(1, '赵灵儿', 100, [296, 299, 300, ...Array(29).fill(0)]), // 气疗 / 五气 / 还魂\n    mkRole(2, '林月如', 30, []), // 0 spell\n  ],\n}\n\nconst SPELLS: Spell[] = [\n  // id = spell wObjectID(296..397);magicNumber = MAGIC 表独立 index(不变)\n  {\n    id: 296,\n    magicNumber: 33,\n    scriptOnUse: 0,\n    scriptOnSuccess: 43016,\n    scriptDesc: 0,\n    flags: {\n      usableOutsideBattle: true,\n      usableInBattle: true,\n      usableToEnemy: false,\n      applyToAll: false,\n    },\n    _name: '气疗术',\n  },\n  {\n    id: 297,\n    magicNumber: 35,\n    scriptOnUse: 0,\n    scriptOnSuccess: 43018,\n    scriptDesc: 0,\n    flags: {\n      usableOutsideBattle: true,\n      usableInBattle: true,\n      usableToEnemy: false,\n      applyToAll: false,\n    },\n    _name: '观音咒',\n  },\n  {\n    id: 298,\n    magicNumber: 34,\n    scriptOnUse: 0,\n    scriptOnSuccess: 43020,\n    scriptDesc: 0,\n    flags: {\n      usableOutsideBattle: true,\n      usableInBattle: true,\n      usableToEnemy: false,\n      applyToAll: false,\n    },\n    _name: '凝神归元',\n  },\n  {\n    id: 299,\n    magicNumber: 46,\n    scriptOnUse: 0,\n    scriptOnSuccess: 39554,\n    scriptDesc: 0,\n    flags: {\n      usableOutsideBattle: true,\n      usableInBattle: true,\n      usableToEnemy: false,\n      applyToAll: true,\n    },\n    _name: '五气朝元',\n  },\n  {\n    id: 300,\n    magicNumber: 36,\n    scriptOnUse: 0,\n    scriptOnSuccess: 43024,\n    scriptDesc: 0,\n    flags: {\n      usableOutsideBattle: true,\n      usableInBattle: true,\n      usableToEnemy: false,\n      applyToAll: false,\n    },\n    _name: '还魂咒',\n  },\n  // battle-only(不该出现在 outside picker)\n  {\n    id: 305,\n    magicNumber: 60,\n    scriptOnUse: 0,\n    scriptOnSuccess: 0,\n    scriptDesc: 0,\n    flags: {\n      usableOutsideBattle: false,\n      usableInBattle: true,\n      usableToEnemy: true,\n      applyToAll: false,\n    },\n    _name: '飞龙探云手',\n  },\n]\n\nconst MAGICS: Magic[] = [\n  mkMagic(33, 6),\n  mkMagic(34, 8),\n  mkMagic(35, 10),\n  mkMagic(36, 16),\n  mkMagic(46, 40),\n  mkMagic(60, 20), // battle-only fixture: outside filter must exclude it before magic lookup\n]\n\n// ── createInGameMagicMenu ───────────────────────────────────────────────────\n\ndescribe('createInGameMagicMenu', () => {\n  it('phase 起始 pick-caster + casterMenu 含 partyMembers', () => {\n    const s = createInGameMagicMenu(PLAYER_ROLES, [0, 1, 2], SPELLS)\n    expect(s.phase).toBe('pick-caster')\n    expect(s.casterMenu.items).toHaveLength(3)\n    expect(s.casterMenu.items.map((i) => i.id)).toEqual([0, 1, 2])\n  })\n\n  it('L41:单人队伍 → 直接 pick-spell(跳过选施法人,uigame.c:677-681)', () => {\n    const s = createInGameMagicMenu(PLAYER_ROLES, [0], SPELLS, MAGICS)\n    expect(s.phase).toBe('pick-spell') // wMaxPartyMemberIndex==0 → w=0; goto start_magicmenu\n    expect(s.selectedCasterId).toBe(0)\n    expect(s.spellMenu).toBeDefined()\n  })\n\n  it('L37:活人无 outside-battle 法术仍可选(林月如),C 只判 HP>0(uigame.c:707-708)', () => {\n    const s = createInGameMagicMenu(PLAYER_ROLES, [0, 1, 2], SPELLS)\n    const linYueRu = s.casterMenu.items.find((i) => i.id === 2)\n    // 活着即可选(选中后进空/全灰列表再取消),不因无大世界法术禁选/光标跳过\n    expect(linYueRu?.disabled).toBe(false)\n  })\n\n  it('caster disabled when hp <= 0', () => {\n    const deadRoles = structuredClone(PLAYER_ROLES)\n    deadRoles.roles[0]!.hp = 0\n    const s = createInGameMagicMenu(deadRoles, [0, 1, 2], SPELLS)\n    expect(s.casterMenu.items[0]?.disabled).toBe(true)\n  })\n\n  it('partyMembers snapshot 隔离', () => {\n    const members = [0, 1, 2]\n    const s = createInGameMagicMenu(PLAYER_ROLES, members, SPELLS)\n    members.push(99)\n    expect(s.partyMembers).toEqual([0, 1, 2])\n  })\n})\n\n// ── confirmCaster pick-caster → pick-spell ──────────────────────────────────\n\ndescribe('confirmCaster', () => {\n  it('Confirm caster → phase=pick-spell,spellMenu 建好', () => {\n    const s = createInGameMagicMenu(PLAYER_ROLES, [0, 1, 2], SPELLS)\n    s.casterMenu.cursor = 0 // 李逍遥\n    confirmCaster(s, PLAYER_ROLES, SPELLS, MAGICS)\n    expect(s.phase).toBe('pick-spell')\n    expect(s.selectedCasterId).toBe(0)\n    expect(s.spellMenu).toBeDefined()\n    // 李逍遥知 spells 1/2/3 → outside picker 含 3 spell(气疗 / 观音 / 凝神)\n    expect(s.spellMenu!.items).toHaveLength(3)\n  })\n\n  it('L37:无大世界法术 caster(林月如)选中后仍进 pick-spell(C 进空/全灰列表再取消),非 noop', () => {\n    const s = createInGameMagicMenu(PLAYER_ROLES, [0, 1, 2], SPELLS)\n    s.casterMenu.cursor = 2\n    confirmCaster(s, PLAYER_ROLES, SPELLS, MAGICS)\n    expect(s.phase).toBe('pick-spell') // 活人可选中进入(原版 fEnabled 仅 HP>0)\n    expect(s.spellMenu!.items).toHaveLength(0) // 林月如无 outside magic → 空列表\n  })\n\n  it('Confirm 死 caster → noop', () => {\n    const dead = structuredClone(PLAYER_ROLES)\n    dead.roles[0]!.hp = 0\n    const s = createInGameMagicMenu(dead, [0, 1, 2], SPELLS)\n    s.casterMenu.cursor = 0\n    confirmCaster(s, dead, SPELLS, MAGICS)\n    expect(s.phase).toBe('pick-caster')\n  })\n})\n\n// ── confirmSpell pick-spell ─────────────────────────────────────────────────\n\ndescribe('confirmSpell', () => {\n  function mkPickedSpellState() {\n    const s = createInGameMagicMenu(PLAYER_ROLES, [0, 1, 2], SPELLS)\n    s.casterMenu.cursor = 0\n    confirmCaster(s, PLAYER_ROLES, SPELLS, MAGICS)\n    return s\n  }\n\n  it('Confirm single-target spell(气疗术)→ phase=pick-target,返回 sel', () => {\n    const s = mkPickedSpellState()\n    s.spellMenu!.cursor = 0 // 气疗术 id 1\n    const sel = confirmSpell(s, SPELLS, MAGICS)\n    expect(sel).toEqual({ spellId: 296, casterId: 0, applyToAll: false, costMP: 6 })\n    expect(s.phase).toBe('pick-target')\n    expect(s.targetCursor).toBe(0)\n    expect(s.selectedSpellId).toBe(296)\n  })\n\n  it('Confirm applyToAll spell(灵儿的五气朝元)→ phase 留 pick-spell,sel.applyToAll=true', () => {\n    const s = createInGameMagicMenu(PLAYER_ROLES, [0, 1, 2], SPELLS)\n    s.casterMenu.cursor = 1 // 灵儿\n    confirmCaster(s, PLAYER_ROLES, SPELLS, MAGICS)\n    // 灵儿 knows [1, 4, 5] → outside spells filter → 排序 → 找五气朝元(id 4)\n    const fenIdx = s.spellMenu!.items.findIndex((i) => i.id === 299)\n    expect(fenIdx).toBeGreaterThanOrEqual(0)\n    s.spellMenu!.cursor = fenIdx\n    const sel = confirmSpell(s, SPELLS, MAGICS)\n    expect(sel?.applyToAll).toBe(true)\n    expect(sel?.costMP).toBe(40)\n    expect(s.phase).toBe('pick-spell') // 留 pick-spell;dispatcher 自己跑 script\n  })\n\n  it('Confirm disabled spell(MP 不够)→ 返回 null', () => {\n    const s = mkPickedSpellState()\n    // 李逍遥 MP=80;气疗术 MP 6 ✓;凝神 MP 8 ✓;观音 MP 10 ✓ — 让其中一个超 MP\n    // 改 MAGICS:凝神 100 MP → 超 80 disabled\n    const overpriced = MAGICS.map((m) => (m.id === 34 ? { ...m, costMP: 100 } : m))\n    s.spellMenu = createInGameMagicMenu(PLAYER_ROLES, [0, 1, 2], SPELLS).spellMenu\n    // re-build with overpriced\n    refreshSpellMenu(s, PLAYER_ROLES, SPELLS, overpriced, 80)\n    // 找凝神归元(id 3)idx\n    const ningIdx = s.spellMenu!.items.findIndex((i) => i.id === 298)\n    expect(ningIdx).toBeGreaterThanOrEqual(0)\n    expect(s.spellMenu!.items[ningIdx]?.disabled).toBe(true)\n    s.spellMenu!.cursor = ningIdx\n    const sel = confirmSpell(s, SPELLS, overpriced)\n    expect(sel).toBeNull()\n  })\n})\n\n// ── confirmTarget pick-target ───────────────────────────────────────────────\n\ndescribe('confirmTarget', () => {\n  function mkPickTargetState() {\n    const s = createInGameMagicMenu(PLAYER_ROLES, [0, 1, 2], SPELLS)\n    s.casterMenu.cursor = 0\n    confirmCaster(s, PLAYER_ROLES, SPELLS, MAGICS)\n    s.spellMenu!.cursor = 0 // 气疗术\n    confirmSpell(s, SPELLS, MAGICS)\n    return s\n  }\n\n  it('返回 {spellId, casterId, targetRoleId, costMP}', () => {\n    const s = mkPickTargetState()\n    s.targetCursor = 1 // 灵儿\n    const sel = confirmTarget(s, SPELLS, MAGICS)\n    expect(sel).toEqual({ spellId: 296, casterId: 0, targetRoleId: 1, costMP: 6 })\n  })\n\n  it('phase!=pick-target → 返回 null', () => {\n    const s = createInGameMagicMenu(PLAYER_ROLES, [0, 1, 2], SPELLS)\n    expect(confirmTarget(s, SPELLS, MAGICS)).toBeNull()\n  })\n})\n\n// ── cancelInGameMagic 回退路径 ──────────────────────────────────────────────\n\ndescribe('cancelInGameMagic', () => {\n  it('pick-target → pick-spell(保留 caster + spellMenu)', () => {\n    const s = createInGameMagicMenu(PLAYER_ROLES, [0, 1, 2], SPELLS)\n    s.casterMenu.cursor = 0\n    confirmCaster(s, PLAYER_ROLES, SPELLS, MAGICS)\n    s.spellMenu!.cursor = 0\n    confirmSpell(s, SPELLS, MAGICS)\n    expect(s.phase).toBe('pick-target')\n    cancelInGameMagic(s)\n    expect(s.phase).toBe('pick-spell')\n    expect(s.selectedCasterId).toBe(0) // caster 不变\n    expect(s.spellMenu).toBeDefined()\n  })\n\n  it('L35:pick-spell Cancel → done 关菜单回大世界(C 仙术列表 Cancel=break while=return,uigame.c:733-736)', () => {\n    const s = createInGameMagicMenu(PLAYER_ROLES, [0, 1, 2], SPELLS)\n    s.casterMenu.cursor = 0\n    confirmCaster(s, PLAYER_ROLES, SPELLS, MAGICS)\n    cancelInGameMagic(s)\n    // 直接关菜单(不退回「选施法人」);caster 框在 C 里只 PAL_ReadMenu 一次、循环外\n    expect(s.phase).toBe('done')\n  })\n\n  it('pick-caster → done(关菜单)', () => {\n    const s = createInGameMagicMenu(PLAYER_ROLES, [0, 1, 2], SPELLS)\n    cancelInGameMagic(s)\n    expect(s.phase).toBe('done')\n  })\n})\n\n// ── playerCursor 边界 noop(sdlpal uigame.c:841/849 真值) ───────────────────\n\ndescribe('inGameMagicMove* on pick-target', () => {\n  function mkPickTarget() {\n    const s = createInGameMagicMenu(PLAYER_ROLES, [0, 1, 2], SPELLS)\n    s.casterMenu.cursor = 0\n    confirmCaster(s, PLAYER_ROLES, SPELLS, MAGICS)\n    s.spellMenu!.cursor = 0\n    confirmSpell(s, SPELLS, MAGICS)\n    return s\n  }\n\n  it('Up 边界 noop(不 wrap;sdlpal `if (wPlayer > 0) wPlayer--`)', () => {\n    const s = mkPickTarget()\n    s.targetCursor = 0\n    inGameMagicMoveUp(s)\n    expect(s.targetCursor).toBe(0)\n  })\n\n  it('Down 边界 noop(不 wrap;sdlpal `if (wPlayer < wMaxPartyMemberIndex) wPlayer++`)', () => {\n    const s = mkPickTarget()\n    s.targetCursor = 2 // 最后一个\n    inGameMagicMoveDown(s)\n    expect(s.targetCursor).toBe(2)\n  })\n\n  it('Up 中间 → cursor--', () => {\n    const s = mkPickTarget()\n    s.targetCursor = 1\n    inGameMagicMoveUp(s)\n    expect(s.targetCursor).toBe(0)\n  })\n\n  it('Down 中间 → cursor++', () => {\n    const s = mkPickTarget()\n    s.targetCursor = 0\n    inGameMagicMoveDown(s)\n    expect(s.targetCursor).toBe(1)\n  })\n})\n\ndescribe('L38:inGameMagicMove* on pick-spell grid', () => {\n  function mkSpellGrid() {\n    const s = createInGameMagicMenu(PLAYER_ROLES, [0, 1, 2], SPELLS, MAGICS)\n    s.casterMenu.cursor = 0\n    confirmCaster(s, PLAYER_ROLES, SPELLS, MAGICS)\n    return s\n  }\n\n  it('Up/Down 按 3 列网格移动并 clamp,不 wrap', () => {\n    const s = mkSpellGrid()\n    s.spellMenu!.cursor = 0\n    inGameMagicMoveUp(s)\n    expect(s.spellMenu!.cursor).toBe(0)\n    inGameMagicMoveDown(s)\n    expect(s.spellMenu!.cursor).toBe(2)\n  })\n\n  it('Left/Right 逐项移动并 clamp,不跳 disabled', () => {\n    const s = mkSpellGrid()\n    s.spellMenu!.items[1]!.disabled = true\n    s.spellMenu!.cursor = 0\n    inGameMagicMoveRight(s)\n    expect(s.spellMenu!.cursor).toBe(1)\n    inGameMagicMoveLeft(s)\n    expect(s.spellMenu!.cursor).toBe(0)\n    inGameMagicMoveLeft(s)\n    expect(s.spellMenu!.cursor).toBe(0)\n  })\n\n  it('PgUp/PgDn/Home/End 按 magicmenu.c 网格语义 clamp', () => {\n    const s = mkSpellGrid()\n    s.spellMenu!.cursor = 0\n    inGameMagicPageDown(s)\n    expect(s.spellMenu!.cursor).toBe(2)\n    inGameMagicPageUp(s)\n    expect(s.spellMenu!.cursor).toBe(0)\n    inGameMagicEnd(s)\n    expect(s.spellMenu!.cursor).toBe(2)\n    inGameMagicHome(s)\n    expect(s.spellMenu!.cursor).toBe(0)\n  })\n})\n\n// ── refreshSpellMenu MP 减后 disabled 状态更新 ──────────────────────────────\n\ndescribe('refreshSpellMenu', () => {\n  it('MP 不足后 spell disabled,保留 cursor 在原 spell', () => {\n    const s = createInGameMagicMenu(PLAYER_ROLES, [0, 1, 2], SPELLS)\n    s.casterMenu.cursor = 0\n    confirmCaster(s, PLAYER_ROLES, SPELLS, MAGICS)\n    s.spellMenu!.cursor = 0 // 气疗术(MP=6)\n    s.selectedSpellId = 296\n    // 模拟 MP 减到 5(< 6 气疗 cost)\n    refreshSpellMenu(s, PLAYER_ROLES, SPELLS, MAGICS, 5)\n    const qi = s.spellMenu!.items.find((i) => i.id === 296)\n    expect(qi?.disabled).toBe(true)\n    // cursor 落回 selectedSpellId(sdlpal magicmenu.c:402-409 wDefaultMagic)\n    const cursorSpellId = s.spellMenu!.items[s.spellMenu!.cursor]?.id\n    expect(cursorSpellId).toBe(296)\n  })\n})\n\n// ── battle-only spell 不出现 outside picker ─────────────────────────────────\n\ndescribe('outside-battle filter', () => {\n  it('飞龙探云手(battle-only)不出现 outside spell list', () => {\n    const xiaoyao = structuredClone(PLAYER_ROLES)\n    // 加飞龙(magicNumber 60)到李逍遥学过的法术\n    xiaoyao.roles[0]!.magic = [296, 305, 297, ...Array(29).fill(0)]\n    const s = createInGameMagicMenu(xiaoyao, [0, 1, 2], SPELLS)\n    s.casterMenu.cursor = 0\n    confirmCaster(s, xiaoyao, SPELLS, MAGICS)\n    const ids = s.spellMenu!.items.map((i) => i.id)\n    expect(ids).not.toContain(305) // 飞龙 spell.id=305 not in outside picker\n    expect(ids).toContain(296) // 气疗术 spell.id=296 in\n    expect(ids).toContain(297) // 观音咒 spell.id=297 in\n  })\n})\n",
+          "to": "import {afterEach} from \"vitest\"\nimport {beforeEach} from \"vitest\"\nimport {describe} from \"vitest\"\nimport {expect} from \"vitest\"\nimport {it} from \"vitest\"\nimport {makeTargetingCaster} from \"./__tests__/magic-menu-catalog.js\"\nimport {makeTargetingRoles} from \"./__tests__/magic-menu-catalog.js\"\nimport {restorativeMagics} from \"./__tests__/magic-menu-catalog.js\"\nimport {restorativeRoles} from \"./__tests__/magic-menu-catalog.js\"\nimport {restorativeSpells} from \"./__tests__/magic-menu-catalog.js\"\nimport {targetingMagics} from \"./__tests__/magic-menu-catalog.js\"\nimport {targetingSpells} from \"./__tests__/magic-menu-catalog.js\"\nimport {confirmCaster} from \"./in-game-magic-menu.js\"\nimport {createInGameMagicMenu} from \"./in-game-magic-menu.js\"\nimport {rememberMagicCasterCursor} from \"./in-game-magic-menu.js\"\nimport {makeRequestRoles} from \"./__tests__/magic-menu-catalog.js\"\nimport {requestMagics} from \"./__tests__/magic-menu-catalog.js\"\nimport {requestSpells} from \"./__tests__/magic-menu-catalog.js\"\nimport {makePickedSpellMenu} from \"./__tests__/magic-menu-scenario.js\"\nimport {makeTargetMenu} from \"./__tests__/magic-menu-scenario.js\"\nimport {cancelInGameMagic} from \"./in-game-magic-menu.js\"\nimport {confirmSpell} from \"./in-game-magic-menu.js\"\nimport {confirmTarget} from \"./in-game-magic-menu.js\"\nimport {refreshSpellMenu} from \"./in-game-magic-menu.js\"\nimport {type PlayerRoles} from \"@type-pal/shared\"\nimport {inGameMagicEnd} from \"./in-game-magic-menu.js\"\nimport {inGameMagicHome} from \"./in-game-magic-menu.js\"\nimport {inGameMagicMoveDown} from \"./in-game-magic-menu.js\"\nimport {inGameMagicMoveLeft} from \"./in-game-magic-menu.js\"\nimport {inGameMagicMoveRight} from \"./in-game-magic-menu.js\"\nimport {inGameMagicMoveUp} from \"./in-game-magic-menu.js\"\nimport {inGameMagicPageDown} from \"./in-game-magic-menu.js\"\nimport {inGameMagicPageUp} from \"./in-game-magic-menu.js\"\ndescribe(\"preserved module 0\",()=>{\nbeforeEach(() => rememberMagicCasterCursor(0))\nafterEach(() => rememberMagicCasterCursor(0))\ndescribe('Overworld magic casters', () => {\n  it('phase 起始 pick-caster + casterMenu 含 partyMembers', () => {\n    const menu = createInGameMagicMenu(restorativeRoles, [0, 1, 2], restorativeSpells)\n    expect(menu.phase).toBe('pick-caster')\n    expect(menu.casterMenu.items).toHaveLength(3)\n    expect(menu.casterMenu.items.map((i) => i.id)).toEqual([0, 1, 2])\n  })\n})\n})\ndescribe(\"preserved module 1\",()=>{\nbeforeEach(() => rememberMagicCasterCursor(0))\nafterEach(() => rememberMagicCasterCursor(0))\ndescribe('Overworld magic casters', () => {\n\n  it('单人队伍 → 直接 pick-spell(跳过选施法人,uigame.c:677-681)', () => {\n    const menu = createInGameMagicMenu(restorativeRoles, [0], restorativeSpells, restorativeMagics)\n    expect(menu.phase).toBe('pick-spell') // wMaxPartyMemberIndex==0 → w=0; goto start_magicmenu\n    expect(menu.selectedCasterId).toBe(0)\n    expect(menu.spellMenu).toBeDefined()\n  })\n})\n})\ndescribe(\"preserved module 2\",()=>{\nbeforeEach(() => rememberMagicCasterCursor(0))\nafterEach(() => rememberMagicCasterCursor(0))\ndescribe('Overworld magic casters', () => {\n\n  it('活人无 outside-battle 法术仍可选(林月如),C 只判 HP>0(uigame.c:707-708)', () => {\n    const menu = createInGameMagicMenu(restorativeRoles, [0, 1, 2], restorativeSpells)\n    const roleWithoutSpells = menu.casterMenu.items.find((i) => i.id === 2)\n    // 活着即可选(选中后进空/全灰列表再取消),不因无大世界法术禁选/光标跳过\n    expect(roleWithoutSpells?.disabled).toBe(false)\n  })\n})\n})\ndescribe(\"preserved module 3\",()=>{\nbeforeEach(() => rememberMagicCasterCursor(0))\nafterEach(() => rememberMagicCasterCursor(0))\ndescribe('Overworld magic casters', () => {\n\n  it('caster disabled when hp <= 0', () => {\n    const deadRoles = structuredClone(restorativeRoles)\n    deadRoles.roles[0]!.hp = 0\n    const menu = createInGameMagicMenu(deadRoles, [0, 1, 2], restorativeSpells)\n    expect(menu.casterMenu.items[0]?.disabled).toBe(true)\n  })\n})\n})\ndescribe(\"preserved module 4\",()=>{\nbeforeEach(() => rememberMagicCasterCursor(0))\nafterEach(() => rememberMagicCasterCursor(0))\ndescribe('Overworld magic casters', () => {\n\n  it('partyMembers snapshot 隔离', () => {\n    const members = [0, 1, 2]\n    const menu = createInGameMagicMenu(restorativeRoles, members, restorativeSpells)\n    members.reverse()\n    expect(menu.partyMembers).toEqual([0, 1, 2])\n  })\n})\n})\ndescribe(\"preserved module 5\",()=>{\nbeforeEach(() => rememberMagicCasterCursor(0))\nafterEach(() => rememberMagicCasterCursor(0))\ndescribe('Overworld magic casters', () => {\n\n  it('Confirm caster → phase=pick-spell,spellMenu 建好', () => {\n    const menu = createInGameMagicMenu(restorativeRoles, [0, 1, 2], restorativeSpells)\n    menu.casterMenu.cursor = 0 // 李逍遥\n    confirmCaster(menu, restorativeRoles, restorativeSpells, restorativeMagics)\n    expect(menu.phase).toBe('pick-spell')\n    expect(menu.selectedCasterId).toBe(0)\n    expect(menu.spellMenu).toBeDefined()\n    // 本目录为李逍遥提供ObjectID296/297/298 → outside picker 含 3 spell(气疗 / 观音 / 凝神)\n    expect(menu.spellMenu!.items).toHaveLength(3)\n  })\n})\n})\ndescribe(\"preserved module 6\",()=>{\nbeforeEach(() => rememberMagicCasterCursor(0))\nafterEach(() => rememberMagicCasterCursor(0))\ndescribe('Overworld magic casters', () => {\n\n  it('无大世界法术 caster(林月如)选中后仍进 pick-spell(C 进空/全灰列表再取消),非 noop', () => {\n    const menu = createInGameMagicMenu(restorativeRoles, [0, 1, 2], restorativeSpells)\n    menu.casterMenu.cursor = 2\n    confirmCaster(menu, restorativeRoles, restorativeSpells, restorativeMagics)\n    expect(menu.phase).toBe('pick-spell') // 活人可选中进入(原版 fEnabled 仅 HP>0)\n    expect(menu.spellMenu!.items).toHaveLength(0) // 林月如无 outside magic → 空列表\n  })\n})\n})\ndescribe(\"preserved module 7\",()=>{\nbeforeEach(() => rememberMagicCasterCursor(0))\nafterEach(() => rememberMagicCasterCursor(0))\ndescribe('Overworld magic casters', () => {\n\n  it('Confirm 死 caster → noop', () => {\n    const dead = structuredClone(restorativeRoles)\n    dead.roles[0]!.hp = 0\n    const menu = createInGameMagicMenu(dead, [0, 1, 2], restorativeSpells)\n    menu.casterMenu.cursor = 0\n    confirmCaster(menu, dead, restorativeSpells, restorativeMagics)\n    expect(menu.phase).toBe('pick-caster')\n  })\n})\n})\ndescribe(\"preserved module 8\",()=>{\nbeforeEach(() => rememberMagicCasterCursor(0))\nafterEach(() => rememberMagicCasterCursor(0))\ndescribe('Overworld magic requests', () => {\n  it('Confirm single-target spell(气疗术)→ phase=pick-target,返回 sel', () => {\n    const menu = makePickedSpellMenu()\n    menu.spellMenu!.cursor = 0 // 气疗术 ObjectID296\n    const request = confirmSpell(menu, restorativeSpells, restorativeMagics)\n    expect(request).toEqual({ spellId: 296, casterId: 0, applyToAll: false, costMP: 6 })\n    expect(menu.phase).toBe('pick-target')\n    expect(menu.targetCursor).toBe(0)\n    expect(menu.selectedSpellId).toBe(296)\n  })\n})\n})\ndescribe(\"preserved module 9\",()=>{\nbeforeEach(() => rememberMagicCasterCursor(0))\nafterEach(() => rememberMagicCasterCursor(0))\ndescribe('Overworld magic requests', () => {\n\n  it('Confirm applyToAll spell(灵儿的五气朝元)→ phase 留 pick-spell,sel.applyToAll=true', () => {\n    const menu = createInGameMagicMenu(restorativeRoles, [0, 1, 2], restorativeSpells)\n    menu.casterMenu.cursor = 1 // 灵儿\n    confirmCaster(menu, restorativeRoles, restorativeSpells, restorativeMagics)\n    // 本目录给灵儿296/299/300；五气朝元的ObjectID为299\n    const groupSpellIndex = menu.spellMenu!.items.findIndex((i) => i.id === 299)\n    expect(groupSpellIndex).toBeGreaterThanOrEqual(0)\n    menu.spellMenu!.cursor = groupSpellIndex\n    const request = confirmSpell(menu, restorativeSpells, restorativeMagics)\n    expect(request?.applyToAll).toBe(true)\n    expect(request?.costMP).toBe(40)\n    expect(menu.phase).toBe('pick-spell') // 留 pick-spell;dispatcher 自己跑 script\n  })\n})\n})\ndescribe(\"preserved module 10\",()=>{\nbeforeEach(() => rememberMagicCasterCursor(0))\nafterEach(() => rememberMagicCasterCursor(0))\ndescribe('Overworld magic requests', () => {\n\n  it('重建缺失法术列表后，MP不足的法术不可确认', () => {\n    const menu = makePickedSpellMenu()\n    // 李逍遥 MP=80;气疗术 MP 6 ✓;凝神 MP 8 ✓;观音 MP 10 ✓ — 让其中一个超 MP\n    // 改 MAGICS:凝神 100 MP → 超 80 disabled\n    const expensiveMagics = restorativeMagics.map((m) => (m.id === 34 ? { ...m, costMP: 100 } : m))\n    menu.spellMenu = undefined\n    // re-build with overpriced\n    refreshSpellMenu(menu, restorativeRoles, restorativeSpells, expensiveMagics, 80)\n    // 找凝神归元(ObjectID298)idx\n    const healingSpellIndex = menu.spellMenu!.items.findIndex((i) => i.id === 298)\n    expect(healingSpellIndex).toBeGreaterThanOrEqual(0)\n    expect(menu.spellMenu!.items[healingSpellIndex]?.disabled).toBe(true)\n    menu.spellMenu!.cursor = healingSpellIndex\n    const request = confirmSpell(menu, restorativeSpells, expensiveMagics)\n    expect(request).toBeNull()\n  })\n})\n})\ndescribe(\"preserved module 11\",()=>{\nbeforeEach(() => rememberMagicCasterCursor(0))\nafterEach(() => rememberMagicCasterCursor(0))\ndescribe('Overworld magic requests', () => {\n\n  it('返回 {spellId, casterId, targetRoleId, costMP}', () => {\n    const menu = makeTargetMenu()\n    menu.targetCursor = 1 // 灵儿\n    const request = confirmTarget(menu, restorativeSpells, restorativeMagics)\n    expect(request).toEqual({ spellId: 296, casterId: 0, targetRoleId: 1, costMP: 6 })\n  })\n})\n})\ndescribe(\"preserved module 12\",()=>{\nbeforeEach(() => rememberMagicCasterCursor(0))\nafterEach(() => rememberMagicCasterCursor(0))\ndescribe('Overworld magic requests', () => {\n\n  it('phase!=pick-target → 返回 null', () => {\n    const menu = createInGameMagicMenu(restorativeRoles, [0, 1, 2], restorativeSpells)\n    expect(confirmTarget(menu, restorativeSpells, restorativeMagics)).toBeNull()\n  })\n})\n})\ndescribe(\"preserved module 13\",()=>{\nbeforeEach(() => rememberMagicCasterCursor(0))\nafterEach(() => rememberMagicCasterCursor(0))\ndescribe('Overworld magic lifecycle', () => {\n  it('pick-target → pick-spell(保留 caster + spellMenu)', () => {\n    const menu = createInGameMagicMenu(restorativeRoles, [0, 1, 2], restorativeSpells)\n    menu.casterMenu.cursor = 0\n    confirmCaster(menu, restorativeRoles, restorativeSpells, restorativeMagics)\n    menu.spellMenu!.cursor = 0\n    confirmSpell(menu, restorativeSpells, restorativeMagics)\n    expect(menu.phase).toBe('pick-target')\n    cancelInGameMagic(menu)\n    expect(menu.phase).toBe('pick-spell')\n    expect(menu.selectedCasterId).toBe(0) // caster 不变\n    expect(menu.spellMenu).toBeDefined()\n  })\n})\n})\ndescribe(\"preserved module 14\",()=>{\nbeforeEach(() => rememberMagicCasterCursor(0))\nafterEach(() => rememberMagicCasterCursor(0))\ndescribe('Overworld magic lifecycle', () => {\n\n  it('pick-spell Cancel → done 关菜单回大世界(C 仙术列表 Cancel=break while=return,uigame.c:733-736)', () => {\n    const menu = createInGameMagicMenu(restorativeRoles, [0, 1, 2], restorativeSpells)\n    menu.casterMenu.cursor = 0\n    confirmCaster(menu, restorativeRoles, restorativeSpells, restorativeMagics)\n    cancelInGameMagic(menu)\n    // 直接关菜单(不退回「选施法人」);caster 框在 C 里只 PAL_ReadMenu 一次、循环外\n    expect(menu.phase).toBe('done')\n  })\n})\n})\ndescribe(\"preserved module 15\",()=>{\nbeforeEach(() => rememberMagicCasterCursor(0))\nafterEach(() => rememberMagicCasterCursor(0))\ndescribe('Overworld magic lifecycle', () => {\n\n  it('pick-caster → done(关菜单)', () => {\n    const menu = createInGameMagicMenu(restorativeRoles, [0, 1, 2], restorativeSpells)\n    cancelInGameMagic(menu)\n    expect(menu.phase).toBe('done')\n  })\n})\n})\ndescribe(\"preserved module 16\",()=>{\nbeforeEach(() => rememberMagicCasterCursor(0))\nafterEach(() => rememberMagicCasterCursor(0))\nfunction chooseTargetingSpell(state: ReturnType<typeof createInGameMagicMenu>, spellId: number) {\n  confirmCaster(state, makeTargetingRoles(), targetingSpells, targetingMagics)\n  const menu = state.spellMenu\n  if (!menu) throw new Error('spellMenu 未建')\n  const spellIndex = menu.items.findIndex((i) => i.id === spellId)\n  if (spellIndex < 0) throw new Error(`spell ${spellId} 不在列表`)\n  menu.cursor = spellIndex\n  return confirmSpell(state, targetingSpells, targetingMagics)\n}\ndescribe('Overworld magic navigation', () => {\n  it('Up 边界 noop(不 wrap;sdlpal `if (wPlayer > 0) wPlayer--`)', () => {\n    const menu = makeTargetMenu()\n    menu.targetCursor = 0\n    inGameMagicMoveUp(menu)\n    expect(menu.targetCursor).toBe(0)\n  })\n})\n})\ndescribe(\"preserved module 17\",()=>{\nbeforeEach(() => rememberMagicCasterCursor(0))\nafterEach(() => rememberMagicCasterCursor(0))\nfunction chooseTargetingSpell(state: ReturnType<typeof createInGameMagicMenu>, spellId: number) {\n  confirmCaster(state, makeTargetingRoles(), targetingSpells, targetingMagics)\n  const menu = state.spellMenu\n  if (!menu) throw new Error('spellMenu 未建')\n  const spellIndex = menu.items.findIndex((i) => i.id === spellId)\n  if (spellIndex < 0) throw new Error(`spell ${spellId} 不在列表`)\n  menu.cursor = spellIndex\n  return confirmSpell(state, targetingSpells, targetingMagics)\n}\ndescribe('Overworld magic navigation', () => {\n\n  it('Down 边界 noop(不 wrap;sdlpal `if (wPlayer < wMaxPartyMemberIndex) wPlayer++`)', () => {\n    const menu = makeTargetMenu()\n    menu.targetCursor = 2 // 最后一个\n    inGameMagicMoveDown(menu)\n    expect(menu.targetCursor).toBe(2)\n  })\n})\n})\ndescribe(\"preserved module 18\",()=>{\nbeforeEach(() => rememberMagicCasterCursor(0))\nafterEach(() => rememberMagicCasterCursor(0))\nfunction chooseTargetingSpell(state: ReturnType<typeof createInGameMagicMenu>, spellId: number) {\n  confirmCaster(state, makeTargetingRoles(), targetingSpells, targetingMagics)\n  const menu = state.spellMenu\n  if (!menu) throw new Error('spellMenu 未建')\n  const spellIndex = menu.items.findIndex((i) => i.id === spellId)\n  if (spellIndex < 0) throw new Error(`spell ${spellId} 不在列表`)\n  menu.cursor = spellIndex\n  return confirmSpell(state, targetingSpells, targetingMagics)\n}\ndescribe('Overworld magic navigation', () => {\n\n  it('Up 中间 → cursor--', () => {\n    const menu = makeTargetMenu()\n    menu.targetCursor = 1\n    inGameMagicMoveUp(menu)\n    expect(menu.targetCursor).toBe(0)\n  })\n})\n})\ndescribe(\"preserved module 19\",()=>{\nbeforeEach(() => rememberMagicCasterCursor(0))\nafterEach(() => rememberMagicCasterCursor(0))\nfunction chooseTargetingSpell(state: ReturnType<typeof createInGameMagicMenu>, spellId: number) {\n  confirmCaster(state, makeTargetingRoles(), targetingSpells, targetingMagics)\n  const menu = state.spellMenu\n  if (!menu) throw new Error('spellMenu 未建')\n  const spellIndex = menu.items.findIndex((i) => i.id === spellId)\n  if (spellIndex < 0) throw new Error(`spell ${spellId} 不在列表`)\n  menu.cursor = spellIndex\n  return confirmSpell(state, targetingSpells, targetingMagics)\n}\ndescribe('Overworld magic navigation', () => {\n\n  it('Down 中间 → cursor++', () => {\n    const menu = makeTargetMenu()\n    menu.targetCursor = 0\n    inGameMagicMoveDown(menu)\n    expect(menu.targetCursor).toBe(1)\n  })\n})\n})\ndescribe(\"preserved module 20\",()=>{\nbeforeEach(() => rememberMagicCasterCursor(0))\nafterEach(() => rememberMagicCasterCursor(0))\nfunction chooseTargetingSpell(state: ReturnType<typeof createInGameMagicMenu>, spellId: number) {\n  confirmCaster(state, makeTargetingRoles(), targetingSpells, targetingMagics)\n  const menu = state.spellMenu\n  if (!menu) throw new Error('spellMenu 未建')\n  const spellIndex = menu.items.findIndex((i) => i.id === spellId)\n  if (spellIndex < 0) throw new Error(`spell ${spellId} 不在列表`)\n  menu.cursor = spellIndex\n  return confirmSpell(state, targetingSpells, targetingMagics)\n}\ndescribe('Overworld magic navigation', () => {\n\n  it('Up/Down 按 3 列网格移动并 clamp,不 wrap', () => {\n    const menu = makePickedSpellMenu()\n    menu.spellMenu!.cursor = 0\n    inGameMagicMoveUp(menu)\n    expect(menu.spellMenu!.cursor).toBe(0)\n    inGameMagicMoveDown(menu)\n    expect(menu.spellMenu!.cursor).toBe(2)\n  })\n})\n})\ndescribe(\"preserved module 21\",()=>{\nbeforeEach(() => rememberMagicCasterCursor(0))\nafterEach(() => rememberMagicCasterCursor(0))\nfunction chooseTargetingSpell(state: ReturnType<typeof createInGameMagicMenu>, spellId: number) {\n  confirmCaster(state, makeTargetingRoles(), targetingSpells, targetingMagics)\n  const menu = state.spellMenu\n  if (!menu) throw new Error('spellMenu 未建')\n  const spellIndex = menu.items.findIndex((i) => i.id === spellId)\n  if (spellIndex < 0) throw new Error(`spell ${spellId} 不在列表`)\n  menu.cursor = spellIndex\n  return confirmSpell(state, targetingSpells, targetingMagics)\n}\ndescribe('Overworld magic navigation', () => {\n\n  it('Left/Right 逐项移动并 clamp,不跳 disabled', () => {\n    const menu = makePickedSpellMenu()\n    menu.spellMenu!.items[1]!.disabled = true\n    menu.spellMenu!.cursor = 0\n    inGameMagicMoveRight(menu)\n    expect(menu.spellMenu!.cursor).toBe(1)\n    inGameMagicMoveLeft(menu)\n    expect(menu.spellMenu!.cursor).toBe(0)\n    inGameMagicMoveLeft(menu)\n    expect(menu.spellMenu!.cursor).toBe(0)\n  })\n})\n})\ndescribe(\"preserved module 22\",()=>{\nbeforeEach(() => rememberMagicCasterCursor(0))\nafterEach(() => rememberMagicCasterCursor(0))\nfunction chooseTargetingSpell(state: ReturnType<typeof createInGameMagicMenu>, spellId: number) {\n  confirmCaster(state, makeTargetingRoles(), targetingSpells, targetingMagics)\n  const menu = state.spellMenu\n  if (!menu) throw new Error('spellMenu 未建')\n  const spellIndex = menu.items.findIndex((i) => i.id === spellId)\n  if (spellIndex < 0) throw new Error(`spell ${spellId} 不在列表`)\n  menu.cursor = spellIndex\n  return confirmSpell(state, targetingSpells, targetingMagics)\n}\ndescribe('Overworld magic navigation', () => {\n\n  it('PgUp/PgDn/Home/End 按 magicmenu.c 网格语义 clamp', () => {\n    const menu = makePickedSpellMenu()\n    menu.spellMenu!.cursor = 0\n    inGameMagicPageDown(menu)\n    expect(menu.spellMenu!.cursor).toBe(2)\n    inGameMagicPageUp(menu)\n    expect(menu.spellMenu!.cursor).toBe(0)\n    inGameMagicEnd(menu)\n    expect(menu.spellMenu!.cursor).toBe(2)\n    inGameMagicHome(menu)\n    expect(menu.spellMenu!.cursor).toBe(0)\n  })\n})\n})\ndescribe(\"preserved module 23\",()=>{\nbeforeEach(() => rememberMagicCasterCursor(0))\nafterEach(() => rememberMagicCasterCursor(0))\ndescribe('Overworld magic lifecycle', () => {\n\n  it('MP 不足后 spell disabled,保留 cursor 在原 spell', () => {\n    const menu = createInGameMagicMenu(restorativeRoles, [0, 1, 2], restorativeSpells)\n    menu.casterMenu.cursor = 0\n    confirmCaster(menu, restorativeRoles, restorativeSpells, restorativeMagics)\n    menu.spellMenu!.cursor = 0 // 气疗术(MP=6)\n    menu.selectedSpellId = 296\n    // 模拟 MP 减到 5(< 6 气疗 cost)\n    refreshSpellMenu(menu, restorativeRoles, restorativeSpells, restorativeMagics, 5)\n    const lowCostSpell = menu.spellMenu!.items.find((i) => i.id === 296)\n    expect(lowCostSpell?.disabled).toBe(true)\n    // cursor 落回 selectedSpellId(sdlpal magicmenu.c:402-409 wDefaultMagic)\n    const cursorSpellId = menu.spellMenu!.items[menu.spellMenu!.cursor]?.id\n    expect(cursorSpellId).toBe(296)\n  })\n})\n})\ndescribe(\"preserved module 24\",()=>{\nbeforeEach(() => rememberMagicCasterCursor(0))\nafterEach(() => rememberMagicCasterCursor(0))\ndescribe('Overworld magic casters', () => {\n\n  it('飞龙探云手(battle-only)不出现 outside spell list', () => {\n    const withBattleOnlySpell = structuredClone(restorativeRoles)\n    // 加飞龙(magicNumber 60)到李逍遥学过的法术\n    withBattleOnlySpell.roles[0]!.magic = [296, 305, 297, ...Array(29).fill(0)]\n    const menu = createInGameMagicMenu(withBattleOnlySpell, [0, 1, 2], restorativeSpells)\n    menu.casterMenu.cursor = 0\n    confirmCaster(menu, withBattleOnlySpell, restorativeSpells, restorativeMagics)\n    const ids = menu.spellMenu!.items.map((i) => i.id)\n    expect(ids).not.toContain(305) // 飞龙 spell.id=305 not in outside picker\n    expect(ids).toContain(296) // 气疗术 spell.id=296 in\n    expect(ids).toContain(297) // 观音咒 spell.id=297 in\n  })\n})\n})",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-magic-menu.boundaries.test.ts",
+      "id": "organization-magic-menu-state",
+      "reason": "Registration analyzer bridge only; full callback trees, three explicit quality deltas, complete record values and actual phase progression independently proved in proof-r3 and records-probe.",
+      "changes": [
+        {
+          "from": "/**\n * TEST-GAME-MENU-BOUNDARIES-1 G05：in-game-magic-menu 状态机意图（in-game-magic-menu.ts）。\n * 既有 in-game-magic-menu.test 已覆盖选人/死人/载荷/取消/导航/刷新主干——不重复。\n * 本文件：单人队直进 pick-spell、confirmSpell applyToAll 分相、非顺序 party target roleId、\n * 错 phase 零请求、refresh 后 cursor 落回上次 spell。\n */\nimport type { Magic, PlayerRole, PlayerRoles, Spell } from '@type-pal/shared'\nimport { afterEach, beforeEach, describe, expect, it } from 'vitest'\nimport { magicWithCost as magic } from './__tests__/magic-cost-fixture.js'\nimport {\n  cancelInGameMagic,\n  confirmCaster,\n  confirmSpell,\n  confirmTarget,\n  createInGameMagicMenu,\n  refreshSpellMenu,\n  rememberMagicCasterCursor,\n} from './in-game-magic-menu.js'\n\nbeforeEach(() => rememberMagicCasterCursor(0))\nafterEach(() => rememberMagicCasterCursor(0))\n\nconst magics: Magic[] = [magic(1, 4), magic(2, 9)]\nconst spells: Spell[] = [\n  {\n    id: 300,\n    magicNumber: 1,\n    scriptOnSuccess: 0,\n    scriptOnUse: 0,\n    scriptDesc: 0,\n    flags: {\n      usableOutsideBattle: true,\n      usableInBattle: true,\n      usableToEnemy: false,\n      applyToAll: true,\n    },\n    _name: '全体甲',\n  },\n  {\n    id: 301,\n    magicNumber: 2,\n    scriptOnSuccess: 0,\n    scriptOnUse: 0,\n    scriptDesc: 0,\n    flags: {\n      usableOutsideBattle: true,\n      usableInBattle: true,\n      usableToEnemy: false,\n      applyToAll: false,\n    },\n    _name: '单体乙',\n  },\n]\n\nfunction role(id: number, hp: number, mp: number, magic: number[]): PlayerRole {\n  return {\n    id,\n    avatar: 0,\n    spriteNumInBattle: 0,\n    spriteNum: 0,\n    name: 0,\n    attackAll: 0,\n    level: 1,\n    maxHP: 100,\n    maxMP: 100,\n    hp,\n    mp,\n    attackStrength: 0,\n    magicStrength: 0,\n    defense: 0,\n    dexterity: 0,\n    fleeRate: 0,\n    poisonResistance: 0,\n    elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },\n    walkFrames: 3,\n    attackSound: 0,\n    weaponSound: 0,\n    criticalSound: 0,\n    magicSound: 0,\n    deathSound: 0,\n    magic,\n  }\n}\n\nfunction roles(): PlayerRoles {\n  return {\n    roles: [\n      role(0, 100, 20, [300, 301]),\n      role(1, 0, 0, []),\n      role(2, 100, 6, [300, 301]), // 300(cost4)可用；301(cost9)MP 不足\n    ],\n  }\n}\n\ndescribe('G05 in-game-magic-menu 状态机', () => {\n  it('单人队直进 pick-spell；applyToAll 留相/单体切 pick-target；非顺序 party 返回 roleId', () => {\n    const state = createInGameMagicMenu(roles(), [2], spells, magics)\n    expect(state.phase).toBe('pick-spell')\n    expect(state.selectedCasterId).toBe(2)\n    state.spellMenu!.cursor = 0 // 300 全体甲\n    expect(confirmSpell(state, spells, magics)).toEqual({\n      spellId: 300,\n      casterId: 2,\n      applyToAll: true,\n      costMP: 4,\n    })\n    expect(state.phase).toBe('pick-spell') // 全体留相\n    state.spellMenu!.cursor = 1 // 301 单体乙（mp 6 < 9 → disabled → null）\n    expect(confirmSpell(state, spells, magics)).toBeNull()\n    // 换满 MP 施法人（role 0 mp20）重建\n    const strong = createInGameMagicMenu(roles(), [0], spells, magics)\n    strong.spellMenu!.cursor = 1\n    expect(confirmSpell(strong, spells, magics)).toEqual({\n      spellId: 301,\n      casterId: 0,\n      applyToAll: false,\n      costMP: 9,\n    })\n    expect(strong.phase).toBe('pick-target')\n    expect(confirmTarget(strong, spells, magics)).toEqual({\n      spellId: 301,\n      casterId: 0,\n      targetRoleId: 0, // 单人队 target 即唯一队员\n      costMP: 9,\n    })\n  })\n  it('非顺序 party 双人 target roleId 非 cursor；错 phase 零请求；refresh cursor 落回上次 spell', () => {\n    const state = createInGameMagicMenu(roles(), [2, 0], spells, magics)\n    expect(state.phase).toBe('pick-caster')\n    expect(confirmSpell(state, spells, magics)).toBeNull() // 错 phase\n    expect(confirmTarget(state, spells, magics)).toBeNull()\n    // 真实路由推进：选第二位施法人（roleId 0）→ 其法术列表选 301\n    state.casterMenu.cursor = 1\n    confirmCaster(state, roles(), spells, magics)\n    expect(state.selectedCasterId).toBe(0)\n    state.spellMenu!.cursor = 1\n    expect(confirmSpell(state, spells, magics)!.applyToAll).toBe(false)\n    state.targetCursor = 1 // party=[2,0] 第二位 = roleId 0\n    expect(confirmTarget(state, spells, magics)).toEqual({\n      spellId: 301,\n      casterId: 0,\n      targetRoleId: 0,\n      costMP: 9,\n    })\n    // 错 phase：done 无请求\n    state.phase = 'done'\n    expect(confirmSpell(state, spells, magics)).toBeNull()\n    // refresh：pick-spell 相位 + selectedSpellId 落回\n    state.phase = 'pick-spell'\n    state.selectedSpellId = 301\n    refreshSpellMenu(state, roles(), spells, magics, 20)\n    expect(state.spellMenu!.cursor).toBe(\n      state.spellMenu!.items.findIndex((entry) => entry.id === 301),\n    )\n    // pick-target 取消回 pick-spell\n    state.phase = 'pick-target'\n    cancelInGameMagic(state)\n    expect(state.phase).toBe('pick-spell')\n  })\n})\n",
+          "to": "import {afterEach} from \"vitest\"\nimport {beforeEach} from \"vitest\"\nimport {describe} from \"vitest\"\nimport {expect} from \"vitest\"\nimport {it} from \"vitest\"\nimport {makeRequestRoles} from \"./__tests__/magic-menu-catalog.js\"\nimport {requestMagics} from \"./__tests__/magic-menu-catalog.js\"\nimport {requestSpells} from \"./__tests__/magic-menu-catalog.js\"\nimport {restorativeMagics} from \"./__tests__/magic-menu-catalog.js\"\nimport {restorativeRoles} from \"./__tests__/magic-menu-catalog.js\"\nimport {restorativeSpells} from \"./__tests__/magic-menu-catalog.js\"\nimport {makePickedSpellMenu} from \"./__tests__/magic-menu-scenario.js\"\nimport {makeTargetMenu} from \"./__tests__/magic-menu-scenario.js\"\nimport {cancelInGameMagic} from \"./in-game-magic-menu.js\"\nimport {confirmCaster} from \"./in-game-magic-menu.js\"\nimport {confirmSpell} from \"./in-game-magic-menu.js\"\nimport {confirmTarget} from \"./in-game-magic-menu.js\"\nimport {createInGameMagicMenu} from \"./in-game-magic-menu.js\"\nimport {refreshSpellMenu} from \"./in-game-magic-menu.js\"\nimport {rememberMagicCasterCursor} from \"./in-game-magic-menu.js\"\ndescribe(\"preserved module 0\",()=>{\nbeforeEach(() => rememberMagicCasterCursor(0))\nafterEach(() => rememberMagicCasterCursor(0))\ndescribe('Overworld magic requests', () => {\n\n  it('单人队直进 pick-spell；applyToAll 留相/单体切 pick-target；非顺序 party 返回 roleId', () => {\n    const state = createInGameMagicMenu(makeRequestRoles(), [2], requestSpells, requestMagics)\n    expect(state.phase).toBe('pick-spell')\n    expect(state.selectedCasterId).toBe(2)\n    state.spellMenu!.cursor = 0 // 300 全体甲\n    expect(confirmSpell(state, requestSpells, requestMagics)).toEqual({\n      spellId: 300,\n      casterId: 2,\n      applyToAll: true,\n      costMP: 4,\n    })\n    expect(state.phase).toBe('pick-spell') // 全体留相\n    state.spellMenu!.cursor = 1 // 301 单体乙（mp 6 < 9 → disabled → null）\n    expect(confirmSpell(state, requestSpells, requestMagics)).toBeNull()\n    // 换满 MP 施法人（role 0 mp20）重建\n    const fundedCasterMenu = createInGameMagicMenu(\n      makeRequestRoles(),\n      [0],\n      requestSpells,\n      requestMagics,\n    )\n    fundedCasterMenu.spellMenu!.cursor = 1\n    expect(confirmSpell(fundedCasterMenu, requestSpells, requestMagics)).toEqual({\n      spellId: 301,\n      casterId: 0,\n      applyToAll: false,\n      costMP: 9,\n    })\n    expect(fundedCasterMenu.phase).toBe('pick-target')\n    expect(confirmTarget(fundedCasterMenu, requestSpells, requestMagics)).toEqual({\n      spellId: 301,\n      casterId: 0,\n      targetRoleId: 0, // 单人队 target 即唯一队员\n      costMP: 9,\n    })\n  })\n})\n})\ndescribe(\"preserved module 1\",()=>{\nbeforeEach(() => rememberMagicCasterCursor(0))\nafterEach(() => rememberMagicCasterCursor(0))\ndescribe('Overworld magic requests', () => {\n\n  it('非顺序 party 双人 target roleId 非 cursor；错 phase 零请求；refresh cursor 落回上次 spell', () => {\n    const state = createInGameMagicMenu(makeRequestRoles(), [2, 0], requestSpells, requestMagics)\n    expect(state.phase).toBe('pick-caster')\n    expect(confirmSpell(state, requestSpells, requestMagics)).toBeNull() // 错 phase\n    expect(confirmTarget(state, requestSpells, requestMagics)).toBeNull()\n    // 真实路由推进：选第二位施法人（roleId 0）→ 其法术列表选 301\n    state.casterMenu.cursor = 1\n    confirmCaster(state, makeRequestRoles(), requestSpells, requestMagics)\n    expect(state.selectedCasterId).toBe(0)\n    state.spellMenu!.cursor = 1\n    expect(confirmSpell(state, requestSpells, requestMagics)!.applyToAll).toBe(false)\n    state.targetCursor = 1 // party=[2,0] 第二位 = roleId 0\n    expect(confirmTarget(state, requestSpells, requestMagics)).toEqual({\n      spellId: 301,\n      casterId: 0,\n      targetRoleId: 0,\n      costMP: 9,\n    })\n    // 错 phase：done 无请求\n    state.phase = 'done'\n    expect(confirmSpell(state, requestSpells, requestMagics)).toBeNull()\n    // refresh：pick-spell 相位 + selectedSpellId 落回\n    state.phase = 'pick-spell'\n    state.selectedSpellId = 301\n    refreshSpellMenu(state, makeRequestRoles(), requestSpells, requestMagics, 20)\n    expect(state.spellMenu!.items[state.spellMenu!.cursor]?.id).toBe(301)\n    // pick-target 取消回 pick-spell\n    state.phase = 'pick-target'\n    cancelInGameMagic(state)\n    expect(state.phase).toBe('pick-spell')\n  })\n})\n})",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-magic-menu.glm-phase1-leaves.test.ts",
+      "id": "organization-magic-menu-state",
+      "reason": "Registration analyzer bridge only; full callback trees, three explicit quality deltas, complete record values and actual phase progression independently proved in proof-r3 and records-probe.",
+      "changes": [
+        {
+          "from": "/**\n * TEST-GLM-PHASE1-LEAVES-3 L02（in-game-magic-menu.ts）— 去重表：\n *  - in-game-magic-menu.test（4 相转换/死人 caster/载荷/取消/网格导航/刷新主干）→ 不重复\n *  - in-game-magic-menu.boundaries.test（单人队直进/applyToAll 分相/非顺序 party/错相零请求）→ 不重复\n *  - 新差异：DL22 施法人光标跨开启记忆（rememberMagicCasterCursor 建表回放 + 越界归 0）、\n *    partyMembers 含 roles 缺失 id 剔除、错相 confirmCaster 零请求、空 spellMenu 全导航兜底、\n *    pick-target Left/Right 及非 pick-spell 相 Page/Home/End 零触达、关菜单后 refresh 不复活、\n *    单人队死亡成员仍直进 pick-spell（uigame.c:677-681 不检 HP）。\n * 显示 vs 执行：只核状态机与请求对象；不跑 scriptOnUse/不扣 MP。\n */\nimport type { Magic, PlayerRole, PlayerRoles, Spell } from '@type-pal/shared'\nimport { afterEach, beforeEach, describe, expect, it } from 'vitest'\nimport { magicWithCost as mkMagic } from './__tests__/magic-cost-fixture.js'\nimport {\n  cancelInGameMagic,\n  confirmCaster,\n  confirmSpell,\n  createInGameMagicMenu,\n  inGameMagicEnd,\n  inGameMagicHome,\n  inGameMagicMoveDown,\n  inGameMagicMoveLeft,\n  inGameMagicMoveRight,\n  inGameMagicMoveUp,\n  inGameMagicPageDown,\n  inGameMagicPageUp,\n  refreshSpellMenu,\n  rememberMagicCasterCursor,\n} from './in-game-magic-menu.js'\n\nbeforeEach(() => rememberMagicCasterCursor(0))\nafterEach(() => rememberMagicCasterCursor(0))\n\nfunction mkRole(id: number, hp: number, mp: number, magic: number[]): PlayerRole {\n  return {\n    id,\n    _name: `role-${id}`,\n    avatar: 0,\n    spriteNumInBattle: 0,\n    spriteNum: 0,\n    name: 0,\n    attackAll: 0,\n    level: 5,\n    maxHP: 200,\n    maxMP: 100,\n    hp,\n    mp,\n    attackStrength: 0,\n    magicStrength: 0,\n    defense: 0,\n    dexterity: 0,\n    fleeRate: 0,\n    poisonResistance: 0,\n    elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },\n    walkFrames: 3,\n    attackSound: 0,\n    weaponSound: 0,\n    criticalSound: 0,\n    magicSound: 0,\n    deathSound: 0,\n    magic,\n  }\n}\n\nconst SPELLS: Spell[] = [\n  {\n    id: 300,\n    magicNumber: 1,\n    scriptOnSuccess: 0,\n    scriptOnUse: 0,\n    scriptDesc: 0,\n    flags: {\n      usableOutsideBattle: true,\n      usableInBattle: true,\n      usableToEnemy: false,\n      applyToAll: false,\n    },\n    _name: '单体术',\n  },\n  {\n    id: 301,\n    magicNumber: 2,\n    scriptOnSuccess: 0,\n    scriptOnUse: 0,\n    scriptDesc: 0,\n    flags: {\n      usableOutsideBattle: true,\n      usableInBattle: true,\n      usableToEnemy: false,\n      applyToAll: true,\n    },\n    _name: '全体术',\n  },\n]\n\nconst MAGICS: Magic[] = [mkMagic(1, 4), mkMagic(2, 9)]\n\nfunction roles(): PlayerRoles {\n  return {\n    roles: [mkRole(0, 100, 20, [300, 301]), mkRole(1, 100, 6, [300, 301])],\n  }\n}\n\nfunction pickSpell(state: ReturnType<typeof createInGameMagicMenu>, spellId: number) {\n  confirmCaster(state, roles(), SPELLS, MAGICS)\n  const menu = state.spellMenu\n  if (!menu) throw new Error('spellMenu 未建')\n  const idx = menu.items.findIndex((i) => i.id === spellId)\n  if (idx < 0) throw new Error(`spell ${spellId} 不在列表`)\n  menu.cursor = idx\n  return confirmSpell(state, SPELLS, MAGICS)\n}\n\ndescribe('L02 DL22 施法人光标跨开启记忆（uigame.c:674/719 static w）', () => {\n  it('确认即记忆；再开菜单默认停回上次施法人', () => {\n    const first = createInGameMagicMenu(roles(), [0, 1], SPELLS, MAGICS)\n    expect(first.casterMenu.cursor).toBe(0)\n    first.casterMenu.cursor = 1\n    confirmCaster(first, roles(), SPELLS, MAGICS) // 确认 role 1 → static=1\n    const second = createInGameMagicMenu(roles(), [0, 1], SPELLS, MAGICS)\n    expect(second.casterMenu.cursor).toBe(1) // 回放记忆\n  })\n\n  it('越界（上次光标 ≥ 队伍人数）→ 保持建表默认 0', () => {\n    rememberMagicCasterCursor(5) // 防御输入：超过当前队伍上界，不宣称生产存在5人队\n    const s = createInGameMagicMenu(roles(), [0, 1], SPELLS, MAGICS)\n    expect(s.casterMenu.cursor).toBe(0)\n  })\n})\n\ndescribe('L02 建表与错相合同', () => {\n  it('partyMembers 含 roles 缺失的 id → 建表剔除（!role 过滤分支）', () => {\n    const s = createInGameMagicMenu(roles(), [0, 1, 99], SPELLS, MAGICS)\n    expect(s.casterMenu.items.map((i) => i.id)).toEqual([0, 1])\n    expect(s.partyMembers).toEqual([0, 1, 99]) // party 快照保留原值（close 判断用）\n  })\n\n  it('错相 confirmCaster 零请求：pick-spell 相调用不重建 spellMenu', () => {\n    const s = createInGameMagicMenu(roles(), [0, 1], SPELLS, MAGICS)\n    s.casterMenu.cursor = 0\n    confirmCaster(s, roles(), SPELLS, MAGICS)\n    expect(s.phase).toBe('pick-spell')\n    const menuBefore = s.spellMenu\n    confirmCaster(s, roles(), SPELLS, MAGICS) // 错相 no-op\n    expect(s.phase).toBe('pick-spell')\n    expect(s.spellMenu).toBe(menuBefore)\n  })\n\n  it('单人队死亡成员仍直进 pick-spell（uigame.c:677-681 快速道不检 HP）', () => {\n    const dead = { roles: [mkRole(0, 0, 20, [300])] }\n    const s = createInGameMagicMenu(dead, [0], SPELLS, MAGICS)\n    expect(s.phase).toBe('pick-spell')\n    expect(s.selectedCasterId).toBe(0)\n    expect(s.spellMenu).toBeDefined()\n  })\n})\n\ndescribe('L02 空 spellMenu 导航兜底（moveSpellGrid n===0 分支）', () => {\n  it('无法术 caster 进 pick-spell 后八向/翻页/Home/End 全不抛错、cursor 恒 0', () => {\n    const empty: PlayerRoles = { roles: [mkRole(0, 100, 20, []), mkRole(1, 100, 6, [300])] }\n    const s = createInGameMagicMenu(empty, [0], SPELLS, MAGICS)\n    expect(s.phase).toBe('pick-spell')\n    expect(s.spellMenu!.items).toHaveLength(0)\n    inGameMagicMoveUp(s)\n    inGameMagicMoveDown(s)\n    inGameMagicMoveLeft(s)\n    inGameMagicMoveRight(s)\n    inGameMagicPageUp(s)\n    inGameMagicPageDown(s)\n    inGameMagicHome(s)\n    inGameMagicEnd(s)\n    expect(s.spellMenu!.cursor).toBe(0)\n    expect(s.phase).toBe('pick-spell')\n  })\n})\n\ndescribe('L02 pick-target Left/Right 与非 pick-spell 相翻页零触达', () => {\n  it('pick-target：Left/Right 移动且边界 noop（与 Up/Down 同合同）', () => {\n    const s = createInGameMagicMenu(roles(), [0, 1], SPELLS, MAGICS)\n    expect(pickSpell(s, 300)).not.toBeNull() // 单体 → pick-target\n    expect(s.phase).toBe('pick-target')\n    inGameMagicMoveRight(s)\n    expect(s.targetCursor).toBe(1)\n    inGameMagicMoveRight(s)\n    expect(s.targetCursor).toBe(1) // 末位 noop\n    inGameMagicMoveLeft(s)\n    expect(s.targetCursor).toBe(0)\n    inGameMagicMoveLeft(s)\n    expect(s.targetCursor).toBe(0) // 首位 noop\n  })\n\n  it('pick-caster 相 PageUp/PageDown/Home/End 不动 casterMenu', () => {\n    const s = createInGameMagicMenu(roles(), [0, 1], SPELLS, MAGICS)\n    s.casterMenu.cursor = 1\n    inGameMagicPageUp(s)\n    inGameMagicPageDown(s)\n    inGameMagicHome(s)\n    inGameMagicEnd(s)\n    expect(s.casterMenu.cursor).toBe(1)\n  })\n\n  it('pick-target 相 Home/End 不动 targetCursor', () => {\n    const s = createInGameMagicMenu(roles(), [0, 1], SPELLS, MAGICS)\n    pickSpell(s, 300)\n    s.targetCursor = 1\n    inGameMagicHome(s)\n    inGameMagicEnd(s)\n    expect(s.targetCursor).toBe(1)\n  })\n})\n\ndescribe('L02 关闭后 refresh / cancel 幂等', () => {\n  it('pick-spell Cancel 关菜单后 refreshSpellMenu 不复活 spellMenu（防御分支）', () => {\n    const s = createInGameMagicMenu(roles(), [0, 1], SPELLS, MAGICS)\n    s.casterMenu.cursor = 0\n    confirmCaster(s, roles(), SPELLS, MAGICS)\n    cancelInGameMagic(s) // pick-spell → done\n    expect(s.phase).toBe('done')\n    expect(s.spellMenu).toBeUndefined()\n    refreshSpellMenu(s, roles(), SPELLS, MAGICS, 99)\n    expect(s.spellMenu).toBeUndefined() // selectedCasterId 已清 → 早退\n    cancelInGameMagic(s) // done 相再 cancel → 仍 done\n    expect(s.phase).toBe('done')\n  })\n})\n",
+          "to": "import {afterEach} from \"vitest\"\nimport {beforeEach} from \"vitest\"\nimport {describe} from \"vitest\"\nimport {expect} from \"vitest\"\nimport {it} from \"vitest\"\nimport {makeTargetingCaster} from \"./__tests__/magic-menu-catalog.js\"\nimport {makeTargetingRoles} from \"./__tests__/magic-menu-catalog.js\"\nimport {restorativeMagics} from \"./__tests__/magic-menu-catalog.js\"\nimport {restorativeRoles} from \"./__tests__/magic-menu-catalog.js\"\nimport {restorativeSpells} from \"./__tests__/magic-menu-catalog.js\"\nimport {targetingMagics} from \"./__tests__/magic-menu-catalog.js\"\nimport {targetingSpells} from \"./__tests__/magic-menu-catalog.js\"\nimport {confirmCaster} from \"./in-game-magic-menu.js\"\nimport {createInGameMagicMenu} from \"./in-game-magic-menu.js\"\nimport {rememberMagicCasterCursor} from \"./in-game-magic-menu.js\"\nimport {type PlayerRoles} from \"@type-pal/shared\"\nimport {makePickedSpellMenu} from \"./__tests__/magic-menu-scenario.js\"\nimport {makeTargetMenu} from \"./__tests__/magic-menu-scenario.js\"\nimport {confirmSpell} from \"./in-game-magic-menu.js\"\nimport {inGameMagicEnd} from \"./in-game-magic-menu.js\"\nimport {inGameMagicHome} from \"./in-game-magic-menu.js\"\nimport {inGameMagicMoveDown} from \"./in-game-magic-menu.js\"\nimport {inGameMagicMoveLeft} from \"./in-game-magic-menu.js\"\nimport {inGameMagicMoveRight} from \"./in-game-magic-menu.js\"\nimport {inGameMagicMoveUp} from \"./in-game-magic-menu.js\"\nimport {inGameMagicPageDown} from \"./in-game-magic-menu.js\"\nimport {inGameMagicPageUp} from \"./in-game-magic-menu.js\"\nimport {cancelInGameMagic} from \"./in-game-magic-menu.js\"\nimport {refreshSpellMenu} from \"./in-game-magic-menu.js\"\ndescribe(\"preserved module 0\",()=>{\nbeforeEach(() => rememberMagicCasterCursor(0))\nafterEach(() => rememberMagicCasterCursor(0))\ndescribe('Overworld magic casters', () => {\n\n  it('确认即记忆；再开菜单默认停回上次施法人', () => {\n    const first = createInGameMagicMenu(\n      makeTargetingRoles(),\n      [0, 1],\n      targetingSpells,\n      targetingMagics,\n    )\n    expect(first.casterMenu.cursor).toBe(0)\n    first.casterMenu.cursor = 1\n    confirmCaster(first, makeTargetingRoles(), targetingSpells, targetingMagics) // 确认 role 1 → static=1\n    const second = createInGameMagicMenu(\n      makeTargetingRoles(),\n      [0, 1],\n      targetingSpells,\n      targetingMagics,\n    )\n    expect(second.casterMenu.cursor).toBe(1) // 回放记忆\n  })\n})\n})\ndescribe(\"preserved module 1\",()=>{\nbeforeEach(() => rememberMagicCasterCursor(0))\nafterEach(() => rememberMagicCasterCursor(0))\ndescribe('Overworld magic casters', () => {\n\n  it('越界（上次光标 ≥ 队伍人数）→ 保持建表默认 0', () => {\n    rememberMagicCasterCursor(5) // 防御输入：超过当前队伍上界，不宣称生产存在5人队\n    const menu = createInGameMagicMenu(\n      makeTargetingRoles(),\n      [0, 1],\n      targetingSpells,\n      targetingMagics,\n    )\n    expect(menu.casterMenu.cursor).toBe(0)\n  })\n})\n})\ndescribe(\"preserved module 2\",()=>{\nbeforeEach(() => rememberMagicCasterCursor(0))\nafterEach(() => rememberMagicCasterCursor(0))\ndescribe('Overworld magic casters', () => {\n\n  it('partyMembers 含 roles 缺失的 id → 建表剔除（!role 过滤分支）', () => {\n    const menu = createInGameMagicMenu(\n      makeTargetingRoles(),\n      [0, 1, 99],\n      targetingSpells,\n      targetingMagics,\n    )\n    expect(menu.casterMenu.items.map((i) => i.id)).toEqual([0, 1])\n    expect(menu.partyMembers).toEqual([0, 1, 99]) // party 快照保留原值（close 判断用）\n  })\n})\n})\ndescribe(\"preserved module 3\",()=>{\nbeforeEach(() => rememberMagicCasterCursor(0))\nafterEach(() => rememberMagicCasterCursor(0))\ndescribe('Overworld magic casters', () => {\n\n  it('pick-spell 相 confirmCaster 保留原 spellMenu 与 phase', () => {\n    const menu = createInGameMagicMenu(\n      makeTargetingRoles(),\n      [0, 1],\n      targetingSpells,\n      targetingMagics,\n    )\n    menu.casterMenu.cursor = 0\n    confirmCaster(menu, makeTargetingRoles(), targetingSpells, targetingMagics)\n    expect(menu.phase).toBe('pick-spell')\n    const menuBefore = menu.spellMenu\n    confirmCaster(menu, makeTargetingRoles(), targetingSpells, targetingMagics) // 错相 no-op\n    expect(menu.phase).toBe('pick-spell')\n    expect(menu.spellMenu).toBe(menuBefore)\n  })\n})\n})\ndescribe(\"preserved module 4\",()=>{\nbeforeEach(() => rememberMagicCasterCursor(0))\nafterEach(() => rememberMagicCasterCursor(0))\ndescribe('Overworld magic casters', () => {\n\n  it('单人队死亡成员仍直进 pick-spell（uigame.c:677-681 快速道不检 HP）', () => {\n    const dead = { roles: [makeTargetingCaster(0, 0, 20, [300])] }\n    const menu = createInGameMagicMenu(dead, [0], targetingSpells, targetingMagics)\n    expect(menu.phase).toBe('pick-spell')\n    expect(menu.selectedCasterId).toBe(0)\n    expect(menu.spellMenu).toBeDefined()\n  })\n})\n})\ndescribe(\"preserved module 5\",()=>{\nbeforeEach(() => rememberMagicCasterCursor(0))\nafterEach(() => rememberMagicCasterCursor(0))\nfunction chooseTargetingSpell(state: ReturnType<typeof createInGameMagicMenu>, spellId: number) {\n  confirmCaster(state, makeTargetingRoles(), targetingSpells, targetingMagics)\n  const menu = state.spellMenu\n  if (!menu) throw new Error('spellMenu 未建')\n  const spellIndex = menu.items.findIndex((i) => i.id === spellId)\n  if (spellIndex < 0) throw new Error(`spell ${spellId} 不在列表`)\n  menu.cursor = spellIndex\n  return confirmSpell(state, targetingSpells, targetingMagics)\n}\ndescribe('Overworld magic navigation', () => {\n\n  it('无法术 caster 进 pick-spell 后八向/翻页/Home/End 全不抛错、cursor 恒 0', () => {\n    const noSpellsRoles: PlayerRoles = {\n      roles: [makeTargetingCaster(0, 100, 20, []), makeTargetingCaster(1, 100, 6, [300])],\n    }\n    const menu = createInGameMagicMenu(noSpellsRoles, [0], targetingSpells, targetingMagics)\n    expect(menu.phase).toBe('pick-spell')\n    expect(menu.spellMenu!.items).toHaveLength(0)\n    inGameMagicMoveUp(menu)\n    inGameMagicMoveDown(menu)\n    inGameMagicMoveLeft(menu)\n    inGameMagicMoveRight(menu)\n    inGameMagicPageUp(menu)\n    inGameMagicPageDown(menu)\n    inGameMagicHome(menu)\n    inGameMagicEnd(menu)\n    expect(menu.spellMenu!.cursor).toBe(0)\n    expect(menu.phase).toBe('pick-spell')\n  })\n})\n})\ndescribe(\"preserved module 6\",()=>{\nbeforeEach(() => rememberMagicCasterCursor(0))\nafterEach(() => rememberMagicCasterCursor(0))\nfunction chooseTargetingSpell(state: ReturnType<typeof createInGameMagicMenu>, spellId: number) {\n  confirmCaster(state, makeTargetingRoles(), targetingSpells, targetingMagics)\n  const menu = state.spellMenu\n  if (!menu) throw new Error('spellMenu 未建')\n  const spellIndex = menu.items.findIndex((i) => i.id === spellId)\n  if (spellIndex < 0) throw new Error(`spell ${spellId} 不在列表`)\n  menu.cursor = spellIndex\n  return confirmSpell(state, targetingSpells, targetingMagics)\n}\ndescribe('Overworld magic navigation', () => {\n\n  it('pick-target：Left/Right 移动且边界 noop（与 Up/Down 同合同）', () => {\n    const menu = createInGameMagicMenu(\n      makeTargetingRoles(),\n      [0, 1],\n      targetingSpells,\n      targetingMagics,\n    )\n    expect(chooseTargetingSpell(menu, 300)).not.toBeNull() // 单体 → pick-target\n    expect(menu.phase).toBe('pick-target')\n    inGameMagicMoveRight(menu)\n    expect(menu.targetCursor).toBe(1)\n    inGameMagicMoveRight(menu)\n    expect(menu.targetCursor).toBe(1) // 末位 noop\n    inGameMagicMoveLeft(menu)\n    expect(menu.targetCursor).toBe(0)\n    inGameMagicMoveLeft(menu)\n    expect(menu.targetCursor).toBe(0) // 首位 noop\n  })\n})\n})\ndescribe(\"preserved module 7\",()=>{\nbeforeEach(() => rememberMagicCasterCursor(0))\nafterEach(() => rememberMagicCasterCursor(0))\nfunction chooseTargetingSpell(state: ReturnType<typeof createInGameMagicMenu>, spellId: number) {\n  confirmCaster(state, makeTargetingRoles(), targetingSpells, targetingMagics)\n  const menu = state.spellMenu\n  if (!menu) throw new Error('spellMenu 未建')\n  const spellIndex = menu.items.findIndex((i) => i.id === spellId)\n  if (spellIndex < 0) throw new Error(`spell ${spellId} 不在列表`)\n  menu.cursor = spellIndex\n  return confirmSpell(state, targetingSpells, targetingMagics)\n}\ndescribe('Overworld magic navigation', () => {\n\n  it('pick-caster 相 PageUp/PageDown/Home/End 不动 casterMenu', () => {\n    const menu = createInGameMagicMenu(\n      makeTargetingRoles(),\n      [0, 1],\n      targetingSpells,\n      targetingMagics,\n    )\n    menu.casterMenu.cursor = 1\n    inGameMagicPageUp(menu)\n    inGameMagicPageDown(menu)\n    inGameMagicHome(menu)\n    inGameMagicEnd(menu)\n    expect(menu.casterMenu.cursor).toBe(1)\n  })\n})\n})\ndescribe(\"preserved module 8\",()=>{\nbeforeEach(() => rememberMagicCasterCursor(0))\nafterEach(() => rememberMagicCasterCursor(0))\nfunction chooseTargetingSpell(state: ReturnType<typeof createInGameMagicMenu>, spellId: number) {\n  confirmCaster(state, makeTargetingRoles(), targetingSpells, targetingMagics)\n  const menu = state.spellMenu\n  if (!menu) throw new Error('spellMenu 未建')\n  const spellIndex = menu.items.findIndex((i) => i.id === spellId)\n  if (spellIndex < 0) throw new Error(`spell ${spellId} 不在列表`)\n  menu.cursor = spellIndex\n  return confirmSpell(state, targetingSpells, targetingMagics)\n}\ndescribe('Overworld magic navigation', () => {\n\n  it('pick-target 相 Home/End 不动 targetCursor', () => {\n    const menu = createInGameMagicMenu(\n      makeTargetingRoles(),\n      [0, 1],\n      targetingSpells,\n      targetingMagics,\n    )\n    chooseTargetingSpell(menu, 300)\n    menu.targetCursor = 1\n    inGameMagicHome(menu)\n    inGameMagicEnd(menu)\n    expect(menu.targetCursor).toBe(1)\n  })\n})\n})\ndescribe(\"preserved module 9\",()=>{\nbeforeEach(() => rememberMagicCasterCursor(0))\nafterEach(() => rememberMagicCasterCursor(0))\ndescribe('Overworld magic lifecycle', () => {\n\n  it('pick-spell Cancel 关菜单后 refreshSpellMenu 不复活 spellMenu（防御分支）', () => {\n    const menu = createInGameMagicMenu(\n      makeTargetingRoles(),\n      [0, 1],\n      targetingSpells,\n      targetingMagics,\n    )\n    menu.casterMenu.cursor = 0\n    confirmCaster(menu, makeTargetingRoles(), targetingSpells, targetingMagics)\n    cancelInGameMagic(menu) // pick-spell → done\n    expect(menu.phase).toBe('done')\n    expect(menu.spellMenu).toBeUndefined()\n    refreshSpellMenu(menu, makeTargetingRoles(), targetingSpells, targetingMagics, 99)\n    expect(menu.spellMenu).toBeUndefined() // selectedCasterId 已清 → 早退\n    cancelInGameMagic(menu) // done 相再 cancel → 仍 done\n    expect(menu.phase).toBe('done')\n  })\n})\n})",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "registrations": [
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.test.ts",
+        "ordinal": 0,
+        "fullName": "createInGameMagicMenu phase 起始 pick-caster + casterMenu 含 partyMembers"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.casters.test.ts",
+        "titles": ["Overworld magic casters"],
+        "template": "phase 起始 pick-caster + casterMenu 含 partyMembers",
+        "fullName": "Overworld magic casters phase 起始 pick-caster + casterMenu 含 partyMembers"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.test.ts",
+        "ordinal": 1,
+        "fullName": "createInGameMagicMenu L41:单人队伍 → 直接 pick-spell(跳过选施法人,uigame.c:677-681)"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.casters.test.ts",
+        "titles": ["Overworld magic casters"],
+        "template": "单人队伍 → 直接 pick-spell(跳过选施法人,uigame.c:677-681)",
+        "fullName": "Overworld magic casters 单人队伍 → 直接 pick-spell(跳过选施法人,uigame.c:677-681)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.test.ts",
+        "ordinal": 2,
+        "fullName": "createInGameMagicMenu L37:活人无 outside-battle 法术仍可选(林月如),C 只判 HP>0(uigame.c:707-708)"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.casters.test.ts",
+        "titles": ["Overworld magic casters"],
+        "template": "活人无 outside-battle 法术仍可选(林月如),C 只判 HP>0(uigame.c:707-708)",
+        "fullName": "Overworld magic casters 活人无 outside-battle 法术仍可选(林月如),C 只判 HP>0(uigame.c:707-708)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.test.ts",
+        "ordinal": 3,
+        "fullName": "createInGameMagicMenu caster disabled when hp <= 0"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.casters.test.ts",
+        "titles": ["Overworld magic casters"],
+        "template": "caster disabled when hp <= 0",
+        "fullName": "Overworld magic casters caster disabled when hp <= 0"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.test.ts",
+        "ordinal": 4,
+        "fullName": "createInGameMagicMenu partyMembers snapshot 隔离"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.casters.test.ts",
+        "titles": ["Overworld magic casters"],
+        "template": "partyMembers snapshot 隔离",
+        "fullName": "Overworld magic casters partyMembers snapshot 隔离"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.test.ts",
+        "ordinal": 5,
+        "fullName": "confirmCaster Confirm caster → phase=pick-spell,spellMenu 建好"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.casters.test.ts",
+        "titles": ["Overworld magic casters"],
+        "template": "Confirm caster → phase=pick-spell,spellMenu 建好",
+        "fullName": "Overworld magic casters Confirm caster → phase=pick-spell,spellMenu 建好"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.test.ts",
+        "ordinal": 6,
+        "fullName": "confirmCaster L37:无大世界法术 caster(林月如)选中后仍进 pick-spell(C 进空/全灰列表再取消),非 noop"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.casters.test.ts",
+        "titles": ["Overworld magic casters"],
+        "template": "无大世界法术 caster(林月如)选中后仍进 pick-spell(C 进空/全灰列表再取消),非 noop",
+        "fullName": "Overworld magic casters 无大世界法术 caster(林月如)选中后仍进 pick-spell(C 进空/全灰列表再取消),非 noop"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.test.ts",
+        "ordinal": 7,
+        "fullName": "confirmCaster Confirm 死 caster → noop"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.casters.test.ts",
+        "titles": ["Overworld magic casters"],
+        "template": "Confirm 死 caster → noop",
+        "fullName": "Overworld magic casters Confirm 死 caster → noop"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.test.ts",
+        "ordinal": 8,
+        "fullName": "confirmSpell Confirm single-target spell(气疗术)→ phase=pick-target,返回 sel"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.requests.test.ts",
+        "titles": ["Overworld magic requests"],
+        "template": "Confirm single-target spell(气疗术)→ phase=pick-target,返回 sel",
+        "fullName": "Overworld magic requests Confirm single-target spell(气疗术)→ phase=pick-target,返回 sel"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.test.ts",
+        "ordinal": 9,
+        "fullName": "confirmSpell Confirm applyToAll spell(灵儿的五气朝元)→ phase 留 pick-spell,sel.applyToAll=true"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.requests.test.ts",
+        "titles": ["Overworld magic requests"],
+        "template": "Confirm applyToAll spell(灵儿的五气朝元)→ phase 留 pick-spell,sel.applyToAll=true",
+        "fullName": "Overworld magic requests Confirm applyToAll spell(灵儿的五气朝元)→ phase 留 pick-spell,sel.applyToAll=true"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.test.ts",
+        "ordinal": 10,
+        "fullName": "confirmSpell Confirm disabled spell(MP 不够)→ 返回 null"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.requests.test.ts",
+        "titles": ["Overworld magic requests"],
+        "template": "重建缺失法术列表后，MP不足的法术不可确认",
+        "fullName": "Overworld magic requests 重建缺失法术列表后，MP不足的法术不可确认"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.test.ts",
+        "ordinal": 11,
+        "fullName": "confirmTarget 返回 {spellId, casterId, targetRoleId, costMP}"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.requests.test.ts",
+        "titles": ["Overworld magic requests"],
+        "template": "返回 {spellId, casterId, targetRoleId, costMP}",
+        "fullName": "Overworld magic requests 返回 {spellId, casterId, targetRoleId, costMP}"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.test.ts",
+        "ordinal": 12,
+        "fullName": "confirmTarget phase!=pick-target → 返回 null"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.requests.test.ts",
+        "titles": ["Overworld magic requests"],
+        "template": "phase!=pick-target → 返回 null",
+        "fullName": "Overworld magic requests phase!=pick-target → 返回 null"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.test.ts",
+        "ordinal": 13,
+        "fullName": "cancelInGameMagic pick-target → pick-spell(保留 caster + spellMenu)"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.lifecycle.test.ts",
+        "titles": ["Overworld magic lifecycle"],
+        "template": "pick-target → pick-spell(保留 caster + spellMenu)",
+        "fullName": "Overworld magic lifecycle pick-target → pick-spell(保留 caster + spellMenu)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.test.ts",
+        "ordinal": 14,
+        "fullName": "cancelInGameMagic L35:pick-spell Cancel → done 关菜单回大世界(C 仙术列表 Cancel=break while=return,uigame.c:733-736)"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.lifecycle.test.ts",
+        "titles": ["Overworld magic lifecycle"],
+        "template": "pick-spell Cancel → done 关菜单回大世界(C 仙术列表 Cancel=break while=return,uigame.c:733-736)",
+        "fullName": "Overworld magic lifecycle pick-spell Cancel → done 关菜单回大世界(C 仙术列表 Cancel=break while=return,uigame.c:733-736)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.test.ts",
+        "ordinal": 15,
+        "fullName": "cancelInGameMagic pick-caster → done(关菜单)"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.lifecycle.test.ts",
+        "titles": ["Overworld magic lifecycle"],
+        "template": "pick-caster → done(关菜单)",
+        "fullName": "Overworld magic lifecycle pick-caster → done(关菜单)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.test.ts",
+        "ordinal": 16,
+        "fullName": "inGameMagicMove* on pick-target Up 边界 noop(不 wrap;sdlpal `if (wPlayer > 0) wPlayer--`)"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.navigation.test.ts",
+        "titles": ["Overworld magic navigation"],
+        "template": "Up 边界 noop(不 wrap;sdlpal `if (wPlayer > 0) wPlayer--`)",
+        "fullName": "Overworld magic navigation Up 边界 noop(不 wrap;sdlpal `if (wPlayer > 0) wPlayer--`)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.test.ts",
+        "ordinal": 17,
+        "fullName": "inGameMagicMove* on pick-target Down 边界 noop(不 wrap;sdlpal `if (wPlayer < wMaxPartyMemberIndex) wPlayer++`)"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.navigation.test.ts",
+        "titles": ["Overworld magic navigation"],
+        "template": "Down 边界 noop(不 wrap;sdlpal `if (wPlayer < wMaxPartyMemberIndex) wPlayer++`)",
+        "fullName": "Overworld magic navigation Down 边界 noop(不 wrap;sdlpal `if (wPlayer < wMaxPartyMemberIndex) wPlayer++`)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.test.ts",
+        "ordinal": 18,
+        "fullName": "inGameMagicMove* on pick-target Up 中间 → cursor--"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.navigation.test.ts",
+        "titles": ["Overworld magic navigation"],
+        "template": "Up 中间 → cursor--",
+        "fullName": "Overworld magic navigation Up 中间 → cursor--"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.test.ts",
+        "ordinal": 19,
+        "fullName": "inGameMagicMove* on pick-target Down 中间 → cursor++"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.navigation.test.ts",
+        "titles": ["Overworld magic navigation"],
+        "template": "Down 中间 → cursor++",
+        "fullName": "Overworld magic navigation Down 中间 → cursor++"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.test.ts",
+        "ordinal": 20,
+        "fullName": "L38:inGameMagicMove* on pick-spell grid Up/Down 按 3 列网格移动并 clamp,不 wrap"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.navigation.test.ts",
+        "titles": ["Overworld magic navigation"],
+        "template": "Up/Down 按 3 列网格移动并 clamp,不 wrap",
+        "fullName": "Overworld magic navigation Up/Down 按 3 列网格移动并 clamp,不 wrap"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.test.ts",
+        "ordinal": 21,
+        "fullName": "L38:inGameMagicMove* on pick-spell grid Left/Right 逐项移动并 clamp,不跳 disabled"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.navigation.test.ts",
+        "titles": ["Overworld magic navigation"],
+        "template": "Left/Right 逐项移动并 clamp,不跳 disabled",
+        "fullName": "Overworld magic navigation Left/Right 逐项移动并 clamp,不跳 disabled"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.test.ts",
+        "ordinal": 22,
+        "fullName": "L38:inGameMagicMove* on pick-spell grid PgUp/PgDn/Home/End 按 magicmenu.c 网格语义 clamp"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.navigation.test.ts",
+        "titles": ["Overworld magic navigation"],
+        "template": "PgUp/PgDn/Home/End 按 magicmenu.c 网格语义 clamp",
+        "fullName": "Overworld magic navigation PgUp/PgDn/Home/End 按 magicmenu.c 网格语义 clamp"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.test.ts",
+        "ordinal": 23,
+        "fullName": "refreshSpellMenu MP 不足后 spell disabled,保留 cursor 在原 spell"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.lifecycle.test.ts",
+        "titles": ["Overworld magic lifecycle"],
+        "template": "MP 不足后 spell disabled,保留 cursor 在原 spell",
+        "fullName": "Overworld magic lifecycle MP 不足后 spell disabled,保留 cursor 在原 spell"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.test.ts",
+        "ordinal": 24,
+        "fullName": "outside-battle filter 飞龙探云手(battle-only)不出现 outside spell list"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.casters.test.ts",
+        "titles": ["Overworld magic casters"],
+        "template": "飞龙探云手(battle-only)不出现 outside spell list",
+        "fullName": "Overworld magic casters 飞龙探云手(battle-only)不出现 outside spell list"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.boundaries.test.ts",
+        "ordinal": 0,
+        "fullName": "G05 in-game-magic-menu 状态机 单人队直进 pick-spell；applyToAll 留相/单体切 pick-target；非顺序 party 返回 roleId"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.requests.test.ts",
+        "titles": ["Overworld magic requests"],
+        "template": "单人队直进 pick-spell；applyToAll 留相/单体切 pick-target；非顺序 party 返回 roleId",
+        "fullName": "Overworld magic requests 单人队直进 pick-spell；applyToAll 留相/单体切 pick-target；非顺序 party 返回 roleId"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.boundaries.test.ts",
+        "ordinal": 1,
+        "fullName": "G05 in-game-magic-menu 状态机 非顺序 party 双人 target roleId 非 cursor；错 phase 零请求；refresh cursor 落回上次 spell"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.requests.test.ts",
+        "titles": ["Overworld magic requests"],
+        "template": "非顺序 party 双人 target roleId 非 cursor；错 phase 零请求；refresh cursor 落回上次 spell",
+        "fullName": "Overworld magic requests 非顺序 party 双人 target roleId 非 cursor；错 phase 零请求；refresh cursor 落回上次 spell"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.glm-phase1-leaves.test.ts",
+        "ordinal": 0,
+        "fullName": "L02 DL22 施法人光标跨开启记忆（uigame.c:674/719 static w） 确认即记忆；再开菜单默认停回上次施法人"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.casters.test.ts",
+        "titles": ["Overworld magic casters"],
+        "template": "确认即记忆；再开菜单默认停回上次施法人",
+        "fullName": "Overworld magic casters 确认即记忆；再开菜单默认停回上次施法人"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.glm-phase1-leaves.test.ts",
+        "ordinal": 1,
+        "fullName": "L02 DL22 施法人光标跨开启记忆（uigame.c:674/719 static w） 越界（上次光标 ≥ 队伍人数）→ 保持建表默认 0"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.casters.test.ts",
+        "titles": ["Overworld magic casters"],
+        "template": "越界（上次光标 ≥ 队伍人数）→ 保持建表默认 0",
+        "fullName": "Overworld magic casters 越界（上次光标 ≥ 队伍人数）→ 保持建表默认 0"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.glm-phase1-leaves.test.ts",
+        "ordinal": 2,
+        "fullName": "L02 建表与错相合同 partyMembers 含 roles 缺失的 id → 建表剔除（!role 过滤分支）"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.casters.test.ts",
+        "titles": ["Overworld magic casters"],
+        "template": "partyMembers 含 roles 缺失的 id → 建表剔除（!role 过滤分支）",
+        "fullName": "Overworld magic casters partyMembers 含 roles 缺失的 id → 建表剔除（!role 过滤分支）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.glm-phase1-leaves.test.ts",
+        "ordinal": 3,
+        "fullName": "L02 建表与错相合同 错相 confirmCaster 零请求：pick-spell 相调用不重建 spellMenu"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.casters.test.ts",
+        "titles": ["Overworld magic casters"],
+        "template": "pick-spell 相 confirmCaster 保留原 spellMenu 与 phase",
+        "fullName": "Overworld magic casters pick-spell 相 confirmCaster 保留原 spellMenu 与 phase"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.glm-phase1-leaves.test.ts",
+        "ordinal": 4,
+        "fullName": "L02 建表与错相合同 单人队死亡成员仍直进 pick-spell（uigame.c:677-681 快速道不检 HP）"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.casters.test.ts",
+        "titles": ["Overworld magic casters"],
+        "template": "单人队死亡成员仍直进 pick-spell（uigame.c:677-681 快速道不检 HP）",
+        "fullName": "Overworld magic casters 单人队死亡成员仍直进 pick-spell（uigame.c:677-681 快速道不检 HP）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.glm-phase1-leaves.test.ts",
+        "ordinal": 5,
+        "fullName": "L02 空 spellMenu 导航兜底（moveSpellGrid n===0 分支） 无法术 caster 进 pick-spell 后八向/翻页/Home/End 全不抛错、cursor 恒 0"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.navigation.test.ts",
+        "titles": ["Overworld magic navigation"],
+        "template": "无法术 caster 进 pick-spell 后八向/翻页/Home/End 全不抛错、cursor 恒 0",
+        "fullName": "Overworld magic navigation 无法术 caster 进 pick-spell 后八向/翻页/Home/End 全不抛错、cursor 恒 0"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.glm-phase1-leaves.test.ts",
+        "ordinal": 6,
+        "fullName": "L02 pick-target Left/Right 与非 pick-spell 相翻页零触达 pick-target：Left/Right 移动且边界 noop（与 Up/Down 同合同）"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.navigation.test.ts",
+        "titles": ["Overworld magic navigation"],
+        "template": "pick-target：Left/Right 移动且边界 noop（与 Up/Down 同合同）",
+        "fullName": "Overworld magic navigation pick-target：Left/Right 移动且边界 noop（与 Up/Down 同合同）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.glm-phase1-leaves.test.ts",
+        "ordinal": 7,
+        "fullName": "L02 pick-target Left/Right 与非 pick-spell 相翻页零触达 pick-caster 相 PageUp/PageDown/Home/End 不动 casterMenu"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.navigation.test.ts",
+        "titles": ["Overworld magic navigation"],
+        "template": "pick-caster 相 PageUp/PageDown/Home/End 不动 casterMenu",
+        "fullName": "Overworld magic navigation pick-caster 相 PageUp/PageDown/Home/End 不动 casterMenu"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.glm-phase1-leaves.test.ts",
+        "ordinal": 8,
+        "fullName": "L02 pick-target Left/Right 与非 pick-spell 相翻页零触达 pick-target 相 Home/End 不动 targetCursor"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.navigation.test.ts",
+        "titles": ["Overworld magic navigation"],
+        "template": "pick-target 相 Home/End 不动 targetCursor",
+        "fullName": "Overworld magic navigation pick-target 相 Home/End 不动 targetCursor"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.glm-phase1-leaves.test.ts",
+        "ordinal": 9,
+        "fullName": "L02 关闭后 refresh / cancel 幂等 pick-spell Cancel 关菜单后 refreshSpellMenu 不复活 spellMenu（防御分支）"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.lifecycle.test.ts",
+        "titles": ["Overworld magic lifecycle"],
+        "template": "pick-spell Cancel 关菜单后 refreshSpellMenu 不复活 spellMenu（防御分支）",
+        "fullName": "Overworld magic lifecycle pick-spell Cancel 关菜单后 refreshSpellMenu 不复活 spellMenu（防御分支）"
+      }
+    }
+  ],
+  "identities": [
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.boundaries.test.ts",
+        "fullName": "G05 in-game-magic-menu 状态机 单人队直进 pick-spell；applyToAll 留相/单体切 pick-target；非顺序 party 返回 roleId"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.requests.test.ts",
+        "fullName": "Overworld magic requests 单人队直进 pick-spell；applyToAll 留相/单体切 pick-target；非顺序 party 返回 roleId"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.boundaries.test.ts",
+        "fullName": "G05 in-game-magic-menu 状态机 非顺序 party 双人 target roleId 非 cursor；错 phase 零请求；refresh cursor 落回上次 spell"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.requests.test.ts",
+        "fullName": "Overworld magic requests 非顺序 party 双人 target roleId 非 cursor；错 phase 零请求；refresh cursor 落回上次 spell"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.glm-phase1-leaves.test.ts",
+        "fullName": "L02 DL22 施法人光标跨开启记忆（uigame.c:674/719 static w） 确认即记忆；再开菜单默认停回上次施法人"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.casters.test.ts",
+        "fullName": "Overworld magic casters 确认即记忆；再开菜单默认停回上次施法人"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.glm-phase1-leaves.test.ts",
+        "fullName": "L02 DL22 施法人光标跨开启记忆（uigame.c:674/719 static w） 越界（上次光标 ≥ 队伍人数）→ 保持建表默认 0"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.casters.test.ts",
+        "fullName": "Overworld magic casters 越界（上次光标 ≥ 队伍人数）→ 保持建表默认 0"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.glm-phase1-leaves.test.ts",
+        "fullName": "L02 建表与错相合同 partyMembers 含 roles 缺失的 id → 建表剔除（!role 过滤分支）"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.casters.test.ts",
+        "fullName": "Overworld magic casters partyMembers 含 roles 缺失的 id → 建表剔除（!role 过滤分支）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.glm-phase1-leaves.test.ts",
+        "fullName": "L02 建表与错相合同 错相 confirmCaster 零请求：pick-spell 相调用不重建 spellMenu"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.casters.test.ts",
+        "fullName": "Overworld magic casters pick-spell 相 confirmCaster 保留原 spellMenu 与 phase"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.glm-phase1-leaves.test.ts",
+        "fullName": "L02 建表与错相合同 单人队死亡成员仍直进 pick-spell（uigame.c:677-681 快速道不检 HP）"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.casters.test.ts",
+        "fullName": "Overworld magic casters 单人队死亡成员仍直进 pick-spell（uigame.c:677-681 快速道不检 HP）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.glm-phase1-leaves.test.ts",
+        "fullName": "L02 空 spellMenu 导航兜底（moveSpellGrid n===0 分支） 无法术 caster 进 pick-spell 后八向/翻页/Home/End 全不抛错、cursor 恒 0"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.navigation.test.ts",
+        "fullName": "Overworld magic navigation 无法术 caster 进 pick-spell 后八向/翻页/Home/End 全不抛错、cursor 恒 0"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.glm-phase1-leaves.test.ts",
+        "fullName": "L02 pick-target Left/Right 与非 pick-spell 相翻页零触达 pick-target：Left/Right 移动且边界 noop（与 Up/Down 同合同）"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.navigation.test.ts",
+        "fullName": "Overworld magic navigation pick-target：Left/Right 移动且边界 noop（与 Up/Down 同合同）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.glm-phase1-leaves.test.ts",
+        "fullName": "L02 pick-target Left/Right 与非 pick-spell 相翻页零触达 pick-caster 相 PageUp/PageDown/Home/End 不动 casterMenu"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.navigation.test.ts",
+        "fullName": "Overworld magic navigation pick-caster 相 PageUp/PageDown/Home/End 不动 casterMenu"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.glm-phase1-leaves.test.ts",
+        "fullName": "L02 pick-target Left/Right 与非 pick-spell 相翻页零触达 pick-target 相 Home/End 不动 targetCursor"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.navigation.test.ts",
+        "fullName": "Overworld magic navigation pick-target 相 Home/End 不动 targetCursor"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.glm-phase1-leaves.test.ts",
+        "fullName": "L02 关闭后 refresh / cancel 幂等 pick-spell Cancel 关菜单后 refreshSpellMenu 不复活 spellMenu（防御分支）"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.lifecycle.test.ts",
+        "fullName": "Overworld magic lifecycle pick-spell Cancel 关菜单后 refreshSpellMenu 不复活 spellMenu（防御分支）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.test.ts",
+        "fullName": "createInGameMagicMenu phase 起始 pick-caster + casterMenu 含 partyMembers"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.casters.test.ts",
+        "fullName": "Overworld magic casters phase 起始 pick-caster + casterMenu 含 partyMembers"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.test.ts",
+        "fullName": "createInGameMagicMenu L41:单人队伍 → 直接 pick-spell(跳过选施法人,uigame.c:677-681)"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.casters.test.ts",
+        "fullName": "Overworld magic casters 单人队伍 → 直接 pick-spell(跳过选施法人,uigame.c:677-681)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.test.ts",
+        "fullName": "createInGameMagicMenu L37:活人无 outside-battle 法术仍可选(林月如),C 只判 HP>0(uigame.c:707-708)"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.casters.test.ts",
+        "fullName": "Overworld magic casters 活人无 outside-battle 法术仍可选(林月如),C 只判 HP>0(uigame.c:707-708)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.test.ts",
+        "fullName": "createInGameMagicMenu caster disabled when hp <= 0"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.casters.test.ts",
+        "fullName": "Overworld magic casters caster disabled when hp <= 0"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.test.ts",
+        "fullName": "createInGameMagicMenu partyMembers snapshot 隔离"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.casters.test.ts",
+        "fullName": "Overworld magic casters partyMembers snapshot 隔离"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.test.ts",
+        "fullName": "confirmCaster Confirm caster → phase=pick-spell,spellMenu 建好"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.casters.test.ts",
+        "fullName": "Overworld magic casters Confirm caster → phase=pick-spell,spellMenu 建好"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.test.ts",
+        "fullName": "confirmCaster L37:无大世界法术 caster(林月如)选中后仍进 pick-spell(C 进空/全灰列表再取消),非 noop"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.casters.test.ts",
+        "fullName": "Overworld magic casters 无大世界法术 caster(林月如)选中后仍进 pick-spell(C 进空/全灰列表再取消),非 noop"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.test.ts",
+        "fullName": "confirmCaster Confirm 死 caster → noop"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.casters.test.ts",
+        "fullName": "Overworld magic casters Confirm 死 caster → noop"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.test.ts",
+        "fullName": "confirmSpell Confirm single-target spell(气疗术)→ phase=pick-target,返回 sel"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.requests.test.ts",
+        "fullName": "Overworld magic requests Confirm single-target spell(气疗术)→ phase=pick-target,返回 sel"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.test.ts",
+        "fullName": "confirmSpell Confirm applyToAll spell(灵儿的五气朝元)→ phase 留 pick-spell,sel.applyToAll=true"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.requests.test.ts",
+        "fullName": "Overworld magic requests Confirm applyToAll spell(灵儿的五气朝元)→ phase 留 pick-spell,sel.applyToAll=true"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.test.ts",
+        "fullName": "confirmSpell Confirm disabled spell(MP 不够)→ 返回 null"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.requests.test.ts",
+        "fullName": "Overworld magic requests 重建缺失法术列表后，MP不足的法术不可确认"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.test.ts",
+        "fullName": "confirmTarget 返回 {spellId, casterId, targetRoleId, costMP}"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.requests.test.ts",
+        "fullName": "Overworld magic requests 返回 {spellId, casterId, targetRoleId, costMP}"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.test.ts",
+        "fullName": "confirmTarget phase!=pick-target → 返回 null"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.requests.test.ts",
+        "fullName": "Overworld magic requests phase!=pick-target → 返回 null"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.test.ts",
+        "fullName": "cancelInGameMagic pick-target → pick-spell(保留 caster + spellMenu)"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.lifecycle.test.ts",
+        "fullName": "Overworld magic lifecycle pick-target → pick-spell(保留 caster + spellMenu)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.test.ts",
+        "fullName": "cancelInGameMagic L35:pick-spell Cancel → done 关菜单回大世界(C 仙术列表 Cancel=break while=return,uigame.c:733-736)"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.lifecycle.test.ts",
+        "fullName": "Overworld magic lifecycle pick-spell Cancel → done 关菜单回大世界(C 仙术列表 Cancel=break while=return,uigame.c:733-736)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.test.ts",
+        "fullName": "cancelInGameMagic pick-caster → done(关菜单)"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.lifecycle.test.ts",
+        "fullName": "Overworld magic lifecycle pick-caster → done(关菜单)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.test.ts",
+        "fullName": "inGameMagicMove* on pick-target Up 边界 noop(不 wrap;sdlpal `if (wPlayer > 0) wPlayer--`)"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.navigation.test.ts",
+        "fullName": "Overworld magic navigation Up 边界 noop(不 wrap;sdlpal `if (wPlayer > 0) wPlayer--`)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.test.ts",
+        "fullName": "inGameMagicMove* on pick-target Down 边界 noop(不 wrap;sdlpal `if (wPlayer < wMaxPartyMemberIndex) wPlayer++`)"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.navigation.test.ts",
+        "fullName": "Overworld magic navigation Down 边界 noop(不 wrap;sdlpal `if (wPlayer < wMaxPartyMemberIndex) wPlayer++`)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.test.ts",
+        "fullName": "inGameMagicMove* on pick-target Up 中间 → cursor--"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.navigation.test.ts",
+        "fullName": "Overworld magic navigation Up 中间 → cursor--"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.test.ts",
+        "fullName": "inGameMagicMove* on pick-target Down 中间 → cursor++"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.navigation.test.ts",
+        "fullName": "Overworld magic navigation Down 中间 → cursor++"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.test.ts",
+        "fullName": "L38:inGameMagicMove* on pick-spell grid Up/Down 按 3 列网格移动并 clamp,不 wrap"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.navigation.test.ts",
+        "fullName": "Overworld magic navigation Up/Down 按 3 列网格移动并 clamp,不 wrap"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.test.ts",
+        "fullName": "L38:inGameMagicMove* on pick-spell grid Left/Right 逐项移动并 clamp,不跳 disabled"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.navigation.test.ts",
+        "fullName": "Overworld magic navigation Left/Right 逐项移动并 clamp,不跳 disabled"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.test.ts",
+        "fullName": "L38:inGameMagicMove* on pick-spell grid PgUp/PgDn/Home/End 按 magicmenu.c 网格语义 clamp"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.navigation.test.ts",
+        "fullName": "Overworld magic navigation PgUp/PgDn/Home/End 按 magicmenu.c 网格语义 clamp"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.test.ts",
+        "fullName": "refreshSpellMenu MP 不足后 spell disabled,保留 cursor 在原 spell"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.lifecycle.test.ts",
+        "fullName": "Overworld magic lifecycle MP 不足后 spell disabled,保留 cursor 在原 spell"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.test.ts",
+        "fullName": "outside-battle filter 飞龙探云手(battle-only)不出现 outside spell list"
+      },
+      "current": {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.casters.test.ts",
+        "fullName": "Overworld magic casters 飞龙探云手(battle-only)不出现 outside spell list"
+      }
+    }
+  ],
+  "retirements": [],
+  "cohortSubjects": [
+    {
+      "path": "packages/game/src/core/menu/in-game-magic-menu.glm-phase1-leaves.test.ts",
+      "sha256": "927a9fc1ee6696b4d632a7932b04847c72dd74d13df6788274b61a4b44da2abe",
+      "priorCurrentBridges": []
+    }
+  ],
+  "profiles": [
+    {
+      "path": "packages/game/src/core/menu/in-game-magic-menu.casters.test.ts",
+      "subjects": ["packages/game/src/core/menu/in-game-magic-menu.glm-phase1-leaves.test.ts"],
+      "axes": {
+        "A": "Caster availability, single-party bypass, public memory and constructor ownership; 14 cases.",
+        "B": "Remove author/coverage labels and misleading zero-request title for void confirmCaster. Correct supplied ObjectIDs; source header now bounds state/request vs driver/render ownership, and cursor setter is called inside confirmCaster, not directly by dispatcher.",
+        "C": "Pure catalog plus real create/confirm; catalog constant mutability remains same as original.",
+        "D": "Three catalogs kept distinct: overlapping IDs have different applyToAll/cost contracts. Reuse existing complete role/cost builders after full object/own-key checks. Four fixed-three-party progression helpers share two actual scenarios after whole-state comparison, not arbitrary-input equivalence.",
+        "E": "37-to-37 native identity bijection. All callback typed trees equal after binding renames and three explicit deltas: valid party reverse, explicit missing list, selected ID301 oracle. Empty-list/-1 mutant passes old case and fails exactly new business assertion; exact source/test restoration. 147 neighbors and game TC0.",
+        "F": "Files name caster/request/navigation/lifecycle responsibilities. Private menu/request/groupSpellIndex/healingSpellIndex/fundedCasterMenu names replace opaque abbreviations; public property names and literal business oracles preserved.",
+        "G": "Three mixed specs become four coherent specs and two reused providers. No product API/export/parameter retirement. Provider exports all used; no universal mode helper or extra wrapper for one assertion. No fixture, assertion or test contract retired.",
+        "H": "Real public synchronous transitions and explicit typed catalogs, independent returned requests/phase/ID literals. Deterministic public memory reset owned by specs. Complete-record and state probes are not registered tests/coverage; statically valid fixtures verified by game TC."
+      }
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-magic-menu.requests.test.ts",
+      "subjects": ["packages/game/src/core/menu/in-game-magic-menu.glm-phase1-leaves.test.ts"],
+      "axes": {
+        "A": "Returned single/all requests, wrong phase, MP disable and actual selected ID restoration; 7 cases.",
+        "B": "Remove author/coverage labels and misleading zero-request title for void confirmCaster. Correct supplied ObjectIDs; source header now bounds state/request vs driver/render ownership, and cursor setter is called inside confirmCaster, not directly by dispatcher.",
+        "C": "Two original catalog contracts remain separate; request boundary input is not merged with opposite target flags.",
+        "D": "Three catalogs kept distinct: overlapping IDs have different applyToAll/cost contracts. Reuse existing complete role/cost builders after full object/own-key checks. Four fixed-three-party progression helpers share two actual scenarios after whole-state comparison, not arbitrary-input equivalence.",
+        "E": "37-to-37 native identity bijection. All callback typed trees equal after binding renames and three explicit deltas: valid party reverse, explicit missing list, selected ID301 oracle. Empty-list/-1 mutant passes old case and fails exactly new business assertion; exact source/test restoration. 147 neighbors and game TC0.",
+        "F": "Files name caster/request/navigation/lifecycle responsibilities. Private menu/request/groupSpellIndex/healingSpellIndex/fundedCasterMenu names replace opaque abbreviations; public property names and literal business oracles preserved.",
+        "G": "Three mixed specs become four coherent specs and two reused providers. No product API/export/parameter retirement. Provider exports all used; no universal mode helper or extra wrapper for one assertion. No fixture, assertion or test contract retired.",
+        "H": "Real public synchronous transitions and explicit typed catalogs, independent returned requests/phase/ID literals. Deterministic public memory reset owned by specs. Complete-record and state probes are not registered tests/coverage; statically valid fixtures verified by game TC."
+      }
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-magic-menu.navigation.test.ts",
+      "subjects": ["packages/game/src/core/menu/in-game-magic-menu.glm-phase1-leaves.test.ts"],
+      "axes": {
+        "A": "Clamped target/grid navigation, home/end/page and wrong-phase no-op; 11 cases.",
+        "B": "Remove author/coverage labels and misleading zero-request title for void confirmCaster. Correct supplied ObjectIDs; source header now bounds state/request vs driver/render ownership, and cursor setter is called inside confirmCaster, not directly by dispatcher.",
+        "C": "Distinct targeting chooseTargetingSpell body conserved; public memory hooks remain per file.",
+        "D": "Three catalogs kept distinct: overlapping IDs have different applyToAll/cost contracts. Reuse existing complete role/cost builders after full object/own-key checks. Four fixed-three-party progression helpers share two actual scenarios after whole-state comparison, not arbitrary-input equivalence.",
+        "E": "37-to-37 native identity bijection. All callback typed trees equal after binding renames and three explicit deltas: valid party reverse, explicit missing list, selected ID301 oracle. Empty-list/-1 mutant passes old case and fails exactly new business assertion; exact source/test restoration. 147 neighbors and game TC0.",
+        "F": "Files name caster/request/navigation/lifecycle responsibilities. Private menu/request/groupSpellIndex/healingSpellIndex/fundedCasterMenu names replace opaque abbreviations; public property names and literal business oracles preserved.",
+        "G": "Three mixed specs become four coherent specs and two reused providers. No product API/export/parameter retirement. Provider exports all used; no universal mode helper or extra wrapper for one assertion. No fixture, assertion or test contract retired.",
+        "H": "Real public synchronous transitions and explicit typed catalogs, independent returned requests/phase/ID literals. Deterministic public memory reset owned by specs. Complete-record and state probes are not registered tests/coverage; statically valid fixtures verified by game TC."
+      }
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-magic-menu.lifecycle.test.ts",
+      "subjects": ["packages/game/src/core/menu/in-game-magic-menu.glm-phase1-leaves.test.ts"],
+      "axes": {
+        "A": "Cancel and refresh phase/selection cleanup including done no-op; 5 cases.",
+        "B": "Remove author/coverage labels and misleading zero-request title for void confirmCaster. Correct supplied ObjectIDs; source header now bounds state/request vs driver/render ownership, and cursor setter is called inside confirmCaster, not directly by dispatcher.",
+        "C": "Real public phases with before/after memory cleanup, no renderer/IO mock.",
+        "D": "Three catalogs kept distinct: overlapping IDs have different applyToAll/cost contracts. Reuse existing complete role/cost builders after full object/own-key checks. Four fixed-three-party progression helpers share two actual scenarios after whole-state comparison, not arbitrary-input equivalence.",
+        "E": "37-to-37 native identity bijection. All callback typed trees equal after binding renames and three explicit deltas: valid party reverse, explicit missing list, selected ID301 oracle. Empty-list/-1 mutant passes old case and fails exactly new business assertion; exact source/test restoration. 147 neighbors and game TC0.",
+        "F": "Files name caster/request/navigation/lifecycle responsibilities. Private menu/request/groupSpellIndex/healingSpellIndex/fundedCasterMenu names replace opaque abbreviations; public property names and literal business oracles preserved.",
+        "G": "Three mixed specs become four coherent specs and two reused providers. No product API/export/parameter retirement. Provider exports all used; no universal mode helper or extra wrapper for one assertion. No fixture, assertion or test contract retired.",
+        "H": "Real public synchronous transitions and explicit typed catalogs, independent returned requests/phase/ID literals. Deterministic public memory reset owned by specs. Complete-record and state probes are not registered tests/coverage; statically valid fixtures verified by game TC."
+      }
+    },
+    {
+      "path": "packages/game/src/core/menu/__tests__/magic-menu-catalog.ts",
+      "subjects": ["packages/game/src/core/menu/in-game-magic-menu.glm-phase1-leaves.test.ts"],
+      "axes": {
+        "A": "8 complete role records,10 spells,10 magics plus5 custom caster calls match old. Borrowed magic arrays and absent _name own keys preserved.",
+        "B": "Remove author/coverage labels and misleading zero-request title for void confirmCaster. Correct supplied ObjectIDs; source header now bounds state/request vs driver/render ownership, and cursor setter is called inside confirmCaster, not directly by dispatcher.",
+        "C": "Pure typed record providers; existing makeRoleRecord reused, no Vitest/global setter/SUT import.",
+        "D": "Three catalogs kept distinct: overlapping IDs have different applyToAll/cost contracts. Reuse existing complete role/cost builders after full object/own-key checks. Four fixed-three-party progression helpers share two actual scenarios after whole-state comparison, not arbitrary-input equivalence.",
+        "E": "37-to-37 native identity bijection. All callback typed trees equal after binding renames and three explicit deltas: valid party reverse, explicit missing list, selected ID301 oracle. Empty-list/-1 mutant passes old case and fails exactly new business assertion; exact source/test restoration. 147 neighbors and game TC0.",
+        "F": "Files name caster/request/navigation/lifecycle responsibilities. Private menu/request/groupSpellIndex/healingSpellIndex/fundedCasterMenu names replace opaque abbreviations; public property names and literal business oracles preserved.",
+        "G": "Three mixed specs become four coherent specs and two reused providers. No product API/export/parameter retirement. Provider exports all used; no universal mode helper or extra wrapper for one assertion. No fixture, assertion or test contract retired.",
+        "H": "Real public synchronous transitions and explicit typed catalogs, independent returned requests/phase/ID literals. Deterministic public memory reset owned by specs. Complete-record and state probes are not registered tests/coverage; statically valid fixtures verified by game TC."
+      }
+    },
+    {
+      "path": "packages/game/src/core/menu/__tests__/magic-menu-scenario.ts",
+      "subjects": ["packages/game/src/core/menu/in-game-magic-menu.glm-phase1-leaves.test.ts"],
+      "axes": {
+        "A": "Four old public-progression helper results match current two scenarios for the actual fixed three-member domain.",
+        "B": "Remove author/coverage labels and misleading zero-request title for void confirmCaster. Correct supplied ObjectIDs; source header now bounds state/request vs driver/render ownership, and cursor setter is called inside confirmCaster, not directly by dispatcher.",
+        "C": "Only public constructor/confirm calls. No hidden hooks or static-state cleanup; specs own memory lifecycle.",
+        "D": "Three catalogs kept distinct: overlapping IDs have different applyToAll/cost contracts. Reuse existing complete role/cost builders after full object/own-key checks. Four fixed-three-party progression helpers share two actual scenarios after whole-state comparison, not arbitrary-input equivalence.",
+        "E": "37-to-37 native identity bijection. All callback typed trees equal after binding renames and three explicit deltas: valid party reverse, explicit missing list, selected ID301 oracle. Empty-list/-1 mutant passes old case and fails exactly new business assertion; exact source/test restoration. 147 neighbors and game TC0.",
+        "F": "Files name caster/request/navigation/lifecycle responsibilities. Private menu/request/groupSpellIndex/healingSpellIndex/fundedCasterMenu names replace opaque abbreviations; public property names and literal business oracles preserved.",
+        "G": "Three mixed specs become four coherent specs and two reused providers. No product API/export/parameter retirement. Provider exports all used; no universal mode helper or extra wrapper for one assertion. No fixture, assertion or test contract retired.",
+        "H": "Real public synchronous transitions and explicit typed catalogs, independent returned requests/phase/ID literals. Deterministic public memory reset owned by specs. Complete-record and state probes are not registered tests/coverage; statically valid fixtures verified by game TC."
+      }
+    }
+  ],
+  "commentRepair": {
+    "input": {
+      "path": "packages/game/src/core/menu/in-game-magic-menu.ts",
+      "member": "organization-magic-menu-state/3.before",
+      "sha256": "33ef8d4a1e71537533ebb38b799642f903b23c6f50ba53ae7ae30059d61ab14f",
+      "lines": 306
+    },
+    "output": {
+      "path": "packages/game/src/core/menu/in-game-magic-menu.ts",
+      "sha256": "5f5409e405f2121c6f02acf705df7480e96aedd733c0f8c95d734e2ed4514ad5",
+      "lines": 287
+    },
+    "profile": {
+      "path": "packages/game/src/core/menu/in-game-magic-menu.ts",
+      "axes": {
+        "A": "Complete original306-line module and real driver route read; prior exact-source menu-core-closeout A-E/H reused. Full recursive typed AST identical including exports/const-let flags. No implementation or public signature changes.",
+        "B": "Remove author/coverage labels and misleading zero-request title for void confirmCaster. Correct supplied ObjectIDs; source header now bounds state/request vs driver/render ownership, and cursor setter is called inside confirmCaster, not directly by dispatcher.",
+        "C": "Separate caster14/request7/navigation11/lifecycle5. Specs own before/after public cursor-memory reset; catalog constructs records only, scenario invokes public phases only. Dispatcher retains script execution/MP payment and renderer remains outside these tests.",
+        "D": "Three catalogs kept distinct: overlapping IDs have different applyToAll/cost contracts. Reuse existing complete role/cost builders after full object/own-key checks. Four fixed-three-party progression helpers share two actual scenarios after whole-state comparison, not arbitrary-input equivalence.",
+        "E": "37-to-37 native identity bijection. All callback typed trees equal after binding renames and three explicit deltas: valid party reverse, explicit missing list, selected ID301 oracle. Empty-list/-1 mutant passes old case and fails exactly new business assertion; exact source/test restoration. 147 neighbors and game TC0.",
+        "F": "Files name caster/request/navigation/lifecycle responsibilities. Private menu/request/groupSpellIndex/healingSpellIndex/fundedCasterMenu names replace opaque abbreviations; public property names and literal business oracles preserved.",
+        "G": "Source comments only. Current module remains review until unified gates; separate magic-script unused arguments stay unchanged pending prior API decision.",
+        "H": "Real public synchronous transitions and explicit typed catalogs, independent returned requests/phase/ID literals. Deterministic public memory reset owned by specs. Complete-record and state probes are not registered tests/coverage; statically valid fixtures verified by game TC."
+      }
+    }
+  },
+  "preserved": [
+    {
+      "path": "packages/game/src/core/menu/menu-driver.ts",
+      "sha256": "617d1ccf1c8931b366420e514eb684cfe7846feb7052e253d289df203112513d",
+      "lines": 1030
+    },
+    {
+      "path": "packages/game/src/core/menu/magic-select.ts",
+      "sha256": "bdf4336d4858245ec71283d20d0524845b210d898dd5a1ce3f04343b7eb32545",
+      "lines": 55
+    },
+    {
+      "path": "packages/game/src/core/menu/primitives.ts",
+      "sha256": "16dcc14b8a072542614f6456b4649f086c07059d06dd3df993ff522cab81d6e1",
+      "lines": 69
+    },
+    {
+      "path": "packages/game/src/core/menu/__tests__/magic-cost-fixture.ts",
+      "sha256": "7fd3bf1ac0c7203c62dc66d316c6da092d2e0dce2a51e1468e76aedef82dd109",
+      "lines": 24
+    },
+    {
+      "path": "packages/game/src/__tests__/battle-records.ts",
+      "sha256": "e06702ce034d7b7b7680b649d2c6d11d948acd6daa9aeac0ad20478c62afc575",
+      "lines": 98
+    },
+    {
+      "path": "packages/game/vitest.config.ts",
+      "sha256": "3dd92ad4886bc72c88e7a7b2e6bdacc3aaf9e2a24ac72153f3b619ba37feb7d4",
+      "lines": 13
+    },
+    {
+      "path": "scripts/coverage/config.mjs",
+      "sha256": "decb63dda5d12a2269bef1dd75c3d1eb4efca071887c759deca8e9b06ef17a25",
+      "lines": 264
+    }
+  ],
+  "neighborPaths": [
+    "packages/game/src/core/menu/in-game-magic-menu.casters.test.ts",
+    "packages/game/src/core/menu/in-game-magic-menu.lifecycle.test.ts",
+    "packages/game/src/core/menu/in-game-magic-menu.navigation.test.ts",
+    "packages/game/src/core/menu/in-game-magic-menu.requests.test.ts",
+    "packages/game/src/core/menu/magic-select.test.ts",
+    "packages/game/src/core/menu/menu-driver.cov85.test.ts",
+    "packages/game/src/core/menu/menu-driver.test.ts",
+    "packages/game/src/present/menu/draw-magic.caster.test.ts",
+    "packages/game/src/present/menu/draw-magic.target.test.ts",
+    "packages/game/src/present/menu/draw-magic.test.ts"
+  ],
+  "cleanExecutions": [
+    "before",
+    "reorganize-r2",
+    "refine",
+    "format",
+    "counters",
+    "records-probe",
+    "proof-r3",
+    "neighbors-r2",
+    "typecheck-r2",
+    "docs",
+    "content-review",
+    "lint",
+    "scoped",
+    "diff",
+    "ledger-final",
+    "module-preflight"
+  ],
+  "receipts": {
+    "neighbors": "organization-magic-menu-state/neighbors-r2",
+    "typecheck": "organization-magic-menu-state/typecheck-r2",
+    "ledger-final": "organization-magic-menu-state/ledger-final-r2"
+  },
+  "lightweightGates": true,
+  "callbackProof": "organization-magic-menu-state/proof-r3.stdout.raw",
+  "counters": ["counter-selection.json"],
+  "qualityDelta": {
+    "oldCases": 37,
+    "currentCases": 37,
+    "newCases": 0,
+    "retirements": 0,
+    "specCaseCounts": [14, 7, 11, 5],
+    "explicitBodyDeltas": 3,
+    "sourceCommentsOnly": true,
+    "wholeCatalogRecords": 28,
+    "wholeProgressionStatePairs": 4
+  },
+  "reads": {
+    "fullInputs": [
+      {
+        "path": "packages/game/src/core/menu/in-game-magic-menu.test.ts",
+        "member": "organization-magic-menu-state/0.before",
+        "sha256": "2448a923a06960f0461c4a0c3a65edbba38e0f40b063268dd819be7cf9492188",
+        "lines": 481
+      },
+      {
+        "path": "packages/game/src/core/menu/in-game-magic-menu.boundaries.test.ts",
+        "member": "organization-magic-menu-state/1.before",
+        "sha256": "be6d3c92e120609fa7f78413d9acc2560e2a20f2d1935de27ff703d72954e219",
+        "lines": 160
+      },
+      {
+        "path": "packages/game/src/core/menu/in-game-magic-menu.glm-phase1-leaves.test.ts",
+        "member": "organization-magic-menu-state/2.before",
+        "sha256": "927a9fc1ee6696b4d632a7932b04847c72dd74d13df6788274b61a4b44da2abe",
+        "lines": 225
+      },
+      {
+        "path": "packages/game/src/core/menu/in-game-magic-menu.ts",
+        "member": "organization-magic-menu-state/3.before",
+        "sha256": "33ef8d4a1e71537533ebb38b799642f903b23c6f50ba53ae7ae30059d61ab14f",
+        "lines": 306
+      }
+    ],
+    "fullOutputs": [
+      {
+        "path": "packages/game/src/core/menu/in-game-magic-menu.casters.test.ts",
+        "sha256": "06a75045b96d3ce34df1f94ad7586fd6d7df46c4c5a4c29644d545d9ba4862ac"
+      },
+      {
+        "path": "packages/game/src/core/menu/in-game-magic-menu.requests.test.ts",
+        "sha256": "89de252cf61cc2b9c09d96e854d8158a53b46207a4c9717b12185b5c9ccce16f"
+      },
+      {
+        "path": "packages/game/src/core/menu/in-game-magic-menu.navigation.test.ts",
+        "sha256": "68a4af79505df6029d16e4928aea6cf18039f6f24815320ab6f6b52698ae2ce7"
+      },
+      {
+        "path": "packages/game/src/core/menu/in-game-magic-menu.lifecycle.test.ts",
+        "sha256": "841bddd3aee6891ec3ae8e3f8ac98c7ce7814703ec4204a099738204de6fc4cb"
+      },
+      {
+        "path": "packages/game/src/core/menu/__tests__/magic-menu-catalog.ts",
+        "sha256": "80262794f8523ccc6f514ad8d10c681adbbb6f2c6882b2326639a1739d4a2844"
+      },
+      {
+        "path": "packages/game/src/core/menu/__tests__/magic-menu-scenario.ts",
+        "sha256": "c6ec8ddfa0526096309bb57ffa200c4bc3596c630ea5456ea7ba4578832a29c4"
+      }
+    ],
+    "sourceBefore": {
+      "path": "packages/game/src/core/menu/in-game-magic-menu.ts",
+      "member": "organization-magic-menu-state/3.before",
+      "sha256": "33ef8d4a1e71537533ebb38b799642f903b23c6f50ba53ae7ae30059d61ab14f",
+      "lines": 306
+    },
+    "sourceAfter": {
+      "path": "packages/game/src/core/menu/in-game-magic-menu.ts",
+      "sha256": "5f5409e405f2121c6f02acf705df7480e96aedd733c0f8c95d734e2ed4514ad5",
+      "lines": 287
+    },
+    "priorSource": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json",
+    "priorSourceExactSha256": "33ef8d4a1e71537533ebb38b799642f903b23c6f50ba53ae7ae30059d61ab14f",
+    "scopedCaller": [
+      {
+        "path": "packages/game/src/core/menu/menu-driver.ts",
+        "sha256": "617d1ccf1c8931b366420e514eb684cfe7846feb7052e253d289df203112513d",
+        "lines": 1030,
+        "ranges": [[153, 213], [480, 510], [850, 950], [985, 1015]]
+      }
+    ],
+    "primary": {
+      "path": "reference/sdlpal/uigame.c",
+      "sha256": "f981b6a698b6248107ec7934b60ca988055bbab458e516e9aa2b113f8b5419c1",
+      "ranges": [[650, 875]],
+      "claim": "Menu bypass/caster/cancel/target contract only; source function is not a complete C port."
+    },
+    "fixtureProviders": [
+      {
+        "path": "packages/game/src/core/menu/__tests__/magic-cost-fixture.ts",
+        "sha256": "7fd3bf1ac0c7203c62dc66d316c6da092d2e0dce2a51e1468e76aedef82dd109",
+        "lines": 24
+      },
+      {
+        "path": "packages/game/src/__tests__/battle-records.ts",
+        "sha256": "e06702ce034d7b7b7680b649d2c6d11d948acd6daa9aeac0ad20478c62afc575",
+        "lines": 98
+      }
+    ],
+    "priorFullDriver": "Reuse prior exact-version driver read; this slice rereads only listed routes. No new whole-driver review credit."
+  },
+  "neighborStdoutClassification": {
+    "diagnostics": 0,
+    "expectedConsoleLog": 2,
+    "source": {
+      "path": "packages/game/src/core/menu/menu-driver.ts",
+      "line": 1003
+    },
+    "kind": "Existing successful Save operational console.log; no warning/error/framework diagnostics, stderr empty; raw retained."
+  },
+  "processDisclosures": [
+    "Initial reorganization matcher matched outer it and inner assertion; guard rejected before writes. R2 uses exact assertion statement. No source change from failed attempt.",
+    "First neighbor/typecheck launch used missing package-local .bin, spawn ENOENT before executing. R2 uses existing repository ../../node_modules/.bin; both receipts retained.",
+    "First proof helper comparison encountered synthesized TS declaration flags; reparse printer output preserves real const/let flags. R2 tail negative printed against wrong source and parse guard rejected. R3 constructs an explicit final assertion tree, all37 callbacks and product AST pass; failures retained. No code changes to appease proof.",
+    "Complete-value/progression probe is not Vitest/typecheck/coverage credit; 147 formal neighbor cases recorded separately. Two operational Save logs are disclosed, not muted.",
+    "One historical subject only; six current files and comment-only source do not count as seven historical completions. 0newclosed; three ordinary closed paths reopen review. Heavy/publication deferred.",
+    "First ledger check rejected stale visible inventory/status totals; live rows already matched3450/510/308/2632. Corrected only two current summary lines; historical dated counts unchanged. Failed raw retained and final receipt aliases ledger-final-r2."
+  ],
+  "invalidations": "Reopen affected claims when selected state API, magic table identity, player projection, driver phase/MP rules, memory ownership, fixture fields, test registrations or assertions change. No full spell-script/formula/raw-resource/visual/E2E credit.",
+  "ledgerCounts": {
+    "inventory": 3450,
+    "closed": 510,
+    "review": 308,
+    "pending": 2632
+  }
+}

@@ -1,7 +1,7 @@
 # 测试文档模板
 
 Status: current
-Last reviewed: 2026-10-16
+Last reviewed: 2026-10-30
 Owner: Codex
 Template: governance-index-v1 / 1.0.0
 
@@ -50,5 +50,5 @@ catalog 父版本1.2保持默认publication catalog全部旧字段/有序16项�
 
 以[注册表](../../phase-governance/templates/registry.json)和[冻结设计](../../phase-governance/templates/registry-proposal-20261011.md)
 为唯一模板事实源；[测试治理](../governance.md)控制公开 catalog、报告/evidence 配对和索引生成。
-创建或更新时登记稳定 ID、Owner、原状态、依赖、reviewBy、来源/SHA与当前或明确缺失的执行证据；
+创建或更新时登记稳定 ID、Owner、原状态、依赖、revision/sourceRefs版本适用性、来源/SHA与当前或明确缺失的执行证据；
 运行真实 consumer 和文档门，不能以结构通过取代 runtime/E2E/视觉/coverage。

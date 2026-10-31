@@ -18,7 +18,6 @@
       "evidence": "e2e/evidence/e2e-contract.json",
       "tags": ["e2e", "governance", "capture"],
       "lastVerified": "2026-10-04",
-      "reviewBy": "2026-11-04",
       "dependsOn": [],
       "sourceRefs": [
         {
@@ -95,7 +94,6 @@
       "evidence": "e2e/evidence/e2e-route.json",
       "tags": ["e2e", "route", "checkpoint"],
       "lastVerified": "2026-10-04",
-      "reviewBy": "2026-11-03",
       "dependsOn": ["e2e-contract"],
       "sourceRefs": [
         {
@@ -175,7 +173,6 @@
       "evidence": "e2e/evidence/e2e-common-issues.json",
       "tags": ["e2e", "audit", "script-governance"],
       "lastVerified": "2026-10-04",
-      "reviewBy": "2026-11-04",
       "dependsOn": ["e2e-001", "e2e-002", "e2e-003", "e2e-004", "e2e-005"],
       "sourceRefs": [
         {
@@ -278,7 +275,6 @@
       "evidence": "e2e/evidence/e2e-001.json",
       "tags": ["story", "opening", "dialogue", "checkpoint"],
       "lastVerified": "2026-09-28",
-      "reviewBy": "2026-10-28",
       "dependsOn": [],
       "sourceRefs": [
         {
@@ -359,7 +355,34 @@
           }
         ]
       },
-      "reviewScope": "document-audit; historical execution claims retained with their original scope"
+      "reviewScope": "2026-10-30 source/publication review; historical verified/lastVerified retained; current E2E and editor-preview execution not granted",
+      "publicationReview": {
+        "date": "2026-10-30",
+        "kind": "source-and-publication-only",
+        "reviewer": "Codex single agent",
+        "evidence": "docs/ops/evidence/QUALITY-PENDING-100-3/e2e001-publication-review.json",
+        "beforeReviewBy": "2026-10-28",
+        "reviewBy": "2026-11-29",
+        "scope": "Seven current source pins/anchors, current55-dialogue source inventory and raw text agreement, real CLI contracts, paired report/evidence/history boundaries;64opening tool and9catalog tests. No new browser/runtime/visual/preview/checkpoint acceptance.",
+        "preserved": {
+          "status": "verified",
+          "lastVerified": "2026-09-28",
+          "revision": {
+            "currentSha": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+            "contentVersion": 22,
+            "minimumSaveVersion": 11,
+            "history": [
+              {
+                "revision": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+                "date": "2026-10-04",
+                "action": "source-and-publication-audit",
+                "notRun": ["runtime", "E2E", "coverage"]
+              }
+            ]
+          }
+        },
+        "rationale": "Actual bounded publication/source review. The previous30-day publication interval is retained; runtime freshness is independent and no historical receipt is upgraded. A relevant source/caller/contract change invalidates its affected claim before the next date."
+      }
     },
     {
       "id": "e2e-002",
@@ -377,7 +400,6 @@
       "evidence": "e2e/evidence/e2e-002.json",
       "tags": ["story", "inn", "dialogue", "script-governance", "checkpoint"],
       "lastVerified": "2026-10-02",
-      "reviewBy": "2026-11-02",
       "dependsOn": ["e2e-001"],
       "sourceRefs": [
         {
@@ -473,7 +495,6 @@
       "evidence": "e2e/evidence/e2e-003.json",
       "tags": ["story", "inn", "kitchen", "npc", "checkpoint"],
       "lastVerified": "2026-10-02",
-      "reviewBy": "2026-11-02",
       "dependsOn": ["e2e-002"],
       "sourceRefs": [
         {
@@ -572,7 +593,6 @@
       "evidence": "e2e/evidence/e2e-004.json",
       "tags": ["story", "items", "menu", "save-restore", "checkpoint"],
       "lastVerified": "2026-10-02",
-      "reviewBy": "2026-11-02",
       "dependsOn": ["e2e-003"],
       "sourceRefs": [
         {
@@ -675,7 +695,6 @@
       "evidence": "e2e/evidence/e2e-005.json",
       "tags": ["story", "npc", "guards", "save-restore", "checkpoint"],
       "lastVerified": "2026-10-02",
-      "reviewBy": "2026-11-02",
       "dependsOn": ["e2e-004"],
       "sourceRefs": [
         {
@@ -785,7 +804,6 @@
       "evidence": "e2e/evidence/e2e-006.json",
       "tags": ["story", "npc", "boat", "visual", "rework"],
       "lastVerified": "2026-10-03",
-      "reviewBy": "2026-10-31",
       "dependsOn": ["e2e-005"],
       "sourceRefs": [
         {
@@ -861,7 +879,6 @@
       "evidence": "domains/runtime/scene/active-scene/evidence.json",
       "tags": ["ownership", "scene", "document-audit"],
       "lastVerified": "2026-10-04",
-      "reviewBy": "2026-11-04",
       "dependsOn": [],
       "publicCallers": [
         "bootGame → ActiveScene.commit(plan)",
@@ -972,7 +989,6 @@
       "evidence": "domains/runtime/battle/battle-host/evidence.json",
       "tags": ["ownership", "battle", "document-audit"],
       "lastVerified": "2026-10-04",
-      "reviewBy": "2026-11-04",
       "dependsOn": [],
       "publicCallers": [
         "bootGame → BattleHost.start/cancel/active",
@@ -1076,7 +1092,6 @@
       "evidence": "domains/runtime/battle/battle-session-owners/evidence.json",
       "tags": ["ownership", "battle", "document-audit"],
       "lastVerified": "2026-10-04",
-      "reviewBy": "2026-11-04",
       "dependsOn": [],
       "publicCallers": [
         "BattleSession constructor → readiness/settlement owners",
@@ -1191,7 +1206,6 @@
       "evidence": "domains/runtime/world/world-runtime/evidence.json",
       "tags": ["ownership", "world", "document-audit"],
       "lastVerified": "2026-10-04",
-      "reviewBy": "2026-11-04",
       "dependsOn": [],
       "publicCallers": [
         "bootGame → WorldMotionRuntime + WorldScenePresentation",
@@ -1303,7 +1317,6 @@
       "evidence": "domains/ops/testing-governance/legacy-flat-audit.json",
       "tags": ["governance", "legacy", "migration", "audit"],
       "lastVerified": "2026-10-04",
-      "reviewBy": "2026-11-04",
       "dependsOn": [],
       "sourceRefs": [
         {
@@ -1411,7 +1424,6 @@
       "evidence": "domains/editor/commands/command-form-families/evidence.json",
       "tags": ["ownership", "commands", "document-audit"],
       "lastVerified": "2026-10-04",
-      "reviewBy": "2026-11-04",
       "dependsOn": [],
       "publicCallers": [
         "ScriptEditor → createAuthorCommandFormBridge → CommandForm family dispatch",
@@ -1518,7 +1530,6 @@
       "evidence": "domains/runtime/menu/menu-session/evidence.json",
       "tags": ["ownership", "menu", "document-audit"],
       "lastVerified": "2026-10-04",
-      "reviewBy": "2026-11-04",
       "dependsOn": [],
       "publicCallers": [
         "main menu input → MenuSession",
@@ -1622,7 +1633,6 @@
       "evidence": "domains/editor/map/map-workspace-sessions/evidence.json",
       "tags": ["ownership", "map", "document-audit"],
       "lastVerified": "2026-10-04",
-      "reviewBy": "2026-11-04",
       "dependsOn": [],
       "publicCallers": [
         "MapMode → pointer gesture session",
@@ -1736,7 +1746,6 @@
       "evidence": "domains/phase1-runtime/dependencies/dependency-ownership/evidence.json",
       "tags": ["ownership", "dependencies", "document-audit"],
       "lastVerified": "2026-10-04",
-      "reviewBy": "2026-11-04",
       "dependsOn": [],
       "publicCallers": [
         "game event/scene/equipment/battle/menu consumers → single lower owner modules",
@@ -1824,10 +1833,10 @@
         },
         {
           "path": "packages/game/src/core/cross-module-boundaries.test.ts",
-          "lines": "25",
+          "lines": "29",
           "anchor": "describe('G07",
           "role": "oracle",
-          "sha256": "18349e6552d9b5bf181d60db94a207b9a055bf4c2d76bbb72337e4d5575887c4"
+          "sha256": "a9c102b84743f778f82a35e155b5eb2b787f4cdd8fb821238d8bea7a5a570622"
         },
         {
           "path": "packages/content/src/character.ts",
@@ -2074,7 +2083,6 @@
       "evidence": "domains/cross-phase/script-corrections/evidence.json",
       "tags": ["script-corrections", "source-integrity", "save", "regression"],
       "lastVerified": "2026-10-27",
-      "reviewBy": "2026-11-27",
       "dependsOn": [],
       "sourceRefs": [
         {
@@ -2433,7 +2441,6 @@
       "evidence": "domains/phase1-runtime/control-rotation/evidence.json",
       "tags": ["input", "mobile", "gamepad", "regression"],
       "lastVerified": "2026-10-27",
-      "reviewBy": "2026-11-27",
       "dependsOn": [],
       "sourceRefs": [
         {
@@ -2640,7 +2647,7 @@
       "schemaVersion/generatedBy/entries stay at the public top level; generatedBy names the index projection tool, which reads this manually maintained authority.",
       "Entry status is its published report/audit lifecycle. lastVerified/revision/candidate versions retain their original scope; current or verified is not a newly executed SAVE12 E2E pass.",
       "Dependencies require current/verified publication and acyclic IDs; actual runtime predecessors also need the fragment contract and same-engine current execution receipts.",
-      "Original reviewBy deadlines retain their dated scope; expired/rework entries cannot be silently renewed or upgraded by formatting. An explicit scoped publication review may set the next review deadline with rationale/history while preserving execution freshness and status.",
+      "User 2026-10-30: no calendar expiry or automatic periodic rerun. Compare recorded candidate/content/save/sourceRefs with current relevant boundaries; unrelated HEAD changes alone do not invalidate evidence. Matching is not a new execution claim.",
       "Canonical report, metadata and evidence remain paired. History/supersedes identify archived originals without making them current inputs."
     ],
     "runtimeExecutionPerformed": false,
@@ -2651,7 +2658,7 @@
       },
       {
         "id": "e2e-route",
-        "conclusion": "proposal 依赖共用合同；当前版本同引擎路线准入，不证明任何片段已执行。10-18 reviewBy 保留，不自动续期。"
+        "conclusion": "proposal 依赖共用合同；当前版本同引擎路线准入，不证明任何片段已执行。原10-18期限只留历史；当前适用性按版本/来源比较。"
       },
       {
         "id": "e2e-common-issues",
@@ -2679,7 +2686,7 @@
       },
       {
         "id": "e2e-006",
-        "conclusion": "2026-10-16实质发布复核后明确reviewBy10-15→10-23；继续rework/lastVerified10-03。当前SAVE12合法输入、原SAVE11 revision/历史执行、state2/state3与偏移冲突及完整岛口停止线分别核读，不认证本次E2E/视觉通过。"
+        "conclusion": "2026-10-16实质发布复核及旧期限调整只作历史；2026-10-30取消日历期限；继续rework/lastVerified10-03。当前SAVE12合法输入、原SAVE11 revision/历史执行、state2/state3与偏移冲突及完整岛口停止线分别核读，不认证本次E2E/视觉通过。"
       },
       {
         "id": "runtime-active-scene",
@@ -2821,6 +2828,111 @@
         "id": "game-script-corrections",
         "previousConclusion": "2026-10-27只核独立新增出口/原敌保留/旧档加载与两阶段真实接触合同；复用83邻测+当前PAL5、extract49、Reforge5421和两有效业务反控及精确恢复，根提取/准备旧档浏览器另核；不续签历史coverage或完整剧情。",
         "evidence": "docs/ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/release.json"
+      },
+      {
+        "date": "2026-10-30",
+        "action": "explicit-e2e001-publication-review-renewal",
+        "scope": "Only e2e-001; all other entries, old execution dates, candidate/versions and sourceRefs retained.",
+        "before": {
+          "reviewBy": "2026-10-28"
+        },
+        "after": {
+          "reviewBy": "2026-11-29",
+          "lastVerified": "2026-09-28",
+          "status": "verified"
+        },
+        "evidence": "docs/ops/evidence/QUALITY-PENDING-100-3/e2e001-publication-review.json",
+        "rationale": "Actual bounded publication/source review. The previous30-day publication interval is retained; runtime freshness is independent and no historical receipt is upgraded. A relevant source/caller/contract change invalidates its affected claim before the next date.",
+        "notRun": ["browser", "runtime E2E", "visual", "editor preview", "coverage"]
+      },
+      {
+        "date": "2026-10-30",
+        "action": "user-approved-version-applicability-replaces-calendar-expiry",
+        "scope": "Retire active reviewBy from all20 published entries and six stage README metadata; preserve every status, lastVerified, revision, sourceRef, report and machine execution claim. Prior renewal history remains historical only.",
+        "retiredDeadlines": [
+          {
+            "id": "e2e-contract",
+            "reviewBy": "2026-11-04"
+          },
+          {
+            "id": "e2e-route",
+            "reviewBy": "2026-11-03"
+          },
+          {
+            "id": "e2e-common-issues",
+            "reviewBy": "2026-11-04"
+          },
+          {
+            "id": "e2e-001",
+            "reviewBy": "2026-11-29"
+          },
+          {
+            "id": "e2e-002",
+            "reviewBy": "2026-11-02"
+          },
+          {
+            "id": "e2e-003",
+            "reviewBy": "2026-11-02"
+          },
+          {
+            "id": "e2e-004",
+            "reviewBy": "2026-11-02"
+          },
+          {
+            "id": "e2e-005",
+            "reviewBy": "2026-11-02"
+          },
+          {
+            "id": "e2e-006",
+            "reviewBy": "2026-10-31"
+          },
+          {
+            "id": "runtime-active-scene",
+            "reviewBy": "2026-11-04"
+          },
+          {
+            "id": "runtime-battle-host",
+            "reviewBy": "2026-11-04"
+          },
+          {
+            "id": "runtime-battle-session-owners",
+            "reviewBy": "2026-11-04"
+          },
+          {
+            "id": "runtime-world-owners",
+            "reviewBy": "2026-11-04"
+          },
+          {
+            "id": "legacy-flat-audit",
+            "reviewBy": "2026-11-04"
+          },
+          {
+            "id": "editor-command-form-families",
+            "reviewBy": "2026-11-04"
+          },
+          {
+            "id": "reforge-menu-session",
+            "reviewBy": "2026-11-04"
+          },
+          {
+            "id": "editor-map-workspace-sessions",
+            "reviewBy": "2026-11-04"
+          },
+          {
+            "id": "phase1-dependency-ownership",
+            "reviewBy": "2026-11-04"
+          },
+          {
+            "id": "game-script-corrections",
+            "reviewBy": "2026-11-27"
+          },
+          {
+            "id": "game-input-rotation",
+            "reviewBy": "2026-11-27"
+          }
+        ],
+        "authority": "docs/ops/tasks/TESTING-EVIDENCE-REVISION-1.md",
+        "runtimeExecutionPerformed": false
       }
     ],
     "supersedes": [],

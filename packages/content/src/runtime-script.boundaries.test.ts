@@ -1,5 +1,5 @@
 import { expect, test, vi } from 'vitest'
-import { deepSnapshot } from './__tests__/glm-content-contract-fixtures.js'
+import { deepSnapshot } from './__tests__/value-snapshot.js'
 import {
   checkRuntimeCommands,
   checkRuntimeEntityBehaviors,

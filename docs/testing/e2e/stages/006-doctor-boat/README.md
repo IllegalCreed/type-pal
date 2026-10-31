@@ -10,7 +10,6 @@ phase: [phase1, phase2]
 engines: [game, reforge]
 owner: Codex
 lastVerified: 2026-10-03
-reviewBy: 2026-10-31
 dependsOn: [e2e-005]
 tags: [story, npc, boat, visual, rework]
 canonicalReport: report.md
@@ -42,3 +41,7 @@ canonicalReport: report.md
 本次文档迁移已由非作者receipt_review独立accept、根Codex接收；上次publication复核期限为10-23。对应E2E任务仍按实际证据处理动态缺口，本页不重新授权产品实现或为续期重录剧情。
 
 2026-10-24发布/状态复核：全文核当前阶段入口、正式报告、配对JSON与活动卡，三个既有sourceRefs指纹均仍匹配；state2/state3、历史偏移口径和未确认视觉继续作为rework边界。lastVerified10-03、原revision/版本/runtimeExecution及状态均未变，未运行路线/E2E/视觉。本次只将下一次发布/状态复核安排到2026-10-31，期限不是新的执行通过。原到期拒绝保留在[本窗回执](../../../../ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3k-number-quality/README.md)。
+
+## 2026-10-30 版本适用性规则
+
+按[测试治理](../../../governance.md#版本适用性)取消活动 `reviewBy`。上文旧到期／续期只作历史，不再触发复核或重跑。运行 `node scripts/docs/testing-revisions.mjs e2e-006` 对比原候选、content/save版本及已声明源码指纹；记录缺失为unknown，相关边界不同为changed，匹配也不新增执行信用。status、lastVerified、原报告和机器证据保持原范围。

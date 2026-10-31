@@ -5,7 +5,7 @@
  * （确定 severity、完整 where、目标 id、无额外 issue；不用 Set 吞重复、不 .some 首错即停）。
  */
 import { describe, expect, test } from 'vitest'
-import { deepSnapshot } from './__tests__/glm-content-contract-fixtures.js'
+import { deepSnapshot } from './__tests__/value-snapshot.js'
 import {
   validateActors,
   validateAuthorScenes,

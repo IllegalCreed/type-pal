@@ -38,7 +38,7 @@
         }
       ],
       "sourceSha256": "a48cc1db49991fc489f07063c2bf635a9996771647f07e025aa735d5a58ff851",
-      "afterSha256": "99d1ee660d0ce9787f4ace8e08cb3284284c3f7d7bb448b6f1e3db8070cddb0b",
+      "afterSha256": "64776e5c91911d0948f223ea543e535edbad7e8e852191316e81c7838ae1c2aa",
       "publicCallers": [
         "docs/ops/evidence/README.md → docs/ops/evidence/README.md navigation",
         "task card / evidence consumer references"
@@ -220,7 +220,14 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "pendingWindow3Review": {
+        "date": "2026-10-29",
+        "owner": "Codex",
+        "sourceSha256": "99d1ee660d0ce9787f4ace8e08cb3284284c3f7d7bb448b6f1e3db8070cddb0b",
+        "scope": "Owned pending-window3 rows/task projection or corresponding exact afterSHA bindings; historical content not reaccepted",
+        "evidence": "docs/ops/evidence/QUALITY-PENDING-100-3/review.json"
+      }
     },
     {
       "path": "docs/ops/evidence/coverage85-kimi-extract-migrate-r1/README.md",

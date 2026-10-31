@@ -1,19 +1,12 @@
-// TEST-GLM-GAME-SHELL-BOOTSTRAP-1 — shell bootstrap / 资源边界残余公开合同。
-//
-// 排重(去重表见 docs/ops/evidence/TEST-GLM-GAME-SHELL-BOOTSTRAP-1/dedup-ledger.md):
-//  - bootstrap-audio.test.ts 只证 syncShellAudio 的 explore+suspendRaf 窗口(wNumMusic/pendingSounds/
-//    默认开关);bootstrap.glm-next-wave.test.ts 证 showError;bootstrap-load.test.ts 证 palette helpers。
-//    本文件补战斗侧装配臂:胜利结算曲覆盖(bootstrap.ts:191-198)、揭场 introFade 静默与战斗曲
-//    循环(bootstrap.ts:192-199)、战斗帧 bus SFX drain(bootstrap.ts:202-213)。pickMusicTrack/
-//    battleVictoryTrack/sfxForBattleEvent 的纯函数轴已由 audio.test.ts 证,不重复。
-//  - precache-client.test.ts / .glm-phase1-leaves.test.ts 证注册参数/无 SW 降级/ready 屏障/start
-//    缓冲与 pause/resume 协议,但从未驱动 addEventListener('message') 注册的监听器——SW 进度消息
-//    → 回调的路由(precache-client.ts:67-72)与 storage.persist 失败容忍(:74-79)在此补证。
-//  - main-loop-gates.grok-r1.test.ts G09-B13 只证 cancel 取消刚排上的帧 id(rAF 桩不回调);
-//    main-loop.test.ts 证 advanceRafFrame 三不变量。本文件补 startRafLoop 真实帧链
-//    (main-loop.ts:173-180):每帧回调驱动推进并自续订、cancel 停链。
-// 硬件端口替身:AudioManager spy(bootstrap-audio.test.ts 同模式)、fake ServiceWorkerContainer +
-// navigator.storage(precache-client 旧测同模式)、rAF 队列桩(直接赋值同签名函数,无强转)。
+// 音频、预缓存与循环入口的补充合同。
+// bootstrap-audio.test.ts 负责探索/挂起窗口；bootstrap.error.test.ts 负责错误画布，
+// bootstrap-load.test.ts 负责 palette helper。本文件前三例核 syncShellAudio 的战斗分支。
+// precache-client.test.ts 已用真实 EventTarget/MessageEvent 核 progress 与单个 done/error 路由。
+// 此处 SB4 另核同次注册连续 done→error 的通知，SB5 核 storage.persist 拒绝仍能 ready/start。
+// main-loop.lifecycle.test.ts 已核初帧与推进后最新 rAF 的取消请求；SB6 另核多帧逻辑/呈现节奏。
+// SB6 的数组队列只记录取消请求，不授真实浏览器停链时序信用。
+// SW例结束后将两个navigator端口置为undefined，不会恢复先前的属性描述符。
+// 端口记录/队列仅用于单元观测，不代表真实浏览器、音频或完整战斗资源已运行。
 
 import type { PlayerRoles, Tilemap } from '@type-pal/shared'
 import { afterEach, describe, expect, it, vi } from 'vitest'
@@ -50,7 +43,7 @@ function audioSpy(): AudioManager & {
   }
 }
 
-// ── 合法完整 BattleState 夹具(battle-ui-pixels.grok-r1.test.ts mkState 同模式,无强转) ──
+// 仅供音频分支读取的 typed BattleState 输入；不推进战斗逻辑或冒称资源已装载。
 function mkEnemy(deathSound: number): BattleEnemy {
   return {
     e: {

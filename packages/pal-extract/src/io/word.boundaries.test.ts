@@ -7,7 +7,7 @@
  * 条目尾缀 'q' 使段界断言可直用字面值（产品会剥词条尾标记 '1'，见专门轴）。
  */
 import { describe, expect, test } from 'vitest'
-import { gbk, wordDat, wordEntryText } from '../__tests__/glm-tb04-fixtures.js'
+import { gbk, wordDat, wordEntryText } from '../__tests__/text-fixtures.js'
 import { parseWordDat } from './word.js'
 
 /** 文本 + 尾空格补齐到 10B（真实词条布局：标记紧贴正文、空格只在尾）。 */

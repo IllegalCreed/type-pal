@@ -1,7 +1,8 @@
 /** QUALITY-BATTLE-MAGIC-PARITY-1: real script dispatch, typed state, SDLPal control-flow oracles. */
 import type { Command, Magic, ObjectMagicView, Spell } from '@type-pal/shared'
 import { describe, expect, it, vi } from 'vitest'
-import { makeHBattle, makeHEnemy, makeHRole } from '../../../__tests__/glm-next-wave/H/harness.js'
+import { makeBattleFixture } from '../../../__tests__/battle-fixture.js'
+import { makeEnemyRecord, makeRoleRecord } from '../../../__tests__/battle-records.js'
 import { runScript } from '../../event-system.js'
 import { hydratePlayerRolesRuntime, projectRuntimeToBattleRoles } from '../../game-state.js'
 import { createSeedableRng } from '../../rng.js'
@@ -49,10 +50,10 @@ function objectMagic(applyToAll = false): ObjectMagicView {
 }
 
 function battle() {
-  const b = makeHBattle({
-    roles: [makeHRole(0), makeHRole(1), makeHRole(2, { attackStrength: 50 })],
+  const b = makeBattleFixture({
+    roles: [makeRoleRecord(0), makeRoleRecord(1), makeRoleRecord(2, { attackStrength: 50 })],
     party: [2, 0],
-    enemies: [makeHEnemy({ health: 1000, defense: 0, level: 0 }), makeHEnemy()],
+    enemies: [makeEnemyRecord({ health: 1000, defense: 0, level: 0 }), makeEnemyRecord()],
   })
   b.gs.mode = 'battle'
   hydratePlayerRolesRuntime(b.gs.PlayerRolesRuntime, b.playerRoles)

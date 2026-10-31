@@ -1,7 +1,9 @@
 /** 敌人 AI 规则求值器(M4c-1)—— 设计:enemy-ai-design.md §1/§2。 */
 import { describe, expect, test, vi } from 'vitest'
+import { deepSnapshot } from './__tests__/value-snapshot.js'
 import type { AiBattleView, AiRule } from './enemy-ai.js'
 import { decideByRules, evalAiCond, pickAiTarget } from './enemy-ai.js'
+import { checkEnemyAi } from './enemy-script.js'
 
 const view = (
   over?: Omit<Partial<AiBattleView>, 'self'> & { self?: Partial<AiBattleView['self']> },
@@ -141,5 +143,25 @@ describe('pickAiTarget(目标策略)', () => {
     expect(pickAiTarget('lowestHp', ps, r0)).toBe(2)
     expect(pickAiTarget('strongest', ps, r0)).toBe(0)
     expect(pickAiTarget('lowestMp', ps, r0)).toBe(2)
+  })
+
+  test('highestHp 取最高血；并列取槽序靠前，旁队员不改', () => {
+    checkEnemyAi(
+      {
+        resistanceToSorcery: 0,
+        rules: [{ at: 'act', do: { kind: 'attack', target: 'highestHp' } }],
+      },
+      'ai',
+    )
+    const players = [
+      { index: 0, hpPercent: 40, hp: 80, mp: 30, attack: 50, role: 'hero.li' },
+      { index: 2, hpPercent: 90, hp: 200, mp: 10, attack: 20, role: 'hero.zhao' },
+      { index: 3, hpPercent: 90, hp: 200, mp: 99, attack: 80, role: 'hero.lin' },
+    ]
+    const snap = deepSnapshot(players)
+    expect(pickAiTarget('highestHp', players, () => 0.99)).toBe(2)
+    expect(players).toEqual(snap)
+    expect(players[0]?.hp).toBe(80)
+    expect(players[2]?.index).toBe(3)
   })
 })

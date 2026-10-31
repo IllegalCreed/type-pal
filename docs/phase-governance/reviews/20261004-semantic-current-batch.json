@@ -34,7 +34,7 @@
         "manual-semantic-migration"
       ],
       "sourceSha256": "81f8d39f2b0fa818a74ac7335b7293d2ca3b2cc968a74fd9d63197935b0e4b8d",
-      "afterSha256": "b702edd9cbd524d7e2d040b29c54887a2f01b7bda1e55a992f6c55c4c7043e7c",
+      "afterSha256": "6afcf698a8be4c8f5429f616526c4889543ca7395fac09ca21f393ca6ce3b7e4",
       "publicCallers": [
         "AGENTS.md operation routing",
         "node scripts/docs/check-document-model.mjs",
@@ -55,7 +55,7 @@
       },
       "revision": {
         "currentSha": "1d2c8635814f0b3aae4eb212d3457b4aaafb7a71",
-        "implementationSha": "b702edd9cbd524d7e2d040b29c54887a2f01b7bda1e55a992f6c55c4c7043e7c",
+        "implementationSha": "6afcf698a8be4c8f5429f616526c4889543ca7395fac09ca21f393ca6ce3b7e4",
         "contentVersion": "N/A-document-migration",
         "minimumSaveVersion": "N/A-document-migration",
         "history": [
@@ -142,16 +142,31 @@
             "sourceSha256": "81f8d39f2b0fa818a74ac7335b7293d2ca3b2cc968a74fd9d63197935b0e4b8d",
             "afterSha256": "7516c8752f5008b92abdcbdd4c39bfb4aa6628c1ea247e5669ef65799417d2e9",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-31",
+            "action": "User-authorized semantic naming policy and acceptance prompt",
+            "previousAfterSha256": "7597dea297b64825cdbd2231c897465f92f8211b35d84fc48f6787d6bf1354d7",
+            "previousEvidence": {
+              "kind": "user-authorized-main-branch-protection-protocol",
+              "path": "docs/ops/evidence/GAME-ENGLISH-1/branch-protection.json",
+              "afterSha256": "b702edd9cbd524d7e2d040b29c54887a2f01b7bda1e55a992f6c55c4c7043e7c",
+              "lineCount": 111,
+              "scope": "Finite precision correction:2026-10-23 dates actual main-protection configuration/read-back, not user authorization; force-push/deletion prohibition applies to main and leaves ordinary retired feature-branch cleanup available. Previous user-authorized protection and unrelated protocol remain intact.",
+              "workingTreeDelta": true
+            },
+            "scope": "2026-10-31 user clarification: code files organize by module/function/responsibility, never author/model/task IDs; names without semantic responsibility fail F/G. Full clauses only in code-quality; workflow/templates route and prompt evidence. Traceability artifacts and real domain vendor/protocol names are distinct. No product, source algorithm, test or historical acceptance credit.",
+            "evidence": "docs/ops/evidence/QUALITY-PENDING-100-3/review.json"
           }
         ]
       },
       "evidence": {
-        "kind": "user-authorized-main-branch-protection-protocol",
-        "path": "docs/ops/evidence/GAME-ENGLISH-1/branch-protection.json",
-        "afterSha256": "b702edd9cbd524d7e2d040b29c54887a2f01b7bda1e55a992f6c55c4c7043e7c",
-        "lineCount": 111,
-        "scope": "Finite precision correction:2026-10-23 dates actual main-protection configuration/read-back, not user authorization; force-push/deletion prohibition applies to main and leaves ordinary retired feature-branch cleanup available. Previous user-authorized protection and unrelated protocol remain intact.",
-        "workingTreeDelta": true
+        "kind": "authorized-naming-policy-delta",
+        "path": "docs/ops/evidence/QUALITY-PENDING-100-3/review.json",
+        "afterSha256": "6afcf698a8be4c8f5429f616526c4889543ca7395fac09ca21f393ca6ce3b7e4",
+        "lineCount": 113,
+        "scope": "2026-10-31 user clarification: code files organize by module/function/responsibility, never author/model/task IDs; names without semantic responsibility fail F/G. Full clauses only in code-quality; workflow/templates route and prompt evidence. Traceability artifacts and real domain vendor/protocol names are distinct. No product, source algorithm, test or historical acceptance credit."
       },
       "history": [
         {
@@ -214,7 +229,7 @@
       "stopLine": "Historical instructions and original E2E acceptance remain scoped; schema or template checks never grant new execution credit.",
       "userVisibleBeforeAfter": "混合现行/退休协议的长文 -> 现行可执行 runbook + 完整原文历史快照。",
       "reviewedLines": "Finite precision correction:2026-10-23 dates actual main-protection configuration/read-back, not user authorization; force-push/deletion prohibition applies to main and leaves ordinary retired feature-branch cleanup available. Previous user-authorized protection and unrelated protocol remain intact.",
-      "reviewNotes": "实际核读原文/新正文/调用校验与相关模板；源正文和历史结论通过 Git、wrapper 或保留回执追溯。最终全量独立复核仍未完成。\n2026-10-18: Codex read current authorized delta. Prior non-author/provenance applies only to its historical SHA. No new third-party or product execution credit.\n2026-10-18: user explicitly replaces default duplicate Codex full review with evidence-based independent acceptance and targeted escalation.",
+      "reviewNotes": "实际核读原文/新正文/调用校验与相关模板；源正文和历史结论通过 Git、wrapper 或保留回执追溯。最终全量独立复核仍未完成。\n2026-10-18: Codex read current authorized delta. Prior non-author/provenance applies only to its historical SHA. No new third-party or product execution credit.\n2026-10-18: user explicitly replaces default duplicate Codex full review with evidence-based independent acceptance and targeted escalation.\n2026-10-31 user clarification: code files organize by module/function/responsibility, never author/model/task IDs; names without semantic responsibility fail F/G. Full clauses only in code-quality; workflow/templates route and prompt evidence. Traceability artifacts and real domain vendor/protocol names are distinct. No product, source algorithm, test or historical acceptance credit.",
       "priorReadings": [
         {
           "date": "2026-10-15",
@@ -492,6 +507,12 @@
         "scope": "Finite precision correction:2026-10-23 dates actual main-protection configuration/read-back, not user authorization; force-push/deletion prohibition applies to main and leaves ordinary retired feature-branch cleanup available. Previous user-authorized protection and unrelated protocol remain intact.",
         "workingTreeDelta": true,
         "notAFullSourceReaudit": true
+      },
+      "pendingNamingOrganizationReview": {
+        "date": "2026-10-29",
+        "previousAfterSha256": "b702edd9cbd524d7e2d040b29c54887a2f01b7bda1e55a992f6c55c4c7043e7c",
+        "evidence": "docs/ops/tasks/QUALITY-NAMING-ORGANIZATION-1.md",
+        "scope": "Read exact added naming/file-organization clauses and existing surrounding F/G/refactor/integration contract. User correction applies to long-term code work and historic closed credit; no test/gate/risk relaxation, no automatic semantic acceptance by static names."
       }
     },
     {
@@ -521,7 +542,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "290e610459a08648d8c68dc8fba1a5754af4c1f36e7612fcbb790c7bb6a385ba",
-      "afterSha256": "fb6b2bff968d81d63044a5e20f22158890d8a41fbd82edf7f3ecf64906ea02bf",
+      "afterSha256": "f32f38f5dc9d5d54573d268148ef9a25c2c8f025ef2b5ffdf2eebbafa95679e6",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -3121,6 +3142,13 @@
         "candidateBaseRevision": "365e582e288ea1c0052595f2aa31ab59ab72da01",
         "workingTreeDelta": true,
         "notAFullSourceReaudit": true
+      },
+      "pendingWindow3Review": {
+        "date": "2026-10-29",
+        "owner": "Codex",
+        "sourceSha256": "fb6b2bff968d81d63044a5e20f22158890d8a41fbd82edf7f3ecf64906ea02bf",
+        "scope": "Owned pending-window3 rows/task projection or corresponding exact afterSHA bindings; historical content not reaccepted",
+        "evidence": "docs/ops/evidence/QUALITY-PENDING-100-3/review.json"
       }
     },
     {
@@ -3405,7 +3433,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "c1df42497db373493f35f52056fc685ada73dc963edbf2af8f27a44ec0aad448",
-      "afterSha256": "7d6dfb574091f9903da7dba3605caade651af619067d0a33522412a85d1d584a",
+      "afterSha256": "4549404175b3c09b59dff5cf26b9c078665689e7d8de3f3578de52a8ad17512a",
       "publicCallers": [
         "docs/ops/tasks/README.md → index.md",
         "docs/ops/board.md → tasks/index.md",
@@ -4846,6 +4874,13 @@
         "candidateBaseRevision": "365e582e288ea1c0052595f2aa31ab59ab72da01",
         "workingTreeDelta": true,
         "notAFullSourceReaudit": true
+      },
+      "pendingWindow3Review": {
+        "date": "2026-10-29",
+        "owner": "Codex",
+        "sourceSha256": "7d6dfb574091f9903da7dba3605caade651af619067d0a33522412a85d1d584a",
+        "scope": "Owned pending-window3 rows/task projection or corresponding exact afterSHA bindings; historical content not reaccepted",
+        "evidence": "docs/ops/evidence/QUALITY-PENDING-100-3/review.json"
       }
     },
     {
@@ -5474,7 +5509,7 @@
         "Existing workflow/test governance and direct route/template consumers"
       ],
       "sourceSha256": "70d6322333f1cdf920634503fc65739e867a62f6f58449c06b0cf9af1e803632",
-      "afterSha256": "e7fe01f7098438843e4a8d5dfd892d5f0ef3112edcaf44c829990e94783e0639",
+      "afterSha256": "30e11d3891cccb44b3a686529ae40ce50cde8a32ec84c7bda99e6583267493bf",
       "publicCallers": [
         "AGENTS.md code operation route",
         "CLAUDE.md shared collaboration rules",
@@ -5504,7 +5539,7 @@
       },
       "revision": {
         "currentSha": "0bc82025928b4fe13dce0f34c3a8696507d04032",
-        "implementationSha": "e7fe01f7098438843e4a8d5dfd892d5f0ef3112edcaf44c829990e94783e0639",
+        "implementationSha": "30e11d3891cccb44b3a686529ae40ce50cde8a32ec84c7bda99e6583267493bf",
         "history": [
           {
             "revision": "c1464acde3cbff85c0a24afed343104a7a9f52d2",
@@ -5557,21 +5592,36 @@
             "action": "First permanent quality-contract edition under explicit user authorization",
             "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/quality-standard/README.md",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-31",
+            "action": "User-authorized semantic naming policy and acceptance prompt",
+            "previousAfterSha256": "15538f0c0efe5f00eac19853d7a23550d7ac2e946773b90a5403eb91d1b82136",
+            "previousEvidence": {
+              "kind": "finite-prose-acceptance-and-large-task-routing",
+              "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/copy-fix-r1-codex-final.json",
+              "afterSha256": "81b05d568b068010b11cdf101d77b65f5e1ae23ad85b63a93fb0b7cd87afc046",
+              "lineCount": 159,
+              "currentMaintenance": {
+                "task": "QUALITY-PENDING-100-1",
+                "path": "docs/ops/evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json",
+                "sourceBeforeSha256": "81b05d568b068010b11cdf101d77b65f5e1ae23ad85b63a93fb0b7cd87afc046",
+                "afterSha256": "e7fe01f7098438843e4a8d5dfd892d5f0ef3112edcaf44c829990e94783e0639",
+                "scope": "Owned100-window local gates verified; release pending at commit; prior provenance retained."
+              }
+            },
+            "scope": "2026-10-31 user clarification: code files organize by module/function/responsibility, never author/model/task IDs; names without semantic responsibility fail F/G. Full clauses only in code-quality; workflow/templates route and prompt evidence. Traceability artifacts and real domain vendor/protocol names are distinct. No product, source algorithm, test or historical acceptance credit.",
+            "evidence": "docs/ops/evidence/QUALITY-PENDING-100-3/review.json"
           }
         ]
       },
       "evidence": {
-        "kind": "finite-prose-acceptance-and-large-task-routing",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/copy-fix-r1-codex-final.json",
-        "afterSha256": "81b05d568b068010b11cdf101d77b65f5e1ae23ad85b63a93fb0b7cd87afc046",
-        "lineCount": 159,
-        "currentMaintenance": {
-          "task": "QUALITY-PENDING-100-1",
-          "path": "docs/ops/evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json",
-          "sourceBeforeSha256": "81b05d568b068010b11cdf101d77b65f5e1ae23ad85b63a93fb0b7cd87afc046",
-          "afterSha256": "e7fe01f7098438843e4a8d5dfd892d5f0ef3112edcaf44c829990e94783e0639",
-          "scope": "Owned100-window local gates verified; release pending at commit; prior provenance retained."
-        }
+        "kind": "authorized-naming-policy-delta",
+        "path": "docs/ops/evidence/QUALITY-PENDING-100-3/review.json",
+        "afterSha256": "30e11d3891cccb44b3a686529ae40ce50cde8a32ec84c7bda99e6583267493bf",
+        "lineCount": 172,
+        "scope": "2026-10-31 user clarification: code files organize by module/function/responsibility, never author/model/task IDs; names without semantic responsibility fail F/G. Full clauses only in code-quality; workflow/templates route and prompt evidence. Traceability artifacts and real domain vendor/protocol names are distinct. No product, source algorithm, test or historical acceptance credit."
       },
       "history": [
         {
@@ -5600,7 +5650,21 @@
       "supersedes": [],
       "stopLine": "Unknown critical premise, important unresolved issue, stale evidence, nonzero diagnostics or unauthorized scope does not receive acceptance.",
       "reviewedLines": "1-155",
-      "reviewNotes": "\n2026-10-18: user explicitly replaces default duplicate Codex full review with evidence-based independent acceptance and targeted escalation.\n2026-10-18: user requests one large delegated task to reduce relays; no quality/risk rule weakened."
+      "reviewNotes": "\n2026-10-18: user explicitly replaces default duplicate Codex full review with evidence-based independent acceptance and targeted escalation.\n2026-10-18: user requests one large delegated task to reduce relays; no quality/risk rule weakened.\n2026-10-31: corrected own firstchild-only auxiliary proof and readonlyrevalidated affectedcurrent/previous claims; mandatorypositive/negative producer selfchecks nowcanonical.\n2026-10-31 user clarification: code files organize by module/function/responsibility, never author/model/task IDs; names without semantic responsibility fail F/G. Full clauses only in code-quality; workflow/templates route and prompt evidence. Traceability artifacts and real domain vendor/protocol names are distinct. No product, source algorithm, test or historical acceptance credit.",
+      "pendingNamingOrganizationReview": {
+        "date": "2026-10-29",
+        "previousAfterSha256": "e7fe01f7098438843e4a8d5dfd892d5f0ef3112edcaf44c829990e94783e0639",
+        "evidence": "docs/ops/tasks/QUALITY-NAMING-ORGANIZATION-1.md",
+        "scope": "Read exact added naming/file-organization clauses and existing surrounding F/G/refactor/integration contract. User correction applies to long-term code work and historic closed credit; no test/gate/risk relaxation, no automatic semantic acceptance by static names."
+      },
+      "comparatorProofMaintenance": {
+        "date": "2026-10-31",
+        "owner": "Codex",
+        "previousAfterSha256": "e2b0b3c0382a2a282f3dd1e16d83b483bcb53c5353c859ba1b1e8338a6f30186",
+        "afterSha256": "15538f0c0efe5f00eac19853d7a23550d7ac2e946773b90a5403eb91d1b82136",
+        "scope": "Read currentqualitystandard andexactownedparagraph. New/modified equality/traversalproof producersmustuse samecomparator onknownsame andtail-differentinputs; failuregetsno proofcredit. No product/acceptance-ruleweakening orretrospectivewholefilecredit.",
+        "evidence": "docs/ops/evidence/QUALITY-PENDING-100-3/organization-shell-loop.json"
+      }
     }
   ]
 }

@@ -1090,7 +1090,7 @@
         }
       ],
       "sourceSha256": "9c3e28630a348209042706545971d4598adb8a49e392a485a14c687ba2010716",
-      "afterSha256": "7e2529eb0e10540af8e9a88d8617e8ac614a7f457dde52478cba7f7f4a6e725e",
+      "afterSha256": "c23ac688bada2d1111a070944cccb78e5cd8248e97110a38c5354cff394b28e3",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -3778,7 +3778,8 @@
         "candidateBaseRevision": "365e582e288ea1c0052595f2aa31ab59ab72da01",
         "workingTreeDelta": true,
         "notAFullSourceReaudit": true
-      }
+      },
+      "pendingWindow3Review": "2026-10-29 Codex: owned afterSHA bindings only; QUALITY-PENDING-100-3/review.json"
     },
     {
       "path": "docs/phase-governance/reviews/20261004-structured-content-new-01.json",
@@ -5222,7 +5223,7 @@
         }
       ],
       "sourceSha256": "69382e6294e4712af4dbf30c2f74333508296d27b942f3336dc078b175fadd28",
-      "afterSha256": "1a27b50972e408e40b87a0a1adf3c28a015212b7b06902e6d8e68876dc0f19cb",
+      "afterSha256": "8f2626bf7b39c7c5c700b8d4b918406f258c2489539f277100143b031182e977",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -5660,7 +5661,7 @@
         }
       ],
       "sourceSha256": "e864bf1eb0b90433939d3ed247049f39eba69d34e1d1809d69ea6f5866350ef1",
-      "afterSha256": "a66b970cda03ec8701da2edf7083ebfc7031ad7a91c8fc91a05daad389d4f5e7",
+      "afterSha256": "a04fca82381c0bc1a71ca18e28b1bb9c7480f6865b0826b3f4b4321a72749bad",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -6129,7 +6130,7 @@
         }
       ],
       "sourceSha256": "1d43f1eaeb938d3f32fe03d64db8e6e42ab2f1d9c0e10d80bc63d490bb403a03",
-      "afterSha256": "071a060daa5942405cfbb0e0a1d978a2b1fc681eaabd990803b5552032afa126",
+      "afterSha256": "411f44a69087748c2f724a43415981e4f3d99a2423fbbec0acbde5bc627a6900",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -7384,7 +7385,7 @@
         }
       ],
       "sourceSha256": "3718a3270626b429db4563da29db115b93ffa59766d1a66185a1b8234dffff99",
-      "afterSha256": "3718a3270626b429db4563da29db115b93ffa59766d1a66185a1b8234dffff99",
+      "afterSha256": "10ea07350334386cefa5652722cebcc4d47b46f1519c15b3277413251410fa45",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -7803,7 +7804,7 @@
         }
       ],
       "sourceSha256": "a6034a8eee23aede7a0c85cc1bda433e850a4449cbc43cd73d7c46897f6d68e7",
-      "afterSha256": "1c65cef1de4c639892a79255498a259c187fdf9b6a0eaf15758d1b28b38840e0",
+      "afterSha256": "9f22c25403ea47aa1ce06545394b6ba33a9807bf2f1b02d9d84735edd79eface",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -10310,7 +10311,8 @@
         "synchronizedMain": "d297e64d0a928abb813ce280122d51c2c852bea5",
         "workingTreeDelta": true,
         "notAFullSourceReaudit": true
-      }
+      },
+      "pendingWindow3Review": "2026-10-29 Codex: owned afterSHA bindings only; QUALITY-PENDING-100-3/review.json"
     },
     {
       "path": "docs/phase-governance/reviews/20261016-historical-cards-f.json",
@@ -10665,7 +10667,7 @@
         }
       ],
       "sourceSha256": "4ba2dec97aa9b4dc4b05eabe599b900c8ca9d5418a938010bc5153825beda240",
-      "afterSha256": "a42a833836f5aab01567c748298bb0ff75f40d5f4007dd45087e1ef8b50799a0",
+      "afterSha256": "d78b02f3629b747bf0aafbaa27a8b050af4820a3e46bc730501764af88ceff95",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -12576,7 +12578,7 @@
         }
       ],
       "sourceSha256": "9acd2c970029be864bea64c4cf34319586daaa92fd7c7d018760c06813eaa9d5",
-      "afterSha256": "f8791290984e17afeb8c24caced927517e577697885cf52838896c5402a9c7ab",
+      "afterSha256": "9ae81f352e746e105df488543885989a256388af3583c0f64137ee66ecd05a13",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -15183,7 +15185,7 @@
         }
       ],
       "sourceSha256": "c3bbeaa5a531f7aae26ba0525ac6a5093e0cd76fae9bbe6111d81b369cbfe65a",
-      "afterSha256": "2517e65147dc28ef8571989e902d513f9c743edc462927715b664315546ec1df",
+      "afterSha256": "44cd0868feb26097932cadf03d5a6acbb06107e4e1da65ee45685b7f3b1f03c6",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -15355,7 +15357,8 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "pendingWindow3Review": "2026-10-29 Codex: owned afterSHA bindings only; QUALITY-PENDING-100-3/review.json"
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r40-ops-machine-json.json",
@@ -17889,7 +17892,7 @@
         }
       ],
       "sourceSha256": "19acdf9237d9ad9b00b367ff6a1b22a79612806171c8d229b4b45005c790185b",
-      "afterSha256": "35d827a6755e97a38f783285f364b5936f280890bb9e9b2ce6009a6c6bd23c04",
+      "afterSha256": "b19019acdafb09df1251937eae8adc3f60a5612a0d0b7dcf4e9685cd1355643d",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -18503,7 +18506,7 @@
         }
       ],
       "sourceSha256": "6528483e40d006b41795f1a2a31804697c2882a263d42f578551fc4a0e0dced3",
-      "afterSha256": "6cf0f017dd08dad238d02c98f0dc4de236d601e2e4b228b8dd8aa00d8de87184",
+      "afterSha256": "4952368881c636ec601096eaa1108082787ba3c6f03e38626b831eb3cefa68c7",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",

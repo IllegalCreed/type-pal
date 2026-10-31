@@ -54,7 +54,7 @@ export {
  * L40:用物品选目标框的默认光标 slot(sdlpal uigame.c:1311 `static SHORT sSelectedPlayer = 0`)。
  * 跨「切换物品 / 关闭重开物品菜单」持久记忆上次选中的队员 slot —— 模块级静态 = C 的 static(不入存档)。
  * 重建 targetMenu 时用作初始光标;越界(队伍变小,slot >= 人数)归 0(uigame.c:1320-1323)。
- * 仅 confirm/cancel 离开目标框时回写,READ 总在下一次重建,故等价 C 每次移动即写 static。
+ * 仅 confirm/cancel 正常退出目标框时保存，供下一次重建读取；强制卸栈不经过此写入。
  */
 let sSelectedItemTargetSlot = 0
 
@@ -110,7 +110,7 @@ export interface InventoryMenuState {
   phase: InventoryMenuPhase
   /** sdlpal gpGlobals->iCurInvMenuItem — linear inventory cursor。 */
   cursor: number
-  /** 当前 inventory snapshot(开菜单时 copy 自 gs.inventory + filter)。 */
+  /** 完整库存快照；usable 入口另追加可用装备槽，filter 供呈现／确认读取。 */
   inventory: InventorySlot[]
   filter: ItemFilter
   /** 选中的 item id(进入 use-target 时存)。 */
@@ -134,8 +134,8 @@ export function createInventoryMenu(
   // 注(2026-10-15 更正):items.json 的 id 是全局 wObjectID(61..294,梦蛇 295 归 spells 排除;
   //   提取器 resources/parsers/items.ts `id = ITEM_OBJ_START + i`),0 是"无物品"哨兵,不是真值物品
   //   ——2026-05-27 旧注"id 0 是观音符"是 0-based local id 时代的历史误会,已废弃。
-  //   本表全显示语义照旧:库存条目由 addItemToInventory 维护(count=0 自动清掉),
-  //   进表的 entry 本身就代表真实持有,无需再按 id 过滤。
+  //   此处原样复制现有记录（包括数量 0）；数量／占用与入口标志在呈现和确认时判定，
+  //   不按 filter 重排或删去库存记录。
   const inv: InventorySlot[] = gs.inventory.map((e) => ({
     itemId: e.itemId,
     count: e.count ?? 0,

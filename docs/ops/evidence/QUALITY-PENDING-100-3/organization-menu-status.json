@@ -1,0 +1,1128 @@
+{
+  "inputs": [
+    {
+      "path": "packages/game/src/present/menu/draw-player-status.glm-phase1-leaves.test.ts",
+      "sha256": "2b62e7610e11be7bf435540e728d7d42ff95f546ff7f18dfa5bc952a14a8cc01",
+      "member": "organization-menu-status/0.before"
+    },
+    {
+      "path": "packages/game/src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+      "sha256": "d87d201c7b09acea6c867b46e42e2108f2d69d76caae48544b3c2c85337bc146",
+      "member": "organization-menu-status/1.before"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/p07-status.test.ts",
+      "sha256": "8eba86dfc29c243d255d67dd0ca8f7e9715486c1c3e40891a45d758b580e8282",
+      "member": "organization-menu-status/2.before"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-player-status.test.ts",
+      "sha256": "ef5974c4d5c5953832b43f5e8d32b452d07779509480f4993d819b4883d84211",
+      "member": "organization-menu-status/3.before"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "packages/game/src/present/menu/draw-player-status.test.ts",
+      "sha256": "a90071855e3c5c891d8b62b39cfc04da3f7a826484744d7f5b13217dcc15fca8"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-player-status.equipment.test.ts",
+      "sha256": "4f575c0fc054dcc8d1ea7bcdaf03158b4514dbae16bb5433c90ad5abb760b72e"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-player-status.poison.test.ts",
+      "sha256": "2b7c98b71993e2ab57e7a4fa1f10a1301abab18921d8ce6e0f66eabfccdb3f73"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-player-status.entry.test.ts",
+      "sha256": "b6bd1bf4c6d6f2b2a1d76db2f055d4d7a3a852165b4473b00a024aa58644ad56"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/status-state-fixtures.ts",
+      "sha256": "f76fe730e092d215c04e442daaee4c6af6f991590b21f446a854c71453dbaf51"
+    }
+  ],
+  "sourceBridges": [
+    {
+      "path": "packages/game/src/present/menu/draw-player-status.glm-phase1-leaves.test.ts",
+      "id": "menu-status-0",
+      "changes": [
+        {
+          "from": "/**\n * TEST-GLM-PHASE1-LEAVES-3 L11（draw-player-status.ts）— 去重表：\n *  - draw-player-status.test（毒 row 三分支）→ 不重复\n *  - grok-present P05/P07（状态页背景+毒 extra、非空装备/立绘/经验/HP）→ 不重复\n *  - 新差异：已初始化 runtime 的零值（不回退静态属性）、装备槽 itemId 不在\n *    catalog 跳过该槽（图标与名字都不画）、roles 缺 roleId / cursor 越界早退不崩。\n */\nimport { describe, expect, it } from 'vitest'\nimport {\n  fixtureGlyphs,\n  makeRoles,\n  makeUiFrames,\n  newFb,\n  pixel,\n  rightDigitX,\n  yellowDigit,\n} from '../../__tests__/glm-phase1-leaves/present-fixtures.js'\nimport type { GameState } from '../../core/game-state.js'\nimport { createInitialGameState, hydratePlayerRolesRuntime } from '../../core/game-state.js'\nimport type { PlayerStatusState } from '../../core/menu/player-status.js'\nimport { createPlayerStatus } from '../../core/menu/player-status.js'\nimport { drawPlayerStatus } from './draw-player-status.js'\n\nconst glyphs = fixtureGlyphs\n\nfunction gsForStatus(): GameState {\n  const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n  gs.partyMembers = [0]\n  hydratePlayerRolesRuntime(gs.PlayerRolesRuntime, makeRoles())\n  return gs\n}\n\ndescribe('L11 drawPlayerStatus 剩余分支', () => {\n  it('runtime 0 → 保留真实 runtime 0（不回退 base PlayerRoles）', () => {\n    const gs = gsForStatus()\n    // 已走 hydrate，再由运行时变更为 0，不能与未初始化 fixture 混淆。\n    gs.PlayerRolesRuntime.rgwHP[0] = 0\n    gs.PlayerRolesRuntime.rgwMP[0] = 0\n    gs.PlayerRolesRuntime.rgwLevel[0] = 0\n    gs.PlayerRolesRuntime.rgwMaxHP[0] = 0\n    gs.PlayerRolesRuntime.rgwMaxMP[0] = 0\n    const roles = makeRoles()\n    const state: PlayerStatusState = createPlayerStatus([0])\n    const fb = newFb()\n    drawPlayerStatus({\n      fb,\n      state,\n      gs,\n      playerRoles: roles,\n      items: [],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs,\n    })\n    expect(pixel(fb, rightDigitX(42, 4, 0), 56)).toBe(yellowDigit(0))\n    expect(pixel(fb, rightDigitX(63, 4, 0), 61)).toBe(0xd0)\n    expect(pixel(fb, rightDigitX(42, 4, 0), 78)).toBe(yellowDigit(0))\n    expect(pixel(fb, rightDigitX(63, 4, 0), 83)).toBe(0xd0)\n    expect(pixel(fb, rightDigitX(54, 2, 0), 35)).toBe(yellowDigit(0))\n  })\n\n  it('runtime 有值优先于 base：hp 41 画 41 非 base 99', () => {\n    const gs = gsForStatus()\n    gs.PlayerRolesRuntime.rgwHP[0] = 41\n    const state = createPlayerStatus([0])\n    const fb = newFb()\n    drawPlayerStatus({\n      fb,\n      state,\n      gs,\n      playerRoles: makeRoles(),\n      items: [],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs,\n    })\n    expect(pixel(fb, rightDigitX(42, 4, 0), 56)).toBe(yellowDigit(1))\n    expect(pixel(fb, rightDigitX(42, 4, 1), 56)).toBe(yellowDigit(4))\n  })\n\n  it('装备槽 itemId 不在 catalog：该槽图标与名字都跳过（不 `?id`，与 draw-equip 不同合同）', () => {\n    const gs = gsForStatus()\n    gs.PlayerRolesRuntime.rgwEquipment[0]![0] = 888 // 未知\n    gs.PlayerRolesRuntime.rgwHP[0] = 41\n    const state = createPlayerStatus([0])\n    const fb = newFb()\n    drawPlayerStatus({\n      fb,\n      state,\n      gs,\n      playerRoles: makeRoles(),\n      items: [], // catalog 空\n      uiSpriteFrames: makeUiFrames(),\n      itemIcons: new Map([\n        [0, { width: 1, height: 1, indices: Uint8Array.of(0x99), opaque: Uint8Array.of(1) }],\n      ]),\n      glyphs,\n    })\n    // slot0 名字位 (195,38) 保持 sentinel（item find 失败 → continue）\n    expect(pixel(fb, 195, 38)).toBe(0x5a)\n    expect(pixel(fb, 190, 0)).toBe(0x5a)\n  })\n\n  it('cursor 越界 / roles 缺 roleId：早退不画不崩', () => {\n    const gs = gsForStatus()\n    const outside = createPlayerStatus([0])\n    outside.cursor = 5\n    for (const input of [\n      { state: outside, playerRoles: makeRoles() },\n      { state: createPlayerStatus([0]), playerRoles: { roles: [] } },\n    ]) {\n      const fb = newFb()\n      const before = fb.indices.slice()\n      drawPlayerStatus({ fb, gs, ...input, items: [], uiSpriteFrames: makeUiFrames(), glyphs })\n      expect(fb.indices).toEqual(before)\n    }\n  })\n})\n",
+          "to": "import type { GameState } from '../../core/game-state.js'\nimport type { PlayerRole } from '@type-pal/shared'\nimport { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'\nimport { createInitialGameState, hydratePlayerRolesRuntime } from '../../core/game-state.js'\nimport {\n  createPlayerStatus,\n  playerStatusNext,\n  type PlayerStatusState,\n} from '../../core/menu/player-status.js'\nimport { setWordTable } from '../../core/word-lookup.js'\nimport * as fontModule from '../font.js'\nimport { fixtureGlyphs, textDot } from '../__tests__/glyph-fixtures.js'\nimport { makeGs, makeItem, makeRoles } from '../__tests__/menu-state-fixtures.js'\nimport { beginChineseMenuText } from '../__tests__/menu-text-fixture.js'\nimport {\n  blueDigit,\n  cyanDigit,\n  makeUiFrames,\n  rightDigitX,\n  SLASH_ID,\n  uiFramesWithoutSlot,\n  yellowDigit,\n} from '../__tests__/menu-ui-fixtures.js'\nimport {\n  fillSentinel,\n  iconImage,\n  pixel,\n  SENTINEL,\n  sentinelFramebuffer,\n} from '../__tests__/raster-fixtures.js'\nimport { cloneInputs } from '../__tests__/render-input-snapshots.js'\nimport { createHydratedStatusState } from '../__tests__/status-state-fixtures.js'\nimport { uniformDotGlyphs } from '../__tests__/uniform-glyphs.js'\nimport { createFramebuffer } from '../framebuffer.js'\nimport { drawPlayerStatus } from './draw-player-status.js'\nconst uniformGlyphs = uniformDotGlyphs()\nconst positionGlyphs = fixtureGlyphs()\nconst CONFIRMED = 0x2c\nconst EQUIPMENT = 0xbe\nfunction poisonRole(id: number): PlayerRole {\n  return {\n    id,\n    _name: 'r',\n    name: 0,\n    avatar: 0,\n    level: 1,\n    hp: 10,\n    maxHP: 10,\n    mp: 5,\n    maxMP: 5,\n    attackStrength: 1,\n    magicStrength: 1,\n    defense: 1,\n    dexterity: 1,\n    fleeRate: 1,\n    poisonResistance: 0,\n    equipment: [0, 0, 0, 0, 0, 0],\n    magic: [],\n    elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },\n    coveredBy: 0,\n    cooperativeMagic: 0,\n    attackAll: 0,\n    walkFrames: 0,\n    spriteNum: 0,\n    spriteNumInBattle: 0,\n    attackSound: 0,\n    weaponSound: 0,\n    criticalSound: 0,\n    magicSound: 0,\n    deathSound: 0,\n  }\n}\nfunction createPoisonState() {\n  const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n  gs.partyMembers = [0]\n  hydratePlayerRolesRuntime(gs.PlayerRolesRuntime, {\n    roles: Array.from({ length: 6 }, (_, id) => poisonRole(id)),\n  })\n  return gs\n}\nfunction drawPoisonText(opts: {\n  id: number\n  level: number\n  color: number\n  slot?: number\n}): ReturnType<typeof vi.spyOn> {\n  const gs = createPoisonState()\n  gs.partyMembers = [0]\n  gs.rgPoisonStatus[`${opts.slot ?? 0}_0`] = { wPoisonID: opts.id, wPoisonScript: 0 }\n  const objectPoisons = new Map([[opts.id, { level: opts.level, color: opts.color }]])\n  const flat: string[] = []\n  flat[opts.id] = '蛊毒'\n  setWordTable(flat)\n  const spy = observeRenderText()\n  drawPlayerStatus({\n    fb: createFramebuffer(),\n    state: createPlayerStatus([0]),\n    gs,\n    playerRoles: { roles: [poisonRole(0)] },\n    items: [],\n    uiSpriteFrames: [],\n    objectPoisons,\n  })\n  return spy\n}\nconst originalRenderText = fontModule.renderText\nlet restoreRenderText: (() => void) | undefined\nfunction observeRenderText() {\n  const spy = vi.spyOn(fontModule, 'renderText')\n  restoreRenderText = () => spy.mockRestore()\n  return spy\n}\nlet restoreMenuText: () => void\nbeforeEach(() => {\n  restoreMenuText = beginChineseMenuText()\n})\nafterEach(() => {\n  restoreMenuText()\n})\ndescribe('Player status runtime values', () => {\n  it('runtime 0 → 保留真实 runtime 0（不回退 base PlayerRoles）', () => {\n    const gs = createHydratedStatusState()\n    // 已走 hydrate，再由运行时变更为 0，不能与未初始化 fixture 混淆。\n    gs.PlayerRolesRuntime.rgwHP[0] = 0\n    gs.PlayerRolesRuntime.rgwMP[0] = 0\n    gs.PlayerRolesRuntime.rgwLevel[0] = 0\n    gs.PlayerRolesRuntime.rgwMaxHP[0] = 0\n    gs.PlayerRolesRuntime.rgwMaxMP[0] = 0\n    const roles = makeRoles()\n    const state: PlayerStatusState = createPlayerStatus([0])\n    const fb = sentinelFramebuffer()\n    drawPlayerStatus({\n      fb,\n      state,\n      gs,\n      playerRoles: roles,\n      items: [],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs: uniformGlyphs,\n    })\n    expect(pixel(fb, rightDigitX(42, 4, 0), 56)).toBe(yellowDigit(0))\n    expect(pixel(fb, rightDigitX(63, 4, 0), 61)).toBe(0xd0)\n    expect(pixel(fb, rightDigitX(42, 4, 0), 78)).toBe(yellowDigit(0))\n    expect(pixel(fb, rightDigitX(63, 4, 0), 83)).toBe(0xd0)\n    expect(pixel(fb, rightDigitX(54, 2, 0), 35)).toBe(yellowDigit(0))\n  })\n\n  it('runtime 有值优先于 base：hp 41 画 41 非 base 99', () => {\n    const gs = createHydratedStatusState()\n    gs.PlayerRolesRuntime.rgwHP[0] = 41\n    const state = createPlayerStatus([0])\n    const fb = sentinelFramebuffer()\n    drawPlayerStatus({\n      fb,\n      state,\n      gs,\n      playerRoles: makeRoles(),\n      items: [],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs: uniformGlyphs,\n    })\n    expect(pixel(fb, rightDigitX(42, 4, 0), 56)).toBe(yellowDigit(1))\n    expect(pixel(fb, rightDigitX(42, 4, 1), 56)).toBe(yellowDigit(4))\n  })\n})\n\ndescribe('Player status equipment and portrait', () => {\n  it('装备槽 itemId 不在 catalog：该槽图标与名字都跳过（不 `?id`，与 draw-equip 不同合同）', () => {\n    const gs = createHydratedStatusState()\n    gs.PlayerRolesRuntime.rgwEquipment[0]![0] = 888 // 未知\n    gs.PlayerRolesRuntime.rgwHP[0] = 41\n    const state = createPlayerStatus([0])\n    const fb = sentinelFramebuffer()\n    drawPlayerStatus({\n      fb,\n      state,\n      gs,\n      playerRoles: makeRoles(),\n      items: [], // catalog 空\n      uiSpriteFrames: makeUiFrames(),\n      itemIcons: new Map([\n        [0, { width: 1, height: 1, indices: Uint8Array.of(0x99), opaque: Uint8Array.of(1) }],\n      ]),\n      glyphs: uniformGlyphs,\n    })\n    // slot0 名字位 (195,38) 保持 sentinel（item find 失败 → continue）\n    expect(pixel(fb, 195, 38)).toBe(0x5a)\n    expect(pixel(fb, 190, 0)).toBe(0x5a)\n  })\n})\n\ndescribe('Player status entry and selected role', () => {\n  it('cursor 越界 / roles 缺 roleId：早退不画不崩', () => {\n    const gs = createHydratedStatusState()\n    const outside = createPlayerStatus([0])\n    outside.cursor = 5\n    for (const input of [\n      { state: outside, playerRoles: makeRoles() },\n      { state: createPlayerStatus([0]), playerRoles: { roles: [] } },\n    ]) {\n      const fb = sentinelFramebuffer()\n      const before = fb.indices.slice()\n      drawPlayerStatus({\n        fb,\n        gs,\n        ...input,\n        items: [],\n        uiSpriteFrames: makeUiFrames(),\n        glyphs: uniformGlyphs,\n      })\n      expect(fb.indices).toEqual(before)\n    }\n  })\n})\n",
+          "count": 1
+        }
+      ],
+      "reason": "Private names/factory and explicit fixture/owned-spy deltas, module scopes and canonical-role maxMP correction; frozen originalOrdinal retained."
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-player-status.glm-phase1-leaves.test.ts",
+      "id": "menu-status-0-equipment",
+      "ordinals": [2],
+      "changes": [
+        {
+          "from": "import type { GameState } from '../../core/game-state.js'\nimport type { PlayerRole } from '@type-pal/shared'\nimport { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'\nimport { createInitialGameState, hydratePlayerRolesRuntime } from '../../core/game-state.js'\nimport {\n  createPlayerStatus,\n  playerStatusNext,\n  type PlayerStatusState,\n} from '../../core/menu/player-status.js'\nimport { setWordTable } from '../../core/word-lookup.js'\nimport * as fontModule from '../font.js'\nimport { fixtureGlyphs, textDot } from '../__tests__/glyph-fixtures.js'\nimport { makeGs, makeItem, makeRoles } from '../__tests__/menu-state-fixtures.js'\nimport { beginChineseMenuText } from '../__tests__/menu-text-fixture.js'\nimport {\n  blueDigit,\n  cyanDigit,\n  makeUiFrames,\n  rightDigitX,\n  SLASH_ID,\n  uiFramesWithoutSlot,\n  yellowDigit,\n} from '../__tests__/menu-ui-fixtures.js'\nimport {\n  fillSentinel,\n  iconImage,\n  pixel,\n  SENTINEL,\n  sentinelFramebuffer,\n} from '../__tests__/raster-fixtures.js'\nimport { cloneInputs } from '../__tests__/render-input-snapshots.js'\nimport { createHydratedStatusState } from '../__tests__/status-state-fixtures.js'\nimport { uniformDotGlyphs } from '../__tests__/uniform-glyphs.js'\nimport { createFramebuffer } from '../framebuffer.js'\nimport { drawPlayerStatus } from './draw-player-status.js'\nconst uniformGlyphs = uniformDotGlyphs()\nconst positionGlyphs = fixtureGlyphs()\nconst CONFIRMED = 0x2c\nconst EQUIPMENT = 0xbe\nfunction poisonRole(id: number): PlayerRole {\n  return {\n    id,\n    _name: 'r',\n    name: 0,\n    avatar: 0,\n    level: 1,\n    hp: 10,\n    maxHP: 10,\n    mp: 5,\n    maxMP: 5,\n    attackStrength: 1,\n    magicStrength: 1,\n    defense: 1,\n    dexterity: 1,\n    fleeRate: 1,\n    poisonResistance: 0,\n    equipment: [0, 0, 0, 0, 0, 0],\n    magic: [],\n    elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },\n    coveredBy: 0,\n    cooperativeMagic: 0,\n    attackAll: 0,\n    walkFrames: 0,\n    spriteNum: 0,\n    spriteNumInBattle: 0,\n    attackSound: 0,\n    weaponSound: 0,\n    criticalSound: 0,\n    magicSound: 0,\n    deathSound: 0,\n  }\n}\nfunction createPoisonState() {\n  const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n  gs.partyMembers = [0]\n  hydratePlayerRolesRuntime(gs.PlayerRolesRuntime, {\n    roles: Array.from({ length: 6 }, (_, id) => poisonRole(id)),\n  })\n  return gs\n}\nfunction drawPoisonText(opts: {\n  id: number\n  level: number\n  color: number\n  slot?: number\n}): ReturnType<typeof vi.spyOn> {\n  const gs = createPoisonState()\n  gs.partyMembers = [0]\n  gs.rgPoisonStatus[`${opts.slot ?? 0}_0`] = { wPoisonID: opts.id, wPoisonScript: 0 }\n  const objectPoisons = new Map([[opts.id, { level: opts.level, color: opts.color }]])\n  const flat: string[] = []\n  flat[opts.id] = '蛊毒'\n  setWordTable(flat)\n  const spy = observeRenderText()\n  drawPlayerStatus({\n    fb: createFramebuffer(),\n    state: createPlayerStatus([0]),\n    gs,\n    playerRoles: { roles: [poisonRole(0)] },\n    items: [],\n    uiSpriteFrames: [],\n    objectPoisons,\n  })\n  return spy\n}\nconst originalRenderText = fontModule.renderText\nlet restoreRenderText: (() => void) | undefined\nfunction observeRenderText() {\n  const spy = vi.spyOn(fontModule, 'renderText')\n  restoreRenderText = () => spy.mockRestore()\n  return spy\n}\nlet restoreMenuText: () => void\nbeforeEach(() => {\n  restoreMenuText = beginChineseMenuText()\n})\nafterEach(() => {\n  restoreMenuText()\n})\ndescribe('Player status runtime values', () => {\n  it('runtime 0 → 保留真实 runtime 0（不回退 base PlayerRoles）', () => {\n    const gs = createHydratedStatusState()\n    // 已走 hydrate，再由运行时变更为 0，不能与未初始化 fixture 混淆。\n    gs.PlayerRolesRuntime.rgwHP[0] = 0\n    gs.PlayerRolesRuntime.rgwMP[0] = 0\n    gs.PlayerRolesRuntime.rgwLevel[0] = 0\n    gs.PlayerRolesRuntime.rgwMaxHP[0] = 0\n    gs.PlayerRolesRuntime.rgwMaxMP[0] = 0\n    const roles = makeRoles()\n    const state: PlayerStatusState = createPlayerStatus([0])\n    const fb = sentinelFramebuffer()\n    drawPlayerStatus({\n      fb,\n      state,\n      gs,\n      playerRoles: roles,\n      items: [],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs: uniformGlyphs,\n    })\n    expect(pixel(fb, rightDigitX(42, 4, 0), 56)).toBe(yellowDigit(0))\n    expect(pixel(fb, rightDigitX(63, 4, 0), 61)).toBe(0xd0)\n    expect(pixel(fb, rightDigitX(42, 4, 0), 78)).toBe(yellowDigit(0))\n    expect(pixel(fb, rightDigitX(63, 4, 0), 83)).toBe(0xd0)\n    expect(pixel(fb, rightDigitX(54, 2, 0), 35)).toBe(yellowDigit(0))\n  })\n\n  it('runtime 有值优先于 base：hp 41 画 41 非 base 99', () => {\n    const gs = createHydratedStatusState()\n    gs.PlayerRolesRuntime.rgwHP[0] = 41\n    const state = createPlayerStatus([0])\n    const fb = sentinelFramebuffer()\n    drawPlayerStatus({\n      fb,\n      state,\n      gs,\n      playerRoles: makeRoles(),\n      items: [],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs: uniformGlyphs,\n    })\n    expect(pixel(fb, rightDigitX(42, 4, 0), 56)).toBe(yellowDigit(1))\n    expect(pixel(fb, rightDigitX(42, 4, 1), 56)).toBe(yellowDigit(4))\n  })\n})\n\ndescribe('Player status equipment and portrait', () => {\n  it('装备槽 itemId 不在 catalog：该槽图标与名字都跳过（不 `?id`，与 draw-equip 不同合同）', () => {\n    const gs = createHydratedStatusState()\n    gs.PlayerRolesRuntime.rgwEquipment[0]![0] = 888 // 未知\n    gs.PlayerRolesRuntime.rgwHP[0] = 41\n    const state = createPlayerStatus([0])\n    const fb = sentinelFramebuffer()\n    drawPlayerStatus({\n      fb,\n      state,\n      gs,\n      playerRoles: makeRoles(),\n      items: [], // catalog 空\n      uiSpriteFrames: makeUiFrames(),\n      itemIcons: new Map([\n        [0, { width: 1, height: 1, indices: Uint8Array.of(0x99), opaque: Uint8Array.of(1) }],\n      ]),\n      glyphs: uniformGlyphs,\n    })\n    // slot0 名字位 (195,38) 保持 sentinel（item find 失败 → continue）\n    expect(pixel(fb, 195, 38)).toBe(0x5a)\n    expect(pixel(fb, 190, 0)).toBe(0x5a)\n  })\n})\n\ndescribe('Player status entry and selected role', () => {\n  it('cursor 越界 / roles 缺 roleId：早退不画不崩', () => {\n    const gs = createHydratedStatusState()\n    const outside = createPlayerStatus([0])\n    outside.cursor = 5\n    for (const input of [\n      { state: outside, playerRoles: makeRoles() },\n      { state: createPlayerStatus([0]), playerRoles: { roles: [] } },\n    ]) {\n      const fb = sentinelFramebuffer()\n      const before = fb.indices.slice()\n      drawPlayerStatus({\n        fb,\n        gs,\n        ...input,\n        items: [],\n        uiSpriteFrames: makeUiFrames(),\n        glyphs: uniformGlyphs,\n      })\n      expect(fb.indices).toEqual(before)\n    }\n  })\n})\n",
+          "to": "import type { GameState } from '../../core/game-state.js'\nimport type { PlayerRole } from '@type-pal/shared'\nimport { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'\nimport { createInitialGameState, hydratePlayerRolesRuntime } from '../../core/game-state.js'\nimport {\n  createPlayerStatus,\n  playerStatusNext,\n  type PlayerStatusState,\n} from '../../core/menu/player-status.js'\nimport { setWordTable } from '../../core/word-lookup.js'\nimport * as fontModule from '../font.js'\nimport { fixtureGlyphs, textDot } from '../__tests__/glyph-fixtures.js'\nimport { makeGs, makeItem, makeRoles } from '../__tests__/menu-state-fixtures.js'\nimport { beginChineseMenuText } from '../__tests__/menu-text-fixture.js'\nimport {\n  blueDigit,\n  cyanDigit,\n  makeUiFrames,\n  rightDigitX,\n  SLASH_ID,\n  uiFramesWithoutSlot,\n  yellowDigit,\n} from '../__tests__/menu-ui-fixtures.js'\nimport {\n  fillSentinel,\n  iconImage,\n  pixel,\n  SENTINEL,\n  sentinelFramebuffer,\n} from '../__tests__/raster-fixtures.js'\nimport { cloneInputs } from '../__tests__/render-input-snapshots.js'\nimport { createHydratedStatusState } from '../__tests__/status-state-fixtures.js'\nimport { uniformDotGlyphs } from '../__tests__/uniform-glyphs.js'\nimport { createFramebuffer } from '../framebuffer.js'\nimport { drawPlayerStatus } from './draw-player-status.js'\nconst uniformGlyphs = uniformDotGlyphs()\nconst positionGlyphs = fixtureGlyphs()\nconst CONFIRMED = 0x2c\nconst EQUIPMENT = 0xbe\nfunction poisonRole(id: number): PlayerRole {\n  return {\n    id,\n    _name: 'r',\n    name: 0,\n    avatar: 0,\n    level: 1,\n    hp: 10,\n    maxHP: 10,\n    mp: 5,\n    maxMP: 5,\n    attackStrength: 1,\n    magicStrength: 1,\n    defense: 1,\n    dexterity: 1,\n    fleeRate: 1,\n    poisonResistance: 0,\n    equipment: [0, 0, 0, 0, 0, 0],\n    magic: [],\n    elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },\n    coveredBy: 0,\n    cooperativeMagic: 0,\n    attackAll: 0,\n    walkFrames: 0,\n    spriteNum: 0,\n    spriteNumInBattle: 0,\n    attackSound: 0,\n    weaponSound: 0,\n    criticalSound: 0,\n    magicSound: 0,\n    deathSound: 0,\n  }\n}\nfunction createPoisonState() {\n  const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n  gs.partyMembers = [0]\n  hydratePlayerRolesRuntime(gs.PlayerRolesRuntime, {\n    roles: Array.from({ length: 6 }, (_, id) => poisonRole(id)),\n  })\n  return gs\n}\nfunction drawPoisonText(opts: {\n  id: number\n  level: number\n  color: number\n  slot?: number\n}): ReturnType<typeof vi.spyOn> {\n  const gs = createPoisonState()\n  gs.partyMembers = [0]\n  gs.rgPoisonStatus[`${opts.slot ?? 0}_0`] = { wPoisonID: opts.id, wPoisonScript: 0 }\n  const objectPoisons = new Map([[opts.id, { level: opts.level, color: opts.color }]])\n  const flat: string[] = []\n  flat[opts.id] = '蛊毒'\n  setWordTable(flat)\n  const spy = observeRenderText()\n  drawPlayerStatus({\n    fb: createFramebuffer(),\n    state: createPlayerStatus([0]),\n    gs,\n    playerRoles: { roles: [poisonRole(0)] },\n    items: [],\n    uiSpriteFrames: [],\n    objectPoisons,\n  })\n  return spy\n}\nconst originalRenderText = fontModule.renderText\nlet restoreRenderText: (() => void) | undefined\nfunction observeRenderText() {\n  const spy = vi.spyOn(fontModule, 'renderText')\n  restoreRenderText = () => spy.mockRestore()\n  return spy\n}\nlet restoreMenuText: () => void\nbeforeEach(() => {\n  restoreMenuText = beginChineseMenuText()\n})\nafterEach(() => {\n  restoreMenuText()\n})\ndescribe('Player status runtime values', () => {\n  it('runtime 0 → 保留真实 runtime 0（不回退 base PlayerRoles）', () => {\n    const gs = createHydratedStatusState()\n    // 已走 hydrate，再由运行时变更为 0，不能与未初始化 fixture 混淆。\n    gs.PlayerRolesRuntime.rgwHP[0] = 0\n    gs.PlayerRolesRuntime.rgwMP[0] = 0\n    gs.PlayerRolesRuntime.rgwLevel[0] = 0\n    gs.PlayerRolesRuntime.rgwMaxHP[0] = 0\n    gs.PlayerRolesRuntime.rgwMaxMP[0] = 0\n    const roles = makeRoles()\n    const state: PlayerStatusState = createPlayerStatus([0])\n    const fb = sentinelFramebuffer()\n    drawPlayerStatus({\n      fb,\n      state,\n      gs,\n      playerRoles: roles,\n      items: [],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs: uniformGlyphs,\n    })\n    expect(pixel(fb, rightDigitX(42, 4, 0), 56)).toBe(yellowDigit(0))\n    expect(pixel(fb, rightDigitX(63, 4, 0), 61)).toBe(0xd0)\n    expect(pixel(fb, rightDigitX(42, 4, 0), 78)).toBe(yellowDigit(0))\n    expect(pixel(fb, rightDigitX(63, 4, 0), 83)).toBe(0xd0)\n    expect(pixel(fb, rightDigitX(54, 2, 0), 35)).toBe(yellowDigit(0))\n  })\n\n  it('runtime 有值优先于 base：hp 41 画 41 非 base 99', () => {\n    const gs = createHydratedStatusState()\n    gs.PlayerRolesRuntime.rgwHP[0] = 41\n    const state = createPlayerStatus([0])\n    const fb = sentinelFramebuffer()\n    drawPlayerStatus({\n      fb,\n      state,\n      gs,\n      playerRoles: makeRoles(),\n      items: [],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs: uniformGlyphs,\n    })\n    expect(pixel(fb, rightDigitX(42, 4, 0), 56)).toBe(yellowDigit(1))\n    expect(pixel(fb, rightDigitX(42, 4, 1), 56)).toBe(yellowDigit(4))\n  })\n})\n\ndescribe('Player status equipment and portrait', () => {\n  it('装备槽 itemId 不在 catalog：该槽图标与名字都跳过（不 `?id`，与 draw-equip 不同合同）', () => {\n    const gs = createHydratedStatusState()\n    gs.PlayerRolesRuntime.rgwEquipment[0]![0] = 888 // 未知\n    gs.PlayerRolesRuntime.rgwHP[0] = 41\n    const state = createPlayerStatus([0])\n    const fb = sentinelFramebuffer()\n    drawPlayerStatus({\n      fb,\n      state,\n      gs,\n      playerRoles: makeRoles(),\n      items: [], // catalog 空\n      uiSpriteFrames: makeUiFrames(),\n      itemIcons: new Map([\n        [0, { width: 1, height: 1, indices: Uint8Array.of(0x99), opaque: Uint8Array.of(1) }],\n      ]),\n      glyphs: uniformGlyphs,\n    })\n    // slot0 名字位 (195,38) 保持 sentinel（item find 失败 → continue）\n    expect(pixel(fb, 195, 38)).toBe(0x5a)\n    expect(pixel(fb, 190, 0)).toBe(0x5a)\n  })\n})\n\ndescribe('Player status entry and selected role', () => {\n  it('cursor 越界 / roles 缺 roleId：早退不画不崩', () => {\n    const gs = createHydratedStatusState()\n    const outside = createPlayerStatus([0])\n    outside.cursor = 5\n    for (const input of [\n      { state: outside, playerRoles: makeRoles() },\n      { state: createPlayerStatus([0]), playerRoles: { roles: [] } },\n    ]) {\n      const fb = sentinelFramebuffer()\n      const before = fb.indices.slice()\n      drawPlayerStatus({\n        fb,\n        gs,\n        ...input,\n        items: [],\n        uiSpriteFrames: makeUiFrames(),\n        glyphs: uniformGlyphs,\n      })\n      expect(fb.indices).toEqual(before)\n    }\n  })\n})\n",
+          "count": 1
+        }
+      ],
+      "reason": "Only poison spec owns one passthrough renderText spy; other views own text/language only. No unrelated global reset."
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-player-status.glm-phase1-leaves.test.ts",
+      "id": "menu-status-0-entry",
+      "ordinals": [3],
+      "changes": [
+        {
+          "from": "import type { GameState } from '../../core/game-state.js'\nimport type { PlayerRole } from '@type-pal/shared'\nimport { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'\nimport { createInitialGameState, hydratePlayerRolesRuntime } from '../../core/game-state.js'\nimport {\n  createPlayerStatus,\n  playerStatusNext,\n  type PlayerStatusState,\n} from '../../core/menu/player-status.js'\nimport { setWordTable } from '../../core/word-lookup.js'\nimport * as fontModule from '../font.js'\nimport { fixtureGlyphs, textDot } from '../__tests__/glyph-fixtures.js'\nimport { makeGs, makeItem, makeRoles } from '../__tests__/menu-state-fixtures.js'\nimport { beginChineseMenuText } from '../__tests__/menu-text-fixture.js'\nimport {\n  blueDigit,\n  cyanDigit,\n  makeUiFrames,\n  rightDigitX,\n  SLASH_ID,\n  uiFramesWithoutSlot,\n  yellowDigit,\n} from '../__tests__/menu-ui-fixtures.js'\nimport {\n  fillSentinel,\n  iconImage,\n  pixel,\n  SENTINEL,\n  sentinelFramebuffer,\n} from '../__tests__/raster-fixtures.js'\nimport { cloneInputs } from '../__tests__/render-input-snapshots.js'\nimport { createHydratedStatusState } from '../__tests__/status-state-fixtures.js'\nimport { uniformDotGlyphs } from '../__tests__/uniform-glyphs.js'\nimport { createFramebuffer } from '../framebuffer.js'\nimport { drawPlayerStatus } from './draw-player-status.js'\nconst uniformGlyphs = uniformDotGlyphs()\nconst positionGlyphs = fixtureGlyphs()\nconst CONFIRMED = 0x2c\nconst EQUIPMENT = 0xbe\nfunction poisonRole(id: number): PlayerRole {\n  return {\n    id,\n    _name: 'r',\n    name: 0,\n    avatar: 0,\n    level: 1,\n    hp: 10,\n    maxHP: 10,\n    mp: 5,\n    maxMP: 5,\n    attackStrength: 1,\n    magicStrength: 1,\n    defense: 1,\n    dexterity: 1,\n    fleeRate: 1,\n    poisonResistance: 0,\n    equipment: [0, 0, 0, 0, 0, 0],\n    magic: [],\n    elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },\n    coveredBy: 0,\n    cooperativeMagic: 0,\n    attackAll: 0,\n    walkFrames: 0,\n    spriteNum: 0,\n    spriteNumInBattle: 0,\n    attackSound: 0,\n    weaponSound: 0,\n    criticalSound: 0,\n    magicSound: 0,\n    deathSound: 0,\n  }\n}\nfunction createPoisonState() {\n  const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n  gs.partyMembers = [0]\n  hydratePlayerRolesRuntime(gs.PlayerRolesRuntime, {\n    roles: Array.from({ length: 6 }, (_, id) => poisonRole(id)),\n  })\n  return gs\n}\nfunction drawPoisonText(opts: {\n  id: number\n  level: number\n  color: number\n  slot?: number\n}): ReturnType<typeof vi.spyOn> {\n  const gs = createPoisonState()\n  gs.partyMembers = [0]\n  gs.rgPoisonStatus[`${opts.slot ?? 0}_0`] = { wPoisonID: opts.id, wPoisonScript: 0 }\n  const objectPoisons = new Map([[opts.id, { level: opts.level, color: opts.color }]])\n  const flat: string[] = []\n  flat[opts.id] = '蛊毒'\n  setWordTable(flat)\n  const spy = observeRenderText()\n  drawPlayerStatus({\n    fb: createFramebuffer(),\n    state: createPlayerStatus([0]),\n    gs,\n    playerRoles: { roles: [poisonRole(0)] },\n    items: [],\n    uiSpriteFrames: [],\n    objectPoisons,\n  })\n  return spy\n}\nconst originalRenderText = fontModule.renderText\nlet restoreRenderText: (() => void) | undefined\nfunction observeRenderText() {\n  const spy = vi.spyOn(fontModule, 'renderText')\n  restoreRenderText = () => spy.mockRestore()\n  return spy\n}\nlet restoreMenuText: () => void\nbeforeEach(() => {\n  restoreMenuText = beginChineseMenuText()\n})\nafterEach(() => {\n  restoreMenuText()\n})\ndescribe('Player status runtime values', () => {\n  it('runtime 0 → 保留真实 runtime 0（不回退 base PlayerRoles）', () => {\n    const gs = createHydratedStatusState()\n    // 已走 hydrate，再由运行时变更为 0，不能与未初始化 fixture 混淆。\n    gs.PlayerRolesRuntime.rgwHP[0] = 0\n    gs.PlayerRolesRuntime.rgwMP[0] = 0\n    gs.PlayerRolesRuntime.rgwLevel[0] = 0\n    gs.PlayerRolesRuntime.rgwMaxHP[0] = 0\n    gs.PlayerRolesRuntime.rgwMaxMP[0] = 0\n    const roles = makeRoles()\n    const state: PlayerStatusState = createPlayerStatus([0])\n    const fb = sentinelFramebuffer()\n    drawPlayerStatus({\n      fb,\n      state,\n      gs,\n      playerRoles: roles,\n      items: [],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs: uniformGlyphs,\n    })\n    expect(pixel(fb, rightDigitX(42, 4, 0), 56)).toBe(yellowDigit(0))\n    expect(pixel(fb, rightDigitX(63, 4, 0), 61)).toBe(0xd0)\n    expect(pixel(fb, rightDigitX(42, 4, 0), 78)).toBe(yellowDigit(0))\n    expect(pixel(fb, rightDigitX(63, 4, 0), 83)).toBe(0xd0)\n    expect(pixel(fb, rightDigitX(54, 2, 0), 35)).toBe(yellowDigit(0))\n  })\n\n  it('runtime 有值优先于 base：hp 41 画 41 非 base 99', () => {\n    const gs = createHydratedStatusState()\n    gs.PlayerRolesRuntime.rgwHP[0] = 41\n    const state = createPlayerStatus([0])\n    const fb = sentinelFramebuffer()\n    drawPlayerStatus({\n      fb,\n      state,\n      gs,\n      playerRoles: makeRoles(),\n      items: [],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs: uniformGlyphs,\n    })\n    expect(pixel(fb, rightDigitX(42, 4, 0), 56)).toBe(yellowDigit(1))\n    expect(pixel(fb, rightDigitX(42, 4, 1), 56)).toBe(yellowDigit(4))\n  })\n})\n\ndescribe('Player status equipment and portrait', () => {\n  it('装备槽 itemId 不在 catalog：该槽图标与名字都跳过（不 `?id`，与 draw-equip 不同合同）', () => {\n    const gs = createHydratedStatusState()\n    gs.PlayerRolesRuntime.rgwEquipment[0]![0] = 888 // 未知\n    gs.PlayerRolesRuntime.rgwHP[0] = 41\n    const state = createPlayerStatus([0])\n    const fb = sentinelFramebuffer()\n    drawPlayerStatus({\n      fb,\n      state,\n      gs,\n      playerRoles: makeRoles(),\n      items: [], // catalog 空\n      uiSpriteFrames: makeUiFrames(),\n      itemIcons: new Map([\n        [0, { width: 1, height: 1, indices: Uint8Array.of(0x99), opaque: Uint8Array.of(1) }],\n      ]),\n      glyphs: uniformGlyphs,\n    })\n    // slot0 名字位 (195,38) 保持 sentinel（item find 失败 → continue）\n    expect(pixel(fb, 195, 38)).toBe(0x5a)\n    expect(pixel(fb, 190, 0)).toBe(0x5a)\n  })\n})\n\ndescribe('Player status entry and selected role', () => {\n  it('cursor 越界 / roles 缺 roleId：早退不画不崩', () => {\n    const gs = createHydratedStatusState()\n    const outside = createPlayerStatus([0])\n    outside.cursor = 5\n    for (const input of [\n      { state: outside, playerRoles: makeRoles() },\n      { state: createPlayerStatus([0]), playerRoles: { roles: [] } },\n    ]) {\n      const fb = sentinelFramebuffer()\n      const before = fb.indices.slice()\n      drawPlayerStatus({\n        fb,\n        gs,\n        ...input,\n        items: [],\n        uiSpriteFrames: makeUiFrames(),\n        glyphs: uniformGlyphs,\n      })\n      expect(fb.indices).toEqual(before)\n    }\n  })\n})\n",
+          "to": "import type { GameState } from '../../core/game-state.js'\nimport type { PlayerRole } from '@type-pal/shared'\nimport { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'\nimport { createInitialGameState, hydratePlayerRolesRuntime } from '../../core/game-state.js'\nimport {\n  createPlayerStatus,\n  playerStatusNext,\n  type PlayerStatusState,\n} from '../../core/menu/player-status.js'\nimport { setWordTable } from '../../core/word-lookup.js'\nimport * as fontModule from '../font.js'\nimport { fixtureGlyphs, textDot } from '../__tests__/glyph-fixtures.js'\nimport { makeGs, makeItem, makeRoles } from '../__tests__/menu-state-fixtures.js'\nimport { beginChineseMenuText } from '../__tests__/menu-text-fixture.js'\nimport {\n  blueDigit,\n  cyanDigit,\n  makeUiFrames,\n  rightDigitX,\n  SLASH_ID,\n  uiFramesWithoutSlot,\n  yellowDigit,\n} from '../__tests__/menu-ui-fixtures.js'\nimport {\n  fillSentinel,\n  iconImage,\n  pixel,\n  SENTINEL,\n  sentinelFramebuffer,\n} from '../__tests__/raster-fixtures.js'\nimport { cloneInputs } from '../__tests__/render-input-snapshots.js'\nimport { createHydratedStatusState } from '../__tests__/status-state-fixtures.js'\nimport { uniformDotGlyphs } from '../__tests__/uniform-glyphs.js'\nimport { createFramebuffer } from '../framebuffer.js'\nimport { drawPlayerStatus } from './draw-player-status.js'\nconst uniformGlyphs = uniformDotGlyphs()\nconst positionGlyphs = fixtureGlyphs()\nconst CONFIRMED = 0x2c\nconst EQUIPMENT = 0xbe\nfunction poisonRole(id: number): PlayerRole {\n  return {\n    id,\n    _name: 'r',\n    name: 0,\n    avatar: 0,\n    level: 1,\n    hp: 10,\n    maxHP: 10,\n    mp: 5,\n    maxMP: 5,\n    attackStrength: 1,\n    magicStrength: 1,\n    defense: 1,\n    dexterity: 1,\n    fleeRate: 1,\n    poisonResistance: 0,\n    equipment: [0, 0, 0, 0, 0, 0],\n    magic: [],\n    elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },\n    coveredBy: 0,\n    cooperativeMagic: 0,\n    attackAll: 0,\n    walkFrames: 0,\n    spriteNum: 0,\n    spriteNumInBattle: 0,\n    attackSound: 0,\n    weaponSound: 0,\n    criticalSound: 0,\n    magicSound: 0,\n    deathSound: 0,\n  }\n}\nfunction createPoisonState() {\n  const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n  gs.partyMembers = [0]\n  hydratePlayerRolesRuntime(gs.PlayerRolesRuntime, {\n    roles: Array.from({ length: 6 }, (_, id) => poisonRole(id)),\n  })\n  return gs\n}\nfunction drawPoisonText(opts: {\n  id: number\n  level: number\n  color: number\n  slot?: number\n}): ReturnType<typeof vi.spyOn> {\n  const gs = createPoisonState()\n  gs.partyMembers = [0]\n  gs.rgPoisonStatus[`${opts.slot ?? 0}_0`] = { wPoisonID: opts.id, wPoisonScript: 0 }\n  const objectPoisons = new Map([[opts.id, { level: opts.level, color: opts.color }]])\n  const flat: string[] = []\n  flat[opts.id] = '蛊毒'\n  setWordTable(flat)\n  const spy = observeRenderText()\n  drawPlayerStatus({\n    fb: createFramebuffer(),\n    state: createPlayerStatus([0]),\n    gs,\n    playerRoles: { roles: [poisonRole(0)] },\n    items: [],\n    uiSpriteFrames: [],\n    objectPoisons,\n  })\n  return spy\n}\nconst originalRenderText = fontModule.renderText\nlet restoreRenderText: (() => void) | undefined\nfunction observeRenderText() {\n  const spy = vi.spyOn(fontModule, 'renderText')\n  restoreRenderText = () => spy.mockRestore()\n  return spy\n}\nlet restoreMenuText: () => void\nbeforeEach(() => {\n  restoreMenuText = beginChineseMenuText()\n})\nafterEach(() => {\n  restoreMenuText()\n})\ndescribe('Player status runtime values', () => {\n  it('runtime 0 → 保留真实 runtime 0（不回退 base PlayerRoles）', () => {\n    const gs = createHydratedStatusState()\n    // 已走 hydrate，再由运行时变更为 0，不能与未初始化 fixture 混淆。\n    gs.PlayerRolesRuntime.rgwHP[0] = 0\n    gs.PlayerRolesRuntime.rgwMP[0] = 0\n    gs.PlayerRolesRuntime.rgwLevel[0] = 0\n    gs.PlayerRolesRuntime.rgwMaxHP[0] = 0\n    gs.PlayerRolesRuntime.rgwMaxMP[0] = 0\n    const roles = makeRoles()\n    const state: PlayerStatusState = createPlayerStatus([0])\n    const fb = sentinelFramebuffer()\n    drawPlayerStatus({\n      fb,\n      state,\n      gs,\n      playerRoles: roles,\n      items: [],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs: uniformGlyphs,\n    })\n    expect(pixel(fb, rightDigitX(42, 4, 0), 56)).toBe(yellowDigit(0))\n    expect(pixel(fb, rightDigitX(63, 4, 0), 61)).toBe(0xd0)\n    expect(pixel(fb, rightDigitX(42, 4, 0), 78)).toBe(yellowDigit(0))\n    expect(pixel(fb, rightDigitX(63, 4, 0), 83)).toBe(0xd0)\n    expect(pixel(fb, rightDigitX(54, 2, 0), 35)).toBe(yellowDigit(0))\n  })\n\n  it('runtime 有值优先于 base：hp 41 画 41 非 base 99', () => {\n    const gs = createHydratedStatusState()\n    gs.PlayerRolesRuntime.rgwHP[0] = 41\n    const state = createPlayerStatus([0])\n    const fb = sentinelFramebuffer()\n    drawPlayerStatus({\n      fb,\n      state,\n      gs,\n      playerRoles: makeRoles(),\n      items: [],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs: uniformGlyphs,\n    })\n    expect(pixel(fb, rightDigitX(42, 4, 0), 56)).toBe(yellowDigit(1))\n    expect(pixel(fb, rightDigitX(42, 4, 1), 56)).toBe(yellowDigit(4))\n  })\n})\n\ndescribe('Player status equipment and portrait', () => {\n  it('装备槽 itemId 不在 catalog：该槽图标与名字都跳过（不 `?id`，与 draw-equip 不同合同）', () => {\n    const gs = createHydratedStatusState()\n    gs.PlayerRolesRuntime.rgwEquipment[0]![0] = 888 // 未知\n    gs.PlayerRolesRuntime.rgwHP[0] = 41\n    const state = createPlayerStatus([0])\n    const fb = sentinelFramebuffer()\n    drawPlayerStatus({\n      fb,\n      state,\n      gs,\n      playerRoles: makeRoles(),\n      items: [], // catalog 空\n      uiSpriteFrames: makeUiFrames(),\n      itemIcons: new Map([\n        [0, { width: 1, height: 1, indices: Uint8Array.of(0x99), opaque: Uint8Array.of(1) }],\n      ]),\n      glyphs: uniformGlyphs,\n    })\n    // slot0 名字位 (195,38) 保持 sentinel（item find 失败 → continue）\n    expect(pixel(fb, 195, 38)).toBe(0x5a)\n    expect(pixel(fb, 190, 0)).toBe(0x5a)\n  })\n})\n\ndescribe('Player status entry and selected role', () => {\n  it('cursor 越界 / roles 缺 roleId：早退不画不崩', () => {\n    const gs = createHydratedStatusState()\n    const outside = createPlayerStatus([0])\n    outside.cursor = 5\n    for (const input of [\n      { state: outside, playerRoles: makeRoles() },\n      { state: createPlayerStatus([0]), playerRoles: { roles: [] } },\n    ]) {\n      const fb = sentinelFramebuffer()\n      const before = fb.indices.slice()\n      drawPlayerStatus({\n        fb,\n        gs,\n        ...input,\n        items: [],\n        uiSpriteFrames: makeUiFrames(),\n        glyphs: uniformGlyphs,\n      })\n      expect(fb.indices).toEqual(before)\n    }\n  })\n})\n",
+          "count": 1
+        }
+      ],
+      "reason": "Only poison spec owns one passthrough renderText spy; other views own text/language only. No unrelated global reset."
+    },
+    {
+      "path": "packages/game/src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+      "id": "menu-status-1",
+      "changes": [
+        {
+          "from": "/**\n * TEST-GROK-RENDER-HOST-LARGE-1 G06-D。\n * 状态页的真气、五项能力、经验斜杠空位、毒的显示序号和缺名字装备。\n * 不重复 P07 的体力与经验，也不重复 glm 的真实 runtime 0 保留和缺目录跳过。\n */\nimport { afterEach, describe, expect, it } from 'vitest'\nimport type { IndexedImage } from '../../assets/png.js'\nimport { createPlayerStatus } from '../../core/menu/player-status.js'\nimport { setWordTable } from '../../core/word-lookup.js'\nimport { fixtureGlyphs, textDot } from '../__tests__/glyph-fixtures.js'\nimport {\n  makeGs,\n  makeItem,\n  makeRoles,\n  resetHostSingletons,\n} from '../__tests__/menu-state-fixtures.js'\nimport {\n  blueDigit,\n  cyanDigit,\n  makeUiFrames,\n  rightDigitX,\n  SLASH_ID,\n  yellowDigit,\n} from '../__tests__/menu-ui-fixtures.js'\nimport { fillSentinel, iconImage, pixel, SENTINEL } from '../__tests__/raster-fixtures.js'\nimport { cloneInputs } from '../__tests__/render-input-snapshots.js'\nimport { createFramebuffer } from '../framebuffer.js'\nimport { drawPlayerStatus } from './draw-player-status.js'\n\nconst glyphs = fixtureGlyphs()\nconst CONFIRMED = 0x2c\nconst EQUIPMENT = 0xbe\n\nafterEach(() => {\n  resetHostSingletons()\n})\n\nfunction withoutFrame(index: number): IndexedImage[] {\n  const source = makeUiFrames()\n  const frames: IndexedImage[] = []\n  for (let i = 0; i < source.length; i++) {\n    if (i !== index) frames[i] = source[i]!\n  }\n  return frames\n}\n\ndescribe('G06-D 状态数值与毒', () => {\n  it('G06-D01 当前真气 12 为黄，真气上限 80 为蓝', () => {\n    const gs = makeGs()\n    const roles = makeRoles()\n    const items = [makeItem(70, '甲')]\n    gs.partyMembers = [0]\n    gs.PlayerRolesRuntime.rgwMP[0] = 12\n    gs.PlayerRolesRuntime.rgwMaxMP[0] = 80\n    const menu = createPlayerStatus([0])\n    const frames = makeUiFrames()\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    const before = cloneInputs({ gs, menu, items, roles, frames })\n    drawPlayerStatus({\n      fb,\n      state: menu,\n      gs,\n      playerRoles: roles,\n      items,\n      uiSpriteFrames: frames,\n      glyphs,\n    })\n    expect(pixel(fb, rightDigitX(42, 4, 0), 78)).toBe(yellowDigit(2))\n    expect(pixel(fb, rightDigitX(42, 4, 1), 78)).toBe(yellowDigit(1))\n    expect(pixel(fb, rightDigitX(63, 4, 0), 83)).toBe(blueDigit(0))\n    expect(pixel(fb, rightDigitX(63, 4, 1), 83)).toBe(blueDigit(8))\n    expect(cloneInputs({ gs, menu, items, roles, frames })).toEqual(before)\n  })\n\n  it('G06-D02 武术是基础 20 加装备效果 3', () => {\n    const gs = makeGs()\n    const roles = makeRoles()\n    gs.partyMembers = [0]\n    gs.PlayerRolesRuntime.rgwAttackStrength[0] = 20\n    gs.rgEquipmentEffect[0]!.rgwAttackStrength[0] = 3\n    const menu = createPlayerStatus([0])\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: menu,\n      gs,\n      playerRoles: roles,\n      items: [],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs,\n    })\n    expect(pixel(fb, rightDigitX(42, 4, 0), 102)).toBe(yellowDigit(3))\n    expect(pixel(fb, rightDigitX(42, 4, 1), 102)).toBe(yellowDigit(2))\n  })\n\n  it('G06-D03 灵力是基础 4 加装备效果 10', () => {\n    const gs = makeGs()\n    gs.partyMembers = [0]\n    gs.PlayerRolesRuntime.rgwMagicStrength[0] = 4\n    gs.rgEquipmentEffect[2]!.rgwMagicStrength[0] = 10\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: createPlayerStatus([0]),\n      gs,\n      playerRoles: makeRoles(),\n      items: [],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs,\n    })\n    expect(pixel(fb, rightDigitX(42, 4, 0), 122)).toBe(yellowDigit(4))\n    expect(pixel(fb, rightDigitX(42, 4, 1), 122)).toBe(yellowDigit(1))\n  })\n\n  it('G06-D04 防御数字在 y=142', () => {\n    const gs = makeGs()\n    gs.partyMembers = [0]\n    gs.PlayerRolesRuntime.rgwDefense[0] = 7\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: createPlayerStatus([0]),\n      gs,\n      playerRoles: makeRoles(),\n      items: [],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs,\n    })\n    expect(pixel(fb, rightDigitX(42, 4, 0), 142)).toBe(yellowDigit(7))\n    expect(pixel(fb, rightDigitX(42, 4, 1), 142)).toBe(SENTINEL)\n  })\n\n  it('G06-D05 身法数字在 y=162', () => {\n    const gs = makeGs()\n    gs.partyMembers = [0]\n    gs.PlayerRolesRuntime.rgwDexterity[0] = 8\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: createPlayerStatus([0]),\n      gs,\n      playerRoles: makeRoles(),\n      items: [],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs,\n    })\n    expect(pixel(fb, rightDigitX(42, 4, 0), 162)).toBe(yellowDigit(8))\n  })\n\n  it('G06-D06 吉运数字在 y=182', () => {\n    const gs = makeGs()\n    gs.partyMembers = [0]\n    gs.PlayerRolesRuntime.rgwFleeRate[0] = 9\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: createPlayerStatus([0]),\n      gs,\n      playerRoles: makeRoles(),\n      items: [],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs,\n    })\n    expect(pixel(fb, rightDigitX(42, 4, 0), 182)).toBe(yellowDigit(9))\n  })\n\n  it('G06-D07 经验斜杠坐标 (0,0) 不画，体力与真气斜杠照画', () => {\n    const gs = makeGs()\n    gs.partyMembers = [0]\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: createPlayerStatus([0]),\n      gs,\n      playerRoles: makeRoles(),\n      items: [],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs,\n    })\n    expect(pixel(fb, 0, 0)).toBe(SENTINEL)\n    expect(pixel(fb, 65, 58)).toBe(SLASH_ID)\n    expect(pixel(fb, 65, 80)).toBe(SLASH_ID)\n  })\n\n  it('G06-D08 缺少斜杠帧时体力数字仍在，斜杠位保持底色', () => {\n    const gs = makeGs()\n    gs.partyMembers = [0]\n    gs.PlayerRolesRuntime.rgwHP[0] = 12\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: createPlayerStatus([0]),\n      gs,\n      playerRoles: makeRoles(),\n      items: [],\n      uiSpriteFrames: withoutFrame(39),\n      glyphs,\n    })\n    expect(pixel(fb, 65, 58)).toBe(SENTINEL)\n    expect(pixel(fb, rightDigitX(42, 4, 0), 56)).toBe(yellowDigit(2))\n  })\n\n  it('G06-D09 未提供升级经验表时下一级只画一位青色 0，当前经验仍是 12', () => {\n    const gs = makeGs()\n    gs.partyMembers = [0]\n    gs.PlayerRolesRuntime.rgwLevel[0] = 6\n    gs.Exp.rgPrimaryExp[0] = { wExp: 12, wLevel: 6 }\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: createPlayerStatus([0]),\n      gs,\n      playerRoles: makeRoles(),\n      items: [],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs,\n    })\n    expect(pixel(fb, rightDigitX(58, 5, 0), 15)).toBe(cyanDigit(0))\n    expect(pixel(fb, rightDigitX(58, 5, 1), 15)).toBe(SENTINEL)\n    expect(pixel(fb, rightDigitX(58, 5, 0), 6)).toBe(yellowDigit(2))\n    expect(pixel(fb, rightDigitX(58, 5, 1), 6)).toBe(yellowDigit(1))\n  })\n\n  it('G06-D10 毒等级等于 3 仍画出，颜色是 wColor 加 10', () => {\n    const gs = makeGs()\n    gs.partyMembers = [0]\n    gs.rgPoisonStatus['0_0'] = { wPoisonID: 7, wPoisonScript: 0 }\n    const words: string[] = []\n    words[7] = '甲'\n    setWordTable(words)\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: createPlayerStatus([0]),\n      gs,\n      playerRoles: makeRoles(),\n      items: [],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs,\n      objectPoisons: new Map([[7, { level: 3, color: 15 }]]),\n    })\n    expect(pixel(fb, 185, 58)).toBe(25)\n    expect(pixel(fb, 185, 58)).not.toBe(SENTINEL)\n  })\n\n  it('G06-D11 空槽和等级大于 3 的毒不占显示行，下一毒上移到 y=76', () => {\n    const gs = makeGs()\n    gs.partyMembers = [0]\n    gs.rgPoisonStatus['1_0'] = { wPoisonID: 7, wPoisonScript: 0 }\n    gs.rgPoisonStatus['2_0'] = { wPoisonID: 8, wPoisonScript: 0 }\n    gs.rgPoisonStatus['3_0'] = { wPoisonID: 9, wPoisonScript: 0 }\n    const words: string[] = []\n    words[7] = '甲'\n    words[8] = '乙'\n    words[9] = '乙'\n    setWordTable(words)\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: createPlayerStatus([0]),\n      gs,\n      playerRoles: makeRoles(),\n      items: [],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs,\n      objectPoisons: new Map([\n        [7, { level: 2, color: 20 }],\n        [8, { level: 99, color: 21 }],\n        [9, { level: 1, color: 22 }],\n      ]),\n    })\n    const kept = textDot('乙', 0, 185, 76)\n    const skipped = textDot('乙', 0, 185, 94)\n    expect(pixel(fb, 185, 58)).toBe(30)\n    expect(pixel(fb, kept.x, kept.y)).toBe(32)\n    expect(pixel(fb, skipped.x, skipped.y)).toBe(SENTINEL)\n  })\n\n  it('G06-D12 第 11 条毒不再覆盖第 10 条的颜色', () => {\n    const gs = makeGs()\n    gs.partyMembers = [0]\n    const words: string[] = []\n    const poisons = new Map<number, { level: number; color: number }>()\n    for (let slot = 0; slot <= 10; slot++) {\n      const id = 20 + slot\n      words[id] = '甲'\n      gs.rgPoisonStatus[`${slot}_0`] = { wPoisonID: id, wPoisonScript: 0 }\n      poisons.set(id, { level: 1, color: slot === 9 ? 20 : slot === 10 ? 40 : 1 })\n    }\n    setWordTable(words)\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: createPlayerStatus([0]),\n      gs,\n      playerRoles: makeRoles(),\n      items: [],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs,\n      objectPoisons: poisons,\n    })\n    expect(pixel(fb, 185, 184)).toBe(30)\n    expect(pixel(fb, 185, 184)).not.toBe(50)\n  })\n\n  it('G06-D13 第一槽 id 为 0 时跳过，第二槽画出装备名', () => {\n    const gs = makeGs()\n    const roles = makeRoles()\n    const bead = makeItem(71, '丑', { bitmap: 4 })\n    gs.partyMembers = [0]\n    gs.PlayerRolesRuntime.rgwEquipment[1]![0] = bead.id\n    const frames = makeUiFrames()\n    const icons = new Map([[4, iconImage(0x44)]])\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: createPlayerStatus([0]),\n      gs,\n      playerRoles: roles,\n      items: [bead],\n      uiSpriteFrames: frames,\n      glyphs,\n      itemIcons: icons,\n    })\n    const name = textDot('丑', 0, 253, 78)\n    expect(pixel(fb, 195, 38)).toBe(SENTINEL)\n    expect(pixel(fb, name.x, name.y)).toBe(EQUIPMENT)\n    expect(pixel(fb, 248, 40)).toBe(0x44)\n  })\n\n  it('G06-D14 物品在目录里但没有名字时，名字位画出 0xBE 的缺字框', () => {\n    const gs = makeGs()\n    const item = makeItem(72, '子', { _name: undefined, bitmap: 3 })\n    gs.partyMembers = [0]\n    gs.PlayerRolesRuntime.rgwEquipment[0]![0] = item.id\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: createPlayerStatus([0]),\n      gs,\n      playerRoles: makeRoles(),\n      items: [item],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs,\n    })\n    expect(item._name).toBeUndefined()\n    expect(pixel(fb, 195, 38)).toBe(EQUIPMENT)\n  })\n\n  it('G06-D15 没有立绘表时头像位保持底色，角色名仍是确认色', () => {\n    const gs = makeGs()\n    gs.partyMembers = [0]\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: createPlayerStatus([0]),\n      gs,\n      playerRoles: makeRoles(),\n      items: [],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs,\n    })\n    const name = textDot('甲', 0, 110, 8)\n    expect(pixel(fb, 110, 30)).toBe(SENTINEL)\n    expect(pixel(fb, name.x, name.y)).toBe(CONFIRMED)\n  })\n})\n",
+          "to": "import type { GameState } from '../../core/game-state.js'\nimport type { PlayerRole } from '@type-pal/shared'\nimport { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'\nimport { createInitialGameState, hydratePlayerRolesRuntime } from '../../core/game-state.js'\nimport {\n  createPlayerStatus,\n  playerStatusNext,\n  type PlayerStatusState,\n} from '../../core/menu/player-status.js'\nimport { setWordTable } from '../../core/word-lookup.js'\nimport * as fontModule from '../font.js'\nimport { fixtureGlyphs, textDot } from '../__tests__/glyph-fixtures.js'\nimport { makeGs, makeItem, makeRoles } from '../__tests__/menu-state-fixtures.js'\nimport { beginChineseMenuText } from '../__tests__/menu-text-fixture.js'\nimport {\n  blueDigit,\n  cyanDigit,\n  makeUiFrames,\n  rightDigitX,\n  SLASH_ID,\n  uiFramesWithoutSlot,\n  yellowDigit,\n} from '../__tests__/menu-ui-fixtures.js'\nimport {\n  fillSentinel,\n  iconImage,\n  pixel,\n  SENTINEL,\n  sentinelFramebuffer,\n} from '../__tests__/raster-fixtures.js'\nimport { cloneInputs } from '../__tests__/render-input-snapshots.js'\nimport { createHydratedStatusState } from '../__tests__/status-state-fixtures.js'\nimport { uniformDotGlyphs } from '../__tests__/uniform-glyphs.js'\nimport { createFramebuffer } from '../framebuffer.js'\nimport { drawPlayerStatus } from './draw-player-status.js'\nconst uniformGlyphs = uniformDotGlyphs()\nconst positionGlyphs = fixtureGlyphs()\nconst CONFIRMED = 0x2c\nconst EQUIPMENT = 0xbe\nfunction poisonRole(id: number): PlayerRole {\n  return {\n    id,\n    _name: 'r',\n    name: 0,\n    avatar: 0,\n    level: 1,\n    hp: 10,\n    maxHP: 10,\n    mp: 5,\n    maxMP: 5,\n    attackStrength: 1,\n    magicStrength: 1,\n    defense: 1,\n    dexterity: 1,\n    fleeRate: 1,\n    poisonResistance: 0,\n    equipment: [0, 0, 0, 0, 0, 0],\n    magic: [],\n    elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },\n    coveredBy: 0,\n    cooperativeMagic: 0,\n    attackAll: 0,\n    walkFrames: 0,\n    spriteNum: 0,\n    spriteNumInBattle: 0,\n    attackSound: 0,\n    weaponSound: 0,\n    criticalSound: 0,\n    magicSound: 0,\n    deathSound: 0,\n  }\n}\nfunction createPoisonState() {\n  const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n  gs.partyMembers = [0]\n  hydratePlayerRolesRuntime(gs.PlayerRolesRuntime, {\n    roles: Array.from({ length: 6 }, (_, id) => poisonRole(id)),\n  })\n  return gs\n}\nfunction drawPoisonText(opts: {\n  id: number\n  level: number\n  color: number\n  slot?: number\n}): ReturnType<typeof vi.spyOn> {\n  const gs = createPoisonState()\n  gs.partyMembers = [0]\n  gs.rgPoisonStatus[`${opts.slot ?? 0}_0`] = { wPoisonID: opts.id, wPoisonScript: 0 }\n  const objectPoisons = new Map([[opts.id, { level: opts.level, color: opts.color }]])\n  const flat: string[] = []\n  flat[opts.id] = '蛊毒'\n  setWordTable(flat)\n  const spy = observeRenderText()\n  drawPlayerStatus({\n    fb: createFramebuffer(),\n    state: createPlayerStatus([0]),\n    gs,\n    playerRoles: { roles: [poisonRole(0)] },\n    items: [],\n    uiSpriteFrames: [],\n    objectPoisons,\n  })\n  return spy\n}\nconst originalRenderText = fontModule.renderText\nlet restoreRenderText: (() => void) | undefined\nfunction observeRenderText() {\n  const spy = vi.spyOn(fontModule, 'renderText')\n  restoreRenderText = () => spy.mockRestore()\n  return spy\n}\nlet restoreMenuText: () => void\nbeforeEach(() => {\n  restoreMenuText = beginChineseMenuText()\n})\nafterEach(() => {\n  restoreMenuText()\n})\ndescribe('Player status runtime values', () => {\n  it('G06-D01 当前真气 12 为黄，真气上限 80 为蓝', () => {\n    const gs = makeGs()\n    const roles = makeRoles()\n    const items = [makeItem(70, '甲')]\n    gs.partyMembers = [0]\n    gs.PlayerRolesRuntime.rgwMP[0] = 12\n    gs.PlayerRolesRuntime.rgwMaxMP[0] = 80\n    const menu = createPlayerStatus([0])\n    const frames = makeUiFrames()\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    const before = cloneInputs({ gs, menu, items, roles, frames })\n    drawPlayerStatus({\n      fb,\n      state: menu,\n      gs,\n      playerRoles: roles,\n      items,\n      uiSpriteFrames: frames,\n      glyphs: positionGlyphs,\n    })\n    expect(pixel(fb, rightDigitX(42, 4, 0), 78)).toBe(yellowDigit(2))\n    expect(pixel(fb, rightDigitX(42, 4, 1), 78)).toBe(yellowDigit(1))\n    expect(pixel(fb, rightDigitX(63, 4, 0), 83)).toBe(blueDigit(0))\n    expect(pixel(fb, rightDigitX(63, 4, 1), 83)).toBe(blueDigit(8))\n    expect(cloneInputs({ gs, menu, items, roles, frames })).toEqual(before)\n  })\n\n  it('G06-D02 武术是基础 20 加装备效果 3', () => {\n    const gs = makeGs()\n    const roles = makeRoles()\n    gs.partyMembers = [0]\n    gs.PlayerRolesRuntime.rgwAttackStrength[0] = 20\n    gs.rgEquipmentEffect[0]!.rgwAttackStrength[0] = 3\n    const menu = createPlayerStatus([0])\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: menu,\n      gs,\n      playerRoles: roles,\n      items: [],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs: positionGlyphs,\n    })\n    expect(pixel(fb, rightDigitX(42, 4, 0), 102)).toBe(yellowDigit(3))\n    expect(pixel(fb, rightDigitX(42, 4, 1), 102)).toBe(yellowDigit(2))\n  })\n\n  it('G06-D03 灵力是基础 4 加装备效果 10', () => {\n    const gs = makeGs()\n    gs.partyMembers = [0]\n    gs.PlayerRolesRuntime.rgwMagicStrength[0] = 4\n    gs.rgEquipmentEffect[2]!.rgwMagicStrength[0] = 10\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: createPlayerStatus([0]),\n      gs,\n      playerRoles: makeRoles(),\n      items: [],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs: positionGlyphs,\n    })\n    expect(pixel(fb, rightDigitX(42, 4, 0), 122)).toBe(yellowDigit(4))\n    expect(pixel(fb, rightDigitX(42, 4, 1), 122)).toBe(yellowDigit(1))\n  })\n\n  it('G06-D04 防御数字在 y=142', () => {\n    const gs = makeGs()\n    gs.partyMembers = [0]\n    gs.PlayerRolesRuntime.rgwDefense[0] = 7\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: createPlayerStatus([0]),\n      gs,\n      playerRoles: makeRoles(),\n      items: [],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs: positionGlyphs,\n    })\n    expect(pixel(fb, rightDigitX(42, 4, 0), 142)).toBe(yellowDigit(7))\n    expect(pixel(fb, rightDigitX(42, 4, 1), 142)).toBe(SENTINEL)\n  })\n\n  it('G06-D05 身法数字在 y=162', () => {\n    const gs = makeGs()\n    gs.partyMembers = [0]\n    gs.PlayerRolesRuntime.rgwDexterity[0] = 8\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: createPlayerStatus([0]),\n      gs,\n      playerRoles: makeRoles(),\n      items: [],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs: positionGlyphs,\n    })\n    expect(pixel(fb, rightDigitX(42, 4, 0), 162)).toBe(yellowDigit(8))\n  })\n\n  it('G06-D06 吉运数字在 y=182', () => {\n    const gs = makeGs()\n    gs.partyMembers = [0]\n    gs.PlayerRolesRuntime.rgwFleeRate[0] = 9\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: createPlayerStatus([0]),\n      gs,\n      playerRoles: makeRoles(),\n      items: [],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs: positionGlyphs,\n    })\n    expect(pixel(fb, rightDigitX(42, 4, 0), 182)).toBe(yellowDigit(9))\n  })\n\n  it('G06-D07 经验斜杠坐标 (0,0) 不画，体力与真气斜杠照画', () => {\n    const gs = makeGs()\n    gs.partyMembers = [0]\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: createPlayerStatus([0]),\n      gs,\n      playerRoles: makeRoles(),\n      items: [],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs: positionGlyphs,\n    })\n    expect(pixel(fb, 0, 0)).toBe(SENTINEL)\n    expect(pixel(fb, 65, 58)).toBe(SLASH_ID)\n    expect(pixel(fb, 65, 80)).toBe(SLASH_ID)\n  })\n\n  it('G06-D08 缺少斜杠帧时体力数字仍在，斜杠位保持底色', () => {\n    const gs = makeGs()\n    gs.partyMembers = [0]\n    gs.PlayerRolesRuntime.rgwHP[0] = 12\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: createPlayerStatus([0]),\n      gs,\n      playerRoles: makeRoles(),\n      items: [],\n      uiSpriteFrames: uiFramesWithoutSlot(39),\n      glyphs: positionGlyphs,\n    })\n    expect(pixel(fb, 65, 58)).toBe(SENTINEL)\n    expect(pixel(fb, rightDigitX(42, 4, 0), 56)).toBe(yellowDigit(2))\n  })\n\n  it('G06-D09 未提供升级经验表时下一级只画一位青色 0，当前经验仍是 12', () => {\n    const gs = makeGs()\n    gs.partyMembers = [0]\n    gs.PlayerRolesRuntime.rgwLevel[0] = 6\n    gs.Exp.rgPrimaryExp[0] = { wExp: 12, wLevel: 6 }\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: createPlayerStatus([0]),\n      gs,\n      playerRoles: makeRoles(),\n      items: [],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs: positionGlyphs,\n    })\n    expect(pixel(fb, rightDigitX(58, 5, 0), 15)).toBe(cyanDigit(0))\n    expect(pixel(fb, rightDigitX(58, 5, 1), 15)).toBe(SENTINEL)\n    expect(pixel(fb, rightDigitX(58, 5, 0), 6)).toBe(yellowDigit(2))\n    expect(pixel(fb, rightDigitX(58, 5, 1), 6)).toBe(yellowDigit(1))\n  })\n})\n\ndescribe('Player status poison rows', () => {\n  it('G06-D10 毒等级等于 3 仍画出，颜色是 wColor 加 10', () => {\n    const gs = makeGs()\n    gs.partyMembers = [0]\n    gs.rgPoisonStatus['0_0'] = { wPoisonID: 7, wPoisonScript: 0 }\n    const words: string[] = []\n    words[7] = '甲'\n    setWordTable(words)\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: createPlayerStatus([0]),\n      gs,\n      playerRoles: makeRoles(),\n      items: [],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs: positionGlyphs,\n      objectPoisons: new Map([[7, { level: 3, color: 15 }]]),\n    })\n    expect(pixel(fb, 185, 58)).toBe(25)\n  })\n\n  it('G06-D11 空槽和等级大于 3 的毒不占显示行，下一毒上移到 y=76', () => {\n    const gs = makeGs()\n    gs.partyMembers = [0]\n    gs.rgPoisonStatus['1_0'] = { wPoisonID: 7, wPoisonScript: 0 }\n    gs.rgPoisonStatus['2_0'] = { wPoisonID: 8, wPoisonScript: 0 }\n    gs.rgPoisonStatus['3_0'] = { wPoisonID: 9, wPoisonScript: 0 }\n    const words: string[] = []\n    words[7] = '甲'\n    words[8] = '乙'\n    words[9] = '乙'\n    setWordTable(words)\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: createPlayerStatus([0]),\n      gs,\n      playerRoles: makeRoles(),\n      items: [],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs: positionGlyphs,\n      objectPoisons: new Map([\n        [7, { level: 2, color: 20 }],\n        [8, { level: 99, color: 21 }],\n        [9, { level: 1, color: 22 }],\n      ]),\n    })\n    const kept = textDot('乙', 0, 185, 76)\n    const skipped = textDot('乙', 0, 185, 94)\n    expect(pixel(fb, 185, 58)).toBe(30)\n    expect(pixel(fb, kept.x, kept.y)).toBe(32)\n    expect(pixel(fb, skipped.x, skipped.y)).toBe(SENTINEL)\n  })\n\n  it('G06-D12 第 11 条毒不再覆盖第 10 条的颜色', () => {\n    const gs = makeGs()\n    gs.partyMembers = [0]\n    const words: string[] = []\n    const poisons = new Map<number, { level: number; color: number }>()\n    for (let slot = 0; slot <= 10; slot++) {\n      const id = 20 + slot\n      words[id] = '甲'\n      gs.rgPoisonStatus[`${slot}_0`] = { wPoisonID: id, wPoisonScript: 0 }\n      poisons.set(id, { level: 1, color: slot === 9 ? 20 : slot === 10 ? 40 : 1 })\n    }\n    setWordTable(words)\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: createPlayerStatus([0]),\n      gs,\n      playerRoles: makeRoles(),\n      items: [],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs: positionGlyphs,\n      objectPoisons: poisons,\n    })\n    expect(pixel(fb, 185, 184)).toBe(30)\n  })\n})\n\ndescribe('Player status equipment and portrait', () => {\n  it('G06-D13 第一槽 id 为 0 时跳过，第二槽画出装备名', () => {\n    const gs = makeGs()\n    const roles = makeRoles()\n    const equippedItem = makeItem(71, '丑', {\n      bitmap: 4,\n      flags: { equipable: true, equipableBy: [true, false, false, false, false, false] },\n    })\n    gs.partyMembers = [0]\n    gs.PlayerRolesRuntime.rgwEquipment[1]![0] = equippedItem.id\n    const frames = makeUiFrames()\n    const icons = new Map([[4, iconImage(0x44)]])\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: createPlayerStatus([0]),\n      gs,\n      playerRoles: roles,\n      items: [equippedItem],\n      uiSpriteFrames: frames,\n      glyphs: positionGlyphs,\n      itemIcons: icons,\n    })\n    const name = textDot('丑', 0, 253, 78)\n    expect(pixel(fb, 195, 38)).toBe(SENTINEL)\n    expect(pixel(fb, name.x, name.y)).toBe(EQUIPMENT)\n    expect(pixel(fb, 248, 40)).toBe(0x44)\n  })\n\n  it('G06-D14 物品在目录里但没有名字时，名字位画出 0xBE 的缺字框', () => {\n    const gs = makeGs()\n    const item = makeItem(72, '子', {\n      _name: undefined,\n      bitmap: 3,\n      flags: { equipable: true, equipableBy: [true, false, false, false, false, false] },\n    })\n    gs.partyMembers = [0]\n    gs.PlayerRolesRuntime.rgwEquipment[0]![0] = item.id\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: createPlayerStatus([0]),\n      gs,\n      playerRoles: makeRoles(),\n      items: [item],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs: positionGlyphs,\n    })\n    expect(item._name).toBeUndefined()\n    expect(pixel(fb, 195, 38)).toBe(EQUIPMENT)\n  })\n\n  it('G06-D15 没有立绘表时头像位保持底色，角色名仍是确认色', () => {\n    const gs = makeGs()\n    gs.partyMembers = [0]\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: createPlayerStatus([0]),\n      gs,\n      playerRoles: makeRoles(),\n      items: [],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs: positionGlyphs,\n    })\n    const name = textDot('甲', 0, 110, 8)\n    expect(pixel(fb, 110, 30)).toBe(SENTINEL)\n    expect(pixel(fb, name.x, name.y)).toBe(CONFIRMED)\n  })\n})\n",
+          "count": 1
+        }
+      ],
+      "reason": "Private names/factory and explicit fixture/owned-spy deltas, module scopes and canonical-role maxMP correction; frozen originalOrdinal retained."
+    },
+    {
+      "path": "packages/game/src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+      "id": "menu-status-1-poison",
+      "ordinals": [9, 10, 11],
+      "changes": [
+        {
+          "from": "import type { GameState } from '../../core/game-state.js'\nimport type { PlayerRole } from '@type-pal/shared'\nimport { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'\nimport { createInitialGameState, hydratePlayerRolesRuntime } from '../../core/game-state.js'\nimport {\n  createPlayerStatus,\n  playerStatusNext,\n  type PlayerStatusState,\n} from '../../core/menu/player-status.js'\nimport { setWordTable } from '../../core/word-lookup.js'\nimport * as fontModule from '../font.js'\nimport { fixtureGlyphs, textDot } from '../__tests__/glyph-fixtures.js'\nimport { makeGs, makeItem, makeRoles } from '../__tests__/menu-state-fixtures.js'\nimport { beginChineseMenuText } from '../__tests__/menu-text-fixture.js'\nimport {\n  blueDigit,\n  cyanDigit,\n  makeUiFrames,\n  rightDigitX,\n  SLASH_ID,\n  uiFramesWithoutSlot,\n  yellowDigit,\n} from '../__tests__/menu-ui-fixtures.js'\nimport {\n  fillSentinel,\n  iconImage,\n  pixel,\n  SENTINEL,\n  sentinelFramebuffer,\n} from '../__tests__/raster-fixtures.js'\nimport { cloneInputs } from '../__tests__/render-input-snapshots.js'\nimport { createHydratedStatusState } from '../__tests__/status-state-fixtures.js'\nimport { uniformDotGlyphs } from '../__tests__/uniform-glyphs.js'\nimport { createFramebuffer } from '../framebuffer.js'\nimport { drawPlayerStatus } from './draw-player-status.js'\nconst uniformGlyphs = uniformDotGlyphs()\nconst positionGlyphs = fixtureGlyphs()\nconst CONFIRMED = 0x2c\nconst EQUIPMENT = 0xbe\nfunction poisonRole(id: number): PlayerRole {\n  return {\n    id,\n    _name: 'r',\n    name: 0,\n    avatar: 0,\n    level: 1,\n    hp: 10,\n    maxHP: 10,\n    mp: 5,\n    maxMP: 5,\n    attackStrength: 1,\n    magicStrength: 1,\n    defense: 1,\n    dexterity: 1,\n    fleeRate: 1,\n    poisonResistance: 0,\n    equipment: [0, 0, 0, 0, 0, 0],\n    magic: [],\n    elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },\n    coveredBy: 0,\n    cooperativeMagic: 0,\n    attackAll: 0,\n    walkFrames: 0,\n    spriteNum: 0,\n    spriteNumInBattle: 0,\n    attackSound: 0,\n    weaponSound: 0,\n    criticalSound: 0,\n    magicSound: 0,\n    deathSound: 0,\n  }\n}\nfunction createPoisonState() {\n  const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n  gs.partyMembers = [0]\n  hydratePlayerRolesRuntime(gs.PlayerRolesRuntime, {\n    roles: Array.from({ length: 6 }, (_, id) => poisonRole(id)),\n  })\n  return gs\n}\nfunction drawPoisonText(opts: {\n  id: number\n  level: number\n  color: number\n  slot?: number\n}): ReturnType<typeof vi.spyOn> {\n  const gs = createPoisonState()\n  gs.partyMembers = [0]\n  gs.rgPoisonStatus[`${opts.slot ?? 0}_0`] = { wPoisonID: opts.id, wPoisonScript: 0 }\n  const objectPoisons = new Map([[opts.id, { level: opts.level, color: opts.color }]])\n  const flat: string[] = []\n  flat[opts.id] = '蛊毒'\n  setWordTable(flat)\n  const spy = observeRenderText()\n  drawPlayerStatus({\n    fb: createFramebuffer(),\n    state: createPlayerStatus([0]),\n    gs,\n    playerRoles: { roles: [poisonRole(0)] },\n    items: [],\n    uiSpriteFrames: [],\n    objectPoisons,\n  })\n  return spy\n}\nconst originalRenderText = fontModule.renderText\nlet restoreRenderText: (() => void) | undefined\nfunction observeRenderText() {\n  const spy = vi.spyOn(fontModule, 'renderText')\n  restoreRenderText = () => spy.mockRestore()\n  return spy\n}\nlet restoreMenuText: () => void\nbeforeEach(() => {\n  restoreMenuText = beginChineseMenuText()\n})\nafterEach(() => {\n  restoreMenuText()\n})\ndescribe('Player status runtime values', () => {\n  it('G06-D01 当前真气 12 为黄，真气上限 80 为蓝', () => {\n    const gs = makeGs()\n    const roles = makeRoles()\n    const items = [makeItem(70, '甲')]\n    gs.partyMembers = [0]\n    gs.PlayerRolesRuntime.rgwMP[0] = 12\n    gs.PlayerRolesRuntime.rgwMaxMP[0] = 80\n    const menu = createPlayerStatus([0])\n    const frames = makeUiFrames()\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    const before = cloneInputs({ gs, menu, items, roles, frames })\n    drawPlayerStatus({\n      fb,\n      state: menu,\n      gs,\n      playerRoles: roles,\n      items,\n      uiSpriteFrames: frames,\n      glyphs: positionGlyphs,\n    })\n    expect(pixel(fb, rightDigitX(42, 4, 0), 78)).toBe(yellowDigit(2))\n    expect(pixel(fb, rightDigitX(42, 4, 1), 78)).toBe(yellowDigit(1))\n    expect(pixel(fb, rightDigitX(63, 4, 0), 83)).toBe(blueDigit(0))\n    expect(pixel(fb, rightDigitX(63, 4, 1), 83)).toBe(blueDigit(8))\n    expect(cloneInputs({ gs, menu, items, roles, frames })).toEqual(before)\n  })\n\n  it('G06-D02 武术是基础 20 加装备效果 3', () => {\n    const gs = makeGs()\n    const roles = makeRoles()\n    gs.partyMembers = [0]\n    gs.PlayerRolesRuntime.rgwAttackStrength[0] = 20\n    gs.rgEquipmentEffect[0]!.rgwAttackStrength[0] = 3\n    const menu = createPlayerStatus([0])\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: menu,\n      gs,\n      playerRoles: roles,\n      items: [],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs: positionGlyphs,\n    })\n    expect(pixel(fb, rightDigitX(42, 4, 0), 102)).toBe(yellowDigit(3))\n    expect(pixel(fb, rightDigitX(42, 4, 1), 102)).toBe(yellowDigit(2))\n  })\n\n  it('G06-D03 灵力是基础 4 加装备效果 10', () => {\n    const gs = makeGs()\n    gs.partyMembers = [0]\n    gs.PlayerRolesRuntime.rgwMagicStrength[0] = 4\n    gs.rgEquipmentEffect[2]!.rgwMagicStrength[0] = 10\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: createPlayerStatus([0]),\n      gs,\n      playerRoles: makeRoles(),\n      items: [],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs: positionGlyphs,\n    })\n    expect(pixel(fb, rightDigitX(42, 4, 0), 122)).toBe(yellowDigit(4))\n    expect(pixel(fb, rightDigitX(42, 4, 1), 122)).toBe(yellowDigit(1))\n  })\n\n  it('G06-D04 防御数字在 y=142', () => {\n    const gs = makeGs()\n    gs.partyMembers = [0]\n    gs.PlayerRolesRuntime.rgwDefense[0] = 7\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: createPlayerStatus([0]),\n      gs,\n      playerRoles: makeRoles(),\n      items: [],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs: positionGlyphs,\n    })\n    expect(pixel(fb, rightDigitX(42, 4, 0), 142)).toBe(yellowDigit(7))\n    expect(pixel(fb, rightDigitX(42, 4, 1), 142)).toBe(SENTINEL)\n  })\n\n  it('G06-D05 身法数字在 y=162', () => {\n    const gs = makeGs()\n    gs.partyMembers = [0]\n    gs.PlayerRolesRuntime.rgwDexterity[0] = 8\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: createPlayerStatus([0]),\n      gs,\n      playerRoles: makeRoles(),\n      items: [],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs: positionGlyphs,\n    })\n    expect(pixel(fb, rightDigitX(42, 4, 0), 162)).toBe(yellowDigit(8))\n  })\n\n  it('G06-D06 吉运数字在 y=182', () => {\n    const gs = makeGs()\n    gs.partyMembers = [0]\n    gs.PlayerRolesRuntime.rgwFleeRate[0] = 9\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: createPlayerStatus([0]),\n      gs,\n      playerRoles: makeRoles(),\n      items: [],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs: positionGlyphs,\n    })\n    expect(pixel(fb, rightDigitX(42, 4, 0), 182)).toBe(yellowDigit(9))\n  })\n\n  it('G06-D07 经验斜杠坐标 (0,0) 不画，体力与真气斜杠照画', () => {\n    const gs = makeGs()\n    gs.partyMembers = [0]\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: createPlayerStatus([0]),\n      gs,\n      playerRoles: makeRoles(),\n      items: [],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs: positionGlyphs,\n    })\n    expect(pixel(fb, 0, 0)).toBe(SENTINEL)\n    expect(pixel(fb, 65, 58)).toBe(SLASH_ID)\n    expect(pixel(fb, 65, 80)).toBe(SLASH_ID)\n  })\n\n  it('G06-D08 缺少斜杠帧时体力数字仍在，斜杠位保持底色', () => {\n    const gs = makeGs()\n    gs.partyMembers = [0]\n    gs.PlayerRolesRuntime.rgwHP[0] = 12\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: createPlayerStatus([0]),\n      gs,\n      playerRoles: makeRoles(),\n      items: [],\n      uiSpriteFrames: uiFramesWithoutSlot(39),\n      glyphs: positionGlyphs,\n    })\n    expect(pixel(fb, 65, 58)).toBe(SENTINEL)\n    expect(pixel(fb, rightDigitX(42, 4, 0), 56)).toBe(yellowDigit(2))\n  })\n\n  it('G06-D09 未提供升级经验表时下一级只画一位青色 0，当前经验仍是 12', () => {\n    const gs = makeGs()\n    gs.partyMembers = [0]\n    gs.PlayerRolesRuntime.rgwLevel[0] = 6\n    gs.Exp.rgPrimaryExp[0] = { wExp: 12, wLevel: 6 }\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: createPlayerStatus([0]),\n      gs,\n      playerRoles: makeRoles(),\n      items: [],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs: positionGlyphs,\n    })\n    expect(pixel(fb, rightDigitX(58, 5, 0), 15)).toBe(cyanDigit(0))\n    expect(pixel(fb, rightDigitX(58, 5, 1), 15)).toBe(SENTINEL)\n    expect(pixel(fb, rightDigitX(58, 5, 0), 6)).toBe(yellowDigit(2))\n    expect(pixel(fb, rightDigitX(58, 5, 1), 6)).toBe(yellowDigit(1))\n  })\n})\n\ndescribe('Player status poison rows', () => {\n  it('G06-D10 毒等级等于 3 仍画出，颜色是 wColor 加 10', () => {\n    const gs = makeGs()\n    gs.partyMembers = [0]\n    gs.rgPoisonStatus['0_0'] = { wPoisonID: 7, wPoisonScript: 0 }\n    const words: string[] = []\n    words[7] = '甲'\n    setWordTable(words)\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: createPlayerStatus([0]),\n      gs,\n      playerRoles: makeRoles(),\n      items: [],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs: positionGlyphs,\n      objectPoisons: new Map([[7, { level: 3, color: 15 }]]),\n    })\n    expect(pixel(fb, 185, 58)).toBe(25)\n  })\n\n  it('G06-D11 空槽和等级大于 3 的毒不占显示行，下一毒上移到 y=76', () => {\n    const gs = makeGs()\n    gs.partyMembers = [0]\n    gs.rgPoisonStatus['1_0'] = { wPoisonID: 7, wPoisonScript: 0 }\n    gs.rgPoisonStatus['2_0'] = { wPoisonID: 8, wPoisonScript: 0 }\n    gs.rgPoisonStatus['3_0'] = { wPoisonID: 9, wPoisonScript: 0 }\n    const words: string[] = []\n    words[7] = '甲'\n    words[8] = '乙'\n    words[9] = '乙'\n    setWordTable(words)\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: createPlayerStatus([0]),\n      gs,\n      playerRoles: makeRoles(),\n      items: [],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs: positionGlyphs,\n      objectPoisons: new Map([\n        [7, { level: 2, color: 20 }],\n        [8, { level: 99, color: 21 }],\n        [9, { level: 1, color: 22 }],\n      ]),\n    })\n    const kept = textDot('乙', 0, 185, 76)\n    const skipped = textDot('乙', 0, 185, 94)\n    expect(pixel(fb, 185, 58)).toBe(30)\n    expect(pixel(fb, kept.x, kept.y)).toBe(32)\n    expect(pixel(fb, skipped.x, skipped.y)).toBe(SENTINEL)\n  })\n\n  it('G06-D12 第 11 条毒不再覆盖第 10 条的颜色', () => {\n    const gs = makeGs()\n    gs.partyMembers = [0]\n    const words: string[] = []\n    const poisons = new Map<number, { level: number; color: number }>()\n    for (let slot = 0; slot <= 10; slot++) {\n      const id = 20 + slot\n      words[id] = '甲'\n      gs.rgPoisonStatus[`${slot}_0`] = { wPoisonID: id, wPoisonScript: 0 }\n      poisons.set(id, { level: 1, color: slot === 9 ? 20 : slot === 10 ? 40 : 1 })\n    }\n    setWordTable(words)\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: createPlayerStatus([0]),\n      gs,\n      playerRoles: makeRoles(),\n      items: [],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs: positionGlyphs,\n      objectPoisons: poisons,\n    })\n    expect(pixel(fb, 185, 184)).toBe(30)\n  })\n})\n\ndescribe('Player status equipment and portrait', () => {\n  it('G06-D13 第一槽 id 为 0 时跳过，第二槽画出装备名', () => {\n    const gs = makeGs()\n    const roles = makeRoles()\n    const equippedItem = makeItem(71, '丑', {\n      bitmap: 4,\n      flags: { equipable: true, equipableBy: [true, false, false, false, false, false] },\n    })\n    gs.partyMembers = [0]\n    gs.PlayerRolesRuntime.rgwEquipment[1]![0] = equippedItem.id\n    const frames = makeUiFrames()\n    const icons = new Map([[4, iconImage(0x44)]])\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: createPlayerStatus([0]),\n      gs,\n      playerRoles: roles,\n      items: [equippedItem],\n      uiSpriteFrames: frames,\n      glyphs: positionGlyphs,\n      itemIcons: icons,\n    })\n    const name = textDot('丑', 0, 253, 78)\n    expect(pixel(fb, 195, 38)).toBe(SENTINEL)\n    expect(pixel(fb, name.x, name.y)).toBe(EQUIPMENT)\n    expect(pixel(fb, 248, 40)).toBe(0x44)\n  })\n\n  it('G06-D14 物品在目录里但没有名字时，名字位画出 0xBE 的缺字框', () => {\n    const gs = makeGs()\n    const item = makeItem(72, '子', {\n      _name: undefined,\n      bitmap: 3,\n      flags: { equipable: true, equipableBy: [true, false, false, false, false, false] },\n    })\n    gs.partyMembers = [0]\n    gs.PlayerRolesRuntime.rgwEquipment[0]![0] = item.id\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: createPlayerStatus([0]),\n      gs,\n      playerRoles: makeRoles(),\n      items: [item],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs: positionGlyphs,\n    })\n    expect(item._name).toBeUndefined()\n    expect(pixel(fb, 195, 38)).toBe(EQUIPMENT)\n  })\n\n  it('G06-D15 没有立绘表时头像位保持底色，角色名仍是确认色', () => {\n    const gs = makeGs()\n    gs.partyMembers = [0]\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: createPlayerStatus([0]),\n      gs,\n      playerRoles: makeRoles(),\n      items: [],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs: positionGlyphs,\n    })\n    const name = textDot('甲', 0, 110, 8)\n    expect(pixel(fb, 110, 30)).toBe(SENTINEL)\n    expect(pixel(fb, name.x, name.y)).toBe(CONFIRMED)\n  })\n})\n",
+          "to": "import type { GameState } from '../../core/game-state.js'\nimport type { PlayerRole } from '@type-pal/shared'\nimport { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'\nimport { createInitialGameState, hydratePlayerRolesRuntime } from '../../core/game-state.js'\nimport {\n  createPlayerStatus,\n  playerStatusNext,\n  type PlayerStatusState,\n} from '../../core/menu/player-status.js'\nimport { setWordTable } from '../../core/word-lookup.js'\nimport * as fontModule from '../font.js'\nimport { fixtureGlyphs, textDot } from '../__tests__/glyph-fixtures.js'\nimport { makeGs, makeItem, makeRoles } from '../__tests__/menu-state-fixtures.js'\nimport { beginChineseMenuText } from '../__tests__/menu-text-fixture.js'\nimport {\n  blueDigit,\n  cyanDigit,\n  makeUiFrames,\n  rightDigitX,\n  SLASH_ID,\n  uiFramesWithoutSlot,\n  yellowDigit,\n} from '../__tests__/menu-ui-fixtures.js'\nimport {\n  fillSentinel,\n  iconImage,\n  pixel,\n  SENTINEL,\n  sentinelFramebuffer,\n} from '../__tests__/raster-fixtures.js'\nimport { cloneInputs } from '../__tests__/render-input-snapshots.js'\nimport { createHydratedStatusState } from '../__tests__/status-state-fixtures.js'\nimport { uniformDotGlyphs } from '../__tests__/uniform-glyphs.js'\nimport { createFramebuffer } from '../framebuffer.js'\nimport { drawPlayerStatus } from './draw-player-status.js'\nconst uniformGlyphs = uniformDotGlyphs()\nconst positionGlyphs = fixtureGlyphs()\nconst CONFIRMED = 0x2c\nconst EQUIPMENT = 0xbe\nfunction poisonRole(id: number): PlayerRole {\n  return {\n    id,\n    _name: 'r',\n    name: 0,\n    avatar: 0,\n    level: 1,\n    hp: 10,\n    maxHP: 10,\n    mp: 5,\n    maxMP: 5,\n    attackStrength: 1,\n    magicStrength: 1,\n    defense: 1,\n    dexterity: 1,\n    fleeRate: 1,\n    poisonResistance: 0,\n    equipment: [0, 0, 0, 0, 0, 0],\n    magic: [],\n    elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },\n    coveredBy: 0,\n    cooperativeMagic: 0,\n    attackAll: 0,\n    walkFrames: 0,\n    spriteNum: 0,\n    spriteNumInBattle: 0,\n    attackSound: 0,\n    weaponSound: 0,\n    criticalSound: 0,\n    magicSound: 0,\n    deathSound: 0,\n  }\n}\nfunction createPoisonState() {\n  const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n  gs.partyMembers = [0]\n  hydratePlayerRolesRuntime(gs.PlayerRolesRuntime, {\n    roles: Array.from({ length: 6 }, (_, id) => poisonRole(id)),\n  })\n  return gs\n}\nfunction drawPoisonText(opts: {\n  id: number\n  level: number\n  color: number\n  slot?: number\n}): ReturnType<typeof vi.spyOn> {\n  const gs = createPoisonState()\n  gs.partyMembers = [0]\n  gs.rgPoisonStatus[`${opts.slot ?? 0}_0`] = { wPoisonID: opts.id, wPoisonScript: 0 }\n  const objectPoisons = new Map([[opts.id, { level: opts.level, color: opts.color }]])\n  const flat: string[] = []\n  flat[opts.id] = '蛊毒'\n  setWordTable(flat)\n  const spy = observeRenderText()\n  drawPlayerStatus({\n    fb: createFramebuffer(),\n    state: createPlayerStatus([0]),\n    gs,\n    playerRoles: { roles: [poisonRole(0)] },\n    items: [],\n    uiSpriteFrames: [],\n    objectPoisons,\n  })\n  return spy\n}\nconst originalRenderText = fontModule.renderText\nlet restoreRenderText: (() => void) | undefined\nfunction observeRenderText() {\n  const spy = vi.spyOn(fontModule, 'renderText')\n  restoreRenderText = () => spy.mockRestore()\n  return spy\n}\nlet restoreMenuText: () => void\nbeforeEach(() => {\n  restoreMenuText = beginChineseMenuText()\n})\nafterEach(() => {\n  try {\n    restoreRenderText?.()\n    expect(fontModule.renderText).toBe(originalRenderText)\n  } finally {\n    restoreRenderText = undefined\n    restoreMenuText()\n  }\n})\ndescribe('Player status runtime values', () => {\n  it('G06-D01 当前真气 12 为黄，真气上限 80 为蓝', () => {\n    const gs = makeGs()\n    const roles = makeRoles()\n    const items = [makeItem(70, '甲')]\n    gs.partyMembers = [0]\n    gs.PlayerRolesRuntime.rgwMP[0] = 12\n    gs.PlayerRolesRuntime.rgwMaxMP[0] = 80\n    const menu = createPlayerStatus([0])\n    const frames = makeUiFrames()\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    const before = cloneInputs({ gs, menu, items, roles, frames })\n    drawPlayerStatus({\n      fb,\n      state: menu,\n      gs,\n      playerRoles: roles,\n      items,\n      uiSpriteFrames: frames,\n      glyphs: positionGlyphs,\n    })\n    expect(pixel(fb, rightDigitX(42, 4, 0), 78)).toBe(yellowDigit(2))\n    expect(pixel(fb, rightDigitX(42, 4, 1), 78)).toBe(yellowDigit(1))\n    expect(pixel(fb, rightDigitX(63, 4, 0), 83)).toBe(blueDigit(0))\n    expect(pixel(fb, rightDigitX(63, 4, 1), 83)).toBe(blueDigit(8))\n    expect(cloneInputs({ gs, menu, items, roles, frames })).toEqual(before)\n  })\n\n  it('G06-D02 武术是基础 20 加装备效果 3', () => {\n    const gs = makeGs()\n    const roles = makeRoles()\n    gs.partyMembers = [0]\n    gs.PlayerRolesRuntime.rgwAttackStrength[0] = 20\n    gs.rgEquipmentEffect[0]!.rgwAttackStrength[0] = 3\n    const menu = createPlayerStatus([0])\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: menu,\n      gs,\n      playerRoles: roles,\n      items: [],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs: positionGlyphs,\n    })\n    expect(pixel(fb, rightDigitX(42, 4, 0), 102)).toBe(yellowDigit(3))\n    expect(pixel(fb, rightDigitX(42, 4, 1), 102)).toBe(yellowDigit(2))\n  })\n\n  it('G06-D03 灵力是基础 4 加装备效果 10', () => {\n    const gs = makeGs()\n    gs.partyMembers = [0]\n    gs.PlayerRolesRuntime.rgwMagicStrength[0] = 4\n    gs.rgEquipmentEffect[2]!.rgwMagicStrength[0] = 10\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: createPlayerStatus([0]),\n      gs,\n      playerRoles: makeRoles(),\n      items: [],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs: positionGlyphs,\n    })\n    expect(pixel(fb, rightDigitX(42, 4, 0), 122)).toBe(yellowDigit(4))\n    expect(pixel(fb, rightDigitX(42, 4, 1), 122)).toBe(yellowDigit(1))\n  })\n\n  it('G06-D04 防御数字在 y=142', () => {\n    const gs = makeGs()\n    gs.partyMembers = [0]\n    gs.PlayerRolesRuntime.rgwDefense[0] = 7\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: createPlayerStatus([0]),\n      gs,\n      playerRoles: makeRoles(),\n      items: [],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs: positionGlyphs,\n    })\n    expect(pixel(fb, rightDigitX(42, 4, 0), 142)).toBe(yellowDigit(7))\n    expect(pixel(fb, rightDigitX(42, 4, 1), 142)).toBe(SENTINEL)\n  })\n\n  it('G06-D05 身法数字在 y=162', () => {\n    const gs = makeGs()\n    gs.partyMembers = [0]\n    gs.PlayerRolesRuntime.rgwDexterity[0] = 8\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: createPlayerStatus([0]),\n      gs,\n      playerRoles: makeRoles(),\n      items: [],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs: positionGlyphs,\n    })\n    expect(pixel(fb, rightDigitX(42, 4, 0), 162)).toBe(yellowDigit(8))\n  })\n\n  it('G06-D06 吉运数字在 y=182', () => {\n    const gs = makeGs()\n    gs.partyMembers = [0]\n    gs.PlayerRolesRuntime.rgwFleeRate[0] = 9\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: createPlayerStatus([0]),\n      gs,\n      playerRoles: makeRoles(),\n      items: [],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs: positionGlyphs,\n    })\n    expect(pixel(fb, rightDigitX(42, 4, 0), 182)).toBe(yellowDigit(9))\n  })\n\n  it('G06-D07 经验斜杠坐标 (0,0) 不画，体力与真气斜杠照画', () => {\n    const gs = makeGs()\n    gs.partyMembers = [0]\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: createPlayerStatus([0]),\n      gs,\n      playerRoles: makeRoles(),\n      items: [],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs: positionGlyphs,\n    })\n    expect(pixel(fb, 0, 0)).toBe(SENTINEL)\n    expect(pixel(fb, 65, 58)).toBe(SLASH_ID)\n    expect(pixel(fb, 65, 80)).toBe(SLASH_ID)\n  })\n\n  it('G06-D08 缺少斜杠帧时体力数字仍在，斜杠位保持底色', () => {\n    const gs = makeGs()\n    gs.partyMembers = [0]\n    gs.PlayerRolesRuntime.rgwHP[0] = 12\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: createPlayerStatus([0]),\n      gs,\n      playerRoles: makeRoles(),\n      items: [],\n      uiSpriteFrames: uiFramesWithoutSlot(39),\n      glyphs: positionGlyphs,\n    })\n    expect(pixel(fb, 65, 58)).toBe(SENTINEL)\n    expect(pixel(fb, rightDigitX(42, 4, 0), 56)).toBe(yellowDigit(2))\n  })\n\n  it('G06-D09 未提供升级经验表时下一级只画一位青色 0，当前经验仍是 12', () => {\n    const gs = makeGs()\n    gs.partyMembers = [0]\n    gs.PlayerRolesRuntime.rgwLevel[0] = 6\n    gs.Exp.rgPrimaryExp[0] = { wExp: 12, wLevel: 6 }\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: createPlayerStatus([0]),\n      gs,\n      playerRoles: makeRoles(),\n      items: [],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs: positionGlyphs,\n    })\n    expect(pixel(fb, rightDigitX(58, 5, 0), 15)).toBe(cyanDigit(0))\n    expect(pixel(fb, rightDigitX(58, 5, 1), 15)).toBe(SENTINEL)\n    expect(pixel(fb, rightDigitX(58, 5, 0), 6)).toBe(yellowDigit(2))\n    expect(pixel(fb, rightDigitX(58, 5, 1), 6)).toBe(yellowDigit(1))\n  })\n})\n\ndescribe('Player status poison rows', () => {\n  it('G06-D10 毒等级等于 3 仍画出，颜色是 wColor 加 10', () => {\n    const gs = makeGs()\n    gs.partyMembers = [0]\n    gs.rgPoisonStatus['0_0'] = { wPoisonID: 7, wPoisonScript: 0 }\n    const words: string[] = []\n    words[7] = '甲'\n    setWordTable(words)\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: createPlayerStatus([0]),\n      gs,\n      playerRoles: makeRoles(),\n      items: [],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs: positionGlyphs,\n      objectPoisons: new Map([[7, { level: 3, color: 15 }]]),\n    })\n    expect(pixel(fb, 185, 58)).toBe(25)\n  })\n\n  it('G06-D11 空槽和等级大于 3 的毒不占显示行，下一毒上移到 y=76', () => {\n    const gs = makeGs()\n    gs.partyMembers = [0]\n    gs.rgPoisonStatus['1_0'] = { wPoisonID: 7, wPoisonScript: 0 }\n    gs.rgPoisonStatus['2_0'] = { wPoisonID: 8, wPoisonScript: 0 }\n    gs.rgPoisonStatus['3_0'] = { wPoisonID: 9, wPoisonScript: 0 }\n    const words: string[] = []\n    words[7] = '甲'\n    words[8] = '乙'\n    words[9] = '乙'\n    setWordTable(words)\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: createPlayerStatus([0]),\n      gs,\n      playerRoles: makeRoles(),\n      items: [],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs: positionGlyphs,\n      objectPoisons: new Map([\n        [7, { level: 2, color: 20 }],\n        [8, { level: 99, color: 21 }],\n        [9, { level: 1, color: 22 }],\n      ]),\n    })\n    const kept = textDot('乙', 0, 185, 76)\n    const skipped = textDot('乙', 0, 185, 94)\n    expect(pixel(fb, 185, 58)).toBe(30)\n    expect(pixel(fb, kept.x, kept.y)).toBe(32)\n    expect(pixel(fb, skipped.x, skipped.y)).toBe(SENTINEL)\n  })\n\n  it('G06-D12 第 11 条毒不再覆盖第 10 条的颜色', () => {\n    const gs = makeGs()\n    gs.partyMembers = [0]\n    const words: string[] = []\n    const poisons = new Map<number, { level: number; color: number }>()\n    for (let slot = 0; slot <= 10; slot++) {\n      const id = 20 + slot\n      words[id] = '甲'\n      gs.rgPoisonStatus[`${slot}_0`] = { wPoisonID: id, wPoisonScript: 0 }\n      poisons.set(id, { level: 1, color: slot === 9 ? 20 : slot === 10 ? 40 : 1 })\n    }\n    setWordTable(words)\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: createPlayerStatus([0]),\n      gs,\n      playerRoles: makeRoles(),\n      items: [],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs: positionGlyphs,\n      objectPoisons: poisons,\n    })\n    expect(pixel(fb, 185, 184)).toBe(30)\n  })\n})\n\ndescribe('Player status equipment and portrait', () => {\n  it('G06-D13 第一槽 id 为 0 时跳过，第二槽画出装备名', () => {\n    const gs = makeGs()\n    const roles = makeRoles()\n    const equippedItem = makeItem(71, '丑', {\n      bitmap: 4,\n      flags: { equipable: true, equipableBy: [true, false, false, false, false, false] },\n    })\n    gs.partyMembers = [0]\n    gs.PlayerRolesRuntime.rgwEquipment[1]![0] = equippedItem.id\n    const frames = makeUiFrames()\n    const icons = new Map([[4, iconImage(0x44)]])\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: createPlayerStatus([0]),\n      gs,\n      playerRoles: roles,\n      items: [equippedItem],\n      uiSpriteFrames: frames,\n      glyphs: positionGlyphs,\n      itemIcons: icons,\n    })\n    const name = textDot('丑', 0, 253, 78)\n    expect(pixel(fb, 195, 38)).toBe(SENTINEL)\n    expect(pixel(fb, name.x, name.y)).toBe(EQUIPMENT)\n    expect(pixel(fb, 248, 40)).toBe(0x44)\n  })\n\n  it('G06-D14 物品在目录里但没有名字时，名字位画出 0xBE 的缺字框', () => {\n    const gs = makeGs()\n    const item = makeItem(72, '子', {\n      _name: undefined,\n      bitmap: 3,\n      flags: { equipable: true, equipableBy: [true, false, false, false, false, false] },\n    })\n    gs.partyMembers = [0]\n    gs.PlayerRolesRuntime.rgwEquipment[0]![0] = item.id\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: createPlayerStatus([0]),\n      gs,\n      playerRoles: makeRoles(),\n      items: [item],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs: positionGlyphs,\n    })\n    expect(item._name).toBeUndefined()\n    expect(pixel(fb, 195, 38)).toBe(EQUIPMENT)\n  })\n\n  it('G06-D15 没有立绘表时头像位保持底色，角色名仍是确认色', () => {\n    const gs = makeGs()\n    gs.partyMembers = [0]\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: createPlayerStatus([0]),\n      gs,\n      playerRoles: makeRoles(),\n      items: [],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs: positionGlyphs,\n    })\n    const name = textDot('甲', 0, 110, 8)\n    expect(pixel(fb, 110, 30)).toBe(SENTINEL)\n    expect(pixel(fb, name.x, name.y)).toBe(CONFIRMED)\n  })\n})\n",
+          "count": 1
+        }
+      ],
+      "reason": "Only poison spec owns one passthrough renderText spy; other views own text/language only. No unrelated global reset."
+    },
+    {
+      "path": "packages/game/src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+      "id": "menu-status-1-equipment",
+      "ordinals": [12, 13, 14],
+      "changes": [
+        {
+          "from": "import type { GameState } from '../../core/game-state.js'\nimport type { PlayerRole } from '@type-pal/shared'\nimport { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'\nimport { createInitialGameState, hydratePlayerRolesRuntime } from '../../core/game-state.js'\nimport {\n  createPlayerStatus,\n  playerStatusNext,\n  type PlayerStatusState,\n} from '../../core/menu/player-status.js'\nimport { setWordTable } from '../../core/word-lookup.js'\nimport * as fontModule from '../font.js'\nimport { fixtureGlyphs, textDot } from '../__tests__/glyph-fixtures.js'\nimport { makeGs, makeItem, makeRoles } from '../__tests__/menu-state-fixtures.js'\nimport { beginChineseMenuText } from '../__tests__/menu-text-fixture.js'\nimport {\n  blueDigit,\n  cyanDigit,\n  makeUiFrames,\n  rightDigitX,\n  SLASH_ID,\n  uiFramesWithoutSlot,\n  yellowDigit,\n} from '../__tests__/menu-ui-fixtures.js'\nimport {\n  fillSentinel,\n  iconImage,\n  pixel,\n  SENTINEL,\n  sentinelFramebuffer,\n} from '../__tests__/raster-fixtures.js'\nimport { cloneInputs } from '../__tests__/render-input-snapshots.js'\nimport { createHydratedStatusState } from '../__tests__/status-state-fixtures.js'\nimport { uniformDotGlyphs } from '../__tests__/uniform-glyphs.js'\nimport { createFramebuffer } from '../framebuffer.js'\nimport { drawPlayerStatus } from './draw-player-status.js'\nconst uniformGlyphs = uniformDotGlyphs()\nconst positionGlyphs = fixtureGlyphs()\nconst CONFIRMED = 0x2c\nconst EQUIPMENT = 0xbe\nfunction poisonRole(id: number): PlayerRole {\n  return {\n    id,\n    _name: 'r',\n    name: 0,\n    avatar: 0,\n    level: 1,\n    hp: 10,\n    maxHP: 10,\n    mp: 5,\n    maxMP: 5,\n    attackStrength: 1,\n    magicStrength: 1,\n    defense: 1,\n    dexterity: 1,\n    fleeRate: 1,\n    poisonResistance: 0,\n    equipment: [0, 0, 0, 0, 0, 0],\n    magic: [],\n    elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },\n    coveredBy: 0,\n    cooperativeMagic: 0,\n    attackAll: 0,\n    walkFrames: 0,\n    spriteNum: 0,\n    spriteNumInBattle: 0,\n    attackSound: 0,\n    weaponSound: 0,\n    criticalSound: 0,\n    magicSound: 0,\n    deathSound: 0,\n  }\n}\nfunction createPoisonState() {\n  const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n  gs.partyMembers = [0]\n  hydratePlayerRolesRuntime(gs.PlayerRolesRuntime, {\n    roles: Array.from({ length: 6 }, (_, id) => poisonRole(id)),\n  })\n  return gs\n}\nfunction drawPoisonText(opts: {\n  id: number\n  level: number\n  color: number\n  slot?: number\n}): ReturnType<typeof vi.spyOn> {\n  const gs = createPoisonState()\n  gs.partyMembers = [0]\n  gs.rgPoisonStatus[`${opts.slot ?? 0}_0`] = { wPoisonID: opts.id, wPoisonScript: 0 }\n  const objectPoisons = new Map([[opts.id, { level: opts.level, color: opts.color }]])\n  const flat: string[] = []\n  flat[opts.id] = '蛊毒'\n  setWordTable(flat)\n  const spy = observeRenderText()\n  drawPlayerStatus({\n    fb: createFramebuffer(),\n    state: createPlayerStatus([0]),\n    gs,\n    playerRoles: { roles: [poisonRole(0)] },\n    items: [],\n    uiSpriteFrames: [],\n    objectPoisons,\n  })\n  return spy\n}\nconst originalRenderText = fontModule.renderText\nlet restoreRenderText: (() => void) | undefined\nfunction observeRenderText() {\n  const spy = vi.spyOn(fontModule, 'renderText')\n  restoreRenderText = () => spy.mockRestore()\n  return spy\n}\nlet restoreMenuText: () => void\nbeforeEach(() => {\n  restoreMenuText = beginChineseMenuText()\n})\nafterEach(() => {\n  restoreMenuText()\n})\ndescribe('Player status runtime values', () => {\n  it('G06-D01 当前真气 12 为黄，真气上限 80 为蓝', () => {\n    const gs = makeGs()\n    const roles = makeRoles()\n    const items = [makeItem(70, '甲')]\n    gs.partyMembers = [0]\n    gs.PlayerRolesRuntime.rgwMP[0] = 12\n    gs.PlayerRolesRuntime.rgwMaxMP[0] = 80\n    const menu = createPlayerStatus([0])\n    const frames = makeUiFrames()\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    const before = cloneInputs({ gs, menu, items, roles, frames })\n    drawPlayerStatus({\n      fb,\n      state: menu,\n      gs,\n      playerRoles: roles,\n      items,\n      uiSpriteFrames: frames,\n      glyphs: positionGlyphs,\n    })\n    expect(pixel(fb, rightDigitX(42, 4, 0), 78)).toBe(yellowDigit(2))\n    expect(pixel(fb, rightDigitX(42, 4, 1), 78)).toBe(yellowDigit(1))\n    expect(pixel(fb, rightDigitX(63, 4, 0), 83)).toBe(blueDigit(0))\n    expect(pixel(fb, rightDigitX(63, 4, 1), 83)).toBe(blueDigit(8))\n    expect(cloneInputs({ gs, menu, items, roles, frames })).toEqual(before)\n  })\n\n  it('G06-D02 武术是基础 20 加装备效果 3', () => {\n    const gs = makeGs()\n    const roles = makeRoles()\n    gs.partyMembers = [0]\n    gs.PlayerRolesRuntime.rgwAttackStrength[0] = 20\n    gs.rgEquipmentEffect[0]!.rgwAttackStrength[0] = 3\n    const menu = createPlayerStatus([0])\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: menu,\n      gs,\n      playerRoles: roles,\n      items: [],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs: positionGlyphs,\n    })\n    expect(pixel(fb, rightDigitX(42, 4, 0), 102)).toBe(yellowDigit(3))\n    expect(pixel(fb, rightDigitX(42, 4, 1), 102)).toBe(yellowDigit(2))\n  })\n\n  it('G06-D03 灵力是基础 4 加装备效果 10', () => {\n    const gs = makeGs()\n    gs.partyMembers = [0]\n    gs.PlayerRolesRuntime.rgwMagicStrength[0] = 4\n    gs.rgEquipmentEffect[2]!.rgwMagicStrength[0] = 10\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: createPlayerStatus([0]),\n      gs,\n      playerRoles: makeRoles(),\n      items: [],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs: positionGlyphs,\n    })\n    expect(pixel(fb, rightDigitX(42, 4, 0), 122)).toBe(yellowDigit(4))\n    expect(pixel(fb, rightDigitX(42, 4, 1), 122)).toBe(yellowDigit(1))\n  })\n\n  it('G06-D04 防御数字在 y=142', () => {\n    const gs = makeGs()\n    gs.partyMembers = [0]\n    gs.PlayerRolesRuntime.rgwDefense[0] = 7\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: createPlayerStatus([0]),\n      gs,\n      playerRoles: makeRoles(),\n      items: [],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs: positionGlyphs,\n    })\n    expect(pixel(fb, rightDigitX(42, 4, 0), 142)).toBe(yellowDigit(7))\n    expect(pixel(fb, rightDigitX(42, 4, 1), 142)).toBe(SENTINEL)\n  })\n\n  it('G06-D05 身法数字在 y=162', () => {\n    const gs = makeGs()\n    gs.partyMembers = [0]\n    gs.PlayerRolesRuntime.rgwDexterity[0] = 8\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: createPlayerStatus([0]),\n      gs,\n      playerRoles: makeRoles(),\n      items: [],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs: positionGlyphs,\n    })\n    expect(pixel(fb, rightDigitX(42, 4, 0), 162)).toBe(yellowDigit(8))\n  })\n\n  it('G06-D06 吉运数字在 y=182', () => {\n    const gs = makeGs()\n    gs.partyMembers = [0]\n    gs.PlayerRolesRuntime.rgwFleeRate[0] = 9\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: createPlayerStatus([0]),\n      gs,\n      playerRoles: makeRoles(),\n      items: [],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs: positionGlyphs,\n    })\n    expect(pixel(fb, rightDigitX(42, 4, 0), 182)).toBe(yellowDigit(9))\n  })\n\n  it('G06-D07 经验斜杠坐标 (0,0) 不画，体力与真气斜杠照画', () => {\n    const gs = makeGs()\n    gs.partyMembers = [0]\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: createPlayerStatus([0]),\n      gs,\n      playerRoles: makeRoles(),\n      items: [],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs: positionGlyphs,\n    })\n    expect(pixel(fb, 0, 0)).toBe(SENTINEL)\n    expect(pixel(fb, 65, 58)).toBe(SLASH_ID)\n    expect(pixel(fb, 65, 80)).toBe(SLASH_ID)\n  })\n\n  it('G06-D08 缺少斜杠帧时体力数字仍在，斜杠位保持底色', () => {\n    const gs = makeGs()\n    gs.partyMembers = [0]\n    gs.PlayerRolesRuntime.rgwHP[0] = 12\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: createPlayerStatus([0]),\n      gs,\n      playerRoles: makeRoles(),\n      items: [],\n      uiSpriteFrames: uiFramesWithoutSlot(39),\n      glyphs: positionGlyphs,\n    })\n    expect(pixel(fb, 65, 58)).toBe(SENTINEL)\n    expect(pixel(fb, rightDigitX(42, 4, 0), 56)).toBe(yellowDigit(2))\n  })\n\n  it('G06-D09 未提供升级经验表时下一级只画一位青色 0，当前经验仍是 12', () => {\n    const gs = makeGs()\n    gs.partyMembers = [0]\n    gs.PlayerRolesRuntime.rgwLevel[0] = 6\n    gs.Exp.rgPrimaryExp[0] = { wExp: 12, wLevel: 6 }\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: createPlayerStatus([0]),\n      gs,\n      playerRoles: makeRoles(),\n      items: [],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs: positionGlyphs,\n    })\n    expect(pixel(fb, rightDigitX(58, 5, 0), 15)).toBe(cyanDigit(0))\n    expect(pixel(fb, rightDigitX(58, 5, 1), 15)).toBe(SENTINEL)\n    expect(pixel(fb, rightDigitX(58, 5, 0), 6)).toBe(yellowDigit(2))\n    expect(pixel(fb, rightDigitX(58, 5, 1), 6)).toBe(yellowDigit(1))\n  })\n})\n\ndescribe('Player status poison rows', () => {\n  it('G06-D10 毒等级等于 3 仍画出，颜色是 wColor 加 10', () => {\n    const gs = makeGs()\n    gs.partyMembers = [0]\n    gs.rgPoisonStatus['0_0'] = { wPoisonID: 7, wPoisonScript: 0 }\n    const words: string[] = []\n    words[7] = '甲'\n    setWordTable(words)\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: createPlayerStatus([0]),\n      gs,\n      playerRoles: makeRoles(),\n      items: [],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs: positionGlyphs,\n      objectPoisons: new Map([[7, { level: 3, color: 15 }]]),\n    })\n    expect(pixel(fb, 185, 58)).toBe(25)\n  })\n\n  it('G06-D11 空槽和等级大于 3 的毒不占显示行，下一毒上移到 y=76', () => {\n    const gs = makeGs()\n    gs.partyMembers = [0]\n    gs.rgPoisonStatus['1_0'] = { wPoisonID: 7, wPoisonScript: 0 }\n    gs.rgPoisonStatus['2_0'] = { wPoisonID: 8, wPoisonScript: 0 }\n    gs.rgPoisonStatus['3_0'] = { wPoisonID: 9, wPoisonScript: 0 }\n    const words: string[] = []\n    words[7] = '甲'\n    words[8] = '乙'\n    words[9] = '乙'\n    setWordTable(words)\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: createPlayerStatus([0]),\n      gs,\n      playerRoles: makeRoles(),\n      items: [],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs: positionGlyphs,\n      objectPoisons: new Map([\n        [7, { level: 2, color: 20 }],\n        [8, { level: 99, color: 21 }],\n        [9, { level: 1, color: 22 }],\n      ]),\n    })\n    const kept = textDot('乙', 0, 185, 76)\n    const skipped = textDot('乙', 0, 185, 94)\n    expect(pixel(fb, 185, 58)).toBe(30)\n    expect(pixel(fb, kept.x, kept.y)).toBe(32)\n    expect(pixel(fb, skipped.x, skipped.y)).toBe(SENTINEL)\n  })\n\n  it('G06-D12 第 11 条毒不再覆盖第 10 条的颜色', () => {\n    const gs = makeGs()\n    gs.partyMembers = [0]\n    const words: string[] = []\n    const poisons = new Map<number, { level: number; color: number }>()\n    for (let slot = 0; slot <= 10; slot++) {\n      const id = 20 + slot\n      words[id] = '甲'\n      gs.rgPoisonStatus[`${slot}_0`] = { wPoisonID: id, wPoisonScript: 0 }\n      poisons.set(id, { level: 1, color: slot === 9 ? 20 : slot === 10 ? 40 : 1 })\n    }\n    setWordTable(words)\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: createPlayerStatus([0]),\n      gs,\n      playerRoles: makeRoles(),\n      items: [],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs: positionGlyphs,\n      objectPoisons: poisons,\n    })\n    expect(pixel(fb, 185, 184)).toBe(30)\n  })\n})\n\ndescribe('Player status equipment and portrait', () => {\n  it('G06-D13 第一槽 id 为 0 时跳过，第二槽画出装备名', () => {\n    const gs = makeGs()\n    const roles = makeRoles()\n    const equippedItem = makeItem(71, '丑', {\n      bitmap: 4,\n      flags: { equipable: true, equipableBy: [true, false, false, false, false, false] },\n    })\n    gs.partyMembers = [0]\n    gs.PlayerRolesRuntime.rgwEquipment[1]![0] = equippedItem.id\n    const frames = makeUiFrames()\n    const icons = new Map([[4, iconImage(0x44)]])\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: createPlayerStatus([0]),\n      gs,\n      playerRoles: roles,\n      items: [equippedItem],\n      uiSpriteFrames: frames,\n      glyphs: positionGlyphs,\n      itemIcons: icons,\n    })\n    const name = textDot('丑', 0, 253, 78)\n    expect(pixel(fb, 195, 38)).toBe(SENTINEL)\n    expect(pixel(fb, name.x, name.y)).toBe(EQUIPMENT)\n    expect(pixel(fb, 248, 40)).toBe(0x44)\n  })\n\n  it('G06-D14 物品在目录里但没有名字时，名字位画出 0xBE 的缺字框', () => {\n    const gs = makeGs()\n    const item = makeItem(72, '子', {\n      _name: undefined,\n      bitmap: 3,\n      flags: { equipable: true, equipableBy: [true, false, false, false, false, false] },\n    })\n    gs.partyMembers = [0]\n    gs.PlayerRolesRuntime.rgwEquipment[0]![0] = item.id\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: createPlayerStatus([0]),\n      gs,\n      playerRoles: makeRoles(),\n      items: [item],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs: positionGlyphs,\n    })\n    expect(item._name).toBeUndefined()\n    expect(pixel(fb, 195, 38)).toBe(EQUIPMENT)\n  })\n\n  it('G06-D15 没有立绘表时头像位保持底色，角色名仍是确认色', () => {\n    const gs = makeGs()\n    gs.partyMembers = [0]\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: createPlayerStatus([0]),\n      gs,\n      playerRoles: makeRoles(),\n      items: [],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs: positionGlyphs,\n    })\n    const name = textDot('甲', 0, 110, 8)\n    expect(pixel(fb, 110, 30)).toBe(SENTINEL)\n    expect(pixel(fb, name.x, name.y)).toBe(CONFIRMED)\n  })\n})\n",
+          "to": "import type { GameState } from '../../core/game-state.js'\nimport type { PlayerRole } from '@type-pal/shared'\nimport { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'\nimport { createInitialGameState, hydratePlayerRolesRuntime } from '../../core/game-state.js'\nimport {\n  createPlayerStatus,\n  playerStatusNext,\n  type PlayerStatusState,\n} from '../../core/menu/player-status.js'\nimport { setWordTable } from '../../core/word-lookup.js'\nimport * as fontModule from '../font.js'\nimport { fixtureGlyphs, textDot } from '../__tests__/glyph-fixtures.js'\nimport { makeGs, makeItem, makeRoles } from '../__tests__/menu-state-fixtures.js'\nimport { beginChineseMenuText } from '../__tests__/menu-text-fixture.js'\nimport {\n  blueDigit,\n  cyanDigit,\n  makeUiFrames,\n  rightDigitX,\n  SLASH_ID,\n  uiFramesWithoutSlot,\n  yellowDigit,\n} from '../__tests__/menu-ui-fixtures.js'\nimport {\n  fillSentinel,\n  iconImage,\n  pixel,\n  SENTINEL,\n  sentinelFramebuffer,\n} from '../__tests__/raster-fixtures.js'\nimport { cloneInputs } from '../__tests__/render-input-snapshots.js'\nimport { createHydratedStatusState } from '../__tests__/status-state-fixtures.js'\nimport { uniformDotGlyphs } from '../__tests__/uniform-glyphs.js'\nimport { createFramebuffer } from '../framebuffer.js'\nimport { drawPlayerStatus } from './draw-player-status.js'\nconst uniformGlyphs = uniformDotGlyphs()\nconst positionGlyphs = fixtureGlyphs()\nconst CONFIRMED = 0x2c\nconst EQUIPMENT = 0xbe\nfunction poisonRole(id: number): PlayerRole {\n  return {\n    id,\n    _name: 'r',\n    name: 0,\n    avatar: 0,\n    level: 1,\n    hp: 10,\n    maxHP: 10,\n    mp: 5,\n    maxMP: 5,\n    attackStrength: 1,\n    magicStrength: 1,\n    defense: 1,\n    dexterity: 1,\n    fleeRate: 1,\n    poisonResistance: 0,\n    equipment: [0, 0, 0, 0, 0, 0],\n    magic: [],\n    elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },\n    coveredBy: 0,\n    cooperativeMagic: 0,\n    attackAll: 0,\n    walkFrames: 0,\n    spriteNum: 0,\n    spriteNumInBattle: 0,\n    attackSound: 0,\n    weaponSound: 0,\n    criticalSound: 0,\n    magicSound: 0,\n    deathSound: 0,\n  }\n}\nfunction createPoisonState() {\n  const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n  gs.partyMembers = [0]\n  hydratePlayerRolesRuntime(gs.PlayerRolesRuntime, {\n    roles: Array.from({ length: 6 }, (_, id) => poisonRole(id)),\n  })\n  return gs\n}\nfunction drawPoisonText(opts: {\n  id: number\n  level: number\n  color: number\n  slot?: number\n}): ReturnType<typeof vi.spyOn> {\n  const gs = createPoisonState()\n  gs.partyMembers = [0]\n  gs.rgPoisonStatus[`${opts.slot ?? 0}_0`] = { wPoisonID: opts.id, wPoisonScript: 0 }\n  const objectPoisons = new Map([[opts.id, { level: opts.level, color: opts.color }]])\n  const flat: string[] = []\n  flat[opts.id] = '蛊毒'\n  setWordTable(flat)\n  const spy = observeRenderText()\n  drawPlayerStatus({\n    fb: createFramebuffer(),\n    state: createPlayerStatus([0]),\n    gs,\n    playerRoles: { roles: [poisonRole(0)] },\n    items: [],\n    uiSpriteFrames: [],\n    objectPoisons,\n  })\n  return spy\n}\nconst originalRenderText = fontModule.renderText\nlet restoreRenderText: (() => void) | undefined\nfunction observeRenderText() {\n  const spy = vi.spyOn(fontModule, 'renderText')\n  restoreRenderText = () => spy.mockRestore()\n  return spy\n}\nlet restoreMenuText: () => void\nbeforeEach(() => {\n  restoreMenuText = beginChineseMenuText()\n})\nafterEach(() => {\n  restoreMenuText()\n})\ndescribe('Player status runtime values', () => {\n  it('G06-D01 当前真气 12 为黄，真气上限 80 为蓝', () => {\n    const gs = makeGs()\n    const roles = makeRoles()\n    const items = [makeItem(70, '甲')]\n    gs.partyMembers = [0]\n    gs.PlayerRolesRuntime.rgwMP[0] = 12\n    gs.PlayerRolesRuntime.rgwMaxMP[0] = 80\n    const menu = createPlayerStatus([0])\n    const frames = makeUiFrames()\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    const before = cloneInputs({ gs, menu, items, roles, frames })\n    drawPlayerStatus({\n      fb,\n      state: menu,\n      gs,\n      playerRoles: roles,\n      items,\n      uiSpriteFrames: frames,\n      glyphs: positionGlyphs,\n    })\n    expect(pixel(fb, rightDigitX(42, 4, 0), 78)).toBe(yellowDigit(2))\n    expect(pixel(fb, rightDigitX(42, 4, 1), 78)).toBe(yellowDigit(1))\n    expect(pixel(fb, rightDigitX(63, 4, 0), 83)).toBe(blueDigit(0))\n    expect(pixel(fb, rightDigitX(63, 4, 1), 83)).toBe(blueDigit(8))\n    expect(cloneInputs({ gs, menu, items, roles, frames })).toEqual(before)\n  })\n\n  it('G06-D02 武术是基础 20 加装备效果 3', () => {\n    const gs = makeGs()\n    const roles = makeRoles()\n    gs.partyMembers = [0]\n    gs.PlayerRolesRuntime.rgwAttackStrength[0] = 20\n    gs.rgEquipmentEffect[0]!.rgwAttackStrength[0] = 3\n    const menu = createPlayerStatus([0])\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: menu,\n      gs,\n      playerRoles: roles,\n      items: [],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs: positionGlyphs,\n    })\n    expect(pixel(fb, rightDigitX(42, 4, 0), 102)).toBe(yellowDigit(3))\n    expect(pixel(fb, rightDigitX(42, 4, 1), 102)).toBe(yellowDigit(2))\n  })\n\n  it('G06-D03 灵力是基础 4 加装备效果 10', () => {\n    const gs = makeGs()\n    gs.partyMembers = [0]\n    gs.PlayerRolesRuntime.rgwMagicStrength[0] = 4\n    gs.rgEquipmentEffect[2]!.rgwMagicStrength[0] = 10\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: createPlayerStatus([0]),\n      gs,\n      playerRoles: makeRoles(),\n      items: [],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs: positionGlyphs,\n    })\n    expect(pixel(fb, rightDigitX(42, 4, 0), 122)).toBe(yellowDigit(4))\n    expect(pixel(fb, rightDigitX(42, 4, 1), 122)).toBe(yellowDigit(1))\n  })\n\n  it('G06-D04 防御数字在 y=142', () => {\n    const gs = makeGs()\n    gs.partyMembers = [0]\n    gs.PlayerRolesRuntime.rgwDefense[0] = 7\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: createPlayerStatus([0]),\n      gs,\n      playerRoles: makeRoles(),\n      items: [],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs: positionGlyphs,\n    })\n    expect(pixel(fb, rightDigitX(42, 4, 0), 142)).toBe(yellowDigit(7))\n    expect(pixel(fb, rightDigitX(42, 4, 1), 142)).toBe(SENTINEL)\n  })\n\n  it('G06-D05 身法数字在 y=162', () => {\n    const gs = makeGs()\n    gs.partyMembers = [0]\n    gs.PlayerRolesRuntime.rgwDexterity[0] = 8\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: createPlayerStatus([0]),\n      gs,\n      playerRoles: makeRoles(),\n      items: [],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs: positionGlyphs,\n    })\n    expect(pixel(fb, rightDigitX(42, 4, 0), 162)).toBe(yellowDigit(8))\n  })\n\n  it('G06-D06 吉运数字在 y=182', () => {\n    const gs = makeGs()\n    gs.partyMembers = [0]\n    gs.PlayerRolesRuntime.rgwFleeRate[0] = 9\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: createPlayerStatus([0]),\n      gs,\n      playerRoles: makeRoles(),\n      items: [],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs: positionGlyphs,\n    })\n    expect(pixel(fb, rightDigitX(42, 4, 0), 182)).toBe(yellowDigit(9))\n  })\n\n  it('G06-D07 经验斜杠坐标 (0,0) 不画，体力与真气斜杠照画', () => {\n    const gs = makeGs()\n    gs.partyMembers = [0]\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: createPlayerStatus([0]),\n      gs,\n      playerRoles: makeRoles(),\n      items: [],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs: positionGlyphs,\n    })\n    expect(pixel(fb, 0, 0)).toBe(SENTINEL)\n    expect(pixel(fb, 65, 58)).toBe(SLASH_ID)\n    expect(pixel(fb, 65, 80)).toBe(SLASH_ID)\n  })\n\n  it('G06-D08 缺少斜杠帧时体力数字仍在，斜杠位保持底色', () => {\n    const gs = makeGs()\n    gs.partyMembers = [0]\n    gs.PlayerRolesRuntime.rgwHP[0] = 12\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: createPlayerStatus([0]),\n      gs,\n      playerRoles: makeRoles(),\n      items: [],\n      uiSpriteFrames: uiFramesWithoutSlot(39),\n      glyphs: positionGlyphs,\n    })\n    expect(pixel(fb, 65, 58)).toBe(SENTINEL)\n    expect(pixel(fb, rightDigitX(42, 4, 0), 56)).toBe(yellowDigit(2))\n  })\n\n  it('G06-D09 未提供升级经验表时下一级只画一位青色 0，当前经验仍是 12', () => {\n    const gs = makeGs()\n    gs.partyMembers = [0]\n    gs.PlayerRolesRuntime.rgwLevel[0] = 6\n    gs.Exp.rgPrimaryExp[0] = { wExp: 12, wLevel: 6 }\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: createPlayerStatus([0]),\n      gs,\n      playerRoles: makeRoles(),\n      items: [],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs: positionGlyphs,\n    })\n    expect(pixel(fb, rightDigitX(58, 5, 0), 15)).toBe(cyanDigit(0))\n    expect(pixel(fb, rightDigitX(58, 5, 1), 15)).toBe(SENTINEL)\n    expect(pixel(fb, rightDigitX(58, 5, 0), 6)).toBe(yellowDigit(2))\n    expect(pixel(fb, rightDigitX(58, 5, 1), 6)).toBe(yellowDigit(1))\n  })\n})\n\ndescribe('Player status poison rows', () => {\n  it('G06-D10 毒等级等于 3 仍画出，颜色是 wColor 加 10', () => {\n    const gs = makeGs()\n    gs.partyMembers = [0]\n    gs.rgPoisonStatus['0_0'] = { wPoisonID: 7, wPoisonScript: 0 }\n    const words: string[] = []\n    words[7] = '甲'\n    setWordTable(words)\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: createPlayerStatus([0]),\n      gs,\n      playerRoles: makeRoles(),\n      items: [],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs: positionGlyphs,\n      objectPoisons: new Map([[7, { level: 3, color: 15 }]]),\n    })\n    expect(pixel(fb, 185, 58)).toBe(25)\n  })\n\n  it('G06-D11 空槽和等级大于 3 的毒不占显示行，下一毒上移到 y=76', () => {\n    const gs = makeGs()\n    gs.partyMembers = [0]\n    gs.rgPoisonStatus['1_0'] = { wPoisonID: 7, wPoisonScript: 0 }\n    gs.rgPoisonStatus['2_0'] = { wPoisonID: 8, wPoisonScript: 0 }\n    gs.rgPoisonStatus['3_0'] = { wPoisonID: 9, wPoisonScript: 0 }\n    const words: string[] = []\n    words[7] = '甲'\n    words[8] = '乙'\n    words[9] = '乙'\n    setWordTable(words)\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: createPlayerStatus([0]),\n      gs,\n      playerRoles: makeRoles(),\n      items: [],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs: positionGlyphs,\n      objectPoisons: new Map([\n        [7, { level: 2, color: 20 }],\n        [8, { level: 99, color: 21 }],\n        [9, { level: 1, color: 22 }],\n      ]),\n    })\n    const kept = textDot('乙', 0, 185, 76)\n    const skipped = textDot('乙', 0, 185, 94)\n    expect(pixel(fb, 185, 58)).toBe(30)\n    expect(pixel(fb, kept.x, kept.y)).toBe(32)\n    expect(pixel(fb, skipped.x, skipped.y)).toBe(SENTINEL)\n  })\n\n  it('G06-D12 第 11 条毒不再覆盖第 10 条的颜色', () => {\n    const gs = makeGs()\n    gs.partyMembers = [0]\n    const words: string[] = []\n    const poisons = new Map<number, { level: number; color: number }>()\n    for (let slot = 0; slot <= 10; slot++) {\n      const id = 20 + slot\n      words[id] = '甲'\n      gs.rgPoisonStatus[`${slot}_0`] = { wPoisonID: id, wPoisonScript: 0 }\n      poisons.set(id, { level: 1, color: slot === 9 ? 20 : slot === 10 ? 40 : 1 })\n    }\n    setWordTable(words)\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: createPlayerStatus([0]),\n      gs,\n      playerRoles: makeRoles(),\n      items: [],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs: positionGlyphs,\n      objectPoisons: poisons,\n    })\n    expect(pixel(fb, 185, 184)).toBe(30)\n  })\n})\n\ndescribe('Player status equipment and portrait', () => {\n  it('G06-D13 第一槽 id 为 0 时跳过，第二槽画出装备名', () => {\n    const gs = makeGs()\n    const roles = makeRoles()\n    const equippedItem = makeItem(71, '丑', {\n      bitmap: 4,\n      flags: { equipable: true, equipableBy: [true, false, false, false, false, false] },\n    })\n    gs.partyMembers = [0]\n    gs.PlayerRolesRuntime.rgwEquipment[1]![0] = equippedItem.id\n    const frames = makeUiFrames()\n    const icons = new Map([[4, iconImage(0x44)]])\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: createPlayerStatus([0]),\n      gs,\n      playerRoles: roles,\n      items: [equippedItem],\n      uiSpriteFrames: frames,\n      glyphs: positionGlyphs,\n      itemIcons: icons,\n    })\n    const name = textDot('丑', 0, 253, 78)\n    expect(pixel(fb, 195, 38)).toBe(SENTINEL)\n    expect(pixel(fb, name.x, name.y)).toBe(EQUIPMENT)\n    expect(pixel(fb, 248, 40)).toBe(0x44)\n  })\n\n  it('G06-D14 物品在目录里但没有名字时，名字位画出 0xBE 的缺字框', () => {\n    const gs = makeGs()\n    const item = makeItem(72, '子', {\n      _name: undefined,\n      bitmap: 3,\n      flags: { equipable: true, equipableBy: [true, false, false, false, false, false] },\n    })\n    gs.partyMembers = [0]\n    gs.PlayerRolesRuntime.rgwEquipment[0]![0] = item.id\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: createPlayerStatus([0]),\n      gs,\n      playerRoles: makeRoles(),\n      items: [item],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs: positionGlyphs,\n    })\n    expect(item._name).toBeUndefined()\n    expect(pixel(fb, 195, 38)).toBe(EQUIPMENT)\n  })\n\n  it('G06-D15 没有立绘表时头像位保持底色，角色名仍是确认色', () => {\n    const gs = makeGs()\n    gs.partyMembers = [0]\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    drawPlayerStatus({\n      fb,\n      state: createPlayerStatus([0]),\n      gs,\n      playerRoles: makeRoles(),\n      items: [],\n      uiSpriteFrames: makeUiFrames(),\n      glyphs: positionGlyphs,\n    })\n    const name = textDot('甲', 0, 110, 8)\n    expect(pixel(fb, 110, 30)).toBe(SENTINEL)\n    expect(pixel(fb, name.x, name.y)).toBe(CONFIRMED)\n  })\n})\n",
+          "count": 1
+        }
+      ],
+      "reason": "Only poison spec owns one passthrough renderText spy; other views own text/language only. No unrelated global reset."
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/p07-status.test.ts",
+      "id": "menu-status-2",
+      "changes": [
+        {
+          "from": "import { afterEach, describe, expect, it } from 'vitest'\nimport { createPlayerStatus, playerStatusNext } from '../../../core/menu/player-status.js'\nimport { createFramebuffer } from '../../framebuffer.js'\nimport { drawPlayerStatus } from '../../menu/draw-player-status.js'\nimport { fixtureGlyphs, textDot } from '../glyph-fixtures.js'\nimport { makeGs, makeItem, makeRoles, resetHostSingletons } from '../menu-state-fixtures.js'\nimport {\n  blueDigit,\n  cyanDigit,\n  makeUiFrames,\n  rightDigitX,\n  yellowDigit,\n} from '../menu-ui-fixtures.js'\nimport { fillSentinel, iconImage, pixel, SENTINEL } from '../raster-fixtures.js'\nimport { cloneInputs } from '../render-input-snapshots.js'\n\nconst glyphs = fixtureGlyphs()\nconst CONFIRMED = 0x2c\nconst EQUIPMENT = 0xbe\n\nafterEach(() => {\n  resetHostSingletons()\n})\n\ndescribe('P07 角色状态', () => {\n  it('P07 非空装备、立绘、经验和HP按当前角色画出，绘制不改状态', () => {\n    const gs = makeGs()\n    const roles = makeRoles()\n    const sword = makeItem(61, '子', { bitmap: 5 })\n    const items = [sword]\n    gs.partyMembers = [4, 1]\n    gs.PlayerRolesRuntime.rgwEquipment[0]![4] = sword.id\n    gs.PlayerRolesRuntime.rgwLevel[4] = 6\n    gs.PlayerRolesRuntime.rgwHP[4] = 12\n    gs.PlayerRolesRuntime.rgwMaxHP[4] = 80\n    gs.PlayerRolesRuntime.rgwMP[4] = 7\n    gs.PlayerRolesRuntime.rgwMaxMP[4] = 40\n    gs.Exp.rgPrimaryExp[4] = { wExp: 12, wLevel: 6 }\n    gs.PlayerRolesRuntime.rgwLevel[1] = 2\n    gs.PlayerRolesRuntime.rgwHP[1] = 34\n    roles.roles[4]!.level = 1\n    roles.roles[4]!.hp = 99\n    const menu = createPlayerStatus(gs.partyMembers)\n    const frames = makeUiFrames()\n    const icons = new Map([[5, iconImage(0x85)]])\n    const portraits = new Map([\n      [5, iconImage(0x95)],\n      [2, iconImage(0x92)],\n    ])\n    const levelUpExp = Array<number>(10).fill(0)\n    levelUpExp[6] = 40\n    const bg = { width: 4, height: 4, indices: new Uint8Array(16).fill(0x56) }\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    const input = {\n      fb,\n      state: menu,\n      gs,\n      playerRoles: roles,\n      items,\n      uiSpriteFrames: frames,\n      glyphs,\n      portraitIcons: portraits,\n      itemIcons: icons,\n      levelUpExp,\n    }\n    const plain = { gs, menu, items, roles, frames, icons, portraits, levelUpExp }\n    const beforePlain = cloneInputs(plain)\n    drawPlayerStatus(input)\n    expect(cloneInputs(plain)).toEqual(beforePlain)\n    expect(pixel(fb, 1, 1)).toBe(SENTINEL)\n    fillSentinel(fb)\n    const painted = { ...plain, statusBg: bg }\n    const before = cloneInputs(painted)\n    drawPlayerStatus({ ...input, statusBg: bg })\n    expect(cloneInputs(painted)).toEqual(before)\n    expect(pixel(fb, 1, 1)).toBe(0x56)\n    expect(pixel(fb, 110, 30)).toBe(0x95)\n    expect(pixel(fb, 190, 0)).toBe(0x85)\n    expect(pixel(fb, textDot('子', 0, 195, 38).x, textDot('子', 0, 195, 38).y)).toBe(EQUIPMENT)\n    expect(pixel(fb, textDot('戊', 0, 110, 8).x, textDot('戊', 0, 110, 8).y)).toBe(CONFIRMED)\n    expect(pixel(fb, rightDigitX(58, 5, 0), 6)).toBe(yellowDigit(2))\n    expect(pixel(fb, rightDigitX(58, 5, 1), 6)).toBe(yellowDigit(1))\n    expect(pixel(fb, rightDigitX(58, 5, 0), 15)).toBe(cyanDigit(0))\n    expect(pixel(fb, rightDigitX(58, 5, 1), 15)).toBe(cyanDigit(4))\n    expect(pixel(fb, rightDigitX(54, 2, 0), 35)).toBe(yellowDigit(6))\n    expect(pixel(fb, rightDigitX(54, 2, 0), 35)).not.toBe(yellowDigit(1))\n    expect(pixel(fb, rightDigitX(42, 4, 0), 56)).toBe(yellowDigit(2))\n    expect(pixel(fb, rightDigitX(63, 4, 1), 61)).toBe(blueDigit(8))\n\n    playerStatusNext(menu)\n    expect(menu.cursor).toBe(1)\n    expect(menu.done).toBe(false)\n    fillSentinel(fb)\n    const switchedInputs = { ...plain, statusBg: bg }\n    const switched = cloneInputs(switchedInputs)\n    drawPlayerStatus({ ...input, statusBg: bg })\n    expect(cloneInputs(switchedInputs)).toEqual(switched)\n    expect(pixel(fb, textDot('乙', 0, 110, 8).x, textDot('乙', 0, 110, 8).y)).toBe(CONFIRMED)\n    expect(pixel(fb, textDot('戊', 0, 110, 8).x, textDot('戊', 0, 110, 8).y)).not.toBe(CONFIRMED)\n    expect(pixel(fb, 110, 30)).toBe(0x92)\n    expect(pixel(fb, rightDigitX(42, 4, 0), 56)).toBe(yellowDigit(4))\n    expect(pixel(fb, textDot('子', 0, 195, 38).x, textDot('子', 0, 195, 38).y)).not.toBe(EQUIPMENT)\n    expect(gs.PlayerRolesRuntime.rgwHP[4]).toBe(12)\n    expect(roles.roles[4]!.hp).toBe(99)\n  })\n})\n",
+          "to": "import type { GameState } from '../../core/game-state.js'\nimport type { PlayerRole } from '@type-pal/shared'\nimport { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'\nimport { createInitialGameState, hydratePlayerRolesRuntime } from '../../core/game-state.js'\nimport {\n  createPlayerStatus,\n  playerStatusNext,\n  type PlayerStatusState,\n} from '../../core/menu/player-status.js'\nimport { setWordTable } from '../../core/word-lookup.js'\nimport * as fontModule from '../font.js'\nimport { fixtureGlyphs, textDot } from '../__tests__/glyph-fixtures.js'\nimport { makeGs, makeItem, makeRoles } from '../__tests__/menu-state-fixtures.js'\nimport { beginChineseMenuText } from '../__tests__/menu-text-fixture.js'\nimport {\n  blueDigit,\n  cyanDigit,\n  makeUiFrames,\n  rightDigitX,\n  SLASH_ID,\n  uiFramesWithoutSlot,\n  yellowDigit,\n} from '../__tests__/menu-ui-fixtures.js'\nimport {\n  fillSentinel,\n  iconImage,\n  pixel,\n  SENTINEL,\n  sentinelFramebuffer,\n} from '../__tests__/raster-fixtures.js'\nimport { cloneInputs } from '../__tests__/render-input-snapshots.js'\nimport { createHydratedStatusState } from '../__tests__/status-state-fixtures.js'\nimport { uniformDotGlyphs } from '../__tests__/uniform-glyphs.js'\nimport { createFramebuffer } from '../framebuffer.js'\nimport { drawPlayerStatus } from './draw-player-status.js'\nconst uniformGlyphs = uniformDotGlyphs()\nconst positionGlyphs = fixtureGlyphs()\nconst CONFIRMED = 0x2c\nconst EQUIPMENT = 0xbe\nfunction poisonRole(id: number): PlayerRole {\n  return {\n    id,\n    _name: 'r',\n    name: 0,\n    avatar: 0,\n    level: 1,\n    hp: 10,\n    maxHP: 10,\n    mp: 5,\n    maxMP: 5,\n    attackStrength: 1,\n    magicStrength: 1,\n    defense: 1,\n    dexterity: 1,\n    fleeRate: 1,\n    poisonResistance: 0,\n    equipment: [0, 0, 0, 0, 0, 0],\n    magic: [],\n    elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },\n    coveredBy: 0,\n    cooperativeMagic: 0,\n    attackAll: 0,\n    walkFrames: 0,\n    spriteNum: 0,\n    spriteNumInBattle: 0,\n    attackSound: 0,\n    weaponSound: 0,\n    criticalSound: 0,\n    magicSound: 0,\n    deathSound: 0,\n  }\n}\nfunction createPoisonState() {\n  const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n  gs.partyMembers = [0]\n  hydratePlayerRolesRuntime(gs.PlayerRolesRuntime, {\n    roles: Array.from({ length: 6 }, (_, id) => poisonRole(id)),\n  })\n  return gs\n}\nfunction drawPoisonText(opts: {\n  id: number\n  level: number\n  color: number\n  slot?: number\n}): ReturnType<typeof vi.spyOn> {\n  const gs = createPoisonState()\n  gs.partyMembers = [0]\n  gs.rgPoisonStatus[`${opts.slot ?? 0}_0`] = { wPoisonID: opts.id, wPoisonScript: 0 }\n  const objectPoisons = new Map([[opts.id, { level: opts.level, color: opts.color }]])\n  const flat: string[] = []\n  flat[opts.id] = '蛊毒'\n  setWordTable(flat)\n  const spy = observeRenderText()\n  drawPlayerStatus({\n    fb: createFramebuffer(),\n    state: createPlayerStatus([0]),\n    gs,\n    playerRoles: { roles: [poisonRole(0)] },\n    items: [],\n    uiSpriteFrames: [],\n    objectPoisons,\n  })\n  return spy\n}\nconst originalRenderText = fontModule.renderText\nlet restoreRenderText: (() => void) | undefined\nfunction observeRenderText() {\n  const spy = vi.spyOn(fontModule, 'renderText')\n  restoreRenderText = () => spy.mockRestore()\n  return spy\n}\nlet restoreMenuText: () => void\nbeforeEach(() => {\n  restoreMenuText = beginChineseMenuText()\n})\nafterEach(() => {\n  restoreMenuText()\n})\ndescribe('Player status entry and selected role', () => {\n  it('P07 非空装备、立绘、经验和HP按当前角色画出，绘制不改状态', () => {\n    const gs = makeGs()\n    const roles = makeRoles()\n    const equippedItem = makeItem(61, '子', {\n      bitmap: 5,\n      flags: { equipable: true, equipableBy: [false, false, false, false, true, false] },\n    })\n    const items = [equippedItem]\n    gs.partyMembers = [4, 1]\n    gs.PlayerRolesRuntime.rgwEquipment[0]![4] = equippedItem.id\n    gs.PlayerRolesRuntime.rgwLevel[4] = 6\n    gs.PlayerRolesRuntime.rgwHP[4] = 12\n    gs.PlayerRolesRuntime.rgwMaxHP[4] = 80\n    gs.PlayerRolesRuntime.rgwMP[4] = 7\n    gs.PlayerRolesRuntime.rgwMaxMP[4] = 40\n    gs.Exp.rgPrimaryExp[4] = { wExp: 12, wLevel: 6 }\n    gs.PlayerRolesRuntime.rgwLevel[1] = 2\n    gs.PlayerRolesRuntime.rgwHP[1] = 34\n    roles.roles[4]!.level = 1\n    roles.roles[4]!.hp = 99\n    const menu = createPlayerStatus(gs.partyMembers)\n    const frames = makeUiFrames()\n    const icons = new Map([[5, iconImage(0x85)]])\n    const portraits = new Map([\n      [5, iconImage(0x95)],\n      [2, iconImage(0x92)],\n    ])\n    const levelUpExp = Array<number>(10).fill(0)\n    levelUpExp[6] = 40\n    const bg = { width: 4, height: 4, indices: new Uint8Array(16).fill(0x56) }\n    const fb = createFramebuffer()\n    fillSentinel(fb)\n    const input = {\n      fb,\n      state: menu,\n      gs,\n      playerRoles: roles,\n      items,\n      uiSpriteFrames: frames,\n      glyphs: positionGlyphs,\n      portraitIcons: portraits,\n      itemIcons: icons,\n      levelUpExp,\n    }\n    const plain = { gs, menu, items, roles, frames, icons, portraits, levelUpExp }\n    const beforePlain = cloneInputs(plain)\n    drawPlayerStatus(input)\n    expect(cloneInputs(plain)).toEqual(beforePlain)\n    expect(pixel(fb, 1, 1)).toBe(SENTINEL)\n    fillSentinel(fb)\n    const painted = { ...plain, statusBg: bg }\n    const before = cloneInputs(painted)\n    drawPlayerStatus({ ...input, statusBg: bg })\n    expect(cloneInputs(painted)).toEqual(before)\n    expect(pixel(fb, 1, 1)).toBe(0x56)\n    expect(pixel(fb, 110, 30)).toBe(0x95)\n    expect(pixel(fb, 190, 0)).toBe(0x85)\n    expect(pixel(fb, textDot('子', 0, 195, 38).x, textDot('子', 0, 195, 38).y)).toBe(EQUIPMENT)\n    expect(pixel(fb, textDot('戊', 0, 110, 8).x, textDot('戊', 0, 110, 8).y)).toBe(CONFIRMED)\n    expect(pixel(fb, rightDigitX(58, 5, 0), 6)).toBe(yellowDigit(2))\n    expect(pixel(fb, rightDigitX(58, 5, 1), 6)).toBe(yellowDigit(1))\n    expect(pixel(fb, rightDigitX(58, 5, 0), 15)).toBe(cyanDigit(0))\n    expect(pixel(fb, rightDigitX(58, 5, 1), 15)).toBe(cyanDigit(4))\n    expect(pixel(fb, rightDigitX(54, 2, 0), 35)).toBe(yellowDigit(6))\n\n    expect(pixel(fb, rightDigitX(42, 4, 0), 56)).toBe(yellowDigit(2))\n    expect(pixel(fb, rightDigitX(63, 4, 1), 61)).toBe(blueDigit(8))\n\n    playerStatusNext(menu)\n    expect(menu.cursor).toBe(1)\n    expect(menu.done).toBe(false)\n    fillSentinel(fb)\n    const switchedInputs = { ...plain, statusBg: bg }\n    const switched = cloneInputs(switchedInputs)\n    drawPlayerStatus({ ...input, statusBg: bg })\n    expect(cloneInputs(switchedInputs)).toEqual(switched)\n    expect(pixel(fb, textDot('乙', 0, 110, 8).x, textDot('乙', 0, 110, 8).y)).toBe(CONFIRMED)\n    expect(pixel(fb, textDot('戊', 0, 110, 8).x, textDot('戊', 0, 110, 8).y)).not.toBe(CONFIRMED)\n    expect(pixel(fb, 110, 30)).toBe(0x92)\n    expect(pixel(fb, rightDigitX(42, 4, 0), 56)).toBe(yellowDigit(4))\n    expect(pixel(fb, textDot('子', 0, 195, 38).x, textDot('子', 0, 195, 38).y)).not.toBe(EQUIPMENT)\n    expect(gs.PlayerRolesRuntime.rgwHP[4]).toBe(12)\n    expect(roles.roles[4]!.hp).toBe(99)\n  })\n})\n",
+          "count": 1
+        }
+      ],
+      "reason": "Private names/factory and explicit fixture/owned-spy deltas, module scopes and canonical-role maxMP correction; frozen originalOrdinal retained."
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-player-status.test.ts",
+      "id": "menu-status-3",
+      "changes": [
+        {
+          "from": "import type { PlayerRole } from '@type-pal/shared'\nimport { afterEach, describe, expect, it, vi } from 'vitest'\nimport { createInitialGameState, hydratePlayerRolesRuntime } from '../../core/game-state.js'\nimport { createPlayerStatus } from '../../core/menu/player-status.js'\nimport { setWordTable } from '../../core/word-lookup.js'\nimport * as fontModule from '../font.js'\nimport { createFramebuffer } from '../framebuffer.js'\nimport { drawPlayerStatus } from './draw-player-status.js'\n\n// 最小 PlayerRole(drawPlayerStatus 读 avatar/equipment/name 等;装备全 0 → 装备行 skip;\n//   stat 走 getPlayerXxx 读 gs.PlayerRolesRuntime,缺省 ?? 0 不崩)。\nfunction minimalRole(id: number): PlayerRole {\n  return {\n    id,\n    _name: 'r',\n    name: 0,\n    avatar: 0,\n    level: 1,\n    hp: 10,\n    maxHP: 10,\n    mp: 5,\n    maxMP: 5,\n    attackStrength: 1,\n    magicStrength: 1,\n    defense: 1,\n    dexterity: 1,\n    fleeRate: 1,\n    poisonResistance: 0,\n    equipment: [0, 0, 0, 0, 0, 0],\n    magic: [],\n    elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },\n    coveredBy: 0,\n    cooperativeMagic: 0,\n    attackAll: 0,\n    walkFrames: 0,\n    spriteNum: 0,\n    spriteNumInBattle: 0,\n    attackSound: 0,\n    weaponSound: 0,\n    criticalSound: 0,\n    magicSound: 0,\n    deathSound: 0,\n  }\n}\n\nfunction statusGs() {\n  const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n  gs.partyMembers = [0]\n  hydratePlayerRolesRuntime(gs.PlayerRolesRuntime, {\n    roles: Array.from({ length: 6 }, (_, id) => minimalRole(id)),\n  })\n  return gs\n}\n\n// C6:PlayerStatus 毒 row(sdlpal uigame.c:1245-1253)— rgPoisonStatus 的 wPoisonID,\n//   poison.level<=3 才显示,名 getWord(wPoisonID),色 wColor+10,位置 RolePoisonNames[j](185,58+j*18)。\ndescribe('drawPlayerStatus 毒 row(uigame.c:1245-1253)', () => {\n  afterEach(() => {\n    vi.restoreAllMocks()\n    setWordTable([])\n  })\n\n  function run(opts: {\n    id: number\n    level: number\n    color: number\n    slot?: number\n  }): ReturnType<typeof vi.spyOn> {\n    const gs = statusGs()\n    gs.partyMembers = [0]\n    gs.rgPoisonStatus[`${opts.slot ?? 0}_0`] = { wPoisonID: opts.id, wPoisonScript: 0 }\n    const objectPoisons = new Map([[opts.id, { level: opts.level, color: opts.color }]])\n    const flat: string[] = []\n    flat[opts.id] = '蛊毒'\n    setWordTable(flat)\n    const spy = vi.spyOn(fontModule, 'renderText')\n    drawPlayerStatus({\n      fb: createFramebuffer(),\n      state: createPlayerStatus([0]),\n      gs,\n      playerRoles: { roles: [minimalRole(0)] },\n      items: [],\n      uiSpriteFrames: [],\n      objectPoisons,\n    })\n    return spy\n  }\n\n  it('level<=3 → 毒名画在 (185,58),色 = wColor+10', () => {\n    const spy = run({ id: 100, level: 2, color: 30 })\n    // renderText(fb, text, x, y, color, glyphs, shadow)\n    const call = spy.mock.calls.find((c: unknown[]) => c[2] === 185 && c[3] === 58)\n    expect(call).toBeDefined()\n    expect(call![1]).toBe('蛊毒') // getWord(100)\n    expect(call![4]).toBe(40) // wColor 30 + 10\n    expect(call![6]).toBe(true) // fShadow=TRUE\n  })\n\n  it('level>3(高级/装备毒哨兵)→ 不画', () => {\n    const spy = run({ id: 100, level: 99, color: 30 })\n    expect(spy.mock.calls.find((c: unknown[]) => c[2] === 185 && c[3] === 58)).toBeUndefined()\n  })\n\n  it('wPoisonID=0(无毒槽)→ 不画', () => {\n    const gs = statusGs()\n    const spy = vi.spyOn(fontModule, 'renderText')\n    drawPlayerStatus({\n      fb: createFramebuffer(),\n      state: createPlayerStatus([0]),\n      gs,\n      playerRoles: { roles: [minimalRole(0)] },\n      items: [],\n      uiSpriteFrames: [],\n      objectPoisons: new Map(),\n    })\n    expect(spy.mock.calls.find((c: unknown[]) => c[2] === 185 && c[3] === 58)).toBeUndefined()\n  })\n\n  it('重复角色队伍：状态页 cursor 2 不复用首个同角色队员的毒槽', () => {\n    const gs = statusGs()\n    gs.partyMembers = [4, 5, 4]\n    gs.rgPoisonStatus['0_0'] = { wPoisonID: 100, wPoisonScript: 0 }\n    const words: string[] = []\n    words[100] = '蛊毒'\n    setWordTable(words)\n    const state = createPlayerStatus(gs.partyMembers)\n    state.cursor = 2\n    const spy = vi.spyOn(fontModule, 'renderText')\n    drawPlayerStatus({\n      fb: createFramebuffer(),\n      state,\n      gs,\n      playerRoles: { roles: Array.from({ length: 6 }, (_, id) => minimalRole(id)) },\n      items: [],\n      uiSpriteFrames: [],\n      objectPoisons: new Map([[100, { level: 2, color: 30 }]]),\n    })\n    expect(\n      spy.mock.calls.filter((call) => call[2] === 185 && call[3] === 58).map((call) => call[1]),\n    ).toEqual([])\n  })\n\n  it('非顺序 party：SDLPal slot 0 的毒应显示给 partyMembers[0] 的 role', () => {\n    const gs = statusGs()\n    gs.partyMembers = [4, 1]\n    gs.rgPoisonStatus['0_0'] = { wPoisonID: 100, wPoisonScript: 0 }\n    const roles = [minimalRole(0), minimalRole(1), minimalRole(2), minimalRole(3), minimalRole(4)]\n    const objectPoisons = new Map([[100, { level: 2, color: 30 }]])\n    const flat: string[] = []\n    flat[100] = '蛊毒'\n    setWordTable(flat)\n    const spy = vi.spyOn(fontModule, 'renderText')\n\n    drawPlayerStatus({\n      fb: createFramebuffer(),\n      state: createPlayerStatus([4, 1]),\n      gs,\n      playerRoles: { roles },\n      items: [],\n      uiSpriteFrames: [],\n      objectPoisons,\n    })\n\n    expect(spy.mock.calls.find((c: unknown[]) => c[2] === 185 && c[3] === 58)?.[1]).toBe('蛊毒')\n  })\n})\n",
+          "to": "import type { GameState } from '../../core/game-state.js'\nimport type { PlayerRole } from '@type-pal/shared'\nimport { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'\nimport { createInitialGameState, hydratePlayerRolesRuntime } from '../../core/game-state.js'\nimport {\n  createPlayerStatus,\n  playerStatusNext,\n  type PlayerStatusState,\n} from '../../core/menu/player-status.js'\nimport { setWordTable } from '../../core/word-lookup.js'\nimport * as fontModule from '../font.js'\nimport { fixtureGlyphs, textDot } from '../__tests__/glyph-fixtures.js'\nimport { makeGs, makeItem, makeRoles } from '../__tests__/menu-state-fixtures.js'\nimport { beginChineseMenuText } from '../__tests__/menu-text-fixture.js'\nimport {\n  blueDigit,\n  cyanDigit,\n  makeUiFrames,\n  rightDigitX,\n  SLASH_ID,\n  uiFramesWithoutSlot,\n  yellowDigit,\n} from '../__tests__/menu-ui-fixtures.js'\nimport {\n  fillSentinel,\n  iconImage,\n  pixel,\n  SENTINEL,\n  sentinelFramebuffer,\n} from '../__tests__/raster-fixtures.js'\nimport { cloneInputs } from '../__tests__/render-input-snapshots.js'\nimport { createHydratedStatusState } from '../__tests__/status-state-fixtures.js'\nimport { uniformDotGlyphs } from '../__tests__/uniform-glyphs.js'\nimport { createFramebuffer } from '../framebuffer.js'\nimport { drawPlayerStatus } from './draw-player-status.js'\nconst uniformGlyphs = uniformDotGlyphs()\nconst positionGlyphs = fixtureGlyphs()\nconst CONFIRMED = 0x2c\nconst EQUIPMENT = 0xbe\nfunction poisonRole(id: number): PlayerRole {\n  return {\n    id,\n    _name: 'r',\n    name: 0,\n    avatar: 0,\n    level: 1,\n    hp: 10,\n    maxHP: 10,\n    mp: 5,\n    maxMP: 5,\n    attackStrength: 1,\n    magicStrength: 1,\n    defense: 1,\n    dexterity: 1,\n    fleeRate: 1,\n    poisonResistance: 0,\n    equipment: [0, 0, 0, 0, 0, 0],\n    magic: [],\n    elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },\n    coveredBy: 0,\n    cooperativeMagic: 0,\n    attackAll: 0,\n    walkFrames: 0,\n    spriteNum: 0,\n    spriteNumInBattle: 0,\n    attackSound: 0,\n    weaponSound: 0,\n    criticalSound: 0,\n    magicSound: 0,\n    deathSound: 0,\n  }\n}\nfunction createPoisonState() {\n  const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n  gs.partyMembers = [0]\n  hydratePlayerRolesRuntime(gs.PlayerRolesRuntime, {\n    roles: Array.from({ length: 6 }, (_, id) => poisonRole(id)),\n  })\n  return gs\n}\nfunction drawPoisonText(opts: {\n  id: number\n  level: number\n  color: number\n  slot?: number\n}): ReturnType<typeof vi.spyOn> {\n  const gs = createPoisonState()\n  gs.partyMembers = [0]\n  gs.rgPoisonStatus[`${opts.slot ?? 0}_0`] = { wPoisonID: opts.id, wPoisonScript: 0 }\n  const objectPoisons = new Map([[opts.id, { level: opts.level, color: opts.color }]])\n  const flat: string[] = []\n  flat[opts.id] = '蛊毒'\n  setWordTable(flat)\n  const spy = observeRenderText()\n  drawPlayerStatus({\n    fb: createFramebuffer(),\n    state: createPlayerStatus([0]),\n    gs,\n    playerRoles: { roles: [poisonRole(0)] },\n    items: [],\n    uiSpriteFrames: [],\n    objectPoisons,\n  })\n  return spy\n}\nconst originalRenderText = fontModule.renderText\nlet restoreRenderText: (() => void) | undefined\nfunction observeRenderText() {\n  const spy = vi.spyOn(fontModule, 'renderText')\n  restoreRenderText = () => spy.mockRestore()\n  return spy\n}\nlet restoreMenuText: () => void\nbeforeEach(() => {\n  restoreMenuText = beginChineseMenuText()\n})\nafterEach(() => {\n  try {\n    restoreRenderText?.()\n    expect(fontModule.renderText).toBe(originalRenderText)\n  } finally {\n    restoreRenderText = undefined\n    restoreMenuText()\n  }\n})\ndescribe('Player status poison rows', () => {\n  it('level<=3 → 毒名画在 (185,58),色 = wColor+10', () => {\n    const spy = drawPoisonText({ id: 100, level: 2, color: 30 })\n    // renderText(fb, text, x, y, color, glyphs, shadow)\n    const call = spy.mock.calls.find((c: unknown[]) => c[2] === 185 && c[3] === 58)\n    expect(call).toBeDefined()\n    expect(call![1]).toBe('蛊毒') // getWord(100)\n    expect(call![4]).toBe(40) // wColor 30 + 10\n    expect(call![6]).toBe(true) // fShadow=TRUE\n  })\n\n  it('level>3(高级/装备毒哨兵)→ 不画', () => {\n    const spy = drawPoisonText({ id: 100, level: 99, color: 30 })\n    expect(spy.mock.calls.find((c: unknown[]) => c[2] === 185 && c[3] === 58)).toBeUndefined()\n  })\n\n  it('wPoisonID=0(无毒槽)→ 不画', () => {\n    const gs = createPoisonState()\n    const spy = observeRenderText()\n    drawPlayerStatus({\n      fb: createFramebuffer(),\n      state: createPlayerStatus([0]),\n      gs,\n      playerRoles: { roles: [poisonRole(0)] },\n      items: [],\n      uiSpriteFrames: [],\n      objectPoisons: new Map(),\n    })\n    expect(spy.mock.calls.find((c: unknown[]) => c[2] === 185 && c[3] === 58)).toBeUndefined()\n  })\n\n  it('重复角色队伍：状态页 cursor 2 不复用首个同角色队员的毒槽', () => {\n    const gs = createPoisonState()\n    gs.partyMembers = [4, 5, 4]\n    gs.rgPoisonStatus['0_0'] = { wPoisonID: 100, wPoisonScript: 0 }\n    const words: string[] = []\n    words[100] = '蛊毒'\n    setWordTable(words)\n    const state = createPlayerStatus(gs.partyMembers)\n    state.cursor = 2\n    const spy = observeRenderText()\n    drawPlayerStatus({\n      fb: createFramebuffer(),\n      state,\n      gs,\n      playerRoles: { roles: Array.from({ length: 6 }, (_, id) => poisonRole(id)) },\n      items: [],\n      uiSpriteFrames: [],\n      objectPoisons: new Map([[100, { level: 2, color: 30 }]]),\n    })\n    expect(\n      spy.mock.calls.filter((call) => call[2] === 185 && call[3] === 58).map((call) => call[1]),\n    ).toEqual([])\n  })\n\n  it('非顺序 party：SDLPal slot 0 的毒应显示给 partyMembers[0] 的 role', () => {\n    const gs = createPoisonState()\n    gs.partyMembers = [4, 1]\n    gs.rgPoisonStatus['0_0'] = { wPoisonID: 100, wPoisonScript: 0 }\n    const roles = [poisonRole(0), poisonRole(1), poisonRole(2), poisonRole(3), poisonRole(4)]\n    const objectPoisons = new Map([[100, { level: 2, color: 30 }]])\n    const flat: string[] = []\n    flat[100] = '蛊毒'\n    setWordTable(flat)\n    const spy = observeRenderText()\n\n    drawPlayerStatus({\n      fb: createFramebuffer(),\n      state: createPlayerStatus([4, 1]),\n      gs,\n      playerRoles: { roles },\n      items: [],\n      uiSpriteFrames: [],\n      objectPoisons,\n    })\n\n    expect(spy.mock.calls.find((c: unknown[]) => c[2] === 185 && c[3] === 58)?.[1]).toBe('蛊毒')\n  })\n})\n",
+          "count": 1
+        }
+      ],
+      "reason": "Private names/factory and explicit fixture/owned-spy deltas, module scopes and canonical-role maxMP correction; frozen originalOrdinal retained."
+    }
+  ],
+  "replacements": [],
+  "registrations": [
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-player-status.glm-phase1-leaves.test.ts",
+        "ordinal": 0,
+        "originalOrdinal": 0,
+        "fullName": "L11 drawPlayerStatus 剩余分支 runtime 0 → 保留真实 runtime 0（不回退 base PlayerRoles）"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-player-status.test.ts",
+        "titles": ["Player status runtime values"],
+        "template": "runtime 0 → 保留真实 runtime 0（不回退 base PlayerRoles）",
+        "fullName": "Player status runtime values runtime 0 → 保留真实 runtime 0（不回退 base PlayerRoles）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-player-status.glm-phase1-leaves.test.ts",
+        "ordinal": 1,
+        "originalOrdinal": 1,
+        "fullName": "L11 drawPlayerStatus 剩余分支 runtime 有值优先于 base：hp 41 画 41 非 base 99"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-player-status.test.ts",
+        "titles": ["Player status runtime values"],
+        "template": "runtime 有值优先于 base：hp 41 画 41 非 base 99",
+        "fullName": "Player status runtime values runtime 有值优先于 base：hp 41 画 41 非 base 99"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-player-status.glm-phase1-leaves.test.ts",
+        "ordinal": 2,
+        "originalOrdinal": 2,
+        "fullName": "L11 drawPlayerStatus 剩余分支 装备槽 itemId 不在 catalog：该槽图标与名字都跳过（不 `?id`，与 draw-equip 不同合同）"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-player-status.equipment.test.ts",
+        "titles": ["Player status equipment and portrait"],
+        "template": "装备槽 itemId 不在 catalog：该槽图标与名字都跳过（不 `?id`，与 draw-equip 不同合同）",
+        "fullName": "Player status equipment and portrait 装备槽 itemId 不在 catalog：该槽图标与名字都跳过（不 `?id`，与 draw-equip 不同合同）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-player-status.glm-phase1-leaves.test.ts",
+        "ordinal": 3,
+        "originalOrdinal": 3,
+        "fullName": "L11 drawPlayerStatus 剩余分支 cursor 越界 / roles 缺 roleId：早退不画不崩"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-player-status.entry.test.ts",
+        "titles": ["Player status entry and selected role"],
+        "template": "cursor 越界 / roles 缺 roleId：早退不画不崩",
+        "fullName": "Player status entry and selected role cursor 越界 / roles 缺 roleId：早退不画不崩"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+        "ordinal": 0,
+        "originalOrdinal": 0,
+        "fullName": "G06-D 状态数值与毒 G06-D01 当前真气 12 为黄，真气上限 80 为蓝"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-player-status.test.ts",
+        "titles": ["Player status runtime values"],
+        "template": "G06-D01 当前真气 12 为黄，真气上限 80 为蓝",
+        "fullName": "Player status runtime values G06-D01 当前真气 12 为黄，真气上限 80 为蓝"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+        "ordinal": 1,
+        "originalOrdinal": 1,
+        "fullName": "G06-D 状态数值与毒 G06-D02 武术是基础 20 加装备效果 3"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-player-status.test.ts",
+        "titles": ["Player status runtime values"],
+        "template": "G06-D02 武术是基础 20 加装备效果 3",
+        "fullName": "Player status runtime values G06-D02 武术是基础 20 加装备效果 3"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+        "ordinal": 2,
+        "originalOrdinal": 2,
+        "fullName": "G06-D 状态数值与毒 G06-D03 灵力是基础 4 加装备效果 10"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-player-status.test.ts",
+        "titles": ["Player status runtime values"],
+        "template": "G06-D03 灵力是基础 4 加装备效果 10",
+        "fullName": "Player status runtime values G06-D03 灵力是基础 4 加装备效果 10"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+        "ordinal": 3,
+        "originalOrdinal": 3,
+        "fullName": "G06-D 状态数值与毒 G06-D04 防御数字在 y=142"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-player-status.test.ts",
+        "titles": ["Player status runtime values"],
+        "template": "G06-D04 防御数字在 y=142",
+        "fullName": "Player status runtime values G06-D04 防御数字在 y=142"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+        "ordinal": 4,
+        "originalOrdinal": 4,
+        "fullName": "G06-D 状态数值与毒 G06-D05 身法数字在 y=162"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-player-status.test.ts",
+        "titles": ["Player status runtime values"],
+        "template": "G06-D05 身法数字在 y=162",
+        "fullName": "Player status runtime values G06-D05 身法数字在 y=162"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+        "ordinal": 5,
+        "originalOrdinal": 5,
+        "fullName": "G06-D 状态数值与毒 G06-D06 吉运数字在 y=182"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-player-status.test.ts",
+        "titles": ["Player status runtime values"],
+        "template": "G06-D06 吉运数字在 y=182",
+        "fullName": "Player status runtime values G06-D06 吉运数字在 y=182"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+        "ordinal": 6,
+        "originalOrdinal": 6,
+        "fullName": "G06-D 状态数值与毒 G06-D07 经验斜杠坐标 (0,0) 不画，体力与真气斜杠照画"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-player-status.test.ts",
+        "titles": ["Player status runtime values"],
+        "template": "G06-D07 经验斜杠坐标 (0,0) 不画，体力与真气斜杠照画",
+        "fullName": "Player status runtime values G06-D07 经验斜杠坐标 (0,0) 不画，体力与真气斜杠照画"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+        "ordinal": 7,
+        "originalOrdinal": 7,
+        "fullName": "G06-D 状态数值与毒 G06-D08 缺少斜杠帧时体力数字仍在，斜杠位保持底色"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-player-status.test.ts",
+        "titles": ["Player status runtime values"],
+        "template": "G06-D08 缺少斜杠帧时体力数字仍在，斜杠位保持底色",
+        "fullName": "Player status runtime values G06-D08 缺少斜杠帧时体力数字仍在，斜杠位保持底色"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+        "ordinal": 8,
+        "originalOrdinal": 8,
+        "fullName": "G06-D 状态数值与毒 G06-D09 未提供升级经验表时下一级只画一位青色 0，当前经验仍是 12"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-player-status.test.ts",
+        "titles": ["Player status runtime values"],
+        "template": "G06-D09 未提供升级经验表时下一级只画一位青色 0，当前经验仍是 12",
+        "fullName": "Player status runtime values G06-D09 未提供升级经验表时下一级只画一位青色 0，当前经验仍是 12"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+        "ordinal": 9,
+        "originalOrdinal": 9,
+        "fullName": "G06-D 状态数值与毒 G06-D10 毒等级等于 3 仍画出，颜色是 wColor 加 10"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-player-status.poison.test.ts",
+        "titles": ["Player status poison rows"],
+        "template": "G06-D10 毒等级等于 3 仍画出，颜色是 wColor 加 10",
+        "fullName": "Player status poison rows G06-D10 毒等级等于 3 仍画出，颜色是 wColor 加 10"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+        "ordinal": 10,
+        "originalOrdinal": 10,
+        "fullName": "G06-D 状态数值与毒 G06-D11 空槽和等级大于 3 的毒不占显示行，下一毒上移到 y=76"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-player-status.poison.test.ts",
+        "titles": ["Player status poison rows"],
+        "template": "G06-D11 空槽和等级大于 3 的毒不占显示行，下一毒上移到 y=76",
+        "fullName": "Player status poison rows G06-D11 空槽和等级大于 3 的毒不占显示行，下一毒上移到 y=76"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+        "ordinal": 11,
+        "originalOrdinal": 11,
+        "fullName": "G06-D 状态数值与毒 G06-D12 第 11 条毒不再覆盖第 10 条的颜色"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-player-status.poison.test.ts",
+        "titles": ["Player status poison rows"],
+        "template": "G06-D12 第 11 条毒不再覆盖第 10 条的颜色",
+        "fullName": "Player status poison rows G06-D12 第 11 条毒不再覆盖第 10 条的颜色"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+        "ordinal": 12,
+        "originalOrdinal": 12,
+        "fullName": "G06-D 状态数值与毒 G06-D13 第一槽 id 为 0 时跳过，第二槽画出装备名"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-player-status.equipment.test.ts",
+        "titles": ["Player status equipment and portrait"],
+        "template": "G06-D13 第一槽 id 为 0 时跳过，第二槽画出装备名",
+        "fullName": "Player status equipment and portrait G06-D13 第一槽 id 为 0 时跳过，第二槽画出装备名"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+        "ordinal": 13,
+        "originalOrdinal": 13,
+        "fullName": "G06-D 状态数值与毒 G06-D14 物品在目录里但没有名字时，名字位画出 0xBE 的缺字框"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-player-status.equipment.test.ts",
+        "titles": ["Player status equipment and portrait"],
+        "template": "G06-D14 物品在目录里但没有名字时，名字位画出 0xBE 的缺字框",
+        "fullName": "Player status equipment and portrait G06-D14 物品在目录里但没有名字时，名字位画出 0xBE 的缺字框"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+        "ordinal": 14,
+        "originalOrdinal": 14,
+        "fullName": "G06-D 状态数值与毒 G06-D15 没有立绘表时头像位保持底色，角色名仍是确认色"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-player-status.equipment.test.ts",
+        "titles": ["Player status equipment and portrait"],
+        "template": "G06-D15 没有立绘表时头像位保持底色，角色名仍是确认色",
+        "fullName": "Player status equipment and portrait G06-D15 没有立绘表时头像位保持底色，角色名仍是确认色"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/__tests__/grok-present/p07-status.test.ts",
+        "ordinal": 0,
+        "originalOrdinal": 0,
+        "fullName": "P07 角色状态 P07 非空装备、立绘、经验和HP按当前角色画出，绘制不改状态"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-player-status.entry.test.ts",
+        "titles": ["Player status entry and selected role"],
+        "template": "P07 非空装备、立绘、经验和HP按当前角色画出，绘制不改状态",
+        "fullName": "Player status entry and selected role P07 非空装备、立绘、经验和HP按当前角色画出，绘制不改状态"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-player-status.test.ts",
+        "ordinal": 0,
+        "originalOrdinal": 0,
+        "fullName": "drawPlayerStatus 毒 row(uigame.c:1245-1253) level<=3 → 毒名画在 (185,58),色 = wColor+10"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-player-status.poison.test.ts",
+        "titles": ["Player status poison rows"],
+        "template": "level<=3 → 毒名画在 (185,58),色 = wColor+10",
+        "fullName": "Player status poison rows level<=3 → 毒名画在 (185,58),色 = wColor+10"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-player-status.test.ts",
+        "ordinal": 1,
+        "originalOrdinal": 1,
+        "fullName": "drawPlayerStatus 毒 row(uigame.c:1245-1253) level>3(高级/装备毒哨兵)→ 不画"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-player-status.poison.test.ts",
+        "titles": ["Player status poison rows"],
+        "template": "level>3(高级/装备毒哨兵)→ 不画",
+        "fullName": "Player status poison rows level>3(高级/装备毒哨兵)→ 不画"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-player-status.test.ts",
+        "ordinal": 2,
+        "originalOrdinal": 2,
+        "fullName": "drawPlayerStatus 毒 row(uigame.c:1245-1253) wPoisonID=0(无毒槽)→ 不画"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-player-status.poison.test.ts",
+        "titles": ["Player status poison rows"],
+        "template": "wPoisonID=0(无毒槽)→ 不画",
+        "fullName": "Player status poison rows wPoisonID=0(无毒槽)→ 不画"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-player-status.test.ts",
+        "ordinal": 3,
+        "originalOrdinal": 3,
+        "fullName": "drawPlayerStatus 毒 row(uigame.c:1245-1253) 重复角色队伍：状态页 cursor 2 不复用首个同角色队员的毒槽"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-player-status.poison.test.ts",
+        "titles": ["Player status poison rows"],
+        "template": "重复角色队伍：状态页 cursor 2 不复用首个同角色队员的毒槽",
+        "fullName": "Player status poison rows 重复角色队伍：状态页 cursor 2 不复用首个同角色队员的毒槽"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-player-status.test.ts",
+        "ordinal": 4,
+        "originalOrdinal": 4,
+        "fullName": "drawPlayerStatus 毒 row(uigame.c:1245-1253) 非顺序 party：SDLPal slot 0 的毒应显示给 partyMembers[0] 的 role"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-player-status.poison.test.ts",
+        "titles": ["Player status poison rows"],
+        "template": "非顺序 party：SDLPal slot 0 的毒应显示给 partyMembers[0] 的 role",
+        "fullName": "Player status poison rows 非顺序 party：SDLPal slot 0 的毒应显示给 partyMembers[0] 的 role"
+      }
+    }
+  ],
+  "identities": [
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-player-status.glm-phase1-leaves.test.ts",
+        "fullName": "L11 drawPlayerStatus 剩余分支 runtime 0 → 保留真实 runtime 0（不回退 base PlayerRoles）"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-player-status.test.ts",
+        "fullName": "Player status runtime values runtime 0 → 保留真实 runtime 0（不回退 base PlayerRoles）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-player-status.glm-phase1-leaves.test.ts",
+        "fullName": "L11 drawPlayerStatus 剩余分支 runtime 有值优先于 base：hp 41 画 41 非 base 99"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-player-status.test.ts",
+        "fullName": "Player status runtime values runtime 有值优先于 base：hp 41 画 41 非 base 99"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-player-status.glm-phase1-leaves.test.ts",
+        "fullName": "L11 drawPlayerStatus 剩余分支 装备槽 itemId 不在 catalog：该槽图标与名字都跳过（不 `?id`，与 draw-equip 不同合同）"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-player-status.equipment.test.ts",
+        "fullName": "Player status equipment and portrait 装备槽 itemId 不在 catalog：该槽图标与名字都跳过（不 `?id`，与 draw-equip 不同合同）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-player-status.glm-phase1-leaves.test.ts",
+        "fullName": "L11 drawPlayerStatus 剩余分支 cursor 越界 / roles 缺 roleId：早退不画不崩"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-player-status.entry.test.ts",
+        "fullName": "Player status entry and selected role cursor 越界 / roles 缺 roleId：早退不画不崩"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+        "fullName": "G06-D 状态数值与毒 G06-D01 当前真气 12 为黄，真气上限 80 为蓝"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-player-status.test.ts",
+        "fullName": "Player status runtime values G06-D01 当前真气 12 为黄，真气上限 80 为蓝"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+        "fullName": "G06-D 状态数值与毒 G06-D02 武术是基础 20 加装备效果 3"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-player-status.test.ts",
+        "fullName": "Player status runtime values G06-D02 武术是基础 20 加装备效果 3"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+        "fullName": "G06-D 状态数值与毒 G06-D03 灵力是基础 4 加装备效果 10"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-player-status.test.ts",
+        "fullName": "Player status runtime values G06-D03 灵力是基础 4 加装备效果 10"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+        "fullName": "G06-D 状态数值与毒 G06-D04 防御数字在 y=142"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-player-status.test.ts",
+        "fullName": "Player status runtime values G06-D04 防御数字在 y=142"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+        "fullName": "G06-D 状态数值与毒 G06-D05 身法数字在 y=162"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-player-status.test.ts",
+        "fullName": "Player status runtime values G06-D05 身法数字在 y=162"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+        "fullName": "G06-D 状态数值与毒 G06-D06 吉运数字在 y=182"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-player-status.test.ts",
+        "fullName": "Player status runtime values G06-D06 吉运数字在 y=182"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+        "fullName": "G06-D 状态数值与毒 G06-D07 经验斜杠坐标 (0,0) 不画，体力与真气斜杠照画"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-player-status.test.ts",
+        "fullName": "Player status runtime values G06-D07 经验斜杠坐标 (0,0) 不画，体力与真气斜杠照画"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+        "fullName": "G06-D 状态数值与毒 G06-D08 缺少斜杠帧时体力数字仍在，斜杠位保持底色"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-player-status.test.ts",
+        "fullName": "Player status runtime values G06-D08 缺少斜杠帧时体力数字仍在，斜杠位保持底色"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+        "fullName": "G06-D 状态数值与毒 G06-D09 未提供升级经验表时下一级只画一位青色 0，当前经验仍是 12"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-player-status.test.ts",
+        "fullName": "Player status runtime values G06-D09 未提供升级经验表时下一级只画一位青色 0，当前经验仍是 12"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+        "fullName": "G06-D 状态数值与毒 G06-D10 毒等级等于 3 仍画出，颜色是 wColor 加 10"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-player-status.poison.test.ts",
+        "fullName": "Player status poison rows G06-D10 毒等级等于 3 仍画出，颜色是 wColor 加 10"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+        "fullName": "G06-D 状态数值与毒 G06-D11 空槽和等级大于 3 的毒不占显示行，下一毒上移到 y=76"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-player-status.poison.test.ts",
+        "fullName": "Player status poison rows G06-D11 空槽和等级大于 3 的毒不占显示行，下一毒上移到 y=76"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+        "fullName": "G06-D 状态数值与毒 G06-D12 第 11 条毒不再覆盖第 10 条的颜色"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-player-status.poison.test.ts",
+        "fullName": "Player status poison rows G06-D12 第 11 条毒不再覆盖第 10 条的颜色"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+        "fullName": "G06-D 状态数值与毒 G06-D13 第一槽 id 为 0 时跳过，第二槽画出装备名"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-player-status.equipment.test.ts",
+        "fullName": "Player status equipment and portrait G06-D13 第一槽 id 为 0 时跳过，第二槽画出装备名"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+        "fullName": "G06-D 状态数值与毒 G06-D14 物品在目录里但没有名字时，名字位画出 0xBE 的缺字框"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-player-status.equipment.test.ts",
+        "fullName": "Player status equipment and portrait G06-D14 物品在目录里但没有名字时，名字位画出 0xBE 的缺字框"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+        "fullName": "G06-D 状态数值与毒 G06-D15 没有立绘表时头像位保持底色，角色名仍是确认色"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-player-status.equipment.test.ts",
+        "fullName": "Player status equipment and portrait G06-D15 没有立绘表时头像位保持底色，角色名仍是确认色"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/__tests__/grok-present/p07-status.test.ts",
+        "fullName": "P07 角色状态 P07 非空装备、立绘、经验和HP按当前角色画出，绘制不改状态"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-player-status.entry.test.ts",
+        "fullName": "Player status entry and selected role P07 非空装备、立绘、经验和HP按当前角色画出，绘制不改状态"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-player-status.test.ts",
+        "fullName": "drawPlayerStatus 毒 row(uigame.c:1245-1253) level<=3 → 毒名画在 (185,58),色 = wColor+10"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-player-status.poison.test.ts",
+        "fullName": "Player status poison rows level<=3 → 毒名画在 (185,58),色 = wColor+10"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-player-status.test.ts",
+        "fullName": "drawPlayerStatus 毒 row(uigame.c:1245-1253) level>3(高级/装备毒哨兵)→ 不画"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-player-status.poison.test.ts",
+        "fullName": "Player status poison rows level>3(高级/装备毒哨兵)→ 不画"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-player-status.test.ts",
+        "fullName": "drawPlayerStatus 毒 row(uigame.c:1245-1253) wPoisonID=0(无毒槽)→ 不画"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-player-status.poison.test.ts",
+        "fullName": "Player status poison rows wPoisonID=0(无毒槽)→ 不画"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-player-status.test.ts",
+        "fullName": "drawPlayerStatus 毒 row(uigame.c:1245-1253) 重复角色队伍：状态页 cursor 2 不复用首个同角色队员的毒槽"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-player-status.poison.test.ts",
+        "fullName": "Player status poison rows 重复角色队伍：状态页 cursor 2 不复用首个同角色队员的毒槽"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/menu/draw-player-status.test.ts",
+        "fullName": "drawPlayerStatus 毒 row(uigame.c:1245-1253) 非顺序 party：SDLPal slot 0 的毒应显示给 partyMembers[0] 的 role"
+      },
+      "current": {
+        "file": "packages/game/src/present/menu/draw-player-status.poison.test.ts",
+        "fullName": "Player status poison rows 非顺序 party：SDLPal slot 0 的毒应显示给 partyMembers[0] 的 role"
+      }
+    }
+  ],
+  "retirements": [],
+  "helperTransplants": [
+    {
+      "oldPath": "packages/game/src/present/menu/draw-player-status.glm-phase1-leaves.test.ts",
+      "oldName": "gsForStatus",
+      "currentPath": "packages/game/src/present/__tests__/status-state-fixtures.ts",
+      "currentName": "createHydratedStatusState",
+      "changes": [
+        {
+          "from": "function gsForStatus",
+          "to": "export function createHydratedStatusState",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "id": "menu-status",
+  "namespace": "organization-menu-status",
+  "cohortSubjects": [
+    {
+      "path": "packages/game/src/present/menu/draw-player-status.glm-phase1-leaves.test.ts",
+      "sha256": "2b62e7610e11be7bf435540e728d7d42ff95f546ff7f18dfa5bc952a14a8cc01",
+      "priorCurrentBridges": []
+    },
+    {
+      "path": "packages/game/src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+      "sha256": "ce687bd8e9979db67da774d18de118250ef7be44519844bb4e39baee6428bd6c",
+      "priorCurrentBridges": [
+        {
+          "path": "packages/game/src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+          "sha256": "ce687bd8e9979db67da774d18de118250ef7be44519844bb4e39baee6428bd6c",
+          "member": "organization-game-render-fixtures/15.before",
+          "currentSha256": "d87d201c7b09acea6c867b46e42e2108f2d69d76caae48544b3c2c85337bc146",
+          "evidence": "organization-game-render-fixtures.json"
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/p07-status.test.ts",
+      "sha256": "01518520443c966e47ded645245189ba834f7e422f57dae448fe41c49ab9c48d",
+      "priorCurrentBridges": [
+        {
+          "path": "packages/game/src/present/__tests__/grok-present/p07-status.test.ts",
+          "sha256": "01518520443c966e47ded645245189ba834f7e422f57dae448fe41c49ab9c48d",
+          "member": "organization-game-render-fixtures/36.before",
+          "currentSha256": "8eba86dfc29c243d255d67dd0ca8f7e9715486c1c3e40891a45d758b580e8282",
+          "evidence": "organization-game-render-fixtures.json"
+        }
+      ]
+    }
+  ],
+  "preserved": [
+    {
+      "path": "packages/game/src/present/menu/draw-player-status.ts",
+      "sha256": "8ec3e60ee883c1fb4ed74109b3b2498f59a637d6a1b396e603da3b8d06bcc4c9"
+    },
+    {
+      "path": "packages/game/src/core/menu/player-status.ts",
+      "sha256": "55f0108d2f4ddfa0a45f8f00a83fe25bdd87230a51a1bc0448f2f0b414a87d2a"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-menu.ts",
+      "sha256": "c0c56305f46464b8194bbb0d2a7e04683952b7f01266ec3949602b99c6f51566"
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-driver.ts",
+      "sha256": "81db674f145043b7a78aea5ac705baa8c975502cbce66bcf88908574acd596f5"
+    },
+    {
+      "path": "packages/game/src/core/equip-effect.ts",
+      "sha256": "6bc011bfde5ca4f2714392f774fa770d5ab32716bfc38669c983503352b0abdc"
+    },
+    {
+      "path": "packages/game/src/core/equipment-state.ts",
+      "sha256": "4993411b4f30cb53f0f21a3c170748132c9d1ec8ab6ff4e94a931def846c2205"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/glyph-fixtures.ts",
+      "sha256": "226f7b472f8c065034db07c1f308ba5b5cc03a5f6d31b6f624f9cef27b701e2f"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/uniform-glyphs.ts",
+      "sha256": "c1074d184e865cbe788b5e459b9390e32148c8ba9b2747aa4340861a85c01f87"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/menu-text-fixture.ts",
+      "sha256": "d21320cb5dfe391b2d90b947346ca191c5dbb0602cb1f62c46325178666fdc94"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/menu-state-fixtures.ts",
+      "sha256": "0ce7df25cce554b54c080659494116c76908a531dd289359a32f4323fbabce7f"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/menu-ui-fixtures.ts",
+      "sha256": "0a5af0e46bd20ebe7ca655b9b75e0d63e4b7cc5321928cf83a5acbdaa71cd331"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/raster-fixtures.ts",
+      "sha256": "982d0ab4a7a73bd1d432554562ff9f628d097098be32af9e9b059bd1dbb2d291"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/render-input-snapshots.ts",
+      "sha256": "f2faddfd6a3c6dcbefe752eff487e8fabd92035b62cf673bd6c81289d8dd17b6"
+    },
+    {
+      "path": "packages/game/src/__tests__/glm-phase1-leaves/present-fixtures.ts",
+      "sha256": "4f8701a4dddcdae4010bdbd9b23eee56dd2d20335e906a5249a488308edaedea"
+    },
+    {
+      "path": "packages/game/src/present/font.ts",
+      "sha256": "0af092f60efef7dd1f39c82f4c492512dbf957092f0d20b13da27b5518fd7fe4"
+    },
+    {
+      "path": "packages/game/src/core/word-lookup.ts",
+      "sha256": "06b17311a3e47e82eacb5857aa87dd0a5d7ff706ac1240a00a4c12325458c934"
+    },
+    {
+      "path": "packages/game/src/localization/layout.ts",
+      "sha256": "4240ea5e629b2f6c65fc9a0fb48e73c418b9ea5aa5ec547b011e0313c3c1bc1c"
+    },
+    {
+      "path": "packages/game/vitest.config.ts",
+      "sha256": "3dd92ad4886bc72c88e7a7b2e6bdacc3aaf9e2a24ac72153f3b619ba37feb7d4"
+    },
+    {
+      "path": "scripts/coverage/config.mjs",
+      "sha256": "decb63dda5d12a2269bef1dd75c3d1eb4efca071887c759deca8e9b06ef17a25"
+    }
+  ],
+  "neighborPaths": [
+    "packages/game/src/present/menu/draw-player-status.test.ts",
+    "packages/game/src/present/menu/draw-player-status.equipment.test.ts",
+    "packages/game/src/present/menu/draw-player-status.poison.test.ts",
+    "packages/game/src/present/menu/draw-player-status.entry.test.ts",
+    "packages/game/src/core/menu/player-status.test.ts",
+    "packages/game/src/present/menu/draw-menu.test.ts",
+    "packages/game/src/localization/presentation.test.ts",
+    "packages/game/src/present/draw-number.test.ts",
+    "packages/game/src/present/framebuffer.test.ts"
+  ],
+  "cleanExecutions": [
+    "before",
+    "reorganize",
+    "scoped-code",
+    "proof",
+    "routing",
+    "neighbors",
+    "typecheck",
+    "complexity",
+    "module-preflight",
+    "docs",
+    "content-review",
+    "lint",
+    "scoped",
+    "diff",
+    "ledger-final"
+  ],
+  "lightweightGates": true,
+  "profiles": [
+    {
+      "path": "packages/game/src/present/menu/draw-player-status.test.ts",
+      "subjects": [
+        "packages/game/src/present/menu/draw-player-status.glm-phase1-leaves.test.ts",
+        "packages/game/src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+        "packages/game/src/present/__tests__/grok-present/p07-status.test.ts"
+      ],
+      "axes": {
+        "A": "11 actual drawPlayerStatus cases: hydrated then zero HP/MP/level/maxima; runtime HP41 vs static99; MP12/max80, ATK20+3, MAG4+10, DEF/DEX/FLEE positions, slash omission/missing39, absent level-exp table. Complete renderer/state/caller read. Canonical roles correct invalid old MP99/max40 to max100; zero runtime remains intentional defensive data. Product unchanged.",
+        "B": "Removed author/wave and absolute nonduplication header. Kept hydrate-before-zero explanation and literal units/colors/coordinates. No claim that zero level/maxima or reserved script values are ordinary story inputs. No newly found misleading comment within output.",
+        "C": "Runtime/number/resource contracts belong together, apart from poison text spying and equipment/whole-entry assembly. Only Word/temporary Chinese lifecycle; no event/caster/inventory-target reset. Fresh GS owned by each case, shared builder only constructs/hydrates.",
+        "D": "Same gsForStatus body shared by three actual specs via explicit creator; semantic UI missing-slot helper reused. Uniform and character-specific glyphs remain different inputs; no universal rendering host. Distinct numeric axes retained.",
+        "E": "11 identities retained; full typed callback trees preserved under private/import projections. Literal yellow/blue/cyan digits and independent positions remain, snapshots only assert ownership. Exact six-role record diff and31usedUIframes proved; actual9files63/TC0, no pending/stderr.",
+        "F": "draw-player-status.test now owns numeric status contracts. createHydratedStatusState names creation/readiness; uniformGlyphs/positionGlyphs prevent oracle confusion. Canonical public glyphs field preserved. No model/batch file identity.",
+        "G": "No new cases for counts. Numeric fields/EXP absence/slash paths remain distinct; old one-caller missing-frame copy removed. The incidental catalog item in MP case remains passed input, not an abstract helper or new acceptance axis. No identified dead runtime export.",
+        "H": "True Framebuffer/state constructor and existing number rendering; no mock needed. Synchronous values deterministic, narrow text fixture restores language/HTML/Word at same version. Full body and tail-assertion negatives support structural proof, not blanket semantic acceptance."
+      }
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-player-status.equipment.test.ts",
+      "subjects": [
+        "packages/game/src/present/menu/draw-player-status.glm-phase1-leaves.test.ts",
+        "packages/game/src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+        "packages/game/src/present/__tests__/grok-present/p07-status.test.ts"
+      ],
+      "axes": {
+        "A": "4 cases: catalog-missing equippedID888 skips icon/name; slot0zero/slot1known item; missing optional item name tofu; absent portrait with role-name positive. Three actual equipment records across this and entry specs gain equipable and matching role permissions; labels/iconIDs/slots preserved. Missing catalog/name remain defensive domains.",
+        "B": "Removed stale dedup header. Unknown catalog differs intentionally from draw-equip fallback; optional-name and missing-portrait scopes explicit. Generic equippedItem replaces fabricated bead/sword semantics. No newly found wrong comments.",
+        "C": "Equipment/portrait boundary file owns only its inputs and text environment. Catalog lookup failure not handled through numeric/poison helpers. Renderer stays read-only; no input mutation, persistence or equipment script behavior introduced.",
+        "D": "Reuses pure UI/raster and common hydrated status state with actual numeric/entry callers. Missing catalog, optional name and absent portrait have different contracts; no fixture flag/mode helper that hides their inputs.",
+        "E": "4 runtime identities retained. Literal pixels keep positive content and absence; equipment fixture deltas preserve all old fields, add only flags with explicit role0/4 tuples. No assertion weakening or synthetic coverage-only cases;63neighbors and TC0.",
+        "F": "draw-player-status.equipment groups catalog/picture boundaries; equippedItem describes synthetic runtime record without calling a head-slot item a sword. uiFramesWithoutSlot omitted index clear where used elsewhere.",
+        "G": "Keeps zero slot vs missing-catalog cases distinct and named. No redundant wrapper; flags expressed in each relevant fixture. No identified dead export or future extension parameter.",
+        "H": "Real raster pixels and independently handwritten glyphs, no patched image renderer. Fresh record/GS per case, shared builder has no auto hooks; text ownership cleanup independent of font spy."
+      }
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-player-status.poison.test.ts",
+      "subjects": [
+        "packages/game/src/present/menu/draw-player-status.glm-phase1-leaves.test.ts",
+        "packages/game/src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+        "packages/game/src/present/__tests__/grok-present/p07-status.test.ts"
+      ],
+      "axes": {
+        "A": "8 poison cases combine original5 passthrough text-protocol checks and3 pixel/display-row cases: level<=3/color+10/shadow, level99/ID0 skip, party[4,1] and repeated[4,5,4] slots, compact visible row indices and current10-row cap. C1240-1257 read narrowly; no renewed claim for all16C-layout entries.",
+        "B": "Removed old generic minimal-role equipment ownership claim and unbounded185,58+j*18 header; current file names poison domain. Individual color/slot labels retained; current cap/overdraw tests are TS display contracts. No claim of new original-game or English visual parity.",
+        "C": "Single owned renderText spy factory with exact passthrough creation, restoration closure and afterEach identity assertion. Word and temporary Chinese owned locally. No restoreAllMocks or unrelated event/caster/inventory target reset; renderer rules untouched.",
+        "D": "Text protocol proves actual resolved name/color/shadow and party-slot routing; pixels prove row color/order/cap, so they are complementary, not duplicates. Minimal HP10/MP5 roles kept local, not forced into canonical HP99 seed. Existing UI provider reused.",
+        "E": "8 identities and all business assertions retained. Only two same-expression implied negatives removed here, positive25/30 preserved. Four old spy creation sites use one exact observer, actual afterEach asserts original function identity on normal runs; failure-only teardown relies on runner lifecycle/finally and was not newly fault-injected. No fake implementation or call-count oracle;63/TC0.",
+        "F": "draw-player-status.poison and poisonRole/createPoisonState/drawPoisonText replace model/weak run/statusGs names. observeRenderText states observation, not rendering replacement. Slot vs role IDs remain distinct in fixtures.",
+        "G": "No test deletion; original duplicate-role and non-sequential-party domains not merged. Only one observer/restorer for actual five spy cases, no extra test API. Removed broad mock reset and misleading module comments instead of adding compatibility code.",
+        "H": "Real renderer/text function executes under spy; returned calls expose text protocol while actual pixels test independent points. Capture original function and assert restoration; language restored in finally. Synchronous path has no pending async/IO ownership."
+      }
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-player-status.entry.test.ts",
+      "subjects": [
+        "packages/game/src/present/menu/draw-player-status.glm-phase1-leaves.test.ts",
+        "packages/game/src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+        "packages/game/src/present/__tests__/grok-present/p07-status.test.ts"
+      ],
+      "axes": {
+        "A": "2 complete public-entry cases: missing selected role or out-of-range cursor keeps full framebuffer exact; valid party[4,1] background/portrait/equipment/EXP/HP and real playerStatusNext switch preserve caller-owned inputs. Whole-entry assembly oracle stays one transition, not chopped into unrelated microtests.",
+        "B": "Entry title reflects both guards and selected-role assembly. Original stable P07 ID retained only for provenance. No assertion that this spec executes upstream bootstrap/E2E/real asset pipeline. No newly found wrong annotation.",
+        "C": "Full entry/ownership checks separate from detailed numeric/poison rules; data shared only via explicit fresh status creator. Word/Chinese only hook; no global menu/input resets. Real state cursor mutation belongs to test navigation, drawing itself observed read-only.",
+        "D": "Uses existing raster/glyph/clone providers; clone proves ownership only, literal pixels independently prove output. Broad assembly transition complements detail specs, not a duplicate of one stat assertion. Different default BG and supplied BG branches retained.",
+        "E": "2 old identities retained, one equipment fixture legalizes role4 flag and one level6 same-pixel not1 is strictly implied and removed. All background/portrait/equip/EXP/HP/role switch/unchanged state assertions remain. Full callback proof and native63/TC0.",
+        "F": "draw-player-status.entry makes boundary role clear; equippedItem replaces false sword description in head slot. plain/painted/switched refer explicit input stages; public field keys remain unchanged.",
+        "G": "One two-input early-guard contract tests complete unchanged framebuffer for both failed lookups; retained same behavior/oracle domain. Role-switch assembly kept atomic. No new host/wrapper/case counts.",
+        "H": "Real state next function plus Framebuffer, explicit current-vs-static values; full byte array and literal pixel oracles are independent from SUT. Shared snapshot tool same-version evidence reused; no current visual or English acceptance."
+      }
+    },
+    {
+      "path": "packages/game/src/present/__tests__/status-state-fixtures.ts",
+      "subjects": [
+        "packages/game/src/present/menu/draw-player-status.glm-phase1-leaves.test.ts",
+        "packages/game/src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+        "packages/game/src/present/__tests__/grok-present/p07-status.test.ts"
+      ],
+      "axes": {
+        "A": "One shared state factory preserves complete typed gsForStatus body and caller ownership. Imports canonical makeRoles; six complete records differ solely maxMP40->100, correcting MP99 domain. Callers can explicitly assign defensive runtime zero afterward. Product save/domain behavior unchanged.",
+        "B": "Header explains readiness, MP invariant and owned return state; not a promise that every later mutation remains legal. No claims about unrelated static role fixture. No newly found misleading comment.",
+        "C": "Pure input construction/hydration; no automatic Word/Date/DOM/spy/event lifecycle. Returned GS new per call, party array owned. Three actual specs share the same old constructor contract rather than duplicating it.",
+        "D": "Exact body and actual record data proof before extraction. Canonical role seed reused with explicit one-field legality delta; distinct poison minimal-role seed remains separate. No mode booleans or cross-layer production dependency.",
+        "E": "Complete helper tree/type/export transplant and exact six-record diff,31consumedUIframes, actual consumers run. No runtime test counted for fixture itself. New factory does not inherit closure credit for all imported helpers.",
+        "F": "status-state-fixtures and createHydratedStatusState state domain/readiness directly, no contributor name. GameState remains canonical core type.",
+        "G": "Single export with three real spec callers, no unused helper or alternate fallback. No future configuration parameter or old-state compatibility path.",
+        "H": "Direct fresh-state construction with explicit hydrate; test owns mutations. Existing role/game factories are reused at pinned current SHA; behavior controllable without casts/private runtime APIs or global setup."
+      }
+    }
+  ],
+  "callbackProof": "organization-menu-status/proof.stdout.raw",
+  "cohortOrigins": "organization-menu-status/cohort-origins.json",
+  "reusedReviewMember": "organization-menu-status/reused-reviews.json",
+  "runnerEligibility": "organization-menu-status/routing.stdout.raw",
+  "reads": {
+    "fullInputs": [
+      {
+        "path": "packages/game/src/present/menu/draw-player-status.glm-phase1-leaves.test.ts",
+        "sha256": "2b62e7610e11be7bf435540e728d7d42ff95f546ff7f18dfa5bc952a14a8cc01",
+        "member": "organization-menu-status/0.before",
+        "lines": 116
+      },
+      {
+        "path": "packages/game/src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+        "sha256": "d87d201c7b09acea6c867b46e42e2108f2d69d76caae48544b3c2c85337bc146",
+        "member": "organization-menu-status/1.before",
+        "lines": 382
+      },
+      {
+        "path": "packages/game/src/present/__tests__/grok-present/p07-status.test.ts",
+        "sha256": "8eba86dfc29c243d255d67dd0ca8f7e9715486c1c3e40891a45d758b580e8282",
+        "member": "organization-menu-status/2.before",
+        "lines": 107
+      },
+      {
+        "path": "packages/game/src/present/menu/draw-player-status.test.ts",
+        "sha256": "ef5974c4d5c5953832b43f5e8d32b452d07779509480f4993d819b4883d84211",
+        "member": "organization-menu-status/3.before",
+        "lines": 166
+      }
+    ],
+    "fullImplementations": [
+      {
+        "path": "packages/game/src/present/menu/draw-player-status.ts",
+        "sha256": "8ec3e60ee883c1fb4ed74109b3b2498f59a637d6a1b396e603da3b8d06bcc4c9",
+        "scope": "Full current source read; no new whole-product or originalgame credit."
+      },
+      {
+        "path": "packages/game/src/core/menu/player-status.ts",
+        "sha256": "55f0108d2f4ddfa0a45f8f00a83fe25bdd87230a51a1bc0448f2f0b414a87d2a",
+        "scope": "Full current source read; no new whole-product or originalgame credit."
+      }
+    ],
+    "scopedCallers": [
+      {
+        "path": "packages/game/src/present/menu/draw-menu.ts",
+        "sha256": "c0c56305f46464b8194bbb0d2a7e04683952b7f01266ec3949602b99c6f51566",
+        "ranges": [[136, 155]]
+      },
+      {
+        "path": "packages/game/src/core/menu/menu-driver.ts",
+        "sha256": "81db674f145043b7a78aea5ac705baa8c975502cbce66bcf88908574acd596f5",
+        "ranges": [[943, 957]]
+      }
+    ],
+    "primarySource": {
+      "path": "reference/sdlpal/uigame.c",
+      "sha256": "f981b6a698b6248107ec7934b60ca988055bbab458e516e9aa2b113f8b5419c1",
+      "ranges": [[1230, 1257]],
+      "scope": "Narrow stat/poison block read; previous CODE53 truth/decisions retained, not renewed fullCread or all16layout acceptance."
+    },
+    "currentOutputs": [
+      {
+        "path": "packages/game/src/present/menu/draw-player-status.test.ts",
+        "sha256": "a90071855e3c5c891d8b62b39cfc04da3f7a826484744d7f5b13217dcc15fca8",
+        "lines": 266,
+        "scope": "Full candidate read, final import/format delta reviewed; typed body/projection and native exactset proofs separate."
+      },
+      {
+        "path": "packages/game/src/present/menu/draw-player-status.equipment.test.ts",
+        "sha256": "4f575c0fc054dcc8d1ea7bcdaf03158b4514dbae16bb5433c90ad5abb760b72e",
+        "lines": 132,
+        "scope": "Full candidate read, final import/format delta reviewed; typed body/projection and native exactset proofs separate."
+      },
+      {
+        "path": "packages/game/src/present/menu/draw-player-status.poison.test.ts",
+        "sha256": "2b7c98b71993e2ab57e7a4fa1f10a1301abab18921d8ce6e0f66eabfccdb3f73",
+        "lines": 273,
+        "scope": "Full candidate read, final import/format delta reviewed; typed body/projection and native exactset proofs separate."
+      },
+      {
+        "path": "packages/game/src/present/menu/draw-player-status.entry.test.ts",
+        "sha256": "b6bd1bf4c6d6f2b2a1d76db2f055d4d7a3a852165b4473b00a024aa58644ad56",
+        "lines": 151,
+        "scope": "Full candidate read, final import/format delta reviewed; typed body/projection and native exactset proofs separate."
+      },
+      {
+        "path": "packages/game/src/present/__tests__/status-state-fixtures.ts",
+        "sha256": "f76fe730e092d215c04e442daaee4c6af6f991590b21f446a854c71453dbaf51",
+        "lines": 10,
+        "scope": "Full candidate read, final import/format delta reviewed; typed body/projection and native exactset proofs separate."
+      }
+    ]
+  },
+  "processDisclosures": [
+    "Only3historicalsubjects counted;20originalidentities plusadjacentmain5 all25 preserved→numeric11/equipment4/poison8/entry2+onefreshstatefixture. Existingclosedmain reopensreview forunifiedgates;0newclosed.",
+    "Three equipment fixtures gain only equipable/matchingrole flags. Canonical6role records differ solely maxMP40to100, correctingoldMP99 overflowedfixture. Unknown catalog/name/cursor/role and runtime0 remain explicitly defensive, no new game/save behavior.",
+    "3 sameexpression impliednegatives removed with exactpositive/valueinequality. All other business assertions and25identities preserved. Four oldvi.spyOn creation sites collapse to exact passthroughobserver and per-test restore-identity assertion, no fakeimplementation or restoreAllMocks.",
+    "Snapshot only proves ownership; poison textprotocol and pixel row/cap assertions complementary. Existing10rowTS cap is not a new fullSDL16slot layout claim. No product behavior red/fix claimed or coverage-only extra case.",
+    "Namespace font import handled explicitly by externalproducer, no centralchecker/rulechange. All6priorproviders exact,31actualconsumedUIframes equal; missingframe helper fullbody equality.",
+    "Wholecheck/officialcoverage/protected/publication deferred to stablelargecloseout. Staticfast/full eligibility not actualprofile/coverage. No current English/visual/E2E acceptance."
+  ],
+  "ledgerDispositions": {
+    "categories": {
+      "packages/game/src/present/menu/draw-player-status.test.ts": "test",
+      "packages/game/src/present/menu/draw-player-status.equipment.test.ts": "test",
+      "packages/game/src/present/menu/draw-player-status.poison.test.ts": "test",
+      "packages/game/src/present/menu/draw-player-status.entry.test.ts": "test",
+      "packages/game/src/present/__tests__/status-state-fixtures.ts": "fixture"
+    }
+  },
+  "ledgerCounts": {
+    "inventory": 3449,
+    "closed": 551,
+    "review": 264,
+    "pending": 2634
+  },
+  "complexityInitialScreen": {
+    "member": "organization-menu-status/complexity.stdout.raw",
+    "method": "AST initial-screen heuristic: 1 + explicit branch/loop/catch/case/logical/coalesce; nested functions scored separately. Not acceptance target or a certified complexity metric.",
+    "functions": 51,
+    "maxScore": 4,
+    "over10": [],
+    "acceptanceMetric": false
+  }
+}

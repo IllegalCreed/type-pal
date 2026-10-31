@@ -7,7 +7,7 @@
 // @ts-expect-error Node-only test host; content production type environment is DOM-only.
 import { createHash } from 'node:crypto'
 import { describe, expect, test, vi } from 'vitest'
-import { spriteAssetRecord } from './__tests__/glm-content-contract-fixtures.js'
+import { spriteAssetRecord } from './__tests__/asset-catalog-fixtures.js'
 import {
   type AssetCatalogV1,
   collectAssetReferences,

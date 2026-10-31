@@ -1,0 +1,1267 @@
+{
+  "inputs": [
+    {
+      "path": "packages/game/src/tools/speedrun/time-format.test.ts",
+      "sha256": "61046994eb6a6dd74a1fc16df10f6411aa470565fe30d94bbd34fbb174a9be75",
+      "member": "organization-speedrun-data/0.before"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/time-format.boundaries.test.ts",
+      "sha256": "ce31751bf2f91e1707bea710ae157e7bd15094d802c3757f9c896c1f60d9051f",
+      "member": "organization-speedrun-data/1.before"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/time-format.glm-phase1-leaves.test.ts",
+      "sha256": "79411da90343bc7a2346df5e4743c3ab47146df823e15d160e9f20d7ecab5076",
+      "member": "organization-speedrun-data/2.before"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/detectors.test.ts",
+      "sha256": "23e36b32f9edd8c89bf318ec65b9077d564838048ad0645f386a6499ff48f227",
+      "member": "organization-speedrun-data/3.before"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/detectors.glm-phase1-leaves.test.ts",
+      "sha256": "c13eaf0ad4f95c7e0d4cddcaa71824b9b685872ff7a3b7098089b8928ea5eacc",
+      "member": "organization-speedrun-data/4.before"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/store.test.ts",
+      "sha256": "cbedef3506732da37ffe8651638e7611df18cde49044cfb5f09dd1784f2a1e45",
+      "member": "organization-speedrun-data/5.before"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/store.glm-phase1-leaves.test.ts",
+      "sha256": "25b0d4cf610529a4fc67bf97a1c488a3ce53233883c51a4c0003e987aa349d77",
+      "member": "organization-speedrun-data/6.before"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "packages/game/src/tools/speedrun/time-format.test.ts",
+      "sha256": "d37e1c62f593763a2a826b32534c0d628189cd04e4bb0b0ec4bf2c099ecbee27"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/detectors.test.ts",
+      "sha256": "6af58bd39ddc7cf2b735a0bec939358c572e9fb9d02b1a671af68a8ea28bbd49"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/store.test.ts",
+      "sha256": "07ad4871244e529da6db6aa449d12a610b6458d6c3567b48fb6214a16bb5f839"
+    }
+  ],
+  "sourceBridges": [
+    {
+      "path": "packages/game/src/tools/speedrun/time-format.test.ts",
+      "id": "speedrun-data-0",
+      "reason": "Samepureformat/parser tests regrouped byfunctioncontract,not author/boundarybatch.",
+      "changes": [
+        {
+          "from": "import { describe, expect, it } from 'vitest'\nimport { formatClock, formatDiff, formatHms, parseHms } from './time-format.js'\n\ndescribe('time-format', () => {\n  it('formatClock 到厘秒', () => {\n    expect(formatClock(0)).toBe('0:00:00.00')\n    expect(formatClock(3_661_234)).toBe('1:01:01.23') // 1h1m1s234ms，厘秒截断\n  })\n  it('formatHms 到秒', () => {\n    expect(formatHms(0)).toBe('0:00:00')\n    expect(formatHms(3_661_000)).toBe('1:01:01')\n  })\n  it('parseHms 支持 H:MM:SS 与 M:SS', () => {\n    expect(parseHms('1:01:01')).toBe(3_661_000)\n    expect(parseHms('2:17:00')).toBe(8_220_000)\n    expect(parseHms('5:49')).toBe(349_000)\n  })\n  it('formatDiff 带符号', () => {\n    expect(formatDiff(-9000)).toBe('-0:09')\n    expect(formatDiff(72_000)).toBe('+1:12')\n    expect(formatDiff(0)).toBe('0:00')\n  })\n})\n",
+          "to": "import { describe, expect, it } from 'vitest'\nimport { formatClock, formatDiff, formatHms, parseHms } from './time-format.js'\n\ndescribe('time-format', () => {\n  it('formatClock 到厘秒', () => {\n    expect(formatClock(0)).toBe('0:00:00.00')\n    expect(formatClock(3_661_234)).toBe('1:01:01.23') // 1h1m1s234ms，厘秒截断\n  })\n  it('formatHms 到秒', () => {\n    expect(formatHms(0)).toBe('0:00:00')\n    expect(formatHms(3_661_000)).toBe('1:01:01')\n  })\n  it('parseHms 支持 H:MM:SS 与 M:SS', () => {\n    expect(parseHms('1:01:01')).toBe(3_661_000)\n    expect(parseHms('2:17:00')).toBe(8_220_000)\n    expect(parseHms('5:49')).toBe(349_000)\n  })\n  it('formatDiff 带符号', () => {\n    expect(formatDiff(-9000)).toBe('-0:09')\n    expect(formatDiff(72_000)).toBe('+1:12')\n    expect(formatDiff(0)).toBe('0:00')\n  })\n})\n",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/time-format.boundaries.test.ts",
+      "id": "speedrun-data-1",
+      "reason": "Samepureformat/parser tests regrouped byfunctioncontract,not author/boundarybatch.",
+      "changes": [
+        {
+          "from": "/**\n * TEST-GAME-HOST-BOUNDARIES-1 H08：time-format 边界（tools/speedrun/time-format.ts）。\n * 主测试负责正常格式；本文件分别核截断/进位、负数归零、差值与解析边界。\n * 分钟越界但秒合法、科学计数法拒绝由 leaves 文件独立核对，避免一个守卫掩盖另一个。\n */\nimport { describe, expect, it } from 'vitest'\nimport { formatClock, formatDiff, formatHms, parseHms } from './time-format.js'\n\ndescribe('H08 进位与符号边界', () => {\n  it('formatClock 截断厘秒；整分和整小时前后正确进位', () => {\n    expect(formatClock(59_995)).toBe('0:00:59.99')\n    expect(formatClock(60_000)).toBe('0:01:00.00') // 整分进位\n    expect(formatClock(3_599_999)).toBe('0:59:59.99')\n    expect(formatClock(3_600_000)).toBe('1:00:00.00')\n  })\n  it('formatClock 负数归零', () => {\n    expect(formatClock(-5)).toBe('0:00:00.00')\n  })\n  it('formatHms 在整小时边界截断到秒', () => {\n    expect(formatHms(3_599_999)).toBe('0:59:59')\n    expect(formatHms(3_600_000)).toBe('1:00:00')\n  })\n  it('formatHms 负数归零', () => {\n    expect(formatHms(-5)).toBe('0:00:00')\n  })\n  it('formatDiff 绝对值截断到整秒，保留不足一秒的负号', () => {\n    expect(formatDiff(65_400)).toBe('+1:05')\n    expect(formatDiff(-65_400)).toBe('-1:05')\n    expect(formatDiff(-999)).toBe('-0:00') // 不足 1 秒截断\n  })\n  it('parseHms 允许段内首尾空白', () => {\n    expect(parseHms(' 1 : 05 ')).toBe(65_000) // 段内 trim\n  })\n  it('parseHms 拒绝负号、空段、非数字、秒越界和错误段数', () => {\n    expect(parseHms('bad')).toBeNull()\n    expect(parseHms('-1:05')).toBeNull()\n    expect(parseHms('1:-05')).toBeNull()\n    expect(parseHms('1:')).toBeNull() // 空段\n    expect(parseHms(':')).toBeNull()\n    expect(parseHms('1:05x')).toBeNull()\n    expect(parseHms('1:60')).toBeNull()\n    expect(parseHms('1:59:60')).toBeNull()\n    expect(parseHms('5')).toBeNull() // 单段\n    expect(parseHms('1:2:3:4')).toBeNull() // 四段\n  })\n  it('parseHms：总毫秒溢出时拒绝，避免工具面板把 Infinity 持久化成 null', () => {\n    expect(parseHms(`${'9'.repeat(308)}:59:59`)).toBeNull()\n  })\n})\n",
+          "to": "import { describe, expect, it } from 'vitest'\nimport { formatClock, formatDiff, formatHms, parseHms } from './time-format.js'\n\ndescribe('H08 进位与符号边界', () => {\n  it('formatClock 截断厘秒；整分和整小时前后正确进位', () => {\n    expect(formatClock(59_995)).toBe('0:00:59.99')\n    expect(formatClock(60_000)).toBe('0:01:00.00') // 整分进位\n    expect(formatClock(3_599_999)).toBe('0:59:59.99')\n    expect(formatClock(3_600_000)).toBe('1:00:00.00')\n  })\n  it('formatClock 负数归零', () => {\n    expect(formatClock(-5)).toBe('0:00:00.00')\n  })\n  it('formatHms 在整小时边界截断到秒', () => {\n    expect(formatHms(3_599_999)).toBe('0:59:59')\n    expect(formatHms(3_600_000)).toBe('1:00:00')\n  })\n  it('formatHms 负数归零', () => {\n    expect(formatHms(-5)).toBe('0:00:00')\n  })\n  it('formatDiff 绝对值截断到整秒，保留不足一秒的负号', () => {\n    expect(formatDiff(65_400)).toBe('+1:05')\n    expect(formatDiff(-65_400)).toBe('-1:05')\n    expect(formatDiff(-999)).toBe('-0:00') // 不足 1 秒截断\n  })\n  it('parseHms 允许段内首尾空白', () => {\n    expect(parseHms(' 1 : 05 ')).toBe(65_000) // 段内 trim\n  })\n  it('parseHms 拒绝负号、空段、非数字、秒越界和错误段数', () => {\n    expect(parseHms('bad')).toBeNull()\n    expect(parseHms('-1:05')).toBeNull()\n    expect(parseHms('1:-05')).toBeNull()\n    expect(parseHms('1:')).toBeNull() // 空段\n    expect(parseHms(':')).toBeNull()\n    expect(parseHms('1:05x')).toBeNull()\n    expect(parseHms('1:60')).toBeNull()\n    expect(parseHms('1:59:60')).toBeNull()\n    expect(parseHms('5')).toBeNull() // 单段\n    expect(parseHms('1:2:3:4')).toBeNull() // 四段\n  })\n  it('parseHms：总毫秒溢出时拒绝，避免工具面板把 Infinity 持久化成 null', () => {\n    expect(parseHms(`${'9'.repeat(308)}:59:59`)).toBeNull()\n  })\n})\n",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/time-format.glm-phase1-leaves.test.ts",
+      "id": "speedrun-data-2",
+      "reason": "Samepureformat/parser tests regrouped byfunctioncontract,not author/boundarybatch.",
+      "changes": [
+        {
+          "from": "/**\n * 小时格式与负数归零已归主测试和 boundaries，本文件不重复数字变体。\n * 只核文本解析的独立拒绝合同：小时不接受科学计数法；分钟越界不能靠秒守卫挡住。\n */\nimport { describe, expect, it } from 'vitest'\nimport { parseHms } from './time-format.js'\n\ndescribe('L20 time-format 解析拒绝边界', () => {\n  it('小时字段拒绝科学计数法，即便 Number 能转换它', () => {\n    expect(parseHms('1e2:00:05')).toBeNull()\n  })\n\n  it('分钟为 60 且秒合法时仍拒绝', () => {\n    expect(parseHms('1:60:00')).toBeNull()\n  })\n})\n",
+          "to": "import { describe, expect, it } from 'vitest'\nimport { parseHms } from './time-format.js'\n\ndescribe('L20 time-format 解析拒绝边界', () => {\n  it('小时字段拒绝科学计数法，即便 Number 能转换它', () => {\n    expect(parseHms('1e2:00:05')).toBeNull()\n  })\n\n  it('分钟为 60 且秒合法时仍拒绝', () => {\n    expect(parseHms('1:60:00')).toBeNull()\n  })\n})\n",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/detectors.test.ts",
+      "id": "speedrun-data-3",
+      "reason": "IdenticalprogressSnapshot fixture sharedonce underintentfulname;one departureoracle strengthened,alloldassertions kept.",
+      "changes": [
+        {
+          "from": "import { describe, expect, it } from 'vitest'\nimport {\n  atSpot,\n  bgmIs,\n  bossWon,\n  caiyiDetector,\n  enterAnyScene,\n  enterScene,\n  hasItem,\n  leaveScene,\n} from './detectors.js'\nimport type { ProgressSnapshot } from './snapshot.js'\n\nconst snap = (o: Partial<ProgressSnapshot>): ProgressSnapshot => ({\n  scene: 0,\n  canMove: true,\n  partyX: 0,\n  partyY: 0,\n  music: 0,\n  inventory: new Set(),\n  battle: null,\n  ...o,\n})\n\ndescribe('detectors', () => {\n  it('enterScene 仅在进入那一帧触发', () => {\n    const d = enterScene(80)\n    expect(d(snap({ scene: 80 }), snap({ scene: 62 }), {})).toBe(true)\n    expect(d(snap({ scene: 80 }), snap({ scene: 80 }), {})).toBe(false)\n    expect(d(snap({ scene: 80 }), null, {})).toBe(true)\n  })\n  it('leaveScene 仅在离开那一帧触发', () => {\n    const d = leaveScene(40)\n    expect(d(snap({ scene: 41 }), snap({ scene: 40 }), {})).toBe(true)\n    expect(d(snap({ scene: 40 }), snap({ scene: 40 }), {})).toBe(false)\n    expect(d(snap({ scene: 40 }), null, {})).toBe(false)\n  })\n  it('enterAnyScene 任一进入即触发', () => {\n    const d = enterAnyScene([164, 165, 147])\n    expect(d(snap({ scene: 165 }), snap({ scene: 100 }), {})).toBe(true)\n    expect(d(snap({ scene: 165 }), snap({ scene: 164 }), {})).toBe(false) // 已在集合内不重触\n    expect(d(snap({ scene: 164 }), null, {})).toBe(true)\n    expect(d(snap({ scene: 100 }), null, {})).toBe(false)\n    expect(enterAnyScene([])(snap({ scene: 164 }), null, {})).toBe(false)\n  })\n  it('atSpot 容差矩形', () => {\n    const d = atSpot(19, 1000, 500, 10, 5)\n    expect(d(snap({ scene: 19, partyX: 1010, partyY: 495 }), null, {})).toBe(true)\n    expect(d(snap({ scene: 19, partyX: 1011, partyY: 500 }), null, {})).toBe(false)\n    expect(d(snap({ scene: 19, partyX: 1000, partyY: 506 }), null, {})).toBe(false)\n    expect(d(snap({ scene: 20, partyX: 1000, partyY: 500 }), null, {})).toBe(false) // 场景不符\n  })\n  it('bossWon 需 boss 在场且全场血≤0', () => {\n    const d = bossWon(75)\n    expect(d(snap({ battle: { enemyIds: new Set([75]), totalEnemyHp: 0 } }), null, {})).toBe(true)\n    expect(d(snap({ battle: { enemyIds: new Set([75]), totalEnemyHp: 10 } }), null, {})).toBe(false)\n    expect(d(snap({ battle: { enemyIds: new Set([12]), totalEnemyHp: 0 } }), null, {})).toBe(false)\n    expect(d(snap({ battle: null }), null, {})).toBe(false)\n  })\n  it('hasItem 只命中背包中的指定物品', () => {\n    const d = hasItem(265)\n    expect(d(snap({ inventory: new Set([265]) }), null, {})).toBe(true)\n    expect(d(snap({ inventory: new Set([266]) }), null, {})).toBe(false)\n  })\n  it('bgmIs 只命中指定音乐号', () => {\n    const d = bgmIs(86)\n    expect(d(snap({ music: 86 }), null, {})).toBe(true)\n    expect(d(snap({ music: 85 }), null, {})).toBe(false)\n  })\n  it('caiyi 两段:先见 71 入场,再等其消失/血≤0', () => {\n    const d = caiyiDetector(71)\n    const mem: Record<string, unknown> = {}\n    const untouched: Record<string, unknown> = {}\n    // 战前:不触发,也不置位\n    expect(d(snap({ battle: null }), null, mem)).toBe(false)\n    expect(mem.seen).toBeUndefined()\n    // 71 入场:置位但不触发\n    expect(d(snap({ battle: { enemyIds: new Set([71]), totalEnemyHp: 100 } }), null, mem)).toBe(\n      false,\n    )\n    expect(mem.seen).toBe(true)\n    // 71 还在但血清空:触发\n    expect(d(snap({ battle: { enemyIds: new Set([71]), totalEnemyHp: 0 } }), null, mem)).toBe(true)\n    expect(d(snap({ battle: null }), null, untouched)).toBe(false)\n    expect(untouched.seen).toBeUndefined()\n  })\n  it('caiyi 第二段:战斗结束(battle=null)也触发', () => {\n    const d = caiyiDetector(71)\n    const mem = {}\n    d(snap({ battle: { enemyIds: new Set([71]), totalEnemyHp: 100 } }), null, mem) // 置位\n    expect(d(snap({ battle: null }), null, mem)).toBe(true)\n  })\n})\n",
+          "to": "import { describe, expect, it } from 'vitest'\nimport {\n  atSpot,\n  bgmIs,\n  bossWon,\n  caiyiDetector,\n  enterAnyScene,\n  enterScene,\n  hasItem,\n  leaveScene,\n} from './detectors.js'\nimport type { ProgressSnapshot } from './snapshot.js'\n\nconst progressSnapshot = (overrides: Partial<ProgressSnapshot>): ProgressSnapshot => ({\n  scene: 0,\n  canMove: true,\n  partyX: 0,\n  partyY: 0,\n  music: 0,\n  inventory: new Set(),\n  battle: null,\n  ...overrides,\n})\n\ndescribe('detectors', () => {\n  it('enterScene 仅在进入那一帧触发', () => {\n    const d = enterScene(80)\n    expect(d(progressSnapshot({ scene: 80 }), progressSnapshot({ scene: 62 }), {})).toBe(true)\n    expect(d(progressSnapshot({ scene: 80 }), progressSnapshot({ scene: 80 }), {})).toBe(false)\n    expect(d(progressSnapshot({ scene: 80 }), null, {})).toBe(true)\n  })\n  it('leaveScene 仅在离开那一帧触发', () => {\n    const d = leaveScene(40)\n    expect(d(progressSnapshot({ scene: 41 }), progressSnapshot({ scene: 40 }), {})).toBe(true)\n    expect(d(progressSnapshot({ scene: 40 }), progressSnapshot({ scene: 40 }), {})).toBe(false)\n    expect(d(progressSnapshot({ scene: 40 }), null, {})).toBe(false)\n  })\n  it('enterAnyScene 任一进入即触发', () => {\n    const d = enterAnyScene([164, 165, 147])\n    expect(d(progressSnapshot({ scene: 165 }), progressSnapshot({ scene: 100 }), {})).toBe(true)\n    expect(d(progressSnapshot({ scene: 165 }), progressSnapshot({ scene: 164 }), {})).toBe(false) // 已在集合内不重触\n    expect(d(progressSnapshot({ scene: 164 }), null, {})).toBe(true)\n    expect(d(progressSnapshot({ scene: 100 }), null, {})).toBe(false)\n    expect(enterAnyScene([])(progressSnapshot({ scene: 164 }), null, {})).toBe(false)\n  })\n  it('atSpot 容差矩形', () => {\n    const d = atSpot(19, 1000, 500, 10, 5)\n    expect(d(progressSnapshot({ scene: 19, partyX: 1010, partyY: 495 }), null, {})).toBe(true)\n    expect(d(progressSnapshot({ scene: 19, partyX: 1011, partyY: 500 }), null, {})).toBe(false)\n    expect(d(progressSnapshot({ scene: 19, partyX: 1000, partyY: 506 }), null, {})).toBe(false)\n    expect(d(progressSnapshot({ scene: 20, partyX: 1000, partyY: 500 }), null, {})).toBe(false) // 场景不符\n  })\n  it('bossWon 需 boss 在场且全场血≤0', () => {\n    const d = bossWon(75)\n    expect(\n      d(progressSnapshot({ battle: { enemyIds: new Set([75]), totalEnemyHp: 0 } }), null, {}),\n    ).toBe(true)\n    expect(\n      d(progressSnapshot({ battle: { enemyIds: new Set([75]), totalEnemyHp: 10 } }), null, {}),\n    ).toBe(false)\n    expect(\n      d(progressSnapshot({ battle: { enemyIds: new Set([12]), totalEnemyHp: 0 } }), null, {}),\n    ).toBe(false)\n    expect(d(progressSnapshot({ battle: null }), null, {})).toBe(false)\n  })\n  it('hasItem 只命中背包中的指定物品', () => {\n    const d = hasItem(265)\n    expect(d(progressSnapshot({ inventory: new Set([265]) }), null, {})).toBe(true)\n    expect(d(progressSnapshot({ inventory: new Set([266]) }), null, {})).toBe(false)\n  })\n  it('bgmIs 只命中指定音乐号', () => {\n    const d = bgmIs(86)\n    expect(d(progressSnapshot({ music: 86 }), null, {})).toBe(true)\n    expect(d(progressSnapshot({ music: 85 }), null, {})).toBe(false)\n  })\n  it('caiyi 两段:先见 71 入场,再等其消失/血≤0', () => {\n    const d = caiyiDetector(71)\n    const mem: Record<string, unknown> = {}\n    const untouched: Record<string, unknown> = {}\n    // 战前:不触发,也不置位\n    expect(d(progressSnapshot({ battle: null }), null, mem)).toBe(false)\n    expect(mem.seen).toBeUndefined()\n    // 71 入场:置位但不触发\n    expect(\n      d(progressSnapshot({ battle: { enemyIds: new Set([71]), totalEnemyHp: 100 } }), null, mem),\n    ).toBe(false)\n    expect(mem.seen).toBe(true)\n    // 71 还在但血清空:触发\n    expect(\n      d(progressSnapshot({ battle: { enemyIds: new Set([71]), totalEnemyHp: 0 } }), null, mem),\n    ).toBe(true)\n    expect(d(progressSnapshot({ battle: null }), null, untouched)).toBe(false)\n    expect(untouched.seen).toBeUndefined()\n  })\n  it('caiyi 第二段:战斗结束(battle=null)也触发', () => {\n    const d = caiyiDetector(71)\n    const mem = {}\n    d(progressSnapshot({ battle: { enemyIds: new Set([71]), totalEnemyHp: 100 } }), null, mem) // 置位\n    expect(d(progressSnapshot({ battle: null }), null, mem)).toBe(true)\n  })\n})\n",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/detectors.glm-phase1-leaves.test.ts",
+      "id": "speedrun-data-4",
+      "reason": "IdenticalprogressSnapshot fixture sharedonce underintentfulname;one departureoracle strengthened,alloldassertions kept.",
+      "changes": [
+        {
+          "from": "/**\n * TEST-GLM-PHASE1-LEAVES-3 L08（tools/speedrun/detectors.ts）— 去重表：\n *  - detectors.test（enter/leave/enterAny 触发帧/atSpot 显式容差/bossWon/hasItem/bgmIs/caiyi\n *    两段与 battle=null）→ 不重复\n *  - 新差异：atSpot 默认容差 ±48/±24 恰好边界、atAnySpot 多点任一命中（完全未覆盖）、\n *    caiyiDetector 自定义敌 id。leaveScene/enterAnyScene 防御合同归主测。\n * 纯输入命中/不命中边界；不遍历剧情里程碑。\n */\nimport { describe, expect, it } from 'vitest'\nimport { atAnySpot, atSpot, caiyiDetector } from './detectors.js'\nimport type { ProgressSnapshot } from './snapshot.js'\n\nconst snap = (o: Partial<ProgressSnapshot>): ProgressSnapshot => ({\n  scene: 0,\n  canMove: true,\n  partyX: 0,\n  partyY: 0,\n  music: 0,\n  inventory: new Set(),\n  battle: null,\n  ...o,\n})\n\ndescribe('L08 detectors 剩余边界', () => {\n  it('atSpot 默认容差 ±48/±24：恰好边界命中、超出 1px 不命中', () => {\n    const d = atSpot(19, 1000, 500) // 不传 tol → 48/24\n    expect(d(snap({ scene: 19, partyX: 1048, partyY: 524 }), null, {})).toBe(true)\n    expect(d(snap({ scene: 19, partyX: 1049, partyY: 500 }), null, {})).toBe(false)\n    expect(d(snap({ scene: 19, partyX: 1000, partyY: 525 }), null, {})).toBe(false)\n    expect(d(snap({ scene: 19, partyX: 952, partyY: 476 }), null, {})).toBe(true) // 负向边界\n  })\n\n  it('atAnySpot 多点：任一格命中即真；全部未命中/场景不符为假', () => {\n    const d = atAnySpot(164, [\n      [0, 0],\n      [1000, 500],\n    ])\n    expect(d(snap({ scene: 164, partyX: 1030, partyY: 510 }), null, {})).toBe(true) // 第二格\n    expect(d(snap({ scene: 164, partyX: 10, partyY: 10 }), null, {})).toBe(true) // 第一格\n    expect(d(snap({ scene: 164, partyX: 500, partyY: 250 }), null, {})).toBe(false) // 都不中\n    expect(d(snap({ scene: 165, partyX: 1000, partyY: 500 }), null, {})).toBe(false) // 场景不符\n  })\n\n  it('caiyiDetector 自定义敌 id：见 72 置位，其消失触发', () => {\n    const d = caiyiDetector(72)\n    const mem = {}\n    expect(d(snap({ battle: { enemyIds: new Set([71]), totalEnemyHp: 10 } }), null, mem)).toBe(\n      false,\n    ) // 非 72 不置位\n    expect(d(snap({ battle: { enemyIds: new Set([72]), totalEnemyHp: 10 } }), null, mem)).toBe(\n      false,\n    ) // 置位不触发\n    expect(d(snap({ battle: { enemyIds: new Set([72, 71]), totalEnemyHp: 3 } }), null, mem)).toBe(\n      false,\n    )\n    expect(d(snap({ battle: null }), null, mem)).toBe(true) // 消失\n  })\n})\n",
+          "to": "import { describe, expect, it } from 'vitest'\nimport { atAnySpot, atSpot, caiyiDetector } from './detectors.js'\nimport type { ProgressSnapshot } from './snapshot.js'\n\nconst progressSnapshot = (overrides: Partial<ProgressSnapshot>): ProgressSnapshot => ({\n  scene: 0,\n  canMove: true,\n  partyX: 0,\n  partyY: 0,\n  music: 0,\n  inventory: new Set(),\n  battle: null,\n  ...overrides,\n})\n\ndescribe('L08 detectors 剩余边界', () => {\n  it('atSpot 默认容差 ±48/±24：恰好边界命中、超出 1px 不命中', () => {\n    const d = atSpot(19, 1000, 500) // 不传 tol → 48/24\n    expect(d(progressSnapshot({ scene: 19, partyX: 1048, partyY: 524 }), null, {})).toBe(true)\n    expect(d(progressSnapshot({ scene: 19, partyX: 1049, partyY: 500 }), null, {})).toBe(false)\n    expect(d(progressSnapshot({ scene: 19, partyX: 1000, partyY: 525 }), null, {})).toBe(false)\n    expect(d(progressSnapshot({ scene: 19, partyX: 952, partyY: 476 }), null, {})).toBe(true) // 负向边界\n  })\n\n  it('atAnySpot 多点：任一格命中即真；全部未命中/场景不符为假', () => {\n    const d = atAnySpot(164, [\n      [0, 0],\n      [1000, 500],\n    ])\n    expect(d(progressSnapshot({ scene: 164, partyX: 1030, partyY: 510 }), null, {})).toBe(true) // 第二格\n    expect(d(progressSnapshot({ scene: 164, partyX: 10, partyY: 10 }), null, {})).toBe(true) // 第一格\n    expect(d(progressSnapshot({ scene: 164, partyX: 500, partyY: 250 }), null, {})).toBe(false) // 都不中\n    expect(d(progressSnapshot({ scene: 165, partyX: 1000, partyY: 500 }), null, {})).toBe(false) // 场景不符\n  })\n\n  it('caiyiDetector 自定义敌 id：见 72 置位，其消失触发', () => {\n    const d = caiyiDetector(72)\n    const mem = {}\n    expect(\n      d(progressSnapshot({ battle: { enemyIds: new Set([71]), totalEnemyHp: 10 } }), null, mem),\n    ).toBe(false) // 非 72 不置位\n    expect(\n      d(progressSnapshot({ battle: { enemyIds: new Set([72]), totalEnemyHp: 10 } }), null, mem),\n    ).toBe(false) // 置位不触发\n    expect(\n      d(progressSnapshot({ battle: { enemyIds: new Set([72, 71]), totalEnemyHp: 3 } }), null, mem),\n    ).toBe(false)\n    // 72离场，但71仍存活；不能依靠battle=null或全场HP清零通过。\n    expect(\n      d(progressSnapshot({ battle: { enemyIds: new Set([71]), totalEnemyHp: 3 } }), null, mem),\n    ).toBe(true)\n    expect(d(progressSnapshot({ battle: null }), null, mem)).toBe(true) // 消失\n  })\n})\n",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/store.test.ts",
+      "id": "speedrun-data-5",
+      "reason": "Explicitfour-key/desktopownership andrestore lifecycle replaces clear-all; testcallbacks unchanged afterprivatekeyname bridge.",
+      "changes": [
+        {
+          "from": "import { afterEach, beforeEach, describe, expect, it } from 'vitest'\nimport { enterScene } from './detectors.js'\nimport type { ProgressSnapshot } from './snapshot.js'\nimport { loadBests, loadSettings, saveBests, saveSetting } from './store.js'\nimport { SpeedrunTimer } from './timer.js'\n\nafterEach(() => localStorage.clear())\n\ndescribe('speedrun store', () => {\n  beforeEach(() => localStorage.clear())\n\n  it('settings 默认:enabled=false, show=true, banana=false', () => {\n    expect(loadSettings()).toEqual({ enabled: false, show: true, banana: false })\n  })\n  it('saveSetting 往返', () => {\n    saveSetting('enabled', true)\n    saveSetting('show', false)\n    expect(loadSettings()).toEqual({ enabled: true, show: false, banana: false })\n  })\n  it('bests 无记录时返回 defaults 副本', () => {\n    const defaults = { a: 1000, b: 2000 }\n    const loaded = loadBests(defaults)\n    expect(loaded).toEqual(defaults)\n    expect(loaded).not.toBe(defaults)\n  })\n  it('bests 往返只覆盖默认骨架中的 key，缺失项保留默认值', () => {\n    saveBests({ a: 500, b: null, ghost: 1 })\n    expect(loadBests({ a: 1000, b: 2000, c: 3000 })).toEqual({ a: 500, b: null, c: 3000 })\n  })\n\n  it('保留真实计时器产生的小数毫秒 PB，刷新后不恢复成默认成绩', () => {\n    const defaults = { finish: 5000 }\n    const timer = new SpeedrunTimer(\n      [{ id: 'finish', name: '终点', defaultBestMs: 5000, detector: enterScene(2) }],\n      { scene: 177, cells: [], tolX: 0, tolY: 0, itemId: 291 },\n      { ...defaults },\n    )\n    const initial: ProgressSnapshot = {\n      scene: 1,\n      canMove: true,\n      partyX: 160,\n      partyY: 112,\n      music: 0,\n      inventory: new Set(),\n      battle: null,\n    }\n    timer.tick(initial, 100.25, { bananaEnabled: false })\n    timer.tick({ ...initial, scene: 2 }, 1100.75, { bananaEnabled: false })\n    expect(timer.getRun().phase).toBe('finished')\n    expect(timer.getBests()).toEqual({ finish: 1000.5 })\n    saveBests(timer.getBests())\n    expect(loadBests(defaults)).toEqual({ finish: 1000.5 })\n    expect(defaults).toEqual({ finish: 5000 })\n  })\n})\n",
+          "to": "import { afterEach, beforeEach, describe, expect, it } from 'vitest'\nimport { enterScene } from './detectors.js'\nimport type { ProgressSnapshot } from './snapshot.js'\nimport { loadBests, loadSettings, saveBests, saveSetting } from './store.js'\nimport { SpeedrunTimer } from './timer.js'\n\ndescribe('speedrun store', () => {\n  it('settings 默认:enabled=false, show=true, banana=false', () => {\n    expect(loadSettings()).toEqual({ enabled: false, show: true, banana: false })\n  })\n  it('saveSetting 往返', () => {\n    saveSetting('enabled', true)\n    saveSetting('show', false)\n    expect(loadSettings()).toEqual({ enabled: true, show: false, banana: false })\n  })\n  it('bests 无记录时返回 defaults 副本', () => {\n    const defaults = { a: 1000, b: 2000 }\n    const loaded = loadBests(defaults)\n    expect(loaded).toEqual(defaults)\n    expect(loaded).not.toBe(defaults)\n  })\n  it('bests 往返只覆盖默认骨架中的 key，缺失项保留默认值', () => {\n    saveBests({ a: 500, b: null, ghost: 1 })\n    expect(loadBests({ a: 1000, b: 2000, c: 3000 })).toEqual({ a: 500, b: null, c: 3000 })\n  })\n\n  it('保留真实计时器产生的小数毫秒 PB，刷新后不恢复成默认成绩', () => {\n    const defaults = { finish: 5000 }\n    const timer = new SpeedrunTimer(\n      [{ id: 'finish', name: '终点', defaultBestMs: 5000, detector: enterScene(2) }],\n      { scene: 177, cells: [], tolX: 0, tolY: 0, itemId: 291 },\n      { ...defaults },\n    )\n    const initial: ProgressSnapshot = {\n      scene: 1,\n      canMove: true,\n      partyX: 160,\n      partyY: 112,\n      music: 0,\n      inventory: new Set(),\n      battle: null,\n    }\n    timer.tick(initial, 100.25, { bananaEnabled: false })\n    timer.tick({ ...initial, scene: 2 }, 1100.75, { bananaEnabled: false })\n    expect(timer.getRun().phase).toBe('finished')\n    expect(timer.getBests()).toEqual({ finish: 1000.5 })\n    saveBests(timer.getBests())\n    expect(loadBests(defaults)).toEqual({ finish: 1000.5 })\n    expect(defaults).toEqual({ finish: 5000 })\n  })\n})\n\nconst BESTS_KEY = 'tp-speedrun-bests'\nconst OWNED_STORAGE_KEYS = [\n  'tp-speedrun-enabled',\n  'tp-speedrun-show',\n  'tp-speedrun-banana',\n  BESTS_KEY,\n]\nlet previousValues = new Map<string, string | null>()\nlet previousLayout: string | undefined\nbeforeEach(() => {\n  previousValues = new Map()\n  for (const key of OWNED_STORAGE_KEYS) previousValues.set(key, localStorage.getItem(key))\n  previousLayout = document.documentElement.dataset.tpLayout\n  for (const key of OWNED_STORAGE_KEYS) localStorage.removeItem(key)\n  document.documentElement.dataset.tpLayout = 'desktop'\n})\nafterEach(() => {\n  try {\n    for (const [key, value] of previousValues) {\n      if (value === null) localStorage.removeItem(key)\n      else localStorage.setItem(key, value)\n    }\n  } finally {\n    if (previousLayout === undefined) delete document.documentElement.dataset.tpLayout\n    else document.documentElement.dataset.tpLayout = previousLayout\n  }\n})\n",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/store.glm-phase1-leaves.test.ts",
+      "id": "speedrun-data-6",
+      "reason": "Explicitfour-key/desktopownership andrestore lifecycle replaces clear-all; testcallbacks unchanged afterprivatekeyname bridge.",
+      "changes": [
+        {
+          "from": "/**\n * TEST-GLM-PHASE1-LEAVES-3 L21（store.ts）— 去重表：\n *  - store.test（默认值/setting 往返/bests defaults 副本/缺失 key 补 default）→ 不重复\n *  - 新差异：非法 JSON/非法逐键值/非记录 JSON 的回退，以及 banana 设置和非法设置值。\n *    未知 key 与 bests 往返归主测，不重复执行相同合同。\n */\nimport { afterEach, beforeEach, describe, expect, it } from 'vitest'\nimport { loadBests, loadSettings, saveSetting } from './store.js'\n\nconst KEY = 'tp-speedrun-bests'\n\nbeforeEach(() => {\n  localStorage.clear()\n})\n\nafterEach(() => localStorage.clear())\n\ndescribe('L21 store 坏数据与往返', () => {\n  it('bests 非法 JSON 返回 defaults 副本', () => {\n    localStorage.setItem(KEY, '{not json')\n    const defaults = { a: 1000, b: null }\n    const out = loadBests(defaults)\n    expect(out).toEqual({ a: 1000, b: null })\n    expect(out).not.toBe(defaults) // 副本\n  })\n\n  it('banana 设置可往返，非法设置值按各键规则回退', () => {\n    saveSetting('banana', true)\n    expect(loadSettings()).toEqual({ enabled: false, show: true, banana: true })\n    localStorage.setItem('tp-speedrun-enabled', 'yes')\n    localStorage.setItem('tp-speedrun-show', 'yes')\n    localStorage.setItem('tp-speedrun-banana', 'yes')\n    expect(loadSettings()).toEqual({ enabled: false, show: true, banana: false })\n  })\n\n  it('bests 非法数值逐键回退，保留同批合法值与 null，不污染 defaults', () => {\n    const defaults = { a: 1000, b: 2000, c: 3000, d: 4000, e: 5000, f: 6000, g: 7000 }\n    localStorage.setItem(KEY, '{\"a\":-1,\"b\":\"bad\",\"c\":1e400,\"d\":false,\"e\":{},\"f\":0,\"g\":null}')\n    expect(loadBests(defaults)).toEqual({\n      a: 1000,\n      b: 2000,\n      c: 3000,\n      d: 4000,\n      e: 5000,\n      f: 0,\n      g: null,\n    })\n    expect(defaults).toEqual({ a: 1000, b: 2000, c: 3000, d: 4000, e: 5000, f: 6000, g: 7000 })\n  })\n\n  it('bests 必须是记录对象，合法 JSON 标量或数组仍回退默认副本', () => {\n    const defaults = { a: 1000 }\n    for (const raw of ['null', '42', '\"text\"', 'true', '[42]']) {\n      localStorage.setItem(KEY, raw)\n      const result = loadBests(defaults)\n      expect(result).toEqual(defaults)\n      expect(result).not.toBe(defaults)\n    }\n  })\n})\n",
+          "to": "import { afterEach, beforeEach, describe, expect, it } from 'vitest'\nimport { loadBests, loadSettings, saveSetting } from './store.js'\n\ndescribe('L21 store 坏数据与往返', () => {\n  it('bests 非法 JSON 返回 defaults 副本', () => {\n    localStorage.setItem(BESTS_KEY, '{not json')\n    const defaults = { a: 1000, b: null }\n    const out = loadBests(defaults)\n    expect(out).toEqual({ a: 1000, b: null })\n    expect(out).not.toBe(defaults) // 副本\n  })\n\n  it('banana 设置可往返，非法设置值按各键规则回退', () => {\n    saveSetting('banana', true)\n    expect(loadSettings()).toEqual({ enabled: false, show: true, banana: true })\n    localStorage.setItem('tp-speedrun-enabled', 'yes')\n    localStorage.setItem('tp-speedrun-show', 'yes')\n    localStorage.setItem('tp-speedrun-banana', 'yes')\n    expect(loadSettings()).toEqual({ enabled: false, show: true, banana: false })\n  })\n\n  it('bests 非法数值逐键回退，保留同批合法值与 null，不污染 defaults', () => {\n    const defaults = { a: 1000, b: 2000, c: 3000, d: 4000, e: 5000, f: 6000, g: 7000 }\n    localStorage.setItem(BESTS_KEY, '{\"a\":-1,\"b\":\"bad\",\"c\":1e400,\"d\":false,\"e\":{},\"f\":0,\"g\":null}')\n    expect(loadBests(defaults)).toEqual({\n      a: 1000,\n      b: 2000,\n      c: 3000,\n      d: 4000,\n      e: 5000,\n      f: 0,\n      g: null,\n    })\n    expect(defaults).toEqual({ a: 1000, b: 2000, c: 3000, d: 4000, e: 5000, f: 6000, g: 7000 })\n  })\n\n  it('bests 必须是记录对象，合法 JSON 标量或数组仍回退默认副本', () => {\n    const defaults = { a: 1000 }\n    for (const raw of ['null', '42', '\"text\"', 'true', '[42]']) {\n      localStorage.setItem(BESTS_KEY, raw)\n      const result = loadBests(defaults)\n      expect(result).toEqual(defaults)\n      expect(result).not.toBe(defaults)\n    }\n  })\n})\n\nconst BESTS_KEY = 'tp-speedrun-bests'\nconst OWNED_STORAGE_KEYS = [\n  'tp-speedrun-enabled',\n  'tp-speedrun-show',\n  'tp-speedrun-banana',\n  BESTS_KEY,\n]\nlet previousValues = new Map<string, string | null>()\nlet previousLayout: string | undefined\nbeforeEach(() => {\n  previousValues = new Map()\n  for (const key of OWNED_STORAGE_KEYS) previousValues.set(key, localStorage.getItem(key))\n  previousLayout = document.documentElement.dataset.tpLayout\n  for (const key of OWNED_STORAGE_KEYS) localStorage.removeItem(key)\n  document.documentElement.dataset.tpLayout = 'desktop'\n})\nafterEach(() => {\n  try {\n    for (const [key, value] of previousValues) {\n      if (value === null) localStorage.removeItem(key)\n      else localStorage.setItem(key, value)\n    }\n  } finally {\n    if (previousLayout === undefined) delete document.documentElement.dataset.tpLayout\n    else document.documentElement.dataset.tpLayout = previousLayout\n  }\n})\n",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "replacements": [],
+  "registrations": [
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/time-format.test.ts",
+        "ordinal": 0
+      },
+      "originalOrdinal": 0,
+      "current": {
+        "file": "packages/game/src/tools/speedrun/time-format.test.ts",
+        "titles": ["Clock and difference formatting"],
+        "template": "formatClock 到厘秒"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/time-format.test.ts",
+        "ordinal": 1
+      },
+      "originalOrdinal": 1,
+      "current": {
+        "file": "packages/game/src/tools/speedrun/time-format.test.ts",
+        "titles": ["Clock and difference formatting"],
+        "template": "formatHms 到秒"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/time-format.test.ts",
+        "ordinal": 2
+      },
+      "originalOrdinal": 2,
+      "current": {
+        "file": "packages/game/src/tools/speedrun/time-format.test.ts",
+        "titles": ["Time parsing"],
+        "template": "parseHms 支持 H:MM:SS 与 M:SS"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/time-format.test.ts",
+        "ordinal": 3
+      },
+      "originalOrdinal": 3,
+      "current": {
+        "file": "packages/game/src/tools/speedrun/time-format.test.ts",
+        "titles": ["Clock and difference formatting"],
+        "template": "formatDiff 带符号"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/time-format.boundaries.test.ts",
+        "ordinal": 0
+      },
+      "originalOrdinal": 0,
+      "current": {
+        "file": "packages/game/src/tools/speedrun/time-format.test.ts",
+        "titles": ["Clock and difference formatting"],
+        "template": "formatClock 截断厘秒；整分和整小时前后正确进位"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/time-format.boundaries.test.ts",
+        "ordinal": 1
+      },
+      "originalOrdinal": 1,
+      "current": {
+        "file": "packages/game/src/tools/speedrun/time-format.test.ts",
+        "titles": ["Clock and difference formatting"],
+        "template": "formatClock 负数归零"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/time-format.boundaries.test.ts",
+        "ordinal": 2
+      },
+      "originalOrdinal": 2,
+      "current": {
+        "file": "packages/game/src/tools/speedrun/time-format.test.ts",
+        "titles": ["Clock and difference formatting"],
+        "template": "formatHms 在整小时边界截断到秒"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/time-format.boundaries.test.ts",
+        "ordinal": 3
+      },
+      "originalOrdinal": 3,
+      "current": {
+        "file": "packages/game/src/tools/speedrun/time-format.test.ts",
+        "titles": ["Clock and difference formatting"],
+        "template": "formatHms 负数归零"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/time-format.boundaries.test.ts",
+        "ordinal": 4
+      },
+      "originalOrdinal": 4,
+      "current": {
+        "file": "packages/game/src/tools/speedrun/time-format.test.ts",
+        "titles": ["Clock and difference formatting"],
+        "template": "formatDiff 绝对值截断到整秒，保留不足一秒的负号"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/time-format.boundaries.test.ts",
+        "ordinal": 5
+      },
+      "originalOrdinal": 5,
+      "current": {
+        "file": "packages/game/src/tools/speedrun/time-format.test.ts",
+        "titles": ["Time parsing"],
+        "template": "parseHms 允许段内首尾空白"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/time-format.boundaries.test.ts",
+        "ordinal": 6
+      },
+      "originalOrdinal": 6,
+      "current": {
+        "file": "packages/game/src/tools/speedrun/time-format.test.ts",
+        "titles": ["Time parsing"],
+        "template": "parseHms 拒绝负号、空段、非数字、秒越界和错误段数"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/time-format.boundaries.test.ts",
+        "ordinal": 7
+      },
+      "originalOrdinal": 7,
+      "current": {
+        "file": "packages/game/src/tools/speedrun/time-format.test.ts",
+        "titles": ["Time parsing"],
+        "template": "parseHms：总毫秒溢出时拒绝，避免工具面板把 Infinity 持久化成 null"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/time-format.glm-phase1-leaves.test.ts",
+        "ordinal": 0
+      },
+      "originalOrdinal": 0,
+      "current": {
+        "file": "packages/game/src/tools/speedrun/time-format.test.ts",
+        "titles": ["Time parsing"],
+        "template": "小时字段拒绝科学计数法，即便 Number 能转换它"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/time-format.glm-phase1-leaves.test.ts",
+        "ordinal": 1
+      },
+      "originalOrdinal": 1,
+      "current": {
+        "file": "packages/game/src/tools/speedrun/time-format.test.ts",
+        "titles": ["Time parsing"],
+        "template": "分钟为 60 且秒合法时仍拒绝"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/detectors.test.ts",
+        "ordinal": 0
+      },
+      "originalOrdinal": 0,
+      "current": {
+        "file": "packages/game/src/tools/speedrun/detectors.test.ts",
+        "titles": ["Scene edges and positions"],
+        "template": "enterScene 仅在进入那一帧触发"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/detectors.test.ts",
+        "ordinal": 1
+      },
+      "originalOrdinal": 1,
+      "current": {
+        "file": "packages/game/src/tools/speedrun/detectors.test.ts",
+        "titles": ["Scene edges and positions"],
+        "template": "leaveScene 仅在离开那一帧触发"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/detectors.test.ts",
+        "ordinal": 2
+      },
+      "originalOrdinal": 2,
+      "current": {
+        "file": "packages/game/src/tools/speedrun/detectors.test.ts",
+        "titles": ["Scene edges and positions"],
+        "template": "enterAnyScene 任一进入即触发"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/detectors.test.ts",
+        "ordinal": 3
+      },
+      "originalOrdinal": 3,
+      "current": {
+        "file": "packages/game/src/tools/speedrun/detectors.test.ts",
+        "titles": ["Scene edges and positions"],
+        "template": "atSpot 容差矩形"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/detectors.test.ts",
+        "ordinal": 4
+      },
+      "originalOrdinal": 4,
+      "current": {
+        "file": "packages/game/src/tools/speedrun/detectors.test.ts",
+        "titles": ["Battle, inventory and music predicates"],
+        "template": "bossWon 需 boss 在场且全场血≤0"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/detectors.test.ts",
+        "ordinal": 5
+      },
+      "originalOrdinal": 5,
+      "current": {
+        "file": "packages/game/src/tools/speedrun/detectors.test.ts",
+        "titles": ["Battle, inventory and music predicates"],
+        "template": "hasItem 只命中背包中的指定物品"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/detectors.test.ts",
+        "ordinal": 6
+      },
+      "originalOrdinal": 6,
+      "current": {
+        "file": "packages/game/src/tools/speedrun/detectors.test.ts",
+        "titles": ["Battle, inventory and music predicates"],
+        "template": "bgmIs 只命中指定音乐号"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/detectors.test.ts",
+        "ordinal": 7
+      },
+      "originalOrdinal": 7,
+      "current": {
+        "file": "packages/game/src/tools/speedrun/detectors.test.ts",
+        "titles": ["Stateful Caiyi detection"],
+        "template": "caiyi 两段:先见 71 入场,再等其消失/血≤0"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/detectors.test.ts",
+        "ordinal": 8
+      },
+      "originalOrdinal": 8,
+      "current": {
+        "file": "packages/game/src/tools/speedrun/detectors.test.ts",
+        "titles": ["Stateful Caiyi detection"],
+        "template": "caiyi 第二段:战斗结束(battle=null)也触发"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/detectors.glm-phase1-leaves.test.ts",
+        "ordinal": 0
+      },
+      "originalOrdinal": 0,
+      "current": {
+        "file": "packages/game/src/tools/speedrun/detectors.test.ts",
+        "titles": ["Scene edges and positions"],
+        "template": "atSpot 默认容差 ±48/±24：恰好边界命中、超出 1px 不命中"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/detectors.glm-phase1-leaves.test.ts",
+        "ordinal": 1
+      },
+      "originalOrdinal": 1,
+      "current": {
+        "file": "packages/game/src/tools/speedrun/detectors.test.ts",
+        "titles": ["Scene edges and positions"],
+        "template": "atAnySpot 多点：任一格命中即真；全部未命中/场景不符为假"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/detectors.glm-phase1-leaves.test.ts",
+        "ordinal": 2
+      },
+      "originalOrdinal": 2,
+      "current": {
+        "file": "packages/game/src/tools/speedrun/detectors.test.ts",
+        "titles": ["Stateful Caiyi detection"],
+        "template": "caiyiDetector 自定义敌 id：见 72 置位，其消失触发"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/store.test.ts",
+        "ordinal": 0
+      },
+      "originalOrdinal": 0,
+      "current": {
+        "file": "packages/game/src/tools/speedrun/store.test.ts",
+        "titles": ["Settings and personal best persistence"],
+        "template": "settings 默认:enabled=false, show=true, banana=false"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/store.test.ts",
+        "ordinal": 1
+      },
+      "originalOrdinal": 1,
+      "current": {
+        "file": "packages/game/src/tools/speedrun/store.test.ts",
+        "titles": ["Settings and personal best persistence"],
+        "template": "saveSetting 往返"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/store.test.ts",
+        "ordinal": 2
+      },
+      "originalOrdinal": 2,
+      "current": {
+        "file": "packages/game/src/tools/speedrun/store.test.ts",
+        "titles": ["Settings and personal best persistence"],
+        "template": "bests 无记录时返回 defaults 副本"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/store.test.ts",
+        "ordinal": 3
+      },
+      "originalOrdinal": 3,
+      "current": {
+        "file": "packages/game/src/tools/speedrun/store.test.ts",
+        "titles": ["Settings and personal best persistence"],
+        "template": "bests 往返只覆盖默认骨架中的 key，缺失项保留默认值"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/store.test.ts",
+        "ordinal": 4
+      },
+      "originalOrdinal": 4,
+      "current": {
+        "file": "packages/game/src/tools/speedrun/store.test.ts",
+        "titles": ["Settings and personal best persistence"],
+        "template": "保留真实计时器产生的小数毫秒 PB，刷新后不恢复成默认成绩"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/store.glm-phase1-leaves.test.ts",
+        "ordinal": 0
+      },
+      "originalOrdinal": 0,
+      "current": {
+        "file": "packages/game/src/tools/speedrun/store.test.ts",
+        "titles": ["Personal best input validation"],
+        "template": "bests 非法 JSON 返回 defaults 副本"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/store.glm-phase1-leaves.test.ts",
+        "ordinal": 1
+      },
+      "originalOrdinal": 1,
+      "current": {
+        "file": "packages/game/src/tools/speedrun/store.test.ts",
+        "titles": ["Settings and personal best persistence"],
+        "template": "banana 设置可往返，非法设置值按各键规则回退"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/store.glm-phase1-leaves.test.ts",
+        "ordinal": 2
+      },
+      "originalOrdinal": 2,
+      "current": {
+        "file": "packages/game/src/tools/speedrun/store.test.ts",
+        "titles": ["Personal best input validation"],
+        "template": "bests 非法数值逐键回退，保留同批合法值与 null，不污染 defaults"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/store.glm-phase1-leaves.test.ts",
+        "ordinal": 3
+      },
+      "originalOrdinal": 3,
+      "current": {
+        "file": "packages/game/src/tools/speedrun/store.test.ts",
+        "titles": ["Personal best input validation"],
+        "template": "bests 必须是记录对象，合法 JSON 标量或数组仍回退默认副本"
+      }
+    }
+  ],
+  "identities": [
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/time-format.test.ts",
+        "fullName": "time-format formatClock 到厘秒"
+      },
+      "current": {
+        "file": "packages/game/src/tools/speedrun/time-format.test.ts",
+        "fullName": "Clock and difference formatting formatClock 到厘秒"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/time-format.test.ts",
+        "fullName": "time-format formatHms 到秒"
+      },
+      "current": {
+        "file": "packages/game/src/tools/speedrun/time-format.test.ts",
+        "fullName": "Clock and difference formatting formatHms 到秒"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/time-format.test.ts",
+        "fullName": "time-format parseHms 支持 H:MM:SS 与 M:SS"
+      },
+      "current": {
+        "file": "packages/game/src/tools/speedrun/time-format.test.ts",
+        "fullName": "Time parsing parseHms 支持 H:MM:SS 与 M:SS"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/time-format.test.ts",
+        "fullName": "time-format formatDiff 带符号"
+      },
+      "current": {
+        "file": "packages/game/src/tools/speedrun/time-format.test.ts",
+        "fullName": "Clock and difference formatting formatDiff 带符号"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/time-format.boundaries.test.ts",
+        "fullName": "H08 进位与符号边界 formatClock 截断厘秒；整分和整小时前后正确进位"
+      },
+      "current": {
+        "file": "packages/game/src/tools/speedrun/time-format.test.ts",
+        "fullName": "Clock and difference formatting formatClock 截断厘秒；整分和整小时前后正确进位"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/time-format.boundaries.test.ts",
+        "fullName": "H08 进位与符号边界 formatClock 负数归零"
+      },
+      "current": {
+        "file": "packages/game/src/tools/speedrun/time-format.test.ts",
+        "fullName": "Clock and difference formatting formatClock 负数归零"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/time-format.boundaries.test.ts",
+        "fullName": "H08 进位与符号边界 formatHms 在整小时边界截断到秒"
+      },
+      "current": {
+        "file": "packages/game/src/tools/speedrun/time-format.test.ts",
+        "fullName": "Clock and difference formatting formatHms 在整小时边界截断到秒"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/time-format.boundaries.test.ts",
+        "fullName": "H08 进位与符号边界 formatHms 负数归零"
+      },
+      "current": {
+        "file": "packages/game/src/tools/speedrun/time-format.test.ts",
+        "fullName": "Clock and difference formatting formatHms 负数归零"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/time-format.boundaries.test.ts",
+        "fullName": "H08 进位与符号边界 formatDiff 绝对值截断到整秒，保留不足一秒的负号"
+      },
+      "current": {
+        "file": "packages/game/src/tools/speedrun/time-format.test.ts",
+        "fullName": "Clock and difference formatting formatDiff 绝对值截断到整秒，保留不足一秒的负号"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/time-format.boundaries.test.ts",
+        "fullName": "H08 进位与符号边界 parseHms 允许段内首尾空白"
+      },
+      "current": {
+        "file": "packages/game/src/tools/speedrun/time-format.test.ts",
+        "fullName": "Time parsing parseHms 允许段内首尾空白"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/time-format.boundaries.test.ts",
+        "fullName": "H08 进位与符号边界 parseHms 拒绝负号、空段、非数字、秒越界和错误段数"
+      },
+      "current": {
+        "file": "packages/game/src/tools/speedrun/time-format.test.ts",
+        "fullName": "Time parsing parseHms 拒绝负号、空段、非数字、秒越界和错误段数"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/time-format.boundaries.test.ts",
+        "fullName": "H08 进位与符号边界 parseHms：总毫秒溢出时拒绝，避免工具面板把 Infinity 持久化成 null"
+      },
+      "current": {
+        "file": "packages/game/src/tools/speedrun/time-format.test.ts",
+        "fullName": "Time parsing parseHms：总毫秒溢出时拒绝，避免工具面板把 Infinity 持久化成 null"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/time-format.glm-phase1-leaves.test.ts",
+        "fullName": "L20 time-format 解析拒绝边界 小时字段拒绝科学计数法，即便 Number 能转换它"
+      },
+      "current": {
+        "file": "packages/game/src/tools/speedrun/time-format.test.ts",
+        "fullName": "Time parsing 小时字段拒绝科学计数法，即便 Number 能转换它"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/time-format.glm-phase1-leaves.test.ts",
+        "fullName": "L20 time-format 解析拒绝边界 分钟为 60 且秒合法时仍拒绝"
+      },
+      "current": {
+        "file": "packages/game/src/tools/speedrun/time-format.test.ts",
+        "fullName": "Time parsing 分钟为 60 且秒合法时仍拒绝"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/detectors.test.ts",
+        "fullName": "detectors enterScene 仅在进入那一帧触发"
+      },
+      "current": {
+        "file": "packages/game/src/tools/speedrun/detectors.test.ts",
+        "fullName": "Scene edges and positions enterScene 仅在进入那一帧触发"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/detectors.test.ts",
+        "fullName": "detectors leaveScene 仅在离开那一帧触发"
+      },
+      "current": {
+        "file": "packages/game/src/tools/speedrun/detectors.test.ts",
+        "fullName": "Scene edges and positions leaveScene 仅在离开那一帧触发"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/detectors.test.ts",
+        "fullName": "detectors enterAnyScene 任一进入即触发"
+      },
+      "current": {
+        "file": "packages/game/src/tools/speedrun/detectors.test.ts",
+        "fullName": "Scene edges and positions enterAnyScene 任一进入即触发"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/detectors.test.ts",
+        "fullName": "detectors atSpot 容差矩形"
+      },
+      "current": {
+        "file": "packages/game/src/tools/speedrun/detectors.test.ts",
+        "fullName": "Scene edges and positions atSpot 容差矩形"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/detectors.test.ts",
+        "fullName": "detectors bossWon 需 boss 在场且全场血≤0"
+      },
+      "current": {
+        "file": "packages/game/src/tools/speedrun/detectors.test.ts",
+        "fullName": "Battle, inventory and music predicates bossWon 需 boss 在场且全场血≤0"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/detectors.test.ts",
+        "fullName": "detectors hasItem 只命中背包中的指定物品"
+      },
+      "current": {
+        "file": "packages/game/src/tools/speedrun/detectors.test.ts",
+        "fullName": "Battle, inventory and music predicates hasItem 只命中背包中的指定物品"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/detectors.test.ts",
+        "fullName": "detectors bgmIs 只命中指定音乐号"
+      },
+      "current": {
+        "file": "packages/game/src/tools/speedrun/detectors.test.ts",
+        "fullName": "Battle, inventory and music predicates bgmIs 只命中指定音乐号"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/detectors.test.ts",
+        "fullName": "detectors caiyi 两段:先见 71 入场,再等其消失/血≤0"
+      },
+      "current": {
+        "file": "packages/game/src/tools/speedrun/detectors.test.ts",
+        "fullName": "Stateful Caiyi detection caiyi 两段:先见 71 入场,再等其消失/血≤0"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/detectors.test.ts",
+        "fullName": "detectors caiyi 第二段:战斗结束(battle=null)也触发"
+      },
+      "current": {
+        "file": "packages/game/src/tools/speedrun/detectors.test.ts",
+        "fullName": "Stateful Caiyi detection caiyi 第二段:战斗结束(battle=null)也触发"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/detectors.glm-phase1-leaves.test.ts",
+        "fullName": "L08 detectors 剩余边界 atSpot 默认容差 ±48/±24：恰好边界命中、超出 1px 不命中"
+      },
+      "current": {
+        "file": "packages/game/src/tools/speedrun/detectors.test.ts",
+        "fullName": "Scene edges and positions atSpot 默认容差 ±48/±24：恰好边界命中、超出 1px 不命中"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/detectors.glm-phase1-leaves.test.ts",
+        "fullName": "L08 detectors 剩余边界 atAnySpot 多点：任一格命中即真；全部未命中/场景不符为假"
+      },
+      "current": {
+        "file": "packages/game/src/tools/speedrun/detectors.test.ts",
+        "fullName": "Scene edges and positions atAnySpot 多点：任一格命中即真；全部未命中/场景不符为假"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/detectors.glm-phase1-leaves.test.ts",
+        "fullName": "L08 detectors 剩余边界 caiyiDetector 自定义敌 id：见 72 置位，其消失触发"
+      },
+      "current": {
+        "file": "packages/game/src/tools/speedrun/detectors.test.ts",
+        "fullName": "Stateful Caiyi detection caiyiDetector 自定义敌 id：见 72 置位，其消失触发"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/store.test.ts",
+        "fullName": "speedrun store settings 默认:enabled=false, show=true, banana=false"
+      },
+      "current": {
+        "file": "packages/game/src/tools/speedrun/store.test.ts",
+        "fullName": "Settings and personal best persistence settings 默认:enabled=false, show=true, banana=false"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/store.test.ts",
+        "fullName": "speedrun store saveSetting 往返"
+      },
+      "current": {
+        "file": "packages/game/src/tools/speedrun/store.test.ts",
+        "fullName": "Settings and personal best persistence saveSetting 往返"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/store.test.ts",
+        "fullName": "speedrun store bests 无记录时返回 defaults 副本"
+      },
+      "current": {
+        "file": "packages/game/src/tools/speedrun/store.test.ts",
+        "fullName": "Settings and personal best persistence bests 无记录时返回 defaults 副本"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/store.test.ts",
+        "fullName": "speedrun store bests 往返只覆盖默认骨架中的 key，缺失项保留默认值"
+      },
+      "current": {
+        "file": "packages/game/src/tools/speedrun/store.test.ts",
+        "fullName": "Settings and personal best persistence bests 往返只覆盖默认骨架中的 key，缺失项保留默认值"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/store.test.ts",
+        "fullName": "speedrun store 保留真实计时器产生的小数毫秒 PB，刷新后不恢复成默认成绩"
+      },
+      "current": {
+        "file": "packages/game/src/tools/speedrun/store.test.ts",
+        "fullName": "Settings and personal best persistence 保留真实计时器产生的小数毫秒 PB，刷新后不恢复成默认成绩"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/store.glm-phase1-leaves.test.ts",
+        "fullName": "L21 store 坏数据与往返 bests 非法 JSON 返回 defaults 副本"
+      },
+      "current": {
+        "file": "packages/game/src/tools/speedrun/store.test.ts",
+        "fullName": "Personal best input validation bests 非法 JSON 返回 defaults 副本"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/store.glm-phase1-leaves.test.ts",
+        "fullName": "L21 store 坏数据与往返 banana 设置可往返，非法设置值按各键规则回退"
+      },
+      "current": {
+        "file": "packages/game/src/tools/speedrun/store.test.ts",
+        "fullName": "Settings and personal best persistence banana 设置可往返，非法设置值按各键规则回退"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/store.glm-phase1-leaves.test.ts",
+        "fullName": "L21 store 坏数据与往返 bests 非法数值逐键回退，保留同批合法值与 null，不污染 defaults"
+      },
+      "current": {
+        "file": "packages/game/src/tools/speedrun/store.test.ts",
+        "fullName": "Personal best input validation bests 非法数值逐键回退，保留同批合法值与 null，不污染 defaults"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/speedrun/store.glm-phase1-leaves.test.ts",
+        "fullName": "L21 store 坏数据与往返 bests 必须是记录对象，合法 JSON 标量或数组仍回退默认副本"
+      },
+      "current": {
+        "file": "packages/game/src/tools/speedrun/store.test.ts",
+        "fullName": "Personal best input validation bests 必须是记录对象，合法 JSON 标量或数组仍回退默认副本"
+      }
+    }
+  ],
+  "id": "speedrun-data",
+  "kind": "data",
+  "namespace": "organization-speedrun-data",
+  "cohortSubjects": [
+    {
+      "path": "packages/game/src/tools/speedrun/time-format.glm-phase1-leaves.test.ts",
+      "sha256": "79411da90343bc7a2346df5e4743c3ab47146df823e15d160e9f20d7ecab5076",
+      "priorCurrentBridges": []
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/detectors.glm-phase1-leaves.test.ts",
+      "sha256": "c13eaf0ad4f95c7e0d4cddcaa71824b9b685872ff7a3b7098089b8928ea5eacc",
+      "priorCurrentBridges": []
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/store.glm-phase1-leaves.test.ts",
+      "sha256": "25b0d4cf610529a4fc67bf97a1c488a3ce53233883c51a4c0003e987aa349d77",
+      "priorCurrentBridges": []
+    }
+  ],
+  "preserved": [
+    {
+      "path": "packages/game/src/tools/speedrun/time-format.ts",
+      "sha256": "ba19622f9f2f969a58e5f88fb6ca5c32983931493915a769afb4f72553c32a92"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/detectors.ts",
+      "sha256": "c2209367f139dd37dbc77bf11d59c76a63fe687b90de607b35e152d4e48cb60c"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/store.ts",
+      "sha256": "3ed91fc0eba9daa62805e0d0b9d4e098cf55553a3db05b5b7f9f195326365d4b"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/snapshot.ts",
+      "sha256": "496c27dbc9eedfc5a9e87eb00018ddad506886796b7cf4c4cd46a8784520cd62"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/timer.ts",
+      "sha256": "a5fcf2a7380eca2afc4e93832075b2847671ffba597c5f12e1b8e8a1cf252f2c"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/checkpoints.ts",
+      "sha256": "2ad3aa9b736ec768d29ea865c98436b7792e6883a9d5896fae3e0e0c22c5cebb"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/index.ts",
+      "sha256": "26f79ca8271020de7f0663698cf52a665cf367e67db475af714167d996c241ad"
+    },
+    {
+      "path": "packages/game/src/shell/presentation.ts",
+      "sha256": "2c6229b3b85271c52c80d9143d7aa6568aa6e2c507f30a84d4722028f4fa06bd"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/overlay.ts",
+      "sha256": "5faaa4fbff490389ccb36d9a24eeaac33fc1807443ca59686da0e81031b94a62"
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel.ts",
+      "sha256": "b7f45736b940fa55952d1f28272eabf37c6331090fb14d4b37701df83c5cc596"
+    }
+  ],
+  "neighborPaths": [
+    "packages/game/src/shell/bootstrap.error.test.ts",
+    "packages/game/src/shell/shell-bootstrap.glm-shell.test.ts",
+    "packages/game/src/shell/bootstrap-audio.test.ts",
+    "packages/game/src/shell/bootstrap-load.test.ts",
+    "packages/game/src/shell/main-loop.lifecycle.test.ts",
+    "packages/game/src/shell/precache-client.test.ts",
+    "packages/game/src/tools/speedrun/time-format.test.ts",
+    "packages/game/src/tools/speedrun/detectors.test.ts",
+    "packages/game/src/tools/speedrun/store.test.ts",
+    "packages/game/src/tools/speedrun/timer.test.ts",
+    "packages/game/src/tools/speedrun/timer.boundaries.test.ts",
+    "packages/game/src/tools/speedrun/snapshot.test.ts",
+    "packages/game/src/tools/speedrun/checkpoints.test.ts",
+    "packages/game/src/tools/speedrun/index.test.ts"
+  ],
+  "cleanExecutions": [
+    "before",
+    "organization",
+    "proof",
+    "counter-old-proof",
+    "counter-new-proof",
+    "cleanup-proof",
+    "module-preflight",
+    "neighbors",
+    "typecheck",
+    "docs",
+    "content-review",
+    "lint",
+    "testing-docs",
+    "diff",
+    "scoped-r2",
+    "ledger-final"
+  ],
+  "lightweightGates": true,
+  "counters": ["counter-caiyi.json"],
+  "cleanupProbe": {
+    "sourceTestPath": "packages/game/src/tools/speedrun/store.test.ts",
+    "currentSha256": "07ad4871244e529da6db6aa449d12a610b6458d6c3567b48fb6214a16bb5f839",
+    "currentTestExact": true,
+    "records": [
+      {
+        "stage": "old",
+        "probeSha256": "41fcec5484e8947deb05596773937b1b442f22b2f2a96344ae46d8ab0bf04fc4",
+        "fullName": "speedrun store saveSetting 往返",
+        "observation": {
+          "values": {
+            "tp-speedrun-enabled": null,
+            "tp-speedrun-show": null,
+            "tp-speedrun-banana": null,
+            "tp-speedrun-bests": null,
+            "outside-speedrun-probe": null
+          },
+          "layout": "mobile"
+        }
+      },
+      {
+        "stage": "new",
+        "probeSha256": "14bcde783be3c274608806ed34944c994673447269971d9004f62d0490006e8e",
+        "fullName": "Settings and personal best persistence saveSetting 往返",
+        "observation": {
+          "values": {
+            "tp-speedrun-enabled": "1",
+            "tp-speedrun-show": "0",
+            "tp-speedrun-banana": "1",
+            "tp-speedrun-bests": "{\"prior\":234.5}",
+            "outside-speedrun-probe": "keep"
+          },
+          "layout": "mobile"
+        }
+      }
+    ],
+    "scope": "Two deliberate earlyAssertionErrors,not productmutants. Newhook restores4ownedkeys/prior mobile layout andkeepsunrelatedkey; oldclear-all deletesallfive. Diagnosticobserverfinallyrestores its ownseeds."
+  },
+  "fixtureAndCallbackProof": "organization-speedrun-data/proof.stdout.raw",
+  "reusedReviewMember": "organization-speedrun-data/reused-reviews.json",
+  "profiles": [
+    {
+      "path": "packages/game/src/tools/speedrun/time-format.test.ts",
+      "subjects": [
+        "packages/game/src/tools/speedrun/time-format.glm-phase1-leaves.test.ts",
+        "packages/game/src/tools/speedrun/detectors.glm-phase1-leaves.test.ts",
+        "packages/game/src/tools/speedrun/store.glm-phase1-leaves.test.ts"
+      ],
+      "axes": {
+        "A": "14例核clock/秒/差值与parser：0/负值、厘秒截断、整分/小时前后、子秒负号、2/3段/空白、负号/空段/非数字/分钟或秒越界、科学记数法与有限段总毫秒溢出。实际tools输入parse与overlay有限时间caller已核。",
+        "B": "去leaves/boundary批次分隔和过时相互指针；单位ms/厘秒、截断而非四舍五入从独立字面量可读。保308位9只击总毫秒overflow的说明，不宣称任意非有限输入可格式化。",
+        "C": "格式化和解析纯函数同域集中成8/6两个suite，无IO、状态或跨层写入；不与storage坏JSON政策混为一组。",
+        "D": "三个同合同纯spec归一，保不同输入轴，不为两位pad或两个locale结果另造测试helper。产品实现/公共签名不动。",
+        "E": "14原身份/断言全部保全，literal输出不是用格式函数反算oracle。负控/finite守卫历史证据按原SHA复用，本片不为已足够支撑case重复造counter；96相邻/TC0。",
+        "F": "time-format文件按能力而非作者/边界波次组织；suite直指Clock/difference vsTimeparsing，标题明确进位/拒绝轴。",
+        "G": "零退例/新增例；保分钟60秒合法与秒60两独立守卫，也保总乘法overflow与字段NumberFinite的区别。去三个小文件的重复导入/导航噪声。",
+        "H": "纯输入/输出，无mock/time/全局环境；两种语法树尾断言差异负控证明正文比较不是空比较，当前路径由native报告确认。"
+      }
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/detectors.test.ts",
+      "subjects": [
+        "packages/game/src/tools/speedrun/time-format.glm-phase1-leaves.test.ts",
+        "packages/game/src/tools/speedrun/detectors.glm-phase1-leaves.test.ts",
+        "packages/game/src/tools/speedrun/store.glm-phase1-leaves.test.ts"
+      ],
+      "axes": {
+        "A": "12例核enter/leave边沿、集合、显式/默认容差、任一地点、boss/物品/音乐和caiyi mem双阶段。ProgressSnapshot为真实接口，timer给每checkpoint独立mem；原盘默认71路线可达性不由custom72API例推出。",
+        "B": "去L08/作者导读，progressSnapshot比snap说明数据；保坐标±48/24与活敌HP3拒绝借battle=null/cleared过门的理由；尾null注释改为战斗结束。",
+        "C": "fixture只造fresh快照/Set，stateful记忆由测试显式mem持有并验证untouched独立；检测器不写游戏状态，生产snapshot只读GS。",
+        "D": "两份完全同体ProgressSnapshot构造经严格typed声明比较归一，参数overrides显意；不同predicate/生命周期不抽万能布尔helper。",
+        "E": "12身份、原所有断言保留，仅custom72例加其它活71、HP3的离场true，原nulltrue仍保留。真实gone分支删除变异旧1绿/新指定AssertionError；不依赖全场HP清零或mock次数。",
+        "F": "按Scene/positions、battle/item/music、stateful三suite归位；progressSnapshot与overrides揭示输入域，case保显式true/false独立oracle。",
+        "G": "不再按作者堆边界文件；零退例且不把default/explicittol或default/customid强合。fixture合一减少共同修改点，无新出口。",
+        "H": "直接注入typed快照和mem，实际predicate执行；源精确恢复。纯声明/callback比较均用完整树和负控，不使用核心mock或不合法asset数据。"
+      }
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/store.test.ts",
+      "subjects": [
+        "packages/game/src/tools/speedrun/time-format.glm-phase1-leaves.test.ts",
+        "packages/game/src/tools/speedrun/detectors.glm-phase1-leaves.test.ts",
+        "packages/game/src/tools/speedrun/store.glm-phase1-leaves.test.ts"
+      ],
+      "axes": {
+        "A": "9例核desktop默认/设置往返、默认副本、骨架过滤/缺项、真实Timer1000.5ms PB、非法JSON/逐键值/JSON标量数组。四key属于全局速通偏好而非Save，格式/产品不改。",
+        "B": "去L21排重批次头，保非法JSON/逐值有限性/真实PB的具体说明。显式desktop说明UI布局前提，不把缺省jsdom状态当产品所有布局结果。",
+        "C": "before/after只拥有4速通key及临时tpLayout，先存原值、删除自有值、设desktop，结束还原原值/布局；替换清空整Storage，未知外部键不动。实际store/timer状态Owner保持。",
+        "D": "两份同语义desktop存储spec共一套显式生命周期，纯format与predicate不共享IO清理；BESTS_KEY标明持久名，无万能Storage模拟或模式开关。",
+        "E": "9callback经KEY私有名桥保持，realSpeedrunTimer产生的小数PB断言不改。两次故意早失败探针：旧clear丢4值和无关键，新还原4值/mobile并保无关键；仅指定AssertionError，非产品bug红例。",
+        "F": "Settings/PB与坏数据两suite显式职责；previousValues/previousLayout/OWNED_STORAGE_KEYS说明捕获与恢复，不隐式注册fixturehook。",
+        "G": "删除重复clear-all setup，零case退役/新增；保有值null/0、小数PB、非法记录和逐键拒绝不同合同，不靠默认副本clone自比替全部业务断言。",
+        "H": "原生jsdom Storage/JSON parser和实际Timer，不mock核心；布局用真实data属性，独立清理在早失败后也可观察；96相邻、当前TC0、无cast/ignore/规则放宽。"
+      }
+    }
+  ],
+  "primarySources": [
+    {
+      "path": "packages/game/src/tools/speedrun/time-format.ts",
+      "sha256": "ba19622f9f2f969a58e5f88fb6ca5c32983931493915a769afb4f72553c32a92",
+      "scope": "Full currentprojecttoolimplementation read; no SDLmechanism modification or alignment claim."
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/detectors.ts",
+      "sha256": "c2209367f139dd37dbc77bf11d59c76a63fe687b90de607b35e152d4e48cb60c",
+      "scope": "Full currentprojecttoolimplementation read; no SDLmechanism modification or alignment claim."
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/store.ts",
+      "sha256": "3ed91fc0eba9daa62805e0d0b9d4e098cf55553a3db05b5b7f9f195326365d4b",
+      "scope": "Full currentprojecttoolimplementation read; no SDLmechanism modification or alignment claim."
+    }
+  ],
+  "reads": {
+    "fullInputs": [
+      {
+        "path": "packages/game/src/tools/speedrun/time-format.test.ts",
+        "sha256": "61046994eb6a6dd74a1fc16df10f6411aa470565fe30d94bbd34fbb174a9be75",
+        "member": "organization-speedrun-data/0.before",
+        "lines": 23,
+        "scope": "Full currenttest input read,allcases/hooks/fixtures."
+      },
+      {
+        "path": "packages/game/src/tools/speedrun/time-format.boundaries.test.ts",
+        "sha256": "ce31751bf2f91e1707bea710ae157e7bd15094d802c3757f9c896c1f60d9051f",
+        "member": "organization-speedrun-data/1.before",
+        "lines": 49,
+        "scope": "Full currenttest input read,allcases/hooks/fixtures."
+      },
+      {
+        "path": "packages/game/src/tools/speedrun/time-format.glm-phase1-leaves.test.ts",
+        "sha256": "79411da90343bc7a2346df5e4743c3ab47146df823e15d160e9f20d7ecab5076",
+        "member": "organization-speedrun-data/2.before",
+        "lines": 16,
+        "scope": "Full currenttest input read,allcases/hooks/fixtures."
+      },
+      {
+        "path": "packages/game/src/tools/speedrun/detectors.test.ts",
+        "sha256": "23e36b32f9edd8c89bf318ec65b9077d564838048ad0645f386a6499ff48f227",
+        "member": "organization-speedrun-data/3.before",
+        "lines": 93,
+        "scope": "Full currenttest input read,allcases/hooks/fixtures."
+      },
+      {
+        "path": "packages/game/src/tools/speedrun/detectors.glm-phase1-leaves.test.ts",
+        "sha256": "c13eaf0ad4f95c7e0d4cddcaa71824b9b685872ff7a3b7098089b8928ea5eacc",
+        "member": "organization-speedrun-data/4.before",
+        "lines": 58,
+        "scope": "Full currenttest input read,allcases/hooks/fixtures."
+      },
+      {
+        "path": "packages/game/src/tools/speedrun/store.test.ts",
+        "sha256": "cbedef3506732da37ffe8651638e7611df18cde49044cfb5f09dd1784f2a1e45",
+        "member": "organization-speedrun-data/5.before",
+        "lines": 55,
+        "scope": "Full currenttest input read,allcases/hooks/fixtures."
+      },
+      {
+        "path": "packages/game/src/tools/speedrun/store.glm-phase1-leaves.test.ts",
+        "sha256": "25b0d4cf610529a4fc67bf97a1c488a3ce53233883c51a4c0003e987aa349d77",
+        "member": "organization-speedrun-data/6.before",
+        "lines": 60,
+        "scope": "Full currenttest input read,allcases/hooks/fixtures."
+      }
+    ],
+    "fullImplementations": [
+      {
+        "path": "packages/game/src/tools/speedrun/time-format.ts",
+        "sha256": "ba19622f9f2f969a58e5f88fb6ca5c32983931493915a769afb4f72553c32a92",
+        "scope": "Fullcurrentimplementation/type/callerread,checkpointtailcompleted after first outputtruncated; no wholefileclosure."
+      },
+      {
+        "path": "packages/game/src/tools/speedrun/detectors.ts",
+        "sha256": "c2209367f139dd37dbc77bf11d59c76a63fe687b90de607b35e152d4e48cb60c",
+        "scope": "Fullcurrentimplementation/type/callerread,checkpointtailcompleted after first outputtruncated; no wholefileclosure."
+      },
+      {
+        "path": "packages/game/src/tools/speedrun/store.ts",
+        "sha256": "3ed91fc0eba9daa62805e0d0b9d4e098cf55553a3db05b5b7f9f195326365d4b",
+        "scope": "Fullcurrentimplementation/type/callerread,checkpointtailcompleted after first outputtruncated; no wholefileclosure."
+      },
+      {
+        "path": "packages/game/src/tools/speedrun/snapshot.ts",
+        "sha256": "496c27dbc9eedfc5a9e87eb00018ddad506886796b7cf4c4cd46a8784520cd62",
+        "scope": "Fullcurrentimplementation/type/callerread,checkpointtailcompleted after first outputtruncated; no wholefileclosure."
+      },
+      {
+        "path": "packages/game/src/tools/speedrun/timer.ts",
+        "sha256": "a5fcf2a7380eca2afc4e93832075b2847671ffba597c5f12e1b8e8a1cf252f2c",
+        "scope": "Fullcurrentimplementation/type/callerread,checkpointtailcompleted after first outputtruncated; no wholefileclosure."
+      },
+      {
+        "path": "packages/game/src/tools/speedrun/checkpoints.ts",
+        "sha256": "2ad3aa9b736ec768d29ea865c98436b7792e6883a9d5896fae3e0e0c22c5cebb",
+        "scope": "Fullcurrentimplementation/type/callerread,checkpointtailcompleted after first outputtruncated; no wholefileclosure."
+      }
+    ],
+    "currentOutputs": [
+      {
+        "path": "packages/game/src/tools/speedrun/time-format.test.ts",
+        "sha256": "d37e1c62f593763a2a826b32534c0d628189cd04e4bb0b0ec4bf2c099ecbee27",
+        "lines": 71,
+        "scope": "Fullresultingspec read; finalnullcomment-onlydelta separatelyfrozen."
+      },
+      {
+        "path": "packages/game/src/tools/speedrun/detectors.test.ts",
+        "sha256": "6af58bd39ddc7cf2b735a0bec939358c572e9fb9d02b1a671af68a8ea28bbd49",
+        "lines": 143,
+        "scope": "Fullresultingspec read; finalnullcomment-onlydelta separatelyfrozen."
+      },
+      {
+        "path": "packages/game/src/tools/speedrun/store.test.ts",
+        "sha256": "07ad4871244e529da6db6aa449d12a610b6458d6c3567b48fb6214a16bb5f839",
+        "lines": 119,
+        "scope": "Fullresultingspec read; finalnullcomment-onlydelta separatelyfrozen."
+      }
+    ],
+    "callers": [
+      {
+        "path": "packages/game/src/tools/speedrun/index.ts",
+        "sha256": "26f79ca8271020de7f0663698cf52a665cf367e67db475af714167d996c241ad",
+        "scope": "PrevioussameSHA fullindex read reused for Timer/store/present loopowner."
+      },
+      {
+        "path": "packages/game/src/shell/presentation.ts",
+        "sha256": "2c6229b3b85271c52c80d9143d7aa6568aa6e2c507f30a84d4722028f4fa06bd",
+        "scope": "Fullmobilelayout accessor read; desktopfixture uses realdataattribute."
+      },
+      {
+        "path": "packages/game/src/tools/speedrun/overlay.ts",
+        "sha256": "5faaa4fbff490389ccb36d9a24eeaac33fc1807443ca59686da0e81031b94a62",
+        "ranges": [[58, 128]],
+        "scope": "Actual formatClock/Hms/Diff finite run/best display."
+      },
+      {
+        "path": "packages/game/src/tools/tools-panel.ts",
+        "sha256": "b7f45736b940fa55952d1f28272eabf37c6331090fb14d4b37701df83c5cc596",
+        "ranges": [[776, 816]],
+        "scope": "Actual textchange parse andsavedPB entry; no wholetools-panelacceptance."
+      }
+    ]
+  },
+  "processDisclosures": [
+    "7inputs35cases→format14/detectors12/store9,3historicalsubjects only.34callbacks afterprivate-name bridges preserved;1explicitaddeddepartureoracle,alloldassertions kept.",
+    "Pure34/1proof usesvoid visitor +2negative tailguards. Two same typedSnapshotdeclarations compared fully; no semanticinput/helper broadening.",
+    "Actualgone-branch mutant old1pass/new1businessAssertionError. Source restored exactly; subsequent lastnullcommentonlyclarification frozen,current96regressionafterit.",
+    "Storageclear-all replaced4ownedkeys+explicitdesktop+restore. Old/newdeliberateearlyfailures capturednativeobservations: olddeletesall5keys,newrestores4andprior mobile/retainsunrelated. Observerrestores its ownseedstate; no product/save behavior change.",
+    "One actual14-file96case/TC0 result sharedwithbootstraperror slice; no repeatedwholecheck/coverage/protected. Filepaths exactlymatchnative report; no hiddenpassed-testdiagnostics reporter."
+  ],
+  "ledgerCounts": {
+    "inventory": 3458,
+    "closed": 561,
+    "review": 263,
+    "pending": 2634
+  }
+}

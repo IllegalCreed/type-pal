@@ -1,0 +1,681 @@
+{
+  "inputs": [
+    {
+      "path": "packages/game/src/shell/trademark-fallback.test.ts",
+      "sha256": "bed971e9346f0e949462ee708c60483f839fb641ef78c95f5743bcb114560c65",
+      "member": "organization-shell-opening/0.before"
+    },
+    {
+      "path": "packages/game/src/shell/splash-fallback.glm-next-wave.test.ts",
+      "sha256": "36f4f153d500259c37d1bf4689b1672a97190332ad2f4759c8456f5f32a33624",
+      "member": "organization-shell-opening/1.before"
+    },
+    {
+      "path": "packages/game/src/shell/splash-fallback.test.ts",
+      "sha256": "8724a235a2b6ed1268ddd4d4fd68db1b6b6164758fcef896334d4ca607266753",
+      "member": "organization-shell-opening/2.before"
+    },
+    {
+      "path": "packages/game/src/shell/trademark-splash.grok-r1.test.ts",
+      "sha256": "fab76e60df1265a3e64f3c4077c2d41806a4caa7b8d2325f6cd7da42987234f6",
+      "member": "organization-shell-opening/3.before"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "packages/game/src/shell/trademark-fallback.test.ts",
+      "sha256": "992ba49b77ecb483e75948f3640c40df8523273c2b3d99e86cf7291a57d3c4ff"
+    },
+    {
+      "path": "packages/game/src/shell/splash-fallback.test.ts",
+      "sha256": "a4109d1642f53527589cafa34e755fa9e5ae25cbae4366e3af8077874eba03de"
+    },
+    {
+      "path": "packages/game/src/shell/__tests__/opening-playback.ts",
+      "sha256": "ff6d9e4d4ea130ad81111a6deee29b2c6522bfcd4aac19bc9e468f378c31701d"
+    }
+  ],
+  "sourceBridges": [
+    {
+      "path": "packages/game/src/shell/trademark-fallback.test.ts",
+      "id": "opening-0",
+      "reason": "Explicit shared native Canvas/data constructors, promise/listener ownership and strengthened boundary oracle; existing case payloads otherwise conserved.",
+      "changes": [
+        {
+          "from": "import { strictEqual } from 'node:assert/strict'\nimport { Buffer } from 'node:buffer'\nimport { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'\nimport { legalPalette } from '../__tests__/asset-fixtures.js'\nimport type { IndexedImage } from '../assets/png.js'\nimport { createFramebuffer } from '../present/framebuffer.js'\nimport { playTrademarkFallback } from './trademark-fallback.js'\n\nconst manifest = {\n  chunks: [{ chunkIndex: 6, frameCount: 2, frames: [{ index: 0 }, { index: 1 }] }],\n}\n\nfunction frame(fill: number): IndexedImage {\n  return {\n    width: 320,\n    height: 200,\n    indices: new Uint8Array(320 * 200).fill(fill),\n    opaque: new Uint8Array(320 * 200).fill(1),\n  }\n}\n\nfunction canvasContext(): CanvasRenderingContext2D {\n  const canvas = document.createElement('canvas')\n  canvas.width = 320\n  canvas.height = 200\n  const context = canvas.getContext('2d')\n  if (!context) throw new Error('2d context unavailable')\n  return context\n}\n\n// 原生全字节比较同时核长度；失败只输出比较结果，避免展开整幅像素的昂贵 diff。\nfunction assertBytesEqual(\n  actual: Uint8Array | Uint8ClampedArray,\n  expected: Uint8Array | Uint8ClampedArray,\n): void {\n  strictEqual(Buffer.compare(Buffer.from(actual), Buffer.from(expected)), 0)\n}\n\nconst palette = legalPalette((colors) => colors.fill([200, 100, 50]))\nconst opaqueBlack = Uint8ClampedArray.from({ length: 320 * 200 * 4 }, (_, index) =>\n  index % 4 === 3 ? 255 : 0,\n)\n\nbeforeEach(() => vi.useFakeTimers())\nafterEach(async () => {\n  try {\n    await vi.runAllTimersAsync()\n  } finally {\n    vi.useRealTimers()\n  }\n})\n\ndescribe('playTrademarkFallback — SDLPal PAL_TrademarkScreen DOS sequence', () => {\n  it('默认 Space 不跳过：完整播放两帧，保留末帧索引并淡至全黑', async () => {\n    const fb = createFramebuffer()\n    const context = canvasContext()\n    const pending = playTrademarkFallback({\n      fb,\n      canvasCtx: context,\n      palette,\n      fetchManifest: async () => manifest,\n      fetchFrame: async (_chunk, index) => frame(index + 1),\n    })\n    let completed = false\n    void pending.then(\n      () => {\n        completed = true\n      },\n      () => {\n        completed = true\n      },\n    )\n    await vi.advanceTimersByTimeAsync(0)\n    assertBytesEqual(fb.indices, new Uint8Array(320 * 200).fill(1))\n    window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space', cancelable: true }))\n    await vi.advanceTimersByTimeAsync(40)\n    assertBytesEqual(fb.indices, new Uint8Array(320 * 200).fill(2))\n    await vi.advanceTimersByTimeAsync(40 + 1000)\n    await vi.advanceTimersByTimeAsync(599)\n    expect(completed).toBe(false)\n    await vi.advanceTimersByTimeAsync(16)\n    await pending\n    expect(completed).toBe(true)\n    assertBytesEqual(fb.indices, new Uint8Array(320 * 200).fill(2))\n    assertBytesEqual(Uint8ClampedArray.from(context.getImageData(0, 0, 320, 200).data), opaqueBlack)\n    expect(vi.getTimerCount()).toBe(0)\n  })\n\n  it('显式允许 Space：停在首帧、淡至全黑并释放按键监听', async () => {\n    const fb = createFramebuffer()\n    const context = canvasContext()\n    const pending = playTrademarkFallback({\n      fb,\n      canvasCtx: context,\n      palette,\n      fetchManifest: async () => manifest,\n      fetchFrame: async (_chunk, index) => frame(index + 1),\n      skipKeys: ['Space'],\n      delayBeforeFadeMs: 0,\n      fadeOutMs: 0,\n    })\n    await vi.advanceTimersByTimeAsync(0)\n    assertBytesEqual(fb.indices, new Uint8Array(320 * 200).fill(1))\n    const skip = new KeyboardEvent('keydown', { code: 'Space', cancelable: true })\n    window.dispatchEvent(skip)\n    await vi.runAllTimersAsync()\n    await pending\n    assertBytesEqual(fb.indices, new Uint8Array(320 * 200).fill(1))\n    expect(skip.defaultPrevented).toBe(true)\n    assertBytesEqual(Uint8ClampedArray.from(context.getImageData(0, 0, 320, 200).data), opaqueBlack)\n    const after = new KeyboardEvent('keydown', { code: 'Space', cancelable: true })\n    window.dispatchEvent(after)\n    expect(after.defaultPrevented).toBe(false)\n    expect(vi.getTimerCount()).toBe(0)\n  })\n})\n",
+          "to": "import { realCanvasContext } from '../__tests__/canvas-host.js'\nimport { solidIndexedImage } from '../present/__tests__/raster-fixtures.js'\nimport { rngFrame } from './__tests__/rng-frames.js'\nimport { createOpeningPlaybackOwner } from './__tests__/opening-playback.js'\nimport { strictEqual } from 'node:assert/strict'\nimport { Buffer } from 'node:buffer'\nimport { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'\nimport { legalPalette } from '../__tests__/asset-fixtures.js'\nimport type { IndexedImage } from '../assets/png.js'\nimport { createFramebuffer } from '../present/framebuffer.js'\nimport { playTrademarkFallback } from './trademark-fallback.js'\n\nconst manifest = {\n  chunks: [{ chunkIndex: 6, frameCount: 2, frames: [{ index: 0 }, { index: 1 }] }],\n}\n\n// 原生全字节比较同时核长度；失败只输出比较结果，避免展开整幅像素的昂贵 diff。\nfunction assertBytesEqual(\n  actual: Uint8Array | Uint8ClampedArray,\n  expected: Uint8Array | Uint8ClampedArray,\n): void {\n  strictEqual(Buffer.compare(Buffer.from(actual), Buffer.from(expected)), 0)\n}\n\nconst palette = legalPalette((colors) => colors.fill([200, 100, 50]))\nconst opaqueBlack = Uint8ClampedArray.from({ length: 320 * 200 * 4 }, (_, index) =>\n  index % 4 === 3 ? 255 : 0,\n)\n\nbeforeEach(() => vi.useFakeTimers())\nlet playback: ReturnType<typeof createOpeningPlaybackOwner>\nbeforeEach(() => {\n  playback = createOpeningPlaybackOwner()\n})\nafterEach(async () => {\n  try {\n    await playback.close()\n  } finally {\n    vi.restoreAllMocks()\n    vi.useRealTimers()\n  }\n})\n\ndescribe('playTrademarkFallback — SDLPal PAL_TrademarkScreen DOS sequence', () => {\n  it('默认 Space 不跳过：完整播放两帧，保留末帧索引并淡至全黑', async () => {\n    const fb = createFramebuffer()\n    const context = realCanvasContext()\n    const pending = playback.track(\n      playTrademarkFallback({\n        fb,\n        canvasCtx: context,\n        palette,\n        fetchManifest: async () => manifest,\n        fetchFrame: async (_chunk, index) => rngFrame(index + 1),\n      }),\n    )\n    let completed = false\n    void pending.then(\n      () => {\n        completed = true\n      },\n      () => {\n        completed = true\n      },\n    )\n    await vi.advanceTimersByTimeAsync(0)\n    assertBytesEqual(fb.indices, new Uint8Array(320 * 200).fill(1))\n    window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space', cancelable: true }))\n    await vi.advanceTimersByTimeAsync(40)\n    assertBytesEqual(fb.indices, new Uint8Array(320 * 200).fill(2))\n    await vi.advanceTimersByTimeAsync(40 + 1000)\n    await vi.advanceTimersByTimeAsync(599)\n    expect(completed).toBe(false)\n    await vi.advanceTimersByTimeAsync(16)\n    await pending\n    expect(completed).toBe(true)\n    assertBytesEqual(fb.indices, new Uint8Array(320 * 200).fill(2))\n    assertBytesEqual(context.getImageData(0, 0, 320, 200).data, opaqueBlack)\n    expect(vi.getTimerCount()).toBe(0)\n  })\n\n  it('显式允许 Space：停在首帧、淡至全黑并释放按键监听', async () => {\n    const fb = createFramebuffer()\n    const context = realCanvasContext()\n    const pending = playback.track(\n      playTrademarkFallback({\n        fb,\n        canvasCtx: context,\n        palette,\n        fetchManifest: async () => manifest,\n        fetchFrame: async (_chunk, index) => rngFrame(index + 1),\n        skipKeys: ['Space'],\n        delayBeforeFadeMs: 0,\n        fadeOutMs: 0,\n      }),\n    )\n    await vi.advanceTimersByTimeAsync(0)\n    assertBytesEqual(fb.indices, new Uint8Array(320 * 200).fill(1))\n    const skip = new KeyboardEvent('keydown', { code: 'Space', cancelable: true })\n    window.dispatchEvent(skip)\n    await vi.runAllTimersAsync()\n    await pending\n    assertBytesEqual(fb.indices, new Uint8Array(320 * 200).fill(1))\n    expect(skip.defaultPrevented).toBe(true)\n    assertBytesEqual(context.getImageData(0, 0, 320, 200).data, opaqueBlack)\n    const after = new KeyboardEvent('keydown', { code: 'Space', cancelable: true })\n    window.dispatchEvent(after)\n    expect(after.defaultPrevented).toBe(false)\n    expect(vi.getTimerCount()).toBe(0)\n  })\n})\n",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/shell/splash-fallback.glm-next-wave.test.ts",
+      "id": "opening-1",
+      "reason": "Explicit shared native Canvas/data constructors, promise/listener ownership and strengthened boundary oracle; existing case payloads otherwise conserved.",
+      "changes": [
+        {
+          "from": "/** Title reveal before skipping: three 85ms steps expose rows 0..2, not row 5.\n * Transparent cranes isolate this pixel oracle from the separately tested bitmap/skip paths.\n * This is a software pixel test, not full opening-sequence visual acceptance.\n */\n\nimport type { Palette } from '@type-pal/shared'\nimport { afterEach, describe, expect, it, vi } from 'vitest'\nimport { realCanvasContext } from '../__tests__/canvas-host.js'\nimport type { IndexedImage } from '../assets/png.js'\nimport { createFramebuffer } from '../present/framebuffer.js'\nimport { playSplashFallback } from './splash-fallback.js'\n\nconst palette: Palette = {\n  colors: Array.from({ length: 256 }, () => [50, 100, 150] as [number, number, number]),\n  cycles: [],\n}\n\nfunction bitmap(w: number, h: number, fill: number, opaque = 1): IndexedImage {\n  return {\n    width: w,\n    height: h,\n    indices: new Uint8Array(w * h).fill(fill),\n    opaque: new Uint8Array(w * h).fill(opaque),\n  }\n}\n\nafterEach(async () => {\n  window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space' }))\n  await vi.advanceTimersByTimeAsync(2500)\n  vi.clearAllTimers()\n  vi.useRealTimers()\n  vi.restoreAllMocks()\n})\n\ndescribe('playSplashFallback 标题渐显(sdlpal main.c:378-389 每帧 +1 行)', () => {\n  it('未跳过的前 3 帧:title 只画 dy=0..2;dy=5 仍未画(fake timers 逐帧停点)', async () => {\n    vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout', 'Date'] })\n    // Keep transparent cranes on-screen so their opacity path is deterministic.\n    vi.spyOn(Math, 'random').mockReturnValue(0)\n    const fb = createFramebuffer()\n    const p = playSplashFallback({\n      fb,\n      canvasCtx: realCanvasContext(),\n      palette,\n      bitmapUp: bitmap(320, 200, 0x11),\n      bitmapDown: bitmap(320, 200, 0x22),\n      // 仙鹤帧全透明:不写任何像素,title 区像素只可能来自 title blit。\n      craneSprite: {\n        frames: [bitmap(1, 1, 0x99, 0), bitmap(1, 1, 0x99, 0), bitmap(1, 1, 0x99, 0)],\n        anchorX: 0,\n        anchorY: 0,\n      },\n      titleFrame: bitmap(64, 32, 0x44),\n      nowFn: () => Date.now(),\n    })\n\n    // 3 × 85ms 帧间隔 → 恰完成 3 个循环体,停在第 4 帧 sleep。\n    await vi.advanceTimersByTimeAsync(3 * 85)\n    const at = (row: number, x: number): number => fb.indices[row * 320 + x]!\n    const revealed = [at(10, 255), at(12, 255), at(15, 255)]\n\n    // 收尾:真实释放 fake 时钟前先让挂起的 sleep 在 fake 时钟内自然走完跳过路径。\n    window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space' }))\n    await vi.advanceTimersByTimeAsync(2500)\n    await p\n    expect(revealed.slice(0, 2)).toEqual([0x44, 0x44])\n    expect(revealed[2]).not.toBe(0x44)\n  })\n})\n",
+          "to": "import { realCanvasContext } from '../__tests__/canvas-host.js'\nimport { solidIndexedImage } from '../present/__tests__/raster-fixtures.js'\nimport { rngFrame } from './__tests__/rng-frames.js'\nimport { createOpeningPlaybackOwner } from './__tests__/opening-playback.js'\n/** Title reveal before skipping: three 85ms steps expose rows 0..2, not row 5.\n * Transparent cranes isolate this pixel oracle from the separately tested bitmap/skip paths.\n * This is a software pixel test, not full opening-sequence visual acceptance.\n */\n\nimport type { Palette } from '@type-pal/shared'\nimport { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'\nimport type { IndexedImage } from '../assets/png.js'\nimport { createFramebuffer } from '../present/framebuffer.js'\nimport { playSplashFallback } from './splash-fallback.js'\n\nconst palette: Palette = {\n  colors: Array.from({ length: 256 }, (): [number, number, number] => [50, 100, 150]),\n  cycles: [],\n}\n\nlet playback: ReturnType<typeof createOpeningPlaybackOwner>\nbeforeEach(() => {\n  playback = createOpeningPlaybackOwner()\n})\nafterEach(async () => {\n  try {\n    await playback.close()\n  } finally {\n    vi.restoreAllMocks()\n    vi.useRealTimers()\n  }\n})\n\ndescribe('playSplashFallback 标题渐显(sdlpal main.c:378-389 每帧 +1 行)', () => {\n  it('未跳过的前 3 帧:title 只画 dy=0..2;dy=5 仍未画(fake timers 逐帧停点)', async () => {\n    vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout', 'Date'] })\n    // Keep transparent cranes on-screen so their opacity path is deterministic.\n    vi.spyOn(Math, 'random').mockReturnValue(0)\n    const fb = createFramebuffer()\n    const p = playback.track(\n      playSplashFallback({\n        fb,\n        canvasCtx: realCanvasContext(),\n        palette,\n        bitmapUp: solidIndexedImage(320, 200, 0x11),\n        bitmapDown: solidIndexedImage(320, 200, 0x22),\n        // 仙鹤帧全透明:不写任何像素,title 区像素只可能来自 title blit。\n        craneSprite: {\n          frames: [\n            solidIndexedImage(1, 1, 0x99, 0),\n            solidIndexedImage(1, 1, 0x99, 0),\n            solidIndexedImage(1, 1, 0x99, 0),\n          ],\n          anchorX: 0,\n          anchorY: 0,\n        },\n        titleFrame: solidIndexedImage(64, 32, 0x44),\n        nowFn: () => Date.now(),\n      }),\n    )\n\n    // The first frame is synchronous at t=0; two intervals reach the third frame.\n    await vi.advanceTimersByTimeAsync(2 * 85)\n    const at = (row: number, x: number): number => fb.indices[row * 320 + x]!\n    const revealed = [at(10, 255), at(12, 255), at(13, 255), at(15, 255)]\n\n    await playback.finishSplash(p, 'Space')\n    expect(revealed).toEqual([0x44, 0x44, 0x22, 0x22])\n  })\n})\n",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/shell/splash-fallback.test.ts",
+      "id": "opening-2",
+      "reason": "Explicit shared native Canvas/data constructors, promise/listener ownership and strengthened boundary oracle; existing case payloads otherwise conserved.",
+      "changes": [
+        {
+          "from": "import type { Palette } from '@type-pal/shared'\nimport { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'\nimport { realCanvasContext } from '../__tests__/canvas-host.js'\nimport type { IndexedImage } from '../assets/png.js'\nimport { createFramebuffer } from '../present/framebuffer.js'\nimport { playSplashFallback } from './splash-fallback.js'\n\nfunction mockBitmap(w: number, h: number, fill: number): IndexedImage {\n  return {\n    width: w,\n    height: h,\n    indices: new Uint8Array(w * h).fill(fill),\n    opaque: new Uint8Array(w * h).fill(1),\n  }\n}\n\nfunction mockCraneSprite(): { frames: IndexedImage[]; anchorX: number; anchorY: number } {\n  // 8 帧 16×16 仙鹤\n  return {\n    frames: Array.from({ length: 8 }, (_, i) => mockBitmap(16, 16, i + 10)),\n    anchorX: 8,\n    anchorY: 8,\n  }\n}\n\nconst mockPalette: Palette = {\n  colors: Array.from({ length: 256 }, () => [50, 100, 150]),\n  cycles: [],\n}\n\nbeforeEach(() => {\n  vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout', 'Date'] })\n  vi.spyOn(Math, 'random').mockReturnValue(0)\n})\n\nafterEach(async () => {\n  // Release a pending player even when a pixel assertion fails.\n  window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space' }))\n  window.dispatchEvent(new KeyboardEvent('keydown', { code: 'KeyQ' }))\n  await vi.advanceTimersByTimeAsync(2500)\n  vi.clearAllTimers()\n  vi.useRealTimers()\n  vi.restoreAllMocks()\n})\n\nasync function skipAndFinish(promise: Promise<void>, code: string): Promise<void> {\n  let finished = false\n  const settled = promise.then(\n    () => ({ ok: true as const }),\n    (error: unknown) => ({ ok: false as const, error }),\n  )\n  void settled.then(() => {\n    finished = true\n  })\n  window.dispatchEvent(new KeyboardEvent('keydown', { code }))\n  // Bound the clock: a broken skip must fail instead of draining an endless splash loop.\n  await vi.advanceTimersByTimeAsync(2500)\n  expect(finished).toBe(true)\n  const result = await settled\n  if (!result.ok) throw result.error\n}\n\ndescribe('playSplashFallback — bitmap、跳过与退出像素合同', () => {\n  it('Space 跳过后保留上下背景的各自像素', async () => {\n    const fb = createFramebuffer()\n    const promise = playSplashFallback({\n      fb,\n      canvasCtx: realCanvasContext(),\n      palette: mockPalette,\n      bitmapUp: mockBitmap(320, 200, 0x11),\n      bitmapDown: mockBitmap(320, 200, 0x22),\n      craneSprite: mockCraneSprite(),\n      titleFrame: mockBitmap(64, 32, 0x44),\n      nowFn: () => Date.now(),\n    })\n    await vi.advanceTimersByTimeAsync(100)\n    await skipAndFinish(promise, 'Space')\n    expect(fb.indices[0]).toBe(0x11)\n    expect(fb.indices[199 * 320]).toBe(0x22)\n  })\n\n  it('Escape 也能结束播放', async () => {\n    const fb = createFramebuffer()\n    const promise = playSplashFallback({\n      fb,\n      canvasCtx: realCanvasContext(),\n      palette: mockPalette,\n      bitmapUp: mockBitmap(320, 200, 0x11),\n      bitmapDown: mockBitmap(320, 200, 0x22),\n      craneSprite: mockCraneSprite(),\n      titleFrame: mockBitmap(64, 32, 0x44),\n      nowFn: () => Date.now(),\n    })\n    await vi.advanceTimersByTimeAsync(100)\n    await skipAndFinish(promise, 'Escape')\n  })\n\n  it('自定义 skipKeys 拒绝默认 Space，只接受 KeyQ', async () => {\n    const fb = createFramebuffer()\n    const promise = playSplashFallback({\n      fb,\n      canvasCtx: realCanvasContext(),\n      palette: mockPalette,\n      bitmapUp: mockBitmap(320, 200, 0x11),\n      bitmapDown: mockBitmap(320, 200, 0x22),\n      craneSprite: mockCraneSprite(),\n      titleFrame: mockBitmap(64, 32, 0x44),\n      skipKeys: ['KeyQ'],\n      nowFn: () => Date.now(),\n    })\n    await vi.advanceTimersByTimeAsync(100)\n    const ignored = new KeyboardEvent('keydown', { code: 'Space', cancelable: true })\n    window.dispatchEvent(ignored)\n    await vi.advanceTimersByTimeAsync(85)\n    const defaultWasIgnored = !ignored.defaultPrevented\n    await skipAndFinish(promise, 'KeyQ')\n    expect(defaultWasIgnored).toBe(true)\n  })\n\n  // L44:sdlpal main.c:400-405 — 按键跳过瞬间先把标题 RLE 高度强制写满再重绘(lpBitmapTitle[2/3]=iTitleHeight\n  //   + PAL_RLEBlitToSurface),跳过即显示完整标题。早跳过时标题不应停在半长高度。\n  it('L44:早跳过时标题补满完整高度(底部行也被画上)', async () => {\n    const fb = createFramebuffer()\n    const promise = playSplashFallback({\n      fb,\n      canvasCtx: realCanvasContext(),\n      palette: mockPalette,\n      // bitmap 全屏填非 title 色,确保 title 区像素只可能来自 title blit\n      bitmapUp: mockBitmap(320, 200, 0x11),\n      bitmapDown: mockBitmap(320, 200, 0x22),\n      craneSprite: mockCraneSprite(),\n      // 标题 (255,10) 64×32,fill 0x44。底部行 = y=41。\n      titleFrame: mockBitmap(64, 32, 0x44),\n      nowFn: () => Date.now(),\n    })\n    // 100ms 时标题尚未展开到 32 行。\n    await vi.advanceTimersByTimeAsync(100)\n    await skipAndFinish(promise, 'Space')\n    // 标题底部行 y=40(dy=30)、x=260 — 早跳过时仅靠补满才会是 0x44(否则是滚动 bitmap 像素)\n    expect(fb.indices[40 * 320 + 260]).toBe(0x44)\n  })\n\n  // L42:sdlpal main.c:455 — PAL_SplashScreen 退出前 PAL_FadeOut(1)=600ms 淡黑(palette.c:163),\n  //   不应硬切到满亮主菜单。最终画到 canvas 的帧应为全黑。\n  it('L42:splash 结束做 PAL_FadeOut(1) 淡黑(最终帧全黑)', async () => {\n    const fb = createFramebuffer()\n    const localCtx = realCanvasContext()\n    const promise = playSplashFallback({\n      fb,\n      canvasCtx: localCtx,\n      palette: mockPalette,\n      bitmapUp: mockBitmap(320, 200, 0x11),\n      bitmapDown: mockBitmap(320, 200, 0x22),\n      craneSprite: mockCraneSprite(),\n      titleFrame: mockBitmap(64, 32, 0x44),\n      nowFn: () => Date.now(),\n    })\n    await vi.advanceTimersByTimeAsync(100)\n    await skipAndFinish(promise, 'Space')\n    // Actual Canvas output must be opaque black; nonempty dimensions prevent vacuous every().\n    const last = localCtx.getImageData(0, 0, 320, 200)\n    expect(last.data).toHaveLength(320 * 200 * 4)\n    expect(last.data.every((value, i) => value === (i % 4 === 3 ? 255 : 0))).toBe(true)\n  })\n})\n",
+          "to": "import { realCanvasContext } from '../__tests__/canvas-host.js'\nimport { solidIndexedImage } from '../present/__tests__/raster-fixtures.js'\nimport { rngFrame } from './__tests__/rng-frames.js'\nimport { createOpeningPlaybackOwner } from './__tests__/opening-playback.js'\nimport type { Palette } from '@type-pal/shared'\nimport { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'\nimport type { IndexedImage } from '../assets/png.js'\nimport { createFramebuffer } from '../present/framebuffer.js'\nimport { playSplashFallback } from './splash-fallback.js'\n\nfunction craneSprite(): { frames: IndexedImage[]; anchorX: number; anchorY: number } {\n  // 8 帧 16×16 仙鹤\n  return {\n    frames: Array.from({ length: 8 }, (_, i) => solidIndexedImage(16, 16, i + 10)),\n    anchorX: 8,\n    anchorY: 8,\n  }\n}\n\nconst splashPalette: Palette = {\n  colors: Array.from({ length: 256 }, () => [50, 100, 150]),\n  cycles: [],\n}\n\nbeforeEach(() => {\n  vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout', 'Date'] })\n  vi.spyOn(Math, 'random').mockReturnValue(0)\n})\n\nlet playback: ReturnType<typeof createOpeningPlaybackOwner>\nbeforeEach(() => {\n  playback = createOpeningPlaybackOwner()\n})\nafterEach(async () => {\n  try {\n    await playback.close()\n  } finally {\n    vi.restoreAllMocks()\n    vi.useRealTimers()\n  }\n})\n\ndescribe('playSplashFallback — bitmap、跳过与退出像素合同', () => {\n  it('Space 跳过后保留上下背景的各自像素', async () => {\n    const fb = createFramebuffer()\n    const promise = playback.track(\n      playSplashFallback({\n        fb,\n        canvasCtx: realCanvasContext(),\n        palette: splashPalette,\n        bitmapUp: solidIndexedImage(320, 200, 0x11),\n        bitmapDown: solidIndexedImage(320, 200, 0x22),\n        craneSprite: craneSprite(),\n        titleFrame: solidIndexedImage(64, 32, 0x44),\n        nowFn: () => Date.now(),\n      }),\n    )\n    await vi.advanceTimersByTimeAsync(100)\n    await playback.finishSplash(promise, 'Space')\n    expect(fb.indices[0]).toBe(0x11)\n    expect(fb.indices[199 * 320]).toBe(0x22)\n  })\n\n  it('Escape 也能结束播放', async () => {\n    const fb = createFramebuffer()\n    const promise = playback.track(\n      playSplashFallback({\n        fb,\n        canvasCtx: realCanvasContext(),\n        palette: splashPalette,\n        bitmapUp: solidIndexedImage(320, 200, 0x11),\n        bitmapDown: solidIndexedImage(320, 200, 0x22),\n        craneSprite: craneSprite(),\n        titleFrame: solidIndexedImage(64, 32, 0x44),\n        nowFn: () => Date.now(),\n      }),\n    )\n    await vi.advanceTimersByTimeAsync(100)\n    await playback.finishSplash(promise, 'Escape')\n  })\n\n  it('自定义 skipKeys 拒绝默认 Space，只接受 KeyQ', async () => {\n    const fb = createFramebuffer()\n    const promise = playback.track(\n      playSplashFallback({\n        fb,\n        canvasCtx: realCanvasContext(),\n        palette: splashPalette,\n        bitmapUp: solidIndexedImage(320, 200, 0x11),\n        bitmapDown: solidIndexedImage(320, 200, 0x22),\n        craneSprite: craneSprite(),\n        titleFrame: solidIndexedImage(64, 32, 0x44),\n        skipKeys: ['KeyQ'],\n        nowFn: () => Date.now(),\n      }),\n    )\n    await vi.advanceTimersByTimeAsync(100)\n    const ignored = new KeyboardEvent('keydown', { code: 'Space', cancelable: true })\n    window.dispatchEvent(ignored)\n    await vi.advanceTimersByTimeAsync(85)\n    const defaultWasIgnored = !ignored.defaultPrevented\n    await playback.finishSplash(promise, 'KeyQ')\n    expect(defaultWasIgnored).toBe(true)\n  })\n\n  // L44:sdlpal main.c:400-405 — 按键跳过瞬间先把标题 RLE 高度强制写满再重绘(lpBitmapTitle[2/3]=iTitleHeight\n  //   + PAL_RLEBlitToSurface),跳过即显示完整标题。早跳过时标题不应停在半长高度。\n  it('L44:早跳过时标题补满完整高度(底部行也被画上)', async () => {\n    const fb = createFramebuffer()\n    const promise = playback.track(\n      playSplashFallback({\n        fb,\n        canvasCtx: realCanvasContext(),\n        palette: splashPalette,\n        // bitmap 全屏填非 title 色,确保 title 区像素只可能来自 title blit\n        bitmapUp: solidIndexedImage(320, 200, 0x11),\n        bitmapDown: solidIndexedImage(320, 200, 0x22),\n        craneSprite: craneSprite(),\n        // 标题 (255,10) 64×32,fill 0x44。底部行 = y=41。\n        titleFrame: solidIndexedImage(64, 32, 0x44),\n        nowFn: () => Date.now(),\n      }),\n    )\n    // 100ms 时标题尚未展开到 32 行。\n    await vi.advanceTimersByTimeAsync(100)\n    await playback.finishSplash(promise, 'Space')\n    // 标题底部行 y=40(dy=30)、x=260 — 早跳过时仅靠补满才会是 0x44(否则是滚动 bitmap 像素)\n    expect(fb.indices[40 * 320 + 260]).toBe(0x44)\n  })\n\n  // L42:sdlpal main.c:455 — PAL_SplashScreen 退出前 PAL_FadeOut(1)=600ms 淡黑(palette.c:163),\n  //   不应硬切到满亮主菜单。最终画到 canvas 的帧应为全黑。\n  it('L42:splash 结束做 PAL_FadeOut(1) 淡黑(最终帧全黑)', async () => {\n    const fb = createFramebuffer()\n    const localCtx = realCanvasContext()\n    const promise = playback.track(\n      playSplashFallback({\n        fb,\n        canvasCtx: localCtx,\n        palette: splashPalette,\n        bitmapUp: solidIndexedImage(320, 200, 0x11),\n        bitmapDown: solidIndexedImage(320, 200, 0x22),\n        craneSprite: craneSprite(),\n        titleFrame: solidIndexedImage(64, 32, 0x44),\n        nowFn: () => Date.now(),\n      }),\n    )\n    await vi.advanceTimersByTimeAsync(100)\n    await playback.finishSplash(promise, 'Space')\n    // Actual Canvas output must be opaque black; nonempty dimensions prevent vacuous every().\n    const last = localCtx.getImageData(0, 0, 320, 200)\n    expect(last.data).toHaveLength(320 * 200 * 4)\n    expect(last.data.every((value, i) => value === (i % 4 === 3 ? 255 : 0))).toBe(true)\n  })\n})\n",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/shell/trademark-splash.grok-r1.test.ts",
+      "id": "opening-3",
+      "reason": "Explicit shared native Canvas/data constructors, promise/listener ownership and strengthened boundary oracle; existing case payloads otherwise conserved.",
+      "changes": [
+        {
+          "from": "/**\n * TEST-GROK-RENDER-HOST-LARGE-1 G10-B。\n * 商标淡出的系数夹紧、终帧黑像素、默认 1000ms 与 chunk 6；卷轴窄图与停在 1。\n */\nimport type { Palette } from '@type-pal/shared'\nimport { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'\nimport { legalPalette } from '../__tests__/asset-fixtures.js'\nimport { dumpFramebuffer } from '../__tests__/grok-render-r1/dump-evidence.js'\nimport type { IndexedImage } from '../assets/png.js'\nimport { createFramebuffer } from '../present/framebuffer.js'\nimport { playSplashFallback } from './splash-fallback.js'\nimport { playTrademarkFallback } from './trademark-fallback.js'\n\nfunction full(fill: number, width = 320, height = 200): IndexedImage {\n  return {\n    width,\n    height,\n    indices: new Uint8Array(width * height).fill(fill),\n    opaque: new Uint8Array(width * height).fill(1),\n  }\n}\n\nfunction realCtx(): CanvasRenderingContext2D {\n  const canvas = document.createElement('canvas')\n  canvas.width = 320\n  canvas.height = 200\n  const ctx = canvas.getContext('2d')\n  if (!ctx) throw new Error('2d context unavailable')\n  return ctx\n}\n\nfunction palette200(): Palette {\n  return legalPalette((colors) => {\n    colors[200] = [100, 40, 10]\n  })\n}\n\nfunction oneFrameManifest() {\n  return {\n    chunks: [{ chunkIndex: 6, frameCount: 1, frames: [{ index: 0 }] }],\n  }\n}\n\nfunction crane() {\n  return { frames: [full(1, 1, 1)], anchorX: 0, anchorY: 0 }\n}\n\nbeforeEach(() => vi.useFakeTimers())\nafterEach(async () => {\n  try {\n    // 失败中的卷轴也要先收到退出键、结局 Promise，再交回时钟和画布观察器。\n    window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space' }))\n    await vi.runAllTimersAsync()\n  } finally {\n    vi.restoreAllMocks()\n    vi.useRealTimers()\n  }\n})\n\ndescribe('G10-B 商标淡出与卷轴停点', () => {\n  it('G10-B01 时间回退时淡出系数夹在 1，画布仍是调色板 RGB', async () => {\n    const fb = createFramebuffer()\n    const ctx = realCtx()\n    const written: Uint8ClampedArray[] = []\n    const orig = ctx.putImageData.bind(ctx)\n    vi.spyOn(ctx, 'putImageData').mockImplementation((image, dx, dy) => {\n      written.push(new Uint8ClampedArray(image.data))\n      orig(image, dx, dy)\n    })\n    let tick = 0\n    const samples = [0, -600, 600]\n    const pending = playTrademarkFallback({\n      fb,\n      canvasCtx: ctx,\n      palette: palette200(),\n      fetchManifest: async () => oneFrameManifest(),\n      fetchFrame: async () => full(200),\n      delayBeforeFadeMs: 0,\n      fadeOutMs: 600,\n      nowFn: () => samples[Math.min(tick++, samples.length - 1)] ?? 600,\n    })\n    await vi.runAllTimersAsync()\n    await pending\n    const mid = written[1]\n    if (!mid) throw new Error('missing fade frame')\n    expect([mid[0], mid[1], mid[2], mid[3]]).toEqual([100, 40, 10, 255])\n    expect(Array.from(ctx.getImageData(0, 0, 1, 1).data)).toEqual([0, 0, 0, 255])\n    expect(fb.indices[0]).toBe(200)\n    await dumpFramebuffer('G10-B01-fade', 320, 200, mid, [{ x: 0, y: 0, rgba: [100, 40, 10, 255] }])\n    const finalSnap = ctx.getImageData(0, 0, 320, 200)\n    await dumpFramebuffer('G10-B01-final', 320, 200, finalSnap.data, [\n      { x: 0, y: 0, rgba: [0, 0, 0, 255] },\n    ])\n  })\n\n  it('G10-B02 淡出时长 0 的最终像素是黑，索引仍是 200', async () => {\n    const fb = createFramebuffer()\n    const ctx = realCtx()\n    const pending = playTrademarkFallback({\n      fb,\n      canvasCtx: ctx,\n      palette: palette200(),\n      fetchManifest: async () => oneFrameManifest(),\n      fetchFrame: async () => full(200),\n      delayBeforeFadeMs: 0,\n      fadeOutMs: 0,\n      nowFn: () => 0,\n    })\n    await vi.runAllTimersAsync()\n    await pending\n    expect(Array.from(ctx.getImageData(0, 0, 1, 1).data)).toEqual([0, 0, 0, 255])\n    expect(fb.indices[0]).toBe(200)\n    const finalSnap = ctx.getImageData(0, 0, 320, 200)\n    await dumpFramebuffer('G10-B02-final', 320, 200, finalSnap.data, [\n      { x: 0, y: 0, rgba: [0, 0, 0, 255] },\n    ])\n  })\n\n  it('G10-B03 默认淡出前等待 1000 毫秒', async () => {\n    const spy = vi.spyOn(globalThis, 'setTimeout')\n    const pending = playTrademarkFallback({\n      fb: createFramebuffer(),\n      canvasCtx: realCtx(),\n      palette: palette200(),\n      fetchManifest: async () => oneFrameManifest(),\n      fetchFrame: async () => full(200),\n      fadeOutMs: 0,\n      nowFn: () => 0,\n    })\n    await vi.runAllTimersAsync()\n    await pending\n    expect(spy.mock.calls.map((call) => call[1])).toEqual([40, 1000])\n  })\n\n  it('G10-B04 playRng 固定 chunk 6', async () => {\n    const seen: number[] = []\n    const pending = playTrademarkFallback({\n      fb: createFramebuffer(),\n      canvasCtx: realCtx(),\n      palette: palette200(),\n      fetchManifest: async () => oneFrameManifest(),\n      fetchFrame: async (chunkIdx) => {\n        seen.push(chunkIdx)\n        return full(200)\n      },\n      delayBeforeFadeMs: 0,\n      fadeOutMs: 0,\n      nowFn: () => 0,\n    })\n    await vi.runAllTimersAsync()\n    await pending\n    expect(seen).toEqual([6])\n  })\n\n  it('G10-B05 窄图只拷贝自身宽度', async () => {\n    vi.spyOn(Math, 'random').mockReturnValue(0.9999999999999999)\n    const fb = createFramebuffer()\n    const pending = playSplashFallback({\n      fb,\n      canvasCtx: realCtx(),\n      palette: legalPalette(),\n      bitmapUp: full(77, 10, 200),\n      bitmapDown: full(22),\n      craneSprite: crane(),\n      titleFrame: full(9, 2, 2),\n    })\n    window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space' }))\n    await vi.runAllTimersAsync()\n    await pending\n    expect(fb.indices[0]).toBe(77)\n    expect(fb.indices[10]).toBe(0)\n  })\n\n  it('G10-B06 卷轴停在 iImgPos 1，底行仍是下图', async () => {\n    vi.spyOn(Math, 'random').mockReturnValue(0.9999999999999999)\n    const fb = createFramebuffer()\n    const pending = playSplashFallback({\n      fb,\n      canvasCtx: realCtx(),\n      palette: legalPalette(),\n      bitmapUp: full(11),\n      bitmapDown: full(22),\n      craneSprite: crane(),\n      titleFrame: full(9, 2, 2),\n    })\n    await vi.advanceTimersByTimeAsync(198 * 85)\n    window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space' }))\n    await vi.runAllTimersAsync()\n    await pending\n    expect(fb.indices[0]).toBe(11)\n    expect(fb.indices[199 * 320]).toBe(22)\n  })\n})\n",
+          "to": "import { realCanvasContext } from '../__tests__/canvas-host.js'\nimport { solidIndexedImage } from '../present/__tests__/raster-fixtures.js'\nimport { rngFrame } from './__tests__/rng-frames.js'\nimport { createOpeningPlaybackOwner } from './__tests__/opening-playback.js'\n/**\n * TEST-GROK-RENDER-HOST-LARGE-1 G10-B。\n * 商标淡出的系数夹紧、终帧黑像素、默认 1000ms 与 chunk 6；卷轴窄图与停在 1。\n */\nimport type { Palette } from '@type-pal/shared'\nimport { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'\nimport { legalPalette } from '../__tests__/asset-fixtures.js'\nimport { dumpFramebuffer } from '../__tests__/grok-render-r1/dump-evidence.js'\nimport type { IndexedImage } from '../assets/png.js'\nimport { createFramebuffer } from '../present/framebuffer.js'\nimport { playSplashFallback } from './splash-fallback.js'\nimport { playTrademarkFallback } from './trademark-fallback.js'\n\nfunction palette200(): Palette {\n  return legalPalette((colors) => {\n    colors[200] = [100, 40, 10]\n  })\n}\n\nfunction oneFrameManifest() {\n  return {\n    chunks: [{ chunkIndex: 6, frameCount: 1, frames: [{ index: 0 }] }],\n  }\n}\n\nfunction crane() {\n  return { frames: [solidIndexedImage(1, 1, 1)], anchorX: 0, anchorY: 0 }\n}\n\nbeforeEach(() => vi.useFakeTimers())\nlet playback: ReturnType<typeof createOpeningPlaybackOwner>\nbeforeEach(() => {\n  playback = createOpeningPlaybackOwner()\n})\nafterEach(async () => {\n  try {\n    await playback.close()\n  } finally {\n    vi.restoreAllMocks()\n    vi.useRealTimers()\n  }\n})\n\ndescribe('商标淡出与卷轴停点', () => {\n  it('时间回退时淡出系数夹在 1，画布仍是调色板 RGB', async () => {\n    const fb = createFramebuffer()\n    const ctx = realCanvasContext()\n    const written: Uint8ClampedArray[] = []\n    const orig = ctx.putImageData.bind(ctx)\n    vi.spyOn(ctx, 'putImageData').mockImplementation((image, dx, dy) => {\n      written.push(new Uint8ClampedArray(image.data))\n      orig(image, dx, dy)\n    })\n    let tick = 0\n    const samples = [0, -600, 600]\n    const pending = playback.track(\n      playTrademarkFallback({\n        fb,\n        canvasCtx: ctx,\n        palette: palette200(),\n        fetchManifest: async () => oneFrameManifest(),\n        fetchFrame: async () => rngFrame(200),\n        delayBeforeFadeMs: 0,\n        fadeOutMs: 600,\n        nowFn: () => samples[Math.min(tick++, samples.length - 1)] ?? 600,\n      }),\n    )\n    await vi.runAllTimersAsync()\n    await pending\n    const mid = written[1]\n    if (!mid) throw new Error('missing fade frame')\n    expect([mid[0], mid[1], mid[2], mid[3]]).toEqual([100, 40, 10, 255])\n    expect(Array.from(ctx.getImageData(0, 0, 1, 1).data)).toEqual([0, 0, 0, 255])\n    expect(fb.indices[0]).toBe(200)\n    await dumpFramebuffer('G10-B01-fade', 320, 200, mid, [{ x: 0, y: 0, rgba: [100, 40, 10, 255] }])\n    const finalSnap = ctx.getImageData(0, 0, 320, 200)\n    await dumpFramebuffer('G10-B01-final', 320, 200, finalSnap.data, [\n      { x: 0, y: 0, rgba: [0, 0, 0, 255] },\n    ])\n  })\n\n  it('淡出时长 0 的最终像素是黑，索引仍是 200', async () => {\n    const fb = createFramebuffer()\n    const ctx = realCanvasContext()\n    const pending = playback.track(\n      playTrademarkFallback({\n        fb,\n        canvasCtx: ctx,\n        palette: palette200(),\n        fetchManifest: async () => oneFrameManifest(),\n        fetchFrame: async () => rngFrame(200),\n        delayBeforeFadeMs: 0,\n        fadeOutMs: 0,\n        nowFn: () => 0,\n      }),\n    )\n    await vi.runAllTimersAsync()\n    await pending\n    expect(Array.from(ctx.getImageData(0, 0, 1, 1).data)).toEqual([0, 0, 0, 255])\n    expect(fb.indices[0]).toBe(200)\n    const finalSnap = ctx.getImageData(0, 0, 320, 200)\n    await dumpFramebuffer('G10-B02-final', 320, 200, finalSnap.data, [\n      { x: 0, y: 0, rgba: [0, 0, 0, 255] },\n    ])\n  })\n\n  it('默认淡出前等待 1000 毫秒', async () => {\n    const spy = vi.spyOn(globalThis, 'setTimeout')\n    const pending = playback.track(\n      playTrademarkFallback({\n        fb: createFramebuffer(),\n        canvasCtx: realCanvasContext(),\n        palette: palette200(),\n        fetchManifest: async () => oneFrameManifest(),\n        fetchFrame: async () => rngFrame(200),\n        fadeOutMs: 0,\n        nowFn: () => 0,\n      }),\n    )\n    await vi.runAllTimersAsync()\n    await pending\n    expect(spy.mock.calls.map((call) => call[1])).toEqual([40, 1000])\n  })\n\n  it('playRng 固定 chunk 6', async () => {\n    const seen: number[] = []\n    const pending = playback.track(\n      playTrademarkFallback({\n        fb: createFramebuffer(),\n        canvasCtx: realCanvasContext(),\n        palette: palette200(),\n        fetchManifest: async () => oneFrameManifest(),\n        fetchFrame: async (chunkIdx) => {\n          seen.push(chunkIdx)\n          return rngFrame(200)\n        },\n        delayBeforeFadeMs: 0,\n        fadeOutMs: 0,\n        nowFn: () => 0,\n      }),\n    )\n    await vi.runAllTimersAsync()\n    await pending\n    expect(seen).toEqual([6])\n  })\n\n  it('窄图只拷贝自身宽度', async () => {\n    vi.spyOn(Math, 'random').mockReturnValue(0.9999999999999999)\n    const fb = createFramebuffer()\n    const pending = playback.track(\n      playSplashFallback({\n        fb,\n        canvasCtx: realCanvasContext(),\n        palette: legalPalette(),\n        bitmapUp: solidIndexedImage(10, 200, 77),\n        bitmapDown: solidIndexedImage(320, 200, 22),\n        craneSprite: crane(),\n        titleFrame: solidIndexedImage(2, 2, 9),\n      }),\n    )\n    await playback.finishSplash(pending, 'Space')\n    expect(fb.indices[0]).toBe(77)\n    expect(fb.indices[10]).toBe(0)\n  })\n\n  it('卷轴停在 iImgPos 1，底行仍是下图', async () => {\n    vi.spyOn(Math, 'random').mockReturnValue(0.9999999999999999)\n    const fb = createFramebuffer()\n    const pending = playback.track(\n      playSplashFallback({\n        fb,\n        canvasCtx: realCanvasContext(),\n        palette: legalPalette(),\n        bitmapUp: solidIndexedImage(320, 200, 11),\n        bitmapDown: solidIndexedImage(320, 200, 22),\n        craneSprite: crane(),\n        titleFrame: solidIndexedImage(2, 2, 9),\n      }),\n    )\n    await vi.advanceTimersByTimeAsync(198 * 85)\n    await playback.finishSplash(pending, 'Space')\n    expect(fb.indices[0]).toBe(11)\n    expect(fb.indices[198 * 320]).toBe(11)\n    expect(fb.indices[199 * 320]).toBe(22)\n  })\n})\n",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "replacements": [],
+  "registrations": [
+    {
+      "old": {
+        "file": "packages/game/src/shell/trademark-fallback.test.ts",
+        "ordinal": 0
+      },
+      "originalOrdinal": 0,
+      "current": {
+        "file": "packages/game/src/shell/trademark-fallback.test.ts",
+        "titles": ["Trademark playback and skip lifetime"],
+        "template": "默认 Space 不跳过：完整播放两帧，保留末帧索引并淡至全黑"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/trademark-fallback.test.ts",
+        "ordinal": 1
+      },
+      "originalOrdinal": 1,
+      "current": {
+        "file": "packages/game/src/shell/trademark-fallback.test.ts",
+        "titles": ["Trademark playback and skip lifetime"],
+        "template": "显式允许 Space：停在首帧、淡至全黑并释放按键监听"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/splash-fallback.glm-next-wave.test.ts",
+        "ordinal": 0
+      },
+      "originalOrdinal": 0,
+      "current": {
+        "file": "packages/game/src/shell/splash-fallback.test.ts",
+        "titles": ["Splash title reveal"],
+        "template": "未跳过的前 3 帧:title 只画 dy=0..2;dy=5 仍未画(fake timers 逐帧停点)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/splash-fallback.test.ts",
+        "ordinal": 0
+      },
+      "originalOrdinal": 0,
+      "current": {
+        "file": "packages/game/src/shell/splash-fallback.test.ts",
+        "titles": ["Splash bitmap, skip and exit"],
+        "template": "Space 跳过后保留上下背景的各自像素"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/splash-fallback.test.ts",
+        "ordinal": 1
+      },
+      "originalOrdinal": 1,
+      "current": {
+        "file": "packages/game/src/shell/splash-fallback.test.ts",
+        "titles": ["Splash bitmap, skip and exit"],
+        "template": "Escape 也能结束播放"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/splash-fallback.test.ts",
+        "ordinal": 2
+      },
+      "originalOrdinal": 2,
+      "current": {
+        "file": "packages/game/src/shell/splash-fallback.test.ts",
+        "titles": ["Splash bitmap, skip and exit"],
+        "template": "自定义 skipKeys 拒绝默认 Space，只接受 KeyQ"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/splash-fallback.test.ts",
+        "ordinal": 3
+      },
+      "originalOrdinal": 3,
+      "current": {
+        "file": "packages/game/src/shell/splash-fallback.test.ts",
+        "titles": ["Splash bitmap, skip and exit"],
+        "template": "L44:早跳过时标题补满完整高度(底部行也被画上)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/splash-fallback.test.ts",
+        "ordinal": 4
+      },
+      "originalOrdinal": 4,
+      "current": {
+        "file": "packages/game/src/shell/splash-fallback.test.ts",
+        "titles": ["Splash bitmap, skip and exit"],
+        "template": "L42:splash 结束做 PAL_FadeOut(1) 淡黑(最终帧全黑)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/trademark-splash.grok-r1.test.ts",
+        "ordinal": 0
+      },
+      "originalOrdinal": 0,
+      "current": {
+        "file": "packages/game/src/shell/trademark-fallback.test.ts",
+        "titles": ["Trademark fade and fixed RNG parameters"],
+        "template": "时间回退时淡出系数夹在 1，画布仍是调色板 RGB"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/trademark-splash.grok-r1.test.ts",
+        "ordinal": 1
+      },
+      "originalOrdinal": 1,
+      "current": {
+        "file": "packages/game/src/shell/trademark-fallback.test.ts",
+        "titles": ["Trademark fade and fixed RNG parameters"],
+        "template": "淡出时长 0 的最终像素是黑，索引仍是 200"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/trademark-splash.grok-r1.test.ts",
+        "ordinal": 2
+      },
+      "originalOrdinal": 2,
+      "current": {
+        "file": "packages/game/src/shell/trademark-fallback.test.ts",
+        "titles": ["Trademark fade and fixed RNG parameters"],
+        "template": "默认淡出前等待 1000 毫秒"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/trademark-splash.grok-r1.test.ts",
+        "ordinal": 3
+      },
+      "originalOrdinal": 3,
+      "current": {
+        "file": "packages/game/src/shell/trademark-fallback.test.ts",
+        "titles": ["Trademark fade and fixed RNG parameters"],
+        "template": "playRng 固定 chunk 6"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/trademark-splash.grok-r1.test.ts",
+        "ordinal": 4
+      },
+      "originalOrdinal": 4,
+      "current": {
+        "file": "packages/game/src/shell/splash-fallback.test.ts",
+        "titles": ["Splash bitmap boundaries"],
+        "template": "窄图只拷贝自身宽度"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/trademark-splash.grok-r1.test.ts",
+        "ordinal": 5
+      },
+      "originalOrdinal": 5,
+      "current": {
+        "file": "packages/game/src/shell/splash-fallback.test.ts",
+        "titles": ["Splash bitmap boundaries"],
+        "template": "卷轴停在 iImgPos 1，底行仍是下图"
+      }
+    }
+  ],
+  "identities": [
+    {
+      "old": {
+        "file": "packages/game/src/shell/trademark-fallback.test.ts",
+        "fullName": "playTrademarkFallback — SDLPal PAL_TrademarkScreen DOS sequence 默认 Space 不跳过：完整播放两帧，保留末帧索引并淡至全黑"
+      },
+      "current": {
+        "file": "packages/game/src/shell/trademark-fallback.test.ts",
+        "fullName": "Trademark playback and skip lifetime 默认 Space 不跳过：完整播放两帧，保留末帧索引并淡至全黑"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/trademark-fallback.test.ts",
+        "fullName": "playTrademarkFallback — SDLPal PAL_TrademarkScreen DOS sequence 显式允许 Space：停在首帧、淡至全黑并释放按键监听"
+      },
+      "current": {
+        "file": "packages/game/src/shell/trademark-fallback.test.ts",
+        "fullName": "Trademark playback and skip lifetime 显式允许 Space：停在首帧、淡至全黑并释放按键监听"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/splash-fallback.glm-next-wave.test.ts",
+        "fullName": "playSplashFallback 标题渐显(sdlpal main.c:378-389 每帧 +1 行) 未跳过的前 3 帧:title 只画 dy=0..2;dy=5 仍未画(fake timers 逐帧停点)"
+      },
+      "current": {
+        "file": "packages/game/src/shell/splash-fallback.test.ts",
+        "fullName": "Splash title reveal 未跳过的前 3 帧:title 只画 dy=0..2;dy=5 仍未画(fake timers 逐帧停点)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/splash-fallback.test.ts",
+        "fullName": "playSplashFallback — bitmap、跳过与退出像素合同 Space 跳过后保留上下背景的各自像素"
+      },
+      "current": {
+        "file": "packages/game/src/shell/splash-fallback.test.ts",
+        "fullName": "Splash bitmap, skip and exit Space 跳过后保留上下背景的各自像素"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/splash-fallback.test.ts",
+        "fullName": "playSplashFallback — bitmap、跳过与退出像素合同 Escape 也能结束播放"
+      },
+      "current": {
+        "file": "packages/game/src/shell/splash-fallback.test.ts",
+        "fullName": "Splash bitmap, skip and exit Escape 也能结束播放"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/splash-fallback.test.ts",
+        "fullName": "playSplashFallback — bitmap、跳过与退出像素合同 自定义 skipKeys 拒绝默认 Space，只接受 KeyQ"
+      },
+      "current": {
+        "file": "packages/game/src/shell/splash-fallback.test.ts",
+        "fullName": "Splash bitmap, skip and exit 自定义 skipKeys 拒绝默认 Space，只接受 KeyQ"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/splash-fallback.test.ts",
+        "fullName": "playSplashFallback — bitmap、跳过与退出像素合同 L44:早跳过时标题补满完整高度(底部行也被画上)"
+      },
+      "current": {
+        "file": "packages/game/src/shell/splash-fallback.test.ts",
+        "fullName": "Splash bitmap, skip and exit L44:早跳过时标题补满完整高度(底部行也被画上)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/splash-fallback.test.ts",
+        "fullName": "playSplashFallback — bitmap、跳过与退出像素合同 L42:splash 结束做 PAL_FadeOut(1) 淡黑(最终帧全黑)"
+      },
+      "current": {
+        "file": "packages/game/src/shell/splash-fallback.test.ts",
+        "fullName": "Splash bitmap, skip and exit L42:splash 结束做 PAL_FadeOut(1) 淡黑(最终帧全黑)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/trademark-splash.grok-r1.test.ts",
+        "fullName": "G10-B 商标淡出与卷轴停点 G10-B01 时间回退时淡出系数夹在 1，画布仍是调色板 RGB"
+      },
+      "current": {
+        "file": "packages/game/src/shell/trademark-fallback.test.ts",
+        "fullName": "Trademark fade and fixed RNG parameters 时间回退时淡出系数夹在 1，画布仍是调色板 RGB"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/trademark-splash.grok-r1.test.ts",
+        "fullName": "G10-B 商标淡出与卷轴停点 G10-B02 淡出时长 0 的最终像素是黑，索引仍是 200"
+      },
+      "current": {
+        "file": "packages/game/src/shell/trademark-fallback.test.ts",
+        "fullName": "Trademark fade and fixed RNG parameters 淡出时长 0 的最终像素是黑，索引仍是 200"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/trademark-splash.grok-r1.test.ts",
+        "fullName": "G10-B 商标淡出与卷轴停点 G10-B03 默认淡出前等待 1000 毫秒"
+      },
+      "current": {
+        "file": "packages/game/src/shell/trademark-fallback.test.ts",
+        "fullName": "Trademark fade and fixed RNG parameters 默认淡出前等待 1000 毫秒"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/trademark-splash.grok-r1.test.ts",
+        "fullName": "G10-B 商标淡出与卷轴停点 G10-B04 playRng 固定 chunk 6"
+      },
+      "current": {
+        "file": "packages/game/src/shell/trademark-fallback.test.ts",
+        "fullName": "Trademark fade and fixed RNG parameters playRng 固定 chunk 6"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/trademark-splash.grok-r1.test.ts",
+        "fullName": "G10-B 商标淡出与卷轴停点 G10-B05 窄图只拷贝自身宽度"
+      },
+      "current": {
+        "file": "packages/game/src/shell/splash-fallback.test.ts",
+        "fullName": "Splash bitmap boundaries 窄图只拷贝自身宽度"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/trademark-splash.grok-r1.test.ts",
+        "fullName": "G10-B 商标淡出与卷轴停点 G10-B06 卷轴停在 iImgPos 1，底行仍是下图"
+      },
+      "current": {
+        "file": "packages/game/src/shell/splash-fallback.test.ts",
+        "fullName": "Splash bitmap boundaries 卷轴停在 iImgPos 1，底行仍是下图"
+      }
+    }
+  ],
+  "helperTransplants": [],
+  "id": "shell-opening",
+  "kind": "opening",
+  "namespace": "organization-shell-opening",
+  "cohortSubjects": [
+    {
+      "path": "packages/game/src/shell/splash-fallback.glm-next-wave.test.ts",
+      "sha256": "36f4f153d500259c37d1bf4689b1672a97190332ad2f4759c8456f5f32a33624",
+      "priorCurrentBridges": []
+    },
+    {
+      "path": "packages/game/src/shell/trademark-splash.grok-r1.test.ts",
+      "sha256": "c5d2cfdce1a5b5d6372a1ee5249936be3e93beffd3b167f9579910ec010eb00b",
+      "priorCurrentBridges": [
+        {
+          "path": "packages/game/src/shell/trademark-splash.grok-r1.test.ts",
+          "sha256": "c5d2cfdce1a5b5d6372a1ee5249936be3e93beffd3b167f9579910ec010eb00b",
+          "member": "organization-game-asset-fixtures/19.before",
+          "currentSha256": "fab76e60df1265a3e64f3c4077c2d41806a4caa7b8d2325f6cd7da42987234f6",
+          "changes": []
+        }
+      ]
+    }
+  ],
+  "preserved": [
+    {
+      "path": "packages/game/src/shell/splash-fallback.ts",
+      "sha256": "4da737006aa0b309a59487b5517c1ce19155113ed69fa9082f12f2d6737750e8"
+    },
+    {
+      "path": "packages/game/src/shell/trademark-fallback.ts",
+      "sha256": "ad6995cb2b1927d569400cb8f2ec391c6838713af4e611288d41d0fd307308ee"
+    },
+    {
+      "path": "packages/game/src/shell/rng-player.ts",
+      "sha256": "726d13f8e6293bb3f50ef42637f3a45e54f20f7d66bb7a9c056c78d3b15c6f04"
+    },
+    {
+      "path": "packages/game/src/shell/dos-cutscenes.ts",
+      "sha256": "bd18018aa36e4291c8ef414848d77b98b1806d81214e98ad7c4fb10db48e7df8"
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "sha256": "a4d007c9739873dc20f385b52b584de49ec57cd5c328cb11ca9d3b0b9f19fb0a"
+    },
+    {
+      "path": "packages/game/src/shell/input.ts",
+      "sha256": "55a394a61514d6a6c4b4bae97f0fb30a257f741a4dc9dbc55a8de3eb0678640f"
+    },
+    {
+      "path": "packages/game/src/__tests__/canvas-host.ts",
+      "sha256": "d256670d81e2d3f20d1c170ac945067f8d1861be796565aeb5bd70f72116f221"
+    },
+    {
+      "path": "packages/game/src/__tests__/asset-fixtures.ts",
+      "sha256": "cf3eae0a807ce26983299ee72ff140b7035cd64121a4547b6f145076547c12fc"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/raster-fixtures.ts",
+      "sha256": "d62741ab845759e2b42e992d4675e679b54464f207c3a8118af0f94dac9b5157"
+    },
+    {
+      "path": "packages/game/src/shell/__tests__/rng-frames.ts",
+      "sha256": "6a71ffb63e8daaf7f0981af21971316e8e326dd86bdd2e628f8968a47543501d"
+    },
+    {
+      "path": "packages/game/src/__tests__/grok-render-r1/dump-evidence.ts",
+      "sha256": "0190fb4ea18357e24e30a552ece01049ecdb208539895e3117fda5c2e402a6c4"
+    }
+  ],
+  "neighborPaths": [
+    "packages/game/src/shell/ending-player.test.ts",
+    "packages/game/src/shell/fbp-player.scroll.test.ts",
+    "packages/game/src/shell/fbp-player.test.ts",
+    "packages/game/src/shell/modal-input.test.ts",
+    "packages/game/src/shell/rng-player.cache.test.ts",
+    "packages/game/src/shell/rng-player.effects.test.ts",
+    "packages/game/src/shell/rng-player.test.ts",
+    "packages/game/src/shell/splash-fallback.test.ts",
+    "packages/game/src/shell/trademark-fallback.test.ts"
+  ],
+  "cleanExecutions": [
+    "before",
+    "organization-r4",
+    "neighbors",
+    "directed-final",
+    "typecheck-final",
+    "proof-r2",
+    "module-preflight",
+    "docs",
+    "content-review",
+    "lint",
+    "testing-docs",
+    "diff",
+    "scoped",
+    "ledger-final-r2"
+  ],
+  "lightweightGates": true,
+  "counters": [
+    "counter-title.json",
+    "counter-stop.json",
+    "counter-autoend.json",
+    "counter-listener.json"
+  ],
+  "receipts": {
+    "typecheck": "organization-shell-opening/typecheck-final",
+    "proof": "organization-shell-opening/proof-r2"
+  },
+  "reusedReviewMember": "organization-shell-opening/reused-reviews.json",
+  "fixtureAndCallbackProof": "organization-shell-opening/proof-r2.stdout.raw",
+  "primarySource": {
+    "source": "reference/sdlpal/main.c",
+    "sha256": "f54b46771515966bb76e9fca64496202395b3a3267b00f23b695141805995f0c",
+    "readRanges": [[176, 310], [311, 457]],
+    "scope": "PAL_TrademarkScreen and PAL_SplashScreen complete; implementation equivalence limited to sequence, palette references, title increment, scroll stop and key-only exit, not intermediate fade pixels."
+  },
+  "profiles": [
+    {
+      "path": "packages/game/src/shell/trademark-fallback.test.ts",
+      "subjects": [
+        "packages/game/src/shell/trademark-fallback.test.ts",
+        "packages/game/src/shell/trademark-splash.grok-r1.test.ts"
+      ],
+      "axes": {
+        "A": "6actual trademark contracts retain two-frame/default-skip and explicit-skip behavior,fixed chunk6/default1000ms,zero-duration black endpoint and defensive clock rollback. Actual DOS and bootstrap owners read.",
+        "B": "Remove author/batch grouping; keep original PNG witness IDs for provenance. Comments limit fade evidence to TS elapsed-time scaling,not exact C intermediate pixels.",
+        "C": "Native contexts fresh per case. Shared test owner observes original Promise and actual Window key/modal listeners; drains at most2500ms and checks leaks before forced cleanup,then restores spies/time. Distinct palette and clock scopes retained.",
+        "D": "NativeCanvas/dataframe constructors reused only for equal320x200full opaque inputs;2-frame borrowed manifest and one-frame factory remain distinct. Existing assertBytesEqual keeps full-byte/length output with compact failure diagnostics.",
+        "E": "All6existing identities/business assertions retained. Real Canvas forwarding spy and actual PNG decode retained; timeout/chunk argument tests remain wiring oracles with separately retained real playback/pixel tests.",
+        "F": "Trademark filename and purpose groups reveal actual sequence/fade responsibilities; no contributor name. track wraps the real entry point transparently,does not substitute rendering.",
+        "G": "4old inputs now2responsibility specs+1owned lifecycle helper,14cases retained. No universal bitmap factory,barrel,mode flag or product timing abstraction added.",
+        "H": "Actual renderer,framebuffer and Canvas; only declared input ports and clocks controlled. Defensive rollback remains explicitly nonordinary clock input,not a claimed normal-browser bug."
+      }
+    },
+    {
+      "path": "packages/game/src/shell/splash-fallback.test.ts",
+      "subjects": [
+        "packages/game/src/shell/splash-fallback.glm-next-wave.test.ts",
+        "packages/game/src/shell/splash-fallback.test.ts",
+        "packages/game/src/shell/trademark-splash.grok-r1.test.ts"
+      ],
+      "axes": {
+        "A": "8splash cases retain title reveal,background layers,Escape/custom keys,early full-title and black exit,defensive clipping and exact scroll stop. C fullfunction independently read.",
+        "B": "Correct3intervals vs3frames comment: synchronous t0 plus2intervals=3frames. Fix row40label to penultimate row; narrow bitmap is TS defensive input,not normal FBP asset parity.",
+        "C": "Same test owner verifies active-before-skip,actual completion,actual listeners and timer release. Full fakeperformance remains in old mixed cases; Date-only clock stays in other suites. No real-time timeout rule relaxation.",
+        "D": "Use existing solidIndexedImage for equal width/height/fill/opaque contracts; keep8-frame16x16,3transparent1x1 andsingle-frame1x1 crane inputs separate by purpose. No mode constructor.",
+        "E": "Old3frame oracle missed overshoot; nowrows0,2title/3,5background at170ms. Stopcase adds penultimate upper row,plus actual stillpending-beforekey.4real productmutants eachold1green/new1AssertionError; products restored exactly.",
+        "F": "splash file groups reveal/skip/bitmap boundaries; local craneSprite names actual data rather than mocks. Existing contract tags retained only where useful for historical identity.",
+        "G": "14originalcases retained overall; no new pixel endpoint clones. Shared lifecycle replaces silent clear-only/unbounded teardown,without carrying trademark data into splash groups.",
+        "H": "Real FB/Canvas,precise fake clock and independent literalcolors,row positions; no private visibleHeight seam or cloned renderer oracle. Actual listener leak mutant tests ownership design without host timeout."
+      }
+    },
+    {
+      "path": "packages/game/src/shell/__tests__/opening-playback.ts",
+      "subjects": [
+        "packages/game/src/shell/trademark-fallback.test.ts",
+        "packages/game/src/shell/splash-fallback.glm-next-wave.test.ts",
+        "packages/game/src/shell/splash-fallback.test.ts",
+        "packages/game/src/shell/trademark-splash.grok-r1.test.ts"
+      ],
+      "axes": {
+        "A": "Test-only owner invokes no product algorithm; track returns original Promise,observes rejection immediately,finish requires activeplayer before key and completionwithin2500ms.",
+        "B": "Comments specify real Window listeners,capture normalization,bounded progress and capture-before-forced-cleanup invariant; no claims of browser/E2E/visual acceptance.",
+        "C": "Owner owns only per-case Promise records,listeners it sees added through forwarded native methods,and fake timers. finally removes leftovers/clears records/restores its own spies;caller restores other mocks/time.",
+        "D": "Share equal modal opening lifecycle only. Individual suites retain their own data,Math.random and clock modes; owner imports no product modules or arbitrary effect API.",
+        "E": "Normal14cases exercise positive paths; actual omitted detachActions mutant fails the listener invariant uniquely,autoend fails active-before-key,other two pixelmutants fail business outputs. Forced cleanup follows snapshots,so cannot conceal leak.",
+        "F": "Named track/finishSplash/close and tagged Outcome expose asynchronous lifecycle; callback identity+capture keys mirror native add/remove semantics.",
+        "G": "No exported bookkeeping types,classes,generic scenario builder,global singleton or product Abort interface. One case-ownedfactory is the sole export.",
+        "H": "Deterministic2500ms completion window prevents infinite splash timer drain; immediate rejection observer avoids unhandledrejectionwhile preserving actualcallerawait. No casts/ignored diagnostics or widened timeouts."
+      }
+    }
+  ],
+  "reads": {
+    "fullInputs": [
+      {
+        "path": "packages/game/src/shell/trademark-fallback.test.ts",
+        "sha256": "bed971e9346f0e949462ee708c60483f839fb641ef78c95f5743bcb114560c65",
+        "member": "organization-shell-opening/0.before",
+        "lines": 116,
+        "provenance": "Full current input read; exact frozen bytes"
+      },
+      {
+        "path": "packages/game/src/shell/splash-fallback.glm-next-wave.test.ts",
+        "sha256": "36f4f153d500259c37d1bf4689b1672a97190332ad2f4759c8456f5f32a33624",
+        "member": "organization-shell-opening/1.before",
+        "lines": 69,
+        "provenance": "Full current input read; exact frozen bytes"
+      },
+      {
+        "path": "packages/game/src/shell/splash-fallback.test.ts",
+        "sha256": "8724a235a2b6ed1268ddd4d4fd68db1b6b6164758fcef896334d4ca607266753",
+        "member": "organization-shell-opening/2.before",
+        "lines": 165,
+        "provenance": "Full current input read; exact frozen bytes"
+      },
+      {
+        "path": "packages/game/src/shell/trademark-splash.grok-r1.test.ts",
+        "sha256": "fab76e60df1265a3e64f3c4077c2d41806a4caa7b8d2325f6cd7da42987234f6",
+        "member": "organization-shell-opening/3.before",
+        "lines": 193,
+        "provenance": "Full current input read; exact frozen bytes"
+      }
+    ],
+    "fullImplementation": [
+      {
+        "path": "packages/game/src/shell/splash-fallback.ts",
+        "sha256": "4da737006aa0b309a59487b5517c1ce19155113ed69fa9082f12f2d6737750e8",
+        "lines": 307
+      },
+      {
+        "path": "packages/game/src/shell/trademark-fallback.ts",
+        "sha256": "ad6995cb2b1927d569400cb8f2ec391c6838713af4e611288d41d0fd307308ee",
+        "lines": 91
+      }
+    ],
+    "currentFullOutputs": [
+      {
+        "path": "packages/game/src/shell/trademark-fallback.test.ts",
+        "sha256": "992ba49b77ecb483e75948f3640c40df8523273c2b3d99e86cf7291a57d3c4ff",
+        "lines": 222
+      },
+      {
+        "path": "packages/game/src/shell/splash-fallback.test.ts",
+        "sha256": "a4109d1642f53527589cafa34e755fa9e5ae25cbae4366e3af8077874eba03de",
+        "lines": 233
+      },
+      {
+        "path": "packages/game/src/shell/__tests__/opening-playback.ts",
+        "sha256": "ff6d9e4d4ea130ad81111a6deee29b2c6522bfcd4aac19bc9e468f378c31701d",
+        "lines": 107
+      }
+    ],
+    "callers": [
+      {
+        "path": "packages/game/src/shell/dos-cutscenes.ts",
+        "scope": "Full216-line prior same-byte read reused; actual opening44-99 reread and subsequent endingcontext read in this slice."
+      },
+      {
+        "path": "packages/game/src/shell/bootstrap.ts",
+        "ranges": [[1605, 1650]],
+        "scope": "DOS/WIN95 paths and actual suspendRaf try/finally owner; not fullbootstrap acceptance."
+      },
+      {
+        "path": "packages/game/src/shell/input.ts",
+        "ranges": [[78, 92]],
+        "scope": "Native modal action listener add/detach contract only,not full input source review."
+      },
+      {
+        "path": "packages/game/src/__tests__/grok-render-r1/dump-evidence.ts",
+        "scope": "Full helper read for actual dumpFramebuffer/readback contract. Other dumpHost synthesized raster/header mismatch remains adjacent pending,not approvedvisualwitness."
+      }
+    ]
+  },
+  "adjacentPending": [
+    {
+      "path": "packages/game/src/shell/splash-fallback.ts",
+      "kind": "comment/structural candidate",
+      "issue": "Private fade comment claims exact PAL_FadeOut equivalence despite elapsed-time floor scaling; trademark header already qualifies it. Similar fade helpers have actual shared RGB math but different clocks/rounding/callers. Product untouched; reuse needs separate source/lifetime comparison."
+    },
+    {
+      "path": "packages/game/src/__tests__/grok-render-r1/dump-evidence.ts",
+      "kind": "naming/ownership/comment candidate outside historical178",
+      "issue": "Caller uses genuine dumpFramebuffer only. Header overstates dumpHost as no substitute image: it synthesizes a text/bar raster. Temp artifacts retained by helper. Do not grant DOM screenshot/E2E credit."
+    }
+  ],
+  "processDisclosures": [
+    "2historical subjects only; adjacent main specs do not countasnewfullreviews.4input14cases ->2spec14cases+1test lifecycleowner.11callbacks conserved after explicit host/data/ownershipbridges;3explicit boundaryrepairs.",
+    "Existing trademark-splash cohortSHA precedes verified asset-fixture import relocation; exact oldmember/currentinput bridge retained,not equated. Original audit3frame/stop oracleclaims narrowed by current tests and4oldgreen/newbusinessredcounterpairs.",
+    "First3 producer attempts rejected duplicate playback declaration thenmissing beforeEach import in normalized bridge. Corrected actual assembly/import beforeacceptance; strict lexicalchecker unchanged,all rawfailureoutputs retained.",
+    "Proof initialVMfailedexportsyntax; corrected only exported function extraction beforeVM evaluation,no product/test relaxation. Initialtypecheck1error was closure narrowing acrossawait; helper rethrow function restores precise tagged-outcome type withoutcast.",
+    "Native Canvas/PNG encode-decode calls and witness IDs kept; no originalasset,hardware,wholeopeningoruser-visualacceptance. Testowner ispercase andoriginalPromiseisnotreplaced.",
+    "Current61neighbors9files; afterownererrorflowcleanup refinement14directedfinal/typecheck0. No product/schema/save/asset/publicinterfacebehaviorchange; heavywholecheck/coverage/protected/publication deferred.",
+    "Initial ledger check rejected stale tracked-total header3462vsactual3461; current inventory/status counts machineconfirmed3461/570/257/2634. Both original failure and corrected receipt retained."
+  ],
+  "ledgerCounts": {
+    "inventory": 3461,
+    "closed": 570,
+    "review": 257,
+    "pending": 2634
+  }
+}

@@ -5,7 +5,8 @@
  * objectId（OBJECT 表绝对 index 398+）。
  */
 import { describe, expect, test } from 'vitest'
-import { mkTable, mkWords } from '../../../__tests__/glm-foundation-fixtures.js'
+import { u16Table } from '../../../__tests__/binary-fixtures.js'
+import { makeWords } from '../../../__tests__/words-table.js'
 import {
   buildEnemyObjectNameMap,
   buildObjectIndexToEnemyIdMap,
@@ -40,7 +41,7 @@ const enemyWrites: Array<[number, number]> = [
 
 describe('parseEnemies · 字段映射', () => {
   test('两条记录：u16 字段/signed modifier/五行抗具名/id=数组下标', () => {
-    const out = parseEnemies(mkTable(ENEMY_SIZE * 2, enemyWrites))
+    const out = parseEnemies(u16Table(ENEMY_SIZE * 2, enemyWrites))
     expect(out).toHaveLength(2)
     expect(out[0]!.id).toBe(0)
     expect(out[0]!.health).toBe(310)
@@ -56,7 +57,9 @@ describe('parseEnemies · 字段映射', () => {
     expect(out[1]!.fleeRate).toBe(30)
   })
   test('长度不能被 70 整除：已定义截断拒绝', () => {
-    expect(() => parseEnemies(mkTable(ENEMY_SIZE * 2 - 1, []))).toThrow(/不能被 ENEMY_SIZE=70 整除/)
+    expect(() => parseEnemies(u16Table(ENEMY_SIZE * 2 - 1, []))).toThrow(
+      /不能被 ENEMY_SIZE=70 整除/,
+    )
   })
   test('零长度输入 → 空数组（合法边界）', () => {
     expect(parseEnemies(Uint8Array.of())).toEqual([])
@@ -65,7 +68,7 @@ describe('parseEnemies · 字段映射', () => {
 
 describe('parseEnemies · object→enemy 反查 _name', () => {
   test('OBJECT_ENEMY 段首个非零 wEnemyID 命中，重复 id 首见优先；enemyId 与 objectIndex 分开', () => {
-    const objBuf = mkTable(OBJ_BYTES, [
+    const objBuf = u16Table(OBJ_BYTES, [
       [398 * OBJ_SIZE + 0, 1], // object398 → enemyId 1
       [398 * OBJ_SIZE + 2, 7], // resistanceToSorcery
       [398 * OBJ_SIZE + 4, 101], // scriptOnTurnStart
@@ -74,8 +77,10 @@ describe('parseEnemies · object→enemy 反查 _name', () => {
       [(398 + 1) * OBJ_SIZE + 0, 1], // object399 也指 enemyId 1（重复，首见优先）
       [(398 + 2) * OBJ_SIZE + 0, 0], // object400 = 空槽
     ])
-    const words = mkWords({ enemies: Array.from({ length: ENEMY_OBJ_COUNT }, (_, i) => `敌${i}`) })
-    const out = parseEnemies(mkTable(ENEMY_SIZE * 2, enemyWrites), objBuf, words)
+    const words = makeWords({
+      enemies: Array.from({ length: ENEMY_OBJ_COUNT }, (_, i) => `敌${i}`),
+    })
+    const out = parseEnemies(u16Table(ENEMY_SIZE * 2, enemyWrites), objBuf, words)
     expect(out[1]!._name).toBe('敌0')
     expect(out[0]!._name).toBeUndefined()
 
@@ -97,12 +102,12 @@ describe('parseEnemies · object→enemy 反查 _name', () => {
     expect(buildEnemyObjectNameMap(objBuf, words).get(398)).toBe('敌0')
   })
   test('OBJECT 段截断：已定义拒绝', () => {
-    expect(() => parseEnemyObjects(mkTable(OBJ_BYTES - 1, []))).toThrow(/< required/)
+    expect(() => parseEnemyObjects(u16Table(OBJ_BYTES - 1, []))).toThrow(/< required/)
   })
 })
 
 test('buildEnemyObjectNameMap / buildObjectIndexToEnemyIdMap：短缓冲提前返回空 map', () => {
-  const words = mkWords({ enemies: ['不会被短表读取'] })
+  const words = makeWords({ enemies: ['不会被短表读取'] })
   const short = new Uint8Array(100)
   expect(buildEnemyObjectNameMap(short, words)).toEqual(new Map())
   expect(buildObjectIndexToEnemyIdMap(short)).toEqual(new Map())

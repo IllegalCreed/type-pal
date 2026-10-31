@@ -1,0 +1,551 @@
+{
+  "id": "editor-item-fields-and-placement-tests",
+  "namespace": "organization-editor-item-fields",
+  "inputs": [
+    {
+      "path": "packages/editor/src/ui/ItemTab.glm-m.test.tsx",
+      "member": "organization-editor-item-fields/0.before",
+      "sha256": "724c32814673c693b4d92149ed9b3c976d6550fbc97b92d8dfe24ef97fa20327",
+      "lines": 140
+    },
+    {
+      "path": "packages/editor/src/ui/ItemUseEffectEditor.glm-m.test.tsx",
+      "member": "organization-editor-item-fields/1.before",
+      "sha256": "e1b8237bbdadad3adc106e113840c39ca5db8f0a1aaae2f67cb7d2d1e50526f4",
+      "lines": 200
+    },
+    {
+      "path": "packages/editor/src/ui/ItemUseEffectEditor.residual.glm.test.tsx",
+      "member": "organization-editor-item-fields/2.before",
+      "sha256": "717e8bd12532609d14aef9b10c91794402666ffc7016bd6701694cd55ed2c69e",
+      "lines": 307
+    }
+  ],
+  "outputs": [
+    {
+      "path": "packages/editor/src/ui/ItemTab.fields.test.tsx",
+      "sha256": "13ba511d2791d2fd78f135151cd0c67c107ec94c17be0af697b53d067b3dce48",
+      "lines": 144
+    },
+    {
+      "path": "packages/editor/src/ui/ItemUseEffectEditor.field-history.test.tsx",
+      "sha256": "bfa22fb1f4f0874e98a8f218007a04135188d503e02348c6796f3eba72da7781",
+      "lines": 202
+    },
+    {
+      "path": "packages/editor/src/ui/ItemTab.entity-placement.test.tsx",
+      "sha256": "0e95b1a66a3ef4710cb348d18aa638567570d3449e3b2ece8aede94342e4cf45",
+      "lines": 274
+    }
+  ],
+  "replacements": [],
+  "sourceBridges": [
+    {
+      "path": "packages/editor/src/ui/ItemTab.glm-m.test.tsx",
+      "id": "organization-editor-item-fields-0",
+      "reason": "Current lexical context for registration only. Independent full typed-module proof restricts naming/select-driver/cleanup changes and preserves all seven complete business callbacks.",
+      "changes": [
+        {
+          "from": "// @vitest-environment jsdom\n/**\n * TEST-GLM-WAVE-M-1 M02（ItemTab.glm-m）：交易信息与显示文本当前合同。\n * 去重：ItemTab.test.tsx（24 例）与 ItemTab.kimi-workflows.test.tsx 已证目录/新建/复制/删除门/\n * 私有脚本/能力开关/图标/投掷演出/炼化摘要；grep 全旧测无「买价/卖价/商店可收购/介绍」断言。\n * 本文件只补：价格字段 blur 提交与撤销、收购开关、多行说明的空行剥离，及无关物品字段保全。\n */\nimport type { ItemData } from '@type-pal/content'\nimport { act, useSyncExternalStore } from 'react'\nimport { createRoot, type Root } from 'react-dom/client'\nimport { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'\nimport {\n  clickCheckboxByLabelText,\n  controlByLabel,\n  fillAndBlur,\n  loadLegalProject,\n  stubNodeTestHost,\n} from '../__tests__/glm-m/kit.js'\nimport { EditSession } from '../core/edit-session.js'\nimport { createEditorAssetReader } from '../core/editor-asset-reader.js'\nimport { assertProjectSaveValid } from '../core/project-diagnostics.js'\nimport { collectCurrentProjectReferenceIndex } from '../core/project-reference-adapters.js'\nimport { ItemTab } from './ItemTab.js'\n\nfunction item(id: string, name: string): ItemData {\n  return { id, name, desc: [], buyPrice: 0, sellPrice: 0, sellable: false }\n}\n\nfunction Harness(props: {\n  session: EditSession\n  focusObjectId?: string\n  reader: ReturnType<typeof createEditorAssetReader>\n}) {\n  useSyncExternalStore(\n    (callback) => props.session.subscribe(callback),\n    () => props.session.getVersion(),\n  )\n  const current = props.session.getState()\n  return (\n    <ItemTab\n      items={current.items}\n      actors={current.actors}\n      skills={current.skills}\n      poisons={current.poisons ?? []}\n      locale={current.locale}\n      session={props.session}\n      assetCatalog={current.assetCatalog}\n      assetReader={props.reader}\n      battleSprites={current.battleSprites ?? []}\n      referenceIndex={collectCurrentProjectReferenceIndex(current)}\n      referenceStatus=\"current\"\n      getCurrentReferenceIndex={(next) => collectCurrentProjectReferenceIndex(next)}\n      focusObjectId={props.focusObjectId}\n    />\n  )\n}\n\nlet root: Root\nlet host: HTMLDivElement\n\nbeforeEach(async () => {\n  await stubNodeTestHost()\n  host = document.createElement('div')\n  document.body.append(host)\n  root = createRoot(host)\n})\n\nafterEach(async () => {\n  await act(async () => root.unmount())\n  host.remove()\n  vi.restoreAllMocks()\n  vi.unstubAllGlobals()\n})\n\nasync function mount(items: ItemData[], focus?: string): Promise<EditSession> {\n  const legal = await loadLegalProject('glm-wave-m-item')\n  const next = { ...legal.state, items }\n  assertProjectSaveValid(next)\n  const session = new EditSession(next)\n  const reader = createEditorAssetReader(legal.source, () => session.getState())\n  await act(async () => {\n    root.render(<Harness session={session} focusObjectId={focus ?? items[0]!.id} reader={reader} />)\n    await Promise.resolve()\n  })\n  return session\n}\n\ndescribe('M02 ItemTab 交易/说明字段当前合同', () => {\n  test('买价/卖价 blur 各提交一次精确值，商店可收购开关键入账，undo 逐步还原', async () => {\n    const session = await mount([item('item-m-a', '桂花糕'), item('item-m-b', '糯米')])\n    const before = session.getHistoryVersion()\n    expect(session.getState().items[0]).toEqual(item('item-m-a', '桂花糕'))\n\n    await fillAndBlur(controlByLabel<HTMLInputElement>(host, '买价'), '120')\n    expect(session.getState().items[0]).toEqual({\n      ...item('item-m-a', '桂花糕'),\n      buyPrice: 120,\n    })\n    await fillAndBlur(controlByLabel<HTMLInputElement>(host, '卖价'), '60')\n    expect(session.getState().items[0]).toMatchObject({ buyPrice: 120, sellPrice: 60 })\n    expect(session.getHistoryVersion()).toBe(before + 2)\n\n    await clickCheckboxByLabelText(host, '商店可收购')\n    expect(session.getState().items[0]).toMatchObject({ sellable: true })\n    expect(session.getHistoryVersion()).toBe(before + 3)\n    assertProjectSaveValid(session.getState())\n\n    await act(async () => {\n      expect(session.undo()).toBe(true)\n    })\n    expect(session.getState().items[0]).toMatchObject({ sellable: false })\n    await act(async () => {\n      expect(session.undo()).toBe(true)\n    })\n    expect(session.getState().items[0]).toMatchObject({ buyPrice: 120, sellPrice: 0 })\n    await act(async () => {\n      expect(session.undo()).toBe(true)\n    })\n    expect(session.getState().items[0]).toEqual(item('item-m-a', '桂花糕'))\n    // 无关物品的四个交易/说明字段全程零变化。\n    expect(session.getState().items[1]).toEqual(item('item-m-b', '糯米'))\n  })\n\n  test('介绍按换行拆分并剥离空行，blur 一次提交；undo 恢复空说明', async () => {\n    const session = await mount([item('item-m-a', '桂花糕')])\n    const before = session.getHistoryVersion()\n\n    const desc = host.querySelector<HTMLTextAreaElement>('textarea')\n    expect(desc, '介绍 textarea').not.toBeNull()\n    await fillAndBlur(desc!, ' recover\\n\\n第二行\\n   \\n第三行 ')\n    // 当前合同：按换行拆分，丢弃空白行，其余行保留原样（不 trim）。\n    expect(session.getState().items[0]?.desc).toEqual([' recover', '第二行', '第三行 '])\n    expect(session.getHistoryVersion()).toBe(before + 1)\n\n    await act(async () => {\n      expect(session.undo()).toBe(true)\n    })\n    expect(session.getState().items[0]?.desc).toEqual([])\n  })\n})\n",
+          "to": "// @vitest-environment jsdom\n/**\n * 交易价格、收购开关与说明文本经真实 ItemTab 写入 EditSession。\n * 保留精确值、历史步数和撤销观察；目录与私有脚本工作流属于相邻专测。\n */\nimport type { ItemData } from '@type-pal/content'\nimport { act, useSyncExternalStore } from 'react'\nimport { createRoot, type Root } from 'react-dom/client'\nimport { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'\nimport {\n  clickCheckboxByLabelText,\n  controlByLabel,\n  fillAndBlur,\n  loadLegalProject,\n  stubNodeTestHost,\n} from '../__tests__/glm-m/kit.js'\nimport { EditSession } from '../core/edit-session.js'\nimport { createEditorAssetReader } from '../core/editor-asset-reader.js'\nimport { assertProjectSaveValid } from '../core/project-diagnostics.js'\nimport { collectCurrentProjectReferenceIndex } from '../core/project-reference-adapters.js'\nimport { ItemTab } from './ItemTab.js'\n\nfunction item(id: string, name: string): ItemData {\n  return { id, name, desc: [], buyPrice: 0, sellPrice: 0, sellable: false }\n}\n\nfunction ItemFieldsHarness(props: {\n  session: EditSession\n  focusObjectId?: string\n  reader: ReturnType<typeof createEditorAssetReader>\n}) {\n  useSyncExternalStore(\n    (callback) => props.session.subscribe(callback),\n    () => props.session.getVersion(),\n  )\n  const current = props.session.getState()\n  return (\n    <ItemTab\n      items={current.items}\n      actors={current.actors}\n      skills={current.skills}\n      poisons={current.poisons ?? []}\n      locale={current.locale}\n      session={props.session}\n      assetCatalog={current.assetCatalog}\n      assetReader={props.reader}\n      battleSprites={current.battleSprites ?? []}\n      referenceIndex={collectCurrentProjectReferenceIndex(current)}\n      referenceStatus=\"current\"\n      getCurrentReferenceIndex={(next) => collectCurrentProjectReferenceIndex(next)}\n      focusObjectId={props.focusObjectId}\n    />\n  )\n}\n\nlet root: Root\nlet host: HTMLDivElement\n\nbeforeEach(async () => {\n  vi.stubGlobal('IS_REACT_ACT_ENVIRONMENT', true)\n  await stubNodeTestHost()\n  host = document.createElement('div')\n  document.body.append(host)\n  root = createRoot(host)\n})\n\nafterEach(async () => {\n  try {\n    await act(async () => root.unmount())\n  } finally {\n    host.remove()\n    vi.restoreAllMocks()\n    vi.unstubAllGlobals()\n  }\n})\n\nasync function mount(items: ItemData[], focus?: string): Promise<EditSession> {\n  const legal = await loadLegalProject('glm-wave-m-item')\n  const next = { ...legal.state, items }\n  assertProjectSaveValid(next)\n  const session = new EditSession(next)\n  const reader = createEditorAssetReader(legal.source, () => session.getState())\n  await act(async () => {\n    root.render(\n      <ItemFieldsHarness session={session} focusObjectId={focus ?? items[0]!.id} reader={reader} />,\n    )\n    await Promise.resolve()\n  })\n  return session\n}\n\ndescribe('ItemTab 交易与说明字段', () => {\n  test('买价/卖价 blur 各提交一次精确值，商店可收购开关键入账，undo 逐步还原', async () => {\n    const session = await mount([item('item-m-a', '桂花糕'), item('item-m-b', '糯米')])\n    const before = session.getHistoryVersion()\n    expect(session.getState().items[0]).toEqual(item('item-m-a', '桂花糕'))\n\n    await fillAndBlur(controlByLabel<HTMLInputElement>(host, '买价'), '120')\n    expect(session.getState().items[0]).toEqual({\n      ...item('item-m-a', '桂花糕'),\n      buyPrice: 120,\n    })\n    await fillAndBlur(controlByLabel<HTMLInputElement>(host, '卖价'), '60')\n    expect(session.getState().items[0]).toMatchObject({ buyPrice: 120, sellPrice: 60 })\n    expect(session.getHistoryVersion()).toBe(before + 2)\n\n    await clickCheckboxByLabelText(host, '商店可收购')\n    expect(session.getState().items[0]).toMatchObject({ sellable: true })\n    expect(session.getHistoryVersion()).toBe(before + 3)\n    assertProjectSaveValid(session.getState())\n\n    await act(async () => {\n      expect(session.undo()).toBe(true)\n    })\n    expect(session.getState().items[0]).toMatchObject({ sellable: false })\n    await act(async () => {\n      expect(session.undo()).toBe(true)\n    })\n    expect(session.getState().items[0]).toMatchObject({ buyPrice: 120, sellPrice: 0 })\n    await act(async () => {\n      expect(session.undo()).toBe(true)\n    })\n    expect(session.getState().items[0]).toEqual(item('item-m-a', '桂花糕'))\n    // 完成这轮编辑和撤销后，另一物品仍等于初始值。\n    expect(session.getState().items[1]).toEqual(item('item-m-b', '糯米'))\n  })\n\n  test('介绍按换行拆分并剥离空行，blur 一次提交；undo 恢复空说明', async () => {\n    const session = await mount([item('item-m-a', '桂花糕')])\n    const before = session.getHistoryVersion()\n\n    const desc = host.querySelector<HTMLTextAreaElement>('textarea')\n    expect(desc, '介绍 textarea').not.toBeNull()\n    await fillAndBlur(desc!, ' recover\\n\\n第二行\\n   \\n第三行 ')\n    // 当前合同：按换行拆分，丢弃空白行，其余行保留原样（不 trim）。\n    expect(session.getState().items[0]?.desc).toEqual([' recover', '第二行', '第三行 '])\n    expect(session.getHistoryVersion()).toBe(before + 1)\n\n    await act(async () => {\n      expect(session.undo()).toBe(true)\n    })\n    expect(session.getState().items[0]?.desc).toEqual([])\n  })\n})\n",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "packages/editor/src/ui/ItemUseEffectEditor.glm-m.test.tsx",
+      "id": "organization-editor-item-fields-1",
+      "reason": "Current lexical context for registration only. Independent full typed-module proof restricts naming/select-driver/cleanup changes and preserves all seven complete business callbacks.",
+      "changes": [
+        {
+          "from": "// @vitest-environment jsdom\n/**\n * TEST-GLM-WAVE-M-1 M02（ItemUseEffectEditor.glm-m）：未被旧断言触达的使用效果分支。\n * 去重：ItemUseEffectEditor.test.tsx / glm-ui-wave U1c / kimi-workflows K10 已证结构化默认、\n * 链增删改排、目标/菜单/battleOnly、消耗自材料守卫、场景钩子独占、可复用脚本、解毒/施毒、\n * 投掷字段族与复活字段（revive hpPercent 45 由 K10 逐步落库）；本文件只补\n * 永久成长（属性/增量）与明雷感知（感知范围/持续毫秒）两条链上字段的真实会话提交。\n * 接线与 K10 同构：onChange 直接 dispatch UpdateItemCommand 到真实 EditSession。\n */\n\nimport type { ItemData, UseSpec } from '@type-pal/content'\nimport { act, useSyncExternalStore } from 'react'\nimport { createRoot, type Root } from 'react-dom/client'\nimport { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'\nimport {\n  buttonByText,\n  controlByLabel,\n  fillAndBlur,\n  loadLegalProject,\n  pickCombobox,\n  stubNodeTestHost,\n} from '../__tests__/glm-m/kit.js'\nimport { UpdateItemCommand } from '../core/commands.js'\nimport { EditSession } from '../core/edit-session.js'\nimport { assertProjectSaveValid } from '../core/project-diagnostics.js'\nimport { ItemEffectChainEditor } from './ItemUseEffectEditor.js'\n\nfunction plain(id: string, name: string): ItemData {\n  return { id, name, desc: [], buyPrice: 0, sellPrice: 0, sellable: false }\n}\n\nconst USE: UseSpec = { target: 'oneAlly', consuming: true, effects: [] }\n\nasync function legalSessionWithUse(): Promise<EditSession> {\n  const { state } = await loadLegalProject('glm-wave-m-use-effects')\n  const items: ItemData[] = [\n    { ...plain('item-use-m', '醒神丹'), use: structuredClone(USE) },\n    plain('item-use-other', '旁证物品'),\n  ]\n  const next = { ...state, items }\n  assertProjectSaveValid(next)\n  return new EditSession(next)\n}\n\nfunction Harness(props: { session: EditSession }) {\n  useSyncExternalStore(\n    (callback) => props.session.subscribe(callback),\n    () => props.session.getVersion(),\n  )\n  const current = props.session.getState()\n  const item = current.items[0]!\n  const spec = item.use ?? USE\n  return (\n    <ItemEffectChainEditor\n      ability=\"use\"\n      spec={spec}\n      items={current.items}\n      poisons={current.poisons ?? []}\n      scripts={[]}\n      itemId={item.id}\n      scenes={current.scenes}\n      sceneIndex={current.sceneIndex}\n      draftScope={`item:${item.id}:use`}\n      syncToken={props.session.getHistoryVersion()}\n      onChange={(next) => {\n        props.session.dispatch(new UpdateItemCommand(item.id, { use: next }))\n      }}\n      onError={() => undefined}\n    />\n  )\n}\n\nlet root: Root\nlet host: HTMLDivElement\n\nbeforeEach(async () => {\n  await stubNodeTestHost()\n  host = document.createElement('div')\n  document.body.append(host)\n  root = createRoot(host)\n})\n\nafterEach(async () => {\n  await act(async () => root.unmount())\n  host.remove()\n  vi.restoreAllMocks()\n  vi.unstubAllGlobals()\n})\n\n/** 效果卡类型切换（第一张卡的 `效果 1 类型` 组合框）。 */\nasync function switchEffectKind(session: EditSession, label: string): Promise<void> {\n  const card = host.querySelector<HTMLElement>('[data-effect-editor-card]')\n  expect(card, '效果卡').not.toBeNull()\n  const trigger = card!.querySelector<HTMLButtonElement>('[aria-label=\"效果 1 类型\"]')\n  expect(trigger, '效果 1 类型').not.toBeNull()\n  await pickCombobox(trigger!, label)\n  expect(session.getHistoryVersion()).toBeGreaterThan(0)\n}\n\ndescribe('M02 ItemUseEffectEditor 未触达效果分支', () => {\n  test('永久成长：改类落默认 maxHP+5，属性/增量逐字段提交，undo/redo 对称且过保存门', async () => {\n    const session = await legalSessionWithUse()\n    await act(async () => {\n      root.render(<Harness session={session} />)\n      await Promise.resolve()\n    })\n    const before = session.getHistoryVersion()\n\n    // 空链先经「添加效果」产生首卡（默认 healHp），再切到目标类型。\n    await act(async () => buttonByText(host, '添加效果').click())\n    expect(session.getState().items[0]!.use?.effects).toEqual([{ kind: 'healHp', amount: 100 }])\n    await switchEffectKind(session, '永久成长')\n    expect(session.getState().items[0]!.use?.effects).toEqual([\n      { kind: 'permanentStatBoost', stat: 'maxHP', delta: 5 },\n    ])\n    assertProjectSaveValid(session.getState())\n\n    const card = () => host.querySelector<HTMLElement>('[data-effect-editor-card]')!\n    await pickCombobox(\n      card().querySelector<HTMLButtonElement>('[aria-label=\"永久成长属性\"]')!,\n      '灵力',\n    )\n    expect(session.getState().items[0]!.use?.effects).toEqual([\n      { kind: 'permanentStatBoost', stat: 'magicAttack', delta: 5 },\n    ])\n\n    await fillAndBlur(controlByLabel<HTMLInputElement>(host, '增量'), '12')\n    expect(session.getState().items[0]!.use?.effects).toEqual([\n      { kind: 'permanentStatBoost', stat: 'magicAttack', delta: 12 },\n    ])\n    expect(session.getHistoryVersion()).toBe(before + 4)\n\n    await act(async () => {\n      expect(session.undo()).toBe(true)\n    })\n    expect(session.getState().items[0]!.use?.effects).toEqual([\n      { kind: 'permanentStatBoost', stat: 'magicAttack', delta: 5 },\n    ])\n    await act(async () => {\n      expect(session.undo()).toBe(true)\n    })\n    expect(session.getState().items[0]!.use?.effects).toEqual([\n      { kind: 'permanentStatBoost', stat: 'maxHP', delta: 5 },\n    ])\n    await act(async () => {\n      expect(session.undo()).toBe(true)\n    })\n    expect(session.getState().items[0]!.use?.effects).toEqual([{ kind: 'healHp', amount: 100 }])\n    await act(async () => {\n      expect(session.redo()).toBe(true)\n    })\n    expect(session.getState().items[0]!.use?.effects).toEqual([\n      { kind: 'permanentStatBoost', stat: 'maxHP', delta: 5 },\n    ])\n  })\n\n  test('明雷感知：改类落默认停止追逐 60 秒，扩 3 倍与持续毫秒逐字段提交', async () => {\n    const session = await legalSessionWithUse()\n    await act(async () => {\n      root.render(<Harness session={session} />)\n      await Promise.resolve()\n    })\n    const before = session.getHistoryVersion()\n\n    await act(async () => buttonByText(host, '添加效果').click())\n    await switchEffectKind(session, '调整明雷感知')\n    expect(session.getState().items[0]!.use?.effects).toEqual([\n      { kind: 'modifyHostileAwareness', rangeMultiplier: 0, durationMs: 60_000 },\n    ])\n\n    const card = () => host.querySelector<HTMLElement>('[data-effect-editor-card]')!\n    await pickCombobox(\n      card().querySelector<HTMLButtonElement>('[aria-label=\"明雷感知范围\"]')!,\n      '扩大至 3 倍',\n    )\n    expect(session.getState().items[0]!.use?.effects).toEqual([\n      { kind: 'modifyHostileAwareness', rangeMultiplier: 3, durationMs: 60_000 },\n    ])\n\n    await fillAndBlur(controlByLabel<HTMLInputElement>(host, '持续毫秒'), '120000')\n    expect(session.getState().items[0]!.use?.effects).toEqual([\n      { kind: 'modifyHostileAwareness', rangeMultiplier: 3, durationMs: 120_000 },\n    ])\n    expect(session.getHistoryVersion()).toBe(before + 4)\n    assertProjectSaveValid(session.getState())\n\n    await act(async () => {\n      expect(session.undo()).toBe(true)\n    })\n    expect(session.getState().items[0]!.use?.effects).toEqual([\n      { kind: 'modifyHostileAwareness', rangeMultiplier: 3, durationMs: 60_000 },\n    ])\n    await act(async () => {\n      expect(session.undo()).toBe(true)\n    })\n    expect(session.getState().items[0]!.use?.effects).toEqual([\n      { kind: 'modifyHostileAwareness', rangeMultiplier: 0, durationMs: 60_000 },\n    ])\n  })\n})\n",
+          "to": "// @vitest-environment jsdom\n/**\n * 永久成长与明雷感知字段经真实效果组件和 UpdateItemCommand 提交。\n * 与纯默认值测试分开：这里观察字段修改、保存校验和撤销重做。\n */\n\nimport type { ItemData, UseSpec } from '@type-pal/content'\nimport { act, useSyncExternalStore } from 'react'\nimport { createRoot, type Root } from 'react-dom/client'\nimport { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'\nimport {\n  buttonByText,\n  controlByLabel,\n  fillAndBlur,\n  loadLegalProject,\n  pickCombobox,\n  stubNodeTestHost,\n} from '../__tests__/glm-m/kit.js'\nimport { UpdateItemCommand } from '../core/commands.js'\nimport { EditSession } from '../core/edit-session.js'\nimport { assertProjectSaveValid } from '../core/project-diagnostics.js'\nimport { ItemEffectChainEditor } from './ItemUseEffectEditor.js'\n\nfunction makeItem(id: string, name: string): ItemData {\n  return { id, name, desc: [], buyPrice: 0, sellPrice: 0, sellable: false }\n}\n\nconst emptyUseSpec: UseSpec = { target: 'oneAlly', consuming: true, effects: [] }\n\nasync function legalSessionWithUse(): Promise<EditSession> {\n  const { state } = await loadLegalProject('glm-wave-m-use-effects')\n  const items: ItemData[] = [\n    { ...makeItem('item-use-m', '醒神丹'), use: structuredClone(emptyUseSpec) },\n    makeItem('item-use-other', '旁证物品'),\n  ]\n  const next = { ...state, items }\n  assertProjectSaveValid(next)\n  return new EditSession(next)\n}\n\nfunction EffectFieldsHarness(props: { session: EditSession }) {\n  useSyncExternalStore(\n    (callback) => props.session.subscribe(callback),\n    () => props.session.getVersion(),\n  )\n  const current = props.session.getState()\n  const item = current.items[0]!\n  const spec = item.use ?? emptyUseSpec\n  return (\n    <ItemEffectChainEditor\n      ability=\"use\"\n      spec={spec}\n      items={current.items}\n      poisons={current.poisons ?? []}\n      scripts={[]}\n      itemId={item.id}\n      scenes={current.scenes}\n      sceneIndex={current.sceneIndex}\n      draftScope={`item:${item.id}:use`}\n      syncToken={props.session.getHistoryVersion()}\n      onChange={(next) => {\n        props.session.dispatch(new UpdateItemCommand(item.id, { use: next }))\n      }}\n      onError={(message) => effectErrors.push(message)}\n    />\n  )\n}\n\nlet root: Root\nlet host: HTMLDivElement\nlet effectErrors: string[]\n\nbeforeEach(async () => {\n  effectErrors = []\n  vi.stubGlobal('IS_REACT_ACT_ENVIRONMENT', true)\n  await stubNodeTestHost()\n  host = document.createElement('div')\n  document.body.append(host)\n  root = createRoot(host)\n})\n\nafterEach(async () => {\n  try {\n    await act(async () => root.unmount())\n    expect(effectErrors).toEqual([])\n  } finally {\n    host.remove()\n    vi.restoreAllMocks()\n    vi.unstubAllGlobals()\n  }\n})\n\n/** 效果卡类型切换（第一张卡的 `效果 1 类型` 组合框）。 */\nasync function switchEffectKind(label: string): Promise<void> {\n  const card = host.querySelector<HTMLElement>('[data-effect-editor-card]')\n  expect(card, '效果卡').not.toBeNull()\n  const trigger = card!.querySelector<HTMLButtonElement>('[aria-label=\"效果 1 类型\"]')\n  expect(trigger, '效果 1 类型').not.toBeNull()\n  await pickCombobox(trigger!, label)\n}\n\ndescribe('ItemEffectChainEditor 字段与历史', () => {\n  test('永久成长：改类落默认 maxHP+5，属性/增量逐字段提交，undo/redo 对称且过保存门', async () => {\n    const session = await legalSessionWithUse()\n    await act(async () => {\n      root.render(<EffectFieldsHarness session={session} />)\n      await Promise.resolve()\n    })\n    const before = session.getHistoryVersion()\n\n    // 空链先经「添加效果」产生首卡（默认 healHp），再切到目标类型。\n    await act(async () => buttonByText(host, '添加效果').click())\n    expect(session.getState().items[0]!.use?.effects).toEqual([{ kind: 'healHp', amount: 100 }])\n    await switchEffectKind('永久成长')\n    expect(session.getState().items[0]!.use?.effects).toEqual([\n      { kind: 'permanentStatBoost', stat: 'maxHP', delta: 5 },\n    ])\n    assertProjectSaveValid(session.getState())\n\n    const card = () => host.querySelector<HTMLElement>('[data-effect-editor-card]')!\n    await pickCombobox(\n      card().querySelector<HTMLButtonElement>('[aria-label=\"永久成长属性\"]')!,\n      '灵力',\n    )\n    expect(session.getState().items[0]!.use?.effects).toEqual([\n      { kind: 'permanentStatBoost', stat: 'magicAttack', delta: 5 },\n    ])\n\n    await fillAndBlur(controlByLabel<HTMLInputElement>(host, '增量'), '12')\n    expect(session.getState().items[0]!.use?.effects).toEqual([\n      { kind: 'permanentStatBoost', stat: 'magicAttack', delta: 12 },\n    ])\n    expect(session.getHistoryVersion()).toBe(before + 4)\n\n    await act(async () => {\n      expect(session.undo()).toBe(true)\n    })\n    expect(session.getState().items[0]!.use?.effects).toEqual([\n      { kind: 'permanentStatBoost', stat: 'magicAttack', delta: 5 },\n    ])\n    await act(async () => {\n      expect(session.undo()).toBe(true)\n    })\n    expect(session.getState().items[0]!.use?.effects).toEqual([\n      { kind: 'permanentStatBoost', stat: 'maxHP', delta: 5 },\n    ])\n    await act(async () => {\n      expect(session.undo()).toBe(true)\n    })\n    expect(session.getState().items[0]!.use?.effects).toEqual([{ kind: 'healHp', amount: 100 }])\n    await act(async () => {\n      expect(session.redo()).toBe(true)\n    })\n    expect(session.getState().items[0]!.use?.effects).toEqual([\n      { kind: 'permanentStatBoost', stat: 'maxHP', delta: 5 },\n    ])\n  })\n\n  test('明雷感知：改类落默认停止追逐 60 秒，扩 3 倍与持续毫秒逐字段提交', async () => {\n    const session = await legalSessionWithUse()\n    await act(async () => {\n      root.render(<EffectFieldsHarness session={session} />)\n      await Promise.resolve()\n    })\n    const before = session.getHistoryVersion()\n\n    await act(async () => buttonByText(host, '添加效果').click())\n    await switchEffectKind('调整明雷感知')\n    expect(session.getState().items[0]!.use?.effects).toEqual([\n      { kind: 'modifyHostileAwareness', rangeMultiplier: 0, durationMs: 60_000 },\n    ])\n\n    const card = () => host.querySelector<HTMLElement>('[data-effect-editor-card]')!\n    await pickCombobox(\n      card().querySelector<HTMLButtonElement>('[aria-label=\"明雷感知范围\"]')!,\n      '扩大至 3 倍',\n    )\n    expect(session.getState().items[0]!.use?.effects).toEqual([\n      { kind: 'modifyHostileAwareness', rangeMultiplier: 3, durationMs: 60_000 },\n    ])\n\n    await fillAndBlur(controlByLabel<HTMLInputElement>(host, '持续毫秒'), '120000')\n    expect(session.getState().items[0]!.use?.effects).toEqual([\n      { kind: 'modifyHostileAwareness', rangeMultiplier: 3, durationMs: 120_000 },\n    ])\n    expect(session.getHistoryVersion()).toBe(before + 4)\n    assertProjectSaveValid(session.getState())\n\n    await act(async () => {\n      expect(session.undo()).toBe(true)\n    })\n    expect(session.getState().items[0]!.use?.effects).toEqual([\n      { kind: 'modifyHostileAwareness', rangeMultiplier: 3, durationMs: 60_000 },\n    ])\n    await act(async () => {\n      expect(session.undo()).toBe(true)\n    })\n    expect(session.getState().items[0]!.use?.effects).toEqual([\n      { kind: 'modifyHostileAwareness', rangeMultiplier: 0, durationMs: 60_000 },\n    ])\n  })\n})\n",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "packages/editor/src/ui/ItemUseEffectEditor.residual.glm.test.tsx",
+      "id": "organization-editor-item-fields-2",
+      "reason": "Current lexical context for registration only. Independent full typed-module proof restricts naming/select-driver/cleanup changes and preserves all seven complete business callbacks.",
+      "changes": [
+        {
+          "from": "// @vitest-environment jsdom\n/**\n * TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1：ItemUseEffectEditor 场景/实体引用残差合同。\n *\n * 排重底账（既有证明，本文件不复制）：\n * - ItemUseEffectEditor.test.tsx:526 「场景实体效果显式保留失效引用…」：场景+实体双失效 ⚠ 保留、\n *   切场景取新场景首实体、无实体场景选项禁用（useState 回调层，未经真实 session/sceneIndex）。\n * - glm-ui-wave U1c:116/129/153/181：目标/菜单/battleOnly 提交、消耗自材料守卫、独占切换\n *   target 联动、解除状态末项 no-op（回调层）。\n * - kimi-workflows K10:187/299/381/435：链工作流、独占锁、可复用脚本 ref、解毒/施毒、投掷字段族\n *   （真实 EditSession；scenes 取 current.scenes，与 ItemTab.tsx:1866 同构）。\n * - glm-m M02:101/149：永久成长/明雷感知真实会话提交。\n * - entity-address-references.test.ts:167-216：item.use 的 placeEntityInFront 地址属实体引用\n *   collector 的受支持来源（core 层悬空检测 existing-proof；本文件只在真实 UI 修复流中作 oracle）。\n * - ItemAlchemyTab.boundary-contracts（已接收 B 批）B2/B4/B7 + 旧 :731：配方/奖励引用缺失的呈现\n *   与恢复属机制页；本编辑器对 craftRecipe/drawFromResourcePool 只读镜像 + 精确跳转\n *   （ItemUseEffectEditor.test.tsx:246 已证）——资源池/配方引用轴零新增。\n *\n * 夹具口径：物品与场景按作者文件种子经真实 loader 装载（loader 接受失效实体地址；仅编辑器\n * 保存门 collectMissingEntityAddressReferences 拒绝——损坏内容域与 B7 未解析材料同口径）。\n * 本文件只补三轴残差（真实 ItemTab caller）：\n * - R1 场景有效而实体引用失效：⚠ 实体选项保留、场景名经 sceneIndex 解析且无 ⚠、同场景改选\n *   实体修复、修复前后保存门红/绿极性翻转、单命令可撤销（ItemUseEffectEditor.tsx:813-833）。\n * - R3 healHp 转入 placeEntityInFront：默认目标跳过首个无实体场景取首个有实体场景、完整\n *   schema 单命令落库并联动 target→scene（ItemUseEffectEditor.tsx:276-286/945-957/906-932；\n *   独占塌缩与 scene 联动机制由 base:394/U1c:153 existing-proof）。\n * - R5 项目无可放置实体：类型选项经独占绕过仍提供（:962），选择失败经公开 onStatusNotice\n *   精确报错且零提交（:954-956 捕获臂 + :279 抛点）。\n */\nimport type { ItemData } from '@type-pal/content'\nimport {\n  fsaSource,\n  loadAllAuthorScenes,\n  loadAllProjectMaps,\n  loadCurrentProjectFrom,\n} from '@type-pal/reforge'\nimport { act, useSyncExternalStore } from 'react'\nimport { createRoot, type Root } from 'react-dom/client'\nimport { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'\nimport { stubNodeTestHost } from '../__tests__/glm-m/kit.js'\nimport { memoryAuthorDirectory } from '../core/__tests__/author-save-fixture.js'\nimport type { EditorState } from '../core/edit-session.js'\nimport { EditSession } from '../core/edit-session.js'\nimport { createEditorAssetReader } from '../core/editor-asset-reader.js'\nimport { EditorHistoryCoordinator } from '../core/editor-history-coordinator.js'\nimport { assertProjectSaveValid } from '../core/project-diagnostics.js'\nimport { toEditorState } from '../core/project-io.js'\nimport { collectCurrentProjectReferenceIndex } from '../core/project-reference-adapters.js'\nimport { type ScriptEditorState, ScriptEditSession } from '../core/script-editor.js'\nimport { projectEditorItemShells } from '../core/script-editor-projection.js'\nimport { buildBlankProject } from '../core/seed.js'\nimport { ItemTab } from './ItemTab.js'\n\n/** R1/R3 场景种子：blank 'start'（无实体，保持 index 首位）之后的第二场景，含两个实体。 */\nconst SCENE_RES_ENTITIES = [\n  { id: 'e1', sprite: 'hero', pos: { col: 1, row: 1, height: 0 } },\n  { id: 'e2', sprite: 'hero', pos: { col: 2, row: 2, height: 0 } },\n]\n\nfunction plainItem(id: string, name: string, use: ItemData['use']): unknown {\n  return { id, name, desc: [], buyPrice: 0, sellPrice: 0, sellable: false, use }\n}\n\ninterface ResidualRig {\n  session: EditSession\n  notices: Array<{ kind: 'info' | 'error'; message: string } | undefined>\n}\n\nlet root: Root\nlet host: HTMLDivElement\n\n/** 真实 ItemTab 装载（K10 rig 同构）：作者文件种子 → 真实 loader → 壳投影 → 会话 + 协调器。 */\nasync function mountItemTab(options: {\n  items: unknown[]\n  sceneRes?: boolean\n  focus: string\n}): Promise<ResidualRig> {\n  const files = await buildBlankProject('glm-item-effect-residual')\n  files['content/items.json'] = options.items\n  if (options.sceneRes) {\n    const index = files['content/scenes/index.json'] as {\n      scenes: Array<{ id: string; name: string; path: string }>\n    }\n    index.scenes.push({ id: 'scene-res', name: '客舍', path: 'content/scenes/scene-res.json' })\n    files['content/scenes/scene-res.json'] = {\n      id: 'scene-res',\n      mapId: 'start',\n      entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },\n      entities: structuredClone(SCENE_RES_ENTITIES),\n    }\n  }\n  const source = fsaSource(memoryAuthorDirectory(files).dir)\n  const project = await loadCurrentProjectFrom(source)\n  const scenes = await loadAllAuthorScenes(project)\n  const maps = await loadAllProjectMaps(project)\n  const state: EditorState = {\n    ...toEditorState(project, scenes, maps, {}, []),\n    items: projectEditorItemShells(project),\n  }\n  const session = new EditSession(state)\n  const reader = createEditorAssetReader(source, () => session.getState())\n  const canonical: ScriptEditorState = {\n    scenes: structuredClone(scenes),\n    items: structuredClone(project.authorContent.items),\n    sharedScripts: structuredClone(project.authorContent.sharedScripts),\n  }\n  const scriptSession = new ScriptEditSession(canonical)\n  const historyCoordinator = new EditorHistoryCoordinator(session, scriptSession)\n  const notices: ResidualRig['notices'] = []\n  const Harness = () => {\n    useSyncExternalStore(\n      (callback) => session.subscribe(callback),\n      () => session.getVersion(),\n    )\n    const current = session.getState()\n    return (\n      <ItemTab\n        items={current.items}\n        actors={current.actors}\n        skills={current.skills}\n        poisons={current.poisons ?? []}\n        locale={current.locale}\n        session={session}\n        assetCatalog={current.assetCatalog}\n        assetReader={reader}\n        battleSprites={current.battleSprites ?? []}\n        referenceIndex={collectCurrentProjectReferenceIndex(current)}\n        referenceStatus=\"current\"\n        getCurrentReferenceIndex={(state_) => collectCurrentProjectReferenceIndex(state_)}\n        focusObjectId={options.focus}\n        historyCoordinator={historyCoordinator}\n        script={{ state: canonical, session: scriptSession }}\n        onStatusNotice={(notice) => notices.push(notice)}\n      />\n    )\n  }\n  await act(async () => {\n    root.render(<Harness />)\n    await Promise.resolve()\n  })\n  return { session, notices }\n}\n\nfunction trigger(ariaLabel: string): HTMLButtonElement {\n  const node = host.querySelector<HTMLButtonElement>(`button[aria-label=\"${ariaLabel}\"]`)\n  expect(node, `combobox ${ariaLabel}`).not.toBeNull()\n  return node!\n}\n\n/** DsSelect 驱动（K10 chooseOption 同构）：aria-controls 域内按选项 label 精确匹配。 */\nasync function chooseOption(ariaLabel: string, label: string): Promise<void> {\n  const node = trigger(ariaLabel)\n  if (node.getAttribute('aria-expanded') !== 'true')\n    await act(async () => {\n      node.click()\n    })\n  const controls = node.getAttribute('aria-controls')\n  const scope = (controls ? document.getElementById(controls) : null) ?? document\n  const option = [...scope.querySelectorAll<HTMLElement>('[role=\"option\"]')].find(\n    (candidate) =>\n      candidate.querySelector('.ds-select-option__label')?.textContent === label ||\n      candidate.textContent?.trim() === label,\n  )\n  expect(option, `下拉选项「${label}」`).toBeDefined()\n  await act(async () => {\n    option!.click()\n  })\n}\n\nfunction useSpec(session: EditSession, itemId: string): ItemData['use'] {\n  const item = session.getState().items.find((candidate) => candidate.id === itemId)\n  expect(item, `物品 ${itemId}`).toBeDefined()\n  return item!.use\n}\n\nbeforeEach(async () => {\n  await stubNodeTestHost()\n  host = document.createElement('div')\n  document.body.append(host)\n  root = createRoot(host)\n})\n\nafterEach(async () => {\n  await act(async () => root.unmount())\n  host.remove()\n  vi.restoreAllMocks()\n  vi.unstubAllGlobals()\n})\n\ndescribe('TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1 场景/实体引用残差', () => {\n  test('R1 场景有效而实体失效：⚠ 实体保留、场景名经索引解析，同场景改选实体修复并翻转保存门极性', async () => {\n    const staleEffect = {\n      kind: 'placeEntityInFront' as const,\n      target: { scene: 'scene-res', entity: 'ghost-e' },\n      state: 2,\n      unavailableMessage: '前方没有足够空间。',\n    }\n    const { session, notices } = await mountItemTab({\n      focus: 'talisman-r1',\n      sceneRes: true,\n      items: [\n        plainItem('talisman-r1', '召仆符', {\n          target: 'scene',\n          consuming: false,\n          effects: [staleEffect],\n        }),\n      ],\n    })\n\n    // 失效态：loader 可装载，编辑器保存门精确拒绝；UI 只在实体轴呈现 ⚠，场景轴解析索引名。\n    expect(() => assertProjectSaveValid(session.getState())).toThrow(\n      '指向不存在的实体 \"scene-res/ghost-e\"',\n    )\n    expect(trigger('目标场景').textContent).toContain('客舍 · scene-res')\n    expect(trigger('目标场景').textContent).not.toContain('⚠')\n    expect(trigger('目标实体').textContent).toContain('⚠ ghost-e')\n\n    await chooseOption('目标实体', 'e2 · 精灵 hero')\n    expect(useSpec(session, 'talisman-r1')).toEqual({\n      target: 'scene',\n      consuming: false,\n      effects: [\n        {\n          kind: 'placeEntityInFront',\n          target: { scene: 'scene-res', entity: 'e2' },\n          state: 2,\n          unavailableMessage: '前方没有足够空间。',\n        },\n      ],\n    })\n    assertProjectSaveValid(session.getState())\n    expect(trigger('目标实体').textContent).toContain('e2 · 精灵 hero')\n    expect(trigger('目标实体').textContent).not.toContain('⚠')\n\n    act(() => {\n      expect(session.undo()).toBe(true)\n    })\n    expect(useSpec(session, 'talisman-r1')?.effects[0]).toEqual(staleEffect)\n    expect(() => assertProjectSaveValid(session.getState())).toThrow(\n      '指向不存在的实体 \"scene-res/ghost-e\"',\n    )\n    expect(trigger('目标实体').textContent).toContain('⚠ ghost-e')\n    expect(notices).toEqual([])\n  })\n\n  test('R3 转入放置实体：默认目标跳过首个无实体场景，完整 schema 单命令落库并联动 scene 目标', async () => {\n    const { session, notices } = await mountItemTab({\n      focus: 'bell-r3',\n      sceneRes: true,\n      items: [\n        plainItem('bell-r3', '召仆铃', {\n          target: 'oneAlly',\n          consuming: false,\n          effects: [{ kind: 'healHp', amount: 30 }],\n        }),\n      ],\n    })\n    const before = session.getHistoryVersion()\n\n    await chooseOption('效果 1 类型', '把场景实体放到玩家面前')\n    expect(useSpec(session, 'bell-r3')).toEqual({\n      target: 'scene',\n      consuming: false,\n      effects: [\n        {\n          kind: 'placeEntityInFront',\n          target: { scene: 'scene-res', entity: 'e1' },\n          state: 2,\n          unavailableMessage: '前方没有足够空间。',\n        },\n      ],\n    })\n    expect(session.getHistoryVersion()).toBe(before + 1)\n    assertProjectSaveValid(session.getState())\n\n    act(() => {\n      expect(session.undo()).toBe(true)\n    })\n    expect(useSpec(session, 'bell-r3')).toEqual({\n      target: 'oneAlly',\n      consuming: false,\n      effects: [{ kind: 'healHp', amount: 30 }],\n    })\n    expect(notices).toEqual([])\n  })\n\n  test('R5 无可放置实体：类型选项仍提供放置实体，选择失败经公开 notice 精确报错且零提交', async () => {\n    const { session, notices } = await mountItemTab({\n      focus: 'charm-r5',\n      items: [\n        plainItem('charm-r5', '空置符', {\n          target: 'oneAlly',\n          consuming: false,\n          effects: [{ kind: 'healHp', amount: 30 }],\n        }),\n      ],\n    })\n    const initial = structuredClone(useSpec(session, 'charm-r5'))\n    const before = session.getHistoryVersion()\n\n    await chooseOption('效果 1 类型', '把场景实体放到玩家面前')\n    expect(notices).toEqual([{ kind: 'error', message: '项目没有场景实体，无法创建放置实体效果' }])\n    expect(session.getHistoryVersion()).toBe(before)\n    expect(useSpec(session, 'charm-r5')).toEqual(initial)\n    assertProjectSaveValid(session.getState())\n  })\n})\n",
+          "to": "// @vitest-environment jsdom\n/**\n * 实体放置效果通过真实 ItemTab、作者 loader、sceneIndex 和保存门验证。\n * 分别观察失效实体修复、跳过空场景的默认目标、无实体时的错误与零提交。\n * 失效地址可被 loader 装载，但保存门拒绝；不把损坏引用当成合法保存数据。\n */\nimport type { ItemData } from '@type-pal/content'\nimport {\n  fsaSource,\n  loadAllAuthorScenes,\n  loadAllProjectMaps,\n  loadCurrentProjectFrom,\n} from '@type-pal/reforge'\nimport { act, useSyncExternalStore } from 'react'\nimport { createRoot, type Root } from 'react-dom/client'\nimport { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'\nimport { pickCombobox, stubNodeTestHost } from '../__tests__/glm-m/kit.js'\nimport { memoryAuthorDirectory } from '../core/__tests__/author-save-fixture.js'\nimport type { EditorState } from '../core/edit-session.js'\nimport { EditSession } from '../core/edit-session.js'\nimport { createEditorAssetReader } from '../core/editor-asset-reader.js'\nimport { EditorHistoryCoordinator } from '../core/editor-history-coordinator.js'\nimport { assertProjectSaveValid } from '../core/project-diagnostics.js'\nimport { toEditorState } from '../core/project-io.js'\nimport { collectCurrentProjectReferenceIndex } from '../core/project-reference-adapters.js'\nimport { type ScriptEditorState, ScriptEditSession } from '../core/script-editor.js'\nimport { projectEditorItemShells } from '../core/script-editor-projection.js'\nimport { buildBlankProject } from '../core/seed.js'\nimport { ItemTab } from './ItemTab.js'\n\n/** 空 start 场景排在前面；第二场景提供两个实体以区分默认选择与手动修复。 */\nconst placementEntities = [\n  { id: 'e1', sprite: 'hero', pos: { col: 1, row: 1, height: 0 } },\n  { id: 'e2', sprite: 'hero', pos: { col: 2, row: 2, height: 0 } },\n]\n\nfunction plainItem(id: string, name: string, use: ItemData['use']): unknown {\n  return { id, name, desc: [], buyPrice: 0, sellPrice: 0, sellable: false, use }\n}\n\ninterface PlacementRig {\n  session: EditSession\n  notices: Array<{ kind: 'info' | 'error'; message: string } | undefined>\n}\n\nlet root: Root\nlet host: HTMLDivElement\nlet historyCoordinator: EditorHistoryCoordinator | undefined\n\n/** 作者文件经 loader 和壳投影装载；每次挂载独立会话和历史协调器。 */\nasync function mountItemTab(options: {\n  items: unknown[]\n  sceneRes?: boolean\n  focus: string\n}): Promise<PlacementRig> {\n  const files = await buildBlankProject('glm-item-effect-residual')\n  files['content/items.json'] = options.items\n  if (options.sceneRes) {\n    const index = files['content/scenes/index.json'] as {\n      scenes: Array<{ id: string; name: string; path: string }>\n    }\n    index.scenes.push({ id: 'scene-res', name: '客舍', path: 'content/scenes/scene-res.json' })\n    files['content/scenes/scene-res.json'] = {\n      id: 'scene-res',\n      mapId: 'start',\n      entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },\n      entities: structuredClone(placementEntities),\n    }\n  }\n  const source = fsaSource(memoryAuthorDirectory(files).dir)\n  const project = await loadCurrentProjectFrom(source)\n  const scenes = await loadAllAuthorScenes(project)\n  const maps = await loadAllProjectMaps(project)\n  const state: EditorState = {\n    ...toEditorState(project, scenes, maps, {}, []),\n    items: projectEditorItemShells(project),\n  }\n  const session = new EditSession(state)\n  const reader = createEditorAssetReader(source, () => session.getState())\n  const canonical: ScriptEditorState = {\n    scenes: structuredClone(scenes),\n    items: structuredClone(project.authorContent.items),\n    sharedScripts: structuredClone(project.authorContent.sharedScripts),\n  }\n  const scriptSession = new ScriptEditSession(canonical)\n  historyCoordinator = new EditorHistoryCoordinator(session, scriptSession)\n  const notices: PlacementRig['notices'] = []\n  const PlacementHarness = () => {\n    useSyncExternalStore(\n      (callback) => session.subscribe(callback),\n      () => session.getVersion(),\n    )\n    const current = session.getState()\n    return (\n      <ItemTab\n        items={current.items}\n        actors={current.actors}\n        skills={current.skills}\n        poisons={current.poisons ?? []}\n        locale={current.locale}\n        session={session}\n        assetCatalog={current.assetCatalog}\n        assetReader={reader}\n        battleSprites={current.battleSprites ?? []}\n        referenceIndex={collectCurrentProjectReferenceIndex(current)}\n        referenceStatus=\"current\"\n        getCurrentReferenceIndex={(state_) => collectCurrentProjectReferenceIndex(state_)}\n        focusObjectId={options.focus}\n        historyCoordinator={historyCoordinator}\n        script={{ state: canonical, session: scriptSession }}\n        onStatusNotice={(notice) => notices.push(notice)}\n      />\n    )\n  }\n  await act(async () => {\n    root.render(<PlacementHarness />)\n    await Promise.resolve()\n  })\n  return { session, notices }\n}\n\nfunction selectTrigger(ariaLabel: string): HTMLButtonElement {\n  const node = host.querySelector<HTMLButtonElement>(`button[aria-label=\"${ariaLabel}\"]`)\n  expect(node, `combobox ${ariaLabel}`).not.toBeNull()\n  return node!\n}\n\nfunction useSpec(session: EditSession, itemId: string): ItemData['use'] {\n  const item = session.getState().items.find((candidate) => candidate.id === itemId)\n  expect(item, `物品 ${itemId}`).toBeDefined()\n  return item!.use\n}\n\nbeforeEach(async () => {\n  vi.stubGlobal('IS_REACT_ACT_ENVIRONMENT', true)\n  await stubNodeTestHost()\n  host = document.createElement('div')\n  document.body.append(host)\n  root = createRoot(host)\n})\n\nafterEach(async () => {\n  try {\n    await act(async () => root.unmount())\n  } finally {\n    try {\n      historyCoordinator?.dispose()\n    } finally {\n      historyCoordinator = undefined\n      host.remove()\n      vi.restoreAllMocks()\n      vi.unstubAllGlobals()\n    }\n  }\n})\n\ndescribe('ItemTab 实体放置引用', () => {\n  test('R1 场景有效而实体失效：⚠ 实体保留、场景名经索引解析，同场景改选实体修复并翻转保存门极性', async () => {\n    const staleEffect = {\n      kind: 'placeEntityInFront' as const,\n      target: { scene: 'scene-res', entity: 'ghost-e' },\n      state: 2,\n      unavailableMessage: '前方没有足够空间。',\n    }\n    const { session, notices } = await mountItemTab({\n      focus: 'talisman-r1',\n      sceneRes: true,\n      items: [\n        plainItem('talisman-r1', '召仆符', {\n          target: 'scene',\n          consuming: false,\n          effects: [staleEffect],\n        }),\n      ],\n    })\n\n    // 失效态：loader 可装载，编辑器保存门精确拒绝；UI 只在实体轴呈现 ⚠，场景轴解析索引名。\n    expect(() => assertProjectSaveValid(session.getState())).toThrow(\n      '指向不存在的实体 \"scene-res/ghost-e\"',\n    )\n    expect(selectTrigger('目标场景').textContent).toContain('客舍 · scene-res')\n    expect(selectTrigger('目标场景').textContent).not.toContain('⚠')\n    expect(selectTrigger('目标实体').textContent).toContain('⚠ ghost-e')\n\n    await pickCombobox(selectTrigger('目标实体'), 'e2 · 精灵 hero')\n    expect(useSpec(session, 'talisman-r1')).toEqual({\n      target: 'scene',\n      consuming: false,\n      effects: [\n        {\n          kind: 'placeEntityInFront',\n          target: { scene: 'scene-res', entity: 'e2' },\n          state: 2,\n          unavailableMessage: '前方没有足够空间。',\n        },\n      ],\n    })\n    assertProjectSaveValid(session.getState())\n    expect(selectTrigger('目标实体').textContent).toContain('e2 · 精灵 hero')\n    expect(selectTrigger('目标实体').textContent).not.toContain('⚠')\n\n    act(() => {\n      expect(session.undo()).toBe(true)\n    })\n    expect(useSpec(session, 'talisman-r1')?.effects[0]).toEqual(staleEffect)\n    expect(() => assertProjectSaveValid(session.getState())).toThrow(\n      '指向不存在的实体 \"scene-res/ghost-e\"',\n    )\n    expect(selectTrigger('目标实体').textContent).toContain('⚠ ghost-e')\n    expect(notices).toEqual([])\n  })\n\n  test('R3 转入放置实体：默认目标跳过首个无实体场景，完整 schema 单命令落库并联动 scene 目标', async () => {\n    const { session, notices } = await mountItemTab({\n      focus: 'bell-r3',\n      sceneRes: true,\n      items: [\n        plainItem('bell-r3', '召仆铃', {\n          target: 'oneAlly',\n          consuming: false,\n          effects: [{ kind: 'healHp', amount: 30 }],\n        }),\n      ],\n    })\n    const before = session.getHistoryVersion()\n\n    await pickCombobox(selectTrigger('效果 1 类型'), '把场景实体放到玩家面前')\n    expect(useSpec(session, 'bell-r3')).toEqual({\n      target: 'scene',\n      consuming: false,\n      effects: [\n        {\n          kind: 'placeEntityInFront',\n          target: { scene: 'scene-res', entity: 'e1' },\n          state: 2,\n          unavailableMessage: '前方没有足够空间。',\n        },\n      ],\n    })\n    expect(session.getHistoryVersion()).toBe(before + 1)\n    assertProjectSaveValid(session.getState())\n\n    act(() => {\n      expect(session.undo()).toBe(true)\n    })\n    expect(useSpec(session, 'bell-r3')).toEqual({\n      target: 'oneAlly',\n      consuming: false,\n      effects: [{ kind: 'healHp', amount: 30 }],\n    })\n    expect(notices).toEqual([])\n  })\n\n  test('R5 无可放置实体：类型选项仍提供放置实体，选择失败经公开 notice 精确报错且零提交', async () => {\n    const { session, notices } = await mountItemTab({\n      focus: 'charm-r5',\n      items: [\n        plainItem('charm-r5', '空置符', {\n          target: 'oneAlly',\n          consuming: false,\n          effects: [{ kind: 'healHp', amount: 30 }],\n        }),\n      ],\n    })\n    const initial = structuredClone(useSpec(session, 'charm-r5'))\n    const before = session.getHistoryVersion()\n\n    await pickCombobox(selectTrigger('效果 1 类型'), '把场景实体放到玩家面前')\n    expect(notices).toEqual([{ kind: 'error', message: '项目没有场景实体，无法创建放置实体效果' }])\n    expect(session.getHistoryVersion()).toBe(before)\n    expect(useSpec(session, 'charm-r5')).toEqual(initial)\n    assertProjectSaveValid(session.getState())\n  })\n})\n",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "registrations": [
+    {
+      "old": {
+        "file": "packages/editor/src/ui/ItemTab.glm-m.test.tsx",
+        "ordinal": 0,
+        "fullName": "M02 ItemTab 交易/说明字段当前合同 买价/卖价 blur 各提交一次精确值，商店可收购开关键入账，undo 逐步还原"
+      },
+      "current": {
+        "file": "packages/editor/src/ui/ItemTab.fields.test.tsx",
+        "titles": ["ItemTab 交易与说明字段"],
+        "template": "买价/卖价 blur 各提交一次精确值，商店可收购开关键入账，undo 逐步还原",
+        "fullName": "ItemTab 交易与说明字段 买价/卖价 blur 各提交一次精确值，商店可收购开关键入账，undo 逐步还原"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/editor/src/ui/ItemTab.glm-m.test.tsx",
+        "ordinal": 1,
+        "fullName": "M02 ItemTab 交易/说明字段当前合同 介绍按换行拆分并剥离空行，blur 一次提交；undo 恢复空说明"
+      },
+      "current": {
+        "file": "packages/editor/src/ui/ItemTab.fields.test.tsx",
+        "titles": ["ItemTab 交易与说明字段"],
+        "template": "介绍按换行拆分并剥离空行，blur 一次提交；undo 恢复空说明",
+        "fullName": "ItemTab 交易与说明字段 介绍按换行拆分并剥离空行，blur 一次提交；undo 恢复空说明"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/editor/src/ui/ItemUseEffectEditor.glm-m.test.tsx",
+        "ordinal": 0,
+        "fullName": "M02 ItemUseEffectEditor 未触达效果分支 永久成长：改类落默认 maxHP+5，属性/增量逐字段提交，undo/redo 对称且过保存门"
+      },
+      "current": {
+        "file": "packages/editor/src/ui/ItemUseEffectEditor.field-history.test.tsx",
+        "titles": ["ItemEffectChainEditor 字段与历史"],
+        "template": "永久成长：改类落默认 maxHP+5，属性/增量逐字段提交，undo/redo 对称且过保存门",
+        "fullName": "ItemEffectChainEditor 字段与历史 永久成长：改类落默认 maxHP+5，属性/增量逐字段提交，undo/redo 对称且过保存门"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/editor/src/ui/ItemUseEffectEditor.glm-m.test.tsx",
+        "ordinal": 1,
+        "fullName": "M02 ItemUseEffectEditor 未触达效果分支 明雷感知：改类落默认停止追逐 60 秒，扩 3 倍与持续毫秒逐字段提交"
+      },
+      "current": {
+        "file": "packages/editor/src/ui/ItemUseEffectEditor.field-history.test.tsx",
+        "titles": ["ItemEffectChainEditor 字段与历史"],
+        "template": "明雷感知：改类落默认停止追逐 60 秒，扩 3 倍与持续毫秒逐字段提交",
+        "fullName": "ItemEffectChainEditor 字段与历史 明雷感知：改类落默认停止追逐 60 秒，扩 3 倍与持续毫秒逐字段提交"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/editor/src/ui/ItemUseEffectEditor.residual.glm.test.tsx",
+        "ordinal": 0,
+        "fullName": "TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1 场景/实体引用残差 R1 场景有效而实体失效：⚠ 实体保留、场景名经索引解析，同场景改选实体修复并翻转保存门极性"
+      },
+      "current": {
+        "file": "packages/editor/src/ui/ItemTab.entity-placement.test.tsx",
+        "titles": ["ItemTab 实体放置引用"],
+        "template": "R1 场景有效而实体失效：⚠ 实体保留、场景名经索引解析，同场景改选实体修复并翻转保存门极性",
+        "fullName": "ItemTab 实体放置引用 R1 场景有效而实体失效：⚠ 实体保留、场景名经索引解析，同场景改选实体修复并翻转保存门极性"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/editor/src/ui/ItemUseEffectEditor.residual.glm.test.tsx",
+        "ordinal": 1,
+        "fullName": "TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1 场景/实体引用残差 R3 转入放置实体：默认目标跳过首个无实体场景，完整 schema 单命令落库并联动 scene 目标"
+      },
+      "current": {
+        "file": "packages/editor/src/ui/ItemTab.entity-placement.test.tsx",
+        "titles": ["ItemTab 实体放置引用"],
+        "template": "R3 转入放置实体：默认目标跳过首个无实体场景，完整 schema 单命令落库并联动 scene 目标",
+        "fullName": "ItemTab 实体放置引用 R3 转入放置实体：默认目标跳过首个无实体场景，完整 schema 单命令落库并联动 scene 目标"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/editor/src/ui/ItemUseEffectEditor.residual.glm.test.tsx",
+        "ordinal": 2,
+        "fullName": "TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1 场景/实体引用残差 R5 无可放置实体：类型选项仍提供放置实体，选择失败经公开 notice 精确报错且零提交"
+      },
+      "current": {
+        "file": "packages/editor/src/ui/ItemTab.entity-placement.test.tsx",
+        "titles": ["ItemTab 实体放置引用"],
+        "template": "R5 无可放置实体：类型选项仍提供放置实体，选择失败经公开 notice 精确报错且零提交",
+        "fullName": "ItemTab 实体放置引用 R5 无可放置实体：类型选项仍提供放置实体，选择失败经公开 notice 精确报错且零提交"
+      }
+    }
+  ],
+  "identities": [
+    {
+      "old": {
+        "file": "packages/editor/src/ui/ItemTab.glm-m.test.tsx",
+        "fullName": "M02 ItemTab 交易/说明字段当前合同 买价/卖价 blur 各提交一次精确值，商店可收购开关键入账，undo 逐步还原"
+      },
+      "current": {
+        "file": "packages/editor/src/ui/ItemTab.fields.test.tsx",
+        "fullName": "ItemTab 交易与说明字段 买价/卖价 blur 各提交一次精确值，商店可收购开关键入账，undo 逐步还原"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/editor/src/ui/ItemTab.glm-m.test.tsx",
+        "fullName": "M02 ItemTab 交易/说明字段当前合同 介绍按换行拆分并剥离空行，blur 一次提交；undo 恢复空说明"
+      },
+      "current": {
+        "file": "packages/editor/src/ui/ItemTab.fields.test.tsx",
+        "fullName": "ItemTab 交易与说明字段 介绍按换行拆分并剥离空行，blur 一次提交；undo 恢复空说明"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/editor/src/ui/ItemUseEffectEditor.glm-m.test.tsx",
+        "fullName": "M02 ItemUseEffectEditor 未触达效果分支 永久成长：改类落默认 maxHP+5，属性/增量逐字段提交，undo/redo 对称且过保存门"
+      },
+      "current": {
+        "file": "packages/editor/src/ui/ItemUseEffectEditor.field-history.test.tsx",
+        "fullName": "ItemEffectChainEditor 字段与历史 永久成长：改类落默认 maxHP+5，属性/增量逐字段提交，undo/redo 对称且过保存门"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/editor/src/ui/ItemUseEffectEditor.glm-m.test.tsx",
+        "fullName": "M02 ItemUseEffectEditor 未触达效果分支 明雷感知：改类落默认停止追逐 60 秒，扩 3 倍与持续毫秒逐字段提交"
+      },
+      "current": {
+        "file": "packages/editor/src/ui/ItemUseEffectEditor.field-history.test.tsx",
+        "fullName": "ItemEffectChainEditor 字段与历史 明雷感知：改类落默认停止追逐 60 秒，扩 3 倍与持续毫秒逐字段提交"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/editor/src/ui/ItemUseEffectEditor.residual.glm.test.tsx",
+        "fullName": "TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1 场景/实体引用残差 R1 场景有效而实体失效：⚠ 实体保留、场景名经索引解析，同场景改选实体修复并翻转保存门极性"
+      },
+      "current": {
+        "file": "packages/editor/src/ui/ItemTab.entity-placement.test.tsx",
+        "fullName": "ItemTab 实体放置引用 R1 场景有效而实体失效：⚠ 实体保留、场景名经索引解析，同场景改选实体修复并翻转保存门极性"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/editor/src/ui/ItemUseEffectEditor.residual.glm.test.tsx",
+        "fullName": "TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1 场景/实体引用残差 R3 转入放置实体：默认目标跳过首个无实体场景，完整 schema 单命令落库并联动 scene 目标"
+      },
+      "current": {
+        "file": "packages/editor/src/ui/ItemTab.entity-placement.test.tsx",
+        "fullName": "ItemTab 实体放置引用 R3 转入放置实体：默认目标跳过首个无实体场景，完整 schema 单命令落库并联动 scene 目标"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/editor/src/ui/ItemUseEffectEditor.residual.glm.test.tsx",
+        "fullName": "TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1 场景/实体引用残差 R5 无可放置实体：类型选项仍提供放置实体，选择失败经公开 notice 精确报错且零提交"
+      },
+      "current": {
+        "file": "packages/editor/src/ui/ItemTab.entity-placement.test.tsx",
+        "fullName": "ItemTab 实体放置引用 R5 无可放置实体：类型选项仍提供放置实体，选择失败经公开 notice 精确报错且零提交"
+      }
+    }
+  ],
+  "retirements": [],
+  "cohortSubjects": [
+    {
+      "path": "packages/editor/src/ui/ItemTab.glm-m.test.tsx",
+      "sha256": "724c32814673c693b4d92149ed9b3c976d6550fbc97b92d8dfe24ef97fa20327",
+      "priorCurrentBridges": []
+    },
+    {
+      "path": "packages/editor/src/ui/ItemUseEffectEditor.glm-m.test.tsx",
+      "sha256": "e1b8237bbdadad3adc106e113840c39ca5db8f0a1aaae2f67cb7d2d1e50526f4",
+      "priorCurrentBridges": []
+    },
+    {
+      "path": "packages/editor/src/ui/ItemUseEffectEditor.residual.glm.test.tsx",
+      "sha256": "717e8bd12532609d14aef9b10c91794402666ffc7016bd6701694cd55ed2c69e",
+      "priorCurrentBridges": []
+    }
+  ],
+  "profiles": [
+    {
+      "path": "packages/editor/src/ui/ItemTab.fields.test.tsx",
+      "subjects": ["packages/editor/src/ui/ItemTab.glm-m.test.tsx"],
+      "axes": {
+        "A": "Complete subject reread, exact prior phase2-reviewed subject/source/kit hashes verified; real ItemTab patch/use bindings and ItemEffectChainEditor default/field/changeKind/patchEffects rechecked at recorded ranges. Fresh legal author seed and real session/save gate retained. No product/schema/interface change.",
+        "B": "Replace contributor/residual and fragile line-number inventories with current scope and boundary. Historical coverage claims remain only in evidence. No whole component or browser visual acceptance inferred from jsdom. Correct final unrelated-item equality comment: it observes final state, not every intermediate moment.",
+        "C": "Keep field editing, effect-field history and host-level placement as distinct suites. Callback-only main uses synthetic state; K10 has shared/private scripts and extra rig dependencies. Forced merge would widen fixture state for unrelated tests. All sessions remain per-case and React subscription updates go through act.",
+        "D": "Use existing legal-project and DOM helpers. Placement select driver has same aria-controls fallback, option label matching and act calls as existing pickCombobox; remove duplicate algorithm after comparing branches. Do not merge tiny item factories with different author/typed inputs into a mode-driven universal builder. Prices/description tests differ from item creation/private-script neighbors; no duplicated runtime oracle identified in the reused prior review.",
+        "E": "Two original cases retain full initial/final item values,120/60,three history steps and each undo; description preserves nonempty-line whitespace with literal expected array. Original comments overclaimed all-intermediate preservation; current comment narrows to actual final observation. All business assertions retained.",
+        "F": "ItemTab.fields groups the two simple field submissions; ItemFieldsHarness contrasts with the script-coordinator placement host. Larger main was inspected only at fixture/caller ranges, not accepted wholesale.",
+        "G": "Remove duplicated dropdown driver and weak helper-only history check/session parameter. Headers shortened; no coverage-only cases or source seams. Three suites remain because their lifetimes and assertions differ, not merely because old files existed.",
+        "H": "Before each kit call stub act-environment ownership so unstub restores prior value. Finally releases DOM/mocks/globals even if unmount/assertion fails; placement detaches coordinator after unmount. Public callbacks and real save/session suffice; no private mutation or diagnostic suppression."
+      }
+    },
+    {
+      "path": "packages/editor/src/ui/ItemUseEffectEditor.field-history.test.tsx",
+      "subjects": ["packages/editor/src/ui/ItemUseEffectEditor.glm-m.test.tsx"],
+      "axes": {
+        "A": "Complete subject reread, exact prior phase2-reviewed subject/source/kit hashes verified; real ItemTab patch/use bindings and ItemEffectChainEditor default/field/changeKind/patchEffects rechecked at recorded ranges. Fresh legal author seed and real session/save gate retained. No product/schema/interface change.",
+        "B": "Replace contributor/residual and fragile line-number inventories with current scope and boundary. Historical coverage claims remain only in evidence. No whole component or browser visual acceptance inferred from jsdom.",
+        "C": "Keep field editing, effect-field history and host-level placement as distinct suites. Callback-only main uses synthetic state; K10 has shared/private scripts and extra rig dependencies. Forced merge would widen fixture state for unrelated tests. All sessions remain per-case and React subscription updates go through act.",
+        "D": "Use existing legal-project and DOM helpers. Placement select driver has same aria-controls fallback, option label matching and act calls as existing pickCombobox; remove duplicate algorithm after comparing branches. Do not merge tiny item factories with different author/typed inputs into a mode-driven universal builder. Pure default factory checks cannot replace actual EditSession updates and undo/redo; first healHp card is workflow setup, not a new duplicate test.",
+        "E": "Two original cases retain literal maxHP+5/magicAttack12 and awareness0/3 with60000/120000ms,history+4 and exact reversal. Removing generic history>0 does not remove the stronger exact checks; errors collected per case and checked empty after unmount.",
+        "F": "ItemUseEffectEditor.field-history,EffectFieldsHarness,makeItem and emptyUseSpec replace provenance/generic labels. switchEffectKind now only locates/chooses one card, with no unrelated session argument.",
+        "G": "Remove duplicated dropdown driver and weak helper-only history check/session parameter. Headers shortened; no coverage-only cases or source seams. Three suites remain because their lifetimes and assertions differ, not merely because old files existed.",
+        "H": "Before each kit call stub act-environment ownership so unstub restores prior value. Finally releases DOM/mocks/globals even if unmount/assertion fails; placement detaches coordinator after unmount. Public callbacks and real save/session suffice; no private mutation or diagnostic suppression."
+      }
+    },
+    {
+      "path": "packages/editor/src/ui/ItemTab.entity-placement.test.tsx",
+      "subjects": ["packages/editor/src/ui/ItemUseEffectEditor.residual.glm.test.tsx"],
+      "axes": {
+        "A": "Complete subject reread, exact prior phase2-reviewed subject/source/kit hashes verified; real ItemTab patch/use bindings and ItemEffectChainEditor default/field/changeKind/patchEffects rechecked at recorded ranges. Fresh legal author seed and real session/save gate retained. No product/schema/interface change. Stale address is loader-accepted repair input, explicitly save-rejected. R1 changes only entity in valid scene; R3 skips empty first scene; R5 absent entities reaches exact notice with unchanged history/spec.",
+        "B": "Replace contributor/residual and fragile line-number inventories with current scope and boundary. Historical coverage claims remain only in evidence. No whole component or browser visual acceptance inferred from jsdom. Scope records loader versus save validity and leaves neighboring callback-only invalid-scene test distinct. Removed long obsolete line-number/gap claims, kept observable reference warnings.",
+        "C": "Keep field editing, effect-field history and host-level placement as distinct suites. Callback-only main uses synthetic state; K10 has shared/private scripts and extra rig dependencies. Forced merge would widen fixture state for unrelated tests. All sessions remain per-case and React subscription updates go through act. Placement owns real main/script sessions and EditorHistoryCoordinator; after unmount dispose detaches routers. No script editing/paired transaction acceptance claimed. Every original case mounts once.",
+        "D": "Use existing legal-project and DOM helpers. Placement select driver has same aria-controls fallback, option label matching and act calls as existing pickCombobox; remove duplicate algorithm after comparing branches. Do not merge tiny item factories with different author/typed inputs into a mode-driven universal builder.",
+        "E": "Preserve seven original runtime identities and complete business callbacks with explicit helper/name substitutions. Exact state/history/undo/save oracles retained. Removed only helper history>0 assertion dominated by exact effect transitions and before+4; new effectErrors empty observation rejects unexpected public errors. No new/retired cases or invented product counter replay.",
+        "F": "ItemTab.entity-placement locates tests by real public host. PlacementRig,PlacementHarness,placementEntities and selectTrigger describe their roles; original business identities remain mapped.",
+        "G": "Remove duplicated dropdown driver and weak helper-only history check/session parameter. Headers shortened; no coverage-only cases or source seams. Three suites remain because their lifetimes and assertions differ, not merely because old files existed.",
+        "H": "Before each kit call stub act-environment ownership so unstub restores prior value. Finally releases DOM/mocks/globals even if unmount/assertion fails; placement detaches coordinator after unmount. Public callbacks and real save/session suffice; no private mutation or diagnostic suppression."
+      }
+    }
+  ],
+  "preserved": [
+    {
+      "path": "packages/editor/src/__tests__/glm-m/kit.ts",
+      "sha256": "2612ec3ed10be2e5236b74b1475b48927dbd5bf2e520570a8ee7412da6bca38d",
+      "lines": 208
+    },
+    {
+      "path": "packages/editor/src/ui/ItemUseEffectEditor.glm-ui-wave.test.tsx",
+      "sha256": "ce24e360d3f5963dd8f61c40178a0ddb14794bc560b367f2bbf02691ce206650",
+      "lines": 190
+    },
+    {
+      "path": "packages/editor/src/ui/ItemTab.test.tsx",
+      "sha256": "23a27a60fd86c5220e081eefa6fefa23ec6e53632a0f0b6649cf38ad2e2bd757",
+      "lines": 1887
+    },
+    {
+      "path": "packages/editor/src/ui/ItemUseEffectEditor.test.tsx",
+      "sha256": "f4ece90804f144710135912479e6a3216c11791434e2b0768ff0c6f8642d23b8",
+      "lines": 778
+    },
+    {
+      "path": "packages/editor/src/ui/ItemUseEffectEditor.kimi-workflows.test.tsx",
+      "sha256": "59b735a37c33914761621bd610b5d4e8016d8c7af4bffb9deaa9da450051ce74",
+      "lines": 661
+    },
+    {
+      "path": "packages/editor/src/ui/ItemTab.tsx",
+      "sha256": "ec918ae20f67f90ff45253c13468d83e50a427e291ddd235fa74a7b1109af3dd",
+      "lines": 2148
+    },
+    {
+      "path": "packages/editor/src/ui/ItemUseEffectEditor.tsx",
+      "sha256": "f76167acb31f4482127af5752e1cfb08c3e0913486cbfd1962203187eb30f5e1",
+      "lines": 1717
+    },
+    {
+      "path": "packages/editor/src/core/editor-history-coordinator.ts",
+      "sha256": "d6888c77283ef4a21bb372c65343b6c72945192f061f55a7bd7bed4e794e951a",
+      "lines": 246
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/phase2-reviewed.json",
+      "sha256": "5b6e40faed48d4287b8225740a3743f4e34a487126eb4b062ef98bb25155c553",
+      "lines": 564
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-103/codex-current-review.md",
+      "sha256": "98dedc0406cd51a9dc94874d589402a7fed00db51072f012f35d17efc5b3be89",
+      "lines": 64
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-104/codex-current-review.md",
+      "sha256": "c74c686857b1ab691a6c29fb66df1c99b69ad6ea6473e00214a476aa318977b9",
+      "lines": 39
+    }
+  ],
+  "neighborPaths": [
+    "packages/editor/src/ui/ItemTab.cov85.test.tsx",
+    "packages/editor/src/ui/ItemTab.entity-placement.test.tsx",
+    "packages/editor/src/ui/ItemTab.fields.test.tsx",
+    "packages/editor/src/ui/ItemTab.kimi-workflows.test.tsx",
+    "packages/editor/src/ui/ItemTab.test.tsx",
+    "packages/editor/src/ui/ItemUseEffectEditor.field-history.test.tsx",
+    "packages/editor/src/ui/ItemUseEffectEditor.glm-ui-wave.test.tsx",
+    "packages/editor/src/ui/ItemUseEffectEditor.kimi-workflows.test.tsx",
+    "packages/editor/src/ui/ItemUseEffectEditor.test.tsx"
+  ],
+  "cleanExecutions": [
+    "before",
+    "reorganize",
+    "format",
+    "proof",
+    "neighbors",
+    "typecheck",
+    "author-typecheck",
+    "docs",
+    "content-review",
+    "lint",
+    "scoped",
+    "diff",
+    "ledger-final",
+    "module-preflight"
+  ],
+  "receipts": {
+    "before": "organization-editor-item-fields/before-r2",
+    "proof": "organization-editor-item-fields/proof-final",
+    "module-preflight": "organization-editor-item-fields/module-preflight-r2",
+    "scoped": "organization-editor-item-fields/scoped-r2"
+  },
+  "lightweightGates": true,
+  "callbackProof": "organization-editor-item-fields/proof-final.stdout.raw",
+  "qualityDelta": {
+    "historicalSubjects": 3,
+    "currentSpecs": 3,
+    "registrations": 7,
+    "runtimeIdentities": 7,
+    "newCases": 0,
+    "retiredCases": 0,
+    "businessAssertionsRemoved": 0,
+    "weakHelperAssertionRemoved": 1,
+    "errorObservationAdded": 1,
+    "productChanged": false
+  },
+  "reads": {
+    "fullReads": [
+      {
+        "path": "packages/editor/src/__tests__/glm-m/kit.ts",
+        "sha256": "2612ec3ed10be2e5236b74b1475b48927dbd5bf2e520570a8ee7412da6bca38d",
+        "lines": 208
+      },
+      {
+        "path": "packages/editor/src/ui/ItemUseEffectEditor.glm-ui-wave.test.tsx",
+        "sha256": "ce24e360d3f5963dd8f61c40178a0ddb14794bc560b367f2bbf02691ce206650",
+        "lines": 190
+      }
+    ],
+    "scopedReads": [
+      {
+        "path": "packages/editor/src/ui/ItemTab.test.tsx",
+        "sha256": "23a27a60fd86c5220e081eefa6fefa23ec6e53632a0f0b6649cf38ad2e2bd757",
+        "ranges": [[1, 225]]
+      },
+      {
+        "path": "packages/editor/src/ui/ItemUseEffectEditor.test.tsx",
+        "sha256": "f4ece90804f144710135912479e6a3216c11791434e2b0768ff0c6f8642d23b8",
+        "ranges": [[1, 250]]
+      },
+      {
+        "path": "packages/editor/src/ui/ItemUseEffectEditor.kimi-workflows.test.tsx",
+        "sha256": "59b735a37c33914761621bd610b5d4e8016d8c7af4bffb9deaa9da450051ce74",
+        "ranges": [[1, 200]]
+      },
+      {
+        "path": "packages/editor/src/ui/ItemTab.tsx",
+        "sha256": "ec918ae20f67f90ff45253c13468d83e50a427e291ddd235fa74a7b1109af3dd",
+        "ranges": [[960, 1040], [1545, 1620], [1845, 1885]]
+      },
+      {
+        "path": "packages/editor/src/ui/ItemUseEffectEditor.tsx",
+        "sha256": "f76167acb31f4482127af5752e1cfb08c3e0913486cbfd1962203187eb30f5e1",
+        "ranges": [[211, 295], [560, 598], [715, 850], [875, 986]]
+      },
+      {
+        "path": "packages/editor/src/core/editor-history-coordinator.ts",
+        "sha256": "d6888c77283ef4a21bb372c65343b6c72945192f061f55a7bd7bed4e794e951a",
+        "ranges": [[1, 130]]
+      },
+      {
+        "path": "packages/editor/src/ui/ItemUseEffectEditor.test.tsx",
+        "sha256": "f4ece90804f144710135912479e6a3216c11791434e2b0768ff0c6f8642d23b8",
+        "ranges": [[250, 290], [525, 620]]
+      }
+    ],
+    "fullInputs": [
+      {
+        "path": "packages/editor/src/ui/ItemTab.glm-m.test.tsx",
+        "member": "organization-editor-item-fields/0.before",
+        "sha256": "724c32814673c693b4d92149ed9b3c976d6550fbc97b92d8dfe24ef97fa20327",
+        "lines": 140
+      },
+      {
+        "path": "packages/editor/src/ui/ItemUseEffectEditor.glm-m.test.tsx",
+        "member": "organization-editor-item-fields/1.before",
+        "sha256": "e1b8237bbdadad3adc106e113840c39ca5db8f0a1aaae2f67cb7d2d1e50526f4",
+        "lines": 200
+      },
+      {
+        "path": "packages/editor/src/ui/ItemUseEffectEditor.residual.glm.test.tsx",
+        "member": "organization-editor-item-fields/2.before",
+        "sha256": "717e8bd12532609d14aef9b10c91794402666ffc7016bd6701694cd55ed2c69e",
+        "lines": 307
+      }
+    ],
+    "fullOutputs": [
+      {
+        "path": "packages/editor/src/ui/ItemTab.fields.test.tsx",
+        "sha256": "13ba511d2791d2fd78f135151cd0c67c107ec94c17be0af697b53d067b3dce48",
+        "lines": 144
+      },
+      {
+        "path": "packages/editor/src/ui/ItemUseEffectEditor.field-history.test.tsx",
+        "sha256": "bfa22fb1f4f0874e98a8f218007a04135188d503e02348c6796f3eba72da7781",
+        "lines": 202
+      },
+      {
+        "path": "packages/editor/src/ui/ItemTab.entity-placement.test.tsx",
+        "sha256": "0e95b1a66a3ef4710cb348d18aa638567570d3449e3b2ece8aede94342e4cf45",
+        "lines": 274
+      }
+    ],
+    "priorFullImplementationReuse": "Exact source bindings in phase2-reviewed; current focused caller/owner ranges supplement, not a second whole implementation reread."
+  },
+  "reusedEvidence": {
+    "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/phase2-reviewed.json",
+    "scope": "CODE103/104 prior full A-E/H and earlier diagnostic cause reused only at matching hashes. New complete subject reads and typed proof supplement naming/ownership; no new product-counter replay."
+  },
+  "knownAdjacentObservations": [
+    "Kit header still claims M-only import scope but actual residual suite also imports it. The shared helper is byte-preserved outside fixed178; its metadata/consumer naming follow-up is not silently accepted.",
+    "Other historical noncohort editor suite names remain outside this fixed178 closeout; running neighbors gives no new full-file acceptance.",
+    "Fixture project IDs retained byte-for-byte; changing generated project metadata is unnecessary for test responsibility names."
+  ],
+  "processDisclosures": [
+    "Initial baseline process used repository-root cwd with a package-relative executable and failed ENOENT before Vitest. Frozen execution retained; corrected before-r2 ran actual3files7tests before edits.",
+    "Read-only search initially guessed a nonexistent historical task and external producer path. Actual CODE103/104 evidence and phase2 bindings were then located; no acceptance derives from failed lookup.",
+    "Post-neighbor final comment narrows unrelated-item observation to final equality only. proof-final covers comment-only change; no redundant test rerun.",
+    "Default comparator negative controls check prices,duration,target and cleanup syntax; these are proof controls,not executed product mutants. Full typed module includes hooks/imports/types/helpers and complete callbacks; central verification rules unchanged.",
+    "First preflight found the baseline receipt alias before-r2 but native JSON had been written as before.native.json. Added an exclusive byte-identical before-r2.native.json alias, verified SHA; no rerun or raw rewrite. Failed preflight/root-verifier originals retained."
+  ],
+  "invalidations": "Recheck when field ownership,history/coordinator lifetime,loader/save reference policy,DOM helper contracts or current fingerprints change. Seven green cases alone do not validate whole components.",
+  "ledgerCounts": {
+    "inventory": 3445,
+    "closed": 498,
+    "review": 315,
+    "pending": 2632
+  },
+  "quantitativeScreen": [
+    {
+      "path": "packages/editor/src/ui/ItemTab.fields.test.tsx",
+      "method": "Syntactic branch/loop count,read pointer only",
+      "functions": 18,
+      "max": 1,
+      "over10": 0
+    },
+    {
+      "path": "packages/editor/src/ui/ItemUseEffectEditor.field-history.test.tsx",
+      "method": "Syntactic branch/loop count,read pointer only",
+      "functions": 26,
+      "max": 1,
+      "over10": 0
+    },
+    {
+      "path": "packages/editor/src/ui/ItemTab.entity-placement.test.tsx",
+      "method": "Syntactic branch/loop count,read pointer only",
+      "functions": 23,
+      "max": 2,
+      "over10": 0
+    }
+  ],
+  "baselineNativeAlias": {
+    "from": "before.native.json",
+    "to": "before-r2.native.json",
+    "sha256": "60df8e705b6495e4bf6137d6b31270271562ba6c62074b7795c6bdccde0528be"
+  }
+}

@@ -1,22 +1,36 @@
-// fps-overlay.test.ts —— 左上角 FPS 覆盖层:持久化 + 采样算法 + 显隐(jsdom)。
-import { beforeEach, describe, expect, it } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import { hideFpsOverlay, isFpsEnabled, setFpsEnabled, tickFps } from './fps-overlay.js'
 
 const ROOT_ID = 'tp-fps-overlay'
-
-describe('fps-overlay', () => {
-  beforeEach(() => {
-    setFpsEnabled(false) // 复位 module 内采样态 + 隐藏 overlay
-    localStorage.clear()
-    hideFpsOverlay()
-  })
-
+const STYLE_ID = 'tp-fps-style'
+const FPS_KEY = 'tp-fps-show'
+let previousPreference: string | null
+let previousLayout: string | undefined
+beforeEach(() => {
+  previousPreference = localStorage.getItem(FPS_KEY)
+  previousLayout = document.documentElement.dataset.tpLayout
+  document.documentElement.dataset.tpLayout = 'desktop'
+  setFpsEnabled(false)
+  localStorage.removeItem(FPS_KEY)
+  document.getElementById(STYLE_ID)?.remove()
+})
+afterEach(() => {
+  setFpsEnabled(false)
+  document.getElementById(STYLE_ID)?.remove()
+  if (previousPreference === null) localStorage.removeItem(FPS_KEY)
+  else localStorage.setItem(FPS_KEY, previousPreference)
+  if (previousLayout === undefined) delete document.documentElement.dataset.tpLayout
+  else document.documentElement.dataset.tpLayout = previousLayout
+})
+describe('FPS overlay sampling and visibility', () => {
   it('isFpsEnabled / setFpsEnabled 持久化 localStorage', () => {
     expect(isFpsEnabled()).toBe(false)
     setFpsEnabled(true)
     expect(isFpsEnabled()).toBe(true)
     expect(localStorage.getItem('tp-fps-show')).toBe('1')
     setFpsEnabled(false)
+    expect(isFpsEnabled()).toBe(false)
+    localStorage.setItem(FPS_KEY, 'xxx')
     expect(isFpsEnabled()).toBe(false)
   })
 
@@ -97,5 +111,20 @@ describe('fps-overlay', () => {
     for (let i = 1; i <= 25; i++) tickFps(10_000 + i * 20)
     expect(document.querySelector('#tp-fps-overlay .v')?.textContent).toBe('50')
     expect(document.querySelector('#tp-fps-overlay .v.lo')).toBeNull()
+  })
+
+  it('Hiding an absent overlay is harmless', () => {
+    expect(() => hideFpsOverlay()).not.toThrow()
+  })
+
+  it('Hiding removes only the root and retains its style', () => {
+    setFpsEnabled(true)
+    tickFps(0) // 首帧建框
+    expect(document.getElementById(ROOT_ID)).not.toBeNull()
+    const styleCount = () => document.querySelectorAll(`#${STYLE_ID}`).length
+    expect(styleCount()).toBe(1)
+    hideFpsOverlay()
+    expect(document.getElementById(ROOT_ID)).toBeNull()
+    expect(styleCount()).toBe(1) // 样式不随框删
   })
 })

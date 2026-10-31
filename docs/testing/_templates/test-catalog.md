@@ -17,7 +17,7 @@
 
 ## Dependencies and publication rules
 
-lastVerified/reviewBy/dependsOn 以及旧候选/版本/执行结论各按原范围保留。真实 consumer 强制 ID、路径、
+lastVerified/dependsOn 以及旧候选/版本/执行结论各按原范围保留。活动 reviewBy 已按2026-10-30用户裁决退休，只留历史；用 revision/sourceRefs 比较版本适用性。真实 consumer 强制 ID、路径、
 依赖、日期、source hash 和 report/evidence 配对；索引生成只投影 catalog。统一 envelope 的
 runtimeExecutionPerformed 固定 false，逐条 reading 必须与 entries 一一对应；结构检查不替代语义审查或实跑。
 

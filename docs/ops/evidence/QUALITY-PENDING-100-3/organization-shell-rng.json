@@ -1,0 +1,941 @@
+{
+  "inputs": [
+    {
+      "path": "packages/game/src/shell/rng-player.test.ts",
+      "sha256": "9de20bd177a4da6e7b221ff0a3b0fa6012c51669c0061fbb80a23ef70c056042",
+      "member": "organization-shell-rng/0.before"
+    },
+    {
+      "path": "packages/game/src/shell/rng-player.glm-next-wave.test.ts",
+      "sha256": "145a3c12bebea0cb2f4199c046387b791717d34feca8fcddf879ce6e0d0ae3ae",
+      "member": "organization-shell-rng/1.before"
+    },
+    {
+      "path": "packages/game/src/shell/rng-player.io-lifecycle.test.ts",
+      "sha256": "20b26965a72562dc41f741dc303229da1ecbe14b3ef21d40603ea0e17252f4ae",
+      "member": "organization-shell-rng/2.before"
+    },
+    {
+      "path": "packages/game/src/shell/rng-window.grok-r1.test.ts",
+      "sha256": "c13c5652977cae5c85e637919386c40eb588338de80db1cfc964436a14f94466",
+      "member": "organization-shell-rng/3.before"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "packages/game/src/shell/rng-player.test.ts",
+      "sha256": "4ce384cb78af94c10fcf14a85eca6b439929797bf39a018dd9d181d3581c10f1"
+    },
+    {
+      "path": "packages/game/src/shell/rng-player.effects.test.ts",
+      "sha256": "62bc61882a5ac0cce70201236883bfb384f12e56cff451fa6c7871aab635ff62"
+    },
+    {
+      "path": "packages/game/src/shell/rng-player.cache.test.ts",
+      "sha256": "7af1bba562be83e057890f5bb4a219dbbf0113c984cb1bccab23f4187b2b1912"
+    },
+    {
+      "path": "packages/game/src/shell/__tests__/rng-frames.ts",
+      "sha256": "6a71ffb63e8daaf7f0981af21971316e8e326dd86bdd2e628f8968a47543501d"
+    }
+  ],
+  "sourceBridges": [
+    {
+      "path": "packages/game/src/shell/rng-player.test.ts",
+      "id": "rng-0",
+      "reason": "Explicit native host/data-port and diagnostic/clock/ownership normalization; per-case deltas and one retired duplicate separately recorded. Identical three-frame records,pure resolved data ports and immutable-borrowed black palette now reside once in the test-only provider; distinct live palettes/deferred IO remain local.",
+      "changes": [
+        {
+          "from": "import type { Palette } from '@type-pal/shared'\nimport { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'\nimport type { IndexedImage } from '../assets/png.js'\nimport { createFramebuffer } from '../present/framebuffer.js'\nimport { __setRngChunkLoaderForTest, playRng } from './rng-player.js'\n\nconst MOCK_MANIFEST = {\n  chunks: [{ chunkIndex: 6, frameCount: 3, frames: [{ index: 0 }, { index: 1 }, { index: 2 }] }],\n}\n\nfunction mockManifestOk(): () => Promise<typeof MOCK_MANIFEST> {\n  return async () => MOCK_MANIFEST\n}\n\n/** 每帧 indices 全填 (frameIdx+1) — 验最后一帧 fb 是哪个 frame。 */\nfunction mockFrameFiller(): (chunkIdx: number, frameIdx: number) => Promise<IndexedImage> {\n  return async (_chunkIdx, frameIdx) => ({\n    width: 320,\n    height: 200,\n    indices: new Uint8Array(320 * 200).fill(frameIdx + 1),\n    opaque: new Uint8Array(320 * 200).fill(1),\n  })\n}\n\nconst mockPalette: Palette = {\n  colors: Array.from({ length: 256 }, () => [0, 0, 0] as [number, number, number]),\n  cycles: [],\n}\n\nfunction canvasContext() {\n  const ctx = document.createElement('canvas').getContext('2d')\n  if (!ctx) throw new Error('RNG test requires a 2D canvas context')\n  const putImageData = vi.spyOn(ctx, 'putImageData').mockImplementation(() => {})\n  return { ctx, putImageData }\n}\n\nlet mockCanvasCtx: CanvasRenderingContext2D\nbeforeEach(() => {\n  mockCanvasCtx = canvasContext().ctx\n})\n\nafterEach(() => {\n  vi.restoreAllMocks()\n  __setRngChunkLoaderForTest(null) // 复原默认 loader + 清 chunk 缓存\n})\n\ndescribe('playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4)', () => {\n  it('全部帧播完 → fb.indices = 末帧填充', async () => {\n    const fb = createFramebuffer()\n    await playRng({\n      chunkIdx: 6,\n      frameDelayMs: 1,\n      fb,\n      canvasCtx: mockCanvasCtx,\n      palette: mockPalette,\n      fetchManifest: mockManifestOk(),\n      fetchFrame: mockFrameFiller(),\n    })\n    // 末帧 frameIdx=2 → indices 全填 3\n    expect(fb.indices[0]).toBe(3)\n    expect(fb.indices[100 * 320 + 100]).toBe(3)\n  })\n\n  it('Space 按键跳过 → 不到末帧停', async () => {\n    vi.useFakeTimers()\n    try {\n      const fb = createFramebuffer()\n      const promise = playRng({\n        chunkIdx: 6,\n        frameDelayMs: 50,\n        skipKeys: ['Space'],\n        fb,\n        canvasCtx: mockCanvasCtx,\n        palette: mockPalette,\n        fetchManifest: mockManifestOk(),\n        fetchFrame: mockFrameFiller(),\n      })\n      await vi.advanceTimersByTimeAsync(0)\n      window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space' }))\n      await vi.runAllTimersAsync()\n      await promise\n      expect(fb.indices[0]).toBe(1)\n    } finally {\n      vi.useRealTimers()\n    }\n  })\n\n  it('manifest 缺该 chunk → 警告 + return,不抛', async () => {\n    const fb = createFramebuffer()\n    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})\n    await playRng({\n      chunkIdx: 999,\n      frameDelayMs: 1,\n      fb,\n      canvasCtx: mockCanvasCtx,\n      palette: mockPalette,\n      fetchManifest: mockManifestOk(),\n      fetchFrame: mockFrameFiller(),\n    })\n    expect(warn).toHaveBeenCalledWith(expect.stringContaining('999 不在 manifest'))\n    expect(fb.indices.every((v) => v === 0)).toBe(true)\n  })\n\n  it('startFrame > endFrame → 立即 return 不播', async () => {\n    const fb = createFramebuffer()\n    await playRng({\n      chunkIdx: 6,\n      frameDelayMs: 1,\n      fb,\n      canvasCtx: mockCanvasCtx,\n      palette: mockPalette,\n      startFrame: 5,\n      endFrame: 1,\n      fetchManifest: mockManifestOk(),\n      fetchFrame: mockFrameFiller(),\n    })\n    expect(fb.indices.every((v) => v === 0)).toBe(true)\n  })\n\n  it('endFrame=-1 → 默认播到 frameCount-1', async () => {\n    const fb = createFramebuffer()\n    await playRng({\n      chunkIdx: 6,\n      frameDelayMs: 1,\n      fb,\n      canvasCtx: mockCanvasCtx,\n      palette: mockPalette,\n      endFrame: -1,\n      fetchManifest: mockManifestOk(),\n      fetchFrame: mockFrameFiller(),\n    })\n    expect(fb.indices[0]).toBe(3)\n  })\n\n  it('manifest fetch throw → 警告 + return,不抛', async () => {\n    const fb = createFramebuffer()\n    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})\n    await playRng({\n      chunkIdx: 6,\n      frameDelayMs: 1,\n      fb,\n      canvasCtx: mockCanvasCtx,\n      palette: mockPalette,\n      fetchManifest: async () => {\n        throw new Error('mock fail')\n      },\n      fetchFrame: mockFrameFiller(),\n    })\n    expect(warn).toHaveBeenCalledWith(\n      expect.stringContaining('manifest fetch failed'),\n      expect.any(Error),\n    )\n    expect(fb.indices.every((v) => v === 0)).toBe(true)\n  })\n\n  it('单帧 fetch throw → warn + skip 该帧 + 继续', async () => {\n    const fb = createFramebuffer()\n    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})\n    await playRng({\n      chunkIdx: 6,\n      frameDelayMs: 1,\n      fb,\n      canvasCtx: mockCanvasCtx,\n      palette: mockPalette,\n      fetchManifest: mockManifestOk(),\n      fetchFrame: async (_, frameIdx) => {\n        if (frameIdx === 1) throw new Error('mock frame 1 fail')\n        return {\n          width: 320,\n          height: 200,\n          indices: new Uint8Array(320 * 200).fill(frameIdx + 1),\n          opaque: new Uint8Array(320 * 200).fill(1),\n        }\n      },\n    })\n    expect(warn).toHaveBeenCalledWith(\n      expect.stringContaining('frame 1 fetch fail'),\n      expect.any(Error),\n    )\n    // 末帧 frameIdx=2 仍画到 fb\n    expect(fb.indices[0]).toBe(3)\n  })\n\n  // sdlpal rngplay.c:436:每帧 PAL_RNGBlitToSurface 后 VIDEO_UpdateScreen(NULL)(video.c:571-616)——\n  // shake 进行中对视频帧本身施加垂直跳动 + g_wShakeTime--。漏接 → 0x35 震屏计数在 RNG 播放期间冻结,\n  // 整段泄漏进下一场景(僵尸王→血池演出全程狂抖,2026-06-10)。\n  describe('shakeState 透传(VIDEO_UpdateScreen shake 分支)', () => {\n    it('shakeTime 随每显示帧递减(3 帧视频:65→62)', async () => {\n      const fb = createFramebuffer()\n      const shakeState = { shakeTime: 65, shakeLevel: 4 }\n      await playRng({\n        chunkIdx: 6,\n        frameDelayMs: 0,\n        fb,\n        canvasCtx: mockCanvasCtx,\n        palette: mockPalette,\n        fetchManifest: mockManifestOk(),\n        fetchFrame: mockFrameFiller(),\n        shakeState,\n      })\n      expect(shakeState.shakeTime).toBe(62)\n    })\n\n    it('视频帧本身被震:偶 shakeTime 帧整幅下移 shakeLevel 行,顶部填黑', async () => {\n      const fb = createFramebuffer()\n      const shakeState = { shakeTime: 2, shakeLevel: 4 }\n      await playRng({\n        chunkIdx: 6,\n        frameDelayMs: 0,\n        fb,\n        canvasCtx: mockCanvasCtx,\n        palette: mockPalette,\n        startFrame: 0,\n        endFrame: 0, // 单帧(frameIdx 0 → 填 1)\n        fetchManifest: mockManifestOk(),\n        fetchFrame: mockFrameFiller(),\n        shakeState,\n      })\n      // 偶帧分支(video.c dstrect.y=shakeLevel):内容下移 4 行,顶部 4 行黑(index 0)\n      expect(fb.indices[0]).toBe(0)\n      expect(fb.indices[3 * 320]).toBe(0)\n      expect(fb.indices[4 * 320]).toBe(1)\n      expect(shakeState.shakeTime).toBe(1)\n    })\n\n    it('shakeTime 中途耗尽 → 剩余帧不震不再递减(不下穿 0)', async () => {\n      const fb = createFramebuffer()\n      const shakeState = { shakeTime: 1, shakeLevel: 4 }\n      await playRng({\n        chunkIdx: 6,\n        frameDelayMs: 0,\n        fb,\n        canvasCtx: mockCanvasCtx,\n        palette: mockPalette,\n        fetchManifest: mockManifestOk(),\n        fetchFrame: mockFrameFiller(),\n        shakeState,\n      })\n      expect(shakeState.shakeTime).toBe(0)\n      // 末帧(frameIdx 2 → 填 3)无 shake 残留:第 0 行就是帧内容\n      expect(fb.indices[0]).toBe(3)\n    })\n\n    it('跳过键提前结束 → 未显示帧的递减一次性结清(与完整播完一致)', async () => {\n      vi.useFakeTimers()\n      try {\n        const fb = createFramebuffer()\n        const shakeState = { shakeTime: 100, shakeLevel: 4 }\n        const promise = playRng({\n          chunkIdx: 6,\n          frameDelayMs: 50,\n          skipKeys: ['Space'],\n          fb,\n          canvasCtx: mockCanvasCtx,\n          palette: mockPalette,\n          fetchManifest: mockManifestOk(),\n          fetchFrame: mockFrameFiller(),\n          shakeState,\n        })\n        await vi.advanceTimersByTimeAsync(0)\n        window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space' }))\n        await vi.runAllTimersAsync()\n        await promise\n        expect(fb.indices[4 * 320]).toBe(1)\n        expect(shakeState.shakeTime).toBe(97)\n      } finally {\n        vi.useRealTimers()\n      }\n    })\n\n    it('不传 shakeState → 行为不变', async () => {\n      const fb = createFramebuffer()\n      await playRng({\n        chunkIdx: 6,\n        frameDelayMs: 0,\n        fb,\n        canvasCtx: mockCanvasCtx,\n        palette: mockPalette,\n        fetchManifest: mockManifestOk(),\n        fetchFrame: mockFrameFiller(),\n      })\n      expect(fb.indices[0]).toBe(3)\n    })\n  })\n\n  it('initialFadeInMs:第一帧先按黑 palette 显示,再恢复目标 palette', async () => {\n    const fb = createFramebuffer()\n    const { ctx, putImageData } = canvasContext()\n    const palette: Palette = {\n      colors: Array.from({ length: 256 }, () => [0, 0, 0] as [number, number, number]),\n      cycles: [],\n    }\n    palette.colors[1] = [180, 120, 60]\n\n    await playRng({\n      chunkIdx: 6,\n      frameDelayMs: 0,\n      // 两次 performance.now() 之间无 await；20ms 保证至少走一次 sleep，避免覆盖率随机器时序抖动。\n      initialFadeInMs: 20,\n      fb,\n      canvasCtx: ctx,\n      palette,\n      startFrame: 0,\n      endFrame: 0,\n      fetchManifest: mockManifestOk(),\n      fetchFrame: mockFrameFiller(),\n    })\n\n    const renderedColors = putImageData.mock.calls.map(([frame]) =>\n      Array.from(frame.data.slice(0, 3)),\n    )\n    expect(renderedColors[0]).toEqual([0, 0, 0])\n    expect(renderedColors.at(-1)).toEqual([180, 120, 60])\n  })\n\n  // 资源管线优化(2026-06-22)后,playRng 用 `Promise.all(frames.map(fetchFrame))` 并发取帧,默认\n  //   fetchFrame → loadRngChunk(chunkIdx)。loadRngChunk 旧实现 cache.set 在 await 之后 → 同一 chunk 的\n  //   N 个并发取帧全部 cache-miss,重复 fetch+decompressGzip+decodeRngFrames **整个 chunk** N 次 = O(N²)。\n  //   山神庙酒剑仙(chunk 帧多)实测 5 秒黑屏。修复:loadRngChunk 缓存 in-flight Promise,并发复用。\n  it('单次 playRng:同一 chunk 的 N 帧并发只触发一次底层加载(防 O(N²) stampede)', async () => {\n    let loadCount = 0\n    __setRngChunkLoaderForTest(async () => {\n      loadCount++\n      await new Promise((r) => setTimeout(r, 5)) // 放大并发窗口,确保 N 帧在首个加载未完成时都进来\n      const map = new Map<number, IndexedImage>()\n      for (let i = 0; i < 3; i++) {\n        map.set(i, {\n          width: 320,\n          height: 200,\n          indices: new Uint8Array(320 * 200).fill(i + 1),\n          opaque: new Uint8Array(320 * 200).fill(1),\n        })\n      }\n      return map\n    })\n    const fb = createFramebuffer()\n    // 不注入 fetchFrame → 走默认 defaultFetchFrame → loadRngChunk → 注入的 loader\n    await playRng({\n      chunkIdx: 6, // MOCK_MANIFEST chunk 6 = 3 帧 → Promise.all 并发 3 次取帧\n      frameDelayMs: 0,\n      fb,\n      canvasCtx: mockCanvasCtx,\n      palette: mockPalette,\n      fetchManifest: mockManifestOk(),\n    })\n    expect(loadCount).toBe(1) // 修复前:3(每帧 cache-miss);修复后:1\n  })\n})\n",
+          "to": "import {\n  fetchThreeFrameManifest,\n  fetchSequentialFrame,\n  blackPalette,\n} from './__tests__/rng-frames.js'\nimport { realCanvasContext } from '../__tests__/canvas-host.js'\nimport { rngFrame, rngManifest } from './__tests__/rng-frames.js'\nimport type { Palette } from '@type-pal/shared'\nimport { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'\nimport type { IndexedImage } from '../assets/png.js'\nimport { createFramebuffer } from '../present/framebuffer.js'\nimport { __setRngChunkLoaderForTest, playRng } from './rng-player.js'\n\nafterEach(async () => {\n  try {\n    if (vi.isFakeTimers()) await vi.runAllTimersAsync()\n  } finally {\n    __setRngChunkLoaderForTest(null)\n    vi.restoreAllMocks()\n    vi.useRealTimers()\n  }\n})\n\ndescribe('playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4)', () => {\n  it('全部帧播完 → fb.indices = 末帧填充', async () => {\n    const fb = createFramebuffer()\n    await playRng({\n      chunkIdx: 6,\n      frameDelayMs: 1,\n      fb,\n      canvasCtx: realCanvasContext(),\n      palette: blackPalette,\n      fetchManifest: fetchThreeFrameManifest,\n      fetchFrame: fetchSequentialFrame,\n    })\n    // 末帧 frameIdx=2 → indices 全填 3\n    expect(fb.indices[0]).toBe(3)\n    expect(fb.indices[100 * 320 + 100]).toBe(3)\n    expect(fb.indices).toHaveLength(320 * 200)\n    expect(fb.indices.findIndex((pixel) => pixel !== 3)).toBe(-1)\n  })\n\n  it('Space 按键跳过 → 不到末帧停', async () => {\n    vi.useFakeTimers()\n    try {\n      const fb = createFramebuffer()\n      const promise = playRng({\n        chunkIdx: 6,\n        frameDelayMs: 50,\n        skipKeys: ['Space'],\n        fb,\n        canvasCtx: realCanvasContext(),\n        palette: blackPalette,\n        fetchManifest: fetchThreeFrameManifest,\n        fetchFrame: fetchSequentialFrame,\n      })\n      await vi.advanceTimersByTimeAsync(0)\n      window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space' }))\n      await vi.runAllTimersAsync()\n      await promise\n      expect(fb.indices[0]).toBe(1)\n    } finally {\n      vi.useRealTimers()\n    }\n  })\n\n  it('manifest 缺该 chunk → 警告 + return,不抛', async () => {\n    const fb = createFramebuffer()\n    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})\n    await playRng({\n      chunkIdx: 999,\n      frameDelayMs: 1,\n      fb,\n      canvasCtx: realCanvasContext(),\n      palette: blackPalette,\n      fetchManifest: fetchThreeFrameManifest,\n      fetchFrame: fetchSequentialFrame,\n    })\n    expect(warn.mock.calls).toEqual([['[rng-player] chunk 999 不在 manifest']])\n    expect(fb.indices.every((v) => v === 0)).toBe(true)\n  })\n\n  it('startFrame > endFrame → 立即 return 不播', async () => {\n    const fb = createFramebuffer()\n    await playRng({\n      chunkIdx: 6,\n      frameDelayMs: 1,\n      fb,\n      canvasCtx: realCanvasContext(),\n      palette: blackPalette,\n      startFrame: 5,\n      endFrame: 1,\n      fetchManifest: fetchThreeFrameManifest,\n      fetchFrame: fetchSequentialFrame,\n    })\n    expect(fb.indices.every((v) => v === 0)).toBe(true)\n  })\n\n  it('endFrame=-1 → 默认播到 frameCount-1', async () => {\n    const fb = createFramebuffer()\n    await playRng({\n      chunkIdx: 6,\n      frameDelayMs: 1,\n      fb,\n      canvasCtx: realCanvasContext(),\n      palette: blackPalette,\n      endFrame: -1,\n      fetchManifest: fetchThreeFrameManifest,\n      fetchFrame: fetchSequentialFrame,\n    })\n    expect(fb.indices[0]).toBe(3)\n  })\n\n  it('manifest fetch throw → 警告 + return,不抛', async () => {\n    const failure = new Error('mock fail')\n    const fb = createFramebuffer()\n    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})\n    await playRng({\n      chunkIdx: 6,\n      frameDelayMs: 1,\n      fb,\n      canvasCtx: realCanvasContext(),\n      palette: blackPalette,\n      fetchManifest: async () => {\n        throw failure\n      },\n      fetchFrame: fetchSequentialFrame,\n    })\n    expect(warn.mock.calls).toEqual([['[rng-player] manifest fetch failed:', failure]])\n    expect(fb.indices.every((v) => v === 0)).toBe(true)\n  })\n\n  it('单帧 fetch throw → warn + skip 该帧 + 继续', async () => {\n    const failure = new Error('mock frame 1 fail')\n    const fb = createFramebuffer()\n    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})\n    await playRng({\n      chunkIdx: 6,\n      frameDelayMs: 1,\n      fb,\n      canvasCtx: realCanvasContext(),\n      palette: blackPalette,\n      fetchManifest: fetchThreeFrameManifest,\n      fetchFrame: async (_, frameIdx) => {\n        if (frameIdx === 1) throw failure\n        return {\n          width: 320,\n          height: 200,\n          indices: new Uint8Array(320 * 200).fill(frameIdx + 1),\n          opaque: new Uint8Array(320 * 200).fill(1),\n        }\n      },\n    })\n    expect(warn.mock.calls).toEqual([['[rng-player] frame 1 fetch fail, skip:', failure]])\n    // 末帧 frameIdx=2 仍画到 fb\n    expect(fb.indices[0]).toBe(3)\n  })\n\n  // sdlpal rngplay.c:436:每帧 PAL_RNGBlitToSurface 后 VIDEO_UpdateScreen(NULL)(video.c:571-616)——\n  // shake 进行中对视频帧本身施加垂直跳动 + g_wShakeTime--。漏接 → 0x35 震屏计数在 RNG 播放期间冻结,\n  // 整段泄漏进下一场景(僵尸王→血池演出全程狂抖,2026-06-10)。\n  describe('shakeState 透传(VIDEO_UpdateScreen shake 分支)', () => {\n    it('shakeTime 随每显示帧递减(3 帧视频:65→62)', async () => {\n      const fb = createFramebuffer()\n      const shakeState = { shakeTime: 65, shakeLevel: 4 }\n      await playRng({\n        chunkIdx: 6,\n        frameDelayMs: 0,\n        fb,\n        canvasCtx: realCanvasContext(),\n        palette: blackPalette,\n        fetchManifest: fetchThreeFrameManifest,\n        fetchFrame: fetchSequentialFrame,\n        shakeState,\n      })\n      expect(shakeState.shakeTime).toBe(62)\n    })\n\n    it('视频帧本身被震:偶 shakeTime 帧整幅下移 shakeLevel 行,顶部填黑', async () => {\n      const fb = createFramebuffer()\n      const shakeState = { shakeTime: 2, shakeLevel: 4 }\n      await playRng({\n        chunkIdx: 6,\n        frameDelayMs: 0,\n        fb,\n        canvasCtx: realCanvasContext(),\n        palette: blackPalette,\n        startFrame: 0,\n        endFrame: 0, // 单帧(frameIdx 0 → 填 1)\n        fetchManifest: fetchThreeFrameManifest,\n        fetchFrame: fetchSequentialFrame,\n        shakeState,\n      })\n      // 偶帧分支(video.c dstrect.y=shakeLevel):内容下移 4 行,顶部 4 行黑(index 0)\n      expect(fb.indices[0]).toBe(0)\n      expect(fb.indices[3 * 320]).toBe(0)\n      expect(fb.indices[4 * 320]).toBe(1)\n      expect(shakeState.shakeTime).toBe(1)\n    })\n\n    it('shakeTime 中途耗尽 → 剩余帧不震不再递减(不下穿 0)', async () => {\n      const fb = createFramebuffer()\n      const shakeState = { shakeTime: 1, shakeLevel: 4 }\n      await playRng({\n        chunkIdx: 6,\n        frameDelayMs: 0,\n        fb,\n        canvasCtx: realCanvasContext(),\n        palette: blackPalette,\n        fetchManifest: fetchThreeFrameManifest,\n        fetchFrame: fetchSequentialFrame,\n        shakeState,\n      })\n      expect(shakeState.shakeTime).toBe(0)\n      // 末帧(frameIdx 2 → 填 3)无 shake 残留:第 0 行就是帧内容\n      expect(fb.indices[0]).toBe(3)\n    })\n\n    it('跳过键提前结束 → 未显示帧的递减一次性结清(与完整播完一致)', async () => {\n      vi.useFakeTimers()\n      try {\n        const fb = createFramebuffer()\n        const shakeState = { shakeTime: 100, shakeLevel: 4 }\n        const promise = playRng({\n          chunkIdx: 6,\n          frameDelayMs: 50,\n          skipKeys: ['Space'],\n          fb,\n          canvasCtx: realCanvasContext(),\n          palette: blackPalette,\n          fetchManifest: fetchThreeFrameManifest,\n          fetchFrame: fetchSequentialFrame,\n          shakeState,\n        })\n        await vi.advanceTimersByTimeAsync(0)\n        window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space' }))\n        await vi.runAllTimersAsync()\n        await promise\n        expect(fb.indices[4 * 320]).toBe(1)\n        expect(shakeState.shakeTime).toBe(97)\n      } finally {\n        vi.useRealTimers()\n      }\n    })\n  })\n\n  it('initialFadeInMs:第一帧先按黑 palette 显示,再恢复目标 palette', async () => {\n    const fb = createFramebuffer()\n    vi.useFakeTimers()\n    const ctx = realCanvasContext()\n    const putImageData = vi.spyOn(ctx, 'putImageData')\n    const palette: Palette = {\n      colors: Array.from({ length: 256 }, (): [number, number, number] => [0, 0, 0]),\n      cycles: [],\n    }\n    palette.colors[1] = [180, 120, 60]\n\n    const pending = playRng({\n      chunkIdx: 6,\n      frameDelayMs: 0,\n      // Fake time controls the20ms ramp; real Canvas pixels verify intermediate and final colors.\n      initialFadeInMs: 20,\n      fb,\n      canvasCtx: ctx,\n      palette,\n      startFrame: 0,\n      endFrame: 0,\n      fetchManifest: fetchThreeFrameManifest,\n      fetchFrame: fetchSequentialFrame,\n    })\n    await vi.advanceTimersByTimeAsync(0)\n    await vi.advanceTimersByTimeAsync(16)\n    expect([...ctx.getImageData(0, 0, 1, 1).data]).toEqual([144, 96, 48, 255])\n    await vi.runAllTimersAsync()\n    await pending\n    expect([...ctx.getImageData(0, 0, 1, 1).data]).toEqual([180, 120, 60, 255])\n\n    const renderedColors = putImageData.mock.calls.map(([frame]) =>\n      Array.from(frame.data.slice(0, 3)),\n    )\n    expect(renderedColors[0]).toEqual([0, 0, 0])\n    expect(renderedColors.at(-1)).toEqual([180, 120, 60])\n  })\n\n  // 资源管线优化(2026-06-22)后,playRng 用 `Promise.all(frames.map(fetchFrame))` 并发取帧,默认\n  //   fetchFrame → loadRngChunk(chunkIdx)。loadRngChunk 旧实现 cache.set 在 await 之后 → 同一 chunk 的\n  //   N 个并发取帧全部 cache-miss,重复 fetch+decompressGzip+decodeRngFrames **整个 chunk** N 次 = O(N²)。\n  //   山神庙酒剑仙(chunk 帧多)实测 5 秒黑屏。修复:loadRngChunk 缓存 in-flight Promise,并发复用。\n  it('单次 playRng:同一 chunk 的 N 帧并发只触发一次底层加载(防 O(N²) stampede)', async () => {\n    let loadCount = 0\n    let release!: () => void\n    const gate = new Promise<void>((resolve) => {\n      release = resolve\n    })\n    __setRngChunkLoaderForTest(async () => {\n      loadCount++\n      await gate // 放大并发窗口,确保 N 帧在首个加载未完成时都进来\n      const map = new Map<number, IndexedImage>()\n      for (let i = 0; i < 3; i++) {\n        map.set(i, {\n          width: 320,\n          height: 200,\n          indices: new Uint8Array(320 * 200).fill(i + 1),\n          opaque: new Uint8Array(320 * 200).fill(1),\n        })\n      }\n      return map\n    })\n    const fb = createFramebuffer()\n    // 不注入 fetchFrame → 走默认 defaultFetchFrame → loadRngChunk → 注入的 loader\n    const pending = playRng({\n      chunkIdx: 6, // THREE_FRAME_MANIFEST chunk 6 = 3 帧 → Promise.all 并发 3 次取帧\n      frameDelayMs: 0,\n      fb,\n      canvasCtx: realCanvasContext(),\n      palette: blackPalette,\n      fetchManifest: fetchThreeFrameManifest,\n    })\n    try {\n      await new Promise<void>((resolve) => queueMicrotask(resolve))\n      await new Promise<void>((resolve) => queueMicrotask(resolve))\n      expect(loadCount).toBe(1)\n    } finally {\n      release()\n      await pending\n    }\n    expect(loadCount).toBe(1) // 修复前:3(每帧 cache-miss);修复后:1\n    expect(fb.indices).toHaveLength(320 * 200)\n    expect(fb.indices.findIndex((pixel) => pixel !== 3)).toBe(-1)\n  })\n})\n",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/shell/rng-player.glm-next-wave.test.ts",
+      "id": "rng-1",
+      "reason": "Explicit native host/data-port and diagnostic/clock/ownership normalization; per-case deltas and one retired duplicate separately recorded.",
+      "changes": [
+        {
+          "from": "/** GLM Wave I / I05 — rng-player.ts 帧窗口与失败缓存未证公开合同(生产冻结 ced193f4)。\n *\n * 旧证去重:rng-player.test.ts 已证全帧播放 / 跳过键 / manifest 缺 chunk / start>end /\n * 单帧失败 skip / shake 递减 / initialFadeInMs / 并发去重(成功路径)。\n * 本文件补:\n *  - startFrame/endFrame 窗口 = 实际 fetch + 显示帧集合(窗外帧零请求)。\n *  - chunk 加载失败不长期缓存失败 Promise(允许重试):第二次播放重新加载并成功;\n *    对照旧证的\"成功路径并发去重\",本文件证\"失败驱逐\"分支。\n * __setRngChunkLoaderForTest 是模块声明的测试端口;fetchManifest/fetchFrame 是 PlayRngOptions\n * 声明的注入端口,不 mock 被测核心。\n */\n\nimport type { Palette } from '@type-pal/shared'\nimport { afterEach, describe, expect, it, vi } from 'vitest'\nimport type { IndexedImage } from '../assets/png.js'\nimport { createFramebuffer } from '../present/framebuffer.js'\nimport { __setRngChunkLoaderForTest, playRng } from './rng-player.js'\n\nconst palette: Palette = {\n  colors: Array.from({ length: 256 }, () => [10, 20, 30] as [number, number, number]),\n  cycles: [],\n}\n\nfunction rngFrame(fill: number): IndexedImage {\n  return {\n    width: 320,\n    height: 200,\n    indices: new Uint8Array(320 * 200).fill(fill),\n    opaque: new Uint8Array(320 * 200).fill(1),\n  }\n}\n\n/** DOM 替身:原型取自环境自身 2D 上下文,只实现 flushToCanvas 声明的 putImageData 端口。 */\nfunction ctxSpy(): CanvasRenderingContext2D {\n  const probe = document.createElement('canvas').getContext('2d')\n  const proto = probe ? Object.getPrototypeOf(probe) : Object.prototype\n  return Object.assign(Object.create(proto), { putImageData: vi.fn() })\n}\n\nafterEach(() => {\n  __setRngChunkLoaderForTest(null)\n  vi.restoreAllMocks()\n})\n\ndescribe('playRng 帧窗口(startFrame/endFrame 决定实际请求与显示集合)', () => {\n  it('窗口 [1,2]:fetchFrame 恰被调 2 次(frame 1、2),窗外帧 0/3 零请求,末屏 = frame 2', async () => {\n    const manifest = {\n      chunks: [\n        {\n          chunkIndex: 5,\n          frameCount: 4,\n          frames: [{ index: 0 }, { index: 1 }, { index: 2 }, { index: 3 }],\n        },\n      ],\n    }\n    const fetchManifest = vi.fn(() => Promise.resolve(manifest))\n    const fetchFrame = vi.fn((_chunkIdx: number, frameIdx: number) =>\n      Promise.resolve(rngFrame(10 + frameIdx)),\n    )\n    const fb = createFramebuffer()\n\n    await playRng({\n      chunkIdx: 5,\n      frameDelayMs: 1,\n      fb,\n      canvasCtx: ctxSpy(),\n      palette,\n      startFrame: 1,\n      endFrame: 2,\n      fetchManifest,\n      fetchFrame,\n    })\n\n    expect(fetchManifest).toHaveBeenCalledTimes(1)\n    expect(fetchFrame.mock.calls.map((c) => c[1])).toEqual([1, 2])\n    // 每窗帧整幅覆盖 fb → 末屏即窗口末帧(填 12 = 10 + frameIdx 2)。\n    expect(fb.indices.every((v) => v === 12)).toBe(true)\n  })\n})\n\ndescribe('playRng chunk 加载失败不长期缓存失败 Promise(允许重试)', () => {\n  it('首次加载失败 → 0 帧静默 resolve;再次播放重新加载成功并显帧(加载器恰 2 次调用)', async () => {\n    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})\n    let loaderCalls = 0\n    __setRngChunkLoaderForTest((_chunkIdx) => {\n      loaderCalls++\n      if (loaderCalls === 1) return Promise.reject(new Error('transient network failure'))\n      return Promise.resolve(new Map([[0, rngFrame(21)]]))\n    })\n    const manifest = {\n      chunks: [{ chunkIndex: 8, frameCount: 1, frames: [{ index: 0 }] }],\n    }\n    const fetchManifest = () => Promise.resolve(manifest)\n    const fb1 = createFramebuffer()\n\n    await playRng({\n      chunkIdx: 8,\n      frameDelayMs: 1,\n      fb: fb1,\n      canvasCtx: ctxSpy(),\n      palette,\n      fetchManifest,\n    })\n    expect(warn).toHaveBeenCalledWith(\n      expect.stringContaining('frame 0 fetch fail'),\n      expect.anything(),\n    )\n    expect(fb1.indices.every((v) => v === 0)).toBe(true) // 未显任何帧\n\n    const fb2 = createFramebuffer()\n    await playRng({\n      chunkIdx: 8,\n      frameDelayMs: 1,\n      fb: fb2,\n      canvasCtx: ctxSpy(),\n      palette,\n      fetchManifest,\n    })\n    // 失败 Promise 已被驱逐:第二次播放真实重载(loaderCalls 2)并显示帧。\n    expect(loaderCalls).toBe(2)\n    expect(fb2.indices.every((v) => v === 21)).toBe(true)\n  })\n})\n",
+          "to": "import { realCanvasContext } from '../__tests__/canvas-host.js'\nimport { rngFrame, rngManifest } from './__tests__/rng-frames.js'\n/** GLM Wave I / I05 — rng-player.ts 帧窗口与失败缓存未证公开合同(生产冻结 ced193f4)。\n *\n * 旧证去重:rng-player.test.ts 已证全帧播放 / 跳过键 / manifest 缺 chunk / start>end /\n * 单帧失败 skip / shake 递减 / initialFadeInMs / 并发去重(成功路径)。\n * 本文件补:\n *  - startFrame/endFrame 窗口 = 实际 fetch + 显示帧集合(窗外帧零请求)。\n *  - chunk 加载失败不长期缓存失败 Promise(允许重试):第二次播放重新加载并成功;\n *    对照旧证的\"成功路径并发去重\",本文件证\"失败驱逐\"分支。\n * __setRngChunkLoaderForTest 是模块声明的测试端口;fetchManifest/fetchFrame 是 PlayRngOptions\n * 声明的注入端口,不 mock 被测核心。\n */\n\nimport type { Palette } from '@type-pal/shared'\nimport { afterEach, describe, expect, it, vi } from 'vitest'\nimport type { IndexedImage } from '../assets/png.js'\nimport { createFramebuffer } from '../present/framebuffer.js'\nimport { __setRngChunkLoaderForTest, playRng } from './rng-player.js'\n\nconst palette: Palette = {\n  colors: Array.from({ length: 256 }, (): [number, number, number] => [10, 20, 30]),\n  cycles: [],\n}\n\nafterEach(async () => {\n  try {\n    if (vi.isFakeTimers()) await vi.runAllTimersAsync()\n  } finally {\n    __setRngChunkLoaderForTest(null)\n    vi.restoreAllMocks()\n    vi.useRealTimers()\n  }\n})\n\ndescribe('playRng 帧窗口(startFrame/endFrame 决定实际请求与显示集合)', () => {\n  it('窗口 [1,2]:fetchFrame 恰被调 2 次(frame 1、2),窗外帧 0/3 零请求,末屏 = frame 2', async () => {\n    const manifest = {\n      chunks: [\n        {\n          chunkIndex: 5,\n          frameCount: 4,\n          frames: [{ index: 0 }, { index: 1 }, { index: 2 }, { index: 3 }],\n        },\n      ],\n    }\n    const fetchManifest = vi.fn(() => Promise.resolve(manifest))\n    const fetchFrame = vi.fn((_chunkIdx: number, frameIdx: number) =>\n      Promise.resolve(rngFrame(10 + frameIdx)),\n    )\n    const fb = createFramebuffer()\n    const ctx = realCanvasContext()\n\n    await playRng({\n      chunkIdx: 5,\n      frameDelayMs: 1,\n      fb,\n      canvasCtx: ctx,\n      palette,\n      startFrame: 1,\n      endFrame: 2,\n      fetchManifest,\n      fetchFrame,\n    })\n\n    expect(fetchManifest).toHaveBeenCalledTimes(1)\n    expect(fetchFrame.mock.calls).toEqual([\n      [5, 1],\n      [5, 2],\n    ])\n    // 每窗帧整幅覆盖 fb → 末屏即窗口末帧(填 12 = 10 + frameIdx 2)。\n    expect(fb.indices.every((v) => v === 12)).toBe(true)\n    expect([...ctx.getImageData(0, 0, 1, 1).data]).toEqual([10, 20, 30, 255])\n  })\n})\n\ndescribe('playRng chunk 加载失败不长期缓存失败 Promise(允许重试)', () => {\n  it('首次加载失败 → 0 帧且保留原错误;再次播放重新加载成功并显帧(加载器恰 2 次调用)', async () => {\n    const failure = new Error('transient network failure')\n    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})\n    let loaderCalls = 0\n    __setRngChunkLoaderForTest((_chunkIdx) => {\n      loaderCalls++\n      if (loaderCalls === 1) return Promise.reject(failure)\n      return Promise.resolve(new Map([[0, rngFrame(21)]]))\n    })\n    const manifest = {\n      chunks: [{ chunkIndex: 8, frameCount: 1, frames: [{ index: 0 }] }],\n    }\n    const fetchManifest = () => Promise.resolve(manifest)\n    const fb1 = createFramebuffer()\n\n    await playRng({\n      chunkIdx: 8,\n      frameDelayMs: 1,\n      fb: fb1,\n      canvasCtx: realCanvasContext(),\n      palette,\n      fetchManifest,\n    })\n    expect(warn.mock.calls).toEqual([['[rng-player] frame 0 fetch fail, skip:', failure]])\n    expect(fb1.indices.every((v) => v === 0)).toBe(true) // 未显任何帧\n\n    const fb2 = createFramebuffer()\n    await playRng({\n      chunkIdx: 8,\n      frameDelayMs: 1,\n      fb: fb2,\n      canvasCtx: realCanvasContext(),\n      palette,\n      fetchManifest,\n    })\n    // 失败 Promise 已被驱逐:第二次播放真实重载(loaderCalls 2)并显示帧。\n    expect(loaderCalls).toBe(2)\n    expect(fb2.indices.every((v) => v === 21)).toBe(true)\n  })\n})\n",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/shell/rng-player.io-lifecycle.test.ts",
+      "id": "rng-2",
+      "reason": "Explicit native host/data-port and diagnostic/clock/ownership normalization; per-case deltas and one retired duplicate separately recorded.",
+      "changes": [
+        {
+          "from": "/** TEST-GAME-MEDIA-LIFECYCLE-1 — rng-player.ts 跨 chunk 缓存隔离与乱序部分失败收尾(产品冻结 2f0fe6d2f)。\n *\n * 旧证去重(逐断言核对,非标题搜索):\n *  - rng-player.test.ts 已证全帧播放/跳过键/manifest 缺 chunk/start>end/单帧失败 skip(按序 settle)/\n *    shake 递减与跳过结清/initialFadeInMs/同 chunk 并发只加载一次(成功路径去重)。\n *  - rng-player.glm-next-wave.test.ts 已证 startFrame/endFrame 窗口=实际请求集合,同 chunk\n *    失败驱逐后重试(第二次播放重新加载并成功)。\n *  - rng-window.grok-r1.test.ts 已证默认不可跳/负 endFrame/单帧窗口/零淡入像素/默认加载地址与错误文本。\n * 本文件只补上列未覆盖的 IO 边界(M6/M7,逐轴见 docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1):\n *  - M6 不同 chunk 不共享失败:chunk A 加载失败不得驱逐 chunk B 的成功缓存(复播 B 不重载),帧数据不串。\n *  - M7 成功帧乱序迟到 + 中间帧失败:成功帧按 manifest 顺序显示、末屏为最后成功帧,\n *    且结束后归还输入监听(跳过键不再被消费)。\n * IO 控制(A-R1-01):2D context 用 jsdom+canvas 的真实 `canvas.getContext('2d')`(非空检查),\n * putImageData 用 typed `vi.spyOn` 记录并**转发真实绘制**——不造 Object.create 原型伪装实例、\n * 不强转调用参数;__setRngChunkLoaderForTest 是模块声明的测试端口;fetchManifest/fetchFrame 是\n * PlayRngOptions 声明的注入端口;不 mock 解码业务。\n */\n\nimport type { Palette } from '@type-pal/shared'\nimport { afterEach, describe, expect, it, vi } from 'vitest'\nimport type { IndexedImage } from '../assets/png.js'\nimport { createFramebuffer } from '../present/framebuffer.js'\nimport { __setRngChunkLoaderForTest, playRng } from './rng-player.js'\n\n/** colors[i] = [i,0,0]:flushToCanvas 后 ImageData 首像素 R 通道 = 调色板索引,可直接读帧序。 */\nconst palette: Palette = {\n  colors: Array.from({ length: 256 }, (_, i) => [i, 0, 0] as [number, number, number]),\n  cycles: [],\n}\n\nfunction rngFrame(fill: number): IndexedImage {\n  return {\n    width: 320,\n    height: 200,\n    indices: new Uint8Array(320 * 200).fill(fill),\n    opaque: new Uint8Array(320 * 200).fill(1),\n  }\n}\n\n/** 真实 2D context(jsdom + canvas 包);缺失即测试环境不合格,fail loud 不伪装。 */\nfunction realCtx(): CanvasRenderingContext2D {\n  const ctx = document.createElement('canvas').getContext('2d')\n  if (!ctx) throw new Error('test setup: 2D context unavailable')\n  return ctx\n}\n\ninterface DeferredFrame {\n  promise: Promise<IndexedImage>\n  resolve: (frame: IndexedImage) => void\n}\n\nfunction createDeferredFrame(): DeferredFrame {\n  let resolve!: (frame: IndexedImage) => void\n  const promise = new Promise<IndexedImage>((res) => {\n    resolve = res\n  })\n  return { promise, resolve }\n}\n\n/** 两轮微任务:让 playRng 走过 manifest await、挂好全部帧 Promise。 */\nasync function flushMicrotasks(): Promise<void> {\n  await new Promise<void>((resolve) => {\n    queueMicrotask(resolve)\n  })\n  await new Promise<void>((resolve) => {\n    queueMicrotask(resolve)\n  })\n}\n\nafterEach(() => {\n  __setRngChunkLoaderForTest(null)\n  vi.restoreAllMocks()\n})\n\ndescribe('rng-player IO 生命周期 TEST-GAME-MEDIA-LIFECYCLE-1', () => {\n  it('M6 chunk A 加载失败不驱逐 chunk B 成功缓存 — 复播 B 不重载、帧数据不串', async () => {\n    vi.spyOn(console, 'warn').mockImplementation(() => {})\n    const loads: number[] = []\n    __setRngChunkLoaderForTest((chunkIdx) => {\n      loads.push(chunkIdx)\n      if (chunkIdx === 5) return Promise.reject(new Error('transient chunk 5 io failure'))\n      return Promise.resolve(new Map([[0, rngFrame(42)]]))\n    })\n    const manifest = {\n      chunks: [\n        { chunkIndex: 5, frameCount: 1, frames: [{ index: 0 }] },\n        { chunkIndex: 6, frameCount: 1, frames: [{ index: 0 }] },\n      ],\n    }\n    const baseOptions = {\n      frameDelayMs: 0,\n      canvasCtx: realCtx(),\n      palette,\n      fetchManifest: () => Promise.resolve(manifest),\n    }\n\n    const fbB1 = createFramebuffer()\n    await playRng({ ...baseOptions, chunkIdx: 6, fb: fbB1 })\n    expect(fbB1.indices[0], 'M6: chunk B 帧数据正确').toBe(42)\n\n    const fbA = createFramebuffer()\n    await playRng({ ...baseOptions, chunkIdx: 5, fb: fbA }) // chunk A 真实加载失败\n    expect(\n      fbA.indices.every((v) => v === 0),\n      'M6: 失败 chunk 不显帧',\n    ).toBe(true)\n\n    const fbB2 = createFramebuffer()\n    await playRng({ ...baseOptions, chunkIdx: 6, fb: fbB2 })\n    expect(\n      loads.filter((c) => c === 6),\n      'M6: chunk A 失败不得驱逐 chunk B 的成功缓存(复播 B 不重载)',\n    ).toHaveLength(1)\n    expect(fbB2.indices[0], 'M6: 复播 B 仍显示同一帧').toBe(42)\n  })\n\n  it('M7 成功帧乱序迟到 + 中间帧失败 — 顺序保持、末屏为最后成功帧、结束后归还输入监听', async () => {\n    vi.spyOn(console, 'warn').mockImplementation(() => {})\n    const manifest = {\n      chunks: [\n        { chunkIndex: 9, frameCount: 3, frames: [{ index: 0 }, { index: 1 }, { index: 2 }] },\n      ],\n    }\n    const frame0 = createDeferredFrame()\n    const frame2 = createDeferredFrame()\n    const fetchFrame = vi.fn((chunkIdx: number, frameIdx: number): Promise<IndexedImage> => {\n      if (chunkIdx !== 9) throw new Error(`unexpected chunk ${chunkIdx}`)\n      if (frameIdx === 0) return frame0.promise\n      if (frameIdx === 1) return Promise.reject(new Error('frame 1 io failure'))\n      return frame2.promise\n    })\n    const ctx = realCtx()\n    const putImageData = vi.spyOn(ctx, 'putImageData') // 记录参数并转发真实绘制\n    const fb = createFramebuffer()\n\n    const pending = playRng({\n      chunkIdx: 9,\n      frameDelayMs: 0,\n      fb,\n      canvasCtx: ctx,\n      palette,\n      skipKeys: ['Space'],\n      fetchManifest: () => Promise.resolve(manifest),\n      fetchFrame,\n    })\n\n    await flushMicrotasks()\n    expect(fetchFrame).toHaveBeenCalledTimes(3) // 三个帧 Promise 均已挂起\n    frame2.resolve(rngFrame(12)) // 末帧先到(乱序)\n    await flushMicrotasks()\n    frame0.resolve(rngFrame(10)) // 首帧迟到\n    await pending\n\n    const shown = putImageData.mock.calls.map((call) => call[0].data[0]) // 原生 ImageData,零强转\n    expect(shown, 'M7: 成功帧按 manifest 顺序显示(0→2),失败帧跳过').toEqual([10, 12])\n    expect(fb.indices[0], 'M7: 末屏为最后成功帧').toBe(12)\n\n    // cancelable: true — 合成事件默认不可取消,preventDefault 无效会让本断言假绿\n    const event = new KeyboardEvent('keydown', { code: 'Space', cancelable: true })\n    window.dispatchEvent(event)\n    expect(event.defaultPrevented, 'M7: 结束后跳过键监听已归还(不再被消费)').toBe(false)\n  })\n})\n",
+          "to": "import { realCanvasContext } from '../__tests__/canvas-host.js'\nimport { rngFrame, rngManifest } from './__tests__/rng-frames.js'\n/** TEST-GAME-MEDIA-LIFECYCLE-1 — rng-player.ts 跨 chunk 缓存隔离与乱序部分失败收尾(产品冻结 2f0fe6d2f)。\n *\n * 旧证去重(逐断言核对,非标题搜索):\n *  - rng-player.test.ts 已证全帧播放/跳过键/manifest 缺 chunk/start>end/单帧失败 skip(按序 settle)/\n *    shake 递减与跳过结清/initialFadeInMs/同 chunk 并发只加载一次(成功路径去重)。\n *  - rng-player.glm-next-wave.test.ts 已证 startFrame/endFrame 窗口=实际请求集合,同 chunk\n *    失败驱逐后重试(第二次播放重新加载并成功)。\n *  - rng-window.grok-r1.test.ts 已证默认不可跳/负 endFrame/单帧窗口/零淡入像素/默认加载地址与错误文本。\n * 本文件只补上列未覆盖的 IO 边界(M6/M7,逐轴见 docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1):\n *  - M6 不同 chunk 不共享失败:chunk A 加载失败不得驱逐 chunk B 的成功缓存(复播 B 不重载),帧数据不串。\n *  - M7 成功帧乱序迟到 + 中间帧失败:成功帧按 manifest 顺序显示、末屏为最后成功帧,\n *    且结束后归还输入监听(跳过键不再被消费)。\n * IO 控制(A-R1-01):2D context 用 jsdom+canvas 的真实 `canvas.getContext('2d')`(非空检查),\n * putImageData 用 typed `vi.spyOn` 记录并**转发真实绘制**——不造 Object.create 原型伪装实例、\n * 不强转调用参数;__setRngChunkLoaderForTest 是模块声明的测试端口;fetchManifest/fetchFrame 是\n * PlayRngOptions 声明的注入端口;不 mock 解码业务。\n */\n\nimport type { Palette } from '@type-pal/shared'\nimport { afterEach, describe, expect, it, vi } from 'vitest'\nimport type { IndexedImage } from '../assets/png.js'\nimport { createFramebuffer } from '../present/framebuffer.js'\nimport { __setRngChunkLoaderForTest, playRng } from './rng-player.js'\n\n/** colors[i] = [i,0,0]:flushToCanvas 后 ImageData 首像素 R 通道 = 调色板索引,可直接读帧序。 */\nconst palette: Palette = {\n  colors: Array.from({ length: 256 }, (_, i): [number, number, number] => [i, 0, 0]),\n  cycles: [],\n}\n\ninterface DeferredFrame {\n  promise: Promise<IndexedImage>\n  resolve: (frame: IndexedImage) => void\n}\n\nfunction createDeferredFrame(): DeferredFrame {\n  let resolve!: (frame: IndexedImage) => void\n  const promise = new Promise<IndexedImage>((res) => {\n    resolve = res\n  })\n  return { promise, resolve }\n}\n\n/** 两轮微任务:让 playRng 走过 manifest await、挂好全部帧 Promise。 */\nasync function flushMicrotasks(): Promise<void> {\n  await new Promise<void>((resolve) => {\n    queueMicrotask(resolve)\n  })\n  await new Promise<void>((resolve) => {\n    queueMicrotask(resolve)\n  })\n}\n\nafterEach(async () => {\n  try {\n    if (vi.isFakeTimers()) await vi.runAllTimersAsync()\n  } finally {\n    __setRngChunkLoaderForTest(null)\n    vi.restoreAllMocks()\n    vi.useRealTimers()\n  }\n})\n\ndescribe('rng-player IO 生命周期 TEST-GAME-MEDIA-LIFECYCLE-1', () => {\n  it('chunk A 加载失败不驱逐 chunk B 成功缓存 — 复播 B 不重载、帧数据不串', async () => {\n    const failure = new Error('transient chunk 5 io failure')\n    const warning = vi.spyOn(console, 'warn').mockImplementation(() => {})\n    const loads: number[] = []\n    __setRngChunkLoaderForTest((chunkIdx) => {\n      loads.push(chunkIdx)\n      if (chunkIdx === 5) return Promise.reject(failure)\n      return Promise.resolve(new Map([[0, rngFrame(42)]]))\n    })\n    const manifest = {\n      chunks: [\n        { chunkIndex: 5, frameCount: 1, frames: [{ index: 0 }] },\n        { chunkIndex: 6, frameCount: 1, frames: [{ index: 0 }] },\n      ],\n    }\n    const baseOptions = {\n      frameDelayMs: 0,\n      canvasCtx: realCanvasContext(),\n      palette,\n      fetchManifest: () => Promise.resolve(manifest),\n    }\n\n    const fbB1 = createFramebuffer()\n    await playRng({ ...baseOptions, chunkIdx: 6, fb: fbB1 })\n    expect(fbB1.indices[0], 'M6: chunk B 帧数据正确').toBe(42)\n\n    const fbA = createFramebuffer()\n    await playRng({ ...baseOptions, chunkIdx: 5, fb: fbA }) // chunk A 真实加载失败\n    expect(\n      fbA.indices.every((v) => v === 0),\n      'M6: 失败 chunk 不显帧',\n    ).toBe(true)\n\n    const fbB2 = createFramebuffer()\n    await playRng({ ...baseOptions, chunkIdx: 6, fb: fbB2 })\n    expect(\n      loads.filter((c) => c === 6),\n      'M6: chunk A 失败不得驱逐 chunk B 的成功缓存(复播 B 不重载)',\n    ).toHaveLength(1)\n    expect(fbB2.indices[0], 'M6: 复播 B 仍显示同一帧').toBe(42)\n    expect(warning.mock.calls).toEqual([['[rng-player] frame 0 fetch fail, skip:', failure]])\n    expect(fbB1.indices).toHaveLength(320 * 200)\n    expect(fbB1.indices.findIndex((pixel) => pixel !== 42)).toBe(-1)\n    expect(fbB2.indices).toHaveLength(320 * 200)\n    expect(fbB2.indices.findIndex((pixel) => pixel !== 42)).toBe(-1)\n  })\n\n  it('成功帧乱序迟到 + 中间帧失败 — 顺序保持、末屏为最后成功帧、结束后归还输入监听', async () => {\n    const failure = new Error('frame 1 io failure')\n    const warning = vi.spyOn(console, 'warn').mockImplementation(() => {})\n    const manifest = {\n      chunks: [\n        { chunkIndex: 9, frameCount: 3, frames: [{ index: 0 }, { index: 1 }, { index: 2 }] },\n      ],\n    }\n    const frame0 = createDeferredFrame()\n    const frame2 = createDeferredFrame()\n    const fetchFrame = vi.fn((chunkIdx: number, frameIdx: number): Promise<IndexedImage> => {\n      if (chunkIdx !== 9) throw new Error(`unexpected chunk ${chunkIdx}`)\n      if (frameIdx === 0) return frame0.promise\n      if (frameIdx === 1) return Promise.reject(failure)\n      return frame2.promise\n    })\n    const ctx = realCanvasContext()\n    const putImageData = vi.spyOn(ctx, 'putImageData') // 记录参数并转发真实绘制\n    const fb = createFramebuffer()\n\n    const pending = playRng({\n      chunkIdx: 9,\n      frameDelayMs: 0,\n      fb,\n      canvasCtx: ctx,\n      palette,\n      skipKeys: ['Space'],\n      fetchManifest: () => Promise.resolve(manifest),\n      fetchFrame,\n    })\n\n    try {\n      await flushMicrotasks()\n      expect(fetchFrame).toHaveBeenCalledTimes(3) // 三个帧 Promise 均已挂起\n      frame2.resolve(rngFrame(12)) // 末帧先到(乱序)\n      await flushMicrotasks()\n      frame0.resolve(rngFrame(10)) // 首帧迟到\n      await pending\n\n      const shown = putImageData.mock.calls.map((call) => call[0].data[0]) // 原生 ImageData,零强转\n      expect(shown, 'M7: 成功帧按 manifest 顺序显示(0→2),失败帧跳过').toEqual([10, 12])\n      expect(fb.indices[0], 'M7: 末屏为最后成功帧').toBe(12)\n\n      // cancelable: true — 合成事件默认不可取消,preventDefault 无效会让本断言假绿\n      const event = new KeyboardEvent('keydown', { code: 'Space', cancelable: true })\n      window.dispatchEvent(event)\n      expect(event.defaultPrevented, 'M7: 结束后跳过键监听已归还(不再被消费)').toBe(false)\n      expect(warning.mock.calls).toEqual([['[rng-player] frame 1 fetch fail, skip:', failure]])\n      expect(fb.indices).toHaveLength(320 * 200)\n      expect(fb.indices.findIndex((pixel) => pixel !== 12)).toBe(-1)\n    } finally {\n      frame0.resolve(rngFrame(10))\n      frame2.resolve(rngFrame(12))\n      await pending\n    }\n  })\n})\n",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/shell/rng-window.grok-r1.test.ts",
+      "id": "rng-3",
+      "reason": "Explicit native host/data-port and diagnostic/clock/ownership normalization; per-case deltas and one retired duplicate separately recorded.",
+      "changes": [
+        {
+          "from": "/**\n * TEST-GROK-RENDER-HOST-LARGE-1 G10-A。\n * RNG 默认不可跳、负的 endFrame、单帧窗口、零淡入像素、零震屏和默认加载地址。\n */\nimport { afterEach, describe, expect, it, vi } from 'vitest'\nimport { legalPalette } from '../__tests__/asset-fixtures.js'\nimport type { IndexedImage } from '../assets/png.js'\nimport { createFramebuffer } from '../present/framebuffer.js'\nimport { __setRngChunkLoaderForTest, playRng } from './rng-player.js'\n\nconst N = 320 * 200\n\nfunction full(fill: number): IndexedImage {\n  return {\n    width: 320,\n    height: 200,\n    indices: new Uint8Array(N).fill(fill),\n    opaque: new Uint8Array(N).fill(1),\n  }\n}\n\nfunction manifest(frameCount: number, chunkIndex = 6) {\n  return {\n    chunks: [\n      {\n        chunkIndex,\n        frameCount,\n        frames: Array.from({ length: frameCount }, (_, index) => ({ index })),\n      },\n    ],\n  }\n}\n\nfunction realCtx(): CanvasRenderingContext2D {\n  const canvas = document.createElement('canvas')\n  canvas.width = 320\n  canvas.height = 200\n  const ctx = canvas.getContext('2d')\n  if (!ctx) throw new Error('2d context unavailable')\n  return ctx\n}\n\nafterEach(() => {\n  __setRngChunkLoaderForTest(null)\n  vi.restoreAllMocks()\n  vi.useRealTimers()\n})\n\ndescribe('G10-A RNG 默认跳过与帧窗', () => {\n  it('G10-A01 省略跳过键时 Space 仍播到末帧', async () => {\n    const fb = createFramebuffer()\n    const pending = playRng({\n      chunkIdx: 6,\n      frameDelayMs: 0,\n      fb,\n      canvasCtx: realCtx(),\n      palette: legalPalette(),\n      fetchManifest: async () => manifest(2),\n      fetchFrame: async (_chunk, frameIdx) => full(frameIdx + 1),\n    })\n    window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space' }))\n    await pending\n    expect(fb.indices[0]).toBe(2)\n  })\n\n  it('G10-A02 endFrame -2 播到 frameCount-1', async () => {\n    const fb = createFramebuffer()\n    await playRng({\n      chunkIdx: 6,\n      frameDelayMs: 0,\n      endFrame: -2,\n      fb,\n      canvasCtx: realCtx(),\n      palette: legalPalette(),\n      fetchManifest: async () => manifest(2),\n      fetchFrame: async (_chunk, frameIdx) => full(frameIdx + 1),\n    })\n    expect(fb.indices[0]).toBe(2)\n  })\n\n  it('G10-A03 startFrame 等于 endFrame 只取该帧', async () => {\n    const fb = createFramebuffer()\n    const seen: number[] = []\n    await playRng({\n      chunkIdx: 6,\n      frameDelayMs: 0,\n      startFrame: 1,\n      endFrame: 1,\n      fb,\n      canvasCtx: realCtx(),\n      palette: legalPalette(),\n      fetchManifest: async () => manifest(3),\n      fetchFrame: async (_chunk, frameIdx) => {\n        seen.push(frameIdx)\n        return full(frameIdx + 4)\n      },\n    })\n    expect(seen).toEqual([1])\n    expect(fb.indices[0]).toBe(5)\n  })\n\n  it('G10-A04 淡入时长 0 把索引 3 写成调色板 RGB', async () => {\n    const fb = createFramebuffer()\n    const ctx = realCtx()\n    await playRng({\n      chunkIdx: 6,\n      frameDelayMs: 0,\n      initialFadeInMs: 0,\n      fb,\n      canvasCtx: ctx,\n      palette: legalPalette(),\n      fetchManifest: async () => manifest(1),\n      fetchFrame: async () => full(3),\n    })\n    expect(Array.from(ctx.getImageData(0, 0, 1, 1).data)).toEqual([3, 20, 40, 255])\n    expect(fb.indices[0]).toBe(3)\n  })\n\n  it('G10-A05 shakeTime 为 0 时首帧不填黑且计数保持 0', async () => {\n    const fb = createFramebuffer()\n    const shakeState = { shakeTime: 0, shakeLevel: 4 }\n    await playRng({\n      chunkIdx: 6,\n      frameDelayMs: 0,\n      fb,\n      canvasCtx: realCtx(),\n      palette: legalPalette(),\n      fetchManifest: async () => manifest(1),\n      fetchFrame: async () => full(5),\n      shakeState,\n    })\n    expect(fb.indices[0]).toBe(5)\n    expect(shakeState.shakeTime).toBe(0)\n  })\n\n  it('G10-A06 manifest 418 的错误文本带状态码', async () => {\n    const fb = createFramebuffer()\n    fb.indices[0] = 9\n    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})\n    const origFetch = globalThis.fetch\n    globalThis.fetch = (async () => new Response(null, { status: 418 })) as typeof fetch\n    try {\n      await playRng({\n        chunkIdx: 6,\n        frameDelayMs: 0,\n        fb,\n        canvasCtx: realCtx(),\n        palette: legalPalette(),\n      })\n      const warned = warn.mock.calls[0]?.[1]\n      expect(warned).toBeInstanceOf(Error)\n      if (!(warned instanceof Error)) throw new Error('manifest warn is not Error')\n      expect(warned.message).toBe('rng-player: manifest fetch failed (418)')\n      expect(fb.indices[0]).toBe(9)\n    } finally {\n      globalThis.fetch = origFetch\n    }\n  })\n\n  it('G10-A07 默认块地址是 rng-07.rle', async () => {\n    const warning = vi.spyOn(console, 'warn').mockImplementation(() => {})\n    const seen: string[] = []\n    const origFetch = globalThis.fetch\n    globalThis.fetch = (async (input: RequestInfo | URL) => {\n      seen.push(String(input))\n      return new Response(null, { status: 404 })\n    }) as typeof fetch\n    try {\n      await playRng({\n        chunkIdx: 7,\n        frameDelayMs: 0,\n        fb: createFramebuffer(),\n        canvasCtx: realCtx(),\n        palette: legalPalette(),\n        fetchManifest: async () => manifest(1, 7),\n      })\n      expect(seen).toEqual(['/extracted/data/animation/rng-07.rle'])\n      expect(warning.mock.calls).toEqual([\n        [\n          '[rng-player] frame 0 fetch fail, skip:',\n          expect.objectContaining({\n            message: 'rng-player: fetch /extracted/data/animation/rng-07.rle failed (404)',\n          }),\n        ],\n      ])\n    } finally {\n      globalThis.fetch = origFetch\n    }\n  })\n})\n",
+          "to": "import { realCanvasContext } from '../__tests__/canvas-host.js'\nimport { rngFrame, rngManifest } from './__tests__/rng-frames.js'\n/**\n * TEST-GROK-RENDER-HOST-LARGE-1 G10-A。\n * RNG 默认不可跳、负的 endFrame、单帧窗口、零淡入像素、零震屏和默认加载地址。\n */\nimport { afterEach, describe, expect, it, vi } from 'vitest'\nimport { legalPalette } from '../__tests__/asset-fixtures.js'\nimport type { IndexedImage } from '../assets/png.js'\nimport { createFramebuffer } from '../present/framebuffer.js'\nimport { __setRngChunkLoaderForTest, playRng } from './rng-player.js'\n\nafterEach(async () => {\n  try {\n    if (vi.isFakeTimers()) await vi.runAllTimersAsync()\n  } finally {\n    __setRngChunkLoaderForTest(null)\n    vi.restoreAllMocks()\n    vi.useRealTimers()\n  }\n})\n\ndescribe('G10-A RNG 默认跳过与帧窗', () => {\n  it('省略跳过键时 Space 仍播到末帧', async () => {\n    const fb = createFramebuffer()\n    const pending = playRng({\n      chunkIdx: 6,\n      frameDelayMs: 0,\n      fb,\n      canvasCtx: realCanvasContext(),\n      palette: legalPalette(),\n      fetchManifest: async () => rngManifest(2),\n      fetchFrame: async (_chunk, frameIdx) => rngFrame(frameIdx + 1),\n    })\n    window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space' }))\n    await pending\n    expect(fb.indices[0]).toBe(2)\n  })\n\n  it('endFrame -2 播到 frameCount-1', async () => {\n    const fb = createFramebuffer()\n    await playRng({\n      chunkIdx: 6,\n      frameDelayMs: 0,\n      endFrame: -2,\n      fb,\n      canvasCtx: realCanvasContext(),\n      palette: legalPalette(),\n      fetchManifest: async () => rngManifest(2),\n      fetchFrame: async (_chunk, frameIdx) => rngFrame(frameIdx + 1),\n    })\n    expect(fb.indices[0]).toBe(2)\n  })\n\n  it('startFrame 等于 endFrame 只取该帧', async () => {\n    const fb = createFramebuffer()\n    const seen: number[] = []\n    await playRng({\n      chunkIdx: 6,\n      frameDelayMs: 0,\n      startFrame: 1,\n      endFrame: 1,\n      fb,\n      canvasCtx: realCanvasContext(),\n      palette: legalPalette(),\n      fetchManifest: async () => rngManifest(3),\n      fetchFrame: async (_chunk, frameIdx) => {\n        seen.push(frameIdx)\n        return rngFrame(frameIdx + 4)\n      },\n    })\n    expect(seen).toEqual([1])\n    expect(fb.indices[0]).toBe(5)\n  })\n\n  it('淡入时长 0 把索引 3 写成调色板 RGB', async () => {\n    const fb = createFramebuffer()\n    const ctx = realCanvasContext()\n    await playRng({\n      chunkIdx: 6,\n      frameDelayMs: 0,\n      initialFadeInMs: 0,\n      fb,\n      canvasCtx: ctx,\n      palette: legalPalette(),\n      fetchManifest: async () => rngManifest(1),\n      fetchFrame: async () => rngFrame(3),\n    })\n    expect(Array.from(ctx.getImageData(0, 0, 1, 1).data)).toEqual([3, 20, 40, 255])\n    expect(fb.indices[0]).toBe(3)\n  })\n\n  it('shakeTime 为 0 时首帧不填黑且计数保持 0', async () => {\n    const fb = createFramebuffer()\n    const shakeState = { shakeTime: 0, shakeLevel: 4 }\n    await playRng({\n      chunkIdx: 6,\n      frameDelayMs: 0,\n      fb,\n      canvasCtx: realCanvasContext(),\n      palette: legalPalette(),\n      fetchManifest: async () => rngManifest(1),\n      fetchFrame: async () => rngFrame(5),\n      shakeState,\n    })\n    expect(fb.indices[0]).toBe(5)\n    expect(shakeState.shakeTime).toBe(0)\n  })\n\n  it('manifest 418 的错误文本带状态码', async () => {\n    const fb = createFramebuffer()\n    fb.indices[0] = 9\n    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})\n    const origFetch = globalThis.fetch\n    globalThis.fetch = async () => new Response(null, { status: 418 })\n    try {\n      await playRng({\n        chunkIdx: 6,\n        frameDelayMs: 0,\n        fb,\n        canvasCtx: realCanvasContext(),\n        palette: legalPalette(),\n      })\n      const warned = warn.mock.calls[0]?.[1]\n      expect(warned).toBeInstanceOf(Error)\n      if (!(warned instanceof Error)) throw new Error('manifest warn is not Error')\n      expect(warned.message).toBe('rng-player: manifest fetch failed (418)')\n      expect(fb.indices[0]).toBe(9)\n    } finally {\n      globalThis.fetch = origFetch\n    }\n    expect(warn.mock.calls).toEqual([\n      [\n        '[rng-player] manifest fetch failed:',\n        expect.objectContaining({ message: 'rng-player: manifest fetch failed (418)' }),\n      ],\n    ])\n  })\n\n  it('默认块地址是 rng-07.rle', async () => {\n    const warning = vi.spyOn(console, 'warn').mockImplementation(() => {})\n    const seen: string[] = []\n    const origFetch = globalThis.fetch\n    globalThis.fetch = async (input: RequestInfo | URL) => {\n      seen.push(String(input))\n      return new Response(null, { status: 404 })\n    }\n    try {\n      await playRng({\n        chunkIdx: 7,\n        frameDelayMs: 0,\n        fb: createFramebuffer(),\n        canvasCtx: realCanvasContext(),\n        palette: legalPalette(),\n        fetchManifest: async () => rngManifest(1, 7),\n      })\n      expect(seen).toEqual(['/extracted/data/animation/rng-07.rle'])\n      expect(warning.mock.calls).toEqual([\n        [\n          '[rng-player] frame 0 fetch fail, skip:',\n          expect.objectContaining({\n            message: 'rng-player: fetch /extracted/data/animation/rng-07.rle failed (404)',\n          }),\n        ],\n      ])\n    } finally {\n      globalThis.fetch = origFetch\n    }\n  })\n})\n",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "replacements": [],
+  "registrations": [
+    {
+      "old": {
+        "file": "packages/game/src/shell/rng-player.test.ts",
+        "ordinal": 0
+      },
+      "originalOrdinal": 0,
+      "current": {
+        "file": "packages/game/src/shell/rng-player.test.ts",
+        "titles": ["RNG frame playback"],
+        "template": "全部帧播完 → fb.indices = 末帧填充"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/rng-player.test.ts",
+        "ordinal": 1
+      },
+      "originalOrdinal": 1,
+      "current": {
+        "file": "packages/game/src/shell/rng-player.test.ts",
+        "titles": ["RNG frame playback"],
+        "template": "Space 按键跳过 → 不到末帧停"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/rng-player.test.ts",
+        "ordinal": 2
+      },
+      "originalOrdinal": 2,
+      "current": {
+        "file": "packages/game/src/shell/rng-player.test.ts",
+        "titles": ["RNG frame playback"],
+        "template": "manifest 缺该 chunk → 警告 + return,不抛"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/rng-player.test.ts",
+        "ordinal": 3
+      },
+      "originalOrdinal": 3,
+      "current": {
+        "file": "packages/game/src/shell/rng-player.test.ts",
+        "titles": ["RNG frame playback"],
+        "template": "startFrame > endFrame → 立即 return 不播"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/rng-player.test.ts",
+        "ordinal": 4
+      },
+      "originalOrdinal": 4,
+      "current": {
+        "file": "packages/game/src/shell/rng-player.test.ts",
+        "titles": ["RNG frame playback"],
+        "template": "endFrame=-1 → 默认播到 frameCount-1"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/rng-player.test.ts",
+        "ordinal": 5
+      },
+      "originalOrdinal": 5,
+      "current": {
+        "file": "packages/game/src/shell/rng-player.test.ts",
+        "titles": ["RNG frame playback"],
+        "template": "manifest fetch throw → 警告 + return,不抛"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/rng-player.test.ts",
+        "ordinal": 6
+      },
+      "originalOrdinal": 6,
+      "current": {
+        "file": "packages/game/src/shell/rng-player.test.ts",
+        "titles": ["RNG frame playback"],
+        "template": "单帧 fetch throw → warn + skip 该帧 + 继续"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/rng-player.test.ts",
+        "ordinal": 7
+      },
+      "originalOrdinal": 7,
+      "current": {
+        "file": "packages/game/src/shell/rng-player.effects.test.ts",
+        "titles": ["RNG shake on rendered frames"],
+        "template": "shakeTime 随每显示帧递减(3 帧视频:65→62)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/rng-player.test.ts",
+        "ordinal": 8
+      },
+      "originalOrdinal": 8,
+      "current": {
+        "file": "packages/game/src/shell/rng-player.effects.test.ts",
+        "titles": ["RNG shake on rendered frames"],
+        "template": "视频帧本身被震:偶 shakeTime 帧整幅下移 shakeLevel 行,顶部填黑"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/rng-player.test.ts",
+        "ordinal": 9
+      },
+      "originalOrdinal": 9,
+      "current": {
+        "file": "packages/game/src/shell/rng-player.effects.test.ts",
+        "titles": ["RNG shake on rendered frames"],
+        "template": "shakeTime 中途耗尽 → 剩余帧不震不再递减(不下穿 0)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/rng-player.test.ts",
+        "ordinal": 10
+      },
+      "originalOrdinal": 10,
+      "current": {
+        "file": "packages/game/src/shell/rng-player.effects.test.ts",
+        "titles": ["RNG shake on rendered frames"],
+        "template": "跳过键提前结束 → 未显示帧的递减一次性结清(与完整播完一致)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/rng-player.test.ts",
+        "ordinal": 11
+      },
+      "originalOrdinal": 12,
+      "current": {
+        "file": "packages/game/src/shell/rng-player.effects.test.ts",
+        "titles": ["RNG first-frame palette fade"],
+        "template": "initialFadeInMs:第一帧先按黑 palette 显示,再恢复目标 palette"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/rng-player.test.ts",
+        "ordinal": 12
+      },
+      "originalOrdinal": 13,
+      "current": {
+        "file": "packages/game/src/shell/rng-player.cache.test.ts",
+        "titles": ["RNG in-flight chunk cache"],
+        "template": "单次 playRng:同一 chunk 的 N 帧并发只触发一次底层加载(防 O(N²) stampede)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/rng-player.glm-next-wave.test.ts",
+        "ordinal": 0
+      },
+      "originalOrdinal": 0,
+      "current": {
+        "file": "packages/game/src/shell/rng-player.test.ts",
+        "titles": ["RNG requested frame window"],
+        "template": "窗口 [1,2]:fetchFrame 恰被调 2 次(frame 1、2),窗外帧 0/3 零请求,末屏 = frame 2"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/rng-player.glm-next-wave.test.ts",
+        "ordinal": 1
+      },
+      "originalOrdinal": 1,
+      "current": {
+        "file": "packages/game/src/shell/rng-player.cache.test.ts",
+        "titles": ["RNG failed chunk eviction"],
+        "template": "首次加载失败 → 0 帧且保留原错误;再次播放重新加载成功并显帧(加载器恰 2 次调用)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/rng-player.io-lifecycle.test.ts",
+        "ordinal": 0
+      },
+      "originalOrdinal": 0,
+      "current": {
+        "file": "packages/game/src/shell/rng-player.cache.test.ts",
+        "titles": ["RNG cache ownership between chunks"],
+        "template": "chunk A 加载失败不驱逐 chunk B 成功缓存 — 复播 B 不重载、帧数据不串"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/rng-player.io-lifecycle.test.ts",
+        "ordinal": 1
+      },
+      "originalOrdinal": 1,
+      "current": {
+        "file": "packages/game/src/shell/rng-player.test.ts",
+        "titles": ["RNG manifest order and listener cleanup"],
+        "template": "成功帧乱序迟到 + 中间帧失败 — 顺序保持、末屏为最后成功帧、结束后归还输入监听"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/rng-window.grok-r1.test.ts",
+        "ordinal": 0
+      },
+      "originalOrdinal": 0,
+      "current": {
+        "file": "packages/game/src/shell/rng-player.test.ts",
+        "titles": ["RNG direct-option and default IO contracts"],
+        "template": "省略跳过键时 Space 仍播到末帧"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/rng-window.grok-r1.test.ts",
+        "ordinal": 1
+      },
+      "originalOrdinal": 1,
+      "current": {
+        "file": "packages/game/src/shell/rng-player.test.ts",
+        "titles": ["RNG direct-option and default IO contracts"],
+        "template": "endFrame -2 播到 frameCount-1"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/rng-window.grok-r1.test.ts",
+        "ordinal": 2
+      },
+      "originalOrdinal": 2,
+      "current": {
+        "file": "packages/game/src/shell/rng-player.test.ts",
+        "titles": ["RNG direct-option and default IO contracts"],
+        "template": "startFrame 等于 endFrame 只取该帧"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/rng-window.grok-r1.test.ts",
+        "ordinal": 3
+      },
+      "originalOrdinal": 3,
+      "current": {
+        "file": "packages/game/src/shell/rng-player.effects.test.ts",
+        "titles": ["RNG zero-effect boundaries"],
+        "template": "淡入时长 0 把索引 3 写成调色板 RGB"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/rng-window.grok-r1.test.ts",
+        "ordinal": 4
+      },
+      "originalOrdinal": 4,
+      "current": {
+        "file": "packages/game/src/shell/rng-player.effects.test.ts",
+        "titles": ["RNG zero-effect boundaries"],
+        "template": "shakeTime 为 0 时首帧不填黑且计数保持 0"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/rng-window.grok-r1.test.ts",
+        "ordinal": 5
+      },
+      "originalOrdinal": 5,
+      "current": {
+        "file": "packages/game/src/shell/rng-player.test.ts",
+        "titles": ["RNG direct-option and default IO contracts"],
+        "template": "manifest 418 的错误文本带状态码"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/rng-window.grok-r1.test.ts",
+        "ordinal": 6
+      },
+      "originalOrdinal": 6,
+      "current": {
+        "file": "packages/game/src/shell/rng-player.test.ts",
+        "titles": ["RNG direct-option and default IO contracts"],
+        "template": "默认块地址是 rng-07.rle"
+      }
+    }
+  ],
+  "identities": [
+    {
+      "old": {
+        "file": "packages/game/src/shell/rng-player.test.ts",
+        "fullName": "playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4) 全部帧播完 → fb.indices = 末帧填充"
+      },
+      "current": {
+        "file": "packages/game/src/shell/rng-player.test.ts",
+        "fullName": "RNG frame playback 全部帧播完 → fb.indices = 末帧填充"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/rng-player.test.ts",
+        "fullName": "playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4) Space 按键跳过 → 不到末帧停"
+      },
+      "current": {
+        "file": "packages/game/src/shell/rng-player.test.ts",
+        "fullName": "RNG frame playback Space 按键跳过 → 不到末帧停"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/rng-player.test.ts",
+        "fullName": "playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4) manifest 缺该 chunk → 警告 + return,不抛"
+      },
+      "current": {
+        "file": "packages/game/src/shell/rng-player.test.ts",
+        "fullName": "RNG frame playback manifest 缺该 chunk → 警告 + return,不抛"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/rng-player.test.ts",
+        "fullName": "playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4) startFrame > endFrame → 立即 return 不播"
+      },
+      "current": {
+        "file": "packages/game/src/shell/rng-player.test.ts",
+        "fullName": "RNG frame playback startFrame > endFrame → 立即 return 不播"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/rng-player.test.ts",
+        "fullName": "playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4) endFrame=-1 → 默认播到 frameCount-1"
+      },
+      "current": {
+        "file": "packages/game/src/shell/rng-player.test.ts",
+        "fullName": "RNG frame playback endFrame=-1 → 默认播到 frameCount-1"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/rng-player.test.ts",
+        "fullName": "playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4) manifest fetch throw → 警告 + return,不抛"
+      },
+      "current": {
+        "file": "packages/game/src/shell/rng-player.test.ts",
+        "fullName": "RNG frame playback manifest fetch throw → 警告 + return,不抛"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/rng-player.test.ts",
+        "fullName": "playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4) 单帧 fetch throw → warn + skip 该帧 + 继续"
+      },
+      "current": {
+        "file": "packages/game/src/shell/rng-player.test.ts",
+        "fullName": "RNG frame playback 单帧 fetch throw → warn + skip 该帧 + 继续"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/rng-player.test.ts",
+        "fullName": "playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4) shakeState 透传(VIDEO_UpdateScreen shake 分支) shakeTime 随每显示帧递减(3 帧视频:65→62)"
+      },
+      "current": {
+        "file": "packages/game/src/shell/rng-player.effects.test.ts",
+        "fullName": "RNG shake on rendered frames shakeTime 随每显示帧递减(3 帧视频:65→62)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/rng-player.test.ts",
+        "fullName": "playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4) shakeState 透传(VIDEO_UpdateScreen shake 分支) 视频帧本身被震:偶 shakeTime 帧整幅下移 shakeLevel 行,顶部填黑"
+      },
+      "current": {
+        "file": "packages/game/src/shell/rng-player.effects.test.ts",
+        "fullName": "RNG shake on rendered frames 视频帧本身被震:偶 shakeTime 帧整幅下移 shakeLevel 行,顶部填黑"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/rng-player.test.ts",
+        "fullName": "playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4) shakeState 透传(VIDEO_UpdateScreen shake 分支) shakeTime 中途耗尽 → 剩余帧不震不再递减(不下穿 0)"
+      },
+      "current": {
+        "file": "packages/game/src/shell/rng-player.effects.test.ts",
+        "fullName": "RNG shake on rendered frames shakeTime 中途耗尽 → 剩余帧不震不再递减(不下穿 0)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/rng-player.test.ts",
+        "fullName": "playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4) shakeState 透传(VIDEO_UpdateScreen shake 分支) 跳过键提前结束 → 未显示帧的递减一次性结清(与完整播完一致)"
+      },
+      "current": {
+        "file": "packages/game/src/shell/rng-player.effects.test.ts",
+        "fullName": "RNG shake on rendered frames 跳过键提前结束 → 未显示帧的递减一次性结清(与完整播完一致)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/rng-player.test.ts",
+        "fullName": "playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4) initialFadeInMs:第一帧先按黑 palette 显示,再恢复目标 palette"
+      },
+      "current": {
+        "file": "packages/game/src/shell/rng-player.effects.test.ts",
+        "fullName": "RNG first-frame palette fade initialFadeInMs:第一帧先按黑 palette 显示,再恢复目标 palette"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/rng-player.test.ts",
+        "fullName": "playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4) 单次 playRng:同一 chunk 的 N 帧并发只触发一次底层加载(防 O(N²) stampede)"
+      },
+      "current": {
+        "file": "packages/game/src/shell/rng-player.cache.test.ts",
+        "fullName": "RNG in-flight chunk cache 单次 playRng:同一 chunk 的 N 帧并发只触发一次底层加载(防 O(N²) stampede)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/rng-player.glm-next-wave.test.ts",
+        "fullName": "playRng 帧窗口(startFrame/endFrame 决定实际请求与显示集合) 窗口 [1,2]:fetchFrame 恰被调 2 次(frame 1、2),窗外帧 0/3 零请求,末屏 = frame 2"
+      },
+      "current": {
+        "file": "packages/game/src/shell/rng-player.test.ts",
+        "fullName": "RNG requested frame window 窗口 [1,2]:fetchFrame 恰被调 2 次(frame 1、2),窗外帧 0/3 零请求,末屏 = frame 2"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/rng-player.glm-next-wave.test.ts",
+        "fullName": "playRng chunk 加载失败不长期缓存失败 Promise(允许重试) 首次加载失败 → 0 帧静默 resolve;再次播放重新加载成功并显帧(加载器恰 2 次调用)"
+      },
+      "current": {
+        "file": "packages/game/src/shell/rng-player.cache.test.ts",
+        "fullName": "RNG failed chunk eviction 首次加载失败 → 0 帧且保留原错误;再次播放重新加载成功并显帧(加载器恰 2 次调用)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/rng-player.io-lifecycle.test.ts",
+        "fullName": "rng-player IO 生命周期 TEST-GAME-MEDIA-LIFECYCLE-1 M6 chunk A 加载失败不驱逐 chunk B 成功缓存 — 复播 B 不重载、帧数据不串"
+      },
+      "current": {
+        "file": "packages/game/src/shell/rng-player.cache.test.ts",
+        "fullName": "RNG cache ownership between chunks chunk A 加载失败不驱逐 chunk B 成功缓存 — 复播 B 不重载、帧数据不串"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/rng-player.io-lifecycle.test.ts",
+        "fullName": "rng-player IO 生命周期 TEST-GAME-MEDIA-LIFECYCLE-1 M7 成功帧乱序迟到 + 中间帧失败 — 顺序保持、末屏为最后成功帧、结束后归还输入监听"
+      },
+      "current": {
+        "file": "packages/game/src/shell/rng-player.test.ts",
+        "fullName": "RNG manifest order and listener cleanup 成功帧乱序迟到 + 中间帧失败 — 顺序保持、末屏为最后成功帧、结束后归还输入监听"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/rng-window.grok-r1.test.ts",
+        "fullName": "G10-A RNG 默认跳过与帧窗 G10-A01 省略跳过键时 Space 仍播到末帧"
+      },
+      "current": {
+        "file": "packages/game/src/shell/rng-player.test.ts",
+        "fullName": "RNG direct-option and default IO contracts 省略跳过键时 Space 仍播到末帧"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/rng-window.grok-r1.test.ts",
+        "fullName": "G10-A RNG 默认跳过与帧窗 G10-A02 endFrame -2 播到 frameCount-1"
+      },
+      "current": {
+        "file": "packages/game/src/shell/rng-player.test.ts",
+        "fullName": "RNG direct-option and default IO contracts endFrame -2 播到 frameCount-1"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/rng-window.grok-r1.test.ts",
+        "fullName": "G10-A RNG 默认跳过与帧窗 G10-A03 startFrame 等于 endFrame 只取该帧"
+      },
+      "current": {
+        "file": "packages/game/src/shell/rng-player.test.ts",
+        "fullName": "RNG direct-option and default IO contracts startFrame 等于 endFrame 只取该帧"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/rng-window.grok-r1.test.ts",
+        "fullName": "G10-A RNG 默认跳过与帧窗 G10-A04 淡入时长 0 把索引 3 写成调色板 RGB"
+      },
+      "current": {
+        "file": "packages/game/src/shell/rng-player.effects.test.ts",
+        "fullName": "RNG zero-effect boundaries 淡入时长 0 把索引 3 写成调色板 RGB"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/rng-window.grok-r1.test.ts",
+        "fullName": "G10-A RNG 默认跳过与帧窗 G10-A05 shakeTime 为 0 时首帧不填黑且计数保持 0"
+      },
+      "current": {
+        "file": "packages/game/src/shell/rng-player.effects.test.ts",
+        "fullName": "RNG zero-effect boundaries shakeTime 为 0 时首帧不填黑且计数保持 0"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/rng-window.grok-r1.test.ts",
+        "fullName": "G10-A RNG 默认跳过与帧窗 G10-A06 manifest 418 的错误文本带状态码"
+      },
+      "current": {
+        "file": "packages/game/src/shell/rng-player.test.ts",
+        "fullName": "RNG direct-option and default IO contracts manifest 418 的错误文本带状态码"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/shell/rng-window.grok-r1.test.ts",
+        "fullName": "G10-A RNG 默认跳过与帧窗 G10-A07 默认块地址是 rng-07.rle"
+      },
+      "current": {
+        "file": "packages/game/src/shell/rng-player.test.ts",
+        "fullName": "RNG direct-option and default IO contracts 默认块地址是 rng-07.rle"
+      }
+    }
+  ],
+  "retirements": [
+    {
+      "old": {
+        "file": "packages/game/src/shell/rng-player.test.ts",
+        "ordinal": 11,
+        "fullName": "playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4) shakeState 透传(VIDEO_UpdateScreen shake 分支) 不传 shakeState → 行为不变",
+        "callbackSha256": "2b040c2209707ff0f1eccddc4c23280971f62ad51f3727d28e52ed0603978f4f",
+        "assertionStatements": 1
+      },
+      "current": {
+        "file": "packages/game/src/shell/rng-player.test.ts",
+        "titles": ["RNG frame playback"],
+        "template": "全部帧播完 → fb.indices = 末帧填充",
+        "fullName": "RNG frame playback 全部帧播完 → fb.indices = 末帧填充"
+      },
+      "identifierRenames": {},
+      "reason": "No-shake terminal index0=3 assertion exists verbatim in the retained three-frame playback case,which also checks center and full64000-byte final frame.",
+      "inputEquivalence": "Both fresh FBs use the same chunk6three-frame manifest and frameIdx+1 data,omit shakeState and initial fade,and await completion. Delays0/1are legal and only schedule sleep; they do not change indices or chosen frame in the current full-read source.",
+      "authorization": "Current user naming/organization goal and AGENTS testing-quality rule permit proven test-only duplicate subsumption; no production/interface retirement authority inferred."
+    }
+  ],
+  "helperTransplants": [
+    {
+      "oldPath": "packages/game/src/shell/rng-player.glm-next-wave.test.ts",
+      "oldName": "rngFrame",
+      "currentPath": "packages/game/src/shell/__tests__/rng-frames.ts",
+      "currentName": "rngFrame",
+      "changes": [
+        {
+          "from": "function rngFrame",
+          "to": "export function rngFrame",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "oldPath": "packages/game/src/shell/rng-window.grok-r1.test.ts",
+      "oldName": "manifest",
+      "currentPath": "packages/game/src/shell/__tests__/rng-frames.ts",
+      "currentName": "rngManifest",
+      "changes": [
+        {
+          "from": "function manifest",
+          "to": "export function rngManifest",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "id": "shell-rng",
+  "kind": "rng",
+  "namespace": "organization-shell-rng",
+  "cohortSubjects": [
+    {
+      "path": "packages/game/src/shell/rng-player.glm-next-wave.test.ts",
+      "sha256": "145a3c12bebea0cb2f4199c046387b791717d34feca8fcddf879ce6e0d0ae3ae",
+      "priorCurrentBridges": []
+    }
+  ],
+  "preserved": [
+    {
+      "path": "packages/game/src/shell/rng-player.ts",
+      "sha256": "726d13f8e6293bb3f50ef42637f3a45e54f20f7d66bb7a9c056c78d3b15c6f04"
+    },
+    {
+      "path": "packages/game/src/shell/dos-cutscenes.ts",
+      "sha256": "bd18018aa36e4291c8ef414848d77b98b1806d81214e98ad7c4fb10db48e7df8"
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "sha256": "a4d007c9739873dc20f385b52b584de49ec57cd5c328cb11ca9d3b0b9f19fb0a"
+    },
+    {
+      "path": "packages/game/src/core/event-system.ts",
+      "sha256": "3b8490fa48d2992f693ab0eb611954dd0bfacbc22dc3eda58378cc4bc7a4b5f4"
+    },
+    {
+      "path": "packages/game/src/shell/trademark-fallback.ts",
+      "sha256": "ad6995cb2b1927d569400cb8f2ec391c6838713af4e611288d41d0fd307308ee"
+    },
+    {
+      "path": "packages/game/src/__tests__/canvas-host.ts",
+      "sha256": "d256670d81e2d3f20d1c170ac945067f8d1861be796565aeb5bd70f72116f221"
+    },
+    {
+      "path": "packages/game/src/__tests__/asset-fixtures.ts",
+      "sha256": "cf3eae0a807ce26983299ee72ff140b7035cd64121a4547b6f145076547c12fc"
+    }
+  ],
+  "neighborPaths": [
+    "packages/game/src/shell/ending-player.palette.test.ts",
+    "packages/game/src/shell/ending-player.test.ts",
+    "packages/game/src/shell/ending-player.wait-key.test.ts",
+    "packages/game/src/shell/fbp-player.scroll.test.ts",
+    "packages/game/src/shell/fbp-player.test.ts",
+    "packages/game/src/shell/rng-player.cache.test.ts",
+    "packages/game/src/shell/rng-player.effects.test.ts",
+    "packages/game/src/shell/rng-player.test.ts"
+  ],
+  "cleanExecutions": [
+    "before",
+    "organization-r2",
+    "consolidate-inputs",
+    "neighbors",
+    "typecheck",
+    "proof",
+    "module-preflight-r2",
+    "docs",
+    "content-review",
+    "lint",
+    "testing-docs",
+    "diff",
+    "scoped",
+    "ledger-final"
+  ],
+  "lightweightGates": true,
+  "counters": ["counter-chunk.json", "counter-delivery-imports.json"],
+  "fixtureAndCallbackProof": "organization-shell-rng/proof-final.stdout.raw",
+  "reusedReviewMember": "organization-shell-rng/reused-reviews.json",
+  "primarySources": [
+    {
+      "source": "reference/sdlpal/rngplay.c",
+      "sha256": "3fd4066442ea41352737d30ea3f41d05082137ae788e7d1ac792a62cf6f4e1f1",
+      "readRanges": [[371, 448]],
+      "scope": "Actual RNG loop and production script operand normalization only"
+    },
+    {
+      "source": "reference/sdlpal/script.c",
+      "sha256": "f5332e015b27018ad03385b4ceab6c44dc0509e81ace7e8785d1843ae88cd017",
+      "readRanges": [[1532, 1558]],
+      "scope": "Actual RNG loop and production script operand normalization only"
+    }
+  ],
+  "profiles": [
+    {
+      "path": "packages/game/src/shell/rng-player.test.ts",
+      "subjects": [
+        "packages/game/src/shell/rng-player.test.ts",
+        "packages/game/src/shell/rng-player.glm-next-wave.test.ts",
+        "packages/game/src/shell/rng-player.io-lifecycle.test.ts",
+        "packages/game/src/shell/rng-window.grok-r1.test.ts"
+      ],
+      "axes": {
+        "A": "14actual playback/range/failure/order contracts preserve supported options and use current caller normalization; directend0is not a claim about raw C invocation.",
+        "B": "Remove author/frozen-revision and full SDL-equivalence headings; error and native RGB scope precise,original labels retained only in historical identities.",
+        "C": "No global no-op Canvas. Each request/DOM context is case-owned; out-of-order deferreds settle in finally and await actual playback before shared ports restore.",
+        "D": "Keep differing red-channel and constant-color palettes local; share only equal input records/resolved ports. Remove one directly subsumed no-shake case.",
+        "E": "Exact chunk/frame pairs and actual Canvas RGB now supplement full indexed output. Wrong chunk mutant oldpass/newbusinessfailure; all diagnostic arrays exact rather than broad predicates or silent spies.",
+        "F": "Frame playback/default IO groups and case names state actual purpose; weak prototype helper/factory wrappers removed.",
+        "G": "14retained cases,one retired original assertion subsumed by first stronger case; no duplicate factory layer or unrelated cache reset helper.",
+        "H": "Real player/framebuffer/Canvas; only fetch/media timing controlled. Existing port and independent literals,not algorithm clones,are oracles."
+      }
+    },
+    {
+      "path": "packages/game/src/shell/rng-player.effects.test.ts",
+      "subjects": [
+        "packages/game/src/shell/rng-player.test.ts",
+        "packages/game/src/shell/rng-window.grok-r1.test.ts"
+      ],
+      "axes": {
+        "A": "7shake/fade/no-effect cases keep literal state counters,row boundaries and first-frame color endpoints.",
+        "B": "Replace coverage-motivated real-time sleep comment with deterministic20ms phase; no claim of exact SDL intermediate palette algorithm.",
+        "C": "Per-case actual context; finite fake timers drained in finally before loader/mock/time cleanup. Caller RAF responsibility remains outside these tests.",
+        "D": "Same three-frame data ports move to provider; local fade palette and fresh legalPalette remain distinct contracts.",
+        "E": "Original endpoint/row assertions kept; real16ms144/96/48RGBA and final180/120/60RGBA replace no-op drawing assumptions.",
+        "F": "effects filename groups stateful shake and first-frame palette effects,without actor/batch naming.",
+        "G": "No extra per-endpoint cases; real-time fade and unused per-case Canvas beforeEach removed. No old valideffectcase retired.",
+        "H": "Native drawing with fake clock,forwarding spy retains actual pixels. No shader/game-state mock or machine-speed coverage assumption."
+      }
+    },
+    {
+      "path": "packages/game/src/shell/rng-player.cache.test.ts",
+      "subjects": [
+        "packages/game/src/shell/rng-player.test.ts",
+        "packages/game/src/shell/rng-player.glm-next-wave.test.ts",
+        "packages/game/src/shell/rng-player.io-lifecycle.test.ts"
+      ],
+      "axes": {
+        "A": "3cache contracts cover pending coalescence,failed entry eviction/retry,and failure isolation between chunks.",
+        "B": "Failure title no longer calls a warned path silent; all original error messages and sole warning arrays explicit.",
+        "C": "Controlled gate is released in finally,actualplay awaited; cache test seam reset after every case. No resource owner leaks when early assertion fails.",
+        "D": "Equal black palette/three-frame inputs are borrowed from pure provider; varying retry/cross-chunk input maps and palettes stay scoped.",
+        "E": "Coalescence checks pending load count and full final delivery,not count alone. Omitted blit oldpass/newfirst-bad-pixel failure. Cross-chunk outputs now checked completely.",
+        "F": "cache filename and failure/ownership groups state behavior; gate/release reveal asynchronous dependency.",
+        "G": "Replace5ms delay with explicit gate; no new retry/fallback behavior or extra runtime case. Count and delivered data test distinct obligations.",
+        "H": "Real loadRngChunk/defaultFetchFrame path with declared loader port; independent known frame values,not mock results self-compared. Compact full-length/findIndex oracle retains all64000values with cheap failure output."
+      }
+    },
+    {
+      "path": "packages/game/src/shell/__tests__/rng-frames.ts",
+      "subjects": [
+        "packages/game/src/shell/rng-player.test.ts",
+        "packages/game/src/shell/rng-player.glm-next-wave.test.ts",
+        "packages/game/src/shell/rng-player.io-lifecycle.test.ts",
+        "packages/game/src/shell/rng-window.grok-r1.test.ts"
+      ],
+      "axes": {
+        "A": "Fixed320x200full opaque frame and single-chunk manifest preserve actual old domains; three-frame fixture and resolved ports equivalent for allactualinputs.",
+        "B": "Module header states pure data/ports,units and cleanup ownership; no renderer/browser/codec acceptance claim.",
+        "C": "Provider owns fresh arrays or explicit shared read-only borrowed data only; no timers,listeners,cache/player,or IO side effect.",
+        "D": "Identical original rngFrame bodies merged once; full/sequence factories reuse it. Three-frame resolved ports and black palette exact declaration copies,other palettes/deferreds not combined.",
+        "E": "9frame values,6manifest vectors,3sequential frames,borrowed manifest identity and palette equivalence independently executed; actual consumers test real player.",
+        "F": "rng-frames and named data ports reveal domain; private THREE_FRAME_MANIFEST,checked tuple-return annotation avoids unnecessary cast.",
+        "G": "Only5actually consumed exports; no barrel,mode boolean,future fixture API or incompatible lifetime merging.",
+        "H": "Pure deterministic constructors/resolved data let callers own fault injection. Typed valid data,no Object.create masquerade or forced Canvas cast."
+      }
+    }
+  ],
+  "reads": {
+    "fullInputs": [
+      {
+        "path": "packages/game/src/shell/rng-player.test.ts",
+        "sha256": "9de20bd177a4da6e7b221ff0a3b0fa6012c51669c0061fbb80a23ef70c056042",
+        "member": "organization-shell-rng/0.before",
+        "lines": 348,
+        "provenance": "Previous exact full read revalidated by source hash; current changed delta inspected"
+      },
+      {
+        "path": "packages/game/src/shell/rng-player.glm-next-wave.test.ts",
+        "sha256": "145a3c12bebea0cb2f4199c046387b791717d34feca8fcddf879ce6e0d0ae3ae",
+        "member": "organization-shell-rng/1.before",
+        "lines": 123,
+        "provenance": "Previous exact full read revalidated by source hash; current changed delta inspected"
+      },
+      {
+        "path": "packages/game/src/shell/rng-player.io-lifecycle.test.ts",
+        "sha256": "20b26965a72562dc41f741dc303229da1ecbe14b3ef21d40603ea0e17252f4ae",
+        "member": "organization-shell-rng/2.before",
+        "lines": 163,
+        "provenance": "Previous exact full read revalidated by source hash; current changed delta inspected"
+      },
+      {
+        "path": "packages/game/src/shell/rng-window.grok-r1.test.ts",
+        "sha256": "c13c5652977cae5c85e637919386c40eb588338de80db1cfc964436a14f94466",
+        "member": "organization-shell-rng/3.before",
+        "lines": 190,
+        "provenance": "Full current file read in this slice"
+      }
+    ],
+    "fullImplementation": [
+      {
+        "path": "packages/game/src/shell/rng-player.ts",
+        "sha256": "726d13f8e6293bb3f50ef42637f3a45e54f20f7d66bb7a9c056c78d3b15c6f04",
+        "lines": 268
+      },
+      {
+        "path": "packages/game/src/shell/trademark-fallback.ts",
+        "sha256": "ad6995cb2b1927d569400cb8f2ec391c6838713af4e611288d41d0fd307308ee",
+        "scope": "Full actual RNG caller read; no newcallerclosurecredit"
+      }
+    ],
+    "currentOutputs": [
+      {
+        "path": "packages/game/src/shell/rng-player.test.ts",
+        "sha256": "4ce384cb78af94c10fcf14a85eca6b439929797bf39a018dd9d181d3581c10f1",
+        "lines": 396,
+        "scope": "Full first candidate read; exact input-declaration extraction,typed annotations and equivalent compact-oracle deltas independently inspected/proven"
+      },
+      {
+        "path": "packages/game/src/shell/rng-player.effects.test.ts",
+        "sha256": "3508431bb7cf10fd53a0c94253a43ffadc9546f93494a06a84f44d6aa391d5e2",
+        "lines": 180,
+        "scope": "Full first candidate read; exact input-declaration extraction,typed annotations and equivalent compact-oracle deltas independently inspected/proven"
+      },
+      {
+        "path": "packages/game/src/shell/rng-player.cache.test.ts",
+        "sha256": "8c1ebefdebb63938bb792a5f5138724a7d018f1773f9cf846e7669a1b6cd11f7",
+        "lines": 166,
+        "scope": "Full first candidate read; exact input-declaration extraction,typed annotations and equivalent compact-oracle deltas independently inspected/proven"
+      },
+      {
+        "path": "packages/game/src/shell/__tests__/rng-frames.ts",
+        "sha256": "6a71ffb63e8daaf7f0981af21971316e8e326dd86bdd2e628f8968a47543501d",
+        "lines": 44,
+        "scope": "Full first candidate read; exact input-declaration extraction,typed annotations and equivalent compact-oracle deltas independently inspected/proven"
+      }
+    ],
+    "callers": [
+      {
+        "path": "packages/game/src/shell/bootstrap.ts",
+        "ranges": [[952, 1001], [1195, 1247]],
+        "scope": "Dev preview and actual script caller,skip domain,RAF,palette and waiting ownership."
+      },
+      {
+        "path": "packages/game/src/core/event-system.ts",
+        "ranges": [[745, 766], [2165, 2228]],
+        "scope": "Handler public input and production op1>0?op1:-1 normalization; not a whole interpreter review."
+      },
+      {
+        "path": "packages/game/src/shell/dos-cutscenes.ts",
+        "scope": "Same-byte full216-line prior read reused; ordered RNG/endingcaller."
+      }
+    ]
+  },
+  "processDisclosures": [
+    "Only1historical fixedcohort subject. Adjacent main and2original implicitpending specs grant no added historical cohort count; all current paths review until unified gates.",
+    "4originalspec25cases ->3spec24cases+1test-only provider.13callbacks conserve runtime AST after explicit data-port/nativehost/type bridges;11explicit per-case oracle/diagnostic/clock/cleanup repairs. One old no-shake first-pixel assertion is verbatim in the stronger retained4assertioncase; old identity/callbackSHA and delay0/1legal-domain reasoning retained.",
+    "7diagnostic observers strengthened or made exact; pre-existing default404exact array preserved. Errors supplied by a case are asserted by identity,default-created HTTPerrors by exactmessage/type/prefix/callarray. No silentconsolecapture or relaxed rule introduced.",
+    "Initial producer correctly rejected an overbroad Error literal replacement before writing candidate specs; preserved r1/raw. r2 passed structural checks; later full read consolidated copied input declarations and removed tuple casts with equivalent checked return annotations.",
+    "Initial omitted-blit counter produced896766stderr bytes and large native failure JSON. Full original kept. Equivalent length+first-mismatch checks inspect all64000pixels,including independent first/middle/last/empty countervectors; current red is757stderr bytes and ~1second. No report truncation or runner diagnostic suppression.",
+    "Production RNGsource byte-restored after real mutants; no product/schema/save/asset format/publicinterface/behavior change. DirectPlayRngOptions tests do not grant raw Cend0parity; actual opcode normalizes0to-1 before calling the player.",
+    "Current47neighbors8files/typecheck0; no heavycheck/officialcoverage/protected/publication. Native decode/gzip success,hardware/full-original-cutscene visual acceptance are outside this test-only scope.",
+    "Preflight rejected missing explicit arrow parentheses in the unformatted compact-oracle source bridge,despite runtime AST proof matching. Apply the same existing formatter to the expected bridge; no analyzer relaxation or candidate change. Original rejected manifest/raw preserved.",
+    "Scoped Biome exit0 still emitted2unused-import warnings; lint-zero correctly failed. Original scoped/lint reports moved byte-exact to initial names before archive first includes them. Deleted unused fetchSequentialFrame binding and IndexedImage type import; no ignore/rule change. Current delivery counter,neighbors and TC rerun on final sources. One-off consolidation inner Biome output was not preserved/propagated as a static gate; no initial clean-static credit is granted."
+  ],
+  "ledgerCounts": {
+    "inventory": 3462,
+    "closed": 572,
+    "review": 256,
+    "pending": 2634
+  },
+  "receipts": {
+    "neighbors": "organization-shell-rng/neighbors-final",
+    "typecheck": "organization-shell-rng/typecheck-final",
+    "proof": "organization-shell-rng/proof-final"
+  }
+}

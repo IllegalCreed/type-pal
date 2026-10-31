@@ -1,0 +1,749 @@
+{
+  "id": "content-value-snapshot-and-asset-record-fixtures",
+  "kind": "fixture",
+  "namespace": "organization-content-fixtures",
+  "cohortSubjects": [
+    {
+      "path": "packages/content/src/__tests__/glm-content-contract-fixtures.ts",
+      "sha256": "9ed8274ed545289834dae589639f34461566e102cc721d1c60f2ad355c29f7b0",
+      "preservedEvidence": "[本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json)"
+    }
+  ],
+  "providers": {
+    "before": [
+      {
+        "path": "packages/content/src/__tests__/glm-content-contract-fixtures.ts",
+        "member": "organization-content-fixtures/0.before",
+        "sha256": "9ed8274ed545289834dae589639f34461566e102cc721d1c60f2ad355c29f7b0",
+        "lines": 38,
+        "changes": [
+          {
+            "from": "export const spriteCatalog = (id: string = 'sprite.x') => ({\n  version: 1 as const,\n  assets: { [id]: spriteAssetRecord(id) },\n})",
+            "to": "",
+            "count": 1
+          }
+        ]
+      }
+    ],
+    "current": [
+      {
+        "path": "packages/content/src/__tests__/value-snapshot.ts",
+        "sha256": "07369825676bdc126815b97aa2ebdeb4cfb7f5f2e7bb58cca1dfd7ca241c52f6",
+        "lines": 17,
+        "imports": []
+      },
+      {
+        "path": "packages/content/src/__tests__/asset-catalog-fixtures.ts",
+        "sha256": "660609997d293ba61d0ed37e28e3d7f3f03ac1c4536f71ffca14942ea40d7e9a",
+        "lines": 12,
+        "imports": []
+      }
+    ]
+  },
+  "consumers": [
+    {
+      "path": "packages/content/src/__tests__/cursor-pure-wave2-fixtures.ts",
+      "member": "organization-content-fixtures/1.before",
+      "sha256": "eca598c7f45e9e9b19c57b39db202ab61ca96b474d69fdeffccfcc89d76e62c6",
+      "lines": 75,
+      "changes": [],
+      "currentSha256": "b9b65cbf760fec64a5ebff57cc1ac362dfb77dc2bf8d39be18c089d4225ce32d"
+    },
+    {
+      "path": "packages/content/src/__tests__/glm-guard-residual-fixtures.ts",
+      "member": "organization-content-fixtures/2.before",
+      "sha256": "99801d11421bda5e4cd6d258e18a514d94335118639803d0a302943d2eb16970",
+      "lines": 17,
+      "changes": [],
+      "currentSha256": "e6b1018b2422c96c3c3e324a424fabe81f58c550a4d881cd6d3e7c107c2b6172"
+    },
+    {
+      "path": "packages/content/src/__tests__/glm-item-logic-fixtures.ts",
+      "member": "organization-content-fixtures/3.before",
+      "sha256": "bf260689e872d0f93fae4ba85056401a651ae3da1cc7cc5726e72fb640108b87",
+      "lines": 112,
+      "changes": [],
+      "currentSha256": "e18df0f50ec1da7f930b0014136dfc654a3580bb88c093344bf536fdd27f1cbc"
+    },
+    {
+      "path": "packages/content/src/__tests__/guard-leaf-fixtures.ts",
+      "member": "organization-content-fixtures/4.before",
+      "sha256": "16f61dd5146377ea620fb1036586558a551f3a1d462338db1031e042c2545451",
+      "lines": 92,
+      "changes": [],
+      "currentSha256": "5741449fa0dc29f637e22755ff0b2d0a8b1764e515a5e7fc257491d85254c669"
+    },
+    {
+      "path": "packages/content/src/actor-condition.boundaries.test.ts",
+      "member": "organization-content-fixtures/5.before",
+      "sha256": "3e2595d844452a8d1826e769000d58cb76e5f349dda69f4888fab629128e4428",
+      "lines": 158,
+      "changes": [],
+      "currentSha256": "628466e4bc40ae6a986d0b5af96515fc8a265765e671c08b28b72f292cfc3a59"
+    },
+    {
+      "path": "packages/content/src/actor-reference.boundaries.test.ts",
+      "member": "organization-content-fixtures/6.before",
+      "sha256": "c730b5f4428a611ed90d377c2b5f456e47f1db2b339ef400d2093942a0f9c453",
+      "lines": 241,
+      "changes": [],
+      "currentSha256": "ec455589aa999218bcf25439798ee0a47c1dc6e30fe9a71b9bd173f7eea20167"
+    },
+    {
+      "path": "packages/content/src/asset-catalog.contracts.test.ts",
+      "member": "organization-content-fixtures/7.before",
+      "sha256": "8a852dcfd8c26c48586b52fa7333fbdf924e00987c04adbdbdf4a985801f1aee",
+      "lines": 182,
+      "changes": [],
+      "currentSha256": "63e6fcebf7e7f0b32d330b753df8b4c6b10be204bdae703d371e5e43d89ec1ed"
+    },
+    {
+      "path": "packages/content/src/asset-closure.contracts.test.ts",
+      "member": "organization-content-fixtures/8.before",
+      "sha256": "dec509d80a28b46e76206927b8ca7083e95cf31861fcfeabe7d097a131eb4e89",
+      "lines": 149,
+      "changes": [],
+      "currentSha256": "6217b9e761a0058b1736dfd3a2ab8534b9e293336e8cfe58128b8c33f6f88bb8"
+    },
+    {
+      "path": "packages/content/src/author-dialogue.contracts.test.ts",
+      "member": "organization-content-fixtures/9.before",
+      "sha256": "71df64259e2a54b0abdfa3b7ad76b9a8428bc1150a4f0b81e3a0079936bbea51",
+      "lines": 87,
+      "changes": [],
+      "currentSha256": "606f4583147ce49091d9431425638a65f7c1d9f822e3541a3dd5faf91b21cac4"
+    },
+    {
+      "path": "packages/content/src/author-flow.guard-residual.test.ts",
+      "member": "organization-content-fixtures/10.before",
+      "sha256": "046c66948bf93089f7b11460186c6a6b53e193b9a77a7336bc6faf8d4bf4227d",
+      "lines": 57,
+      "changes": [],
+      "currentSha256": "3afbaf1997a6f30a2d21fbb9e2ec361d917f79f870e0573dbd8a87cb2f17391b"
+    },
+    {
+      "path": "packages/content/src/author-script-core.wave2.test.ts",
+      "member": "organization-content-fixtures/11.before",
+      "sha256": "acbf7ab5f202c8255c683bea695579111a829b00a732d00edfdd94cf191b7f66",
+      "lines": 151,
+      "changes": [],
+      "currentSha256": "1dc85be29435a9c908b947e258591c61004d6ae30d1760e77fbb1cbd54a8650c"
+    },
+    {
+      "path": "packages/content/src/author-state.guard-residual.test.ts",
+      "member": "organization-content-fixtures/12.before",
+      "sha256": "8e5aa3003b6c14540c387cd5a1471d16f0db1731664b1f99237a2a5e02001e87",
+      "lines": 115,
+      "changes": [],
+      "currentSha256": "252edd6d81e2a6fac921e9e5334d5ef79b647737aea8682725df91342d23b9a3"
+    },
+    {
+      "path": "packages/content/src/author-unified-control.test.ts",
+      "member": "organization-content-fixtures/13.before",
+      "sha256": "d0ee88048111071888e1d8b87efa878959bbd2f45c7c08f4588dd5e93dfb7cec",
+      "lines": 166,
+      "changes": [],
+      "currentSha256": "32e98e38fb1dbd4365891e6dd2f9756f3e71097d5df40e0b7020433df136da8a"
+    },
+    {
+      "path": "packages/content/src/battle-choreography.leaf.test.ts",
+      "member": "organization-content-fixtures/14.before",
+      "sha256": "3578d4883df1c915b0d2981831dfaba58d44a69fb2090b403ad7c82660fc6d5f",
+      "lines": 397,
+      "changes": [],
+      "currentSha256": "f49b77d4b8f77be153fcb004e086e25c11b4bd4ff643f6a21acbadae40cf8e5e"
+    },
+    {
+      "path": "packages/content/src/battle-sprite-profile.contracts.test.ts",
+      "member": "organization-content-fixtures/15.before",
+      "sha256": "00dd05af072c446e1daf8baf28713dbbda9c697996cb55298c6f7883b8f2a5a9",
+      "lines": 94,
+      "changes": [],
+      "currentSha256": "874ba0e3c0516c6180cb0524f0d6d0274dd203ec0b3f3590ae9108b91f2286b5"
+    },
+    {
+      "path": "packages/content/src/battle-sprite.boundaries.test.ts",
+      "member": "organization-content-fixtures/16.before",
+      "sha256": "0a8d1216656da6c8bab657657a8ccd4f184cee5d16eb59708b3c3a270c28d679",
+      "lines": 84,
+      "changes": [],
+      "currentSha256": "55e2d004f17c869ea321936e8ef8cbdd0bebe3d1d2b36ae2a0a0f672f31db787"
+    },
+    {
+      "path": "packages/content/src/command-target-reference.boundaries.test.ts",
+      "member": "organization-content-fixtures/17.before",
+      "sha256": "91fe874e215bc2b48ecef69fb76796df167c6e37b01af1ffd02ef95a3b444ae4",
+      "lines": 171,
+      "changes": [],
+      "currentSha256": "b60792f95be6646ea946026ffd03b951aeb55e839d720f51517a719657317a40"
+    },
+    {
+      "path": "packages/content/src/command-target-reference.contracts.test.ts",
+      "member": "organization-content-fixtures/18.before",
+      "sha256": "e5aec13a577cd05e02210f210b2712b9a81e78aeb8f07bfbae053e8e361447e3",
+      "lines": 67,
+      "changes": [],
+      "currentSha256": "65da076d4ec0df5b1f4fcf265dae03f38275bf6625d0a764bcd679a8b8b5f759"
+    },
+    {
+      "path": "packages/content/src/enemy-ai-condition-guard.leaf.test.ts",
+      "member": "organization-content-fixtures/19.before",
+      "sha256": "d5ea32facfc547c7134acccb937d4db89744665046f1cf2f6dcbb9e7fc84c973",
+      "lines": 212,
+      "changes": [],
+      "currentSha256": "0439d0ae2e22fd83c27b8e7c2522f4505115b66c380e4935476111efaf76a297"
+    },
+    {
+      "path": "packages/content/src/enemy-hook.guard-residual.test.ts",
+      "member": "organization-content-fixtures/20.before",
+      "sha256": "679aa1f3fd9f5c7162f0624a2b07fadf8e673da6d521c57a489ff61ad4972b0e",
+      "lines": 207,
+      "changes": [],
+      "currentSha256": "cbc8979b31290ae19f01bf388403476b2b3f82075e18da67634a4f71a29c8e1a"
+    },
+    {
+      "path": "packages/content/src/enemy-script.wave2.test.ts",
+      "member": "organization-content-fixtures/21.before",
+      "sha256": "3745d4a532ae31b71d60e41f8ad85e6bb8e582ec07b945f387405fd2d7aa386d",
+      "lines": 201,
+      "changes": [],
+      "currentSha256": "52d74f021addceef7c47ad7d3d64c05d4cc89c3c41f7c7815fc48836971834e5"
+    },
+    {
+      "path": "packages/content/src/enemy-team.contracts.test.ts",
+      "member": "organization-content-fixtures/22.before",
+      "sha256": "2353f8c073af072d6f05738ba92f561733332678baa9459eea0510c538058d35",
+      "lines": 58,
+      "changes": [],
+      "currentSha256": "5b516dc86642e4da592da8111a40f51dfc7013d2733dc05892628fcc978a5383"
+    },
+    {
+      "path": "packages/content/src/enemy-validation-shapes.leaf.test.ts",
+      "member": "organization-content-fixtures/23.before",
+      "sha256": "28441631a0fb818e44b101f0789f37432dd3fd96e68c12df19bb4efb656fc28b",
+      "lines": 142,
+      "changes": [],
+      "currentSha256": "7576f8412c50767adbe72506f352ec19aa5340d80f0d1b9f5e5d83671b8c3170"
+    },
+    {
+      "path": "packages/content/src/frame-sequence.contracts.test.ts",
+      "member": "organization-content-fixtures/24.before",
+      "sha256": "d2a03185a6acd2f236fc444369c934782118fdee7af11945ff0f5a90f4eebf63",
+      "lines": 201,
+      "changes": [],
+      "currentSha256": "95b6882e45273afab8d60e0c3a7c2b8baabf2ab475b157baac141e8ca45ba3a9"
+    },
+    {
+      "path": "packages/content/src/item.external.background.test.ts",
+      "member": "organization-content-fixtures/25.before",
+      "sha256": "1a128fb9497208d8a1944ae9f8ef8cf8640886d9347a44a3cc1a1d25db547e5d",
+      "lines": 142,
+      "changes": [],
+      "currentSha256": "7cc1feb683e906b49601ce63cfef5d49649e247a3c368ccacb2ff3ab9877d159"
+    },
+    {
+      "path": "packages/content/src/item.ownership.background.test.ts",
+      "member": "organization-content-fixtures/26.before",
+      "sha256": "f8113773e3d4a70392b252d65a670b3c2093a724d2a665aa05cbed4fdf256265",
+      "lines": 154,
+      "changes": [],
+      "currentSha256": "36a42a72b0bcff6fbc3a8cace9c93ede25e4dbbe0d83fcd0d761aea0f03e35bc"
+    },
+    {
+      "path": "packages/content/src/project-map.boundaries.test.ts",
+      "member": "organization-content-fixtures/27.before",
+      "sha256": "238e18350e665946b74f906df96a09822ced3c0af63ee9f0fedef4ff9ba11060",
+      "lines": 278,
+      "changes": [],
+      "currentSha256": "2eb58d5765e4b13ffc79b800f49c8a89780f2742fef6088f289e97d3f012b7ce"
+    },
+    {
+      "path": "packages/content/src/project-map.contracts.test.ts",
+      "member": "organization-content-fixtures/28.before",
+      "sha256": "21cf589fe97b64bb94ba0766fb9d9b1fce1ec2333ac8a8004f7149c24dbeaa71",
+      "lines": 99,
+      "changes": [],
+      "currentSha256": "ae8439fa90f5faa182b40be0495f1babc7729c26fb0f21d2c3fa6d9aa5185f02"
+    },
+    {
+      "path": "packages/content/src/record-actors.guard-residual.test.ts",
+      "member": "organization-content-fixtures/29.before",
+      "sha256": "69f83dadb6febea7d4d0b6638f580226edfd0c70b32b99c43209ab2b9d067dae",
+      "lines": 147,
+      "changes": [],
+      "currentSha256": "f35eb198e72eb0e264ec8718b363e7b2a1bcb04ee07520899e106e72bb8a887d"
+    },
+    {
+      "path": "packages/content/src/record-skills-poisons.guard-residual.test.ts",
+      "member": "organization-content-fixtures/30.before",
+      "sha256": "ef043b8011358777813ffc8f17c829932c2a623db5de743c7d7294a456cc3de8",
+      "lines": 179,
+      "changes": [],
+      "currentSha256": "b3b14e5cab24ad75c811c4a7a1a45ec80e80a4cc0d4ef6a354c2cd1285d4de00"
+    },
+    {
+      "path": "packages/content/src/rewards.boundaries.test.ts",
+      "member": "organization-content-fixtures/31.before",
+      "sha256": "c5ec305b683958bbf568926b02000819e925668b1370f1a7ad1df2324f050d18",
+      "lines": 179,
+      "changes": [],
+      "currentSha256": "c31581acaec96e3d0687cd9058db941cec4236b5a2dc6b22d33e054b09ab85aa"
+    },
+    {
+      "path": "packages/content/src/runtime-scene.wave2.test.ts",
+      "member": "organization-content-fixtures/32.before",
+      "sha256": "dfcd5f83c0e51242762d014f1d1af98ad18c4e7cf154fe3b9d335f5064321703",
+      "lines": 37,
+      "changes": [],
+      "currentSha256": "0e0f91d127ce0401acc742c62d0b5f2c53eae2554a8d2da65084dc1c87878dd9"
+    },
+    {
+      "path": "packages/content/src/runtime-script.boundaries.test.ts",
+      "member": "organization-content-fixtures/33.before",
+      "sha256": "d2b49e731e2174747cc9e8685be584ee12855d42f2b991b91ce212cb1f98e0ba",
+      "lines": 106,
+      "changes": [],
+      "currentSha256": "2a0489711e83f6d2413a77d8b62a83c43da6651707441f8afd5a22bab33270a0"
+    },
+    {
+      "path": "packages/content/src/scene-index.boundaries.test.ts",
+      "member": "organization-content-fixtures/34.before",
+      "sha256": "5224a6f1a468b8bf7740c692f106730b74c73062432f8d0c57c0b3a9bc6438d3",
+      "lines": 66,
+      "changes": [],
+      "currentSha256": "bba4dc78b9cb2ad02ded51d12125cb36d6e1d98c1bbf92610820422f7f04c433"
+    },
+    {
+      "path": "packages/content/src/script-command.guard-residual.test.ts",
+      "member": "organization-content-fixtures/35.before",
+      "sha256": "dda6c0bca908cfe917b755abe1d3ed3d894afdf715cb12833940982df5be6443",
+      "lines": 374,
+      "changes": [],
+      "currentSha256": "041c019e6f06da54782e84347b8b2c7f30567db716c441350eac8c93e2dd092c"
+    },
+    {
+      "path": "packages/content/src/sprite-frame-demand.contracts.test.ts",
+      "member": "organization-content-fixtures/36.before",
+      "sha256": "3fd3a6eaa701be870aefb7a44401d73b6eaee8c11e0069e6ca00807ffeb50239",
+      "lines": 83,
+      "changes": [],
+      "currentSha256": "ea4344de7d962e16289ccd0ec0aa8c83e8f1467be4838cc7f8e21c0e1f10e0ec"
+    },
+    {
+      "path": "packages/content/src/tileset-stamp.contracts.test.ts",
+      "member": "organization-content-fixtures/37.before",
+      "sha256": "cc4383d7c4f8597597be632c28374dc27dbbba77a8c85725fe63c80007aa406e",
+      "lines": 70,
+      "changes": [],
+      "currentSha256": "f0e11a7563f965e204dcd3ea81a2c6898eed620dc7ffe1f57021a4ea51005a94"
+    },
+    {
+      "path": "packages/content/src/tileset.test.ts",
+      "member": "organization-content-fixtures/38.before",
+      "sha256": "a6c691b0f9fcbad80683c344319ee0cf0a724f858cd8056208204541abc41e6f",
+      "lines": 49,
+      "changes": [],
+      "currentSha256": "3e91ae010c471dbf98c54c5551615f1c4c3e7c4d3c9be2596ceb1b56b455de6e"
+    },
+    {
+      "path": "packages/content/src/validate-refs.contracts.test.ts",
+      "member": "organization-content-fixtures/39.before",
+      "sha256": "ffee96dc1b51483031646fcaa17902e0252c885b93e0118294c63caeba1bf67e",
+      "lines": 173,
+      "changes": [],
+      "currentSha256": "fffaa30cc11e68616086e1a0835b94ca03b8f7e7f4d43d0dfa72d452bf96f5db"
+    },
+    {
+      "path": "packages/content/src/validate-runtime.wave2.test.ts",
+      "member": "organization-content-fixtures/40.before",
+      "sha256": "6ad91a38429b1a4612e001c1631e4df2374b2fa972e3894ea012344598ec0dd9",
+      "lines": 57,
+      "changes": [],
+      "currentSha256": "c93280214a15734ffc3b2dafc90e00b0a35b1eec4588d98a0466613f9baf2865"
+    }
+  ],
+  "exports": [
+    {
+      "oldPath": "packages/content/src/__tests__/glm-content-contract-fixtures.ts",
+      "originalName": "deepSnapshot",
+      "oldName": "deepSnapshot",
+      "currentName": "deepSnapshot",
+      "currentPath": "packages/content/src/__tests__/value-snapshot.ts"
+    },
+    {
+      "oldPath": "packages/content/src/__tests__/glm-content-contract-fixtures.ts",
+      "originalName": "spriteAssetRecord",
+      "oldName": "spriteAssetRecord",
+      "currentName": "spriteAssetRecord",
+      "currentPath": "packages/content/src/__tests__/asset-catalog-fixtures.ts"
+    }
+  ],
+  "retiredPaths": ["packages/content/src/__tests__/glm-content-contract-fixtures.ts"],
+  "retiredExports": [
+    {
+      "name": "spriteCatalog",
+      "source": "packages/content/src/__tests__/glm-content-contract-fixtures.ts",
+      "from": "export const spriteCatalog = (id: string = 'sprite.x') => ({\n  version: 1 as const,\n  assets: { [id]: spriteAssetRecord(id) },\n})",
+      "reason": "Zero actual TS symbol uses beyond own declaration; all packages/scripts textual references also only declaration; not exported by content package. Test-only dead constructor, no production API retirement.",
+      "proof": "organization-content-fixtures/usage.json",
+      "compilerReplay": "organization-content-fixtures/proof.stdout.raw",
+      "productionPublicApi": false
+    }
+  ],
+  "preserved": [
+    {
+      "path": "packages/content/src/actor-condition.cursor-pure-wave2.test.ts",
+      "sha256": "4071c620c3dffacc69c12d3a35e77215c8884db3633f747b2cc51a7d9daa10e2"
+    },
+    {
+      "path": "packages/content/src/asset.cursor-pure-wave2.test.ts",
+      "sha256": "aec433ccabd623a62e0ab48c38faf32c1babebfdee8cf7764b739d6acf6d3b4d"
+    },
+    {
+      "path": "packages/content/src/author-command.guard-residual.test.ts",
+      "sha256": "b43f30248ffd724578047f0b48202f194a7eb18dbd78c064b3b67174808529b2"
+    },
+    {
+      "path": "packages/content/src/author-dialogue.cursor-pure-wave2.test.ts",
+      "sha256": "6311c69276341b2570b40f54f288ceb86e90e0112f064f76af7d3b4dc46ad453"
+    },
+    {
+      "path": "packages/content/src/author-script-core.cursor-pure-wave2.test.ts",
+      "sha256": "e2e11d8439a6c29e8ba62aab7956024910fdfe642091e45932cf7b791194d931"
+    },
+    {
+      "path": "packages/content/src/author-script.cursor-pure-wave2.test.ts",
+      "sha256": "802681d70131f4263cf9279af9c7835c6198b928a912808736b29a4cffca219b"
+    },
+    {
+      "path": "packages/content/src/character.cursor-pure-wave2.test.ts",
+      "sha256": "2cb9d02a9f93fe960917510cf8f884bbff00540124eb96df6018b446c9283201"
+    },
+    {
+      "path": "packages/content/src/command-target-reference.cursor-pure-wave2.test.ts",
+      "sha256": "8c8bc2282d1b9e69736c29066316348bca113f532bb769280a9aab4c4c859a61"
+    },
+    {
+      "path": "packages/content/src/enemy-ai.cursor-pure-wave2.test.ts",
+      "sha256": "644355305ae1e2a7de2178ad59fcc50defb9ad4794c40d332b99d0c4bdf52d54"
+    },
+    {
+      "path": "packages/content/src/enemy-script.cursor-pure-wave2.test.ts",
+      "sha256": "4c8b3f2aa662305ffe0d42ed4bb758cd9cdb7ff31f82aa70e0951bf6255de9b2"
+    },
+    {
+      "path": "packages/content/src/item-effects.glm-o.test.ts",
+      "sha256": "a48dbe3545c7eadf47713af5bac9bbd69bf4d9f9d83fcf39e4a3c361bc601f86"
+    },
+    {
+      "path": "packages/content/src/item-equip.glm-o.test.ts",
+      "sha256": "a0f4e52e504a688ca5641f27213f5bf59bd6002d7186055397439f4faf203c39"
+    },
+    {
+      "path": "packages/content/src/item.cursor-pure-wave2.test.ts",
+      "sha256": "539b9c9101f5799852dd648396a39b5acb069465fe59cc5c6d58c879102309ae"
+    },
+    {
+      "path": "packages/content/src/item.derived.background.test.ts",
+      "sha256": "365711e2f5ceea12cb3f67e08b7ed3015fee4de5f42f9dd163196aa3cebb8355"
+    },
+    {
+      "path": "packages/content/src/item.effects.background.test.ts",
+      "sha256": "54db49cc12dce4cc64b7822bdf544a0671b54cf8f6b2d13dab9115a660d198dc"
+    },
+    {
+      "path": "packages/content/src/item.inventory.background.test.ts",
+      "sha256": "11c372679df5c446aa58760ae64443ddae270ea1961d28515d98ecc83f21d81b"
+    },
+    {
+      "path": "packages/content/src/item.preflight.background.test.ts",
+      "sha256": "142853f40965c96d518224664380c5d3b9ddf7c35e5f991ddbf046efc99b099b"
+    },
+    {
+      "path": "packages/content/src/project-map.cursor-pure-wave2.test.ts",
+      "sha256": "f47f7d4ea593befa67ae08f64895b2fdd949ecda5bb82d9f771a2ce600c07b9d"
+    },
+    {
+      "path": "packages/content/src/record-items.guard-residual.test.ts",
+      "sha256": "6a27d8931063e9e05675fd8832ef543a0626102c8702746df2ffdbb79f033f00"
+    },
+    {
+      "path": "packages/content/src/rewards.cursor-pure-wave2.test.ts",
+      "sha256": "8352603c8b82bc098308f833d7e323a7434770dd8f01329b8d2eca82fcf8c3e2"
+    },
+    {
+      "path": "packages/content/src/script.cursor-pure-wave2.test.ts",
+      "sha256": "831bc700fa905c60ce03335896645d6e4a7b89c4ad52863c5936f0c538f42f05"
+    },
+    {
+      "path": "packages/content/src/shop.cursor-pure-wave2.test.ts",
+      "sha256": "564a698a62eff064c846786366f7427f72202d199973350ea64868628a5da612"
+    },
+    {
+      "path": "packages/content/src/tileset.cursor-pure-wave2.test.ts",
+      "sha256": "cc04d5b8e880bfe4fa01fe038b042864b91a0de4eab3e6e0f2ca53b44a8c0249"
+    },
+    {
+      "path": "packages/content/src/asset.ts",
+      "sha256": "bf98283ea72801770b314c9f69c10c0593b268b09cc5fcfc91c03961507d391e",
+      "lines": 938
+    },
+    {
+      "path": "packages/content/src/index.ts",
+      "sha256": "8e93f354c16e8b69ad95c5a21dc3498fed4db47816b4b705794f99053a4ea3e8",
+      "lines": 202
+    },
+    {
+      "path": "packages/content/src/__tests__/glm-state-boundary-fixtures.ts",
+      "sha256": "dc6473f0e8d3c0abf18e6b21f0aaebe5a311ed7323815d3e0b68de5d9188e7b5",
+      "lines": 52
+    },
+    {
+      "path": "packages/content/src/cursor-pure-fixtures.ts",
+      "sha256": "6aa889b0d0fa48eb7b9213c7188c7d88d4d99747be942906d2f786054673a669",
+      "lines": 6
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json",
+      "sha256": "da0bb6b90f498a98c29a16b9a5a584a1e84efda3aa6fa8de3aea6ac4657c643a",
+      "lines": 3483
+    }
+  ],
+  "neighborPaths": [
+    "packages/content/src/actor-condition.boundaries.test.ts",
+    "packages/content/src/actor-condition.cursor-pure-wave2.test.ts",
+    "packages/content/src/actor-reference.boundaries.test.ts",
+    "packages/content/src/asset-catalog.contracts.test.ts",
+    "packages/content/src/asset-closure.contracts.test.ts",
+    "packages/content/src/asset.cursor-pure-wave2.test.ts",
+    "packages/content/src/author-command.guard-residual.test.ts",
+    "packages/content/src/author-dialogue.contracts.test.ts",
+    "packages/content/src/author-dialogue.cursor-pure-wave2.test.ts",
+    "packages/content/src/author-flow.guard-residual.test.ts",
+    "packages/content/src/author-script-core.cursor-pure-wave2.test.ts",
+    "packages/content/src/author-script-core.wave2.test.ts",
+    "packages/content/src/author-script.cursor-pure-wave2.test.ts",
+    "packages/content/src/author-state.guard-residual.test.ts",
+    "packages/content/src/author-unified-control.test.ts",
+    "packages/content/src/battle-choreography.leaf.test.ts",
+    "packages/content/src/battle-sprite-profile.contracts.test.ts",
+    "packages/content/src/battle-sprite.boundaries.test.ts",
+    "packages/content/src/character.cursor-pure-wave2.test.ts",
+    "packages/content/src/command-target-reference.boundaries.test.ts",
+    "packages/content/src/command-target-reference.contracts.test.ts",
+    "packages/content/src/command-target-reference.cursor-pure-wave2.test.ts",
+    "packages/content/src/enemy-ai-condition-guard.leaf.test.ts",
+    "packages/content/src/enemy-ai.cursor-pure-wave2.test.ts",
+    "packages/content/src/enemy-hook.guard-residual.test.ts",
+    "packages/content/src/enemy-script.cursor-pure-wave2.test.ts",
+    "packages/content/src/enemy-script.wave2.test.ts",
+    "packages/content/src/enemy-team.contracts.test.ts",
+    "packages/content/src/enemy-validation-shapes.leaf.test.ts",
+    "packages/content/src/frame-sequence.contracts.test.ts",
+    "packages/content/src/item-effects.glm-o.test.ts",
+    "packages/content/src/item-equip.glm-o.test.ts",
+    "packages/content/src/item.cursor-pure-wave2.test.ts",
+    "packages/content/src/item.derived.background.test.ts",
+    "packages/content/src/item.effects.background.test.ts",
+    "packages/content/src/item.external.background.test.ts",
+    "packages/content/src/item.inventory.background.test.ts",
+    "packages/content/src/item.ownership.background.test.ts",
+    "packages/content/src/item.preflight.background.test.ts",
+    "packages/content/src/project-map.boundaries.test.ts",
+    "packages/content/src/project-map.contracts.test.ts",
+    "packages/content/src/project-map.cursor-pure-wave2.test.ts",
+    "packages/content/src/record-actors.guard-residual.test.ts",
+    "packages/content/src/record-items.guard-residual.test.ts",
+    "packages/content/src/record-skills-poisons.guard-residual.test.ts",
+    "packages/content/src/rewards.boundaries.test.ts",
+    "packages/content/src/rewards.cursor-pure-wave2.test.ts",
+    "packages/content/src/runtime-scene.wave2.test.ts",
+    "packages/content/src/runtime-script.boundaries.test.ts",
+    "packages/content/src/scene-index.boundaries.test.ts",
+    "packages/content/src/script-command.guard-residual.test.ts",
+    "packages/content/src/script.cursor-pure-wave2.test.ts",
+    "packages/content/src/shop.cursor-pure-wave2.test.ts",
+    "packages/content/src/sprite-frame-demand.contracts.test.ts",
+    "packages/content/src/tileset-stamp.contracts.test.ts",
+    "packages/content/src/tileset.cursor-pure-wave2.test.ts",
+    "packages/content/src/tileset.test.ts",
+    "packages/content/src/validate-refs.contracts.test.ts",
+    "packages/content/src/validate-runtime.wave2.test.ts"
+  ],
+  "cleanExecutions": [
+    "inspect",
+    "before",
+    "reorganize",
+    "format",
+    "proof",
+    "neighbors",
+    "typecheck",
+    "docs",
+    "content-review",
+    "lint",
+    "scoped",
+    "diff",
+    "ledger-final",
+    "module-preflight"
+  ],
+  "profiles": [
+    {
+      "path": "packages/content/src/__tests__/value-snapshot.ts",
+      "subjects": ["packages/content/src/__tests__/glm-content-contract-fixtures.ts"],
+      "axes": {
+        "A": "Complete38-line previous provider and current17-line snapshot module read. Same supported plain records/arrays/Date/Uint8Array clone contract reused from exact recent-200 pin. Four actual intermediary helpers and concrete world-variable/frame/catalog consumers fully read; snapshots compare actual input after execution. Unsupported prototypes/Map/Set are not newly promised.",
+        "B": "Remove stale six-groups and universal prevalidation claim: rejection tests intentionally pass invalid values. New header states actual clone domain, undefined preservation and input-ownership observation; no algorithm/reference-identity guarantee beyond existing contract.",
+        "C": "Separate pure value snapshot operation from domain asset-record construction. The recursive clone remains private with its sole entry; no Vitest/product/IO dependency, external state or lifecycle hook introduced.",
+        "D": "40 direct importers and four real intermediary helpers justify one snapshot provider. JSON-only cursor snapshot and Map/Set-aware state snapshot retain different contracts; no forced consolidation or generic mode switch. Import aliases/local names and re-export intent stay exact.",
+        "E": "Complete typed declarations and40 full consumer non-import bodies conserved,including types,last assertions and tables.23 indirect files byte-identical;59 actual test files513 identities unchanged before/after. No new mock/no-op/weak assertions or test count claim. Test-specific adapter semantics are preserved,not freshly accepted.",
+        "F": "value-snapshot names operation and stays under __tests__; deepSnapshot/clone already express public/private roles. No contributor/wave names in new provider, no broad fixture barrel.",
+        "G": "Only unused test-only spriteCatalog removed from old mixed module. Compiler finds its one declaration and no use; repository identifier scan and package export check agree. Old audit claim all exports used is explicitly corrected.3 live typed declarations preserved, no additional implementation abstraction.",
+        "H": "Pure deterministic values, no IO/time/global mocks. Independent proof rebuilds frozen-before TypeScript program and compares exact after import bindings; changed final fixture field is rejected by comparator. contentTC0. Consumers are import-only auxiliaries,not40 extra completed files."
+      },
+      "acceptance": "accepted-FG; unified gates pending"
+    },
+    {
+      "path": "packages/content/src/__tests__/asset-catalog-fixtures.ts",
+      "subjects": ["packages/content/src/__tests__/glm-content-contract-fixtures.ts"],
+      "axes": {
+        "A": "Complete spriteAssetRecord declaration preserved: generated PNG metadata,bytes3,lowercase default hash,label,origin and parameter types unchanged. AssetRecordV1 and actual validateAssetCatalog126-202 inspected; two direct catalog/closure consumers fully read. Synthetic record is valid metadata,not an actual PNG proof.",
+        "B": "Header distinguishes metadata from bytes/hash validity. Closure tests deliberately replace bytes/hash using native crypto and explicit bytes; no universal must-validate-before-every-negative claim or stale contribution count.",
+        "C": "Asset metadata builder no longer shares a module with generic clone recursion. It has no imports,resource reads,writes or lifecycle; caller supplies domain cases and owns file closure effects.",
+        "D": "Two actual consumer modules share sprite metadata contract. Their metadata guard and byte-closure expectations differ and stay independent. Unused whole-catalog wrapper is removed instead of adding a mode or retaining an unneeded forwarding layer.",
+        "E": "All builder fields,defaults,return inference and entire consumer assertions unchanged. Whole513-native-identity match plus typed per-module check validates movement; full acceptance of legacy consumer casts or broad asset-pipeline behavior is not claimed.",
+        "F": "asset-catalog-fixtures identifies domain,not author. spriteAssetRecord remains specific,with no renamed schema fields or generic record factory.",
+        "G": "Keep one used builder; remove zero-caller spriteCatalog after compile/reference evidence. No tests added merely to justify the dead export, no coverage-baseline manipulation.",
+        "H": "Direct small deterministic fixture; no mocked production algorithm. Same actual guard tests and native hash closure tests run,with content typecheck. Independent tail-field negative catches silent fixture drift."
+      },
+      "acceptance": "accepted-FG; unified gates pending"
+    }
+  ],
+  "reusedReview": {
+    "evidence": "docs/ops/evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json",
+    "subjectSha256": "9ed8274ed545289834dae589639f34461566e102cc721d1c60f2ad355c29f7b0",
+    "scope": "Existing supported-clone and metadata A-E/H reused under exact38-line source; current structural correction removes one dead export. Consumers only receive import-delta proof,not whole-file credit.",
+    "erratum": "Prior G claim every export has actual callers is false for spriteCatalog. Original audit remains historical; this verified zero-caller removal supersedes that claim."
+  },
+  "reads": {
+    "fullSubject": {
+      "path": "packages/content/src/__tests__/glm-content-contract-fixtures.ts",
+      "member": "organization-content-fixtures/0.before",
+      "sha256": "9ed8274ed545289834dae589639f34461566e102cc721d1c60f2ad355c29f7b0",
+      "lines": 38
+    },
+    "fullCurrentProviders": [
+      {
+        "path": "packages/content/src/__tests__/value-snapshot.ts",
+        "sha256": "07369825676bdc126815b97aa2ebdeb4cfb7f5f2e7bb58cca1dfd7ca241c52f6",
+        "lines": 17
+      },
+      {
+        "path": "packages/content/src/__tests__/asset-catalog-fixtures.ts",
+        "sha256": "660609997d293ba61d0ed37e28e3d7f3f03ac1c4536f71ffca14942ea40d7e9a",
+        "lines": 12
+      }
+    ],
+    "fullActualIntermediaries": [
+      {
+        "path": "packages/content/src/__tests__/cursor-pure-wave2-fixtures.ts",
+        "member": "organization-content-fixtures/1.before",
+        "sha256": "eca598c7f45e9e9b19c57b39db202ab61ca96b474d69fdeffccfcc89d76e62c6",
+        "lines": 75
+      },
+      {
+        "path": "packages/content/src/__tests__/glm-guard-residual-fixtures.ts",
+        "member": "organization-content-fixtures/2.before",
+        "sha256": "99801d11421bda5e4cd6d258e18a514d94335118639803d0a302943d2eb16970",
+        "lines": 17
+      },
+      {
+        "path": "packages/content/src/__tests__/glm-item-logic-fixtures.ts",
+        "member": "organization-content-fixtures/3.before",
+        "sha256": "bf260689e872d0f93fae4ba85056401a651ae3da1cc7cc5726e72fb640108b87",
+        "lines": 112
+      },
+      {
+        "path": "packages/content/src/__tests__/guard-leaf-fixtures.ts",
+        "member": "organization-content-fixtures/4.before",
+        "sha256": "16f61dd5146377ea620fb1036586558a551f3a1d462338db1031e042c2545451",
+        "lines": 92
+      }
+    ],
+    "fullConcreteConsumers": [
+      {
+        "path": "packages/content/src/asset-catalog.contracts.test.ts",
+        "member": "organization-content-fixtures/7.before",
+        "sha256": "8a852dcfd8c26c48586b52fa7333fbdf924e00987c04adbdbdf4a985801f1aee",
+        "lines": 182
+      },
+      {
+        "path": "packages/content/src/asset-closure.contracts.test.ts",
+        "member": "organization-content-fixtures/8.before",
+        "sha256": "dec509d80a28b46e76206927b8ca7083e95cf31861fcfeabe7d097a131eb4e89",
+        "lines": 149
+      },
+      {
+        "path": "packages/content/src/frame-sequence.contracts.test.ts",
+        "member": "organization-content-fixtures/24.before",
+        "sha256": "d2a03185a6acd2f236fc444369c934782118fdee7af11945ff0f5a90f4eebf63",
+        "lines": 201
+      },
+      {
+        "path": "packages/content/src/tileset.test.ts",
+        "member": "organization-content-fixtures/38.before",
+        "sha256": "a6c691b0f9fcbad80683c344319ee0cf0a724f858cd8056208204541abc41e6f",
+        "lines": 49
+      }
+    ],
+    "assetTypeAndGuard": {
+      "path": "packages/content/src/asset.ts",
+      "ranges": [[15, 105], [126, 202]]
+    },
+    "scope": "Other consumer byte/AST reads are mechanical full import-delta checks only; no assertion of fresh full semantic review."
+  },
+  "callbackProof": "organization-content-fixtures/proof.stdout.raw",
+  "usageEvidence": "organization-content-fixtures/usage.json",
+  "processDisclosure": [],
+  "knownAdjacentObservations": [
+    "JSON-only cursor-pure-fixtures and Map/Set-aware glm-state-boundary-fixtures intentionally remain distinct; neither receives F/G closure.",
+    "Other four intermediary helper filenames and pending test filenames remain outside this single fixed-cohort provider; their imports only are updated.",
+    "Some old pending consumer tests still contain casts and historical batch labels. Exact body conservation is not a fresh claim they meet all quality dimensions."
+  ],
+  "qualityDelta": {
+    "historicalSubjects": 1,
+    "providerInputs": 1,
+    "providerOutputs": 2,
+    "retiredTestOnlyExports": 1,
+    "conservedTypedDeclarations": 3,
+    "directConsumers": 40,
+    "indirectConsumers": 23,
+    "neighborFiles": 59,
+    "neighborCases": 513,
+    "newCases": 0,
+    "retiredCases": 0,
+    "productChanged": false
+  },
+  "ledgerCounts": {
+    "inventory": 3450,
+    "closed": 504,
+    "review": 314,
+    "pending": 2632
+  },
+  "invalidations": "Changed clone domain,asset-record fields,import bindings or actual consumer data invalidate corresponding claim. Compiler proof describes repository test-only export ownership,not unknown external clients.",
+  "quantitativeScreen": [
+    {
+      "path": "packages/content/src/__tests__/value-snapshot.ts",
+      "method": "Own syntactic decisions; reading pointer only",
+      "functions": 2,
+      "max": 7,
+      "over10": 0
+    },
+    {
+      "path": "packages/content/src/__tests__/asset-catalog-fixtures.ts",
+      "method": "Own syntactic decisions; reading pointer only",
+      "functions": 1,
+      "max": 1,
+      "over10": 0
+    }
+  ]
+}

@@ -3,7 +3,7 @@
  * profile 三类；合法 0 帧段/0 tick；集合去重；expected 单值/集合/缺省；summon 需实际帧数。
  */
 import { describe, expect, test } from 'vitest'
-import { deepSnapshot } from './__tests__/glm-content-contract-fixtures.js'
+import { deepSnapshot } from './__tests__/value-snapshot.js'
 import type { BattleSpriteDef, PlayerFighterBattleSpriteProfile } from './battle-sprite.js'
 import {
   battleSpriteDefinitionFrameDemand,

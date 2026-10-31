@@ -8,7 +8,7 @@ import {
   buildSssArchive,
   buildTailPipelineInputs,
   buildWordDatArchive,
-} from './__tests__/glm-q/cli-pipeline-inputs.js'
+} from './__tests__/cli-pipeline-inputs.js'
 
 test('a successful source-only CLI extraction advertises Chinese without a missing English request', async ({
   onTestFinished,

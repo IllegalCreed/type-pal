@@ -2,7 +2,7 @@
 
 Status: current
 Owner: Codex（文档治理维护；原作者/贡献者身份保留于正文历史）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-30
 Template: guide-runbook-v1 / 1.0.0
 
 本次治理只统一当前文档结构与入口字段；原始测试范围、机器字段、日期、状态和未执行边界保持，不新增 runtime/E2E/视觉/coverage 信用。
@@ -13,7 +13,7 @@ Template: guide-runbook-v1 / 1.0.0
 
 ## 前置条件
 
-- 先读 testing catalog、对应 domain/report/contract/evidence；确认 source revision、合法输入、当前状态和 reviewBy。
+- 先读 testing catalog、对应 domain/report/contract/evidence；确认 source revision、合法输入、当前状态和版本适用性。
 
 ## 步骤
 
@@ -23,7 +23,7 @@ Template: guide-runbook-v1 / 1.0.0
 
 ## 失败处理
 
-- 可预期失败：缺 canonical、catalog/evidence 不一致、过期 reviewBy、依赖状态不合格、孤儿路径或链接漂移。
+- 可预期失败：缺 canonical、catalog/evidence 不一致、版本适用性未明、依赖状态不合格、孤儿路径或链接漂移。
 - 停止线：静态核读、proposal、rework 或历史 receipt 不能冒充 runtime/E2E/visual/coverage。
 - 回滚/人工接管：保留原始历史正文与 SHA，回到 draft/rework/blocked，并由 Owner 补齐真实 evidence。
 
@@ -39,7 +39,7 @@ Template: guide-runbook-v1 / 1.0.0
 
 `docs/testing/catalog.json` 是机器可读的索引事实源；文件名、目录名和正文标题只是展示层，不能用来推断状态。
 每个条目必须有稳定 `id`、`kind`、`status`、`phase`、`engines`、`owner`、`provenance`、`domain`、`module`、
-`canonical`、`index`、`evidence`、`tags`、`lastVerified`、`reviewBy`、`dependsOn`，以及 `sourceRefs`、
+`canonical`、`index`、`evidence`、`tags`、`lastVerified`、`dependsOn`，以及 `sourceRefs`、
 `publicCallers`、`legalInputs`、`businessOracle`、`dedupe`、`revision`。Agent 名称只能出现在 `owner`/`provenance`
 和历史正文，不能出现在 canonical/index/evidence 路径。报告中的候选 SHA、checkpoint、证据 hash 仍是业务证据，
 catalog 不复制大段运行结果。
@@ -88,14 +88,28 @@ docs/testing/
 
 `draft → active → verified | rework → superseded → archived`。状态变更只改 catalog 和对应 README，
 历史报告正文保留原始结论；若新 revision 推翻旧事实，追加勘误段并明确 `supersedes`，不静默改写历史 hash。
-每条 current/verified/rework 记录必须有 `reviewBy`。依赖只能指向 `current`/`verified`；过期、缺 canonical、
+不再使用活动 `reviewBy` 或日历过期门。依赖只能指向 `current`/`verified`；缺 canonical、
 缺索引、缺 evidence、依赖状态不合格、sourceRef 行号越界、claim/evidence 不一致、Agent 名称污染 canonical
 路径或孤儿阶段文件会让 `pnpm check:docs` 失败。
+
+## 版本适用性
+
+用户2026-10-30裁决：取消日期驱动的循环复核与E2E重跑。`lastVerified` 和实际执行日期是历史事实，不是有效期；活动 catalog 和 stage README 不再接受 `reviewBy`。旧到期、续期及失败原件留在 history，不能改写成当时没有失败。
+
+沿用 `revision.currentSha/currentShas`、`contentVersion`、`minimumSaveVersion` 和 `sourceRefs.sha256`，记录证据所针对的候选、数据/存档合同及相关源码。完整源码指纹仍是默认保守边界；合法重构可在核清实际差异后追加复用证明，不能只更新hash或候选SHA。
+
+只读运行 `node scripts/docs/testing-revisions.mjs` 查看六阶段，或加稳定ID（例如 `e2e-001`）查看指定条目：
+
+- `matching`：已声明的版本/源码边界匹配；不等于完整依赖闭包、当前浏览器/E2E/视觉通过。
+- `changed`：版本或相关源码指纹不同。先核变化影响及已有证明，只重验受影响合同；不是自动全路线重跑。
+- `unknown`：候选/版本/源码记录或当前文件缺失，不能声称证据适用；补齐可追溯记录后再判断。
+
+HEAD不同只作候选对照，不单独判过时；无关文档提交不触发E2E。比较不会改catalog状态、报告、执行日期或证据。实际前驱checkpoint仍须符合当前同引擎版本、真实执行和业务停止线；source hash、配对、artifact真实性与其它硬性检查继续生效。合法schema迁移的 `migrateBy` 是另一类期限，不在此次日历复核退役范围。
 
 ## 提交流程
 
 1. 创建/更新 domain README 与 catalog 条目。
-2. 运行 `node scripts/docs/generate-testing-index.mjs`，生成四维索引。
+2. 运行 `node scripts/docs/generate-testing-index.mjs`，生成九个多维索引。
 3. 运行 `pnpm check:testing-docs` 和 `pnpm check:docs`。
 4. 报告、证据、工具、任务卡互相链接；只提交持久证据，临时截图/trace 放 `artifacts/` 不入 Git。
 5. 旧文档迁移使用 `scripts/docs/relocate.mjs`，必须提交带源 SHA 的迁移计划；完成移动后用

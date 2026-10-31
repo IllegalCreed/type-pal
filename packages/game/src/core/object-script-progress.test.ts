@@ -50,9 +50,9 @@ describe('overworld object script ownership', () => {
       { op: 'end' },
     ]
     installCommands(commands)
-    expect(castOverworldMagic(gs, spell, 0, 0, 0)).toBe(true)
+    expect(castOverworldMagic(gs, spell, 0)).toBe(true)
     expect(gs.PlayerRolesRuntime.rgwHP[0]).toBe(20)
-    expect(castOverworldMagic(gs, spell, 0, 0, 0)).toBe(true)
+    expect(castOverworldMagic(gs, spell, 0)).toBe(true)
     expect(gs.PlayerRolesRuntime.rgwHP[0]).toBe(40)
     expect(gs.rgObject[296]?.rgwData).toEqual([0, 0, 5, 2, 0, 99, 3])
     expect([spell.scriptOnUse, spell.scriptOnSuccess]).toEqual([1, 3])

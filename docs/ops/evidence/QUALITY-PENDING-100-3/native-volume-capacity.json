@@ -1,0 +1,74 @@
+{
+  "owner": "Codex",
+  "kind": "auxiliary evidence transport, not cohort",
+  "base": "e94098f949452bc3bf8d028f21bdc0a4e400ea22",
+  "sourceRootBefore": {
+    "path": "docs/ops/evidence/QUALITY-PENDING-100-3/verify.mjs",
+    "sha256": "5f016177d566d88b7b23ac761c3e5130c39be7ab62e05638e5580ea77a8f3803"
+  },
+  "profiles": [
+    {
+      "path": "docs/ops/evidence/QUALITY-PENDING-100-3/verify.mjs",
+      "sha256": "35aada68cad3b84635fbec38de44a520990697a374fdadc06729f230964a979b",
+      "axes": {
+        "A": "按模块先后只向后寻找同path且同expectedSHA的冻结件，并继续验证每个后继当前输出；归档块必须与基点整字节相同。 新增001有限发布复核原件/输出/旧status-lastVerified-revision-history及006不变检查，当前七源码pins仍逐SHA核；不续旧runtime信用。 当前政策仅两项历史输出经显式冻结桥连接，当前全量输出仍逐hash核；无日期豁免其它门。 Current evidence loading supports separately indexed volumes, with complete original member/size/SHA and duplicate rejection retained.",
+        "B": "说明只读/版本/证据边界，未把hash当质量证明或将旧执行改写成当前；过程失败与纠正分开保留。",
+        "C": "root只负责版本和来源编排，各模块自己的结构/原件校验保持；不执行产品代码。 Transport collection belongs to native-archives; all root assertions after load remain same.",
+        "D": "统一readAtStage替换散落文件白名单，避免对每次fixture换import叠加特殊case。",
+        "E": "default verify一次覆盖原迁移/shared及八模块、完整native成员与当前输出；中间版本须经过后继桥接，不自取本模块旧件绕过当前。 实际完整check:docs125工具测试/0issues与当前源码出处可低成本读回；历史expiry原失败保持。 Current capacity:13Node contracts including actual5742oldmembers,10000synthetic members across <1MiB parts plus catalog/archive/index/member tamper guards; root full typed AST conservation proved.",
+        "F": "frozenStages/readAtStage明确时序与用途；archiveStart/End直读边界。",
+        "G": "不新增执行器或自动写入，删重复版本字典；归档修复只核本窗口基点，不伪造旧origin信用。",
+        "H": "root/native/manifest与reader显式注入，实际归档可只读重放，无网络/子进程/产品状态写入，缺件或不等立即抛错。 Default reader uses only readFileSync; injected read for deterministic in-memory tests, no fallback/write/network."
+      }
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PENDING-100-3/native-archives.mjs",
+      "axes": {
+        "A": "Read declared volumes only; first original index mandatory, canonical basenames, unique index/archive/member, index+archive digest, exact member set, string body, safe byte length and digest. Missing/malformed inputs throw; no shadow/fallback.",
+        "B": "Comment states per-volume schema and no-shadow invariant. Does not claim semantic code quality or runtime coverage.",
+        "C": "Single readonly transport owner; root owns review assertions. No product code, mutable global, subprocess or statecache.",
+        "D": "One collector reused by root, tests, preflight and future evidence producer; unchanged per-volume archive/index schema. Inject only actual readFileSync boundary.",
+        "E": "13Node contracts across3files;6new tests cover complete2volumes,10000members/combined>1MiB/individual<1MiB, actual5742 old bodies and deliberate catalog/archive/member invalid inputs. No runtime credit.",
+        "F": "readNativeArchives/catalog/volumes/entries/files name their data. First index stable, sequence basenames explicitly constrained.",
+        "G": "No dynamic directory scan, compatibility fallback, exemptions, ignores or size-limit setting. One public auxiliary function, no product API.",
+        "H": "Pure local processing with injectable readonly IO; synthetic corruption tests deterministic, actual original readback uses same consumer."
+      }
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PENDING-100-3/native-archives.test.mjs",
+      "axes": {
+        "A": "Legal synthetic gzipped JSON and index/catalog use same UTF-8 schema as actual5742members; failures isolate intended layer by recomputing index descriptor digest after index mutations.",
+        "B": "Test titles describe exact invariant and capacity scope; synthetic10000 is not actual project test count.",
+        "C": "Memory Map IO isolates negative inputs; actual fixture read-only; no temp directory lifecycle or global mocking.",
+        "D": "Local fixture and editIndex helpers express generation/deliberate corruption. Payload bodies independent and no production algorithm copied as output oracle.",
+        "E": "6newNode cases, all13withtwo existing tool suites pass. Expected complete raw pairs literal/generator fixture data, tail body explicit; negative assertions target exact rejection messages.",
+        "F": "fixture/inspect/editIndex identify input preparation/read/mutation; no AI/wave filename.",
+        "G": "One case groups related corruption variants for same rejection contract, no duplicate runtime business tests/skip/countpadding. Old code and raw retained.",
+        "H": "Real collector exercised directly under deterministic injected reads; actual original volume readback also executes default IO. No private state exposure."
+      }
+    }
+  ],
+  "originalFrozen": {
+    "originalIndex": {
+      "path": "docs/ops/evidence/QUALITY-PENDING-100-3/native-index.json",
+      "sha256": "e8f191666469f0ebf34ce532d45e6e9db2e9ae7f57544375b28663f77e716066"
+    },
+    "originalArchive": {
+      "path": "docs/ops/evidence/QUALITY-PENDING-100-3/native.json.gz",
+      "sha256": "6a0a413cfd76ce228c22afecc256a5faf839434dbcc943ce0f3da2596034dd7d"
+    },
+    "originalMembers": 5742,
+    "reader": "docs/ops/evidence/QUALITY-PENDING-100-3/native-archives.mjs",
+    "catalog": "docs/ops/evidence/QUALITY-PENDING-100-3/native-archives.json",
+    "perVolumeIndexSchema": "archive,sha256,files[{name,sha256,bytes}] unchanged",
+    "toolsUnchanged": 8,
+    "rootChange": "Only loader import/block",
+    "toolTests": 13,
+    "syntheticCapacityMembers": 10000,
+    "cohortCompletionAdded": 0,
+    "review": "native-volume-capacity.json"
+  },
+  "proof": "native-volume-capacity/proof.stdout.raw",
+  "toolTests": "native-volume-capacity/tool-tests.stdout.raw",
+  "limitations": "No product/SAVE/asset schema change, no runtime/visual/E2E/coverage claim. Original member index/archive fixed; future new records append only to independently indexed extension volume. External append producer uses same reader, rejects any changed prior member and seals each extension at1000members; it is not a product pipeline or alternate acceptance rule."
+}

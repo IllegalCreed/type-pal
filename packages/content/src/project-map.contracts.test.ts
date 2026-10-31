@@ -4,7 +4,7 @@
  * format/parse 确定性往返、不污染输入。
  */
 import { describe, expect, test } from 'vitest'
-import { deepSnapshot } from './__tests__/glm-content-contract-fixtures.js'
+import { deepSnapshot } from './__tests__/value-snapshot.js'
 import type { ProjectMap } from './project-map.js'
 import { formatProjectMap, parseProjectMap, validateProjectMap } from './project-map.js'
 

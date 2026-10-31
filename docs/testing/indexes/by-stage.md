@@ -2,7 +2,7 @@
 
 Status: current
 Owner: Codex（新增索引与 producer 治理维护职责）
-Last reviewed: 2026-10-16
+Last reviewed: 2026-10-30
 Template: governance-index-v1 / 1.0.0
 
 ## 目的
@@ -25,6 +25,8 @@ Template: governance-index-v1 / 1.0.0
 catalog 的 kind 决定是否入表；阶段报告负责合法输入、前驱和录像证据，维护者需先核报告/evidence 配对。
 本页由 [generate-testing-index.mjs](../../../scripts/docs/generate-testing-index.mjs) 生成，不能手工维护派生行；人工总入口是 [README](README.md)。
 
+2026-10-30只审版本适用性投影与取消日历期限，不刷新下游执行。
+
 | ID | 文档 | 状态 | Owner |
 |---|---|---|---|
 | e2e-001 | [001 开场](../e2e/stages/001-opening/report.md) | verified | Codex |
@@ -33,6 +35,19 @@ catalog 的 kind 决定是否入表；阶段报告负责合法输入、前驱和
 | e2e-004 | [004 端菜、赠酒与道士离场](../e2e/stages/004-meal/report.md) | verified | Codex |
 | e2e-005 | [005 买虾、报信与返程](../e2e/stages/005-shrimp/report.md) | verified | Codex |
 | e2e-006 | [006 求药、出海与仙灵岛入口](../e2e/stages/006-doctor-boat/report.md) | rework | Codex |
+
+### 已记录版本
+
+| ID | 候选 SHA | content | minimumSave | sourceRefs | lastVerified |
+|---|---|---|---|---|---|
+| e2e-001 | d02278dc0154dd73b5db24388a35c30bb096cc81 | 22 | 11 | 7 | 2026-09-28 |
+| e2e-002 | d02278dc0154dd73b5db24388a35c30bb096cc81 | 22 | 11 | 6 | 2026-10-02 |
+| e2e-003 | d02278dc0154dd73b5db24388a35c30bb096cc81 | 22 | 11 | 7 | 2026-10-02 |
+| e2e-004 | d02278dc0154dd73b5db24388a35c30bb096cc81 | 22 | 11 | 7 | 2026-10-02 |
+| e2e-005 | d02278dc0154dd73b5db24388a35c30bb096cc81 | 22 | 11 | 8 | 2026-10-02 |
+| e2e-006 | d02278dc0154dd73b5db24388a35c30bb096cc81 | 22 | 11 | 3 | 2026-10-03 |
+
+只读对比：在仓库根运行 `node scripts/docs/testing-revisions.mjs`。HEAD不同不单独判过时；matching/changed/unknown按[版本适用性](../governance.md#版本适用性)解释，不授新的E2E信用。
 
 ## 证据与下一步
 

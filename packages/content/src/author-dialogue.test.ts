@@ -1,7 +1,12 @@
 import { describe, expect, test } from 'vitest'
+import { deepSnapshot } from './__tests__/value-snapshot.js'
 import type { ActorDef } from './actor.js'
 import type { AuthorDialogueCue, DialogueIdentity } from './author-dialogue.js'
-import { checkAuthorDialogueCue, resolveAuthorDialogueCue } from './author-dialogue.js'
+import {
+  checkAuthorDialogueCue,
+  resolveAuthorDialogueCue,
+  resolveDialogueIdentity,
+} from './author-dialogue.js'
 import { checkAuthorCommands, resolveAuthorDialogueTree } from './author-script.js'
 import { validateActors } from './validate.js'
 import { validateAuthorDialogueReferences, validateAuthorSharedScripts } from './validate-author.js'
@@ -235,5 +240,38 @@ describe('author dialogue identity', () => {
       portrait: { asset: 'portrait.expression.defined', side: 'right' },
       rows: [{ text: 'line' }],
     })
+  })
+
+  test('resolve 复制 slot/cursorFrame，未请求立绘时只出 speaker', () => {
+    const cue = {
+      identity: { kind: 'actor' as const, actor: actor.id },
+      rows: [{ text: 'line.plain' }],
+      slot: 'top' as const,
+      cursorFrame: 2 as const,
+    }
+    const actors = { [actor.id]: actor }
+    const cueSnap = deepSnapshot(cue)
+    const actorsSnap = deepSnapshot(actors)
+    checkAuthorDialogueCue(cue, 'cue')
+    expect(cue).toEqual(cueSnap)
+    expect(resolveAuthorDialogueCue(cue, actors, 'cue')).toEqual({
+      speaker: 'name.li',
+      rows: [{ text: 'line.plain' }],
+      slot: 'top',
+      cursorFrame: 2,
+    })
+    expect(cue).toEqual(cueSnap)
+    expect(actors).toEqual(actorsSnap)
+    expect(actors[actor.id]).toBe(actor)
+  })
+
+  test('unbound：speaker/portrait 声明性透传（浅拷贝 portrait）', () => {
+    expect(resolveDialogueIdentity({ kind: 'unbound', speaker: '旁白甲' }, {})).toEqual({
+      speaker: '旁白甲',
+    })
+    const portrait = { asset: 'portrait.narrator', side: 'left' } as const
+    const withPortrait = resolveDialogueIdentity({ kind: 'unbound', portrait }, {})
+    expect(withPortrait.portrait).toEqual({ asset: 'portrait.narrator', side: 'left' })
+    expect(withPortrait.portrait).not.toBe(portrait)
   })
 })

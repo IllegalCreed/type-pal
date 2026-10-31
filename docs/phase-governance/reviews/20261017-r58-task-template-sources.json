@@ -39,7 +39,7 @@
         }
       ],
       "sourceSha256": "4892c967f46448b7dfc849cc101ef83405ecbcfe59fc2c5e2d429a26daab15a2",
-      "afterSha256": "366428bab4bd9bf8000bd7da1925054c5cc191c52005385614b6ec221dbae21c",
+      "afterSha256": "a1e93ca6d37126176f5bf901b4116845925edbfd4e06e6454a9a3a901f9b116d",
       "publicCallers": [
         "docs/ops/templates/README.md",
         "docs/ops/tasks/README.md",
@@ -65,7 +65,7 @@
       },
       "revision": {
         "currentSha": "4892c967f46448b7dfc849cc101ef83405ecbcfe59fc2c5e2d429a26daab15a2",
-        "implementationSha": "366428bab4bd9bf8000bd7da1925054c5cc191c52005385614b6ec221dbae21c",
+        "implementationSha": "a1e93ca6d37126176f5bf901b4116845925edbfd4e06e6454a9a3a901f9b116d",
         "history": [
           {
             "revision": "0ac98b83963ebee467ecffd7b9db7d0489d5da22",
@@ -164,25 +164,53 @@
             "date": "2026-10-17",
             "action": "R58 byte-stable canonical template source envelope",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-31",
+            "action": "User-authorized semantic naming policy and acceptance prompt",
+            "previousAfterSha256": "366428bab4bd9bf8000bd7da1925054c5cc191c52005385614b6ec221dbae21c",
+            "previousEvidence": {
+              "kind": "current-canonical-template-source-snapshot",
+              "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/ci-progress-20261022/record.json",
+              "afterSha256": "366428bab4bd9bf8000bd7da1925054c5cc191c52005385614b6ec221dbae21c",
+              "lineCount": 212,
+              "artifactPreserved": true,
+              "originalPreservation": {
+                "method": "Exact current canonical edition versus committed source; not equality to the pre-2026-10-18 template",
+                "sourceGitRevision": "e8566c2c7ea1fbdccdbc782bd54216f94cd0823e",
+                "sourceGitObject": "dc742a340415a657372edc60677b07514a1c1470",
+                "sourceSha256": "366428bab4bd9bf8000bd7da1925054c5cc191c52005385614b6ec221dbae21c",
+                "sourceBytes": 6916,
+                "sourceLines": 212,
+                "sourceFinalNewline": true,
+                "inverseSha256": "366428bab4bd9bf8000bd7da1925054c5cc191c52005385614b6ec221dbae21c",
+                "exactRoundTrip": true
+              }
+            },
+            "scope": "2026-10-31 user clarification: code files organize by module/function/responsibility, never author/model/task IDs; names without semantic responsibility fail F/G. Full clauses only in code-quality; workflow/templates route and prompt evidence. Traceability artifacts and real domain vendor/protocol names are distinct. No product, source algorithm, test or historical acceptance credit.",
+            "evidence": "docs/ops/evidence/QUALITY-PENDING-100-3/review.json"
           }
         ]
       },
       "evidence": {
-        "kind": "current-canonical-template-source-snapshot",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/ci-progress-20261022/record.json",
-        "afterSha256": "366428bab4bd9bf8000bd7da1925054c5cc191c52005385614b6ec221dbae21c",
-        "lineCount": 212,
+        "kind": "authorized-current-canonical-template-source-snapshot",
+        "path": "docs/ops/evidence/QUALITY-PENDING-100-3/review.json",
+        "afterSha256": "a1e93ca6d37126176f5bf901b4116845925edbfd4e06e6454a9a3a901f9b116d",
+        "lineCount": 213,
         "artifactPreserved": true,
         "originalPreservation": {
-          "method": "Exact current canonical edition versus committed source; not equality to the pre-2026-10-18 template",
-          "sourceGitRevision": "e8566c2c7ea1fbdccdbc782bd54216f94cd0823e",
+          "method": "Current authorized canonical edition saved byte-for-byte in native member; one added acceptance prompt inverse restores the committed previous edition. This is an authorized revision,not equality of old and new editions.",
+          "sourceGitRevision": "e94098f949452bc3bf8d028f21bdc0a4e400ea22",
           "sourceGitObject": "dc742a340415a657372edc60677b07514a1c1470",
           "sourceSha256": "366428bab4bd9bf8000bd7da1925054c5cc191c52005385614b6ec221dbae21c",
-          "sourceBytes": 6916,
-          "sourceLines": 212,
+          "currentMember": "naming-policy-template-envelope/TASK-template.md.current",
+          "currentSha256": "a1e93ca6d37126176f5bf901b4116845925edbfd4e06e6454a9a3a901f9b116d",
+          "currentBytes": 7154,
           "sourceFinalNewline": true,
           "inverseSha256": "366428bab4bd9bf8000bd7da1925054c5cc191c52005385614b6ec221dbae21c",
-          "exactRoundTrip": true
+          "exactRoundTrip": true,
+          "proofMember": "naming-policy-template-envelope/proof.json"
         }
       },
       "history": [
@@ -252,7 +280,7 @@
           "statement": "No runtime/E2E/visual/coverage credit."
         }
       ],
-      "reviewNotes": "\n2026-10-18: Codex read current authorized delta. Prior non-author/provenance applies only to its historical SHA. No new third-party or product execution credit.\n2026-10-18: user explicitly replaces default duplicate Codex full review with evidence-based independent acceptance and targeted escalation.\n2026-10-22 CI repair: current source compared byte-for-byte to committed e856 edition. Original sourceSha256/history/provenance remain original; current preservation source is explicitly the new pin in evidence.originalPreservation."
+      "reviewNotes": "\n2026-10-18: Codex read current authorized delta. Prior non-author/provenance applies only to its historical SHA. No new third-party or product execution credit.\n2026-10-18: user explicitly replaces default duplicate Codex full review with evidence-based independent acceptance and targeted escalation.\n2026-10-22 CI repair: current source compared byte-for-byte to committed e856 edition. Original sourceSha256/history/provenance remain original; current preservation source is explicitly the new pin in evidence.originalPreservation.\n2026-10-31 user clarification: code files organize by module/function/responsibility, never author/model/task IDs; names without semantic responsibility fail F/G. Full clauses only in code-quality; workflow/templates route and prompt evidence. Traceability artifacts and real domain vendor/protocol names are distinct. No product, source algorithm, test or historical acceptance credit.\n2026-10-31 envelope repair: first unified check rejected missing artifact preservation metadata for both templates. Authorized one-line delta proves exact inverse to Git and exact current frozen bytes; historical snapshot remains in revision.history. No policy or checker relaxation."
     },
     {
       "path": "docs/ops/templates/TASK-lite-template.md",
@@ -288,7 +316,7 @@
         }
       ],
       "sourceSha256": "6fb14bb214b3f7f07cbf49e760c38aa7635a3c5370827a5b3641ece040e00fd4",
-      "afterSha256": "f16c03f5e614965544d900851523cde46e326bbe08ecdc7926a64ac177d38aad",
+      "afterSha256": "4e62a86970953e4be3debc89643d82d4428d9d05887025f66d7e42e7806e4ff5",
       "publicCallers": [
         "docs/ops/templates/README.md",
         "docs/ops/tasks/README.md",
@@ -314,7 +342,7 @@
       },
       "revision": {
         "currentSha": "6fb14bb214b3f7f07cbf49e760c38aa7635a3c5370827a5b3641ece040e00fd4",
-        "implementationSha": "f16c03f5e614965544d900851523cde46e326bbe08ecdc7926a64ac177d38aad",
+        "implementationSha": "4e62a86970953e4be3debc89643d82d4428d9d05887025f66d7e42e7806e4ff5",
         "history": [
           {
             "revision": "0ac98b83963ebee467ecffd7b9db7d0489d5da22",
@@ -413,25 +441,53 @@
             "date": "2026-10-17",
             "action": "R58 byte-stable canonical template source envelope",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-31",
+            "action": "User-authorized semantic naming policy and acceptance prompt",
+            "previousAfterSha256": "f16c03f5e614965544d900851523cde46e326bbe08ecdc7926a64ac177d38aad",
+            "previousEvidence": {
+              "kind": "current-canonical-template-source-snapshot",
+              "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/ci-progress-20261022/record.json",
+              "afterSha256": "f16c03f5e614965544d900851523cde46e326bbe08ecdc7926a64ac177d38aad",
+              "lineCount": 75,
+              "artifactPreserved": true,
+              "originalPreservation": {
+                "method": "Exact current canonical edition versus committed source; not equality to the pre-2026-10-18 template",
+                "sourceGitRevision": "e8566c2c7ea1fbdccdbc782bd54216f94cd0823e",
+                "sourceGitObject": "7a4aef174d3db4c75b7a55e3cee47d857fcc63d8",
+                "sourceSha256": "f16c03f5e614965544d900851523cde46e326bbe08ecdc7926a64ac177d38aad",
+                "sourceBytes": 3471,
+                "sourceLines": 75,
+                "sourceFinalNewline": true,
+                "inverseSha256": "f16c03f5e614965544d900851523cde46e326bbe08ecdc7926a64ac177d38aad",
+                "exactRoundTrip": true
+              }
+            },
+            "scope": "2026-10-31 user clarification: code files organize by module/function/responsibility, never author/model/task IDs; names without semantic responsibility fail F/G. Full clauses only in code-quality; workflow/templates route and prompt evidence. Traceability artifacts and real domain vendor/protocol names are distinct. No product, source algorithm, test or historical acceptance credit.",
+            "evidence": "docs/ops/evidence/QUALITY-PENDING-100-3/review.json"
           }
         ]
       },
       "evidence": {
-        "kind": "current-canonical-template-source-snapshot",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/ci-progress-20261022/record.json",
-        "afterSha256": "f16c03f5e614965544d900851523cde46e326bbe08ecdc7926a64ac177d38aad",
-        "lineCount": 75,
+        "kind": "authorized-current-canonical-template-source-snapshot",
+        "path": "docs/ops/evidence/QUALITY-PENDING-100-3/review.json",
+        "afterSha256": "4e62a86970953e4be3debc89643d82d4428d9d05887025f66d7e42e7806e4ff5",
+        "lineCount": 76,
         "artifactPreserved": true,
         "originalPreservation": {
-          "method": "Exact current canonical edition versus committed source; not equality to the pre-2026-10-18 template",
-          "sourceGitRevision": "e8566c2c7ea1fbdccdbc782bd54216f94cd0823e",
+          "method": "Current authorized canonical edition saved byte-for-byte in native member; one added acceptance prompt inverse restores the committed previous edition. This is an authorized revision,not equality of old and new editions.",
+          "sourceGitRevision": "e94098f949452bc3bf8d028f21bdc0a4e400ea22",
           "sourceGitObject": "7a4aef174d3db4c75b7a55e3cee47d857fcc63d8",
           "sourceSha256": "f16c03f5e614965544d900851523cde46e326bbe08ecdc7926a64ac177d38aad",
-          "sourceBytes": 3471,
-          "sourceLines": 75,
+          "currentMember": "naming-policy-template-envelope/TASK-lite-template.md.current",
+          "currentSha256": "4e62a86970953e4be3debc89643d82d4428d9d05887025f66d7e42e7806e4ff5",
+          "currentBytes": 3709,
           "sourceFinalNewline": true,
           "inverseSha256": "f16c03f5e614965544d900851523cde46e326bbe08ecdc7926a64ac177d38aad",
-          "exactRoundTrip": true
+          "exactRoundTrip": true,
+          "proofMember": "naming-policy-template-envelope/proof.json"
         }
       },
       "history": [
@@ -501,7 +557,7 @@
           "statement": "No runtime/E2E/visual/coverage credit."
         }
       ],
-      "reviewNotes": "\n2026-10-18: Codex read current authorized delta. Prior non-author/provenance applies only to its historical SHA. No new third-party or product execution credit.\n2026-10-18: user explicitly replaces default duplicate Codex full review with evidence-based independent acceptance and targeted escalation.\n2026-10-22 CI repair: current source compared byte-for-byte to committed e856 edition. Original sourceSha256/history/provenance remain original; current preservation source is explicitly the new pin in evidence.originalPreservation."
+      "reviewNotes": "\n2026-10-18: Codex read current authorized delta. Prior non-author/provenance applies only to its historical SHA. No new third-party or product execution credit.\n2026-10-18: user explicitly replaces default duplicate Codex full review with evidence-based independent acceptance and targeted escalation.\n2026-10-22 CI repair: current source compared byte-for-byte to committed e856 edition. Original sourceSha256/history/provenance remain original; current preservation source is explicitly the new pin in evidence.originalPreservation.\n2026-10-31 user clarification: code files organize by module/function/responsibility, never author/model/task IDs; names without semantic responsibility fail F/G. Full clauses only in code-quality; workflow/templates route and prompt evidence. Traceability artifacts and real domain vendor/protocol names are distinct. No product, source algorithm, test or historical acceptance credit.\n2026-10-31 envelope repair: first unified check rejected missing artifact preservation metadata for both templates. Authorized one-line delta proves exact inverse to Git and exact current frozen bytes; historical snapshot remains in revision.history. No policy or checker relaxation."
     }
   ]
 }

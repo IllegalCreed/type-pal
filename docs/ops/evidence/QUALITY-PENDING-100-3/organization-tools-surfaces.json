@@ -1,0 +1,1421 @@
+{
+  "id": "tools-surfaces",
+  "namespace": "organization-tools-surfaces",
+  "inputs": [
+    {
+      "path": "packages/game/src/tools/minimap.test.ts",
+      "member": "organization-tools-surfaces/0.before",
+      "sha256": "b091cafc94606bae3e8127bc7873947469e5899d9adcfbe719fddf37830e9075",
+      "lines": 161
+    },
+    {
+      "path": "packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+      "member": "organization-tools-surfaces/1.before",
+      "sha256": "17055b8282521bd5fff700d171206f79f248ae7e344e769876efb1b253e863f7",
+      "lines": 276
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel.glm-phase1-leaves.test.ts",
+      "member": "organization-tools-surfaces/2.before",
+      "sha256": "96576ca3cddfd558a967aa36f8247191face17a03e73bc52b29f5cafe0efd490",
+      "lines": 72
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel.test.ts",
+      "member": "organization-tools-surfaces/3.before",
+      "sha256": "bbac9fdd4793b7a805fc470f6bfef240e181a817bcd011a5e845c013b08207c1",
+      "lines": 336
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel.test-fixtures.ts",
+      "member": "organization-tools-surfaces/4.before",
+      "sha256": "e8509d85b2fd1b9f51b3ed59029d736aefd20f6e6e35d784517b897334cac083",
+      "lines": 89
+    }
+  ],
+  "outputs": [
+    {
+      "path": "packages/game/src/tools/minimap.model.test.ts",
+      "sha256": "14eb9c53d666448200ba0b98b0a3c847245a3819d86a898238a8597ba4d045f8"
+    },
+    {
+      "path": "packages/game/src/tools/minimap.canvas.test.ts",
+      "sha256": "c091d54a40a49a66c54df11088792362e1d6074d2c6fed93f32b4995055e1b90"
+    },
+    {
+      "path": "packages/game/src/tools/minimap.controller.test.ts",
+      "sha256": "b7924a7cf5252ebe02e49f9911c9cc6e3a26fce49f9e604aee7e94061eca7f37"
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel.display.test.ts",
+      "sha256": "812df8dcd521299b7b819896953b4418323212f396184975e9f35b0b7ed6a9a6"
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel.test.ts",
+      "sha256": "77d01b92d316b928ae2fa07ee0d55bd4bb1aacfe121104f55b5b2358d59df09d"
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel.test-fixtures.ts",
+      "sha256": "1f1787b6460e0f98ceb76b218a3e20383b75de3aab6d070ab3c8e0257dd3a9d2"
+    }
+  ],
+  "replacements": [],
+  "sourceBridges": [
+    {
+      "path": "packages/game/src/tools/minimap.test.ts",
+      "id": "organization-tools-surfaces",
+      "reason": "Only reconciles case/helper/hook/import identities after the independent full typed-body and ownership proof; not a self-certifying semantic claim.",
+      "changes": [
+        {
+          "from": "import type { Command } from '@type-pal/shared'\nimport { describe, expect, it } from 'vitest'\nimport { createInitialGameState } from '../core/game-state.js'\nimport type { EventKind } from './minimap.js'\nimport {\n  BASE_PX,\n  classifyTrigger,\n  collectEventKinds,\n  collectMinimapData,\n  computeView,\n  worldToThumb,\n} from './minimap.js'\n\n// 独立取bootstrap的640输出/2080世界宽;不从被测BASE_PX反推oracle。\nconst SCALE = 640 / 2080\n\ndescribe('worldToThumb', () => {\n  it('世界像素 → 底图像素((wx+16)*SCALE)', () => {\n    const [x0, y0] = worldToThumb(0, 0)\n    expect(x0).toBeCloseTo(16 * SCALE, 6)\n    expect(y0).toBeCloseTo(16 * SCALE, 6)\n    const [x1, y1] = worldToThumb(2032, 2032)\n    expect(x1).toBeCloseTo(2048 * SCALE, 4)\n    expect(y1).toBeCloseTo(2048 * SCALE, 4)\n    expect(x1).toBeLessThanOrEqual(BASE_PX)\n    // 原L18几何例的(320,0)/单调与原点六位精度逐断言迁入此主合同。\n    const [x320] = worldToThumb(320, 0)\n    expect(x320).toBeGreaterThan(x0)\n    expect(x320).toBeCloseTo(336 * SCALE, 6)\n  })\n})\n\ndescribe('computeView', () => {\n  it('视野>=全图 → 全图(sx=sy=0,sw=BASE_PX)', () => {\n    expect(computeView(2080, 1024, 1024)).toEqual({ sx: 0, sy: 0, sw: 640 })\n  })\n  it('缩放档以主角为中心(960 世界px → 1/3 框),clamp 在底图内', () => {\n    // 640/2080=4/13;中心(1040,1040)*4/13=(320,320),半宽1920/13。\n    const v = computeView(960, 1024, 1024)\n    expect(v.sw).toBeCloseTo(3840 / 13, 6)\n    expect(v.sx).toBeCloseTo(2240 / 13, 6)\n    expect(v.sy).toBeCloseTo(2240 / 13, 6)\n    // 独立的y中心输入,避免x/y被错用时因对称夹具互相掩盖。\n    const offset = computeView(960, 1024, 512)\n    expect(offset.sx).toBeCloseTo(2240 / 13, 6)\n    expect(offset.sy).toBeCloseTo(192 / 13, 6)\n    expect(offset.sw).toBeCloseTo(3840 / 13, 6)\n  })\n  it('主角在边角 → clamp 不越界(sx>=0, sx+sw<=BASE_PX)', () => {\n    const near = computeView(640, 0, 0)\n    expect(near.sx).toBe(0)\n    expect(near.sy).toBe(0)\n    expect(near.sw).toBeCloseTo(2560 / 13, 6)\n    const far = computeView(640, 2048, 2048)\n    expect(far.sx).toBeCloseTo(5760 / 13, 6)\n    expect(far.sy).toBeCloseTo(5760 / 13, 6)\n    expect(far.sw).toBeCloseTo(2560 / 13, 6)\n    expect(far.sx + far.sw).toBeCloseTo(640, 6)\n    expect(far.sy + far.sw).toBeCloseTo(640, 6)\n  })\n})\n\nconst cmds = (...c: Command[]): Command[] => c\nconst give = (count: number, name?: string): Command => ({\n  op: 'giveItem',\n  itemId: 10,\n  count,\n  _item: name,\n})\nconst end = (): Command => ({ op: 'end' })\nconst dialog = (): Command => ({ op: 'showDialog', messageIndex: 0, text: '' })\nconst teleport = (): Command => ({ op: 'loadScene', sceneId: 5 })\nconst raw = (opcode: number, ...ops: number[]): Command => ({\n  op: 'raw',\n  opcode,\n  operands: [ops[0] ?? 0, ops[1] ?? 0, ops[2] ?? 0],\n})\n\ndescribe('classifyTrigger', () => {\n  it('giveItem(count>0) → item + 物品名', () => {\n    const r = classifyTrigger(cmds(dialog(), give(1, '灵葫芦'), end()), { L_0: 0 }, 'L_0')\n    expect(r.kind).toBe('item')\n    expect(r.name).toBe('灵葫芦')\n  })\n  it('loadScene(无 giveItem) → teleport(不标)', () => {\n    expect(classifyTrigger(cmds(teleport(), end()), { L_0: 0 }, 'L_0').kind).toBe('teleport')\n  })\n  it('item 优先于 teleport', () => {\n    for (const commands of [cmds(give(1), teleport(), end()), cmds(teleport(), give(1), end())]) {\n      expect(classifyTrigger(commands, { L_0: 0 }, 'L_0').kind).toBe('item')\n    }\n  })\n  it('count=0仍归item(库存helper将0按1处理;不代表原盘道具名称)', () => {\n    expect(classifyTrigger(cmds(give(0, '木鞋'), end()), { L_0: 0 }, 'L_0')).toEqual({\n      kind: 'item',\n      name: '木鞋',\n    })\n  })\n  it('count<0(扣道具) → other', () => {\n    expect(classifyTrigger(cmds(give(-1), end()), { L_0: 0 }, 'L_0').kind).toBe('other')\n  })\n  it('0x1E 加钱(正额) → item(金钱);扣钱(负额)→ other', () => {\n    expect(classifyTrigger(cmds(raw(0x1e, 500), end()), { L_0: 0 }, 'L_0')).toEqual({\n      kind: 'item',\n      name: '金钱',\n    })\n    expect(classifyTrigger(cmds(raw(0x1e, 0xff00), end()), { L_0: 0 }, 'L_0').kind).toBe('other') // 负 i16\n  })\n  it('0x55 学法术 → item(法术)', () => {\n    expect(classifyTrigger(cmds(raw(0x55, 12), end()), { L_0: 0 }, 'L_0')).toEqual({\n      kind: 'item',\n      name: '法术',\n    })\n  })\n  it('label 缺失 → other;`L_<n>` 直解兜底(labelMap 无也能解全局 ip)', () => {\n    expect(classifyTrigger(cmds(give(1)), {}, undefined).kind).toBe('other')\n    expect(classifyTrigger(cmds(give(1), end()), {}, 'L_0').kind).toBe('item')\n  })\n})\n\ndescribe('collectEventKinds', () => {\n  it('扫全 npc → id → 类别(item/teleport/other)', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.npcs = [\n      { id: 1, x: 0, y: 0, spriteNum: 0, triggerLabel: 'L_0' },\n      { id: 2, x: 0, y: 0, spriteNum: 0, triggerLabel: 'L_2' },\n      { id: 3, x: 0, y: 0, spriteNum: 0, triggerLabel: 'L_4' },\n    ]\n    const commands = cmds(give(1, '金蚕王'), end(), teleport(), end(), dialog(), end())\n    const kinds = collectEventKinds(gs, commands, { L_0: 0, L_2: 2, L_4: 4 })\n    expect(kinds.get(1)).toEqual({ kind: 'item', name: '金蚕王' })\n    expect(kinds.get(2)?.kind).toBe('teleport')\n    expect(kinds.get(3)?.kind).toBe('other')\n  })\n})\n\ndescribe('collectMinimapData', () => {\n  it('teleport 不标 / item / NPC 分类 + 主角镜头', () => {\n    const gs = createInitialGameState({ x: 512, y: 256, facing: 'down' })\n    gs.camera = { x: 100, y: 80 }\n    gs.npcs = [\n      { id: 1, x: 200, y: 200, spriteNum: 5, sState: 1 }, // NPC(other + 有 sprite)\n      { id: 2, x: 0, y: 0, spriteNum: 0, sState: 1 }, // other 但无 sprite → skip\n      { id: 3, x: 0, y: 0, spriteNum: 3, sState: 0 }, // 隐藏 → skip\n      { id: 5, x: 300, y: 300, spriteNum: 1, sState: 1 }, // 宝物\n      { id: 6, x: 400, y: 400, spriteNum: 7, sState: 1 }, // 传送门 → skip\n    ]\n    const kinds = new Map<number, { kind: EventKind; name?: string }>([\n      [1, { kind: 'other' }],\n      [2, { kind: 'other' }],\n      [3, { kind: 'other' }],\n      [5, { kind: 'item', name: '伏魔剑' }],\n      [6, { kind: 'teleport' }],\n    ])\n    const data = collectMinimapData(gs, kinds)\n    expect(data.npcs).toEqual([{ x: 200, y: 200 }]) // 仅 id1\n    expect(data.items).toEqual([{ x: 300, y: 300, name: '伏魔剑' }]) // 仅 id5\n    expect(data.player).toEqual({ x: 512, y: 256 })\n    expect(data.camera).toEqual({ x: 100, y: 80 })\n  })\n})\n",
+          "to": "import {type Command} from \"@type-pal/shared\"\nimport {describe} from \"vitest\"\nimport {expect} from \"vitest\"\nimport {it} from \"vitest\"\nimport {createInitialGameState} from \"../core/game-state.js\"\nimport {type EventKind} from \"./minimap.js\"\nimport {BASE_PX} from \"./minimap.js\"\nimport {classifyTrigger} from \"./minimap.js\"\nimport {collectEventKinds} from \"./minimap.js\"\nimport {collectMinimapData} from \"./minimap.js\"\nimport {computeView} from \"./minimap.js\"\nimport {worldToThumb} from \"./minimap.js\"\ndescribe(\"preserved module 0\",()=>{\nconst SCALE = 640 / 2080\ndescribe('worldToThumb', () => {\n  it('世界像素 → 底图像素((wx+16)*SCALE)', () => {\n    const [x0, y0] = worldToThumb(0, 0)\n    expect(x0).toBeCloseTo(16 * SCALE, 6)\n    expect(y0).toBeCloseTo(16 * SCALE, 6)\n    const [x1, y1] = worldToThumb(2032, 2032)\n    expect(x1).toBeCloseTo(2048 * SCALE, 4)\n    expect(y1).toBeCloseTo(2048 * SCALE, 4)\n    expect(x1).toBeLessThanOrEqual(BASE_PX)\n    // 原L18几何例的(320,0)/单调与原点六位精度逐断言迁入此主合同。\n    const [x320] = worldToThumb(320, 0)\n    expect(x320).toBeGreaterThan(x0)\n    expect(x320).toBeCloseTo(336 * SCALE, 6)\n  })\n})\ndescribe('computeView', () => {\n  it('视野>=全图 → 全图(sx=sy=0,sw=BASE_PX)', () => {\n    expect(computeView(2080, 1024, 1024)).toEqual({ sx: 0, sy: 0, sw: 640 })\n  })\n  it('缩放档以主角为中心(960 世界px → 1/3 框),clamp 在底图内', () => {\n    // 640/2080=4/13;中心(1040,1040)*4/13=(320,320),半宽1920/13。\n    const v = computeView(960, 1024, 1024)\n    expect(v.sw).toBeCloseTo(3840 / 13, 6)\n    expect(v.sx).toBeCloseTo(2240 / 13, 6)\n    expect(v.sy).toBeCloseTo(2240 / 13, 6)\n    // 独立的y中心输入,避免x/y被错用时因对称夹具互相掩盖。\n    const offset = computeView(960, 1024, 512)\n    expect(offset.sx).toBeCloseTo(2240 / 13, 6)\n    expect(offset.sy).toBeCloseTo(192 / 13, 6)\n    expect(offset.sw).toBeCloseTo(3840 / 13, 6)\n  })\n  it('主角在边角 → clamp 不越界(sx>=0, sx+sw<=BASE_PX)', () => {\n    const near = computeView(640, 0, 0)\n    expect(near.sx).toBe(0)\n    expect(near.sy).toBe(0)\n    expect(near.sw).toBeCloseTo(2560 / 13, 6)\n    const far = computeView(640, 2048, 2048)\n    expect(far.sx).toBeCloseTo(5760 / 13, 6)\n    expect(far.sy).toBeCloseTo(5760 / 13, 6)\n    expect(far.sw).toBeCloseTo(2560 / 13, 6)\n    expect(far.sx + far.sw).toBeCloseTo(640, 6)\n    expect(far.sy + far.sw).toBeCloseTo(640, 6)\n  })\n})\nconst give = (count: number, name?: string): Command => ({\n  op: 'giveItem',\n  itemId: 105,\n  count,\n  _item: name,\n})\nconst end = (): Command => ({ op: 'end' })\nconst dialog = (): Command => ({ op: 'showDialog', messageIndex: 0, text: '' })\nconst teleport = (): Command => ({ op: 'loadScene', sceneId: 5 })\nconst raw = (opcode: number, ...ops: number[]): Command => ({\n  op: 'raw',\n  opcode,\n  operands: [ops[0] ?? 0, ops[1] ?? 0, ops[2] ?? 0],\n})\ndescribe('classifyTrigger', () => {\n  it('giveItem(count>0) → item + 物品名', () => {\n    const r = classifyTrigger([dialog(), give(1, '灵葫芦'), end()], { L_0: 0 }, 'L_0')\n    expect(r.kind).toBe('item')\n    expect(r.name).toBe('灵葫芦')\n  })\n  it('loadScene(无 giveItem) → teleport(不标)', () => {\n    expect(classifyTrigger([teleport(), end()], { L_0: 0 }, 'L_0').kind).toBe('teleport')\n  })\n  it('item 优先于 teleport', () => {\n    for (const commands of [\n      [give(1), teleport(), end()],\n      [teleport(), give(1), end()],\n    ]) {\n      expect(classifyTrigger(commands, { L_0: 0 }, 'L_0').kind).toBe('item')\n    }\n  })\n  it('count=0仍归item(库存helper将0按1处理;不代表原盘道具名称)', () => {\n    expect(classifyTrigger([give(0, '木鞋'), end()], { L_0: 0 }, 'L_0')).toEqual({\n      kind: 'item',\n      name: '木鞋',\n    })\n  })\n  it('count<0(扣道具) → other', () => {\n    expect(classifyTrigger([give(-1), end()], { L_0: 0 }, 'L_0').kind).toBe('other')\n  })\n  it('0x1E 加钱(正额) → item(金钱);扣钱(负额)→ other', () => {\n    expect(classifyTrigger([raw(0x1e, 500), end()], { L_0: 0 }, 'L_0')).toEqual({\n      kind: 'item',\n      name: '金钱',\n    })\n    expect(classifyTrigger([raw(0x1e, 0xff00), end()], { L_0: 0 }, 'L_0').kind).toBe('other') // 负 i16\n  })\n  it('0x55 学法术 → item(法术)', () => {\n    expect(classifyTrigger([raw(0x55, 295), end()], { L_0: 0 }, 'L_0')).toEqual({\n      kind: 'item',\n      name: '法术',\n    })\n  })\n  it('label 缺失 → other;`L_<n>` 直解兜底(labelMap 无也能解全局 ip)', () => {\n    expect(classifyTrigger([give(1)], {}, undefined).kind).toBe('other')\n    expect(classifyTrigger([give(1), end()], {}, 'L_0').kind).toBe('item')\n  })\n})\ndescribe('collectEventKinds', () => {\n  it('扫全 npc → id → 类别(item/teleport/other)', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.npcs = [\n      { id: 1, x: 0, y: 0, spriteNum: 0, triggerLabel: 'L_0' },\n      { id: 2, x: 0, y: 0, spriteNum: 0, triggerLabel: 'L_2' },\n      { id: 3, x: 0, y: 0, spriteNum: 0, triggerLabel: 'L_4' },\n    ]\n    const commands = [give(1, '金蚕王'), end(), teleport(), end(), dialog(), end()]\n    const kinds = collectEventKinds(gs, commands, { L_0: 0, L_2: 2, L_4: 4 })\n    expect(kinds.get(1)).toEqual({ kind: 'item', name: '金蚕王' })\n    expect(kinds.get(2)?.kind).toBe('teleport')\n    expect(kinds.get(3)?.kind).toBe('other')\n  })\n})\ndescribe('collectMinimapData', () => {\n  it('teleport 不标 / item / NPC 分类 + 主角镜头', () => {\n    const gs = createInitialGameState({ x: 512, y: 256, facing: 'down' })\n    gs.camera = { x: 100, y: 80 }\n    gs.npcs = [\n      { id: 1, x: 200, y: 200, spriteNum: 5, sState: 1 }, // NPC(other + 有 sprite)\n      { id: 2, x: 0, y: 0, spriteNum: 0, sState: 1 }, // other 但无 sprite → skip\n      { id: 3, x: 0, y: 0, spriteNum: 3, sState: 0 }, // 隐藏 → skip\n      { id: 5, x: 300, y: 300, spriteNum: 1, sState: 1 }, // 宝物\n      { id: 6, x: 400, y: 400, spriteNum: 7, sState: 1 }, // 传送门 → skip\n    ]\n    const kinds = new Map<number, { kind: EventKind; name?: string }>([\n      [1, { kind: 'other' }],\n      [2, { kind: 'other' }],\n      [3, { kind: 'other' }],\n      [5, { kind: 'item', name: '伏魔剑' }],\n      [6, { kind: 'teleport' }],\n    ])\n    const data = collectMinimapData(gs, kinds)\n    expect(data.npcs).toEqual([{ x: 200, y: 200 }]) // 仅 id1\n    expect(data.items).toEqual([{ x: 300, y: 300, name: '伏魔剑' }]) // 仅 id5\n    expect(data.player).toEqual({ x: 512, y: 256 })\n    expect(data.camera).toEqual({ x: 100, y: 80 })\n  })\n})\n})",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+      "id": "organization-tools-surfaces",
+      "reason": "Only reconciles case/helper/hook/import identities after the independent full typed-body and ownership proof; not a self-certifying semantic claim.",
+      "changes": [
+        {
+          "from": "/**\n * L18 minimap:与minimap.test的纯几何/分类合同分层,本文件核真实canvas与控制器IO。\n * 像素坐标/颜色为独立手算;裁剪用自有图像。不借被测变换或DOT_COLORS生成oracle。\n * 原六例加两例真实widget快捷键:用实际canvas绘制调用核缩放/两端钳制与输入焦点/关闭守卫。\n * getter只证开关读写；非法zoom字符串经真实快捷键核默认档，不外推任意外部输入。每例释放自有宿主。\n */\nimport { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'\nimport { createInitialGameState } from '../core/game-state.js'\nimport { getCurrentMapNum, setCurrentMapNum } from '../core/scene-system.js'\nimport {\n  drawMinimap,\n  type MinimapController,\n  type MinimapData,\n  type MinimapDeps,\n  type MinimapToggles,\n  setupMinimap,\n} from './minimap.js'\n\nconst LS = ['tp-minimap-widget', 'tp-minimap-npc', 'tp-minimap-items', 'tp-minimap-zoom']\nconst controllers: MinimapController[] = []\nlet releaseHost = (): void => {}\n\nbeforeEach(() => {\n  const saved = new Map<string, string | null>()\n  for (const key of LS) {\n    saved.set(key, localStorage.getItem(key))\n    localStorage.removeItem(key)\n  }\n  const oldMap = getCurrentMapNum()\n  setCurrentMapNum(0)\n  const existing = new Set(Array.from(document.body.children))\n  vi.useFakeTimers({ toFake: ['requestAnimationFrame', 'cancelAnimationFrame'] })\n  const listeners = vi.spyOn(window, 'addEventListener') // 默认穿透,不替换真实接线\n  releaseHost = () => {\n    try {\n      for (const ctl of controllers) ctl.setWidgetEnabled(false)\n      for (const child of Array.from(document.body.children)) {\n        if (!existing.has(child)) child.remove()\n      }\n      vi.runOnlyPendingTimers()\n      expect(vi.getTimerCount()).toBe(0)\n    } finally {\n      for (const [type, listener, options] of listeners.mock.calls) {\n        window.removeEventListener(type, listener, options)\n      }\n      listeners.mockRestore()\n      controllers.length = 0\n      vi.clearAllTimers()\n      vi.useRealTimers()\n      vi.unstubAllGlobals()\n      setCurrentMapNum(oldMap)\n      for (const [key, value] of saved) {\n        if (value === null) localStorage.removeItem(key)\n        else localStorage.setItem(key, value)\n      }\n    }\n  }\n})\nafterEach(() => releaseHost())\n\nfunction createController(deps: MinimapDeps): MinimapController {\n  const ctl = setupMinimap(deps)\n  controllers.push(ctl)\n  return ctl\n}\n\nfunction pixel(ctx: CanvasRenderingContext2D, x: number, y: number): number[] {\n  return Array.from(ctx.getImageData(x, y, 1, 1).data)\n}\n\nfunction mkData(): MinimapData {\n  return {\n    camera: { x: 1000, y: 1000 },\n    player: { x: 1000, y: 1000 },\n    items: [{ x: 1500, y: 500 }],\n    npcs: [{ x: 500, y: 1500 }],\n  }\n}\n\ndescribe('L18 drawMinimap 真实 canvas', () => {\n  it('暗底占位 + 玩家白点落在 worldToThumb 手算坐标 + 宝物/NPC 点按 toggle 显隐', () => {\n    const draw = (toggles: MinimapToggles): CanvasRenderingContext2D => {\n      const canvas = document.createElement('canvas')\n      canvas.width = canvas.height = 320\n      drawMinimap(canvas, null, mkData(), toggles, { sx: 0, sy: 0, sw: 640 })\n      return canvas.getContext('2d')!\n    }\n    // (world+16)*320/2080:玩家(156.31,156.31),宝物(233.23,79.38),NPC(79.38,233.23)。\n    // 320画布使这些采样格完全在填充圆内,无需抗锯齿容差/整图颜色扫描。\n    const all = draw({ showNpc: true, showItems: true })\n    expect(pixel(all, 0, 0)).toEqual([13, 11, 8, 255])\n    expect(pixel(all, 156, 156)).toEqual([255, 255, 255, 255])\n    expect(pixel(all, 233, 79)).toEqual([240, 192, 64, 255])\n    expect(pixel(all, 79, 233)).toEqual([95, 208, 224, 255])\n    const noItems = draw({ showNpc: true, showItems: false })\n    expect(pixel(noItems, 233, 79)).toEqual([13, 11, 8, 255])\n    expect(pixel(noItems, 79, 233)).toEqual([95, 208, 224, 255])\n    const noNpc = draw({ showNpc: false, showItems: true })\n    expect(pixel(noNpc, 79, 233)).toEqual([13, 11, 8, 255])\n    expect(pixel(noNpc, 233, 79)).toEqual([240, 192, 64, 255])\n  })\n\n  it('非全图 view 使用指定底图裁剪区域', () => {\n    const base = document.createElement('canvas')\n    base.width = base.height = 640\n    const source = base.getContext('2d')!\n    source.fillStyle = '#102030'\n    source.fillRect(0, 0, 640, 640)\n    source.fillStyle = '#123abc'\n    source.fillRect(100, 120, 320, 320)\n    const canvas = document.createElement('canvas')\n    canvas.width = canvas.height = 64\n    const offscreen = { x: -1000, y: -1000 }\n    drawMinimap(\n      canvas,\n      base,\n      { player: offscreen, camera: offscreen, npcs: [], items: [] },\n      { showNpc: false, showItems: false },\n      { sx: 100, sy: 120, sw: 320 },\n    )\n    // 输出(5,5)采样源窗口内部蓝色;若误画整图,此处落在窗口外暗底。\n    expect(pixel(canvas.getContext('2d')!, 5, 5)).toEqual([18, 58, 188, 255])\n  })\n})\n\ndescribe('L18 setupMinimap 控制器持久化', () => {\n  it('默认开关、setShowNpc写存储；按保存值重建控制器读回', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    const deps = { getGs: () => gs, getMapThumbnail: async () => null }\n    const ctl = createController(deps)\n    expect(ctl.isShowNpc()).toBe(true)\n    expect(ctl.isShowItems()).toBe(true)\n    expect(ctl.isWidgetEnabled()).toBe(false)\n    ctl.setShowNpc(false)\n    expect(ctl.isShowNpc()).toBe(false)\n    expect(localStorage.getItem('tp-minimap-npc')).toBe('0')\n    ctl.setWidgetEnabled(true)\n    expect(ctl.isWidgetEnabled()).toBe(true)\n    expect(localStorage.getItem('tp-minimap-widget')).toBe('1')\n    const savedWidget = localStorage.getItem('tp-minimap-widget')!\n    ctl.setWidgetEnabled(false) // 旧宿主不再跑,再用实际保存值模拟下次启动\n    localStorage.setItem('tp-minimap-widget', savedWidget)\n    const ctl2 = createController(deps)\n    expect(ctl2.isShowNpc()).toBe(false)\n    expect(ctl2.isWidgetEnabled()).toBe(true)\n  })\n\n  it(\"持久值非 '0' 非法串 → 视为默认开；widget 非 '1' → 关\", () => {\n    localStorage.setItem('tp-minimap-npc', 'yes')\n    localStorage.setItem('tp-minimap-widget', 'true')\n    localStorage.setItem('tp-minimap-zoom', 'not-a-number')\n    const gs = createInitialGameState({ x: 1024, y: 1024, facing: 'down' })\n    const ctl = createController({ getGs: () => gs, getMapThumbnail: async () => null })\n    expect(ctl.isShowNpc()).toBe(true)\n    expect(ctl.isWidgetEnabled()).toBe(false)\n    setCurrentMapNum(1)\n    ctl.setWidgetEnabled(true)\n    const canvas = document.querySelector<HTMLCanvasElement>('#tp-minimap-widget canvas')!\n    const rect = vi.spyOn(canvas.getContext('2d')!, 'strokeRect')\n    try {\n      window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Minus' }))\n      // 非数值持久项恢复默认档2，再缩小一次到档1；180px画布的白框宽为320*180/1280。\n      expect(localStorage.getItem('tp-minimap-zoom')).toBe('1')\n      expect(rect).toHaveBeenCalledTimes(1)\n      expect(rect.mock.calls[0]![2]).toBeCloseTo(45, 6)\n    } finally {\n      rect.mockRestore()\n    }\n  })\n\n  it('widget快捷键按四档裁剪真实canvas,两端钳制后仍保持边界档', () => {\n    setCurrentMapNum(1)\n    const gs = createInitialGameState({ x: 1024, y: 1024, facing: 'down' })\n    const ctl = createController({ getGs: () => gs, getMapThumbnail: async () => null })\n    ctl.setWidgetEnabled(true)\n    const canvas = document.querySelector<HTMLCanvasElement>('#tp-minimap-widget canvas')!\n    expect(canvas.width).toBe(180)\n    expect(canvas.height).toBe(180)\n    const rect = vi.spyOn(canvas.getContext('2d')!, 'strokeRect') // 穿透真实canvas绘制\n    try {\n      const press = (code: string, index: number, expected: readonly number[]): void => {\n        rect.mockClear()\n        window.dispatchEvent(new KeyboardEvent('keydown', { code }))\n        expect(localStorage.getItem('tp-minimap-zoom')).toBe(String(index))\n        expect(rect).toHaveBeenCalledTimes(1)\n        const actual = rect.mock.calls[0]!\n        expected.forEach((value, i) => expect(actual[i]).toBeCloseTo(value, 6))\n      }\n      // 180px画布;默认960→640。相机=主角-(160,112),白框世界宽高320×200。\n      press('Equal', 3, [45, 58.5, 90, 56.25])\n      press('Equal', 3, [45, 58.5, 90, 56.25])\n      press('Minus', 2, [60, 69, 60, 37.5])\n      press('Minus', 1, [67.5, 74.25, 45, 28.125])\n      press('Minus', 0, [990 / 13, 1044 / 13, 360 / 13, 225 / 13])\n      press('Minus', 0, [990 / 13, 1044 / 13, 360 / 13, 225 / 13])\n    } finally {\n      rect.mockRestore()\n    }\n  })\n\n  it('widget关闭或焦点在INPUT/TEXTAREA时,快捷键不改缩放也不重绘', () => {\n    setCurrentMapNum(1)\n    const gs = createInitialGameState({ x: 1024, y: 1024, facing: 'down' })\n    const ctl = createController({ getGs: () => gs, getMapThumbnail: async () => null })\n    ctl.setWidgetEnabled(true)\n    const canvas = document.querySelector<HTMLCanvasElement>('#tp-minimap-widget canvas')!\n    const rect = vi.spyOn(canvas.getContext('2d')!, 'strokeRect')\n    try {\n      for (const tag of ['input', 'textarea']) {\n        const input = document.createElement(tag)\n        document.body.appendChild(input)\n        input.dispatchEvent(new KeyboardEvent('keydown', { code: 'Equal', bubbles: true }))\n        expect(localStorage.getItem('tp-minimap-zoom')).toBeNull()\n        expect(rect).not.toHaveBeenCalled()\n      }\n      ctl.setWidgetEnabled(false)\n      window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Equal' }))\n      expect(localStorage.getItem('tp-minimap-zoom')).toBeNull()\n      expect(rect).not.toHaveBeenCalled()\n    } finally {\n      rect.mockRestore()\n    }\n  })\n\n  it('底图 URL 已 resolve 但 Image 尚未 onload 时，不重复请求同一 map', async () => {\n    let pendingSurface: HTMLCanvasElement | undefined\n    const PendingImage = vi.fn(function decodeImage() {\n      // Image解码是IO端口；返回真实CanvasImageSource，保留drawImage像素路径。\n      const surface = document.createElement('canvas')\n      surface.width = surface.height = 640\n      const context = surface.getContext('2d')!\n      context.fillStyle = '#123abc'\n      context.fillRect(0, 0, 640, 640)\n      pendingSurface = surface\n      return surface\n    })\n    vi.stubGlobal('Image', PendingImage)\n    setCurrentMapNum(1)\n    const url = document.createElement('canvas').toDataURL('image/png')\n    const getMapThumbnail = vi.fn(async () => url)\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    const ctl = createController({ getGs: () => gs, getMapThumbnail })\n    ctl.mountSceneView(document.createElement('div'), 64)\n    await vi.waitFor(() => expect(pendingSurface).toBeDefined())\n    ctl.mountSceneView(document.createElement('div'), 64)\n    expect(getMapThumbnail).toHaveBeenCalledTimes(1)\n    pendingSurface!.dispatchEvent(new Event('load'))\n    const afterLoad = document.createElement('div')\n    ctl.mountSceneView(afterLoad, 64)\n    expect(getMapThumbnail).toHaveBeenCalledTimes(1)\n    const canvas = afterLoad.querySelector('canvas')!\n    expect(pixel(canvas.getContext('2d')!, 30, 30)).toEqual([18, 58, 188, 255])\n  })\n\n  it('Image 解码失败后标记 map failed，不在后续帧反复请求', async () => {\n    class FailingImage {\n      static last: FailingImage | undefined\n      onload: (() => void) | null = null\n      onerror: (() => void) | null = null\n      constructor() {\n        FailingImage.last = this\n      }\n      set src(_value: string) {} // 坏URL由本例显式触发IO失败\n    }\n    vi.stubGlobal('Image', FailingImage)\n    setCurrentMapNum(1)\n    const getMapThumbnail = vi.fn(async () => 'data:image/png;base64,INVALID')\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    const ctl = createController({ getGs: () => gs, getMapThumbnail })\n    ctl.mountSceneView(document.createElement('div'), 64)\n    await vi.waitFor(() => expect(FailingImage.last).toBeDefined())\n    FailingImage.last!.onerror!()\n    ctl.mountSceneView(document.createElement('div'), 64)\n    expect(getMapThumbnail).toHaveBeenCalledTimes(1)\n  })\n})\n",
+          "to": "import {describe} from \"vitest\"\nimport {expect} from \"vitest\"\nimport {it} from \"vitest\"\nimport {drawMinimap} from \"./minimap.js\"\nimport {type MinimapData} from \"./minimap.js\"\nimport {type MinimapToggles} from \"./minimap.js\"\nimport {afterEach} from \"vitest\"\nimport {beforeEach} from \"vitest\"\nimport {vi} from \"vitest\"\nimport {createInitialGameState} from \"../core/game-state.js\"\nimport {getCurrentMapNum} from \"../core/scene-system.js\"\nimport {setCurrentMapNum} from \"../core/scene-system.js\"\nimport {type MinimapController} from \"./minimap.js\"\nimport {type MinimapDeps} from \"./minimap.js\"\nimport {setupMinimap} from \"./minimap.js\"\ndescribe(\"preserved module 0\",()=>{\nfunction readPixel(ctx: CanvasRenderingContext2D, x: number, y: number): number[] {\n  return Array.from(ctx.getImageData(x, y, 1, 1).data)\n}\nfunction markerData(): MinimapData {\n  return {\n    camera: { x: 1000, y: 1000 },\n    player: { x: 1000, y: 1000 },\n    items: [{ x: 1500, y: 500 }],\n    npcs: [{ x: 500, y: 1500 }],\n  }\n}\ndescribe('Minimap marker pixels and source crop', () => {\n  it('暗底占位 + 玩家白点落在 worldToThumb 手算坐标 + 宝物/NPC 点按 toggle 显隐', () => {\n    const draw = (toggles: MinimapToggles): CanvasRenderingContext2D => {\n      const canvas = document.createElement('canvas')\n      canvas.width = canvas.height = 320\n      drawMinimap(canvas, null, markerData(), toggles, { sx: 0, sy: 0, sw: 640 })\n      return canvas.getContext('2d')!\n    }\n    // (world+16)*320/2080:玩家(156.31,156.31),宝物(233.23,79.38),NPC(79.38,233.23)。\n    // 320画布使这些采样格完全在填充圆内,无需抗锯齿容差/整图颜色扫描。\n    const all = draw({ showNpc: true, showItems: true })\n    expect(readPixel(all, 0, 0)).toEqual([13, 11, 8, 255])\n    expect(readPixel(all, 156, 156)).toEqual([255, 255, 255, 255])\n    expect(readPixel(all, 233, 79)).toEqual([240, 192, 64, 255])\n    expect(readPixel(all, 79, 233)).toEqual([95, 208, 224, 255])\n    const noItems = draw({ showNpc: true, showItems: false })\n    expect(readPixel(noItems, 233, 79)).toEqual([13, 11, 8, 255])\n    expect(readPixel(noItems, 79, 233)).toEqual([95, 208, 224, 255])\n    const noNpc = draw({ showNpc: false, showItems: true })\n    expect(readPixel(noNpc, 79, 233)).toEqual([13, 11, 8, 255])\n    expect(readPixel(noNpc, 233, 79)).toEqual([240, 192, 64, 255])\n  })\n\n  it('非全图 view 使用指定底图裁剪区域', () => {\n    const base = document.createElement('canvas')\n    base.width = base.height = 640\n    const source = base.getContext('2d')!\n    source.fillStyle = '#102030'\n    source.fillRect(0, 0, 640, 640)\n    source.fillStyle = '#123abc'\n    source.fillRect(100, 120, 320, 320)\n    const canvas = document.createElement('canvas')\n    canvas.width = canvas.height = 64\n    const offscreen = { x: -1000, y: -1000 }\n    drawMinimap(\n      canvas,\n      base,\n      { player: offscreen, camera: offscreen, npcs: [], items: [] },\n      { showNpc: false, showItems: false },\n      { sx: 100, sy: 120, sw: 320 },\n    )\n    // 输出(5,5)采样源窗口内部蓝色;若误画整图,此处落在窗口外暗底。\n    expect(readPixel(canvas.getContext('2d')!, 5, 5)).toEqual([18, 58, 188, 255])\n  })\n})\n})\ndescribe(\"preserved module 1\",()=>{\nconst MINIMAP_KEYS = ['tp-minimap-widget', 'tp-minimap-npc', 'tp-minimap-items', 'tp-minimap-zoom']\nconst controllers: MinimapController[] = []\nlet releaseHost = (): void => {}\nbeforeEach(() => {\n  const saved = new Map<string, string | null>()\n  for (const key of MINIMAP_KEYS) {\n    saved.set(key, localStorage.getItem(key))\n    localStorage.removeItem(key)\n  }\n  const previousLayout = document.documentElement.dataset.tpLayout\n  document.documentElement.dataset.tpLayout = 'desktop'\n  vi.stubGlobal('devicePixelRatio', 1)\n  const oldMap = getCurrentMapNum()\n  setCurrentMapNum(0)\n  const existing = new Set(Array.from(document.body.children))\n  vi.useFakeTimers({ toFake: ['requestAnimationFrame', 'cancelAnimationFrame'] })\n  const listeners = vi.spyOn(window, 'addEventListener') // 默认穿透,不替换真实接线\n  releaseHost = () => {\n    try {\n      for (const controller of controllers) controller.setWidgetEnabled(false)\n      for (const child of Array.from(document.body.children)) {\n        if (!existing.has(child)) child.remove()\n      }\n      vi.runOnlyPendingTimers()\n      expect(vi.getTimerCount()).toBe(0)\n    } finally {\n      for (const [type, listener, options] of listeners.mock.calls) {\n        window.removeEventListener(type, listener, options)\n      }\n      listeners.mockRestore()\n      controllers.length = 0\n      vi.clearAllTimers()\n      vi.useRealTimers()\n      vi.unstubAllGlobals()\n      setCurrentMapNum(oldMap)\n      if (previousLayout === undefined) delete document.documentElement.dataset.tpLayout\n      else document.documentElement.dataset.tpLayout = previousLayout\n      for (const [key, value] of saved) {\n        if (value === null) localStorage.removeItem(key)\n        else localStorage.setItem(key, value)\n      }\n    }\n  }\n})\nafterEach(() => releaseHost())\nfunction createController(deps: MinimapDeps): MinimapController {\n  const controller = setupMinimap(deps)\n  controllers.push(controller)\n  return controller\n}\ndescribe('Minimap controller preferences, zoom and images', () => {\n  it('默认开关、setShowNpc写存储；按保存值重建控制器读回', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    const deps = { getGs: () => gs, getMapThumbnail: async () => null }\n    const controller = createController(deps)\n    expect(controller.isShowNpc()).toBe(true)\n    expect(controller.isShowItems()).toBe(true)\n    expect(controller.isWidgetEnabled()).toBe(false)\n    controller.setShowNpc(false)\n    expect(controller.isShowNpc()).toBe(false)\n    expect(localStorage.getItem('tp-minimap-npc')).toBe('0')\n    controller.setWidgetEnabled(true)\n    expect(controller.isWidgetEnabled()).toBe(true)\n    expect(localStorage.getItem('tp-minimap-widget')).toBe('1')\n    const savedWidget = localStorage.getItem('tp-minimap-widget')!\n    controller.setWidgetEnabled(false) // 旧宿主不再跑,再用实际保存值模拟下次启动\n    localStorage.setItem('tp-minimap-widget', savedWidget)\n    const rebuiltController = createController(deps)\n    expect(rebuiltController.isShowNpc()).toBe(false)\n    expect(rebuiltController.isWidgetEnabled()).toBe(true)\n  })\n\n  it(\"持久值非 '0' 非法串 → 视为默认开；widget 非 '1' → 关\", () => {\n    localStorage.setItem('tp-minimap-npc', 'yes')\n    localStorage.setItem('tp-minimap-widget', 'true')\n    localStorage.setItem('tp-minimap-zoom', 'not-a-number')\n    const gs = createInitialGameState({ x: 1024, y: 1024, facing: 'down' })\n    const controller = createController({ getGs: () => gs, getMapThumbnail: async () => null })\n    expect(controller.isShowNpc()).toBe(true)\n    expect(controller.isWidgetEnabled()).toBe(false)\n    setCurrentMapNum(1)\n    controller.setWidgetEnabled(true)\n    const canvas = document.querySelector<HTMLCanvasElement>('#tp-minimap-widget canvas')!\n    const rect = vi.spyOn(canvas.getContext('2d')!, 'strokeRect')\n    try {\n      window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Minus' }))\n      // 非数值持久项恢复默认档2，再缩小一次到档1；180px画布的白框宽为320*180/1280。\n      expect(localStorage.getItem('tp-minimap-zoom')).toBe('1')\n      expect(rect).toHaveBeenCalledTimes(1)\n      expect(rect.mock.calls[0]![2]).toBeCloseTo(45, 6)\n    } finally {\n      rect.mockRestore()\n    }\n  })\n\n  it('widget快捷键按四档裁剪真实canvas,两端钳制后仍保持边界档', () => {\n    setCurrentMapNum(1)\n    const gs = createInitialGameState({ x: 1024, y: 1024, facing: 'down' })\n    const controller = createController({ getGs: () => gs, getMapThumbnail: async () => null })\n    controller.setWidgetEnabled(true)\n    const canvas = document.querySelector<HTMLCanvasElement>('#tp-minimap-widget canvas')!\n    expect(canvas.width).toBe(180)\n    expect(canvas.height).toBe(180)\n    const rect = vi.spyOn(canvas.getContext('2d')!, 'strokeRect') // 穿透真实canvas绘制\n    try {\n      const press = (code: string, index: number, expected: readonly number[]): void => {\n        rect.mockClear()\n        window.dispatchEvent(new KeyboardEvent('keydown', { code }))\n        expect(localStorage.getItem('tp-minimap-zoom')).toBe(String(index))\n        expect(rect).toHaveBeenCalledTimes(1)\n        const actual = rect.mock.calls[0]!\n        expected.forEach((value, i) => expect(actual[i]).toBeCloseTo(value, 6))\n      }\n      // 180px画布;默认960→640。相机=主角-(160,112),白框世界宽高320×200。\n      press('Equal', 3, [45, 58.5, 90, 56.25])\n      press('Equal', 3, [45, 58.5, 90, 56.25])\n      press('Minus', 2, [60, 69, 60, 37.5])\n      press('Minus', 1, [67.5, 74.25, 45, 28.125])\n      press('Minus', 0, [990 / 13, 1044 / 13, 360 / 13, 225 / 13])\n      press('Minus', 0, [990 / 13, 1044 / 13, 360 / 13, 225 / 13])\n    } finally {\n      rect.mockRestore()\n    }\n  })\n\n  it('widget关闭或焦点在INPUT/TEXTAREA时,快捷键不改缩放也不重绘', () => {\n    setCurrentMapNum(1)\n    const gs = createInitialGameState({ x: 1024, y: 1024, facing: 'down' })\n    const controller = createController({ getGs: () => gs, getMapThumbnail: async () => null })\n    controller.setWidgetEnabled(true)\n    const canvas = document.querySelector<HTMLCanvasElement>('#tp-minimap-widget canvas')!\n    const rect = vi.spyOn(canvas.getContext('2d')!, 'strokeRect')\n    try {\n      for (const tag of ['input', 'textarea']) {\n        const input = document.createElement(tag)\n        document.body.appendChild(input)\n        input.dispatchEvent(new KeyboardEvent('keydown', { code: 'Equal', bubbles: true }))\n        expect(localStorage.getItem('tp-minimap-zoom')).toBeNull()\n        expect(rect).not.toHaveBeenCalled()\n      }\n      controller.setWidgetEnabled(false)\n      window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Equal' }))\n      expect(localStorage.getItem('tp-minimap-zoom')).toBeNull()\n      expect(rect).not.toHaveBeenCalled()\n    } finally {\n      rect.mockRestore()\n    }\n  })\n\n  it('底图 URL 已 resolve 但 Image 尚未 onload 时，不重复请求同一 map', async () => {\n    let pendingSurface: HTMLCanvasElement | undefined\n    const PendingImage = vi.fn(function decodeImage() {\n      // Image解码是IO端口；返回真实CanvasImageSource，保留drawImage像素路径。\n      const surface = document.createElement('canvas')\n      surface.width = surface.height = 640\n      const context = surface.getContext('2d')!\n      context.fillStyle = '#123abc'\n      context.fillRect(0, 0, 640, 640)\n      pendingSurface = surface\n      return surface\n    })\n    vi.stubGlobal('Image', PendingImage)\n    setCurrentMapNum(1)\n    const url = document.createElement('canvas').toDataURL('image/png')\n    const getMapThumbnail = vi.fn(async () => url)\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    const controller = createController({ getGs: () => gs, getMapThumbnail })\n    controller.mountSceneView(document.createElement('div'), 64)\n    await vi.waitFor(() => expect(pendingSurface).toBeDefined())\n    controller.mountSceneView(document.createElement('div'), 64)\n    expect(getMapThumbnail).toHaveBeenCalledTimes(1)\n    pendingSurface!.dispatchEvent(new Event('load'))\n    const afterLoad = document.createElement('div')\n    controller.mountSceneView(afterLoad, 64)\n    expect(getMapThumbnail).toHaveBeenCalledTimes(1)\n    const canvas = afterLoad.querySelector('canvas')!\n    expect(Array.from(canvas.getContext('2d')!.getImageData(30, 30, 1, 1).data)).toEqual([\n      18, 58, 188, 255,\n    ])\n  })\n\n  it('Image 解码失败后标记 map failed，不在后续帧反复请求', async () => {\n    class FailingImage {\n      static last: FailingImage | undefined\n      onload: (() => void) | null = null\n      onerror: (() => void) | null = null\n      constructor() {\n        FailingImage.last = this\n      }\n      set src(_value: string) {} // 坏URL由本例显式触发IO失败\n    }\n    vi.stubGlobal('Image', FailingImage)\n    setCurrentMapNum(1)\n    const getMapThumbnail = vi.fn(async () => 'data:image/png;base64,INVALID')\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    const controller = createController({ getGs: () => gs, getMapThumbnail })\n    controller.mountSceneView(document.createElement('div'), 64)\n    await vi.waitFor(() => expect(FailingImage.last).toBeDefined())\n    FailingImage.last!.onerror!()\n    controller.mountSceneView(document.createElement('div'), 64)\n    expect(getMapThumbnail).toHaveBeenCalledTimes(1)\n  })\n})\n})",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel.glm-phase1-leaves.test.ts",
+      "id": "organization-tools-surfaces",
+      "reason": "Only reconciles case/helper/hook/import identities after the independent full typed-body and ownership proof; not a self-certifying semantic claim.",
+      "changes": [
+        {
+          "from": "/**\n * TEST-GLM-PHASE1-LEAVES-3 L17（tools-panel.ts）— 去重表：\n *  - tools-panel.test（框架/反引号/×关闭/tab 切换/场景/快捷键/对话/系统音频/主静音/计时器/\n *    战斗敌方/250ms 轮询）→ 不重复\n *  - 新差异：显示区缩放滑块 input → displayScale.setPercent(posToPct(v)) 对数刻度委托与\n *    % 文案同步、全屏按钮 → toggleFullscreen、左上角 FPS 开关 → setFpsEnabled 委派\n *    （经 localStorage 持久值可观察）。\n * 只证公开动作到注入依赖的参数（不触真实缩放/全屏/存档写盘）。\n */\nimport { describe, expect, it, vi } from 'vitest'\nimport { setupToolsPanel } from './tools-panel.js'\nimport { useToolsPanelTestHost } from './tools-panel.test-fixtures.js'\n\nconst mkDeps = useToolsPanelTestHost()\n\nfunction openSystemTab(): void {\n  window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Backquote' }))\n  ;[...document.querySelectorAll('.tp-tab')]\n    .find((b) => b.textContent === '系统')!\n    .dispatchEvent(new MouseEvent('click', { bubbles: true }))\n}\n\ndescribe('L17 tools-panel 显示区委托', () => {\n  it('缩放滑块 input → setPercent(posToPct(v))（对数刻度 0.75→316%）并同步 % 文案', () => {\n    const setPercent = vi.fn()\n    setupToolsPanel(\n      mkDeps({ displayScale: { getPercent: () => 100, setPercent, toggleFullscreen: vi.fn() } }),\n    )\n    openSystemTab()\n    // 缩放滑块 = 系统 tab 首个 min=0 max=1 步进 0.001 的 range\n    const scale = [...document.querySelectorAll<HTMLInputElement>('input[type=\"range\"]')].find(\n      (i) => i.min === '0' && i.max === '1',\n    )!\n    expect(scale).toBeDefined()\n    scale.value = '0.75'\n    scale.dispatchEvent(new Event('input', { bubbles: true }))\n    expect(setPercent).toHaveBeenCalledWith(316) // round(10 * 10^1.5)\n    expect(scale.closest('div')?.textContent).toContain('316%')\n  })\n\n  it('全屏按钮委托 toggleFullscreen 一次', () => {\n    const toggleFullscreen = vi.fn()\n    setupToolsPanel(\n      mkDeps({\n        displayScale: { getPercent: () => 100, setPercent: vi.fn(), toggleFullscreen },\n      }),\n    )\n    openSystemTab()\n    ;[...document.querySelectorAll('button')]\n      .find((b) => b.textContent === '全屏')!\n      .dispatchEvent(new MouseEvent('click', { bubbles: true }))\n    expect(toggleFullscreen).toHaveBeenCalledTimes(1)\n  })\n\n  it('FPS 开关将开启/关闭持久化为 tp-fps-show=1/0', () => {\n    setupToolsPanel(mkDeps())\n    openSystemTab()\n    // FPS toggle：默认关 → 勾选即委派 setFpsEnabled(true)（经持久化可观察）\n    const fpsRow = [...document.querySelectorAll<HTMLLabelElement>('.tp-toggle')].find(\n      (label) => label.textContent === '左上角显示 FPS',\n    )\n    expect(fpsRow).toBeDefined()\n    const fpsCheckbox = fpsRow!.querySelector('input')!\n    expect(fpsCheckbox.checked).toBe(false)\n    fpsCheckbox.checked = true\n    fpsCheckbox.dispatchEvent(new Event('change', { bubbles: true }))\n    expect(localStorage.getItem('tp-fps-show')).toBe('1')\n    fpsCheckbox.checked = false\n    fpsCheckbox.dispatchEvent(new Event('change', { bubbles: true }))\n    expect(localStorage.getItem('tp-fps-show')).toBe('0')\n  })\n})\n",
+          "to": "import {describe} from \"vitest\"\nimport {expect} from \"vitest\"\nimport {it} from \"vitest\"\nimport {vi} from \"vitest\"\nimport {setupToolsPanel} from \"./tools-panel.js\"\nimport {openSystemTab} from \"./tools-panel.test-fixtures.js\"\nimport {useToolsPanelTestHost} from \"./tools-panel.test-fixtures.js\"\ndescribe(\"preserved module 0\",()=>{\nconst makeDeps = useToolsPanelTestHost()\ndescribe('Tools panel display controls', () => {\n  it('缩放滑块 input → setPercent(posToPct(v))（对数刻度 0.75→316%）并同步 % 文案', () => {\n    const setPercent = vi.fn()\n    setupToolsPanel(\n      makeDeps({ displayScale: { getPercent: () => 100, setPercent, toggleFullscreen: vi.fn() } }),\n    )\n    openSystemTab()\n    // 缩放滑块 = 系统 tab 首个 min=0 max=1 步进 0.001 的 range\n    const scale = [...document.querySelectorAll<HTMLInputElement>('input[type=\"range\"]')].find(\n      (i) => i.min === '0' && i.max === '1',\n    )\n    if (!scale) throw new Error('Display scale slider missing')\n    scale.value = '0.75'\n    scale.dispatchEvent(new Event('input', { bubbles: true }))\n    expect(setPercent.mock.calls).toEqual([[316]]) // round(10 * 10^1.5)\n    expect(scale.closest('div')?.textContent).toContain('316%')\n  })\n\n  it('全屏按钮委托 toggleFullscreen 一次', () => {\n    const toggleFullscreen = vi.fn()\n    setupToolsPanel(\n      makeDeps({\n        displayScale: { getPercent: () => 100, setPercent: vi.fn(), toggleFullscreen },\n      }),\n    )\n    openSystemTab()\n    const fullscreen = [...document.querySelectorAll<HTMLButtonElement>('button')].find(\n      (button) => button.textContent === '全屏',\n    )\n    if (!fullscreen) throw new Error('Fullscreen button missing')\n    fullscreen.click()\n    expect(toggleFullscreen).toHaveBeenCalledTimes(1)\n  })\n\n  it('FPS 开关将开启/关闭持久化为 tp-fps-show=1/0', () => {\n    setupToolsPanel(makeDeps())\n    openSystemTab()\n    // FPS toggle：默认关 → 勾选即委派 setFpsEnabled(true)（经持久化可观察）\n    const fpsRow = [...document.querySelectorAll<HTMLLabelElement>('.tp-toggle')].find(\n      (label) => label.textContent === '左上角显示 FPS',\n    )\n    if (!fpsRow) throw new Error('FPS setting missing')\n    const fpsCheckbox = fpsRow.querySelector('input')\n    if (!fpsCheckbox) throw new Error('FPS checkbox missing')\n    expect(fpsCheckbox.checked).toBe(false)\n    fpsCheckbox.checked = true\n    fpsCheckbox.dispatchEvent(new Event('change', { bubbles: true }))\n    expect(localStorage.getItem('tp-fps-show')).toBe('1')\n    fpsCheckbox.checked = false\n    fpsCheckbox.dispatchEvent(new Event('change', { bubbles: true }))\n    expect(localStorage.getItem('tp-fps-show')).toBe('0')\n  })\n})\n})",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel.test.ts",
+      "id": "organization-tools-surfaces",
+      "reason": "Only reconciles case/helper/hook/import identities after the independent full typed-body and ownership proof; not a self-certifying semantic claim.",
+      "changes": [
+        {
+          "from": "import { describe, expect, it, vi } from 'vitest'\nimport {\n  makeEnemy,\n  makePlayerRole,\n  makePlayerRoles,\n} from '../core/__tests__/stats/stats-test-fixtures.js'\nimport { createBattleState } from '../core/battle/battle-state.js'\nimport { createInitialGameState, hydratePlayerRolesRuntime } from '../core/game-state.js'\nimport { createSeedableRng } from '../core/rng.js'\nimport { createMusicSourceController } from '../shell/music-source.js'\nimport { setupToolsPanel } from './tools-panel.js'\nimport { mkVol, useToolsPanelTestHost } from './tools-panel.test-fixtures.js'\n\nconst mkDeps = useToolsPanelTestHost()\n\n/** 打开面板并切到「系统」tab。 */\nfunction openSystemTab(): void {\n  window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Backquote' }))\n  ;[...document.querySelectorAll('.tp-tab')]\n    .find((b) => b.textContent === '系统')!\n    .dispatchEvent(new MouseEvent('click', { bubbles: true }))\n}\n\ndescribe('tools-panel 框架', () => {\n  it('战斗页250ms轮询由受控时间推进：变化刷新、相同签名和关闭时不重绘', () => {\n    setupToolsPanel(mkDeps())\n    window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Backquote' }))\n    ;[...document.querySelectorAll('.tp-tab')]\n      .find((tab) => tab.textContent === '战斗')!\n      .dispatchEvent(new MouseEvent('click', { bubbles: true }))\n    const body = document.querySelector('.tp-body')!\n    const initial = body.firstChild\n    vi.advanceTimersByTime(249)\n    expect(body.firstChild).toBe(initial)\n    vi.advanceTimersByTime(1)\n    expect(body.firstChild).not.toBe(initial)\n    const polled = body.firstChild\n    vi.advanceTimersByTime(250)\n    expect(body.firstChild).toBe(polled)\n    ;(document.querySelector('.tp-close') as HTMLElement).click()\n    vi.advanceTimersByTime(250)\n    expect(body.firstChild).toBe(polled)\n  })\n\n  it('setup 挂根节点(默认隐藏) + 唤出按钮 + 6 个左竖 tab + 注入样式', () => {\n    setupToolsPanel(mkDeps())\n    const root = document.getElementById('tp-tools-panel')\n    expect(root).not.toBeNull()\n    expect(root!.hidden).toBe(true)\n    expect(document.getElementById('tp-tools-launcher')).not.toBeNull()\n    expect(document.getElementById('tp-tools-style')).not.toBeNull()\n    expect(document.querySelectorAll('.tp-tab').length).toBe(6)\n  })\n\n  it('反引号 toggle 显隐', () => {\n    setupToolsPanel(mkDeps())\n    const root = document.getElementById('tp-tools-panel')!\n    window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Backquote' }))\n    expect(root.hidden).toBe(false)\n    window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Backquote' }))\n    expect(root.hidden).toBe(true)\n  })\n\n  // 点过 tab 后焦点落在面板内的按钮上,从该按钮派发的 ` keydown 会冒泡经 root 的 stopPropagation(防漏给游戏输入)。\n  //   该 stopPropagation 须放行 Backquote,否则切换键到不了 window 监听 → 面板关不掉(user 2026-06-23 报)。\n  it('点过 tab 后 ` 仍能关闭面板(焦点在面板内,Backquote 须放行冒泡到 window 切换器)', () => {\n    setupToolsPanel(mkDeps())\n    const root = document.getElementById('tp-tools-panel')!\n    window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Backquote' })) // 开\n    expect(root.hidden).toBe(false)\n    const tab = document.querySelector('.tp-tab') as HTMLButtonElement\n    tab.dispatchEvent(new MouseEvent('click', { bubbles: true })) // 点 tab(焦点落入面板内)\n    // 真实场景:焦点在该 tab 按钮上,` 的 keydown 从面板内冒泡 —— 须仍能关闭\n    tab.dispatchEvent(new KeyboardEvent('keydown', { code: 'Backquote', bubbles: true }))\n    expect(root.hidden).toBe(true)\n  })\n\n  it('× 关闭 + 点 tab 切换 active', () => {\n    setupToolsPanel(mkDeps())\n    const root = document.getElementById('tp-tools-panel')!\n    window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Backquote' })) // 开\n    const battleTab = [...document.querySelectorAll('.tp-tab')].find(\n      (b) => b.textContent === '战斗',\n    )!\n    battleTab.dispatchEvent(new MouseEvent('click', { bubbles: true }))\n    expect(battleTab.classList.contains('tp-tab-active')).toBe(true)\n    ;(document.querySelector('.tp-close') as HTMLElement).click()\n    expect(root.hidden).toBe(true)\n  })\n\n  it('幂等:重复 setup 不重复挂', () => {\n    setupToolsPanel(mkDeps())\n    setupToolsPanel(mkDeps())\n    expect(document.querySelectorAll('#tp-tools-panel').length).toBe(1)\n  })\n\n  it('场景 tab:显示场景号 + 主角坐标', () => {\n    const gs = createInitialGameState({ x: 512, y: 256, facing: 'right' })\n    gs.wNumScene = 1\n    setupToolsPanel(mkDeps({ getGs: () => gs }))\n    window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Backquote' })) // 开;默认 scene tab\n    const txt = document.getElementById('tp-tools-panel')!.textContent ?? ''\n    expect(txt).toContain('512')\n    expect(txt).toContain('256')\n    expect(txt).toContain('#1') // 场景号\n  })\n\n  it('快捷键 tab:6 分区 + 同键不同义(战斗投掷 / 大世界装备)+ 工具与快存键', () => {\n    setupToolsPanel(mkDeps())\n    window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Backquote' }))\n    document.querySelector<HTMLButtonElement>('.tp-tab[data-key=\"keys\"]')!.click()\n    const body = document.querySelector('.tp-body')!\n    expect([...body.querySelectorAll('.tp-section-title')].map((e) => e.textContent)).toEqual([\n      '通用',\n      '大世界',\n      '战斗',\n      '工具',\n      '快速存档 / 读档',\n      '速通计时器',\n    ])\n    const sections = new Map<string, { keys: (string | null)[]; description: string | null }[]>()\n    let current = ''\n    for (const child of body.children) {\n      if (child.classList.contains('tp-section-title')) {\n        current = child.textContent ?? ''\n        sections.set(current, [])\n      } else if (child.classList.contains('tp-key-row')) {\n        sections.get(current)!.push({\n          keys: [...child.querySelectorAll('.tp-kbd')].map((e) => e.textContent),\n          description: child.querySelector('.tp-key-desc')!.textContent,\n        })\n      }\n    }\n    // Caller约定见输入映射/scene/menu/battle dispatcher；同屏出现两段文字不足以证明接线正确。\n    for (const [section, key, description] of [\n      ['大世界', 'W', '装备'],\n      ['大世界', 'F', '法术'],\n      ['战斗', 'W', '投掷物品'],\n      ['战斗', 'F', '强行攻击(整队)'],\n      ['工具', '`', '打开 / 关闭工具面板'],\n      ['快速存档 / 读档', 'F5', '快速存档 → 存档位 1'],\n      ['快速存档 / 读档', 'F9', '快速读档 ← 存档位 1'],\n      ['速通计时器', 'F8', '暂停 / 恢复(恢复有 3 秒倒计时)'],\n      ['速通计时器', 'F4', '重置计时器本局'],\n      ['速通计时器', 'F2', '显示 / 隐藏计时器覆盖层'],\n    ] as const) {\n      expect(sections.get(section)?.find((row) => row.keys.includes(key))?.description).toBe(\n        description,\n      )\n    }\n  })\n\n  it('对话 tab:按场景分组(场景名标题) + 倒序(新在上、旧在下) + 搜索过滤', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.wNumScene = 1\n    gs.dialogHistory = [\n      { map: 1, text: '你好' },\n      { map: 1, text: '再会' },\n      { map: 23, text: '城门见' },\n    ]\n    setupToolsPanel(mkDeps({ getGs: () => gs }))\n    window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Backquote' }))\n    ;[...document.querySelectorAll('.tp-tab')]\n      .find((b) => b.textContent === '对话')!\n      .dispatchEvent(new MouseEvent('click', { bubbles: true }))\n    const groups = [...document.querySelectorAll('.tp-dialog-group')].map((e) => e.textContent)\n    expect(groups).toEqual(['苏州城', '盛渔村']) // 倒序:最新(map 23 城门见)在上 → 苏州城段先\n    const lines = [...document.querySelectorAll('.tp-dialog-line')].map((e) => e.textContent)\n    expect(lines).toEqual(['城门见', '再会', '你好']) // 倒序:新在上、旧在下\n    const search = document.querySelector('.tp-input') as HTMLInputElement\n    search.value = '城门'\n    search.dispatchEvent(new Event('input'))\n    const filtered = [...document.querySelectorAll('.tp-dialog-line')].map((e) => e.textContent)\n    expect(filtered).toEqual(['城门见'])\n  })\n\n  it('系统 tab 音频:音乐 / 音效 / 视频 三条音量滑块', () => {\n    setupToolsPanel(mkDeps())\n    openSystemTab()\n    const labels = [...document.querySelectorAll('.tp-ctrl-label')].map((e) => e.textContent)\n    expect(labels).toContain('音乐')\n    expect(labels).toContain('音效')\n    expect(labels).toContain('视频')\n  })\n\n  it('音乐音源选择通过实际控制器记住偏好，加载失败提供重试', async () => {\n    let attempts = 0\n    const musicSource = createMusicSourceController(\n      (source) => ({\n        play() {},\n        stop() {},\n        ready:\n          source === 'rix' && ++attempts === 1\n            ? Promise.reject(new Error('曲库不可用'))\n            : Promise.resolve(),\n      }),\n      'midi',\n    )\n    setupToolsPanel(mkDeps({ musicSource }))\n    openSystemTab()\n    const select = document.querySelector<HTMLSelectElement>('#tp-music-source')!\n    expect(select.value).toBe('midi')\n    select.value = 'rix'\n    select.dispatchEvent(new Event('change', { bubbles: true }))\n    expect(localStorage.getItem('tp-music-source')).toBe('rix')\n    expect(document.querySelector('#tp-music-source-status')?.textContent).toBe('正在加载音乐…')\n    await Promise.resolve()\n    expect(document.querySelector('#tp-music-source-status')?.textContent).toContain('曲库不可用')\n    expect(document.querySelector<HTMLElement>('#tp-music-source-retry')?.hidden).toBe(false)\n    document.querySelector<HTMLButtonElement>('#tp-music-source-retry')!.click()\n    await Promise.resolve()\n    expect(document.querySelector('#tp-music-source-status')?.textContent).toBe('')\n    expect(document.querySelector<HTMLElement>('#tp-music-source-retry')?.hidden).toBe(true)\n  })\n\n  it('系统 tab:视频滑块 input → videoVolume.setVolume(0..1)', () => {\n    const videoVolume = mkVol()\n    setupToolsPanel(mkDeps({ videoVolume }))\n    openSystemTab()\n    const row = [...document.querySelectorAll('.tp-ctrl-row')].find(\n      (r) => r.querySelector('.tp-ctrl-label')?.textContent === '视频',\n    )!\n    const slider = row.querySelector('input[type=range]') as HTMLInputElement\n    slider.value = '40'\n    slider.dispatchEvent(new Event('input'))\n    expect(videoVolume.setVolume).toHaveBeenCalledWith(0.4)\n  })\n\n  it('主静音按钮:一键 静音/恢复 音乐+音效+视频', () => {\n    const audioVolume = mkVol()\n    const sfxVolume = mkVol()\n    const videoVolume = mkVol()\n    setupToolsPanel(mkDeps({ audioVolume, sfxVolume, videoVolume }))\n    openSystemTab()\n    const muteBtn = [...document.querySelectorAll('.tp-btn')].find((b) =>\n      b.textContent?.includes('静音'),\n    ) as HTMLButtonElement\n    expect(muteBtn).toBeTruthy()\n    // 第一次点 → 三路全静音\n    muteBtn.click()\n    expect(audioVolume.setMuted).toHaveBeenCalledWith(true)\n    expect(sfxVolume.setMuted).toHaveBeenCalledWith(true)\n    expect(videoVolume.setMuted).toHaveBeenCalledWith(true)\n    // 再点 → 三路全恢复\n    muteBtn.click()\n    expect(audioVolume.setMuted).toHaveBeenLastCalledWith(false)\n    expect(sfxVolume.setMuted).toHaveBeenLastCalledWith(false)\n    expect(videoVolume.setMuted).toHaveBeenLastCalledWith(false)\n  })\n\n  it('主静音按钮:初始已静音 → 显示「已静音」态', () => {\n    setupToolsPanel(mkDeps({ audioVolume: mkVol(true) }))\n    openSystemTab()\n    const muteBtn = [...document.querySelectorAll('.tp-btn')].find((b) =>\n      b.textContent?.includes('静音'),\n    ) as HTMLButtonElement\n    expect(muteBtn.textContent).toContain('已静音')\n  })\n\n  it('计时器 tab:渲染开关 + 21 个节点最佳时间输入', () => {\n    setupToolsPanel(mkDeps())\n    // 打开面板\n    window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Backquote' }))\n    // 点\"计时器\"tab\n    const timerTab = [...document.querySelectorAll('.tp-tab')].find(\n      (b) => b.textContent === '计时器',\n    ) as HTMLButtonElement\n    timerTab.click()\n    const body = document.querySelector('.tp-body') as HTMLElement\n    expect(body.querySelectorAll('.tp-toggle').length).toBe(3) // 三个开关\n    expect(body.querySelectorAll('input.tp-input').length).toBe(21) // 21 节点最佳时间输入(input,不含跳转 select)\n    // 测试用「跳到节点」控件:1 个 select,含 21 个节点选项\n    const sel = body.querySelector('select.tp-input') as HTMLSelectElement\n    expect(sel).not.toBeNull()\n    expect(sel.querySelectorAll('option').length).toBe(21)\n  })\n\n  it('战斗 tab 敌方:每敌显示灵葫值(>0 显数字、=0 显「无」)', () => {\n    const battleGs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    battleGs.wNumScene = 1\n    battleGs.partyMembers = [0]\n    const playerRoles = makePlayerRoles([\n      makePlayerRole({ level: 1, hp: 10, maxHP: 10, mp: 0, maxMP: 0 }),\n    ])\n    hydratePlayerRolesRuntime(battleGs.PlayerRolesRuntime, playerRoles)\n    const state = createBattleState({\n      gs: battleGs,\n      playerRoles,\n      enemies: [\n        makeEnemy({ id: 144, _name: '火神龙', health: 100, collectValue: 7 }),\n        makeEnemy({ id: 1, _name: '史莱姆', health: 100, collectValue: 0 }),\n      ],\n      field: {\n        id: 0,\n        screenWave: 0,\n        magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },\n      },\n      isBoss: false,\n      rng: createSeedableRng(1),\n    })\n    battleGs.mode = 'battle'\n    battleGs.battleState = state\n    setupToolsPanel(\n      mkDeps({\n        getGs: () => battleGs,\n        getResources: () => ({ playerRoles, objectPoisons: [], items: [], levelUpExp: [] }),\n      }),\n    )\n    window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Backquote' }))\n    ;[...document.querySelectorAll('.tp-tab')]\n      .find((b) => b.textContent === '战斗')!\n      .dispatchEvent(new MouseEvent('click', { bubbles: true }))\n    // 灵葫 chip(.s-collect):火神龙=7、史莱姆=无\n    const collectChips = [...document.querySelectorAll('.s-collect')].map((e) => e.textContent)\n    expect(collectChips).toEqual(['7', '无'])\n    // Exercise the actual battle signature deterministically, rather than incidentally after 250ms.\n    vi.advanceTimersByTime(250)\n    const body = document.querySelector('.tp-body')!\n    const previous = body.firstChild\n    state.enemies[0]!.e.health = 77\n    vi.advanceTimersByTime(250)\n    expect(body.firstChild).not.toBe(previous)\n    const enemyUnit = [...body.querySelectorAll('.tp-unit')].find(\n      (unit) => unit.querySelector('.tp-unit-name')?.textContent === '火神龙',\n    )!\n    expect(enemyUnit.querySelector('.tp-unit-hp')?.textContent).toBe('HP 77/100')\n    const hpRefreshed = body.firstChild\n    state.turn += 1\n    vi.advanceTimersByTime(250)\n    expect(body.firstChild).not.toBe(hpRefreshed)\n    expect(body.textContent).toContain('第 2 回合')\n    const refreshed = body.firstChild\n    vi.advanceTimersByTime(250)\n    expect(body.firstChild).toBe(refreshed)\n  })\n})\n",
+          "to": "import {describe} from \"vitest\"\nimport {expect} from \"vitest\"\nimport {it} from \"vitest\"\nimport {vi} from \"vitest\"\nimport {makeEnemy} from \"../core/__tests__/stats/stats-test-fixtures.js\"\nimport {makePlayerRole} from \"../core/__tests__/stats/stats-test-fixtures.js\"\nimport {makePlayerRoles} from \"../core/__tests__/stats/stats-test-fixtures.js\"\nimport {createBattleState} from \"../core/battle/battle-state.js\"\nimport {createInitialGameState} from \"../core/game-state.js\"\nimport {hydratePlayerRolesRuntime} from \"../core/game-state.js\"\nimport {createSeedableRng} from \"../core/rng.js\"\nimport {createMusicSourceController} from \"../shell/music-source.js\"\nimport {setupToolsPanel} from \"./tools-panel.js\"\nimport {makeVolumeController} from \"./tools-panel.test-fixtures.js\"\nimport {openSystemTab} from \"./tools-panel.test-fixtures.js\"\nimport {useToolsPanelTestHost} from \"./tools-panel.test-fixtures.js\"\ndescribe(\"preserved module 0\",()=>{\nconst mkDeps = useToolsPanelTestHost()\ndescribe('tools-panel 框架', () => {\n  it('战斗页250ms轮询由受控时间推进：变化刷新、相同签名和关闭时不重绘', () => {\n    setupToolsPanel(mkDeps())\n    window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Backquote' }))\n    ;[...document.querySelectorAll('.tp-tab')]\n      .find((tab) => tab.textContent === '战斗')!\n      .dispatchEvent(new MouseEvent('click', { bubbles: true }))\n    const body = document.querySelector('.tp-body')!\n    const initial = body.firstChild\n    vi.advanceTimersByTime(249)\n    expect(body.firstChild).toBe(initial)\n    vi.advanceTimersByTime(1)\n    expect(body.firstChild).not.toBe(initial)\n    const polled = body.firstChild\n    vi.advanceTimersByTime(250)\n    expect(body.firstChild).toBe(polled)\n    ;(document.querySelector('.tp-close') as HTMLElement).click()\n    vi.advanceTimersByTime(250)\n    expect(body.firstChild).toBe(polled)\n  })\n\n  it('setup 挂根节点(默认隐藏) + 唤出按钮 + 6 个左竖 tab + 注入样式', () => {\n    setupToolsPanel(mkDeps())\n    const root = document.getElementById('tp-tools-panel')\n    expect(root).not.toBeNull()\n    expect(root!.hidden).toBe(true)\n    expect(document.getElementById('tp-tools-launcher')).not.toBeNull()\n    expect(document.getElementById('tp-tools-style')).not.toBeNull()\n    expect(document.querySelectorAll('.tp-tab').length).toBe(6)\n  })\n\n  it('反引号 toggle 显隐', () => {\n    setupToolsPanel(mkDeps())\n    const root = document.getElementById('tp-tools-panel')!\n    window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Backquote' }))\n    expect(root.hidden).toBe(false)\n    window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Backquote' }))\n    expect(root.hidden).toBe(true)\n  })\n\n  // 点过 tab 后焦点落在面板内的按钮上,从该按钮派发的 ` keydown 会冒泡经 root 的 stopPropagation(防漏给游戏输入)。\n  //   该 stopPropagation 须放行 Backquote,否则切换键到不了 window 监听 → 面板关不掉(user 2026-06-23 报)。\n  it('点过 tab 后 ` 仍能关闭面板(焦点在面板内,Backquote 须放行冒泡到 window 切换器)', () => {\n    setupToolsPanel(mkDeps())\n    const root = document.getElementById('tp-tools-panel')!\n    window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Backquote' })) // 开\n    expect(root.hidden).toBe(false)\n    const tab = document.querySelector('.tp-tab') as HTMLButtonElement\n    tab.dispatchEvent(new MouseEvent('click', { bubbles: true })) // 点 tab(焦点落入面板内)\n    // 真实场景:焦点在该 tab 按钮上,` 的 keydown 从面板内冒泡 —— 须仍能关闭\n    tab.dispatchEvent(new KeyboardEvent('keydown', { code: 'Backquote', bubbles: true }))\n    expect(root.hidden).toBe(true)\n  })\n\n  it('× 关闭 + 点 tab 切换 active', () => {\n    setupToolsPanel(mkDeps())\n    const root = document.getElementById('tp-tools-panel')!\n    window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Backquote' })) // 开\n    const battleTab = [...document.querySelectorAll('.tp-tab')].find(\n      (b) => b.textContent === '战斗',\n    )!\n    battleTab.dispatchEvent(new MouseEvent('click', { bubbles: true }))\n    expect(battleTab.classList.contains('tp-tab-active')).toBe(true)\n    ;(document.querySelector('.tp-close') as HTMLElement).click()\n    expect(root.hidden).toBe(true)\n  })\n\n  it('幂等:重复 setup 不重复挂', () => {\n    setupToolsPanel(mkDeps())\n    setupToolsPanel(mkDeps())\n    expect(document.querySelectorAll('#tp-tools-panel').length).toBe(1)\n  })\n\n  it('场景 tab:显示场景号 + 主角坐标', () => {\n    const gs = createInitialGameState({ x: 512, y: 256, facing: 'right' })\n    gs.wNumScene = 1\n    setupToolsPanel(mkDeps({ getGs: () => gs }))\n    window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Backquote' })) // 开;默认 scene tab\n    const txt = document.getElementById('tp-tools-panel')!.textContent ?? ''\n    expect(txt).toContain('512')\n    expect(txt).toContain('256')\n    expect(txt).toContain('#1') // 场景号\n  })\n\n  it('快捷键 tab:6 分区 + 同键不同义(战斗投掷 / 大世界装备)+ 工具与快存键', () => {\n    setupToolsPanel(mkDeps())\n    window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Backquote' }))\n    document.querySelector<HTMLButtonElement>('.tp-tab[data-key=\"keys\"]')!.click()\n    const body = document.querySelector('.tp-body')!\n    expect([...body.querySelectorAll('.tp-section-title')].map((e) => e.textContent)).toEqual([\n      '通用',\n      '大世界',\n      '战斗',\n      '工具',\n      '快速存档 / 读档',\n      '速通计时器',\n    ])\n    const sections = new Map<string, { keys: (string | null)[]; description: string | null }[]>()\n    let current = ''\n    for (const child of body.children) {\n      if (child.classList.contains('tp-section-title')) {\n        current = child.textContent ?? ''\n        sections.set(current, [])\n      } else if (child.classList.contains('tp-key-row')) {\n        sections.get(current)!.push({\n          keys: [...child.querySelectorAll('.tp-kbd')].map((e) => e.textContent),\n          description: child.querySelector('.tp-key-desc')!.textContent,\n        })\n      }\n    }\n    // Caller约定见输入映射/scene/menu/battle dispatcher；同屏出现两段文字不足以证明接线正确。\n    for (const [section, key, description] of [\n      ['大世界', 'W', '装备'],\n      ['大世界', 'F', '法术'],\n      ['战斗', 'W', '投掷物品'],\n      ['战斗', 'F', '强行攻击(整队)'],\n      ['工具', '`', '打开 / 关闭工具面板'],\n      ['快速存档 / 读档', 'F5', '快速存档 → 存档位 1'],\n      ['快速存档 / 读档', 'F9', '快速读档 ← 存档位 1'],\n      ['速通计时器', 'F8', '暂停 / 恢复(恢复有 3 秒倒计时)'],\n      ['速通计时器', 'F4', '重置计时器本局'],\n      ['速通计时器', 'F2', '显示 / 隐藏计时器覆盖层'],\n    ] as const) {\n      expect(sections.get(section)?.find((row) => row.keys.includes(key))?.description).toBe(\n        description,\n      )\n    }\n  })\n\n  it('对话 tab:按场景分组(场景名标题) + 倒序(新在上、旧在下) + 搜索过滤', () => {\n    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    gs.wNumScene = 1\n    gs.dialogHistory = [\n      { map: 1, text: '你好' },\n      { map: 1, text: '再会' },\n      { map: 23, text: '城门见' },\n    ]\n    setupToolsPanel(mkDeps({ getGs: () => gs }))\n    window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Backquote' }))\n    ;[...document.querySelectorAll('.tp-tab')]\n      .find((b) => b.textContent === '对话')!\n      .dispatchEvent(new MouseEvent('click', { bubbles: true }))\n    const groups = [...document.querySelectorAll('.tp-dialog-group')].map((e) => e.textContent)\n    expect(groups).toEqual(['苏州城', '盛渔村']) // 倒序:最新(map 23 城门见)在上 → 苏州城段先\n    const lines = [...document.querySelectorAll('.tp-dialog-line')].map((e) => e.textContent)\n    expect(lines).toEqual(['城门见', '再会', '你好']) // 倒序:新在上、旧在下\n    const search = document.querySelector('.tp-input') as HTMLInputElement\n    search.value = '城门'\n    search.dispatchEvent(new Event('input'))\n    const filtered = [...document.querySelectorAll('.tp-dialog-line')].map((e) => e.textContent)\n    expect(filtered).toEqual(['城门见'])\n  })\n\n  it('系统 tab 音频:音乐 / 音效 / 视频 三条音量滑块', () => {\n    setupToolsPanel(mkDeps())\n    openSystemTab()\n    const labels = [...document.querySelectorAll('.tp-ctrl-label')].map((e) => e.textContent)\n    expect(labels).toContain('音乐')\n    expect(labels).toContain('音效')\n    expect(labels).toContain('视频')\n  })\n\n  it('音乐音源选择通过实际控制器记住偏好，加载失败提供重试', async () => {\n    let attempts = 0\n    const musicSource = createMusicSourceController(\n      (source) => ({\n        play() {},\n        stop() {},\n        ready:\n          source === 'rix' && ++attempts === 1\n            ? Promise.reject(new Error('曲库不可用'))\n            : Promise.resolve(),\n      }),\n      'midi',\n    )\n    setupToolsPanel(mkDeps({ musicSource }))\n    openSystemTab()\n    const select = document.querySelector<HTMLSelectElement>('#tp-music-source')!\n    expect(select.value).toBe('midi')\n    select.value = 'rix'\n    select.dispatchEvent(new Event('change', { bubbles: true }))\n    expect(localStorage.getItem('tp-music-source')).toBe('rix')\n    expect(document.querySelector('#tp-music-source-status')?.textContent).toBe('正在加载音乐…')\n    await Promise.resolve()\n    expect(document.querySelector('#tp-music-source-status')?.textContent).toContain('曲库不可用')\n    expect(document.querySelector<HTMLElement>('#tp-music-source-retry')?.hidden).toBe(false)\n    document.querySelector<HTMLButtonElement>('#tp-music-source-retry')!.click()\n    await Promise.resolve()\n    expect(document.querySelector('#tp-music-source-status')?.textContent).toBe('')\n    expect(document.querySelector<HTMLElement>('#tp-music-source-retry')?.hidden).toBe(true)\n  })\n\n  it('系统 tab:视频滑块 input → videoVolume.setVolume(0..1)', () => {\n    const videoVolume = makeVolumeController()\n    setupToolsPanel(mkDeps({ videoVolume }))\n    openSystemTab()\n    const row = [...document.querySelectorAll('.tp-ctrl-row')].find(\n      (r) => r.querySelector('.tp-ctrl-label')?.textContent === '视频',\n    )!\n    const slider = row.querySelector('input[type=range]') as HTMLInputElement\n    slider.value = '40'\n    slider.dispatchEvent(new Event('input'))\n    expect(videoVolume.setVolume).toHaveBeenCalledWith(0.4)\n  })\n\n  it('主静音按钮:一键 静音/恢复 音乐+音效+视频', () => {\n    const audioVolume = makeVolumeController()\n    const sfxVolume = makeVolumeController()\n    const videoVolume = makeVolumeController()\n    setupToolsPanel(mkDeps({ audioVolume, sfxVolume, videoVolume }))\n    openSystemTab()\n    const muteBtn = [...document.querySelectorAll('.tp-btn')].find((b) =>\n      b.textContent?.includes('静音'),\n    ) as HTMLButtonElement\n    expect(muteBtn).toBeTruthy()\n    // 第一次点 → 三路全静音\n    muteBtn.click()\n    expect(audioVolume.setMuted).toHaveBeenCalledWith(true)\n    expect(sfxVolume.setMuted).toHaveBeenCalledWith(true)\n    expect(videoVolume.setMuted).toHaveBeenCalledWith(true)\n    // 再点 → 三路全恢复\n    muteBtn.click()\n    expect(audioVolume.setMuted).toHaveBeenLastCalledWith(false)\n    expect(sfxVolume.setMuted).toHaveBeenLastCalledWith(false)\n    expect(videoVolume.setMuted).toHaveBeenLastCalledWith(false)\n  })\n\n  it('主静音按钮:初始已静音 → 显示「已静音」态', () => {\n    setupToolsPanel(mkDeps({ audioVolume: makeVolumeController(true) }))\n    openSystemTab()\n    const muteBtn = [...document.querySelectorAll('.tp-btn')].find((b) =>\n      b.textContent?.includes('静音'),\n    ) as HTMLButtonElement\n    expect(muteBtn.textContent).toContain('已静音')\n  })\n\n  it('计时器 tab:渲染开关 + 21 个节点最佳时间输入', () => {\n    setupToolsPanel(mkDeps())\n    // 打开面板\n    window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Backquote' }))\n    // 点\"计时器\"tab\n    const timerTab = [...document.querySelectorAll('.tp-tab')].find(\n      (b) => b.textContent === '计时器',\n    ) as HTMLButtonElement\n    timerTab.click()\n    const body = document.querySelector('.tp-body') as HTMLElement\n    expect(body.querySelectorAll('.tp-toggle').length).toBe(3) // 三个开关\n    expect(body.querySelectorAll('input.tp-input').length).toBe(21) // 21 节点最佳时间输入(input,不含跳转 select)\n    // 测试用「跳到节点」控件:1 个 select,含 21 个节点选项\n    const sel = body.querySelector('select.tp-input') as HTMLSelectElement\n    expect(sel).not.toBeNull()\n    expect(sel.querySelectorAll('option').length).toBe(21)\n  })\n\n  it('战斗 tab 敌方:每敌显示灵葫值(>0 显数字、=0 显「无」)', () => {\n    const battleGs = createInitialGameState({ x: 0, y: 0, facing: 'down' })\n    battleGs.wNumScene = 1\n    battleGs.partyMembers = [0]\n    const playerRoles = makePlayerRoles([\n      makePlayerRole({ level: 1, hp: 10, maxHP: 10, mp: 0, maxMP: 0 }),\n    ])\n    hydratePlayerRolesRuntime(battleGs.PlayerRolesRuntime, playerRoles)\n    const state = createBattleState({\n      gs: battleGs,\n      playerRoles,\n      enemies: [\n        makeEnemy({ id: 144, _name: '火神龙', health: 100, collectValue: 7 }),\n        makeEnemy({ id: 1, _name: '史莱姆', health: 100, collectValue: 0 }),\n      ],\n      field: {\n        id: 0,\n        screenWave: 0,\n        magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },\n      },\n      isBoss: false,\n      rng: createSeedableRng(1),\n    })\n    battleGs.mode = 'battle'\n    battleGs.battleState = state\n    setupToolsPanel(\n      mkDeps({\n        getGs: () => battleGs,\n        getResources: () => ({ playerRoles, objectPoisons: [], items: [], levelUpExp: [] }),\n      }),\n    )\n    window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Backquote' }))\n    ;[...document.querySelectorAll('.tp-tab')]\n      .find((b) => b.textContent === '战斗')!\n      .dispatchEvent(new MouseEvent('click', { bubbles: true }))\n    // 灵葫 chip(.s-collect):火神龙=7、史莱姆=无\n    const collectChips = [...document.querySelectorAll('.s-collect')].map((e) => e.textContent)\n    expect(collectChips).toEqual(['7', '无'])\n    // Exercise the actual battle signature deterministically, rather than incidentally after 250ms.\n    vi.advanceTimersByTime(250)\n    const body = document.querySelector('.tp-body')!\n    const previous = body.firstChild\n    state.enemies[0]!.e.health = 77\n    vi.advanceTimersByTime(250)\n    expect(body.firstChild).not.toBe(previous)\n    const enemyUnit = [...body.querySelectorAll('.tp-unit')].find(\n      (unit) => unit.querySelector('.tp-unit-name')?.textContent === '火神龙',\n    )!\n    expect(enemyUnit.querySelector('.tp-unit-hp')?.textContent).toBe('HP 77/100')\n    const hpRefreshed = body.firstChild\n    state.turn += 1\n    vi.advanceTimersByTime(250)\n    expect(body.firstChild).not.toBe(hpRefreshed)\n    expect(body.textContent).toContain('第 2 回合')\n    const refreshed = body.firstChild\n    vi.advanceTimersByTime(250)\n    expect(body.firstChild).toBe(refreshed)\n  })\n})\n})",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "registrations": [
+    {
+      "old": {
+        "file": "packages/game/src/tools/minimap.test.ts",
+        "ordinal": 0,
+        "fullName": "worldToThumb 世界像素 → 底图像素((wx+16)*SCALE)"
+      },
+      "current": {
+        "file": "packages/game/src/tools/minimap.model.test.ts",
+        "titles": ["worldToThumb"],
+        "template": "世界像素 → 底图像素((wx+16)*SCALE)",
+        "fullName": "worldToThumb 世界像素 → 底图像素((wx+16)*SCALE)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/minimap.test.ts",
+        "ordinal": 1,
+        "fullName": "computeView 视野>=全图 → 全图(sx=sy=0,sw=BASE_PX)"
+      },
+      "current": {
+        "file": "packages/game/src/tools/minimap.model.test.ts",
+        "titles": ["computeView"],
+        "template": "视野>=全图 → 全图(sx=sy=0,sw=BASE_PX)",
+        "fullName": "computeView 视野>=全图 → 全图(sx=sy=0,sw=BASE_PX)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/minimap.test.ts",
+        "ordinal": 2,
+        "fullName": "computeView 缩放档以主角为中心(960 世界px → 1/3 框),clamp 在底图内"
+      },
+      "current": {
+        "file": "packages/game/src/tools/minimap.model.test.ts",
+        "titles": ["computeView"],
+        "template": "缩放档以主角为中心(960 世界px → 1/3 框),clamp 在底图内",
+        "fullName": "computeView 缩放档以主角为中心(960 世界px → 1/3 框),clamp 在底图内"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/minimap.test.ts",
+        "ordinal": 3,
+        "fullName": "computeView 主角在边角 → clamp 不越界(sx>=0, sx+sw<=BASE_PX)"
+      },
+      "current": {
+        "file": "packages/game/src/tools/minimap.model.test.ts",
+        "titles": ["computeView"],
+        "template": "主角在边角 → clamp 不越界(sx>=0, sx+sw<=BASE_PX)",
+        "fullName": "computeView 主角在边角 → clamp 不越界(sx>=0, sx+sw<=BASE_PX)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/minimap.test.ts",
+        "ordinal": 4,
+        "fullName": "classifyTrigger giveItem(count>0) → item + 物品名"
+      },
+      "current": {
+        "file": "packages/game/src/tools/minimap.model.test.ts",
+        "titles": ["classifyTrigger"],
+        "template": "giveItem(count>0) → item + 物品名",
+        "fullName": "classifyTrigger giveItem(count>0) → item + 物品名"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/minimap.test.ts",
+        "ordinal": 5,
+        "fullName": "classifyTrigger loadScene(无 giveItem) → teleport(不标)"
+      },
+      "current": {
+        "file": "packages/game/src/tools/minimap.model.test.ts",
+        "titles": ["classifyTrigger"],
+        "template": "loadScene(无 giveItem) → teleport(不标)",
+        "fullName": "classifyTrigger loadScene(无 giveItem) → teleport(不标)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/minimap.test.ts",
+        "ordinal": 6,
+        "fullName": "classifyTrigger item 优先于 teleport"
+      },
+      "current": {
+        "file": "packages/game/src/tools/minimap.model.test.ts",
+        "titles": ["classifyTrigger"],
+        "template": "item 优先于 teleport",
+        "fullName": "classifyTrigger item 优先于 teleport"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/minimap.test.ts",
+        "ordinal": 7,
+        "fullName": "classifyTrigger count=0仍归item(库存helper将0按1处理;不代表原盘道具名称)"
+      },
+      "current": {
+        "file": "packages/game/src/tools/minimap.model.test.ts",
+        "titles": ["classifyTrigger"],
+        "template": "count=0仍归item(库存helper将0按1处理;不代表原盘道具名称)",
+        "fullName": "classifyTrigger count=0仍归item(库存helper将0按1处理;不代表原盘道具名称)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/minimap.test.ts",
+        "ordinal": 8,
+        "fullName": "classifyTrigger count<0(扣道具) → other"
+      },
+      "current": {
+        "file": "packages/game/src/tools/minimap.model.test.ts",
+        "titles": ["classifyTrigger"],
+        "template": "count<0(扣道具) → other",
+        "fullName": "classifyTrigger count<0(扣道具) → other"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/minimap.test.ts",
+        "ordinal": 9,
+        "fullName": "classifyTrigger 0x1E 加钱(正额) → item(金钱);扣钱(负额)→ other"
+      },
+      "current": {
+        "file": "packages/game/src/tools/minimap.model.test.ts",
+        "titles": ["classifyTrigger"],
+        "template": "0x1E 加钱(正额) → item(金钱);扣钱(负额)→ other",
+        "fullName": "classifyTrigger 0x1E 加钱(正额) → item(金钱);扣钱(负额)→ other"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/minimap.test.ts",
+        "ordinal": 10,
+        "fullName": "classifyTrigger 0x55 学法术 → item(法术)"
+      },
+      "current": {
+        "file": "packages/game/src/tools/minimap.model.test.ts",
+        "titles": ["classifyTrigger"],
+        "template": "0x55 学法术 → item(法术)",
+        "fullName": "classifyTrigger 0x55 学法术 → item(法术)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/minimap.test.ts",
+        "ordinal": 11,
+        "fullName": "classifyTrigger label 缺失 → other;`L_<n>` 直解兜底(labelMap 无也能解全局 ip)"
+      },
+      "current": {
+        "file": "packages/game/src/tools/minimap.model.test.ts",
+        "titles": ["classifyTrigger"],
+        "template": "label 缺失 → other;`L_<n>` 直解兜底(labelMap 无也能解全局 ip)",
+        "fullName": "classifyTrigger label 缺失 → other;`L_<n>` 直解兜底(labelMap 无也能解全局 ip)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/minimap.test.ts",
+        "ordinal": 12,
+        "fullName": "collectEventKinds 扫全 npc → id → 类别(item/teleport/other)"
+      },
+      "current": {
+        "file": "packages/game/src/tools/minimap.model.test.ts",
+        "titles": ["collectEventKinds"],
+        "template": "扫全 npc → id → 类别(item/teleport/other)",
+        "fullName": "collectEventKinds 扫全 npc → id → 类别(item/teleport/other)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/minimap.test.ts",
+        "ordinal": 13,
+        "fullName": "collectMinimapData teleport 不标 / item / NPC 分类 + 主角镜头"
+      },
+      "current": {
+        "file": "packages/game/src/tools/minimap.model.test.ts",
+        "titles": ["collectMinimapData"],
+        "template": "teleport 不标 / item / NPC 分类 + 主角镜头",
+        "fullName": "collectMinimapData teleport 不标 / item / NPC 分类 + 主角镜头"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+        "ordinal": 0,
+        "fullName": "L18 drawMinimap 真实 canvas 暗底占位 + 玩家白点落在 worldToThumb 手算坐标 + 宝物/NPC 点按 toggle 显隐"
+      },
+      "current": {
+        "file": "packages/game/src/tools/minimap.canvas.test.ts",
+        "titles": ["Minimap marker pixels and source crop"],
+        "template": "暗底占位 + 玩家白点落在 worldToThumb 手算坐标 + 宝物/NPC 点按 toggle 显隐",
+        "fullName": "Minimap marker pixels and source crop 暗底占位 + 玩家白点落在 worldToThumb 手算坐标 + 宝物/NPC 点按 toggle 显隐"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+        "ordinal": 1,
+        "fullName": "L18 drawMinimap 真实 canvas 非全图 view 使用指定底图裁剪区域"
+      },
+      "current": {
+        "file": "packages/game/src/tools/minimap.canvas.test.ts",
+        "titles": ["Minimap marker pixels and source crop"],
+        "template": "非全图 view 使用指定底图裁剪区域",
+        "fullName": "Minimap marker pixels and source crop 非全图 view 使用指定底图裁剪区域"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+        "ordinal": 2,
+        "fullName": "L18 setupMinimap 控制器持久化 默认开关、setShowNpc写存储；按保存值重建控制器读回"
+      },
+      "current": {
+        "file": "packages/game/src/tools/minimap.controller.test.ts",
+        "titles": ["Minimap controller preferences, zoom and images"],
+        "template": "默认开关、setShowNpc写存储；按保存值重建控制器读回",
+        "fullName": "Minimap controller preferences, zoom and images 默认开关、setShowNpc写存储；按保存值重建控制器读回"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+        "ordinal": 3,
+        "fullName": "L18 setupMinimap 控制器持久化 持久值非 '0' 非法串 → 视为默认开；widget 非 '1' → 关"
+      },
+      "current": {
+        "file": "packages/game/src/tools/minimap.controller.test.ts",
+        "titles": ["Minimap controller preferences, zoom and images"],
+        "template": "持久值非 '0' 非法串 → 视为默认开；widget 非 '1' → 关",
+        "fullName": "Minimap controller preferences, zoom and images 持久值非 '0' 非法串 → 视为默认开；widget 非 '1' → 关"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+        "ordinal": 4,
+        "fullName": "L18 setupMinimap 控制器持久化 widget快捷键按四档裁剪真实canvas,两端钳制后仍保持边界档"
+      },
+      "current": {
+        "file": "packages/game/src/tools/minimap.controller.test.ts",
+        "titles": ["Minimap controller preferences, zoom and images"],
+        "template": "widget快捷键按四档裁剪真实canvas,两端钳制后仍保持边界档",
+        "fullName": "Minimap controller preferences, zoom and images widget快捷键按四档裁剪真实canvas,两端钳制后仍保持边界档"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+        "ordinal": 5,
+        "fullName": "L18 setupMinimap 控制器持久化 widget关闭或焦点在INPUT/TEXTAREA时,快捷键不改缩放也不重绘"
+      },
+      "current": {
+        "file": "packages/game/src/tools/minimap.controller.test.ts",
+        "titles": ["Minimap controller preferences, zoom and images"],
+        "template": "widget关闭或焦点在INPUT/TEXTAREA时,快捷键不改缩放也不重绘",
+        "fullName": "Minimap controller preferences, zoom and images widget关闭或焦点在INPUT/TEXTAREA时,快捷键不改缩放也不重绘"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+        "ordinal": 6,
+        "fullName": "L18 setupMinimap 控制器持久化 底图 URL 已 resolve 但 Image 尚未 onload 时，不重复请求同一 map"
+      },
+      "current": {
+        "file": "packages/game/src/tools/minimap.controller.test.ts",
+        "titles": ["Minimap controller preferences, zoom and images"],
+        "template": "底图 URL 已 resolve 但 Image 尚未 onload 时，不重复请求同一 map",
+        "fullName": "Minimap controller preferences, zoom and images 底图 URL 已 resolve 但 Image 尚未 onload 时，不重复请求同一 map"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+        "ordinal": 7,
+        "fullName": "L18 setupMinimap 控制器持久化 Image 解码失败后标记 map failed，不在后续帧反复请求"
+      },
+      "current": {
+        "file": "packages/game/src/tools/minimap.controller.test.ts",
+        "titles": ["Minimap controller preferences, zoom and images"],
+        "template": "Image 解码失败后标记 map failed，不在后续帧反复请求",
+        "fullName": "Minimap controller preferences, zoom and images Image 解码失败后标记 map failed，不在后续帧反复请求"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/tools-panel.glm-phase1-leaves.test.ts",
+        "ordinal": 0,
+        "fullName": "L17 tools-panel 显示区委托 缩放滑块 input → setPercent(posToPct(v))（对数刻度 0.75→316%）并同步 % 文案"
+      },
+      "current": {
+        "file": "packages/game/src/tools/tools-panel.display.test.ts",
+        "titles": ["Tools panel display controls"],
+        "template": "缩放滑块 input → setPercent(posToPct(v))（对数刻度 0.75→316%）并同步 % 文案",
+        "fullName": "Tools panel display controls 缩放滑块 input → setPercent(posToPct(v))（对数刻度 0.75→316%）并同步 % 文案"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/tools-panel.glm-phase1-leaves.test.ts",
+        "ordinal": 1,
+        "fullName": "L17 tools-panel 显示区委托 全屏按钮委托 toggleFullscreen 一次"
+      },
+      "current": {
+        "file": "packages/game/src/tools/tools-panel.display.test.ts",
+        "titles": ["Tools panel display controls"],
+        "template": "全屏按钮委托 toggleFullscreen 一次",
+        "fullName": "Tools panel display controls 全屏按钮委托 toggleFullscreen 一次"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/tools-panel.glm-phase1-leaves.test.ts",
+        "ordinal": 2,
+        "fullName": "L17 tools-panel 显示区委托 FPS 开关将开启/关闭持久化为 tp-fps-show=1/0"
+      },
+      "current": {
+        "file": "packages/game/src/tools/tools-panel.display.test.ts",
+        "titles": ["Tools panel display controls"],
+        "template": "FPS 开关将开启/关闭持久化为 tp-fps-show=1/0",
+        "fullName": "Tools panel display controls FPS 开关将开启/关闭持久化为 tp-fps-show=1/0"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/tools-panel.test.ts",
+        "ordinal": 0,
+        "fullName": "tools-panel 框架 战斗页250ms轮询由受控时间推进：变化刷新、相同签名和关闭时不重绘"
+      },
+      "current": {
+        "file": "packages/game/src/tools/tools-panel.test.ts",
+        "titles": ["tools-panel 框架"],
+        "template": "战斗页250ms轮询由受控时间推进：变化刷新、相同签名和关闭时不重绘",
+        "fullName": "tools-panel 框架 战斗页250ms轮询由受控时间推进：变化刷新、相同签名和关闭时不重绘"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/tools-panel.test.ts",
+        "ordinal": 1,
+        "fullName": "tools-panel 框架 setup 挂根节点(默认隐藏) + 唤出按钮 + 6 个左竖 tab + 注入样式"
+      },
+      "current": {
+        "file": "packages/game/src/tools/tools-panel.test.ts",
+        "titles": ["tools-panel 框架"],
+        "template": "setup 挂根节点(默认隐藏) + 唤出按钮 + 6 个左竖 tab + 注入样式",
+        "fullName": "tools-panel 框架 setup 挂根节点(默认隐藏) + 唤出按钮 + 6 个左竖 tab + 注入样式"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/tools-panel.test.ts",
+        "ordinal": 2,
+        "fullName": "tools-panel 框架 反引号 toggle 显隐"
+      },
+      "current": {
+        "file": "packages/game/src/tools/tools-panel.test.ts",
+        "titles": ["tools-panel 框架"],
+        "template": "反引号 toggle 显隐",
+        "fullName": "tools-panel 框架 反引号 toggle 显隐"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/tools-panel.test.ts",
+        "ordinal": 3,
+        "fullName": "tools-panel 框架 点过 tab 后 ` 仍能关闭面板(焦点在面板内,Backquote 须放行冒泡到 window 切换器)"
+      },
+      "current": {
+        "file": "packages/game/src/tools/tools-panel.test.ts",
+        "titles": ["tools-panel 框架"],
+        "template": "点过 tab 后 ` 仍能关闭面板(焦点在面板内,Backquote 须放行冒泡到 window 切换器)",
+        "fullName": "tools-panel 框架 点过 tab 后 ` 仍能关闭面板(焦点在面板内,Backquote 须放行冒泡到 window 切换器)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/tools-panel.test.ts",
+        "ordinal": 4,
+        "fullName": "tools-panel 框架 × 关闭 + 点 tab 切换 active"
+      },
+      "current": {
+        "file": "packages/game/src/tools/tools-panel.test.ts",
+        "titles": ["tools-panel 框架"],
+        "template": "× 关闭 + 点 tab 切换 active",
+        "fullName": "tools-panel 框架 × 关闭 + 点 tab 切换 active"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/tools-panel.test.ts",
+        "ordinal": 5,
+        "fullName": "tools-panel 框架 幂等:重复 setup 不重复挂"
+      },
+      "current": {
+        "file": "packages/game/src/tools/tools-panel.test.ts",
+        "titles": ["tools-panel 框架"],
+        "template": "幂等:重复 setup 不重复挂",
+        "fullName": "tools-panel 框架 幂等:重复 setup 不重复挂"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/tools-panel.test.ts",
+        "ordinal": 6,
+        "fullName": "tools-panel 框架 场景 tab:显示场景号 + 主角坐标"
+      },
+      "current": {
+        "file": "packages/game/src/tools/tools-panel.test.ts",
+        "titles": ["tools-panel 框架"],
+        "template": "场景 tab:显示场景号 + 主角坐标",
+        "fullName": "tools-panel 框架 场景 tab:显示场景号 + 主角坐标"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/tools-panel.test.ts",
+        "ordinal": 7,
+        "fullName": "tools-panel 框架 快捷键 tab:6 分区 + 同键不同义(战斗投掷 / 大世界装备)+ 工具与快存键"
+      },
+      "current": {
+        "file": "packages/game/src/tools/tools-panel.test.ts",
+        "titles": ["tools-panel 框架"],
+        "template": "快捷键 tab:6 分区 + 同键不同义(战斗投掷 / 大世界装备)+ 工具与快存键",
+        "fullName": "tools-panel 框架 快捷键 tab:6 分区 + 同键不同义(战斗投掷 / 大世界装备)+ 工具与快存键"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/tools-panel.test.ts",
+        "ordinal": 8,
+        "fullName": "tools-panel 框架 对话 tab:按场景分组(场景名标题) + 倒序(新在上、旧在下) + 搜索过滤"
+      },
+      "current": {
+        "file": "packages/game/src/tools/tools-panel.test.ts",
+        "titles": ["tools-panel 框架"],
+        "template": "对话 tab:按场景分组(场景名标题) + 倒序(新在上、旧在下) + 搜索过滤",
+        "fullName": "tools-panel 框架 对话 tab:按场景分组(场景名标题) + 倒序(新在上、旧在下) + 搜索过滤"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/tools-panel.test.ts",
+        "ordinal": 9,
+        "fullName": "tools-panel 框架 系统 tab 音频:音乐 / 音效 / 视频 三条音量滑块"
+      },
+      "current": {
+        "file": "packages/game/src/tools/tools-panel.test.ts",
+        "titles": ["tools-panel 框架"],
+        "template": "系统 tab 音频:音乐 / 音效 / 视频 三条音量滑块",
+        "fullName": "tools-panel 框架 系统 tab 音频:音乐 / 音效 / 视频 三条音量滑块"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/tools-panel.test.ts",
+        "ordinal": 10,
+        "fullName": "tools-panel 框架 音乐音源选择通过实际控制器记住偏好，加载失败提供重试"
+      },
+      "current": {
+        "file": "packages/game/src/tools/tools-panel.test.ts",
+        "titles": ["tools-panel 框架"],
+        "template": "音乐音源选择通过实际控制器记住偏好，加载失败提供重试",
+        "fullName": "tools-panel 框架 音乐音源选择通过实际控制器记住偏好，加载失败提供重试"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/tools-panel.test.ts",
+        "ordinal": 11,
+        "fullName": "tools-panel 框架 系统 tab:视频滑块 input → videoVolume.setVolume(0..1)"
+      },
+      "current": {
+        "file": "packages/game/src/tools/tools-panel.test.ts",
+        "titles": ["tools-panel 框架"],
+        "template": "系统 tab:视频滑块 input → videoVolume.setVolume(0..1)",
+        "fullName": "tools-panel 框架 系统 tab:视频滑块 input → videoVolume.setVolume(0..1)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/tools-panel.test.ts",
+        "ordinal": 12,
+        "fullName": "tools-panel 框架 主静音按钮:一键 静音/恢复 音乐+音效+视频"
+      },
+      "current": {
+        "file": "packages/game/src/tools/tools-panel.test.ts",
+        "titles": ["tools-panel 框架"],
+        "template": "主静音按钮:一键 静音/恢复 音乐+音效+视频",
+        "fullName": "tools-panel 框架 主静音按钮:一键 静音/恢复 音乐+音效+视频"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/tools-panel.test.ts",
+        "ordinal": 13,
+        "fullName": "tools-panel 框架 主静音按钮:初始已静音 → 显示「已静音」态"
+      },
+      "current": {
+        "file": "packages/game/src/tools/tools-panel.test.ts",
+        "titles": ["tools-panel 框架"],
+        "template": "主静音按钮:初始已静音 → 显示「已静音」态",
+        "fullName": "tools-panel 框架 主静音按钮:初始已静音 → 显示「已静音」态"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/tools-panel.test.ts",
+        "ordinal": 14,
+        "fullName": "tools-panel 框架 计时器 tab:渲染开关 + 21 个节点最佳时间输入"
+      },
+      "current": {
+        "file": "packages/game/src/tools/tools-panel.test.ts",
+        "titles": ["tools-panel 框架"],
+        "template": "计时器 tab:渲染开关 + 21 个节点最佳时间输入",
+        "fullName": "tools-panel 框架 计时器 tab:渲染开关 + 21 个节点最佳时间输入"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/tools-panel.test.ts",
+        "ordinal": 15,
+        "fullName": "tools-panel 框架 战斗 tab 敌方:每敌显示灵葫值(>0 显数字、=0 显「无」)"
+      },
+      "current": {
+        "file": "packages/game/src/tools/tools-panel.test.ts",
+        "titles": ["tools-panel 框架"],
+        "template": "战斗 tab 敌方:每敌显示灵葫值(>0 显数字、=0 显「无」)",
+        "fullName": "tools-panel 框架 战斗 tab 敌方:每敌显示灵葫值(>0 显数字、=0 显「无」)"
+      }
+    }
+  ],
+  "identities": [
+    {
+      "old": {
+        "file": "packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+        "fullName": "L18 drawMinimap 真实 canvas 暗底占位 + 玩家白点落在 worldToThumb 手算坐标 + 宝物/NPC 点按 toggle 显隐"
+      },
+      "current": {
+        "file": "packages/game/src/tools/minimap.canvas.test.ts",
+        "fullName": "Minimap marker pixels and source crop 暗底占位 + 玩家白点落在 worldToThumb 手算坐标 + 宝物/NPC 点按 toggle 显隐"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+        "fullName": "L18 drawMinimap 真实 canvas 非全图 view 使用指定底图裁剪区域"
+      },
+      "current": {
+        "file": "packages/game/src/tools/minimap.canvas.test.ts",
+        "fullName": "Minimap marker pixels and source crop 非全图 view 使用指定底图裁剪区域"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+        "fullName": "L18 setupMinimap 控制器持久化 默认开关、setShowNpc写存储；按保存值重建控制器读回"
+      },
+      "current": {
+        "file": "packages/game/src/tools/minimap.controller.test.ts",
+        "fullName": "Minimap controller preferences, zoom and images 默认开关、setShowNpc写存储；按保存值重建控制器读回"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+        "fullName": "L18 setupMinimap 控制器持久化 持久值非 '0' 非法串 → 视为默认开；widget 非 '1' → 关"
+      },
+      "current": {
+        "file": "packages/game/src/tools/minimap.controller.test.ts",
+        "fullName": "Minimap controller preferences, zoom and images 持久值非 '0' 非法串 → 视为默认开；widget 非 '1' → 关"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+        "fullName": "L18 setupMinimap 控制器持久化 widget快捷键按四档裁剪真实canvas,两端钳制后仍保持边界档"
+      },
+      "current": {
+        "file": "packages/game/src/tools/minimap.controller.test.ts",
+        "fullName": "Minimap controller preferences, zoom and images widget快捷键按四档裁剪真实canvas,两端钳制后仍保持边界档"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+        "fullName": "L18 setupMinimap 控制器持久化 widget关闭或焦点在INPUT/TEXTAREA时,快捷键不改缩放也不重绘"
+      },
+      "current": {
+        "file": "packages/game/src/tools/minimap.controller.test.ts",
+        "fullName": "Minimap controller preferences, zoom and images widget关闭或焦点在INPUT/TEXTAREA时,快捷键不改缩放也不重绘"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+        "fullName": "L18 setupMinimap 控制器持久化 底图 URL 已 resolve 但 Image 尚未 onload 时，不重复请求同一 map"
+      },
+      "current": {
+        "file": "packages/game/src/tools/minimap.controller.test.ts",
+        "fullName": "Minimap controller preferences, zoom and images 底图 URL 已 resolve 但 Image 尚未 onload 时，不重复请求同一 map"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+        "fullName": "L18 setupMinimap 控制器持久化 Image 解码失败后标记 map failed，不在后续帧反复请求"
+      },
+      "current": {
+        "file": "packages/game/src/tools/minimap.controller.test.ts",
+        "fullName": "Minimap controller preferences, zoom and images Image 解码失败后标记 map failed，不在后续帧反复请求"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/minimap.test.ts",
+        "fullName": "worldToThumb 世界像素 → 底图像素((wx+16)*SCALE)"
+      },
+      "current": {
+        "file": "packages/game/src/tools/minimap.model.test.ts",
+        "fullName": "worldToThumb 世界像素 → 底图像素((wx+16)*SCALE)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/minimap.test.ts",
+        "fullName": "computeView 视野>=全图 → 全图(sx=sy=0,sw=BASE_PX)"
+      },
+      "current": {
+        "file": "packages/game/src/tools/minimap.model.test.ts",
+        "fullName": "computeView 视野>=全图 → 全图(sx=sy=0,sw=BASE_PX)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/minimap.test.ts",
+        "fullName": "computeView 缩放档以主角为中心(960 世界px → 1/3 框),clamp 在底图内"
+      },
+      "current": {
+        "file": "packages/game/src/tools/minimap.model.test.ts",
+        "fullName": "computeView 缩放档以主角为中心(960 世界px → 1/3 框),clamp 在底图内"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/minimap.test.ts",
+        "fullName": "computeView 主角在边角 → clamp 不越界(sx>=0, sx+sw<=BASE_PX)"
+      },
+      "current": {
+        "file": "packages/game/src/tools/minimap.model.test.ts",
+        "fullName": "computeView 主角在边角 → clamp 不越界(sx>=0, sx+sw<=BASE_PX)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/minimap.test.ts",
+        "fullName": "classifyTrigger giveItem(count>0) → item + 物品名"
+      },
+      "current": {
+        "file": "packages/game/src/tools/minimap.model.test.ts",
+        "fullName": "classifyTrigger giveItem(count>0) → item + 物品名"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/minimap.test.ts",
+        "fullName": "classifyTrigger loadScene(无 giveItem) → teleport(不标)"
+      },
+      "current": {
+        "file": "packages/game/src/tools/minimap.model.test.ts",
+        "fullName": "classifyTrigger loadScene(无 giveItem) → teleport(不标)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/minimap.test.ts",
+        "fullName": "classifyTrigger item 优先于 teleport"
+      },
+      "current": {
+        "file": "packages/game/src/tools/minimap.model.test.ts",
+        "fullName": "classifyTrigger item 优先于 teleport"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/minimap.test.ts",
+        "fullName": "classifyTrigger count=0仍归item(库存helper将0按1处理;不代表原盘道具名称)"
+      },
+      "current": {
+        "file": "packages/game/src/tools/minimap.model.test.ts",
+        "fullName": "classifyTrigger count=0仍归item(库存helper将0按1处理;不代表原盘道具名称)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/minimap.test.ts",
+        "fullName": "classifyTrigger count<0(扣道具) → other"
+      },
+      "current": {
+        "file": "packages/game/src/tools/minimap.model.test.ts",
+        "fullName": "classifyTrigger count<0(扣道具) → other"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/minimap.test.ts",
+        "fullName": "classifyTrigger 0x1E 加钱(正额) → item(金钱);扣钱(负额)→ other"
+      },
+      "current": {
+        "file": "packages/game/src/tools/minimap.model.test.ts",
+        "fullName": "classifyTrigger 0x1E 加钱(正额) → item(金钱);扣钱(负额)→ other"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/minimap.test.ts",
+        "fullName": "classifyTrigger 0x55 学法术 → item(法术)"
+      },
+      "current": {
+        "file": "packages/game/src/tools/minimap.model.test.ts",
+        "fullName": "classifyTrigger 0x55 学法术 → item(法术)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/minimap.test.ts",
+        "fullName": "classifyTrigger label 缺失 → other;`L_<n>` 直解兜底(labelMap 无也能解全局 ip)"
+      },
+      "current": {
+        "file": "packages/game/src/tools/minimap.model.test.ts",
+        "fullName": "classifyTrigger label 缺失 → other;`L_<n>` 直解兜底(labelMap 无也能解全局 ip)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/minimap.test.ts",
+        "fullName": "collectEventKinds 扫全 npc → id → 类别(item/teleport/other)"
+      },
+      "current": {
+        "file": "packages/game/src/tools/minimap.model.test.ts",
+        "fullName": "collectEventKinds 扫全 npc → id → 类别(item/teleport/other)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/minimap.test.ts",
+        "fullName": "collectMinimapData teleport 不标 / item / NPC 分类 + 主角镜头"
+      },
+      "current": {
+        "file": "packages/game/src/tools/minimap.model.test.ts",
+        "fullName": "collectMinimapData teleport 不标 / item / NPC 分类 + 主角镜头"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/tools-panel.glm-phase1-leaves.test.ts",
+        "fullName": "L17 tools-panel 显示区委托 缩放滑块 input → setPercent(posToPct(v))（对数刻度 0.75→316%）并同步 % 文案"
+      },
+      "current": {
+        "file": "packages/game/src/tools/tools-panel.display.test.ts",
+        "fullName": "Tools panel display controls 缩放滑块 input → setPercent(posToPct(v))（对数刻度 0.75→316%）并同步 % 文案"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/tools-panel.glm-phase1-leaves.test.ts",
+        "fullName": "L17 tools-panel 显示区委托 全屏按钮委托 toggleFullscreen 一次"
+      },
+      "current": {
+        "file": "packages/game/src/tools/tools-panel.display.test.ts",
+        "fullName": "Tools panel display controls 全屏按钮委托 toggleFullscreen 一次"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/tools-panel.glm-phase1-leaves.test.ts",
+        "fullName": "L17 tools-panel 显示区委托 FPS 开关将开启/关闭持久化为 tp-fps-show=1/0"
+      },
+      "current": {
+        "file": "packages/game/src/tools/tools-panel.display.test.ts",
+        "fullName": "Tools panel display controls FPS 开关将开启/关闭持久化为 tp-fps-show=1/0"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/tools-panel.test.ts",
+        "fullName": "tools-panel 框架 战斗页250ms轮询由受控时间推进：变化刷新、相同签名和关闭时不重绘"
+      },
+      "current": {
+        "file": "packages/game/src/tools/tools-panel.test.ts",
+        "fullName": "tools-panel 框架 战斗页250ms轮询由受控时间推进：变化刷新、相同签名和关闭时不重绘"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/tools-panel.test.ts",
+        "fullName": "tools-panel 框架 setup 挂根节点(默认隐藏) + 唤出按钮 + 6 个左竖 tab + 注入样式"
+      },
+      "current": {
+        "file": "packages/game/src/tools/tools-panel.test.ts",
+        "fullName": "tools-panel 框架 setup 挂根节点(默认隐藏) + 唤出按钮 + 6 个左竖 tab + 注入样式"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/tools-panel.test.ts",
+        "fullName": "tools-panel 框架 反引号 toggle 显隐"
+      },
+      "current": {
+        "file": "packages/game/src/tools/tools-panel.test.ts",
+        "fullName": "tools-panel 框架 反引号 toggle 显隐"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/tools-panel.test.ts",
+        "fullName": "tools-panel 框架 点过 tab 后 ` 仍能关闭面板(焦点在面板内,Backquote 须放行冒泡到 window 切换器)"
+      },
+      "current": {
+        "file": "packages/game/src/tools/tools-panel.test.ts",
+        "fullName": "tools-panel 框架 点过 tab 后 ` 仍能关闭面板(焦点在面板内,Backquote 须放行冒泡到 window 切换器)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/tools-panel.test.ts",
+        "fullName": "tools-panel 框架 × 关闭 + 点 tab 切换 active"
+      },
+      "current": {
+        "file": "packages/game/src/tools/tools-panel.test.ts",
+        "fullName": "tools-panel 框架 × 关闭 + 点 tab 切换 active"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/tools-panel.test.ts",
+        "fullName": "tools-panel 框架 幂等:重复 setup 不重复挂"
+      },
+      "current": {
+        "file": "packages/game/src/tools/tools-panel.test.ts",
+        "fullName": "tools-panel 框架 幂等:重复 setup 不重复挂"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/tools-panel.test.ts",
+        "fullName": "tools-panel 框架 场景 tab:显示场景号 + 主角坐标"
+      },
+      "current": {
+        "file": "packages/game/src/tools/tools-panel.test.ts",
+        "fullName": "tools-panel 框架 场景 tab:显示场景号 + 主角坐标"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/tools-panel.test.ts",
+        "fullName": "tools-panel 框架 快捷键 tab:6 分区 + 同键不同义(战斗投掷 / 大世界装备)+ 工具与快存键"
+      },
+      "current": {
+        "file": "packages/game/src/tools/tools-panel.test.ts",
+        "fullName": "tools-panel 框架 快捷键 tab:6 分区 + 同键不同义(战斗投掷 / 大世界装备)+ 工具与快存键"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/tools-panel.test.ts",
+        "fullName": "tools-panel 框架 对话 tab:按场景分组(场景名标题) + 倒序(新在上、旧在下) + 搜索过滤"
+      },
+      "current": {
+        "file": "packages/game/src/tools/tools-panel.test.ts",
+        "fullName": "tools-panel 框架 对话 tab:按场景分组(场景名标题) + 倒序(新在上、旧在下) + 搜索过滤"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/tools-panel.test.ts",
+        "fullName": "tools-panel 框架 系统 tab 音频:音乐 / 音效 / 视频 三条音量滑块"
+      },
+      "current": {
+        "file": "packages/game/src/tools/tools-panel.test.ts",
+        "fullName": "tools-panel 框架 系统 tab 音频:音乐 / 音效 / 视频 三条音量滑块"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/tools-panel.test.ts",
+        "fullName": "tools-panel 框架 音乐音源选择通过实际控制器记住偏好，加载失败提供重试"
+      },
+      "current": {
+        "file": "packages/game/src/tools/tools-panel.test.ts",
+        "fullName": "tools-panel 框架 音乐音源选择通过实际控制器记住偏好，加载失败提供重试"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/tools-panel.test.ts",
+        "fullName": "tools-panel 框架 系统 tab:视频滑块 input → videoVolume.setVolume(0..1)"
+      },
+      "current": {
+        "file": "packages/game/src/tools/tools-panel.test.ts",
+        "fullName": "tools-panel 框架 系统 tab:视频滑块 input → videoVolume.setVolume(0..1)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/tools-panel.test.ts",
+        "fullName": "tools-panel 框架 主静音按钮:一键 静音/恢复 音乐+音效+视频"
+      },
+      "current": {
+        "file": "packages/game/src/tools/tools-panel.test.ts",
+        "fullName": "tools-panel 框架 主静音按钮:一键 静音/恢复 音乐+音效+视频"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/tools-panel.test.ts",
+        "fullName": "tools-panel 框架 主静音按钮:初始已静音 → 显示「已静音」态"
+      },
+      "current": {
+        "file": "packages/game/src/tools/tools-panel.test.ts",
+        "fullName": "tools-panel 框架 主静音按钮:初始已静音 → 显示「已静音」态"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/tools-panel.test.ts",
+        "fullName": "tools-panel 框架 计时器 tab:渲染开关 + 21 个节点最佳时间输入"
+      },
+      "current": {
+        "file": "packages/game/src/tools/tools-panel.test.ts",
+        "fullName": "tools-panel 框架 计时器 tab:渲染开关 + 21 个节点最佳时间输入"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/tools/tools-panel.test.ts",
+        "fullName": "tools-panel 框架 战斗 tab 敌方:每敌显示灵葫值(>0 显数字、=0 显「无」)"
+      },
+      "current": {
+        "file": "packages/game/src/tools/tools-panel.test.ts",
+        "fullName": "tools-panel 框架 战斗 tab 敌方:每敌显示灵葫值(>0 显数字、=0 显「无」)"
+      }
+    }
+  ],
+  "retirements": [],
+  "cohortSubjects": [
+    {
+      "path": "packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+      "sha256": "17055b8282521bd5fff700d171206f79f248ae7e344e769876efb1b253e863f7",
+      "priorCurrentBridges": []
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel.glm-phase1-leaves.test.ts",
+      "sha256": "96576ca3cddfd558a967aa36f8247191face17a03e73bc52b29f5cafe0efd490",
+      "priorCurrentBridges": []
+    }
+  ],
+  "profiles": [
+    {
+      "path": "packages/game/src/tools/minimap.model.test.ts",
+      "subjects": ["packages/game/src/tools/minimap.glm-phase1-leaves.test.ts"],
+      "axes": {
+        "A": "14modelcases,wholetypedmodule equalafterinlining12cmds calls andvalid105/295IDs. Literal640/2080and asymmetriccenters preserved;synthetic reward names not originalinventory oracle.",
+        "B": "Remove model/batch ownership headers; separate pixel/controller IO claims. Product comments unchanged. Page-owned subscriber release predicate in current source,not a fabricated dispose;testhost comments reflect that.",
+        "C": "No DOM/timer/storage host;onlyfresh typedstate/commands/kinds. Model snapshots do not execute scripts.",
+        "D": "Remove 12pass-through cmds calls/function. Same systemtab opening consumedbytwo specs only;one statefulvolume factory named bycapability. Pixelread helper usedrepeatedly only inCanvas spec,one cachepixel readinlined instead of a new cross-layer fixture.",
+        "E": "41old->41current,0new/retired runtime cases. FullmodelAST afterarray/ID-only edits;8minimap callbacks+16panel callbacks/2drawhelpers/controllerhost conserved outside declarednames/layout/DPR. Three displaycase changes bounded guard/typedselector/exactcalls.11files81passed/TC0,stderr0;old genuine mutant evidence reusedby exact product functions,not rerun as padding.",
+        "F": "minimap.model/canvas/controller andtools-panel.display express responsibilities,not AI author. makeVolumeController/overrides/controller/markerData/readPixel communicate role. Stable system tab identity replaces duplicatedtranslatedtext helper.",
+        "G": "Three former paths retired,4newtest paths;pure/IO domains separated without casesplit/countpadding. No productexport/schema/dispose/fallback orbusinessrule change. Existing facade exports stilltested;all testhelperexports haveactualcallers.",
+        "H": "Real Canvas andcontroller cache/keyboard paths;Image decoding is isolatedIO port,not mockedwriter. Publicdisable thenpendingrAF drained;listeners/preferences/map/layout/DPR restored. Panel host also reclaimsdisconnectedlanguage subscribers and restores priorlanguage/HTML;no private product inspection/reset API."
+      }
+    },
+    {
+      "path": "packages/game/src/tools/minimap.canvas.test.ts",
+      "subjects": ["packages/game/src/tools/minimap.glm-phase1-leaves.test.ts"],
+      "axes": {
+        "A": "2realCanvascases preserveexactRGBA/coordinates/toggles/crop andtwo completehelpers;no core drawing mock.",
+        "B": "Remove model/batch ownership headers; separate pixel/controller IO claims. Product comments unchanged. Page-owned subscriber release predicate in current source,not a fabricated dispose;testhost comments reflect that.",
+        "C": "No before/after host ormap/storage/timer/layout reset. Fresh unattachedsquarecanvases are percase data;borrowed sourcecanvas preserved.",
+        "D": "Remove 12pass-through cmds calls/function. Same systemtab opening consumedbytwo specs only;one statefulvolume factory named bycapability. Pixelread helper usedrepeatedly only inCanvas spec,one cachepixel readinlined instead of a new cross-layer fixture.",
+        "E": "41old->41current,0new/retired runtime cases. FullmodelAST afterarray/ID-only edits;8minimap callbacks+16panel callbacks/2drawhelpers/controllerhost conserved outside declarednames/layout/DPR. Three displaycase changes bounded guard/typedselector/exactcalls.11files81passed/TC0,stderr0;old genuine mutant evidence reusedby exact product functions,not rerun as padding.",
+        "F": "minimap.model/canvas/controller andtools-panel.display express responsibilities,not AI author. makeVolumeController/overrides/controller/markerData/readPixel communicate role. Stable system tab identity replaces duplicatedtranslatedtext helper.",
+        "G": "Three former paths retired,4newtest paths;pure/IO domains separated without casesplit/countpadding. No productexport/schema/dispose/fallback orbusinessrule change. Existing facade exports stilltested;all testhelperexports haveactualcallers.",
+        "H": "Real Canvas andcontroller cache/keyboard paths;Image decoding is isolatedIO port,not mockedwriter. Publicdisable thenpendingrAF drained;listeners/preferences/map/layout/DPR restored. Panel host also reclaimsdisconnectedlanguage subscribers and restores priorlanguage/HTML;no private product inspection/reset API."
+      }
+    },
+    {
+      "path": "packages/game/src/tools/minimap.controller.test.ts",
+      "subjects": ["packages/game/src/tools/minimap.glm-phase1-leaves.test.ts"],
+      "axes": {
+        "A": "6controllercases retain preference/rebuild,malformedzoom,clamp/guards,pendingImage/cachepixel anddecodefailure. DPI1/desktopnowexplicit,ratherthanambient.",
+        "B": "Remove model/batch ownership headers; separate pixel/controller IO claims. Product comments unchanged. Page-owned subscriber release predicate in current source,not a fabricated dispose;testhost comments reflect that.",
+        "C": "One exact originalhost withdeclareddesktop/DPRsave/restore;allcontrollersdisabled,newnodesremoved,pendingrAFdrained,realcall-throughwindowregistrations detached;ownmap/preference/globals restoredinfinally.",
+        "D": "Remove 12pass-through cmds calls/function. Same systemtab opening consumedbytwo specs only;one statefulvolume factory named bycapability. Pixelread helper usedrepeatedly only inCanvas spec,one cachepixel readinlined instead of a new cross-layer fixture.",
+        "E": "41old->41current,0new/retired runtime cases. FullmodelAST afterarray/ID-only edits;8minimap callbacks+16panel callbacks/2drawhelpers/controllerhost conserved outside declarednames/layout/DPR. Three displaycase changes bounded guard/typedselector/exactcalls.11files81passed/TC0,stderr0;old genuine mutant evidence reusedby exact product functions,not rerun as padding.",
+        "F": "minimap.model/canvas/controller andtools-panel.display express responsibilities,not AI author. makeVolumeController/overrides/controller/markerData/readPixel communicate role. Stable system tab identity replaces duplicatedtranslatedtext helper.",
+        "G": "Three former paths retired,4newtest paths;pure/IO domains separated without casesplit/countpadding. No productexport/schema/dispose/fallback orbusinessrule change. Existing facade exports stilltested;all testhelperexports haveactualcallers.",
+        "H": "Real Canvas andcontroller cache/keyboard paths;Image decoding is isolatedIO port,not mockedwriter. Publicdisable thenpendingrAF drained;listeners/preferences/map/layout/DPR restored. Panel host also reclaimsdisconnectedlanguage subscribers and restores priorlanguage/HTML;no private product inspection/reset API."
+      }
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel.display.test.ts",
+      "subjects": ["packages/game/src/tools/tools-panel.glm-phase1-leaves.test.ts"],
+      "axes": {
+        "A": "3displayportcases retain0.75->316andlabel,bothFPS1/0,onefullscreen delegate. Exactcalls [[316]] strengthens any-calloracle;allbusinesscases/inputsretained.",
+        "B": "Remove model/batch ownership headers; separate pixel/controller IO claims. Product comments unchanged. Page-owned subscriber release predicate in current source,not a fabricated dispose;testhost comments reflect that.",
+        "C": "Same sharedshortpagehost;typedguards replace !. Systemtab helpersharedwithmain;real buttonclick/systembuilder/FPSfunction execute,not fullscreengrant.",
+        "D": "Remove 12pass-through cmds calls/function. Same systemtab opening consumedbytwo specs only;one statefulvolume factory named bycapability. Pixelread helper usedrepeatedly only inCanvas spec,one cachepixel readinlined instead of a new cross-layer fixture.",
+        "E": "41old->41current,0new/retired runtime cases. FullmodelAST afterarray/ID-only edits;8minimap callbacks+16panel callbacks/2drawhelpers/controllerhost conserved outside declarednames/layout/DPR. Three displaycase changes bounded guard/typedselector/exactcalls.11files81passed/TC0,stderr0;old genuine mutant evidence reusedby exact product functions,not rerun as padding.",
+        "F": "minimap.model/canvas/controller andtools-panel.display express responsibilities,not AI author. makeVolumeController/overrides/controller/markerData/readPixel communicate role. Stable system tab identity replaces duplicatedtranslatedtext helper.",
+        "G": "Three former paths retired,4newtest paths;pure/IO domains separated without casesplit/countpadding. No productexport/schema/dispose/fallback orbusinessrule change. Existing facade exports stilltested;all testhelperexports haveactualcallers.",
+        "H": "Real Canvas andcontroller cache/keyboard paths;Image decoding is isolatedIO port,not mockedwriter. Publicdisable thenpendingrAF drained;listeners/preferences/map/layout/DPR restored. Panel host also reclaimsdisconnectedlanguage subscribers and restores priorlanguage/HTML;no private product inspection/reset API."
+      }
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel.test.ts",
+      "subjects": ["packages/game/src/tools/tools-panel.glm-phase1-leaves.test.ts"],
+      "axes": {
+        "A": "16assemblycases callbacks fulltypedtrees identical aftervolume-factoryname only. Existing battle hydration,slot/cash/music/keys/dialogoracles retained.",
+        "B": "Remove model/batch ownership headers; separate pixel/controller IO claims. Product comments unchanged. Page-owned subscriber release predicate in current source,not a fabricated dispose;testhost comments reflect that.",
+        "C": "Uses same sharedpagehost/systemhelper;only import/helper relocationandprivatecalleename. No claimofnewfullassemblybehaviorreview.",
+        "D": "Remove 12pass-through cmds calls/function. Same systemtab opening consumedbytwo specs only;one statefulvolume factory named bycapability. Pixelread helper usedrepeatedly only inCanvas spec,one cachepixel readinlined instead of a new cross-layer fixture.",
+        "E": "41old->41current,0new/retired runtime cases. FullmodelAST afterarray/ID-only edits;8minimap callbacks+16panel callbacks/2drawhelpers/controllerhost conserved outside declarednames/layout/DPR. Three displaycase changes bounded guard/typedselector/exactcalls.11files81passed/TC0,stderr0;old genuine mutant evidence reusedby exact product functions,not rerun as padding.",
+        "F": "minimap.model/canvas/controller andtools-panel.display express responsibilities,not AI author. makeVolumeController/overrides/controller/markerData/readPixel communicate role. Stable system tab identity replaces duplicatedtranslatedtext helper.",
+        "G": "Three former paths retired,4newtest paths;pure/IO domains separated without casesplit/countpadding. No productexport/schema/dispose/fallback orbusinessrule change. Existing facade exports stilltested;all testhelperexports haveactualcallers.",
+        "H": "Real Canvas andcontroller cache/keyboard paths;Image decoding is isolatedIO port,not mockedwriter. Publicdisable thenpendingrAF drained;listeners/preferences/map/layout/DPR restored. Panel host also reclaimsdisconnectedlanguage subscribers and restores priorlanguage/HTML;no private product inspection/reset API."
+      }
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel.test-fixtures.ts",
+      "subjects": ["packages/game/src/tools/tools-panel.glm-phase1-leaves.test.ts"],
+      "axes": {
+        "A": "Typed host keepsexactalloriginalfunctionbodyoutsideexplicitlanguagecleanupandalpha renames;mkVol fullstatefulbodyconserved.",
+        "B": "Remove model/batch ownership headers; separate pixel/controller IO claims. Product comments unchanged. Page-owned subscriber release predicate in current source,not a fabricated dispose;testhost comments reflect that.",
+        "C": "Saveslanguage/html lang beforeChinesehost,removespage,notifiesactualpublish toallowdisconnectedsubscriber self-unsubscribe,restoreslanguage/lang thenoriginalstorage. Controllers/listeners/rAF cleanup unchanged.",
+        "D": "Remove 12pass-through cmds calls/function. Same systemtab opening consumedbytwo specs only;one statefulvolume factory named bycapability. Pixelread helper usedrepeatedly only inCanvas spec,one cachepixel readinlined instead of a new cross-layer fixture.",
+        "E": "41old->41current,0new/retired runtime cases. FullmodelAST afterarray/ID-only edits;8minimap callbacks+16panel callbacks/2drawhelpers/controllerhost conserved outside declarednames/layout/DPR. Three displaycase changes bounded guard/typedselector/exactcalls.11files81passed/TC0,stderr0;old genuine mutant evidence reusedby exact product functions,not rerun as padding.",
+        "F": "minimap.model/canvas/controller andtools-panel.display express responsibilities,not AI author. makeVolumeController/overrides/controller/markerData/readPixel communicate role. Stable system tab identity replaces duplicatedtranslatedtext helper.",
+        "G": "Three former paths retired,4newtest paths;pure/IO domains separated without casesplit/countpadding. No productexport/schema/dispose/fallback orbusinessrule change. Existing facade exports stilltested;all testhelperexports haveactualcallers.",
+        "H": "Real Canvas andcontroller cache/keyboard paths;Image decoding is isolatedIO port,not mockedwriter. Publicdisable thenpendingrAF drained;listeners/preferences/map/layout/DPR restored. Panel host also reclaimsdisconnectedlanguage subscribers and restores priorlanguage/HTML;no private product inspection/reset API."
+      }
+    }
+  ],
+  "preserved": [
+    {
+      "path": "packages/game/src/tools/minimap.ts",
+      "sha256": "2535e26d93586f17b77404adff93b04946435812bcd556014fd4086de9adbbf3",
+      "lines": 298
+    },
+    {
+      "path": "packages/game/src/tools/minimap-model.ts",
+      "sha256": "cacc7e36d063c9aefe36491e9c8b4d11d843fde880be822c7b035fe816a291d7",
+      "lines": 140
+    },
+    {
+      "path": "packages/game/src/tools/minimap-draw.ts",
+      "sha256": "0c85c9834d521dbb12777ba1217f8f033ccfe684005651f1cfaf7a2c8fbf18f9",
+      "lines": 97
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel.ts",
+      "sha256": "b7f45736b940fa55952d1f28272eabf37c6331090fb14d4b37701df83c5cc596",
+      "lines": 1083
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel-dom.ts",
+      "sha256": "68819b726d01e13ff5a7142929bca0b7f19e4d16a2f6926e98f4482dc1b2009f",
+      "lines": 25
+    },
+    {
+      "path": "packages/game/src/shell/presentation.ts",
+      "sha256": "2c6229b3b85271c52c80d9143d7aa6568aa6e2c507f30a84d4722028f4fa06bd",
+      "lines": 10
+    },
+    {
+      "path": "packages/game/src/shell/input-rotation.ts",
+      "sha256": "3607d404261b9012f63cca24f9b60248d242d62deaed9474a6c2c26a24d5d48e",
+      "lines": 24
+    },
+    {
+      "path": "packages/game/src/localization/language.ts",
+      "sha256": "d3b5410d8b1565af885a84ccc59f74511b712fd0bb1470eef882ad276c330779",
+      "lines": 53
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel.mobile.test.ts",
+      "sha256": "772120d2e645e2da776e2bbc3ef05def2b19220f91865455bed6b99169895eda",
+      "lines": 102
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel.english.test.ts",
+      "sha256": "5d19965ea3cb56f7f6c754b0583cb0867c4a17921cba11659ce537ee899a888b",
+      "lines": 160
+    },
+    {
+      "path": "packages/game/vitest.config.ts",
+      "sha256": "3dd92ad4886bc72c88e7a7b2e6bdacc3aaf9e2a24ac72153f3b619ba37feb7d4",
+      "lines": 13
+    },
+    {
+      "path": "scripts/coverage/config.mjs",
+      "sha256": "decb63dda5d12a2269bef1dd75c3d1eb4efca071887c759deca8e9b06ef17a25",
+      "lines": 264
+    }
+  ],
+  "neighborPaths": [
+    "packages/game/src/tools/display-scale.test.ts",
+    "packages/game/src/tools/fps-overlay.test.ts",
+    "packages/game/src/tools/minimap.canvas.test.ts",
+    "packages/game/src/tools/minimap.controller.test.ts",
+    "packages/game/src/tools/minimap.model.test.ts",
+    "packages/game/src/tools/mobile-presentation.test.ts",
+    "packages/game/src/tools/tools-panel.display.test.ts",
+    "packages/game/src/tools/tools-panel.english.test.ts",
+    "packages/game/src/tools/tools-panel.mobile.test.ts",
+    "packages/game/src/tools/tools-panel.save-io.test.ts",
+    "packages/game/src/tools/tools-panel.test.ts"
+  ],
+  "cleanExecutions": [
+    "before",
+    "reorganize",
+    "format",
+    "neighbors",
+    "typecheck",
+    "proof-r2",
+    "docs",
+    "content-review",
+    "lint",
+    "scoped",
+    "diff",
+    "ledger-final",
+    "module-preflight"
+  ],
+  "lightweightGates": true,
+  "callbackProof": "organization-tools-surfaces/proof-r2.stdout.raw",
+  "qualityDelta": {
+    "productionChanged": false,
+    "sourceCases": 41,
+    "currentCases": 41,
+    "newRuntimeCases": 0,
+    "retirements": 0,
+    "cmdsCallsInlined": 12,
+    "legalItemId": 105,
+    "legalSpellId": 295,
+    "syntheticNames": true,
+    "pixelHostRemoved": true,
+    "desktopDprInputExplicit": true,
+    "systemTabHelperConsumers": 2,
+    "pageHostConsumers": 5,
+    "languageSubscriberCleanup": true,
+    "volumeFactoryName": "makeVolumeController"
+  },
+  "reads": {
+    "fullInputs": [
+      {
+        "path": "packages/game/src/tools/minimap.test.ts",
+        "member": "organization-tools-surfaces/0.before",
+        "sha256": "b091cafc94606bae3e8127bc7873947469e5899d9adcfbe719fddf37830e9075",
+        "lines": 161
+      },
+      {
+        "path": "packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+        "member": "organization-tools-surfaces/1.before",
+        "sha256": "17055b8282521bd5fff700d171206f79f248ae7e344e769876efb1b253e863f7",
+        "lines": 276
+      },
+      {
+        "path": "packages/game/src/tools/tools-panel.glm-phase1-leaves.test.ts",
+        "member": "organization-tools-surfaces/2.before",
+        "sha256": "96576ca3cddfd558a967aa36f8247191face17a03e73bc52b29f5cafe0efd490",
+        "lines": 72
+      },
+      {
+        "path": "packages/game/src/tools/tools-panel.test.ts",
+        "member": "organization-tools-surfaces/3.before",
+        "sha256": "bbac9fdd4793b7a805fc470f6bfef240e181a817bcd011a5e845c013b08207c1",
+        "lines": 336
+      },
+      {
+        "path": "packages/game/src/tools/tools-panel.test-fixtures.ts",
+        "member": "organization-tools-surfaces/4.before",
+        "sha256": "e8509d85b2fd1b9f51b3ed59029d736aefd20f6e6e35d784517b897334cac083",
+        "lines": 89
+      }
+    ],
+    "fullOutputs": [
+      {
+        "path": "packages/game/src/tools/minimap.model.test.ts",
+        "sha256": "14eb9c53d666448200ba0b98b0a3c847245a3819d86a898238a8597ba4d045f8"
+      },
+      {
+        "path": "packages/game/src/tools/minimap.canvas.test.ts",
+        "sha256": "c091d54a40a49a66c54df11088792362e1d6074d2c6fed93f32b4995055e1b90"
+      },
+      {
+        "path": "packages/game/src/tools/minimap.controller.test.ts",
+        "sha256": "b7924a7cf5252ebe02e49f9911c9cc6e3a26fce49f9e604aee7e94061eca7f37"
+      },
+      {
+        "path": "packages/game/src/tools/tools-panel.display.test.ts",
+        "sha256": "812df8dcd521299b7b819896953b4418323212f396184975e9f35b0b7ed6a9a6"
+      },
+      {
+        "path": "packages/game/src/tools/tools-panel.test.ts",
+        "sha256": "77d01b92d316b928ae2fa07ee0d55bd4bb1aacfe121104f55b5b2358d59df09d"
+      },
+      {
+        "path": "packages/game/src/tools/tools-panel.test-fixtures.ts",
+        "sha256": "1f1787b6460e0f98ceb76b218a3e20383b75de3aab6d070ab3c8e0257dd3a9d2"
+      }
+    ],
+    "fullContext": [
+      {
+        "path": "packages/game/src/tools/minimap.ts",
+        "sha256": "2535e26d93586f17b77404adff93b04946435812bcd556014fd4086de9adbbf3",
+        "lines": 298
+      },
+      {
+        "path": "packages/game/src/tools/minimap-model.ts",
+        "sha256": "cacc7e36d063c9aefe36491e9c8b4d11d843fde880be822c7b035fe816a291d7",
+        "lines": 140
+      },
+      {
+        "path": "packages/game/src/tools/minimap-draw.ts",
+        "sha256": "0c85c9834d521dbb12777ba1217f8f033ccfe684005651f1cfaf7a2c8fbf18f9",
+        "lines": 97
+      },
+      {
+        "path": "packages/game/src/tools/tools-panel.ts",
+        "sha256": "b7f45736b940fa55952d1f28272eabf37c6331090fb14d4b37701df83c5cc596",
+        "lines": 1083
+      },
+      {
+        "path": "packages/game/src/tools/tools-panel-dom.ts",
+        "sha256": "68819b726d01e13ff5a7142929bca0b7f19e4d16a2f6926e98f4482dc1b2009f",
+        "lines": 25
+      },
+      {
+        "path": "packages/game/src/shell/presentation.ts",
+        "sha256": "2c6229b3b85271c52c80d9143d7aa6568aa6e2c507f30a84d4722028f4fa06bd",
+        "lines": 10
+      },
+      {
+        "path": "packages/game/src/shell/input-rotation.ts",
+        "sha256": "3607d404261b9012f63cca24f9b60248d242d62deaed9474a6c2c26a24d5d48e",
+        "lines": 24
+      },
+      {
+        "path": "packages/game/src/localization/language.ts",
+        "sha256": "d3b5410d8b1565af885a84ccc59f74511b712fd0bb1470eef882ad276c330779",
+        "lines": 53
+      },
+      {
+        "path": "packages/game/src/tools/tools-panel.mobile.test.ts",
+        "sha256": "772120d2e645e2da776e2bbc3ef05def2b19220f91865455bed6b99169895eda",
+        "lines": 102
+      },
+      {
+        "path": "packages/game/src/tools/tools-panel.english.test.ts",
+        "sha256": "5d19965ea3cb56f7f6c754b0583cb0867c4a17921cba11659ce537ee899a888b",
+        "lines": 160
+      }
+    ],
+    "scoped": [
+      {
+        "path": "packages/game/src/shell/bootstrap.ts",
+        "sha256": "a4d007c9739873dc20f385b52b584de49ec57cd5c328cb11ca9d3b0b9f19fb0a",
+        "lines": 1710,
+        "start": 1039,
+        "end": 1065,
+        "priorSameVersion": true
+      },
+      {
+        "path": "packages/game/src/shell/main-loop.ts",
+        "sha256": "2aa4ec075feb2ff8e218eb66cc32b376f3edb62a8b3073c0441596029e5bd07c",
+        "lines": 172,
+        "start": 145,
+        "end": 182,
+        "priorSameVersion": true
+      }
+    ],
+    "priorSources": [
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/minimap-closeout/review.json",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/tools-panel-closeout/review.json"
+    ],
+    "priorMinimapProductsExact": true,
+    "priorPanelContextSha256": "2cef2f55c015be3670405b291db640bfae274f1f493a8ac556189a12c3d9fc58",
+    "priorPanelContextCommit": "624478c9ff3554d51142214d4d7aef78d67922fb",
+    "priorPanelDelta": "Only input-rotation import andUI toggle;completeAST equalityafterremovingthesetwoitems. Currentrotation capabilityfullread andmobile formaltestcoversread/write/remount;not inheritedblindly."
+  },
+  "processDisclosures": [
+    "Proofinitiallyexpected16cmds calls;actualcompleteAST transformandproducerbothcount12. R1failedafterwholemodelbodycomparison,raw/scriptretained. R2correctscensusonly,doesnotchangeproduct/tests/oracles/toolrules.",
+    "PriorpanelsourceSHA diffcheckedbyexacthistoricalcommit:rotationimport/toggleiscurrentmaindelta. Frozenoldcontextattached;thiscomparisonisnotanentireoldsource/fulltestreviewagain.",
+    "Hostlanguage subscriber leak is test-host lifecycle debt,not an ordinaryplayer/productleak. Page-ownedproductionlifetimesandAPIsunchanged;testsnowdeliverthenotificationthatrealdisconnectedsubscriberexpects.",
+    "Originalminimapnumericmarkers10/12arelegacy syntheticinputs;new105/295arelegalcanonicalIDs,labelsremaindeliberatesyntheticstrings. Oldtestbaselinegreennotretroactivelycertifiedlegal.",
+    "No newmutantneededforalreadyprovedpixels/keys/cachegeometry;reuseactualversionboundcounterevidence. Reorganizationsdo notcloseproductfilesorconstituterepeatedfullA-Hcredit.",
+    "First materialized fixedBehaviorCommit source was older than final context pin;retained as historical fixed-behavior file,not used asaccepted-context proof. Exact2cefcontext thenmaterializedfrom624478c9f;current2-itemrotationdelta checked."
+  ],
+  "invalidations": "Changedcontroller/model/writer/currentdisplaycaller orlanguagepublish/unsubscribeownership,syntheticprogramdomain,inputlayout/DPR,mocks,helpers/registrations/oracles/hooksemantics reopenaffectedclaims. No browserfullscreenpermission/realhardware/E2E/thumbnailpipeline/ordinaryrewardreachabilityacceptance.",
+  "ledgerCounts": {
+    "inventory": 3444,
+    "closed": 514,
+    "review": 298,
+    "pending": 2632
+  }
+}

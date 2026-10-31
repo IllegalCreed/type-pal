@@ -28,6 +28,14 @@ Template: governance-index-v1 / 1.0.0
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
+| QUALITY-NAMING-ORGANIZATION-1 | [Naming and organization](tasks/QUALITY-NAMING-ORGANIZATION-1.md) | review | Codex / goal174 of174 locally accepted | Fixed178 F/G supplemented;317 current paths accepted by per-file evidence. Check20548/single fast20199/protected/docs/lint zero diagnostics; PR publication pending. Five auxiliary cov85 F/G remain review. |
+| GAME-INPUT-KEYMAP-OWN-KEY-1 | [键位查表自有字段](tasks/GAME-INPUT-KEYMAP-OWN-KEY-1.md) | review | Codex / 用户已批、2红2绿，等统一门 | 仅拒绝未定义继承名称，34旧键结果保留；普通实体键盘可达性未证。 |
+| QUALITY-PENDING-100-3 | [第三治理窗口](tasks/QUALITY-PENDING-100-3.md) | review | Codex / 原29主体完成 | 重组当前25主体，辅助另列；统一本地门零诊断，行为修复与重组分提交，等待同分支PR发布。 |
+| QUALITY-MIGRATION-MERGE-OWN-JSON-1 | [三方合并 JSON 字段所有权](tasks/QUALITY-MIGRATION-MERGE-OWN-JSON-1.md) | review | Codex / 用户已批，正式5红后修，统一门待 | own字段/安全data property与真实plan承接；37主测/215相邻、TC0，不触格式。 |
+| QUALITY-MIGRATION-ASSET-TAKEOVER-1 | [作者资源接管与快捷路径](tasks/QUALITY-MIGRATION-ASSET-TAKEOVER-1.md) | review | Codex / 用户已批，正式单红后修，统一门待 | canonical路径修正，作者项保留且普通迁移更新；37/215、TC0，无真实重导。 |
+| QUALITY-MIGRATION-CONTROL-OWNERSHIP-1 | [事务内部写入路径所有权](tasks/QUALITY-MIGRATION-CONTROL-OWNERSHIP-1.md) | review | Codex / 已批4红后窄修，等父窗口集中门 | 原生控制目录/日志临时链接与恢复保全；89相邻/TC0，不改格式，不附带整源关闭。 |
+| QUALITY-MIGRATION-BASELINE-PATH-DOMAIN-1 | [基线清单路径输入域](tasks/QUALITY-MIGRATION-BASELINE-PATH-DOMAIN-1.md) | review | Codex / 已批10红后窄修，等父窗口集中门 | 当前170相邻/TC0，537项基线只读正控；不改格式/生成物，不扩张链接政策。 |
+| QUALITY-MIGRATION-UNMANAGED-AUDIT-RETIREMENT-1 | [无用非托管哈希接口退役](tasks/QUALITY-MIGRATION-UNMANAGED-AUDIT-RETIREMENT-1.md) | review | Codex / 用户已批、代码接受，等父窗口集中门 | 两出口/walker与6专属身份退役，有效只读断言已迁移；73相邻/TC0。 |
 | QUALITY-BATTLE-SPRITE-DEMAND-BOUNDARY-1 | [战斗精灵帧需求边界](tasks/QUALITY-BATTLE-SPRITE-DEMAND-BOUNDARY-1.md) | draft | Codex / 只读复现，资产合同待核 | 源保持pending、不计百文件；声明200000帧触发RangeError，未改产品。 |
 | GAME-VIDEO-PUBLISH-BOUNDARY-1 | [视频子路径所有权与失败发布](tasks/GAME-VIDEO-PUBLISH-BOUNDARY-1.md) | build | Codex / 用户已批准，先红后修 | 三正式字节反例已红；仅输出后代链接/失败发布，编码参数与raw链接保持。 |
 | ED-ENTITY-STATE-PLAN-1 | [实体状态方案、脚本组合与编辑器预览](tasks/ED-ENTITY-STATE-PLAN-1.md) | review | Codex / 完整现场与E2E采集待续 | 首批UI用户验收通过；临时方案丢弃，正式状态须经E2E核对 |

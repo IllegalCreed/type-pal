@@ -2,7 +2,7 @@
 
 Status: current
 Owner: Codex（新增索引与 producer 治理维护职责）
-Last reviewed: 2026-10-16
+Last reviewed: 2026-10-30
 Template: governance-index-v1 / 1.0.0
 
 ## 目的
@@ -22,8 +22,10 @@ Template: governance-index-v1 / 1.0.0
 
 ## 入口与责任
 
-生命周期和 reviewBy 由 catalog 与测试治理维护；下游按状态选择阅读入口，不能用本页覆盖原报告的失败或停止线。
+生命周期和版本适用性由 catalog 与测试治理维护；下游按状态选择阅读入口，不能用本页覆盖原报告的失败或停止线。
 本页由 [generate-testing-index.mjs](../../../scripts/docs/generate-testing-index.mjs) 生成，不能手工维护派生行；人工总入口是 [README](README.md)。
+
+2026-10-30只审版本适用性投影与取消日历期限，不刷新下游执行。
 
 ### active
 

@@ -24,11 +24,11 @@ import type {
 } from '@type-pal/shared'
 import { describe, expect, it, vi } from 'vitest'
 import {
-  makeEnemy,
-  makeField,
-  makeRole,
-  seqRng,
-} from '../../__tests__/coverage85-glm-game/harness.js'
+  makeEnemyRecord as makeEnemy,
+  makeBattleFieldRecord as makeField,
+  makeRoleRecord as makeRole,
+} from '../../__tests__/battle-records.js'
+import { seqRng } from '../../__tests__/coverage85-glm-game/harness.js'
 import { type CommandBus, createCommandBus } from '../command-bus.js'
 import { createInitialGameState, type GameState } from '../game-state.js'
 import { startBattle, tickBattle, tickEnemyIdleGestures } from './battle-system.js'

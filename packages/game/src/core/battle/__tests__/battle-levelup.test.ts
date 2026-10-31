@@ -9,7 +9,7 @@
 
 import type { LevelUpMagicEntry, PlayerRoles } from '@type-pal/shared'
 import { describe, expect, it } from 'vitest'
-import { makeHRole } from '../../../__tests__/glm-next-wave/H/harness.js'
+import { makeRoleRecord } from '../../../__tests__/battle-records.js'
 import {
   createInitialGameState,
   type GameState,
@@ -254,7 +254,7 @@ describe('battleWonLevelUp —— D11 战斗胜利升级', () => {
     // 调用公开投影;此处不启动下一场战斗,不赋予完整开战链的执行信用。
     const staticRoles: PlayerRoles = {
       roles: [
-        makeHRole(0, {
+        makeRoleRecord(0, {
           _name: 'r0',
           level: 1,
           attackStrength: 20,

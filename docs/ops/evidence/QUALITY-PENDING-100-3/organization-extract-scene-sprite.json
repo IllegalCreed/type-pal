@@ -1,0 +1,631 @@
+{
+  "id": "extract-scene-sprite",
+  "namespace": "organization-extract-scene-sprite",
+  "kind": "Responsibility reorganization and raw-resource routing preservation; no changed assertions",
+  "inputs": [
+    {
+      "path": "packages/pal-extract/src/resources/scene.test.ts",
+      "member": "organization-extract-scene-sprite/scene.test.ts.before",
+      "sha256": "bd602764b568f4a7610fd601d5dacca96abd3ab8dd9f55d1713489ef05851373"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/scene.glm-runtime-resource.test.ts",
+      "member": "organization-extract-scene-sprite/scene.glm-runtime-resource.test.ts.before",
+      "sha256": "021124b1842f5f7ac94a497843a965e30ed095351e377d6fcfbe70260a3ab6cb"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/sprite.glm-runtime-resource.test.ts",
+      "member": "organization-extract-scene-sprite/sprite.glm-runtime-resource.test.ts.before",
+      "sha256": "c02fe8adea672225ac43017baa84d1b0039a23e762d6b24487455890e11acc80"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/sprite.boundaries.test.ts",
+      "member": "organization-extract-scene-sprite/sprite.boundaries.test.ts.before",
+      "sha256": "a1fb4b2867d8e5c9474b7a9c3c90552091afacc13dd600fa83f9ef26976c2846"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/sprite.test.ts",
+      "member": "organization-extract-scene-sprite/sprite.test.ts.before",
+      "sha256": "03b9a0a2172040c0fca3e823956029d1b45196dad6f3e460e4bb1fed555e803f"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "packages/pal-extract/src/resources/scene.test.ts",
+      "purpose": "Native scene slices, global object ranges, labels and input ownership; supplemental authored objects are covered separately.",
+      "sha256": "65c094e2c8588ea4df50791d5bf31c31b84fb84b591f08a001c8d1753e460377"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/sprite.png.test.ts",
+      "purpose": "Indexed PNG pixels, frame output and encoder admission. A synthetic legacy container supplies frame data; PAL resource decoding is covered separately.",
+      "sha256": "54827a26aabf48fc570dfee0e1f2075a700c517e842531feb86ae1a4e104f0ac"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/sprite.artifacts.pal.test.ts",
+      "purpose": "Read existing extracted scene references and published sprite blobs; does not run CLI or certify extractor deduplication.",
+      "sha256": "e821899916fe1d9af3d22fa6e16003be3581c5f6a79fd47f8ee416f36f8c0375"
+    }
+  ],
+  "sourceBridges": [
+    {
+      "id": "native-scene-fixture-purpose",
+      "path": "packages/pal-extract/src/resources/scene.test.ts",
+      "reason": "Name the actual scene-slice input rather than a generic fixture; data and statements unchanged.",
+      "changes": [
+        {
+          "from": "const fixture = () =>",
+          "to": "const sceneSliceFixture = () =>",
+          "count": 1
+        },
+        {
+          "from": "fixture()",
+          "to": "sceneSliceFixture()",
+          "count": 2
+        }
+      ]
+    }
+  ],
+  "replacements": [],
+  "registrations": [
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/scene.test.ts",
+        "ordinal": 0
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/scene.test.ts",
+        "titles": ["native scene slices and labels"],
+        "template": "scene 1 含两个 NPC"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/scene.test.ts",
+        "ordinal": 1
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/scene.test.ts",
+        "titles": ["native scene slices and labels"],
+        "template": "triggerScript=0 → triggerLabel undefined"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/scene.test.ts",
+        "ordinal": 2
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/scene.test.ts",
+        "titles": ["native scene slices and labels"],
+        "template": "末场景兜底:sceneId = scenes.length - 1 → toIdx = eventObjects.length"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/scene.glm-runtime-resource.test.ts",
+        "ordinal": 2
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/scene.test.ts",
+        "titles": ["native scene slices and labels"],
+        "template": "入口 0：sceneId=0 从 0 切片；onEnter=0 → undefined；onTeleport 非 0 → L_ip"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/scene.glm-runtime-resource.test.ts",
+        "ordinal": 3
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/scene.test.ts",
+        "titles": ["native scene slices and labels"],
+        "template": "末场景非零起点：区间 [2,4)，全局 id 保留为 2/3"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/scene.glm-runtime-resource.test.ts",
+        "ordinal": 4
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/scene.test.ts",
+        "titles": ["native scene slices and labels"],
+        "template": "未知 sceneId 抛错并带 scenes.length"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/scene.glm-runtime-resource.test.ts",
+        "ordinal": 0
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/scene.test.ts",
+        "titles": ["global object ranges and input ownership"],
+        "template": "全局 id = eventObjects 下标；每景区间 [start,end)，末景兜底 eventObjects.length"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/scene.glm-runtime-resource.test.ts",
+        "ordinal": 1
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/scene.test.ts",
+        "titles": ["global object ranges and input ownership"],
+        "template": "scenes/objects 输入零突变（structuredClone 前后相等）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/sprite.glm-runtime-resource.test.ts",
+        "ordinal": 0
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/sprite.png.test.ts",
+        "titles": ["indexed PNG pixel transport"],
+        "template": "带 mask：透明位 alpha 0、opaque palette-0 与实心位 alpha 255、RGB 复制 index"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/sprite.glm-runtime-resource.test.ts",
+        "ordinal": 1
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/sprite.png.test.ts",
+        "titles": ["indexed PNG pixel transport"],
+        "template": "缺省 mask：全像素 alpha 255"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/sprite.glm-runtime-resource.test.ts",
+        "ordinal": 2
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/sprite.png.test.ts",
+        "titles": ["frame indexing and PNG payloads"],
+        "template": "3 帧容器：index 0/1/2、逐帧尺寸与真解码像素"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/sprite.boundaries.test.ts",
+        "ordinal": 0
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/sprite.png.test.ts",
+        "titles": ["encoder input rejection"],
+        "template": "width 必须为正数"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/sprite.boundaries.test.ts",
+        "ordinal": 1
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/sprite.png.test.ts",
+        "titles": ["encoder input rejection"],
+        "template": "width 必须为整数"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/sprite.boundaries.test.ts",
+        "ordinal": 2
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/sprite.png.test.ts",
+        "titles": ["encoder input rejection"],
+        "template": "height 必须为正数"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/sprite.boundaries.test.ts",
+        "ordinal": 3
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/sprite.png.test.ts",
+        "titles": ["encoder input rejection"],
+        "template": "height 必须为整数"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/sprite.boundaries.test.ts",
+        "ordinal": 4
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/sprite.png.test.ts",
+        "titles": ["encoder input rejection"],
+        "template": "pixels 短于完整帧时显式失败"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/sprite.boundaries.test.ts",
+        "ordinal": 5
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/sprite.png.test.ts",
+        "titles": ["encoder input rejection"],
+        "template": "opaque 短于完整帧时显式失败"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/sprite.test.ts",
+        "ordinal": 0
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/sprite.artifacts.pal.test.ts",
+        "titles": ["published scene sprite references"],
+        "template": "既有场景 1/14/17 引用的非零 sprite 均有 canonical .rle 产物"
+      }
+    }
+  ],
+  "identities": [
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/scene.test.ts",
+        "fullName": "dumpScene scene 1 含两个 NPC"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/scene.test.ts",
+        "fullName": "native scene slices and labels scene 1 含两个 NPC"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/scene.test.ts",
+        "fullName": "dumpScene triggerScript=0 → triggerLabel undefined"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/scene.test.ts",
+        "fullName": "native scene slices and labels triggerScript=0 → triggerLabel undefined"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/scene.test.ts",
+        "fullName": "dumpScene 末场景兜底:sceneId = scenes.length - 1 → toIdx = eventObjects.length"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/scene.test.ts",
+        "fullName": "native scene slices and labels 末场景兜底:sceneId = scenes.length - 1 → toIdx = eventObjects.length"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/scene.glm-runtime-resource.test.ts",
+        "fullName": "R04 dumpScene 未占用切片轴 入口 0：sceneId=0 从 0 切片；onEnter=0 → undefined；onTeleport 非 0 → L_ip"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/scene.test.ts",
+        "fullName": "native scene slices and labels 入口 0：sceneId=0 从 0 切片；onEnter=0 → undefined；onTeleport 非 0 → L_ip"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/scene.glm-runtime-resource.test.ts",
+        "fullName": "R04 dumpScene 未占用切片轴 末场景非零起点：区间 [2,4)，全局 id 保留为 2/3"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/scene.test.ts",
+        "fullName": "native scene slices and labels 末场景非零起点：区间 [2,4)，全局 id 保留为 2/3"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/scene.glm-runtime-resource.test.ts",
+        "fullName": "R04 dumpScene 未占用切片轴 未知 sceneId 抛错并带 scenes.length"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/scene.test.ts",
+        "fullName": "native scene slices and labels 未知 sceneId 抛错并带 scenes.length"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/scene.glm-runtime-resource.test.ts",
+        "fullName": "R04 dumpAllEventObjects 全局表 全局 id = eventObjects 下标；每景区间 [start,end)，末景兜底 eventObjects.length"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/scene.test.ts",
+        "fullName": "global object ranges and input ownership 全局 id = eventObjects 下标；每景区间 [start,end)，末景兜底 eventObjects.length"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/scene.glm-runtime-resource.test.ts",
+        "fullName": "R04 dumpAllEventObjects 全局表 scenes/objects 输入零突变（structuredClone 前后相等）"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/scene.test.ts",
+        "fullName": "global object ranges and input ownership scenes/objects 输入零突变（structuredClone 前后相等）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/sprite.glm-runtime-resource.test.ts",
+        "fullName": "R04 encodeIndexedPng 真解码像素合同 带 mask：透明位 alpha 0、opaque palette-0 与实心位 alpha 255、RGB 复制 index"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/sprite.png.test.ts",
+        "fullName": "indexed PNG pixel transport 带 mask：透明位 alpha 0、opaque palette-0 与实心位 alpha 255、RGB 复制 index"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/sprite.glm-runtime-resource.test.ts",
+        "fullName": "R04 encodeIndexedPng 真解码像素合同 缺省 mask：全像素 alpha 255"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/sprite.png.test.ts",
+        "fullName": "indexed PNG pixel transport 缺省 mask：全像素 alpha 255"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/sprite.glm-runtime-resource.test.ts",
+        "fullName": "R04 framesToOut 多帧 3 帧容器：index 0/1/2、逐帧尺寸与真解码像素"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/sprite.png.test.ts",
+        "fullName": "frame indexing and PNG payloads 3 帧容器：index 0/1/2、逐帧尺寸与真解码像素"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/sprite.boundaries.test.ts",
+        "fullName": "encodeIndexedPng 输入边界 width 必须为正数"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/sprite.png.test.ts",
+        "fullName": "encoder input rejection width 必须为正数"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/sprite.boundaries.test.ts",
+        "fullName": "encodeIndexedPng 输入边界 width 必须为整数"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/sprite.png.test.ts",
+        "fullName": "encoder input rejection width 必须为整数"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/sprite.boundaries.test.ts",
+        "fullName": "encodeIndexedPng 输入边界 height 必须为正数"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/sprite.png.test.ts",
+        "fullName": "encoder input rejection height 必须为正数"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/sprite.boundaries.test.ts",
+        "fullName": "encodeIndexedPng 输入边界 height 必须为整数"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/sprite.png.test.ts",
+        "fullName": "encoder input rejection height 必须为整数"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/sprite.boundaries.test.ts",
+        "fullName": "encodeIndexedPng 输入边界 pixels 短于完整帧时显式失败"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/sprite.png.test.ts",
+        "fullName": "encoder input rejection pixels 短于完整帧时显式失败"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/sprite.boundaries.test.ts",
+        "fullName": "encodeIndexedPng 输入边界 opaque 短于完整帧时显式失败"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/sprite.png.test.ts",
+        "fullName": "encoder input rejection opaque 短于完整帧时显式失败"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/pal-extract/src/resources/sprite.test.ts",
+        "fullName": "M3.5 T5 character sprite extraction loops scene chain 既有场景 1/14/17 引用的非零 sprite 均有 canonical .rle 产物"
+      },
+      "current": {
+        "file": "packages/pal-extract/src/resources/sprite.artifacts.pal.test.ts",
+        "fullName": "published scene sprite references 既有场景 1/14/17 引用的非零 sprite 均有 canonical .rle 产物"
+      }
+    }
+  ],
+  "preserved": [
+    {
+      "path": "packages/pal-extract/src/resources/scene.ts",
+      "sha256": "2980e190a4133f2123cee42cab14b942e4ba7661932aa26170ba679cf8dfceee"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/sprite.ts",
+      "sha256": "95e171528c60e7c06f3b82aade6e991bed39546b7cff93e62a69037334b15b9a"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/world-assets.ts",
+      "sha256": "cd805024364b54afa08863ac78748c9438dc193a25d4ba8369c9ff69f56ae945"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/data-assets.ts",
+      "sha256": "e1e1a9cee093d57bfbcf9080b920a75087a0388c0f3f77e5b53ea17e7feeb11d"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/sprite-assets.ts",
+      "sha256": "1769334589117d87db9bf82e2c589a5f5c0897bbb7d090d390bb1f97a84e97af"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/__tests__/scene-fixtures.ts",
+      "sha256": "126940eb4ed758d8564f52522fb1a4f02293a4443c86473c44fab8c0775c21c8"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/scene-supplemental.test.ts",
+      "sha256": "b01ec8ace3707d39ecd47650c0f7a6ff1e1d715503de5e32b173f822ee528dad"
+    },
+    {
+      "path": "packages/shared/src/rle.containers.test.ts",
+      "sha256": "a9b286d4dcae9a670ddabca909b336ff32173e792f34998a75d2b0a961be9aae"
+    },
+    {
+      "path": "packages/shared/src/rle.frames.test.ts",
+      "sha256": "de73341a5a9f43c2f757a889140b9a872d2e7c4cfde47c5046ddfa6b488864d0"
+    },
+    {
+      "path": "packages/shared/src/rle.ts",
+      "sha256": "85d0f8dc2f2c02e1fb8cf19c8faf0c9753b77d2ceeecb2a77c289421794282fb"
+    },
+    {
+      "path": "packages/pal-extract/src/cli.ts",
+      "sha256": "a6cf5e24a0a1706d605fd288757035925843854f0aa379b9e963014908528d77"
+    }
+  ],
+  "cohortSubjects": [
+    {
+      "path": "packages/pal-extract/src/resources/scene.glm-runtime-resource.test.ts",
+      "sha256": "021124b1842f5f7ac94a497843a965e30ed095351e377d6fcfbe70260a3ab6cb",
+      "preservedEvidence": "[本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json)"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/sprite.glm-runtime-resource.test.ts",
+      "sha256": "c02fe8adea672225ac43017baa84d1b0039a23e762d6b24487455890e11acc80",
+      "preservedEvidence": "[当前逐文件A–H与四卡全门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3d/closeout/review.json)"
+    }
+  ],
+  "reusedReview": {
+    "member": "organization-extract-scene-sprite/reused-review.json",
+    "source": "docs/ops/evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json",
+    "scope": "Two recent exact records, one exact 3d boundary and two 52-retirement current hashes/retained bodies bridge valid A-E/H; no retired wrapper credit, new F/G judgments are separate."
+  },
+  "neighborPaths": [
+    "packages/pal-extract/src/resources/animation-assets.fire.test.ts",
+    "packages/pal-extract/src/resources/parsers/__tests__/misc-mkf.test.ts",
+    "packages/pal-extract/src/resources/scene-supplemental.test.ts",
+    "packages/pal-extract/src/resources/scene.test.ts",
+    "packages/pal-extract/src/resources/sprite.artifacts.pal.test.ts",
+    "packages/pal-extract/src/resources/sprite.png.test.ts"
+  ],
+  "cleanExecutions": [
+    "before",
+    "scoped",
+    "neighbors",
+    "typecheck",
+    "before-fast-files",
+    "before-full-files",
+    "after-fast-files",
+    "after-full-files",
+    "coverage-config-tests"
+  ],
+  "routing": {
+    "packageDirectory": "packages/pal-extract",
+    "configPath": "scripts/coverage/config.mjs",
+    "configSha256": "decb63dda5d12a2269bef1dd75c3d1eb4efca071887c759deca8e9b06ef17a25",
+    "beforeConfigMember": "organization-extract-scene-sprite/coverage-config.before",
+    "beforeConfigSha256": "9845f41bf51e01b1ec809c7515305ec2534aff59b9e7c3c7557db1c68bdcca35",
+    "removedLine": "      'src/resources/sprite.test.ts',\n",
+    "oldArtifactPath": "src/resources/sprite.test.ts",
+    "artifactPath": "src/resources/sprite.artifacts.pal.test.ts",
+    "pngPath": "src/resources/sprite.png.test.ts",
+    "pathMap": {
+      "src/resources/scene.test.ts": "src/resources/scene.test.ts",
+      "src/resources/scene.glm-runtime-resource.test.ts": "src/resources/scene.test.ts",
+      "src/resources/sprite.glm-runtime-resource.test.ts": "src/resources/sprite.png.test.ts",
+      "src/resources/sprite.boundaries.test.ts": "src/resources/sprite.png.test.ts",
+      "src/resources/sprite.test.ts": "src/resources/sprite.artifacts.pal.test.ts"
+    },
+    "limits": "Native Vitest files-only plans, not test execution or a coverage run. Existing PAL glob admits full-only artifact dependency; removed only obsolete exact-path exclusion."
+  },
+  "profiles": [
+    {
+      "path": "packages/pal-extract/src/resources/scene.test.ts",
+      "sha256": "65c094e2c8588ea4df50791d5bf31c31b84fb84b591f08a001c8d1753e460377",
+      "subjects": [
+        "packages/pal-extract/src/resources/scene.test.ts",
+        "packages/pal-extract/src/resources/scene.glm-runtime-resource.test.ts"
+      ],
+      "axes": {
+        "A": "当前world writer逐景dumpScene再dumpAll；native全局id、半开区间、末景/入口0/空表/未知id与16字段完整结果复用原证据，source未改。",
+        "B": "去R04和“未占用”分工头；说明补充对象另测、SSS parser造typed/raw一致数据，不冒称完整剧情。",
+        "C": "主测与模型专测聚为native scene导出合同，per-scene/global两个组；author补充对象和freeze所有权专测保持独立，真实writer装配不变。",
+        "D": "沿用sceneFixture真实结构构造；不同场景边界/坐标标记的三个factory不强并为模式参数，sceneSliceFixture名指明输入目的。",
+        "E": "8原身份、完整object投影/label/区间与两输入快照保留，补充对象相邻执行不算新全文；无新弱断言或核心mock。",
+        "F": "scene.test对应scene.ts，slice/global分组揭示职责；generic fixture改sceneSliceFixture，不以模型/轮次命名。",
+        "G": "两旧文件归一，全部fixture由真实case消费；原末景空与非零起点两轴不同不删，未增公开接口/兼容包装。",
+        "H": "公开纯入口，fresh parser-backed输入和literal预期直接观察；无FS、网络、私有seam或测试API。"
+      },
+      "acceptance": "accepted-FG; uniform gates pending"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/sprite.png.test.ts",
+      "sha256": "54827a26aabf48fc570dfee0e1f2075a700c517e842531feb86ae1a4e104f0ac",
+      "subjects": [
+        "packages/pal-extract/src/resources/sprite.glm-runtime-resource.test.ts",
+        "packages/pal-extract/src/resources/sprite.boundaries.test.ts"
+      ],
+      "axes": {
+        "A": "encodeIndexedPng与framesToOut输出字段/index/透明mask和入参错误复用原合同。真实data writer先PAL parse再adapter，合成legacy容器仅提供合法RleFrame，不授PAL格式信用。",
+        "B": "头注区分合成legacy帧输入、PNG/帧输出与原盘接线；保留opaque palette0/marker意义和精确错误，不复述旧R04批次。",
+        "C": "纯PNG/帧输出和admission归同一公开模块，既有产物FS连通性迁独立文件；产品decoder/状态owner不变。",
+        "D": "pngjs真解码是独立像素观察；不同width/height/pixels/opaque反例是同入口不同合法性轴，不为短小造模式factory或万能helper。",
+        "E": "9旧身份及全部RGBA/index/尺寸/错误断言保持；原3帧+零sentinel合成执行不删除，原盘FIRE与PAL差异另有邻证，未用文件数冒充覆盖。",
+        "F": "sprite.png文件名表达输出职责，pixel/frame/admission三个组无作者/轮次；输入和输出阶段变量保持可追踪。",
+        "G": "同一PNG模块两旧专测归一，不把原盘FS测试硬并进unit；没有死导出、skip、cast或新增兼容代码。",
+        "H": "真实encoder/adapter加独立PNG读取，确定fresh字节；私有函数不暴露，不mockbitmap核心，不为纯组织重复反控。"
+      },
+      "acceptance": "accepted-FG; uniform gates pending"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/sprite.artifacts.pal.test.ts",
+      "sha256": "e821899916fe1d9af3d22fa6e16003be3581c5f6a79fd47f8ee416f36f8c0375",
+      "subjects": ["packages/pal-extract/src/resources/sprite.test.ts"],
+      "axes": {
+        "A": "只读场景1/14/17引用与现有canonical.rle覆盖，不运行CLI，不证明提取器union/去重次数；原实际输入和断言不变。",
+        "B": "suite从“extraction loops”改已有产物引用，头部明确证据限制；Set只汇总待查id、缺失不得提前return的说明保持。",
+        "C": "唯一FS读取/外部资源前提隔离于.pal文件，PNG unit不依赖外树；无写入/资源清理权归属变化。",
+        "D": "文件/dirname位置仍在resources，根计算不变；只共用现有输出契约，不造测试专用CLI或通用读取工厂。",
+        "E": "1原身份完整承接，非空场景与无missing断言保持；真实Vitest fast/full文件计划证明fast仍排除/full仍包含，未跑覆盖率。",
+        "F": "artifacts.pal表明既有PAL产物域，suite表达references；文件与变量不再冒称提取器执行。",
+        "G": "删除旧sprite.test精确排除，仅沿已有.pal通配分流；不新增exclude/ignore或降低规则，旧精确retirement/baseline记录不改写。",
+        "H": "真实只读外部产物，无fallback/mock或提前pass；配置五回归与实际文件枚举可复验，文件计划不代替runtime/E2E。"
+      },
+      "acceptance": "accepted-FG; uniform gates pending"
+    }
+  ],
+  "auxiliary": [
+    {
+      "path": "scripts/coverage/config.mjs",
+      "sha256": "decb63dda5d12a2269bef1dd75c3d1eb4efca071887c759deca8e9b06ef17a25",
+      "axes": {
+        "A": "testSelection真实consumer是coverage runner，唯一修改移除已改名的旧路径；其他include/exclude/source census和模式不变。",
+        "B": "保留source/test selection与PAL依赖注释，不把full选择说成实际覆盖率。",
+        "C": "七包选择真源仍在同一config；新artifact归现有PAL域，非单测例外，私有path名单不留死项。",
+        "D": "复用现有全扩展.pal通配，不复制规则或增加一个新特例，testSelection与sourceDigest职责不变。",
+        "E": "原五config回归通过，Vitest真实file-only双profile前后按路径映射完全一致；实际artifact只在full、PNG在两profile。",
+        "F": "artifact文件名自述外部依赖，配置不再引用不存在的sprite.test；不添加新术语或模式参数。",
+        "G": "删一死路径，不新增ignore/exclude或调整规则级别/timeout/coverage分母。",
+        "H": "testSelection纯函数，实际Vitest matcher另证配置作用；源码前后只差一行，完整原件可只读复验。"
+      },
+      "countedAsCohort": false
+    }
+  ],
+  "processDisclosure": [
+    "Initial reuse lookup expected five recent-200 records; actual lookup had two. Corrected to exact 3d/approved52 retirement provenance for the remaining three; rejection raw retained.",
+    "18 original identities preserved; five old specs become three by true pure/FS responsibility. No product implementation or resource was changed.",
+    "Artifact adopts existing PAL naming rule; no new exclusion was added. Before/after native file plans and five config tests are receipts, not a heavy coverage execution.",
+    "Current-window ledger scripts had removed nine rows inside its fenced archive. Restored exact base fenced bytes; active rows unchanged by that repair. The base snapshot’s older declared-origin fidelity is not newly certified."
+  ]
+}

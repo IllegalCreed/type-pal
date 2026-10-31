@@ -4,7 +4,8 @@
  * 越界与倒序已由CODE3b入口明确拒绝，分成独立输入轴。
  */
 import { describe, expect, test } from 'vitest'
-import { concatBytes, gbk, msgRegion } from '../__tests__/glm-tb04-fixtures.js'
+import { concatBytes } from '../__tests__/binary-fixtures.js'
+import { gbk, msgRegion } from '../__tests__/text-fixtures.js'
 import { parseMessages } from './msg.js'
 
 function offsetViews() {

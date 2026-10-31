@@ -1,0 +1,1283 @@
+{
+  "id": "game-frame-effects",
+  "kind": "Three independent indexed framebuffer effect contracts",
+  "namespace": "organization-game-frame-effects",
+  "inputs": [
+    {
+      "path": "packages/game/src/present/dither-fade.test.ts",
+      "sha256": "68a0f63b5d4ef2045595ab37af377b26ce22247a346f7911fa544b43142ccfae",
+      "member": "organization-game-frame-effects/0.before"
+    },
+    {
+      "path": "packages/game/src/present/dither-fade-nibble.grok-r1.test.ts",
+      "sha256": "cbeef1074d5ca20c20d60b45ed64035ddb4c5d201cb98c0993daf03296848a50",
+      "member": "organization-game-frame-effects/1.before"
+    },
+    {
+      "path": "packages/game/src/present/screen-shake.test.ts",
+      "sha256": "947d456cc8f6d9aad80bd2f4f590ce0f4b6e94a2ddffe0813171d30ff489e786",
+      "member": "organization-game-frame-effects/2.before"
+    },
+    {
+      "path": "packages/game/src/present/screen-shake-bounds.grok-r1.test.ts",
+      "sha256": "21a83adc29a46a08ec200f568e8dd792fbfb7dd81f78842613e6ab2b5aca4304",
+      "member": "organization-game-frame-effects/3.before"
+    },
+    {
+      "path": "packages/game/src/present/screen-wave.test.ts",
+      "sha256": "aa3c4e54215380dcbfab2919839b9a716c11ebc22156d699fb94734032eeceff",
+      "member": "organization-game-frame-effects/4.before"
+    },
+    {
+      "path": "packages/game/src/present/screen-wave-mirror.grok-r1.test.ts",
+      "sha256": "c88372255ff09d81c3d957c9dd729d65a990661b4d38aecae007b41cce179d4a",
+      "member": "organization-game-frame-effects/5.before"
+    },
+    {
+      "path": "packages/game/src/present/screen-wave.glm-phase1-leaves.test.ts",
+      "sha256": "7a0758ed115203df0d0cea41cf5f2beb95120a25985d482a65f00c72f78f7a81",
+      "member": "organization-game-frame-effects/6.before"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "packages/game/src/present/dither-fade.test.ts",
+      "sha256": "ff8a6b0269da5dede77ef3adbb935068b8e529ae9a09df62ccbee0140ac5f5fe"
+    },
+    {
+      "path": "packages/game/src/present/screen-shake.test.ts",
+      "sha256": "3c47e505b1000040406a4bab92b7a654d7dd282d53125fe8b8bee3c3b0c18f77"
+    },
+    {
+      "path": "packages/game/src/present/screen-wave.test.ts",
+      "sha256": "02dba6c726e3d175a8a23f69fccf42e53a867e433e889fa56f6c3d3fed4d816f"
+    }
+  ],
+  "replacements": [],
+  "sourceBridges": [
+    {
+      "id": "frame-effects-0",
+      "path": "packages/game/src/present/dither-fade.test.ts",
+      "reason": "Identifier alpha-renames and explicit suite/title identity mapping; one pure row builder consolidation verified separately; all case literals/assertions/control flow and hook scopes retained.",
+      "changes": [
+        {
+          "from": "'applyDitherSteps(nibble dither,video.c:1178 / battle.c:630)'",
+          "to": "'nibble dither steps'",
+          "count": 1
+        },
+        {
+          "from": "'step 0(outer 0)仅取 target 高 nibble + backup 低 nibble(rgIndex[0]=0 那条 stride)'",
+          "to": "'step 0(outer 0)仅取 target 高 nibble + backup 低 nibble(rgIndex[0]=0 那条 stride)'",
+          "count": 1
+        },
+        {
+          "from": "'outer>0 低 nibble 朝 target ±1(a低 > b低 → b低+1)'",
+          "to": "'outer>0 低 nibble 朝 target ±1(a低 > b低 → b低+1)'",
+          "count": 1
+        },
+        {
+          "from": "'跑满 72 step:低 nibble 差 ≤ 11(11 outer 趟 ±1)→ backup 收敛 = target'",
+          "to": "'跑满 72 step:低 nibble 差 ≤ 11(11 outer 趟 ±1)→ backup 收敛 = target'",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "frame-effects-1",
+      "path": "packages/game/src/present/dither-fade-nibble.grok-r1.test.ts",
+      "reason": "Identifier alpha-renames and explicit suite/title identity mapping; one pure row builder consolidation verified separately; all case literals/assertions/control flow and hook scopes retained.",
+      "changes": [
+        {
+          "from": "'G04-C dither 相位与低位回退'",
+          "to": "'nibble dither phases and interval boundaries'",
+          "count": 1
+        },
+        {
+          "from": "'G04-C01 step 1 到 5 按 RG_INDEX 依次碰到下标 3、1、5、2、4'",
+          "to": "'step 1 到 5 按 RG_INDEX 依次碰到下标 3、1、5、2、4'",
+          "count": 1
+        },
+        {
+          "from": "'G04-C02 outer 1 的 step 6 把低位 9 减到 8，邻接下标不动'",
+          "to": "'outer 1 的 step 6 把低位 9 减到 8，邻接下标不动'",
+          "count": 1
+        },
+        {
+          "from": "'G04-C03 低位已经相等时 outer 1 不加减，只换上 target 高位'",
+          "to": "'低位已经相等时 outer 1 不加减，只换上 target 高位'",
+          "count": 1
+        },
+        {
+          "from": "'G04-C04 outer 0 把更高的 backup 高位直接换成 target 高位'",
+          "to": "'outer 0 把更高的 backup 高位直接换成 target 高位'",
+          "count": 1
+        },
+        {
+          "from": "'G04-C05 长度超过 6 时同一 step 继续处理 k+6'",
+          "to": "'长度超过 6 时同一 step 继续处理 k+6'",
+          "count": 1
+        },
+        {
+          "from": "'G04-C06 fromStep 等于 toStep 时不改 backup'",
+          "to": "'fromStep 等于 toStep 时不改 backup'",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "frame-effects-2",
+      "path": "packages/game/src/present/screen-shake.test.ts",
+      "reason": "Identifier alpha-renames and explicit suite/title identity mapping; one pure row builder consolidation verified separately; all case literals/assertions/control flow and hook scopes retained.",
+      "changes": [
+        {
+          "from": "import { describe, expect, it } from 'vitest'\nimport { applyScreenShake } from './screen-shake.js'\n\nconst SCREEN_W = 320\nconst SCREEN_H = 200\n\n/** 造一个每行像素值 = 行号(0..199)的 320×200 framebuffer,便于断言\"哪一行搬到哪一行\"。 */\nfunction makeRowMarkedFb(): Uint8Array {\n  const indices = new Uint8Array(SCREEN_W * SCREEN_H)\n  for (let y = 0; y < SCREEN_H; y++) {\n    // 行号 0..199 全落 8-bit 范围,直接当像素值标记。\n    indices.fill(y, y * SCREEN_W, (y + 1) * SCREEN_W)\n  }\n  return indices\n}\n\ndescribe('applyScreenShake — port sdlpal video.c:571-616', () => {\n  it('奇帧(shakeTime=3,level=4):整幅上移 4 行,底部 4 行填黑,shakeTime→2', () => {\n    const indices = makeRowMarkedFb()\n    const gs = { shakeTime: 3, shakeLevel: 4 }\n    applyScreenShake(indices, gs)\n\n    const expected = Buffer.concat([\n      Buffer.from(makeRowMarkedFb().subarray(4 * SCREEN_W)),\n      Buffer.alloc(4 * SCREEN_W),\n    ])\n    expect(Buffer.compare(indices, expected)).toBe(0)\n    expect(gs.shakeTime).toBe(2)\n  })\n\n  it('偶帧(shakeTime=2,level=4):整幅下移 4 行,顶部 4 行填黑,shakeTime→1', () => {\n    const indices = makeRowMarkedFb()\n    const gs = { shakeTime: 2, shakeLevel: 4 }\n    applyScreenShake(indices, gs)\n\n    const expected = Buffer.concat([\n      Buffer.alloc(4 * SCREEN_W),\n      Buffer.from(makeRowMarkedFb().subarray(0, 196 * SCREEN_W)),\n    ])\n    expect(Buffer.compare(indices, expected)).toBe(0)\n    expect(gs.shakeTime).toBe(1)\n  })\n\n  it('shakeTime 从 N 连调 N 次后归 0(video.c:614 末尾 g_wShakeTime--)', () => {\n    const indices = makeRowMarkedFb()\n    const N = 5\n    const gs = { shakeTime: N, shakeLevel: 4 }\n    for (let i = 0; i < N; i++) {\n      applyScreenShake(indices, gs)\n    }\n    expect(gs.shakeTime).toBe(0)\n  })\n\n  it('level=0:无可见偏移(整幅不变),但 shakeTime 仍递减', () => {\n    const indices = makeRowMarkedFb()\n    const before = Uint8Array.from(indices)\n    const gs = { shakeTime: 3, shakeLevel: 0 }\n    applyScreenShake(indices, gs)\n    expect(Buffer.compare(indices, before)).toBe(0)\n    expect(gs.shakeTime).toBe(2)\n  })\n})\n",
+          "to": "import { describe, expect, it } from 'vitest'\nimport { applyScreenShake } from './screen-shake.js'\n\nconst SCREEN_WIDTH = 320\nconst SCREEN_HEIGHT = 200\n\n/** 造一个每行像素值 = 行号(0..199)的 320×200 framebuffer,便于断言\"哪一行搬到哪一行\"。 */\nfunction rowMarkedPixels(): Uint8Array {\n  const indices = new Uint8Array(SCREEN_WIDTH * SCREEN_HEIGHT)\n  for (let y = 0; y < SCREEN_HEIGHT; y++) {\n    // 行号 0..199 全落 8-bit 范围,直接当像素值标记。\n    indices.fill(y, y * SCREEN_WIDTH, (y + 1) * SCREEN_WIDTH)\n  }\n  return indices\n}\n\ndescribe('applyScreenShake — port sdlpal video.c:571-616', () => {\n  it('奇帧(shakeTime=3,level=4):整幅上移 4 行,底部 4 行填黑,shakeTime→2', () => {\n    const indices = rowMarkedPixels()\n    const gs = { shakeTime: 3, shakeLevel: 4 }\n    applyScreenShake(indices, gs)\n\n    const expected = Buffer.concat([\n      Buffer.from(rowMarkedPixels().subarray(4 * SCREEN_WIDTH)),\n      Buffer.alloc(4 * SCREEN_WIDTH),\n    ])\n    expect(Buffer.compare(indices, expected)).toBe(0)\n    expect(gs.shakeTime).toBe(2)\n  })\n\n  it('偶帧(shakeTime=2,level=4):整幅下移 4 行,顶部 4 行填黑,shakeTime→1', () => {\n    const indices = rowMarkedPixels()\n    const gs = { shakeTime: 2, shakeLevel: 4 }\n    applyScreenShake(indices, gs)\n\n    const expected = Buffer.concat([\n      Buffer.alloc(4 * SCREEN_WIDTH),\n      Buffer.from(rowMarkedPixels().subarray(0, 196 * SCREEN_WIDTH)),\n    ])\n    expect(Buffer.compare(indices, expected)).toBe(0)\n    expect(gs.shakeTime).toBe(1)\n  })\n\n  it('shakeTime 从 N 连调 N 次后归 0(video.c:614 末尾 g_wShakeTime--)', () => {\n    const indices = rowMarkedPixels()\n    const N = 5\n    const gs = { shakeTime: N, shakeLevel: 4 }\n    for (let i = 0; i < N; i++) {\n      applyScreenShake(indices, gs)\n    }\n    expect(gs.shakeTime).toBe(0)\n  })\n\n  it('level=0:无可见偏移(整幅不变),但 shakeTime 仍递减', () => {\n    const indices = rowMarkedPixels()\n    const before = Uint8Array.from(indices)\n    const gs = { shakeTime: 3, shakeLevel: 0 }\n    applyScreenShake(indices, gs)\n    expect(Buffer.compare(indices, before)).toBe(0)\n    expect(gs.shakeTime).toBe(2)\n  })\n})\n",
+          "count": 1
+        },
+        {
+          "from": "'applyScreenShake — port sdlpal video.c:571-616'",
+          "to": "'vertical screen shake'",
+          "count": 1
+        },
+        {
+          "from": "'奇帧(shakeTime=3,level=4):整幅上移 4 行,底部 4 行填黑,shakeTime→2'",
+          "to": "'奇帧(shakeTime=3,level=4):整幅上移 4 行,底部 4 行填黑,shakeTime→2'",
+          "count": 1
+        },
+        {
+          "from": "'偶帧(shakeTime=2,level=4):整幅下移 4 行,顶部 4 行填黑,shakeTime→1'",
+          "to": "'偶帧(shakeTime=2,level=4):整幅下移 4 行,顶部 4 行填黑,shakeTime→1'",
+          "count": 1
+        },
+        {
+          "from": "'shakeTime 从 N 连调 N 次后归 0(video.c:614 末尾 g_wShakeTime--)'",
+          "to": "'shakeTime 从 N 连调 N 次后归 0(video.c:614 末尾 g_wShakeTime--)'",
+          "count": 1
+        },
+        {
+          "from": "'level=0:无可见偏移(整幅不变),但 shakeTime 仍递减'",
+          "to": "'level=0:无可见偏移(整幅不变),但 shakeTime 仍递减'",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "frame-effects-3",
+      "path": "packages/game/src/present/screen-shake-bounds.grok-r1.test.ts",
+      "reason": "Identifier alpha-renames and explicit suite/title identity mapping; one pure row builder consolidation verified separately; all case literals/assertions/control flow and hook scopes retained.",
+      "changes": [
+        {
+          "from": "/**\n * TEST-GROK-RENDER-HOST-LARGE-1 G04-B。\n * 调用方 present.ts:714 applyScreenShake(fb.indices, gs, advanceEffects)。\n * 不重复 screen-shake.test 的奇偶 level 4 全帧搬移、连减到 0、level 0 仍递减。\n */\nimport { describe, expect, it } from 'vitest'\nimport { applyScreenShake } from './screen-shake.js'\n\nconst W = 320\nconst H = 200\n\nfunction marked(): Uint8Array {\n  const indices = new Uint8Array(W * H)\n  for (let y = 0; y < H; y++) indices.fill(y, y * W, (y + 1) * W)\n  return indices\n}\n\nfunction row(indices: Uint8Array, y: number): number {\n  return indices[y * W] ?? -1\n}\n\ndescribe('G04-B screen-shake 边界与补帧', () => {\n  it('G04-B01 shakeLevel=200 不搬移像素，shakeTime 仍减 1', () => {\n    const indices = marked()\n    const gs = { shakeTime: 5, shakeLevel: 200 }\n    applyScreenShake(indices, gs, true)\n    expect(row(indices, 10)).toBe(10)\n    expect(row(indices, 199)).toBe(199)\n    expect(gs.shakeTime).toBe(4)\n  })\n\n  it('G04-B02 奇数帧 level=199 只把最后一行抬到顶，其余行填黑', () => {\n    const indices = marked()\n    const gs = { shakeTime: 1, shakeLevel: 199 }\n    applyScreenShake(indices, gs, true)\n    expect(row(indices, 0)).toBe(199)\n    expect(row(indices, 1)).toBe(0)\n    expect(row(indices, 199)).toBe(0)\n    expect(gs.shakeTime).toBe(0)\n  })\n\n  it('G04-B03 advance=false 的奇数帧仍上移，shakeTime 保持原值', () => {\n    const indices = marked()\n    const gs = { shakeTime: 3, shakeLevel: 4 }\n    applyScreenShake(indices, gs, false)\n    expect(row(indices, 0)).toBe(4)\n    expect(row(indices, 195)).toBe(199)\n    expect(row(indices, 196)).toBe(0)\n    expect(gs.shakeTime).toBe(3)\n  })\n\n  it('G04-B04 偶数帧 level=199 顶上 199 行填黑，底行等于改写后的第 0 行', () => {\n    const indices = marked()\n    indices.fill(8, 0, W)\n    const gs = { shakeTime: 2, shakeLevel: 199 }\n    applyScreenShake(indices, gs, true)\n    expect(row(indices, 0)).toBe(0)\n    expect(row(indices, 198)).toBe(0)\n    expect(row(indices, 199)).toBe(8)\n    expect(gs.shakeTime).toBe(1)\n  })\n\n  it('G04-B05 level=1 的奇数帧上移一行，底行填黑', () => {\n    const indices = marked()\n    const gs = { shakeTime: 7, shakeLevel: 1 }\n    applyScreenShake(indices, gs, true)\n    expect(row(indices, 0)).toBe(1)\n    expect(row(indices, 198)).toBe(199)\n    expect(row(indices, 199)).toBe(0)\n    expect(gs.shakeTime).toBe(6)\n  })\n\n  it('G04-B06 level=256 且 advance=false 时像素和 shakeTime 都不变', () => {\n    const indices = marked()\n    const gs = { shakeTime: 9, shakeLevel: 256 }\n    applyScreenShake(indices, gs, false)\n    expect(row(indices, 10)).toBe(10)\n    expect(row(indices, 199)).toBe(199)\n    expect(gs.shakeTime).toBe(9)\n  })\n})\n",
+          "to": "/**\n * TEST-GROK-RENDER-HOST-LARGE-1 G04-B。\n * 调用方 present.ts:714 applyScreenShake(fb.indices, gs, advanceEffects)。\n * 不重复 screen-shake.test 的奇偶 level 4 全帧搬移、连减到 0、level 0 仍递减。\n */\nimport { describe, expect, it } from 'vitest'\nimport { applyScreenShake } from './screen-shake.js'\n\nconst SCREEN_WIDTH = 320\nconst SCREEN_HEIGHT = 200\n\nfunction rowMarkedPixels(): Uint8Array {\n  const indices = new Uint8Array(SCREEN_WIDTH * SCREEN_HEIGHT)\n  for (let y = 0; y < SCREEN_HEIGHT; y++) indices.fill(y, y * SCREEN_WIDTH, (y + 1) * SCREEN_WIDTH)\n  return indices\n}\n\nfunction row(indices: Uint8Array, y: number): number {\n  return indices[y * SCREEN_WIDTH] ?? -1\n}\n\ndescribe('G04-B screen-shake 边界与补帧', () => {\n  it('G04-B01 shakeLevel=200 不搬移像素，shakeTime 仍减 1', () => {\n    const indices = rowMarkedPixels()\n    const gs = { shakeTime: 5, shakeLevel: 200 }\n    applyScreenShake(indices, gs, true)\n    expect(row(indices, 10)).toBe(10)\n    expect(row(indices, 199)).toBe(199)\n    expect(gs.shakeTime).toBe(4)\n  })\n\n  it('G04-B02 奇数帧 level=199 只把最后一行抬到顶，其余行填黑', () => {\n    const indices = rowMarkedPixels()\n    const gs = { shakeTime: 1, shakeLevel: 199 }\n    applyScreenShake(indices, gs, true)\n    expect(row(indices, 0)).toBe(199)\n    expect(row(indices, 1)).toBe(0)\n    expect(row(indices, 199)).toBe(0)\n    expect(gs.shakeTime).toBe(0)\n  })\n\n  it('G04-B03 advance=false 的奇数帧仍上移，shakeTime 保持原值', () => {\n    const indices = rowMarkedPixels()\n    const gs = { shakeTime: 3, shakeLevel: 4 }\n    applyScreenShake(indices, gs, false)\n    expect(row(indices, 0)).toBe(4)\n    expect(row(indices, 195)).toBe(199)\n    expect(row(indices, 196)).toBe(0)\n    expect(gs.shakeTime).toBe(3)\n  })\n\n  it('G04-B04 偶数帧 level=199 顶上 199 行填黑，底行等于改写后的第 0 行', () => {\n    const indices = rowMarkedPixels()\n    indices.fill(8, 0, SCREEN_WIDTH)\n    const gs = { shakeTime: 2, shakeLevel: 199 }\n    applyScreenShake(indices, gs, true)\n    expect(row(indices, 0)).toBe(0)\n    expect(row(indices, 198)).toBe(0)\n    expect(row(indices, 199)).toBe(8)\n    expect(gs.shakeTime).toBe(1)\n  })\n\n  it('G04-B05 level=1 的奇数帧上移一行，底行填黑', () => {\n    const indices = rowMarkedPixels()\n    const gs = { shakeTime: 7, shakeLevel: 1 }\n    applyScreenShake(indices, gs, true)\n    expect(row(indices, 0)).toBe(1)\n    expect(row(indices, 198)).toBe(199)\n    expect(row(indices, 199)).toBe(0)\n    expect(gs.shakeTime).toBe(6)\n  })\n\n  it('G04-B06 level=256 且 advance=false 时像素和 shakeTime 都不变', () => {\n    const indices = rowMarkedPixels()\n    const gs = { shakeTime: 9, shakeLevel: 256 }\n    applyScreenShake(indices, gs, false)\n    expect(row(indices, 10)).toBe(10)\n    expect(row(indices, 199)).toBe(199)\n    expect(gs.shakeTime).toBe(9)\n  })\n})\n",
+          "count": 1
+        },
+        {
+          "from": "function rowMarkedPixels(): Uint8Array {\n  const indices = new Uint8Array(SCREEN_WIDTH * SCREEN_HEIGHT)\n  for (let y = 0; y < SCREEN_HEIGHT; y++) indices.fill(y, y * SCREEN_WIDTH, (y + 1) * SCREEN_WIDTH)\n  return indices\n}",
+          "to": "function rowMarkedPixels(): Uint8Array {\n  const indices = new Uint8Array(SCREEN_WIDTH * SCREEN_HEIGHT)\n  for (let y = 0; y < SCREEN_HEIGHT; y++) {\n    // 行号 0..199 全落 8-bit 范围,直接当像素值标记。\n    indices.fill(y, y * SCREEN_WIDTH, (y + 1) * SCREEN_WIDTH)\n  }\n  return indices\n}",
+          "count": 1
+        },
+        {
+          "from": "'G04-B screen-shake 边界与补帧'",
+          "to": "'screen shake boundaries and supplemental frames'",
+          "count": 1
+        },
+        {
+          "from": "'G04-B01 shakeLevel=200 不搬移像素，shakeTime 仍减 1'",
+          "to": "'shakeLevel=200 不搬移像素，shakeTime 仍减 1'",
+          "count": 1
+        },
+        {
+          "from": "'G04-B02 奇数帧 level=199 只把最后一行抬到顶，其余行填黑'",
+          "to": "'奇数帧 level=199 只把最后一行抬到顶，其余行填黑'",
+          "count": 1
+        },
+        {
+          "from": "'G04-B03 advance=false 的奇数帧仍上移，shakeTime 保持原值'",
+          "to": "'advance=false 的奇数帧仍上移，shakeTime 保持原值'",
+          "count": 1
+        },
+        {
+          "from": "'G04-B04 偶数帧 level=199 顶上 199 行填黑，底行等于改写后的第 0 行'",
+          "to": "'偶数帧 level=199 顶上 199 行填黑，底行等于改写后的第 0 行'",
+          "count": 1
+        },
+        {
+          "from": "'G04-B05 level=1 的奇数帧上移一行，底行填黑'",
+          "to": "'level=1 的奇数帧上移一行，底行填黑'",
+          "count": 1
+        },
+        {
+          "from": "'G04-B06 level=256 且 advance=false 时像素和 shakeTime 都不变'",
+          "to": "'level=256 且 advance=false 时像素和 shakeTime 都不变'",
+          "count": 1
+        },
+        {
+          "from": "row(",
+          "to": "rowStartColor(",
+          "count": 17
+        }
+      ]
+    },
+    {
+      "id": "frame-effects-4",
+      "path": "packages/game/src/present/screen-wave.test.ts",
+      "reason": "Identifier alpha-renames and explicit suite/title identity mapping; one pure row builder consolidation verified separately; all case literals/assertions/control flow and hook scopes retained.",
+      "changes": [
+        {
+          "from": "import { beforeEach, describe, expect, it } from 'vitest'\nimport { applyScreenWave, resetScreenWavePhase } from './screen-wave.js'\n\nconst W = 320\nconst H = 200\n\n/** 造一个像素 = (列号 + 行号) mod 256的 320×200 fb,便于检测横向卷动。 */\nfunction makeFb(): Uint8Array {\n  const fb = new Uint8Array(W * H)\n  for (let y = 0; y < H; y++) {\n    for (let x = 0; x < W; x++) fb[y * W + x] = (x + y) & 0xff\n  }\n  return fb\n}\n\ndescribe('特效 B screen-wave(PAL_ApplyWave port)', () => {\n  beforeEach(() => resetScreenWavePhase())\n\n  it('wScreenWave=0 且 sWaveProgression=0 → 无效果,不改像素', () => {\n    const fb = makeFb()\n    const before = fb.slice()\n    const gs = { wScreenWave: 0, sWaveProgression: 0 }\n    applyScreenWave(fb, gs)\n    expect(fb).toEqual(before)\n    expect(gs.wScreenWave).toBe(0)\n  })\n\n  it('每帧 wScreenWave += sWaveProgression(渐弱)', () => {\n    const fb = makeFb()\n    const gs = { wScreenWave: 40, sWaveProgression: -8 }\n    applyScreenWave(fb, gs)\n    expect(gs.wScreenWave).toBe(32) // 40 + (-8)\n  })\n\n  it('wScreenWave 累加到 0 → 自动清零关闭(wave + progression 都归 0)', () => {\n    const fb = makeFb()\n    const before = fb.slice()\n    const gs = { wScreenWave: 8, sWaveProgression: -8 } // += -8 → 0 → 关闭\n    applyScreenWave(fb, gs)\n    expect(gs.wScreenWave).toBe(0)\n    expect(gs.sWaveProgression).toBe(0)\n    expect(fb).toEqual(before) // 关闭那帧不卷动\n  })\n\n  it('活跃波动 → 像素被横向卷动(至少一行发生左移,且像素值集合守恒=循环卷动)', () => {\n    const fb = makeFb()\n    const before = fb.slice()\n    const gs = { wScreenWave: 255, sWaveProgression: 0 }\n    applyScreenWave(fb, gs)\n    // 整体应有改变(某些行 shift>0)\n    expect(fb).not.toEqual(before)\n    // 循环卷动 = 每行像素值是原行的旋转 → 整帧像素值多重集守恒(逐行 sort 后相等)\n    for (let y = 0; y < H; y++) {\n      const a = Array.from(before.subarray(y * W, y * W + W)).sort((p, q) => p - q)\n      const b = Array.from(fb.subarray(y * W, y * W + W)).sort((p, q) => p - q)\n      expect(b).toEqual(a)\n    }\n  })\n})\n",
+          "to": "import { beforeEach, describe, expect, it } from 'vitest'\nimport { applyScreenWave, resetScreenWavePhase } from './screen-wave.js'\n\nconst SCREEN_WIDTH = 320\nconst SCREEN_HEIGHT = 200\n\n/** 造一个像素 = (列号 + 行号) mod 256的 320×200 fb,便于检测横向卷动。 */\nfunction diagonalMarkedRows(): Uint8Array {\n  const fb = new Uint8Array(SCREEN_WIDTH * SCREEN_HEIGHT)\n  for (let y = 0; y < SCREEN_HEIGHT; y++) {\n    for (let x = 0; x < SCREEN_WIDTH; x++) fb[y * SCREEN_WIDTH + x] = (x + y) & 0xff\n  }\n  return fb\n}\n\ndescribe('特效 B screen-wave(PAL_ApplyWave port)', () => {\n  beforeEach(() => resetScreenWavePhase())\n\n  it('wScreenWave=0 且 sWaveProgression=0 → 无效果,不改像素', () => {\n    const fb = diagonalMarkedRows()\n    const before = fb.slice()\n    const gs = { wScreenWave: 0, sWaveProgression: 0 }\n    applyScreenWave(fb, gs)\n    expect(fb).toEqual(before)\n    expect(gs.wScreenWave).toBe(0)\n  })\n\n  it('每帧 wScreenWave += sWaveProgression(渐弱)', () => {\n    const fb = diagonalMarkedRows()\n    const gs = { wScreenWave: 40, sWaveProgression: -8 }\n    applyScreenWave(fb, gs)\n    expect(gs.wScreenWave).toBe(32) // 40 + (-8)\n  })\n\n  it('wScreenWave 累加到 0 → 自动清零关闭(wave + progression 都归 0)', () => {\n    const fb = diagonalMarkedRows()\n    const before = fb.slice()\n    const gs = { wScreenWave: 8, sWaveProgression: -8 } // += -8 → 0 → 关闭\n    applyScreenWave(fb, gs)\n    expect(gs.wScreenWave).toBe(0)\n    expect(gs.sWaveProgression).toBe(0)\n    expect(fb).toEqual(before) // 关闭那帧不卷动\n  })\n\n  it('活跃波动 → 像素被横向卷动(至少一行发生左移,且像素值集合守恒=循环卷动)', () => {\n    const fb = diagonalMarkedRows()\n    const before = fb.slice()\n    const gs = { wScreenWave: 255, sWaveProgression: 0 }\n    applyScreenWave(fb, gs)\n    // 整体应有改变(某些行 shift>0)\n    expect(fb).not.toEqual(before)\n    // 循环卷动 = 每行像素值是原行的旋转 → 整帧像素值多重集守恒(逐行 sort 后相等)\n    for (let y = 0; y < SCREEN_HEIGHT; y++) {\n      const a = Array.from(before.subarray(y * SCREEN_WIDTH, y * SCREEN_WIDTH + SCREEN_WIDTH)).sort((p, q) => p - q)\n      const b = Array.from(fb.subarray(y * SCREEN_WIDTH, y * SCREEN_WIDTH + SCREEN_WIDTH)).sort((p, q) => p - q)\n      expect(b).toEqual(a)\n    }\n  })\n})\n",
+          "count": 1
+        },
+        {
+          "from": "'特效 B screen-wave(PAL_ApplyWave port)'",
+          "to": "'screen wave progression and row conservation'",
+          "count": 1
+        },
+        {
+          "from": "'wScreenWave=0 且 sWaveProgression=0 → 无效果,不改像素'",
+          "to": "'wScreenWave=0 且 sWaveProgression=0 → 无效果,不改像素'",
+          "count": 1
+        },
+        {
+          "from": "'每帧 wScreenWave += sWaveProgression(渐弱)'",
+          "to": "'每帧 wScreenWave += sWaveProgression(渐弱)'",
+          "count": 1
+        },
+        {
+          "from": "'wScreenWave 累加到 0 → 自动清零关闭(wave + progression 都归 0)'",
+          "to": "'wScreenWave 累加到 0 → 自动清零关闭(wave + progression 都归 0)'",
+          "count": 1
+        },
+        {
+          "from": "'活跃波动 → 像素被横向卷动(至少一行发生左移,且像素值集合守恒=循环卷动)'",
+          "to": "'活跃波动改变像素，且每行像素多重集保持不变'",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "frame-effects-5",
+      "path": "packages/game/src/present/screen-wave-mirror.grok-r1.test.ts",
+      "reason": "Identifier alpha-renames and explicit suite/title identity mapping; one pure row builder consolidation verified separately; all case literals/assertions/control flow and hook scopes retained.",
+      "changes": [
+        {
+          "from": "/** 镜像、边界和补帧合同；基础关断/累加见主测，负 progression 与跨帧相位见 leaves。 */\nimport { beforeEach, describe, expect, it } from 'vitest'\nimport { applyScreenWave, resetScreenWavePhase } from './screen-wave.js'\n\nconst W = 320\n\nfunction rowPattern(): Uint8Array {\n  const indices = new Uint8Array(W * 200)\n  for (let y = 0; y < 200; y++) {\n    for (let x = 0; x < W; x++) indices[y * W + x] = x & 0xff\n  }\n  return indices\n}\n\nfunction expectRowShift(indices: Uint8Array, y: number, shift: number): void {\n  const row = y * W\n  for (let x = 0; x < W; x++) {\n    expect(indices[row + x]).toBe(((x + shift) % W) & 0xff)\n  }\n}\n\ndescribe('G04-A screen-wave 镜像与关断', () => {\n  beforeEach(() => resetScreenWavePhase())\n\n  it('G04-A01 相位 0 波幅 128 时第 16 行是 320 减 wave[0] 的镜像左移 290', () => {\n    const indices = rowPattern()\n    const gs = { wScreenWave: 128, sWaveProgression: 0 }\n    applyScreenWave(indices, gs, true)\n    expectRowShift(indices, 16, 290)\n    expect(gs.wScreenWave).toBe(128)\n  })\n\n  it('G04-A02 波幅 255 仍卷动，行 0 左移 trunc(60*255/256)=59', () => {\n    const indices = rowPattern()\n    const gs = { wScreenWave: 255, sWaveProgression: 0 }\n    applyScreenWave(indices, gs, true)\n    expectRowShift(indices, 0, 59)\n    expect(gs.wScreenWave).toBe(255)\n  })\n\n  it('G04-A03 波幅 4 时行 0 的偏移表为 0 故不卷，行 7 左移 4', () => {\n    const indices = rowPattern()\n    const gs = { wScreenWave: 4, sWaveProgression: 0 }\n    applyScreenWave(indices, gs, true)\n    expectRowShift(indices, 0, 0)\n    expectRowShift(indices, 7, 4)\n  })\n\n  it('G04-A04 advance=false 且波幅已经是 256 时不卷动也不清零', () => {\n    const indices = rowPattern()\n    const before = indices.slice()\n    const gs = { wScreenWave: 256, sWaveProgression: 7 }\n    applyScreenWave(indices, gs, false)\n    expect(indices).toEqual(before)\n    expect(gs.wScreenWave).toBe(256)\n    expect(gs.sWaveProgression).toBe(7)\n  })\n\n  it('G04-A05 波幅恰好 256 且 advance=true 时波幅和 progression 都归 0，像素不动', () => {\n    const indices = rowPattern()\n    const before = indices.slice()\n    const gs = { wScreenWave: 252, sWaveProgression: 4 }\n    applyScreenWave(indices, gs, true)\n    expect(indices).toEqual(before)\n    expect(gs.wScreenWave).toBe(0)\n    expect(gs.sWaveProgression).toBe(0)\n  })\n\n  it('G04-A06 推进一次后 advance=false 停在 wave[1]，连卷两次是 56 再 112', () => {\n    const gs = { wScreenWave: 128, sWaveProgression: 0 }\n    applyScreenWave(new Uint8Array(W * 200), gs, true)\n    const indices = rowPattern()\n    applyScreenWave(indices, gs, false)\n    expectRowShift(indices, 0, 56)\n    applyScreenWave(indices, gs, false)\n    expectRowShift(indices, 0, 112)\n    expect(gs.wScreenWave).toBe(128)\n    expect(gs.sWaveProgression).toBe(0)\n  })\n\n  it('G04-A07 先累加再判断，250+10 越过 256 则清零且本帧不卷', () => {\n    const indices = rowPattern()\n    const before = indices.slice()\n    const gs = { wScreenWave: 250, sWaveProgression: 10 }\n    applyScreenWave(indices, gs, true)\n    expect(indices).toEqual(before)\n    expect(gs.wScreenWave).toBe(0)\n    expect(gs.sWaveProgression).toBe(0)\n  })\n\n  it('G04-A08 advance=false 的活跃波幅 200 行 0 精确左移 46，计数不累加', () => {\n    const indices = rowPattern()\n    const gs = { wScreenWave: 200, sWaveProgression: 8 }\n    applyScreenWave(indices, gs, false)\n    expectRowShift(indices, 0, 46)\n    expect(gs.wScreenWave).toBe(200)\n    expect(gs.sWaveProgression).toBe(8)\n  })\n})\n",
+          "to": "/** 镜像、边界和补帧合同；基础关断/累加见主测，负 progression 与跨帧相位见 leaves。 */\nimport { beforeEach, describe, expect, it } from 'vitest'\nimport { applyScreenWave, resetScreenWavePhase } from './screen-wave.js'\n\nconst SCREEN_WIDTH = 320\n\nfunction columnMarkedRows(): Uint8Array {\n  const indices = new Uint8Array(SCREEN_WIDTH * 200)\n  for (let y = 0; y < 200; y++) {\n    for (let x = 0; x < SCREEN_WIDTH; x++) indices[y * SCREEN_WIDTH + x] = x & 0xff\n  }\n  return indices\n}\n\nfunction expectRowShift(indices: Uint8Array, y: number, shift: number): void {\n  const row = y * SCREEN_WIDTH\n  for (let x = 0; x < SCREEN_WIDTH; x++) {\n    expect(indices[row + x]).toBe(((x + shift) % SCREEN_WIDTH) & 0xff)\n  }\n}\n\ndescribe('G04-A screen-wave 镜像与关断', () => {\n  beforeEach(() => resetScreenWavePhase())\n\n  it('G04-A01 相位 0 波幅 128 时第 16 行是 320 减 wave[0] 的镜像左移 290', () => {\n    const indices = columnMarkedRows()\n    const gs = { wScreenWave: 128, sWaveProgression: 0 }\n    applyScreenWave(indices, gs, true)\n    expectRowShift(indices, 16, 290)\n    expect(gs.wScreenWave).toBe(128)\n  })\n\n  it('G04-A02 波幅 255 仍卷动，行 0 左移 trunc(60*255/256)=59', () => {\n    const indices = columnMarkedRows()\n    const gs = { wScreenWave: 255, sWaveProgression: 0 }\n    applyScreenWave(indices, gs, true)\n    expectRowShift(indices, 0, 59)\n    expect(gs.wScreenWave).toBe(255)\n  })\n\n  it('G04-A03 波幅 4 时行 0 的偏移表为 0 故不卷，行 7 左移 4', () => {\n    const indices = columnMarkedRows()\n    const gs = { wScreenWave: 4, sWaveProgression: 0 }\n    applyScreenWave(indices, gs, true)\n    expectRowShift(indices, 0, 0)\n    expectRowShift(indices, 7, 4)\n  })\n\n  it('G04-A04 advance=false 且波幅已经是 256 时不卷动也不清零', () => {\n    const indices = columnMarkedRows()\n    const before = indices.slice()\n    const gs = { wScreenWave: 256, sWaveProgression: 7 }\n    applyScreenWave(indices, gs, false)\n    expect(indices).toEqual(before)\n    expect(gs.wScreenWave).toBe(256)\n    expect(gs.sWaveProgression).toBe(7)\n  })\n\n  it('G04-A05 波幅恰好 256 且 advance=true 时波幅和 progression 都归 0，像素不动', () => {\n    const indices = columnMarkedRows()\n    const before = indices.slice()\n    const gs = { wScreenWave: 252, sWaveProgression: 4 }\n    applyScreenWave(indices, gs, true)\n    expect(indices).toEqual(before)\n    expect(gs.wScreenWave).toBe(0)\n    expect(gs.sWaveProgression).toBe(0)\n  })\n\n  it('G04-A06 推进一次后 advance=false 停在 wave[1]，连卷两次是 56 再 112', () => {\n    const gs = { wScreenWave: 128, sWaveProgression: 0 }\n    applyScreenWave(new Uint8Array(SCREEN_WIDTH * 200), gs, true)\n    const indices = columnMarkedRows()\n    applyScreenWave(indices, gs, false)\n    expectRowShift(indices, 0, 56)\n    applyScreenWave(indices, gs, false)\n    expectRowShift(indices, 0, 112)\n    expect(gs.wScreenWave).toBe(128)\n    expect(gs.sWaveProgression).toBe(0)\n  })\n\n  it('G04-A07 先累加再判断，250+10 越过 256 则清零且本帧不卷', () => {\n    const indices = columnMarkedRows()\n    const before = indices.slice()\n    const gs = { wScreenWave: 250, sWaveProgression: 10 }\n    applyScreenWave(indices, gs, true)\n    expect(indices).toEqual(before)\n    expect(gs.wScreenWave).toBe(0)\n    expect(gs.sWaveProgression).toBe(0)\n  })\n\n  it('G04-A08 advance=false 的活跃波幅 200 行 0 精确左移 46，计数不累加', () => {\n    const indices = columnMarkedRows()\n    const gs = { wScreenWave: 200, sWaveProgression: 8 }\n    applyScreenWave(indices, gs, false)\n    expectRowShift(indices, 0, 46)\n    expect(gs.wScreenWave).toBe(200)\n    expect(gs.sWaveProgression).toBe(8)\n  })\n})\n",
+          "count": 1
+        },
+        {
+          "from": "'G04-A screen-wave 镜像与关断'",
+          "to": "'screen wave mirror and supplemental frames'",
+          "count": 1
+        },
+        {
+          "from": "'G04-A01 相位 0 波幅 128 时第 16 行是 320 减 wave[0] 的镜像左移 290'",
+          "to": "'相位 0 波幅 128 时第 16 行是 320 减 wave[0] 的镜像左移 290'",
+          "count": 1
+        },
+        {
+          "from": "'G04-A02 波幅 255 仍卷动，行 0 左移 trunc(60*255/256)=59'",
+          "to": "'波幅 255 仍卷动，行 0 左移 trunc(60*255/256)=59'",
+          "count": 1
+        },
+        {
+          "from": "'G04-A03 波幅 4 时行 0 的偏移表为 0 故不卷，行 7 左移 4'",
+          "to": "'波幅 4 时行 0 的偏移表为 0 故不卷，行 7 左移 4'",
+          "count": 1
+        },
+        {
+          "from": "'G04-A04 advance=false 且波幅已经是 256 时不卷动也不清零'",
+          "to": "'advance=false 且波幅已经是 256 时不卷动也不清零'",
+          "count": 1
+        },
+        {
+          "from": "'G04-A05 波幅恰好 256 且 advance=true 时波幅和 progression 都归 0，像素不动'",
+          "to": "'波幅恰好 256 且 advance=true 时波幅和 progression 都归 0，像素不动'",
+          "count": 1
+        },
+        {
+          "from": "'G04-A06 推进一次后 advance=false 停在 wave[1]，连卷两次是 56 再 112'",
+          "to": "'推进一次后 advance=false 停在 wave[1]，连卷两次是 56 再 112'",
+          "count": 1
+        },
+        {
+          "from": "'G04-A07 先累加再判断，250+10 越过 256 则清零且本帧不卷'",
+          "to": "'先累加再判断，250+10 越过 256 则清零且本帧不卷'",
+          "count": 1
+        },
+        {
+          "from": "'G04-A08 advance=false 的活跃波幅 200 行 0 精确左移 46，计数不累加'",
+          "to": "'advance=false 的活跃波幅 200 行 0 精确左移 46，计数不累加'",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "frame-effects-6",
+      "path": "packages/game/src/present/screen-wave.glm-phase1-leaves.test.ts",
+      "reason": "Identifier alpha-renames and explicit suite/title identity mapping; one pure row builder consolidation verified separately; all case literals/assertions/control flow and hook scopes retained.",
+      "changes": [
+        {
+          "from": "/** 原盘负 progression 收尾、循环回卷和跨帧推进；补帧冻结由 mirror A06/A08 精确断言。 */\nimport { describe, expect, it } from 'vitest'\nimport { applyScreenWave, resetScreenWavePhase } from './screen-wave.js'\n\nfunction waveGs(wave: number, progression: number) {\n  return { wScreenWave: wave, sWaveProgression: progression }\n}\n\nfunction rowPattern(): Uint8Array {\n  const indices = new Uint8Array(320 * 200)\n  for (let x = 0; x < 320; x++) indices[x] = x & 0xff // 行 0 可识别图案\n  return indices\n}\n\ndescribe('L16 applyScreenWave 剩余合同', () => {\n  it('真实 0x71 raw 的负 progression 跨过 0 时立即关断，不用负波幅卷动', () => {\n    resetScreenWavePhase()\n    const indices = rowPattern()\n    const before = indices.slice()\n    const gs = waveGs(3, -4) // data/extracted/events/all.json raw operands [255,65532,0] 的收尾形态\n    applyScreenWave(indices, gs, true)\n    expect(indices).toEqual(before)\n    expect(gs.wScreenWave).toBe(0)\n    expect(gs.sWaveProgression).toBe(0)\n  })\n\n  it('循环卷动：行 0 整体左移 shift=trunc(60·w/256)，卷出像素接回行尾', () => {\n    resetScreenWavePhase()\n    const indices = rowPattern()\n    const gs = waveGs(128, 0) // 活跃、<256\n    // 波形表首相位：b=68-8=60, a=60 → wave[0]=trunc(60*128/256)=30\n    applyScreenWave(indices, gs, true)\n    for (let x = 0; x < 320; x++) {\n      expect(indices[x]).toBe(((x + 30) % 320) & 0xff)\n    }\n    expect(gs.wScreenWave).toBe(128) // progression 0 → 不变\n  })\n\n  it('相位跨帧推进：第二帧行 0 用 wave[1]=trunc(112·w/256)，图案继续滚动', () => {\n    resetScreenWavePhase()\n    const indices = rowPattern()\n    const gs = waveGs(128, 0)\n    applyScreenWave(indices, gs, true)\n    const afterFirst = new Uint8Array(indices.subarray(0, 320))\n    applyScreenWave(indices, gs, true)\n    // 第二帧 index=1：b=52, a=112 → wave[1]=trunc(112*128/256)=56；在已左移 30 的内容上\n    // 原地再卷 → 等价总左移 86\n    for (let x = 0; x < 320; x++) expect(indices[x]).toBe(((x + 86) % 320) & 0xff)\n    expect(Array.from(indices.subarray(0, 320))).not.toEqual(Array.from(afterFirst))\n  })\n})\n",
+          "to": "/** 原盘负 progression 收尾、循环回卷和跨帧推进；补帧冻结由 mirror A06/A08 精确断言。 */\nimport { describe, expect, it } from 'vitest'\nimport { applyScreenWave, resetScreenWavePhase } from './screen-wave.js'\n\nfunction waveGs(wave: number, progression: number) {\n  return { wScreenWave: wave, sWaveProgression: progression }\n}\n\nfunction columnMarkedFirstRow(): Uint8Array {\n  const indices = new Uint8Array(320 * 200)\n  for (let x = 0; x < 320; x++) indices[x] = x & 0xff // 行 0 可识别图案\n  return indices\n}\n\ndescribe('L16 applyScreenWave 剩余合同', () => {\n  it('真实 0x71 raw 的负 progression 跨过 0 时立即关断，不用负波幅卷动', () => {\n    resetScreenWavePhase()\n    const indices = columnMarkedFirstRow()\n    const before = indices.slice()\n    const gs = waveGs(3, -4) // data/extracted/events/all.json raw operands [255,65532,0] 的收尾形态\n    applyScreenWave(indices, gs, true)\n    expect(indices).toEqual(before)\n    expect(gs.wScreenWave).toBe(0)\n    expect(gs.sWaveProgression).toBe(0)\n  })\n\n  it('循环卷动：行 0 整体左移 shift=trunc(60·w/256)，卷出像素接回行尾', () => {\n    resetScreenWavePhase()\n    const indices = columnMarkedFirstRow()\n    const gs = waveGs(128, 0) // 活跃、<256\n    // 波形表首相位：b=68-8=60, a=60 → wave[0]=trunc(60*128/256)=30\n    applyScreenWave(indices, gs, true)\n    for (let x = 0; x < 320; x++) {\n      expect(indices[x]).toBe(((x + 30) % 320) & 0xff)\n    }\n    expect(gs.wScreenWave).toBe(128) // progression 0 → 不变\n  })\n\n  it('相位跨帧推进：第二帧行 0 用 wave[1]=trunc(112·w/256)，图案继续滚动', () => {\n    resetScreenWavePhase()\n    const indices = columnMarkedFirstRow()\n    const gs = waveGs(128, 0)\n    applyScreenWave(indices, gs, true)\n    const afterFirst = new Uint8Array(indices.subarray(0, 320))\n    applyScreenWave(indices, gs, true)\n    // 第二帧 index=1：b=52, a=112 → wave[1]=trunc(112*128/256)=56；在已左移 30 的内容上\n    // 原地再卷 → 等价总左移 86\n    for (let x = 0; x < 320; x++) expect(indices[x]).toBe(((x + 86) % 320) & 0xff)\n    expect(Array.from(indices.subarray(0, 320))).not.toEqual(Array.from(afterFirst))\n  })\n})\n",
+          "count": 1
+        },
+        {
+          "from": "'L16 applyScreenWave 剩余合同'",
+          "to": "'screen wave wraparound and successive phases'",
+          "count": 1
+        },
+        {
+          "from": "'真实 0x71 raw 的负 progression 跨过 0 时立即关断，不用负波幅卷动'",
+          "to": "'真实 0x71 raw 的负 progression 跨过 0 时立即关断，不用负波幅卷动'",
+          "count": 1
+        },
+        {
+          "from": "'循环卷动：行 0 整体左移 shift=trunc(60·w/256)，卷出像素接回行尾'",
+          "to": "'循环卷动：行 0 整体左移 shift=trunc(60·w/256)，卷出像素接回行尾'",
+          "count": 1
+        },
+        {
+          "from": "'相位跨帧推进：第二帧行 0 用 wave[1]=trunc(112·w/256)，图案继续滚动'",
+          "to": "'相位跨帧推进：第二帧行 0 用 wave[1]=trunc(112·w/256)，图案继续滚动'",
+          "count": 1
+        },
+        {
+          "from": "waveGs",
+          "to": "waveState",
+          "count": 4
+        }
+      ]
+    }
+  ],
+  "registrations": [
+    {
+      "old": {
+        "file": "packages/game/src/present/dither-fade.test.ts",
+        "ordinal": 0
+      },
+      "current": {
+        "file": "packages/game/src/present/dither-fade.test.ts",
+        "titles": ["nibble dither steps"],
+        "template": "step 0(outer 0)仅取 target 高 nibble + backup 低 nibble(rgIndex[0]=0 那条 stride)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/dither-fade.test.ts",
+        "ordinal": 1
+      },
+      "current": {
+        "file": "packages/game/src/present/dither-fade.test.ts",
+        "titles": ["nibble dither steps"],
+        "template": "outer>0 低 nibble 朝 target ±1(a低 > b低 → b低+1)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/dither-fade.test.ts",
+        "ordinal": 2
+      },
+      "current": {
+        "file": "packages/game/src/present/dither-fade.test.ts",
+        "titles": ["nibble dither steps"],
+        "template": "跑满 72 step:低 nibble 差 ≤ 11(11 outer 趟 ±1)→ backup 收敛 = target"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/dither-fade-nibble.grok-r1.test.ts",
+        "ordinal": 0
+      },
+      "current": {
+        "file": "packages/game/src/present/dither-fade.test.ts",
+        "titles": ["nibble dither phases and interval boundaries"],
+        "template": "step 1 到 5 按 RG_INDEX 依次碰到下标 3、1、5、2、4"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/dither-fade-nibble.grok-r1.test.ts",
+        "ordinal": 1
+      },
+      "current": {
+        "file": "packages/game/src/present/dither-fade.test.ts",
+        "titles": ["nibble dither phases and interval boundaries"],
+        "template": "outer 1 的 step 6 把低位 9 减到 8，邻接下标不动"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/dither-fade-nibble.grok-r1.test.ts",
+        "ordinal": 2
+      },
+      "current": {
+        "file": "packages/game/src/present/dither-fade.test.ts",
+        "titles": ["nibble dither phases and interval boundaries"],
+        "template": "低位已经相等时 outer 1 不加减，只换上 target 高位"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/dither-fade-nibble.grok-r1.test.ts",
+        "ordinal": 3
+      },
+      "current": {
+        "file": "packages/game/src/present/dither-fade.test.ts",
+        "titles": ["nibble dither phases and interval boundaries"],
+        "template": "outer 0 把更高的 backup 高位直接换成 target 高位"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/dither-fade-nibble.grok-r1.test.ts",
+        "ordinal": 4
+      },
+      "current": {
+        "file": "packages/game/src/present/dither-fade.test.ts",
+        "titles": ["nibble dither phases and interval boundaries"],
+        "template": "长度超过 6 时同一 step 继续处理 k+6"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/dither-fade-nibble.grok-r1.test.ts",
+        "ordinal": 5
+      },
+      "current": {
+        "file": "packages/game/src/present/dither-fade.test.ts",
+        "titles": ["nibble dither phases and interval boundaries"],
+        "template": "fromStep 等于 toStep 时不改 backup"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/screen-shake.test.ts",
+        "ordinal": 0
+      },
+      "current": {
+        "file": "packages/game/src/present/screen-shake.test.ts",
+        "titles": ["vertical screen shake"],
+        "template": "奇帧(shakeTime=3,level=4):整幅上移 4 行,底部 4 行填黑,shakeTime→2"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/screen-shake.test.ts",
+        "ordinal": 1
+      },
+      "current": {
+        "file": "packages/game/src/present/screen-shake.test.ts",
+        "titles": ["vertical screen shake"],
+        "template": "偶帧(shakeTime=2,level=4):整幅下移 4 行,顶部 4 行填黑,shakeTime→1"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/screen-shake.test.ts",
+        "ordinal": 2
+      },
+      "current": {
+        "file": "packages/game/src/present/screen-shake.test.ts",
+        "titles": ["vertical screen shake"],
+        "template": "shakeTime 从 N 连调 N 次后归 0(video.c:614 末尾 g_wShakeTime--)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/screen-shake.test.ts",
+        "ordinal": 3
+      },
+      "current": {
+        "file": "packages/game/src/present/screen-shake.test.ts",
+        "titles": ["vertical screen shake"],
+        "template": "level=0:无可见偏移(整幅不变),但 shakeTime 仍递减"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/screen-shake-bounds.grok-r1.test.ts",
+        "ordinal": 0
+      },
+      "current": {
+        "file": "packages/game/src/present/screen-shake.test.ts",
+        "titles": ["screen shake boundaries and supplemental frames"],
+        "template": "shakeLevel=200 不搬移像素，shakeTime 仍减 1"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/screen-shake-bounds.grok-r1.test.ts",
+        "ordinal": 1
+      },
+      "current": {
+        "file": "packages/game/src/present/screen-shake.test.ts",
+        "titles": ["screen shake boundaries and supplemental frames"],
+        "template": "奇数帧 level=199 只把最后一行抬到顶，其余行填黑"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/screen-shake-bounds.grok-r1.test.ts",
+        "ordinal": 2
+      },
+      "current": {
+        "file": "packages/game/src/present/screen-shake.test.ts",
+        "titles": ["screen shake boundaries and supplemental frames"],
+        "template": "advance=false 的奇数帧仍上移，shakeTime 保持原值"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/screen-shake-bounds.grok-r1.test.ts",
+        "ordinal": 3
+      },
+      "current": {
+        "file": "packages/game/src/present/screen-shake.test.ts",
+        "titles": ["screen shake boundaries and supplemental frames"],
+        "template": "偶数帧 level=199 顶上 199 行填黑，底行等于改写后的第 0 行"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/screen-shake-bounds.grok-r1.test.ts",
+        "ordinal": 4
+      },
+      "current": {
+        "file": "packages/game/src/present/screen-shake.test.ts",
+        "titles": ["screen shake boundaries and supplemental frames"],
+        "template": "level=1 的奇数帧上移一行，底行填黑"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/screen-shake-bounds.grok-r1.test.ts",
+        "ordinal": 5
+      },
+      "current": {
+        "file": "packages/game/src/present/screen-shake.test.ts",
+        "titles": ["screen shake boundaries and supplemental frames"],
+        "template": "level=256 且 advance=false 时像素和 shakeTime 都不变"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/screen-wave.test.ts",
+        "ordinal": 0
+      },
+      "current": {
+        "file": "packages/game/src/present/screen-wave.test.ts",
+        "titles": ["screen wave progression and row conservation"],
+        "template": "wScreenWave=0 且 sWaveProgression=0 → 无效果,不改像素"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/screen-wave.test.ts",
+        "ordinal": 1
+      },
+      "current": {
+        "file": "packages/game/src/present/screen-wave.test.ts",
+        "titles": ["screen wave progression and row conservation"],
+        "template": "每帧 wScreenWave += sWaveProgression(渐弱)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/screen-wave.test.ts",
+        "ordinal": 2
+      },
+      "current": {
+        "file": "packages/game/src/present/screen-wave.test.ts",
+        "titles": ["screen wave progression and row conservation"],
+        "template": "wScreenWave 累加到 0 → 自动清零关闭(wave + progression 都归 0)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/screen-wave.test.ts",
+        "ordinal": 3
+      },
+      "current": {
+        "file": "packages/game/src/present/screen-wave.test.ts",
+        "titles": ["screen wave progression and row conservation"],
+        "template": "活跃波动改变像素，且每行像素多重集保持不变"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/screen-wave-mirror.grok-r1.test.ts",
+        "ordinal": 0
+      },
+      "current": {
+        "file": "packages/game/src/present/screen-wave.test.ts",
+        "titles": ["screen wave mirror and supplemental frames"],
+        "template": "相位 0 波幅 128 时第 16 行是 320 减 wave[0] 的镜像左移 290"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/screen-wave-mirror.grok-r1.test.ts",
+        "ordinal": 1
+      },
+      "current": {
+        "file": "packages/game/src/present/screen-wave.test.ts",
+        "titles": ["screen wave mirror and supplemental frames"],
+        "template": "波幅 255 仍卷动，行 0 左移 trunc(60*255/256)=59"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/screen-wave-mirror.grok-r1.test.ts",
+        "ordinal": 2
+      },
+      "current": {
+        "file": "packages/game/src/present/screen-wave.test.ts",
+        "titles": ["screen wave mirror and supplemental frames"],
+        "template": "波幅 4 时行 0 的偏移表为 0 故不卷，行 7 左移 4"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/screen-wave-mirror.grok-r1.test.ts",
+        "ordinal": 3
+      },
+      "current": {
+        "file": "packages/game/src/present/screen-wave.test.ts",
+        "titles": ["screen wave mirror and supplemental frames"],
+        "template": "advance=false 且波幅已经是 256 时不卷动也不清零"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/screen-wave-mirror.grok-r1.test.ts",
+        "ordinal": 4
+      },
+      "current": {
+        "file": "packages/game/src/present/screen-wave.test.ts",
+        "titles": ["screen wave mirror and supplemental frames"],
+        "template": "波幅恰好 256 且 advance=true 时波幅和 progression 都归 0，像素不动"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/screen-wave-mirror.grok-r1.test.ts",
+        "ordinal": 5
+      },
+      "current": {
+        "file": "packages/game/src/present/screen-wave.test.ts",
+        "titles": ["screen wave mirror and supplemental frames"],
+        "template": "推进一次后 advance=false 停在 wave[1]，连卷两次是 56 再 112"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/screen-wave-mirror.grok-r1.test.ts",
+        "ordinal": 6
+      },
+      "current": {
+        "file": "packages/game/src/present/screen-wave.test.ts",
+        "titles": ["screen wave mirror and supplemental frames"],
+        "template": "先累加再判断，250+10 越过 256 则清零且本帧不卷"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/screen-wave-mirror.grok-r1.test.ts",
+        "ordinal": 7
+      },
+      "current": {
+        "file": "packages/game/src/present/screen-wave.test.ts",
+        "titles": ["screen wave mirror and supplemental frames"],
+        "template": "advance=false 的活跃波幅 200 行 0 精确左移 46，计数不累加"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/screen-wave.glm-phase1-leaves.test.ts",
+        "ordinal": 0
+      },
+      "current": {
+        "file": "packages/game/src/present/screen-wave.test.ts",
+        "titles": ["screen wave wraparound and successive phases"],
+        "template": "真实 0x71 raw 的负 progression 跨过 0 时立即关断，不用负波幅卷动"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/screen-wave.glm-phase1-leaves.test.ts",
+        "ordinal": 1
+      },
+      "current": {
+        "file": "packages/game/src/present/screen-wave.test.ts",
+        "titles": ["screen wave wraparound and successive phases"],
+        "template": "循环卷动：行 0 整体左移 shift=trunc(60·w/256)，卷出像素接回行尾"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/screen-wave.glm-phase1-leaves.test.ts",
+        "ordinal": 2
+      },
+      "current": {
+        "file": "packages/game/src/present/screen-wave.test.ts",
+        "titles": ["screen wave wraparound and successive phases"],
+        "template": "相位跨帧推进：第二帧行 0 用 wave[1]=trunc(112·w/256)，图案继续滚动"
+      }
+    }
+  ],
+  "identities": [
+    {
+      "old": {
+        "file": "packages/game/src/present/dither-fade.test.ts",
+        "fullName": "applyDitherSteps(nibble dither,video.c:1178 / battle.c:630) step 0(outer 0)仅取 target 高 nibble + backup 低 nibble(rgIndex[0]=0 那条 stride)"
+      },
+      "current": {
+        "file": "packages/game/src/present/dither-fade.test.ts",
+        "fullName": "nibble dither steps step 0(outer 0)仅取 target 高 nibble + backup 低 nibble(rgIndex[0]=0 那条 stride)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/dither-fade.test.ts",
+        "fullName": "applyDitherSteps(nibble dither,video.c:1178 / battle.c:630) outer>0 低 nibble 朝 target ±1(a低 > b低 → b低+1)"
+      },
+      "current": {
+        "file": "packages/game/src/present/dither-fade.test.ts",
+        "fullName": "nibble dither steps outer>0 低 nibble 朝 target ±1(a低 > b低 → b低+1)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/dither-fade.test.ts",
+        "fullName": "applyDitherSteps(nibble dither,video.c:1178 / battle.c:630) 跑满 72 step:低 nibble 差 ≤ 11(11 outer 趟 ±1)→ backup 收敛 = target"
+      },
+      "current": {
+        "file": "packages/game/src/present/dither-fade.test.ts",
+        "fullName": "nibble dither steps 跑满 72 step:低 nibble 差 ≤ 11(11 outer 趟 ±1)→ backup 收敛 = target"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/dither-fade-nibble.grok-r1.test.ts",
+        "fullName": "G04-C dither 相位与低位回退 G04-C01 step 1 到 5 按 RG_INDEX 依次碰到下标 3、1、5、2、4"
+      },
+      "current": {
+        "file": "packages/game/src/present/dither-fade.test.ts",
+        "fullName": "nibble dither phases and interval boundaries step 1 到 5 按 RG_INDEX 依次碰到下标 3、1、5、2、4"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/dither-fade-nibble.grok-r1.test.ts",
+        "fullName": "G04-C dither 相位与低位回退 G04-C02 outer 1 的 step 6 把低位 9 减到 8，邻接下标不动"
+      },
+      "current": {
+        "file": "packages/game/src/present/dither-fade.test.ts",
+        "fullName": "nibble dither phases and interval boundaries outer 1 的 step 6 把低位 9 减到 8，邻接下标不动"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/dither-fade-nibble.grok-r1.test.ts",
+        "fullName": "G04-C dither 相位与低位回退 G04-C03 低位已经相等时 outer 1 不加减，只换上 target 高位"
+      },
+      "current": {
+        "file": "packages/game/src/present/dither-fade.test.ts",
+        "fullName": "nibble dither phases and interval boundaries 低位已经相等时 outer 1 不加减，只换上 target 高位"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/dither-fade-nibble.grok-r1.test.ts",
+        "fullName": "G04-C dither 相位与低位回退 G04-C04 outer 0 把更高的 backup 高位直接换成 target 高位"
+      },
+      "current": {
+        "file": "packages/game/src/present/dither-fade.test.ts",
+        "fullName": "nibble dither phases and interval boundaries outer 0 把更高的 backup 高位直接换成 target 高位"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/dither-fade-nibble.grok-r1.test.ts",
+        "fullName": "G04-C dither 相位与低位回退 G04-C05 长度超过 6 时同一 step 继续处理 k+6"
+      },
+      "current": {
+        "file": "packages/game/src/present/dither-fade.test.ts",
+        "fullName": "nibble dither phases and interval boundaries 长度超过 6 时同一 step 继续处理 k+6"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/dither-fade-nibble.grok-r1.test.ts",
+        "fullName": "G04-C dither 相位与低位回退 G04-C06 fromStep 等于 toStep 时不改 backup"
+      },
+      "current": {
+        "file": "packages/game/src/present/dither-fade.test.ts",
+        "fullName": "nibble dither phases and interval boundaries fromStep 等于 toStep 时不改 backup"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/screen-shake.test.ts",
+        "fullName": "applyScreenShake — port sdlpal video.c:571-616 奇帧(shakeTime=3,level=4):整幅上移 4 行,底部 4 行填黑,shakeTime→2"
+      },
+      "current": {
+        "file": "packages/game/src/present/screen-shake.test.ts",
+        "fullName": "vertical screen shake 奇帧(shakeTime=3,level=4):整幅上移 4 行,底部 4 行填黑,shakeTime→2"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/screen-shake.test.ts",
+        "fullName": "applyScreenShake — port sdlpal video.c:571-616 偶帧(shakeTime=2,level=4):整幅下移 4 行,顶部 4 行填黑,shakeTime→1"
+      },
+      "current": {
+        "file": "packages/game/src/present/screen-shake.test.ts",
+        "fullName": "vertical screen shake 偶帧(shakeTime=2,level=4):整幅下移 4 行,顶部 4 行填黑,shakeTime→1"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/screen-shake.test.ts",
+        "fullName": "applyScreenShake — port sdlpal video.c:571-616 shakeTime 从 N 连调 N 次后归 0(video.c:614 末尾 g_wShakeTime--)"
+      },
+      "current": {
+        "file": "packages/game/src/present/screen-shake.test.ts",
+        "fullName": "vertical screen shake shakeTime 从 N 连调 N 次后归 0(video.c:614 末尾 g_wShakeTime--)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/screen-shake.test.ts",
+        "fullName": "applyScreenShake — port sdlpal video.c:571-616 level=0:无可见偏移(整幅不变),但 shakeTime 仍递减"
+      },
+      "current": {
+        "file": "packages/game/src/present/screen-shake.test.ts",
+        "fullName": "vertical screen shake level=0:无可见偏移(整幅不变),但 shakeTime 仍递减"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/screen-shake-bounds.grok-r1.test.ts",
+        "fullName": "G04-B screen-shake 边界与补帧 G04-B01 shakeLevel=200 不搬移像素，shakeTime 仍减 1"
+      },
+      "current": {
+        "file": "packages/game/src/present/screen-shake.test.ts",
+        "fullName": "screen shake boundaries and supplemental frames shakeLevel=200 不搬移像素，shakeTime 仍减 1"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/screen-shake-bounds.grok-r1.test.ts",
+        "fullName": "G04-B screen-shake 边界与补帧 G04-B02 奇数帧 level=199 只把最后一行抬到顶，其余行填黑"
+      },
+      "current": {
+        "file": "packages/game/src/present/screen-shake.test.ts",
+        "fullName": "screen shake boundaries and supplemental frames 奇数帧 level=199 只把最后一行抬到顶，其余行填黑"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/screen-shake-bounds.grok-r1.test.ts",
+        "fullName": "G04-B screen-shake 边界与补帧 G04-B03 advance=false 的奇数帧仍上移，shakeTime 保持原值"
+      },
+      "current": {
+        "file": "packages/game/src/present/screen-shake.test.ts",
+        "fullName": "screen shake boundaries and supplemental frames advance=false 的奇数帧仍上移，shakeTime 保持原值"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/screen-shake-bounds.grok-r1.test.ts",
+        "fullName": "G04-B screen-shake 边界与补帧 G04-B04 偶数帧 level=199 顶上 199 行填黑，底行等于改写后的第 0 行"
+      },
+      "current": {
+        "file": "packages/game/src/present/screen-shake.test.ts",
+        "fullName": "screen shake boundaries and supplemental frames 偶数帧 level=199 顶上 199 行填黑，底行等于改写后的第 0 行"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/screen-shake-bounds.grok-r1.test.ts",
+        "fullName": "G04-B screen-shake 边界与补帧 G04-B05 level=1 的奇数帧上移一行，底行填黑"
+      },
+      "current": {
+        "file": "packages/game/src/present/screen-shake.test.ts",
+        "fullName": "screen shake boundaries and supplemental frames level=1 的奇数帧上移一行，底行填黑"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/screen-shake-bounds.grok-r1.test.ts",
+        "fullName": "G04-B screen-shake 边界与补帧 G04-B06 level=256 且 advance=false 时像素和 shakeTime 都不变"
+      },
+      "current": {
+        "file": "packages/game/src/present/screen-shake.test.ts",
+        "fullName": "screen shake boundaries and supplemental frames level=256 且 advance=false 时像素和 shakeTime 都不变"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/screen-wave.test.ts",
+        "fullName": "特效 B screen-wave(PAL_ApplyWave port) wScreenWave=0 且 sWaveProgression=0 → 无效果,不改像素"
+      },
+      "current": {
+        "file": "packages/game/src/present/screen-wave.test.ts",
+        "fullName": "screen wave progression and row conservation wScreenWave=0 且 sWaveProgression=0 → 无效果,不改像素"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/screen-wave.test.ts",
+        "fullName": "特效 B screen-wave(PAL_ApplyWave port) 每帧 wScreenWave += sWaveProgression(渐弱)"
+      },
+      "current": {
+        "file": "packages/game/src/present/screen-wave.test.ts",
+        "fullName": "screen wave progression and row conservation 每帧 wScreenWave += sWaveProgression(渐弱)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/screen-wave.test.ts",
+        "fullName": "特效 B screen-wave(PAL_ApplyWave port) wScreenWave 累加到 0 → 自动清零关闭(wave + progression 都归 0)"
+      },
+      "current": {
+        "file": "packages/game/src/present/screen-wave.test.ts",
+        "fullName": "screen wave progression and row conservation wScreenWave 累加到 0 → 自动清零关闭(wave + progression 都归 0)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/screen-wave.test.ts",
+        "fullName": "特效 B screen-wave(PAL_ApplyWave port) 活跃波动 → 像素被横向卷动(至少一行发生左移,且像素值集合守恒=循环卷动)"
+      },
+      "current": {
+        "file": "packages/game/src/present/screen-wave.test.ts",
+        "fullName": "screen wave progression and row conservation 活跃波动改变像素，且每行像素多重集保持不变"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/screen-wave-mirror.grok-r1.test.ts",
+        "fullName": "G04-A screen-wave 镜像与关断 G04-A01 相位 0 波幅 128 时第 16 行是 320 减 wave[0] 的镜像左移 290"
+      },
+      "current": {
+        "file": "packages/game/src/present/screen-wave.test.ts",
+        "fullName": "screen wave mirror and supplemental frames 相位 0 波幅 128 时第 16 行是 320 减 wave[0] 的镜像左移 290"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/screen-wave-mirror.grok-r1.test.ts",
+        "fullName": "G04-A screen-wave 镜像与关断 G04-A02 波幅 255 仍卷动，行 0 左移 trunc(60*255/256)=59"
+      },
+      "current": {
+        "file": "packages/game/src/present/screen-wave.test.ts",
+        "fullName": "screen wave mirror and supplemental frames 波幅 255 仍卷动，行 0 左移 trunc(60*255/256)=59"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/screen-wave-mirror.grok-r1.test.ts",
+        "fullName": "G04-A screen-wave 镜像与关断 G04-A03 波幅 4 时行 0 的偏移表为 0 故不卷，行 7 左移 4"
+      },
+      "current": {
+        "file": "packages/game/src/present/screen-wave.test.ts",
+        "fullName": "screen wave mirror and supplemental frames 波幅 4 时行 0 的偏移表为 0 故不卷，行 7 左移 4"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/screen-wave-mirror.grok-r1.test.ts",
+        "fullName": "G04-A screen-wave 镜像与关断 G04-A04 advance=false 且波幅已经是 256 时不卷动也不清零"
+      },
+      "current": {
+        "file": "packages/game/src/present/screen-wave.test.ts",
+        "fullName": "screen wave mirror and supplemental frames advance=false 且波幅已经是 256 时不卷动也不清零"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/screen-wave-mirror.grok-r1.test.ts",
+        "fullName": "G04-A screen-wave 镜像与关断 G04-A05 波幅恰好 256 且 advance=true 时波幅和 progression 都归 0，像素不动"
+      },
+      "current": {
+        "file": "packages/game/src/present/screen-wave.test.ts",
+        "fullName": "screen wave mirror and supplemental frames 波幅恰好 256 且 advance=true 时波幅和 progression 都归 0，像素不动"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/screen-wave-mirror.grok-r1.test.ts",
+        "fullName": "G04-A screen-wave 镜像与关断 G04-A06 推进一次后 advance=false 停在 wave[1]，连卷两次是 56 再 112"
+      },
+      "current": {
+        "file": "packages/game/src/present/screen-wave.test.ts",
+        "fullName": "screen wave mirror and supplemental frames 推进一次后 advance=false 停在 wave[1]，连卷两次是 56 再 112"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/screen-wave-mirror.grok-r1.test.ts",
+        "fullName": "G04-A screen-wave 镜像与关断 G04-A07 先累加再判断，250+10 越过 256 则清零且本帧不卷"
+      },
+      "current": {
+        "file": "packages/game/src/present/screen-wave.test.ts",
+        "fullName": "screen wave mirror and supplemental frames 先累加再判断，250+10 越过 256 则清零且本帧不卷"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/screen-wave-mirror.grok-r1.test.ts",
+        "fullName": "G04-A screen-wave 镜像与关断 G04-A08 advance=false 的活跃波幅 200 行 0 精确左移 46，计数不累加"
+      },
+      "current": {
+        "file": "packages/game/src/present/screen-wave.test.ts",
+        "fullName": "screen wave mirror and supplemental frames advance=false 的活跃波幅 200 行 0 精确左移 46，计数不累加"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/screen-wave.glm-phase1-leaves.test.ts",
+        "fullName": "L16 applyScreenWave 剩余合同 真实 0x71 raw 的负 progression 跨过 0 时立即关断，不用负波幅卷动"
+      },
+      "current": {
+        "file": "packages/game/src/present/screen-wave.test.ts",
+        "fullName": "screen wave wraparound and successive phases 真实 0x71 raw 的负 progression 跨过 0 时立即关断，不用负波幅卷动"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/screen-wave.glm-phase1-leaves.test.ts",
+        "fullName": "L16 applyScreenWave 剩余合同 循环卷动：行 0 整体左移 shift=trunc(60·w/256)，卷出像素接回行尾"
+      },
+      "current": {
+        "file": "packages/game/src/present/screen-wave.test.ts",
+        "fullName": "screen wave wraparound and successive phases 循环卷动：行 0 整体左移 shift=trunc(60·w/256)，卷出像素接回行尾"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/game/src/present/screen-wave.glm-phase1-leaves.test.ts",
+        "fullName": "L16 applyScreenWave 剩余合同 相位跨帧推进：第二帧行 0 用 wave[1]=trunc(112·w/256)，图案继续滚动"
+      },
+      "current": {
+        "file": "packages/game/src/present/screen-wave.test.ts",
+        "fullName": "screen wave wraparound and successive phases 相位跨帧推进：第二帧行 0 用 wave[1]=trunc(112·w/256)，图案继续滚动"
+      }
+    }
+  ],
+  "cohortSubjects": [
+    {
+      "path": "packages/game/src/present/dither-fade-nibble.grok-r1.test.ts",
+      "sha256": "cbeef1074d5ca20c20d60b45ed64035ddb4c5d201cb98c0993daf03296848a50"
+    },
+    {
+      "path": "packages/game/src/present/screen-shake-bounds.grok-r1.test.ts",
+      "sha256": "21a83adc29a46a08ec200f568e8dd792fbfb7dd81f78842613e6ab2b5aca4304"
+    },
+    {
+      "path": "packages/game/src/present/screen-wave-mirror.grok-r1.test.ts",
+      "sha256": "c88372255ff09d81c3d957c9dd729d65a990661b4d38aecae007b41cce179d4a"
+    },
+    {
+      "path": "packages/game/src/present/screen-wave.glm-phase1-leaves.test.ts",
+      "sha256": "7a0758ed115203df0d0cea41cf5f2beb95120a25985d482a65f00c72f78f7a81"
+    }
+  ],
+  "preserved": [
+    {
+      "path": "packages/game/src/present/dither-fade.ts",
+      "sha256": "590b0675e2853a24f78c439ecd782852d4a07c1aabcd06b072e210e0347136b6"
+    },
+    {
+      "path": "packages/game/src/present/screen-shake.ts",
+      "sha256": "8bc3671e94d45a19fc8c8d75ed10929aa57fc03638b481fcba5ba0e60f01b755"
+    },
+    {
+      "path": "packages/game/src/present/screen-wave.ts",
+      "sha256": "2870bdd7ead72b875c3de9c7ab84214f4ac2f41df84b13686a58ffb6b5187484"
+    },
+    {
+      "path": "packages/game/src/present/present.ts",
+      "sha256": "c4c6f411857d99c5f8e850bf5172c3e42f04181a64df0ce2a697fe1ec90569f9"
+    },
+    {
+      "path": "packages/game/src/present/battle/present-battle.ts",
+      "sha256": "f80d6676cd039c117a7efc6aa5ef35958b395b1e62d0f8a950fd8bde622c2453"
+    },
+    {
+      "path": "packages/game/src/shell/ending-player.ts",
+      "sha256": "b48145d2b3e5b466ce9e01634c5f4da4afbf652dea63dec63715ad63d376b70b"
+    },
+    {
+      "path": "packages/game/src/shell/rng-player.ts",
+      "sha256": "726d13f8e6293bb3f50ef42637f3a45e54f20f7d66bb7a9c056c78d3b15c6f04"
+    }
+  ],
+  "neighborPaths": [
+    "packages/game/src/present/__tests__/world-effects.test.ts",
+    "packages/game/src/present/battle/__tests__/battle-effects-composition.test.ts",
+    "packages/game/src/present/dither-fade.test.ts",
+    "packages/game/src/present/present-hold.grok-r1.test.ts",
+    "packages/game/src/present/screen-shake.test.ts",
+    "packages/game/src/present/screen-wave.test.ts"
+  ],
+  "profiles": [
+    {
+      "path": "packages/game/src/present/dither-fade.test.ts",
+      "subjects": [
+        "packages/game/src/present/dither-fade.test.ts",
+        "packages/game/src/present/dither-fade-nibble.grok-r1.test.ts"
+      ],
+      "axes": {
+        "A": "复用同字节primitive质量证据；完整读两spec与实现、presentFrame真实[appliedSteps,targetSteps)caller。9例涵盖相位、高位替换/低位升降相等、stride6与空区间；产品/数组借用归属不改。",
+        "B": "去贡献者/批次和已退役分文件排重声明，保留高低nibble/72step/最多11次推进的限制说明；不冒称任意初值都收敛。",
+        "C": "一个纯数组变换入口的相位、区间、收敛集中相邻专测；不与整像素战斗入场或有状态wave合并，setup仅本地数组。",
+        "D": "9例是不同分支和边界，不因数组构造相似删例或造模式helper；直接literal六相位矩阵独立于产品RG_INDEX。",
+        "E": "原9完整callbacks/所有参数、非标题literal与expect AST仅alpha不变；已有提前更新其它相位业务counter按原source/spec证据保留，未新造重构红例。",
+        "F": "dither-fade.test与两个按步骤/区间分组直接揭示职责；作者G04-C标题退出。",
+        "G": "两专测归一而不是两份同实现测试目录；无case/断言退役，无生产抽象/导出/兼容路径新增。",
+        "H": "显式target/backup/半开步区间直接调用真实apply，无时钟/网络或隐藏phase；确定性像素oracle保持。"
+      },
+      "acceptance": "accepted-FG; unified gates pending"
+    },
+    {
+      "path": "packages/game/src/present/screen-shake.test.ts",
+      "subjects": [
+        "packages/game/src/present/screen-shake.test.ts",
+        "packages/game/src/present/screen-shake-bounds.grok-r1.test.ts"
+      ],
+      "axes": {
+        "A": "两spec/纯实现完整读，presentFrame/BattlePresent/RNG真实caller定向核；10例保持奇偶全帧、递减、0/1/199/200/256与advance冻结，状态与数组写入Owner不变。",
+        "B": "删除旧caller行号/批次头，保每行0..199标记和矩形方向说明；原level极界真实断言未过度扩成所有非法输入。",
+        "C": "同一vertical shake实现的全帧与边界聚合，无全局hook/跨例state；不与横向wave共用产品或万能fixture。",
+        "D": "两无参row builder的输入/数值域/返回/生命周期一致；identifier和单表达式for块归一后AST相同才合并。不同wave图案不复用此helper。",
+        "E": "全部10callback参数/控制流/非标题literal/expect只作alpha命名，原全64000字节矩形oracle与精确边缘样本并存；原末列破坏counter继续有效。",
+        "F": "SCREEN_WIDTH/HEIGHT、rowMarkedPixels、rowStartColor替代W/H/marked/row，名称说明单位和返回含义；组名说明边界与补帧。",
+        "G": "删除纯fixture副本和模型专测路径，不增测试、不删除边界或有效反控；纯重构不制造产品失败。",
+        "H": "直接输入数组/最小两字段状态，无timers/IO/mock；显式advance与整帧Buffer.compare可独立检出像素/计数错误。"
+      },
+      "acceptance": "accepted-FG; unified gates pending"
+    },
+    {
+      "path": "packages/game/src/present/screen-wave.test.ts",
+      "subjects": [
+        "packages/game/src/present/screen-wave.test.ts",
+        "packages/game/src/present/screen-wave-mirror.grok-r1.test.ts",
+        "packages/game/src/present/screen-wave.glm-phase1-leaves.test.ts"
+      ],
+      "axes": {
+        "A": "3spec与module完整读；presentFrame/BattlePresent/ending真实phase Owner定向核。15例分进度/关闭/行多集、镜像极界/补帧、回卷/后继相位，原12注册beforeEach及3case内reset保留。",
+        "B": "纠正多重集守恒等同循环卷动的过度说明：仅必要条件，精确顺序由290/59/30/86等独立literal核；去mirror/leaves批次交叉路径，保原raw负progression证据边界。",
+        "C": "同一模块持有的32相位在一专测按真实合同分组；两个原beforeEach不提升到top-level，三个原inline reset不叠加hook，避免新增生命周期。",
+        "D": "diagonalMarkedRows、columnMarkedRows与columnMarkedFirstRow观测域不同，不为几行循环造模式布尔helper或混淆其余199行输入；wave与shake/dither职责独立。",
+        "E": "原15callback/全部literal/断言与顺序hook签名守恒；行多集必要条件与独立完整行位移互补，未拿自比证明顺序，也未删已区分边界的例。",
+        "F": "SCREEN_WIDTH/HEIGHT与三图案helper、waveState均达意；描述按progression/mirror/supplemental/successive phases，贡献者和L16退出canonical。",
+        "G": "三文件15例归同一实现专测，未新增API读取私有phase、无死barrel/兼容/忽略，仍保重要不同状态合同。",
+        "H": "reset公开入口与后继像素观察私有phase；原hook适用域与顺序核验，所有state/arrays每例独建，真实同步实现不mock。"
+      },
+      "acceptance": "accepted-FG; unified gates pending"
+    }
+  ],
+  "cleanExecutions": ["neighbors", "typecheck", "scoped", "proof-r3"],
+  "receipts": {
+    "before": "organization-game-frame-effects/before"
+  },
+  "reusedReviewMember": "organization-game-frame-effects/reused-reviews.json",
+  "processDisclosures": [
+    "Prior90-case baseline reused at exact seven spec hashes,34 selected identities. No baseline rerun; current product/caller pins are separately preserved.",
+    "Seven current specs fully read; four belong to fixed178 historical cohort. Three adjacent main files receive actual F/G review but no extra cohort progress credit.",
+    "Original reset hooks remain in original describe groups; leaves keep explicit per-case resets. No hook hoisting/duplication/removal. Stateful wave, vertical shake, nibble dither remain separate implementation domains.",
+    "Both shake row-marker helpers have same input/domain/lifetime/output; consolidate after identifier and single-expression block equivalence check. Distinct wave diagonal, full-column and first-row patterns remain independent. No cases/assertions retired, no product/API/mechanism/schema changes.",
+    "Corrected the pre-existing multiset=rotation claim: per-row multiset preservation is only a necessary condition, not proof of order; exact shifts remain independently asserted. Test title/comment correction only, all business assertions unchanged. Named local waveState/rowStartColor by returned domain, no helper/API expansion.",
+    "First proof correctly rejected plain substring row replacement: it also matched rowMarkedPixels (24 vs17). Tightened bridge to exact row( call/declaration tokens with17 occurrences; current spec bytes/callbacks unchanged, original rejected manifest/raw retained. No analyzer rule changed.",
+    "Second proof rejected generated double-quoted identity strings after Biome normalized them to single quotes. Fixed exact title bridge rendering to current style; not a callback/body change. Original rejected manifest/raw retained, no analyzer/printer rule loosened."
+  ],
+  "executionSummary": {
+    "selectedBaselineCases": 34,
+    "baselineRunCases": 90,
+    "currentNeighborCases": 49,
+    "currentNeighborFiles": 6
+  },
+  "reusedPrimary": {
+    "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-primitives-quality/review.json",
+    "sha256": "bef5506830a53ed3cc7ba1941934d3296c594002ca87ff2c399081d577768f3e",
+    "scope": "Exact seven spec byte pins; prior A-E/H, primary SDL sources/counters reused only within their recorded contracts. Current full reads/preserved product and caller pins listed separately."
+  },
+  "reads": {
+    "full": [
+      {
+        "path": "packages/game/src/present/dither-fade.test.ts",
+        "sha256": "68a0f63b5d4ef2045595ab37af377b26ce22247a346f7911fa544b43142ccfae",
+        "member": "organization-game-frame-effects/0.before"
+      },
+      {
+        "path": "packages/game/src/present/dither-fade-nibble.grok-r1.test.ts",
+        "sha256": "cbeef1074d5ca20c20d60b45ed64035ddb4c5d201cb98c0993daf03296848a50",
+        "member": "organization-game-frame-effects/1.before"
+      },
+      {
+        "path": "packages/game/src/present/screen-shake.test.ts",
+        "sha256": "947d456cc8f6d9aad80bd2f4f590ce0f4b6e94a2ddffe0813171d30ff489e786",
+        "member": "organization-game-frame-effects/2.before"
+      },
+      {
+        "path": "packages/game/src/present/screen-shake-bounds.grok-r1.test.ts",
+        "sha256": "21a83adc29a46a08ec200f568e8dd792fbfb7dd81f78842613e6ab2b5aca4304",
+        "member": "organization-game-frame-effects/3.before"
+      },
+      {
+        "path": "packages/game/src/present/screen-wave.test.ts",
+        "sha256": "aa3c4e54215380dcbfab2919839b9a716c11ebc22156d699fb94734032eeceff",
+        "member": "organization-game-frame-effects/4.before"
+      },
+      {
+        "path": "packages/game/src/present/screen-wave-mirror.grok-r1.test.ts",
+        "sha256": "c88372255ff09d81c3d957c9dd729d65a990661b4d38aecae007b41cce179d4a",
+        "member": "organization-game-frame-effects/5.before"
+      },
+      {
+        "path": "packages/game/src/present/screen-wave.glm-phase1-leaves.test.ts",
+        "sha256": "7a0758ed115203df0d0cea41cf5f2beb95120a25985d482a65f00c72f78f7a81",
+        "member": "organization-game-frame-effects/6.before"
+      },
+      {
+        "path": "packages/game/src/present/dither-fade.ts",
+        "sha256": "590b0675e2853a24f78c439ecd782852d4a07c1aabcd06b072e210e0347136b6"
+      },
+      {
+        "path": "packages/game/src/present/screen-shake.ts",
+        "sha256": "8bc3671e94d45a19fc8c8d75ed10929aa57fc03638b481fcba5ba0e60f01b755"
+      },
+      {
+        "path": "packages/game/src/present/screen-wave.ts",
+        "sha256": "2870bdd7ead72b875c3de9c7ab84214f4ac2f41df84b13686a58ffb6b5187484"
+      }
+    ],
+    "targeted": [
+      {
+        "path": "packages/game/src/present/present.ts",
+        "sha256": "c4c6f411857d99c5f8e850bf5172c3e42f04181a64df0ce2a697fe1ec90569f9",
+        "ranges": [[299, 325], [627, 681], [702, 720]]
+      },
+      {
+        "path": "packages/game/src/present/battle/present-battle.ts",
+        "sha256": "f80d6676cd039c117a7efc6aa5ef35958b395b1e62d0f8a950fd8bde622c2453",
+        "ranges": [[219, 239], [366, 386]]
+      },
+      {
+        "path": "packages/game/src/shell/ending-player.ts",
+        "sha256": "b48145d2b3e5b466ce9e01634c5f4da4afbf652dea63dec63715ad63d376b70b",
+        "ranges": [[156, 192]]
+      },
+      {
+        "path": "packages/game/src/shell/rng-player.ts",
+        "sha256": "726d13f8e6293bb3f50ef42637f3a45e54f20f7d66bb7a9c056c78d3b15c6f04",
+        "ranges": [[233, 251]]
+      }
+    ],
+    "limits": "Caller excerpts are targeted reads only, no new full-file credit; additional full-read font/pixel specs not counted this slice."
+  }
+}

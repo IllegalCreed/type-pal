@@ -1,0 +1,1096 @@
+{
+  "id": "content-text-world-defaults-and-frame-metadata",
+  "namespace": "organization-content-values",
+  "inputs": [
+    {
+      "path": "packages/content/src/world-variable.glm-leaf-wave.test.ts",
+      "member": "organization-content-values/0.before",
+      "sha256": "72b2d2760a847509cc755012683c23b7847103fe746c2f60bb0c655304e4f103",
+      "lines": 71
+    },
+    {
+      "path": "packages/content/src/rich-text-residual.glm-o.test.ts",
+      "member": "organization-content-values/1.before",
+      "sha256": "4b5f2a11d2600dedc06ac3787826895630042abdad991f844bf415c78f27083b",
+      "lines": 57
+    },
+    {
+      "path": "packages/content/src/frame-sequence.glm-leaf-wave.test.ts",
+      "member": "organization-content-values/2.before",
+      "sha256": "58213a227dcfe7542b7afdaa4dde26570c72010b3abf69cce2a518a33ae6c38d",
+      "lines": 42
+    },
+    {
+      "path": "packages/content/src/world-variable.test.ts",
+      "member": "organization-content-values/3.before",
+      "sha256": "7f5ba6130eb80dca82c362d7b2d555cb9ccb9f50452173e2fbc10a3ea26eb7ec",
+      "lines": 70
+    },
+    {
+      "path": "packages/content/src/rich-text.test.ts",
+      "member": "organization-content-values/4.before",
+      "sha256": "ef34a54aeea8973e9a3e091113bf745bf20345e016c29ebc75a66cddf9a65aa5",
+      "lines": 40
+    }
+  ],
+  "outputs": [
+    {
+      "path": "packages/content/src/world-variable.test.ts",
+      "sha256": "4e08709118bc93bf00cd72deb589e1fbc6f40b99f457311a170e3d12e50ca7ce",
+      "lines": 111
+    },
+    {
+      "path": "packages/content/src/rich-text.test.ts",
+      "sha256": "7ceb99ba2de5dd1620765b62e521f8c2b5017849fb48834979e2acfc2cec892c",
+      "lines": 86
+    },
+    {
+      "path": "packages/content/src/frame-sequence.validation.test.ts",
+      "sha256": "41e4f94773c113225e7eb2379a84261641200bbf0d6da24966d352d83c10d060",
+      "lines": 49
+    }
+  ],
+  "replacements": [],
+  "sourceBridges": [
+    {
+      "path": "packages/content/src/world-variable.glm-leaf-wave.test.ts",
+      "id": "organization-content-values-0",
+      "reason": "Analysis-only registration context; proof-r3 independently verifies full typed modules, private binding, exact assertion removal and sole-consumer registry relocation.",
+      "changes": [
+        {
+          "from": "import { describe, expect, test } from 'vitest'\nimport {\n  initialWorldVariablesV1,\n  validateWorldVariableIdV1,\n  validateWorldVariableRegistryV1,\n  WORLD_VARIABLE_DESCRIPTION_MAX_LENGTH,\n  WORLD_VARIABLE_ID_MAX_LENGTH,\n  WORLD_VARIABLE_NAME_MAX_LENGTH,\n} from './world-variable.js'\n\nconst registry = {\n  'quest.started': { kind: 'flag', name: '任务已开始', description: '', initial: true },\n  'score.total': { kind: 'number', name: '总分', description: '', initial: 7 },\n} as const\n\ndescribe('world-variable 剩余合同', () => {\n  test('id length accepts the 128-character boundary and rejects 129 characters', () => {\n    expect(validateWorldVariableIdV1('a'.repeat(128))).toBe('a'.repeat(128))\n    expect(() => validateWorldVariableIdV1('a'.repeat(129))).toThrow(\n      `长度不得超过 ${WORLD_VARIABLE_ID_MAX_LENGTH}`,\n    )\n  })\n\n  test('registry guard enforces name/description lengths and flag/number initial types', () => {\n    expect(() =>\n      validateWorldVariableRegistryV1({\n        a: {\n          kind: 'flag',\n          name: 'x'.repeat(WORLD_VARIABLE_NAME_MAX_LENGTH + 1),\n          description: '',\n          initial: false,\n        },\n      }),\n    ).toThrow(`长度不得超过 ${WORLD_VARIABLE_NAME_MAX_LENGTH}`)\n    expect(() =>\n      validateWorldVariableRegistryV1({\n        a: {\n          kind: 'flag',\n          name: 'x',\n          description: 'x'.repeat(WORLD_VARIABLE_DESCRIPTION_MAX_LENGTH + 1),\n          initial: false,\n        },\n      }),\n    ).toThrow(`长度不得超过 ${WORLD_VARIABLE_DESCRIPTION_MAX_LENGTH}`)\n    expect(() =>\n      validateWorldVariableRegistryV1({\n        a: { kind: 'flag', name: 'x', description: '', initial: 0 },\n      }),\n    ).toThrow('flag 期望 boolean')\n    expect(() =>\n      validateWorldVariableRegistryV1({\n        a: { kind: 'number', name: 'x', description: '', initial: true },\n      }),\n    ).toThrow('number 期望有限数值')\n  })\n\n  test('initial values split into disjoint flags and vars maps without leaking references', () => {\n    const initial = initialWorldVariablesV1(registry)\n    expect(initial.flags).toEqual({ 'quest.started': true })\n    expect(initial.vars).toEqual({ 'score.total': 7 })\n    // Runtime writes must not change the author definitions or a later new game's defaults.\n    initial.flags['quest.started'] = false\n    initial.vars['score.total'] = 99\n    expect(registry['quest.started'].initial).toBe(true)\n    expect(registry['score.total'].initial).toBe(7)\n    expect(initialWorldVariablesV1(registry)).toEqual({\n      flags: { 'quest.started': true },\n      vars: { 'score.total': 7 },\n    })\n  })\n})\n",
+          "to": "import { describe, expect, test } from 'vitest'\nimport {\n  initialWorldVariablesV1,\n  validateWorldVariableIdV1,\n  validateWorldVariableRegistryV1,\n  WORLD_VARIABLE_ID_MAX_LENGTH,\n} from './world-variable.js'\ndescribe('WorldVariableRegistryV1', () => {\ntest('id length accepts the 128-character boundary and rejects 129 characters', () => {\n    expect(validateWorldVariableIdV1('a'.repeat(128))).toBe('a'.repeat(128))\n    expect(() => validateWorldVariableIdV1('a'.repeat(129))).toThrow(\n      `长度不得超过 ${WORLD_VARIABLE_ID_MAX_LENGTH}`,\n    )\n  })\ntest('registry guard rejects numeric flags and boolean numbers', () => {\n    expect(() =>\n      validateWorldVariableRegistryV1({\n        a: { kind: 'flag', name: 'x', description: '', initial: 0 },\n      }),\n    ).toThrow('flag 期望 boolean')\n    expect(() =>\n      validateWorldVariableRegistryV1({\n        a: { kind: 'number', name: 'x', description: '', initial: true },\n      }),\n    ).toThrow('number 期望有限数值')\n  })\ntest('initial values split into disjoint flags and vars maps without leaking references', () => {\n    const registry = {\n      'quest.started': { kind: 'flag', name: '任务已开始', description: '', initial: true },\n      'score.total': { kind: 'number', name: '总分', description: '', initial: 7 },\n    } as const\n\n    const initial = initialWorldVariablesV1(registry)\n    expect(initial.flags).toEqual({ 'quest.started': true })\n    expect(initial.vars).toEqual({ 'score.total': 7 })\n    // Runtime writes must not change the author definitions or a later new game's defaults.\n    initial.flags['quest.started'] = false\n    initial.vars['score.total'] = 99\n    expect(registry['quest.started'].initial).toBe(true)\n    expect(registry['score.total'].initial).toBe(7)\n    expect(initialWorldVariablesV1(registry)).toEqual({\n      flags: { 'quest.started': true },\n      vars: { 'score.total': 7 },\n    })\n  })\n})\n",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "packages/content/src/rich-text-residual.glm-o.test.ts",
+      "id": "organization-content-values-1",
+      "reason": "Analysis-only registration context; proof-r3 independently verifies full typed modules, private binding, exact assertion removal and sole-consumer registry relocation.",
+      "changes": [
+        {
+          "from": "/** TEST-GLM-WAVE-O-1 O09：parseRichText 标记边界。\n *  相邻 rich-text.test.ts 已覆盖纯文本/空串/\n *  句中标记三段/行首两段/多标记夹文本/未闭合按纯文本。\n *  本文件按源码逐臂补未覆盖轴：未知色名、错配闭合、空内容、相邻无间隔、\n *  同名嵌套首闭合语义、redAlt 与 red 的交替区分、大小写敏感、孤儿闭合、内容含 '<'。\n */\n\nimport { describe, expect, test } from 'vitest'\nimport { parseRichText } from './rich-text.js'\n\ndescribe('O09 parseRichText：标记识别残余轴', () => {\n  test('未知色名标记 → 按纯文本（COLOR_TAGS 白名单外）', () => {\n    expect(parseRichText('<blue>海</blue>')).toEqual([{ text: '<blue>海</blue>' }])\n  })\n\n  test('错配闭合 → 按纯文本（反向引用要求同名开闭）', () => {\n    expect(parseRichText('<cyan>青</red>')).toEqual([{ text: '<cyan>青</red>' }])\n  })\n\n  test('空标记内容 → 产出带色的空 span（非空数组语义保持）', () => {\n    expect(parseRichText('<red></red>')).toEqual([{ text: '', color: 'red' }])\n  })\n\n  test('相邻标记无间隔 → 两个着色 span，之间不产生空文本 span', () => {\n    expect(parseRichText('<cyan>a</cyan><red>b</red>')).toEqual([\n      { text: 'a', color: 'cyan' },\n      { text: 'b', color: 'red' },\n    ])\n  })\n\n  test('同名嵌套 → 非贪婪取首个闭合（文档明示非嵌套语义）', () => {\n    expect(parseRichText('a<cyan>b<cyan>c</cyan>d</cyan>')).toEqual([\n      { text: 'a' },\n      { text: 'b<cyan>c', color: 'cyan' },\n      { text: 'd</cyan>' },\n    ])\n  })\n\n  test('redAlt 与 red 交替序区分（redAlt 不被截成 red）', () => {\n    expect(parseRichText('<redAlt>x</redAlt><red>y</red>')).toEqual([\n      { text: 'x', color: 'redAlt' },\n      { text: 'y', color: 'red' },\n    ])\n  })\n\n  test('大小写敏感：<CYAN> 不识别 → 纯文本', () => {\n    expect(parseRichText('<CYAN>青</CYAN>')).toEqual([{ text: '<CYAN>青</CYAN>' }])\n  })\n\n  test('孤儿闭合 → 按纯文本', () => {\n    expect(parseRichText('前</cyan>后')).toEqual([{ text: '前</cyan>后' }])\n  })\n\n  test('标记内容含 \"<\" → 着色 span 文本原样保留', () => {\n    expect(parseRichText('<cyan>a<b</cyan>')).toEqual([{ text: 'a<b', color: 'cyan' }])\n  })\n})\n",
+          "to": "import { describe, expect, test } from 'vitest'\nimport { parseRichText } from './rich-text.js'\ndescribe('parseRichText', () => {\ntest('未知色名标记 → 按纯文本（COLOR_TAGS 白名单外）', () => {\n    expect(parseRichText('<blue>海</blue>')).toEqual([{ text: '<blue>海</blue>' }])\n  })\ntest('错配闭合 → 按纯文本（反向引用要求同名开闭）', () => {\n    expect(parseRichText('<cyan>青</red>')).toEqual([{ text: '<cyan>青</red>' }])\n  })\ntest('空标记内容 → 产出带色的空 span（非空数组语义保持）', () => {\n    expect(parseRichText('<red></red>')).toEqual([{ text: '', color: 'red' }])\n  })\ntest('相邻标记无间隔 → 两个着色 span，之间不产生空文本 span', () => {\n    expect(parseRichText('<cyan>a</cyan><red>b</red>')).toEqual([\n      { text: 'a', color: 'cyan' },\n      { text: 'b', color: 'red' },\n    ])\n  })\ntest('同名嵌套 → 非贪婪取首个闭合（文档明示非嵌套语义）', () => {\n    expect(parseRichText('a<cyan>b<cyan>c</cyan>d</cyan>')).toEqual([\n      { text: 'a' },\n      { text: 'b<cyan>c', color: 'cyan' },\n      { text: 'd</cyan>' },\n    ])\n  })\ntest('redAlt 与 red 交替序区分（redAlt 不被截成 red）', () => {\n    expect(parseRichText('<redAlt>x</redAlt><red>y</red>')).toEqual([\n      { text: 'x', color: 'redAlt' },\n      { text: 'y', color: 'red' },\n    ])\n  })\ntest('大小写敏感：<CYAN> 不识别 → 纯文本', () => {\n    expect(parseRichText('<CYAN>青</CYAN>')).toEqual([{ text: '<CYAN>青</CYAN>' }])\n  })\ntest('孤儿闭合 → 按纯文本', () => {\n    expect(parseRichText('前</cyan>后')).toEqual([{ text: '前</cyan>后' }])\n  })\ntest('标记内容含 \"<\" → 着色 span 文本原样保留', () => {\n    expect(parseRichText('<cyan>a<b</cyan>')).toEqual([{ text: 'a<b', color: 'cyan' }])\n  })\n})\n",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "packages/content/src/frame-sequence.glm-leaf-wave.test.ts",
+      "id": "organization-content-values-2",
+      "reason": "Analysis-only registration context; proof-r3 independently verifies full typed modules, private binding, exact assertion removal and sole-consumer registry relocation.",
+      "changes": [
+        {
+          "from": "import { describe, expect, test } from 'vitest'\nimport { type FrameSequenceIndexV1, validateFrameSequenceIndex } from './frame-sequence.js'\n\nfunction index(overrides: Partial<FrameSequenceIndexV1> = {}): FrameSequenceIndexV1 {\n  return {\n    version: 1,\n    codec: 'deflate-rgba8-xor-v1',\n    pixelFormat: 'rgba8',\n    width: 8,\n    height: 8,\n    defaultFrameMs: 100,\n    blockFrames: 32,\n    blocks: [{ firstFrame: 0, frameCount: 3, offset: 0, bytes: 768, rawBytes: 768 }],\n    frames: [{ durationMs: 50 }, { durationMs: 200 }, {}],\n    ...overrides,\n  }\n}\n\ndescribe('validateFrameSequenceIndex 剩余合同', () => {\n  test('accepts a canonical index with a consistent single block', () => {\n    // width*height*4 = 8*8*4 = 256 bytes/frame；3 帧 → rawBytes 768。\n    const valid = index()\n    expect(validateFrameSequenceIndex(valid, 768)).toEqual(valid)\n  })\n\n  test('rejects wrong version/codec/pixelFormat/blockFrames and empty frames', () => {\n    // API 声明 value: unknown —— 非法字段以裸对象注入，不经类型压制。\n    expect(() => validateFrameSequenceIndex({ ...index(), version: 2 }, 768)).toThrow('version')\n    expect(() => validateFrameSequenceIndex({ ...index(), codec: 'other' }, 768)).toThrow('codec')\n    expect(() => validateFrameSequenceIndex({ ...index(), pixelFormat: 'rgb565' }, 768)).toThrow(\n      'pixelFormat',\n    )\n    expect(() => validateFrameSequenceIndex({ ...index(), blockFrames: 33 }, 768)).toThrow(\n      'blockFrames',\n    )\n    expect(() => validateFrameSequenceIndex(index({ frames: [] }), 768)).toThrow('非空数组')\n    expect(() => validateFrameSequenceIndex(index({ width: 0 }), 768)).toThrow('width')\n    expect(() => validateFrameSequenceIndex(index({ defaultFrameMs: 0 }), 768)).toThrow(\n      'defaultFrameMs',\n    )\n  })\n})\n",
+          "to": "/** Index metadata only; compressed payload and decoded pixels belong to the codec suites. */\nimport { describe, expect, test } from 'vitest'\nimport { type FrameSequenceIndexV1, validateFrameSequenceIndex } from './frame-sequence.js'\n\nfunction validFrameIndex(overrides: Partial<FrameSequenceIndexV1> = {}): FrameSequenceIndexV1 {\n  return {\n    version: 1,\n    codec: 'deflate-rgba8-xor-v1',\n    pixelFormat: 'rgba8',\n    width: 8,\n    height: 8,\n    defaultFrameMs: 100,\n    blockFrames: 32,\n    blocks: [{ firstFrame: 0, frameCount: 3, offset: 0, bytes: 768, rawBytes: 768 }],\n    frames: [{ durationMs: 50 }, { durationMs: 200 }, {}],\n    ...overrides,\n  }\n}\ndescribe('TPFS index metadata validation', () => {\ntest('accepts a canonical index with a consistent single block', () => {\n    // width*height*4 = 8*8*4 = 256 bytes/frame；3 帧 → rawBytes 768。\n    const valid = validFrameIndex()\n    expect(validateFrameSequenceIndex(valid, 768)).toEqual(valid)\n  })\ntest('rejects invalid metadata discriminants, dimensions, timing and empty frames', () => {\n    // API 声明 value: unknown —— 非法字段以裸对象注入，不经类型压制。\n    expect(() => validateFrameSequenceIndex({ ...validFrameIndex(), version: 2 }, 768)).toThrow(\n      'version',\n    )\n    expect(() => validateFrameSequenceIndex({ ...validFrameIndex(), codec: 'other' }, 768)).toThrow(\n      'codec',\n    )\n    expect(() =>\n      validateFrameSequenceIndex({ ...validFrameIndex(), pixelFormat: 'rgb565' }, 768),\n    ).toThrow('pixelFormat')\n    expect(() =>\n      validateFrameSequenceIndex({ ...validFrameIndex(), blockFrames: 33 }, 768),\n    ).toThrow('blockFrames')\n    expect(() => validateFrameSequenceIndex(validFrameIndex({ frames: [] }), 768)).toThrow(\n      '非空数组',\n    )\n    expect(() => validateFrameSequenceIndex(validFrameIndex({ width: 0 }), 768)).toThrow('width')\n    expect(() => validateFrameSequenceIndex(validFrameIndex({ defaultFrameMs: 0 }), 768)).toThrow(\n      'defaultFrameMs',\n    )\n  })\n})\n",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "packages/content/src/world-variable.test.ts",
+      "id": "organization-content-values-3",
+      "reason": "Analysis-only registration context; proof-r3 independently verifies full typed modules, private binding, exact assertion removal and sole-consumer registry relocation.",
+      "changes": [
+        {
+          "from": "import { describe, expect, test } from 'vitest'\nimport {\n  initialWorldVariablesV1,\n  validateWorldVariableIdV1,\n  validateWorldVariableRegistryV1,\n} from './world-variable.js'\n\ndescribe('WorldVariableRegistryV1', () => {\n  test('validates the exact discriminated registry and returns a detached value', () => {\n    const input = {\n      'quest.opened': {\n        kind: 'flag',\n        name: '任务已开启',\n        description: '主线第一章',\n        initial: false,\n      },\n      reputation: {\n        kind: 'number',\n        name: '声望',\n        description: '',\n        initial: 2.5,\n      },\n    }\n    const checked = validateWorldVariableRegistryV1(input)\n    expect(checked).toEqual(input)\n    expect(checked).not.toBe(input)\n    expect(checked['quest.opened']).not.toBe(input['quest.opened'])\n  })\n\n  test.each([\n    ['', /不能为空/],\n    [' quest', /首尾空格/],\n    ['2quest', /字母开头/],\n    ['quest name', /只允许/],\n    ['sys:screenWave', /保留给引擎/],\n  ])('rejects invalid author id %j', (id, message) => {\n    expect(() => validateWorldVariableIdV1(id)).toThrow(message)\n  })\n\n  test('rejects unknown keys, malformed text and non-finite number defaults', () => {\n    expect(() =>\n      validateWorldVariableRegistryV1({\n        ok: { kind: 'flag', name: 'OK', description: '', initial: false, extra: true },\n      }),\n    ).toThrow(/未知字段 extra/)\n    expect(() =>\n      validateWorldVariableRegistryV1({\n        ok: { kind: 'flag', name: ' ', description: '', initial: false },\n      }),\n    ).toThrow(/首尾空格/)\n    expect(() =>\n      validateWorldVariableRegistryV1({\n        ok: { kind: 'number', name: 'OK', description: '', initial: Number.POSITIVE_INFINITY },\n      }),\n    ).toThrow(/有限数值/)\n  })\n\n  test('builds fresh runtime values from author defaults', () => {\n    const registry = validateWorldVariableRegistryV1({\n      opened: { kind: 'flag', name: '开启', description: '', initial: true },\n      score: { kind: 'number', name: '分数', description: '', initial: 7 },\n    })\n    const first = initialWorldVariablesV1(registry)\n    const second = initialWorldVariablesV1(registry)\n    expect(first).toEqual({ flags: { opened: true }, vars: { score: 7 } })\n    expect(second).toEqual(first)\n    expect(second.flags).not.toBe(first.flags)\n    expect(second.vars).not.toBe(first.vars)\n  })\n})\n",
+          "to": "import { describe, expect, test } from 'vitest'\nimport {\n  initialWorldVariablesV1,\n  validateWorldVariableIdV1,\n  validateWorldVariableRegistryV1,\n  WORLD_VARIABLE_ID_MAX_LENGTH,\n} from './world-variable.js'\ndescribe('WorldVariableRegistryV1', () => {\ntest('validates the exact discriminated registry and returns a detached value', () => {\n    const input = {\n      'quest.opened': {\n        kind: 'flag',\n        name: '任务已开启',\n        description: '主线第一章',\n        initial: false,\n      },\n      reputation: {\n        kind: 'number',\n        name: '声望',\n        description: '',\n        initial: 2.5,\n      },\n    }\n    const checked = validateWorldVariableRegistryV1(input)\n    expect(checked).toEqual(input)\n    expect(checked).not.toBe(input)\n    expect(checked['quest.opened']).not.toBe(input['quest.opened'])\n  })\ntest.each([\n    ['', /不能为空/],\n    [' quest', /首尾空格/],\n    ['2quest', /字母开头/],\n    ['quest name', /只允许/],\n    ['sys:screenWave', /保留给引擎/],\n  ])('rejects invalid author id %j', (id, message) => {\n    expect(() => validateWorldVariableIdV1(id)).toThrow(message)\n  })\ntest('rejects unknown keys, malformed text and non-finite number defaults', () => {\n    expect(() =>\n      validateWorldVariableRegistryV1({\n        ok: { kind: 'flag', name: 'OK', description: '', initial: false, extra: true },\n      }),\n    ).toThrow(/未知字段 extra/)\n    expect(() =>\n      validateWorldVariableRegistryV1({\n        ok: { kind: 'flag', name: ' ', description: '', initial: false },\n      }),\n    ).toThrow(/首尾空格/)\n    expect(() =>\n      validateWorldVariableRegistryV1({\n        ok: { kind: 'number', name: 'OK', description: '', initial: Number.POSITIVE_INFINITY },\n      }),\n    ).toThrow(/有限数值/)\n  })\ntest('builds fresh runtime values from author defaults', () => {\n    const registry = validateWorldVariableRegistryV1({\n      opened: { kind: 'flag', name: '开启', description: '', initial: true },\n      score: { kind: 'number', name: '分数', description: '', initial: 7 },\n    })\n    const first = initialWorldVariablesV1(registry)\n    const second = initialWorldVariablesV1(registry)\n    expect(first).toEqual({ flags: { opened: true }, vars: { score: 7 } })\n    expect(second).toEqual(first)\n    expect(second.flags).not.toBe(first.flags)\n    expect(second.vars).not.toBe(first.vars)\n  })\n})\n",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "packages/content/src/rich-text.test.ts",
+      "id": "organization-content-values-4",
+      "reason": "Analysis-only registration context; proof-r3 independently verifies full typed modules, private binding, exact assertion removal and sole-consumer registry relocation.",
+      "changes": [
+        {
+          "from": "import { describe, expect, test } from 'vitest'\nimport { parseRichText } from './rich-text.js'\n\ndescribe('parseRichText', () => {\n  test('纯文本 → 单 span', () => {\n    expect(parseRichText('你终于醒了')).toEqual([{ text: '你终于醒了' }])\n  })\n\n  test('空串 → 单个空 span', () => {\n    expect(parseRichText('')).toEqual([{ text: '' }])\n  })\n\n  test('句中颜色标记 → 前/色/后三段', () => {\n    expect(parseRichText('他递来一柄<cyan>青锋剑</cyan>。')).toEqual([\n      { text: '他递来一柄' },\n      { text: '青锋剑', color: 'cyan' },\n      { text: '。' },\n    ])\n  })\n\n  test('行首颜色标记 → 色/后两段', () => {\n    expect(parseRichText('<red>住手</red>！')).toEqual([\n      { text: '住手', color: 'red' },\n      { text: '！' },\n    ])\n  })\n\n  test('多个颜色标记', () => {\n    expect(parseRichText('<yellow>金</yellow>和<cyan>青</cyan>')).toEqual([\n      { text: '金', color: 'yellow' },\n      { text: '和' },\n      { text: '青', color: 'cyan' },\n    ])\n  })\n\n  // 契约:迁移器/手写 locale 可能写出半截标记;未闭合必须按纯文本,不吞字符、不崩。\n  test('未闭合标记 → 按纯文本处理(不吞字符不崩)', () => {\n    expect(parseRichText('他<cyan>青锋剑')).toEqual([{ text: '他<cyan>青锋剑' }])\n  })\n})\n",
+          "to": "import { describe, expect, test } from 'vitest'\nimport { parseRichText } from './rich-text.js'\ndescribe('parseRichText', () => {\ntest('纯文本 → 单 span', () => {\n    expect(parseRichText('你终于醒了')).toEqual([{ text: '你终于醒了' }])\n  })\ntest('空串 → 单个空 span', () => {\n    expect(parseRichText('')).toEqual([{ text: '' }])\n  })\ntest('句中颜色标记 → 前/色/后三段', () => {\n    expect(parseRichText('他递来一柄<cyan>青锋剑</cyan>。')).toEqual([\n      { text: '他递来一柄' },\n      { text: '青锋剑', color: 'cyan' },\n      { text: '。' },\n    ])\n  })\ntest('行首颜色标记 → 色/后两段', () => {\n    expect(parseRichText('<red>住手</red>！')).toEqual([\n      { text: '住手', color: 'red' },\n      { text: '！' },\n    ])\n  })\ntest('多个颜色标记', () => {\n    expect(parseRichText('<yellow>金</yellow>和<cyan>青</cyan>')).toEqual([\n      { text: '金', color: 'yellow' },\n      { text: '和' },\n      { text: '青', color: 'cyan' },\n    ])\n  })\ntest('未闭合标记 → 按纯文本处理(不吞字符不崩)', () => {\n    expect(parseRichText('他<cyan>青锋剑')).toEqual([{ text: '他<cyan>青锋剑' }])\n  })\n})\n",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "registrations": [
+    {
+      "old": {
+        "file": "packages/content/src/world-variable.glm-leaf-wave.test.ts",
+        "ordinal": 0,
+        "fullName": "world-variable 剩余合同 id length accepts the 128-character boundary and rejects 129 characters"
+      },
+      "current": {
+        "file": "packages/content/src/world-variable.test.ts",
+        "titles": ["WorldVariableRegistryV1"],
+        "template": "id length accepts the 128-character boundary and rejects 129 characters",
+        "fullName": "WorldVariableRegistryV1 id length accepts the 128-character boundary and rejects 129 characters"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/world-variable.glm-leaf-wave.test.ts",
+        "ordinal": 1,
+        "fullName": "world-variable 剩余合同 registry guard enforces name/description lengths and flag/number initial types"
+      },
+      "current": {
+        "file": "packages/content/src/world-variable.test.ts",
+        "titles": ["WorldVariableRegistryV1"],
+        "template": "registry guard rejects numeric flags and boolean numbers",
+        "fullName": "WorldVariableRegistryV1 registry guard rejects numeric flags and boolean numbers"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/world-variable.glm-leaf-wave.test.ts",
+        "ordinal": 2,
+        "fullName": "world-variable 剩余合同 initial values split into disjoint flags and vars maps without leaking references"
+      },
+      "current": {
+        "file": "packages/content/src/world-variable.test.ts",
+        "titles": ["WorldVariableRegistryV1"],
+        "template": "initial values split into disjoint flags and vars maps without leaking references",
+        "fullName": "WorldVariableRegistryV1 initial values split into disjoint flags and vars maps without leaking references"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/rich-text-residual.glm-o.test.ts",
+        "ordinal": 0,
+        "fullName": "O09 parseRichText：标记识别残余轴 未知色名标记 → 按纯文本（COLOR_TAGS 白名单外）"
+      },
+      "current": {
+        "file": "packages/content/src/rich-text.test.ts",
+        "titles": ["parseRichText"],
+        "template": "未知色名标记 → 按纯文本（COLOR_TAGS 白名单外）",
+        "fullName": "parseRichText 未知色名标记 → 按纯文本（COLOR_TAGS 白名单外）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/rich-text-residual.glm-o.test.ts",
+        "ordinal": 1,
+        "fullName": "O09 parseRichText：标记识别残余轴 错配闭合 → 按纯文本（反向引用要求同名开闭）"
+      },
+      "current": {
+        "file": "packages/content/src/rich-text.test.ts",
+        "titles": ["parseRichText"],
+        "template": "错配闭合 → 按纯文本（反向引用要求同名开闭）",
+        "fullName": "parseRichText 错配闭合 → 按纯文本（反向引用要求同名开闭）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/rich-text-residual.glm-o.test.ts",
+        "ordinal": 2,
+        "fullName": "O09 parseRichText：标记识别残余轴 空标记内容 → 产出带色的空 span（非空数组语义保持）"
+      },
+      "current": {
+        "file": "packages/content/src/rich-text.test.ts",
+        "titles": ["parseRichText"],
+        "template": "空标记内容 → 产出带色的空 span（非空数组语义保持）",
+        "fullName": "parseRichText 空标记内容 → 产出带色的空 span（非空数组语义保持）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/rich-text-residual.glm-o.test.ts",
+        "ordinal": 3,
+        "fullName": "O09 parseRichText：标记识别残余轴 相邻标记无间隔 → 两个着色 span，之间不产生空文本 span"
+      },
+      "current": {
+        "file": "packages/content/src/rich-text.test.ts",
+        "titles": ["parseRichText"],
+        "template": "相邻标记无间隔 → 两个着色 span，之间不产生空文本 span",
+        "fullName": "parseRichText 相邻标记无间隔 → 两个着色 span，之间不产生空文本 span"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/rich-text-residual.glm-o.test.ts",
+        "ordinal": 4,
+        "fullName": "O09 parseRichText：标记识别残余轴 同名嵌套 → 非贪婪取首个闭合（文档明示非嵌套语义）"
+      },
+      "current": {
+        "file": "packages/content/src/rich-text.test.ts",
+        "titles": ["parseRichText"],
+        "template": "同名嵌套 → 非贪婪取首个闭合（文档明示非嵌套语义）",
+        "fullName": "parseRichText 同名嵌套 → 非贪婪取首个闭合（文档明示非嵌套语义）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/rich-text-residual.glm-o.test.ts",
+        "ordinal": 5,
+        "fullName": "O09 parseRichText：标记识别残余轴 redAlt 与 red 交替序区分（redAlt 不被截成 red）"
+      },
+      "current": {
+        "file": "packages/content/src/rich-text.test.ts",
+        "titles": ["parseRichText"],
+        "template": "redAlt 与 red 交替序区分（redAlt 不被截成 red）",
+        "fullName": "parseRichText redAlt 与 red 交替序区分（redAlt 不被截成 red）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/rich-text-residual.glm-o.test.ts",
+        "ordinal": 6,
+        "fullName": "O09 parseRichText：标记识别残余轴 大小写敏感：<CYAN> 不识别 → 纯文本"
+      },
+      "current": {
+        "file": "packages/content/src/rich-text.test.ts",
+        "titles": ["parseRichText"],
+        "template": "大小写敏感：<CYAN> 不识别 → 纯文本",
+        "fullName": "parseRichText 大小写敏感：<CYAN> 不识别 → 纯文本"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/rich-text-residual.glm-o.test.ts",
+        "ordinal": 7,
+        "fullName": "O09 parseRichText：标记识别残余轴 孤儿闭合 → 按纯文本"
+      },
+      "current": {
+        "file": "packages/content/src/rich-text.test.ts",
+        "titles": ["parseRichText"],
+        "template": "孤儿闭合 → 按纯文本",
+        "fullName": "parseRichText 孤儿闭合 → 按纯文本"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/rich-text-residual.glm-o.test.ts",
+        "ordinal": 8,
+        "fullName": "O09 parseRichText：标记识别残余轴 标记内容含 \"<\" → 着色 span 文本原样保留"
+      },
+      "current": {
+        "file": "packages/content/src/rich-text.test.ts",
+        "titles": ["parseRichText"],
+        "template": "标记内容含 \"<\" → 着色 span 文本原样保留",
+        "fullName": "parseRichText 标记内容含 \"<\" → 着色 span 文本原样保留"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/frame-sequence.glm-leaf-wave.test.ts",
+        "ordinal": 0,
+        "fullName": "validateFrameSequenceIndex 剩余合同 accepts a canonical index with a consistent single block"
+      },
+      "current": {
+        "file": "packages/content/src/frame-sequence.validation.test.ts",
+        "titles": ["TPFS index metadata validation"],
+        "template": "accepts a canonical index with a consistent single block",
+        "fullName": "TPFS index metadata validation accepts a canonical index with a consistent single block"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/frame-sequence.glm-leaf-wave.test.ts",
+        "ordinal": 1,
+        "fullName": "validateFrameSequenceIndex 剩余合同 rejects wrong version/codec/pixelFormat/blockFrames and empty frames"
+      },
+      "current": {
+        "file": "packages/content/src/frame-sequence.validation.test.ts",
+        "titles": ["TPFS index metadata validation"],
+        "template": "rejects invalid metadata discriminants, dimensions, timing and empty frames",
+        "fullName": "TPFS index metadata validation rejects invalid metadata discriminants, dimensions, timing and empty frames"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/world-variable.test.ts",
+        "ordinal": 0,
+        "fullName": "WorldVariableRegistryV1 validates the exact discriminated registry and returns a detached value"
+      },
+      "current": {
+        "file": "packages/content/src/world-variable.test.ts",
+        "titles": ["WorldVariableRegistryV1"],
+        "template": "validates the exact discriminated registry and returns a detached value",
+        "fullName": "WorldVariableRegistryV1 validates the exact discriminated registry and returns a detached value"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/world-variable.test.ts",
+        "ordinal": 1,
+        "fullName": "WorldVariableRegistryV1 rejects invalid author id %j"
+      },
+      "current": {
+        "file": "packages/content/src/world-variable.test.ts",
+        "titles": ["WorldVariableRegistryV1"],
+        "template": "rejects invalid author id %j",
+        "fullName": "WorldVariableRegistryV1 rejects invalid author id %j"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/world-variable.test.ts",
+        "ordinal": 2,
+        "fullName": "WorldVariableRegistryV1 rejects unknown keys, malformed text and non-finite number defaults"
+      },
+      "current": {
+        "file": "packages/content/src/world-variable.test.ts",
+        "titles": ["WorldVariableRegistryV1"],
+        "template": "rejects unknown keys, malformed text and non-finite number defaults",
+        "fullName": "WorldVariableRegistryV1 rejects unknown keys, malformed text and non-finite number defaults"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/world-variable.test.ts",
+        "ordinal": 3,
+        "fullName": "WorldVariableRegistryV1 builds fresh runtime values from author defaults"
+      },
+      "current": {
+        "file": "packages/content/src/world-variable.test.ts",
+        "titles": ["WorldVariableRegistryV1"],
+        "template": "builds fresh runtime values from author defaults",
+        "fullName": "WorldVariableRegistryV1 builds fresh runtime values from author defaults"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/rich-text.test.ts",
+        "ordinal": 0,
+        "fullName": "parseRichText 纯文本 → 单 span"
+      },
+      "current": {
+        "file": "packages/content/src/rich-text.test.ts",
+        "titles": ["parseRichText"],
+        "template": "纯文本 → 单 span",
+        "fullName": "parseRichText 纯文本 → 单 span"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/rich-text.test.ts",
+        "ordinal": 1,
+        "fullName": "parseRichText 空串 → 单个空 span"
+      },
+      "current": {
+        "file": "packages/content/src/rich-text.test.ts",
+        "titles": ["parseRichText"],
+        "template": "空串 → 单个空 span",
+        "fullName": "parseRichText 空串 → 单个空 span"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/rich-text.test.ts",
+        "ordinal": 2,
+        "fullName": "parseRichText 句中颜色标记 → 前/色/后三段"
+      },
+      "current": {
+        "file": "packages/content/src/rich-text.test.ts",
+        "titles": ["parseRichText"],
+        "template": "句中颜色标记 → 前/色/后三段",
+        "fullName": "parseRichText 句中颜色标记 → 前/色/后三段"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/rich-text.test.ts",
+        "ordinal": 3,
+        "fullName": "parseRichText 行首颜色标记 → 色/后两段"
+      },
+      "current": {
+        "file": "packages/content/src/rich-text.test.ts",
+        "titles": ["parseRichText"],
+        "template": "行首颜色标记 → 色/后两段",
+        "fullName": "parseRichText 行首颜色标记 → 色/后两段"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/rich-text.test.ts",
+        "ordinal": 4,
+        "fullName": "parseRichText 多个颜色标记"
+      },
+      "current": {
+        "file": "packages/content/src/rich-text.test.ts",
+        "titles": ["parseRichText"],
+        "template": "多个颜色标记",
+        "fullName": "parseRichText 多个颜色标记"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/rich-text.test.ts",
+        "ordinal": 5,
+        "fullName": "parseRichText 未闭合标记 → 按纯文本处理(不吞字符不崩)"
+      },
+      "current": {
+        "file": "packages/content/src/rich-text.test.ts",
+        "titles": ["parseRichText"],
+        "template": "未闭合标记 → 按纯文本处理(不吞字符不崩)",
+        "fullName": "parseRichText 未闭合标记 → 按纯文本处理(不吞字符不崩)"
+      }
+    }
+  ],
+  "identities": [
+    {
+      "old": {
+        "file": "packages/content/src/frame-sequence.glm-leaf-wave.test.ts",
+        "fullName": "validateFrameSequenceIndex 剩余合同 accepts a canonical index with a consistent single block"
+      },
+      "current": {
+        "file": "packages/content/src/frame-sequence.validation.test.ts",
+        "fullName": "TPFS index metadata validation accepts a canonical index with a consistent single block"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/frame-sequence.glm-leaf-wave.test.ts",
+        "fullName": "validateFrameSequenceIndex 剩余合同 rejects wrong version/codec/pixelFormat/blockFrames and empty frames"
+      },
+      "current": {
+        "file": "packages/content/src/frame-sequence.validation.test.ts",
+        "fullName": "TPFS index metadata validation rejects invalid metadata discriminants, dimensions, timing and empty frames"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/rich-text-residual.glm-o.test.ts",
+        "fullName": "O09 parseRichText：标记识别残余轴 未知色名标记 → 按纯文本（COLOR_TAGS 白名单外）"
+      },
+      "current": {
+        "file": "packages/content/src/rich-text.test.ts",
+        "fullName": "parseRichText 未知色名标记 → 按纯文本（COLOR_TAGS 白名单外）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/rich-text-residual.glm-o.test.ts",
+        "fullName": "O09 parseRichText：标记识别残余轴 错配闭合 → 按纯文本（反向引用要求同名开闭）"
+      },
+      "current": {
+        "file": "packages/content/src/rich-text.test.ts",
+        "fullName": "parseRichText 错配闭合 → 按纯文本（反向引用要求同名开闭）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/rich-text-residual.glm-o.test.ts",
+        "fullName": "O09 parseRichText：标记识别残余轴 空标记内容 → 产出带色的空 span（非空数组语义保持）"
+      },
+      "current": {
+        "file": "packages/content/src/rich-text.test.ts",
+        "fullName": "parseRichText 空标记内容 → 产出带色的空 span（非空数组语义保持）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/rich-text-residual.glm-o.test.ts",
+        "fullName": "O09 parseRichText：标记识别残余轴 相邻标记无间隔 → 两个着色 span，之间不产生空文本 span"
+      },
+      "current": {
+        "file": "packages/content/src/rich-text.test.ts",
+        "fullName": "parseRichText 相邻标记无间隔 → 两个着色 span，之间不产生空文本 span"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/rich-text-residual.glm-o.test.ts",
+        "fullName": "O09 parseRichText：标记识别残余轴 同名嵌套 → 非贪婪取首个闭合（文档明示非嵌套语义）"
+      },
+      "current": {
+        "file": "packages/content/src/rich-text.test.ts",
+        "fullName": "parseRichText 同名嵌套 → 非贪婪取首个闭合（文档明示非嵌套语义）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/rich-text-residual.glm-o.test.ts",
+        "fullName": "O09 parseRichText：标记识别残余轴 redAlt 与 red 交替序区分（redAlt 不被截成 red）"
+      },
+      "current": {
+        "file": "packages/content/src/rich-text.test.ts",
+        "fullName": "parseRichText redAlt 与 red 交替序区分（redAlt 不被截成 red）"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/rich-text-residual.glm-o.test.ts",
+        "fullName": "O09 parseRichText：标记识别残余轴 大小写敏感：<CYAN> 不识别 → 纯文本"
+      },
+      "current": {
+        "file": "packages/content/src/rich-text.test.ts",
+        "fullName": "parseRichText 大小写敏感：<CYAN> 不识别 → 纯文本"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/rich-text-residual.glm-o.test.ts",
+        "fullName": "O09 parseRichText：标记识别残余轴 孤儿闭合 → 按纯文本"
+      },
+      "current": {
+        "file": "packages/content/src/rich-text.test.ts",
+        "fullName": "parseRichText 孤儿闭合 → 按纯文本"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/rich-text-residual.glm-o.test.ts",
+        "fullName": "O09 parseRichText：标记识别残余轴 标记内容含 \"<\" → 着色 span 文本原样保留"
+      },
+      "current": {
+        "file": "packages/content/src/rich-text.test.ts",
+        "fullName": "parseRichText 标记内容含 \"<\" → 着色 span 文本原样保留"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/rich-text.test.ts",
+        "fullName": "parseRichText 纯文本 → 单 span"
+      },
+      "current": {
+        "file": "packages/content/src/rich-text.test.ts",
+        "fullName": "parseRichText 纯文本 → 单 span"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/rich-text.test.ts",
+        "fullName": "parseRichText 空串 → 单个空 span"
+      },
+      "current": {
+        "file": "packages/content/src/rich-text.test.ts",
+        "fullName": "parseRichText 空串 → 单个空 span"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/rich-text.test.ts",
+        "fullName": "parseRichText 句中颜色标记 → 前/色/后三段"
+      },
+      "current": {
+        "file": "packages/content/src/rich-text.test.ts",
+        "fullName": "parseRichText 句中颜色标记 → 前/色/后三段"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/rich-text.test.ts",
+        "fullName": "parseRichText 行首颜色标记 → 色/后两段"
+      },
+      "current": {
+        "file": "packages/content/src/rich-text.test.ts",
+        "fullName": "parseRichText 行首颜色标记 → 色/后两段"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/rich-text.test.ts",
+        "fullName": "parseRichText 多个颜色标记"
+      },
+      "current": {
+        "file": "packages/content/src/rich-text.test.ts",
+        "fullName": "parseRichText 多个颜色标记"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/rich-text.test.ts",
+        "fullName": "parseRichText 未闭合标记 → 按纯文本处理(不吞字符不崩)"
+      },
+      "current": {
+        "file": "packages/content/src/rich-text.test.ts",
+        "fullName": "parseRichText 未闭合标记 → 按纯文本处理(不吞字符不崩)"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/world-variable.glm-leaf-wave.test.ts",
+        "fullName": "world-variable 剩余合同 id length accepts the 128-character boundary and rejects 129 characters"
+      },
+      "current": {
+        "file": "packages/content/src/world-variable.test.ts",
+        "fullName": "WorldVariableRegistryV1 id length accepts the 128-character boundary and rejects 129 characters"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/world-variable.glm-leaf-wave.test.ts",
+        "fullName": "world-variable 剩余合同 registry guard enforces name/description lengths and flag/number initial types"
+      },
+      "current": {
+        "file": "packages/content/src/world-variable.test.ts",
+        "fullName": "WorldVariableRegistryV1 registry guard rejects numeric flags and boolean numbers"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/world-variable.glm-leaf-wave.test.ts",
+        "fullName": "world-variable 剩余合同 initial values split into disjoint flags and vars maps without leaking references"
+      },
+      "current": {
+        "file": "packages/content/src/world-variable.test.ts",
+        "fullName": "WorldVariableRegistryV1 initial values split into disjoint flags and vars maps without leaking references"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/world-variable.test.ts",
+        "fullName": "WorldVariableRegistryV1 validates the exact discriminated registry and returns a detached value"
+      },
+      "current": {
+        "file": "packages/content/src/world-variable.test.ts",
+        "fullName": "WorldVariableRegistryV1 validates the exact discriminated registry and returns a detached value"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/world-variable.test.ts",
+        "fullName": "WorldVariableRegistryV1 rejects invalid author id \"\""
+      },
+      "current": {
+        "file": "packages/content/src/world-variable.test.ts",
+        "fullName": "WorldVariableRegistryV1 rejects invalid author id \"\""
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/world-variable.test.ts",
+        "fullName": "WorldVariableRegistryV1 rejects invalid author id \" quest\""
+      },
+      "current": {
+        "file": "packages/content/src/world-variable.test.ts",
+        "fullName": "WorldVariableRegistryV1 rejects invalid author id \" quest\""
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/world-variable.test.ts",
+        "fullName": "WorldVariableRegistryV1 rejects invalid author id \"2quest\""
+      },
+      "current": {
+        "file": "packages/content/src/world-variable.test.ts",
+        "fullName": "WorldVariableRegistryV1 rejects invalid author id \"2quest\""
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/world-variable.test.ts",
+        "fullName": "WorldVariableRegistryV1 rejects invalid author id \"quest name\""
+      },
+      "current": {
+        "file": "packages/content/src/world-variable.test.ts",
+        "fullName": "WorldVariableRegistryV1 rejects invalid author id \"quest name\""
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/world-variable.test.ts",
+        "fullName": "WorldVariableRegistryV1 rejects invalid author id \"sys:screenWave\""
+      },
+      "current": {
+        "file": "packages/content/src/world-variable.test.ts",
+        "fullName": "WorldVariableRegistryV1 rejects invalid author id \"sys:screenWave\""
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/world-variable.test.ts",
+        "fullName": "WorldVariableRegistryV1 rejects unknown keys, malformed text and non-finite number defaults"
+      },
+      "current": {
+        "file": "packages/content/src/world-variable.test.ts",
+        "fullName": "WorldVariableRegistryV1 rejects unknown keys, malformed text and non-finite number defaults"
+      }
+    },
+    {
+      "old": {
+        "file": "packages/content/src/world-variable.test.ts",
+        "fullName": "WorldVariableRegistryV1 builds fresh runtime values from author defaults"
+      },
+      "current": {
+        "file": "packages/content/src/world-variable.test.ts",
+        "fullName": "WorldVariableRegistryV1 builds fresh runtime values from author defaults"
+      }
+    }
+  ],
+  "retirements": [],
+  "cohortSubjects": [
+    {
+      "path": "packages/content/src/world-variable.glm-leaf-wave.test.ts",
+      "sha256": "72b2d2760a847509cc755012683c23b7847103fe746c2f60bb0c655304e4f103",
+      "priorCurrentBridges": []
+    },
+    {
+      "path": "packages/content/src/rich-text-residual.glm-o.test.ts",
+      "sha256": "4b5f2a11d2600dedc06ac3787826895630042abdad991f844bf415c78f27083b",
+      "priorCurrentBridges": []
+    },
+    {
+      "path": "packages/content/src/frame-sequence.glm-leaf-wave.test.ts",
+      "sha256": "58213a227dcfe7542b7afdaa4dde26570c72010b3abf69cce2a518a33ae6c38d",
+      "priorCurrentBridges": []
+    }
+  ],
+  "profiles": [
+    {
+      "path": "packages/content/src/world-variable.test.ts",
+      "subjects": ["packages/content/src/world-variable.glm-leaf-wave.test.ts"],
+      "axes": {
+        "A": "Full71-line leaf and70-line main read with complete116-line real validator/initializer. Current source matches prior full A-H pin. Real buildWorld337 and project-loader286 call these exports. ID128/129, finite2.5, false, wrong numeric/boolean types and runtime writes are lawful positive/explicit negative inputs.",
+        "B": "Replace mixed length/type title with actual retained numeric-flag/boolean-number contract. Runtime-write isolation comment remains supported by writes plus immutable author defaults and later new initializer call. Adjacent brittle line references replaced with responsibility pointer only.",
+        "C": "One owner and pure lifetime justify merging three leaf registrations into the main file. Author registry moves from module scope to its sole test consumer; no global cache or state coupling remains. Main reference-isolation and later-new-game observations retain distinct lifecycle boundaries.",
+        "D": "Two repeated name/description-overflow assertions are removed: existing boundary A1 has same pre-kind text guard, legal upper limit, upper+1 and exact error path. Numeric0 flag and boolean true number differ from boundary string/NaN; keep them. Direct ID literal128/129 catches constant drift unlike boundary constant-derived values.",
+        "E": "All11 native identities retained. Full typed proof conserves main callbacks, original table, leaf statements except two explicit duplicates and registry relocation. Literal flags/vars true/7 remain independent oracles; later initialization is after runtime mutation. Six untouched boundary bodies and real buildWorld25 neighbors execute. No mock count substitutes for state correctness.",
+        "F": "Single world-variable responsibility file; wrong-kind title names primitive domains. Fixture is immediately visible at its only consumer, no contributor/group residual name. No helper added merely to shorten code.",
+        "G": "Three leaf cases merge into existing main without new cases or runtime identity retirement. Remove two duplicate assertions and two now-unused imports; local registry is the same complete const typed tree. Pending boundary file gets only a line-reference comment fix, no new full-file credit.",
+        "H": "Pure direct unknown validators and fresh initialization require no mock/IO/time. Full typed tree includes parameters/types/const/imports/final assertions; tail-literal and const-to-let negatives prove comparator discrimination. Native28baseline/91neighbors and content TC0 are limited execution evidence, not package acceptance."
+      }
+    },
+    {
+      "path": "packages/content/src/rich-text.test.ts",
+      "subjects": ["packages/content/src/rich-text-residual.glm-o.test.ts"],
+      "axes": {
+        "A": "Full57-line leaf and40-line main read with complete22-line current matchAll parser. Current parser equals recent-200 accepted hash, not older24-line while version. Actual full runtime layoutLines consumer and index exports inspected; unknown/mismatched markup is supported literal fallback, not illegal fixture.",
+        "B": "Remove contributor/wave/uncovered claims instead of inheriting false exhaustive coverage. Retain non-nesting/first-close and malformed-text explanations matching source. No claim of multiline markup, XML semantics or visual rendering.",
+        "C": "Both original suites share one pure parser, no hooks or different lifetimes; combine15 cases in canonical parseRichText group. Locale lookup, glyph layout and color rendering remain outside this unit.",
+        "D": "No shared helper needed for short literal strings. Mid/start/trailing spans and nested/empty/mismatched/orphan cases each observe distinct output shape. Pending poison.glm-o O09 has overlapping parser overview tests; record that neighbor debt without removing an unread whole pending file or declaring global deduplication.",
+        "E": "All15 original full typed callbacks and literal span arrays preserved exactly; redAlt/red prefix distinction remains one string. Character loss or wrong color fails literal assertions. No clone-self oracle or counts-only claim; unchanged pure bodies justify evidence reuse without invented fresh mutation runs.",
+        "F": "One rich-text.test.ts covers the parser; no residual/wave group or AI filename. Case titles express exact grammar observation and output order.",
+        "G": "Two arbitrary author splits become one modest file; duplicate imports/group wrapper removed, no test count growth, no helper/API abstraction. Pending poison suite overlap explicitly remains out of fixed178 scope.",
+        "H": "Real deterministic parser, no DOM/locale/network mocking. Complete AST proof and mapped native identities are independently rerunnable; UI pixels or full dialog behavior receive no acceptance credit."
+      }
+    },
+    {
+      "path": "packages/content/src/frame-sequence.validation.test.ts",
+      "subjects": ["packages/content/src/frame-sequence.glm-leaf-wave.test.ts"],
+      "axes": {
+        "A": "Full42-line leaf and current605-line TPFS source read. Canonical8x8x4x3 raw768 fixture matches schema and has one contiguous block. Real parser validates index before runtime reader caches it; reader1-85 actual lifecycle examined. Current frame source equals prior dependency pin, not a previous whole-codec acceptance.",
+        "B": "Header explicitly limits scope to index metadata; bytes768 does not claim valid compression payload. Rejection title now includes dimensions and timing as well as discriminants/empty frames. Existing arithmetic/type-boundary comments remain accurate.",
+        "C": "Keep direct metadata validation separate from231-line container/codec main and213-line real-zlib contracts. Their compression/byte/pixel lifetimes differ. Private fresh index factory has no IO, cache or shared mutable result.",
+        "D": "Factory retained for eight actual calls to identical valid-index contract; no common codec harness invented. Direct wrong JSON discriminants are not binary magic/header failures. Width and empty-frame checks at different entry layers remain scoped, no claim of global zero overlap.",
+        "E": "Two native identities and all typed statements/helper fields remain exact under private binding/titles. Positive fixture has literal version/codec/block32 independent of production constants; each negative changes one field and checks relevant message. Main13 and contracts19 adjacent cases remain unchanged; no product format edit.",
+        "F": "frame-sequence.validation.test.ts states index-validation responsibility; validFrameIndex replaces generic index binding. Group names metadata, no contributor/batch suffix. This retained split follows layer/lifetime analysis, not mechanical suffix removal.",
+        "G": "Two cases only, no new/retired identity or fixture fields. No widening/ignore/type coercion. Small private builder is reused, not a new export or universal helper.",
+        "H": "Real unknown-input guard callable without fake payload decompression. Complete typed AST includes return/parameter types and last field/assertion; rename/titles are explicit. Zero mocks/timers/shared state. New full source read does not grant unrelated codec acceptance."
+      }
+    }
+  ],
+  "commentRepair": {
+    "input": {
+      "path": "packages/content/src/world-variable.boundaries.test.ts",
+      "member": "organization-content-values/5.before",
+      "sha256": "0e97984c3ddc62f131f495e3e673e50d2314b4a5a6dccf7c74993e911b5d6f25",
+      "lines": 139
+    },
+    "output": {
+      "path": "packages/content/src/world-variable.boundaries.test.ts",
+      "sha256": "c298a1fb943274dac65ca3e5ff827511e53623140ab319518419bfbf2ce307e0",
+      "lines": 139
+    },
+    "profile": {
+      "path": "packages/content/src/world-variable.boundaries.test.ts",
+      "subjects": ["packages/content/src/world-variable.glm-leaf-wave.test.ts"],
+      "axes": {
+        "A": "Complete boundary test read as duplicate-survivor and adjacent source; no new whole-file acceptance.",
+        "B": "Only stale world-variable.test.ts line numbers replaced with named responsibility pointer.",
+        "C": "All scopes, fixtures, lifecycle and declarations unchanged.",
+        "D": "Existing name/description exact-path upper-bound cases are survivor evidence; no new shared fixture.",
+        "E": "Full typed module unchanged, six actual neighbor identities execute; no baseline rerun claimed for this comment-only auxiliary.",
+        "F": "No file/helper rename or extra F/G credit for this pending neighbor.",
+        "G": "Comment only; no assertion/import/runtime deletion.",
+        "H": "Comment AST comparison plus existing direct guard tests; pending status retained."
+      }
+    }
+  },
+  "preserved": [
+    {
+      "path": "packages/content/src/world-variable.ts",
+      "sha256": "ff1c655944da906e1eda84346bda1fde59cafa64af56683fbc09971f234fc198",
+      "lines": 116
+    },
+    {
+      "path": "packages/content/src/rich-text.ts",
+      "sha256": "b43b2610ce8f2e7d0c0d60c4d40f7f30af881d97350f496a12913e28bb42892e",
+      "lines": 22
+    },
+    {
+      "path": "packages/content/src/frame-sequence.ts",
+      "sha256": "c4d91861ebbb6f5f8590a98e5dc64c723c3cb0f76b474d5d91e9b82cf7994842",
+      "lines": 605
+    },
+    {
+      "path": "packages/content/src/index.ts",
+      "sha256": "8e93f354c16e8b69ad95c5a21dc3498fed4db47816b4b705794f99053a4ea3e8",
+      "lines": 202
+    },
+    {
+      "path": "packages/content/src/character.ts",
+      "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93",
+      "lines": 351
+    },
+    {
+      "path": "packages/content/src/frame-sequence.test.ts",
+      "sha256": "5bf8e3e31a5e27d1b83e1e55fec6079217ee3742c362a497e9422ffc0117559c",
+      "lines": 231
+    },
+    {
+      "path": "packages/content/src/frame-sequence.contracts.test.ts",
+      "sha256": "d2a03185a6acd2f236fc444369c934782118fdee7af11945ff0f5a90f4eebf63",
+      "lines": 201
+    },
+    {
+      "path": "packages/content/src/character.test.ts",
+      "sha256": "94fe1dd4733a9bce26a1055a548d7f4ad6e22ae41fd1aaa84fe33296fff74dd9",
+      "lines": 405
+    },
+    {
+      "path": "packages/content/src/__tests__/glm-state-boundary-fixtures.ts",
+      "sha256": "dc6473f0e8d3c0abf18e6b21f0aaebe5a311ed7323815d3e0b68de5d9188e7b5",
+      "lines": 52
+    },
+    {
+      "path": "packages/reforge/src/dialog/layout.ts",
+      "sha256": "763c3f8b41dbed79d5a1c3af65d9e06d527a66cd2ddc608cab15206cf9eb307a",
+      "lines": 93
+    },
+    {
+      "path": "packages/reforge/src/frame-animation-player.ts",
+      "sha256": "056937a201ea2cc21a127b3aa93cc5b42c6b9860dc46f1a4a48f7256c36c1a2b",
+      "lines": 245
+    },
+    {
+      "path": "packages/reforge/src/project-loader.ts",
+      "sha256": "ec07b4e235d13df2b6945870b3994eb2b3ab0031b4d80bbb0a6bf7ffe20bff1f",
+      "lines": 532
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PENDING-100-2/review.json",
+      "sha256": "7ad883697799d0ab3c182dddd9dec5433b3d0009a7d1aa39c6b46435bb41d8b9",
+      "lines": 2519
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json",
+      "sha256": "da0bb6b90f498a98c29a16b9a5a584a1e84efda3aa6fa8de3aea6ac4657c643a",
+      "lines": 3483
+    }
+  ],
+  "neighborPaths": [
+    "packages/content/src/character.test.ts",
+    "packages/content/src/frame-sequence.contracts.test.ts",
+    "packages/content/src/frame-sequence.test.ts",
+    "packages/content/src/frame-sequence.validation.test.ts",
+    "packages/content/src/rich-text.test.ts",
+    "packages/content/src/world-variable.boundaries.test.ts",
+    "packages/content/src/world-variable.test.ts"
+  ],
+  "receipts": {
+    "before": "organization-content-values/before-r2",
+    "proof": "organization-content-values/proof-r3"
+  },
+  "cleanExecutions": [
+    "before",
+    "reorganize",
+    "format",
+    "proof",
+    "neighbors",
+    "typecheck",
+    "docs",
+    "content-review",
+    "lint",
+    "scoped",
+    "diff",
+    "ledger-final",
+    "module-preflight"
+  ],
+  "lightweightGates": true,
+  "callbackProof": "organization-content-values/proof-r3.stdout.raw",
+  "qualityDelta": {
+    "historicalSubjects": 3,
+    "subjectIdentities": 14,
+    "auxiliaryIdentities": 14,
+    "registrations": 24,
+    "runtimeIdentities": 28,
+    "currentSpecs": 3,
+    "newCases": 0,
+    "retiredCases": 0,
+    "duplicateAssertionsRemoved": 2,
+    "productChanged": false
+  },
+  "reusedEvidence": {
+    "pins": [
+      {
+        "path": "packages/content/src/rich-text.ts",
+        "sha256": "b43b2610ce8f2e7d0c0d60c4d40f7f30af881d97350f496a12913e28bb42892e",
+        "evidence": "QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json"
+      },
+      {
+        "path": "packages/content/src/frame-sequence.glm-leaf-wave.test.ts",
+        "sha256": "58213a227dcfe7542b7afdaa4dde26570c72010b3abf69cce2a518a33ae6c38d",
+        "evidence": "QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json"
+      },
+      {
+        "path": "packages/content/src/world-variable.ts",
+        "sha256": "ff1c655944da906e1eda84346bda1fde59cafa64af56683fbc09971f234fc198",
+        "evidence": "QUALITY-PENDING-100-2/review.json",
+        "scope": "prior full A-H reused"
+      },
+      {
+        "path": "packages/content/src/frame-sequence.ts",
+        "sha256": "c4d91861ebbb6f5f8590a98e5dc64c723c3cb0f76b474d5d91e9b82cf7994842",
+        "evidence": "QUALITY-PENDING-100-2/review.json",
+        "scope": "dependency only; current full source read, no whole-codec new acceptance"
+      }
+    ],
+    "scope": "Existing A-E/H with exact source/test pins plus current full reads and typed delta proof. No fresh product counter run claimed."
+  },
+  "reads": {
+    "fullInputs": [
+      {
+        "path": "packages/content/src/world-variable.glm-leaf-wave.test.ts",
+        "member": "organization-content-values/0.before",
+        "sha256": "72b2d2760a847509cc755012683c23b7847103fe746c2f60bb0c655304e4f103",
+        "lines": 71
+      },
+      {
+        "path": "packages/content/src/rich-text-residual.glm-o.test.ts",
+        "member": "organization-content-values/1.before",
+        "sha256": "4b5f2a11d2600dedc06ac3787826895630042abdad991f844bf415c78f27083b",
+        "lines": 57
+      },
+      {
+        "path": "packages/content/src/frame-sequence.glm-leaf-wave.test.ts",
+        "member": "organization-content-values/2.before",
+        "sha256": "58213a227dcfe7542b7afdaa4dde26570c72010b3abf69cce2a518a33ae6c38d",
+        "lines": 42
+      },
+      {
+        "path": "packages/content/src/world-variable.test.ts",
+        "member": "organization-content-values/3.before",
+        "sha256": "7f5ba6130eb80dca82c362d7b2d555cb9ccb9f50452173e2fbc10a3ea26eb7ec",
+        "lines": 70
+      },
+      {
+        "path": "packages/content/src/rich-text.test.ts",
+        "member": "organization-content-values/4.before",
+        "sha256": "ef34a54aeea8973e9a3e091113bf745bf20345e016c29ebc75a66cddf9a65aa5",
+        "lines": 40
+      },
+      {
+        "path": "packages/content/src/world-variable.boundaries.test.ts",
+        "member": "organization-content-values/5.before",
+        "sha256": "0e97984c3ddc62f131f495e3e673e50d2314b4a5a6dccf7c74993e911b5d6f25",
+        "lines": 139
+      }
+    ],
+    "fullOutputs": [
+      {
+        "path": "packages/content/src/world-variable.test.ts",
+        "sha256": "4e08709118bc93bf00cd72deb589e1fbc6f40b99f457311a170e3d12e50ca7ce",
+        "lines": 111
+      },
+      {
+        "path": "packages/content/src/rich-text.test.ts",
+        "sha256": "7ceb99ba2de5dd1620765b62e521f8c2b5017849fb48834979e2acfc2cec892c",
+        "lines": 86
+      },
+      {
+        "path": "packages/content/src/frame-sequence.validation.test.ts",
+        "sha256": "41e4f94773c113225e7eb2379a84261641200bbf0d6da24966d352d83c10d060",
+        "lines": 49
+      },
+      {
+        "path": "packages/content/src/world-variable.boundaries.test.ts",
+        "sha256": "c298a1fb943274dac65ca3e5ff827511e53623140ab319518419bfbf2ce307e0",
+        "lines": 139
+      }
+    ],
+    "fullOwners": [
+      {
+        "path": "packages/content/src/world-variable.ts",
+        "sha256": "ff1c655944da906e1eda84346bda1fde59cafa64af56683fbc09971f234fc198",
+        "lines": 116
+      },
+      {
+        "path": "packages/content/src/rich-text.ts",
+        "sha256": "b43b2610ce8f2e7d0c0d60c4d40f7f30af881d97350f496a12913e28bb42892e",
+        "lines": 22
+      },
+      {
+        "path": "packages/content/src/frame-sequence.ts",
+        "sha256": "c4d91861ebbb6f5f8590a98e5dc64c723c3cb0f76b474d5d91e9b82cf7994842",
+        "lines": 605
+      }
+    ],
+    "fullAdjacentTests": [
+      {
+        "path": "packages/content/src/frame-sequence.test.ts",
+        "sha256": "5bf8e3e31a5e27d1b83e1e55fec6079217ee3742c362a497e9422ffc0117559c",
+        "lines": 231
+      },
+      {
+        "path": "packages/content/src/frame-sequence.contracts.test.ts",
+        "sha256": "d2a03185a6acd2f236fc444369c934782118fdee7af11945ff0f5a90f4eebf63",
+        "lines": 201
+      }
+    ],
+    "fullConsumer": {
+      "path": "packages/reforge/src/dialog/layout.ts",
+      "sha256": "763c3f8b41dbed79d5a1c3af65d9e06d527a66cd2ddc608cab15206cf9eb307a",
+      "lines": 93
+    },
+    "callerScopes": [
+      {
+        "path": "packages/content/src/character.ts",
+        "ranges": [[320, 355]]
+      },
+      {
+        "path": "packages/reforge/src/frame-animation-player.ts",
+        "ranges": [[1, 85]]
+      },
+      {
+        "path": "packages/reforge/src/project-loader.ts",
+        "ranges": [[277, 294]]
+      }
+    ],
+    "exports": {
+      "path": "packages/content/src/index.ts",
+      "lines": [176, 186, 202]
+    },
+    "priorScope": "Frame source pin previously dependency only; current full read is dependency review, not new product acceptance. READ-FIRST historical/current boundaries followed."
+  },
+  "knownAdjacentObservations": [
+    "Pending poison.glm-o.test.ts O09 parser overview duplicates some canonical rich-text axes; inspected only that group. Keep pending for its full mixed poison/lookup/rich-text organization review, outside fixed178 and not credited by this slice.",
+    "world-variable.boundaries.test.ts stays pending; only comment repaired and typed body conserved. Main reference identity, boundary precreated-two-value independence and leaf later-new-game initialization observe distinct timings."
+  ],
+  "processDisclosures": [
+    "Initial inline setup rejected by Python as non-UTF-8 before execution; ASCII setup succeeded. No prior mutation.",
+    "First baseline command ran from repository root with package-relative Vitest path and failed before tests. before-r2 is actual five-file28-case package run; first stderr retained.",
+    "First proof printer used empty source context and omitted literal spellings. r2 used original node text; then transformer Synthesized flag16 was mistaken for semantic declaration kind. r3 ignores only that compiler provenance flag, retains const flags and adds const-to-let negative. Two failed raws remain. Source-guard assertion corrected to actual pre-kind text calls before successful execution; tests/source untouched."
+  ],
+  "invalidations": "Changes in mapped typed tests/imports, validator/string field order, canonical metadata or real initialization/parser consumers require targeted revalidation. Existing author schemas, runtime state and rendering are unchanged.",
+  "ledgerCounts": {
+    "inventory": 3449,
+    "closed": 504,
+    "review": 313,
+    "pending": 2632
+  },
+  "quantitativeScreen": [
+    {
+      "path": "packages/content/src/world-variable.test.ts",
+      "method": "Own syntactic decisions: reading pointer only",
+      "functions": 15,
+      "max": 1,
+      "over10": 0
+    },
+    {
+      "path": "packages/content/src/rich-text.test.ts",
+      "method": "Own syntactic decisions: reading pointer only",
+      "functions": 16,
+      "max": 1,
+      "over10": 0
+    },
+    {
+      "path": "packages/content/src/frame-sequence.validation.test.ts",
+      "method": "Own syntactic decisions: reading pointer only",
+      "functions": 11,
+      "max": 1,
+      "over10": 0
+    }
+  ]
+}

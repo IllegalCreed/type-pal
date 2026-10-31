@@ -4,7 +4,8 @@
  * catalog 单字段反例、manifest 角色 kind 门、reference closure severity/where 完整断言、深快照。
  */
 import { describe, expect, test } from 'vitest'
-import { deepSnapshot, spriteAssetRecord } from './__tests__/glm-content-contract-fixtures.js'
+import { spriteAssetRecord } from './__tests__/asset-catalog-fixtures.js'
+import { deepSnapshot } from './__tests__/value-snapshot.js'
 import {
   type AssetCatalogV1,
   type AssetReference,

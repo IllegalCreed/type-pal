@@ -1,10 +1,10 @@
 import type { PlayerRole } from '@type-pal/shared'
 import {
-  emptyHSpell,
-  makeHEnemy,
-  makeHField,
-  makeHRole,
-} from '../../__tests__/glm-next-wave/H/harness.js'
+  makeBattleFieldRecord,
+  makeBattleSpellRecord,
+  makeEnemyRecord,
+  makeRoleRecord,
+} from '../../__tests__/battle-records.js'
 import { createCommandBus } from '../command-bus.js'
 import {
   createInitialGameState,
@@ -32,7 +32,7 @@ export function createBattleLifecycleFixture(options: BattleLifecycleFixtureOpti
   const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
   const baseline = {
     roles: Array.from({ length: 6 }, (_, id) =>
-      makeHRole(id, { hp: 300, mp: 10, ...options.role }),
+      makeRoleRecord(id, { hp: 300, mp: 10, ...options.role }),
     ),
   }
   loadDefaultGame(gs, baseline)
@@ -61,7 +61,7 @@ export function createBattleLifecycleFixture(options: BattleLifecycleFixtureOpti
       },
     ],
     enemies: enemyIds.map((id) =>
-      makeHEnemy({
+      makeEnemyRecord({
         id,
         collectValue: 7,
         exp: options.expGained ?? 1,
@@ -78,10 +78,10 @@ export function createBattleLifecycleFixture(options: BattleLifecycleFixtureOpti
         scriptOnReady: 0,
         scriptOnBattleEnd: options.scriptOnBattleEnd ?? 0,
       })),
-    battleFields: [makeHField()],
+    battleFields: [makeBattleFieldRecord()],
     playerRoles,
     items: [],
-    spells: [emptyHSpell(349, '天师符法'), emptyHSpell(350, '五气朝元')],
+    spells: [makeBattleSpellRecord(349, '天师符法'), makeBattleSpellRecord(350, '五气朝元')],
     magics: [],
     commands: options.commands ?? [{ op: 'end', label: 'L_0' }],
     levelUpExp: Array<number>(100).fill(100),

@@ -523,8 +523,8 @@ function dispatchSystemMenu(gs: GameState, top: ActiveMenuEntry, input: InputSna
   //   PAL_InGameMenu `if(PAL_SystemMenu()) goto out`(uigame.c:1031)→ DeleteBox cash+menu → **关整个菜单回 explore**。
   //   故「否」不是回系统菜单层,而是关掉整个 in-game 菜单栈(= 本 commit 前 `menuStack=[]` 的旧行为,只是现在多一道确认)。
   // 音乐/音效 开关子选单(sdlpal PAL_SwitchMenu,uigame.c:368-388):关/开 左右两 box,方向键 toggle;
-  //   confirm → 写 gs.f{Music,Sound}Enabled(shell AudioManager 下帧应用);cancel(Menu)→ 保持当前态、回菜单。
-  //   sdlpal PAL_SwitchMenu 返回后系统菜单 loop 继续(case break),故确认/取消都回 'menu' 不关整个菜单。
+  //   Confirm 写回 gs.f{Music,Sound}Enabled；Menu 保持原开关态；两条路径均关闭整个菜单栈。
+  //   SDLPal case3/4 后 PAL_SystemMenu 返回 TRUE，PAL_InGameMenu 随即 goto out(633/642/650/1031)。
   if (s.phase === 'switch') {
     if (
       input.pressed.has('Up') ||
@@ -887,7 +887,7 @@ function dispatchInGameMagicMenu(gs: GameState, top: ActiveMenuEntry, input: Inp
         const spell = catalogs.spells.find((x) => x.id === sel.spellId)
         if (sel.applyToAll && spell) {
           // sdlpal uigame.c:740-760 真值
-          const success = castOverworldMagic(gs, spell, sel.costMP, sel.casterId, 0xffff)
+          const success = castOverworldMagic(gs, spell, 0xffff)
           if (success) {
             // 扣 MP — sdlpal 真值跑完 scriptOnSuccess 才扣
             const curMP = gs.PlayerRolesRuntime.rgwMP[sel.casterId] ?? 0
@@ -911,7 +911,7 @@ function dispatchInGameMagicMenu(gs: GameState, top: ActiveMenuEntry, input: Inp
         const spell = catalogs.spells.find((x) => x.id === sel.spellId)
         if (spell) {
           // sdlpal uigame.c:810-822 真值:Confirm picker → 跑 scriptOnUse + scriptOnSuccess + 扣 MP
-          const success = castOverworldMagic(gs, spell, sel.costMP, sel.casterId, sel.targetRoleId)
+          const success = castOverworldMagic(gs, spell, sel.targetRoleId)
           if (success) {
             const curMP = gs.PlayerRolesRuntime.rgwMP[sel.casterId] ?? 0
             gs.PlayerRolesRuntime.rgwMP[sel.casterId] = Math.max(0, curMP - sel.costMP)

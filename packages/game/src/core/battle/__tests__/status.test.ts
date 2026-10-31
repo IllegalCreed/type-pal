@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import { makeHBattle, makeHEnemy, makeHRole } from '../../../__tests__/glm-next-wave/H/harness.js'
+import { makeBattleFixture } from '../../../__tests__/battle-fixture.js'
+import { makeEnemyRecord, makeRoleRecord } from '../../../__tests__/battle-records.js'
 import type { BattleState } from '../battle-state.js'
 import { canAct, canCastMagic, tickStatusEffects } from '../status.js'
 
@@ -22,9 +23,9 @@ function makeBattleState(opts: {
   enemyHealth?: number
   enemySilence?: number
 }): BattleState {
-  const { state } = makeHBattle({
-    roles: [makeHRole(0)],
-    enemies: [makeHEnemy({ health: opts.enemyHealth ?? 50 })],
+  const { state } = makeBattleFixture({
+    roles: [makeRoleRecord(0)],
+    enemies: [makeEnemyRecord({ health: opts.enemyHealth ?? 50 })],
   })
   state.players[0]!.status = makePlayerStatus({
     sleep: opts.sleep ?? 0,

@@ -1,9 +1,9 @@
-import { existsSync, readdirSync, readFileSync } from 'node:fs'
-import { isAbsolute, relative, resolve, sep } from 'node:path'
+import { existsSync, readFileSync } from 'node:fs'
+import { isAbsolute, resolve, sep } from 'node:path'
 import { validateSceneIndex } from '@type-pal/content'
 import type { MigrationSnapshot } from './migration-baseline.js'
-import { sha256 } from './migration-baseline.js'
 import type { MigrationJson } from './migration-files.js'
+import { sha256 } from './migration-hash.js'
 
 export const PAL_PROJECT_REL = 'projects/pal'
 
@@ -85,39 +85,4 @@ export function assertProjectSnapshotCurrent(
     const actual = existsSync(full) ? sha256(readFileSync(full)) : undefined
     if (actual !== expected) throw new Error(`迁移计划后工程已变更: ${path}`)
   }
-}
-
-function walkFiles(root: string, dir = root, out: string[] = []): string[] {
-  for (const entry of readdirSync(dir, { withFileTypes: true })) {
-    const full = resolve(dir, entry.name)
-    if (entry.isDirectory()) walkFiles(root, full, out)
-    else if (entry.isFile()) out.push(relative(root, full).split(sep).join('/'))
-  }
-  return out
-}
-
-/** 记录所有非托管工程文件；迁移前后必须完全相等。 */
-export function hashUnmanagedProjectFiles(
-  repo: string,
-  managedFiles: ReadonlySet<string>,
-  excludedFiles: ReadonlySet<string> = new Set(),
-): Map<string, string> {
-  const root = resolve(repo, PAL_PROJECT_REL)
-  const hashes = new Map<string, string>()
-  if (!existsSync(root)) return hashes
-  for (const path of walkFiles(root).sort()) {
-    if (!managedFiles.has(path) && !excludedFiles.has(path))
-      hashes.set(path, sha256(readFileSync(resolve(root, path))))
-  }
-  return hashes
-}
-
-export function assertHashMapsEqual(
-  expected: ReadonlyMap<string, string>,
-  actual: ReadonlyMap<string, string>,
-  label: string,
-): void {
-  const paths = new Set([...expected.keys(), ...actual.keys()])
-  const changed = [...paths].filter((path) => expected.get(path) !== actual.get(path)).sort()
-  if (changed.length) throw new Error(`${label}字节发生变化: ${changed.slice(0, 20).join(', ')}`)
 }

@@ -6,7 +6,11 @@
  */
 import type { Command, Item, Palette } from '@type-pal/shared'
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { makeEnemy, makeField, makeRole } from '../__tests__/coverage85-glm-game/harness.js'
+import {
+  makeEnemyRecord as makeEnemy,
+  makeBattleFieldRecord as makeField,
+  makeRoleRecord as makeRole,
+} from '../__tests__/battle-records.js'
 import { createBattleState } from './battle/battle-state.js'
 import { createCommandBus } from './command-bus.js'
 import { updateAllEquipments } from './equip-effect.js'
