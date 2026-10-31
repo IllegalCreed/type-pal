@@ -2869,3 +2869,15 @@ Owner按用户S76授权核范围后一次build allowed：贡献者GLM在codex/do
 全文语义核验适用1916/1916：旧可接受稿逐字段复用并写来源，新稿逐篇记录实际读域、结论、来源/phase/适用版本、消费者/合法输入、文档oracle/原生值见证、排重、counter/rework/blocked、历史/继任、前后SHA、模板选择理由/符合性与停止线。不用抽检、目录归纳、模板句或只哈希代替逐篇语义审阅；工具通过不认证作者确已阅读。精简/退役只能交具体来源、引用/consumer/替代和可逆退出提案，本包不删载体。5342或其它推算分母不可替代固定1916清单；附件实际5324单列归属，不授正文信用。
 
 禁止GLM改中央registry/routing/review/matrix/catalog、父卡/看板/索引、合同/工具、产品、旧测试/coverage或共享配置，不import生成器探测。单篇前提/合同不适配只阻该篇，列counter和解除条件后继续其余集合；不吞异常、不伪造来源/执行记录、不reset/stash/覆盖他人改动。最终一包交完整候选身份/集合、逐篇语义记录、patch、真实回执、失败/事故原件及只读快检；完成集合是作者交齐，不是独立接受或治理done。Codex并行做中央扩容与受影响claim/pin处理，最终授信和全量门由Owner集中执行。硬门未过不合main、不推送、不标父子卡done。
+
+### S77 内容返工据证接收与Owner规范保值收尾（2026-10-31）
+
+GLM最终作者候选62f27e854466f540fb595dc4ca4fbcb3bf4adf56（在6b83c9a2后恰两提交）按document-delivery-acceptance/1.0.0据证接收，原074a746c三counter与98df3dfca记账保留历史，不抹除。277件新交付hash全等、旧413件冻结文件不变；官方verify1916ready/0blocked/1460原生保全，Codex独立核456原文尾段相对上轮候选字节不变、patch等Git且恰456白名单；五pilot只加retention、全部既有nativeWitnesses/nativeAssessment零改。343公共工具及A轴既有接收直接复用，未重做1916全文。
+
+C01具体正文与C02原生语义缺口闭合：CODE69 done/partial、CODE53旧停止线/当前有限accept、C04真实工作流与统一诊断红、CODE90 revive临时/装备边界及非官方重放、3l生命周期局部浏览器范围、input-rotation出版与执行分轴等定向对源；另核CODE88三变异恢复、image-only30绿/535告警、三项用户取舍、duplicate-click第二Confirm边沿等。未展开全文/原raw/产品执行明确保留作者读域限制，不倒授旧运行信用。
+
+Owner直接处理规范一处残余：GLM规范摘要仍把F/G/H及部分细则放在历史块、顶部Owner为治理作者；通过已接受公开构建器把固定main72db完整现行条款原字节恢复为可见正文，保留规范Owner Codex，原source块零改，不新写政策。不将这份Owner渲染替换冒称GLM提交原字节；具体body/hash与零语义变更证明在本次Owner回执，随后中央组合集中复核，不再要求用户单独转话。
+
+C03作为保留/归并提案接收：456retain-prose/1449retain-native/11consolidate-proposed。11件逐一对源，6对确实逐字节相同，须先迁引用/pin再受控归并；其余5件只有输出或结论重叠，命令/时点/原raw身份不同，本轮继续保留，不能把935例的结论转给421B另次回执或删掉时点证据。0文件删除/移动，不授退役信用，不新增逐文件sidecar。
+
+Owner verdict SHA 9978c24851c0ea74ac6f5a8fa7e451cbbff7e95ad793dc2d9f44f331017f9b45，证据在仓外type-pal-S77-correction-owner-audit-am91s10r；原报告nav14423按最终raw14422勘误，旧报告/回执不改。作者阶段nav0issue、testing0、索引96213B字节等、lint6403零诊断及diff0按实际输入复用；Owner规范/行政变化补核实际相关门。全部作者状态仍partial/needs，0迁移/runtime信用，旧2435/1838不变；中央4处控制pin、1916扩容/正式接受表及全量硬门仍Owner待办。无下一位Agent返工提示词：下一步Owner完成公共中央接入后一次集中非作者验收；不合main、不推送、不done。
