@@ -1,5 +1,39 @@
 # CODE83/84/87/91/93 菜单核心+交易族五卡复审切片(GLM,只读零改动)
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「CODE83/84/87/91/93 菜单核心+交易族五卡复审切片(GLM,只读零改动)」的治理候选页;证据原件即下方逐字节保全的固定main源(4634B,SHA 0dd0f807a220)。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原3个链接处置见作者review的linkDisposition。当前存活入口:[directed-final.json](directed-final.json)、[per-file-index.md](per-file-index.md)、[read-boundaries.json](read-boundaries.json)
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 4634B / SHA-256 0dd0f807a22052ec9ab0918ec6afc952b57c332d2fbe1fc8f453848a502520bb；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE83/84/87/91/93 菜单核心+交易族五卡复审切片(GLM,只读零改动)
+
 基点 `dec0626e1c`;候选 HEAD `8e442940c`(本片零源码/测试改动,候选与基点在这些文件上逐字节相同)。范围:CODE-QUALITY-83(menu-mode/menu-stack)、84(inventory-menu)、87(in-game-menu)、91(inventory-action-menu)、93(sell-menu)五卡 **7 个生产/相邻文件(6 卡内生产 + 1 相邻 item-select.ts)+ 12 份卡内测试**全文逐文件八维;85/86/88/89(shop/equip/magic-select/in-game-magic)留下一菜单切片。完整读取 SHA 见 [`read-boundaries.json`](read-boundaries.json) 逐文件 A–H 索引与读域标注见 [`per-file-index.md`](per-file-index.md)(2026-10-20 C1 返工新增)。,定向原件 [`directed-final.json`](directed-final.json)。
 
 > 2026-10-20 C2 勘误:原文写"8 生产文件 + 12 份卡内测试"。实际 fullReads 共 19 条 = 7 个生产/相邻文件(6 卡内生产 + 1 相邻 `item-select.ts`,后者在本片中按相邻 filter oracle 全文读取并单列 boundary)+ 12 份测试。原结论不变,仅计数更正。
@@ -34,3 +68,5 @@ B:注释与实现/真值一致(含 2026-10-15 的 id 全局化更正与 equipabl
 
 - claim 失效条件:menu-driver dispatch 行为、game-state 菜单字段、itemmenu/uigame 参考库变化会使对应结论待复核。
 - 剩余:85/86/88/89 四卡为下一菜单切片(shop/equip/magic-select/in-game-magic);item-select 的 createItemSelectMenu 0-caller 清理候选维持登记。
+```
+<!-- incremental-original-source:end -->

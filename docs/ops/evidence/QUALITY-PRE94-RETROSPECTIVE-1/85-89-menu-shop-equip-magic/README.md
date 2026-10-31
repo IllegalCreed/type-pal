@@ -1,5 +1,39 @@
 # CODE85/86/88/89 菜单 shop/equip/magic 四卡复审切片(GLM,只读零改动)
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「CODE85/86/88/89 菜单 shop/equip/magic 四卡复审切片(GLM,只读零改动)」的治理候选页;证据原件即下方逐字节保全的固定main源(3576B,SHA bbffbac76f6e)。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原3个链接处置见作者review的linkDisposition。当前存活入口:[directed-final.json](directed-final.json)、[per-file-index.md](per-file-index.md)、[read-boundaries.json](read-boundaries.json)
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 3576B / SHA-256 bbffbac76f6e743a9825113104718eb94dc9bc18bbc953ab407fb6a2a22c9470；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE85/86/88/89 菜单 shop/equip/magic 四卡复审切片(GLM,只读零改动)
+
 基点 `dec0626e1c`;候选 HEAD `33cf347a8`(本片零改动,文件与基点逐字节相同)。范围:CODE-QUALITY-85(shop-menu)、86(equip-menu)、88(magic-select)、89(in-game-magic-menu)四卡 4 生产文件 + 11 份测试全文逐文件八维。菜单族(83-89/91/93 九卡)至此全部完成本轮复审。读取 SHA 见 [`read-boundaries.json`](read-boundaries.json) 逐文件 A–H 索引与读域标注见 [`per-file-index.md`](per-file-index.md)(2026-10-20 C1 返工新增)。,定向原件 [`directed-final.json`](directed-final.json)。
 
 **结论:未发现可由 primary source + 真实 caller 证实的新 direct defect;零改动。**四卡建议 `pending → partial`。
@@ -29,3 +63,5 @@ B:注释含历史修复依据(误加 hasOutsideMagic 灰活人、误回 pick-cas
 
 - claim 失效条件:menu-driver dispatch、uigame/magicmenu 参考库、shared Spell/Magic 类型变化会使对应结论待复核。
 - 菜单族九卡(83-89/91/93)本轮全部完成;`__tests__/item-magic-select.test.ts` 的 MagicSelectionMenu 合同为 88 卡面旧指针,其轴已被 magic-select 双测试覆盖排重,未重读整文件(登记为相邻证据)。
+```
+<!-- incremental-original-source:end -->

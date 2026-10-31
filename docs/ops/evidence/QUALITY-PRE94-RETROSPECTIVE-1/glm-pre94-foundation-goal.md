@@ -1,5 +1,39 @@
 # GLM持续任务：pre-94剩余复审与首轮整改
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「GLM持续任务：pre-94剩余复审与首轮整改」的治理候选页;证据原件即下方逐字节保全的固定main源(6744B,SHA e58f95974d02)。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原1个链接处置见作者review的linkDisposition。当前存活入口:[QUALITY-PRE94-RETROSPECTIVE-1.md](../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 6744B / SHA-256 e58f95974d02c59200dc03f9c1eaa8dea8f949aac65a45c78552fcc09b7e751d；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# GLM持续任务：pre-94剩余复审与首轮整改
+
 Owner: GLM（主要审查、首轮整改）；Codex（证据验收、后续返工、共享账本与集成）
 Status: build allowed，按下列范围，不是全仓任意产品变更授权
 用户2026-10-18要求一次交付大任务，减少两边传话。本指令与父卡当前准入共同生效，完整质量标准在docs/ops/code-quality.md第4.1节；本文件不复制另一套标准。
@@ -45,3 +79,5 @@ Status: build allowed，按下列范围，不是全仓任意产品变更授权
 Codex据证审查普通批次，不重复全文；有具体风险/矛盾/缺证据才定向展开，后续验收返工由Codex直接完成，必要时只索取已有原件或事实。阶段集成由Codex在同一3y分支提交推送；统一诊断未零前不合main。模块证据充分不等于全专项完成：83卡未解项/风险仍须如实列出，0未知冒充已验证；94–102保持本轮范围外。
 
 RLE遗留归属：G-1结构候选、O-1尺寸/输入域、O-2/R-1错误合同、O-4/R-2排重，以及QUALITY-RLE-COMMAND-TRUTH-1继续原状态；不把本包当作解码/编码算法或资源格式的修改授权。
+```
+<!-- incremental-original-source:end -->

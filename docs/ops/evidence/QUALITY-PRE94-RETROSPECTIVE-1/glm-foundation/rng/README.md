@@ -1,5 +1,39 @@
 # CODE2 RNG 三文件复审（glm-foundation 批 2）
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: audit-report-v1 / 1.0.0
+
+## 审计问题
+
+原审计「CODE2 RNG 三文件复审（glm-foundation 批 2）」的主题按原文时点保留(摘录:范围：`packages/shared/src/rng.ts`、`rng.test.ts`、`rng.boundaries.test.ts`。开工核对：无他人 RNG Owner/未提交修改（rng.)。
+
+## 范围与证据
+
+原报告含章节[CODE2 RNG 三文件复审（glm-foundation 批 2）、短回执、八维结论、问题与登记、复验入口（只读）、Codex阶段1接收说明（2026-10-18）]、2个链接;固定main源5420B(SHA 6d982f64e9db)。当前存活入口:[codex-stage1.json](../codex-stage1.json)、[directed.json](directed.json)
+
+## 发现
+
+原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+
+## 结论
+
+原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+
+## 整改与复核
+
+本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 5420B / SHA-256 6d982f64e9db6166c59fc6f2d16d3f881ed62f4046a6dbc5b18227bd3c4e1679；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+````markdown
+# CODE2 RNG 三文件复审（glm-foundation 批 2）
+
 Status: review（候选待 Codex 据证验收）
 Owner: GLM；基点 `63735f72fb12f6ca27bb3a3443418dd808b101cf`（承接 MKF 批后的同一 worktree 线）
 范围：`packages/shared/src/rng.ts`、`rng.test.ts`、`rng.boundaries.test.ts`。开工核对：无他人 RNG Owner/未提交修改（rng.boundaries 在 ledger 为 review，属本批范围）。
@@ -44,3 +78,5 @@ cd "$WT/packages/shared" && ../../node_modules/.bin/vitest run src/rng.test.ts s
 ## Codex阶段1接收说明（2026-10-18）
 
 有限文案/身份保持证据已接收，非整文件或整卡八维accept；作者历史原文与native保持。集成注释纠正、证据适用范围及旧撤回状态校正见[阶段终验](../codex-stage1.json)。仅原生JSON支持计数/身份；本批未附的console/scoped静态原始输出保留作者自报层级，不写成独立零诊断。
+````
+<!-- incremental-original-source:end -->

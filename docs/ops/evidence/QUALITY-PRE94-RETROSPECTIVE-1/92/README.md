@@ -1,5 +1,39 @@
 # CODE92工程门与历史证据复审
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「CODE92工程门与历史证据复审」的治理候选页;证据原件即下方逐字节保全的固定main源(4435B,SHA 6b48390c77d8)。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原8个链接处置见作者review的linkDisposition。当前存活入口:[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)、[verify-closeout.mjs](../3c/verify-closeout.mjs)、[closeout.json](closeout.json)、[current-source-comparison-20261022.json](current-source-comparison-20261022.json)、[current-source-comparison.json](current-source-comparison.json)、[gates.md](gates.md)
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 4435B / SHA-256 6b48390c77d8538edb658b729a914e1d62fc2c8d8d3c5caf557a6474974ac492；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE92工程门与历史证据复审
+
 归[全83卡复审](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)，当前8b1213805/main=f98d0ddd8、0behind/137ahead，单Agent，未改产品/测试/规则/基线。CODE92当前partial，0新增关闭。
 
 ## 原件与源码边界
@@ -28,3 +62,5 @@ classifier的bootstrap/compare/fail-closed三合同；scope变化/删除/测试�
 [当前八维/命令与门归属](closeout.json)、[30源码当前Git比对](current-source-comparison-20261022.json)、[只读快检](../3c/verify-closeout.mjs)。本次实际8同/22变，旧20/10保留历史；不修改30路径状态。固定31保护的当前官方单次采集及同报告strict/protected、全check和最终game增量真实原件在当前gate包，工程记录复用，不声称新跑或推补旧环境。
 
 CODE92按其记录/门纠错范围接受，源码的八维/关闭仍归各卡；未将30个字节比对当语义验收。当前模块的文档静态/推送与main另按实际回执，94–102未扩展。
+```
+<!-- incremental-original-source:end -->

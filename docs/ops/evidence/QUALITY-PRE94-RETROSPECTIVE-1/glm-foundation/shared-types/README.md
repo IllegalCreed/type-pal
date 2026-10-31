@@ -1,5 +1,39 @@
 # shared 纯类型/合同六文件复审（glm-foundation 模块 2）
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: audit-report-v1 / 1.0.0
+
+## 审计问题
+
+原审计「shared 纯类型/合同六文件复审（glm-foundation 模块 2）」的主题按原文时点保留(摘录:> Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见[当前返工记录](../codex-stage2-rework.json))。
+
+## 范围与证据
+
+原报告含章节[shared 纯类型/合同六文件复审（glm-foundation 模块 2）、短回执、八维结论（按文件）、登记（公共出口删除须 Codex 裁定，本批不动）、复验入口（只读）、Codex当前勘误与接管（2026-10-19）]、4个链接;固定main源6099B(SHA 55d9191f6c18)。当前存活入口:[codex-stage2-rework.json](../codex-stage2-rework.json)、[directed.json](directed.json)、[tables.after.d.ts](tables.after.d.ts)、[tables.base.d.ts](tables.base.d.ts)
+
+## 发现
+
+原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+
+## 结论
+
+原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+
+## 整改与复核
+
+本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 6099B / SHA-256 55d9191f6c18ee698773e0a1c4846861801b269e1fe550d01481ddeb79a87d10；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+````markdown
+# shared 纯类型/合同六文件复审（glm-foundation 模块 2）
+
 > Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见[当前返工记录](../codex-stage2-rework.json)。
 
 Status: review（候选待 Codex 据证验收）
@@ -48,3 +82,5 @@ cd "$WT/packages/shared" && ../../node_modules/.bin/vitest run
 ## Codex当前勘误与接管（2026-10-19）
 
 本片类型B/E清零结论经Codex定向复核发现遗漏：TileCell是两个h错排半格完整DWORD，Item/Spell使用OBJECT绝对ID，装备槽序/三种角色计数/升级法术ID/对话参数均有错注，已窄修。原events/input/tables14个运行时用例属类型或本地fixture，转既有tsc编译链并补flags/六位equipableBy，当前shared114运行时例与类型反控/恢复分开记录。八维逐文件矩阵见当前回执，公共出口候选仍review。 [当前返工与限制](../codex-stage2-rework.json)。
+````
+<!-- incremental-original-source:end -->

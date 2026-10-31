@@ -1,5 +1,39 @@
 # C1 逐文件 A–H 索引 — 73-78 shell 生命周期(16 条 fullReads)
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: governance-index-v1 / 1.0.0
+
+## 目的
+
+承载原导航文档「C1 逐文件 A–H 索引 — 73-78 shell 生命周期(16 条 fullReads)」的治理候选;导航职责按原文时点保留。
+
+## 范围
+
+原文含章节[C1 逐文件 A–H 索引 — 73-78 shell 生命周期(16 条 fullReads)、生产文件(5)、测试文件(11,E 为主)、附:partialReads 4 条(bootstrap/trademark-fallback 片段、io/async-lifecycle 头部)、Codex接收边界（2026-10-20）]、3个链接;不借导航页授信或重开任务。
+
+## 当前状态
+
+historical(治理候选);原时点状态与日期在保全块。
+
+## 入口与责任
+
+当前存活入口:[codex-pending27-acceptance.json](../codex-pending27-acceptance.json)、[README.md](c3-evidence/README.md)、[read-boundaries.json](read-boundaries.json) 其余原链接仅在保全块保留,理由见linkDisposition。
+
+## 证据与下一步
+
+固定main源SHA d11302b1bd13;下一步=Owner非作者接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 6942B / SHA-256 d11302b1bd138b2b0e23a59065f4fe6b725c07f6c91f6b318cda0cb4c2d8b655；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# C1 逐文件 A–H 索引 — 73-78 shell 生命周期(16 条 fullReads)
+
 读域标注:`【原审全文】`=原候选轮全文逐例读取;`【返工补读】`=原审查未全文读取、2026-10-20 C1 返工补全(不追溯为原审记录)。指纹勘误与真实 SHA-256 见 [`read-boundaries.json`](read-boundaries.json)(input.ts 两值锚 89800a1c1;其 C2 注释修改后 blob 为 `03803e5dff6baeec2fdb29305b0721fd51ffa026`)。共享论据引用本目录 README 对应节,不重复展开。
 
 ## 生产文件(5)
@@ -39,3 +73,5 @@
 本索引的读取身份、补读勘误和逐文件具体结论按各自范围接收；测试条目多为E维，不能读成69文件全部八维已验收。各文件A–H已陈述/尚缺依据的状态分别列于[Codex验收记录](../codex-pending27-acceptance.json)。未单列论据的维度保持review-unknown，文件不关闭；后续只补这些具体缺口，不重复已成立的E/primary。
 
 Codex补核并修复四份测试：save-io完整状态；input边界直接使用真实KeyboardEvent.code；RNG改用真实2D上下文的输出端口spy和typed Palette，并把两例实际未跳过的弱oracle改为显式skipKeys+假时钟/精确停帧与shake余额；main-loop用真实PaletteFade/BattleState工厂替代残缺核心状态，输入端口直接typed包裹。RNG旧弱例在关闭跳过的反控下14绿；新两枚单点业务反控各1红、恢复14绿。均不改产品实现/公开接口或新增用例。
+```
+<!-- incremental-original-source:end -->

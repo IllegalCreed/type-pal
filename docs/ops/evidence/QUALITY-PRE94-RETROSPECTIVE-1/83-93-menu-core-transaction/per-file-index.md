@@ -1,5 +1,39 @@
 # C1 逐文件 A–H 索引 — 83-93 菜单核心+交易族(19 条 fullReads)
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: governance-index-v1 / 1.0.0
+
+## 目的
+
+承载原导航文档「C1 逐文件 A–H 索引 — 83-93 菜单核心+交易族(19 条 fullReads)」的治理候选;导航职责按原文时点保留。
+
+## 范围
+
+原文含章节[C1 逐文件 A–H 索引 — 83-93 菜单核心+交易族(19 条 fullReads)、生产文件(6)+相邻(1)、测试文件(12,E 为主)、Codex接收边界（2026-10-20）]、3个链接;不借导航页授信或重开任务。
+
+## 当前状态
+
+historical(治理候选);原时点状态与日期在保全块。
+
+## 入口与责任
+
+当前存活入口:[per-file-index.md](../73-78-shell-lifecycle/per-file-index.md)、[codex-pending27-acceptance.json](../codex-pending27-acceptance.json)、[read-boundaries.json](read-boundaries.json) 其余原链接仅在保全块保留,理由见linkDisposition。
+
+## 证据与下一步
+
+固定main源SHA ccd14a214638;下一步=Owner非作者接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 5554B / SHA-256 ccd14a214638f94ccbecac641df396b7f013c2735f9dc2e83cdb81140b7318c2；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# C1 逐文件 A–H 索引 — 83-93 菜单核心+交易族(19 条 fullReads)
+
 读域标注同 [73-78 索引](../73-78-shell-lifecycle/per-file-index.md)。指纹勘误见 [`read-boundaries.json`](read-boundaries.json)。共享论据引用本目录 README"逐文件读取与事实边界"节。范围计数勘误:7 生产/相邻(6 卡内生产+1 相邻 item-select)+12 测试(README 已注)。
 
 ## 生产文件(6)+相邻(1)
@@ -30,3 +64,5 @@
 ## Codex接收边界（2026-10-20）
 
 本索引的读取身份、补读勘误和逐文件具体结论按各自范围接收；测试条目多为E维，不能读成69文件全部八维已验收。各文件A–H已陈述/尚缺依据的状态分别列于[Codex验收记录](../codex-pending27-acceptance.json)。未单列论据的维度保持review-unknown，文件不关闭；后续只补这些具体缺口，不重复已成立的E/primary。
+```
+<!-- incremental-original-source:end -->
