@@ -7,44 +7,43 @@ Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「GAME-BATTLE-POSTSCRIPT-DIALOG-ORDER-1 — 战后脚本与提示的逐敌顺序」的任务归属与历史边界。原目标见原文(摘录:确定Phase E是否应在每只敌人的战后提示结束后，才执行下一只敌人的战后脚本。当前TS先同步执行全部脚本，再按队列显示提示；最终掉落数量未丢失，但中间状态不同。不得把这一观察冒称普通玩家已报告缺陷或完整画面复现。);本页治理不重开已终态任务。
+裁定并实现Phase E战后逐敌顺序：原版battle.c:1334–1337逐敌同步调PAL_RunTriggerScript，消息分支调PAL_ShowDialogText后中心窗口等待1.4秒，下一敌调用在当前返回后；基线TS先同步执行全部脚本再按队列显示提示，掉落终态不丢但中间状态不同。已证观察：原盘team46两只凤梨小妖均用SSS41008给鼠儿果后提示，真实自动战斗192tick到第一条active narration时背包已2颗、另1条提示排队。用户2026-10-22批准“按 SDLPal 逐只处理（推荐）”。
 
 ## 范围
 
-原卡含章节[GAME-BATTLE-POSTSCRIPT-DIALOG-ORDER-1 — 战后脚本与提示的逐敌顺序、目标、范围、前提真值门、反证与替代解释、上下文锚点],共6个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+实现白名单battle-settlement.ts、battle-settlement.glm-next-wave.test.ts及相邻battle-system.glm-next-wave.test.ts（仅迁移0x89特殊胜利旧同步时序断言）；仅战后逐敌推进、内部游标与直接测试；不改战中脚本、单条脚本内部yield、原盘资源、存档格式或最终掉落规则。
 
 ## 前提与证据
 
-固定main源8154B(SHA e118f960e5ac);原卡前提按原时点保留。当前存活入口:[code-quality.md](../code-quality.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/README.md) [dialog-order-counter.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/dialog-order-counter.json) [dialog-order-fix.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/dialog-order-fix.json) [module-closeout.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/module-closeout.json) [QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)。
+固定源全文核读。实现：以本场settlement为key的私有WeakMap保存下一敌槽，当前敌队列/active提示结束后继续；正常完成显式删除，中断随对象回收；无GS/资源强引用、存档字段或新公共出口。正式旧源16绿/1业务红；同测试字节当前源4文件27绿、game TC0；原team46全战192tick首框库存1、下一敌只在前框结束后运行、最终2并释放，首框导出仍过V1校验。首版把游标放进public settlement被TC的V1 shape全字段合同拦下，改用模块私有弱映射；相邻DL23两敌同步入队旧断言真实失败后迁移，未删合同；首轮命令含不存在的finalization过滤项只收集3文件21例，未给未收集文件信用。模块收口：完整check 20443/七包TC/工具684，官方20,045项与保护同报告零诊断（首轮12超时及重跑原件未删）。锚点:[code-quality.md](../code-quality.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/README.md) [dialog-order-counter.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/dialog-order-counter.json) [dialog-order-fix.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/dialog-order-fix.json) [module-closeout.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/module-closeout.json) [QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+done仅core原合同收口：逐敌顺序、一次执行/返回指针不回写、掉落数量、已批HP/MP effects、全部提示结束才半恢复/cleanup均保留；浏览器/像素未跑，普通剧情与视觉不继承信用，3w/3r/3s仍按各自合同处理，不把终态绿当逐脚本阻塞等价。
 
 ## 状态与交接
 
-done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+done保持原语义；治理不重开。无下一位Agent，Codex单Owner。
 
 ## 历史范围
 
-原卡属固定main时点;GAME-BATTLE-POSTSCRIPT-DIALOG-ORDER-1 — 战后脚本与提示的逐敌顺序的原始范围与日期在保全块内逐字保留。
+原卡属固定main时点；范围为战后结算逐敌推进子切片，战中脚本与解释器广域不在本卡。
 
 ## 原始结论
 
-原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+原卡结论按其Status(done)原样：2026-10-22模块验收，core合同据证收口。
 
 ## 当时证据
 
-原文6个链接与当时回执属原时点证据;本页不重跑、不复授。
+当时回执属原时点证据：16绿/1业务红、4文件27绿、完整check 20443/官方20045零诊断；本页不重跑、不复授。关联:[code-quality.md](../code-quality.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/README.md) [dialog-order-counter.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/dialog-order-counter.json) [dialog-order-fix.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/dialog-order-fix.json) [module-closeout.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/module-closeout.json) [QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)。
 
 ## 当前有效性
 
-仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+仅历史任务归属有效；B面板物品数量只有源码可观察性依据（未实际打开浏览器面板），该观察不推导正常战后界面漏物品或SDL原版有本项目B面板。
 
 ## 继任文档
 
-接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[code-quality.md](../code-quality.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/README.md) [dialog-order-counter.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/dialog-order-counter.json) [dialog-order-fix.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/dialog-order-fix.json) [module-closeout.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/module-closeout.json) [QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)。
-
+战后HP/MP所有权由GAME-BATTLE-POSTSCRIPT-PLAYER-STATE-1承接；父卡QUALITY-PRE94-RETROSPECTIVE-1继续3w模块。 关联:[code-quality.md](../code-quality.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/README.md) [dialog-order-counter.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/dialog-order-counter.json) [dialog-order-fix.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/dialog-order-fix.json) [module-closeout.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/module-closeout.json) [QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)。
 
 ## 原文保全
 

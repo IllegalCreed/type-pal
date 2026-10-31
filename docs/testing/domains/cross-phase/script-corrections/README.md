@@ -7,24 +7,25 @@ Template: governance-index-v1 / 1.0.0
 
 ## 目的
 
-承载原导航文档「两阶段脚本纠错回归」的治理候选;导航职责按原文时点保留。
+路由两阶段脚本纠错（game-script-corrections）的测试合同、原始结果和任务状态：第一阶段为忠实解码后的构建纠错与通用OBJECT脚本入口所有权修复，第二阶段直接修改canonical作者内容；核心oracle覆盖购买/治疗/酒神九次/D10独立出口与旧档退出等业务断言。
 
 ## 范围
 
-原文含章节[两阶段脚本纠错回归、目的、范围、当前状态、入口与责任、证据与下一步]、3个链接;不借导航页授信或重开任务。
+本页仅导航，不单独授予 runtime/E2E/视觉/覆盖率通过。完整故事浏览器E2E、演出逐帧与编辑器预览现场在域报告中均未执行，不得经本页推导为passed。
 
 ## 当前状态
 
-active(治理候选);原时点状态与日期在保全块。
+出版身份 game-script-corrections；配对evidence status=active、candidateSha=null（按原字节保留）。2026-10-22官方fast基线20,081例全过；2026-10-27 D10后续与受保护发布（PR#28合并、v1.1.0）已记入配对报告与evidence history。实际状态由testing catalog与配对报告维护。
 
 ## 入口与责任
 
-当前存活入口:[GAME-SCRIPT-CORRECTIONS-1.md](../../../../ops/tasks/GAME-SCRIPT-CORRECTIONS-1.md) [evidence.json](evidence.json) [report.md](report.md)。 其余原链接仅在保全块保留,理由见linkDisposition。
+- 域报告：[report.md](report.md)
+- 配对机器 evidence：[evidence.json](evidence.json)
+- 实施任务卡：[GAME-SCRIPT-CORRECTIONS-1.md](../../../../ops/tasks/GAME-SCRIPT-CORRECTIONS-1.md)
 
 ## 证据与下一步
 
-固定main源SHA b4ab724da0e5;下一步=Owner非作者接收。
-
+按报告声明的caller、输入和业务oracle复验（拒购/成交/治疗/酒神九次/D10追加5077/旧档接触退出）；完整故事E2E与编辑器预览起点继续遵守E2E合同。维护类变更走evidence的revision history重绑机制，不重签历史执行。
 
 ## 原文保全
 

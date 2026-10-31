@@ -2,48 +2,53 @@
 
 Status: done
 Owner: GLM(治理候选作者;原文作者/状态见保全块)
-Last reviewed: 2026-10-30
+Last reviewed: 2026-10-31
 Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「CODE-QUALITY-97 — menu 基础 helper 逐文件审核（primitives / item-select）」的任务归属与历史边界。原目标见原文(摘录:CODE94/95 的 30 文件窗口不含 menu 模块两个基础 helper，本批补上（2 文件，最小不重叠）：);本页治理不重开已终态任务。
+menu域第二批基础helper审核（primitives.ts 175行/item-select.ts 94行+5测试）：两helper是menu域共享纯函数，合同由sdlpal（uigame.c:242-451、ui.c:510-572 L38不跳disabled、ui.c:540+ PgUp/PgDn；play.c:266 kItemFlagUsable入口、uigame.c:1777 kItemFlagSellable入口、itemmenu.c price/2）与10+生产caller共同钉住。
 
 ## 范围
 
-原卡含章节[CODE-QUALITY-97 — menu 基础 helper 逐文件审核（primitives / item-select）、2026-10-25 本地统一门收口（当前）、批准后收尾窗口（2026-10-25，接续b8）、2026-10-25 当前复审增量、2026-10-15 最终模块窗口（当前）、Codex 接手修复（2026-10-15，作者自验证）],共6个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+2生产+5测试；登记E-4（pageUp/pageDown/findNextSelectable无当前生产caller、dir=-1臂无调用）与E-5（createItemSelectMenu/ItemDisplayMode/rightText无生产caller，真实菜单走inventory/shop/sell 1:1 port）。
 
 ## 前提与证据
 
-固定main源10693B(SHA 15a22f6c7326);原卡前提按原时点保留。当前存活入口:[README.md](../evidence/CODE-QUALITY-94/approved-closeout/README.md) [codex-final-window.md](../evidence/CODE-QUALITY-94/codex-final-window.md) [codex-r2-review.md](../evidence/CODE-QUALITY-94/codex-r2-review.md) [codex-r3-review.md](../evidence/CODE-QUALITY-94/codex-r3-review.md) [codex-takeover.md](../evidence/CODE-QUALITY-94/codex-takeover.md) [README.md](../evidence/CODE-QUALITY-94/current-review/README.md)。
+原5个链接处置见作者review，存活入口逐字保留：
+
+当前存活入口:[README.md](../evidence/CODE-QUALITY-94/approved-closeout/README.md) [codex-final-window.md](../evidence/CODE-QUALITY-94/codex-final-window.md) [codex-r2-review.md](../evidence/CODE-QUALITY-94/codex-r2-review.md) [codex-r3-review.md](../evidence/CODE-QUALITY-94/codex-r3-review.md) [codex-takeover.md](../evidence/CODE-QUALITY-94/codex-takeover.md) [README.md](../evidence/CODE-QUALITY-94/current-review/README.md)。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+返工更正三处注释反事实：equip位引用改kItemFlagEquipable=1<<1（global.h:136一手核，旧注位序反）；kItemFlagImportant声明为工程近似（枚举无此项）；PgUp锚更正（PAL_ReadMenu无kKeyPgUp分支）。发现并钉住pageDown'target钳制优先于跳过disabled'的真实语义（与pageUp方向不对称）；potion投掷否决隔离（usable+throwable）、important双守卫各自单真用例。2026-10-25增量：primitives旧未来Step3注释纠正；boundaries混合第一例拆空表/单项/入参不变三合同、leaf的Confirm/Switch混例一分二，5文件51例全绿。公共page/旧物品factory仍等待GAME-MENU-HELPER-API-1裁决未删除。终态并入94-102统一门（official 20168/807、20新关闭+34桥接）。
 
 ## 状态与交接
 
-done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+Status保持done（并入94-102统一门收口；done仅指本卡有限代码/质量门收口，远端发布由关联Git/PR与main CI记录）。
 
 ## 历史范围
 
-原卡属固定main时点;CODE-QUALITY-97 — menu 基础 helper 逐文件审核（primitives / item-select）的原始范围与日期在保全块内逐字保留。
+2026-10-15各时点保留：R2（装备位注释反事实/伪disabled反例/否决位混淆）、R3（内联Important与测试翻页锚仍错）、最终窗口bb94ad8e2。
 
 ## 原始结论
 
-原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+原卡结论：两helper通过——primitives是被10+文件正当共享的primitive非过度抽象；item-select的'M5简版'近似均显式标注为已知近似而非机制事实。
 
 ## 当时证据
 
-原文6个链接与当时回执属原时点证据;本页不重跑、不复授。
+docs/ops/evidence/CODE-QUALITY-94/全套。原链接与当时回执属原时点证据。
 
 ## 当前有效性
 
-仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+历史任务卡（done有限语义）。
 
 ## 继任文档
 
-接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[README.md](../evidence/CODE-QUALITY-94/approved-closeout/README.md) [codex-final-window.md](../evidence/CODE-QUALITY-94/codex-final-window.md) [codex-r2-review.md](../evidence/CODE-QUALITY-94/codex-r2-review.md) [codex-r3-review.md](../evidence/CODE-QUALITY-94/codex-r3-review.md) [codex-takeover.md](../evidence/CODE-QUALITY-94/codex-takeover.md) [README.md](../evidence/CODE-QUALITY-94/current-review/README.md)。
+GAME-MENU-HELPER-API-1（page/物品factory接口裁决）与CODE-QUALITY-94母卡承接。原存活入口逐字保留：
+
+关联:[README.md](../evidence/CODE-QUALITY-94/approved-closeout/README.md) [codex-final-window.md](../evidence/CODE-QUALITY-94/codex-final-window.md) [codex-r2-review.md](../evidence/CODE-QUALITY-94/codex-r2-review.md) [codex-r3-review.md](../evidence/CODE-QUALITY-94/codex-r3-review.md) [codex-takeover.md](../evidence/CODE-QUALITY-94/codex-takeover.md) [README.md](../evidence/CODE-QUALITY-94/current-review/README.md)。
+
 
 
 ## 原文保全

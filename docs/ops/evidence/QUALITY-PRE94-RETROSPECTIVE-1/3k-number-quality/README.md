@@ -2,29 +2,28 @@
 
 Status: historical
 Owner: GLM(治理候选作者;原文作者/状态见保全块)
-Last reviewed: 2026-10-30
+Last reviewed: 2026-10-31
 Template: evidence-receipt-v1 / 1.0.0
 
 ## 证据身份
 
-本页是「CODE3k 数字布局、共享blit与非有限隔离」的治理候选页;证据原件即下方逐字节保全的固定main源(2832B,SHA eb47f12ab9a9)。
+本页是「CODE3k 数字布局、共享blit与非有限隔离」的治理候选页;证据原件即下方逐字节保全的固定main源(2832B)。同一3y、Codex单Owner、基点f5457a14,main合并后两CI完整日志0诊断;复用[README.md](../present-primitives-quality/README.md)原primitive逐文件证据,只补number余项;有限窗口已接受(2026-10-24收口:2新关闭+5身份槽位刷新,67accept/16partial/0pending,3411tracked/420closed/99review/2892pending)。
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原5个链接处置见作者review的linkDisposition。当前存活入口:[GAME-DRAW-NUMBER-NONFINITE-1.md](../../../tasks/GAME-DRAW-NUMBER-NONFINITE-1.md) [README.md](../present-primitives-quality/README.md) [prove-blit.mjs](prove-blit.mjs) [review.json](review.json) [verify.mjs](verify.mjs)。
+来源为固定Git载体,非本次运行;原5链接处置见作者review的linkDisposition。当前存活入口:[review.json](review.json) [prove-blit.mjs](prove-blit.mjs) [verify.mjs](verify.mjs) [README.md](../present-primitives-quality/README.md) [GAME-DRAW-NUMBER-NONFINITE-1.md](../../../tasks/GAME-DRAW-NUMBER-NONFINITE-1.md)。三个当前实施文件=draw-number.ts、slots专测、新nonfinite专测;原8布局例与共享叶未改。
 
 ## 断言与业务 oracle
 
-文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+Infinity风险实证:有限base通过V1并保留到装备重算,再跑原盘43028-43031变身/buff片段可得Infinity,真实状态页被同步VM看门狗中断;普通剧情自然可达性未证、完整浏览器读档未跑;按[GAME-DRAW-NUMBER-NONFINITE-1.md](../../../tasks/GAME-DRAW-NUMBER-NONFINITE-1.md)用户批准『跳过异常数字』(call_edfe7d7f,2026-10-24)。判别力:两正式业务红后17数字绿;原5 slots在mask误判黑色时仍绿,补强后恰一C01 AssertionError,已完整恢复(testMapping:mask-old5/5绿、mask-new4/5仅G05-C01红)。纯共享提取与行为guard分提交;prove-blit.mjs默认只读语句证明旧私有blit与当前通用叶同体。
 
 ## 结果
 
-原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+定向13到17例、相邻16文件77例;完整check20576包例+700工具例、七包typecheck;唯一官方采集20147例/777源与同报告ratchet/strict protected通过,硬静态及运行0/0/0。首次全check在文档门停止(E2E006发布复核期限10-23到期):全文核现有阶段/报告/配对JSON/活动卡,三sourceRefs匹配,仅续下次发布/状态复核到10-31,rework、lastVerified10-03与历史执行字段不变,无新E2E/视觉信用;两次文档前置失败保留(第二次为续期引用的一层SHA漏更新),最终全部归零;复验脚本初版6个useTemplate info已按具体字符串改正,该次exit0不算零诊断。封存补核:旧SDLPal注释链接少一级../,已纠正为实际存在的根reference路径,commentDelta证明唯一差异、可执行字节不变。
 
 ## 限制与复核
 
-未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
-
+未重跑;不扩94-102;E2E006仍rework无新增执行/视觉信用;发布状态按后继分支/PR回执。候选待Owner非作者接收。
 
 ## 原文保全
 

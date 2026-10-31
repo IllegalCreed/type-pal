@@ -7,24 +7,23 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「extract cli + battle-sprite + output-boundary 复审（glm-foundation 模块 3 尾批）」的主题按原文时点保留(摘录:> Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见当前返工记录。 范围：`cli.ts`（919 行全文)。
+本页审计主题:pal-extract 的 cli.ts(919 行全文深读)、resources/battle-sprite.ts(50 行)、output-boundary.ts(25 行,冻结卡范围只读)复审,glm-foundation 模块 3 尾批;基点 53db76bbb 线,body 基准=批6提交后 HEAD。原文 Status: review(候选待 Codex 据证验收)。Codex 当前裁定(2026-10-19):本页保留作者阶段证据,未获整包/全维收口验收;可复用范围与逐文件依据见 [codex-stage2-rework.json](../codex-stage2-rework.json)。
 
 ## 范围与证据
 
-原报告含章节[extract cli + battle-sprite + output-boundary 复审（glm-foundation 模块 3 尾批）、短回执、八维结论(cli.ts)、复验入口（只读）]、1个链接;固定main源3570B(SHA 8e9fa534947d)。当前存活入口:[codex-stage2-rework.json](../codex-stage2-rework.json)。
+改动 4 处,仅注释且全在 cli.ts:battle-sprite/output-boundary 零改动。验证证据:同目录 body-invariance.json(typescript@6.0.3 打印 AST 对照 base c81352b0,cli.ts/battle-sprite.ts/output-boundary.ts 三文件 printedEqual 全真、titleCallCount 0→0、allEqual=true)见证行为零变;定向 5 套件 24/24、0 failed suites(directed.json);scoped biome 0/0/0;diff --check 干净。未跑全量 extract 与全仓门。
 
 ## 发现
 
-原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+整改逐项:①头部『产出目录』清单大半描述 2026-06-22 管线优化前的 per-frame PNG 布局,按现状改写为 blob/PNG/manifest 三类分明;②『rng-frames.json 逐帧 PNG manifest』改为 frameCount manifest 不含 PNG;③Musics 段『runtime 播放系统仍留 M6』过时(音频已接入),按 audio-midi/audio-rix 现状改写;④mus.mkf 小写文件名补防误改注(盘上即小写,已核 16 个 MKF 文件名)。过程披露两态:首版头部注释含 level-up-*/ 序列,*/ 提前闭合块注释致 4 套件解析失败——即改即现即修(旧判例重演),修正后全绿;另有 --out wx 排他被 /tmp 旧文件触发一次,清理后通过。八维要点:A 维 round-trip 自检 exit(2) 硬门、entryIps 含 item/spell/enemyObj/player 脚本(M5.6 审计修)、直跑守卫 realpathSync 正确、各资源段容错 skip 均 warn+continue 且有 sdlpal 依据;battle-sprite 薄组装器带 battle.c:856 锚,零问题;output-boundary 守卫逻辑/注释准确,冻结范围只读不改。输出清理策略段(L200-214)严格只读未动(QUALITY-EXTRACT-OUTPUT-BOUNDARY-1 冻结)。
 
 ## 结论
 
-原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+本批为注释整改批:24/24 定向绿+body-invariance 三文件 AST 一致共同证明行为零变;E 维全量 extract 431/434 由 QUALITY-EXTRACT-RAW-TEST-EXECUTION-1 既有证据覆盖(源经 body-invariance 未变,适用性成立)。原文两态(过程失败与清理后通过)如实保留,不追溯改写。
 
 ## 整改与复核
 
-本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
-
+整改即上述 4 处注释;复验入口(原页给出,此处概述):对三文件跑 prove-body-invariance.mjs --base c81352b0…,并在 packages/pal-extract 定向跑 output-boundary/cli-entrypoint-paths/cli-font-lookup.glm-q/cli-global-entries 四测试文件。失效条件:三文件实现变化→重证;输出布局再迁移→头部清单复核;清理策略裁决落地→冻结段随裁重审。本轮治理未重跑任何命令;候选待 Owner 接收。
 
 ## 原文保全
 

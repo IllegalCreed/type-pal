@@ -2,48 +2,53 @@
 
 Status: done
 Owner: GLM(治理候选作者;原文作者/状态见保全块)
-Last reviewed: 2026-10-30
+Last reviewed: 2026-10-31
 Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「CODE-QUALITY-90 — magic revive status clearing boundary」的任务归属与历史边界。原目标见原文(摘录:按 SDLPal 修复大世界单体/全体复活：清除 `rgPlayerStatus` 的 `<=999` 临时状态，保留 `>999` 武器/装备永久效果；先写失败反例，再修复 `magic-script.ts`。);本页治理不重开已终态任务。
+按 SDLPal 修复大世界单体/全体复活的状态清除边界：复活时清 rgPlayerStatus 的 <=999 临时状态、保留 >999 武器/装备永久效果（用户2026-10-14批准对齐SDLPal并明确保留武器双攻类buff）。旧实现 revivePlayerSingle/All 只写复活HP并清毒，不触碰 rgPlayerStatus；既有测试只断言HP/毒/MP门、无status oracle。
 
 ## 范围
 
-原卡含章节[CODE-QUALITY-90 — magic revive status clearing boundary、2026-10-20 当前验收、目标、范围、前提真值门、一句话行为 / 工程前提],共2个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+packages/game/src/core/menu/magic-script.ts 的 revivePlayerSingle/revivePlayerAll 及专属测试。范围外：战斗复活、save/schema/migration、CODE53/79毒键寻址、其它opcode。明确不清 >999、不改status schema、不恢复旧upgrader。
 
 ## 前提与证据
 
-固定main源21673B(SHA c3282d5a6cea);原卡前提按原时点保留。当前存活入口:[completion.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/completion.json) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/README.md)。
+primary：script.c:1052-1102 单/全体复活分支均调 PAL_CurePoisonByLevel(...,3) 并遍历kStatusAll调PAL_RemovePlayerStatus；global.c:2279-2344 该函数只清<=999、保留>999装备效果（梦蛇DualAttack=9复活清除见game-mechanics.md:1517-1539，32760装备实例见game-state.ts:1082-1085）。修复前13229f476的magic-script.ts:91-111无status写入。原2个链接处置见作者review，存活入口逐字保留：
+
+当前存活入口:[completion.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/completion.json) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/README.md)。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+实现（2026-10-14）：仅已确认HP==0的单体复活臂追加<=999清除、全体复用同一函数；活人不清、>999/毒level>3/MP ownership不变。先红后绿2失败/29通过→31/31；相邻8文件518tests；4枚精确mutation（漏清理/999误留/1000误清/错按party position）各恰1业务AssertionError。追加四条真实runner合同（0x1C/0x1D applyAll与单体无变化失败）后magic-script覆盖110/110语句。ratchet三阶段：初版因pal-extract五个CLI 5000ms超时失败（原件保留）→重试通过731源/19860tests→边界合同后exit0并只升不降更新baseline（aabca727…）。最终workspace check exit0（七包全绿）、lint-zero 4041文件。
 
 ## 状态与交接
 
-done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+Status保持done（2026-10-20正式收口：七条大世界spell链/完整runner与真实menu caller已核，35最终例通过；三个文件八维接受，合法WORD/Spell夹具、双单例清理、七退役/三更名/一use阶段合同有映射与反控）。done只覆盖原卡范围，magic-script全script-chain/input/unsupported-op/step-limit整文件合同与两文件的完整审查按各自记录推进；毒槽压缩归CODE53。
 
 ## 历史范围
 
-原卡属固定main时点;CODE-QUALITY-90 — magic revive status clearing boundary的原始范围与日期在保全块内逐字保留。
+2026-10-14主线同步d7e9831f4提交推送后，主线新增579cdf668/d24981591/5116cd5bb合入治理分支；旧基点全门回执不冒充新基点。check:fast历史误标protected fast已撤回；workers2导致editor 1例业务失败（BattleSpriteLibrary apply.disabled）与默认并发4个CLI超时均保留exit1原件，根因未明。新增反例初用77779超WORD域，已改合法合成入口504并重测（旧原件保留）。
 
 ## 原始结论
 
-原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+原卡结论：第一阶段<=999清除/>999保留的用户裁决与四项历史精确反控仍成立；公共cost/caster参数按既有接口冻结要求保留；不把一阶段回合数规则套到二阶段装备来源字段。
 
 ## 当时证据
 
-原文2个链接与当时回执属原时点证据;本页不重跑、不复授。
+docs/ops/evidence/CODE-QUALITY-90/（mutation原件、gate-ratchet-timeouts、gate-protected-fast-workers2-editor-failure、mutation-legal-script-id等）。原链接与当时回执属原时点证据，本页不重跑、不复授。
 
 ## 当前有效性
 
-仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+历史任务卡（done有限范围）；复活边界行为按其时点核验有效。
 
 ## 继任文档
 
-接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[completion.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/completion.json) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/README.md)。
+CODE-QUALITY-53（毒槽party-slot寻址）与QUALITY-REVIEW-52-CLOSEOUT-1（52收口阶段对magic模块的后续重组）承接相关机制邻域。原存活入口逐字保留：
+
+关联:[completion.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/completion.json) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/README.md)。
+
 
 
 ## 原文保全

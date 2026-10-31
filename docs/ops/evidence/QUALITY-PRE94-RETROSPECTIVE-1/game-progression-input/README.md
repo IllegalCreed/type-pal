@@ -2,29 +2,28 @@
 
 Status: historical
 Owner: GLM(治理候选作者;原文作者/状态见保全块)
-Last reviewed: 2026-10-30
+Last reviewed: 2026-10-31
 Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「经验输入与真实结算终止性」的主题按原文时点保留(摘录:Template: evidence-receipt-v1 / 1.0.0 同一3y，基点31c9775ce。修复前八个source指纹、四轮完整双流/ready/done/退出信)。
+本页回答的问题:合法极大经验余数经真实serialize/parse、进程私有内存Save/Load与真实startBattle后,公共胜利结算builder是否会失去终止性;以及若会,输入侧应以什么政策修复。同一3y分支,基点31c9775ce,Owner Codex单Agent;观察为draft前态,修复需用户裁决,不自行定数值政策。
 
 ## 范围与证据
 
-原报告含章节[经验输入与真实结算终止性、证据身份、来源与输入、断言与业务oracle、结果、限制与复核]、8个链接;固定main源4438B(SHA 22d566f35da5)。当前存活入口:[GAME-SAVE-EXPERIENCE-DOMAIN-1.md](../../../tasks/GAME-SAVE-EXPERIENCE-DOMAIN-1.md) [game-item-role-context-review.json](../game-item-role-context-review.json) [gates.json](gates.json) [local-native.json.gz](local-native.json.gz) [native.json.gz](native.json.gz) [observation.json](observation.json) [review.json](review.json) [verify.mjs](verify.mjs)。
+证据分三层:修复前八source指纹与四轮完整双流/ready/done/退出信息在[observation.json](observation.json),原件与producer在[native.json.gz](native.json.gz);当前批准、逐文件八维、实际差异/红绿/指纹在[review.json](review.json)及新原件[local-native.json.gz](local-native.json.gz);最终静态以集中门[gates.json](gates.json)为准;[verify.mjs](verify.mjs)只读快检分别核旧Git基点与当前指纹,不联网、不跑测试、不写仓库。数值政策风险见[GAME-SAVE-EXPERIENCE-DOMAIN-1.md](../../../tasks/GAME-SAVE-EXPERIENCE-DOMAIN-1.md);获批物品上下文修复另见[三文件八维/原件](../game-item-role-context-review.json)。阈值独立从真实DATA.MKF第14chunk读取,99级为32000;C的WORD与旧固定样本只是值域候选依据,不自动批准JSON接口政策。
 
 ## 发现
 
-原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+修复前终止性缺口成立:主/隐藏两域以65535作对照,均不到1ms完成并得余数1535;相应MAX_VALUE极大有限数输入仍被当前JSON解析器接受、被槽位与真实开战接受,父进程等ready后启动1s观察,两异常例均无done,随后请求终止私有进程组。数学非进展MAX_VALUE-32000===MAX_VALUE与实际循环体对应;隐藏case只提供合法一次普攻计数边界(Health2/Attack1),未伪造完整战斗经过。方法论边界:tsx进程封装可能返回outer exit0,必须结合ready/无done/超时终止记录读取,不当绿色质量门、不伪称Vitest业务红;实际异常退出保留原件不归为绿测。
 
 ## 结论
 
-原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+用户已批准0..65535整数经验余数拒绝合同('按WORD范围拒绝异常余数')。正式新增两例,旧守卫28绿1指定业务测试红——八个拒绝断言失败且原槽位被覆盖(8应拒却接受+旧槽覆写,非环境失败);新守卫相邻6文件66例绿/零stderr,game typecheck与局部Biome零诊断;合法六角色八池两端点及属性65536均保留。3x同时删去唯一caller已排除的零法术死条件并补明隐藏属性TS WORD偏离,五例H02删1条被蕴含自比而身份数不变。集中源门实际通过:七包Vitest 20434一次实调,其后仅物品三个game文件变化以完整game TC/3724刷新该包(组合20438,不声称二次全check);单次官方fast ratchet 20040/758带固定31主线保护,strict/scope/protected零回落、无源移除、无需任何baseline授权;260/33/253普通stdout块与既有分类逐消息一致。收口:59恢复、3x原合同接受,v1恢复及progression/levelup两review闭合,相对已合31净增2closed;固定83卡59accept/24partial,账本3355/374closed/112review/2869pending;item由隐式pending登记review,未因门绿关闭。
 
 ## 整改与复核
 
-本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
-
+仍保留边界:V1格式、DB版本、奖励/成长算法、其它数值政策和二阶段保持原合同;新案例在真实独立内存Save拒绝,IDB相邻沿原测试,没有新跑浏览器FileReader/实际IDB/正常原盘故事或视觉,旧真实浏览器入口证据按未改caller复用;item/event系统广域script pointer、3w动态Extra链、3r/3s宽dispatcher仍review,不授完整fight/视觉。过程失败如实保留:初次相邻命令两个路径未匹配只计实际3文件43例(修正后6文件66);首轮接线漏import引发4 ReferenceError与TC TS2552,修正后289相邻及3724整包0诊断——自身失误不当原产品反例;物品首轮4业务/传输失败与context-only投影失败身份区分。旧观察原件字节不因当前修复改写;提交/推送/main按实际refs记录。
 
 ## 原文保全
 

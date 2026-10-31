@@ -7,24 +7,23 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 证据身份
 
-本页是「C1检查点静态门」的治理候选页;证据原件即下方逐字节保全的固定main源(1842B,SHA 6660b3123052)。
+本页是C1诊断合同检查点的静态门回执页：记录docs/lint/ledger/diff-check四项静态命令与归档后final波的原始exit/耗时/输出SHA，及collector 15条info的诚实处理轨迹。运行时门与统一三门不在本页通过范围。
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原0个链接处置见作者review的linkDisposition。当前存活入口:无当前仓库内存活链接。
+四项静态命令全部exit0：check:docs 1.246秒（62b86a5862cd…）、lint 2.267秒（cf5fafe679cc…）、code-quality-ledger 1.075秒（282f8a7484b3…）、git diff --check 0.024秒（空输出，空串哈希e3b0c442…）。归档后final波：docs 1.279秒（6ffc774cb92a…）、lint 2.465秒（0f587f13f75f…）、ledger 1.12秒（282f8a7484b3…，与首跑同SHA）。
 
 ## 断言与业务 oracle
 
-文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+check:docs实测docs域1360 Markdown/7344 local links/443 cards，48工具测试与phase184/content570零问题；lint实测4465文件0 errors/0 warnings/0 infos（final波4466文件仍全0）；ledger实测3289 inventory/209 closed/223 review/2857 pending、0文件关闭。collector初检biome exit0但带15条useTemplate info——按零诊断硬门不算通过（initialPass=false），仅对新增retirement-proof.mjs修模板字面量后重跑覆盖，原始非零记录保留不回写。运行时面完整extract 431仍2 stderr块。
 
 ## 结果
 
-原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+静态门全绿但C1不通过统一零诊断验收：runtimeDiagnosticsZero=false，fullCheck/officialRatchet/protectedFast未新跑，mergeAllowed=false、不合main。
 
 ## 限制与复核
 
-未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
-
+本页为历史时点回执，未重跑任何命令；exit0带info不外推为通过；三门未跑不记通过。候选待Owner非作者接收。
 
 ## 原文保全
 

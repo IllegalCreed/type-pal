@@ -7,44 +7,43 @@ Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「GAME-INPUT-ROTATION-1 - 手柄摇杆与虚拟方向键旋转」的任务归属与历史边界。原目标见原文(摘录:按用户2026-10-27与issue #24，增加可记忆的45°旋转设置，使手机方向键与手柄左摇杆的斜向输入对应画面上的移动方向。);本页治理不重开已终态任务。
+按用户2026-10-27与issue #24增加可记忆的45°旋转设置，使手机方向键与手柄左摇杆斜向输入对应画面移动方向。工程前提：旋转的是输入方向布局，移动仍消费原Up/Right/Down/Left语义；第一阶段方向增量Up=(+16,-8)/Right=(+16,+8)/Down=(-16,+8)/Left=(-16,-8)，45°是方向分区而非精确投影角（实际像素斜率1:2）。
 
 ## 范围
 
-原卡含章节[GAME-INPUT-ROTATION-1 - 手柄摇杆与虚拟方向键旋转、目标、范围、前提真值门、一句话行为 / 工程前提、真值矩阵],共13个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+可选顺时针45°；虚拟方向键位置/箭头/触点命中一致、手柄左摇杆映射、中英文设置与偏好回归。排除第二阶段、键盘映射、硬件十字键布局、移动速度/碰撞/存档schema与移动端快捷键；默认维持现有方向。
 
 ## 前提与证据
 
-固定main源8216B(SHA 235859c0229a);原卡前提按原时点保留。当前存活入口:[CLAUDE.md](../../../CLAUDE.md) [governance.md](../../testing/governance.md) [agent-workflow.md](../agent-workflow.md) [code-quality.md](../code-quality.md) [review.json](../evidence/GAME-INPUT-ROTATION-1/review.json) [integration-gates.json](../evidence/GAME-NANZHAO-ROOM-EXIT-1/integration-gates.json) [release-gates.json](../evidence/GAME-NANZHAO-ROOM-EXIT-1/release-gates.json) [release-preparation.json](../evidence/GAME-NANZHAO-ROOM-EXIT-1/release-preparation.json) [release.json](../evidence/GAME-NANZHAO-ROOM-EXIT-1/release.json) [GAME-MOBILE-LAYOUT-1.md](GAME-MOBILE-LAYOUT-1.md)。
+固定源全文核读。贡献者候选0b0ce187e70f540ec2de198d671afd82ddaa99c5本地集成为ae9e3226c：14文件A–H、60定向/相邻、正式四象限单业务红→恢复、game TC与局部Biome零诊断；51旧合同保留、9新增、0退役。正式反控完整gamepad文件9 pass/1指定AssertionError/0 skip（早期过滤反控9 skip不计有效针）。本地浏览器真实核验：默认off、on后刷新保留、off恢复；横屏844×390/竖屏390×844实看；右上pointerhold 350ms坐标(1312,288)→(1328,280)朝向up；中英文设置可读，warn/error日志为空。用户2026-10-27明确“可以了”。锚点:[CLAUDE.md](../../../CLAUDE.md) [governance.md](../../testing/governance.md) [agent-workflow.md](../agent-workflow.md) [code-quality.md](../code-quality.md) [review.json](../evidence/GAME-INPUT-ROTATION-1/review.json) [GAME-MOBILE-LAYOUT-1.md](GAME-MOBILE-LAYOUT-1.md)。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+发布链已闭环：PR #28的documentation/fast-coverage CI在候选c42e333385fe464805de88a51b95ab092abb9f6a上通过，按保护规则合并为bde596695d9c4d90a8031443ddd1ea033edd5245；本地官方20,203例/812源、七包类型检查、lint与完整文档门零诊断；从合并树新构建并部署阿里云应用与资源，源站/CDN逐字节验证，第一阶段v1.1.0固定该部署提交，两个issue已回复关闭。不做实物手柄、issue原存档、离线激活或自然全剧情E2E宣称。
 
 ## 状态与交接
 
-done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+done保持原语义；治理不重开。无下一位Agent，后续从最新main另定范围。
 
 ## 历史范围
 
-原卡属固定main时点;GAME-INPUT-ROTATION-1 - 手柄摇杆与虚拟方向键旋转的原始范围与日期在保全块内逐字保留。
+原卡属固定main时点；范围为第一阶段输入外壳（touch-controls/gamepad-input/game-shell/tools-panel）及偏好持久化，不改scene-system DIR_DELTA语义。
 
 ## 原始结论
 
-原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+原卡结论按其Status(done)原样：功能、CI、合并、部署与v1.1.0发布完成。
 
 ## 当时证据
 
-原文13个链接与当时回执属原时点证据;本页不重跑、不复授。
+当时回执属原时点证据：四象限单业务红→恢复、gamepad 9pass/1指定红、发布各门零诊断；本页不重跑、不复授。关联:[CLAUDE.md](../../../CLAUDE.md) [governance.md](../../testing/governance.md) [agent-workflow.md](../agent-workflow.md) [code-quality.md](../code-quality.md) [review.json](../evidence/GAME-INPUT-ROTATION-1/review.json) [integration-gates.json](../evidence/GAME-NANZHAO-ROOM-EXIT-1/integration-gates.json) [release-gates.json](../evidence/GAME-NANZHAO-ROOM-EXIT-1/release-gates.json) [release-preparation.json](../evidence/GAME-NANZHAO-ROOM-EXIT-1/release-preparation.json) [release.json](../evidence/GAME-NANZHAO-ROOM-EXIT-1/release.json) [GAME-MOBILE-LAYOUT-1.md](GAME-MOBILE-LAYOUT-1.md)。
 
 ## 当前有效性
 
-仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+仅历史任务归属有效；旋转设置自v1.1.0在线上，当前版本适用性需另核，不凭旧基点授权新产品取舍。
 
 ## 继任文档
 
-接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[CLAUDE.md](../../../CLAUDE.md) [governance.md](../../testing/governance.md) [agent-workflow.md](../agent-workflow.md) [code-quality.md](../code-quality.md) [review.json](../evidence/GAME-INPUT-ROTATION-1/review.json) [integration-gates.json](../evidence/GAME-NANZHAO-ROOM-EXIT-1/integration-gates.json) [release-gates.json](../evidence/GAME-NANZHAO-ROOM-EXIT-1/release-gates.json) [release-preparation.json](../evidence/GAME-NANZHAO-ROOM-EXIT-1/release-preparation.json) [release.json](../evidence/GAME-NANZHAO-ROOM-EXIT-1/release.json) [GAME-MOBILE-LAYOUT-1.md](GAME-MOBILE-LAYOUT-1.md)。
-
+发布细节以GAME-NANZHAO-ROOM-EXIT-1发布回执为准；后续工作从最新main另开卡。 关联:[CLAUDE.md](../../../CLAUDE.md) [governance.md](../../testing/governance.md) [agent-workflow.md](../agent-workflow.md) [code-quality.md](../code-quality.md) [review.json](../evidence/GAME-INPUT-ROTATION-1/review.json) [integration-gates.json](../evidence/GAME-NANZHAO-ROOM-EXIT-1/integration-gates.json) [release-gates.json](../evidence/GAME-NANZHAO-ROOM-EXIT-1/release-gates.json) [release-preparation.json](../evidence/GAME-NANZHAO-ROOM-EXIT-1/release-preparation.json) [release.json](../evidence/GAME-NANZHAO-ROOM-EXIT-1/release.json) [GAME-MOBILE-LAYOUT-1.md](GAME-MOBILE-LAYOUT-1.md)。
 
 ## 原文保全
 

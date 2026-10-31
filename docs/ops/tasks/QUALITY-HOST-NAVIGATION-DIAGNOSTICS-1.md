@@ -7,24 +7,23 @@ Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「QUALITY-HOST-NAVIGATION-DIAGNOSTICS-1 — 测试宿主原生导航与真实事件」的任务归属与历史边界。原目标见原文(摘录:Reviewer: Codex（作者自验与独立验收分开） Capability: test host navigation fidelity Visual Verification Timing: N);本页治理不重开已终态任务。
+清理两条native导航诊断：jsdom29.1.1的Location-impl.js reload→navigation.js navigateFetch明确报notImplemented（两vendor源码全文/SHA/行锚见jsdom-primary.json）；目标为链接测试用真实React事件并在测试router接管默认导航、无档测试观察真实reload调用。真实caller：DsMenuBar:207-211先交onNavigate再收菜单、EditorAppHeader:47透传到App:2194-2206普通点击preventDefault、reforge main2232-2242真实listMeta无档后调location.reload。
 
 ## 范围
 
-原卡含章节[QUALITY-HOST-NAVIGATION-DIAGNOSTICS-1 — 测试宿主原生导航与真实事件、准入与白名单、前提与方案、验证与交接、作者检查点、联合窗口复核],共3个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+仅两份现存测试源码（navigation.glm-leaf-wave.test.tsx、main.host-lifecycle-1.test.ts）；不改产品、公共接口、主线、其它活跃任务、schema/save/资产管线或规则。
 
 ## 前提与证据
 
-固定main源4019B(SHA d92be91707b8);原卡前提按原时点保留。当前存活入口:[window-review.md](../evidence/QUALITY-EDITOR-FORM-FIXTURES-1/window-review.md) [README.md](../evidence/QUALITY-HOST-NAVIGATION-DIAGNOSTICS-1/README.md)。
+固定源全文核读。作者检查点：定向6+8例与相邻34+19例通过；两个native诊断均按独立基线1→0实证（非最近stderr猜归因）；真实reload oracle反控旧8绿/现恰1红/恢复8绿，完整0skip、无timeout/启动失败；键盘事件强转改真实React事件、回收act全局环境、测试身份/计数未改；两包typecheck通过。最强替代解释（其它caller或测试结束后迟到工作）由分别运行基线、替换真实端口后核完整stdout排除。联合窗口C04/C05/C06八源冻结cae26b1c7的check/普通ratchet/protected fast exit0、硬静态零诊断，但仍有act/环境诊断，严格统一门未过。原件:[window-review.md](../evidence/QUALITY-EDITOR-FORM-FIXTURES-1/window-review.md) [README.md](../evidence/QUALITY-HOST-NAVIGATION-DIAGNOSTICS-1/README.md)。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:review),治理不改写。
+本卡只清native边界，AudioContext与相邻故障日志仍在；统一门与其它runtime诊断未清不标done、不合main；0文件关闭、账本3284/229closed/58review/2997pending。
 
 ## 状态与交接
 
-review保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
-
+review保持原语义；无下一位Agent提示词，由Codex继续。
 
 ## 原文保全
 

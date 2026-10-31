@@ -7,44 +7,43 @@ Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「CODE-QUALITY-69 — game speedrun time format test contracts」的任务归属与历史边界。原目标见原文(摘录:Reviewer: Codex（独立验收） Capability: Q3 game/tools/speedrun Visual Verification Timing: N/A（纯格式函数）);本页治理不重开已终态任务。
+原卡目标:逐文件核验 speedrun 时间格式三份测试文件:厘秒/小时进位、负数归零、diff 符号/截断、合法 H:MM:SS/M:SS 与非法输入拒绝的真实判别力（纯格式函数）。
 
 ## 范围
 
-原卡含章节[CODE-QUALITY-69 — game speedrun time format test contracts、范围、验证、交接、2026-10-18 当前复审、下一位 Agent 提示词],共1个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+三文件;只读 time-format.ts 实现、overlay/store、tools-panel 解析入口与 design Task1。
 
 ## 前提与证据
 
-固定main源2133B(SHA cfa5360c9cda);原卡前提按原时点保留。当前存活入口:[README.md](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/69-time-format-tests/README.md)。
+原批:定向 9 tests 全绿、speedrun wave 全门通过,账本 3266/316 closed。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+2026-10-18 当前复审:全文实现/三测试/overlay/store、tools-panel 解析入口和 design Task1 已核;纠正 59.995s"进位"错误标题,归并 GLM 重复小时/负数 oracle,拆开不同格式函数与正负边界;GLM 改核科学计数法拒绝及分钟越界/秒合法的独立反例;生产实现、公共 API/规则未改。两枚隔离变异各为旧 10 绿→新 13 绿 1 个指定 AssertionError,恢复 14 绿;相邻 speedrun/tools-panel 20 文件 108 例、game typecheck 通过;新全仓 check/ratchet/protected 未运行,当前 partial,旧波次不认证新候选;**time-format.ts 的非 finite 输入仍 review**。原件、身份/hash/清理见 [README.md](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/69-time-format-tests/README.md)。
 
 ## 状态与交接
 
-done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+done 保持原历史语义;2026-10-18 复审 partial,time-format.ts 非 finite 输入保持 review。
 
 ## 历史范围
 
-原卡属固定main时点;CODE-QUALITY-69 — game speedrun time format test contracts的原始范围与日期在保全块内逐字保留。
+原卡属 2026-10-13 wave 时点;原始记录与历史提示词在保全块内逐字保留。
 
 ## 原始结论
 
-原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+原卡结论按 Status(done) 原样:格式测试合同原子、边界反例和 parse oracle 真实。治理不撤销/不恢复旧信用。
 
 ## 当时证据
 
-原文1个链接与当时回执属原时点证据;本页不重跑、不复授。
+当时回执（9 定向、wave 全门）属原时点证据;本页不重跑、不复授。
 
 ## 当前有效性
 
-仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+仅历史任务归属有效;time-format.ts 非 finite 输入的 review 状态以最新账本为准。
 
 ## 继任文档
 
-接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[README.md](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/69-time-format-tests/README.md)。
-
+CODE-QUALITY-66（overlay 消费格式）与 69 证据目录为继任;当前任务导航以看板为准。
 
 ## 原文保全
 

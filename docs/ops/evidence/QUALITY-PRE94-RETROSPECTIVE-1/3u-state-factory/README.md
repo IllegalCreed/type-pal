@@ -7,23 +7,23 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「CODE3u BattleState工厂专测复审」的主题按原文时点保留(摘录:Date: 2026-10-18 Base: `9c2c5eabe143bc81ad8df1c9234aa741b130aabc` Branch: `codex/code-qual)。
+本页审计对象是 CODE3u BattleState 工厂专测复审切片（Codex 单 Agent 核读/执行，2026-10-18，Base 9c2c5eabe143bc81ad8df1c9234aa741b130aabc，Branch codex/code-quality-3y，status:recorded）。核心问题：原工厂专测存在只数自写字面量数组、从不调用被测实现的无业务用例，手写状态再 JSON 的弱 oracle，手拼 ActionQueueItem 键名的早期候选，以及与主测重复的三玩家快照例——按少而精测试规则需以真实工厂/真实队列重建并以反控证明判别力。
 
 ## 范围与证据
 
-原报告含章节[CODE3u BattleState工厂专测复审、范围与证据、实际修改、排重和输入、判别力和实际验证、当前结论与后续]、9个链接;固定main源4417B(SHA 405bb1ce86f8)。当前存活入口:[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) [README.md](../3u-3w-finalization/README.md) [assertion-transfers.json](assertion-transfers.json) [before.json](before.json) [controls.json](controls.json) [early-candidate-limit.json](early-candidate-limit.json) [gates.json](gates.json) [read-boundaries.json](read-boundaries.json) [snapshot-conservation.json](snapshot-conservation.json)。
+按父卡 [QUALITY-PRE94-RETROSPECTIVE-1.md](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) 低风险准入：实现916行、原主383行/GLM81行全文，现主340行/GLM82行全文；H222 和 positions93 全文。实际读范围、当前SHA与原字节分别见 [read-boundaries.json](read-boundaries.json) 与 [before.json](before.json)。原清理/runtime片 [README.md](../3u-3w-finalization/README.md) 信用继续有限保留；本片不替它关闭Extra可达性。第一阶段真值：CLASSIC 状态按 global.h:40-60 逐 role 九槽，C 玩家状态直接用持久表而 TS 显式 seed 独立视图；battle.c:1598-1720 零槽保留与敌资源拷贝、:903-945 人数布局与 yOffset；玩家快照实际供 battle-system casualty 脚本使用，0x64 读敌 maxHealth、不读玩家 scriptPrevHp。
 
 ## 发现
 
-原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+生产 battle-state.ts 未改（完整字节同基点）；两测复用 H 的三个纯资源工厂（makeHRole/makeHEnemy/makeHField）+真实 core RNG 与 buildActionQueue，去重复结构定义；撤掉只数自写枚举的运行时用例；手写状态再 JSON 的 case 改为真正构造/持久数组/下一场视图隔离；GLM 三玩家快照断言合并主测并经 [snapshot-conservation.json](snapshot-conservation.json) 快照保全针证明源突变后不变，另纠正 MP45>maxMP40 夹具；九状态按 party[2,0] 逐 role 映射；空槽旧『坐标非空』改为真正活敌使用的含 null 两槽布局。早期17绿候选曾手拼错 index/dexterity 键名，代码检查后纠正，旧 raw 保留、不授最终身份信用，见 [early-candidate-limit.json](early-candidate-limit.json)。
 
 ## 结论
 
-原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+逐项迁移 [assertion-transfers.json](assertion-transfers.json)：18→17，退两整例（一无业务枚举、一重复快照）、增一个真实局部队列 ownership 例、替换一弱 JSON 例；授权仅限本两例，不借 10-03 旧 OPQ 头自批其它退役。六反控 [controls.json](controls.json)（role→party 误接、silence 读 sleep、同持久数组缓存状态视图、共享 pendingActions、压掉 null 布局人数、空槽 cash 非零）各旧 14 或 4 全绿→当前恰一指定业务 AssertionError；恢复源后 7 文件 283 绿（17 直接/266 相邻）与 game typecheck 零诊断，实际门汇总见 [gates.json](gates.json)。两旧关闭专测重开 review、0 新增 closed；机器 3316 tracked/253 closed/98 review/2965 pending；83 卡 55partial/28pending/0accept 不变，仅 3u 当前证据指针更新。
 
 ## 整改与复核
 
-本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
+完整 check/official coverage/protected fast 按用户要求留大任务收尾；本片不跑全 game、原版/浏览器/E2E，不合 main。庞大动画/UI 类型的全部 caller、脚本元数据/极端数值/容量域及所有注释锚尚未全核，继续 review；非队员 Extra 未知仍归既有 draft。接下来继续 3u 剩余 factory 输入/caller 与 3w settlement，或 40/41 未核切片，94–102/editor 后置。本页为治理候选正文，任务裁决以父卡与实际 ledger 为准；候选待 Owner 非作者接收。
 
 
 ## 原文保全

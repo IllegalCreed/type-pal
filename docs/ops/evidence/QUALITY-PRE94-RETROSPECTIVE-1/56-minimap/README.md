@@ -7,24 +7,23 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「CODE56 minimap 当前复审切片」的主题按原文时点保留(摘录:> 2026-10-18 当前更正：旧“手算像素/合法核心夹具/完整隔离/坏zoom已核”信用撤回：L18使用被测变换与颜色常量生成oracle、重复primitive几何且未清r)。
+历史 CODE-QUALITY-56 的小地图加载 ownership 需重新核验:基点 f6c440eab、分支 codex/code-quality-3y,不触碰 CODE-QUALITY-57 的 bootstrap seam repair/地图 schema/碰撞/存档/MinimapController 公共接口;整卡复审为 partial。另有两则 2026-10-18 勘误:53-wave-gates 统一门'通过/收口'信用撤回;旧'手算像素/合法核心夹具/完整隔离/坏zoom已核'信用撤回。
 
 ## 范围与证据
 
-原报告含章节[CODE56 minimap 当前复审切片、读取与事实边界、判别力与反控、验证与未关闭风险]、2个链接;固定main源3551B(SHA 68768bba56fd)。当前存活入口:[README.md](../53-wave-gates/README.md) [README.md](../core-comment-audit/tools-thumbnail-hotkeys/README.md)。
+完整读取 tools/minimap.ts、minimap.test.ts、minimap.glm-phase1-leaves.test.ts;读取真实 caller:bootstrap.ts 的 renderMapThumbnail/setupToolsPanel 注入、tools-panel.ts 小地图面板、dev-panel.ts 场景缩略图 picker、scene-system.ts current map、draw-tilemap.ts 两层地图绘制;对照 docs/phase1/engineering-notes.md 与 CLAUDE.md 相机/缩略图边界。SDLPal 无同形态 minimap UI,以当前 bootstrap/draw-tilemap 的 32x16 tile、camera(-16,-16)、两层绘制与 caller ownership 为 primary。波次门原件 [README.md](../53-wave-gates/README.md)(信用已撤回,不得沿用为本片验收或合并依据);返工片见 [README.md](../core-comment-audit/tools-thumbnail-hotkeys/README.md)。
 
 ## 发现
 
-原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+setupMinimap.getBase 按 map 缓存成功图片、按 map 记录失败、在 getMapThumbnail promise resolve 后创建 Image,直到 onload/onerror 才释放 baseLoading,与场景 tab/widget 的 rAF 复用和 map 切换生命周期一致;renderMapThumbnail 按 map/outW dedup、并发上限 2,完成后只保留 dataURL,不污染 gameplay tile cache。直接 2 files/20 tests passed(world→thumbnail 变换、zoom clamp、触发脚本分类、NPC/物品/传送门过滤、canvas 像素/toggle/localStorage、非法持久值、图片 decode failure);相邻 4 files/51 tests+dev-panel-picker-lifecycle 5 tests。独立变异反控:临时在 Image 构造后提前 baseLoading.delete(mapNum) 得 1 failed/5 passed,失败断言为 URL 已 resolve、Image 尚未 onload 时 getMapThumbnail 被调 2 次而非 1 次;变异文件立即恢复。读取中未发现 caller 支持的越界/错误传播/异步或资源清理问题。
 
 ## 结论
 
-原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+ownership 核验成立,但旧测试合法性被后窗撤回:L18 用被测变换与颜色常量生成 oracle、重复 primitive 几何且未清 rAF/window/DOM,主测存在缺字段核心强转;同模块已由 core-comment-audit/tools-thumbnail-hotkeys 有限返工,两测保持 review,20 绿不作整文件证据;CODE56 仍 partial,不是整卡 accept/done。本页原逐文件/定向结果按各自证据保留,旧计数不改写为 0。
 
 ## 整改与复核
 
-本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
-
+bootstrap thumbnail 不调用 repairTilemapSeams 的视觉差异属 CODE-QUALITY-57 未扩张;小地图输入的异常外部 canvas/view 形态未改变公共 API;本片无生产文件变更,typecheck passed、lint 沿上一批 5002 files 0/0/0。未重跑任何命令;历史结论保持原时点;候选待 Owner 非作者接收。
 
 ## 原文保全
 

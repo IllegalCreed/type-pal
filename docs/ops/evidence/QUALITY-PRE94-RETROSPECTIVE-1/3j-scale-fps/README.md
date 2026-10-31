@@ -2,29 +2,28 @@
 
 Status: historical
 Owner: GLM(治理候选作者;原文作者/状态见保全块)
-Last reviewed: 2026-10-30
+Last reviewed: 2026-10-31
 Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「CODE3j display-scale / fps-overlay 当前复审切片」的主题按原文时点保留(摘录:基点：`b42eb9065`；分支：`codex/code-quality-3y`，相对 `origin/main` `0 behind`。本片核 display-scale、fp)。
+CODE-QUALITY-3j有限切片(基点b42eb9065,0 behind),核display-scale与fps-overlay生产实现、直接测试及tools-panel/main-loop/bootstrap真实caller;3j的toast/map-names/checkpoints与整卡统一门未收口。
 
 ## 范围与证据
 
-原报告含章节[CODE3j display-scale / fps-overlay 当前复审切片、逐文件、caller 与生命周期、测试判别力与结论]、1个链接;固定main源2110B(SHA 493476fb0367)。当前存活入口:[read-boundaries.json](read-boundaries.json)。
+完整读取display-scale.ts(51行)/fps-overlay.ts(110行)及各自主测与GLM leaves、tools-panel.glm-phase1-leaves(只计display/fps断言)、main-loop.ts(181行rAF caller);bootstrap.ts只读1080-1123(display-scale构造/注入)、tools-panel只读导入与display/FPS按钮段,清单SHA见[read-boundaries.json](read-boundaries.json)。createDisplayScaleController从localStorage读百分比,有限/正值进[10,1000]四舍五入,非法或非正值回落100%,每次set同步CSS与存储;fullscreen只委派canvas/document。fps-overlay模块状态由rAF main-loop.ts:176每帧喂performance时间戳;setFpsEnabled(false)清overlay与采样窗,localStorage仅'1'开启,首帧建单例DOM,500ms后按帧数重算并以50fps阈值着色。
 
 ## 发现
 
-原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+display-scale主测覆盖默认100%/clamp/持久化/损坏存储,GLM leaves补NaN setter/非整数round/居中CSS/fullscreen委派;fps主测覆盖120/25fps、50阈值、启停与脏帧丢弃,GLM leaves补未创建hide no-op/样式单例/非法存储;tools-panel leaves只核真实按钮委派。未发现直接输入、ownership、清理或重复合同缺口;此前display-scale的NaN窄修保留,未扩大为无caller证据的Infinity策略。
 
 ## 结论
 
-原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+定向5 files/40 tests passed,game typecheck通过无诊断;未修改生产或测试。本片不运行coverage/official ratchet/protected fast或全仓check;3j整卡保持partial,不把历史done重升为当前accept。
 
 ## 整改与复核
 
-本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
-
+未重跑;无浏览器fullscreen权限/运行时视觉验收。候选待Owner非作者接收。
 
 ## 原文保全
 

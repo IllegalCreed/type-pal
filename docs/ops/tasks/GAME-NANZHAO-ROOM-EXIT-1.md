@@ -2,48 +2,53 @@
 
 Status: done
 Owner: GLM(治理候选作者;原文作者/状态见保全块)
-Last reviewed: 2026-10-30
+Last reviewed: 2026-10-31
 Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「GAME-NANZHAO-ROOM-EXIT-1 - 南诏地宫中间房间出口回归」的任务归属与历史边界。原目标见原文(摘录:修复issue #27：第一阶段scene287/map204中间房间可进入且能离开；核清与此前D10脚本修复的关系，同时核第二阶段对应内容，避免单边修复。);本页治理不重开已终态任务。
+修复issue #27：第一阶段scene287/map204中间房间可进入且能离开；核清与此前D10脚本修复的关系，同时核第二阶段对应内容避免单边修复。
 
 ## 范围
 
-原卡含章节[GAME-NANZHAO-ROOM-EXIT-1 - 南诏地宫中间房间出口回归、目标、范围、前提真值门、一句话行为 / 工程前提、真值矩阵],共13个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+英文补丁原件（英文SSS把一基event4842由敌人改为(880,840) mode5出口、43503-43506返回scene286）、D10版本化纠错、原始事件与触发模式、当前持久化状态、两阶段出口及往返回归。不直接编辑生成物替代上游修复、不把手动调用传送脚本当触点可达、无证据不加新口。
 
 ## 前提与证据
 
-固定main源9623B(SHA 5c372c4a3d81);原卡前提按原时点保留。当前存活入口:[CLAUDE.md](../../../CLAUDE.md) [READ-FIRST.md](../../phase2/READ-FIRST.md) [contract.md](../../testing/e2e/contract.md) [code-quality.md](../code-quality.md) [integration-gates.json](../evidence/GAME-NANZHAO-ROOM-EXIT-1/integration-gates.json) [release-gates.json](../evidence/GAME-NANZHAO-ROOM-EXIT-1/release-gates.json) [release-preparation.json](../evidence/GAME-NANZHAO-ROOM-EXIT-1/release-preparation.json) [release.json](../evidence/GAME-NANZHAO-ROOM-EXIT-1/release.json) [review.json](../evidence/GAME-NANZHAO-ROOM-EXIT-1/review.json) [GAME-SCRIPT-CORRECTIONS-1.md](GAME-SCRIPT-CORRECTIONS-1.md)。
+旧档完整事件表覆盖新版出口已稳定复现（未取得issue作者本人存档，记为与报告一致的强推断）。用户2026-10-27追加方向：从复用原遇敌作出口改为保留原遇敌+新增独立出口。原8个链接处置见作者review，存活入口逐字保留：
+
+当前存活入口:[CLAUDE.md](../../../CLAUDE.md) [READ-FIRST.md](../../phase2/READ-FIRST.md) [contract.md](../../testing/e2e/contract.md) [code-quality.md](../code-quality.md) [integration-gates.json](../evidence/GAME-NANZHAO-ROOM-EXIT-1/integration-gates.json) [release-gates.json](../evidence/GAME-NANZHAO-ROOM-EXIT-1/release-gates.json) [release-preparation.json](../evidence/GAME-NANZHAO-ROOM-EXIT-1/release-preparation.json) [release.json](../evidence/GAME-NANZHAO-ROOM-EXIT-1/release.json) [review.json](../evidence/GAME-NANZHAO-ROOM-EXIT-1/review.json) [GAME-SCRIPT-CORRECTIONS-1.md](GAME-SCRIPT-CORRECTIONS-1.md)。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+方案：纠错计划声明独立supplemental对象（原始SSS实体数组不变、全局导出尾部追加稳定ID 5077、原生范围仍以原数组长度切片）、第一阶段装载按明确新增标记补缺（不覆盖已有实体/状态）、canonical二阶段s286恢复原敌+独立zone。反例：断开补缺完整文件4业务红/1pass、改错原敌1业务红/5413pass均精确恢复；候选1e00fd113→本地集成4088bcd21（21文件差异逐文件A–H定向独立核验）、真实party夹具e4a78b9d→f150c4922（PAL5绿、extract49、Reforge5421绿）。发布：本地官方20,203例/812源、七包TC/lint/完整文档门零诊断；PR #28 documentation/fast-coverage在候选c42e33338通过后合并为bde596695；从合并树新构建部署阿里云应用和资源（源站/CDN逐字节、浏览器设置/刷新回退验证）；两issue回复关闭；v1.1.0固定该部署提交。
 
 ## 状态与交接
 
-done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+Status保持done：两阶段实现及用户体验已接收（用户2026-10-27'可以了'）、保护CI合并部署与v1.1.0发布完成；实现分支按可恢复备份清理。未宣称实物手柄、issue原存档、离线激活或自然全剧情E2E。
 
 ## 历史范围
 
-原卡属固定main时点;GAME-NANZHAO-ROOM-EXIT-1 - 南诏地宫中间房间出口回归的原始范围与日期在保全块内逐字保留。
+初始normal档核对时进入原生遇敌未当出口通过；已战胜夹具只使用原共享胜利尾状态-2/800；旧replacement候选及其定向结果保留为探索历史不计最终方案信用。
 
 ## 原始结论
 
-原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+原卡结论：真实玩家沿门进房、走回门能退出；浏览器普通UI导入合法已战胜旧档、原菜单读slot5、真实方向输入实跑map204/#287(928,816)→map203/#286(1392,616)→原房间→再次出门，队伍保持1,0,4、warn/error为空。
 
 ## 当时证据
 
-原文13个链接与当时回执属原时点证据;本页不重跑、不复授。
+docs/ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/（review.json/integration-gates/release-preparation/release-gates/release.json）。原链接与当时回执属原时点证据。
 
 ## 当前有效性
 
-仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+done发布按其时点有效；issue作者存档未核、自然剧情未跑。
 
 ## 继任文档
 
-接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[CLAUDE.md](../../../CLAUDE.md) [READ-FIRST.md](../../phase2/READ-FIRST.md) [contract.md](../../testing/e2e/contract.md) [code-quality.md](../code-quality.md) [integration-gates.json](../evidence/GAME-NANZHAO-ROOM-EXIT-1/integration-gates.json) [release-gates.json](../evidence/GAME-NANZHAO-ROOM-EXIT-1/release-gates.json) [release-preparation.json](../evidence/GAME-NANZHAO-ROOM-EXIT-1/release-preparation.json) [release.json](../evidence/GAME-NANZHAO-ROOM-EXIT-1/release.json) [review.json](../evidence/GAME-NANZHAO-ROOM-EXIT-1/review.json) [GAME-SCRIPT-CORRECTIONS-1.md](GAME-SCRIPT-CORRECTIONS-1.md)。
+GAME-INPUT-ROTATION-1（同分支姊妹卡，随本卡发布）与GAME-SCRIPT-CORRECTIONS-1（D10前置）关联。原存活入口逐字保留：
+
+关联:[CLAUDE.md](../../../CLAUDE.md) [READ-FIRST.md](../../phase2/READ-FIRST.md) [contract.md](../../testing/e2e/contract.md) [code-quality.md](../code-quality.md) [integration-gates.json](../evidence/GAME-NANZHAO-ROOM-EXIT-1/integration-gates.json) [release-gates.json](../evidence/GAME-NANZHAO-ROOM-EXIT-1/release-gates.json) [release-preparation.json](../evidence/GAME-NANZHAO-ROOM-EXIT-1/release-preparation.json) [release.json](../evidence/GAME-NANZHAO-ROOM-EXIT-1/release.json) [review.json](../evidence/GAME-NANZHAO-ROOM-EXIT-1/review.json) [GAME-SCRIPT-CORRECTIONS-1.md](GAME-SCRIPT-CORRECTIONS-1.md)。
+
 
 
 ## 原文保全

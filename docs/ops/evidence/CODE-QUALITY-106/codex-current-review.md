@@ -7,24 +7,23 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 证据身份
 
-本页是「CODE-QUALITY-106 — Codex 当前验收（2026-10-17）」的治理候选页;证据原件即下方逐字节保全的固定main源(1786B,SHA 4d802d6fe9fe)。
+本件是 `reward-gain-queue.boundaries.test.ts` 的当前逐文件复核与 Promise 生命周期诊断修复:完整读取该测试、`reward-gain-queue.ts`、既有 `reward-gain-queue.test.ts`、`script-work-queue.ts`、`runtime-input-router.ts`,以及 `main.ts` 中 `showItemUseResults`、`rewardGainQueue.present`、`consumeReward` 和输入冻结条件。测试覆盖公开 `RewardGainQueue.present` 与 `handleRewardGainInput`,不是私有 helper。生产代码没有改动。
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原0个链接处置见作者review的linkDisposition。当前存活入口:无当前仓库内存活链接。
+`presentOne` 将 timer、AbortSignal listener、active request、resolve/reject 绑定为同一 settle owner;`advance`、timeout、abort 三路都必须只兑现一次。真实产品 caller 由物品使用流程进入队列,输入 caller 由运行时路由消费 Enter/空格/Escape/其它键。
 
 ## 断言与业务 oracle
 
-文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+根因:修复前测试在 Enter 分支用 `void expect(pending).resolves.toBeUndefined()`,在 abort 分支用 `void pending2.catch(...)`,导致 Vitest 报未等待 Promise 诊断且取消结果没有业务 oracle。修复后测试改为 async 并等待 resolve 与 AbortError reject;原有输入、current、active 和单次兑现断言保持不变。
 
 ## 结果
 
-原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+修复前相邻 21 files/118 tests PASS 但一条未 await 诊断;修复后定向 1 file/5 tests PASS 0 stderr;相邻 21 files/118 tests PASS 0 stderr;Reforge typecheck PASS。
 
 ## 限制与复核
 
-未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
-
+该测试文件的诊断根因已修复且取消 Promise 有真实可判别 oracle;文件保持 review,等待本批全仓 check、coverage ratchet/protected fast、lint-zero、docs 和 ledger 收口,不因定向/相邻通过宣布全仓完成;无生产实现、schema/save、公共接口或 coverage 范围变化。
 
 ## 原文保全
 

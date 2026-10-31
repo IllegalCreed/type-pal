@@ -7,24 +7,23 @@ Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「QUALITY-EDITOR-DIAGNOSTICS-4 — Kimi 战斗精灵真实工作流」的任务归属与历史边界。原目标见原文(摘录:Reviewer: Codex（作者实测与独立验收分开） Capability: editor test lifecycle correctness Visual Verification Timin);本页治理不重开已终态任务。
+Kimi战斗精灵测试改真实工作流：BattleSpriteLibrary.kimi-workflows.test.tsx六条工作流撤掉重复宿主/轮询点击/空Promise，复用C02真实宿主与完成信号；battle-sprite-fixtures.ts仅头注明确编辑器测试复用、不改fixture实现。目标口径：六条合法输入与业务oracle保留、同字节复用检查真实准备结果（append arrange改写prepare返回值不能作为真实复用证据）。
 
 ## 范围
 
-原卡含章节[QUALITY-EDITOR-DIAGNOSTICS-4 — Kimi 战斗精灵真实工作流、准入与独占范围、真值与可证伪观察、验证与交接、作者检查点、联合窗口复核],共3个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+仅两份测试源码；不改产品、公开接口、schema/save/资产管线、生成物与规则；旧Kimi十二组任务已done归档，不改其历史accept。
 
 ## 前提与证据
 
-固定main源4641B(SHA 441b61c927de);原卡前提按原时点保留。当前存活入口:[TEST-KIMI-EDITOR-WORKFLOWS-1-twelve-groups.md](../archive/tasks/done/TEST-KIMI-EDITOR-WORKFLOWS-1-twelve-groups.md) [README.md](../evidence/QUALITY-EDITOR-DIAGNOSTICS-4/README.md) [window-review.md](../evidence/QUALITY-EDITOR-FORM-FIXTURES-1/window-review.md)。
+固定源全文核读。作者检查点：六例完整398→0诊断（此前kimi-workflows为398条告警最高文件之一）；实际复用真实C02宿主与完成信号，复制的宿主及空Promise/轮询点击已移除，六例名称/计数不变。两项旧绿/新红反控证DnD小数与真实复用oracle改进，缩帧反控仍准确红；所有新红均完整六例、恰一指定业务AssertionError、0skip/0诊断、恢复六绿。当前注释声称pending拒绝但只在proof就绪后点击，已撤回虚假声明。相邻11文件90例、editor typecheck、coverage工具65通过；联合窗口C04/C05/C06八源冻结cae26b1c7的check/普通ratchet/protected fast exit0、硬静态零诊断，但仍有act/环境诊断，严格统一门未过。原件:[TEST-KIMI-EDITOR-WORKFLOWS-1-twelve-groups.md](../archive/tasks/done/TEST-KIMI-EDITOR-WORKFLOWS-1-twelve-groups.md) [README.md](../evidence/QUALITY-EDITOR-DIAGNOSTICS-4/README.md) [window-review.md](../evidence/QUALITY-EDITOR-FORM-FIXTURES-1/window-review.md)。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:review),治理不改写。
+机器3284/229closed/56review/2999pending（联合窗口后62review/2993pending）、0新关闭；统一门未过不合main。
 
 ## 状态与交接
 
-review保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
-
+review保持原语义；下一候选为剩余native导航两测试或World资源工作流。无下一位Agent提示词，Codex继续。
 
 ## 原文保全
 

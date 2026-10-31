@@ -7,44 +7,43 @@ Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「CODE-QUALITY-48 — game draw equip 窄批」的任务归属与历史边界。原目标见原文(摘录:逐文件核验装备菜单绘制实现及其两份边界/像素测试，确认 phase/list 与 phase/pick-role 的状态 ownership、资源缺失行为、角色可装备四色、装备槽/属性/数量投影和 framebuffer 边界均与一阶段真值);本页治理不重开已终态任务。
+原卡目标:逐文件核验装备菜单绘制三文件（`draw-equip.ts` 与 glm-phase1-leaves、equip-role-pixels.grok-r1 两测试）:phase/list 与 phase/pick-role 的状态 ownership、资源缺失行为、角色可装备四色、装备槽/属性/数量投影和 framebuffer 边界,对齐 SDLPal `uigame.c:1793-2055`、`itemmenu.c:28-224`、`play.c:350-357`;`drawEquipMenu` 复用 `drawInventoryMenu`,pick-role 依次读取 equipBg、BALL icon、runtime equipment/stat、party role、inventory count,绘制层不写回状态。
 
 ## 范围
 
-原卡含章节[CODE-QUALITY-48 — game draw equip 窄批、目标、范围、前提真值门、上下文锚点、验证],共1个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+三文件;只读相邻 caller/oracle:draw-menu 公共出口（仅 `playerRoles` 存在才调用实现）、present.ts runtime 注入、equip-menu 状态生命周期、menu-driver 确认/换装脚本、P03 caller/oracle。菜单观感登记集中 E2E 延后。
 
 ## 前提与证据
 
-固定main源7260B(SHA dd7492a6560e);原卡前提按原时点保留。当前存活入口:[README.md](../../../../ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/48-draw-equip/README.md)。
+本批补齐非顺序 party、未知装备、单人框高、done/缺目录/数量零/运行时数量和属性行等反例;与既有 P03 合同排重。2026-10-18 Codex 复审:零数量绘制差异因正常库存归零会删除条目且进入 pick-role 有正数量门,判为不可达防御输入保留,不改 UI 行为。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+历史批:定向 3 files/16 tests、game 全包 311/3519、全仓 `pnpm check`、ratchet（只升不降更新 baseline）、protected fast 0 项下降、lint-zero 3994 全 0、docs/content、diff-check、ledger 通过;账本 3266/262 closed。2026-10-18 复审 partial:直接 3 files/16、相邻 9 files/167、game typecheck 通过;ratchet/protected/全仓 check 本小批未运行,统一门留待完整 game/present 模块收口。证据见 [README.md](../../../../ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/48-draw-equip/README.md)。
 
 ## 状态与交接
 
-done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+done 保持原历史语义;2026-10-18 复审 partial 不标 accept。无产品代码、schema/save、资源格式或公共接口变更。
 
 ## 历史范围
 
-原卡属固定main时点;CODE-QUALITY-48 — game draw equip 窄批的原始范围与日期在保全块内逐字保留。
+原卡属 2026-10-12 首轮时点;原始锚点与历史提示词在保全块内逐字保留。
 
 ## 原始结论
 
-原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+原卡结论按 Status(done) 原样:未发现直接缺陷;测试断言均对应合法 typed 输入与真实 caller/framebuffer oracle。治理不撤销/不恢复旧信用。
 
 ## 当时证据
 
-原文1个链接与当时回执属原时点证据;本页不重跑、不复授。
+当时回执（16 定向、ratchet 新 baseline、lint 3994 零诊断）属原时点证据;本页不重跑、不复授。
 
 ## 当前有效性
 
-仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+仅历史任务归属有效;复审 partial 期间不凭旧 done 认定当前状态。
 
 ## 继任文档
 
-接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[README.md](../../../../ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/48-draw-equip/README.md)。
-
+CODE-QUALITY-86（equip-menu 状态机）与 2026-10-21 renderer 收口（draw-menu/draw-tilemap/draw-shop 三文件族）为相邻归属;当前任务导航以看板为准。
 
 ## 原文保全
 

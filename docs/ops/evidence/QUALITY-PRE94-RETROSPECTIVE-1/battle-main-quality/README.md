@@ -2,29 +2,32 @@
 
 Status: historical
 Owner: GLM(治理候选作者;原文作者/状态见保全块)
-Last reviewed: 2026-10-30
+Last reviewed: 2026-10-31
 Template: evidence-receipt-v1 / 1.0.0
 
 ## 证据身份
 
-本页是「CODE3s 主测试合法输入、收尾与精确 oracle」的治理候选页;证据原件即下方逐字节保全的固定main源(2674B,SHA f1bb6f8deb3f)。
+本页是 QUALITY-PRE94-RETROSPECTIVE-1 治理树内 CODE3s「主测试合法输入、收尾与精确 oracle」窗口的证据页：battle-system.ts 主测合法输入整改、跨场收尾补真实终态断言、自动攻击宽断言收紧为精确动作 oracle。Codex 单 Agent，基点 805ae1e31f1d，提交 8f6a8499a（测试）／124540175（类型与私有字段整理）；原件为下方逐字节保全的固定main源（2674B，SHA f1bb6f8deb3f）。
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原3个链接处置见作者review的linkDisposition。当前存活入口:[README.md](../3s-battle-system/README.md) [README.md](../battle-dialog-quality/README.md) [codex-final29.json](../glm-foundation/codex-final29.json)。
+复用 [README.md](../3s-battle-system/README.md) 的 3s 全文/primary、[codex-final29.json](../glm-foundation/codex-final29.json) 与对话切片 [README.md](../battle-dialog-quality/README.md)；本次完整核实际差异、变化 helper/case 与真实 caller，不冒称重读全部未变 4251 行。两文件八维、输入/来源指纹与限制见同目录 review.json。
 
 ## 断言与业务 oracle
 
-文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+- 主测统一从真实 PlayerRoles hydrate runtime、安装队伍并取真实资源；14个超出 maxHP 的输入显式修正，any/unknown/残缺类型强转改合法工厂；V1 Map 用例经真实 serialize/parse 后按当前 shell restore 接入，不改存档格式或 API。
+- 原跨场测试实际停在首场选择阶段：补一个完成断言即单红（AssertionError: mode battle not explore），证明旧测试从未完成而非产品缺陷；随后三个 Repeat 用例经真实 fled 收尾后换队，共用400步 driver 超限明确失败。HP/MP 以合法持久 88/22 与战斗 70/10 构造，真实胜利半恢复断言 79/16。
+- 自动攻击同一合法夹具、同一 attack→defend 变异：旧宽断言通过，新精确动作断言单业务红（旧测试漏报）。资源失败告警精确断言全文与调用次数，其余 warn 作用域断言零调用。
+- 学法术统一现行 magic：learnedSpells 无生产写入/引用，仅三个旧测试迁移；Map/entries/record/空恢复 JS 保持，21个公开出口保持；显式合击缺角色 TypeError 只改损坏私有上下文的诊断文字。
+- 验证：8文件266例无跳过/无可见运行诊断；随后1文件3个合击例与最终 game typecheck 通过；266采集后 Map 仅类型变化、JS 相同。合击命令另带的不存在文件过滤器未匹配任何测试，不记为第二个测试文件。
 
 ## 结果
 
-原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+0 新 closed；固定83卡 67accept/16partial。本地整改完成（review.json 两文件 decision 均为 review: local rework complete），但整卡全 pre94 集成门未过：统一 check／official coverage／ratchet／protected 与一个 PR 均推迟到剩余 pre94 处理完，本窗未执行。首轮 TC 失败（TS18048）与旧测试单红原件保留在 receipts.json.gz。
 
 ## 限制与复核
 
-未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
-
+只读快检：仓库根运行 `node docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-main-quality/verify.mjs`，核原件、身份、counter 与后继变化、完整正文守恒和指纹；不写文件、不联网、不运行测试。MATCH 证明机械事实，设计判断仍限具体读域。下一接 3t 等战斗脚本质量余项，94–102 不扩展。本治理候选不重开任务、不重跑执行、不授新信用。
 
 ## 原文保全
 

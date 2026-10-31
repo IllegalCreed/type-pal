@@ -7,44 +7,43 @@ Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「QUALITY-LEGACY-OGG-RETIREMENT-1 — 未接入的旧OGG后端退役」的任务归属与历史边界。原目标见原文(摘录:Capability: audio module cohesion and unused exports Generation Owner: N/A Reviewer: Codex);本页治理不重开已终态任务。
+退役未接入的旧OGG后端：createOggMusicBackend/setOggVolumeScale无生产入口（构造器只有定义/测试caller、旧setter只有bootstrap空写），当前选择器仅MIDI/RIX。用户2026-10-21明确批准“删除未使用的旧路径（推荐）”；删除旧OGG导出、bootstrap音量空写及三个专测，现用MIDI/RIX、SFX和音量合同保持。
 
 ## 范围
 
-原卡含章节[QUALITY-LEGACY-OGG-RETIREMENT-1 — 未接入的旧OGG后端退役、目标与用户裁决、范围与准入、前提真值门、Build: 实现与自测、Review: 审查与剩余项],共0个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+audio.ts删除两OGG导出及两个专属模块状态；bootstrap只删对应导入/调用、保留musicSource.setVolume；MusicBackend/AudioManager类型与活动函数体不改；game包private、无exports/main，未宣称证明不存在仓库外消费者（删除依据为用户裁决）。
 
 ## 前提与证据
 
-固定main源3973B(SHA 982ed0648798);原卡前提按原时点保留。当前存活入口:无当前仓库内存活链接。
+固定源全文核读。D/G补缺：纯musicUrl只被测试使用而MIDI重复相同拼接，由实际MIDI加载caller复用该函数单独纯重构提交；原A/B/A接线测试增加三个独立literal URL断言、12个MIDI测试身份不变。Build：活跃音频相邻八文件52/52、纯URL复用后受影响四文件39/39、game typecheck与局部Biome零诊断；保留原18个manager/pure cases和1个无WebAudio MIDI边界，旧22→现19的三个身份逐项登记、三个退役不伪造行为红例。退役账：替换GLM该文件旧3→2 live快照为当前2→1，旧授权条目原文存回执及Git、批准账工具59/59；两次临时登记脚本错误均发生在写入前、首次完整raw未保存只留同源复现raw。早先把OGG测试视作生产相关的结论撤回。2026-10-21输入音频模块收口：完整失败/绿结果、精确baseline与只读快检见父卡input-audio-closeout.json。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+done为获批范围整改收口：官方基线按精确旧快照/14源码固定实测调整，比较函数与规则未放宽；听觉全流程不是本次新测承诺。
 
 ## 状态与交接
 
-done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+done保持原语义；治理不重开。无下一位Agent，Codex集中输入/音频模块门与同一3y发布。
 
 ## 历史范围
 
-原卡属固定main时点;QUALITY-LEGACY-OGG-RETIREMENT-1 — 未接入的旧OGG后端退役的原始范围与日期在保全块内逐字保留。
+原卡属固定main时点；范围为audio.ts死路径退役与纯URL复用子切片。
 
 ## 原始结论
 
-原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+原卡结论按其Status(done)原样：2026-10-21输入音频模块收口，CODE74三文件八维完成。
 
 ## 当时证据
 
-原文0个链接与当时回执属原时点证据;本页不重跑、不复授。
+当时回执属原时点证据：52/52+39/39零诊断、旧22→19三身份登记、批准账59/59；本页不重跑、不复授。
 
 ## 当前有效性
 
-仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+仅历史任务归属有效；若未来出现仓库外消费者属新接口需求，不恢复无用fallback。
 
 ## 继任文档
 
-接替/关联入口见原文链接;当前任务导航以看板为准。
-
+父卡input-audio-closeout.json承载模块门；CODE74收口完成。
 
 ## 原文保全
 

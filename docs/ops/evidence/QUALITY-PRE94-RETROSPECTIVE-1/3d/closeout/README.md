@@ -7,24 +7,23 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 证据身份
 
-本页是「CODE3d 多卡窗口补审」的治理候选页;证据原件即下方逐字节保全的固定main源(1608B,SHA c6d55ae7b9fc)。
+本页是CODE3d多卡窗口补审（Owner Codex，基点0f6423ef）的索引页，原件为下方逐字节保全的固定main源（1608B）；原切片时点见[../README.md](../README.md)。窗口语义：复用原边界与height两单红，只补测试隔离/合法输入/假绿与注释缺口；PNG产品实现未改。
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原3个链接处置见作者review的linkDisposition。当前存活入口:[evidence.json](../../3b/closeout/evidence.json) [README.md](../README.md) [review.json](review.json)。
+关键补审事实：缺生成物旧13全绿却warn后return（非clean-pass）；当前缺输入12绿+1指定业务AssertionError，正常13全绿/零stderr；warn spy用finally复原并核消息/次数；3组sprite索引按一手GetNumFrames算式（palcommon.c 776–850）修成0/3/1帧；所有原像素、顺序与数量断言保留；只改一条产物用例标题，禁止冒称跑了CLI或观察去重。逐文件裁定见[review.json](review.json)。
 
 ## 断言与业务 oracle
 
-文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+完整原件由[同一多卡窗口原件入口](../../3b/closeout/evidence.json)的artifact索引：png-before/png-missing-before/png-missing-final/png-final完整default+JSON回执、png-missing脚本与finally证明；scoped格式首轮1错和修复保留。
 
 ## 结果
 
-原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+2026-10-21最终：四卡冻结后全check 20390、official ratchet/protected各19992及typecheck/lint零诊断；原PNG输入合同接受、三测试文件接受，整份sprite.ts仍review；0新关闭口径下的账目变化以ledger为准。
 
 ## 限制与复核
 
-未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
-
+全仓/typecheck/coverage/protected等多卡冻结后一次集中；source全文件unused公共出口候选继续review，不替未知API使用作删除决定。未重跑测试；只读verify应MATCH。候选待Owner非作者接收。
 
 ## 原文保全
 

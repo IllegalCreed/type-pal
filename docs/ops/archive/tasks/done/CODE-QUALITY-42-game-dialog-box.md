@@ -7,44 +7,43 @@ Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「CODE-QUALITY-42 — game dialog box 窄批」的任务归属与历史边界。原目标见原文(摘录:Scope: `packages/game/src/present/dialog-box.ts`、`dialog-box.test.ts`、`dialog-box.glm-next-wave.test);本页治理不重开已终态任务。
+原卡目标:逐文件核验对话框三文件（`dialog-box.ts` 与主/glm-next-wave 测试）:dialog box 几何、边框/文字/头像、分页与状态清理、非法资源降级、测试 oracle 与生命周期;行为真值来自 `text.c` 与 `uigame.c`,生产 caller 由 event-system/menu/dialog 绘制路径提供。绘制层 indexed framebuffer 呈现。
 
 ## 范围
 
-原卡含章节[CODE-QUALITY-42 — game dialog box 窄批、前提与范围、逐文件核验计划、当前证据、收口验证、下一位 Agent 提示词],共0个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+三文件;不改变 UI 形态、脚本语义、存档或公共接口;与相邻 pixel 合同排重。
 
 ## 前提与证据
 
-固定main源2142B(SHA b9d0c1080023);原卡前提按原时点保留。当前存活入口:无当前仓库内存活链接。
+逐文件核验计划覆盖:输入边界、opaque mask、字体/头像资源失败、分页状态 ownership、framebuffer 写入与真实 caller;测试核合法 typed 输入、直接 framebuffer/状态 oracle、分页与清理反例。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+历史批:定向 Vitest 82/82、game typecheck、game 全包 311 files/3519、`pnpm check`（editor 既有 number-field-adoption 失败未改统计配置）、ratchet 基线不变（19,798）、protected fast 0 项下降、docs/content review、lint-zero、ledger、diff-check 归档后复核通过。未发现直接缺陷;无后续 2026-10-18/10-21 复审记录,本卡保持原批结论。
 
 ## 状态与交接
 
-done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+done 保持原语义;无下一位 Agent 提示词。
 
 ## 历史范围
 
-原卡属固定main时点;CODE-QUALITY-42 — game dialog box 窄批的原始范围与日期在保全块内逐字保留。
+原卡属 2026-10-12 窄批时点;原始记录在保全块内逐字保留。
 
 ## 原始结论
 
-原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+原卡结论按 Status(done) 原样:未发现直接缺陷。治理不撤销/不恢复旧信用。
 
 ## 当时证据
 
-原文0个链接与当时回执属原时点证据;本页不重跑、不复授。
+当时回执（82 定向、全仓门）属原时点证据;本页不重跑、不复授。
 
 ## 当前有效性
 
-仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+仅历史任务归属有效;本卡无 2026-10-18/10-21 增量复审,当前状态以最新账本为准。
 
 ## 继任文档
 
-接替/关联入口见原文链接;当前任务导航以看板为准。
-
+无显式继任卡;dialog caller 族与当前任务导航以看板为准。
 
 ## 原文保全
 

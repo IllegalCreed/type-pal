@@ -7,44 +7,43 @@ Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「CODE-QUALITY-67 — game speedrun checkpoint boundary tests」的任务归属与历史边界。原目标见原文(摘录:逐文件核验 speedrun checkpoint data oracle 与 timer boundary suite，确认 21 节点唯一/单调、香蕉配置、同 now/finished/暂停/step/mem 隔离及 detector);本页治理不重开已终态任务。
+原卡目标:逐文件核验 speedrun checkpoint 数据 oracle 与 timer 边界两测试文件（`checkpoints.test.ts` 27 行、`timer.boundaries.test.ts` 124 行）:21 节点唯一/单调、首尾标签、香蕉三格零容差,及同 now/finished/暂停/step/mem 隔离与 detector 边界测试的真实判别力。
 
 ## 范围
 
-原卡含章节[CODE-QUALITY-67 — game speedrun checkpoint boundary tests、目标、范围、验证、交接、2026-10-18 Codex 当前独立复审],共0个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+两文件;只读相邻 checkpoints.ts 全 110 行、timer/detectors/index 与 speedrun design §4.4 运行时校准合同。
 
 ## 前提与证据
 
-固定main源3282B(SHA 357c2e918033);原卡前提按原时点保留。当前存活入口:无当前仓库内存活链接。
+checkpoint 常量由 index 传给 SpeedrunTimer,detector 只读 ProgressSnapshot;静态数据 oracle 是当前 extracted id/PalTimer 注释。**边界:5 个坐标、BGM 与香蕉格仍明确要求浏览器实跑校准,不能由离线单测伪造完成**。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+原批:定向 9 tests、speedrun wave 全门通过,账本 3266/311 closed。2026-10-18 复审 partial:21 个 id/参考时间单调性、首尾标签、香蕉三格/零容差与同 now/finished、倒计时边界、一次性 flags、setStep 记忆清理、实例隔离和 detector 反例均有真实 timer/detector oracle;相邻四文件 31 tests、typecheck 通过;坐标/BGM 实跑未执行保持未知,不修改 checkpoint 数据;昂贵门沿用 47–52 波次。
 
 ## 状态与交接
 
-done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+done 保持原历史语义;2026-10-18 复审 partial,不是整卡 accept/done。
 
 ## 历史范围
 
-原卡属固定main时点;CODE-QUALITY-67 — game speedrun checkpoint boundary tests的原始范围与日期在保全块内逐字保留。
+原卡属 2026-10-13 wave 时点;原始记录与历史提示词在保全块内逐字保留。
 
 ## 原始结论
 
-原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+原卡结论按 Status(done) 原样:无重复或弱断言,未发现直接缺陷。治理不撤销/不恢复旧信用。
 
 ## 当时证据
 
-原文0个链接与当时回执属原时点证据;本页不重跑、不复授。
+当时回执（9 定向、wave 全门）属原时点证据;本页不重跑、不复授。
 
 ## 当前有效性
 
-仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+仅历史任务归属有效;5 坐标/BGM 浏览器实跑校准仍为未知项。
 
 ## 继任文档
 
-接替/关联入口见原文链接;当前任务导航以看板为准。
-
+CODE-QUALITY-62（timer）与 CODE-QUALITY-64（detectors）为相邻归属;当前任务导航以看板为准。
 
 ## 原文保全
 

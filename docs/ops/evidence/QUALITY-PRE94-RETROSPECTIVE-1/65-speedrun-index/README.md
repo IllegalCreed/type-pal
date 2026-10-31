@@ -7,24 +7,23 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「CODE65 speedrun index 当前复审切片」的主题按原文时点保留(摘录:> 2026-10-18 波次门勘误：本页引用的 47–52统一门回执 已撤回“通过/收口”信用，未证明零诊断；不得沿用为本片验收或合并依据。本页原逐文件/定向结果按各自证据保留，)。
+历史 CODE-QUALITY-65 的单例编排需重新核验:基点 f7423f6a8、分支 codex/code-quality-3y,只复核单例编排、主循环 tick、设置/PB persistence、暂停门和快捷键解绑,不改变 GameState/公共 API/产品行为;整卡复审为 partial。2026-10-18 两则勘误:统一门 [README.md](../53-wave-gates/README.md) 信用撤回;本页旧测试合法性结论由 [README.md](../63-65-speedrun-fixtures/README.md) 精确替代。
 
 ## 范围与证据
 
-原报告含章节[CODE65 speedrun index 当前复审切片、实际读取与依据、逐文件结论、验证、2026-10-18 合法输入/判别力勘误]、2个链接;固定main源3029B(SHA 002108023b38)。当前存活入口:[README.md](../53-wave-gates/README.md) [README.md](../63-65-speedrun-fixtures/README.md)。
+实现/直接测试:speedrun/index.ts(116行)、index.test.ts(126行)、index.glm-phase1-leaves.test.ts(47行)。真实 caller:shell/main-loop.ts 的 startRafLoop、tools-panel.ts 计时器操作,以及 snapshot/timer/store/overlay/countdown。Primary/oracle:speedrun design §4-§6、SpeedrunTimer/store/checkpoint 合同和真实 DOM/键盘 caller;index 不是 GameState owner。
 
 ## 发现
 
-原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+tickSpeedrunTimer 在无 document 或 disabled 时短路;启用后从 GameState 建 snapshot、推进单例 SpeedrunTimer,仅在 dirty/justResumed 时写 PB 或提示,并按 show 委托 overlay/countdown;setupSpeedrunHotkeys 只在 enabled 时处理 F4/F8/F2,返回可重复调用的解绑函数;isSpeedrunPaused 只把 manual pause 交给主循环冻结,香蕉暂停允许玩家走到树上取物;单例 reset、默认 bests 播种和 store 持久化保持职责边界,未发现错误吞没/共享状态泄漏/异步清理缺陷。两份直接测试共 13 tests;相邻 6 files/39 tests;typecheck passed。
 
 ## 结论
 
-原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+编排切片核验成立;但 2026-10-18 合法输入/判别力勘误:核心双重强转隐藏非法 Facing 和不完整状态,解绑 toast 观察不能独立证明计时保持;当前仍 partial,旧 raw/数字保留。
 
 ## 整改与复核
 
-本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
-
+正式构造器、实际计时 oracle 与失败清理已由 63-65-speedrun-fixtures 补齐;overlay、checkpoint 实跑或其它 pre-94 卡未关闭;旧波次不能认证新候选,无新全仓/coverage/protected 门。未重跑任何命令;历史结论保持原时点;候选待 Owner 非作者接收。
 
 ## 原文保全
 

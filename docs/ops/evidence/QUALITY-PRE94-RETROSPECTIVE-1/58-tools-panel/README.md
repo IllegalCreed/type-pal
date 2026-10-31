@@ -7,24 +7,23 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「CODE58 tools-panel 当前复审切片」的主题按原文时点保留(摘录:> 2026-10-18 当前更正：头注仍把小地图写成96，bootstrap实际传640；battleSig只拼选定字段，不能当完整实时checksum。源事实注释已修并保持AS)。
+历史 CODE-QUALITY-58 的生产工具面板需重新核验:基点 e03c191d6、分支 codex/code-quality-3y,不改 DOM 形态/公共接口/存档 schema/save-io 版本边界(归 CODE59);整卡复审为 partial。2026-10-18 三则勘误叠加:53-wave-gates 统一门信用撤回;头注两处事实错误;夹具/隔离结论由后续返工片替代。
 
 ## 范围与证据
 
-原报告含章节[CODE58 tools-panel 当前复审切片、读取与事实边界、测试与结论、2026-10-18 夹具/隔离结论勘误]、3个链接;固定main源3364B(SHA 5510f886dc67)。当前存活入口:[README.md](../53-wave-gates/README.md) [README.md](../58-tools-panel-fixtures/README.md) [README.md](../core-comment-audit/tools-thumbnail-hotkeys/README.md)。
+完整读取 tools-panel.ts、tools-panel.test.ts、tools-panel.glm-phase1-leaves.test.ts;读取 bootstrap setupToolsPanel caller、minimap controller、save-io/quick-save/battle-inspect 与当前依赖控制器。核验范围:根节点/样式幂等、六个 tab、Backquote 冒泡与游戏输入隔离、战斗签名 250ms 刷新、场景/minimap rAF 委托、音量/静音/音乐源/缩放/FPS/fullscreen 委托、对话搜索、计时器设置、导入导出调用和 quick-save 边界提示。工具面板为 type-pal 新增工具 UI,SDLPal 无对应 primary;phase1 约束是只读投影与显式委托。统一门原件 [README.md](../53-wave-gates/README.md)(信用已撤回);夹具返工片 [README.md](../58-tools-panel-fixtures/README.md);工具缩略图返工片 [README.md](../core-comment-audit/tools-thumbnail-hotkeys/README.md)。
 
 ## 发现
 
-原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+两份测试 2 files/18 tests passed,覆盖 setup 幂等、开关/关闭、面板内 Backquote、tab 切换、场景/对话 DOM、战斗状态签名刷新、音频三路/主静音/音乐失败重试、计时器、缩放/FPS/fullscreen 委托;当时未发现重复、恒真或无业务执行用例;typecheck passed。事实勘误:头注把小地图写成 96 而 bootstrap 实际传 640;battleSig 只拼选定字段,不能当完整实时 checksum;源事实注释已修并保持 AST/JS 相同,旧源关闭转 review。
 
 ## 结论
 
-原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+本页 18 绿与'测试只验证真实注入依赖'的陈述后被判定不足以认证主测试合法性或隔离:核心 as never 伪造不完整状态、body/timer 清理遗漏 window 监听器。该两项精确由 58-tools-panel-fixtures 返工片替代:新片正式 19 例、相邻 199 例通过,跨例旧单红新绿;53 波次不能认证新候选;CODE58 整卡仍 partial。
 
 ## 整改与复核
 
-本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
-
+save/import version 与 payload 合同继续由 CODE-QUALITY-59 处理;tools panel 无独立 disposer,生产 bootstrap 只安装一次且 setup 有根节点幂等门,本片不扩张生命周期 API。未重跑任何命令;历史结论保持原时点;候选待 Owner 非作者接收。
 
 ## 原文保全
 

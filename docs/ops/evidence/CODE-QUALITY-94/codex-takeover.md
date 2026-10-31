@@ -7,24 +7,23 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 证据身份
 
-本页是「CODE94–102：Codex 接手返工日志」的治理候选页;证据原件即下方逐字节保全的固定main源(8117B,SHA d217ae362364)。
+本页是 Codex 接手返工日志（用户 2026-10-15 三验期间授权 Codex 替 GLM 完成本批；三验结论冻结于 30d42c983，见 [codex-r3-review.md](codex-r3-review.md)）的治理候选页；证据原件即下方逐字节保全的固定 main 源（8117B）。本日志记录 Codex 作者修复与自验证，不把 Codex 自己的改动冒称另一位独立 Reviewer 的 accept；工作树为隔离验收树（main=f98d0ddd8, behind=0），不写主工作树或 GLM 本地树。
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原4个链接处置见作者review的linkDisposition。当前存活入口:[QUALITY-EDITOR-DIAGNOSTICS-1.md](../../tasks/QUALITY-EDITOR-DIAGNOSTICS-1.md) [window-review.md](../QUALITY-EDITOR-DIAGNOSTICS-2/window-review.md) [codex-final-window.md](codex-final-window.md) [codex-r3-review.md](codex-r3-review.md)。
+切片与白名单：A 测试判别/隔离（menu-driver.test.ts、menu-driver.cov85.test.ts、tools/quick-save.test.ts）——C4 先红后修（原 fixture 恰一 AssertionError menu≠event，36 skipped 是 -t 过滤非完整通过），再补 mode/eventCursor 断言并供完整 makeRole(0)，核 roleId=0/pendingItemConsume=10 区分"启动后保留 picker"与空操作，恢复跑三文件 82/82 零 skip；移除同步 throw 的无必要双重强转；快存改保留 KeyboardEvent 查 defaultPrevented 删匿名观察监听器，监听器收支探针由败转过（8/8、剩余=0）。B1 helper 注释真值（撤回虚构 Important 枚举与 SDL 通用翻页锚，一手锚 global.h:134-142、ui.c:510-572，不改公开 API）。B2 菜单 caller 与去重注释（equip 叶表删已退役轴、role index 与对象 ID 分域、save-slot ownership 对照真实 driver）。输出可见性发现：Vitest 4.1.7 在 std-env 识别 Codex 时默认 agent reporter 隐藏通过用例 console，安静输出不能推断零诊断；后续显式 default reporter/silent=false。原 4 链接处置见作者 review 的 linkDisposition，当前存活入口：[QUALITY-EDITOR-DIAGNOSTICS-1.md](../../tasks/QUALITY-EDITOR-DIAGNOSTICS-1.md) [window-review.md](../QUALITY-EDITOR-DIAGNOSTICS-2/window-review.md) [codex-final-window.md](codex-final-window.md) [codex-r3-review.md](codex-r3-review.md)。
 
 ## 断言与业务 oracle
 
-文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+两项用户批准行为修复（currentExecution=false，按原文时点）：C1 GAME-SAVE-IDB-COMMIT-1——private commitWrite 等 complete，abort 传播原始事务错误或 AbortError；新增 game 直接 devDependency 仅 fake-indexeddb 6.2.5（frozen/offline 安装通过）；三条真实 Save→IndexedDbSave 回归覆盖提交时机/正常存读删/put 与 delete success 后 abort 保旧槽，红例 1 fail（-t 过滤 2 skip）恢复 3/3，相邻 11files/125tests 与 typecheck 通过。C2 GAME-OPENING-CANCEL-CURSOR-1——仅改 driver 标题取消窄分支，先真实标题链 cursor1→取消断言 0 失败再修为 pop 后复位；系统 Chrome155 真实 boot 到标题，Escape 后 dev 探针 cursor0、pageErrors 空。第三项大世界法术显示未获用户批准、未实施。空数组/exit0/成功字样不外推为零诊断或产品通过。
 
 ## 结果
 
-原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+最终集中验证（稳定候选 bb94ad8e2）：check/ratchet/protected 均 exit0 但未包 act 分别 3620/3610/3523、另各 577 条 act 环境未配置与 2 条导航诊断——统一门不通过；七包 1640files/20274tests、game 318files/3564tests、七包 typecheck 通过；官方 fast 736 源文件/19865tests（+3 为 IDB 测试），精确三份历史退役通过。账本 3284 inventory/229 closed/45 review/3010 pending（持续 goal 段更新为 51 review/3004 pending），0 新关闭、未合 main；CODE94 仍 rework，其它本批卡 review，第三项显示 draft。终态细节与逐文件修改表见 [codex-final-window.md](codex-final-window.md)。
 
 ## 限制与复核
 
-未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
-
+未重跑原命令/浏览器/测试；各切片引用的 raw.json 原件在同目录未逐个复核；账本两处数字（45 vs 51 review）分属不同小节时点，按原文保留不调和。历史结论保持原时点；候选待 Owner 非作者接收；后续以 approved-closeout/current-review 与 [window-review.md](../QUALITY-EDITOR-DIAGNOSTICS-2/window-review.md) 的后继记录为准。
 
 ## 原文保全
 

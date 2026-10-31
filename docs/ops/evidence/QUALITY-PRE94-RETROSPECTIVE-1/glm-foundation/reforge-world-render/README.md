@@ -7,24 +7,25 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「批46:reforge render/assets/world 族 15 文件（零整改批）」的主题按原文时点保留(摘录:> Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见当前返工记录。 范围：`render-scene.ts)。
+原审计主题:reforge 第二阶段 render/assets/world 族 15 文件的逐文件八维(A–H)复审,原文结论为零整改批——15 文件全文读毕、八维全部通过、零源码改动、零 diff。范围按行数:render-scene.ts(42)、deferred-trigger.ts(82)、motion-batch.ts(82)、entity-walk.ts(95)、world-camera.ts(118)、follower.ts(158)、entity-lifecycle.ts(208)、motion-runtime-coordinator.ts(211)、motion-runtime-wiring.ts(222)、world-scene-presentation.ts(370)、render.ts(619)、assets.ts(621)、entity-action-player.ts(781)、world-motion-runtime.ts(783)、entity-motion.ts(1403)。Codex 2026-10-19 裁定:本页保留作者阶段证据,未获整包/全维收口验收,可复用范围、逐文件依据与未知项见[当前返工记录](../codex-stage2-rework.json)。
 
 ## 范围与证据
 
-原报告含章节[批46:reforge render/assets/world 族 15 文件（零整改批）、逐件结论（要点）、登记移交（无新增）、验证]、1个链接;固定main源4956B(SHA 1cc2d85b5c4b)。当前存活入口:[codex-stage2-rework.json](../codex-stage2-rework.json)。
+原文为 glm-foundation 族作者复审正文(固定main源4956B,逐字节保全在下方)。定向验证回执:34 个测试文件 363/363 全绿、numFailedTestSuites=0(directed 回执);零 diff 批无源码改动,不适用 body-invariance。本页未新增登记清理候选。
 
 ## 发现
 
-原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+零整改批的逐件结论承载 15 文件各自的真实机制锚,代表性事实:follower.ts BASE_SLOT=2 有 live 实测校准注(勿改回 1),pushTrail 记「离开方向」的拐弯甩尾是 2026-07-07 双轨迹对比定案;render.ts 高度感知 baseY cover-tile 模型(port PAL_CalcCoverTiles)、五邻候选+高度门注释带 scene.c:156 锚、+7 统一落点偏移集中于 spriteBlitRect 单一真源(2026-07-07 编辑器漏 +7 教训锚);assets.ts 战场背景 R=G=B 索引契约逐像素校验、bakeBgImageData 调色板级 nibble 染色带 battle.c:62-80 锚;entity-motion.ts 纯规划器、精确 L-infinity 相对最小距离(四候选时解析解)、fail-closed 逐相位重放不变量;world-motion-runtime.ts 严格十条件 scriptGaitHandoff 守卫与 0x87/0x0F/0x14/0x6C 共寄存器语义;entity-walk.ts facingToward(投影像素象限)与 interactionFacingToward(play.c 零轴平局差异)分离各带出处;entity-lifecycle.ts 320×320 重现边界 0/320 仍隐藏;deferred-trigger 的 deliveryFence 保证新触发至少一个微/宏任务执行机会。
 
 ## 结论
 
-原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+原文时点结论:该族 15 文件零整改、八维通过、定向 363/363 绿;属作者自验层级,Codex 仅保留为阶段证据、未整包收口。本治理不重开任务、不重跑执行、不授新信用、不撤销旧裁定。
 
 ## 整改与复核
 
-本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
+本页正文承载原审计真实主题/发现/结论/限制;原件逐字节保全在下方;失效条件(源字节变化、见证矛盾或需要新产品取舍)按原治理规则保留;候选待Owner接收。
 
+原文存活链接原样保留:[codex-stage2-rework.json](../codex-stage2-rework.json)。
 
 ## 原文保全
 

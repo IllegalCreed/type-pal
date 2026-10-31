@@ -7,44 +7,43 @@ Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「CODE-QUALITY-70 — game audio volume boundary」的任务归属与历史边界。原目标见原文(摘录:Reviewer: Codex（独立验收） Capability: Q3 game/shell Visual Verification Timing: N/A（localStorage/音频 sink);本页治理不重开已终态任务。
+原卡目标:补齐 `audio-volume.test.ts` 主测试文件的逐文件记录（实现与 boundaries 已由 CODE-QUALITY-3i 收口）:clamp/NaN/explicit zero/default、静音/unmute、三通道 keyVol 独立、共享 keyMute 与静音中目标值更新。
 
 ## 范围
 
-原卡含章节[CODE-QUALITY-70 — game audio volume boundary、范围、验证、交接、2026-10-18 当前复审、下一位 Agent 提示词],共3个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+单测试文件;相邻已闭合实现/边界证据复用 3i 结论。
 
 ## 前提与证据
 
-固定main源2997B(SHA 6985bc42e061);原卡前提按原时点保留。当前存活入口:[README.md](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/70-audio-volume/README.md) [present-leaves-gates.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-gates.json) [present-shell-readonly.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-shell-readonly.json)。
+2026-10-18 复审:完整读取实现/两测试,核 bootstrap 三通道注入和 tools-panel 广播/滑块 caller。修前实际 3+3 共 6 例（旧 3+5 计数按历史保留）;静音中改目标归入 main,拆 stored/default 与音量键/静音键配置轴,补完整状态/sink/storage oracle 和前后清理,纠正"setter 读共享键"注释;修后 3+5 共 8 例,不以数量/包绿作验收。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+忽略 keyMute 隔离反控:旧 6 绿→新 7 绿 1 个指定 AssertionError,正式 8 绿;相邻 6 文件 36 例及 game typecheck 通过;当时 287 closed/44 review/2981 pending,当前 partial。证据见 [README.md](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/70-audio-volume/README.md)。2026-10-21 基础绘制与同版本只读补证收口:只接受原一主测——clamp、目标/有效输出、启动读回均有真实 controller、Storage 与 sink 组合 oracle;三份音量源/测试与 8 例及 keyMute 单红原件同 SHA,bootstrap 三路注入和 panel 广播定向重核;0 新增执行,不附带 controller、boundary 或听感验收。A-H 见 [present-shell-readonly.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-shell-readonly.json),完整当前门见 [present-leaves-gates.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-gates.json)。
 
 ## 状态与交接
 
-done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+done 保持原历史语义;2026-10-18 复审 partial、2026-10-21 收口只接受原一主测范围。
 
 ## 历史范围
 
-原卡属固定main时点;CODE-QUALITY-70 — game audio volume boundary的原始范围与日期在保全块内逐字保留。
+原卡属 2026-10-13 补记录时点;原始记录在保全块内逐字保留。
 
 ## 原始结论
 
-原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+原卡结论按 Status(done) 原样:主合同记录补齐。治理不撤销/不恢复旧信用。
 
 ## 当时证据
 
-原文3个链接与当时回执属原时点证据;本页不重跑、不复授。
+当时回执（keyMute 隔离反控原件、相邻 36 例）属原时点证据;本页不重跑、不复授。
 
 ## 当前有效性
 
-仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+仅历史任务归属有效;当前结论以 present 收口原件为准。
 
 ## 继任文档
 
-接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[README.md](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/70-audio-volume/README.md) [present-leaves-gates.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-gates.json) [present-shell-readonly.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-shell-readonly.json)。
-
+CODE-QUALITY-3i（实现/边界既有记录）与 present 收口证据为继任;当前任务导航以看板为准。
 
 ## 原文保全
 

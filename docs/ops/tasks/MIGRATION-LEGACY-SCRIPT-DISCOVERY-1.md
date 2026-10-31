@@ -7,44 +7,43 @@ Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「MIGRATION-LEGACY-SCRIPT-DISCOVERY-1 — 退役脚本索引与托管范围」的任务归属与历史边界。原目标见原文(摘录:Capability: current migration IO ownership Reviewer: Codex Visual Verification Timing: N/A（无UI变化）);本页治理不重开已终态任务。
+退役旧脚本索引读取：migration-project-io::discoverProjectManagedFiles仍读content/scripts/index.json的chunks并入托管集，而pal-current-publication::FORBIDDEN_CURRENT_PATH已拒绝content/scripts/发布路径、ARCH-PAL-SUPPLY-1历史确认旧转换域已退役；现有boundaries与glm-o专测把chunks轴明确标为退役不复活，但主测仍混有该域fixture与断言。用户2026-10-26批准删除退役脚本index读取、旧文件保持非托管。
 
 ## 范围
 
-原卡含章节[MIGRATION-LEGACY-SCRIPT-DISCOVERY-1 — 退役脚本索引与托管范围、事实与范围、可审阅方案与停止线、交接、2026-10-26 当前批准与build准入],共0个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+只删除该旧索引读取分支；保留scene/map当前发现、显式seed、原始字节快照、TOCTOU、非托管保护；不改导出签名、当前格式、作者脚本或工程产物，不运行含recover写入的真实migrate:content命令。
 
 ## 前提与证据
 
-固定main源3247B(SHA 6fbad1e6983c);原卡前提按原时点保留。当前存活入口:无当前仓库内存活链接。
+固定源全文核读（133行实现、真实publication CLI与plan、主测和边界/GLM专测）。实施：正式新例6绿1指定业务红后修，五迁移/plan文件36绿0stderr；原专测chunk片段退休、场景精确全集保留，TOCTOU换当前map路径；旧JSON及chunk按非托管哈希、坏旧索引亦不解析。2026-10-26本地统一门收口：52/52代码接受；全仓20620产品+721工具/七包TC、lint6137文件0/0/0、完整stderr空；唯一official20185/809全绿、原旧比率拒绝如实保留；同一报告原policy重放ratchet/protected均exit0、三项精确退役匹配。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+done为代码与本地门：该项曾属AGENTS资产管线ownership停止线、旧任务记录只供事实来源不自动作写盘授权；未推送/PR/合并，发布以真实GitHub状态另核。
 
 ## 状态与交接
 
-done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+done保持原语义；治理不重开。父52其它未闭合范围继续。
 
 ## 历史范围
 
-原卡属固定main时点;MIGRATION-LEGACY-SCRIPT-DISCOVERY-1 — 退役脚本索引与托管范围的原始范围与日期在保全块内逐字保留。
+原卡属固定main时点；范围为migration-project-io退役索引读取子切片。
 
 ## 原始结论
 
-原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+原卡结论按其Status(done)原样：2026-10-26本地统一门52/52收口。
 
 ## 当时证据
 
-原文0个链接与当时回执属原时点证据;本页不重跑、不复授。
+当时回执属原时点证据：6绿1红后修、36绿0stderr、20620+721/official20185零诊断；本页不重跑、不复授。
 
 ## 当前有效性
 
-仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+仅历史任务归属有效；旧JSON/chunk按非托管哈希、坏旧索引不解析；不凭旧基点授权新产品取舍。
 
 ## 继任文档
 
-接替/关联入口见原文链接;当前任务导航以看板为准。
-
+父阶段QUALITY-REVIEW-52-CLOSEOUT-1继续统一门。
 
 ## 原文保全
 

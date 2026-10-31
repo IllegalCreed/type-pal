@@ -7,24 +7,23 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 证据身份
 
-本页是「CODE3h blob、测试宿主与对话资源质量」的治理候选页;证据原件即下方逐字节保全的固定main源(4157B,SHA 1346a7198f25)。
+本页是CODE3h blob/测试宿主/对话资源质量窗口的索引页，原件为下方逐字节保全的固定main源（4157B，SHA 1346a7198f25）。窗口结论：[逐文件八维与处置](review.json)列明的11文件中接受9份，RLE适配层（rle-decode.ts）及其专测继续review；七文件新关闭、一旧关闭撤回、净增6；账本3374/388closed/111review/2875pending，固定83仍62accept/21partial。3h/3i整卡、shared格式与pre94未接受，94–102不扩展。基点acb96a123，运行时是带文件指纹的未提交候选，不能把执行HEAD误当产品字节。
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原7个链接处置见作者review的linkDisposition。当前存活入口:[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) [README.md](../README.md) [README.md](../assets-quality/README.md) [body-invariance.json](body-invariance.json) [identities.json](identities.json) [review.json](review.json)。
+源码差异仅为两生产文件的注释、测试宿主的类型标注与三个无外部调用导出私有化，其余为测试/精确退役数据。[正文证据](body-invariance.json)证明生产parsedTS/发射JS逐字一致，宿主在仅移除三个指定export修饰符后按emitted JS token kind/text比较、不以空白差异误报机制变化；类型合法性另经game typecheck验证。定向计数各属其时点：blob四文件38→35、dialog/RLE四文件最终26→24（中间23例绿轮保留）、公共宿主17调用文件147绿属宿主改动时点、相邻资产21文件161绿属末次三测试补强前——互不累加；完整check 20515+690工具后，三测试/精确数据以4文件24与gameTC/99工具刷新，不冒称最后集合重跑全check。单次official 20090/760与同报告strict/protected通过、指标0回退、未降阈值；所有正常轮显式default+json双reporter，不能只凭exit0认证无诊断。
 
 ## 断言与业务 oracle
 
-文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+三枚关键反证：全局隔离探针旧gzip 9绿+1描述符断言红、修后9绿（测试隔离反证非产品修复）；icons告警改错误上下文后旧D02仍绿、新D02指定AssertionError（两源码/测试finally按SHA恢复）；首次dialog候选22绿1红（globalDOMException身份不符jsdom atob异常）与首次TC TS2550/TS7006（误用toSorted）——改为复制后sort及宿主实际异常name/message，无规则/target/lib/产品处理放宽，两失败原件保留。[原生身份与精确快照](identities.json)给全部旧/新身份；review列明5条退休→保留断言去向，D14单PNG全失败边界保留；精确退役47/net97→51/net102仅新增四条指定SHA数据；L23旧'icons正常'实为未mock失败，现显式两失败并核两份完整诊断。
 
 ## 结果
 
-原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+保留review的实质理由：decodeRle只有两测试caller、RleFrame无适配层消费者，旧源关闭撤回；rle-decode.test.ts真实出口理由与shared专测排重仍待，不能用6绿回填接口信用。legal-host route57/loadAllScript18是复杂度阅读线索，不为降指标缓存响应；dialog外层防御catch登记结构候选；snapshot六实际GOP样本仅证gzip字节往返，同codec双解码与陈旧CDN说明留下一窄片；原始资源未重提取，RLE算法/内存域真值仍归专卡。前窗GitHub Coverage已成功、项目act/stderr为0，7条平台提示另存原件未称全平台零；新发布状态以Git与对应新CI为准。
 
 ## 限制与复核
 
-未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
-
+默认快检verify.mjs只读、无网络、不执行SUT或coverage；哈希不证明设计优秀，语义取舍见逐文件A–H；任一caller/配置/输入域漂移只定位受影响claim不重置无关结论。上游导航：[3h](../README.md)、[前窗五文件收口](../assets-quality/README.md)、[父卡](../../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)。未重跑任何命令；候选待Owner非作者接收。
 
 ## 原文保全
 

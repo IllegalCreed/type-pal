@@ -7,24 +7,23 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「pre94毒/升级：源码注释与测试判别力返工」的主题按原文时点保留(摘录:Date: 2026-10-18 Base: `27358f9d9e3ab65d777b7864fcc936638ed9373a` Branch: `codex/code-qual)。
+原报告「pre94毒/升级:源码注释与测试判别力返工」(Date: 2026-10-18,Base: `27358f9d9e3ab65d777b7864fcc936638ed9373a`,Branch: `codex/code-quality-3y`,原文Status: recorded)处理的真实问题:player-poison-state.ts与battle-progression.ts的事实注释错误(CureByKind/CureByLevel真实行界、Wear压缩语义、MAX_LEVELS/STAT_LIMIT源锚)与两直接测试的夹具合法性(as any as PlayerRole缺必填字段、H02七值RNG回退掩盖真实8抽)。
 
 ## 范围与证据
 
-原报告含章节[pre94毒/升级：源码注释与测试判别力返工、证据身份与范围、实际读取与primary/caller、测试合法性、oracle与反控、发现、限制与后续、验证与交接]、4个链接;固定main源6222B(SHA d86de9146669)。当前存活入口:[GAME-PLAYER-POISON-SLOT-COMPACTION-1.md](../../../../tasks/GAME-PLAYER-POISON-SLOT-COMPACTION-1.md) [QUALITY-PRE94-RETROSPECTIVE-1.md](../../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) [read-boundaries.json](read-boundaries.json) [test-title-mapping.json](test-title-mapping.json)。
+准入与交接见[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md),机制停止线见[GAME-PLAYER-POISON-SLOT-COMPACTION-1.md](../../../../tasks/GAME-PLAYER-POISON-SLOT-COMPACTION-1.md)。全文核两源/两直接测试、dependency-ownership、H工厂、rng与Vitest配置,逐文件行界见[read-boundaries.json](read-boundaries.json);原C实际核PAL_BattleWon、PAL_PlayerLevelUp/STAT_LIMIT、AddMagic、玩家毒增删查与Wear分支,非完整SDLPal实跑。注释修正:CureByKind真实global.c1520-1564、AddPoison1459-1517、Wear的TS不压缩/全16槽vs C首空槽前移、CureByLevel不许伪称无条件跳过level99、MAX_LEVELS源palcommon.h82、STAT_LIMIT2393-2401、LevelUp到EOF2409、BattleWon余数与LevelUp清零分开;两生产实现removeComments JS字节与基点相同。
 
 ## 发现
 
-原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+测试判别力:levelup投影例改用现有完整typed makeHRole(保持数值oracle);H02五例分别核越界等级防御、隐藏无999钳、Health→Magic两池、无主升级不回满、主升级隐藏涨点后回满;最后一例实为主6+隐藏2共8次RNG抽(旧7值recordingRng回退1遮住次数),现断言完整序列并与回满合同配对;多池dwExp应为100非200。额外一抽变异:旧5例全绿→新5例4绿1指定业务AssertionError(rangeInclusive(0,7)序列8vs7),无过滤/skip/collection替身红。恢复后27定向(改动16+11条所有权回归)+16相邻(结算/装备/opcode三文件仅回归)零诊断;一标题勘误见[test-title-mapping.json](test-title-mapping.json)。毒去重TS全槽扫描与C首空槽前缀不是同一合同、CureKind可留孔洞,只记录并回写draft卡,不改压缩/去重策略。
 
 ## 结论
 
-原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+升级源与两直接测试旧整文件关闭信用转review,poison保持review,0新增closed;账本275closed/66review/2974pending,83卡50partial/33pending/0accept;旧3x『无弱断言/夹具全合法』撤回,旧207绿不推广。两生产实现执行不变,无产品行为/界面/资源/schema/save/公共接口改动;未合main。
 
 ## 整改与复核
 
-本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
-
+docs门完整时序:首次pnpm check:docs 125工具测试全过但text consumer因父目录漏导航1 issue退出(exit1)→补链接后首次consumer回放exit1(2 issue:poison sourceRef注释SHA漂移一对绑定)→按单entry维护catalog/evidence的sourceRef/history后docs-final全部消费者exit0/0 issue;两次exit1原件保留不改写为0。read-boundaries producer首次预检拒绝equipment-state请求尾395(实际EOF391/392域),现记370-391并单列requestedRanges,无EOF外信用。全仓lint5178文件0/0/0;typecheck过;全仓check/coverage ratchet/protected fast未运行。未重跑原命令;历史结论保持原时点;候选待Owner非作者接收。
 
 ## 原文保全
 

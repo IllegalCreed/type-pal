@@ -7,24 +7,23 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「批50:reforge main.ts 6710 行（零整改批,reforge 包收口）」的主题按原文时点保留(摘录:> Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见当前返工记录。 范围：`packages/reforg)。
+pre-94 foundation 模块14批50:对 packages/reforge/src/main.ts 全文(六段:1-1100/1100-2250/2250-3450/3450-4650/4650-5750/5750-6710)做 A–H 八维审查,裁决零整改、零 diff;至此 reforge 包生产代码作者侧全量收口(b40-50 共 11 批覆盖 battle/audio/script/world/project/中件/debug-tools/main)。页首 Codex 2026-10-19 裁定:本页保留作者阶段证据,未获整包/全维收口验收。
 
 ## 范围与证据
 
-原报告含章节[批50:reforge main.ts 6710 行（零整改批,reforge 包收口）、结论(组合根质量)、登记移交（无新增）、验证]、1个链接;固定main源3276B(SHA 0a44ec6b2887)。当前存活入口:[codex-stage2-rework.json](../codex-stage2-rework.json)。
+单一生产文件 main.ts 6710 行全文读毕;证据原件为下方逐字节保全的固定 main 源(3276B,SHA 0a44ec6b2887);定向验证输入为同目录 directed.json(25个 main.*.test.ts,216/216)。返工矩阵与可复用范围见 [codex-stage2-rework.json](../codex-stage2-rework.json)。
 
 ## 发现
 
-原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+组合根质量八项:bootGame 可复用启动函数(模块级零 DOM/location,barrel 导出后 node 测试可 import;shop-trial/battle-trial 旧参数拒绝门;入口点/主菜单/读档/直开战斗/dev 参数(?scene/?pos/?party/?give/?field/?battle-scene)六条启动路径各自收口);canonical 单一权威纪律(world 是唯一当前世界;runtimeScript 是投影 scratch 绝不回填;replaceWorld 原地替换保留 canonicalScript 引用身份;七类 AsyncIntentController(world/load/sceneSwitch/scriptMutation/party/actorSprite/actorAppearance)全捕获-校验);世界拍与运动组合(advanceMoves 单一 100ms 快照统一规划玩家/NPC/hostile/被动让位;commitMotionBatch 六段线性化(canonical endpoint 先于 live 位置,touch 优先接管,continuation 最后);chase 四相位(pacing/terminal/range/hidden)等待时长公式与 restore 校验一致;mount 复合足迹只在 lifecycle 投影 collidable 时并入);runner 生命周期(startScript 单槽+runnerTriggerOwnerId/inlineTriggerOwners 层次;runDetachedScriptChain ownsRunnerSlot 时完整接续 pendingOnEnter;abortScript 清单完整含 screenHold/dither/sceneEntry/gesture/actorSpriteOverrides;强停/收尾统一下筏+归还权威+auto 存档);脚本执行门(scriptExecutionGateOpen 对 auto activation 双门(settlement 边界/lifecycle+deferredTouch);waitForScriptModal 冻结期 waiter 登记;confirm 队列 activation 条件(shop/menus/reward/battle 全闲));存档系统(enqueueSaveSnapshot 走 scriptRuntime.withSaveBarrier 同步快照队列;写队列保序失败不毒队尾;committedSavedTimes 只在三 store 事务后推进;doLoad 三态(loaded/absent/rejected)+R2 toast 归最新请求;restorePayload 自 prepare 后零 await 同步提交;读档净身(clearRestoredWorldActorConditions)对齐原版真值);呈现栈定序注释与实现一致(World→Cinematic→fade→shop→dialog→menu→reward→toast→ambience(RNG 跳过)→dither(壳层最后,backup/target 取最终 canvas 防夜景重复 multiply);preserveClosedDialogFrame 微任务窗口防泄漏);注释锚密度高且全部核对(0x15/0x1A/0x22/0x23/0x35/0x46/0x55/0x65/0x6C/0x6E/0x71/0x73/0x80/0x84/0x87/0x98/0x99/0x9A/0xA0/0xA1 逐条带 script.c/uigame.c 行号或一阶段事故日期(2026-07-05 错拍抖动/2026-07-03 对话不冻结 NPC 拍板))。
 
 ## 结论
 
-原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+A–H 全维通过,零整改成立;登记移交无新增。定向回执:25 个 main 测试文件 216/216 通过、numFailedTestSuites=0(directed.json);零 diff 批不适用 body-invariance,typecheck 自 b44 后未再动源码、零新输入。
 
 ## 整改与复核
 
-本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
-
+本治理轮未重跑 216 用例与 tsc;"reforge 包收口"是作者侧声明,Codex 整包/全维验收以返工矩阵为准;原结论保持作者时点,候选待 Owner 非作者接收。
 
 ## 原文保全
 

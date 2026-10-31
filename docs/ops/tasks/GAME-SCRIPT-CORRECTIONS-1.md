@@ -2,48 +2,52 @@
 
 Status: done
 Owner: GLM(治理候选作者;原文作者/状态见保全块)
-Last reviewed: 2026-10-30
+Last reviewed: 2026-10-31
 Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「GAME-SCRIPT-CORRECTIONS-1 - 原盘脚本纠错与英文补丁差异核对」的任务归属与历史边界。原目标见原文(摘录:核对用户放入 `data/en/` 的 SDLPal 英文补丁：列全相对当前 Win 原盘的脚本差异，说明涉及什么剧情、为什么修改、当前是否已修复，以及应在数据、引擎还是语言层处理。把已有宝箱、玉佛珠门禁、酒神和扬州赏金修复一起核对，形成可);本页治理不重开已终态任务。
+核对用户放入 data/en/ 的 SDLPal 英文补丁相对当前 Win 原盘的全部脚本差异（原盘 43503 条 vs 英文包 43538 条、121 个不同位置归并为 37 个 diff region、尾部新增 35 条），逐组说明涉及剧情、修改理由、当前是否已修复及应落在数据、引擎还是语言层；连同已有宝箱、玉佛珠门禁、酒神、扬州赏金修复一起核对。用户 2026-10-22 授权「两个阶段一起核对修复，相关测试也补上」；同日以「太麻烦就别测了，直接算通过」的免测决定按既有双阶段自动回归与质量门收口。
 
 ## 范围
 
-原卡含章节[GAME-SCRIPT-CORRECTIONS-1 - 原盘脚本纠错与英文补丁差异核对、目标、范围、当前实施准入（2026-10-22）、实施核定与审计勘误（2026-10-22）、前提真值门],共33个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+两阶段成对推进：第一阶段 pal-extract 版本化资源纠错（win-script-corrections.json 白名单、指纹/前值/尾块断言、CLI 默认纠错+--faithful 审计）、通用 OBJECT 覆写拥有物品/法术返回入口（新增可选游标元数据不改既有 rgObject 保存结构）；第二阶段直接修 Reforge canonical 场景/技能/物品（如 D13 明确漏同步的 silence removeStatus、D06/D07/D08 显隐与清场、D09/D10 传送落点），保留已正确的糖葫芦/装备/酒神终生9次/门禁模型。范围外：英文 UI 全量接入、无依据整包替换、新剧情道具、部署与上传 raw/en/EXE（data/en/ 保持本地未跟踪）。三贡献者（extract/runtime/author）隔离 worktree 交付、Codex 集成。
 
 ## 前提与证据
 
-固定main源45505B(SHA a100578bede5);原卡前提按原时点保留。当前存活入口:[CLAUDE.md](../../../CLAUDE.md) [timeline.md](../../lore/timeline.md) [game-mechanics.md](../../phase1/game-mechanics.md) [content-publication.md](../../phase2/guides/content-publication.md) [contract.md](../../testing/e2e/contract.md) [governance.md](../../testing/governance.md) [agent-workflow.md](../agent-workflow.md) [code-quality.md](../code-quality.md) [audit-receipt.json](../evidence/GAME-SCRIPT-CORRECTIONS-1/audit-receipt.json) [binary-inventory.json](../evidence/GAME-SCRIPT-CORRECTIONS-1/binary-inventory.json) [ci-inventory-fix.json](../evidence/GAME-SCRIPT-CORRECTIONS-1/ci-inventory-fix.json) [editor-reference-delta.json](../evidence/GAME-SCRIPT-CORRECTIONS-1/editor-reference-delta.json) [generation-final.json](../evidence/GAME-SCRIPT-CORRECTIONS-1/generation-final.json) [integration-receipt.json](../evidence/GAME-SCRIPT-CORRECTIONS-1/integration-receipt.json) [main-sync.json](../evidence/GAME-SCRIPT-CORRECTIONS-1/main-sync.json) [native-log-publication.json](../evidence/GAME-SCRIPT-CORRECTIONS-1/native-log-publication.json) [phase2-audit.json](../evidence/GAME-SCRIPT-CORRECTIONS-1/phase2-audit.json) [reforge-wine-regression.txt.gz](../evidence/GAME-SCRIPT-CORRECTIONS-1/reforge-wine-regression.txt.gz) [root-review.json](../evidence/GAME-SCRIPT-CORRECTIONS-1/root-review.json) [runtime-probes.json](../evidence/GAME-SCRIPT-CORRECTIONS-1/runtime-probes.json) [story-probes.json](../evidence/GAME-SCRIPT-CORRECTIONS-1/story-probes.json) [test-retirement.json](../evidence/GAME-SCRIPT-CORRECTIONS-1/test-retirement.json) [text-audit.json](../evidence/GAME-SCRIPT-CORRECTIONS-1/text-audit.json) [topology-probes.json](../evidence/GAME-SCRIPT-CORRECTIONS-1/topology-probes.json) [user-acceptance.json](../evidence/GAME-SCRIPT-CORRECTIONS-1/user-acceptance.json) [documentation-model.md](../guides/documentation-model.md)。
+基点 84ac1043；原盘 SSS SHA256 ce448a90…、英文 Win SSS 942cb898…，全部输入 SHA 在 binary-inventory.json。网络来源 S01–S06（2005 DOS除错v1.03、2010 v3.1、2016 仙剑联盟、英雄网、Steam指南、SDLPal PR#324/#319）只证历史记录，不证英文作者采用同一补丁或当前 TS 仍有缺陷。原33个链接处置见作者review的linkDisposition，存活入口逐字保留：
+
+当前存活入口:[CLAUDE.md](../../../CLAUDE.md) [timeline.md](../../lore/timeline.md) [game-mechanics.md](../../phase1/game-mechanics.md) [content-publication.md](../../phase2/guides/content-publication.md) [contract.md](../../testing/e2e/contract.md) [governance.md](../../testing/governance.md) [agent-workflow.md](../agent-workflow.md) [code-quality.md](../code-quality.md) [audit-receipt.json](../evidence/GAME-SCRIPT-CORRECTIONS-1/audit-receipt.json) [binary-inventory.json](../evidence/GAME-SCRIPT-CORRECTIONS-1/binary-inventory.json) [ci-inventory-fix.json](../evidence/GAME-SCRIPT-CORRECTIONS-1/ci-inventory-fix.json) [editor-reference-delta.json](../evidence/GAME-SCRIPT-CORRECTIONS-1/editor-reference-delta.json) [generation-final.json](../evidence/GAME-SCRIPT-CORRECTIONS-1/generation-final.json) [integration-receipt.json](../evidence/GAME-SCRIPT-CORRECTIONS-1/integration-receipt.json) [main-sync.json](../evidence/GAME-SCRIPT-CORRECTIONS-1/main-sync.json) [native-log-publication.json](../evidence/GAME-SCRIPT-CORRECTIONS-1/native-log-publication.json) [phase2-audit.json](../evidence/GAME-SCRIPT-CORRECTIONS-1/phase2-audit.json) [reforge-wine-regression.txt.gz](../evidence/GAME-SCRIPT-CORRECTIONS-1/reforge-wine-regression.txt.gz) [root-review.json](../evidence/GAME-SCRIPT-CORRECTIONS-1/root-review.json) [runtime-probes.json](../evidence/GAME-SCRIPT-CORRECTIONS-1/runtime-probes.json) [story-probes.json](../evidence/GAME-SCRIPT-CORRECTIONS-1/story-probes.json) [test-retirement.json](../evidence/GAME-SCRIPT-CORRECTIONS-1/test-retirement.json) [text-audit.json](../evidence/GAME-SCRIPT-CORRECTIONS-1/text-audit.json) [topology-probes.json](../evidence/GAME-SCRIPT-CORRECTIONS-1/topology-probes.json) [user-acceptance.json](../evidence/GAME-SCRIPT-CORRECTIONS-1/user-acceptance.json) [documentation-model.md](../guides/documentation-model.md)。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+实施（2026-10-22）：新增回归第一阶段玩法/演出/传送22例+通用调用所有权8例、第二阶段剧情/法院/传送/宫殿/解封26例、纠错计划14例；旧宝箱 helper 2例随 helper 退休并留精确身份/字节映射（test-retirement.json）。资源两次生成一致、最终版本 93bd7485051ef2b2/2907 文件。集中门：全仓 typecheck、check:docs 125 工具用例、lint 0/0/0；官方 coverage ratchet 与针对基点 84ac104 的 protected fast 各 20081 例/760 生产源通过（行 92.05%/分支 83.88%），分支不足首次失败与一次视频子进程 5000ms 超时保留未改。全量检查分段续验：Reforge 8991 例、Game 338 文件 3745 例、Migrate 739 例、Editor 631 文件中 630 文件 4942 例通过、唯一旧引用计数失败经 10 处精确 census+7 个新稳定引用断言修复；原全仓 exit1 不倒写为 0。主线同步 40cc96ffd 后 fast 全部 20094 例/760 文件通过；官方命令末步因未带退休确认参数 exit1，用原生 summary+未改官方基线投影/比较模型续验终态。PR #10 首轮 Coverage 因旧质量账本未计 17 个新增 tracked 路径被拦，同步库存 3373/pending2886 后 47 个 quality-tools 复验通过。
 
 ## 状态与交接
 
-done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+Status 保持 done：按用户 2026-10-22 免测决定以既有自动回归与质量门收口，不表示完整剧情/视觉/编辑器现场实测通过；user-acceptance.json 保留已测与未测边界。首批实现 b110b6824、主线同步 40cc96ffd。未接入英文文本/UI/字体/语言切换，未部署。审计勘误保留：D01 的 1503 原字节确为「看错痢?」非纯英文布局、D11 sprite562 归因为拜月教主非受伤灵儿（状态2阻挡）、E02 二阶段可达性已核（切比雪夫距3）不判漏修。
 
 ## 历史范围
 
-原卡属固定main时点;GAME-SCRIPT-CORRECTIONS-1 - 原盘脚本纠错与英文补丁差异核对的原始范围与日期在保全块内逐字保留。
+首轮审计（历史）：无产品修改，只交付 37 region/2 事件对象/35 尾块的归类与探测工具；用户点名四修复（E01 玉佛珠 0x86 默认数量、E02 太守赏金靠近触发、E03 宝箱 giveItem、E04 二阶段酒神 lifetimeLimit:9）核清归属。第二阶段追加核对区分「已正确（糖葫芦/玄冥宝刀/酒神/门禁）」「明确漏同步（D13 silence）」「不适用（D14/D17 原版 0000 地址修补）」「待实跑（演出/地图）」四类。
 
 ## 原始结论
 
-原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+原卡 Review 节结论：Codex 已核真实候选差异、原始输入、关键 caller、对象归属、返回入口/保存路径、规则前值与尾块、跨场景显隐及合法地图落点；历史哈希测试只精确承认本卡已批准内容差异；未执行原 EXE/SDLPal 现场实跑、完整故事浏览器 E2E、演出逐帧及编辑器预览状态核验、部署。E2E 登记范围（扬州审讯/平反/领赏、鬼阴坛返回、蛤蟆山书生、桃源林阿奴、提前交虫、试炼传送/南诏双时代入口、假巫王救治）留待按合同从合法检查点推进。
 
 ## 当时证据
 
-原文33个链接与当时回执属原时点证据;本页不重跑、不复授。
+docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/ 全套（binary-inventory/text-audit/story-probes/topology-probes/runtime-probes/phase2-audit/root-review/integration-receipt/generation-final/main-sync/native-log-publication/ci-inventory-fix/editor-reference-delta/test-retirement/user-acceptance）。原链接与当时回执属原时点证据，本页不重跑、不复授。
 
 ## 当前有效性
 
-仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+仅历史任务归属与双阶段修复结论有效；未核清的演出、地图及存档兼容行为不在本卡自动批准范围。英文资源接入（4768 消息组中 4765 精确匹配、3 组为 D01/D16；183 词条含汉字只是字符扫描）仍待语言层单独推进。
 
 ## 继任文档
 
-接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[CLAUDE.md](../../../CLAUDE.md) [timeline.md](../../lore/timeline.md) [game-mechanics.md](../../phase1/game-mechanics.md) [content-publication.md](../../phase2/guides/content-publication.md) [contract.md](../../testing/e2e/contract.md) [governance.md](../../testing/governance.md) [agent-workflow.md](../agent-workflow.md) [code-quality.md](../code-quality.md) [audit-receipt.json](../evidence/GAME-SCRIPT-CORRECTIONS-1/audit-receipt.json) [binary-inventory.json](../evidence/GAME-SCRIPT-CORRECTIONS-1/binary-inventory.json) [ci-inventory-fix.json](../evidence/GAME-SCRIPT-CORRECTIONS-1/ci-inventory-fix.json) [editor-reference-delta.json](../evidence/GAME-SCRIPT-CORRECTIONS-1/editor-reference-delta.json) [generation-final.json](../evidence/GAME-SCRIPT-CORRECTIONS-1/generation-final.json) [integration-receipt.json](../evidence/GAME-SCRIPT-CORRECTIONS-1/integration-receipt.json) [main-sync.json](../evidence/GAME-SCRIPT-CORRECTIONS-1/main-sync.json) [native-log-publication.json](../evidence/GAME-SCRIPT-CORRECTIONS-1/native-log-publication.json) [phase2-audit.json](../evidence/GAME-SCRIPT-CORRECTIONS-1/phase2-audit.json) [reforge-wine-regression.txt.gz](../evidence/GAME-SCRIPT-CORRECTIONS-1/reforge-wine-regression.txt.gz) [root-review.json](../evidence/GAME-SCRIPT-CORRECTIONS-1/root-review.json) [runtime-probes.json](../evidence/GAME-SCRIPT-CORRECTIONS-1/runtime-probes.json) [story-probes.json](../evidence/GAME-SCRIPT-CORRECTIONS-1/story-probes.json) [test-retirement.json](../evidence/GAME-SCRIPT-CORRECTIONS-1/test-retirement.json) [text-audit.json](../evidence/GAME-SCRIPT-CORRECTIONS-1/text-audit.json) [topology-probes.json](../evidence/GAME-SCRIPT-CORRECTIONS-1/topology-probes.json) [user-acceptance.json](../evidence/GAME-SCRIPT-CORRECTIONS-1/user-acceptance.json) [documentation-model.md](../guides/documentation-model.md)。
+后续语言层接入与 E2E 按 [E2E 合同](../../testing/e2e/contract.md)、[时间线](../../lore/timeline.md) 与第二阶段 [发布指南](../../phase2/guides/content-publication.md) 推进；无下一位 Agent 提示词（已授权实施并收口）。原存活入口逐字保留：
+
+关联:[CLAUDE.md](../../../CLAUDE.md) [timeline.md](../../lore/timeline.md) [game-mechanics.md](../../phase1/game-mechanics.md) [content-publication.md](../../phase2/guides/content-publication.md) [contract.md](../../testing/e2e/contract.md) [governance.md](../../testing/governance.md) [agent-workflow.md](../agent-workflow.md) [code-quality.md](../code-quality.md) [audit-receipt.json](../evidence/GAME-SCRIPT-CORRECTIONS-1/audit-receipt.json) [binary-inventory.json](../evidence/GAME-SCRIPT-CORRECTIONS-1/binary-inventory.json) [ci-inventory-fix.json](../evidence/GAME-SCRIPT-CORRECTIONS-1/ci-inventory-fix.json) [editor-reference-delta.json](../evidence/GAME-SCRIPT-CORRECTIONS-1/editor-reference-delta.json) [generation-final.json](../evidence/GAME-SCRIPT-CORRECTIONS-1/generation-final.json) [integration-receipt.json](../evidence/GAME-SCRIPT-CORRECTIONS-1/integration-receipt.json) [main-sync.json](../evidence/GAME-SCRIPT-CORRECTIONS-1/main-sync.json) [native-log-publication.json](../evidence/GAME-SCRIPT-CORRECTIONS-1/native-log-publication.json) [phase2-audit.json](../evidence/GAME-SCRIPT-CORRECTIONS-1/phase2-audit.json) [reforge-wine-regression.txt.gz](../evidence/GAME-SCRIPT-CORRECTIONS-1/reforge-wine-regression.txt.gz) [root-review.json](../evidence/GAME-SCRIPT-CORRECTIONS-1/root-review.json) [runtime-probes.json](../evidence/GAME-SCRIPT-CORRECTIONS-1/runtime-probes.json) [story-probes.json](../evidence/GAME-SCRIPT-CORRECTIONS-1/story-probes.json) [test-retirement.json](../evidence/GAME-SCRIPT-CORRECTIONS-1/test-retirement.json) [text-audit.json](../evidence/GAME-SCRIPT-CORRECTIONS-1/text-audit.json) [topology-probes.json](../evidence/GAME-SCRIPT-CORRECTIONS-1/topology-probes.json) [user-acceptance.json](../evidence/GAME-SCRIPT-CORRECTIONS-1/user-acceptance.json) [documentation-model.md](../guides/documentation-model.md)。
 
 
 ## 原文保全

@@ -7,24 +7,23 @@ Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「GAME-TOOLS-SAVE-IMPORT-READ-ERROR-1 — 工具面板导入读取失败提示」的任务归属与历史边界。原目标见原文(摘录:Reviewer: Codex Capability: Q3 tools / file IO error boundary Visual Verification Timing: functional);本页治理不重开已终态任务。
+补齐工具面板导入读取失败提示：CODE58真实工具面板导入只处理FileReader.load不处理error。独立非持久Chrome以原生磁盘入口选中合法V1文件、暂停change分发后仅删除自有临时文件再执行真实handler：原生NotFoundError、error→loadend、没有load；界面没有成功或错误提示、写入次数0、槽位前后null。一个业务AssertionError证明缺失反馈；primary为W3C File API §4/§6.2.3/§7。用户2026-10-25答复“批准补齐导入读取失败提示（推荐）”。
 
 ## 范围
 
-原卡含章节[GAME-TOOLS-SAVE-IMPORT-READ-ERROR-1 — 工具面板导入读取失败提示、前提与来源、目标、准入与边界、验收与交接、实施与验收],共2个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+白名单tools-panel.ts的FileReader error处理与tools-panel.save-io.test.ts；失败不写槽位，合法导入、格式、数据库、导出保持；未获授权的abort/同步异常策略不顺带改。
 
 ## 前提与证据
 
-固定main源2801B(SHA d6bbd4e6a44e);原卡前提按原时点保留。当前存活入口:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/tools-panel-closeout/README.md) [QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)。
+固定源全文核读。最强替代解释（自动化上传副本会继续读取成功）由最终改用CDP原生磁盘路径观察真正NotFoundError排除；副本轮仅在全新一次性context里写一个测试槽、关闭后退出，不触碰用户或主树存档。实施：正式单红先行、最小error回调、7定向/102相邻及typecheck0；原生Chrome读错提示与同路径重选/真实Save读取恢复已核；读取失败0写、重选成功仅写一次性测试context；纯结构搬移分提交。完整证据见[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/tools-panel-closeout/README.md)与父卡[QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:review),治理不改写。
+代码接受，任务review等统一门；不授普通剧情/E2E/所有权限错误信用。
 
 ## 状态与交接
 
-review保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
-
+review保持原语义；主工具源仍review。无下一位Agent提示词。
 
 ## 原文保全
 

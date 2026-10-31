@@ -7,24 +7,23 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 证据身份
 
-本页是「CODE3w战后脚本与特殊结局复审」的治理候选页;证据原件即下方逐字节保全的固定main源(9263B,SHA 9dcb3cd3b820)。
+本页是 CODE-QUALITY-3w「战后脚本与特殊结局复审」证据目录(工作基点自 599d3571 起,收口于 8599c94b)的治理候选页;证据原件即下方逐字节保全的固定main源(9263B,SHA 9dcb3cd3b820)。本目录承载的真实结论:3w 卡按原「状态/结算/清理」合同接受,收口决定与五文件名单见 module-closeout.json(decision=accept,视觉 E2E 按原卡仍 deferred);六个变异反控(controls.json)全部达成「old 全绿、current 恰好一条预期业务红」;逐敌等待(dialog-order-counter 反证 → dialog-order-fix 修复)、战后 HP/MP 状态归属(post-player-context 修前反证:退出 394 vs C 参照 500 → post-player-state-fix/role-context-fix 修复)、Extra 清理(extra-reachability 反证:离队 role4 Extra 30 逃跑后仍被导出消费)四个窄修各自先红后修;原盘 SSS.MKF 静态普查(asset-census.json)定位 10 个 battleEnd 直达叶/15 owner 与 4×0x89 全 result0、3×0x90 只写 turnStart。
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原23个链接处置见作者review的linkDisposition。当前存活入口:[GAME-BATTLE-POSTSCRIPT-DIALOG-ORDER-1.md](../../../tasks/GAME-BATTLE-POSTSCRIPT-DIALOG-ORDER-1.md) [QUALITY-PRE94-RETROSPECTIVE-1.md](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) [asset-census.json](asset-census.json) [attempt-limit.json](controls-first-mirror/attempt-limit.json) [controls.json](controls.json) [dialog-order-counter.json](dialog-order-counter.json) [dialog-order-fix.json](dialog-order-fix.json) [draft-corrections.json](draft-corrections.json) [extra-cleanup-fix-native.json.gz](extra-cleanup-fix-native.json.gz) [extra-cleanup-fix.json](extra-cleanup-fix.json) [extra-reachability-gates.json](extra-reachability-gates.json) [extra-reachability-native.json.gz](extra-reachability-native.json.gz) [extra-reachability.json](extra-reachability.json) [gates.json](gates.json) [module-closeout.json](module-closeout.json) [native-archives.json](native-archives.json) [post-player-context.json](post-player-context.json) [post-player-state-fix.json](post-player-state-fix.json) [read-boundaries.json](read-boundaries.json) [recovery.json](recovery.json) [role-context-fix.json](role-context-fix.json) [source-inputs-final.json](source-inputs-final.json) [verify-extra-reachability.mjs](verify-extra-reachability.mjs)。
+来源为固定Git载体,非本次运行;原23个链接处置见作者review的linkDisposition。当前存活入口:[GAME-BATTLE-POSTSCRIPT-DIALOG-ORDER-1.md](../../../tasks/GAME-BATTLE-POSTSCRIPT-DIALOG-ORDER-1.md) [QUALITY-PRE94-RETROSPECTIVE-1.md](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) [asset-census.json](asset-census.json) [attempt-limit.json](controls-first-mirror/attempt-limit.json) [controls.json](controls.json) [dialog-order-counter.json](dialog-order-counter.json) [dialog-order-fix.json](dialog-order-fix.json) [draft-corrections.json](draft-corrections.json) [extra-cleanup-fix-native.json.gz](extra-cleanup-fix-native.json.gz) [extra-cleanup-fix.json](extra-cleanup-fix.json) [extra-reachability-gates.json](extra-reachability-gates.json) [extra-reachability-native.json.gz](extra-reachability-native.json.gz) [extra-reachability.json](extra-reachability.json) [gates.json](gates.json) [module-closeout.json](module-closeout.json) [native-archives.json](native-archives.json) [post-player-context.json](post-player-context.json) [post-player-state-fix.json](post-player-state-fix.json) [read-boundaries.json](read-boundaries.json) [recovery.json](recovery.json) [role-context-fix.json](role-context-fix.json) [source-inputs-final.json](source-inputs-final.json) [verify-extra-reachability.mjs](verify-extra-reachability.mjs) 。首次镜像失败零分的原件在 attempt-limit.json;原始 raw/native 档案清单在 native-archives.json;修复中 worktree 消失重建记录在 recovery.json;最终代码输入快照在 source-inputs-final.json;只读复验入口为 verify-extra-reachability.mjs。
 
 ## 断言与业务 oracle
 
-文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+本页正文按原文各节时点转述其真实断言:统一门完整 check 20,443 业务例+684 工具例、七包 TC 与官方覆盖率棘轮 20045 tests/758 sources 均零诊断,且首轮 12 个 pal-extract 5s 超时、ledger 申报 372/115 与实际 377/110 不符等失败原样保留、复跑后才通过(module-check→bounded455绿→完整重跑);反控六项在不建活敌 won 屏、跳过活敌战后脚本、caster 强制 0 槽、忽略数量 0、概率等号错误、terminated 错误接 fled 六个变异点上证明 spec 判别力;HP/MP 与 Extra 修复的判别力来自修前反证(394 vs C 500;Extra 30 逃跑保留导出)加各自正式业务红。空数组/exit0/成功字样不外推为零诊断或产品通过;原文自带「以下旧段均按日期/基点读取,draft或未实施描述不是当前状态」的时点边界在本页同样成立。
 
 ## 结果
 
-原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+CODE-QUALITY-3w 模块收口:五文件接受(battle-finalization.ts 及其 extra 测试、battle-settlement.ts 及 glm-next-wave 直测、battle-system glm-next-wave spec),账本 3356 tracked/377 closed/110 review/2869 pending,卡 62 accept/21 partial/0 pending,0 新关闭语义保持;覆盖率基线 20040→20045(新增 Extra 1+settlement 4),758 sources 不变、无回退、未放宽规则。治理结果=原文保全完整、模板符合、链接处置如实;不产生新执行结果。
 
 ## 限制与复核
 
-未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
-
+未重跑原命令/浏览器/测试;历史结论保持原时点;原文明言不是浏览器/像素/完整 SDL 运行,visual E2E 仍 deferred;更宽的 GS/BattleState 名单分叉与单脚本通用 yield 属 3r/3s,不随本目录接受。候选待Owner非作者接收。
 
 ## 原文保全
 

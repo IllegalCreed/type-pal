@@ -7,24 +7,23 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 证据身份
 
-本页是「CODE40/41/59/60 存档+analytics 四卡复审切片(GLM,只读零改动)」的治理候选页;证据原件即下方逐字节保全的固定main源(3032B,SHA a5fda1163547)。
+本页是「CODE40/41/59/60 存档+analytics 四卡复审切片」(基点 dec0626e,零改动:文件与基点逐字节相同)的治理候选页;证据原件即下方逐字节保全的固定main源。本页真实结论:复审 CODE-QUALITY-59(save-io 版本边界)/60(quick-save 生命周期)/40(install-analytics)/41(analytics-consent-ui)四卡的 4 生产文件+5 份测试全文逐文件八维,未发现可由 primary source+真实 caller 证实的新 direct defect,零改动,四卡建议 pending→partial;analytics-consent.ts/google-analytics.ts 归 3y/3z 卡(既有 partial)不在本片重复。
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原3个链接处置见作者review的linkDisposition。当前存活入口:[directed-final.json](directed-final.json) [per-file-index.md](per-file-index.md) [read-boundaries.json](read-boundaries.json)。
+来源为固定Git载体,非本次运行。读取 SHA 与指纹勘误(SHA-1 OID 改名+真实 SHA-256 新增)见 [read-boundaries.json](read-boundaries.json),逐文件 A–H 索引与读域标注见 [per-file-index.md](per-file-index.md)(2026-10-20 C1 返工新增),定向原件(10 suite/21 例全绿的原生 JSON)见 [directed-final.json](directed-final.json)。
 
 ## 断言与业务 oracle
 
-文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+本页正文按原文时点转述四文件 A 维关键事实:save-io.ts(26行)——envelope format 严格等+version===1 严格等(未来/旧 envelope 拒绝不交 Save API,version=2 拒绝有测试)、必要字段门(partyMembers 数组+wNumScene 数值)、savedAt:0 由 caller(tools-panel)覆盖;quick-save.ts(61行)——快存门 mode==='explore'&&!dialogBox&&menuStack空(防战斗/剧情脏档)、F5/F9 preventDefault、失败/空槽/成功三态 toast、deps 全注入;install-analytics.ts(64行)——consent UI 先挂、GA 创建失败时 UI 回滚再抛(GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1 用户批准修复的当前形态)、destroy 先停 GA 再拆 UI;analytics-consent-ui.ts(124行)——unset 才弹面板、writeAnalyticsConsent 失败保持面板不伪装已保存、重挂先移除既有 root。E 维:5 份测试逐例核读(save-io 版本/字段拒绝矩阵、quick-save C5 重写后真实 GameState+fake timers、msio 补丁、install DNT/GPC 默认关、consent-ui 布局/坏存储),无缺口不新增。
 
 ## 结果
 
-原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+本页治理结果=原文保全完整、链接处置如实,不产生新执行结果。原文执行事实:定向 5 files/21 passed/0 failed/exit0/无 stderr;零改动无需 typecheck/biome;四卡建议 pending→partial。
 
 ## 限制与复核
 
-未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
-
+原文明言未跑(留阶段收尾):全仓 check、ratchet、protected fast、coverage。失效条件:Save API envelope、toast 实现、consent 存储键/广播合同、main.ts 安装点变化会使对应结论待复核;3y/3z/72 等关联卡既有 partial 不因本片升格。未重跑命令;候选待Owner非作者接收。
 
 ## 原文保全
 

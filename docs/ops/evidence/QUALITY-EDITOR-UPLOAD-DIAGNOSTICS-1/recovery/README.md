@@ -2,29 +2,28 @@
 
 Status: historical
 Owner: GLM(治理候选作者;原文作者/状态见保全块)
-Last reviewed: 2026-10-30
+Last reviewed: 2026-10-31
 Template: evidence-receipt-v1 / 1.0.0
 
 ## 证据身份
 
-本页是「C10 恢复：真实提交等待、失败收尾与有证排重」的治理候选页;证据原件即下方逐字节保全的固定main源(5820B,SHA eea714cb2e32)。
+本页是 QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1 恢复片(C10 恢复:真实提交等待、失败收尾与有证排重)的证据目录页,任务卡见 [QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1.md](../../../tasks/QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1.md)。基点 d261e1d17,唯一 codex/code-quality-3y,最新 origin/main=f98d0ddd8。本检查点修四份测试/驱动文件,0新增关闭;不代表94前83卡或94-102已验收。
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原14个链接处置见作者review的linkDisposition。当前存活入口:[QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1.md](../../../tasks/QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1.md) [after-proof.json](after-proof.json) [before-proof.json](before-proof.json) [editor-diagnostics-by-file.json](editor-diagnostics-by-file.json) [editor-full.json](editor-full.json) [final-source-delta.json](final-source-delta.json) [gates.md](gates.md) [pre-import-style.original.json.gz](pre-import-style.original.json.gz) [read-boundaries.json](read-boundaries.json) [regressions.json](regressions.json) [retirement.json](retirement.json) [verification.json](verification.json) [verify.py](verify.py)。
+完整读取路径、字节SHA与局部caller范围见 [read-boundaries.json](read-boundaries.json)(12项fullReads含Wizard548行/三测试/三helper/kit/退役两脚本/vite.config,6项partialReads含React19.2.7 act收尾源码826-875);基点字节快照 [initial-sources.json](initial-sources.json)。真实链=合法PNG→量化/编码→实际gzip→实际SHA→EditSession/AddSpriteCommand→onDone;旧mock族只读到指定片段,合法性与跨族排重仍pending。同身份清零再精简:initial30通过但2act,[zero-thirty.json](zero-thirty.json)30通过且0act/环境/stderr;两条已证弱子集随后退役,最终三Wizard文件28通过、0失败/跳过/诊断。原生Vitest list、三快照输入、源SHA和精确注册见 [retirement.json](retirement.json):G07精确10→8,批准表27项/net62,旧26项及matcher/拒绝合同不变,官方baseline未手改。
 
 ## 断言与业务 oracle
 
-文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+文档事实核对(currentExecution=false):[before-proof.json](before-proof.json) 与 [after-proof.json](after-proof.json) 保留各六次完整原生执行及模块副本SHA;before是同30身份已零诊断阶段,不能冒充初始d261。判决:取消后漏关迟到bitmap→两阶段均仅G02-02一个AssertionError;去掉同步submit锁→两阶段均仅G07-02一红;在途取消按钮错误可用→G07-02/03两红→精简后只02一红(03 oracle确实转移,单列);第二次真实提交回调id错误→G02-10/G07-04/09三红→10/04两红(09 oracle确实转移);恢复G02旧act外错误DOM轮询→两阶段原生全绿但均2act,退出码0仍拒绝质量验收,不冒充业务AssertionError。digest spy默认透传真实硬件方法;闸门仍调用实际gzip;无console过滤/环境关闭/核心mock/规则放宽/产品变更。精简后首次静态检查exit0仍报unused import(原件 [pre-import-style.original.json.gz](pre-import-style.original.json.gz) 保留,未记为通过),随后只删除唯一未使用wizardWaitDecoded import,[final-source-delta.json](final-source-delta.json) 重建证明body/其余字节未变,最终28回归用的就是清理后字节。
 
 ## 结果
 
-原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+治理结果=恢复链证据保全完整、可独立复验;不产生新执行结果。[regressions.json](regressions.json):Wizard28零诊断;十一文件相邻78通过但Uploader仍6act,不能称统一通过;editor两个typecheck配置通过;coverage-tools72通过。[editor-full.json](editor-full.json) 为631实际文件/4943通过/0失败跳过,但624act、243环境告警、1表单告警、321stderr块,明确未通过零诊断验收;1353是Vitest suite计数,不冒充文件数;按文件归并见 [editor-diagnostics-by-file.json](editor-diagnostics-by-file.json)。reforge回归与静态门见 [gates.md](gates.md);只读核验 [verification.json](verification.json) 由 [verify.py](verify.py) 另进程重建,是Codex证据自核,不冒充第三方审查。四文件继续review,0关闭、不合main。
 
 ## 限制与复核
 
-未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
-
+未重跑任何命令;完整check/官方ratchet/protected fast等待稳定模块窗口,不以当前包绿合main。94前全83卡仍10partial/73pending/0整卡accept,下一片回3d PNG与3g CLI,editor Uploader六act及其它46文件诊断继续登记。历史结论保持原时点;候选待Owner非作者接收。
 
 ## 原文保全
 

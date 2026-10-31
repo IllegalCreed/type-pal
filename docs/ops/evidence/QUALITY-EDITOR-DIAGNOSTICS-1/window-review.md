@@ -7,24 +7,23 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 证据身份
 
-本页是「Editor 三文件首片：完整窗口回执」的治理候选页;证据原件即下方逐字节保全的固定main源(6144B,SHA cff5c29e6727)。
+本页是「Editor 三文件首片：完整窗口回执」的治理候选页;原件按固定main源逐字节保全(6144B,SHA cff5c29e6727)。稳定源码候选 c8ad9416fc46b7aef3e89b4a106673fbcb9d34b3,主线保护基点 f98d0ddd89ebdee7b04502ee35de26ee82c6d246;单一 Coding Owner=Codex,作者自验,未冒称独立 accept。本片只修改三个测试文件及必要的精确退役数据/固定计数 oracle,不改产品、资产、schema、公共运行时接口或规则。
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原1个链接处置见作者review的linkDisposition。当前存活入口:无当前仓库内存活链接。
+逐文件真实根因与判别证据:①__tests__/cursor-asset-r1/world-sprite-harness.tsx 原挂载只等一个微任务,真实 gzip/RLE 解码未完成;改为等待 viewer 同一个 SpriteAssetCache 的真实 promise 并在 act 内冲刷更新,仅此分片使 70 条测试的 604 条未包 act 告警降至 200;唯一 caller 为 C01。②__tests__/cursor-asset-r1/kit.ts 真实 session undo/redo 同步通知 React 订阅者,新增 applyHistoryAction 把历史操作放入 act 并返回真实 boolean,C01 逐次断言成功。③ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx 资源行点击移出 vi.waitFor 重试回调、只点击一次并等待真实解码、消除空 act,70 条完整保留时即 0 诊断;再补强 3 个弱 oracle、清理 7 处 layout 强转、精简 3 个已证重复后 67/67 仍 0 诊断。一手依据为 [React act](https://react.dev/reference/react/act);生产链是 SpriteResourceViewer.tsx:218-280 的 Promise.all→snapshot/proof/frames 与 WorldSpriteLibrary.tsx:268-278 的真实 proof 判定,未用 mock 替代 reader、缓存、解码或业务组件。实际读取文件、SHA 与全文/部分 caller 边界见 read-boundaries.json。
 
 ## 断言与业务 oracle
 
-文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+三个补强后的 oracle:G04-08 精确要求 c01gamma-static(同时约束 label stem 和后缀);G05-10 用真实 readBytes 闸门证明未完成时 disabled、完成真实解码后 enabled,finally 释放、卸载后恢复原 act 环境;G07-07 精确检查目录标题 4 项(starter+3 authored),不再用整页任意数字作 oracle。同三个合法产品 mutant(错误后缀、提前启用、计数0)下旧弱断言均通过、新断言各恰一指定业务 AssertionError;恢复 67 全绿、0 skip。source/test/mutant 与独立重建 hash、命令/cwd、signal/spawn、临时树删除见 oracle-validation.json、oracle-new-final-proof.json、oracle-old-complete-proof.json、oracle-rebuild.json;两次临时树 setup 失败(缺 root tsconfig、外部资产路径被拒)保留原件,不计有效针。G01-10→G07-06、G03-09→G03-04、G03-10→G03-05 是相同合法输入/操作下的严格子集,精确 body/hash 见 dedupe-proof.json;其它未知重复不自动删除,未删除任何测试文件。
 
 ## 结果
 
-原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+定向 67/67、0 诊断;相邻 6 文件 54 例通过但仍有 231 条其它 act;editor typecheck 通过;coverage 工具 63 通过。完整门四行:pnpm check exit0(未包 act 3001/环境 577/导航 2)、首跑 pnpm coverage:ratchet exit1(精确退役 70→67 须显式确认,未包 3048)、pnpm coverage:ratchet --allow-scope-removal exit0(未包 3009)、protected pnpm coverage:fast exit0(未包 2955)——统一零诊断门全部不通过;四次完整输出均无 C01 stderr 头,gzip 解压后 SHA/字节数逐份核对,std-env.isAgent=false 确认无 reporter 检测干扰。完整 check 七包 1640 文件/20271 例通过(editor 631 文件/4948 例),docs48/coverage63/quality37/E2E397/script-governance22 工具通过,完整 check 内 lint 4133 文件 0 error/warning/info。官方 baseline 736 源文件/19862 例,所有包及汇总每个 covered/total 计数完全不变;唯一变化为 C01 70→67(editor fast 4789→4786),机械核验见 window-proof.json,没有手填 baseline。本轮 0 文件关闭;三个文件保持 review,机器 3284/229 closed/48 review/3007 pending。
 
 ## 限制与复核
 
-未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
-
+这里没有执行新剧情 E2E,纯测试变更不要求视觉巡检;静态通过不消除上表执行诊断。CODE94 继续 rework,QUALITY-EDITOR-DIAGNOSTICS-1 保持 review,未合 main;本片外的 act 环境/导航与其它测试诊断仍待独立有限切片,相邻 54 全绿不消除 231 条诊断。后续候选为 BattleSpriteLibrary 的 C02 测试宿主与相邻测试,先核 Owner、完整 caller/oracle 和白名单再实施。未重跑原命令/浏览器/测试;历史结论保持原时点;候选待 Owner 接收。
 
 ## 原文保全
 

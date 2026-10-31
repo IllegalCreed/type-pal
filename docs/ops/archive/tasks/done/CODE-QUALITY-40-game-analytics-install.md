@@ -7,44 +7,43 @@ Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「CODE-QUALITY-40 — game analytics 安装器窄批」的任务归属与历史边界。原目标见原文(摘录:Scope: `packages/game/src/analytics/install-analytics.ts`、`install-analytics.test.ts` Visual Verific);本页治理不重开已终态任务。
+原卡目标:逐文件核验可选统计安装薄壳两文件（`install-analytics.ts` 与测试）:options、consent storage、UI/GA 安装和 destroy 生命周期——同一 window/document ownership、enabled 语义、navigator 隐私信号传递、异常隔离和重复/销毁边界;生产 caller 为 `main.ts:1-19`。
 
 ## 范围
 
-原卡含章节[CODE-QUALITY-40 — game analytics 安装器窄批、前提与范围、逐文件核验计划、当前证据、收口验证、下一位 Agent 提示词],共1个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+两文件;不改变游戏状态、存档、schema、输入、公共产品 UI 或正式脚本行为;不把 jsdom 不加载远程脚本冒称真实网络验证。
 
 ## 前提与证据
 
-固定main源2787B(SHA 16e0f4235668);原卡前提按原时点保留。当前存活入口:[analytics-closeout.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/analytics-closeout.json)。
+历史批:定向 2/2、game 全包 3519、ratchet 基线不变（19,789）、protected fast 0 项下降、lint 3955 零诊断;账本 3258 files/237 closed/5 review/3016 pending。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+2026-10-21 analytics 四卡收口:原安装器两文件接受——复用已批准失败撤监听/UI 并向 main 传播原错误的实现;隐私信号复用同结构类型;测试使用自有 Document/SDK 描述符并精确恢复自有键,外部 Owner 探针旧红新绿。逐文件 A–H 与原件见 [analytics-closeout.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/analytics-closeout.json)。
 
 ## 状态与交接
 
-done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+done 保持原历史语义;收口只接受原卡范围及明确支持文件。
 
 ## 历史范围
 
-原卡属固定main时点;CODE-QUALITY-40 — game analytics 安装器窄批的原始范围与日期在保全块内逐字保留。
+原卡属 2026-10-11 前后窄批时点;原始记录在保全块内逐字保留。
 
 ## 原始结论
 
-原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+原卡结论按 Status(done) 原样:未发现直接缺陷。治理不撤销/不恢复旧信用。
 
 ## 当时证据
 
-原文1个链接与当时回执属原时点证据;本页不重跑、不复授。
+当时回执（2 定向、lint 3955 零诊断）属原时点证据;本页不重跑、不复授。
 
 ## 当前有效性
 
-仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+仅历史任务归属有效;当前结论以 analytics-closeout 原件为准。
 
 ## 继任文档
 
-接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[analytics-closeout.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/analytics-closeout.json)。
-
+CODE-QUALITY-3y/3z/41（analytics 同族）与 analytics-closeout 为继任;当前任务导航以看板为准。
 
 ## 原文保全
 

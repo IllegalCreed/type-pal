@@ -7,44 +7,43 @@ Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「GAME-MENU-HELPER-API-1 — menu helper 公共出口删除准入」的任务归属与历史边界。原目标见原文(摘录:Capability: menu helper public API ownership Reviewer: Codex Visual Verification Timing: N/A（公共出口/测试);本页治理不重开已终态任务。
+删除零生产调用的旧菜单接口：CODE-QUALITY-107的caller census证实primitives.ts的pageUp/pageDown（内部findNextSelectable仅由它们调用）与item-select.ts的createItemSelectMenu/ItemDisplayMode/rightText建表均无生产caller，消费只在测试；真实inventory/shop/sell路径使用各自菜单builder。用户2026-10-25批准删除并删去或迁移相应测试，同类不被实现读取的内部菜单参数与全部仓库调用点一并清理；matchesFilter、真实库存网格和角色导航行为保留。
 
 ## 范围
 
-原卡含章节[GAME-MENU-HELPER-API-1 — menu helper 公共出口删除准入、2026-10-25 本地统一门收口（当前）、当前裁决与准入（2026-10-25）、发现与停止线（历史，2026-10-17）、事实锚点、准入条件],共2个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+删除范围另含同文件Confirm/Triple/Switch八个helper及三类型（也仅测试调用）——现用确认/开关由具体菜单状态机持有；上一份current-review的G“其它出口实际消费”过宽已撤回，以实际全仓import/caller清单代替。
 
 ## 前提与证据
 
-固定main源4582B(SHA d6e1047c2cf2);原卡前提按原时点保留。当前存活入口:[codex-current-review.md](../evidence/CODE-QUALITY-107/codex-current-review.md) [README.md](../evidence/CODE-QUALITY-94/approved-closeout/README.md)。
+固定源全文核读。纯死代码清理以生产caller清单、删除影响、真实相邻回归及最终集中门验收，不伪造“失败例证明零caller”（旧准入第3条该表述保留为历史）。SDLPal ui.c:510-572为逐项光标、无PgUp/PgDn产品路径。2026-10-25本地统一门收口：用户两项裁决落实，原范围54路径中20个新关闭、34既有关闭按版本桥接保留、12相邻路径只验实际delta；全仓20605产品+714工具、七包TC、lint6111文件0/0/0；唯一official20168例/807源完成、原四条比率拒绝保留、仅三文件结构删除精确重计，同报告原ratchet/protected判据exit0、五项精确退役全部匹配。锚点:[codex-current-review.md](../evidence/CODE-QUALITY-107/codex-current-review.md) [README.md](../evidence/CODE-QUALITY-94/approved-closeout/README.md)。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+done仅指本卡有限代码/质量门收口；本地冻结时尚未推送/PR/合并，实际远端发布由关联Git/PR与main CI记录。
 
 ## 状态与交接
 
-done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+done保持原语义；不扩103+或重开pre94。无下一位Agent提示词。
 
 ## 历史范围
 
-原卡属固定main时点;GAME-MENU-HELPER-API-1 — menu helper 公共出口删除准入的原始范围与日期在保全块内逐字保留。
+原卡属固定main时点；范围为menu helper死出口清理，与GAME-SAVE-INPUT-DOMAIN-1共用94-102统一门收口。
 
 ## 原始结论
 
-原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+原卡结论按其Status(done)原样：用户删除裁决落实，统一门零诊断收口。
 
 ## 当时证据
 
-原文2个链接与当时回执属原时点证据;本页不重跑、不复授。
+当时回执属原时点证据：caller census、20新关闭/34桥接保留、20605+714/official20168零诊断；本页不重跑、不复授。关联:[codex-current-review.md](../evidence/CODE-QUALITY-107/codex-current-review.md) [README.md](../evidence/CODE-QUALITY-94/approved-closeout/README.md)。
 
 ## 当前有效性
 
-仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+仅历史任务归属有效；未知外部反射调用不冒称不存在，删除依据为用户明确裁决；不凭旧基点授权新产品取舍。
 
 ## 继任文档
 
-接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[codex-current-review.md](../evidence/CODE-QUALITY-107/codex-current-review.md) [README.md](../evidence/CODE-QUALITY-94/approved-closeout/README.md)。
-
+E-4/E-5原始登记见CODE-QUALITY-107；94–102返工以approved-closeout承接。 关联:[codex-current-review.md](../evidence/CODE-QUALITY-107/codex-current-review.md) [README.md](../evidence/CODE-QUALITY-94/approved-closeout/README.md)。
 
 ## 原文保全
 

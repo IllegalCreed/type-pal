@@ -2,29 +2,28 @@
 
 Status: historical
 Owner: GLM(治理候选作者;原文作者/状态见保全块)
-Last reviewed: 2026-10-30
+Last reviewed: 2026-10-31
 Template: evidence-receipt-v1 / 1.0.0
 
 ## 证据身份
 
-本页是「CODE3j 检查点局部校准」的治理候选页;证据原件即下方逐字节保全的固定main源(4844B,SHA 161b66cb68b4)。
+本页是「CODE3j 检查点局部校准」的治理候选页;证据原件即下方逐字节保全的固定main源(4844B)。2026-10-23 Codex单Owner、基点38d6b2d13;本增量补齐上一[README.md](../3j-tools-quality/README.md)八维窗口的七项校准缺口,只修checkpoints.ts注释,配置/实现/测试/PB/公共接口未改,正文守恒由只读快检复算。
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原3个链接处置见作者review的linkDisposition。当前存活入口:[README.md](../3j-tools-quality/README.md) [receipts.json.gz](receipts.json.gz) [review.json](review.json)。
+来源为固定Git载体,非本次运行;原3链接处置见作者review的linkDisposition。当前存活入口:[review.json](review.json) [receipts.json.gz](receipts.json.gz)。原盘SSS.MKF 18条相关指令/11场景/10EO给出独立字节偏移与源哈希,与当前全局提取脚本逐项匹配;PalTimer冻结在ba7ca7cc(blob 0284a5d7),已读InitCheckPoints/位置谓词/香蕉检查,不将外挂源码当大宇原版。
 
 ## 断言与业务 oracle
 
-文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+七项局部信号当前引擎直接观察:见石碑(1808,520)早入容差、(1856,496)触发原盘5182;学功夫EO195触发2205、对话五次确认、2237切音乐86;上船场景6(1296,1224)到(1280,1216)入容差打点;生化危机EO924触发9716、入62定位(1312,1376);剑柱场景169触发22603、入146(464,1160);祈雨DEV主场景228走正式新游戏onEnter,32039设(1152,1040)、32044等待期打点;锁妖塔163到164(672,704)打点并完整观察165到147入塔演出。移动/自动触发/对白/转场/onEnter/音乐/计时均走生产实现,不写终态/split/音乐/跳过碰撞。首轮塔/剑柱直线路线被真实碰撞阻挡、上船误触方老板对白——失败与成功记录并存,不以producer exit0给失败case信用。**证据证明局部信号可达与接线,不证明新游戏到结局连续剧情、自然路线必经性或完整视觉验收**;旧容差与默认PB维持原设计,不称与PalTimer打点时刻完全一致。
 
 ## 结果
 
-原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+review.json逐项列checkpoints的A到H,其他十四文件/测试迁移/全仓门复用上窗同版原件;七项信号补齐后checkpoints.ts接受、CODE3j partial转accept;固定83卡65accept/18partial,账本3403/408closed/103review/2892pending,94-102未扩展。合并基点main的Documentation39913781974与Coverage39913781939 completed/success,App15368两required checks annotation 0;20170例/774源,lint5942文件0/0/0;本次未重采覆盖率或重跑未变测试。node verify.mjs只读复验:旧窗口快检因注释哈希改变返回STALE属预期,本增量承接其不变正文。
 
 ## 限制与复核
 
-未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
-
+未重跑;成功场景pageerror/console warning/error均为空;未新增完整剧情E2E、音视频成品或二阶段编辑器预览信用。候选待Owner非作者接收。
 
 ## 原文保全
 

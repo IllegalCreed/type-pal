@@ -7,24 +7,23 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 证据身份
 
-本页是「CODE3b raw测试当前质量门」的治理候选页;证据原件即下方逐字节保全的固定main源(486B,SHA d38283fffaf1)。
+本页是 CODE3b 原盘补证片质量门摘要页：恢复面 35 定向相邻、完整 extract 428、shared 126、双方 typecheck 与 coverage-tools 71 通过且 0 stderr，逐命令原件在 [regressions.json](regressions.json)；当前 16 轮反控与父候选 3a9 的 7 轮证据重建见 [verification.json](verification.json)。
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原3个链接处置见作者review的linkDisposition。当前存活入口:[regressions.json](regressions.json) [static-gates.json](static-gates.json) [verification.json](verification.json)。
+命令在 worktree quality-3y-closeout/type-pal 执行，历史时点原件；本页为摘要页，逐命令 exit/秒/raw SHA 以下游 JSON 为准。
 
 ## 断言与业务 oracle
 
-文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+本页实质断言是门禁边界：docs、ledger、diff-check 与 lint-zero 须按 [static-gates.json](static-gates.json) 核完整诊断，不能只看 exit0；完整 check、official ratchet、protected fast 本片未执行（等待 editor 诊断稳定窗口），不合 main、不关闭文件/整卡。恢复面 0 stderr 是本片实测口径，不外推统一门通过。
 
 ## 结果
 
-原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+静态五命令（docs/verify.py/ledger/diff-check/lint-zero）全 exit0；恢复面六命令 0 stderr 块。两 raw 测试仍 review、0 新关闭（身份状态见同目录 identity-change.json）。
 
 ## 限制与复核
 
-未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
-
+未重跑任何命令；后续片静态门不回写本页。候选待 Owner 非作者接收。
 
 ## 原文保全
 

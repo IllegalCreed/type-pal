@@ -7,24 +7,23 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「CODE58 tools-panel 夹具与隔离勘误」的主题按原文时点保留(摘录:基点 `ba45329cc`，唯一 `codex/code-quality-3y`；Codex 单一 Owner，build allowed 只含两份 tools-panel 测试)。
+前次 58 把主测试 417 行记为'合法fixture、fake timer隔离'证据不足:核心 GameState/runtime/status/battle/resources 用 as never 隐藏缺字段和错误结构(如 rgPlayerStatus:{}),每例只清 body/timer、没有解除 window 监听器。本片以直接反例修正该结论:基点 ba45329cc、唯一分支 codex/code-quality-3y、Codex 单一 Owner,build allowed 仅含两份 tools-panel 测试、新的共用测试宿主及治理证据;58 仍 partial,83 卡仍 47 partial/36 pending/0 accept。
 
 ## 范围与证据
 
-原报告含章节[CODE58 tools-panel 夹具与隔离勘误、直接反例与旧结论勘误、逐文件与输入/caller/oracle、判别力、测试与未关闭边界]、7个链接;固定main源3740B(SHA f98dc02e475d)。当前存活入口:[README.md](../58-tools-panel/README.md) [after-proof.json](after-proof.json) [before-proof.json](before-proof.json) [case-review.json](case-review.json) [read-boundaries.json](read-boundaries.json) [static-gates.json](static-gates.json) [test-gates.json](test-gates.json)。
+逐文件读取与范围见 [read-boundaries.json](read-boundaries.json)(三测试全文+生产/构造器/宿主精确范围 SHA);19 例逐项真实入口、固定输出、排重边界和未认证项见 [case-review.json](case-review.json)。工具面板为项目新增能力,SDLPal 无同形 UI primary;事实源是 bootstrap 单次安装/注入合同、公开 GameState/BattleState 构造器和实际 DOM 动作。被替代旧片 [README.md](../58-tools-panel/README.md)。
 
 ## 发现
 
-原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+[before-proof.json](before-proof.json):原 18 绿;隔离副本追加相邻两例后 19 绿+1 个指定业务 AssertionError——前例安装面板,后例清 body 并按 Backquote,已离开的前例 getGs 仍被调用 2 次;不是 collection/runtime 错误或构造器异常。返工:主测移除全部核心 as never,场景/对话从 createInitialGameState 修改明确目标轴,战斗复用已核 typed 角色/敌人 fixture 经 hydratePlayerRolesRuntime 和 createBattleState 建完整状态;敌 HP 与 turn 分别改变,HP 断言定位火神龙单元精确比较 'HP 77/100';leaves 18→19 仅来自职责拆分(全屏/FPS 拆开);tools-panel.test-fixtures.ts 共用合法稳定 GameState 与 typed 依赖,真实 window 事件注册在 afterEach 按 type/listener/options 解绑,清 fake timers/rAF、DOM/styles、speedrun/FPS 单例、偏好保存/清空/恢复。[after-proof.json](after-proof.json):正式 19 绿、同一跨例探针 21 绿,源/测试/宿主 SHA、完整 file×fullName、exit/signal/spawn、native JSON 与 raw gzip、副本清理全部可回读;正式工具面板实现字节未改。
 
 ## 结论
 
-原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+[test-gates.json](test-gates.json):完整 tools、battle-inspect、music-source 相邻 34 files/199 tests passed,无 failed/pending/stderr;game typecheck 退出 0 无诊断。[static-gates.json](static-gates.json) 记录 docs/lint/ledger/diff 全过。账本 3312 tracked/286 closed/44 review/2982 pending:旧两测试只修正证据不重复新增 closed;新增测试宿主登记 fixture 已验证;生产 tools-panel.ts 沿用旧源审查记录,不因新相邻全绿增加整卡 accept。
 
 ## 整改与复核
 
-本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
-
+存档导入导出仍是 59 边界;本片未实跑其 IO、计时器编辑回写、完整快捷键机制、视觉或 E2E;无新全仓 check/coverage ratchet/protected fast,53 波次是历史候选不能认证本候选。下一步核 63/65 既有测试的核心状态夹具。未重跑任何命令;历史结论保持原时点;候选待 Owner 非作者接收。
 
 ## 原文保全
 

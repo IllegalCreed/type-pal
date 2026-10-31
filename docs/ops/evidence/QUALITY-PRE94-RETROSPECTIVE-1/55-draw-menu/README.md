@@ -7,24 +7,23 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 证据身份
 
-本页是「CODE55 draw-menu 当前复审切片」的治理候选页;证据原件即下方逐字节保全的固定main源(3861B,SHA 8d7449c9e519)。
+本页是 QUALITY-PRE94-RETROSPECTIVE-1 中 CODE55(draw-menu)的复审切片回执:基点 f544b9b94、分支 codex/code-quality-3y,重新复审历史 CODE-QUALITY-55 的唯一未登记范围,整卡判定为 partial。证据原件即下方逐字节保全的固定 main 源。
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原3个链接处置见作者review的linkDisposition。当前存活入口:[README.md](../53-wave-gates/README.md) [README.md](../core-comment-audit/shop-layout-tests/README.md) [read-boundaries.json](read-boundaries.json)。
+核读三个直接文件(present/menu/draw-menu.ts、draw-menu.test.ts、draw-menu.glm-phase1-leaves.test.ts)、真实 caller(present.ts:679-705、menu-driver 全部菜单 dispatch 与栈迁移、menu-mode/menu-stack/game-state menu 联合及各 state owner),primary 为 reference/sdlpal/uigame.c 六段区间与 ui.c:458。后续 2026-10-18 补证入口:[README.md](../53-wave-gates/README.md)、[README.md](../core-comment-audit/shop-layout-tests/README.md)、[read-boundaries.json](read-boundaries.json)。
 
 ## 断言与业务 oracle
 
-文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+drawMenuStack 只从底到顶投影 GameState.menuStack,cash/主菜单/system/confirm/save-slot/inventory-action/shop-sell 的坐标/颜色/框体层级/savedTimes/extra 转发与 primary 及 caller 一致;present.ts 仅在 mode='menu' 且 UI frame 已注入时调用,绘制层不写 GameState、Save/IDB 或菜单生命周期。本片唯一代码变更是删除实现末尾无实际用途的 SelectionMenuState 导入与 void 伪用法(纯重构,不改菜单分支/framebuffer/公共接口)。旧 shop-sell 专属测试只把空 grid 强设 confirm、三个转发缺失反控全存活,已撤回 GLM 该文件旧关闭转 review,由商店/宿主返工片接管。直接 3 files/15 tests、相邻 11 files/197 tests、typecheck 与 lint(5002 files,0 errors/0 warnings/0 infos)通过。2026-10-18 新反控:丢 grid、丢图标、漏 noDesc 变异各旧 5 绿→新 4 绿+1 指定 AssertionError,5 例不增量。
 
 ## 结果
 
-原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+切片级逐文件结果成立、整卡仍 partial:2026-10-18 波次勘误已撤回 47-52 统一门(53-wave-gates)'通过/收口'信用,本页'已通过'仅原时点历史表述;旧 15/197 只保留有限历史执行,未据新结果重签整文件。
 
 ## 限制与复核
 
-未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
-
+超长 word table 标签的 SDLPal dx 分支与异步 slot metadata 更宽输入域仍只有 caller 证据;视觉/E2E 延后;read-boundaries.json 是 770f9168e 候选的后补全文核读,不能冒充 f544 当时缺失原件,不为补元数据重跑产品/coverage。不重开任务、不重跑执行;候选待 Owner 非作者接收。
 
 ## 原文保全
 

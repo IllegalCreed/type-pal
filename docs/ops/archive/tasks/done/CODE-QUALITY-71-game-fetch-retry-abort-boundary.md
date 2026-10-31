@@ -7,44 +7,43 @@ Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「CODE-QUALITY-71 — game fetch retry abort boundary」的任务归属与历史边界。原目标见原文(摘录:逐文件核验 GET retry wrapper 的错误分类、AbortSignal 取消传播、backoff、HTTP 状态与 uninstall 生命周期；先写失败反例，修复后确保取消不被重试层吞掉。);本页治理不重开已终态任务。
+原卡目标:逐文件核验 GET retry wrapper 三文件（`fetch-retry.ts` 与主/leaves 测试）:错误分类、AbortSignal 取消传播、backoff、HTTP 状态与 uninstall 生命周期;先写失败反例修复——旧实现 catch 所有错误进入 retry loop 未区分 AbortError/signal.aborted,取消被重试层吞掉。
 
 ## 范围
 
-原卡含章节[CODE-QUALITY-71 — game fetch retry abort boundary、目标、范围、前提真值门、验证、交接],共2个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+三文件;只读相邻 fetch-retry.boundaries.test.ts（已闭合合同）与 main/bootstrap fetch caller。SDLPal 无 fetch retry（type-pal 网络层新增能力,primary N/A）。
 
 ## 前提与证据
 
-固定main源3998B(SHA 90474217ff02);原卡前提按原时点保留。当前存活入口:[present-leaves-gates.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-gates.json) [present-shell-readonly.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-shell-readonly.json)。
+合同:仅 GET 的瞬时网络失败/502/503/504 可重试;AbortError 或已取消 AbortSignal 立即向 caller 传播。失败反例:底层抛 AbortError 时旧实现调用 3 次,修复后立即传播且调用 1 次;HTTP/method/backoff/uninstall 既有合同保持。最强替代解释"生产 caller 永不传 signal 则行为不可达"被 fetch 标准 RequestInit.signal 与未来资源取消路径要求反证。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+原批:3 范围文件 18 tests、game 全包 3526、全仓门通过,账本 3266/319 closed。2026-10-21 基础绘制与同版本只读补证收口:只接受原实现、主测、GLM 三文件——C1 五份当前源/测试同 SHA,26 绿、原三红及三种单红原件已复算;GET、Request/null、首次输入校验和退避清理 Owner 已核;保留有真实模块清理用途的 Test reset 出口,无新增行为或重复全套复审。A-H/callers/native 见 [present-shell-readonly.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-shell-readonly.json),完整当前门见 [present-leaves-gates.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-gates.json)。
 
 ## 状态与交接
 
-done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+done 保持原历史语义;2026-10-21 收口只接受原卡范围,无 broad/adjacent file 或 deferred visual credit。
 
 ## 历史范围
 
-原卡属固定main时点;CODE-QUALITY-71 — game fetch retry abort boundary的原始范围与日期在保全块内逐字保留。
+原卡属 2026-10-13 修复时点;原始记录与历史提示词在保全块内逐字保留。
 
 ## 原始结论
 
-原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+原卡结论按 Status(done) 原样:AbortError/signal.aborted fail-fast 落地,不改变 retry 次数、状态码白名单、公共 API 或非 GET 行为。治理不撤销/不恢复旧信用。
 
 ## 当时证据
 
-原文2个链接与当时回执属原时点证据;本页不重跑、不复授。
+当时回执（18 定向、全仓门）属原时点证据;本页不重跑、不复授。
 
 ## 当前有效性
 
-仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+仅历史任务归属有效;当前结论以 present 侧收口原件为准。
 
 ## 继任文档
 
-接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[present-leaves-gates.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-gates.json) [present-shell-readonly.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-shell-readonly.json)。
-
+CODE-QUALITY-3h（boundary 既有记录）与 present 收口证据为继任;当前任务导航以看板为准。
 
 ## 原文保全
 

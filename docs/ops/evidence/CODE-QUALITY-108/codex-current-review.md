@@ -7,24 +7,23 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 证据身份
 
-本页是「CODE-QUALITY-108 — Codex 当前验收（2026-10-17）」的治理候选页;证据原件即下方逐字节保全的固定main源(2215B,SHA 589d2fad8064)。
+本件是 `magic-script.test.ts` 预期缺失 label 的 stderr 诊断归属修复:完整读取 magic-script.ts（258 行）、magic-script.test.ts（492 行）、glm-next-wave 测试、menu-driver 大世界法术 dispatch（castOverworldMagic caller）、in-game-magic-menu、script-catalog、event-system 全局脚本/runScript/物品脚本相邻生命周期、battle/actions/magic 与 player-poison-state。primary:`uigame.c:740-873` 大世界法术顺序、`script.c:867-1102` HP/MP/复活 opcode、`global.c:1254-1330` 存活与"无变化失败"合同。
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原0个链接处置见作者review的linkDisposition。当前存活入口:无当前仓库内存活链接。
+诊断根因:基线定向 1 file/37 tests PASS,但两项主动构造缺失 L_99999 的测试把生产 runner 预期 fail-closed console.warn 直接写到 stderr（"label 不存在 → 返回 false"与"scriptOnUse 失败 → 不跑 scriptOnSuccess"）;这不是生产路径未捕获异常,也不是应删除的诊断,而是测试缺少 warning oracle 和隔离恢复。
 
 ## 断言与业务 oracle
 
-文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+修复只改 magic-script.test.ts 两个既有用例:各自安装 vi.spyOn(console,'warn'),断言精确 warning 文本,finally 恢复 spy;原有返回值、HP 不变和 scriptOnSuccess 不执行断言保留;未修改生产 runner、公共接口、第一阶段机制、schema/save 或生成物。
 
 ## 结果
 
-原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+修复前 1 file/37 tests PASS 但 2 条 stderr;修复后定向 1/37 PASS 0 stderr;相邻 40 files/377 tests PASS 0 stderr;game typecheck PASS。
 
 ## 限制与复核
 
-未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
-
+后续批次收口仍需完整 pnpm check、official coverage ratchet、protected fast、lint-zero、check:docs、ledger;coverage baseline 既有 shared/pal-extract 回退不能由本批修改掩盖。
 
 ## 原文保全
 

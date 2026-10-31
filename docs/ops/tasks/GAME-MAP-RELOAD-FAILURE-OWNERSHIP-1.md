@@ -7,24 +7,23 @@ Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「GAME-MAP-RELOAD-FAILURE-OWNERSHIP-1 — 换图失败的活资源与拒绝归属」的任务归属与历史边界。原目标见原文(摘录:使替换地图失败不会提前销毁当前可绘制瓦片，并由调用方消费IO拒绝。用户2026-10-25批准“失败保留当前地图并记录错误”；build allowed。不新增失败提示、重试、生成物、存档或剧情规则。候选涉及shell/bootstrap.);本页治理不重开已终态任务。
+使替换地图失败不提前销毁当前可绘制瓦片、拒绝由调用方消费。基线缺陷链：bootstrap setMapReloader先delete当前scene的tileImages缓存再await loadTilesetBlob；event-system OP_CHANGE_MAP用void丢弃返回promise；presentFrame清屏后从presentCtx.tileImages取图。用户2026-10-25批准“失败保留当前地图并记录错误”（call_6eeed1b6bbf9487da0a5579959147b46），后call_b5321581708e46f39e1c2043ce60ebf5再批修复编号/重访一致性。
 
 ## 范围
 
-原卡含章节[GAME-MAP-RELOAD-FAILURE-OWNERSHIP-1 — 换图失败的活资源与拒绝归属、目标与范围、前提真值门、证据与当前裁定、验收与停止线、交接],共1个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+shell/bootstrap.ts的map-only资源发布、core/event-system.ts的0x99异步拒绝消费及必要正式回归；不新增失败提示、重试、生成物、存档或剧情规则；SDLPal script.c:2740–2753的0x99同步资源模型无浏览器HTTP失败策略，不能伪称其规定此取舍。
 
 ## 前提与证据
 
-固定main源5483B(SHA e51c6f158280);原卡前提按原时点保留。当前存活入口:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/README.md)。
+固定源全文核读。独立非持久Chrome经真实main→bootstrap→正式raw 0x99[65535,12,0]→真实资源loader两条反例：tilemap JSON 500产生未处理pageerror；瓦片blob 500使当前tile0从存在变缺失、canvas由客栈变黑底人物/少量遮挡块；原绘制函数/codec/主循环均未mock，只在HTTP端点返回500。成功换图身份反例：真实0x99换到76后getCurrentMapNum仍12；scene2→1→2重访得到tilemap12却仍借tiles76、GS override为76。scene编号1-based与资源sceneId0-based需明确转换、map0合法、用nullish而非真值判断。当前实现交付：两项批准均完成，七真实浏览器合同、391相邻/TC0及精确旧版本回放/单守卫反控有完整原件，修前“待批/未修”均是原时点。此counter曾撤回event-system整文件关闭及CODE3r/53整卡accept。原件:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/README.md)。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:review),治理不改写。
+代码验收成立；父卡统一门和最终集成仍开放，不以故障注入日志冒称console空；不把固定scene失败回归外推为完整剧情通过。
 
 ## 状态与交接
 
-review保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
-
+review保持原语义：父卡CODE57不能整卡关闭，CODE57/3r/53仅在其具体counter及剩余八维依据闭合后恢复；无下一位Agent提示词，Codex同一3y单Owner。
 
 ## 原文保全
 

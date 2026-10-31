@@ -7,44 +7,43 @@ Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「GAME-SAVE-EXPERIENCE-DOMAIN-1 — 导入经验余数与结算终止性」的任务归属与历史边界。原目标见原文(摘录:解决V1导入接受极大有限经验余数后，正式胜利结算不能终止的跨边界问题。该余数与本场获得的经验、角色武术/体力等属性分别管理，不改用户已批准的隐藏属性持续增长决定。);本页治理不重开已终态任务。
+解决V1导入接受极大有限经验余数后正式胜利结算不能终止的跨边界问题。已证事实：当前V1的wExp只有finite-number守卫，真实parseImportedSave→内存Save接受Number.MAX_VALUE；bootstrap正式load直接Object.assign未归一；开战后仍保留该余数。正常WORD65535在真实DATA阈值32000下两对照均小于1ms得余数1535，而极大数两例ready后运行1s仍无结果须父进程终止——同一数值满足MAX_VALUE-32000===MAX_VALUE使99级循环阈值/级别不变、递减不能推进。用户2026-10-22裁决“按 WORD 范围拒绝异常余数（推荐）”。
 
 ## 范围
 
-原卡含章节[GAME-SAVE-EXPERIENCE-DOMAIN-1 — 导入经验余数与结算终止性、目标、范围、前提真值门、设计与风险、上下文锚点],共3个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+仅core/save/v1.ts八组经验余数输入守卫与tools/save-io.test.ts直接导入反例：输入必须0..65535整数，坏输入写槽前报错且原槽位/metadata保持；V1格式/DB版本、迁移、其它数值政策、结算RNG、奖励、属性持续增长与第二阶段保持。
 
 ## 前提与证据
 
-固定main源5693B(SHA 594532060c12);原卡前提按原时点保留。当前存活入口:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/README.md) [GAME-SAVE-IMPORT-PAYLOAD-VALIDATION-1.md](GAME-SAVE-IMPORT-PAYLOAD-VALIDATION-1.md) [QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)。
+固定源全文核读。正式两例先旧守卫红：28绿1指定业务红（八组坏数被接受并覆盖原槽）；私有experienceRemainder接既有八池行后六文件66定向/相邻、game typecheck、四文件局部Biome零诊断；整数端点0/65535原样保留、属性65536未受限。SDLPal global.h:475–493的EXPERIENCE.wExp是WORD但本项目V1是JSON接口，原导入卡明确不借原版名义补政策，故数值域须用户明确。完整check20434、当前game刷新3724、单次official20040/758与strict/protected源门零诊断；四个子进程旧观察含两对照完成与两非终止，outer exit0不是通过的质量门。锚点:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/README.md) [GAME-SAVE-IMPORT-PAYLOAD-VALIDATION-1.md](GAME-SAVE-IMPORT-PAYLOAD-VALIDATION-1.md) [QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+done为有限代码/质量门收口：CODE59/v1按已批准合同恢复接受；正常原盘剧情自然产生Number.MAX_VALUE未证明，未新跑完整SDLPal/浏览器FileReader/实际IDB/演出；3w Extra未知不由此解除，不主动迁移已损坏旧槽位。守卫提交0016e1a15、纯成长整理e0b1e0439。
 
 ## 状态与交接
 
-done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+done保持原语义；治理不重开。无下一位Agent，继续pre94剩余24partial。
 
 ## 历史范围
 
-原卡属固定main时点;GAME-SAVE-EXPERIENCE-DOMAIN-1 — 导入经验余数与结算终止性的原始范围与日期在保全块内逐字保留。
+原卡属固定main时点；范围为V1八池经验余数输入域子切片，不改本场经验奖励与属性政策。
 
 ## 原始结论
 
-原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+原卡结论按其Status(done)原样：用户WORD范围裁决落实，check20434/official20040零诊断收口。
 
 ## 当时证据
 
-原文3个链接与当时回执属原时点证据;本页不重跑、不复授。
+当时回执属原时点证据：28绿1红→66定向零诊断、四子进程对照/非终止观察、check20434与official20040零诊断；本页不重跑、不复授。关联:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/README.md) [GAME-SAVE-IMPORT-PAYLOAD-VALIDATION-1.md](GAME-SAVE-IMPORT-PAYLOAD-VALIDATION-1.md) [QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)。
 
 ## 当前有效性
 
-仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+仅历史任务归属有效；MAX_VALUE-32000===MAX_VALUE浮点不可推进是既证事实；不凭旧基点授权新产品取舍。
 
 ## 继任文档
 
-接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/README.md) [GAME-SAVE-IMPORT-PAYLOAD-VALIDATION-1.md](GAME-SAVE-IMPORT-PAYLOAD-VALIDATION-1.md) [QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)。
-
+父卡QUALITY-PRE94-RETROSPECTIVE-1继续3x/pre94；导入合同上游为GAME-SAVE-IMPORT-PAYLOAD-VALIDATION-1。 关联:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/README.md) [GAME-SAVE-IMPORT-PAYLOAD-VALIDATION-1.md](GAME-SAVE-IMPORT-PAYLOAD-VALIDATION-1.md) [QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)。
 
 ## 原文保全
 

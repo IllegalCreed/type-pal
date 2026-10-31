@@ -2,29 +2,30 @@
 
 Status: review
 Owner: GLM(治理候选作者;原文作者/状态见保全块)
-Last reviewed: 2026-10-30
+Last reviewed: 2026-10-31
 Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「CODE-QUALITY-53 — game player status runtime-zero ownership conflict」的任务归属与历史边界。原目标见原文(摘录:核定状态页 `runtimeOrBase` 在运行时值为 0 时的 ownership，再决定是否修复 `drawPlayerStatus` 及其测试。SDLPal 直接显示 runtime `rgwHP/rgwMP/rgwLevel`，0);本页治理不重开已终态任务。
+核定状态页 runtimeOrBase 在运行时值为 0 时的 ownership：SDLPal（uigame.c:1120-1229）直接显示 runtime rgwHP/rgwMP/rgwLevel、0 有真实语义（阵亡/零值）；TS 旧实现用 `||` 回退静态 PlayerRoles，把真实 0 显示成基线值。已确认 battle-system.ts:1703-1711 先把战斗结果写回 runtime、game-state.ts:1777-1782 可写 HP=0，随后菜单读取该 runtime——真实阵亡角色被显示为静态正数，`||` 是直接 bug。用户 2026-10-13 裁决：①保留真实 runtime 0；②按当前 party slot 读取毒；③换队清毒（0x75 memset rgPoisonStatus 为已核源码行为）。
 
 ## 范围
 
-原卡含章节[CODE-QUALITY-53 — game player status runtime-zero ownership conflict、2026-10-25 事件专测代码接受、2026-10-24 历史增量：旧停止线与中文功能画面、2026-10-20 当前复审、目标、范围],共7个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+17 个路径（draw-player-status.ts 及三份测试、player-poison-state.ts、battle-opcodes/battle-system、battle-inspect、draw-battle-ui、dev-panel、event-system、game-state、event-opcodes.cov85 等）加 CODE-QUALITY-53 证据两件。实现：新增 partySlotForRole 统一以角色为入口的施毒/解毒/头像/dev/battle opcode 解析当前队伍位置；战斗 tick、状态页、inspect 直接读已有槽位；状态页删除 runtimeOrBase 静态回退、fixture 改显式 hydrate。注意 rgPoisonStatus 序列化键第二维语义从 role ID 变为 party slot（bootstrap 读档无条件清毒重算装备，故不需要旧毒键迁移，但不能写成「不触碰 save」）。
 
 ## 前提与证据
 
-固定main源32175B(SHA 83abdc7f23f3);原卡前提按原时点保留。当前存活入口:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/README.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/dev-panel-quality/README.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-opcodes-quality/README.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/README.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/gamestate-save-closeout/README.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/status-tools-closeout/README.md) [GAME-MAP-RELOAD-FAILURE-OWNERSHIP-1.md](GAME-MAP-RELOAD-FAILURE-OWNERSHIP-1.md)。
+SDLPal 锚点：uigame.c:1120-1229 状态直读 runtime；global.c:1459-1693 施毒/查询/解毒先找 party slot、script.c:2164-2197 的 0x75 换队清空毒表；fight.c:1616-1628/4454-4461 战斗槽跑毒。原始候选反控为事后重建（旧源临时恢复跑「非顺序队伍」恰 1 AssertionError，见 reconstructed-negative-control.json）；重复角色 [4,5,4] 修正有真实先失败记录（3 AssertionError→修3处消费者）。原7个链接处置见作者review，存活入口逐字保留：
+
+当前存活入口:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/README.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/dev-panel-quality/README.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-opcodes-quality/README.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/README.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/gamestate-save-closeout/README.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/status-tools-closeout/README.md) [GAME-MAP-RELOAD-FAILURE-OWNERSHIP-1.md](GAME-MAP-RELOAD-FAILURE-OWNERSHIP-1.md)。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:review),治理不改写。
+分窗推进：2026-10-20 五卡复审16文件接受；2026-10-24 历史增量核中英默认布局注释；2026-10-24 GS/导出错误增量五文件新关闭（codec 专测刷新，固定77accept/6partial）；2026-10-25 Dev装配器接受（5文件A–H新关闭、10文件106绿、16槽oracle修复基点同错）；2026-10-25 事件专测代码接受：21旧身份完整映射到32例、颜色/CD/镜头三项旧21绿新单红、最终9实际文件518绿/typecheck0、本文件新关闭1项，账本3445tracked/488closed/74review/2883pending、固定78accept/5partial/0pending；相邻 StopMusic 死计算/过时注释窄修，整TS仅减此无消费声明。2026-10-25 CODE57 换图失败 counter 一度暂停 event-system/3r/53 整卡 accept，同日按正式反例恢复 event-system 及 3r/53 代码信用。
 
 ## 状态与交接
 
-review保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
-
+Status 保持 review：本卡代码复审 accept，但等全部 pre94 统一门后再决定 done（截至 2026-10-25 卡面记录时点）。派生卡：CODE-QUALITY-79（0x61 level>=99 条件未随键迁移，单独登记）、CODE-QUALITY-80（战中入队/离队使 party=[0] 而 battlePlayers=[0,1] 的寿葫芦效果丢失，两取舍待用户）。遗留边界：addPoisonForPlayer 先运行入口后写毒槽与 SDLPal 先写 ID 的顺序差异未当已证缺陷；event-opcodes.cov85.test.ts 419 行仍 pending。本卡无下一位 Agent 提示词，Codex 在同一治理分支连续推进。
 
 ## 原文保全
 

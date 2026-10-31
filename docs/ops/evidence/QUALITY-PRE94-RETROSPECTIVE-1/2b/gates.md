@@ -7,24 +7,23 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 证据身份
 
-本页是「CODE2b检查点静态门」的治理候选页;证据原件即下方逐字节保全的固定main源(794B,SHA dfb6645526e8)。
+本页是 CODE2b 切片检查点的静态门回执（原表在保全块）：`pnpm check:docs` exit 0（2.36s）、`pnpm lint` exit 0（2.89s）、`node scripts/quality/code-quality-ledger.mjs` exit 0（2.63s）、`git diff --check` exit 0（0.04s），各带 raw SHA256，同名 raw.gz 为原件。本片静态门没有初检失败记录，与姊妹片 3/gates.md「lint 初检 exit 1 后重跑 exit 0」的两段轨迹不同。
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原0个链接处置见作者review的linkDisposition。当前存活入口:无当前仓库内存活链接。
+命令在 worktree quality-3y-closeout/type-pal 执行，属 CODE2b 交付当日的历史时点原件；本页 0 链接，无导航入口需要处置。
 
 ## 断言与业务 oracle
 
-文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+四条命令退出码按原值见证（全 0）。边界：这是切片级静态门，不是统一门——全仓 check、官方 ratchet、protected fast 当时未重跑，editor 诊断未清，明确不合 main，0 新增关闭；exit 0 只覆盖所列四命令自身，不外推为仓库零诊断或产品通过。
 
 ## 结果
 
-原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+本片静态门四条全过且无返工记录；运行面另有定向 34/shared 126+typecheck/相邻 18+typecheck/coverage-tools 69 回执（tests.json）。治理页只保全与说明，不产生新执行结果。
 
 ## 限制与复核
 
-未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
-
+未重跑任何命令；后继统一门以 shared-codecs 片（20386 check、ratchet/protected 各 19988 零诊断）为准，不以本页替代。候选待 Owner 非作者接收。
 
 ## 原文保全
 

@@ -7,24 +7,23 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 证据身份
 
-本页是「CODE52 draw-shop 当前复审切片」的治理候选页;证据原件即下方逐字节保全的固定main源(1547B,SHA a298b5fb6c02)。
+本页是「CODE52 draw-shop 当前复审切片」(2026-10-18 返工结论)的治理候选页;证据原件即下方逐字节保全的固定main源。本页真实结论:52 仍 partial,无整卡 accept;旧"实现/caller全轴一致、跨队和无数字oracle已齐"的信用撤回。
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原1个链接处置见作者review的linkDisposition。当前存活入口:[README.md](../core-comment-audit/shop-layout-tests/README.md)。
+来源为固定Git载体,非本次运行。撤信事实:draw-shop 头注把卖出说成紧凑布局;L12 只给 role0 一件装备,不能辨别只计首人;非卖品无售价也漏数字断言;G07-B06 直接强造买不起的确认、B12 同物品占两部位且 eligibility 全 false,不当正常装备入口证据。当前四文件返工见 [README.md](../core-comment-audit/shop-layout-tests/README.md):只修事实注释和三测试合法输入/叠层判别力,0 产品执行改动;L12 保持 4 例、G07 保持 13 例、B12 改为无库存下两队员同手部槽,不再冒称覆盖两部位;P04 自身仍有装备资格夹具缺口,只作有限像素对照。逐行读域见同目录 read-boundaries.json。
 
 ## 断言与业务 oracle
 
-文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+本页正文按原文时点转述:本次未改 runner/环境/config——正式 package 命令用既有 jsdom,22 直接与 35 相邻全绿且零 runtime 诊断,含 G07-B13 真实 canvas/PNG 读回;历史 18 通过/1 个 document 未定义是当时摘要,原命令未保存,不能断言那是当前默认环境,也不能把新执行回填成旧成功;旧 README 完整字节另存 52-report.before.gz。原 base 80a562f4、历史读取和旧 18/19 及 117 测试仅保留其历史范围;当前源/GLM 旧关闭转 review,G07 仍 review。空数组/exit0/成功字样不外推为零诊断或产品通过。
 
 ## 结果
 
-原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+本页治理结果=原文保全完整,不产生新执行结果。八枚旧绿新指定单红已完整留原件;账本语义以返工后登记为准。
 
 ## 限制与复核
 
-未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
-
+原文明言:未跑全仓 check/official ratchet/protected、原版视觉/E2E,不合 main;共享 blit 提取需另核各 caller,未借注释修复改变形态、schema/save、公开 API 或交易。未重跑命令;候选待Owner非作者接收。
 
 ## 原文保全
 

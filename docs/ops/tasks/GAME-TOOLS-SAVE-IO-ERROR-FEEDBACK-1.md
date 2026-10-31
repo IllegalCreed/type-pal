@@ -7,24 +7,23 @@ Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「GAME-TOOLS-SAVE-IO-ERROR-FEEDBACK-1 — 工具面板导出失败提示」的任务归属与历史边界。原目标见原文(摘录:Reviewer: Codex Capability: Q3 tools / IO error boundary Visual Verification Timing: functional-ui);本页治理不重开已终态任务。
+补齐工具面板导出失败提示：CODE58发现“导出”按钮直接启动异步函数未捕获loadSlot或序列化/下载异常，而Save.loadSlot等待IndexedDbSave.loadSlot、数据库open/request失败会拒绝不兜底null。隔离定向探针经既有ToolsPanelDeps IO边界注入SecurityError（实际setupToolsPanel/系统页/首槽导出按钮/toast均不mock）：一个业务AssertionError（缺少错误toast）另有未处理拒绝。用户2026-10-24答复“批准补齐导出失败提示（推荐）”。
 
 ## 范围
 
-原卡含章节[GAME-TOOLS-SAVE-IO-ERROR-FEEDBACK-1 — 工具面板导出失败提示、前提与停止线、已批准范围、准入与验收、交接、2026-10-24 实施与独立核验],共1个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+白名单tools-panel.ts导出处理与专测；空槽/成功路径与合法V1内容、槽位、数据库版本不变；不重试、不新增兼容路径；FileReader无onerror未证明可达不顺带修改。
 
 ## 前提与证据
 
-固定main源2836B(SHA 10a2399ccb52);原卡前提按原时点保留。当前存活入口:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/gamestate-save-closeout/README.md)。
+固定源全文核读。实施：用户批准后实际先红（导出拒绝缺toast一个AssertionError+一个未处理拒绝），随后局部try/catch及URL finally，四条不同IO合同全绿、实际V1 Blob/文件名可核；真实Chrome的Save/IDB readonly平台失败显示原因、恢复后再次读取正常、未写任何槽位。原件unhandledErrors派生字段是suite差值不能当诊断计数，实际拒绝以raw全文为准。完整证据见[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/gamestate-save-closeout/README.md)。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:review),治理不改写。
+代码修复已接受，整卡review等全部pre94的统一零诊断门与PR；不以本次340例或已有toast视觉代替统一门。
 
 ## 状态与交接
 
-review保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
-
+review保持原语义；属CODE58发现的必要返工候选，完成定向和证据验收前CODE58保持partial。无下一位Agent提示词。
 
 ## 原文保全
 

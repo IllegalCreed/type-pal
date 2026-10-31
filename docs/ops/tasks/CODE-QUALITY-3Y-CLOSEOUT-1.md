@@ -7,24 +7,23 @@ Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「CODE-QUALITY-3Y-CLOSEOUT-1 — 统一治理分支与3y复审集成」的任务归属与历史边界。原目标见原文(摘录:> 2026-10-25发布：固定pre94原83范围代码accept；同一3y／PR22未合并。a76881ec的Docs完整日志0诊断，Coverage20180例及protected通过，但实际);本页治理不重开已终态任务。
+按用户指令把多条治理分支统一为唯一codex/code-quality-3y并复审集成：3y tip d4cf7f57d对最新main f98d0ddd8为5behind/86ahead，含65个packages/scripts增量与58张非index任务卡待逐项复审；保全a9be8ab9验收线全部成果后删除别名分支，main只读。当前推进到代码接受、PR22待远端CI零诊断后合并。
 
 ## 范围
 
-原卡含章节[CODE-QUALITY-3Y-CLOSEOUT-1 — 统一治理分支与3y复审集成、用户指令与安全边界、范围、前提与准入、质量与交接、统一分支检查点（未验收）、最新实际分支状态],共2个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+保全式合并、文档/账本一致性与只读复审；不授权未经事实核验的产品实现。唯一生产冲突audio-midi全文读main与3y差异后保持main字节（main自有generation/AbortController/parser串行/stop/dispose）。147条新增历史closed声称暂降review，与验收线按更保守状态合并。
 
 ## 前提与证据
 
-固定main源8245B(SHA 7f94bdba59b3);原卡前提按原时点保留。当前存活入口:[README.md](../evidence/CODE-QUALITY-3Y-CLOSEOUT-1/midi-review/README.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/final-pre94-gates/README.md)。
+固定源全文核读各检查点。统一分支手术：66376bf51保全两线、临时closeout与重复menu-integration分支已删、旧managed worktree归档可恢复、32855a267统一推送且两原tip均为祖先。机器账本3288/223closed/198review/2867pending，0新增关闭。Y01片CODE75 MIDI测试排重：旧audio-midi.boundaries.test.ts两例只断言plays列表、1字节MIDI/强转Response/不可恢复全局fetch/定时猜完成，与main 12例同合同重复且协议过期，删除后main测试原字节；定向12、相邻6文件44、game typecheck通过；隔离stop代际反控12绿→11绿1指定AssertionError→恢复12绿。coverage runner run.mjs:429-433只拦仍存在文件的test删除，官方ratchet需原生allow-scope-removal。2026-10-25最终门：a76881ec Docs完整日志0诊断、Coverage 20180例及protected通过，但实际4条act告警致集成拒绝，只修CutsceneTab专测等待边界（2文件9例，断言与生产不变）。原件:[README.md](../evidence/CODE-QUALITY-3Y-CLOSEOUT-1/midi-review/README.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/final-pre94-gates/README.md)。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:build),治理不改写。
+固定pre94原83范围代码已accept，但同一3y/PR22未合并：需新远端CI零诊断；不重跑本地全仓coverage。首次同步git diff --check检出的历史raw尾空格已用17份原件无损gzip+SHA索引证实仅规范差异，未把失败改写为通过。
 
 ## 状态与交接
 
-build保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
-
+build保持原语义：58卡复审与逐文件门未全部收口前不合main；无下一位Agent提示词，Codex单Agent继续。
 
 ## 原文保全
 

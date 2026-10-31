@@ -2,48 +2,53 @@
 
 Status: done
 Owner: GLM(治理候选作者;原文作者/状态见保全块)
-Last reviewed: 2026-10-30
+Last reviewed: 2026-10-31
 Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「CODE-QUALITY-102 — 快存快读工具审核（quick-save）」的任务归属与历史边界。原目标见原文(摘录:工具域切片（1 生产 + 1 测试 + 1 相邻），不碰 CODE94/95 白名单与 97-101 批文件：);本页治理不重开已终态任务。
+快存快读工具审核（quick-save.ts 61行+测试52行+相邻toast）：纯快捷键工具，存/读机制经QuickSaveDeps注入（bootstrap接线Save/loadGameFromSlot），本文件只做键绑定+时机门+toast反馈；F5/F9固定槽1、快存限explore防战斗/剧情脏档、preventDefault拦浏览器刷新——第一阶段工程自有工具，不冒充原版机制。
 
 ## 范围
 
-原卡含章节[CODE-QUALITY-102 — 快存快读工具审核（quick-save）、2026-10-25 本地统一门收口（当前）、批准后收尾窗口（2026-10-25，接续b8）、2026-10-25 当前复审增量、2026-10-15 最终模块窗口（当前）、Codex 接手修复（2026-10-15，作者自验证）],共7个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+1生产+1测试+1相邻。登记E-13（exploreGs用as never部分对象伪装完整GameState，合法工厂createInitialGameState存在且全仓惯用）。
 
 ## 前提与证据
 
-固定main源10083B(SHA 956c7cff431f);原卡前提按原时点保留。当前存活入口:[codex-current-review.md](../evidence/CODE-QUALITY-102/codex-current-review.md) [README.md](../evidence/CODE-QUALITY-94/approved-closeout/README.md) [codex-final-window.md](../evidence/CODE-QUALITY-94/codex-final-window.md) [codex-r2-review.md](../evidence/CODE-QUALITY-94/codex-r2-review.md) [codex-r3-review.md](../evidence/CODE-QUALITY-94/codex-r3-review.md) [codex-takeover.md](../evidence/CODE-QUALITY-94/codex-takeover.md) [README.md](../evidence/CODE-QUALITY-94/current-review/README.md)。
+原5个链接处置见作者review，存活入口逐字保留：
+
+当前存活入口:[codex-current-review.md](../evidence/CODE-QUALITY-102/codex-current-review.md) [README.md](../evidence/CODE-QUALITY-94/approved-closeout/README.md) [codex-final-window.md](../evidence/CODE-QUALITY-94/codex-final-window.md) [codex-r2-review.md](../evidence/CODE-QUALITY-94/codex-r2-review.md) [codex-r3-review.md](../evidence/CODE-QUALITY-94/codex-r3-review.md) [codex-takeover.md](../evidence/CODE-QUALITY-94/codex-takeover.md) [README.md](../evidence/CODE-QUALITY-94/current-review/README.md)。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+返工：quick-save.test重写（E-13修复）——真实createInitialGameState替代as never、fake timers+afterEach清toast容器DOM与计时器、补F5/F9 preventDefault（cancelable:true判例）/解绑后键无效/save reject/load false/load reject三条反馈路径。R3 counter：8条绿测后残留1个匿名keydown监听器（隔离反证复现）→接手修复移除监听、真实事件oracle与收支探针恢复全绿。2026-10-17两文件进账本'已验证'但卡保持review（全局15块运行时诊断与coverage门阻塞）。2026-10-25增量：当前字节与main 8eb相同，复用save-v1-local八维与真实KeyboardEvent/Save注入/成功失败反馈/解绑toast相邻13文件147例——证明工具功能和监听清理，不证明解绑取消在途存储、不赋任意并发点击新产品保证。终态并入94-102统一门（official 20168/807）。
 
 ## 状态与交接
 
-done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+Status保持done（并入94-102统一门收口；done仅指本卡有限代码/质量门收口，远端发布由关联Git/PR与main CI记录）。
 
 ## 历史范围
 
-原卡属固定main时点;CODE-QUALITY-102 — 快存快读工具审核（quick-save）的原始范围与日期在保全块内逐字保留。
+2026-10-15各时点保留：R2（partial GameState as never/DOM计时器隔离未完成）、R3（残留1匿名keydown监听）、最终窗口bb94ad8e2；2026-10-17定向2文件12tests+typecheck通过。
 
 ## 原始结论
 
-原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+原卡结论：quick-save.ts通过——canQuickSave三条件门（explore+无对话+无菜单）注释写明'防脏档读回乱'的why、SSR守卫、返回解绑函数、四类反馈齐全；无死面。
 
 ## 当时证据
 
-原文7个链接与当时回执属原时点证据;本页不重跑、不复授。
+docs/ops/evidence/CODE-QUALITY-102/codex-current-review.md与CODE-QUALITY-94全套。原链接与当时回执属原时点证据。
 
 ## 当前有效性
 
-仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+历史任务卡（done有限语义）。
 
 ## 继任文档
 
-接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[codex-current-review.md](../evidence/CODE-QUALITY-102/codex-current-review.md) [README.md](../evidence/CODE-QUALITY-94/approved-closeout/README.md) [codex-final-window.md](../evidence/CODE-QUALITY-94/codex-final-window.md) [codex-r2-review.md](../evidence/CODE-QUALITY-94/codex-r2-review.md) [codex-r3-review.md](../evidence/CODE-QUALITY-94/codex-r3-review.md) [codex-takeover.md](../evidence/CODE-QUALITY-94/codex-takeover.md) [README.md](../evidence/CODE-QUALITY-94/current-review/README.md)。
+CODE-QUALITY-94母卡承接；并发在途存储边界由后续专项处理。原存活入口逐字保留：
+
+关联:[codex-current-review.md](../evidence/CODE-QUALITY-102/codex-current-review.md) [README.md](../evidence/CODE-QUALITY-94/approved-closeout/README.md) [codex-final-window.md](../evidence/CODE-QUALITY-94/codex-final-window.md) [codex-r2-review.md](../evidence/CODE-QUALITY-94/codex-r2-review.md) [codex-r3-review.md](../evidence/CODE-QUALITY-94/codex-r3-review.md) [codex-takeover.md](../evidence/CODE-QUALITY-94/codex-takeover.md) [README.md](../evidence/CODE-QUALITY-94/current-review/README.md)。
+
 
 
 ## 原文保全

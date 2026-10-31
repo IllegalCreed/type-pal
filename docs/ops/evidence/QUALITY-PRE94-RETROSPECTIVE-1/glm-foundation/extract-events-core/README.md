@@ -7,24 +7,23 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「extract events 核心四文件复审（glm-foundation 模块 3 批 1）」的主题按原文时点保留(摘录:> Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见当前返工记录。 范围：`packages/pal-ex)。
+本页审计主题:pal-extract 的 events/{opcodes,disasm,recompile,roundtrip}.ts(311/239/95/58 行)复审;基点 53db76bbbb5729ba8bc6525bd7ad2ad4bb425c02(与模块 2 同线,模块 2 三笔尚未被上游集成,本批叠加其上);worktree 离线依赖+data/raw 逐文件软链(SSS.MKF/M.MSG,只读消费)。原文 Status: review(候选待 Codex 据证验收)。Codex 当前裁定(2026-10-19):本页保留作者阶段证据,未获整包/全维收口验收;可复用范围与逐文件依据见 [codex-stage2-rework.json](../codex-stage2-rework.json)。
 
 ## 范围与证据
 
-原报告含章节[extract events 核心四文件复审（glm-foundation 模块 3 批 1）、短回执、八维结论、登记（不动）、复验入口（只读）、真盘 roundtrip 需 data/raw/{SSS.MKF,M.MSG}（worktree 内为指向主树的只读软链）]、2个链接;固定main源4730B(SHA 388243d71d4d)。当前存活入口:[codex-stage2-rework.json](../codex-stage2-rework.json) [directed.json](directed.json)。
+改动 2 处仅注释。验证证据:body-invariance(同目录)四文件与基点一致(零实现变化);定向 12 测试文件 77/77、0 fail/pending/todo,机器回执 [directed.json](directed.json),其中 roundtrip.test 为真实原盘 SSS.MKF+M.MSG 全量字节恒等(软链只读取证);scoped biome 18 文件 0/0/0;diff --check 干净。未跑全仓/coverage/protected。
 
 ## 发现
 
-原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+整改逐项:①opcodes.ts 0x0059 注释——与模块 2 修过的 shared/events.ts 同源的过时『stub/dev panel 直调』表述,改为现行异步 waiting='scene-load' 消费现状(锚 game event-system.ts);②disasm.ts 模块头『M1 策略只产 end/goto/showDialog/giveItem』——实际具名产出早已扩到 loadScene/setPalette/setDialogStyle×4,按现行集合更正。八维要点:opcodeTable 覆盖 0x0000..0xA7+0xFFFF(0x32/0x48/0x72/0x9D 缺口 raw 占位已注明);JUMP_TARGET_OPERAND 25 条带 script.c 行锚(含 L29 补的 13 条条件跳转与 +244 条实测影响记录);0xA2 随机跳相对目标全收集;disasm 两遍扫描 %8 守卫、越界目标跳过;recompile 严格对偶+结构化命令 throw;roundtrip 首差定位字段正确(8 对齐取 opcode)。真实原盘 roundtrip 77/77 内含全量字节恒等——A 维最强证据。G 维:FieldKind/OpcodeDef 仅 opcodes.ts 文件内使用、0 外部消费者(导出收窄候选);RANDOM_JUMP_OPCODE/lookupVerb/lookupOpcode 各有 1 消费者在用,无死代码。
 
 ## 结论
 
-原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+注释整改批:77/77 定向绿+body-invariance 四文件 AST 一致共同证明行为零变;无新直接缺陷。两项登记(不动)移交 Codex:recompile labels.get(c.to) ?? 0 未知 label 静默写目标 0(round-trip 路径不可触发,authored 手拼 label 域会静默跳 0,候选 fail-loud,需 caller 域证据与 Codex 准入);FieldKind/OpcodeDef 导出收窄候选。
 
 ## 整改与复核
 
-本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
-
+整改即上述 2 处注释。复验入口(原页给出,此处概述):git log 53db76bbb..HEAD 对 events 四文件;prove-body-invariance.mjs --base 53db76bb…;定向跑 roundtrip/opcodes/disasm/recompile 四测试(真盘 roundtrip 需 data/raw/{SSS.MKF,M.MSG} 软链)。失效条件:四文件实现变化→body 证明重出;opcodes 表/跳转表变化→slice/roundtrip 重跑;script.c 参考变更→行锚复核。本轮治理未重跑任何命令;候选待 Owner 接收。
 
 ## 原文保全
 

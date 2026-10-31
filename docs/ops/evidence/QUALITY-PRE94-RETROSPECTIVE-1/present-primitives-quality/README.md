@@ -7,24 +7,25 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 证据身份
 
-本页是「CODE3k／3l 基础呈现质量窗口」的治理候选页;证据原件即下方逐字节保全的固定main源(3268B,SHA 0a8a88660b73)。
+本页是 CODE3k/3l 基础呈现质量窗口的治理候选页;原件为 Codex 单Agent 窗口回执(基点 4897a215,同一 codex/code-quality-3y)。范围:3k 六个 primitive 及 13 专测、3l 背景/overlay/飘字三源及四专测、一个三处共享数字夹具。逐文件八维、实际读域、caller、复用 primary、迁移与未决在 [review.json](review.json)。本治理不重跑、不改写原判定。
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原2个链接处置见作者review的linkDisposition。当前存活入口:[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) [review.json](review.json)。
+旧 A 证据仅同版/适用 caller 复用;修正 indices 写入 ownership、朝向冻结、入场渐变和 nLength 错注。唯一产品正文重构是移除已早退后的重复 walking 判断(撤销该判断后解析正文恒等),不改存档字段、公式或接口。测试补完整像素/逐步相位/真实 Framebuffer 和生命周期,11 条旧例迁移、1 条多位居中新增,净少 10 例;五个测试文件精确退役计数 6→4/10→6/6→4/4→3/5→4(账本身份 90 条);原始失败和恢复按各候选保留。
 
 ## 断言与业务 oracle
 
-文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+四个反控均针对业务断言:末列破坏(shake-last-column)、提前更新后续相位(dither-early-phases-full)、负 x 跨行(framebuffer-negative-x-full)、最后存活帧不绘制(number-last-live-frame-final,复用旧件)。旧测试通过、新完整文件各一条 AssertionError;首版两次按标题筛选原件不抹去,最终使用零 pending 的全文件反控。数字非有限输入的真实生产可达性仍 review:读档会重算装备,不能把直接塞派生值的合成输入当玩家路径;3l 余下四生产文件、浏览器与剧情视觉不附带接受。
 
 ## 结果
 
-原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+2026-10-23 收口:27 文件逐项 A–H,26 接受、draw-number.ts 仍 review;三项旧测试补强恢复接受、1 新数字夹具闭合,相对窗口前净增 1 closed(restoredClosed=3、refreshedClosed=22)。账本 3404 tracked/409 closed/103 review/2892 pending;pre94 固定 65 accept/18 partial,两卡仍 partial。本地门 6 项(module-check-final、same-report-ratchet、same-report-protected、module-protected、recount-policy-unit、final-static)通过;完整 check 20589 包测试+697 工具测试、官方采集 20160 例/774 源,同报告 strict/protected 与静态均零诊断。
 
 ## 限制与复核
 
-未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
+过程失败如实保留:首次全仓检查在覆盖率工具测试处失败(本批五条精确退役使计数断言 53/107 过期,按实际记录更新为 58/117,判据未放宽);首轮快检身份分隔符序列化错误原件保留;首轮官方采集 ratchet exit1 系重算条目误填原始文件摘要,只修正该精确指纹、保留原 172 字节 stderr 后同 summary 完成 ratchet 再跑 fast/protected 均 exit0,未重新采集、未改比较器或阈值。远端 PR/合并回执单独核,不能将本地完成写成已合并。父任务见 [QUALITY-PRE94-RETROSPECTIVE-1](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)。原件逐字节保全在下方;候选待Owner非作者接收。
 
+原文存活链接原样保留:[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)。
 
 ## 原文保全
 

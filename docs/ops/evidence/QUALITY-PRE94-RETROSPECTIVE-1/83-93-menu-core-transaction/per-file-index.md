@@ -7,24 +7,23 @@ Template: governance-index-v1 / 1.0.0
 
 ## 目的
 
-承载原导航文档「C1 逐文件 A–H 索引 — 83-93 菜单核心+交易族(19 条 fullReads)」的治理候选;导航职责按原文时点保留。
+承载 83-93 菜单核心+交易族五卡复审的逐文件 A–H 结论索引:7 个生产/相邻文件(menu-mode/menu-stack/in-game-menu/inventory-menu/inventory-action-menu/sell-menu/item-select)与 12 份卡内测试的逐维审查结论与读域标注。读域标注同 [per-file-index.md](../73-78-shell-lifecycle/per-file-index.md)。范围计数勘误:7 生产/相邻(6 卡内生产+1 相邻 item-select)+12 测试(README 已注)。
 
 ## 范围
 
-原文含章节[C1 逐文件 A–H 索引 — 83-93 菜单核心+交易族(19 条 fullReads)、生产文件(6)+相邻(1)、测试文件(12,E 为主)、Codex接收边界（2026-10-20）]、3个链接;不借导航页授信或重开任务。
+生产文件(6)+相邻(1):menu-mode.ts——空栈→resume、dispatch 后二次 sync;resumeAfterMenusClosed 三分支(battle 回战斗 uibattle.c:930-934/1399-1401、shop waiting 清回 event script.c:1163、否则 explore)。menu-stack.ts——openMenu push+mode 切换、closeTopMenu 只 pop 不切 mode(留 tickMenu 下帧处理,防本帧 flip);纯栈 helper。in-game-menu.ts——真 WORD id 3/4/5/6、11..15(uigame.c:542-553 SystemMenu classic 5 项核证)、defaultCursor 记忆+越界归 0、QUIT return TRUE(649)关整栈;toItems/getWord 复用 word-lookup 单一文案源。inventory-menu.ts——grid 8 键 delta(itemmenu.c:63-94)、clamp 三分支(107-112 逐字符一致)、全显示不滤列表、usable 入口追加装备槽(count0/inUse-1)、L40 sSelectedPlayer 静态记忆(uigame.c:1309-1324)、H2 死人可选(1383-1495);菜单快照不别名 gs.inventory(G02 钉);pickItemRowColor 纯函数供 draw-inventory/draw-equip 复用(2026-05-29 用户报障修复)。inventory-action-menu.ts——WORD id 22/23、uigame.c:878-919 二级子菜单层(历史漏层修复)、defaultCursor 记忆。sell-menu.ts——全屏 grid 复用 inventory-menu(=C PAL_SellMenu→PAL_ItemSelectMenu,uigame.c:1755/1777)、确认门 sellable&&count-inUse>0(itemmenu.c:287-307)、refreshSellGrid 保 cursor clamp;纯意图返回,cash/inventory 由 caller 持有(测试钉零副作用)。item-select.ts(相邻)——matchesFilter 各分支锚(play.c:266 usable/uigame.c:1777 sellable);createItemSelectMenu 无生产 caller,清理候选维持登记。测试文件(12,E 为主):逐例覆盖见保全块;其中 inventory-action-menu.glm-phase1-leaves.test.ts 与 sell-menu.glm-phase1-leaves.test.ts 为【返工补读】——原审查未读取(误列 fullReads),2026-10-20 返工全文补读,补读结论均为与族内模式一致、无缺口。
 
 ## 当前状态
 
-historical(治理候选);原时点状态与日期在保全块。
+historical(治理候选);五卡原时点建议 pending→partial,零改动,整卡 accept 与统一门未主张。
 
 ## 入口与责任
 
-当前存活入口:[per-file-index.md](../73-78-shell-lifecycle/per-file-index.md) [codex-pending27-acceptance.json](../codex-pending27-acceptance.json) [read-boundaries.json](read-boundaries.json)。 其余原链接仅在保全块保留,理由见linkDisposition。
+本索引的读取身份、补读勘误和逐文件具体结论按各自范围接收;测试条目多为 E 维,不能读成 69 文件全部八维已验收。各文件 A–H 已陈述/尚缺依据的状态分别列于 [codex-pending27-acceptance.json](../codex-pending27-acceptance.json);未单列论据的维度保持 review-unknown,文件不关闭;后续只补这些具体缺口,不重复已成立的 E/primary。
 
 ## 证据与下一步
 
-固定main源SHA ccd14a214638;下一步=Owner非作者接收。
-
+指纹勘误见 [read-boundaries.json](read-boundaries.json)(git blob SHA-1 与真实 SHA-256 双指纹勘误);共享论据引用本目录 README。下一步=Owner 非作者按接收边界核验收。
 
 ## 原文保全
 

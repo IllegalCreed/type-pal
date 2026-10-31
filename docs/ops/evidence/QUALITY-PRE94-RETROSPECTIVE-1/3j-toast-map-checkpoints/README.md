@@ -2,29 +2,28 @@
 
 Status: historical
 Owner: GLM(治理候选作者;原文作者/状态见保全块)
-Last reviewed: 2026-10-30
+Last reviewed: 2026-10-31
 Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「CODE3j toast / map-names / checkpoints 当前复审切片」的主题按原文时点保留(摘录:基点：`cfed1430e`；分支：`codex/code-quality-3y`，相对 `origin/main` `0 behind`。这是 CODE-QUALITY-3j 的)。
+CODE-QUALITY-3j第三个有限切片(基点cfed1430e,0 behind),核三个剩余生产小文件(toast/map-names/checkpoints)、直接测试与相邻detector/store/共享map-name caller;3j整卡仍partial。
 
 ## 范围与证据
 
-原报告含章节[CODE3j toast / map-names / checkpoints 当前复审切片、逐文件与 caller、判别力与结论]、1个链接;固定main源2109B(SHA cc316a24f1e2)。当前存活入口:[read-boundaries.json](read-boundaries.json)。
+完整读取toast.ts(81行)/toast.test、map-names.ts(11行)/map-names.test、checkpoints.ts(110行)/checkpoints.test、detectors.ts(76行)/detectors.test/detectors.glm-phase1-leaves、shared/pal-authored-map-names.ts(240行primary表);tools-panel只读导入与display/FPS/timer/map段,store.ts作相邻持久化读,清单SHA见[read-boundaries.json](read-boundaries.json)。toast拥有单例容器/toast元素/淡入淡出两timer/空容器清理,save/tool callers只传消息类型与可选duration,pointer-events:none不挡输入,测试用fake timers且每例前后清理DOM/timer;map-names只是shared getPalAuthoredMapName薄适配(已知名原样/缺名回退『地图N』/hasMapName报告存在性);checkpoints只定义21个速通checkpoint与BANANA配置,detector/store是真实消费者。
 
 ## 发现
 
-原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+定向5 files/22 tests passed,0 failure/skip/stderr;未发现toast timer/container ownership、map fallback、checkpoint id/时间或detector纯函数的直接缺陷。未知项仅速通路线/坐标的真实运行验证(文件注释明确PalTimer坐标尤其石碑/边缘点偏移需实跑),本片没有把静态配置或相邻detector绿灯升级成坐标实跑。
 
 ## 结论
 
-原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+本片不运行coverage/official ratchet/protected fast/全仓check;3j七个生产文件至此均有直接切片证据,但整卡仍partial,checkpoint实跑未知保持显式pending;不修改数据、不改玩法。
 
 ## 整改与复核
 
-本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
-
+未重跑;无真实浏览器/E2E速通路线或checkpoint坐标验收。候选待Owner非作者接收。
 
 ## 原文保全
 

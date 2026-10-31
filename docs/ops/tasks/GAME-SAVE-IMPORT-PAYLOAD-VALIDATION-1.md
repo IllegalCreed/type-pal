@@ -2,48 +2,53 @@
 
 Status: done
 Owner: GLM(治理候选作者;原文作者/状态见保全块)
-Last reviewed: 2026-10-30
+Last reviewed: 2026-10-31
 Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「GAME-SAVE-IMPORT-PAYLOAD-VALIDATION-1 — 第一阶段导入内容合法性」的任务归属与历史边界。原目标见原文(摘录:按用户批准完成第一阶段V1声明数据结构/已知历史缺失与原生容器的校验，坏内容写槽前拒绝、正常旧值保留。CODE59/60当前accept；新9文件和快存主测共10文件明确闭合，广域Save/IDB/面板不附带关闭。);本页治理不重开已终态任务。
+按用户批准完成第一阶段V1导入内容校验：坏内容写槽前拒绝、正常旧值保留；CODE59/60当前accept、新9文件+快存主测共10文件明确闭合，广域Save/IDB/面板不附带关闭。
 
 ## 范围
 
-原卡含章节[GAME-SAVE-IMPORT-PAYLOAD-VALIDATION-1 — 第一阶段导入内容合法性、目标、范围、前提真值门、证据与停止线、先前现金有限准入（历史，后续扩展见本卡类型裁决与当前实现）],共7个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+内容校验候选为tools/save-io.ts及直接测试；真实调用链tools-panel的FileReader→parseImportedSave→saveSlot→bootstrap读档。用户另批准core/save/data.ts、Save/IDB存读接口、serializeSave及ToolsPanelDeps的纯类型分离（SaveSnapshot/SaveDataV1）。不修改导出格式/Save API运行语义/用户slot数据/二阶段codec；不恢复旧upgrader/fallback。
 
 ## 前提与证据
 
-固定main源14996B(SHA 4a3a53c5c3ea);原卡前提按原时点保留。当前存活入口:[analytics-closeout.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/analytics-closeout.json) [save-cash-local.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-cash-local.json) [save-tools-local.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-tools-local.json) [save-types-local.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-types-local.json) [save-v1-local.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-v1-local.json) [save-wire-contract.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-wire-contract.json) [GAME-SAVE-EXPERIENCE-DOMAIN-1.md](GAME-SAVE-EXPERIENCE-DOMAIN-1.md)。
+停止依据：合法对照createInitialGameState→serializeSave，反例只把gs.dwCash从number改string，真实parse→Save.saveSlot→loadSlot/listSlots均接受、loadedCash与meta.cash均为string（analytics窗口回执内的save-import-observation.mts原件）。GameState 96运行时字段含可选Map/Uint8Array/暂态；首版V1（20234ea3）91字段→当前96字段，唯一新增required是nowMs；旧6b58f9e84构造器经当前V1编码可缺12个后加required根字段/5 runtime行/3装备行。原7个链接处置见作者review，存活入口逐字保留：
+
+当前存活入口:[analytics-closeout.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/analytics-closeout.json) [save-cash-local.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-cash-local.json) [save-tools-local.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-tools-local.json) [save-types-local.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-types-local.json) [save-v1-local.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-v1-local.json) [save-wire-contract.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-wire-contract.json) [GAME-SAVE-EXPERIENCE-DOMAIN-1.md](GAME-SAVE-EXPERIENCE-DOMAIN-1.md)。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+分片推进：现金切片（dwCash有限number、0合法、两条正式反例先红→三行守卫→29定向/相邻零诊断）→类型分离（SaveSnapshot/SaveDataV1四模块编译后与9c3d168逐字节一致）→非空历史数据反证（旧对话缺dialogLineCount/战斗缺4菜单字段→两条not.toThrow红→修SaveDataV1声明如实承载）→守卫实施：10条原parser业务断言先失败、接入后45定向/相邻零stderr；去掉嵌套finite守卫恰1 HP业务反例红。冻结候选：party/battle/settlement四处接线-1/小数/6拒绝、合法5保留（先4红再绿）；历史nested fixture由完整真实旧生产者产生。最终验收：52定向/相邻、game typecheck、20386全仓check（lint5733 0/0/0）、19988 official ratchet/protected零诊断；5次原生FileReader/实际IDB留证（坏cash/HP保留原槽与metadata；旧base/dialog/battle文件提交成功、缺失字段不补、布尔状态不转换；两独立origin DB清理为空）。固定83卡51accept/32partial、账本3333/339/126/2868；d1fdcb1f33推送3y后快进远端main（0ahead/0behind）。
 
 ## 状态与交接
 
-done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+Status保持done：获准整改完成、模块收尾验收。顶部勘误保留：2026-10-22经验跨边界反证一度暂撤CODE59/v1信用，获准WORD余数修复（GAME-SAVE-EXPERIENCE-DOMAIN-1）先红后绿并过集中源门后已恢复；旧形状/finite/历史编码证据保留有限范围，不认证存量坏槽迁移或完整runtime恢复。
 
 ## 历史范围
 
-原卡属固定main时点;GAME-SAVE-IMPORT-PAYLOAD-VALIDATION-1 — 第一阶段导入内容合法性的原始范围与日期在保全块内逐字保留。
+96字段声明清单是定位机器事实非96项语义验证；prevBattleActions的JSON对象已有reviveNumberKeyedMap生产消费者，不重复报Map塌缩、不新增fallback。
 
 ## 原始结论
 
-原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+原卡结论：九文件八维及quick-save主测有效既有八维/反控成立；边界限制见save-v1-local.json。
 
 ## 当时证据
 
-原文7个链接与当时回执属原时点证据;本页不重跑、不复授。
+docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/内save-import-observation、save-cash-local、save-tools-local、save-wire-contract、save-types-local、save-v1-local各件。
 
 ## 当前有效性
 
-仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+done按其时点有效；不冒称已hydrate或验证资源存在/跨世界业务一致性。
 
 ## 继任文档
 
-接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[analytics-closeout.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/analytics-closeout.json) [save-cash-local.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-cash-local.json) [save-tools-local.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-tools-local.json) [save-types-local.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-types-local.json) [save-v1-local.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-v1-local.json) [save-wire-contract.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-wire-contract.json) [GAME-SAVE-EXPERIENCE-DOMAIN-1.md](GAME-SAVE-EXPERIENCE-DOMAIN-1.md)。
+GAME-SAVE-EXPERIENCE-DOMAIN-1（WORD余数域）承接跨边界反证；GAME-SAVE-INPUT-DOMAIN-1（槽号输入域）另行推进。原存活入口逐字保留：
+
+关联:[analytics-closeout.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/analytics-closeout.json) [save-cash-local.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-cash-local.json) [save-tools-local.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-tools-local.json) [save-types-local.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-types-local.json) [save-v1-local.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-v1-local.json) [save-wire-contract.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-wire-contract.json) [GAME-SAVE-EXPERIENCE-DOMAIN-1.md](GAME-SAVE-EXPERIENCE-DOMAIN-1.md)。
+
 
 
 ## 原文保全

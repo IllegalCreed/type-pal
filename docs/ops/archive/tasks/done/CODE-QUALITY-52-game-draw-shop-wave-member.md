@@ -7,44 +7,43 @@ Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「CODE-QUALITY-52 — game draw shop wave member」的任务归属与历史边界。原目标见原文(摘录:逐文件核验商店买/卖绘制实现及两份专属测试，确认买入列表/价格、预览框/图标、ownedCount（库存+装备）、金钱、确认框、卖价 overlay、缺目录/缺帧边界与 framebuffer ownership 对齐 SDLPal；本卡与);本页治理不重开已终态任务。
+原卡目标:逐文件核验商店买/卖绘制三文件（`draw-shop.ts` 与 glm-phase1-leaves、shop-preview-pixels.grok-r1 两测试）:买入列表/价格、预览框/图标、ownedCount（live 库存+装备 `rgwEquipment`）、金钱、确认框、卖价 overlay（仅 sellable item 显示,空 cursor 仍画框）、缺目录/缺帧边界与 framebuffer ownership,对齐 SDLPal `uigame.c:1503-1777`;绘制层不拥有购买/出售副作用。与 CODE-QUALITY-51 组成 present/menu wave。
 
 ## 范围
 
-原卡含章节[CODE-QUALITY-52 — game draw shop wave member、目标、范围、前提真值门、上下文锚点、验证],共3个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+三文件;只读相邻 P04 caller/oracle、draw-menu 公共出口、shop-menu 状态、menu-driver 买/卖 state 与 inventory mutation。商店观感留集中 E2E。
 
 ## 前提与证据
 
-固定main源6699B(SHA 5b40c7ffcd86);原卡前提按原时点保留。当前存活入口:[README.md](../../../../ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/52-draw-shop/README.md) [renderer-gates.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-gates.json) [renderer-local.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-local.json)。
+pixels 测试覆盖 rightText 价格、阴影/缺帧/透明孔/半价/装备 owned/0 金钱;GLM leaves 覆盖 owned/空店/非卖品。2026-10-18 Codex 复审:实现、ownedCount、价格/半价、确认/overlay 和资源边界与 primary/caller 一致;直接范围 3 files 中 18 tests passed,`shop-preview-pixels.grok-r1.test.ts` 另有 1 条 `document is not defined` 环境诊断,该文件保持 review,52 当前复审 partial 不标 accept。证据见 [README.md](../../../../ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/52-draw-shop/README.md)。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+历史批（wave 完整后统一门）:定向 3 files/19 tests、全仓 `pnpm check`、coverage ratchet、protected fast、lint-zero 3994 files 0/0/0、docs/content review、diff-check、ledger 通过;账本 3266/275 closed。2026-10-21 renderer 八维与统一门收口:正常夹具显式 hydrate 并补装备资格;owned/半价/非卖品/缺资源的真实像素及已有反控沿未变合同复用;三份同体 opaque 与相同色循环共享,短 mask 策略不同的 shadow 不强合;买紧凑、卖全屏分工不改。逐文件记录见 [renderer-local.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-local.json),完整集中门与原件见 [renderer-gates.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-gates.json)。
 
 ## 状态与交接
 
-done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+done 保持原历史语义;2026-10-18 复审 partial（pixels 环境诊断文件保持 review）;2026-10-21 renderer 收口按原三文件接受且不附带广域接受。无产品代码/schema/save/资源格式变化。
 
 ## 历史范围
 
-原卡属固定main时点;CODE-QUALITY-52 — game draw shop wave member的原始范围与日期在保全块内逐字保留。
+原卡属 2026-10-12 wave 时点;原始记录与历史提示词在保全块内逐字保留。
 
 ## 原始结论
 
-原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+原卡结论按 Status(done) 原样:未发现 counter;测试合法 typed state、真实 draw caller、直接 framebuffer/palette oracle 并与 P04 排重。治理不撤销/不恢复旧信用。
 
 ## 当时证据
 
-原文3个链接与当时回执属原时点证据;本页不重跑、不复授。
+当时回执（19 定向、wave 统一门、lint 3994 零诊断）属原时点证据;本页不重跑、不复授。
 
 ## 当前有效性
 
-仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+仅历史任务归属有效;pixels 环境诊断按 2026-10-18 复审保持 review,renderer 收口结论以其原件为准。
 
 ## 继任文档
 
-接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[README.md](../../../../ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/52-draw-shop/README.md) [renderer-gates.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-gates.json) [renderer-local.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-local.json)。
-
+CODE-QUALITY-85/93（shop/sell 状态机侧）与 renderer 收口证据为相邻/继任;当前任务导航以看板为准。
 
 ## 原文保全
 

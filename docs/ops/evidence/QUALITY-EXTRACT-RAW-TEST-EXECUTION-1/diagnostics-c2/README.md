@@ -7,24 +7,25 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「C2 敌队翻译与诊断合同复核」的主题按原文时点保留(摘录:归原盘执行完整性任务与全部83卡复审。起点3bcdaadc3，唯一codex/code-quality-3y；origin/main=f98d0ddd8。只改两份测试，生产pars)。
+本片是原盘执行完整性任务[QUALITY-EXTRACT-RAW-TEST-EXECUTION-1.md](../../../tasks/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1.md)在C1之后的第二片敌队翻译与诊断合同复核，归全部83卡复审[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)。起点3bcdaadc3，唯一codex/code-quality-3y；origin/main=f98d0ddd8。仅修改enemy-teams.boundaries.test.ts与tables.test.ts两份既有测试，生产parser/资源/schema/API/规则/官方baseline保持原字节；全83卡仍9partial/74pending/0accept，本片0文件关闭。时点结论按原文保留，本页不重开任务、不授新信用。
 
 ## 范围与证据
 
-原报告含章节[C2 敌队翻译与诊断合同复核、逐文件结论、判别力、排重和覆盖率、回归与剩余门]、13个链接;固定main源5540B(SHA 61b738a444a9)。当前存活入口:[QUALITY-EXTRACT-RAW-TEST-EXECUTION-1.md](../../../tasks/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1.md) [QUALITY-PRE94-RETROSPECTIVE-1.md](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) [after-coverage.json](after-coverage.json) [after-proof.json](after-proof.json) [before-coverage.json](before-coverage.json) [before-proof.json](before-proof.json) [counter-probe.py](counter-probe.py) [gates.md](gates.md) [inventory.json](inventory.json) [read-boundaries.json](read-boundaries.json) [regressions.json](regressions.json) [verification.json](verification.json) [verify.py](verify.py)。
+阅读边界与SHA见[read-boundaries.json](read-boundaries.json)，登记18条目三种口径：enemy-teams.ts(111行)、boundaries测试(110行)、glm-runtime相邻(44行)、enemies.ts(250行)、tables.ts(43行)、parser-diagnostics helper(67行)全文读取；tables.test.ts按C1已全文读取的before SHA(7988ed74)只核480–642行的精确删除区间，fixture同SHA只读213–215行；caller仅区间（cli.ts320–347、shared/tables.ts325–393、battle-system.ts198–270、sdlpal global.h288–298、global.c288–299、battle.c1592–1635与1710–1725）。全部条目wholeFileAccepted=false：读区间或包绿不是整文件accept。本片直接counter是enemies.ts146/153两处EnemyTeam.slots注释与shared接口375–393实际字段（enemies/enemyObjectIndexes，无slots）矛盾，enemies旧关闭因此撤回review；CLI320–347才是parser真实caller，纠正旧注释所称BattleSpriteLibrary直接调用。
 
 ## 发现
 
-原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+[counter-probe.py](counter-probe.py)以20轮隔离运行（command/cwd/exit/signal、92个file×fullName、原生JSON/raw与finally清理均存档）证明判别力：7个旧绿在新测试下各恰一指定AssertionError（队伍id错位、修改输入bytes/map/names、未知域漏诊断、错索引、额外输出；565只是构造不影响402/403的隔离故障条件）；raw名字键故障旧/新均恰一红，既有oracle保留、不冒称新缺口；999错误返回故障旧tables一红→新P07专例一红，同输入oracle转移，两者不计入7枚新红。原件见[before-proof.json](before-proof.json)/[after-proof.json](after-proof.json)；[verify.py](verify.py)与[verification.json](verification.json)由另进程重建检查（同Codex，非第三方）：fullRuns=20、oldGreenNewSingleAssertionError=7、exact999OracleTransferred=true、wholeFilesClosed=0。
+
+原生list[inventory.json](inventory.json)披露身份迁移：tables.test.ts 90→89（移除M3.30只验首槽的旧弱例）、P07两例→三例（新增未知999空映射第三例），总92不变但removed/added各2条显式记录，含缺映射例标题从补全映射+名字后零新增warn更正为补全映射后同输入恢复、不依赖名字表；三个快照（3bcdaadc3/f98d0ddd8/d4cf7f57）tables同SHA且fastEntries空，证明官方fast从未含该文件，无需新增退役豁免；noNewRetirementApproval=true，26项/净60批准数据与matcher、baseline/config一字节未改。[before-coverage.json](before-coverage.json)/[after-coverage.json](after-coverage.json)对生产enemy-teams.ts的局部V8实测statements 32/32、functions 2/2、branches 22/22保持，officialGate=false，不冒充官方ratchet/protected。
 
 ## 结论
 
-原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+[regressions.json](regressions.json)六项全过（原报告口径：完整extract 72文件431例、shared 16文件126例、真实战斗caller 1文件186例、双方typecheck、coverage-tools），0 stderr块，两处原输出已成为显式被测IO。静态门轨迹见[gates.md](gates.md)：首轮lint exit1、第二轮docs exit1均保留失败原件，最终四项全过、lint零诊断，未降规则。enemies旧关闭精确撤回，0新关闭；机器账本3289 inventory/208 closed/226 review/2855 pending。全仓check、official ratchet、protected fast本片未执行；editor诊断仍未清，不合main。
 
 ## 整改与复核
 
-本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
-
+本页为治理候选正文重写：原文本逐字节保全于下方保全块，本轮逐篇语义整改将本片真实目标、发现、结论与限制载入可见正文；不重开已归档结论，不重跑任何命令，时点边界以原文为准。按原文，下一批回CODE3b的SSS/M.MSG四文件，再续其它编号卡与94–102/editor；无下一位Agent提示词，单Agent继续。
 
 ## 原文保全
 

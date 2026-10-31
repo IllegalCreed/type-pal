@@ -7,44 +7,43 @@ Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「GAME-AVI-RETRY-OWNERSHIP-1 — 视频再次播放失败后的重试入口」的任务归属与历史边界。原目标见原文(摘录:核清并裁定视频自动播放失败、第一次点击重试也失败后，仍可见的“点击屏幕开始”提示是否继续接受点击。);本页治理不重开已终态任务。
+裁定并修复视频自动播放失败、第一次点击重试也失败后的重试入口：基线tryPlay首次拒绝创建overlay并注册once click，点击触发第二次play但拒绝后因clickOverlay已有值直接return，没有恢复已消费的监听——提示仍显示但后续点击不再发起play。用户2026-10-22批准“修复重复重试（推荐）”。
 
 ## 范围
 
-原卡含章节[GAME-AVI-RETRY-OWNERSHIP-1 — 视频再次播放失败后的重试入口、目标、范围、前提真值门、Draft: 设计与风险、上下文锚点],共4个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+仅playAvi重试提示的监听ownership及对应测试；键盘/抽象跳过消费、500ms缓冲、视频源、音量、自动播放策略、Save、资源管线及二阶段不变。
 
 ## 前提与证据
 
-固定main源4880B(SHA ca543efb085a);原卡前提按原时点保留。当前存活入口:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/README.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/mobile-revalidation/README.md) [avi-repeat.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/mobile-revalidation/avi-repeat.json) [QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)。
+固定源全文核读。隔离副本真实playAvi/DOM运行（仅媒体play端口返回合法Promise结果）：单次拒绝→重试成功对照1绿；两次拒绝→再点击、第三次原可成功的场景恰1条业务AssertionError（提示仍存在，非超时/收集错误）。正式两条新增合同未修先红：重试成功后仍残留可见提示的DOM AssertionError、结束后旧节点仍调用媒体端口的ownership AssertionError。窄修为稳定回调：once消费一次手势，拒绝后重新注册，成功/结束显式解除；最终5例suite对冻结旧源3绿2红，修后8文件61例通过stderr0。首6例草案与初跑过滤参数不存在路径的4文件41绿原件保留；迟到用例与既有M1/M2排重后不加入最终suite。2026-10-22收口：61相邻/全check20432/official fast及同报告strict/protected零诊断，CODE78与AVI实现恢复接受。锚点:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/README.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/mobile-revalidation/README.md) [avi-repeat.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/mobile-revalidation/avi-repeat.json) [QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+done为用户授权内收口；不表示实体手机权限/编解码/完整剧情或用户真机体验已验收；旧once失效/旧节点监听反例永久保留。
 
 ## 状态与交接
 
-done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+done保持原语义；治理不重开。无下一位Agent，Codex单Agent维护。
 
 ## 历史范围
 
-原卡属固定main时点;GAME-AVI-RETRY-OWNERSHIP-1 — 视频再次播放失败后的重试入口的原始范围与日期在保全块内逐字保留。
+原卡属固定main时点；范围为playAvi重试监听ownership子切片。
 
 ## 原始结论
 
-原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+原卡结论按其Status(done)原样：2026-10-22收口，check20432/official fast与strict/protected零诊断。
 
 ## 当时证据
 
-原文4个链接与当时回执属原时点证据;本页不重跑、不复授。
+当时回执属原时点证据：两次拒绝恰1业务AssertionError、5例对冻结旧源3绿2红、8文件61例stderr0；本页不重跑、不复授。关联:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/README.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/mobile-revalidation/README.md) [avi-repeat.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/mobile-revalidation/avi-repeat.json) [QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)。
 
 ## 当前有效性
 
-仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+仅历史任务归属有效；这是既有缺口而非移动端新增算法导致；不宣称真实手机权限下复现。
 
 ## 继任文档
 
-接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/README.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/mobile-revalidation/README.md) [avi-repeat.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/mobile-revalidation/avi-repeat.json) [QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)。
-
+移动端单次拒绝/skip生命周期证据归原CODE78与移动端任务。 关联:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/README.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/mobile-revalidation/README.md) [avi-repeat.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/mobile-revalidation/avi-repeat.json) [QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)。
 
 ## 原文保全
 

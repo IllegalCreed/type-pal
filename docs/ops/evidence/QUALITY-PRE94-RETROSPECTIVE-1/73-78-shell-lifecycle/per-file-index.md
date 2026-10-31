@@ -7,24 +7,23 @@ Template: governance-index-v1 / 1.0.0
 
 ## 目的
 
-承载原导航文档「C1 逐文件 A–H 索引 — 73-78 shell 生命周期(16 条 fullReads)」的治理候选;导航职责按原文时点保留。
+承载 73-78 shell 生命周期五卡复审的逐文件 A–H 结论索引:5 个生产文件(input/main-loop/audio/rng-player/avi-player)与 11 份卡内测试的逐维审查结论、读域标注与补读勘误。读域标注:`【原审全文】`=原候选轮全文逐例读取(15 条);`【返工补读】`=原审查未全文读取、2026-10-20 C1 返工补全、不追溯为原审记录(main-loop-gates.grok-r1.test.ts 247 行一条,补读后结论与原判一致,无需整改)。
 
 ## 范围
 
-原文含章节[C1 逐文件 A–H 索引 — 73-78 shell 生命周期(16 条 fullReads)、生产文件(5)、测试文件(11,E 为主)、附:partialReads 4 条(bootstrap/trademark-fallback 片段、io/async-lifecycle 头部)、Codex接收边界（2026-10-20）]、3个链接;不借导航页授信或重开任务。
+生产文件(5):input.ts——键表/WASD 原义/pressed-edge/repeat 过滤/delete-then-add 键序与 input.c:58-92/213 一致,suppressedHeld 单键场景等价 C,多键复活角点已登记(docblock),suppressedHeld 上移+Set<AbstractKey>(50704d25e);main-loop.ts——DM31 顺延/结转与 game.c:65-80 一致,present 门控五条件,字节未动;audio.ts——L46 去重(sound.c:769-772/930)、DM29(battle.c:715-730)、胜利曲(battle.c:1030-1033)一致,midi.c:67→69 已修;rng-player.ts——帧窗口/shake/跳过结清/失败驱逐/缓存一致,DM27 不可跳经 rngplay.c+main.c:395 双核,3 处过时注释已修;avi-player.ts——跳过键 stopImmediatePropagation/DL27 500ms(aviplay.c:741-747)/cleanup 幂等核,跳过键锚 uigame.c:395→aviplay.c:711 已修,playsInline 登记 N/A。测试文件(11,E 维为主):逐例覆盖见保全块;audio.test.ts 含本候选新增 DM29、L47×2(分立单红反控见 [README.md](c3-evidence/README.md));main-loop-gates.grok-r1.test.ts 为返工补读条目。附:partialReads 4 条(bootstrap/trademark-fallback 片段、io/async-lifecycle 头部)按原登记为部分读取,不计入 fullReads,无 A–H 结论主张;io/async-lifecycle 的逐例 E 归 TEST-GAME-MEDIA-LIFECYCLE-1。指纹勘误与真实 SHA-256 见 [read-boundaries.json](read-boundaries.json)(input.ts 两值锚 89800a1c1;其 C2 注释修改后 blob 为 03803e5dff6baeec2fdb29305b0721fd51ffa026)。
 
 ## 当前状态
 
-historical(治理候选);原时点状态与日期在保全块。
+historical(治理候选);五卡原时点建议 pending→partial,整卡 accept 与统一门未主张。
 
 ## 入口与责任
 
-当前存活入口:[codex-pending27-acceptance.json](../codex-pending27-acceptance.json) [README.md](c3-evidence/README.md) [read-boundaries.json](read-boundaries.json)。 其余原链接仅在保全块保留,理由见linkDisposition。
+本索引的读取身份、补读勘误和逐文件具体结论按各自范围接收;测试条目多为 E 维,不能读成 69 文件全部八维已验收。各文件 A–H 已陈述/尚缺依据的状态分别列于 [codex-pending27-acceptance.json](../codex-pending27-acceptance.json);未单列论据的维度保持 review-unknown,文件不关闭;后续只补这些具体缺口,不重复已成立的 E/primary。Codex 补核并修复四份测试:save-io 完整状态;input 边界直接使用真实 KeyboardEvent.code;RNG 改用真实 2D 上下文的输出端口 spy 和 typed Palette,并把两例实际未跳过的弱 oracle 改为显式 skipKeys+假时钟/精确停帧与 shake 余额;main-loop 用真实 PaletteFade/BattleState 工厂替代残缺核心状态。RNG 旧弱例在关闭跳过的反控下 14 绿;新两枚单点业务反控各 1 红、恢复 14 绿;均不改产品实现/公开接口或新增用例。
 
 ## 证据与下一步
 
-固定main源SHA d11302b1bd13;下一步=Owner非作者接收。
-
+共享论据引用本目录 README 对应节,不重复展开;C3 执行原件与声明矩阵在 c3-evidence/。下一步=Owner 非作者按接收边界核验收。
 
 ## 原文保全
 

@@ -7,24 +7,23 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「extract font/bdf + scene + map 复审（glm-foundation 模块 3 批 3）」的主题按原文时点保留(摘录:> Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见当前返工记录。 范围：`font/bdf-to-jso)。
+本页审计主题:pal-extract 的 font/bdf-to-json.ts(81 行)、resources/scene.ts(89 行)、resources/map.ts(70 行)复审;基点 53db76bbbb5729ba8bc6525bd7ad2ad4bb425c02 线;三文件出口均有活跃 cli.ts 消费(glyphsToJson/parseBdf@44、parseMap@696、dumpScene/dumpAllEventObjects@714-734)。原文 Status: review(候选待 Codex 据证验收)。Codex 当前裁定(2026-10-19):本页保留作者阶段证据,未获整包/全维收口验收;可复用范围与逐文件依据见 [codex-stage2-rework.json](../codex-stage2-rework.json)。
 
 ## 范围与证据
 
-原报告含章节[extract font/bdf + scene + map 复审（glm-foundation 模块 3 批 3）、短回执、八维结论、登记（不动）、复验入口（只读）、map 真盘用例需 data/raw/{MAP,GOP}.MKF 软链]、1个链接;固定main源3542B(SHA 4abffa082f38)。当前存活入口:[codex-stage2-rework.json](../codex-stage2-rework.json)。
+改动 1 处仅注释。验证证据:body-invariance(同目录)三文件一致;定向 6 文件 23/23、0 fail/pending(directed.json),含真盘 MAP.MKF chunk1+GOP.MKF chunk1 oracle;首跑 1 fail 为 worktree 缺盘的环境失败,软链后全绿,两态如实记录;scoped biome 0/0/0;diff --check 干净。未跑全仓门。
 
 ## 发现
 
-原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+整改:bdf 十六进制行解析的 parseInt(hex,16) || 0 补容错合同注释(短行/坏行降级 0 行;输入为仓库内置固定 Unifont,换不受信源须先收紧——归输入域候选族)。八维要点:bdf STARTCHAR 状态机(ENCODING/BBX/BITMAP/ENDCHAR)边界自洽,codepoint>0 过滤;scene 区间切法 [N.eventObjectIndex, N+1)+末场景兜底、dumpScene 不存在即 throw、ip=0→undefined 合同与 shared 注释一致;map 65536 字节固定尺寸守卫 throw、[row][col] u32 对读与 sdlpal Tiles[128][64][2] 一致、真盘 chunk1 实测通过。无新直接缺陷。scene.ts/map.ts 复审零缺陷零改动。
 
 ## 结论
 
-原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+注释整改批(1 处):23/23 定向绿+body-invariance 三文件 AST 一致共同证明行为零变。登记(不动)移交 Codex:bdf 不受信输入域收紧候选(同 O-2 族);scene 区间非单调时静默空场景候选(真实 SSS 由 io/sss 结构校验保证);substr→slice 弃用 API nit(行为等价,不值一次可执行变更)。
 
 ## 整改与复核
 
-本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
-
+整改即上述 1 处注释。复验入口(原页给出,此处概述):git log 53db76bbb..HEAD 对三文件;prove-body-invariance.mjs --base 53db76bb…;定向跑 src/font、scene.test.ts、map.test.ts(map 真盘用例需 data/raw/{MAP,GOP}.MKF 软链)。失效条件:三文件实现变化→重证;Unifont BDF 更换→bdf 容错域复核。本轮治理未重跑任何命令;候选待 Owner 接收。
 
 ## 原文保全
 

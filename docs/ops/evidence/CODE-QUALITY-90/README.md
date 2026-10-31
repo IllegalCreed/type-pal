@@ -7,24 +7,35 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 证据身份
 
-本页是「CODE-QUALITY-90 evidence」的治理候选页;证据原件即下方逐字节保全的固定main源(7679B,SHA 21328b3c69f5)。
+本页是 CODE-QUALITY-90（phase1 game 大世界 OP_REVIVE_PLAYER 状态边界）证据目录的索引页,对应任务卡 docs/ops/tasks/CODE-QUALITY-90-magic-revive-status-boundary.md（done）。证据原件即下方逐字节保全的固定main源(7679B,SHA 2a8a30d94f14)。
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原0个链接处置见作者review的linkDisposition。当前存活入口:无当前仓库内存活链接。
+来源为固定Git载体,非本次运行;本页正文无 markdown 链接(原0个链接,处置见作者review的linkDisposition)。真值与 caller: SDLPal script.c:1052-1102(单体/全体 revive 设 HP、清 level<=3 毒、移除玩家状态)、global.c:2279-2344(状态移除清 <=999、保留 >999 装备效果)、docs/phase1/game-mechanics.md:1453,1483,1517-1539(临时/装备边界与临时 DualAttack 9 移除;装备 32760 实例见 game-state.ts:1082-1085)、magic-script.ts:91-116(大世界 runner 与修复的 revive 路径)、magic-script.test.ts(真实 GameState 状态/HP/毒 oracle,含非顺序队伍与队外隔离)、event-opcode-player.ts:170-204(相邻事件脚本 revive 同用 <=999 边界)、menu-driver.ts:902-937(大世界 caller 与成功/MP 所有权)。phase2 显式效果模型不在本批,不新增 schema 字段、不改公共接口。
+
+证据文件与关键结果: mutation-results.json(31用例原始版)与 mutation-legal-script-id-result.json(37用例合法指针版,raw 副本分别在 mutation-raw/ 与 mutation-raw-legal-script-id/,字节与本体相同)——四精确突变各恰一业务失败(999≠+0 ×3;装备哨兵 MUT-03 为 +0≠1000),恢复字节一致且无 runtime 错误;修复前重放恰2业务失败(:255/:338)。
 
 ## 断言与业务 oracle
 
-文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+文档事实核对(currentExecution=false):各记录按其自身字段成立。本行为切片不关闭任一完整文件: magic-script.ts 的 spell 链/不支持op/输入/步限合同、magic-script.test.ts 的毒表清理与剩余合成 fixture 仍待审,两文件在账本保持 review。phase2 区分证据只读: BattlePlayerState.status 临时回合与 grantedStatuses 装备持久层(battle-core.ts:107-111)、phase2 revive 只清 status(:604-624)、grantStatus 派生自当前装备(content/src/item.ts:36,449-462)、battle-player-input.ts:23/55 与 49-51 的接线全读——不改不关 phase2 文件。
+
+超时与门诊断(均 officialGate=false 或按记载): gate-ratchet-timeouts 保留五处 pal-extract 5000ms CLI 超时的失败重试;未减弱任何超时/排除/基线/静态规则;不变的官方 ratchet 重试全过(731 sources/19860 tests;89.93/83.66/89.50/91.82),官方工具因三个新 game 测试+实现抬6指标改2范围。历史误标 protected fast(已撤回身份)两次在继承/默认并发下失败同样4处超时,失败与exit1回执均保留。完整 VITEST_MAX_WORKERS=2 运行过 pal-extract 71/431,但 editor 在 BattleSpriteLibrary.glm-m.test.tsx:170 失败一断言(全局env也覆盖其单worker原设);两测隔离重放 exit0 但发3条 React act 诊断(editor-probe-result: cleanQualityAcceptance=false),不是干净验收;当前完整运行用 workers=1 恢复 editor 设置并约束其它包;默认并发超时根因未知。
+
+最新main集成: 检查点 d7e9831f4 在集成 origin/main 5116cd5bb 前推送;旧基线全检/ratchet 结果与失败保持历史证据。workers1 fast 在源同步时取消(exit130,只终止确认属主的进程树)。新 RNG 源保留未动、其新测试 pending;event-system 当前机制差异重开 review。最新 ledger 3271/370 closed/12 review/2889 pending。日志仅规范化行尾空白,失败计数与诊断保留。
+
+合法脚本指针修正: SDLPal global.h:175-195 以 WORD 存 spell script 指针,生产解析在 spells.ts:141-142 读 u16;新 applyAll 状态示例由 77779 改 504,命令/角色/状态/断言合同不变。合法 fixture 过31用例;去清理恰2业务失败;四精确突变各一红一绿还原。新原生报告在 mutation-raw-legal-script-id/ 与 mutation-legal-script-id-result.json;原始报告保持历史。生产代码未改。既有 77777/77778/99999 fixture 与其它整文件 review 问题未解决。
+
+最新测试合同: 旧 all-live 示例以 void 丢弃治疗 fixture 结果,现改合法 WORD 入口 504 并断言 false 与不变临时/装备状态;Spell fixture 全 typed;定向 magic 41/41、typecheck 与 Biome 过;合法输入变异重放保持四精确业务红突变与字节还原。最新官方 VITEST_MAX_WORKERS=1 coverage:ratchet 完成 731 生产文件/19,864 fast tests 但未改基线下失败: game statements 13805/15602、lines 12333/13685,total statements 70847/78780、lines 63303/68945,对比旧 d7 底 13806/15599、12332/13682、70848/78777、63302/68942。只读覆盖反事实(rng-test-scope/rng-coverage/d7-exact/d7-default-replay/game-workers2/game-default-workers 六个 result JSON): 当前源去 RNG 测试为 13804/15602;精确 d7 源快照在 worker1 与 vitest 默认设置下都复现 13801/15599;历史 d7 基线的 13806 在本环境不可复现。未改任何基线/排除/阈值/弱测试。runner 审计新增四合同(0x1C/0x1D applyAll 与无变化失败路径)+畸形 label 表与 revive 0xFFFF 哨兵负控;定向 runner 源报告覆盖 magic-script.ts 全部110语句/94行,是行为/oracle测试非凑覆盖。
+
+边界 ratchet 回执: 四 opcode 合同与畸形输入负控后,VITEST_MAX_WORKERS=1 coverage:ratchet 通过 exit0: 731 生产文件/19,870 fast tests(game 3537),抬6指标2范围,原子写基线 SHA-256 aabca727e834…;game 13812/15602 statements、9064/11373 branches、12336/13685 lines;total 70854/78780、51557/61618、63306/68945。无阈值或排除被降。
 
 ## 结果
 
-原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+原文保全完整、模板符合、链接处置如实即本页治理结果;本轮语义整改把真值锚、四突变身份、超时/门时序、合法指针修正与最终基线回执写回可见正文,不重开任务、不重跑执行。不产生新执行结果。
 
 ## 限制与复核
 
-未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
-
+未重跑原命令/浏览器/测试;历史结论保持原时点。gate-*.txt 日志不在本轮1916候选集合内,其数字与本目录 JSON 及任务卡交叉见证。默认并发超时根因未知、77777/77778/99999 fixture 与 magic-script 两文件的整文件 review 均未因最终 ratchet 通过而消失。候选待Owner非作者接收。
 
 ## 原文保全
 

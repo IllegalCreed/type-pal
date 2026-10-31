@@ -7,24 +7,23 @@ Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「QUALITY-EDITOR-FORM-FIXTURES-1 — 数值表单宿主、合法夹具与oracle」的任务归属与历史边界。原目标见原文(摘录:Reviewer: Codex（作者自验/独立验收分开） Capability: actor form test fidelity Visual Verification Timing: N/A（纯测);本页治理不重开已终态任务。
+editor数值表单测试保真：白名单四测试（LevelingEditor.test、LevelCurveEditor.ui.test、CasualtyEditor.test、CasualtyEditor.glm-m.test），目标是去双重强转、用当前blank/loader构造合法输入、少量连续输入与真实键盘/blur、字段/键ownership oracle准确；React act官方文档为primary，不关闭检查。
 
 ## 范围
 
-原卡含章节[QUALITY-EDITOR-FORM-FIXTURES-1 — 数值表单宿主、合法夹具与oracle、边界与准入、前提真值、验证与交接、作者检查点、联合窗口复核],共3个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+仅四测试文件；不改组件、content/schema/SAVE、公共接口、公式/机制、资产管线、生成物与规则。character.ts168明确CONTENT_VERSION=22（初看22曾疑过期版本，读常量后撤回），无schema升级/兼容/迁移需求。
 
 ## 前提与证据
 
-固定main源5172B(SHA f87cc7309c16);原卡前提按原时点保留。当前存活入口:[README.md](../evidence/QUALITY-EDITOR-FORM-FIXTURES-1/README.md) [window-review.md](../evidence/QUALITY-EDITOR-FORM-FIXTURES-1/window-review.md)。
+固定源全文核读。作者检查点：四文件16例、相邻11文件78例通过、三类诊断0；前三文件先原样14例消融334环境→10act→0再做合法fixture/输入精简；第四文件（CasualtyEditor.glm-m）相邻7条act外更新全部来自三次真实undo位于act外，两例7act→0。身份仅概率门标题诚实更名，数量16不变、不退役。K4删键反控旧10绿/新恰1条AssertionError/恢复14绿。机器3284/229closed/62review/2993pending、0关闭。联合窗口复核：C04/C05/C06八源冻结候选cae26b1c7完成check、普通ratchet、protected fast退出码均0、硬静态零诊断、coverage范围/指标无删降，但仍有act/环境诊断，严格统一门未过。原件:[README.md](../evidence/QUALITY-EDITOR-FORM-FIXTURES-1/README.md) [window-review.md](../evidence/QUALITY-EDITOR-FORM-FIXTURES-1/window-review.md)。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:review),治理不改写。
+单改act环境可能把原先漏报的act外卸载变成新告警，故以消融+合法夹具实测为准；现有100次输入不是业务边界，待原例零诊断后缩成少量不同合法值；未知跨文件重复先不删。统一诊断未清不合main、0文件关闭。
 
 ## 状态与交接
 
-review保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
-
+review保持原语义；无下一位Agent提示词，Codex继续。
 
 ## 原文保全
 

@@ -7,24 +7,23 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 证据身份
 
-本页是「CODE51 draw-opening-menu 当前复审切片」的治理候选页;证据原件即下方逐字节保全的固定main源(2199B,SHA 6c8d7fe53024)。
+本页是「CODE51 draw-opening-menu 当前复审切片」(基点 c6cd416a,含 2026-10-18 簿记勘误:读取行数按原 boundary 已绑定的同 SHA 字节纠正,原始旧文保留在 audit-metadata-repair 附件)的治理候选页;证据原件即下方逐字节保全的固定main源。本页真实结论:重新复审标题菜单绘制;51 提升为 partial,未标 accept/done。
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原0个链接处置见作者review的linkDisposition。当前存活入口:无当前仓库内存活链接。
+来源为固定Git载体,非本次运行。完整读取 draw-opening-menu.ts(70行)、draw-opening-menu.test.ts(83行)、draw-opening-menu.glm-phase1-leaves.test.ts(76行)及相邻 opening-confirm-pixels.grok-r1.test.ts(177行);读取 draw-menu opening 出口、present.ts FBP 注入、opening-menu.ts 状态/词表 owner、menu-driver 取消/读档 caller;primary 为 SDLPal uigame.c:42-167 与 ui.c:458;逐行读域见同目录 read-boundaries.json。
 
 ## 断言与业务 oracle
 
-文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+本页正文按原文时点转述核对轴:FBP chunk 背景完整/小图裁剪/缺背景降级、两项文本顺序和 WORD 单一来源、长文案 x 公式、y 坐标、selected/normal 色、三影、光标越界防御、输入状态不可变和无 9-slice box。当前实现与 primary/caller 一致,未发现 direct defect。测试判别力:主测试 x 公式/背景/两行坐标/光标差异;GLM 精确 0xF9/0x4F、三影、词表同步、无 frames;像素相邻测试索引 0 背景、小图矩形裁剪、光标越界、状态/词表隔离及确认框排重。
 
 ## 结果
 
-原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+本页治理结果=原文保全完整,不产生新执行结果。原文验证事实:直接 3 files/17 tests passed;相邻 4 files/107 tests passed;game typecheck passed;未运行 coverage ratchet、official coverage、protected fast、全仓 pnpm check。
 
 ## 限制与复核
 
-未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
-
+原文明言:未触碰 schema/save/migration、生成物、资产格式、公共接口或用户可见形态;51 整卡仍 partial,等待 wave 统一门。未重跑命令;候选待Owner非作者接收。
 
 ## 原文保全
 

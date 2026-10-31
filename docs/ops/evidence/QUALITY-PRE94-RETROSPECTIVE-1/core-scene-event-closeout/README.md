@@ -7,24 +7,23 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 证据身份
 
-本页是「CODE3n／3q／3r 代码验收」的治理候选页;证据原件即下方逐字节保全的固定main源(3146B,SHA 867b5da243fc)。
+本页是「CODE3n／3q／3r 代码验收」的治理候选页;证据原件即下方逐字节保全的固定main源(3146B,SHA 867b5da243fc)。本页语义:base 82efe44上CODE3n/3q/3r三卡代码接受记录(用户call_37e18bd73f954b61a76c4821ebf0cf95批准3q内部接口清理),最终pre94集成门留待全部剩余pre94冻结;本页为历史验收时点,不重开任务。
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原4个链接处置见作者review的linkDisposition。当前存活入口:[README.md](../battle-core-fade-quality/README.md) [README.md](../event-quality/README.md) [README.md](../scene-quality/README.md) [review.json](review.json)。
+来源为固定Git载体,非本次运行;原4个链接处置见作者review的linkDisposition。当前存活入口:[README.md](../battle-core-fade-quality/README.md) [README.md](../event-quality/README.md) [README.md](../scene-quality/README.md) [review.json](review.json)。逐文件八维复用3n既有完整八维、3q职责/107合同、3r对象作用域/324身份三份既有报告,只核当前差异与欠账;旧原件/时点计数不倒写。
 
 ## 断言与业务 oracle
 
-文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。本页真实oracle事实:(1)3q接口清理:SceneContext只留tilemap、LoopContext不再转传两份未用脚本数据,13文件同步81实参、62个未用纯bus构造与4个死fixture移除,业务判断/真实脚本数据/原断言保持;(2)e2e.test.ts真实测试质量修复:旧例把NPC设装饰mode0只走路也绿,加帧3事件/ip2与帧4"你好"字面断言后业务红、合法mode1重写后绿;同一搜索绕过变异旧1绿/新1AssertionError;(3)111→75精确退役快照只同步fileSHA,例数/身份/拒绝谓词不变,配套Node策略测试80绿;(4)一次相邻:14游戏文件509例+4 Node工具69例+typecheck+lint-zero(5994文件)。
 
 ## 结果
 
-原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。批结论:三卡code accepted,固定83卡72accept/11partial/0pending;17文件新关闭,账438closed/97review/2889pending;全仓check/official coverage/ratchet/protected/PR继续待全部剩余pre94冻结,未授集成收口;未创建中间PR或合main。低成本只读复验入口为治理树根的verify.mjs(不写文件/不联网/不跑测试,MATCH只证明机械事实)。
 
 ## 限制与复核
 
-未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
-
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。原文明示:初版8条unused与中间纯接口提交留1条unused的事实完整披露,未预报该时点通过,最终累积候选零诊断后才发布;无效scratch AST两次证明不授连续性信用;3n色表/3q map身份已有独立Owner证据;3m极端dex、其它11卡与最终集成仍开放,94–102未扩展;headless回放不是浏览器路线验收。
 
 ## 原文保全
 

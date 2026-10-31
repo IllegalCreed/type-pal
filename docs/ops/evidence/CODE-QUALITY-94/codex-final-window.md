@@ -7,24 +7,23 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 证据身份
 
-本页是「CODE94/95、97–102：Codex 接手后的完整模块窗口」的治理候选页;证据原件即下方逐字节保全的固定main源(7464B,SHA 94b906a808fa)。
+本页是 Codex 接手后的完整模块窗口（2026-10-15，稳定候选 bb94ad8e2，主线 f98d0ddd8，三验冻结于 30d42c983）的治理候选页；证据原件即下方逐字节保全的固定 main 源（7464B）。本窗口为 Codex 作者实施与自验证的终态汇总，不冒称另一位 Reviewer 的独立 accept；单一 Coding Owner=Codex，隔离分支 codex/quality-menu-accept-94-95，不写主工作树或 GLM 本地工作树。
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原3个链接处置见作者review的linkDisposition。当前存活入口:[QUALITY-EDITOR-DIAGNOSTICS-1.md](../../tasks/QUALITY-EDITOR-DIAGNOSTICS-1.md) [codex-r3-review.md](codex-r3-review.md) [codex-takeover.md](codex-takeover.md)。
+当前裁定：CODE94 保持 rework；CODE95、97–102 与两张已批准修复卡保持 review；本轮 0 文件关闭，账本 3284 inventory/229 closed/45 review/3010 pending，未合 main。两项用户批准行为修复分别提交 c81f469e3（存档写事务 complete 后才成功、abort 拒绝）与 23f4effbf（标题读档取消后选回新游戏），均先保存合法失败反例；第三项大世界仙术显示未获批准、未实施（大世界可用数据真值另见 codex-outside-magic-truth.json）。12 份源码/测试修改逐文件范围：menu-driver.ts 仅标题槽取消后复位 opening 光标；indexed-db.ts 写入/删除等 complete、abort 拒绝（DB 版本/schema/清档未改）；cov85 测试真实标题 Down→Confirm→Menu 断言 cursor0；quick-save.test 检查真实 KeyboardEvent 与 Save 参数并移除匿名观察监听器（收支探针 0 残留）；primitives/item-select/player-status/save-slot-menu/equip 叶等注释真值化；另新增 fake-indexeddb 6.2.5 直接测试依赖与 3 条真实 Save→IDB 回归。过程细节见 [codex-r3-review.md](codex-r3-review.md) 与 [codex-takeover.md](codex-takeover.md)；原 3 链接处置见作者 review 的 linkDisposition，当前存活入口：[QUALITY-EDITOR-DIAGNOSTICS-1.md](../../tasks/QUALITY-EDITOR-DIAGNOSTICS-1.md) [codex-r3-review.md](codex-r3-review.md) [codex-takeover.md](codex-takeover.md)。
 
 ## 断言与业务 oracle
 
-文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+集中验证（currentExecution=false，按原文时点）：相邻 11files/125tests（两个行为反例先恰一业务断言失败，过滤 skipped 不算完整通过）；最终全仓 check 七包 1640files/20274tests、game 318files/3564tests、pal-extract 71files/427tests、七包 typecheck、docs48、coverage-tools62、quality-tools37、E2E 工具 397、script-governance22（运行的是工具单测，不宣称剧情 E2E 通过）；根 check 的 lint 4117files 0/0/0。三门表：pnpm check/coverage:ratchet/protected coverage:fast 均 exit0（官方基线只升不降、无覆盖率回退、精确退役保护通过），但未包 act 诊断分别 3620/3610/3523、act 环境未配置 577、导航诊断 2——零诊断裁定"不通过"。actDiagnostics 仅计未包 act 更新，577 条环境计数在 codex-final-window.json 补充，不能把 3620 误作全部诊断数。官方 fast 基线 736 源文件/19865tests（此前 19862，新增恰为 IDB 测试 3 条），仅 game 与汇总 8 项指标提升、2 项范围变化，其它包基线一致；protected 核准 equip4→3/opening3→2/save-slot15→14 精确历史退役，无新增退役或放宽；36 项冻结源码/依赖/工具字节全门期间未变（唯一例外官方工具生成的 baseline）。
 
 ## 结果
 
-原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+证据落盘后静态复验：check:docs 通过（48 工具测试、1253 Markdown、6894 本地链接、381 任务、184 阶段文档、570 份严格 content-review 全过、0 issues）；ledger 再过 3284/229/45/3010；最后 lint 4122files 0/0/0；postflight JSON 另经 Biome 格式/检查（回执 codex-final-postflight.json）。这些干净静态门不消除上表测试执行诊断：CODE94 仍 rework、未合 main、不宣告专项完成。下一片边界：QUALITY-EDITOR-DIAGNOSTICS-1 首片限 world-sprite-harness.tsx、kit.ts、WorldSpriteLibrary.c01.cursor-r1.test.tsx，真实组件资源生命周期尚未核完，文件仍 pending，不能只套 act 或静音关闭。
 
 ## 限制与复核
 
-未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
-
+未重跑任何门禁；codex-final-*.json、gzip 原件、36 项冻结 SHA 未逐字节复核，按本窗口与其记录 SHA 采信；历史结论保持原时点；候选待 Owner 非作者接收。后续以 approved-closeout/current-review 的收口记录为准。
 
 ## 原文保全
 

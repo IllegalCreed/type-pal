@@ -7,24 +7,23 @@ Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「CODE-QUALITY-110 — game present draw-sprite 逐文件复核」的任务归属与历史边界。原目标见原文(摘录:Reviewer: Codex（独立验收） Capability: present / sprite blit and frame anchor Visual Verification Timing:);本页治理不重开已终态任务。
+逐文件复核packages/game/src/present/draw-sprite.ts及其两个测试：draw-sprite.ts逐帧anchorX=floor(width/2)、anchorY=height，opaque mask与palette-0正确分离、所有写入经Framebuffer.writePixel，未发现产品缺陷；draw-sprite.test覆盖不同帧高、脚底对齐、palette-0、透明孔和屏外调用；draw-sprite-clip.grok-r1补奇数宽、左右/上下裁剪、identity复用和透明孔，与主干分工清晰未发现重复或弱断言。
 
 ## 范围
 
-原卡含章节[CODE-QUALITY-110 — game present draw-sprite 逐文件复核、目标与白名单、完整读取与 caller/oracle、逐文件结论、当前验证与收口要求、2026-10-17 批次收口回执],共0个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+白名单三文件；primary为SDLPal palcommon.c:36-130、scene.c:210-316、fight.c的RLE blit/anchor/clip和排序合同；完整读取present.ts的party/follower/NPC draw caller、FBP/ending shell caller、bootstrap资源注入、dialog asset shape、Framebuffer写入边界与PNG解码集成测试。
 
 ## 前提与证据
 
-固定main源2525B(SHA 5d272f5868f2);原卡前提按原时点保留。当前存活入口:无当前仓库内存活链接。
+固定源全文核读。定向3files/17tests PASS 0 stderr；game typecheck PASS；2026-10-17收口：全仓check exit0（content 149/149、shared 16/16、game 321/3613、pal-extract 72/434、reforge 359/8964、editor 631/4943、migrate 96/739，lint 4962文件0/0/0）、check:docs/ledger/git diff --check通过、账本3307/231closed/35review/3041pending；official ratchet与protected fast仍因既有shared/pal-extract/total baseline回退失败，本批无源码修复不调baseline。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:review),治理不改写。
+三文件保持review；sprite asset/schema、生成物、公共接口或用户可见行为变化另开高风险卡。
 
 ## 状态与交接
 
-review保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
-
+review保持原语义；无源码修复，以复核证据登记。
 
 ## 原文保全
 

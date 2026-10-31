@@ -7,24 +7,25 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「pre-94 战斗三机制 counter 返工」的主题按原文时点保留(摘录:Date: 2026-10-18 Base: `0e3fc84fe5949f7ca9c3eb87b1d2a284be945f3c` Branch: `codex/code-qual)。
+本页对应的原审计主题是 pre-94 战斗三机制 counter 返工(原时点 Date: 2026-10-18, Base: `0e3fc84fe5949f7ca9c3eb87b1d2a284be945f3c`, Branch: `codex/code-quality-3y`,原件按原字节保全)。该轮要解决的真实缺陷有三:模拟法术自动选靶退化为首活敌/全灭槽0,而 SDLPal 用上次活目标(fight.c:87-128、5300-5400,0x42/0x66 经 simulateMagic 与投掷 FIRE 共用同次目标);0x66 投掷把已含装备的战斗投影当基础武术(script.c:2007-2014,应经真实 runScript 读裸 runtime 攻击,真实 0 不回退);敌方非伤害法术不预掷防御姿也不进 frame3(fight.c:4719-4768,预掷名单独立于伤害名单)。用户要求开新卡先红例后修,原 CODE3m/3t 的'未发现直接缺陷'信用撤回,历史 quote/raw 保留。
 
 ## 范围与证据
 
-原报告含章节[pre-94 战斗三机制 counter 返工、实际读取与边界、一手真值、caller、oracle、先红后绿与精确反控、逐文件结果与未修项、下一批]、7个链接;固定main源6506B(SHA f556dbcd9724)。当前存活入口:[QUALITY-BATTLE-MAGIC-PARITY-1.md](../../tasks/QUALITY-BATTLE-MAGIC-PARITY-1.md) [adjacent-legal.json](adjacent-legal.json) [controls.json](controls.json) [gates.json](gates.json) [h01-control.json](h01-control.json) [read-boundaries.json](read-boundaries.json) [red-legal.json](red-legal.json)。
+范围限定第一阶段战斗行为窄修,无 schema/save/migration/资产或既有公共签名变更;不是整文件、全仓或波次验收。读域结构化底档见 [read-boundaries.json](read-boundaries.json):13 个文件全文读取(含 battle-opcodes 主测 2428 行重读)、5 个文件只按范围补读、battle-system 及其主测继承同会话 3s 全读且基线字节相同,只补 caller/fixture delta;C 源锚验证了 PAL_BattleSelectAutoTargetFrom 与 PAL_BattleSimulateMagic 函数名。
+
+过程证据按时序分件:初版先红原件(含 FIRE 帧数误写与 normal 全灭非法输入,不取信用)与纠正后 8 红 6 绿件为 `red.json`/`red-corrected.json`;最终合法 15 例 spec 在原基点三份旧生产源上的重放见 [red-legal.json](red-legal.json)(9 failed / 6 passed / 0 runtime error suite,重放后三源字节恢复);当前合法 spec 相邻运行见 [adjacent-legal.json](adjacent-legal.json)(37 files / 935 passed 含专属 15 passed,仍有 1 块 stderr 不计干净通过,修后零诊断另存 adjacent-clean.json);五枚确定性变异反控见 [controls.json](controls.json);H01 终态反控见 [h01-control.json](h01-control.json)(同一漏 break 变异下旧 ip2=end oracle 绿、新 ip3=dialog oracle 红);最终静态门汇总见 [gates.json](gates.json)。存活入口:[QUALITY-BATTLE-MAGIC-PARITY-1.md](../../tasks/QUALITY-BATTLE-MAGIC-PARITY-1.md) [adjacent-legal.json](adjacent-legal.json) [controls.json](controls.json) [gates.json](gates.json) [h01-control.json](h01-control.json) [read-boundaries.json](read-boundaries.json) [red-legal.json](red-legal.json)。
 
 ## 发现
 
-原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+修前真实失败按三机制归组(九条失败名见 red-legal.json):0x42 上次活目标用于伤害与 FIRE 落点三例(base=198/+0,hp=9000/100)与全灭未清槽时 selector -1 继续扫全部占用槽;0x66 裸 runtime 攻击在装备/Extra 变化时投掷伤害不变两例(raw attack=50/0);敌方非伤害法术(normal/attackAll)应先预掷 autoDefend、经真实睡眠 script 到 frame3,且掷不中不得获得防御姿三例。相邻域另发现 H01 夹具把单敌输入的第二槽补成缺失 id 101(生产 startBattle 警告并保留空槽),修为 SDL enemyTeam 的 0xffff 终止符;该 123 行专测旧整文件闭合信用撤回。
 
 ## 结论
 
-原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+原时点结论:15 例定向、37 文件 935 相邻全绿;五枚变异各恰 1 条业务 AssertionError、0 runtime error suite、源码 finally 恢复 SHA 一致。两实现(magic-damage/battle-opcodes)与三旧测试的旧闭合记录转 review,actions/magic、新 helper、新 spec 登记 review,无新关闭文件;账本 3314 tracked / 284 closed / 55 review / 2975 pending。最终静态门:check:docs 首败为机制 catalog after-SHA 绑定,仅更新 phase1 机制 catalog 行/manifest 分片哈希与具名 incoming 绑定后五个实际 consumer 0 issue(125 工具用例未重复);lint 实跑 5092 文件 error/warning/info 全 0;ledger/diff 通过。本页不把这些数字升级为整文件或统一门验收。
 
 ## 整改与复核
 
-本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
-
+整改事实以原件与后继卡为准:统一门、官方 coverage ratchet、protected fast、浏览器视觉与 E2E 按用户要求留待大任务收尾,本轮未运行、不合 main;53-wave-gates 仍 rework。极端 WORD 溢出、脚本失败演出时序与 normal 无目标 assert 域仍 pending。后续批次先处理父复审卡登记的十项注释与剩余六项证据簿记;draw-equip 单人 rows、draw-inventory 阴影两 UI 差异只读取证,未经裁决不直接改行为。本治理候选仅覆盖文档角色与保全语义补写;候选待 Owner 接收。
 
 ## 原文保全
 

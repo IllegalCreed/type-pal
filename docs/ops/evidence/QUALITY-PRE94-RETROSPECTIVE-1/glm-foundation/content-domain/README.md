@@ -7,7 +7,7 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 证据身份
 
-本页是「content-domain(领域模型层 20 文件)八维复审批」的治理候选页;证据原件即下方逐字节保全的固定main源(2098B,SHA 1f12b82424f5)。
+本页是 content-domain 批33(领域模型层20文件全文读毕,自 battle-field-reference 52行至 author-script 159行)八维复审回执的治理候选页。真实语义:GLM Coding Owner 在基点53db76bbbb线(候选67+提交)B–H全维通过,零整改批(零代码/注释改动,工作树零diff)。Codex 2026-10-19 裁定保留作者阶段证据,未获整包/全维收口验收。
 
 ## 来源与输入
 
@@ -15,16 +15,15 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 断言与业务 oracle
 
-文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+文档事实核对(currentExecution=false):零整改依据按文件记实——grid.ts 的 D16 菱形轴换算(x=16(col−row),y=8(col+row))与 pixelDeltaToGridDelta 保留小数防碎步位移;poison.ts 的毒≠BattleStatus 指针化序列模型、可解度分层替代 level 魔数、三对致死配对/单向6元环相克仅投掷/use-on-self 触发的原版实证边界;enemy.ts/actor.ts 的 M4c AI/演出二分层(2026-07-04 用户定调)与七件套音效 schema 一次定全;sprite.ts 帧布局挂精灵表不挂角色的历史债边界;scene-index/map-index 的稳定身份/显示名/路径三分与 ../ 反斜杠 fail-loud。验证轴=定向16文件29套件80/80 0 failed suites 与 tsc exit 0,按原时点,不外推为零诊断或当前通过。
 
 ## 结果
 
-原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+治理结果=原文保全+本页真实批语义+链接处置如实;不产生新执行结果,不把零整改批倒填为模块收口。
 
 ## 限制与复核
 
-未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
-
+未重跑原命令/浏览器/测试;登记项为无新增;候选待Owner非作者接收。
 
 ## 原文保全
 

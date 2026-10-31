@@ -2,29 +2,28 @@
 
 Status: historical
 Owner: GLM(治理候选作者;原文作者/状态见保全块)
-Last reviewed: 2026-10-30
+Last reviewed: 2026-10-31
 Template: evidence-receipt-v1 / 1.0.0
 
 ## 证据身份
 
-本页是「提取器共享输出边界 C1 反控」的治理候选页;证据原件即下方逐字节保全的固定main源(2924B,SHA eefe243899e5)。
+本页是 QUALITY-EXTRACT-OUTPUT-BOUNDARY-1 的 C1 反控目录页。范围为 packages/pal-extract/src/cli.ts 清理入口与 cli-error-exits.kimi-r1.test.ts 临时树反例;真实caller是根 pnpm extract 调用包内 tsx src/cli.ts,输出固定为仓库 data/extracted,原盘 data/raw 只读。用户已批准方案A:共享 data 或 data/extracted 节点为 symlink 时,创建/清理前拒绝;普通自有输出、只读 raw 链接和OUT内部子项链接保持原行为。
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原0个链接处置见作者review的linkDisposition。当前存活入口:无当前仓库内存活链接。
+先红后修三角原件:red.json(旧实现sourceSha 38e58012上新测试9例:原7例通过、两条新增共享输出场景各恰一条AssertionError——OUT根symlink与data父symlink,0 pending/0 stderr;两个临时树均观察到共享目标marker被旧实现清除,证明字符串suffix guard没有验证输出所有权)→green.json(guard实现后sourceSha 830424d2,9/0/0,原7例合同保持)→counter.json(删除guard变异mutantSha 57e3d6ad回到7绿/2指定红,正式源finally逐字节恢复)。测试输入来自公开CLI子进程入口,使用真实临时目录、真实symlink、marker字节与缺失SSS的fail-after-clean路径;未触碰工作树data/extracted,无生成物修改或主流程mock。
 
 ## 断言与业务 oracle
 
-文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+文档事实核对(currentExecution=false):绿回执同时保持既有普通清理/videos保留、OUT内部子项symlink只unlink其身、共享根/父链接marker保留,错误在输入读取前出现;pal-extract package typecheck与72 files/434 tests通过。本批质量门:全仓 pnpm check 通过(editor 631 files/4943 tests、migrate 96 files/739 tests,末尾lint 4959 files 0/0/0);check:docs通过(1467 Markdown/8696 local links,phase/lore 184,content review 2340/2340);ledger通过(3307 tracked,226 closed/10 review/3071 pending);coverage:ratchet 与 TYPE_PAL_COVERAGE_BASE_REF=origin/main coverage:fast 均按真实基线门失败、未修改baseline(shared statements 447/466、branches 203/218;pal-extract statements 1068/1546、branches 461/593、functions 111/140、lines 943/1367)。exit0与包绿不外推为全仓完成或coverage通过。
 
 ## 结果
 
-原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+治理结果=C1证据保全完整、先红后修反控三角可独立复验;不产生新执行结果。当前只收口本卡白名单;CLI旧关闭保持rework,coverage baseline回退、game stderr与editor runtime diagnostics仍是统一收口风险,不因本包绿关闭整文件。
 
 ## 限制与复核
 
-未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
-
+未重跑任何命令;本批实际读取为cli.ts、cli-error-exits.kimi-r1.test.ts、其真实pnpm extract caller、相邻pal-extract测试与输出/原盘边界;未触碰schema/save、公共接口、生成物或主工作树。下一候选是game 17块stderr与editor剩余运行时诊断的逐文件归因;共享覆盖率基线回退保持未决。历史结论保持原时点;候选待Owner非作者接收。
 
 ## 原文保全
 

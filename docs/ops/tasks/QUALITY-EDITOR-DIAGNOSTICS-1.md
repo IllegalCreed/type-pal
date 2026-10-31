@@ -7,24 +7,23 @@ Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「QUALITY-EDITOR-DIAGNOSTICS-1 — editor 测试异步生命周期诊断清理」的任务归属与历史边界。原目标见原文(摘录:清除 CODE94 全仓质量门中的真实 React act / jsdom 导航诊断，不静音，不关闭检查开关，);本页治理不重开已终态任务。
+清除CODE94全仓质量门中的真实React act/jsdom导航诊断，不静音、不关检查开关、不改变产品异步时序迁就测试。独占白名单三个文件：cursor-asset-r1/world-sprite-harness.tsx、kit.ts、WorldSpriteLibrary.c01.cursor-r1.test.tsx；真值锚为React官方act文档（渲染/交互/异步取数须作为更新单元等待）。
 
 ## 范围
 
-原卡含章节[QUALITY-EDITOR-DIAGNOSTICS-1 — editor 测试异步生命周期诊断清理、完整模块窗口裁定（当前）、首片第二提交（c8ad9416f快照）、2026-10-15 首片准入记录（授权仍按白名单生效）、目标与范围、直接证据与未知（首片实施前快照）],共3个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+只改测试宿主、驱动与oracle，不改生产/资产/接口/规则；全仓未零诊断不得合main。原件口径澄清：glm-c5-check的3574条act诊断按stderr文件头归属52个文件（旧报告把段/用例与文件口径混淆成139），最高WorldSpriteLibrary.c01为604条；3574只是旧GLM原件的一种模式计数，最新完整窗口为3620未包act+577环境+2导航。
 
 ## 前提与证据
 
-固定main源7993B(SHA f6cd4a83b7eb);原卡前提按原时点保留。当前存活入口:[codex-final-window.md](../evidence/CODE-QUALITY-94/codex-final-window.md) [README.md](../evidence/QUALITY-EDITOR-DIAGNOSTICS-1/README.md) [window-review.md](../evidence/QUALITY-EDITOR-DIAGNOSTICS-1/window-review.md)。
+固定源全文核读各检查点。生命周期修复路径：仅真实挂载解码等待使604→200；再修单次点击/历史act后70/70、三类诊断0。首片第二提交c8ad9416f：三测试文件生命周期修复、3个oracle补强、3个已证重复精简完成，67定向0诊断、3/3有效业务反控；相邻54通过但有231条其它act。完整模块窗口裁定：check七包20271通过、七包typecheck与lint 0/0/0，确认版ratchet与普通protected数值通过、覆盖计数不变；但全仓未包act分别3001/3009/2955、另577环境/2导航，统一零诊断门不通过、未合main。首跑ratchet显式退役确认门exit1原件保留，核实唯一C01 70→67后重跑。源码五项在完整门期间未变；机器3284/229closed/48review/3007pending。登记的oracle候选：G04-08标题要求stem与后缀但regex为OR、G05-10只断言就绪后enabled、G07-07标题要求计数下界实际仅匹配任意数字。原件:[codex-final-window.md](../evidence/CODE-QUALITY-94/codex-final-window.md) [README.md](../evidence/QUALITY-EDITOR-DIAGNOSTICS-1/README.md) [window-review.md](../evidence/QUALITY-EDITOR-DIAGNOSTICS-1/window-review.md)。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:review),治理不改写。
+本片67定向0诊断+3有效反控成立，但统一门以“全仓零诊断”为准：当前未通过，卡保持review、0文件关闭、不合main。相邻231条与其它editor诊断由后续不重叠切片（QUALITY-EDITOR-DIAGNOSTICS-2/3等）接管。
 
 ## 状态与交接
 
-review保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
-
+review保持原语义；无下一位Agent提示词，Codex维护；下一候选先核新白名单，不越界修改其它editor实现。
 
 ## 原文保全
 

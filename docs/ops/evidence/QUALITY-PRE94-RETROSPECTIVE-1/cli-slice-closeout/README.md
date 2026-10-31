@@ -2,29 +2,28 @@
 
 Status: recorded
 Owner: GLM(治理候选作者;原文作者/状态见保全块)
-Last reviewed: 2026-10-30
+Last reviewed: 2026-10-31
 Template: evidence-receipt-v1 / 1.0.0
 
 ## 证据身份
 
-本页是「pre94 CLI编排与事件测试窗口」的治理候选页;证据原件即下方逐字节保全的固定main源(3813B,SHA ef5537f89535)。
+同一3y，基点e8566c2c7；CI窄修f1e56acc2先推，实际远端Documentation成功，见[README.md](../ci-progress-20261022/README.md)。本窗代码冻结ff3e96356，官方baseline独立提交07ea45338。原卡CODE3/3g仍partial；[review.json](review.json)是五文件范围的唯一裁定，不授其余文件信用。
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原3个链接处置见作者review的linkDisposition。当前存活入口:[README.md](../ci-progress-20261022/README.md) [native.json.gz](native.json.gz) [review.json](review.json)。
+CLI原920行、slice与四套测试、两个fixture全文及新模块/差异全文已核；相邻类型/真实caller/primary范围逐项在review.contextPins，整文件SHA仅作版本失效标记，不冒充范围外全文阅读。复用3/3g已核宿主与三条旧业务反控；原盘只读，未执行extract或写生成物。collector精确保留16字段来源/顺序、正值过滤、别名和数组ownership；原收集AST逐句相同，删两条死Map后其它CLI编译正文相同。战斗PNG使用独立解包的完整R/G/B/A，EO用不同label的有序身份；14个不同hook/组合有独立接线语义。迁移archive和SSS/WORD/DATA与旧工厂字节相同。
 
 ## 断言与业务 oracle
 
-文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+接受script-entries.ts、script-entries.test.ts、cli-battle-assets.glm-q.test.ts、cli-global-entries.glm-q.test.ts、slice.boundaries.test.ts五明确范围（4新关闭+1撤回后重验）；slice.ts/主测/runtime-resource旧关闭维持撤review，cli.ts为rework，Kimi与两fixture仍review。账本修正：live旧CODE3a行未落实原撤回、按3/README恢复slice.ts/slice.test.ts的review；runtime-resource全文是合成防御用例非真实资源执行；边界测试因已证身份弱点暂review。17个实际counted goto仅静态归属：14入片且续行不在同输出、13续行不在任何片、1在别片，3个goto未入片；游戏默认全局all.json，未证明17个游玩故障；用户已批准两收集语义修复另开下一窗口先红后修，本窗未改slice算法。验证：74定向/相邻绿、TC零错；PNG旧2绿而新1绿1业务红，EO旧5绿而新4绿1业务红，五hook分别13绿1指定业务红、恢复14绿；旧24身份全部保留。
 
 ## 结果
 
-原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+当前3338/356closed/126review/2856pending；pre94仍56accept/27partial/0pending（本窗净增1关闭）。全check20392绿、七包/typecheck/docs/lint零诊断；官方fast ratchet带origin/main保护一次采样19994绿/750源（baseline仅官方8项提升、源749→750、例19992→19994），随后对同一官方报告执行严格baseline/scope/protected导出比较零回落/零删除，无第二轮fast命令或重采。规则、谓词、排除不变。
 
 ## 限制与复核
 
-未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
-
+[native.json.gz](native.json.gz)含完整外层双流、原生JSON、命令/版本/退出/失败身份、反控与恢复、证明脚本、官方报告和诊断分类；check的260普通stdout块/18种已逐种核读；所有门stderr0。子CLI可选字体/非法FBP信息由业务精确断言，但本窗未另存完整子流，不冒称已保存；第一次refactor-proof的harness SyntaxError及修正后绿原件均保留，不算业务反控。运行`node docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/verify.mjs`，默认只读、无网络/测试/coverage/写回；MATCH不代替语义审查，STALE退出2要求定向重核，FAIL退出1禁止沿用。下一窗口先同分支fetch核main/Owner，再落实已批准slice两缺陷及其有效测试；CLI IO余项仍partial，94–102不扩展。本治理候选不重开任务、不重跑执行、不授新信用。
 
 ## 原文保全
 

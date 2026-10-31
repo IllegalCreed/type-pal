@@ -7,24 +7,25 @@ Template: guide-runbook-v1 / 1.0.0
 
 ## 目的
 
-承载原文「长期工程质量规范接入回执」的规范文本治理候选;规范内容按原时点保留。
+承载原文「长期工程质量规范接入回执」的治理候选页。原件是 Codex 作者内容核验的接入回执(2026-10-18,base 0bc82025,branch codex/code-quality-3y):用户明确要求把八维质量、允许内部文件重组、低成本独立复验和 Codex/GLM 分工固化为项目长期规范,适用所有未来新功能/修复/重构/测试/工具开发;准入记录见[父卡](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md),唯一完整条款为[工程代码质量与验收](../../../code-quality.md)。本批仅文档与相应路由/registry/review 元数据,无产品、测试、工具、baseline 或旧文件关闭变更。
 
 ## 前置条件
 
-前置条件与适用版本见保全块原文;本页不改变其约束效力边界。当前存活入口:[code-quality.md](../../../code-quality.md) [QUALITY-PRE94-RETROSPECTIVE-1.md](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) [gates.json](gates.json) [manifest.json](manifest.json) [review-bindings.json](review-bindings.json)。
+完成面:完整核读新 125 行规范、AGENTS/CLAUDE、工作流、Ops 导航、完整/轻量/通用任务模板及模板导航;文档模型/模板 registry/真实消费者已核。AGENTS 新增所有代码工作的必读路由,CLAUDE 转入同一规范;工作流在开工/实施/独立验收/done 接入;三任务模板增加八维与候选/失效/复验提示,原 docType/状态/requiredSections 保持;原任务中的重复质量条文改为 canonical 链接。八维具体条款由本轮作者语义核验,机器只证明来源匹配和结构/链接,不自动认证设计质量。
 
 ## 步骤
 
-原文步骤章节[长期工程质量规范接入回执、来源、范围与结果、可证伪的核对项、验证与限制、快速只读复验、2026-10-18 用户补充：证据优先验收、避免重复全文]保持;不据此授权新产品执行。
+可证伪的核对项六组:①全局适用——新功能按已批准范围改变行为/接口,治理专项冻结不成为全项目禁止变更,两阶段共用质量标准;②八维完整——A 含 caller/出口/类型/生命周期及失败/取消/清理,B 含原因/不变量/单位/ownership 和假覆盖,C 逐项核隐式全局/反向依赖/过宽上下文/无关参数/跨层写,D 按共同语义/失败/生命周期决定复用,E 保留合法输入/独立 oracle/排重/有效业务反控,F/G/H 分别核表达、冗余和设计可测试性;③整改边界——结构重组允许且须同步真实 caller/路径/合同,重要结构债不能只开候选了事,纯重构与行为修复分提交;④低成本复验——身份、依赖/caller、原始结果、诊断和失效条件明确,快检/定向/必要源码复核分层,哈希/字段齐全不授语义信用;⑤分工——贡献者全文审查与获准整改,Codex 独立看实现/全部变更/关键结论并集成,用户保留新产品裁决,本轮 GLM 主要执行不变成未来固定模型门禁;⑥成本与信用——小改紧凑记录,全仓/official coverage/protected 留大窗口,旧83卡/3319代码账本不获新验收。如任一 claim 与规范或入口不符,本回执应返工。源/候选指纹、实际入链和只读复验命令见 [manifest](manifest.json),精确修改的 review 行见 [bindings](review-bindings.json)。
 
 ## 失败处理
 
-原文失败处理按原时点;治理不重写处置规则。
+实际首轮完整 check:docs 的 125 工具测试通过,但后续 Markdown 消费者报 1 条新证据目录缺父导航;docs.json/docs.raw.gz 保留 exit1,不改写为完整命令通过。补齐导航及格式化后重放五个真实消费者;scripts/docs 与工具配置未改,125 结果复用,不重复约 40 秒工具套件;最终组合文档门在 [gates.json](gates.json) 分开列出各范围。校验脚本草稿误以为所有任务变体列全七状态,已改为核原状态/章节保持;该草稿失败与后续缺未生成附件的命令诊断均保留限制说明,不计通过或业务反控。
 
 ## 完成定义
 
-治理完成=保全+模板符合;原文完成定义属原规范,非本页授信。
+原文时点完成定义:执行完整 pnpm check:docs、lint-zero、ledger 与 diff 检查;不运行产品 typecheck/测试、全仓 check、coverage 或 protected(本批无这些代码变更);规范生效不等于存量八维复审完成,也不授 main 合并信用。2026-10-18 用户补充第 4.1 节「证据优先验收、避免重复全文」并接入 AGENTS、开发 review 阶段和三种任务表单:GLM 承担全文八维/获准整改,交短回执、逐文件 claim 索引、来源/测试/结构论据、raw/native 及失效条件;Codex 默认检查候选、实际差异和证据,普通批次可据证独立裁定,不把「再次全文」当关闭前提;高风险/矛盾/缺口才定向核源码或运行。A–H 原文及产品/测试/工具/规则均不变;RLE 已获准三文件整改继续,不重新跑 51 合同;旧 RLE 快检对质量规范 SHA 变更会提示过期,按本次差异/八维正文一致性记录桥接(protocol-check 证八维正文前后同 sha),不改旧 manifest 或假装旧证据已含新协议;后续证据分开绑定业务 claim 与流程版本。本治理不重跑、不改写原判定;原件逐字节保全在下方;候选待Owner非作者接收。
 
+原文存活链接原样保留:[code-quality.md](../../../code-quality.md) [QUALITY-PRE94-RETROSPECTIVE-1.md](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) [manifest.json](manifest.json) [review-bindings.json](review-bindings.json)。
 
 ## 原文保全
 

@@ -2,29 +2,28 @@
 
 Status: historical
 Owner: GLM(治理候选作者;原文作者/状态见保全块)
-Last reviewed: 2026-10-30
+Last reviewed: 2026-10-31
 Template: evidence-receipt-v1 / 1.0.0
 
 ## 证据身份
 
-本页是「CODE3h 启动屏障测试与fixture复审」的治理候选页;证据原件即下方逐字节保全的固定main源(7499B,SHA 0d5e869523a6)。
+本页是「CODE3h 启动屏障测试与fixture复审」的治理候选页;证据原件即下方逐字节保全的固定main源(7499B,SHA 0d5e869523a6)。本片事实:基点f2529c5fa、main=f98d0ddd8,三文件切片只改两测试(bootstrap-resources.test.ts 13→12例、bootstrap-resources.grok-mid-1.test.ts 九身份不变)与test-only fixture(grok-boot-mid-1/legal.ts 补role0与首segment、删空数组强转),生产、资产、配置、规则、官方baseline不动,0新增关闭。
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原12个链接处置见作者review的linkDisposition。当前存活入口:[after-proof.json](after-proof.json) [before-fixture-timing.json](before-fixture-timing.json) [before-proof.json](before-proof.json) [collection.json](collection.json) [gates.md](gates.md) [io-observation.json](io-observation.json) [read-boundaries.json](read-boundaries.json) [retirement.json](retirement.json) [snapshot-diagnostic.json](snapshot-diagnostic.json) [test-gates.json](test-gates.json) [verify-diagnostic.json](verify-diagnostic.json) [verify.py](verify.py)。
+来源为固定Git载体,非本次运行;原12个链接处置见作者review的linkDisposition。当前存活入口:[after-proof.json](after-proof.json) [before-fixture-timing.json](before-fixture-timing.json) [before-proof.json](before-proof.json) [collection.json](collection.json) [gates.md](gates.md) [io-observation.json](io-observation.json) [read-boundaries.json](read-boundaries.json) [retirement.json](retirement.json) [snapshot-diagnostic.json](snapshot-diagnostic.json) [test-gates.json](test-gates.json) [verify-diagnostic.json](verify-diagnostic.json) [verify.py](verify.py)。生产语义锚(读取边界原件):bootstrap-resources.ts 原始拒绝soundfontData、soundfontSettled只settle、resourcesReady等待assets/glyphs/dialog三端口且仅glyph失败降为undefined;bootstrap.ts:241–249先await资源、:469–479注入MIDI预取、:1874–1886再等音色库/可玩门;audio-midi.ts:143–152消费预取拒绝;loadAll在loader.ts:198–199直接拒绝缺role0,bootstrap.ts:306–307读首segment;role/event字段对照tables.ts:482–597、events.ts:179–202。
 
 ## 断言与业务 oracle
 
-文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+判别力(对照before/after-proof原件):旧13例对「soundfont原错误换成同消息新Error」与「glyph与assets/dialog race提早放行」两个变异均13绿盲点;新12例分别由主测试keeps the original soundfont rejection(同一Error身份toBe)与Grok例「soundfont先settle时resourcesReady仍等待,随后装配同一引用」抓出,各11绿1指定AssertionError。「删glyph警告」「glyph失败返空table」两转移变异旧套件各11绿2红、新套件各11绿1红——主测试degrades a glyph failure弱重复例删除,oracle 2→1转移非新缺口。IO观测:旧两条默认端口例afterEach各挂4个pending fetch(scene/12、glyphs、portraits、dialog-icons-raw),新套件正常与故意断言失败下九条Grok记录均0 pending;scene 503使loadAll硬失败防后续请求。collection见证main身份4+9→3+9(d4cf7f57d旧快照为不同身份的3+9、未含FM例,不混同);retirement精确批准仅主测试4→3(digest 820efc27与官方baseline条目一致,表29/net64→30/net65,旧29项拒绝合同不变)。exit0/空数组/成功字样不外推为零诊断或产品通过。
 
 ## 结果
 
-原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+三文件pending→review、0新增关闭。测试门:game相邻22文件129例、game typecheck、coverage工具75例全过,0失败/跳过/运行时诊断,两helper caller(scene-cache/dialog-resources)与真实loadAll装配在实际集合。静态门:evidence-verify PASS(10业务/转移轮+3 IO轮+5 list/V8轮)、docs/ledger/diff/lint-zero全0诊断。真实bootstrap-resources.ts局部V8旧/新保持statements12/13、functions6/7、branches6/6、lines11/12,默认warn函数未执行,不称全覆盖。全83卡仍13partial/70pending/0整卡accept;统一check/官方ratchet/protected本片未新跑,editor诊断未清,不合main。
 
 ## 限制与复核
 
-未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
-
+未重跑任何命令/浏览器/测试;结论为原时点(worktree quality-3y-closeout)记录,绿不证旧套件无其它盲点。fixture的role0/segment是合法输入数据,非完整可玩游戏输入;palette/scene/chunk/PNG helper body整域仍review。第一阶段SDLPal无该浏览器启动API,本片N/A且不改第一阶段机制、音色库或二阶段。fetch-retry实现与三测试已读、留待下一片。候选待Owner非作者接收。
 
 ## 原文保全
 

@@ -2,29 +2,30 @@
 
 Status: review
 Owner: GLM(治理候选作者;原文作者/状态见保全块)
-Last reviewed: 2026-10-30
+Last reviewed: 2026-10-31
 Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「QUALITY-EVENT-SLICE-CONTROL-TRUTH-1 — 事件切分控制流与人读元数据边界」的任务归属与历史边界。原目标见原文(摘录:Reviewer: Codex（事实核验，不冒充第三方） Capability: pal-extract reachability truth Visual Verification Timing:);本页治理不重开已终态任务。
+核修事件切片两项控制流真值：(1)人读元数据不制造BFS边——slice.ts两份BFS扫描所有字符串字段，可能把对白text/注释_item中的L_N当控制流（四个更名探针使scene/global两域各2条切片变3条而原始opcode/operand及recompile字节完全相同）；(2)非零frameDelay goto保留计数耗尽后的i+1（SDLPal script.c:3239-3258的0x0003兼具跳转与计数续行）。后追加P3：raw7战败/逃跑双接回边收集缺失。
 
 ## 范围
 
-原卡含章节[QUALITY-EVENT-SLICE-CONTROL-TRUTH-1 — 事件切分控制流与人读元数据边界、历史停线范围（下方2026-10-22用户新授权覆盖两项窄修）、前提真值矩阵、准入、证据与交接、2026-10-22 当前只读影响域增量、2026-10-22 用户裁决与下一窗口build allowed],共4个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+真实raw 43503指令/295场景/5077对象、694全局入口/6767标签入口、严格字节roundtrip一致；当前词表/sidecar去元数据后投影相同（当前raw未被元数据伪边污染）。生产默认读全局all.json（bootstrap:1172-1186），per-scene仍在bootstrap:594/loader:165被加载——不能从局部切片差异直接宣布现行游戏故障，也不能据默认全局擅删切片出口。
 
 ## 前提与证据
 
-固定main源12221B(SHA ba0ae280e264);原卡前提按原时点保留。当前存活入口:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3/README.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/README.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-battle-returns/README.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-slice-approved/README.md)。
+原5个链接处置见作者review，存活入口逐字保留：
+
+当前存活入口:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3/README.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/README.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-battle-returns/README.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-slice-approved/README.md)。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:review),治理不改写。
+获批修复链（用户2026-10-22'同意修复（推荐）'）：先6业务AssertionError/19绿，2ad4c36e9行为修复+e016c27a3纯BFS去重+976c0ce5c主测完整身份等式；收集union 38464→38765（+301/-0）、12scene+shared内存结果不同、16/17计数goto可达且续行全入union；全包首跑451绿/1 FIRE像素oracle超5000ms原件保留、maxWorkers=2复跑76文件452绿stderr0。P3（用户2026-10-24批准'补齐两条分支'）：b285b5a5b先14绿2业务红再7行修复，9相邻83绿/TC0；非零op1/op2收集与胜利续行、零地址、敌队号不当脚本目标逐项核，union 38765→38780（+15/0）、610条非零接回边目的均入union。
 
 ## 状态与交接
 
-review保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
-
+Status保持review：获准行为均已有代码/局部证据，统一全仓/coverage/protected等全部pre94集中；CODE3/3g其它主编排与测试质量余项不随本修复关闭。2026-10-22集中门（CLI IO统一窗口）check20430、ratchet/protected同报告20032全0诊断已过，卡内其它余项与P3后续保持。原版实际游戏未运行——不能把静态17站点写成17个游玩缺陷。
 
 ## 原文保全
 

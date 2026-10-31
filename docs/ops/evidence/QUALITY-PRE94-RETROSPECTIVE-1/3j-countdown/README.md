@@ -2,29 +2,28 @@
 
 Status: historical
 Owner: GLM(治理候选作者;原文作者/状态见保全块)
-Last reviewed: 2026-10-30
+Last reviewed: 2026-10-31
 Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「CODE3j countdown 当前复审切片」的主题按原文时点保留(摘录:基点：`912a75b2d`；分支：`codex/code-quality-3y`，相对 `origin/main` `0 behind`。这是 CODE-QUALITY-3j 的)。
+CODE-QUALITY-3j第二个有限pre-94切片(基点912a75b2d,0 behind),核countdown DOM小模块、两份直接合同测试与speedrun/index.ts真实调用;3j的display-scale/FPS/toast/map-names/time-format/checkpoints不因本片自动收口。
 
 ## 范围与证据
 
-原报告含章节[CODE3j countdown 当前复审切片、逐文件与 caller、判别力与结论]、2个链接;固定main源2340B(SHA 2a5c7db4c73e)。当前存活入口:[README.md](../68-countdown-tests/README.md) [read-boundaries.json](read-boundaries.json)。
+完整读取countdown.ts(29行)/countdown.test/countdown.glm-phase1-leaves/index.ts(116行)/index.test/index.glm-phase1-leaves六文件;tools-panel只读控制导入与计时器页段,toast.ts/toast.test作相邻DOM生命周期参照不计入countdown证据,清单SHA与2026-10-18的pause caller更正见[read-boundaries.json](read-boundaries.json)。showCountdown只在存在document时工作;字符串路径复用单一#tp-speedrun-countdown元素、仅文本变化时写入、null移除且重复null幂等;元素pointer-events:none不阻塞输入。真实caller是speedrun/index.ts:23-43:计时器未启用强制showCountdown(null),启用时只把getCountdownRemainingSec()正整数转文本;pause由F8 setupSpeedrunHotkeys触发,工具面板只管设置/重置/最佳/跳转。
 
 ## 发现
 
-原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+countdown.test覆盖挂出/文本更新/移除;GLM leaves覆盖同节点复用/pointer-events:none/移除后重建/重复null。本片当时未识别生命周期重复,且『同文字无重写』没有直接oracle——该结论由后继[README.md](../68-countdown-tests/README.md)复审纠正。未发现核心mock或非法输入;document.body由真实主循环调用时存在,SSR/无document已有no-op。
 
 ## 结论
 
-原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+定向4文件/17 tests passed,0 failure/skip/stderr;覆盖率、official ratchet、protected fast与全仓check按用户成本规则未在本小片运行。3j整卡保持partial;countdown文件当前仅有本片直接证据,不把历史done重升为本轮accept;不改生产代码。
 
 ## 整改与复核
 
-本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
-
+未重跑;无第一阶段机制、schema/save、资产管线或公共接口边界。候选待Owner非作者接收。
 
 ## 原文保全
 

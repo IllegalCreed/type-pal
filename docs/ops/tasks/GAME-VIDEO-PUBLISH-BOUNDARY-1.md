@@ -7,24 +7,23 @@ Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「GAME-VIDEO-PUBLISH-BOUNDARY-1 — 视频转码子路径所有权与失败发布」的任务归属与历史边界。原目标见原文(摘录:Capability: video output ownership / publication Reviewer: Codex Visual Verification Timing: N/A（文件字);本页治理不重开已终态任务。
+修复视频转码两个边界缺口：旧授权只明确拒绝data/data-extracted根链接，不能冒充对后代节点与失败发布策略的裁决。反例一：真实extract:videos→convertOne→execFile ffmpeg -y→stat/mtime链下，把videos目录或1.mp4指向另一自有temp目标时ffmpeg实际改写目标marker（所有权越界）；反例二：独立encoder先写目标再退出7，入口报失败但原发布字节已丢失（失败事务）。
 
 ## 范围
 
-原卡含章节[GAME-VIDEO-PUBLISH-BOUNDARY-1 — 视频转码子路径所有权与失败发布、目标与停止线、工程前提、primary与可证伪反例、有限方案与准入、实施与交接、2026-10-26 用户准入],共3个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+获批后仅scripts/extract-videos.ts、cli-entrypoint-paths.test.ts及本卡/父证据；六编号、编码参数、正常mtime增量策略、错误退出与raw输入链接保持；资源格式由encoder替身代表，反例只证文件所有权/失败事务不证真实视频编码。
 
 ## 前提与证据
 
-固定main源3633B(SHA e1bc9ee79af2);原卡前提按原时点保留。当前存活入口:[video-boundary.json](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/video-boundary.json) [video-red.json.gz](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/video-red.json.gz) [QUALITY-REVIEW-52-CLOSEOUT-1.md](QUALITY-REVIEW-52-CLOSEOUT-1.md)。
+固定源全文核读。用户2026-10-26批准“保护输出和失败保留”：ffmpeg预检前检查videos目录及六个最终mp4节点、拒绝链接；独占临时目录内转码、成功且非空后同卷rename；finally仅清理本次临时树、失败保留旧字节。实施：十个真实入口例通过（原六例+两后代链接+失败保留+缺encoder），其余输出/root/诊断相邻合计四文件27例、TC0、显式default/JSON与stderr0；批准前6绿3指定业务红保留。若目标字节保留或encoder未执行则claim被推翻——非只凭异常退出断定覆盖。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:build),治理不改写。
+当前仍build，随父52统一门与发布收口；原extract-videos整文件继续review，未重跑全仓/coverage、未声称发布。
 
 ## 状态与交接
 
-build保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
-
+build保持原语义；父阶段QUALITY-REVIEW-52-CLOSEOUT-1继续。原件:[video-boundary.json](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/video-boundary.json) [video-red.json.gz](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/video-red.json.gz) [QUALITY-REVIEW-52-CLOSEOUT-1.md](QUALITY-REVIEW-52-CLOSEOUT-1.md)。
 
 ## 原文保全
 

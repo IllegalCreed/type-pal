@@ -7,24 +7,23 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 证据身份
 
-本页是「CODE46 draw-confirm 当前复审切片」的治理候选页;证据原件即下方逐字节保全的固定main源(1745B,SHA bd18c2d2e191)。
+本页是「CODE46 draw-confirm 当前复审切片」(基点 8e12c129,分支 codex/code-quality-3y)的治理候选页;证据原件即下方逐字节保全的固定main源。本页真实结论:重新复审确认/开关框渲染,不把历史 done、旧测试数量或旧全仓门当当前整卡验收;46 提升为 partial,未标 accept/done。
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原0个链接处置见作者review的linkDisposition。当前存活入口:无当前仓库内存活链接。
+来源为固定Git载体,非本次运行。完整读取 draw-confirm.ts(48行)、draw-confirm.glm-phase1-leaves.test.ts(67行)、opening-confirm-pixels.grok-r1.test.ts(177行);核对 present.ts/draw-menu.ts/draw-shop.ts 真实 caller 与 draw-box/font/framebuffer 所有权;primary 为 SDLPal uigame.c:242-388;逐行读域见同目录 read-boundaries.json。核对轴:双框坐标/标签、selectedColor 时间依赖、shadow、空标签、多字标签测试边界、framebuffer 写入隔离、开场/商店/脚本确认调用。
 
 ## 断言与业务 oracle
 
-文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+本页正文按原文时点转述:当前实现与 primary/caller 一致——默认和合法开关标签使用 (130,100)/(205,100) 框与 (145,110)/(220,110) 文字,选中项走 0xF9..0xFE palette cycle,阴影由 font renderer 负责,空标签只跳过文字保留框体。关键裁决:SDLPal 通用 PAL_SelectionMenu 会按任意多字标签动态偏移第二项,本 TS 公共 helper 的真实生产 callers 只传单字"否/是""关/开",现有多字测试明确验证固定窄 helper 行为;没有直接证据授权扩大公共 UI 合同,因此不擅改。
 
 ## 结果
 
-原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+本页治理结果=原文保全完整,不产生新执行结果。原文验证事实:定向 2 files/10 tests passed;相邻 draw-menu/present 3 files/69 tests passed;pnpm --filter @type-pal/game typecheck passed。未修改产品实现、UI 形态、输入状态、脚本、存档或公共接口。
 
 ## 限制与复核
 
-未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
-
+原文明言:coverage ratchet、protected fast、全仓 pnpm check 和官方 coverage 按用户成本边界未运行。未重跑命令;候选待Owner非作者接收。
 
 ## 原文保全
 

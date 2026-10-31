@@ -7,24 +7,23 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 证据身份
 
-本页是「pre94 公式数值、事实注释与既有测试判别力返工」的治理候选页;证据原件即下方逐字节保全的固定main源(4776B,SHA 17939d86e604)。
+本页是「pre94 公式数值、事实注释与既有测试判别力返工」的治理候选页;证据原件即下方逐字节保全的固定main源(4776B,SHA 17939d86e604)。该证据片是 QUALITY-PRE94-RETROSPECTIVE-1 / core-comment-audit 的第七组注释返工(base 8dabfd49,codex/code-quality-3y 分支):只修事实注释并加强既有测试,不改数值执行,数值实现冻结待用户裁决。
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原10个链接处置见作者review的linkDisposition。当前存活入口:[GAME-MAGIC-NUMERIC-ASSIGNMENT-1.md](../../../../tasks/GAME-MAGIC-NUMERIC-ASSIGNMENT-1.md) [QUALITY-PRE94-RETROSPECTIVE-1.md](../../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) [controls.json](controls.json) [emit-identity.json](emit-identity.json) [gates.json](gates.json) [mapping-oracle.json](mapping-oracle.json) [numeric-counter.json](numeric-counter.json) [poison-oracle.json](poison-oracle.json) [read-boundaries.json](read-boundaries.json) [test-title-mappings.json](test-title-mappings.json)。
+三选定源/测为 packages/game/src/core/battle/formulas.ts、magic-damage.ts 与 __tests__/formulas.test.ts,全文与分段读取范围、SHA 及 7 条限制见[read-boundaries.json](read-boundaries.json);原C util.RandomFloat/fight.PAL_CalcBaseDamage/PAL_CalcMagicDamage 按真实边界提取并逐函数体钉 SHA,原C对照五轮运行回执见[numeric-counter.json](numeric-counter.json),五灵/中点与毒抗两个独立手算/原生 oracle 见[mapping-oracle.json](mapping-oracle.json)与[poison-oracle.json](poison-oracle.json)。授权与交接见[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md);[GAME-MAGIC-NUMERIC-ASSIGNMENT-1.md](../../../../tasks/GAME-MAGIC-NUMERIC-ASSIGNMENT-1.md)数值风险卡当时仅 draft 只读、等待用户裁决,数值执行不在本片 build。
 
 ## 断言与业务 oracle
 
-文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+本片核心可感知差异:灵力240、有效防御30、基础伤50、无元素、HP9000 场景,真实 TS 公开调用链实扣 160(余 8840),C 原函数体用邻近归一化样本或四分之一样本扣 161;C float32 写回 WORD 再整数除 10 与 TS 连续 double 最后截断不能宣称等价,删除 *10/10 在本反例仍得 245、不是修复。两枚源变异反控(水/火抗性互换、漏毒抗)各为完整未过滤旧 28 绿→变异后恰 1 个指定业务 AssertionError,原件见[controls.json](controls.json);formulas.ts 与 magic-damage.ts 仅注释改动,去注释后 JS 逐字节一致见[emit-identity.json](emit-identity.json);formulas.test.ts 28 例保持、4 个标题按真实 oracle 改写(如 65535→-2 仅当前 TS 截取合同、毒抗5必须给80、倍率1.05/1.0 得 52/50),映射见[test-title-mappings.json](test-title-mappings.json)。
 
 ## 结果
 
-原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+恢复后 51 直接、293 相邻与 game typecheck 零诊断;docs check 125 例全过、lint 5250 文件零诊断,最终门汇总见[gates.json](gates.json)。两个原 closed 转 review(formulas.ts、formulas.test.ts),账面 267closed/75review/2973pending,0 新增 closed,83 卡 50partial/33pending/0accept;mergeAllowed=false,未合 main,数值行为未变、用户数值裁决 pending。
 
 ## 限制与复核
 
-未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
-
+C 片段为最小 typed 上下文+单一归一化 lrand 样本,非完整 SDLPal/原盘实跑;两边不同 PRNG,不声称同 seed 序列。rng.ts rangeFloat『对齐SDL』端点错注只读登记;asShort 重复是复用候选,未借提取引新公共接口;其它 FLOAT 系数、WORD/SHORT 极端域、field permutations、原盘视觉/E2E、官方 coverage ratchet 与 protected fast 均 pending。未重跑原命令;历史结论保持原时点;候选待 Owner 非作者接收。
 
 ## 原文保全
 

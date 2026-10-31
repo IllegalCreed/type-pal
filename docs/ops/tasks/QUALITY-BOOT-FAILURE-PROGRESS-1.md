@@ -2,48 +2,53 @@
 
 Status: done
 Owner: GLM(治理候选作者;原文作者/状态见保全块)
-Last reviewed: 2026-10-30
+Last reviewed: 2026-10-31
 Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「QUALITY-BOOT-FAILURE-PROGRESS-1 — 启动失败后的进度所有权」的任务归属与历史边界。原目标见原文(摘录:修复第一阶段 PROD+SW 必要资源阶段失败后的进度所有权：启动失败提示不能被迟到的资源进度覆盖，计数包装和回调应按本轮 ownership 释放。用户已批准本卡窄修，不改变进入游戏门、重试策略、资源请求取消、UI形态或公共API。);本页治理不重开已终态任务。
+修复第一阶段PROD+SW必要资源阶段失败后的进度所有权：启动失败提示不能被迟到的资源进度覆盖，计数包装和回调按本轮ownership释放。修前真实公开模块组合红例：必要资源并行加载一项失败而另一项稍后完成时，'启动失败:主资源加载失败'被覆写成'加载必要资源 50%'。
 
 ## 范围
 
-原卡含章节[QUALITY-BOOT-FAILURE-PROGRESS-1 — 启动失败后的进度所有权、目标、2026-10-23 当前收口、当前准入（2026-10-18，历史）、范围、前提真值门],共4个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+main.ts失败分支清理、shell/precache-ui.ts失败进度终态、shell/boot-loading.ts本轮计数/包装释放；只读caller为bootstrap/bootstrap-resources/loader的并行资源屏障与onPlayable时序。范围外：SW cache/manifest/版本、进入游戏门、重试策略、资源请求取消、UI形态、公共API。
 
 ## 前提与证据
 
-固定main源8966B(SHA c34d5011d797);原卡前提按原时点保留。当前存活入口:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3i-dialog-precache/quality-closeout/README.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/README.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/approved-fix/README.md) [failure-repro.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/failure-repro.json)。
+项目自有浏览器启动能力（SDLPal无同形UI）。反例无mock bootstrap或进度状态核心，仅typed fetch IO替身控制请求完成并使用真实boot-loading/precache-ui——证明模块组合与DOM文本，不是完整main运行或真实HTTP失败。原6个链接处置见作者review，存活入口逐字保留：
+
+当前存活入口:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3i-dialog-precache/quality-closeout/README.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/README.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/approved-fix/README.md) [failure-repro.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/failure-repro.json)。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+用户2026-10-18批准'失败提示保持，同时停止本轮fetch计数和进度回调；正常启动、进入游戏和其它网络请求保持原行为'。实现最小修复：main失败释放本轮计数、UI失败进度终态、fetch释放保留后来Owner且迟到请求不污染新轮次；四条旧实现指定单红→正式相邻6文件58绿、原组合红例精确重放1绿、game typecheck通过。真实PROD入口受控HTTP404/迟到200前后对照、正常onPlayable按钮/进场均实跑并查看截图。2026-10-23收口：以原291b7b59d完整SHA的当前版本桥核PROD catch清理顺序、fetch所有权/代次及UI失败终态；上游本地化新增语言订阅另核；当前52定向/61相邻与完整check20601+692、official20172/774及同报告strict/protected项目零诊断。
 
 ## 状态与交接
 
-done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+Status保持done（2026-10-23收口）：原批准窄缺陷闭合；不授新英文/离线/intro视觉或main/bootstrap整文件信用；远端PR发布按实际后继回执。47–52旧通过信用已撤回不能沿用。
 
 ## 历史范围
 
-原卡属固定main时点;QUALITY-BOOT-FAILURE-PROGRESS-1 — 启动失败后的进度所有权的原始范围与日期在保全块内逐字保留。
+2026-10-18准入时点保留：基点308f517e6、白名单三源+相邻测试；逻辑测试不冒充真实PROD功能/视觉通过。
 
 ## 原始结论
 
-原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+原卡结论：失败文案保持、只释放本轮拥有的包装/回调、成功/未进入/进入后状态分别保留。
 
 ## 当时证据
 
-原文4个链接与当时回执属原时点证据;本页不重跑、不复授。
+docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/（failure-repro/approved-fix）与3i-dialog-precache/quality-closeout。原链接与当时回执属原时点证据。
 
 ## 当前有效性
 
-仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+done按其时点有效；SW/离线不在本卡。
 
 ## 继任文档
 
-接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3i-dialog-precache/quality-closeout/README.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/README.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/approved-fix/README.md) [failure-repro.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/failure-repro.json)。
+CODE-QUALITY-72（原卡）与QUALITY-FETCH-ABORT-LIFECYCLE-1（网络重试取消域分开）关联。原存活入口逐字保留：
+
+关联:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3i-dialog-precache/quality-closeout/README.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/README.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/approved-fix/README.md) [failure-repro.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/failure-repro.json)。
+
 
 
 ## 原文保全

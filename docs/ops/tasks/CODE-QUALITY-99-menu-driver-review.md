@@ -2,48 +2,53 @@
 
 Status: done
 Owner: GLM(治理候选作者;原文作者/状态见保全块)
-Last reviewed: 2026-10-30
+Last reviewed: 2026-10-31
 Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「CODE-QUALITY-99 — menu 输入路由中枢审核（menu-driver 及其测试）」的任务归属与历史边界。原目标见原文(摘录:menu 域逐文件治理第四批（1 生产文件 + 2 测试文件，不碰 CODE94/95 白名单 30 文件与 97/98 批文件）：);本页治理不重开已终态任务。
+menu输入路由中枢menu-driver.ts（1047行）及两主测（657行/1007行cov85）的逐文件审核与返工：行为合同由sdlpal各菜单函数控制流（goto-out语义、INNER loop、switch/confirm阶段机）与bootstrap注入边界共同钉住。
 
 ## 范围
 
-原卡含章节[CODE-QUALITY-99 — menu 输入路由中枢审核（menu-driver 及其测试）、2026-10-25 本地统一门收口（当前）、批准后收尾窗口（2026-10-25，接续b8）、2026-10-25 质量余项与异步所有权（当前）、2026-10-15 最终模块窗口（当前）、Codex 接手修复（2026-10-15，作者自验证）],共5个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+1生产+2测试。登记E-7（约6处as unknown as/as any部分对象fixture，按CODE95口径不算业务覆盖）、E-8（_bus死参）、E-9（makeEquipMenuEntry零caller死导出）；死出口/死参清理等待集中接口裁决不借此修改。
 
 ## 前提与证据
 
-固定main源12753B(SHA aa5fa5d15c1c);原卡前提按原时点保留。当前存活入口:[README.md](../evidence/CODE-QUALITY-94/approved-closeout/README.md) [codex-final-window.md](../evidence/CODE-QUALITY-94/codex-final-window.md) [codex-r2-review.md](../evidence/CODE-QUALITY-94/codex-r2-review.md) [codex-r3-review.md](../evidence/CODE-QUALITY-94/codex-r3-review.md) [codex-takeover.md](../evidence/CODE-QUALITY-94/codex-takeover.md)。
+逐dispatcher锚：shop uigame.c:1615、sell:1755、opening:122-152（Cancel=新游戏）、system DH9:650/1031（return TRUE→goto out关整栈）、inventory C4 INNER loop play.c:288-303、use-target live refresh:1401-1418/1468、equip DM23:1820/1857-1859/2016-2019、magic:740-861（MP不足退picker）、player-status:1265-1284、save/load:578-611；真实caller menu-mode.ts:28每帧tickMenu→dispatchMenuInput、bootstrap注入四handler。原6个链接处置见作者review，存活入口逐字保留：
+
+当前存活入口:[README.md](../evidence/CODE-QUALITY-94/approved-closeout/README.md) [codex-final-window.md](../evidence/CODE-QUALITY-94/codex-final-window.md) [codex-r2-review.md](../evidence/CODE-QUALITY-94/codex-r2-review.md) [codex-r3-review.md](../evidence/CODE-QUALITY-94/codex-r3-review.md) [codex-takeover.md](../evidence/CODE-QUALITY-94/codex-takeover.md)。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+返工链：E-7修复（全面typed化mkItem/mkSpell/mkMagic+makeRole、弱遍历改确定性cursor安排）；cov85两处11条库存改11个不同合法itemId（真addItemToInventory按id合并）、补save/load handler异步reject与同步throw两条ownership oracle；C4空目标假正例先红后绿、同步handler双重强转删除、用户批准的标题取消修复（23f4effbf，125相邻+真实浏览器验证）。2026-10-25质量余项：纠正inventory-action取消回hub、装备空swap到done、play.c误引为uigame.c三处坏注释；角色夹具10/20/30改非顺序2/0/4、afterEach回收handler；新直接counter——StartGameHandler公开允许Promise但bootstrap真实async开场回调的两个新游戏输入分支均丢弃拒绝，正式37绿/2指定AssertionError后增统一私有startNewGame边界（失败记录原因、不清标题、不自动重试）。终态并入94-102统一门（20605+714、official 20168/807、20新关闭+34桥接）。
 
 ## 状态与交接
 
-done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+Status保持done（并入94-102统一门收口；done仅指本卡有限代码/质量门收口，远端发布由关联Git/PR与main CI记录，不能从本节预告继承）。
 
 ## 历史范围
 
-原卡属固定main时点;CODE-QUALITY-99 — menu 输入路由中枢审核（menu-driver 及其测试）的原始范围与日期在保全块内逐字保留。
+2026-10-15各时点保留：R2基点cddf65557（旧非法fixture未修/标题取消oracle与异步ownership缺口）、R3候选5477af1e4（C4空目标假正例复现/双重强转待删/3283/229closed/44review/3010pending）、最终模块窗口bb94ad8e2三门exit0但3620/3610/3523条未包act统一门不通过。
 
 ## 原始结论
 
-原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+原卡结论：menu-driver注释为「注释说明为什么」的范本（每dispatcher带sdlpal控制流真值含用户bug史锚）；menu域core+driver全覆盖完毕后换域。
 
 ## 当时证据
 
-原文5个链接与当时回执属原时点证据;本页不重跑、不复授。
+docs/ops/evidence/CODE-QUALITY-94/（codex-r2/r3-review、codex-takeover、codex-final-window、approved-closeout、current-review）。原链接与当时回执属原时点证据，本页不重跑、不复授。
 
 ## 当前有效性
 
-仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+历史任务卡（done有限语义）；menu路由后续以52收口等为准。
 
 ## 继任文档
 
-接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[README.md](../evidence/CODE-QUALITY-94/approved-closeout/README.md) [codex-final-window.md](../evidence/CODE-QUALITY-94/codex-final-window.md) [codex-r2-review.md](../evidence/CODE-QUALITY-94/codex-r2-review.md) [codex-r3-review.md](../evidence/CODE-QUALITY-94/codex-r3-review.md) [codex-takeover.md](../evidence/CODE-QUALITY-94/codex-takeover.md)。
+CODE-QUALITY-94母卡与94-102系列、QUALITY-REVIEW-52-CLOSEOUT-1承接集成终态。原存活入口逐字保留：
+
+关联:[README.md](../evidence/CODE-QUALITY-94/approved-closeout/README.md) [codex-final-window.md](../evidence/CODE-QUALITY-94/codex-final-window.md) [codex-r2-review.md](../evidence/CODE-QUALITY-94/codex-r2-review.md) [codex-r3-review.md](../evidence/CODE-QUALITY-94/codex-r3-review.md) [codex-takeover.md](../evidence/CODE-QUALITY-94/codex-takeover.md)。
+
 
 
 ## 原文保全

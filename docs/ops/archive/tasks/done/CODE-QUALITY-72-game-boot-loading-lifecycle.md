@@ -7,44 +7,43 @@ Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「CODE-QUALITY-72 — game boot loading lifecycle」的任务归属与历史边界。原目标见原文(摘录:Reviewer: Codex（独立验收） Capability: Q3 game/shell Visual Verification Timing: functional-ui（启动 overlay);本页治理不重开已终态任务。
+原卡目标:逐文件核验启动 loading 三文件（`boot-loading.ts` 149 行与主/host 测试）:fetch 计数、分母/单调进度、onProgress/SW 互斥、note、finish/fail/restore、缺 DOM/缺节点、rAF fallback、幂等与错误生命周期。
 
 ## 范围
 
-原卡含章节[CODE-QUALITY-72 — game boot loading lifecycle、范围、验证、交接、2026-10-18 当前复审、下一位 Agent 提示词],共4个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+三文件;只读相邻真实 main/资源屏障/UI/HTML caller。
 
 ## 前提与证据
 
-固定main源3579B(SHA cb39111e5816);原卡前提按原时点保留。当前存活入口:[README.md](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/README.md) [README.md](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/approved-fix/README.md) [shell-lifecycle-local.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/shell-lifecycle-local.json) [QUALITY-BOOT-FAILURE-PROGRESS-1.md](../../../tasks/QUALITY-BOOT-FAILURE-PROGRESS-1.md)。
+原批 20 tests 全绿、全仓门通过,账本 3266/322 closed。2026-10-18 复审:原 20 例保留数量——弱重复失败提示归 G09-C11,增加 Request/init/Response 透传,增强底层 reject 同一对象、4/8 分母、599/600ms 与异步/全局清理;三枚隔离反控各旧 20 绿→新 19 绿 1 指定 AssertionError,正式 20 绿。**发现真实缺陷**:ui.fail 被迟到 fetch 进度覆盖（一条明确 DOM AssertionError）,生产未修,已开 [QUALITY-BOOT-FAILURE-PROGRESS-1.md](../../../tasks/QUALITY-BOOT-FAILURE-PROGRESS-1.md) 高风险卡,main/boot 转 review、precache-ui 旧关闭撤回 rework;当时 288 closed/47 review/2977 pending。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+2026-10-18 用户批准后的窄修:[README.md](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/approved-fix/README.md) 替代"未修/冻结"状态——三个生产文件按批准修复失败进度与计数 ownership,四条先红后绿、相邻 58 绿/原红精确重放 1 绿、game typecheck 及实际 PROD 失败/正常进场与看图完成;boot-loading.ts 新增闭合,main/UI 仍 review;289 closed/47 review/2976 pending;旧 counter 和原 NaN/测试历史原件保留,不把整卡升格 accept。2026-10-21 shell 生命周期五卡收口:原三文件接受——批准修复后的 main/UI/boot 测试等完整直达文件仍同字节,bootstrap/loader/HTML 当前 caller 片段另核;复用原生产错误/正常 DOM 及原生证据;复审证据见 [README.md](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/README.md),shell 收口原件见 [shell-lifecycle-local.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/shell-lifecycle-local.json)。
 
 ## 状态与交接
 
-done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+done 保持原历史语义;三轮变迁（发现缺陷→批准窄修→shell 收口接受）按各自时点保留。
 
 ## 历史范围
 
-原卡属固定main时点;CODE-QUALITY-72 — game boot loading lifecycle的原始范围与日期在保全块内逐字保留。
+原卡属 2026-10-13 核验时点;原始记录在保全块内逐字保留。
 
 ## 原始结论
 
-原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+原卡结论按 Status(done) 原样登记;2026-10-18 发现的真实缺陷与批准修复由对应卡与证据承载。治理不撤销/不恢复旧信用。
 
 ## 当时证据
 
-原文4个链接与当时回执属原时点证据;本页不重跑、不复授。
+当时各轮回执（三枚隔离反控、批准修复原件、shell 收口原件）按各自动时点保留;本页不重跑、不复授。
 
 ## 当前有效性
 
-仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+仅历史任务归属有效;当前结论以 approved-fix 与 shell-lifecycle 原件为准。
 
 ## 继任文档
 
-接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[README.md](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/README.md) [README.md](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/approved-fix/README.md) [shell-lifecycle-local.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/shell-lifecycle-local.json) [QUALITY-BOOT-FAILURE-PROGRESS-1.md](../../../tasks/QUALITY-BOOT-FAILURE-PROGRESS-1.md)。
-
+QUALITY-BOOT-FAILURE-PROGRESS-1（缺陷裁决卡）、72-boot-loading 证据目录与 shell-lifecycle-local.json 为继任;当前任务导航以看板为准。
 
 ## 原文保全
 

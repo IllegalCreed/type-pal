@@ -7,44 +7,43 @@ Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「CODE-QUALITY-68 — game speedrun countdown test contracts」的任务归属与历史边界。原目标见原文(摘录:Reviewer: Codex（独立验收） Capability: Q3 game/tools/speedrun Visual Verification Timing: functional-ui（倒);本页治理不重开已终态任务。
+原卡目标:逐文件核验 speedrun 倒计时两份测试文件:挂出/更新/null 移除、单例复用、相同节点更新、移除后重建与 pointer-events 的真实判别力（倒计时为 DOM 单节点）。
 
 ## 范围
 
-原卡含章节[CODE-QUALITY-68 — game speedrun countdown test contracts、范围、验证、交接、2026-10-18 当前复审（覆盖旧排重结论）、下一位 Agent 提示词],共1个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+两文件;只读 countdown.ts 实现与 index/timer caller。
 
 ## 前提与证据
 
-固定main源2133B(SHA 51f2cfc1e621);原卡前提按原时点保留。当前存活入口:[README.md](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/68-countdown-tests/README.md)。
+原批:定向 4 tests 全绿、speedrun wave 全门通过,账本 3266/316 closed。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+2026-10-18 当前复审（覆盖旧排重结论）:承接 QUALITY-PRE94-RETROSPECTIVE-1,全文读取实现/两测试/index/timer,发现原生命周期断言重复、GLM 注释误称同文字写入不可观察;将身份/重建 oracle 合入主测试,GLM 改核 MutationObserver 与无 document 边界,四例职责重新划分;生产代码未改。隔离同文字 guard 变异:旧 4 绿→新 3 绿 1 个指定 AssertionError;根节点身份转移 1 红→1 红,移除 oracle 转移 2 红→1 红;恢复 4 绿。原件/JSON/完整身份/hash 与副本清理见 [README.md](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/68-countdown-tests/README.md);相邻 speedrun/tools-panel 20 文件 104 tests、game typecheck 通过;未运行新全仓 check/ratchet/protected,旧波次门不认证新候选;当前 partial。
 
 ## 状态与交接
 
-done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+done 保持原历史语义;2026-10-18 复审 partial,历史 done 不等于本轮 accept。
 
 ## 历史范围
 
-原卡属固定main时点;CODE-QUALITY-68 — game speedrun countdown test contracts的原始范围与日期在保全块内逐字保留。
+原卡属 2026-10-13 wave 时点;原始记录与历史提示词在保全块内逐字保留。
 
 ## 原始结论
 
-原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+原卡结论按 Status(done) 原样:测试合同原子、DOM oracle 真实、与实现排重。治理不撤销/不恢复旧信用。
 
 ## 当时证据
 
-原文1个链接与当时回执属原时点证据;本页不重跑、不复授。
+当时回执（4 定向、wave 全门）属原时点证据;本页不重跑、不复授。
 
 ## 当前有效性
 
-仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+仅历史任务归属有效;职责重划后结论以 68 证据为准。
 
 ## 继任文档
 
-接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[README.md](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/68-countdown-tests/README.md)。
-
+CODE-QUALITY-65（index 编排）与 68 证据目录为继任;当前任务导航以看板为准。
 
 ## 原文保全
 

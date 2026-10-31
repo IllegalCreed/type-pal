@@ -7,24 +7,23 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「CODE64 speedrun detectors 当前复审切片」的主题按原文时点保留(摘录:> 2026-10-18 波次门勘误：本页引用的 47–52统一门回执 已撤回“通过/收口”信用，未证明零诊断；不得沿用为本片验收或合并依据。本页原逐文件/定向结果按各自证据保留，)。
+历史 CODE-QUALITY-64 的检测器需重新核验:基点 5dd341657、分支 codex/code-quality-3y,只复核检测器的 prev/mem ownership、边界和真实消费方,不改变 checkpoint 数据/公共接口/产品行为;整卡复审为 partial。2026-10-18 波次勘误:统一门 [README.md](../53-wave-gates/README.md) 信用撤回,不得沿用为本片验收或合并依据。
 
 ## 范围与证据
 
-原报告含章节[CODE64 speedrun detectors 当前复审切片、实际读取与依据、逐文件结论、验证]、1个链接;固定main源2730B(SHA 1eea52dbe8a8)。当前存活入口:[README.md](../53-wave-gates/README.md)。
+实现/直接测试:detectors.ts(76行)、detectors.test.ts(77行)、detectors.glm-phase1-leaves.test.ts(65行)。真实 caller:timer.ts 的 SpeedrunTimer.tick、snapshot.ts、checkpoints.ts 的 21 个 detector 配置。设计 oracle:speedrun design §4.2-4.3 与 PalTimer/checkpoint 约束;ProgressSnapshot 是状态投影 owner,detector 只读其字段。
 
 ## 发现
 
-原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+detectors.ts 的 enter/leave/enterAny 仅按当前/上一帧 scene 判定;enterAnyScene 在工厂时复制场景集合,避免调用者后续修改输入;atSpot/atAnySpot 使用显式矩形容差;bossWon 要求目标敌种仍在 battle 且全场总血不高于零;hasItem/bgmIs 是纯快照谓词;caiyiDetector 只在目标敌种首次出现时写自己的 mem.seen,随后以敌种消失或总血清零完成第二段,符合 timer 依序单节点消费;未发现错误传播/共享可变状态/公共边界缺陷。两份直接测试共 12 tests:主测覆盖各原语基本合同、null prev、battle null 和两阶段彩依;GLM leaves 补默认容差四边界、多点命中/不命中、空集合、prev=null、自定义敌 id。定向/相邻 6 files/42 tests passed;typecheck passed。
 
 ## 结论
 
-原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+检测器切片核验成立,整卡仍 partial;本页原逐文件/定向结果按各自证据保留,旧计数不改写为 0。
 
 ## 整改与复核
 
-本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
-
+speedrun 的 index/overlay/checkpoint 实跑和其它 pre-94 卡未关闭;运行时坐标/BGM 校准不因静态测试宣称完成。未重跑任何命令;历史结论保持原时点;候选待 Owner 非作者接收。
 
 ## 原文保全
 

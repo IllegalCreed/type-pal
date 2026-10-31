@@ -7,44 +7,43 @@ Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「GAME-UI-ASSET-FRAME-IDENTITY-1 — UI 单帧加载失败后的编号漂移」的任务归属与历史边界。原目标见原文(摘录:单个 UI PNG 返回404后，旧loadAll压紧数组而呈现按原SPRITEUI编号取帧，导致后面的图片画成当前数字或边框。现按用户批准保留原编号和缺帧位置；呈现缺帧处理、资源格式与其它资源策略保持。);本页治理不重开已终态任务。
+修复UI单帧加载失败后的编号漂移：旧loadAll把失败帧转undefined再push成功帧使索引压紧，呈现按原SPRITEUI编号取帧导致后续图片画错。实际反证：71个有效6×8 PNG每帧独立色号，全成功时数字1用帧20色号20，帧19单独404后实际用帧21色号21（expected20/received21恰一像素业务AssertionError）。用户2026-10-22批准“批准保留原编号（推荐）”。
 
 ## 范围
 
-原卡含章节[GAME-UI-ASSET-FRAME-IDENTITY-1 — UI 单帧加载失败后的编号漂移、目标、范围、前提真值门、反证与替代解释、上下文锚点],共6个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+白名单loader.ts、load-all-recover.grok-r1.test.ts与load-all-ui-frame-identity.test.ts；保留原编号、迁移旧错误oracle及两例真实像素合同；其它optional资源keyed Map、生成物、shared RLE真值、公共接口、存档不变。
 
 ## 前提与证据
 
-固定main源4769B(SHA 7609e53581cb);原卡前提按原时点保留。当前存活入口:[CODE-QUALITY-3h-game-assets-shell.md](../archive/tasks/done/CODE-QUALITY-3h-game-assets-shell.md) [code-quality.md](../code-quality.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/README.md) [module-closeout.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/module-closeout.json) [ui-fix.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/ui-fix.json) [QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)。
+固定源全文核读。错误是编号漂移而非下载失败本身或原盘图片损坏；合成PNG用合法manifest/帧尺寸不替换解码核心。实现：三正式像素/错误合同、C10/C11迁移和资产相邻216绿、game TC0；六真实GOP快照均实际passed、输入只读SHA已核，解除旧六skip观察缺口，不由此认证shared全部格式。缺帧沿用既有呈现行为：drawBox缺必要帧报错、drawNumber缺数字帧跳过。2026-10-22模块最终收口完成同步main后全部集中门，五文件有限接受，浏览器/实际视觉未执行。锚点:[CODE-QUALITY-3h-game-assets-shell.md](../archive/tasks/done/CODE-QUALITY-3h-game-assets-shell.md) [code-quality.md](../code-quality.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/README.md) [module-closeout.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/module-closeout.json) [ui-fix.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/ui-fix.json) [QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+done为代码与模块门完成：旧C10“压紧数组”断言迁移为正确编号合同、保留物品图标缺失/成功键合同；缺帧不挪补、不新增占位图片或重试。
 
 ## 状态与交接
 
-done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+done保持原语义；治理不重开。后续按父卡3h剩余范围推进，用户原编号裁决已固化。
 
 ## 历史范围
 
-原卡属固定main时点;GAME-UI-ASSET-FRAME-IDENTITY-1 — UI 单帧加载失败后的编号漂移的原始范围与日期在保全块内逐字保留。
+原卡属固定main时点；范围为UI帧装配与编号合同子切片。
 
 ## 原始结论
 
-原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+原卡结论按其Status(done)原样：2026-10-22模块收口，五文件有限接受。
 
 ## 当时证据
 
-原文6个链接与当时回执属原时点证据;本页不重跑、不复授。
+当时回执属原时点证据：帧19 404后expected20/received21恰一像素红、216相邻绿、模块集中门零诊断；本页不重跑、不复授。关联:[CODE-QUALITY-3h-game-assets-shell.md](../archive/tasks/done/CODE-QUALITY-3h-game-assets-shell.md) [code-quality.md](../code-quality.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/README.md) [module-closeout.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/module-closeout.json) [ui-fix.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/ui-fix.json) [QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)。
 
 ## 当前有效性
 
-仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+仅历史任务归属有效；若将来UI消费改为显式原编号Map，数组漂移结论须重核；不凭旧基点授权新产品取舍。
 
 ## 继任文档
 
-接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[CODE-QUALITY-3h-game-assets-shell.md](../archive/tasks/done/CODE-QUALITY-3h-game-assets-shell.md) [code-quality.md](../code-quality.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/README.md) [module-closeout.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/module-closeout.json) [ui-fix.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/ui-fix.json) [QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)。
-
+父卡3h（CODE-QUALITY-3h-game-assets-shell）继续资产加载复审。 关联:[CODE-QUALITY-3h-game-assets-shell.md](../archive/tasks/done/CODE-QUALITY-3h-game-assets-shell.md) [code-quality.md](../code-quality.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/README.md) [module-closeout.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/module-closeout.json) [ui-fix.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/ui-fix.json) [QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)。
 
 ## 原文保全
 

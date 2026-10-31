@@ -2,48 +2,53 @@
 
 Status: done
 Owner: GLM(治理候选作者;原文作者/状态见保全块)
-Last reviewed: 2026-10-30
+Last reviewed: 2026-10-31
 Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「CODE-QUALITY-100 — 存档槽菜单审核（save-slot-menu 切片）」的任务归属与历史边界。原目标见原文(摘录:menu 域收完后换域第一批：存档槽菜单切片（1 生产 + 2 专属测试 + 2 相邻），不碰 CODE94/95 白名单与 97/98/99 批文件：);本页治理不重开已终态任务。
+存档槽菜单切片审核（save-slot-menu.ts 92行+两专属测试）：该层只做槽位选择状态机+SlotMeta只读异步拉取，不触碰save schema/写路径；save/load动作ownership在menu-driver与bootstrap handler/Save API（另域）。
 
 ## 范围
 
-原卡含章节[CODE-QUALITY-100 — 存档槽菜单审核（save-slot-menu 切片）、2026-10-25 本地统一门收口（当前）、批准后收尾窗口（2026-10-25，接续b8）、2026-10-25 当前复审增量、Codex 当前复核与测试收紧（2026-10-17）、2026-10-15 最终模块窗口（当前）],共7个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+1生产+2测试+2相邻（menu-save-chain.glm-msio、menu-driver.cov85）。
 
 ## 前提与证据
 
-固定main源12738B(SHA ca98631c79cf);原卡前提按原时点保留。当前存活入口:[README.md](../evidence/CODE-QUALITY-94/approved-closeout/README.md) [codex-final-window.md](../evidence/CODE-QUALITY-94/codex-final-window.md) [codex-r2-review.md](../evidence/CODE-QUALITY-94/codex-r2-review.md) [codex-r3-review.md](../evidence/CODE-QUALITY-94/codex-r3-review.md) [codex-takeover.md](../evidence/CODE-QUALITY-94/codex-takeover.md) [README.md](../evidence/CODE-QUALITY-94/current-review/README.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/supplementary-audit/README.md)。
+锚PAL_SaveSlotMenu uigame.c:169-242、WORD.DAT id 43+i（进度一..五）、DM24:582/605（bCurrentSaveSlot传参→:225 cursor=slot-1）、cross-slot savedTimes counter:589-597；真实caller为menu-driver五个消费点与draw-menu.ts:419每帧slotMetas渲染。本文件对Save API仅listSlots只读（fetchSlotMetas catch→console.warn不静默）→无schema/save停线触发项。原8个链接处置见作者review，存活入口逐字保留：
+
+当前存活入口:[README.md](../evidence/CODE-QUALITY-94/approved-closeout/README.md) [codex-final-window.md](../evidence/CODE-QUALITY-94/codex-final-window.md) [codex-r2-review.md](../evidence/CODE-QUALITY-94/codex-r2-review.md) [codex-r3-review.md](../evidence/CODE-QUALITY-94/codex-r3-review.md) [codex-takeover.md](../evidence/CODE-QUALITY-94/codex-takeover.md) [README.md](../evidence/CODE-QUALITY-94/current-review/README.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/supplementary-audit/README.md)。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+返工链：退役simulateSave自写聚合模拟（重复dispatcher逻辑不算caller证据，真driver聚合由menu-save-chain承担）；更正'真实IndexedDB集成'误称——game vitest(jsdom)无indexedDB走内存fallback（CODE-101环境事实）；头注幽灵引用改fetchSlotMetas真链。2026-10-17复核无产品缺陷，测试收紧：删三条与Save API重复的roundtrip、错误标注改准确语义补首项环绕反例、新增listSlots reject后warning+状态不污染+spy恢复隔离合同。2026-10-18排重勘误：2daed1bb7删的三用例不能统称'已有等价覆盖'——六类字段往返只剩cash、存侧克隆不等价读侧克隆，Codex撤回完全重复判断并在Save域补齐（本卡菜单层不回填IO用例）。2026-10-25增量：菜单层最后一条纯Save.savedTimes=42断言迁入API已有listSlots例（菜单15→14）。终态并入94-102统一门（54路径20新关闭+34桥接、official 20168/807）。
 
 ## 状态与交接
 
-done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+Status保持done（并入94-102统一门收口；done仅指本卡有限代码/质量门收口，远端发布由关联Git/PR与main CI记录）。
 
 ## 历史范围
 
-原卡属固定main时点;CODE-QUALITY-100 — 存档槽菜单审核（save-slot-menu 切片）的原始范围与日期在保全块内逐字保留。
+2026-10-15各时点保留：R2基点cddf65557（内存回归误称IndexedDB）、R3候选5477af1e4（排重局部accept/bus emit取消返回SystemMenu注释仍错）、最终窗口bb94ad8e2。2026-10-17定向四文件58tests+仅刷新game包fast baseline 3536→3585。
 
 ## 原始结论
 
-原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+原卡结论：save-slot-menu.ts通过（空列表防御/defaultSlot越界保持0/非顺序id反查/DH9语义），无死面（5导出全有生产caller）。
 
 ## 当时证据
 
-原文7个链接与当时回执属原时点证据;本页不重跑、不复授。
+docs/ops/evidence/CODE-QUALITY-94/全套与QUALITY-PRE94-RETROSPECTIVE-1/supplementary-audit。原链接与当时回执属原时点证据。
 
 ## 当前有效性
 
-仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+历史任务卡（done有限语义）。
 
 ## 继任文档
 
-接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[README.md](../evidence/CODE-QUALITY-94/approved-closeout/README.md) [codex-final-window.md](../evidence/CODE-QUALITY-94/codex-final-window.md) [codex-r2-review.md](../evidence/CODE-QUALITY-94/codex-r2-review.md) [codex-r3-review.md](../evidence/CODE-QUALITY-94/codex-r3-review.md) [codex-takeover.md](../evidence/CODE-QUALITY-94/codex-takeover.md) [README.md](../evidence/CODE-QUALITY-94/current-review/README.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/supplementary-audit/README.md)。
+CODE-QUALITY-101（Save API本体）与GAME-SAVE-IMPORT-PAYLOAD-VALIDATION-1（导入校验）承接存档域其余层次。原存活入口逐字保留：
+
+关联:[README.md](../evidence/CODE-QUALITY-94/approved-closeout/README.md) [codex-final-window.md](../evidence/CODE-QUALITY-94/codex-final-window.md) [codex-r2-review.md](../evidence/CODE-QUALITY-94/codex-r2-review.md) [codex-r3-review.md](../evidence/CODE-QUALITY-94/codex-r3-review.md) [codex-takeover.md](../evidence/CODE-QUALITY-94/codex-takeover.md) [README.md](../evidence/CODE-QUALITY-94/current-review/README.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/supplementary-audit/README.md)。
+
 
 
 ## 原文保全

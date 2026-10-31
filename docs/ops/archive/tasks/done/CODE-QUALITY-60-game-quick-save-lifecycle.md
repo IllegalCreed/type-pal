@@ -7,44 +7,43 @@ Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「CODE-QUALITY-60 — game quick-save lifecycle」的任务归属与历史边界。原目标见原文(摘录:逐文件核验快速存档/读档快捷键、准入状态、取消解绑、异常传播与 bootstrap caller，确认 F5/F9 不越过战斗/对话/菜单门，不吞错误，不残留 window listener。);本页治理不重开已终态任务。
+原卡目标:逐文件核验快速存档/读档两文件（`quick-save.ts` 与测试）:F5 只在 explore、无 dialog、空 menuStack 时保存固定 slot 1;F9 委托 bootstrap 完整读档恢复;两键 preventDefault 并将失败转为 toast,不吞错误、不残留 window listener。
 
 ## 范围
 
-原卡含章节[CODE-QUALITY-60 — game quick-save lifecycle、目标、范围、前提真值门、验证、当前模式推进记录],共1个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+两文件;只读相邻 bootstrap.ts:1110-1118 注入 caller、save-io、Save API、save-import-quicksave.glm-msio.test、phase1 save plan 快捷键准入。SDLPal 快速键是 type-pal 工具能力（primary N/A）。
 
 ## 前提与证据
 
-固定main源3735B(SHA 322f4fb89980);原卡前提按原时点保留。当前存活入口:[save-v1-local.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-v1-local.json)。
+历史批:定向 quick-save 4 tests、与 tools-panel/save-io/MSIO 合计 29 tests、save wave 全门通过,账本 3266/292 closed。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+2026-10-21 当前复审 accept（置顶勘误,与 CODE-QUALITY-59 共用）:获准结构/历史非空/角色域修复先红后绿,52 相邻、20386 全仓 check、19988 official ratchet/protected 全部零诊断,5 次原生文件/IDB 入口验证;60 复用有效九例及反控;不扩大到 Save/IDB/面板整文件或 94–102,逐文件 A–H 与原件见 [save-v1-local.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-v1-local.json)。2026-10-21 中间片记录:纯测试合同迁移与注释修正（旧 MSIO 的 D1 移入 save-io 主测,E1/E2/E3 并入强化后的 quick-save 主测,20→18 包含 toast 相邻,不以数量或包绿授验收）,无产品执行变化、用户槽位或 schema 修改;覆盖率、protected 和全仓 check 未运行,本中间片未推送/合并,CODE60 保持 partial,待完整模块门后正式裁定（基点 92e901806926c0fb08b9787877eed9ed45147d8d）。
 
 ## 状态与交接
 
-done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+done 保持原历史语义;2026-10-21 复审 accept 为当前有效结论,中间片 partial 记录按其时点保留。
 
 ## 历史范围
 
-原卡属固定main时点;CODE-QUALITY-60 — game quick-save lifecycle的原始范围与日期在保全块内逐字保留。
+原卡属 2026-10-13 wave 时点;原始记录与历史提示词在保全块内逐字保留。
 
 ## 原始结论
 
-原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+原卡结论按 Status(done) 原样:F5/F9 准入、preventDefault、解绑、异常 toast 与 bootstrap caller 均核验。治理不撤销/不恢复旧信用。
 
 ## 当时证据
 
-原文1个链接与当时回执属原时点证据;本页不重跑、不复授。
+当时回执（4 定向+29 wave 合计、全门）属原时点证据;本页不重跑、不复授。
 
 ## 当前有效性
 
-仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+仅历史任务归属有效;当前结论以 save-v1-local 复审原件为准。
 
 ## 继任文档
 
-接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[save-v1-local.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-v1-local.json)。
-
+CODE-QUALITY-59（save-io 版本门）与 save-v1-local 复审为继任;当前任务导航以看板为准。
 
 ## 原文保全
 

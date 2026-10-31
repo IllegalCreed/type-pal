@@ -7,24 +7,23 @@ Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「CODE-QUALITY-104 — editor M02 测试 act 生命周期诊断」的任务归属与历史边界。原目标见原文(摘录:Reviewer: Codex Capability: editor / test-host lifecycle Visual Verification Timing: N/A（仅测试宿主同步）);本页治理不重开已终态任务。
+清理CODE-QUALITY-103相邻回归中两个真实测试文件（ItemTab.glm-m.test.tsx、ItemUseEffectEditor.glm-m.test.tsx）的22条React act诊断：CODE-QUALITY-103的相邻22files/224tests exit0但22条act诊断来源集中于这两M02文件，定向两残余文件本身4/4、0诊断。
 
 ## 范围
 
-原卡含章节[CODE-QUALITY-104 — editor M02 测试 act 生命周期诊断、目标与白名单、证据与准入、验收、2026-10-17 Codex 验收],共1个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+只允许把原生点击、undo/redo等会触发useSyncExternalStore更新的测试事件包入现有act helper；不改生产组件、共享lint/config、断言语义或覆盖率范围。
 
 ## 前提与证据
 
-固定main源1989B(SHA cc05fd532a3f);原卡前提按原时点保留。当前存活入口:[README.md](../evidence/CODE-QUALITY-104/README.md)。
+固定源全文核读。2026-10-17验收：两白名单测试的原生click/undo/redo已包入act；修复前保留22条React诊断，修复后定向2/4、相邻24/228均PASS且零诊断，editor typecheck与全仓pnpm check exit0，lint/docs通过；official ratchet/protected fast仍因既有shared/pal-extract baseline回退失败，账本登记review不标done。退出码0但仍有stderr不算通过；纯测试宿主修复与产品行为无关不调baseline。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:review),治理不改写。
+若发现警告来自其它文件立即停止另开卡，不把stderr过滤成通过。
 
 ## 状态与交接
 
-review保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
-
+review保持原语义；完整回执见[README.md](../evidence/CODE-QUALITY-104/README.md)。无下一位Agent提示词。
 
 ## 原文保全
 

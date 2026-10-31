@@ -2,29 +2,30 @@
 
 Status: build
 Owner: GLM(治理候选作者;原文作者/状态见保全块)
-Last reviewed: 2026-10-30
+Last reviewed: 2026-10-31
 Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「QUALITY-EXTRACT-OUTPUT-BOUNDARY-1 — 提取器共享输出目录清理停止线」的任务归属与历史边界。原目标见原文(摘录:Reviewer: Codex（当前源码与隔离原件自核，不冒充第三方） Capability: extraction output cleanup boundary Visual Verificati);本页治理不重开已终态任务。
+修复提取器共享输出目录被清理的风险并建立输出所有权边界：用户2026-10-16裁决方案A「拒绝共享输出」——本仓库data或data/extracted节点为symlink时，任何输出创建/清理前立即报错退出；正常自有输出与只读data/raw链接保持原行为，不增加force开关。2026-10-18用户独立复查追加三项：视频转码绕过已批准拒绝、CLI绝对路径含链接组件时main静默跳过、raw被caller检查的失实注释。
 
 ## 范围
 
-原卡含章节[QUALITY-EXTRACT-OUTPUT-BOUNDARY-1 — 提取器共享输出目录清理停止线、已确认事实与停止线、四向真值与可证伪前提、可审阅方案A（已批准并实施）、C1 失败反例与实现准入（2026-10-17）、未决与交接],共5个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+白名单cli.ts清理前guard→抽出output-boundary.ts共享守卫（prepareOutputRoot）→extract-videos.ts复用assertOwnedOutputRoot（guard置于ffmpeg及任何输出IO前）→cli-entrypoint-paths.test.ts真实进程入口合同。不改提取格式、生成物、argv、转码参数/增量策略、资源路径或公共游戏接口；只核data与data/extracted两个已批准节点。
 
 ## 前提与证据
 
-固定main源12940B(SHA 5c454bd711fc);原卡前提按原时点保留。当前存活入口:[README.md](../evidence/QUALITY-EXTRACT-OUTPUT-BOUNDARY-1/c1/README.md) [README.md](../evidence/QUALITY-EXTRACT-OUTPUT-BOUNDARY-1/entrypoint-followup/README.md) [output-boundary.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3g/output-boundary.json) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/supplementary-audit/README.md)。
+起点是3g反证：OUT清理仅有字符串suffix guard后readdir/rm子项；四场景隔离原件证明OUT根链接或data父链接都能通过guard并删除链接目标marker（之后因缺SSS退出1、videos保留）；对照普通OUT照常清理、OUT内子项链接仅unlink——不能把根/父链接风险扩张为「rm一定跟随每个子链接」。实现史勘误：拒绝策略由cc8971760内联实现，dd341e5f3实为可测性重构（抽出守卫+prepareOutputRoot+三条单测），非首次引入。原5个链接处置见作者review，存活入口逐字保留：
+
+当前存活入口:[README.md](../evidence/QUALITY-EXTRACT-OUTPUT-BOUNDARY-1/c1/README.md) [README.md](../evidence/QUALITY-EXTRACT-OUTPUT-BOUNDARY-1/entrypoint-followup/README.md) [output-boundary.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3g/output-boundary.json) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/supplementary-audit/README.md)。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:build),治理不改写。
+C1红回执：未改生产临时树上原7例通过、两共享输出场景各指定AssertionError，证明旧实现确实删共享目标marker；实现后2文件12tests、pal-extract全包72files/434tests、lint 0/0/0；删guard临时变异7绿/2指定红、源逐字节恢复。入口补审：先冻结三旧实现/新测试，实跑2文件8例5绿/3指定业务AssertionError，修复后7文件41绿+typecheck零诊断——旧视频入口能经链接覆盖六mp4、旧CLI绝对路径带目录链接静默exit0、raw确无声明中的独立caller检查三项均成立。2026-10-22三登记缺口纯测试补齐（data根缺失抛原生ENOENT、ENOTDIR原样传播、无参prepareOutputRoot核模块推导路径）；集中门：整合后check20430、official ratchet/protected同报告20032全部0诊断，原两次拒绝保留。
 
 ## 状态与交接
 
-build保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
-
+Status保持build：获准切片完成并入CLI IO统一窗口（六明确IO路径接受），但CLI旧ledger关闭因直接counter保持rework；视频编码、所有外部失败路径、内部文件链接/并发换链不在切片验收。2026-10-22集中门后卡面维持build，待大窗口统一门与独立收口。
 
 ## 原文保全
 

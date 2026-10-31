@@ -7,24 +7,23 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 证据身份
 
-本页是「RLE复审检查点静态门」的治理候选页;证据原件即下方逐字节保全的固定main源(808B,SHA c2bc93ac6f61)。
+本页是 RLE 复审检查点静态门的治理候选页;原件为 4 项原命令的静态门表,cwd 为 /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal,原件同名 raw.gz 保全在下方。四项全部 exit0:pnpm check:docs(3.09 秒,raw SHA256 2c1d024eaed15bc85a35d4b66803b6854426773d09f1f7bbc56b85e17ea1f25f)、pnpm lint(5.44 秒,49e815ae61a126ca57a3ec8c1ced99d1dd1cbd9fbba29b3c1663b8fbdcabc065)、node scripts/quality/code-quality-ledger.mjs(3.43 秒,316fd5561645fb5c078b106664177d69066a8a8e493d5bfc01c104c5ea0afccf)、git diff --check(0.03 秒,空输出 e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855)。
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原0个链接处置见作者review的linkDisposition。当前存活入口:无当前仓库内存活链接。
+本门只覆盖检查点级静态四命令;定向 54 身份反控/恢复 shared 131 和相邻 47、shared typecheck 另见 RLE 复审报告正文(姊妹 JSON 原件)。本页不承载测试结果语义。
 
 ## 断言与业务 oracle
 
-文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+文档事实核对(currentExecution=false):四命令 exit0 与 raw SHA 按原时点成立;exit0 不外推为零诊断或产品通过——editor 运行时诊断未清、全仓门未跑的状态同时记录。
 
 ## 结果
 
-原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+原文时点结果:检查点静态门 4/4 通过;0 新增关闭(整卡仍 partial)。本治理不重跑、不改写原判定。
 
 ## 限制与复核
 
-未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
-
+全仓 check、official ratchet、protected fast 未重跑;editor 运行时诊断未清,禁止合 main;原始日志中的预期反控失败不会被重写成通过。原件逐字节保全在下方;候选待Owner非作者接收。
 
 ## 原文保全
 

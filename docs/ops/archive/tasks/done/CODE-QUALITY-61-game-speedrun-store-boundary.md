@@ -7,44 +7,43 @@ Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「CODE-QUALITY-61 — game speedrun store boundary」的任务归属与历史边界。原目标见原文(摘录:逐文件核验 speedrun localStorage 设置/最佳成绩持久化，确认坏 JSON、未知 key、非法数值与默认副本边界；先写失败反例，再做最小 fail-closed 修复。);本页治理不重开已终态任务。
+原卡目标:逐文件核验 speedrun localStorage 持久化三文件（`store.ts` 与两份测试）:坏 JSON、未知 key、非法数值与默认副本边界;先写失败反例再做最小 fail-closed 修复——`loadBests` 旧实现把任意 JSON 值 cast 成 number|null,修复后只接受 null 或有限非负 number,其余回退对应 default。
 
 ## 范围
 
-原卡含章节[CODE-QUALITY-61 — game speedrun store boundary、目标、范围、前提真值门、验证、交接],共1个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+三文件;只读相邻 index/tools-panel/overlay caller 与 checkpoint defaults。PalTimer 成绩存储无直接仓库源码（primary N/A）,当前 BestTimes/checkpoint defaults 为唯一工具合同。
 
 ## 前提与证据
 
-固定main源4148B(SHA 196ac0a8cb38);原卡前提按原时点保留。当前存活入口:[README.md](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/53-wave-gates/README.md)。
+失败反例先行:旧实现把负数/字符串成绩原样投影。修复后 localStorage 输入 fail-closed:设置只识别 '1'/'0';bests 只接受当前 defaults 已有 key 的 null 或有限非负 number;坏 JSON、未知 key、数组/标量、负数、Infinity、字符串/对象均回退且不污染 defaults;合法 rAF 小数毫秒 PB 保留。localStorage 是可编辑字符串,工具入口必须防御坏数据（最强替代解释被此推翻）。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+原批:定向 store 9 tests、timer/tools 相邻合计 29、game 全包 3523、全仓门通过,账本 3266/298 closed。2026-10-18 复审 partial:直接 2 files/9 tests、相邻 3 files/30 tests、typecheck 通过;coverage 等沿用 [README.md](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/53-wave-gates/README.md)。2026-10-18 波次门勘误置顶:该 47–52 统一回执已撤回"通过/收口"信用,本页原结果按各自证据保留,旧计数不改写为0。
 
 ## 状态与交接
 
-done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+done 保持原历史语义;2026-10-18 复审 partial,不是整卡 accept。
 
 ## 历史范围
 
-原卡属固定main时点;CODE-QUALITY-61 — game speedrun store boundary的原始范围与日期在保全块内逐字保留。
+原卡属 2026-10-13 修复时点;原始记录与历史提示词在保全块内逐字保留。
 
 ## 原始结论
 
-原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+原卡结论按 Status(done) 原样:fail-closed 修复落地,不改 speedrun schema/checkpoint 数据或公共 API。治理不撤销/不恢复旧信用。
 
 ## 当时证据
 
-原文1个链接与当时回执属原时点证据;本页不重跑、不复授。
+当时回执（9 定向+29 相邻、全仓门）属原时点证据;53-wave-gates 撤回部分不再作通过依据。本页不重跑、不复授。
 
 ## 当前有效性
 
-仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+仅历史任务归属有效;不凭旧基点认定当前实现。
 
 ## 继任文档
 
-接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[README.md](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/53-wave-gates/README.md)。
-
+CODE-QUALITY-62（timer）与 63-65 勘误族为相邻/继任;当前任务导航以看板为准。
 
 ## 原文保全
 

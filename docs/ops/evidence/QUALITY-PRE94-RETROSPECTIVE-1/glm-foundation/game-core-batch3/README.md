@@ -7,24 +7,23 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「game core 小文件四件复审（glm-foundation 模块 5 批 3）」的主题按原文时点保留(摘录:> Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见当前返工记录。 范围：`core/{mode,dial)。
+本页审计主题:game 的 core/{mode,dialog-history,word-lookup,script-catalog}.ts(93/44/27/98 行)B–G 补维;四文件均处 Codex 3n/3o 深切片范围,本批为任务文件指定的补维轮;基点 53db76bbb 线(body 基准=assets 批2提交后 HEAD)。原文 Status: review(候选待 Codex 据证验收)。Codex 当前裁定(2026-10-19):本页保留作者阶段证据,未获整包/全维收口验收;可复用范围与逐文件依据见 [codex-stage2-rework.json](../codex-stage2-rework.json)。
 
 ## 范围与证据
 
-原报告含章节[game core 小文件四件复审（glm-foundation 模块 5 批 3）、短回执、八维结论（B–G 补维重点）、复验入口（只读）]、1个链接;固定main源2694B(SHA 6fc063bf4885)。当前存活入口:[codex-stage2-rework.json](../codex-stage2-rework.json)。
+零整改批(改动 0 处)。验证证据:body-invariance(同目录)四文件一致(零编辑恒真);定向 7 套件 20/20、0 failed suites(directed.json:testResults 为 mode/dialog-history/word-lookup 三文件;README 复验入口另列 script-catalog.test.ts/dependency.test.ts,该两文件不在本回执内);scoped biome 0/0/0;diff --check 干净。未跑 game 全包/全仓门。
 
 ## 发现
 
-原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+四文件零缺陷:mode.ts 头部『T14 stub,T22 真实现』为自释性历史注(已言明后续真实现),不作变更。A 维(引用 3n/3o)复核:mode.ts autoScript 门四态白名单/同帧再驱动两 bug 档案、script-catalog 宝物屋 tp 层补丁(用户 2026-06-13 裁决偏离,提取器忠实边界)与 CLAUDE 陷阱清单一致。B 维:mode 的 PAL_GameUpdate 映射注、dialog-history 的 Object.assign 缺 key 语义注、word-lookup 的唯一文案源+降级注、script-catalog 的 MSG 错字考据注均为有效领域知识,零修改。C:mode 纯分发;后三者为模块级单例(word 表/全局脚本目录),写入 Owner 唯一(setWordTable/setGlobalEvents),bootstrap 单次注入。
 
 ## 结论
 
-原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+零整改批:B–G 八维作者主张全部通过,零代码/注释改动;20/20 定向绿+body-invariance 四文件恒真。无登记项。
 
 ## 整改与复核
 
-本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
-
+本批零整改。复验入口(原页给出,此处概述):在 packages/game 定向跑 mode/dialog-history/word-lookup/script-catalog/dependency 五测试(其中 script-catalog/dependency 不在 20/20 回执内,以实际运行载体为准)。失效条件:四文件实现变化→重测;PAL_GameUpdate 调度真值或宝物屋裁决变化→对应注释复核。本轮治理未重跑任何命令;候选待 Owner 接收。
 
 ## 原文保全
 

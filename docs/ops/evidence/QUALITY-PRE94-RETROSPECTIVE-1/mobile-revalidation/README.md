@@ -7,24 +7,25 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「移动端对pre94已接受文件的增量复核」的主题按原文时点保留(摘录:Template: evidence-receipt-v1 / 1.0.0 当前同一3y，起点868323003。移动端净diff直接改变7个此前closed生产文件；初始7 SH)。
+原审计主题:移动端(同一3y,起点86832300)对 pre94 已接受文件的增量复核。真实增量身份:移动端净 diff 直接改变 7 个此前 closed 生产文件;初始 7 SHA 均匹配移动端已独立审查候选,83 份原注册附件逐字节核对无漂移;旧八维仅支持原合同、增量必须另核,未把新 14 路径升 accept。
 
 ## 范围与证据
 
-原报告含章节[移动端对pre94已接受文件的增量复核、证据身份、来源与输入、断言与业务oracle、结果、限制与复核]、4个链接;固定main源2145B(SHA f13162c6b36c)。当前存活入口:[GAME-AVI-RETRY-OWNERSHIP-1.md](../../../tasks/GAME-AVI-RETRY-OWNERSHIP-1.md) [README.md](../game-actions-mobile/README.md) [avi-repeat-native.json.gz](avi-repeat-native.json.gz) [avi-repeat.json](avi-repeat.json)。
+旧 input/audio、shell-lifecycle、analytics、3j scale/FPS 及 present/speedrun 原件按当前适用范围复用;移动端 release-evidence 与 independent-review 提供新增 input/modal/layout/privacy 读域;来源不等于本轮全部接受。noop 转发反控:旧 2 绿、新恰 1 条 UI 状态断言红、恢复 2 绿;7 文件 30 相邻零 stderr;原测试数量不变,一标题明确为 SDK DOM 而非实网。
 
 ## 发现
 
-原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+核心发现:AVI 连续拒绝路径暴露既有真缺口。反证回执 [avi-repeat.json](avi-repeat.json) 与完整原件 [avi-repeat-native.json.gz](avi-repeat-native.json.gz):原生对照 1 绿/反例 1 条指定 DOM AssertionError——两次拒绝后可见重试提示未按合同消失,根因是 one-shot click listener 被首次重试消费、再次拒绝因 clickOverlay 已存在而提前返回。这是修复前冻结失败,不是质量门通过;不得只因移动端 CI 或包绿维持该实现 accept。[风险卡](../../../tasks/GAME-AVI-RETRY-OWNERSHIP-1.md)已收到用户「批准修复重复重试」。反例观察仅合法媒体 IO 结果模拟(play Promise 两种结局均为 mock),不证明实体手机自然发生该权限序列。
 
 ## 结论
 
-原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+原判定:反例原件保持修复前状态,不以用户批准或 61 定向自动恢复 accept。继任:2026-10-22 该增量已在 [game-actions-mobile](../game-actions-mobile/README.md) 收口,CODE78 恢复接受;此处保留修复前反例与当时撤回决定,不改写旧 raw、不把旧红记为绿。本治理不重跑、不改写原判定、不撤销旧撤信。
 
 ## 整改与复核
 
-本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
+本页为有限增量:未关闭整批、未跑新全仓/coverage/protected、不扩 94–102 或硬件验收;原注册附件/历史失败不改写。本页正文承载原审计真实目标/发现/结论/限制;原件逐字节保全在下方;候选待Owner接收。
 
+原文存活链接原样保留:[GAME-AVI-RETRY-OWNERSHIP-1.md](../../../tasks/GAME-AVI-RETRY-OWNERSHIP-1.md) [README.md](../game-actions-mobile/README.md)。
 
 ## 原文保全
 

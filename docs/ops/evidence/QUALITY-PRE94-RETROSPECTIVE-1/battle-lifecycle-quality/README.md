@@ -2,29 +2,35 @@
 
 Status: historical
 Owner: GLM(治理候选作者;原文作者/状态见保全块)
-Last reviewed: 2026-10-30
+Last reviewed: 2026-10-31
 Template: guide-runbook-v1 / 1.0.0
 
 ## 目的
 
-承载原文「CODE3l 动作规则归属与画面生命周期」的规范文本治理候选;规范内容按原时点保留。
+本页是 QUALITY-PRE94-RETROSPECTIVE-1 治理树内 CODE3l「动作规则归属与画面生命周期」窗口的证据索引页。窗口目标：把散在 core/coop/UI 三处的战斗动作规则收敛到 core 叶函数，并核定 BattlePresent 装配器的画面生命周期（入场清屏、跨战缓存、模态暂停）。Codex 单 Owner，分支 codex/code-quality-3y，基点 bd37e6d8，主树只读；复用上窗14份全文读域，只补UI规则归属与真实装配宿主。
 
 ## 前置条件
 
-前置条件与适用版本见保全块原文;本页不改变其约束效力边界。当前存活入口:[GAME-BATTLE-PRESENT-LIFECYCLE-1.md](../../../tasks/GAME-BATTLE-PRESENT-LIFECYCLE-1.md) [QUALITY-PRE94-RETROSPECTIVE-1.md](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) [gates-1.json.gz](gates-1.json.gz) [prove-rules.mjs](prove-rules.mjs) [receipts-1.json.gz](receipts-1.json.gz) [receipts-2.json.gz](receipts-2.json.gz) [receipts-3.json.gz](receipts-3.json.gz) [receipts-4.json.gz](receipts-4.json.gz) [receipts-5.json.gz](receipts-5.json.gz) [review.json](review.json) [verify.mjs](verify.mjs)。
+用户2026-10-23（call_4cdcfa14fc0b4101ad44d4f0370bdf12）批准两项修复，范围与修前红见生命周期卡 [GAME-BATTLE-PRESENT-LIFECYCLE-1.md](../../../tasks/GAME-BATTLE-PRESENT-LIFECYCLE-1.md)。逐文件八维、读域与未决见 [review.json](review.json)；纯规则提取的只读逐语句证明见 [prove-rules.mjs](prove-rules.mjs)（默认运行只输出、不写文件）。父复审卡为 [QUALITY-PRE94-RETROSPECTIVE-1.md](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)。
 
 ## 步骤
 
-原文步骤章节[CODE3l 动作规则归属与画面生命周期]保持;不据此授权新产品执行。
+本窗实际执行（历史时点，不据此授权新产品执行）：
+- 12项读域逐项八维，8项整文件接受（7项新关闭＋present-battle.test.ts 1项旧接受刷新）；battle-system.ts、coop-magic.ts、present.ts 三个广域源与 P13 命令专测仅增量裁定，不升整文件。
+- 新增 core 叶：player-condition.ts（三处重复的濒死/健康谓词按逐语句等价合并）、action-availability.ts（UI 副本动作 switch 与 core 全分支一致后收敛，未知数字 action 原返回 true 保持）。
+- present-battle.ts 五项修前像素红覆盖入场、跨战消息/飘字与两类缓存；模态状态页保留同一战斗，不能按 mode 退出误清；四个缺资源整帧 oracle 改为装配器清屏后的全零（清屏 ownership 搬移，不弱化断言）。
+- 实际浏览器观察：从已渲染客栈画面经 DEV 状态与真实 opcode7→bootstrap handler→BattlePresent，首帧 64,000 索引与进战前一致；三次尝试中前两次（误用测试私有 loadEvent、boot 黑帧）不授信用，原件全留。
+- 集中门并发返工：默认10个 Vitest worker 嵌套 CLI Node/tsx 两次全包分别 5/10 超时；同版本以 maxWorkers=2 跑完整 83 文件 510 例通过，仅改 pal-extract 测试配置，timeout 仍 5000ms。
+- 统一门：完整 check 20572 包例＋700 工具例、七包 typecheck；唯一官方采集 20143 例/777 源及同报告 ratchet／strict protected 通过；运行与硬静态 0/0/0。stdout 完整比对仅 check 的 PAL 资源测量耗时 500→463ms，四项读取计数一致（详见保全块）。
+- 只读验收器 [verify.mjs](verify.mjs) 核当前指纹、完整原件、正式红绿身份与回执；完整附件按原字节分片：[receipts-1.json.gz](receipts-1.json.gz)、[receipts-2.json.gz](receipts-2.json.gz)、[receipts-3.json.gz](receipts-3.json.gz)、[receipts-4.json.gz](receipts-4.json.gz)、[receipts-5.json.gz](receipts-5.json.gz)；统一门原件 [gates-1.json.gz](gates-1.json.gz)。
 
 ## 失败处理
 
-原文失败处理按原时点;治理不重写处置规则。
+修前红、中断/超时、静态失败与首次库存未登记拒绝原件均封存于分片附件，不裁剪、不覆盖成通过；首轮终态卡误留活动看板导致 docs 拒绝已勘误移除；复用 protected 脚本的首份证明文字误留上窗 exit1 已勘误为本窗原始 exit0，两版均保留。浏览器探测前两次失败不授入场信用。
 
 ## 完成定义
 
-治理完成=保全+模板符合;原文完成定义属原规范,非本页授信。
-
+2026-10-24 CODE3l 规则/生命周期收口：固定83卡 66accept/17partial/0pending；账本 3410tracked/418closed/100review/2892pending（7个新关闭路径见 review.json.closedFiles）。限制与未决：快速换战的普通剧情自然可达性尚未证明；带旧 battleState 的新游戏/读档核心语义不在本窗接受范围；battle-system/coop-magic/present/bootstrap 整文件不新增关闭；P13 整文件保留隐式 pending。本地门通过不等于集成：分支提交/推送/protected PR 与远端全日志以实际 Git 回执为准，94–102 不扩展。
 
 ## 原文保全
 

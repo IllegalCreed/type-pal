@@ -7,24 +7,23 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 证据身份
 
-本页是「CODE48 draw-equip 当前复审切片」的治理候选页;证据原件即下方逐字节保全的固定main源(2870B,SHA bd0799b1e85d)。
+本页是「CODE48 draw-equip 当前复审切片」(基点 499f2762,分支 codex/code-quality-3y)的治理候选页;证据原件即下方逐字节保全的固定main源。本页真实结论:重新复审装备列表/选人页绘制,不把历史 done 当当前整卡验收;48 提升为 partial,未标 accept/done。
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原0个链接处置见作者review的linkDisposition。当前存活入口:无当前仓库内存活链接。
+来源为固定Git载体,非本次运行。完整读取 draw-equip.ts(279行)、draw-equip.glm-phase1-leaves.test.ts(124行)、equip-role-pixels.grok-r1.test.ts(367行)与相邻 caller/oracle p03-equip.test.ts(208行);核对 draw-menu equip 出口、present.ts runtime projection、equip-menu.ts 状态生命周期、menu-driver dispatch 与 inventory-menu 不变量;primary 为 SDLPal uigame.c:1793-2055、itemmenu.c:28-224、play.c:328-359、global.c:1175-1225;逐行读域见同目录 read-boundaries.json。
 
 ## 断言与业务 oracle
 
-文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+本页正文按原文时点转述:实现与生产 caller/primary 一致,未发现可直接证明的实现缺陷。唯一保留边界:SDLPal 选人页对 PAL_GetItemAmount 无条件绘制数字;TS 对数量 <=0 隐藏数字——但正常库存 owner 在归零时删除条目,confirmEquipItem 还要求 count - inUse > 0 才能进入 pick-role,因此零数量是直接夹具可构造的防御输入,不是生产可达的装备确认路径;该差异作为边界保留记录,不擅自改变用户可见行为或公共接口。测试判别力:P03 真实 list→pick-role/六槽名/攻击预览;GLM leaves 非顺序 party/roleId 位映射/未知装备/空槽;像素测试单人框/越界 cursor/零数量/四项属性/快照隔离。
 
 ## 结果
 
-原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+本页治理结果=原文保全完整,不产生新执行结果。原文验证事实:直接 3 files/16 tests passed;相邻 9 files/167 tests passed;game typecheck passed;未运行 coverage ratchet、official coverage、protected fast、全仓 pnpm check。
 
 ## 限制与复核
 
-未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
-
+原文明言:未触碰 schema/save/migration、生成物、资产格式、公共接口或产品 UI 取舍;48 整卡仍 partial,需统一门窗口再决定收口。未重跑命令;候选待Owner非作者接收。
 
 ## 原文保全
 

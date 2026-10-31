@@ -7,24 +7,23 @@ Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「CODE-QUALITY-108 — game magic-script warning ownership」的任务归属与历史边界。原目标见原文(摘录:Reviewer: Codex（独立验收） Capability: game / menu / diagnostic ownership Visual Verification Timing: N/A);本页治理不重开已终态任务。
+清理magic-script.test.ts两个真实预期warning的stderr泄漏：两个warning都来自测试主动传入缺失L_99999，生产runner应返回false并报告warning（fail-closed），不能静音或改成成功。primary锚为SDLPal uigame.c:740-873、script.c:867-1102、global.c:1254-1330与全局label ownership。
 
 ## 范围
 
-原卡含章节[CODE-QUALITY-108 — game magic-script warning ownership、目标与白名单、准入与事实、实施、当前验证、收口要求与未决项],共0个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+白名单仅magic-script.test.ts；相关实现与caller（magic-script.ts、in-game-magic-menu、menu-driver、script-catalog、event-system、战斗actions/magic、player-poison-state）只读核验不修改。
 
 ## 前提与证据
 
-固定main源3040B(SHA d8d67c83e52c);原卡前提按原时点保留。当前存活入口:无当前仓库内存活链接。
+固定源全文核读。实施：两个既有测试各自vi.spyOn(console,'warn')捕获并精确断言warning、finally恢复spy；业务断言unchanged——缺失label返回false、scriptOnSuccess不执行、HP不变。修复前1file/37tests PASS但2条缺失L_99999 stderr；修复后同37tests PASS 0 stderr；game menu相邻40files/377tests PASS 0 stderr；game typecheck过。2026-10-17收口：全仓check exit0（lint 4962文件0/0/0）、check:docs/ledger/git diff --check通过、账本3307/231closed/30review/3046pending；official ratchet与protected fast保留真实失败（shared 447/466 statements、203/218 branches，pal-extract 1068/1546 statements、461/593 branches、111/140 functions、943/1367 lines及总量回退），本批未调baseline。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:review),治理不改写。
+生产magic-script.ts未修改；magic-script.ts与magic-script.test.ts保持review、整卡不标done；相邻包新诊断须另开卡。
 
 ## 状态与交接
 
-review保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
-
+review保持原语义；shared/pal-extract baseline回退若仍存在保持review不降门槛。
 
 ## 原文保全
 

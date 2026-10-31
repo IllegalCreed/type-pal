@@ -7,24 +7,23 @@ Template: governance-index-v1 / 1.0.0
 
 ## 目的
 
-承载原导航文档「C1 逐文件 A–H 索引 — 85-89 菜单 shop/equip/magic(15 条 fullReads)」的治理候选;导航职责按原文时点保留。
+承载 85-89 菜单 shop/equip/magic 四卡复审的逐文件 A–H 结论索引:4 个生产文件(shop-menu/equip-menu/magic-select/in-game-magic-menu)与 11 份卡内测试的逐维审查结论与读域标注。读域标注同 [per-file-index.md](../73-78-shell-lifecycle/per-file-index.md)。指纹勘误见 [read-boundaries.json](read-boundaries.json)。共享论据引用本目录 README A/B-H 节。
 
 ## 范围
 
-原文含章节[C1 逐文件 A–H 索引 — 85-89 菜单 shop/equip/magic(15 条 fullReads)、生产文件(4)、测试文件(11,E 为主)、Codex接收边界（2026-10-20）]、3个链接;不借导航页授信或重开任务。
+生产文件(4):shop-menu.ts——紧凑布局(PAL_BuyMenu 本就紧凑)、price<=cash 才弹 confirm(uigame.c:1683)、confirm 默认 No、纯意图返回;caller=menu-driver dispatchShopBuy(opcode 0x26 链路,shop-menu.test 端到端证)。equip-menu.ts——.list 复用 InventoryMenuState(filter='equip')、确认门 equipable&&count>inUse(itemmenu.c:287-291)、pick-role wrap(uigame.c:2021-2035)、partyMembers 快照、swap 链语义由 dispatcher 承接(2016-2019);caller=menu-driver:753-852。magic-select.ts——spell.id 直查、习得序排序(magicmenu.c:377-397)、MP 恰等可选/差 1 禁用、悬空剔除;caller=in-game-magic-menu buildSpellMenu+battle-system.ts:976 同款排序。in-game-magic-menu.ts——四相状态机对齐 uigame.c:653-875(L35/L37/L38/L41/DL22/refresh 落回 wDefaultMagic/pick-target 不 wrap);caller=menu-driver dispatchInGameMagicMenu;三处历史误修复注保留。测试文件(11,E 为主):逐例覆盖见保全块;其中 shop-menu.glm-phase1-leaves.test.ts 与 equip-menu.glm-phase1-leaves.test.ts 为【返工补读】——原审查未读取(误列 fullReads),2026-10-20 返工全文补读(shop leaves:缺 _name 回退 ?id/pageSize 8/错相零请求/目录缺 item no-op/list 相 confirm null;equip leaves:目录外 itemId no-op/done 相三操作零触达/单人队环绕自返),补读结论均无缺口。
 
 ## 当前状态
 
-historical(治理候选);原时点状态与日期在保全块。
+historical(治理候选);四卡原时点建议 pending→partial,零改动,整卡 accept 与统一门未主张。
 
 ## 入口与责任
 
-当前存活入口:[per-file-index.md](../73-78-shell-lifecycle/per-file-index.md) [codex-pending27-acceptance.json](../codex-pending27-acceptance.json) [read-boundaries.json](read-boundaries.json)。 其余原链接仅在保全块保留,理由见linkDisposition。
+本索引的读取身份、补读勘误和逐文件具体结论按各自范围接收;测试条目多为 E 维,不能读成 69 文件全部八维已验收。各文件 A–H 已陈述/尚缺依据的状态分别列于 [codex-pending27-acceptance.json](../codex-pending27-acceptance.json);未单列论据的维度保持 review-unknown,文件不关闭;后续只补这些具体缺口,不重复已成立的 E/primary。
 
 ## 证据与下一步
 
-固定main源SHA 2bae66a829ca;下一步=Owner非作者接收。
-
+共享论据引用本目录 README;定向原件 directed-final.json(11 files/80 passed)。下一步=Owner 非作者按接收边界核验收。
 
 ## 原文保全
 

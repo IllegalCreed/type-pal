@@ -7,24 +7,23 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「CODE-QUALITY-110 — Codex 当前验收（2026-10-17）」的主题按原文时点保留(摘录:完整读取： - `packages/game/src/present/draw-sprite.ts`（49 行） - `packages/game/src/present/draw)。
+本件回答:indexed sprite 绘制层（`draw-sprite.ts` 49 行与两测试 85/79 行）及真实 caller 的当前逐文件状态。
 
 ## 范围与证据
 
-原报告含章节[CODE-QUALITY-110 — Codex 当前验收（2026-10-17）、读取范围、当前结论、验证]、0个链接;固定main源1644B(SHA fc28cef0818c)。当前存活入口:无当前仓库内存活链接。
+完整读取三文件、present.ts 中 party/follower/NPC/额外 follower 真实 draw caller、fbp-player/ending-player 的 top-left caller、bootstrap sprite loader 注入、dialog-assets 相邻 sprite shape、framebuffer writePixel ownership、p10-indexed-png 解码→draw caller。primary:`palcommon.c:36-130` RLE blit/crop/透明处理、`scene.c:210-316` 每帧宽高/anchor/屏外剔除/排序、`fight.c` sprite blit anchors。
 
 ## 发现
 
-原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+`toSpriteImages` 对每帧独立计算底部中心 anchor,保留 indices/opaque identity;`drawSprite` 只按 opaque mask 写入,允许 palette index 0 作为合法不透明像素,并通过 `Framebuffer.writePixel` 统一边界裁剪;present、FBP、ending 和 dialog 资产 caller 的坐标 ownership 与该合同一致。三个测试分别覆盖帧高/宽 anchor、palette-0/透明孔、屏外裁剪、identity 复用和 PNG 解码 caller;未发现恒真、无业务执行或明显重复用例。
 
 ## 结论
 
-原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+game present 定向 3 files/17 tests PASS 0 stderr;game typecheck PASS;本批无生产或测试源码改动。
 
 ## 整改与复核
 
-本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
-
+两个实现/三个测试文件登记 review,待统一质量门后收口;没有需要改生产实现的直接反例。
 
 ## 原文保全
 

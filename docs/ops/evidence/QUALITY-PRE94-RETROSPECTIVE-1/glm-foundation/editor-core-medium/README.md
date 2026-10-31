@@ -7,24 +7,23 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「批52:editor core 中件 38 文件（零整改批）」的主题按原文时点保留(摘录:> Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见当前返工记录。 范围:`packages/editor)。
+本页审计主题:packages/editor/src/core/ 201-600 行生产文件 38 件(author-save-plan 至 map-transform)的八维审查(A–H)。Codex 当前裁定(2026-10-19):本页保留作者阶段证据,未获整包/全维收口验收;可复用范围与逐文件依据见 [codex-stage2-rework.json](../codex-stage2-rework.json)。
 
 ## 范围与证据
 
-原报告含章节[批52:editor core 中件 38 文件（零整改批）、结论(要点)、登记移交（无新增）、验证、原生附件无损迁移（Codex，2026-10-19）]、2个链接;固定main源4119B(SHA 9a6d812d672f)。当前存活入口:[codex-stage2-rework.json](../codex-stage2-rework.json) [directed.json.gz](directed.json.gz)。
+范围 38 件,六段拼读 12.5k 行,全文读毕;零整改批(零源码改动、零 diff)。验证证据:定向测试 src/core 全量 2331/2331、numFailedTestSuites=0,原回执超 1MiB 检查边界,现以 [directed.json.gz](directed.json.gz) 无损 gzip 保留(解压字节/SHA 与冻结 5af1b6372 一致;与批53页引用同一冻结回执,非两次独立运行)。零 diff 批不适用 body-invariance。
 
 ## 发现
 
-原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+保存恢复计划(author-save-plan/receipt/journal 支撑):恢复计划不可变校验(键集精确/UUID/NFC 别名冲突检测/父目录完整链/写入必须双态);savePrefix 只认已授权前缀;reconcileSaveCursor 对账单不确定操作(EMPTY_FILE 半开流语义);receipt 表按 phase 约束 completed/issued 组合,blobs 路径与签名尾 64 位互锁;IndexedDB durability:strict 与事务边界语义注释准确。handle-store/workspace 身份:Web Locks 序列化 discovery/registration 双锁+Promise 链 fallback,同 entry 拒绝二次登记,ensurePermission query/request 手势纪律。author-disk-baseline:observeAuthorSource 捕获 loader 实际字节,wrote() 按写入方精确编码记期望。EditorHistoryCoordinator:单一提交时间线、transact 防重入、undo 先主后脚本 redo 反之。投影合并:保存边界拒私有脚本正文缺失,projectCurrentAuthorReferenceSlices 只拷三切片。map-patch 体系:W8 预检三域+三种 ownership scope,『ownership 必须在 no-op 折叠前检查』防写回同值借机触碰组成员,map-transform 用 u=2col+parity 防奇偶行 16px 漂移,失败计划不给可提交 patch 只供幽灵预览。stamp-ownership OverlayLookupMap 深度上限 64 有界压实。引用扫描族只识别明确 kind 判别字段,DFS 环检测仅报告含 authored 脚本的环。movement-preview 10000 命令上限+共享脚本递归 32 深上限。命令族共享资源替换 proof 机制(SHA+帧数+消费者快照,缩帧必须显式修复全部消费者)。battle-trial-launch/receive 一次性 launchId+源 token/revision 双核验+刷新重用拒绝。
 
 ## 结论
 
-原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+八维审查(A–H)作者主张全部通过,零源码改动、零 diff;登记移交无新清理候选。定向全量 2331/2331 为该时点机器事实。治理不改写审计判定。
 
 ## 整改与复核
 
-本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
-
+本批零整改,无整改记录;未重跑测试;2331/2331 与 gzip 附件为原时点记录。Codex 2026-10-19 勘误/接管以 codex-stage2-rework.json 为准;候选待 Owner 接收。
 
 ## 原文保全
 

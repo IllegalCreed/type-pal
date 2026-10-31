@@ -7,24 +7,23 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 证据身份
 
-本页是「CODE3/3f 标注与symbols测试复审」的治理候选页;证据原件即下方逐字节保全的固定main源(7235B,SHA 2d7fa2bc1498)。
+本页是 CODE3/3f「标注与 symbols 测试」切片的证据索引，归 [QUALITY-PRE94-RETROSPECTIVE-1.md](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)（起点 e3cf2cd5a/main=f98d0ddd8，唯一 codex/code-quality-3y）。本片真实目标：生产 annotate/CLI/词表、公共接口、raw 与生成物字节不改，只改 annotate.test.ts（9→6）与 annotate.glm-runtime-resource.test.ts（8→10，总 17→16）及精确退役支持数据。旧测试的实质缺陷：六枚变异（截 sequence、改 choice 文本、漏无 else then、reverse 调用数组、丢 spell 表、漏表形状 guard）在旧 17 例下全绿；旧「输入零突变」检查的是原 tuple 且实际传副本仅 1 项，不能证明调用数组不变。0 新增关闭。
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原12个链接处置见作者review的linkDisposition。当前存活入口:[QUALITY-EXTRACT-RAW-TEST-EXECUTION-1.md](../../../tasks/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1.md) [QUALITY-PRE94-RETROSPECTIVE-1.md](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) [README.md](../3f/closeout/README.md) [after-proof.json](after-proof.json) [before-proof.json](before-proof.json) [gates.md](gates.md) [probe.py](probe.py) [read-boundaries.json](read-boundaries.json) [retirement.json](retirement.json) [runtime-diagnostics.json](runtime-diagnostics.json) [tests.json](tests.json) [verification.json](verification.json)。
+读取边界在 [read-boundaries.json](read-boundaries.json)：annotate.ts 109 行、两测试 119/159 行、word.ts/word.test、retirements 工具等全文；cli.ts 仅 195–218/260–292 接线区间；并核 WORD.DAT 原始 551–564 记录实为毒素/特殊文字（赤毒…MP回补），不能当场景名。变异探针 [probe.py](probe.py) 只建同目录独立副本、finally 精确清理；反控原件 [before-proof.json](before-proof.json)/[after-proof.json](after-proof.json)；退役登记 [retirement.json](retirement.json)；包诊断 [runtime-diagnostics.json](runtime-diagnostics.json)；恢复 [tests.json](tests.json)；核验 [verification.json](verification.json)；静态门 [gates.md](gates.md)。
 
 ## 断言与业务 oracle
 
-文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+判别力真实数字：六针旧 17 全绿（盲点）→新各 15 绿恰 1 指定 AssertionError（sequence/choice/if-then/ownership/symbols-preservation/symbols-table 六合同），恢复 16 绿。四条重复身份精简有精确转移（id2/id9999 缺名转 GLM 邻位例、raw 0x50 转直接输入守恒、GLM 正向/优先级由主 WORD 与 symbols 合同承接）；旧「无 else 只钉 undefined 键」改为有效 then 注释；坏 symbols 多轴混合用例拆顶层/未知键/表形状/表值四层合同。三枚转移诊断独立于六针：错误 WORD 偏移旧 7 红→新 7 红、优先级错置 2 红→1 红、raw 加错注释 3 红→3 红，多红集合按原生 JSON 保存，不冒充单例针。退役：主文件 9→6 双 identity digest 经 HEAD/origin/main/旧 3y d4cf7f57d 三参考对照，登记前被拒、登记后仅接受该快照；支持表 24→25/净 56→59，matcher 与拒绝合同不变；原生身份 8 移除/7 加入如实披露，不伪称身份不变。
 
 ## 结果
 
-原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+恢复面：定向 7 文件 52、shared 16 文件 126/typecheck、extract typecheck、coverage-tools 70 通过。关键负面发现：完整 extract 433 passed/0pending 但 stderr 实有 10 块/52 行——六条原盘用例因 REPO_ROOT 错指 packages/data/raw 提前 return，未执行业务断言却被 Vitest 计 passed（假绿；resolver 只向上 5 级应 6 级），另四块为 parser 负面日志；故包验收不成立，此前「均零诊断」说法被本片纠正。已开 [QUALITY-EXTRACT-RAW-TEST-EXECUTION-1.md](../../../tasks/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1.md) draft 处理六条假绿。
 
 ## 限制与复核
 
-未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
-
+本片只撤回两测试旧关闭为 review，source 与支持工具历史状态不改；CODE3/3f 均 partial，83 卡 0accept/9partial/74pending。全仓 check/official ratchet/protected fast 未新跑，editor 诊断与 extract 假绿未清，不合 main。2026-10-21 后继增量见 [README.md](../3f/closeout/README.md)；治理页不重开任务、不重跑执行、不恢复旧完成声明。
 
 ## 原文保全
 

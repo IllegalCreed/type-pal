@@ -7,24 +7,23 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「CODE3g 当前八维复核」的主题按原文时点保留(摘录:Template: evidence-index-v1 / 1.0.0 本片替换三个重复子进程宿主，补真实所有权与清理顺序证据。清单新增实际目录全量oracle；精确stderr补)。
+本页为CODE3g测试宿主切片收口（2026-10-21，Owner Codex）的治理候选页，原件为下方逐字节保全的固定main源（946B）。审计主题：替换三个重复子进程宿主为唯一cli-host，补真实所有权与清理顺序证据；清单新增实际目录全量oracle、精确stderr补强；900行产品CLI编排不随测试宿主切片自动关闭。
 
 ## 范围与证据
 
-原报告含章节[CODE3g 当前八维复核、2026-10-21 当前最终结果]、2个链接;固定main源946B(SHA 3780c7957c55)。当前存活入口:[evidence.json](../../3b/closeout/evidence.json) [review.json](review.json)。
+范围明确限五测试宿主文件（三CLI测试+cli-host.ts+cli-host.test.ts），900行CLI主编排与输出链留待下一轮既有八维缺口。逐文件A–H与保留项见[review.json](review.json)；完整执行原件（cli-audit-restored、manifest-before/after、host-calibration/no-wait/r3/cancel、four-card-extract-sealed等11项run）由[四卡共同归档](../../3b/closeout/evidence.json)索引；旧失败/旧警告/采集失误（首版hook转义致3 suite collection失败）均原样保留。
 
 ## 发现
 
-原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+关键发现按原时点保留：复制CLI单点漏manifest条目旧6绿、新5绿1指定业务红；去await close单点破坏2绿1红（r3复验）；host-cancel真实5000ms超时只作资源失败证据不算业务反控；旧观察副本采集早于断言加强，不虚称已执行新断言；最终four-card-extract-sealed 75文件445绿、stderr 0字节。
 
 ## 结论
 
-原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+原结论：四卡冻结后全check 20390、official ratchet/protected各19992及typecheck/lint零诊断；仅五测试宿主文件接受，CLI主编排仍partial。
 
 ## 整改与复核
 
-本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
-
+上文待跑/候选计数属于先前时点，已被最终结果节替代；只读verify应MATCH，不重复执行测试。本治理不重开任务、不改变原done/接受终态语义。候选待Owner非作者接收。
 
 ## 原文保全
 

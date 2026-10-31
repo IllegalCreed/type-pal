@@ -2,29 +2,28 @@
 
 Status: historical
 Owner: GLM(治理候选作者;原文作者/状态见保全块)
-Last reviewed: 2026-10-30
+Last reviewed: 2026-10-31
 Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「CODE3k present primitives 当前复审切片」的主题按原文时点保留(摘录:基点：`7996a6884`；分支：`codex/code-quality-3y`，相对 `origin/main` 为 `0 behind / 191 ahead`。本切片只处理)。
+CODE-QUALITY-3k六primitive中framebuffer/screen-shake/screen-wave三文件及直接测试/caller复审切片(基点7996a6884,0 behind/191 ahead);dither-fade/draw-number/follower-pos留待下一片;3k整卡仍partial,不把本片当整卡accept。
 
 ## 范围与证据
 
-原报告含章节[CODE3k present primitives 当前复审切片、逐文件与真值边界、判别力与结论、验证]、1个链接;固定main源2738B(SHA c885e1ab693a)。当前存活入口:[read-boundaries.json](read-boundaries.json)。
+完整读取三实现与七份直接测试(framebuffer默认+边界、screen-shake主干+边界、screen-wave主干+leave+mirror);直接caller按范围读present.ts的framebuffer clear/地图层wave/最终shake/toImageData与canvas flush区间、draw-tilemap/draw-sprite的writePixel入口;primary读reference/sdlpal/scene.c:365-430,486波形推进/偏移表/静态相位、video.c:571-620奇偶shake搬运/黑条/递减、global.h:379,538-539 WORD/SHORT字段。SHA与范围见[read-boundaries.json](read-boundaries.json)。
 
 ## 发现
 
-原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+framebuffer默认320x200、可选离屏尺寸、越界静默写、palette缺色黑色回退与RGBA alpha合同与caller一致;screen-shake奇偶垂直搬运、level 1/199/200/256、advance=false补帧与shakeTime递减和SDL视频路径一致,无buffer ownership或残留行缺陷;screen-wave 32相位表、循环卷动、跨帧静态相位、advance=false与0/256关断和PAL_ApplyWave一致,现有小于等于0 guard保留JS number对unsigned WORD回绕的已修语义。历史raw opcode反控与mutant数字只作卡内历史证据,本片未重新执行raw census或mutant。本片无直接实现问题,未改生产或测试。
 
 ## 结论
 
-原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+定向7 files/35 tests passed、game typecheck passed、无stderr;未知项=三个未读primitive、真实视觉坐标/E2E、整卡统一质量门,保持pending/partial,不因35例全绿关闭整卡;按用户成本约束未运行coverage/official ratchet/protected fast/全仓check。
 
 ## 整改与复核
 
-本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
-
+未重跑;下一片直接继续dither-fade/draw-number/follower-pos;94-102后置。候选待Owner非作者接收。
 
 ## 原文保全
 

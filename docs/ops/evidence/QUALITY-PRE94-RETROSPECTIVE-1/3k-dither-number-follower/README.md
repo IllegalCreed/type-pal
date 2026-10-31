@@ -2,29 +2,28 @@
 
 Status: historical
 Owner: GLM(治理候选作者;原文作者/状态见保全块)
-Last reviewed: 2026-10-30
+Last reviewed: 2026-10-31
 Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「CODE3k dither / number / follower 当前复审切片」的主题按原文时点保留(摘录:基点：`6aa56ea80`；分支：`codex/code-quality-3y`，相对 `origin/main` 为 `0 behind / 192 ahead`。本切片完成)。
+CODE-QUALITY-3k剩余三实现(dither-fade/draw-number/follower-pos)逐文件复审切片(基点6aa56ea80,0 behind/192 ahead)。核心发现:draw-number.ts对正Infinity会在实际while(i>0)中无限循环——生产caller当前来自有限角色/物品/战斗数值,无一手证据表明该非法输入可达用户路径,执行会卡死的直接反例不在本批强行运行;该候选写入ledger review,不以包级绿灯关闭,也不擅自改公共绘制合同。该风险后续由3k-number-quality窗口处置。
 
 ## 范围与证据
 
-原报告含章节[CODE3k dither / number / follower 当前复审切片、逐文件与真值边界、判别力与结论、验证]、1个链接;固定main源2618B(SHA c469b1da3bcf)。当前存活入口:[read-boundaries.json](read-boundaries.json)。
+完整读取三实现与六份直接测试;调用链按范围读取present.ts dither/follower区、battle present intro/summon fade与数字弹幕区、menu/dialog/battle的drawNumber真实caller;primary读reference/sdlpal的video.c VIDEO_FadeScreen nibble算法、battle.c PAL_BattleFadeScene、ui.c:640-732 PAL_DrawNumber、scene.c:658-780 walking/静止跟随者分支。SHA与范围见[read-boundaries.json](read-boundaries.json)。
 
 ## 发现
 
-原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+dither-fade的RG_INDEX=[0,3,1,5,2,4]、12x6 step、低nibble正负1、高nibble立即取target与backup ownership和video/battle caller一致,测试覆盖phase/邻接/不变/收敛;follower-pos的walking偏移/障碍回退、静止冻结、trail fallback、trail[2]朝向与0x46摆位均有真实方向轴与事件回归,未发现新直接缺陷;draw-number的颜色基址、R-to-L、三种对齐、截断、opaque mask与缺帧降级与ui.c及callers一致,除上述Infinity候选。
 
 ## 结论
 
-原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+本片未修生产或测试代码;定向6 files/42 tests passed、game typecheck passed、无stderr。未知项=drawNumber非有限输入产品边界裁决、真实视觉/E2E、3k统一质量门,保持review/partial;按用户成本约束未运行coverage/official ratchet/protected fast/全仓check。
 
 ## 整改与复核
 
-本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
-
+未重跑;不以数量或包级全绿代替逐文件结论;94-102后置。候选待Owner非作者接收。
 
 ## 原文保全
 

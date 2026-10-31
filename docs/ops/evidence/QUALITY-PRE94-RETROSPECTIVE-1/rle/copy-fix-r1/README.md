@@ -7,24 +7,21 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 证据身份
 
-本页是「RLE 三文件文案整改 r1（copy-fix-r1）」的治理候选页;证据原件即下方逐字节保全的固定main源(13091B,SHA 41319f04a5c6)。
+本页是 RLE 三文件文案整改 r1 的治理候选页;原件为 GLM Coding Owner 交付回执(2026-10-18,基点 d3f59cad,唯一临时 detached worktree ~/.glm-worktrees/pre94-rle-copy-r1 两笔提交,未创建/推送分支;原文 Status: done——有限文案/标题与 C1–C3 获接收,三文件治理仍 review)。按[校准包准入](../calibration-20261018/README.md)第 5 节与[长期规范 4.1](../../../../code-quality.md)直接执行。白名单仅 rle.ts、rle.test.ts、rle.boundaries.test.ts,仅注释/docblock/错误测试标题;未改实现、参数、出口、fixture 字节、断言、测试增删、G-1 防御分支、格式算法。
 
 ## 来源与输入
-
-来源为固定Git载体,非本次运行;原13个链接处置见作者review的linkDisposition。当前存活入口:[code-quality.md](../../../../code-quality.md) [README.md](../calibration-20261018/README.md) [copy-fix-r1-codex-final.json](../copy-fix-r1-codex-final.json) [after-targeted.json](after-targeted.json) [base-targeted.json](base-targeted.json) [body-invariance.json](body-invariance.json) [c2-readonly-run.raw](c2-readonly-run.raw) [docs-final.raw.gz](docs-final.raw.gz) [docs-first.raw.gz](docs-first.raw.gz) [gates-r2.json](gates-r2.json) [gates.json](gates.json) [identity-mapping.json](identity-mapping.json) [prove-body-invariance.mjs](prove-body-invariance.mjs)。
+实际增改 9 处全为注释/标题:rle.ts ①0x02000000 前缀记法改为字节序列 02 00 00 00 并指向 skipFilePrefix 段 ②容器 docblock 错挂迁移回 parseSpriteChunk、decodeStrictSpriteFrame 换真实合同 ③parseSpriteChunk 三处更正(『decodeRle 死循环』过时表述→现行有界失败;『原版从不索引尾帧』无证据断言→sdlpal 按帧号取帧、越界返 NULL 的已核事实;键一致性明确『过滤后序列下标,非原 slot 号』);rle.test ④空帧标题限定过滤后序列;boundaries ⑤头部『不重复』改为承认跨文件重叠(O-4)⑥删未测的『无 sentinel 报告』宣称⑦『合法1长度』→『合法2长度literal』⑧『帧头越界』→『尺寸非法』⑨坏尾注释 0xFFFF→0x0FFF(4095)超 SPRITE_DIM_MAX。B 维漏项(Codex 校准指出)全部修复;G 维 strict 两臂不可达维持 G-1 结构候选登记不修;R-1/R-2 标识映射补全(分别归 O-2 错误合同与 O-4 排重候选,不新增准入)。
 
 ## 断言与业务 oracle
-
-文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+定向 4 文件整改前后均 51/51(0 fail/skip/pending/todo):基线 [base-targeted.json](base-targeted.json)(17:03)与整改后 [after-targeted.json](after-targeted.json)(17:19);51 身份=47 不变+4 标题更正,一一映射见 [identity-mapping.json](identity-mapping.json);三文件去注释打印 AST 字节级一致([body-invariance.json](body-invariance.json),可重跑脚本 [prove-body-invariance.mjs](prove-body-invariance.mjs))。门:scoped biome 8 文件 0/0/0(过程曾报 3 useTemplate info+1 organizeImports error,修复重跑归零)、shared tsc exit0、diff --check 干净、check:docs 首跑 3 issues→final 0([gates.json](gates.json))。过程披露:vitest list 位置参数把全包列表 JSON 写入 src/rle.test.ts(22808B)事故——git checkout 恢复基点字节后重做唯一标题整改,基线证据采集于事故前不受影响。r1 窄返工 C1–C3(按 Codex 验收 b614e88a):C1 删『引擎不触达尾帧』无据推断改三段事实(PAL_SpriteGetFrame 只拒 [0,imagecount) 外帧号/坏尾槽被真实 caller 请求过未核证/宽高>400 过滤是 TS 容错策略);C2 证明脚本改默认只读(--out 独占创建、拒绝冻结路径,冻结件 sha 9fefa373 前后不变);C3 补首轮 docs 原件 [docs-first.raw.gz](docs-first.raw.gz)(FAIL 3 issues 全文)与 [docs-final.raw.gz](docs-final.raw.gz) 校验,并做原件事实权分层——vitest console 与 r1 首轮 scoped stdout 未保存,属作者自报层;计数/状态由原生 JSON 证明。返工门见 [gates-r2.json](gates-r2.json)。
 
 ## 结果
-
-原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+Codex 终验([终验记录](../copy-fix-r1-codex-final.json)):按证据验收接收有限文案/标题修正与 C1–C3,未重跑 51/125 或全仓门;四候选提交按序拣选至 3y,集成另补一行 flag:'wx' 使可选 --out 真正只创建新文件(证据工具文件保护,非产品行为修复);0 代码文件关闭,G-1/O-1/O-2/O-4/格式真值卡继续 pending/review/draft;接收后临时 worktree 清理。本治理不重跑、不改写原判定。
 
 ## 限制与复核
+按准入未跑全仓 check、official ratchet、protected fast、E2E/视觉(纯文案批);语义判断(注释是否如实、标题是否与真实轴一致)不能自动验证,依赖本页明细+diff 阅读。失效条件:基点后三文件或准入范围新提交→rebase 重证;实现/fixture/断言或第 5 个标题变化→body/身份映射重出;工具版本变化→证明重跑;校准准入撤回→停线由 Codex 裁定。原件逐字节保全在下方;候选待Owner非作者接收。
 
-未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
-
+原文存活链接原样保留:[code-quality.md](../../../../code-quality.md) [README.md](../calibration-20261018/README.md) [copy-fix-r1-codex-final.json](../copy-fix-r1-codex-final.json) [c2-readonly-run.raw](c2-readonly-run.raw)。
 
 ## 原文保全
 

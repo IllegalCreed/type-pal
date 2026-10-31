@@ -7,44 +7,43 @@ Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「CODE-QUALITY-58 — game tools panel audit」的任务归属与历史边界。原目标见原文(摘录:逐文件核验生产工具面板及两份专属测试，确认 tab/DOM ownership、键盘传播、battle/scene/dialog/timer 只读投影、音量/缩放/FPS 委托、minimap 生命周期和导入导出 caller 合同；不改变);本页治理不重开已终态任务。
+原卡目标:逐文件核验生产工具面板（1014→1106 行 `tools-panel.ts`）及两份专属测试:tab/DOM ownership、键盘 stopPropagation、battle/scene/dialog/timer 只读投影、音量/缩放/FPS/fullscreen 委托、minimap 装配与导入导出 caller 合同;状态读取来自 GameState,玩家动作只委托 bootstrap 注入的 controller,不改 UI 形态或公共接口。
 
 ## 范围
 
-原卡含章节[CODE-QUALITY-58 — game tools panel audit、目标、范围、前提真值门、风险与边界、验证],共5个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+`tools-panel.ts`、`tools-panel.test.ts`、`tools-panel.glm-phase1-leaves.test.ts`;只读相邻 bootstrap/minimap/save-io/quick-save/battle-inspect caller。save-io 版本合同（FORMAT/VERSION/payload 校验）归 CODE-QUALITY-59,不由本卡关闭。
 
 ## 前提与证据
 
-固定main源8026B(SHA 4c9ef6046065);原卡前提按原时点保留。当前存活入口:[README.md](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/53-wave-gates/README.md) [README.md](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/58-tools-panel-fixtures/README.md) [README.md](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/dev-panel-quality/README.md) [README.md](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/gamestate-save-closeout/README.md) [README.md](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/tools-panel-closeout/README.md)。
+工具面板是 type-pal 新增工具能力,SDLPal 无对应 UI（primary N/A）。2026-10-18 波次门勘误:53-wave-gates 统一回执 [README.md](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/53-wave-gates/README.md) 撤回收口信用。2026-10-18 测试夹具与跨例隔离勘误:前次 417 行主测试"合法fixture、fake timer隔离"结论不足——多个 `as never` 藏掉核心缺字段/错误 status 结构,共用宿主未清 window 监听器;旧 18 绿不证明这些合同。已改用正式 GameState/BattleState 构造器与显式 runtime hydrate,共用宿主清监听器/timer/rAF/音源订阅/controller/DOM/style/偏好/单例,敌 HP/turn 分轴观察,正式 19 例;隔离副本跨例探针旧 19 绿 1 个指定 AssertionError。证据见 [README.md](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/58-tools-panel-fixtures/README.md)。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+历史 accept(定向18+全仓门);2026-10-18 夹具勘误后 partial。2026-10-24 增量:导出失败提示经用户批准先红后修（正式单红后 7 绿,11 相邻文件 102 绿,typecheck 0;原生 Chrome 真 NotFoundError、0 写/槽不变/同名重选成功）,回执见 [README.md](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/gamestate-save-closeout/README.md);Dev 广域组织在 [README.md](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/dev-panel-quality/README.md) 独立接受。2026-10-25 CODE58 代码接受:原三文件与文件 IO/共用 DOM 两叶逐文件八维闭合,三新关闭;3447 tracked/491 closed/73 review/2883 pending;统一门/coverage/PR 仍等全部 pre94,历史归档 done 不认证本轮集成,唯一证据见 [README.md](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/tools-panel-closeout/README.md)。
 
 ## 状态与交接
 
-done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+done 保持原历史语义;后续轮次按 2026-10-25 代码接受收口,但不承接其余原件未证范围。无存档格式/数据库/槽位合同变更;导入错误提示按本次用户批准先红后修。
 
 ## 历史范围
 
-原卡属固定main时点;CODE-QUALITY-58 — game tools panel audit的原始范围与日期在保全块内逐字保留。
+原卡属 2026-10-13 首轮时点;2026-10-18 勘误、2026-10-24/25 增量与历史提示词在保全块内逐字保留。
 
 ## 原始结论
 
-原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+原始结论按 Status(done) 原样登记,后续勘误精确更正其测试夹具结论不足;不以 102 绿替代整文件质量。治理不撤销/不恢复旧信用。
 
 ## 当时证据
 
-原文5个链接与当时回执属原时点证据;本页不重跑、不复授。
+当时各轮回执（53-wave-gates、58 夹具勘误、gamestate-save-closeout、dev-panel-quality、tools-panel-closeout）按各自动时点保留;本页不重跑、不复授。
 
 ## 当前有效性
 
-仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+仅历史任务归属有效;当前有效结论以 tools-panel-closeout 回执为准,不凭旧基点授权新产品取舍。
 
 ## 继任文档
 
-接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[README.md](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/53-wave-gates/README.md) [README.md](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/58-tools-panel-fixtures/README.md) [README.md](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/dev-panel-quality/README.md) [README.md](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/gamestate-save-closeout/README.md) [README.md](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/tools-panel-closeout/README.md)。
-
+CODE-QUALITY-59（save-io 版本门）、CODE-QUALITY-56（minimap controller）、dev-panel-quality 回执为相邻归属;当前任务导航以看板为准。
 
 ## 原文保全
 

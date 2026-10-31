@@ -7,24 +7,23 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 证据身份
 
-本页是「Extract原盘执行完整性与像素oracle」的治理候选页;证据原件即下方逐字节保全的固定main源(8416B,SHA a8fea5ad4dda)。
+本页是QUALITY-EXTRACT-RAW-TEST-EXECUTION-1证据族的根导航与总结页：extract两份原盘测试（data-misc.test.ts/misc-mkf.test.ts）从"六条raw不存在warn后假passed"整改为真实原盘执行+固定像素oracle的全程证据索引。整改只动四份内聚测试与test-only helper，生产/原盘/生成物/公共接口0改动；起点b41dc8d53，整改时点main=f98d0ddd8，单worktree codex/code-quality-3y；任务卡留build、0文件关闭、不合main。下方保全块是原始README全文，本节以上为本轮语义整改补写的可见正文。
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原20个链接处置见作者review的linkDisposition。当前存活入口:[QUALITY-EXTRACT-RAW-TEST-EXECUTION-1.md](../../tasks/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1.md) [all-cards.md](../QUALITY-PRE94-RETROSPECTIVE-1/all-cards.md) [after-proof.json](after-proof.json) [before-proof.json](before-proof.json) [counter-probe.py](counter-probe.py) [README.md](diagnostics-c1/README.md) [README.md](diagnostics-c2/README.md) [empty-transfer.json](empty-transfer.json) [fast-scope.json](fast-scope.json) [gates.md](gates.md) [after-proof.json](initial-after/after-proof.json) [missing-input.json](missing-input.json) [native-identities.json](native-identities.json) [native-primary.c.gz](native-primary.c.gz) [native-probe.py](native-probe.py) [native-proof.json](native-proof.json) [native-rgba.bin.gz](native-rgba.bin.gz) [read-boundaries.json](read-boundaries.json) [verification.json](verification.json) [verify.py](verify.py)。
+上游是[QUALITY-EXTRACT-RAW-TEST-EXECUTION-1.md](../../tasks/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1.md)任务卡与[all-cards.md](../QUALITY-PRE94-RETROSPECTIVE-1/all-cards.md)复审。本族证据原件：native侧[native-probe.py](native-probe.py)提取未改函数体、[native-primary.c.gz](native-primary.c.gz)函数C原件、[native-rgba.bin.gz](native-rgba.bin.gz)RGBA流与指纹母本[native-proof.json](native-proof.json)；反控[counter-probe.py](counter-probe.py)的[before-proof.json](before-proof.json)/[after-proof.json](after-proof.json)与最初成功反控[after-proof.json](initial-after/after-proof.json)；身份与合同对账[native-identities.json](native-identities.json)、[empty-transfer.json](empty-transfer.json)、[fast-scope.json](fast-scope.json)、缺输入对照[missing-input.json](missing-input.json)；阅读边界[read-boundaries.json](read-boundaries.json)；另进程核验[verify.py](verify.py)/[verification.json](verification.json)；恢复回执与静态门[gates.md](gates.md)；后续诊断承接片[README.md](diagnostics-c1/README.md)与[README.md](diagnostics-c2/README.md)。
 
 ## 断言与业务 oracle
 
-文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+真实语义要点：native探针以未改SDLPal PAL_SpriteGetFrame/PAL_RLEBlitToSurfaceWithShadow/YJ2_Decompress、最小8位surface、同一帧绘全0与全255双背景判opaque，把DATA9/10、RGM、BALL、FIRE四原盘逐帧解出1332条RGBA指纹（71/85/88/251/837），测试只读固定预期摘要、经PNG真解码后完整匹配，PNG压缩字节不作跨版本oracle。整改后身份21→20：8移除/7加入中7条是描述性改名（imagecount+≤400 sanity、"多数解码出"、"if frames exist"措辞→精确有效帧数+SDLPal全部RGBA），唯一业务删除是FIRE空块例，其空输出合同由fire.glm-runtime-resource.test.ts承接，0与7两个空index输入保留在同一合同。七针输出变异（DATA9改1像素/DATA10少1帧/RGM改1像素/BALL改1像素/FIRE改frame index/FIRE0缺1槽/合成raw改空结果）下旧21例全绿且每段带6个stderr块，新20例各恰一指定业务AssertionError、0 stderr块；空块转移是旧2红→新仅GLM1红的多红转移，不冒充单例业务针；错误root重现使六原盘入口ENOENT失败（IO拒绝，kind明示不计业务AssertionError信用）。
 
 ## 结果
 
-原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+定向7文件36例、shared包check、双方typecheck全部0诊断通过；完整extract包级432 passed/0 pending但仍有4个stderr块/46行（tables unknown OBJECT 999、misc-guards RGM零尺寸0x2/2x0、BALL GLM零尺寸0x0、enemy-teams OBJECT 403缺映射），packageAcceptance=false，不以432绿接受包级零诊断。五项静态门（check:docs/lint/coverage-tools/ledger/diff-check）exit0、lint 0 errors/0 warnings/0 infos；全仓check、official coverage ratchet、protected fast未新跑，editor诊断未清。0文件关闭，任务卡留build，不合main。
 
 ## 限制与复核
 
-未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
-
+本页为历史时点证据导航，本轮整改未重跑任何命令；exit0/绿色计数不外推为零诊断或产品通过。4块stderr中RGM/BALL两块由diagnostics-c1转为显式完整IO断言、tables/enemy-teams两块由diagnostics-c2处理，后续状态以各子目录README与gates回执为准；机器计数以ledger原命令实测为准。候选待Owner非作者接收。
 
 ## 原文保全
 

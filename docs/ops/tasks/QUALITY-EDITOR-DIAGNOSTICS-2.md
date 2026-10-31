@@ -7,24 +7,23 @@ Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「QUALITY-EDITOR-DIAGNOSTICS-2 — C02 宿主与删除生命周期」的任务归属与历史边界。原目标见原文(摘录:Reviewer: Codex（作者自验，不冒称独立验收） Capability: editor test lifecycle correctness Visual Verification Timi);本页治理不重开已终态任务。
+C02宿主与删除生命周期治理：白名单battle-sprite-harness.tsx、battle-sprite-ui.ts、BattleSpriteLibrary.c02-g04测试三文件，目标是只观察实际cache调用返回的Promise、实际异步删除提交在act域内等待、DOM完成后断言；最强替代解释（删除后的焦点effect/重绑而非首次挂载占主要告警）以宿主消融证伪。
 
 ## 范围
 
-原卡含章节[QUALITY-EDITOR-DIAGNOSTICS-2 — C02 宿主与删除生命周期、完整模块窗口裁定（当前）、准入与独占范围、前提与反证、验收与交接、oracle与精简支持范围（build allowed）],共3个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+仅三文件；不改生产、schema/save、资产管线或UI；定制source可能有意挂起，默认保留其pending语义、显式等待由caller控制；spy仅透传观察、卸载/失败须恢复。
 
 ## 前提与证据
 
-固定main源4632B(SHA 57cc540051c0);原卡前提按原时点保留。当前存活入口:[README.md](../evidence/QUALITY-EDITOR-DIAGNOSTICS-2/README.md) [window-review.md](../evidence/QUALITY-EDITOR-DIAGNOSTICS-2/window-review.md)。
+固定源全文核读。oracle与精简：G04-03改合法未保存blob输入、G04-07精确核真实sha错误与零污染；G04-04磁盘删除→undo的全部record/blob SHA/目录/真实解码/保存门断言并入G04-05（3帧与4帧在此删除/撤销路径没有不同分支，二者同为authored未使用磁盘源，不构成独立输入轴），G04-05另证redo重新删除已恢复blob；精确10→9退役快照。最终9例0诊断、两个强弱oracle反控有效。完整模块窗口：源码7433f71f5、G04九例两反控0诊断，相邻78例仍535条其它act；七包20270与typecheck、全仓check/官方确认版ratchet/普通protected数值通过、覆盖计数不变fast19861；但三门仍2049/2076/2081条未包act、577/584/584环境、各2导航，严格零诊断门未通过。原件:[README.md](../evidence/QUALITY-EDITOR-DIAGNOSTICS-2/README.md) [window-review.md](../evidence/QUALITY-EDITOR-DIAGNOSTICS-2/window-review.md)。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:review),治理不改写。
+三个文件review、0关闭，3284/229closed/51review/3004pending；作者自验不冒充独立accept；相邻535条act由后继切片（QUALITY-EDITOR-DIAGNOSTICS-3）接管。
 
 ## 状态与交接
 
-review保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
-
+review保持原语义；无下一位Agent提示词，Codex继续本片。
 
 ## 原文保全
 

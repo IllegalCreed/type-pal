@@ -7,24 +7,23 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「battle-state + battle-runtime-context B–G 补维（glm-foundation 模块 7 批 12）」的主题按原文时点保留(摘录:> Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见当前返工记录。 范围：`core/battle/bat)。
+本页审计主题:game 的 core/battle/battle-state.ts(917 行)+battle-runtime-context.ts(99 行)全文读毕的 B–G 补维;A 维引用 Codex 3u 深切片(2026-10-18 state factory 专测返工,typed 工厂/九状态 role 映射/零槽活敌布局刚补强)+3u/w 清理链 caller;基点 53db76bbb 线。原文 Status: review(候选待 Codex 据证验收)。Codex 当前裁定(2026-10-19):本页保留作者阶段证据,未获整包/全维收口验收;可复用范围与逐文件依据见 [codex-stage2-rework.json](../codex-stage2-rework.json)。
 
 ## 范围与证据
 
-原报告含章节[battle-state + battle-runtime-context B–G 补维（glm-foundation 模块 7 批 12）、短回执、八维结论（B–G 补维重点）、复验入口（只读）]、1个链接;固定main源3007B(SHA bd573efb27e2)。当前存活入口:[codex-stage2-rework.json](../codex-stage2-rework.json)。
+零整改批(改动 0 处)。验证证据:body-invariance(同目录)两文件一致(零编辑恒真);定向 13 套件 25/25、0 failed suites(directed.json:battle-state glm-next-wave+runtime-context+finalization+settlement 四族);game typecheck 0;scoped biome 0/0/0;diff --check 干净。
 
 ## 发现
 
-原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+过时模式扫描(简版/stub/留 Mx/暂当/TODO 等)零命中——两文件注释随 3u 返工与历次 DL/DM/DW 修复批持续同步,属『常量注随修复批维护』高地。A 维复核:createBattleState 的 0 占位槽 DH1 零值敌/站位撑列、九状态 seedBattleStatus CLASSIC 序(含 slow 留 0)、maxHealth=创建时满血(0x64 稳定真值)、objectId L25 精确/fallback 双路、敌 idle currentFrame 恒 undefined(D17c idle 时钟轮播,置 0 会冻结=已注明的回归边界)、>3 人抛错(g_rgPlayerPos[3] 真值)——与 battle.c/global.h 锚一致。runtime-context:stash 双键隐藏字段、resources finalize 置 undefined、runScript 只注入不清除(clear 统一删)——与 startBattle/finalize caller 合同一致。C/D:状态写入单一 owner(createBattleState 建/battle-system 推进/finalize 清);runtime-context 是资源生命周期唯一 stash owner(3u 评审结论沿用)。
 
 ## 结论
 
-原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+零整改批:B–G 八维作者主张全部通过,零代码/注释改动;25/25 定向绿+body-invariance 两文件恒真。无登记项。
 
 ## 整改与复核
 
-本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
-
+本批零整改。复验入口(原页给出,此处概述):在 packages/game 定向跑 battle-state.glm-next-wave.test.ts 与 battle-runtime-context.test.ts。失效条件:两文件实现变化→重测;BattleState 字段/资源 stash 合同变化→3u 证据重估。本轮治理未重跑任何命令;候选待 Owner 接收。
 
 ## 原文保全
 

@@ -2,48 +2,53 @@
 
 Status: done
 Owner: GLM(治理候选作者;原文作者/状态见保全块)
-Last reviewed: 2026-10-30
+Last reviewed: 2026-10-31
 Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「GAME-BATTLE-NONPARTY-EXTRA-CLEANUP-1 — 非队员Extra战后清理可达性」的任务归属与历史边界。原目标见原文(摘录:核清战后Extra角色域的静态差异是否能由真实生产caller触发。当前已通过可被V1导入接受的改动存档证明真实core残留；正常原盘剧情可达性仍未知，不称普通游玩已复现。用户已批准战后清所有角色临时Extra；当前按有限白名单先正式红例再);本页治理不重开已终态任务。
+核清战后Extra角色域静态差异能否被真实生产caller触发，并按用户批准清理。可达性证明：将存档OBJECT398敌人回合脚本改为原盘已有20557，真实V1解析/内存Save读写接受；队伍[0,4]开实际0号敌队，两次tick执行0x75后GS在队[0]、BattleState仍[0,4]——实际performItem给旧战斗槽1的阿奴用大蒜，Extra由0变30且只扣一件；真实performFlee(seed7)及18tick释放资源后getter与再次导出仍为30。这是'接受的改动V1输入→真实core链'，非普通原盘剧情（可达性unknown）。
 
 ## 范围
 
-原卡含章节[GAME-BATTLE-NONPARTY-EXTRA-CLEANUP-1 — 非队员Extra战后清理可达性、目标、范围、前提真值门、反证与替代解释、上下文锚点],共7个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+battle-finalization.ts清理owner+一份真实导入/开战/物品/逃跑回归。保留毒的队伍位置规则、装备部位0..5、>999装备状态、schema/save、资产与公共接口；更大GS/BattleState队伍快照同步不在本卡。
 
 ## 前提与证据
 
-固定main源9285B(SHA a7ae11283875);原卡前提按原时点保留。当前存活入口:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/README.md) [extra-cleanup-fix.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/extra-cleanup-fix.json) [extra-reachability.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/extra-reachability.json) [module-closeout.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/module-closeout.json) [ownership-current.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/ownership-current.json) [verify-extra-reachability.mjs](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/verify-extra-reachability.mjs) [QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)。
+primary：battle.c:1822-1830 ClearAllPlayerStatus后对0..MAX_PLAYER_ROLES-1调CurePoisonByLevel(3)/RemoveEquipmentEffect(Extra)；global.c:1567-1614解毒先role→party查找、离队role直接return——不能把Extra差异混成解毒角色域bug。原6个链接处置见作者review，存活入口逐字保留：
+
+当前存活入口:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/README.md) [extra-cleanup-fix.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/extra-cleanup-fix.json) [extra-reachability.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/extra-reachability.json) [module-closeout.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/module-closeout.json) [ownership-current.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/ownership-current.json) [verify-extra-reachability.mjs](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/verify-extra-reachability.mjs) [QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+用户2026-10-22批准'清除所有角色的战斗临时加成（推荐）'。先正式红：旧实现逃跑并释放资源后Extra末列仍30（最后角色role5补六角色上界+仙女剑脚本真实授8武术/32760双攻作保护边界，恰一业务AssertionError，default+JSON原件）；修复finalizeBattleCleanup保留party解毒、单独按六角色清Extra（复用removeEquipmentEffect(role,6)，角色域来自canonical六列runtime）。当前236实际定向/相邻+game typecheck通过；模块收口完整check20443/七包TC/工具684、官方20045项/保护同报告零诊断（首轮12超时及重跑原件未删）。
 
 ## 状态与交接
 
-done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+Status保持done（模块验收收口）：已批有限行为与五文件A–H据证收口；仅core原合同，不冒充视觉或整个解释器验收。普通原盘剧情可达性未证明；更大队伍快照ownership单列3s风险不借一个清理循环宣称已修。
 
 ## 历史范围
 
-原卡属固定main时点;GAME-BATTLE-NONPARTY-EXTRA-CLEANUP-1 — 非队员Extra战后清理可达性的原始范围与日期在保全块内逐字保留。
+2026-10-22写入域增量：371b00c7d含用户批准的战斗物品目标角色传递（原盘大蒜84的0x17经真实performItem→runScript给选中role写30毒抗）；runScript原头注'不会写party'等不变量失实（battleCtx.gs经raw fallback可执行0x75）已纠正。库存3356/373closed/114review/2869pending、3w保持partial时点保留。
 
 ## 原始结论
 
-原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+原卡结论：新文件与原实现继续review等待模块收口；后模块收口完成（check20443/official 20045零诊断）。
 
 ## 当时证据
 
-原文7个链接与当时回执属原时点证据;本页不重跑、不复授。
+docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/（extra-cleanup-fix/extra-reachability/ownership-current/module-closeout）与3u-3w-finalization。原链接与当时回执属原时点证据。
 
 ## 当前有效性
 
-仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+done有限范围；普通剧情影响unknown。
 
 ## 继任文档
 
-接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/README.md) [extra-cleanup-fix.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/extra-cleanup-fix.json) [extra-reachability.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/extra-reachability.json) [module-closeout.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/module-closeout.json) [ownership-current.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/ownership-current.json) [verify-extra-reachability.mjs](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/verify-extra-reachability.mjs) [QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)。
+3s风险（GS/BattleState队伍快照分叉）单列；父卡QUALITY-PRE94-RETROSPECTIVE-1承接。原存活入口逐字保留：
+
+关联:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/README.md) [extra-cleanup-fix.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/extra-cleanup-fix.json) [extra-reachability.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/extra-reachability.json) [module-closeout.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/module-closeout.json) [ownership-current.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/ownership-current.json) [verify-extra-reachability.mjs](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/verify-extra-reachability.mjs) [QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)。
+
 
 
 ## 原文保全

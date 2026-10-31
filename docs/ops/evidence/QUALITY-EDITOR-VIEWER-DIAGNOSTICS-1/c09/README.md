@@ -2,29 +2,28 @@
 
 Status: historical
 Owner: GLM(治理候选作者;原文作者/状态见保全块)
-Last reviewed: 2026-10-30
+Last reviewed: 2026-10-31
 Template: evidence-receipt-v1 / 1.0.0
 
 ## 证据身份
 
-本页是「C09：K02 Viewer真实编辑工作流」的治理候选页;证据原件即下方逐字节保全的固定main源(4085B,SHA 832c9ed54edd)。
+本页是 QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1 的 C09 续片(K02 Viewer真实编辑工作流)证据目录页,归属任务卡 [QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1.md](../../../tasks/QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1.md)。2026-10-16,单Owner Codex,唯一分支codex/code-quality-3y,基点c858f4840,main=f98d0ddd8,0behind。仅两源文件(SpriteResourceViewer.kimi-workflows.test.tsx与upload-harness.tsx的Viewer等待器),两个源文件仅review,0新增关闭;不改产品、格式/schema、资源管线、规则或生成物。
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原2个链接处置见作者review的linkDisposition。当前存活入口:[QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1.md](../../../tasks/QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1.md)。
+reads.json逐项记录11项原始全文SHA/行数(目标K02测试639行、共享upload-harness/upload-ui、产品Viewer581行、两套合法fixture、硬件/磁盘gate kit、glm通用交互kit、reader/sprite-assets、Kimi历史卡),partialCallers仅WorldSpriteLibrary:770-875与DataMode:710-775,不记整文件完成;closed=[]。Primary为React act官方文档(await act与IS_REACT_ACT_ENVIRONMENT两节,2026-10-16)。消融原件:baseline.json(五例全绿但56act)→shared-host-only.json(只复用共享宿主后44act,证明首次加载只占部分根因)→owned-final.json与final.json(五例全绿、0skip/0act/0环境/0导航)。相邻adjacent.json(11文件80例0skip仍63act);全包package.json;归因package-diagnostic-census.json;静态门docs/lint/typecheck/ledger及postflight四件。
 
 ## 断言与业务 oracle
 
-文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+文档事实核对(currentExecution=false):最终等待透传createImageBitmap结果、实际通知及cache/palette返回promise;删除目标内重复ViewerHarness、根节点与reader/session构造;共享等待器默认仍只等当前资产,仅新增显式asset参数用于释放A后等A的真实解码完成;去掉空Promise、双setTimeout及11处对已完成结果的轮询;取消补proof/帧交付零增加,undo/redo补真实重读,切回A补无第二次磁盘读;五条身份全部保留,无新增用例或退役。反控:counter.json与counter-first/counter.json保留两枚mutant(追加后错误选回0、允许退出effect交付迟到结果)各六次完整执行,旧/新测试各4绿1指定AssertionError、无TypeError/timeout混错,新版本反控0诊断,恢复5绿;产品与实际工作树不受变异影响;counter-split-verification.json另进程删除后重构全部SHA/身份。但相邻80例仍63act来自未处理的Wizard/Uploader;editor全包631文件/4945例全绿0skip但759act/243环境,另1条只读表单告警(number-inputs.glm-leaf-wave.test.tsx),严格零诊断不通过。空数组/exit0/全绿不外推为零诊断或产品通过。
 
 ## 结果
 
-原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+治理结果=续片证据保全完整、消融与反控可独立复验;不产生新执行结果。docs/lint-zero/ledger通过;ledger只将目标pending→review,shared helper保持review;3287 inventory/223closed/199review/2865pending。全仓check/official ratchet/两父protected fast尚未在本片完成,禁止合main。
 
 ## 限制与复核
 
-未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
-
+未重跑任何命令;下一片先核Wizard/Uploader剩余63act及本包最新诊断分布;未知重复、公共输入与其它逐文件域继续待核。历史结论保持原时点;候选待Owner非作者接收。
 
 ## 原文保全
 

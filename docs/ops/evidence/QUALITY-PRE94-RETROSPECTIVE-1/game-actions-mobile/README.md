@@ -2,29 +2,28 @@
 
 Status: historical
 Owner: GLM(治理候选作者;原文作者/状态见保全块)
-Last reviewed: 2026-10-30
+Last reviewed: 2026-10-31
 Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「pre94 基础战斗动作与移动端影响复核」的主题按原文时点保留(摘录:Template: evidence-receipt-v1 / 1.0.0 3v/78两卡原合同接受，固定83卡58accept/25partial/0pending。16文件明确)。
+用户要求在pre94复审中对CODE3v(基础战斗动作)与78(移动端布局)两卡做原合同复核:3v六份battle action目标是否具备完整八维与判别力,移动端直接改动的七个既有closed实现与两份既有AVI测试是否需要返工。同一3y分支,origin/main基点868323003,Owner Codex单Agent;明确不把94–102或14条新增移动端代码路径顺带accept。
 
 ## 范围与证据
 
-原报告含章节[pre94 基础战斗动作与移动端影响复核、当前收口、证据身份、来源与输入、断言与业务oracle、构建时点结果（3eb，保留）]、6个链接;固定main源4467B(SHA 7bebdbfd7c8e)。当前存活入口:[gates-native.json.gz](gates-native.json.gz) [gates.json](gates.json) [native.json.gz](native.json.gz) [recount.json](recount.json) [review.json](review.json) [verify.mjs](verify.mjs)。
+范围=原3v六文件(attack/attack-mate/defend/flee及其测试)+七个移动端已改实现(input/avi-player及测试/speedrun store/analytics三件/display-scale/fps-overlay)+两份既有AVI相关测试,共16文件逐文件A–H;battle-system、大actions测试、H harness三份大文件仅核实际调用段,非整文件接受。逐文件维度、SHA、复用来源在[review.json](review.json);门完整原件在[gates.json](gates.json)与[gates-native.json.gz](gates-native.json.gz);baseline调整归因在[recount.json](recount.json);完整native在[native.json.gz](native.json.gz);[verify.mjs](verify.mjs)只读快检不重跑测试、不联网、不写仓库。3v复用既有完整四实现/两专测与SDLPal fight.c有限原文段(3618-3854/4110-4172/4591-4654/4910-5175),本轮补C/D/F/G/H;移动端复用既有独立审查(GAME-MOBILE-LAYOUT-1)与83注册附件逐字节复算,只补七文件真实caller/接口/lifecycle增量,无物理设备/控制器/Safari/编解码/网络/部署证据。
 
 ## 发现
 
-原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+三组判别事实:AttackMate原7例不增删,改合法typed工厂(首例party[2,0,1]、HP155/200/200、pending数字slot1)后,丢弃宿主目标的单点变异呈现旧7绿/新恰1条HP红/恢复7绿;analytics原2例不增删,拒绝后经真实公开方法重开且存储仍denied,noop转发变异旧2绿/新恰1条hidden状态红/恢复2绿;AVI按用户批准做重复重试修复——正式未修源先红,最终5例suite对冻结旧源恰3绿2指定红(可见提示未摘除为主业务反例,旧分离节点继续调用媒体端口为清理反例),修复后同once回调在每次失败后重接、成功/结束解除、pending点击不并发发起播放,修后8文件61例零stderr,500ms跳过延迟/跳过键/音量/媒体资源/Save均未改。过程失败如实保留:初6例草案含与既有M1/M2同轴的迟到例(终版删该草案、不退役历史测试);初green命令含两个不存在过滤路径(实际4文件41,纠正后8文件61);3v证明器首版范围越界与格式换行误判失败,首版完整stderr未保存但披露。
 
 ## 结论
 
-原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+原3v与78两卡合同接受,固定83卡58accept/25partial/0pending;16文件中attack/AVI两review恢复、14旧关闭刷新、净增2,账本3355/372/113/2870。全量check实际七包20432例(1498/114/3718/455/8965/4943/739),全部stderr/act/环境/TS/未处理/静态诊断0,260块普通stdout单列分类;最终官方fast ratchet(基点868323003保护)与同报告strict/protected零诊断。首官方采集20034例/758源stderr全0但game/total branch指标exit1:旧伪三字段fixture的两项偶然覆盖(protect未定义回退、缺动画锚即时数字)消失,非HP/protect/defend/clamp业务合同丢失;有限授权只下调固定旧game branch covered两项(9557→9555),13实际源SHA不符即拒绝,所有旧授权条目/程序AST原样。历史868主线Docs39703338326/Coverage39703338497两job实际success,但各含平台Node20 action迁移warning与Ubuntu notice,单列保留,不能写成平台annotation0,也不能拿历史绿覆盖新AVI行为。
 
 ## 整改与复核
 
-本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
-
+仍保留边界:battle-system/actions.test/H harness只是实际上下文段;14新增移动端代码路径pending;main/bootstrap/minimap/tools广域文件保持原状;3w/3x及其余23张partial不因AVI批准解除;无源码格式/Save/schema/资产管线/500ms播放策略变化,仅授权的重复重试修复。display-scale/FPS只纠错注、生成JS完全相同。本页为historical时点回执入口;'构建时点结果(3eb,保留)'一节记录的是中间候选时点(game typecheck与scoped Biome零诊断、154私有实跑),最终集中门以gates.json的20432全量check与官方ratchet/protected为准,旧失败不改写为通过。
 
 ## 原文保全
 

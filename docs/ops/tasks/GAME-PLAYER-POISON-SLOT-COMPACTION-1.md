@@ -2,29 +2,30 @@
 
 Status: review
 Owner: GLM(治理候选作者;原文作者/状态见保全块)
-Last reviewed: 2026-10-30
+Last reviewed: 2026-10-31
 Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「GAME-PLAYER-POISON-SLOT-COMPACTION-1 — 卸装备后的毒列表压缩差异」的任务归属与历史边界。原目标见原文(摘录:先厘清第一阶段卸Wear后毒列表压缩在真实生命周期中的影响，再提出可裁决修复；当前只读player-poison-state/equipment及毒施加/tick/query/save caller和原C。范围外为队伍角色键迁移、装备>99);本页治理不重开已终态任务。
+核修卸装备后毒列表压缩差异与毒入口槽位归属两项：(1)TS removePoisonLevel99原地清零高等级毒、幸存项不前移；原C（global.c:1413-1454 Wear分支）将低于99幸存毒前移、遇首空槽停止、清尾。(2)毒入口再次添加另一种毒会被覆盖：TS外层552覆盖同一空毒槽漏保留553；原C先登记ID再跑入口（O0/O2均保留两毒）。
 
 ## 范围
 
-原卡含章节[GAME-PLAYER-POISON-SLOT-COMPACTION-1 — 卸装备后的毒列表压缩差异、2026-10-24 当前批准与技术结果、2026-10-18 历史发现记录、发现与停止线、直接证据、当前限制与下一步],共5个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+player-poison-state.ts及直接生命周期专测；不动role→party-slot、schema/save、生成物、装备永久buff。原盘寿葫芦39163与普通毒552/553真实同步入口复现：卸Wear后再施同级毒，旧TS颜色64、原C为33。
 
 ## 前提与证据
 
-固定main源10687B(SHA 8958f88fe23d);原卡前提按原时点保留。当前存活入口:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/poison-progression-comments/README.md) [primary-counters.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/primary-counters.json) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-closeout/README.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-quality/README.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/poison-entry-ownership/README.md)。
+原2个链接处置见作者review，存活入口逐字保留：
+
+当前存活入口:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/poison-progression-comments/README.md) [primary-counters.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/primary-counters.json) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-closeout/README.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-quality/README.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/poison-entry-ownership/README.md)。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:review),治理不改写。
+两项均获用户批准并实施：(1)Wear稳定压缩（call_4069993f'整理毒列表，保留不丢毒和不重复'）：全16槽扫描按原顺序复制幸存ID和脚本续点、尾槽清零；原C'首空槽丢后续毒/首空槽后加同毒可重复'两行为不复制（用户选TS安全边界）；正式2例先业务AssertionError再修复绿，相邻11文件486例、旧3处位置oracle迁移为完整packet。(2)毒入口归属（call_331f12c'修复毒入口槽位归属'）：ef012023a先占毒记录再执行入口、续点直接更新该record、Wear前移同一record、入口清毒后不复活、异常撤自己占位并原样传播；正式7例四业务红后绿，复制移动record变异恰一续点业务红。全16去重/洞后不丢毒、party-slot及Save保持。
 
 ## 状态与交接
 
-review保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
-
+Status保持review：技术结果已记录（两项正式红绿+相邻+TC），等待全部剩余pre94最终窗口统一集成门；原盘普通剧情嵌套可达未证；无新PR、未合main。2026-10-18'无build allowed/待裁决'是当时冻结记录，不覆盖后续批准。
 
 ## 原文保全
 

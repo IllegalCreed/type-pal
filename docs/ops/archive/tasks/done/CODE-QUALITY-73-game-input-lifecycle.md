@@ -7,44 +7,43 @@ Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「CODE-QUALITY-73 — game input lifecycle」的任务归属与历史边界。原目标见原文(摘录:Reviewer: Codex（独立验收） Capability: Q3 game/shell Visual Verification Timing: N/A（键盘输入状态机）);本页治理不重开已终态任务。
+原卡目标:逐文件核验键盘输入状态机四文件（`input.ts` 与主/boundaries/replay 测试）:SDLPal key mapping、held/pressed edge、repeat order、clear/fade suppression、detach、snapshot alias isolation、Replay cursor 与 Recording ownership。
 
 ## 范围
 
-原卡含章节[CODE-QUALITY-73 — game input lifecycle、范围、验证、交接、下一位 Agent 提示词、2026-10-21 方向恢复差异（批准前记录）],共2个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+四文件;只读 main-loop/input caller。历史批:定向 31 tests 全绿、全仓门通过,账本 3266/326 closed。
 
 ## 前提与证据
 
-固定main源2162B(SHA 6cc335e92018);原卡前提按原时点保留。当前存活入口:[input-audio-closeout.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/input-audio-closeout.json) [GAME-INPUT-FADE-DIRECTION-OWNERSHIP-1.md](../../../tasks/GAME-INPUT-FADE-DIRECTION-OWNERSHIP-1.md)。
+2026-10-21 方向恢复差异（批准前记录）:从固定 SDLPal 原函数和真实 TS 模块分别复现双方向键跨 scene-fade 后的恢复差异——不是类型或假 Window 夹具问题;当前 partial,input 实现未动,[GAME-INPUT-FADE-DIRECTION-OWNERSHIP-1.md](../../../tasks/GAME-INPUT-FADE-DIRECTION-OWNERSHIP-1.md) 裁决卡待用户答复;原有有效键表/快照/record-replay 证据保留。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+2026-10-21 输入音频模块收口:原四文件 A–H 接受——用户批准方向恢复;三个真实业务红先行后修,原 17 case 与键表/Replay/Recording 保全;三原 C 函数与实际浏览器 main-loop→scene 消费支持方向 ownership;无全输入模型等价或完整剧情 E2E 外推。逐文件八维、授权/合同映射与完整原件见 [input-audio-closeout.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/input-audio-closeout.json);统一 check/官方 ratchet/protected 与静态零诊断按实际回执,旧原始结果不改写。
 
 ## 状态与交接
 
-done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+done 保持原历史语义;方向恢复差异经用户批准后修复,当前结论以 input-audio-closeout 为准。
 
 ## 历史范围
 
-原卡属固定main时点;CODE-QUALITY-73 — game input lifecycle的原始范围与日期在保全块内逐字保留。
+原卡属 2026-10-13 核验时点;原始记录与历史提示词在保全块内逐字保留。
 
 ## 原始结论
 
-原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+原卡结论按 Status(done) 原样:未发现直接缺陷。治理不撤销/不恢复旧信用。
 
 ## 当时证据
 
-原文2个链接与当时回执属原时点证据;本页不重跑、不复授。
+当时回执（31 定向、全仓门）属原时点证据;本页不重跑、不复授。
 
 ## 当前有效性
 
-仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+仅历史任务归属有效;方向恢复修复以裁决卡与收口原件为准。
 
 ## 继任文档
 
-接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[input-audio-closeout.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/input-audio-closeout.json) [GAME-INPUT-FADE-DIRECTION-OWNERSHIP-1.md](../../../tasks/GAME-INPUT-FADE-DIRECTION-OWNERSHIP-1.md)。
-
+GAME-INPUT-FADE-DIRECTION-OWNERSHIP-1（裁决卡）与 input-audio-closeout 为继任;当前任务导航以看板为准。
 
 ## 原文保全
 

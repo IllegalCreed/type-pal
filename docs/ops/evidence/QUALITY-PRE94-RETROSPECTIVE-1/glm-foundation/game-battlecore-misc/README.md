@@ -7,24 +7,23 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「battle 七小文件 B–G 补维收口（glm-foundation 模块 7 批 14 · battle 家族终批）」的主题按原文时点保留(摘录:> Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见当前返工记录。 范围：`core/battle/{fo)。
+本页审计主题:game 的 core/battle/{formulas,magic-damage,magic-object,simulated-magic-target,enemy-ai,status,battle-positions}.ts(223/333/75/23/129/54/93 行,七文件全部全文读毕共 930 行)B–G 补维收口;A 维引用 3m 深切片(formulas/magic-damage/status/turn-queue/rng 逐文件对照 fight.c/global.c)+2026-10-18 formula-numeric-audit 批(第七组错注已修、TS/C 数值边界声明重写)+3m status 死槽递减修复批。原文 Status: review(候选待 Codex 据证验收)。Codex 当前裁定(2026-10-19):本页保留作者阶段证据,未获整包/全维收口验收;可复用范围与逐文件依据见 [codex-stage2-rework.json](../codex-stage2-rework.json)。
 
 ## 范围与证据
 
-原报告含章节[battle 七小文件 B–G 补维收口（glm-foundation 模块 7 批 14 · battle 家族终批）、短回执、八维结论（B–G 补维重点）、登记（不动）、复验入口（只读）]、1个链接;固定main源3768B(SHA 6c247efc95bc)。当前存活入口:[codex-stage2-rework.json](../codex-stage2-rework.json)。
+改动 0 处(零整改批次,battle 家族三连零整改)。验证证据:body-invariance(同目录)七文件一致(零编辑恒真);定向 23 套件 90/90、0 failed suites(directed.json:formulas+magic-damage+magic-parity+enemy-ai+state-machine+magic E2 target-semantics);game typecheck 0;scoped biome 0/0/0;diff --check 干净。
 
 ## 发现
 
-原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+过时模式扫描七文件零命中;3m+数值审计批后这些文件的注释属『随修复批同步维护』高地——错注已在 2026-10-18 被上游批次纠正,本轮 handler 现状定谳复核全部吻合。A 维复核:calcBaseDamage 三段公式/Math.trunc vs floor 注、SHORT 非全域等价声明、非 classic 分支『M3 不实现』标记在位;applyMagicDamage 双路径共享骨架(minDamage 1/0 不对称)、applyEnemyMagicDamage 的 resistMult=20/defending/protect/autoDefend 除因子/钳 hp 不钳 1、玩家 getter 无 level 项;simulateMagic 无符号 guard;enemy-ai 的 DL7 沉默仍耗掷骰/c10 全槽拒绝采样/guard 兜底;status 的 B1 全计数器衰减+死槽递减保留;battle-positions 的 3 人表真值+4/5 兜底——全部与 fight.c/global.c 锚一致。C/D:纯函数核心与 mutate 结算层分层清楚;positions 是 core+present 共用单一坐标源。G:census 七文件出口全有 caller。
 
 ## 结论
 
-原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+零整改批(battle 家族终批):B–G 八维作者主张全部通过,零代码/注释改动;90/90 定向绿+body-invariance 七文件恒真。登记(不动):GAME-MAGIC-NUMERIC-ASSIGNMENT-1(160/161 数值裁决)维持 pending——formulas/magic-damage 的『不承诺全数值域等价』声明即该卡的代码侧边界,不因本批变化。
 
 ## 整改与复核
 
-本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
-
+本批零整改。复验入口(原页给出,此处概述):在 packages/game 定向跑 formulas/magic-damage/enemy-ai 三测试。失效条件:七文件实现变化→重测;公式/裁决变化→3m+数值审计批证据重估。本轮治理未重跑任何命令;候选待 Owner 接收。
 
 ## 原文保全
 

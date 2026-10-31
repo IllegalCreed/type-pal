@@ -7,24 +7,23 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「Y01：CODE75 MIDI旧测试复审」的主题按原文时点保留(摘录:2026-10-16，唯一治理分支`codex/code-quality-3y`，候选995cd8aee，main=f98d0ddd8。父分支保全与删除证明见统一治理线。本片仅处理)。
+本目录回答:CODE75 的 MIDI 旧测试（audio-midi.boundaries.test.ts 两例）在统一候选上是否重复/过期、能否退役,及退役的完整证据边界。背景:2026-10-16,唯一治理分支 codex/code-quality-3y,候选 995cd8aee,main=f98d0ddd8;父分支保全与删除证明见 [README.md](../README.md)。本片仅处理旧测试重复与过期协议;没有修改 MIDI 产品、音色、资源管线、公共接口或规则,0 新增关闭。
 
 ## 范围与证据
 
-原报告含章节[Y01：CODE75 MIDI旧测试复审、实际读取与合同、验证与反控、当前结论与待续]、5个链接;固定main源4232B(SHA 35e0397c76fa)。当前存活入口:[README.md](../README.md) [rereview-progress.json](../rereview-progress.json) [counter-run.py](counter-run.py) [counter-split-verification.json](counter-split-verification.json) [read-and-retirement.json](read-and-retirement.json)。
+[read-and-retirement.json](read-and-retirement.json) 记录 4 份全文的行数/SHA（当前 MIDI 实现 242 行、旧测试 135 行、main 测试 323 行、CODE75 历史卡 98 行）及 caller 和 primary 的实际段落,没有把局部 caller 读取记成整文件验收。直接合同:MusicBackend、AudioManager 切歌/stop/dispose 和 source-controller 的 ready/错误回调;SDLPal TSF_Play 支持停止旧曲的前提;安装版 SpessaSynth 4.3.6 源码表明 loadNewSongList 只提交工作、songChange/midiError 随后报告完成。旧两例在统一候选实跑 1 绿 1 红（原件/runner 见父目录 midi-integration-baseline 系列）;旧 FakeSequencer 缺少事件协议,不能通过恢复老实现解决;旧测试还使用 1 字节 MIDI、强转 Response、定时猜完成及未恢复的 fetch 全局。旧文件字节保存在 retired-test.ts.gz,SHA=a55ce7bb26059e35da357250cf4c1e2aee2cb6d28d3b73ffe486cd0fa751f2f6。两个旧合同均已有更强的主线测试（file×fullName 映射在读取清单）:"newer track wins"证明旧 body 实际消费完毕后只有当前曲的精确字节/文件名/loop 提交;"after stop"证明 body 实际读取与完成后零 load/零 play;其余 10 例覆盖 parser 失败串行、当前失败传播、resume、gain/dispose、初始化退役及同曲循环意图。保留完整 12 例原字节,未新增替代测试或扩大排除项。
 
 ## 发现
 
-原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+验证与反控:定向 12/12、6 个音频相邻文件 44/44、game typecheck 均通过（0 skip,无 act/环境/导航诊断）,命令/时间/退出码/原始输出 SHA 见 directed.json、adjacent.json、typecheck.json。test SHA=53108709…、产品 SHA=118a6454…,均与 origin/main 精确相同。[counter-run.py](counter-run.py) 反控脚本只在临时源副本删除 stop 内的一次 generation 递增:完整 12 例先绿,变异 11 绿/1 指定 AssertionError,恢复 12 绿;失败直接观察 stop 后的旧曲错误提交,不是 timeout/TypeError 或 setup 失败;counter.json 记录每次实际 file/fullName/status/failure 与 raw/runner SHA;[counter-split-verification.json](counter-split-verification.json) 独立清理后复核重新核 recipe、主线原字节、所有 runner 身份及 SHA,临时目录已删除。首次准备因 shared 没有 node_modules 而中止未执行测试,counter-preparation-1.json 保留此失败不计为业务反控;修正仅为处理无依赖目录,不改变测试或产品。
 
 ## 结论
 
-原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+删除唯一已证重复的旧 boundaries 测试文件 2 例;保留主线 12 例原字节。覆盖保护表、matcher 及基线未修改;官方 runner 对已实际删除文件已有独立范围规则,下一官方 ratchet 仍须原生确认 scope removal,并核 main 及旧 3y 两条保护线,不把删除当作规则豁免。ledger 实测 3287 inventory/223 closed/198 review/2866 pending;原旧 test 的 review 记录随删除移除,main 现有测试仅 pending→review,产品继续 review;CODE75 历史 done 结论保留原时点,当前整文件验收/功能证据与统一质量门未收口;其余 57 卡仍待逐项复审,完整进度见 [rereview-progress.json](../rereview-progress.json)。
 
 ## 整改与复核
 
-本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
-
+文档门通过:1333 Markdown/7067 链接,phase184、content570。lint 首次发现本片 docs.json 证据文件的格式错误 1 项,lint-first 原始失败回执保留;格式修正后完整 lint 通过 4340 文件 0 error/0 warning/0 info,ledger 通过,没有静音或降低规则。全仓 check、official ratchet、两父 protected fast 留到稳定模块窗口集中运行;本片不是完整质量门通过或合 main 许可。下一片可从同一 3y 分支复核 fetch-retry 相邻测试与历史 CODE71,不再建治理分支。
 
 ## 原文保全
 

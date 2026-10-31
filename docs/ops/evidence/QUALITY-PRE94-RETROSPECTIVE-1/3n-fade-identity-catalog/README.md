@@ -7,23 +7,23 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 证据身份
 
-本页是「CODE3n fade / identity / catalog 当前复审切片」的治理候选页;证据原件即下方逐字节保全的固定main源(2988B,SHA 288bc1cc21c0)。
+本页是 CODE3n 四个 core helper（palette-fade、scene-identity、word-lookup、script-catalog）的当前复审切片（基点 6d855d9fe，分支 codex/code-quality-3y）：重新复审四个 helper 及直接 caller/oracle，不把历史 done、旧全仓门或包级全绿当作当前整卡验收；3n 当前复审提升为 partial，整卡未关闭。注意页首 2026-10-18 当前更正对 palette 结论作了限缩（见断言节）。证据原件为下方逐字节保全的固定main源；读域明细见同目录 read-boundaries.json（8 全文 + 8 区间）。
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原1个链接处置见作者review的linkDisposition。当前存活入口:[README.md](../core-comment-audit/palette-approach-tests/README.md)。
+全文读取 palette-fade.ts、scene-identity.ts、word-lookup.ts、script-catalog.ts 及 palette-fade.test.ts、word-lookup.test.ts、dependency-ownership.test.ts、cross-module-boundaries.test.ts 四份直接/跨模块测试。caller/生命周期读取：event-system.ts 的 palette fade 构造、cursorless battle/autoScript fallback、scene auto fade 与 global catalog 注入/label 消费；scene-system.ts 的 loadScene map ownership；present.ts 与 present-battle.test.ts 的逐帧 palette 应用；bootstrap.ts 的 WORD/global events/map 注入。primary 核对 reference/sdlpal/palette.c:123-666（六类 fade 的量化/整数步骤/freeze/skip/remap）、text.c:966-1000（WORD 越界返回空词）和 script.c 的 revive/脚本入口边界，并对照 docs/phase1/game-mechanics.md 中 palette/script 真值。来源为固定Git载体,非本次运行;原1个链接处置见作者review的linkDisposition。当前存活入口:[README.md](../core-comment-audit/palette-approach-tests/README.md)。
 
 ## 断言与业务 oracle
 
-文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+2026-10-18 当前更正：palette 源/测旧整文件关闭转 review——ColorFade 原 C 无钳制，但 PAL_GetPalette 产生 4 倍数网格、64 步后补终值；「任意 8 位步进等价/视觉 1:1」源注不能成立，人工非网格 C 往返也不证明正常原版缺陷；本次不改产品执行，此前 PaletteFade /31 修复证据仍按原有限范围保留，其它三个 helper 不被本次重新签收。原始切片发现并修复一个直接问题：PAL_PaletteFade 的 C 实现每通道按 32 步 ((cur*(31-i)+new*i)/31) 做整数截断，TS 非量化分支原先以浮点 progress + Math.round，在 0→1 的边界会提前显示 1；先以 0→1、step16 失败反例确认旧实现红，再改为 floor(progress*32)、分母 31 和 Math.trunc，原 0→80 中点 oracle 同步改为 C 真值 41。其它三个 helper 的职责、fallback、own-property/null-prototype catalog、zero-item overlay、WORD fallback 和 map identity 未发现新的直接缺陷。文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
 
 ## 结果
 
-原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+测试：四个直接/跨模块文件 34 passed 且无测试 stderr；相邻 event/scene/present 回归合计 8 files / 554 passed，但有既有 fixture 触发的预期 console.warn（未知 label、无当前对象、越界 scene object），因此本片不宣称「运行时诊断清零」或统一质量门通过。pnpm --filter @type-pal/game typecheck 通过；coverage、official ratchet、protected fast、全仓 pnpm check 未在此小批运行。
 
 ## 限制与复核
 
-未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
+高风险边界：触及第一阶段 palette 数学与脚本 catalog/map/WORD ownership；原始变更限于 palette helper 的公式和对应 oracle，不改产品 UI 形态、schema/save、生成物或第二阶段模型。palette 等价/视觉结论已由 2026-10-18 更正限缩，输入域与测试返工见链接原件；3n 仍需统一门与相邻诊断收口，未标 accept/done。未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
 
 
 ## 原文保全

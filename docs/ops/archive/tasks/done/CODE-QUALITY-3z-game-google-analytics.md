@@ -7,44 +7,43 @@ Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「CODE-QUALITY-3z — game Google Analytics page-view 窄批」的任务归属与历史边界。原目标见原文(摘录:Scope: `packages/game/src/analytics/google-analytics.ts`、`google-analytics.test.ts`、`google-analytic);本页治理不重开已终态任务。
+原卡目标:逐文件核验 game 宿主可选隐私统计扩展三文件（`google-analytics.ts` 与主/boundaries 测试）:measurement ID 合法性、UTM 白名单/长度、游戏参数剔除、gtag/dataLayer ownership、脚本失败重试、同意撤回、页面去重、异常传播与 unsubscribe 清理;生产 caller 是 `install-analytics.ts:28-54` 与 `main.ts:1-19`,同意来源由 analytics-consent 提供。无原版机制,不改变游戏状态/存档/schema/输入/UI。
 
 ## 范围
 
-原卡含章节[CODE-QUALITY-3z — game Google Analytics page-view 窄批、前提与范围、逐文件核验计划、当前证据、收口验证、验收与边界],共1个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+三文件;不扩大到 consent UI 或安装器;保持现有 page-view 语义与失败关闭策略。
 
 ## 前提与证据
 
-固定main源3259B(SHA 12761354b47d);原卡前提按原时点保留。当前存活入口:[analytics-closeout.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/analytics-closeout.json)。
+历史批:定向 Vitest 12/12、game 全包 3500 passed/7 skipped、`pnpm check`（editor 既有 number-field-adoption 失败未改统计配置）、ratchet 首次受 Reforge 5 个 covered 项波动失败原样重跑通过、protected fast 0 项下降、lint 3955 零诊断;账本 3258 files/232→235 closed。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+2026-10-21 analytics 四卡收口:原 GA 三文件及测试专用宿主、批准的安装失败专测共五文件接受——原十个 consent/GA 反控与五先红后绿按实际版本复用;私有 disable 键类型收窄,无广域 Record 强转,发射 JS 保持;不附带真实 Google 网络/多 property 或跨 realm 承诺。逐文件 A–H、完整原件与集中门见 [analytics-closeout.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/analytics-closeout.json);只读 verify-analytics 默认不写树/不重跑测试。
 
 ## 状态与交接
 
-done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+done 保持原历史语义;2026-10-21 收口只接受原卡范围及明确支持文件,广域 main/实网/E2E 不附带关闭。
 
 ## 历史范围
 
-原卡属固定main时点;CODE-QUALITY-3z — game Google Analytics page-view 窄批的原始范围与日期在保全块内逐字保留。
+原卡属 2026-10-11 前后窄批时点;原始记录在保全块内逐字保留。
 
 ## 原始结论
 
-原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+原卡结论按 Status(done) 原样:未发现直接缺陷。治理不撤销/不恢复旧信用。
 
 ## 当时证据
 
-原文1个链接与当时回执属原时点证据;本页不重跑、不复授。
+当时回执（12 定向、ratchet 波动重跑、lint 3955）属原时点证据;本页不重跑、不复授。
 
 ## 当前有效性
 
-仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+仅历史任务归属有效;当前结论以 analytics-closeout 原件为准。
 
 ## 继任文档
 
-接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[analytics-closeout.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/analytics-closeout.json)。
-
+CODE-QUALITY-3y（consent）、40（安装器）、41（consent UI）与 analytics-closeout 为同族继任;当前任务导航以看板为准。
 
 ## 原文保全
 

@@ -2,29 +2,28 @@
 
 Status: historical
 Owner: GLM(治理候选作者;原文作者/状态见保全块)
-Last reviewed: 2026-10-30
+Last reviewed: 2026-10-31
 Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「CODE3l battle-present 三文件复审切片」的主题按原文时点保留(摘录:基点：`24b0451f6`；分支：`codex/code-quality-3y`，相对 `origin/main` 为 `0 behind / 193 ahead`。本切片只处理)。
+CODE-QUALITY-3l七个battle-present实现中draw-battle-bg/draw-battle-effect/draw-battle-num三文件复审切片(基点24b0451f6,0 behind/193 ahead);结算、精灵、UI、present-battle全文件语义留待后续;3l整卡仍partial。
 
 ## 范围与证据
 
-原报告含章节[CODE3l battle-present 三文件复审切片、逐文件与真值边界、判别力与结论、验证]、2个链接;固定main源2436B(SHA dba39d040e11)。当前存活入口:[anchor-corrections.json](../53-wave-gates/receipt-audit/anchor-corrections.json) [read-boundaries.json](read-boundaries.json)。
+完整读取三实现与四份直接测试(背景、effect、effect/number像素宿主、floating numbers);按caller读present-battle.ts背景/keepEffect/波动/精灵/overlay/UI/数字装配区间;primary读reference/sdlpal/battle.c背景染色与绘制顺序、uibattle.c:1746-1767,1770-1808飘字寿命/位移/显示入口、fight.c effect anchor/伤害数字来源。SHA与范围见[read-boundaries.json](read-boundaries.json)。
 
 ## 发现
 
-原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+draw-battle-bg逐像素覆盖背景、保留palette index 0、按sBackgroundColorShift对低nibble做signed clamp,小于屏幕素材边界测试证不越界;draw-battle-effect底中anchor、opaque mask、frame/chunk缺失no-op,装配caller保持effect在sprite后UI前;draw-battle-num 11帧寿命、每帧上移一像素、5位右对齐与黄/蓝/青颜色基址均有直接像素/状态oracle。未发现本片新增直接缺陷;drawBattleNum最终复用drawNumber,其正Infinity风险已在3k账本留review,本片真实战斗数字caller只产生有限伤害/治疗/MP数值,无新增产品边界裁决;未改战斗core、玩法公式、坐标或UI形态。
 
 ## 结论
 
-原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+定向4 files/23 tests passed、game typecheck无诊断;按用户成本约束未运行coverage/official ratchet/protected fast/全仓check;整卡其余四实现、统一门与视觉/E2E保持pending。
 
 ## 整改与复核
 
-本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
-
+未重跑;2026-10-18源区间勘误:旧上界越过实际EOF,现按[anchor-corrections.json](../53-wave-gates/receipt-audit/anchor-corrections.json)更正(uibattle.c 1740-1810改1740-1808),原read-boundaries字节在审计附件保留,不据此补签未运行门。候选待Owner非作者接收。
 
 ## 原文保全
 

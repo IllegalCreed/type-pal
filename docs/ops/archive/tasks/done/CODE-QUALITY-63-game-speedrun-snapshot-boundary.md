@@ -7,44 +7,43 @@ Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「CODE-QUALITY-63 — game speedrun snapshot boundary」的任务归属与历史边界。原目标见原文(摘录:逐文件核验 speedrun `buildSnapshot` 及测试，确认 inventory、battle enemy identity/HP、wall-clock inputs 和 canMove 门控只读投影 `GameState`，);本页治理不重开已终态任务。
+原卡目标:逐文件核验 speedrun 快照两文件（`snapshot.ts` 58 行与测试）:`buildSnapshot` 把 GameState 只读投影——inventory 只收 count>0 物品、battle enemy identity/HP 汇总、wall-clock inputs、canMove 门控（explore 且非 scene-loading/palette-fade/suspendRaf 五门）,不提前起表或不泄漏可变集合。
 
 ## 范围
 
-原卡含章节[CODE-QUALITY-63 — game speedrun snapshot boundary、目标、范围、验证、交接、2026-10-18 Codex 当前独立复审],共1个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+两文件;只读相邻 index/timer/main-loop caller、GameState owner、speedrun design §4.1。
 
 ## 前提与证据
 
-固定main源4467B(SHA eddb96d97d1a);原卡前提按原时点保留。当前存活入口:[README.md](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/63-65-speedrun-fixtures/README.md)。
+快照为每次调用新建 inventory/enemy Set;战斗敌人 id 去重但总血量按槽位求和（含阵亡槽）;canMove 不把 boot 预载误当可移动。历史批:定向 6 tests、wave 全门通过,账本 3266/303 closed;2026-10-18 复审 partial（直接 7 tests+相邻五文件 32 tests、typecheck,昂贵门沿用 47–52 波次）。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+2026-10-18 合法输入与解绑证据勘误（与 CODE-QUALITY-65 共用）:旧"合法fixture"结论不足——双重强转隐藏 facing0、残缺 battle/空 paletteFade;已改完整公开构造器与初始化。只在隔离副本模拟解绑后静默重置:旧 20 绿→新 19 绿 1 个指定 AssertionError,正式恢复 20 绿。源码/测试/hash/native/raw 与定向相邻/静态门见 [README.md](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/63-65-speedrun-fixtures/README.md);当前 partial 不变,无新全仓 check/ratchet/protected。
 
 ## 状态与交接
 
-done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+done 保持原历史语义;2026-10-18 复审 partial,不以原 done 关闭产品。
 
 ## 历史范围
 
-原卡属固定main时点;CODE-QUALITY-63 — game speedrun snapshot boundary的原始范围与日期在保全块内逐字保留。
+原卡属 2026-10-13 wave 时点;原始记录与历史提示词在保全块内逐字保留。
 
 ## 原始结论
 
-原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+原卡结论按 Status(done) 原样:未发现直接缺陷。治理不撤销/不恢复旧信用。
 
 ## 当时证据
 
-原文1个链接与当时回执属原时点证据;本页不重跑、不复授。
+当时回执（6 定向、wave 全门）属原时点证据;本页不重跑、不复授。
 
 ## 当前有效性
 
-仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+仅历史任务归属有效;fixture 勘误后结论以 63/65 勘误证据为准。
 
 ## 继任文档
 
-接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[README.md](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/63-65-speedrun-fixtures/README.md)。
-
+CODE-QUALITY-65（index 编排,共用勘误）与 63-65-speedrun-fixtures 证据为继任;当前任务导航以看板为准。
 
 ## 原文保全
 

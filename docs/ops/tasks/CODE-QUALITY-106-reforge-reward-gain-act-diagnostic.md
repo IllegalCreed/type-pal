@@ -7,24 +7,23 @@ Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「CODE-QUALITY-106 — Reforge reward-gain 测试 Promise 诊断」的任务归属与历史边界。原目标见原文(摘录:Reviewer: Codex（独立验收） Capability: reforge / menu / test-host diagnostics Visual Verification Timing:);本页治理不重开已终态任务。
+清理packages/reforge/src/menu/reward-gain-queue.boundaries.test.ts的Vitest未等待Promise断言诊断，保持reward-gain输入、单次兑现、取消和资源清理合同不变。生产caller链为executeWorldItemUse→showItemUseResults→RewardGainQueue.present，输入caller为RuntimeInputPorts.consumeReward→handleRewardGainInput；scriptWorkWait在settle前释放execution wait，队列由同一owner管理当前条、timer、AbortSignal和Promise。
 
 ## 范围
 
-原卡含章节[CODE-QUALITY-106 — Reforge reward-gain 测试 Promise 诊断、目标与白名单、逐文件与生产链读取、根因与修改、验证与未闭合项、下一步],共0个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+白名单仅该测试文件、当前任务卡与docs/ops/evidence/CODE-QUALITY-106/；不改生产reward-gain-queue.ts、main.ts、公共接口或coverage配置。
 
 ## 前提与证据
 
-固定main源3147B(SHA 7e9a711700a4);原卡前提按原时点保留。当前存活入口:无当前仓库内存活链接。
+固定源全文核读。根因与修改：修复前输入语义测试用void expect(pending).resolves...既没等待Promise也没把取消Promise结果纳入oracle，相邻menu回归出现“Promise returned by expect(...).resolves... was not awaited”诊断；修复后测试声明async：Enter推进后await expect(pending).resolves，Escape/其它键保持current后abort并await expect(pending2).rejects.toMatchObject({name:'AbortError'})。修复前相邻21files/118tests通过但有1条未await诊断（before.txt）；修复后定向1file/5tests与相邻均通过且stderr为零。全仓check exit0、lint-zero 4962文件0/0/0；official ratchet与protected fast均exit1复现shared/pal-extract/total baseline回退，未降阈值；check:docs、最终ledger、diff-check通过。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:review),治理不改写。
+本卡保持review，不把局部零诊断外推为全仓完成；coverage与统一门收口后复验。
 
 ## 状态与交接
 
-review保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
-
+review保持原语义；若其它相邻测试仍有诊断另开最小白名单卡，不外推整个Reforge或全仓runtime完成。
 
 ## 原文保全
 

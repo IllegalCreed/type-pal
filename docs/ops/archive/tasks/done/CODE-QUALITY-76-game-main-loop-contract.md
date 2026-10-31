@@ -7,44 +7,43 @@ Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「CODE-QUALITY-76 — game main loop contract」的任务归属与历史边界。原目标见原文(摘录:逐文件核验主循环 wrapper 及其直接测试，确认 fixed logic cadence、rAF accumulator、mode 切换、冻结、present 门控、scene-context ownership 和取消生命周期与 SD);本页治理不重开已终态任务。
+原卡目标:逐文件核验主循环 wrapper 三文件（`main-loop.ts` 与主/G09 测试）:fixed logic cadence（SDLPal 10/25 FPS）、rAF accumulator、mode 切换、冻结、present 门控、scene-context ownership 与取消生命周期;逻辑 tick 按原 cadence 推进,rAF 只负责 wall-clock 采样与 present,手动暂停冻结世界但不改变恢复后的逻辑 ownership。
 
 ## 范围
 
-原卡含章节[CODE-QUALITY-76 — game main loop contract、目标、范围、前提真值门、上下文锚点、验证],共1个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+三文件;只读 caller/oracle:shell-bootstrap 真实 RAF chain、menu input lock、bootstrap、core/mode dispatcher、speedrun pause caller、SDLPal `game.c:43-86`/`play.c:513-565`/`game.h:28`/`battle.h:29`。不改 CODE-QUALITY-57 bootstrap thumbnail review、产品时序、输入模型、存档或公共接口。
 
 ## 前提与证据
 
-固定main源5089B(SHA f01e2d2658a9);原卡前提按原时点保留。当前存活入口:[shell-lifecycle-local.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/shell-lifecycle-local.json)。
+已知坑:`fadeState`/`paletteFadeState`/`battleFade`/`battleAnim` 的 present 不是逻辑 tick;`scene-fade` 才抑制 held input;`suspendRaf` 由 bootstrap onPresent owner 处理。不得重新引入:每 rAF 多 tick catch-up、fade 提速逻辑、手动暂停消费输入、menu modal 穿透、取消后 RAF 自续订。历史批:定向 33 tests（main-loop 12、G09 13、menu input lock 2、shell-bootstrap 6）、全仓门通过,账本 3267/334 closed。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+历史 accept 后 2026-10-21 shell 生命周期五卡收口:原三文件接受——私有 singleTick 只被 tickN 无 dump 实参调用,删死参及不可达分支,活动 rAF dump/公共出口不变（完整 typed AST 与唯一调用点证明）;纠正过时 3×interval clamp/present 门注释,当前余量策略不冒称每次 deadline 与 C 等同。逐文件 A–H、迁移、完整原件及集中门见 [shell-lifecycle-local.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/shell-lifecycle-local.json)。
 
 ## 状态与交接
 
-done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+done 保持原历史语义;2026-10-21 收口只接受原卡及明确迁移范围,广域 caller/听感/剧情 E2E 不附带接受。
 
 ## 历史范围
 
-原卡属固定main时点;CODE-QUALITY-76 — game main loop contract的原始范围与日期在保全块内逐字保留。
+原卡属 2026-10-13 核验时点;原始记录与历史提示词在保全块内逐字保留。
 
 ## 原始结论
 
-原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+原卡结论按 Status(done) 原样:未发现直接缺陷。治理不撤销/不恢复旧信用。
 
 ## 当时证据
 
-原文1个链接与当时回执属原时点证据;本页不重跑、不复授。
+当时回执（33 定向、全仓门）属原时点证据;本页不重跑、不复授。
 
 ## 当前有效性
 
-仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+仅历史任务归属有效;当前结论以 shell-lifecycle 原件为准。
 
 ## 继任文档
 
-接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[shell-lifecycle-local.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/shell-lifecycle-local.json)。
-
+shell-lifecycle-local.json 为 2026-10-21 继任载体;CODE-QUALITY-57 thumbnail 独立;当前任务导航以看板为准。
 
 ## 原文保全
 

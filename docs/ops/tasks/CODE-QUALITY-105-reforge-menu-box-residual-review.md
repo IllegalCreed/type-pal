@@ -7,24 +7,23 @@ Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「CODE-QUALITY-105 — Reforge MenuBox 残余测试逐文件复核」的任务归属与历史边界。原目标见原文(摘录:Reviewer: Codex（独立验收） Capability: reforge / menu / test-contract-precision Visual Verification Timin);本页治理不重开已终态任务。
+复核账本仍为待核的packages/reforge/src/menu/menu-box.residual.glm.test.ts：确认五个公开绘制合同（R1两级级联框层偏移/框高/金钱卷轴/金额右对齐；R2最深层闪烁相位回绕/系统面板静态高亮/禁用选中红/未选米白；S1九行状态数据顺序/HP/MP斜杠与蓝色最大值/经验青色最大值/装备加成；S2角色名金黄居中与默认立绘回落；S3六格装备网格/已装备图标等比内缩/空槽跳过）是否有真实caller、合法typed输入、可判别oracle、相邻排重和反控证据。
 
 ## 范围
 
-原卡含章节[CODE-QUALITY-105 — Reforge MenuBox 残余测试逐文件复核、目标与白名单、逐文件读取与事实边界、合同与测试判别力、验证结果与未闭合项、结论与下一步],共0个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+白名单仅该测试文件、当前任务卡与docs/ops/evidence/CODE-QUALITY-105/；不改menu-box.ts、旧测试、资源、schema、UI行为或coverage配置。
 
 ## 前提与证据
 
-固定main源4414B(SHA af5018f1b8bf);原卡前提按原时点保留。当前存活入口:无当前仓库内存活链接。
+固定源全文核读。primary为当前menu-box.ts公开render/renderCascade/renderStatus，生产caller是main.ts菜单渲染分流；菜单输入由menu-state.ts的openMenu/moveCursor/confirm构造，五个测试均通过公开入口驱动。相邻四个测试文件逐项排重：数字/卷轴/确认框、九宫格阴影与退化输入、状态板毒/头像/阈值/图标缩放和运行时资源轴均有独立合同；fixture使用typed MenuAssets/CharacterInstance/WorldState/ItemDataMap，renderSpans仅记录为绘制oracle、measureSpans保持真实实现。历史5/5反控（K1–K5）已在当前源树重放：均能变异红、还原绿。当前源实现SHA与历史冻结menu-box.ts相同（9c7c7b569e035fe5771fce79e5549e34aea1d66b7577569b2a6d98962ffcf2c1）。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:review),治理不改写。
+定向5files/25tests PASS无stderr；相邻21files/118tests PASS但有一条reward-gain-queue.boundaries未await expect().resolves诊断（不在白名单不静音）；reforge typecheck过；全仓check exit0、lint 4962文件0/0/0；official ratchet与protected fast均exit1（shared/pal-extract/total既有baseline回退），未改baseline。五个合同与五针反控均有当前源码证据、未发现需修复缺陷，但相邻诊断与统一coverage门仍失败，不能关闭本文件，登记review。
 
 ## 状态与交接
 
-review保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
-
+review保持原语义；下一步先处理相邻Vitest诊断独立最小批次再复验本卡；发现公共UI/资产/一阶段机制变化立即停线另开高风险卡。
 
 ## 原文保全
 

@@ -7,24 +7,23 @@ Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「QUALITY-DOCS-GIT-PATH-ENUMERATION-1 — Git路径枚举缓冲区边界」的任务归属与历史边界。原目标见原文(摘录:修复真实仓库路径清单超过默认1MiB后，任务索引生成及代码库存枚举的ENOBUFS。必须完整消费原NUL路径清单，不裁范围、不忽略文件、不放宽文档/ledger诊断。);本页治理不重开已终态任务。
+修复真实仓库路径清单超1MiB后任务索引生成与代码库存枚举的ENOBUFS：Node child_process.execFileSync默认maxBuffer约1MiB（实际Node22.23.2），真实check --print-task-index抛spawnSync git ENOBUFS，子命令为git ls-files --cached --others --exclude-standard -z；必须完整消费原NUL路径清单，不裁范围、不忽略文件。
 
 ## 范围
 
-原卡含章节[QUALITY-DOCS-GIT-PATH-ENUMERATION-1 — Git路径枚举缓冲区边界、目标、范围、前提真值门、反证与替代解释、上下文锚点],共2个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+只改scripts/docs/check.mjs:327–333与scripts/quality/code-quality-inventory.mjs:18–22及现有inventory测试；ledger的32MiB外层缓冲不能修复inventory内部1MiB；docs/terminal-git.mjs固定4MiB是不同边界不改。
 
 ## 前提与证据
 
-固定main源4639B(SHA a43a6dd3bb08);原卡前提按原时点保留。当前存活入口:[README.md](../evidence/QUALITY-DOCS-GIT-PATH-ENUMERATION-1/README.md) [QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)。
+固定源全文核读。方案为两个完整枚举指定有限16MiB缓冲（与既有docs Git读取容量一致），终态namespace的4MiB固定安全门原样保留；不为复用一个数引入跨docs/quality生产依赖，测试共用真实Git夹具分别核两消费者。Build：先红1绿/2指定AssertionError，修后3绿；两枚必要性反控旧1绿→新2绿/1指定红且恢复。反证边界：给真实临时Git造>1MiB路径，尾部合法task/source必须仍可见、非法尾部task仍须拒绝，不能通过filter/ignore/删除证据或吞trace过门。本片回执：quality40、docs工具125/实际五消费者与lint-zero5365零诊断、ledger3316/259closed/92review/2965pending；0新关闭、2旧工具重开review/1原pending测试转review。原件:[README.md](../evidence/QUALITY-DOCS-GIT-PATH-ENUMERATION-1/README.md) [QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:review),治理不改写。
+缓存/输出文件本身坏掉不能由抛错推出——ENOBUFS发生在Git路径响应、还没读文档payload；16MiB仍可能被更大合法仓库触发，届时继续明确失败不能截断成通过。未验收，不以修复计划或历史全绿收口；完整check/coverage/protected未跑、不合main。
 
 ## 状态与交接
 
-review保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
-
+review保持原语义；无下一位Agent提示词，Codex完成后恢复保存的3u/3w WIP及其精确SHA。
 
 ## 原文保全
 

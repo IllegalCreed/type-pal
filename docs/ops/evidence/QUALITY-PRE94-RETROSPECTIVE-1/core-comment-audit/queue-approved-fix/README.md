@@ -7,24 +7,23 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 证据身份
 
-本页是「用户批准：第一阶段同速队列SDLPal对齐」的治理候选页;证据原件即下方逐字节保全的固定main源(5356B,SHA d19bd462c507)。
+本页是「用户批准:第一阶段同速队列SDLPal对齐」的治理候选页;证据原件即下方逐字节保全的固定main源(5356B,SHA d19bd462c507)。该片id为 GAME-ACTION-QUEUE-TIE-ORDER-1 / approved-fix(base c3d943d,codex/code-quality-3y,原文Status: review),用户2026-10-18已回复『批准对齐 SDLPal(推荐)』,不重复请求该批准;准入与交接见[GAME-ACTION-QUEUE-TIE-ORDER-1.md](../../../../tasks/GAME-ACTION-QUEUE-TIE-ORDER-1.md)与[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)。
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原4个链接处置见作者review的linkDisposition。当前存活入口:[GAME-ACTION-QUEUE-TIE-ORDER-1.md](../../../../tasks/GAME-ACTION-QUEUE-TIE-ORDER-1.md) [QUALITY-PRE94-RETROSPECTIVE-1.md](../../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) [read-boundaries.json](read-boundaries.json) [test-title-mapping.json](test-title-mapping.json)。
+primary是PAL_BattleStartFrame填充/严格SHORT比较交换与wDexterity==0xffff结束——原代码不是稳定sort。原C排序body(1574-1585,含1585尾括号)+0xffff边界(1600)最小typed重放见native-oracles-current.json:编译零警告,六静态向量+caller向量逐项输出;oracle-verification只验fixture/源片段/hash对位,不授额外机制信用。逐文件读取与SHA见[read-boundaries.json](read-boundaries.json);合法域=敌方WORD速度(≤3玩家/5敌,caller倍率/上限内),满13条无空槽、负SHORT动作仍可在后部、未满槽时空槽-1可能先于负值结束本轮——故既不能先删空槽也不能无条件删负速度;0xffff判速度非索引;高WORD边界须用敌方输入,初版队员侧已撤回caller信用。真实caller例:公开GameState工厂+hydrate+startBattle,两敌level1/dex9、玩家dex100、seed5三抽31/31/94→最终P0→E1→E0、state1199730148,无mock核心/选靶/排序/RNG,不声称SDLPal LCG与mulberry32同seed一致。
 
 ## 断言与业务 oracle
 
-文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+改动只在queue helper:保留原填充/dualMove标记,补13槽、按SHORT比较双循环交换,返回0xffff前可执行前缀供现有tick按长度消费;公开签名/caller RNG/schema/save/资源不变;注释纠正非稳定性及fIsSecond不保证终排在另一条之后。新7例(敌敌同速/敌玩家同速/dualMove标记/SHORT边界空槽/真实0xffff终止/满13槽负速度/真实按键RNG caller)各有不同C控制轴;六变异(stable-sort/unsigned-compare/omit-empty-slots/index-as-end/equal-dual-flag/drop-all-negative)各-t定向恰1指定业务AssertionError、0 runtime error suite,六未选例不计信用,源码finally逐字节恢复(controls.json)。旧9例断言保留,仅2个过强标题收窄,见[test-title-mapping.json](test-title-mapping.json),官方身份门未接。
 
 ## 结果
 
-原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+红绿原件:最初生产修改前red.json为7业务红;初版3条高WORD边界(队员侧)不给真实caller信用,spec-initial原始件保留;改敌方WORD域后重核全部6静态输出;最终spec替回c3旧queue源重放仍7红(red-current/red-replay记恢复SHA,不称整旧checkout测试)。当前9旧+7新共16绿;38文件942相邻绿零stderr(同一最终生产实现),其后仅改3条数值fixture、只重跑受影响7例(direct-current),不重复不变935条。game typecheck零诊断;docs 125工具用例+五类消费者零issue;lint5151文件0/0/0;账本3315/278closed/63review/2974pending,0新增closed,两queue文件与新parity/H fixture仍review,83卡50partial/33pending/0accept;merged=false。非法/非有限/超容量输入、缺省dex2近似、极端SHORT/浮点→WORD、动画与浏览器视觉仍pending;统一check/coverage/protected未运行,不合main。
 
 ## 限制与复核
 
-未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
-
+提交前元数据复核曾因battle-state阅读区间尾945超过实际EOF918而失败一次(final-inspection.json exit1);已更正为730-918并保留原始read-boundaries-initial gzip,源码SHA未变,该校准不增产品/测试信用(final-inspection-current exit0)。两个早期临时查询分别因复合receipt无顶层raw、native行无rawBytes退出,未取得验证信用。未重跑原命令;历史结论保持原时点;候选待 Owner 非作者接收。
 
 ## 原文保全
 

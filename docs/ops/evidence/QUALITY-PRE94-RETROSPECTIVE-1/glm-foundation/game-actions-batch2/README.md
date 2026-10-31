@@ -7,24 +7,23 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「battle actions 续批四文件 B–G 补维（glm-foundation 模块 6 批 10）」的主题按原文时点保留(摘录:> Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见当前返工记录。 范围：`actions/{magic,)。
+本页审计主题:game 的 actions/{magic,item,throw-item,coop-magic}.ts(1076/118/158/387 行全文读毕)B–G 补维;A 维引用既有深切片(3m formulas/magic-damage+后续 DL/DM/M6-M9/L17-L22/W4 修复批);基点 53db76bbb 线(body 基准=批9提交后 HEAD)。原文 Status: review(候选待 Codex 据证验收)。Codex 当前裁定(2026-10-19):本页保留作者阶段证据,未获整包/全维收口验收;可复用范围与逐文件依据见 [codex-stage2-rework.json](../codex-stage2-rework.json)。
 
 ## 范围与证据
 
-原报告含章节[battle actions 续批四文件 B–G 补维（glm-foundation 模块 6 批 10）、短回执、八维结论（B–G 补维重点）、登记（不动）、复验入口（只读）]、1个链接;固定main源3666B(SHA cf9457eb02cc)。当前存活入口:[codex-stage2-rework.json](../codex-stage2-rework.json)。
+改动 1 处仅注释(magic.ts L122 定谳)。验证证据:body-invariance(同目录)四文件一致;定向 13 套件 25/25、0 failed suites(directed.json:actions 族+magic E2 三合同+summon-slot-reuse+action-error-arms);game typecheck 0;scoped biome 0/0/0;diff --check 干净。
 
 ## 发现
 
-原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+整改:magic.ts L122 原『emit playMagicAnim(Present 层消费;M3 phase 1 简版可能不实播,只表示发生过)』——定谳:该 bus op 当前无任何渲染消费方(present-battle.ts:198 显式跳过、audio.ts default 解析 0),真实法术动画已由本文件 buildAndStart* 六类时间线链(PreMagic/OffMagic/PostMagic/DefMagic/Summon/Trance/EnemyMagic)完整实现;『M3 phase 1 简版』框架双重失实(既非简版、视觉也不经此 op),按现状改写为通知性 op 的准确描述。item/throw-item/coop-magic 三文件零缺陷零改动:item 的脚本后按 consuming 扣(fight.c:4387-4400)、throw-item 挥臂前置+缓冲拼链+蛊孵化链 runScript 注入、coop 的 HP 代价(非 MP)/healthy≤1 降级完整 attack case(DL6 RNG 序)注释与实现/真值全部一致。A 维(引用)复核:scriptOnUse 成功 gate/失败早退(MP 仍扣)、E1/E2 inline 伤害、DM6 敌法术 autoDefend 预掷、L18/L20 rngFactor 逐敌/逐队员掷、trance L19 闪色+crossfade、召唤 PostMagic 排 fadeOut 前——与 fight.c 锚一致。
 
 ## 结论
 
-原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+注释定谳批(1 处):25/25 定向绿+body-invariance 四文件 AST 一致共同证明行为零变。登记(不动):playMagicAnim bus op 无消费方(present 跳过+audio 0)——候选清理项:删除 emit 属 bus 合同变化(命令枚举在 command-bus),交 Codex 裁定;连带 present-battle.ts:198 注释把 playEnemyAttack/playPlayerAttack 与无消费 op 并列易误导(audio.ts 实际消费后三者声音)——归 present 批修;私有 helper 副本合并候选沿批9。
 
 ## 整改与复核
 
-本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
-
+整改即上述 1 处注释。复验入口(原页给出,此处概述):grep -n 通知性 bus op 于 magic.ts;在 packages/game 定向跑 src/core/battle/actions/。失效条件:四文件实现变化→重测;bus 命令集变化→playMagicAnim 登记项复核。本轮治理未重跑任何命令;候选待 Owner 接收。
 
 ## 原文保全
 

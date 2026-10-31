@@ -2,29 +2,28 @@
 
 Status: historical
 Owner: GLM(治理候选作者;原文作者/状态见保全块)
-Last reviewed: 2026-10-30
+Last reviewed: 2026-10-31
 Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「CODE3l 战斗结算屏复审切片」的主题按原文时点保留(摘录:基点：`de046b002`；分支：`codex/code-quality-3y`，相对 `origin/main` 为 `0 behind / 194 ahead`。本片只核 `)。
+CODE-QUALITY-3l的draw-battle-settlement.ts(246行)复审切片(基点de046b002,0 behind/194 ahead):实现覆盖经验/金钱、升级八项、隐藏经验涨点和练成屏四种screen kind;资源缺失保持no-op,文字/数字/box ownership由调用方提供。
 
 ## 范围与证据
 
-原报告含章节[CODE3l 战斗结算屏复审切片、逐文件与真值边界、判别力与结论、验证]、0个链接;固定main源1783B(SHA e6c5599b564a)。当前存活入口:无当前仓库内存活链接。
+完整读取结算实现与三份直接/像素测试(hidden-exp x公式oracle、四屏精确像素oracle、缺帧/哨兵/宽度像素);读present-battle.ts结算调用段(330-360)、draw-number.ts全109行(复用风险留3k review)、font.ts与draw-box.ts公共绘制端口段、battle.c:991-1373 PAL_BattleWon与ui.c:640-732 PAL_DrawNumber primary。
 
 ## 发现
 
-原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+逐文件核对getWord/glyph文字来源、box长度与偏移、8行old到cur数字、slash/arrow mask、hidden-exp全局最大宽度公式、learn-magic动态ww与颜色;像素测试实际检查数字右/中对齐、标签颜色、箭头/slash资源点、二字名/长法术偏移与缺帧哨兵;未发现直接缺陷或需改变产品/UI行为的证据。结算数字最终复用drawNumber,其正Infinity输入风险已在3k账本单独留review,本片不重复实现或扩大该边界。
 
 ## 结论
 
-原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+定向3 files/11 tests passed、game typecheck passed、无stderr;精灵/UI/完整装配器仍pending,不能由结算屏通过推导整卡通过;按用户成本约束未运行coverage/official ratchet/protected fast/全仓check。
 
 ## 整改与复核
 
-本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
-
+未重跑;无浏览器视觉/E2E。候选待Owner非作者接收。
 
 ## 原文保全
 

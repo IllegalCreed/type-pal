@@ -2,29 +2,28 @@
 
 Status: historical
 Owner: GLM(治理候选作者;原文作者/状态见保全块)
-Last reviewed: 2026-10-30
+Last reviewed: 2026-10-31
 Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「CODE3l 战斗精灵复审切片」的主题按原文时点保留(摘录:基点：`6937c7a70`；分支：`codex/code-quality-3y`，相对 `origin/main` 为 `0 behind / 195 ahead`。本片只核 `)。
+CODE-QUALITY-3l的draw-battle-sprites.ts(413行)复审切片(基点6937c7a70,0 behind/195 ahead):逐文件核对敌我anchor、idle闭式帧、睡眠/麻痹定格、玩家死亡/傀儡姿态、隐身/变身、opaque mask、低nibble color shift、死亡72-step crossfade、敌方target highlight、混乱正负1抖动、Y/X排序、法术overlay排序与边缘裁剪。
 
 ## 范围与证据
 
-原报告含章节[CODE3l 战斗精灵复审切片、逐文件与真值边界、判别力与结论、验证]、0个链接;固定main源1755B(SHA 742c4faeedbb)。当前存活入口:无当前仓库内存活链接。
+完整读取413行精灵实现、756行主测试、边缘裁剪leaves测试与373行像素宿主测试;按caller读present-battle.ts精灵/法术overlay装配区(210-290)与battle-positions.ts全93行锚点;primary读battle.c位置/排序/隐藏/染色四段、fight.c idle/death/shake、uibattle.c target highlight、palcommon.c color shift段。
 
 ## 发现
 
-原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+主测试与像素宿主覆盖真实framebuffer写入、状态不变性、资源缺失fallback、render-state优先级与fade错峰;未发现新直接缺陷,未改战斗行为或坐标。drawBattleSprites复用drawNumber的数字风险仍按3k ledger留review,本片无新增非有限数值可达证据;UI与完整present装配器未核,不把这批69例绿灯升级为3l整卡验收。
 
 ## 结论
 
-原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+定向3 files/69 tests passed、game typecheck passed、无stderr;按用户成本约束未运行coverage/official ratchet/protected fast/全仓check;后续继续UI/装配器仍需逐文件证据。
 
 ## 整改与复核
 
-本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
-
+未重跑;无浏览器视觉/E2E。候选待Owner非作者接收。
 
 ## 原文保全
 

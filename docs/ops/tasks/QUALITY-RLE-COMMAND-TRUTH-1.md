@@ -7,24 +7,23 @@ Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「QUALITY-RLE-COMMAND-TRUTH-1 — PAL RLE高位literal判定前提核验」的任务归属与历史边界。原目标见原文(摘录:Capability: RLE resource format truth Visual Verification Timing: 纯字节前提核验N/A，若实际像素行为受影响另登记 用户call_50);本页治理不重开已终态任务。
+核清PAL RLE解码格式真值：SDLPal palcommon.c:133-137判定为(T&0x80)且T<=0x80+uiWidth才是透明段，而TS generic/strict无条件用>=0x80，高位literal判定分歧。原生探针已证：2×66、132长度literal在C正确写132个0x11，TS generic/strict拒绝；127+5同像素正控两端成功。SDLPal取帧另有u16偏移×2遇0x18444转WORD的特例。该卡从格式真值核验演化为用户批准的原盘精灵读取修复。
 
 ## 范围
 
-原卡含章节[QUALITY-RLE-COMMAND-TRUTH-1 — PAL RLE高位literal判定前提核验、2026-10-25 当前用户批准与build准入、停线与范围、与独立测试补证的边界、当前只读原件、2026-10-18 校准登记：取帧特殊offset与尺寸域],共6个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+格式真值域长期只读取证（canonical作者编码字节、公共入口语义、原盘/extracted/projects字节保持，不按571资源ID特判）；2026-10-25用户call_50e2479c6c88464ebe4893166d0c08e1“批准修复原盘精灵读取（推荐）”后，build allowed仅原盘/明确legacy-migrated来源的读取规则及真实game/extract/migrate消费接线，先对现有legacy公共入口补两条正式业务红再实现显式PAL来源入口；高位literal规则与特殊偏移不得扩到canonical。
 
 ## 前提与证据
 
-固定main源8586B(SHA acb3bebf344a);原卡前提按原时点保留。当前存活入口:[README.md](../evidence/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/README.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/code1-closeout/README.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/code1-closeout/pal-source-fix/README.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/calibration-20261018/README.md) [primary-probe.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/primary-probe.json) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/quality-closeout/README.md)。
+固定源全文核读各轮证据段。GOP只读trace 226chunks/67715个TS成功帧0分类分歧（非native全资源像素比对）。八原盘域结构census共4,662,630条帧命令，唯一special是MGO571槽1：原WORD49698在TS转99396越界，SDL特殊取帧到33860；实际loadSpriteFramesBlob只给1帧，DOS playEndingAnimation跳过整个妖兽；真实Canvas第200步与native第二帧有23036非零像素SHA反例。2026-10-25来源边界补证：合法285×346+1×1作者帧第二偏移99396当前canonical/lenient均2帧，全局PAL特殊值规则会丢帧/严格拒绝，故修复必须显式按来源隔离。2026-10-25实施：legacy入口两正式业务红后修，显式PAL入口与canonical作者入口分域，未改任何资源字节；63定向/18迁移全源与636+172双次物化零二次写、42提取/16game/Reforge相邻及四包TC通过；真实Canvas结局第200步与原生C第二帧SHA相同、0诊断。原件:[README.md](../evidence/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/README.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/code1-closeout/README.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/code1-closeout/pal-source-fix/README.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/calibration-20261018/README.md) [primary-probe.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/primary-probe.json) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/quality-closeout/README.md)。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:review),治理不改写。
+仅代码接受：统一门、official coverage与单PR仍待全部pre94。rle.test.ts“截断坏帧”样本实际走sanity guard而非decodeRle catch的判别力缺口、作者透明游程不按行界分段与高位literal的一般分歧仍未解决；MGO/ABC以外的真实资源census未做。2026-10-18校准另登记：通用decodeRle无sprite 400尺寸上限、parseSpriteChunk过短输入RangeError只是错误合同候选。
 
 ## 状态与交接
 
-review保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
-
+review保持原语义：产品rle.ts格式风险与修复层裁定未闭合，范围內独立测试质量排重可收口但不借它关闭本卡。无下一位Agent提示词，Codex继续父任务。
 
 ## 原文保全
 

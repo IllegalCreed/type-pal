@@ -7,44 +7,43 @@ Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「GAME-COMMAND-BUS-API-CLEANUP-1 — 一阶段命令通道无用回执清理」的任务归属与历史边界。原目标见原文(摘录:Capability: core to shell command contract Reviewer: Codex Visual Verification Timing: N/A（无实际音画取舍）);本页治理不重开已终态任务。
+清理一阶段CommandBus无用回执：编译器callsite事实为30个生产emit都独立表达式、零complete调用、cmdId无生产命名读取；编号/complete只有旧测试消费，四种命令clearDialogBox/flashEnemy/flashPlayer/showBattleUI从未生产发送。追加消费端核验发现showDialogBox/playMagicAnim虽有生产emit但无音画消费（实际对白走gs.dialogBox、法术走动画帧链），攻击/阵亡三种通知仍有实际SFX消费不能混删。用户2026-10-26批准删除complete/cmdId/返回编号、四无发送类型及两个空通知，保留攻击/阵亡SFX与cmd信封和FIFO。
 
 ## 范围
 
-原卡含章节[GAME-COMMAND-BUS-API-CLEANUP-1 — 一阶段命令通道无用回执清理、事实与停止线、有限方案与准入、交接、追加消费端核验（2026-10-26）、2026-10-26 当前批准与build准入],共2个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+command-bus及必须的类型/caller/test适配；纯重构独立提交；第一阶段业务/音效/提示/动画/存档不变，第二阶段N/A。
 
 ## 前提与证据
 
-固定main源4426B(SHA e3dfd20f48ab);原卡前提按原时点保留。当前存活入口:[game-boundary-candidates.json](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/game-boundary-candidates.json) [game-boundary-native.json.gz](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/game-boundary-native.json.gz)。
+固定源全文核读。实施：删除流水号/complete/六空类型及两生产通知，保留真实SFX、cmd信封和FIFO；tickEventSystem最后一个bus用途随通知退役，同步409处直接调用及一个namespace调用，删新产生的纯空bus夹具；其它RunScript仍需bus保留依赖。机械清理曾漏简写引用，中间TC/回归失败原件保留，最终game TC0、35实际文件795例通过0stderr；原bus6例中4条专属协议退役、两队列例加强并补实例隔离，其余测试只去接口/实参、空通知断言迁移实际dialog/帧链。2026-10-26本地统一门：52/52代码接受；全仓20620产品+721工具/七包TC、lint6137文件0/0/0、完整stderr空；唯一official20185/809全绿、原旧比率拒绝如实保留；同一报告原policy重放ratchet/protected均exit0、三项精确退役匹配。锚点:[game-boundary-candidates.json](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/game-boundary-candidates.json) [game-boundary-native.json.gz](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/game-boundary-native.json.gz)。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+done为代码与本地门：未推送/PR/合并，发布以真实GitHub状态另核；旧'4无emit'不能误判攻击/阵亡音效（playPlayerAttack等有真实caller必须保留）。
 
 ## 状态与交接
 
-done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+done保持原语义；治理不重开。父52其余范围继续。
 
 ## 历史范围
 
-原卡属固定main时点;GAME-COMMAND-BUS-API-CLEANUP-1 — 一阶段命令通道无用回执清理的原始范围与日期在保全块内逐字保留。
+原卡属固定main时点；范围为CommandBus死回执/空通知清理子切片。
 
 ## 原始结论
 
-原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+原卡结论按其Status(done)原样：2026-10-26本地统一门52/52收口。
 
 ## 当时证据
 
-原文2个链接与当时回执属原时点证据;本页不重跑、不复授。
+当时回执属原时点证据：30处清单、中间失败原件、795例0stderr、20620+721/official20185零诊断；本页不重跑、不复授。关联:[game-boundary-candidates.json](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/game-boundary-candidates.json) [game-boundary-native.json.gz](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/game-boundary-native.json.gz)。
 
 ## 当前有效性
 
-仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+仅历史任务归属有效；未知外部反射调用不冒称不存在；不凭旧基点授权新产品取舍。
 
 ## 继任文档
 
-接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[game-boundary-candidates.json](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/game-boundary-candidates.json) [game-boundary-native.json.gz](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/game-boundary-native.json.gz)。
-
+父阶段QUALITY-REVIEW-52-CLOSEOUT-1继续；空通知断言迁移实际dialog/帧链。 关联:[game-boundary-candidates.json](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/game-boundary-candidates.json) [game-boundary-native.json.gz](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/game-boundary-native.json.gz)。
 
 ## 原文保全
 

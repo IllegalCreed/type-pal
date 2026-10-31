@@ -7,44 +7,43 @@ Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「CODE-QUALITY-47 — game draw box 窄批」的任务归属与历史边界。原目标见原文(摘录:Scope: `packages/game/src/present/menu/draw-box.ts`、`draw-box.test.ts`、`draw-box.glm-phase1-leaves.t);本页治理不重开已终态任务。
+原卡目标:逐文件核验菜单框体四文件（`draw-box.ts` 与主/leaves/pixels 测试）:9-slice 与单行框（SDLPal `ui.c:131-340,762-833`）的 frame identity、tile 几何、阴影计算、opaque mask、屏外裁剪、缺帧 fail-loud 与 menuTextMaxCols;真实 callers 覆盖 dialog/menu/shop/battle。
 
 ## 范围
 
-原卡含章节[CODE-QUALITY-47 — game draw box 窄批、前提与范围、逐文件核验计划、当前证据、下一位 Agent 提示词、Codex 当前复审（2026-10-18）],共3个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+四文件;不改变菜单形态、资源格式、输入或公共接口;framebuffer owner 与九个真实 callers 只读。
 
 ## 前提与证据
 
-固定main源3345B(SHA a15b039cc4f9);原卡前提按原时点保留。当前存活入口:[README.md](../../../../ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/47-draw-box/README.md) [present-leaves-gates.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-gates.json) [present-leaves-local.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-local.json)。
+历史批:定向 3 files/22 tests、相邻 10 files/127、typecheck 通过,统一门留 game/present 模块收口,账本 3266/259→262 区间。2026-10-18 复审 partial:完整读取四文件与 SDLPal anchors,未发现可由 primary+caller 证实的新 direct defect,证据见 [README.md](../../../../ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/47-draw-box/README.md)。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+2026-10-21 基础绘制与同版本只读补证收口:原四文件——纠正阴影色与两类框的顺序说明（逐 tile 和整行先影后色各自保留,不强合短 mask 策略）;无阴影采样移入真实阴影域,所选旧 1 绿→新 1 业务红;无产品执行的 fixture 自检退役;CC11 来自实际九宫格分支,未为分数拆碎。A-H/callers/native 见 [present-leaves-local.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-local.json),完整当前门见 [present-leaves-gates.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-gates.json)。
 
 ## 状态与交接
 
-done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+done 保持原历史语义;2026-10-21 收口只接受原卡范围,无 broad/adjacent 或 deferred visual credit。
 
 ## 历史范围
 
-原卡属固定main时点;CODE-QUALITY-47 — game draw box 窄批的原始范围与日期在保全块内逐字保留。
+原卡属 2026-10-12 窄批时点;原始记录在保全块内逐字保留。
 
 ## 原始结论
 
-原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+原卡结论按 Status(done) 原样:未发现直接缺陷。治理不撤销/不恢复旧信用。
 
 ## 当时证据
 
-原文3个链接与当时回执属原时点证据;本页不重跑、不复授。
+当时回执（22 定向+127 相邻、全仓门）属原时点证据;本页不重跑、不复授。
 
 ## 当前有效性
 
-仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+仅历史任务归属有效;当前结论以 present-leaves 收口原件为准。
 
 ## 继任文档
 
-接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[README.md](../../../../ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/47-draw-box/README.md) [present-leaves-gates.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-gates.json) [present-leaves-local.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-local.json)。
-
+present-leaves-local/gates 与 47-draw-box 复审证据为继任;当前任务导航以看板为准。
 
 ## 原文保全
 

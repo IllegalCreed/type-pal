@@ -2,48 +2,53 @@
 
 Status: done
 Owner: GLM(治理候选作者;原文作者/状态见保全块)
-Last reviewed: 2026-10-30
+Last reviewed: 2026-10-31
 Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「CODE-QUALITY-95 — menu 测试夹具合法性 counter」的任务归属与历史边界。原目标见原文(摘录:Reviewer: Codex（独立验收） Capability: menu test legal typed input and isolation Visual Verification Timi);本页治理不重开已终态任务。
+撤回并纠正三份测试的旧闭合信用（inventory-menu.test.ts、inventory-menu.boundaries.test.ts、shop-menu.boundaries.test.ts）：boundary roles()把PlayerRole[]写成Object.fromEntries对象、主测试死人fixture只有id/hp/name、shop fixture缺Item必需字段，均以as unknown as掩盖——绿但不能算业务覆盖。
 
 ## 范围
 
-原卡含章节[CODE-QUALITY-95 — menu 测试夹具合法性 counter、2026-10-25 本地统一门收口（当前）、批准后收尾窗口（2026-10-25，接续b8）、2026-10-25 当前复审增量、2026-10-15 最终模块窗口（当前）、Codex R3 当前验收与接手（2026-10-15）],共5个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+三份文件修正：补typed Item/PlayerRole、按roleId索引构造真实数组、删无必要强转、数量用合法域；复用coverage85 harness纯makeRole工厂。不改产品/公共接口/schema/save/ItemFlags/caller；不加ignore/exclude/timeout/fallback。
 
 ## 前提与证据
 
-固定main源13125B(SHA cf02e0e17fe1);原卡前提按原时点保留。当前存活入口:[README.md](../evidence/CODE-QUALITY-94/approved-closeout/README.md) [codex-final-window.md](../evidence/CODE-QUALITY-94/codex-final-window.md) [codex-r2-review.md](../evidence/CODE-QUALITY-94/codex-r2-review.md) [codex-r3-review.md](../evidence/CODE-QUALITY-94/codex-r3-review.md) [README.md](../evidence/CODE-QUALITY-94/current-review/README.md)。
+直接类型tables.ts:51-76,491-592（Item必填字段与PlayerRoles.roles数组合同）；真实caller inventory-menu.ts:213-254按playerRoles.roles[roleId]构建目标、shop-menu读取合法Item catalog；oracle：party[2,0]返回真实roleId 0、死人仍可选、inUse等值门、cash===price/price-1。原5个链接处置见作者review，存活入口逐字保留：
+
+当前存活入口:[README.md](../evidence/CODE-QUALITY-94/approved-closeout/README.md) [codex-final-window.md](../evidence/CODE-QUALITY-94/codex-final-window.md) [codex-r2-review.md](../evidence/CODE-QUALITY-94/codex-r2-review.md) [codex-r3-review.md](../evidence/CODE-QUALITY-94/codex-r3-review.md) [README.md](../evidence/CODE-QUALITY-94/current-review/README.md)。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+GLM复核裁定三份修复合法（typed形态与caller一致、makeRole纯函数、旧'空角色'用例oracle本就期望use-target+selectedItemId=200、id 400/401→105/110后oracle等价）；Codex R2 counter收紧：库存测试200物品applyToAll=true时死人目标/取消直接进选人，但生产menu-driver:711-717与SDLPal play.c:268-323对applyToAll跳过picker——R4改单体usable consuming（合成fixture注释声明）；R3 accept仅限三份fixture修正。2026-10-25复审增量：三份修正已由pre94菜单逐文件A-H、renderer版本桥和PR22统一门接受，原30路径全部与最新main 8eb一致，counter的合法typed/真实单体目标/非顺序队伍oracle均复用；并入94-102统一门终态（54路径20新关闭+34桥接，official 20168/807）。
 
 ## 状态与交接
 
-done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+Status保持done（并入94-102统一门收口；done仅指本卡有限代码/质量门收口，远端发布由关联Git/PR与main CI记录）。
 
 ## 历史范围
 
-原卡属固定main时点;CODE-QUALITY-95 — menu 测试夹具合法性 counter的原始范围与日期在保全块内逐字保留。
+2026-10-15各时点保留：R2基点cddf65557、R3候选5477af1e4（3283/229closed/44review/3010pending）、最终模块窗口bb94ad8e2三门exit0但3620/3610/3523条未包act统一门不通过。
 
 ## 原始结论
 
-原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+原卡结论：三份fixture修正经Codex R2/R3局部accept后，由pre94菜单逐文件A–H、renderer版本桥和PR22统一门正式接受；counter的合法typed Item/Role、真实单体目标和非顺序队伍oracle均复用。
 
 ## 当时证据
 
-原文5个链接与当时回执属原时点证据;本页不重跑、不复授。
+docs/ops/evidence/CODE-QUALITY-94/glm-review.md（三份裁定明细）、codex-r2/r3-review、approved-closeout与current-review。原链接与当时回执属原时点证据，本页不重跑、不复授。
 
 ## 当前有效性
 
-仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+历史任务卡（done有限语义）；测试治理方法论（绿不等于业务覆盖）作为范例长期有效。
 
 ## 继任文档
 
-接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[README.md](../evidence/CODE-QUALITY-94/approved-closeout/README.md) [codex-final-window.md](../evidence/CODE-QUALITY-94/codex-final-window.md) [codex-r2-review.md](../evidence/CODE-QUALITY-94/codex-r2-review.md) [codex-r3-review.md](../evidence/CODE-QUALITY-94/codex-r3-review.md) [README.md](../evidence/CODE-QUALITY-94/current-review/README.md)。
+母卡CODE-QUALITY-94-menu-integration-window与94-102系列承接集成终态。原存活入口逐字保留：
+
+关联:[README.md](../evidence/CODE-QUALITY-94/approved-closeout/README.md) [codex-final-window.md](../evidence/CODE-QUALITY-94/codex-final-window.md) [codex-r2-review.md](../evidence/CODE-QUALITY-94/codex-r2-review.md) [codex-r3-review.md](../evidence/CODE-QUALITY-94/codex-r3-review.md) [README.md](../evidence/CODE-QUALITY-94/current-review/README.md)。
+
 
 
 ## 原文保全

@@ -7,24 +7,23 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 证据身份
 
-本页是「CODE-QUALITY-108 evidence — magic-script warning ownership」的治理候选页;证据原件即下方逐字节保全的固定main源(1170B,SHA 9b4c101c96d0)。
+本目录处理 `magic-script.test.ts` 中两个预期缺失 label 的 stderr 诊断（Status current review,Owner Codex,2026-10-17）。生产 `runMagicScriptSync` 的 fail-closed warning 保留;测试改为断言并恢复 `console.warn` spy。
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原5个链接处置见作者review的linkDisposition。当前存活入口:[adjacent.txt](adjacent.txt) [before.txt](before.txt) [codex-current-review.md](codex-current-review.md) [targeted.txt](targeted.txt) [typecheck.txt](typecheck.txt)。
+[codex-current-review.md](codex-current-review.md) 为完整读取范围、primary/caller/oracle、根因与修复边界正文;[before.txt](before.txt) 为修复前 1/37 定向测试及两条 stderr;[targeted.txt](targeted.txt) 为修复后 1/37 定向 0 stderr;[adjacent.txt](adjacent.txt) 为相邻 40/377 0 stderr;[typecheck.txt](typecheck.txt) 为 game typecheck。
 
 ## 断言与业务 oracle
 
-文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+warning oracle=精确文本断言+finally 恢复;原有返回值、HP 不变、scriptOnSuccess 不执行断言保留。
 
 ## 结果
 
-原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+全仓 `pnpm check` exit 0（editor 631/4943,lint 4962 files 零 error/warning/info）;check:docs、ledger、git diff --check 通过;official coverage ratchet/protected fast 仍因 shared/pal-extract 及总量 baseline 回退失败,未降低阈值或改无关 baseline。
 
 ## 限制与复核
 
-未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
-
+本批不修改产品行为或公共接口;文件和任务卡继续保持 review,不因定向绿灯直接关闭。
 
 ## 原文保全
 

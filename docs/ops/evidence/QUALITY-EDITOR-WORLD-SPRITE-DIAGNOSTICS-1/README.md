@@ -2,29 +2,28 @@
 
 Status: historical
 Owner: GLM(治理候选作者;原文作者/状态见保全块)
-Last reviewed: 2026-10-30
+Last reviewed: 2026-10-31
 Template: evidence-receipt-v1 / 1.0.0
 
 ## 证据身份
 
-本页是「大世界精灵真实宿主与资源见证」的治理候选页;证据原件即下方逐字节保全的固定main源(3949B,SHA 3e55f9b302bf)。
+本页是 QUALITY-EDITOR-WORLD-SPRITE-DIAGNOSTICS-1(大世界精灵真实宿主与资源见证)的证据目录页,任务卡见 [QUALITY-EDITOR-WORLD-SPRITE-DIAGNOSTICS-1.md](../../tasks/QUALITY-EDITOR-WORLD-SPRITE-DIAGNOSTICS-1.md)。本片四文件(两个测试、共享宿主与fixture首段注释),0关闭;全部读取范围、SHA、caller与未审项见read-boundaries.json。
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原1个链接处置见作者review的linkDisposition。当前存活入口:[QUALITY-EDITOR-WORLD-SPRITE-DIAGNOSTICS-1.md](../../tasks/QUALITY-EDITOR-WORLD-SPRITE-DIAGNOSTICS-1.md)。
+时间线原件:C04/C05/C06八源完整窗口冻结期间,先在四个本地包的独立临时副本准备(窗口候选cae26b1c7完全未变);窗口记录84d5dd31已推送后,接收前三文件前逐一核原始SHA、两产品源SHA,副本精确前缀/parent守卫清理(promotion-proof.json);随后第四文件仅更新'只被两个测试导入'的过期注释,注释外代码字节完全未变。消融:baseline.json(两测试9例通过但204条act)→prepared.json(早期两失败原件)→prepared-corrected.json(修正后9例三模式0)→owned-final.json(接回工作区9例0诊断);相邻adjacent-prepared.json(隔离副本7文件121例0诊断)与adjacent-final.json(真实工作区同121例)。反控:oracle-proof.json(上限max3)、blob-oracle-proof.json(等长零字节Uint8Array)、被拒blob-preliminary-proof.json、复验oracle-rebuild.json;身份checkpoint-proof.json;范围与限制read-boundaries.json/preparation-limits.json;静态门static-preflight.json。
 
 ## 断言与业务 oracle
 
-文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+文档事实核对(currentExecution=false):K02复用现有WorldSpriteLibrary真实宿主,等待sprite解码和palette IO,根卸载后在finally恢复检查全局与硬件端口;目录操作恰一次,移除轮询点击、空Promise和双setTimeout完成猜测;迟到A/B归属、真实失败重试、磁盘捕获字节与全链undo保留;失败读取先挂真实磁盘闸门,取得同一cache promise后才放行,不让测试额外制造一次retry。glm-ui三例移除mock Viewer/Upload与重复Harness,改真实blank/loader/save-valid输入,并新增原标题所承诺的兄弟用途回落UI oracle。两枚有效反控:①上限固定max3旧六例全绿、现例12→16跨阈值恰一AssertionError(旧12→14上下限均3无法区分);②DeleteUnusedSpriteAssetCommand撤销恢复等长全零字节旧三例全绿、现逐字节Uint8Array恰一AssertionError;各恢复九绿均0skip、新执行三模式0。被拒反控ArrayBuffer.toEqual旧新皆绿;早期prepared两条失败(DOM渲染等待放在act内、测试重复触发失败读取)已分别改真实bitmap promise与失败read闸门;临时四包typecheck缺四个projects JSON失败不计验收,格式配置缺失探测也不计通过。空数组/exit0/全绿不外推为零诊断或产品通过。
 
 ## 结果
 
-原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+治理结果=证据保全完整、消融与反控链可独立复验;不产生新执行结果。九例及相邻7文件121例全部通过、0skip、act/环境/native三模式0,输出无其它诊断;完整Editor两段typecheck通过;九个fullName与数量完全不变,无退役、无官方保护表改动。前述full C04/C05/C06窗口不能充当本新候选的完整门结果;本片只登记review:3284inventory/229closed/65review/2990pending,共享宿主原review继续、两测试与fixture由pending移review,0关闭、不合main。
 
 ## 限制与复核
 
-未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
-
+未重跑任何命令;检查点静态门(docs 0 issues、lint 4250文件0/0/0、ledger通过)原件见static-preflight.json,下一稳定全仓窗口仍待执行,不以本片定向零诊断替代统一收口。第三caller SpriteResourceViewer Kimi、全域排重及其它来源诊断仍待核,不以9/121全绿关闭。历史结论保持原时点;候选待Owner非作者接收。
 
 ## 原文保全
 

@@ -7,7 +7,7 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 证据身份
 
-本页是「content-core5(enemy-ai + index + enemy-script + script-library + frame-sequence)八维复审批」的治理候选页;证据原件即下方逐字节保全的固定main源(2588B,SHA 61a9ccabd74f)。
+本页是 content-core5 批34(五文件全文读毕:enemy-ai 160行/index 203行/enemy-script 407行/script-library 414行/frame-sequence 605行)八维复审回执的治理候选页。真实语义:整改仅纯注释1处——删除 index.ts EntityBase L79 悬空孤儿 docblock(其描述字段早已删除,交互对话由 pages 脚本承载),零代码改动,body-invariance 记录 allEqual: true;基点53db76bbbb(候选线68+提交)。Codex 两段裁定(2026-10-19 保留作者证据/2026-10-20 剩余29文件返工)均保持在原文。
 
 ## 来源与输入
 
@@ -15,16 +15,15 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 断言与业务 oracle
 
-文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+文档事实核对(currentExecution=false):(1)四文件零整改面的真实依据——enemy-ai(难度=预设 id 非固定枚举、沉默 cast 跳过继续匹配、pickAiTarget 槽序稳定)、enemy-script(continue 图无调度边界循环检测+64步同步闭包上限+terminal 唯一)、script-library(FNV-1a 迁移器/运行时共用、1MiB chunk 上限、孤儿 ref 校验)、frame-sequence(TPFS 容器完整合同:魔数/索引 JSON UTF-8 严格解码/块连续性/尾随字节拒绝/XOR delta 流式编解码);(2)验证轴=body-invariance index.ts printedSha256 一致+定向5文件11套件47/47 0 failed suites+tsc exit 0+scoped biome 0,按原时点;(3)Codex 2026-10-20 附注:47例是相邻模块测试不是 EntityBase 运行时专项,类型/导出/运行字节均未变。
 
 ## 结果
 
-原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+治理结果=原文保全+本页真实整改语义+链接处置如实;不产生新执行结果。
 
 ## 限制与复核
 
-未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
-
+未重跑原命令/浏览器/测试;候选待Owner非作者接收,本节不接收原文整包/模块收口宣称。
 
 ## 原文保全
 

@@ -7,44 +7,43 @@ Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「CODE-QUALITY-59 — game save import version boundary」的任务归属与历史边界。原目标见原文(摘录:核定工具层导入存档的 version ownership 与 canonical schema，先停止实现。当前 `parseImportedSave` 检查 `format`、`partyMembers`、`wNumScene`，但忽略);本页治理不重开已终态任务。
+原卡目标:核定工具层导入存档的 version ownership——旧 `parseImportedSave` 检查 format/partyMembers/wNumScene 但忽略 payload `version`,可能让未来/错误版本 JSON 进入 `Save.saveSlot`,属 save 边界高风险;在不改导入 JSON schema、Save API 或 UI 的前提下补齐现有 VERSION=1 envelope 的 fail-closed 校验。
 
 ## 范围
 
-原卡含章节[CODE-QUALITY-59 — game save import version boundary、目标、范围、前提真值门、硬停止线、验证],共1个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+三文件（save-io.ts 与测试、save-import-quicksave.glm-msio.test.ts）;只读 tools-panel/bootstrap/Save API/reforge current-save caller。硬停止线:不恢复旧 upgrader、不改 Save API、不加兼容 fallback;行为修复先写 wrong-version 失败反例。
 
 ## 前提与证据
 
-固定main源4955B(SHA 50c580ed9388);原卡前提按原时点保留。当前存活入口:[save-v1-local.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-v1-local.json)。
+phase1 工具导入只接受本工具当前 VERSION=1;phase2 reforge SAVE12/content22 是另一 codec,不嫁接 phase1 GameState 工具导入（`docs/phase2/specs/save-system.md` 边界）。失败反例:version=2 envelope 旧实现被接受（Vitest 退出1）;修复后 parse 在 format 后拒绝 version !== 1。最强替代解释"version 是无语义元数据或存在唯一上游 migration caller"被直接读取 API/工具计划反证——计划明确要求版本校验。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+原批:定向 save/tools-panel/quick-save/MSIO 29 tests 全绿、game typecheck、全仓门通过,账本 3266/290 closed。2026-10-21 当前复审 accept（置顶勘误）:获准结构/历史非空/角色域修复先红后绿,52 相邻、20386 全仓 check、19988 official ratchet/protected 全部零诊断,5 次原生文件/IDB 入口验证;60 复用有效九例及反控;不扩大到 Save/IDB/面板整文件或 94–102。逐文件 A–H 与原件见 [save-v1-local.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-v1-local.json)。
 
 ## 状态与交接
 
-done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+done 保持原语义;2026-10-21 复审 accept 为当前有效结论,原时点下文保留。
 
 ## 历史范围
 
-原卡属固定main时点;CODE-QUALITY-59 — game save import version boundary的原始范围与日期在保全块内逐字保留。
+原卡属 2026-10-13 修复时点;原始记录与历史提示词在保全块内逐字保留。
 
 ## 原始结论
 
-原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+原卡结论按 Status(done) 原样:wrong-version 反例先行+VERSION=1 guard 落地,phase1 SAVE1 与 phase2 SAVE12 分界明确。治理不撤销/不恢复旧信用。
 
 ## 当时证据
 
-原文1个链接与当时回执属原时点证据;本页不重跑、不复授。
+当时回执（29 定向、全仓门）属原时点证据;本页不重跑、不复授。
 
 ## 当前有效性
 
-仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+仅历史任务归属有效;当前结论以 save-v1-local 复审原件为准。
 
 ## 继任文档
 
-接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[save-v1-local.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-v1-local.json)。
-
+CODE-QUALITY-60（quick-save 同 wave）与 save-v1-local 复审为继任;当前任务导航以看板为准。
 
 ## 原文保全
 

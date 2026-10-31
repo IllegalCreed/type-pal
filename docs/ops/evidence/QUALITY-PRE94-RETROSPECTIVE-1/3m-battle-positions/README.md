@@ -2,29 +2,28 @@
 
 Status: historical
 Owner: GLM(治理候选作者;原文作者/状态见保全块)
-Last reviewed: 2026-10-30
+Last reviewed: 2026-10-31
 Template: evidence-receipt-v1 / 1.0.0
 
 ## 证据身份
 
-本页是「CODE3m battle positions 只读复审切片」的治理候选页;证据原件即下方逐字节保全的固定main源(1214B,SHA 8aa142490476)。
+本页是「CODE3m battle positions 只读复审切片」的治理候选页;证据原件即下方逐字节保全的固定main源(1214B)。基点1ad2451d4(0 behind/197 ahead);高风险CODE-QUALITY-3m的只读坐标小切片,不改战斗行为、公式、存档或公共接口。
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原0个链接处置见作者review的linkDisposition。当前存活入口:无当前仓库内存活链接。
+来源为固定Git载体,非本次运行。完整读取battle-positions.ts(93行);核真实caller:battle-state.ts初始fighter pos(800-880段)、battle-opcodes.ts动态阵型、draw-battle-sprites/draw-battle-ui的anchor与present-battle数字/精灵定位;battle-state.test.ts只读位置/EnemyPos fixture段(210-383)。primary=SDL battle.c:27-35,895-945玩家表与EnemyPos锚、global.h:401-404 ENEMYPOS结构。
 
 ## 断言与业务 oracle
 
-文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+逐项对齐结论:1/2/3人队伍坐标与SDL原表逐项对齐;4/5人是代码明确记录的fallback扩展,不冒充SDL原表;EnemyPos缺失、enemyCount/index越界均返回fallback/undefined,未发现直接缺陷。
 
 ## 结果
 
-原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+按位置/EnemyPos关键词定向执行battle-state.test.ts:1 passed/13 skipped(其余测试与坐标无关),无stderr;game typecheck无诊断。coverage、official ratchet、protected fast、全仓check按用户成本规则留到大模块收口;3m其它公式、magic damage、status、queue、RNG文件仍pending,整卡不关闭。
 
 ## 限制与复核
 
-未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
-
+未重跑;只读切片不产生行为变更;94-102后置。候选待Owner非作者接收。
 
 ## 原文保全
 

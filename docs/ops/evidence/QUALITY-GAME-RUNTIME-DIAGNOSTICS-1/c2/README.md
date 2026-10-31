@@ -7,24 +7,23 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 证据身份
 
-本页是「C2 装备脚本负输入诊断回执」的治理候选页;证据原件即下方逐字节保全的固定main源(2188B,SHA a1da34918dc9)。
+本页是game运行时诊断任务[QUALITY-GAME-RUNTIME-DIAGNOSTICS-1.md](../../../tasks/QUALITY-GAME-RUNTIME-DIAGNOSTICS-1.md)C2切片(装备脚本负输入)的证据回执页;原件为同目录JSON回执,原文本逐字节保全于下方保全块。切片只处理game初始17块stderr中两个同域测试:e2-equipment-effects.test.ts与e4-run-equip-script.test.ts。Codex完整读取两测试、equip-effect.ts、equipment-state.ts、stats-test-fixtures.ts并对照相邻equipment-state.glm-next-wave.test.ts、equip-effect.test.ts、event-system.ts真实入口。
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原0个链接处置见作者review的linkDisposition。当前存活入口:无当前仓库内存活链接。
+两个警告分别来自合法负输入:未知equipment row 999与未注册L_99999。writeEquipmentEffectField与runEquipScriptSync的fail-safe warning是业务oracle,保留生产日志;测试用vi.spyOn(console,'warn')在自身生命周期内捕获并精确断言,finally恢复spy,共享console.warn无全局静音。[red.json](red.json):同一生产源(SHA 97bebc1b)配两份未改测试(从基点恢复),8/8通过但输出2个stderr warning block——直接证明退出码0与诊断清零是两个独立合同。[green.json](green.json):实现显式oracle后的两份测试,8/8通过、0 pending、0 stderr block;sourceSha256与red完全相同,唯一变化是测试oracle,不改生产实现、公共接口、状态ownership、资源或schema/save。
 
 ## 断言与业务 oracle
 
-文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+定向两文件8/8、0 stderr;game typecheck通过;相邻装备/跨模块6文件66 tests通过、0 stderr。[full-game.json](full-game.json):完整game包321 files/3612 tests通过、exit0,但仍有15块stderr——两个装备warning block已消失,剩余15块头部清单(avi-player、rng-window、event-system、scene-system、precache-client、magic-script、battle-system、mode等)逐一列名且明示not yet semantically accepted。
 
 ## 结果
 
-原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+两份测试文件在账本登记为review,本批未改成已验证;不关闭生产文件,剩余15块stderr与editor运行时诊断仍待逐文件核验。相邻装备测试与game typecheck通过是本批收口前置;全仓pnpm check过,official ratchet与protected fast被shared/pal-extract基线回退拒绝(coverage tools 75/75),coverage baseline不修改。
 
 ## 限制与复核
 
-未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
-
+未重跑任何命令;完整raw与Vitest JSON runner按原文存于gzip回执(不在本固定源树内)。第一阶段机制、公共接口、schema/save、资源或用户可见行为风险立即停线另卡。本页为治理候选正文重写,候选待Owner非作者接收。
 
 ## 原文保全
 

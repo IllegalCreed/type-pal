@@ -7,24 +7,23 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 证据身份
 
-本页是「3y统一治理线与复审」的治理候选页;证据原件即下方逐字节保全的固定main源(2688B,SHA 6c0dd199b54f)。
+本目录是 3y 统一治理线（任务卡 [CODE-QUALITY-3Y-CLOSEOUT-1.md](../../tasks/CODE-QUALITY-3Y-CLOSEOUT-1.md)）的证据入口:用户要求优先收尾 3y 并消除治理分支分叉;当前只做隔离同步/保全,尚未合 main;65 差异文件、58 卡复审矩阵待补。
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原3个链接处置见作者review的linkDisposition。当前存活入口:[CODE-QUALITY-3Y-CLOSEOUT-1.md](../../tasks/CODE-QUALITY-3Y-CLOSEOUT-1.md) [README.md](midi-review/README.md) [rereview-progress.json](rereview-progress.json)。
+五个冲突原件与两父 SHA 见 merge-resolution.json（main=f98d0ddd、old3y=d4cf7f57d、acceptancePreservedTip=a9be8ab9）:MIDI 保留当前 main 完整实现,不把旧 generation 实现覆盖回去;baseline 精确取 main 原件为比较输入,同时保存 3y 历史基线,最终只由官方 ratchet 生成;两个父分支的证据/发布入口/任务导航均保留。统一验收线后仍是唯一 codex/code-quality-3y:临时两个测试冲突精确保留 a9be C05 版本;退役表 22 项/net51,固定计数先红 1/67 后 67 全绿,matcher 不变;机器 3288/223 closed/198 review/2867 pending,0 新增关闭,新候选尚未全仓验收。历史 17 份 raw 日志的尾空格/EOF 空行使 diff-check 失败:原件无损 gzip 与原 SHA 映射保存在 raw-originals-map.json,.txt 仅作显示副本规范空白,全部非空白字节逐项相同,不改历史测试计数、诊断或退出码。
 
 ## 断言与业务 oracle
 
-文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+分支清理已实际完成:本地/远端治理 ref 各仅 codex/code-quality-3y;两个旧菜单别名与本地临时 closeout 已删,两 managed 旧树可恢复归档;32855a267 已推送,a9be8ab9 和 d4cf7f57d 均为其祖先;main 未改、未合。首个复审观察:CODE75 旧两例实际重跑 1 通过/1 失败（0 skip）,当前 main 版 MIDI 入口已有 parser 事件/生命周期协议,旧 FakeSequencer 不提供 eventHandler,不能据此回退 main 产品。
 
 ## 结果
 
-原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+2026-10-16 后续 Y01 复审（[README.md](midi-review/README.md)）:旧两例已证合同重复且库协议过期,删除该测试文件,main 产品/12 例原字节均保留;定向 12、相邻 44、game typecheck 及隔离 stop 反控 12 绿→11 绿 1 指定业务红→恢复 12 绿均通过;0 新增关闭;机器 3287/223/198/2866。
 
 ## 限制与复核
 
-未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
-
+58 卡当前逐项进度独立写入 [rereview-progress.json](rereview-progress.json),不改合并时历史矩阵;完整门尚未运行本片,未合 main;所有质量门尚未运行于本新候选,禁止宣称通过或合 main。
 
 ## 原文保全
 

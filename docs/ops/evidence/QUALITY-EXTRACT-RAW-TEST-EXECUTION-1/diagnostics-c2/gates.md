@@ -7,24 +7,23 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 证据身份
 
-本页是「C2 静态与集成门」的治理候选页;证据原件即下方逐字节保全的固定main源(804B,SHA 268cf47e99e2)。
+本页是C2切片（敌队翻译与诊断合同复核）的静态与集成门回执页；证据原件为同目录JSON回执，原文本逐字节保全于下方保全块。集成回归六项（原报告口径：完整extract 72文件431例、shared 16文件126例、真实战斗caller 1文件186例、双方typecheck、coverage-tools，原件见[regressions.json](regressions.json)）全部exit0、0 stderr块；20轮反控与真实V8前后已由另进程重建，局部V8不冒充官方门。
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原2个链接处置见作者review的linkDisposition。当前存活入口:[final-static-gates.json](final-static-gates.json) [regressions.json](regressions.json)。
+静态门三轮真实补录、失败原件不覆盖：初轮5项中docs、evidence-verification(verify.py)、ledger、diff-check四项exit0而lint-zero exit1（2.199s失败原件保留）；第二轮仅重试check:docs仍exit1（缺子目录导航与首次verification.json格式未过）；修导航与证据输出格式后，当前静态回执[final-static-gates.json](final-static-gates.json)四项（docs、ledger、diff、lint-zero）全过，lint完整报告error/warning/info全0，未降低规则或覆盖失败记录。diff-check两轮rawSha256均为空输出的SHA256（e3b0c442…），ledger两轮rawSha256相同（24d785d2…）。
 
 ## 断言与业务 oracle
 
-文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+按原时点成立的文档事实：集成回归与最终静态门通过仅约束C2切片时点；全仓check、official ratchet、protected fast本片未执行，未执行的门不得写通过；editor仍有未清诊断，不合main、不关闭文件；账本3289 inventory/208 closed/226 review/2855 pending；全83卡9partial/74pending/0accept。
 
 ## 结果
 
-原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+原文保全完整、三轮回执语义如实载入即本页治理结果；不产生新执行结果，不授旧执行信用。
 
 ## 限制与复核
 
-未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
-
+未重跑任何命令；历史结论保持原时点；本页为治理候选正文重写，候选待Owner非作者接收。
 
 ## 原文保全
 

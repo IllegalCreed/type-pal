@@ -7,24 +7,23 @@ Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「CODE-QUALITY-109 — game analytics 安装器生命周期复核」的任务归属与历史边界。原目标见原文(摘录:Reviewer: Codex（独立验收） Capability: game / analytics / installation lifecycle Visual Verification Timi);本页治理不重开已终态任务。
+逐文件复核并补齐packages/game/src/analytics/install-analytics.ts与install-analytics.test.ts：唯一生产caller是main.ts浏览器isProd入口，初始化异常被隔离、返回的installation调用方目前不持有（页面生命周期结束时无需额外产品动作）。SDLPal不提供本功能primary，隐私/网络合同由当前项目设计与相邻测试作oracle。
 
 ## 范围
 
-原卡含章节[CODE-QUALITY-109 — game analytics 安装器生命周期复核、目标与白名单、完整读取与事实、发现与修复、当前验证、收口要求与边界],共0个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+相邻consent/UI/GA文件和main.ts仅作caller/oracle/生命周期读取不在本批修改；禁止将GA事件扩展到游戏状态、战斗、存档或输入。
 
 ## 前提与证据
 
-固定main源3250B(SHA 211dc07a1b79);原卡前提按原时点保留。当前存活入口:无当前仓库内存活链接。
+固定源全文核读。发现与修复：原测试第二用例丢弃installTypePalAnalytics()返回值导致consent listener跨用例存活——测试隔离/资源ownership缺口而非生产行为缺陷；修复将installation存入局部测试变量、afterEach统一destroy()并清空引用，保留原有合法Measurement ID、DNT/GPC、无script请求和UI可见性断言。正确game runner 6files/23tests PASS 0 stderr；从仓库根直接调Vitest会绕过game jsdom配置报window/document不存在，已记录为runner scope不修改测试配置掩盖。2026-10-17收口：全仓check exit0（各包计数完整、lint 4962文件0/0/0）、check:docs/ledger/git diff --check通过、账本3307/231closed/32review/3044pending；official ratchet与protected fast仍因shared 447/466、pal-extract 1068/1546等及总量回退失败，未改baseline；仅测试teardown变化，两文件保持review。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:review),治理不改写。
+批次收口必须运行全部门；coverage baseline回退保持原样；任何GA网络/隐私UI/公共入口/schema/save或用户可感知行为变化另开高风险卡并暂停实现。
 
 ## 状态与交接
 
-review保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
-
+review保持原语义；两文件不标done。
 
 ## 原文保全
 

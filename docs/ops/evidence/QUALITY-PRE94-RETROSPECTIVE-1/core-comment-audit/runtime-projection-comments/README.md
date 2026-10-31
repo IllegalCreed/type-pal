@@ -7,24 +7,23 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「pre94 runtime投影与战斗宿主事实注释」的主题按原文时点保留(摘录:Date: 2026-10-18 Base: `bcec7f0fe1ecac8612c8d83374e4882f2c8f8f0a` Branch: `codex/code-qual)。
+原报告「pre94 runtime投影与战斗宿主事实注释」(Date: 2026-10-18,Base: `bcec7f0fe1ecac8612c8d83374e4882f2c8f8f0a`,Branch: `codex/code-quality-3y`,原文Status: recorded)处理的真实问题:attack/battle-system/game-state/battle-state四源的事实注释错误(失效行号锚、自动法术参数语义、投影边界、状态seed构成等)与两个未经证实的缺陷假设。
 
 ## 范围与证据
 
-原报告含章节[pre94 runtime投影与战斗宿主事实注释、证据身份与准入、逐文件发现与修复、Primary、caller与oracle、测试与可执行不变证据、状态、门与限制]、2个链接;固定main源5301B(SHA bafc648e6f37)。当前存活入口:[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) [read-boundaries.json](read-boundaries.json)。
+只改四源注释,无测试/行为/API/schema/save/生成物修改;准入见[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)。四源全文(614/3130/2105/916行)与caller/primary区间SHA见[read-boundaries.json](read-boundaries.json)。真实ownership链:bootstrap注入projectRuntimeToBattleRoles(runtime,static,effect),menuRoles只传前两参;equipment getter/row writer、event-system 0x19/0x1A resync、battle-opcodes 0x30 Extra刷新、outside-battle 0x2D、createBattleState seed与finalizeBattleCleanup清<=999状态。参考SDLPal global.c属性getter/覆盖、fight.c自动选靶/终态、uibattle.c自动选法术评分、battle.c入场与战末cleanup、video.c换屏——仅源证据,不冒充原版EXE运行。
 
 ## 发现
 
-原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+逐文件修正:attack.ts纠正失效game-state:1279锚,避免把等级敌方项重复加给队员;battle-system.ts纠正过时1282锚、0槽保留、资源stash owner、自动法术参数实为0..range随机评分非MP阈值、Confirm记忆非hover、动作完成先推进游标/fade暂停下一动作,入场仅PAL_StartBattle→PAL_BattleMain→VIDEO_SwitchScreen(5)换屏360ms一段(不含此前200ms delay),音效sweep有动作收尾与毒后两个caller不固定称回合初/末;game-state.ts明确runtime武术是裸基础值(装备与Extra另存)、投影是含回退/钳制/覆盖的对象快照且HP/MP边界回写不是完整逆函数、无第三参的menuRoles不合装备;battle-state.ts状态seed同时带普通和装备状态、fade字段纠正顶层driver和游标归属。两个假设被否定:全HP0+Puppet仍判负(C该分支仅清fOnlyPuppet未清fEnded);runtime-context仍存隐藏字段,不能伪称已迁WeakMap。
 
 ## 结论
 
-原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+四源TS parser/printer去注释输出与removeComments JS字节双一致(emit-identity);定向2文件75例(GameState61、BattleState14)+相邻3文件199例(宿主186、attack2、ownership11)零失败/零诊断;typecheck/docs125/lint(5197文件)零诊断。0新增closed;三旧源码closure撤回review,GameState原pending只提升review;账本3315/272closed/70review/2973pending;83卡50partial/33pending/0accept;未合main,统一门仍rework。现有GameState投影测试有as any as PlayerRole与旧注释,不能凭61绿接受其整文件。
 
 ## 整改与复核
 
-本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
-
+两次非业务失败如实保留:裸scanner首版emit-preflight未按parser上下文重扫模板,把带注释正文误当模板token而exit1(见verifier-limitation.json,换parser+JS双对照,未改runner/规则);附件初核发现两README快照仅用basename互相覆盖致metadata首次exit1,源SHA/阅读范围不变,改命名3s/3v并保留原错boundary与覆盖附件(见snapshot-collision-repair.json),metadata-final/closeout复验全过。末尾回执文字新增后只回放consumer,不重跑未变的125工具测试。未重跑原命令;历史结论保持原时点;候选待Owner非作者接收。
 
 ## 原文保全
 

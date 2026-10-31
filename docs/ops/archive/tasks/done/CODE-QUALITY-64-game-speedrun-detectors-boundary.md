@@ -7,44 +7,43 @@ Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「CODE-QUALITY-64 — game speedrun detectors boundary」的任务归属与历史边界。原目标见原文(摘录:逐文件核验 speedrun detectors 及两份测试，确认 enter/leave/any/spot/boss/item/music 与彩依两段状态机的 prev/mem ownership、边界和顺序语义保持现有工具合同。);本页治理不重开已终态任务。
+原卡目标:逐文件核验 speedrun 检测器三文件（`detectors.ts` 76 行与两份测试）:enter/leave/any/spot/boss/item/music 与彩依（caiyi）两段状态机的 prev/mem ownership、边界和顺序语义保持现有工具合同。
 
 ## 范围
 
-原卡含章节[CODE-QUALITY-64 — game speedrun detectors boundary、目标、范围、验证、交接、2026-10-18 Codex 当前独立复审],共0个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+三文件;只读相邻 timer.ts:170-205 依序消费、checkpoints.ts 21 个真实 detector 配置、snapshot 投影、speedrun design §4.2-4.3。
 
 ## 前提与证据
 
-固定main源3687B(SHA 3781722ecb4e);原卡前提按原时点保留。当前存活入口:无当前仓库内存活链接。
+detectors.ts 不写 GameState,坐标/场景/敌人/物品/BGM 均由 ProgressSnapshot owner 提供;`tick` 每帧只把当前 detector 的快照、上一帧快照和该 checkpoint 的独立 DetectorMem 传入。关键语义:enter/leave/集合进入的 prev 语义、atSpot/atAnySpot 矩形容差、boss id+全场总血、item/music 纯谓词、caiyi"先见 boss、再血清/离场"两阶段 mem;`enterAnyScene` 在工厂时复制输入集合。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+原批:定向 detectors 主/GLM 13 tests、speedrun wave 全门通过,账本 3266/303 closed。2026-10-18 复审 partial:直接两份 12 tests 覆盖 null prev、集合内转场、空集合、默认与显式容差边界、多点命中/不命中、boss/战斗空值、caiyi 自定义敌 id 和独立 mem;相邻六文件 42 tests、typecheck 通过,无新增弱重复用例;昂贵门沿用 47–52 波次证据不重复运行。
 
 ## 状态与交接
 
-done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+done 保持原历史语义;2026-10-18 复审 partial,不是整卡 accept/done。
 
 ## 历史范围
 
-原卡属固定main时点;CODE-QUALITY-64 — game speedrun detectors boundary的原始范围与日期在保全块内逐字保留。
+原卡属 2026-10-13 wave 时点;原始记录与历史提示词在保全块内逐字保留。
 
 ## 原始结论
 
-原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+原卡结论按 Status(done) 原样:未发现直接缺陷,未改 checkpoint 数据或公共接口。治理不撤销/不恢复旧信用。
 
 ## 当时证据
 
-原文0个链接与当时回执属原时点证据;本页不重跑、不复授。
+当时回执（13 定向、wave 全门）属原时点证据;本页不重跑、不复授。
 
 ## 当前有效性
 
-仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+仅历史任务归属有效;不凭旧基点认定当前实现。
 
 ## 继任文档
 
-接替/关联入口见原文链接;当前任务导航以看板为准。
-
+CODE-QUALITY-63（snapshot 投影）与 CODE-QUALITY-67（checkpoint 数据）为相邻归属;当前任务导航以看板为准。
 
 ## 原文保全
 

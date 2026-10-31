@@ -7,24 +7,23 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「CODE3w结算复审」的主题按原文时点保留(摘录:Date: 2026-10-18 Base: `9bc478671044f2dff222581b6326884694e5b9e2` Branch: `codex/code-qual)。
+原审计「CODE3w结算复审」(CODE-QUALITY-3w 结算切片,Date: 2026-10-18 Base: `9bc478671044f2dff222581b6326884694e5b9e2` Branch: `codex/code-quality-3y`,单 Agent Codex)的真实主题:battle-settlement 实现与其 glm-next-wave 专测的注释级复核——实现只改事实注释(Phase C/E/F owner、逐人主升级→隐藏涨点→练成、C 的 #if1 恒真恢复、TS 首 tick 残键防护与 C 清键边界、0x89 可直接置 won 不能断言所有胜利全敌已死),类型/执行 JS 相同,不改产品机制/UI/API/save/schema/资产/baseline。
 
 ## 范围与证据
 
-原报告含章节[CODE3w结算复审、范围与实际证据、修改与测试质量、实测与反控、当前结论与继续范围]、9个链接;固定main源4126B(SHA a77273716dca)。当前存活入口:[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) [README.md](../3u-3w-finalization/README.md) [assertion-transfers.json](assertion-transfers.json) [before-sources.json](before-sources.json) [control-sources.json](control-sources.json) [controls.json](controls.json) [gates.json](gates.json) [native-archives.json](native-archives.json) [read-boundaries.json](read-boundaries.json)。
+原文含章节[CODE3w结算复审、范围与实际证据、修改与测试质量、实测与反控、当前结论与继续范围]、9个链接;固定main源4126B(SHA a77273716dca)。当前存活入口:[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) [README.md](../3u-3w-finalization/README.md) [assertion-transfers.json](assertion-transfers.json) [before-sources.json](before-sources.json) [control-sources.json](control-sources.json) [controls.json](controls.json) [gates.json](gates.json) [native-archives.json](native-archives.json) [read-boundaries.json](read-boundaries.json) 。读域:实现原 246 行与专测原 259 行全文,当前实现 249 行/专测 347 行/progression 307 行全文,大文件按区间(见 read-boundaries);SDLPal battle.c:991-1373 逐段与 play.c:603-681 清键是 C 参考核读,未跑原盘。
 
 ## 发现
 
-原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+原文时点真实发现:六变异反控(controls.json)在真实工作树逐枚施加并逐枚字节恢复——颠倒队伍屏序、宿主忽略 Boss 超时、held 冒充 pressed、忽略 active box、漏释放 runtime、只回写首队员;每枚旧文件 5 绿、新文件 7 绿+1 条指定业务 AssertionError,身份集合/原生 JSON/raw/hash 齐全。断言迁移(assertion-transfers)旧 5→新 8,拆混合同、补判别力、0 整例退役。早期 direct 的 1 红是测试作者误读 dialogBox.text(改真实 currentLineText 及关框时序后绿),无对应产品修复、不冒充先红,且早期草稿未捕获精确源码快照、不授有效反控信用。计数勘误(metadata-corrections):初稿 250/360/306 行修正为实际 249/347/307 行。发射等价(execution-identity):base/六反控输入/最终三个 settlement 源 sha 不同但 removeComments 发射 JS 同一 hash,证最终只差注释。
 
 ## 结论
 
-原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+原结论按原时点保留:切片门 7 文件 229 绿(8 直接/221 相邻)+typecheck+5 文档消费者+lint(5464 文件)/ledger 零诊断,但 whole-card 与统一门不接受(mergeAllowed=false);两旧关闭撤回 review(reopenedReview=2)、0 新增 closed,3317 tracked/251 closed/101 review/2965 pending,83 卡 55 partial/28 pending/0 accept。脚本副作用/异常、特殊脚本胜利的完整生产影响域、极端数值/资源容量和结算视觉未全验;完整 check/official coverage/protected 留大任务收尾,不合 main。
 
 ## 整改与复核
 
-本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
-
+本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准(后继 3w-post-scripts 在 599d3571 基点继续战后脚本域,并以本目录 read-boundaries 为 priorSameSourceEvidence 复用);候选待Owner接收。
 
 ## 原文保全
 

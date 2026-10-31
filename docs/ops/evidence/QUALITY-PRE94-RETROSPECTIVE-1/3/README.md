@@ -7,24 +7,23 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「CODE3事件切分/标注成果复审」的主题按原文时点保留(摘录:归全83卡复审。起点605585752/main=f98d0ddd8，唯一3y分支、单Agent。本片只补两份切分测试，生产/生成物不改，整卡partial、0新增关闭。 完整路径)。
+本篇是 CODE3「事件切分/标注」切片的证据索引，归 [QUALITY-PRE94-RETROSPECTIVE-1.md](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) 全 83 卡复审（起点 605585752 / main=f98d0ddd8，唯一 3y 分支、单 Agent）。本片真实目标只补两份切分测试的判别力：slice.test.ts 的 reset 例旧版只验目标不验续行、A2 例所有目标本可顺序到达（删随机边仍绿）；slice.kimi-r1.test.ts 的 EO auto 例所有 end 相同，autoScript 错成 1 仍绿。生产 slice.ts/annotate.ts 与生成物零修改，整卡 partial、0 新增关闭。
 
 ## 范围与证据
 
-原报告含章节[CODE3事件切分/标注成果复审、实际读取、职责与当前结论、真值与高风险停线、真实输入与可复跑探针、判别力、精简边界与恢复、当前门、账本与交接]、14个链接;固定main源8021B(SHA db24e7ddcb21)。当前存活入口:[QUALITY-EVENT-SLICE-CONTROL-TRUTH-1.md](../../../tasks/QUALITY-EVENT-SLICE-CONTROL-TRUTH-1.md) [QUALITY-PRE94-RETROSPECTIVE-1.md](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) [README.md](../3-annotate/README.md) [after-proof.json](after-proof.json) [before-proof.json](before-proof.json) [control-command.json](control-command.json) [control-probe.mts](control-probe.mts) [control-proof.json](control-proof.json) [counter-probe.py](counter-probe.py) [gates.md](gates.md) [probe-typecheck.json](probe-typecheck.json) [read-boundaries.json](read-boundaries.json) [tests.json](tests.json) [verification.json](verification.json)。
+读取边界逐文件登记在 [read-boundaries.json](read-boundaries.json)：28 个文件区分全文（slice.ts 239 行、annotate.ts 109 行、四份切分测试、两份标注测试、disasm/recompile/roundtrip、opcodes、SSS/WORD/MSG 解析、shared 事件类型等）与指定区间（cli.ts 仅 1–325/901、event-system 仅 1280–1336 与 1968–2035/5117、sdlpal script.c 五段区间等），不把区间读取冒充整文件验收。真值锚：SDL script.c 3016–3022 定义 A2 相对目标 i+1..i+op0，3204–3236/3520–3548 定义 end 与计数 reset，SSS 16u16 记录 slot5 读 autoScript；expected 来自固定互异可人工推演的图，不用产品 helper 自制、不以 covered/total 作 oracle。反控原件 [before-proof.json](before-proof.json)/[after-proof.json](after-proof.json)，真实输入探针 [control-probe.mts](control-probe.mts) 及 [control-proof.json](control-proof.json)、命令回执 [control-command.json](control-command.json)、变异脚本 [counter-probe.py](counter-probe.py)、恢复 [tests.json](tests.json)、核验 [verification.json](verification.json)、静态门 [gates.md](gates.md)、探针 typecheck [probe-typecheck.json](probe-typecheck.json)。
 
 ## 发现
 
-原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+三变异（删 A2 随机目标、resetTo 缺失才收续行、auto 入口错定为 1）旧四文件 28 例全部绿（盲点实证）；补证后各 27 绿 1 指定 AssertionError，分别唯一落到 A2 有序集合（期望 5 实得 2）、reset 目标+续行（期望 4 实得 3）、EO auto 入口身份（期望带 label L_4 实得裸 end），28 个身份保持、0 删例。真实 raw 探针：43503 指令/295 场景/5077 对象/694 全局入口/6767 标签入口，disasm→recompile 与 annotate→recompile 字节一致，掩去人读字段后投影相同；实有 17 条非零 frameDelay goto。两条高风险控制流争议（text/_item 恰为 L_N 时元数据伪边使切片 2→3 条且重编译字节不变；非零计数 goto 漏收续行 2/3）停线到 draft 卡 [QUALITY-EVENT-SLICE-CONTROL-TRUTH-1.md](../../../tasks/QUALITY-EVENT-SLICE-CONTROL-TRUTH-1.md)，本片不借测试补证实施算法修复。
 
 ## 结论
 
-原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+本片时点结论：仅两旧关闭（slice.ts/主测试）转 review、一份 pending Kimi 测试登记 review，0 新增关闭；83 卡 0accept/8partial/75pending。重要自纠（2026-10-16 补记，详见 [README.md](../3-annotate/README.md)）：本页旧的 extract 72 文件 434 通过包日志保留，但完整 stderr 实有 10 块/52 行，六例原盘 root 指错后早退成假绿，仅 act/环境/navigation 三模式为 0 不能称「零诊断」，包级验收不成立；不追溯涂改原日志。
 
 ## 整改与复核
 
-本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
-
+恢复面：定向六文件 45、extract 完整 72 文件 434+typecheck、shared 16 文件 126+typecheck 通过（434 的 stderr 边界见上节自纠）；探针按现行严格规则 typecheck 与实际执行重新通过。全仓 check/官方 ratchet/protected fast 未新跑，editor 诊断未清，不合 main。治理页不重开任务、不重跑执行；后续以 3-annotate 复审与原盘执行完整性卡为准，候选待 Owner 接收。
 
 ## 原文保全
 

@@ -7,24 +7,23 @@ Template: governance-index-v1 / 1.0.0
 
 ## 目的
 
-承载原导航文档「测试宿主原生导航证据」的治理候选;导航职责按原文时点保留。
+承载[测试宿主原生导航任务](../../tasks/QUALITY-HOST-NAVIGATION-DIAGNOSTICS-1.md)的证据导航:仅两份测试源码(editor navigation.glm-leaf-wave.test.tsx 268到301行、reforge main.host-lifecycle-1.test.ts 354到365行),先独立基线再按真实caller/端口修正;当前build,0关闭。时点结论按原文保留,本页不重开任务。
 
 ## 范围
 
-原文含章节[测试宿主原生导航证据]、2个链接;不借导航页授信或重开任务。
+两条基线各1条native navigation诊断([editor-baseline](editor-baseline.json) 6例navigation=1、[host-baseline](host-baseline.json) 8例navigation=1),修后[editor-current](editor-current.json) 6/6与[host-current](host-current.json) 8/8,act/环境/native三类计数均0。editor测试router按真实App caller接管默认导航并断言真实nativeEvent.defaultPrevented;键盘辅助走真实React事件,无强转伪造;act全局在root卸载后恢复,不改DsMenuBar产品。[read-boundaries.json](read-boundaries.json)登记两测试全文SHA/行数(status=review, no closure)、App.tsx2194-2225与main.ts2232-2250仅区间读。[jsdom-primary.json](jsdom-primary.json)全文核jsdom29.1.1两vendor文件(Location-impl.js reload() L223;navigation.js navigateFetch L77报notImplemented navigation to another Document),证明jsdom reload静默no-op是宿主真值,测试须走窄原生reload IO端口观测。
 
 ## 当前状态
 
-historical(治理候选);原时点状态与日期在保全块。
+historical(治理候选);原时点状态与日期在保全块。无档战败保留当前URL、真实metadata读取后调用窄原生reload端口:恰一次调用、URL未改、script收口、世界未误换。[oracle-proof.json](oracle-proof.json)在隔离workspace以recipe(main.ts中location.reload()注释行为mutant)三向判决:旧测试对mutant仍8绿(旧盲区)、新测试7绿恰1指定AssertionError(战败无档重开 expected false to be true)、恢复原生产8绿;4本地包副本、noWorkingTreeProductMutation=true、清理精确核验。[oracle-rebuild.json](oracle-rebuild.json)清理后独立重建同三判决。[checkpoint-proof.json](checkpoint-proof.json):两包typecheck通过、两测试身份6/6与8/8未变;不宣称console清零——host-baseline/current仍各8条AudioContext不可用,host-adjacent 19条同类+script/save故障日志各1。
 
 ## 入口与责任
 
-当前存活入口:[QUALITY-HOST-NAVIGATION-DIAGNOSTICS-1.md](../../tasks/QUALITY-HOST-NAVIGATION-DIAGNOSTICS-1.md) [window-review.md](../QUALITY-EDITOR-FORM-FIXTURES-1/window-review.md)。 其余原链接仅在保全块保留,理由见linkDisposition。
+当前存活入口:[QUALITY-HOST-NAVIGATION-DIAGNOSTICS-1.md](../../tasks/QUALITY-HOST-NAVIGATION-DIAGNOSTICS-1.md) [window-review.md](../QUALITY-EDITOR-FORM-FIXTURES-1/window-review.md)。 相邻[editor-adjacent](editor-adjacent.json) 4文件34例、[host-adjacent](host-adjacent.json) 3文件19例通过且三类计数0;现存14个测试名称与数量未变,无退役、不改规则/配置/产品。[checkpoint-gates.json](checkpoint-gates.json):check:docs/lint/ledger三项exit0,newFileClosures=0、fullModuleWindowPending=true、otherRuntimeOutputStillPresent=true。
 
 ## 证据与下一步
 
-固定main源SHA d8210b613a7c;下一步=Owner非作者接收。
-
+固定main源SHA d8210b613a7c;下一步=Owner非作者接收。全仓其它act/环境诊断待续,统一门未过、不合main;完整门与Kimi检查点在稳定诊断窗口集中,已实测的联合计数见window-review链接,本片留review、0关闭。
 
 ## 原文保全
 

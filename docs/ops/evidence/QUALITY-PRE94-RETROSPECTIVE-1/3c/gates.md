@@ -7,24 +7,23 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 证据身份
 
-本页是「CODE3c检查点静态门」的治理候选页;证据原件即下方逐字节保全的固定main源(1309B,SHA f9049ab3b431)。
+本页是CODE3c切片时点（worktree quality-3y-closeout）的静态门MD回执，原件为下方逐字节保全的固定main源（1309B，SHA f9049ab3b431）；机器字段同源见保全块与同目录static-gates.json。
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原0个链接处置见作者review的linkDisposition。当前存活入口:无当前仓库内存活链接。
+四项原命令全exit0：check:docs（1350 Markdown/7250链接/441卡0 issues；phase184/content570通过）、lint（4407文件0error/0warning/0info）、code-quality-ledger（3287 inventory/213closed/211review/2863pending，0新增关闭）、git diff --check。目标1例与三枚业务反控均0运行时诊断；但editor相邻36通过含6条act（BattleSpriteInlinePreview.kimi-workflows三用例×2），reforge相邻22绿0诊断、editor typecheck通过。最终JSON归档格式化后重跑lint：4408文件0/0/0，raw另存final-lint-zero.raw.gz。
 
 ## 断言与业务 oracle
 
-文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+本页核心断言是边界而非通过：全仓check、official ratchet、protected fast当期未新跑，统一零诊断门未过（相邻6act未清），禁止合main、不得把退出0记为全部质量门通过；'既有告警'不能作为常驻豁免。
 
 ## 结果
 
-原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+切片静态门按原时点成立：docs/lint/ledger/diff四绿+目标与反控0诊断；账本计数为机器重跑确认值。无新增关闭，原两条记录改review。
 
 ## 限制与复核
 
-未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
-
+未重跑任何命令；6act与'完整editor上轮仍有运行时诊断'为原时点事实；本页不授权合main或统一门通过。候选待Owner非作者接收。
 
 ## 原文保全
 

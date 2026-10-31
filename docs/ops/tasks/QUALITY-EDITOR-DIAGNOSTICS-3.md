@@ -7,24 +7,23 @@ Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「QUALITY-EDITOR-DIAGNOSTICS-3 — C02 导入、迟到操作者与历史回流」的任务归属与历史边界。原目标见原文(摘录:Reviewer: Codex（作者自验与独立验收分开） Capability: editor test lifecycle correctness Visual Verification Timin);本页治理不重开已终态任务。
+清理C02 BattleSpriteLibrary测试的异步生命周期诊断并精简已证重复：白名单四测试源（battle-sprite-ui.ts、c02-g01/g02/g05测试），真值为React官方act要求等待触发更新的实际异步工作；目标口径是图片只等真实硬件端口Promise、提交/失败只等真实session或新notice、历史操作进act并等实际预览。
 
 ## 范围
 
-原卡含章节[QUALITY-EDITOR-DIAGNOSTICS-3 — C02 导入、迟到操作者与历史回流、准入与独占范围、真值与可证伪观察、验收与交接、实测准入修订与生命周期检查点、精度与精简支持准入],共4个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+只改上述四份测试源码；不改宿主实现、产品/公共API/schema/save/资产管线/生成物；UI助手全文重读，三测试按上一轮SHA复用直接读取记录。
 
 ## 前提与证据
 
-固定main源7309B(SHA 7ca1d42a4eac);原卡前提按原时点保留。当前存活入口:[next-read-boundaries.json](../evidence/QUALITY-EDITOR-DIAGNOSTICS-2/next-read-boundaries.json) [README.md](../evidence/QUALITY-EDITOR-DIAGNOSTICS-3/README.md) [window-review.md](../evidence/QUALITY-EDITOR-DIAGNOSTICS-3/window-review.md)。
+固定源全文核读各检查点。根因证伪：bitmap-only等待30/30、535条act未降，撤回图片主因解释；改为等待真实提交/新raw notice及真实历史回流后535→23（余23均为G01 act外dispatch/undo），修后30/30零诊断。raw helper返回当次DOM结果，旧waitRawMessage只有G01/G05 caller已整体替换移除。精度片：G01-01/08用真实reader完成交付闸门证pending窗口与解除；G05改canonical BattleSpriteProfile判别联合无unknown强转；三个头注撤回未经全库核实的新颖性声明。精简仅G01-02→03（10→9，总30→29）：两者都是authored同资产同消费者、仅项目名与无像素oracle的配色不同，属一次外部12→10缩帧后的整组回流；隔离反控proofReady守卫移除各恰一AssertionError、改名草稿复位mutant下原03仍绿/原02红。首次相邻命令两文件过滤名写错实际只跑7文件69例，原件保留不冒充全相邻；纠正后9文件77例0skip/0诊断。稳定窗口addf1dca1：check、官方确认版ratchet、普通protected fast均exit0；六份源码窗口内字节冻结；736源/19860 fast测试、四项覆盖分子分母与前基线完全相同。原件:[next-read-boundaries.json](../evidence/QUALITY-EDITOR-DIAGNOSTICS-2/next-read-boundaries.json) [README.md](../evidence/QUALITY-EDITOR-DIAGNOSTICS-3/README.md) [window-review.md](../evidence/QUALITY-EDITOR-DIAGNOSTICS-3/window-review.md)。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:review),治理不改写。
+静态门0/0/0通过但不代表运行时诊断已清零：统一门仍不通过、禁止合main。宿主历史pending导航/异常清理故障注入与未知跨文件重复仍待核；账本3284/229closed/54review/3001pending、0关闭，不冒称独立验收。下一候选Kimi BattleSprite工作流须先新卡白名单。
 
 ## 状态与交接
 
-review保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
-
+review保持原语义；无下一位Agent提示词，由Codex继续。
 
 ## 原文保全
 

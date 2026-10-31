@@ -7,44 +7,43 @@ Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「GAME-INPUT-FADE-DIRECTION-OWNERSHIP-1 — 场景渐变后的方向重算」的任务归属与历史边界。原目标见原文(摘录:Capability: keyboard input lifecycle Generation Owner: N/A Reviewer: Codex);本页治理不重开已终态任务。
+修复场景渐变后的方向重算：before把每个方向键分别压入抑制集，松右仍不能恢复左；after用当前方向的抑制标志，下一有效方向事件恢复仍按住的方向及其顺序。primary为input.c:163–288的PAL_GetCurrDirection/KeyDown/KeyUp保留按键顺序、非repeat方向keydown及方向keyup重算dir，palette.c的PAL_SceneFade清dir/pressed不清物理顺序。用户2026-10-21批准“按 SDLPal 修复（推荐）”。
 
 ## 范围
 
-原卡含章节[GAME-INPUT-FADE-DIRECTION-OWNERSHIP-1 — 场景渐变后的方向重算、目标与用户裁决、范围与准入、前提真值门、Build: 实现与自测、Review: 审查与剩余项],共0个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+白名单input.ts和直接测试；只读main-loop.ts、scene-system.ts及SDLPal input/palette；键位、Replay/Recording接口、fade调用时序和非方向键消费模型不扩展。
 
 ## 前提与证据
 
-固定main源3603B(SHA 108721ccb724);原卡前提按原时点保留。当前存活入口:无当前仓库内存活链接。
+固定源全文核读。抽取三个原C函数编译运行支持五个边界，仅证函数合同及fade清dir赋值，不冒充整个SDL runtime。Build：先新增三例，原实现17通过/3个指定业务断言失败；窄修方向抑制ownership后三输入文件34/34，保留原17例及键表/clear/detach/快照隔离/record-replay合同；repeat、非方向、未知事件不解除抑制，未按住方向的keyup仍依C重算。相邻主循环/场景/menu锁/AVI七文件157/157，game typecheck与局部Biome零诊断。真实浏览器受控KeyboardEvent下松右后held=Left、pressed空，下一世界tick从(320,240)走到(304,232)；首次隔离页误用(5,5)世界坐标被真实边界拒绝走步，原件保留，修正为合法坐标后通过。2026-10-21输入音频模块收口：CODE73四文件八维收口、完整原件见父卡input-audio-closeout.json。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+done为获批范围收口：dev-functional观察完成；统一check/ratchet/protected在输入/音频模块窗口通过，Git发布结果由父卡回执承载，不把旧包绿当文件关闭。
 
 ## 状态与交接
 
-done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+done保持原语义；治理不重开。无下一位Agent，Codex继续同一3y模块收尾。
 
 ## 历史范围
 
-原卡属固定main时点;GAME-INPUT-FADE-DIRECTION-OWNERSHIP-1 — 场景渐变后的方向重算的原始范围与日期在保全块内逐字保留。
+原卡属固定main时点；范围为input.ts方向抑制ownership子切片。
 
 ## 原始结论
 
-原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+原卡结论按其Status(done)原样：2026-10-21输入音频模块收口，CODE73四文件八维完成。
 
 ## 当时证据
 
-原文0个链接与当时回执属原时点证据;本页不重跑、不复授。
+当时回证属原时点证据：17+3指定红→34/34、相邻157/157、浏览器(320,240)→(304,232)；本页不重跑、不复授。
 
 ## 当前有效性
 
-仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+仅历史任务归属有效；不是完整剧情E2E；不凭旧基点授权新产品取舍。
 
 ## 继任文档
 
-接替/关联入口见原文链接;当前任务导航以看板为准。
-
+父卡input-audio-closeout.json承载模块门；CODE73收口完成。
 
 ## 原文保全
 

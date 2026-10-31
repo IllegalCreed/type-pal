@@ -2,48 +2,53 @@
 
 Status: done
 Owner: GLM(治理候选作者;原文作者/状态见保全块)
-Last reviewed: 2026-10-30
+Last reviewed: 2026-10-31
 Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「CODE-QUALITY-98 — menu 域剩余状态机审核（opening-menu / player-status）」的任务归属与历史边界。原目标见原文(摘录:menu 域逐文件治理第三批（2 文件，最小不重叠，不碰 CODE94/95 白名单 30 文件与 CODE-97 两文件）：);本页治理不重开已终态任务。
+menu域第三批状态机审核（opening-menu.ts 74行/player-status.ts 58行+3专属测试+相邻menu-driver.test）：两状态机行为合同由sdlpal primary（uigame.c:42-167的2项value/Cancel重置wDefaultItem:150、ui.h:48-49 WORD id 7/8；uigame.c:1051-1286输入循环：Menu=-1直退/Left/Up=prev/Right/Down/Search=next/越界关）与真实caller共同钉住。
 
 ## 范围
 
-原卡含章节[CODE-QUALITY-98 — menu 域剩余状态机审核（opening-menu / player-status）、2026-10-25 本地统一门收口（当前）、批准后收尾窗口（2026-10-25，接续b8）、2026-10-25 当前复审增量、2026-10-15 最终模块窗口（当前）、Codex 接手修复（2026-10-15，作者自验证）],共6个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+2生产+3测试；零代码改动审核起步。登记E-6（currentRoleId零生产caller，test-only公共API删除须另卡）。
 
 ## 前提与证据
 
-固定main源10980B(SHA 298d7543e0c1);原卡前提按原时点保留。当前存活入口:[README.md](../evidence/CODE-QUALITY-94/approved-closeout/README.md) [codex-final-window.md](../evidence/CODE-QUALITY-94/codex-final-window.md) [codex-r2-review.md](../evidence/CODE-QUALITY-94/codex-r2-review.md) [codex-r3-review.md](../evidence/CODE-QUALITY-94/codex-r3-review.md) [codex-takeover.md](../evidence/CODE-QUALITY-94/codex-takeover.md) [README.md](../evidence/CODE-QUALITY-94/current-review/README.md)。
+opening被bootstrap:68/menu-driver:88,440/draw-opening-menu:13消费；player-status被menu-driver:98/battle-system:61/draw-player-status:38消费。原6个链接处置见作者review，存活入口逐字保留：
+
+当前存活入口:[README.md](../evidence/CODE-QUALITY-94/approved-closeout/README.md) [codex-final-window.md](../evidence/CODE-QUALITY-94/codex-final-window.md) [codex-r2-review.md](../evidence/CODE-QUALITY-94/codex-r2-review.md) [codex-r3-review.md](../evidence/CODE-QUALITY-94/codex-r3-review.md) [codex-takeover.md](../evidence/CODE-QUALITY-94/codex-takeover.md) [README.md](../evidence/CODE-QUALITY-94/current-review/README.md)。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+返工：leaves删除与主测试重复的choice映射条（保留词表注入同步与空表防御两差异轴）；player-status.test的10/20/30 roleId加限定注释（证索引遍历通用性非生产域真值）；C3标题读档取消未复位归GAME-OPENING-CANCEL-CURSOR-1高风险卡不偷改driver。2026-10-25增量：opening兜底非空断言改WORD7/8精确值（错误非空文案旧8全绿/新恰一AssertionError）；角色测试用0..5内非顺序索引保留6原身份；player-status删历史截图噪音与绘制1:1过宽声明、opening纠正启动职责；三源文件正文守恒由只读AST验证。终态并入94-102统一门（54路径20新关闭+34桥接、official 20168/807）。
 
 ## 状态与交接
 
-done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+Status保持done（并入94-102统一门收口；done仅指本卡有限代码/质量门收口，远端发布由关联Git/PR与main CI记录）。
 
 ## 历史范围
 
-原卡属固定main时点;CODE-QUALITY-98 — menu 域剩余状态机审核（opening-menu / player-status）的原始范围与日期在保全块内逐字保留。
+2026-10-15各时点保留：R2（choice用例重复/取消链已开高风险卡）、R3（排重局部accept/role index与wObjectID注释待纠）、最终窗口bb94ad8e2。
 
 ## 原始结论
 
-原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+原卡结论：两状态机通过——opening纯数据状态机（坐标/渲染留present、dispatch留menu-driver）；player-status最小状态（cursor/partyMembers/done）零呈现侵入、头注诚实记录v1 page概念被用户截图证伪删除的历史。
 
 ## 当时证据
 
-原文6个链接与当时回执属原时点证据;本页不重跑、不复授。
+docs/ops/evidence/CODE-QUALITY-94/全套。原链接与当时回执属原时点证据。
 
 ## 当前有效性
 
-仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+历史任务卡（done有限语义）。
 
 ## 继任文档
 
-接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[README.md](../evidence/CODE-QUALITY-94/approved-closeout/README.md) [codex-final-window.md](../evidence/CODE-QUALITY-94/codex-final-window.md) [codex-r2-review.md](../evidence/CODE-QUALITY-94/codex-r2-review.md) [codex-r3-review.md](../evidence/CODE-QUALITY-94/codex-r3-review.md) [codex-takeover.md](../evidence/CODE-QUALITY-94/codex-takeover.md) [README.md](../evidence/CODE-QUALITY-94/current-review/README.md)。
+GAME-OPENING-CANCEL-CURSOR-1（取消链高风险）与CODE-QUALITY-94母卡承接。原存活入口逐字保留：
+
+关联:[README.md](../evidence/CODE-QUALITY-94/approved-closeout/README.md) [codex-final-window.md](../evidence/CODE-QUALITY-94/codex-final-window.md) [codex-r2-review.md](../evidence/CODE-QUALITY-94/codex-r2-review.md) [codex-r3-review.md](../evidence/CODE-QUALITY-94/codex-r3-review.md) [codex-takeover.md](../evidence/CODE-QUALITY-94/codex-takeover.md) [README.md](../evidence/CODE-QUALITY-94/current-review/README.md)。
+
 
 
 ## 原文保全

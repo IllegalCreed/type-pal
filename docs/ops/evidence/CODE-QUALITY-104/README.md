@@ -7,24 +7,23 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 证据身份
 
-本页是「CODE-QUALITY-104 evidence — editor act lifecycle diagnostics」的治理候选页;证据原件即下方逐字节保全的固定main源(910B,SHA e013d89fca46)。
+本目录是 CODE-QUALITY-104（editor act 生命周期诊断）的证据索引:本批只修改两个测试文件中的事件包裹,保持业务断言与产品代码不变。逐文件根因、修改边界和全门结论见 [codex-current-review.md](codex-current-review.md)。
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原11个链接处置见作者review的linkDisposition。当前存活入口:[adjacent-after.txt](adjacent-after.txt) [before.txt](before.txt) [check.txt](check.txt) [codex-current-review.md](codex-current-review.md) [docs.txt](docs.txt) [ledger.txt](ledger.txt) [lint.txt](lint.txt) [protected-fast.txt](protected-fast.txt) [ratchet.txt](ratchet.txt) [targeted-after.txt](targeted-after.txt) [typecheck.txt](typecheck.txt)。
+[before.txt](before.txt) 为修复前两个 M02 测试 4/4 但 22 条 React act 诊断;[targeted-after.txt](targeted-after.txt) 为修复后定向 2 files/4 tests 零诊断;[adjacent-after.txt](adjacent-after.txt) 为修复后相邻 24 files/228 tests 零诊断。
 
 ## 断言与业务 oracle
 
-文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+诊断修复可判别:修复前 22 条 stderr 保留,修复后定向与相邻均零诊断,无过滤或 silent 掩盖。
 
 ## 结果
 
-原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+[check.txt](check.txt) 为全仓 `pnpm check` exit 0;[protected-fast.txt](protected-fast.txt)、[ratchet.txt](ratchet.txt) 为覆盖率门——均因既有 shared/pal-extract baseline 回退失败,未由本批引入;[typecheck.txt](typecheck.txt)、[lint.txt](lint.txt)、[docs.txt](docs.txt)、[ledger.txt](ledger.txt) 为 typecheck/lint/docs/ledger 硬门回执。
 
 ## 限制与复核
 
-未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
-
+统一 coverage 门未清前本批保持 review;exit 0 但带诊断不计硬门通过。
 
 ## 原文保全
 

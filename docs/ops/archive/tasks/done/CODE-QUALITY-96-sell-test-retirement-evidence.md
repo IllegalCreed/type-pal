@@ -7,44 +7,43 @@ Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「CODE-QUALITY-96 — sell 测试精确退役保护账」的任务归属与历史边界。原目标见原文(摘录:Reviewer: Codex（独立验收） Capability: coverage precise test retirement metadata Visual Verification Timi);本页治理不重开已终态任务。
+原卡目标:按用户"测试少而精、确认重复必须精简、重新实测官方基准"授权,把 CODE93 已证重复缩表用例（`sell-menu.glm-phase1-leaves.test.ts` 第三例与主测试 `refreshSellGrid` 非空缩表同合同）的真实退役登记到官方精确保护账。白名单仅 `scripts/coverage/approved-test-retirements.mjs`、其 test、本卡与 CODE93 证据/账本/导航。
 
 ## 范围
 
-原卡含章节[CODE-QUALITY-96 — sell 测试精确退役保护账、目标与白名单、前提与直接证据、准入与边界、验证、当前检查点],共0个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+工程保护账,无产品/UI 修改。predicate、扫描范围、生产源码/包删除禁止、阈值、ignore/exclude、provider、timeout 全部不变;不提供通用移除开关,未来字节/身份/count 不符仍拒绝。
 
 ## 前提与证据
 
-固定main源7290B(SHA 932165ccc8e0);原卡前提按原时点保留。当前存活入口:无当前仓库内存活链接。
+机制证据:`run.mjs:386-402` 要求真实 test-count 删除用 `--allow-scope-removal` 确认;`:415-466` protected 检查要求精确历史 count、两端 execution identity digest 和当前文件 SHA。精确源证据 `test-retirement-proof.json`:原 baseline 与 origin/main 均 3 例/相同 digest,当前 2 例与完整文件 SHA 已由机器读取。最强替代解释"删掉独有行为"被主测试仍完整执行相同非空缩表合同、3 针反控与相邻 96 tests 反证。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+过程门:原完整 ratchet 实测全部 19874 tests/731 sources 通过、指标提升,但在 scope acknowledgment 处 exit1（protected 未启动）;第一次新全仓 check 被真实账本测试拒绝——两条工具记录误放表区外（declared 21 review/actual 19 review）,归位后重跑。终态:`VITEST_MAX_WORKERS=1 pnpm check` exit0（7 包 typecheck/测试,lint 4051/0/0/0）;官方 `pnpm coverage:ratchet --allow-scope-removal` exit0（731 生产文件/19874 fast tests,提升 4 项/范围 2 项,未手改 baseline）;真实 protected fast exit0。coverage 工具 59/59、quality 工具 37/37、docs/content-review、ledger 均通过。最终账本 3271/373 closed/15 review/2883 pending。
 
 ## 状态与交接
 
-done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+done 保持原语义:与 CODE93 同批只关闭六文件（CODE93 四+CODE96 两工具）;分支含未收口行为未合 main。用户要求本部分完成后 Codex 停止;GLM 接手 CODE94/95（候选 abf284d75）;CODE95 三份旧测试 counter 独立保持 review。
 
 ## 历史范围
 
-原卡属固定main时点;CODE-QUALITY-96 — sell 测试精确退役保护账的原始范围与日期在保全块内逐字保留。
+原卡属 2026-10-14 收口时点;原始记录（exec session 93008、旧 68449/39466 失败终态等）在保全块内逐字保留。
 
 ## 原始结论
 
-原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+原卡结论按 Status(done) 原样:protected 明确核准唯一 sell GLM 测试 3→2 精确退役;未降低规则、ignore/exclude 或生产范围;原始失败回执保留,不追溯改写历史。治理不撤销/不恢复旧信用。
 
 ## 当时证据
 
-原文0个链接与当时回执属原时点证据;本页不重跑、不复授。
+当时回执（ratchet exit1 原件、账本测试拒绝、final-* 静态回执 docs1280/6792links/417tasks、lint 4056 零诊断）属原时点证据;本页不重跑、不复授。
 
 ## 当前有效性
 
-仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+仅历史任务归属有效;精确退役 metadata 须在接收六文件白名单时同时核对,不复制源分支整份 coverage baseline。
 
 ## 继任文档
 
-接替/关联入口见原文链接;当前任务导航以看板为准。
-
+CODE94/95 集成候选与 GLM 交接提示词见原卡末节;当前任务导航以看板为准。
 
 ## 原文保全
 

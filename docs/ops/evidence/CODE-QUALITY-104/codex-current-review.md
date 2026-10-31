@@ -7,24 +7,23 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「CODE-QUALITY-104 — Codex 当前验收（2026-10-17）」的主题按原文时点保留(摘录:范围仅为两个测试文件： - `packages/editor/src/ui/ItemTab.glm-m.test.tsx` - `packages/editor/src/ui/It)。
+本件回答:两个 editor 测试文件（`ItemTab.glm-m.test.tsx`、`ItemUseEffectEditor.glm-m.test.tsx`）的 22 条 React act 生命周期诊断根因与修复,以及为何本批登记 review 而非已验证。
 
 ## 范围与证据
 
-原报告含章节[CODE-QUALITY-104 — Codex 当前验收（2026-10-17）、修改与原因、验证结果、结论]、0个链接;固定main源2051B(SHA c74c686857b1)。当前存活入口:无当前仓库内存活链接。
+范围仅为两个测试文件。修复前两文件业务测试都能通过,但原生 `button.click()`、`EditSession.undo()` 和 `redo()` 触发 `useSyncExternalStore` 更新时不在 act 内,React 报出 22 条生命周期诊断。
 
 ## 发现
 
-原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+改动只把这些真实测试事件包入已存在的 React `act`,没有改变 fixture、输入、业务断言、undo/redo 顺序或生产组件。这是可判别的诊断修复:修复前保留 22 条 stderr,修复后定向和相邻回归均为零诊断;任何失败不会被过滤或 silent 掩盖。
 
 ## 结论
 
-原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+定向 2 files/4 tests PASS 0 stderr;相邻 24 files/228 tests PASS 0 stderr（含 CODE-QUALITY-103 的两个残余合同测试）;editor typecheck 与 author-check PASS;全仓 `pnpm check` exit0（content 1490/1498、editor 631/4781 等,lint 4962 零诊断）;check:docs PASS（1478 Markdown/8747 links/450 tasks/0 issues）;ledger 3307/231/19/3057;official ratchet 与 protected fast 均复现同一 shared/pal-extract 与 total baseline 回退,本批无源实现和 coverage scope 变化,没有降低阈值或更新 baseline。
 
 ## 整改与复核
 
-本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
-
+两个测试文件的 act 诊断根因已修复并完成相邻/全仓静态门;由于统一 coverage 门仍受既有 baseline 回退阻塞,本批登记 review,不写成已验证或 done。后续应先处理 shared/pal-extract baseline 证据与剩余全仓诊断,再复验本批。
 
 ## 原文保全
 

@@ -7,44 +7,43 @@ Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「GAME-MAGIC-PLAYERINFO-STATUS-1 — 大世界仙术页 PlayerInfoBox 状态显示边界」的任务归属与历史边界。原目标见原文(摘录:Capability: Q3 present/menu / first-phase user-visible behavior Reviewer: Codex（独立复核） Branch: codex/);本页治理不重开已终态任务。
+补齐大世界仙术页PlayerInfoBox状态显示：基线drawPlayerInfoBox只绘frame18、头像、HP/MP与slash并注释明确省略；SDLPal uibattle.c:31-269的PAL_PlayerInfoBox按rgPoisonStatus毒色重染头像、死亡改黑白，并绘confused/paralyzed/sleep/silence四类状态字。用户2026-10-20批准“按SDLPal补齐”（只补显示，不改状态机制或存档）。
 
 ## 范围
 
-原卡含章节[GAME-MAGIC-PLAYERINFO-STATUS-1 — 大世界仙术页 PlayerInfoBox 状态显示边界、发现、当前范围与证据、已给出的产品裁决与技术前提、禁止事项、下一步],共2个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+draw-magic.ts的PlayerInfoBox显示与配套专测；死亡头像、装备授予>999状态和phase2 grantedStatuses不在本卡；由Codex核定party-slot poison mapper/status只读适配，不重复知识、不roleId误作poison key。
 
 ## 前提与证据
 
-固定main源5022B(SHA 3746cdeb115e);原卡前提按原时点保留。当前存活入口:[present-speedrun-gates.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json) [present-speedrun-local.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-local.json)。
+固定源全文核读。build allowed基点b7fc0524a：先保留真实drawMenuStack→drawInGameMagicMenu三个像素红例（非canonical队序party-slot毒色、四状态字、已批准HP0防御显示）；允许提取独立present PlayerInfoBox叶，角色状态由world/battle adapter只读投影，保留battle computePlayerFaceColor既有出口。2026-10-21完成：31文件163定向/相邻通过、无运行诊断、game typecheck通过；全仓check/official ratchet/protected待集中收尾，浏览器视觉/E2E未新跑，framebuffer原件不泛化为观感验收。锚点:[present-speedrun-local.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-local.json) [present-speedrun-gates.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json)。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+done授本卡显示合同与明确文件结论：HP0为批准的防御显示，未声称完整逃跑生产路径已测；本卡不授48/49/50整卡信用。
 
 ## 状态与交接
 
-done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+done保持原语义；治理不重开。Codex唯一Coding Owner。
 
 ## 历史范围
 
-原卡属固定main时点;GAME-MAGIC-PLAYERINFO-STATUS-1 — 大世界仙术页 PlayerInfoBox 状态显示边界的原始范围与日期在保全块内逐字保留。
+原卡属固定main时点；范围为draw-magic PlayerInfoBox显示子切片。
 
 ## 原始结论
 
-原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+原卡结论按其Status(done)原样：2026-10-21完成裁定，显示范围完成、质量门见集中回执。
 
 ## 当时证据
 
-原文2个链接与当时回执属原时点证据;本页不重跑、不复授。
+当时回执属原时点证据：三像素红例先行、31文件163定向/相邻零诊断；本页不重跑、不复授。关联:[present-speedrun-local.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-local.json) [present-speedrun-gates.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json)。
 
 ## 当前有效性
 
-仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+仅历史任务归属有效；50卡只能保持partial；不凭旧基点授权新产品取舍。
 
 ## 继任文档
 
-接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[present-speedrun-gates.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json) [present-speedrun-local.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-local.json)。
-
+与GAME-PRE94-MENU-PIXEL-PARITY-1共用present窗口；父卡QUALITY-PRE94-RETROSPECTIVE-1继续。 关联:[present-speedrun-local.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-local.json) [present-speedrun-gates.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json)。
 
 ## 原文保全
 

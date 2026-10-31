@@ -7,24 +7,23 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 证据身份
 
-本页是「CODE3检查点静态门」的治理候选页;证据原件即下方逐字节保全的固定main源(1415B,SHA 2aca85cb487f)。
+本页是 CODE3 切片检查点的静态门回执（原表在保全块）。初检四命令：`pnpm check:docs` exit 0（docs 为 1353 Markdown/7273 links/442 cards、0 issues）、`pnpm lint` exit 1（仅新增 probe 的 import 排序 1 error）、`node scripts/quality/code-quality-ledger.mjs` exit 0（3287 inventory/211closed/214review/2862pending）、`git diff --check` exit 0。同名 raw.gz 保留初检原件。
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原0个链接处置见作者review的linkDisposition。当前存活入口:无当前仓库内存活链接。
+命令在 worktree quality-3y-closeout/type-pal 执行，历史时点原件；本页 0 链接。初检 lint 的 1 个诊断按现行规则修正后，归档最终重跑另记，不把初检记录改成零诊断。
 
 ## 断言与业务 oracle
 
-文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+退出码与诊断数按原值见证：初检 lint exit 1 是真实失败而非「全绿」；修复后最终重跑 exit 0（4419 files，0 errors/0 warnings/0 infos，final-lint-zero.raw.gz，raw SHA f2e1f1b3…）才是零诊断时点。ledger 计数与「0 新增关闭」口径一致。exit 码不外推为统一门通过。
 
 ## 结果
 
-原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+本片静态门以「初检 1 error→修复→最终 0/0/0」两段如实记录；运行面定向 45、extract 72 文件 434/typecheck、shared 16 文件 126/typecheck 另见 tests.json（该 434 包日志的 stderr 边界由 3-annotate 复审纠正，包级验收不成立）。全仓 check/official ratchet/protected fast 未新跑，editor 诊断未清，不合 main。
 
 ## 限制与复核
 
-未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
-
+未重跑任何命令；raw.gz 与 final-lint-zero.raw.gz 为原件。后续片静态门（如 3-annotate 的 lint-zero 4428 文件全 0）不回写本页。候选待 Owner 非作者接收。
 
 ## 原文保全
 

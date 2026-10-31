@@ -2,29 +2,28 @@
 
 Status: historical
 Owner: GLM(治理候选作者;原文作者/状态见保全块)
-Last reviewed: 2026-10-30
+Last reviewed: 2026-10-31
 Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「CODE3j time-format 当前复审切片」的主题按原文时点保留(摘录:基点：`7057dddd9`（已合并最新 `origin/main`）；分支：`codex/code-quality-3y`。这是 CODE-QUALITY-3j 的有限 pre-)。
+CODE-QUALITY-3j有限pre-94切片(基点7057dddd9,已合并最新origin/main),只核time-format实现、三份直接合同测试与持久化/显示caller。核心发现一个可复现输入缺陷:parseHms对每段只查NaN,超长十进制段可得Infinity,总毫秒也成为Infinity;工具面板把该值交给setBest后,JSON.stringify把无限数静默序列化为null——用户可输入的工具边界,既有『有限caller输入』前提不能覆盖。
 
 ## 范围与证据
 
-原报告含章节[CODE3j time-format 当前复审切片、逐文件读取与事实边界、发现与处理、验证、当前结论与下一批]、1个链接;固定main源3661B(SHA 6f9bd4bbdb45)。当前存活入口:[read-boundaries.json](read-boundaries.json)。
+完整读取time-format.ts(36行)/三份直接测试/store.ts+store.test/overlay.ts/timer.ts/index.ts;tools-panel只读1-260与867-891(parseHms caller段),CLAUDE.md/phase1文档按相关边界读,清单SHA见[read-boundaries.json](read-boundaries.json)。四个公开函数(墙钟厘秒/整秒显示/H:MM:SS与M:SS解析/带符号差值)是工具层纯函数,不承载第一阶段战斗/存档机制;SDLPal无对应浏览器计时API。caller已核:overlay只送elapsedMs/split/PB/ETA,timer时间来自注入wall-clock,tools-panel:867-891把玩家文本交parseHms后写setSpeedrunBest,store读回值要求finite且非负。
 
 ## 发现
 
-原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+先加失败反例(308位9数字段+:59:59)原实现返回Infinity(1 failed/3 passed,唯一失败预期null实际Infinity);随后将段值与总毫秒都限为finite,小时仍无固定上界、只拒绝无法表示的结果,未扩大为任意时间上限。未修问题:formatClock/formatHms/formatDiff的非finite输入无生产caller证据、timer仍依赖调用方提供有限performance.now——保持pending,不凭纯函数猜测扩张。
 
 ## 结论
 
-原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+恢复后定向4 files/15 tests passed、相邻caller 6 files/43 tests passed、typecheck 0诊断,均0 failure/skip/stderr;本小批未运行coverage/official ratchet/protected fast/全仓check(按用户成本规则留到大模块收口)。time-format.ts与三份直接测试从结构性pending推进到『已逐文件读取、发现并修复一项输入边界、仍需整卡复核』;不把3j整卡或历史done直接升为accept。
 
 ## 整改与复核
 
-本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
-
+未重跑;未触碰高风险边界,未修改SDLPal/schema/save/生成物/共享配置/公共游戏接口。候选待Owner非作者接收。
 
 ## 原文保全
 

@@ -2,48 +2,53 @@
 
 Status: done
 Owner: GLM(治理候选作者;原文作者/状态见保全块)
-Last reviewed: 2026-10-30
+Last reviewed: 2026-10-31
 Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「CODE-QUALITY-80 — game Dev Panel 换队生命周期」的任务归属与历史边界。原目标见原文(摘录:> 2026-10-20本次正式验收：本卡既定合同已由Codex接受并收口，见pre94收口裁定。当前done只覆盖下述原卡范围，不把共享大文件或其它卡自动关闭；旧pending/review/失败按);本页治理不重开已终态任务。
+Dev Panel换队生命周期：真实复现战斗中点Role1离队后party=[0]而battlePlayers仍[0,1]、寿葫芦仍装备但毒表为空——战中队伍编辑没有重建战斗状态。用户2026-10-13裁决：战斗中B面板仍可打开查看和调试状态，但头像入队/离队控件不可用；探索模式继续允许队伍编辑。
 
 ## 范围
 
-原卡含章节[CODE-QUALITY-80 — game Dev Panel 换队生命周期、2026-10-20 当前验收、范围与停止线、前提真值门、实际复现与候选取舍、验收设计与剩余风险],共2个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+第一阶段game网页Dev Panel「队伍」页（非Reforge编辑器）；只核队伍头像入队/离队handler与装备刷新；不接管任何GLM实现文件。探索切队沿正式SDLPal 0x75顺序先清rgPoisonStatus再updateAllEquipments。
 
 ## 前提与证据
 
-固定main源9626B(SHA 91c85730e8d5);原卡前提按原时点保留。当前存活入口:[completion.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/completion.json) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/README.md)。
+primary：script.c:2164-2197正式0x75换队先清毒再PAL_UpdateEquipments；SDLPal无本项目DOM Dev Panel，不能以SDL源码自动决定战中按钮策略。反证勘误：applyFixture→startBattle:285→updateAllEquipments已重算装备（此前CODE53'fixture未重算装备'猜测被反证，不要增加重复刷新）。原6个链接处置见作者review，存活入口逐字保留：
+
+当前存活入口:[completion.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/completion.json) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/README.md)。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+实现：dev-panel.ts队伍卡按mode禁止战斗中非队首角色入队/离队+标题'战斗中不可编辑队伍'+点击handler仍做mode guard防面板打开后mode变化绕过；新增dev-panel-party-lifecycle.test.ts走真实applyFixture→startBattle和DOM队伍卡（战斗禁编、面板打开后再进战斗的旧卡guard、探索离队/入队后寿葫芦563/564伪毒按新队伍槽重建）。行为反例：未实现候选战斗用例disabled断言失败、探索生命周期用例rgPoisonStatus['0_0']断言失败→实现后8tests；两个post-implementation mutation control及源/测试hash在implementation-controls.json。批次收口：4文件45tests、全仓check exit0（lint全0）、官方coverage:ratchet exit0（game 88.05%/79.31%/89.63%，基线只升不降）、protected fast以origin/main为基线exit0。为全仓硬性零诊断修两测试宿主边界（reforge location seam/editor preventDefault策略）不改生产。
 
 ## 状态与交接
 
-done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+Status保持done（2026-10-20原卡合同正式收口）：用户裁决、行为修复和本批门禁完成；剩余picker生命周期（IntersectionObserver/异步缩略图/全局listener disposer）由CODE81单独承接、Dev大文件整体组织归CODE58及通用逐文件复审。当前没有宿主卸载caller，不强造新的公共disposer。
 
 ## 历史范围
 
-原卡属固定main时点;CODE-QUALITY-80 — game Dev Panel 换队生命周期的原始范围与日期在保全块内逐字保留。
+2026-10-13账本3268/338closed/10review/2920pending；CODE80从build进入review。2026-10-20收口：F1嵌套字面量补强（浅克隆旧绿新单红）、fake-mode重复例由真实四例承接、五份Dev测试43项绿、最新集中门零诊断；产品及测试源码相对ea9c3cc02无变化。
 
 ## 原始结论
 
-原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+原卡结论：B调试面板战斗换队禁用与探索换队装备重建两项合同核验成立；两项精确反控适用。
 
 ## 当时证据
 
-原文2个链接与当时回执属原时点证据;本页不重跑、不复授。
+docs/ops/evidence/CODE-QUALITY-80/（typed临时诊断源/implementation-controls/gate-*）与QUALITY-PRE94-RETROSPECTIVE-1/completion.json。原链接与当时回执属原时点证据。
 
 ## 当前有效性
 
-仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+历史任务卡（done有限范围）；picker生命周期与Dev大文件组织不在本卡。
 
 ## 继任文档
 
-接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[completion.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/completion.json) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/README.md)。
+CODE-QUALITY-81-dev-panel-picker-lifecycle（picker生命周期）与CODE58（大文件组织）承接。原存活入口逐字保留：
+
+关联:[completion.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/completion.json) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/README.md)。
+
 
 
 ## 原文保全

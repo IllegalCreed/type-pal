@@ -2,48 +2,52 @@
 
 Status: done
 Owner: GLM(治理候选作者;原文作者/状态见保全块)
-Last reviewed: 2026-10-30
+Last reviewed: 2026-10-31
 Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「CODE-QUALITY-94 — menu 独立阶段集成窗口」的任务归属与历史边界。原目标见原文(摘录:从最新 `origin/main=cddf65557e60619e40e38168b276cf01981a106a` 建独立分支 `codex/code-quality-menu-integration`，有限接收 CODE83–89/91);本页治理不重开已终态任务。
+有限接收 CODE83–89/91 的 30 条 menu 状态/测试记录及 CODE92 更正证据，独立主线候选通过全部质量门后做 menu 阶段集成；pre94 合并后由用户明确继续 94–102 复审（复用已有证据、只补质量缺口与必要返工、一条治理分支、多卡完成后集中全仓与 coverage、零诊断后 Codex 自行提交推送 PR 合并）。
 
 ## 范围
 
-原卡含章节[CODE-QUALITY-94 — menu 独立阶段集成窗口、2026-10-25 本地统一门收口（当前）、批准后收尾窗口（2026-10-25，接续b8）、2026-10-25 94–102复审与必要返工（当前准入）、C02诊断治理最新窗口、2026-10-15 最终模块窗口（当前）],共6个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+原 30 路径白名单（source-manifest）扩展为 54 主范围：20 个新关闭、34 个既有关闭按版本桥接保留、12 个相邻路径只验实际 delta。不导入 CODE53/57/79/80/81/90 实现、毒键、状态页或其 coverage baseline；不接收 reforge/editor/content 生产修改；不扩 103+ 或重开 pre94。隔离树 quality-94-102，唯一分支 codex/code-quality-94-102，基点 8ebcb70f0。
 
 ## 前提与证据
 
-固定main源21957B(SHA 246c51a75ab9);原卡前提按原时点保留。当前存活入口:[README.md](../evidence/CODE-QUALITY-94/approved-closeout/README.md) [codex-final-window.md](../evidence/CODE-QUALITY-94/codex-final-window.md) [codex-r2-review.md](../evidence/CODE-QUALITY-94/codex-r2-review.md) [codex-r3-review.md](../evidence/CODE-QUALITY-94/codex-r3-review.md) [codex-takeover.md](../evidence/CODE-QUALITY-94/codex-takeover.md) [window-review.md](../evidence/QUALITY-EDITOR-DIAGNOSTICS-2/window-review.md)。
+原卡以 SDLPal uigame/itemmenu/magicmenu/ui/play/script 锚点与逐文件记录为 primary；源字节相等不能证明旧审阅充分——已发现三份旧测试非法/不完整 fixture 并另开 CODE95 修正撤回旧信用。原6个链接处置见作者review，存活入口逐字保留：
+
+当前存活入口:[README.md](../evidence/CODE-QUALITY-94/approved-closeout/README.md) [codex-final-window.md](../evidence/CODE-QUALITY-94/codex-final-window.md) [codex-r2-review.md](../evidence/CODE-QUALITY-94/codex-r2-review.md) [codex-r3-review.md](../evidence/CODE-QUALITY-94/codex-r3-review.md) [codex-takeover.md](../evidence/CODE-QUALITY-94/codex-takeover.md) [window-review.md](../evidence/QUALITY-EDITOR-DIAGNOSTICS-2/window-review.md)。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+2026-10-25 本地统一门收口（done 仅指本卡有限代码/质量门收口）：全仓 20605 产品+714 工具测试、七包 TC、lint 6111 文件 0/0/0；唯一 official 20168 例/807 源完成，原四条比率拒绝保留、仅三文件结构删除精确重计，同报告 ratchet/protected 判据 exit 0；五项精确退役全部匹配；收尾 docs/lint/ledger/diff 原件提交前补齐。本地冻结时尚未推送/PR/合并，实际远端发布由关联 Git/PR 与 main CI 记录，不从本节预告继承。
 
 ## 状态与交接
 
-done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+Status 保持 done（2026-10-25 收口）。历史交接链保留：GLM 逐文件复核（30/30、manifest 30/30 字节一致、CODE95 三份裁定合法）→ Codex R2/R3 counter（统一门 3489/3527/3499 条 React act 警告+各2条 jsdom 导航诊断、inventory-menu 过时注释、flags 强转与「零强转」报告矛盾、R4 单体 caller 前提不成立）→ GLM R1–R4/C5 返工（act 警告归属量化为 editor 域139个.tsx、注释更正、typed 化、manifest 布尔重算）→ Codex 接手修复（2026-10-15 用户授权）→ 2026-10-15 最终模块窗口 bb94ad8e2 三门 exit0 但仍有 3620/3610/3523 条未包 act 诊断、本卡保持 rework → C02 诊断治理（G04 十例 404→0 后九例0诊断）→ 2026-10-25 两项用户裁决落实后收口。E-1 死参（equip-menu.confirmEquipItem）、E-2 工厂统一、E-3 flags 强转清理为发现登记不在本窗口。
 
 ## 历史范围
 
-原卡属固定main时点;CODE-QUALITY-94 — menu 独立阶段集成窗口的原始范围与日期在保全块内逐字保留。
+各日期「当前/待裁决/rework」属其明示候选：3283/229closed/44review/3010pending（R3 时点）、3267/229/35/3003（GLM 复核时点）、3452/511/63/2878（接手时点）等保留为历史。原 GAME-MENU-HELPER-API-1 与 GAME-SAVE-INPUT-DOMAIN-1 两停止线曾集中请求裁决，未收到前不删出口、不收紧槽号行为；已有批准（事务 complete、标题取消、V1 类型分离）不重复请示。
 
 ## 原始结论
 
-原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+原卡结论：done 仅指本卡有限代码/质量门收口；旧3y分支已在 PR22 合并、删除并可恢复归档；重点余项（97 test-only 工厂、98 角色索引、99 路由职责/死参/坏注释、100 排重漏迁、101 输入域/IDB、102 工具 caller）由 94–102 系列后续卡承接。
 
 ## 当时证据
 
-原文6个链接与当时回执属原时点证据;本页不重跑、不复授。
+docs/ops/evidence/CODE-QUALITY-94/（approved-closeout、codex-final-window、codex-r2/r3-review、codex-takeover、glm-review、source-manifest）与 QUALITY-EDITOR-DIAGNOSTICS-2/window-review。原链接与当时回执属原时点证据，本页不重跑、不复授。
 
 ## 当前有效性
 
-仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+仅历史任务归属与本卡收口结论有效；后续 97–102 各卡与统一发布以各自回执为准，不凭本卡 done 认定当前实现。
 
 ## 继任文档
 
-接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[README.md](../evidence/CODE-QUALITY-94/approved-closeout/README.md) [codex-final-window.md](../evidence/CODE-QUALITY-94/codex-final-window.md) [codex-r2-review.md](../evidence/CODE-QUALITY-94/codex-r2-review.md) [codex-r3-review.md](../evidence/CODE-QUALITY-94/codex-r3-review.md) [codex-takeover.md](../evidence/CODE-QUALITY-94/codex-takeover.md) [window-review.md](../evidence/QUALITY-EDITOR-DIAGNOSTICS-2/window-review.md)。
+94–102 后续卡（CODE-QUALITY-97/98/99/100/101/102 等）与 QUALITY-REVIEW-52-CLOSEOUT-1（52 固定收口阶段）承接。原存活入口逐字保留：
+
+关联:[README.md](../evidence/CODE-QUALITY-94/approved-closeout/README.md) [codex-final-window.md](../evidence/CODE-QUALITY-94/codex-final-window.md) [codex-r2-review.md](../evidence/CODE-QUALITY-94/codex-r2-review.md) [codex-r3-review.md](../evidence/CODE-QUALITY-94/codex-r3-review.md) [codex-takeover.md](../evidence/CODE-QUALITY-94/codex-takeover.md) [window-review.md](../evidence/QUALITY-EDITOR-DIAGNOSTICS-2/window-review.md)。
 
 
 ## 原文保全

@@ -7,35 +7,35 @@ Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「CODE-QUALITY-56 — game minimap thumbnail lifecycle」的任务归属与历史边界。原目标见原文(摘录:逐文件核验小地图实现及两份专属测试，确认世界像素到 640px thumbnail 的变换、NPC/宝物分类、缩放/显隐状态、底图缓存与异步 Image 生命周期对齐真实 caller；先以失败反例验证底图 URL resolve 后 `b);本页治理不重开已终态任务。
+原卡目标:逐文件核验小地图三文件,先以失败反例验证底图 URL resolve 后 `baseLoading` 提前释放会否重复加载,再最小修复——把 loading ownership 从 `getMapThumbnail` promise 迁移到 `Image.onload/onerror` 释放。SDLPal 无同形态 minimap UI,primary 为 N/A,坐标真值来自当前 bootstrap/draw-tilemap 的 32×16 tile、camera(-16,-16) 与 framebuffer 世界像素合同。
 
 ## 范围
 
-原卡含章节[CODE-QUALITY-56 — game minimap thumbnail lifecycle、目标、范围、前提真值门、上下文锚点与风险、验证],共1个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+`minimap.ts`、`minimap.test.ts`、`minimap.glm-phase1-leaves.test.ts`;只读相邻 caller:bootstrap `renderMapThumbnail`/`setupToolsPanel` 注入、tools-panel/dev-panel 缩略图 caller、scene-system、draw-tilemap。
 
 ## 前提与证据
 
-固定main源8333B(SHA 3d760c42ad5c);原卡前提按原时点保留。当前存活入口:[README.md](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/53-wave-gates/README.md)。
+失败反例先行:延迟 `Image.onload` 后第二次 draw 观察到 `getMapThumbnail` 被调用 2 次（Vitest 退出 1）,证明 URL promise 与 Image decode ownership 被错误分离。修复后同一 map 在图片完成/失败前保持单一 loading 事务,成功缓存、失败终止,空 URL/promise reject fail-closed。已知边界:bootstrap `renderMapThumbnail` 只画两层 tilemap 不调 `repairTilemapSeams`,该差异留独立审计（CODE-QUALITY-57 处理）;event-kind cache 以 `gs.npcs` 数组引用判失效。2026-10-18 波次门勘误:53-wave-gates 统一回执 [README.md](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/53-wave-gates/README.md) 已撤回收口信用,本页原结果按各自证据保留。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+修复批:定向 20 tests（含 delayed onload 与 decode failure 反控）+相邻 tools/dev 68、game 全包 3521、全仓 check、ratchet、protected fast、lint-zero、docs/content、ledger 全部通过,账本 3266/284 closed。2026-10-18 Codex 独立复审 partial:临时提前释放 `baseLoading` 的变异使专属 GLM 测试 1 failed/5 passed,恢复后无 minimap 变更;seam repair 视觉差异继续由 CODE-QUALITY-57 独立处理。
 
 ## 状态与交接
 
-done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+done 保持原历史语义（加载 ownership 修复已归档）;2026-10-18 复审为 partial,不是整卡 accept。无产品形态、地图数据、碰撞、存档或 `MinimapController` 公共接口变更。
 
 ## 历史范围
 
-原卡属固定main时点;CODE-QUALITY-56 — game minimap thumbnail lifecycle的原始范围与日期在保全块内逐字保留。
+原卡属 2026-10-13 修复时点;原始范围与历史提示词在保全块内逐字保留。
 
 ## 原始结论
 
-原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+原卡结论按 Status(done) 原样:rAF 重绘、场景 tab/widget、map/outW dataURL 缓存和 picker 异步生命周期无新直接缺陷。治理不撤销/不恢复旧信用。
 
 ## 当时证据
 
-原文1个链接与当时回执属原时点证据;本页不重跑、不复授。
+当时回执(失败反例、修复 diff、定向/相邻计数)属原时点证据;53-wave-gates 撤回部分不再作通过依据。本页不重跑、不复授。
 
 ## 当前有效性
 
@@ -43,8 +43,7 @@ done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者
 
 ## 继任文档
 
-接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[README.md](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/53-wave-gates/README.md)。
-
+seam repair 差异归 CODE-QUALITY-57;tools-panel caller 侧后续由 CODE-QUALITY-58 系列收口;当前任务导航以看板为准。
 
 ## 原文保全
 

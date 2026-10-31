@@ -2,29 +2,28 @@
 
 Status: historical
 Owner: GLM(治理候选作者;原文作者/状态见保全块)
-Last reviewed: 2026-10-30
+Last reviewed: 2026-10-31
 Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「CODE3i 对话资源 / 预缓存 / 音量 / 商标复审切片」的主题按原文时点保留(摘录:2026-10-23 当前补八维及测试质量：UI／客户端／商标窗口。复用本页与72已有有效证据，补生命周期隔离、真实消息/渲染oracle和三份有效反控；源码仅注释与私有同合同fo)。
+本片审计CODE-QUALITY-3i五白名单文件(dialog-assets/precache-client/precache-ui/audio-volume/trademark-fallback)的实现与直接测试质量。核心发现:precache-ui公共进度入口不拒绝NaN——setNecessaryProgress(NaN)把单调状态写成NaN、setFullProgress(NaN)把文案写成NaN/MB且合法进度此后无法恢复;先加宿主反例确认旧实现失败(『加载必要资源 NaN%』『已缓存 NaN/0MB』),再在UI边界统一拒绝非有限/负字节、超总量字节做上限归一,合法零总量保留0/0MB语义,正常进度/阶段转移/widget生命周期不变。
 
 ## 范围与证据
 
-原报告含章节[CODE3i 对话资源 / 预缓存 / 音量 / 商标复审切片、逐文件范围与真实边界、发现、修复与保留、验证、2026-10-18 当前counter、2026-10-18 用户批准后的窄修]、5个链接;固定main源5061B(SHA 27e349b102df)。当前存活入口:[QUALITY-BOOT-FAILURE-PROGRESS-1.md](../../../tasks/QUALITY-BOOT-FAILURE-PROGRESS-1.md) [README.md](../72-boot-loading/README.md) [README.md](../72-boot-loading/approved-fix/README.md) [README.md](quality-closeout/README.md) [read-boundaries.json](read-boundaries.json)。
+基点f2ebb196f,分支codex/code-quality-3y(0 behind/190 ahead)。完整读取五实现+直接测试+bootstrap-resources及其资源屏障测试+bootstrap-audio;调用链按实际使用读取(main.ts SW/可玩门、bootstrap.ts装配与三路音量、present.ts dialog消费、tools-panel音量、public/sw.js:112-151进度消息),清单SHA见[read-boundaries.json](read-boundaries.json)。primary=reference/sdlpal/main.c:197-203 DOS商标顺序+extracted manifest/shared解码器+sw.js协议。2026-10-23后续收口见[README.md](quality-closeout/README.md)。
 
 ## 发现
 
-原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+dialog-assets的portrait/icon失败隔离、真实PNG尺寸/opaque、shared RLE入口与空map降级与caller一致;precache-client的onPlayable后启动、ready race的start缓冲、pause/resume消息与SW端协议一致,模块级worker生命周期无生产caller证据保留review;audio-volume NaN到0修复与三路独立音量/共享mute一致;trademark-fallback按chunk 6、25fps、1000ms延迟、600ms淡出,skipKeys只显式注入。修复后定向12文件/79 tests passed、game typecheck passed。后续2026-10-18 counter:当前[README.md](../72-boot-loading/README.md)证真实boot/UI组合失败文案被迟到进度覆盖,precache-ui整文件旧已验证精确撤回rework,生产未修按[QUALITY-BOOT-FAILURE-PROGRESS-1.md](../../../tasks/QUALITY-BOOT-FAILURE-PROGRESS-1.md)继续;窄修见[README.md](../72-boot-loading/approved-fix/README.md):三生产文件按批准修复失败进度与计数ownership,boot-loading.ts新增闭合,不把整卡升格accept。
 
 ## 结论
 
-原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+本切片整卡仍partial,不把切片当整项accept;按用户成本约束未运行coverage/official ratchet/protected fast/全仓check(留到大模块收口)。修复后门均定向绿;不把包级绿灯当全仓完成,本批不改94-102优先级。
 
 ## 整改与复核
 
-本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
-
+未重跑任何命令/测试;历史时点记录不覆盖后续回执;『阶段/失败生命周期保持』不得扩张成当前失败终态accept(已被72反例与窄修更新)。候选待Owner非作者接收。
 
 ## 原文保全
 

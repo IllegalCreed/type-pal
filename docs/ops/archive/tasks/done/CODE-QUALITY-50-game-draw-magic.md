@@ -7,44 +7,43 @@ Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「CODE-QUALITY-50 — game draw magic 窄批」的任务归属与历史边界。原目标见原文(摘录:逐文件核验大世界仙术菜单绘制实现和三份专属测试，确认施法人选择、仙术网格、WIN95 MP/说明布局、目标箭头、角色信息框、运行时数值、缺资源边界与 framebuffer ownership 对齐 SDLPal；只在直接证据支持时修复，不);本页治理不重开已终态任务。
+原卡目标:逐文件核验大世界仙术菜单绘制四文件（`draw-magic.ts` 与三份测试）,确认施法人选择、仙术网格、WIN95 MP/说明布局、目标箭头、角色信息框、运行时数值与缺资源边界对齐 SDLPal `magicmenu.c:36-484`、`uigame.c:653-875`、`uibattle.c:31-269`;绘制层只投影状态与运行时资源,不拥有输入/脚本/MP 扣除。
 
 ## 范围
 
-原卡含章节[CODE-QUALITY-50 — game draw magic 窄批、目标、范围、前提真值门、上下文锚点、验证],共1个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+四文件;只读相邻 draw-menu/present 注入、in-game-magic-menu 状态生命周期、menu-driver、P06 caller/oracle。菜单观感留集中 E2E。
 
 ## 前提与证据
 
-固定main源6397B(SHA aefcfd2eec8a);原卡前提按原时点保留。当前存活入口:[GAME-MAGIC-PLAYERINFO-STATUS-1.md](../../../tasks/GAME-MAGIC-PLAYERINFO-STATUS-1.md)。
+disabled 由 MP/死亡/usable outside battle 构造;P06 覆盖合法施法人/网格/目标/MP/翻页,GLM leaves 覆盖死亡/禁用/空表/缺 catalog,pixels 覆盖坐标/缺帧/运行时属性/说明多行/透明孔。历史批:定向 4 files/25 tests、game 311/3519、全仓门通过,账本 3266/269 closed。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+历史 accept;2026-10-18 Codex 复审发现高风险用户可见差异:SDLPal `PAL_PlayerInfoBox` 在仙术页复用的底部信息框中绘制中毒头像染色和乱/定/眠/封状态字,当前 `draw-magic.ts` 明确省略。已开 [GAME-MAGIC-PLAYERINFO-STATUS-1.md](../../../tasks/GAME-MAGIC-PLAYERINFO-STATUS-1.md) 等待用户裁决;本批未改实现或公共输入,draw-magic.ts 登记 review,三份测试按自身合同登记已验证。50 当前复审为 partial,不标 accept。
 
 ## 状态与交接
 
-done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+done 保持原历史语义;2026-10-18 起 draw-magic.ts 实际处于 review,状态字/中毒染色补齐与否待用户裁决,不由本治理页改写终态。
 
 ## 历史范围
 
-原卡属固定main时点;CODE-QUALITY-50 — game draw magic 窄批的原始范围与日期在保全块内逐字保留。
+原卡属 2026-10-12 窄批时点;原始记录与历史提示词在保全块内逐字保留。
 
 ## 原始结论
 
-原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+原卡结论按 Status(done) 原样:未发现直接缺陷。治理不撤销/不恢复旧信用。
 
 ## 当时证据
 
-原文1个链接与当时回执属原时点证据;本页不重跑、不复授。
+当时回执（25 定向、game 全包、全仓门）属原时点证据;本页不重跑、不复授。
 
 ## 当前有效性
 
-仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+仅历史任务归属有效;draw-magic.ts 当前以 GAME-MAGIC-PLAYERINFO-STATUS-1 裁决与后续复审为准。
 
 ## 继任文档
 
-接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[GAME-MAGIC-PLAYERINFO-STATUS-1.md](../../../tasks/GAME-MAGIC-PLAYERINFO-STATUS-1.md)。
-
+GAME-MAGIC-PLAYERINFO-STATUS-1 为未决高风险卡;当前任务导航以看板为准。
 
 ## 原文保全
 

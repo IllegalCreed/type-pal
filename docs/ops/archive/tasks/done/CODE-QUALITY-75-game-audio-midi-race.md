@@ -7,44 +7,43 @@ Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「CODE-QUALITY-75 — game audio MIDI async track race」的任务归属与历史边界。原目标见原文(摘录:确认 `createSpessaSynthBackend` 在多个 MIDI fetch 并发、stop 或 autoplay resume 期间是否始终只允许最新曲目发声；若确认 stale response 可抢播，另行写失败反例、修复);本页治理不重开已终态任务。
+原卡目标:确认 `createSpessaSynthBackend` 在多个 MIDI fetch 并发、stop 或 autoplay resume 期间是否始终只允许最新曲目发声;确认 stale response 可抢播后写失败反例并修复——加入 `playGeneration` latest-wins 守卫,覆盖 resume/fetch/arrayBuffer/stop 各段。SDLPal primary:`midi_tsf.c:137-168` 的 `TSF_Play` 先关闭当前消息再同步加载新曲,相同曲号直接返回。
 
 ## 范围
 
-原卡含章节[CODE-QUALITY-75 — game audio MIDI async track race、目标、范围、前提真值门、一句话行为 / 工程前提、真值矩阵],共3个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+`audio-midi.ts`、`audio-midi.boundaries.test.ts` 及其 `audio.ts` MusicBackend caller、bootstrap/dev-panel 曲目切换 caller。范围外:soundfont 格式、资源生成、公共 AudioManager API、产品音量/混响取舍。
 
 ## 前提与证据
 
-固定main源7876B(SHA fbc440488a32);原卡前提按原时点保留。当前存活入口:[README.md](../../../evidence/CODE-QUALITY-3Y-CLOSEOUT-1/midi-review/README.md) [shell-lifecycle-local.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/shell-lifecycle-local.json) [CODE-QUALITY-3Y-CLOSEOUT-1.md](../../../tasks/CODE-QUALITY-3Y-CLOSEOUT-1.md)。
+失败反例:mock fetch 逆序完成（`[2,1]`）时旧实现旧曲目抢播;修复后只播放 `[2]`,stop 在途响应不播放。最强替代解释"SpessaSynth loadNewSongList 内部原子丢弃旧请求"被逆序反控反证。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+原批:定向 29、game 全包 3528、全仓 check、coverage ratchet（只升不降更新 8 项/2 范围项）、protected fast、lint-zero 3995 files 0/0/0、docs/content、ledger 全部通过。2026-10-16 统一 3y 复审追加:当前 main MIDI 已被完整发布实现替代,原"当前二阶段"行实指第一阶段历史实现;统一候选旧测试 1 绿 1 红（FakeSequencer 缺新异步事件协议）,保留产品/主线 12 例并删除旧 boundaries 测试文件;定向 12、相邻 44、stop 代际失效反控 12 绿→11 绿 1 指定业务红→恢复 12 绿;当时 ledger 仍 review。证据见 [README.md](../../../evidence/CODE-QUALITY-3Y-CLOSEOUT-1/midi-review/README.md),归属统一治理卡 [CODE-QUALITY-3Y-CLOSEOUT-1.md](../../../tasks/CODE-QUALITY-3Y-CLOSEOUT-1.md)。2026-10-21 shell 生命周期五卡收口:现版真实 Chrome/UI 按钮 1→2、快速 1→2、停止/重播与实际 Sequencer 文件名/循环/暂停/AudioContext 匹配,零控制台诊断;不主张听感或强制逆序网络实跑。逐文件 A–H、迁移与集中门见 [shell-lifecycle-local.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/shell-lifecycle-local.json)。
 
 ## 状态与交接
 
-done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+done 保持原历史语义（generation 修复已归档）;后续复审以 midi-review 与 shell-lifecycle 原件为准。不回退本卡 generation 取消修复。
 
 ## 历史范围
 
-原卡属固定main时点;CODE-QUALITY-75 — game audio MIDI async track race的原始范围与日期在保全块内逐字保留。
+原卡属 2026-10-13 修复时点;原始真值矩阵与历史提示词在保全块内逐字保留。
 
 ## 原始结论
 
-原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+原卡结论按 Status(done) 原样:generation checks 覆盖 resume/fetch/arrayBuffer/stop,未改变公共 API 或用户曲目选择;初始化 ready 拒绝与运行错误回调的旧注释在 2026-10-21 已纠正。治理不撤销/不恢复旧信用。
 
 ## 当时证据
 
-原文3个链接与当时回执属原时点证据;本页不重跑、不复授。
+当时各轮回执（定向/全包计数、退役映射、真实 Chrome 验证）按各自动时点保留;本页不重跑、不复授。
 
 ## 当前有效性
 
-仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+仅历史任务归属有效;原实现已被发布实现替代,本卡历史结论不能用作二阶段设计依据。
 
 ## 继任文档
 
-接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[README.md](../../../evidence/CODE-QUALITY-3Y-CLOSEOUT-1/midi-review/README.md) [shell-lifecycle-local.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/shell-lifecycle-local.json) [CODE-QUALITY-3Y-CLOSEOUT-1.md](../../../tasks/CODE-QUALITY-3Y-CLOSEOUT-1.md)。
-
+CODE-QUALITY-3Y-CLOSEOUT-1 统一治理卡与 midi-review 证据目录、shell-lifecycle-local.json 为继任载体;当前任务导航以看板为准。
 
 ## 原文保全
 

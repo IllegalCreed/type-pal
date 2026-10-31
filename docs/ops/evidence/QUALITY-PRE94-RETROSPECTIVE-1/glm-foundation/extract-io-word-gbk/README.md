@@ -7,24 +7,23 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「extract io/word + utils/gbk 复审（glm-foundation 模块 3 批 2）」的主题按原文时点保留(摘录:> Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见当前返工记录。 范围：`packages/pal-ex)。
+本页审计主题:pal-extract 的 io/word.ts(109 行)、utils/gbk.ts(98 行)复审;基点 53db76bbbb5729ba8bc6525bd7ad2ad4bb425c02 线(叠加批 1 之上)。原文 Status: review(候选待 Codex 据证验收)。Codex 当前裁定(2026-10-19):本页保留作者阶段证据,未获整包/全维收口验收;可复用范围与逐文件依据见 [codex-stage2-rework.json](../codex-stage2-rework.json)。
 
 ## 范围与证据
 
-原报告含章节[extract io/word + utils/gbk 复审（glm-foundation 模块 3 批 2）、短回执、八维结论、登记（不动）、复验入口（只读）、Codex当前勘误与接管（2026-10-19）]、3个链接;固定main源3780B(SHA 5e665505469b)。当前存活入口:[codex-stage2-rework.json](../codex-stage2-rework.json) [codex-stage3-word.json](../codex-stage3-word.json) [body-invariance.json](body-invariance.json)。
+改动 1 处仅注释。验证证据:body-invariance [body-invariance.json](body-invariance.json) 两文件一致;定向 4 文件 14/14 断言(word/word.boundaries/gbk+msg 相邻)——但回执 success=false:word.test.ts 套件因缺 WORD.DAT 未加载(0 断言);scoped biome 0/0/0;diff --check 干净。未跑全仓门。
 
 ## 发现
 
-原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+整改:word.ts 模块头『(1998 Win9x 版)(WIN95)』重复括注(编辑残留)改为『(1998 Win9x 版,即 sdlpal fIsWIN95 分支)』;gbk.ts 零改动。八维要点:word.ts 段偏移/数量全部带实测锚(565×10B=5650B),flat[i]↔PAL_GetWord(i) 直对,尾部空格剥除+stripTrailingOne(L28,text.c:785-786)语义正确;gbk.ts 0x00 截断、PUA 快速路径、整条 BIG5 精确匹配、未知 PUA→空白(对齐 sdlpal 缺字行为)——46 处残留逐字核验+用户逐条确认的既有证据有效。登记(不动):word.ts readBlock 短输入静默空串(短于 551×10B 输入越界段返回 ''而非报错,与 flat 循环 break 不一致;真实 WORD.DAT 固定 5650B 无触发域,候选 fail-loud 归 O-2 族);Words.scenes 字段名误导(内容是『毒素/特殊文字』[551..564]与场景无关,改名属公共类型变化待 Codex)。
 
 ## 结论
 
-原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+注释整改批(1 处);断言级 14/14 绿,但套件级 word.test.ts 未加载。Codex 2026-10-19 勘误与接管:旧『14/14、0 fail』仅指已收集断言,原『0 fail』与 flat 原盘执行信用撤回;Codex 已只读连接原盘并补跑 word 8/8(stdout/stderr/native/input/source 身份见返工记录);原失败 JSON 保持。
 
 ## 整改与复核
 
-本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
-
+整改即上述 1 处注释。当前续片以 [codex-stage3-word.json](../codex-stage3-word.json) 为准:原漏跑 word 已补,之后实际结构/测试整改另存原件;20 独立合同、五文件 review,不将原 14/14 或包级摘要当逐文件验收。复验入口(原页给出,此处概述):git log 53db76bbb..HEAD 对两文件;prove-body-invariance.mjs --base 53db76bb…;定向跑 word/word.boundaries/gbk 三测试。失效条件:两文件实现变化→重证;WORD.DAT 实测布局变化→段表复核。本轮治理未重跑任何命令;候选待 Owner 接收。
 
 ## 原文保全
 

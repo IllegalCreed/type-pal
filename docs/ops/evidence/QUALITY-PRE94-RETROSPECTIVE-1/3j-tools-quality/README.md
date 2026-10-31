@@ -2,29 +2,28 @@
 
 Status: historical
 Owner: GLM(治理候选作者;原文作者/状态见保全块)
-Last reviewed: 2026-10-30
+Last reviewed: 2026-10-31
 Template: evidence-receipt-v1 / 1.0.0
 
 ## 证据身份
 
-本页是「CODE3j tools／speedrun 质量窗口」的治理候选页;证据原件即下方逐字节保全的固定main源(6238B,SHA 4a6311b574a6)。
+本页是「CODE3j tools/speedrun 质量窗口」的治理候选页;证据原件即下方逐字节保全的固定main源(6238B)。2026-10-23 Codex单Owner,基点1880db84a;原卡七个生产文件及必要专测,不扩展94-102、不改节点/坐标/PB/默认时间/游戏机制或公共接口。当前统一门与文件裁定以[review.json](review.json)的integration为准,历史定向通过不代替当前全仓门。
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原2个链接处置见作者review的linkDisposition。当前存活入口:[receipts.json.gz](receipts.json.gz) [review.json](review.json)。
+来源为固定Git载体,非本次运行;原2链接处置见作者review的linkDisposition。当前存活入口:[review.json](review.json) [receipts.json.gz](receipts.json.gz)。完整字节原件是JSON映射gzip,每项含bytes/sha256/base64,可恢复原始stdout/stderr/执行command/cwd/exit/signal与Vitest native JSON;失败反控与失败网络读取均保留不计成功门。复验:node …/3j-tools-quality/verify.mjs默认只读,指纹变化返回STALE不能继承结论,MATCH表示证据身份一致而非自动证明设计合格。
 
 ## 断言与业务 oracle
 
-文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+七生产源+两改动专测+六同版专测逐文件A-H:toast生产不变,主文件4例加leaf 2例归并为4例,删除实际重复测试文件(toast.glm-phase1-leaves,2例,合同去向toast.test.ts四例)不改退役豁免/scope判据;map-names只修过时中文回退注释,tools-panel/dev-panel caller取代旧minimap直调说法,三例保持;time-format仅移除私有pad死宽度参数、四公开签名不变;countdown仅补rAF同文案guard说明;checkpoints只收窄未冻结PalTimer行号与实跑承诺,五坐标点、学功夫BGM86、锁妖塔入口164/165/147缺运行校准——旧关闭撤回review,3j保持partial。两项新判别力各有旧绿/新单红/恢复绿原件:toast淡出opacity改1、map英文未知名改中文,红例均指定业务AssertionError。display-scale/FPS复用移动端逐文件证据;countdown/time-format/checkpoints专测复用CODE67-69正式记录及当前哈希。
 
 ## 结果
 
-原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+本窗定向8文件/28例、相邻15文件/92例,stderr均空;统一门:完整env VITEST_MAX_WORKERS=1 pnpm check=20599包测试+692工具测试、七包类型与lint全过、error/warning/info与测试stderr均0——原始两次失败不改写(首轮独占Chrome 45s超时、次轮默认并发五个CLI子进程超时),未为恢复改超时/规则/断言/实现,最后全量原命令单worker通过。官方采集一次20170例/774源(原ratchet因一项结构计数拒绝,166字节拒绝stderr原样保留不记首跑通过;-1/-1默认分支精确结构协调后同报告ratchet/strict/protected零回退;与前窗业务日志逐块核对仅author baseline elapsedMs自然变化)。三文件新关闭(time-format.ts、toast.test.ts、map-names.test.ts),checkpoints.ts撤回review,11个同版接受刷新;3403tracked/407closed/104review/2892pending,83卡64accept/19partial/0pending。
 
 ## 限制与复核
 
-未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
-
+未重跑;checkpoints五坐标/BGM86/三入口仍待真实运行校准,不把包绿当路线完成;无游戏路线、产品视觉或剧情E2E实跑;统一工具门含真实Chrome回收合同。候选待Owner非作者接收。
 
 ## 原文保全
 

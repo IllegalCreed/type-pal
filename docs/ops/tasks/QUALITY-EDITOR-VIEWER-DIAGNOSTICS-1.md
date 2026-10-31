@@ -7,24 +7,23 @@ Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1 — C03 查看器宿主、回调与迟到读取」的任务归属与历史边界。原目标见原文(摘录:Reviewer: Codex（作者自验/独立证据重构分记） Capability: sprite viewer test fidelity Visual Verification Timing: N);本页治理不重开已终态任务。
+C03查看器（SpriteResourceViewer）测试宿主保真：selectedFrame是受控prop，effect只跟资产/reader/稳定callback；upload-harness的inline onSelectedFrameChange每次渲染变身份引起额外重读。目标是外部受控更新不额外callback、真实cache/palette call-through等待、late/unmount/revision实际完成后才断言，不静音、不吞console。
 
 ## 范围
 
-原卡含章节[QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1 — C03 查看器宿主、回调与迟到读取、边界与真值、验证与交接、作者检查点与独立反控复核、C09续片准入：K02真实帧编辑工作流],共2个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+g03/g04两测试、upload-harness.tsx与upload-ui.ts的Viewer分段及通用卸载finally；不借机改Wizard/Uploader；产品、schema/save、接口、资产管线、规则或生成物不改；g03-10仅命中helper无record占位（无业务执行）按规则精简。
 
 ## 前提与证据
 
-固定main源6675B(SHA baa7f81c679c);原卡前提按原时点保留。当前存活入口:[README.md](../evidence/QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1/README.md) [README.md](../evidence/QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1/c09/README.md)。
+固定源全文核读各检查点。首片：原20例51act；受控更新反例先红；稳定宿主+真实IO等待后完整20例零诊断，g03-10精确退役1条，最终19通过/0skip/三模式0。相邻9文件69通过但63act；隔离业务反控8绿1指定AssertionError、恢复19绿。增加AssetResolver125行全文依据，非configurable gate不改descriptor以typed委托观察真实promise。C09续片（K02真实帧编辑工作流）：五例分别验证追加/替换/删除原子修复/阻断/迟到归属，56→44→0act；真实解码/提交/revision/迟到缓存见证补齐，取消零额外交付与undo/redo重读有直接断言；两枚反控（迟到alive与追加选择）旧/新均4绿1指定AssertionError，恢复5绿、临时树已删且另进程重构核对。相邻80仍63act；完整editor包631文件/4945例通过但759act/243环境与1只读表单告警。证据:[README.md](../evidence/QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1/README.md) [README.md](../evidence/QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1/c09/README.md)。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:build),治理不改写。
+Viewer侧19+5例身份清零诊断并具双反控成立；但统一零诊断门未过（相邻/整包仍有act与环境告警），0文件关闭、不合main；机器3287/223closed/199review/2865pending。
 
 ## 状态与交接
 
-build保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
-
+build保持原语义：作者自验不称独立accept；完整门待C07/C08稳定窗口。无下一位Agent提示词，Codex继续。
 
 ## 原文保全
 

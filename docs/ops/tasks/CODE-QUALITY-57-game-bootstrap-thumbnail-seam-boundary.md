@@ -7,24 +7,23 @@ Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「CODE-QUALITY-57 — game bootstrap thumbnail seam boundary」的任务归属与历史边界。原目标见原文(摘录:逐文件核验 bootstrap 启动编排、相关测试与地图缩略图路径，确认资源加载、场景切换、thumbnail caller、framebuffer ownership 与 SDLPal scene 真值一致；明确 `renderMapTh);本页治理不重开已终态任务。
+逐文件核验bootstrap启动编排与地图缩略图seam边界：主gameplay的present.ts:290-311传coverage并调repairTilemapSeams（type-pal对每帧clear的补偿），而bootstrap.ts:661-760缩略图两层直绘无repair。原版PAL_MakeScene无独立static thumbnail API，缩略图视觉形态为N/A，须以工具caller与用户可见目标核定；单看gameplay的map76黑三角不能证明缩略图必须同修。
 
 ## 范围
 
-原卡含章节[CODE-QUALITY-57 — game bootstrap thumbnail seam boundary、当前代码验收、目标、范围、前提真值门、上下文锚点与风险],共2个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+原范围三文件（bootstrap.ts、bootstrap-load.test.ts、bootstrap.glm-next-wave.test.ts）及只读caller（dev-panel/minimap/tools-panel/draw-tilemap/present/bootstrap-resources）；不改地图资源、schema/save、启动时序或用户可见缩略图，除非补齐可证伪像素反例与视觉裁决。
 
 ## 前提与证据
 
-固定main源7907B(SHA 58c3cae3814a);原卡前提按原时点保留。当前存活入口:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/README.md) [GAME-MAP-RELOAD-FAILURE-OWNERSHIP-1.md](GAME-MAP-RELOAD-FAILURE-OWNERSHIP-1.md)。
+固定源全文核读，结论以后继两节为准。2026-10-25换图失败直接counter：真实换图失败使活瓦片消失且拒绝未处理，event-system旧关闭撤rework、3r/53整卡accept暂停，新开[GAME-MAP-RELOAD-FAILURE-OWNERSHIP-1.md](GAME-MAP-RELOAD-FAILURE-OWNERSHIP-1.md)等用户答复；同日两专测/两个独立叶及thumbnail专测共5新关闭，完整TS还原、三旧绿新单红、正式PNG/真实血池先红后修。同日后继代码接受：纯重构、获批小地图补缝、下载失败保留及换图编号/重访修复分提交，七文件新关闭、event-system/identity两旧关闭刷新；3450tracked/498closed/72review/2880pending，固定80accept/3partial/0pending；57相邻、391地图相邻、最后3helper与TC0、真实7路径及有效反控成立。前节的撤回/用户待答是修前时点，本节以正式反例、批准和当前候选恢复event-system及3r/53代码信用。原件:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/README.md)。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:review),治理不改写。
+原三个范围文件及拆出的DOS/thumbnail代码与专测已按八维接受，当前无本卡未修产品counter；但统一全仓/coverage/protected与合并仍待父卡剩余pre94（剩1/3m/42）。repairTilemapSeams用coverage mask不可用indices===0判断；若未来接入缩略图须传coverage并验证离屏framebuffer边缘fence。
 
 ## 状态与交接
 
-review保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
-
+review保持原语义：本卡代码已接受但未过统一门；bootstrap.ts是1931行复合文件，不因本切片包绿推为整文件已验证。无下一位Agent提示词，Codex继续父任务。
 
 ## 原文保全
 

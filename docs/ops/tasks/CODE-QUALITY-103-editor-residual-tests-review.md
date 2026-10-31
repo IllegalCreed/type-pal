@@ -7,24 +7,23 @@ Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「CODE-QUALITY-103 — editor 残余测试逐文件复核（ControlCommandForm / ItemUseEffectEditor）」的任务归属与历史边界。原目标见原文(摘录:Reviewer: Codex（独立验收） Capability: editor / test-contract-precision Visual Verification Timing: N/A（本);本页治理不重开已终态任务。
+复核两个账本待核测试文件：command-form-control.residual.glm.test.tsx与ItemUseEffectEditor.residual.glm.test.tsx，确认真实caller、合法typed输入、可判别oracle、相邻排重与反控。
 
 ## 范围
 
-原卡含章节[CODE-QUALITY-103 — editor 残余测试逐文件复核（ControlCommandForm / ItemUseEffectEditor）、2026-10-17 Codex 当前复核、ControlCommandForm 残余合同、ItemUseEffectEditor 残余合同、验证与未闭合项、下一步],共0个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+本批只审测试不改UI或产品行为；完整读取两测试及真实生产caller/公共出口/相邻oracle（CommandForm.tsx、ScriptEditor的CanonicalScriptBodyEditor/CanonicalCommandForm/EntityAddressEditor、command-form-current-fixture、ItemTab、EditSession/project-diagnostics/实体引用collector、K10/U1c/M02相邻合同）。
 
 ## 前提与证据
 
-固定main源3646B(SHA f1fde0819ea9);原卡前提按原时点保留。当前存活入口:无当前仓库内存活链接。
+固定源全文核读。ControlCommandForm残余合同：经checkAuthorCommands合法callScript输入、真实CanonicalScriptBodyEditor双击→聚合编辑弹窗→EntityAddressEditor caller；验证悬空场景专属“引用失效”禁用项、实体保留原始文本不伪装combobox、重选合法场景自动绑定首个实体、只在完成时提交完整地址；callScript/jumpScript self分支由作者bridge实际分流排除、无重复不可达分支。ItemUseEffectEditor残余合同三测试经真实ItemTab/loader/EditSession/onStatusNotice：R1场景有效实体失效warning+sceneIndex名+实体修复+保存门红→绿+单步undo；R3跳过首个无实体场景+placeEntityInFront完整schema+scene target联动+保存门undo；R5无可放置实体时候选仍可达+精确错误通知+零history漂移。基础测试只覆盖回调层失效地址/切场景，不含真实loader/sceneIndex/保存门/无实体失败臂，故非重复。P1（选puppet未自动补battleOnly）仍是产品裁决项不夹修。定向2files/4tests PASS 0 stderr 0 act；相邻22files/224tests PASS但有22条act诊断（M02/ItemTab异步更新未包act）；editor typecheck过；账本3307/231closed/17review/3059pending。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:review),治理不改写。
+因相邻诊断与未决P1，两文件由待核转review而非已验证；coverage ratchet既有shared/pal-extract回退按CODE-QUALITY-100/101证据记录。
 
 ## 状态与交接
 
-review保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
-
+review保持原语义；相邻act诊断由CODE-QUALITY-104小批清理；P1若需产品行为改变另开高风险卡请用户裁决。
 
 ## 原文保全
 

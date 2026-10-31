@@ -7,24 +7,23 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「game core game-state.ts 大文件补维（glm-foundation 模块 5 批 5）」的主题按原文时点保留(摘录:> Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见当前返工记录。 范围：`core/game-state)。
+本页审计主题:game 的 core/game-state.ts(2111 行全文读毕)B–G 补维(重点注释事实/死出口/内聚耦合);A 维引用 Codex runtime-projection 注释批(parsedTS/JS 与基点同字节)+game-state.test 61 合同;基点 53db76bbb 线(body 基准=批4提交后 HEAD)。原文 Status: review(候选待 Codex 据证验收)。Codex 当前裁定(2026-10-19):本页保留作者阶段证据,未获整包/全维收口验收;可复用范围与逐文件依据见 [codex-stage2-rework.json](../codex-stage2-rework.json)。
 
 ## 范围与证据
 
-原报告含章节[game core game-state.ts 大文件补维（glm-foundation 模块 5 批 5）、短回执、八维结论（B–G 补维重点）、复验入口（只读）]、1个链接;固定main源3095B(SHA 9edde60d27f4)。当前存活入口:[codex-stage2-rework.json](../codex-stage2-rework.json)。
+注释整改批:改动 4 处仅注释。验证证据:body-invariance(同目录)与整改前 HEAD 一致(零实现变化);定向 17 套件 71/71、0 failed suites(directed.json:testResults 为 game-state.test 61+mode 10 两文件;README 原文另列 dependency,不在该回执内);game 全包 typecheck 0 错;scoped biome 0/0/0;diff --check 干净。未跑 game 全包测试/全仓门(按准入)。
 
 ## 发现
 
-原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+整改逐项:①InventoryEntry 错挂『队伍成员 role id』docblock(描述 party 的注释遗落在背包条目上)改为背包条目合同;②dialogHistory『会话态——不入存档』与事实相反——已核 bootstrap.ts:1646-1649『跟着存档走』(存档含 deepClone 数组、读档经 restoreDialogHistory 归一),按真实持久语义改写;③④postBattleResume 的 0x07 接回说明 docblock 此前被夹在 prevBattleActions 前成孤儿(附错声明类)迁回 postBattleResume 本尊。A 维(引用)复核:runtime-projection 注释批(投影/装备 getter/回写边界)已由 Codex 全文核正,依赖未变;GOVERNOR_REWARD 扬州领赏 tp 修与 scriptRunHits0x4F 死亡预判的考据注(all.json byte-level 锚)完整。B 维:其余 2100 行注释为仓内最高密度真值文档(waiting 15 态、SAVEDGAME_WIN 倒推、稀疏存策略、瞬态/持久分界),零冗余。C:单一真相源+稀疏 Record+引用共享切片(allEventObjects→npcs)ownership 全部有注;hydration/projection/writeback 三向边界清楚。
 
 ## 结论
 
-原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+注释整改批(4 处):71/71 定向绿+body-invariance 单文件恒真+typecheck 0 共同证明行为零变。G 维:出口均有生产 caller(bootstrap/interpreter/present),无新死出口。
 
 ## 整改与复核
 
-本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
-
+整改即上述 4 处注释。复验入口(原页给出,此处概述):定向跑 game-state.test.ts;tsc --noEmit -p packages/game;grep 随存档持久 于 game-state.ts(dialogHistory 修正可 grep 验证)。失效条件:实现变化→重证;save 语义再变→dialogHistory 注释复核;投影 getter 变化→前批证据重估。本轮治理未重跑任何命令;候选待 Owner 接收。
 
 ## 原文保全
 

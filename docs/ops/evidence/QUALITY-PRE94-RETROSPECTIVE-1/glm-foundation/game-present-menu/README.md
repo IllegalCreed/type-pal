@@ -7,24 +7,23 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 证据身份
 
-本页是「game-present-menu(present/menu 九文件)八维复审批」的治理候选页;证据原件即下方逐字节保全的固定main源(2581B,SHA 3598bc00fb8a)。
+本页是 pre-94 foundation 模块 8 批 18(present/menu 家族)的作者复审回执:Coding Owner GLM,九文件全文读毕(confirm 48/opening-menu 70/box 191/shop 241/equip 279/magic 359/player-status 375/inventory 390/menu 448 行,共 2401 行),基点 origin/codex/code-quality-3y@53db76bbbb(候选线 44+ 提交)。证据原件即下方逐字节保全的固定main源。
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原3个链接处置见作者review的linkDisposition。当前存活入口:[codex-stage2-rework.json](../codex-stage2-rework.json) [body-invariance.json](body-invariance.json) [directed.json](directed.json)。
+整改类型:纯注释 2 处(两文件),零代码改动,由 [body-invariance.json](body-invariance.json) 见证(draw-equip.ts 5863/draw-player-status.ts 7727 打印字节,双侧 printedSha256 一致,allEqual=true)。①draw-equip.ts 模块头 L23-24『phase=list 简版复用 SelectionMenu list;完整 grid 与 InventoryMenu 共享,留 follow-up(M6 grid statemachine 抽 primitive)』过时——drawEquipList(L113-125)已直接复用 drawInventoryMenu 完整 grid,且 sdlpal 真值装备物品选择就是同一个 PAL_ItemSelectMenu(仅 filter 不同)。②draw-player-status.ts 模块头第 10 条『poison row 首版 skip,留 follow-up(需 items poison 字段+gs.rgPoisonStatus 接入)』过时——函数末 step 10 已实现(C6:objectPoisons+rgPoisonStatus,level<=3 过滤/色 wColor+10)。零整改面 7 文件锚:draw-confirm(uigame.c:272/298 真值坐标+PAL_SwitchMenu 复用)、draw-opening-menu(uigame.c:107-108 x 公式忠实移植声明)、draw-box(PAL_CalcShadowColor 真值含 2026-05-27 hardcode 错色修正史、menuTextMaxCols port、单循环 shadow-then-color)、draw-shop(PAL_BuyMenu/SellMenu_OnItemChange 全坐标锚+ownedCount 含已装备数)、draw-magic(WIN95/DOS 双布局互斥 L8+与战斗法术菜单同源约束)、draw-inventory(6-case 颜色规则+g_fNoDesc 语义+live amount 读库存)、draw-menu(v1 走损纠正清单+SaveSlotMenu 两处 user 纠错史)。返工范围见 [codex-stage2-rework.json](../codex-stage2-rework.json)。
 
 ## 断言与业务 oracle
 
-文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+原文验证口径:[directed.json](directed.json) 定向 47 套件 154/154、0 failed suites;tsc --noEmit -p packages/game exit 0;scoped biome 2 文件 0 诊断;git diff --check 干净。语义整改轮核出并如实并记的口径出入:原文(及 glm-foundation README 模块8批18 行)称『定向 21 文件(9 目标文件全部测试族)』,该回执 testResults 实际恰 22 个测试文件(8 个像素 grok-r1 95 例+9 个 leaves 34 例+5 个主测 25 例);draw-equip/draw-inventory/draw-confirm/draw-shop 只有 leaves 无主测文件。绿值为文档时点事实,不外推产品通过(currentExecution=false)。
 
 ## 结果
 
-原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+登记项:无新增,沿用批 15/16 死 op/参数清理候选。作者侧宣称 present 目录全部收口(root+battle+menu=29 文件),下一模块 shell→menu(core)→content/migrate/reforge/editor;该收口属作者候选,原文时点 Codex 裁定保留作者阶段证据、未获整包/全维收口验收。
 
 ## 限制与复核
 
-未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
-
+未重跑原命令/测试;drawEquipList L113-125 等行号锚未回查现状;定向文件数 21-vs-22 出入原因未定,交 Owner 裁定。历史结论保持原时点;候选待 Owner 非作者接收。
 
 ## 原文保全
 

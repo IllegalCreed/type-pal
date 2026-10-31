@@ -18,24 +18,23 @@ Template: test-domain-report-v1 / 1.1.0
 
 ## Domain scope
 
-配对publication game-input-rotation(status=verified)的canonical报告治理候选;域范围按原文与catalog配对保持。
+phase1/game输入外壳域：一个默认关闭、可记忆的"虚拟方向键 / 左摇杆顺时针旋转45°"开关，共同控制手机虚拟方向键和标准手柄左摇杆；键盘、硬件十字键、确认/取消、窗口相对透明叠加布局和引擎移动语义保持。任务状态取任务卡[GAME-INPUT-ROTATION-1.md](../../../../ops/tasks/GAME-INPUT-ROTATION-1.md)，测试出版状态取 [catalog.json](../../../catalog.json)。实现候选0b0ce187e70f540ec2de198d671afd82ddaa99c5已本地集成ae9e3226c并经根Codex独立接收有限功能，接收事实源为[review.json](../../../../ops/evidence/GAME-INPUT-ROTATION-1/review.json)；本报告verified：用户已接受，统一门与实际部署完成。
 
 ## Claim matrix
 
-原文声明矩阵按原时点保全;本页不新增执行claim。
+四项claim均为runtime-backed：(1)四斜向→原四方向、默认保持、原始死区/半径——实际GamepadState/PointerEvent→KeyboardInputSource、固定NE/SE/SW/NW oracle、正式左上错发Right反控；限45°输入分区，实际像素步进16×8不称投影斜率精确45°。(2)切设置释放旧触点/摇杆、等待新触点或每设备回中、其他输入Owner保留——touch reset、gamepad rearm/browser adapter、shell live-setting用例；无实物手柄，浏览器API由合法typed fixture进入真实controller。(3)默认off、偏好记忆和存储失败内存生效、中英文设置入口——preference IO/reload、实际checkbox/tab重建、English原用例补强；浏览器本地偏好不属于游戏存档。(4)手机布局/命中与实际NE移动——根Cua 844×390、390×844两viewport，真实NE按住350ms使1312,288→1328,280朝up，on→刷新on→off、English→Chinese、logs[]；限desktop真实pointer模拟移动viewport，非自然剧情E2E/真机。断言细节：旋转保留gamepad entry0.35/held0.2与touch center0.13/rim0.5/held0.75，pad外框不旋转；DIR_DELTA移动(+16,-8)/(+16,+8)/(-16,+8)/(-16,-8)。
 
 ## Inputs and fixtures
 
-固定main源14440B(SHA 68b77a45cb21);输入为固定载体非重跑。当前存活入口:[review.json](../../../../ops/evidence/GAME-INPUT-ROTATION-1/review.json) [release.json](../../../../ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/release.json) [GAME-INPUT-ROTATION-1.md](../../../../ops/tasks/GAME-INPUT-ROTATION-1.md) [catalog.json](../../../catalog.json) [evidence.json](evidence.json)。
+生产链为shell连接→触控/手柄adapter→真实输入快照→既有scene方向消费；设置链为系统/设置操作区checkbox→偏好事件→已挂载壳层与输入adapter。GamepadState为标准布局[-1,1]左轴；PointerEvent为主指针与真实注册按钮/稳定圆形pad；只有浏览器layout/capture/scheduling、Storage拒绝等host边界可替代，方向/ownership不mock、oracle不重复逆旋转公式；未知存储字符串与拒绝仅证IO默认/失败策略。CONTENT22/minimumSave12只是出版consumer上下文，本功能不消费这两个版本轴。机器事实与原件索引见配对[evidence.json](evidence.json)。
 
 ## Results and gaps
 
-原结果与缺口按原时点;publication状态(verified)是发布事实不是新执行。
+复用原生9文件60项：保留51旧合同、新增9（偏好2、手柄3、触控2、shell1、设置重建1）、退役0；旧touch-slide仅提取建pad夹具、6个原快照断言及file/fullName不变，English既有用例只补新标签断言。正式反控在完整手柄10例中令左上错发Right：恰1指定业务AssertionError、9通过、0skip；按字节恢复后60全绿。早期按名称过滤的反控1红/9filtered skips完整保留不计正式反控信用。根浏览器另核默认关闭、开启四按钮视觉、两viewport、真实NE输入、刷新记忆、关闭恢复与双语；未执行实物触屏/手柄与完整自然剧情E2E。用户已确认本地体验；有限功能验收不增加整文件治理关闭数。2026-10-27发布：本地官方20,203例/812源与全仓静态零诊断，PR#28受保护两门通过后合并，应用与资源部署、源站/CDN与有限网页设置烟测通过，第一阶段v1.1.0发布，原件与限制见[release.json](../../../../ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/release.json)。
 
 ## Quality gate
 
-本页质量门=模板符合+保全+配对身份;测试执行门不在本页重跑;候选待Owner接收。
-
+贡献者game typecheck无诊断、14文件完整Biome JSON的error/warning/info/skipped/truncation均0；显式default+json reporter保留stdout/stderr，恢复测试stderr为空。精确命令、cwd、UTC起止、exit/signal/spawn、原件SHA与恢复链由接收回执native索引及配对evidence提供。失效条件：方向消费/接触Owner/adapter生命周期、偏好序列化/事件或设置caller变化时定向重核相应合同；pad几何/箭头/CSS变化须真实浏览器复验；runner/reporter/规则变化须复核原生结果和日志可见性；GameShell没有destroy API，新监听沿既有page lifetime，若引入shell重建/销毁当前生命周期结论须重核。原始历史执行与非自然剧情/非实物手柄边界保留，不重复授予旧测试次数或整文件关闭信用。
 
 ## 原文保全
 

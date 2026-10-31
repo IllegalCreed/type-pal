@@ -7,23 +7,23 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「CODE3u/3w finalization与runtime-context复审」的主题按原文时点保留(摘录:Date: 2026-10-18 Base: `6fde6d86cf9754e441de948c82ac99ebc1f480c8` Branch: `codex/code-qual)。
+本页审计对象是 CODE3u/3w 战后终态化与 runtime-context 的复审切片（Codex 单 Agent 自核读/测试，2026-10-18，Base 6fde6d86cf9754e441de948c82ac99ebc1f480c8，Branch codex/code-quality-3y，status:recorded）。核心问题：原 3u/3w 关闭所依赖的 finalization 测试只有 2 例、核心 BattleState/对话/runner 用强转、七状态数组不完整，第二例只看终态却宣称接回之前已释放——不足以证明完整终态化合同；runtime 测试则直接断言私有隐藏键/删除形状，把测试锁死在实现布局上。
 
 ## 范围与证据
 
-原报告含章节[CODE3u/3w finalization与runtime-context复审、准入与读取、真值、caller与实现、未决高风险边界、测试质量、复用和排重、当前状态与限制]、9个链接;固定main源7216B(SHA fa31a68b84d2)。当前存活入口:[GAME-BATTLE-NONPARTY-EXTRA-CLEANUP-1.md](../../../tasks/GAME-BATTLE-NONPARTY-EXTRA-CLEANUP-1.md) [QUALITY-PRE94-RETROSPECTIVE-1.md](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) [assertion-transfers.json](assertion-transfers.json) [control-driver-recovery.json](control-driver-recovery.json) [controls.json](controls.json) [emit-identity.json](emit-identity.json) [gates.json](gates.json) [private-shape-metamorphism.json](private-shape-metamorphism.json) [read-boundaries.json](read-boundaries.json)。
+按父卡低风险白名单核读原 67/80/98/75 行四文件全文（before.json 为改动前基线，账本状态已验证），当前两源两测也已全文核读；真实 startBattle/tickBattle/settlement、resume/writeback、BattleState 与对话 factory、SDL 与机制文档的实际范围逐文件列于[read-boundaries.json](read-boundaries.json)（10 全文+14 区间，SHA 逐文件钉定）。两源只改事实注释：[emit-identity.json](emit-identity.json)证明 TypeScript 6.0.3 去注释后解析结果逐字节相同，生产执行/公共接口未变。七枚变异反控见[controls.json](controls.json)（每枚旧 2/3 例全绿、新测试恰 1 例按针名 AssertionError 红）；等价形状反控见[private-shape-metamorphism.json](private-shape-metamorphism.json)（旧隐藏字段断言 1 红、当前公开合同 3 绿，与七反控分开计数）；driver 首轮中断与恢复见[control-driver-recovery.json](control-driver-recovery.json)。断言迁移与私有布局撤除账目见[assertion-transfers.json](assertion-transfers.json)：0 整例退役、净增 4 例、公开业务 oracle 全保留。
 
 ## 发现
 
-原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+机制真值：SDL battle.c:1822-1857 与 global.c:2311-2339 支持全角色九状态 <=999 清、>999 装备常驻保留、波场恢复；script.c:3315-3333 支持战斗结果接回脚本分支。TS finalize 先回写 HP/MP 再 cleanup，cleanup 清持久状态/在队毒/Extra/自动战斗/对话/震屏，恢复波、explore、丢 state、释放 runtime、接回脚本；watchdog 无 SDL 对应，不把它的 forced won 策略当原版真值。测试整改：真实 GameState、hydrate、战斗投影、createBattleState 与 startDialogLine 替换强转，复用已核读的 stats-test-fixtures 纯构造器；新增 finalize 到 cleanup/resume 组合层四合同（lost 按角色写零 HP/精确 MP 不复活、玩家逃/敌逃 terminated/watchdog 各选正确分支）；普通 lost 先走 dialog hold，待播 queue 丢弃断言移到 hold 之前触发的 watchdog。生产可达性：非队员 Extra 循环差异真实但被 startBattle/updateAllEquipments/setParty 全量重建挡住，未找到合法生产写入链，冻结为 unknown（[GAME-BATTLE-NONPARTY-EXTRA-CLEANUP-1.md](../../../tasks/GAME-BATTLE-NONPARTY-EXTRA-CLEANUP-1.md) draft）。
 
 ## 结论
 
-原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+正式 6 文件 275 绿（9 直接/266 相邻）、typecheck/lint(5394 files)/ledger(3316 tracked/255 closed/96 review/2965 pending) 零诊断，canonical 为 module-current/typecheck-current（[gates.json](gates.json)）；相邻包绿只证明执行结果，不签收其整文件语义。四原关闭条目重开 review、0 新增关闭，83 卡 55partial/28pending/0accept，scopeConfirmed/currentAcceptance=false，不合 main（mergeAllowed=false）。全仓 check、official coverage ratchet、protected fast、全 game 包、原版运行、浏览器视觉、E2E 均未跑（notRun 七项）。
 
 ## 整改与复核
 
-本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
+生产事故与恢复如实保留：docs producer 在 --print-task-index 处 ENOBUFS 中断（无原 driver raw），工具 37e2cd7c9 先红后修后 7 个非冲突文件逐字节恢复、共享文档按已读差异重基（integration-base/review-chain）；caller 对齐后七反控以 v2 重跑、runtime 私有布局撤除后仅该针重跑 v3，v1/attempt1 原件全保留。私有布局排重：把清理 resource 暂换成 delete 等价形状时，冻结旧 3 例为 2 绿 1 特定 AssertionError、当前 3 例全绿，最终源逐字节恢复，不再认证私有对象布局。本页为治理候选正文，任务裁决仍以[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)父卡与实际 ledger 为准；候选待 Owner 非作者接收。
 
 
 ## 原文保全

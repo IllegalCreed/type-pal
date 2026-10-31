@@ -2,29 +2,34 @@
 
 Status: build
 Owner: GLM(治理候选作者;原文作者/状态见保全块)
-Last reviewed: 2026-10-30
+Last reviewed: 2026-10-31
 Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「QUALITY-EXTRACT-RAW-TEST-EXECUTION-1 — extractor原盘用例执行完整性」的任务归属与历史边界。原目标见原文(摘录:Reviewer: Codex（当前源码与原件复核，不冒充第三方） Capability: pal-extract test evidence reliability Visual Verificat);本页治理不重开已终态任务。
+修复CODE3/3f复审暴露的假执行：extract runner报告433 passed/0pending，但完整stderr显示六条'raw不存在'后return的绿色用例——两测试文件的HERE向上5级落到repo/packages而真实root应回6级（repo/data/raw存在、repo/packages/data/raw不存在）。只改日志或把0pending当全部执行不成立。
 
 ## 范围
 
-原卡含章节[QUALITY-EXTRACT-RAW-TEST-EXECUTION-1 — extractor原盘用例执行完整性、已证前提与边界、准入与验收计划、2026-10-16 有限测试准入、本检查点实际结果、诊断合同C1有限准入（2026-10-16）],共5个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+白名单：data-misc.test.ts/misc-mkf.test.ts（后扩ball.glm-runtime-resource、misc-guards.kimi-r1、enemy-teams.boundaries、tables.test与新增test-only helper indexed-frame-digest.ts/parser-diagnostics.ts）。不授权生产parser、公共接口、raw或生成物改动；不为过门新增skip/ignore/exclude、不给packages/data/raw造假链接。六条入口：DATA chunk9/10、RGM/BALL/FIRE真实全表及chunk0直解。
 
 ## 前提与证据
 
-固定main源14671B(SHA 932144d9ab4a);原卡前提按原时点保留。当前存活入口:[README.md](../evidence/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/README.md) [README.md](../evidence/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/diagnostics-c1/README.md) [README.md](../evidence/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/diagnostics-c2/README.md) [gates.md](../evidence/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/diagnostics-c2/gates.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3-annotate/README.md)。
+原盘71/85/88/251/837个有效图像与未改native SDLPal全RGBA一致，固定native cohort摘要可作测试oracle；两种底色独立确定透明/opaque-0。原5个链接处置见作者review，存活入口逐字保留：
+
+当前存活入口:[README.md](../evidence/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/README.md) [README.md](../evidence/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/diagnostics-c1/README.md) [README.md](../evidence/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/diagnostics-c2/README.md) [gates.md](../evidence/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/diagnostics-c2/gates.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3-annotate/README.md)。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:build),治理不改写。
+有限测试准入（2026-10-16）：矫正测试root五级→六级、删除六处缺fixture假passed；保持21身份→实际两文件21→20（唯一空块重复转移，misc 9→8，原生8移除/7加入披露）；七针旧21绿/新各19绿1指定AssertionError、恢复20绿；错根重现在隔离副本核六枚输出变异仍绿后补独立固定oracle；重现错root使6例ENOENT失败不再假passed（IO拒绝不冒充业务针）。C1诊断合同：真实Node Console+Writable完整捕获同步parser IO（stdout必须空、未知输出fail、不mock不no-op）；BALL同7B弱例5→4、批准表25→26/净59→60精确登记。C2：enemy-teams正例完整映射403、tables unknown999独立为P07第三例（tables90→89、P07 2→3、总92不变但原生身份迁移公开）；0stderr块。静态：lint4445/4465文件0/0/0、docs/ledger/diff通过。
 
 ## 状态与交接
 
-build保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+Status保持build：定向/shared/typecheck通过，但完整extract仍有2-4个stderr块待C2后续与editor诊断未清；完整check/official ratchet/protected未新跑，卡留build/文件review、不合main。机器3289/208closed/226review/2855pending，0新关闭。C2后发现enemies.ts两处不存在的EnemyTeam.slots注释是直接counter、旧关闭撤回review。
 
+## 验收边界
+
+本卡是test IO/证据可靠性治理：假passed修复有真实变异证明；FIRE helper只有测试caller、生产CLI原盘接线是decompress→parseSpriteChunk→gzip，不把helper测试冒充CLI执行；合成raw sprite解2帧证明'may or may not'是弱断言而非已证不可达。
 
 ## 原文保全
 

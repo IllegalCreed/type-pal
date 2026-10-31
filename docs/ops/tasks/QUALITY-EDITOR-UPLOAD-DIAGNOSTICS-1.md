@@ -7,24 +7,23 @@ Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1 — C03上传向导真实IO与测试精简」的任务归属与历史边界。原目标见原文(摘录:Reviewer: Codex（作者自验与另进程证据核对分记） Capability: editor upload test lifecycle Visual Verification Timing:);本页治理不重开已终态任务。
+C03上传向导（SpriteUploadWizard）测试改为等待真实IO：初始/换scope读实际标准色表、PNG异步解码后才设草稿、真实gzip/SHA/命令提交后调onDone、退出selection释放位图；故意挂起的读取由测试显式放行。诊断治理与已证重复精简并行，不关闭环境检查、不伪造成功。
 
 ## 范围
 
-原卡含章节[QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1 — C03上传向导真实IO与测试精简、前提、锚点与单一写入、核验与交付、2026-10-16 未完成检查点与用户优先级、2026-10-16 从d261e1d17恢复C10、C10恢复结果与全量复审优先级],共2个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+build allowed四源：upload-harness.tsx/upload-ui.ts的Wizard分段、G02、G07测试；Viewer/Uploader分段只做相邻回归；产品、schema/save、资产管线、公共接口与规则不改。
 
 ## 前提与证据
 
-固定main源7723B(SHA 66ddcf636b80);原卡前提按原时点保留。当前存活入口:[README.md](../evidence/QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1/README.md) [README.md](../evidence/QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1/recovery/README.md)。
+固定源全文核读各检查点。首窗实测推翻“只改mount即可清除”的解释：宿主消融30例仍57act；补真实色表/位图/回调等待后30例通过仍2act（G02-10点击后以act外DOM轮询等错误，gzip/SHA的catch/finally两更新逃出act）。恢复C10轮：G02-10改为显式等待真实crypto.subtle.digest Promise，同30身份先清2act；G07-03（body为02取消/一次回调/历史合同弱子集）与G07-09（无错误恢复，改第二id后成功由04两次回调/历史合同覆盖）经验证退役10→8，05标题改首次编辑；最终Wizard 28零诊断。两业务反控（取消后迟到位图释放、重复提交锁）各恰一指定AssertionError；两退役oracle转移及原生绿但2act的诊断反控单列；27项/net62退役账重建。相邻78通过仍Uploader 6act；editor整包631文件/4943通过仍624act/243环境/1表单告警，统一验收拒绝。首轮静态unused import告警保留，删除唯一未用binding后按最终字节回归。证据:[README.md](../evidence/QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1/README.md) [README.md](../evidence/QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1/recovery/README.md)。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:build),治理不改写。
+Wizard侧30→28身份清零诊断并有双反控/退役转移证据成立；但统一零诊断门（全仓）未过：相邻与整包仍存act/环境/表单告警，0文件关闭、不合main、不把局部结果当独立验收。
 
 ## 状态与交接
 
-build保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
-
+build保持原语义：本片待续，完整门留稳定模块窗口；用户优先级转前94全83卡复审，本片不缩成诊断治理。无下一位Agent提示词，Codex单Agent继续。
 
 ## 原文保全
 

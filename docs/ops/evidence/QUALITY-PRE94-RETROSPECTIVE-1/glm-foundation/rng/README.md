@@ -7,24 +7,25 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「CODE2 RNG 三文件复审（glm-foundation 批 2）」的主题按原文时点保留(摘录:范围：`packages/shared/src/rng.ts`、`rng.test.ts`、`rng.boundaries.test.ts`。开工核对：无他人 RNG Owner/)。
+原审计主题:CODE2 期 packages/shared 的 rng 三文件(rng.ts、rng.test.ts、rng.boundaries.test.ts)八维复审,基点 63735f72(承接 MKF 批后的同一 worktree 线)。真实改动仅注释 2 处:①rng.ts decodeRngFrames 的 catch { continue } 补宽容策略注释(坏 YJ2 sub-chunk 跳帧、index 留空档、surface/后续帧不受影响;CODE2 期 1,464 帧原生比对无此路径命中);②rng.boundaries 头部「rng.ts:19-35 opcode 表」错误引用(实际指向守卫函数且行号漂移)改为「rngBlitDelta docblock 的 opcode 表」。零实现/fixture/断言/标题变化(titles 8/24 不变,body-invariance 三文件一致)。原文状态 review(候选待 Codex 据证验收);Codex 阶段1(2026-10-18)仅接收有限文案/身份保持证据,非整文件八维 accept,集成注释纠正与证据适用范围见[阶段终验](../codex-stage1.json)。
 
 ## 范围与证据
 
-原报告含章节[CODE2 RNG 三文件复审（glm-foundation 批 2）、短回执、八维结论、问题与登记、复验入口（只读）、Codex阶段1接收说明（2026-10-18）]、2个链接;固定main源5420B(SHA 6d982f64e9db)。当前存活入口:[codex-stage1.json](../codex-stage1.json) [directed.json](directed.json)。
+定向回执 [directed.json](directed.json):3 文件 34/34 全绿(rng.test 6 + rng.boundaries 17 + mkf.boundaries 11),0 fail/pending/todo;scoped biome 0/0/0、diff --check 干净为作者自报层级(原件未附 console 原始输出,Codex 阶段1亦如此界定)。未跑 extract rng-frames 相邻(worktree 依赖软链问题)、全仓/coverage/protected。
 
 ## 发现
 
-原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+opcode 语义本批抽查 rngplay.c:0x00/0x13@190-191、0x03@201、0x0b@273、0x12@346 与 docblock 表一致;0x0b 的 C 列换行算术在 pitch=320 下与线性写等价(CODE2 原生 1,464 帧逐像素一致实证,不另立 pitch 断言)。boundaries 例的真实判别力:expectExact 同时证 [from,to) 精确值与两侧未触字节全 MARK、族补齐(0x07-0x0a/0x0e-0x10)、跨字节宽度(0x01FF/0x0100)、0x13 后忽略尾字节、拷贝语义反证(帧0 在帧1 后不变)、坏 YJ2 跳帧不中断。批内勘误:MKF 批 README 曾把 mkf.boundaries 例数误写为 10,实际 11(openMkf 头合同 8 + readChunk 边界 3),本批提交内已改正,34 计数不受影响。
 
 ## 结论
 
-原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+原文时点结论:无新已证缺陷;登记不动项为 rngplay.c 行号锚±1 行(返回类型行归属,不改)与 extract rng-frames 真实原盘相邻未跑;rng.ts/rng.test.ts 维持既有登记、rng.boundaries 已是 review 由 Codex 随 CODE2 整卡裁定。本治理不改写该判定、不授新信用、不撤销旧撤信。
 
 ## 整改与复核
 
-本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
+本页正文承载原审计真实目标/发现/结论/限制;原件逐字节保全在下方;失效条件(rng 三文件实现/断言变化→重证、基点后新提交→rebase、yj2/mkf 依赖变化→重估原生比对证据)按原文保留;候选待Owner接收。
 
+原文存活链接原样保留:[codex-stage1.json](../codex-stage1.json)。
 
 ## 原文保全
 

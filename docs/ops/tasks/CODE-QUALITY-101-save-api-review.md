@@ -2,48 +2,53 @@
 
 Status: done
 Owner: GLM(治理候选作者;原文作者/状态见保全块)
-Last reviewed: 2026-10-30
+Last reviewed: 2026-10-31
 Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「CODE-QUALITY-101 — Save API 存档域本体审核（api / indexed-db）」的任务归属与历史边界。原目标见原文(摘录:存档域本体切片（2 生产 + 1 专属测试 + 2 相邻），不碰 CODE94/95 白名单与 97-100 批文件：);本页治理不重开已终态任务。
+存档域本体切片审核（api.ts 97行/indexed-db.ts 93行/api.test.ts 82行+相邻）并承接返工：双路径API（浏览器IndexedDB主路径/无IDB内存fallback）+DB级版本纪律（DB_VERSION bump即清档，P2#5 user已授权开发期存档可作废），记录级无版本字段为既有U-1。
 
 ## 范围
 
-原卡含章节[CODE-QUALITY-101 — Save API 存档域本体审核（api / indexed-db）、2026-10-25 本地统一门收口（当前）、批准后收尾窗口（2026-10-25，接续b8）、2026-10-25 连接所有权返工准入（当前）、2026-10-17 Codex 当前逐文件复核、2026-10-15 最终模块窗口（当前）],共8个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+2生产+1专属测试+2相邻；后续扩展至连接所有权返工与Save校验E2E工具接线窄修（meal-trace-plugin）。不碰CODE94/95白名单与97-100批文件；不实现GAME-SAVE-INPUT-DOMAIN-1（槽号NaN/小数公共输入域）。
 
 ## 前提与证据
 
-固定main源16516B(SHA 97bb20c352d7);原卡前提按原时点保留。当前存活入口:[README.md](../evidence/CODE-QUALITY-94/approved-closeout/README.md) [codex-final-window.md](../evidence/CODE-QUALITY-94/codex-final-window.md) [codex-r2-review.md](../evidence/CODE-QUALITY-94/codex-r2-review.md) [codex-r3-review.md](../evidence/CODE-QUALITY-94/codex-r3-review.md) [codex-takeover.md](../evidence/CODE-QUALITY-94/codex-takeover.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/supplementary-audit/README.md) [GAME-SAVE-IDB-COMMIT-1.md](GAME-SAVE-IDB-COMMIT-1.md) [GAME-SAVE-INPUT-DOMAIN-1.md](GAME-SAVE-INPUT-DOMAIN-1.md)。
+api.ts:14/26-29锚sdlpal MAX_SAVE_SLOTS=5、SAVEDGAME_WIN.wSavedTimes cross-slot counter（uigame.c:589-597）；indexed-db.ts:17-20锚P2#5版本纪律；game vitest(jsdom)不提供indexedDB→game测试全程内存fallback，IDB主路径仅浏览器可达（E-12登记）。原8个链接处置见作者review，存活入口逐字保留：
+
+当前存活入口:[README.md](../evidence/CODE-QUALITY-94/approved-closeout/README.md) [codex-final-window.md](../evidence/CODE-QUALITY-94/codex-final-window.md) [codex-r2-review.md](../evidence/CODE-QUALITY-94/codex-r2-review.md) [codex-r3-review.md](../evidence/CODE-QUALITY-94/codex-r3-review.md) [codex-takeover.md](../evidence/CODE-QUALITY-94/codex-takeover.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/supplementary-audit/README.md) [GAME-SAVE-IDB-COMMIT-1.md](GAME-SAVE-IDB-COMMIT-1.md) [GAME-SAVE-INPUT-DOMAIN-1.md](GAME-SAVE-INPUT-DOMAIN-1.md)。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+返工史：E-10头注过时已更正；2026-10-18补审恢复roundtrip六类字段断言+读侧克隆（9例）；2026-10-25连接所有权：证首次open abort后失败Promise常驻、reset不关闭句柄、旧连接阻塞其它客户端升级（W3C IndexedDB 3.0 §2.1.1/§4.4/§5.2），修promise缓存/失败释放/close/versionchange失效；listSlots可写meta引用泄漏复现（9绿/1业务红）后仅复制数值字段返回；partyLevel注释纠正为实现取角色0。集中门时Save校验提取后的E2E工具接线漂移（meal插桩查旧内联条件、三合同AssertionError）由Codex窄修锚定首条真实assertValidSlot(slot)。终态2026-10-25：54路径20新关闭+34桥接+12相邻delta；全仓20605+714、七包TC、lint6111 0/0/0；唯一official 20168/807、原四条比率拒绝保留、仅三文件结构删除精确重计、同报告ratchet/protected exit0。
 
 ## 状态与交接
 
-done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+Status保持done（2026-10-25收口，done仅指本卡有限代码/质量门收口；本地冻结时未推送/PR/合并，远端发布由关联Git/PR与main CI记录）。GAME-SAVE-INPUT-DOMAIN-1（槽号输入域）与GAME-SAVE-IDB-COMMIT-1（事务abort后resolve）两停止线曾分别拦截，前者仍未在本卡实现。
 
 ## 历史范围
 
-原卡属固定main时点;CODE-QUALITY-101 — Save API 存档域本体审核（api / indexed-db）的原始范围与日期在保全块内逐字保留。
+GLM初批零改动审核（E-10/E-12登记、api.test 8例真oracle）；Codex R2 counter复现真实Save→IDB在request success后事务abort仍resolve（开GAME-SAVE-IDB-COMMIT-1）；R3冻结作者旧交付；2026-10-15最终模块窗口bb94ad8e2三门exit0但3620/3610/3523条未包act、统一门不通过。
 
 ## 原始结论
 
-原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+原卡结论：连接所有权切片与listSlots复制修复完成、meal工具接线窄修完成；54路径统一门收口。
 
 ## 当时证据
 
-原文8个链接与当时回执属原时点证据;本页不重跑、不复授。
+docs/ops/evidence/CODE-QUALITY-94/approved-closeout/、codex-r2/r3-review、codex-takeover（统一入口）。原链接与当时回执属原时点证据。
 
 ## 当前有效性
 
-仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+历史任务卡（done有限语义）；save域后续以52收口等为准。
 
 ## 继任文档
 
-接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[README.md](../evidence/CODE-QUALITY-94/approved-closeout/README.md) [codex-final-window.md](../evidence/CODE-QUALITY-94/codex-final-window.md) [codex-r2-review.md](../evidence/CODE-QUALITY-94/codex-r2-review.md) [codex-r3-review.md](../evidence/CODE-QUALITY-94/codex-r3-review.md) [codex-takeover.md](../evidence/CODE-QUALITY-94/codex-takeover.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/supplementary-audit/README.md) [GAME-SAVE-IDB-COMMIT-1.md](GAME-SAVE-IDB-COMMIT-1.md) [GAME-SAVE-INPUT-DOMAIN-1.md](GAME-SAVE-INPUT-DOMAIN-1.md)。
+GAME-SAVE-INPUT-DOMAIN-1（输入域裁决）、GAME-SAVE-IDB-COMMIT-1（事务语义）、GAME-SAVE-IMPORT-PAYLOAD-VALIDATION-1（V1内容校验）分别承接。原存活入口逐字保留：
+
+关联:[README.md](../evidence/CODE-QUALITY-94/approved-closeout/README.md) [codex-final-window.md](../evidence/CODE-QUALITY-94/codex-final-window.md) [codex-r2-review.md](../evidence/CODE-QUALITY-94/codex-r2-review.md) [codex-r3-review.md](../evidence/CODE-QUALITY-94/codex-r3-review.md) [codex-takeover.md](../evidence/CODE-QUALITY-94/codex-takeover.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/supplementary-audit/README.md) [GAME-SAVE-IDB-COMMIT-1.md](GAME-SAVE-IDB-COMMIT-1.md) [GAME-SAVE-INPUT-DOMAIN-1.md](GAME-SAVE-INPUT-DOMAIN-1.md)。
+
 
 
 ## 原文保全

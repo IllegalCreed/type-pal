@@ -7,24 +7,23 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「CODE-QUALITY-103 — Codex 当前逐文件复核（2026-10-17）」的主题按原文时点保留(摘录:- `packages/editor/src/ui/command-form-control.residual.glm.test.tsx` - `packages/editor/s)。
+本件回答:两个历史"待核"的 editor 残余测试文件（`command-form-control.residual.glm.test.tsx`、`ItemUseEffectEditor.residual.glm.test.tsx`）在当前树上的真实判别力与状态。结论:两文件从"待核"提升到 `review`,不关闭。
 
 ## 范围与证据
 
-原报告含章节[CODE-QUALITY-103 — Codex 当前逐文件复核（2026-10-17）、实际读取清单、逐文件结论、`command-form-control.residual.glm.test.tsx` — review、`ItemUseEffectEditor.residual.glm.test.tsx` — review、质量结果]、0个链接;固定main源4058B(SHA 98dedc0406cd)。当前存活入口:无当前仓库内存活链接。
+完整读取两残余测试及其生产链（command-form-control.tsx、CommandForm.tsx、ScriptEditor.tsx、command-form-current-fixture.ts、ItemTab.tsx、ItemUseEffectEditor.tsx、edit-session.ts、project-diagnostics.ts、entity-address-references.test.ts）与 13 个相邻测试。residual-control 测试经真实 `commandForm` fixture、`checkAuthorCommands`、真实 battle-trial loader、`CanonicalScriptBodyEditor` 与 DOM 双击打开表单;唯一用例输入 `callScript` 的 EntityAddress 形状合法但 scene `gone` 不存在,精准检查禁用的"引用失效"、实体原文输入框与重选 `start` 后的首个实体 `npc`,最终断言完整提交——caller 是 ScriptEditor 作者桥接路径,与 ControlCommandForm 不可达 self 臂分离。residual-ItemUseEffect 三轴:R1 无效实体保留+保存门失败→改选 e2 落库→undo 恢复红态;R3 start 空实体场景跳空场景/完整字段落库/目标联动/history+1;R5 无实体项目类型选项可达/公开错误消息精确。
 
 ## 发现
 
-原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+两文件均有直接 caller/oracle 证据,无重复实现或弱恒真断言;自动改绑和零伪造下拉是两个判别力反控轴。P1 `puppet` 未自动补 `battleOnly` 是生产行为取舍,保留为未决 product-counter,不在测试批修复。
 
 ## 结论
 
-原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+定向 2 files/4 tests PASS 0 stderr;相邻 22 files/224 tests PASS 但保留 22 条 React `act(...)` 诊断（主要来自 Harness、DsDraftNumberControl、DsDraftTextInput、DsDraftTextArea 未包裹异步更新）,诊断未过滤未改写,相邻门为 FAIL(diagnostics non-zero);editor typecheck PASS;全仓 lint 4962 零诊断、docs 0 issues、ledger 3307/231/15/3061。
 
 ## 整改与复核
 
-本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
-
+两文件状态从"待核"提升到 review,不声称全门通过;下一批处理相邻 act 生命周期诊断,清零后重新验收本批。覆盖率与 full check 既有失败/诊断不因本批文档复核而重写。
 
 ## 原文保全
 

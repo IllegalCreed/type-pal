@@ -7,44 +7,43 @@ Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「CODE-QUALITY-83 — game menu mode / stack contract」的任务归属与历史边界。原目标见原文(摘录:Capability: menu mode/stack routing Visual Verification Timing: N/A（本批为模式与栈状态合同；菜单像素由相邻 present 批次负责);本页治理不重开已终态任务。
+原卡目标:逐文件核验菜单模式/栈路由三文件（`menu-mode.ts` 33 行、`menu-stack.ts` 32 行、`menu-mode.test.ts` 88 行）:显式 menuStack 每个 mode tick 把输入交给栈顶菜单,并按真实 SDLPal modal 返回域恢复 battle/event/explore;关闭栈本身不在同一帧制造错误 dispatch。
 
 ## 范围
 
-原卡含章节[CODE-QUALITY-83 — game menu mode / stack contract、范围与前提、逐文件核验、`menu-mode.ts`、`menu-stack.ts`、`menu-mode.test.ts`],共0个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+白名单仅三文件;开批基线 `origin/main=646c8097034e4bd30a3ebde86cd61d46a2382e8a`,分支 `codex/code-quality-3y`。menu-driver 具体菜单行为、battle-inspect、bootstrap thumbnail、Dev Panel 继续由活动卡负责,不因本批关闭。
 
 ## 前提与证据
 
-固定main源6360B(SHA 45b305ee1616);原卡前提按原时点保留。当前存活入口:无当前仓库内存活链接。
+关键实现语义:`tickMenu` 先处理空栈恢复,再把输入交给 `dispatchMenuInput`,dispatch 后再次检查空栈（避免关闭最后一层后同帧输入送入已不存在菜单）;`openMenu` 只 push 并切到 menu,`closeTopMenu` 只 pop 模式切换留给下一次 tick,`resumeAfterMenusClosed` 按 battleState、商店 waiting、普通探索三域恢复。primary:`uigame.c:516-650,944-1040`、`script.c:1158-1175`、`uibattle.c:930-934,1399-1401`。最强替代解释"battleState 与 shop waiting 恢复优先级可能冲突"由 shop 入口仅事件脚本触发、battle status 仅战斗 UI 触发的 caller 搜索反证。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+定向/相邻 5 个测试文件、342 tests 通过（既有 scene-system negative-control stderr 已记录非新诊断）;game typecheck、白名单 Biome 无诊断;全仓 `pnpm check`（lint 4010 0/0/0）、官方 ratchet（731/19855,statements 89.93% 等基线不变）、`pnpm check:fast`、docs/content-review、ledger 均通过。
 
 ## 状态与交接
 
-done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+done 保持原语义:三文件写入已验证;menu-mode 依赖的具体菜单行为仍由 menu-driver/各菜单文件承担。无下一位 Agent 提示词,继续由 Codex 选择下一组不重叠 pending 文件。
 
 ## 历史范围
 
-原卡属固定main时点;CODE-QUALITY-83 — game menu mode / stack contract的原始范围与日期在保全块内逐字保留。
+原卡属固定 main 时点;原始范围与日期在保全块内逐字保留。
 
 ## 原始结论
 
-原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+原卡结论按 Status(done) 原样:未发现输入、边界、状态 ownership、错误传播、异步取消、资源清理或公共接口缺陷。治理不撤销/不恢复旧信用。
 
 ## 当时证据
 
-原文0个链接与当时回执属原时点证据;本页不重跑、不复授。
+当时回执（342 定向/相邻、ratchet 指标、lint 4010 零诊断）属原时点证据;本页不重跑、不复授。
 
 ## 当前有效性
 
-仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+仅历史任务归属有效;不凭 646c809 基点认定当前实现或授权新产品取舍。
 
 ## 继任文档
 
-接替/关联入口见原文链接;当前任务导航以看板为准。
-
+CODE-QUALITY-87（in-game/system 菜单）与 CODE-QUALITY-91 等下游菜单卡为相邻归属;当前任务导航以看板为准。
 
 ## 原文保全
 

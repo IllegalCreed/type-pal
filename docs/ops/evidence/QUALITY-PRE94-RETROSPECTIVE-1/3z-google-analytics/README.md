@@ -7,24 +7,23 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 证据身份
 
-本页是「CODE-QUALITY-3z Google Analytics当前复审」的治理候选页;证据原件即下方逐字节保全的固定main源(6316B,SHA c9e279e18f95)。
+本页是「CODE-QUALITY-3z Google Analytics当前复审」(Date: 2026-10-18 Base: `4b86b04b790eb6b83f93a10f4ac07102c608b39b` Branch: `codex/code-quality-3y`)的治理候选页;证据原件即下方逐字节保全的固定main源(6316B,SHA c9e279e18f95)。本页真实语义:google-analytics.ts(139行)+主测(169行)+H05边界测(121行)及真实 install/consent/UI/main 的注释级复审与测试治理——源码仅纠正发送 catch 不能覆盖初始 initialize/readPage 的过强注释,emit-identity 见证 parsedTS/JS 相同;并发现一个真实产品级停止线缺陷(见断言节)。
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原12个链接处置见作者review的linkDisposition。当前存活入口:[GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1.md](../../../tasks/GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1.md) [QUALITY-PRE94-RETROSPECTIVE-1.md](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) [assertion-transfers.json](assertion-transfers.json) [controls.json](controls.json) [emit-identity.json](emit-identity.json) [gates.json](gates.json) [initialization-probe.json](initialization-probe.json) [ownership.json](ownership.json) [read-boundaries.json](read-boundaries.json)。
+来源为固定Git载体,非本次运行;原12个链接处置见作者review的linkDisposition。当前存活入口:[GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1.md](../../../tasks/GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1.md) [QUALITY-PRE94-RETROSPECTIVE-1.md](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) [assertion-transfers.json](assertion-transfers.json) [controls.json](controls.json) [emit-identity.json](emit-identity.json) [gates.json](gates.json) [initialization-probe.json](initialization-probe.json) [ownership.json](ownership.json) [read-boundaries.json](read-boundaries.json) 。Google 官方安装/API/隐私文档只核 arguments 队列、send_page_view:false、ga-disable-ID 须在命令前设置三轴;项目 ID 6-20字符、四字段UTM/64字符、pathname 去重是本地合同不为官方背书;旧 disable 链接跳概览/UA 退休页不当作技术证据;未下载/执行 SDK、未发真实统计、不声明隐私合规。
 
 ## 断言与业务 oracle
 
-文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+原文时点真实断言:真实安装清理反例(initialization-probe,12绿+1指定AssertionError 'failed analytics installation leaves no consent reaction after SDK recovers'):外部 gtag 合法函数端口在 js 命令抛错时 install 无返回句柄却残留真实 consent 订阅;恢复 SDK 后实际 write deny/grant 会排队一次 page_view 而未重发 js/config。只证明再次明确授权后的无 owner 订阅,不声称未经同意采集或游戏启动失败。已开 GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1 draft,产品修复待用户在失败撤销/刷新重试间裁决,未批准前执行冻结,本批不把该红反例算作绿门。隔离反证(ownership):旧8绿+1外部owner红('outer owner descriptors and global head survive the complete analytics cohort')→新10绿,实际外部 head 节点与 SDK 描述符同一引用恢复。五反控(automatic-page-view/page-unsubscribe-missing/reload-resets-command-state 各旧主8绿→新8绿1指定红;utm-term-leak/id-six-rejected 各旧H05 4绿→新3绿1指定红)全成。断言迁移保留12原合同,主8→9、H05 仍4,0 整例退役;修正"Google或URL错误"过度标题、"大写UTM丢弃"坏注与"ID边界"无边界事实。
 
 ## 结果
 
-原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+本页治理结果=原文保全完整、模板符合、链接处置如实,不产生新执行结果。原文结论:13直接+12相邻(6文件25绿)、game typecheck 零诊断、lint-zero(5350文件)、ledger 3316/261/89/2966,0新closed;只旧3z卡 pending→partial(53partial/30pending/0accept);fetch 后 0behind/253ahead(本批提交前)未合main;首次 check:docs 因 README 先链接未落盘的 gates.json exit1,原件保留,补回执后仅重放五消费者全0问题,不把旧失败改写为通过。
 
 ## 限制与复核
 
-未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
-
+原文明言:跨window/realm、多property共享script/gtag、异步真实SDK/CSP/网络与真实浏览器、UI完整卸载及失败策略继续review;knownUnfixedCounter=initialization-probe(exit1,12绿1指定红,'Draft awaiting user product decision; never a passed gate');全仓check/official coverage ratchet/protected fast 留大任务收尾;这些局部门不恢复旧53波次统一门信用。未重跑原命令;候选待Owner非作者接收。
 
 ## 原文保全
 

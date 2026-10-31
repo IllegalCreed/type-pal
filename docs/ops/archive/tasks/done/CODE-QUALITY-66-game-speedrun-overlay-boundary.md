@@ -7,44 +7,43 @@ Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「CODE-QUALITY-66 — game speedrun overlay boundary」的任务归属与历史边界。原目标见原文(摘录:逐文件核验速通 overlay DOM 渲染及两份测试，确认 checkpoint row/最佳/差值/当前时间、预计通关、暂停前缀、隐藏/幂等生命周期保持 timer/store 合同。);本页治理不重开已终态任务。
+原卡目标:逐文件核验速通 overlay 三文件（`overlay.ts` 120 行与两份测试）:checkpoint row/最佳/差值/当前时间、预计通关（ETA）、暂停前缀、隐藏/幂等生命周期保持 timer/store 合同;overlay 自己拥有 DOM 根节点与 style 节点,timer/store 只提供只读投影。
 
 ## 范围
 
-原卡含章节[CODE-QUALITY-66 — game speedrun overlay boundary、目标、范围、验证、交接、2026-10-18 Codex 当前独立复审],共0个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+三文件;只读相邻 index.ts overlay 委托、timer RunState、time-format、store BestTimes 与 tools-panel 设置 caller。功能 UI 合同以 speedrun design、format helpers 与真实 index caller 为 oracle。
 
 ## 前提与证据
 
-固定main源3657B(SHA 76c13da27d90);原卡前提按原时点保留。当前存活入口:无当前仓库内存活链接。
+关键语义:style 注入幂等、单根 replaceChildren 更新、fast/slow/even 分色、最近已完成节点 ETA、暂停前缀、hide/remove 清理、SSR document guard;`tickSpeedrunTimer` 只在启用且 show=true 时 renderOverlay 否则 hideOverlay。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+原批:定向 overlay 主/GLM 6 tests、speedrun wave 全门通过,账本 3266/309 closed。2026-10-18 复审 partial:原直接测试缺少差值/ETA 行 oracle,补一条使用真实 `CHECKPOINTS` 的最小测试,钉住最佳值、`-0:02` fast class 和 `预计通关 0:00:18`;直接两文件现 6 tests 覆盖行数/格式、暂停、差值/ETA、原位更新、style/hide 幂等,没有堆重复断言;相邻 5 files/25 tests、typecheck 通过,昂贵门沿用 47–52 波次。
 
 ## 状态与交接
 
-done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+done 保持原历史语义;2026-10-18 复审 partial,不是整卡 accept/done。
 
 ## 历史范围
 
-原卡属固定main时点;CODE-QUALITY-66 — game speedrun overlay boundary的原始范围与日期在保全块内逐字保留。
+原卡属 2026-10-13 wave 时点;原始记录与历史提示词在保全块内逐字保留。
 
 ## 原始结论
 
-原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+原卡结论按 Status(done) 原样:未发现直接缺陷,未改 UI 形态或 timer API。治理不撤销/不恢复旧信用。
 
 ## 当时证据
 
-原文0个链接与当时回执属原时点证据;本页不重跑、不复授。
+当时回执（6 定向、wave 全门）属原时点证据;本页不重跑、不复授。
 
 ## 当前有效性
 
-仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+仅历史任务归属有效;不凭旧基点认定当前实现。
 
 ## 继任文档
 
-接替/关联入口见原文链接;当前任务导航以看板为准。
-
+CODE-QUALITY-69（time-format）与 CODE-QUALITY-65（index 编排）为相邻归属;当前任务导航以看板为准。
 
 ## 原文保全
 

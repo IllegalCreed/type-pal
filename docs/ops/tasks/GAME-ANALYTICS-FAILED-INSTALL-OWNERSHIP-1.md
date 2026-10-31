@@ -7,44 +7,43 @@ Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1 — GA安装失败后的订阅所有权」的任务归属与历史边界。原目标见原文(摘录:安装在返回controller前失败，应由创建者撤已取得的监听和本次隐私UI，保留原错误供main隔离；本次停用，刷新后重新安装。用户2026-10-18已明确批准A，不重复请求。);本页治理不重开已终态任务。
+修复可选GA安装在返回controller前失败时的所有权：创建者须撤销已取得的监听和本次隐私UI，同一错误对象传播至main原启动catch；本次停用，刷新后重新安装。基线缺陷：GA先取得订阅再apply初始授权，旧错误导致无返回句柄却继续响应重授；installer先装UI。用户2026-10-18裁决A原话：“A：失败即撤销本次监听和隐私控件，刷新页面后重试（推荐，改动较小）”；B（保留可重试controller状态机）不实施。
 
 ## 范围
 
-原卡含章节[GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1 — GA安装失败后的订阅所有权、目标、范围、前提真值门、反证与替代解释、用户裁决与准入],共4个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+build allowed三文件：google-analytics.ts、install-analytics.ts、新install-failure专测。正常GA采集范围/ID/URL白名单/去重/同意策略、脚本资源error重试、UI布局、公共接口、schema/save/资产/二阶段冻结。
 
 ## 前提与证据
 
-固定main源6234B(SHA 32901bfa37b9);原卡前提按原时点保留。当前存活入口:[OPS-GA4-consent-pageviews.md](../archive/tasks/done/OPS-GA4-consent-pageviews.md) [README.md](../evidence/GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1/README.md) [initialization-probe.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3z-google-analytics/initialization-probe.json) [QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)。
+固定源全文核读。事务边界：page订阅与初次apply位于try内，异常撤已取得的consent/page再抛回；installer另撤自己UI；共享SDK/global/脚本不清，已执行SDK命令不可逆。修前4文件15绿/5指定AssertionError（js/config/page订阅、初次readPage、真实installer UI失败，错误对象不替换）；修后7文件30绿。最终spec以两旧源回放仍5红；两单针各4绿1指定红，全部源/测恢复字节。TC首版测试spy泛型TS2344，改真实类型推断闭包恢复，未cast/ignore。本地浏览器诊断宿主实跑：失败后无控件/无后续命令，刷新后controller/隐私设置可用；不向真实property发送测试采集。2026-10-21 analytics四卡收口：统一check/ratchet/protected及严格静态门已通过，控件工作流/原件由父卡analytics-closeout.json承载。锚点:[OPS-GA4-consent-pageviews.md](../archive/tasks/done/OPS-GA4-consent-pageviews.md) [README.md](../evidence/GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1/README.md) [initialization-probe.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3z-google-analytics/initialization-probe.json) [QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+done覆盖批准A的两实现与专测（现版发射JS同批准实现，五红/两单针/原生浏览器证据复用）；真实Google网络/多property/外部unsubscribe自行抛错不是本卡承诺，不外推CODE109或整个pre94完成。
 
 ## 状态与交接
 
-done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+done保持原语义；治理不重开。无下一位Agent提示词，Codex单Agent。
 
 ## 历史范围
 
-原卡属固定main时点;GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1 — GA安装失败后的订阅所有权的原始范围与日期在保全块内逐字保留。
+原卡属固定main时点；范围为GA/install-analytics两生命周期块及专测，正常采集合同不在本卡。
 
 ## 原始结论
 
-原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+原卡结论按其Status(done)原样：2026-10-21四卡收口，统一门与严格静态门已通过。
 
 ## 当时证据
 
-原文4个链接与当时回执属原时点证据;本页不重跑、不复授。
+当时回执属原时点证据：15绿/5指定红、30绿、两单针4绿1指定红、本地浏览器刷新重试；本页不重跑、不复授。关联:[OPS-GA4-consent-pageviews.md](../archive/tasks/done/OPS-GA4-consent-pageviews.md) [README.md](../evidence/GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1/README.md) [initialization-probe.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3z-google-analytics/initialization-probe.json) [QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)。
 
 ## 当前有效性
 
-仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+仅历史任务归属有效；真实gtag通常只排队，不能声称Google实网SDK已观测抛错——本例是公开可注入外部函数端口的同步异常；不凭旧基点授权新产品取舍。
 
 ## 继任文档
 
-接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[OPS-GA4-consent-pageviews.md](../archive/tasks/done/OPS-GA4-consent-pageviews.md) [README.md](../evidence/GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1/README.md) [initialization-probe.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3z-google-analytics/initialization-probe.json) [QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)。
-
+analytics四卡收口由父卡analytics-closeout.json承载；CODE109另核。 关联:[OPS-GA4-consent-pageviews.md](../archive/tasks/done/OPS-GA4-consent-pageviews.md) [README.md](../evidence/GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1/README.md) [initialization-probe.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3z-google-analytics/initialization-probe.json) [QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)。
 
 ## 原文保全
 

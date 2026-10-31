@@ -2,29 +2,30 @@
 
 Status: build
 Owner: GLM(治理候选作者;原文作者/状态见保全块)
-Last reviewed: 2026-10-30
+Last reviewed: 2026-10-31
 Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「QUALITY-FETCH-ABORT-LIFECYCLE-1 — GET重试等待期与Request取消停止线」的任务归属与历史边界。原目标见原文(摘录:Reviewer: Codex（当前源码与真实IO复核，不冒充第三方） Capability: global fetch cancellation boundary Visual Verificati);本页治理不重开已终态任务。
+修复GET重试等待期的取消生命周期：旧实现只在底层reject后核init.signal.aborted或错误名AbortError；真实HTTP/原生fetch原件（Node22本机503、独立观测只拦截本任务独有的314159ms退避timer并显式放行）证明——退避中取消时Promise未结局、1底层调用/1条HTTP、1个backoff仍持有；传已取消Request（reason普通Error）时两次放行后3次底层调用才拒绝且HTTP始终0条（'底层调用'不等于发出HTTP）。按既有CODE71合同与WHATWG Fetch（先核Request.signal、abort以原reason拒绝），取消时立即以原reason终结、清退避/监听器、不进下一attempt。
 
 ## 范围
 
-原卡含章节[QUALITY-FETCH-ABORT-LIFECYCLE-1 — GET重试等待期与Request取消停止线、直接事实与当前停止线、四向真值与反证、可审阅方案与准入条件、C1 实现准入（2026-10-16，8f5a9af5d）、C1 实现结果（2026-10-17，工作树，尚未提交）],共6个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+仅fetch-retry.ts私有可取消退避+新增cancellation.test+boundaries注释；不改公开签名、GET/状态码/次数/HTTP结果合同、音频状态机、其它包。有效signal=显式init.signal（含null覆盖）或Request.signal；首次调用仍交底层fetch处理Request构造与输入校验。
 
 ## 前提与证据
 
-固定main源9689B(SHA 7976f2ed5fa8);原卡前提按原时点保留。当前存活入口:[CODE-QUALITY-71-game-fetch-retry-abort-boundary.md](../archive/tasks/done/CODE-QUALITY-71-game-fetch-retry-abort-boundary.md) [README.md](../evidence/QUALITY-FETCH-ABORT-LIFECYCLE-1/c1/README.md) [real-abort-proof.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/fetch-retry/real-abort-proof.json)。
+原5个链接处置见作者review，存活入口逐字保留：
+
+当前存活入口:[CODE-QUALITY-71-game-fetch-retry-abort-boundary.md](../archive/tasks/done/CODE-QUALITY-71-game-fetch-retry-abort-boundary.md) [README.md](../evidence/QUALITY-FETCH-ABORT-LIFECYCLE-1/c1/README.md) [real-abort-proof.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/fetch-retry/real-abort-proof.json)。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:build),治理不改写。
+C1准入（8f5a9af5d）：最终先红原生六例三通过、三个取消合同AssertionError；流程纠正保留（首次写入准入的Python命令编码失败致补丁误执行，已用精确反向补丁撤回并以git diff --exit-code确认逐字节回HEAD）。C1实现结果：旧实现23通过/3失败→26例最终0失败，完整file×fullName与源/临时树SHA；退避abort立即以原reason拒绝、清timer/监听器、正常完成也移除监听器。合并main后质量门：定向4文件26tests零诊断、全仓pnpm check通过（docs 1466 Markdown/8693 local links、game 321/3612、lint 4956全0）；coverage:ratchet与protected fast均失败于既有shared/pal-extract baseline回退（447/466、1068/1535等），未改基线未堆测试。
 
 ## 状态与交接
 
-build保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
-
+Status保持build：fetch-retry.ts旧整文件关闭因直接counter撤回rework；旧CODE71的done只保留历史。全仓coverage回退与game 17块stderr/editor诊断未清，不合main；全部83卡与94-102/editor原目标继续。
 
 ## 原文保全
 

@@ -7,24 +7,23 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「CODE-QUALITY-107 — Codex 当前验收（2026-10-17）」的主题按原文时点保留(摘录:完整读取 `primitives.ts`、`item-select.ts` 和五个专属测试；读取 `inventory-menu.ts`、 `sell-menu.ts`、`equi)。
+本件回答:CODE-QUALITY-97/98 menu 基础切片（`primitives.ts`、`item-select.ts` 与五个专属测试）的当前逐文件状态,及 E-4/E-5 两个未决边界。
 
 ## 范围与证据
 
-原报告含章节[CODE-QUALITY-107 — Codex 当前验收（2026-10-17）、读取范围、当前结论、当前验证、裁决]、0个链接;固定main源1667B(SHA 0909d3190b27)。当前存活入口:无当前仓库内存活链接。
+完整读取两实现与五测试,并读取 inventory-menu/sell-menu/equip-menu/magic-select/in-game-magic-menu/menu-driver/draw-inventory 及战斗选择 caller 相关路径;公开 caller 只消费纯 state/过滤结果,没有私有 helper mock。
 
 ## 发现
 
-原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+`primitives.ts` 的 cursor/page/confirm/triple/switch 合同与 SDLPal 逐项移动一致;disabled 可停留、空表、越界和 pageOffset 有判别性 oracle;pageUp/pageDown/findNextSelectable 是 test-only,当前没有生产 caller,保留 E-4 供后续公共出口准入。`item-select.ts` 的 filter 真值表与 usable/sellable primary 入口一致;important 是显式工程近似;目录外 id、缺名、空库存、pageSize、sell price floor 和数据层 disabled=false 均有合法 typed 反例;`createItemSelectMenu` 当前无生产 caller,保留 E-5,不擅自删除。
 
 ## 结论
 
-原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+定向 7 files/78 tests PASS 0 stderr;相邻 40 files/377 tests PASS 但 `magic-script.test.ts` 保留 2 条预期缺失 labelMap stderr（不在白名单,未静音或改断言）;game typecheck PASS;本批无生产或测试源修改。
 
 ## 整改与复核
 
-本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
-
+没有发现可在本批直接修复的产品缺陷或弱测试;两个实现文件与五个测试文件登记 review,不标已验证;E-4/E-5 仍需独立删除/公共出口准入证据。
 
 ## 原文保全
 

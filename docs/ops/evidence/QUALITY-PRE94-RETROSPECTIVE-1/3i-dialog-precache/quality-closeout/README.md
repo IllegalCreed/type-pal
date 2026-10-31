@@ -2,29 +2,32 @@
 
 Status: historical
 Owner: GLM(治理候选作者;原文作者/状态见保全块)
-Last reviewed: 2026-10-30
+Last reviewed: 2026-10-31
 Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「CODE3i 预缓存 UI／客户端／商标质量收口」的主题按原文时点保留(摘录:b658 完整远端门与两条原生 annotation、完整原件：Documentation39894317671与Coverage39894317718均success；20,17)。
+本窗收口CODE3i原五源范围(UI/client/trademark为主),并处理两类CI问题:ubuntu-latest迁移notice与商标专测大数组比较在CI失败。id:pre94-code3i-quality-20261023,基点13c935e4c;Codex单Owner。当前源码集中门通过、3i原五源接受;远端PR发布仍待实核。
 
 ## 范围与证据
 
-原报告含章节[CODE3i 预缓存 UI／客户端／商标质量收口、2026-10-23 runner 迁移通知窄修、2026-10-23 PR14 CI 增量、证据身份、来源与输入、断言与业务 oracle]、8个链接;固定main源6395B(SHA 3c07d4af9ce2)。当前存活入口:[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) [README.md](../README.md) [ci-rework-receipts.json.gz](ci-rework-receipts.json.gz) [ci-rework.json](ci-rework.json) [receipts.json.gz](receipts.json.gz) [review.json](review.json) [runner-rework-receipts.json.gz](runner-rework-receipts.json.gz) [runner-rework.json](runner-rework.json)。
+完整读取三实现、六专测与两新宿主;bootstrap/SW/SDL函数只按review.reading所列范围读取,不冒充整文件复审。原3i的dialog-assets/audio-volume用有效同版八维复用;原72已批准失败终态四反例、真实PROD404/迟到200与截图按原中文窄范围复用;本窗无新浏览器/离线/视觉验收。预缓存ready/once一手合同见review.primary(w3c service-workers ready never rejects;dom once listener removed before callback);SDL PAL_TrademarkScreen只支持顺序/参数,现有TS elapsed RGB fade不等于SDL j/64中间像素,删除旧1:1注释不改产品演出。13个逐文件八维记录(含两份同版复用)见[review.json](review.json)。
 
 ## 发现
 
-原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+判别力三变异(D20订阅解除/SW error收尾/商标skip传递)均旧绿/新恰一指定AssertionError,源码测试均恢复;ready-after弱重复2到1,合同转移到主测更强有序断言;UI两个同输入formatter合为私有函数,全文TS正文守恒;模块冻结后同35强用例V8实测仅少已覆盖3语句/1函数/1行,未覆盖计数不变,按用户授权登记有限baseline重算(退役总53条/net107,旧52不变)。glm29『两个直接例已核完整顺序/skip』过强:旧例仅some摘要、另一例未传skipKeys,本窗以完整framebuffer/canvas/默认不可跳与显式跳过合同补正,历史原件不改写。[runner-rework.json](runner-rework.json):b658两远端门success(20,172例/774源,硬门与原7条Action/Node提示0),但GitHub原生check-runs API另有每工作流1条ubuntu-latest迁移notice——raw零计数不能宣称全平台零;按官方runner-images #14748仅将两个runs-on固定ubuntu-24.04,其余字节一致。[ci-rework.json](ci-rework.json):首远端game一例5000ms超时(5478ms)未合并;七处大数组比较换原生Buffer.compare核完整长度与全部字节(失败只报标量),原生deepStrictEqual在失败diff展开时造成worker错误已撤回不记有效反控;末字节差异两比较器都拒绝,skip变异恰1指定AssertionError,恢复2绿/28相邻绿,未放宽timeout。Action七处引用改官方release完整SHA(checkout7.0.1/setup-node7.1.0/upload-artifact7.0.2/pnpm6.1.0),YAML仅这7处变化。
+
+## 结果
+
+定向7文件52/52、相邻11文件61/61、typecheck、scoped biome、101覆盖率工具通过,完整stderr 0;集中全check20,601例+692工具、official20,172例/774源与同报告strict/protected通过,项目诊断0;全仓lint5939文件0/0/0。原首次coverage中断无最终回执不计通过,补跑完整一次。首次探针漏vi、canvas跨realm比较、假时钟两超时、Mock重载两类型错等失败均保留并解释,不冒充产品缺陷或有效业务反控。pre94当前64accept/19partial;3i仅原五源范围接受,10文件新关闭/3旧接受刷新;3404tracked/405closed/104review/2895pending。完整原件见[receipts.json.gz](receipts.json.gz)、[runner-rework-receipts.json.gz](runner-rework-receipts.json.gz)、[ci-rework-receipts.json.gz](ci-rework-receipts.json.gz)。
 
 ## 结论
 
-原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+本窗结果即上述定向与集中门数字及3i收口裁决;pre94 64accept/19partial不宣称完成,远端发布与新实跑仍待,shared格式/广域bootstrap/main/splash/94-102不附带关闭。
 
 ## 整改与复核
 
-本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
-
+未重跑;verify.mjs默认只读,MATCH非语义质量自动证明。新远端实跑前不宣称平台提示清零;当前远端必需补门仍待;shared格式、广域bootstrap/main、splash源码与94-102不附带关闭;dialog外层防御catch登记结构候选,SW多次注册无生产caller,商标中间fade为既有差异。上游:[README.md](../README.md)、[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)。候选待Owner非作者接收。
 
 ## 原文保全
 

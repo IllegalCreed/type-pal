@@ -7,24 +7,23 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 证据身份
 
-本页是「game-core-residual(core 残余六件)八维复审批」的治理候选页;证据原件即下方逐字节保全的固定main源(3303B,SHA 9c3b78ae9fc6)。
+本页是 pre-94 foundation 模块 11 批 26(core 收尾)的八维复审批回执:对象为 game core 残余六文件(rng 51/command-bus 88/inventory-state 31/equip-effect 295/equipment-state 392/event-opcode-player 427 行,全文读毕),整改类型为纯注释 5 处(三文件)、零代码改动,body-invariance allEqual=true。证据原件即下方逐字节保全的固定main源(3303B,SHA 见保全块)。
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原3个链接处置见作者review的linkDisposition。当前存活入口:[codex-stage2-rework.json](../codex-stage2-rework.json) [body-invariance.json](body-invariance.json) [directed.json](directed.json)。
+基线 origin/codex/code-quality-3y @ 53db76bbbb(候选线 58+ 提交)。整改清单:①command-bus.ts 模块头『异步回执机制(complete cmdId)接口留下,M3 转场/视频时激活』过时——转场/视频实际走 suspendRaf+每帧 drain,complete() 零生产消费方(仅自身 no-op 测试),改为『从未被激活…接口保留为兼容,清理候选已登记』;②complete() TODO 注同源过时,改为『保留的异步回执接口——从未激活(见模块头),现 no-op』;③equip-effect.ts runEquipScriptSync docblock『0x2D/0x29(待 identify)留 follow-up』过时——两 case 下方已实现(仙女剑 DualAttack/寿葫芦 563/564),改为『已实现(见下方 case)』;④runEquipScript docblock 整套过时——runEquipScriptSync 0x18 现已真做 swap(cur!==newItem 分支),menu-driver 按 DM23 只写入口值,改述现架构;⑤equipment-state.ts removeEquipmentEffect docblock『ts 简版:DualAttack status 模型未做(留 follow-up)』与函数末 partIdx 3/5 分支(两副作用均已实现)直接矛盾,改为『两项副作用均已实现』。零整改面(3 文件):rng.ts mulberry32 与 sdlpal LCG 差异声明+D29 对拍边界准确;inventory-state.ts qty==0→1 真值(global.c:1094)、id 0 哨兵守卫(扬州空宝箱根因)、99 clamp 全锚准确;event-opcode-player.ts 注释稀疏但全部准确。Codex 当前裁定(2026-10-19):本页保留作者阶段证据,未获整包/全维收口验收;可复用范围与逐文件依据见 [codex-stage2-rework.json](../codex-stage2-rework.json)。
 
 ## 断言与业务 oracle
 
-文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+body-invariance:三整改文件 printedSha256 一致,见 [body-invariance.json](body-invariance.json);定向 10 文件(command-bus/equip-effect×2/equipment-state/event-opcode-player×4/cross-module/dependency-ownership)51 套件 127/127、0 failed suites,机器回执 [directed.json](directed.json);tsc --noEmit -p packages/game exit 0;scoped biome 0 诊断;git diff --check 干净。127 例真实主轴:G07 跨模块边界四链(scene 写 mapNum→对话历史、addItemToInventory id0 拒收、装备派生进 0x30 快照、装备脚本经 event 表执行);equip-effect 装备效果行写入真值(木剑 rgwOperand=[14,20,3]→DEXTERITY、长鞭 SPRITE_NUM_IN_BATTLE/ATTACK_ALL、圣灵珠 COOPERATIVE_MAGIC 行 65);event-opcode-player cov85 41 例(0x8d 封顶 99/999、0x17 装备效果层直写、0x18 交换分支);command-bus 6 例含 complete(cmdId) M2 内 no-op(死接口的运行侧印证)。
 
 ## 结果
 
-原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+纯注释整改批(5 处,零代码改动):127/127 定向绿+body-invariance 三文件恒真共同证明行为零变。登记项(交 Codex):CommandBus.complete(cmdId) 死接口(零生产消费方,与四死 union op 同族)——清理候选(批26新增)。模块收口:core/ 全目录收口(此前 b3/b4/四大文件+battle+menu+本批六件=core 46 文件,作者阶段主张);game 包余量 inspect/save→analytics→tools→dev。
 
 ## 限制与复核
 
-未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
-
+未重跑任何命令/测试;tsc exit 0 与零诊断为原时点自报;body-invariance 的 base 为字面量 HEAD(运行时解析),证明力弱于族内钉死 SHA 的姊妹件;『core 46 文件收口』为作者主张,Codex 2026-10-19 未收口;历史结论保持原时点。
 
 ## 原文保全
 

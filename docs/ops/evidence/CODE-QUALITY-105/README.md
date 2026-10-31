@@ -7,24 +7,23 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「CODE-QUALITY-105 evidence — Reforge MenuBox 残余测试复核」的主题按原文时点保留(摘录:本目录记录当前树对 `packages/reforge/src/menu/menu-box.residual.glm.test.ts` 的逐文件复核， 以及与 `menu-box.)。
+本目录回答:当前树对 `packages/reforge/src/menu/menu-box.residual.glm.test.ts` 的逐文件复核及其与 `menu-box.ts` 公开 caller/相邻 oracle 的证据状态。历史 TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1 证据保持 historical,不被本目录升级为当前通过。
 
 ## 范围与证据
 
-原报告含章节[CODE-QUALITY-105 evidence — Reforge MenuBox 残余测试复核]、8个链接;固定main源1417B(SHA 0f07977ab991)。当前存活入口:[adjacent.txt](adjacent.txt) [codex-current-review.md](codex-current-review.md) [counterproof-current.txt](counterproof-current.txt) [full-check.txt](full-check.txt) [protected-fast.txt](protected-fast.txt) [ratchet.txt](ratchet.txt) [targeted.txt](targeted.txt) [typecheck.txt](typecheck.txt)。
+本批无产品代码或测试修改。[codex-current-review.md](codex-current-review.md) 为逐文件、caller、oracle、排重和结论正文;[targeted.txt](targeted.txt) 为五文件定向回归;[adjacent.txt](adjacent.txt) 为 menu 目录相邻回归及未 await 诊断;[typecheck.txt](typecheck.txt) 为 reforge typecheck;[counterproof-current.txt](counterproof-current.txt) 为当前源树 K1–K5 反控重放摘要。
 
 ## 发现
 
-原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+五个合同测试（两级框几何/闪烁相位/九行状态/中心定位/六格物品）均有 typed fixture 与 renderSpans/drawImage oracle,历史反控在当前源树重放逐针 red+restored green;menu-box.ts SHA 与历史冻结源一致。
 
 ## 结论
 
-原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+[full-check.txt](full-check.txt) 为批次全仓 `pnpm check` exit 0（各包测试与 typecheck 通过,lint-zero 0/0/0）;[protected-fast.txt](protected-fast.txt) 为 official coverage ratchet 因 shared/pal-extract/total baseline 回退 exit 1;[ratchet.txt](ratchet.txt) 为 protected fast 同一回退并复现历史退役保护账 exit 1。
 
 ## 整改与复核
 
-本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
-
+coverage ratchet/protected fast 的既有 baseline 回退使状态保持 review;退出码 0 但带诊断不计硬门通过。
 
 ## 原文保全
 

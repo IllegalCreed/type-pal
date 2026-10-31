@@ -7,24 +7,23 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 证据身份
 
-本页是「获批P3：收集战败／逃跑接回脚本」的治理候选页;证据原件即下方逐字节保全的固定main源(1394B,SHA 2e1e9aad60c3)。
+本页是「获批P3：收集战败／逃跑接回脚本」的治理候选页;证据原件即下方逐字节保全的固定main源(1394B,SHA 2e1e9aad60c3)。本页语义:用户call_331f12c139684e7b9b17c3e28ec9b529批准的窄修——slice收集器在raw7分支补收Lost/Fleed两条非零return边;narrow repair accepted,CODE3/3g仍partial。历史验收时点,不重开任务。
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原3个链接处置见作者review的linkDisposition。当前存活入口:[verify.mjs](../mode-player-closeout/verify.mjs) [receipts.json.gz](receipts.json.gz) [review.json](review.json)。
+来源为固定Git载体,非本次运行;原3个链接处置见作者review的linkDisposition。当前存活入口:[verify.mjs](../mode-player-closeout/verify.mjs) [receipts.json.gz](receipts.json.gz) [review.json](review.json)。两文件A–H、caller/primary及原盘有限影响见review;完整红绿/执行双流在receipts包。
 
 ## 断言与业务 oracle
 
-文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。本页真实oracle事实:(1)scene/global两正式业务红后,只在slice的raw7分支分别收非零op1/op2,保留胜利续行i+1;仅7行产品分支与两正式例,无新导出/兼容层或生成物写入。(2)两个合法typed测试同时核双目标、共享goto改写、敌队编号不当入口、零地址不收与原输入不变,旧14身份保留;先14绿2 AssertionError红,绿83例/9文件,extract typecheck零诊断。(3)原盘43503指令,原始字节码recompile完全一致;union 38765→38780,新增15条(6186–6189、41073–41083)、删除0;334个已收战斗点610条非零return边目的现全在union,修前漏609条边仅3个不同目的,不能说609个独立缺陷。(4)SSS/WORD/M.MSG读入哈希前后相同,未运行写出CLI或修改生成物/all.json。
 
 ## 结果
 
-原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。批结论:narrow P3 repair accepted;opcodes的named/emit错注与专测旧双循环宣称另作纯注释提交,完整JS树一致;不因此关闭CLI主编排、四专测全部输入域或CODE3/3g;其它债与全仓/coverage/单PR继续等全部pre94收尾。
 
 ## 限制与复核
 
-未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
-
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。原文明示:仅内存切片归属,不冒称普通剧情或浏览器完整验收;低成本只读核验入口在mode-player-closeout的verify.mjs。
 
 ## 原文保全
 

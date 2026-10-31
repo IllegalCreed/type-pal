@@ -7,24 +7,29 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 证据身份
 
-本页是「CODE94/95 与 CODE97–102 — Codex 再验收（R2，2026-10-15）」的治理候选页;证据原件即下方逐字节保全的固定main源(22288B,SHA 9514f65d7588)。
+本页是 Codex 对菜单集成窗口(CODE94/95 与 CODE97–102)的 R2 独立再验收报告,对应任务卡 docs/ops/tasks/CODE-QUALITY-94-menu-integration-window.md。验收对象: 候选 1f8bcd468,主线 cddf65557e6…;独立工作树 quality-menu-accept-94-95/type-pal,分支 codex/quality-menu-accept-94-95;开始时工作树干净,FF 到贡献者最新提交,0 behind / 12 ahead;未写主工作树、未改 packages/依赖/规则/coverage baseline、未合 main。分批裁定: 94 counter(旧 id0/stub 注释与 flags 强转已纠,但新增原版对照反证与测试质量问题,R1 非零运行诊断仍在,30条不闭合); 95 仅三份 fixture 修正 accept(整体仍 review,统一门依赖94); 97 装备位注释错误+判别力/test-only 页码导出; 98 去重结论有直接反例+标题取消链遗漏; 99 非法 fixture+重复 itemId 非生产库存; 100 内存测试误称 IndexedDB+自写 counter 不证生产聚合; 101(P1) 主路径事务失败被报告成功已反控复现; 102 as never 残缺 GameState+toast/计时器隔离缺失——均 counter/rework。本轮新增关闭 0 文件,账本保持 3267 inventory / 229 closed / 44 review / 2994 pending。证据原件即下方逐字节保全的固定main源(22288B,SHA 9514f65d7588)。
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原4个链接处置见作者review的linkDisposition。当前存活入口:[GAME-OPENING-CANCEL-CURSOR-1.md](../../tasks/GAME-OPENING-CANCEL-CURSOR-1.md) [GAME-OUTSIDE-MAGIC-DISABLED-1.md](../../tasks/GAME-OUTSIDE-MAGIC-DISABLED-1.md) [GAME-SAVE-IDB-COMMIT-1.md](../../tasks/GAME-SAVE-IDB-COMMIT-1.md)。
+来源为固定Git载体,非本次运行;原4个链接处置见作者review的linkDisposition。当前存活入口:[GAME-OPENING-CANCEL-CURSOR-1.md](../../tasks/GAME-OPENING-CANCEL-CURSOR-1.md) [GAME-OUTSIDE-MAGIC-DISABLED-1.md](../../tasks/GAME-OUTSIDE-MAGIC-DISABLED-1.md) [GAME-SAVE-IDB-COMMIT-1.md](../../tasks/GAME-SAVE-IDB-COMMIT-1.md)。直接反证要点:
+
+- C1(P1,94及整个集成窗口): 统一门仍非干净通过。独立解析未经裁剪原件: 旧全仓 check 3489条 act+2 导航诊断;新 R2 ratchet 3490条 act+2 导航;新 R2 protected 3646条 act+2 导航,各退出0。诊断归属 editor 不使其消失;GLM『独立全门完成』不能继续作为通过依据;不得静音、exclude、弱化规则;不授权 GLM 越界改 editor。本轮因已有可复现语义 counter 未重跑三个长门。
+- C2(P1,94): 大世界法术『隐藏』固化了与 SDLPal 相反的 oracle。magicmenu.c:338-372 把所有已学非零法术入表、非大世界可用仅设 fEnabled=FALSE 并不删除;当前 buildSpellMenu:135-139 先 filter 删除,主测试:486-498 又要求 305 不出现;同文件 225/262/487 用 JSON.parse 产生 any 对象。codex-r2-menu-counter.mts 以完整 typed 角色构造已学[300,305],实际表只含[300]——仅称 SDLPal 验证,未冒称 pal.exe 实机确认。另卡 GAME-OUTSIDE-MAGIC-DISABLED-1(存活链接见上),本轮停在证据不改机制。
+- C3(P2,98/99): 标题读档取消未复位光标。uigame.c:143-150 取消槽位后 wDefaultItem=0;当前 driver:984-990 仅 pop 原 opening 对象;独立探针 Down→Confirm→Menu 留下 cursor=1,而现有 cov85:819-832 只断言栈和 kind。另卡 GAME-OPENING-CANCEL-CURSOR-1(存活链接见上)。
+- C4(P1,101): IDB 请求成功不等于保存事务成功。indexed-db.ts:49-60,63-66,84-86 丢掉 transaction 引用只等 request.onsuccess;W3C IndexedDB transaction-lifecycle 规范明确请求成功后事务仍可能中止。codex-r2-idb-counter.mts 复用已安装 fake-indexeddb 6.2.5 合法注入: 槽1 正控保存读回321,槽2 在 put.success 中 transaction.abort——已观测 abort、槽2为空,但 saveSlot Promise 已 resolve。退出0表示反证成立,不是产品测试通过。另卡 GAME-SAVE-IDB-COMMIT-1(存活链接见上);未改 DB 版本/清档/schema。
+- C5(P2): 逐卡测试质量问题——94 menu-mode.test:65/75 假 inventory state、equip leaves 与主测试重复 filter/phase/cursor 断言;97 item-select.ts:17 称 0x01 装备实为 0x01可用/0x02装备、:48 虚构 kItemFlagImportant、页码导出无生产 caller;98 opening leaves 与主测试同合同重复、头注释不实;99 cov85:359/555 反复 push 相同 itemId 凑11条库存(真实 addItemToInventory 按 id 合并不可能)、slot load 异步只证成功;100 simulateSave 自写聚合不算 driver 证据、原卡『IndexedDB 隔离』与无 IDB 环境矛盾、产品头部仍引用不存在的 createSaveSlotMenuAsync;101 api 头部 in-memory stub 错误、save 不拒 NaN/小数;102 quick-save.test as never 残缺 GameState、afterEach 后 toast 留 DOM 与 2s/220ms 计时器、未断言解绑/反馈。
 
 ## 断言与业务 oracle
 
-文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+文档事实核对(currentExecution=false):本页是 Codex 独立裁定记录,counter 探针 exit0 的语义是反证成立而非产品测试通过。实际全文读取: CODE94 manifest 的30个 core/menu 文件逐文件判定(局部合同成立/窗口review/rework 分列),另读 97–102 的 primitives/item-select/opening-menu/player-status/menu-driver(全1047行)/menu-driver.test(657行)/cov85(1007行)/save-slot-menu/save api/indexed-db/quick-save/toast/menu-save-chain/inventory-state 等;caller 补读 bootstrap:1080-1125/1620-1788、scene-system、battle-system、present/menu 与 makeRole 工厂——caller 段落不冒充整文件闭合。机械一致性: 30条 candidateSha/mainSha 逐个与当前树及 origin/main 核对 30/30 匹配,但7条 byteIdentical/sourceChanged 布尔仍是旧值——不能让 reworkCounter 新 SHA 与旧字段矛盾,应明确旧字段所属 revision 或按现行候选重算;未编辑作者 manifest 原件。独立运行: 定向/相邻 36 files/323 tests exit0 无 stderr;game typecheck exit0;game 全包在完整独立资源副本后 312 files/3525 tests exit0 无诊断/跳过(前两次缺资源 exit1 原件保留,不是产品回归);两个 counter 探针 exit0 正控与反证均成立、不纳入官方数量;lint-zero 4021 files 0/0/0;docs 48 测试与导航/版本/content-review PASS;ledger PASS 3267/229/44/2994。全仓 check/official ratchet/protected 本轮未重跑,已有回执含真实诊断未干净通过,不合 main、不标逐文件 closed。同步最新主线后(先推 25d2d3c42 再合并 origin/main=8f5d17ff1,未把治理合入 main): ledger 3283/229/44/3010(16条音乐记录均 pending);采用当前 origin/main 的 canonical baseline 完整原字节作比较起点,不手工拼计数;game 全包 317files/3558tests 0skip exit0、提取器 5/28、coverage 工具 59/59、game typecheck exit0,各原件无 act/导航诊断;lint 4073files 0/0/0;docs 1249文档/380任务导航 PASS;30条及额外阅读共57份与 1f 逐 SHA 比对全部未变;全部 check/ratchet/protected 仍未干净通过,不得宣布统一门或阶段集成通过。
 
 ## 结果
 
-原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+原文保全完整、模板符合、链接处置如实即本页治理结果;本轮语义整改把七个 counter/rework 裁定、C1–C5 反证要点、机械一致性发现与同步后终态写回可见正文,不重开任务、不重跑执行、不改 Codex 原裁定语义。不产生新执行结果。
 
 ## 限制与复核
 
-未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
-
+未重跑原命令/探针/长门;历史结论保持原时点(1f8bcd468 与同步后两个时点分别成立)。codex-r2-mechanical-proof/targeted-command/counter 等配套原件不在本轮1916候选集合内,数字按本页与同目录 r3/final-window/coverage-tools JSON 交叉见证;W3C 规范引用为原文历史引证。三个新 GAME 高风险卡按原文仅 draft,其后续推进不在本页范围。候选待Owner非作者接收。
 
 ## 原文保全
 

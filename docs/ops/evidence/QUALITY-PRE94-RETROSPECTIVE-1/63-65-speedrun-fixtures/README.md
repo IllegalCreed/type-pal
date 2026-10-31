@@ -7,24 +7,23 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 证据身份
 
-本页是「CODE63/65 speedrun 测试夹具与解绑判别力勘误」的治理候选页;证据原件即下方逐字节保全的固定main源(3752B,SHA 6fdf0a8a207f)。
+本页是 QUALITY-PRE94-RETROSPECTIVE-1 中 CODE63/65 的测试夹具与解绑判别力勘误卡:基点 a2ee3650c、唯一分支 codex/code-quality-3y、Codex 单一 Owner,build allowed 仅 snapshot 主测试、index 主/leaves 三文件及治理证据;生产源/工具行为/公共接口/存档/资产/静态规则/baseline 未改。63/65 仍 partial,全 83 卡仍 47 partial/36 pending/0 accept。原件逐字节保全于下方保全块。
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原8个链接处置见作者review的linkDisposition。当前存活入口:[README.md](../63-speedrun-snapshot/README.md) [README.md](../65-speedrun-index/README.md) [after-proof.json](after-proof.json) [before-proof.json](before-proof.json) [contracts.json](contracts.json) [read-boundaries.json](read-boundaries.json) [static-gates.json](static-gates.json) [test-gates.json](test-gates.json)。
+精确撤回旧测试声明:63 旧片称'合法GameState片段'不成立——旧主夹具双重强转隐藏 facing:0、残缺 battleState 及空 paletteFadeState:{};65 旧片对主夹具/解绑的验收也不足——同样非法 Facing 被强转掩盖,leaves 声称解绑后不重置实际只观察 toast,断言失败时不保证解绑,main toast 真实 timeout 未清。旧类型门/测试绿不能使这些输入合法。被替代旧片:[README.md](../63-speedrun-snapshot/README.md) 与 [README.md](../65-speedrun-index/README.md)。完整三测试/生产 snapshot/index 读取及 caller/type/构造器范围见 [read-boundaries.json](read-boundaries.json);原 20 例职责/合法输入/固定 oracle/排重/隔离人工核定见 [contracts.json](contracts.json)。Primary 为当前公开 GameState/初始化/战斗/淡入构造器、真实 main-loop 与计时编排/配置合同;历史 speedrun 计划的 unsafe 示例不能覆盖当前合法输入规则。
 
 ## 断言与业务 oracle
 
-文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+snapshot:从完整 createInitialGameState 调整目标字段,合法 Facing 为 down;战斗经 loadDefaultGame 初始化角色 runtime/Exp 和 attachBattleState 正式构造,再将一敌置 0HP/defeated,验证 ID 完整保留和总血 30;淡入门用 buildFadeIn 完整状态,删除全部核心双重强转。index 主测试:改完整状态工厂;disabled 补实际 elapsed0;默认 PB 由仅>0 改当前配置 2:37:32 的精确 9452000ms;fake timers、afterEach 解绑/清 timer、DOM/偏好/单例保证失败后也回收。index leaves:合法状态实际计时 1000、F4 重置;再起表 500 后解绑,F4 须保持 500/running 且无新增 toast;afterEach 负责失败路径解绑。用例仍 20,不堆数量/覆盖率,无核心 mock/新强转/产品 API。[before-proof.json](before-proof.json) 与 [after-proof.json](after-proof.json) 保存 command/cwd、exit/signal/spawn、完整 file×fullName、source/test/mutant hash、恢复与临时副本清理:只在隔离 index 副本模拟'解绑后静默重置,toast 已关闭'——旧 20 全绿(盲区),新 19 绿+1 指定解绑用例 AssertionError,正式恢复 20 绿;未把 collection/runtime 错误算作有效针;正式生产源字节保持。
 
 ## 结果
 
-原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+[test-gates.json](test-gates.json):speedrun/tools-panel 与真实 palette/battle 构造器相邻 23 files/144 tests passed,game typecheck 退出 0 无诊断;随后仅修正 F8 fake performance.now 与上一帧 1000ms 对齐,最新定向 20 绿/反控单红及 typecheck 再验通过,相邻不重复运行。[static-gates.json](static-gates.json) 13 项(docs/lint/ledger/diff 及 final-* 复验)全过。账本保持 3312 tracked/286 closed/44 review/2982 pending,三行只纠正证据不重复新增 closed。
 
 ## 限制与复核
 
-未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
-
+新全仓 check、official coverage ratchet、protected fast 本小批未运行;旧 53 波次不能认证本候选,昂贵门留大模块收尾窗口;无视觉、E2E 或剧情实跑;当前默认 PB 配置不等于节点坐标实跑已认证。下一批续 70 与剩余 36 张 pre-94 卡。未重跑任何命令;历史结论保持原时点;候选待 Owner 非作者接收。
 
 ## 原文保全
 

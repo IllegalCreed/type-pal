@@ -7,24 +7,23 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 证据身份
 
-本页是「CODE43/44/45/54 present 渲染四卡复审切片(GLM,只读零改动)」的治理候选页;证据原件即下方逐字节保全的固定main源(2882B,SHA 08101c0c95b2)。
+本页是「CODE43/44/45/54 present 渲染四卡复审切片」(基点 dec0626e,零改动:文件与基点逐字节相同)的治理候选页;证据原件即下方逐字节保全的固定main源。本页真实结论:复审 CODE-QUALITY-43(draw-sprite)/44(font)/45(follower-render)/54(draw-tilemap)四卡的 4 生产文件+6 份测试全文逐文件八维,未发现可由 primary source+真实 caller 证实的新 direct defect,零改动,四卡建议 pending→partial。
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原3个链接处置见作者review的linkDisposition。当前存活入口:[directed-final.json](directed-final.json) [per-file-index.md](per-file-index.md) [read-boundaries.json](read-boundaries.json)。
+来源为固定Git载体,非本次运行。读取 SHA 与指纹勘误(SHA-1 OID 改名+真实 SHA-256 新增)见 [read-boundaries.json](read-boundaries.json),逐文件 A–H 索引与读域标注见 [per-file-index.md](per-file-index.md)(2026-10-20 C1 返工新增),定向原件(17 suite/51 例全绿原生 JSON)见 [directed-final.json](directed-final.json)。
 
 ## 断言与业务 oracle
 
-文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+本页正文按原文时点转述四文件 A 维真值:draw-sprite.ts(49行)——逐帧 anchor(每帧自身宽高,chunk193 爬行帧高 31..73 的偏下根因回归有测试)、opaque mask 判透明(M3.5 fix,palette-0 不再误杀);font.ts(202行)——tofu 回退确定性像素、三影对齐 text.c:1144-1155、palCharWidth/palWordWidth 已知近似在 docblock 精确披露并说明为何不修、measureText 与布局入口区分有注释+测试双锚;follower-render.ts(64行)——follower k→trail[3+k]、FOLLOWER_STEP_FRAME [0,2,0,1](区别 leader [0,1,0,2])、spriteNum=0x98 operand 直当 chunk(res.c:335-348);draw-tilemap.ts(382行)——map.c:382-417 公式逐行锚、±1 fence(layer0 回落首格/layer1 跳过)、L32 缺图回落仅 layer0、repairTilemapSeams 用 coverage 判漏黑、PAL_CalcCoverTiles 五 case 表+L31 负坐标 trunc 边界完整移植。E 维:6 份测试逐例核读,无缺口不新增。
 
 ## 结果
 
-原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+本页治理结果=原文保全完整、链接处置如实,不产生新执行结果。原文执行事实:定向 6 files/51 passed/0 failed/exit0/无 stderr;零改动无需 typecheck/biome。
 
 ## 限制与复核
 
-未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
-
+原文明言未跑(留阶段收尾):全仓 check、ratchet、protected fast、coverage。失效条件:map.c/scene.c/res.c/text.c/font.c 参考库、Tilemap/SpriteImage 类型、present caller 变化会使对应结论待复核;CODE-QUALITY-57 的 thumbnail seam(bootstrap.ts)不在本片(54 卡只辖 draw-tilemap.ts 本体)。未重跑命令;候选待Owner非作者接收。
 
 ## 原文保全
 

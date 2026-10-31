@@ -7,44 +7,43 @@ Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「GAME-DRAW-NUMBER-NONFINITE-1 — 非有限数字阻塞绘制」的任务归属与历史边界。原目标见原文(摘录:只处理drawNumber收到非有限number时的非终止；候选策略为跳过该数字，正常绘制其它内容。限定draw-number.ts及其专测/真实caller回归。不改变V1数据合同、存档值、属性成长、战斗公式或原盘脚本。关联pre94父卡);本页治理不重开已终态任务。
+修复drawNumber收到非有限number时的非终止：V1接受有限base，100%临时加成的乘法可溢出使状态页effective值进入非终止长度循环。已证探针：base=Number.MAX_VALUE仍通过导入且重算后保留，Extra/effective为Infinity，真实drawPlayerStatus由VM 250ms看门狗中断；base=100正常返回effective200。SDLPal数字输入为UINT无Infinity域，故这是TS数值域的失败隔离（入口Number.isFinite守卫跳过），不是SDLPal移植。用户2026-10-24裁决call_edfe7d7f551d4841b9fae30c955bcae2“批准跳过异常数字（推荐）”。
 
 ## 范围
 
-原卡含章节[GAME-DRAW-NUMBER-NONFINITE-1 — 非有限数字阻塞绘制、目标与范围、前提真值门、上下文与依据、验收条件、当前模式推进记录],共1个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+限定draw-number.ts及其专测/真实caller回归；不改变V1数据合同、存档值、属性成长、战斗公式或原盘脚本；负数/小数/槽数策略不扩展；上游buff数值精度/溢出与V1上界是独立问题不在本卡重写。
 
 ## 前提与证据
 
-固定main源6157B(SHA 8ef98e60a211);原卡前提按原时点保留。当前存活入口:[QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)。
+固定源全文核读。正式红例：nonfinite-red-valid四例中两业务AssertionError（直接正Infinity/真实状态页）先于守卫；守卫后17数字专测全绿；首轮写文件cwd错误的no-files原件保留、不授红例信用。旧探针直接注入rgEquipmentEffect会被读档重算消除，不能作为生产证据。CODE3k数字质量收口：2新关闭（draw-number与新nonfinite专测）、5身份槽位专测刷新接受；3411tracked/420closed/99review/2892pending；定向13→17、相邻16文件77例；完整check20576包例+700工具例、七包typecheck；唯一官方采集20147例/777源与同报告ratchet/strict protected通过，硬静态及运行0/0/0。锚点:[QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+done为有限范围收口：非有限数字跳过且有限输入布局保持由17专测证明；普通剧情自然可达性仍未知，未宣称完整浏览器读档或视觉路线验收；远端CI/合并状态按后继Git回执核，不以本地done冒称已发布。2026-10-24封存补核纠正原SDLPal注释链接一级目录错误，仅该URL字节不同。
 
 ## 状态与交接
 
-done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+done保持原语义；治理不重开。下一位Agent从其余16张pre94 partial核Owner与最新main，不扩94–102。
 
 ## 历史范围
 
-原卡属固定main时点;GAME-DRAW-NUMBER-NONFINITE-1 — 非有限数字阻塞绘制的原始范围与日期在保全块内逐字保留。
+原卡属固定main时点；范围为drawNumber入口守卫子切片，上游数值域问题不在本卡。
 
 ## 原始结论
 
-原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+原卡结论按其Status(done)原样：2026-10-24 CODE3k数字质量收口，2新关闭+5刷新，官方20147/777与protected零诊断。
 
 ## 当时证据
 
-原文1个链接与当时回执属原时点证据;本页不重跑、不复授。
+当时回执属原时点证据：两业务红→17绿、相邻77例、完整check20576+700工具/官方20147零诊断；本页不重跑、不复授。关联:[QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)。
 
 ## 当前有效性
 
-仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+仅历史任务归属有效；用户既有裁决保留TS属性持续增长，不能借此把属性重新限制为WORD；不凭旧基点授权新产品取舍。
 
 ## 继任文档
 
-接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)。
-
+其余pre94 partial以父卡[QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)与看板为准。 关联:[QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)。
 
 ## 原文保全
 

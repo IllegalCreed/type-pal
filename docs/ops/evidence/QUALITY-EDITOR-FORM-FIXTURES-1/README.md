@@ -2,29 +2,28 @@
 
 Status: historical
 Owner: GLM(治理候选作者;原文作者/状态见保全块)
-Last reviewed: 2026-10-30
+Last reviewed: 2026-10-31
 Template: evidence-receipt-v1 / 1.0.0
 
 ## 证据身份
 
-本页是「数值表单合法夹具与生命周期」的治理候选页;证据原件即下方逐字节保全的固定main源(3029B,SHA 714fe884368c)。
+本页是 QUALITY-EDITOR-FORM-FIXTURES-1(数值表单宿主、合法夹具与oracle)的证据目录页,任务卡见 [QUALITY-EDITOR-FORM-FIXTURES-1.md](../../tasks/QUALITY-EDITOR-FORM-FIXTURES-1.md)。范围四份测试:LevelingEditor.test.tsx、LevelCurveEditor.ui.test.tsx、CasualtyEditor.test.tsx、CasualtyEditor.glm-m.test.tsx;四测试逐文件直接读,真实组件/命令/caller范围见 read-boundaries.json。当前build,0关闭;产品、规则、content版本均未改。
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原2个链接处置见作者review的linkDisposition。当前存活入口:[QUALITY-EDITOR-FORM-FIXTURES-1.md](../../tasks/QUALITY-EDITOR-FORM-FIXTURES-1.md) [window-review.md](../QUALITY-EDITOR-FORM-FIXTURES-1/window-review.md)。
+消融链原件(前三测试):baseline.json(14例通过但334条不支持act环境的诊断)→ act-environment-only.json(仅启用环境后仍14例通过、暴露10条act外更新)→ lifecycle-original-14.json(保持原100次输入和旧夹具,仅修真实卸载生命周期后14例全0诊断)。夹具与输入:canonical-precision.json(去双重强转、as never及伪造技能/状态,用正式blank→loader→toEditorState和当前typed SkillData后14例0诊断);之后才将两处100次重复输入缩为三种不同合法值并核blur/Enter/Escape/对象切换/canonical和历史命令数。第四测试:glm-m-baseline.json(两例7条act)→adjacent.json(11文件78例但7act未清)→adjacent-final.json(真实撤销处等待后78例0诊断)。终态:owned-final.json(四文件16例0skip/三诊断全0)。反控:oracle-proof.json与oracle-rebuild.json(K4删键mutant)。身份:checkpoint-proof.json;首次TS2322失败原件typecheck-first-error.json。静态门static-preflight.json;联合窗口数值见 [window-review.md](../QUALITY-EDITOR-FORM-FIXTURES-1/window-review.md)(原件window-proof/window-check/window-ratchet/window-protected/scope-proof/window-snapshot/diagnostic-census)。
 
 ## 断言与业务 oracle
 
-文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+文档事实核对(currentExecution=false):CONTENT_VERSION当前确为22,最初过期版本猜测核常量后已撤回,没有版本升级。每个初始状态通过assertProjectSaveValid;Casualty locale引用注册,文本编辑走真实focus/Enter/blur/Escape;创建空台词后的瞬态不冒称可保存;概率门测试实际只证可聚焦按钮,已诚实更名,不声称键盘激活。K4删槽合同(E18-1):保留其它槽时必须删除属性键,不是schema拒绝undefined;隔离mutant把delete改为赋undefined,旧10例仍绿、新10例仅K4一条AssertionError,恢复14例绿;原组件SHA未变。但联合窗口三门exit0仍带act 1152/1071/1031、环境243,统一零诊断门NOT PASSED——定向通过不等于全仓诊断清零。
 
 ## 结果
 
-原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+治理结果=证据保全完整、消融与反控链可独立复验;不产生新执行结果。四文件16例及相邻11文件78例0skip、act/环境/native三模式0;身份16不变、仅一个诚实更名、零退役。账本3284/229closed/62review/2993pending,0关闭、不合main。
 
 ## 限制与复核
 
-未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
-
+未重跑任何命令;20次idle pointermove未证无效不删;跨文件完整排重、辅助库全域生命周期仍未关闭;C05音频端口/故障日志仍未收。历史结论保持原时点;候选待Owner非作者接收。
 
 ## 原文保全
 

@@ -7,24 +7,23 @@ Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「GAME-MAGIC-NUMERIC-ASSIGNMENT-1 — 第一阶段法术中间赋值与随机倍率数值差异」的任务归属与历史边界。原目标见原文(摘录:核清第一阶段法术数值与SDLPal的已复现分叉，按裁决确定有限修复。);本页治理不重开已终态任务。
+核清第一阶段法术数值与SDLPal的已复现分叉并按用户裁决做有限修复。具体分叉是：SDLPal的RandomFloat含端点、灵力先乘后写回WORD再整数除10（32位float中间赋值），而基线TS用连续JS浮点最后Math.trunc。已证反例：灵力240、敌人原始防御2/等级1（有效防御30）、基础伤害50、无元素、初始HP9000、seedableRng(244049)首抽0.2499999317806212时，TS倍率1.025扣160/剩8840，原C用对应整数样本536870765扣161；只删*10/10不能修复（仍得245），C样本INT_MAX返回11也否定了“原C半开区间”的反写。
 
 ## 范围
 
-原卡含章节[GAME-MAGIC-NUMERIC-ASSIGNMENT-1 — 第一阶段法术中间赋值与随机倍率数值差异、目标、范围、前提真值门、直接证据、发现与停止线],共3个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+只改可表示的C转换域（FLOAT中间赋值/WORD写回），保留PRNG、抽样次数（每次伤害仅一次抽样）、公开接口、存档与资源；二阶段N/A。用户2026-10-24批准窄修，2026-10-25裁决call_400efa7c97674487ba183635ba343d7f第0项保留TS极值速度并登记偏离、第1项保留有效正防御先红后修。旧3m“1:1/未发现直接缺陷”与公式关闭信用撤回保持，不恢复全数值域1:1。
 
 ## 前提与证据
 
-固定main源8714B(SHA 990db0ee3fa5);原卡前提按原时点保留。当前存活入口:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/approved-boundaries/README.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-fade-quality/README.md) [numeric-counter.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/formula-numeric-audit/numeric-counter.json)。
+固定源全文核读：前提真值门（common.h类型、util.c:250-277、fight.c:173-250）、两轮实施回执与用户裁决段。2026-10-24两批各2条真实caller业务红后修：最终精确5例对仅旧formulas源4业务红/1既有增长绿，恢复后5绿；原C有限36向量和5151抗性输入O0/O2一致、UBSan零诊断，修后TS差异0；23实际相邻文件897例及game TC通过。2026-10-25实施正防御SHORT误读修复（敌灵力远小于def×0.6时基础伤害为0、只留50法术基伤 vs TS把32768转负再钳0多扣18）：0..65535整数防御去有符号解释，域外65536及RNG序保留，131相关例/game TC通过。原件入口:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/approved-boundaries/README.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-fade-quality/README.md) [numeric-counter.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/formula-numeric-audit/numeric-counter.json)。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:review),治理不改写。
+代码已按“先真实caller业务红→最小修复→定向/相邻/typecheck→静态零诊断”执行；但全仓check、官方coverage ratchet、protected fast与集成按父卡CODE3m节奏留到全部pre94收尾，本叶函数反例不能代替模块收口。越界WORD域、其余float系数、极端输入与完整资产域仍pending；未定义转换域不新增回绕/兼容upgrader。
 
 ## 状态与交接
 
-review保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
-
+review保持原语义：速度极值按用户选择不改算法、正防御修复仅代码接受；统一门/视觉/整文件剩余域未收口，done未准入。继任关系：本卡属父卡QUALITY-PRE94-RETROSPECTIVE-1的pre94系列，无下一位Agent提示词，Codex单Agent继续父任务。
 
 ## 原文保全
 

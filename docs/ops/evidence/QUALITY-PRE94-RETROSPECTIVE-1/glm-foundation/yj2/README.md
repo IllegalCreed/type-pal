@@ -7,24 +7,25 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「CODE2b YJ2 两文件复审（glm-foundation 批 3）」的主题按原文时点保留(摘录:范围：`packages/shared/src/yj2.ts`、`yj2.boundaries.test.ts`。开工核对：无他人 Owner/未提交修改。 - **改动**：仅注)。
+原审计主题:CODE2b 期 packages/shared/src/yj2.ts 与 yj2.boundaries.test.ts 两文件复审,基点 63735f72(同一 foundation worktree 线)。真实改动仅注释 1 处:boundaries 头部 yj2.ts:8-20 脆弱行号引用改为「yj2.ts 模块头」;零实现/fixture/断言/标题变化(body-invariance 两文件一致)。原文状态 review(候选待 Codex 据证验收);Codex 阶段1(2026-10-18)仅接收有限文案/身份保持证据,非整文件八维 accept,见[阶段终验](../codex-stage1.json)。
 
 ## 范围与证据
 
-原报告含章节[CODE2b YJ2 两文件复审（glm-foundation 批 3）、短回执、八维结论、问题与登记（不动）、复验入口（只读）、Codex阶段1接收说明（2026-10-18）]、2个链接;固定main源4255B(SHA d30299f0455d)。当前存活入口:[codex-stage1.json](../codex-stage1.json) [directed.json](directed.json)。
+定向回执 [directed.json](directed.json):4 文件 41/41 全绿(yj2.boundaries 9 + rng.test 6 + rng.boundaries 17 + rle.glm-o 9,rle.glm-o 为 YJ2 消费方相邻);scoped biome 0/0/0、diff --check 干净为作者自报层级。未跑 extract io/yj2 相邻(worktree 依赖软链登记项)、全仓/coverage/protected。A 维既有证据:yj2.ts 1:1 移植 yj1.c::YJ2_Decompress(Win95 分支锚 global.c:202);CODE2b 原生 SDL 2,626 段/34,367,608B 逐字节一致;边界为源<4 拒绝、bt() 位流越界显式失败、回引 preStart<0 与 len>剩余双守卫、提前 EOS 零填充。
 
 ## 发现
 
-原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+本批新登记 O-5(归输入域候选族):uncompLen 直接来自输入 u32,腐蚀头上 new Uint8Array(uncompLen) 可先尝试约 4GB 分配(与 RLE O-1 同族);当前 caller 域=原盘/生成数据(CODE2b 全量一致),无不受信输入证据,不修;如未来接作者/外部输入需加上限。树归约(0x8000)合成向量维持 CODE2b pending 登记,不作绿色宣称。boundaries 例期望值由符号语义推导(非解码器回算),malformed 回引(缩 uncompLen)与空窗口回引反例在;attempt<2 双次调用证明模块无跨调用状态。
 
 ## 结论
 
-原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+原文时点结论:无新直接缺陷;yj2 两文件维持既有登记,yj2.boundaries 已是 review 随 CODE2b 整卡由 Codex 裁定。本治理不改写判定、不授新信用、不撤销旧撤信。
 
 ## 整改与复核
 
-本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
+本页正文承载原审计真实目标/发现/结论/限制;原件逐字节保全在下方;失效条件(两文件实现/断言变化→重证、输入域或 yj1.c 参考变化→重估原生比对证据、基点后新提交→rebase)按原文保留;候选待Owner接收。
 
+原文存活链接原样保留:[codex-stage1.json](../codex-stage1.json)。
 
 ## 原文保全
 

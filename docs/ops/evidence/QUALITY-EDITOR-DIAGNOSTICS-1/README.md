@@ -7,24 +7,23 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 证据身份
 
-本页是「Editor 三文件：异步生命周期与测试判别力」的治理候选页;证据原件即下方逐字节保全的固定main源(4854B,SHA 15c26a451268)。
+本页是「Editor 三文件：异步生命周期与测试判别力」的治理候选页;原件按固定main源逐字节保全(4854B,SHA 15c26a451268)。本片单一 Coding Owner=Codex,用户授权三文件白名单(world-sprite-harness.tsx、kit.ts、WorldSpriteLibrary.c01.cursor-r1.test.tsx),隔离治理分支;只改测试,不改变生产/资产/规则。当前首片 review,0 文件关闭、未合 main;作者自验不冒称独立验收。
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原2个链接处置见作者review的linkDisposition。当前存活入口:[window-review.md](window-review.md)。
+生命周期分片证据链(基线 C01 70/70 且 604 条未包 act):仅等待真实共享精灵解码后剩 200 条;再把点击从重试断言移出、单次 act 后等待该资源解码,以及真实 session undo/redo 在 act 内执行后,70/70、未包 act/环境/导航全部 0,editor typecheck 通过——完整原件与当前源码 SHA 见 lifecycle-proof.json;mount-only 是中间差分实验,不算冻结业务反控。一手依据为 React act 官方文档;生产链为 SpriteResourceViewer.tsx:230-281 的真实 Promise.all→viewer 与父级 proof/frames 更新,editor 的 sprite-assets.ts 复用 SpriteAssetCache 真实 promise。WorldSpriteLibrary.tsx 全文 1457 行、SpriteResourceViewer.tsx 全文 581 行、三个白名单及 editor-asset-reader/sprite-assets/sprite-fixtures 全文读取;EditSession、reforge assets、DsCatalogControls/ListHeader 只作真实 caller/IO 段落,不据此关闭其它文件;harness 唯一 caller 为 C01(全仓 rg 确认)。当前存活入口:[window-review.md](window-review.md)。
 
 ## 断言与业务 oracle
 
-文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+第二提交(c8ad9416f 快照):三个 oracle 补强——G04-08 精确 c01gamma-static;G05-10 真实 readBytes 闸门证明 pending 禁用→真实解码后启用,finally 释放;G07-07 精确 4 项而非任意数字。独立临时树内同三个合法产品 mutant(错误后缀、提前启用、计数0)下旧弱 oracle 均绿、新 oracle 各恰一指定 AssertionError;恢复 67 全绿。oracle-old-complete-proof.json、oracle-new-final-proof.json 与 oracle-validation.json 固定命令/cwd、实际执行身份、source/test/mutant/重建 hash、原件和清理;最初两个临时树 setup 失败(缺 root tsconfig、外部资产路径不在隔离目录)原件保留,不计有效反控。仅移除 3 个已证严格子集:G01-10→G07-06、G03-09→G03-04、G03-10→G03-05,精确 body 与 hash 见 dedupe-proof.json;未核与外部相邻重复不自动删除,撤回原头注'已证不重领'的过 claim;7 处 layout 强转改为完整 typed union 结果断言。C01 显式注册 act 环境 flag 的 stub ownership,卸载后恢复旧环境,运行期间保持检查 true。没有空 act、sleep、延长 timeout、console 过滤或关闭 React 环境;真实 reader/缓存/解码/业务组件均保留。
 
 ## 结果
 
-原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+首片终态:C01 最终 67/67、未包 act/环境/导航均 0;editor typecheck 通过;相邻 6 文件 54 例通过但其它相邻测试仍有 231 条 act(见 first-slice-proof.json)。必要支持改动仅 approved-test-retirements 的 C01 精确 70→67 数据行与其固定表计数(18 文件/47 退役);matcher、拒绝条件及规则均未改;coverage-tools 63 通过,首跑旧固定计数失败原件保留。完整模块窗口(候选 c8ad9416f):完整 check、确认版 ratchet、普通 protected 均 exit0,但未包 act 分别 3001/3009/2955,另各 577 环境/2 导航,统一门不通过,未合 main;首跑 ratchet 因精确 70→67 删除需显式确认而 exit1,完整原件保留;pre-confirmation-scope 与普通 protected 双重核实,无规则改变。官方基线 736 源文件/19862 例,所有覆盖计数完全不变;当前 3284/229 closed/48 review/3007 pending,0 文件关闭。证据落盘后静态复验(docs 48 工具/570 content-review/184 阶段文档 0 issues、lint 4142 文件 0/0/0、ledger 通过)见 postflight.json,首个检查点两份失败原件(docs-initial-failure/ledger-initial-failure)亦保留。
 
 ## 限制与复核
 
-未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
-
+上述三个弱 oracle 已补强并经有效反控;其它未核合同不因此升级通过;现行 67 条不因告警为 0 升级逐文件 accept;相邻 oracle/排重未知仍 review,未删除任何用例。kit 其它 caller 域未全面验收;默认 focus/拒绝分支的独立故障回归未单独补,不关闭文件。完整门仍有本片以外诊断时保留 CODE94 rework,不合 main;本片外的 act 环境/导航与其它测试诊断待独立有限切片。未重跑原命令/浏览器/测试;历史结论保持原时点;候选待 Owner 接收。
 
 ## 原文保全
 

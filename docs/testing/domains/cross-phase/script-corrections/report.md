@@ -18,24 +18,23 @@ Template: test-domain-report-v1 / 1.1.0
 
 ## Domain scope
 
-配对publication game-script-corrections(status=active)的canonical报告治理候选;域范围按原文与catalog配对保持。
+两阶段脚本纠错域的canonical报告：第一阶段以忠实解码后的构建纠错和通用OBJECT脚本入口所有权修复；第二阶段直接修改canonical作者内容（content22/SAVE12轴）。逐项D/E处理、旧审计勘误与原始输入SHA由任务卡[GAME-SCRIPT-CORRECTIONS-1.md](../../../../ops/tasks/GAME-SCRIPT-CORRECTIONS-1.md)维护，未上传raw/en/EXE。配套机器事实在配对[evidence.json](evidence.json)（18源锚、7条业务oracle断言、8条维护history）。
 
 ## Claim matrix
 
-原文声明矩阵按原时点保全;本页不新增执行claim。
+四类合同与真实caller/oracle及限制：数据纠错/输入拒绝/缓存刷新走默认CLI、round-trip、规则前值与最终输出字节SHA（faithful显式仅解码；原盘仅本地）；剧情/购买/清状态/装备/门禁走Game tickEventSystem、performMagic/performItem与Reforge ScriptProjectRuntime、battle execution（单段合法脚本边界；host UI、战斗结果和资产I/O有明确测试seam）；九次酒神与通用进度走原盘法术脚本+保存导入/读档+Repeat动作验证（旧发布档没有过去入口进度时从原静态入口开始，无法追溯已用次数）；传送及返回走真实portal脚本+原地图生产碰撞/连通性（地图通路证明不等于从新游戏走到此处的连续E2E）。具体oracle断言：拒购保现金/成交恰付二十/现金不足不给；治疗清沉默保留buff；酒神第九次去李逍遥法术、第十次被正常动作验证拒绝、新游戏重置；D10追加稳定5077保留原敌4841与全部原生ID/范围；旧normal/won/fled/已发布portal档经真实接触退出到scene286(1392,616)不循环。
 
 ## Inputs and fixtures
 
-固定main源21378B(SHA 9e9a67218b76);输入为固定载体非重跑。当前存活入口:[docs-maintenance.json](../../../../ops/evidence/GAME-ENGLISH-1/docs-maintenance.json) [release-preparation.json](../../../../ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/release-preparation.json) [release.json](../../../../ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/release.json) [review.json](../../../../ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/review.json) [integration-receipt.json](../../../../ops/evidence/GAME-SCRIPT-CORRECTIONS-1/integration-receipt.json) [README.md](../../../../ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-stages-closeout/README.md) [README.md](../../../../ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/extract-scene-closeout/README.md) [GAME-SCRIPT-CORRECTIONS-1.md](../../../../ops/tasks/GAME-SCRIPT-CORRECTIONS-1.md) [evidence.json](evidence.json)。
+原盘依赖用例命名*.pal.test.ts沿既有fast/full分区执行，缺输入直接失败无skip；合成CLI输入显式faithful，真实源默认纠正另测；酒神生命周期用保留原控制流的局部指令表与真实资源九次施法配对。合法输入含支持的Win SSS.MKF SHA与原版M.MSG、当前typed GameState与真实提取脚本、canonical作者content22/SAVE12、原生5077事件数组与显式独立scene286新增5077及准备于928,816的合法原始raw存档（非reporter存档/非自然剧情checkpoint）。维护链原件：[docs-maintenance.json](../../../../ops/evidence/GAME-ENGLISH-1/docs-maintenance.json) [release-preparation.json](../../../../ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/release-preparation.json) [release.json](../../../../ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/release.json) [review.json](../../../../ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/review.json) [integration-receipt.json](../../../../ops/evidence/GAME-SCRIPT-CORRECTIONS-1/integration-receipt.json) [README.md](../../../../ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-stages-closeout/README.md) [README.md](../../../../ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/extract-scene-closeout/README.md)。
 
 ## Results and gaps
 
-原结果与缺口按原时点;publication状态(active)是发布事实不是新执行。
+2026-10-22基线：官方fast重测20,081例全过，总行覆盖92.05%/分支83.88%各包不降；原盘依赖第一阶段22例及提取/CLI/往返7例另有逐例原生结果未计入fast。2026-10-27 D10后续：原生game初次88通过，随后真实party加严5项PAL夹具完整文件重验5绿、其余83邻测沿相同字节复用（不宣称第二次完整88）；extract49、Reforge5421通过；两条独立反控——断开装载补缺在完整文件产生4个对应旧档合同AssertionError/1pass/0skip，改错原敌team产生1个指定AssertionError/5413pass/0skip，逐字节恢复后全绿。初次集成曾发现贡献者未完成的局部helper变量，已修复，不冒充修复原bug的red。完整故事浏览器E2E、演出逐帧、编辑器预览现场未执行，不得从本报告推导为passed。2026-10-27发布：本地官方20,203例/812源与全仓静态零诊断，PR#28受保护两门通过后合并，应用与资源部署、源站/CDN与有限网页烟测通过，第一阶段v1.1.0发布。
 
 ## Quality gate
 
-本页质量门=模板符合+保全+配对身份;测试执行门不在本页重跑;候选待Owner接收。
-
+最终集中检查、按失败范围续验、lint、typecheck、docs、coverage写回集成回执，原整仓命令失败不倒写为0；贡献者候选由Codex按真实差异、返回入口生命周期、schema读写、原始规则与最强反例独立复核。维护历史：2026-10-22英文展示使CLI共同纠错调用230→233行仅重绑指纹；2026-10-24两次CLI纯搬移(世界阶段/资源阶段)仅同步caller锚点与SHA，修订预检/事件管线runtime不变；2026-10-26 review52删除未用bus实参仅改oracle身份锚；2026-10-27 pal-win-1→pal-win-2与发布增量按evidence history留痕。旧测试次数/整文件关闭信用不重复授予。
 
 ## 原文保全
 

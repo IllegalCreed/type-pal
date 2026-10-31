@@ -7,24 +7,23 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 证据身份
 
-本页是「CODE-QUALITY-110 evidence — present draw-sprite review」的治理候选页;证据原件即下方逐字节保全的固定main源(854B,SHA 272b31e26804)。
+本批复核 indexed sprite 的逐帧 anchor、opaque mask、Framebuffer clipping 和真实 present/FBP/ending caller,没有源码修复（Status current review,Owner Codex,2026-10-17）。
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原3个链接处置见作者review的linkDisposition。当前存活入口:[codex-current-review.md](codex-current-review.md) [targeted.txt](targeted.txt) [typecheck.txt](typecheck.txt)。
+[codex-current-review.md](codex-current-review.md) 为完整读取、primary/caller/oracle 与逐文件结论正文;[targeted.txt](targeted.txt) 为 game present 3 files/17 tests;[typecheck.txt](typecheck.txt) 为 game typecheck。
 
 ## 断言与业务 oracle
 
-文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+anchor/opaque mask/palette-0/writePixel 裁剪合同以真实 caller 与 SDLPal RLE/scene 锚点为 oracle;三测试覆盖帧高宽/透明孔/裁剪/identity/PNG 解码。
 
 ## 结果
 
-原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+全仓 `pnpm check` exit 0（editor 631/4943,lint 4962 零 error/warning/info）;check:docs、ledger、git diff --check 通过;official coverage ratchet/protected fast 仍因 shared/pal-extract/total baseline 回退失败,未改规则。
 
 ## 限制与复核
 
-未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
-
+三个文件保持 review,不以局部全绿标记已验证。
 
 ## 原文保全
 

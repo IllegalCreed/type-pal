@@ -7,44 +7,43 @@ Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「CODE-QUALITY-74 — game audio manager contract」的任务归属与历史边界。原目标见原文(摘录:逐文件核验 shell 音频管理器及其主/边界测试，确认 SFX/BGM 路由、队列 ownership、去重、开关和 OGG 资源释放保持 SDLPal/第一阶段约束。);本页治理不重开已终态任务。
+原卡目标:逐文件核验 shell 音频管理器三文件（`audio.ts` 与主/leaves 测试）:SFX/BGM 路由、队列 ownership、去重、开关与 OGG 资源释放保持 SDLPal/第一阶段约束;AudioManager 只消费 GameState 音频意图,不主动改变用户可见音频行为。
 
 ## 范围
 
-原卡含章节[CODE-QUALITY-74 — game audio manager contract、目标、范围、前提真值门、上下文锚点、验证],共2个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+三文件;只读相邻 bootstrap caller 与 bootstrap-audio/shell-bootstrap 测试;`audio-midi.ts` 异步曲目切换风险留 CODE-QUALITY-75 独立 review,不在本卡关闭。
 
 ## 前提与证据
 
-固定main源5295B(SHA 72cc3580dc54);原卡前提按原时点保留。当前存活入口:[input-audio-closeout.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/input-audio-closeout.json) [QUALITY-LEGACY-OGG-RETIREMENT-1.md](../../../tasks/QUALITY-LEGACY-OGG-RETIREMENT-1.md)。
+真值:`midi_tsf.c:45-168`、`sound.c:769-772,930`;`audio.ts:74-106` 曲目选择、`164-194` OGG 释放、`200-319` manager 状态与开关。已知坑:AudioContext/decode 在 Node 测试环境不可用,听觉演出集中 E2E,不用 no-op 测试冒充播放验证。历史批:定向 27 tests、全仓门通过,账本 3266/329 closed。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+历史 accept 后两轮再验:2026-10-21 批准前记录——本轮 actual 调用图确认 OGG 构造器无生产入口,现行工厂仅 MIDI/RIX,setter 只是 bootstrap 旧空写;早先泛称 OGG 生产 caller 成立不再沿用,三例旧 OGG 测试不能冒充现用产品覆盖,当前 partial,三文件不关闭;旧导出裁决见 [QUALITY-LEGACY-OGG-RETIREMENT-1.md](../../../tasks/QUALITY-LEGACY-OGG-RETIREMENT-1.md),未经裁决不得删除导出。随后 2026-10-21 输入音频模块收口:原三文件 A–H 接受,用户明确批准无生产入口的旧 OGG 导出/空写/三个专测及唯一 fixture 退役;现用 MIDI/RIX/manager 函数体保全,旧 loop 反控按版本复用,musicUrl 接真实 MIDI caller,纯重构另提交;不附带关闭 bootstrap/音量大文件或新增听觉全流程信用。逐文件八维与原件见 [input-audio-closeout.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/input-audio-closeout.json)。
 
 ## 状态与交接
 
-done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+done 保持原历史语义;当前有效结论以 2026-10-21 输入音频收口为准,广域 caller/听感/剧情 E2E 不附带接受。
 
 ## 历史范围
 
-原卡属固定main时点;CODE-QUALITY-74 — game audio manager contract的原始范围与日期在保全块内逐字保留。
+原卡属 2026-10-13 核验时点;原始记录与历史提示词在保全块内逐字保留。
 
 ## 原始结论
 
-原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+原卡结论按 Status(done) 原样:未发现 `audio.ts` 内直接缺陷。治理不撤销/不恢复旧信用。
 
 ## 当时证据
 
-原文2个链接与当时回执属原时点证据;本页不重跑、不复授。
+当时回执（27 定向、全仓门）属原时点证据;本页不重跑、不复授。
 
 ## 当前有效性
 
-仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+仅历史任务归属有效;OGG 退役与现用 MIDI/RIX 合同以 input-audio-closeout 原件为准。
 
 ## 继任文档
 
-接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[input-audio-closeout.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/input-audio-closeout.json) [QUALITY-LEGACY-OGG-RETIREMENT-1.md](../../../tasks/QUALITY-LEGACY-OGG-RETIREMENT-1.md)。
-
+CODE-QUALITY-75（MIDI 竞态）、QUALITY-LEGACY-OGG-RETIREMENT-1（旧导出裁决）与 input-audio-closeout 为继任;当前任务导航以看板为准。
 
 ## 原文保全
 

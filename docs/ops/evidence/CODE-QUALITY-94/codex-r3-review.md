@@ -7,24 +7,23 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「Codex 三验：CODE94、95、97–102」的主题按原文时点保留(摘录:日期：2026-10-15。独立候选 `5477af1e45a80fffe8afc56502659bc7785823bf`； `origin/main=f98d0ddd89ebde)。
+本篇是 Codex 第三轮独立验收（2026-10-15，候选 5477af1e4，main f98d0ddd8，0 behind/17 ahead，独立验收树 codex/quality-menu-accept-94-95）：对 CODE94/95/97–102 八卡分批判定，冻结作者交付结论后由 Codex 接手返工（codex-takeover.md 即其执行日志）。本轮新关闭 0，账本 3283 inventory/229 closed/44 review/3010 pending，未合 main。
 
 ## 范围与证据
 
-原报告含章节[Codex 三验：CODE94、95、97–102、分批裁定、新增可复现问题、R3-1：快存测试遗留监听器（P2，102）、R3-2：C4 用后续选正例未执行物品脚本（P2，99）、R3-3：强转与错误注释仍在（P2/P3，97–100）]、0个链接;固定main源11633B(SHA 8916dd1953b3)。当前存活入口:无当前仓库内存活链接。
+分批裁定：94 counter/rework（统一门仍非零诊断、法术隐藏反证仍在、manifest 一条 SHA 失真，30 文件保持 review）；95 三份夹具局部 accept（完整 Item/PlayerRoles 数组、单体输入、死人/party[2,0]/恰等门 oracle 成立，不升级整卡 done）；97 counter（内联仍捏造 kItemFlagImportant，测试头用不存在的 SDLPal PgUp/PgDn 锚）；98 排重局部 accept+rework（choice 重复删除成立，role index 0..5 被叫 wObjectID 需纠正）；99 counter（typed 目录与确定性 cursor 成立，新增双重强转、C4 正例实际未启动脚本）；100 排重局部 accept+rework（删 simulateSave 合理，save-slot 头注 bus emit/取消返回 SystemMenu 与真实 driver 不符）；101 counter（IDB 事务 abort 后仍报保存成功再复现）；102 counter（完整 GameState 与计时器清理成立，新增匿名 keydown 监听器泄漏）。R2 的 57 个全文读取 SHA 保留，R3 只全文重读 17 个变化文件并校验其余 SHA。
 
 ## 发现
 
-原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+四项可复现反证带行号：R3-1 quick-save.test.ts:90-93 匿名观察监听器泄漏，只读探针 8 条测试全过后 afterAll 断言 expected 1 to be 0 失败（原件 codex-r3-listener-counter.raw.json）；R3-2 menu-driver.test.ts:585-606 空角色假正例——原 roles=[] 时第二次 Confirm 后 mode=menu、eventCursor 无、脚本未启动，完整 makeRole(0) 正控对照 mode=event、cursor 有（codex-r3-item-counter.raw.json exit0 表示反证成立非门通过）；R3-3 五处强转/虚构锚（cov85:1006-1008 双重强转、item-select.ts:49-50 kItemFlagImportant 不在 global.h:134-142、primitives leaves 头注 ui.c:540+ 与实现已收回矛盾、player-status.test:18-20 role index 与 wObjectID 分域、save-slot-menu.ts:4-5/39-40 ownership 注释不实）；R3-4 manifest in-game-magic-menu.test.ts candidateSha 记录 a33e922… 实际 e8345b4…，余 29 条匹配（codex-r3-mechanical-proof.json）。
 
 ## 结论
 
-原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+三项高风险机制按原版锚登记并各自开卡保持 draft/无 build allowed：magicmenu.c:338-372 已学法术全入列仅置 disabled → GAME-OUTSIDE-MAGIC-DISABLED-1；uigame.c:143-150 标题取消重置 wDefaultItem=0 而当前 driver 保留 cursor=1 → GAME-OPENING-CANCEL-CURSOR-1；Save 请求 success 后合法 abort 仍 resolve 槽为空（fake-indexeddb 6.2.5 规范时序注入，非自然磁盘满）→ GAME-SAVE-IDB-COMMIT-1。验证：定向 36 files/326 tests、game 全包 317 files/3561 tests、coverage-tools 62、quality-tools 37、pal-extract 71/427；三条精确退役 equip4→3/opening3→2/save-slot15→14 两端 identity digest 匹配；统一门五份 glm-c5 回执（check/ratchet/protected/merge-ratchet/merge-protected）act 3458–3574 + 导航 2 全部判"不通过"，作者 coverage-note 的 ratchet 3518 与原件 3458 不同按原件计。全仓 check/ratchet/protected 本轮在 counter 确认后未重复跑。
 
 ## 整改与复核
 
-本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
-
+本页治理正文承载该报告真实裁定/反证/高风险归属/验证数值；原件逐字节保全于下方。限制：按 2026-10-15 时点，未重跑任何命令；R3 引用的 counter/proof JSON 原件在治理轮未逐个打开，按本报告与其 SHA 采信。后续走向：用户授权 Codex 接手修复（GLM 不再是修复文件 Coding Owner），实施与最终窗口见 codex-takeover.md 与 codex-final-window.md；历史结论不改写。
 
 ## 原文保全
 

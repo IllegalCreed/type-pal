@@ -7,24 +7,23 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 证据身份
 
-本页是「CODE3c动画回归与清理合同复审」的治理候选页;证据原件即下方逐字节保全的固定main源(8326B,SHA 33fb926416bd)。
+本页是CODE3c窗口（原卡done后partial复审，起点ceda5bb12、main=f98d0ddd8、单Agent唯一worktree）的证据索引页，证据原件为下方逐字节保全的固定main源（8326B，SHA 33fb926416bd）。窗口语义：只加强SpriteFrameWorkbench.animation-boundary这1例活动timer卸载合同，保持身份与数量；生产模块与专属测试和8fea6a4ec逐字节相同，0新增关闭。
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原13个链接处置见作者review的linkDisposition。当前存活入口:[CODE-QUALITY-3c-editor-coverage-determinism.md](../../../archive/tasks/done/CODE-QUALITY-3c-editor-coverage-determinism.md) [QUALITY-PRE94-RETROSPECTIVE-1.md](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) [after-proof.json](after-proof.json) [before-proof.json](before-proof.json) [closeout-gates.json](closeout-gates.json) [closeout-native.json.gz](closeout-native.json.gz) [closeout.json](closeout.json) [gates.md](gates.md) [probe.py](probe.py) [read-boundaries.json](read-boundaries.json) [tests.json](tests.json) [verification.json](verification.json) [verify-closeout.mjs](verify-closeout.mjs)。
+真值边界：原卡先后提出runner/worker假说，最终以逐分支差额定位的是SpriteFrameWorkbench缺帧fallback，早期假说不得升级为已证runner缺陷；8fea6a4ec的baseline diff显示editor测试4682→4683、文件586→587、branches covered 24166→24168/29058，没有下调比例（[baseline-history.json](baseline-history.json)）。content/src/sprite.ts:33–47定义显式frame/durationMs、无loopFrom单次；reforge/entity-action-player.ts:180–238共享resolver定义0/20/50ms步骤；本例走修复预览入口（两个真实8×8 canvas、20/30ms正输入、步序[1,9]故意缺帧、固定绿/红RGBA独立oracle），不能用运行时resolveSpriteActionBinding的越界拒绝来宣称运行时允许无效动作。三枚隔离反控（移除fallback/移除finished gate/移除clearTimeout，[probe.py](probe.py)只在原目录建副本）补证前cleanup变异仍1绿（[before-proof.json](before-proof.json)），补证后三变异各精确1个指定AssertionError（[after-proof.json](after-proof.json)）；恢复期editor八文件36通过/0skip但BattleSpriteInlinePreview.kimi-workflows三个用例各2条act诊断共6条，相邻零诊断门未通过（[tests.json](tests.json)）；另进程只读核验见[verification.json](verification.json)、读取范围见[read-boundaries.json](read-boundaries.json)、静态门见[gates.md](gates.md)。
 
 ## 断言与业务 oracle
 
-文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+本页核读的事实断言：旧'单branch+门即整文件关闭'已撤回，684行Workbench继续review；另三份Workbench测试（main5例/C05九例/GLM四例）无本例的非均匀受控时间+缺帧像素+终点队列组合，未发现应退役本例的重复，其中C05-09标题'互异RGB至少2'与实际opaque.size>=1不符、GLM frameView先fillRect后设color，均未改不升级为已验证。2026-10-22原合同收口：专测按八维接受（[closeout.json](closeout.json)，原件[closeout-native.json.gz](closeout-native.json.gz)、快检[verify-closeout.mjs](verify-closeout.mjs)），两撤回在89bf84e16合并丢失已补正、相对前窗closed净减1；最终静态/失败披露/集成进度见[closeout-gates.json](closeout-gates.json)。历史计数（83卡accept=0时点、ledger 3287/213/211/2863）按原时点保留。
 
 ## 结果
 
-原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+窗口结论按原时点成立：3c按原专属回归合同接受，不授全组件或全runner确定性信用；统一门（全仓check/official ratchet/protected fast）当期未新跑、相邻6act未清、不合main。保全块承载全部原件命令/SHA/行号细节，本页不复制数值清单。
 
 ## 限制与复核
 
-未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
-
+未重跑任何命令/测试/覆盖率；相邻6act为历史事实，后继0诊断run不改写旧raw；原卡与历史签字按[原3c卡](../../../archive/tasks/done/CODE-QUALITY-3c-editor-coverage-determinism.md)保留，本治理不重开任务；窗口归属[全83卡复审](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)。候选待Owner非作者接收。
 
 ## 原文保全
 

@@ -7,24 +7,23 @@ Template: audit-report-v1 / 1.0.0
 
 ## 审计问题
 
-原审计「批56:editor ui 大件 56 文件（零整改批）」的主题按原文时点保留(摘录:> Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见当前返工记录。 范围:`packages/editor)。
+本页审计主题:packages/editor/src/ui/ 401 行以上生产文件 56 件的八维审查(A–H),兼 ui 包审查收口。Codex 当前裁定(2026-10-19):本页保留作者阶段证据,未获整包/全维收口验收;可复用范围与逐文件依据见 [codex-stage2-rework.json](../codex-stage2-rework.json)。
 
 ## 范围与证据
 
-原报告含章节[批56:editor ui 大件 56 文件（零整改批）、结论(要点)、登记移交（无新增）、验证、Codex当前勘误与接管（2026-10-19）、原生附件无损迁移（Codex，2026-10-19）]、2个链接;固定main源7604B(SHA eadf8bd64bbb)。当前存活入口:[codex-stage2-rework.json](../codex-stage2-rework.json) [directed.json.gz](directed.json.gz)。
+范围 56 件,按行数升序分两段(28 件 15555 行+28 件 43327 行,合计 58882 行)全文读毕;零整改批(零源码改动、零 diff)。验证证据:本批新跑定向测试 src/ui 全量 712 套件 0 失败/2505 通过/2505(批54 登记的 BattleSpriteLibrary M05 并行互扰本次未复现,全绿;维持原登记不追溯改写);原回执超 1MiB,现以 [directed.json.gz](directed.json.gz) 无损 gzip 保留(解压字节/SHA 与冻结 5af1b6372 一致)。零 diff 批不适用 body-invariance。
 
 ## 发现
 
-原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+四大件:App 4766 行(编辑器组合根:双会话 historyCoordinator 断言、C-gate 页面自持订阅降级、openProjectReference 按 locator 类型派发并逐一在派发前核验目标存在、删除/Undo 快捷键 typing+dialog 守卫、五区布局 fitSidePanelWidths 比例挤压);ScriptEditor 4417 行(AUTHOR_COMMAND_PRESENTATION_60+ 全 kind 表、CanonicalCommandForm 走 createAuthorCommandFormBridge 桥接共享四家族、CanonicalScriptBodyEditor 本地指纹预判防自提交被外部 epoch 淘汰、removeTriggerStage 拒绝自接替);MapMode 3740 行(变换会话 reject→overwrite 确认、dispatchMapPatch 三所有权域写保护、Esc 分层退出链、会话切换全量 reset 防跨项目串线、双层 canvas 缓存脏检查 18 键);Workbench manifest 单一真源四页。共享画布族:scene-stage useSceneAssets 磁盘回退时瓦片集只能从读出的地图确定(旧实现提前取 liveMap 会以空 registry 进 ready 画黑屏);drawGridBlocked O(可见宽+高) 斜线网格;SceneCanvas 命中盒与引擎同一 spriteBlitRect;PreviewCanvas rAF 自绘+相机 POI 平滑趋近。资产工作台族:帧删除 planWorld/BattleSpriteFrameDeletion 精确重排绝对帧号+directional 四向结构保护;替换源文件禁缩帧;AudioAssetWorkbench claimEditorAudioPreview 全局独占。数据页族:EnemyTab findEditableEnemyDefeatedItemReward 不猜测改写非模板事件;SkillTab 18 kind 效果链;ItemTab 私有脚本跨会话事务成对撤销;VarsTab 未登记引用一键建定义。design-system 大件:reorder 三级身份保留(对象等值→唯一语义身份→位置兜底);virtual-list 视窗裁剪+aria-posinset;setSize;select 20 项阈值自动搜索。表单族/导航与杂件:command-form 四家族、ItemUseEffectEditor compatibleChain 独占/场景/战斗交集校验等。
 
 ## 结论
 
-原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+八维审查(A–H)作者主张全部通过,零源码改动、零 diff;登记移交无新清理候选(批54 登记的 BattleSpriteLibrary 并行互扰假失败本次全量复跑未复现,维持原登记不追溯改写)。至此 src/ui 全部非测试生产文件(微/小58+中48+大56=162 件)审查收口——作者阶段主张。本批 2505/2505 为独立新跑的机器事实。
 
 ## 整改与复核
 
-本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
-
+本批零整改。Codex 2026-10-19 勘误与接管:2505/2505 原生绿保留,但不解释前次 M05 失败原因,也不代替逐文件 E 维或 act/环境诊断计数;旧『八维全部通过/162 件收口』只保留作者当时主张,当前验收保持 review,缺维由 Codex 继续。未重跑测试;候选待 Owner 接收。
 
 ## 原文保全
 

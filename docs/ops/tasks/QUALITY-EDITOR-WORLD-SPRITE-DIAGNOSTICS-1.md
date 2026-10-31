@@ -7,24 +7,23 @@ Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「QUALITY-EDITOR-WORLD-SPRITE-DIAGNOSTICS-1 — 大世界精灵宿主与真实资源见证」的任务归属与历史边界。原目标见原文(摘录:Reviewer: Codex（作者自验与独立复核分记） Capability: world sprite test fidelity Visual Verification Timing: N/A（);本页治理不重开已终态任务。
+大世界精灵测试宿主保真：WorldSpriteLibrary.kimi-workflows与glm-ui-wave两测试+world-sprite-harness共享宿主三文件，目标是真实宿主共享、操作一次、等待实际解码/palette/提交、删除无效定时等待；WorldSpriteLibrary261-277 proof需asset+revision匹配、Viewer218-280真实sprite/palette Promise.all alive归属。
 
 ## 范围
 
-原卡含章节[QUALITY-EDITOR-WORLD-SPRITE-DIAGNOSTICS-1 — 大世界精灵宿主与真实资源见证、隔离与前提、交接、注释边界补充准入、作者检查点与独立反控复核],共1个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+白名单三测试/宿主文件（后扩展第四文件k02-fixtures.ts仅改首段注释为编辑器测试共享，因复用后已有三位真实测试caller使原“只被两个新测试导入”注释失效）；产品、schema/save、公共接口、资产管线、规则与ED-ENTITY-STATE-PLAN-1只读；原九例不退役。
 
 ## 前提与证据
 
-固定main源3966B(SHA 592f86e97857);原卡前提按原时点保留。当前存活入口:[README.md](../evidence/QUALITY-EDITOR-WORLD-SPRITE-DIAGNOSTICS-1/README.md)。
+固定源全文核读。作者检查点：接回完整树后9例/相邻7文件121例、Editor typecheck均通过、三类诊断0；去重复mock/Harness、等待真实IO，保留9个身份/数量；两枚反控旧绿/新恰1条AssertionError/恢复9绿，临时副本删除后独立重构核SHA；ArrayBuffer等长内容弱断言的首轮无效反控保留为REJECTED、改Uint8Array逐字节。12→14未跨四向上限阈值，测试改12→16并以固定max3反控区分。机器3284/229closed/65review/2990pending；最新完整窗口属旧候选cae26b1c7尚有1031act/243环境/native0，本新片完整门待下一稳定窗口。检查点静态门：docs 0 issues、lint 4250文件0/0/0、ledger通过。原件:[README.md](../evidence/QUALITY-EDITOR-WORLD-SPRITE-DIAGNOSTICS-1/README.md)。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:build),治理不改写。
+只给轮询套act可能隐藏重复点击/迟到覆盖，故保留pending/late/failure/undo oracle并核真实promise；未知跨文件重复不自动删除；统一窗口未清诊断不标done、四文件仅review、不合main。
 
 ## 状态与交接
 
-build保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
-
+build保持原语义；无下一位Agent提示词，Codex继续。
 
 ## 原文保全
 

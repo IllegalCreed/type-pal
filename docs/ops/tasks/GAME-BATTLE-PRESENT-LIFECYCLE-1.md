@@ -7,44 +7,43 @@ Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「GAME-BATTLE-PRESENT-LIFECYCLE-1 — 战斗画面宿主生命周期」的任务归属与历史边界。原目标见原文(摘录:入场渐变保存进入前画面；每场战斗独立拥有提示、飘字、入场和召唤缓存，退出时释放。只改 present-battle.ts、present.ts 的宿主接线和对应专测；动作规则的纯提取由父卡单独记录。不改战斗机制、存档、资源或第二阶段。);本页治理不重开已终态任务。
+战斗画面宿主生命周期两修复：入场渐变保存进入前画面（SDLPal battle.c:685–735先备份gpScreen、新战清消息与数字），以及每场战斗独立拥有提示/飘字/入场/召唤缓存、退出释放。基线wrapper先clear装配器才捕获、长期实例未接入退出清理。用户2026-10-23裁决call_4cdcfa14fc0b4101ad44d4f0370bdf12“批准两项修复（推荐）”。
 
 ## 范围
 
-原卡含章节[GAME-BATTLE-PRESENT-LIFECYCLE-1 — 战斗画面宿主生命周期、目标与范围、前提真值门、上下文与设计、验收条件、Build 与原件],共2个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+只改present-battle.ts、present.ts的宿主接线和对应专测；动作规则纯提取由父卡单独记录；不改战斗机制、存档、资源或第二阶段。直接draw的P14测试绕过wrapper不能证明宿主已保留入场图；同一战斗开状态页（mode=menu、battleState仍在）不是退出不能丢缓存。
 
 ## 前提与证据
 
-固定main源5270B(SHA 33a4200df6d4);原卡前提按原时点保留。当前存活入口:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-lifecycle-quality/README.md) [QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)。
+固定源全文核读。正式三红（lifecycle-red-hydrated，敌队五槽hydrate runtime、无mock）：入场应19实0、消息应20实15、飘字应20实183；五项正式业务红→绿。浏览器已渲染世界帧经实际opcode7/bootstrap开战，首帧64000像素原样保留且随后渐变，0warning/0error。2026-10-24 CODE3l收口：12项读域8项整文件接受（7新关闭、1刷新），3个广域源与P13专测仅增量；3410tracked/418closed/100review/2892pending；定向255、相邻1148、完整check 20572包例+700工具、七包typecheck、官方20143例/777源及同报告ratchet/strict protected通过，运行与硬静态0/0/0。原件:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-lifecycle-quality/README.md) [QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+done为有限范围收口：跨战残留由真实core/宿主像素反例覆盖，快速换战的普通剧情可达性未知；CLI并发上限2保留5秒与全部用例；远端CI/合并另核，不以本地done代替发布状态。
 
 ## 状态与交接
 
-done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+done保持原语义；治理不重开。无下一位Agent，Codex继续本窗口，不扩94–102。
 
 ## 历史范围
 
-原卡属固定main时点;GAME-BATTLE-PRESENT-LIFECYCLE-1 — 战斗画面宿主生命周期的原始范围与日期在保全块内逐字保留。
+原卡属固定main时点；范围为present宿主接线与专测子切片，规则提取分提交。
 
 ## 原始结论
 
-原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+原卡结论按其Status(done)原样：2026-10-24 CODE3l生命周期收口，官方20143/777与protected零诊断。
 
 ## 当时证据
 
-原文2个链接与当时回执属原时点证据;本页不重跑、不复授。
+当时回执属原时点证据：三红（19/0、20/15、20/183）、五红→绿、首帧64000像素保留、check 20572/官方20143零诊断；本页不重跑、不复授。关联:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-lifecycle-quality/README.md) [QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)。
 
 ## 当前有效性
 
-仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+仅历史任务归属有效；像素单测不外推完整剧情视觉验收；不凭旧基点授权新产品取舍。
 
 ## 继任文档
 
-接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-lifecycle-quality/README.md) [QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)。
-
+CODE3l其余读域由父卡QUALITY-PRE94-RETROSPECTIVE-1继续。 关联:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-lifecycle-quality/README.md) [QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)。
 
 ## 原文保全
 

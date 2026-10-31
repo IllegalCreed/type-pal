@@ -7,24 +7,23 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 证据身份
 
-本页是「CODE3q 场景职责与测试质量返工」的治理候选页;证据原件即下方逐字节保全的固定main源(3777B,SHA a43e1fb7de07)。
+本页是「CODE3q 场景职责与测试质量返工」的治理候选页；证据原件为下方逐字节保全的固定main源（3777B，SHA a43e1fb7de07）。原片复用[README.md](../3q-scene-system/README.md)的3q机制读域，对scene-system做职责拆分与测试质量返工；原Status为'local technical review; unified pre94 gates deferred'。
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原1个链接处置见作者review的linkDisposition。当前存活入口:[README.md](../3q-scene-system/README.md)。
+原片基点c6b0c2c19250e8fca3b577b53d59828a7ea4799e（职责拆分85399a332／测试整改610f747f4，codex/code-quality-3y）。原2121行scene-system与专测完整读取；实际caller为mode探索tick、bootstrap碰撞/上下文与dev-panel显式跳转（后者不同于正常剧情异步装配）。完整逐文件A–H、版本指纹、111身份到107合同映射见同目录review.json。
 
 ## 断言与业务 oracle
 
-文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+结构上碰撞纯计算、场景装载、上下文Owner分离，旧出口/签名保留，私有trigger链去掉死上下文并消除mode强转，五个搬移体有token守恒证明。测试拆为探索装配75／装载23／纯碰撞9；111项均逐项映射（97原样、8改题名、3状态矩阵承接、2并入更强字面oracle、1重复转移），32例迁移、4例合同转入更强用例。三反控各旧单例绿／新单业务AssertionError红：距离=16边界误触发、忽略tile阻挡、跳过onEnter。恢复后10个相邻文件478例通过（含107，不叠加计数），stderr与运行时console诊断均0；game typecheck、局部Biome 0/0/0。
 
 ## 结果
 
-原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+原片结论：新增六路径仅review，主专测旧关闭撤review，0新closed；CODE3q仍partial（固定83卡67accept/16partial，账本3420/414closed/115review）。无机制/存档/schema/资源生成/产品行为修改；未跑浏览器视觉/E2E、全包或全仓check、official coverage/ratchet/protected——按用户要求留到全部剩余pre94冻结后。
 
 ## 限制与复核
 
-未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
-
+低成本复验为治理树根运行verify.mjs（只读、无网络、不重跑测试，核SHA/原件字节/移动token/全身份映射/精确反控/局部门结果；漂移只重核受影响结论）。原片过程披露：证据脚本一次条件内赋值lint错误已修、中途producer标题定位失败退出1发生于主测试写回前、首次107例与formatter并行故以冻结后478例为准。仍登记的结构取舍：SceneContext两旧脚本字段与tick的bus参数未读、三个复杂度>10函数是有序遍历/菱形判定不拆、显式loadScene不加取消/竞态策略（真实dev UI竞态无直接缺陷证据）。下一片为3r事件系统，不扩94–102、不开中间PR；治理候选待Owner接收。
 
 ## 原文保全
 

@@ -2,29 +2,28 @@
 
 Status: historical
 Owner: GLM(治理候选作者;原文作者/状态见保全块)
-Last reviewed: 2026-10-30
+Last reviewed: 2026-10-31
 Template: evidence-receipt-v1 / 1.0.0
 
 ## 证据身份
 
-本页是「C04/C05/C06 联合稳定窗口」的治理候选页;证据原件即下方逐字节保全的固定main源(2557B,SHA 147c04153a39)。
+本页是C04(Kimi战斗精灵)/C05(导航)/C06(数值表单)三检查点的联合稳定窗口报告。候选cae26b1c7d3f48f200d34aea280726591b36c41b;protected main f98d0ddd89ebdee7b04502ee35de26ee82c6d246。八份源文件在check→普通ratchet→普通protected全程SHA冻结(清单见window-snapshot.json),packages/scripts只有官方ratchet改写baseline.fast.json;没有scope-removal参数、退役、规则/配置/产品改动。本窗口只验前三检查点,不包含下一片临时副本的大世界精灵测试。
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原0个链接处置见作者review的linkDisposition。当前存活入口:无当前仓库内存活链接。
+三门原件window-proof.json(单票window-check/window-ratchet/window-protected),范围证明scope-proof.json,逐文件归因diagnostic-census.json,落盘后静态门window-static-postflight.json。计数:check exit0/act外更新1152/不支持act环境243/native导航0;ratchet exit0/1071/243/0;protected exit0/1031/243/0。
 
 ## 断言与业务 oracle
 
-文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+文档事实核对(currentExecution=false):严格统一诊断门未通过。退出码0不能代替零诊断;这些是三个模式的原始计数,不推断其它runtime输出消失;最近stderr头仅做待核线索,worker交叠可能影响归因,逐文件根因仍须独立重跑。全仓check:七包1640文件20269测试全通过,七包typecheck通过;editor631/4946、game318/3564;check内lint4229文件0 error/0 warning/0 info,docs 0 issues(184phase/lore与570semantic记录);未用包级全绿关闭文件。普通ratchet与protected均实测736生产源、19860测试(editor4784):scope无删除,生产include/exclude/sourceScopes完全一致,全部coverage分子/分母指标与六个其它包完整baseline对象完全一致,只改变editor一处诚实标题身份及其摘要;官方baseline SHA由462ddc75f0bd…变为f0d008c301aa…,精确核对见scope-proof.json。C04六例、C05导航两测试、C06表单四测试及之前C01/C02在本窗口匹配的三类诊断0;不能推成全部console零,C05音频端口/故障日志仍未收、原件保留。
 
 ## 结果
 
-原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+治理结果=窗口证据保全完整、可独立复验;不产生新执行结果。关闭0文件;账本3284/229closed/62review/2993pending,C04/C05/C06均留review,不合main。
 
 ## 限制与复核
 
-未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
-
+未重跑三门与静态门。下一片候选为WorldSpriteLibrary.kimi-workflows、glm-ui-wave及其共享宿主:已只读完整核caller/proof/真实IO;冻结期间仅在独立四包临时副本准备,接收前核原始SHA并另跑定向/相邻/typecheck,其准备结果不能倒灌到本窗口宣称已覆盖。其它ImageTab、FrameAnimationEditor、SkillTab、TilesetTab、CutsceneTab等act/环境仍待逐文件核验,未知项不关闭。历史结论保持原时点;候选待Owner非作者接收。
 
 ## 原文保全
 

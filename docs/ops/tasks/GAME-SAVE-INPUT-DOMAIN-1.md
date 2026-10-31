@@ -7,44 +7,43 @@ Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「GAME-SAVE-INPUT-DOMAIN-1 — Save 槽位输入域与双路径一致性」的任务归属与历史边界。原目标见原文(摘录:Capability: save input-domain correctness Reviewer: Codex Visual Verification Timing: N/A（IO/公共 API);本页治理不重开已终态任务。
+统一Save槽位输入域与双路径一致性：基线Save.saveSlot只做slot<1||slot>5检查，NaN和小数通过范围守卫后内存fallback写入Map、IndexedDB路径key编码时可能抛DataError，同一公开API两运行时路径不同结果。当前生产caller均传1..5整数但不能替代公共输入合同。用户2026-10-25批准保存/读取/删除统一只接受整数1–5、非法槽号报错。
 
 ## 范围
 
-原卡含章节[GAME-SAVE-INPUT-DOMAIN-1 — Save 槽位输入域与双路径一致性、2026-10-25 本地统一门收口（当前）、当前裁决与准入（2026-10-25）、发现与停止线（历史，2026-10-17）、事实锚点与待裁决项、需要的反例与验收],共1个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+build allowed限api.ts私有守卫和独立memory/fake-IDB专测；listSlots、存档JSON、DB_VERSION、store/schema、迁移和清档不变。
 
 ## 前提与证据
 
-固定main源5208B(SHA 81f17de43516);原卡前提按原时点保留。当前存活入口:[README.md](../evidence/CODE-QUALITY-94/approved-closeout/README.md)。
+固定源全文核读。实现为统一私有整数边界守卫，三个入口在存储前验证、共同错误明确1–5整数合同；新专测8例覆盖两backend×三非法操作与合法1/5往返；正式基线2绿/6指定AssertionError后，Save/IDB相邻3文件25例全绿、stderr0。首版Promise matcher在原生JSON中被Vitest包装为Error，原件保留不用包装结果冒充指定AssertionError。NaN、正负Infinity、小数、0、6在两路径逐项验证；已有事务complete/abort合同保留。2026-10-25本地统一门收口：全仓20605产品+714工具、七包TC、lint6111文件0/0/0；唯一official20168例/807源完成，原四条比率拒绝保留、仅三文件结构删除精确重计，同报告原ratchet/protected判据exit0、五项精确退役全部匹配。原件:[README.md](../evidence/CODE-QUALITY-94/approved-closeout/README.md)。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+done仅指本卡有限代码/质量门收口；本地冻结时尚未推送/PR/合并，实际远端发布由关联Git/PR与main CI记录。原范围54路径中20个新关闭、34既有关闭按版本桥接保留，12相邻路径只验实际delta。
 
 ## 状态与交接
 
-done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+done保持原语义；不扩103+或重开pre94。无下一位Agent提示词。
 
 ## 历史范围
 
-原卡属固定main时点;GAME-SAVE-INPUT-DOMAIN-1 — Save 槽位输入域与双路径一致性的原始范围与日期在保全块内逐字保留。
+原卡属固定main时点；范围为api.ts输入域守卫与专测，事务提交语义归GAME-SAVE-IDB-COMMIT-1。
 
 ## 原始结论
 
-原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+原卡结论按其Status(done)原样：两项用户裁决落实，统一门零诊断收口。
 
 ## 当时证据
 
-原文1个链接与当时回执属原时点证据;本页不重跑、不复授。
+当时回执属原时点证据：2绿/6指定红→25例全绿、20605+714/official20168零诊断；本页不重跑、不复授。关联:[README.md](../evidence/CODE-QUALITY-94/approved-closeout/README.md)。
 
 ## 当前有效性
 
-仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+仅历史任务归属有效；公共API 1–5整数合同自2026-10-25生效；不凭旧基点授权新产品取舍。
 
 ## 继任文档
 
-接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[README.md](../evidence/CODE-QUALITY-94/approved-closeout/README.md)。
-
+94–102返工系列与approved-closeout承接；事务合同见GAME-SAVE-IDB-COMMIT-1。 关联:[README.md](../evidence/CODE-QUALITY-94/approved-closeout/README.md)。
 
 ## 原文保全
 

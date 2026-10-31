@@ -7,24 +7,23 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 证据身份
 
-本页是「CODE58工具面板代码收口」的治理候选页;证据原件即下方逐字节保全的固定main源(3157B,SHA c91440aa47ac)。
+本页是「CODE58工具面板代码收口」的治理候选页；证据原件为下方逐字节保全的固定main源（3157B，SHA c91440aa47ac）。原窗2026-10-25，同一codex/code-quality-3y，Codex单Owner，基点47b14abc282ecf08a9795263936475519a104269（行为修复提交3ca935065）。原三文件及两新增叶、相关宿主/专测的逐文件八维与上下文见[review.json](review.json)，明确接受；固定79accept／4partial／0pending。余卡1／3m／42／57仍未解决，统一门与合并另计，不扩94–102。
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原8个链接处置见作者review的linkDisposition。当前存活入口:[README.md](../58-tools-panel-fixtures/README.md) [README.md](../gamestate-save-closeout/README.md) [README.md](../status-tools-closeout/README.md) [import-reader-error.png](import-reader-error.png) [prove-refactor.cjs](prove-refactor.cjs) [receipts.json.gz](receipts.json.gz) [review.json](review.json) [static.json](static.json)。
+用户批准导入读取失败提示后，先正式7例中的单一业务红（文件读取失败显示原因且不写入，重选同文件后仍能导入到指定槽），再添加Reader error反馈；其余6绿，修复后7绿。新增三项UI合同为读取失败/同名重选、内容校验拒绝、写入拒绝；原导出4例及主16/显示3身份和断言不减（retired=0）。纯重构另提交：Save文件IO独立为tools-panel-save.ts，窄load/save合同仍由ToolsPanelDeps继承；三个真实共用DOM原语独立为tools-panel-dom.ts；主面板只负责page装配和各tab UI，根与叶无反向依赖，完整TS还原[prove-refactor.cjs](prove-refactor.cjs)含公共字段/其它实现，不靠行数或包绿判结构合格。既有夹具、键义与样式证明按[README.md](../58-tools-panel-fixtures/README.md)、[README.md](../status-tools-closeout/README.md)、[README.md](../gamestate-save-closeout/README.md)复用；旧严格hash漂移只使相关旧原件不能直接认证新源码，不盲目重钉。
 
 ## 断言与业务 oracle
 
-文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+原生Chrome删除自有已选文件得到磁盘级NotFoundError（browser-r3有效红：恰一个业务AssertionError、零写入、空槽保留）；修复后显示具体原因、0写/空槽不变，恢复同路径成功并由真实Save重读87金钱、场景1、坐标。primary为W3C File API §4 read-state、§6.2.3 error/loadend、§7 NotFoundError，只证该浏览器端点，不声明全平台失败行为。取消入口不存在、freshReader不存在LOADING重入，不额外添加abort/fallback；已选导入跨tab完成是原有语义。集中11文件102例全部通过（显式default+原生JSON，stderr0）；game typecheck 0。原始红、绿、全部原生结果、浏览器三失败/两成功轮次及producer在无损原件包[receipts.json.gz](receipts.json.gz)。首轮错误模块入口和第二轮上传副本均无反控信用；副本轮写入仅一次性Chrome测试槽，用户/主树不动。初次证明脚本lint 1warning/1info已修，原终端输出未存raw，如实记录；最后静态门[static.json](static.json)单列，不把exit0带诊断算通过。
 
 ## 结果
 
-原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+原窗结论：CODE58代码接受、统一门deferred。实际错误提示截图[import-reader-error.png](import-reader-error.png)已查看；r4过渡时点图不给视觉信用，最终r5只将截图动画完成，未改产品样式。不是普通剧情、正式E2E或所有浏览器权限体验验收。首个文档门125工具例通过，但归档58误改为活动review触发两项目录/看板诊断；已恢复历史归档done，当前代码接受/未集成统一在父卡和新风险卡；inventory声明漏改（3445→3447）也已修，两轮原件保留，不把首跑称为通过。
 
 ## 限制与复核
 
-未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
-
+只读快检：`node docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/tools-panel-closeout/verify.mjs`。核身份、原件、红绿/零诊断和完整搬移，不联网/写树/跑测试或coverage；不能自动证明八维语义。统一全仓check／官方coverage／protected、一个PR及合main继续等全部pre94。候选待Owner接收。
 
 ## 原文保全
 

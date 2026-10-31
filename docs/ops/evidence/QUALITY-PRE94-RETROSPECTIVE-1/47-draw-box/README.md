@@ -7,24 +7,23 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 证据身份
 
-本页是「CODE47 draw-box 当前复审切片」的治理候选页;证据原件即下方逐字节保全的固定main源(2633B,SHA d42fe30d97e2)。
+本页是「CODE47 draw-box 当前复审切片」(基点 d6bd5caad,分支 codex/code-quality-3y)的治理候选页;证据原件即下方逐字节保全的固定main源。本页真实结论:重新复审九宫格/单行框渲染,不把历史 done、旧测试数量或旧全仓门当当前整卡验收;47 提升为 partial,未标 accept/done。
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原0个链接处置见作者review的linkDisposition。当前存活入口:无当前仓库内存活链接。
+来源为固定Git载体,非本次运行。完整读取 draw-box.ts(191行)、draw-box.test.ts(101行)、draw-box.glm-phase1-leaves.test.ts(79行)、box-shadow-pixels.grok-r1.test.ts(232行);读取 9 个真实 box caller(draw-menu/confirm/shop/magic/inventory/equip/battle-ui/dialog/settlement)与 framebuffer 写入边界;primary 为 SDLPal ui.c:131-340,762-833 与 ui.h:195-254;逐行读域见同目录 read-boundaries.json。
 
 ## 断言与业务 oracle
 
-文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+本页正文按原文时点转述核对轴:style 0/1 的 9-slice frame identity、内部 rows/cols 到总 tile 几何、每 tile 先 shadow 后 opaque 的绘制顺序、opaque mask 与 palette-0、shadow offset/PAL_CalcShadowColor、frame 缺失 fail-loud、framebuffer 屏外裁剪、single-line 44/45/46 的中段重复、len=0、文本宽度量化、caller 合法坐标/长度、共享 helper 所有权与测试隔离。当前实现与 primary/caller 一致,未发现可由直接证据支持的产品缺陷;menuTextMaxCols 空文本下限与 drawSingleLineBox 非负长度行为属当前 TS helper 合同,无证据授权扩大 SDLPal 公共接口。测试按职责排重:主测试 9-slice/frame/shadow/style/网格,GLM 测试 single-line 缺帧/无阴影/屏外裁剪/空宽度,像素测试透明孔/边界影/单行中段/style 缺帧/字宽/零行列。
 
 ## 结果
 
-原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+本页治理结果=原文保全完整,不产生新执行结果。原文验证事实:直接 3 files/22 tests passed;相邻 10 files/127 tests passed;game typecheck passed;未运行 coverage ratchet、official coverage、protected fast、全仓 pnpm check,不能据此宣称统一质量门通过。
 
 ## 限制与复核
 
-未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
-
+原文明言:未触碰 schema/save/migration、生成物、资产管线、公共接口或用户可见 UI 取舍;47 整卡仍 partial,后续需统一门窗口再决定收口。未重跑命令;候选待Owner非作者接收。
 
 ## 原文保全
 

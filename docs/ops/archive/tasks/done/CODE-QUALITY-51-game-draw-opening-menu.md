@@ -7,44 +7,43 @@ Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-保留原卡「CODE-QUALITY-51 — game draw opening menu wave member」的任务归属与历史边界。原目标见原文(摘录:逐文件核验标题菜单绘制实现与两份专属测试，确认 FBP 背景、两项文案、长文案 x 公式、闪烁色、阴影和缺背景边界对齐 SDLPal；本卡是 present/menu wave 成员，先完成定向证据，wave 完整后统一跑全仓质量门。);本页治理不重开已终态任务。
+原卡目标:逐文件核验标题菜单绘制三文件（`draw-opening-menu.ts` 与两份测试）,确认 FBP 全屏背景上的两行 `PAL_ReadMenu` 文本（不画 9-slice box）、两项文案、长文案 x 公式、闪烁选中色、阴影与缺背景边界对齐 SDLPal `uigame.c:42-167`、`ui.c:458`;`opening-menu.ts` 负责 cursor/choice,绘制层不拥有输入或存档。本卡与 CODE-QUALITY-52 组成 present/menu wave,先定向证据后统一跑全仓门。
 
 ## 范围
 
-原卡含章节[CODE-QUALITY-51 — game draw opening menu wave member、目标、范围、前提真值门、上下文锚点、验证],共3个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+三文件;只读相邻 opening-confirm-pixels.grok-r1、draw-menu 公共出口、present.ts FBP chunk 2 注入、opening-menu 状态机、menu-driver。标题菜单观感留集中 E2E。
 
 ## 前提与证据
 
-固定main源6419B(SHA 6346b8694cb7);原卡前提按原时点保留。当前存活入口:[README.md](../../../../ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/51-draw-opening-menu/README.md) [renderer-gates.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-gates.json) [renderer-local.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-local.json)。
+最强替代解释"测试只验证 tofu/素色 fixture 而遗漏真实词表 fallback、背景尺寸或 state ownership"由真实 caller、primary source 与缺资源反例域界定。历史收口:定向 3 files/17 tests、wave 统一门（check、ratchet、protected fast、lint-zero 3994 0/0/0、docs/content、ledger）通过,账本 3266/275 closed。
 
 ## 验收
 
-本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+历史 accept 后历经两轮再验:2026-10-18 Codex 复审 partial——直接 3 files/17、相邻 4 files/107、game typecheck 通过,未发现可由 primary+caller 证实的新 direct defect;coverage/ratchet/protected/full check 留 wave 收口,证据见 [README.md](../../../../ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/51-draw-opening-menu/README.md)。2026-10-21 renderer 八维统一门收口:按原三文件逐项 A–H 接受——收窄移植/宽度说明,补 100ms/600ms 与缺背景不清零的旧绿新单红;第四字断言迁移后截首字仍单红,弱 cursor 例交由精确色值例承接;原选择/读档状态和接口不改。逐文件记录见 [renderer-local.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-local.json),完整集中门与原件见 [renderer-gates.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-gates.json)。
 
 ## 状态与交接
 
-done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+done 保持原历史语义;2026-10-18 复审 partial、2026-10-21 renderer 收口按原范围接受且不附带广域文件接受;无产品行为/schema/save/管线/调用接口变化,视觉/E2E 仍延后。
 
 ## 历史范围
 
-原卡属固定main时点;CODE-QUALITY-51 — game draw opening menu wave member的原始范围与日期在保全块内逐字保留。
+原卡属 2026-10-12 wave 时点;原始记录与历史提示词在保全块内逐字保留。
 
 ## 原始结论
 
-原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+原卡结论按 Status(done) 原样:未发现直接缺陷;定向 17+wave 全仓门通过。治理不撤销/不恢复旧信用。
 
 ## 当时证据
 
-原文3个链接与当时回执属原时点证据;本页不重跑、不复授。
+当时回执（17 定向、wave 统一门、lint 3994 零诊断）属原时点证据;本页不重跑、不复授。
 
 ## 当前有效性
 
-仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+仅历史任务归属有效;renderer 收口结论以其原件为准,不凭旧基点授权新产品取舍。
 
 ## 继任文档
 
-接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[README.md](../../../../ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/51-draw-opening-menu/README.md) [renderer-gates.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-gates.json) [renderer-local.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-local.json)。
-
+renderer 收口证据见上方链接;相邻 opening-confirm 像素 oracle 已由其它卡收口;当前任务导航以看板为准。
 
 ## 原文保全
 

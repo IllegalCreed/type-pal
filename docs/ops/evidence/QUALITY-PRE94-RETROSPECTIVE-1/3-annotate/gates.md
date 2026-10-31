@@ -7,24 +7,23 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 证据身份
 
-本页是「CODE3/3f检查点静态门」的治理候选页;证据原件即下方逐字节保全的固定main源(1696B,SHA 2b650744f35f)。
+本页是 CODE3/3f 切片检查点的静态门回执（原表在保全块）：`pnpm check:docs` exit 0（docs 为 1356 Markdown/7297 local links/443 cards、0 issues；48 docs-tool tests、phase184/content570 通过）、`pnpm lint` exit 0（lint-zero 检查 4428 文件 error/warning/info 全 0）、`node scripts/quality/code-quality-ledger.mjs` exit 0（3287 inventory/209closed/216review/2862pending）、`git diff --check` exit 0。同名 raw.gz 保留原件。
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原0个链接处置见作者review的linkDisposition。当前存活入口:无当前仓库内存活链接。
+命令在 worktree quality-3y-closeout/type-pal 执行，历史时点原件；本页 0 链接。归档后另跑最终 check:docs（exit0，1.263s，final-docs.raw.gz）与最终 lint（exit0，2.155s，4429 文件 0/0/0，final-lint-zero.raw.gz）。
 
 ## 断言与业务 oracle
 
-文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+退出码与计数按原值见证；本片显式声明「静态原命令回执将在实际执行后追加，不能把本检查点标成完整治理批次关闭」。运行面边界同样如实：定向 52、shared 126/typecheck、extract typecheck、coverage 工具 70 通过，但完整 extract 433 原生绿含 10 stderr 块/六条早退假绿，包验收未过——机器绿不代表语义复审完成，两条历史关闭转 review、0 新增关闭。
 
 ## 结果
 
-原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+静态四命令全过（初检与归档后重跑双份记录），lint 零诊断口径为 4428/4429 文件；全仓 check/official ratchet/protected fast 未新跑，editor 诊断未清，不合 main。
 
 ## 限制与复核
 
-未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
-
+未重跑任何命令；raw.gz/final-*.raw.gz 为原件。后续片的静态门不回写本页。候选待 Owner 非作者接收。
 
 ## 原文保全
 
