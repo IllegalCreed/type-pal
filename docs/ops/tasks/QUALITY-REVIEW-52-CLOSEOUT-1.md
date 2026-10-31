@@ -1,6 +1,60 @@
 # QUALITY-REVIEW-52-CLOSEOUT-1 — 剩余52个review文件收口
 
 Status: done
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+保留原卡「QUALITY-REVIEW-52-CLOSEOUT-1 — 剩余52个review文件收口」的任务归属与历史边界。原目标见原文(摘录:用户明确指定下一阶段完成账本剩余52个review文件。复用有效全文八维、caller、primary、反控和原生门证据，补缺口及必要返工，区分代码接受、统一门和发布。旧“等待覆盖率/act诊断”不能直接当当前阻塞，卡片accept也不自动);本页治理不重开已终态任务。
+
+## 范围
+
+原卡含章节[QUALITY-REVIEW-52-CLOSEOUT-1 — 剩余52个review文件收口、目标、范围、前提真值门、工程前提与反证、上下文锚点与推进次序],共6个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+
+## 前提与证据
+
+固定main源16703B(SHA 250bb747901d);原卡前提按原时点保留。当前存活入口:[governance.md](../../testing/governance.md)、[agent-workflow.md](../agent-workflow.md)、[code-quality.md](../code-quality.md)、[README.md](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/README.md)、[scope.json](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/scope.json)、[documentation-model.md](../guides/documentation-model.md)
+
+## 验收
+
+本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+
+## 状态与交接
+
+done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+
+## 历史范围
+
+原卡属固定main时点;QUALITY-REVIEW-52-CLOSEOUT-1 — 剩余52个review文件收口的原始范围与日期在保全块内逐字保留。
+
+## 原始结论
+
+原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+
+## 当时证据
+
+原文6个链接与当时回执属原时点证据;本页不重跑、不复授。
+
+## 当前有效性
+
+仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+
+## 继任文档
+
+接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[governance.md](../../testing/governance.md)、[agent-workflow.md](../agent-workflow.md)、[code-quality.md](../code-quality.md)、[README.md](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/README.md)、[scope.json](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/scope.json)、[documentation-model.md](../guides/documentation-model.md)
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 16703B / SHA-256 250bb747901dd4108d49412f5f805043e509c3b6536f452a2997ac946ae49993；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# QUALITY-REVIEW-52-CLOSEOUT-1 — 剩余52个review文件收口
+
+Status: done
 Phase: phase1 / phase2 / ops（逐文件区分）
 Capability: fixed-cohort code-quality closeout
 Coding Owner: Codex（单Agent）
@@ -112,3 +166,5 @@ Codex build allowed：限固定52的审查、证据校准、注释/测试/行为
 - 2026-10-26 本地统一门收口：52/52代码接受；全仓20620产品＋721工具／七包TC、lint6137文件0/0/0，完整stderr空；唯一official20185／809全部测试绿、原旧比率拒绝如实保留。按用户既有授权仅pal-extract的死包装与视频CLI保护两文件精确重计，六其它包收益保留；同一报告原policy重放ratchet/protected均exit0，三项精确退役匹配。完整原件与低成本复验见父52证据uniform.json；当前尚未推送/PR/合并，卡面done为代码与本地门，发布以真实GitHub状态另核。
 
 - 2026-10-26 PR25首轮Coverage真实失败：scene-thumbnail并发复合例在5000ms超时，Documentation通过。只修该已接受测试，保持合法大图/真PNG/默认5秒，拆两个独立合同并精确500清理未完成请求；四原正文不变。6插桩绿/一去重业务AssertionError反控/TC0，官方game3754单包重采、六包逐指纹复用，20186／809且生产四计数不变；原policy ratchet/protected0。原整仓20620＋721按单测试delta桥接，不重跑无变化六包，原失败完整保留；52分母与账本597／0／2865不变。此处为本地修复回执，PR重试和main CI尚待，未冒称发布成功。
+```
+<!-- incremental-original-source:end -->

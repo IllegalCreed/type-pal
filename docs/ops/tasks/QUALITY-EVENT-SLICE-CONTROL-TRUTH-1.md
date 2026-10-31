@@ -1,6 +1,40 @@
 # QUALITY-EVENT-SLICE-CONTROL-TRUTH-1 — 事件切分控制流与人读元数据边界
 
 Status: review
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+保留原卡「QUALITY-EVENT-SLICE-CONTROL-TRUTH-1 — 事件切分控制流与人读元数据边界」的任务归属与历史边界。原目标见原文(摘录:Reviewer: Codex（事实核验，不冒充第三方） Capability: pal-extract reachability truth Visual Verification Timing: );本页治理不重开已终态任务。
+
+## 范围
+
+原卡含章节[QUALITY-EVENT-SLICE-CONTROL-TRUTH-1 — 事件切分控制流与人读元数据边界、历史停线范围（下方2026-10-22用户新授权覆盖两项窄修）、前提真值矩阵、准入、证据与交接、2026-10-22 当前只读影响域增量、2026-10-22 用户裁决与下一窗口build allowed],共4个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+
+## 前提与证据
+
+固定main源12221B(SHA ba0ae280e264);原卡前提按原时点保留。当前存活入口:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3/README.md)、[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/README.md)、[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-battle-returns/README.md)、[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-slice-approved/README.md)
+
+## 验收
+
+本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:review),治理不改写。
+
+## 状态与交接
+
+review保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 12221B / SHA-256 ba0ae280e26434343356f4ef11a278691bc6dee430dbed3f5f216b1b83e5d7e3；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# QUALITY-EVENT-SLICE-CONTROL-TRUTH-1 — 事件切分控制流与人读元数据边界
+
+Status: review
 Owner: Codex
 Reviewer: Codex（事实核验，不冒充第三方）
 Phase: phase1 asset/event pipeline
@@ -77,3 +111,5 @@ Visual Verification Timing: N/A（提取器纯收集；无游戏/E2E或原版运
 b285b5a5b先正式scene/global反例14绿2业务红，再7行产品修复；9相邻文件83绿、extract TC0。非零op1/op2收集与胜利续行、零地址、敌队号不当脚本目标、shared goto及输入不变逐项核；disasm保号raw7和原始bytes/all.json不改。原盘只读union38765→38780，新增15/删除0、610条非零接回边目的均入union，三输入SHA稳定；不是完整游戏/E2E通过。
 
 [两文件八维／完整原件与真实输入边界](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-battle-returns/README.md)。Status review：本卡获准行为均已有代码/局部证据，统一全仓/coverage/protected等全部pre94集中；CODE3/3g其它主编排与测试质量余项不随本修复关闭。上方初始draft/P3未批准语句均保留当时状态，不作为当前执行指令。
+```
+<!-- incremental-original-source:end -->

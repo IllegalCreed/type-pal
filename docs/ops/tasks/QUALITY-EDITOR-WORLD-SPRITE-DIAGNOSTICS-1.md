@@ -1,6 +1,40 @@
 # QUALITY-EDITOR-WORLD-SPRITE-DIAGNOSTICS-1 — 大世界精灵宿主与真实资源见证
 
 Status: build
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+保留原卡「QUALITY-EDITOR-WORLD-SPRITE-DIAGNOSTICS-1 — 大世界精灵宿主与真实资源见证」的任务归属与历史边界。原目标见原文(摘录:Reviewer: Codex（作者自验与独立复核分记） Capability: world sprite test fidelity Visual Verification Timing: N/A（);本页治理不重开已终态任务。
+
+## 范围
+
+原卡含章节[QUALITY-EDITOR-WORLD-SPRITE-DIAGNOSTICS-1 — 大世界精灵宿主与真实资源见证、隔离与前提、交接、注释边界补充准入、作者检查点与独立反控复核],共1个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+
+## 前提与证据
+
+固定main源3966B(SHA 592f86e97857);原卡前提按原时点保留。当前存活入口:[README.md](../evidence/QUALITY-EDITOR-WORLD-SPRITE-DIAGNOSTICS-1/README.md)
+
+## 验收
+
+本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:build),治理不改写。
+
+## 状态与交接
+
+build保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 3966B / SHA-256 592f86e9785723e5c4ee238794a6ff2dc4f7be59a756353a24cf018959af743c；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# QUALITY-EDITOR-WORLD-SPRITE-DIAGNOSTICS-1 — 大世界精灵宿主与真实资源见证
+
+Status: build
 Owner: Codex
 Reviewer: Codex（作者自验与独立复核分记）
 Phase: phase2
@@ -38,3 +72,5 @@ Codex premise verified / design agree，build allowed，仅三测试/宿主文�
 只有测试/宿主/fixture注释变更，产品源码SHA未变；无schema/save/接口/机制/生成物/规则边界变化。四文件仅review，机器3284/229closed/65review/2990pending。最新完整窗口属于旧候选cae26b1c7，尚有1031act/243环境/native0；本新片完整门待下一稳定窗口，未知项不关、不合main。无下一位Agent提示词，由Codex继续。
 
 检查点静态门：docs 0 issues，lint 4250文件0 error/0 warning/0 info，ledger通过。原件见static-preflight.json；下一稳定全仓窗口仍待执行，不以本片定向零诊断替代统一收口。
+```
+<!-- incremental-original-source:end -->

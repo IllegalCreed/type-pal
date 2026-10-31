@@ -1,6 +1,40 @@
 # QUALITY-GAME-RUNTIME-DIAGNOSTICS-1 — game包17块运行时诊断核清
 
 Status: build
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+保留原卡「QUALITY-GAME-RUNTIME-DIAGNOSTICS-1 — game包17块运行时诊断核清」的任务归属与历史边界。原目标见原文(摘录:Reviewer: Codex（当前原生输出核验，不冒充第三方） Capability: runtime diagnostics / fixture and IO oracle quality Vis);本页治理不重开已终态任务。
+
+## 范围
+
+原卡含章节[QUALITY-GAME-RUNTIME-DIAGNOSTICS-1 — game包17块运行时诊断核清、当前事实与范围、C2 装备脚本负输入诊断切片（2026-10-17）、后续有限准入前提、当前结论与交接],共3个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+
+## 前提与证据
+
+固定main源4839B(SHA f7cd9d81f63c);原卡前提按原时点保留。当前存活入口:[game-diagnostics.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/fetch-retry/game-diagnostics.json)、[test-gates.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/fetch-retry/initial-candidate/test-gates.json)、[QUALITY-FETCH-ABORT-LIFECYCLE-1.md](QUALITY-FETCH-ABORT-LIFECYCLE-1.md)
+
+## 验收
+
+本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:build),治理不改写。
+
+## 状态与交接
+
+build保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 4839B / SHA-256 f7cd9d81f63c8d64111f7ddd3f2d6cfe786973a98a4207cd455f82023748917f；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# QUALITY-GAME-RUNTIME-DIAGNOSTICS-1 — game包17块运行时诊断核清
+
+Status: build
 Owner: Codex
 Reviewer: Codex（当前原生输出核验，不冒充第三方）
 Phase: phase1 game
@@ -37,3 +71,5 @@ C2 统一门回执：根 `pnpm check` 通过（docs 1468/8698，lint 4962 文件
 ## 当前结论与交接
 
 C2 已将两装备负输入 warning 归因为可验证的预期负合同；完整 game verbose 复跑为321 files/3612 tests通过但仍15块stderr，剩余15块未全文核验；本卡保持build。账本当前3307 tracked、226 closed / 12 review / 3069 pending。与editor全包诊断共同阻塞统一质量门，未合main、0新增文件关闭。fetch取消产品风险另归[生命周期卡](QUALITY-FETCH-ABORT-LIFECYCLE-1.md)，不混为console清理。全部83卡与94–102/editor目标继续；无下一位Agent提示词，Codex单Agent继续。
+```
+<!-- incremental-original-source:end -->

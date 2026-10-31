@@ -1,5 +1,59 @@
 # QUALITY-PRE94-RETROSPECTIVE-1 — 94前全部治理成果逐卡复审
 
+Status: done
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+保留原卡「QUALITY-PRE94-RETROSPECTIVE-1 — 94前全部治理成果逐卡复审」的任务归属与历史边界。原目标见原文(摘录:> 当前2026-10-25集中门：固定83原范围83accept／0partial／0pending；实际check20617包例＋708工具例、七包TC及硬静态0。单次official采集2018);本页治理不重开已终态任务。
+
+## 范围
+
+原卡含章节[QUALITY-PRE94-RETROSPECTIVE-1 — 94前全部治理成果逐卡复审、当前执行节奏（用户2026-10-24最新裁决）、2026-10-24 CODE3o／3p当前核定、2026-10-24 CODE3n／3q／3r代码验收、2026-10-24 CODE3n／3q／3r代码收口（build allowed）、2026-10-24 CODE3s／3t代码验收（最终集成待统一门）],共187个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+
+## 前提与证据
+
+固定main源375384B(SHA dc77bd7e3724);原卡前提按原时点保留。当前存活入口:[code-quality.md](../code-quality.md)、[README.md](../evidence/GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1/README.md)、[README.md](../evidence/QUALITY-DOCS-GIT-PATH-ENUMERATION-1/README.md)、[README.md](../evidence/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/README.md)、[README.md](../evidence/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/diagnostics-c1/README.md)、[README.md](../evidence/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/diagnostics-c2/README.md)
+
+## 验收
+
+本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+
+## 状态与交接
+
+done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+
+## 历史范围
+
+原卡属固定main时点;QUALITY-PRE94-RETROSPECTIVE-1 — 94前全部治理成果逐卡复审的原始范围与日期在保全块内逐字保留。
+
+## 原始结论
+
+原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+
+## 当时证据
+
+原文187个链接与当时回执属原时点证据;本页不重跑、不复授。
+
+## 当前有效性
+
+仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+
+## 继任文档
+
+接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[code-quality.md](../code-quality.md)、[README.md](../evidence/GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1/README.md)、[README.md](../evidence/QUALITY-DOCS-GIT-PATH-ENUMERATION-1/README.md)、[README.md](../evidence/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/README.md)、[README.md](../evidence/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/diagnostics-c1/README.md)、[README.md](../evidence/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/diagnostics-c2/README.md)
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 375384B / SHA-256 dc77bd7e372443bdde771788d255d05d9d46e4a9fedb6ed335852bcfe6173023；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# QUALITY-PRE94-RETROSPECTIVE-1 — 94前全部治理成果逐卡复审
+
 > 当前2026-10-25集中门：固定83原范围83accept／0partial／0pending；实际check20617包例＋708工具例、七包TC及硬静态0。单次official采集20180例／807源，原CLI结构比率拒绝已留存，精确重计后同报告ratchet／protected通过；117工具复验0。3452tracked／511closed／63review／2878pending。单PR／新远端CI／合并尚待执行，不扩94–102。[完整门禁、重计与只读复验](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/final-pre94-gates/README.md)。
 
 > 当前2026-10-25：固定83卡原范围83代码accept／0partial；RLE获批来源分域后两红、164相关／四TC0，真实原盘／Chrome／809双次产物闭包成立。只增加3明确文件关闭，广域migrate仍pending、sprite额外包装仍review；全仓／official／protected、远端CI及单PR／合并尚未执行。[当前回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/code1-closeout/pal-source-fix/README.md)。不扩94–102。
@@ -1986,3 +2040,5 @@ CODE1同轮B维交付：两源只修可直接证伪的过时／过宽描述，�
 发布补充：首次PR文档success／注解0但完整服务日志发现1条pnpm11→10安装布局WARN；已按固定上游源码核根因，直接在独立临时目录安装现有10.29.2、同步缓存key输入，全部产品／验证命令保留。47工具及真实脚本／版本／路径验证成立，不重采本地覆盖率。两YAML逐文件A–H／原始日志及新同PR待跑状态见最终门回执bootstrap，不冒称此前整条CI日志零告警。
 
 发布补充：5b94的远端Coverage在Reforge送菜宿主默认5000ms超时，8990绿／1红，原件保留。只收敛Vitest2→1worker，不动全部8991身份、期限或测试／产品正文；51相关／TC0，官方枚举唯executionDigest变化。只更新该配置元数据，同报告严格ratchet／protected通过，原覆盖率计数不降、本地未重采。原83代码验收不扩张，发布仍待新实际CI，详见最终门回执worker-budget。
+```
+<!-- incremental-original-source:end -->

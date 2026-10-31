@@ -1,6 +1,40 @@
 # QUALITY-EDITOR-DIAGNOSTICS-3 — C02 导入、迟到操作者与历史回流
 
 Status: review
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+保留原卡「QUALITY-EDITOR-DIAGNOSTICS-3 — C02 导入、迟到操作者与历史回流」的任务归属与历史边界。原目标见原文(摘录:Reviewer: Codex（作者自验与独立验收分开） Capability: editor test lifecycle correctness Visual Verification Timin);本页治理不重开已终态任务。
+
+## 范围
+
+原卡含章节[QUALITY-EDITOR-DIAGNOSTICS-3 — C02 导入、迟到操作者与历史回流、准入与独占范围、真值与可证伪观察、验收与交接、实测准入修订与生命周期检查点、精度与精简支持准入],共4个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+
+## 前提与证据
+
+固定main源7309B(SHA 7ca1d42a4eac);原卡前提按原时点保留。当前存活入口:[next-read-boundaries.json](../evidence/QUALITY-EDITOR-DIAGNOSTICS-2/next-read-boundaries.json)、[README.md](../evidence/QUALITY-EDITOR-DIAGNOSTICS-3/README.md)、[window-review.md](../evidence/QUALITY-EDITOR-DIAGNOSTICS-3/window-review.md)
+
+## 验收
+
+本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:review),治理不改写。
+
+## 状态与交接
+
+review保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 7309B / SHA-256 7ca1d42a4eac33154abbd0d1e770b3d37fbd8aeb5bf1a3b62fbc3a599a67689b；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# QUALITY-EDITOR-DIAGNOSTICS-3 — C02 导入、迟到操作者与历史回流
+
+Status: review
 Owner: Codex
 Reviewer: Codex（作者自验与独立验收分开）
 Phase: phase2
@@ -73,3 +107,5 @@ Codex：premise verified / design agree，build allowed；需以隔离产品muta
 精度检查点addf1dca1已提交并推送两条治理分支后才集中跑完整门。check、官方确认版ratchet、普通protected fast均exit0；实际各门诊断计数及完整原件见[窗口报告](../evidence/QUALITY-EDITOR-DIAGNOSTICS-3/window-review.md)。静态门0/0/0，不代表运行时诊断已清零；统一门仍不通过，禁止合main。
 六份源码在整个窗口字节冻结，packages/scripts只产生官方baseline。736源文件/19860 fast测试，四项覆盖分子分母与前基线完全相同，仅G01 10→9精确精简。定向29、相邻77、工具65及七包typecheck通过，0关闭；账本3284/229closed/54review/3001pending。
 当前review，仅冻结作者实测，不冒称另一个Reviewer独立accept；宿主历史pending导航/异常清理故障注入与未知跨文件重复仍待核。下一候选Kimi BattleSprite工作流须先新卡白名单，处理真实完成信号与准备结果自写问题。无下一位Agent提示词，由Codex继续。
+```
+<!-- incremental-original-source:end -->

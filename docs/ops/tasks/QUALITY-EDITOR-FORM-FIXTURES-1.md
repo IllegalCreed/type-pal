@@ -1,6 +1,40 @@
 # QUALITY-EDITOR-FORM-FIXTURES-1 — 数值表单宿主、合法夹具与oracle
 
 Status: review
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+保留原卡「QUALITY-EDITOR-FORM-FIXTURES-1 — 数值表单宿主、合法夹具与oracle」的任务归属与历史边界。原目标见原文(摘录:Reviewer: Codex（作者自验/独立验收分开） Capability: actor form test fidelity Visual Verification Timing: N/A（纯测);本页治理不重开已终态任务。
+
+## 范围
+
+原卡含章节[QUALITY-EDITOR-FORM-FIXTURES-1 — 数值表单宿主、合法夹具与oracle、边界与准入、前提真值、验证与交接、作者检查点、联合窗口复核],共3个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+
+## 前提与证据
+
+固定main源5172B(SHA f87cc7309c16);原卡前提按原时点保留。当前存活入口:[README.md](../evidence/QUALITY-EDITOR-FORM-FIXTURES-1/README.md)、[window-review.md](../evidence/QUALITY-EDITOR-FORM-FIXTURES-1/window-review.md)
+
+## 验收
+
+本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:review),治理不改写。
+
+## 状态与交接
+
+review保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 5172B / SHA-256 f87cc7309c16531bff8aabe73c77de70a3dec2e71f6cdbdd19e723412e29828a；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# QUALITY-EDITOR-FORM-FIXTURES-1 — 数值表单宿主、合法夹具与oracle
+
+Status: review
 Owner: Codex
 Reviewer: Codex（作者自验/独立验收分开）
 Phase: phase2
@@ -49,3 +83,5 @@ Codex premise verified / design agree，build allowed，仅前三测试。
 ## 联合窗口复核
 
 C04/C05/C06八源冻结候选cae26b1c7已完成check、普通ratchet、protected fast，退出码均0；硬静态零诊断，coverage范围/指标无删降。仍有act/环境诊断，严格统一门未过，不标done、不合main。详细原始计数、caller边界和剩余风险见[联合记录](../evidence/QUALITY-EDITOR-FORM-FIXTURES-1/window-review.md)。0文件关闭，账本3284/229closed/62review/2993pending。无下一位Agent提示词，Codex继续。
+```
+<!-- incremental-original-source:end -->

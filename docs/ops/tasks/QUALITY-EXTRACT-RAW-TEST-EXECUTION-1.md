@@ -1,6 +1,40 @@
 # QUALITY-EXTRACT-RAW-TEST-EXECUTION-1 — extractor原盘用例执行完整性
 
 Status: build
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+保留原卡「QUALITY-EXTRACT-RAW-TEST-EXECUTION-1 — extractor原盘用例执行完整性」的任务归属与历史边界。原目标见原文(摘录:Reviewer: Codex（当前源码与原件复核，不冒充第三方） Capability: pal-extract test evidence reliability Visual Verificat);本页治理不重开已终态任务。
+
+## 范围
+
+原卡含章节[QUALITY-EXTRACT-RAW-TEST-EXECUTION-1 — extractor原盘用例执行完整性、已证前提与边界、准入与验收计划、2026-10-16 有限测试准入、本检查点实际结果、诊断合同C1有限准入（2026-10-16）],共5个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+
+## 前提与证据
+
+固定main源14671B(SHA 932144d9ab4a);原卡前提按原时点保留。当前存活入口:[README.md](../evidence/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/README.md)、[README.md](../evidence/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/diagnostics-c1/README.md)、[README.md](../evidence/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/diagnostics-c2/README.md)、[gates.md](../evidence/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/diagnostics-c2/gates.md)、[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3-annotate/README.md)
+
+## 验收
+
+本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:build),治理不改写。
+
+## 状态与交接
+
+build保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 14671B / SHA-256 932144d9ab4af68466b2d4349b93e1ddd87664e1024de98183c116acdec0e437；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# QUALITY-EXTRACT-RAW-TEST-EXECUTION-1 — extractor原盘用例执行完整性
+
+Status: build
 Owner: Codex
 Reviewer: Codex（当前源码与原件复核，不冒充第三方）
 Phase: phase1 engineering / test IO
@@ -88,3 +122,5 @@ C2原子性细化：未知999是非法OBJECT域，独立为P07第三例，不塞
 两测试只review；enemies.ts两处不存在的EnemyTeam.slots注释是直接counter，旧关闭撤回review，生产未改。机器3289/208closed/226review/2855pending，0新关闭；全83卡仍9partial/74pending/0accept。完整check/ratchet/protected未新跑、editor诊断未清，不合main；回CODE3b四文件继续，原94–102/editor保留。无下一位Agent提示词。
 
 C2静态门与历史失败保留见[最终回执](../evidence/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/diagnostics-c2/gates.md)；只更新本卡导航，无其它Owner状态变化。整体验收/统一三门未通过不合main。
+```
+<!-- incremental-original-source:end -->

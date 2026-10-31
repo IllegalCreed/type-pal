@@ -1,6 +1,40 @@
 # QUALITY-FETCH-ABORT-LIFECYCLE-1 — GET重试等待期与Request取消停止线
 
 Status: build
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+保留原卡「QUALITY-FETCH-ABORT-LIFECYCLE-1 — GET重试等待期与Request取消停止线」的任务归属与历史边界。原目标见原文(摘录:Reviewer: Codex（当前源码与真实IO复核，不冒充第三方） Capability: global fetch cancellation boundary Visual Verificati);本页治理不重开已终态任务。
+
+## 范围
+
+原卡含章节[QUALITY-FETCH-ABORT-LIFECYCLE-1 — GET重试等待期与Request取消停止线、直接事实与当前停止线、四向真值与反证、可审阅方案与准入条件、C1 实现准入（2026-10-16，8f5a9af5d）、C1 实现结果（2026-10-17，工作树，尚未提交）],共6个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+
+## 前提与证据
+
+固定main源9689B(SHA 7976f2ed5fa8);原卡前提按原时点保留。当前存活入口:[CODE-QUALITY-71-game-fetch-retry-abort-boundary.md](../archive/tasks/done/CODE-QUALITY-71-game-fetch-retry-abort-boundary.md)、[README.md](../evidence/QUALITY-FETCH-ABORT-LIFECYCLE-1/c1/README.md)、[real-abort-proof.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/fetch-retry/real-abort-proof.json)
+
+## 验收
+
+本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:build),治理不改写。
+
+## 状态与交接
+
+build保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 9689B / SHA-256 7976f2ed5fa85716801a1a368db795c24a37fcf2f6f95e581d2f6f5dc05cdad8；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# QUALITY-FETCH-ABORT-LIFECYCLE-1 — GET重试等待期与Request取消停止线
+
+Status: build
 Owner: Codex
 Reviewer: Codex（当前源码与真实IO复核，不冒充第三方）
 Phase: phase1 game / network lifecycle
@@ -70,3 +104,5 @@ fetch-retry.ts旧整文件关闭因直接counter撤回rework；旧CODE71的done�
 准入时main为f98d0ddd8；之后已在提交 `89bf84e16` 合并最新main，当前相对main为0 behind。看板未有其它Owner占用fetch-retry实现，Codex单Owner。先仅允许新增`packages/game/src/shell/fetch-retry.cancellation.test.ts`，从公开install/fetch入口验证已有71取消合同；只读三既有测试、main/boot-loading/audio-midi，已全文复核。
 
 补核Fetch Request构造步骤26/29/30：init.signal存在时覆盖Request.signal，显式null表示脱离原signal，不能用空值回退重新绑定已取消Request。六个输入场景分别核已取消Request（自定义Error/默认原因且零重试）、退避中init/Request取消、显式signal/null覆盖与正常恢复释放。Node原生fetch已取消正控不发网络，退避IO用typed fetch替身；timer与真实AbortSignal监听器独立检查。先红可有多项合同失败，不冒充恰一AssertionError的精确反控。
+```
+<!-- incremental-original-source:end -->

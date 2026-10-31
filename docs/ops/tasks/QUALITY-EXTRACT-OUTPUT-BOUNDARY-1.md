@@ -1,6 +1,40 @@
 # QUALITY-EXTRACT-OUTPUT-BOUNDARY-1 — 提取器共享输出目录清理停止线
 
 Status: build
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+保留原卡「QUALITY-EXTRACT-OUTPUT-BOUNDARY-1 — 提取器共享输出目录清理停止线」的任务归属与历史边界。原目标见原文(摘录:Reviewer: Codex（当前源码与隔离原件自核，不冒充第三方） Capability: extraction output cleanup boundary Visual Verificati);本页治理不重开已终态任务。
+
+## 范围
+
+原卡含章节[QUALITY-EXTRACT-OUTPUT-BOUNDARY-1 — 提取器共享输出目录清理停止线、已确认事实与停止线、四向真值与可证伪前提、可审阅方案A（已批准并实施）、C1 失败反例与实现准入（2026-10-17）、未决与交接],共5个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+
+## 前提与证据
+
+固定main源12940B(SHA 5c454bd711fc);原卡前提按原时点保留。当前存活入口:[README.md](../evidence/QUALITY-EXTRACT-OUTPUT-BOUNDARY-1/c1/README.md)、[README.md](../evidence/QUALITY-EXTRACT-OUTPUT-BOUNDARY-1/entrypoint-followup/README.md)、[output-boundary.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3g/output-boundary.json)、[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/supplementary-audit/README.md)
+
+## 验收
+
+本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:build),治理不改写。
+
+## 状态与交接
+
+build保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 12940B / SHA-256 5c454bd711fc9874d86f45daf8bad762d4c8495436022900babdddbc00b07a45；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# QUALITY-EXTRACT-OUTPUT-BOUNDARY-1 — 提取器共享输出目录清理停止线
+
+Status: build
 Owner: Codex
 Reviewer: Codex（当前源码与隔离原件自核，不冒充第三方）
 Phase: phase1 pal-extract / asset pipeline ownership
@@ -85,3 +119,5 @@ Codex单Owner，白名单output-boundary.test.ts、cli-entrypoint-paths.test.ts�
 ### 2026-10-22 集中门结果
 
 相关CLI IO/事件/输出边界统一窗口已实跑整合后check20430，official ratchet/protected同报告20032，全部0诊断；原两次拒绝保留，最新主线移动端统计未覆盖。仅本窗六明确IO路径接受，卡内其它余项与P3停止线保持，详见父卡与cli-io-closeout/review.json。推送/合main以实际Git refs为准。
+```
+<!-- incremental-original-source:end -->

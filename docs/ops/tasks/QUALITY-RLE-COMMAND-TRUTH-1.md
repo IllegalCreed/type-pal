@@ -1,6 +1,40 @@
 # QUALITY-RLE-COMMAND-TRUTH-1 — PAL RLE高位literal判定前提核验
 
 Status: review
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+保留原卡「QUALITY-RLE-COMMAND-TRUTH-1 — PAL RLE高位literal判定前提核验」的任务归属与历史边界。原目标见原文(摘录:Capability: RLE resource format truth Visual Verification Timing: 纯字节前提核验N/A，若实际像素行为受影响另登记 用户call_50);本页治理不重开已终态任务。
+
+## 范围
+
+原卡含章节[QUALITY-RLE-COMMAND-TRUTH-1 — PAL RLE高位literal判定前提核验、2026-10-25 当前用户批准与build准入、停线与范围、与独立测试补证的边界、当前只读原件、2026-10-18 校准登记：取帧特殊offset与尺寸域],共6个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+
+## 前提与证据
+
+固定main源8586B(SHA acb3bebf344a);原卡前提按原时点保留。当前存活入口:[README.md](../evidence/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/README.md)、[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/code1-closeout/README.md)、[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/code1-closeout/pal-source-fix/README.md)、[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/calibration-20261018/README.md)、[primary-probe.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/primary-probe.json)、[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/quality-closeout/README.md)
+
+## 验收
+
+本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:review),治理不改写。
+
+## 状态与交接
+
+review保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 8586B / SHA-256 acb3bebf344a154e120df68e84d751112ceede89cce9340f23e3e9d673e3ef50；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# QUALITY-RLE-COMMAND-TRUTH-1 — PAL RLE高位literal判定前提核验
+
+Status: review
 Owner: Codex
 Phase: shared cross-phase resource decoding
 Capability: RLE resource format truth
@@ -59,3 +93,5 @@ SDLPal `PAL_SpriteGetFrame`（palcommon.c:803–852）先将u16 word offset乘2�
 2026-10-25 来源边界补证：[真实公开编码器／原生取帧／当前Reforge入口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/code1-closeout/README.md)证明WORD49698不是全域坏值：合法285×346＋1×1作者帧第二偏移99396，当前canonical／lenient均2帧，全局PAL特殊值规则会丢帧／严格拒绝。MGO571仅在内存修表则完整两平面匹配前窗native，当前真实legacy-origin公共入口1帧、内存候选2帧；迁移器571和4133／30源计数相应受影响。原盘／extracted／projects零写入，product仍draft无build；后续方案必须显式按来源隔离并核上游／catalog／迁移域，不借此盲改canonical或生成物。工程／Q1b接受不消除此停止线。
 
 2026-10-25实施：原有legacy入口两正式业务红后修；显式PAL入口与canonical作者入口分域，未修改任何资源字节。63定向／18迁移全源与636+172双次物化零二次写、42提取／16game／Reforge相邻及四包TC通过；真实Canvas结局第200步与原生C第二帧SHA相同、0诊断。完整当前八维／新旧原件／版本桥见[PAL来源修复](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/code1-closeout/pal-source-fix/README.md)。仅代码接受，统一门与最终合并待父任务集中窗口。
+```
+<!-- incremental-original-source:end -->

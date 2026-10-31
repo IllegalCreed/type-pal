@@ -1,6 +1,40 @@
 # QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1 — C03 查看器宿主、回调与迟到读取
 
 Status: build
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+保留原卡「QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1 — C03 查看器宿主、回调与迟到读取」的任务归属与历史边界。原目标见原文(摘录:Reviewer: Codex（作者自验/独立证据重构分记） Capability: sprite viewer test fidelity Visual Verification Timing: N);本页治理不重开已终态任务。
+
+## 范围
+
+原卡含章节[QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1 — C03 查看器宿主、回调与迟到读取、边界与真值、验证与交接、作者检查点与独立反控复核、C09续片准入：K02真实帧编辑工作流],共2个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+
+## 前提与证据
+
+固定main源6675B(SHA baa7f81c679c);原卡前提按原时点保留。当前存活入口:[README.md](../evidence/QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1/README.md)、[README.md](../evidence/QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1/c09/README.md)
+
+## 验收
+
+本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:build),治理不改写。
+
+## 状态与交接
+
+build保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 6675B / SHA-256 baa7f81c679c49b237d9d8cc917beeca2fabde98c09b09f3b55613ac9159b1a9；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1 — C03 查看器宿主、回调与迟到读取
+
+Status: build
 Owner: Codex
 Reviewer: Codex（作者自验/独立证据重构分记）
 Phase: phase2
@@ -47,3 +81,5 @@ Coding Owner Codex premise verified / design agree，build allowed，仅以上�
 Codex premise verified / design agree / build allowed，仅上述测试与helper；不得改Viewer产品、schema/save、资产管线、公共接口或规则。五条身份/业务断言保持；先基线，再逐步核诊断和oracle；隔离至少两枚业务反控（迟到alive与追加选择），拒绝timeout/setup/TypeError混错。定向/相邻/editor typecheck、静态门与ledger后同一3y提交推送，完整门在稳定窗口集中。本片0文件关闭，不将作者自验称为独立accept。证据后续写C09子目录，无下一位Agent提示词，Codex继续。
 
 C09当前检查点：五例身份保留、56→44→0act；真实解码/提交/revision/迟到缓存见证补齐，取消零额外交付与undo/redo重读有直接断言。两枚反控旧/新均4绿1指定AssertionError，最终恢复5绿、临时树已删且另进程重构核对；相邻80仍63act，editor typecheck通过。机器3287/223closed/199review/2865pending，0关闭；产品与规则未动。[本片原件/读取与风险](../evidence/QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1/c09/README.md)。完整editor包631文件/4945例通过但759act/243环境与1只读表单告警；docs/lint-zero/ledger通过。统一零诊断门仍未过，不合main。
+```
+<!-- incremental-original-source:end -->
