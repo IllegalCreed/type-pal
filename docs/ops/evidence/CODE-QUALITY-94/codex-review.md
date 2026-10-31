@@ -1,5 +1,39 @@
 # CODE94/95 — Codex 独立验收 counter（2026-10-15）
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: audit-report-v1 / 1.0.0
+
+## 审计问题
+
+原审计「CODE94/95 — Codex 独立验收 counter（2026-10-15）」的主题按原文时点保留(摘录:Reviewer: Codex。实现候选钉 `5cb6b9d22`（GLM CODE94/95 交付）；后续到 `e45378a81` 仅 CODE97–102 文档，不改变该候选的 packages)。
+
+## 范围与证据
+
+原报告含章节[CODE94/95 — Codex 独立验收 counter（2026-10-15）、结论、R1：统一门存在大量真实诊断（P1，阻止集成）、R2：候选生产注释与当前真源矛盾（P2，注释质量未完成）、R3：测试质量报告不能用合并结论冒充逐文件证据（P2）、R4：CODE95 的目标用例不满足真实 caller 前提（P2）]、0个链接;固定main源8339B(SHA 3f2a372eb7b1)。当前存活入口:无当前仓库内存活链接。
+
+## 发现
+
+原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+
+## 结论
+
+原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+
+## 整改与复核
+
+本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 8339B / SHA-256 3f2a372eb7b180b92aad4a0bc875cea2aca75f3bb99f77069be95d6b51fd6813；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE94/95 — Codex 独立验收 counter（2026-10-15）
+
 Reviewer: Codex。实现候选钉 `5cb6b9d22`（GLM CODE94/95 交付）；后续到 `e45378a81` 仅 CODE97–102 文档，不改变该候选的 packages/coverage baseline。审查在独立 `codex/quality-menu-accept-94-95` 工作树，不写主工作树或 GLM 实现。无新增文件闭合，无 main 合并。
 
 ## 结论
@@ -63,3 +97,5 @@ Codex独立运行：24files/241tests exit0，game typecheck exit0，均无stderr
 按R2/R3/R4在当前白名单内修错误注释和fixture参数合同，补每个测试文件的真实caller/oracle/合法输入/隔离/排重/判别性记录；不要用“抽样”或一个21文件合并行代替逐文件证据。不要为减少pending强关，不因数量≥3机械建共享helper。R1的集中诊断另有Owner/白名单后再修，不为过门静音或越界改UI。
 
 原始GLM检查、ratchet和protected退出0但带诊断均不计干净验收；修正后按官方门重新保留精确终态，不复制旧baseline。未过统一门不得标done或合main。CODE97–102和其它pending/review不因本review改变状态；提交当前白名单交付供Codex再次独立验收。
+```
+<!-- incremental-original-source:end -->

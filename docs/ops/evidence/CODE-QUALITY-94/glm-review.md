@@ -1,5 +1,39 @@
 # CODE-QUALITY-94 — GLM 逐文件复核结论（2026-10-14/15）
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: audit-report-v1 / 1.0.0
+
+## 审计问题
+
+原审计「CODE-QUALITY-94 — GLM 逐文件复核结论（2026-10-14/15）」的主题按原文时点保留(摘录:对象：`source-manifest.json` 30 条候选，分支 `codex/code-quality-menu-integration`（基 `origin/main=cddf65557`）)。
+
+## 范围与证据
+
+原报告含章节[CODE-QUALITY-94 — GLM 逐文件复核结论（2026-10-14/15）、Goal（用户 2026-10-15 设定，本专项总目标）、机械核验、CODE95 三份修复裁定（全文复核）、逐文件结论（生产 9 + 测试 21）、21 份测试文件逐文件证据（R3 返工版，2026-10-15）]、0个链接;固定main源15674B(SHA 1320afeff9ef)。当前存活入口:无当前仓库内存活链接。
+
+## 发现
+
+原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+
+## 结论
+
+原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+
+## 整改与复核
+
+本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 15674B / SHA-256 1320afeff9ef913e27b8d8e9152c42a938dc3de7c20768b789ebca0c109f7f63；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE-QUALITY-94 — GLM 逐文件复核结论（2026-10-14/15）
+
 Owner: GLM（按 CODE94/95 卡提示词接手）；Reviewer: Codex 独立验收。
 对象：`source-manifest.json` 30 条候选，分支 `codex/code-quality-menu-integration`（基 `origin/main=cddf65557`）。
 方法：9 个生产实现全文读取 + 真实 caller（menu-driver/scene-system/draw-menu）接线核对；22 个测试文件全文/差异读取；manifest SHA 逐条机械复核；CODE95 三份相对各自 closure 增量复核。质量维度按用户 2026-10-15 指令补齐：注释质量、可复用提取、测试用例质量、高内聚低耦合。
@@ -117,3 +151,5 @@ glm-check.txt 3,489 条 React act 警告归属：**全部 editor 包**——src/
 ### 返工验证
 
 定向（含返工 5 文件+相邻 driver 双测试）109/109、menu-mode+shop 17/17、game typecheck 0 错；完整门禁（定向 241/typecheck/docs/lint/ledger/ratchet/protected fast）重跑回执见同目录 glm-r2-*.txt。受影响 manifest SHA 已更新并附 reworkCounter 标注。
+```
+<!-- incremental-original-source:end -->

@@ -1,5 +1,39 @@
 # CODE94–102：当前复审与有限返工
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: audit-report-v1 / 1.0.0
+
+## 审计问题
+
+原审计「CODE94–102：当前复审与有限返工」的主题按原文时点保留(摘录:- id：CODE-QUALITY-94/current-review；schemaVersion：1；status：recorded，尚未集成收口。 - Owner：Codex，单Agent；基点 )。
+
+## 范围与证据
+
+原报告含章节[CODE94–102：当前复审与有限返工、证据身份、来源与输入、断言与业务oracle、结果、限制与复核]、4个链接;固定main源4311B(SHA 4a0956c2a553)。当前存活入口:[postflight.json.gz](postflight.json.gz)、[receipts.json.gz](receipts.json.gz)、[review.json](review.json)
+
+## 发现
+
+原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+
+## 结论
+
+原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+
+## 整改与复核
+
+本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 4311B / SHA-256 4a0956c2a553f13a7fa873b872c12b506c4ed0af32683e93a7e1faab3d543e9f；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+````markdown
+# CODE94–102：当前复审与有限返工
+
 ## 证据身份
 
 - id：CODE-QUALITY-94/current-review；schemaVersion：1；status：recorded，尚未集成收口。
@@ -43,3 +77,5 @@ pnpm exec tsx docs/ops/evidence/CODE-QUALITY-94/current-review/fixture-proof.mjs
 ```
 
 第一条核源码/基点、回执字节、精确红集合和绿结果；第二条重新比较已有工厂的值/形状/嵌套freshness，以及三个注释源的正文守恒。两者默认仅输出，不写冻结件；任何漂移只重核受影响claim。后续提交/推送以Git为准，统一门和发布事实另记，不把本回执当成完成声明。
+````
+<!-- incremental-original-source:end -->

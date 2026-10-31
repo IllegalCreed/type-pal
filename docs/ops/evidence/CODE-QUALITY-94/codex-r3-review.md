@@ -1,5 +1,39 @@
 # Codex 三验：CODE94、95、97–102
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: audit-report-v1 / 1.0.0
+
+## 审计问题
+
+原审计「Codex 三验：CODE94、95、97–102」的主题按原文时点保留(摘录:日期：2026-10-15。独立候选 `5477af1e45a80fffe8afc56502659bc7785823bf`； `origin/main=f98d0ddd89ebdee7b04502ee)。
+
+## 范围与证据
+
+原报告含章节[Codex 三验：CODE94、95、97–102、分批裁定、新增可复现问题、R3-1：快存测试遗留监听器（P2，102）、R3-2：C4 用后续选正例未执行物品脚本（P2，99）、R3-3：强转与错误注释仍在（P2/P3，97–100）]、0个链接;固定main源11633B(SHA 8916dd1953b3)。当前存活入口:无当前仓库内存活链接。
+
+## 发现
+
+原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+
+## 结论
+
+原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+
+## 整改与复核
+
+本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 11633B / SHA-256 8916dd1953b39b5e65e6be20dc4b417bdfb5d6843ce91bcad1ce83e5203915a4；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# Codex 三验：CODE94、95、97–102
+
 日期：2026-10-15。独立候选 `5477af1e45a80fffe8afc56502659bc7785823bf`；
 `origin/main=f98d0ddd89ebdee7b04502ee35de26ee82c6d246`，验收开始为 0 behind / 17 ahead。
 工作树 `quality-menu-accept-94-95/type-pal`，分支 `codex/quality-menu-accept-94-95`。
@@ -137,3 +171,5 @@ pal-extract 71 files / 427 tests 通过。game 全包 317 files / 3561 tests 通
 已证测试/注释问题；不把作者自验升级为独立 accept，不开始未授权高风险行为修改。
 有限切片先定向，再在同一完整模块窗口集中验证并更新真实状态；所有未闭合项保持 review/pending。
 无下一位 Agent 提示词；当前由 Codex 继续，GLM 不再是这些修复文件的 Coding Owner。
+```
+<!-- incremental-original-source:end -->
