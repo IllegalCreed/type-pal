@@ -17,6 +17,10 @@ import { assertMigrationFilePath } from './migration-path.js'
 const CONTROL_REL = '.type-pal-migrate'
 const JOURNAL_REL = `${CONTROL_REL}/pal-journal.json`
 
+function stagingPath(transactionId: string, index: number): string {
+  return `${CONTROL_REL}/transactions/${transactionId}/stage/${String(index).padStart(6, '0')}`
+}
+
 interface TransactionChangeBase {
   target: string
   content?: string
@@ -123,7 +127,7 @@ function validateJournal(repo: string, raw: unknown): JournalV2 {
       throw new Error(`迁移事务 journal 操作 kind 无效: ${target}`)
     if (input.previousHash !== null && !HASH_RE.test(input.previousHash ?? ''))
       throw new Error(`迁移事务 journal previousHash 无效: ${target}`)
-    const expectedStaged = `${CONTROL_REL}/transactions/${id}/stage/${String(index).padStart(6, '0')}`
+    const expectedStaged = stagingPath(id, index)
     if (input.kind === 'write') {
       if (!HASH_RE.test(input.hash ?? ''))
         throw new Error(`迁移事务 journal write hash 无效: ${target}`)
@@ -264,6 +268,7 @@ function cleanup(repo: string, journal: JournalV2): void {
 export function recoverMigrationTransaction(repo: string): boolean {
   const journalPath = resolve(repo, JOURNAL_REL)
   if (!existsSync(journalPath)) return false
+  assertNoSymlinkPath(repo, JOURNAL_REL, 'journal')
   const journal = validateJournal(repo, JSON.parse(readFileSync(journalPath, 'utf8')))
   applyJournal(repo, journal)
   cleanup(repo, journal)
@@ -279,8 +284,10 @@ export function commitMigrationTransaction(
   changes: readonly TransactionChange[],
   options: TransactionOptions = {},
 ): void {
+  assertNoSymlinkPath(repo, JOURNAL_REL, 'journal')
   if (existsSync(resolve(repo, JOURNAL_REL)))
     throw new Error('存在未恢复迁移事务；请先调用 recoverMigrationTransaction')
+  assertNoSymlinkPath(repo, `${JOURNAL_REL}.tmp`, 'journal temporary')
   const normalized = changes.map((change) => ({
     ...change,
     target: safeRel(change.target),
@@ -330,7 +337,10 @@ export function commitMigrationTransaction(
       })),
     ),
   ).slice(0, 16)
-  const transactionRel = `${CONTROL_REL}/transactions/${id}`
+  // Reject every existing staging path before the first mkdir/write, not after staging.
+  normalized.forEach((change, index) => {
+    if (change.content !== undefined) assertNoSymlinkPath(repo, stagingPath(id, index), 'staging')
+  })
   const operations: JournalOperation[] = normalized.map((change, index) => {
     const target = resolve(repo, change.target)
     assertPlannedTarget(repo, change)
@@ -342,7 +352,7 @@ export function commitMigrationTransaction(
           : null
     if (change.content === undefined)
       return { kind: 'delete', target: change.target, scope: change.scope, previousHash }
-    const staged = `${transactionRel}/stage/${String(index).padStart(6, '0')}`
+    const staged = stagingPath(id, index)
     const full = resolve(repo, staged)
     mkdirSync(dirname(full), { recursive: true })
     writeFileSync(full, change.content)

@@ -1,6 +1,6 @@
 import { createHash } from 'node:crypto'
 import { existsSync, readFileSync } from 'node:fs'
-import { resolve } from 'node:path'
+import { isAbsolute, resolve } from 'node:path'
 import {
   formatProjectMap,
   formatStampTemplates,
@@ -25,6 +25,18 @@ export interface BaselineStateV1 {
 }
 
 export type BaselineState = BaselineStateV1
+
+/** Manifest paths are portable identities, not paths to normalize outside the baseline. */
+function assertBaselineRelativePath(path: unknown): asserts path is string {
+  if (
+    typeof path !== 'string' ||
+    isAbsolute(path) ||
+    /^[A-Za-z]:/.test(path) ||
+    path.includes('\\') ||
+    path.split('/').some((part) => !part || part === '.' || part === '..')
+  )
+    throw new Error('PAL baseline 路径必须是规范相对字符串')
+}
 
 export function isAtomicProjectMapPath(path: string): boolean {
   return /^content\/maps\/(?!index\.json$)[^/]+\.json$/.test(path)
@@ -55,6 +67,7 @@ export function baselineState(snapshot: MigrationSnapshot): BaselineState {
   const managedFiles = [...snapshot.managedFiles].sort()
   const files: Record<string, string> = {}
   for (const path of managedFiles) {
+    assertBaselineRelativePath(path)
     const hash = snapshotFileHash(snapshot, path)
     if (!hash) throw new Error(`baseline 托管清单缺文件或 hash ${path}`)
     files[path] = hash
@@ -89,6 +102,7 @@ function loadPalBaselineInternal(repo: string): MigrationSnapshot | undefined {
   const files = new Map<string, MigrationJson>()
   const hashes = new Map<string, string>()
   for (const path of state.managedFiles) {
+    assertBaselineRelativePath(path)
     const expectedHash = state.files[path]
     if (typeof expectedHash !== 'string') throw new Error(`PAL baseline 缺 hash ${path}`)
     hashes.set(path, expectedHash)

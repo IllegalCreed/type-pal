@@ -88,7 +88,7 @@ function allowsWholeSubtreeFastPath(file: string): boolean {
   // traversed to reject an equal-but-invalid insertion. Opaque/content sidecars and scalar maps
   // may safely select an unchanged whole tree.
   return !(
-    file === 'content/assets/index.json' ||
+    file === 'assets/index.json' ||
     file === 'content/stamps.json' ||
     file === 'content/sprites.json' ||
     file === 'content/skills.json' ||
@@ -137,22 +137,29 @@ function mergeObject(base: Node, ours: Node, theirs: Node, path: string, ctx: Me
   const baseObject = isObject(base) ? base.value : {}
   const oursObject = (ours.value ?? {}) as Record<string, MigrationJson>
   const theirsObject = (theirs.value ?? {}) as Record<string, MigrationJson>
-  const keys = [
+  const keys = new Set([
     ...Object.keys(theirsObject),
-    ...Object.keys(oursObject).filter((key) => !(key in theirsObject)),
-    ...Object.keys(baseObject).filter((key) => !(key in theirsObject) && !(key in oursObject)),
-  ]
+    ...Object.keys(oursObject),
+    ...Object.keys(baseObject),
+  ])
   const value: Record<string, MigrationJson> = {}
   for (const key of keys) {
     const childPath = `${path}/${escapePointer(key)}`
     const merged = mergeNode(
-      key in baseObject ? present(baseObject[key]!) : absent(),
-      key in oursObject ? present(oursObject[key]!) : absent(),
-      key in theirsObject ? present(theirsObject[key]!) : absent(),
+      Object.hasOwn(baseObject, key) ? present(baseObject[key]!) : absent(),
+      Object.hasOwn(oursObject, key) ? present(oursObject[key]!) : absent(),
+      Object.hasOwn(theirsObject, key) ? present(theirsObject[key]!) : absent(),
       childPath,
       ctx,
     )
-    if (merged.present) value[key] = merged.value!
+    // JSON names such as __proto__ must be own data fields, without invoking inherited setters.
+    if (merged.present)
+      Object.defineProperty(value, key, {
+        value: merged.value!,
+        enumerable: true,
+        configurable: true,
+        writable: true,
+      })
   }
   return present(value)
 }
