@@ -1,5 +1,39 @@
 # CODE-QUALITY-80 只读复现证据
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「CODE-QUALITY-80 只读复现证据」的治理候选页;证据原件即下方逐字节保全的固定main源(3113B,SHA fdccb41f5ba2)。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原0个链接处置见作者review的linkDisposition。当前存活入口:无当前仓库内存活链接。
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 3113B / SHA-256 fdccb41f5ba205c119abf0de6806f475d0aa3e9515c7f20189e6c99d1483e33f；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE-QUALITY-80 只读复现证据
+
 本目录是当前候选的诊断观察，不是产品修复验收，也不是浏览器视觉验收。临时 Vitest 源完整保存在 `dev-party-probe.ts.txt`，复制到 `packages/game/src/dev/dev-panel.code53-probe.test.ts` 后执行 manifest 中命令；结束后删除临时文件。未把错误行为固化成常驻通过测试。
 
 - `observations.json`：真实 `applyFixture → startBattle` 和 `B → 队伍 tab → Role1 卡片` 的状态快照。
@@ -18,3 +52,5 @@
 最终质量门收据已保存：`gate-check-final.txt`（完整 `pnpm check` exit 0）、`gate-ratchet-final.txt`（官方 ratchet exit 0）、`gate-protected-final.txt`（以 `origin/main` 为保护基线 exit 0）、`gate-docs-final.txt`、`gate-lint-final.txt`、`gate-ledger-final.txt` 与 `final-gates.json`。check 包含 game 313/3545、pal-extract 70/423、reforge 359/8964、editor 631/4951、migrate 96/739；check 当时 lint 为 4006 files、0 error/warning/info。证据提交后追加的当前 `pnpm lint` 扫描 4007 files，仍为 0/0/0；ratchet 与 protected fast 均通过，coverage baseline 只升不降。
 
 日志收据只去掉末尾空白行和覆盖率表格的行尾填充空格，诊断、计数、退出结果与原始命令均保留。
+```
+<!-- incremental-original-source:end -->

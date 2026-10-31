@@ -1,5 +1,39 @@
 # CODE-QUALITY-82 evidence — DATA.MKF 只读诊断
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「CODE-QUALITY-82 evidence — DATA.MKF 只读诊断」的治理候选页;证据原件即下方逐字节保全的固定main源(1600B,SHA a8860a9fbc41)。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原0个链接处置见作者review的linkDisposition。当前存活入口:无当前仓库内存活链接。
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 1600B / SHA-256 a8860a9fbc413b0bdbf79282ad87bba03f683d8889be38ffc733c45f6b08efa1；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE-QUALITY-82 evidence — DATA.MKF 只读诊断
+
 本批只处理 `packages/pal-extract/audit-data-mkf.mjs`，不修改 extractor CLI、shared codec、raw/extracted 生成物或公共接口。
 
 - 原实现复现：`baseline-original.txt`；把原脚本复制到隔离临时 checkout 后运行新增测试，退出码 1，8/8 合同失败。原脚本固定读取主工作树绝对路径，且不拒绝非法 offset。
@@ -12,3 +46,5 @@
 候选改动只把路径解析为 `import.meta.url` 相对路径，并在独立诊断入口补齐 MKF header/offset/chunk 边界失败；保留 standalone `.mjs`，不把 shared TS loader 引入手工 Node 命令。新增 8 个测试使用真实 Node 子进程、临时 checkout、合法/损坏输入和 cwd 隔离；测试后清理临时树。
 
 当前状态：实现、定向/相邻验证、全仓 check、ratchet、protected fast、lint-zero、docs/content-review、ledger 均通过；任务已归档为 done。全仓治理仍未完成，其他 pending/review 文件不得随本批关闭。
+```
+<!-- incremental-original-source:end -->

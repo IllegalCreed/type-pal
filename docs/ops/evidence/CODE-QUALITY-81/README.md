@@ -1,5 +1,39 @@
 # CODE-QUALITY-81 picker 生命周期证据
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「CODE-QUALITY-81 picker 生命周期证据」的治理候选页;证据原件即下方逐字节保全的固定main源(3769B,SHA 8fab5daf5a98)。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原1个链接处置见作者review的linkDisposition。当前存活入口:[README.md](../QUALITY-PRE94-RETROSPECTIVE-1/five-cards/README.md)
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 3769B / SHA-256 8fab5daf5a989846ac4ec37f27c7086ed88bb3b560948142119becccee5bac11；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE-QUALITY-81 picker 生命周期证据
+
 本批只收第一阶段 game Dev Panel 场景 picker 的资源生命周期，不把 `dev-panel.ts` 复合文件宣称为整文件已审，也不修改 `DevPanelDeps.renderSceneThumbnail` 公共签名。当前任务为 `review`：新增生命周期测试文件已关闭，复合生产文件与既有 GLM 测试仍待核。
 
 ## 直接证据
@@ -35,3 +69,5 @@ mutation runner 只针对本卡拥有的实现文件执行两个精确突变：`
 
 
 2026-10-20复审：page全局监听的生产Owner由 main.ts 互斥启动分支→bootstrap单次装配证明；没有宿主重复装卸caller，不以公开disposer扩张API。picker旧反控按相同执行代码/测试身份复用，详情见[五卡复审](../QUALITY-PRE94-RETROSPECTIVE-1/five-cards/README.md)。旧门原始输出不改写，新的真实protected门在五卡收尾独立记录。
+```
+<!-- incremental-original-source:end -->
