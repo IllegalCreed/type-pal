@@ -107,7 +107,7 @@
       "reviewedSourceSha256": "713e50a305c0b864183de71871bd41d969ed701dbc41b3a17f243857237fc72c",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "05b2319a738e2f780abb160226b9d31f2946c6b2",
-      "afterSha256": "451ebef5f8123d8ddb92a86fdbeb4a0aa030114f1fc4309980e994d790e48532",
+      "afterSha256": "6ba2b676ee8979f798712b5f717cf6a429517a010942a2ad1c6a3504882a5a6a",
       "publicCallers": [
         "scripts/docs/check-testing.mjs",
         "scripts/docs/report-governance-progress.mjs"
@@ -617,6 +617,29 @@
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false
+        },
+        {
+          "kind": "accepted-incremental-control-projection/1.0.0",
+          "cohortContentSha256": "4fa147c3b9ab4bbc320123ec9bcb7af52dd11ad7dabb696afb4ceb8a41ae53b5",
+          "sourceRevision": "b2437cec97c1f7354dccfe8f856fc762395d4ec6",
+          "structureSha256": "b3ee1bdb0b17493384da6801728cfb04ff5b79710d70ac794931f71adc18e5c9",
+          "membershipSha256": "d3a9e7ae7d908377f0381556ead8dcfd238cc6ce02ae71b76e61170150fede25",
+          "observed": {
+            "entries": 20
+          },
+          "actor": "Codex",
+          "newIndependentSemanticAcceptanceClaimed": false,
+          "runtimeCredit": false,
+          "childSemanticCredit": false
+        },
+        {
+          "kind": "fixed-main-S75-integration-observation",
+          "sourceRevision": "b2437cec97c1f7354dccfe8f856fc762395d4ec6",
+          "beforeSha256": "451ebef5f8123d8ddb92a86fdbeb4a0aa030114f1fc4309980e994d790e48532",
+          "afterSha256": "6ba2b676ee8979f798712b5f717cf6a429517a010942a2ad1c6a3504882a5a6a",
+          "interpretation": "Earlier accepted semantic scope retained; fixed-source integration delta observed separately, not new runtime acceptance.",
+          "newSemanticCredit": 0,
+          "runtimeCredit": false
         }
       ],
       "templateVariant": "current-governance-control-native-v1",
@@ -3380,7 +3403,7 @@
       "sourceSha256": "6a37d3bf0382da26be36b64a3dedaeb18879ff0ae7b16738b94c63718bab101f",
       "sourceGitRevision": "58d2456c2730f9f35f38f52ca110d49d2fe0317f",
       "sourceGitObject": "c7beac7a8cab95856c0025c33cd8d42478274968",
-      "afterSha256": "d0336a8ba931fd260f62ac41ea3be30632c7f7fb14f86ed51da6857c55298c00",
+      "afterSha256": "89988cc48f526e07c8452902f70b70d34a7bdf35fe25e11bf54bf41bc146d0ba",
       "publicCallers": [
         "game event/scene/equipment/battle/menu consumers → single lower owner modules",
         "dependency-ownership and cross-module boundary tests",
@@ -3476,7 +3499,18 @@
           "C1b: HTML pre and lazy quote rejected",
           "C1c: indented Status and fake H1 rejected without trimming semantic indentation"
         ]
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "kind": "fixed-main-S75-integration-observation",
+          "sourceRevision": "b2437cec97c1f7354dccfe8f856fc762395d4ec6",
+          "beforeSha256": "d0336a8ba931fd260f62ac41ea3be30632c7f7fb14f86ed51da6857c55298c00",
+          "afterSha256": "89988cc48f526e07c8452902f70b70d34a7bdf35fe25e11bf54bf41bc146d0ba",
+          "interpretation": "Earlier accepted semantic scope retained; fixed-source integration delta observed separately, not new runtime acceptance.",
+          "newSemanticCredit": 0,
+          "runtimeCredit": false
+        }
+      ]
     }
   ]
 }

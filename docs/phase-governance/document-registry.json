@@ -29,43 +29,59 @@
       "reason": "Single successor ledger for actual per-document rework; no recursive self-hash or self-certified document completion.",
       "retention": "retain-with-source-Git-and-independent-receipt",
       "credit": "ledger traceability only; no current inventory-body or runtime acceptance"
+    },
+    {
+      "path": "docs/phase-governance/document-registry.ops-main-incremental-1.json",
+      "kind": "document-registry-storage-part",
+      "owner": "Codex",
+      "reason": "Bounded positions in the verified registry manifest; physical storage, not a second document or self-certified semantic claim.",
+      "retention": "Retain while referenced by the one current registry manifest; no orphan or prefix-only exclusion.",
+      "credit": "Physical ownership only; no document/runtime/E2E/coverage credit."
+    },
+    {
+      "path": "docs/phase-governance/document-registry.ops-main-incremental-2.json",
+      "kind": "document-registry-storage-part",
+      "owner": "Codex",
+      "reason": "Bounded positions in the verified registry manifest; physical storage, not a second document or self-certified semantic claim.",
+      "retention": "Retain while referenced by the one current registry manifest; no orphan or prefix-only exclusion.",
+      "credit": "Physical ownership only; no document/runtime/E2E/coverage credit."
     }
   ],
   "summary": {
-    "total": 2435,
+    "total": 4351,
     "byPhase": {
-      "ops": 1331,
+      "ops": 3241,
       "lore": 14,
       "phase1": 60,
       "phase2": 109,
       "phase3": 5,
       "phase-governance": 156,
-      "testing": 760
+      "testing": 766
     },
     "byType": {
-      "task-card": 366,
-      "guide-runbook": 18,
+      "task-card": 497,
+      "guide-runbook": 21,
       "archive-record": 473,
-      "governance-index": 292,
-      "audit-report": 67,
+      "governance-index": 300,
+      "audit-report": 178,
       "design-spec": 48,
-      "evidence-receipt": 475,
+      "evidence-receipt": 2048,
       "quality-gate": 3,
-      "test-machine-evidence": 352,
+      "test-machine-evidence": 440,
       "reference-canon": 37,
-      "plan-status": 74,
-      "test-catalog": 1,
-      "test-run-report": 210,
       "narrative-idea": 2,
+      "plan-status": 74,
       "test-e2e-stage": 6,
-      "test-domain-report": 10,
-      "test-contract": 1
+      "test-run-report": 210,
+      "test-domain-report": 12,
+      "test-contract": 1,
+      "test-catalog": 1
     },
     "reviewStatus": {
-      "content-reviewed": 2435
+      "content-reviewed": 4351
     },
     "templateCompliance": {
-      "template-compliant": 2435
+      "template-compliant": 4351
     }
   },
   "scopeNote": "Legacy 570 plus individually reviewed routing batch; not whole-docs coverage. The approved cohort remains 1838 and new docs are a separate delta.",
@@ -124,8 +140,24 @@
       "key": "testing",
       "phase": "testing",
       "path": "document-registry.testing.json",
-      "total": 760,
-      "sha256": "522803b287d26f5fd46eff64abd31c1a6d178f250ebc79eec9ab9b2ebd620044"
+      "total": 766,
+      "sha256": "4bfd1c09c95a770a2e39966d1f8ea2bf51ec0c2d97899d6ffd1c420ddc099559"
+    },
+    {
+      "key": "ops-main-incremental-1",
+      "phase": "ops",
+      "path": "document-registry.ops-main-incremental-1.json",
+      "positionRange": [2435, 3390],
+      "total": 955,
+      "sha256": "c175d3e8d29eaddce8d87965c5577d7a09a64385860abbc390d4a5ae4e93ee36"
+    },
+    {
+      "key": "ops-main-incremental-2",
+      "phase": "ops",
+      "path": "document-registry.ops-main-incremental-2.json",
+      "positionRange": [3390, 4345],
+      "total": 955,
+      "sha256": "7b13e42ef08312689607a8a3f07b9f5024ce3e7276545a77a2fc52508a00d13f"
     }
   ],
   "documentRetirements": {

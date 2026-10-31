@@ -43,7 +43,7 @@
         }
       ],
       "sourceSha256": "4892c967f46448b7dfc849cc101ef83405ecbcfe59fc2c5e2d429a26daab15a2",
-      "afterSha256": "040eb196ac8549b0e1daa44e423567c45109989d8dbf5b762b9b85d12c19e877",
+      "afterSha256": "9e605824ca61d87a7fb21aa94c5e19e94cb6671869734808f2e5641a7c976bbb",
       "publicCallers": [
         "docs/phase-governance/templates/README.md",
         "docs/ops/templates/README.md"
@@ -344,6 +344,15 @@
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
           "historicClaimsReexecuted": false
+        },
+        {
+          "kind": "fixed-main-S75-integration-observation",
+          "sourceRevision": "b2437cec97c1f7354dccfe8f856fc762395d4ec6",
+          "beforeSha256": "040eb196ac8549b0e1daa44e423567c45109989d8dbf5b762b9b85d12c19e877",
+          "afterSha256": "9e605824ca61d87a7fb21aa94c5e19e94cb6671869734808f2e5641a7c976bbb",
+          "interpretation": "Earlier accepted semantic scope retained; fixed-source integration delta observed separately, not new runtime acceptance.",
+          "newSemanticCredit": 0,
+          "runtimeCredit": false
         }
       ],
       "templateConformance": {
@@ -448,7 +457,7 @@
         }
       ],
       "sourceSha256": "6fb14bb214b3f7f07cbf49e760c38aa7635a3c5370827a5b3641ece040e00fd4",
-      "afterSha256": "4b3b4d973d48f8f3d52ea9dacf7d1066c6ff214b67b3fa8fad7064f3d4359248",
+      "afterSha256": "d438b916a40bb18d0f91db05822b0ea5ccf40a306f704cfb8b6eb7f5e6b2c7fd",
       "publicCallers": [
         "docs/phase-governance/templates/README.md",
         "docs/ops/templates/README.md"
@@ -749,6 +758,15 @@
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
           "historicClaimsReexecuted": false
+        },
+        {
+          "kind": "fixed-main-S75-integration-observation",
+          "sourceRevision": "b2437cec97c1f7354dccfe8f856fc762395d4ec6",
+          "beforeSha256": "4b3b4d973d48f8f3d52ea9dacf7d1066c6ff214b67b3fa8fad7064f3d4359248",
+          "afterSha256": "d438b916a40bb18d0f91db05822b0ea5ccf40a306f704cfb8b6eb7f5e6b2c7fd",
+          "interpretation": "Earlier accepted semantic scope retained; fixed-source integration delta observed separately, not new runtime acceptance.",
+          "newSemanticCredit": 0,
+          "runtimeCredit": false
         }
       ],
       "templateConformance": {

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "logicalPath": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
-  "generation": "32565db0495623361242c9bafe1b4d521d29ad850edd40fcef822b089f14bc01",
+  "generation": "38b1c0b79c3d1a0f77540795f77e012ecdf678f708208c4bd0e522626d9437bb",
   "key": "part-004",
   "positions": [73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90],
   "entries": [
@@ -1000,7 +1000,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "19acdf9237d9ad9b00b367ff6a1b22a79612806171c8d229b4b45005c790185b",
-      "afterSha256": "173d9a55117d26bd09f3705a29665f8d8672ebb6a9e1750587d1e13f5b501e17",
+      "afterSha256": "5a38471779a7c93719123f0f778904d142b200f568d5d4253a8b53659e253fa1",
       "publicCallers": [
         "scripts/docs/check-content-review.mjs via review-record-storage.mjs materialization",
         "scripts/docs/check-document-model.mjs via currentReviewLedgerIssues",
@@ -1207,6 +1207,14 @@
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
           "historicClaimsReexecuted": false
+        },
+        {
+          "kind": "incremental-publication-after-pin",
+          "date": "2026-10-31",
+          "beforeSha256": "173d9a55117d26bd09f3705a29665f8d8672ebb6a9e1750587d1e13f5b501e17",
+          "afterSha256": "5a38471779a7c93719123f0f778904d142b200f568d5d4253a8b53659e253fa1",
+          "runtimeCredit": false,
+          "newSemanticCredit": 0
         }
       ],
       "templateVariant": "current-review-ledger-native-v1",
@@ -2238,7 +2246,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6528483e40d006b41795f1a2a31804697c2882a263d42f578551fc4a0e0dced3",
-      "afterSha256": "6b051b5dc9c8bac42d8d7ceba137b5b2a22a86e65698b54f57ac04ec28e17d5a",
+      "afterSha256": "b4629f76bc5412890eb48175162f18ca983e10feec05c1458398fa30be695d64",
       "publicCallers": [
         "scripts/docs/check-content-review.mjs via review-record-storage.mjs materialization",
         "scripts/docs/check-document-model.mjs via currentReviewLedgerIssues",
@@ -2835,6 +2843,14 @@
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false
+        },
+        {
+          "kind": "incremental-publication-after-pin",
+          "date": "2026-10-31",
+          "beforeSha256": "6b051b5dc9c8bac42d8d7ceba137b5b2a22a86e65698b54f57ac04ec28e17d5a",
+          "afterSha256": "b4629f76bc5412890eb48175162f18ca983e10feec05c1458398fa30be695d64",
+          "runtimeCredit": false,
+          "newSemanticCredit": 0
         }
       ],
       "templateVariant": "current-review-ledger-native-v1",
@@ -4896,7 +4912,7 @@
         }
       ],
       "sourceSha256": "2b133490adb9ec60b846402c9f892c0945878bcdeef3340104445f7b189b1579",
-      "afterSha256": "36799158c96381446065329f9ed3266af179da61ade8c441bc7715de7cd129c5",
+      "afterSha256": "31034238625e0e72359ed807ca1258e500e225676055b47eee507d2b25cc7606",
       "publicCallers": [
         "scripts/docs/check-phase-lore-governance.mjs",
         "scripts/docs/report-governance-progress.mjs"
@@ -5062,6 +5078,15 @@
           "afterSha256": "36799158c96381446065329f9ed3266af179da61ade8c441bc7715de7cd129c5",
           "method": "Explicit Owner-reviewed S16 catalog/status/current-navigation delta or S17 build admission; no new semantic grant",
           "grantsNewSemanticAcceptance": false
+        },
+        {
+          "kind": "fixed-main-S75-integration-observation",
+          "sourceRevision": "b2437cec97c1f7354dccfe8f856fc762395d4ec6",
+          "beforeSha256": "36799158c96381446065329f9ed3266af179da61ade8c441bc7715de7cd129c5",
+          "afterSha256": "31034238625e0e72359ed807ca1258e500e225676055b47eee507d2b25cc7606",
+          "interpretation": "Earlier accepted semantic scope retained; fixed-source integration delta observed separately, not new runtime acceptance.",
+          "newSemanticCredit": 0,
+          "runtimeCredit": false
         }
       ],
       "templateVariant": "current-governance-control-native-v1",

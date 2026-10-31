@@ -1,0 +1,1185 @@
+{
+  "schemaVersion": 1,
+  "logicalPath": "docs/phase-governance/reviews/20261018-semantic-rework.json",
+  "generation": "6f9be4cd9379bbf220b9321db4241abd166645f2343c53aa75f8f23f51855c4b",
+  "key": "part-054",
+  "positions": [1939, 1940, 1941, 1942, 1943],
+  "entries": [
+    {
+      "owner": "GLM",
+      "provenance": [
+        "GLM作者候选:固定main源986112b82d51完整字节程序化解析+该篇真实值/键/计数派生语义;作者自验,非独立接受。",
+        {
+          "kind": "accepted-contributor-content",
+          "authorCandidate": "62f27e854466f540fb595dc4ca4fbcb3bf4adf56",
+          "ownerCandidate": "6995a8ec10598695e62df67e6f1d38da72bba38f",
+          "originalRowSha256": "7a9f6ad84be1b152d986a936a5d98d567c759931d7db98cce3885e1d2831bb8e"
+        }
+      ],
+      "readDomain": {
+        "coverage": "full-file",
+        "actual": "全读固定源JSON(23820B,约506行)全部键+fetch.py取旧review对照; schemaVersion/id/status/candidateSha(null)/versions(content22/minimumSave12)、18个sourceRefs逐条(path/lines/anchor/role/sha256)、5条publicCallers、4条legalInputs、businessOracle全部7断言、dedupe(reviewed,against4)、history全部8条、claims5项及evidence路径、artifacts28项、notRun3项、runtimeExecution",
+        "reusedFrom": [],
+        "notRead": [
+          "未重跑任何vitest/extract/发布命令",
+          "未核28个artifact SHA与docs/ops/evidence原件本体",
+          "未核testing catalog.json条目本体",
+          "Historical commands, product implementation, browser/E2E and coverage were not reexecuted by document governance."
+        ]
+      },
+      "truthAnchors": [
+        "id=game-script-corrections,status=active,candidateSha=null(原字节)",
+        "legalInputs第4条:原生5077事件数组与不变sceneRanges;显式独立scene286新增5077;准备于928,816的合法原始raw存档(非reporter存档/非自然剧情checkpoint)",
+        "runtimeExecution.performed=true,scope含2026-10-27 supplemental-map204旧档生命周期与真实两阶段接触退出/重进,completeE2E=false,visual=false"
+      ],
+      "dependencies": [],
+      "publicCallers": [
+        "pnpm extract",
+        "pnpm --filter @type-pal/game exec vitest run src/core/script-{corrections,story-corrections,topology-corrections}.pal.test.ts",
+        "pnpm --filter @type-pal/reforge exec vitest run 5个pal-*corrections测试",
+        "Save.saveSlot/loadSlot→serializeSave/parseImportedSave→loadScene→真实tick;raw-native normal/won/fled与已发布D10存档",
+        "bootGame→canonical碰撞→真实输入/touch zone→loadScene→返回/重进"
+      ],
+      "unresolved": [
+        "完整故事浏览器E2E/视觉/部署在原2026-10-22候选口径notRun(其后history有实际发布条目,语义分轴保留)"
+      ],
+      "historyBoundary": "仅固定main载体时点;本治理候选不授旧执行/运行/产品通过,原时点结论保持在原文。",
+      "businessOracle": {
+        "type": "historical-native-document",
+        "assertions": [
+          "拒购保现金;成交恰付二十;现金不足分文不给",
+          "治疗移除沉默同时保留buff;换/卸刀保持正确槽位加成",
+          "剧情完成/条件角色在场/提前交接清理/portal返回在两阶段各自独立成立",
+          "酒神进度属保存OBJECT状态,第九次施法去除李逍遥法术,第十次被正常动作验证拒绝,新游戏重置",
+          "坏源/坏前值拒绝;raw字节不变;生成可重复且最终字节变化更新资产manifest",
+          "D10追加稳定5077保留原敌4841与全部原生ID/范围;all.json与scene286均含出口root43518;缺失旧档对象与全局状态共享不重置原生进度",
+          "旧normal/won/fled/已发布portal档经真实接触退出,抵达scene286(1392,616)不循环;Reforge原team267敌保留于独立palace-isolated-exit zone旁,真实触摸退出/重进"
+        ],
+        "currentExecution": false
+      },
+      "dedupe": {
+        "result": "本域与4个通用机制测试(event-system/scene-system/r13-six-b-battle/pal-unified-steps-content)已排重;退役两条runtime treasure patch测试由提取规则与真实caller测试替代",
+        "against": [
+          "packages/game/src/core/event-system.test.ts",
+          "packages/game/src/core/scene-system.test.ts",
+          "packages/reforge/src/battle/r13-six-b-battle.test.ts",
+          "packages/reforge/src/pal-unified-steps-content.test.ts"
+        ]
+      },
+      "stopLine": "源字节变化、见证矛盾或需要新产品取舍时阻断本篇并交Owner。",
+      "nextStep": "Owner非作者接收本作者候选;中央接入与授信由Owner执行。",
+      "runtimeExecutionPerformed": false,
+      "coreConclusion": "两阶段脚本纠错域的机器evidence（id=game-script-corrections,status=active）：绑定18个sourceRef（correctScripts@186行pal-win-2规则数据、CLI caller@138、game/reforge两侧oracle测试、supplement-owner及其双caller、s286.json canonical出口zone）与7条业务oracle——拒购保现金/成交恰付20、治疗清沉默保留buff、酒神九次去李逍遥法术且第十次被正常动作验证拒绝新游戏重置、D10新增稳定5077但保留原敌4841与全部原生ID/范围、旧normal/won/fled/已发布portal档经真实接触退出到scene286(1392,616)不循环。5项claims全runtime-backed（含map204独立出口与两阶段接触退出）；8条history记录CLI caller锚点四次纯搬移重绑(230→233→211→138)、review52无参bus实参删除、pal-win-1→pal-win-2升级与2026-10-27受保护发布bde596695d9c4d90a8031443ddd1ea033edd5245；notRun为完整故事浏览器E2E/视觉/部署(指2026-10-22候选时点，其后history另有实际发布条目)。",
+      "phase": "固定main历史载体(testing配对)",
+      "scope": "json-native语义说明与值见证;family=published-native-evidence",
+      "applicability": "仅固定main载体时点;无执行版本,不作当前适用认证。",
+      "counterDisposition": "配对evidence载体的语义结论已按本篇18源锚/7断言/8条history重写;机械保全见证不变,原字节不动。",
+      "templateChoiceRationale": "published配对evidence按consumer约束使用test-machine-evidence-v1,并强制/id与/status见证。",
+      "history": [
+        {
+          "kind": "incremental-candidate-intake",
+          "date": "2026-10-31",
+          "priorRowSha256": "7a9f6ad84be1b152d986a936a5d98d567c759931d7db98cce3885e1d2831bb8e",
+          "priorGovernanceLocation": [
+            "docs/phase-governance/reviews/20261030-main-incremental-candidates.json#entries/1911"
+          ],
+          "priorReadDomain": "Recoverable in the frozen S77 candidate row; not overwritten in its original delivery.",
+          "sourceCarrierSha256": "986112b82d512a40e192c819bfb3f25fc10319d2d9d52a9a90c171fe281cfda7",
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
+      ],
+      "supersedes": [],
+      "fieldRoles": {
+        "governance": ["docs/phase-governance/reviews/20261018-semantic-rework.json#entries/1939"],
+        "nativePointers": ["/id", "/status"]
+      },
+      "businessOracleAssertions": [
+        "拒购保现金;成交恰付二十;现金不足分文不给",
+        "治疗移除沉默同时保留buff;换/卸刀保持正确槽位加成",
+        "剧情完成/条件角色在场/提前交接清理/portal返回在两阶段各自独立成立",
+        "酒神进度属保存OBJECT状态,第九次施法去除李逍遥法术,第十次被正常动作验证拒绝,新游戏重置",
+        "坏源/坏前值拒绝;raw字节不变;生成可重复且最终字节变化更新资产manifest",
+        "D10追加稳定5077保留原敌4841与全部原生ID/范围;all.json与scene286均含出口root43518;缺失旧档对象与全局状态共享不重置原生进度",
+        "旧normal/won/fled/已发布portal档经真实接触退出,抵达scene286(1392,616)不循环;Reforge原team267敌保留于独立palace-isolated-exit zone旁,真实触摸退出/重进"
+      ],
+      "semanticAssessment": {
+        "method": "全读固定源JSON(23820B,约506行)全部键+fetch.py取旧review对照",
+        "readAnchor": "evidence.json",
+        "readScope": "schemaVersion/id/status/candidateSha(null)/versions(content22/minimumSave12)、18个sourceRefs逐条(path/lines/anchor/role/sha256)、5条publicCallers、4条legalInputs、businessOracle全部7断言、dedupe(reviewed,against4)、history全部8条、claims5项及evidence路径、artifacts28项、notRun3项、runtimeExecution",
+        "anchors": [
+          "sourceRef:script-corrections.ts:186 correctScripts+win-script-corrections.json pal-win-2(sha 323331df…)",
+          "oracle断言:拒购保现金/成交恰付20/现金不足不给;治疗清沉默保留buff",
+          "酒神:存OBJECT进度,第九次去李逍遥法术,第十次经正常动作验证拒绝,新游戏重置",
+          "D10:追加稳定5077,保留原敌4841与每个原生ID/范围;all.json与scene286均含出口root43518",
+          "旧档:normal/won/fled/已发布portal档真实接触退出,到scene286(1392,616)不循环;Reforge team267原敌保留于独立zone",
+          "history:CLI caller 230→233→211→138四次纯搬移重绑;2026-10-27 pal-win-1→pal-win-2;发布bde596695d9c4d90a8031443ddd1ea033edd5245",
+          "dedupe:against event-system/scene-system/r13-six-b-battle/pal-unified-steps-content,退役两条runtime treasure patch测试"
+        ],
+        "corrections": [
+          "旧coreConclusion只写'配对evidence载体:id/status与catalog一致'的族级形状;本轮补齐18源锚、7条oracle断言与D10/酒神/购买三类具体业务语义及history演进链",
+          "确认status=active与catalog一致;candidateSha=null按原字节保留(revision.shaStatus=missing-in-report为原状)"
+        ],
+        "unverified": [
+          "未重跑任何vitest/extract/发布命令",
+          "未核28个artifact SHA与docs/ops/evidence原件本体",
+          "未核testing catalog.json条目本体"
+        ]
+      },
+      "retention": {
+        "disposition": "retain-native",
+        "consumers": [
+          "同目录report.md与本域README.md以其为配对机器evidence(frontmatter evidence字段指向它)",
+          "docs/testing/catalog.json按id=game-script-corrections消费其status"
+        ],
+        "uniqueValue": "承载本域唯一的sourceRef SHA指纹集(18条含pal-win-2规则数据与s286 canonical出口)、7条业务oracle断言原文与8条维护history(CLI锚点四次重绑/发布链)的机器可读事实",
+        "dedupeAgainst": [
+          "docs/testing/domains/phase1-runtime/control-rotation/evidence.json(真实打开比较,同为test-machine-evidence-v1但id/断言/源锚完全不同)"
+        ],
+        "replacement": "",
+        "exitCondition": "域退役或catalog迁出该id时随域归档;artifact SHA漂移时按history机制重绑而非删除"
+      },
+      "path": "docs/testing/domains/cross-phase/script-corrections/evidence.json",
+      "docType": "test-machine-evidence",
+      "templateId": "test-machine-evidence-v1",
+      "templateVariant": "historical-test-machine-evidence-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "documentStatus": "historical",
+      "sourceGitRevision": "72db417255d8ca4227522420e9185ef468462aa7",
+      "sourceSha256": "986112b82d512a40e192c819bfb3f25fc10319d2d9d52a9a90c171fe281cfda7",
+      "afterSha256": "986112b82d512a40e192c819bfb3f25fc10319d2d9d52a9a90c171fe281cfda7",
+      "primarySource": [
+        {
+          "path": "docs/testing/domains/cross-phase/script-corrections/evidence.json",
+          "revision": "72db417255d8ca4227522420e9185ef468462aa7",
+          "gitObject": "13d866ab6d18cc47ca80e5f5ceaf1cff80d9d729",
+          "sha256": "986112b82d512a40e192c819bfb3f25fc10319d2d9d52a9a90c171fe281cfda7"
+        }
+      ],
+      "legalInputs": [
+        {
+          "kind": "fixed-native-carrier",
+          "path": "docs/testing/domains/cross-phase/script-corrections/evidence.json",
+          "revision": "72db417255d8ca4227522420e9185ef468462aa7",
+          "gitObject": "13d866ab6d18cc47ca80e5f5ceaf1cff80d9d729",
+          "sha256": "986112b82d512a40e192c819bfb3f25fc10319d2d9d52a9a90c171fe281cfda7"
+        }
+      ],
+      "evidence": {
+        "kind": "historical-native-artifact",
+        "path": "docs/testing/domains/cross-phase/script-corrections/evidence.json",
+        "family": "published-native-evidence",
+        "nativeShape": {
+          "type": "object",
+          "fields": [
+            ["schemaVersion", "number"],
+            ["id", "string"],
+            ["status", "string"],
+            ["candidateSha", "null"],
+            ["versions", "object"],
+            ["sourceRefs", "array"],
+            ["publicCallers", "array"],
+            ["legalInputs", "array"],
+            ["businessOracle", "object"],
+            ["dedupe", "object"],
+            ["history", "array"],
+            ["claims", "array"],
+            ["artifacts", "array"],
+            ["notRun", "array"],
+            ["kind", "string"],
+            ["runtimeExecution", "object"]
+          ]
+        },
+        "witnesses": [
+          {
+            "pointer": "/id",
+            "value": "game-script-corrections",
+            "claim": "配对publication id=game-script-corrections(与catalog一致)。"
+          },
+          {
+            "pointer": "/status",
+            "value": "active",
+            "claim": "publication status=active;状态是发布事实不是执行通过。"
+          }
+        ],
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false,
+        "creditGranted": 0
+      },
+      "revision": {
+        "currentSha": "72db417255d8ca4227522420e9185ef468462aa7",
+        "history": [
+          {
+            "value": "986112b82d512a40e192c819bfb3f25fc10319d2d9d52a9a90c171fe281cfda7",
+            "meaning": "The candidate generator used this field for fixed carrier SHA256, not a Git commit."
+          }
+        ]
+      },
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "contentReviewStatus": "content-reviewed",
+      "templateCompliance": "template-compliant",
+      "nonAuthorReviewer": true,
+      "creditGranted": 0,
+      "readMethod": "per-document-semantic-assessment-with-explicit-read-domain",
+      "reviewDepth": "partial-semantic",
+      "reviewedLines": {
+        "scope": "schemaVersion/id/status/candidateSha(null)/versions(content22/minimumSave12)、18个sourceRefs逐条(path/lines/anchor/role/sha256)、5条publicCallers、4条legalInputs、businessOracle全部7断言、dedupe(reviewed,against4)、history全部8条、claims5项及evidence路径、artifacts28项、notRun3项、runtimeExecution",
+        "boundary": "Source parsing and stated semantic scope; not a full product/code/runtime audit."
+      },
+      "versionScope": "仅固定main载体时点;无执行版本,不作当前适用认证。",
+      "userVisibleBeforeAfter": "Native bytes unchanged; specific governance explanation in the one existing review owner.",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "kind": "incremental-document-publication/1.0.0",
+        "path": "docs/testing/domains/cross-phase/script-corrections/evidence.json",
+        "contentSha256": "07cf2fdef17fdb0784f9196672faf70ac1ff60a98bd148287a7f1f126b15a17f",
+        "acceptedBodySha256": "986112b82d512a40e192c819bfb3f25fc10319d2d9d52a9a90c171fe281cfda7",
+        "reviewedCandidate": "62f27e854466f540fb595dc4ca4fbcb3bf4adf56",
+        "adoptedCandidate": "6995a8ec10598695e62df67e6f1d38da72bba38f",
+        "nonAuthorReviewer": true,
+        "basis": [
+          {
+            "author": "GLM",
+            "reviewer": "Codex",
+            "scope": "S77 specific content, declared semantic read domain, native witnesses and retention",
+            "reportSha256": "9978c24851c0ea74ac6f5a8fa7e451cbbff7e95ad793dc2d9f44f331017f9b45"
+          }
+        ],
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S78",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
+      }
+    },
+    {
+      "owner": "GLM",
+      "provenance": [
+        "GLM作者候选:固定main源9e9a67218b76完整字节程序化解析+该篇真实标题/状态/章节/链接派生语义;作者自验,非独立接受。",
+        {
+          "kind": "accepted-contributor-content",
+          "authorCandidate": "62f27e854466f540fb595dc4ca4fbcb3bf4adf56",
+          "ownerCandidate": "6995a8ec10598695e62df67e6f1d38da72bba38f",
+          "originalRowSha256": "453ec33043b9efd7d61fee235cd30b9d139435f5843e70e3fb6c8ab45d329cd1"
+        }
+      ],
+      "readDomain": {
+        "coverage": "full-file",
+        "actual": "全读固定源(21378B,含front matter/testing-meta注释块)+fetch.py取旧review/prefix对照;旧prefix逐节核对(5节全为'按原时点保全'泛化); testing-meta(id/sourceRefs18/publicCallers/legalInputs/businessOracle7断言/dedupe/revision history8条)、正文Domain scope/Claim matrix四行/Inputs and fixtures/Results and gaps/Quality gate、2026-10-22至10-27六段维护与发布记录",
+        "reusedFrom": [],
+        "notRead": [
+          "未重跑任何测试/覆盖率/发布命令",
+          "未核evidence.json的28个artifact SHA本体",
+          "未核catalog.json与任务卡GAME-SCRIPT-CORRECTIONS-1本体",
+          "Historical commands, product implementation, browser/E2E and coverage were not reexecuted by document governance."
+        ]
+      },
+      "truthAnchors": [
+        "原H1:两阶段脚本纠错与持久入口回归",
+        "原Status:active",
+        "固定main源SHA:9e9a67218b76"
+      ],
+      "dependencies": [],
+      "publicCallers": ["audit-report-or-evidence-receipt的既有读者;无新执行caller。"],
+      "unresolved": [],
+      "historyBoundary": "仅固定main载体时点;本治理候选不授旧执行/运行/产品通过,原时点结论保持在原文。",
+      "businessOracle": {
+        "type": "catalog-publication-projection",
+        "assertions": [
+          "配对id/status(game-script-corrections/active)与catalog一致。",
+          "publication状态非新执行;原文机器字段保全。"
+        ],
+        "currentExecution": false
+      },
+      "dedupe": {
+        "result": "唯一固定载体(9e9a67218b76);与相邻轮次运行不合并。",
+        "against": []
+      },
+      "stopLine": "源字节变化、见证矛盾或需要新产品取舍时阻断本篇并交Owner。",
+      "nextStep": "Owner非作者接收本作者候选;中央接入与授信由Owner执行。",
+      "runtimeExecutionPerformed": false,
+      "coreConclusion": "两阶段脚本纠错域报告（active）：第一阶段忠实解码构建纠错+OBJECT脚本入口所有权、第二阶段直改canonical作者内容；oracle断言含拒购保现金/成交恰付20、治疗清沉默保留buff、酒神九次去法术第十次拒绝、D10追加5077保留原敌4841、旧档真实接触退出scene286(1392,616)不循环。2026-10-22官方fast 20,081例全过覆盖92.05%/83.88%；2026-10-27 D10轮88+5加严重验、两条反控(断开补缺4AssertionError/1pass、改错原敌1指定红/5413pass)恢复全绿；完整故事E2E/视觉未执行，v1.1.0发布链另记。",
+      "phase": "固定main历史文档(证据/审计/导航/规范/报告)",
+      "scope": "MD治理候选正文+保全;family=evidence-or-delivery-prose",
+      "applicability": "固定main载体时点;当前版本适用性未认证。",
+      "counterDisposition": "「两阶段脚本纠错与持久入口回归」固定main源(21378B)治理候选:原文逐字节保全,原文10链接逐项处置(9存活入口在可见正文),原状态(active)保持;治理不重开任务、不重跑执行、不授新信用。",
+      "templateChoiceRationale": "按细化分类evidence-or-delivery-prose与真实consumer约束选择test-domain-report-v1;内容形态与模板职责一致。 consumer要求:docs/testing/catalog.json+scripts/docs/check-testing.mjs。",
+      "history": [
+        {
+          "kind": "incremental-candidate-intake",
+          "date": "2026-10-31",
+          "priorRowSha256": "453ec33043b9efd7d61fee235cd30b9d139435f5843e70e3fb6c8ab45d329cd1",
+          "priorGovernanceLocation": [
+            "docs/phase-governance/reviews/20261030-main-incremental-candidates.json#entries/1912"
+          ],
+          "priorReadDomain": "Recoverable in the frozen S77 candidate row; not overwritten in its original delivery.",
+          "sourceCarrierSha256": "9e9a67218b764ffd8e26d112a68de8630d3f3121108c43ebc6054f9d01598191",
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
+      ],
+      "supersedes": [],
+      "linkDisposition": [
+        {
+          "target": "../../../../ops/evidence/GAME-ENGLISH-1/docs-maintenance.json",
+          "disposition": "live",
+          "reason": "目标文件在当前仓库存在,当前导航需要该入口。"
+        },
+        {
+          "target": "../../../../ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/release-preparation.json",
+          "disposition": "live",
+          "reason": "目标文件在当前仓库存在,当前导航需要该入口。"
+        },
+        {
+          "target": "../../../../ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/release.json",
+          "disposition": "live",
+          "reason": "目标文件在当前仓库存在,当前导航需要该入口。"
+        },
+        {
+          "target": "../../../../ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/review.json",
+          "disposition": "live",
+          "reason": "目标文件在当前仓库存在,当前导航需要该入口。"
+        },
+        {
+          "target": "../../../../ops/evidence/GAME-SCRIPT-CORRECTIONS-1/",
+          "disposition": "historical-only",
+          "reason": "目标文件在当前仓库不存在(原时点对象),仅在原文保全块保留。"
+        },
+        {
+          "target": "../../../../ops/evidence/GAME-SCRIPT-CORRECTIONS-1/integration-receipt.json",
+          "disposition": "live",
+          "reason": "目标文件在当前仓库存在,当前导航需要该入口。"
+        },
+        {
+          "target": "../../../../ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-stages-closeout/README.md",
+          "disposition": "live",
+          "reason": "目标文件在当前仓库存在,当前导航需要该入口。"
+        },
+        {
+          "target": "../../../../ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/extract-scene-closeout/README.md",
+          "disposition": "live",
+          "reason": "目标文件在当前仓库存在,当前导航需要该入口。"
+        },
+        {
+          "target": "../../../../ops/tasks/GAME-SCRIPT-CORRECTIONS-1.md",
+          "disposition": "live",
+          "reason": "目标文件在当前仓库存在,当前导航需要该入口。"
+        },
+        {
+          "target": "evidence.json",
+          "disposition": "live",
+          "reason": "目标文件在当前仓库存在,当前导航需要该入口。"
+        }
+      ],
+      "semanticAssessment": {
+        "method": "全读固定源(21378B,含front matter/testing-meta注释块)+fetch.py取旧review/prefix对照;旧prefix逐节核对(5节全为'按原时点保全'泛化)",
+        "readScope": "testing-meta(id/sourceRefs18/publicCallers/legalInputs/businessOracle7断言/dedupe/revision history8条)、正文Domain scope/Claim matrix四行/Inputs and fixtures/Results and gaps/Quality gate、2026-10-22至10-27六段维护与发布记录",
+        "anchors": [
+          "oracle:拒购保现金/成交恰付二十/现金不足不给;治疗清沉默保留buff",
+          "酒神:第九次去李逍遥法术,第十次经正常动作验证拒绝,新游戏重置",
+          "D10:追加稳定5077保留原敌4841;旧档真实接触退出到scene286(1392,616)不循环",
+          "2026-10-22官方fast 20,081例全过,行92.05%/分支83.88%;第一阶段22例PAL+提取/CLI/往返7例未计入fast",
+          "2026-10-27:88原生+真实party加严5项重验5绿(83邻测同字节复用);反控断开补缺4AssertionError/1pass,改错原敌1指定红/5413pass",
+          "CLI caller锚点230→233→211→138四次纯搬移;pal-win-1→pal-win-2",
+          "2026-10-27发布:官方20,203/812零诊断,PR#28两门过合并,v1.1.0"
+        ],
+        "corrections": [
+          "旧5节全为'按原时点保全/不新增claim'泛化指向保全块;本轮把四行Claim matrix、覆盖数字、D10反控与发布链全部落到可见正文",
+          "Status active不变;不重开/不重跑/不授新信用边界保持"
+        ],
+        "unverified": [
+          "未重跑任何测试/覆盖率/发布命令",
+          "未核evidence.json的28个artifact SHA本体",
+          "未核catalog.json与任务卡GAME-SCRIPT-CORRECTIONS-1本体"
+        ]
+      },
+      "retention": {
+        "disposition": "retain-prose",
+        "consumers": [
+          "同目录README.md导航到本报告;配对evidence.json由其正文引用",
+          "docs/testing/catalog.json按id=game-script-corrections关联",
+          "任务卡docs/ops/tasks/GAME-SCRIPT-CORRECTIONS-1.md为上游实施记录"
+        ],
+        "uniqueValue": "以报告体裁承载本域四类合同的caller/limit矩阵与20,081/92.05%/88+5/D10反控等执行数字、CLI锚点四次重绑与pal-win-2升级的维护叙事",
+        "dedupeAgainst": [
+          "docs/testing/domains/phase1-runtime/control-rotation/report.md(真实打开比较,同模板但域/断言/数字完全不同)"
+        ],
+        "replacement": "",
+        "exitCondition": "域退役或证据合同改版(测试schema升级)时随域重写归档"
+      },
+      "path": "docs/testing/domains/cross-phase/script-corrections/report.md",
+      "docType": "test-domain-report",
+      "templateId": "test-domain-report-v1",
+      "templateVersion": "1.1.0",
+      "documentStatus": "active",
+      "sourceGitRevision": "72db417255d8ca4227522420e9185ef468462aa7",
+      "sourceSha256": "9e9a67218b764ffd8e26d112a68de8630d3f3121108c43ebc6054f9d01598191",
+      "afterSha256": "42ae596dc990bdb1ece1fc9c48cd61a2827de038ecb93fa87c4173931c9d63f1",
+      "primarySource": [
+        {
+          "path": "docs/testing/domains/cross-phase/script-corrections/report.md",
+          "revision": "72db417255d8ca4227522420e9185ef468462aa7",
+          "gitObject": "f89d2f8681931c19401dfb2d21ca7eedfdd0f9f1",
+          "sha256": "9e9a67218b764ffd8e26d112a68de8630d3f3121108c43ebc6054f9d01598191"
+        }
+      ],
+      "legalInputs": [
+        {
+          "kind": "fixed-markdown-source",
+          "path": "docs/testing/domains/cross-phase/script-corrections/report.md",
+          "revision": "72db417255d8ca4227522420e9185ef468462aa7",
+          "gitObject": "f89d2f8681931c19401dfb2d21ca7eedfdd0f9f1",
+          "sha256": "9e9a67218b764ffd8e26d112a68de8630d3f3121108c43ebc6054f9d01598191"
+        }
+      ],
+      "fieldRoles": {
+        "governance": ["docs/phase-governance/reviews/20261018-semantic-rework.json#entries/1940"],
+        "nativePointers": []
+      },
+      "evidence": {
+        "kind": "incremental-preserved-markdown",
+        "originalBytes": 21378,
+        "originalSha256": "9e9a67218b764ffd8e26d112a68de8630d3f3121108c43ebc6054f9d01598191",
+        "path": "docs/testing/domains/cross-phase/script-corrections/report.md"
+      },
+      "revision": {
+        "currentSha": "6995a8ec10598695e62df67e6f1d38da72bba38f",
+        "history": [
+          {
+            "value": "9e9a67218b764ffd8e26d112a68de8630d3f3121108c43ebc6054f9d01598191",
+            "meaning": "The candidate generator used this field for fixed carrier SHA256, not a Git commit."
+          }
+        ]
+      },
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "contentReviewStatus": "content-reviewed",
+      "templateCompliance": "template-compliant",
+      "nonAuthorReviewer": true,
+      "creditGranted": 0,
+      "readMethod": "per-document-semantic-assessment-with-explicit-read-domain",
+      "reviewDepth": "partial-semantic",
+      "reviewedLines": {
+        "scope": "testing-meta(id/sourceRefs18/publicCallers/legalInputs/businessOracle7断言/dedupe/revision history8条)、正文Domain scope/Claim matrix四行/Inputs and fixtures/Results and gaps/Quality gate、2026-10-22至10-27六段维护与发布记录",
+        "boundary": "Source parsing and stated semantic scope; not a full product/code/runtime audit."
+      },
+      "versionScope": "固定main载体时点;当前版本适用性未认证。",
+      "userVisibleBeforeAfter": "Specific visible template prose plus exact original source; no product execution credit.",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "kind": "incremental-document-publication/1.0.0",
+        "path": "docs/testing/domains/cross-phase/script-corrections/report.md",
+        "contentSha256": "df679f5ecc67113650aff092674def101bcb951aed81ce2c1bb580840c1fb83f",
+        "acceptedBodySha256": "42ae596dc990bdb1ece1fc9c48cd61a2827de038ecb93fa87c4173931c9d63f1",
+        "reviewedCandidate": "62f27e854466f540fb595dc4ca4fbcb3bf4adf56",
+        "adoptedCandidate": "6995a8ec10598695e62df67e6f1d38da72bba38f",
+        "nonAuthorReviewer": true,
+        "basis": [
+          {
+            "author": "GLM",
+            "reviewer": "Codex",
+            "scope": "S77 specific content, declared semantic read domain, native witnesses and retention",
+            "reportSha256": "9978c24851c0ea74ac6f5a8fa7e451cbbff7e95ad793dc2d9f44f331017f9b45"
+          }
+        ],
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S78",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
+      }
+    },
+    {
+      "owner": "GLM",
+      "provenance": [
+        "GLM作者候选:固定main源e096a21aa4fe完整字节程序化解析+该篇真实标题/状态/章节/链接派生语义;作者自验,非独立接受。",
+        {
+          "kind": "accepted-contributor-content",
+          "authorCandidate": "62f27e854466f540fb595dc4ca4fbcb3bf4adf56",
+          "ownerCandidate": "6995a8ec10598695e62df67e6f1d38da72bba38f",
+          "originalRowSha256": "bc072346797bfcd8f3980ecab15ab3abaaa2b98eaec66987636c393c7d6545c4"
+        }
+      ],
+      "readDomain": {
+        "coverage": "full-file",
+        "actual": "全读固定源(1199B)+fetch.py取旧review/prefix对照;旧prefix逐节核对(目的/范围两节为泛化'按原文时点保留'); 源README全部5节(目的/范围/当前状态/入口与责任/证据与下一步)与五链接;配对report.md与evidence.json已同批全读以支撑导航语义",
+        "reusedFrom": [],
+        "notRead": [
+          "未核catalog.json条目本体",
+          "未重跑任何命令",
+          "review.json/release.json本体未读(仅路由)",
+          "Historical commands, product implementation, browser/E2E and coverage were not reexecuted by document governance."
+        ]
+      },
+      "truthAnchors": [
+        "原H1:可选45°方向控制回归",
+        "原Status:current",
+        "固定main源SHA:e096a21aa4fe"
+      ],
+      "dependencies": [],
+      "publicCallers": ["task-card-or-report的既有读者;无新执行caller。"],
+      "unresolved": [],
+      "historyBoundary": "仅固定main载体时点;本治理候选不授旧执行/运行/产品通过,原时点结论保持在原文。",
+      "businessOracle": {
+        "type": "historical-navigation-document",
+        "assertions": ["导航职责按原文保持;存活入口可达。", "导航页不授执行信用。"],
+        "currentExecution": false
+      },
+      "dedupe": {
+        "result": "唯一固定载体(e096a21aa4fe);与相邻轮次运行不合并。",
+        "against": []
+      },
+      "stopLine": "源字节变化、见证矛盾或需要新产品取舍时阻断本篇并交Owner。",
+      "nextStep": "Owner非作者接收本作者候选;中央接入与授信由Owner执行。",
+      "runtimeExecutionPerformed": false,
+      "coreConclusion": "可选45°方向控制域导航页（verified）：路由game-input-rotation的report/evidence/任务卡/根接收回执/发布回执五入口；导航正文承载设置语义（默认关闭可记忆、虚拟盘+左摇杆共同作用、四斜向映射原四向）、verified状态（用户接受、统一门/受保护CI/部署完成、v1.1.0）、60项合同（51保留/9新增/0退役）与正式单红反控及双viewport浏览器证据的事实摘要，并声明仅导航不重复授予运行次数或coverage信用。",
+      "phase": "固定main历史文档(证据/审计/导航/规范/报告)",
+      "scope": "MD治理候选正文+保全;family=navigation",
+      "applicability": "固定main载体时点;当前版本适用性未认证。",
+      "counterDisposition": "「可选45°方向控制回归」固定main源(1199B)治理候选:原文逐字节保全,原文5链接逐项处置(5存活入口在可见正文),原状态(current)保持;治理不重开任务、不重跑执行、不授新信用。",
+      "templateChoiceRationale": "按细化分类navigation与真实consumer约束选择governance-index-v1;内容形态与模板职责一致。 consumer要求:docs/testing/catalog.json+scripts/docs/check-testing.mjs。",
+      "history": [
+        {
+          "kind": "incremental-candidate-intake",
+          "date": "2026-10-31",
+          "priorRowSha256": "bc072346797bfcd8f3980ecab15ab3abaaa2b98eaec66987636c393c7d6545c4",
+          "priorGovernanceLocation": [
+            "docs/phase-governance/reviews/20261030-main-incremental-candidates.json#entries/1913"
+          ],
+          "priorReadDomain": "Recoverable in the frozen S77 candidate row; not overwritten in its original delivery.",
+          "sourceCarrierSha256": "e096a21aa4feb234d3786cb486f68cb7901c5dd34cc042633bdd7abdc4ea765b",
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
+      ],
+      "supersedes": [],
+      "linkDisposition": [
+        {
+          "target": "../../../../ops/evidence/GAME-INPUT-ROTATION-1/review.json",
+          "disposition": "live",
+          "reason": "目标文件在当前仓库存在,当前导航需要该入口。"
+        },
+        {
+          "target": "../../../../ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/release.json",
+          "disposition": "live",
+          "reason": "目标文件在当前仓库存在,当前导航需要该入口。"
+        },
+        {
+          "target": "../../../../ops/tasks/GAME-INPUT-ROTATION-1.md",
+          "disposition": "live",
+          "reason": "目标文件在当前仓库存在,当前导航需要该入口。"
+        },
+        {
+          "target": "evidence.json",
+          "disposition": "live",
+          "reason": "目标文件在当前仓库存在,当前导航需要该入口。"
+        },
+        {
+          "target": "report.md",
+          "disposition": "live",
+          "reason": "目标文件在当前仓库存在,当前导航需要该入口。"
+        }
+      ],
+      "semanticAssessment": {
+        "method": "全读固定源(1199B)+fetch.py取旧review/prefix对照;旧prefix逐节核对(目的/范围两节为泛化'按原文时点保留')",
+        "readScope": "源README全部5节(目的/范围/当前状态/入口与责任/证据与下一步)与五链接;配对report.md与evidence.json已同批全读以支撑导航语义",
+        "anchors": [
+          "稳定出版身份game-input-rotation;catalog/report/evidence=verified",
+          "源原文关键句:'本页 current 只指导航有效';'复用60项、正式单红反控和两viewport真实浏览器pointer证据'",
+          "五入口:report.md/evidence.json/GAME-INPUT-ROTATION-1.md/review.json/release.json",
+          "范围排除:键盘、硬件十字键、引擎步进与游戏存档;真机手柄/触屏、完整剧情、离线激活未测"
+        ],
+        "corrections": [
+          "旧'目的/范围'两节为泛化指向保全块;本轮把设置语义、verified发布事实与60项/反控摘要落到可见正文",
+          "Status verified不变;不借导航页授信或重开任务"
+        ],
+        "unverified": [
+          "未核catalog.json条目本体",
+          "未重跑任何命令",
+          "review.json/release.json本体未读(仅路由)"
+        ]
+      },
+      "retention": {
+        "disposition": "retain-prose",
+        "consumers": [
+          "docs/testing/域导航树的phase1-runtime入口",
+          "report.md/evidence.json/GAME-INPUT-ROTATION-1.md/review.json/release.json由本页路由"
+        ],
+        "uniqueValue": "本域唯一导航页：承载五入口路由与'不重复授予运行次数或coverage信用'的复验边界",
+        "dedupeAgainst": [
+          "docs/testing/domains/cross-phase/script-corrections/README.md(真实打开比较,同模板姊妹导航页)"
+        ],
+        "replacement": "",
+        "exitCondition": "域退役时随域三件套一起归档"
+      },
+      "path": "docs/testing/domains/phase1-runtime/control-rotation/README.md",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "templateVersion": "1.0.0",
+      "documentStatus": "verified",
+      "sourceGitRevision": "72db417255d8ca4227522420e9185ef468462aa7",
+      "sourceSha256": "e096a21aa4feb234d3786cb486f68cb7901c5dd34cc042633bdd7abdc4ea765b",
+      "afterSha256": "8f9e62e1347ed64281abb7c4135b25e9a0ccefc13bca37e2524623966105611e",
+      "primarySource": [
+        {
+          "path": "docs/testing/domains/phase1-runtime/control-rotation/README.md",
+          "revision": "72db417255d8ca4227522420e9185ef468462aa7",
+          "gitObject": "07be076df203645ce7d8e7fc28870be47ec4bf41",
+          "sha256": "e096a21aa4feb234d3786cb486f68cb7901c5dd34cc042633bdd7abdc4ea765b"
+        }
+      ],
+      "legalInputs": [
+        {
+          "kind": "fixed-markdown-source",
+          "path": "docs/testing/domains/phase1-runtime/control-rotation/README.md",
+          "revision": "72db417255d8ca4227522420e9185ef468462aa7",
+          "gitObject": "07be076df203645ce7d8e7fc28870be47ec4bf41",
+          "sha256": "e096a21aa4feb234d3786cb486f68cb7901c5dd34cc042633bdd7abdc4ea765b"
+        }
+      ],
+      "fieldRoles": {
+        "governance": ["docs/phase-governance/reviews/20261018-semantic-rework.json#entries/1941"],
+        "nativePointers": []
+      },
+      "evidence": {
+        "kind": "incremental-preserved-markdown",
+        "originalBytes": 1199,
+        "originalSha256": "e096a21aa4feb234d3786cb486f68cb7901c5dd34cc042633bdd7abdc4ea765b",
+        "path": "docs/testing/domains/phase1-runtime/control-rotation/README.md"
+      },
+      "revision": {
+        "currentSha": "6995a8ec10598695e62df67e6f1d38da72bba38f",
+        "history": [
+          {
+            "value": "e096a21aa4feb234d3786cb486f68cb7901c5dd34cc042633bdd7abdc4ea765b",
+            "meaning": "The candidate generator used this field for fixed carrier SHA256, not a Git commit."
+          }
+        ]
+      },
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "contentReviewStatus": "content-reviewed",
+      "templateCompliance": "template-compliant",
+      "nonAuthorReviewer": true,
+      "creditGranted": 0,
+      "readMethod": "per-document-semantic-assessment-with-explicit-read-domain",
+      "reviewDepth": "partial-semantic",
+      "reviewedLines": {
+        "scope": "源README全部5节(目的/范围/当前状态/入口与责任/证据与下一步)与五链接;配对report.md与evidence.json已同批全读以支撑导航语义",
+        "boundary": "Source parsing and stated semantic scope; not a full product/code/runtime audit."
+      },
+      "versionScope": "固定main载体时点;当前版本适用性未认证。",
+      "userVisibleBeforeAfter": "Specific visible template prose plus exact original source; no product execution credit.",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "kind": "incremental-document-publication/1.0.0",
+        "path": "docs/testing/domains/phase1-runtime/control-rotation/README.md",
+        "contentSha256": "4445eedf6c6a53410e76f9c1cbeee021dba90ee5e9c2fb6c5fb1d8b66a02f64d",
+        "acceptedBodySha256": "8f9e62e1347ed64281abb7c4135b25e9a0ccefc13bca37e2524623966105611e",
+        "reviewedCandidate": "62f27e854466f540fb595dc4ca4fbcb3bf4adf56",
+        "adoptedCandidate": "6995a8ec10598695e62df67e6f1d38da72bba38f",
+        "nonAuthorReviewer": true,
+        "basis": [
+          {
+            "author": "GLM",
+            "reviewer": "Codex",
+            "scope": "S77 specific content, declared semantic read domain, native witnesses and retention",
+            "reportSha256": "9978c24851c0ea74ac6f5a8fa7e451cbbff7e95ad793dc2d9f44f331017f9b45"
+          }
+        ],
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S78",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
+      }
+    },
+    {
+      "owner": "GLM",
+      "provenance": [
+        "GLM作者候选:固定main源b3f57660d4f9完整字节程序化解析+该篇真实值/键/计数派生语义;作者自验,非独立接受。",
+        {
+          "kind": "accepted-contributor-content",
+          "authorCandidate": "62f27e854466f540fb595dc4ca4fbcb3bf4adf56",
+          "ownerCandidate": "6995a8ec10598695e62df67e6f1d38da72bba38f",
+          "originalRowSha256": "5cd87140b762c9c60b458faa62dfa47252c82900330c39341f82ae15b8026573"
+        }
+      ],
+      "readDomain": {
+        "coverage": "full-file",
+        "actual": "全读固定源JSON(22658B,约434行)全部键+fetch.py取旧review对照; schemaVersion/id/status/candidateSha/versions+versionScope、14个sourceRefs逐条、4条publicCallers、4条legalInputs、businessOracle全部7断言、dedupe(reviewed-51-retained-9-added-0-retired,against8)、history2条、runtimeExecution、claims4项、artifacts28项、execution(command/cwd/起止/exit/gitHead/sourceHashes7)、contractMapping、counter、findings/failures、cleanup、independentAcceptance、invalidation3条、notRun4项",
+        "reusedFrom": [],
+        "notRead": [
+          "未重跑任何测试/浏览器",
+          "未核28个artifact SHA与review.json/release.json本体",
+          "未核catalog.json条目本体",
+          "Historical commands, product implementation, browser/E2E and coverage were not reexecuted by document governance."
+        ]
+      },
+      "truthAnchors": [
+        "id=game-input-rotation,status=verified,candidateSha=bde596695d9c4d90a8031443ddd1ea033edd5245",
+        "execution.recordScope:原始贡献者恢复运行,非文档出版时新执行;最终候选TS字节匹配",
+        "cleanup.complete=true:mutant字节恢复,仅移除贡献者自建依赖symlink",
+        "independentAcceptance.decision:accept finite feature; product experience pending(其后history发布条目补齐实际发布)"
+      ],
+      "dependencies": [],
+      "publicCallers": [
+        "createGameShell(canvas).connect(KeyboardInputSource)→bindTouchControls/startGamepadInput;pointer与标准Gamepad轴→inputDirection→InputSnapshot.held→scene-system pickFacing/DIR_DELTA",
+        "setupToolsPanel→renderSystemTab→toggleRow→setInputRotated;旋转变化事件更新已挂载shell与输入adapter",
+        "9文件vitest run(含json reporter输出到worktree build目录)",
+        "Cua公开移动Settings勾选/刷新/语言UI与显式skip-intro dev路由NE按住350ms;根浏览器回执记录实际观察"
+      ],
+      "unresolved": ["实物触屏/手柄硬件未测;自然全剧情E2E未测;离线激活未测(notRun原列)"],
+      "historyBoundary": "仅固定main载体时点;本治理候选不授旧执行/运行/产品通过,原时点结论保持在原文。",
+      "businessOracle": {
+        "type": "historical-native-document",
+        "assertions": [
+          "默认off保持原映射;单一可记忆顺时针45°设置共同作用于虚拟盘与标准左摇杆;存储失败保留内存有效选择",
+          "NE/SE/SW/NW输入产出Up/Right/Down/Left;独立scene DIR_DELTA使屏幕NE/SE/SW/NW移动(+16,-8)/(+16,+8)/(-16,+8)/(-16,-8)",
+          "旋转保留raw gamepad entry0.35/held0.2与circular touch center0.13/rim0.5/held0.75;pad外框不旋转",
+          "切设置释放旧触点/摇杆;旧pointer移动不复用;每个旧摇杆须回中后才能新动;键盘/硬件十字键/其它设备所有权保留",
+          "设置UI真实写偏好并在tab重开呈现;新shell初始化保存选择;中英文标签界定虚拟盘/左摇杆范围",
+          "正式quadrant mutant恰1指定AssertionError(expectedLeft,gotRight)+9邻过0skip;字节恢复后60断言全绿",
+          "根浏览器:两手机布局,on/reload/off与English/Chinese;真实NE按住使队伍(1312,288)→(1328,280)朝up,logs[]"
+        ],
+        "currentExecution": false
+      },
+      "dedupe": {
+        "result": "reviewed-51-retained-9-added-0-retired:基线51条file/fullName合同保留;9条新增为偏好IO2/手柄3/触控2/shell1/设置1;旧touch-slide仅搬移夹具构造,6快照全留;English用例只补标签断言非新测试;无公式镜像oracle或退役/改名测试",
+        "against": [
+          "packages/game/src/shell/gamepad-input.test.ts",
+          "packages/game/src/shell/touch-controls.test.ts",
+          "packages/game/src/shell/input.test.ts",
+          "packages/game/src/shell/game-shell.test.ts",
+          "packages/game/src/shell/touch-preference.test.ts",
+          "packages/game/src/tools/tools-panel.mobile.test.ts",
+          "packages/game/src/tools/tools-panel.english.test.ts",
+          "packages/game/src/localization/shell-surfaces.test.ts"
+        ]
+      },
+      "stopLine": "源字节变化、见证矛盾或需要新产品取舍时阻断本篇并交Owner。",
+      "nextStep": "Owner非作者接收本作者候选;中央接入与授信由Owner执行。",
+      "runtimeExecutionPerformed": false,
+      "coreConclusion": "可选45°输入旋转域的机器evidence（id=game-input-rotation,status=verified,candidateSha=bde596695d9c4d90a8031443ddd1ea033edd5245）：绑定14个sourceRef（inputDirection方向规则/isInputRotated偏好/gamepad setRotation/touch pointer/game-shell visual caller/CSS几何/tools设置行/ui-text双语标签/scene-system DIR_DELTA及5个oracle测试）与7条业务oracle——默认off保持原映射、单一可记忆顺时针45°设置共同作用于虚拟盘与标准左摇杆且存储失败保留内存生效；NE/SE/SW/NW输入映射Up/Right/Down/Left而DIR_DELTA移动步进(+16,-8)/(+16,+8)/(-16,+8)/(-16,-8)；旋转保留gamepad entry0.35/held0.2与touch center0.13/rim0.5/held0.75阈值且pad外框不旋转；切设置释放旧触点/每设备回中。contractMapping保留51/新增9(偏好2/手柄3/触控2/shell1/设置1)/退役0；正式quadrant反控恰1指定AssertionError(expected[Right] deeply equal[Left])+9过0skip，字节恢复后60断言全绿；根浏览器真实NE按住350ms使队伍坐标(1312,288)→(1328,280)朝up。execution记录exit0@gitHead 123595ac3a;invalidation含'引入GameShell destroy/重建即失效当前page-lifetime假设'。",
+      "phase": "固定main历史载体(testing配对)",
+      "scope": "json-native语义说明与值见证;family=published-native-evidence",
+      "applicability": "仅固定main载体时点;无执行版本,不作当前适用认证。",
+      "counterDisposition": "配对evidence载体的语义结论已按本篇14源锚/7断言/51-9映射/quadrant反控重写;机械保全见证不变,原字节不动。",
+      "templateChoiceRationale": "published配对evidence按consumer约束使用test-machine-evidence-v1,并强制/id与/status见证。",
+      "history": [
+        {
+          "kind": "incremental-candidate-intake",
+          "date": "2026-10-31",
+          "priorRowSha256": "5cd87140b762c9c60b458faa62dfa47252c82900330c39341f82ae15b8026573",
+          "priorGovernanceLocation": [
+            "docs/phase-governance/reviews/20261030-main-incremental-candidates.json#entries/1914"
+          ],
+          "priorReadDomain": "Recoverable in the frozen S77 candidate row; not overwritten in its original delivery.",
+          "sourceCarrierSha256": "b3f57660d4f9aae093a6f6092353681586091eb485686390b582e54ddf67e84b",
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
+      ],
+      "supersedes": [],
+      "fieldRoles": {
+        "governance": ["docs/phase-governance/reviews/20261018-semantic-rework.json#entries/1942"],
+        "nativePointers": ["/id", "/status"]
+      },
+      "businessOracleAssertions": [
+        "默认off保持原映射;单一可记忆顺时针45°设置共同作用于虚拟盘与标准左摇杆;存储失败保留内存有效选择",
+        "NE/SE/SW/NW输入产出Up/Right/Down/Left;独立scene DIR_DELTA使屏幕NE/SE/SW/NW移动(+16,-8)/(+16,+8)/(-16,+8)/(-16,-8)",
+        "旋转保留raw gamepad entry0.35/held0.2与circular touch center0.13/rim0.5/held0.75;pad外框不旋转",
+        "切设置释放旧触点/摇杆;旧pointer移动不复用;每个旧摇杆须回中后才能新动;键盘/硬件十字键/其它设备所有权保留",
+        "设置UI真实写偏好并在tab重开呈现;新shell初始化保存选择;中英文标签界定虚拟盘/左摇杆范围",
+        "正式quadrant mutant恰1指定AssertionError(expectedLeft,gotRight)+9邻过0skip;字节恢复后60断言全绿",
+        "根浏览器:两手机布局,on/reload/off与English/Chinese;真实NE按住使队伍(1312,288)→(1328,280)朝up,logs[]"
+      ],
+      "semanticAssessment": {
+        "method": "全读固定源JSON(22658B,约434行)全部键+fetch.py取旧review对照",
+        "readScope": "schemaVersion/id/status/candidateSha/versions+versionScope、14个sourceRefs逐条、4条publicCallers、4条legalInputs、businessOracle全部7断言、dedupe(reviewed-51-retained-9-added-0-retired,against8)、history2条、runtimeExecution、claims4项、artifacts28项、execution(command/cwd/起止/exit/gitHead/sourceHashes7)、contractMapping、counter、findings/failures、cleanup、independentAcceptance、invalidation3条、notRun4项",
+        "anchors": [
+          "status=verified,candidateSha=bde596695d9c4d90a8031443ddd1ea033edd5245;versionScope:本功能不消费content/save schema不授权phase2执行",
+          "阈值:gamepad entry0.35/held0.2;touch center0.13/rim0.5/held0.75;pad bounds不旋转",
+          "DIR_DELTA移动:NE/SE/SW/NW=(+16,-8)/(+16,+8)/(-16,+8)/(-16,-8)",
+          "contractMapping:retained51/added9(preferenceIO2,gamepad3,touch2,shell1,settings1)/retired0/renamed0",
+          "counter:passed9/failed1/skipped0,AssertionError expected[Right] to deeply equal[Left],fullName为四斜向顺时针映射用例",
+          "execution:9文件vitest exit0,cwd=worktrees/input-rotation,gitHead 123595ac3a,2026-10-27T05:19:47-53",
+          "根浏览器:两手机viewport,真实NE pointerhold 350ms,1312,288→1328,280 facing up,logs[]",
+          "invalidation:引入GameShell destroy/重建即失效page-lifetime假设"
+        ],
+        "corrections": [
+          "旧coreConclusion只写'配对evidence载体:id/status与catalog一致'的族级形状;本轮补齐14源锚、7条oracle断言、51/9合同映射、quadrant反控身份与发布candidateSha",
+          "确认status=verified与catalog一致"
+        ],
+        "unverified": [
+          "未重跑任何测试/浏览器",
+          "未核28个artifact SHA与review.json/release.json本体",
+          "未核catalog.json条目本体"
+        ]
+      },
+      "retention": {
+        "disposition": "retain-native",
+        "consumers": [
+          "同目录report.md的front matter evidence字段指向它;README.md路由其配对",
+          "docs/testing/catalog.json按id=game-input-rotation消费其status=verified"
+        ],
+        "uniqueValue": "承载本域唯一的方向规则/阈值/接触所有权断言集、quadrant反控原件路径与51/9合同映射inventory、以及发布candidateSha绑定的机器可读事实",
+        "dedupeAgainst": [
+          "docs/testing/domains/cross-phase/script-corrections/evidence.json(真实打开比较,同为test-machine-evidence-v1但id/断言/结构差异明显)"
+        ],
+        "replacement": "",
+        "exitCondition": "域退役或输入外壳重做(方向语义/adapter生命周期变更触发invalidation)时随域归档"
+      },
+      "path": "docs/testing/domains/phase1-runtime/control-rotation/evidence.json",
+      "docType": "test-machine-evidence",
+      "templateId": "test-machine-evidence-v1",
+      "templateVariant": "historical-test-machine-evidence-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "documentStatus": "historical",
+      "sourceGitRevision": "72db417255d8ca4227522420e9185ef468462aa7",
+      "sourceSha256": "b3f57660d4f9aae093a6f6092353681586091eb485686390b582e54ddf67e84b",
+      "afterSha256": "b3f57660d4f9aae093a6f6092353681586091eb485686390b582e54ddf67e84b",
+      "primarySource": [
+        {
+          "path": "docs/testing/domains/phase1-runtime/control-rotation/evidence.json",
+          "revision": "72db417255d8ca4227522420e9185ef468462aa7",
+          "gitObject": "a2ee1ff2bae221fed882a724cea3c626d66cc845",
+          "sha256": "b3f57660d4f9aae093a6f6092353681586091eb485686390b582e54ddf67e84b"
+        }
+      ],
+      "legalInputs": [
+        {
+          "kind": "fixed-native-carrier",
+          "path": "docs/testing/domains/phase1-runtime/control-rotation/evidence.json",
+          "revision": "72db417255d8ca4227522420e9185ef468462aa7",
+          "gitObject": "a2ee1ff2bae221fed882a724cea3c626d66cc845",
+          "sha256": "b3f57660d4f9aae093a6f6092353681586091eb485686390b582e54ddf67e84b"
+        }
+      ],
+      "evidence": {
+        "kind": "historical-native-artifact",
+        "path": "docs/testing/domains/phase1-runtime/control-rotation/evidence.json",
+        "family": "published-native-evidence",
+        "nativeShape": {
+          "type": "object",
+          "fields": [
+            ["schemaVersion", "number"],
+            ["id", "string"],
+            ["status", "string"],
+            ["candidateSha", "string"],
+            ["versions", "object"],
+            ["versionScope", "string"],
+            ["sourceRefs", "array"],
+            ["publicCallers", "array"],
+            ["legalInputs", "array"],
+            ["businessOracle", "object"],
+            ["dedupe", "object"],
+            ["history", "array"],
+            ["kind", "string"],
+            ["runtimeExecution", "object"],
+            ["claims", "array"],
+            ["artifacts", "array"],
+            ["execution", "object"],
+            ["contractMapping", "object"],
+            ["counter", "object"],
+            ["findings", "array"],
+            ["failures", "array"],
+            ["cleanup", "object"],
+            ["independentAcceptance", "object"],
+            ["invalidation", "array"],
+            ["notRun", "array"]
+          ]
+        },
+        "witnesses": [
+          {
+            "pointer": "/id",
+            "value": "game-input-rotation",
+            "claim": "配对publication id=game-input-rotation(与catalog一致)。"
+          },
+          {
+            "pointer": "/status",
+            "value": "verified",
+            "claim": "publication status=verified;状态是发布事实不是执行通过。"
+          }
+        ],
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false,
+        "creditGranted": 0
+      },
+      "revision": {
+        "currentSha": "72db417255d8ca4227522420e9185ef468462aa7",
+        "history": [
+          {
+            "value": "b3f57660d4f9aae093a6f6092353681586091eb485686390b582e54ddf67e84b",
+            "meaning": "The candidate generator used this field for fixed carrier SHA256, not a Git commit."
+          }
+        ]
+      },
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "contentReviewStatus": "content-reviewed",
+      "templateCompliance": "template-compliant",
+      "nonAuthorReviewer": true,
+      "creditGranted": 0,
+      "readMethod": "per-document-semantic-assessment-with-explicit-read-domain",
+      "reviewDepth": "partial-semantic",
+      "reviewedLines": {
+        "scope": "schemaVersion/id/status/candidateSha/versions+versionScope、14个sourceRefs逐条、4条publicCallers、4条legalInputs、businessOracle全部7断言、dedupe(reviewed-51-retained-9-added-0-retired,against8)、history2条、runtimeExecution、claims4项、artifacts28项、execution(command/cwd/起止/exit/gitHead/sourceHashes7)、contractMapping、counter、findings/failures、cleanup、independentAcceptance、invalidation3条、notRun4项",
+        "boundary": "Source parsing and stated semantic scope; not a full product/code/runtime audit."
+      },
+      "versionScope": "仅固定main载体时点;无执行版本,不作当前适用认证。",
+      "userVisibleBeforeAfter": "Native bytes unchanged; specific governance explanation in the one existing review owner.",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "kind": "incremental-document-publication/1.0.0",
+        "path": "docs/testing/domains/phase1-runtime/control-rotation/evidence.json",
+        "contentSha256": "c1e4856202f072c960b73982b6a757e7551aa7efe72a5dba2ec50e3408ba183f",
+        "acceptedBodySha256": "b3f57660d4f9aae093a6f6092353681586091eb485686390b582e54ddf67e84b",
+        "reviewedCandidate": "62f27e854466f540fb595dc4ca4fbcb3bf4adf56",
+        "adoptedCandidate": "6995a8ec10598695e62df67e6f1d38da72bba38f",
+        "nonAuthorReviewer": true,
+        "basis": [
+          {
+            "author": "GLM",
+            "reviewer": "Codex",
+            "scope": "S77 specific content, declared semantic read domain, native witnesses and retention",
+            "reportSha256": "9978c24851c0ea74ac6f5a8fa7e451cbbff7e95ad793dc2d9f44f331017f9b45"
+          }
+        ],
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S78",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
+      }
+    },
+    {
+      "owner": "GLM",
+      "provenance": [
+        "GLM作者候选:固定main源68b77a45cb21完整字节程序化解析+该篇真实标题/状态/章节/链接派生语义;作者自验,非独立接受。",
+        {
+          "kind": "accepted-contributor-content",
+          "authorCandidate": "62f27e854466f540fb595dc4ca4fbcb3bf4adf56",
+          "ownerCandidate": "6995a8ec10598695e62df67e6f1d38da72bba38f",
+          "originalRowSha256": "f1a61ef365748ca75d81b7654d53090a92442fa2afa28607c8c4561262a101ba"
+        }
+      ],
+      "readDomain": {
+        "coverage": "full-file",
+        "actual": "全读固定源(14440B,含front matter/testing-meta注释块)+fetch.py取旧review/prefix对照;旧prefix逐节核对(5节全为'按原时点保全'泛化); testing-meta(id/sourceRefs14/publicCallers/legalInputs/businessOracle7断言/dedupe/revision2条)、正文Domain scope/Claim matrix四行/Inputs and fixtures/Results and gaps/Quality gate(含失效条件)、2026-10-27发布段",
+        "reusedFrom": [],
+        "notRead": [
+          "未重跑测试/浏览器",
+          "未核review.json/release.json本体",
+          "未核catalog.json条目",
+          "Historical commands, product implementation, browser/E2E and coverage were not reexecuted by document governance."
+        ]
+      },
+      "truthAnchors": [
+        "原H1:第一阶段可选45°方向控制回归",
+        "原Status:active",
+        "固定main源SHA:68b77a45cb21"
+      ],
+      "dependencies": [],
+      "publicCallers": ["audit-report-or-evidence-receipt的既有读者;无新执行caller。"],
+      "unresolved": [],
+      "historyBoundary": "仅固定main载体时点;本治理候选不授旧执行/运行/产品通过,原时点结论保持在原文。",
+      "businessOracle": {
+        "type": "catalog-publication-projection",
+        "assertions": [
+          "配对id/status(game-input-rotation/verified)与catalog一致。",
+          "publication状态非新执行;原文机器字段保全。"
+        ],
+        "currentExecution": false
+      },
+      "dedupe": {
+        "result": "唯一固定载体(68b77a45cb21);与相邻轮次运行不合并。",
+        "against": []
+      },
+      "stopLine": "源字节变化、见证矛盾或需要新产品取舍时阻断本篇并交Owner。",
+      "nextStep": "Owner非作者接收本作者候选;中央接入与授信由Owner执行。",
+      "runtimeExecutionPerformed": false,
+      "coreConclusion": "可选45°输入旋转域报告（verified）：四项claim全runtime-backed——四斜向映射/默认off/原始阈值(entry0.35/held0.2、center0.13/rim0.5/held0.75)、切设置释放旧触点每设备回中、偏好记忆与存储失败内存生效、双viewport真实NE按住(1312,288)→(1328,280)朝up；合同映射51保留/9新增/0退役，正式quadrant反控恰1指定红+9过恢复60绿；typecheck与14文件Biome全0诊断；用户接受并完成统一门/受保护CI/部署，v1.1.0发布；实物手柄/触屏与自然剧情E2E未测，GameShell无destroy API的page-lifetime边界已登记。",
+      "phase": "固定main历史文档(证据/审计/导航/规范/报告)",
+      "scope": "MD治理候选正文+保全;family=evidence-or-delivery-prose",
+      "applicability": "固定main载体时点;当前版本适用性未认证。",
+      "counterDisposition": "「第一阶段可选45°方向控制回归」固定main源(14440B)治理候选:原文逐字节保全,原文5链接逐项处置(5存活入口在可见正文),原状态(active)保持;治理不重开任务、不重跑执行、不授新信用。",
+      "templateChoiceRationale": "按细化分类evidence-or-delivery-prose与真实consumer约束选择test-domain-report-v1;内容形态与模板职责一致。 consumer要求:docs/testing/catalog.json+scripts/docs/check-testing.mjs。",
+      "history": [
+        {
+          "kind": "incremental-candidate-intake",
+          "date": "2026-10-31",
+          "priorRowSha256": "f1a61ef365748ca75d81b7654d53090a92442fa2afa28607c8c4561262a101ba",
+          "priorGovernanceLocation": [
+            "docs/phase-governance/reviews/20261030-main-incremental-candidates.json#entries/1915"
+          ],
+          "priorReadDomain": "Recoverable in the frozen S77 candidate row; not overwritten in its original delivery.",
+          "sourceCarrierSha256": "68b77a45cb218cb33464e9e9279b024d2b0dd8f1a89a4c65757939f46a58ff64",
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
+      ],
+      "supersedes": [],
+      "linkDisposition": [
+        {
+          "target": "../../../../ops/evidence/GAME-INPUT-ROTATION-1/review.json",
+          "disposition": "live",
+          "reason": "目标文件在当前仓库存在,当前导航需要该入口。"
+        },
+        {
+          "target": "../../../../ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/release.json",
+          "disposition": "live",
+          "reason": "目标文件在当前仓库存在,当前导航需要该入口。"
+        },
+        {
+          "target": "../../../../ops/tasks/GAME-INPUT-ROTATION-1.md",
+          "disposition": "live",
+          "reason": "目标文件在当前仓库存在,当前导航需要该入口。"
+        },
+        {
+          "target": "../../../catalog.json",
+          "disposition": "live",
+          "reason": "目标文件在当前仓库存在,当前导航需要该入口。"
+        },
+        {
+          "target": "evidence.json",
+          "disposition": "live",
+          "reason": "目标文件在当前仓库存在,当前导航需要该入口。"
+        }
+      ],
+      "semanticAssessment": {
+        "method": "全读固定源(14440B,含front matter/testing-meta注释块)+fetch.py取旧review/prefix对照;旧prefix逐节核对(5节全为'按原时点保全'泛化)",
+        "readScope": "testing-meta(id/sourceRefs14/publicCallers/legalInputs/businessOracle7断言/dedupe/revision2条)、正文Domain scope/Claim matrix四行/Inputs and fixtures/Results and gaps/Quality gate(含失效条件)、2026-10-27发布段",
+        "anchors": [
+          "claim矩阵四行全runtime-backed;限'45°输入分区,像素步进16×8不称精确45°'",
+          "阈值:gamepad entry0.35/held0.2;touch center0.13/rim0.5/held0.75;DIR_DELTA=(+16,-8)/(+16,+8)/(-16,+8)/(-16,-8)",
+          "合同映射:51保留/9新增(偏好2手柄3触控2 shell1设置1)/0退役;touch-slide仅搬夹具,6快照不变",
+          "正式反控:左上错发Right恰1指定AssertionError+9过0skip,字节恢复60全绿;早期名称过滤反控1红/9filtered skips不计",
+          "根浏览器:844×390/390×844,真实NE按住350ms 1312,288→1328,280 facing up,logs[]",
+          "失效条件:GameShell无destroy API,新监听沿page lifetime;引入重建/销毁须重核",
+          "发布:官方20,203/812零诊断,PR#28两门过合并,v1.1.0"
+        ],
+        "corrections": [
+          "旧5节全为'按原时点保全'泛化;本轮把四行claim矩阵、阈值数字、51/9映射、反控身份与失效条件全部落到可见正文",
+          "Status verified不变;不重开/不重跑/不授新信用边界保持"
+        ],
+        "unverified": [
+          "未重跑测试/浏览器",
+          "未核review.json/release.json本体",
+          "未核catalog.json条目"
+        ]
+      },
+      "retention": {
+        "disposition": "retain-prose",
+        "consumers": [
+          "同目录README.md路由到本报告;配对evidence.json由其正文引用",
+          "docs/testing/catalog.json按id=game-input-rotation关联",
+          "任务卡docs/ops/tasks/GAME-INPUT-ROTATION-1.md为上游实施记录"
+        ],
+        "uniqueValue": "以报告体裁承载本域四claim的evidence/status/limit矩阵、阈值与坐标级浏览器观察、51/9合同映射与失效条件(含GameShell page-lifetime边界)",
+        "dedupeAgainst": [
+          "docs/testing/domains/cross-phase/script-corrections/report.md(真实打开比较,同模板但域/断言/数字完全不同)"
+        ],
+        "replacement": "",
+        "exitCondition": "输入外壳方向语义/adapter生命周期变更触发invalidation或域退役时随域归档"
+      },
+      "path": "docs/testing/domains/phase1-runtime/control-rotation/report.md",
+      "docType": "test-domain-report",
+      "templateId": "test-domain-report-v1",
+      "templateVersion": "1.1.0",
+      "documentStatus": "verified",
+      "sourceGitRevision": "72db417255d8ca4227522420e9185ef468462aa7",
+      "sourceSha256": "68b77a45cb218cb33464e9e9279b024d2b0dd8f1a89a4c65757939f46a58ff64",
+      "afterSha256": "59e3573719ebf3e6658594f453531ff61d461f93f174237bb2adb410a2ff576d",
+      "primarySource": [
+        {
+          "path": "docs/testing/domains/phase1-runtime/control-rotation/report.md",
+          "revision": "72db417255d8ca4227522420e9185ef468462aa7",
+          "gitObject": "750ee3388e5257ec5bad25e934afa1f569b1c854",
+          "sha256": "68b77a45cb218cb33464e9e9279b024d2b0dd8f1a89a4c65757939f46a58ff64"
+        }
+      ],
+      "legalInputs": [
+        {
+          "kind": "fixed-markdown-source",
+          "path": "docs/testing/domains/phase1-runtime/control-rotation/report.md",
+          "revision": "72db417255d8ca4227522420e9185ef468462aa7",
+          "gitObject": "750ee3388e5257ec5bad25e934afa1f569b1c854",
+          "sha256": "68b77a45cb218cb33464e9e9279b024d2b0dd8f1a89a4c65757939f46a58ff64"
+        }
+      ],
+      "fieldRoles": {
+        "governance": ["docs/phase-governance/reviews/20261018-semantic-rework.json#entries/1943"],
+        "nativePointers": []
+      },
+      "evidence": {
+        "kind": "incremental-preserved-markdown",
+        "originalBytes": 14440,
+        "originalSha256": "68b77a45cb218cb33464e9e9279b024d2b0dd8f1a89a4c65757939f46a58ff64",
+        "path": "docs/testing/domains/phase1-runtime/control-rotation/report.md"
+      },
+      "revision": {
+        "currentSha": "6995a8ec10598695e62df67e6f1d38da72bba38f",
+        "history": [
+          {
+            "value": "68b77a45cb218cb33464e9e9279b024d2b0dd8f1a89a4c65757939f46a58ff64",
+            "meaning": "The candidate generator used this field for fixed carrier SHA256, not a Git commit."
+          }
+        ]
+      },
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "contentReviewStatus": "content-reviewed",
+      "templateCompliance": "template-compliant",
+      "nonAuthorReviewer": true,
+      "creditGranted": 0,
+      "readMethod": "per-document-semantic-assessment-with-explicit-read-domain",
+      "reviewDepth": "partial-semantic",
+      "reviewedLines": {
+        "scope": "testing-meta(id/sourceRefs14/publicCallers/legalInputs/businessOracle7断言/dedupe/revision2条)、正文Domain scope/Claim matrix四行/Inputs and fixtures/Results and gaps/Quality gate(含失效条件)、2026-10-27发布段",
+        "boundary": "Source parsing and stated semantic scope; not a full product/code/runtime audit."
+      },
+      "versionScope": "固定main载体时点;当前版本适用性未认证。",
+      "userVisibleBeforeAfter": "Specific visible template prose plus exact original source; no product execution credit.",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "kind": "incremental-document-publication/1.0.0",
+        "path": "docs/testing/domains/phase1-runtime/control-rotation/report.md",
+        "contentSha256": "b1955d6cbd190c5c048d0728c7c3d82c9e57f1014eca950b63c5786b6faa6fbf",
+        "acceptedBodySha256": "59e3573719ebf3e6658594f453531ff61d461f93f174237bb2adb410a2ff576d",
+        "reviewedCandidate": "62f27e854466f540fb595dc4ca4fbcb3bf4adf56",
+        "adoptedCandidate": "6995a8ec10598695e62df67e6f1d38da72bba38f",
+        "nonAuthorReviewer": true,
+        "basis": [
+          {
+            "author": "GLM",
+            "reviewer": "Codex",
+            "scope": "S77 specific content, declared semantic read domain, native witnesses and retention",
+            "reportSha256": "9978c24851c0ea74ac6f5a8fa7e451cbbff7e95ad793dc2d9f44f331017f9b45"
+          }
+        ],
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S78",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
+      }
+    }
+  ]
+}

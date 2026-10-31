@@ -28,7 +28,7 @@
         "manual-semantic-migration"
       ],
       "sourceSha256": "81f8d39f2b0fa818a74ac7335b7293d2ca3b2cc968a74fd9d63197935b0e4b8d",
-      "afterSha256": "fc43f4ae68a51f05d4ed78182edfd4bb58377dcb883b7ee33895862fa8990252",
+      "afterSha256": "9ada267d7e4a81dc572112d1f4d361e817c411d2265dee1bfb53784f3ba9a847",
       "publicCallers": [
         "AGENTS.md operation routing",
         "node scripts/docs/check-document-model.mjs",
@@ -397,6 +397,15 @@
           "afterSha256": "fc43f4ae68a51f05d4ed78182edfd4bb58377dcb883b7ee33895862fa8990252",
           "method": "Explicit canonical location/active reference and routing correction; original1.0 protocol text unchanged and old anchor retained. No existing subject reacceptance or changed S14 scope.",
           "grantsNewSemanticAcceptance": false
+        },
+        {
+          "kind": "fixed-main-S75-integration-observation",
+          "sourceRevision": "b2437cec97c1f7354dccfe8f856fc762395d4ec6",
+          "beforeSha256": "fc43f4ae68a51f05d4ed78182edfd4bb58377dcb883b7ee33895862fa8990252",
+          "afterSha256": "9ada267d7e4a81dc572112d1f4d361e817c411d2265dee1bfb53784f3ba9a847",
+          "interpretation": "Earlier accepted semantic scope retained; fixed-source integration delta observed separately, not new runtime acceptance.",
+          "newSemanticCredit": 0,
+          "runtimeCredit": false
         }
       ]
     },
@@ -438,7 +447,7 @@
         }
       ],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "4b1c86e7f5ff7b6250d2c85d6f80ce7a2ac72d216ee029f8068a71b319ce903f",
+      "afterSha256": "80dce522187baf84c90eb39e7390fecdc1fd2e55a82c6b00d8988315e39db503",
       "publicCallers": [
         "node scripts/docs/check-testing.mjs",
         "node scripts/docs/check-document-model.mjs",
@@ -1868,6 +1877,15 @@
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false
+        },
+        {
+          "kind": "fixed-main-S75-integration-observation",
+          "sourceRevision": "b2437cec97c1f7354dccfe8f856fc762395d4ec6",
+          "beforeSha256": "4b1c86e7f5ff7b6250d2c85d6f80ce7a2ac72d216ee029f8068a71b319ce903f",
+          "afterSha256": "80dce522187baf84c90eb39e7390fecdc1fd2e55a82c6b00d8988315e39db503",
+          "interpretation": "Earlier accepted semantic scope retained; fixed-source integration delta observed separately, not new runtime acceptance.",
+          "newSemanticCredit": 0,
+          "runtimeCredit": false
         }
       ],
       "applicability": "Current author-produced E2E006 technical evidence, not non-author/user acceptance. Real95-row dual story/control, zero-finding comparison, formal terminal saves/fresh restores and12 saved static NPC entry Play/Reset proofs exist; no audio/continuous/full-runtime-preview/downstream or full-doc completion credit.",
@@ -1940,7 +1958,7 @@
         "manual-semantic-migration"
       ],
       "sourceSha256": "29b0e324cf58b8840ecbe9afb9c82b8b464c04bab172a2ad43d3137c389f0473",
-      "afterSha256": "043a7344c1845d2a9269faf9c0c4580e79df4b6403e23122a9743fc65286591b",
+      "afterSha256": "480e65150589d1511f059de99df940350a09336e49cc3b38f5ba71088f9354c1",
       "publicCallers": [
         "AGENTS.md operation routing",
         "node scripts/docs/check-document-model.mjs",
@@ -2136,6 +2154,15 @@
           "afterSha256": "043a7344c1845d2a9269faf9c0c4580e79df4b6403e23122a9743fc65286591b",
           "method": "Explicit canonical location/active reference and routing correction; original1.0 protocol text unchanged and old anchor retained. No existing subject reacceptance or changed S14 scope.",
           "grantsNewSemanticAcceptance": false
+        },
+        {
+          "kind": "fixed-main-S75-integration-observation",
+          "sourceRevision": "b2437cec97c1f7354dccfe8f856fc762395d4ec6",
+          "beforeSha256": "043a7344c1845d2a9269faf9c0c4580e79df4b6403e23122a9743fc65286591b",
+          "afterSha256": "480e65150589d1511f059de99df940350a09336e49cc3b38f5ba71088f9354c1",
+          "interpretation": "Earlier accepted semantic scope retained; fixed-source integration delta observed separately, not new runtime acceptance.",
+          "newSemanticCredit": 0,
+          "runtimeCredit": false
         }
       ]
     },
@@ -2160,7 +2187,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "2f44114872bcc68dac7c6ab0ab60f3d8fc9eea4815300f3ab70f37c868058c1b",
+      "afterSha256": "765b0ecff5ec5b66ffa56e42eafb0200ccedcb5ca70aee30f6522c13407c8ad1",
       "publicCallers": [
         "docs/ops/tasks/README.md → index.md",
         "docs/ops/board.md → tasks/index.md",
@@ -2735,6 +2762,15 @@
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false
+        },
+        {
+          "kind": "fixed-main-S75-integration-observation",
+          "sourceRevision": "b2437cec97c1f7354dccfe8f856fc762395d4ec6",
+          "beforeSha256": "2f44114872bcc68dac7c6ab0ab60f3d8fc9eea4815300f3ab70f37c868058c1b",
+          "afterSha256": "765b0ecff5ec5b66ffa56e42eafb0200ccedcb5ca70aee30f6522c13407c8ad1",
+          "interpretation": "Earlier accepted semantic scope retained; fixed-source integration delta observed separately, not new runtime acceptance.",
+          "newSemanticCredit": 0,
+          "runtimeCredit": false
         }
       ]
     },
@@ -2985,7 +3021,7 @@
         "manual-semantic-migration"
       ],
       "sourceSha256": "3976d2bbda8a770fb94520c76747a78a0706b136a05ff8e39e078da00ce88dcd",
-      "afterSha256": "e9d665cc30773f87c33d63f0416b79a4d94c8937ff2089575e01fea24fbada3e",
+      "afterSha256": "666e26277313841857f31f535e00840d84ee4f34756cacfe969739345768a87f",
       "publicCallers": [
         "AGENTS.md operation routing",
         "node scripts/docs/check-document-model.mjs",
@@ -3174,6 +3210,15 @@
           "afterSha256": "e9d665cc30773f87c33d63f0416b79a4d94c8937ff2089575e01fea24fbada3e",
           "method": "Explicit canonical location/active reference and routing correction; original1.0 protocol text unchanged and old anchor retained. No existing subject reacceptance or changed S14 scope.",
           "grantsNewSemanticAcceptance": false
+        },
+        {
+          "kind": "fixed-main-S75-integration-observation",
+          "sourceRevision": "b2437cec97c1f7354dccfe8f856fc762395d4ec6",
+          "beforeSha256": "e9d665cc30773f87c33d63f0416b79a4d94c8937ff2089575e01fea24fbada3e",
+          "afterSha256": "666e26277313841857f31f535e00840d84ee4f34756cacfe969739345768a87f",
+          "interpretation": "Earlier accepted semantic scope retained; fixed-source integration delta observed separately, not new runtime acceptance.",
+          "newSemanticCredit": 0,
+          "runtimeCredit": false
         }
       ]
     },

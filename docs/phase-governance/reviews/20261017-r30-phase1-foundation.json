@@ -808,7 +808,7 @@
       ],
       "unresolved": [
         "individual notes need per-item supersedes/current applicability tags in future batches",
-        "正文信号 214:- ⚠ **只第一章早期 3 场景(开场梦境 scene/0·余杭镇 scene/4·码头 scene/5)+ 香兰跨场景 arm 经 data/extracted 逐字段复核 ✅**,其余一律 ⚠️待核实。**继承来的\"已核实\"标注别照抄,verify 后再标且写明出处/范围**(别把\"3 个早期场景\"夸成\"整章\")。补场景号按\"0-based vs 1-based\"口诀查 `scene/*.json`+`events/scene-NNN.json`。"
+        "正文信号 214:- \u26a0 **只第一章早期 3 场景(开场梦境 scene/0·余杭镇 scene/4·码头 scene/5)+ 香兰跨场景 arm 经 data/extracted 逐字段复核 ✅**,其余一律 \u26a0️待核实。**继承来的\"已核实\"标注别照抄,verify 后再标且写明出处/范围**(别把\"3 个早期场景\"夸成\"整章\")。补场景号按\"0-based vs 1-based\"口诀查 `scene/*.json`+`events/scene-NNN.json`。"
       ],
       "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
       "phase": "phase1",
@@ -952,7 +952,7 @@
         {
           "id": "R30-1",
           "status": "preserved-open-for-product-work",
-          "statement": "正文信号 214:- ⚠ **只第一章早期 3 场景(开场梦境 scene/0·余杭镇 scene/4·码头 scene/5)+ 香兰跨场景 arm 经 data/extracted 逐字段复核 ✅**,其余一律 ⚠️待核实。**继承来的\"已核实\"标注别照抄,verify 后再标且写明出处/范围**(别把\"3 个早期场景\"夸成\"整章\")。补场景号按\"0-based vs 1-based\"口诀查 `scene/*.json`+`events/scene-NNN.json`。"
+          "statement": "正文信号 214:- \u26a0 **只第一章早期 3 场景(开场梦境 scene/0·余杭镇 scene/4·码头 scene/5)+ 香兰跨场景 arm 经 data/extracted 逐字段复核 ✅**,其余一律 \u26a0️待核实。**继承来的\"已核实\"标注别照抄,verify 后再标且写明出处/范围**(别把\"3 个早期场景\"夸成\"整章\")。补场景号按\"0-based vs 1-based\"口诀查 `scene/*.json`+`events/scene-NNN.json`。"
         },
         {
           "id": "R30-NO-EXECUTION-CREDIT",
@@ -988,10 +988,10 @@
         "mechanic claims must be revalidated if phase2/3 intentionally changes player-visible behavior",
         "正文信号 67:**这属于新增作者能力，尚未实现，不改变本节记录的原版规则。**",
         "正文信号 668:ts 实现状态:**已实现**(2026-06-26 核实,旧注\"未实现\"已过时)。`finishBattleWon`([battle-system.ts:3209-3218](../../packages/game/src/core/battle/battle-system.ts#L3209-L3218))在结算演出 + Phase E 脚本之后执行 `HP += ⌊(maxHP-HP)/2⌋`、`MP += ⌊(maxMP-MP)/2⌋`(PAL_CLASSIC 分支)。",
-        "正文信号 843:### ⚠️ 原始 bug:逃跑抵抗错用敌人身法,而非敌人吉运",
-        "正文信号 1009:> **⚠️ 归属更正(原版后期已修,sdlpal 未跟进)**:这个 `>` 不是\"原版最终设计\"——**原版后期版本已把判定改成 `>=`(失败 `<`)**,只有 **sdlpal(及 DOS / 早期版本)仍停在 `>`**。所以这是\"跟谁\"的选择:",
-        "正文信号 1069:> **⚠️ 普攻附带能挡、仙术附带挡不住**:敌人**仙术**附带的毒 / 巫走另一条路——施法时状态 / 毒在 `wScriptOnSuccess` 里施加([fight.c:4768-4769](../../reference/sdlpal/fight.c#L4768-L4769)),**在伤害块之前、且完全不检查 `fAutoDefend`/`fDefending`/护体**。所以主动防御、自动格挡、援护对**仙术附带的异常一概无效**(只有仙术**伤害本身**才受主",
-        "正文信号 1410:> ⚠️ **纠正常见误解**:大蒜毒抗**不是\"永久补品\"**。它写的是 Extra 装备效果格(slot 6),和战斗内临时 buff(`0x30`)共用同一格,**战斗一结束就随三件套一起清**——和护体 / 中毒一样,只保一场。"
+        "正文信号 843:### \u26a0️ 原始 bug:逃跑抵抗错用敌人身法,而非敌人吉运",
+        "正文信号 1009:> **\u26a0️ 归属更正(原版后期已修,sdlpal 未跟进)**:这个 `>` 不是\"原版最终设计\"——**原版后期版本已把判定改成 `>=`(失败 `<`)**,只有 **sdlpal(及 DOS / 早期版本)仍停在 `>`**。所以这是\"跟谁\"的选择:",
+        "正文信号 1069:> **\u26a0️ 普攻附带能挡、仙术附带挡不住**:敌人**仙术**附带的毒 / 巫走另一条路——施法时状态 / 毒在 `wScriptOnSuccess` 里施加([fight.c:4768-4769](../../reference/sdlpal/fight.c#L4768-L4769)),**在伤害块之前、且完全不检查 `fAutoDefend`/`fDefending`/护体**。所以主动防御、自动格挡、援护对**仙术附带的异常一概无效**(只有仙术**伤害本身**才受主",
+        "正文信号 1410:> \u26a0️ **纠正常见误解**:大蒜毒抗**不是\"永久补品\"**。它写的是 Extra 装备效果格(slot 6),和战斗内临时 buff(`0x30`)共用同一格,**战斗一结束就随三件套一起清**——和护体 / 中毒一样,只保一场。"
       ],
       "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
       "phase": "phase1",
@@ -1008,7 +1008,7 @@
         }
       ],
       "sourceSha256": "8fe59be7ab0dbd53bd8bb9f3a7cfd93443acffd6a4b991fd632e4681e2904f93",
-      "afterSha256": "c44a5230436f632c16ee53a8ba7d1ba9a73704e82ff6e6e0bfa4572acea47e1b",
+      "afterSha256": "f9741edda04c5d49e56eb1999dc766a01b064162e0459cb1563109f36d7ae1f1",
       "publicCallers": ["docs navigation"],
       "legalInputs": ["current repository documentation", "docs/phase1/game-mechanics.md"],
       "businessOracle": {
@@ -1123,22 +1123,22 @@
         {
           "id": "R30-3",
           "status": "preserved-open-for-product-work",
-          "statement": "正文信号 843:### ⚠️ 原始 bug:逃跑抵抗错用敌人身法,而非敌人吉运"
+          "statement": "正文信号 843:### \u26a0️ 原始 bug:逃跑抵抗错用敌人身法,而非敌人吉运"
         },
         {
           "id": "R30-4",
           "status": "preserved-open-for-product-work",
-          "statement": "正文信号 1009:> **⚠️ 归属更正(原版后期已修,sdlpal 未跟进)**:这个 `>` 不是\"原版最终设计\"——**原版后期版本已把判定改成 `>=`(失败 `<`)**,只有 **sdlpal(及 DOS / 早期版本)仍停在 `>`**。所以这是\"跟谁\"的选择:"
+          "statement": "正文信号 1009:> **\u26a0️ 归属更正(原版后期已修,sdlpal 未跟进)**:这个 `>` 不是\"原版最终设计\"——**原版后期版本已把判定改成 `>=`(失败 `<`)**,只有 **sdlpal(及 DOS / 早期版本)仍停在 `>`**。所以这是\"跟谁\"的选择:"
         },
         {
           "id": "R30-5",
           "status": "preserved-open-for-product-work",
-          "statement": "正文信号 1069:> **⚠️ 普攻附带能挡、仙术附带挡不住**:敌人**仙术**附带的毒 / 巫走另一条路——施法时状态 / 毒在 `wScriptOnSuccess` 里施加([fight.c:4768-4769](../../reference/sdlpal/fight.c#L4768-L4769)),**在伤害块之前、且完全不检查 `fAutoDefend`/`fDefending`/护体**。所以主动防御、自动格挡、援护对**仙术附带的异常一概无效**(只有仙术**伤害本身**才受主"
+          "statement": "正文信号 1069:> **\u26a0️ 普攻附带能挡、仙术附带挡不住**:敌人**仙术**附带的毒 / 巫走另一条路——施法时状态 / 毒在 `wScriptOnSuccess` 里施加([fight.c:4768-4769](../../reference/sdlpal/fight.c#L4768-L4769)),**在伤害块之前、且完全不检查 `fAutoDefend`/`fDefending`/护体**。所以主动防御、自动格挡、援护对**仙术附带的异常一概无效**(只有仙术**伤害本身**才受主"
         },
         {
           "id": "R30-6",
           "status": "preserved-open-for-product-work",
-          "statement": "正文信号 1410:> ⚠️ **纠正常见误解**:大蒜毒抗**不是\"永久补品\"**。它写的是 Extra 装备效果格(slot 6),和战斗内临时 buff(`0x30`)共用同一格,**战斗一结束就随三件套一起清**——和护体 / 中毒一样,只保一场。"
+          "statement": "正文信号 1410:> \u26a0️ **纠正常见误解**:大蒜毒抗**不是\"永久补品\"**。它写的是 Extra 装备效果格(slot 6),和战斗内临时 buff(`0x30`)共用同一格,**战斗一结束就随三件套一起清**——和护体 / 中毒一样,只保一场。"
         },
         {
           "id": "R30-NO-EXECUTION-CREDIT",
@@ -1153,7 +1153,18 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "kind": "fixed-main-S75-integration-observation",
+          "sourceRevision": "b2437cec97c1f7354dccfe8f856fc762395d4ec6",
+          "beforeSha256": "c44a5230436f632c16ee53a8ba7d1ba9a73704e82ff6e6e0bfa4572acea47e1b",
+          "afterSha256": "f9741edda04c5d49e56eb1999dc766a01b064162e0459cb1563109f36d7ae1f1",
+          "interpretation": "Earlier accepted semantic scope retained; fixed-source integration delta observed separately, not new runtime acceptance.",
+          "newSemanticCredit": 0,
+          "runtimeCredit": false
+        }
+      ]
     },
     {
       "path": "docs/phase1/README.md",

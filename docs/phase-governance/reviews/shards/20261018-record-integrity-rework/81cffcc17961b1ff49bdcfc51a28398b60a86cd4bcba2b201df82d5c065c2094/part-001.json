@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "logicalPath": "docs/phase-governance/reviews/20261018-record-integrity-rework.json",
-  "generation": "cf67913442d4738d79a3c1c59269e9cc60a35ab6044b61651788276e59b06a8d",
+  "generation": "81cffcc17961b1ff49bdcfc51a28398b60a86cd4bcba2b201df82d5c065c2094",
   "key": "part-001",
   "positions": [
     0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
@@ -6617,6 +6617,24 @@
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false
+        },
+        {
+          "kind": "accepted-incremental-control-projection/1.0.0",
+          "cohortContentSha256": "4fa147c3b9ab4bbc320123ec9bcb7af52dd11ad7dabb696afb4ceb8a41ae53b5",
+          "sourceRevision": "b2437cec97c1f7354dccfe8f856fc762395d4ec6",
+          "structureSha256": "bdbfeb7f527612288c7ac5398dbabfa19c2a7f93595e3fae107f1b0a440a8e06",
+          "membershipSha256": "fa65c853a82ce2a5b3d2aea34ca0fb240a81557cbc63e053b2284d181b3f696f",
+          "observed": {
+            "entries": 1331,
+            "collectionEntries": 4351,
+            "reviewStatuses": {
+              "content-reviewed": 1331
+            }
+          },
+          "actor": "Codex",
+          "newIndependentSemanticAcceptanceClaimed": false,
+          "runtimeCredit": false,
+          "childSemanticCredit": false
         }
       ],
       "templateVariant": "current-governance-control-native-v1",
@@ -6872,6 +6890,24 @@
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false
+        },
+        {
+          "kind": "accepted-incremental-control-projection/1.0.0",
+          "cohortContentSha256": "4fa147c3b9ab4bbc320123ec9bcb7af52dd11ad7dabb696afb4ceb8a41ae53b5",
+          "sourceRevision": "b2437cec97c1f7354dccfe8f856fc762395d4ec6",
+          "structureSha256": "7099fc6a45610c68ccc86dbec296f516ba9925daa78b7680b5efa84bafff65c3",
+          "membershipSha256": "7404b04bc9dd30b3d0d12c3162c47718a482dbffe9392d303ff03be3cd4e3a15",
+          "observed": {
+            "entries": 14,
+            "collectionEntries": 4351,
+            "reviewStatuses": {
+              "content-reviewed": 14
+            }
+          },
+          "actor": "Codex",
+          "newIndependentSemanticAcceptanceClaimed": false,
+          "runtimeCredit": false,
+          "childSemanticCredit": false
         }
       ],
       "templateVariant": "current-governance-control-native-v1",
@@ -7111,6 +7147,24 @@
           "afterSha256": "9ccb32a113f5d757ef646b496b186bd3049b2d9ea4272444cb40d7810f77e92e",
           "method": "native storage-v2 publication; explicit data/status deltas listed in this plan; no semantic credit from storage",
           "grantsNewSemanticAcceptance": false
+        },
+        {
+          "kind": "accepted-incremental-control-projection/1.0.0",
+          "cohortContentSha256": "4fa147c3b9ab4bbc320123ec9bcb7af52dd11ad7dabb696afb4ceb8a41ae53b5",
+          "sourceRevision": "b2437cec97c1f7354dccfe8f856fc762395d4ec6",
+          "structureSha256": "798a23989ba7d571066762c839a94fa509f367f8998137c530711aa3c80521f8",
+          "membershipSha256": "4e48873c5bc5bbdff9056203bf771e8a113dcd311bfb37762a142b5c1e1a0d15",
+          "observed": {
+            "entries": 60,
+            "collectionEntries": 4351,
+            "reviewStatuses": {
+              "content-reviewed": 60
+            }
+          },
+          "actor": "Codex",
+          "newIndependentSemanticAcceptanceClaimed": false,
+          "runtimeCredit": false,
+          "childSemanticCredit": false
         }
       ],
       "templateVariant": "current-governance-control-native-v1",
@@ -7408,6 +7462,24 @@
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false
+        },
+        {
+          "kind": "accepted-incremental-control-projection/1.0.0",
+          "cohortContentSha256": "4fa147c3b9ab4bbc320123ec9bcb7af52dd11ad7dabb696afb4ceb8a41ae53b5",
+          "sourceRevision": "b2437cec97c1f7354dccfe8f856fc762395d4ec6",
+          "structureSha256": "43b18254fde7e327ced0ce9e0e93a11487b0a01c6a04532d58263ba72f551d98",
+          "membershipSha256": "c80acfa62dce9b20ada6549ecc6f371f9d7f264907335288085a62ca8c6a05be",
+          "observed": {
+            "entries": 109,
+            "collectionEntries": 4351,
+            "reviewStatuses": {
+              "content-reviewed": 109
+            }
+          },
+          "actor": "Codex",
+          "newIndependentSemanticAcceptanceClaimed": false,
+          "runtimeCredit": false,
+          "childSemanticCredit": false
         }
       ],
       "templateVariant": "current-governance-control-native-v1",
@@ -7690,7 +7762,27 @@
           "runtimeCredit": false,
           "childSemanticAcceptanceGranted": false
         }
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "kind": "accepted-incremental-control-projection/1.0.0",
+          "cohortContentSha256": "4fa147c3b9ab4bbc320123ec9bcb7af52dd11ad7dabb696afb4ceb8a41ae53b5",
+          "sourceRevision": "b2437cec97c1f7354dccfe8f856fc762395d4ec6",
+          "structureSha256": "e3338863ffecc6d73770146db39643c8941584b22c8fb1466f7130fc44a9c738",
+          "membershipSha256": "f13a2b7f91de540c9b8fc9a91bf266e59b8142460b13069fffc7b08c62c9f573",
+          "observed": {
+            "entries": 5,
+            "collectionEntries": 4351,
+            "reviewStatuses": {
+              "content-reviewed": 5
+            }
+          },
+          "actor": "Codex",
+          "newIndependentSemanticAcceptanceClaimed": false,
+          "runtimeCredit": false,
+          "childSemanticCredit": false
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/document-registry.phase-governance.json",
@@ -8016,6 +8108,24 @@
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false
+        },
+        {
+          "kind": "accepted-incremental-control-projection/1.0.0",
+          "cohortContentSha256": "4fa147c3b9ab4bbc320123ec9bcb7af52dd11ad7dabb696afb4ceb8a41ae53b5",
+          "sourceRevision": "b2437cec97c1f7354dccfe8f856fc762395d4ec6",
+          "structureSha256": "c1536f508342ce69c8ea5f88028a01b46ba582a80fa77a98dc088525de0d5f77",
+          "membershipSha256": "cc2a105ec9ed15511d9c03bf612c3e7b350690617fe3a11cc401ae28724b1eaf",
+          "observed": {
+            "entries": 156,
+            "collectionEntries": 4351,
+            "reviewStatuses": {
+              "content-reviewed": 156
+            }
+          },
+          "actor": "Codex",
+          "newIndependentSemanticAcceptanceClaimed": false,
+          "runtimeCredit": false,
+          "childSemanticCredit": false
         }
       ],
       "templateVariant": "current-governance-control-native-v1",

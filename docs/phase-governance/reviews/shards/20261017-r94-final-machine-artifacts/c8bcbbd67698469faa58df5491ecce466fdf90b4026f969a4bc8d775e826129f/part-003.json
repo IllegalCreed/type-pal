@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
-  "generation": "b3836b66b49f584e0da474133b7761cdcc01c1324e5cd2246d7998eb0399b9e2",
+  "generation": "c8bcbbd67698469faa58df5491ecce466fdf90b4026f969a4bc8d775e826129f",
   "key": "part-003",
   "positions": [33, 34, 35, 36],
   "entries": [
@@ -42,7 +42,7 @@
         }
       ],
       "sourceSha256": "6e57ca2e495f40c6645e1bbafbdc929b93b03dbc49f4b190c8b7653a581136e1",
-      "afterSha256": "0df34fffd7797a587af4e476df018b3d448f7b5f20a59c87e0c50b1f2e7a0ba0",
+      "afterSha256": "40c3a08da8e1e3b5568e9bb95f7e45276b0b87ab2c5d4c3afa551ab7f0f1e0ef",
       "publicCallers": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "legalInputs": [
         "固定eeba候选的本路径原件和当前明确作者差异；原历史与来源轴保持。",
@@ -1540,6 +1540,15 @@
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false
+        },
+        {
+          "kind": "fixed-main-S75-integration-observation",
+          "sourceRevision": "ca438694241ad8081e473294c4699ef485c54c06",
+          "beforeSha256": "0df34fffd7797a587af4e476df018b3d448f7b5f20a59c87e0c50b1f2e7a0ba0",
+          "afterSha256": "40c3a08da8e1e3b5568e9bb95f7e45276b0b87ab2c5d4c3afa551ab7f0f1e0ef",
+          "interpretation": "Earlier accepted semantic scope retained; fixed-source integration delta observed separately, not new runtime acceptance.",
+          "newSemanticCredit": 0,
+          "runtimeCredit": false
         }
       ],
       "readDomain": {
@@ -1873,7 +1882,7 @@
         }
       ],
       "sourceSha256": "cb898a59535da283de2b00d4e99bcc745ad3cbaabfd4900917f8f0b2cc5217b9",
-      "afterSha256": "9eb63b392efaed321b3a4a868187256d1a72393f1f19e6c1c4610da53e7c92e9",
+      "afterSha256": "0af1f2e362f2eb26303a38a7cf5f630f06d5729b02c115b501e15ec54b0e7dec",
       "publicCallers": [
         "scripts/docs/document-registry.mjs",
         "scripts/docs/report-governance-progress.mjs"
@@ -2515,6 +2524,32 @@
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false
+        },
+        {
+          "kind": "accepted-incremental-control-projection/1.0.0",
+          "cohortContentSha256": "4fa147c3b9ab4bbc320123ec9bcb7af52dd11ad7dabb696afb4ceb8a41ae53b5",
+          "sourceRevision": "b2437cec97c1f7354dccfe8f856fc762395d4ec6",
+          "structureSha256": "5b7be4eef7462461bedeb9681d77c5edb619c3f8c1070891dbc011c8410b65d4",
+          "membershipSha256": "1c4fbd5b8f7094cd9908f0f8889309adbd01be1d4cd24a9ae4f220916ddb755d",
+          "observed": {
+            "entries": 4351,
+            "collectionEntries": 4351,
+            "reviewStatuses": {
+              "content-reviewed": 4351
+            }
+          },
+          "actor": "Codex",
+          "newIndependentSemanticAcceptanceClaimed": false,
+          "runtimeCredit": false,
+          "childSemanticCredit": false
+        },
+        {
+          "kind": "incremental-publication-after-pin",
+          "date": "2026-10-31",
+          "beforeSha256": "9eb63b392efaed321b3a4a868187256d1a72393f1f19e6c1c4610da53e7c92e9",
+          "afterSha256": "0af1f2e362f2eb26303a38a7cf5f630f06d5729b02c115b501e15ec54b0e7dec",
+          "runtimeCredit": false,
+          "newSemanticCredit": 0
         }
       ],
       "templateVariant": "current-governance-control-native-v1",
@@ -2619,7 +2654,7 @@
         }
       ],
       "sourceSha256": "e2a20ad66660a2ef90e813169f73f67f644c84f98a4b05fa9aed7aeffc05fd68",
-      "afterSha256": "1590755283997baa417ad575f1f53c229f198ce1386859763565a0477e042e7f",
+      "afterSha256": "28b5262b57d1dd5796bb6a2695e6c351d2aef2ee1d4e2b7c8e988d6575cce97d",
       "publicCallers": [
         "scripts/docs/check-document-model.mjs",
         "scripts/docs/report-governance-progress.mjs"
@@ -3115,6 +3150,38 @@
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false
+        },
+        {
+          "kind": "accepted-incremental-control-projection/1.0.0",
+          "cohortContentSha256": "4fa147c3b9ab4bbc320123ec9bcb7af52dd11ad7dabb696afb4ceb8a41ae53b5",
+          "sourceRevision": "b2437cec97c1f7354dccfe8f856fc762395d4ec6",
+          "structureSha256": "73208b6154fc6390d1c7ab4f12488a2daee9d09fab971a45b38c0b2e66ced3ae",
+          "membershipSha256": "d86f297d2eab5f8cc530e616fcd7ebea1d96ae86fd8e611e2dd9ae52e80f7466",
+          "observed": {
+            "routes": 8,
+            "migratedDocuments": 4351
+          },
+          "actor": "Codex",
+          "newIndependentSemanticAcceptanceClaimed": false,
+          "runtimeCredit": false,
+          "childSemanticCredit": false
+        },
+        {
+          "kind": "fixed-main-S75-integration-observation",
+          "sourceRevision": "b2437cec97c1f7354dccfe8f856fc762395d4ec6",
+          "beforeSha256": "1590755283997baa417ad575f1f53c229f198ce1386859763565a0477e042e7f",
+          "afterSha256": "c75e7ecc20806a34110ae490c0d4c0b8e2f657706817d5e8e46e065e6f5f3f9d",
+          "interpretation": "Earlier accepted semantic scope retained; fixed-source integration delta observed separately, not new runtime acceptance.",
+          "newSemanticCredit": 0,
+          "runtimeCredit": false
+        },
+        {
+          "kind": "incremental-publication-after-pin",
+          "date": "2026-10-31",
+          "beforeSha256": "c75e7ecc20806a34110ae490c0d4c0b8e2f657706817d5e8e46e065e6f5f3f9d",
+          "afterSha256": "28b5262b57d1dd5796bb6a2695e6c351d2aef2ee1d4e2b7c8e988d6575cce97d",
+          "runtimeCredit": false,
+          "newSemanticCredit": 0
         }
       ],
       "applicability": "Current routing authority and two accepted phase-index additions only; no E2E006, execution, child or global completion credit. Seven operation routes and original2433 declarations remain exact; renewed control awaits non-author acceptance.",

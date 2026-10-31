@@ -295,7 +295,7 @@
       "sourceGitRevision": "bb90428668808368e816bd8e2ddeb5da57e4b166",
       "sourceGitObject": "b9c8780f230e53dbcb6c3c65e0b76ca607b18acc",
       "candidateSha256": "dcd987d8eeb8faf57aeef300cf2862fc179f8c7d000d1381662ba26675e99dcc",
-      "afterSha256": "bd2bb972270f3c5c190a66ae408027215da1a3c3ba92aa1994a77120bc47bcdf",
+      "afterSha256": "2a5c35fc9e2d4dfcbb2107c0f7b3529f1464febd9b35b4b2caa1f08136c8e7e0",
       "revision": {
         "currentSha": "bb90428668808368e816bd8e2ddeb5da57e4b166",
         "implementationSha": "bd2bb972270f3c5c190a66ae408027215da1a3c3ba92aa1994a77120bc47bcdf",
@@ -367,7 +367,18 @@
         "references": ["原pnpm check/lint/coverage:ratchet/coverage:fast及raw对拍为引用，未执行"],
         "executedThisMigration": false,
         "retention": "original producer argv/raw paths/candidate hashes preserved literally in full quote; no re-run, mutation or runtime credit"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "kind": "fixed-main-S75-integration-observation",
+          "sourceRevision": "b2437cec97c1f7354dccfe8f856fc762395d4ec6",
+          "beforeSha256": "bd2bb972270f3c5c190a66ae408027215da1a3c3ba92aa1994a77120bc47bcdf",
+          "afterSha256": "2a5c35fc9e2d4dfcbb2107c0f7b3529f1464febd9b35b4b2caa1f08136c8e7e0",
+          "interpretation": "Earlier accepted semantic scope retained; fixed-source integration delta observed separately, not new runtime acceptance.",
+          "newSemanticCredit": 0,
+          "runtimeCredit": false
+        }
+      ]
     },
     {
       "path": "docs/ops/archive/tasks/done/CODE-QUALITY-2b-shared-yj2-boundaries.md",
@@ -493,7 +504,7 @@
       "sourceGitRevision": "bb90428668808368e816bd8e2ddeb5da57e4b166",
       "sourceGitObject": "4df2fb09fc0e6ee2e7ab50c9935f4fbfba02f6d8",
       "candidateSha256": "602c90e6a183e28999484572cac8364219f17b95f426e12ae92f0b01b140a05b",
-      "afterSha256": "f4e2de934be4d09d5acd3a56453f1b639c303bf6f8beda5f2529574ed81b7dfb",
+      "afterSha256": "491967fc8a97ab9ba46985709d80edea9e44d8aaee194bd54d49fd827f114096",
       "revision": {
         "currentSha": "bb90428668808368e816bd8e2ddeb5da57e4b166",
         "implementationSha": "f4e2de934be4d09d5acd3a56453f1b639c303bf6f8beda5f2529574ed81b7dfb",
@@ -567,7 +578,18 @@
         ],
         "executedThisMigration": false,
         "retention": "original producer argv/raw paths/candidate hashes preserved literally in full quote; no re-run, mutation or runtime credit"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "kind": "fixed-main-S75-integration-observation",
+          "sourceRevision": "b2437cec97c1f7354dccfe8f856fc762395d4ec6",
+          "beforeSha256": "f4e2de934be4d09d5acd3a56453f1b639c303bf6f8beda5f2529574ed81b7dfb",
+          "afterSha256": "491967fc8a97ab9ba46985709d80edea9e44d8aaee194bd54d49fd827f114096",
+          "interpretation": "Earlier accepted semantic scope retained; fixed-source integration delta observed separately, not new runtime acceptance.",
+          "newSemanticCredit": 0,
+          "runtimeCredit": false
+        }
+      ]
     },
     {
       "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3-pal-extract-event-types.md",
@@ -2108,7 +2130,7 @@
       "sourceGitRevision": "bb90428668808368e816bd8e2ddeb5da57e4b166",
       "sourceGitObject": "b7dbc731f4063e28e68bcd6d981d3c7a26be66c1",
       "candidateSha256": "5a63ab71e7d5d46bd6ec52270389ab779a60801714c82b04e3ab8891b9beb54c",
-      "afterSha256": "e98995cede6dd93d9597a83d7a4247d3f93ffc85a96cd4354fb686407d028714",
+      "afterSha256": "bdadf3cbedcc61784039ba872cde60bdab1331aa47b938e10c781de7c0028f37",
       "revision": {
         "currentSha": "bb90428668808368e816bd8e2ddeb5da57e4b166",
         "implementationSha": "e98995cede6dd93d9597a83d7a4247d3f93ffc85a96cd4354fb686407d028714",
@@ -2180,7 +2202,18 @@
         "references": ["原10/68、game3398、NaN负控/full gates、17f2c6dab推送记录只引用"],
         "executedThisMigration": false,
         "retention": "original producer argv/raw paths/candidate hashes preserved literally in full quote; no re-run, mutation or runtime credit"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "kind": "fixed-main-S75-integration-observation",
+          "sourceRevision": "b2437cec97c1f7354dccfe8f856fc762395d4ec6",
+          "beforeSha256": "e98995cede6dd93d9597a83d7a4247d3f93ffc85a96cd4354fb686407d028714",
+          "afterSha256": "bdadf3cbedcc61784039ba872cde60bdab1331aa47b938e10c781de7c0028f37",
+          "interpretation": "Earlier accepted semantic scope retained; fixed-source integration delta observed separately, not new runtime acceptance.",
+          "newSemanticCredit": 0,
+          "runtimeCredit": false
+        }
+      ]
     },
     {
       "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3j-game-tools-speedrun.md",
@@ -2935,7 +2968,7 @@
       "sourceSha256": "fb5db80aa4aae2110413d916a1cf46e4ec5ae6743bb7728ec3c7f353f1747336",
       "sourceGitRevision": "22eead43a6c825e1345feb92441e09d340d22c18",
       "sourceGitObject": "2cd85b53f57292d8f8373ee5633eaeecef199938",
-      "afterSha256": "b3e59b3a3c580ee47e63c5a6d4d4262b9149cd802415860cef1436f501c56311",
+      "afterSha256": "a0bcd0c72df2522a289a39fe19f466acfbe1eb2ca493ec309a7586d188b4ced8",
       "revision": {
         "currentSha": "22eead43a6c825e1345feb92441e09d340d22c18",
         "implementationSha": "b3e59b3a3c580ee47e63c5a6d4d4262b9149cd802415860cef1436f501c56311",
@@ -3013,7 +3046,18 @@
         "templateVersion": "1.0.0",
         "historyOverlay": "archive-record-v1/1.0.0",
         "method": "Specific five typed+five history sections, non-author full semantic review, actual template/GFM/inverse/ledger consumers; no generic wrapper-only pass."
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "kind": "fixed-main-S75-integration-observation",
+          "sourceRevision": "b2437cec97c1f7354dccfe8f856fc762395d4ec6",
+          "beforeSha256": "b3e59b3a3c580ee47e63c5a6d4d4262b9149cd802415860cef1436f501c56311",
+          "afterSha256": "a0bcd0c72df2522a289a39fe19f466acfbe1eb2ca493ec309a7586d188b4ced8",
+          "interpretation": "Earlier accepted semantic scope retained; fixed-source integration delta observed separately, not new runtime acceptance.",
+          "newSemanticCredit": 0,
+          "runtimeCredit": false
+        }
+      ]
     },
     {
       "path": "docs/ops/audits/code-quality-file-ledger.md",
@@ -3177,7 +3221,7 @@
       "sourceSha256": "3eeb172bb758e32f671ba1975bdc72e5dafe511b3ca9f30b12447bbdb01e075c",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "50012277f66ac304ce272ee89fd623db8590fac2",
-      "afterSha256": "f6064f47db6a4f0aa6610f340109b873121de1333df0879a0686c3a4f0d9771d",
+      "afterSha256": "245392897ef1ecde0f8fcfd13b8dc76630089fe3af0070a43fff2633f03b30b2",
       "revision": {
         "currentSha": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
         "implementationSha": "f6064f47db6a4f0aa6610f340109b873121de1333df0879a0686c3a4f0d9771d",
@@ -4183,6 +4227,17 @@
             "uniqueMatches": 1
           },
           "completePriorObjectRetrievedAndCompared": true
+        }
+      ],
+      "maintenanceDeltas": [
+        {
+          "kind": "fixed-main-S75-integration-observation",
+          "sourceRevision": "b2437cec97c1f7354dccfe8f856fc762395d4ec6",
+          "beforeSha256": "f6064f47db6a4f0aa6610f340109b873121de1333df0879a0686c3a4f0d9771d",
+          "afterSha256": "245392897ef1ecde0f8fcfd13b8dc76630089fe3af0070a43fff2633f03b30b2",
+          "interpretation": "Earlier accepted semantic scope retained; fixed-source integration delta observed separately, not new runtime acceptance.",
+          "newSemanticCredit": 0,
+          "runtimeCredit": false
         }
       ]
     },

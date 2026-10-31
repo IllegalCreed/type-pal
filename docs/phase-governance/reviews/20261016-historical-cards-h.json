@@ -6502,7 +6502,7 @@
       "sourceGitRevision": "22eead43a6c825e1345feb92441e09d340d22c18",
       "sourceGitObject": "d018f68bea267a0351d771dab427cda3dedc03a0",
       "candidateSha256": "fddc3c2d5ac3a9d87931cf6c1f3cb4fd393fba86bf68d08bdbe8b7e575b3c59f",
-      "afterSha256": "3217004c2f5df83b294d7872eb1df61eb75612420d4f1b877bc020bc693a6133",
+      "afterSha256": "ca4455d3c9f8e2d7678b5725ed9f45efe203b5110eabe72ec30e5e5e3dc1241b",
       "revision": {
         "currentSha": "22eead43a6c825e1345feb92441e09d340d22c18",
         "implementationSha": "3217004c2f5df83b294d7872eb1df61eb75612420d4f1b877bc020bc693a6133",
@@ -6667,7 +6667,18 @@
           "currentRawProducerStatus": "unknown unless explicit historical task statement; no current execution inferred",
           "policy": "Only actual original header labels below are source fields. Missing labels remain absent; derived responsibility does not assert a missing Owner/Coding Owner/Reviewer field."
         }
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "kind": "fixed-main-S75-integration-observation",
+          "sourceRevision": "b2437cec97c1f7354dccfe8f856fc762395d4ec6",
+          "beforeSha256": "3217004c2f5df83b294d7872eb1df61eb75612420d4f1b877bc020bc693a6133",
+          "afterSha256": "ca4455d3c9f8e2d7678b5725ed9f45efe203b5110eabe72ec30e5e5e3dc1241b",
+          "interpretation": "Earlier accepted semantic scope retained; fixed-source integration delta observed separately, not new runtime acceptance.",
+          "newSemanticCredit": 0,
+          "runtimeCredit": false
+        }
+      ]
     },
     {
       "path": "docs/ops/archive/tasks/done/CODE-QUALITY-6a-ledger-integrity.md",

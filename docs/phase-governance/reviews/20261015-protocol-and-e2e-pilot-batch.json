@@ -541,7 +541,7 @@
       "reviewedSourceSha256": "a2f890e62ce23ad2580345dd4a12178b2efb0e50c7a01371bf6aa4411c1231d3",
       "sourceGitRevision": "1d2c8635814f0b3aae4eb212d3457b4aaafb7a71",
       "sourceState": "present",
-      "afterSha256": "151cae8cf616b8f8616ad3b2de46e8695c55103a209a1bbaedc4fb63446930fb",
+      "afterSha256": "7e051fb90112807cba968b2d01cf1c946ce989b417ddd0de82f40b5ed0e4d1b3",
       "publicCallers": [
         "AGENTS.md operation routing",
         "node scripts/docs/check-document-model.mjs",
@@ -631,6 +631,15 @@
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false
+        },
+        {
+          "kind": "fixed-main-S75-integration-observation",
+          "sourceRevision": "b2437cec97c1f7354dccfe8f856fc762395d4ec6",
+          "beforeSha256": "151cae8cf616b8f8616ad3b2de46e8695c55103a209a1bbaedc4fb63446930fb",
+          "afterSha256": "7e051fb90112807cba968b2d01cf1c946ce989b417ddd0de82f40b5ed0e4d1b3",
+          "interpretation": "Earlier accepted semantic scope retained; fixed-source integration delta observed separately, not new runtime acceptance.",
+          "newSemanticCredit": 0,
+          "runtimeCredit": false
         }
       ]
     },
@@ -663,7 +672,7 @@
       "reviewedSourceSha256": "d5092910e75a0f40bbd5baea191c91a0005ab83bea111af6d87d2f37622430b7",
       "sourceGitRevision": "1d2c8635814f0b3aae4eb212d3457b4aaafb7a71",
       "sourceState": "present",
-      "afterSha256": "153fa5ba821992796612537e161ea2693b8a10ed15d0c92332be4f467bf67397",
+      "afterSha256": "2c54986888b508fa65d42ef77e2b8951318eb27af173f32054c9c7c4a66c1500",
       "publicCallers": [
         "AGENTS.md operation routing",
         "node scripts/docs/check-document-model.mjs",
@@ -1050,6 +1059,17 @@
               "C1c: indented Status and fake H1 rejected without trimming semantic indentation"
             ]
           }
+        }
+      ],
+      "maintenanceDeltas": [
+        {
+          "kind": "fixed-main-S75-integration-observation",
+          "sourceRevision": "b2437cec97c1f7354dccfe8f856fc762395d4ec6",
+          "beforeSha256": "153fa5ba821992796612537e161ea2693b8a10ed15d0c92332be4f467bf67397",
+          "afterSha256": "2c54986888b508fa65d42ef77e2b8951318eb27af173f32054c9c7c4a66c1500",
+          "interpretation": "Earlier accepted semantic scope retained; fixed-source integration delta observed separately, not new runtime acceptance.",
+          "newSemanticCredit": 0,
+          "runtimeCredit": false
         }
       ]
     }

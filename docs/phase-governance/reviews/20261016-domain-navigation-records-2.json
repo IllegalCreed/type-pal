@@ -5173,7 +5173,7 @@
       "reviewedSourceSha256": "09d2a1cf95c3f2566f75cdd4a70bbcbc6bc887665bf52c97d30dc785a466ac1d",
       "reviewedSourceGitRevision": "af42cdeb23d62afbb63985184efc4c8bb9361a08",
       "rootIntegrationBase": "7fde0e04cff2064b9d5eee6b7bf07e3fd5d3ea6c",
-      "afterSha256": "76bb59db1dee3d704b3a12fc44231960d76fbbb5e84e3e2a28e2d2c7d02c84fe",
+      "afterSha256": "de5417ad709a22520ed25355d7ab3d52360d7bd18af05ba24e7f4015b241432c",
       "revision": {
         "currentSha": "2aebe7efd8cc8dea750bc0f05c5519ed74081b7d",
         "implementationSha": "76bb59db1dee3d704b3a12fc44231960d76fbbb5e84e3e2a28e2d2c7d02c84fe",
@@ -5449,6 +5449,17 @@
             "uniqueMatches": 1
           },
           "scope": "Whole previous current record, including all fields and complete author snapshot, exactly retrievable from immutable candidate commit retained in final published ancestry. Not a summary or replacement source claim."
+        }
+      ],
+      "maintenanceDeltas": [
+        {
+          "kind": "fixed-main-S75-integration-observation",
+          "sourceRevision": "b2437cec97c1f7354dccfe8f856fc762395d4ec6",
+          "beforeSha256": "76bb59db1dee3d704b3a12fc44231960d76fbbb5e84e3e2a28e2d2c7d02c84fe",
+          "afterSha256": "de5417ad709a22520ed25355d7ab3d52360d7bd18af05ba24e7f4015b241432c",
+          "interpretation": "Earlier accepted semantic scope retained; fixed-source integration delta observed separately, not new runtime acceptance.",
+          "newSemanticCredit": 0,
+          "runtimeCredit": false
         }
       ]
     },

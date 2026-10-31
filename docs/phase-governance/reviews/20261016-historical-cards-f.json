@@ -323,7 +323,7 @@
       "sourceGitRevision": "83750d8425709257a609c1b9f62b8c6686d53987",
       "sourceGitObject": "e5c3c6c3f6a159abf4b13cd6a3bb4dbc43095053",
       "candidateSha256": "3f1544d490f4f27a5b6facfb615d29ebddd6bc7cc4eef2ad4d1ca44294d04277",
-      "afterSha256": "54639b99ff3c8ef6ef6faa33334c5ddccf7f79313b6222dce95e3f36935e7a2a",
+      "afterSha256": "7cffbd63d85883e94d42d3a6e802f860be243af79b721c1f4bdb426e062b608b",
       "revision": {
         "currentSha": "83750d8425709257a609c1b9f62b8c6686d53987",
         "implementationSha": "54639b99ff3c8ef6ef6faa33334c5ddccf7f79313b6222dce95e3f36935e7a2a",
@@ -396,7 +396,18 @@
         "executedThisMigration": false,
         "retention": "original producer argv/raw paths/candidate hashes preserved literally in full quote; no re-run, mutation or runtime credit"
       },
-      "historicalRecordDedupe": "Original product/test ledger counts are historical, not this docs migration progress."
+      "historicalRecordDedupe": "Original product/test ledger counts are historical, not this docs migration progress.",
+      "maintenanceDeltas": [
+        {
+          "kind": "fixed-main-S75-integration-observation",
+          "sourceRevision": "b2437cec97c1f7354dccfe8f856fc762395d4ec6",
+          "beforeSha256": "54639b99ff3c8ef6ef6faa33334c5ddccf7f79313b6222dce95e3f36935e7a2a",
+          "afterSha256": "7cffbd63d85883e94d42d3a6e802f860be243af79b721c1f4bdb426e062b608b",
+          "interpretation": "Earlier accepted semantic scope retained; fixed-source integration delta observed separately, not new runtime acceptance.",
+          "newSemanticCredit": 0,
+          "runtimeCredit": false
+        }
+      ]
     },
     {
       "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3m-game-battle-core-contracts.md",
@@ -1564,7 +1575,7 @@
       "sourceGitRevision": "83750d8425709257a609c1b9f62b8c6686d53987",
       "sourceGitObject": "1aa0b56ee010044f6925f9c19536e53da475d740",
       "candidateSha256": "611dcd2c390a3f8300b59b7f45b6a80976e7cb5e830275d7a458f32803c9ed79",
-      "afterSha256": "c0b562db1f2f7057d89e5cf0b8fac4cccfc5fd9934a0d1d884740e101bb67e96",
+      "afterSha256": "d8bc75e72d088c4e18ee16013dee0ba71fd07d98e8bb22c4396b428368ad37c2",
       "revision": {
         "currentSha": "83750d8425709257a609c1b9f62b8c6686d53987",
         "implementationSha": "c0b562db1f2f7057d89e5cf0b8fac4cccfc5fd9934a0d1d884740e101bb67e96",
@@ -1637,7 +1648,18 @@
         "executedThisMigration": false,
         "retention": "original producer argv/raw paths/candidate hashes preserved literally in full quote; no re-run, mutation or runtime credit"
       },
-      "historicalRecordDedupe": "Original product/test ledger counts are historical, not this docs migration progress."
+      "historicalRecordDedupe": "Original product/test ledger counts are historical, not this docs migration progress.",
+      "maintenanceDeltas": [
+        {
+          "kind": "fixed-main-S75-integration-observation",
+          "sourceRevision": "b2437cec97c1f7354dccfe8f856fc762395d4ec6",
+          "beforeSha256": "c0b562db1f2f7057d89e5cf0b8fac4cccfc5fd9934a0d1d884740e101bb67e96",
+          "afterSha256": "d8bc75e72d088c4e18ee16013dee0ba71fd07d98e8bb22c4396b428368ad37c2",
+          "interpretation": "Earlier accepted semantic scope retained; fixed-source integration delta observed separately, not new runtime acceptance.",
+          "newSemanticCredit": 0,
+          "runtimeCredit": false
+        }
+      ]
     },
     {
       "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3s-game-battle-system.md",
@@ -1984,7 +2006,7 @@
       "sourceGitRevision": "83750d8425709257a609c1b9f62b8c6686d53987",
       "sourceGitObject": "5537347dacb07dd2f9944a0000fb77ed1b1c0e79",
       "candidateSha256": "594b808a12fc2203c141e89fc4e9518a06706587d9197d4ad1eaabd86e48a05b",
-      "afterSha256": "c6fa5fb51511285c03c498418988c6551c651a7cbe2d2c831fc59f04ed3c505f",
+      "afterSha256": "06265c22e8d7ded676a652fc8eeeb136badb3e7f4dc5bc9dd950515c3693163e",
       "revision": {
         "currentSha": "83750d8425709257a609c1b9f62b8c6686d53987",
         "implementationSha": "c6fa5fb51511285c03c498418988c6551c651a7cbe2d2c831fc59f04ed3c505f",
@@ -2057,7 +2079,18 @@
         "executedThisMigration": false,
         "retention": "original producer argv/raw paths/candidate hashes preserved literally in full quote; no re-run, mutation or runtime credit"
       },
-      "historicalRecordDedupe": "original closeout5=1product+4test; 470 adjacent tests do not add470 ledger entries"
+      "historicalRecordDedupe": "original closeout5=1product+4test; 470 adjacent tests do not add470 ledger entries",
+      "maintenanceDeltas": [
+        {
+          "kind": "fixed-main-S75-integration-observation",
+          "sourceRevision": "b2437cec97c1f7354dccfe8f856fc762395d4ec6",
+          "beforeSha256": "c6fa5fb51511285c03c498418988c6551c651a7cbe2d2c831fc59f04ed3c505f",
+          "afterSha256": "06265c22e8d7ded676a652fc8eeeb136badb3e7f4dc5bc9dd950515c3693163e",
+          "interpretation": "Earlier accepted semantic scope retained; fixed-source integration delta observed separately, not new runtime acceptance.",
+          "newSemanticCredit": 0,
+          "runtimeCredit": false
+        }
+      ]
     },
     {
       "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3u-game-battle-state-runtime.md",

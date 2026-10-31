@@ -316,7 +316,7 @@
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "b5650b150fad2ae8b303d1c1ca95a50a4021f03b",
       "sourceState": "present",
-      "afterSha256": "051a36c87d824f15f9496295317ee74bef6b5a7aa9dafe2993e6d877ddd32090",
+      "afterSha256": "a90583db23bc97ce8bda05f4c254542fc703edecdfff97e85645a81c4b33e74b",
       "publicCallers": [
         "node scripts/docs/check-document-model.mjs",
         "node scripts/docs/check-testing.mjs",
@@ -2987,6 +2987,15 @@
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false
+        },
+        {
+          "kind": "fixed-main-S75-integration-observation",
+          "sourceRevision": "b2437cec97c1f7354dccfe8f856fc762395d4ec6",
+          "beforeSha256": "051a36c87d824f15f9496295317ee74bef6b5a7aa9dafe2993e6d877ddd32090",
+          "afterSha256": "a90583db23bc97ce8bda05f4c254542fc703edecdfff97e85645a81c4b33e74b",
+          "interpretation": "Earlier accepted semantic scope retained; fixed-source integration delta observed separately, not new runtime acceptance.",
+          "newSemanticCredit": 0,
+          "runtimeCredit": false
         }
       ]
     },

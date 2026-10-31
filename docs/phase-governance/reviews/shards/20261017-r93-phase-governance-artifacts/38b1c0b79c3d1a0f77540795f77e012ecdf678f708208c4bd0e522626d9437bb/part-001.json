@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "logicalPath": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
-  "generation": "32565db0495623361242c9bafe1b4d521d29ad850edd40fcef822b089f14bc01",
+  "generation": "38b1c0b79c3d1a0f77540795f77e012ecdf678f708208c4bd0e522626d9437bb",
   "key": "part-001",
   "positions": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21],
   "entries": [
@@ -539,7 +539,7 @@
         }
       ],
       "sourceSha256": "687a9e3d69088bfbb387346fbbb3e58f83db6afedf7141fd7f9067dcdc276560",
-      "afterSha256": "e5660599adc171bce75e1fcd31c74bfdae4fa36d5131f27f3625b54d5faacd70",
+      "afterSha256": "a4661ab9d156dcade48cd9565244cb2e08c171d0315f5c3d02bc91d624d1903a",
       "publicCallers": [
         "scripts/docs/check-phase-lore-governance.mjs",
         "scripts/docs/report-governance-progress.mjs"
@@ -794,6 +794,15 @@
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false
+        },
+        {
+          "kind": "fixed-main-S75-integration-observation",
+          "sourceRevision": "b2437cec97c1f7354dccfe8f856fc762395d4ec6",
+          "beforeSha256": "e5660599adc171bce75e1fcd31c74bfdae4fa36d5131f27f3625b54d5faacd70",
+          "afterSha256": "a4661ab9d156dcade48cd9565244cb2e08c171d0315f5c3d02bc91d624d1903a",
+          "interpretation": "Earlier accepted semantic scope retained; fixed-source integration delta observed separately, not new runtime acceptance.",
+          "newSemanticCredit": 0,
+          "runtimeCredit": false
         }
       ],
       "templateVariant": "current-governance-control-native-v1",
@@ -1761,7 +1770,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "470582c9cbeb8f9e39b53e2ff342dea26ee379102504182537e0028afa0bc8ab",
+      "afterSha256": "b572ad537d87303c560403f87318d56ea07a1da1d047d7beadd513254bdd82a9",
       "publicCallers": [
         "scripts/docs/check-content-review.mjs via review-record-storage.mjs materialization",
         "scripts/docs/check-document-model.mjs via currentReviewLedgerIssues",
@@ -2953,6 +2962,14 @@
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false
+        },
+        {
+          "kind": "incremental-publication-after-pin",
+          "date": "2026-10-31",
+          "beforeSha256": "470582c9cbeb8f9e39b53e2ff342dea26ee379102504182537e0028afa0bc8ab",
+          "afterSha256": "b572ad537d87303c560403f87318d56ea07a1da1d047d7beadd513254bdd82a9",
+          "runtimeCredit": false,
+          "newSemanticCredit": 0
         }
       ],
       "templateVariant": "current-review-ledger-native-v1",
@@ -5132,7 +5149,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "4c7c6feed74bc80d2e4441c186eba6fadfa057ac53cdd6f1639544803e12cc4a",
-      "afterSha256": "a71fcef222b752924f9453d30c7d4f61b0d3f0ebec7061d523076d4cf78036f6",
+      "afterSha256": "1f8230d76cd76a89c220ca85e445ebe4268c78194ad821f3a7d1e33e1d7704f6",
       "publicCallers": [
         "scripts/docs/check-content-review.mjs via review-record-storage.mjs materialization",
         "scripts/docs/check-document-model.mjs via currentReviewLedgerIssues",
@@ -5342,6 +5359,14 @@
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false
+        },
+        {
+          "kind": "incremental-publication-after-pin",
+          "date": "2026-10-31",
+          "beforeSha256": "a71fcef222b752924f9453d30c7d4f61b0d3f0ebec7061d523076d4cf78036f6",
+          "afterSha256": "1f8230d76cd76a89c220ca85e445ebe4268c78194ad821f3a7d1e33e1d7704f6",
+          "runtimeCredit": false,
+          "newSemanticCredit": 0
         }
       ],
       "templateVariant": "current-review-ledger-native-v1",
@@ -5443,7 +5468,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "69382e6294e4712af4dbf30c2f74333508296d27b942f3336dc078b175fadd28",
-      "afterSha256": "464912ba0dfb1189358f4b480fd59e1114d5992df39738ce70415e540cc9486e",
+      "afterSha256": "823f1680e946b8ef59abf6e1b52565dc7f4fe1f4d49f6bb9a7b9a9b32997a85e",
       "publicCallers": [
         "scripts/docs/check-content-review.mjs via review-record-storage.mjs materialization",
         "scripts/docs/check-document-model.mjs via currentReviewLedgerIssues",
@@ -5704,6 +5729,14 @@
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false
+        },
+        {
+          "kind": "incremental-publication-after-pin",
+          "date": "2026-10-31",
+          "beforeSha256": "464912ba0dfb1189358f4b480fd59e1114d5992df39738ce70415e540cc9486e",
+          "afterSha256": "823f1680e946b8ef59abf6e1b52565dc7f4fe1f4d49f6bb9a7b9a9b32997a85e",
+          "runtimeCredit": false,
+          "newSemanticCredit": 0
         }
       ],
       "templateVariant": "current-review-ledger-native-v1",
@@ -6060,7 +6093,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "e864bf1eb0b90433939d3ed247049f39eba69d34e1d1809d69ea6f5866350ef1",
-      "afterSha256": "7970cb4c46dfc3b20118d7ea082dfd652965c5dbd0b0ffacbcb0582831f4b870",
+      "afterSha256": "f5c4bd6d07835779c933f7210ad1438274c66479057c6724d21884b18a9521d6",
       "publicCallers": [
         "scripts/docs/check-content-review.mjs via review-record-storage.mjs materialization",
         "scripts/docs/check-document-model.mjs via currentReviewLedgerIssues",
@@ -6242,6 +6275,14 @@
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false
+        },
+        {
+          "kind": "incremental-publication-after-pin",
+          "date": "2026-10-31",
+          "beforeSha256": "7970cb4c46dfc3b20118d7ea082dfd652965c5dbd0b0ffacbcb0582831f4b870",
+          "afterSha256": "f5c4bd6d07835779c933f7210ad1438274c66479057c6724d21884b18a9521d6",
+          "runtimeCredit": false,
+          "newSemanticCredit": 0
         }
       ],
       "templateVariant": "current-review-ledger-native-v1",
@@ -6770,7 +6811,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "1d43f1eaeb938d3f32fe03d64db8e6e42ab2f1d9c0e10d80bc63d490bb403a03",
-      "afterSha256": "1f327ae75d6fa03917d356bf7feae9a21b76599db9557facc9d81c810932fe70",
+      "afterSha256": "7cb7ed4a9276811963d3f6e5066765a0fefb601788005ac63eb676b4a9c7cc0f",
       "publicCallers": [
         "scripts/docs/check-content-review.mjs via review-record-storage.mjs materialization",
         "scripts/docs/check-document-model.mjs via currentReviewLedgerIssues",
@@ -6974,6 +7015,14 @@
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false
+        },
+        {
+          "kind": "incremental-publication-after-pin",
+          "date": "2026-10-31",
+          "beforeSha256": "1f327ae75d6fa03917d356bf7feae9a21b76599db9557facc9d81c810932fe70",
+          "afterSha256": "7cb7ed4a9276811963d3f6e5066765a0fefb601788005ac63eb676b4a9c7cc0f",
+          "runtimeCredit": false,
+          "newSemanticCredit": 0
         }
       ],
       "templateVariant": "current-review-ledger-native-v1",

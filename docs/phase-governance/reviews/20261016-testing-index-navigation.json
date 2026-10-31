@@ -717,7 +717,7 @@
       "reviewedSourceSha256": "80147a5198ca61e6d36dc22a6b7ff1d027aac12a6133de89fa19c59a77f20b09",
       "reviewedSourceGitRevision": "738d44fe48c4db6ad8fcde95ac4acfc62d2fcf8c",
       "rootIntegrationBase": "9318cead1100c01031f1c917c88c1119962076af",
-      "afterSha256": "80147a5198ca61e6d36dc22a6b7ff1d027aac12a6133de89fa19c59a77f20b09",
+      "afterSha256": "be689ec1490382605574c0b34b8180fcb5aabc0f8d4a8f933f5273c098fdf63f",
       "revision": {
         "currentSha": "9e3fb825426960c8b7d1914a52625a9bdc17b9a3",
         "implementationSha": "80147a5198ca61e6d36dc22a6b7ff1d027aac12a6133de89fa19c59a77f20b09",
@@ -1194,6 +1194,17 @@
           },
           "scope": "Entire previous current object, all fields/history/preservation maps, actually retrieved from fixed reachable Git and compared equal; no summary or tmp-only preservation."
         }
+      ],
+      "maintenanceDeltas": [
+        {
+          "kind": "fixed-main-S75-integration-observation",
+          "sourceRevision": "b2437cec97c1f7354dccfe8f856fc762395d4ec6",
+          "beforeSha256": "80147a5198ca61e6d36dc22a6b7ff1d027aac12a6133de89fa19c59a77f20b09",
+          "afterSha256": "be689ec1490382605574c0b34b8180fcb5aabc0f8d4a8f933f5273c098fdf63f",
+          "interpretation": "Earlier accepted semantic scope retained; fixed-source integration delta observed separately, not new runtime acceptance.",
+          "newSemanticCredit": 0,
+          "runtimeCredit": false
+        }
       ]
     },
     {
@@ -1412,7 +1423,7 @@
       "reviewedSourceSha256": "54b5278d86ea9d660c95c2051e9e03ef9a66f39d1788be261208cbb76e6b9751",
       "reviewedSourceGitRevision": "738d44fe48c4db6ad8fcde95ac4acfc62d2fcf8c",
       "rootIntegrationBase": "9318cead1100c01031f1c917c88c1119962076af",
-      "afterSha256": "54b5278d86ea9d660c95c2051e9e03ef9a66f39d1788be261208cbb76e6b9751",
+      "afterSha256": "10715bcfbbe16d391e77243094bcde3dd5461013f4e66e92fc9544dc2e66d015",
       "revision": {
         "currentSha": "9e3fb825426960c8b7d1914a52625a9bdc17b9a3",
         "implementationSha": "54b5278d86ea9d660c95c2051e9e03ef9a66f39d1788be261208cbb76e6b9751",
@@ -1951,6 +1962,17 @@
           },
           "scope": "Entire previous current object, all fields/history/preservation maps, actually retrieved from fixed reachable Git and compared equal; no summary or tmp-only preservation."
         }
+      ],
+      "maintenanceDeltas": [
+        {
+          "kind": "fixed-main-S75-integration-observation",
+          "sourceRevision": "b2437cec97c1f7354dccfe8f856fc762395d4ec6",
+          "beforeSha256": "54b5278d86ea9d660c95c2051e9e03ef9a66f39d1788be261208cbb76e6b9751",
+          "afterSha256": "10715bcfbbe16d391e77243094bcde3dd5461013f4e66e92fc9544dc2e66d015",
+          "interpretation": "Earlier accepted semantic scope retained; fixed-source integration delta observed separately, not new runtime acceptance.",
+          "newSemanticCredit": 0,
+          "runtimeCredit": false
+        }
       ]
     },
     {
@@ -2167,7 +2189,7 @@
       "reviewedSourceSha256": "ddf07426a8b4aeaa78ea9641fa8975170fc5c157163f34722590d3fb8f2f6e10",
       "reviewedSourceGitRevision": "738d44fe48c4db6ad8fcde95ac4acfc62d2fcf8c",
       "rootIntegrationBase": "9318cead1100c01031f1c917c88c1119962076af",
-      "afterSha256": "ddf07426a8b4aeaa78ea9641fa8975170fc5c157163f34722590d3fb8f2f6e10",
+      "afterSha256": "4d052c15992e7628c10651f2d421e572aaf4cc7cae07701e5c2a3cf91c6cd3ce",
       "revision": {
         "currentSha": "9e3fb825426960c8b7d1914a52625a9bdc17b9a3",
         "implementationSha": "ddf07426a8b4aeaa78ea9641fa8975170fc5c157163f34722590d3fb8f2f6e10",
@@ -2968,6 +2990,17 @@
           },
           "scope": "Entire previous current object, all fields/history/preservation maps, actually retrieved from fixed reachable Git and compared equal; no summary or tmp-only preservation."
         }
+      ],
+      "maintenanceDeltas": [
+        {
+          "kind": "fixed-main-S75-integration-observation",
+          "sourceRevision": "b2437cec97c1f7354dccfe8f856fc762395d4ec6",
+          "beforeSha256": "ddf07426a8b4aeaa78ea9641fa8975170fc5c157163f34722590d3fb8f2f6e10",
+          "afterSha256": "4d052c15992e7628c10651f2d421e572aaf4cc7cae07701e5c2a3cf91c6cd3ce",
+          "interpretation": "Earlier accepted semantic scope retained; fixed-source integration delta observed separately, not new runtime acceptance.",
+          "newSemanticCredit": 0,
+          "runtimeCredit": false
+        }
       ]
     },
     {
@@ -3184,7 +3217,7 @@
       "reviewedSourceSha256": "b8c0869f28392e61f5387f247610fd8f66db0e9d460d683072310a782ea32432",
       "reviewedSourceGitRevision": "738d44fe48c4db6ad8fcde95ac4acfc62d2fcf8c",
       "rootIntegrationBase": "9318cead1100c01031f1c917c88c1119962076af",
-      "afterSha256": "b8c0869f28392e61f5387f247610fd8f66db0e9d460d683072310a782ea32432",
+      "afterSha256": "afa8b6a8c7605599bc102d0b67f131c6c2014d5c52e5ea7b47857082b661f038",
       "revision": {
         "currentSha": "9e3fb825426960c8b7d1914a52625a9bdc17b9a3",
         "implementationSha": "b8c0869f28392e61f5387f247610fd8f66db0e9d460d683072310a782ea32432",
@@ -3536,6 +3569,17 @@
           },
           "scope": "Entire previous current object, all fields/history/preservation maps, actually retrieved from fixed reachable Git and compared equal; no summary or tmp-only preservation."
         }
+      ],
+      "maintenanceDeltas": [
+        {
+          "kind": "fixed-main-S75-integration-observation",
+          "sourceRevision": "b2437cec97c1f7354dccfe8f856fc762395d4ec6",
+          "beforeSha256": "b8c0869f28392e61f5387f247610fd8f66db0e9d460d683072310a782ea32432",
+          "afterSha256": "afa8b6a8c7605599bc102d0b67f131c6c2014d5c52e5ea7b47857082b661f038",
+          "interpretation": "Earlier accepted semantic scope retained; fixed-source integration delta observed separately, not new runtime acceptance.",
+          "newSemanticCredit": 0,
+          "runtimeCredit": false
+        }
       ]
     },
     {
@@ -3754,7 +3798,7 @@
       "reviewedSourceSha256": "64a4fc254321403b2d5fde77a3f1df49201a3026d8e0ededcb7fda86f3738092",
       "reviewedSourceGitRevision": "738d44fe48c4db6ad8fcde95ac4acfc62d2fcf8c",
       "rootIntegrationBase": "9318cead1100c01031f1c917c88c1119962076af",
-      "afterSha256": "64a4fc254321403b2d5fde77a3f1df49201a3026d8e0ededcb7fda86f3738092",
+      "afterSha256": "0f4489e10cc39ccda36a288ecdfc1f1f87527d054dd2123c6218742fafc4ea59",
       "revision": {
         "currentSha": "9e3fb825426960c8b7d1914a52625a9bdc17b9a3",
         "implementationSha": "64a4fc254321403b2d5fde77a3f1df49201a3026d8e0ededcb7fda86f3738092",
@@ -4252,6 +4296,17 @@
             "uniqueMatches": 1
           },
           "scope": "Entire previous current object, all fields/history/preservation maps, actually retrieved from fixed reachable Git and compared equal; no summary or tmp-only preservation."
+        }
+      ],
+      "maintenanceDeltas": [
+        {
+          "kind": "fixed-main-S75-integration-observation",
+          "sourceRevision": "b2437cec97c1f7354dccfe8f856fc762395d4ec6",
+          "beforeSha256": "64a4fc254321403b2d5fde77a3f1df49201a3026d8e0ededcb7fda86f3738092",
+          "afterSha256": "0f4489e10cc39ccda36a288ecdfc1f1f87527d054dd2123c6218742fafc4ea59",
+          "interpretation": "Earlier accepted semantic scope retained; fixed-source integration delta observed separately, not new runtime acceptance.",
+          "newSemanticCredit": 0,
+          "runtimeCredit": false
         }
       ]
     },
@@ -4901,7 +4956,7 @@
       "reviewedSourceSha256": "16b8b8490e89fe718e5d97c13093e66a75b4682550178e3ae7e8b40587826da0",
       "reviewedSourceGitRevision": "738d44fe48c4db6ad8fcde95ac4acfc62d2fcf8c",
       "rootIntegrationBase": "9318cead1100c01031f1c917c88c1119962076af",
-      "afterSha256": "6bc8ea55c5ccdd6652173dfc18a79787ef82bfbdc38a8f14f483c2cc434ab577",
+      "afterSha256": "74990dd7212945adebe0e7e3c74aa0f8f16b252f95616f9ed8d772199d70a8c1",
       "revision": {
         "currentSha": "9e3fb825426960c8b7d1914a52625a9bdc17b9a3",
         "implementationSha": "16b8b8490e89fe718e5d97c13093e66a75b4682550178e3ae7e8b40587826da0",
@@ -5103,6 +5158,15 @@
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false
+        },
+        {
+          "kind": "fixed-main-S75-integration-observation",
+          "sourceRevision": "b2437cec97c1f7354dccfe8f856fc762395d4ec6",
+          "beforeSha256": "6bc8ea55c5ccdd6652173dfc18a79787ef82bfbdc38a8f14f483c2cc434ab577",
+          "afterSha256": "74990dd7212945adebe0e7e3c74aa0f8f16b252f95616f9ed8d772199d70a8c1",
+          "interpretation": "Earlier accepted semantic scope retained; fixed-source integration delta observed separately, not new runtime acceptance.",
+          "newSemanticCredit": 0,
+          "runtimeCredit": false
         }
       ],
       "currentIndependentAcceptance": {
@@ -5341,7 +5405,7 @@
       "reviewedSourceSha256": "95ed50fc0b9d1bad4f45669c6d38de11e456dc015ab08830747b0736dc8549b9",
       "reviewedSourceGitRevision": "738d44fe48c4db6ad8fcde95ac4acfc62d2fcf8c",
       "rootIntegrationBase": "9318cead1100c01031f1c917c88c1119962076af",
-      "afterSha256": "95ed50fc0b9d1bad4f45669c6d38de11e456dc015ab08830747b0736dc8549b9",
+      "afterSha256": "a329a1b95020621f9f487d2c4057f0df3c9c853e4972f8e9e14c032a0483649a",
       "revision": {
         "currentSha": "9e3fb825426960c8b7d1914a52625a9bdc17b9a3",
         "implementationSha": "95ed50fc0b9d1bad4f45669c6d38de11e456dc015ab08830747b0736dc8549b9",
@@ -6408,6 +6472,17 @@
             "uniqueMatches": 1
           },
           "scope": "Entire previous current object, all fields/history/preservation maps, actually retrieved from fixed reachable Git and compared equal; no summary or tmp-only preservation."
+        }
+      ],
+      "maintenanceDeltas": [
+        {
+          "kind": "fixed-main-S75-integration-observation",
+          "sourceRevision": "b2437cec97c1f7354dccfe8f856fc762395d4ec6",
+          "beforeSha256": "95ed50fc0b9d1bad4f45669c6d38de11e456dc015ab08830747b0736dc8549b9",
+          "afterSha256": "a329a1b95020621f9f487d2c4057f0df3c9c853e4972f8e9e14c032a0483649a",
+          "interpretation": "Earlier accepted semantic scope retained; fixed-source integration delta observed separately, not new runtime acceptance.",
+          "newSemanticCredit": 0,
+          "runtimeCredit": false
         }
       ]
     },

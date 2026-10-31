@@ -47,7 +47,7 @@
         }
       ],
       "sourceSha256": "a48cc1db49991fc489f07063c2bf635a9996771647f07e025aa735d5a58ff851",
-      "afterSha256": "51d8eab16eac267998aee10ee6189b5ccc55d55c3c2bd66357b6ccf8ec162b91",
+      "afterSha256": "d8846acb1d2542f535c708f2f4afa33d75d300ca1c340b8e18b7ad48e657786b",
       "publicCallers": [
         "docs/ops/README.md（当前导航）",
         "docs/ops/audits/README.md（当前证据入口）"
@@ -346,6 +346,15 @@
           "historicClaimsReexecuted": false,
           "beforeSha256": "4fddc5b071a22e29f024b291c602d2683fbec0ae48c5aeaef1b1eb3873faba8c",
           "afterSha256": "51d8eab16eac267998aee10ee6189b5ccc55d55c3c2bd66357b6ccf8ec162b91"
+        },
+        {
+          "kind": "fixed-main-S75-integration-observation",
+          "sourceRevision": "b2437cec97c1f7354dccfe8f856fc762395d4ec6",
+          "beforeSha256": "51d8eab16eac267998aee10ee6189b5ccc55d55c3c2bd66357b6ccf8ec162b91",
+          "afterSha256": "d8846acb1d2542f535c708f2f4afa33d75d300ca1c340b8e18b7ad48e657786b",
+          "interpretation": "Earlier accepted semantic scope retained; fixed-source integration delta observed separately, not new runtime acceptance.",
+          "newSemanticCredit": 0,
+          "runtimeCredit": false
         }
       ],
       "currentAuthoredReview": {
