@@ -1,5 +1,39 @@
 # CODE94/95 与 CODE97–102 — Codex 再验收（R2，2026-10-15）
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「CODE94/95 与 CODE97–102 — Codex 再验收（R2，2026-10-15）」的治理候选页;证据原件即下方逐字节保全的固定main源(22288B,SHA 9514f65d7588)。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原4个链接处置见作者review的linkDisposition。当前存活入口:[GAME-OPENING-CANCEL-CURSOR-1.md](../../tasks/GAME-OPENING-CANCEL-CURSOR-1.md)、[GAME-OUTSIDE-MAGIC-DISABLED-1.md](../../tasks/GAME-OUTSIDE-MAGIC-DISABLED-1.md)、[GAME-SAVE-IDB-COMMIT-1.md](../../tasks/GAME-SAVE-IDB-COMMIT-1.md)
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 22288B / SHA-256 9514f65d7588bf31dc7a436ee763399c609257073d60c8cb8bfbdf95441af577；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE94/95 与 CODE97–102 — Codex 再验收（R2，2026-10-15）
+
 候选 `1f8bcd468`；主线 `cddf65557e60619e40e38168b276cf01981a106a`。独立工作树 `quality-menu-accept-94-95/type-pal`，分支 `codex/quality-menu-accept-94-95`；开始时工作树干净，FF 到贡献者最新提交，0 behind / 12 ahead。未写主工作树、未改 packages/依赖/规则/coverage baseline、未合 main。单 Agent 独立复核，旧签字与原始回执保留。
 
 ## 分批裁定
@@ -162,3 +196,5 @@ coverage baseline存在双边生成结果冲突：采用**当前origin/main的ca
 - CODE94的30条及额外实际完整读取文件共57份，与1f逐SHA复比全部未变；bootstrap音源增量与当前quick-save接线补读，Save链未改。回执SHA见sync-source-proof/sync-validation.json。
 - 全仓check/official ratchet/真正protected：本轮未重跑；旧回执仍带已证诊断，新合并候选覆盖率未验证，**不得宣布统一门或阶段集成通过**。当前只把main同步到治理分支，不把治理合main。
 - 先推送25d2d3c42再同步main；最终同步提交推送到同两分支。下一步GLM先修C5有限测试/注释，三个高风险卡先核build准入；本轮验收不自动继续全仓实现。
+```
+<!-- incremental-original-source:end -->
