@@ -71,14 +71,14 @@ Historical D1 receipt records 161 function token checks, 8 ownership tests, 3 ne
 
 D1 report/evidence is a phase1 architecture audit; its audit/mutant scripts remain legacy tools with explicit package-relative imports. It does not close gameplay/E2E or coverage.
 
-工具逐项核对见 [wave2 tool audit](https://github.com/IllegalCreed/type-pal/blob/4548a895b1ef23e3fd0cd051d9208194be0366ce/docs/testing/archive/migrations/testing-domains-20261004-wave2-tool-audit.json)：audit/mutants 的 root 参数、Git/source 读取、cwd、runner 与 TypeScript import 已核；工具保留 legacy，不将 phase1 旧反控当当前产品 caller。
+工具逐项核对见 [wave2 tool audit](/docs/testing/archive/migrations/testing-domains-20261004-wave2-tool-audit.json)：audit/mutants 的 root 参数、Git/source 读取、cwd、runner 与 TypeScript import 已核；工具保留 legacy，不将 phase1 旧反控当当前产品 caller。
 
 保留唯一历史 report/evidence；当前索引与报告 supersede 原平面材料的导航和当前状态口径，原失败、warnings、计数和候选 SHA 均由 [历史报告](history/report.md) 和 [原始机账](history/evidence.json) 保留。
 
 
 ### 证据与 revision
 
-[配对文档核读证据](evidence.json)记录 source hashes。原始材料迁移前 hash 在 [迁移计划](https://github.com/IllegalCreed/type-pal/blob/4548a895b1ef23e3fd0cd051d9208194be0366ce/docs/testing/archive/migrations/testing-domains-20261004-wave2.json)；当前内容22/保存11，历史内容20/保存8不升级。
+[配对文档核读证据](evidence.json)记录 source hashes。原始材料迁移前 hash 在 [迁移计划](/docs/testing/archive/migrations/testing-domains-20261004-wave2.json)；当前内容22/保存11，历史内容20/保存8不升级。
 
 2026-10-04：基线 2aed1f0dbbbed8ce01cb3511315745ab1ccdf159，迁移+source audit；未重新执行产品，原作者验收与历史 counter 按旧记录保留。
 

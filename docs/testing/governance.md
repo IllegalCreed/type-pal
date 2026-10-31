@@ -94,4 +94,4 @@ catalog原`_governance`中的到期/续期解释以及原回执日期是既有�
 
 本项的唯一身份、真实内容、合法输入与oracle、配对evidence、当前状态/记录版本/依赖、原始历史和迁移映射一致；实际consumer及必要静态门零诊断，并有明确的非作者结论。全量治理还需固定1838 cohort与增量逐篇闭合，单篇或schema通过不能代替。
 
-本页重审记录与实际来源范围见[S02逐篇记录](https://github.com/IllegalCreed/type-pal/blob/43403a826edcaf40509f55b51e6f6214723252ed/docs/phase-governance/reviews/20261018-semantic-rework.json)。原73行规范及R83机械封套由固定Git/SHA保留；本次重组进真实runbook步骤，未修改测试catalog状态、历史JSON、产品、旧测试或coverage，也不宣布runtime/E2E/视觉通过。
+本页重审记录与实际来源范围见[S02逐篇记录](../phase-governance/reviews/20261018-semantic-rework.json)。原73行规范及R83机械封套由固定Git/SHA保留；本次重组进真实runbook步骤，未修改测试catalog状态、历史JSON、产品、旧测试或coverage，也不宣布runtime/E2E/视觉通过。
