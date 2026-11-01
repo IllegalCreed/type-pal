@@ -1,5 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import { type GameLanguage, getLanguage, useFallbackLanguage } from '../localization/language.js'
+import { ENGLISH_MAP_NAMES } from '../localization/map-names-en.js'
 import { getMapName, hasMapName } from './map-names.js'
 
 let previousLanguage: GameLanguage
@@ -50,4 +51,15 @@ describe('map-names', () => {
     useFallbackLanguage('en')
     expect(maps.map(hasMapName)).toEqual([true, true, true, false, false])
   })
+})
+
+it('English text covers every authored map identity and switching back restores Chinese', () => {
+  useFallbackLanguage('en')
+  // Enumerate the public WORD domain; hasMapName is the authored membership boundary.
+  for (let mapId = 0; mapId <= 0xffff; mapId++) {
+    if (hasMapName(mapId)) expect(ENGLISH_MAP_NAMES[mapId]).toMatch(/^[\x20-\x7e]+$/)
+  }
+  useFallbackLanguage('zh-CN')
+  expect(getMapName(119)).toBe('仙灵岛桃花林')
+  expect(getMapName(9999)).toBe('地图9999')
 })

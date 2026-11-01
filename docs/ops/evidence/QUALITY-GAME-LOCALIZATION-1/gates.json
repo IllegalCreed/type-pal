@@ -1,0 +1,77 @@
+{
+  "complete": true,
+  "required": [
+    "directed-final",
+    "extraction-adjacent",
+    "typecheck",
+    "shared-typecheck",
+    "coverage-ratchet-recount",
+    "protected-fast",
+    "full-check-recovered",
+    "final-lint",
+    "final-docs",
+    "final-ledger",
+    "final-diff"
+  ],
+  "controls": [
+    {
+      "path": "scripts/coverage/run.mjs",
+      "sha256": "87c5e8049444e8d5b6195b5d01ced2061420f04ed9a572a7e8f80f9b67a29d45"
+    },
+    {
+      "path": "scripts/coverage/config.mjs",
+      "sha256": "decb63dda5d12a2269bef1dd75c3d1eb4efca071887c759deca8e9b06ef17a25"
+    },
+    {
+      "path": "scripts/coverage/approved-baseline-adjustments.mjs",
+      "sha256": "b2a7752fc2111739503b6f5d5139e8f0ffc8449883c918b7e069ea3b6c479418"
+    },
+    {
+      "path": "scripts/coverage/approved-test-retirements.mjs",
+      "sha256": "ec8d92abb3152354838483193b34eac3408498e227aed83b1952097df390b18d"
+    },
+    {
+      "path": "scripts/coverage/approved-test-retirements.test.mjs",
+      "sha256": "96a13e302c251f172b449c9bd122288785a21f1dc9bff4a2c26893eb291207a4"
+    },
+    {
+      "path": "scripts/coverage/baseline.fast.json",
+      "sha256": "4664eb6399814bd52cc63506a250d0c697edc4b38fa8d018666e57449bcf4011"
+    }
+  ],
+  "tests": {
+    "directedAdjacent": 168,
+    "fullPackages": 20554,
+    "officialFast": 20205
+  },
+  "failures": [
+    "official-coverage:clamshell sleep667s,2CLI timeouts; subsequent unchanged23CLI pass",
+    "official-coverage-recovered:20205passed; strict ratio comparison rejected new test-fixture denominator",
+    "full-check:stopped in tools at95vs94 census; exact count updated, full-check-recovered passes",
+    "verify-preflight:correctly refuses incomplete gates"
+  ],
+  "coverage": {
+    "completeCollections": 1,
+    "interruptedCollections": 1,
+    "retirement": "messages13to3 is transfer,13old identities all mapped",
+    "adjustment": "new fixture accounts for whole aggregate delta; only3game floors adjusted, function/sixotherpackages untouched",
+    "ratchet": "same collected report, official unchanged guard/tail/writer",
+    "protected": "same report, explicit fetched base4f318eb9864eed65021c75bee6ae43286ffea07f",
+    "environment": "VITEST_MAX_WORKERS=2; command-lifetime caffeinate-i for recovery/check; no settings/timeout/selection changes"
+  },
+  "ledger": {
+    "tracked": 3466,
+    "closed": 846,
+    "review": 0,
+    "pending": 2620
+  },
+  "publication": "Not yet performed at local receipt creation; authorized same governance branch PR after zero diagnostics.",
+  "diagnostics": {
+    "error": 0,
+    "warning": 0,
+    "info": 0,
+    "runtimeStderrBlocks": 0,
+    "method": "Complete raw stdout/stderr retained. Literal diagnostic headings and runtime stderr blocks checked; expectedCLI/Save/dev log stdout is not suppressed. No failed run relabelled pass."
+  },
+  "timeEvidence": "2026-11-01 JST scope; native Vitest clocks and official generatedAt retained. Early runner records cwd/argv/exit and elapsed time, not separate UTCstart/end; missing timestamps are not reconstructed."
+}

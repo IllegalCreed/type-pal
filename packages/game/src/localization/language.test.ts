@@ -7,15 +7,17 @@ import {
   subscribeLanguage,
   useFallbackLanguage,
 } from './language.js'
+import { isolateLanguagePreference } from './language.test-fixtures.js'
 
+let restoreLanguage: () => void
 beforeEach(() => {
+  restoreLanguage = isolateLanguagePreference()
   localStorage.removeItem('tp-language')
   initializeLanguage()
 })
 afterEach(() => {
   vi.restoreAllMocks()
-  localStorage.removeItem('tp-language')
-  initializeLanguage()
+  restoreLanguage()
 })
 
 it('uses Chinese for missing or unknown preferences and restores a persisted English choice', () => {

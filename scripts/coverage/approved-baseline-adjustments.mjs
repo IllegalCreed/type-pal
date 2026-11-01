@@ -5,6 +5,139 @@ import { aggregateMetrics, normalizeMetrics } from './metrics.mjs'
 // source bytes. These are finite migrations, never a percentage tolerance or flag.
 const approvedAdjustments = [
   {
+    id: 'language-test-ownership-20261101',
+    authority:
+      'User2026-11-01 authorizes responsibility-based pending-module quality work, reusable fixtures and standing exact baseline adjustment for justified restructuring. All seven product executable ASTs unchanged. New language.test-fixtures.ts alone adds10/12 statements,3/5 branches,2/2 functions,8/10 lines under unchanged selection. Rebase only game statement/branch/line floors; function floor and all six other packages unchanged. No ignored source, weakened test or runner/predicate change.',
+    evidence: 'docs/ops/evidence/QUALITY-GAME-LOCALIZATION-1/coverage-recount.json',
+    baselineSha256: '008796b4ad32174df536cdcac9f868018e2c8b05c5cf4bd082969fb2e8c07977',
+    sources: [
+      {
+        path: 'packages/shared/src/localization.ts',
+        sha256: '70560f236b3fdc2162b6f843e237f577cf81350c50b9ada26d8a68bc9fc307a1',
+      },
+      {
+        path: 'packages/game/src/assets/language-pack.ts',
+        sha256: '90823c2c79881f5783c04d2bd070d1f6837a43685814ea6b6123a927b342fca4',
+      },
+      {
+        path: 'packages/game/src/localization/language.ts',
+        sha256: '797951a38e183da545893402316581d6372b962d2091a433cb38d2f11ebc5853',
+      },
+      {
+        path: 'packages/game/src/localization/layout.ts',
+        sha256: '4cc6b0ca5041452fa4f192325129ffc88a8609dd4980a7c08f7de085aa60c0eb',
+      },
+      {
+        path: 'packages/game/src/localization/static-shell.ts',
+        sha256: 'f1ce70512971b2f042a6630136193c13324ba590baee16c68da5b886283a34f5',
+      },
+      {
+        path: 'packages/game/src/localization/messages.ts',
+        sha256: '4b45a14ce88e46221510a5f36fa2be8b4257e8a34ea08f8ef54515ea0a312035',
+      },
+      {
+        path: 'packages/game/src/present/menu/draw-description.ts',
+        sha256: '4d06005cabcd67c300540c62898453022fcaafacd00256a99bdb6a6f055fb485',
+      },
+      {
+        path: 'packages/game/src/assets/language-pack.test.ts',
+        sha256: 'd8097a8e21204fd3d60f306d09373c3a6bf5adc46aa7e0aa6bf8411baf5e4a28',
+      },
+      {
+        path: 'packages/game/src/localization/language.test.ts',
+        sha256: 'b31055140c11ca9c4c31eeeee62cc34dccda108e8e56b785b059b1e4278bf902',
+      },
+      {
+        path: 'packages/game/src/localization/messages.test.ts',
+        sha256: 'af746d9dac5ec1eaaf2ec209ac287c5791a45857159a6792da621007af5cfde7',
+      },
+      {
+        path: 'packages/game/src/localization/dialog-playback.test.ts',
+        sha256: 'c4d74ac10e90b831cdb2a0db7610743a0053d1b0280d9a41c921c8fc47656d3e',
+      },
+      {
+        path: 'packages/game/src/localization/dialog-wrap.test.ts',
+        sha256: '9db01d4c3617c4ec19734473e4a58b2588f2f5a28eef0565a8e41cf964b756d5',
+      },
+      {
+        path: 'packages/game/src/localization/layout.test.ts',
+        sha256: 'e9aa232f0dce57eeb413c986425f3d95152124ceaa9885b5c967095abbd6d8be',
+      },
+      {
+        path: 'packages/game/src/localization/static-shell.test.ts',
+        sha256: 'b92638e8abd5d22d766c968ddcfd9aec1bc30de813b812fa85c14352199cb656',
+      },
+      {
+        path: 'packages/game/src/present/menu/draw-description.test.ts',
+        sha256: '1cef158e914aeb9084874d315ddfb00c1dfb21eac7f4f38d25be190e0c130429',
+      },
+      {
+        path: 'packages/game/src/present/menu/draw-equip.localization.test.ts',
+        sha256: 'd65596ba9ee30424e76a08640d4340ece6237dc3d5595a1220c7c6c94fe5cecd',
+      },
+      {
+        path: 'packages/game/src/core/battle/battle-steal-localization.test.ts',
+        sha256: '3c5c74f9a0dd305718bbd6d8d63becdd5cd5e1bc3edbf5b8bf42ffc322f13001',
+      },
+      {
+        path: 'packages/game/src/analytics/analytics-consent-ui.localization.test.ts',
+        sha256: '10a7d0db808ee9d41978e5b563c7c4b0803c3e8d33ba80e944f6192402fcba21',
+      },
+      {
+        path: 'packages/game/src/core/word-lookup.test.ts',
+        sha256: '70bb019a54faeb3f7877625720af88884f89dd4fe3b41cb14ad67472f754c297',
+      },
+      {
+        path: 'packages/game/src/tools/map-names.test.ts',
+        sha256: '0de52836a80703235203f37fc3a3e713f75ab07d0811e7a4ddced631cad0ed0a',
+      },
+      {
+        path: 'packages/game/src/localization/language.test-fixtures.ts',
+        sha256: '20e25a22279b06b6be0bf30062d62e00781169830dc59796de99af8fb671e1f8',
+      },
+    ],
+    packages: {
+      game: {
+        before: {
+          statements: {
+            covered: 15516,
+            total: 17173,
+          },
+          branches: {
+            covered: 9951,
+            total: 12263,
+          },
+          functions: {
+            covered: 1888,
+            total: 2168,
+          },
+          lines: {
+            covered: 13843,
+            total: 15065,
+          },
+        },
+        after: {
+          statements: {
+            covered: 15526,
+            total: 17185,
+          },
+          branches: {
+            covered: 9954,
+            total: 12268,
+          },
+          functions: {
+            covered: 1888,
+            total: 2168,
+          },
+          lines: {
+            covered: 13851,
+            total: 15075,
+          },
+        },
+      },
+    },
+  },
+  {
     id: 'responsibility-test-organization-20261031',
     authority:
       'User2026-10-29/31 authorizes responsibility-based restructuring, precise deduplication, approved migration/input repairs and justified exact baseline adjustments instead of restoring dead code or adding weak tests. One official20199-test collection:10 per-source metric deltas are fully attributed. Recount only game statements to15493/17150 and branch denominator12233->12248 while retaining old9927 covered floor; the actual10 covered-branch gain remains for ratcheting. New/shared fixtures and approved own-key guard add finite denominator; dead magic arguments remove two statements. Existing selection counts these fixture modules; no new exclusion. All other game floors and all six other package floors are unchanged, including migration whose ratio improves after authorized removals/guards. Eleven exact file-count snapshots primarily represent responsibility transfers, not blanket case retirement. First draft over-rebased improved migration floors and was correctly rejected before writing baseline; this revision narrows adjustment to the two necessary game floors. Runner/comparator/predicate/selection and zero-diagnostic rules unchanged.',

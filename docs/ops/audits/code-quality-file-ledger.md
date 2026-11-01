@@ -361,8 +361,10 @@ Template: governance-index-v1 / 1.0.0
 
 2026-10-27 输入与南诏出口窗口：新增7个tracked实现/测试路径，仅增加pending库存；597closed/0review保持，当前3469/597/0/2872。输入14文件与出口21文件按实际差异及贡献者A–H有限接收；已关闭的资源类型、装载与工具设置文件仅核本次增量，历史整文件结论不扩张为新版本全审。输入方向/偏好和旧档独立出口分别见[输入回执](../evidence/GAME-INPUT-ROTATION-1/review.json)、[出口回执](../evidence/GAME-NANZHAO-ROOM-EXIT-1/review.json)；统一静态门另记，不增加整文件关闭数。
 
-起始基点机器清单：2,962。当前 tracked 清单：3,459。
-当前已闭合核验：827；已读但待审：0；尚未逐文件核验：2,632；合计未闭合：2,632。
+2026-11-01语言资源与展示模块：12原pending按四片核验，2混装测试退役为语义去向，形成19新关闭当前路径；2旧closed消费者补核不重复计数。54旧身份全部有去向、10新增合同，description no-op旧绿新单红；全check与官方20205完成，同报告精确fixture重算及protected通过。初次合盖超时、严格比例拦截和快照计数漏同步均保留。下一候选为SLF/语言包生产端，须核Owner；其它2620pending不继承信用。见[统一证据](../evidence/QUALITY-GAME-LOCALIZATION-1/README.md)。
+
+起始基点机器清单：2,962。当前 tracked 清单：3,466。
+当前已闭合核验：846；已读但待审：0；尚未逐文件核验：2,620；合计未闭合：2,620。
 
 2026-10-18 审计簿记六项按同SHA字节/实际caller修正，另纠正两EOF界；55只后补当前读边界，未找回当时原件，无新增closed或产品/测试改动。见[簿记返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/audit-metadata-repair/README.md)。
 
@@ -410,6 +412,27 @@ Template: governance-index-v1 / 1.0.0
 
 | 文件 | 类别 | 状态 | 证据 / 验证 | 备注 |
 |---|---|---|---|---|
+| `packages/game/src/analytics/analytics-consent-ui.localization.test.ts` | test | 已验证 | [语言资源与展示八维/身份/反控](../evidence/QUALITY-GAME-LOCALIZATION-1/README.md) | 逐文件A–H与职责组织接受；54旧身份映射/10新合同，旧绿新单红；168相邻、全check、官方20205及同报告ratchet/protected0诊断；七产品执行AST不变。 |
+| `packages/game/src/assets/language-pack.test.ts` | test | 已验证 | [语言资源与展示八维/身份/反控](../evidence/QUALITY-GAME-LOCALIZATION-1/README.md) | 逐文件A–H与职责组织接受；54旧身份映射/10新合同，旧绿新单红；168相邻、全check、官方20205及同报告ratchet/protected0诊断；七产品执行AST不变。 |
+| `packages/game/src/assets/language-pack.ts` | product | 已验证 | [语言资源与展示八维/身份/反控](../evidence/QUALITY-GAME-LOCALIZATION-1/README.md) | 逐文件A–H与职责组织接受；54旧身份映射/10新合同，旧绿新单红；168相邻、全check、官方20205及同报告ratchet/protected0诊断；七产品执行AST不变。 |
+| `packages/game/src/core/battle/battle-steal-localization.test.ts` | test | 已验证 | [语言资源与展示八维/身份/反控](../evidence/QUALITY-GAME-LOCALIZATION-1/README.md) | 逐文件A–H与职责组织接受；54旧身份映射/10新合同，旧绿新单红；168相邻、全check、官方20205及同报告ratchet/protected0诊断；七产品执行AST不变。 |
+| `packages/game/src/core/word-lookup.test.ts` | test | 已验证 | [语言资源与展示八维/身份/反控](../evidence/QUALITY-GAME-LOCALIZATION-1/README.md) | 逐文件A–H与职责组织接受；54旧身份映射/10新合同，旧绿新单红；168相邻、全check、官方20205及同报告ratchet/protected0诊断；七产品执行AST不变。 |
+| `packages/game/src/localization/dialog-playback.test.ts` | test | 已验证 | [语言资源与展示八维/身份/反控](../evidence/QUALITY-GAME-LOCALIZATION-1/README.md) | 逐文件A–H与职责组织接受；54旧身份映射/10新合同，旧绿新单红；168相邻、全check、官方20205及同报告ratchet/protected0诊断；七产品执行AST不变。 |
+| `packages/game/src/localization/dialog-wrap.test.ts` | test | 已验证 | [语言资源与展示八维/身份/反控](../evidence/QUALITY-GAME-LOCALIZATION-1/README.md) | 逐文件A–H与职责组织接受；54旧身份映射/10新合同，旧绿新单红；168相邻、全check、官方20205及同报告ratchet/protected0诊断；七产品执行AST不变。 |
+| `packages/game/src/localization/language.test-fixtures.ts` | fixture | 已验证 | [语言资源与展示八维/身份/反控](../evidence/QUALITY-GAME-LOCALIZATION-1/README.md) | 逐文件A–H与职责组织接受；54旧身份映射/10新合同，旧绿新单红；168相邻、全check、官方20205及同报告ratchet/protected0诊断；七产品执行AST不变。 |
+| `packages/game/src/localization/language.test.ts` | test | 已验证 | [语言资源与展示八维/身份/反控](../evidence/QUALITY-GAME-LOCALIZATION-1/README.md) | 逐文件A–H与职责组织接受；54旧身份映射/10新合同，旧绿新单红；168相邻、全check、官方20205及同报告ratchet/protected0诊断；七产品执行AST不变。 |
+| `packages/game/src/localization/language.ts` | product | 已验证 | [语言资源与展示八维/身份/反控](../evidence/QUALITY-GAME-LOCALIZATION-1/README.md) | 逐文件A–H与职责组织接受；54旧身份映射/10新合同，旧绿新单红；168相邻、全check、官方20205及同报告ratchet/protected0诊断；七产品执行AST不变。 |
+| `packages/game/src/localization/layout.test.ts` | test | 已验证 | [语言资源与展示八维/身份/反控](../evidence/QUALITY-GAME-LOCALIZATION-1/README.md) | 逐文件A–H与职责组织接受；54旧身份映射/10新合同，旧绿新单红；168相邻、全check、官方20205及同报告ratchet/protected0诊断；七产品执行AST不变。 |
+| `packages/game/src/localization/layout.ts` | product | 已验证 | [语言资源与展示八维/身份/反控](../evidence/QUALITY-GAME-LOCALIZATION-1/README.md) | 逐文件A–H与职责组织接受；54旧身份映射/10新合同，旧绿新单红；168相邻、全check、官方20205及同报告ratchet/protected0诊断；七产品执行AST不变。 |
+| `packages/game/src/localization/messages.test.ts` | test | 已验证 | [语言资源与展示八维/身份/反控](../evidence/QUALITY-GAME-LOCALIZATION-1/README.md) | 逐文件A–H与职责组织接受；54旧身份映射/10新合同，旧绿新单红；168相邻、全check、官方20205及同报告ratchet/protected0诊断；七产品执行AST不变。 |
+| `packages/game/src/localization/messages.ts` | product | 已验证 | [语言资源与展示八维/身份/反控](../evidence/QUALITY-GAME-LOCALIZATION-1/README.md) | 逐文件A–H与职责组织接受；54旧身份映射/10新合同，旧绿新单红；168相邻、全check、官方20205及同报告ratchet/protected0诊断；七产品执行AST不变。 |
+| `packages/game/src/localization/static-shell.test.ts` | test | 已验证 | [语言资源与展示八维/身份/反控](../evidence/QUALITY-GAME-LOCALIZATION-1/README.md) | 逐文件A–H与职责组织接受；54旧身份映射/10新合同，旧绿新单红；168相邻、全check、官方20205及同报告ratchet/protected0诊断；七产品执行AST不变。 |
+| `packages/game/src/localization/static-shell.ts` | product | 已验证 | [语言资源与展示八维/身份/反控](../evidence/QUALITY-GAME-LOCALIZATION-1/README.md) | 逐文件A–H与职责组织接受；54旧身份映射/10新合同，旧绿新单红；168相邻、全check、官方20205及同报告ratchet/protected0诊断；七产品执行AST不变。 |
+| `packages/game/src/present/menu/draw-description.test.ts` | test | 已验证 | [语言资源与展示八维/身份/反控](../evidence/QUALITY-GAME-LOCALIZATION-1/README.md) | 逐文件A–H与职责组织接受；54旧身份映射/10新合同，旧绿新单红；168相邻、全check、官方20205及同报告ratchet/protected0诊断；七产品执行AST不变。 |
+| `packages/game/src/present/menu/draw-description.ts` | product | 已验证 | [语言资源与展示八维/身份/反控](../evidence/QUALITY-GAME-LOCALIZATION-1/README.md) | 逐文件A–H与职责组织接受；54旧身份映射/10新合同，旧绿新单红；168相邻、全check、官方20205及同报告ratchet/protected0诊断；七产品执行AST不变。 |
+| `packages/game/src/present/menu/draw-equip.localization.test.ts` | test | 已验证 | [语言资源与展示八维/身份/反控](../evidence/QUALITY-GAME-LOCALIZATION-1/README.md) | 逐文件A–H与职责组织接受；54旧身份映射/10新合同，旧绿新单红；168相邻、全check、官方20205及同报告ratchet/protected0诊断；七产品执行AST不变。 |
+| `packages/game/src/tools/map-names.test.ts` | test | 已验证 | [语言资源与展示八维/身份/反控](../evidence/QUALITY-GAME-LOCALIZATION-1/README.md) | 逐文件A–H与职责组织接受；54旧身份映射/10新合同，旧绿新单红；168相邻、全check、官方20205及同报告ratchet/protected0诊断；七产品执行AST不变。 |
+| `packages/shared/src/localization.ts` | product | 已验证 | [语言资源与展示八维/身份/反控](../evidence/QUALITY-GAME-LOCALIZATION-1/README.md) | 逐文件A–H与职责组织接受；54旧身份映射/10新合同，旧绿新单红；168相邻、全check、官方20205及同报告ratchet/protected0诊断；七产品执行AST不变。 |
 | `packages/game/src/core/battle-world-opcodes.test.ts` | test | 已验证 | [Five-file A-H and identities](../evidence/QUALITY-NAMING-ORGANIZATION-1/remaining-five/README.md) | A-H and responsibility mapping accepted;177 survivors/4 proven subsumed,950 adjacent; consolidated20,544/fast20,195/protected and repaired static gates0. No product change. |
 | `packages/game/src/core/battle/battle-opcode.test-fixtures.ts` | fixture | 已验证 | [Five-file A-H and identities](../evidence/QUALITY-NAMING-ORGANIZATION-1/remaining-five/README.md) | A-H and responsibility mapping accepted;177 survivors/4 proven subsumed,950 adjacent; consolidated20,544/fast20,195/protected and repaired static gates0. No product change. |
 | `packages/game/src/core/battle/battle-opcodes.control.test.ts` | test | 已验证 | [Five-file A-H and identities](../evidence/QUALITY-NAMING-ORGANIZATION-1/remaining-five/README.md) | A-H and responsibility mapping accepted;177 survivors/4 proven subsumed,950 adjacent; consolidated20,544/fast20,195/protected and repaired static gates0. No product change. |
@@ -726,7 +749,6 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/core/scene.test-fixtures.ts` | fixture | 已验证 | [3n／3q／3r代码验收八维与原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-scene-event-closeout/README.md) | 原范围逐文件八维与当前输入/具体设计裁定接受；获准清两脚本字段/未用bus，保留GS真实脚本及目录；107身份及既有合同迁移/反控复用；509联合相邻/69Node、TC/lint0；代码accept，最终统一门待全部pre94 |
 | `packages/game/src/core/script-catalog.ts` | product | 已验证 | [3n／3q／3r代码验收八维与原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-scene-event-closeout/README.md) | 原范围逐文件八维与当前输入/具体设计裁定接受；原全文与当前变化/调用/owner已核；具体JS或批准边界保持，单例依赖/清理按当前域；509联合相邻/69Node、TC/lint0；代码accept，最终统一门待全部pre94 |
 | `packages/game/src/core/script-opcode-ids.ts` | product | 已验证 | [CODE56逐文件八维与绑定证明](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/minimap-closeout/README.md) | 原scope及内部纯叶明确代码接受；22直接/32相邻、330核心与TC；旧九反控复用、新成功缓存业务单红，身份保持；全仓/coverage/PR待全部pre94 |
-| `packages/game/src/core/word-lookup.test.ts` | test | 已验证 | [3n／3q／3r代码验收八维与原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-scene-event-closeout/README.md) | 原范围逐文件八维与当前输入/具体设计裁定接受；原全文与当前变化/调用/owner已核；具体JS或批准边界保持，单例依赖/清理按当前域；509联合相邻/69Node、TC/lint0；代码accept，最终统一门待全部pre94 |
 | `packages/game/src/core/word-lookup.ts` | product | 已验证 | [3n／3q／3r代码验收八维与原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-scene-event-closeout/README.md) | 原范围逐文件八维与当前输入/具体设计裁定接受；原全文与当前变化/调用/owner已核；具体JS或批准边界保持，单例依赖/清理按当前域；509联合相邻/69Node、TC/lint0；代码accept，最终统一门待全部pre94 |
 | `packages/game/src/dev/dev-indexed-image.test.ts` | test | 已验证 | [Dev逐文件八维](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/dev-panel-quality/README.md) | 完整Palette与真实Canvas；2x2独立16RGBA字面oracle，完全不透明变异单AssertionError，复原绿 |
 | `packages/game/src/dev/dev-indexed-image.ts` | product | 已验证 | [Dev逐文件八维](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/dev-panel-quality/README.md) | 实际共享的索引色/alpha到Canvas适配；完整原函数/类型同，三个真实caller，RGBA字面oracle |
@@ -950,7 +972,6 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/tools/display-scale.ts` | product | 已验证 | [CODE3j逐文件与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-tools-quality/README.md) | 逐文件A–H、真实caller/oracle、有效反控与集中零诊断门成立；上窗文件接受保留，整卡状态见最新局部校准；不外推路线或广域 |
 | `packages/game/src/tools/fps-overlay.test.ts` | test | 已验证 | [Display scale/FPS responsibilities and identity](../evidence/QUALITY-PENDING-100-3/organization-tools-display.json) | F/G accepted;22identities retained;module-scoped preference/DOM/fullscreen cleanup.34neighbors/TC0;unifiedheavygates pending,0newclosed. 2026-10-31：逐文件代码信用与[集中门收尾](../evidence/QUALITY-PENDING-100-3/local-closeout.json)按精确版本接收；保留上文历史运行边界，不外推相邻文件。 |
 | `packages/game/src/tools/fps-overlay.ts` | product | 已验证 | [CODE3j逐文件与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-tools-quality/README.md) | 逐文件A–H、真实caller/oracle、有效反控与集中零诊断门成立；上窗文件接受保留，整卡状态见最新局部校准；不外推路线或广域 |
-| `packages/game/src/tools/map-names.test.ts` | test | 已验证 | [CODE3j逐文件与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-tools-quality/README.md) | 逐文件A–H、真实caller/oracle、有效反控与集中零诊断门成立；上窗文件接受保留，整卡状态见最新局部校准；不外推路线或广域 |
 | `packages/game/src/tools/map-names.ts` | product | 已验证 | [CODE3j逐文件与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-tools-quality/README.md) | 逐文件A–H、真实caller/oracle、有效反控与集中零诊断门成立；上窗文件接受保留，整卡状态见最新局部校准；不外推路线或广域 |
 | `packages/game/src/tools/minimap-draw.ts` | product | 已验证 | [CODE56逐文件八维与绑定证明](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/minimap-closeout/README.md) | 原scope及内部纯叶明确代码接受；22直接/32相邻、330核心与TC；旧九反控复用、新成功缓存业务单红，身份保持；全仓/coverage/PR待全部pre94 |
 | `packages/game/src/tools/minimap-model.ts` | product | 已验证 | [CODE56逐文件八维与绑定证明](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/minimap-closeout/README.md) | 原scope及内部纯叶明确代码接受；22直接/32相邻、330核心与TC；旧九反控复用、新成功缓存业务单红，身份保持；全仓/coverage/PR待全部pre94 |
@@ -1195,10 +1216,10 @@ Template: governance-index-v1 / 1.0.0
 | `packages/shared/src/yj2.boundaries.test.ts` | test | 已验证 | [CODE2/2b当前逐文件八维与全门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/shared-codecs/evidence.json) | 有效native/反控复用、归约独立单红及必要精简成立；不扩展RLE/任意外部输入安全或广域caller |
 | `packages/shared/src/yj2.ts` | product | 已验证 | [CODE2/2b当前逐文件八维与全门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/shared-codecs/evidence.json) | 有效native/反控复用、归约独立单红及必要精简成立；不扩展RLE/任意外部输入安全或广域caller |
 | `packages/shared/tsconfig.json` | product | 已验证 | shared typecheck；编译边界 | 无产品行为 |
-| `scripts/coverage/approved-baseline-adjustments.mjs` | tool | 已验证 | [52工具八维与原件](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/tools-reviewed.json) | 实际caller/完整算法与有限表复核；新调度两红后修，规则/数据未放宽；统一门另核 |
+| `scripts/coverage/approved-baseline-adjustments.mjs` | tool | 已验证 | [52工具八维与原件](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/tools-reviewed.json) | 实际caller/完整算法与有限表复核；新调度两红后修，规则/数据未放宽；统一门另核；2026-11-01仅核[语言模块精确数据增量](../evidence/QUALITY-GAME-LOCALIZATION-1/coverage-recount.json)，不新增整文件信用 |
 | `scripts/coverage/approved-baseline-adjustments.test.mjs` | test | 已验证 | [52工具八维与原件](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/tools-reviewed.json) | 实际caller/完整算法与有限表复核；新调度两红后修，规则/数据未放宽；统一门另核 |
-| `scripts/coverage/approved-test-retirements.mjs` | tool | 已验证 | [52工具八维与原件](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/tools-reviewed.json) | 实际caller/完整算法与有限表复核；新调度两红后修，规则/数据未放宽；统一门另核 |
-| `scripts/coverage/approved-test-retirements.test.mjs` | test | 已验证 | [52工具八维与原件](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/tools-reviewed.json) | 实际caller/完整算法与有限表复核；新调度两红后修，规则/数据未放宽；统一门另核 |
+| `scripts/coverage/approved-test-retirements.mjs` | tool | 已验证 | [52工具八维与原件](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/tools-reviewed.json) | 实际caller/完整算法与有限表复核；新调度两红后修，规则/数据未放宽；统一门另核；2026-11-01仅核[语言模块精确数据增量](../evidence/QUALITY-GAME-LOCALIZATION-1/coverage-recount.json)，不新增整文件信用 |
+| `scripts/coverage/approved-test-retirements.test.mjs` | test | 已验证 | [52工具八维与原件](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/tools-reviewed.json) | 实际caller/完整算法与有限表复核；新调度两红后修，规则/数据未放宽；统一门另核；2026-11-01仅核[语言模块精确数据增量](../evidence/QUALITY-GAME-LOCALIZATION-1/coverage-recount.json)，不新增整文件信用 |
 | `scripts/coverage/config.mjs` | tool | 已验证 | [实际fast/full文件计划与A–H](../evidence/QUALITY-PENDING-100-3/organization-extract-scene-sprite.json) | 仅去已删除旧产物测试路径的精确项，已有.pal规则保持分流；五config测试/实际计划通过，统一门待。 2026-10-31：逐文件代码信用与[集中门收尾](../evidence/QUALITY-PENDING-100-3/local-closeout.json)按精确版本接收；保留上文历史运行边界，不外推相邻文件。 |
 | `scripts/coverage/config.test.mjs` | test | 已验证 | [本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json) | 既有关闭经当前153主体复核；具体caller/oracle/结构取舍及未修相邻风险逐项记录，不重复增加closed；统一门另核。 |
 | `scripts/coverage/environment.mjs` | tool | 已验证 | compile-cache disabled child environment contract | 保留无关环境 |
@@ -1324,6 +1345,8 @@ live机器字段属于持续维护输入，历史原文属于不可升格的出�
 Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把“所在包全绿”推成文件已审。
 
 2026-10-27 输入与南诏出口窗口：新增7个tracked实现/测试路径，仅增加pending库存；597closed/0review保持，当前3469/597/0/2872。输入14文件与出口21文件按实际差异及贡献者A–H有限接收；已关闭的资源类型、装载与工具设置文件仅核本次增量，历史整文件结论不扩张为新版本全审。输入方向/偏好和旧档独立出口分别见[输入回执](../evidence/GAME-INPUT-ROTATION-1/review.json)、[出口回执](../evidence/GAME-NANZHAO-ROOM-EXIT-1/review.json)；统一静态门另记，不增加整文件关闭数。
+
+2026-11-01语言资源与展示模块：12原pending按四片核验，2混装测试退役为语义去向，形成19新关闭当前路径；2旧closed消费者补核不重复计数。54旧身份全部有去向、10新增合同，description no-op旧绿新单红；全check与官方20205完成，同报告精确fixture重算及protected通过。初次合盖超时、严格比例拦截和快照计数漏同步均保留。下一候选为SLF/语言包生产端，须核Owner；其它2620pending不继承信用。见[统一证据](../evidence/QUALITY-GAME-LOCALIZATION-1/README.md)。
 
 起始基点机器清单：2,962。当前 tracked 清单（含预览、RNG 回归及第一阶段音乐音源）：3463。
 当前已闭合核验：796；已读但待审：0；尚未逐文件核验：2667；合计未闭合：2667。
