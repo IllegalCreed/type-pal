@@ -36,7 +36,6 @@ Template: governance-index-v1 / 1.0.0
 | DOCS-NATIVE-VITEST-269-1 | [269篇原生Vitest语义接入](tasks/DOCS-NATIVE-VITEST-269-1.md) | review | Codex / 269发布与夹具已独立接受 | 新增269文档迁移，严格实减538项；不授旧执行信用 |
 | DOCS-REGISTRY-SPLIT-1 | [文档 registry 存储拆分](tasks/DOCS-REGISTRY-SPLIT-1.md) | build | registry_storage_author / 隔离实现；root独立验收 | 2.0.2设计非作者限定接受；新增登记缺口显式保留 |
 | DOCS-CATALOG-SPLIT-1 | [phase/lore catalog 分片](tasks/DOCS-CATALOG-SPLIT-1.md) | rework | Codex / 非作者复核待补 | 实现保留；自验冒称独立与过早done撤回 |
-| QUALITY-NAMING-ORGANIZATION-1 | [Naming and organization](tasks/QUALITY-NAMING-ORGANIZATION-1.md) | review | Codex / goal174 of174 locally accepted | Fixed178 F/G supplemented;317 current paths accepted by per-file evidence. Check20548/single fast20199/protected/docs/lint zero diagnostics; PR publication pending. Five auxiliary cov85 F/G remain review. |
 | GAME-INPUT-KEYMAP-OWN-KEY-1 | [键位查表自有字段](tasks/GAME-INPUT-KEYMAP-OWN-KEY-1.md) | review | Codex / 用户已批、2红2绿，等统一门 | 仅拒绝未定义继承名称，34旧键结果保留；普通实体键盘可达性未证。 |
 | QUALITY-PENDING-100-3 | [第三治理窗口](tasks/QUALITY-PENDING-100-3.md) | review | Codex / 原29主体完成 | 重组当前25主体，辅助另列；统一本地门零诊断，行为修复与重组分提交，等待同分支PR发布。 |
 | QUALITY-MIGRATION-MERGE-OWN-JSON-1 | [三方合并 JSON 字段所有权](tasks/QUALITY-MIGRATION-MERGE-OWN-JSON-1.md) | review | Codex / 用户已批，正式5红后修，统一门待 | own字段/安全data property与真实plan承接；37主测/215相邻、TC0，不触格式。 |

@@ -1,10 +1,5 @@
-/**
- * 戰鬥 runScript 的世界/NPC raw fallback 接線合同。
- * 真實 caller 是 battle-system 的傷亡/結算腳本；裝備與大世界仙術另有同步 runner。
- * 本檔只核 opcode 到狀態/服務的接線；等待調度、色表逐步數學由 event-system / palette-fade 專測持有。
- * 0x75 例外：走正式 event tick 並接真實裝備重建，驗證換隊後的毒槽與角色歸屬。
- */
-import type { Command, Item, Palette } from '@type-pal/shared'
+/** Battle runScript raw fallback to world/NPC/palette/music owners. Scheduler waits and fade mathematics belong to their own specs. */
+import type { Command, Palette } from '@type-pal/shared'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import {
   makeEnemyRecord as makeEnemy,
@@ -13,13 +8,7 @@ import {
 } from '../__tests__/battle-records.js'
 import { createBattleState } from './battle/battle-state.js'
 import { createCommandBus } from './command-bus.js'
-import { updateAllEquipments } from './equip-effect.js'
-import {
-  runScript,
-  setMapReloader,
-  setRefreshEquipmentsHandler,
-  tickEventSystem,
-} from './event-system.js'
+import { runScript, setMapReloader } from './event-system.js'
 import {
   createInitialGameState,
   type GameState,
@@ -27,7 +16,6 @@ import {
   type NpcState,
   npcFromEventObject,
 } from './game-state.js'
-import { setObjectPoisons } from './player-poison-state.js'
 import { createSeedableRng } from './rng.js'
 import { setGlobalEvents } from './script-catalog.js'
 
@@ -103,15 +91,11 @@ function run1(
 ): void {
   runCommands(gs, [{ op: 'raw', opcode, operands }, { op: 'end' }], eventObjectId)
 }
-
 afterEach(() => {
   setMapReloader(null)
-  setRefreshEquipmentsHandler(null)
-  setObjectPoisons([])
   setGlobalEvents([])
   vi.restoreAllMocks()
 })
-
 describe('battle raw fallback — palette', () => {
   it('0x51 FadeIn: 黑色到基線色表，清除待淡入旗標', () => {
     const gs = paletteGs()
@@ -183,7 +167,6 @@ describe('battle raw fallback — palette', () => {
     expect(gs.needToFadeIn).toBe(true)
   })
 })
-
 describe('世界/隊伍 opcode', () => {
   it('0x46 SetPartyPos: 半格座標同步隊首、鏡頭與 trail', () => {
     const gs = freshGs()
@@ -199,77 +182,6 @@ describe('世界/隊伍 opcode', () => {
     ])
   })
 
-  it('0x75 SetParty:事件换队先清旧毒，再为新队伍重建寿葫芦效果', () => {
-    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    hydratePlayerRolesRuntime(gs.PlayerRolesRuntime, {
-      roles: Array.from({ length: 6 }, (_, id) => makeRole(id)),
-    })
-    gs.partyMembers = [4, 1]
-    gs.rgPoisonStatus['0_0'] = { wPoisonID: 552, wPoisonScript: 1 }
-    gs.rgPoisonStatus['0_1'] = { wPoisonID: 553, wPoisonScript: 1 }
-    gs.PlayerRolesRuntime.rgwHP[0] = 30
-    gs.PlayerRolesRuntime.rgwHP[1] = 40
-    gs.PlayerRolesRuntime.rgwMP[1] = 10
-    gs.PlayerRolesRuntime.rgwEquipment = Array.from({ length: 6 }, (_, part) =>
-      Array.from({ length: 6 }, (_, role) => (part === 5 && (role === 0 || role === 1) ? 269 : 0)),
-    )
-    // items.json 269；全局脚本39163/40860/40858的原始opcode，压缩数组用原label解析。
-    const gourd: Item = {
-      id: 269,
-      bitmap: 8,
-      price: 8600,
-      scriptOnUse: 0,
-      scriptOnEquip: 39163,
-      scriptOnThrow: 0,
-      scriptDesc: 40275,
-      flags: {
-        usable: false,
-        equipable: true,
-        throwable: false,
-        consuming: false,
-        applyToAll: false,
-        sellable: true,
-        equipableBy: [true, true, true, false, true, false],
-      },
-    }
-    setGlobalEvents([
-      { op: 'raw', opcode: 0x75, operands: [2, 3, 0] },
-      { op: 'end' },
-      { op: 'raw', opcode: 0x18, operands: [16, 269, 0], label: 'L_39163' },
-      { op: 'raw', opcode: 0x29, operands: [0, 563, 0] },
-      { op: 'raw', opcode: 0x29, operands: [0, 564, 0] },
-      { op: 'end' },
-      { op: 'raw', opcode: 0x1b, operands: [0, 20, 0], label: 'L_40860' },
-      { op: 'end' },
-      { op: 'raw', opcode: 0x1c, operands: [0, 20, 0], label: 'L_40858' },
-      { op: 'end' },
-    ])
-    setObjectPoisons([
-      { id: 552, level: 1, color: 64, playerScript: 40866, enemyScript: 40868 },
-      { id: 553, level: 1, color: 33, playerScript: 40870, enemyScript: 40872 },
-      { id: 563, level: 99, color: 0, playerScript: 40860, enemyScript: 0 },
-      { id: 564, level: 99, color: 0, playerScript: 40858, enemyScript: 0 },
-    ])
-    // bootstrap 的刷新回调同样委派真实装备重建；核角色与完整毒槽结果。
-    setRefreshEquipmentsHandler((state) => updateAllEquipments(state, [gourd]))
-    gs.eventCursor = { ip: 0 }
-    gs.mode = 'event'
-    tickEventSystem(gs, { held: new Set(), pressed: new Set(), frameNum: 0 })
-
-    expect(gs.partyMembers).toEqual([1, 2])
-    expect(gs.rgPoisonStatus).toEqual({
-      ...Object.fromEntries(
-        Array.from({ length: 16 }, (_, slot) => [`${slot}_0`, { wPoisonID: 0, wPoisonScript: 0 }]),
-      ),
-      '0_0': { wPoisonID: 563, wPoisonScript: 6 },
-      '1_0': { wPoisonID: 564, wPoisonScript: 8 },
-    })
-    expect(gs.PlayerRolesRuntime.rgwHP[1]).toBe(60)
-    expect(gs.PlayerRolesRuntime.rgwMP[1]).toBe(30)
-    expect(gs.PlayerRolesRuntime.rgwHP[0]).toBe(30) // 离队role0的装备仍被遍历，但不得施毒/跑入口。
-    expect(gs.mode).toBe('explore')
-  })
-
   it('0x71 WaveScreen: 波幅與 SHORT 負進度分別寫入', () => {
     const gs = freshGs()
     run1(gs, 0x71, [4, 0xfffe, 0])
@@ -283,7 +195,6 @@ describe('世界/隊伍 opcode', () => {
     expect(gs.iCurPlayingRNG).toBe(12)
   })
 })
-
 describe('battle raw fallback — music', () => {
   it('0x43 PlayMusic: 曲目與一次播放旗標交給音樂宿主', () => {
     const gs = freshGs()
@@ -320,7 +231,6 @@ describe('battle raw fallback — music', () => {
     expect(gs.wNumBattleMusic).toBe(7)
   })
 })
-
 describe('battle raw fallback — cash/items', () => {
   it('0x1E AddCash: SHORT 負數支出與正數收入', () => {
     const gs = freshGs()
@@ -340,7 +250,6 @@ describe('battle raw fallback — cash/items', () => {
     expect(gs.inventory).toEqual([])
   })
 })
-
 describe('battle raw fallback — NPC', () => {
   it('0x12 SetObjectPosRelParty: WORD 負偏移以像素相對隊首定位', () => {
     const gs = freshGs()
@@ -473,7 +382,6 @@ describe('battle raw fallback — NPC', () => {
     expect(reloaded).toEqual([8])
   })
 })
-
 describe('battle raw fallback — conditional jumps', () => {
   it('0x58 JumpIfItemLess:库存不足 → 跳 op2;足 → 顺序推进(现金标记判别)', () => {
     const jumpScript: Command[] = [

@@ -7,6 +7,16 @@
 // Exact historical snapshots only; this is not a scope-removal switch.
 export const approvedTestRetirements = Object.freeze(
   [
+    // User2026-11-01: split message resolution from playback/wrap/steal consumers.
+    // All13 old identities preserved; proof.json maps54 across the whole module.
+    {
+      file: 'packages/game/src/localization/messages.test.ts',
+      previous: 13,
+      current: 3,
+      previousIdentityDigest: '6581703331d419e702965d11645e5f3ac17ecd71e2327eda1055e2978cda2e8d',
+      currentIdentityDigest: '93895cd84806d2cd89c63c550b41c602ff7ca8c5fe7d1f0d62c0420883358caa',
+      fileSha256: 'af746d9dac5ec1eaaf2ec209ac287c5791a45857159a6792da621007af5cfde7',
+    },
     // User2026-10-29/31: responsibility-based reorganization and exact approved deduplication.
     // Eleven current snapshots; most case-count changes are transfers, not retired contracts.
     // Full identity maps and superseded snapshots: QUALITY-PENDING-100-3/coverage-recount.json.

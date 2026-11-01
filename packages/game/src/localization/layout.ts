@@ -5,6 +5,7 @@ import { getLanguage } from './language.js'
 
 let englishLayout: PalLanguagePack['layout'] = {}
 
+/** Bootstrap lends the validated pack for this page lifetime; consumers only read its entries. */
 export function setEnglishLayout(layout: PalLanguagePack['layout']): void {
   englishLayout = layout
 }

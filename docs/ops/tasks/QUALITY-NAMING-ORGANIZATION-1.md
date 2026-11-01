@@ -1,7 +1,7 @@
 # QUALITY-NAMING-ORGANIZATION-1 — 命名与文件职责补审
 
-Status: review
-Last reviewed: 2026-10-30
+Status: done
+Last reviewed: 2026-11-01
 Owner: Codex
 Template: task-card-v1 / 1.0.0
 
@@ -11,7 +11,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 范围
 
-同一隔离治理树分支codex/code-quality-94-102、单一Coding Owner Codex、基点e94098f949452bc3bf8d028f21bdc0a4e400ea22，主工作树不动。第一步静态初筛：3470库存、795closed中178个路径带模型/贡献者标签（164测试、14夹具；shared4/extract29/game129/content10/reforge1/editor5）；全部646候选包含其它pending/review，不能将646或178称为完整复审数。原closed行和证据保存在[naming-review.json](../evidence/QUALITY-PENDING-100-3/naming-review.json)，仅命名/组织维度待补审转review，原证据仍受各自版本和范围约束；未证明178项产品缺陷，非标签名称也不自动合格。固定178cohort完成F/G补审，本goal从其余174起，最终174/174；按拆合后的实际路径接收317项，不能说成新增317份全文复审。
+同一隔离治理树分支codex/code-quality-94-102、单一Coding Owner Codex、基点e94098f949452bc3bf8d028f21bdc0a4e400ea22，主工作树不动。第一步静态初筛：3470库存、795closed中178个路径带模型/贡献者标签（164测试、14夹具；shared4/extract29/game129/content10/reforge1/editor5）；全部646候选包含其它pending/review，不能将646或178称为完整复审数。原closed行和证据保存在[naming-review.json](../evidence/QUALITY-PENDING-100-3/naming-review.json)，仅命名/组织维度待补审转review，原证据仍受各自版本和范围约束；未证明178项产品缺陷，非标签名称也不自动合格。固定178cohort完成F/G补审，本goal从其余174起，最终174/174；按拆合后的实际路径接收317项，不能说成新增317份全文复审。后继五个范围外review已按[独立窗口证据](../evidence/QUALITY-NAMING-ORGANIZATION-1/remaining-five/README.md)收口为14专测与3夹具；不把17输出追加成17个历史主体。
 
 ## 前提与证据
 
@@ -23,7 +23,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 状态与交接
 
-Status=review：本窗口代码接收、完整原件及最终文档/静态复验已完成，只等待同一治理分支的PR、远端必需检查与合并，未声称已发布。固定cohort178已补审、本goal174无剩余；固定cohort之外5个cov85辅助历史文件命名仍欠F/G（4条closed撤review、1条保持review），不扩目标分母或直接改名；最终机器3447 inventory／810 closed／5 review／2632 pending。无下一位Agent提示词，由Codex完成发布；E2E日历期限按用户裁决已退休、版本适用性另核，由[TESTING-EVIDENCE-REVISION-1](TESTING-EVIDENCE-REVISION-1.md)承接。
+Status=done：固定178补审、本goal174及随后五个范围外review均按各自证据闭合。最后五原主体3647行组织为17输出，181原身份对应177存活与4个有强例承接的退役；153callback在有限私有重命名后相同、24处显式整改另列。该窗口原报告记录950定向/相邻、七包20,544测试及单次official20,195，机器快照3459/827closed/0review/2632pending；这些数字只属于该窗口，不替代后继语言批次或当前全库库存。载体已随上游PR35进入c88be9b3祖先；文档治理不重授代码、运行、覆盖率或远端CI信用。旧build/待门段落保留各时点语义；E2E版本适用性继续由[TESTING-EVIDENCE-REVISION-1](TESTING-EVIDENCE-REVISION-1.md)承接。
 
 ## 历史范围
 
@@ -39,11 +39,11 @@ Status=review：本窗口代码接收、完整原件及最终文档/静态复验
 
 ## 当前有效性
 
-有效：固定178cohort的F/G补审结论、逐片A–H与身份映射原件、大窗口本地门实际执行与其原件。边界：远端PR/必需检查/合并未完成；范围外5项F/G仍review、2632pending不动；旧反控按冻结旧版本复用，历史变异源码替换点不授当前反控或覆盖率信用；E2E日历期限退休后版本适用性按TESTING-EVIDENCE-REVISION-1另核，旧runtime信用不升格；transaction整源与其它辅助pending不附带关闭。
+有效范围为固定178及后继五review的源报告、A–H、身份映射和各自执行原件；后继五项的最终结果取[remaining-five](../evidence/QUALITY-NAMING-ORGANIZATION-1/remaining-five/README.md)，覆盖本页历史摘要中“仍review”的当时判断。原报告首次格式/大小红、文档投影红及其修复补验保持，不改写成一次全绿。其它pending、旧反控版本、E2E与transaction整源仍不附带关闭；当前文档接收不证明再次执行过原产品测试。
 
 ## 继任文档
 
-长期规则本体在[质量规范硬性条款](../code-quality.md#文件与目录的语义组织硬性要求)（开发验收流程与完整/轻量任务模板直接引用）；E2E证据复核期限的替代政策由[TESTING-EVIDENCE-REVISION-1](TESTING-EVIDENCE-REVISION-1.md)承载；本卡保留为命名/组织专项的历史任务卡，范围外5项F/G与发布收口由Owner在同一治理分支续办。
+长期规则本体在[质量规范硬性条款](../code-quality.md#文件与目录的语义组织硬性要求)（开发验收流程与完整/轻量任务模板直接引用）；E2E政策由[TESTING-EVIDENCE-REVISION-1](TESTING-EVIDENCE-REVISION-1.md)承载。后继五review的[映射](../evidence/QUALITY-NAMING-ORGANIZATION-1/remaining-five/mapping.json)、[本地门](../evidence/QUALITY-NAMING-ORGANIZATION-1/remaining-five/gates.json)和[局部投影迁移](../evidence/QUALITY-NAMING-ORGANIZATION-1/remaining-five/projection-move.json)按其冻结候选解释；三条旧flat路由移动不适用于当前已分片文档治理账。本卡原始范围与原文保持历史，不再派发已经收口的五项。
 
 ## 原文保全
 

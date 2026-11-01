@@ -1,0 +1,9 @@
+--- a/packages/game/src/core/battle/battle-system.ts
++++ b/packages/game/src/core/battle/battle-system.ts
+@@ -2588,5 +2588,5 @@
+     case 'flee':
+       // 玩家逃跑由队伍位置取roleId，再从GameState读取运行态/装备吉运。
+       //   bus 传入 → 逃跑失败时起失败动画(performFlee 内 buildFleeFailTimeline)。
+-      if (!actor.isEnemy) performFlee(state, gs, actor.idx, bus)
++      if (!actor.isEnemy && actor.idx !== 0) performFlee(state, gs, actor.idx, bus)
+       break

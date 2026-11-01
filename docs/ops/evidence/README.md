@@ -30,6 +30,8 @@ current仅指导航。下方历史入口表与quote均包含旧候选、旧完�
 
 ### 固定原文列出的交付入口
 
+2026-11-01新增的两组代码治理原件：[语言资源与展示](QUALITY-GAME-LOCALIZATION-1/README.md)记录12原pending到21输出的范围与门；[最后五review](QUALITY-NAMING-ORGANIZATION-1/remaining-five/README.md)记录5主体、17输出及177/4身份去向。两者的本地门与发布状态按原时点解释，不因导航接入而增加运行信用。
+
 以下链接已提升为可见导航；只说明原件位置与主题，不复制旧执行计数或认证旧候选。各对象的实际当前状态须回原卡/后继回执确认。
 
 - [第一阶段 MIDI / DOS FM 音源选择](game-rix-music-1/README.md)

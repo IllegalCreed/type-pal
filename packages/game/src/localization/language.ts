@@ -16,7 +16,9 @@ function publish(language: GameLanguage): void {
   for (const listener of listeners) listener(language)
 }
 
-/** Called before mounting player UI. Unknown or unavailable preferences default to Chinese. */
+/** Read the saved preference before UI mount; missing/blocked storage defaults to Chinese.
+ * Resource availability is checked later by bootstrap, which may select a temporary fallback.
+ */
 export function initializeLanguage(): void {
   let language: GameLanguage = 'zh-CN'
   try {

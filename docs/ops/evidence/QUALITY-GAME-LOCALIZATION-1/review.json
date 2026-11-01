@@ -1,0 +1,473 @@
+{
+  "base": "4f318eb9864eed65021c75bee6ae43286ffea07f",
+  "date": "2026-11-01",
+  "owner": "Codex; single agent",
+  "originalPending": 12,
+  "currentOutputs": 21,
+  "existingConsumersRechecked": 2,
+  "scopeNote": "12 original pending files resolved into19 newly accepted current paths;2 existing closed consumers rechecked. No counting file moves as additional original review.",
+  "files": [
+    {
+      "path": "packages/shared/src/localization.ts",
+      "sha256": "70560f236b3fdc2162b6f843e237f577cf81350c50b9ada26d8a68bc9fc307a1",
+      "lines": 22,
+      "read": "完整实现或测试文件；原冻结输入与当前迁移输出/变更均核读",
+      "callerOracle": "shared/src/index.ts 公共类型出口；extract buildLanguagePack 产出，assets/assertLanguagePack 接受，bootstrap 分发。",
+      "decision": "八维与整改接受；集中门/远端发布另记，不预填通过",
+      "axes": {
+        "A": "只承载 V1/en/source/words/groups/layout；null 是明确清页 token，消息身份不随译文行数改变；无需取消/资源释放。",
+        "B": "现有注释说明 corrected script、WORD 身份和布局位；1..80 是生产 SLF 投影合同，81/82 的额外行数未进入该结构。",
+        "C": "纯跨包数据合同，无运行状态/IO/呈现依赖；renderer 不反向写入共享类型。",
+        "D": "三包共用同一类型；不抽象为尚无消费者的多语言 schema 或通用坐标模型。",
+        "E": "类型正确性走 shared/game TC；unknown JSON 拒绝由真实 parser 24 例证明，不添加空转类型测试。",
+        "F": "LocalizedMessageGroup/PalLanguagePack 对应消息组和可发布资源；文件 localization 位于 shared 表达公共域。",
+        "G": "每个字段有 producer/consumer；保留 source 三个来源指纹用于追溯，不把“当前渲染不读”误判死字段。",
+        "H": "结构数据可用完整字面量构造，运行校验位于 IO 边界；无需测试专用出口。"
+      }
+    },
+    {
+      "path": "packages/game/src/assets/language-pack.ts",
+      "sha256": "90823c2c79881f5783c04d2bd070d1f6837a43685814ea6b6123a927b342fca4",
+      "lines": 83,
+      "read": "完整实现或测试文件；原冻结输入与当前迁移输出/变更均核读",
+      "callerOracle": "bootstrap Promise.all -> catch(undefined) -> 原语言临时回退；producer parseSlf/buildLanguagePack。",
+      "decision": "八维与整改接受；集中门/远端发布另记，不预填通过",
+      "axes": {
+        "A": "unknown JSON 验 envelope、hash、WORD 键、组顺序/重复、行类型与布局数值；manifest 未声明 English 不下载；HTTP/JSON/fetch 拒绝上交启动 caller。",
+        "B": "注释准确区分可选下载与发布前校验；parse 返回已验原对象，不冒称深复制或校验整个原盘匹配关系。",
+        "C": "网络和结构校验集中在 asset 边界；函数不写语言单例，bootstrap 成功后统一安装。没有独立 timer/listener 需要撤销。",
+        "D": "private record 只服务 unknown 对象形状；组/布局失败域不同，不抽成万能校验器。",
+        "E": "24 例实际 load/parse；合法完整 pack、缺资源无 fetch、503 传播、18类 JSON 损坏；断言含请求路径与明确错误。",
+        "F": "loadEnglishLanguage/parseLanguagePack 表达用途；集中 guard 虽分支较多，按 envelope/source/words/groups/layout 顺序可读。",
+        "G": "无未用出口；保持模块83行附近，不为圈复杂度拆出重复 helper。接口及资源格式未改。",
+        "H": "fetch 可替换且仅在测试 stub，全部路径确定；没有为测试新增生产注入层。"
+      }
+    },
+    {
+      "path": "packages/game/src/assets/language-pack.test.ts",
+      "sha256": "d8097a8e21204fd3d60f306d09373c3a6bf5adc46aa7e0aa6bf8411baf5e4a28",
+      "lines": 93,
+      "read": "完整实现或测试文件；原冻结输入与当前迁移输出/变更均核读",
+      "callerOracle": "真实 loader/validator；Response 模拟网络边界，非 mock parser。",
+      "decision": "八维与整改接受；集中门/远端发布另记，不预填通过",
+      "axes": {
+        "A": "pack 满足生产合同；负输入明确 unknown 网络 JSON，未强转非法 gameplay 状态；afterEach 恢复 fetch。",
+        "B": "每个 corrupt 标题对应实际字段；“未宣告语言不请求”与“宣告后下载失败”分开，未称全语言视觉通过。",
+        "C": "同一 asset 接口的形状与下载合同放同文件；不再依赖 UI/game-state。",
+        "D": "只共享完整 pack；data-driven 18负例保持不同守卫，不按字段表面相似删除。",
+        "E": "24例均有拒绝/返回/请求 oracle；重复组直接 parser 与 IO corrupt 分支不重复；不把 fetch 次数代替 pack 内容。",
+        "F": "路径 language-pack.test 与产品相邻，it 标题可独立定位失败；参数化输入清楚。",
+        "G": "无需拆成每个字段一个文件；未增弱例，既有合法全值保持独立字面期待。",
+        "H": "原生 Response、精确 fetch 替身，无 timers；每轮独立 Response 不重复消费流。"
+      }
+    },
+    {
+      "path": "packages/game/src/localization/language.ts",
+      "sha256": "797951a38e183da545893402316581d6372b962d2091a433cb38d2f11ebc5853",
+      "lines": 55,
+      "read": "完整实现或测试文件；原冻结输入与当前迁移输出/变更均核读",
+      "callerOracle": "main 在挂载 UI 前 initialize；bootstrap 缺 pack 使用 fallback；tools/System 先检查 languageAvailable 再 set。",
+      "decision": "八维与整改接受；集中门/远端发布另记，不预填通过",
+      "axes": {
+        "A": "zh-CN/en 有效态集中；读取/写入 storage 异常不挡内存语言；重复值不通知，HTML lang 仍同步；subscribe 返回明确退订者。",
+        "B": "修正 initialize 注释：它核偏好/存储，不核资源可用性；资源回退由 bootstrap 决定。",
+        "C": "唯一 effective-language 写入 owner；偏好独立于 GameState/save，回退不覆盖持久值。UI 监听生命周期归 mount caller。",
+        "D": "localize 只做二选一，不和 WORD fallback 或 SLF resolver 合并；三者缺失策略不同。",
+        "E": "4例真实 storage/DOM/监听含安全异常、同值不重复、退订和保留持久偏好；本批只修测试隔离。",
+        "F": "set 与 useFallback 区分持久选择和临时有效值；函数短，控制流清楚。",
+        "G": "无死参数、无 event bus 包装；模块单例适配当前单页游戏，不引入未来多实例抽象。",
+        "H": "公开偏好 API 可确定驱动；测试保存并恢复 storage/lang 字段；无需新增 reset API。"
+      }
+    },
+    {
+      "path": "packages/game/src/localization/language.test.ts",
+      "sha256": "b31055140c11ca9c4c31eeeee62cc34dccda108e8e56b785b059b1e4278bf902",
+      "lines": 74,
+      "read": "完整实现或测试文件；原冻结输入与当前迁移输出/变更均核读",
+      "callerOracle": "main 初始化/系统页提交/启动回退的公开语言 API。",
+      "decision": "八维与整改接受；集中门/远端发布另记，不预填通过",
+      "axes": {
+        "A": "保存原偏好/有效语言/HTML lang，再初始化未知与空偏好；Storage 原型替身先恢复后还原状态。",
+        "B": "四标题准确对应偏好、订阅、异常、fallback；无“重启游戏”或存档声明。",
+        "C": "只测试语言 owner；不持有控件或游戏状态，订阅在 finally 清理。",
+        "D": "复用 language.test-fixtures 的窄状态保存，保留真实 Storage 异常模拟；不清除整个 localStorage。",
+        "E": "observed 序列可拒绝初始误通知、同值重通知和退订失败；存储字面值与 HTML 同时验证。",
+        "F": "setLanguage 在此仍是真正持久写；其余呈现测试改用 useFallbackLanguage，名称反映实际操作。",
+        "G": "四原 callback 保留；不因重组新增同类偏好用例，不减少断言。",
+        "H": "异常模拟和清理顺序显式，不依赖其它 spec 恢复全局。"
+      }
+    },
+    {
+      "path": "packages/game/src/localization/layout.ts",
+      "sha256": "4cc6b0ca5041452fa4f192325129ffc88a8609dd4980a7c08f7de085aa60c0eb",
+      "lines": 25,
+      "read": "完整实现或测试文件；原冻结输入与当前迁移输出/变更均核读",
+      "callerOracle": "drawEquipPickRole/drawPlayerStatus 传固定 layout IDs 与原坐标/font；bootstrap 安装 pack.layout。",
+      "decision": "八维与整改接受；集中门/远端发布另记，不预填通过",
+      "axes": {
+        "A": "英文条目缺失回 caller defaults；两个 flag bit 独立；中文全用原值、shadow=true。数值域来自资源验证和固定消费者。",
+        "B": "新增借用说明：bootstrap 出借有效 pack，呈现只读；没有声称 setter 克隆。",
+        "C": "只拥有布局表引用并读语言；不写画布/GS、不负责网络。",
+        "D": "装备和状态页共用 position/font/shadow，三出口各有真实 caller；不和 localized-background 的像素缓存合并。",
+        "E": "6例含真实小字像素、四种 flag、缺项与更换 pack；中文返回引用与默认 shadow 钉住。",
+        "F": "layout 与三个函数名都按呈现属性命名；24行不为拆文件再加转发层。",
+        "G": "无死导出/模式参数；默认 glyph table 可选是现有 caller 合同，保留。",
+        "H": "表/语言可显式设定；纯查询可观察，无额外测试注入接口。"
+      }
+    },
+    {
+      "path": "packages/game/src/localization/layout.test.ts",
+      "sha256": "e9aa232f0dce57eeb413c986425f3d95152124ceaa9885b5c967095abbd6d8be",
+      "lines": 61,
+      "read": "完整实现或测试文件；原冻结输入与当前迁移输出/变更均核读",
+      "callerOracle": "真实 layout helpers + renderText/framebuffer；A 字节由 SDLPal ascii.h 字形核。",
+      "decision": "八维与整改接受；集中门/远端发布另记，不预填通过",
+      "axes": {
+        "A": "flags 0..3 都是合法 pack 数据；fallback GlyphTable 合法；清理表/偏好且不写存储选择。",
+        "B": "像素注释说明 MSB-left 与8px字形；四标志测试明确 independent bits。",
+        "C": "旧 presentation 的布局字体合同迁入相邻文件；不再装配装备、物品或 WORD 表。",
+        "D": "复用 framebuffer/font 本体，缺字表用小型接口字面量；不创建通用 canvas mock。",
+        "E": "亮行必须存在且只能在8行内；额外 flag 与缺项案例覆盖原缺口，非四个同义输入；中文不受 English flags 影响。",
+        "F": "布局测试名说明 flag、fallback和替换；参数对象 small/shadow 明示预期。",
+        "G": "迁移1旧例、补5实际合同；不按测试来源或任务号分文件。",
+        "H": "所有输出可直接查引用/像素；无定时、异步或核心替身。"
+      }
+    },
+    {
+      "path": "packages/game/src/localization/static-shell.ts",
+      "sha256": "f1ce70512971b2f042a6630136193c13324ba590baee16c68da5b886283a34f5",
+      "lines": 28,
+      "read": "完整实现或测试文件；原冻结输入与当前迁移输出/变更均核读",
+      "callerOracle": "main.ts 初始化后单次挂载，页生命周期；返回 unsubscribe 供有限宿主/test释放。",
+      "decision": "八维与整改接受；集中门/远端发布另记，不预填通过",
+      "axes": {
+        "A": "无 document 安全；缺 DOM 节点跳过；只在 data-initial=true 时写初始status，后续状态归进度controller。",
+        "B": "既有注释准确描述先网络挂载及status移交；不把 main 的页生命周期误称每场景可卸载。",
+        "C": "固定外壳copy/标题与进度逻辑分离；只监听语言，没有计时或 fetch。",
+        "D": "共用 localize/subscribe，不复用预缓存paint，因为该节点所有权不同。",
+        "E": "2例通过真实进度失败与退订控制，初始render无需触发change；不外推所有工具面板。",
+        "F": "static-shell 表达固定页面壳；局部 labels 是一组平行 DOM 文案，不含业务分支。",
+        "G": "所列4节点都有 index/main消费者；不生成另一字典层或未使用导出。",
+        "H": "用实际 DOM 和公开退订测试，无需 mock subscribe 或控制网络。"
+      }
+    },
+    {
+      "path": "packages/game/src/localization/static-shell.test.ts",
+      "sha256": "b92638e8abd5d22d766c968ddcfd9aec1bc30de813b812fa85c14352199cb656",
+      "lines": 74,
+      "read": "完整实现或测试文件；原冻结输入与当前迁移输出/变更均核读",
+      "callerOracle": "真实 localizeStaticShell + createUnifiedProgressUi，合成与index一致的节点。",
+      "decision": "八维与整改接受；集中门/远端发布另记，不预填通过",
+      "axes": {
+        "A": "节点只由本例挂载/移除；finally 强制有效语言变化让真实 progress subscriber 看见脱离节点并退订，消除依赖下一例清理。",
+        "B": "明确6%=0.5×12%正控，失败后保持的不是undefined/空style；说明退订为何需要语言事件。",
+        "C": "原 shell-surfaces 中加载页合同独立；不再管理统计授权或地图字典；title归本文件还原。",
+        "D": "只复用窄语言fixture，进度仍用生产controller；没有新增产品dispose用于迎合测试。",
+        "E": "失败文字英→中、迟到进度不覆盖、宽度6%保持；新初始copy及stop后title不变拒绝无效退订。",
+        "F": "静态壳生命周期独立命名；新标题明确mount/stop，body无全局replaceChildren。",
+        "G": "两例分别保留动态status所有权和静态copy退订，不混进截图/E2E数量。",
+        "H": "同步DOM确定可测；清理不调用进入游戏/创建计时widget等无关路径。"
+      }
+    },
+    {
+      "path": "packages/game/src/localization/messages.ts",
+      "sha256": "4b45a14ce88e46221510a5f36fa2be8b4257e8a34ea08f8ef54515ea0a312035",
+      "lines": 159,
+      "read": "完整实现或测试文件；原冻结输入与当前迁移输出/变更均核读",
+      "callerOracle": "SDLPal MESSAGE_GetSpan/PAL_GetMsgNum；event-system 两真实路径、script-desc、draw-description。",
+      "decision": "八维与整改接受；集中门/远端发布另记，不预填通过",
+      "axes": {
+        "A": "精确连续 message identity+0x8e，非展示/非连续停止；无翻译钉原路径；译文和缺失报告数组复制，不把显示行数写回脚本。",
+        "B": "保留display cursor、null与hidden~语义；新增安装重置missing及独立播放数组注释，旧真值不写成pal.exe已核。",
+        "C": "仅负责语言组/展示token，不持有GameState或IO；caller拥有IP、页等待、战斗队列和持久化。",
+        "D": "resolve 跨探索/战斗/说明；wrap纯函数同属显示语法边界。158行内无需把私有token循环拆新公共接口。",
+        "E": "10真实playback+1wrap+3新增ownership/边界；复用已核continuation反控，当前相邻重放，未冒称重跑全剧情。",
+        "F": "resumeIp/lineIndex/start:end明示身份差别；token raw/width/space保持控制符与可见宽度区分。",
+        "G": "无翻译Command复制器或第二解释器；missingMap按安装重置，记录范围而非每帧warning。",
+        "H": "扫描/wrap无IO，测试无需替换解释器；输入宽度由真实caller固定有限值，不改为任意外部schema。"
+      }
+    },
+    {
+      "path": "packages/game/src/localization/messages.test.ts",
+      "sha256": "af746d9dac5ec1eaaf2ec209ac287c5791a45857159a6792da621007af5cfde7",
+      "lines": 65,
+      "read": "完整实现或测试文件；原冻结输入与当前迁移输出/变更均核读",
+      "callerOracle": "直接 resolver/set/getMissing；Command字面量和实际0x1e边界。",
+      "decision": "八维与整改接受；集中门/远端发布另记，不预填通过",
+      "axes": {
+        "A": "完整合法Command/LocalizedMessageGroup，不变异核心；输入、返回和报告各自可变以核owned复制。",
+        "B": "三个标题分别说明ownership、missing生命周期和终止边；不称完整事件执行。",
+        "C": "原混装messages拆后只测模块状态/边界，不载battle/Save/字体；全局pack与语言成对还原。",
+        "D": "复用语言fixture，三短字面量各明示合同；不共用oracle或重复创建大GameState。",
+        "E": "独立Hello/null期待可拒绝输入/输出借用；重复missing唯一、报告脱离、换pack清空；动作/非连续边分别核resume。",
+        "F": "messages.test 与被测模块相邻；integration另在dialog-playback，纯wrap另在dialog-wrap。",
+        "G": "三新增责任合同补之前直接未核的状态所有权；旧13例均迁移，没有用新3例替代强例。",
+        "H": "同步公开接口可直接观察；不mock缓存，不暴露私有Map。"
+      }
+    },
+    {
+      "path": "packages/game/src/localization/dialog-playback.test.ts",
+      "sha256": "c4d74ac10e90b831cdb2a0db7610743a0053d1b0280d9a41c921c8fc47656d3e",
+      "lines": 313,
+      "read": "完整实现或测试文件；原冻结输入与当前迁移输出/变更均核读",
+      "callerOracle": "真实 tickEventSystem/runScript/tickBattleDialog、V1 parse/serialize、getScriptDescLines。",
+      "decision": "八维与整改接受；集中门/远端发布另记，不预填通过",
+      "axes": {
+        "A": "createInitialGameState及真实battle start，合法source Command；有界500tick和显式now；中文/英文章节各自pin语言。",
+        "B": "3等待对应整页/null/脚本前清页；snapshot从Third恢复而非从头；不宣称原盘自然剧情已跑。",
+        "C": "只留消息播放跨消费者合同；偷取WORD和纯wrap移出；局部 input/explore/finish 只准备/驱动，不模拟解释器。",
+        "D": "真实battle fixture已有loadDefault→projection→start生命期；sourceLines只共享无变异指令，集成无需另建万能host。",
+        "E": "10例保留等待/标题头像/timeout/skip/下一奖励；原length断言加强为整份执行前后Command不变且保留label字面oracle；snapshot失效输入为unknown V1边界。",
+        "F": "dialog-playback 标明跨帧组展示；避免 messages.test 暗含全部battle/save依赖。",
+        "G": "无删旧callback；不复制中国分页专测，中文反例只核切语言的独立交叉合同。",
+        "H": "不用网络/真实墙钟，tick与state可直接观测；清pack/global events/locale，未新增测试专用生产分支。"
+      }
+    },
+    {
+      "path": "packages/game/src/localization/dialog-wrap.test.ts",
+      "sha256": "9db01d4c3617c4ec19734473e4a58b2588f2f5a28eef0565a8e41cf964b756d5",
+      "lines": 27,
+      "read": "完整实现或测试文件；原冻结输入与当前迁移输出/变更均核读",
+      "callerOracle": "wrapEnglishDialogLine -> 实际parseDialogText；预期字符串为固定字面，非复制tokenizer。",
+      "decision": "八维与整改接受；集中门/远端发布另记，不预填通过",
+      "axes": {
+        "A": "raw控制/转义、ASCII有限宽；8px字宽与caller相符；纯函数无全局状态无需language hooks。",
+        "B": "原标题保留顺序/颜色/速度/隐藏尾，不冒称任意Unicode真实字体宽度。",
+        "C": "从heavy playback分出纯语法合同，只导入messages及纯dialog-text。",
+        "D": "复用生产parser观察visible语义而非mock；不重复字体实现构造expected。",
+        "E": "1完整例含精确4行、visible4行、末色/速度和长词切分；旧例全callback保持，非clone自比。",
+        "F": "dialog-wrap 描述职责，不带创建者/覆盖率命名。",
+        "G": "维持一组合成合同，无为每种标点堆重复；private tokenizer保留模块内。",
+        "H": "无需DOM、IO或fake timers；无消费者或钩子泄漏。"
+      }
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-description.ts",
+      "sha256": "4d06005cabcd67c300540c62898453022fcaafacd00256a99bdb6a6f055fb485",
+      "lines": 34,
+      "read": "完整实现或测试文件；原冻结输入与当前迁移输出/变更均核读",
+      "callerOracle": "draw-inventory/draw-magic/draw-battle-ui 传lines、有限width、坐标/色/字体。",
+      "decision": "八维与整改接受；集中门/远端发布另记，不预填通过",
+      "axes": {
+        "A": "中文按16px原行+caller字形，英文用8px字体按10px行进并传递色态；只写给定fb，clip由framebuffer负责。",
+        "B": "头注准确是展示压缩字体且不动脚本；未声称整个SLF布局或额外说明行数全部实现。",
+        "C": "只绘制传入行，语言query和wrap为展示依赖；无读表/请求/修改库存。",
+        "D": "物品/法术/战斗共享同一个现用renderer；中文renderText和英文解析有不同合同，不合成模式万能helper。",
+        "E": "原全角空格测试加强左右真实像素；新增中文16px与caller字形路径；当前菜单邻域回归。",
+        "F": "drawScriptDescription与路径按菜单职责；row/currentColor表达跨行状态，没有宽ctx。",
+        "G": "34行具象流程，未发现死参；width仅英文用，是明确双语言展示合同。",
+        "H": "可用内存framebuffer/合法glyph直接测试；不需要mock画布或浏览器截图来证明局部像素。"
+      }
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-description.test.ts",
+      "sha256": "1cef158e914aeb9084874d315ddfb00c1dfb21eac7f4f38d25be190e0c130429",
+      "lines": 40,
+      "read": "完整实现或测试文件；原冻结输入与当前迁移输出/变更均核读",
+      "callerOracle": "真实描述renderer；字面60像素与8x8 A原始字形，中文单像素合成glyph。",
+      "decision": "八维与整改接受；集中门/远端发布另记，不预填通过",
+      "axes": {
+        "A": "原真实属性说明字符串合法；新glyph宽16高16、32字节位图符合接口；locale逐例还原。",
+        "B": "标注正像素防no-op假绿；不称合成中文字形是原盘字库。",
+        "C": "只承接描述绘制，不再创建装备、layout表或Word数据。",
+        "D": "复用framebuffer，Chinese自有最小合法glyph直接注入实际接口。",
+        "E": "旧反控选中1绿，新同反控恰1 AssertionError:0≠60；保留120空白像素与左右正控；中文核20/36两行和30空档。",
+        "F": "文件/标题直指描述和语言路径；变量separator/ glyphs含义明确。",
+        "G": "旧1例加强+1不同中文合同；没有恢复死代码或为coverage堆重复。",
+        "H": "同一生产入口的像素即业务输出；临时mutant后原源码SHA精确恢复。"
+      }
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-equip.localization.test.ts",
+      "sha256": "d65596ba9ee30424e76a08640d4340ece6237dc3d5595a1220c7c6c94fe5cecd",
+      "lines": 62,
+      "read": "完整实现或测试文件；原冻结输入与当前迁移输出/变更均核读",
+      "callerOracle": "createEquipMenu→confirmEquipItem→drawEquipMenu，SDLPal PAL_WordMaxWidth及sprite列宽。",
+      "decision": "八维与整改接受；集中门/远端发布另记，不预填通过",
+      "axes": {
+        "A": "完整hydrate role与合法Item字段，库存 count=1，实际菜单进入pick-role；合成hat不冒称原盘100是帽子。",
+        "B": "保留22/16/33 sprite列宽、103/87像素推导；原窗口产品裁决不重开。",
+        "C": "只负责语言对角色框宽度影响，和装备规则主测分层；Locale/layout/WORD均清理。",
+        "D": "复用合法menu-state及UIframes工厂，不克隆drawer；具体tile宽度本例明示。",
+        "E": "原1callback保留（只改有效语言入口），两个边界各核内色/外sentinel，非快照自比。",
+        "F": "draw-equip.localization路径表达特定装配切片，不用宽泛presentation命名。",
+        "G": "无无关字体/地图/analytics测试，最小资源仅服务当前renderer。",
+        "H": "边框断言不依赖Date.now高亮颜色；无墙钟或load资源；生产逻辑未mock。"
+      }
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-steal-localization.test.ts",
+      "sha256": "3c5c74f9a0dd305718bbd6d8d63becdd5cd5e1bc3edbf5b8bf42ffc322f13001",
+      "lines": 52,
+      "read": "完整实现或测试文件；原冻结输入与当前迁移输出/变更均核读",
+      "callerOracle": "真实runScript 0x6a→tickBattleDialog；生产escape WORD进控制文本。",
+      "decision": "八维与整改接受；集中门/远端发布另记，不预填通过",
+      "axes": {
+        "A": "110/135是有效物品ID，完整typed记录与真实battle开始；固定seed和stealItemCount=1；普通剧情可达性不外推。",
+        "B": "标题保留literal WORD、红色和标点；并非消息组或译文源变更。",
+        "C": "从message playback移到battle消费者；不再安装无关SLF表、Save或全局script。",
+        "D": "复用真正battle lifecycle；新常量空InputSnapshot等价旧input()默认值，consumer只读集合。",
+        "E": "2例分别撇号/连字符，实际可见字、逐字色、库存及余数断言完整；旧已核escape反控仍对应相同生产路径。",
+        "F": "battle-steal-localization标识功能；不以审核批号或模型名命名。",
+        "G": "移走无关helper/hooks，只保留WORD overlay与locale清理；非新加重复用例。",
+        "H": "调用实脚本及队列，无core mock或IO；fixture负责资源，不替代偷取计算。"
+      }
+    },
+    {
+      "path": "packages/game/src/analytics/analytics-consent-ui.localization.test.ts",
+      "sha256": "10a7d0db808ee9d41978e5b563c7c4b0803c3e8d33ba80e944f6192402fcba21",
+      "lines": 47,
+      "read": "完整实现或测试文件；原冻结输入与当前迁移输出/变更均核读",
+      "callerOracle": "真实mountAnalyticsConsentUi/选择按钮/readAnalyticsConsent；ConsentStorage接口替身。",
+      "decision": "八维与整改接受；集中门/远端发布另记，不预填通过",
+      "axes": {
+        "A": "新Map限于本例存储，符合getItem/setItem接口；真实按钮写denied，destroy在finally退订/移节点。",
+        "B": "标题只声称文案变化不改授权、不自动打开及链接保持；无网络统计发送信用。",
+        "C": "从shell大桶移至真实analytics UI；locale与存储各自Owner，不clear整个localStorage/body。",
+        "D": "已有主测核grant/deny持久存储，本例只需窄in-memory端口；没有另造共享UI装配器。",
+        "E": "拒绝值跨两次语言切换保持，hidden状态与真实link/assertions保全；区别于主测DNT授权流程。",
+        "F": "路径显式localization，动作/选择可读；移除无关map/progress imports。",
+        "G": "只迁移1有效合同，未重复主测授权所有分支；未改UI产品。",
+        "H": "端口可测体现原设计；原生DOM click经过真实handler，不以call count替代行为。"
+      }
+    },
+    {
+      "path": "packages/game/src/core/word-lookup.test.ts",
+      "sha256": "70bb019a54faeb3f7877625720af88884f89dd4fe3b41cb14ad67472f754c297",
+      "lines": 52,
+      "read": "完整实现或测试文件；原冻结输入与当前迁移输出/变更均核读",
+      "callerOracle": "真实getWord，bootstrap借用flat/English覆盖；SDLPal PAL_GetWord仅支持原表身份原则。",
+      "decision": "八维与整改接受；集中门/远端发布另记，不预填通过",
+      "axes": {
+        "A": "空表/越界/空英文回原词及role3/4真WORD身份；表清理，locale/HTML/pref恢复。",
+        "B": "移除指向已拆presentation的过时注释，说明本文件承接语言覆盖。",
+        "C": "3原表合同与1语言覆盖合并同查询Owner，避免另设单例测试桶。",
+        "D": "复用语言fixture；保留真实中文表与英文覆盖两个不同数据源，不共享expected计算。",
+        "E": "4例各有返回字面与源表不变；新增为迁入旧强例而非重复数；fallback优先级保留。",
+        "F": "文件名与生产查询对应；各case表达查表来源/缺失/身份。",
+        "G": "三原callback精确保全；删除无关setLanguage持久写与全局清空。",
+        "H": "table及locale显式控制，纯查表无IO；无需测试专用reset导出。"
+      }
+    },
+    {
+      "path": "packages/game/src/tools/map-names.test.ts",
+      "sha256": "0de52836a80703235203f37fc3a3e713f75ab07d0811e7a4ddced631cad0ed0a",
+      "lines": 65,
+      "read": "完整实现或测试文件；原冻结输入与当前迁移输出/变更均核读",
+      "callerOracle": "getMapName/hasMapName→shared authored names+English table，真实public WORD范围成员查询。",
+      "decision": "八维与整改接受；集中门/远端发布另记，不预填通过",
+      "axes": {
+        "A": "保留0/1/23/25/119、缺104/9999，英文完整性按author membership核；不拿英文表自身keys证明完整。",
+        "B": "明确WORD域/授权地名表，而非声称翻译语义专业审校；新增标题包含回切。",
+        "C": "地图语言测试合并既有map-names主测，避免shell-surfaces里藏数据合同；原语言/HTML清理保留。",
+        "D": "共享public membership边界而非复制地名清单；不为枚举创建业务helper。",
+        "E": "3原例保持；迁入旧全域ASCII和英文→中文2断言，3个重复英文literal由原known/fallback两例承接。",
+        "F": "按地图名而非外壳测试命名；短固定maps数组与字面oracle清晰。",
+        "G": "一个旧身份重命名归位，总例数4；不删未知非ASCII语义，也不更改译文。",
+        "H": "查表无IO/定时；真实localize调用可切换，无mock成员边界。"
+      }
+    },
+    {
+      "path": "packages/game/src/localization/language.test-fixtures.ts",
+      "sha256": "20e25a22279b06b6be0bf30062d62e00781169830dc59796de99af8fb671e1f8",
+      "lines": 16,
+      "read": "完整实现或测试文件；原冻结输入与当前迁移输出/变更均核读",
+      "callerOracle": "language/layout/playback/static/WORD/description/equip/consent/steal九个实际消费者。",
+      "decision": "八维与整改接受；集中门/远端发布另记，不预填通过",
+      "axes": {
+        "A": "保存有效语言、单key偏好和HTML lang；恢复原null/字符串，不触其它存储；使用公开fallback避免意外持久写。",
+        "B": "头注明确只保存language owner的字段；不冒充UI节点/监听总清理器。",
+        "C": "只有locale资源保存恢复，订阅/节点/表仍归各spec；无hooks隐藏执行顺序。",
+        "D": "多个文件真实同合同复用，返回cleanup由afterEach调用；不参数化无关游戏环境。",
+        "E": "由64定向合同和完整context映射支撑，清理函数实际被所有相关spec执行；不另写只复述实现的helper测试。",
+        "F": "language.test-fixtures命名说明测试侧偏好资源，函数isolateLanguagePreference直说作用。",
+        "G": "唯一小函数替代重复3字段cleanup；无未用出口或测试计数膨胀。",
+        "H": "依赖显式公开API/浏览器存储；需要Storage故障的spec先恢复spy再调用cleanup，避免假清理。"
+      }
+    }
+  ],
+  "findings": [
+    {
+      "id": "E-NOOP",
+      "kind": "proven-test-gap",
+      "path": "packages/game/src/present/menu/draw-description.test.ts",
+      "resolution": "旧空白区断言可被完全不绘制通过；新左右正像素反控单红，未改产品。"
+    },
+    {
+      "id": "C-OWNERSHIP",
+      "kind": "test-cleanup",
+      "resolution": "progress subscriber必须看到脱离节点的有效语言事件；旧afterEach在已中文时不发布而把清理留给后例。新finally显式触发；UI/WORD/layout偏好资源分别还原。"
+    },
+    {
+      "id": "F-G",
+      "kind": "organization",
+      "resolution": "presentation/shell-surfaces两混装文件移除；messages分模块边界、真实playback、纯wrap、偷取消费者；2现存主测接收同Owner合同。"
+    },
+    {
+      "id": "B",
+      "kind": "comment",
+      "resolution": "initialize偏好读取与资源回退区分；layout借用与messages复制所有权明确。七产品AST不变。"
+    }
+  ],
+  "retained": [
+    "messages.ts 的私有token/wrap和resolver同属当前语言展示合同、158行；两个生产wrap消费者，无必要为复杂度指标制造转发公共接口。",
+    "language单例按单页面挂载合同保留；本批不引入多游戏实例、HMR生命周期或任意外部调用策略。",
+    "translation/SLF完整资源兼容和旧视觉结果仅复用GAME-ENGLISH-1指定范围；未重做全剧情、未声称专业翻译校订。",
+    "原图资源、字形完整性和bootstrap取消的广域文件不附带关闭；本片loader自身无timer/listener，启动caller捕获可选包失败。"
+  ],
+  "reads": {
+    "fullSubjects": "proof.inputs/products与七原spec；21最终输出；未变语句按迁移全文+实际diff核读",
+    "fullContext": [
+      "packages/pal-extract/src/localization/build-language-pack.ts",
+      "packages/pal-extract/src/io/slf.ts",
+      "packages/game/src/core/word-lookup.ts",
+      "packages/game/src/tools/map-names.ts",
+      "packages/game/src/core/menu/script-desc.ts",
+      "packages/game/src/present/font.ts",
+      "packages/game/src/present/small-font.ts",
+      "packages/game/src/present/dialog-text.ts",
+      "packages/game/src/shell/precache-ui.ts",
+      "packages/game/src/analytics/analytics-consent-ui.ts",
+      "packages/game/src/core/battle/battle-lifecycle.test-fixtures.ts"
+    ],
+    "ranges": [
+      "main.ts 1–90：初始化/壳层生命周期",
+      "bootstrap.ts 216–275：下载/安装/回退",
+      "event-system.ts 1956–2050、2920–2950：实际消息caller",
+      "draw-equip.ts 110–185、215–265：layout及宽公式",
+      "tools-panel.ts 990–1060：语言订阅",
+      "SDLPal script.c 3088–3137、3438–3475、3608–3645；text.c 1010–1040：span/null/continuation",
+      "engineering-notes 相关真值分层/分页/状态ownership；game-mechanics 前75行适用范围，本批不改战斗公式"
+    ]
+  },
+  "reuse": {
+    "origin": "GAME-ENGLISH-1/dialog-review.json、integration-review.json、shell-review.json、text-review.json",
+    "rule": "只复用已核合同、primary锚及旧反控，不继承全文件accept；当前源码/消费者指纹另pin，当前168定向/相邻实跑。",
+    "changedDependencies": "旧英文候选到main已有save/菜单/事件调整；真实当前playback/V1/菜单测试重新驱动，旧数量和SHA不改写。"
+  },
+  "invalidation": [
+    "proof输出/source/caller指纹变化应只重核受影响claim；指纹不匹配不等于此前结论造假。",
+    "SLF范围/控制码、Command形态、字体advance、IP/队列/Save hydration变化影响对应消息claim。",
+    "偏好订阅或boot DOM所有权改变影响cleanup；存储/通知策略改变需重新判合同。"
+  ],
+  "highRisk": "本批未改产品可执行语句/出口/存档/资产/显示行为；无新裁决需要。",
+  "screening": {
+    "tool": "TypeScript6.0.3 AST branch/loop/catch/case/logical-expression count; late post-review cross-check, not initial scan",
+    "raw": "raw.json.gz:complexity.json",
+    "over10": [
+      {
+        "path": "packages/game/src/assets/language-pack.ts",
+        "line": 8,
+        "value": 40,
+        "decision": "Keep. One83-line optional-resource module validates scalar/nested schema with flat fail-fast guards before any publication; most score is explicit boolean constraints. No repeated domain predicates or extra state owner. A generic validator abstraction would hide the concrete input contract without another consumer."
+      },
+      {
+        "path": "packages/game/src/localization/messages.ts",
+        "line": 123,
+        "value": 15,
+        "decision": "Keep. Pure35-line wrapper owns current row,width and break point. Backward word boundary plus long-word fallback are one display algorithm shared bytwo consumers; splitting would export/pass transient row state. Concrete wrap and real IP tests remain."
+      }
+    ]
+  },
+  "validationDataDelta": "Coverage controls only: one exact current messages13→3 snapshot (all13 transferred) and95-entry/378 per-file-delta census; one full-baseline/source-pinned fixture-only metric adjustment. Predicate/runner untouched; full tool suite verifies exact accept and rejects changed identity/count/SHA. No new whole-file closure credit for existing coverage tooling."
+}

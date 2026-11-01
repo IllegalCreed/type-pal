@@ -1,0 +1,23 @@
+{
+  "reason": "R93 was1048095bytes at HEAD, only481bytes below unchanged1MiB tool limit. Its live ops review projection records now join existing final machine-artifact ledger R94, where that projection responsibility belongs. No rule/size/ignore change; no new metadata ledger.",
+  "from": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+  "to": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+  "paths": [
+    "docs/phase-governance/reviews/20261004-semantic-current-batch.json",
+    "docs/phase-governance/reviews/20261016-historical-cards-d.json",
+    "docs/phase-governance/reviews/20261017-r39-ops-evidence-readmes.json"
+  ],
+  "recordsBeforeAfterEqual": true,
+  "totalRecords": 140,
+  "registryDelta": "Only these three reviewRecord routes move; no statuses or reviewed credit changed.",
+  "entrySha256": {
+    "docs/phase-governance/reviews/20261004-semantic-current-batch.json": "5b8e562d81bb3e9e83df75a12c9ef5bb807e13042e71df3bf6e9bf7e494e0df1",
+    "docs/phase-governance/reviews/20261016-historical-cards-d.json": "fc6f5c19e81b63b9ef18fc2d1c6db0df539d48363a9303d10220a7efc993ce7e",
+    "docs/phase-governance/reviews/20261017-r39-ops-evidence-readmes.json": "2eeb6bd7e25629a0d43e979390a3e27ef3f027c8dca34f231db781a8a1609470"
+  },
+  "afterBytes": {
+    "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json": 664976,
+    "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json": 859934,
+    "docs/phase-governance/document-registry.json": 1028116
+  }
+}
