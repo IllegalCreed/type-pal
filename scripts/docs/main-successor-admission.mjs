@@ -19,7 +19,7 @@ export const mainSuccessorAdmission = freeze({
   additions: 12,
   amendments: 4,
   predecessorContentSha256: '3c9571f55dcb4a661415672c69051b975b96f11711cff21e1c578e9de1c46159',
-  changesSha256: 'cf58e0831edd0e5195c08fef80b395a9e85a13addbee66ff4466934335fd0e65',
+  changesSha256: '9bc4c31a7c3ffbbc5a8834a692c0b9dc75efb3f187deef9fd1daf3bb409d9198',
 })
 export const mainSuccessorTargets = freeze([
   {

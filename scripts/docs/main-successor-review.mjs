@@ -214,6 +214,11 @@ export function prepareMainSuccessorReviews(records, rows) {
       'pending author content required',
     )
     assert(!row.successorIntake && !row.successorPrior, 'pre-normalized author content rejected')
+    assert.equal(
+      row.evidence?.path,
+      item.path,
+      'successor evidence requires its actual carrier path',
+    )
     const entries = next.get(item.owner).entries
     const previous = entries[item.index]
     assert(

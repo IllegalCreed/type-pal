@@ -12,7 +12,7 @@ import {
 } from './main-successor-control.mjs'
 import { readMainSuccessorSources } from './main-successor-document.mjs'
 import { publishMainSuccessor } from './main-successor-publication.mjs'
-import { inspectMainSuccessor } from './main-successor-review.mjs'
+import { inspectMainSuccessor, prepareMainSuccessorReviews } from './main-successor-review.mjs'
 import { runMainSuccessorPublication } from './publish-main-successor-documents.mjs'
 import { rollforwardFixture, rollforwardTestRoot } from './rollforward-publication.test-support.mjs'
 import {
@@ -103,6 +103,29 @@ test('all16 main carrier pins resolve real blobs; forged OID, revision, namespac
     () => readMainSuccessorSources(rollforwardTestRoot, { byPath: wrong }),
     /source namespace/,
   )
+})
+
+test('the complete real predecessor rejects missing per-document evidence paths before packing or granting', () => {
+  const records = repairRollforwardPublicationHistory(
+    grantRollforwardPlan(rollforwardFixture().plan),
+  ).records
+  const rows = mainSuccessorTargets.map((target) => ({
+    ...target,
+    after: {
+      path: target.path,
+      templateId: target.templateId,
+      contentReviewStatus: 'partial-review-unknown',
+      templateCompliance: 'needs-migration',
+      nonAuthorReviewer: false,
+      evidence: { kind: 'source-preservation' },
+    },
+  }))
+  const before = structuredClone(records)
+  assert.throws(
+    () => prepareMainSuccessorReviews(records, rows),
+    /evidence requires its actual carrier path/,
+  )
+  assert.deepEqual(records, before)
 })
 
 test('only the exact eleventh physical range can extend an independently validated ten-part registry', () => {
