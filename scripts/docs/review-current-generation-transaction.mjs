@@ -664,8 +664,8 @@ export function publishCurrentReviewTransaction(handle, { allowWrite = false } =
       recovery.before.push({ path, sha256: sha(bytes) })
     }
     save()
-    // The staging tree contains all144 review files plus the actual referenced
-    // documents/protected native inputs, not a hash-only or read-cache surrogate.
+    // Stage the complete captured review group and actual referenced documents /
+    // protected native inputs, not a hash-only or read-cache surrogate.
     for (const path of plan.referenced)
       if (!expected.has(path) && !retired.includes(path) && states.get(path).buffer)
         stageWrite(path, states.get(path).buffer)
