@@ -44,7 +44,7 @@ Template: governance-index-v1 / 1.0.0
 | [CODE-QUALITY-53 — game player status runtime-zero ownership conflict](CODE-QUALITY-53-player-status-runtime-zero.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [CODE-QUALITY-57 — game bootstrap thumbnail seam boundary](CODE-QUALITY-57-game-bootstrap-thumbnail-seam-boundary.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [DOCS-CATALOG-SPLIT-1 — phase/lore catalog 分片与统一 loader 迁移](DOCS-CATALOG-SPLIT-1.md) | rework | 以任务卡当前准入与看板分工为准。 |
-| [DOCS-FULL-TEMPLATE-1 — 全 docs 深度治理与模板化改写](DOCS-FULL-TEMPLATE-1.md) | build | 以任务卡当前准入与看板分工为准。 |
+| [DOCS-FULL-TEMPLATE-1 — 全 docs 深度治理与模板化改写](DOCS-FULL-TEMPLATE-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [DOCS-NATIVE-JSON-1 — 原生JSON历史证据逐篇治理](DOCS-NATIVE-JSON-1.md) | rework | 以任务卡当前准入与看板分工为准。 |
 | [DOCS-NATIVE-VITEST-269-1 — S29 原生 Vitest 269篇语义接入](DOCS-NATIVE-VITEST-269-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [DOCS-RECORD-INTEGRITY-1 — R 波记录可信度撤回与补救](DOCS-RECORD-INTEGRITY-1.md) | rework | 以任务卡当前准入与看板分工为准。 |
