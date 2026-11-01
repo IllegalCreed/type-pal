@@ -28,6 +28,8 @@ import { readIncrementalGitSource } from './incremental-git-source.mjs'
 import { assertIncrementalOwnerSet, inspectIncrementalCohort } from './incremental-review.mjs'
 import { incrementalReviewAdmission } from './incremental-review-admission.mjs'
 import { incrementalReviewPath } from './incremental-review-content.mjs'
+import { mainSuccessorAdmission } from './main-successor-admission.mjs'
+import { mainSuccessorRegistryPartition } from './main-successor-control.mjs'
 import { readNativeArtifactRetirements } from './native-artifact-retirements.mjs'
 import {
   assertReviewRecordSourceUnchanged,
@@ -43,6 +45,7 @@ import {
   assertRollforwardNativeInputs,
   rollforwardInputRepairs,
   rollforwardRetirements,
+  successorInputRepairs,
 } from './rollforward-transaction-boundary.mjs'
 
 const sha = (bytes) => createHash('sha256').update(bytes).digest('hex')
@@ -218,7 +221,7 @@ function publicReadback(root, plan) {
     })
     demand(
       registry.entries.length === plan.expectedPins &&
-        registry.shards.length === (plan.rollforward ? 10 : 9),
+        registry.shards.length === (plan.successor ? 11 : plan.rollforward ? 10 : 9),
       'staged registry requires the complete admitted projection',
     )
     equal(
@@ -233,6 +236,11 @@ function publicReadback(root, plan) {
       ...(plan.rollforward
         ? [...inspectRollforwardCohort(group.records).byPath.values()].map((entry) => entry.row)
         : []),
+      ...(plan.successor
+        ? [...inspectRollforwardCohort(group.records).successor.byPath.values()].map(
+            (entry) => entry.row,
+          )
+        : []),
       ...currentNativeControlAdmissions
         .filter((entry) => plan.changedControlPaths.has(entry.path))
         .map((entry) => group.records.get(entry.reviewRecord).entries[entry.index]),
@@ -245,6 +253,11 @@ function publicReadback(root, plan) {
           ...[...inspectRollforwardCohort(group.records).byPath.values()].map(
             ({ row }) => row.primarySource[0],
           ),
+          ...(plan.successor
+            ? [...inspectRollforwardCohort(group.records).successor.byPath.values()].map(
+                ({ row }) => row.primarySource[0],
+              )
+            : []),
         ])
       : undefined
     const readSourceBuffer = (pin) => {
@@ -252,7 +265,10 @@ function publicReadback(root, plan) {
       if (!sourceCache.has(key)) sourceCache.set(key, readGitDocumentSnapshot(plan.root, pin))
       return sourceCache.get(key)
     }
-    for (const row of targets) {
+    // A predecessor view proves its old signature, while the latest qualified
+    // member supplies today's role/body. Validate each identity once, after
+    // later admitted layers have replaced its earlier metadata.
+    for (const row of new Map(targets.map((row) => [row.path, row])).values()) {
       const issues = checkMigratedDocument(
         {
           path: row.path,
@@ -268,6 +284,7 @@ function publicReadback(root, plan) {
           readSourceBuffer,
           readRollforwardSourceBuffer: (pin) =>
             pinnedSources ? pinnedSources(pin) : readRollforwardGitSource(plan.root, pin),
+          readSuccessorSourceBuffer: plan.successor ? pinnedSources : undefined,
           readIncrementalSourceBuffer: (pin) => {
             if (pinnedSources) return pinnedSources(pin)
             const key = `${pin.revision}:${pin.path}`
@@ -316,21 +333,28 @@ export function prepareCurrentReviewTransaction({
   demand(/^[a-f\d]{40}$/.test(baseRevision ?? ''), 'full base commit required')
   demand(!process.env.BIOME_BINARY, 'custom formatter not admitted')
   demand(
-    ['legacy-current', 'native-artifact-v1', 'main-incremental-v1', 'main-rollforward-v1'].includes(
-      sourceProfile,
-    ),
+    [
+      'legacy-current',
+      'native-artifact-v1',
+      'main-incremental-v1',
+      'main-rollforward-v1',
+      'main-successor-v1',
+    ].includes(sourceProfile),
     'unknown source profile',
   )
-  const rollforward = sourceProfile === 'main-rollforward-v1'
+  const successor = sourceProfile === 'main-successor-v1'
+  const rollforward = sourceProfile === 'main-rollforward-v1' || successor
   const incremental = sourceProfile === 'main-incremental-v1' || rollforward
   const nativeProfile = sourceProfile !== 'legacy-current'
-  const expectedPins = rollforward
-    ? 4530
-    : incremental
-      ? incrementalReviewAdmission.afterPins
-      : nativeProfile
-        ? 2435
-        : 2434
+  const expectedPins = successor
+    ? mainSuccessorAdmission.registeredRows
+    : rollforward
+      ? 4530
+      : incremental
+        ? incrementalReviewAdmission.afterPins
+        : nativeProfile
+          ? 2435
+          : 2434
   const upgrades = incremental
     ? [...currentReviewStorageUpgrades, incrementalReviewAdmission.sourcePin]
     : currentReviewStorageUpgrades
@@ -344,6 +368,23 @@ export function prepareCurrentReviewTransaction({
           row.templateCompliance === 'template-compliant',
       ),
       'exact qualified1916 publication required',
+    )
+  }
+  if (successor) {
+    const before = inspectRollforwardCohort(group.records)
+    const after = inspectRollforwardCohort(records)
+    const inputCount = [...group.records.values()].reduce(
+      (n, record) => n + record.entries.length,
+      0,
+    )
+    demand(
+      before?.byPath.size === 205 &&
+        after?.successor?.byPath.size === mainSuccessorAdmission.changes &&
+        inputCount ===
+          (before.successor
+            ? mainSuccessorAdmission.registeredRows
+            : mainSuccessorAdmission.predecessorRows),
+      'exact accepted predecessor or existing admitted successor source required',
     )
   }
   demand(
@@ -454,7 +495,9 @@ export function prepareCurrentReviewTransaction({
     readBuffer,
     inputPins,
     rollforward
-      ? rollforwardInputRepairs(group.records, records, readBuffer)
+      ? successor
+        ? successorInputRepairs(group.records, records, readBuffer)
+        : rollforwardInputRepairs(group.records, records, readBuffer)
       : incremental && inputPins === 2435
         ? incrementalReviewAdmission.inputPinRepairs
         : [],
@@ -475,16 +518,20 @@ export function prepareCurrentReviewTransaction({
     seen.add(output.path)
     const newRegistryPart =
       incremental &&
-      (rollforward
-        ? output.path === `docs/phase-governance/${rollforwardRegistryPartition.path}`
-        : incrementalReviewAdmission.registryPartitions.some(
-            (part) => output.path === `docs/phase-governance/${part.path}`,
-          ))
+      (successor
+        ? output.path === `docs/phase-governance/${mainSuccessorRegistryPartition.path}`
+        : rollforward
+          ? output.path === `docs/phase-governance/${rollforwardRegistryPartition.path}`
+          : incrementalReviewAdmission.registryPartitions.some(
+              (part) => output.path === `docs/phase-governance/${part.path}`,
+            ))
     const oldPhysicalRegistryPart =
       rollforward &&
-      incrementalReviewAdmission.registryPartitions.some(
-        (part) => output.path === `docs/phase-governance/${part.path}`,
-      )
+      ((successor &&
+        output.path === `docs/phase-governance/${rollforwardRegistryPartition.path}`) ||
+        incrementalReviewAdmission.registryPartitions.some(
+          (part) => output.path === `docs/phase-governance/${part.path}`,
+        ))
     if (newRegistryPart || oldPhysicalRegistryPart)
       demand(
         output.kind === 'control' && output.bytes.length < 524288,
@@ -573,6 +620,7 @@ export function prepareCurrentReviewTransaction({
   }
   capabilities.set(handle, {
     root: base,
+    successor,
     incremental,
     rollforward,
     expectedPins,
@@ -748,7 +796,9 @@ export function publishCurrentReviewTransaction(handle, { allowWrite = false } =
       : plan.incremental
         ? 1933
         : 302,
-    ...(plan.rollforward ? { activeAfterPinsExact: 4524, retainedHistoricalPins: 6 } : {}),
+    ...(plan.rollforward
+      ? { activeAfterPinsExact: plan.expectedPins - 6, retainedHistoricalPins: 6 }
+      : {}),
     creditGranted: 0,
     lockReleased: true,
     sourcePinsPreserved: true,

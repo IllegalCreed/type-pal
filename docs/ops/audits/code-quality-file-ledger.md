@@ -279,7 +279,7 @@ Template: governance-index-v1 / 1.0.0
 
 ## 当前状态
 
-2026-11-01 文档分支接入最新 main 后，下面唯一现行统计按实际 tracked 清单重算；新增145个工程文件维持待核，846项既有代码关闭依据复用。上方逐次日志中的计数是各自历史窗口，不授当前新增文件代码信用。
+2026-11-01 文档分支接入最新 main 并纳入本批9个文档工具文件后，下面唯一现行统计按实际 tracked 清单重算；相对main新增154个工程文件维持待核，846项既有代码关闭依据复用。上方逐次日志中的计数是各自历史窗口，不授当前新增文件代码信用。
 
 2026-10-24 CODE3l规则/生命周期收口：12项读域，8项整文件接受（7新关闭、1旧接受刷新），3个广域源与P13专测仅增量不升级。3l原七源合同接受，固定66accept/17partial/0pending；3410tracked/418closed/100review/2892pending。定向255、相邻1148；完整check 20572包例+700工具例、七包typecheck；唯一官方采集20143例/777源及同报告ratchet/strict protected通过，运行与硬静态0/0/0。规则提取与两项用户批准画面修复分提交；CLI并发上限2保留5秒与全部用例。修前/中断/超时/静态失败原件保留，不覆盖成通过。远端CI/合并另核，不扩94–102。[本窗逐文件证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-lifecycle-quality/README.md)。
 
@@ -365,8 +365,8 @@ Template: governance-index-v1 / 1.0.0
 
 2026-11-01语言资源与展示模块：12原pending按四片核验，2混装测试退役为语义去向，形成19新关闭当前路径；2旧closed消费者补核不重复计数。54旧身份全部有去向、10新增合同，description no-op旧绿新单红；全check与官方20205完成，同报告精确fixture重算及protected通过。初次合盖超时、严格比例拦截和快照计数漏同步均保留。下一候选为SLF/语言包生产端，须核Owner；其它2620pending不继承信用。见[统一证据](../evidence/QUALITY-GAME-LOCALIZATION-1/README.md)。
 
-起始基点机器清单：2,962。当前 tracked 清单：3,611。
-当前已闭合核验：846；已读但待审：0；尚未逐文件核验：2,765；合计未闭合：2,765。
+起始基点机器清单：2,962。当前 tracked 清单：3,620。
+当前已闭合核验：846；已读但待审：0；尚未逐文件核验：2,774；合计未闭合：2,774。
 
 2026-10-18 审计簿记六项按同SHA字节/实际caller修正，另纠正两EOF界；55只后补当前读边界，未找回当时原件，无新增closed或产品/测试改动。见[簿记返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/audit-metadata-repair/README.md)。
 

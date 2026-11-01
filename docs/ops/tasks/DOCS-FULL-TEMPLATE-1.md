@@ -1,12 +1,12 @@
 # DOCS-FULL-TEMPLATE-1 — 全 docs 深度治理与模板化改写
 
 Status: review
-Execution: review/rework（S86中央发布与全量硬门；公共实现及207内容已接受，实际结果以末尾S86回执为准）
+Execution: review/rework（S87最新main16篇与205历史补录；实现和临时树候选待非作者验收，真实中央尚未改动）
 Phase: ops
 Capability: documentation governance
 Coding Owner: Codex
 Reviewer: GLM（S80五seed、S82退役、S84–S85公共实现/完整演练非作者accept）；Codex（S81内容据证接收、中央接入Owner）
-Branch: codex/docs-s85-rollforward-publication
+Branch: codex/docs-s87-main-successor
 Last reviewed: 2026-11-01
 Template: task-card-v1 / 1.0.0
 
@@ -3044,3 +3044,9 @@ S86实际发布与门结果（2026-11-01）：执行基点50d70b3dd2b3251414431d
 远端已重新固定c88be9b3b5b9dc38c77d8c440085e35b8d15fc43（相对原5e66新增PR35/36六提交）；当前文档分支尚未整合该点，不能对最新main宣告全量完成。内容余量实为12新增（3MD/9JSON）+4正文变更，另2行政视图/6旧flat中央控制/10非prose附件。源码与旧测试只承接已获批上游提交，主工作树未知改动不碰；不把旧2346条flat账覆盖当前4530条与分片。
 
 Codex单一Owner可在隔离分支处理合并、7篇Markdown真实模板治理、9原生JSON既有合同复用和精确来源/历史/消费者说明；同时完成已发表205历史事件的受控补录，以及可复用的后继准入/旧视图逆回/精确registry片界/事务边界。沿用17模板、114逻辑owner及原source pins，不为新一轮造平行账本；旧语义/撤信和六物理退役保持。新的公共实现、整包16内容及完整临时树演练准备齐后一次集中非作者验收，不拆只读/设计小包；接收前不生产补史或授新16信用，不逐批问许可。硬门未过不合main、不推送、不done。
+
+S87实施进展：最新main以真实双亲合并fcd42bd6b进入候选分支，9冲突明确裁定，六旧flat中央文件保留S86现行版本。四篇原文区块保全；代码账本随实际工程文件新增只增加待核，846既有关闭不变。7MD已按现有合同治理，9JSON字节不改；16作者稿与真实primary/upstream来源分轴，仍partial/needs、无非作者签名。
+
+205历史补录仅派生真实f6a95652发布观察，保存原空history与原签名，不补造旧阅读/执行；新事件任何字段变化均拒绝。后继用四项稀疏逆回及十二追加恢复4530前驱，原205/1916接受仍可独立验证；新增物理片只占[4530,4542)，114owner/15source pins及17模板不扩。新授信必须另有精确GLM报告/内容hash，接受表当前为空。
+
+首轮完整临时树真实98写/75旧片退出，4542pin=4536活动+6历史，15manifest/113shard；205补史后空history为0，新16仍候选，原中央逐对象不变。23定向工具测试通过、0失败/0跳过；此为实现期结果，不代替最终候选全仓门。三轮彩排失败分别为旧source-reader拒绝、根文件前缀与重复旧模板元数据，首红/零写恢复/锁与stage原件保留。最终来源绑定、完整零诊断门和集中非作者验收未完成，不生产发布、不合main、不推送、不done。

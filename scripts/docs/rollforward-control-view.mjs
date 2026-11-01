@@ -2,6 +2,10 @@
 import assert from 'node:assert/strict'
 import { createHash } from 'node:crypto'
 import { isDeepStrictEqual as same } from 'node:util'
+import {
+  isMainSuccessorRegistryLayout,
+  projectMainSuccessorControls,
+} from './main-successor-control.mjs'
 import { inspectNativeArtifactRetirements } from './native-artifact-retirements.mjs'
 import { fileState } from './review-record-storage-io.mjs'
 import {
@@ -17,6 +21,12 @@ const hash = (bytes) => createHash('sha256').update(bytes).digest('hex')
 const bytes = (value) => Buffer.from(`${JSON.stringify(value)}\n`)
 const cache = new WeakMap()
 export function isRollforwardRegistryLayout(shards, isOldLayout) {
+  if (
+    isMainSuccessorRegistryLayout(shards, (prior) =>
+      isRollforwardRegistryLayout(prior, isOldLayout),
+    )
+  )
+    return true
   return (
     Array.isArray(shards) &&
     shards.length === 10 &&
@@ -55,11 +65,13 @@ function expectedBuffers(options, cohort) {
     ...change,
     after: cohort.byPath.get(change.path).row,
   }))
-  const projected = projectRollforwardControls({
+  let projected = projectRollforwardControls({
     registry: { ...root, entries },
     routing: parseTerminalJson(get(`${base}routing.json`)),
     plan: { changes },
   })
+  if (cohort.successor)
+    projected = projectMainSuccessorControls({ ...projected, cohort: cohort.successor })
   const parts = projected.registry.shards.map((d) => ({
     descriptor: d,
     value: { schemaVersion: 1, phase: d.phase, positions: [], entries: [] },
@@ -115,8 +127,13 @@ export function rollforwardControlProjection(path, options, inspect) {
   assert.deepEqual(life.issues, [], 'rollforward retirement lifecycle differs')
   const observed = inspect(path, view)
   return {
-    kind: 'accepted-rollforward-control-projection/1.0.0',
-    cohortContentSha256: rollforwardPublication.normalizedChangesSha256,
+    kind: cohort.successor
+      ? 'accepted-main-successor-control-projection/1.0.0'
+      : 'accepted-rollforward-control-projection/1.0.0',
+    cohortContentSha256: cohort.successor
+      ? group.records.get('docs/phase-governance/reviews/20261018-semantic-rework.json')
+          .mainSuccessorPublication.changesSha256
+      : rollforwardPublication.normalizedChangesSha256,
     sourceRevision: rollforwardReviewContract.acceptedBase,
     structureSha256: observed.structureSha256,
     membershipSha256: observed.membershipSha256,

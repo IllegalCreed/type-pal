@@ -49,8 +49,19 @@ function inverseFields(before, after) {
     }))
 }
 
+export function plannedReviewInverse(before, after) {
+  return {
+    keys: Object.keys(before),
+    sha256: reviewPlanHash(before),
+    fields: inverseFields(before, after),
+  }
+}
+
 export function restorePlannedReview(row, field) {
-  assert(['rollforwardIntake', 'rollforwardPrior'].includes(field), 'unknown inverse axis')
+  assert(
+    ['rollforwardIntake', 'rollforwardPrior', 'successorPrior'].includes(field),
+    'unknown inverse axis',
+  )
   const inverse = row[field]
   assert(inverse && Array.isArray(inverse.fields), 'missing sparse inverse')
   const restored = structuredClone(row)
@@ -162,19 +173,11 @@ export function normalizeRollforwardReview(candidate, location, previous) {
     row.productionBindingBasis =
       'Retain the existing paired publication contract; candidate source witnesses do not replace its live native variant or certify execution.'
   }
-  row.rollforwardIntake = {
-    keys: Object.keys(candidate),
-    sha256: reviewPlanHash(candidate),
-    fields: inverseFields(candidate, row),
-  }
+  row.rollforwardIntake = plannedReviewInverse(candidate, row)
   assert.deepEqual(restorePlannedReview(row, 'rollforwardIntake'), candidate)
   if (previous) {
     assert.equal(previous.path, candidate.path, 'wrong prior review identity')
-    row.rollforwardPrior = {
-      keys: Object.keys(previous),
-      sha256: reviewPlanHash(previous),
-      fields: inverseFields(previous, row),
-    }
+    row.rollforwardPrior = plannedReviewInverse(previous, row)
     assert.deepEqual(restorePlannedReview(row, 'rollforwardPrior'), previous)
   }
   return row

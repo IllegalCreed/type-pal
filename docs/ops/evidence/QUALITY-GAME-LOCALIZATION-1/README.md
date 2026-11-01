@@ -7,6 +7,8 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 证据身份
 
+本页current仅指现用证据入口；以下代码关闭、计数和执行结论均属于所列原窗口，不是文档治理后的再次执行或当前全仓结果。
+
 在同一 `codex/code-quality-94-102` 分支，从 main `4f318eb9864eed65021c75bee6ae43286ffea07f` 接续十二个 pending 主体。main 两项 CI 已成功，job 124613696719 / 124613696766 原始日志无实际诊断、annotations 均空。Owner 核对与本批准入见[任务卡](../../tasks/QUALITY-GAME-LOCALIZATION-1.md)。
 
 ## 来源与输入

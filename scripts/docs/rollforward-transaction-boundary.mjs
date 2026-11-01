@@ -72,8 +72,37 @@ export function assertRollforwardNativeInputs(readBuffer, records, retired) {
   for (const row of cohort.rows.filter((r) => r.path.endsWith('.json')))
     check(row.path, row.sourceSha256)
   if (current)
-    for (const { row } of current.byPath.values())
+    for (const { row } of [
+      ...current.byPath.values(),
+      ...(current.successor?.byPath.values() ?? []),
+    ])
       if (row.path.endsWith('.json')) assert.equal(hash(readBuffer(row.path)), row.afterSha256)
+}
+export function successorInputRepairs(before, after, readBuffer) {
+  const successor = inspectRollforwardCohort(after)?.successor
+  assert(successor, 'closed main successor required')
+  const administrative = new Set([
+    ...rollforwardAdministrativePaths,
+    'docs/ops/evidence/DOCS-FULL-TEMPLATE-1/s22-validation.log.gz',
+  ])
+  const repairs = []
+  for (const [owner, record] of before)
+    for (const [index, row] of record.entries.entries()) {
+      const raw = readBuffer(row.path)
+      if (!Buffer.isBuffer(raw) || hash(raw) === row.afterSha256) continue
+      assert(
+        successor.byPath.has(row.path) || administrative.has(row.path),
+        `unaccepted successor input drift: ${row.path}`,
+      )
+      repairs.push({
+        owner,
+        index,
+        path: row.path,
+        beforeSha256: row.afterSha256,
+        afterSha256: hash(raw),
+      })
+    }
+  return repairs
 }
 export function rollforwardInputRepairs(before, after, readBuffer) {
   const current = inspectRollforwardCohort(after)

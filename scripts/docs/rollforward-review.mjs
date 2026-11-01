@@ -1,6 +1,7 @@
 // Exact current acceptance. The prior signed cohort is reconstructed, never re-signed.
 import assert from 'node:assert/strict'
 import { incrementalReviewPath } from './incremental-review-content.mjs'
+import { inspectMainSuccessor, priorSuccessorRecord } from './main-successor-review.mjs'
 import {
   restorePlannedReview,
   reviewPlanHash,
@@ -30,13 +31,66 @@ const seeds = new Set([
   'docs/ops/tasks/GAME-INPUT-KEYMAP-OWN-KEY-1.md',
   'docs/testing/domains/phase1-runtime/control-rotation/evidence.json',
 ])
+export const rollforwardHistoryPublicationRevision = 'f6a956529cfa5efdb79a72af89feef08a21cab60'
+
+// This is a retrospective observation of the real S86 publication, not a new
+// author read, independent acceptance or execution. The exact original empty
+// history participates in the frozen content hash; only this derived event may
+// be removed when reconstructing that already accepted view.
+export function rollforwardHistoryEvent(row) {
+  const signature = row.currentIndependentAcceptance
+  assert(
+    row.rollforwardIntake && signature?.kind === rollforwardPublication.kind,
+    'existing rollforward acceptance required for publication history',
+  )
+  return {
+    kind: 'rollforward-publication-history-repair/1.0.0',
+    publicationRevision: rollforwardHistoryPublicationRevision,
+    recordedOn: '2026-11-01',
+    path: row.path,
+    acceptedBodySha256: signature.acceptedBodySha256,
+    acceptedContentSha256: signature.contentSha256,
+    normalizedChangesSha256: rollforwardPublication.normalizedChangesSha256,
+    originalHistory: [],
+    originalIndependentAcceptanceUnchanged: true,
+    newSemanticCredit: 0,
+    runtimeCredit: false,
+    childSemanticCredit: false,
+  }
+}
 function pendingView(row) {
   const pending = structuredClone(row)
+  if (Array.isArray(pending.history) && pending.history.length) {
+    assert.deepEqual(
+      pending.history,
+      [rollforwardHistoryEvent(row)],
+      'unknown or changed rollforward publication history',
+    )
+    pending.history = []
+  }
   delete pending.currentIndependentAcceptance
   pending.contentReviewStatus = 'partial-review-unknown'
   pending.templateCompliance = 'needs-migration'
   pending.nonAuthorReviewer = false
   return pending
+}
+
+/** Pure proposal only. A public transaction must still resolve the fixed real
+ * publication Git objects, protect all inputs and verify the complete group. */
+export function repairRollforwardPublicationHistory(records) {
+  const cohort = inspectRollforwardCohort(records)
+  assert(cohort, 'published rollforward cohort required')
+  const next = new Map([...records].map(([owner, record]) => [owner, structuredClone(record)]))
+  let repaired = 0
+  for (const { owner, index } of cohort.byPath.values()) {
+    const row = next.get(owner).entries[index]
+    if (row.history.length) continue
+    assert.deepEqual(row.history, [], 'original empty history required')
+    row.history = [rollforwardHistoryEvent(row)]
+    repaired++
+  }
+  inspectRollforwardCohort(next)
+  return { records: next, repaired, alreadyRecorded: cohort.byPath.size - repaired }
 }
 export function rollforwardSignature(row) {
   return {
@@ -113,6 +167,8 @@ function cached(records) {
 export function inspectRollforwardCohort(records) {
   const saved = cached(records)
   if (saved) return saved
+  const successor = inspectMainSuccessor(records)
+  if (successor) records = successor.priorRecords
   const header = records.get(incrementalReviewPath)?.rollforwardPublication
   if (header === undefined) {
     assert(
@@ -174,7 +230,7 @@ export function inspectRollforwardCohort(records) {
     2123,
     'exact old1944 plus179 append required',
   )
-  const cohort = { byPath, changes }
+  const cohort = { byPath, changes, successor }
   const original = [...records]
     .sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0))
     .map(([owner, record]) => {
@@ -197,6 +253,7 @@ export function inspectRollforwardCohort(records) {
 
 export function priorRollforwardRecord(record, cohort) {
   if (!cohort) return record
+  record = priorSuccessorRecord(record, cohort.successor)
   const prior = structuredClone(record)
   delete prior.rollforwardPublication
   prior.entries = prior.entries.flatMap((row) => {

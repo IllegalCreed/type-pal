@@ -21,6 +21,7 @@ import { historicalNativeArtifactIssues } from './historical-native-artifact.mjs
 import { historicalNativeFamilyIssues } from './historical-native-family.mjs'
 import { historicalVitestNativeIssues } from './historical-vitest-native.mjs'
 import { incrementalDocumentIssues } from './incremental-review.mjs'
+import { mainSuccessorDocumentIssues } from './main-successor-document.mjs'
 import { markdownLinks, withoutFences } from './markdown.mjs'
 import { rollforwardDocumentIssues } from './rollforward-document-contract.mjs'
 import { testingEvidenceLineageIssues } from './testing-evidence-lineage.mjs'
@@ -337,24 +338,31 @@ export function checkMigratedDocument(doc, registry, read, options = {}) {
   const template = registry.types.find((type) => type.templateId === doc.templateId)
   if (text === undefined) return ['migrated document missing']
   const contract = doc.variant ? template?.variants?.[doc.variant] : template
-  const rollingIssues = rollforwardDocumentIssues(
+  const checkAdoptedBody = (body, type, bodyOptions) => {
+    const bodyContract = bodyOptions.variant ? type.variants?.[bodyOptions.variant] : type
+    return [
+      ...checkTemplateBody(body, type, bodyOptions),
+      ...publicationIssues(body, bodyContract, read, doc.path),
+      ...machineDeclarationIssues(
+        body,
+        type,
+        bodyContract?.templateVersion ?? type.templateVersion,
+      ),
+    ]
+  }
+  const successorIssues = mainSuccessorDocumentIssues(
     doc,
     template,
     read,
     options,
-    (body, type, bodyOptions) => {
-      const bodyContract = bodyOptions.variant ? type.variants?.[bodyOptions.variant] : type
-      return [
-        ...checkTemplateBody(body, type, bodyOptions),
-        ...publicationIssues(body, bodyContract, read, doc.path),
-        ...machineDeclarationIssues(
-          body,
-          type,
-          bodyContract?.templateVersion ?? type.templateVersion,
-        ),
-      ]
-    },
+    checkAdoptedBody,
   )
+  if (successorIssues !== undefined && (successorIssues.length || doc.path.endsWith('.json')))
+    return successorIssues
+  const rollingIssues =
+    successorIssues === undefined
+      ? rollforwardDocumentIssues(doc, template, read, options, checkAdoptedBody)
+      : []
   if (rollingIssues !== undefined && (rollingIssues.length || doc.path.endsWith('.json')))
     return rollingIssues
   const incrementalIssues =
