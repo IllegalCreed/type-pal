@@ -8,7 +8,7 @@ export const mainSuccessorAdmission = freeze({
   generationId: 'main-c88-20261101',
   predecessorRevision: '38a6fa16d49641951233dee60b3d77d651e0805d',
   mainRevision: 'c88be9b3b5b9dc38c77d8c440085e35b8d15fc43',
-  carrierRevision: 'fcd42bd6b8b2483e8e143384d7e8dac7c08e9938',
+  carrierRevision: '828ec3b99acb12c9f42e819608e456bb31fa399f',
   semanticOwner: 'docs/phase-governance/reviews/20261018-semantic-rework.json',
   owners: 114,
   predecessorRows: 4530,
@@ -19,7 +19,7 @@ export const mainSuccessorAdmission = freeze({
   additions: 12,
   amendments: 4,
   predecessorContentSha256: '3c9571f55dcb4a661415672c69051b975b96f11711cff21e1c578e9de1c46159',
-  changesSha256: 'aa8b8f6533be6a1fde9327afd414e67adcd21b61eed285305faebd24b6063869',
+  changesSha256: 'cf58e0831edd0e5195c08fef80b395a9e85a13addbee66ff4466934335fd0e65',
 })
 export const mainSuccessorTargets = freeze([
   {
