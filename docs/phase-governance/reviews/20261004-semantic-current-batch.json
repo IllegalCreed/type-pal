@@ -1649,6 +1649,26 @@
             "scope": "Finite five-review closeout status, mapping/navigation or their direct reviewed metadata projection; preserve old facts and other entries.",
             "evidence": "docs/ops/evidence/QUALITY-NAMING-ORGANIZATION-1/remaining-five/README.md",
             "notRun": ["runtime/E2E/visual by document metadata"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-11-01",
+            "action": "localization-reviewed-delta",
+            "previousAfterSha256": "cd8c42b147b3c6a9e65d47d0bde95a09adb8064a18bb7161a32579946f453c0c",
+            "afterSha256": "7ee55b1cdeb09a35aa3352b9cd28d23ddc6d2092b32dc4f5a89a334e7c58d2da",
+            "scope": "Finite language module review status, identity mapping/navigation or their direct reviewed metadata projection; preserve old facts and other entries.",
+            "evidence": "docs/ops/evidence/QUALITY-GAME-LOCALIZATION-1/README.md",
+            "notRun": ["runtime/E2E/visual by document metadata"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-11-01",
+            "action": "localization-reviewed-delta",
+            "previousAfterSha256": "7ee55b1cdeb09a35aa3352b9cd28d23ddc6d2092b32dc4f5a89a334e7c58d2da",
+            "afterSha256": "cd8c42b147b3c6a9e65d47d0bde95a09adb8064a18bb7161a32579946f453c0c",
+            "scope": "Finite language module review status, identity mapping/navigation or their direct reviewed metadata projection; preserve old facts and other entries.",
+            "evidence": "docs/ops/evidence/QUALITY-GAME-LOCALIZATION-1/README.md",
+            "notRun": ["runtime/E2E/visual by document metadata"]
           }
         ]
       },
@@ -3321,7 +3341,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "c1df42497db373493f35f52056fc685ada73dc963edbf2af8f27a44ec0aad448",
-      "afterSha256": "8d7efa6651b6c2f73fac682a3d92fe7dadfb54266faf88bc0c6f0d33539a0ebb",
+      "afterSha256": "63bb70f8d9f92f2bdd0f33adfb1e7f334058715ccd34458cdcfe84f0278dee68",
       "publicCallers": [
         "docs/ops/tasks/README.md → index.md",
         "docs/ops/board.md → tasks/index.md",
@@ -3342,7 +3362,7 @@
       },
       "revision": {
         "currentSha": "7685e5fbde52aba8c34b18c116728f7d14c83da85f10fbf677c7ed413b024f41",
-        "implementationSha": "8d7efa6651b6c2f73fac682a3d92fe7dadfb54266faf88bc0c6f0d33539a0ebb",
+        "implementationSha": "63bb70f8d9f92f2bdd0f33adfb1e7f334058715ccd34458cdcfe84f0278dee68",
         "contentVersion": 33,
         "minimumSaveVersion": 12,
         "history": [
@@ -3740,13 +3760,33 @@
             "scope": "Finite five-review closeout status, mapping/navigation or their direct reviewed metadata projection; preserve old facts and other entries.",
             "evidence": "docs/ops/evidence/QUALITY-NAMING-ORGANIZATION-1/remaining-five/README.md",
             "notRun": ["runtime/E2E/visual by document metadata"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-11-01",
+            "action": "localization-reviewed-delta",
+            "previousAfterSha256": "8d7efa6651b6c2f73fac682a3d92fe7dadfb54266faf88bc0c6f0d33539a0ebb",
+            "afterSha256": "af75a6d6f5d67726a7bec431c7b30d3f4f7ad3854126ebf958be9de372c25ac1",
+            "scope": "Finite language module review status, identity mapping/navigation or their direct reviewed metadata projection; preserve old facts and other entries.",
+            "evidence": "docs/ops/evidence/QUALITY-GAME-LOCALIZATION-1/README.md",
+            "notRun": ["runtime/E2E/visual by document metadata"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-11-01",
+            "action": "localization-reviewed-delta",
+            "previousAfterSha256": "af75a6d6f5d67726a7bec431c7b30d3f4f7ad3854126ebf958be9de372c25ac1",
+            "afterSha256": "63bb70f8d9f92f2bdd0f33adfb1e7f334058715ccd34458cdcfe84f0278dee68",
+            "scope": "Finite language module review status, identity mapping/navigation or their direct reviewed metadata projection; preserve old facts and other entries.",
+            "evidence": "docs/ops/evidence/QUALITY-GAME-LOCALIZATION-1/README.md",
+            "notRun": ["runtime/E2E/visual by document metadata"]
           }
         ]
       },
       "evidence": {
         "kind": "owned-release-preparation",
         "path": "docs/ops/tasks/index.md",
-        "afterSha256": "8d7efa6651b6c2f73fac682a3d92fe7dadfb54266faf88bc0c6f0d33539a0ebb",
+        "afterSha256": "63bb70f8d9f92f2bdd0f33adfb1e7f334058715ccd34458cdcfe84f0278dee68",
         "scope": "Release delta.",
         "lineCount": 537,
         "currentMaintenance": {
@@ -4701,7 +4741,7 @@
       "supersedes": [],
       "stopLine": "This scoped document maintenance does not grant complete story/runtime/visual/deployment acceptance or refresh unrelated historical evidence.",
       "userVisibleBeforeAfter": "现有治理入口保留 → 补齐 governance-index-v1 结构与可追溯元数据，任务状态和历史事实不变。",
-      "reviewedLines": "1-568",
+      "reviewedLines": "1-569",
       "reviewNotes": "任务索引将 DOCS-CATALOG-SPLIT-1 投影到 historical done；当前卡已完成 catalog schema 迁移，但不授予全 docs 或产品执行信用。\n2026-10-21: Owned pre94 present/speedrun candidate rows; all36 candidates review, 0newcard acceptance; actual ledger consumer count and unchanged historical fence checked. Whole check stopped at these stale document SHAs before package execution; no passed gate credit invented.\n2026-10-21 final: This supersedes only the prior owned candidate row/status note. Current static document hashes/line counts are paired; full runtime/coverage proof is external, not inferred from document review.\n2026-10-21 final: This supersedes only the prior owned candidate row/status note. Current static document hashes/line counts are paired; full runtime/coverage proof is external, not inferred from document review.",
       "integrationReview": {
         "reviewer": "Codex",

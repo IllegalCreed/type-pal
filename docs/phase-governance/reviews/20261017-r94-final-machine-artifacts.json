@@ -9193,7 +9193,7 @@
         }
       ],
       "sourceSha256": "9c3e28630a348209042706545971d4598adb8a49e392a485a14c687ba2010716",
-      "afterSha256": "2f095c4c7a7cf689eff7cf24d4653a74207d00932c885bae0adc316f64182ebc",
+      "afterSha256": "f78fe9179ea7326862e8ac635ceec1f74ff7606785e2e713c7ba7a9d4904e5e0",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -9217,7 +9217,7 @@
       },
       "revision": {
         "currentSha": "7faa2bd7fe3dabf8a92b5f1455fa94e24c7c3d1af0f55cb0d2ad3e0cdeeb7e3a",
-        "implementationSha": "2f095c4c7a7cf689eff7cf24d4653a74207d00932c885bae0adc316f64182ebc",
+        "implementationSha": "f78fe9179ea7326862e8ac635ceec1f74ff7606785e2e713c7ba7a9d4904e5e0",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -9942,6 +9942,26 @@
             "scope": "Finite five-review closeout status, mapping/navigation or their direct reviewed metadata projection; preserve old facts and other entries.",
             "evidence": "docs/ops/evidence/QUALITY-NAMING-ORGANIZATION-1/remaining-five/README.md",
             "notRun": ["runtime/E2E/visual by document metadata"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-11-01",
+            "action": "localization-reviewed-delta",
+            "previousAfterSha256": "2f095c4c7a7cf689eff7cf24d4653a74207d00932c885bae0adc316f64182ebc",
+            "afterSha256": "4c73e2732be0fcf0687e942389ad6d039e37c0d3dcf63e28aa2aff56c70540a6",
+            "scope": "Finite language module review status, identity mapping/navigation or their direct reviewed metadata projection; preserve old facts and other entries.",
+            "evidence": "docs/ops/evidence/QUALITY-GAME-LOCALIZATION-1/README.md",
+            "notRun": ["runtime/E2E/visual by document metadata"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-11-01",
+            "action": "localization-reviewed-delta",
+            "previousAfterSha256": "4c73e2732be0fcf0687e942389ad6d039e37c0d3dcf63e28aa2aff56c70540a6",
+            "afterSha256": "f78fe9179ea7326862e8ac635ceec1f74ff7606785e2e713c7ba7a9d4904e5e0",
+            "scope": "Finite language module review status, identity mapping/navigation or their direct reviewed metadata projection; preserve old facts and other entries.",
+            "evidence": "docs/ops/evidence/QUALITY-GAME-LOCALIZATION-1/README.md",
+            "notRun": ["runtime/E2E/visual by document metadata"]
           }
         ]
       },
@@ -9950,7 +9970,7 @@
         "path": "docs/phase-governance/reviews/20261004-semantic-current-batch.json",
         "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
         "candidateSha256": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
-        "afterSha256": "2f095c4c7a7cf689eff7cf24d4653a74207d00932c885bae0adc316f64182ebc",
+        "afterSha256": "f78fe9179ea7326862e8ac635ceec1f74ff7606785e2e713c7ba7a9d4904e5e0",
         "lineCount": 5540,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -11879,7 +11899,7 @@
       ],
       "stopLine": "This scoped document maintenance does not grant complete story/runtime/visual/deployment acceptance or refresh unrelated historical evidence.",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "1-5507",
+      "reviewedLines": "1-5547",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
@@ -11954,7 +11974,7 @@
         }
       ],
       "sourceSha256": "a6034a8eee23aede7a0c85cc1bda433e850a4449cbc43cd73d7c46897f6d68e7",
-      "afterSha256": "2b8120a96a6076a9c5fa32fabe35379ff9ab5f3c93ffd3feb79b636193cb06af",
+      "afterSha256": "512a788068be05cba837dcf8f4d0eebec0b19c7181a8eeea7037ac6dcdee55a3",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -11978,7 +11998,7 @@
       },
       "revision": {
         "currentSha": "441241b6fb48b9b96d99d3b3dc514c603fabed0320498ff2da12515ef64893f9",
-        "implementationSha": "2b8120a96a6076a9c5fa32fabe35379ff9ab5f3c93ffd3feb79b636193cb06af",
+        "implementationSha": "512a788068be05cba837dcf8f4d0eebec0b19c7181a8eeea7037ac6dcdee55a3",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -12677,6 +12697,26 @@
             "scope": "Finite five-review closeout status, mapping/navigation or their direct reviewed metadata projection; preserve old facts and other entries.",
             "evidence": "docs/ops/evidence/QUALITY-NAMING-ORGANIZATION-1/remaining-five/README.md",
             "notRun": ["runtime/E2E/visual by document metadata"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-11-01",
+            "action": "localization-reviewed-delta",
+            "previousAfterSha256": "2b8120a96a6076a9c5fa32fabe35379ff9ab5f3c93ffd3feb79b636193cb06af",
+            "afterSha256": "68cad1a36162606be19671ff16dd32b16e34946257918186e3d6f856daa27787",
+            "scope": "Finite language module review status, identity mapping/navigation or their direct reviewed metadata projection; preserve old facts and other entries.",
+            "evidence": "docs/ops/evidence/QUALITY-GAME-LOCALIZATION-1/README.md",
+            "notRun": ["runtime/E2E/visual by document metadata"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-11-01",
+            "action": "localization-reviewed-delta",
+            "previousAfterSha256": "68cad1a36162606be19671ff16dd32b16e34946257918186e3d6f856daa27787",
+            "afterSha256": "512a788068be05cba837dcf8f4d0eebec0b19c7181a8eeea7037ac6dcdee55a3",
+            "scope": "Finite language module review status, identity mapping/navigation or their direct reviewed metadata projection; preserve old facts and other entries.",
+            "evidence": "docs/ops/evidence/QUALITY-GAME-LOCALIZATION-1/README.md",
+            "notRun": ["runtime/E2E/visual by document metadata"]
           }
         ]
       },
@@ -12685,7 +12725,7 @@
         "path": "docs/phase-governance/reviews/20261016-historical-cards-d.json",
         "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
         "candidateSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-        "afterSha256": "2b8120a96a6076a9c5fa32fabe35379ff9ab5f3c93ffd3feb79b636193cb06af",
+        "afterSha256": "512a788068be05cba837dcf8f4d0eebec0b19c7181a8eeea7037ac6dcdee55a3",
         "lineCount": 7102,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -14448,7 +14488,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "1-7117",
+      "reviewedLines": "1-7137",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
@@ -14524,7 +14564,7 @@
         }
       ],
       "sourceSha256": "c3bbeaa5a531f7aae26ba0525ac6a5093e0cd76fae9bbe6111d81b369cbfe65a",
-      "afterSha256": "ce51d4cbe64bb2410bd30c5265a0de1cd035236357cea280f93e0e3a41a81b39",
+      "afterSha256": "711a4e16bba13f5264d8b4164d0fd77e827fe55f273ee5b042d3b9bd02eef73d",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -14548,7 +14588,7 @@
       },
       "revision": {
         "currentSha": "77cff8288bab94695ee5d12a94b5476b34312cd1840b6035c00e880b46df54c0",
-        "implementationSha": "ce51d4cbe64bb2410bd30c5265a0de1cd035236357cea280f93e0e3a41a81b39",
+        "implementationSha": "711a4e16bba13f5264d8b4164d0fd77e827fe55f273ee5b042d3b9bd02eef73d",
         "history": [
           {
             "revision": "31a6769e7d6cd0e3c02669e3827beb38e818ed4e",
@@ -14632,6 +14672,16 @@
             "scope": "Finite five-review closeout status, mapping/navigation or their direct reviewed metadata projection; preserve old facts and other entries.",
             "evidence": "docs/ops/evidence/QUALITY-NAMING-ORGANIZATION-1/remaining-five/README.md",
             "notRun": ["runtime/E2E/visual by document metadata"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-11-01",
+            "action": "localization-reviewed-delta",
+            "previousAfterSha256": "ce51d4cbe64bb2410bd30c5265a0de1cd035236357cea280f93e0e3a41a81b39",
+            "afterSha256": "711a4e16bba13f5264d8b4164d0fd77e827fe55f273ee5b042d3b9bd02eef73d",
+            "scope": "Finite language module review status, identity mapping/navigation or their direct reviewed metadata projection; preserve old facts and other entries.",
+            "evidence": "docs/ops/evidence/QUALITY-GAME-LOCALIZATION-1/README.md",
+            "notRun": ["runtime/E2E/visual by document metadata"]
           }
         ]
       },
@@ -14640,7 +14690,7 @@
         "path": "docs/phase-governance/reviews/20261017-r39-ops-evidence-readmes.json",
         "sourceSha256": "c3bbeaa5a531f7aae26ba0525ac6a5093e0cd76fae9bbe6111d81b369cbfe65a",
         "candidateSha256": "c3bbeaa5a531f7aae26ba0525ac6a5093e0cd76fae9bbe6111d81b369cbfe65a",
-        "afterSha256": "ce51d4cbe64bb2410bd30c5265a0de1cd035236357cea280f93e0e3a41a81b39",
+        "afterSha256": "711a4e16bba13f5264d8b4164d0fd77e827fe55f273ee5b042d3b9bd02eef73d",
         "lineCount": 1060,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -14683,7 +14733,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "1-1087",
+      "reviewedLines": "1-1097",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,

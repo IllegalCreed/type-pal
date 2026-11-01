@@ -538,6 +538,7 @@ Template: governance-index-v1 / 1.0.0
 | [QUALITY-EXTRACT-TABLE-TESTS-1 — 二进制表与调色/音频专测](QUALITY-EXTRACT-TABLE-TESTS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-EXTRACT-UNUSED-ADAPTERS-1 — 提取器旧适配器退役候选](QUALITY-EXTRACT-UNUSED-ADAPTERS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-GAME-ASSET-RENDER-TESTS-1 — 资产读取与渲染专测的合同收口](QUALITY-GAME-ASSET-RENDER-TESTS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [QUALITY-GAME-LOCALIZATION-1 — 第一阶段语言资源与展示合同治理](QUALITY-GAME-LOCALIZATION-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-GAME-PRESENT-HOST-TESTS-1 — present 主测与冻屏合同质量](QUALITY-GAME-PRESENT-HOST-TESTS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-INITIALIZER-FIXTURES-1 — 原生初始化器探针的九个 fixture](QUALITY-INITIALIZER-FIXTURES-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-LEGACY-OGG-RETIREMENT-1 — 未接入的旧OGG后端退役](QUALITY-LEGACY-OGG-RETIREMENT-1.md) | done | 完成证据、历史签字与交接见原卡。 |

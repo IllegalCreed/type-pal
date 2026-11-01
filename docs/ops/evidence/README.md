@@ -7,6 +7,8 @@ Template: governance-index-v1 / 1.0.0
 
 本页是 ops evidence 的当前导航入口；其中列出的交付与历史材料按各自 source revision、任务卡和独立回执解释。索引本身不把旧证据升格为当前 runtime、E2E、视觉或 coverage 通过。
 
+- [第一阶段语言资源与展示治理](QUALITY-GAME-LOCALIZATION-1/README.md)：十二原 pending 的八维、语义拆合、反控与集中门。
+
 ## 目的
 - 为任务证据、机器产物和历史交付提供唯一导航入口。
 

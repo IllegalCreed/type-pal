@@ -3298,10 +3298,10 @@
       "sourceSha256": "ebf04c215b7bb6a3feda0cb8b8676fed19b40057a4de5e311375a174139529f0",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "50012277f66ac304ce272ee89fd623db8590fac2",
-      "afterSha256": "c6e5c8f2fad0d86203ff7ad8b15a4219f34e77f7d8060acc129a4d1ea4ecfe07",
+      "afterSha256": "06514677a87629af52c0f26e0509a3b04d6aac0c65119ba41a98c26a5142eee0",
       "revision": {
         "currentSha": "4fcd1122ca1951aafbd5033161e00ac34671911088b8129354a4bd50d8d3df5c",
-        "implementationSha": "c6e5c8f2fad0d86203ff7ad8b15a4219f34e77f7d8060acc129a4d1ea4ecfe07",
+        "implementationSha": "06514677a87629af52c0f26e0509a3b04d6aac0c65119ba41a98c26a5142eee0",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -4195,13 +4195,33 @@
             "scope": "Finite five-review closeout status, mapping/navigation or their direct reviewed metadata projection; preserve old facts and other entries.",
             "evidence": "docs/ops/evidence/QUALITY-NAMING-ORGANIZATION-1/remaining-five/README.md",
             "notRun": ["runtime/E2E/visual by document metadata"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-11-01",
+            "action": "localization-reviewed-delta",
+            "previousAfterSha256": "c6e5c8f2fad0d86203ff7ad8b15a4219f34e77f7d8060acc129a4d1ea4ecfe07",
+            "afterSha256": "f7603295710ca4843b511a148dc67147f9edc30d948be14e43201900652e5e61",
+            "scope": "Finite language module review status, identity mapping/navigation or their direct reviewed metadata projection; preserve old facts and other entries.",
+            "evidence": "docs/ops/evidence/QUALITY-GAME-LOCALIZATION-1/README.md",
+            "notRun": ["runtime/E2E/visual by document metadata"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-11-01",
+            "action": "localization-reviewed-delta",
+            "previousAfterSha256": "f7603295710ca4843b511a148dc67147f9edc30d948be14e43201900652e5e61",
+            "afterSha256": "06514677a87629af52c0f26e0509a3b04d6aac0c65119ba41a98c26a5142eee0",
+            "scope": "Finite language module review status, identity mapping/navigation or their direct reviewed metadata projection; preserve old facts and other entries.",
+            "evidence": "docs/ops/evidence/QUALITY-GAME-LOCALIZATION-1/README.md",
+            "notRun": ["runtime/E2E/visual by document metadata"]
           }
         ]
       },
       "evidence": {
         "kind": "owned-release-preparation",
         "path": "docs/ops/audits/code-quality-file-ledger.md",
-        "afterSha256": "c6e5c8f2fad0d86203ff7ad8b15a4219f34e77f7d8060acc129a4d1ea4ecfe07",
+        "afterSha256": "06514677a87629af52c0f26e0509a3b04d6aac0c65119ba41a98c26a5142eee0",
         "scope": "Owned release-preparation delta.",
         "lineCount": 1171,
         "currentMaintenance": {
@@ -5525,7 +5545,7 @@
         "after": "Actual tracked inventory3300/229closed/5review/3066pending/3071unclosed. A8 adds exactly five tool rows and one focused test row, all pending. All248 prior live rows/order/category/status/evidence and complete273-line original bytes remain exact. Source-format-partial acceptance does not close CODE-QUALITY or grant document migration/runtime credit.",
         "semanticChange": "Only inventory/authority maintenance and exact accepted A8 format tools; no new product/test/coverage or corpus migration credit."
       },
-      "reviewedLines": "1-1606",
+      "reviewedLines": "1-1629",
       "phase": "ops",
       "module": "quality-governance-and-historical-causality",
       "templateConformity": {

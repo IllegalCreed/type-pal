@@ -1,0 +1,1639 @@
+{
+  "base": "4f318eb9864eed65021c75bee6ae43286ffea07f",
+  "scope": {
+    "originalPending": 12,
+    "existingClosedConsumers": 2,
+    "currentOutputs": 21
+  },
+  "inputs": [
+    {
+      "path": "packages/shared/src/localization.ts",
+      "sha256": "70560f236b3fdc2162b6f843e237f577cf81350c50b9ada26d8a68bc9fc307a1",
+      "lines": 22
+    },
+    {
+      "path": "packages/game/src/assets/language-pack.ts",
+      "sha256": "90823c2c79881f5783c04d2bd070d1f6837a43685814ea6b6123a927b342fca4",
+      "lines": 83
+    },
+    {
+      "path": "packages/game/src/localization/language.ts",
+      "sha256": "d3b5410d8b1565af885a84ccc59f74511b712fd0bb1470eef882ad276c330779",
+      "lines": 53
+    },
+    {
+      "path": "packages/game/src/localization/layout.ts",
+      "sha256": "4240ea5e629b2f6c65fc9a0fb48e73c418b9ea5aa5ec547b011e0313c3c1bc1c",
+      "lines": 24
+    },
+    {
+      "path": "packages/game/src/localization/static-shell.ts",
+      "sha256": "f1ce70512971b2f042a6630136193c13324ba590baee16c68da5b886283a34f5",
+      "lines": 28
+    },
+    {
+      "path": "packages/game/src/localization/messages.ts",
+      "sha256": "fe0d4847126dde80f76e7ee26e82b83bd966739c7bdf180474bc0d739481f721",
+      "lines": 158
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-description.ts",
+      "sha256": "4d06005cabcd67c300540c62898453022fcaafacd00256a99bdb6a6f055fb485",
+      "lines": 34
+    },
+    {
+      "path": "packages/game/src/assets/language-pack.test.ts",
+      "sha256": "d8097a8e21204fd3d60f306d09373c3a6bf5adc46aa7e0aa6bf8411baf5e4a28",
+      "lines": 93
+    },
+    {
+      "path": "packages/game/src/core/word-lookup.test.ts",
+      "sha256": "6ae3a29e4fa5eb30d43525c6187c1843b8a6a5bbf81327dcb500c6e9d2a73666",
+      "lines": 34
+    },
+    {
+      "path": "packages/game/src/localization/language.test.ts",
+      "sha256": "4c96a04add9afdccf39f1ff310e5978285f9384890372a76a8b81e3cf8a816c4",
+      "lines": 72
+    },
+    {
+      "path": "packages/game/src/localization/messages.test.ts",
+      "sha256": "50fbf49a3d9dce585f277b2694f64cc56a350d3a6486a74f883f57101b636139",
+      "lines": 374
+    },
+    {
+      "path": "packages/game/src/localization/presentation.test.ts",
+      "sha256": "0bb7c9fcaf9ebb25c0e3fe94a431993a8131fd0c7d31dd06e1d6ffc7426e488e",
+      "lines": 100
+    },
+    {
+      "path": "packages/game/src/localization/shell-surfaces.test.ts",
+      "sha256": "41f5ce926b70b0a68a26392f20c6b890179e900295f97f6859272068effbd372",
+      "lines": 92
+    },
+    {
+      "path": "packages/game/src/tools/map-names.test.ts",
+      "sha256": "6061d03b7442f04f2bc0b560224c4fc414781c3744d67149e7caf0e8cc5ce486",
+      "lines": 53
+    }
+  ],
+  "outputs": [
+    {
+      "path": "packages/shared/src/localization.ts",
+      "sha256": "70560f236b3fdc2162b6f843e237f577cf81350c50b9ada26d8a68bc9fc307a1",
+      "lines": 22
+    },
+    {
+      "path": "packages/game/src/assets/language-pack.ts",
+      "sha256": "90823c2c79881f5783c04d2bd070d1f6837a43685814ea6b6123a927b342fca4",
+      "lines": 83
+    },
+    {
+      "path": "packages/game/src/localization/language.ts",
+      "sha256": "797951a38e183da545893402316581d6372b962d2091a433cb38d2f11ebc5853",
+      "lines": 55
+    },
+    {
+      "path": "packages/game/src/localization/layout.ts",
+      "sha256": "4cc6b0ca5041452fa4f192325129ffc88a8609dd4980a7c08f7de085aa60c0eb",
+      "lines": 25
+    },
+    {
+      "path": "packages/game/src/localization/static-shell.ts",
+      "sha256": "f1ce70512971b2f042a6630136193c13324ba590baee16c68da5b886283a34f5",
+      "lines": 28
+    },
+    {
+      "path": "packages/game/src/localization/messages.ts",
+      "sha256": "4b45a14ce88e46221510a5f36fa2be8b4257e8a34ea08f8ef54515ea0a312035",
+      "lines": 159
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-description.ts",
+      "sha256": "4d06005cabcd67c300540c62898453022fcaafacd00256a99bdb6a6f055fb485",
+      "lines": 34
+    },
+    {
+      "path": "packages/game/src/assets/language-pack.test.ts",
+      "sha256": "d8097a8e21204fd3d60f306d09373c3a6bf5adc46aa7e0aa6bf8411baf5e4a28",
+      "lines": 93
+    },
+    {
+      "path": "packages/game/src/localization/language.test.ts",
+      "sha256": "b31055140c11ca9c4c31eeeee62cc34dccda108e8e56b785b059b1e4278bf902",
+      "lines": 74
+    },
+    {
+      "path": "packages/game/src/localization/messages.test.ts",
+      "sha256": "af746d9dac5ec1eaaf2ec209ac287c5791a45857159a6792da621007af5cfde7",
+      "lines": 65
+    },
+    {
+      "path": "packages/game/src/localization/dialog-playback.test.ts",
+      "sha256": "c4d74ac10e90b831cdb2a0db7610743a0053d1b0280d9a41c921c8fc47656d3e",
+      "lines": 313
+    },
+    {
+      "path": "packages/game/src/localization/dialog-wrap.test.ts",
+      "sha256": "9db01d4c3617c4ec19734473e4a58b2588f2f5a28eef0565a8e41cf964b756d5",
+      "lines": 27
+    },
+    {
+      "path": "packages/game/src/localization/layout.test.ts",
+      "sha256": "e9aa232f0dce57eeb413c986425f3d95152124ceaa9885b5c967095abbd6d8be",
+      "lines": 61
+    },
+    {
+      "path": "packages/game/src/localization/static-shell.test.ts",
+      "sha256": "b92638e8abd5d22d766c968ddcfd9aec1bc30de813b812fa85c14352199cb656",
+      "lines": 74
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-description.test.ts",
+      "sha256": "1cef158e914aeb9084874d315ddfb00c1dfb21eac7f4f38d25be190e0c130429",
+      "lines": 40
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-equip.localization.test.ts",
+      "sha256": "d65596ba9ee30424e76a08640d4340ece6237dc3d5595a1220c7c6c94fe5cecd",
+      "lines": 62
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-steal-localization.test.ts",
+      "sha256": "3c5c74f9a0dd305718bbd6d8d63becdd5cd5e1bc3edbf5b8bf42ffc322f13001",
+      "lines": 52
+    },
+    {
+      "path": "packages/game/src/analytics/analytics-consent-ui.localization.test.ts",
+      "sha256": "10a7d0db808ee9d41978e5b563c7c4b0803c3e8d33ba80e944f6192402fcba21",
+      "lines": 47
+    },
+    {
+      "path": "packages/game/src/core/word-lookup.test.ts",
+      "sha256": "70bb019a54faeb3f7877625720af88884f89dd4fe3b41cb14ad67472f754c297",
+      "lines": 52
+    },
+    {
+      "path": "packages/game/src/tools/map-names.test.ts",
+      "sha256": "0de52836a80703235203f37fc3a3e713f75ab07d0811e7a4ddced631cad0ed0a",
+      "lines": 65
+    },
+    {
+      "path": "packages/game/src/localization/language.test-fixtures.ts",
+      "sha256": "20e25a22279b06b6be0bf30062d62e00781169830dc59796de99af8fb671e1f8",
+      "lines": 16
+    }
+  ],
+  "products": [
+    {
+      "path": "packages/shared/src/localization.ts",
+      "before": "7b23fa288979619c563b3c0acf629ee39c5faed4931978dd79e06e05b8925504",
+      "after": "7b23fa288979619c563b3c0acf629ee39c5faed4931978dd79e06e05b8925504"
+    },
+    {
+      "path": "packages/game/src/assets/language-pack.ts",
+      "before": "80eff536bd672839ea7d1bf0345b5b95e2a7f7a3c8d1844c6c4f8e4d3267ebd4",
+      "after": "80eff536bd672839ea7d1bf0345b5b95e2a7f7a3c8d1844c6c4f8e4d3267ebd4"
+    },
+    {
+      "path": "packages/game/src/localization/language.ts",
+      "before": "268679824a629b43b200444402f9fa21152337f645b8973640fd96a40d9eb5e9",
+      "after": "268679824a629b43b200444402f9fa21152337f645b8973640fd96a40d9eb5e9"
+    },
+    {
+      "path": "packages/game/src/localization/layout.ts",
+      "before": "b8775e62ff70e331e7ab0c0a66e5477b234e6a9b0e91d3f9ea3c8d9b8e86d115",
+      "after": "b8775e62ff70e331e7ab0c0a66e5477b234e6a9b0e91d3f9ea3c8d9b8e86d115"
+    },
+    {
+      "path": "packages/game/src/localization/static-shell.ts",
+      "before": "04a0c70b529242d6a6e7da27071959d61e48520e07a658071183ebf88f697dc9",
+      "after": "04a0c70b529242d6a6e7da27071959d61e48520e07a658071183ebf88f697dc9"
+    },
+    {
+      "path": "packages/game/src/localization/messages.ts",
+      "before": "ac8eef7e1b57f26d1bf3851e9f35379aba4687390e153d3c01a737aa72a79764",
+      "after": "ac8eef7e1b57f26d1bf3851e9f35379aba4687390e153d3c01a737aa72a79764"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-description.ts",
+      "before": "671442d725715e8ee45b96cb186817cea6475e77bf3f8f116884674d3e1b865b",
+      "after": "671442d725715e8ee45b96cb186817cea6475e77bf3f8f116884674d3e1b865b"
+    }
+  ],
+  "context": [
+    {
+      "path": "packages/shared/src/index.ts",
+      "sha256": "6c8ccd23db2b01611579e30ac005018a6085abb5db6c4fb7f08927ccf1d18d35",
+      "lines": 35
+    },
+    {
+      "path": "packages/shared/src/events.ts",
+      "sha256": "a4a22efdaa77ffa5fd0724dfb9003e9110fc5bc500add7ee72040440367f0236",
+      "lines": 189
+    },
+    {
+      "path": "packages/shared/src/pal-authored-map-names.ts",
+      "sha256": "69d57d63ed58dda873776b48878f05f3578e80d3be667e521131065a3293547a",
+      "lines": 240
+    },
+    {
+      "path": "packages/game/src/main.ts",
+      "sha256": "a6314ef010da9e6d7add395e19993a002b7024607b8c51cc757486f200335a03",
+      "lines": 99
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "sha256": "a4d007c9739873dc20f385b52b584de49ec57cd5c328cb11ca9d3b0b9f19fb0a",
+      "lines": 1710
+    },
+    {
+      "path": "packages/game/src/shell/precache-ui.ts",
+      "sha256": "c4cd5d12f0bc2dbcc070f5ddcfbb98757353f238bf1b498b3bd15f3d4f87d614",
+      "lines": 233
+    },
+    {
+      "path": "packages/game/src/analytics/analytics-consent-ui.ts",
+      "sha256": "2b0b50eb2ed05a4a2f89e8acbf73e8365839ef552de1f433b47cc940e15b0934",
+      "lines": 153
+    },
+    {
+      "path": "packages/game/src/core/event-system.ts",
+      "sha256": "3b8490fa48d2992f693ab0eb611954dd0bfacbc22dc3eda58378cc4bc7a4b5f4",
+      "lines": 4967
+    },
+    {
+      "path": "packages/game/src/core/menu/script-desc.ts",
+      "sha256": "0bffc90524c46f0a4696e399c3ac1c4a9361aed42b3733cf9009e853c3d9c8e2",
+      "lines": 44
+    },
+    {
+      "path": "packages/game/src/core/menu/equip-menu.ts",
+      "sha256": "78ab856edb7b1ed15f5c536d4d702580b14feb81b883bf7ec68ef918072bd5f5",
+      "lines": 91
+    },
+    {
+      "path": "packages/game/src/core/word-lookup.ts",
+      "sha256": "06b17311a3e47e82eacb5857aa87dd0a5d7ff706ac1240a00a4c12325458c934",
+      "lines": 38
+    },
+    {
+      "path": "packages/game/src/tools/map-names.ts",
+      "sha256": "0aaafcb41b643024bc3af6844c12afb87b8d372332dabd852f935120b65d7440",
+      "lines": 20
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel.ts",
+      "sha256": "b7f45736b940fa55952d1f28272eabf37c6331090fb14d4b37701df83c5cc596",
+      "lines": 1083
+    },
+    {
+      "path": "packages/game/src/localization/map-names-en.ts",
+      "sha256": "ef57733e5f7158b80024e6c0dd04f2eacfc8378dbd69a72954af45872dcf0f06",
+      "lines": 225
+    },
+    {
+      "path": "packages/game/src/present/dialog-text.ts",
+      "sha256": "6e7bb20e1e0e651b9cf89445dd7587c7eaa025b0dadb2fe7d162db8f0cbd7bff",
+      "lines": 161
+    },
+    {
+      "path": "packages/game/src/present/dialog-box.ts",
+      "sha256": "2340ef89b4173b22c11908f814a8d69a91a2dbd3eb699bd045f6294fe444a212",
+      "lines": 358
+    },
+    {
+      "path": "packages/game/src/present/font.ts",
+      "sha256": "0af092f60efef7dd1f39c82f4c492512dbf957092f0d20b13da27b5518fd7fe4",
+      "lines": 202
+    },
+    {
+      "path": "packages/game/src/present/small-font.ts",
+      "sha256": "126e1059b63a940419fda70b2354697fc95a0938af65b1bd9482894d82e8fec9",
+      "lines": 154
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-equip.ts",
+      "sha256": "a43f540896a97d1833e9ed3bbede943b03fd9c6eca3cde00b95608e15232d5b9",
+      "lines": 302
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-inventory.ts",
+      "sha256": "666328fac00afefa8346f6554ffe0a1f080fc610972ac66d0e6ad27edd42e7a1",
+      "lines": 367
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-magic.ts",
+      "sha256": "c965e7a3968d2c617defe53fa6a9dcbd42f215ec814189adac74a8f0443aa0e1",
+      "lines": 315
+    },
+    {
+      "path": "packages/game/src/present/battle/draw-battle-ui.ts",
+      "sha256": "c6b0b0d124d3aa62015f0a2cf91afef3136ec647e3d6623bb77a1eee16d51285",
+      "lines": 701
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-lifecycle.test-fixtures.ts",
+      "sha256": "c0e36172655ee59615290cd210a06956f26e0bae9e5f78691a7ca4e20da08a76",
+      "lines": 96
+    },
+    {
+      "path": "packages/game/src/present/__tests__/menu-state-fixtures.ts",
+      "sha256": "0ce7df25cce554b54c080659494116c76908a531dd289359a32f4323fbabce7f",
+      "lines": 128
+    },
+    {
+      "path": "packages/game/src/__tests__/glm-phase1-leaves/present-fixtures.ts",
+      "sha256": "4f8701a4dddcdae4010bdbd9b23eee56dd2d20335e906a5249a488308edaedea",
+      "lines": 229
+    },
+    {
+      "path": "packages/pal-extract/src/localization/build-language-pack.ts",
+      "sha256": "e55266cd6fcde40b777184118a271ec58adb430d98082e92753bac513410eb88",
+      "lines": 95
+    },
+    {
+      "path": "packages/pal-extract/src/io/slf.ts",
+      "sha256": "8fb323f2cf828200e51ec6753677f0208a631e7cd436455fa01f3e5e83f5132c",
+      "lines": 89
+    },
+    {
+      "path": "reference/sdlpal/script.c",
+      "sha256": "f5332e015b27018ad03385b4ceab6c44dc0509e81ace7e8785d1843ae88cd017",
+      "lines": 3652
+    },
+    {
+      "path": "reference/sdlpal/text.c",
+      "sha256": "8e3c1be5111ea6bed1d0a8a480a2818235d0b3c22a6f73540f5701ac26cbc456",
+      "lines": 2569
+    },
+    {
+      "path": "reference/sdlpal/ascii.h",
+      "sha256": "fb3a8ba21cde4b167949c6f429f8cf2b8ce080cde0d6cd43db2f32edfdbae9d6",
+      "lines": 581
+    },
+    {
+      "path": "reference/sdlpal/uigame.c",
+      "sha256": "f981b6a698b6248107ec7934b60ca988055bbab458e516e9aa2b113f8b5419c1",
+      "lines": 2076
+    },
+    {
+      "path": "docs/ops/tasks/GAME-ENGLISH-1.md",
+      "sha256": "12d0ddf73411f315804979c20eff804af3844c0bfc48fb95e7069edbfce965d8",
+      "lines": 155
+    },
+    {
+      "path": "docs/ops/evidence/GAME-ENGLISH-1/dialog-review.json",
+      "sha256": "a9b0bda91939e2cbba0f122b420df81b5988db04ff148904c8f2002b0f43c26b",
+      "lines": 891
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PENDING-100-3/organization-program.mjs",
+      "sha256": "61bf594c92f43b9781e85d6cb4ad201911befa40b3e0dbe34c904ed8c811a20a",
+      "lines": 206
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "sha256": "3e9c669950c68c0f996a7007fdd198270a079630e277b1e6de575ec1d738da65",
+      "lines": 2521
+    },
+    {
+      "path": "packages/game/vitest.config.ts",
+      "sha256": "3dd92ad4886bc72c88e7a7b2e6bdacc3aaf9e2a24ac72153f3b619ba37feb7d4",
+      "lines": 13
+    },
+    {
+      "path": "scripts/coverage/config.mjs",
+      "sha256": "decb63dda5d12a2269bef1dd75c3d1eb4efca071887c759deca8e9b06ef17a25",
+      "lines": 264
+    },
+    {
+      "path": "scripts/coverage/run.mjs",
+      "sha256": "87c5e8049444e8d5b6195b5d01ced2061420f04ed9a572a7e8f80f9b67a29d45",
+      "lines": 576
+    },
+    {
+      "path": "scripts/quality/lint-zero.mjs",
+      "sha256": "4f245ce0bf392ebf35c738eb1462dd99886d08aa81964a6d71b37d3ad7a0b580",
+      "lines": 97
+    }
+  ],
+  "mapping": [
+    {
+      "from": {
+        "file": "packages/game/src/assets/language-pack.test.ts",
+        "title": "a Chinese-only extraction never fetches an absent English resource",
+        "fullName": "a Chinese-only extraction never fetches an absent English resource",
+        "status": "passed"
+      },
+      "to": {
+        "file": "packages/game/src/assets/language-pack.test.ts",
+        "title": "a Chinese-only extraction never fetches an absent English resource",
+        "fullName": "a Chinese-only extraction never fetches an absent English resource",
+        "status": "passed"
+      },
+      "contract": "Same named contract; explicit edits and fixture changes reviewed in review.json."
+    },
+    {
+      "from": {
+        "file": "packages/game/src/assets/language-pack.test.ts",
+        "title": "loads the advertised language with word identities, clear tokens and layout intact",
+        "fullName": "loads the advertised language with word identities, clear tokens and layout intact",
+        "status": "passed"
+      },
+      "to": {
+        "file": "packages/game/src/assets/language-pack.test.ts",
+        "title": "loads the advertised language with word identities, clear tokens and layout intact",
+        "fullName": "loads the advertised language with word identities, clear tokens and layout intact",
+        "status": "passed"
+      },
+      "contract": "Same named contract; explicit edits and fixture changes reviewed in review.json."
+    },
+    {
+      "from": {
+        "file": "packages/game/src/assets/language-pack.test.ts",
+        "title": "rejects an ambiguous duplicate group before publishing a language pack",
+        "fullName": "rejects an ambiguous duplicate group before publishing a language pack",
+        "status": "passed"
+      },
+      "to": {
+        "file": "packages/game/src/assets/language-pack.test.ts",
+        "title": "rejects an ambiguous duplicate group before publishing a language pack",
+        "fullName": "rejects an ambiguous duplicate group before publishing a language pack",
+        "status": "passed"
+      },
+      "contract": "Same named contract; explicit edits and fixture changes reviewed in review.json."
+    },
+    {
+      "from": {
+        "file": "packages/game/src/assets/language-pack.test.ts",
+        "title": "propagates an advertised language download failure instead of reporting English as ready",
+        "fullName": "propagates an advertised language download failure instead of reporting English as ready",
+        "status": "passed"
+      },
+      "to": {
+        "file": "packages/game/src/assets/language-pack.test.ts",
+        "title": "propagates an advertised language download failure instead of reporting English as ready",
+        "fullName": "propagates an advertised language download failure instead of reporting English as ready",
+        "status": "passed"
+      },
+      "contract": "Same named contract; explicit edits and fixture changes reviewed in review.json."
+    },
+    {
+      "from": {
+        "file": "packages/game/src/assets/language-pack.test.ts",
+        "title": "rejects an advertised corrupt language response: missing envelope",
+        "fullName": "rejects an advertised corrupt language response: missing envelope",
+        "status": "passed"
+      },
+      "to": {
+        "file": "packages/game/src/assets/language-pack.test.ts",
+        "title": "rejects an advertised corrupt language response: missing envelope",
+        "fullName": "rejects an advertised corrupt language response: missing envelope",
+        "status": "passed"
+      },
+      "contract": "Same named contract; explicit edits and fixture changes reviewed in review.json."
+    },
+    {
+      "from": {
+        "file": "packages/game/src/assets/language-pack.test.ts",
+        "title": "rejects an advertised corrupt language response: wrong schema version",
+        "fullName": "rejects an advertised corrupt language response: wrong schema version",
+        "status": "passed"
+      },
+      "to": {
+        "file": "packages/game/src/assets/language-pack.test.ts",
+        "title": "rejects an advertised corrupt language response: wrong schema version",
+        "fullName": "rejects an advertised corrupt language response: wrong schema version",
+        "status": "passed"
+      },
+      "contract": "Same named contract; explicit edits and fixture changes reviewed in review.json."
+    },
+    {
+      "from": {
+        "file": "packages/game/src/assets/language-pack.test.ts",
+        "title": "rejects an advertised corrupt language response: wrong language",
+        "fullName": "rejects an advertised corrupt language response: wrong language",
+        "status": "passed"
+      },
+      "to": {
+        "file": "packages/game/src/assets/language-pack.test.ts",
+        "title": "rejects an advertised corrupt language response: wrong language",
+        "fullName": "rejects an advertised corrupt language response: wrong language",
+        "status": "passed"
+      },
+      "contract": "Same named contract; explicit edits and fixture changes reviewed in review.json."
+    },
+    {
+      "from": {
+        "file": "packages/game/src/assets/language-pack.test.ts",
+        "title": "rejects an advertised corrupt language response: missing source",
+        "fullName": "rejects an advertised corrupt language response: missing source",
+        "status": "passed"
+      },
+      "to": {
+        "file": "packages/game/src/assets/language-pack.test.ts",
+        "title": "rejects an advertised corrupt language response: missing source",
+        "fullName": "rejects an advertised corrupt language response: missing source",
+        "status": "passed"
+      },
+      "contract": "Same named contract; explicit edits and fixture changes reviewed in review.json."
+    },
+    {
+      "from": {
+        "file": "packages/game/src/assets/language-pack.test.ts",
+        "title": "rejects an advertised corrupt language response: non-string source hash",
+        "fullName": "rejects an advertised corrupt language response: non-string source hash",
+        "status": "passed"
+      },
+      "to": {
+        "file": "packages/game/src/assets/language-pack.test.ts",
+        "title": "rejects an advertised corrupt language response: non-string source hash",
+        "fullName": "rejects an advertised corrupt language response: non-string source hash",
+        "status": "passed"
+      },
+      "contract": "Same named contract; explicit edits and fixture changes reviewed in review.json."
+    },
+    {
+      "from": {
+        "file": "packages/game/src/assets/language-pack.test.ts",
+        "title": "rejects an advertised corrupt language response: invalid source hash",
+        "fullName": "rejects an advertised corrupt language response: invalid source hash",
+        "status": "passed"
+      },
+      "to": {
+        "file": "packages/game/src/assets/language-pack.test.ts",
+        "title": "rejects an advertised corrupt language response: invalid source hash",
+        "fullName": "rejects an advertised corrupt language response: invalid source hash",
+        "status": "passed"
+      },
+      "contract": "Same named contract; explicit edits and fixture changes reviewed in review.json."
+    },
+    {
+      "from": {
+        "file": "packages/game/src/assets/language-pack.test.ts",
+        "title": "rejects an advertised corrupt language response: invalid word identity",
+        "fullName": "rejects an advertised corrupt language response: invalid word identity",
+        "status": "passed"
+      },
+      "to": {
+        "file": "packages/game/src/assets/language-pack.test.ts",
+        "title": "rejects an advertised corrupt language response: invalid word identity",
+        "fullName": "rejects an advertised corrupt language response: invalid word identity",
+        "status": "passed"
+      },
+      "contract": "Same named contract; explicit edits and fixture changes reviewed in review.json."
+    },
+    {
+      "from": {
+        "file": "packages/game/src/assets/language-pack.test.ts",
+        "title": "rejects an advertised corrupt language response: non-text word",
+        "fullName": "rejects an advertised corrupt language response: non-text word",
+        "status": "passed"
+      },
+      "to": {
+        "file": "packages/game/src/assets/language-pack.test.ts",
+        "title": "rejects an advertised corrupt language response: non-text word",
+        "fullName": "rejects an advertised corrupt language response: non-text word",
+        "status": "passed"
+      },
+      "contract": "Same named contract; explicit edits and fixture changes reviewed in review.json."
+    },
+    {
+      "from": {
+        "file": "packages/game/src/assets/language-pack.test.ts",
+        "title": "rejects an advertised corrupt language response: negative message identity",
+        "fullName": "rejects an advertised corrupt language response: negative message identity",
+        "status": "passed"
+      },
+      "to": {
+        "file": "packages/game/src/assets/language-pack.test.ts",
+        "title": "rejects an advertised corrupt language response: negative message identity",
+        "fullName": "rejects an advertised corrupt language response: negative message identity",
+        "status": "passed"
+      },
+      "contract": "Same named contract; explicit edits and fixture changes reviewed in review.json."
+    },
+    {
+      "from": {
+        "file": "packages/game/src/assets/language-pack.test.ts",
+        "title": "rejects an advertised corrupt language response: backward message range",
+        "fullName": "rejects an advertised corrupt language response: backward message range",
+        "status": "passed"
+      },
+      "to": {
+        "file": "packages/game/src/assets/language-pack.test.ts",
+        "title": "rejects an advertised corrupt language response: backward message range",
+        "fullName": "rejects an advertised corrupt language response: backward message range",
+        "status": "passed"
+      },
+      "contract": "Same named contract; explicit edits and fixture changes reviewed in review.json."
+    },
+    {
+      "from": {
+        "file": "packages/game/src/assets/language-pack.test.ts",
+        "title": "rejects an advertised corrupt language response: non-integer message identity",
+        "fullName": "rejects an advertised corrupt language response: non-integer message identity",
+        "status": "passed"
+      },
+      "to": {
+        "file": "packages/game/src/assets/language-pack.test.ts",
+        "title": "rejects an advertised corrupt language response: non-integer message identity",
+        "fullName": "rejects an advertised corrupt language response: non-integer message identity",
+        "status": "passed"
+      },
+      "contract": "Same named contract; explicit edits and fixture changes reviewed in review.json."
+    },
+    {
+      "from": {
+        "file": "packages/game/src/assets/language-pack.test.ts",
+        "title": "rejects an advertised corrupt language response: non-text message",
+        "fullName": "rejects an advertised corrupt language response: non-text message",
+        "status": "passed"
+      },
+      "to": {
+        "file": "packages/game/src/assets/language-pack.test.ts",
+        "title": "rejects an advertised corrupt language response: non-text message",
+        "fullName": "rejects an advertised corrupt language response: non-text message",
+        "status": "passed"
+      },
+      "contract": "Same named contract; explicit edits and fixture changes reviewed in review.json."
+    },
+    {
+      "from": {
+        "file": "packages/game/src/assets/language-pack.test.ts",
+        "title": "rejects an advertised corrupt language response: invalid layout identity",
+        "fullName": "rejects an advertised corrupt language response: invalid layout identity",
+        "status": "passed"
+      },
+      "to": {
+        "file": "packages/game/src/assets/language-pack.test.ts",
+        "title": "rejects an advertised corrupt language response: invalid layout identity",
+        "fullName": "rejects an advertised corrupt language response: invalid layout identity",
+        "status": "passed"
+      },
+      "contract": "Same named contract; explicit edits and fixture changes reviewed in review.json."
+    },
+    {
+      "from": {
+        "file": "packages/game/src/assets/language-pack.test.ts",
+        "title": "rejects an advertised corrupt language response: missing layout position",
+        "fullName": "rejects an advertised corrupt language response: missing layout position",
+        "status": "passed"
+      },
+      "to": {
+        "file": "packages/game/src/assets/language-pack.test.ts",
+        "title": "rejects an advertised corrupt language response: missing layout position",
+        "fullName": "rejects an advertised corrupt language response: missing layout position",
+        "status": "passed"
+      },
+      "contract": "Same named contract; explicit edits and fixture changes reviewed in review.json."
+    },
+    {
+      "from": {
+        "file": "packages/game/src/assets/language-pack.test.ts",
+        "title": "rejects an advertised corrupt language response: non-numeric position",
+        "fullName": "rejects an advertised corrupt language response: non-numeric position",
+        "status": "passed"
+      },
+      "to": {
+        "file": "packages/game/src/assets/language-pack.test.ts",
+        "title": "rejects an advertised corrupt language response: non-numeric position",
+        "fullName": "rejects an advertised corrupt language response: non-numeric position",
+        "status": "passed"
+      },
+      "contract": "Same named contract; explicit edits and fixture changes reviewed in review.json."
+    },
+    {
+      "from": {
+        "file": "packages/game/src/assets/language-pack.test.ts",
+        "title": "rejects an advertised corrupt language response: fractional position",
+        "fullName": "rejects an advertised corrupt language response: fractional position",
+        "status": "passed"
+      },
+      "to": {
+        "file": "packages/game/src/assets/language-pack.test.ts",
+        "title": "rejects an advertised corrupt language response: fractional position",
+        "fullName": "rejects an advertised corrupt language response: fractional position",
+        "status": "passed"
+      },
+      "contract": "Same named contract; explicit edits and fixture changes reviewed in review.json."
+    },
+    {
+      "from": {
+        "file": "packages/game/src/assets/language-pack.test.ts",
+        "title": "rejects an advertised corrupt language response: position outside framebuffer",
+        "fullName": "rejects an advertised corrupt language response: position outside framebuffer",
+        "status": "passed"
+      },
+      "to": {
+        "file": "packages/game/src/assets/language-pack.test.ts",
+        "title": "rejects an advertised corrupt language response: position outside framebuffer",
+        "fullName": "rejects an advertised corrupt language response: position outside framebuffer",
+        "status": "passed"
+      },
+      "contract": "Same named contract; explicit edits and fixture changes reviewed in review.json."
+    },
+    {
+      "from": {
+        "file": "packages/game/src/assets/language-pack.test.ts",
+        "title": "rejects an advertised corrupt language response: unsupported layout flag",
+        "fullName": "rejects an advertised corrupt language response: unsupported layout flag",
+        "status": "passed"
+      },
+      "to": {
+        "file": "packages/game/src/assets/language-pack.test.ts",
+        "title": "rejects an advertised corrupt language response: unsupported layout flag",
+        "fullName": "rejects an advertised corrupt language response: unsupported layout flag",
+        "status": "passed"
+      },
+      "contract": "Same named contract; explicit edits and fixture changes reviewed in review.json."
+    },
+    {
+      "from": {
+        "file": "packages/game/src/assets/language-pack.test.ts",
+        "title": "rejects an unusable language manifest without requesting the pack: HTTP failure",
+        "fullName": "rejects an unusable language manifest without requesting the pack: HTTP failure",
+        "status": "passed"
+      },
+      "to": {
+        "file": "packages/game/src/assets/language-pack.test.ts",
+        "title": "rejects an unusable language manifest without requesting the pack: HTTP failure",
+        "fullName": "rejects an unusable language manifest without requesting the pack: HTTP failure",
+        "status": "passed"
+      },
+      "contract": "Same named contract; explicit edits and fixture changes reviewed in review.json."
+    },
+    {
+      "from": {
+        "file": "packages/game/src/assets/language-pack.test.ts",
+        "title": "rejects an unusable language manifest without requesting the pack: invalid shape",
+        "fullName": "rejects an unusable language manifest without requesting the pack: invalid shape",
+        "status": "passed"
+      },
+      "to": {
+        "file": "packages/game/src/assets/language-pack.test.ts",
+        "title": "rejects an unusable language manifest without requesting the pack: invalid shape",
+        "fullName": "rejects an unusable language manifest without requesting the pack: invalid shape",
+        "status": "passed"
+      },
+      "contract": "Same named contract; explicit edits and fixture changes reviewed in review.json."
+    },
+    {
+      "from": {
+        "file": "packages/game/src/core/word-lookup.test.ts",
+        "title": "表未载 → 返回 fallback(缺省 fallback 为空串)",
+        "fullName": "word-lookup(getWord / setWordTable,对 sdlpal PAL_GetWord) 表未载 → 返回 fallback(缺省 fallback 为空串)",
+        "status": "passed"
+      },
+      "to": {
+        "file": "packages/game/src/core/word-lookup.test.ts",
+        "title": "表未载 → 返回 fallback(缺省 fallback 为空串)",
+        "fullName": "word-lookup(getWord / setWordTable,对 sdlpal PAL_GetWord) 表未载 → 返回 fallback(缺省 fallback 为空串)",
+        "status": "passed"
+      },
+      "contract": "Same named contract; explicit edits and fixture changes reviewed in review.json."
+    },
+    {
+      "from": {
+        "file": "packages/game/src/core/word-lookup.test.ts",
+        "title": "表已载 → 返回 flat[id](表优先于 fallback)",
+        "fullName": "word-lookup(getWord / setWordTable,对 sdlpal PAL_GetWord) 表已载 → 返回 flat[id](表优先于 fallback)",
+        "status": "passed"
+      },
+      "to": {
+        "file": "packages/game/src/core/word-lookup.test.ts",
+        "title": "表已载 → 返回 flat[id](表优先于 fallback)",
+        "fullName": "word-lookup(getWord / setWordTable,对 sdlpal PAL_GetWord) 表已载 → 返回 flat[id](表优先于 fallback)",
+        "status": "passed"
+      },
+      "contract": "Same named contract; explicit edits and fixture changes reviewed in review.json."
+    },
+    {
+      "from": {
+        "file": "packages/game/src/core/word-lookup.test.ts",
+        "title": "表已载但 id 越界/为空 → 退回 fallback",
+        "fullName": "word-lookup(getWord / setWordTable,对 sdlpal PAL_GetWord) 表已载但 id 越界/为空 → 退回 fallback",
+        "status": "passed"
+      },
+      "to": {
+        "file": "packages/game/src/core/word-lookup.test.ts",
+        "title": "表已载但 id 越界/为空 → 退回 fallback",
+        "fullName": "word-lookup(getWord / setWordTable,对 sdlpal PAL_GetWord) 表已载但 id 越界/为空 → 退回 fallback",
+        "status": "passed"
+      },
+      "contract": "Same named contract; explicit edits and fixture changes reviewed in review.json."
+    },
+    {
+      "from": {
+        "file": "packages/game/src/localization/language.test.ts",
+        "title": "uses Chinese for missing or unknown preferences and restores a persisted English choice",
+        "fullName": "uses Chinese for missing or unknown preferences and restores a persisted English choice",
+        "status": "passed"
+      },
+      "to": {
+        "file": "packages/game/src/localization/language.test.ts",
+        "title": "uses Chinese for missing or unknown preferences and restores a persisted English choice",
+        "fullName": "uses Chinese for missing or unknown preferences and restores a persisted English choice",
+        "status": "passed"
+      },
+      "contract": "Same named contract; explicit edits and fixture changes reviewed in review.json."
+    },
+    {
+      "from": {
+        "file": "packages/game/src/localization/language.test.ts",
+        "title": "persists changes, notifies mounted UI once per change, and releases subscriptions",
+        "fullName": "persists changes, notifies mounted UI once per change, and releases subscriptions",
+        "status": "passed"
+      },
+      "to": {
+        "file": "packages/game/src/localization/language.test.ts",
+        "title": "persists changes, notifies mounted UI once per change, and releases subscriptions",
+        "fullName": "persists changes, notifies mounted UI once per change, and releases subscriptions",
+        "status": "passed"
+      },
+      "contract": "Same named contract; explicit edits and fixture changes reviewed in review.json."
+    },
+    {
+      "from": {
+        "file": "packages/game/src/localization/language.test.ts",
+        "title": "keeps a usable in-memory selection when browser storage throws",
+        "fullName": "keeps a usable in-memory selection when browser storage throws",
+        "status": "passed"
+      },
+      "to": {
+        "file": "packages/game/src/localization/language.test.ts",
+        "title": "keeps a usable in-memory selection when browser storage throws",
+        "fullName": "keeps a usable in-memory selection when browser storage throws",
+        "status": "passed"
+      },
+      "contract": "Same named contract; explicit edits and fixture changes reviewed in review.json."
+    },
+    {
+      "from": {
+        "file": "packages/game/src/localization/language.test.ts",
+        "title": "falls back to available text without replacing the saved preference",
+        "fullName": "falls back to available text without replacing the saved preference",
+        "status": "passed"
+      },
+      "to": {
+        "file": "packages/game/src/localization/language.test.ts",
+        "title": "falls back to available text without replacing the saved preference",
+        "fullName": "falls back to available text without replacing the saved preference",
+        "status": "passed"
+      },
+      "contract": "Same named contract; explicit edits and fixture changes reviewed in review.json."
+    },
+    {
+      "from": {
+        "file": "packages/game/src/localization/messages.test.ts",
+        "title": "matches the actual span across RestoreScreen and reports unsupported middle entry",
+        "fullName": "translated message groups matches the actual span across RestoreScreen and reports unsupported middle entry",
+        "status": "passed"
+      },
+      "to": {
+        "file": "packages/game/src/localization/dialog-playback.test.ts",
+        "title": "matches the actual span across RestoreScreen and reports unsupported middle entry",
+        "fullName": "translated message groups matches the actual span across RestoreScreen and reports unsupported middle entry",
+        "status": "passed"
+      },
+      "contract": "Same named contract; explicit edits and fixture changes reviewed in review.json."
+    },
+    {
+      "from": {
+        "file": "packages/game/src/localization/messages.test.ts",
+        "title": "exploration displays every translated row with page/clear and one reward (skip=false)",
+        "fullName": "translated message groups exploration displays every translated row with page/clear and one reward (skip=false)",
+        "status": "passed"
+      },
+      "to": {
+        "file": "packages/game/src/localization/dialog-playback.test.ts",
+        "title": "exploration displays every translated row with page/clear and one reward (skip=false)",
+        "fullName": "translated message groups exploration displays every translated row with page/clear and one reward (skip=false)",
+        "status": "passed"
+      },
+      "contract": "Same named contract; explicit edits and fixture changes reviewed in review.json."
+    },
+    {
+      "from": {
+        "file": "packages/game/src/localization/messages.test.ts",
+        "title": "exploration displays every translated row with page/clear and one reward (skip=true)",
+        "fullName": "translated message groups exploration displays every translated row with page/clear and one reward (skip=true)",
+        "status": "passed"
+      },
+      "to": {
+        "file": "packages/game/src/localization/dialog-playback.test.ts",
+        "title": "exploration displays every translated row with page/clear and one reward (skip=true)",
+        "fullName": "translated message groups exploration displays every translated row with page/clear and one reward (skip=true)",
+        "status": "passed"
+      },
+      "contract": "Same named contract; explicit edits and fixture changes reviewed in review.json."
+    },
+    {
+      "from": {
+        "file": "packages/game/src/localization/messages.test.ts",
+        "title": "pins an active English group through preference changes and resumes from a V1 snapshot",
+        "fullName": "translated message groups pins an active English group through preference changes and resumes from a V1 snapshot",
+        "status": "passed"
+      },
+      "to": {
+        "file": "packages/game/src/localization/dialog-playback.test.ts",
+        "title": "pins an active English group through preference changes and resumes from a V1 snapshot",
+        "fullName": "translated message groups pins an active English group through preference changes and resumes from a V1 snapshot",
+        "status": "passed"
+      },
+      "contract": "Same named contract; explicit edits and fixture changes reviewed in review.json."
+    },
+    {
+      "from": {
+        "file": "packages/game/src/localization/messages.test.ts",
+        "title": "preserves the current Chinese group while the next group adopts English",
+        "fullName": "translated message groups preserves the current Chinese group while the next group adopts English",
+        "status": "passed"
+      },
+      "to": {
+        "file": "packages/game/src/localization/dialog-playback.test.ts",
+        "title": "preserves the current Chinese group while the next group adopts English",
+        "fullName": "translated message groups preserves the current Chinese group while the next group adopts English",
+        "status": "passed"
+      },
+      "contract": "Same named contract; explicit edits and fixture changes reviewed in review.json."
+    },
+    {
+      "from": {
+        "file": "packages/game/src/localization/messages.test.ts",
+        "title": "narration advances translated rows on both timeout and key completion",
+        "fullName": "translated message groups narration advances translated rows on both timeout and key completion",
+        "status": "passed"
+      },
+      "to": {
+        "file": "packages/game/src/localization/dialog-playback.test.ts",
+        "title": "narration advances translated rows on both timeout and key completion",
+        "fullName": "translated message groups narration advances translated rows on both timeout and key completion",
+        "status": "passed"
+      },
+      "contract": "Same named contract; explicit edits and fixture changes reviewed in review.json."
+    },
+    {
+      "from": {
+        "file": "packages/game/src/localization/messages.test.ts",
+        "title": "battle and description callers expand the same source group without expanding instructions",
+        "fullName": "translated message groups battle and description callers expand the same source group without expanding instructions",
+        "status": "passed"
+      },
+      "to": {
+        "file": "packages/game/src/localization/dialog-playback.test.ts",
+        "title": "battle and description callers expand the same source group without expanding instructions",
+        "fullName": "translated message groups battle and description callers expand the same source group without expanding instructions",
+        "status": "passed"
+      },
+      "contract": "Same named contract; explicit edits and fixture changes reviewed in review.json."
+    },
+    {
+      "from": {
+        "file": "packages/game/src/localization/messages.test.ts",
+        "title": "explicit clear preserves the title and portrait in exploration and battle",
+        "fullName": "translated message groups explicit clear preserves the title and portrait in exploration and battle",
+        "status": "passed"
+      },
+      "to": {
+        "file": "packages/game/src/localization/dialog-playback.test.ts",
+        "title": "explicit clear preserves the title and portrait in exploration and battle",
+        "fullName": "translated message groups explicit clear preserves the title and portrait in exploration and battle",
+        "status": "passed"
+      },
+      "contract": "Same named contract; explicit edits and fixture changes reviewed in review.json."
+    },
+    {
+      "from": {
+        "file": "packages/game/src/localization/messages.test.ts",
+        "title": "battle timed dialogue clears and continues without another confirmation",
+        "fullName": "translated message groups battle timed dialogue clears and continues without another confirmation",
+        "status": "passed"
+      },
+      "to": {
+        "file": "packages/game/src/localization/dialog-playback.test.ts",
+        "title": "battle timed dialogue clears and continues without another confirmation",
+        "fullName": "translated message groups battle timed dialogue clears and continues without another confirmation",
+        "status": "passed"
+      },
+      "contract": "Same named contract; explicit edits and fixture changes reviewed in review.json."
+    },
+    {
+      "from": {
+        "file": "packages/game/src/localization/messages.test.ts",
+        "title": "battle narration clear after timeout adds no empty dialog or extra wait",
+        "fullName": "translated message groups battle narration clear after timeout adds no empty dialog or extra wait",
+        "status": "passed"
+      },
+      "to": {
+        "file": "packages/game/src/localization/dialog-playback.test.ts",
+        "title": "battle narration clear after timeout adds no empty dialog or extra wait",
+        "fullName": "translated message groups battle narration clear after timeout adds no empty dialog or extra wait",
+        "status": "passed"
+      },
+      "contract": "Same named contract; explicit edits and fixture changes reviewed in review.json."
+    },
+    {
+      "from": {
+        "file": "packages/game/src/localization/messages.test.ts",
+        "title": "battle stealing displays the literal WORD name 'God\\'s Tea' in red without losing punctuation",
+        "fullName": "translated message groups battle stealing displays the literal WORD name 'God\\'s Tea' in red without losing punctuation",
+        "status": "passed"
+      },
+      "to": {
+        "file": "packages/game/src/core/battle/battle-steal-localization.test.ts",
+        "title": "battle stealing displays the literal WORD name 'God\\'s Tea' in red without losing punctuation",
+        "fullName": "battle stealing displays the literal WORD name 'God\\'s Tea' in red without losing punctuation",
+        "status": "passed"
+      },
+      "contract": "Same named contract; explicit edits and fixture changes reviewed in review.json."
+    },
+    {
+      "from": {
+        "file": "packages/game/src/localization/messages.test.ts",
+        "title": "battle stealing displays the literal WORD name 'Knock-Out' in red without losing punctuation",
+        "fullName": "translated message groups battle stealing displays the literal WORD name 'Knock-Out' in red without losing punctuation",
+        "status": "passed"
+      },
+      "to": {
+        "file": "packages/game/src/core/battle/battle-steal-localization.test.ts",
+        "title": "battle stealing displays the literal WORD name 'Knock-Out' in red without losing punctuation",
+        "fullName": "battle stealing displays the literal WORD name 'Knock-Out' in red without losing punctuation",
+        "status": "passed"
+      },
+      "contract": "Same named contract; explicit edits and fixture changes reviewed in review.json."
+    },
+    {
+      "from": {
+        "file": "packages/game/src/localization/messages.test.ts",
+        "title": "wraps words without exposing escapes, control suffixes or losing persistent color/speed",
+        "fullName": "translated message groups wraps words without exposing escapes, control suffixes or losing persistent color/speed",
+        "status": "passed"
+      },
+      "to": {
+        "file": "packages/game/src/localization/dialog-wrap.test.ts",
+        "title": "wraps words without exposing escapes, control suffixes or losing persistent color/speed",
+        "fullName": "wraps words without exposing escapes, control suffixes or losing persistent color/speed",
+        "status": "passed"
+      },
+      "contract": "Same named contract; explicit edits and fixture changes reviewed in review.json."
+    },
+    {
+      "from": {
+        "file": "packages/game/src/localization/presentation.test.ts",
+        "title": "changes displayed names by true word identity and restores the same Chinese table",
+        "fullName": "changes displayed names by true word identity and restores the same Chinese table",
+        "status": "passed"
+      },
+      "to": {
+        "file": "packages/game/src/core/word-lookup.test.ts",
+        "title": "changes displayed names by true word identity and restores the same Chinese table",
+        "fullName": "changes displayed names by true word identity and restores the same Chinese table",
+        "status": "passed"
+      },
+      "contract": "Same named contract; explicit edits and fixture changes reviewed in review.json."
+    },
+    {
+      "from": {
+        "file": "packages/game/src/localization/presentation.test.ts",
+        "title": "uses the English small label layout while leaving Chinese layout and glyphs untouched",
+        "fullName": "uses the English small label layout while leaving Chinese layout and glyphs untouched",
+        "status": "passed"
+      },
+      "to": {
+        "file": "packages/game/src/localization/layout.test.ts",
+        "title": "uses the English small label layout while leaving Chinese layout and glyphs untouched",
+        "fullName": "uses the English small label layout while leaving Chinese layout and glyphs untouched",
+        "status": "passed"
+      },
+      "contract": "Same named contract; explicit edits and fixture changes reviewed in review.json."
+    },
+    {
+      "from": {
+        "file": "packages/game/src/localization/presentation.test.ts",
+        "title": "renders the full-width separators in a real English attribute description as blank space",
+        "fullName": "renders the full-width separators in a real English attribute description as blank space",
+        "status": "passed"
+      },
+      "to": {
+        "file": "packages/game/src/present/menu/draw-description.test.ts",
+        "title": "renders the full-width separators in a real English attribute description as blank space",
+        "fullName": "renders the full-width separators in a real English attribute description as blank space",
+        "status": "passed"
+      },
+      "contract": "Same named contract; explicit edits and fixture changes reviewed in review.json."
+    },
+    {
+      "from": {
+        "file": "packages/game/src/localization/presentation.test.ts",
+        "title": "fits the equipment role box to English names and restores the original Chinese width",
+        "fullName": "fits the equipment role box to English names and restores the original Chinese width",
+        "status": "passed"
+      },
+      "to": {
+        "file": "packages/game/src/present/menu/draw-equip.localization.test.ts",
+        "title": "fits the equipment role box to English names and restores the original Chinese width",
+        "fullName": "fits the equipment role box to English names and restores the original Chinese width",
+        "status": "passed"
+      },
+      "contract": "Same named contract; explicit edits and fixture changes reviewed in review.json."
+    },
+    {
+      "from": {
+        "file": "packages/game/src/localization/shell-surfaces.test.ts",
+        "title": "updates loading language while preserving failure state against static copy and late progress",
+        "fullName": "updates loading language while preserving failure state against static copy and late progress",
+        "status": "passed"
+      },
+      "to": {
+        "file": "packages/game/src/localization/static-shell.test.ts",
+        "title": "updates loading language while preserving failure state against static copy and late progress",
+        "fullName": "updates loading language while preserving failure state against static copy and late progress",
+        "status": "passed"
+      },
+      "contract": "Same named contract; explicit edits and fixture changes reviewed in review.json."
+    },
+    {
+      "from": {
+        "file": "packages/game/src/localization/shell-surfaces.test.ts",
+        "title": "changes consent copy without choosing consent, reopening the panel or breaking the policy link",
+        "fullName": "changes consent copy without choosing consent, reopening the panel or breaking the policy link",
+        "status": "passed"
+      },
+      "to": {
+        "file": "packages/game/src/analytics/analytics-consent-ui.localization.test.ts",
+        "title": "changes consent copy without choosing consent, reopening the panel or breaking the policy link",
+        "fullName": "changes consent copy without choosing consent, reopening the panel or breaking the policy link",
+        "status": "passed"
+      },
+      "contract": "Same named contract; explicit edits and fixture changes reviewed in review.json."
+    },
+    {
+      "from": {
+        "file": "packages/game/src/localization/shell-surfaces.test.ts",
+        "title": "covers authored map identities in English and preserves Chinese names when switching back",
+        "fullName": "covers authored map identities in English and preserves Chinese names when switching back",
+        "status": "passed"
+      },
+      "to": {
+        "file": "packages/game/src/tools/map-names.test.ts",
+        "title": "English text covers every authored map identity and switching back restores Chinese",
+        "fullName": "English text covers every authored map identity and switching back restores Chinese",
+        "status": "passed"
+      },
+      "contract": "WORD membership and switch-back retained; three duplicated English literals now have the existing map-names known/fallback cases as their owner."
+    },
+    {
+      "from": {
+        "file": "packages/game/src/tools/map-names.test.ts",
+        "title": "已知地图按当前语言显示，保留零号梦境和考据地名",
+        "fullName": "map-names 已知地图按当前语言显示，保留零号梦境和考据地名",
+        "status": "passed"
+      },
+      "to": {
+        "file": "packages/game/src/tools/map-names.test.ts",
+        "title": "已知地图按当前语言显示，保留零号梦境和考据地名",
+        "fullName": "map-names 已知地图按当前语言显示，保留零号梦境和考据地名",
+        "status": "passed"
+      },
+      "contract": "Same named contract; explicit edits and fixture changes reviewed in review.json."
+    },
+    {
+      "from": {
+        "file": "packages/game/src/tools/map-names.test.ts",
+        "title": "范围内缺名和范围外未知地图都使用当前语言回退",
+        "fullName": "map-names 范围内缺名和范围外未知地图都使用当前语言回退",
+        "status": "passed"
+      },
+      "to": {
+        "file": "packages/game/src/tools/map-names.test.ts",
+        "title": "范围内缺名和范围外未知地图都使用当前语言回退",
+        "fullName": "map-names 范围内缺名和范围外未知地图都使用当前语言回退",
+        "status": "passed"
+      },
+      "contract": "Same named contract; explicit edits and fixture changes reviewed in review.json."
+    },
+    {
+      "from": {
+        "file": "packages/game/src/tools/map-names.test.ts",
+        "title": "hasMapName 按考据表成员判断，语言与回退标签不改变成员关系",
+        "fullName": "map-names hasMapName 按考据表成员判断，语言与回退标签不改变成员关系",
+        "status": "passed"
+      },
+      "to": {
+        "file": "packages/game/src/tools/map-names.test.ts",
+        "title": "hasMapName 按考据表成员判断，语言与回退标签不改变成员关系",
+        "fullName": "map-names hasMapName 按考据表成员判断，语言与回退标签不改变成员关系",
+        "status": "passed"
+      },
+      "contract": "Same named contract; explicit edits and fixture changes reviewed in review.json."
+    }
+  ],
+  "added": [
+    {
+      "file": "packages/game/src/localization/layout.test.ts",
+      "title": "keeps font and shadow bits independent for layout flags=+0",
+      "fullName": "keeps font and shadow bits independent for layout flags=+0",
+      "status": "passed"
+    },
+    {
+      "file": "packages/game/src/localization/layout.test.ts",
+      "title": "keeps font and shadow bits independent for layout flags=1",
+      "fullName": "keeps font and shadow bits independent for layout flags=1",
+      "status": "passed"
+    },
+    {
+      "file": "packages/game/src/localization/layout.test.ts",
+      "title": "keeps font and shadow bits independent for layout flags=2",
+      "fullName": "keeps font and shadow bits independent for layout flags=2",
+      "status": "passed"
+    },
+    {
+      "file": "packages/game/src/localization/layout.test.ts",
+      "title": "keeps font and shadow bits independent for layout flags=3",
+      "fullName": "keeps font and shadow bits independent for layout flags=3",
+      "status": "passed"
+    },
+    {
+      "file": "packages/game/src/localization/layout.test.ts",
+      "title": "uses caller defaults for an absent layout and discards the previous installed layout",
+      "fullName": "uses caller defaults for an absent layout and discards the previous installed layout",
+      "status": "passed"
+    },
+    {
+      "file": "packages/game/src/localization/messages.test.ts",
+      "title": "owns installed lines and lends a separate playback array to each caller",
+      "fullName": "owns installed lines and lends a separate playback array to each caller",
+      "status": "passed"
+    },
+    {
+      "file": "packages/game/src/localization/messages.test.ts",
+      "title": "reports unique missing English spans with detached records and resets them on pack replacement",
+      "fullName": "reports unique missing English spans with detached records and resets them on pack replacement",
+      "status": "passed"
+    },
+    {
+      "file": "packages/game/src/localization/messages.test.ts",
+      "title": "ends a translated span at a gameplay instruction or discontinuous message identity",
+      "fullName": "ends a translated span at a gameplay instruction or discontinuous message identity",
+      "status": "passed"
+    },
+    {
+      "file": "packages/game/src/localization/static-shell.test.ts",
+      "title": "renders initial copy at mount and stops updating after its owner unsubscribes",
+      "fullName": "renders initial copy at mount and stops updating after its owner unsubscribes",
+      "status": "passed"
+    },
+    {
+      "file": "packages/game/src/present/menu/draw-description.test.ts",
+      "title": "keeps Chinese descriptions on 16px source rows with the caller-provided glyphs",
+      "fullName": "keeps Chinese descriptions on 16px source rows with the caller-provided glyphs",
+      "status": "passed"
+    }
+  ],
+  "registrations": [
+    {
+      "from": "packages/game/src/assets/language-pack.test.ts",
+      "ordinal": 0,
+      "to": "packages/game/src/assets/language-pack.test.ts",
+      "targetOrdinal": 0,
+      "title": "a Chinese-only extraction never fetches an absent English resource",
+      "before": "12ce46fcbab5a81fe480b8673d5df0941f9d8daadcbad66d25fb991accb75682",
+      "after": "12ce46fcbab5a81fe480b8673d5df0941f9d8daadcbad66d25fb991accb75682",
+      "normalizedEqual": true
+    },
+    {
+      "from": "packages/game/src/assets/language-pack.test.ts",
+      "ordinal": 1,
+      "to": "packages/game/src/assets/language-pack.test.ts",
+      "targetOrdinal": 1,
+      "title": "loads the advertised language with word identities, clear tokens and layout intact",
+      "before": "ced81b9b3d0be9dfff9f97d0dcf174a3acbdf99f57c58daa162a492bfef62d69",
+      "after": "ced81b9b3d0be9dfff9f97d0dcf174a3acbdf99f57c58daa162a492bfef62d69",
+      "normalizedEqual": true
+    },
+    {
+      "from": "packages/game/src/assets/language-pack.test.ts",
+      "ordinal": 2,
+      "to": "packages/game/src/assets/language-pack.test.ts",
+      "targetOrdinal": 2,
+      "title": "rejects an ambiguous duplicate group before publishing a language pack",
+      "before": "e249ab87ae8e9a80914dc704719b56bca9cba7c97f66dba2cdc62b0f71df1f7b",
+      "after": "e249ab87ae8e9a80914dc704719b56bca9cba7c97f66dba2cdc62b0f71df1f7b",
+      "normalizedEqual": true
+    },
+    {
+      "from": "packages/game/src/assets/language-pack.test.ts",
+      "ordinal": 3,
+      "to": "packages/game/src/assets/language-pack.test.ts",
+      "targetOrdinal": 3,
+      "title": "propagates an advertised language download failure instead of reporting English as ready",
+      "before": "de1da62af0a3eab6ba4ea50af090f6b72fb930b853c05ddcab108aaa3c494b7b",
+      "after": "de1da62af0a3eab6ba4ea50af090f6b72fb930b853c05ddcab108aaa3c494b7b",
+      "normalizedEqual": true
+    },
+    {
+      "from": "packages/game/src/assets/language-pack.test.ts",
+      "ordinal": 4,
+      "to": "packages/game/src/assets/language-pack.test.ts",
+      "targetOrdinal": 4,
+      "title": "rejects an advertised corrupt language response: %s",
+      "before": "6b511e920137a4a17131ae6f3adcaada889286651668646948232e15285b8147",
+      "after": "6b511e920137a4a17131ae6f3adcaada889286651668646948232e15285b8147",
+      "normalizedEqual": true
+    },
+    {
+      "from": "packages/game/src/assets/language-pack.test.ts",
+      "ordinal": 5,
+      "to": "packages/game/src/assets/language-pack.test.ts",
+      "targetOrdinal": 5,
+      "title": "rejects an unusable language manifest without requesting the pack: %s",
+      "before": "8d2f1e07a50cd4967673d41191369c0fe0b4443dab0857e610e30fee25c4b381",
+      "after": "8d2f1e07a50cd4967673d41191369c0fe0b4443dab0857e610e30fee25c4b381",
+      "normalizedEqual": true
+    },
+    {
+      "from": "packages/game/src/core/word-lookup.test.ts",
+      "ordinal": 0,
+      "to": "packages/game/src/core/word-lookup.test.ts",
+      "targetOrdinal": 0,
+      "title": "表未载 → 返回 fallback(缺省 fallback 为空串)",
+      "before": "62b19655b9a190413b62a67e49d233ad0ec599dbe9c1fde9a5829d3e9aa175c1",
+      "after": "62b19655b9a190413b62a67e49d233ad0ec599dbe9c1fde9a5829d3e9aa175c1",
+      "normalizedEqual": true
+    },
+    {
+      "from": "packages/game/src/core/word-lookup.test.ts",
+      "ordinal": 1,
+      "to": "packages/game/src/core/word-lookup.test.ts",
+      "targetOrdinal": 1,
+      "title": "表已载 → 返回 flat[id](表优先于 fallback)",
+      "before": "99188a2161ee46b3217ad69e6148627b9692849e6404b4b5c4591a3d465e1f63",
+      "after": "99188a2161ee46b3217ad69e6148627b9692849e6404b4b5c4591a3d465e1f63",
+      "normalizedEqual": true
+    },
+    {
+      "from": "packages/game/src/core/word-lookup.test.ts",
+      "ordinal": 2,
+      "to": "packages/game/src/core/word-lookup.test.ts",
+      "targetOrdinal": 2,
+      "title": "表已载但 id 越界/为空 → 退回 fallback",
+      "before": "71e0f9f53f87eed63492966608fc810969f7a37289054169665317d0d07f1dd3",
+      "after": "71e0f9f53f87eed63492966608fc810969f7a37289054169665317d0d07f1dd3",
+      "normalizedEqual": true
+    },
+    {
+      "from": "packages/game/src/localization/language.test.ts",
+      "ordinal": 0,
+      "to": "packages/game/src/localization/language.test.ts",
+      "targetOrdinal": 0,
+      "title": "uses Chinese for missing or unknown preferences and restores a persisted English choice",
+      "before": "686622aa1252c57b3c1e415720e3abb5b306d75411dcd968c7569172b24d002b",
+      "after": "686622aa1252c57b3c1e415720e3abb5b306d75411dcd968c7569172b24d002b",
+      "normalizedEqual": true
+    },
+    {
+      "from": "packages/game/src/localization/language.test.ts",
+      "ordinal": 1,
+      "to": "packages/game/src/localization/language.test.ts",
+      "targetOrdinal": 1,
+      "title": "persists changes, notifies mounted UI once per change, and releases subscriptions",
+      "before": "eebfd51153f38dc3c4f4145e1bd47b74e2d4d43383f837c3a8f45f58b18de541",
+      "after": "eebfd51153f38dc3c4f4145e1bd47b74e2d4d43383f837c3a8f45f58b18de541",
+      "normalizedEqual": true
+    },
+    {
+      "from": "packages/game/src/localization/language.test.ts",
+      "ordinal": 2,
+      "to": "packages/game/src/localization/language.test.ts",
+      "targetOrdinal": 2,
+      "title": "keeps a usable in-memory selection when browser storage throws",
+      "before": "27237269724ea3816354c40cde4e2dc569eb087510d8917db8c17c371ae198e7",
+      "after": "27237269724ea3816354c40cde4e2dc569eb087510d8917db8c17c371ae198e7",
+      "normalizedEqual": true
+    },
+    {
+      "from": "packages/game/src/localization/language.test.ts",
+      "ordinal": 3,
+      "to": "packages/game/src/localization/language.test.ts",
+      "targetOrdinal": 3,
+      "title": "falls back to available text without replacing the saved preference",
+      "before": "59f7d5c142142cca0b787549367a50f68982a860d45d1cdeca2ec9190c4ecfb9",
+      "after": "59f7d5c142142cca0b787549367a50f68982a860d45d1cdeca2ec9190c4ecfb9",
+      "normalizedEqual": true
+    },
+    {
+      "from": "packages/game/src/localization/messages.test.ts",
+      "ordinal": 0,
+      "to": "packages/game/src/localization/dialog-playback.test.ts",
+      "targetOrdinal": 0,
+      "title": "matches the actual span across RestoreScreen and reports unsupported middle entry",
+      "before": "f1bee5f81247c3f8a2c0b87f8f2aeba1b2a6b82c5000f17f7292581e9e2698f3",
+      "after": "f1bee5f81247c3f8a2c0b87f8f2aeba1b2a6b82c5000f17f7292581e9e2698f3",
+      "normalizedEqual": true
+    },
+    {
+      "from": "packages/game/src/localization/messages.test.ts",
+      "ordinal": 1,
+      "to": "packages/game/src/localization/dialog-playback.test.ts",
+      "targetOrdinal": 1,
+      "title": "exploration displays every translated row with page/clear and one reward (skip=%s)",
+      "before": "9093ebf669a1cbdbccec5ea66bfe1d4bcad13fb00df38093feb17f52ccb6ca8a",
+      "after": "3994c7be94ae16e6068e303485491b02f45d51e33320658a659ed7ff483b63a3",
+      "normalizedEqual": false
+    },
+    {
+      "from": "packages/game/src/localization/messages.test.ts",
+      "ordinal": 2,
+      "to": "packages/game/src/localization/dialog-playback.test.ts",
+      "targetOrdinal": 2,
+      "title": "pins an active English group through preference changes and resumes from a V1 snapshot",
+      "before": "716ca4424485b9ca0d7ed9907df3899141b073f71bb7c9f4e90c5b95ce6b429f",
+      "after": "3361e337d7cae2f1fe2f9b49bd53183cc08e300a5d0c38249bfae31e5b930ddc",
+      "normalizedEqual": true
+    },
+    {
+      "from": "packages/game/src/localization/messages.test.ts",
+      "ordinal": 3,
+      "to": "packages/game/src/localization/dialog-playback.test.ts",
+      "targetOrdinal": 3,
+      "title": "preserves the current Chinese group while the next group adopts English",
+      "before": "733ac45488819039004e5f874cb1c6540c8949fb838fab92fc70779555d22b9f",
+      "after": "65e47f2b18d719584f4cc16735178299ab14dfa5d70dfc1ce528b3683cc240d3",
+      "normalizedEqual": true
+    },
+    {
+      "from": "packages/game/src/localization/messages.test.ts",
+      "ordinal": 4,
+      "to": "packages/game/src/localization/dialog-playback.test.ts",
+      "targetOrdinal": 4,
+      "title": "narration advances translated rows on both timeout and key completion",
+      "before": "b2167dcb72f852481e1a6b48230c87af019d19dea4aa906a594ed2d9aa56c0d7",
+      "after": "b2167dcb72f852481e1a6b48230c87af019d19dea4aa906a594ed2d9aa56c0d7",
+      "normalizedEqual": true
+    },
+    {
+      "from": "packages/game/src/localization/messages.test.ts",
+      "ordinal": 5,
+      "to": "packages/game/src/localization/dialog-playback.test.ts",
+      "targetOrdinal": 5,
+      "title": "battle and description callers expand the same source group without expanding instructions",
+      "before": "4d2bf4ac9ea2e7f033c6dfc5fb231347fc2aedffccccfae806ee0cba8f9e93c0",
+      "after": "4d2bf4ac9ea2e7f033c6dfc5fb231347fc2aedffccccfae806ee0cba8f9e93c0",
+      "normalizedEqual": true
+    },
+    {
+      "from": "packages/game/src/localization/messages.test.ts",
+      "ordinal": 6,
+      "to": "packages/game/src/localization/dialog-playback.test.ts",
+      "targetOrdinal": 6,
+      "title": "explicit clear preserves the title and portrait in exploration and battle",
+      "before": "e397606acf033a711b47b33ca73ca8db38fba0ef2c0e40af2b7f534030fb37a1",
+      "after": "e397606acf033a711b47b33ca73ca8db38fba0ef2c0e40af2b7f534030fb37a1",
+      "normalizedEqual": true
+    },
+    {
+      "from": "packages/game/src/localization/messages.test.ts",
+      "ordinal": 7,
+      "to": "packages/game/src/localization/dialog-playback.test.ts",
+      "targetOrdinal": 7,
+      "title": "battle timed dialogue clears and continues without another confirmation",
+      "before": "9b0da24840e51b8544b07e154574c2480de37f46b14caa3694e006373b6e5fe1",
+      "after": "9b0da24840e51b8544b07e154574c2480de37f46b14caa3694e006373b6e5fe1",
+      "normalizedEqual": true
+    },
+    {
+      "from": "packages/game/src/localization/messages.test.ts",
+      "ordinal": 8,
+      "to": "packages/game/src/localization/dialog-playback.test.ts",
+      "targetOrdinal": 8,
+      "title": "battle narration clear after timeout adds no empty dialog or extra wait",
+      "before": "4d0ecbfa85010fae65f5d1fdd473a816962265900241913c5ce34f809acd9150",
+      "after": "4d0ecbfa85010fae65f5d1fdd473a816962265900241913c5ce34f809acd9150",
+      "normalizedEqual": true
+    },
+    {
+      "from": "packages/game/src/localization/messages.test.ts",
+      "ordinal": 9,
+      "to": "packages/game/src/core/battle/battle-steal-localization.test.ts",
+      "targetOrdinal": 0,
+      "title": "battle stealing displays the literal WORD name $name in red without losing punctuation",
+      "before": "96c499280dd8acc8f92ccb3d645eff1ad848e245093044e872d70eb297a439b8",
+      "after": "3174177e60575c6dedcf9380a7fe1f0539013a8f1e5d411e045365c5767ec4f8",
+      "normalizedEqual": false
+    },
+    {
+      "from": "packages/game/src/localization/messages.test.ts",
+      "ordinal": 10,
+      "to": "packages/game/src/localization/dialog-wrap.test.ts",
+      "targetOrdinal": 0,
+      "title": "wraps words without exposing escapes, control suffixes or losing persistent color/speed",
+      "before": "cca7676a923dffc1324ccaf8ff3a835bdc4086ad3b00db7c631f5c00cc12c30e",
+      "after": "cca7676a923dffc1324ccaf8ff3a835bdc4086ad3b00db7c631f5c00cc12c30e",
+      "normalizedEqual": true
+    },
+    {
+      "from": "packages/game/src/localization/presentation.test.ts",
+      "ordinal": 0,
+      "to": "packages/game/src/core/word-lookup.test.ts",
+      "targetOrdinal": 3,
+      "title": "changes displayed names by true word identity and restores the same Chinese table",
+      "before": "004c57088f6201a2102ffcf3992c619966f2c72eee21ef0e1212cc183336740d",
+      "after": "ce7e50ba2b4ee335452f68c1ec660a58d9810980abd5c05850c261024714d753",
+      "normalizedEqual": true
+    },
+    {
+      "from": "packages/game/src/localization/presentation.test.ts",
+      "ordinal": 1,
+      "to": "packages/game/src/localization/layout.test.ts",
+      "targetOrdinal": 0,
+      "title": "uses the English small label layout while leaving Chinese layout and glyphs untouched",
+      "before": "a63bba90471d2932a71103553d33a438a758485ae02ad921cb9260b35f69657e",
+      "after": "3db112c8a352b3dd23904c0f6fe181bf6358823a2e2e8985abef3e02434514ac",
+      "normalizedEqual": true
+    },
+    {
+      "from": "packages/game/src/localization/presentation.test.ts",
+      "ordinal": 2,
+      "to": "packages/game/src/present/menu/draw-description.test.ts",
+      "targetOrdinal": 0,
+      "title": "renders the full-width separators in a real English attribute description as blank space",
+      "before": "acad918d17d13d9136afc5f83a933fc1d804666fe5db1a422b5eed2ef1df0232",
+      "after": "134c3f624c0536356535723336a7f611974f50e1fccc0eded8181bcaae9d0eef",
+      "normalizedEqual": false
+    },
+    {
+      "from": "packages/game/src/localization/presentation.test.ts",
+      "ordinal": 3,
+      "to": "packages/game/src/present/menu/draw-equip.localization.test.ts",
+      "targetOrdinal": 0,
+      "title": "fits the equipment role box to English names and restores the original Chinese width",
+      "before": "c19664831086e17404c96e254a7bbefa624650b7f7fc4db19b5c74037c279445",
+      "after": "19d2d1fe96ae6cb2c2d24718eb0fe20ebd55a94437d2315287064fc0721c86ac",
+      "normalizedEqual": true
+    },
+    {
+      "from": "packages/game/src/localization/shell-surfaces.test.ts",
+      "ordinal": 0,
+      "to": "packages/game/src/localization/static-shell.test.ts",
+      "targetOrdinal": 0,
+      "title": "updates loading language while preserving failure state against static copy and late progress",
+      "before": "086dd923f5dfde815e202398e9948e5d2ef68660e28aa4f0a54501089d1024d7",
+      "after": "7fc3cfd57f5ca4d7bc667b724d610b8b88bfdeb0947a436e9a84e1054b83ba90",
+      "normalizedEqual": false
+    },
+    {
+      "from": "packages/game/src/localization/shell-surfaces.test.ts",
+      "ordinal": 1,
+      "to": "packages/game/src/analytics/analytics-consent-ui.localization.test.ts",
+      "targetOrdinal": 0,
+      "title": "changes consent copy without choosing consent, reopening the panel or breaking the policy link",
+      "before": "f3b0e33635f8d18406336b44c23657f1bf45cb217965721ae3ab6360b904cbd9",
+      "after": "abb26bd9ab52948836e9f760fe6d9cc3e59727740472fbd67588d542a8df5446",
+      "normalizedEqual": false
+    },
+    {
+      "from": "packages/game/src/localization/shell-surfaces.test.ts",
+      "ordinal": 2,
+      "to": "packages/game/src/tools/map-names.test.ts",
+      "targetOrdinal": 3,
+      "title": "covers authored map identities in English and preserves Chinese names when switching back",
+      "before": "36f6c9fe4e94bae1cbbfcd2ba1af78694a745c2f225e9ed3f6063fcfa8b5859b",
+      "after": "937a03287cb8385635defdf45f6eca48ab3fd5add4d03ef87c8e49653a15f46d",
+      "normalizedEqual": false
+    },
+    {
+      "from": "packages/game/src/tools/map-names.test.ts",
+      "ordinal": 0,
+      "to": "packages/game/src/tools/map-names.test.ts",
+      "targetOrdinal": 0,
+      "title": "已知地图按当前语言显示，保留零号梦境和考据地名",
+      "before": "df497d3bc3fa56a5a9d33ef71d1c482f0e14fdc82e90749ede9f675d64bf519f",
+      "after": "df497d3bc3fa56a5a9d33ef71d1c482f0e14fdc82e90749ede9f675d64bf519f",
+      "normalizedEqual": true
+    },
+    {
+      "from": "packages/game/src/tools/map-names.test.ts",
+      "ordinal": 1,
+      "to": "packages/game/src/tools/map-names.test.ts",
+      "targetOrdinal": 1,
+      "title": "范围内缺名和范围外未知地图都使用当前语言回退",
+      "before": "5f815b039e00a7079760b3443d1b30908257a9efa9e5c51c4fd45e1899acad24",
+      "after": "5f815b039e00a7079760b3443d1b30908257a9efa9e5c51c4fd45e1899acad24",
+      "normalizedEqual": true
+    },
+    {
+      "from": "packages/game/src/tools/map-names.test.ts",
+      "ordinal": 2,
+      "to": "packages/game/src/tools/map-names.test.ts",
+      "targetOrdinal": 2,
+      "title": "hasMapName 按考据表成员判断，语言与回退标签不改变成员关系",
+      "before": "a7453f511568f09b266e68d7bc5c073577feded55b433fba6cd4bf5d89329c31",
+      "after": "a7453f511568f09b266e68d7bc5c073577feded55b433fba6cd4bf5d89329c31",
+      "normalizedEqual": true
+    }
+  ],
+  "closureSha256": "564157a29f5ee7f003ba008adcf29449c51c5bc5661b845cfb0259988c64e816",
+  "limitation": "Pins identify versions and callback/data dependencies; semantic A-H and naming judgments require review.json. Reference anchors are read ranges, not full-reference-file review."
+}
