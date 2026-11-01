@@ -1,11 +1,11 @@
 # DOCS-FULL-TEMPLATE-1 — 全 docs 深度治理与模板化改写
 
-Status: build
-Execution: build/rework（S85中央滚动发布实现与临时树演练；207内容已据证接受，生产发布/全量硬门待收口）
+Status: review
+Execution: review/rework（S86中央发布与全量硬门；公共实现及207内容已接受，实际结果以末尾S86回执为准）
 Phase: ops
 Capability: documentation governance
 Coding Owner: Codex
-Reviewer: GLM（S80公共候选工具/五seed与S82退役实现非作者accept）；Codex（S81内容据证接收、中央接入Owner）
+Reviewer: GLM（S80五seed、S82退役、S84–S85公共实现/完整演练非作者accept）；Codex（S81内容据证接收、中央接入Owner）
 Branch: codex/docs-s85-rollforward-publication
 Last reviewed: 2026-11-01
 Template: task-card-v1 / 1.0.0
@@ -36,7 +36,7 @@ Template: task-card-v1 / 1.0.0
 - 行为/工程前提：模板迁移只改变文档结构与导航，保留原始语义、机器字段、SHA、状态范围和停止线。
 - 一手证据：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/inventory.json`、`binding-baseline.json`、`protection.json`、最新 registry/routing 与本卡批次回执。
 - 最强替代解释与可证伪观察：若发现源/after SHA 漂移、机器字段改变、历史状态升格或 protected delta 被覆盖，当前迁移结论立即失效并转 rework/blocked。
-- 当前状态：review；S75现行正文接受与文档硬门已闭合，原R波虚标仍撤回，main整合与整体任务done未宣布。
+- 当前状态：review/rework；S84–S85公共实现与完整演练已获GLM非作者accept，S86执行实际接入与全量硬门；原R波虚标仍撤回，未宣布整体done。
 
 ## 验收
 - 功能/文档：1838 基线候选逐篇绑定 docType/templateId/templateVersion 并有独立 review record。
@@ -46,8 +46,8 @@ Template: task-card-v1 / 1.0.0
 
 ## 状态与交接
 - 当前 Owner：Codex。
-- 当前基点：S75已依据S74非作者报告，经既有公开grant接入最后1项；当前2435合规/0待办，严格0诊断。1838固定清单1835迁移+3批准退役，基线未迁0；另600增量迁移，17类模板全部覆盖。数字取真实门，不拿旧章节计数当今天进度。
-- 下一步：核对main与文档分支的分叉、原受保护改动及代码治理分支的未提交工作，准备安全整合与组合后的质量验收；本隔离树的静态通过不替代整合验收。E2E日期循环规则已按用户新裁决退休，不重跑已接受006或授新runtime信用。旧撤信不恢复，未完成整合不推main、不标done。
+- 历史S75基点：当时2435合规/0待办、1835基线迁移+3批准退役及600增量迁移。此为S75时点结果；后续main滚动新增与变更以S80–S86记录为准，不能沿用为当前完成数字。
+- 下一步：按已接受公共实现完成S86实际中央发布、控制pin闭合与全量硬门，再核受保护main集成前提。E2E日期循环规则已按用户新裁决退休，既有006按原证据复用，不授新runtime信用。旧撤信不恢复，硬门未过不推main、不标done。
 
 ## 历史实施与交接记录的适用边界
 
