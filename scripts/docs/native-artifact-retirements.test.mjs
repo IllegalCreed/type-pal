@@ -14,7 +14,7 @@ import {
   inspectNativeArtifactRetirements,
   readNativeArtifactRetirements,
 } from './native-artifact-retirements.mjs'
-import { loadReviewRecords } from './review-record-storage.mjs'
+import { loadReviewRecordFromGit, loadReviewRecords } from './review-record-storage.mjs'
 
 const root = fileURLToPath(new URL('../../', import.meta.url))
 const registry = loadDocumentRegistry({
@@ -120,6 +120,18 @@ test('six independently pinned duplicate blobs retire without changing review cl
 
 test('retirement projection names the frozen contract; unchanged registry parts retain their acceptance scope', () => {
   const f = fixture()
+  const frozenGroup = {
+    records: new Map(
+      [...group.records.keys()].map((logicalPath) => [
+        logicalPath,
+        loadReviewRecordFromGit({
+          root,
+          revision: '737b7cb58fc8a131b92df92aae23516bc0072e06',
+          logicalPath,
+        }).record,
+      ]),
+    ),
+  }
   const { entries: _entries, ...manifest } = f.value
   const retired = new Set(pairPaths.map(([path]) => path))
   const readBuffer = (path) => {
@@ -131,7 +143,7 @@ test('retirement projection names the frozen contract; unchanged registry parts 
   const options = {
     readBuffer,
     readSourceBuffer: (pin) => readGitDocumentSnapshot(root, pin),
-    reviewGroupReader: () => group,
+    reviewGroupReader: () => frozenGroup,
   }
   const projected = incrementalControlProjection(
     'docs/phase-governance/document-registry.json',
