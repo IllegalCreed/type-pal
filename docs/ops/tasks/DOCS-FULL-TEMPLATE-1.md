@@ -6,7 +6,7 @@ Phase: ops
 Capability: documentation governance
 Coding Owner: Codex
 Reviewer: GLM（S80公共候选工具/五seed与S82退役实现非作者accept）；Codex（S81内容据证接收、中央接入Owner）
-Branch: codex/docs-s84-rollforward-central
+Branch: codex/docs-s85-rollforward-publication
 Last reviewed: 2026-11-01
 Template: task-card-v1 / 1.0.0
 
@@ -3006,3 +3006,11 @@ S84规划与临时树实测（尚非生产发布）：完整207行已固定源Gi
 新增7项合同/反控与原10项候选合同联合实跑17/17、零skip；lint6616文件零error/warning/info，diff净。新实现4代码+1新测试按职责分层（纯review规划、纯control投影、只读CLI、派生临时树演练），不改任何旧测试/产品/coverage。首轮新测试发现“恢复candidate时漏去随后追加的prior inverse”边角，已修、5绿1红原件保留；完整投影首轮因三配对旧route不存在historyOverlay键，严格parse/deepEqual拒绝手工构造undefined，已改显式保留字段缺席、另目录重跑全绿。未改门数字、未覆盖红件；旧临时目录按逐文件hash清单后可清理，最终演练与原始回执留存。
 
 后续生产实现前提明确：旧1916接受root须从四条变更的稀疏前值复原；公共consumer须识别精确新增179/变更26与10片布局，保留旧native配对合同；受控当前世代事务须按六退役生命周期检查输入、编译实际非作者接受表并处理4个Owner控制观察。未完成这些生产边界前不运行旧S78 writer、不实际发布、不清零model/strict、不扣迁移数。准备齐后一次集中非作者验收，不给GLM再拆正文/只读设计小包。全卡继续rework，不合main、不推送、不done。
+
+### S85 正式中央滚动发布边界（2026-11-01，build allowed）
+
+用户要求持续推进到完整全仓治理；Codex单一Owner，基于69abb48a8742d9e3ef6f819f4695f1786e1e2293在隔离codex/docs-s85-rollforward-publication实施生产reader/qualification/事务。复用S84的207输入与完整规划/存储演练，不再给GLM拆正文或只读设计包。可改docs公共工具、新增必要反控、本卡/看板/既有证据流；允许在临时树执行真实当前世代公开事务、故障与幂等演练，真实中央发布仍以公共实现的非作者验收为前提。不修改旧测试、产品、coverage、共享忽略配置；旧测试如确需适配按现有逐处授权纪律。
+
+冻结接入为179新增+26变更+2原样复用，四条原1916成员和其余旧review通过稀疏前值恢复，不放宽原接受root；四配对原生生产合同和六项实际退役保持。新增10片布局必须精确界定，不能把原9片约束改为任意下限；4个Owner控制只按实际固定来源与行政含义记录，不借刷新SHA恢复旧语义或运行信用。新增授信逐条绑定S83非作者证据或S80五seed的GLM依据，作者不能自签。受控发布失败保留锁/前态/暂存，并经真实读回后才退旧世代；无写权限参数或身份变化必须零写拒绝。
+
+本轮公共代码及完整演练准备齐后一次集中交GLM非作者验收，内容207和既有4351不重复治理。真实发布/后续硬门尚未执行就不提前记绿；全量check:docs/lint/diff与完成进度须实际零诊断，父卡rework、不合main、不推送、不done。
