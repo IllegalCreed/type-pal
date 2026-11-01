@@ -1202,7 +1202,7 @@
         }
       ],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "1ab85b7500207da035898a838c121abb8cea03f92a6f008a2fc7c2b2dc17c505",
+      "afterSha256": "f7a462cb53ccfa9f8f05d1472afdbf40f3aba483ffb3d3dbe9a60f8480ed5b15",
       "publicCallers": [
         "node scripts/docs/check-testing.mjs",
         "node scripts/docs/check-document-model.mjs",
@@ -2686,6 +2686,13 @@
           "kind": "main37-navigation-maintenance/1.0.0",
           "beforeSha256": "c5bfef99b24d529c3cecd343f03384836850f7ed8a019a7430bbd35a5cffc627",
           "afterSha256": "1ab85b7500207da035898a838c121abb8cea03f92a6f008a2fc7c2b2dc17c505",
+          "newSemanticCredit": 0,
+          "runtimeCredit": false
+        },
+        {
+          "kind": "main37-board-navigation-repair/1.0.0",
+          "beforeSha256": "1ab85b7500207da035898a838c121abb8cea03f92a6f008a2fc7c2b2dc17c505",
+          "afterSha256": "f7a462cb53ccfa9f8f05d1472afdbf40f3aba483ffb3d3dbe9a60f8480ed5b15",
           "newSemanticCredit": 0,
           "runtimeCredit": false
         }

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
-  "generation": "8eb51a0c0812580c6ce1f3f6ec1c176c091fc8918bc34ba9e2110990fd66995b",
+  "generation": "971266aff1cf21657da1606917a026fce49ea5df83c1f04a77fc3fd02b02a79e",
   "key": "part-003",
   "positions": [33, 34, 35, 36],
   "entries": [
@@ -42,7 +42,7 @@
         }
       ],
       "sourceSha256": "6e57ca2e495f40c6645e1bbafbdc929b93b03dbc49f4b190c8b7653a581136e1",
-      "afterSha256": "5c7b6554dea907f7cabb533e599492bcdce1ad13a00cd48b6364e86809bedc71",
+      "afterSha256": "2c2b974a22db0b5f1fad0220f4523a8b9d9cf16af8774cd6e672bd1927fd35ff",
       "publicCallers": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "legalInputs": [
         "固定eeba候选的本路径原件和当前明确作者差异；原历史与来源轴保持。",
@@ -1594,6 +1594,13 @@
           "kind": "main37-navigation-maintenance/1.0.0",
           "beforeSha256": "2d07b391832d9f7942e82036bc1e2dbb47ebc7ca097b8f79cc182402b64d6995",
           "afterSha256": "5c7b6554dea907f7cabb533e599492bcdce1ad13a00cd48b6364e86809bedc71",
+          "newSemanticCredit": 0,
+          "runtimeCredit": false
+        },
+        {
+          "kind": "main37-board-navigation-repair/1.0.0",
+          "beforeSha256": "5c7b6554dea907f7cabb533e599492bcdce1ad13a00cd48b6364e86809bedc71",
+          "afterSha256": "2c2b974a22db0b5f1fad0220f4523a8b9d9cf16af8774cd6e672bd1927fd35ff",
           "newSemanticCredit": 0,
           "runtimeCredit": false
         }
