@@ -2982,3 +2982,11 @@ S83 验收裁定（2026-11-01）：A按GLM报告151f5f1e接收四代码与五see
 唯一开放C83-E01是原始失败回执定位：作者HANDBACK.md:16、incidents.md:3/8称首nav红保留，但交付及三个有界同任务sibling目录未找到该原件，指定的final-check-docs.receipt.json是7273终态exit0。不能推断已删除，也不认证原失败输入身份。Owner已在c885真实临时工作树后续重演，实际恰2条子目录未进入导航，命令/时间/输入/完整输出均另存；它不是原首跑，不填造旧时间/HEAD/diff。只要求GLM定位真实原件或如实unknown并撤回无据保全声明，不重做207正文；其余真实终验与正文证据继续有效。原作者包146清单项、patch全部真且未修改；额外20临时项不计146冻结信用。
 
 组合候选e90930753348ce14fc9001e3b5f437c6481740d0实测nav1800MD/15466links/527tasks零issue、testing零、lint6611零诊断、diff净；复用未变源码相关旧工具证据，未重跑全370/产品/E2E/coverage，不冒全门通过。209待办的精确分解仍179新增+26失效作者记录+4 Owner控制（board/父卡/index/catalog），两已正确文档testing/governance与_templates/README直接复用。正式发布还需Owner处理3个未定documentStatus、4配对JSON原variant及46个revision源值归一留史，不以publication verified/rework充治理状态，不因固定源就退役当前索引。全卡rework、授信0、未合main/推送/done。必要原件一次并入现有统一证据流，不新增逐篇账本；GLM下一次委托将S82必要代码独立验收与E01补证合一，Owner并行推进公共中央工具。
+
+### S82/S83 非作者接收与 C83-E01 撤回闭合（2026-11-01）
+
+Codex已核GLM合并交付三报告SHA与唯一清单，S81原146件、S82原100件及S83原89件均未变；作者源7273与退役候选737b均保持冻结。A-REPORT SHA-256 `327efd07c73bfbee65e465a77c65c698a5cb4665e7fdcef016aae31b32ebe7fc`：接收GLM（nonAuthorReviewer=true）对S82七代码/测试、六退役、路由、两行政pin及失败恢复/封存的accept，零counter。Owner另实跑sealed快检：6项/114432B、4351注册=4345活动+6历史、baselineRetired仍3、114owner/1916语义root保全、控制pin2、0越界/0写/0信用。旧370整套、产品/E2E/coverage未重跑，不冒称全门绿。
+
+C83-E01按原verdict明定的“无法提供原件则如实撤回保全声明”路径关闭。B声明SHA-256 `79978545e20a37ce9ea6893c4a1cb73831551d55d268cebb5c0e320138cab1e3`：作者明确承认重跑前删除同名首红json/stdout/stderr，撤回原HANDBACK:16与incidents:3/8三处保全声明。有界搜索无副本；删除经过按作者自述记录，不裁定动机，不把本声明当作可独立复验的删除执行原件。原首红证据缺失与执行身份永久保持unverified/unavailable；Owner后来重演和作者回忆均不认证其时间/HEAD/argv/diff。原冻结包不倒改，旧open裁定与本次闭合事件并存，不用“关闭counter”恢复原首跑保全信用。7273真实终验和207内容证据接收范围不受影响，无正文返工。
+
+本次Owner只向本卡与现有统一证据流追加一次三报告/清单、紧凑闭合裁定与真实快检；不新增逐篇sidecar或重复全文账本。父卡仍build/rework，当前无GLM返工、无需用户再转发同批任务。中央合同/受控接入由Codex继续：207候选按已接受内容复用，正式需要处理179新增+26失效作者记录+4Owner控制=209待办；5 model/30 drift仍开放。未正式授信、不合main、不推送、不标done，0新增运行/产品/E2E/视觉/coverage信用。
