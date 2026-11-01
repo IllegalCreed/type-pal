@@ -44,6 +44,18 @@ Template: governance-index-v1 / 1.0.0
 | 仓库瘦身 | [文档模型](guides/documentation-model.md)；本轮用户确认的长期方向 | 长期方向已确认；系统清理批次未启动 | 全仓 / 本地工程资源 | 当前文档批次收口；删除前核消费者、独有信息和可恢复来源 | 冻结首批重复/过时/可重建材料，实际删减并同步引用，同时治理生成来源 |
 | 测试与覆盖率 | [测试治理](../testing/governance.md)、[官方 fast 基线](../../scripts/coverage/baseline.fast.json)、[测试目录](../testing/indexes/README.md) | 持续；基线已有，按真实业务缺口补强 | 跨第一/二阶段 | 合法输入、真实 caller/oracle、排重；集中窗口核官方门 | 结合当前模块补关键未覆盖分支、精简弱测试；不以例数/总比例替代质量 |
 
+### 文档治理：子卡接入与历史对账
+
+以下五张子卡仍在活动状态。已完成的合同、迁移与独立接收按父卡后继记录复用；表内原卡状态保留，不把历史待办计数当作当前缺口。它们随本轮文档硬门与主线集成统一对账，不另开重复治理包。
+
+| 原任务入口 | 卡面状态 | 当前责任与下一步 |
+|---|---|---|
+| [DOCS-CATALOG-SPLIT-1](tasks/DOCS-CATALOG-SPLIT-1.md) | rework | 复用已验收的分片与 consumer，保留旧独立验收撤回；核父卡最终门后同步状态 |
+| [DOCS-NATIVE-JSON-1](tasks/DOCS-NATIVE-JSON-1.md) | rework | 原生字节、来源未知与历史信用边界沿后继接入结果核对，不重复生成回执 |
+| [DOCS-NATIVE-VITEST-269-1](tasks/DOCS-NATIVE-VITEST-269-1.md) | review | 复用 S29 已接收的 269 篇与中央发布；旧 1848 待办仅属原时点 |
+| [DOCS-RECORD-INTEGRITY-1](tasks/DOCS-RECORD-INTEGRITY-1.md) | rework | 旧撤信、原件失踪与勘误继续有效；核后继语义和最终门，不恢复原 R 波信用 |
+| [DOCS-REGISTRY-SPLIT-1](tasks/DOCS-REGISTRY-SPLIT-1.md) | build | 已验收 registry 分片复用；生产总量按当前公开检查，不沿用原容量估计 |
+
 ### 代码治理：既有批次与卡面收口
 
 下表保留未终态卡的身份和卡面状态。“待对账义务”指接手时要在原卡及后继证据中核实的范围，不宣称每项仍是当前产品缺陷。
