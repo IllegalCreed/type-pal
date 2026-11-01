@@ -426,56 +426,58 @@
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Owned delta; prior provenance retained",
+      "readMethod": "Full old and new navigation read; original 53-card set and card-top states reconciled; fixed successor current summaries read; no product re-audit.",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "Owned release bindings; historical scope retained.",
+      "coreConclusion": "Single existing board separates four ongoing quality lanes, phase2 execution/planning and phase3 reserve; every active card retains identity and status, dependencies and next actions are explicit. Old per-run counts are removed from live navigation, retained in Git and original cards.",
       "truthAnchors": [
-        "docs/ops/code-quality.md",
-        "AGENTS.md:操作与必读",
-        "User 2026-10-18 instruction to persist quality, recheck and contributor responsibilities",
-        "docs/ops/tasks/GAME-ENGLISH-1.md",
-        "docs/ops/evidence/GAME-ENGLISH-1/docs-maintenance.json"
+        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md#2026-11-01 看板与任务入口整理",
+        "docs/ops/guides/documentation-model.md",
+        "scripts/docs/check.mjs:task state and board consumer",
+        "c88be9b3b5b9dc38c77d8c440085e35b8d15fc43:docs/ops/board.md"
       ],
       "unresolved": [
-        "At local freeze: remote PR/main CI publication separate; check associated Git records."
+        "No source-code, runtime, E2E, visual or coverage re-acceptance.",
+        "Old code-card closeout obligations require task-specific successor evidence reconciliation."
       ],
-      "nextStep": "Release verified; documentation PR separate.",
+      "nextStep": "Use original board/card/index ownership; integrate this bounded documentation change via protected PR, and resolve underlying task obligations only within their own evidence scope.",
       "phase": "ops",
       "module": "board.md",
       "capability": "ops-board",
       "owner": "Codex",
-      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
-      "sourceSha256": "290e610459a08648d8c68dc8fba1a5754af4c1f36e7612fcbb790c7bb6a385ba",
-      "afterSha256": "cd8c42b147b3c6a9e65d47d0bde95a09adb8064a18bb7161a32579946f453c0c",
-      "publicCallers": [
-        "docs/ops/board.md → archive/board-history/board-20261004.md",
-        "docs/ops/board.md → README.md",
-        "docs/ops/board.md → tasks/OPS-CONTENT-DOC-REVIEW-1-deep-reading.md",
-        "docs/ops/board.md → tasks/E2E-R4-1-route-and-checkpoint-foundation.md",
-        "docs/ops/board.md → tasks/E2E-005-1-shrimp-errand-and-xianglan-news.md",
-        "docs/ops/board.md → tasks/E2E-006-1-inn-doctor-and-boat-to-island.md",
-        "docs/ops/board.md → tasks/REFORGE-OPENING-LOAD-ERROR-1.md",
-        "docs/ops/board.md → tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md",
-        "docs/ops/board.md → tasks/TEST-GLM-GAME-TURN-BOUNDARIES-1.md",
-        "docs/ops/board.md → tasks/TEST-GLM-REFORGE-RUNTIME-SESSION-1.md",
-        "docs/ops/board.md → tasks/TEST-GLM-EDITOR-ASSET-LIFECYCLE-1.md"
+      "provenance": [
+        "source-document",
+        "full-text-structured-review",
+        "repository-history",
+        {
+          "date": "2026-11-01",
+          "sourceRevision": "c88be9b3b5b9dc38c77d8c440085e35b8d15fc43",
+          "scope": "Existing navigation/status delta; see readMethod."
+        }
       ],
-      "legalInputs": ["current repository documentation", "docs/ops/board.md"],
+      "sourceSha256": "cd8c42b147b3c6a9e65d47d0bde95a09adb8064a18bb7161a32579946f453c0c",
+      "afterSha256": "ee6228a670669e6ab0bc9e3b42901a44e3e3e9f2c42728b48298dc79dc9fa797",
+      "publicCallers": ["docs/ops/tasks/README.md", "docs/ops/README.md", "scripts/docs/check.mjs"],
+      "legalInputs": [
+        "Existing task headers and fixed Git provenance; user authorized navigation-only reorganization on 2026-11-01."
+      ],
       "businessOracle": {
-        "type": "owned-document-delta-and-actual-consumers",
+        "type": "existing-navigation-and-sourced-status-delta",
         "assertions": [
-          "Only specified entries/projection rows changed; unrelated source/history entries semantically unchanged.",
-          "53-file source index keeps34accepted and19review; eight new review records do not add closed.",
-          "Current hashes match actual owned targets; no inherited current whole-gate/CI claim."
+          "Single existing board separates four ongoing quality lanes, phase2 execution/planning and phase3 reserve; every active card retains identity and status, dependencies and next actions are explicit. Old per-run counts are removed from live navigation, retained in Git and original cards.",
+          "Original 53 active IDs remain reachable; generated index matches task headers; historical bodies and unrelated review entries are unchanged."
         ]
       },
       "dedupe": {
-        "result": "Only entry/recording prompts here; complete quality clauses live in docs/ops/code-quality.md",
-        "against": ["docs/ops/code-quality.md", "docs/ops/agent-workflow.md"]
+        "result": "Updated existing navigation and original records only; no new task, roadmap, ledger or repeated evidence package.",
+        "against": [
+          "docs/ops/board.md",
+          "docs/ops/tasks/index.md",
+          "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
+        ]
       },
       "revision": {
-        "currentSha": "ce5f6cc05f113054d748108ccc4f9ddb50f24a8d39184cf773fb627e20f48f11",
-        "implementationSha": "cd8c42b147b3c6a9e65d47d0bde95a09adb8064a18bb7161a32579946f453c0c",
+        "currentSha": "c88be9b3b5b9dc38c77d8c440085e35b8d15fc43",
+        "implementationSha": "ee6228a670669e6ab0bc9e3b42901a44e3e3e9f2c42728b48298dc79dc9fa797",
         "contentVersion": 47,
         "minimumSaveVersion": 12,
         "history": [
@@ -1669,22 +1671,26 @@
             "scope": "Finite language module review status, identity mapping/navigation or their direct reviewed metadata projection; preserve old facts and other entries.",
             "evidence": "docs/ops/evidence/QUALITY-GAME-LOCALIZATION-1/README.md",
             "notRun": ["runtime/E2E/visual by document metadata"]
+          },
+          {
+            "revision": "c88be9b3b5b9dc38c77d8c440085e35b8d15fc43",
+            "date": "2026-11-01",
+            "action": "bounded navigation/status delta",
+            "previousAfterSha256": "cd8c42b147b3c6a9e65d47d0bde95a09adb8064a18bb7161a32579946f453c0c",
+            "previousRecord": "docs/phase-governance/reviews/20261004-semantic-current-batch.json#docs/ops/board.md",
+            "scope": "Prior record is recoverable at this Git revision; only current delta reviewed."
           }
         ]
       },
       "evidence": {
-        "kind": "owned-release-preparation",
-        "path": "docs/ops/board.md",
-        "afterSha256": "cd8c42b147b3c6a9e65d47d0bde95a09adb8064a18bb7161a32579946f453c0c",
-        "scope": "Release delta.",
-        "lineCount": 83,
-        "currentMaintenance": {
-          "task": "QUALITY-PENDING-100-1",
-          "path": "docs/ops/evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json",
-          "sourceBeforeSha256": "ce5f6cc05f113054d748108ccc4f9ddb50f24a8d39184cf773fb627e20f48f11",
-          "afterSha256": "ce5f6cc05f113054d748108ccc4f9ddb50f24a8d39184cf773fb627e20f48f11",
-          "scope": "Owned100-window local gates verified; release pending at commit; prior provenance retained."
-        }
+        "kind": "owned-navigation-status-delta",
+        "path": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
+        "section": "2026-11-01 看板与任务入口整理",
+        "sourceGitRevision": "c88be9b3b5b9dc38c77d8c440085e35b8d15fc43",
+        "sourceDocument": "docs/ops/board.md",
+        "sourceSha256": "cd8c42b147b3c6a9e65d47d0bde95a09adb8064a18bb7161a32579946f453c0c",
+        "afterSha256": "ee6228a670669e6ab0bc9e3b42901a44e3e3e9f2c42728b48298dc79dc9fa797",
+        "lineCount": 149
       },
       "history": [
         {
@@ -3028,9 +3034,9 @@
         }
       ],
       "supersedes": [],
-      "stopLine": "This scoped document maintenance does not grant complete story/runtime/visual/deployment acceptance or refresh unrelated historical evidence.",
+      "stopLine": "Navigation/status maintenance only; do not infer historical governance, product, runtime/E2E, visual, coverage, protected CI or merge acceptance.",
       "userVisibleBeforeAfter": "现有治理入口保留 → 补齐 governance-index-v1 结构与可追溯元数据，任务状态和历史事实不变。",
-      "reviewedLines": "1-92",
+      "reviewedLines": "1-149",
       "reviewNotes": "看板移除已完成 DOCS-CATALOG-SPLIT-1 活动行；当前卡已完成 catalog schema 迁移，但不授予全 docs 或产品执行信用。\n2026-10-18: Codex read current authorized delta. Prior non-author/provenance applies only to its historical SHA. No new third-party or product execution credit.\n2026-10-18: independent RLE pilot calibration; only named current delta reviewed, no inherited product acceptance.\n2026-10-18: user explicitly replaces default duplicate Codex full review with evidence-based independent acceptance and targeted escalation.\n2026-10-18: user requests one large delegated task to reduce relays; no quality/risk rule weakened.\n2026-10-18: GLM stage1 evidence-first acceptance; only named current delta/withdrawal provenance reviewed, no full-file eight-axis reacceptance or historical raw-zero credit.\n2026-10-18: User assigns checkpoint rework to Codex;scope,14case compiler mapping,ledger withdrawal and ongoing unknowns recorded;no new closure/unified gate credit.\n2026-10-19: WORD/GBK scope,20current identities,two actual business counters,ledger withdrawals and unchanged input/public-field policies recorded;no new closure/unified gate credit.\n2026-10-19: CODE82 exact two-file scope/private length and naming cleanup,8unchanged identities/raw byte-equal/precise business counter;0newclosed or unified gate credit.\n2026-10-19: CODE6a4file A-H,old13identities retained+7targeted cases;20direct/47including20;exact cache-epoch stream and native failures retained;0newclosed or unified gate credit.\n2026-10-20: GLM enemy/role4file A-H,5+4old identities retained(one title mapping),11currentdirect/89rawadjacent0stderr;2oldgreen/newred assertion counters and first missing-SSS failure retained;0newclosed or unified gate credit.\n2026-10-20: GLM remaining5noncomment deltas accounted;revive2actual failures before fix;103+181+24current cases0stderr;oldconsole not invented. Only41-source checkpoint rework continues,0newclosed.\n2026-10-20 finite29changedsource+2testcase rework;41source records complete,0newclosed;test identity/native/limitations in linked receipt.\n2026-10-20: Only GLM finite gate-closeout row changed; same3y, actual E2E publication review and exact authorized structural normalization; no other83/94-102expansion. Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\n2026-10-20: Only GLM finite gate-closeout row changed; same3y, actual E2E publication review and exact authorized structural normalization; no other83/94-102expansion. Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\n2026-10-21: Owned pre94 present/speedrun candidate rows; all36 candidates review, 0newcard acceptance; actual ledger consumer count and unchanged historical fence checked. Whole check stopped at these stale document SHAs before package execution; no passed gate credit invented.\n2026-10-21 final: This supersedes only the prior owned candidate row/status note. Current static document hashes/line counts are paired; full runtime/coverage proof is external, not inferred from document review.\n2026-10-21 final: This supersedes only the prior owned candidate row/status note. Current static document hashes/line counts are paired; full runtime/coverage proof is external, not inferred from document review.",
       "integrationReview": {
         "reviewer": "Codex",
@@ -3066,7 +3072,8 @@
         "sourceSha256": "fb6b2bff968d81d63044a5e20f22158890d8a41fbd82edf7f3ecf64906ea02bf",
         "scope": "Owned pending-window3 rows/task projection or corresponding exact afterSHA bindings; historical content not reaccepted",
         "evidence": "docs/ops/evidence/QUALITY-PENDING-100-3/review.json"
-      }
+      },
+      "sourceGitRevision": "c88be9b3b5b9dc38c77d8c440085e35b8d15fc43"
     },
     {
       "path": "docs/ops/README.md",
@@ -3075,18 +3082,17 @@
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Full current Markdown and exact authorized delta read; actual route/template consumers checked",
+      "readMethod": "Full original and updated short README read; exact routing delta and target headings checked.",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "Current Ops navigation links the cross-phase engineering standard without copying task progress or eight-axis clauses.",
+      "coreConclusion": "Ops entry routes to existing board categories and original task index without duplicating progress or creating documents.",
       "truthAnchors": [
-        "docs/ops/code-quality.md",
-        "AGENTS.md:操作与必读",
-        "User 2026-10-18 instruction to persist quality, recheck and contributor responsibilities"
+        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md#2026-11-01 看板与任务入口整理",
+        "docs/ops/guides/documentation-model.md",
+        "scripts/docs/check.mjs:task state and board consumer",
+        "c88be9b3b5b9dc38c77d8c440085e35b8d15fc43:docs/ops/README.md"
       ],
-      "unresolved": [
-        "Historical product/coverage/unified gates remain outside this documentation-only integration."
-      ],
-      "nextStep": "Use canonical quality contract for subsequent development and GLM read-only pilot; independently review code and actual evidence before acceptance.",
+      "unresolved": ["Underlying task and product acceptance remain with original sources."],
+      "nextStep": "Use original board/card/index ownership; integrate this bounded documentation change via protected PR, and resolve underlying task obligations only within their own evidence scope.",
       "phase": "ops",
       "module": "protocol-and-e2e-pilot",
       "capability": "ops-README",
@@ -3094,31 +3100,37 @@
       "provenance": [
         "source-document-full-text",
         "user-approved-agent-first-adoption",
-        "manual-semantic-migration"
+        "manual-semantic-migration",
+        {
+          "date": "2026-11-01",
+          "sourceRevision": "c88be9b3b5b9dc38c77d8c440085e35b8d15fc43",
+          "scope": "Existing navigation/status delta; see readMethod."
+        }
       ],
-      "sourceSha256": "29b0e324cf58b8840ecbe9afb9c82b8b464c04bab172a2ad43d3137c389f0473",
-      "afterSha256": "cc30c58bc4988b229b6f670c7416512b545eed37ec338fdff966c546218d3996",
-      "publicCallers": [
-        "AGENTS.md operation routing",
-        "node scripts/docs/check-document-model.mjs",
-        "docs/ops/README.md"
+      "sourceSha256": "cc30c58bc4988b229b6f670c7416512b545eed37ec338fdff966c546218d3996",
+      "afterSha256": "18e83d2aae0e9d8662826bd5b03f6e06ff62eb6f4d27ee16ff64f0bc95f3abc7",
+      "publicCallers": ["docs/README.md", "docs/ops/board.md"],
+      "legalInputs": [
+        "Existing task headers and fixed Git provenance; user authorized navigation-only reorganization on 2026-11-01."
       ],
-      "legalInputs": ["当前任务范围内的文档阅读、交付与追溯；历史指令不提供新授权"],
       "businessOracle": {
-        "type": "authorized-document-content-and-real-route-template-consumers",
+        "type": "existing-navigation-and-sourced-status-delta",
         "assertions": [
-          "Current Ops navigation links the cross-phase engineering standard without copying task progress or eight-axis clauses.",
-          "One canonical cross-phase quality contract; entry/form instructions preserve actual task state and risk boundaries",
-          "Current delta does not claim historical byte preservation or independent third-party/product execution acceptance"
+          "Ops entry routes to existing board categories and original task index without duplicating progress or creating documents.",
+          "Original 53 active IDs remain reachable; generated index matches task headers; historical bodies and unrelated review entries are unchanged."
         ]
       },
       "dedupe": {
-        "result": "Only entry/recording prompts here; complete quality clauses live in docs/ops/code-quality.md",
-        "against": ["docs/ops/code-quality.md", "docs/ops/agent-workflow.md"]
+        "result": "Updated existing navigation and original records only; no new task, roadmap, ledger or repeated evidence package.",
+        "against": [
+          "docs/ops/board.md",
+          "docs/ops/tasks/index.md",
+          "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
+        ]
       },
       "revision": {
-        "currentSha": "1d2c8635814f0b3aae4eb212d3457b4aaafb7a71",
-        "implementationSha": "cc30c58bc4988b229b6f670c7416512b545eed37ec338fdff966c546218d3996",
+        "currentSha": "c88be9b3b5b9dc38c77d8c440085e35b8d15fc43",
+        "implementationSha": "18e83d2aae0e9d8662826bd5b03f6e06ff62eb6f4d27ee16ff64f0bc95f3abc7",
         "contentVersion": "N/A-document-migration",
         "minimumSaveVersion": "N/A-document-migration",
         "history": [
@@ -3179,15 +3191,26 @@
             "sourceSha256": "29b0e324cf58b8840ecbe9afb9c82b8b464c04bab172a2ad43d3137c389f0473",
             "afterSha256": "af44688efec1f7e67fa4cd50e93765d242b39d41621fe0dd4e5fa5f43e2a7e5b",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "c88be9b3b5b9dc38c77d8c440085e35b8d15fc43",
+            "date": "2026-11-01",
+            "action": "bounded navigation/status delta",
+            "previousAfterSha256": "cc30c58bc4988b229b6f670c7416512b545eed37ec338fdff966c546218d3996",
+            "previousRecord": "docs/phase-governance/reviews/20261004-semantic-current-batch.json#docs/ops/README.md",
+            "scope": "Prior record is recoverable at this Git revision; only current delta reviewed."
           }
         ]
       },
       "evidence": {
-        "kind": "authorized-engineering-quality-contract-content-review",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/quality-standard/README.md",
-        "afterSha256": "cc30c58bc4988b229b6f670c7416512b545eed37ec338fdff966c546218d3996",
-        "lineCount": 32,
-        "scope": "Documentation content/entry/template integration only; no product or old code acceptance."
+        "kind": "owned-navigation-status-delta",
+        "path": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
+        "section": "2026-11-01 看板与任务入口整理",
+        "sourceGitRevision": "c88be9b3b5b9dc38c77d8c440085e35b8d15fc43",
+        "sourceDocument": "docs/ops/README.md",
+        "sourceSha256": "cc30c58bc4988b229b6f670c7416512b545eed37ec338fdff966c546218d3996",
+        "afterSha256": "18e83d2aae0e9d8662826bd5b03f6e06ff62eb6f4d27ee16ff64f0bc95f3abc7",
+        "lineCount": 41
       },
       "history": [
         {
@@ -3205,9 +3228,9 @@
         }
       ],
       "supersedes": [],
-      "stopLine": "Historical instructions and original E2E acceptance remain scoped; schema or template checks never grant new execution credit.",
+      "stopLine": "Navigation/status maintenance only; do not infer historical governance, product, runtime/E2E, visual, coverage, protected CI or merge acceptance.",
       "userVisibleBeforeAfter": "混合说明与三贤人工作流标签 -> 当前职责索引。",
-      "reviewedLines": "1-32",
+      "reviewedLines": "1-41",
       "reviewNotes": "实际核读原文/新正文/调用校验与相关模板；源正文和历史结论通过 Git、wrapper 或保留回执追溯。最终全量独立复核仍未完成。\n2026-10-18: Codex read current authorized delta. Prior non-author/provenance applies only to its historical SHA. No new third-party or product execution credit.",
       "priorReadings": [
         {
@@ -3312,7 +3335,7 @@
       ],
       "templateVersion": "1.0.0",
       "reviewedSourceSha256": "29b0e324cf58b8840ecbe9afb9c82b8b464c04bab172a2ad43d3137c389f0473",
-      "sourceGitRevision": "1d2c8635814f0b3aae4eb212d3457b4aaafb7a71",
+      "sourceGitRevision": "c88be9b3b5b9dc38c77d8c440085e35b8d15fc43",
       "sourceState": "present"
     },
     {
@@ -3322,47 +3345,57 @@
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Owned delta; prior provenance retained",
+      "readMethod": "Generated index diff and original task-header source change checked; no manual index edits or re-review of all historical tasks.",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "Owned release bindings; historical scope retained.",
+      "coreConclusion": "Unmodified producer moves the original DOCS-FULL-TEMPLATE-1 identity from done to review after its sourced status correction; all other task statuses and IDs remain unchanged.",
       "truthAnchors": [
-        "docs/ops/tasks/index.md:1",
-        "scripts/docs/check.mjs:67",
-        "docs/ops/tasks/GAME-ENGLISH-1.md",
-        "docs/ops/evidence/GAME-ENGLISH-1/docs-maintenance.json"
+        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md#2026-11-01 看板与任务入口整理",
+        "docs/ops/guides/documentation-model.md",
+        "scripts/docs/check.mjs:task state and board consumer",
+        "c88be9b3b5b9dc38c77d8c440085e35b8d15fc43:docs/ops/tasks/index.md"
       ],
       "unresolved": [
-        "At local freeze: remote PR/main CI publication separate; check associated Git records."
+        "Generated projection does not certify task implementation or old historical records."
       ],
-      "nextStep": "Release verified; documentation PR separate.",
+      "nextStep": "Use original board/card/index ownership; integrate this bounded documentation change via protected PR, and resolve underlying task obligations only within their own evidence scope.",
       "phase": "ops",
       "module": "tasks",
       "capability": "ops-tasks-index",
       "owner": "Codex",
-      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
-      "sourceSha256": "c1df42497db373493f35f52056fc685ada73dc963edbf2af8f27a44ec0aad448",
-      "afterSha256": "63bb70f8d9f92f2bdd0f33adfb1e7f334058715ccd34458cdcfe84f0278dee68",
-      "publicCallers": [
-        "docs/ops/tasks/README.md → index.md",
-        "docs/ops/board.md → tasks/index.md",
-        "scripts/docs/check.mjs --print-task-index"
+      "provenance": [
+        "source-document",
+        "full-text-structured-review",
+        "repository-history",
+        {
+          "date": "2026-11-01",
+          "sourceRevision": "c88be9b3b5b9dc38c77d8c440085e35b8d15fc43",
+          "scope": "Existing navigation/status delta; see readMethod."
+        }
       ],
-      "legalInputs": ["各任务卡顶部 Status", "scripts/docs/check.mjs", "当前任务看板"],
+      "sourceSha256": "63bb70f8d9f92f2bdd0f33adfb1e7f334058715ccd34458cdcfe84f0278dee68",
+      "afterSha256": "cd790ab00c6556d17d3607bb6878c13a217d42318c1b65f650f4ffe552bdfff6",
+      "publicCallers": ["docs/ops/tasks/README.md", "docs/ops/board.md", "scripts/docs/check.mjs"],
+      "legalInputs": [
+        "Existing task headers and fixed Git provenance; user authorized navigation-only reorganization on 2026-11-01."
+      ],
       "businessOracle": {
-        "type": "owned-document-delta-and-actual-consumers",
+        "type": "existing-navigation-and-sourced-status-delta",
         "assertions": [
-          "Only specified entries/projection rows changed; unrelated source/history entries semantically unchanged.",
-          "53-file source index keeps34accepted and19review; eight new review records do not add closed.",
-          "Current hashes match actual owned targets; no inherited current whole-gate/CI claim."
+          "Unmodified producer moves the original DOCS-FULL-TEMPLATE-1 identity from done to review after its sourced status correction; all other task statuses and IDs remain unchanged.",
+          "Original 53 active IDs remain reachable; generated index matches task headers; historical bodies and unrelated review entries are unchanged."
         ]
       },
       "dedupe": {
-        "result": "reviewed-and-retained",
-        "against": ["scripts/docs/check.mjs --print-task-index", "docs/ops/tasks/README.md"]
+        "result": "Updated existing navigation and original records only; no new task, roadmap, ledger or repeated evidence package.",
+        "against": [
+          "docs/ops/board.md",
+          "docs/ops/tasks/index.md",
+          "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
+        ]
       },
       "revision": {
-        "currentSha": "7685e5fbde52aba8c34b18c116728f7d14c83da85f10fbf677c7ed413b024f41",
-        "implementationSha": "63bb70f8d9f92f2bdd0f33adfb1e7f334058715ccd34458cdcfe84f0278dee68",
+        "currentSha": "c88be9b3b5b9dc38c77d8c440085e35b8d15fc43",
+        "implementationSha": "cd790ab00c6556d17d3607bb6878c13a217d42318c1b65f650f4ffe552bdfff6",
         "contentVersion": 33,
         "minimumSaveVersion": 12,
         "history": [
@@ -3780,22 +3813,26 @@
             "scope": "Finite language module review status, identity mapping/navigation or their direct reviewed metadata projection; preserve old facts and other entries.",
             "evidence": "docs/ops/evidence/QUALITY-GAME-LOCALIZATION-1/README.md",
             "notRun": ["runtime/E2E/visual by document metadata"]
+          },
+          {
+            "revision": "c88be9b3b5b9dc38c77d8c440085e35b8d15fc43",
+            "date": "2026-11-01",
+            "action": "bounded navigation/status delta",
+            "previousAfterSha256": "63bb70f8d9f92f2bdd0f33adfb1e7f334058715ccd34458cdcfe84f0278dee68",
+            "previousRecord": "docs/phase-governance/reviews/20261004-semantic-current-batch.json#docs/ops/tasks/index.md",
+            "scope": "Prior record is recoverable at this Git revision; only current delta reviewed."
           }
         ]
       },
       "evidence": {
-        "kind": "owned-release-preparation",
-        "path": "docs/ops/tasks/index.md",
-        "afterSha256": "63bb70f8d9f92f2bdd0f33adfb1e7f334058715ccd34458cdcfe84f0278dee68",
-        "scope": "Release delta.",
-        "lineCount": 537,
-        "currentMaintenance": {
-          "task": "QUALITY-PENDING-100-1",
-          "path": "docs/ops/evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json",
-          "sourceBeforeSha256": "dd0502a6be56b41a2fe1d1d448d4cb1fe0b0033f96d8e668f197b6b212aa68d1",
-          "afterSha256": "226d184f09e6468ca1d7c0edbeb3ecc0800110624170cb26ea52762ba0b03518",
-          "scope": "Owned100-window local gates verified; release pending at commit; prior provenance retained."
-        }
+        "kind": "owned-navigation-status-delta",
+        "path": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
+        "section": "2026-11-01 看板与任务入口整理",
+        "sourceGitRevision": "c88be9b3b5b9dc38c77d8c440085e35b8d15fc43",
+        "sourceDocument": "docs/ops/tasks/index.md",
+        "sourceSha256": "63bb70f8d9f92f2bdd0f33adfb1e7f334058715ccd34458cdcfe84f0278dee68",
+        "afterSha256": "cd790ab00c6556d17d3607bb6878c13a217d42318c1b65f650f4ffe552bdfff6",
+        "lineCount": 568
       },
       "history": [
         {
@@ -4739,9 +4776,9 @@
         }
       ],
       "supersedes": [],
-      "stopLine": "This scoped document maintenance does not grant complete story/runtime/visual/deployment acceptance or refresh unrelated historical evidence.",
+      "stopLine": "Navigation/status maintenance only; do not infer historical governance, product, runtime/E2E, visual, coverage, protected CI or merge acceptance.",
       "userVisibleBeforeAfter": "现有治理入口保留 → 补齐 governance-index-v1 结构与可追溯元数据，任务状态和历史事实不变。",
-      "reviewedLines": "1-569",
+      "reviewedLines": "Generated delta only",
       "reviewNotes": "任务索引将 DOCS-CATALOG-SPLIT-1 投影到 historical done；当前卡已完成 catalog schema 迁移，但不授予全 docs 或产品执行信用。\n2026-10-21: Owned pre94 present/speedrun candidate rows; all36 candidates review, 0newcard acceptance; actual ledger consumer count and unchanged historical fence checked. Whole check stopped at these stale document SHAs before package execution; no passed gate credit invented.\n2026-10-21 final: This supersedes only the prior owned candidate row/status note. Current static document hashes/line counts are paired; full runtime/coverage proof is external, not inferred from document review.\n2026-10-21 final: This supersedes only the prior owned candidate row/status note. Current static document hashes/line counts are paired; full runtime/coverage proof is external, not inferred from document review.",
       "integrationReview": {
         "reviewer": "Codex",
@@ -4775,7 +4812,8 @@
         "sourceSha256": "7d6dfb574091f9903da7dba3605caade651af619067d0a33522412a85d1d584a",
         "scope": "Owned pending-window3 rows/task projection or corresponding exact afterSHA bindings; historical content not reaccepted",
         "evidence": "docs/ops/evidence/QUALITY-PENDING-100-3/review.json"
-      }
+      },
+      "sourceGitRevision": "c88be9b3b5b9dc38c77d8c440085e35b8d15fc43"
     },
     {
       "path": "docs/ops/tasks/README.md",
@@ -4784,12 +4822,17 @@
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "full-text-read-plus-semantic-migration",
+      "readMethod": "Full original and updated short README read; task state ownership and new navigation links checked.",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "任务卡说明属于索引/准入导航，非任务本身；保留 full/lite、四向真值、历史顶部状态与交接约束，纠正当前看板误指历史快照及 done 自动搬迁。",
-      "truthAnchors": ["docs/ops/agent-workflow.md:1", "scripts/docs/check.mjs:1"],
-      "unresolved": [],
-      "nextStep": "保留全量 build；本类型真实 pilot 可用于后续同类迁移，其余类型未验证不自动进入批量。",
+      "coreConclusion": "Task entry routes to existing board categories; task top owns state and deterministic index owns complete lookup. Fixed in-flight candidates are distinguished from main delivery.",
+      "truthAnchors": [
+        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md#2026-11-01 看板与任务入口整理",
+        "docs/ops/guides/documentation-model.md",
+        "scripts/docs/check.mjs:task state and board consumer",
+        "c88be9b3b5b9dc38c77d8c440085e35b8d15fc43:docs/ops/tasks/README.md"
+      ],
+      "unresolved": ["Existing task build and acceptance gates are unchanged."],
+      "nextStep": "Use original board/card/index ownership; integrate this bounded documentation change via protected PR, and resolve underlying task obligations only within their own evidence scope.",
       "phase": "ops",
       "module": "protocol-and-e2e-pilot",
       "capability": "ops-tasks-README",
@@ -4797,37 +4840,37 @@
       "provenance": [
         "source-document-full-text",
         "user-approved-agent-first-adoption",
-        "manual-semantic-migration"
+        "manual-semantic-migration",
+        {
+          "date": "2026-11-01",
+          "sourceRevision": "c88be9b3b5b9dc38c77d8c440085e35b8d15fc43",
+          "scope": "Existing navigation/status delta; see readMethod."
+        }
       ],
-      "sourceSha256": "6aec8429b8778cc3ae2ba58cd184fc859ef6737702cd8997460db9f209d78fe7",
-      "afterSha256": "5f5c8c221ff04e12317fd86bc0d19e1357fedaae29b911f0facb48fd622d24e2",
-      "publicCallers": [
-        "AGENTS.md operation routing",
-        "node scripts/docs/check-document-model.mjs",
-        "docs/ops/README.md"
+      "sourceSha256": "5f5c8c221ff04e12317fd86bc0d19e1357fedaae29b911f0facb48fd622d24e2",
+      "afterSha256": "22dc29afbc7ce45225622553a70d7ee932fa6183e3d84a2a4eb0268f7fb6c4bf",
+      "publicCallers": ["docs/ops/README.md", "docs/ops/tasks/index.md", "scripts/docs/check.mjs"],
+      "legalInputs": [
+        "Existing task headers and fixed Git provenance; user authorized navigation-only reorganization on 2026-11-01."
       ],
-      "legalInputs": ["当前任务范围内的文档阅读、交付与追溯；历史指令不提供新授权"],
       "businessOracle": {
-        "type": "semantic-preservation-and-real-document-consumer",
+        "type": "existing-navigation-and-sourced-status-delta",
         "assertions": [
-          "任务卡说明属于索引/准入导航，非任务本身；保留 full/lite、四向真值、历史顶部状态与交接约束，纠正当前看板误指历史快照及 done 自动搬迁。",
-          "必填模板章节有具体语义；原文事实、日期与来源边界可追溯",
-          "不新增 runtime/E2E/visual/coverage 通过结论"
+          "Task entry routes to existing board categories; task top owns state and deterministic index owns complete lookup. Fixed in-flight candidates are distinguished from main delivery.",
+          "Original 53 active IDs remain reachable; generated index matches task headers; historical bodies and unrelated review entries are unchanged."
         ]
       },
       "dedupe": {
-        "result": "reviewed",
+        "result": "Updated existing navigation and original records only; no new task, roadmap, ledger or repeated evidence package.",
         "against": [
-          "AGENTS.md",
-          "docs/ops/agent-workflow.md",
-          "docs/testing/catalog.json",
-          "docs/phase-governance/templates/registry.json"
-        ],
-        "notes": "根入口路由，当前流程定义执行纪律，历史 wrapper 保存旧原文，testing catalog/report/evidence 各保原事实权；类型按正文而非文件夹判。"
+          "docs/ops/board.md",
+          "docs/ops/tasks/index.md",
+          "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
+        ]
       },
       "revision": {
-        "currentSha": "1d2c8635814f0b3aae4eb212d3457b4aaafb7a71",
-        "implementationSha": "5f5c8c221ff04e12317fd86bc0d19e1357fedaae29b911f0facb48fd622d24e2",
+        "currentSha": "c88be9b3b5b9dc38c77d8c440085e35b8d15fc43",
+        "implementationSha": "22dc29afbc7ce45225622553a70d7ee932fa6183e3d84a2a4eb0268f7fb6c4bf",
         "contentVersion": "N/A-document-migration",
         "minimumSaveVersion": "N/A-document-migration",
         "history": [
@@ -4843,15 +4886,26 @@
             "sourceSha256": "6aec8429b8778cc3ae2ba58cd184fc859ef6737702cd8997460db9f209d78fe7",
             "afterSha256": "5f5c8c221ff04e12317fd86bc0d19e1357fedaae29b911f0facb48fd622d24e2",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "c88be9b3b5b9dc38c77d8c440085e35b8d15fc43",
+            "date": "2026-11-01",
+            "action": "bounded navigation/status delta",
+            "previousAfterSha256": "5f5c8c221ff04e12317fd86bc0d19e1357fedaae29b911f0facb48fd622d24e2",
+            "previousRecord": "docs/phase-governance/reviews/20261004-semantic-current-batch.json#docs/ops/tasks/README.md",
+            "scope": "Prior record is recoverable at this Git revision; only current delta reviewed."
           }
         ]
       },
       "evidence": {
-        "kind": "full-text-preservation-and-consumer-review",
-        "path": "docs/ops/tasks/README.md",
-        "sourceSha256": "6aec8429b8778cc3ae2ba58cd184fc859ef6737702cd8997460db9f209d78fe7",
-        "afterSha256": "5f5c8c221ff04e12317fd86bc0d19e1357fedaae29b911f0facb48fd622d24e2",
-        "lineCount": 42
+        "kind": "owned-navigation-status-delta",
+        "path": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
+        "sourceSha256": "5f5c8c221ff04e12317fd86bc0d19e1357fedaae29b911f0facb48fd622d24e2",
+        "afterSha256": "22dc29afbc7ce45225622553a70d7ee932fa6183e3d84a2a4eb0268f7fb6c4bf",
+        "lineCount": 53,
+        "section": "2026-11-01 看板与任务入口整理",
+        "sourceGitRevision": "c88be9b3b5b9dc38c77d8c440085e35b8d15fc43",
+        "sourceDocument": "docs/ops/tasks/README.md"
       },
       "history": [
         {
@@ -4869,9 +4923,9 @@
         }
       ],
       "supersedes": [],
-      "stopLine": "Historical instructions and original E2E acceptance remain scoped; schema or template checks never grant new execution credit.",
+      "stopLine": "Navigation/status maintenance only; do not infer historical governance, product, runtime/E2E, visual, coverage, protected CI or merge acceptance.",
       "userVisibleBeforeAfter": "被路径归为 task-card 的说明 -> governance-index；当前链接与稳定身份规则准确。",
-      "reviewedLines": "1-42",
+      "reviewedLines": "1-53",
       "reviewNotes": "实际核读原文/新正文/调用校验与相关模板；源正文和历史结论通过 Git、wrapper 或保留回执追溯。最终全量独立复核仍未完成。",
       "priorReadings": [
         {
@@ -4986,7 +5040,7 @@
       ],
       "templateVersion": "1.0.0",
       "reviewedSourceSha256": "6aec8429b8778cc3ae2ba58cd184fc859ef6737702cd8997460db9f209d78fe7",
-      "sourceGitRevision": "1d2c8635814f0b3aae4eb212d3457b4aaafb7a71",
+      "sourceGitRevision": "c88be9b3b5b9dc38c77d8c440085e35b8d15fc43",
       "sourceState": "present"
     },
     {

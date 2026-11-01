@@ -1,14 +1,20 @@
 # DOCS-FULL-TEMPLATE-1 — 全 docs 深度治理与模板化改写
 
-Status: done
-Execution: completed（全量治理、独立复核与静态门禁已完成）
+Status: review
+Execution: review/rework（旧全量 done 已撤回；S87 候选及最终接入验收未整体收口）
 Phase: ops
 Capability: documentation governance
 Coding Owner: Codex
-Reviewer: Codex 独立最终复核；各批次非作者审查与逐篇回执保留在 evidence/review records
-Branch: codex/docs-full-template-proposal
-Last reviewed: 2026-10-17
+Reviewer: 各批次实际审查人与原回执保持原范围；本轮 Codex 仅核导航与状态差异，不重授历史独立验收
+Branch: codex/docs-s87-main-successor（治理候选）；codex/task-entry-organization（本轮导航整理）
+Last reviewed: 2026-11-01
 Template: task-card-v1 / 1.0.0
+
+2026-11-01 状态勘误：原全量完成结论已在后继治理中撤回。本次按固定候选
+`7f045e964b79c4fc216befbfdc00668bd7a54888` 的本卡顶部、S87 末段及接收边界校正当前入口；
+不把该分支的工具、中央 registry 或全部文档实现视为已经合入本树。
+源可在保有该本地候选的仓库由 `git show 7f045e964b79c4fc216befbfdc00668bd7a54888:docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md` 回读；当前无远端分支可达，发布原候选仍由治理 Owner 收口。
+以下现行摘要负责接手；“历史实施记录”以下保留原时点声明，不恢复已撤回的 done 或旧信用。
 
 ## 目标
 在不覆盖共享工作树改动、不把静态治理冒充运行时验收的前提下，核定 docs 全树的文件归属，冻结可审查的统一模板注册表，再按批次把正文迁移为模板合规并为每篇保留可追溯 review record。
@@ -22,7 +28,7 @@ Template: task-card-v1 / 1.0.0
 - 行为/工程前提：模板迁移只改变文档结构与导航，保留原始语义、机器字段、SHA、状态范围和停止线。
 - 一手证据：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/inventory.json`、`binding-baseline.json`、`protection.json`、最新 registry/routing 与本卡批次回执。
 - 最强替代解释与可证伪观察：若发现源/after SHA 漂移、机器字段改变、历史状态升格或 protected delta 被覆盖，当前迁移结论立即失效并转 rework/blocked。
-- 当前状态：done；治理完成不授 runtime/E2E/视觉/coverage 信用。
+- 当前状态：review/rework；S87 实现、16 篇作者稿及完整临时树待非作者验收，真实中央未完成该批补史与授信。导航整理不授 runtime/E2E/视觉/coverage 或全量文档完成信用。
 
 ## 验收
 - 功能/文档：1838 基线候选逐篇绑定 docType/templateId/templateVersion 并有独立 review record。
@@ -32,8 +38,22 @@ Template: task-card-v1 / 1.0.0
 
 ## 状态与交接
 - 当前 Owner：Codex。
-- 阻塞/决策：无未解释治理阻塞；R94 review ledger 以 `document-registry.json.structuralRoots` 作为显式结构根保留。
-- 下一步与交接提示词：无下一位 Agent 提示词；等待用户后续治理任务。主树集成后继续维护同一 registry、routing 与 review SHA 约束。
+- 阻塞/决策：后继治理的非作者验收、中央接入、最终硬门与受保护主线集成尚待闭合；旧 R 波记录不因本次状态勘误恢复信用。
+- 下一步：治理 Owner 从上述固定候选核最新进展，完成剩余接收与硬门后再集成；保留同一任务身份。仓库系统瘦身在当前文档批次收口后独立推进，不把其全部存量追加为本卡完成前提。
+
+## 2026-11-01 看板与任务入口整理
+
+- 用户授权：沿现有看板和任务入口区分长期治理、第二阶段功能、第三阶段储备，标清状态、阶段、依赖与下一步；不另建平行文档。
+- Owner：Codex；隔离分支 `codex/task-entry-organization`，基点 `c88be9b3b5b9dc38c77d8c440085e35b8d15fc43`。build allowed 仅覆盖本导航差异。
+- 白名单：`docs/ops/board.md`、`docs/ops/README.md`、`docs/ops/tasks/README.md`、本卡、006 原卡的当前摘要、生成任务索引，以及这些文件已有 review record 的精确差异。没有新任务 ID、文档目录或平行进度账本。
+- 前提：原任务卡/生成索引负责状态，看板负责分工；后继未合入成果单列固定 Git 来源。第一、二阶段产品行为 N/A，本轮只校正导航，不改代码、测试合同、产品格式或验收规则。
+- 验收：原活动卡全部可达、表内状态与卡顶部一致；规划不伪装成已准入任务；既有卡面待收口与实际功能欠账分开；检查文档、lint 与 diff 的真实结果。历史正文保留，只更新实际核过的文档差异和来源。
+- 当前进度：本批导航整理完成，原 53 张活动卡保留，纠正文档母卡后共 54 张；任务索引已按原生成器更新，未新增文档。本批不改变全 docs 治理的 review/rework 状态，受保护主线集成结果以本分支关联 PR 为准。
+- 验证与复核：`pnpm check:docs` 通过（131 项工具回归，0 failed/skipped/todo；链接、状态、模板、审阅及完整性检查零问题）；`pnpm lint` 为 0 error/warning/info，`git diff --check` 通过。原卡历史正文、未涉及的 review 条目逐字保留，8 个入口标题锚点可达。首轮旧 SHA 与原件保全绑定失败已定向修复；仅更新 9 条既有审阅/入链记录，三个载体的逆向差异均还原到固定 Git 原件，没有复制过程证据或改验收规则。
+
+## 历史实施记录
+
+以下为主线旧卡的原始计划与各轮记录；其中 completed、done、独立复核及进度数字仅属原时点，受上方状态勘误和后继裁定约束。
 
 ## 前提真值门
 ### 一句话行为 / 工程前提

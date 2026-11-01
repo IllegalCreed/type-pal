@@ -12036,14 +12036,17 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "full phase-governance JSON/derived index read and artifact envelope",
+      "readMethod": "Exact incoming binding delta reviewed; unchanged entries compared with fixed base. No full historical re-audit.",
       "reviewDepth": "structured-content",
-      "coreConclusion": "docs/phase-governance/reviews/20261017-r57-current-task-cards.json machine artifact：historical phase-governance artifact；保留原内容、日期和边界，不单独证明当前通过。",
-      "truthAnchors": ["docs/phase-governance/reviews/20261017-r57-current-task-cards.json:1"],
-      "unresolved": [
-        "Historical phase-governance material requires current catalog/registry/routing and fresh review before reuse."
+      "coreConclusion": "Bind only reviewed navigation/status entries: docs/ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md. Existing historical records and unrelated entries are retained.",
+      "truthAnchors": [
+        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md#2026-11-01 看板与任务入口整理",
+        "c88be9b3b5b9dc38c77d8c440085e35b8d15fc43:docs/phase-governance/reviews/20261017-r57-current-task-cards.json"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 phase/lore canonical 文档、task card 和 fresh evidence 复核。",
+      "unresolved": [
+        "Underlying governance, product and remote integration acceptance remain separate."
+      ],
+      "nextStep": "Validate existing documentation consumers and integrate this finite navigation change via protected PR.",
       "phase": "phase-governance",
       "module": "reviews",
       "capability": "docs/phase-governance/reviews/20261017-r57-current-task-cards.json machine artifact",
@@ -12056,60 +12059,79 @@
           "nonAuthorReviewer": "r93_readonly_review",
           "verdict": "accept-readonly-proposal",
           "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95"
+        },
+        {
+          "date": "2026-11-01",
+          "sourceRevision": "c88be9b3b5b9dc38c77d8c440085e35b8d15fc43",
+          "scope": "Finite incoming bindings; no historical reacceptance."
         }
       ],
       "sourceSha256": "f6846b0be6f3f9b0047abfd656c2b76d34b30c8c91f03117d703a45b2c5d5972",
-      "afterSha256": "f6846b0be6f3f9b0047abfd656c2b76d34b30c8c91f03117d703a45b2c5d5972",
+      "afterSha256": "0f51585900b4790ddc176bd0228a77c500b9a3fa3fec89f0e3649a97d8660118",
       "publicCallers": [
-        "docs/phase-governance/document-registry.json",
-        "docs/phase-governance/routing.json",
-        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
+        "scripts/docs/check-content-review.mjs",
+        "docs/phase-governance/document-registry.json"
       ],
       "legalInputs": [
-        "current repository documentation",
-        "docs/phase-governance/reviews/20261017-r57-current-task-cards.json"
+        "Only the listed entry deltas from the fixed base; no new registry membership or acceptance."
       ],
       "businessOracle": {
-        "type": "phase-governance-artifact",
+        "type": "finite-review-binding-delta",
         "assertions": [
-          "original content remains traceable",
-          "historical status remains date-scoped",
-          "no runtime/E2E/visual/coverage credit"
+          "Only listed entries change; unrelated entries and root metadata are identical to the fixed base.",
+          "Current target SHA matches bytes; old after SHA and original records remain recoverable from Git."
         ]
       },
       "dedupe": {
-        "result": "reviewed-and-retained",
-        "against": ["docs/phase-governance/reviews/20261017-r57-current-task-cards.json"]
+        "result": "Existing bindings updated; no new review file.",
+        "against": ["docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json"]
       },
       "revision": {
-        "currentSha": "f6846b0be6f3f9b0047abfd656c2b76d34b30c8c91f03117d703a45b2c5d5972",
-        "implementationSha": "f6846b0be6f3f9b0047abfd656c2b76d34b30c8c91f03117d703a45b2c5d5972",
+        "currentSha": "c88be9b3b5b9dc38c77d8c440085e35b8d15fc43",
+        "implementationSha": "0f51585900b4790ddc176bd0228a77c500b9a3fa3fec89f0e3649a97d8660118",
         "history": [
           {
             "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
             "date": "2026-10-17",
             "action": "byte-stable phase-governance artifact review",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "c88be9b3b5b9dc38c77d8c440085e35b8d15fc43",
+            "date": "2026-11-01",
+            "action": "bounded navigation/status delta",
+            "previousAfterSha256": "f6846b0be6f3f9b0047abfd656c2b76d34b30c8c91f03117d703a45b2c5d5972",
+            "previousRecord": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json#docs/phase-governance/reviews/20261017-r57-current-task-cards.json",
+            "scope": "Prior record is recoverable at this Git revision; only current delta reviewed."
           }
         ]
       },
       "evidence": {
-        "kind": "machine-artifact-envelope",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
+        "kind": "owned-review-binding-delta",
+        "path": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
+        "section": "2026-11-01 看板与任务入口整理",
+        "sourceGitRevision": "c88be9b3b5b9dc38c77d8c440085e35b8d15fc43",
+        "sourceDocument": "docs/phase-governance/reviews/20261017-r57-current-task-cards.json",
         "sourceSha256": "f6846b0be6f3f9b0047abfd656c2b76d34b30c8c91f03117d703a45b2c5d5972",
-        "candidateSha256": "f6846b0be6f3f9b0047abfd656c2b76d34b30c8c91f03117d703a45b2c5d5972",
-        "afterSha256": "f6846b0be6f3f9b0047abfd656c2b76d34b30c8c91f03117d703a45b2c5d5972",
-        "lineCount": 959,
+        "afterSha256": "0f51585900b4790ddc176bd0228a77c500b9a3fa3fec89f0e3649a97d8660118",
+        "lineCount": 960,
         "artifactPreserved": true,
         "originalPreservation": {
-          "method": "byte-stable phase-governance artifact",
+          "method": "fixed Git source; inverse owned diff reproduces original bytes",
+          "sourceGitRevision": "c88be9b3b5b9dc38c77d8c440085e35b8d15fc43",
+          "sourcePath": "docs/phase-governance/reviews/20261017-r57-current-task-cards.json",
           "sourceBytes": 43988,
           "sourceLines": 959,
           "sourceFinalNewline": true,
           "inverseSha256": "f6846b0be6f3f9b0047abfd656c2b76d34b30c8c91f03117d703a45b2c5d5972",
           "exactRoundTrip": true
         },
-        "nativeShape": { "format": "json", "byteStable": true }
+        "nativeShape": {
+          "format": "json",
+          "topLevelKeys": ["schemaVersion", "id", "reviewer", "reviewDate", "policy", "entries"],
+          "byteStable": false
+        },
+        "preservationScope": "Original source is preserved in Git and recovered by inverse delta; the current mutable review carrier is not byte-stable. No historical migration claim is reaccepted."
       },
       "history": [
         {
@@ -12128,22 +12150,22 @@
       "supersedes": [
         "governed-legacy phase-governance presentation; original facts remain date-scoped"
       ],
-      "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
-      "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "1-959",
+      "stopLine": "Binding maintenance grants no new historical governance, code, runtime/E2E, visual, coverage or release acceptance.",
+      "userVisibleBeforeAfter": "Existing review carrier receives only the listed navigation/status deltas; historical byte-preservation statements remain scoped to their original versions.",
+      "reviewedLines": "Named entry deltas only; historical records unchanged.",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
       "artifactFormat": "json",
       "documentStatus": "historical",
-      "sourceGitRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
-      "candidateSha256": "f6846b0be6f3f9b0047abfd656c2b76d34b30c8c91f03117d703a45b2c5d5972",
+      "sourceGitRevision": "c88be9b3b5b9dc38c77d8c440085e35b8d15fc43",
+      "candidateSha256": "0f51585900b4790ddc176bd0228a77c500b9a3fa3fec89f0e3649a97d8660118",
       "primarySource": [
         {
           "path": "docs/phase-governance/reviews/20261017-r57-current-task-cards.json",
-          "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+          "revision": "c88be9b3b5b9dc38c77d8c440085e35b8d15fc43",
           "sha256": "f6846b0be6f3f9b0047abfd656c2b76d34b30c8c91f03117d703a45b2c5d5972",
-          "scope": "full UTF-8 source"
+          "scope": "Pre-navigation source artifact; inverse current diff verified byte-for-byte."
         }
       ],
       "phaseAnchors": {
