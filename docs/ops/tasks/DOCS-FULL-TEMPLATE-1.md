@@ -1,7 +1,7 @@
 # DOCS-FULL-TEMPLATE-1 — 全 docs 深度治理与模板化改写
 
 Status: review
-Execution: review/rework（S87最新main16篇与205历史补录；实现和临时树候选待非作者验收，真实中央尚未改动）
+Execution: review/rework（S87实现、16篇作者稿及完整临时树待非作者验收；真实中央尚未执行205补史或16授信）
 Phase: ops
 Capability: documentation governance
 Coding Owner: Codex
@@ -3041,7 +3041,7 @@ S86实际发布与门结果（2026-11-01）：执行基点50d70b3dd2b3251414431d
 
 ### S87 最新main余量与后继边界准入（build allowed，未发布）
 
-远端已重新固定c88be9b3b5b9dc38c77d8c440085e35b8d15fc43（相对原5e66新增PR35/36六提交）；当前文档分支尚未整合该点，不能对最新main宣告全量完成。内容余量实为12新增（3MD/9JSON）+4正文变更，另2行政视图/6旧flat中央控制/10非prose附件。源码与旧测试只承接已获批上游提交，主工作树未知改动不碰；不把旧2346条flat账覆盖当前4530条与分片。
+远端已重新固定c88be9b3b5b9dc38c77d8c440085e35b8d15fc43（相对原5e66新增PR35/36六提交）；当前文档分支尚未整合该点，不能对最新main宣告全量完成。内容余量实为12新增（3MD/9JSON）+4正文变更，另2行政视图/6旧flat中央控制/9非prose附件（初计10，固定Git逐路径核定更正）。源码与旧测试只承接已获批上游提交，主工作树未知改动不碰；不把旧2346条flat账覆盖当前4530条与分片。
 
 Codex单一Owner可在隔离分支处理合并、7篇Markdown真实模板治理、9原生JSON既有合同复用和精确来源/历史/消费者说明；同时完成已发表205历史事件的受控补录，以及可复用的后继准入/旧视图逆回/精确registry片界/事务边界。沿用17模板、114逻辑owner及原source pins，不为新一轮造平行账本；旧语义/撤信和六物理退役保持。新的公共实现、整包16内容及完整临时树演练准备齐后一次集中非作者验收，不拆只读/设计小包；接收前不生产补史或授新16信用，不逐批问许可。硬门未过不合main、不推送、不done。
 
@@ -3060,3 +3060,7 @@ S87实施进展：最新main以真实双亲合并fcd42bd6b进入候选分支，9
 持久入口：[006验收附件](https://github.com/IllegalCreed/type-pal/releases/tag/evidence-e2e006-20261027)。新检出环境可运行`python3 -B scripts/docs/restore-e2e-evidence.py`经gh下载校验；已有该固定归档时加`--archive <本地归档绝对路径>`，全套八项均匹配即零写返回。之后仍运行原`pnpm check:docs`，恢复不代替任何原始SHA、版本、发布配对或运行证据门。
 
 CI保持受保护documentation汇总和每job五分钟，按tools/structure/completeness三段并行执行原check:docs全部子命令及lint，完成段额外要求--require-complete；新增或丢失未分配的check:docs命令即拒绝。三段先恢复同一固定附件，任一失败/跳过/取消均不能使汇总通过；fast-coverage不改。恢复与命令归属12项Python反例/正例通过，源码/候选/CI结果仍须最终受审与实际验证，不把附件保全代作006剧情复验。
+
+S87终态作者证据：代码基点85fc5effa，395文档工具全部通过/零skip，lint6677零诊断，221工具输入逐文件绑定。独立Git传输检出没有alternates，真实98写/75旧片退出，173原始路径精确；不经生产loader的独立重建证4542pin、114owner/15manifest/113shard、15真实来源pin、旧205/1916范围保全和空history0。新16仍partial/needs/0信用；临时strict真实exit1且仅32候选诊断。进度首轮91=16候选+75尚在Git cached集合的退役片；精确暂存后另轮实报16pending/0integrity、require-complete仍exit1，未改枚举器规则或旧原件。完整进度末轮本机289.5秒，远端CI尚未执行，不能用本地结果提前签远端门。
+
+九个非prose附件按固定c88 blob/SHA/当前字节及实际README或机器消费者逐项核定，保留原raw、闭包、旧投影和隔离反控用途；未运行旧verifier、未展开压缩raw作产品重审。下一份集中委托覆盖S86实际观察/已授权fixture适配、S87公共增量/完整临时树、16篇逐路径内容、006附件恢复/CI及用户清理约定。必要证据复用同一仓外包，真实中央phase-governance字节仍等S86基点；非作者接收后才编译接受表、生产写入与最终硬门，不合main、不推送、不done。
