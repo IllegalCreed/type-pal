@@ -169,18 +169,21 @@
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R57 current task-card migration; quote inverse checked",
+      "readMethod": "Only current summary delta and fixed 33cfb9ad89 successor state/handoff read; original quoted body checked byte-identical, no fresh E2E or technical acceptance.",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "E2E-006-1 — 回客栈求药与张四出海上仙灵岛：current task card with status rework; goal, scope, premise, owner, evidence and unresolved boundaries remain explicit.",
+      "coreConclusion": "Keep rework for unintegrated successor; explicitly attribute recorded technical/user visual acceptance and remaining integration/delta checks to the fixed later candidate rather than repeating obsolete NPC/visual blockers.",
       "truthAnchors": [
-        "docs/ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md:1",
-        "docs/ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md:23",
-        "docs/ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md:77"
+        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md#2026-11-01 看板与任务入口整理",
+        "docs/ops/guides/documentation-model.md",
+        "scripts/docs/check.mjs:task state and board consumer",
+        "c88be9b3b5b9dc38c77d8c440085e35b8d15fc43:docs/ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md",
+        "33cfb9ad89f8696802b7c2ec466fbc93cccf8149:docs/ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md (state and handoff)"
       ],
       "unresolved": [
-        "当前卡已明确 rework：链路和船队数学有证，但关键 NPC 状态/位置/朝向日志、第一阶段顺序对比和用户指出的视觉问题未闭合，不能标 done。"
+        "Successor observations apply only to that candidate and its covered scope.",
+        "No new runtime/E2E/audio/coverage acceptance; candidate integration and affected-delta validation remain."
       ],
-      "nextStep": "沿当前 task card/board、fresh evidence 与独立验收闭合；本批不推进状态。",
+      "nextStep": "Use original board/card/index ownership; integrate this bounded documentation change via protected PR, and resolve underlying task obligations only within their own evidence scope.",
       "phase": "ops",
       "module": "tasks",
       "capability": "e2e-006-1",
@@ -193,44 +196,41 @@
           "nonAuthorReviewer": "r57_readonly_review",
           "verdict": "accept-readonly-proposal",
           "sourceRevision": "fb83030c29ad9599c4135950d552d7c75ab3009f"
+        },
+        {
+          "date": "2026-11-01",
+          "sourceRevision": "c88be9b3b5b9dc38c77d8c440085e35b8d15fc43",
+          "scope": "Existing navigation/status delta; see readMethod."
         }
       ],
-      "sourceSha256": "7a3b6250e159edb6dbe82342b70c03379bab9d0cc7f9b3bcffbc7d49fd9c04e4",
-      "afterSha256": "41142491aa9389b6a5b9f7d13f6ef38cf1b66add5b94f7c9b6bc2c9d454c7363",
+      "sourceSha256": "41142491aa9389b6a5b9f7d13f6ef38cf1b66add5b94f7c9b6bc2c9d454c7363",
+      "afterSha256": "78f81fc0919a7b709a93b3e55ab3abf3aa0097b9bb246065b8fc5cad748ff76d",
       "publicCallers": [
-        "projects/pal/content/scenes/s002.json",
-        "projects/pal/content/scenes/s005.json",
-        "scripts/e2e/boat-contract.mjs",
-        "docs/testing/e2e/stages/006-doctor-boat/report.md",
-        "docs/ops/board.md / docs/ops/tasks/index.md current task navigation"
+        "docs/ops/board.md",
+        "docs/ops/tasks/index.md",
+        "docs/testing/e2e/stages/006-doctor-boat/report.md"
       ],
       "legalInputs": [
-        "current repository documentation",
-        "docs/ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md",
-        "corresponding code/content/test/e2e consumer"
+        "Existing task headers and fixed Git provenance; user authorized navigation-only reorganization on 2026-11-01."
       ],
       "businessOracle": {
-        "type": "current-task-card-template-migration",
+        "type": "existing-navigation-and-sourced-status-delta",
         "assertions": [
-          "original goal/scope/status/owner remain traceable",
-          "current status is not advanced by formatting migration",
-          "source/after SHA and quote inverse pass",
-          "no runtime/E2E/visual/coverage credit"
+          "Keep rework for unintegrated successor; explicitly attribute recorded technical/user visual acceptance and remaining integration/delta checks to the fixed later candidate rather than repeating obsolete NPC/visual blockers.",
+          "Original 53 active IDs remain reachable; generated index matches task headers; historical bodies and unrelated review entries are unchanged."
         ]
       },
       "dedupe": {
-        "result": "reviewed-and-migrated",
+        "result": "Updated existing navigation and original records only; no new task, roadmap, ledger or repeated evidence package.",
         "against": [
-          "docs/ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md",
-          "projects/pal/content/scenes/s002.json",
-          "projects/pal/content/scenes/s005.json",
-          "scripts/e2e/boat-contract.mjs",
-          "docs/testing/e2e/stages/006-doctor-boat/report.md"
+          "docs/ops/board.md",
+          "docs/ops/tasks/index.md",
+          "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
         ]
       },
       "revision": {
-        "currentSha": "41142491aa9389b6a5b9f7d13f6ef38cf1b66add5b94f7c9b6bc2c9d454c7363",
-        "implementationSha": "41142491aa9389b6a5b9f7d13f6ef38cf1b66add5b94f7c9b6bc2c9d454c7363",
+        "currentSha": "c88be9b3b5b9dc38c77d8c440085e35b8d15fc43",
+        "implementationSha": "78f81fc0919a7b709a93b3e55ab3abf3aa0097b9bb246065b8fc5cad748ff76d",
         "history": [
           {
             "revision": "fb83030c29ad9599c4135950d552d7c75ab3009f",
@@ -244,25 +244,26 @@
             "date": "2026-10-17",
             "action": "R57 current task-card template migration",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "c88be9b3b5b9dc38c77d8c440085e35b8d15fc43",
+            "date": "2026-11-01",
+            "action": "bounded navigation/status delta",
+            "previousAfterSha256": "41142491aa9389b6a5b9f7d13f6ef38cf1b66add5b94f7c9b6bc2c9d454c7363",
+            "previousRecord": "docs/phase-governance/reviews/20261017-r57-current-task-cards.json#docs/ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md",
+            "scope": "Prior record is recoverable at this Git revision; only current delta reviewed."
           }
         ]
       },
       "evidence": {
-        "kind": "document-template-migration",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r57-current-task-cards-20261017.json",
-        "sourceSha256": "7a3b6250e159edb6dbe82342b70c03379bab9d0cc7f9b3bcffbc7d49fd9c04e4",
-        "candidateSha256": "41142491aa9389b6a5b9f7d13f6ef38cf1b66add5b94f7c9b6bc2c9d454c7363",
-        "afterSha256": "41142491aa9389b6a5b9f7d13f6ef38cf1b66add5b94f7c9b6bc2c9d454c7363",
-        "lineCount": 134,
-        "artifactPreserved": false,
-        "originalPreservation": {
-          "method": "line-by-line blockquote quote",
-          "sourceBytes": 7098,
-          "sourceLines": 85,
-          "sourceFinalNewline": true,
-          "inverseSha256": "7a3b6250e159edb6dbe82342b70c03379bab9d0cc7f9b3bcffbc7d49fd9c04e4",
-          "exactRoundTrip": true
-        }
+        "kind": "owned-navigation-status-delta",
+        "path": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
+        "section": "2026-11-01 看板与任务入口整理",
+        "sourceGitRevision": "c88be9b3b5b9dc38c77d8c440085e35b8d15fc43",
+        "sourceDocument": "docs/ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md",
+        "sourceSha256": "41142491aa9389b6a5b9f7d13f6ef38cf1b66add5b94f7c9b6bc2c9d454c7363",
+        "afterSha256": "78f81fc0919a7b709a93b3e55ab3abf3aa0097b9bb246065b8fc5cad748ff76d",
+        "lineCount": 137
       },
       "history": [
         {
@@ -281,14 +282,14 @@
       "supersedes": [
         "governed-legacy presentation; current task status and original source retained"
       ],
-      "stopLine": "do not advance draft/build/review/rework or promote task-card claims to current product/runtime/E2E/visual/coverage acceptance by documentation migration alone",
+      "stopLine": "Navigation/status maintenance only; do not infer historical governance, product, runtime/E2E, visual, coverage, protected CI or merge acceptance.",
       "userVisibleBeforeAfter": "原始 current task card 保持 → 接入 task-card 模板、状态/owner/前提/验收/交接边界、可逆 quote 和 SHA；任务状态与产品事实不变。",
-      "reviewedLines": "1-134",
+      "reviewedLines": "Current summary and exact diff only; historical body retained via fixed Git",
       "templateVersion": "1.0.0",
       "historyOverlay": false,
       "documentStatus": "rework",
-      "sourceGitRevision": "fb83030c29ad9599c4135950d552d7c75ab3009f",
-      "candidateSha256": "41142491aa9389b6a5b9f7d13f6ef38cf1b66add5b94f7c9b6bc2c9d454c7363",
+      "sourceGitRevision": "c88be9b3b5b9dc38c77d8c440085e35b8d15fc43",
+      "candidateSha256": "78f81fc0919a7b709a93b3e55ab3abf3aa0097b9bb246065b8fc5cad748ff76d",
       "primarySource": [
         {
           "path": "docs/ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md",
