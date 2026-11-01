@@ -2972,3 +2972,13 @@ Status: build / rework（2026-11-01）；Owner Codex，build allowed仅限据证
 本轮Owner已触发并限定两类展开：终稿恢复本地链接而11篇review仍留中间稿固定Git处置，限记录字段修正、不返工正文；raw draft-index单文件3.6MB含570KiB复用正文行，不准入正式分片、也不放宽512KiB/1MiB任何门。复用公共builder的review-only entries输出作有界接收计划，正文留Git；原始作者包作为原件不改、不直接充正式账本。额外未入146清单的临时文件另分类，不计已冻结交付信用。
 
 允许仅将白名单候选正文整合入本Owner分支（不授信），修订接收层11条记录的具体链路声明并保留原值/作者/实际读域，生成一个有界接收索引，更新本段与现有证据流；不改产品、旧测试、coverage、公共模板或既有审阅签名。196篇无此缺陷按证据直接复用，11项Owner修订在后续集中非作者复核前保持partial/needs、credit0；207正式授信、28变更/22控制重绑与全量硬门另据准入实施，不借本轮accept扩权。
+
+S83 验收裁定（2026-11-01）：A按GLM报告151f5f1e接收四代码与五seed；B内容证据207/207接收（5 seed复用+202 GLM），不要求返工正文。独立Git/字节核65MD的55历史块和任务状态、142JSON固定源载体；独立解释器核3182条quote/pointer/值/计数/子串0失败。真实最终diff44MD，作者62MD中44改/18复用，另3MD seed不变。作者“64MD/复用X”和原始“12处”不能作实际计数；第二提交为11文件/16行编辑、16唯一链接目标/18渲染处恢复。
+
+11份review留有中间稿外置Git处置，Owner已就真实base/candidate对象修53字段，保留原值、读域与作者；196行完全不变、全部原prepared报告可精确重建。这里是Codex对原GLM正文的非作者审阅纠错，不是新增作者正文；本段先前要求再找GLM复审同一机械勘误属过度拆分，已按用户“细小返工Owner直接处理”授权更正，不再产生review-of-review轮次。S82真正新增代码仍须正常非作者验收，不借此自签代码。
+
+大行处置已实施：不放宽512KiB/1MiB，也不把3.6MB raw draft当正式账本。公共builder输出的review-only候选已落8片，最大479448B、最大行48324B；不复制530KiB正文prefix，正文在Git。全部候选仍partial/needs/false/credit0，仅作为中央输入，未更新registry/routing/review/签名或迁移统计。S82六退役、114逻辑owner/全中央存储字节与原1916语义root保全，0新增漂移；实际4345活动记录扫描仍原30漂移。
+
+唯一开放C83-E01是原始失败回执定位：作者HANDBACK.md:16、incidents.md:3/8称首nav红保留，但交付及三个有界同任务sibling目录未找到该原件，指定的final-check-docs.receipt.json是7273终态exit0。不能推断已删除，也不认证原失败输入身份。Owner已在c885真实临时工作树后续重演，实际恰2条子目录未进入导航，命令/时间/输入/完整输出均另存；它不是原首跑，不填造旧时间/HEAD/diff。只要求GLM定位真实原件或如实unknown并撤回无据保全声明，不重做207正文；其余真实终验与正文证据继续有效。原作者包146清单项、patch全部真且未修改；额外20临时项不计146冻结信用。
+
+组合候选e90930753348ce14fc9001e3b5f437c6481740d0实测nav1800MD/15466links/527tasks零issue、testing零、lint6611零诊断、diff净；复用未变源码相关旧工具证据，未重跑全370/产品/E2E/coverage，不冒全门通过。209待办的精确分解仍179新增+26失效作者记录+4 Owner控制（board/父卡/index/catalog），两已正确文档testing/governance与_templates/README直接复用。正式发布还需Owner处理3个未定documentStatus、4配对JSON原variant及46个revision源值归一留史，不以publication verified/rework充治理状态，不因固定源就退役当前索引。全卡rework、授信0、未合main/推送/done。必要原件一次并入现有统一证据流，不新增逐篇账本；GLM下一次委托将S82必要代码独立验收与E01补证合一，Owner并行推进公共中央工具。
