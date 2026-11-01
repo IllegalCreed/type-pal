@@ -18,6 +18,7 @@ interface MessageSpan {
 let englishGroups = new Map<string, readonly (string | null)[]>()
 const missingGroups = new Map<string, { start: number; end: number }>()
 
+/** Replace the installed pack and its missing-span report; playback gets its own line arrays. */
 export function setEnglishMessages(groups: readonly LocalizedMessageGroup[]): void {
   englishGroups = new Map(groups.map((group) => [`${group.start}:${group.end}`, [...group.lines]]))
   missingGroups.clear()
