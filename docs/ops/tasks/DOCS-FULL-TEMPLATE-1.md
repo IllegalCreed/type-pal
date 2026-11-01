@@ -36,7 +36,7 @@ Template: task-card-v1 / 1.0.0
 - 行为/工程前提：模板迁移只改变文档结构与导航，保留原始语义、机器字段、SHA、状态范围和停止线。
 - 一手证据：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/inventory.json`、`binding-baseline.json`、`protection.json`、最新 registry/routing 与本卡批次回执。
 - 最强替代解释与可证伪观察：若发现源/after SHA 漂移、机器字段改变、历史状态升格或 protected delta 被覆盖，当前迁移结论立即失效并转 rework/blocked。
-- 当前状态：review/rework；S84–S85公共实现与完整演练已获GLM非作者accept，S86执行实际接入与全量硬门；原R波虚标仍撤回，未宣布整体done。
+- 当前状态：review/rework；S87四域及16篇已获非作者accept，S88已真实授信16篇并补录205观察；原R波撤信保持。最新main导航整合后的全量门、远端CI和主线集成尚未通过，不宣布整体done。
 
 ## 验收
 - 功能/文档：1838 基线候选逐篇绑定 docType/templateId/templateVersion 并有独立 review record。
@@ -47,7 +47,7 @@ Template: task-card-v1 / 1.0.0
 ## 状态与交接
 - 当前 Owner：Codex。
 - 历史S75基点：当时2435合规/0待办、1835基线迁移+3批准退役及600增量迁移。此为S75时点结果；后续main滚动新增与变更以S80–S86记录为准，不能沿用为当前完成数字。
-- 下一步：按已接受公共实现完成S86实际中央发布、控制pin闭合与全量硬门，再核受保护main集成前提。E2E日期循环规则已按用户新裁决退休，既有006按原证据复用，不授新runtime信用。旧撤信不恢复，硬门未过不推main、不标done。
+- 下一步：闭合02a67c5主线导航整合的现行引用与控制pin，再跑全量硬门及受保护CI，满足前提后按PR集成。006技术/用户接受与原附件按原范围复用，不新增runtime信用；旧撤信不恢复，硬门未过不推main、不标done。
 
 ## 历史实施与交接记录的适用边界
 
@@ -3072,3 +3072,5 @@ GLM只读非作者回执已由Owner核SHA及冻结候选：7f045e964b79c4fc216be
 本节准入覆盖：把报告明确接受的闭合16成员编译成精确path/contentSHA/候选/报告签名表，沿已接受公开CLI真实执行205补史与16授信、registry/routing/pin级联、只读幂等检查、行政封存和最终门。代码只填既有接受表，不改已审算法、产品、旧测试或coverage；16正文/原生与原来源保持原字节，旧4530及1916接受不重授。接受实现和作者稿不预签尚未执行的生产结果。
 
 远端最新main已是02a67c5aa639d43813511a552d44a1c4e5a99b78（PR37纯导航10路径，无新增文件/产品代码）。既有c88接受直接复用；新导航、父卡/006当前摘要及四旧flat控制单独核合并，禁止把旧flat覆盖本树分片或用主线旧done替换当前review。其导航整理验收不授006新执行/视觉或全docs完成。最新main及受保护远端CI尚未闭合前，父卡保持review/rework，不合main、不推送、不done。
+
+S88主线导航合并裁定：保留本树已发布的四份canonical review（其中三份为manifest），不引入PR37旧flat；原accepted根、15source pins和旧签名不覆盖。采纳长期质量/第二阶段功能/第三阶段储备三分类和两个README入口，并保留本树document-quality规范链接。006保留本树更完整且区分11/10与旧12/11的接收记录，原Status rework与quote原字节不改；父卡保留S88真实执行和原撤信。任务索引由公开生成器投影，不手工挑一份主线索引。PR37的131项原门只属其源树，本树最终门另实跑；新增治理条目0、产品/旧测试变更0。
