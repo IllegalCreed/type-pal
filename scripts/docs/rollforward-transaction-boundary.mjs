@@ -84,6 +84,8 @@ export function successorInputRepairs(before, after, readBuffer) {
   const administrative = new Set([
     ...rollforwardAdministrativePaths,
     'docs/ops/evidence/DOCS-FULL-TEMPLATE-1/s22-validation.log.gz',
+    'docs/ops/README.md',
+    'docs/ops/tasks/README.md',
   ])
   const repairs = []
   for (const [owner, record] of before)
