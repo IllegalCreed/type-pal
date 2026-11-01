@@ -1202,7 +1202,7 @@
         }
       ],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "c5bfef99b24d529c3cecd343f03384836850f7ed8a019a7430bbd35a5cffc627",
+      "afterSha256": "1ab85b7500207da035898a838c121abb8cea03f92a6f008a2fc7c2b2dc17c505",
       "publicCallers": [
         "node scripts/docs/check-testing.mjs",
         "node scripts/docs/check-document-model.mjs",
@@ -2681,6 +2681,13 @@
           "afterSha256": "c5bfef99b24d529c3cecd343f03384836850f7ed8a019a7430bbd35a5cffc627",
           "newSemanticCredit": 0,
           "runtimeCredit": false
+        },
+        {
+          "kind": "main37-navigation-maintenance/1.0.0",
+          "beforeSha256": "c5bfef99b24d529c3cecd343f03384836850f7ed8a019a7430bbd35a5cffc627",
+          "afterSha256": "1ab85b7500207da035898a838c121abb8cea03f92a6f008a2fc7c2b2dc17c505",
+          "newSemanticCredit": 0,
+          "runtimeCredit": false
         }
       ],
       "applicability": "Current author-produced E2E006 technical evidence, not non-author/user acceptance. Real95-row dual story/control, zero-finding comparison, formal terminal saves/fresh restores and12 saved static NPC entry Play/Reset proofs exist; no audio/continuous/full-runtime-preview/downstream or full-doc completion credit.",
@@ -2753,7 +2760,7 @@
         "manual-semantic-migration"
       ],
       "sourceSha256": "29b0e324cf58b8840ecbe9afb9c82b8b464c04bab172a2ad43d3137c389f0473",
-      "afterSha256": "480e65150589d1511f059de99df940350a09336e49cc3b38f5ba71088f9354c1",
+      "afterSha256": "ecb75891669abf25fdb4d10b4efd5afd983dd7ac41ceb14715e59eb7aad1e039",
       "publicCallers": [
         "AGENTS.md operation routing",
         "node scripts/docs/check-document-model.mjs",
@@ -2956,6 +2963,13 @@
           "beforeSha256": "043a7344c1845d2a9269faf9c0c4580e79df4b6403e23122a9743fc65286591b",
           "afterSha256": "480e65150589d1511f059de99df940350a09336e49cc3b38f5ba71088f9354c1",
           "interpretation": "Earlier accepted semantic scope retained; fixed-source integration delta observed separately, not new runtime acceptance.",
+          "newSemanticCredit": 0,
+          "runtimeCredit": false
+        },
+        {
+          "kind": "main37-navigation-maintenance/1.0.0",
+          "beforeSha256": "480e65150589d1511f059de99df940350a09336e49cc3b38f5ba71088f9354c1",
+          "afterSha256": "ecb75891669abf25fdb4d10b4efd5afd983dd7ac41ceb14715e59eb7aad1e039",
           "newSemanticCredit": 0,
           "runtimeCredit": false
         }
@@ -3609,7 +3623,7 @@
         "manual-semantic-migration"
       ],
       "sourceSha256": "6aec8429b8778cc3ae2ba58cd184fc859ef6737702cd8997460db9f209d78fe7",
-      "afterSha256": "5f5c8c221ff04e12317fd86bc0d19e1357fedaae29b911f0facb48fd622d24e2",
+      "afterSha256": "22dc29afbc7ce45225622553a70d7ee932fa6183e3d84a2a4eb0268f7fb6c4bf",
       "publicCallers": [
         "AGENTS.md operation routing",
         "node scripts/docs/check-document-model.mjs",
@@ -3805,7 +3819,16 @@
       "templateVersion": "1.0.0",
       "reviewedSourceSha256": "6aec8429b8778cc3ae2ba58cd184fc859ef6737702cd8997460db9f209d78fe7",
       "sourceGitRevision": "1d2c8635814f0b3aae4eb212d3457b4aaafb7a71",
-      "sourceState": "present"
+      "sourceState": "present",
+      "maintenanceDeltas": [
+        {
+          "kind": "main37-navigation-maintenance/1.0.0",
+          "beforeSha256": "5f5c8c221ff04e12317fd86bc0d19e1357fedaae29b911f0facb48fd622d24e2",
+          "afterSha256": "22dc29afbc7ce45225622553a70d7ee932fa6183e3d84a2a4eb0268f7fb6c4bf",
+          "newSemanticCredit": 0,
+          "runtimeCredit": false
+        }
+      ]
     },
     {
       "path": "docs/ops/templates/README.md",
