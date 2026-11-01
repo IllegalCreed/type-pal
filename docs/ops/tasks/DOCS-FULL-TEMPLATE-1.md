@@ -1,13 +1,13 @@
 # DOCS-FULL-TEMPLATE-1 — 全 docs 深度治理与模板化改写
 
 Status: review
-Execution: review/rework（S87实现、16篇作者稿及完整临时树待非作者验收；真实中央尚未执行205补史或16授信）
+Execution: review/rework（S87四域与16篇已获非作者accept；S88执行205补史、16授信与硬门，最新main导航差异另核）
 Phase: ops
 Capability: documentation governance
 Coding Owner: Codex
 Reviewer: GLM（S80五seed、S82退役、S84–S85公共实现/完整演练非作者accept）；Codex（S81内容据证接收、中央接入Owner）
-Branch: codex/docs-s87-main-successor
-Last reviewed: 2026-11-01
+Branch: codex/docs-s88-successor-publication
+Last reviewed: 2026-11-02
 Template: task-card-v1 / 1.0.0
 
 > 2026-10-18 当前裁定：全量 done 已撤回。下方 R39–R96 的深审、非作者接受和完成数字为被纠正的历史声明，不是当前信用。见[返工卡](DOCS-RECORD-INTEGRITY-1.md)与[完整降档清单](../evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json)。原文保真有效不等于语义审阅完成。
@@ -3064,3 +3064,11 @@ CI保持受保护documentation汇总和每job五分钟，按tools/structure/comp
 S87终态作者证据：代码基点85fc5effa，395文档工具全部通过/零skip，lint6677零诊断，221工具输入逐文件绑定。独立Git传输检出没有alternates，真实98写/75旧片退出，173原始路径精确；不经生产loader的独立重建证4542pin、114owner/15manifest/113shard、15真实来源pin、旧205/1916范围保全和空history0。新16仍partial/needs/0信用；临时strict真实exit1且仅32候选诊断。进度首轮91=16候选+75尚在Git cached集合的退役片；精确暂存后另轮实报16pending/0integrity、require-complete仍exit1，未改枚举器规则或旧原件。完整进度末轮本机289.5秒，远端CI尚未执行，不能用本地结果提前签远端门。
 
 九个非prose附件按固定c88 blob/SHA/当前字节及实际README或机器消费者逐项核定，保留原raw、闭包、旧投影和隔离反控用途；未运行旧verifier、未展开压缩raw作产品重审。下一份集中委托覆盖S86实际观察/已授权fixture适配、S87公共增量/完整临时树、16篇逐路径内容、006附件恢复/CI及用户清理约定。必要证据复用同一仓外包，真实中央phase-governance字节仍等S86基点；非作者接收后才编译接受表、生产写入与最终硬门，不合main、不推送、不done。
+
+### S88 S87接收与正式中央发布（2026-11-02，build allowed）
+
+GLM只读非作者回执已由Owner核SHA及冻结候选：7f045e964b79c4fc216befbfdc00668bd7a54888，verdict SHA-256 `711ca81f8dc106f3c99b1cd46c4a351a32a8bd2b935d97897787b230ca672ced`，HANDBACK `6e10debf92937be81acc2a4f2baeef6069b430ab75caf13d60d5d9b1e4ee1f49`。四域及16篇全accept/零counter；Owner另重放原只读verify-release通过，395/lint6677、4542临时身份/16pending/32严格项及真实中央零写均与原范围相符。GLM的182/184是semantic-rework owner抽样逆回，其余2行是合法S87替换；跨owner完整205依公共真实f6a重建与完整逆映射，不将抽样冒称205逐条人工重审。Python独立补跑按该回执原12项口径记，提交版正式395包含13项Python合同，不混成新增产品测试。
+
+本节准入覆盖：把报告明确接受的闭合16成员编译成精确path/contentSHA/候选/报告签名表，沿已接受公开CLI真实执行205补史与16授信、registry/routing/pin级联、只读幂等检查、行政封存和最终门。代码只填既有接受表，不改已审算法、产品、旧测试或coverage；16正文/原生与原来源保持原字节，旧4530及1916接受不重授。接受实现和作者稿不预签尚未执行的生产结果。
+
+远端最新main已是02a67c5aa639d43813511a552d44a1c4e5a99b78（PR37纯导航10路径，无新增文件/产品代码）。既有c88接受直接复用；新导航、父卡/006当前摘要及四旧flat控制单独核合并，禁止把旧flat覆盖本树分片或用主线旧done替换当前review。其导航整理验收不授006新执行/视觉或全docs完成。最新main及受保护远端CI尚未闭合前，父卡保持review/rework，不合main、不推送、不done。
