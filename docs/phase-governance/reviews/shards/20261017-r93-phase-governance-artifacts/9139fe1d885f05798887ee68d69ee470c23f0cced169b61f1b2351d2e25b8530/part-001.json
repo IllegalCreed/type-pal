@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "logicalPath": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
-  "generation": "1fb03001ef398306cffdb6cf2058ae0dcfa61ea2da9a303e62cdd3d166084245",
+  "generation": "9139fe1d885f05798887ee68d69ee470c23f0cced169b61f1b2351d2e25b8530",
   "key": "part-001",
   "positions": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
   "entries": [
@@ -1770,7 +1770,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "cdbd332389f92256e181281296b6cfd972e07fbc0a66a1289e30d7260d53a8ed",
+      "afterSha256": "f79489ee0d84d467ff63f33e922f8a268164e98ff416529385c950595f669a83",
       "publicCallers": [
         "scripts/docs/check-content-review.mjs via review-record-storage.mjs materialization",
         "scripts/docs/check-document-model.mjs via currentReviewLedgerIssues",
@@ -3019,6 +3019,13 @@
           "kind": "main37-board-navigation-repair/1.0.0",
           "beforeSha256": "b16f2d4b45616669bdff2cb31476c97a6919931d7fcde94831a093fbdbf08228",
           "afterSha256": "cdbd332389f92256e181281296b6cfd972e07fbc0a66a1289e30d7260d53a8ed",
+          "newSemanticCredit": 0,
+          "runtimeCredit": false
+        },
+        {
+          "kind": "main37-board-table-consumer/1.0.0",
+          "beforeSha256": "cdbd332389f92256e181281296b6cfd972e07fbc0a66a1289e30d7260d53a8ed",
+          "afterSha256": "f79489ee0d84d467ff63f33e922f8a268164e98ff416529385c950595f669a83",
           "newSemanticCredit": 0,
           "runtimeCredit": false
         }
