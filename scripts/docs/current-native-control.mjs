@@ -13,6 +13,7 @@ import {
 } from './incremental-control-view.mjs'
 import { assertReviewRecordSourceUnchanged } from './review-record-storage.mjs'
 import { fileState } from './review-record-storage-io.mjs'
+import { isRollforwardRegistryLayout } from './rollforward-control-view.mjs'
 import { canonicalTerminalJson, parseTerminalJson } from './terminal-json.mjs'
 
 const hash = (b) => createHash('sha256').update(b).digest('hex')
@@ -173,7 +174,8 @@ export function inspectCurrentNativeControl(path, readBuffer) {
           root.shards?.map((d) => d.phase),
           registryPhases,
         ) ||
-          isIncrementalRegistryLayout(root.shards)),
+          isIncrementalRegistryLayout(root.shards) ||
+          isRollforwardRegistryLayout(root.shards, isIncrementalRegistryLayout)),
       'registry exact partition order',
     )
     for (const k of ['revision', 'path', 'sha256', 'total'])
@@ -184,7 +186,8 @@ export function inspectCurrentNativeControl(path, readBuffer) {
     for (const d of root.shards) {
       demand(
         d.path === `document-registry.${d.phase}.json` ||
-          (isIncrementalRegistryLayout(root.shards) &&
+          ((isIncrementalRegistryLayout(root.shards) ||
+            isRollforwardRegistryLayout(root.shards, isIncrementalRegistryLayout)) &&
             root.shards.slice(7).some((part) => part === d)),
         'unsafe/foreign registry shard',
       )

@@ -22,6 +22,7 @@ import { historicalNativeFamilyIssues } from './historical-native-family.mjs'
 import { historicalVitestNativeIssues } from './historical-vitest-native.mjs'
 import { incrementalDocumentIssues } from './incremental-review.mjs'
 import { markdownLinks, withoutFences } from './markdown.mjs'
+import { rollforwardDocumentIssues } from './rollforward-document-contract.mjs'
 import { testingEvidenceLineageIssues } from './testing-evidence-lineage.mjs'
 
 function documentStatus(text, contract) {
@@ -84,6 +85,18 @@ function section(text, heading) {
   const tail = lines.slice(start + 1)
   const end = tail.findIndex((line) => /^## /.test(line))
   return tail.slice(0, end < 0 ? undefined : end).join('\n')
+}
+
+function machineDeclarationIssues(text, template, version) {
+  let metadata
+  try {
+    metadata = JSON.parse(text)._governance
+  } catch {
+    /* Body validation reports malformed JSON. */
+  }
+  return metadata?.templateId === template.templateId && metadata?.templateVersion === version
+    ? []
+    : ['machine template declaration mismatch']
 }
 
 export function checkRouting(config, read) {
@@ -324,7 +337,30 @@ export function checkMigratedDocument(doc, registry, read, options = {}) {
   const template = registry.types.find((type) => type.templateId === doc.templateId)
   if (text === undefined) return ['migrated document missing']
   const contract = doc.variant ? template?.variants?.[doc.variant] : template
-  const incrementalIssues = incrementalDocumentIssues(doc, template, contract, read, options)
+  const rollingIssues = rollforwardDocumentIssues(
+    doc,
+    template,
+    read,
+    options,
+    (body, type, bodyOptions) => {
+      const bodyContract = bodyOptions.variant ? type.variants?.[bodyOptions.variant] : type
+      return [
+        ...checkTemplateBody(body, type, bodyOptions),
+        ...publicationIssues(body, bodyContract, read, doc.path),
+        ...machineDeclarationIssues(
+          body,
+          type,
+          bodyContract?.templateVersion ?? type.templateVersion,
+        ),
+      ]
+    },
+  )
+  if (rollingIssues !== undefined && (rollingIssues.length || doc.path.endsWith('.json')))
+    return rollingIssues
+  const incrementalIssues =
+    rollingIssues === undefined
+      ? incrementalDocumentIssues(doc, template, contract, read, options)
+      : undefined
   if (incrementalIssues !== undefined && (incrementalIssues.length || doc.path.endsWith('.json')))
     return incrementalIssues
   const nativeControlIssues = currentNativeControlIssues(doc, template, contract, read, options)
@@ -363,14 +399,7 @@ export function checkMigratedDocument(doc, registry, read, options = {}) {
   const format = contract?.format ?? template.format
   const version = contract?.templateVersion ?? template.templateVersion
   if (format === 'json') {
-    let metadata
-    try {
-      metadata = JSON.parse(text)._governance
-    } catch {
-      // The body check already reports malformed JSON.
-    }
-    if (metadata?.templateId !== template.templateId || metadata?.templateVersion !== version)
-      issues.push('machine template declaration mismatch')
+    issues.push(...machineDeclarationIssues(text, template, version))
     return issues
   }
   const visible = withoutFences(text)

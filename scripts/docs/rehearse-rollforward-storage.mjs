@@ -1,20 +1,33 @@
 // Storage-only rehearsal in a caller-owned new directory. No production publish path.
 import assert from 'node:assert/strict'
-import { createHash } from 'node:crypto'
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
+import { inspectCurrentNativeControl } from './current-native-control.mjs'
+import { currentNativeControlAdmissions } from './current-native-control-admission.mjs'
 import { loadDocumentRegistry, writeDocumentRegistry } from './document-registry.mjs'
 import { readGitDocumentSnapshot } from './git-document-snapshot.mjs'
+import { packReviewDependencyClosure } from './review-dependency-packing.mjs'
 import { assertReviewRecordSourceUnchanged, loadReviewRecords } from './review-record-storage.mjs'
-import { biomeFormat, packReviewStorageRecord } from './review-record-storage-packing.mjs'
+import { biomeFormat } from './review-record-storage-packing.mjs'
 import {
   projectRollforwardControls,
   rollforwardRegistryPartition,
 } from './rollforward-control-plan.mjs'
+import { rollforwardControlProjection } from './rollforward-control-view.mjs'
 import { parseTerminalJson } from './terminal-json.mjs'
 
-const hash = (bytes) => createHash('sha256').update(bytes).digest('hex')
-export function rehearseRollforwardStorage({ root, directory, baseRevision, group, plan }) {
+export function rehearseRollforwardStorage({
+  root,
+  directory,
+  baseRevision,
+  group,
+  plan,
+  pinKind = 'rollforward-storage-planning-pin',
+}) {
+  assert(
+    ['rollforward-storage-planning-pin', 'rollforward-publication-after-pin'].includes(pinKind),
+    'unknown storage pin event',
+  )
   // wx ownership must be acquired before any copy. Never overlay a prior red run.
   mkdirSync(directory)
   const put = (path, bytes) => {
@@ -60,81 +73,46 @@ export function rehearseRollforwardStorage({ root, directory, baseRevision, grou
     ]),
   )
   controlBytes.set(routingPath, routeBytes)
-  const dirty = new Set(plan.changes.map((change) => change.owner))
-  let size = -1
-  while (size !== dirty.size) {
-    size = dirty.size
-    for (const [owner, record] of next)
-      if (record.entries.some((row) => dirty.has(row.path) || controlBytes.has(row.path)))
-        dirty.add(owner)
-  }
-  const built = new Map(),
-    visiting = new Set(),
-    pinDeltas = [],
-    upgrades = []
-  function build(owner) {
-    if (built.has(owner)) return built.get(owner)
-    assert(!visiting.has(owner), `review dependency cycle: ${owner}`)
-    visiting.add(owner)
-    const record = next.get(owner)
-    for (const [index, row] of record.entries.entries())
-      if (dirty.has(row.path) || controlBytes.has(row.path)) {
-        const bytes =
-          controlBytes.get(row.path) ??
-          build(row.path).find((output) => output.path === row.path).bytes
-        const after = hash(bytes)
-        if (after === row.afterSha256) continue
-        pinDeltas.push({
-          owner,
-          index,
-          path: row.path,
-          beforeSha256: row.afterSha256,
-          afterSha256: after,
-          priorMaintenanceLength: row.maintenanceDeltas?.length ?? null,
-        })
-        row.maintenanceDeltas ??= []
-        row.maintenanceDeltas.push({
-          kind: 'rollforward-storage-planning-pin',
-          beforeSha256: row.afterSha256,
-          afterSha256: after,
-          newSemanticCredit: 0,
-          runtimeCredit: false,
-        })
-        row.afterSha256 = after
-      }
-    const storage = group.storages.get(owner)
-    let sourcePin = storage?.source
-    // Any formerly-flat owner that exceeds the old cap needs an explicit real
-    // Git source upgrade proposal; never borrow another owner's source pin.
-    if (!sourcePin && Buffer.byteLength(JSON.stringify(record, null, 2)) >= 950000) {
-      const source = readGitDocumentSnapshot(root, { path: owner, revision: baseRevision })
-      assert(source?.mode === '100644', 'real original flat owner source required')
-      sourcePin = {
-        revision: baseRevision,
-        path: owner,
-        gitObject: source.gitObject,
-        sha256: hash(source.buffer),
-      }
-      upgrades.push(sourcePin)
-    }
-    const outputs = sourcePin
-      ? packReviewStorageRecord({
-          logicalPath: owner,
-          record,
-          sourcePin,
-          context: { repoRoot: root },
-        }).outputs
-      : [{ path: owner, kind: 'review', bytes: biomeFormat(record, owner, { repoRoot: root }) }]
-    for (const output of outputs)
-      assert(
-        output.bytes.length < (sourcePin ? 524288 : 1048576),
-        `capacity exceeded: ${output.path}`,
+  if (pinKind === 'rollforward-publication-after-pin') {
+    assert(
+      next.get('docs/phase-governance/reviews/20261018-semantic-rework.json')
+        .rollforwardPublication,
+      'accepted publication required',
+    )
+    const readBuffer = (path) => controlBytes.get(path) ?? readFileSync(join(root, path))
+    for (const binding of currentNativeControlAdmissions) {
+      const expected = rollforwardControlProjection(
+        binding.path,
+        {
+          root,
+          readBuffer,
+          readSourceBuffer: (pin) => readGitDocumentSnapshot(root, pin),
+          reviewGroupReader: () => ({ ...group, records: next }),
+        },
+        inspectCurrentNativeControl,
       )
-    visiting.delete(owner)
-    built.set(owner, outputs)
-    return outputs
+      if (!expected) continue
+      const actual = inspectCurrentNativeControl(binding.path, readBuffer)
+      assert.equal(actual.structureSha256, expected.structureSha256)
+      assert.equal(actual.membershipSha256, expected.membershipSha256)
+      const row = next.get(binding.reviewRecord).entries[binding.index]
+      assert(
+        !(row.maintenanceDeltas ?? []).some((event) => event.kind === expected.kind),
+        'publication observation already exists',
+      )
+      row.maintenanceDeltas ??= []
+      row.maintenanceDeltas.push(expected)
+    }
   }
-  for (const owner of dirty) build(owner)
+  const packed = packReviewDependencyClosure({
+    root,
+    baseRevision,
+    group,
+    records: next,
+    dependencies: controlBytes,
+    pinKind,
+  })
+  const { built, dirty, pinDeltas, upgrades } = packed
   const skipped = new Set()
   for (const owner of dirty) {
     skipped.add(owner)
@@ -148,7 +126,11 @@ export function rehearseRollforwardStorage({ root, directory, baseRevision, grou
     root: directory,
     readSourceSnapshot: (pin) => readGitDocumentSnapshot(root, pin),
   })
-  assert.deepEqual(loaded.records, next, 'public storage materialization differs from the plan')
+  assert.deepEqual(
+    loaded.records,
+    packed.records,
+    'public storage materialization differs from the plan',
+  )
   assert.equal(
     [...loaded.records.values()].reduce((n, record) => n + record.entries.length, 0),
     4530,
@@ -164,7 +146,8 @@ export function rehearseRollforwardStorage({ root, directory, baseRevision, grou
     if (delta.priorMaintenanceLength === null) delete row.maintenanceDeltas
     else row.maintenanceDeltas.length = delta.priorMaintenanceLength
   }
-  assert.deepEqual(reversed, plan.records, 'packing altered semantics beyond explicit pin deltas')
+  if (pinKind === 'rollforward-storage-planning-pin')
+    assert.deepEqual(reversed, plan.records, 'packing altered semantics beyond explicit pin deltas')
   assertReviewRecordSourceUnchanged(group.loadedSource)
   assertReviewRecordSourceUnchanged(loaded.loadedSource)
   return {

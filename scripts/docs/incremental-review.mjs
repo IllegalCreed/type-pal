@@ -20,6 +20,7 @@ import {
   assertReviewRecordSourceUnchanged,
   readReviewRecordObject,
 } from './review-record-storage.mjs'
+import { inspectRollforwardCohort, priorRollforwardRecord } from './rollforward-review.mjs'
 import { parseTerminalJson } from './terminal-json.mjs'
 
 const snapshots = new WeakMap()
@@ -51,7 +52,9 @@ export function assertIncrementalOwnerSet(records) {
 
 export function inspectIncrementalCohort(records) {
   assertIncrementalOwnerSet(records)
-  const record = records.get(incrementalReviewPath)
+  const current = records.get(incrementalReviewPath)
+  const rollforward = inspectRollforwardCohort(records)
+  const record = priorRollforwardRecord(current, rollforward)
   demand(record && Array.isArray(record.entries), 'single semantic owner missing')
   if (record.entries.length === incrementalEntryOffset) return undefined
   demand(
@@ -105,7 +108,7 @@ export function inspectIncrementalCohort(records) {
     rows.filter((row) => row.path.endsWith('.json')).length === admission.nativeCount,
     'native/prose partition changed',
   )
-  return { record, rows, byPath }
+  return { record: current, rows, byPath }
 }
 
 function snapshot(options) {
@@ -136,6 +139,7 @@ function snapshot(options) {
   // Consumers own the protected read lifetime and revalidate loadedSource on exit.
   // Seal all in-memory objects so caching does not permit a mutable-row bypass.
   for (const record of group.records.values()) freeze(record)
+  freeze(cohort.rows)
   snapshots.set(group, { cohort, owners: new Map(group.records) })
   return cohort
 }

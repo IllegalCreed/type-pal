@@ -9,6 +9,7 @@ import {
   inspectNativeArtifactRetirements,
   nativeRetirementContract,
 } from './native-artifact-retirements.mjs'
+import { rollforwardControlProjection } from './rollforward-control-view.mjs'
 import { parseTerminalJson } from './terminal-json.mjs'
 
 const base = 'docs/phase-governance/'
@@ -175,6 +176,8 @@ function retiredControlBuffers(original, options, group) {
 
 /** Checks the new projection, not whether an old report reviewed this new membership. */
 export function incrementalControlProjection(path, options, inspect) {
+  const rolling = rollforwardControlProjection(path, options, inspect)
+  if (rolling) return rolling
   const group = options.reviewGroupReader()
   const cohort = inspectIncrementalCohort(group.records)
   if (!cohort) return undefined

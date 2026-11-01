@@ -11,6 +11,7 @@ import {
   assertReviewRecordSourceUnchanged,
   readReviewRecordObject,
 } from './review-record-storage.mjs'
+import { inspectRollforwardCohort, priorRollforwardRecord } from './rollforward-review.mjs'
 import { canonicalTerminalJson, parseTerminalJson } from './terminal-json.mjs'
 
 const digest = (value) => createHash('sha256').update(canonicalTerminalJson(value)).digest('hex')
@@ -98,7 +99,10 @@ export function currentReviewLedgerIssues(doc, template, contract, read, options
     if (
       fixed.headerSha256 !== binding.headerSha256 ||
       fixed.membershipSha256 !== binding.membershipSha256 ||
-      !isDeepStrictEqual(ledgerIdentity(live), fixed)
+      !isDeepStrictEqual(
+        ledgerIdentity(priorRollforwardRecord(live, inspectRollforwardCohort(group.records))),
+        fixed,
+      )
     )
       throw new Error('control header or ordered membership/source identity changed')
     const history = original.maintenanceHistory ?? []

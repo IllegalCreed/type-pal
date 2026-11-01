@@ -20,6 +20,7 @@ import {
 } from './current-review-ledger-storage-admission.mjs'
 import { checkMigratedDocument } from './document-model.mjs'
 import { loadDocumentRegistry } from './document-registry.mjs'
+import { readPinnedGitDocuments } from './git-document-batch.mjs'
 import { readGitDocumentSnapshot } from './git-document-snapshot.mjs'
 import { nativeArtifactBindings } from './historical-native-artifact-bindings.mjs'
 import { historicalVitestCohort } from './historical-vitest-cohort.mjs'
@@ -27,6 +28,7 @@ import { readIncrementalGitSource } from './incremental-git-source.mjs'
 import { assertIncrementalOwnerSet, inspectIncrementalCohort } from './incremental-review.mjs'
 import { incrementalReviewAdmission } from './incremental-review-admission.mjs'
 import { incrementalReviewPath } from './incremental-review-content.mjs'
+import { readNativeArtifactRetirements } from './native-artifact-retirements.mjs'
 import {
   assertReviewRecordSourceUnchanged,
   loadReviewRecords,
@@ -34,6 +36,14 @@ import {
   reviewDirRelative,
 } from './review-record-storage.mjs'
 import { checkOrdinaryPath, fileState, inspectShardInventory } from './review-record-storage-io.mjs'
+import { rollforwardRegistryPartition } from './rollforward-control-plan.mjs'
+import { readRollforwardGitSource } from './rollforward-git-source.mjs'
+import { inspectRollforwardCohort } from './rollforward-review.mjs'
+import {
+  assertRollforwardNativeInputs,
+  rollforwardInputRepairs,
+  rollforwardRetirements,
+} from './rollforward-transaction-boundary.mjs'
 
 const sha = (bytes) => createHash('sha256').update(bytes).digest('hex')
 const demand = (condition, message) => {
@@ -104,7 +114,7 @@ function assertRecordSet(actual, expected, label) {
   for (const [path, record] of expected) equal(actual.get(path), record, `${label}: ${path}`)
 }
 
-function assertAllPins(records, readBuffer, expectedPins = 2434, repairs = []) {
+function assertAllPins(records, readBuffer, expectedPins = 2434, repairs = [], retired = []) {
   let count = 0
   for (const [owner, record] of records)
     for (const [index, row] of record.entries.entries()) {
@@ -119,7 +129,9 @@ function assertAllPins(records, readBuffer, expectedPins = 2434, repairs = []) {
           entry.afterSha256 === actual,
       )
       demand(
-        Buffer.isBuffer(bytes) && (row.afterSha256 === actual || repair),
+        (Buffer.isBuffer(bytes) && (row.afterSha256 === actual || repair)) ||
+          (bytes === null &&
+            retired.some((entry) => entry.path === row.path && entry.sha256 === row.afterSha256)),
         `after pin mismatch: ${owner} -> ${row.path}`,
       )
       count++
@@ -194,15 +206,20 @@ function publicReadback(root, plan) {
     ).buffer
   for (const [path, output] of plan.expected)
     demand(readBuffer(path)?.equals(output.bytes), `staged physical bytes differ: ${path}`)
-  assertAllPins(group.records, readBuffer, plan.expectedPins)
-  assertProtectedNative(readBuffer, plan.incremental ? group.records : undefined)
+  const retired = plan.rollforward
+    ? rollforwardRetirements(plan.root, group.records, readBuffer)
+    : []
+  assertAllPins(group.records, readBuffer, plan.expectedPins, [], retired)
+  if (plan.rollforward) assertRollforwardNativeInputs(readBuffer, group.records, retired)
+  else assertProtectedNative(readBuffer, plan.incremental ? group.records : undefined)
   if (plan.incremental) {
     const { registry } = loadDocumentRegistry({
       manifestPath: join(root, 'docs/phase-governance/document-registry.json'),
     })
     demand(
-      registry.entries.length === plan.expectedPins && registry.shards.length === 9,
-      'staged registry requires the complete admitted9/4351 projection',
+      registry.entries.length === plan.expectedPins &&
+        registry.shards.length === (plan.rollforward ? 10 : 9),
+      'staged registry requires the complete admitted projection',
     )
     equal(
       registry.entries.map((row) => row.path).sort(),
@@ -213,12 +230,23 @@ function publicReadback(root, plan) {
     const cohort = inspectIncrementalCohort(group.records)
     const targets = [
       ...cohort.rows,
+      ...(plan.rollforward
+        ? [...inspectRollforwardCohort(group.records).byPath.values()].map((entry) => entry.row)
+        : []),
       ...currentNativeControlAdmissions
         .filter((entry) => plan.changedControlPaths.has(entry.path))
         .map((entry) => group.records.get(entry.reviewRecord).entries[entry.index]),
-    ]
+    ].filter((row) => !retired.some((entry) => entry.path === row.path))
     const sourceCache = new Map()
     const incrementalSourceCache = new Map()
+    const pinnedSources = plan.rollforward
+      ? readPinnedGitDocuments(plan.root, [
+          ...cohort.rows.map((row) => row.primarySource[0]),
+          ...[...inspectRollforwardCohort(group.records).byPath.values()].map(
+            ({ row }) => row.primarySource[0],
+          ),
+        ])
+      : undefined
     const readSourceBuffer = (pin) => {
       const key = `${pin.revision}:${pin.path}`
       if (!sourceCache.has(key)) sourceCache.set(key, readGitDocumentSnapshot(plan.root, pin))
@@ -238,7 +266,10 @@ function publicReadback(root, plan) {
           root,
           readBuffer,
           readSourceBuffer,
+          readRollforwardSourceBuffer: (pin) =>
+            pinnedSources ? pinnedSources(pin) : readRollforwardGitSource(plan.root, pin),
           readIncrementalSourceBuffer: (pin) => {
+            if (pinnedSources) return pinnedSources(pin)
             const key = `${pin.revision}:${pin.path}`
             if (!incrementalSourceCache.has(key))
               incrementalSourceCache.set(key, readIncrementalGitSource(plan.root, pin))
@@ -263,9 +294,11 @@ function pureReadback(root, plan, inventory) {
   assertRecordSet(records, plan.records, 'locked pure readback')
   for (const [path, output] of plan.expected)
     demand(readBuffer(path)?.equals(output.bytes), `live physical bytes differ: ${path}`)
-  assertAllPins(records, readBuffer, plan.expectedPins)
+  const retired = plan.rollforward ? rollforwardRetirements(plan.root, records, readBuffer) : []
+  assertAllPins(records, readBuffer, plan.expectedPins, [], retired)
   assertTopLevelOwners(root, plan.expected)
-  assertProtectedNative(readBuffer, plan.incremental ? records : undefined)
+  if (plan.rollforward) assertRollforwardNativeInputs(readBuffer, records, retired)
+  else assertProtectedNative(readBuffer, plan.incremental ? records : undefined)
   inspectShardInventory(root, inventory)
 }
 
@@ -283,16 +316,21 @@ export function prepareCurrentReviewTransaction({
   demand(/^[a-f\d]{40}$/.test(baseRevision ?? ''), 'full base commit required')
   demand(!process.env.BIOME_BINARY, 'custom formatter not admitted')
   demand(
-    ['legacy-current', 'native-artifact-v1', 'main-incremental-v1'].includes(sourceProfile),
+    ['legacy-current', 'native-artifact-v1', 'main-incremental-v1', 'main-rollforward-v1'].includes(
+      sourceProfile,
+    ),
     'unknown source profile',
   )
-  const incremental = sourceProfile === 'main-incremental-v1'
+  const rollforward = sourceProfile === 'main-rollforward-v1'
+  const incremental = sourceProfile === 'main-incremental-v1' || rollforward
   const nativeProfile = sourceProfile !== 'legacy-current'
-  const expectedPins = incremental
-    ? incrementalReviewAdmission.afterPins
-    : nativeProfile
-      ? 2435
-      : 2434
+  const expectedPins = rollforward
+    ? 4530
+    : incremental
+      ? incrementalReviewAdmission.afterPins
+      : nativeProfile
+        ? 2435
+        : 2434
   const upgrades = incremental
     ? [...currentReviewStorageUpgrades, incrementalReviewAdmission.sourcePin]
     : currentReviewStorageUpgrades
@@ -326,6 +364,17 @@ export function prepareCurrentReviewTransaction({
     'exact current group required',
   )
   equal([...records.keys()].sort(), [...group.records.keys()].sort(), 'logical owner set')
+  const lifecycle = rollforward
+    ? readNativeArtifactRetirements(
+        base,
+        loadDocumentRegistry({
+          manifestPath: join(base, 'docs/phase-governance/document-registry.json'),
+        }).registry,
+        group,
+      )
+    : { entries: [], issues: [] }
+  demand(lifecycle.issues.length === 0, lifecycle.issues.join('; '))
+  const retiredNames = new Set(lifecycle.entries.map((entry) => entry.path))
   const states = new Map(),
     parents = new Map(),
     expected = new Map(),
@@ -342,7 +391,10 @@ export function prepareCurrentReviewTransaction({
         ),
       )
     const bytes = states.get(path).buffer
-    demand(Buffer.isBuffer(bytes), `ordinary input missing: ${path}`)
+    demand(
+      Buffer.isBuffer(bytes) || (rollforward && retiredNames.has(path) && bytes === null),
+      `ordinary input missing: ${path}`,
+    )
     return bytes
   }
   for (const file of group.loadedSource.files) {
@@ -375,6 +427,11 @@ export function prepareCurrentReviewTransaction({
     for (const path of [
       'AGENTS.md',
       'CLAUDE.md',
+      ...(rollforward
+        ? loadDocumentRegistry({
+            manifestPath: join(base, 'docs/phase-governance/document-registry.json'),
+          }).registry.shards.map((part) => `docs/phase-governance/${part.path}`)
+        : []),
       // These parts are explicit physical artifacts rather than semantic rows.
       // After first publication, capture them as real inputs for every later
       // transaction; root descriptors alone do not guard prepare-to-write drift.
@@ -387,17 +444,24 @@ export function prepareCurrentReviewTransaction({
       referenced.add(path)
       readBuffer(path)
     }
-  const inputPins =
-    incremental && group.records.get(incrementalReviewPath).entries.length === 28
+  const inputPins = rollforward
+    ? [...group.records.values()].reduce((n, record) => n + record.entries.length, 0)
+    : incremental && group.records.get(incrementalReviewPath).entries.length === 28
       ? 2435
       : expectedPins
   assertAllPins(
     group.records,
     readBuffer,
     inputPins,
-    incremental && inputPins === 2435 ? incrementalReviewAdmission.inputPinRepairs : [],
+    rollforward
+      ? rollforwardInputRepairs(group.records, records, readBuffer)
+      : incremental && inputPins === 2435
+        ? incrementalReviewAdmission.inputPinRepairs
+        : [],
+    lifecycle.entries,
   )
-  assertProtectedNative(readBuffer, incremental ? records : undefined)
+  if (rollforward) assertRollforwardNativeInputs(readBuffer, records, lifecycle.entries)
+  else assertProtectedNative(readBuffer, incremental ? records : undefined)
   const seen = new Set()
   demand(
     Array.isArray(outputs) &&
@@ -411,10 +475,17 @@ export function prepareCurrentReviewTransaction({
     seen.add(output.path)
     const newRegistryPart =
       incremental &&
+      (rollforward
+        ? output.path === `docs/phase-governance/${rollforwardRegistryPartition.path}`
+        : incrementalReviewAdmission.registryPartitions.some(
+            (part) => output.path === `docs/phase-governance/${part.path}`,
+          ))
+    const oldPhysicalRegistryPart =
+      rollforward &&
       incrementalReviewAdmission.registryPartitions.some(
         (part) => output.path === `docs/phase-governance/${part.path}`,
       )
-    if (newRegistryPart)
+    if (newRegistryPart || oldPhysicalRegistryPart)
       demand(
         output.kind === 'control' && output.bytes.length < 524288,
         `new registry part must be an exact bounded control artifact: ${output.path} (${output.bytes.length})`,
@@ -424,6 +495,7 @@ export function prepareCurrentReviewTransaction({
     demand(
       (output.path.startsWith(`${reviewDirRelative}/`) && output.path.endsWith('.json')) ||
         newRegistryPart ||
+        oldPhysicalRegistryPart ||
         administrativeDocument ||
         (nativeProfile &&
           output.kind === 'control' &&
@@ -480,8 +552,10 @@ export function prepareCurrentReviewTransaction({
   const recordsCopy = new Map([...records].map(([p, v]) => [p, structuredClone(v)]))
   const outputsCopy = outputs.map((o) => ({ ...o, bytes: Buffer.from(o.bytes) }))
   const afterReader = (path) => expected.get(path)?.bytes ?? readBuffer(path)
-  assertAllPins(recordsCopy, afterReader, expectedPins)
-  assertProtectedNative(afterReader, incremental ? recordsCopy : undefined)
+  const afterRetired = rollforward ? rollforwardRetirements(base, recordsCopy, afterReader) : []
+  assertAllPins(recordsCopy, afterReader, expectedPins, [], afterRetired)
+  if (rollforward) assertRollforwardNativeInputs(afterReader, recordsCopy, afterRetired)
+  else assertProtectedNative(afterReader, incremental ? recordsCopy : undefined)
   assertReviewRecordSourceUnchanged(group.loadedSource)
   assertStates(base, states, parents)
   const handle = {
@@ -500,6 +574,7 @@ export function prepareCurrentReviewTransaction({
   capabilities.set(handle, {
     root: base,
     incremental,
+    rollforward,
     expectedPins,
     states,
     parents,
@@ -592,7 +667,8 @@ export function publishCurrentReviewTransaction(handle, { allowWrite = false } =
     // The staging tree contains all144 review files plus the actual referenced
     // documents/protected native inputs, not a hash-only or read-cache surrogate.
     for (const path of plan.referenced)
-      if (!expected.has(path) && !retired.includes(path)) stageWrite(path, states.get(path).buffer)
+      if (!expected.has(path) && !retired.includes(path) && states.get(path).buffer)
+        stageWrite(path, states.get(path).buffer)
     for (const output of expected.values()) stageWrite(output.path, output.bytes)
     publicReadback(join(stage, 'after'), plan)
     guard()
@@ -667,7 +743,12 @@ export function publishCurrentReviewTransaction(handle, { allowWrite = false } =
     finalManifests: plan.sourcePins.size,
     finalShards: [...expected.values()].filter((o) => o.kind === 'shard').length,
     allAfterPinsExact: plan.expectedPins,
-    protectedNative: plan.incremental ? 1933 : 302,
+    protectedNative: plan.rollforward
+      ? { oldNative1933: 1933, currentNative142: 142, retainedHistoricalRetirements: 6 }
+      : plan.incremental
+        ? 1933
+        : 302,
+    ...(plan.rollforward ? { activeAfterPinsExact: 4524, retainedHistoricalPins: 6 } : {}),
     creditGranted: 0,
     lockReleased: true,
     sourcePinsPreserved: true,

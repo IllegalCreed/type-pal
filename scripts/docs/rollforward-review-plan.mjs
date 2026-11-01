@@ -8,6 +8,8 @@ export const rollforwardReviewContract = Object.freeze({
   kind: 'rollforward-review-plan/1.0.0',
   authorCandidate: '7273d7aa5a8bbe96ddebcb437765e2e8f7f3e911',
   acceptedBase: 'f17181f96d97301a3fdabfb94d1d860963d379bc',
+  mainRevision: '5e66fa6b6291f94330fb5d7fc9828062e0eb8a51',
+  integrationRevision: '43403a826edcaf40509f55b51e6f6214723252ed',
   rowsSha256: '4b7149c465c6de850a0680dda5d68923d25643ba25bcdee016a70a1ddb10e1a0',
   ownerVerdictSha256: '1521a721e6839ba87916ddd0f789a125c3bffc681def1c0e44446ea4b1f385ae',
   seedVerdictSha256: '151f5f1e960e1c76cda1d82d0c125a26363a109087158d8d9fe0a6e751848af3',
