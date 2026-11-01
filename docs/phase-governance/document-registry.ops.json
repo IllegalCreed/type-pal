@@ -1727,7 +1727,8 @@
       "templateVersion": "1.0.0",
       "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewRecord": "20261016-historical-cards-d.json"
+      "reviewRecord": "20261016-historical-cards-d.json",
+      "historyOverlay": true
     },
     {
       "path": "docs/ops/archive/tasks/done/CODE-QUALITY-1-governance.md",

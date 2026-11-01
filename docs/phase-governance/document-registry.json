@@ -53,12 +53,20 @@
       "reason": "Exact positions4351..4529 in the one current registry; bounded physical ownership, not another semantic document.",
       "retention": "Retain only while referenced by the single registry manifest.",
       "credit": "Storage ownership only; zero child, document or runtime credit."
+    },
+    {
+      "path": "docs/phase-governance/document-registry.ops-main-successor.json",
+      "kind": "document-registry-storage-part",
+      "owner": "Codex",
+      "reason": "Exact successor positions4530..4541 in the existing single registry; no new semantic owner.",
+      "retention": "Retain only while referenced by the single registry manifest.",
+      "credit": "Physical ownership only; zero child or runtime credit."
     }
   ],
   "summary": {
-    "total": 4530,
+    "total": 4542,
     "byPhase": {
-      "ops": 3420,
+      "ops": 3432,
       "lore": 14,
       "phase1": 60,
       "phase2": 109,
@@ -67,15 +75,15 @@
       "testing": 766
     },
     "byType": {
-      "task-card": 527,
+      "task-card": 528,
       "guide-runbook": 21,
       "archive-record": 473,
       "governance-index": 306,
       "audit-report": 178,
       "design-spec": 48,
-      "evidence-receipt": 2118,
+      "evidence-receipt": 2126,
       "quality-gate": 3,
-      "test-machine-evidence": 513,
+      "test-machine-evidence": 516,
       "reference-canon": 37,
       "narrative-idea": 2,
       "plan-status": 74,
@@ -86,10 +94,10 @@
       "test-catalog": 1
     },
     "reviewStatus": {
-      "content-reviewed": 4530
+      "content-reviewed": 4542
     },
     "templateCompliance": {
-      "template-compliant": 4530
+      "template-compliant": 4542
     }
   },
   "scopeNote": "Legacy 570 plus individually reviewed routing batch; not whole-docs coverage. The approved cohort remains 1838 and new docs are a separate delta.",
@@ -107,7 +115,7 @@
       "phase": "ops",
       "path": "document-registry.ops.json",
       "total": 1331,
-      "sha256": "27c10d41b3fb5729fb397464dc68833185f9e5da1feaec4373f5a0296772abc7"
+      "sha256": "aba1c183a9160a814b45064630aaa80f37fa3f5b5deb40324094ccc5196b9c80"
     },
     {
       "key": "lore",
@@ -174,6 +182,14 @@
       "positionRange": [4351, 4530],
       "total": 179,
       "sha256": "fd5aa36d681f6831e94853d20fde6d678ecc917db9171d6675ecc9e1583a19e9"
+    },
+    {
+      "key": "ops-main-successor",
+      "phase": "ops",
+      "path": "document-registry.ops-main-successor.json",
+      "positionRange": [4530, 4542],
+      "total": 12,
+      "sha256": "fb14929ca7bec674babc92cd7721eb7e7ddd36a18f7ecce45a4e02a6df64284a"
     }
   ],
   "documentRetirements": {

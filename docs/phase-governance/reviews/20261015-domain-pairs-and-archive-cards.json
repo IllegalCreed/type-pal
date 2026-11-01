@@ -4822,7 +4822,22 @@
       "userVisibleBeforeAfter": "原字节零改；解释稿在外部候选包（amendment JSON无prefix，字段/指针/历史原样承载）。",
       "templateChoiceRationale": "本篇是配对机器证据（execution身份/sourceRefs/history/治理信封），属test-machine-evidence-v1 document-audit-v2变体合同，与配对report的test-domain-report分工。",
       "templateConformance": "候选按document-audit-v2 requiredFields自检：schemaVersion/id/kind/status/candidateSha/versions/sourceRefs/publicCallers/legalInputs/businessOracle/dedupe/claims/runtimeExecution/findings/artifacts/history/_governance全部在位且值经指针核读；生产variant/发布状态归Owner，不因本候选改变。",
-      "history": [],
+      "history": [
+        {
+          "kind": "rollforward-publication-history-repair/1.0.0",
+          "publicationRevision": "f6a956529cfa5efdb79a72af89feef08a21cab60",
+          "recordedOn": "2026-11-01",
+          "path": "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/evidence.json",
+          "acceptedBodySha256": "be5162f44bf03bd84a948fb425e2fbe8a6672472b20004c06ec52953b1b22062",
+          "acceptedContentSha256": "4b1e7713b542347de4f2255b22e033b1196c7501cea1dd5bb1f991d48780de4c",
+          "normalizedChangesSha256": "41d487a99cebda708c577efac7e1a87acb753a62d7128ad1413321437b464c48",
+          "originalHistory": [],
+          "originalIndependentAcceptanceUnchanged": true,
+          "newSemanticCredit": 0,
+          "runtimeCredit": false,
+          "childSemanticCredit": false
+        }
+      ],
       "supersedes": [],
       "counterReworkBlocked": {
         "counter": [],
@@ -7915,7 +7930,22 @@
       "userVisibleBeforeAfter": "原字节零改；解释稿在外部候选包（amendment JSON无prefix，16顶层键与_governance信封原样承载）。",
       "templateChoiceRationale": "本篇是配对机器证据（execution身份/sourceRefs/history/治理信封），属test-machine-evidence-v1 document-audit-v2变体合同，与配对正文test-domain-report分工。",
       "templateConformance": "按document-audit-v2合同自检：schemaVersion/id/kind/status/candidateSha/versions/sourceRefs/publicCallers/legalInputs/businessOracle/dedupe/claims/runtimeExecution/findings/artifacts/history/_governance全部在位且值经指针核读；originalFieldPolicy保持顶层键零改写；生产variant/发布状态归Owner。",
-      "history": [],
+      "history": [
+        {
+          "kind": "rollforward-publication-history-repair/1.0.0",
+          "publicationRevision": "f6a956529cfa5efdb79a72af89feef08a21cab60",
+          "recordedOn": "2026-11-01",
+          "path": "docs/testing/e2e/evidence/e2e-common-issues.json",
+          "acceptedBodySha256": "75e0f415e7a1dd2a5d3655f28c6ddc23726038e4ec129e1100974958f936e2c3",
+          "acceptedContentSha256": "9ebe5dffc54cf62fef3588276cb7ff866ea7d0b27973509f9bd3a9879308ebda",
+          "normalizedChangesSha256": "41d487a99cebda708c577efac7e1a87acb753a62d7128ad1413321437b464c48",
+          "originalHistory": [],
+          "originalIndependentAcceptanceUnchanged": true,
+          "newSemanticCredit": 0,
+          "runtimeCredit": false,
+          "childSemanticCredit": false
+        }
+      ],
       "supersedes": [],
       "counterReworkBlocked": {
         "counter": [],

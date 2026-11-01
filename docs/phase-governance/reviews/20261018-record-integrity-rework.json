@@ -78,28 +78,28 @@
       "gitObject": "0c324e9c636de903c5b655264e4824b3723d2254",
       "sha256": "7aff0960daeec007f687d6dc882f7f2ca03bbd3e08e62e04dcd331d09a237382"
     },
-    "logicalSha256": "a28451d251a1ce60ce4d9e3a8ccf4cacd5626f994504e65c9fd5b9ba30c524d6",
+    "logicalSha256": "8deef564470dbf9250e7a974dea78f880610573502bcd709dca27aad24b43774",
     "totalEntries": 89,
     "entryOrderSha256": "cb52a283287891ba14bafafb5bdb53d407838fdbf988507bbf7c7b86f4805eda",
-    "orderedEntriesSha256": "c6a05d7c725e004fd1f09f80d3b77c5b060e6c0d9d8634988a1d580ea52fd82f",
+    "orderedEntriesSha256": "567f4a4278e133453aa3795d5b366c2cd2b5bef650bb492088048660f1dea5d5",
     "shards": [
       {
         "key": "part-001",
-        "path": "shards/20261018-record-integrity-rework/a28451d251a1ce60ce4d9e3a8ccf4cacd5626f994504e65c9fd5b9ba30c524d6/part-001.json",
-        "total": 37,
-        "sha256": "a30a0b4329e80933c67ee0397a770923cf45666587da61f6d75bd906737fd6e3"
+        "path": "shards/20261018-record-integrity-rework/8deef564470dbf9250e7a974dea78f880610573502bcd709dca27aad24b43774/part-001.json",
+        "total": 36,
+        "sha256": "19bf2da48bb73eff0a98d2c29841e325ad05c92b4c18a17b640d78beced6dc63"
       },
       {
         "key": "part-002",
-        "path": "shards/20261018-record-integrity-rework/a28451d251a1ce60ce4d9e3a8ccf4cacd5626f994504e65c9fd5b9ba30c524d6/part-002.json",
-        "total": 37,
-        "sha256": "ca1a35e745e506c307c98cf788674e8962037db9976dda0b9e395111ce7379cb"
+        "path": "shards/20261018-record-integrity-rework/8deef564470dbf9250e7a974dea78f880610573502bcd709dca27aad24b43774/part-002.json",
+        "total": 36,
+        "sha256": "b62ac58248a682647a9c69eb022d851d238758c66ff9ca5bfedf1bd9fb7fa221"
       },
       {
         "key": "part-003",
-        "path": "shards/20261018-record-integrity-rework/a28451d251a1ce60ce4d9e3a8ccf4cacd5626f994504e65c9fd5b9ba30c524d6/part-003.json",
-        "total": 15,
-        "sha256": "7ffedeeda5a03ad9d48dc9e2857583177f4d9f8c9802d1d088e4fd48c1012c2d"
+        "path": "shards/20261018-record-integrity-rework/8deef564470dbf9250e7a974dea78f880610573502bcd709dca27aad24b43774/part-003.json",
+        "total": 17,
+        "sha256": "598fc75100cd5f204745fbf5c77d9575788cfcdbf1ce275908e87d6c6963ad71"
       }
     ]
   }

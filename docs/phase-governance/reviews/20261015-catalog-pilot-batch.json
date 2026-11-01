@@ -664,6 +664,20 @@
           "newIndependentSemanticAcceptanceClaimed": false,
           "runtimeCredit": false,
           "childSemanticCredit": false
+        },
+        {
+          "kind": "accepted-main-successor-control-projection/1.0.0",
+          "cohortContentSha256": "65f5797d6c86af5d5e818550154595f463f9ff640a68612af45692864c886f55",
+          "sourceRevision": "f17181f96d97301a3fdabfb94d1d860963d379bc",
+          "structureSha256": "38f3eab1549325b5a29a22561781dae9ab93ad854fec834c62a4aafbf6d90e77",
+          "membershipSha256": "d3a9e7ae7d908377f0381556ead8dcfd238cc6ce02ae71b76e61170150fede25",
+          "observed": {
+            "entries": 20
+          },
+          "actor": "Codex",
+          "newIndependentSemanticAcceptanceClaimed": false,
+          "runtimeCredit": false,
+          "childSemanticCredit": false
         }
       ],
       "templateVariant": "current-governance-control-native-v1",
@@ -3457,7 +3471,22 @@
       "userVisibleBeforeAfter": "候选正文与固定源的实际差异由Git/source与after SHA保留；终态本地链接保持源目标，历史span逐字节保全。本次Owner只修审阅记录，不改作者正文、任务状态、版本或产品行为。",
       "templateChoiceRationale": "本页是域内claim/evidence报告（五必需章节+窄维护增量段），test-domain-report-v1目的吻合且source/publication scope限定明确。",
       "templateConformance": "候选按test-domain-report-v1五必需章节自检：源已齐备；Status current（source/publication scope；无新运行验收）保持源值；除2条失效链接外prefix与源逐字节一致。",
-      "history": [],
+      "history": [
+        {
+          "kind": "rollforward-publication-history-repair/1.0.0",
+          "publicationRevision": "f6a956529cfa5efdb79a72af89feef08a21cab60",
+          "recordedOn": "2026-11-01",
+          "path": "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/report.md",
+          "acceptedBodySha256": "66c05a1e53cd98cccfd6311772b1db81c2e09369b88e2da4308de6a53ff1e715",
+          "acceptedContentSha256": "f6e74c0dab163487a452fb61e1e068edc9b44780d3099ba48d072ad7cd53efee",
+          "normalizedChangesSha256": "41d487a99cebda708c577efac7e1a87acb753a62d7128ad1413321437b464c48",
+          "originalHistory": [],
+          "originalIndependentAcceptanceUnchanged": true,
+          "newSemanticCredit": 0,
+          "runtimeCredit": false,
+          "childSemanticCredit": false
+        }
+      ],
       "supersedes": [],
       "counterReworkBlocked": {
         "counter": [],

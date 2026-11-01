@@ -101,7 +101,22 @@
       "userVisibleBeforeAfter": "候选正文与固定源逐字节相同；终态本地链接保持源目标，历史span逐字节保全。本次Owner只修审阅记录，不改作者正文、任务状态、版本或产品行为。",
       "templateChoiceRationale": "本页是稳定阶段入口/前驱/当期结论（四必需章节+YAML身份），符合test-e2e-stage-v1；技术产物与边界归配对report。",
       "templateConformance": "按test-e2e-stage-v1四必需章节自检：入口与前置/当前结论/证据与状态/依赖与历史全部在位且承载实际内容；H1/YAML身份保持源值；除1处链接改固定地址外prefix与源一致。",
-      "history": [],
+      "history": [
+        {
+          "kind": "rollforward-publication-history-repair/1.0.0",
+          "publicationRevision": "f6a956529cfa5efdb79a72af89feef08a21cab60",
+          "recordedOn": "2026-11-01",
+          "path": "docs/testing/e2e/stages/006-doctor-boat/README.md",
+          "acceptedBodySha256": "ae98573f24873ab10ba54f36059eea09e7e01b140a0714786e210d13c8b3546f",
+          "acceptedContentSha256": "f97111b1bc058a5b7f7a6454d23866628c9ebd51a184844830ac359b70153c23",
+          "normalizedChangesSha256": "41d487a99cebda708c577efac7e1a87acb753a62d7128ad1413321437b464c48",
+          "originalHistory": [],
+          "originalIndependentAcceptanceUnchanged": true,
+          "newSemanticCredit": 0,
+          "runtimeCredit": false,
+          "childSemanticCredit": false
+        }
+      ],
       "supersedes": [],
       "counterReworkBlocked": {
         "counter": [],

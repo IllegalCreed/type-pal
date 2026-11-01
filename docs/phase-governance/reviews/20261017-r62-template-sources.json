@@ -5182,7 +5182,22 @@
       "userVisibleBeforeAfter": "候选正文与固定源逐字节相同；终态本地链接保持源目标，历史span逐字节保全。本次Owner只修审阅记录，不改作者正文、任务状态、版本或产品行为。",
       "templateChoiceRationale": "本页是既有reference-canon模板说明/保全页，五必需章节齐备。",
       "templateConformance": "候选按reference-canon-v1自检：保全标记完整、H1/Status保持源值；除1处失效链接外prefix与源一致。",
-      "history": [],
+      "history": [
+        {
+          "kind": "rollforward-publication-history-repair/1.0.0",
+          "publicationRevision": "f6a956529cfa5efdb79a72af89feef08a21cab60",
+          "recordedOn": "2026-11-01",
+          "path": "docs/testing/_templates/e2e-stage-README.md",
+          "acceptedBodySha256": "b86c50764dd50b9ce471d98e3d2f896a736d5623aa45c934ffe5ffbdc105da82",
+          "acceptedContentSha256": "118cb622102bb671bd2c4ee6750d33a86e3127b12490c3d90a9e031f39f63e34",
+          "normalizedChangesSha256": "41d487a99cebda708c577efac7e1a87acb753a62d7128ad1413321437b464c48",
+          "originalHistory": [],
+          "originalIndependentAcceptanceUnchanged": true,
+          "newSemanticCredit": 0,
+          "runtimeCredit": false,
+          "childSemanticCredit": false
+        }
+      ],
       "supersedes": [],
       "counterReworkBlocked": {
         "counter": [],
@@ -7198,7 +7213,22 @@
       "userVisibleBeforeAfter": "候选正文与固定源逐字节相同；终态本地链接保持源目标，历史span逐字节保全。本次Owner只修审阅记录，不改作者正文、任务状态、版本或产品行为。",
       "templateChoiceRationale": "本页是既有reference-canon模板说明/保全页（五必需章节+保全块），符合reference-canon-v1目的。",
       "templateConformance": "候选按reference-canon-v1自检：保全标记完整、H1/Status保持源值、2026-10-30扩展节原样保留；除1处失效链接外prefix与源一致。",
-      "history": [],
+      "history": [
+        {
+          "kind": "rollforward-publication-history-repair/1.0.0",
+          "publicationRevision": "f6a956529cfa5efdb79a72af89feef08a21cab60",
+          "recordedOn": "2026-11-01",
+          "path": "docs/testing/_templates/test-catalog.md",
+          "acceptedBodySha256": "3909b27c9bec2d742d353e0b2d1e34f245c8a228b0a574f124e66eda82ec5596",
+          "acceptedContentSha256": "1ddd430e00e364b426b18ac8024c8aad4db5c43b1ac3a29f5d6c00ac3b6a9a1e",
+          "normalizedChangesSha256": "41d487a99cebda708c577efac7e1a87acb753a62d7128ad1413321437b464c48",
+          "originalHistory": [],
+          "originalIndependentAcceptanceUnchanged": true,
+          "newSemanticCredit": 0,
+          "runtimeCredit": false,
+          "childSemanticCredit": false
+        }
+      ],
       "supersedes": [],
       "counterReworkBlocked": {
         "counter": [],
@@ -8690,7 +8720,22 @@
       "userVisibleBeforeAfter": "候选正文与固定源逐字节相同；终态本地链接保持源目标，历史span逐字节保全。本次Owner只修审阅记录，不改作者正文、任务状态、版本或产品行为。",
       "templateChoiceRationale": "本页是既有reference-canon模板说明/保全页，五必需章节齐备。",
       "templateConformance": "候选按reference-canon-v1自检：保全标记完整、H1/Status保持源值；除1处失效链接外prefix与源一致。",
-      "history": [],
+      "history": [
+        {
+          "kind": "rollforward-publication-history-repair/1.0.0",
+          "publicationRevision": "f6a956529cfa5efdb79a72af89feef08a21cab60",
+          "recordedOn": "2026-11-01",
+          "path": "docs/testing/_templates/test-domain-report.md",
+          "acceptedBodySha256": "430949e4c00231678c5ec4fbc83fa00ba78bd3a808837039f1609787dac564a0",
+          "acceptedContentSha256": "f25891577ac4ccb6b6505dc02eb81c23953ad8bddf5769a524ff411844fc21f4",
+          "normalizedChangesSha256": "41d487a99cebda708c577efac7e1a87acb753a62d7128ad1413321437b464c48",
+          "originalHistory": [],
+          "originalIndependentAcceptanceUnchanged": true,
+          "newSemanticCredit": 0,
+          "runtimeCredit": false,
+          "childSemanticCredit": false
+        }
+      ],
       "supersedes": [],
       "counterReworkBlocked": {
         "counter": [],
@@ -9811,7 +9856,22 @@
       "userVisibleBeforeAfter": "候选正文与固定源逐字节相同；终态本地链接保持源目标，历史span逐字节保全。本次Owner只修审阅记录，不改作者正文、任务状态、版本或产品行为。",
       "templateChoiceRationale": "本页是既有reference-canon模板说明/保全页，五必需章节齐备。",
       "templateConformance": "候选按reference-canon-v1自检：保全标记完整、H1/Status保持源值；除1处失效链接外prefix与源一致。",
-      "history": [],
+      "history": [
+        {
+          "kind": "rollforward-publication-history-repair/1.0.0",
+          "publicationRevision": "f6a956529cfa5efdb79a72af89feef08a21cab60",
+          "recordedOn": "2026-11-01",
+          "path": "docs/testing/_templates/test-e2e-stage.md",
+          "acceptedBodySha256": "2fd57c242909d2264f866ee8cc847d6369e21b3afc468dcbc380d632b2d615a4",
+          "acceptedContentSha256": "e02be400e222450f2d16b55cf74821bb1b29631c2051d6a61b245c778d438a26",
+          "normalizedChangesSha256": "41d487a99cebda708c577efac7e1a87acb753a62d7128ad1413321437b464c48",
+          "originalHistory": [],
+          "originalIndependentAcceptanceUnchanged": true,
+          "newSemanticCredit": 0,
+          "runtimeCredit": false,
+          "childSemanticCredit": false
+        }
+      ],
       "supersedes": [],
       "counterReworkBlocked": {
         "counter": [],

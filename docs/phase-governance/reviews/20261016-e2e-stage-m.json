@@ -93,7 +93,22 @@
       "userVisibleBeforeAfter": "amendment复用amend_prefix.py起点零改动（源剥testing-meta的全文原样承载）；YAML元数据保留原值；源字节保全在固定Git对象。",
       "templateChoiceRationale": "本页是稳定阶段入口/前驱/当期结论，符合test-e2e-stage-v1；执行细节归配对report。",
       "templateConformance": "按test-e2e-stage-v1四必需章节自检：入口与前置/当前结论/证据与状态/依赖与历史全部在位且承载实际内容；H1/YAML身份保持源值；prefix与源逐字节一致。",
-      "history": [],
+      "history": [
+        {
+          "kind": "rollforward-publication-history-repair/1.0.0",
+          "publicationRevision": "f6a956529cfa5efdb79a72af89feef08a21cab60",
+          "recordedOn": "2026-11-01",
+          "path": "docs/testing/e2e/stages/002-inn-guests-and-reward/README.md",
+          "acceptedBodySha256": "af676dd0be1831377203016ddb19e3093dbf545167c6fa2ae2b766feb1bb8373",
+          "acceptedContentSha256": "6ffa4cc47017a3aaedbb7cac2bb8a5bcad6e6daa3f71fff0a6ed85382a97240d",
+          "normalizedChangesSha256": "41d487a99cebda708c577efac7e1a87acb753a62d7128ad1413321437b464c48",
+          "originalHistory": [],
+          "originalIndependentAcceptanceUnchanged": true,
+          "newSemanticCredit": 0,
+          "runtimeCredit": false,
+          "childSemanticCredit": false
+        }
+      ],
       "supersedes": [],
       "counterReworkBlocked": {
         "counter": [],
@@ -3760,7 +3775,22 @@
       "userVisibleBeforeAfter": "amendment复用amend_prefix.py起点零改动（源剥testing-meta的全文原样承载）；YAML元数据保留原值；源字节保全在固定Git对象。",
       "templateChoiceRationale": "本页是稳定阶段入口/前驱/当期结论，符合test-e2e-stage-v1；分轮执行细节归配对report。",
       "templateConformance": "按test-e2e-stage-v1四必需章节自检：入口与前置/当前结论/证据与状态/依赖与历史全部在位且承载实际内容；H1/YAML身份保持源值；prefix与源逐字节一致。",
-      "history": [],
+      "history": [
+        {
+          "kind": "rollforward-publication-history-repair/1.0.0",
+          "publicationRevision": "f6a956529cfa5efdb79a72af89feef08a21cab60",
+          "recordedOn": "2026-11-01",
+          "path": "docs/testing/e2e/stages/003-kitchen/README.md",
+          "acceptedBodySha256": "5fdcd79e42dd3b19d53a035407df70084929b5b4f540b8f51275ca1c247fa022",
+          "acceptedContentSha256": "66a889a62cf4da7ef0d1c23714240b6ee7d55fb0178619d2a3fa9d45e9a244b5",
+          "normalizedChangesSha256": "41d487a99cebda708c577efac7e1a87acb753a62d7128ad1413321437b464c48",
+          "originalHistory": [],
+          "originalIndependentAcceptanceUnchanged": true,
+          "newSemanticCredit": 0,
+          "runtimeCredit": false,
+          "childSemanticCredit": false
+        }
+      ],
       "supersedes": [],
       "counterReworkBlocked": {
         "counter": [],
@@ -6238,7 +6268,22 @@
       "userVisibleBeforeAfter": "amendment复用amend_prefix.py起点零改动（源剥testing-meta的全文原样承载）；YAML元数据保留原值；源字节保全在固定Git对象。",
       "templateChoiceRationale": "本页是稳定阶段入口/前驱/当期结论，符合test-e2e-stage-v1；六case执行细节归配对report。",
       "templateConformance": "按test-e2e-stage-v1四必需章节自检：入口与前置/当前结论/证据与状态/依赖与历史全部在位且承载实际内容；H1/YAML身份保持源值；prefix与源逐字节一致。",
-      "history": [],
+      "history": [
+        {
+          "kind": "rollforward-publication-history-repair/1.0.0",
+          "publicationRevision": "f6a956529cfa5efdb79a72af89feef08a21cab60",
+          "recordedOn": "2026-11-01",
+          "path": "docs/testing/e2e/stages/004-meal/README.md",
+          "acceptedBodySha256": "ea49789eed01c78b7109dc42c7033c56b0678c6b5578490498b9481fe9c5d658",
+          "acceptedContentSha256": "84c7da765e28c992bb8a59f7bf2c1cf969e41e6434a17b795b8e7c8d194cc467",
+          "normalizedChangesSha256": "41d487a99cebda708c577efac7e1a87acb753a62d7128ad1413321437b464c48",
+          "originalHistory": [],
+          "originalIndependentAcceptanceUnchanged": true,
+          "newSemanticCredit": 0,
+          "runtimeCredit": false,
+          "childSemanticCredit": false
+        }
+      ],
       "supersedes": [],
       "counterReworkBlocked": {
         "counter": [],
@@ -9439,7 +9484,22 @@
       "userVisibleBeforeAfter": "amendment复用amend_prefix.py起点零改动（源剥testing-meta的全文原样承载）；YAML元数据保留原值；源字节保全在固定Git对象。",
       "templateChoiceRationale": "本页是稳定阶段入口/前驱/当期结论，符合test-e2e-stage-v1；六case分轮细节归配对report。",
       "templateConformance": "按test-e2e-stage-v1四必需章节自检：入口与前置/当前结论/证据与状态/依赖与历史全部在位且承载实际内容；H1/YAML身份保持源值；prefix与源逐字节一致。",
-      "history": [],
+      "history": [
+        {
+          "kind": "rollforward-publication-history-repair/1.0.0",
+          "publicationRevision": "f6a956529cfa5efdb79a72af89feef08a21cab60",
+          "recordedOn": "2026-11-01",
+          "path": "docs/testing/e2e/stages/005-shrimp/README.md",
+          "acceptedBodySha256": "86f393fa48449d0b1afcdd8ccabf450facd63de5e2fdd81255c5a5482eac0376",
+          "acceptedContentSha256": "e3840dce21bd4236c46fb402402aad987c7ced5a89a70c4e681e1109852ad225",
+          "normalizedChangesSha256": "41d487a99cebda708c577efac7e1a87acb753a62d7128ad1413321437b464c48",
+          "originalHistory": [],
+          "originalIndependentAcceptanceUnchanged": true,
+          "newSemanticCredit": 0,
+          "runtimeCredit": false,
+          "childSemanticCredit": false
+        }
+      ],
       "supersedes": [],
       "counterReworkBlocked": {
         "counter": [],

@@ -1,0 +1,136 @@
+{
+  "schemaVersion": 1,
+  "phase": "ops",
+  "positions": [4530, 4531, 4532, 4533, 4534, 4535, 4536, 4537, 4538, 4539, 4540, 4541],
+  "entries": [
+    {
+      "path": "docs/ops/evidence/QUALITY-GAME-LOCALIZATION-1/README.md",
+      "phase": "ops",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "templateVersion": "1.0.0",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewRecord": "20261018-semantic-rework.json"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-GAME-LOCALIZATION-1/coverage-recount.json",
+      "phase": "ops",
+      "docType": "test-machine-evidence",
+      "templateId": "test-machine-evidence-v1",
+      "templateVersion": "1.0.0",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewRecord": "20261018-semantic-rework.json",
+      "templateVariant": "historical-test-machine-evidence-artifact-native-v1"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-GAME-LOCALIZATION-1/gates.json",
+      "phase": "ops",
+      "docType": "test-machine-evidence",
+      "templateId": "test-machine-evidence-v1",
+      "templateVersion": "1.0.0",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewRecord": "20261018-semantic-rework.json",
+      "templateVariant": "historical-test-machine-evidence-artifact-native-v1"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-GAME-LOCALIZATION-1/proof.json",
+      "phase": "ops",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "templateVersion": "1.0.0",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewRecord": "20261018-semantic-rework.json",
+      "templateVariant": "historical-evidence-receipt-artifact-native-v1"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-GAME-LOCALIZATION-1/review.json",
+      "phase": "ops",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "templateVersion": "1.0.0",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewRecord": "20261018-semantic-rework.json",
+      "templateVariant": "historical-evidence-receipt-artifact-native-v1"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-NAMING-ORGANIZATION-1/remaining-five/README.md",
+      "phase": "ops",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "templateVersion": "1.0.0",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewRecord": "20261018-semantic-rework.json"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-NAMING-ORGANIZATION-1/remaining-five/context-pins.json",
+      "phase": "ops",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "templateVersion": "1.0.0",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewRecord": "20261018-semantic-rework.json",
+      "templateVariant": "historical-evidence-receipt-artifact-native-v1"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-NAMING-ORGANIZATION-1/remaining-five/gates.json",
+      "phase": "ops",
+      "docType": "test-machine-evidence",
+      "templateId": "test-machine-evidence-v1",
+      "templateVersion": "1.0.0",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewRecord": "20261018-semantic-rework.json",
+      "templateVariant": "historical-test-machine-evidence-artifact-native-v1"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-NAMING-ORGANIZATION-1/remaining-five/mapping.json",
+      "phase": "ops",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "templateVersion": "1.0.0",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewRecord": "20261018-semantic-rework.json",
+      "templateVariant": "historical-evidence-receipt-artifact-native-v1"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-NAMING-ORGANIZATION-1/remaining-five/projection-move.json",
+      "phase": "ops",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "templateVersion": "1.0.0",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewRecord": "20261018-semantic-rework.json",
+      "templateVariant": "historical-evidence-receipt-artifact-native-v1"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-NAMING-ORGANIZATION-1/remaining-five/review.json",
+      "phase": "ops",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "templateVersion": "1.0.0",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewRecord": "20261018-semantic-rework.json",
+      "templateVariant": "historical-evidence-receipt-artifact-native-v1"
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-GAME-LOCALIZATION-1.md",
+      "phase": "ops",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewRecord": "20261018-semantic-rework.json"
+    }
+  ]
+}

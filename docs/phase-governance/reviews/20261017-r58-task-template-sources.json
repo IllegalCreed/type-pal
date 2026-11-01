@@ -94,7 +94,22 @@
       "userVisibleBeforeAfter": "候选正文与固定源逐字节相同；终态本地链接保持源目标，历史span逐字节保全。本次Owner只修审阅记录，不改作者正文、任务状态、版本或产品行为。",
       "templateChoiceRationale": "本页是既有模板说明/reference-canon保全页（适用范围/一手来源/当前真值/未知与冲突/使用边界五节+保全块），符合reference-canon-v1目的而非新执行报告。",
       "templateConformance": "候选按reference-canon-v1五必需章节自检：保全块前后缀标记完整、H1/Status/Owner保持源值、除1处失效链接外prefix与源逐字节一致。",
-      "history": [],
+      "history": [
+        {
+          "kind": "rollforward-publication-history-repair/1.0.0",
+          "publicationRevision": "f6a956529cfa5efdb79a72af89feef08a21cab60",
+          "recordedOn": "2026-11-01",
+          "path": "docs/ops/templates/TASK-template.md",
+          "acceptedBodySha256": "e31b951f8dfd81565910df827385cf08308254ab0eb8c5293f8b0eed1062fc9f",
+          "acceptedContentSha256": "ebc0a223f77a5482ce6a16c5720f6ad99dcb1e295db22acc5a474cf26035fc16",
+          "normalizedChangesSha256": "41d487a99cebda708c577efac7e1a87acb753a62d7128ad1413321437b464c48",
+          "originalHistory": [],
+          "originalIndependentAcceptanceUnchanged": true,
+          "newSemanticCredit": 0,
+          "runtimeCredit": false,
+          "childSemanticCredit": false
+        }
+      ],
       "supersedes": [],
       "counterReworkBlocked": {
         "counter": [],
@@ -1165,7 +1180,22 @@
       "userVisibleBeforeAfter": "候选正文与固定源逐字节相同；终态本地链接保持源目标，历史span逐字节保全。本次Owner只修审阅记录，不改作者正文、任务状态、版本或产品行为。",
       "templateChoiceRationale": "本页是轻量模板说明/保全页，reference-canon-v1五必需章节齐备。",
       "templateConformance": "候选按reference-canon-v1自检：保全标记完整、H1/Status/Owner保持源值、除1处失效链接外prefix与源一致。",
-      "history": [],
+      "history": [
+        {
+          "kind": "rollforward-publication-history-repair/1.0.0",
+          "publicationRevision": "f6a956529cfa5efdb79a72af89feef08a21cab60",
+          "recordedOn": "2026-11-01",
+          "path": "docs/ops/templates/TASK-lite-template.md",
+          "acceptedBodySha256": "803f7581f14fc4476a4c19372b59112c04339b60fb0f0a9ee2be7c0b6abecbc7",
+          "acceptedContentSha256": "a63d1378e5000fa294307c761bb43c4c37e2ac9d8de26d771c367be5a3346ff0",
+          "normalizedChangesSha256": "41d487a99cebda708c577efac7e1a87acb753a62d7128ad1413321437b464c48",
+          "originalHistory": [],
+          "originalIndependentAcceptanceUnchanged": true,
+          "newSemanticCredit": 0,
+          "runtimeCredit": false,
+          "childSemanticCredit": false
+        }
+      ],
       "supersedes": [],
       "counterReworkBlocked": {
         "counter": [],

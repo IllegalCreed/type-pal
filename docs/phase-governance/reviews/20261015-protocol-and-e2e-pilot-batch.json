@@ -387,7 +387,22 @@
       "userVisibleBeforeAfter": "amendment复用amend_prefix.py起点零改动（源剥testing-meta的全文原样承载）；YAML元数据保留原值；源字节保全在固定Git对象。",
       "templateChoiceRationale": "本页是稳定阶段入口/前驱/当期结论，符合test-e2e-stage-v1（四必需章节+YAML身份）而非执行报告。",
       "templateConformance": "按test-e2e-stage-v1四必需章节自检：入口与前置/当前结论/证据与状态/依赖与历史全部在位且承载实际内容；H1/YAML身份保持源值；prefix与源逐字节一致。",
-      "history": [],
+      "history": [
+        {
+          "kind": "rollforward-publication-history-repair/1.0.0",
+          "publicationRevision": "f6a956529cfa5efdb79a72af89feef08a21cab60",
+          "recordedOn": "2026-11-01",
+          "path": "docs/testing/e2e/stages/001-opening/README.md",
+          "acceptedBodySha256": "f5e5042f6a87c79ea4a7933cf467f658458149e50bc784400f70e3e2d7016541",
+          "acceptedContentSha256": "4739fed29dc841f1557503942607ea7943eda2fb040b8420d16b3dc26d24d8dc",
+          "normalizedChangesSha256": "41d487a99cebda708c577efac7e1a87acb753a62d7128ad1413321437b464c48",
+          "originalHistory": [],
+          "originalIndependentAcceptanceUnchanged": true,
+          "newSemanticCredit": 0,
+          "runtimeCredit": false,
+          "childSemanticCredit": false
+        }
+      ],
       "supersedes": [],
       "counterReworkBlocked": {
         "counter": [],
@@ -1271,7 +1286,22 @@
       "userVisibleBeforeAfter": "amendment复用amend_prefix.py起点，仅1处最小修订：10-08节链接fragment“当前结果基础设施离线收口001003统一判定通过”在终树无对应标题，按20261016-e2e-stage-m.json同hrefMapping改指“前批结果历史完整执行链结论被上述反例推翻”撤信标题；其余正文与源逐字节一致，源字节保全在固定Git对象。",
       "templateChoiceRationale": "本篇是一次（多轮）执行断言/结果/回执的正式报告，五必需章节齐备且以日期分层，符合test-run-report-v1而非域报告或阶段入口。",
       "templateConformance": "按test-run-report-v1五必需章节自检：Scope/Execution and assertions/Results/Evidence/Revision history全部在位且承载实际内容；H1/Owner/Template行保持源值；除1处fragment修订外prefix与源一致，无marker/围栏新增。",
-      "history": [],
+      "history": [
+        {
+          "kind": "rollforward-publication-history-repair/1.0.0",
+          "publicationRevision": "f6a956529cfa5efdb79a72af89feef08a21cab60",
+          "recordedOn": "2026-11-01",
+          "path": "docs/testing/e2e/stages/001-opening/report.md",
+          "acceptedBodySha256": "54c87e086decc1965bba056fad3cad35c8383b792d82d34979f841bfa0cb904a",
+          "acceptedContentSha256": "0e6752dd722c207f97f60f0edaffd7af2c2053ac88281750f5301b73140ef838",
+          "normalizedChangesSha256": "41d487a99cebda708c577efac7e1a87acb753a62d7128ad1413321437b464c48",
+          "originalHistory": [],
+          "originalIndependentAcceptanceUnchanged": true,
+          "newSemanticCredit": 0,
+          "runtimeCredit": false,
+          "childSemanticCredit": false
+        }
+      ],
       "supersedes": [],
       "counterReworkBlocked": {
         "counter": [],
@@ -2071,7 +2101,22 @@
       "userVisibleBeforeAfter": "原字节零改；解释稿在外部候选包（amendment JSON无prefix，顶层键与publicationReview原样承载）。",
       "templateChoiceRationale": "本篇是阶段配对机器证据（execution身份/sourceRefs/publicationReview/治理信封），属test-machine-evidence-v1 document-audit-v2变体合同，与配对report的test-run-report分工。",
       "templateConformance": "按document-audit-v2合同自检：全部顶层键与_governance信封在位且值经指针核读；publicationReview六字段完整（date/action/candidate/evidence/reviewBy/scope/notRun）；originalFieldPolicy语义保持顶层零改写；生产variant/发布状态归Owner。",
-      "history": [],
+      "history": [
+        {
+          "kind": "rollforward-publication-history-repair/1.0.0",
+          "publicationRevision": "f6a956529cfa5efdb79a72af89feef08a21cab60",
+          "recordedOn": "2026-11-01",
+          "path": "docs/testing/e2e/evidence/e2e-001.json",
+          "acceptedBodySha256": "3aba7fc7233ea1194926ab3c4af1fcfccd9e640039fa028051b6ee32308aa3cb",
+          "acceptedContentSha256": "0bd236202ee08e9695ecf7442ac516624cf8ccb34b0174d457bed15084b42a5e",
+          "normalizedChangesSha256": "41d487a99cebda708c577efac7e1a87acb753a62d7128ad1413321437b464c48",
+          "originalHistory": [],
+          "originalIndependentAcceptanceUnchanged": true,
+          "newSemanticCredit": 0,
+          "runtimeCredit": false,
+          "childSemanticCredit": false
+        }
+      ],
       "supersedes": [],
       "counterReworkBlocked": {
         "counter": [],

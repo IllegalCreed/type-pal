@@ -6,744 +6,91 @@
   "policy": "Current record withdraws unsupported semantic/template/independent completion. Historical claims remain at historicalReviewIdentity; no full-text re-review is asserted.",
   "entries": [
     {
-      "coreConclusion": "ops任务专属证据目录的治理导航索引（governance-index current，Last reviewed 2026-10-24，Owner=Codex导航维护/各任务Owner维护原件）。相对upstream 5e66fa6b是实质重写：新增当前治理与明确返工入口表（全docs治理/记录可信度返工/registry存储/回合边界返工）、逐目录证据入口（CODE-QUALITY-100~110等）、最新main质量治理入口（含present第二窗口）与a1ac53bb固定的原文保全quote。integration补入的5个目标均已在整合base与终态候选存在，对应的7处链接均已恢复本地形式；所有源链接的最终处置均为live。current仅指导航，本页不重授权任何历史任务。",
-      "semanticAssessment": {
-        "perFileChecked": true,
-        "method": "原作者固定源阅读及claims保持不变，原方法详本条Owner勘误保留原值；Codex本轮仅据固定base/candidate Git对象补核终态链接，不将main加作者清单当作完整终树，不扩展原作者全文读域或新增运行信用。",
-        "claims": [
-          {
-            "claim": "本页是ops任务证据的导航索引：按任务定位机器产物/回执/反控/交接材料并回任务卡判断授权；目录存在、旧accept或全绿不自动证明当前产品通过。",
-            "sourceQuote": "按任务找到机器产物、命令回执、反控和交接材料，并回到对应任务卡判断授权与状态。目录存在、旧accept文字或原件全绿都不自动证明当前产品通过。"
-          },
-          {
-            "claim": "current仅指导航；表中quote的旧候选/完成/待验收字样是来源时点记录，当前治理仍rework。",
-            "sourceQuote": "current仅指导航。下方历史入口表与quote均包含旧候选、旧完成或“待验收”字样；这些是来源时点记录，不据本页日期更新。当前治理仍rework"
-          },
-          {
-            "claim": "原导航文固定于a1ac53bbea78b58ee88e5a3a53894a2fcaf595eb、SHA a48cc1db…，quote内原链接与描述完整保留。",
-            "sourceQuote": "固定source revision `a1ac53bbea78b58ee88e5a3a53894a2fcaf595eb`、SHA `a48cc1db49991fc489f07063c2bf635a9996771647f07e025aa735d5a58ff851`。"
-          },
-          {
-            "claim": "本页将present第二窗口列为最新main治理入口之一：两主体八维、原始身份映射与有效反控，统一门等约100文件冻结。",
-            "sourceQuote": "[第二窗口：present 主测与冻屏合同](QUALITY-GAME-PRESENT-HOST-TESTS-1/README.md)：两个主体八维、原始身份映射和有效反控；统一门等约100文件冻结。"
-          },
-          {
-            "claim": "任务Owner须保存argv/cwd/候选身份、起止/exit/signal与完整输出原件；引用现有原件与唯一当前review，不复制日志或新增sidecar。",
-            "sourceQuote": "任务Owner保存实际argv/cwd/候选与输入身份、起止/exit/signal、完整输出和失败/恢复原件；引用现有原件与唯一当前review，不为每次核验复制全套日志或新增sidecar。"
-          },
-          {
-            "claim": "当时证据边界自declared：全文读本页并核可见目标路径/锚点，未逐件重读旧报告、展开raw或重跑旧测试。",
-            "sourceQuote": "本次全文读本页并逐项核可见目标路径/本地锚点，读原件入口的标题或任务索引作定位；没有逐件重读所有旧报告、展开raw或重跑旧测试。"
-          }
-        ]
-      },
-      "readDomain": {
-        "coverage": "full-file",
-        "actual": "完整固定源字节读取；逐项核对：头字段（Status current/Owner Codex导航维护/Last reviewed 2026-10-24/Template governance-index-v1）；六个治理入口表行与逐目录清单链接目标存在性全量核对；a1ac53bb原文保全quote的pin声明；114条链接中5条integration-only目标以git cat-file在5e66fa6b/43403a82两树双向确认。；Codex 2026-11-01仅补核本候选Git树中的链接终态及此次处置勘误；原作者全文读域不因此扩展，未新增执行或目标全文审查。",
-        "reusedFrom": [],
-        "notRead": [
-          "quote内40余个历史交付回执未逐件打开，仅核其路径存在",
-          "a1ac53bb固定原文的旧描述未逐句复核时点真伪",
-          "未核5e66fa6b全树所有反向引用本页的位置"
-        ]
-      },
-      "truthAnchors": [
-        "Owner: Codex（导航维护；各任务Owner维护原件与caller）",
-        "Last reviewed: 2026-10-24 / Template: governance-index-v1 / 1.0.0",
-        "固定source revision `a1ac53bbea78b58ee88e5a3a53894a2fcaf595eb`",
-        "当前治理仍rework，源字节保全、正文接受、中央接入和全量完成分别判断",
-        "[第二窗口：present 主测与冻屏合同](QUALITY-GAME-PRESENT-HOST-TESTS-1/README.md)"
-      ],
+      "coreConclusion": "证据导航新增语言资源12到21输出、最后五主体到17输出的两个可见入口；任务当前状态归卡，旧候选和历史待验收文字不授当前产品通过，本页current只指导航。",
       "owner": "Codex",
       "provenance": [
-        "GLM作者候选；固定Git源逐字节读取与逐项语义核对；作者自验，非独立接受",
-        {
-          "kind": "accepted-rollforward-content-planning",
-          "candidate": "7273d7aa5a8bbe96ddebcb437765e2e8f7f3e911",
-          "reportSha256": "1521a721e6839ba87916ddd0f789a125c3bffc681def1c0e44446ea4b1f385ae",
-          "productionPublication": false
-        }
+        "Owner source-specific governance of the integrated fixed main documents; upstream code authoring/results remain separate."
       ],
-      "businessOracle": {
-        "type": "historical-native-document",
-        "currentExecution": false,
-        "assertions": [
-          "源=integration 43403a82已模板化正文；upstream 5e66fa6b是较旧的governance改写版，本amendment承载integration版导航结构。",
-          "5条失效链接的目标文件均实测存在于43403a82、不存在于5e66fa6b与72db4172，且不在本轮207篇meta清单。",
-          "本页声明current仅指导航、不重授权历史任务；所有quote内旧结论按原时点解释。"
-        ]
-      },
-      "dedupe": {
-        "result": "与docs/ops/README.md（ops总路由）和docs/ops/audits/README.md（审计导航）分工：本页只做任务证据目录导航；与各任务卡分工：状态与授权回卡判断；与code-quality-file-ledger分工：治理逐文件账在audits，本页只列入口。",
-        "against": [
-          "docs/ops/README.md",
-          "docs/ops/audits/README.md",
-          "docs/ops/audits/code-quality-file-ledger.md"
+      "truthAnchors": [
+        "5c8e596bcb01a50cadd2e8b7f99b6b50aa99c4bb:docs/ops/evidence/README.md",
+        "c88be9b3b5b9dc38c77d8c440085e35b8d15fc43:docs/ops/evidence/README.md"
+      ],
+      "readDomain": {
+        "coverage": "changed-content-and-accepted-text-reuse",
+        "actual": "Complete incoming main and governance diffs, current role/state/entry sections and template fields reviewed; prior accepted unchanged text reused, not newly reread. Protected source spans compared byte-for-byte.",
+        "reusedFrom": [
+          {
+            "revision": "c88be9b3b5b9dc38c77d8c440085e35b8d15fc43",
+            "scope": "Original upstream claims as source only; no new product or independent acceptance."
+          },
+          {
+            "reviewRecord": "docs/phase-governance/reviews/20261017-r39-ops-evidence-readmes.json",
+            "index": 0,
+            "scope": "Unchanged previously accepted text only; modified claims require their own new acceptance."
+          }
+        ],
+        "notRead": [
+          "No new product/test execution or coverage collection.",
+          "Compressed raw archives are retained and referenced, not expanded for a second semantic audit."
         ]
       },
       "dependencies": [
-        "docs/ops/tasks/index.md（任务状态事实源）",
-        "docs/ops/archive/README.md（历史归档）",
-        "各目录README/回执承载执行身份",
-        "DOCS-RECORD-INTEGRITY-1/DOCS-REGISTRY-SPLIT-1/document-quality（integration 43403a82线，链接已固定）"
+        "docs/ops/document-quality.md",
+        "docs/ops/code-quality.md",
+        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
       ],
       "publicCallers": [
-        "docs/ops/README.md第27行路由[任务专属证据](evidence/README.md)",
-        "src树内QUALITY-RECENT-200-ACCEPTANCE-AUDIT-1/audit.json与QUALITY-PENDING-100-3/review.json引用本页路径"
+        "docs/ops/evidence/README.md",
+        "docs/ops/audits/code-quality-file-ledger.md"
       ],
-      "unresolved": [
-        "作者候选待非作者验收与Owner中央接入",
-        "5个integration-only链接目标是否随Owner后续批次进入main树（届时可改回live）待Owner裁定"
-      ],
-      "historyBoundary": "固定源=integration 43403a82时点导航（Last reviewed 2026-10-24）；quote原文固定于a1ac53bb；upstream=5e66fa6b、priorAccepted=511c59b13，入口状态不因本rollforward更新。",
-      "stopLine": "源字节变化、见证矛盾或需要新产品取舍时阻断本篇并交Owner。",
-      "nextStep": "Owner非作者接收本候选；中央扩容/授信由Owner执行。",
-      "runtimeExecutionPerformed": false,
-      "phaseAnchor": "ops证据治理域导航（服务phase1/phase2任务证据检索），不承载机制真值。",
-      "applicability": "docs/ops/evidence/下任务证据目录的入口导航与保全边界；不作为任何任务的状态事实源。",
-      "versionScope": "docs/ops/evidence/下任务证据目录的入口导航与保全边界；不作为任何任务的状态事实源。",
-      "userVisibleBeforeAfter": "候选正文与固定源逐字节相同；终态本地链接保持源目标，历史span逐字节保全。本次Owner只修审阅记录，不改作者正文、任务状态、版本或产品行为。",
-      "templateChoiceRationale": "源已自declared Template: governance-index-v1 / 1.0.0且目的/范围/当前状态/入口与责任/证据与下一步五节齐备，是权威导航入口，保持原模板。",
-      "templateConformance": "候选prefix五必需节+历史保全节齐全、H1/Status/Owner逐字保持；114条源链接全部在正文可见（109 live+5固定地址）；无新增marker。",
-      "history": [],
-      "supersedes": [],
-      "counterReworkBlocked": {
-        "counter": [],
-        "rework": [],
-        "blocked": ["本候选待非作者文档接受和中央接入", "源文自述当前治理仍rework，不由导航页收口"]
+      "businessOracle": {
+        "type": "current-document-source-and-history",
+        "currentExecution": false,
+        "assertions": [
+          "证据导航新增语言资源12到21输出、最后五主体到17输出的两个可见入口；任务当前状态归卡，旧候选和历史待验收文字不授当前产品通过，本页current只指导航。",
+          "Template/source/visible entry and original historical semantics remain consistent; product results retain their original execution scope."
+        ]
       },
-      "linkDisposition": [
-        {
-          "source": "../README.md",
-          "target": "../README.md",
-          "kind": "live"
-        },
-        {
-          "source": "../archive/README.md",
-          "target": "../archive/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "../audits/README.md",
-          "target": "../audits/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "../document-quality.md",
-          "target": "../document-quality.md",
-          "kind": "live"
-        },
-        {
-          "source": "../tasks/DOCS-FULL-TEMPLATE-1.md",
-          "target": "../tasks/DOCS-FULL-TEMPLATE-1.md",
-          "kind": "live"
-        },
-        {
-          "source": "../tasks/DOCS-RECORD-INTEGRITY-1.md",
-          "target": "../tasks/DOCS-RECORD-INTEGRITY-1.md",
-          "kind": "live"
-        },
-        {
-          "source": "../tasks/DOCS-REGISTRY-SPLIT-1.md",
-          "target": "../tasks/DOCS-REGISTRY-SPLIT-1.md",
-          "kind": "live"
-        },
-        {
-          "source": "../tasks/TEST-GLM-GAME-TURN-BOUNDARIES-1.md#当前裁决2026-10-12",
-          "target": "../tasks/TEST-GLM-GAME-TURN-BOUNDARIES-1.md#当前裁决2026-10-12",
-          "kind": "live"
-        },
-        {
-          "source": "../tasks/evidence/TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1/",
-          "target": "../tasks/evidence/TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1/",
-          "kind": "live"
-        },
-        {
-          "source": "../tasks/index.md",
-          "target": "../tasks/index.md",
-          "kind": "live"
-        },
-        {
-          "source": "CI-GAME-OVERLAY-PERFORMANCE-1/README.md",
-          "target": "CI-GAME-OVERLAY-PERFORMANCE-1/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "CODE-QUALITY-100/README.md",
-          "target": "CODE-QUALITY-100/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "CODE-QUALITY-101/README.md",
-          "target": "CODE-QUALITY-101/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "CODE-QUALITY-102/README.md",
-          "target": "CODE-QUALITY-102/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "CODE-QUALITY-103/README.md",
-          "target": "CODE-QUALITY-103/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "CODE-QUALITY-104/README.md",
-          "target": "CODE-QUALITY-104/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "CODE-QUALITY-105/README.md",
-          "target": "CODE-QUALITY-105/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "CODE-QUALITY-106/README.md",
-          "target": "CODE-QUALITY-106/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "CODE-QUALITY-107/README.md",
-          "target": "CODE-QUALITY-107/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "CODE-QUALITY-108/README.md",
-          "target": "CODE-QUALITY-108/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "CODE-QUALITY-109/README.md",
-          "target": "CODE-QUALITY-109/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "CODE-QUALITY-110/README.md",
-          "target": "CODE-QUALITY-110/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "CODE-QUALITY-3Y-CLOSEOUT-1/README.md",
-          "target": "CODE-QUALITY-3Y-CLOSEOUT-1/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "CODE-QUALITY-53/README.md",
-          "target": "CODE-QUALITY-53/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "CODE-QUALITY-80/README.md",
-          "target": "CODE-QUALITY-80/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "CODE-QUALITY-81/README.md",
-          "target": "CODE-QUALITY-81/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "CODE-QUALITY-82/README.md",
-          "target": "CODE-QUALITY-82/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "CODE-QUALITY-83/README.md",
-          "target": "CODE-QUALITY-83/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "CODE-QUALITY-84/README.md",
-          "target": "CODE-QUALITY-84/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "CODE-QUALITY-85/README.md",
-          "target": "CODE-QUALITY-85/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "CODE-QUALITY-86/README.md",
-          "target": "CODE-QUALITY-86/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "CODE-QUALITY-87/README.md",
-          "target": "CODE-QUALITY-87/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "CODE-QUALITY-88/README.md",
-          "target": "CODE-QUALITY-88/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "CODE-QUALITY-89/README.md",
-          "target": "CODE-QUALITY-89/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "CODE-QUALITY-90/README.md",
-          "target": "CODE-QUALITY-90/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "CODE-QUALITY-91/README.md",
-          "target": "CODE-QUALITY-91/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "CODE-QUALITY-92/README.md",
-          "target": "CODE-QUALITY-92/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "CODE-QUALITY-93/README.md",
-          "target": "CODE-QUALITY-93/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "CODE-QUALITY-94/README.md",
-          "target": "CODE-QUALITY-94/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "CODE-QUALITY-96/README.md",
-          "target": "CODE-QUALITY-96/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "CODE-QUALITY-97/README.md",
-          "target": "CODE-QUALITY-97/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "CODE-QUALITY-98/README.md",
-          "target": "CODE-QUALITY-98/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "CODE-QUALITY-99/README.md",
-          "target": "CODE-QUALITY-99/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "DOCS-FULL-TEMPLATE-1/README.md",
-          "target": "DOCS-FULL-TEMPLATE-1/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "DOCS-RECORD-INTEGRITY-1/README.md",
-          "target": "DOCS-RECORD-INTEGRITY-1/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "DOCS-REGISTRY-SPLIT-1/README.md",
-          "target": "DOCS-REGISTRY-SPLIT-1/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1/README.md",
-          "target": "GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "QUALITY-BATTLE-MAGIC-PARITY-1/README.md",
-          "target": "QUALITY-BATTLE-MAGIC-PARITY-1/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "QUALITY-DOCS-GIT-PATH-ENUMERATION-1/README.md",
-          "target": "QUALITY-DOCS-GIT-PATH-ENUMERATION-1/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "QUALITY-EDITOR-DIAGNOSTICS-1/README.md",
-          "target": "QUALITY-EDITOR-DIAGNOSTICS-1/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "QUALITY-EDITOR-DIAGNOSTICS-2/README.md",
-          "target": "QUALITY-EDITOR-DIAGNOSTICS-2/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "QUALITY-EDITOR-DIAGNOSTICS-3/README.md",
-          "target": "QUALITY-EDITOR-DIAGNOSTICS-3/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "QUALITY-EDITOR-DIAGNOSTICS-4/README.md",
-          "target": "QUALITY-EDITOR-DIAGNOSTICS-4/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "QUALITY-EDITOR-FORM-FIXTURES-1/README.md",
-          "target": "QUALITY-EDITOR-FORM-FIXTURES-1/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1/README.md",
-          "target": "QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1/README.md",
-          "target": "QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "QUALITY-EDITOR-WORLD-SPRITE-DIAGNOSTICS-1/README.md",
-          "target": "QUALITY-EDITOR-WORLD-SPRITE-DIAGNOSTICS-1/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/README.md",
-          "target": "QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "QUALITY-FETCH-ABORT-LIFECYCLE-1/c1/README.md",
-          "target": "QUALITY-FETCH-ABORT-LIFECYCLE-1/c1/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "QUALITY-GAME-PRESENT-HOST-TESTS-1/README.md",
-          "target": "QUALITY-GAME-PRESENT-HOST-TESTS-1/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "QUALITY-HOST-NAVIGATION-DIAGNOSTICS-1/README.md",
-          "target": "QUALITY-HOST-NAVIGATION-DIAGNOSTICS-1/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "QUALITY-PENDING-100-2/README.md",
-          "target": "QUALITY-PENDING-100-2/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "QUALITY-PENDING-100-3/README.md",
-          "target": "QUALITY-PENDING-100-3/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "QUALITY-PENDING-100-3/naming-resolutions.json",
-          "target": "QUALITY-PENDING-100-3/naming-resolutions.json",
-          "kind": "live"
-        },
-        {
-          "source": "QUALITY-PENDING-100-3/naming-review.json",
-          "target": "QUALITY-PENDING-100-3/naming-review.json",
-          "kind": "live"
-        },
-        {
-          "source": "QUALITY-PRE94-RETROSPECTIVE-1/README.md",
-          "target": "QUALITY-PRE94-RETROSPECTIVE-1/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "QUALITY-RECENT-200-ACCEPTANCE-AUDIT-1/README.md",
-          "target": "QUALITY-RECENT-200-ACCEPTANCE-AUDIT-1/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "QUALITY-RECENT-200-CONTENT-AUDIT-2/README.md",
-          "target": "QUALITY-RECENT-200-CONTENT-AUDIT-2/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "QUALITY-REVIEW-52-CLOSEOUT-1/README.md",
-          "target": "QUALITY-REVIEW-52-CLOSEOUT-1/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "QUALITY-TOOLS-CONTRACT-TESTS-1/README.md",
-          "target": "QUALITY-TOOLS-CONTRACT-TESTS-1/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "TEST-CONTRACT-BATCH-20261008/README.md",
-          "target": "TEST-CONTRACT-BATCH-20261008/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "TEST-CONTRACT-BATCH-20261008/codex-review.md",
-          "target": "TEST-CONTRACT-BATCH-20261008/codex-review.md",
-          "kind": "live"
-        },
-        {
-          "source": "TEST-COVERAGE85-GLM-REFORGE-1/README.md",
-          "target": "TEST-COVERAGE85-GLM-REFORGE-1/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "TEST-DISPATCH-20261011.md",
-          "target": "TEST-DISPATCH-20261011.md",
-          "kind": "live"
-        },
-        {
-          "source": "TEST-EDITOR-ALCHEMY-BOUNDARIES-1/README.md",
-          "target": "TEST-EDITOR-ALCHEMY-BOUNDARIES-1/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "TEST-EDITOR-AUTHOR-COMMAND-FORM-CONTRACTS-1/README.md",
-          "target": "TEST-EDITOR-AUTHOR-COMMAND-FORM-CONTRACTS-1/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "TEST-EDITOR-SCRIPT-INTERACTION-1/README.md",
-          "target": "TEST-EDITOR-SCRIPT-INTERACTION-1/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "TEST-GAME-MEDIA-LIFECYCLE-1/README.md",
-          "target": "TEST-GAME-MEDIA-LIFECYCLE-1/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "TEST-GLM-EDITOR-BATTLE-REGISTRY-1/README.md",
-          "target": "TEST-GLM-EDITOR-BATTLE-REGISTRY-1/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1/README.md",
-          "target": "TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "TEST-GLM-EDITOR-PERSISTENCE-RECOVERY-1/README.md",
-          "target": "TEST-GLM-EDITOR-PERSISTENCE-RECOVERY-1/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "TEST-GLM-GAME-BATTLE-STATE-1/README.md",
-          "target": "TEST-GLM-GAME-BATTLE-STATE-1/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "TEST-GLM-GAME-DIALOGUE-PAGINATION-1/README.md",
-          "target": "TEST-GLM-GAME-DIALOGUE-PAGINATION-1/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "TEST-GLM-GAME-EVENT-CONTRACTS-1/README.md",
-          "target": "TEST-GLM-GAME-EVENT-CONTRACTS-1/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "TEST-GLM-GAME-EVENT-CONTROL-FLOW-1/README.md",
-          "target": "TEST-GLM-GAME-EVENT-CONTROL-FLOW-1/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "TEST-GLM-GAME-EVENT-STATE-OPCODES-1/README.md",
-          "target": "TEST-GLM-GAME-EVENT-STATE-OPCODES-1/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "TEST-GLM-GAME-MENU-SAVE-IO-1/README.md",
-          "target": "TEST-GLM-GAME-MENU-SAVE-IO-1/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "TEST-GLM-GAME-PLAYER-OPCODE-RESIDUAL-1/README.md",
-          "target": "TEST-GLM-GAME-PLAYER-OPCODE-RESIDUAL-1/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "TEST-GLM-GAME-SHELL-BOOTSTRAP-1/README.md",
-          "target": "TEST-GLM-GAME-SHELL-BOOTSTRAP-1/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "TEST-GLM-GAME-TURN-BOUNDARIES-1/README.md",
-          "target": "TEST-GLM-GAME-TURN-BOUNDARIES-1/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "TEST-GLM-MIGRATE-ASSET-SUPPLY-1/README.md",
-          "target": "TEST-GLM-MIGRATE-ASSET-SUPPLY-1/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "TEST-GLM-MIGRATE-PLAN-TRANSACTION-1/README.md",
-          "target": "TEST-GLM-MIGRATE-PLAN-TRANSACTION-1/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1/README.md",
-          "target": "TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "TEST-GLM-REFORGE-ASSET-RESOLVER-1/README.md",
-          "target": "TEST-GLM-REFORGE-ASSET-RESOLVER-1/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "TEST-GLM-REFORGE-AUDIO-LIFECYCLE-1/README.md",
-          "target": "TEST-GLM-REFORGE-AUDIO-LIFECYCLE-1/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/README.md",
-          "target": "TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "TEST-GLM-REFORGE-BATTLE-FLOW-1/README.md",
-          "target": "TEST-GLM-REFORGE-BATTLE-FLOW-1/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "TEST-GLM-REFORGE-HOST-LIFECYCLE-1/README.md",
-          "target": "TEST-GLM-REFORGE-HOST-LIFECYCLE-1/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/README.md",
-          "target": "TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/README.md",
-          "target": "TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "TEST-GLM-REFORGE-MOTION-TRANSITION-1/README.md",
-          "target": "TEST-GLM-REFORGE-MOTION-TRANSITION-1/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "TEST-GLM-REFORGE-RUNTIME-SESSION-1/README.md",
-          "target": "TEST-GLM-REFORGE-RUNTIME-SESSION-1/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "TEST-GLM-REFORGE-WORLD-LIFECYCLE-1/README.md",
-          "target": "TEST-GLM-REFORGE-WORLD-LIFECYCLE-1/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/README.md",
-          "target": "TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "TEST-REFORGE-BATTLE-PREVIEW-BINDING-1/README.md",
-          "target": "TEST-REFORGE-BATTLE-PREVIEW-BINDING-1/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/README.md",
-          "target": "TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-review-r3.md",
-          "target": "TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-review-r3.md",
-          "kind": "live"
-        },
-        {
-          "source": "TEST-REFORGE-OPENING-IO-LIFECYCLE-1/README.md",
-          "target": "TEST-REFORGE-OPENING-IO-LIFECYCLE-1/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "TEST-REFORGE-PROJECT-LOADING-BOUNDARIES-1/README.md",
-          "target": "TEST-REFORGE-PROJECT-LOADING-BOUNDARIES-1/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "TESTING-EVIDENCE-REVISION-1/README.md",
-          "target": "TESTING-EVIDENCE-REVISION-1/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "coverage85-kimi-extract-migrate-r1",
-          "target": "coverage85-kimi-extract-migrate-r1",
-          "kind": "live"
-        },
-        {
-          "source": "coverage85-kimi-extract-migrate-r1/README.md",
-          "target": "coverage85-kimi-extract-migrate-r1/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "game-rix-music-1/README.md",
-          "target": "game-rix-music-1/README.md",
-          "kind": "live"
-        },
-        {
-          "source": "game-rng-scene-restore-1/README.md",
-          "target": "game-rng-scene-restore-1/README.md",
-          "kind": "live"
+      "dedupe": {
+        "result": "retain-specific-source",
+        "against": [
+          "docs/ops/evidence/QUALITY-GAME-LOCALIZATION-1/README.md",
+          "docs/ops/evidence/QUALITY-NAMING-ORGANIZATION-1/remaining-five/README.md"
+        ]
+      },
+      "historyBoundary": "Main original task/publication/run claims retain their own source dates and versions. Current navigation or document review grants no product, runtime, child-review or coverage credit; obsolete flat routing is not replayed.",
+      "unresolved": [],
+      "supersedes": [
+        {
+          "path": "docs/ops/evidence/README.md",
+          "reviewRecord": "docs/phase-governance/reviews/20261017-r39-ops-evidence-readmes.json",
+          "index": 0,
+          "previousContentRetainedIn": "successorPrior sparse inverse"
         }
       ],
+      "stopLine": "Stop the affected claim on changed source/body, missing raw, false count or contract conflict; do not refresh old SHA or invent execution.",
+      "nextStep": "Accept the source-specific document and exact template through the Owner successor publication after non-author review; retain historical execution limits.",
+      "phaseAnchor": "ops governance / phase1 evidence reference only",
+      "applicability": "The fixed c88 main documents as integrated in fcd; historical code-quality execution is not repeated.",
+      "runtimeExecutionPerformed": false,
       "fieldRoles": {
         "governance": [
           "docs/phase-governance/reviews/20261017-r39-ops-evidence-readmes.json#entries/0"
         ],
         "nativePointers": []
       },
-      "ownerCorrections": [
+      "reviewDepth": "partial-semantic",
+      "reviewedLines": {
+        "scope": "Complete incoming/governance diffs and current role/state/entry sections; unchanged accepted text reused, not newly reread.",
+        "notRead": ["Referenced product files and raw archives not re-audited"]
+      },
+      "history": [
         {
-          "kind": "owner-limited-link-erratum/1.0.0",
-          "actor": "Codex",
-          "date": "2026-11-01",
-          "authorCandidate": "7273d7aa5a8bbe96ddebcb437765e2e8f7f3e911",
-          "authorDraftSha256": "1e919f962112b0797c26b1670315da31309ad80e82ab2b7374434d8dfddff4e4",
-          "scope": "Final link disposition only; no prose/native/source/status/seed changes or author-read expansion",
-          "beforeFields": {
-            "coreConclusion": "ops任务专属证据目录的治理导航索引（governance-index current，Last reviewed 2026-10-24，Owner=Codex导航维护/各任务Owner维护原件）。相对upstream 5e66fa6b是实质重写：新增当前治理与明确返工入口表（全docs治理/记录可信度返工/registry存储/回合边界返工）、逐目录证据入口（CODE-QUALITY-100~110等）、最新main质量治理入口（含present第二窗口）与a1ac53bb固定的原文保全quote。integration正文中5条链接目标（document-quality.md、DOCS-RECORD-INTEGRITY-1/DOCS-REGISTRY-SPLIT-1的卡与README）只存在于integration线、不在main两基点与207篇清单，属真实失效链接，prefix已最小换为43403a82固定Git地址；其余109条链接live。current仅指导航，本页不重授权任何历史任务。",
-            "semanticAssessment.method": "固定源23705字节全文读取（Read工具）+ git show比对upstream 5e66fa6b确认重写幅度 + links.py得114条去重链接逐一在5e66fa6b树解析path存在性、锚点抽查（TURN-BOUNDARIES#当前裁决2026-10-12对回引块内标题）",
-            "readDomain.actual": "完整固定源字节读取；逐项核对：头字段（Status current/Owner Codex导航维护/Last reviewed 2026-10-24/Template governance-index-v1）；六个治理入口表行与逐目录清单链接目标存在性全量核对；a1ac53bb原文保全quote的pin声明；114条链接中5条integration-only目标以git cat-file在5e66fa6b/43403a82两树双向确认。",
-            "userVisibleBeforeAfter": "模板正文承载语义+源保全围栏：amendment复用integration正文，仅5条integration-only链接换为固定Git地址，其余字节不变。"
-          },
-          "targets": [
-            {
-              "target": "DOCS-RECORD-INTEGRITY-1/README.md",
-              "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/README.md",
-              "occurrencesAdded": 2,
-              "gitObject": "3a41dca863e534c2a47d3d28c5585777e4cd4f5c",
-              "sha256": "e769cc1c649222c853606e80ed6acfbe68ce38a4e084cd1fcd0431ef2be912b9"
-            },
-            {
-              "target": "../tasks/DOCS-RECORD-INTEGRITY-1.md",
-              "path": "docs/ops/tasks/DOCS-RECORD-INTEGRITY-1.md",
-              "occurrencesAdded": 1,
-              "gitObject": "e31715de098ac43a4c9b0c5cd1df810cf634c3a6",
-              "sha256": "d4233dabab8e86756f20d79edfdc78e217775d7737cc6ca8002f4bfa822bb2f8"
-            },
-            {
-              "target": "DOCS-REGISTRY-SPLIT-1/README.md",
-              "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md",
-              "occurrencesAdded": 2,
-              "gitObject": "e853eb656d66d303ca60ed4e4731bf4c1611a242",
-              "sha256": "85beb839bbcad21098457328314c4d7d9bff5be789a6cc21eadcb1df0a89b6b5"
-            },
-            {
-              "target": "../tasks/DOCS-REGISTRY-SPLIT-1.md",
-              "path": "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md",
-              "occurrencesAdded": 1,
-              "gitObject": "f6c075e16c1d79d0624a12eac67783602e910a11",
-              "sha256": "72d8a3d281e83846940e51eb0c431bde40d764aba399f9e0ede745ed44867ce9"
-            },
-            {
-              "target": "../document-quality.md",
-              "path": "docs/ops/document-quality.md",
-              "occurrencesAdded": 1,
-              "gitObject": "647353d58236fbb6806c9c8e88247fc5c1ba1579",
-              "sha256": "daa883faaa764297179d3052725a582a5f582908b556e0f3648047cdd74136b6"
-            }
-          ],
-          "independentAcceptance": "accepted-by-Owner-as-non-author-evidence-correction",
-          "newSemanticCredit": 0,
-          "runtimeCredit": 0
+          "kind": "main-successor-author-source-review",
+          "sourceRevision": "5c8e596bcb01a50cadd2e8b7f99b6b50aa99c4bb",
+          "upstreamRevision": "c88be9b3b5b9dc38c77d8c440085e35b8d15fc43",
+          "originalClaimsReexecuted": false,
+          "newRuntimeCredit": false
         }
       ],
       "path": "docs/ops/evidence/README.md",
@@ -751,30 +98,30 @@
       "templateId": "governance-index-v1",
       "templateVersion": "1.0.0",
       "documentStatus": "current",
-      "sourceGitRevision": "43403a826edcaf40509f55b51e6f6214723252ed",
-      "sourceSha256": "d2dc155dfdbd9fc82208d6cbf66aed5212739c843816984c2bf4256a62e19682",
-      "afterSha256": "d2dc155dfdbd9fc82208d6cbf66aed5212739c843816984c2bf4256a62e19682",
+      "sourceGitRevision": "5c8e596bcb01a50cadd2e8b7f99b6b50aa99c4bb",
+      "sourceSha256": "c0b3cded116727e4febc9084584651485a851247c906affb4ac2c8f890e0e0e3",
+      "afterSha256": "c0b3cded116727e4febc9084584651485a851247c906affb4ac2c8f890e0e0e3",
       "primarySource": [
         {
           "path": "docs/ops/evidence/README.md",
-          "revision": "43403a826edcaf40509f55b51e6f6214723252ed",
-          "gitObject": "60d2c93a6a7ab9e222389f36375ca39ffb163ea7",
-          "sha256": "d2dc155dfdbd9fc82208d6cbf66aed5212739c843816984c2bf4256a62e19682"
+          "revision": "5c8e596bcb01a50cadd2e8b7f99b6b50aa99c4bb",
+          "gitObject": "89bb4cd3b7a4069d766fc9c44d884aac4a52a183",
+          "sha256": "c0b3cded116727e4febc9084584651485a851247c906affb4ac2c8f890e0e0e3"
         }
       ],
       "legalInputs": [
         {
           "kind": "fixed-markdown-source",
           "path": "docs/ops/evidence/README.md",
-          "revision": "43403a826edcaf40509f55b51e6f6214723252ed",
-          "gitObject": "60d2c93a6a7ab9e222389f36375ca39ffb163ea7",
-          "sha256": "d2dc155dfdbd9fc82208d6cbf66aed5212739c843816984c2bf4256a62e19682"
+          "revision": "5c8e596bcb01a50cadd2e8b7f99b6b50aa99c4bb",
+          "gitObject": "89bb4cd3b7a4069d766fc9c44d884aac4a52a183",
+          "sha256": "c0b3cded116727e4febc9084584651485a851247c906affb4ac2c8f890e0e0e3"
         }
       ],
       "evidence": {
         "kind": "incremental-existing-template-amendment",
-        "originalBytes": 23705,
-        "originalSha256": "d2dc155dfdbd9fc82208d6cbf66aed5212739c843816984c2bf4256a62e19682",
+        "originalBytes": 24078,
+        "originalSha256": "c0b3cded116727e4febc9084584651485a851247c906affb4ac2c8f890e0e0e3",
         "preservedSpans": [
           {
             "marker": "<!-- incremental-original-source:start -->",
@@ -801,11 +148,11 @@
         "path": "docs/ops/evidence/README.md"
       },
       "revision": {
-        "currentSha": "7273d7aa5a8bbe96ddebcb437765e2e8f7f3e911",
+        "currentSha": "5c8e596bcb01a50cadd2e8b7f99b6b50aa99c4bb",
         "history": [
           {
-            "value": "d2dc155dfdbd9fc82208d6cbf66aed5212739c843816984c2bf4256a62e19682",
-            "meaning": "Prior candidate value retained verbatim; currentSha now names the real tree containing the accepted carrier."
+            "revision": "c88be9b3b5b9dc38c77d8c440085e35b8d15fc43",
+            "meaning": "Upstream main source, separately pinned before template governance."
           }
         ]
       },
@@ -815,35 +162,22 @@
       "templateCompliance": "template-compliant",
       "nonAuthorReviewer": true,
       "creditGranted": 0,
-      "proposedBinding": {
-        "docType": "governance-index",
-        "templateId": "governance-index-v1",
-        "templateVersion": "1.0.0",
-        "productionRoutingChanged": false
+      "phaseAnchors": ["ops governance / phase1 evidence reference only"],
+      "readMethod": "Owner source-specific analysis with separate programmatic parsing, delta reading and accepted-text reuse as declared in readDomain",
+      "versionScope": "The fixed c88 main documents as integrated in fcd; historical code-quality execution is not repeated.",
+      "upstreamSource": {
+        "path": "docs/ops/evidence/README.md",
+        "revision": "c88be9b3b5b9dc38c77d8c440085e35b8d15fc43",
+        "gitObject": "0e5b977479fc32f693d859bd9654ef69dd50f8e9",
+        "sha256": "fc34d6585bc6d052c2e94d59b519037202ddee0c66edaa40103d933d02c3064b"
       },
-      "rollforward": {
-        "kind": "amendment",
-        "upstream": {
-          "revision": "5e66fa6b6291f94330fb5d7fc9828062e0eb8a51",
-          "gitObject": "3ef31ee9319b79bb219ea16950f0e3f9b708eeb3",
-          "sha256": "64776e5c91911d0948f223ea543e535edbad7e8e852191316e81c7838ae1c2aa"
-        },
-        "priorAccepted": {
-          "revision": "511c59b13fec67839b9f6fb7dcfd109d42a747dd",
-          "gitObject": "81d355b8cc71bbd2299f2e414a79910bccd1098d",
-          "sha256": "d8846acb1d2542f535c708f2f4afa33d75d300ca1c340b8e18b7ad48e657786b"
-        },
-        "priorCreditReusedForUnchangedContentOnly": true,
-        "currentPublicationOrExecutionStatusUnchanged": true
+      "successorIntake": {
+        "generationId": "main-c88-20261101",
+        "owner": "docs/phase-governance/reviews/20261017-r39-ops-evidence-readmes.json",
+        "index": 0,
+        "acceptedBodySha256": "c0b3cded116727e4febc9084584651485a851247c906affb4ac2c8f890e0e0e3"
       },
-      "readMethod": "contributor-declared-scope-and-Owner-evidence-verification",
-      "reviewDepth": "partial-semantic",
-      "reviewedLines": {
-        "scope": "完整固定源字节读取；逐项核对：头字段（Status current/Owner Codex导航维护/Last reviewed 2026-10-24/Template governance-index-v1）；六个治理入口表行与逐目录清单链接目标存在性全量核对；a1ac53bb原文保全quote的pin声明；114条链接中5条integration-only目标以git cat-file在5e66fa6b/43403a82两树双向确认。；Codex 2026-11-01仅补核本候选Git树中的链接终态及此次处置勘误；原作者全文读域不因此扩展，未新增执行或目标全文审查。",
-        "boundary": "Preserves the declared reading domain; not a second full-text, code or execution audit."
-      },
-      "phaseAnchors": ["ops证据治理域导航（服务phase1/phase2任务证据检索），不承载机制真值。"],
-      "rollforwardIntake": {
+      "successorPrior": {
         "keys": [
           "coreConclusion",
           "semanticAssessment",
@@ -891,27 +225,902 @@
           "nonAuthorReviewer",
           "creditGranted",
           "proposedBinding",
-          "rollforward"
+          "rollforward",
+          "readMethod",
+          "reviewDepth",
+          "reviewedLines",
+          "phaseAnchors",
+          "rollforwardIntake",
+          "rollforwardPrior",
+          "currentIndependentAcceptance"
         ],
-        "sha256": "de4409951757af29bb679852ac5d6a9e0a868854d230e06b6dc4560c1ee264fa",
+        "sha256": "735ec03812e0100e020337b285476de987b4b8e5c93156eedeb182eed07f890a",
         "fields": [
+          {
+            "key": "coreConclusion",
+            "present": true,
+            "value": "ops任务专属证据目录的治理导航索引（governance-index current，Last reviewed 2026-10-24，Owner=Codex导航维护/各任务Owner维护原件）。相对upstream 5e66fa6b是实质重写：新增当前治理与明确返工入口表（全docs治理/记录可信度返工/registry存储/回合边界返工）、逐目录证据入口（CODE-QUALITY-100~110等）、最新main质量治理入口（含present第二窗口）与a1ac53bb固定的原文保全quote。integration补入的5个目标均已在整合base与终态候选存在，对应的7处链接均已恢复本地形式；所有源链接的最终处置均为live。current仅指导航，本页不重授权任何历史任务。"
+          },
+          {
+            "key": "semanticAssessment",
+            "present": true,
+            "value": {
+              "perFileChecked": true,
+              "method": "原作者固定源阅读及claims保持不变，原方法详本条Owner勘误保留原值；Codex本轮仅据固定base/candidate Git对象补核终态链接，不将main加作者清单当作完整终树，不扩展原作者全文读域或新增运行信用。",
+              "claims": [
+                {
+                  "claim": "本页是ops任务证据的导航索引：按任务定位机器产物/回执/反控/交接材料并回任务卡判断授权；目录存在、旧accept或全绿不自动证明当前产品通过。",
+                  "sourceQuote": "按任务找到机器产物、命令回执、反控和交接材料，并回到对应任务卡判断授权与状态。目录存在、旧accept文字或原件全绿都不自动证明当前产品通过。"
+                },
+                {
+                  "claim": "current仅指导航；表中quote的旧候选/完成/待验收字样是来源时点记录，当前治理仍rework。",
+                  "sourceQuote": "current仅指导航。下方历史入口表与quote均包含旧候选、旧完成或“待验收”字样；这些是来源时点记录，不据本页日期更新。当前治理仍rework"
+                },
+                {
+                  "claim": "原导航文固定于a1ac53bbea78b58ee88e5a3a53894a2fcaf595eb、SHA a48cc1db…，quote内原链接与描述完整保留。",
+                  "sourceQuote": "固定source revision `a1ac53bbea78b58ee88e5a3a53894a2fcaf595eb`、SHA `a48cc1db49991fc489f07063c2bf635a9996771647f07e025aa735d5a58ff851`。"
+                },
+                {
+                  "claim": "本页将present第二窗口列为最新main治理入口之一：两主体八维、原始身份映射与有效反控，统一门等约100文件冻结。",
+                  "sourceQuote": "[第二窗口：present 主测与冻屏合同](QUALITY-GAME-PRESENT-HOST-TESTS-1/README.md)：两个主体八维、原始身份映射和有效反控；统一门等约100文件冻结。"
+                },
+                {
+                  "claim": "任务Owner须保存argv/cwd/候选身份、起止/exit/signal与完整输出原件；引用现有原件与唯一当前review，不复制日志或新增sidecar。",
+                  "sourceQuote": "任务Owner保存实际argv/cwd/候选与输入身份、起止/exit/signal、完整输出和失败/恢复原件；引用现有原件与唯一当前review，不为每次核验复制全套日志或新增sidecar。"
+                },
+                {
+                  "claim": "当时证据边界自declared：全文读本页并核可见目标路径/锚点，未逐件重读旧报告、展开raw或重跑旧测试。",
+                  "sourceQuote": "本次全文读本页并逐项核可见目标路径/本地锚点，读原件入口的标题或任务索引作定位；没有逐件重读所有旧报告、展开raw或重跑旧测试。"
+                }
+              ]
+            }
+          },
+          {
+            "key": "readDomain",
+            "present": true,
+            "value": {
+              "coverage": "full-file",
+              "actual": "完整固定源字节读取；逐项核对：头字段（Status current/Owner Codex导航维护/Last reviewed 2026-10-24/Template governance-index-v1）；六个治理入口表行与逐目录清单链接目标存在性全量核对；a1ac53bb原文保全quote的pin声明；114条链接中5条integration-only目标以git cat-file在5e66fa6b/43403a82两树双向确认。；Codex 2026-11-01仅补核本候选Git树中的链接终态及此次处置勘误；原作者全文读域不因此扩展，未新增执行或目标全文审查。",
+              "reusedFrom": [],
+              "notRead": [
+                "quote内40余个历史交付回执未逐件打开，仅核其路径存在",
+                "a1ac53bb固定原文的旧描述未逐句复核时点真伪",
+                "未核5e66fa6b全树所有反向引用本页的位置"
+              ]
+            }
+          },
+          {
+            "key": "truthAnchors",
+            "present": true,
+            "value": [
+              "Owner: Codex（导航维护；各任务Owner维护原件与caller）",
+              "Last reviewed: 2026-10-24 / Template: governance-index-v1 / 1.0.0",
+              "固定source revision `a1ac53bbea78b58ee88e5a3a53894a2fcaf595eb`",
+              "当前治理仍rework，源字节保全、正文接受、中央接入和全量完成分别判断",
+              "[第二窗口：present 主测与冻屏合同](QUALITY-GAME-PRESENT-HOST-TESTS-1/README.md)"
+            ]
+          },
           {
             "key": "provenance",
             "present": true,
-            "value": "GLM作者候选；固定Git源逐字节读取与逐项语义核对；作者自验，非独立接受"
+            "value": [
+              "GLM作者候选；固定Git源逐字节读取与逐项语义核对；作者自验，非独立接受",
+              {
+                "kind": "accepted-rollforward-content-planning",
+                "candidate": "7273d7aa5a8bbe96ddebcb437765e2e8f7f3e911",
+                "reportSha256": "1521a721e6839ba87916ddd0f789a125c3bffc681def1c0e44446ea4b1f385ae",
+                "productionPublication": false
+              }
+            ]
+          },
+          {
+            "key": "businessOracle",
+            "present": true,
+            "value": {
+              "type": "historical-native-document",
+              "currentExecution": false,
+              "assertions": [
+                "源=integration 43403a82已模板化正文；upstream 5e66fa6b是较旧的governance改写版，本amendment承载integration版导航结构。",
+                "5条失效链接的目标文件均实测存在于43403a82、不存在于5e66fa6b与72db4172，且不在本轮207篇meta清单。",
+                "本页声明current仅指导航、不重授权历史任务；所有quote内旧结论按原时点解释。"
+              ]
+            }
+          },
+          {
+            "key": "dedupe",
+            "present": true,
+            "value": {
+              "result": "与docs/ops/README.md（ops总路由）和docs/ops/audits/README.md（审计导航）分工：本页只做任务证据目录导航；与各任务卡分工：状态与授权回卡判断；与code-quality-file-ledger分工：治理逐文件账在audits，本页只列入口。",
+              "against": [
+                "docs/ops/README.md",
+                "docs/ops/audits/README.md",
+                "docs/ops/audits/code-quality-file-ledger.md"
+              ]
+            }
+          },
+          {
+            "key": "dependencies",
+            "present": true,
+            "value": [
+              "docs/ops/tasks/index.md（任务状态事实源）",
+              "docs/ops/archive/README.md（历史归档）",
+              "各目录README/回执承载执行身份",
+              "DOCS-RECORD-INTEGRITY-1/DOCS-REGISTRY-SPLIT-1/document-quality（integration 43403a82线，链接已固定）"
+            ]
+          },
+          {
+            "key": "publicCallers",
+            "present": true,
+            "value": [
+              "docs/ops/README.md第27行路由[任务专属证据](evidence/README.md)",
+              "src树内QUALITY-RECENT-200-ACCEPTANCE-AUDIT-1/audit.json与QUALITY-PENDING-100-3/review.json引用本页路径"
+            ]
+          },
+          {
+            "key": "unresolved",
+            "present": true,
+            "value": [
+              "作者候选待非作者验收与Owner中央接入",
+              "5个integration-only链接目标是否随Owner后续批次进入main树（届时可改回live）待Owner裁定"
+            ]
+          },
+          {
+            "key": "historyBoundary",
+            "present": true,
+            "value": "固定源=integration 43403a82时点导航（Last reviewed 2026-10-24）；quote原文固定于a1ac53bb；upstream=5e66fa6b、priorAccepted=511c59b13，入口状态不因本rollforward更新。"
+          },
+          {
+            "key": "stopLine",
+            "present": true,
+            "value": "源字节变化、见证矛盾或需要新产品取舍时阻断本篇并交Owner。"
+          },
+          {
+            "key": "nextStep",
+            "present": true,
+            "value": "Owner非作者接收本候选；中央扩容/授信由Owner执行。"
+          },
+          {
+            "key": "phaseAnchor",
+            "present": true,
+            "value": "ops证据治理域导航（服务phase1/phase2任务证据检索），不承载机制真值。"
+          },
+          {
+            "key": "applicability",
+            "present": true,
+            "value": "docs/ops/evidence/下任务证据目录的入口导航与保全边界；不作为任何任务的状态事实源。"
           },
           {
             "key": "versionScope",
             "present": true,
-            "value": "integration 43403a82导航正文（覆盖upstream 5e66fa6b旧版）；quote固定a1ac53bb时点。"
+            "value": "docs/ops/evidence/下任务证据目录的入口导航与保全边界；不作为任何任务的状态事实源。"
           },
           {
-            "key": "fieldRoles",
+            "key": "userVisibleBeforeAfter",
+            "present": true,
+            "value": "候选正文与固定源逐字节相同；终态本地链接保持源目标，历史span逐字节保全。本次Owner只修审阅记录，不改作者正文、任务状态、版本或产品行为。"
+          },
+          {
+            "key": "templateChoiceRationale",
+            "present": true,
+            "value": "源已自declared Template: governance-index-v1 / 1.0.0且目的/范围/当前状态/入口与责任/证据与下一步五节齐备，是权威导航入口，保持原模板。"
+          },
+          {
+            "key": "templateConformance",
+            "present": true,
+            "value": "候选prefix五必需节+历史保全节齐全、H1/Status/Owner逐字保持；114条源链接全部在正文可见（109 live+5固定地址）；无新增marker。"
+          },
+          {
+            "key": "history",
+            "present": true,
+            "value": [
+              {
+                "kind": "rollforward-publication-history-repair/1.0.0",
+                "publicationRevision": "f6a956529cfa5efdb79a72af89feef08a21cab60",
+                "recordedOn": "2026-11-01",
+                "path": "docs/ops/evidence/README.md",
+                "acceptedBodySha256": "d2dc155dfdbd9fc82208d6cbf66aed5212739c843816984c2bf4256a62e19682",
+                "acceptedContentSha256": "df0b1cefc811340325ba80bb73e30805b126c62910fa241b8a051509be30ef7d",
+                "normalizedChangesSha256": "41d487a99cebda708c577efac7e1a87acb753a62d7128ad1413321437b464c48",
+                "originalHistory": [],
+                "originalIndependentAcceptanceUnchanged": true,
+                "newSemanticCredit": 0,
+                "runtimeCredit": false,
+                "childSemanticCredit": false
+              }
+            ]
+          },
+          {
+            "key": "supersedes",
+            "present": true,
+            "value": []
+          },
+          {
+            "key": "counterReworkBlocked",
             "present": true,
             "value": {
-              "governance": ["external-candidate-bundle#entries/151"],
-              "nativePointers": []
+              "counter": [],
+              "rework": [],
+              "blocked": [
+                "本候选待非作者文档接受和中央接入",
+                "源文自述当前治理仍rework，不由导航页收口"
+              ]
             }
+          },
+          {
+            "key": "linkDisposition",
+            "present": true,
+            "value": [
+              {
+                "source": "../README.md",
+                "target": "../README.md",
+                "kind": "live"
+              },
+              {
+                "source": "../archive/README.md",
+                "target": "../archive/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "../audits/README.md",
+                "target": "../audits/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "../document-quality.md",
+                "target": "../document-quality.md",
+                "kind": "live"
+              },
+              {
+                "source": "../tasks/DOCS-FULL-TEMPLATE-1.md",
+                "target": "../tasks/DOCS-FULL-TEMPLATE-1.md",
+                "kind": "live"
+              },
+              {
+                "source": "../tasks/DOCS-RECORD-INTEGRITY-1.md",
+                "target": "../tasks/DOCS-RECORD-INTEGRITY-1.md",
+                "kind": "live"
+              },
+              {
+                "source": "../tasks/DOCS-REGISTRY-SPLIT-1.md",
+                "target": "../tasks/DOCS-REGISTRY-SPLIT-1.md",
+                "kind": "live"
+              },
+              {
+                "source": "../tasks/TEST-GLM-GAME-TURN-BOUNDARIES-1.md#当前裁决2026-10-12",
+                "target": "../tasks/TEST-GLM-GAME-TURN-BOUNDARIES-1.md#当前裁决2026-10-12",
+                "kind": "live"
+              },
+              {
+                "source": "../tasks/evidence/TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1/",
+                "target": "../tasks/evidence/TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1/",
+                "kind": "live"
+              },
+              {
+                "source": "../tasks/index.md",
+                "target": "../tasks/index.md",
+                "kind": "live"
+              },
+              {
+                "source": "CI-GAME-OVERLAY-PERFORMANCE-1/README.md",
+                "target": "CI-GAME-OVERLAY-PERFORMANCE-1/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "CODE-QUALITY-100/README.md",
+                "target": "CODE-QUALITY-100/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "CODE-QUALITY-101/README.md",
+                "target": "CODE-QUALITY-101/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "CODE-QUALITY-102/README.md",
+                "target": "CODE-QUALITY-102/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "CODE-QUALITY-103/README.md",
+                "target": "CODE-QUALITY-103/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "CODE-QUALITY-104/README.md",
+                "target": "CODE-QUALITY-104/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "CODE-QUALITY-105/README.md",
+                "target": "CODE-QUALITY-105/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "CODE-QUALITY-106/README.md",
+                "target": "CODE-QUALITY-106/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "CODE-QUALITY-107/README.md",
+                "target": "CODE-QUALITY-107/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "CODE-QUALITY-108/README.md",
+                "target": "CODE-QUALITY-108/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "CODE-QUALITY-109/README.md",
+                "target": "CODE-QUALITY-109/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "CODE-QUALITY-110/README.md",
+                "target": "CODE-QUALITY-110/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "CODE-QUALITY-3Y-CLOSEOUT-1/README.md",
+                "target": "CODE-QUALITY-3Y-CLOSEOUT-1/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "CODE-QUALITY-53/README.md",
+                "target": "CODE-QUALITY-53/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "CODE-QUALITY-80/README.md",
+                "target": "CODE-QUALITY-80/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "CODE-QUALITY-81/README.md",
+                "target": "CODE-QUALITY-81/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "CODE-QUALITY-82/README.md",
+                "target": "CODE-QUALITY-82/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "CODE-QUALITY-83/README.md",
+                "target": "CODE-QUALITY-83/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "CODE-QUALITY-84/README.md",
+                "target": "CODE-QUALITY-84/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "CODE-QUALITY-85/README.md",
+                "target": "CODE-QUALITY-85/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "CODE-QUALITY-86/README.md",
+                "target": "CODE-QUALITY-86/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "CODE-QUALITY-87/README.md",
+                "target": "CODE-QUALITY-87/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "CODE-QUALITY-88/README.md",
+                "target": "CODE-QUALITY-88/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "CODE-QUALITY-89/README.md",
+                "target": "CODE-QUALITY-89/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "CODE-QUALITY-90/README.md",
+                "target": "CODE-QUALITY-90/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "CODE-QUALITY-91/README.md",
+                "target": "CODE-QUALITY-91/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "CODE-QUALITY-92/README.md",
+                "target": "CODE-QUALITY-92/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "CODE-QUALITY-93/README.md",
+                "target": "CODE-QUALITY-93/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "CODE-QUALITY-94/README.md",
+                "target": "CODE-QUALITY-94/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "CODE-QUALITY-96/README.md",
+                "target": "CODE-QUALITY-96/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "CODE-QUALITY-97/README.md",
+                "target": "CODE-QUALITY-97/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "CODE-QUALITY-98/README.md",
+                "target": "CODE-QUALITY-98/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "CODE-QUALITY-99/README.md",
+                "target": "CODE-QUALITY-99/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "DOCS-FULL-TEMPLATE-1/README.md",
+                "target": "DOCS-FULL-TEMPLATE-1/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "DOCS-RECORD-INTEGRITY-1/README.md",
+                "target": "DOCS-RECORD-INTEGRITY-1/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "DOCS-REGISTRY-SPLIT-1/README.md",
+                "target": "DOCS-REGISTRY-SPLIT-1/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1/README.md",
+                "target": "GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "QUALITY-BATTLE-MAGIC-PARITY-1/README.md",
+                "target": "QUALITY-BATTLE-MAGIC-PARITY-1/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "QUALITY-DOCS-GIT-PATH-ENUMERATION-1/README.md",
+                "target": "QUALITY-DOCS-GIT-PATH-ENUMERATION-1/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "QUALITY-EDITOR-DIAGNOSTICS-1/README.md",
+                "target": "QUALITY-EDITOR-DIAGNOSTICS-1/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "QUALITY-EDITOR-DIAGNOSTICS-2/README.md",
+                "target": "QUALITY-EDITOR-DIAGNOSTICS-2/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "QUALITY-EDITOR-DIAGNOSTICS-3/README.md",
+                "target": "QUALITY-EDITOR-DIAGNOSTICS-3/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "QUALITY-EDITOR-DIAGNOSTICS-4/README.md",
+                "target": "QUALITY-EDITOR-DIAGNOSTICS-4/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "QUALITY-EDITOR-FORM-FIXTURES-1/README.md",
+                "target": "QUALITY-EDITOR-FORM-FIXTURES-1/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1/README.md",
+                "target": "QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1/README.md",
+                "target": "QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "QUALITY-EDITOR-WORLD-SPRITE-DIAGNOSTICS-1/README.md",
+                "target": "QUALITY-EDITOR-WORLD-SPRITE-DIAGNOSTICS-1/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/README.md",
+                "target": "QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "QUALITY-FETCH-ABORT-LIFECYCLE-1/c1/README.md",
+                "target": "QUALITY-FETCH-ABORT-LIFECYCLE-1/c1/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "QUALITY-GAME-PRESENT-HOST-TESTS-1/README.md",
+                "target": "QUALITY-GAME-PRESENT-HOST-TESTS-1/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "QUALITY-HOST-NAVIGATION-DIAGNOSTICS-1/README.md",
+                "target": "QUALITY-HOST-NAVIGATION-DIAGNOSTICS-1/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "QUALITY-PENDING-100-2/README.md",
+                "target": "QUALITY-PENDING-100-2/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "QUALITY-PENDING-100-3/README.md",
+                "target": "QUALITY-PENDING-100-3/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "QUALITY-PENDING-100-3/naming-resolutions.json",
+                "target": "QUALITY-PENDING-100-3/naming-resolutions.json",
+                "kind": "live"
+              },
+              {
+                "source": "QUALITY-PENDING-100-3/naming-review.json",
+                "target": "QUALITY-PENDING-100-3/naming-review.json",
+                "kind": "live"
+              },
+              {
+                "source": "QUALITY-PRE94-RETROSPECTIVE-1/README.md",
+                "target": "QUALITY-PRE94-RETROSPECTIVE-1/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "QUALITY-RECENT-200-ACCEPTANCE-AUDIT-1/README.md",
+                "target": "QUALITY-RECENT-200-ACCEPTANCE-AUDIT-1/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "QUALITY-RECENT-200-CONTENT-AUDIT-2/README.md",
+                "target": "QUALITY-RECENT-200-CONTENT-AUDIT-2/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "QUALITY-REVIEW-52-CLOSEOUT-1/README.md",
+                "target": "QUALITY-REVIEW-52-CLOSEOUT-1/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "QUALITY-TOOLS-CONTRACT-TESTS-1/README.md",
+                "target": "QUALITY-TOOLS-CONTRACT-TESTS-1/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "TEST-CONTRACT-BATCH-20261008/README.md",
+                "target": "TEST-CONTRACT-BATCH-20261008/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "TEST-CONTRACT-BATCH-20261008/codex-review.md",
+                "target": "TEST-CONTRACT-BATCH-20261008/codex-review.md",
+                "kind": "live"
+              },
+              {
+                "source": "TEST-COVERAGE85-GLM-REFORGE-1/README.md",
+                "target": "TEST-COVERAGE85-GLM-REFORGE-1/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "TEST-DISPATCH-20261011.md",
+                "target": "TEST-DISPATCH-20261011.md",
+                "kind": "live"
+              },
+              {
+                "source": "TEST-EDITOR-ALCHEMY-BOUNDARIES-1/README.md",
+                "target": "TEST-EDITOR-ALCHEMY-BOUNDARIES-1/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "TEST-EDITOR-AUTHOR-COMMAND-FORM-CONTRACTS-1/README.md",
+                "target": "TEST-EDITOR-AUTHOR-COMMAND-FORM-CONTRACTS-1/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "TEST-EDITOR-SCRIPT-INTERACTION-1/README.md",
+                "target": "TEST-EDITOR-SCRIPT-INTERACTION-1/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "TEST-GAME-MEDIA-LIFECYCLE-1/README.md",
+                "target": "TEST-GAME-MEDIA-LIFECYCLE-1/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "TEST-GLM-EDITOR-BATTLE-REGISTRY-1/README.md",
+                "target": "TEST-GLM-EDITOR-BATTLE-REGISTRY-1/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1/README.md",
+                "target": "TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "TEST-GLM-EDITOR-PERSISTENCE-RECOVERY-1/README.md",
+                "target": "TEST-GLM-EDITOR-PERSISTENCE-RECOVERY-1/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "TEST-GLM-GAME-BATTLE-STATE-1/README.md",
+                "target": "TEST-GLM-GAME-BATTLE-STATE-1/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "TEST-GLM-GAME-DIALOGUE-PAGINATION-1/README.md",
+                "target": "TEST-GLM-GAME-DIALOGUE-PAGINATION-1/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "TEST-GLM-GAME-EVENT-CONTRACTS-1/README.md",
+                "target": "TEST-GLM-GAME-EVENT-CONTRACTS-1/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "TEST-GLM-GAME-EVENT-CONTROL-FLOW-1/README.md",
+                "target": "TEST-GLM-GAME-EVENT-CONTROL-FLOW-1/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "TEST-GLM-GAME-EVENT-STATE-OPCODES-1/README.md",
+                "target": "TEST-GLM-GAME-EVENT-STATE-OPCODES-1/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "TEST-GLM-GAME-MENU-SAVE-IO-1/README.md",
+                "target": "TEST-GLM-GAME-MENU-SAVE-IO-1/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "TEST-GLM-GAME-PLAYER-OPCODE-RESIDUAL-1/README.md",
+                "target": "TEST-GLM-GAME-PLAYER-OPCODE-RESIDUAL-1/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "TEST-GLM-GAME-SHELL-BOOTSTRAP-1/README.md",
+                "target": "TEST-GLM-GAME-SHELL-BOOTSTRAP-1/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "TEST-GLM-GAME-TURN-BOUNDARIES-1/README.md",
+                "target": "TEST-GLM-GAME-TURN-BOUNDARIES-1/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "TEST-GLM-MIGRATE-ASSET-SUPPLY-1/README.md",
+                "target": "TEST-GLM-MIGRATE-ASSET-SUPPLY-1/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "TEST-GLM-MIGRATE-PLAN-TRANSACTION-1/README.md",
+                "target": "TEST-GLM-MIGRATE-PLAN-TRANSACTION-1/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1/README.md",
+                "target": "TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "TEST-GLM-REFORGE-ASSET-RESOLVER-1/README.md",
+                "target": "TEST-GLM-REFORGE-ASSET-RESOLVER-1/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "TEST-GLM-REFORGE-AUDIO-LIFECYCLE-1/README.md",
+                "target": "TEST-GLM-REFORGE-AUDIO-LIFECYCLE-1/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/README.md",
+                "target": "TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "TEST-GLM-REFORGE-BATTLE-FLOW-1/README.md",
+                "target": "TEST-GLM-REFORGE-BATTLE-FLOW-1/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "TEST-GLM-REFORGE-HOST-LIFECYCLE-1/README.md",
+                "target": "TEST-GLM-REFORGE-HOST-LIFECYCLE-1/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/README.md",
+                "target": "TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/README.md",
+                "target": "TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "TEST-GLM-REFORGE-MOTION-TRANSITION-1/README.md",
+                "target": "TEST-GLM-REFORGE-MOTION-TRANSITION-1/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "TEST-GLM-REFORGE-RUNTIME-SESSION-1/README.md",
+                "target": "TEST-GLM-REFORGE-RUNTIME-SESSION-1/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "TEST-GLM-REFORGE-WORLD-LIFECYCLE-1/README.md",
+                "target": "TEST-GLM-REFORGE-WORLD-LIFECYCLE-1/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/README.md",
+                "target": "TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "TEST-REFORGE-BATTLE-PREVIEW-BINDING-1/README.md",
+                "target": "TEST-REFORGE-BATTLE-PREVIEW-BINDING-1/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/README.md",
+                "target": "TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-review-r3.md",
+                "target": "TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-review-r3.md",
+                "kind": "live"
+              },
+              {
+                "source": "TEST-REFORGE-OPENING-IO-LIFECYCLE-1/README.md",
+                "target": "TEST-REFORGE-OPENING-IO-LIFECYCLE-1/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "TEST-REFORGE-PROJECT-LOADING-BOUNDARIES-1/README.md",
+                "target": "TEST-REFORGE-PROJECT-LOADING-BOUNDARIES-1/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "TESTING-EVIDENCE-REVISION-1/README.md",
+                "target": "TESTING-EVIDENCE-REVISION-1/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "coverage85-kimi-extract-migrate-r1",
+                "target": "coverage85-kimi-extract-migrate-r1",
+                "kind": "live"
+              },
+              {
+                "source": "coverage85-kimi-extract-migrate-r1/README.md",
+                "target": "coverage85-kimi-extract-migrate-r1/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "game-rix-music-1/README.md",
+                "target": "game-rix-music-1/README.md",
+                "kind": "live"
+              },
+              {
+                "source": "game-rng-scene-restore-1/README.md",
+                "target": "game-rng-scene-restore-1/README.md",
+                "kind": "live"
+              }
+            ]
+          },
+          {
+            "key": "ownerCorrections",
+            "present": true,
+            "value": [
+              {
+                "kind": "owner-limited-link-erratum/1.0.0",
+                "actor": "Codex",
+                "date": "2026-11-01",
+                "authorCandidate": "7273d7aa5a8bbe96ddebcb437765e2e8f7f3e911",
+                "authorDraftSha256": "1e919f962112b0797c26b1670315da31309ad80e82ab2b7374434d8dfddff4e4",
+                "scope": "Final link disposition only; no prose/native/source/status/seed changes or author-read expansion",
+                "beforeFields": {
+                  "coreConclusion": "ops任务专属证据目录的治理导航索引（governance-index current，Last reviewed 2026-10-24，Owner=Codex导航维护/各任务Owner维护原件）。相对upstream 5e66fa6b是实质重写：新增当前治理与明确返工入口表（全docs治理/记录可信度返工/registry存储/回合边界返工）、逐目录证据入口（CODE-QUALITY-100~110等）、最新main质量治理入口（含present第二窗口）与a1ac53bb固定的原文保全quote。integration正文中5条链接目标（document-quality.md、DOCS-RECORD-INTEGRITY-1/DOCS-REGISTRY-SPLIT-1的卡与README）只存在于integration线、不在main两基点与207篇清单，属真实失效链接，prefix已最小换为43403a82固定Git地址；其余109条链接live。current仅指导航，本页不重授权任何历史任务。",
+                  "semanticAssessment.method": "固定源23705字节全文读取（Read工具）+ git show比对upstream 5e66fa6b确认重写幅度 + links.py得114条去重链接逐一在5e66fa6b树解析path存在性、锚点抽查（TURN-BOUNDARIES#当前裁决2026-10-12对回引块内标题）",
+                  "readDomain.actual": "完整固定源字节读取；逐项核对：头字段（Status current/Owner Codex导航维护/Last reviewed 2026-10-24/Template governance-index-v1）；六个治理入口表行与逐目录清单链接目标存在性全量核对；a1ac53bb原文保全quote的pin声明；114条链接中5条integration-only目标以git cat-file在5e66fa6b/43403a82两树双向确认。",
+                  "userVisibleBeforeAfter": "模板正文承载语义+源保全围栏：amendment复用integration正文，仅5条integration-only链接换为固定Git地址，其余字节不变。"
+                },
+                "targets": [
+                  {
+                    "target": "DOCS-RECORD-INTEGRITY-1/README.md",
+                    "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/README.md",
+                    "occurrencesAdded": 2,
+                    "gitObject": "3a41dca863e534c2a47d3d28c5585777e4cd4f5c",
+                    "sha256": "e769cc1c649222c853606e80ed6acfbe68ce38a4e084cd1fcd0431ef2be912b9"
+                  },
+                  {
+                    "target": "../tasks/DOCS-RECORD-INTEGRITY-1.md",
+                    "path": "docs/ops/tasks/DOCS-RECORD-INTEGRITY-1.md",
+                    "occurrencesAdded": 1,
+                    "gitObject": "e31715de098ac43a4c9b0c5cd1df810cf634c3a6",
+                    "sha256": "d4233dabab8e86756f20d79edfdc78e217775d7737cc6ca8002f4bfa822bb2f8"
+                  },
+                  {
+                    "target": "DOCS-REGISTRY-SPLIT-1/README.md",
+                    "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md",
+                    "occurrencesAdded": 2,
+                    "gitObject": "e853eb656d66d303ca60ed4e4731bf4c1611a242",
+                    "sha256": "85beb839bbcad21098457328314c4d7d9bff5be789a6cc21eadcb1df0a89b6b5"
+                  },
+                  {
+                    "target": "../tasks/DOCS-REGISTRY-SPLIT-1.md",
+                    "path": "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md",
+                    "occurrencesAdded": 1,
+                    "gitObject": "f6c075e16c1d79d0624a12eac67783602e910a11",
+                    "sha256": "72d8a3d281e83846940e51eb0c431bde40d764aba399f9e0ede745ed44867ce9"
+                  },
+                  {
+                    "target": "../document-quality.md",
+                    "path": "docs/ops/document-quality.md",
+                    "occurrencesAdded": 1,
+                    "gitObject": "647353d58236fbb6806c9c8e88247fc5c1ba1579",
+                    "sha256": "daa883faaa764297179d3052725a582a5f582908b556e0f3648047cdd74136b6"
+                  }
+                ],
+                "independentAcceptance": "accepted-by-Owner-as-non-author-evidence-correction",
+                "newSemanticCredit": 0,
+                "runtimeCredit": 0
+              }
+            ]
+          },
+          {
+            "key": "sourceGitRevision",
+            "present": true,
+            "value": "43403a826edcaf40509f55b51e6f6214723252ed"
+          },
+          {
+            "key": "sourceSha256",
+            "present": true,
+            "value": "d2dc155dfdbd9fc82208d6cbf66aed5212739c843816984c2bf4256a62e19682"
+          },
+          {
+            "key": "afterSha256",
+            "present": true,
+            "value": "d2dc155dfdbd9fc82208d6cbf66aed5212739c843816984c2bf4256a62e19682"
+          },
+          {
+            "key": "primarySource",
+            "present": true,
+            "value": [
+              {
+                "path": "docs/ops/evidence/README.md",
+                "revision": "43403a826edcaf40509f55b51e6f6214723252ed",
+                "gitObject": "60d2c93a6a7ab9e222389f36375ca39ffb163ea7",
+                "sha256": "d2dc155dfdbd9fc82208d6cbf66aed5212739c843816984c2bf4256a62e19682"
+              }
+            ]
+          },
+          {
+            "key": "legalInputs",
+            "present": true,
+            "value": [
+              {
+                "kind": "fixed-markdown-source",
+                "path": "docs/ops/evidence/README.md",
+                "revision": "43403a826edcaf40509f55b51e6f6214723252ed",
+                "gitObject": "60d2c93a6a7ab9e222389f36375ca39ffb163ea7",
+                "sha256": "d2dc155dfdbd9fc82208d6cbf66aed5212739c843816984c2bf4256a62e19682"
+              }
+            ]
           },
           {
             "key": "evidence",
@@ -942,94 +1151,27 @@
                   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
                 }
               ],
-              "fullSourcePreservedIn": "pinned-git-blob"
+              "fullSourcePreservedIn": "pinned-git-blob",
+              "path": "docs/ops/evidence/README.md"
             }
           },
           {
             "key": "revision",
             "present": true,
             "value": {
-              "currentSha": "d2dc155dfdbd9fc82208d6cbf66aed5212739c843816984c2bf4256a62e19682",
-              "history": []
+              "currentSha": "7273d7aa5a8bbe96ddebcb437765e2e8f7f3e911",
+              "history": [
+                {
+                  "value": "d2dc155dfdbd9fc82208d6cbf66aed5212739c843816984c2bf4256a62e19682",
+                  "meaning": "Prior candidate value retained verbatim; currentSha now names the real tree containing the accepted carrier."
+                }
+              ]
             }
           },
-          {
-            "key": "readMethod",
-            "present": false
-          },
-          {
-            "key": "reviewDepth",
-            "present": false
-          },
-          {
-            "key": "reviewedLines",
-            "present": false
-          },
-          {
-            "key": "phaseAnchors",
-            "present": false
-          }
-        ]
-      },
-      "rollforwardPrior": {
-        "keys": [
-          "path",
-          "contentReviewStatus",
-          "docType",
-          "templateId",
-          "template",
-          "templateCompliance",
-          "readMethod",
-          "reviewDepth",
-          "coreConclusion",
-          "truthAnchors",
-          "unresolved",
-          "nextStep",
-          "phase",
-          "module",
-          "capability",
-          "owner",
-          "provenance",
-          "sourceSha256",
-          "afterSha256",
-          "publicCallers",
-          "legalInputs",
-          "businessOracle",
-          "dedupe",
-          "revision",
-          "evidence",
-          "history",
-          "supersedes",
-          "stopLine",
-          "userVisibleBeforeAfter",
-          "reviewedLines",
-          "templateVersion",
-          "historyOverlay",
-          "documentStatus",
-          "sourceGitRevision",
-          "candidateSha256",
-          "primarySource",
-          "phaseAnchors",
-          "dependencies",
-          "versionScope",
-          "counterReworkBlocked",
-          "correctiveDelta",
-          "maintenanceDeltas",
-          "currentAuthoredReview",
-          "templateConformance",
-          "currentIndependentAcceptance"
-        ],
-        "sha256": "d76986bb358cb8f50736fa7c311ec960fbcd97ea58f504ee54f9b7ceb85c9be7",
-        "fields": [
           {
             "key": "contentReviewStatus",
             "present": true,
             "value": "content-reviewed"
-          },
-          {
-            "key": "template",
-            "present": true,
-            "value": "docs/phase-governance/templates/governance-index.md"
           },
           {
             "key": "templateCompliance",
@@ -1037,543 +1179,892 @@
             "value": "template-compliant"
           },
           {
+            "key": "nonAuthorReviewer",
+            "present": true,
+            "value": true
+          },
+          {
+            "key": "proposedBinding",
+            "present": true,
+            "value": {
+              "docType": "governance-index",
+              "templateId": "governance-index-v1",
+              "templateVersion": "1.0.0",
+              "productionRoutingChanged": false
+            }
+          },
+          {
+            "key": "rollforward",
+            "present": true,
+            "value": {
+              "kind": "amendment",
+              "upstream": {
+                "revision": "5e66fa6b6291f94330fb5d7fc9828062e0eb8a51",
+                "gitObject": "3ef31ee9319b79bb219ea16950f0e3f9b708eeb3",
+                "sha256": "64776e5c91911d0948f223ea543e535edbad7e8e852191316e81c7838ae1c2aa"
+              },
+              "priorAccepted": {
+                "revision": "511c59b13fec67839b9f6fb7dcfd109d42a747dd",
+                "gitObject": "81d355b8cc71bbd2299f2e414a79910bccd1098d",
+                "sha256": "d8846acb1d2542f535c708f2f4afa33d75d300ca1c340b8e18b7ad48e657786b"
+              },
+              "priorCreditReusedForUnchangedContentOnly": true,
+              "currentPublicationOrExecutionStatusUnchanged": true
+            }
+          },
+          {
             "key": "readMethod",
             "present": true,
-            "value": "Author full document/source review in S35; GLM non-author evidence acceptance with scoped source checks; S39 Owner applies only this accepted current SHA, no runtime/historical reexecution"
+            "value": "contributor-declared-scope-and-Owner-evidence-verification"
           },
           {
-            "key": "coreConclusion",
-            "present": true,
-            "value": "ops证据导航将原文45个交付目标提升到可见正文，当前治理/可信度返工/registry存储/回合边界撤信各回原卡裁定；历史accept和待验收只保留原时点语义，不复制为当前运行状态。保留原quote及后加两治理入口，并要求原件caller/来源/退出条件而非无条件永久保留或复制sidecar。"
-          },
-          {
-            "key": "truthAnchors",
-            "present": true,
-            "value": [
-              "docs/ops/evidence/README.md#目的",
-              "docs/ops/evidence/README.md#原文保全",
-              "docs/ops/tasks/index.md",
-              "docs/ops/README.md",
-              "docs/ops/document-quality.md",
-              "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/README.md",
-              "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md"
-            ]
-          },
-          {
-            "key": "unresolved",
-            "present": true,
-            "value": [
-              "Full runtime/E2E/visual/coverage and downstream implementation/report reauthentication are outside this document acceptance; all preserved historical conflicts retain their original status."
-            ]
-          },
-          {
-            "key": "nextStep",
-            "present": true,
-            "value": "Use this accepted body and fixed source/read domain; new body/template/dependency changes invalidate the affected acceptance. Continue other pending documents; do not restore old R-wave claims."
-          },
-          {
-            "key": "phase",
-            "present": true,
-            "value": "ops"
-          },
-          {
-            "key": "module",
-            "present": true,
-            "value": "evidence"
-          },
-          {
-            "key": "capability",
-            "present": true,
-            "value": "ops-evidence-evidence-README"
-          },
-          {
-            "key": "owner",
-            "present": true,
-            "value": "Codex（S35正文作者；nonAuthorReviewer=false）"
-          },
-          {
-            "key": "provenance",
-            "present": true,
-            "value": [
-              "source-document",
-              "repository-history",
-              "structured-mechanical-envelope-only",
-              "semantic-and-non-author-credit-withdrawn-20261018",
-              {
-                "date": "2026-10-24",
-                "actor": "Codex",
-                "task": "DOCS-FULL-TEMPLATE-1/S35",
-                "nonAuthorReviewer": false,
-                "base": "b2f3d839297c1e68835db906b47eec609dd36870",
-                "scope": "four full Markdown documents and exact original sources; source dependencies scoped below"
-              }
-            ]
-          },
-          {
-            "key": "sourceSha256",
-            "present": true,
-            "value": "a48cc1db49991fc489f07063c2bf635a9996771647f07e025aa735d5a58ff851"
-          },
-          {
-            "key": "afterSha256",
-            "present": true,
-            "value": "d8846acb1d2542f535c708f2f4afa33d75d300ca1c340b8e18b7ad48e657786b"
-          },
-          {
-            "key": "publicCallers",
-            "present": true,
-            "value": ["docs/ops/README.md（当前导航）", "docs/ops/audits/README.md（当前证据入口）"]
-          },
-          {
-            "key": "legalInputs",
-            "present": true,
-            "value": [
-              "任务ID、当前任务索引和原始交付入口",
-              "固定候选/原件SHA及已声明的caller/生产者/后继"
-            ]
-          },
-          {
-            "key": "businessOracle",
+            "key": "reviewedLines",
             "present": true,
             "value": {
-              "type": "document-content-and-navigation",
-              "assertions": [
-                "必要证据目的地在quote外可见且路径/本地锚点可达。",
-                "当前任务状态回原卡/索引；旧accept与历史待验收不构成新裁定。",
-                "完整原文及既有后加入口字节不变，保留/精简按真实consumer与独有字段。"
-              ]
+              "scope": "完整固定源字节读取；逐项核对：头字段（Status current/Owner Codex导航维护/Last reviewed 2026-10-24/Template governance-index-v1）；六个治理入口表行与逐目录清单链接目标存在性全量核对；a1ac53bb原文保全quote的pin声明；114条链接中5条integration-only目标以git cat-file在5e66fa6b/43403a82两树双向确认。；Codex 2026-11-01仅补核本候选Git树中的链接终态及此次处置勘误；原作者全文读域不因此扩展，未新增执行或目标全文审查。",
+              "boundary": "Preserves the declared reading domain; not a second full-text, code or execution audit."
             }
           },
           {
-            "key": "dedupe",
+            "key": "phaseAnchors",
+            "present": true,
+            "value": ["ops证据治理域导航（服务phase1/phase2任务证据检索），不承载机制真值。"]
+          },
+          {
+            "key": "rollforwardIntake",
             "present": true,
             "value": {
-              "result": "scoped-comparison",
-              "against": [
-                "docs/ops/guides/browser-verification.md",
-                "docs/ops/guides/dev-servers.md",
-                "docs/ops/audits/README.md",
-                "docs/ops/README.md",
-                "docs/ops/agent-workflow.md"
+              "keys": [
+                "coreConclusion",
+                "semanticAssessment",
+                "readDomain",
+                "truthAnchors",
+                "owner",
+                "provenance",
+                "businessOracle",
+                "dedupe",
+                "dependencies",
+                "publicCallers",
+                "unresolved",
+                "historyBoundary",
+                "stopLine",
+                "nextStep",
+                "runtimeExecutionPerformed",
+                "phaseAnchor",
+                "applicability",
+                "versionScope",
+                "userVisibleBeforeAfter",
+                "templateChoiceRationale",
+                "templateConformance",
+                "history",
+                "supersedes",
+                "counterReworkBlocked",
+                "linkDisposition",
+                "fieldRoles",
+                "ownerCorrections",
+                "path",
+                "docType",
+                "templateId",
+                "templateVersion",
+                "documentStatus",
+                "sourceGitRevision",
+                "sourceSha256",
+                "afterSha256",
+                "primarySource",
+                "legalInputs",
+                "evidence",
+                "revision",
+                "historyOverlay",
+                "artifactOnly",
+                "contentReviewStatus",
+                "templateCompliance",
+                "nonAuthorReviewer",
+                "creditGranted",
+                "proposedBinding",
+                "rollforward"
               ],
-              "notes": "四篇正文已全文核读：浏览器输入/服务启动/证据定位/审计定位职责互斥；只对下游标题和路径作定位核验，不声称执行报告全部排重或当前运行通过。"
-            }
-          },
-          {
-            "key": "revision",
-            "present": true,
-            "value": {
-              "currentSha": "51d8eab16eac267998aee10ee6189b5ccc55d55c3c2bd66357b6ccf8ec162b91",
-              "implementationSha": "17a0f858b7a320a3c920b2de2cca77c4fe8fa3171b68b9b512e9f323ff002614",
-              "history": [
+              "sha256": "de4409951757af29bb679852ac5d6a9e0a868854d230e06b6dc4560c1ee264fa",
+              "fields": [
                 {
-                  "revision": "a1ac53bbea78b58ee88e5a3a53894a2fcaf595eb",
-                  "date": "2026-10-17",
-                  "action": "read-and-reviewed",
-                  "contentReviewStatus": "content-reviewed",
-                  "reviewDepth": "deep-semantic"
+                  "key": "provenance",
+                  "present": true,
+                  "value": "GLM作者候选；固定Git源逐字节读取与逐项语义核对；作者自验，非独立接受"
                 },
                 {
-                  "revision": "working-tree",
-                  "date": "2026-10-17",
-                  "action": "R39 ops evidence README template migration",
-                  "notRun": ["runtime", "E2E", "visual", "coverage"]
+                  "key": "versionScope",
+                  "present": true,
+                  "value": "integration 43403a82导航正文（覆盖upstream 5e66fa6b旧版）；quote固定a1ac53bb时点。"
                 },
                 {
-                  "date": "2026-10-24",
-                  "action": "S35 current document bytes separated from historical implementation/source",
-                  "previousCurrentSha": "17a0f858b7a320a3c920b2de2cca77c4fe8fa3171b68b9b512e9f323ff002614",
-                  "currentSha": "51d8eab16eac267998aee10ee6189b5ccc55d55c3c2bd66357b6ccf8ec162b91",
-                  "notRun": ["runtime", "E2E", "visual", "coverage"]
+                  "key": "fieldRoles",
+                  "present": true,
+                  "value": {
+                    "governance": ["external-candidate-bundle#entries/151"],
+                    "nativePointers": []
+                  }
+                },
+                {
+                  "key": "evidence",
+                  "present": true,
+                  "value": {
+                    "kind": "incremental-existing-template-amendment",
+                    "originalBytes": 23705,
+                    "originalSha256": "d2dc155dfdbd9fc82208d6cbf66aed5212739c843816984c2bf4256a62e19682",
+                    "preservedSpans": [
+                      {
+                        "marker": "<!-- incremental-original-source:start -->",
+                        "blocks": 0,
+                        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                      },
+                      {
+                        "marker": "<!-- original-source-quote:start -->",
+                        "blocks": 1,
+                        "sha256": "925f75445838c7149e4751687099b53385311569c475dca5acbcc51484d4b8ea"
+                      },
+                      {
+                        "marker": "<!-- original-source-fenced:start -->",
+                        "blocks": 0,
+                        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                      },
+                      {
+                        "marker": "<!-- template-source-example:start -->",
+                        "blocks": 0,
+                        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                      }
+                    ],
+                    "fullSourcePreservedIn": "pinned-git-blob"
+                  }
+                },
+                {
+                  "key": "revision",
+                  "present": true,
+                  "value": {
+                    "currentSha": "d2dc155dfdbd9fc82208d6cbf66aed5212739c843816984c2bf4256a62e19682",
+                    "history": []
+                  }
+                },
+                {
+                  "key": "readMethod",
+                  "present": false
+                },
+                {
+                  "key": "reviewDepth",
+                  "present": false
+                },
+                {
+                  "key": "reviewedLines",
+                  "present": false
+                },
+                {
+                  "key": "phaseAnchors",
+                  "present": false
                 }
               ]
             }
           },
           {
-            "key": "evidence",
+            "key": "rollforwardPrior",
             "present": true,
             "value": {
-              "kind": "independently-accepted-document-version",
-              "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/s22-validation.log.gz",
-              "member": "S39/GLM-body-verdict.json",
-              "reportSha256": "42d7a490166f51f9dd2265d7dd548735106298d8b4b94ce8d00e65368f1fed20",
-              "candidate": "601cd5af1e6db54a15144a94f9f63857b4c88050",
-              "afterSha256": "51d8eab16eac267998aee10ee6189b5ccc55d55c3c2bd66357b6ccf8ec162b91",
-              "scope": "Specific body semantics, preservation and actual template contract; no runtime or old R-wave claim restoration",
-              "runtimeExecutionPerformed": false,
-              "historicClaimsReexecuted": false
-            }
-          },
-          {
-            "key": "history",
-            "present": true,
-            "value": [
-              {
-                "revision": "a1ac53bbea78b58ee88e5a3a53894a2fcaf595eb",
-                "action": "read-and-reviewed",
-                "contentReviewStatus": "content-reviewed",
-                "reviewDepth": "deep-semantic"
-              },
-              {
-                "revision": "working-tree",
-                "action": "R39 template migration",
-                "reviewer": "r39_readonly_review + Codex root",
-                "notRun": ["runtime", "E2E", "visual", "coverage"]
-              },
-              {
-                "date": "2026-10-18",
-                "action": "withdraw-unsupported-semantic-and-independent-credit",
-                "task": "DOCS-RECORD-INTEGRITY-1",
-                "contentReviewStatus": "partial-review-unknown",
-                "reviewDepth": "structured-content",
-                "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
-              },
-              {
-                "date": "2026-10-24",
-                "action": "S35 authored semantic rewrite; pending non-author acceptance",
-                "beforeSha256": "4fddc5b071a22e29f024b291c602d2683fbec0ae48c5aeaef1b1eb3873faba8c",
-                "afterSha256": "51d8eab16eac267998aee10ee6189b5ccc55d55c3c2bd66357b6ccf8ec162b91",
-                "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
-                "newCredit": 0,
-                "previousReviewFields": {
-                  "phaseAnchors": {
-                    "phase": "ops",
-                    "module": "evidence",
-                    "currentBoundary": "current task card and evidence consumer own truth"
-                  },
-                  "versionScope": {
-                    "sourceRevision": "a1ac53bbea78b58ee88e5a3a53894a2fcaf595eb",
-                    "date": "2026-10-17",
-                    "validity": "current-index"
-                  },
-                  "publicCallers": [
-                    "docs/ops/evidence/README.md → docs/ops/evidence/README.md navigation",
-                    "task card / evidence consumer references"
-                  ],
-                  "counterReworkBlocked": [
+              "keys": [
+                "path",
+                "contentReviewStatus",
+                "docType",
+                "templateId",
+                "template",
+                "templateCompliance",
+                "readMethod",
+                "reviewDepth",
+                "coreConclusion",
+                "truthAnchors",
+                "unresolved",
+                "nextStep",
+                "phase",
+                "module",
+                "capability",
+                "owner",
+                "provenance",
+                "sourceSha256",
+                "afterSha256",
+                "publicCallers",
+                "legalInputs",
+                "businessOracle",
+                "dedupe",
+                "revision",
+                "evidence",
+                "history",
+                "supersedes",
+                "stopLine",
+                "userVisibleBeforeAfter",
+                "reviewedLines",
+                "templateVersion",
+                "historyOverlay",
+                "documentStatus",
+                "sourceGitRevision",
+                "candidateSha256",
+                "primarySource",
+                "phaseAnchors",
+                "dependencies",
+                "versionScope",
+                "counterReworkBlocked",
+                "correctiveDelta",
+                "maintenanceDeltas",
+                "currentAuthoredReview",
+                "templateConformance",
+                "currentIndependentAcceptance"
+              ],
+              "sha256": "d76986bb358cb8f50736fa7c311ec960fbcd97ea58f504ee54f9b7ceb85c9be7",
+              "fields": [
+                {
+                  "key": "contentReviewStatus",
+                  "present": true,
+                  "value": "content-reviewed"
+                },
+                {
+                  "key": "template",
+                  "present": true,
+                  "value": "docs/phase-governance/templates/governance-index.md"
+                },
+                {
+                  "key": "templateCompliance",
+                  "present": true,
+                  "value": "template-compliant"
+                },
+                {
+                  "key": "readMethod",
+                  "present": true,
+                  "value": "Author full document/source review in S35; GLM non-author evidence acceptance with scoped source checks; S39 Owner applies only this accepted current SHA, no runtime/historical reexecution"
+                },
+                {
+                  "key": "coreConclusion",
+                  "present": true,
+                  "value": "ops证据导航将原文45个交付目标提升到可见正文，当前治理/可信度返工/registry存储/回合边界撤信各回原卡裁定；历史accept和待验收只保留原时点语义，不复制为当前运行状态。保留原quote及后加两治理入口，并要求原件caller/来源/退出条件而非无条件永久保留或复制sidecar。"
+                },
+                {
+                  "key": "truthAnchors",
+                  "present": true,
+                  "value": [
+                    "docs/ops/evidence/README.md#目的",
+                    "docs/ops/evidence/README.md#原文保全",
+                    "docs/ops/tasks/index.md",
+                    "docs/ops/README.md",
+                    "docs/ops/document-quality.md",
+                    "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/README.md",
+                    "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md"
+                  ]
+                },
+                {
+                  "key": "unresolved",
+                  "present": true,
+                  "value": [
+                    "Full runtime/E2E/visual/coverage and downstream implementation/report reauthentication are outside this document acceptance; all preserved historical conflicts retain their original status."
+                  ]
+                },
+                {
+                  "key": "nextStep",
+                  "present": true,
+                  "value": "Use this accepted body and fixed source/read domain; new body/template/dependency changes invalidate the affected acceptance. Continue other pending documents; do not restore old R-wave claims."
+                },
+                {
+                  "key": "phase",
+                  "present": true,
+                  "value": "ops"
+                },
+                {
+                  "key": "module",
+                  "present": true,
+                  "value": "evidence"
+                },
+                {
+                  "key": "capability",
+                  "present": true,
+                  "value": "ops-evidence-evidence-README"
+                },
+                {
+                  "key": "owner",
+                  "present": true,
+                  "value": "Codex（S35正文作者；nonAuthorReviewer=false）"
+                },
+                {
+                  "key": "provenance",
+                  "present": true,
+                  "value": [
+                    "source-document",
+                    "repository-history",
+                    "structured-mechanical-envelope-only",
+                    "semantic-and-non-author-credit-withdrawn-20261018",
                     {
-                      "id": "R39-NO-EXECUTION-CREDIT",
-                      "status": "closed-for-migration-open-for-product",
-                      "statement": "No runtime/E2E/visual/coverage credit."
+                      "date": "2026-10-24",
+                      "actor": "Codex",
+                      "task": "DOCS-FULL-TEMPLATE-1/S35",
+                      "nonAuthorReviewer": false,
+                      "base": "b2f3d839297c1e68835db906b47eec609dd36870",
+                      "scope": "four full Markdown documents and exact original sources; source dependencies scoped below"
                     }
-                  ],
-                  "unresolved": [
-                    "Historical evidence requires current consumer and fresh receipt before reuse.",
-                    "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
-                  ],
-                  "userVisibleBeforeAfter": "原始 ops evidence README 保持 → 接入统一模板、历史 overlay、可逆 quote、SHA 和 consumer/执行边界；产品事实不变。",
-                  "dedupe": {
-                    "result": "reviewed-and-migrated",
-                    "against": ["docs/ops/evidence/README.md"]
+                  ]
+                },
+                {
+                  "key": "sourceSha256",
+                  "present": true,
+                  "value": "a48cc1db49991fc489f07063c2bf635a9996771647f07e025aa735d5a58ff851"
+                },
+                {
+                  "key": "afterSha256",
+                  "present": true,
+                  "value": "d8846acb1d2542f535c708f2f4afa33d75d300ca1c340b8e18b7ad48e657786b"
+                },
+                {
+                  "key": "publicCallers",
+                  "present": true,
+                  "value": [
+                    "docs/ops/README.md（当前导航）",
+                    "docs/ops/audits/README.md（当前证据入口）"
+                  ]
+                },
+                {
+                  "key": "legalInputs",
+                  "present": true,
+                  "value": [
+                    "任务ID、当前任务索引和原始交付入口",
+                    "固定候选/原件SHA及已声明的caller/生产者/后继"
+                  ]
+                },
+                {
+                  "key": "businessOracle",
+                  "present": true,
+                  "value": {
+                    "type": "document-content-and-navigation",
+                    "assertions": [
+                      "必要证据目的地在quote外可见且路径/本地锚点可达。",
+                      "当前任务状态回原卡/索引；旧accept与历史待验收不构成新裁定。",
+                      "完整原文及既有后加入口字节不变，保留/精简按真实consumer与独有字段。"
+                    ]
                   }
-                }
-              },
-              {
-                "date": "2026-10-24",
-                "action": "S39 new accepted document version qualifies independently; old R-wave claims remain withdrawn",
-                "candidate": "601cd5af1e6db54a15144a94f9f63857b4c88050",
-                "afterSha256": "51d8eab16eac267998aee10ee6189b5ccc55d55c3c2bd66357b6ccf8ec162b91",
-                "previousCurrentFields": {
-                  "contentReviewStatus": "partial-review-unknown",
-                  "templateCompliance": "needs-migration",
-                  "readMethod": "S35全文核读本篇当前正文与固定Git原源；按声明范围核源码/依赖入口；作者自验，待非作者接受",
-                  "unresolved": [
-                    "S35候选等待未参与者对四篇正文、来源/quote及静态事实的证据验收；原R批撤信不由作者自验关闭。"
-                  ],
-                  "nextStep": "由未参与者按S35证据验收正文/保全/静态事实后再决定四篇语义及迁移信用；不等同S34接受或212发布。",
-                  "stopLine": "作者不得自签独立接受；旧counter/source/quote保持，未跑runtime/E2E/视觉/coverage不授信用。",
-                  "counterReworkBlocked": [
+                },
+                {
+                  "key": "dedupe",
+                  "present": true,
+                  "value": {
+                    "result": "scoped-comparison",
+                    "against": [
+                      "docs/ops/guides/browser-verification.md",
+                      "docs/ops/guides/dev-servers.md",
+                      "docs/ops/audits/README.md",
+                      "docs/ops/README.md",
+                      "docs/ops/agent-workflow.md"
+                    ],
+                    "notes": "四篇正文已全文核读：浏览器输入/服务启动/证据定位/审计定位职责互斥；只对下游标题和路径作定位核验，不声称执行报告全部排重或当前运行通过。"
+                  }
+                },
+                {
+                  "key": "revision",
+                  "present": true,
+                  "value": {
+                    "currentSha": "51d8eab16eac267998aee10ee6189b5ccc55d55c3c2bd66357b6ccf8ec162b91",
+                    "implementationSha": "17a0f858b7a320a3c920b2de2cca77c4fe8fa3171b68b9b512e9f323ff002614",
+                    "history": [
+                      {
+                        "revision": "a1ac53bbea78b58ee88e5a3a53894a2fcaf595eb",
+                        "date": "2026-10-17",
+                        "action": "read-and-reviewed",
+                        "contentReviewStatus": "content-reviewed",
+                        "reviewDepth": "deep-semantic"
+                      },
+                      {
+                        "revision": "working-tree",
+                        "date": "2026-10-17",
+                        "action": "R39 ops evidence README template migration",
+                        "notRun": ["runtime", "E2E", "visual", "coverage"]
+                      },
+                      {
+                        "date": "2026-10-24",
+                        "action": "S35 current document bytes separated from historical implementation/source",
+                        "previousCurrentSha": "17a0f858b7a320a3c920b2de2cca77c4fe8fa3171b68b9b512e9f323ff002614",
+                        "currentSha": "51d8eab16eac267998aee10ee6189b5ccc55d55c3c2bd66357b6ccf8ec162b91",
+                        "notRun": ["runtime", "E2E", "visual", "coverage"]
+                      }
+                    ]
+                  }
+                },
+                {
+                  "key": "evidence",
+                  "present": true,
+                  "value": {
+                    "kind": "independently-accepted-document-version",
+                    "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/s22-validation.log.gz",
+                    "member": "S39/GLM-body-verdict.json",
+                    "reportSha256": "42d7a490166f51f9dd2265d7dd548735106298d8b4b94ce8d00e65368f1fed20",
+                    "candidate": "601cd5af1e6db54a15144a94f9f63857b4c88050",
+                    "afterSha256": "51d8eab16eac267998aee10ee6189b5ccc55d55c3c2bd66357b6ccf8ec162b91",
+                    "scope": "Specific body semantics, preservation and actual template contract; no runtime or old R-wave claim restoration",
+                    "runtimeExecutionPerformed": false,
+                    "historicClaimsReexecuted": false
+                  }
+                },
+                {
+                  "key": "history",
+                  "present": true,
+                  "value": [
+                    {
+                      "revision": "a1ac53bbea78b58ee88e5a3a53894a2fcaf595eb",
+                      "action": "read-and-reviewed",
+                      "contentReviewStatus": "content-reviewed",
+                      "reviewDepth": "deep-semantic"
+                    },
+                    {
+                      "revision": "working-tree",
+                      "action": "R39 template migration",
+                      "reviewer": "r39_readonly_review + Codex root",
+                      "notRun": ["runtime", "E2E", "visual", "coverage"]
+                    },
+                    {
+                      "date": "2026-10-18",
+                      "action": "withdraw-unsupported-semantic-and-independent-credit",
+                      "task": "DOCS-RECORD-INTEGRITY-1",
+                      "contentReviewStatus": "partial-review-unknown",
+                      "reviewDepth": "structured-content",
+                      "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+                    },
+                    {
+                      "date": "2026-10-24",
+                      "action": "S35 authored semantic rewrite; pending non-author acceptance",
+                      "beforeSha256": "4fddc5b071a22e29f024b291c602d2683fbec0ae48c5aeaef1b1eb3873faba8c",
+                      "afterSha256": "51d8eab16eac267998aee10ee6189b5ccc55d55c3c2bd66357b6ccf8ec162b91",
+                      "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+                      "newCredit": 0,
+                      "previousReviewFields": {
+                        "phaseAnchors": {
+                          "phase": "ops",
+                          "module": "evidence",
+                          "currentBoundary": "current task card and evidence consumer own truth"
+                        },
+                        "versionScope": {
+                          "sourceRevision": "a1ac53bbea78b58ee88e5a3a53894a2fcaf595eb",
+                          "date": "2026-10-17",
+                          "validity": "current-index"
+                        },
+                        "publicCallers": [
+                          "docs/ops/evidence/README.md → docs/ops/evidence/README.md navigation",
+                          "task card / evidence consumer references"
+                        ],
+                        "counterReworkBlocked": [
+                          {
+                            "id": "R39-NO-EXECUTION-CREDIT",
+                            "status": "closed-for-migration-open-for-product",
+                            "statement": "No runtime/E2E/visual/coverage credit."
+                          }
+                        ],
+                        "unresolved": [
+                          "Historical evidence requires current consumer and fresh receipt before reuse.",
+                          "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+                        ],
+                        "userVisibleBeforeAfter": "原始 ops evidence README 保持 → 接入统一模板、历史 overlay、可逆 quote、SHA 和 consumer/执行边界；产品事实不变。",
+                        "dedupe": {
+                          "result": "reviewed-and-migrated",
+                          "against": ["docs/ops/evidence/README.md"]
+                        }
+                      }
+                    },
+                    {
+                      "date": "2026-10-24",
+                      "action": "S39 new accepted document version qualifies independently; old R-wave claims remain withdrawn",
+                      "candidate": "601cd5af1e6db54a15144a94f9f63857b4c88050",
+                      "afterSha256": "51d8eab16eac267998aee10ee6189b5ccc55d55c3c2bd66357b6ccf8ec162b91",
+                      "previousCurrentFields": {
+                        "contentReviewStatus": "partial-review-unknown",
+                        "templateCompliance": "needs-migration",
+                        "readMethod": "S35全文核读本篇当前正文与固定Git原源；按声明范围核源码/依赖入口；作者自验，待非作者接受",
+                        "unresolved": [
+                          "S35候选等待未参与者对四篇正文、来源/quote及静态事实的证据验收；原R批撤信不由作者自验关闭。"
+                        ],
+                        "nextStep": "由未参与者按S35证据验收正文/保全/静态事实后再决定四篇语义及迁移信用；不等同S34接受或212发布。",
+                        "stopLine": "作者不得自签独立接受；旧counter/source/quote保持，未跑runtime/E2E/视觉/coverage不授信用。",
+                        "counterReworkBlocked": [
+                          {
+                            "id": "S35-INDEPENDENT-PENDING",
+                            "status": "pending",
+                            "statement": "四篇作者正文与字段级静态核验已做，未参与者尚未接受，不授迁移/审阅完成。"
+                          },
+                          {
+                            "id": "S35-NO-EXECUTION",
+                            "status": "not-in-scope",
+                            "statement": "未启动服务、未运行publication或浏览器/产品/E2E/视觉/coverage；静态指南无需伪造这些结果。"
+                          }
+                        ],
+                        "evidence": {
+                          "kind": "document-template-migration",
+                          "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r39-ops-evidence-readmes-20261017.json",
+                          "sourceSha256": "a48cc1db49991fc489f07063c2bf635a9996771647f07e025aa735d5a58ff851",
+                          "candidateSha256": "17a0f858b7a320a3c920b2de2cca77c4fe8fa3171b68b9b512e9f323ff002614",
+                          "afterSha256": "17a0f858b7a320a3c920b2de2cca77c4fe8fa3171b68b9b512e9f323ff002614",
+                          "lineCount": 112,
+                          "artifactPreserved": false,
+                          "originalPreservation": {
+                            "method": "line-by-line blockquote quote",
+                            "sourceBytes": 9754,
+                            "sourceLines": 59,
+                            "sourceFinalNewline": true,
+                            "inverseSha256": "a48cc1db49991fc489f07063c2bf635a9996771647f07e025aa735d5a58ff851",
+                            "exactRoundTrip": true
+                          },
+                          "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+                        }
+                      },
+                      "reportSha256": "42d7a490166f51f9dd2265d7dd548735106298d8b4b94ce8d00e65368f1fed20",
+                      "runtimeExecutionPerformed": false,
+                      "historicClaimsReexecuted": false,
+                      "historicalClaimCorrection": {
+                        "date": "2026-10-18",
+                        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+                        "priorRecordPath": "docs/phase-governance/reviews/20261017-r39-ops-evidence-readmes.json",
+                        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+                        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+                        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "key": "supersedes",
+                  "present": true,
+                  "value": ["governed-legacy presentation; historical claims remain date-scoped"]
+                },
+                {
+                  "key": "stopLine",
+                  "present": true,
+                  "value": "This new document-version acceptance grants only scoped document review/template migration; no runtime/E2E/visual/coverage or withdrawn historical execution credit."
+                },
+                {
+                  "key": "userVisibleBeforeAfter",
+                  "present": true,
+                  "value": "必要入口多在历史quote、当前与旧候选易混 → 可见职责导航并回原任务/consumer裁定；原件及旧时点结论保留。"
+                },
+                {
+                  "key": "reviewedLines",
+                  "present": true,
+                  "value": "本篇before 115行与固定source 59行全文；候选 174行；依赖为下述限定读域"
+                },
+                {
+                  "key": "historyOverlay",
+                  "present": true,
+                  "value": true
+                },
+                {
+                  "key": "sourceGitRevision",
+                  "present": true,
+                  "value": "a1ac53bbea78b58ee88e5a3a53894a2fcaf595eb"
+                },
+                {
+                  "key": "candidateSha256",
+                  "present": true,
+                  "value": "17a0f858b7a320a3c920b2de2cca77c4fe8fa3171b68b9b512e9f323ff002614"
+                },
+                {
+                  "key": "primarySource",
+                  "present": true,
+                  "value": [
+                    {
+                      "path": "docs/ops/evidence/README.md",
+                      "revision": "a1ac53bbea78b58ee88e5a3a53894a2fcaf595eb",
+                      "sha256": "a48cc1db49991fc489f07063c2bf635a9996771647f07e025aa735d5a58ff851",
+                      "scope": "full UTF-8 source"
+                    },
+                    {
+                      "path": "docs/ops/evidence/README.md",
+                      "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+                      "sha256": "4fddc5b071a22e29f024b291c602d2683fbec0ae48c5aeaef1b1eb3873faba8c",
+                      "scope": "S35 full before-document and preserved quote carrier"
+                    },
+                    {
+                      "path": "docs/ops/tasks/index.md",
+                      "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+                      "sha256": "50479b83666e512e1ac650d1cb5c47b5b2e97c01ffc86ecd3245e248291f04a9",
+                      "readScope": "target header/path or declared policy lookup only; not full downstream evidence review"
+                    },
+                    {
+                      "path": "docs/ops/README.md",
+                      "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+                      "sha256": "043a7344c1845d2a9269faf9c0c4580e79df4b6403e23122a9743fc65286591b",
+                      "readScope": "target header/path or declared policy lookup only; not full downstream evidence review"
+                    },
+                    {
+                      "path": "docs/ops/document-quality.md",
+                      "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+                      "sha256": "e0a7d45e35b607ee9743e2fc8c061798ceaaff2fe5251fd8e4345899adb0e7a1",
+                      "readScope": "target header/path or declared policy lookup only; not full downstream evidence review"
+                    },
+                    {
+                      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/README.md",
+                      "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+                      "sha256": "d493e2b3e5b32b4235262c2fb84ee8d820fb1dffe00e02d8c3a7a561e295d440",
+                      "readScope": "target header/path or declared policy lookup only; not full downstream evidence review"
+                    },
+                    {
+                      "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md",
+                      "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+                      "sha256": "77602a5fa92106c465a4c0801ab9712216c47da410124c525115f5e68155ec70",
+                      "readScope": "target header/path or declared policy lookup only; not full downstream evidence review"
+                    }
+                  ]
+                },
+                {
+                  "key": "phaseAnchors",
+                  "present": true,
+                  "value": {
+                    "phase": "ops",
+                    "appliesTo": ["cross-phase-navigation"],
+                    "currentBoundary": "本页只维护静态操作/导航；各目标按自己的阶段与候选承担事实权，不代替产品执行。"
+                  }
+                },
+                {
+                  "key": "dependencies",
+                  "present": true,
+                  "value": [
+                    "docs/ops/tasks/index.md",
+                    "docs/ops/README.md",
+                    "docs/ops/document-quality.md",
+                    "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/README.md",
+                    "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md"
+                  ]
+                },
+                {
+                  "key": "versionScope",
+                  "present": true,
+                  "value": {
+                    "historicalSourceRevision": "a1ac53bbea78b58ee88e5a3a53894a2fcaf595eb",
+                    "historicalSourceDate": "2026-10-17",
+                    "currentStaticSourceRevision": "b2f3d839297c1e68835db906b47eec609dd36870",
+                    "lastReviewed": "2026-10-24",
+                    "validity": "current instructions/navigation; static review only"
+                  }
+                },
+                {
+                  "key": "counterReworkBlocked",
+                  "present": true,
+                  "value": [
                     {
                       "id": "S35-INDEPENDENT-PENDING",
-                      "status": "pending",
-                      "statement": "四篇作者正文与字段级静态核验已做，未参与者尚未接受，不授迁移/审阅完成。"
+                      "status": "resolved",
+                      "statement": "GLM accepted this specific new body version; old withdrawn claims remain invalid.",
+                      "acceptedCandidate": "601cd5af1e6db54a15144a94f9f63857b4c88050",
+                      "reportSha256": "42d7a490166f51f9dd2265d7dd548735106298d8b4b94ce8d00e65368f1fed20"
                     },
                     {
                       "id": "S35-NO-EXECUTION",
                       "status": "not-in-scope",
                       "statement": "未启动服务、未运行publication或浏览器/产品/E2E/视觉/coverage；静态指南无需伪造这些结果。"
                     }
-                  ],
-                  "evidence": {
-                    "kind": "document-template-migration",
-                    "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r39-ops-evidence-readmes-20261017.json",
-                    "sourceSha256": "a48cc1db49991fc489f07063c2bf635a9996771647f07e025aa735d5a58ff851",
-                    "candidateSha256": "17a0f858b7a320a3c920b2de2cca77c4fe8fa3171b68b9b512e9f323ff002614",
-                    "afterSha256": "17a0f858b7a320a3c920b2de2cca77c4fe8fa3171b68b9b512e9f323ff002614",
-                    "lineCount": 112,
-                    "artifactPreserved": false,
-                    "originalPreservation": {
-                      "method": "line-by-line blockquote quote",
-                      "sourceBytes": 9754,
-                      "sourceLines": 59,
-                      "sourceFinalNewline": true,
-                      "inverseSha256": "a48cc1db49991fc489f07063c2bf635a9996771647f07e025aa735d5a58ff851",
-                      "exactRoundTrip": true
-                    },
-                    "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+                  ]
+                },
+                {
+                  "key": "correctiveDelta",
+                  "present": true,
+                  "value": {
+                    "date": "2026-10-18",
+                    "previousAfterSha256": "17a0f858b7a320a3c920b2de2cca77c4fe8fa3171b68b9b512e9f323ff002614",
+                    "afterSha256": "029dcd97a76701d55113e3c5dfd54e0bcd589667f59e13cf7dd751179aec9b3e",
+                    "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+                    "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+                    "task": "DOCS-RECORD-INTEGRITY-1"
                   }
                 },
-                "reportSha256": "42d7a490166f51f9dd2265d7dd548735106298d8b4b94ce8d00e65368f1fed20",
-                "runtimeExecutionPerformed": false,
-                "historicClaimsReexecuted": false,
-                "historicalClaimCorrection": {
-                  "date": "2026-10-18",
-                  "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-                  "priorRecordPath": "docs/phase-governance/reviews/20261017-r39-ops-evidence-readmes.json",
-                  "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-                  "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-                  "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-                }
-              }
-            ]
-          },
-          {
-            "key": "supersedes",
-            "present": true,
-            "value": ["governed-legacy presentation; historical claims remain date-scoped"]
-          },
-          {
-            "key": "stopLine",
-            "present": true,
-            "value": "This new document-version acceptance grants only scoped document review/template migration; no runtime/E2E/visual/coverage or withdrawn historical execution credit."
-          },
-          {
-            "key": "userVisibleBeforeAfter",
-            "present": true,
-            "value": "必要入口多在历史quote、当前与旧候选易混 → 可见职责导航并回原任务/consumer裁定；原件及旧时点结论保留。"
-          },
-          {
-            "key": "reviewedLines",
-            "present": true,
-            "value": "本篇before 115行与固定source 59行全文；候选 174行；依赖为下述限定读域"
-          },
-          {
-            "key": "historyOverlay",
-            "present": true,
-            "value": true
-          },
-          {
-            "key": "sourceGitRevision",
-            "present": true,
-            "value": "a1ac53bbea78b58ee88e5a3a53894a2fcaf595eb"
-          },
-          {
-            "key": "candidateSha256",
-            "present": true,
-            "value": "17a0f858b7a320a3c920b2de2cca77c4fe8fa3171b68b9b512e9f323ff002614"
-          },
-          {
-            "key": "primarySource",
-            "present": true,
-            "value": [
-              {
-                "path": "docs/ops/evidence/README.md",
-                "revision": "a1ac53bbea78b58ee88e5a3a53894a2fcaf595eb",
-                "sha256": "a48cc1db49991fc489f07063c2bf635a9996771647f07e025aa735d5a58ff851",
-                "scope": "full UTF-8 source"
-              },
-              {
-                "path": "docs/ops/evidence/README.md",
-                "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
-                "sha256": "4fddc5b071a22e29f024b291c602d2683fbec0ae48c5aeaef1b1eb3873faba8c",
-                "scope": "S35 full before-document and preserved quote carrier"
-              },
-              {
-                "path": "docs/ops/tasks/index.md",
-                "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
-                "sha256": "50479b83666e512e1ac650d1cb5c47b5b2e97c01ffc86ecd3245e248291f04a9",
-                "readScope": "target header/path or declared policy lookup only; not full downstream evidence review"
-              },
-              {
-                "path": "docs/ops/README.md",
-                "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
-                "sha256": "043a7344c1845d2a9269faf9c0c4580e79df4b6403e23122a9743fc65286591b",
-                "readScope": "target header/path or declared policy lookup only; not full downstream evidence review"
-              },
-              {
-                "path": "docs/ops/document-quality.md",
-                "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
-                "sha256": "e0a7d45e35b607ee9743e2fc8c061798ceaaff2fe5251fd8e4345899adb0e7a1",
-                "readScope": "target header/path or declared policy lookup only; not full downstream evidence review"
-              },
-              {
-                "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/README.md",
-                "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
-                "sha256": "d493e2b3e5b32b4235262c2fb84ee8d820fb1dffe00e02d8c3a7a561e295d440",
-                "readScope": "target header/path or declared policy lookup only; not full downstream evidence review"
-              },
-              {
-                "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md",
-                "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
-                "sha256": "77602a5fa92106c465a4c0801ab9712216c47da410124c525115f5e68155ec70",
-                "readScope": "target header/path or declared policy lookup only; not full downstream evidence review"
-              }
-            ]
-          },
-          {
-            "key": "phaseAnchors",
-            "present": true,
-            "value": {
-              "phase": "ops",
-              "appliesTo": ["cross-phase-navigation"],
-              "currentBoundary": "本页只维护静态操作/导航；各目标按自己的阶段与候选承担事实权，不代替产品执行。"
-            }
-          },
-          {
-            "key": "dependencies",
-            "present": true,
-            "value": [
-              "docs/ops/tasks/index.md",
-              "docs/ops/README.md",
-              "docs/ops/document-quality.md",
-              "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/README.md",
-              "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md"
-            ]
-          },
-          {
-            "key": "versionScope",
-            "present": true,
-            "value": {
-              "historicalSourceRevision": "a1ac53bbea78b58ee88e5a3a53894a2fcaf595eb",
-              "historicalSourceDate": "2026-10-17",
-              "currentStaticSourceRevision": "b2f3d839297c1e68835db906b47eec609dd36870",
-              "lastReviewed": "2026-10-24",
-              "validity": "current instructions/navigation; static review only"
-            }
-          },
-          {
-            "key": "counterReworkBlocked",
-            "present": true,
-            "value": [
-              {
-                "id": "S35-INDEPENDENT-PENDING",
-                "status": "resolved",
-                "statement": "GLM accepted this specific new body version; old withdrawn claims remain invalid.",
-                "acceptedCandidate": "601cd5af1e6db54a15144a94f9f63857b4c88050",
-                "reportSha256": "42d7a490166f51f9dd2265d7dd548735106298d8b4b94ce8d00e65368f1fed20"
-              },
-              {
-                "id": "S35-NO-EXECUTION",
-                "status": "not-in-scope",
-                "statement": "未启动服务、未运行publication或浏览器/产品/E2E/视觉/coverage；静态指南无需伪造这些结果。"
-              }
-            ]
-          },
-          {
-            "key": "correctiveDelta",
-            "present": true,
-            "value": {
-              "date": "2026-10-18",
-              "previousAfterSha256": "17a0f858b7a320a3c920b2de2cca77c4fe8fa3171b68b9b512e9f323ff002614",
-              "afterSha256": "029dcd97a76701d55113e3c5dfd54e0bcd589667f59e13cf7dd751179aec9b3e",
-              "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
-              "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-              "task": "DOCS-RECORD-INTEGRITY-1"
-            }
-          },
-          {
-            "key": "maintenanceDeltas",
-            "present": true,
-            "value": [
-              {
-                "date": "2026-10-18",
-                "task": "DOCS-REGISTRY-SPLIT-1",
-                "sourceRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
-                "previousAfterSha256": "029dcd97a76701d55113e3c5dfd54e0bcd589667f59e13cf7dd751179aec9b3e",
-                "afterSha256": "4fddc5b071a22e29f024b291c602d2683fbec0ae48c5aeaef1b1eb3873faba8c",
-                "method": "Root actually read sole new registry evidence navigation link relative3fae; target exists, other body inherited; no new semantic acceptance.",
-                "grantsNewSemanticAcceptance": false
-              },
-              {
-                "date": "2026-10-24",
-                "task": "DOCS-FULL-TEMPLATE-1/S35-ops-guides",
-                "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
-                "scope": "S35 four actual Markdown semantic author candidates, non-author acceptance pending; original source/statuses/provenance/history and all other rows preserved. Nine explicitly owned body/review after dependencies only; no S34 credit or 212 publication",
-                "newSemanticCredit": 0,
-                "newTemplateMigrationCredit": 0,
-                "runtimeExecutionPerformed": false,
-                "historicClaimsReexecuted": false,
-                "beforeSha256": "4fddc5b071a22e29f024b291c602d2683fbec0ae48c5aeaef1b1eb3873faba8c",
-                "afterSha256": "51d8eab16eac267998aee10ee6189b5ccc55d55c3c2bd66357b6ccf8ec162b91"
-              },
-              {
-                "kind": "fixed-main-S75-integration-observation",
-                "sourceRevision": "b2437cec97c1f7354dccfe8f856fc762395d4ec6",
-                "beforeSha256": "51d8eab16eac267998aee10ee6189b5ccc55d55c3c2bd66357b6ccf8ec162b91",
-                "afterSha256": "d8846acb1d2542f535c708f2f4afa33d75d300ca1c340b8e18b7ad48e657786b",
-                "interpretation": "Earlier accepted semantic scope retained; fixed-source integration delta observed separately, not new runtime acceptance.",
-                "newSemanticCredit": 0,
-                "runtimeCredit": false
-              }
-            ]
-          },
-          {
-            "key": "currentAuthoredReview",
-            "present": true,
-            "value": {
-              "task": "S35",
-              "date": "2026-10-24",
-              "nonAuthorReviewer": false,
-              "decision": "pending-independent-acceptance",
-              "readDomain": {
-                "fullDocuments": ["docs/ops/evidence/README.md"],
-                "fixedSourceRevision": "a1ac53bbea78b58ee88e5a3a53894a2fcaf595eb",
-                "dependencies": "Targeted code ranges and visible target headers/paths only; not a full product or downstream evidence audit",
-                "staticSourceRefs": [
-                  {
-                    "path": "docs/ops/tasks/index.md",
-                    "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
-                    "sha256": "50479b83666e512e1ac650d1cb5c47b5b2e97c01ffc86ecd3245e248291f04a9",
-                    "readScope": "target header/path or declared policy lookup only; not full downstream evidence review"
-                  },
-                  {
-                    "path": "docs/ops/README.md",
-                    "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
-                    "sha256": "043a7344c1845d2a9269faf9c0c4580e79df4b6403e23122a9743fc65286591b",
-                    "readScope": "target header/path or declared policy lookup only; not full downstream evidence review"
-                  },
-                  {
-                    "path": "docs/ops/document-quality.md",
-                    "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
-                    "sha256": "e0a7d45e35b607ee9743e2fc8c061798ceaaff2fe5251fd8e4345899adb0e7a1",
-                    "readScope": "target header/path or declared policy lookup only; not full downstream evidence review"
-                  },
-                  {
-                    "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/README.md",
-                    "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
-                    "sha256": "d493e2b3e5b32b4235262c2fb84ee8d820fb1dffe00e02d8c3a7a561e295d440",
-                    "readScope": "target header/path or declared policy lookup only; not full downstream evidence review"
-                  },
-                  {
-                    "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md",
-                    "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
-                    "sha256": "77602a5fa92106c465a4c0801ab9712216c47da410124c525115f5e68155ec70",
-                    "readScope": "target header/path or declared policy lookup only; not full downstream evidence review"
+                {
+                  "key": "maintenanceDeltas",
+                  "present": true,
+                  "value": [
+                    {
+                      "date": "2026-10-18",
+                      "task": "DOCS-REGISTRY-SPLIT-1",
+                      "sourceRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+                      "previousAfterSha256": "029dcd97a76701d55113e3c5dfd54e0bcd589667f59e13cf7dd751179aec9b3e",
+                      "afterSha256": "4fddc5b071a22e29f024b291c602d2683fbec0ae48c5aeaef1b1eb3873faba8c",
+                      "method": "Root actually read sole new registry evidence navigation link relative3fae; target exists, other body inherited; no new semantic acceptance.",
+                      "grantsNewSemanticAcceptance": false
+                    },
+                    {
+                      "date": "2026-10-24",
+                      "task": "DOCS-FULL-TEMPLATE-1/S35-ops-guides",
+                      "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+                      "scope": "S35 four actual Markdown semantic author candidates, non-author acceptance pending; original source/statuses/provenance/history and all other rows preserved. Nine explicitly owned body/review after dependencies only; no S34 credit or 212 publication",
+                      "newSemanticCredit": 0,
+                      "newTemplateMigrationCredit": 0,
+                      "runtimeExecutionPerformed": false,
+                      "historicClaimsReexecuted": false,
+                      "beforeSha256": "4fddc5b071a22e29f024b291c602d2683fbec0ae48c5aeaef1b1eb3873faba8c",
+                      "afterSha256": "51d8eab16eac267998aee10ee6189b5ccc55d55c3c2bd66357b6ccf8ec162b91"
+                    },
+                    {
+                      "kind": "fixed-main-S75-integration-observation",
+                      "sourceRevision": "b2437cec97c1f7354dccfe8f856fc762395d4ec6",
+                      "beforeSha256": "51d8eab16eac267998aee10ee6189b5ccc55d55c3c2bd66357b6ccf8ec162b91",
+                      "afterSha256": "d8846acb1d2542f535c708f2f4afa33d75d300ca1c340b8e18b7ad48e657786b",
+                      "interpretation": "Earlier accepted semantic scope retained; fixed-source integration delta observed separately, not new runtime acceptance.",
+                      "newSemanticCredit": 0,
+                      "runtimeCredit": false
+                    }
+                  ]
+                },
+                {
+                  "key": "currentAuthoredReview",
+                  "present": true,
+                  "value": {
+                    "task": "S35",
+                    "date": "2026-10-24",
+                    "nonAuthorReviewer": false,
+                    "decision": "pending-independent-acceptance",
+                    "readDomain": {
+                      "fullDocuments": ["docs/ops/evidence/README.md"],
+                      "fixedSourceRevision": "a1ac53bbea78b58ee88e5a3a53894a2fcaf595eb",
+                      "dependencies": "Targeted code ranges and visible target headers/paths only; not a full product or downstream evidence audit",
+                      "staticSourceRefs": [
+                        {
+                          "path": "docs/ops/tasks/index.md",
+                          "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+                          "sha256": "50479b83666e512e1ac650d1cb5c47b5b2e97c01ffc86ecd3245e248291f04a9",
+                          "readScope": "target header/path or declared policy lookup only; not full downstream evidence review"
+                        },
+                        {
+                          "path": "docs/ops/README.md",
+                          "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+                          "sha256": "043a7344c1845d2a9269faf9c0c4580e79df4b6403e23122a9743fc65286591b",
+                          "readScope": "target header/path or declared policy lookup only; not full downstream evidence review"
+                        },
+                        {
+                          "path": "docs/ops/document-quality.md",
+                          "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+                          "sha256": "e0a7d45e35b607ee9743e2fc8c061798ceaaff2fe5251fd8e4345899adb0e7a1",
+                          "readScope": "target header/path or declared policy lookup only; not full downstream evidence review"
+                        },
+                        {
+                          "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/README.md",
+                          "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+                          "sha256": "d493e2b3e5b32b4235262c2fb84ee8d820fb1dffe00e02d8c3a7a561e295d440",
+                          "readScope": "target header/path or declared policy lookup only; not full downstream evidence review"
+                        },
+                        {
+                          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md",
+                          "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+                          "sha256": "77602a5fa92106c465a4c0801ab9712216c47da410124c525115f5e68155ec70",
+                          "readScope": "target header/path or declared policy lookup only; not full downstream evidence review"
+                        }
+                      ]
+                    },
+                    "quote": {
+                      "sourceSha256": "a48cc1db49991fc489f07063c2bf635a9996771647f07e025aa735d5a58ff851",
+                      "sourceGitObject": "5f91eb043627638a2358a7cd49da829649492cdb",
+                      "tailSha256": "ff1cc69ba1f2fe9fa7f5003e4d9343e321bac87784cbe3da7e6bccf23f1af65e",
+                      "tailByteEqual": true,
+                      "inverseRule": "direct",
+                      "separatorCount": 0,
+                      "quotedSeparatorCount": 0,
+                      "inverseBytes": 9754,
+                      "inverseSha256": "a48cc1db49991fc489f07063c2bf635a9996771647f07e025aa735d5a58ff851"
+                    },
+                    "runtimeExecutionPerformed": false,
+                    "historicClaimsReexecuted": false,
+                    "creditGranted": 0
                   }
-                ]
-              },
-              "quote": {
-                "sourceSha256": "a48cc1db49991fc489f07063c2bf635a9996771647f07e025aa735d5a58ff851",
-                "sourceGitObject": "5f91eb043627638a2358a7cd49da829649492cdb",
-                "tailSha256": "ff1cc69ba1f2fe9fa7f5003e4d9343e321bac87784cbe3da7e6bccf23f1af65e",
-                "tailByteEqual": true,
-                "inverseRule": "direct",
-                "separatorCount": 0,
-                "quotedSeparatorCount": 0,
-                "inverseBytes": 9754,
-                "inverseSha256": "a48cc1db49991fc489f07063c2bf635a9996771647f07e025aa735d5a58ff851"
-              },
-              "runtimeExecutionPerformed": false,
-              "historicClaimsReexecuted": false,
-              "creditGranted": 0
-            }
-          },
-          {
-            "key": "templateConformance",
-            "present": true,
-            "value": {
-              "status": "template-compliant",
-              "scope": "Existing governance-index-v1 body and any declared history overlay passed the actual current route; new accepted SHA only; no historical/runtime credit."
+                },
+                {
+                  "key": "templateConformance",
+                  "present": true,
+                  "value": {
+                    "status": "template-compliant",
+                    "scope": "Existing governance-index-v1 body and any declared history overlay passed the actual current route; new accepted SHA only; no historical/runtime credit."
+                  }
+                },
+                {
+                  "key": "currentIndependentAcceptance",
+                  "present": true,
+                  "value": {
+                    "protocol": "document-delivery-acceptance/1.0.0",
+                    "reviewer": "GLM",
+                    "nonAuthorReviewer": true,
+                    "verdict": "accept",
+                    "candidate": "601cd5af1e6db54a15144a94f9f63857b4c88050",
+                    "afterSha256": "51d8eab16eac267998aee10ee6189b5ccc55d55c3c2bd66357b6ccf8ec162b91",
+                    "reportSha256": "42d7a490166f51f9dd2265d7dd548735106298d8b4b94ce8d00e65368f1fed20",
+                    "readDomain": {
+                      "authorRecordField": "currentAuthoredReview.readDomain",
+                      "nonAuthorVerdictPointer": "/verdicts/2",
+                      "scope": "Specific candidate body/preservation/template and declared static source checks; no full downstream runtime/code/report audit."
+                    },
+                    "ownerDecision": {
+                      "actor": "Codex",
+                      "task": "DOCS-FULL-TEMPLATE-1/S39",
+                      "date": "2026-10-24",
+                      "currentBodyReview": true,
+                      "currentTemplateMigration": true,
+                      "oldClaimRestored": false,
+                      "runtimeCredit": false
+                    }
+                  }
+                },
+                {
+                  "key": "semanticAssessment",
+                  "present": false
+                },
+                {
+                  "key": "readDomain",
+                  "present": false
+                },
+                {
+                  "key": "historyBoundary",
+                  "present": false
+                },
+                {
+                  "key": "runtimeExecutionPerformed",
+                  "present": false
+                },
+                {
+                  "key": "phaseAnchor",
+                  "present": false
+                },
+                {
+                  "key": "applicability",
+                  "present": false
+                },
+                {
+                  "key": "templateChoiceRationale",
+                  "present": false
+                },
+                {
+                  "key": "linkDisposition",
+                  "present": false
+                },
+                {
+                  "key": "fieldRoles",
+                  "present": false
+                },
+                {
+                  "key": "ownerCorrections",
+                  "present": false
+                },
+                {
+                  "key": "artifactOnly",
+                  "present": false
+                },
+                {
+                  "key": "nonAuthorReviewer",
+                  "present": false
+                },
+                {
+                  "key": "creditGranted",
+                  "present": false
+                },
+                {
+                  "key": "proposedBinding",
+                  "present": false
+                },
+                {
+                  "key": "rollforward",
+                  "present": false
+                },
+                {
+                  "key": "rollforwardIntake",
+                  "present": false
+                }
+              ]
             }
           },
           {
@@ -1581,111 +2072,54 @@
             "present": true,
             "value": {
               "protocol": "document-delivery-acceptance/1.0.0",
-              "reviewer": "GLM",
+              "kind": "accepted-rollforward-publication/1.0.0",
+              "path": "docs/ops/evidence/README.md",
+              "contentSha256": "df0b1cefc811340325ba80bb73e30805b126c62910fa241b8a051509be30ef7d",
+              "acceptedBodySha256": "d2dc155dfdbd9fc82208d6cbf66aed5212739c843816984c2bf4256a62e19682",
+              "reviewedCandidate": "7273d7aa5a8bbe96ddebcb437765e2e8f7f3e911",
               "nonAuthorReviewer": true,
-              "verdict": "accept",
-              "candidate": "601cd5af1e6db54a15144a94f9f63857b4c88050",
-              "afterSha256": "51d8eab16eac267998aee10ee6189b5ccc55d55c3c2bd66357b6ccf8ec162b91",
-              "reportSha256": "42d7a490166f51f9dd2265d7dd548735106298d8b4b94ce8d00e65368f1fed20",
-              "readDomain": {
-                "authorRecordField": "currentAuthoredReview.readDomain",
-                "nonAuthorVerdictPointer": "/verdicts/2",
-                "scope": "Specific candidate body/preservation/template and declared static source checks; no full downstream runtime/code/report audit."
+              "basis": {
+                "author": "GLM",
+                "reviewer": "Codex",
+                "reportSha256": "1521a721e6839ba87916ddd0f789a125c3bffc681def1c0e44446ea4b1f385ae",
+                "scope": "Declared source-specific content and Owner final-link errata; not a second full product audit."
               },
               "ownerDecision": {
                 "actor": "Codex",
-                "task": "DOCS-FULL-TEMPLATE-1/S39",
-                "date": "2026-10-24",
+                "task": "DOCS-FULL-TEMPLATE-1/S85",
                 "currentBodyReview": true,
                 "currentTemplateMigration": true,
                 "oldClaimRestored": false,
-                "runtimeCredit": false
+                "runtimeCredit": false,
+                "childSemanticCredit": false
               }
             }
           },
           {
-            "key": "semanticAssessment",
+            "key": "upstreamSource",
             "present": false
           },
           {
-            "key": "readDomain",
-            "present": false
-          },
-          {
-            "key": "historyBoundary",
-            "present": false
-          },
-          {
-            "key": "runtimeExecutionPerformed",
-            "present": false
-          },
-          {
-            "key": "phaseAnchor",
-            "present": false
-          },
-          {
-            "key": "applicability",
-            "present": false
-          },
-          {
-            "key": "templateChoiceRationale",
-            "present": false
-          },
-          {
-            "key": "linkDisposition",
-            "present": false
-          },
-          {
-            "key": "fieldRoles",
-            "present": false
-          },
-          {
-            "key": "ownerCorrections",
-            "present": false
-          },
-          {
-            "key": "artifactOnly",
-            "present": false
-          },
-          {
-            "key": "nonAuthorReviewer",
-            "present": false
-          },
-          {
-            "key": "creditGranted",
-            "present": false
-          },
-          {
-            "key": "proposedBinding",
-            "present": false
-          },
-          {
-            "key": "rollforward",
-            "present": false
-          },
-          {
-            "key": "rollforwardIntake",
+            "key": "successorIntake",
             "present": false
           }
         ]
       },
       "currentIndependentAcceptance": {
         "protocol": "document-delivery-acceptance/1.0.0",
-        "kind": "accepted-rollforward-publication/1.0.0",
+        "kind": "current-review-successor/1.0.0",
+        "generationId": "main-c88-20261101",
         "path": "docs/ops/evidence/README.md",
-        "contentSha256": "df0b1cefc811340325ba80bb73e30805b126c62910fa241b8a051509be30ef7d",
-        "acceptedBodySha256": "d2dc155dfdbd9fc82208d6cbf66aed5212739c843816984c2bf4256a62e19682",
-        "reviewedCandidate": "7273d7aa5a8bbe96ddebcb437765e2e8f7f3e911",
+        "author": "Codex",
+        "reviewer": "GLM",
         "nonAuthorReviewer": true,
-        "basis": {
-          "author": "GLM",
-          "reviewer": "Codex",
-          "reportSha256": "1521a721e6839ba87916ddd0f789a125c3bffc681def1c0e44446ea4b1f385ae",
-          "scope": "Declared source-specific content and Owner final-link errata; not a second full product audit."
-        },
+        "reviewedCandidate": "7f045e964b79c4fc216befbfdc00668bd7a54888",
+        "reportSha256": "711ca81f8dc106f3c99b1cd46c4a351a32a8bd2b935d97897787b230ca672ced",
+        "contentSha256": "b0323ac87381fe78557bf97d85c019c7a0f8b385bc66fba038ed32b5bb0552cc",
+        "acceptedBodySha256": "c0b3cded116727e4febc9084584651485a851247c906affb4ac2c8f890e0e0e3",
         "ownerDecision": {
           "actor": "Codex",
-          "task": "DOCS-FULL-TEMPLATE-1/S85",
+          "task": "DOCS-FULL-TEMPLATE-1/S87",
           "currentBodyReview": true,
           "currentTemplateMigration": true,
           "oldClaimRestored": false,

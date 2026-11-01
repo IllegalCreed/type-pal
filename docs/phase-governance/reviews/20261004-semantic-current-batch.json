@@ -106,7 +106,22 @@
       "userVisibleBeforeAfter": "候选正文与固定源逐字节相同；终态本地链接保持源目标，历史span逐字节保全。本次Owner只修审阅记录，不改作者正文、任务状态、版本或产品行为。",
       "templateChoiceRationale": "源已自declared Template: guide-runbook-v1 / 1.0.0且目的/前置条件/步骤/失败处理/完成定义五节齐备，是可重复操作流程合同，保持原模板与1.0.0版本。",
       "templateConformance": "候选prefix五必需章节齐全、H1与Status current/Owner与源逐字一致、无围栏无testing-meta无front matter；16条源链接全部在正文可见（16条全部live，本地入口恢复）。",
-      "history": [],
+      "history": [
+        {
+          "kind": "rollforward-publication-history-repair/1.0.0",
+          "publicationRevision": "f6a956529cfa5efdb79a72af89feef08a21cab60",
+          "recordedOn": "2026-11-01",
+          "path": "docs/ops/agent-workflow.md",
+          "acceptedBodySha256": "6a6132feafe15c3b4f6e68acd1bfa093ebaf0decfb1f26cb77c845dd3018d059",
+          "acceptedContentSha256": "938a429583510c5017dc4fefeb3d8de9acca818195d9569e048877a9f359d1a4",
+          "normalizedChangesSha256": "41d487a99cebda708c577efac7e1a87acb753a62d7128ad1413321437b464c48",
+          "originalHistory": [],
+          "originalIndependentAcceptanceUnchanged": true,
+          "newSemanticCredit": 0,
+          "runtimeCredit": false,
+          "childSemanticCredit": false
+        }
+      ],
       "supersedes": [],
       "counterReworkBlocked": {
         "counter": [],
@@ -1187,7 +1202,7 @@
         }
       ],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "e59c11d3068f4de8f550a3f14f1d40a86f2adb884a5172762c45ee4bf4445801",
+      "afterSha256": "c5bfef99b24d529c3cecd343f03384836850f7ed8a019a7430bbd35a5cffc627",
       "publicCallers": [
         "node scripts/docs/check-testing.mjs",
         "node scripts/docs/check-document-model.mjs",
@@ -2659,6 +2674,13 @@
           "afterSha256": "e59c11d3068f4de8f550a3f14f1d40a86f2adb884a5172762c45ee4bf4445801",
           "newSemanticCredit": 0,
           "runtimeCredit": false
+        },
+        {
+          "kind": "main-successor-publication-after-pin",
+          "beforeSha256": "e59c11d3068f4de8f550a3f14f1d40a86f2adb884a5172762c45ee4bf4445801",
+          "afterSha256": "c5bfef99b24d529c3cecd343f03384836850f7ed8a019a7430bbd35a5cffc627",
+          "newSemanticCredit": 0,
+          "runtimeCredit": false
         }
       ],
       "applicability": "Current author-produced E2E006 technical evidence, not non-author/user acceptance. Real95-row dual story/control, zero-finding comparison, formal terminal saves/fresh restores and12 saved static NPC entry Play/Reset proofs exist; no audio/continuous/full-runtime-preview/downstream or full-doc completion credit.",
@@ -2960,7 +2982,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "ca3fb4bb75390a365d8edc7373df80b439574e6b6a93759f8038ee669a78e12a",
+      "afterSha256": "9bbf8db4227469e20cbc146ebeedc0aae4980634edb34c07ea23795053aa894b",
       "publicCallers": [
         "docs/ops/tasks/README.md → index.md",
         "docs/ops/board.md → tasks/index.md",
@@ -3552,6 +3574,13 @@
           "beforeSha256": "765b0ecff5ec5b66ffa56e42eafb0200ccedcb5ca70aee30f6522c13407c8ad1",
           "afterSha256": "ca3fb4bb75390a365d8edc7373df80b439574e6b6a93759f8038ee669a78e12a",
           "originalSemanticClaimUnchanged": true,
+          "newSemanticCredit": 0,
+          "runtimeCredit": false
+        },
+        {
+          "kind": "main-successor-publication-after-pin",
+          "beforeSha256": "ca3fb4bb75390a365d8edc7373df80b439574e6b6a93759f8038ee669a78e12a",
+          "afterSha256": "9bbf8db4227469e20cbc146ebeedc0aae4980634edb34c07ea23795053aa894b",
           "newSemanticCredit": 0,
           "runtimeCredit": false
         }
