@@ -1,5 +1,10 @@
 # CODE94–102：菜单与Save有限模块收口
 
+Status: historical
+Last reviewed: 2026-10-31
+Owner: Codex
+Template: evidence-receipt-v1 / 1.0.0
+
 ## 证据身份
 
 id：CODE-QUALITY-94/approved-closeout；schemaVersion：1；Owner：Codex，单Agent。
@@ -11,7 +16,7 @@ id：CODE-QUALITY-94/approved-closeout；schemaVersion：1；Owner：Codex，单
 
 重新核全仓caller时发现Confirm/Triple/Switch八helper也只被测试消费，已随旧分页、ItemSelect工厂、装备entry和角色query退出。旧G“其它出口实际消费”声明撤回，getSelected真实商店caller保留；输入filter的七值现行合同及实际选择行为保持。
 
-## 断言与业务oracle
+## 断言与业务 oracle
 
 - slot专测用真实Save和memory/private fake-IDB双backend，逐项拒绝NaN、±Infinity、小数、0、6并保留原槽321；1/5实际存读删。正式2正控/6指定AssertionError后恢复，未把首版matcher包装Error当严格counter。
 - IDB失败open、reset/异常close、versionchange有原正式红绿；元数据别名与六字段/双向clone、标题回调失败、WORD字面兜底分别保留。
@@ -56,7 +61,7 @@ id：CODE-QUALITY-94/approved-closeout；schemaVersion：1；Owner：Codex，单
 | [packages/game/src/core/save/indexed-db.ts](../../../../../packages/game/src/core/save/indexed-db.ts) | 本轮review→已验证 |
 | [packages/game/src/core/save/__tests__/slot-domain.test.ts](../../../../../packages/game/src/core/save/__tests__/slot-domain.test.ts) | 本轮review→已验证 |
 
-## 限制与低成本复验
+## 限制与复核
 
 在治理树运行：
 

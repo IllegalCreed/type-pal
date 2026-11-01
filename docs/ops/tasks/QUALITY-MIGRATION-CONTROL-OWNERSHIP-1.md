@@ -1,6 +1,39 @@
 # QUALITY-MIGRATION-CONTROL-OWNERSHIP-1 — 事务内部写入路径所有权
 
 Status: review
+Last reviewed: 2026-10-30
+Owner: Codex
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+核清迁移事务内部暂存/journal路径是否在任何写入之前拒绝外部链接；用户已批准写入前拒绝链接，先正式失败回归，再补事务控制路径预检。不改产品路径政策、迁移内容、journal格式、生成物、真实工程或存档。
+
+## 范围
+
+仅migration-transaction.ts与正式控制路径回归；真实入口为commitMigrationTransaction，公共caller的正常TransactionChange输入、原始hash/null和manifest纪律保持。
+
+## 前提与证据
+
+一句话前提：事务不得先沿内部目录/临时文件链接写入另一棵树，再在后续校验时拒绝。e940基点的migration-transaction.ts:343-362先mkdir/write staging后validateJournal，:363-369写journal .tmp前无该路径守卫。原生fs取证（2026-10-29）：控制目录链接使outside从空变为含stage正文、随后才报链接错误；journal临时文件链接使outside原字节OUTSIDE_ORIGINAL变成journal正文且函数成功返回——两种链接均在调用前已存在，非最后一次check到syscall之间的外部竞态。红例原件与probe在[窗口证据](../evidence/QUALITY-PENDING-100-3/README.md)；规范锚[八维质量](../code-quality.md)、[父窗口](QUALITY-PENDING-100-3.md)、[第二阶段规则](../../phase2/READ-FIRST.md)、[历史写入保护](../archive/tasks/done/MIGRATION-WRITE-GUARD-1-planned-snapshot-and-paths.md)。
+
+## 验收
+
+用户裁决“批准写入前拒绝链接（推荐）”。正式4例先红（均因外部字节或文件集合改变的业务AssertionError），随后journal/temp预检、全量staging路径首写前检查、恢复读取有效journal前拒绝链接；staging相对地址格式提为私有pure builder供producer/validator共同消费、格式不变无新公共出口。正式4绿，相邻9文件89绿、migrate typecheck0、stderr均0；无真实迁移/生成物重写。最强替代解释（单writer纪律、后续validateJournal、POSIX rename可能足够）由正常自有路径正控和调用前已存在链接分别排除。
+
+## 状态与交接
+
+本卡代码修复局部接受、统一门待父窗口集中；整源仍pending，不能由本卡直接升级为整文件已验证。单writer、非OS沙箱、staging中途失败原边界不扩张；未证明真实作者工程已存在这些链接或已受损。Codex单Agent保持同一父窗口，不另开PR/重跑覆盖率。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 5798B / SHA-256 86a11bd8435687457a6b54ae84bf9eab9131ad57d6328899cbee2b108e9947ec；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# QUALITY-MIGRATION-CONTROL-OWNERSHIP-1 — 事务内部写入路径所有权
+
+Status: review
 Owner: Codex
 Coding Owner: Codex
 Reviewer: Codex（单 Agent）
@@ -62,3 +95,5 @@ Branch: codex/code-quality-94-102
 ## 下一位 Agent 提示词
 
 无下一位Agent提示词；Codex单Agent保持同一父窗口，继续相关pending切片，统一门/发布尚未进行。
+```
+<!-- incremental-original-source:end -->

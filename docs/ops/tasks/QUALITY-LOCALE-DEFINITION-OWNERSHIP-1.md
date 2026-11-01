@@ -1,6 +1,39 @@
 # QUALITY-LOCALE-DEFINITION-OWNERSHIP-1 — 二阶段文本缺键回退
 
 Status: done
+Last reviewed: 2026-10-30
+Owner: Codex
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+缺失译文时lookupText遵守现有“返回文本ID”的合同，不返回继承函数/对象；真正定义的同名译文及空串仍有效。
+
+## 范围
+
+locale.ts及直接专测，必要真实显示caller补读；不改Locale格式、文本ID域、存档或UI形态。
+
+## 前提与证据
+
+lookupText按locale[id]读取普通定义表，constructor缺失时可命中继承函数，与声明string返回值和缺键回退注释矛盾；正式反例先实跑、不以相似源码自动认定已复现。validateLocale只枚举自身字符串值并返回原对象，Locale={}通过现行validator，TextId是任意字符串，公开输入域内缺键行为可独立证伪；正常剧情可能从不引用此ID，不冒称普通工程已遇到。锚[二阶段边界](../../phase2/READ-FIRST.md)、[剩余200复核](QUALITY-RECENT-200-CONTENT-AUDIT-2.md)、[八维规范](../code-quality.md)。
+
+## 验收
+
+2026-10-28用户批准“按现有缺词回退合同修复”。正式locale.test.ts四例中缺constructor回退业务AssertionError先红，普通命中/缺键与真正同名空串三例通过；原生结果、stdout/stderr、命令和测试补丁已保留。修复仅让lookupText从自身定义读取，缺词与跨表完整性报告分开、不扩其它字典消费者。本片代码复验：content1473例、相邻reforge36/editor31、相关typecheck与改动scoped静态零诊断；原失败/同名正控/错误假设撤回均保存。
+
+## 状态与交接
+
+统一全仓/coverage/受保护发布仍待父窗口（CONTENT-AUDIT-2收口200/200、全仓20506/官方20157-810以父卡为准），本卡不预写远端合并。不以ID黑名单处理，不把对话/商店授权互相继承；卡内裁决前“实现未准入/用户验收pending”文字为时点状态保留。无，当前Codex继续其余不重叠逐文件审查。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 4637B / SHA-256 b9b032da8398227a7b5107c9c295c844da2c656f4f3ffcdf85f1ad477a57ead3；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# QUALITY-LOCALE-DEFINITION-OWNERSHIP-1 — 二阶段文本缺键回退
+
+Status: done
 Phase: phase2
 Capability: locale
 Coding Owner: Codex（取证；实现未准入）
@@ -84,3 +117,5 @@ pending。
 ## 当前窗口代码收口
 
 2026-10-28 Codex单Agent：153本轮主体＋前47有效复用＝200／200，原200复查排队0；不授其它pending信用。两已批归属修复正式红例／真实caller与相邻验证成立。全仓20506／typecheck／lint0；官方20157／810采集按包恢复，精确content重计与三退役快照后同报ratchet/protected0。失败原件和限制见父窗口audit；最后文档／静态回执及受保护PR发布事实另据实际命令，不提前冒称已推送/合并。无新增产品取舍。
+```
+<!-- incremental-original-source:end -->

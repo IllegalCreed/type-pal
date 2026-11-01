@@ -1,6 +1,39 @@
 # QUALITY-DIALOGUE-REFERENCE-OWNERSHIP-1 — 二阶段对话引用的定义归属
 
 Status: done
+Last reviewed: 2026-10-30
+Owner: Codex
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+核定二阶段对话引用只使用工程真实定义的Actor和命名表情；修复准入前保存当前漏拒绝的业务反例，并撤回错误关闭信用。
+
+## 范围
+
+受影响实现author-dialogue.ts的Actor/表情查找、必要专测与正式validateAuthorDialogueReferences相邻回归；取证已读author-script.ts、validate-author.ts及project-loader当前调用域，这些相邻源不自动获得八维关闭。schema格式、合法ID集合、存档和UI形态无本卡变更授权。
+
+## 前提与证据
+
+工程前提：普通对象索引会读到原型继承键，工程没有定义的constructor能通过当时正式对话引用守卫（角色分支产出speaker=Object、表情分支产出function而不是AssetId）。基点b8b6989b952968ab60108ae45842ae5689822925；锚[抽核父卡](QUALITY-RECENT-200-ACCEPTANCE-AUDIT-1.md)、[证据入口](../evidence/QUALITY-RECENT-200-ACCEPTANCE-AUDIT-1/README.md)、[二阶段规则](../../phase2/READ-FIRST.md)，生产读域和复验脚本/原件在父证据dialogue-reference子目录。
+
+## 验收
+
+用户2026-10-28裁决“按真实定义校验”：未定义同名Actor/表情报错、工程确实定义的同名内容保留。先红：正式author-dialogue.test.ts在实现未改时8例中两条业务AssertionError（缺失Actor/缺失expression），既有五例及真实同名定义正控均绿；修复后五相邻文件18/18、stderr空。实现用Object.hasOwn限定actorsById与expressions自身定义，既有missing错误不变；不新增保留名黑名单、不改合法ID/schema。本地收口：全仓20506与七包typecheck通过、lint完整0/0/0，一次官方fast20157/809，ratchet和同报protected均0；原件见[门禁回执](../evidence/QUALITY-RECENT-200-ACCEPTANCE-AUDIT-1/gates.json)。
+
+## 状态与交接
+
+Codex独立验收有限范围代码/证据接受；纯测试重构与获批产品修复分提交，推送/PR/合并未由此段冒称完成。普通作者工程是否实际含该名称、完整编辑器/浏览器表现未证明，不扩大成任意原型污染或安全攻击结论；后续扩抽建议不算本卡已执行。无下一位Agent提示词。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 5830B / SHA-256 9e2d0c7b74c9aec094cc428e0486e12e789bbf8a98d678b30f4899f8f60af154；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# QUALITY-DIALOGUE-REFERENCE-OWNERSHIP-1 — 二阶段对话引用的定义归属
+
+Status: done
 Phase: phase2
 Capability: content-dialogue
 Coding Owner: Codex
@@ -73,3 +106,5 @@ before：缺失的同名引用漏过检查；候选after：与其他未定义引
 ## 本地收口（2026-10-28）
 
 Codex独立验收：本卡有限范围代码/证据接受。全仓20506包测试与七包typecheck通过，lint完整0/0/0；一次官方fast20157/809，ratchet和同报protected均0，指标无下降，源范围不移除。原件见[门禁回执](../evidence/QUALITY-RECENT-200-ACCEPTANCE-AUDIT-1/gates.json)。文档最终投影已单列零诊断复核，随后同分支分开纯测试重构与获批产品修复提交；推送/PR/合并未由此段冒称完成。后续扩抽建议不算本卡已执行。
+```
+<!-- incremental-original-source:end -->

@@ -1,6 +1,39 @@
 # QUALITY-MIGRATION-ASSET-TAKEOVER-1 — 作者资源接管与三方快捷路径
 
 Status: review
+Last reviewed: 2026-10-30
+Owner: Codex
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+核定 `assets/index.json` 已由作者接管的记录在后续迁移中继续归作者所有；仅拟修三方合并快捷判断，不改资源格式、资源字节、schema、存档或真实工程。
+
+## 范围
+
+migration-merge.ts的allowsWholeSubtreeFastPath与正式专测；发现时只读复现、等待裁决，本轮已按用户批准修复，统一门待父窗口。
+
+## 前提与证据
+
+修复前 `allowsWholeSubtreeFastPath` 排除的是 `content/assets/index.json`（非canonical路径）：当ours与base已同为authored记录、theirs为legacy-migrated时，根节点直接选择迁移侧，尚未走到单项接管规则；两份music资源目录均通过真实catalog validator复现。最强替代解释：当前发布器的常见基线可能始终只含迁移来源；本卡锁定现有接管合同与低层合法输入的分叉，批准前不扩大“所有基线必须保留作者”的产品政策。锚[父窗口](QUALITY-PENDING-100-3.md)、[八维质量](../code-quality.md)、[证据入口](../evidence/QUALITY-PENDING-100-3/README.md)（merge/observe.mts与完整执行原件归父窗口；发布生成器仅核读）。
+
+## 验收
+
+2026-10-29用户明确裁决“批准保留作者接管项（推荐）”。1条合法catalog红例锁定base已authored的祖先快捷绕过，普通migrated资源更新为同场景正控、防止错误地冻结整份catalog；只将排除路径改为canonical assets/index.json并改正祖先遍历注释。JSON修复后的剩余单红在此转绿、现有首次接管合同保持。最终主测37绿、16相邻文件215绿、migrate TC0，完整default+json/stdout/stderr见父窗口merge-approved命名空间。
+
+## 状态与交接
+
+本卡代码接受、Status review等父窗口统一门；未执行真实迁移、写生成物或改资源/存档/公共签名。普通当前工程曾否遇到仍未增授证据；行为修复与私有清理分开冻结。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 4085B / SHA-256 2564cc24fd4cd24b1dcaa5d5cf91b138bf11c6734c6e0d6cd91bfbd43e7633b0；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# QUALITY-MIGRATION-ASSET-TAKEOVER-1 — 作者资源接管与三方快捷路径
+
+Status: review
 Owner: Codex
 Coding Owner: Codex
 Reviewer: Codex（单 Agent）
@@ -49,3 +82,5 @@ Branch: codex/code-quality-94-102
 1条合法catalog红例锁定base已authored的祖先快捷绕过，普通migrated资源更新是同场景正控，防止错误地冻结整份catalog。只将排除路径改为canonical assets/index.json，并改正祖先遍历注释；JSON修复后的剩余单红在此转绿，现有首次接管合同保持。普通当前工程曾否遇到仍未增授证据。
 
 最终主测37绿、16相邻文件215绿、migrate TC0，完整default+json/stdout/stderr见[父窗口原件](../evidence/QUALITY-PENDING-100-3/README.md)的merge-approved命名空间。默认快检保留旧私有重构/反控身份，并逐项核当前获批差异，不重复全文或旧变异；重型check/coverage/protected及提交推送合并仍集中到稳定窗口。
+```
+<!-- incremental-original-source:end -->

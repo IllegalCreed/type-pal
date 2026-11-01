@@ -1,6 +1,39 @@
 # QUALITY-EXTRACT-EVENT-TESTS-1 — 事件编解码专测及原始夹具
 
 Status: done
+Last reviewed: 2026-10-30
+Owner: Codex
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+接续[百文件窗口](QUALITY-PENDING-100-1.md)，复用已验收生产实现和一手结构合同，逐文件补专测八维与必要返工，不把文件短、包绿或往返自洽当完成。
+
+## 范围
+
+events下disasm四专测、recompile三专测、roundtrip两专测、opcodes专测共10文件；允许实际共享的events/__tests__/bytecode-fixtures.ts（只构造原始LE指令、不引用编解码器或opcode表生成oracle）与binary-fixtures.ts叶（glm-tb04四个纯二进制builder原样提取、保留原导出转发，防事件夹具依赖GBK/资源表）。另审__tests__/glm-q/yj2-encoder.ts与io/rle.test.ts；io/mkf.test.ts只在三个合同由shared既有更强测试/真实caller承接后精简。
+
+## 前提与证据
+
+生产disasm/recompile/opcodes/roundtrip完整读，真实CLI原始自检、消息读取/类型和slice入口已核；8B/WORD、dialog style与控制流语义依SDLPal具体case，既有YJ2/RLE来源证据按实际指纹复用。保留当前缺label与未用参数合同，不改实现/接口/资产输出。锚[八维](../code-quality.md)与[共同证据](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/README.md)；基点123595ac3a，英文/SLF/script-corrections活跃范围不写。
+
+## 验收
+
+2026-10-27本片代码验收：14主体逐文件A–H已核且代码接受，旧glm-tb04仅版本桥不凑数，MKF三重复专测退出。10事件旧60→58、IO旧6→1，逐身份合同映射见共同review.json所指events-case-mapping.json；59定向、表相邻66、shared MKF11、extract TC零诊断；四有效业务单红与YJ2原生EOS（0/1/65536字节）验证已存。首轮两个测试导入漏失产生7个ReferenceError已修、不授反控信用；opcodes表$title原生标题截短冲突另改显式it(title)、最终21名与基线完全相同；原盘SSS chunk4=348024来自独立Python头表。累计69／约100、3460／663closed／2797pending。
+
+## 状态与交接
+
+全仓check/official/ratchet/protected与提交推送在约100冻结后收尾；2026-10-28本地统一门后done指本地收口，远端发布以受保护PR实际结果为准。原件见[统一原件与只读复验](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/uniform/README.md)。无下一位Agent提示词。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 4303B / SHA-256 d641371debe0e8d89c1ee0548496a8f84cb4011562d310e44ad73050a382b333；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# QUALITY-EXTRACT-EVENT-TESTS-1 — 事件编解码专测及原始夹具
+
+Status: done
 Owner: Codex
 Reviewer: Codex（单 Agent，自审与实际验证分开记录）
 Phase: ops
@@ -47,3 +80,5 @@ Codex build allowed：上述测试/fixture与YJ2事实注释；生产算法、sc
 ## 本窗口本地验收收口
 
 2026-10-28（JST）：100主体八维及本地统一门接受；本次提交时远端PR/CI/合并尚待，发布以受保护PR实际结果为准。 20536包测试＋732工具测试全部通过、七包typecheck和whole lint error/warning/info为0；唯一official20,188fast/809src，有限计数调整后原报告ratchet/protected0。文件关闭只来自本卡既有逐文件证据，未扩大到其它pending。见[统一原件与只读复验](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/uniform/README.md)。本卡done指本地审查/整改/验收，远端发布不是预先完成声明。
+```
+<!-- incremental-original-source:end -->
