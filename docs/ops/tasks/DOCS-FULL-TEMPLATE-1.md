@@ -1,13 +1,13 @@
 # DOCS-FULL-TEMPLATE-1 — 全 docs 深度治理与模板化改写
 
 Status: build
-Execution: build/rework（S80固定最新main整合；4351项验收复用，增量与组合硬门未验）
+Execution: build/rework（S84中央滚动接入；207内容已据证接受，实际授信与生产consumer/全量硬门待收口）
 Phase: ops
 Capability: documentation governance
 Coding Owner: Codex
-Reviewer: GLM（S74中央接入与唯一路由控制增量非作者accept）；Codex（S75受控接入与最终硬门Owner）
-Branch: codex/docs-s80-main-rollforward
-Last reviewed: 2026-10-30
+Reviewer: GLM（S80公共候选工具/五seed与S82退役实现非作者accept）；Codex（S81内容据证接收、中央接入Owner）
+Branch: codex/docs-s84-rollforward-central
+Last reviewed: 2026-11-01
 Template: task-card-v1 / 1.0.0
 
 > 2026-10-18 当前裁定：全量 done 已撤回。下方 R39–R96 的深审、非作者接受和完成数字为被纠正的历史声明，不是当前信用。见[返工卡](DOCS-RECORD-INTEGRITY-1.md)与[完整降档清单](../evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json)。原文保真有效不等于语义审阅完成。
@@ -2997,4 +2997,12 @@ Status: build/rework；用户“继续”授权既定中央扩容/控制pin/正�
 
 公共边界：精确207=179新增+28变更（其中两篇字节与旧pin相同直接复用）；沿用114逻辑owner，新179仅追加原semantic-rework，28保持原owner/位置，不新建空账本。完整旧4351记录须能从稀疏前值映射逐字段精确恢复，四条旧1916变更不得静默重签旧接受root；六项退役与1838原分母/三旧退役保留。变更配对JSON保留原生产模板/变体与出版/执行语义，三缺失documentStatus按当前文档生命周期显式裁定，不能把publication verified/rework当新执行信用。实际readDomain原样保留，不升级为人工全文。
 
-实施仅docs工具与本卡，复用storage packing/真实Git reader与普通文件守卫；仓外接入计划分片<512KiB且不复制正文，旧flat仍原1MiB。正式写入前须固定实际来源、编译逐篇非作者依据、完整DAG/caller适配和故障恢复；临时树只证明保全/容量/物化，不冒充model/语义/产品全通过。禁止把旧S78一次性writer扩权到新基线；旧测试不改，新增反控核尾字段/源OID/权限/签名和前值恢复判别力。整包准备好再集中交GLM核公共代码与发布增量，不拆逐篇只读包，不重复207正文。
+实施仅docs工具、本卡、既有看板和统一证据流，复用storage packing/真实Git reader与普通文件守卫；仓外接入计划分片<512KiB且不复制正文，旧flat仍原1MiB。正式写入前须固定实际来源、编译逐篇非作者依据、完整DAG/caller适配和故障恢复；临时树只证明保全/容量/物化，不冒充model/语义/产品全通过。禁止把旧S78一次性writer扩权到新基线；旧测试不改，新增反控核尾字段/源OID/权限/签名和前值恢复判别力。整包准备好再集中交GLM核公共代码与发布增量，不拆逐篇只读包，不重复207正文。
+
+S84规划与临时树实测（尚非生产发布）：完整207行已固定源Git/OID/当前载体逐项复算，179追加原semantic-rework、26按原owner/index替换候选、2未变原review精确复用。新行只补治理必需字段，不改作者具体结论/读域；原207候选字段及旧4351完整review/签名均可经稀疏前值精确恢复。三缺失documentStatus显式指当前文档生命周期，四配对JSON保留原生产变体/版本与出版语义，207行仍partial/needs、0授信。新工具无生产write/publish/grants参数，已反控拒绝。
+
+实际完整临时树为114逻辑owner/4530条review与registry身份/4524活动路由、6退役身份保留；registry9→10片，原9归属/位置不变，新增179均ops且仅占[4351,4530)新片80648B。16个受影响review owner按真实DAG重建17条行政pin，最大新review片450617B，不新增source pin或放宽512KiB/旧flat1MiB。公开storage/registry loader读回精确；不经生产loader的Python重建另证旧4351恢复/205候选恢复、registry↔review逐项类型状态和路由退役全集。该演练尚未执行template model/正式资格消费者，不冒充生产可发布；真实中央仍旧4351/4345，209待办未扣。
+
+新增7项合同/反控与原10项候选合同联合实跑17/17、零skip；lint6616文件零error/warning/info，diff净。新实现4代码+1新测试按职责分层（纯review规划、纯control投影、只读CLI、派生临时树演练），不改任何旧测试/产品/coverage。首轮新测试发现“恢复candidate时漏去随后追加的prior inverse”边角，已修、5绿1红原件保留；完整投影首轮因三配对旧route不存在historyOverlay键，严格parse/deepEqual拒绝手工构造undefined，已改显式保留字段缺席、另目录重跑全绿。未改门数字、未覆盖红件；旧临时目录按逐文件hash清单后可清理，最终演练与原始回执留存。
+
+后续生产实现前提明确：旧1916接受root须从四条变更的稀疏前值复原；公共consumer须识别精确新增179/变更26与10片布局，保留旧native配对合同；受控当前世代事务须按六退役生命周期检查输入、编译实际非作者接受表并处理4个Owner控制观察。未完成这些生产边界前不运行旧S78 writer、不实际发布、不清零model/strict、不扣迁移数。准备齐后一次集中非作者验收，不给GLM再拆正文/只读设计小包。全卡继续rework，不合main、不推送、不done。
