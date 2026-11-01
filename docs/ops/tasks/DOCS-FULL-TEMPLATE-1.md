@@ -2961,3 +2961,14 @@ S82 实施记录：六个副本已物理删除，六条旧 migrated route 已撤
 S82 冻结作者候选 `5bc5b7b23a7e1907603b20ec549d234241ce957d`：6个JSON副本已经删除，6个后继原字节不变；R94两控制pin行政级联精确，4351注册身份=4345活动+6退役，原1838分母/3旧退役不变。最终独立于mutator的只读快检scope0/写入0，114逻辑owner与旧1916语义root保全；新六合同测试均实际通过。lint6611文件零诊断、nav1800MD/15458链接0issue、testing按旧pin复用8附件后0issue、phase-lore184通过、diff-check0。实际pnpm check:docs整套369/370（临时Git stdin子进程阻塞后中止），同一干净候选单套重跑11/11通过，不能把原整命令改记exit0；model仍5旧冲突，strict仍30旧漂移，progress为4524候选/209待办（含原1838的22待办），40完整性诊断如实保留。
 
 本次只向[现有统一证据流](../evidence/DOCS-FULL-TEMPLATE-1/s22-validation.log.gz)追加一个S82 member，包含逐文件A–H自审、实际执行回执/首红/恢复/定向复验和只读快检；原压缩流字节前缀与解压前缀均完全保留，不新增逐篇账本。已清理本轮4个派生stage与12份逐个对固定Git比较全等的原源备份，未碰其它任务tmp或GLM包。作者实施已落盘，待后续集中非作者复核；不是done，不授新语义/迁移/runtime信用，不合main、不推送。封存提交只追加本段和此gzip，复用代码/正文相关门，新增链接另验。
+
+
+### S83 S80/S81 整包证据验收与接收勘误
+
+Status: build / rework（2026-11-01）；Owner Codex，build allowed仅限据证验收、接收层记录勘误/有界传输、冻结Owner候选整合。作者源`7273d7aa5a8bbe96ddebcb437765e2e8f7f3e911`、base`c72c498f014fe1bcdfdee986c9ec0336f8807bd9`与原交付`/tmp/s81-glm-main-rollforward207/`冻结不写。Owner隔离分支`codex/docs-s83-rollforward-acceptance`基于S82封存`737b7cb58fc8a131b92df92aae23516bc0072e06`，保留六项实际退役与所有旧接受记录；不合main、不推送、不标done。
+
+验收A（GLM非作者）：四代码与五Owner seed据报告151f5f1e及真实Git/原件核接收；A不授B作者或运行信用。B原始207行=5 seed原样+202作者（62MD/140JSON）；65MD/142JSON精确集合，固定Git源保全、当前任务状态与规范性入口按实际差异核，已接受存量不重复全文治理。仅新增规则/明确矛盾定向展开。
+
+本轮Owner已触发并限定两类展开：终稿恢复本地链接而11篇review仍留中间稿固定Git处置，限记录字段修正、不返工正文；raw draft-index单文件3.6MB含570KiB复用正文行，不准入正式分片、也不放宽512KiB/1MiB任何门。复用公共builder的review-only entries输出作有界接收计划，正文留Git；原始作者包作为原件不改、不直接充正式账本。额外未入146清单的临时文件另分类，不计已冻结交付信用。
+
+允许仅将白名单候选正文整合入本Owner分支（不授信），修订接收层11条记录的具体链路声明并保留原值/作者/实际读域，生成一个有界接收索引，更新本段与现有证据流；不改产品、旧测试、coverage、公共模板或既有审阅签名。196篇无此缺陷按证据直接复用，11项Owner修订在后续集中非作者复核前保持partial/needs、credit0；207正式授信、28变更/22控制重绑与全量硬门另据准入实施，不借本轮accept扩权。
