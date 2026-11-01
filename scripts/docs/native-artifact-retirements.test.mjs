@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict'
+import { execFileSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
 import { mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
@@ -228,7 +229,11 @@ test('filesystem consumer accepts real Git pins and rejects dangling leaves or s
     writeFileSync(join(scratch, path), bytes)
   }
   // Only cat-file/ls-tree reads use this Git identity. No Git writer is invoked.
-  write('.git', readFileSync(join(root, '.git')))
+  const gitDirectory = execFileSync('git', ['rev-parse', '--absolute-git-dir'], {
+    cwd: root,
+    encoding: 'utf8',
+  }).trim()
+  write('.git', `gitdir: ${gitDirectory}\n`)
   for (const [path, bytes] of f.files) write(path, bytes)
   write('docs/phase-governance/routing.json', JSON.stringify(f.routing))
   assert.deepEqual(readNativeArtifactRetirements(scratch, f.value, group).issues, [])
