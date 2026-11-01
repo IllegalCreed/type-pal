@@ -107,7 +107,7 @@
       "reviewedSourceSha256": "713e50a305c0b864183de71871bd41d969ed701dbc41b3a17f243857237fc72c",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "05b2319a738e2f780abb160226b9d31f2946c6b2",
-      "afterSha256": "6ba2b676ee8979f798712b5f717cf6a429517a010942a2ad1c6a3504882a5a6a",
+      "afterSha256": "06c95d90188a0591d9837cd3f7dc897ed898602fe44bd56f8b6317ed8d84f3bd",
       "publicCallers": [
         "scripts/docs/check-testing.mjs",
         "scripts/docs/report-governance-progress.mjs"
@@ -640,6 +640,30 @@
           "interpretation": "Earlier accepted semantic scope retained; fixed-source integration delta observed separately, not new runtime acceptance.",
           "newSemanticCredit": 0,
           "runtimeCredit": false
+        },
+        {
+          "kind": "rollforward-owner-control-observation",
+          "sourceRevision": "50d70b3dd2b3251414431d3e1d5436d777b968ea",
+          "sourceGitObject": "bb3e4af62b5f4eb701a563ab30fb72a8b6bd63cb",
+          "beforeSha256": "6ba2b676ee8979f798712b5f717cf6a429517a010942a2ad1c6a3504882a5a6a",
+          "afterSha256": "06c95d90188a0591d9837cd3f7dc897ed898602fe44bd56f8b6317ed8d84f3bd",
+          "originalSemanticClaimUnchanged": true,
+          "newSemanticCredit": 0,
+          "runtimeCredit": false
+        },
+        {
+          "kind": "accepted-rollforward-control-projection/1.0.0",
+          "cohortContentSha256": "41d487a99cebda708c577efac7e1a87acb753a62d7128ad1413321437b464c48",
+          "sourceRevision": "f17181f96d97301a3fdabfb94d1d860963d379bc",
+          "structureSha256": "38f3eab1549325b5a29a22561781dae9ab93ad854fec834c62a4aafbf6d90e77",
+          "membershipSha256": "d3a9e7ae7d908377f0381556ead8dcfd238cc6ce02ae71b76e61170150fede25",
+          "observed": {
+            "entries": 20
+          },
+          "actor": "Codex",
+          "newIndependentSemanticAcceptanceClaimed": false,
+          "runtimeCredit": false,
+          "childSemanticCredit": false
         }
       ],
       "templateVariant": "current-governance-control-native-v1",
@@ -3345,172 +3369,902 @@
       }
     },
     {
-      "path": "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/report.md",
-      "contentReviewStatus": "content-reviewed",
-      "docType": "test-domain-report",
-      "templateId": "test-domain-report-v1",
-      "templateVersion": "1.1.0",
-      "template": "docs/testing/_templates/test-domain-report.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-original-text manual semantic migration and caller-specific scope review",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "phase1/game：Game event/scene/equipment/battle/menu → lower owner；一阶段所有权审计不成为二阶段模块合同。 全四节原文与metadata保留；161 token checks、8旧测试、3 needles、最小浏览器及旧 warnings 均为原D1历史；content/SAVE轴元数据不把Game报告改成SAVE12运行证明。 分类修正与历史版本/工具范围显式，不新增动态信用。",
-      "truthAnchors": [
-        "packages/game/src/core/script-catalog.ts:33-40",
-        "packages/game/src/core/inventory-state.ts:10-23",
-        "packages/game/src/core/equipment-state.ts:6-13",
-        "packages/game/src/core/player-poison-state.ts:12-19",
-        "packages/game/src/core/scene-identity.ts:6-13",
-        "packages/game/src/core/menu/menu-stack.ts:12-19",
-        "packages/game/src/core/dependency-ownership.test.ts:26-45",
-        "packages/game/src/core/cross-module-boundaries.test.ts:45-64",
-        "packages/content/src/character.ts:168-170"
-      ],
-      "primarySource": [
-        "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/report.md:1",
-        "docs/testing/catalog.json:1"
-      ],
-      "documentStatus": "current-source-publication; no runtime reacceptance",
-      "phaseAnchors": ["phase1/game", "docs/testing/governance.md"],
-      "dependencies": [
-        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/catalog-pilot-consumer-20261015.json",
-        "domains/phase1-runtime/dependencies/dependency-ownership/evidence.json",
-        "docs/phase-governance/templates/registry.json"
-      ],
-      "applicability": "phase1/game source/publication and historical scopes separated",
-      "publicEntry": "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/report.md",
-      "counterReworkBlocked": {
-        "migration": "no open content/template counter after original preservation and real paired consumer",
-        "notClosed": [
-          "161 token checks、8旧测试、3 needles、最小浏览器及旧 warnings 均为原D1历史；content/SAVE轴元数据不把Game报告改成SAVE12运行证明。",
-          "current dynamic evidence and original task counters"
-        ]
-      },
-      "unresolved": [
-        "161 token checks、8旧测试、3 needles、最小浏览器及旧 warnings 均为原D1历史；content/SAVE轴元数据不把Game报告改成SAVE12运行证明。",
-        "原工具位置/清理状态按原审计日期保留；实际工具生命周期仍须后续逐文件核。"
-      ],
-      "nextStep": "按本域原合同运行需要的新动态任务，不以文档迁移升级旧结果；继续迁移 paired machine evidence/history 与artifact归属。",
-      "phase": "testing",
-      "module": "phase1-dependency-ownership",
-      "owner": "Codex",
-      "provenance": [
-        "full source report read",
-        "actual caller anchors read for classification",
-        "original Git blob",
-        "manual concrete template chapters"
-      ],
-      "sourceSha256": "6a37d3bf0382da26be36b64a3dedaeb18879ff0ae7b16738b94c63718bab101f",
-      "sourceGitRevision": "58d2456c2730f9f35f38f52ca110d49d2fe0317f",
-      "sourceGitObject": "c7beac7a8cab95856c0025c33cd8d42478274968",
-      "afterSha256": "89988cc48f526e07c8452902f70b70d34a7bdf35fe25e11bf54bf41bc146d0ba",
-      "publicCallers": [
-        "game event/scene/equipment/battle/menu consumers → single lower owner modules",
-        "dependency-ownership and cross-module boundary tests",
-        "node scripts/docs/check-testing.mjs"
-      ],
-      "legalInputs": [
-        "current GameState",
-        "current event/battle/menu typed commands",
-        "PAL runtime data and synchronous scene identity"
-      ],
-      "businessOracle": {
-        "type": "domain-semantic-migration-and-scope-boundaries",
-        "assertions": [
-          "phase1/game：Game event/scene/equipment/battle/menu → lower owner；一阶段所有权审计不成为二阶段模块合同。 全四节原文与metadata保留；161 token checks、8旧测试、3 needles、最小浏览器及旧 warnings 均为原D1历史；content/SAVE轴元数据不把Game报告改成SAVE12运行证明。 分类修正与历史版本/工具范围显式，不新增动态信用。",
-          "静态 runtime SCC 为零是原结构义务",
-          "旧 exports/functions 合同保持，不能复制共享状态",
-          "inventory/poison/equipment/scene/menu 各有单一 owner",
-          "原业务oracle为待验证合同，不由本次static source/publication审查宣称当前执行通过"
-        ]
-      },
-      "dedupe": {
-        "result": "reviewed",
-        "against": [
-          "docs/testing/archive/legacy/ops/testing-records/architecture-continuation-integration.md",
-          "domains/phase1-runtime/dependencies/dependency-ownership/history/report.md"
-        ],
-        "notes": "保留原phase1-dependency-ownership scope，与phase/engine、相邻owner和历史refactor报告分开；不加runtime测试数或覆盖率。"
-      },
-      "revision": {
-        "currentSha": "58d2456c2730f9f35f38f52ca110d49d2fe0317f",
-        "implementationSha": "d0336a8ba931fd260f62ac41ea3be30632c7f7fb14f86ed51da6857c55298c00",
-        "originalPublicationRevision": {
-          "currentSha": "2aed1f0dbbbed8ce01cb3511315745ab1ccdf159",
-          "contentVersion": 22,
-          "minimumSaveVersion": 11,
-          "history": [
-            {
-              "revision": "2aed1f0dbbbed8ce01cb3511315745ab1ccdf159",
-              "date": "2026-10-04",
-              "action": "source-and-publication-audit",
-              "notRun": ["runtime", "E2E", "coverage"]
-            }
-          ]
-        },
-        "history": [
+      "coreConclusion": "第一阶段依赖所有权拆分域报告（test-domain-report current，Last reviewed 2026-10-15）：D1历史收据161函数token检查/8 ownership测试/3 needles/最小浏览器为原历史，本轮为当前源码接线与历史出版记录核读（不重跑runtime/反控/浏览器/覆盖率）；当前sourceRefs绑定9个owner/oracle锚点（script-catalog/inventory/equipment/poison/scene/menu-stack/D1测试/G07/CONTENT_VERSION），2026-10-30夹具依赖窄维护G07改借battle-records（锚点25→29、48相邻825例）；两条根绝对迁移JSON目标均存在于整合base及终态候选；终稿保留源文本地目标字面形式，不以旧main树缺失推定终树缺失。本篇source==upstream 5e66fa6b（字节相同）。",
+      "semanticAssessment": {
+        "perFileChecked": true,
+        "method": "原作者固定源阅读及claims保持不变，原方法详本条Owner勘误保留原值；Codex本轮仅据固定base/candidate Git对象补核终态链接，不将main加作者清单当作完整终树，不扩展原作者全文读域或新增运行信用。",
+        "claims": [
           {
-            "date": "2026-10-15",
-            "action": "full report semantic template migration",
-            "notRun": ["runtime", "E2E", "visual", "coverage"]
+            "claim": "D1历史收据161 token检查/8测试/3 needles为原历史、本轮不重跑。",
+            "sourceQuote": "Historical D1 receipt records 161 function token checks, 8 ownership tests, 3 needles and a minimum browser check. Current source audit does not rerun PAL or reclassify the old warnings."
+          },
+          {
+            "claim": "本轮结论为源码接线与历史出版记录已核读、无动态验证。",
+            "sourceQuote": "本轮结论为当前源码接线与历史出版记录已核读。没有重跑运行时、旧反控、浏览器或覆盖率；历史证据不可因文档治理升级为当前动态验证"
+          },
+          {
+            "claim": "2026-10-30 G07窄维护改借battle-records、48相邻825例。",
+            "sourceQuote": "2026-10-30 夹具依赖窄维护：G07仅将H标签构造器改借共同battle-records，三条业务回调/输入/断言在精确标识符桥后保持，sourceRef锚点25→29并绑定当前SHA。当前48相邻825例含这三条"
+          },
+          {
+            "claim": "claim matrix三义务均为本次未重新执行。",
+            "sourceQuote": "| 静态 runtime SCC 为零是原结构义务 | 原 sourceRefs / 历史报告和配对 evidence | 本次未重新执行 |"
           }
         ]
       },
-      "evidence": {
-        "kind": "original-body-and-metadata-preservation-with-real-static-consumer",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/catalog-pilot-consumer-20261015.json",
-        "sourceSha256": "6a37d3bf0382da26be36b64a3dedaeb18879ff0ae7b16738b94c63718bab101f",
-        "afterSha256": "d0336a8ba931fd260f62ac41ea3be30632c7f7fb14f86ed51da6857c55298c00",
-        "lineCount": 85
-      },
-      "history": [
-        {
-          "date": "2026-10-15",
-          "sourceSha256": "6a37d3bf0382da26be36b64a3dedaeb18879ff0ae7b16738b94c63718bab101f",
-          "afterSha256": "2eef51a8f692ede054012e802faf739be911b6067d654da42049b4788175bd14",
-          "beforeAfter": "原四节域报告 → 五节模板、具体claim matrix和原日期/阶段/工具边界；原正文和metadata完整保留。"
-        },
-        {
-          "date": "2026-10-15",
-          "action": "C1-publication-versus-execution-status-contract-correction",
-          "sourceRevision": "8be58ae7f50880a7f48297f1c4a64b895ab408d0",
-          "sourceSha256": "2eef51a8f692ede054012e802faf739be911b6067d654da42049b4788175bd14",
-          "afterSha256": "d0336a8ba931fd260f62ac41ea3be30632c7f7fb14f86ed51da6857c55298c00",
-          "templateVersionBefore": "1.0.0",
-          "templateVersionAfter": "1.1.0",
-          "beforeAfter": "Freeze publication axis; preserve catalog and original JSON status; update template declaration.",
-          "notRun": ["runtime", "E2E", "visual", "coverage"]
-        }
-      ],
-      "supersedes": [],
-      "stopLine": "No current runtime/UI/E2E/visual/coverage or save compatibility acceptance follows from static migration or historical publication.",
-      "userVisibleBeforeAfter": "原四节报告 → source/phase scoped five-section report; original fields/claims/history retained, no new execution.",
-      "reviewedLines": "1-85",
-      "templateConformity": {
-        "result": "template-compliant",
-        "templateVersion": "1.0.0",
-        "method": "five concrete required chapters; source/metadata preservation and real paired consumer"
-      },
-      "statusContractReview": {
-        "counter": "C1: previous structure gate did not enforce status vocabulary or publication axis",
-        "resolution": "Catalog publication projection is separately validated against unique id; default execution vocabulary excludes current; real consumer and negative tests required.",
-        "runtimeCredit": false,
-        "containerCounters": [
-          "C1b: HTML pre and lazy quote rejected",
-          "C1c: indented Status and fake H1 rejected without trimming semantic indentation"
+      "readDomain": {
+        "coverage": "full-file",
+        "actual": "完整固定源25235B（<32KiB）全文逐字节读取；另解析front matter（schema2/id/evidence）与testing-meta JSON（9条sourceRefs+revision.currentSha 2aed1f0d/content22/minimumSave11+13条history增量，含2026-10-20~26七次注释/接口/Wear/入口/scene/菜单/装备窄维护与2026-10-30夹具窄维护）；核对正文五节+九个窄维护段+原文工具/迁移链接语境；git cat-file确认source==upstream 5e66fa6b（sha bd21b38c2f09相同）、priorAccepted 511c59b13不同；17条源链接核liveness（两条根绝对路径保留原字面目标，Owner已核base与candidate存在性）。；Codex 2026-11-01仅补核本候选Git树中的链接终态及此次处置勘误；原作者全文读域不因此扩展，未新增执行或目标全文审查。",
+        "reusedFrom": [],
+        "notRead": [
+          "未重跑任何D1审计/SCC/token/needles；配对evidence.json与history/report.md未逐字段展开（evidence另行走线）；迁移计划JSON的4548a895b历史字节未读取。"
         ]
       },
-      "maintenanceDeltas": [
+      "truthAnchors": [
+        "Historical D1 receipt records 161 function token checks, 8 ownership tests, 3 needles and a minimum browser check",
+        "历史证据不可因文档治理升级为当前动态验证",
+        "sourceRef锚点25→29并绑定当前SHA。当前48相邻825例含这三条",
+        "| 静态 runtime SCC 为零是原结构义务 | 原 sourceRefs / 历史报告和配对 evidence | 本次未重新执行 |"
+      ],
+      "owner": "Codex",
+      "provenance": [
+        "GLM作者候选；固定Git源逐字节读取与逐项语义核对；作者自验，非独立接受",
         {
-          "kind": "fixed-main-S75-integration-observation",
-          "sourceRevision": "b2437cec97c1f7354dccfe8f856fc762395d4ec6",
-          "beforeSha256": "d0336a8ba931fd260f62ac41ea3be30632c7f7fb14f86ed51da6857c55298c00",
-          "afterSha256": "89988cc48f526e07c8452902f70b70d34a7bdf35fe25e11bf54bf41bc146d0ba",
-          "interpretation": "Earlier accepted semantic scope retained; fixed-source integration delta observed separately, not new runtime acceptance.",
-          "newSemanticCredit": 0,
-          "runtimeCredit": false
+          "kind": "accepted-rollforward-content-planning",
+          "candidate": "7273d7aa5a8bbe96ddebcb437765e2e8f7f3e911",
+          "reportSha256": "1521a721e6839ba87916ddd0f789a125c3bffc681def1c0e44446ea4b1f385ae",
+          "productionPublication": false
         }
-      ]
+      ],
+      "businessOracle": {
+        "type": "historical-native-document",
+        "currentExecution": false,
+        "assertions": [
+          "D1历史执行（161 token/8测试/3 needles/最小浏览器）按原历史读，不因文档治理升级为当前动态验证。",
+          "当前sourceRefs绑定9个owner/oracle锚点；13条history增量全部为注释/接口/Wear/入口/scene/菜单/装备/夹具级窄维护，每条保留不升级声明。",
+          "claim matrix三义务（SCC零/旧合同保持/单一owner）均为本次未重新执行；content22/minimumSave11只是出版consumer上下文，不推导一阶段SAVE合同。",
+          "静态导航oracle：上述目标在整合base及候选Git树实际存在，候选可见正文保持本地源链接；不因目标未入作者白名单而判失效，不把本检查当运行通过。"
+        ]
+      },
+      "dedupe": {
+        "result": "本域报告与配对evidence.json构成catalog配对（id phase1-dependency-ownership）；history/report.md+history/evidence.json保留原平面材料；与control-rotation报告同为phase1-runtime域但分属依赖所有权与输入方向两域。",
+        "against": [
+          "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/evidence.json",
+          "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/history/report.md",
+          "docs/testing/domains/phase1-runtime/control-rotation/report.md"
+        ]
+      },
+      "dependencies": [
+        "模板注册表registry.json（test-domain-report-v1/1.1.0合同）",
+        "固定源=integration 43403a82正文且与upstream 5e66fa6b字节相同（sha bd21b38c2f09）；priorAccepted=511c59b13",
+        "docs/ops/evidence/QUALITY-PENDING-100-3/organization-game-battle-fixtures.json（2026-10-30窄维护证据）"
+      ],
+      "publicCallers": [
+        "docs/testing/catalog.json（唯一id phase1-dependency-ownership配对）",
+        "docs/ops/evidence/QUALITY-PENDING-100-3/organization-game-battle-fixtures.json（夹具桥证据）"
+      ],
+      "unresolved": [
+        "候选待非作者验收与Owner中央接入",
+        "缺当前runtime/UI/E2E/视觉/覆盖证据保留为限制；配对evidence.json另行走线。"
+      ],
+      "historyBoundary": "固定源=integration 43403a82时点正文且与upstream 5e66fa6b逐字节相同（Last reviewed 2026-10-15正文+2026-10-30窄维护段）；D1历史执行为原时点；相对priorAccepted 511c59b13存在差异。",
+      "stopLine": "源字节变化、见证矛盾或需要新产品取舍时阻断本篇并交Owner。",
+      "nextStep": "Owner非作者接收本候选；中央扩容/授信由Owner执行。",
+      "runtimeExecutionPerformed": false,
+      "phaseAnchor": "Phase1 game依赖所有权域（一阶段所有权审计不成为二阶段模块合同）。",
+      "applicability": "仅本页依赖所有权域报告与窄维护历史事实；不外推runtime/E2E/coverage或二阶段架构。",
+      "versionScope": "仅本页依赖所有权域报告与窄维护历史事实；不外推runtime/E2E/coverage或二阶段架构。",
+      "userVisibleBeforeAfter": "候选正文与固定源的实际差异由Git/source与after SHA保留；终态本地链接保持源目标，历史span逐字节保全。本次Owner只修审阅记录，不改作者正文、任务状态、版本或产品行为。",
+      "templateChoiceRationale": "本页是域内claim/evidence报告（五必需章节+窄维护增量段），test-domain-report-v1目的吻合且source/publication scope限定明确。",
+      "templateConformance": "候选按test-domain-report-v1五必需章节自检：源已齐备；Status current（source/publication scope；无新运行验收）保持源值；除2条失效链接外prefix与源逐字节一致。",
+      "history": [],
+      "supersedes": [],
+      "counterReworkBlocked": {
+        "counter": [],
+        "rework": [],
+        "blocked": ["本候选待非作者文档接受和中央接入"]
+      },
+      "linkDisposition": [
+        {
+          "source": "../../../../../ops/evidence/CODE-QUALITY-94/approved-closeout/README.md",
+          "target": "../../../../../ops/evidence/CODE-QUALITY-94/approved-closeout/README.md",
+          "kind": "live"
+        },
+        {
+          "source": "../../../../../ops/evidence/QUALITY-PENDING-100-3/README.md",
+          "target": "../../../../../ops/evidence/QUALITY-PENDING-100-3/README.md",
+          "kind": "live"
+        },
+        {
+          "source": "../../../../../ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-fade-quality/README.md",
+          "target": "../../../../../ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-fade-quality/README.md",
+          "kind": "live"
+        },
+        {
+          "source": "../../../../../ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/README.md",
+          "target": "../../../../../ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/README.md",
+          "kind": "live"
+        },
+        {
+          "source": "../../../../../ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/poison-progression-comments/README.md",
+          "target": "../../../../../ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/poison-progression-comments/README.md",
+          "kind": "live"
+        },
+        {
+          "source": "../../../../../ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json",
+          "target": "../../../../../ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json",
+          "kind": "live"
+        },
+        {
+          "source": "../../../../../ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json",
+          "target": "../../../../../ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json",
+          "kind": "live"
+        },
+        {
+          "source": "../../../../../ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-quality/README.md",
+          "target": "../../../../../ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-quality/README.md",
+          "kind": "live"
+        },
+        {
+          "source": "../../../../../ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/poison-entry-ownership/README.md",
+          "target": "../../../../../ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/poison-entry-ownership/README.md",
+          "kind": "live"
+        },
+        {
+          "source": "../../../../../ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/game-equipment-fixtures.json",
+          "target": "../../../../../ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/game-equipment-fixtures.json",
+          "kind": "live"
+        },
+        {
+          "source": "../../../cross-phase/script-corrections/report.md",
+          "target": "../../../cross-phase/script-corrections/report.md",
+          "kind": "live"
+        },
+        {
+          "source": "/docs/testing/archive/migrations/testing-domains-20261004-wave2-tool-audit.json",
+          "target": "/docs/testing/archive/migrations/testing-domains-20261004-wave2-tool-audit.json",
+          "kind": "live"
+        },
+        {
+          "source": "/docs/testing/archive/migrations/testing-domains-20261004-wave2.json",
+          "target": "/docs/testing/archive/migrations/testing-domains-20261004-wave2.json",
+          "kind": "live"
+        },
+        {
+          "source": "evidence.json",
+          "target": "evidence.json",
+          "kind": "live"
+        },
+        {
+          "source": "history/evidence.json",
+          "target": "history/evidence.json",
+          "kind": "live"
+        },
+        {
+          "source": "history/report.md",
+          "target": "history/report.md",
+          "kind": "live"
+        }
+      ],
+      "fieldRoles": {
+        "governance": ["docs/phase-governance/reviews/20261015-catalog-pilot-batch.json#entries/4"],
+        "nativePointers": []
+      },
+      "ownerCorrections": [
+        {
+          "kind": "owner-limited-link-erratum/1.0.0",
+          "actor": "Codex",
+          "date": "2026-11-01",
+          "authorCandidate": "7273d7aa5a8bbe96ddebcb437765e2e8f7f3e911",
+          "authorDraftSha256": "1e919f962112b0797c26b1670315da31309ad80e82ab2b7374434d8dfddff4e4",
+          "scope": "Final link disposition only; no prose/native/source/status/seed changes or author-read expansion",
+          "beforeFields": {
+            "coreConclusion": "第一阶段依赖所有权拆分域报告（test-domain-report current，Last reviewed 2026-10-15）：D1历史收据161函数token检查/8 ownership测试/3 needles/最小浏览器为原历史，本轮为当前源码接线与历史出版记录核读（不重跑runtime/反控/浏览器/覆盖率）；当前sourceRefs绑定9个owner/oracle锚点（script-catalog/inventory/equipment/poison/scene/menu-stack/D1测试/G07/CONTENT_VERSION），2026-10-30夹具依赖窄维护G07改借battle-records（锚点25→29、48相邻825例）；两条根绝对迁移JSON链接在5e66fa6b与43403a82均无文件，prefix已最小换4548a895b固定地址。本篇source==upstream 5e66fa6b（字节相同）。",
+            "semanticAssessment.method": "固定源25235B全文逐字节读取（<32KiB直接全读，amend_prefix.py起点=源剥front matter/testing-meta的全文）；以git cat-file比对integration 43403a82源与upstream 5e66fa6b/priorAccepted 511c59b13三元差异；links.py列全16条源链接并逐条核liveness。",
+            "readDomain.actual": "完整固定源25235B（<32KiB）全文逐字节读取；另解析front matter（schema2/id/evidence）与testing-meta JSON（9条sourceRefs+revision.currentSha 2aed1f0d/content22/minimumSave11+13条history增量，含2026-10-20~26七次注释/接口/Wear/入口/scene/菜单/装备窄维护与2026-10-30夹具窄维护）；核对正文五节+九个窄维护段+原文工具/迁移链接语境；git cat-file确认source==upstream 5e66fa6b（sha bd21b38c2f09相同）、priorAccepted 511c59b13不同；17条源链接核liveness（2条根绝对路径已转4548a895b固定地址）。",
+            "businessOracle.assertions": [
+              "D1历史执行（161 token/8测试/3 needles/最小浏览器）按原历史读，不因文档治理升级为当前动态验证。",
+              "当前sourceRefs绑定9个owner/oracle锚点；13条history增量全部为注释/接口/Wear/入口/scene/菜单/装备/夹具级窄维护，每条保留不升级声明。",
+              "claim matrix三义务（SCC零/旧合同保持/单一owner）均为本次未重新执行；content22/minimumSave11只是出版consumer上下文，不推导一阶段SAVE合同。",
+              "两条根绝对迁移JSON链接已最小换4548a895b固定Git地址（该commit为main祖先，文件后删除）。"
+            ],
+            "userVisibleBeforeAfter": "amendment复用amend_prefix.py起点（剥front matter与testing-meta）零结构改动；仅2条根绝对失效链接最小换4548a895b固定Git地址；源字节保全在固定Git对象。"
+          },
+          "targets": [
+            {
+              "target": "/docs/testing/archive/migrations/testing-domains-20261004-wave2-tool-audit.json",
+              "path": "docs/testing/archive/migrations/testing-domains-20261004-wave2-tool-audit.json",
+              "occurrencesAdded": 1,
+              "gitObject": "9f250fae6316a391e4337abd98754380f2edfc1b",
+              "sha256": "b48321e1c9da18c259bac79c6599f6ee64cf39005323e58182d12e8e321977c7"
+            },
+            {
+              "target": "/docs/testing/archive/migrations/testing-domains-20261004-wave2.json",
+              "path": "docs/testing/archive/migrations/testing-domains-20261004-wave2.json",
+              "occurrencesAdded": 1,
+              "gitObject": "3ce1bbe4aac1d74a60a2b8d8ed8316560a3d1b5e",
+              "sha256": "c6e7f282491f9a81ca5a78d14b2e736b6b653def4804ec475a6bb134358b34bf"
+            }
+          ],
+          "independentAcceptance": "accepted-by-Owner-as-non-author-evidence-correction",
+          "newSemanticCredit": 0,
+          "runtimeCredit": 0
+        }
+      ],
+      "path": "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/report.md",
+      "docType": "test-domain-report",
+      "templateId": "test-domain-report-v1",
+      "templateVersion": "1.1.0",
+      "documentStatus": "current",
+      "sourceGitRevision": "43403a826edcaf40509f55b51e6f6214723252ed",
+      "sourceSha256": "bd21b38c2f0963652641e8c6d7683fbf9571cd60786374e1dcd66c9e13b28d6d",
+      "afterSha256": "66c05a1e53cd98cccfd6311772b1db81c2e09369b88e2da4308de6a53ff1e715",
+      "primarySource": [
+        {
+          "path": "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/report.md",
+          "revision": "43403a826edcaf40509f55b51e6f6214723252ed",
+          "gitObject": "b305f87897b16ea22fccda6cb4e9ff897ce6a161",
+          "sha256": "bd21b38c2f0963652641e8c6d7683fbf9571cd60786374e1dcd66c9e13b28d6d"
+        }
+      ],
+      "legalInputs": [
+        {
+          "kind": "fixed-markdown-source",
+          "path": "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/report.md",
+          "revision": "43403a826edcaf40509f55b51e6f6214723252ed",
+          "gitObject": "b305f87897b16ea22fccda6cb4e9ff897ce6a161",
+          "sha256": "bd21b38c2f0963652641e8c6d7683fbf9571cd60786374e1dcd66c9e13b28d6d"
+        }
+      ],
+      "evidence": {
+        "kind": "incremental-existing-template-amendment",
+        "originalBytes": 25235,
+        "originalSha256": "bd21b38c2f0963652641e8c6d7683fbf9571cd60786374e1dcd66c9e13b28d6d",
+        "preservedSpans": [
+          {
+            "marker": "<!-- incremental-original-source:start -->",
+            "blocks": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "marker": "<!-- original-source-quote:start -->",
+            "blocks": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "marker": "<!-- original-source-fenced:start -->",
+            "blocks": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "marker": "<!-- template-source-example:start -->",
+            "blocks": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        ],
+        "fullSourcePreservedIn": "pinned-git-blob",
+        "path": "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/report.md"
+      },
+      "revision": {
+        "currentSha": "7273d7aa5a8bbe96ddebcb437765e2e8f7f3e911",
+        "history": [
+          {
+            "value": "bd21b38c2f0963652641e8c6d7683fbf9571cd60786374e1dcd66c9e13b28d6d",
+            "meaning": "Prior candidate value retained verbatim; currentSha now names the real tree containing the accepted carrier."
+          }
+        ]
+      },
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "contentReviewStatus": "content-reviewed",
+      "templateCompliance": "template-compliant",
+      "nonAuthorReviewer": true,
+      "creditGranted": 0,
+      "proposedBinding": {
+        "docType": "test-domain-report",
+        "templateId": "test-domain-report-v1",
+        "templateVersion": "1.1.0",
+        "productionRoutingChanged": false
+      },
+      "rollforward": {
+        "kind": "amendment",
+        "upstream": {
+          "revision": "5e66fa6b6291f94330fb5d7fc9828062e0eb8a51",
+          "gitObject": "b305f87897b16ea22fccda6cb4e9ff897ce6a161",
+          "sha256": "bd21b38c2f0963652641e8c6d7683fbf9571cd60786374e1dcd66c9e13b28d6d"
+        },
+        "priorAccepted": {
+          "revision": "511c59b13fec67839b9f6fb7dcfd109d42a747dd",
+          "gitObject": "a6aa6b63d698abeadf128f0887ebbabc97d0a26d",
+          "sha256": "89988cc48f526e07c8452902f70b70d34a7bdf35fe25e11bf54bf41bc146d0ba"
+        },
+        "priorCreditReusedForUnchangedContentOnly": true,
+        "currentPublicationOrExecutionStatusUnchanged": true
+      },
+      "readMethod": "contributor-declared-scope-and-Owner-evidence-verification",
+      "reviewDepth": "partial-semantic",
+      "reviewedLines": {
+        "scope": "完整固定源25235B（<32KiB）全文逐字节读取；另解析front matter（schema2/id/evidence）与testing-meta JSON（9条sourceRefs+revision.currentSha 2aed1f0d/content22/minimumSave11+13条history增量，含2026-10-20~26七次注释/接口/Wear/入口/scene/菜单/装备窄维护与2026-10-30夹具窄维护）；核对正文五节+九个窄维护段+原文工具/迁移链接语境；git cat-file确认source==upstream 5e66fa6b（sha bd21b38c2f09相同）、priorAccepted 511c59b13不同；17条源链接核liveness（两条根绝对路径保留原字面目标，Owner已核base与candidate存在性）。；Codex 2026-11-01仅补核本候选Git树中的链接终态及此次处置勘误；原作者全文读域不因此扩展，未新增执行或目标全文审查。",
+        "boundary": "Preserves the declared reading domain; not a second full-text, code or execution audit."
+      },
+      "phaseAnchors": ["Phase1 game依赖所有权域（一阶段所有权审计不成为二阶段模块合同）。"],
+      "rollforwardIntake": {
+        "keys": [
+          "coreConclusion",
+          "semanticAssessment",
+          "readDomain",
+          "truthAnchors",
+          "owner",
+          "provenance",
+          "businessOracle",
+          "dedupe",
+          "dependencies",
+          "publicCallers",
+          "unresolved",
+          "historyBoundary",
+          "stopLine",
+          "nextStep",
+          "runtimeExecutionPerformed",
+          "phaseAnchor",
+          "applicability",
+          "versionScope",
+          "userVisibleBeforeAfter",
+          "templateChoiceRationale",
+          "templateConformance",
+          "history",
+          "supersedes",
+          "counterReworkBlocked",
+          "linkDisposition",
+          "fieldRoles",
+          "ownerCorrections",
+          "path",
+          "docType",
+          "templateId",
+          "templateVersion",
+          "documentStatus",
+          "sourceGitRevision",
+          "sourceSha256",
+          "afterSha256",
+          "primarySource",
+          "legalInputs",
+          "evidence",
+          "revision",
+          "historyOverlay",
+          "artifactOnly",
+          "contentReviewStatus",
+          "templateCompliance",
+          "nonAuthorReviewer",
+          "creditGranted",
+          "proposedBinding",
+          "rollforward"
+        ],
+        "sha256": "ecca24a8d402a4c4b4796665576499f6ec772da56d5a80d3552afa5f355d1481",
+        "fields": [
+          {
+            "key": "provenance",
+            "present": true,
+            "value": "GLM作者候选；固定Git源逐字节读取与逐项语义核对；作者自验，非独立接受"
+          },
+          {
+            "key": "versionScope",
+            "present": true,
+            "value": "本篇source与upstream 5e66fa6b字节相同，S81承载仅相对priorAccepted 511c59b13的接受差；适用该时点内容。"
+          },
+          {
+            "key": "fieldRoles",
+            "present": true,
+            "value": {
+              "governance": ["external-candidate-bundle#entries/195"],
+              "nativePointers": []
+            }
+          },
+          {
+            "key": "evidence",
+            "present": true,
+            "value": {
+              "kind": "incremental-existing-template-amendment",
+              "originalBytes": 25235,
+              "originalSha256": "bd21b38c2f0963652641e8c6d7683fbf9571cd60786374e1dcd66c9e13b28d6d",
+              "preservedSpans": [
+                {
+                  "marker": "<!-- incremental-original-source:start -->",
+                  "blocks": 0,
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                {
+                  "marker": "<!-- original-source-quote:start -->",
+                  "blocks": 0,
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                {
+                  "marker": "<!-- original-source-fenced:start -->",
+                  "blocks": 0,
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                {
+                  "marker": "<!-- template-source-example:start -->",
+                  "blocks": 0,
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                }
+              ],
+              "fullSourcePreservedIn": "pinned-git-blob"
+            }
+          },
+          {
+            "key": "revision",
+            "present": true,
+            "value": {
+              "currentSha": "bd21b38c2f0963652641e8c6d7683fbf9571cd60786374e1dcd66c9e13b28d6d",
+              "history": []
+            }
+          },
+          {
+            "key": "readMethod",
+            "present": false
+          },
+          {
+            "key": "reviewDepth",
+            "present": false
+          },
+          {
+            "key": "reviewedLines",
+            "present": false
+          },
+          {
+            "key": "phaseAnchors",
+            "present": false
+          }
+        ]
+      },
+      "rollforwardPrior": {
+        "keys": [
+          "path",
+          "contentReviewStatus",
+          "docType",
+          "templateId",
+          "templateVersion",
+          "template",
+          "templateCompliance",
+          "readMethod",
+          "reviewDepth",
+          "coreConclusion",
+          "truthAnchors",
+          "primarySource",
+          "documentStatus",
+          "phaseAnchors",
+          "dependencies",
+          "applicability",
+          "publicEntry",
+          "counterReworkBlocked",
+          "unresolved",
+          "nextStep",
+          "phase",
+          "module",
+          "owner",
+          "provenance",
+          "sourceSha256",
+          "sourceGitRevision",
+          "sourceGitObject",
+          "afterSha256",
+          "publicCallers",
+          "legalInputs",
+          "businessOracle",
+          "dedupe",
+          "revision",
+          "evidence",
+          "history",
+          "supersedes",
+          "stopLine",
+          "userVisibleBeforeAfter",
+          "reviewedLines",
+          "templateConformity",
+          "statusContractReview",
+          "maintenanceDeltas"
+        ],
+        "sha256": "6f95aa9ef04ba3063177cf8984d6fd05ad8621b7695f03141db2692039da9fdb",
+        "fields": [
+          {
+            "key": "contentReviewStatus",
+            "present": true,
+            "value": "content-reviewed"
+          },
+          {
+            "key": "template",
+            "present": true,
+            "value": "docs/testing/_templates/test-domain-report.md"
+          },
+          {
+            "key": "templateCompliance",
+            "present": true,
+            "value": "template-compliant"
+          },
+          {
+            "key": "readMethod",
+            "present": true,
+            "value": "full-original-text manual semantic migration and caller-specific scope review"
+          },
+          {
+            "key": "reviewDepth",
+            "present": true,
+            "value": "deep-semantic"
+          },
+          {
+            "key": "coreConclusion",
+            "present": true,
+            "value": "phase1/game：Game event/scene/equipment/battle/menu → lower owner；一阶段所有权审计不成为二阶段模块合同。 全四节原文与metadata保留；161 token checks、8旧测试、3 needles、最小浏览器及旧 warnings 均为原D1历史；content/SAVE轴元数据不把Game报告改成SAVE12运行证明。 分类修正与历史版本/工具范围显式，不新增动态信用。"
+          },
+          {
+            "key": "truthAnchors",
+            "present": true,
+            "value": [
+              "packages/game/src/core/script-catalog.ts:33-40",
+              "packages/game/src/core/inventory-state.ts:10-23",
+              "packages/game/src/core/equipment-state.ts:6-13",
+              "packages/game/src/core/player-poison-state.ts:12-19",
+              "packages/game/src/core/scene-identity.ts:6-13",
+              "packages/game/src/core/menu/menu-stack.ts:12-19",
+              "packages/game/src/core/dependency-ownership.test.ts:26-45",
+              "packages/game/src/core/cross-module-boundaries.test.ts:45-64",
+              "packages/content/src/character.ts:168-170"
+            ]
+          },
+          {
+            "key": "primarySource",
+            "present": true,
+            "value": [
+              "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/report.md:1",
+              "docs/testing/catalog.json:1"
+            ]
+          },
+          {
+            "key": "documentStatus",
+            "present": true,
+            "value": "current-source-publication; no runtime reacceptance"
+          },
+          {
+            "key": "phaseAnchors",
+            "present": true,
+            "value": ["phase1/game", "docs/testing/governance.md"]
+          },
+          {
+            "key": "dependencies",
+            "present": true,
+            "value": [
+              "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/catalog-pilot-consumer-20261015.json",
+              "domains/phase1-runtime/dependencies/dependency-ownership/evidence.json",
+              "docs/phase-governance/templates/registry.json"
+            ]
+          },
+          {
+            "key": "applicability",
+            "present": true,
+            "value": "phase1/game source/publication and historical scopes separated"
+          },
+          {
+            "key": "publicEntry",
+            "present": true,
+            "value": "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/report.md"
+          },
+          {
+            "key": "counterReworkBlocked",
+            "present": true,
+            "value": {
+              "migration": "no open content/template counter after original preservation and real paired consumer",
+              "notClosed": [
+                "161 token checks、8旧测试、3 needles、最小浏览器及旧 warnings 均为原D1历史；content/SAVE轴元数据不把Game报告改成SAVE12运行证明。",
+                "current dynamic evidence and original task counters"
+              ]
+            }
+          },
+          {
+            "key": "unresolved",
+            "present": true,
+            "value": [
+              "161 token checks、8旧测试、3 needles、最小浏览器及旧 warnings 均为原D1历史；content/SAVE轴元数据不把Game报告改成SAVE12运行证明。",
+              "原工具位置/清理状态按原审计日期保留；实际工具生命周期仍须后续逐文件核。"
+            ]
+          },
+          {
+            "key": "nextStep",
+            "present": true,
+            "value": "按本域原合同运行需要的新动态任务，不以文档迁移升级旧结果；继续迁移 paired machine evidence/history 与artifact归属。"
+          },
+          {
+            "key": "phase",
+            "present": true,
+            "value": "testing"
+          },
+          {
+            "key": "module",
+            "present": true,
+            "value": "phase1-dependency-ownership"
+          },
+          {
+            "key": "provenance",
+            "present": true,
+            "value": [
+              "full source report read",
+              "actual caller anchors read for classification",
+              "original Git blob",
+              "manual concrete template chapters"
+            ]
+          },
+          {
+            "key": "sourceSha256",
+            "present": true,
+            "value": "6a37d3bf0382da26be36b64a3dedaeb18879ff0ae7b16738b94c63718bab101f"
+          },
+          {
+            "key": "sourceGitRevision",
+            "present": true,
+            "value": "58d2456c2730f9f35f38f52ca110d49d2fe0317f"
+          },
+          {
+            "key": "sourceGitObject",
+            "present": true,
+            "value": "c7beac7a8cab95856c0025c33cd8d42478274968"
+          },
+          {
+            "key": "afterSha256",
+            "present": true,
+            "value": "89988cc48f526e07c8452902f70b70d34a7bdf35fe25e11bf54bf41bc146d0ba"
+          },
+          {
+            "key": "publicCallers",
+            "present": true,
+            "value": [
+              "game event/scene/equipment/battle/menu consumers → single lower owner modules",
+              "dependency-ownership and cross-module boundary tests",
+              "node scripts/docs/check-testing.mjs"
+            ]
+          },
+          {
+            "key": "legalInputs",
+            "present": true,
+            "value": [
+              "current GameState",
+              "current event/battle/menu typed commands",
+              "PAL runtime data and synchronous scene identity"
+            ]
+          },
+          {
+            "key": "businessOracle",
+            "present": true,
+            "value": {
+              "type": "domain-semantic-migration-and-scope-boundaries",
+              "assertions": [
+                "phase1/game：Game event/scene/equipment/battle/menu → lower owner；一阶段所有权审计不成为二阶段模块合同。 全四节原文与metadata保留；161 token checks、8旧测试、3 needles、最小浏览器及旧 warnings 均为原D1历史；content/SAVE轴元数据不把Game报告改成SAVE12运行证明。 分类修正与历史版本/工具范围显式，不新增动态信用。",
+                "静态 runtime SCC 为零是原结构义务",
+                "旧 exports/functions 合同保持，不能复制共享状态",
+                "inventory/poison/equipment/scene/menu 各有单一 owner",
+                "原业务oracle为待验证合同，不由本次static source/publication审查宣称当前执行通过"
+              ]
+            }
+          },
+          {
+            "key": "dedupe",
+            "present": true,
+            "value": {
+              "result": "reviewed",
+              "against": [
+                "docs/testing/archive/legacy/ops/testing-records/architecture-continuation-integration.md",
+                "domains/phase1-runtime/dependencies/dependency-ownership/history/report.md"
+              ],
+              "notes": "保留原phase1-dependency-ownership scope，与phase/engine、相邻owner和历史refactor报告分开；不加runtime测试数或覆盖率。"
+            }
+          },
+          {
+            "key": "revision",
+            "present": true,
+            "value": {
+              "currentSha": "58d2456c2730f9f35f38f52ca110d49d2fe0317f",
+              "implementationSha": "d0336a8ba931fd260f62ac41ea3be30632c7f7fb14f86ed51da6857c55298c00",
+              "originalPublicationRevision": {
+                "currentSha": "2aed1f0dbbbed8ce01cb3511315745ab1ccdf159",
+                "contentVersion": 22,
+                "minimumSaveVersion": 11,
+                "history": [
+                  {
+                    "revision": "2aed1f0dbbbed8ce01cb3511315745ab1ccdf159",
+                    "date": "2026-10-04",
+                    "action": "source-and-publication-audit",
+                    "notRun": ["runtime", "E2E", "coverage"]
+                  }
+                ]
+              },
+              "history": [
+                {
+                  "date": "2026-10-15",
+                  "action": "full report semantic template migration",
+                  "notRun": ["runtime", "E2E", "visual", "coverage"]
+                }
+              ]
+            }
+          },
+          {
+            "key": "evidence",
+            "present": true,
+            "value": {
+              "kind": "original-body-and-metadata-preservation-with-real-static-consumer",
+              "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/catalog-pilot-consumer-20261015.json",
+              "sourceSha256": "6a37d3bf0382da26be36b64a3dedaeb18879ff0ae7b16738b94c63718bab101f",
+              "afterSha256": "d0336a8ba931fd260f62ac41ea3be30632c7f7fb14f86ed51da6857c55298c00",
+              "lineCount": 85
+            }
+          },
+          {
+            "key": "history",
+            "present": true,
+            "value": [
+              {
+                "date": "2026-10-15",
+                "sourceSha256": "6a37d3bf0382da26be36b64a3dedaeb18879ff0ae7b16738b94c63718bab101f",
+                "afterSha256": "2eef51a8f692ede054012e802faf739be911b6067d654da42049b4788175bd14",
+                "beforeAfter": "原四节域报告 → 五节模板、具体claim matrix和原日期/阶段/工具边界；原正文和metadata完整保留。"
+              },
+              {
+                "date": "2026-10-15",
+                "action": "C1-publication-versus-execution-status-contract-correction",
+                "sourceRevision": "8be58ae7f50880a7f48297f1c4a64b895ab408d0",
+                "sourceSha256": "2eef51a8f692ede054012e802faf739be911b6067d654da42049b4788175bd14",
+                "afterSha256": "d0336a8ba931fd260f62ac41ea3be30632c7f7fb14f86ed51da6857c55298c00",
+                "templateVersionBefore": "1.0.0",
+                "templateVersionAfter": "1.1.0",
+                "beforeAfter": "Freeze publication axis; preserve catalog and original JSON status; update template declaration.",
+                "notRun": ["runtime", "E2E", "visual", "coverage"]
+              }
+            ]
+          },
+          {
+            "key": "stopLine",
+            "present": true,
+            "value": "No current runtime/UI/E2E/visual/coverage or save compatibility acceptance follows from static migration or historical publication."
+          },
+          {
+            "key": "userVisibleBeforeAfter",
+            "present": true,
+            "value": "原四节报告 → source/phase scoped five-section report; original fields/claims/history retained, no new execution."
+          },
+          {
+            "key": "reviewedLines",
+            "present": true,
+            "value": "1-85"
+          },
+          {
+            "key": "templateConformity",
+            "present": true,
+            "value": {
+              "result": "template-compliant",
+              "templateVersion": "1.0.0",
+              "method": "five concrete required chapters; source/metadata preservation and real paired consumer"
+            }
+          },
+          {
+            "key": "statusContractReview",
+            "present": true,
+            "value": {
+              "counter": "C1: previous structure gate did not enforce status vocabulary or publication axis",
+              "resolution": "Catalog publication projection is separately validated against unique id; default execution vocabulary excludes current; real consumer and negative tests required.",
+              "runtimeCredit": false,
+              "containerCounters": [
+                "C1b: HTML pre and lazy quote rejected",
+                "C1c: indented Status and fake H1 rejected without trimming semantic indentation"
+              ]
+            }
+          },
+          {
+            "key": "maintenanceDeltas",
+            "present": true,
+            "value": [
+              {
+                "kind": "fixed-main-S75-integration-observation",
+                "sourceRevision": "b2437cec97c1f7354dccfe8f856fc762395d4ec6",
+                "beforeSha256": "d0336a8ba931fd260f62ac41ea3be30632c7f7fb14f86ed51da6857c55298c00",
+                "afterSha256": "89988cc48f526e07c8452902f70b70d34a7bdf35fe25e11bf54bf41bc146d0ba",
+                "interpretation": "Earlier accepted semantic scope retained; fixed-source integration delta observed separately, not new runtime acceptance.",
+                "newSemanticCredit": 0,
+                "runtimeCredit": false
+              }
+            ]
+          },
+          {
+            "key": "semanticAssessment",
+            "present": false
+          },
+          {
+            "key": "readDomain",
+            "present": false
+          },
+          {
+            "key": "historyBoundary",
+            "present": false
+          },
+          {
+            "key": "runtimeExecutionPerformed",
+            "present": false
+          },
+          {
+            "key": "phaseAnchor",
+            "present": false
+          },
+          {
+            "key": "versionScope",
+            "present": false
+          },
+          {
+            "key": "templateChoiceRationale",
+            "present": false
+          },
+          {
+            "key": "templateConformance",
+            "present": false
+          },
+          {
+            "key": "linkDisposition",
+            "present": false
+          },
+          {
+            "key": "fieldRoles",
+            "present": false
+          },
+          {
+            "key": "ownerCorrections",
+            "present": false
+          },
+          {
+            "key": "historyOverlay",
+            "present": false
+          },
+          {
+            "key": "artifactOnly",
+            "present": false
+          },
+          {
+            "key": "nonAuthorReviewer",
+            "present": false
+          },
+          {
+            "key": "creditGranted",
+            "present": false
+          },
+          {
+            "key": "proposedBinding",
+            "present": false
+          },
+          {
+            "key": "rollforward",
+            "present": false
+          },
+          {
+            "key": "rollforwardIntake",
+            "present": false
+          }
+        ]
+      },
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "kind": "accepted-rollforward-publication/1.0.0",
+        "path": "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/report.md",
+        "contentSha256": "f6e74c0dab163487a452fb61e1e068edc9b44780d3099ba48d072ad7cd53efee",
+        "acceptedBodySha256": "66c05a1e53cd98cccfd6311772b1db81c2e09369b88e2da4308de6a53ff1e715",
+        "reviewedCandidate": "7273d7aa5a8bbe96ddebcb437765e2e8f7f3e911",
+        "nonAuthorReviewer": true,
+        "basis": {
+          "author": "GLM",
+          "reviewer": "Codex",
+          "reportSha256": "1521a721e6839ba87916ddd0f789a125c3bffc681def1c0e44446ea4b1f385ae",
+          "scope": "Declared source-specific content and Owner final-link errata; not a second full product audit."
+        },
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S85",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticCredit": false
+        }
+      }
     }
   ]
 }

@@ -60,7 +60,6 @@
       "reviewStatus": "content-reviewed",
       "reviewRecord": "20261015-protocol-and-e2e-pilot-batch.json",
       "reviewDepth": "structured-content",
-      "historyOverlay": false,
       "artifactOnly": false
     },
     {
@@ -349,10 +348,10 @@
       "docType": "test-machine-evidence",
       "templateId": "test-machine-evidence-v1",
       "templateVersion": "1.5.0",
-      "templateVariant": "document-audit-v2",
       "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewRecord": "20261015-domain-pairs-and-archive-cards.json"
+      "reviewRecord": "20261015-domain-pairs-and-archive-cards.json",
+      "templateVariant": "document-audit-v2"
     },
     {
       "path": "docs/testing/domains/ops/testing-governance/legacy-flat-audit.json",
@@ -444,7 +443,6 @@
       "reviewStatus": "content-reviewed",
       "reviewRecord": "20261016-historical-execution-pilot.json",
       "reviewDepth": "structured-content",
-      "historyOverlay": false,
       "artifactOnly": false
     },
     {
@@ -1322,7 +1320,6 @@
       "reviewStatus": "content-reviewed",
       "reviewRecord": "20261016-e2e-stage-m.json",
       "reviewDepth": "structured-content",
-      "historyOverlay": false,
       "artifactOnly": false
     },
     {
@@ -1345,7 +1342,6 @@
       "reviewStatus": "content-reviewed",
       "reviewRecord": "20261016-e2e-stage-m.json",
       "reviewDepth": "structured-content",
-      "historyOverlay": false,
       "artifactOnly": false
     },
     {
@@ -1368,7 +1364,6 @@
       "reviewStatus": "content-reviewed",
       "reviewRecord": "20261016-e2e-stage-m.json",
       "reviewDepth": "structured-content",
-      "historyOverlay": false,
       "artifactOnly": false
     },
     {
@@ -1391,7 +1386,6 @@
       "reviewStatus": "content-reviewed",
       "reviewRecord": "20261016-e2e-stage-m.json",
       "reviewDepth": "structured-content",
-      "historyOverlay": false,
       "artifactOnly": false
     },
     {
@@ -1434,8 +1428,7 @@
       "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
       "reviewRecord": "20261018-semantic-rework.json",
-      "templateVersion": "1.1.0",
-      "historyOverlay": false
+      "templateVersion": "1.1.0"
     },
     {
       "path": "docs/testing/e2e/route-proposal.md",
@@ -1727,7 +1720,6 @@
       "reviewRecord": "20261017-r62-template-sources.json",
       "templateVersion": "1.0.0",
       "reviewDepth": "structured-content",
-      "historyOverlay": false,
       "artifactOnly": false
     },
     {
@@ -1778,7 +1770,6 @@
       "reviewRecord": "20261017-r62-template-sources.json",
       "templateVersion": "1.0.0",
       "reviewDepth": "structured-content",
-      "historyOverlay": false,
       "artifactOnly": false
     },
     {
@@ -1801,7 +1792,6 @@
       "reviewRecord": "20261017-r62-template-sources.json",
       "templateVersion": "1.0.0",
       "reviewDepth": "structured-content",
-      "historyOverlay": false,
       "artifactOnly": false
     },
     {
@@ -1814,7 +1804,6 @@
       "reviewRecord": "20261017-r62-template-sources.json",
       "templateVersion": "1.0.0",
       "reviewDepth": "structured-content",
-      "historyOverlay": false,
       "artifactOnly": false
     },
     {
@@ -4084,7 +4073,6 @@
       "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r74-testing-archive.json",
-      "historyOverlay": true,
       "templateVersion": "1.0.0"
     },
     {

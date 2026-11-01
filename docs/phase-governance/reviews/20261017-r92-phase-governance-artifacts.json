@@ -1531,7 +1531,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "fdb09d4eeadeb403004a483e055442f000ca25eda388723d9086ff8d40440b7b",
-      "afterSha256": "eea726b6bf743d41906394a63362edd3a82012c03511bfcfd9660853c9868a6f",
+      "afterSha256": "67d5d782673e3f1babb537ece5386b53ba26a2dd225540d853f5e3eed4b40f1b",
       "publicCallers": [
         "scripts/docs/check-content-review.mjs via review-record-storage.mjs materialization",
         "scripts/docs/check-document-model.mjs via currentReviewLedgerIssues",
@@ -1781,6 +1781,13 @@
           "afterSha256": "eea726b6bf743d41906394a63362edd3a82012c03511bfcfd9660853c9868a6f",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
+          "runtimeCredit": false
+        },
+        {
+          "kind": "rollforward-publication-after-pin",
+          "beforeSha256": "eea726b6bf743d41906394a63362edd3a82012c03511bfcfd9660853c9868a6f",
+          "afterSha256": "67d5d782673e3f1babb537ece5386b53ba26a2dd225540d853f5e3eed4b40f1b",
+          "newSemanticCredit": 0,
           "runtimeCredit": false
         }
       ],

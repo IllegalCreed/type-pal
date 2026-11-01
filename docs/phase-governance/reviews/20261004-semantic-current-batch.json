@@ -6,408 +6,1148 @@
   "policy": "Current record withdraws unsupported semantic/template/independent completion. Historical claims remain at historicalReviewIdentity; no full-text re-review is asserted.",
   "entries": [
     {
-      "path": "docs/ops/agent-workflow.md",
-      "contentReviewStatus": "content-reviewed",
-      "docType": "guide-runbook",
-      "templateId": "guide-runbook-v1",
-      "template": "docs/phase-governance/templates/guide-runbook.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text-read-plus-semantic-migration",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "现行工作流聚焦前提、隔离交付、少而精测试、独立复核、视觉/生图、写回与共享树停止线；旧三签与退休记录整份归历史，不恢复固定席位。",
-      "truthAnchors": ["AGENTS.md:1", "docs/ops/archive/protocols/workflow-snapshot-20261015.md:1"],
-      "unresolved": [],
-      "nextStep": "保留全量 build；本类型真实 pilot 可用于后续同类迁移，其余类型未验证不自动进入批量。",
-      "phase": "ops",
-      "module": "protocol-and-e2e-pilot",
-      "capability": "ops-agent-workflow",
-      "owner": "Codex",
-      "provenance": [
-        "source-document-full-text",
-        "user-approved-agent-first-adoption",
-        "manual-semantic-migration"
-      ],
-      "sourceSha256": "81f8d39f2b0fa818a74ac7335b7293d2ca3b2cc968a74fd9d63197935b0e4b8d",
-      "afterSha256": "9ada267d7e4a81dc572112d1f4d361e817c411d2265dee1bfb53784f3ba9a847",
-      "publicCallers": [
-        "AGENTS.md operation routing",
-        "node scripts/docs/check-document-model.mjs",
-        "docs/ops/README.md"
-      ],
-      "legalInputs": ["当前任务范围内的文档阅读、交付与追溯；历史指令不提供新授权"],
-      "businessOracle": {
-        "type": "semantic-preservation-and-real-document-consumer",
-        "assertions": [
-          "现行工作流聚焦前提、隔离交付、少而精测试、独立复核、视觉/生图、写回与共享树停止线；旧三签与退休记录整份归历史，不恢复固定席位。",
-          "必填模板章节有具体语义；原文事实、日期与来源边界可追溯",
-          "不新增 runtime/E2E/visual/coverage 通过结论"
-        ]
-      },
-      "dedupe": {
-        "result": "reviewed",
-        "against": [
-          "AGENTS.md",
-          "docs/ops/agent-workflow.md",
-          "docs/testing/catalog.json",
-          "docs/phase-governance/templates/registry.json"
-        ],
-        "notes": "根入口路由，当前流程定义执行纪律，历史 wrapper 保存旧原文，testing catalog/report/evidence 各保原事实权；类型按正文而非文件夹判。"
-      },
-      "revision": {
-        "currentSha": "1d2c8635814f0b3aae4eb212d3457b4aaafb7a71",
-        "implementationSha": "56ae855f53346ef373a11c3f612cc1d24b72935fdc18d35e25751b68a05f474d",
-        "contentVersion": "N/A-document-migration",
-        "minimumSaveVersion": "N/A-document-migration",
-        "history": [
+      "coreConclusion": "本篇是Codex分派-贡献者隔离执行-Codex独立验收模式的现行多Agent流程合同（guide-runbook current，Last reviewed 2026-10-30）。相对upstream 5e66fa6b的真实差异仅两处：Last reviewed 2026-10-23→10-30，以及步骤3新增『文档任务统一按文档交付与证据验收协议』段并给既有八维段加『代码任务中』限定。document-quality.md虽不在两个main基点的树中，却实际存在于整合base和本候选；正文保留本地相对链接，207授权清单不是文件存在性全集。本篇独有事实：2026-10-23 GitHub main分支保护（全修改走PR、App 15368的documentation与fast-coverage两必需检查、管理员同限、必需批准数0）、测试质量验收2026-10-03固化条款、e2e-deferred/dev-functional视觉分类和stash/停止线规则。",
+      "semanticAssessment": {
+        "perFileChecked": true,
+        "method": "原作者固定源阅读及claims保持不变，原方法详本条Owner勘误保留原值；Codex本轮仅据固定base/candidate Git对象补核终态链接，不将main加作者清单当作完整终树，不扩展原作者全文读域或新增运行信用。",
+        "claims": [
           {
-            "revision": "working-tree",
-            "date": "2026-10-04",
-            "action": "full-text-structured-content-review",
-            "notRun": ["runtime", "E2E", "visual", "coverage"]
+            "claim": "当前模式为Codex分派、贡献者执行、Codex独立验收，旧三贤人流程降为历史快照不作当前门禁。",
+            "sourceQuote": "旧三贤人流程完整保留在[历史快照](archive/protocols/workflow-snapshot-20261015.md)，不作为当前门禁"
           },
           {
-            "date": "2026-10-15",
-            "action": "full-text-protocol-or-e2e-pilot-migration",
-            "sourceSha256": "81f8d39f2b0fa818a74ac7335b7293d2ca3b2cc968a74fd9d63197935b0e4b8d",
-            "afterSha256": "7516c8752f5008b92abdcbdd4c39bfb4aa6628c1ea247e5669ef65799417d2e9",
-            "notRun": ["runtime", "E2E", "visual", "coverage"]
+            "claim": "任务状态机为draft→build→review→done加blocked/rework/cancelled，Status本身不代替准入证据。",
+            "sourceQuote": "任务沿用 `draft → build → review → done`，以及 `blocked/rework/cancelled`。`Status` 本身不代替准入证据"
+          },
+          {
+            "claim": "build准入由Codex核实后记build allowed，固定三席签字不再是当前门禁。",
+            "sourceQuote": "Codex 核实后在卡内记录 `build allowed`、Owner、白名单与验收方法。固定三席签字、额度代班和缺签豁免不再是当前门禁"
+          },
+          {
+            "claim": "文档任务按文档交付与证据验收协议验收，代码任务按八维审查与证据验收协议，独立验收默认不重复全文。",
+            "sourceQuote": "文档任务统一按[文档交付与证据验收协议]"
+          },
+          {
+            "claim": "main分支保护2026-10-23配置：全部修改含纯文档走PR，合并须过App 15368的documentation与fast-coverage两项必需检查，管理员同限，必需批准数为0。",
+            "sourceQuote": "合并须在最新 `main` 基础上通过 GitHub Actions（App ID `15368`）的 `documentation` 与 `fast-coverage` 两项必需检查"
+          },
+          {
+            "claim": "剧情/演出观感用e2e-deferred冻结后集中实跑，功能界面用dev-functional，延后的只是视觉。",
+            "sourceQuote": "剧情/演出观感使用 `e2e-deferred`：开发期登记入口、准备数据、步骤、预期画面/时序、批次/Owner 和证据路径，冻结后集中实跑；延后的只是视觉"
+          },
+          {
+            "claim": "停止线覆盖一手证据冲突、旧counter未闭合、关键前提unknown、产品取舍未定或不可逆操作未授权。",
+            "sourceQuote": "一手证据冲突、旧 counter 未闭合、关键前提 unknown、真实产品取舍未定或不可逆操作未获授权时停止受影响步骤"
           }
         ]
       },
-      "evidence": {
-        "kind": "full-text-preservation-and-consumer-review",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/protocol-preservation-20261015.json",
-        "sourceSha256": "81f8d39f2b0fa818a74ac7335b7293d2ca3b2cc968a74fd9d63197935b0e4b8d",
-        "afterSha256": "56ae855f53346ef373a11c3f612cc1d24b72935fdc18d35e25751b68a05f474d",
-        "lineCount": 101
+      "readDomain": {
+        "coverage": "full-file",
+        "actual": "完整固定源字节读取（12770字节全文）；逐项核对：三元身份（integration 43403a82正文/upstream 5e66fa6b/priorAccepted 511c59b13）与实际diff仅两处；Status current、Owner Codex、Template guide-runbook-v1 / 1.0.0头字段；16条去重链接目标逐一在5e66fa6b树解析并抽查标题锚点（AGENTS当前临时模式、snapshot原始结论、code-quality五个锚点均在）；document-quality.md在72db4172/5e66fa6b/207篇清单均缺失且存在于43403a82。；Codex 2026-11-01仅补核本候选Git树中的链接终态及此次处置勘误；原作者全文读域不因此扩展，未新增执行或目标全文审查。",
+        "reusedFrom": [],
+        "notRead": [
+          "未读docs/ops/archive/protocols/workflow-snapshot-20261015.md等被链接文件全文，仅核存在性与锚点",
+          "未重跑任何命令或质量门，未核5e66fa6b全树每处反向引用的具体句子"
+        ]
       },
-      "history": [
+      "truthAnchors": [
+        "Status: current / Last reviewed: 2026-10-30 / Owner: Codex / Template: guide-runbook-v1 / 1.0.0",
+        "固定三席签字、额度代班和缺签豁免不再是当前门禁",
+        "合并须在最新 `main` 基础上通过 GitHub Actions（App ID `15368`）的 `documentation` 与 `fast-coverage` 两项必需检查",
+        "剧情/演出观感使用 `e2e-deferred`",
+        "### 测试质量验收（用户 2026-10-03 固化）",
+        "文档任务统一按[文档交付与证据验收协议]"
+      ],
+      "owner": "Codex",
+      "provenance": [
+        "GLM作者候选；固定Git源逐字节读取与逐项语义核对；作者自验，非独立接受",
         {
-          "revision": "working-tree",
-          "action": "read-and-reviewed",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "structured-content"
-        },
-        {
-          "date": "2026-10-15",
-          "beforeAfter": "混合现行/退休协议的长文 -> 现行可执行 runbook + 完整原文历史快照。",
-          "sourceSha256": "81f8d39f2b0fa818a74ac7335b7293d2ca3b2cc968a74fd9d63197935b0e4b8d",
-          "afterSha256": "7516c8752f5008b92abdcbdd4c39bfb4aa6628c1ea247e5669ef65799417d2e9",
-          "previousAfterSha256": "81f8d39f2b0fa818a74ac7335b7293d2ca3b2cc968a74fd9d63197935b0e4b8d"
-        },
-        {
-          "date": "2026-10-15",
-          "action": "reviewed-explicit-full-completion-stop-line-or-stage-uncertainty-rule",
-          "previousAfterSha256": "7516c8752f5008b92abdcbdd4c39bfb4aa6628c1ea247e5669ef65799417d2e9",
-          "afterSha256": "56ae855f53346ef373a11c3f612cc1d24b72935fdc18d35e25751b68a05f474d",
-          "notRun": ["runtime", "E2E", "visual", "coverage"]
+          "kind": "accepted-rollforward-content-planning",
+          "candidate": "7273d7aa5a8bbe96ddebcb437765e2e8f7f3e911",
+          "reportSha256": "1521a721e6839ba87916ddd0f789a125c3bffc681def1c0e44446ea4b1f385ae",
+          "productionPublication": false
         }
       ],
+      "businessOracle": {
+        "type": "historical-native-document",
+        "currentExecution": false,
+        "assertions": [
+          "源=integration 43403a82已模板化正文；upstream 5e66fa6b与它的diff仅Last reviewed日期和文档协议段/『代码任务中』限定两处，无其他正文差异。",
+          "main分支保护条款（2026-10-23、PR-only、App15368两必需检查、批准数0）为源文时点断言，本轮未通过API回读复核。",
+          "document-quality.md不在main两基点也不在207篇清单，正文原相对链接在目标树必失效，故按amendment最小修订规则换固定Git地址。"
+        ]
+      },
+      "dedupe": {
+        "result": "与code-quality.md（Owner pilot，同为amendment）分工：质量八维条文归code-quality.md，本页只写推进方式不维护第二套质量条文（源文自declared）；与AGENTS.md路由分工：AGENTS只留操作入口表，本页承载完整流程。",
+        "against": ["docs/ops/code-quality.md", "AGENTS.md"]
+      },
+      "dependencies": [
+        "docs/ops/code-quality.md（八维/证据验收协议/文件组织硬性要求的目标条文）",
+        "AGENTS.md#当前临时模式（模式授权出处）",
+        "docs/ops/board.md、docs/ops/tasks/index.md、docs/ops/templates/README.md（步骤5的看板/索引/模板入口）",
+        "docs/ops/document-quality.md（integration 43403a82独有，正文链接已固定到该commit）"
+      ],
+      "publicCallers": [
+        "AGENTS.md（操作与必读表多行路由到本页）",
+        "docs/ops/README.md（5e66fa6b目录索引引用本页）",
+        "src树内docs/testing/governance.md与docs/ops/tasks/QUALITY-*.md任务卡群引用本页锚点"
+      ],
+      "unresolved": [
+        "作者候选待非作者验收与Owner中央接入",
+        "document-quality.md链接的固定地址指向43403a82，该commit尚未推送remote，是否改由Owner推送integration线或另选承载待Owner裁定"
+      ],
+      "historyBoundary": "固定源为integration 43403a82时点正文（Last reviewed 2026-10-30）；upstream=5e66fa6b（10-23）、priorAccepted=511c59b13，流程与分支保护事实以源时点为准，本轮rollforward不更新也不复跑。",
+      "stopLine": "源字节变化、见证矛盾或需要新产品取舍时阻断本篇并交Owner。",
+      "nextStep": "Owner非作者接收本候选；中央扩容/授信由Owner执行。",
+      "runtimeExecutionPerformed": false,
+      "phaseAnchor": "跨阶段ops协作流程合同（phase1/phase2共用推进方式），不承载任一阶段机制真值。",
+      "applicability": "适用于当前临时模式下全部开发、测试、文档任务的分派/实施/验收/交接；具体任务准入以各任务卡为准。",
+      "versionScope": "适用于当前临时模式下全部开发、测试、文档任务的分派/实施/验收/交接；具体任务准入以各任务卡为准。",
+      "userVisibleBeforeAfter": "候选正文与固定源逐字节相同；终态本地链接保持源目标，历史span逐字节保全。本次Owner只修审阅记录，不改作者正文、任务状态、版本或产品行为。",
+      "templateChoiceRationale": "源已自declared Template: guide-runbook-v1 / 1.0.0且目的/前置条件/步骤/失败处理/完成定义五节齐备，是可重复操作流程合同，保持原模板与1.0.0版本。",
+      "templateConformance": "候选prefix五必需章节齐全、H1与Status current/Owner与源逐字一致、无围栏无testing-meta无front matter；16条源链接全部在正文可见（16条全部live，本地入口恢复）。",
+      "history": [],
       "supersedes": [],
-      "stopLine": "Historical instructions and original E2E acceptance remain scoped; schema or template checks never grant new execution credit.",
-      "userVisibleBeforeAfter": "混合现行/退休协议的长文 -> 现行可执行 runbook + 完整原文历史快照。",
-      "reviewedLines": "1-101",
-      "reviewNotes": "实际核读原文/新正文/调用校验与相关模板；源正文和历史结论通过 Git、wrapper 或保留回执追溯。最终全量独立复核仍未完成。",
-      "priorReadings": [
+      "counterReworkBlocked": {
+        "counter": [],
+        "rework": [],
+        "blocked": [
+          "本候选待非作者文档接受和中央接入",
+          "document-quality.md固定地址取舍（43403a82未推送remote）待Owner裁定"
+        ]
+      },
+      "linkDisposition": [
         {
-          "date": "2026-10-15",
-          "reason": "actual full-text migration; prior record kept without granting new runtime credit",
-          "record": {
-            "path": "docs/ops/agent-workflow.md",
-            "contentReviewStatus": "content-reviewed",
-            "docType": "guide-runbook",
-            "templateId": "guide-runbook-v1",
-            "template": "docs/phase-governance/templates/guide-runbook.md",
-            "templateCompliance": "governed-legacy",
-            "readMethod": "full-text-read",
-            "reviewDepth": "deep-semantic",
-            "coreConclusion": "多 Agent 工作流：这是 guide-runbook，当前文档状态为 draft。全文 475 行、32 个标题；摘要/首段为「> **当前模式（用户 2026-09-25 决定）**：Codex 分派任务，其他 Agent 在隔离范围执行，Codex 独立验收、集成与收口；不再要求 Codex/Kimi/GLM 固定三席签字。下文保留三贤人时期流程作历史参考，与当前模式冲突时以 [`AGENTS.md`](../../AGENTS.md) 顶部「当前临时模式」为准。用户恢复三贤人制度前，不因旧卡的 Kimi/GLM `pending` 阻止 Codex 按已核前提推进。」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
-            "truthAnchors": [
-              "docs/ops/agent-workflow.md:1",
-              "1:多 Agent 工作流",
-              "7:测试质量验收（用户 2026-10-03 固化）",
-              "19:历史三贤人流程（以下供查旧任务）",
-              "25:文件分工",
-              "37:角色分工"
-            ],
-            "unresolved": [
-              "正文信号 3:> **当前模式（用户 2026-09-25 决定）**：Codex 分派任务，其他 Agent 在隔离范围执行，Codex 独立验收、集成与收口；不再要求 Codex/Kimi/GLM 固定三席签字。下文保留三贤人时期流程作历史参考，与当前模式冲突时以 [`AGENTS.md`](../../AGENTS.md) 顶部「当前临时模式」为准。用户恢复三贤人制",
-              "正文信号 13:- 输入必须来自当前公开 typed/caller 入口；业务核心不得用 `as unknown as`/`as never`、私有状态、核心 mock、放宽 timeout 或 ignore 掩盖问题。验证未知/IO 域可以合成坏输入，但必须标清其边界，不能冒充业务覆盖。",
-              "正文信号 14:- 反控必须保留完整 command/cwd/执行身份、JSON/raw、exit/signal/spawn、file×fullName 执行集合、恰一指定业务 AssertionError、恢复全绿、源/测试/重建 mutant hash 和精确临时树清理；普通 Error、runtime/collection/pending/skip/todo、重复红或",
-              "正文信号 17:任务卡应记录保留/合并/补强/删除/blocked 的精确 `file:line` 和证据，静态筛选器的弱断言或重复候选只能作为人工复核清单，不能自动删业务轴。",
-              "正文信号 23:席位迁移(用户拍板,2026-07-18):自本日起 Kimi 接替 Claude Opus 成为现役成员。历史上的 Opus 签字、审查结论、作者归属和交接记录保持原样,已经生效的阶段门禁不重开;迁移时仍为 `pending` 的原架构审查席位及所有未来席位统一改由 Kimi 承接。",
-              "正文信号 34:| [`acceptance-checklist.md`](archive/acceptance/2026-07-checklist.md) | 历史验收批次记录（2026-07 前后；不作当前待办）。 |",
-              "正文信号 56:- `blocked`: 缺用户拍板或外部输入,无法继续。",
-              "正文信号 71:3. 写出最强替代解释和“什么观察会推翻当前前提”。决定修复层或用户行为的关键项为 `unknown` 时,",
-              "正文信号 72:任务直接 `blocked`,不得边实现边猜。",
-              "正文信号 88:`premise verified` 没有直接证据锚点时无效;前提未通过时不审“怎么实现得更完整”。",
-              "正文信号 92:- 证据与目标矛盾、替代根因未排除、或用户指出与原版/第一阶段/产品意图冲突时,立即停止实现并把任务置为",
-              "正文信号 93:`blocked/rework`。先核一手证据和端到端调用域,不得从一个相邻猜测跳到另一个猜测。"
-            ],
-            "nextStep": "按统一模板补齐元数据与状态；内容变化必须同步更新本记录、SHA 和跨阶段矩阵。",
-            "phase": "ops",
-            "module": "agent-workflow.md",
-            "capability": "ops-agent-workflow",
-            "owner": "Codex",
-            "provenance": ["source-document", "full-text-structured-review", "repository-history"],
-            "sourceSha256": "81f8d39f2b0fa818a74ac7335b7293d2ca3b2cc968a74fd9d63197935b0e4b8d",
-            "afterSha256": "81f8d39f2b0fa818a74ac7335b7293d2ca3b2cc968a74fd9d63197935b0e4b8d",
-            "publicCallers": [
-              "docs/ops/agent-workflow.md → ../../AGENTS.md",
-              "docs/ops/agent-workflow.md → ../../AGENTS.md",
-              "docs/ops/agent-workflow.md → archive/board-history/board-20261004.md",
-              "docs/ops/agent-workflow.md → tasks",
-              "docs/ops/agent-workflow.md → tasks/README.md",
-              "docs/ops/agent-workflow.md → templates/TASK-template.md",
-              "docs/ops/agent-workflow.md → templates/TASK-lite-template.md",
-              "docs/ops/agent-workflow.md → archive/acceptance/2026-07-checklist.md",
-              "docs/ops/agent-workflow.md → guides/browser-verification.md",
-              "docs/ops/agent-workflow.md → archive/tasks/done/ED-CATALOG-ROW-IA-1-editor-catalog-row-information-hierarchy.md",
-              "docs/ops/agent-workflow.md → templates/TASK-lite-template.md"
-            ],
-            "legalInputs": ["current repository documentation", "docs/ops/agent-workflow.md"],
-            "businessOracle": {
-              "type": "content-review",
+          "source": "../../AGENTS.md#当前临时模式codex-分派贡献者执行codex-独立验收",
+          "target": "../../AGENTS.md#当前临时模式codex-分派贡献者执行codex-独立验收",
+          "kind": "live"
+        },
+        {
+          "source": "../../CLAUDE.md",
+          "target": "../../CLAUDE.md",
+          "kind": "live"
+        },
+        {
+          "source": "../phase2/READ-FIRST.md",
+          "target": "../phase2/READ-FIRST.md",
+          "kind": "live"
+        },
+        {
+          "source": "../testing/governance.md",
+          "target": "../testing/governance.md",
+          "kind": "live"
+        },
+        {
+          "source": "archive/protocols/workflow-snapshot-20261015.md",
+          "target": "archive/protocols/workflow-snapshot-20261015.md",
+          "kind": "live"
+        },
+        {
+          "source": "archive/protocols/workflow-snapshot-20261015.md#原始结论",
+          "target": "archive/protocols/workflow-snapshot-20261015.md#原始结论",
+          "kind": "live"
+        },
+        {
+          "source": "board.md",
+          "target": "board.md",
+          "kind": "live"
+        },
+        {
+          "source": "code-quality.md",
+          "target": "code-quality.md",
+          "kind": "live"
+        },
+        {
+          "source": "code-quality.md#1-逐文件核清八维",
+          "target": "code-quality.md#1-逐文件核清八维",
+          "kind": "live"
+        },
+        {
+          "source": "code-quality.md#2-定位问题并选择整改",
+          "target": "code-quality.md#2-定位问题并选择整改",
+          "kind": "live"
+        },
+        {
+          "source": "code-quality.md#41-贡献者交付与codex证据验收协议",
+          "target": "code-quality.md#41-贡献者交付与codex证据验收协议",
+          "kind": "live"
+        },
+        {
+          "source": "code-quality.md#完成定义",
+          "target": "code-quality.md#完成定义",
+          "kind": "live"
+        },
+        {
+          "source": "code-quality.md#文件与目录的语义组织硬性要求",
+          "target": "code-quality.md#文件与目录的语义组织硬性要求",
+          "kind": "live"
+        },
+        {
+          "source": "tasks/index.md",
+          "target": "tasks/index.md",
+          "kind": "live"
+        },
+        {
+          "source": "templates/README.md",
+          "target": "templates/README.md",
+          "kind": "live"
+        },
+        {
+          "source": "document-quality.md#文档交付与证据验收协议",
+          "target": "document-quality.md#文档交付与证据验收协议",
+          "kind": "live"
+        }
+      ],
+      "fieldRoles": {
+        "governance": [
+          "docs/phase-governance/reviews/20261004-semantic-current-batch.json#entries/0"
+        ],
+        "nativePointers": []
+      },
+      "ownerCorrections": [
+        {
+          "kind": "owner-limited-link-erratum/1.0.0",
+          "actor": "Codex",
+          "date": "2026-11-01",
+          "authorCandidate": "7273d7aa5a8bbe96ddebcb437765e2e8f7f3e911",
+          "authorDraftSha256": "1e919f962112b0797c26b1670315da31309ad80e82ab2b7374434d8dfddff4e4",
+          "scope": "Final link disposition only; no prose/native/source/status/seed changes or author-read expansion",
+          "beforeFields": {
+            "coreConclusion": "本篇是Codex分派-贡献者隔离执行-Codex独立验收模式的现行多Agent流程合同（guide-runbook current，Last reviewed 2026-10-30）。相对upstream 5e66fa6b的真实差异仅两处：Last reviewed 2026-10-23→10-30，以及步骤3新增『文档任务统一按文档交付与证据验收协议』段并给既有八维段加『代码任务中』限定。integration正文引用的document-quality.md不在任何main树也不在207篇清单，属真实失效链接，prefix已最小换成43403a82固定Git地址。本篇独有事实：2026-10-23 GitHub main分支保护（全修改走PR、App 15368的documentation与fast-coverage两必需检查、管理员同限、必需批准数0）、测试质量验收2026-10-03固化条款、e2e-deferred/dev-functional视觉分类和stash/停止线规则。",
+            "semanticAssessment.method": "固定源12770字节全文读取（Read工具）+ git show比对upstream 5e66fa6b与priorAccepted 511c59b13差异 + links.py去重链接清单逐条对5e66fa6b树与标题锚点核对",
+            "readDomain.actual": "完整固定源字节读取（12770字节全文）；逐项核对：三元身份（integration 43403a82正文/upstream 5e66fa6b/priorAccepted 511c59b13）与实际diff仅两处；Status current、Owner Codex、Template guide-runbook-v1 / 1.0.0头字段；16条去重链接目标逐一在5e66fa6b树解析并抽查标题锚点（AGENTS当前临时模式、snapshot原始结论、code-quality五个锚点均在）；document-quality.md在72db4172/5e66fa6b/207篇清单均缺失且存在于43403a82。",
+            "userVisibleBeforeAfter": "模板正文承载全部流程语义并保全固定源围栏；本轮仅document-quality.md一处链接由失效相对地址换为固定Git地址，其余字节与源一致。",
+            "templateConformance": "候选prefix五必需章节齐全、H1与Status current/Owner与源逐字一致、无围栏无testing-meta无front matter；16条源链接全部在正文可见（15 live+1固定地址）。"
+          },
+          "targets": [
+            {
+              "target": "document-quality.md#文档交付与证据验收协议",
+              "path": "docs/ops/document-quality.md",
+              "occurrencesAdded": 1,
+              "gitObject": "647353d58236fbb6806c9c8e88247fc5c1ba1579",
+              "sha256": "daa883faaa764297179d3052725a582a5f582908b556e0f3648047cdd74136b6"
+            }
+          ],
+          "independentAcceptance": "accepted-by-Owner-as-non-author-evidence-correction",
+          "newSemanticCredit": 0,
+          "runtimeCredit": 0
+        }
+      ],
+      "path": "docs/ops/agent-workflow.md",
+      "docType": "guide-runbook",
+      "templateId": "guide-runbook-v1",
+      "templateVersion": "1.0.0",
+      "documentStatus": "current",
+      "sourceGitRevision": "43403a826edcaf40509f55b51e6f6214723252ed",
+      "sourceSha256": "6a6132feafe15c3b4f6e68acd1bfa093ebaf0decfb1f26cb77c845dd3018d059",
+      "afterSha256": "6a6132feafe15c3b4f6e68acd1bfa093ebaf0decfb1f26cb77c845dd3018d059",
+      "primarySource": [
+        {
+          "path": "docs/ops/agent-workflow.md",
+          "revision": "43403a826edcaf40509f55b51e6f6214723252ed",
+          "gitObject": "60c9c255731dbacd71ec1835bacb0cd6c9543e63",
+          "sha256": "6a6132feafe15c3b4f6e68acd1bfa093ebaf0decfb1f26cb77c845dd3018d059"
+        }
+      ],
+      "legalInputs": [
+        {
+          "kind": "fixed-markdown-source",
+          "path": "docs/ops/agent-workflow.md",
+          "revision": "43403a826edcaf40509f55b51e6f6214723252ed",
+          "gitObject": "60c9c255731dbacd71ec1835bacb0cd6c9543e63",
+          "sha256": "6a6132feafe15c3b4f6e68acd1bfa093ebaf0decfb1f26cb77c845dd3018d059"
+        }
+      ],
+      "evidence": {
+        "kind": "incremental-existing-template-amendment",
+        "originalBytes": 12770,
+        "originalSha256": "6a6132feafe15c3b4f6e68acd1bfa093ebaf0decfb1f26cb77c845dd3018d059",
+        "preservedSpans": [
+          {
+            "marker": "<!-- incremental-original-source:start -->",
+            "blocks": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "marker": "<!-- original-source-quote:start -->",
+            "blocks": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "marker": "<!-- original-source-fenced:start -->",
+            "blocks": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "marker": "<!-- template-source-example:start -->",
+            "blocks": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        ],
+        "fullSourcePreservedIn": "pinned-git-blob",
+        "path": "docs/ops/agent-workflow.md"
+      },
+      "revision": {
+        "currentSha": "7273d7aa5a8bbe96ddebcb437765e2e8f7f3e911",
+        "history": [
+          {
+            "value": "6a6132feafe15c3b4f6e68acd1bfa093ebaf0decfb1f26cb77c845dd3018d059",
+            "meaning": "Prior candidate value retained verbatim; currentSha now names the real tree containing the accepted carrier."
+          }
+        ]
+      },
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "contentReviewStatus": "content-reviewed",
+      "templateCompliance": "template-compliant",
+      "nonAuthorReviewer": true,
+      "creditGranted": 0,
+      "proposedBinding": {
+        "docType": "guide-runbook",
+        "templateId": "guide-runbook-v1",
+        "templateVersion": "1.0.0",
+        "productionRoutingChanged": false
+      },
+      "rollforward": {
+        "kind": "amendment",
+        "upstream": {
+          "revision": "5e66fa6b6291f94330fb5d7fc9828062e0eb8a51",
+          "gitObject": "c80d315d788dfe8c896c4379ac3f0cf637376e62",
+          "sha256": "6afcf698a8be4c8f5429f616526c4889543ca7395fac09ca21f393ca6ce3b7e4"
+        },
+        "priorAccepted": {
+          "revision": "511c59b13fec67839b9f6fb7dcfd109d42a747dd",
+          "gitObject": "5278c5d302917c2100079fc661c6d975bfa7d811",
+          "sha256": "9ada267d7e4a81dc572112d1f4d361e817c411d2265dee1bfb53784f3ba9a847"
+        },
+        "priorCreditReusedForUnchangedContentOnly": true,
+        "currentPublicationOrExecutionStatusUnchanged": true
+      },
+      "readMethod": "contributor-declared-scope-and-Owner-evidence-verification",
+      "reviewDepth": "partial-semantic",
+      "reviewedLines": {
+        "scope": "完整固定源字节读取（12770字节全文）；逐项核对：三元身份（integration 43403a82正文/upstream 5e66fa6b/priorAccepted 511c59b13）与实际diff仅两处；Status current、Owner Codex、Template guide-runbook-v1 / 1.0.0头字段；16条去重链接目标逐一在5e66fa6b树解析并抽查标题锚点（AGENTS当前临时模式、snapshot原始结论、code-quality五个锚点均在）；document-quality.md在72db4172/5e66fa6b/207篇清单均缺失且存在于43403a82。；Codex 2026-11-01仅补核本候选Git树中的链接终态及此次处置勘误；原作者全文读域不因此扩展，未新增执行或目标全文审查。",
+        "boundary": "Preserves the declared reading domain; not a second full-text, code or execution audit."
+      },
+      "phaseAnchors": [
+        "跨阶段ops协作流程合同（phase1/phase2共用推进方式），不承载任一阶段机制真值。"
+      ],
+      "rollforwardIntake": {
+        "keys": [
+          "coreConclusion",
+          "semanticAssessment",
+          "readDomain",
+          "truthAnchors",
+          "owner",
+          "provenance",
+          "businessOracle",
+          "dedupe",
+          "dependencies",
+          "publicCallers",
+          "unresolved",
+          "historyBoundary",
+          "stopLine",
+          "nextStep",
+          "runtimeExecutionPerformed",
+          "phaseAnchor",
+          "applicability",
+          "versionScope",
+          "userVisibleBeforeAfter",
+          "templateChoiceRationale",
+          "templateConformance",
+          "history",
+          "supersedes",
+          "counterReworkBlocked",
+          "linkDisposition",
+          "fieldRoles",
+          "ownerCorrections",
+          "path",
+          "docType",
+          "templateId",
+          "templateVersion",
+          "documentStatus",
+          "sourceGitRevision",
+          "sourceSha256",
+          "afterSha256",
+          "primarySource",
+          "legalInputs",
+          "evidence",
+          "revision",
+          "historyOverlay",
+          "artifactOnly",
+          "contentReviewStatus",
+          "templateCompliance",
+          "nonAuthorReviewer",
+          "creditGranted",
+          "proposedBinding",
+          "rollforward"
+        ],
+        "sha256": "e841cbafe67430380611a3066fb9e02ac40343e168b36af3f201daeecef0a498",
+        "fields": [
+          {
+            "key": "provenance",
+            "present": true,
+            "value": "GLM作者候选；固定Git源逐字节读取与逐项语义核对；作者自验，非独立接受"
+          },
+          {
+            "key": "versionScope",
+            "present": true,
+            "value": "integration 43403a82正文相对upstream 5e66fa6b的差异仅Last reviewed与文档协议段；不回溯改写priorAccepted 511c59b13旧接受结论。"
+          },
+          {
+            "key": "fieldRoles",
+            "present": true,
+            "value": {
+              "governance": ["external-candidate-bundle#entries/0"],
+              "nativePointers": []
+            }
+          },
+          {
+            "key": "evidence",
+            "present": true,
+            "value": {
+              "kind": "incremental-existing-template-amendment",
+              "originalBytes": 12770,
+              "originalSha256": "6a6132feafe15c3b4f6e68acd1bfa093ebaf0decfb1f26cb77c845dd3018d059",
+              "preservedSpans": [
+                {
+                  "marker": "<!-- incremental-original-source:start -->",
+                  "blocks": 0,
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                {
+                  "marker": "<!-- original-source-quote:start -->",
+                  "blocks": 0,
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                {
+                  "marker": "<!-- original-source-fenced:start -->",
+                  "blocks": 0,
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                {
+                  "marker": "<!-- template-source-example:start -->",
+                  "blocks": 0,
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                }
+              ],
+              "fullSourcePreservedIn": "pinned-git-blob"
+            }
+          },
+          {
+            "key": "revision",
+            "present": true,
+            "value": {
+              "currentSha": "6a6132feafe15c3b4f6e68acd1bfa093ebaf0decfb1f26cb77c845dd3018d059",
+              "history": []
+            }
+          },
+          {
+            "key": "readMethod",
+            "present": false
+          },
+          {
+            "key": "reviewDepth",
+            "present": false
+          },
+          {
+            "key": "reviewedLines",
+            "present": false
+          },
+          {
+            "key": "phaseAnchors",
+            "present": false
+          }
+        ]
+      },
+      "rollforwardPrior": {
+        "keys": [
+          "path",
+          "contentReviewStatus",
+          "docType",
+          "templateId",
+          "template",
+          "templateCompliance",
+          "readMethod",
+          "reviewDepth",
+          "coreConclusion",
+          "truthAnchors",
+          "unresolved",
+          "nextStep",
+          "phase",
+          "module",
+          "capability",
+          "owner",
+          "provenance",
+          "sourceSha256",
+          "afterSha256",
+          "publicCallers",
+          "legalInputs",
+          "businessOracle",
+          "dedupe",
+          "revision",
+          "evidence",
+          "history",
+          "supersedes",
+          "stopLine",
+          "userVisibleBeforeAfter",
+          "reviewedLines",
+          "reviewNotes",
+          "priorReadings",
+          "templateVersion",
+          "reviewedSourceSha256",
+          "sourceGitRevision",
+          "sourceState",
+          "maintenanceDeltas"
+        ],
+        "sha256": "95f51ae18b8e68ebc44f7f33fe4fbef514cf0825592978e5085fc772be7bb1a4",
+        "fields": [
+          {
+            "key": "contentReviewStatus",
+            "present": true,
+            "value": "content-reviewed"
+          },
+          {
+            "key": "template",
+            "present": true,
+            "value": "docs/phase-governance/templates/guide-runbook.md"
+          },
+          {
+            "key": "templateCompliance",
+            "present": true,
+            "value": "template-compliant"
+          },
+          {
+            "key": "readMethod",
+            "present": true,
+            "value": "full-text-read-plus-semantic-migration"
+          },
+          {
+            "key": "reviewDepth",
+            "present": true,
+            "value": "deep-semantic"
+          },
+          {
+            "key": "coreConclusion",
+            "present": true,
+            "value": "现行工作流聚焦前提、隔离交付、少而精测试、独立复核、视觉/生图、写回与共享树停止线；旧三签与退休记录整份归历史，不恢复固定席位。"
+          },
+          {
+            "key": "truthAnchors",
+            "present": true,
+            "value": ["AGENTS.md:1", "docs/ops/archive/protocols/workflow-snapshot-20261015.md:1"]
+          },
+          {
+            "key": "unresolved",
+            "present": true,
+            "value": []
+          },
+          {
+            "key": "nextStep",
+            "present": true,
+            "value": "保留全量 build；本类型真实 pilot 可用于后续同类迁移，其余类型未验证不自动进入批量。"
+          },
+          {
+            "key": "phase",
+            "present": true,
+            "value": "ops"
+          },
+          {
+            "key": "module",
+            "present": true,
+            "value": "protocol-and-e2e-pilot"
+          },
+          {
+            "key": "capability",
+            "present": true,
+            "value": "ops-agent-workflow"
+          },
+          {
+            "key": "provenance",
+            "present": true,
+            "value": [
+              "source-document-full-text",
+              "user-approved-agent-first-adoption",
+              "manual-semantic-migration"
+            ]
+          },
+          {
+            "key": "sourceSha256",
+            "present": true,
+            "value": "81f8d39f2b0fa818a74ac7335b7293d2ca3b2cc968a74fd9d63197935b0e4b8d"
+          },
+          {
+            "key": "afterSha256",
+            "present": true,
+            "value": "9ada267d7e4a81dc572112d1f4d361e817c411d2265dee1bfb53784f3ba9a847"
+          },
+          {
+            "key": "publicCallers",
+            "present": true,
+            "value": [
+              "AGENTS.md operation routing",
+              "node scripts/docs/check-document-model.mjs",
+              "docs/ops/README.md"
+            ]
+          },
+          {
+            "key": "legalInputs",
+            "present": true,
+            "value": ["当前任务范围内的文档阅读、交付与追溯；历史指令不提供新授权"]
+          },
+          {
+            "key": "businessOracle",
+            "present": true,
+            "value": {
+              "type": "semantic-preservation-and-real-document-consumer",
               "assertions": [
-                "Codex independently reconciled the document purpose, current/historical boundary, template type and explicit unresolved claims",
-                "full file bytes and text were read and hashed",
-                "title, sections, state signals and unresolved markers were recorded",
-                "structured review is not runtime/E2E/visual/coverage proof"
+                "现行工作流聚焦前提、隔离交付、少而精测试、独立复核、视觉/生图、写回与共享树停止线；旧三签与退休记录整份归历史，不恢复固定席位。",
+                "必填模板章节有具体语义；原文事实、日期与来源边界可追溯",
+                "不新增 runtime/E2E/visual/coverage 通过结论"
               ]
-            },
-            "dedupe": {
+            }
+          },
+          {
+            "key": "dedupe",
+            "present": true,
+            "value": {
               "result": "reviewed",
               "against": [
+                "AGENTS.md",
                 "docs/ops/agent-workflow.md",
-                "docs/phase-governance/templates/guide-runbook.md"
+                "docs/testing/catalog.json",
+                "docs/phase-governance/templates/registry.json"
               ],
-              "notes": "Type/template and content review are distinct from product verification."
-            },
-            "revision": {
-              "currentSha": "working-tree",
-              "implementationSha": "81f8d39f2b0fa818a74ac7335b7293d2ca3b2cc968a74fd9d63197935b0e4b8d",
-              "contentVersion": 22,
-              "minimumSaveVersion": 11,
+              "notes": "根入口路由，当前流程定义执行纪律，历史 wrapper 保存旧原文，testing catalog/report/evidence 各保原事实权；类型按正文而非文件夹判。"
+            }
+          },
+          {
+            "key": "revision",
+            "present": true,
+            "value": {
+              "currentSha": "1d2c8635814f0b3aae4eb212d3457b4aaafb7a71",
+              "implementationSha": "56ae855f53346ef373a11c3f612cc1d24b72935fdc18d35e25751b68a05f474d",
+              "contentVersion": "N/A-document-migration",
+              "minimumSaveVersion": "N/A-document-migration",
               "history": [
                 {
                   "revision": "working-tree",
                   "date": "2026-10-04",
                   "action": "full-text-structured-content-review",
                   "notRun": ["runtime", "E2E", "visual", "coverage"]
+                },
+                {
+                  "date": "2026-10-15",
+                  "action": "full-text-protocol-or-e2e-pilot-migration",
+                  "sourceSha256": "81f8d39f2b0fa818a74ac7335b7293d2ca3b2cc968a74fd9d63197935b0e4b8d",
+                  "afterSha256": "7516c8752f5008b92abdcbdd4c39bfb4aa6628c1ea247e5669ef65799417d2e9",
+                  "notRun": ["runtime", "E2E", "visual", "coverage"]
                 }
               ]
-            },
-            "evidence": {
-              "kind": "content-reading",
-              "path": "docs/ops/agent-workflow.md",
+            }
+          },
+          {
+            "key": "evidence",
+            "present": true,
+            "value": {
+              "kind": "full-text-preservation-and-consumer-review",
+              "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/protocol-preservation-20261015.json",
               "sourceSha256": "81f8d39f2b0fa818a74ac7335b7293d2ca3b2cc968a74fd9d63197935b0e4b8d",
-              "lineCount": 475,
-              "headings": [
-                {
-                  "line": 1,
-                  "text": "多 Agent 工作流"
-                },
-                {
-                  "line": 7,
-                  "text": "测试质量验收（用户 2026-10-03 固化）"
-                },
-                {
-                  "line": 19,
-                  "text": "历史三贤人流程（以下供查旧任务）"
-                },
-                {
-                  "line": 25,
-                  "text": "文件分工"
-                },
-                {
-                  "line": 37,
-                  "text": "角色分工"
-                },
-                {
-                  "line": 48,
-                  "text": "状态机"
-                },
-                {
-                  "line": 60,
-                  "text": "Step 0:前提真值门"
-                },
-                {
-                  "line": 66,
-                  "text": "Coding Owner 先交付什么"
-                },
-                {
-                  "line": 81,
-                  "text": "审查方如何独立反证"
-                },
-                {
-                  "line": 90,
-                  "text": "停线与签字失效"
-                },
-                {
-                  "line": 102,
-                  "text": "推进签字"
-                },
-                {
-                  "line": 106,
-                  "text": "进入 build 前:设计签字"
-                },
-                {
-                  "line": 122,
-                  "text": "进入 done 前:审查签字"
-                },
-                {
-                  "line": 132,
-                  "text": "向用户发起复验"
-                },
-                {
-                  "line": 145,
-                  "text": "缺签豁免"
-                },
-                {
-                  "line": 154,
-                  "text": "交接提示词"
-                },
-                {
-                  "line": 158,
-                  "text": "Kimi / GLM 并行审查（2026-09-04 用户拍板）"
-                },
-                {
-                  "line": 206,
-                  "text": "任务分级"
-                },
-                {
-                  "line": 216,
-                  "text": "迁移缺陷优先级"
-                },
-                {
-                  "line": 229,
-                  "text": "审查规则"
-                },
-                {
-                  "line": 258,
-                  "text": "开发期旧版本兼容审查门"
-                },
-                {
-                  "line": 274,
-                  "text": "上下文锚点"
-                },
-                {
-                  "line": 315,
-                  "text": "额度耗尽与代班规则"
-                },
-                {
-                  "line": 333,
-                  "text": "Coding Owner 规则"
-                },
-                {
-                  "line": 346,
-                  "text": "共享工作树与 stash"
-                },
-                {
-                  "line": 379,
-                  "text": "资源生成规则"
-                },
-                {
-                  "line": 394,
-                  "text": "视觉验证能力"
-                },
-                {
-                  "line": 403,
-                  "text": "验证时机分层（用户拍板，2026-08-08）"
-                },
-                {
-                  "line": 424,
-                  "text": "看板规则"
-                },
-                {
-                  "line": 436,
-                  "text": "任务卡规则"
-                },
-                {
-                  "line": 457,
-                  "text": "阶段纪律"
-                },
-                {
-                  "line": 466,
-                  "text": "Done 标准"
-                }
-              ],
-              "unresolvedSignals": [
-                "3:> **当前模式（用户 2026-09-25 决定）**：Codex 分派任务，其他 Agent 在隔离范围执行，Codex 独立验收、集成与收口；不再要求 Codex/Kimi/GLM 固定三席签字。下文保留三贤人时期流程作历史参考，与当前模式冲突时以 [`AGENTS.md`](../../AGENTS.md) 顶部「当前临时模式」为准。用户恢复三贤人制",
-                "13:- 输入必须来自当前公开 typed/caller 入口；业务核心不得用 `as unknown as`/`as never`、私有状态、核心 mock、放宽 timeout 或 ignore 掩盖问题。验证未知/IO 域可以合成坏输入，但必须标清其边界，不能冒充业务覆盖。",
-                "14:- 反控必须保留完整 command/cwd/执行身份、JSON/raw、exit/signal/spawn、file×fullName 执行集合、恰一指定业务 AssertionError、恢复全绿、源/测试/重建 mutant hash 和精确临时树清理；普通 Error、runtime/collection/pending/skip/todo、重复红或",
-                "17:任务卡应记录保留/合并/补强/删除/blocked 的精确 `file:line` 和证据，静态筛选器的弱断言或重复候选只能作为人工复核清单，不能自动删业务轴。",
-                "23:席位迁移(用户拍板,2026-07-18):自本日起 Kimi 接替 Claude Opus 成为现役成员。历史上的 Opus 签字、审查结论、作者归属和交接记录保持原样,已经生效的阶段门禁不重开;迁移时仍为 `pending` 的原架构审查席位及所有未来席位统一改由 Kimi 承接。",
-                "34:| [`acceptance-checklist.md`](archive/acceptance/2026-07-checklist.md) | 历史验收批次记录（2026-07 前后；不作当前待办）。 |",
-                "56:- `blocked`: 缺用户拍板或外部输入,无法继续。",
-                "71:3. 写出最强替代解释和“什么观察会推翻当前前提”。决定修复层或用户行为的关键项为 `unknown` 时,",
-                "72:任务直接 `blocked`,不得边实现边猜。",
-                "88:`premise verified` 没有直接证据锚点时无效;前提未通过时不审“怎么实现得更完整”。",
-                "92:- 证据与目标矛盾、替代根因未排除、或用户指出与原版/第一阶段/产品意图冲突时,立即停止实现并把任务置为",
-                "93:`blocked/rework`。先核一手证据和端到端调用域,不得从一个相邻猜测跳到另一个猜测。",
-                "119:才能写 `build allowed`。只要存在 `pending`、无证据 `verified`、无理由 `N/A` 或 `counter`,Coding Owner",
-                "120:不得修改实现文件,任务留在 `draft` 或转 `blocked`。",
-                "130:三方均为 `accept` 时,`done 准入结论` 才能写 `done allowed`。只要存在 `pending` 或 `counter`,不得提交最终收口或标记 `done`。",
-                "134:当任务进入“仅待用户复验”时,不得只回复“请验收”或罗列测试命令。Coding Owner 必须同时在最终回复与任务卡",
-                "188:- 签字门禁未满足时,明确写“不得开始实现”或“不得标记 done”。",
-                "195:当前状态: <draft/build/review/blocked>",
-                "204:如果没有下一位 Agent,当前 Agent 必须明确说明“无下一位 Agent 提示词,等待用户验收/收口”。",
-                "225:- 迁移缺陷未修复会覆盖已有手工修正时,相关下游任务暂停或转 `blocked`,不得继续积累必然丢失的修改。",
-                "231:小改和未开卡的常规迭代默认两方参与:",
-                "256:三方无法收敛时,任务转 `blocked`,由用户拍板。拍板结果必须写回任务卡。",
-                "272:`旧版本兼容审查: pass | counter`,列出命中位置和“删除/临时保留”的判定；未检查不得签 `accept`。",
-                "321:| Codex | Kimi 可代班编码/代码级验证/git 收口;GLM 可代写方案或代码草案,由 Kimi 或用户安排落地 | AI 生图、批量替代资源生成和视觉验证暂停等待 Codex,或由用户另行裁决；不自动转派视觉任务。 |"
-              ]
-            },
-            "history": [
+              "afterSha256": "56ae855f53346ef373a11c3f612cc1d24b72935fdc18d35e25751b68a05f474d",
+              "lineCount": 101
+            }
+          },
+          {
+            "key": "history",
+            "present": true,
+            "value": [
               {
                 "revision": "working-tree",
                 "action": "read-and-reviewed",
                 "contentReviewStatus": "content-reviewed",
                 "reviewDepth": "structured-content"
+              },
+              {
+                "date": "2026-10-15",
+                "beforeAfter": "混合现行/退休协议的长文 -> 现行可执行 runbook + 完整原文历史快照。",
+                "sourceSha256": "81f8d39f2b0fa818a74ac7335b7293d2ca3b2cc968a74fd9d63197935b0e4b8d",
+                "afterSha256": "7516c8752f5008b92abdcbdd4c39bfb4aa6628c1ea247e5669ef65799417d2e9",
+                "previousAfterSha256": "81f8d39f2b0fa818a74ac7335b7293d2ca3b2cc968a74fd9d63197935b0e4b8d"
+              },
+              {
+                "date": "2026-10-15",
+                "action": "reviewed-explicit-full-completion-stop-line-or-stage-uncertainty-rule",
+                "previousAfterSha256": "7516c8752f5008b92abdcbdd4c39bfb4aa6628c1ea247e5669ef65799417d2e9",
+                "afterSha256": "56ae855f53346ef373a11c3f612cc1d24b72935fdc18d35e25751b68a05f474d",
+                "notRun": ["runtime", "E2E", "visual", "coverage"]
               }
-            ],
-            "supersedes": [],
-            "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
-            "userVisibleBeforeAfter": null,
-            "reviewedLines": "1-475",
-            "reviewNotes": "当前临时模式以 Codex 分派、贡献者执行、Codex 独立验收为准；旧三贤人流程只保留历史。测试必须按真实 caller/oracle、排重、反控和隔离验收，不能由绿灯/数量/覆盖率单独证明。"
+            ]
+          },
+          {
+            "key": "stopLine",
+            "present": true,
+            "value": "Historical instructions and original E2E acceptance remain scoped; schema or template checks never grant new execution credit."
+          },
+          {
+            "key": "userVisibleBeforeAfter",
+            "present": true,
+            "value": "混合现行/退休协议的长文 -> 现行可执行 runbook + 完整原文历史快照。"
+          },
+          {
+            "key": "reviewedLines",
+            "present": true,
+            "value": "1-101"
+          },
+          {
+            "key": "reviewNotes",
+            "present": true,
+            "value": "实际核读原文/新正文/调用校验与相关模板；源正文和历史结论通过 Git、wrapper 或保留回执追溯。最终全量独立复核仍未完成。"
+          },
+          {
+            "key": "priorReadings",
+            "present": true,
+            "value": [
+              {
+                "date": "2026-10-15",
+                "reason": "actual full-text migration; prior record kept without granting new runtime credit",
+                "record": {
+                  "path": "docs/ops/agent-workflow.md",
+                  "contentReviewStatus": "content-reviewed",
+                  "docType": "guide-runbook",
+                  "templateId": "guide-runbook-v1",
+                  "template": "docs/phase-governance/templates/guide-runbook.md",
+                  "templateCompliance": "governed-legacy",
+                  "readMethod": "full-text-read",
+                  "reviewDepth": "deep-semantic",
+                  "coreConclusion": "多 Agent 工作流：这是 guide-runbook，当前文档状态为 draft。全文 475 行、32 个标题；摘要/首段为「> **当前模式（用户 2026-09-25 决定）**：Codex 分派任务，其他 Agent 在隔离范围执行，Codex 独立验收、集成与收口；不再要求 Codex/Kimi/GLM 固定三席签字。下文保留三贤人时期流程作历史参考，与当前模式冲突时以 [`AGENTS.md`](../../AGENTS.md) 顶部「当前临时模式」为准。用户恢复三贤人制度前，不因旧卡的 Kimi/GLM `pending` 阻止 Codex 按已核前提推进。」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+                  "truthAnchors": [
+                    "docs/ops/agent-workflow.md:1",
+                    "1:多 Agent 工作流",
+                    "7:测试质量验收（用户 2026-10-03 固化）",
+                    "19:历史三贤人流程（以下供查旧任务）",
+                    "25:文件分工",
+                    "37:角色分工"
+                  ],
+                  "unresolved": [
+                    "正文信号 3:> **当前模式（用户 2026-09-25 决定）**：Codex 分派任务，其他 Agent 在隔离范围执行，Codex 独立验收、集成与收口；不再要求 Codex/Kimi/GLM 固定三席签字。下文保留三贤人时期流程作历史参考，与当前模式冲突时以 [`AGENTS.md`](../../AGENTS.md) 顶部「当前临时模式」为准。用户恢复三贤人制",
+                    "正文信号 13:- 输入必须来自当前公开 typed/caller 入口；业务核心不得用 `as unknown as`/`as never`、私有状态、核心 mock、放宽 timeout 或 ignore 掩盖问题。验证未知/IO 域可以合成坏输入，但必须标清其边界，不能冒充业务覆盖。",
+                    "正文信号 14:- 反控必须保留完整 command/cwd/执行身份、JSON/raw、exit/signal/spawn、file×fullName 执行集合、恰一指定业务 AssertionError、恢复全绿、源/测试/重建 mutant hash 和精确临时树清理；普通 Error、runtime/collection/pending/skip/todo、重复红或",
+                    "正文信号 17:任务卡应记录保留/合并/补强/删除/blocked 的精确 `file:line` 和证据，静态筛选器的弱断言或重复候选只能作为人工复核清单，不能自动删业务轴。",
+                    "正文信号 23:席位迁移(用户拍板,2026-07-18):自本日起 Kimi 接替 Claude Opus 成为现役成员。历史上的 Opus 签字、审查结论、作者归属和交接记录保持原样,已经生效的阶段门禁不重开;迁移时仍为 `pending` 的原架构审查席位及所有未来席位统一改由 Kimi 承接。",
+                    "正文信号 34:| [`acceptance-checklist.md`](archive/acceptance/2026-07-checklist.md) | 历史验收批次记录（2026-07 前后；不作当前待办）。 |",
+                    "正文信号 56:- `blocked`: 缺用户拍板或外部输入,无法继续。",
+                    "正文信号 71:3. 写出最强替代解释和“什么观察会推翻当前前提”。决定修复层或用户行为的关键项为 `unknown` 时,",
+                    "正文信号 72:任务直接 `blocked`,不得边实现边猜。",
+                    "正文信号 88:`premise verified` 没有直接证据锚点时无效;前提未通过时不审“怎么实现得更完整”。",
+                    "正文信号 92:- 证据与目标矛盾、替代根因未排除、或用户指出与原版/第一阶段/产品意图冲突时,立即停止实现并把任务置为",
+                    "正文信号 93:`blocked/rework`。先核一手证据和端到端调用域,不得从一个相邻猜测跳到另一个猜测。"
+                  ],
+                  "nextStep": "按统一模板补齐元数据与状态；内容变化必须同步更新本记录、SHA 和跨阶段矩阵。",
+                  "phase": "ops",
+                  "module": "agent-workflow.md",
+                  "capability": "ops-agent-workflow",
+                  "owner": "Codex",
+                  "provenance": [
+                    "source-document",
+                    "full-text-structured-review",
+                    "repository-history"
+                  ],
+                  "sourceSha256": "81f8d39f2b0fa818a74ac7335b7293d2ca3b2cc968a74fd9d63197935b0e4b8d",
+                  "afterSha256": "81f8d39f2b0fa818a74ac7335b7293d2ca3b2cc968a74fd9d63197935b0e4b8d",
+                  "publicCallers": [
+                    "docs/ops/agent-workflow.md → ../../AGENTS.md",
+                    "docs/ops/agent-workflow.md → ../../AGENTS.md",
+                    "docs/ops/agent-workflow.md → archive/board-history/board-20261004.md",
+                    "docs/ops/agent-workflow.md → tasks",
+                    "docs/ops/agent-workflow.md → tasks/README.md",
+                    "docs/ops/agent-workflow.md → templates/TASK-template.md",
+                    "docs/ops/agent-workflow.md → templates/TASK-lite-template.md",
+                    "docs/ops/agent-workflow.md → archive/acceptance/2026-07-checklist.md",
+                    "docs/ops/agent-workflow.md → guides/browser-verification.md",
+                    "docs/ops/agent-workflow.md → archive/tasks/done/ED-CATALOG-ROW-IA-1-editor-catalog-row-information-hierarchy.md",
+                    "docs/ops/agent-workflow.md → templates/TASK-lite-template.md"
+                  ],
+                  "legalInputs": ["current repository documentation", "docs/ops/agent-workflow.md"],
+                  "businessOracle": {
+                    "type": "content-review",
+                    "assertions": [
+                      "Codex independently reconciled the document purpose, current/historical boundary, template type and explicit unresolved claims",
+                      "full file bytes and text were read and hashed",
+                      "title, sections, state signals and unresolved markers were recorded",
+                      "structured review is not runtime/E2E/visual/coverage proof"
+                    ]
+                  },
+                  "dedupe": {
+                    "result": "reviewed",
+                    "against": [
+                      "docs/ops/agent-workflow.md",
+                      "docs/phase-governance/templates/guide-runbook.md"
+                    ],
+                    "notes": "Type/template and content review are distinct from product verification."
+                  },
+                  "revision": {
+                    "currentSha": "working-tree",
+                    "implementationSha": "81f8d39f2b0fa818a74ac7335b7293d2ca3b2cc968a74fd9d63197935b0e4b8d",
+                    "contentVersion": 22,
+                    "minimumSaveVersion": 11,
+                    "history": [
+                      {
+                        "revision": "working-tree",
+                        "date": "2026-10-04",
+                        "action": "full-text-structured-content-review",
+                        "notRun": ["runtime", "E2E", "visual", "coverage"]
+                      }
+                    ]
+                  },
+                  "evidence": {
+                    "kind": "content-reading",
+                    "path": "docs/ops/agent-workflow.md",
+                    "sourceSha256": "81f8d39f2b0fa818a74ac7335b7293d2ca3b2cc968a74fd9d63197935b0e4b8d",
+                    "lineCount": 475,
+                    "headings": [
+                      {
+                        "line": 1,
+                        "text": "多 Agent 工作流"
+                      },
+                      {
+                        "line": 7,
+                        "text": "测试质量验收（用户 2026-10-03 固化）"
+                      },
+                      {
+                        "line": 19,
+                        "text": "历史三贤人流程（以下供查旧任务）"
+                      },
+                      {
+                        "line": 25,
+                        "text": "文件分工"
+                      },
+                      {
+                        "line": 37,
+                        "text": "角色分工"
+                      },
+                      {
+                        "line": 48,
+                        "text": "状态机"
+                      },
+                      {
+                        "line": 60,
+                        "text": "Step 0:前提真值门"
+                      },
+                      {
+                        "line": 66,
+                        "text": "Coding Owner 先交付什么"
+                      },
+                      {
+                        "line": 81,
+                        "text": "审查方如何独立反证"
+                      },
+                      {
+                        "line": 90,
+                        "text": "停线与签字失效"
+                      },
+                      {
+                        "line": 102,
+                        "text": "推进签字"
+                      },
+                      {
+                        "line": 106,
+                        "text": "进入 build 前:设计签字"
+                      },
+                      {
+                        "line": 122,
+                        "text": "进入 done 前:审查签字"
+                      },
+                      {
+                        "line": 132,
+                        "text": "向用户发起复验"
+                      },
+                      {
+                        "line": 145,
+                        "text": "缺签豁免"
+                      },
+                      {
+                        "line": 154,
+                        "text": "交接提示词"
+                      },
+                      {
+                        "line": 158,
+                        "text": "Kimi / GLM 并行审查（2026-09-04 用户拍板）"
+                      },
+                      {
+                        "line": 206,
+                        "text": "任务分级"
+                      },
+                      {
+                        "line": 216,
+                        "text": "迁移缺陷优先级"
+                      },
+                      {
+                        "line": 229,
+                        "text": "审查规则"
+                      },
+                      {
+                        "line": 258,
+                        "text": "开发期旧版本兼容审查门"
+                      },
+                      {
+                        "line": 274,
+                        "text": "上下文锚点"
+                      },
+                      {
+                        "line": 315,
+                        "text": "额度耗尽与代班规则"
+                      },
+                      {
+                        "line": 333,
+                        "text": "Coding Owner 规则"
+                      },
+                      {
+                        "line": 346,
+                        "text": "共享工作树与 stash"
+                      },
+                      {
+                        "line": 379,
+                        "text": "资源生成规则"
+                      },
+                      {
+                        "line": 394,
+                        "text": "视觉验证能力"
+                      },
+                      {
+                        "line": 403,
+                        "text": "验证时机分层（用户拍板，2026-08-08）"
+                      },
+                      {
+                        "line": 424,
+                        "text": "看板规则"
+                      },
+                      {
+                        "line": 436,
+                        "text": "任务卡规则"
+                      },
+                      {
+                        "line": 457,
+                        "text": "阶段纪律"
+                      },
+                      {
+                        "line": 466,
+                        "text": "Done 标准"
+                      }
+                    ],
+                    "unresolvedSignals": [
+                      "3:> **当前模式（用户 2026-09-25 决定）**：Codex 分派任务，其他 Agent 在隔离范围执行，Codex 独立验收、集成与收口；不再要求 Codex/Kimi/GLM 固定三席签字。下文保留三贤人时期流程作历史参考，与当前模式冲突时以 [`AGENTS.md`](../../AGENTS.md) 顶部「当前临时模式」为准。用户恢复三贤人制",
+                      "13:- 输入必须来自当前公开 typed/caller 入口；业务核心不得用 `as unknown as`/`as never`、私有状态、核心 mock、放宽 timeout 或 ignore 掩盖问题。验证未知/IO 域可以合成坏输入，但必须标清其边界，不能冒充业务覆盖。",
+                      "14:- 反控必须保留完整 command/cwd/执行身份、JSON/raw、exit/signal/spawn、file×fullName 执行集合、恰一指定业务 AssertionError、恢复全绿、源/测试/重建 mutant hash 和精确临时树清理；普通 Error、runtime/collection/pending/skip/todo、重复红或",
+                      "17:任务卡应记录保留/合并/补强/删除/blocked 的精确 `file:line` 和证据，静态筛选器的弱断言或重复候选只能作为人工复核清单，不能自动删业务轴。",
+                      "23:席位迁移(用户拍板,2026-07-18):自本日起 Kimi 接替 Claude Opus 成为现役成员。历史上的 Opus 签字、审查结论、作者归属和交接记录保持原样,已经生效的阶段门禁不重开;迁移时仍为 `pending` 的原架构审查席位及所有未来席位统一改由 Kimi 承接。",
+                      "34:| [`acceptance-checklist.md`](archive/acceptance/2026-07-checklist.md) | 历史验收批次记录（2026-07 前后；不作当前待办）。 |",
+                      "56:- `blocked`: 缺用户拍板或外部输入,无法继续。",
+                      "71:3. 写出最强替代解释和“什么观察会推翻当前前提”。决定修复层或用户行为的关键项为 `unknown` 时,",
+                      "72:任务直接 `blocked`,不得边实现边猜。",
+                      "88:`premise verified` 没有直接证据锚点时无效;前提未通过时不审“怎么实现得更完整”。",
+                      "92:- 证据与目标矛盾、替代根因未排除、或用户指出与原版/第一阶段/产品意图冲突时,立即停止实现并把任务置为",
+                      "93:`blocked/rework`。先核一手证据和端到端调用域,不得从一个相邻猜测跳到另一个猜测。",
+                      "119:才能写 `build allowed`。只要存在 `pending`、无证据 `verified`、无理由 `N/A` 或 `counter`,Coding Owner",
+                      "120:不得修改实现文件,任务留在 `draft` 或转 `blocked`。",
+                      "130:三方均为 `accept` 时,`done 准入结论` 才能写 `done allowed`。只要存在 `pending` 或 `counter`,不得提交最终收口或标记 `done`。",
+                      "134:当任务进入“仅待用户复验”时,不得只回复“请验收”或罗列测试命令。Coding Owner 必须同时在最终回复与任务卡",
+                      "188:- 签字门禁未满足时,明确写“不得开始实现”或“不得标记 done”。",
+                      "195:当前状态: <draft/build/review/blocked>",
+                      "204:如果没有下一位 Agent,当前 Agent 必须明确说明“无下一位 Agent 提示词,等待用户验收/收口”。",
+                      "225:- 迁移缺陷未修复会覆盖已有手工修正时,相关下游任务暂停或转 `blocked`,不得继续积累必然丢失的修改。",
+                      "231:小改和未开卡的常规迭代默认两方参与:",
+                      "256:三方无法收敛时,任务转 `blocked`,由用户拍板。拍板结果必须写回任务卡。",
+                      "272:`旧版本兼容审查: pass | counter`,列出命中位置和“删除/临时保留”的判定；未检查不得签 `accept`。",
+                      "321:| Codex | Kimi 可代班编码/代码级验证/git 收口;GLM 可代写方案或代码草案,由 Kimi 或用户安排落地 | AI 生图、批量替代资源生成和视觉验证暂停等待 Codex,或由用户另行裁决；不自动转派视觉任务。 |"
+                    ]
+                  },
+                  "history": [
+                    {
+                      "revision": "working-tree",
+                      "action": "read-and-reviewed",
+                      "contentReviewStatus": "content-reviewed",
+                      "reviewDepth": "structured-content"
+                    }
+                  ],
+                  "supersedes": [],
+                  "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
+                  "userVisibleBeforeAfter": null,
+                  "reviewedLines": "1-475",
+                  "reviewNotes": "当前临时模式以 Codex 分派、贡献者执行、Codex 独立验收为准；旧三贤人流程只保留历史。测试必须按真实 caller/oracle、排重、反控和隔离验收，不能由绿灯/数量/覆盖率单独证明。"
+                }
+              }
+            ]
+          },
+          {
+            "key": "reviewedSourceSha256",
+            "present": true,
+            "value": "81f8d39f2b0fa818a74ac7335b7293d2ca3b2cc968a74fd9d63197935b0e4b8d"
+          },
+          {
+            "key": "sourceGitRevision",
+            "present": true,
+            "value": "1d2c8635814f0b3aae4eb212d3457b4aaafb7a71"
+          },
+          {
+            "key": "sourceState",
+            "present": true,
+            "value": "present"
+          },
+          {
+            "key": "maintenanceDeltas",
+            "present": true,
+            "value": [
+              {
+                "date": "2026-10-18",
+                "task": "Common document-delivery-acceptance1.0 protocol, source code-quality3y4.1 adaptation",
+                "sourceRevision": "dd37d6da551b77b28d972df6e5d6b08387aa4211",
+                "previousAfterSha256": "56ae855f53346ef373a11c3f612cc1d24b72935fdc18d35e25751b68a05f474d",
+                "afterSha256": "38d3593065c759c911e387a950317b83c33995cbecfec82886de76157cb58559",
+                "method": "Only reviewed generic protocol/entry-reference diff (nonauthor short review74be48a1999a17b1dddcddd66108f5fe38a9b8e6fa89e7c8113631c34069cf29); actual diff known, no new body-migration or native status credit. Task scope/base unchanged.",
+                "grantsNewSemanticAcceptance": false
+              },
+              {
+                "date": "2026-10-18",
+                "task": "Canonical document-quality contract at ops root; explicit section migration",
+                "sourceRevision": "c23f7751dd9a967b2694461799c315cac688849c",
+                "previousAfterSha256": "38d3593065c759c911e387a950317b83c33995cbecfec82886de76157cb58559",
+                "afterSha256": "fc43f4ae68a51f05d4ed78182edfd4bb58377dcb883b7ee33895862fa8990252",
+                "method": "Explicit canonical location/active reference and routing correction; original1.0 protocol text unchanged and old anchor retained. No existing subject reacceptance or changed S14 scope.",
+                "grantsNewSemanticAcceptance": false
+              },
+              {
+                "kind": "fixed-main-S75-integration-observation",
+                "sourceRevision": "b2437cec97c1f7354dccfe8f856fc762395d4ec6",
+                "beforeSha256": "fc43f4ae68a51f05d4ed78182edfd4bb58377dcb883b7ee33895862fa8990252",
+                "afterSha256": "9ada267d7e4a81dc572112d1f4d361e817c411d2265dee1bfb53784f3ba9a847",
+                "interpretation": "Earlier accepted semantic scope retained; fixed-source integration delta observed separately, not new runtime acceptance.",
+                "newSemanticCredit": 0,
+                "runtimeCredit": false
+              }
+            ]
+          },
+          {
+            "key": "semanticAssessment",
+            "present": false
+          },
+          {
+            "key": "readDomain",
+            "present": false
+          },
+          {
+            "key": "dependencies",
+            "present": false
+          },
+          {
+            "key": "historyBoundary",
+            "present": false
+          },
+          {
+            "key": "runtimeExecutionPerformed",
+            "present": false
+          },
+          {
+            "key": "phaseAnchor",
+            "present": false
+          },
+          {
+            "key": "applicability",
+            "present": false
+          },
+          {
+            "key": "versionScope",
+            "present": false
+          },
+          {
+            "key": "templateChoiceRationale",
+            "present": false
+          },
+          {
+            "key": "templateConformance",
+            "present": false
+          },
+          {
+            "key": "counterReworkBlocked",
+            "present": false
+          },
+          {
+            "key": "linkDisposition",
+            "present": false
+          },
+          {
+            "key": "fieldRoles",
+            "present": false
+          },
+          {
+            "key": "ownerCorrections",
+            "present": false
+          },
+          {
+            "key": "documentStatus",
+            "present": false
+          },
+          {
+            "key": "primarySource",
+            "present": false
+          },
+          {
+            "key": "historyOverlay",
+            "present": false
+          },
+          {
+            "key": "artifactOnly",
+            "present": false
+          },
+          {
+            "key": "nonAuthorReviewer",
+            "present": false
+          },
+          {
+            "key": "creditGranted",
+            "present": false
+          },
+          {
+            "key": "proposedBinding",
+            "present": false
+          },
+          {
+            "key": "rollforward",
+            "present": false
+          },
+          {
+            "key": "phaseAnchors",
+            "present": false
+          },
+          {
+            "key": "rollforwardIntake",
+            "present": false
           }
-        }
-      ],
-      "templateVersion": "1.0.0",
-      "reviewedSourceSha256": "81f8d39f2b0fa818a74ac7335b7293d2ca3b2cc968a74fd9d63197935b0e4b8d",
-      "sourceGitRevision": "1d2c8635814f0b3aae4eb212d3457b4aaafb7a71",
-      "sourceState": "present",
-      "maintenanceDeltas": [
-        {
-          "date": "2026-10-18",
-          "task": "Common document-delivery-acceptance1.0 protocol, source code-quality3y4.1 adaptation",
-          "sourceRevision": "dd37d6da551b77b28d972df6e5d6b08387aa4211",
-          "previousAfterSha256": "56ae855f53346ef373a11c3f612cc1d24b72935fdc18d35e25751b68a05f474d",
-          "afterSha256": "38d3593065c759c911e387a950317b83c33995cbecfec82886de76157cb58559",
-          "method": "Only reviewed generic protocol/entry-reference diff (nonauthor short review74be48a1999a17b1dddcddd66108f5fe38a9b8e6fa89e7c8113631c34069cf29); actual diff known, no new body-migration or native status credit. Task scope/base unchanged.",
-          "grantsNewSemanticAcceptance": false
+        ]
+      },
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "kind": "accepted-rollforward-publication/1.0.0",
+        "path": "docs/ops/agent-workflow.md",
+        "contentSha256": "938a429583510c5017dc4fefeb3d8de9acca818195d9569e048877a9f359d1a4",
+        "acceptedBodySha256": "6a6132feafe15c3b4f6e68acd1bfa093ebaf0decfb1f26cb77c845dd3018d059",
+        "reviewedCandidate": "7273d7aa5a8bbe96ddebcb437765e2e8f7f3e911",
+        "nonAuthorReviewer": true,
+        "basis": {
+          "author": "GLM",
+          "reviewer": "Codex",
+          "reportSha256": "1521a721e6839ba87916ddd0f789a125c3bffc681def1c0e44446ea4b1f385ae",
+          "scope": "Declared source-specific content and Owner final-link errata; not a second full product audit."
         },
-        {
-          "date": "2026-10-18",
-          "task": "Canonical document-quality contract at ops root; explicit section migration",
-          "sourceRevision": "c23f7751dd9a967b2694461799c315cac688849c",
-          "previousAfterSha256": "38d3593065c759c911e387a950317b83c33995cbecfec82886de76157cb58559",
-          "afterSha256": "fc43f4ae68a51f05d4ed78182edfd4bb58377dcb883b7ee33895862fa8990252",
-          "method": "Explicit canonical location/active reference and routing correction; original1.0 protocol text unchanged and old anchor retained. No existing subject reacceptance or changed S14 scope.",
-          "grantsNewSemanticAcceptance": false
-        },
-        {
-          "kind": "fixed-main-S75-integration-observation",
-          "sourceRevision": "b2437cec97c1f7354dccfe8f856fc762395d4ec6",
-          "beforeSha256": "fc43f4ae68a51f05d4ed78182edfd4bb58377dcb883b7ee33895862fa8990252",
-          "afterSha256": "9ada267d7e4a81dc572112d1f4d361e817c411d2265dee1bfb53784f3ba9a847",
-          "interpretation": "Earlier accepted semantic scope retained; fixed-source integration delta observed separately, not new runtime acceptance.",
-          "newSemanticCredit": 0,
-          "runtimeCredit": false
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S85",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticCredit": false
         }
-      ]
+      }
     },
     {
       "path": "docs/ops/board.md",
@@ -447,7 +1187,7 @@
         }
       ],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "aad8b546ece8d7b03319e816796f08fb37e1f72c2e1361e311ef1bf7cd575642",
+      "afterSha256": "357eead2c41b9e305bbc99c397998a5e81f0813ce6d48a66d54c5edda76e91c5",
       "publicCallers": [
         "node scripts/docs/check-testing.mjs",
         "node scripts/docs/check-document-model.mjs",
@@ -1902,6 +2642,16 @@
           "afterSha256": "aad8b546ece8d7b03319e816796f08fb37e1f72c2e1361e311ef1bf7cd575642",
           "runtimeCredit": false,
           "newSemanticCredit": 0
+        },
+        {
+          "kind": "rollforward-owner-control-observation",
+          "sourceRevision": "50d70b3dd2b3251414431d3e1d5436d777b968ea",
+          "sourceGitObject": "08f33f00b41ec3795ba803d9f87037002f278c1b",
+          "beforeSha256": "aad8b546ece8d7b03319e816796f08fb37e1f72c2e1361e311ef1bf7cd575642",
+          "afterSha256": "357eead2c41b9e305bbc99c397998a5e81f0813ce6d48a66d54c5edda76e91c5",
+          "originalSemanticClaimUnchanged": true,
+          "newSemanticCredit": 0,
+          "runtimeCredit": false
         }
       ],
       "applicability": "Current author-produced E2E006 technical evidence, not non-author/user acceptance. Real95-row dual story/control, zero-finding comparison, formal terminal saves/fresh restores and12 saved static NPC entry Play/Reset proofs exist; no audio/continuous/full-runtime-preview/downstream or full-doc completion credit.",
@@ -2203,7 +2953,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "765b0ecff5ec5b66ffa56e42eafb0200ccedcb5ca70aee30f6522c13407c8ad1",
+      "afterSha256": "ca3fb4bb75390a365d8edc7373df80b439574e6b6a93759f8038ee669a78e12a",
       "publicCallers": [
         "docs/ops/tasks/README.md → index.md",
         "docs/ops/board.md → tasks/index.md",
@@ -2785,6 +3535,16 @@
           "beforeSha256": "2f44114872bcc68dac7c6ab0ab60f3d8fc9eea4815300f3ab70f37c868058c1b",
           "afterSha256": "765b0ecff5ec5b66ffa56e42eafb0200ccedcb5ca70aee30f6522c13407c8ad1",
           "interpretation": "Earlier accepted semantic scope retained; fixed-source integration delta observed separately, not new runtime acceptance.",
+          "newSemanticCredit": 0,
+          "runtimeCredit": false
+        },
+        {
+          "kind": "rollforward-owner-control-observation",
+          "sourceRevision": "50d70b3dd2b3251414431d3e1d5436d777b968ea",
+          "sourceGitObject": "79c7a738a32d8dab30d9c09b6cee73b8baf61887",
+          "beforeSha256": "765b0ecff5ec5b66ffa56e42eafb0200ccedcb5ca70aee30f6522c13407c8ad1",
+          "afterSha256": "ca3fb4bb75390a365d8edc7373df80b439574e6b6a93759f8038ee669a78e12a",
+          "originalSemanticClaimUnchanged": true,
           "newSemanticCredit": 0,
           "runtimeCredit": false
         }

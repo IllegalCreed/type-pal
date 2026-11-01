@@ -5,6 +5,21 @@
   "reviewDate": "2026-10-18",
   "sourceRevision": "d4d5cfc6463014e67ff741f65799a97b9f99c754",
   "policy": "One actually read document at a time. No bulk restoration; global hard gate remains unpassed. Ledger root has no self-hash or semantic completion credit.",
+  "rollforwardPublication": {
+    "kind": "accepted-rollforward-publication/1.0.0",
+    "acceptedBase": "f17181f96d97301a3fdabfb94d1d860963d379bc",
+    "reviewedCandidate": "7273d7aa5a8bbe96ddebcb437765e2e8f7f3e911",
+    "normalizedChangesSha256": "41d487a99cebda708c577efac7e1a87acb753a62d7128ad1413321437b464c48",
+    "originalReviewContentSha256": "d0dcd6d8ec5fe5de4aecc2f011b17cef23edb605ad221e0e11df3febbec15a73",
+    "changes": 205,
+    "additions": 179,
+    "amendments": 26,
+    "reused": 2,
+    "registeredIdentities": 4530,
+    "activeDocuments": 4524,
+    "runtimeCredit": false,
+    "childSemanticCredit": false
+  },
   "_reviewStorage": {
     "schemaVersion": 1,
     "producer": "review-record-storage/1.0.0",
@@ -16,7 +31,8 @@
       "reviewDate",
       "sourceRevision",
       "policy",
-      "entries"
+      "entries",
+      "rollforwardPublication"
     ],
     "source": {
       "path": "docs/phase-governance/reviews/20261018-semantic-rework.json",
@@ -24,334 +40,388 @@
       "gitObject": "28dbc0a4bb92807730e6604eaa6d73adc9ede5c4",
       "sha256": "3df2a747a127f455600366db7a257c06114bc04df8e2f8b58e87482ac63f0c74"
     },
-    "logicalSha256": "6f9be4cd9379bbf220b9321db4241abd166645f2343c53aa75f8f23f51855c4b",
-    "totalEntries": 1944,
-    "entryOrderSha256": "21118ef1acfea1b61ca6c6440d426514d71be4a71764850606debbccf6dd4a22",
-    "orderedEntriesSha256": "d185624653f9cc7188a9553796cbb150ca87983c924751a1dde5b60ae73ba38f",
+    "logicalSha256": "bf0cca7fcf78e1994a87368ce07d09993699d6ef99eb848092619e4d0f7e0040",
+    "totalEntries": 2123,
+    "entryOrderSha256": "7e2fd681f656827cbe926e3a1c462078008fd83c4fa19241be125d3861beb3e9",
+    "orderedEntriesSha256": "1eaadb32fa9089d5931d173c5ac178c4bc937ae372a70bef44c184dff52ad787",
     "shards": [
       {
         "key": "part-001",
-        "path": "shards/20261018-semantic-rework/6f9be4cd9379bbf220b9321db4241abd166645f2343c53aa75f8f23f51855c4b/part-001.json",
-        "total": 17,
-        "sha256": "5f070a7c08be5220e55f16c07b2ee0ea4a0b9a99a70011c8c58383e66a7cf889"
+        "path": "shards/20261018-semantic-rework/bf0cca7fcf78e1994a87368ce07d09993699d6ef99eb848092619e4d0f7e0040/part-001.json",
+        "total": 14,
+        "sha256": "04f174e4045c2f2cd9b1077e3a6997a7870061d0c8beed05e66358e7a8399aea"
       },
       {
         "key": "part-002",
-        "path": "shards/20261018-semantic-rework/6f9be4cd9379bbf220b9321db4241abd166645f2343c53aa75f8f23f51855c4b/part-002.json",
-        "total": 42,
-        "sha256": "501b1ce10a484a9c0625e466237f6fbb420f859a3341acbada1fe62d5ca40f72"
+        "path": "shards/20261018-semantic-rework/bf0cca7fcf78e1994a87368ce07d09993699d6ef99eb848092619e4d0f7e0040/part-002.json",
+        "total": 41,
+        "sha256": "938c7fca37497fa1494dc1e4214f4494bdea8ee1cd35e2adac121c40f13cc7c3"
       },
       {
         "key": "part-003",
-        "path": "shards/20261018-semantic-rework/6f9be4cd9379bbf220b9321db4241abd166645f2343c53aa75f8f23f51855c4b/part-003.json",
-        "total": 43,
-        "sha256": "1ae33153c3c79990bbdeb49699b54334235bd1bee42459d08bb728856223b259"
+        "path": "shards/20261018-semantic-rework/bf0cca7fcf78e1994a87368ce07d09993699d6ef99eb848092619e4d0f7e0040/part-003.json",
+        "total": 41,
+        "sha256": "d552d72b7ba67546a86674478e4ab81b70fe61fe3fb3475c49cc032beaae4c09"
       },
       {
         "key": "part-004",
-        "path": "shards/20261018-semantic-rework/6f9be4cd9379bbf220b9321db4241abd166645f2343c53aa75f8f23f51855c4b/part-004.json",
-        "total": 38,
-        "sha256": "f9a9139348a933de69136e65cad2070adb08858edd74f75410ea7880a1bea9cf"
+        "path": "shards/20261018-semantic-rework/bf0cca7fcf78e1994a87368ce07d09993699d6ef99eb848092619e4d0f7e0040/part-004.json",
+        "total": 39,
+        "sha256": "904984703bad61d2f98c603ad848ca4c627843ef463045769bcb900d62c90634"
       },
       {
         "key": "part-005",
-        "path": "shards/20261018-semantic-rework/6f9be4cd9379bbf220b9321db4241abd166645f2343c53aa75f8f23f51855c4b/part-005.json",
+        "path": "shards/20261018-semantic-rework/bf0cca7fcf78e1994a87368ce07d09993699d6ef99eb848092619e4d0f7e0040/part-005.json",
         "total": 43,
-        "sha256": "e3eccd0a2aa6daaabe5ccd235c261a54778f577f66c3529cd9144268a95d67c2"
+        "sha256": "25bb7248ad92a1c5a927bdb18780ed3aa6e1371b4bf868dbd6eb8b84e56cff18"
       },
       {
         "key": "part-006",
-        "path": "shards/20261018-semantic-rework/6f9be4cd9379bbf220b9321db4241abd166645f2343c53aa75f8f23f51855c4b/part-006.json",
-        "total": 41,
-        "sha256": "190f870c79f1a4f79feb367257f2adfed7d105d2c443d81c19dc8aac5df265f9"
+        "path": "shards/20261018-semantic-rework/bf0cca7fcf78e1994a87368ce07d09993699d6ef99eb848092619e4d0f7e0040/part-006.json",
+        "total": 38,
+        "sha256": "3ced506cc8d301179533a85773898b11cab1dba574733dff0a65e9ba1e3ddb7c"
       },
       {
         "key": "part-007",
-        "path": "shards/20261018-semantic-rework/6f9be4cd9379bbf220b9321db4241abd166645f2343c53aa75f8f23f51855c4b/part-007.json",
-        "total": 41,
-        "sha256": "bd417017316a97972230b5e463c385d19513665a4930523ca22a7aaf7f80a11b"
+        "path": "shards/20261018-semantic-rework/bf0cca7fcf78e1994a87368ce07d09993699d6ef99eb848092619e4d0f7e0040/part-007.json",
+        "total": 42,
+        "sha256": "b0e72b2c35ca0877c99ec5f8f910996a1657ced7193bf5146fbe897ee1cb874b"
       },
       {
         "key": "part-008",
-        "path": "shards/20261018-semantic-rework/6f9be4cd9379bbf220b9321db4241abd166645f2343c53aa75f8f23f51855c4b/part-008.json",
+        "path": "shards/20261018-semantic-rework/bf0cca7fcf78e1994a87368ce07d09993699d6ef99eb848092619e4d0f7e0040/part-008.json",
         "total": 41,
-        "sha256": "bdc6a33ced17f566b9b815a256e3c45d3b3c271444845f03266b4b162a18bc8f"
+        "sha256": "7c5f92d4fbae00dedcc4ff32738aa8574a780f0cd06e03c0c1ee41173d9a66eb"
       },
       {
         "key": "part-009",
-        "path": "shards/20261018-semantic-rework/6f9be4cd9379bbf220b9321db4241abd166645f2343c53aa75f8f23f51855c4b/part-009.json",
-        "total": 26,
-        "sha256": "60bcd56c35ee37e69267dc0defeb5e4716b91f6a269f544ae6cbdb7ff1b1c68c"
+        "path": "shards/20261018-semantic-rework/bf0cca7fcf78e1994a87368ce07d09993699d6ef99eb848092619e4d0f7e0040/part-009.json",
+        "total": 29,
+        "sha256": "f5e7229662ae13795494bc9dc9520b7523b5ec8c18fa152a24f7fd3184759c7a"
       },
       {
         "key": "part-010",
-        "path": "shards/20261018-semantic-rework/6f9be4cd9379bbf220b9321db4241abd166645f2343c53aa75f8f23f51855c4b/part-010.json",
-        "total": 31,
-        "sha256": "001a069c7489327b2ad1023012222b2636a904f8907ca310a9f025558549d85f"
+        "path": "shards/20261018-semantic-rework/bf0cca7fcf78e1994a87368ce07d09993699d6ef99eb848092619e4d0f7e0040/part-010.json",
+        "total": 29,
+        "sha256": "7f6d587fcbf2571c92e18b3264f9fa6f0aced378d9896c64813fa0084dd2ecbd"
       },
       {
         "key": "part-011",
-        "path": "shards/20261018-semantic-rework/6f9be4cd9379bbf220b9321db4241abd166645f2343c53aa75f8f23f51855c4b/part-011.json",
-        "total": 38,
-        "sha256": "221d370147bc291ab7c0c8a04c5d126293a9257c536f845782ef65d74ae588e1"
+        "path": "shards/20261018-semantic-rework/bf0cca7fcf78e1994a87368ce07d09993699d6ef99eb848092619e4d0f7e0040/part-011.json",
+        "total": 36,
+        "sha256": "fcb9f2240271941bd865a5675d941e10a7cc77da8a8e509813afd4adb4d21e02"
       },
       {
         "key": "part-012",
-        "path": "shards/20261018-semantic-rework/6f9be4cd9379bbf220b9321db4241abd166645f2343c53aa75f8f23f51855c4b/part-012.json",
-        "total": 40,
-        "sha256": "296ea472a0c2a67700e495c59c0798c15fe786d898ac70975fedb895656dfda7"
+        "path": "shards/20261018-semantic-rework/bf0cca7fcf78e1994a87368ce07d09993699d6ef99eb848092619e4d0f7e0040/part-012.json",
+        "total": 41,
+        "sha256": "bddd5159001cc6b9e575dc1f42ee127ff752d44f22adbf4799c649522ac450d9"
       },
       {
         "key": "part-013",
-        "path": "shards/20261018-semantic-rework/6f9be4cd9379bbf220b9321db4241abd166645f2343c53aa75f8f23f51855c4b/part-013.json",
+        "path": "shards/20261018-semantic-rework/bf0cca7fcf78e1994a87368ce07d09993699d6ef99eb848092619e4d0f7e0040/part-013.json",
         "total": 41,
-        "sha256": "b09fa5dfc12855b33a041f1bb184c228a42276be246981763bdb486551c4ddbb"
+        "sha256": "584523d082bbfbe6f19b66703eda6ae5a72c4efc8887fba9954ed82d9b5243a6"
       },
       {
         "key": "part-014",
-        "path": "shards/20261018-semantic-rework/6f9be4cd9379bbf220b9321db4241abd166645f2343c53aa75f8f23f51855c4b/part-014.json",
+        "path": "shards/20261018-semantic-rework/bf0cca7fcf78e1994a87368ce07d09993699d6ef99eb848092619e4d0f7e0040/part-014.json",
         "total": 40,
-        "sha256": "c80efeca7b227c5ae767b83c913621f4d7ad704d2a94d10b68fb08f83be28c4f"
+        "sha256": "db6c8495eb44baa1096d0140db8119559c0730257b35591f1de65ea5f366bd48"
       },
       {
         "key": "part-015",
-        "path": "shards/20261018-semantic-rework/6f9be4cd9379bbf220b9321db4241abd166645f2343c53aa75f8f23f51855c4b/part-015.json",
+        "path": "shards/20261018-semantic-rework/bf0cca7fcf78e1994a87368ce07d09993699d6ef99eb848092619e4d0f7e0040/part-015.json",
         "total": 38,
-        "sha256": "6d2fbfb0f0a47df1e5c4fa632076bb5118d944448bc83821f97431716a126f58"
+        "sha256": "8126fe19bae8e8a10e35c6fa24df3e9f439755aeeee881e2a51c419d86d9665d"
       },
       {
         "key": "part-016",
-        "path": "shards/20261018-semantic-rework/6f9be4cd9379bbf220b9321db4241abd166645f2343c53aa75f8f23f51855c4b/part-016.json",
+        "path": "shards/20261018-semantic-rework/bf0cca7fcf78e1994a87368ce07d09993699d6ef99eb848092619e4d0f7e0040/part-016.json",
         "total": 42,
-        "sha256": "341cfa0d47615695e8d110965f07f5d44233f81ab7cdb9e8f4e4f1bd63458f1a"
+        "sha256": "63b9a9df9a1e5e0a35d5daed13f60135234192cd8b5ed5975425f70ece41b117"
       },
       {
         "key": "part-017",
-        "path": "shards/20261018-semantic-rework/6f9be4cd9379bbf220b9321db4241abd166645f2343c53aa75f8f23f51855c4b/part-017.json",
-        "total": 39,
-        "sha256": "1f102260896edcbb85dc988ea3ad8475a3e4018f3738ec716a959b65c737f7b5"
+        "path": "shards/20261018-semantic-rework/bf0cca7fcf78e1994a87368ce07d09993699d6ef99eb848092619e4d0f7e0040/part-017.json",
+        "total": 41,
+        "sha256": "092605937aba1f403180c0d17971dc5a10f7de0dc265738980221b09830f1a3f"
       },
       {
         "key": "part-018",
-        "path": "shards/20261018-semantic-rework/6f9be4cd9379bbf220b9321db4241abd166645f2343c53aa75f8f23f51855c4b/part-018.json",
-        "total": 38,
-        "sha256": "9c98f1530138b8434f5f252cc45a5b9784504ca72769adc118d1abe76d22777f"
+        "path": "shards/20261018-semantic-rework/bf0cca7fcf78e1994a87368ce07d09993699d6ef99eb848092619e4d0f7e0040/part-018.json",
+        "total": 36,
+        "sha256": "d4d6c144fb9cd5e5986732af6869c4fd5a696383086aef05cf4621d43005b727"
       },
       {
         "key": "part-019",
-        "path": "shards/20261018-semantic-rework/6f9be4cd9379bbf220b9321db4241abd166645f2343c53aa75f8f23f51855c4b/part-019.json",
+        "path": "shards/20261018-semantic-rework/bf0cca7fcf78e1994a87368ce07d09993699d6ef99eb848092619e4d0f7e0040/part-019.json",
         "total": 37,
-        "sha256": "bc613ef659337f8c07dc5f64f34da0451ce3762e102450d9b698a1badfccae37"
+        "sha256": "76dd5a9667b8662f15e25ed4aced6b7f2b19b2f8edb77b2aa0b6a17f385f3caa"
       },
       {
         "key": "part-020",
-        "path": "shards/20261018-semantic-rework/6f9be4cd9379bbf220b9321db4241abd166645f2343c53aa75f8f23f51855c4b/part-020.json",
+        "path": "shards/20261018-semantic-rework/bf0cca7fcf78e1994a87368ce07d09993699d6ef99eb848092619e4d0f7e0040/part-020.json",
         "total": 38,
-        "sha256": "f947a1a7b18fcf0e385bc18975e886e7b9d999d6c5456beb986b1c6f2df94e5a"
+        "sha256": "acd46d0518dc758bc643d1c39e4881d67070fc0a8ed67d9abdd4d2e773522ef6"
       },
       {
         "key": "part-021",
-        "path": "shards/20261018-semantic-rework/6f9be4cd9379bbf220b9321db4241abd166645f2343c53aa75f8f23f51855c4b/part-021.json",
+        "path": "shards/20261018-semantic-rework/bf0cca7fcf78e1994a87368ce07d09993699d6ef99eb848092619e4d0f7e0040/part-021.json",
         "total": 38,
-        "sha256": "fce21415d79069ff01a36195a9601b33d2e5385304bdbfbde5d4f13d96387ef9"
+        "sha256": "19b94e753774b65d2c9dd026d34e4402d8ea26e3a294fb6aff7e581e73aec2b4"
       },
       {
         "key": "part-022",
-        "path": "shards/20261018-semantic-rework/6f9be4cd9379bbf220b9321db4241abd166645f2343c53aa75f8f23f51855c4b/part-022.json",
-        "total": 36,
-        "sha256": "378ae1688d3f70fb1cb5471311386213321b7b1e1845bd176a9999971d9e3123"
+        "path": "shards/20261018-semantic-rework/bf0cca7fcf78e1994a87368ce07d09993699d6ef99eb848092619e4d0f7e0040/part-022.json",
+        "total": 37,
+        "sha256": "85e8ac4019b6d5290ff2e6b0c0c7c7a9731810247270c07700eb63773630fb1a"
       },
       {
         "key": "part-023",
-        "path": "shards/20261018-semantic-rework/6f9be4cd9379bbf220b9321db4241abd166645f2343c53aa75f8f23f51855c4b/part-023.json",
-        "total": 41,
-        "sha256": "e6b36833f962425a21253e4a35e34a9a24b9a52fafdf486ef8a3c49fdfb4003c"
+        "path": "shards/20261018-semantic-rework/bf0cca7fcf78e1994a87368ce07d09993699d6ef99eb848092619e4d0f7e0040/part-023.json",
+        "total": 38,
+        "sha256": "8a7e0621a85173867b74cf96b0310911405f7a99c719a4659536495ad9bf8080"
       },
       {
         "key": "part-024",
-        "path": "shards/20261018-semantic-rework/6f9be4cd9379bbf220b9321db4241abd166645f2343c53aa75f8f23f51855c4b/part-024.json",
+        "path": "shards/20261018-semantic-rework/bf0cca7fcf78e1994a87368ce07d09993699d6ef99eb848092619e4d0f7e0040/part-024.json",
         "total": 40,
-        "sha256": "e32e872deec553c5c81ac61b88d43699c1333cbeeb0bf73d643196ac0ae0b83f"
+        "sha256": "77aecdc430d9c345e3162202e158e830a1834a10fe2d18eb3138bdc317fa3219"
       },
       {
         "key": "part-025",
-        "path": "shards/20261018-semantic-rework/6f9be4cd9379bbf220b9321db4241abd166645f2343c53aa75f8f23f51855c4b/part-025.json",
-        "total": 37,
-        "sha256": "8caec612840991383412704a6ffa15cc382342dc7b37d708d1070b169255c5fa"
+        "path": "shards/20261018-semantic-rework/bf0cca7fcf78e1994a87368ce07d09993699d6ef99eb848092619e4d0f7e0040/part-025.json",
+        "total": 39,
+        "sha256": "b4a552aa65891251fd54bff734da88a304296c7b9767318fd730bbf6a8264e03"
       },
       {
         "key": "part-026",
-        "path": "shards/20261018-semantic-rework/6f9be4cd9379bbf220b9321db4241abd166645f2343c53aa75f8f23f51855c4b/part-026.json",
+        "path": "shards/20261018-semantic-rework/bf0cca7fcf78e1994a87368ce07d09993699d6ef99eb848092619e4d0f7e0040/part-026.json",
         "total": 38,
-        "sha256": "c8d096d1020ad5582de02b171c512fd11d82a368006d937a7d2c13c490d76ae0"
+        "sha256": "741fe73f7231baba7a20bab1fd61b854be910b0ffa4141a328687f2e33906f4c"
       },
       {
         "key": "part-027",
-        "path": "shards/20261018-semantic-rework/6f9be4cd9379bbf220b9321db4241abd166645f2343c53aa75f8f23f51855c4b/part-027.json",
+        "path": "shards/20261018-semantic-rework/bf0cca7fcf78e1994a87368ce07d09993699d6ef99eb848092619e4d0f7e0040/part-027.json",
         "total": 35,
-        "sha256": "054d247f4bfcc39fe5c0db94a035ef58ec1b2c9c0dc1ddc1dda5f5ae37d39068"
+        "sha256": "7b46c40b940b834fd13888ffb8428d8e3befffc66b5f23f018c706904f7c814b"
       },
       {
         "key": "part-028",
-        "path": "shards/20261018-semantic-rework/6f9be4cd9379bbf220b9321db4241abd166645f2343c53aa75f8f23f51855c4b/part-028.json",
-        "total": 42,
-        "sha256": "1814c9dc148f1f73d79917382f2ec2f33c41273c7c1fbf57eee43faf86b8abc9"
+        "path": "shards/20261018-semantic-rework/bf0cca7fcf78e1994a87368ce07d09993699d6ef99eb848092619e4d0f7e0040/part-028.json",
+        "total": 40,
+        "sha256": "056898e60d12686933a6c520cf85d07d475dd585f74485ccf87959a283b9f44e"
       },
       {
         "key": "part-029",
-        "path": "shards/20261018-semantic-rework/6f9be4cd9379bbf220b9321db4241abd166645f2343c53aa75f8f23f51855c4b/part-029.json",
+        "path": "shards/20261018-semantic-rework/bf0cca7fcf78e1994a87368ce07d09993699d6ef99eb848092619e4d0f7e0040/part-029.json",
         "total": 41,
-        "sha256": "87bc326bb8fd72c82b5ce76eae27efdaa7f919a4d799ab0d47a08b011ce5db55"
+        "sha256": "fb382ec784f63ef8530773bd5b7f3afad760f3e954fb8ea94eff1a1eee222761"
       },
       {
         "key": "part-030",
-        "path": "shards/20261018-semantic-rework/6f9be4cd9379bbf220b9321db4241abd166645f2343c53aa75f8f23f51855c4b/part-030.json",
-        "total": 40,
-        "sha256": "4c11a7572393d90e651f2d8e7d8999c63c2a6738ca2aefb0f16b2c75ba91a8c3"
+        "path": "shards/20261018-semantic-rework/bf0cca7fcf78e1994a87368ce07d09993699d6ef99eb848092619e4d0f7e0040/part-030.json",
+        "total": 41,
+        "sha256": "ea55a11f24d4d6c3bfed3a237d180762f107f6d28ab19f3c1d5c27aad2526215"
       },
       {
         "key": "part-031",
-        "path": "shards/20261018-semantic-rework/6f9be4cd9379bbf220b9321db4241abd166645f2343c53aa75f8f23f51855c4b/part-031.json",
-        "total": 42,
-        "sha256": "c077ad4dc9ca0aeb99681ea9bc634d46640342ddb9b317a8d948b1306ce7fa99"
+        "path": "shards/20261018-semantic-rework/bf0cca7fcf78e1994a87368ce07d09993699d6ef99eb848092619e4d0f7e0040/part-031.json",
+        "total": 41,
+        "sha256": "3b426b13b4d82bba026f95d72dd095bca55dfe18426588e750b95fae33e9d7b6"
       },
       {
         "key": "part-032",
-        "path": "shards/20261018-semantic-rework/6f9be4cd9379bbf220b9321db4241abd166645f2343c53aa75f8f23f51855c4b/part-032.json",
+        "path": "shards/20261018-semantic-rework/bf0cca7fcf78e1994a87368ce07d09993699d6ef99eb848092619e4d0f7e0040/part-032.json",
         "total": 39,
-        "sha256": "a832911db01b3720031d7c6957a94e15d9f2a78e9304a859363409b3b1e226ef"
+        "sha256": "f958a41165122b982f078d7fd31d90d839062a8324245536a6a79f61c1ddc41e"
       },
       {
         "key": "part-033",
-        "path": "shards/20261018-semantic-rework/6f9be4cd9379bbf220b9321db4241abd166645f2343c53aa75f8f23f51855c4b/part-033.json",
-        "total": 29,
-        "sha256": "c66b7e9e8828c100df68d40ec4862e12a2698d0c86e361635ff92b73792285c5"
+        "path": "shards/20261018-semantic-rework/bf0cca7fcf78e1994a87368ce07d09993699d6ef99eb848092619e4d0f7e0040/part-033.json",
+        "total": 31,
+        "sha256": "df9d0007d215c90891f16a12c1f8af3132f9e2e8cf05e7d080528ddfc943bc1f"
       },
       {
         "key": "part-034",
-        "path": "shards/20261018-semantic-rework/6f9be4cd9379bbf220b9321db4241abd166645f2343c53aa75f8f23f51855c4b/part-034.json",
+        "path": "shards/20261018-semantic-rework/bf0cca7fcf78e1994a87368ce07d09993699d6ef99eb848092619e4d0f7e0040/part-034.json",
         "total": 32,
-        "sha256": "e5e870311a4d4053d61a3268e2a50854fb233a0ecfa85d836746c77b32e9409e"
+        "sha256": "a466567f86466600c173f6bcc817e00d913ced46448ba3da02e34fc71280ae44"
       },
       {
         "key": "part-035",
-        "path": "shards/20261018-semantic-rework/6f9be4cd9379bbf220b9321db4241abd166645f2343c53aa75f8f23f51855c4b/part-035.json",
-        "total": 37,
-        "sha256": "54401efda7bf5b1a3fcae8d46be77fe71edf45fed85b00119df923562b1c593a"
+        "path": "shards/20261018-semantic-rework/bf0cca7fcf78e1994a87368ce07d09993699d6ef99eb848092619e4d0f7e0040/part-035.json",
+        "total": 36,
+        "sha256": "083c39a149bc2eb8b5d4e2781aa926151e1d0d43a6547724ad1a6cf8a7354122"
       },
       {
         "key": "part-036",
-        "path": "shards/20261018-semantic-rework/6f9be4cd9379bbf220b9321db4241abd166645f2343c53aa75f8f23f51855c4b/part-036.json",
-        "total": 39,
-        "sha256": "87554face94730a157892b52fd41d6d589fca6b6e1eb14671331601102b5665d"
+        "path": "shards/20261018-semantic-rework/bf0cca7fcf78e1994a87368ce07d09993699d6ef99eb848092619e4d0f7e0040/part-036.json",
+        "total": 38,
+        "sha256": "082338ac767936a026205b2f4300d629ed43bcbb7a4938e034daa63c59ceb5e6"
       },
       {
         "key": "part-037",
-        "path": "shards/20261018-semantic-rework/6f9be4cd9379bbf220b9321db4241abd166645f2343c53aa75f8f23f51855c4b/part-037.json",
+        "path": "shards/20261018-semantic-rework/bf0cca7fcf78e1994a87368ce07d09993699d6ef99eb848092619e4d0f7e0040/part-037.json",
         "total": 38,
-        "sha256": "db6df7482251b7f75c7fc69f97921534077eb6eee1152351e0ef9bc89d9961ee"
+        "sha256": "677b51de3616c5c468ca55fe14b9767223754154b418ad69fef1b2f585f37906"
       },
       {
         "key": "part-038",
-        "path": "shards/20261018-semantic-rework/6f9be4cd9379bbf220b9321db4241abd166645f2343c53aa75f8f23f51855c4b/part-038.json",
+        "path": "shards/20261018-semantic-rework/bf0cca7fcf78e1994a87368ce07d09993699d6ef99eb848092619e4d0f7e0040/part-038.json",
         "total": 38,
-        "sha256": "0e01b092a17dee50b821bbe4edcbe5cce4cb5491a31eac20f3df97e3fff53897"
+        "sha256": "d95fbc536717ed28c56f1996c0fb961ea750397a0ca001d915dd894f22f54c82"
       },
       {
         "key": "part-039",
-        "path": "shards/20261018-semantic-rework/6f9be4cd9379bbf220b9321db4241abd166645f2343c53aa75f8f23f51855c4b/part-039.json",
-        "total": 41,
-        "sha256": "af2c88791fb06300c94ea45a2c0087c8845a43270fef33c58d7d8bb67751ef8d"
+        "path": "shards/20261018-semantic-rework/bf0cca7fcf78e1994a87368ce07d09993699d6ef99eb848092619e4d0f7e0040/part-039.json",
+        "total": 40,
+        "sha256": "d7e0ca0ea8cb221a527638b9366ae87c2aa0108d7102ed8351884b8d5427156f"
       },
       {
         "key": "part-040",
-        "path": "shards/20261018-semantic-rework/6f9be4cd9379bbf220b9321db4241abd166645f2343c53aa75f8f23f51855c4b/part-040.json",
-        "total": 38,
-        "sha256": "fe993b9d414ce310d2d18a2ceba93015f88060ea40ed02b5dc63627444a6919b"
+        "path": "shards/20261018-semantic-rework/bf0cca7fcf78e1994a87368ce07d09993699d6ef99eb848092619e4d0f7e0040/part-040.json",
+        "total": 40,
+        "sha256": "b11c745c4b4c27aa0a9291244502f6d63df083b30f30c887c018093aa9ffc741"
       },
       {
         "key": "part-041",
-        "path": "shards/20261018-semantic-rework/6f9be4cd9379bbf220b9321db4241abd166645f2343c53aa75f8f23f51855c4b/part-041.json",
-        "total": 27,
-        "sha256": "20e52d39a5c4d16caba9bfaa21d75e63c60bfcecc4d0cd0ce7666940e0386df3"
+        "path": "shards/20261018-semantic-rework/bf0cca7fcf78e1994a87368ce07d09993699d6ef99eb848092619e4d0f7e0040/part-041.json",
+        "total": 31,
+        "sha256": "150037c7088a3becd44d60119ac0fe4f90de110200ce72c8b28bf74e8843e9ae"
       },
       {
         "key": "part-042",
-        "path": "shards/20261018-semantic-rework/6f9be4cd9379bbf220b9321db4241abd166645f2343c53aa75f8f23f51855c4b/part-042.json",
-        "total": 28,
-        "sha256": "376c38f75a695c958c3baa0322ca3b6ef9403b007eee5f86af98c5163ace0b9c"
+        "path": "shards/20261018-semantic-rework/bf0cca7fcf78e1994a87368ce07d09993699d6ef99eb848092619e4d0f7e0040/part-042.json",
+        "total": 25,
+        "sha256": "82943ec720f56a01a60ed3c8961b14cb29cd3ef82a211121f7f9d1551ade7a93"
       },
       {
         "key": "part-043",
-        "path": "shards/20261018-semantic-rework/6f9be4cd9379bbf220b9321db4241abd166645f2343c53aa75f8f23f51855c4b/part-043.json",
+        "path": "shards/20261018-semantic-rework/bf0cca7fcf78e1994a87368ce07d09993699d6ef99eb848092619e4d0f7e0040/part-043.json",
         "total": 36,
-        "sha256": "f9ef2611b8ea833d83741ace40ccb16854d05e130a7846eef8d26aa918e7b0a6"
+        "sha256": "b8008020fdee084c10a492fc299683f4cafc2b6ce58818c09a60959b69462011"
       },
       {
         "key": "part-044",
-        "path": "shards/20261018-semantic-rework/6f9be4cd9379bbf220b9321db4241abd166645f2343c53aa75f8f23f51855c4b/part-044.json",
-        "total": 35,
-        "sha256": "cfdd1d8e9194bfa7ce1846dcfed4bf3b5d59f7031a5b9d79c7e637da5b746f77"
+        "path": "shards/20261018-semantic-rework/bf0cca7fcf78e1994a87368ce07d09993699d6ef99eb848092619e4d0f7e0040/part-044.json",
+        "total": 36,
+        "sha256": "62ec54e50d0c43801d0ca8d73c59c37339965844226a03fc4a6f1a15bbe2f45c"
       },
       {
         "key": "part-045",
-        "path": "shards/20261018-semantic-rework/6f9be4cd9379bbf220b9321db4241abd166645f2343c53aa75f8f23f51855c4b/part-045.json",
+        "path": "shards/20261018-semantic-rework/bf0cca7fcf78e1994a87368ce07d09993699d6ef99eb848092619e4d0f7e0040/part-045.json",
         "total": 34,
-        "sha256": "572844d0c450d1c4f39551b1780b0fc7ba8cd7707a591ffd1c0bfc6d409395ad"
+        "sha256": "a8eb396fae62d8a1e73beed0eec879d886c79e6072e6511336d25bf12c75c31b"
       },
       {
         "key": "part-046",
-        "path": "shards/20261018-semantic-rework/6f9be4cd9379bbf220b9321db4241abd166645f2343c53aa75f8f23f51855c4b/part-046.json",
-        "total": 31,
-        "sha256": "fba0c3f51096109ecec43e27d7ccb761b5eb5cf0d921f779b3bb58b5adb4c697"
+        "path": "shards/20261018-semantic-rework/bf0cca7fcf78e1994a87368ce07d09993699d6ef99eb848092619e4d0f7e0040/part-046.json",
+        "total": 32,
+        "sha256": "9ec2616829bd1005238629a48ea22b16798a2bff6b9ab74dc62af0bf9745e6f7"
       },
       {
         "key": "part-047",
-        "path": "shards/20261018-semantic-rework/6f9be4cd9379bbf220b9321db4241abd166645f2343c53aa75f8f23f51855c4b/part-047.json",
-        "total": 31,
-        "sha256": "32135e9b5ff7dd5a26dab517bdd9f4364f52a1f813275f622d9fb70a3d87909c"
+        "path": "shards/20261018-semantic-rework/bf0cca7fcf78e1994a87368ce07d09993699d6ef99eb848092619e4d0f7e0040/part-047.json",
+        "total": 30,
+        "sha256": "266ea55cb6809dc8ed8221d814a06ea05693405f910a996b8330123360a0f66c"
       },
       {
         "key": "part-048",
-        "path": "shards/20261018-semantic-rework/6f9be4cd9379bbf220b9321db4241abd166645f2343c53aa75f8f23f51855c4b/part-048.json",
-        "total": 32,
-        "sha256": "d7839724a1a30bdebceed3b6b2f1509e163b9b7e8bbd2513fdcae69db0a9ac05"
+        "path": "shards/20261018-semantic-rework/bf0cca7fcf78e1994a87368ce07d09993699d6ef99eb848092619e4d0f7e0040/part-048.json",
+        "total": 33,
+        "sha256": "f595ff5609190accf3f687cbceded9cb72a9f1cf8ad7a6b7b7f475ee2bee5f5c"
       },
       {
         "key": "part-049",
-        "path": "shards/20261018-semantic-rework/6f9be4cd9379bbf220b9321db4241abd166645f2343c53aa75f8f23f51855c4b/part-049.json",
-        "total": 36,
-        "sha256": "502f35698b5fd4338a7d08c21d8204f2810ac026cf293682fc528c198e7594ac"
+        "path": "shards/20261018-semantic-rework/bf0cca7fcf78e1994a87368ce07d09993699d6ef99eb848092619e4d0f7e0040/part-049.json",
+        "total": 35,
+        "sha256": "b05fae142b44f12820adce64e0f3e1be9ccfeb387c0a5cd3569d79924e3f1064"
       },
       {
         "key": "part-050",
-        "path": "shards/20261018-semantic-rework/6f9be4cd9379bbf220b9321db4241abd166645f2343c53aa75f8f23f51855c4b/part-050.json",
-        "total": 32,
-        "sha256": "c4a7310d32fd925a18ab583830623ffda1ce8c4118d1ab36f7518a22c085cac2"
+        "path": "shards/20261018-semantic-rework/bf0cca7fcf78e1994a87368ce07d09993699d6ef99eb848092619e4d0f7e0040/part-050.json",
+        "total": 31,
+        "sha256": "259da7cfff4f450dfec8da437a18d53c77c1fa2c49b392cfee0dcbf08c54b2b0"
       },
       {
         "key": "part-051",
-        "path": "shards/20261018-semantic-rework/6f9be4cd9379bbf220b9321db4241abd166645f2343c53aa75f8f23f51855c4b/part-051.json",
-        "total": 31,
-        "sha256": "a8daa93f7ab8f993d8d146ceeda8ae7418a4c69569e7435a8968d461b2d631d5"
+        "path": "shards/20261018-semantic-rework/bf0cca7fcf78e1994a87368ce07d09993699d6ef99eb848092619e4d0f7e0040/part-051.json",
+        "total": 30,
+        "sha256": "641ed23721eec3e28b92391555946b3d56056e37c6274af624d6b501c0f5f5df"
       },
       {
         "key": "part-052",
-        "path": "shards/20261018-semantic-rework/6f9be4cd9379bbf220b9321db4241abd166645f2343c53aa75f8f23f51855c4b/part-052.json",
-        "total": 37,
-        "sha256": "0a1ec6afd0eac7db9486b4e6f1cacb92182f5bf6d27efeaf882f429fc30792d5"
+        "path": "shards/20261018-semantic-rework/bf0cca7fcf78e1994a87368ce07d09993699d6ef99eb848092619e4d0f7e0040/part-052.json",
+        "total": 39,
+        "sha256": "e31e9e590348fd482344a284ca0402614bb91b5da6b73447c9a63b954bc4e7fc"
       },
       {
         "key": "part-053",
-        "path": "shards/20261018-semantic-rework/6f9be4cd9379bbf220b9321db4241abd166645f2343c53aa75f8f23f51855c4b/part-053.json",
-        "total": 34,
-        "sha256": "c9cabdbfd206fd1de769a4d52a03491d397f9b5b27efdd920482571e9faa525a"
+        "path": "shards/20261018-semantic-rework/bf0cca7fcf78e1994a87368ce07d09993699d6ef99eb848092619e4d0f7e0040/part-053.json",
+        "total": 36,
+        "sha256": "7943e34dae96a388c82b6d1804416e5bcdd8bb2d1ba6239d9a33ff35f8beace0"
       },
       {
         "key": "part-054",
-        "path": "shards/20261018-semantic-rework/6f9be4cd9379bbf220b9321db4241abd166645f2343c53aa75f8f23f51855c4b/part-054.json",
-        "total": 5,
-        "sha256": "48967b8e2d4cb42515e196f7835d23873b2e6c28e1f731ca974cd7e40c165ce6"
+        "path": "shards/20261018-semantic-rework/bf0cca7fcf78e1994a87368ce07d09993699d6ef99eb848092619e4d0f7e0040/part-054.json",
+        "total": 23,
+        "sha256": "a83d4cbccab3f4da360d9fa23c83551a1439d67fd08746801bec3ea99b76df13"
+      },
+      {
+        "key": "part-055",
+        "path": "shards/20261018-semantic-rework/bf0cca7fcf78e1994a87368ce07d09993699d6ef99eb848092619e4d0f7e0040/part-055.json",
+        "total": 19,
+        "sha256": "e35fe376f4b9058abe65cc7fd2735ae6aa4747fd1345c1e471f90c166032f104"
+      },
+      {
+        "key": "part-056",
+        "path": "shards/20261018-semantic-rework/bf0cca7fcf78e1994a87368ce07d09993699d6ef99eb848092619e4d0f7e0040/part-056.json",
+        "total": 15,
+        "sha256": "272a5354f68e822ad97e0db00b549e0e3843945a0c862bb12dcaed89800c1c12"
+      },
+      {
+        "key": "part-057",
+        "path": "shards/20261018-semantic-rework/bf0cca7fcf78e1994a87368ce07d09993699d6ef99eb848092619e4d0f7e0040/part-057.json",
+        "total": 17,
+        "sha256": "9bda959c02627e398dcc6b1e7c1fc2f442b644e75dd812f52a4a0544c848da6d"
+      },
+      {
+        "key": "part-058",
+        "path": "shards/20261018-semantic-rework/bf0cca7fcf78e1994a87368ce07d09993699d6ef99eb848092619e4d0f7e0040/part-058.json",
+        "total": 16,
+        "sha256": "537de9ee6df1d4159b9652be1de312fdb7579fdfd062437ef3c0801f95f8d621"
+      },
+      {
+        "key": "part-059",
+        "path": "shards/20261018-semantic-rework/bf0cca7fcf78e1994a87368ce07d09993699d6ef99eb848092619e4d0f7e0040/part-059.json",
+        "total": 13,
+        "sha256": "bc2d5da4912ca29c305006418d0cfc1dc6e7fc7e3d81bd7bf464504c0daa10a4"
+      },
+      {
+        "key": "part-060",
+        "path": "shards/20261018-semantic-rework/bf0cca7fcf78e1994a87368ce07d09993699d6ef99eb848092619e4d0f7e0040/part-060.json",
+        "total": 15,
+        "sha256": "30cf939eb98ea58e1b298d3f2dc0638b578635aaf846ef678b2fa626d1846023"
+      },
+      {
+        "key": "part-061",
+        "path": "shards/20261018-semantic-rework/bf0cca7fcf78e1994a87368ce07d09993699d6ef99eb848092619e4d0f7e0040/part-061.json",
+        "total": 19,
+        "sha256": "c4ebdb7705e60179369e98031d11062a7267c6f30912d0fe2c4b45088d01edec"
+      },
+      {
+        "key": "part-062",
+        "path": "shards/20261018-semantic-rework/bf0cca7fcf78e1994a87368ce07d09993699d6ef99eb848092619e4d0f7e0040/part-062.json",
+        "total": 24,
+        "sha256": "ff79ffbff504db21ee9de205872dafe51dab6783363943ce043d3bbdcbb1b033"
+      },
+      {
+        "key": "part-063",
+        "path": "shards/20261018-semantic-rework/bf0cca7fcf78e1994a87368ce07d09993699d6ef99eb848092619e4d0f7e0040/part-063.json",
+        "total": 27,
+        "sha256": "f08736cd66b8068931ff750262b26fe3b79649adcbf0fb56c0d7765a7709cf3f"
       }
     ]
   }
