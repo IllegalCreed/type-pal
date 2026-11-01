@@ -1187,7 +1187,7 @@
         }
       ],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "357eead2c41b9e305bbc99c397998a5e81f0813ce6d48a66d54c5edda76e91c5",
+      "afterSha256": "e59c11d3068f4de8f550a3f14f1d40a86f2adb884a5172762c45ee4bf4445801",
       "publicCallers": [
         "node scripts/docs/check-testing.mjs",
         "node scripts/docs/check-document-model.mjs",
@@ -2650,6 +2650,13 @@
           "beforeSha256": "aad8b546ece8d7b03319e816796f08fb37e1f72c2e1361e311ef1bf7cd575642",
           "afterSha256": "357eead2c41b9e305bbc99c397998a5e81f0813ce6d48a66d54c5edda76e91c5",
           "originalSemanticClaimUnchanged": true,
+          "newSemanticCredit": 0,
+          "runtimeCredit": false
+        },
+        {
+          "kind": "rollforward-publication-after-pin",
+          "beforeSha256": "357eead2c41b9e305bbc99c397998a5e81f0813ce6d48a66d54c5edda76e91c5",
+          "afterSha256": "e59c11d3068f4de8f550a3f14f1d40a86f2adb884a5172762c45ee4bf4445801",
           "newSemanticCredit": 0,
           "runtimeCredit": false
         }

@@ -134,3 +134,7 @@ S61：原15HTML全部按两既有合同接入，3份旧reviewed不重复计数�
 ### DOCS-FULL-TEMPLATE-1 / S79 接收补记（2026-10-31）
 
 S78四轴非作者accept已由Owner接收（6536441964f6d2afdd917a38a478f72dff710e0fa714f317440c6b81884881d7），4351/0待办与353/lint零诊断按冻结范围复用。父卡仍build，S78树不改。最新远端main另15提交：63新增、21既有变化、38附件，合并预演11冲突；未吸收PR34，不把旧静态绿当新main通过，未合main/推送/done。
+
+### DOCS-FULL-TEMPLATE-1 / S86 result and S87 scope (2026-11-01)
+
+Real205 intake/4530 pins accepted; migration pending0, strict history205 remains rework. Latest main c88 has12 new candidates and4 amended bodies, not yet integrated. Full task stays review; see parent S86/S87.
