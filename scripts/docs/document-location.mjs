@@ -3,6 +3,7 @@ import { execFileSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
 import { readdirSync } from 'node:fs'
 import { join, posix } from 'node:path'
+import { loadCompressedArtifacts } from './artifact-compression.mjs'
 import { loadArtifactContentAliases } from './artifact-content-alias.mjs'
 import { documentLocationAdmission } from './document-location-admission.mjs'
 import { markdownLinks } from './markdown.mjs'
@@ -49,10 +50,16 @@ function preservedSpans(text) {
 
 /** Only visible Markdown destinations change. Prose, fenced commands, native
  * artifacts, and explicitly preserved source spans remain byte-for-byte intact. */
-export function transformDocument(text, from, to = currentDocumentPath(from)) {
+export function transformDocument(
+  text,
+  from,
+  to = currentDocumentPath(from),
+  storagePath = (path) => path,
+) {
   assert(from.endsWith('.md'), 'mechanical document transform requires Markdown')
   const mapping = {
-    get: (path) => (path === 'CLAUDE.md' ? fixedGitSourceUrl(path) : currentDocumentPath(path)),
+    get: (path) =>
+      path === 'CLAUDE.md' ? fixedGitSourceUrl(path) : storagePath(currentDocumentPath(path)),
   }
   return rewriteLinks(text, from, to, mapping, { protectedRanges: preservedMarkdownRanges(text) })
 }
@@ -163,7 +170,8 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
       manifest.baseRevision === admission.baseRevision &&
       ['documents', 'additions', 'retired'].every((key) => Array.isArray(manifest[key])) &&
       (manifest.artifacts === undefined || Array.isArray(manifest.artifacts)) &&
-      (manifest.artifactAliases === undefined || Array.isArray(manifest.artifactAliases)),
+      (manifest.artifactAliases === undefined || Array.isArray(manifest.artifactAliases)) &&
+      (manifest.compressedArtifacts === undefined || Array.isArray(manifest.compressedArtifacts)),
     'document location: invalid contract or frozen source revision',
   )
   const source = gitTree(root, manifest.baseRevision)
@@ -261,19 +269,30 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     )
     retired.set(row.path, row)
   }
+  const physicalState = (path) => fileState(root, safePath(path), undefined, '')
+  const compressed = loadCompressedArtifacts({
+    rows: manifest.compressedArtifacts,
+    source,
+    physicalPath: currentDocumentPath,
+    readState: physicalState,
+    safePath,
+  })
+  const currentState = (path) => compressed.readState(path) ?? physicalState(path)
   const aliases = loadArtifactContentAliases({
     rows: manifest.artifactAliases,
     source,
     physicalPath: currentDocumentPath,
-    readCurrent: (path) => ordinaryBytes(root, path),
+    readCurrent: (path) => currentState(path).buffer ?? undefined,
     safePath,
   })
-  const readBuffer = (identity) => ordinaryBytes(root, aliases.resolve(identity))
+  for (const row of compressed.entries)
+    assert(!aliases.get(row.path), 'compressed carrier cannot also be a content alias')
+  const readBuffer = (identity) => currentState(aliases.resolve(identity)).buffer ?? undefined
   const read = (identity) => readBuffer(identity)?.toString('utf8')
   const assertCurrent = (path, expectedBeforeSha256) => {
     auditedPaths.add(path)
     assert(!retired.has(path), `retired identity has no current body: ${path}`)
-    const state = fileState(root, safePath(aliases.resolve(path)), undefined, '')
+    const state = currentState(aliases.resolve(path))
     const current = state.buffer
     assert(current, `document location: current file missing: ${currentDocumentPath(path)}`)
     const artifact = artifacts.get(path)
@@ -346,7 +365,14 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
           `preserved historical source changed: ${path}`,
         )
       if (change.mode === 'links') {
-        const expected = Buffer.from(transformDocument(previous.toString('utf8'), path))
+        const expected = Buffer.from(
+          transformDocument(
+            previous.toString('utf8'),
+            path,
+            currentDocumentPath(path),
+            (target) => compressed.get(target)?.stored ?? target,
+          ),
+        )
         const expectedHash = hash(expected)
         if (change.afterSha256 !== undefined)
           assert.equal(
@@ -374,7 +400,12 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     assert(ordinaryBytes(root, identity) === undefined, `old location still exists: ${identity}`)
     assertCurrent(identity)
   }
-  for (const path of [...changes.keys(), ...additions.keys(), ...artifacts.keys()])
+  for (const path of [
+    ...changes.keys(),
+    ...additions.keys(),
+    ...artifacts.keys(),
+    ...compressed.entries.map((row) => row.path),
+  ])
     assertCurrent(path)
   // Immutable machine evidence and governance carriers cannot be edited through
   // this contract, even when a consumer happens not to visit them in this run.
@@ -383,9 +414,12 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
       assertCurrent(path)
   const expectedInventory = [
     ...new Set([
-      ...[...identities.keys()].filter((path) => managedPath(path) && !aliases.get(path)),
+      ...[...identities.keys()].filter(
+        (path) => managedPath(path) && !aliases.get(path) && !compressed.get(path),
+      ),
       ...[...additions.keys()].filter(managedPath),
       ...artifacts.keys(),
+      ...compressed.entries.map((row) => row.stored).filter(managedPath),
       documentLocationManifest,
     ]),
   ].sort()
@@ -406,9 +440,11 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     retired,
     read,
     readBuffer,
-    currentPath: aliases.resolve,
+    currentPath: (path) => compressed.get(aliases.resolve(path))?.stored ?? aliases.resolve(path),
     artifactAliases: aliases.entries,
-    identity: (path) => identities.get(path) ?? path,
+    compressedArtifacts: compressed.entries,
+    compressedArtifact: (path) => compressed.get(path),
+    identity: (path) => compressed.get(path)?.path ?? identities.get(path) ?? path,
     sourceBuffer: source.read,
     assertCurrent,
     historicalLink: (file, text, link) => {
@@ -435,6 +471,7 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
       )
       for (const path of auditedPaths) assertCurrent(path)
       aliases.assertUnchanged()
+      compressed.assertUnchanged()
       assertInventory()
     },
   }

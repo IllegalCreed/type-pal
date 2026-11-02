@@ -2,7 +2,7 @@
 // TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1 — main.ts 五针变异反控驱动（mt1 r2 严格口径）。
 //
 // 每个 phase（baseline / 每针 mutant / 每针 restored / final-replay）以 vitest JSON reporter
-// 解析完整 file×fullName×status 执行集，排序落盘 counterproof-raw/*.identity.tsv（字节流即
+// 解析完整 file×fullName×status 执行集，排序落盘 counterproof-raw/*.identity.tsv.gz（解压为原TSV）（字节流即
 // identitySha256）。红相位硬门：exit≠0、signal/spawnError null、numFailedTests===1、零
 // pending/todo、无零断言失败 suite（collection/runtime 形态）、唯一 failed 行 fullName 与目标
 // 合同精确相等、failureMessages 含指定 AssertionError 片段（console 原文旁证同查）。绿相位
@@ -13,6 +13,8 @@
 //
 // 干净 checkout 新执行：node packages/reforge/scripts/mhb1-mutation-counterproof.mjs --output-dir /absolute/new-run
 // 输出父目录必须已存在且无 symlink；已有历史目录不会覆盖（macOS 用真实 /private/tmp）。
+// 新执行集载体为gzip：artifact.path/bytes/sha256描述实际压缩字节，
+// decodedBytes/decodedSha256与identitySha256描述原TSV；每个相位仍独立执行。
 import { execFileSync, spawnSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
 import { mkdtemp, readFile, rm, writeFile } from 'node:fs/promises'

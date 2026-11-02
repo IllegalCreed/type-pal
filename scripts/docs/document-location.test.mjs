@@ -1,8 +1,9 @@
 import assert from 'node:assert/strict'
-import { execFileSync } from 'node:child_process'
+import { execFileSync, spawnSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
 import {
   chmodSync,
+  cpSync,
   mkdirSync,
   mkdtempSync,
   readFileSync,
@@ -13,6 +14,7 @@ import {
 import { join } from 'node:path'
 import { test } from 'node:test'
 import { fileURLToPath } from 'node:url'
+import { gzipSync } from 'node:zlib'
 import {
   currentDocumentPath,
   documentLocationManifest,
@@ -373,7 +375,7 @@ test('real migration admits only declared content aliases and still checks retai
   const alias = `${prefix}/counterproof-raw/final-replay.identity.tsv`
   const retained = `${prefix}/counterproof-raw/baseline.identity.tsv`
   const receipt = `${prefix}/counterproof.json`
-  const bytes = Buffer.from('file\tcontract\tpassed\n')
+  const bytes = Buffer.from('file\tcontract\tpassed\n'.repeat(100))
   const native = JSON.stringify({
     finalReplay: {
       phase: {
@@ -413,4 +415,220 @@ test('real migration admits only declared content aliases and still checks retai
   locations.assertUnchanged()
   chmodSync(join(f.root, currentDocumentPath(retained)), 0o755)
   assert.throws(() => locations.assertUnchanged(), /file mode drift/u)
+
+  // Content sharing composes with a compressed baseline without losing the
+  // original final-replay descriptor or allowing a missing target fallback.
+  chmodSync(join(f.root, currentDocumentPath(retained)), 0o644)
+  const packed = gzipSync(bytes)
+  const stored = `${currentDocumentPath(retained)}.gz`
+  f.write(stored, packed)
+  rmSync(join(f.root, currentDocumentPath(retained)))
+  f.manifest.compressedArtifacts = [
+    {
+      path: retained,
+      stored,
+      codec: 'gzip',
+      bytes: bytes.length,
+      sha256: hash(bytes),
+      sourceBlob: f.manifest.artifactAliases[0].sourceBlob,
+      storedBytes: packed.length,
+      storedSha256: hash(packed),
+    },
+  ]
+  const compressed = loadDocumentLocations(f.root, f.save())
+  assert.deepEqual(compressed.readBuffer(alias), bytes)
+  assert.equal(compressed.currentPath(alias), stored)
+  compressed.assertUnchanged()
+})
+
+function compressedFixture(t) {
+  const path = 'docs/ops/evidence/CASE/check.txt'
+  const bytes = Buffer.from(
+    'historical diagnostic display copy; original output has its own map\n'.repeat(4000),
+  )
+  const sourceText = `${original}\n[carrier](../evidence/CASE/check.txt)\n`
+  const f = fixture(t, { sourceText, seedFiles: { [path]: bytes } })
+  const stored = `${currentDocumentPath(path)}.gz`
+  const packed = gzipSync(bytes, { level: 9 })
+  f.write(stored, packed)
+  rmSync(join(f.root, currentDocumentPath(path)))
+  const row = {
+    path,
+    stored,
+    codec: 'gzip',
+    bytes: bytes.length,
+    sha256: hash(bytes),
+    sourceBlob: execFileSync('git', ['rev-parse', `HEAD:${path}`], {
+      cwd: f.root,
+      encoding: 'utf8',
+    }).trim(),
+    storedBytes: packed.length,
+    storedSha256: hash(packed),
+  }
+  f.manifest.compressedArtifacts = [row]
+  const mapped = transformDocument(
+    sourceText,
+    'docs/ops/tasks/T.md',
+    'docs/tasks/cards/T.md',
+    (target) => (target === currentDocumentPath(path) ? stored : target),
+  )
+  f.write('docs/tasks/cards/T.md', mapped)
+  f.manifest.documents[0].afterSha256 = hash(mapped)
+  return { ...f, path, bytes, stored, packed, row }
+}
+
+test('compressed carrier preserves fixed logical bytes and public CLI reads all declared path forms', (t) => {
+  const f = compressedFixture(t)
+  const admission = f.save()
+  const locations = loadDocumentLocations(f.root, admission)
+  assert.deepEqual(locations.assertCurrent(f.path).current, f.bytes)
+  assert.deepEqual(locations.readBuffer(currentDocumentPath(f.path)), f.bytes)
+  assert.equal(locations.currentPath(f.path), f.stored)
+  assert.equal(locations.identity(f.stored), f.path)
+  locations.assertUnchanged()
+  // Actual copied CLI, with this real Git fixture's independently supplied pin.
+  cpSync(fileURLToPath(new URL('./', import.meta.url)), join(f.root, 'scripts/docs'), {
+    recursive: true,
+  })
+  f.write('package.json', '{"type":"module"}\n')
+  f.write(
+    'scripts/docs/document-location-admission.mjs',
+    `export const documentLocationAdmission = ${JSON.stringify(admission)}\n`,
+  )
+  for (const path of [f.path, currentDocumentPath(f.path), f.stored]) {
+    assert.deepEqual(
+      execFileSync(process.execPath, ['scripts/docs/read-retained-artifact.mjs', path, '--cat'], {
+        cwd: f.root,
+        maxBuffer: 1024 * 1024,
+      }),
+      f.bytes,
+    )
+  }
+  const meta = JSON.parse(
+    execFileSync(process.execPath, ['scripts/docs/read-retained-artifact.mjs', f.path], {
+      cwd: f.root,
+    }),
+  )
+  assert.equal(meta.sourceRevision, admission.baseRevision)
+  assert.equal(meta.codec, 'gzip')
+  assert.equal(meta.currentPath, f.stored)
+
+  f.write(
+    'packages/content/src/character.ts',
+    'export const CONTENT_VERSION = 22 as const\nexport const CURRENT_PROJECT_MINIMUM_SAVE_VERSION = 12 as const\n',
+  )
+  f.write(
+    'README.md',
+    '# Fixture\n\n[retained](docs/tasks/evidence/CASE/check.txt.gz)\n[stale](docs/tasks/evidence/CASE/check.txt)\n[missing](docs/tasks/evidence/CASE/missing.txt)\n',
+  )
+  const navigation = spawnSync(process.execPath, ['scripts/docs/check.mjs', '--json'], {
+    cwd: f.root,
+    encoding: 'utf8',
+    maxBuffer: 1024 * 1024,
+  })
+  assert.equal(navigation.error, undefined)
+  const navigationIssues = JSON.parse(navigation.stdout).issues
+  assert(navigationIssues.some((issue) => issue.message.includes('missing.txt')))
+  assert(
+    navigationIssues.some(
+      (issue) => issue.file === 'README.md' && issue.message.includes('CASE/check.txt'),
+    ),
+  )
+  assert(!navigationIssues.some((issue) => issue.message.includes('CASE/check.txt.gz')))
+  assert.throws(
+    () =>
+      execFileSync(
+        process.execPath,
+        ['scripts/docs/read-retained-artifact.mjs', 'docs/ops/evidence/raw.log'],
+        { cwd: f.root, stdio: 'pipe' },
+      ),
+    /not an admitted retained artifact/u,
+  )
+})
+
+test('compression rejects raw reappearance, damaged storage, wrong source and undeclared storage', (t) => {
+  const f = compressedFixture(t)
+  const admission = f.save()
+  const locations = loadDocumentLocations(f.root, admission)
+  f.write(currentDocumentPath(f.path), f.bytes)
+  assert.throws(() => locations.assertUnchanged(), /uncompressed carrier still exists/u)
+  rmSync(join(f.root, currentDocumentPath(f.path)))
+  chmodSync(join(f.root, f.stored), 0o755)
+  assert.throws(() => locations.assertUnchanged(), /stored carrier missing or changed/u)
+  chmodSync(join(f.root, f.stored), 0o644)
+  f.write(f.stored, Buffer.from(f.packed).fill(0, 30, 35))
+  assert.throws(() => locations.assertUnchanged(), /stored carrier missing or changed/u)
+  f.write(f.stored, f.packed)
+  for (const delta of [
+    { sourceBlob: '0'.repeat(40) },
+    { sha256: '0'.repeat(64) },
+    { stored: 'docs/tasks/evidence/OTHER/check.txt.gz' },
+    { bytes: f.bytes.length + 1 },
+    { codec: 'zip' },
+    { storedBytes: f.bytes.length },
+    { extra: true },
+  ]) {
+    f.manifest.compressedArtifacts = [{ ...f.row, ...delta }]
+    assert.throws(() => loadDocumentLocations(f.root, f.save()), /artifact compression:/u)
+  }
+  f.manifest.compressedArtifacts = [f.row, f.row]
+  assert.throws(() => loadDocumentLocations(f.root, f.save()), /duplicate or colliding identity/u)
+  f.manifest.compressedArtifacts = []
+  assert.throws(() => loadDocumentLocations(f.root, f.save()), /current file missing/u)
+})
+
+test('a newly pinned compressed hash cannot substitute different decoded carrier bytes or a gzip bomb', (t) => {
+  const f = compressedFixture(t)
+  for (const bytes of [
+    Buffer.alloc(f.bytes.length, 'x'),
+    Buffer.alloc(f.bytes.length + 5000, 'x'),
+  ]) {
+    const packed = gzipSync(bytes)
+    f.write(f.stored, packed)
+    f.manifest.compressedArtifacts = [
+      {
+        ...f.row,
+        storedBytes: packed.length,
+        storedSha256: hash(packed),
+      },
+    ]
+    assert.throws(
+      () => loadDocumentLocations(f.root, f.save()),
+      /decoded carrier differs|larger than/u,
+    )
+  }
+})
+
+test('compression storage cannot take the location of a different fixed source', (t) => {
+  const f = fixture(t, {
+    seedFiles: {
+      'docs/ops/evidence/CASE/check.txt': 'fixed source\n'.repeat(100),
+      'docs/ops/evidence/CASE/check.txt.gz': 'separate original carrier',
+    },
+  })
+  const path = 'docs/ops/evidence/CASE/check.txt',
+    bytes = Buffer.from('fixed source\n'.repeat(100))
+  const packed = gzipSync(bytes),
+    stored = `${currentDocumentPath(path)}.gz`
+  f.write(stored, packed)
+  rmSync(join(f.root, currentDocumentPath(path)))
+  f.manifest.compressedArtifacts = [
+    {
+      path,
+      stored,
+      codec: 'gzip',
+      bytes: bytes.length,
+      sha256: hash(bytes),
+      sourceBlob: execFileSync('git', ['rev-parse', `HEAD:${path}`], {
+        cwd: f.root,
+        encoding: 'utf8',
+      }).trim(),
+      storedBytes: packed.length,
+      storedSha256: hash(packed),
+    },
+  ]
+  assert.throws(
+    () => loadDocumentLocations(f.root, f.save()),
+    /fixed source or storage identity differs/u,
+  )
 })

@@ -909,6 +909,7 @@ function entryFixture(t) {
     'scripts/docs/check.mjs',
     'scripts/docs/document-integrity.mjs',
     'scripts/docs/document-location.mjs',
+    'scripts/docs/artifact-compression.mjs',
     'scripts/docs/artifact-content-alias.mjs',
     'scripts/docs/document-location-admission.mjs',
     'scripts/docs/markdown-source-spans.mjs',

@@ -3,7 +3,7 @@
 //
 // r2 按 Codex 一审返工令重铸证据口径：
 //   - 每个 phase（baseline / 每针 mutant / 每针 restored / final）以 vitest JSON reporter 解析
-//     完整 file×fullName×status 执行集，排序后落盘 identity artifact（counterproof-raw/*.identity.tsv），
+//     完整 file×fullName×status 执行集，排序后落盘 identity artifact（counterproof-raw/*.identity.tsv.gz（解压为原TSV）），
 //     回执记录 artifact 路径/字节/文件 sha256 与集合 sha256（identitySha256）；不再只存计数。
 //   - 红相位硬门：exitCode!==0、signal===null、spawnError===null、numFailedTests===1、
 //     numPendingTests===0、numTodoTests===0、success===false、无空断言集的失败 suite
@@ -20,6 +20,8 @@
 //
 // 干净 checkout 新执行：node packages/reforge/scripts/mt1-mutation-counterproof.mjs --output-dir /absolute/new-run
 // 输出父目录必须已存在且无 symlink；已有历史目录不会覆盖（macOS 用真实 /private/tmp）。
+// 新执行集载体为gzip：artifact.path/bytes/sha256描述实际压缩字节，
+// decodedBytes/decodedSha256与identitySha256描述原TSV；每个相位仍独立执行。
 import { execFileSync, spawnSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
 import { mkdtemp, readFile, rm, writeFile } from 'node:fs/promises'

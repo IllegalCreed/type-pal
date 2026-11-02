@@ -16,6 +16,7 @@ import {
 import { tmpdir } from 'node:os'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { gunzipSync, gzipSync } from 'node:zlib'
 import { afterEach, beforeEach, expect, test } from 'vitest'
 import { counterproofDirtyPaths, prepareCounterproofOutput } from './counterproof-output.mjs'
 
@@ -97,9 +98,19 @@ test('equal identity bytes share one verified file while phase descriptions rema
   const restored = { label: 'restored', exitCode: 0, artifact: output.writeIdentity(green) }
   expect(baseline.artifact).not.toBe(restored.artifact)
   expect(baseline.artifact).toEqual(restored.artifact)
+  const stored = readFileSync(path.join(output.directory, baseline.artifact.path))
+  expect(gunzipSync(stored)).toEqual(green)
+  expect(baseline.artifact).toMatchObject({
+    encoding: 'gzip',
+    bytes: stored.length,
+    sha256: hash(stored),
+    decodedBytes: green.length,
+    decodedSha256: hash(green),
+  })
+  expect(baseline.artifact.sha256).not.toBe(baseline.artifact.decodedSha256)
   expect(output.readIdentity(restored.artifact)).toEqual(green)
   expect(readdirSync(path.join(output.directory, 'counterproof-raw'))).toEqual([
-    `${hash(green)}.identity.tsv`,
+    `${hash(gzipSync(green, { level: 9 }))}.identity.tsv.gz`,
   ])
   output.writeReceipt(`${JSON.stringify({ baseline, restored })}\n`)
   const receipt = JSON.parse(readFileSync(path.join(output.directory, 'counterproof.json'), 'utf8'))
@@ -116,13 +127,20 @@ test('a changed execution status preserves a separate full byte artifact', () =>
   expect(output.readIdentity(passed)).toEqual(green)
   expect(output.readIdentity(failed)).toEqual(red)
   expect(readdirSync(path.join(output.directory, 'counterproof-raw')).sort()).toEqual(
-    [`${hash(green)}.identity.tsv`, `${hash(red)}.identity.tsv`].sort(),
+    [
+      `${hash(gzipSync(green, { level: 9 }))}.identity.tsv.gz`,
+      `${hash(gzipSync(red, { level: 9 }))}.identity.tsv.gz`,
+    ].sort(),
   )
 })
 
 test('existing bytes at the content address cannot be overwritten or accepted by filename alone', () => {
   const output = prepare()
-  const collision = path.join(output.directory, 'counterproof-raw', `${hash(green)}.identity.tsv`)
+  const collision = path.join(
+    output.directory,
+    'counterproof-raw',
+    `${hash(gzipSync(green, { level: 9 }))}.identity.tsv.gz`,
+  )
   writeFileSync(collision, red)
   expect(() => output.writeIdentity(green)).toThrow('content collision')
   expect(readFileSync(collision)).toEqual(red)
@@ -135,10 +153,77 @@ test('reuse re-reads published bytes and rejects same-length tampering and bad d
   expect(() => output.readIdentity({ ...artifact, bytes: artifact.bytes + 1 })).toThrow(
     'descriptor mismatch',
   )
-  writeFileSync(path.join(output.directory, artifact.path), red)
+  const tampered = readFileSync(path.join(output.directory, artifact.path))
+  tampered[Math.floor(tampered.length / 2)] ^= 1
+  writeFileSync(path.join(output.directory, artifact.path), tampered)
   expect(() => output.writeIdentity(green)).toThrow('content collision')
   expect(() => output.readIdentity(artifact)).toThrow('descriptor mismatch')
-  expect(readFileSync(path.join(output.directory, artifact.path))).toEqual(red)
+  expect(readFileSync(path.join(output.directory, artifact.path))).toEqual(tampered)
+})
+
+test('compressed identities retain exact TSV bytes while reducing repetitive full-suite storage', () => {
+  const output = prepare()
+  const identity = Buffer.from(
+    Array.from({ length: 1000 }, (_, i) => `src/contract.test.ts\tcase ${i}\tpassed\n`).join(''),
+  )
+  const artifact = output.writeIdentity(identity)
+  expect(artifact.bytes).toBeLessThan(identity.length / 4)
+  expect(output.readIdentity(artifact)).toEqual(identity)
+  const empty = output.writeIdentity(Buffer.alloc(0))
+  expect(output.readIdentity(empty)).toEqual(Buffer.alloc(0))
+})
+
+test('external descriptors cannot change the codec, decoded identity or byte limits', () => {
+  const output = prepare()
+  const artifact = output.writeIdentity(green)
+  for (const invalid of [
+    null,
+    { ...artifact, encoding: 'identity' },
+    { ...artifact, format: 'json' },
+    { ...artifact, bytes: -1 },
+    { ...artifact, bytes: artifact.bytes - 1 },
+    { ...artifact, bytes: 64 * 1024 * 1024 + 64 * 1024 + 1 },
+    { ...artifact, decodedBytes: 64 * 1024 * 1024 + 1 },
+    { ...artifact, decodedBytes: 0.5 },
+    { ...artifact, decodedSha256: 'not a hash' },
+    { ...artifact, decodedSha256: hash(red) },
+    { ...artifact, decodedBytes: green.length + 1 },
+  ])
+    expect(() => output.readIdentity(invalid)).toThrow(/descriptor/u)
+  expect(output.readIdentity(artifact)).toEqual(green)
+})
+
+test('stored hashes cannot hide corrupt gzip or expansion beyond the declared decoded extent', () => {
+  const output = prepare()
+  const original = output.writeIdentity(green)
+  const put = (stored, decodedBytes) => {
+    const artifact = {
+      ...original,
+      path: `counterproof-raw/${hash(stored)}.identity.tsv.gz`,
+      bytes: stored.length,
+      sha256: hash(stored),
+      decodedBytes,
+    }
+    writeFileSync(path.join(output.directory, artifact.path), stored)
+    return artifact
+  }
+  const corrupt = Buffer.from(gzipSync(green, { level: 9 }))
+  corrupt[corrupt.length - 8] ^= 1 // CRC is invalid even when the stored SHA is truthful.
+  expect(() => output.readIdentity(put(corrupt, green.length))).toThrow('gzip decode failed')
+  const expansion = gzipSync(Buffer.alloc(1024 * 1024, 65), { level: 9 })
+  expect(() => output.readIdentity(put(expansion, 32))).toThrow('gzip decode failed')
+  expect(output.readIdentity(original)).toEqual(green)
+})
+
+test('wrong input types and oversized raw identities fail before publishing any content', () => {
+  const output = prepare()
+  for (const invalid of [
+    green.toString(),
+    new Uint8Array(green),
+    Buffer.alloc(64 * 1024 * 1024 + 1),
+  ])
+    expect(() => output.writeIdentity(invalid)).toThrow('Buffer of at most 64 MiB')
+  expect(readdirSync(path.join(output.directory, 'counterproof-raw'))).toEqual([])
 })
 
 test('receipt and console publication is exclusive even when a second write has equal bytes', () => {
@@ -204,7 +289,11 @@ test('replaced output directories and symlink artifact names are rejected withou
   writeFileSync(outside, 'private sentinel')
   symlinkSync(
     outside,
-    path.join(output.directory, 'counterproof-raw', `${hash(green)}.identity.tsv`),
+    path.join(
+      output.directory,
+      'counterproof-raw',
+      `${hash(gzipSync(green, { level: 9 }))}.identity.tsv.gz`,
+    ),
   )
   expect(() => output.writeIdentity(green)).toThrow()
   expect(readFileSync(outside, 'utf8')).toBe('private sentinel')

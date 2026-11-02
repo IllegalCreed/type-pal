@@ -3,7 +3,7 @@ import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { loadDocumentLocations } from './document-location.mjs'
 
-// Read only. A fixed alias is a storage relationship, never a new execution.
+// Read only. Storage aliases/codecs never create or merge execution identity.
 export function readRetainedArtifact(root, args) {
   const [path, flag] = args
   assert(
@@ -13,7 +13,8 @@ export function readRetainedArtifact(root, args) {
   const locations = loadDocumentLocations(root)
   const identity = locations.identity(path)
   const alias = locations.artifactAliases.find((row) => row.path === identity)
-  assert(alias, 'Path is not an admitted content alias')
+  const compressed = locations.compressedArtifact(alias?.retained ?? identity)
+  assert(alias || compressed, 'Path is not an admitted retained artifact')
   const bytes = locations.assertCurrent(identity).current
   locations.assertUnchanged()
   return flag === '--cat'
@@ -21,11 +22,12 @@ export function readRetainedArtifact(root, args) {
     : Buffer.from(
         `${JSON.stringify(
           {
-            ...alias,
+            ...(alias ?? compressed),
+            ...(alias && compressed ? { compression: compressed } : {}),
             sourceRevision: locations.manifest.baseRevision,
             currentPath: locations.currentPath(identity),
             executionIdentity:
-              'Unchanged original receipt and descriptor pointer; shared bytes do not merge executions',
+              'Fixed carrier bytes; original execution provenance and display/original distinctions stay in existing receipts/maps',
           },
           null,
           2,

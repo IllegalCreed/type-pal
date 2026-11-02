@@ -5,6 +5,12 @@ Owner: GLM(治理候选作者;原文作者/状态见保全块)
 Last reviewed: 2026-10-30
 Template: evidence-receipt-v1 / 1.0.0
 
+## 当前载体与恢复（2026-11-02）
+
+本目录15份当前大文本载体已无损保存为同名 .txt.gz；逻辑身份、回执及历史判定不改。其中9份经历史空白清理的 display 副本与原执行输出，仍按[原件映射](../CODE-QUALITY-3Y-CLOSEOUT-1/raw-originals-map.json)区分，两套 SHA 不得混用，已有 original.gz 保持原样。
+
+读取身份与恢复原display字节见[附件读取指引](../../../engineering/guides/documentation.md#留存附件的压缩与读取)；不运行旧任务重建历史，也不把压缩或恢复当作新的测试通过。
+
 ## 证据身份
 
 本页是 CODE-QUALITY-94（menu integration）证据目录索引的治理候选页；证据原件即下方逐字节保全的固定 main 源（3691B）。本目录承载该卡从 GLM 逐文件复核到 2026-10-25 批准后收尾的全部轮次证据，本页只做导航与准入分层，具体结论在各被链文件内。

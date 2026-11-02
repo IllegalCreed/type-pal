@@ -19,7 +19,7 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 结果
 
-[check.txt](check.txt) 为全仓 `pnpm check` exit 0;[protected-fast.txt](protected-fast.txt)、[ratchet.txt](ratchet.txt) 为覆盖率门——均因既有 shared/pal-extract baseline 回退失败,未由本批引入;[typecheck.txt](typecheck.txt)、[lint.txt](lint.txt)、[docs.txt](docs.txt)、[ledger.txt](ledger.txt) 为 typecheck/lint/docs/ledger 硬门回执。
+[check.txt](check.txt.gz) 为全仓 `pnpm check` exit 0;[protected-fast.txt](protected-fast.txt)、[ratchet.txt](ratchet.txt) 为覆盖率门——均因既有 shared/pal-extract baseline 回退失败,未由本批引入;[typecheck.txt](typecheck.txt)、[lint.txt](lint.txt)、[docs.txt](docs.txt)、[ledger.txt](ledger.txt) 为 typecheck/lint/docs/ledger 硬门回执。
 
 ## 限制与复核
 

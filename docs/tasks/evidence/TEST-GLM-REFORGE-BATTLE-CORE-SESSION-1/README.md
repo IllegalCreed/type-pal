@@ -7,7 +7,7 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 当前存储与恢复（2026-11-02）
 
-本目录绿色相位的7份相同执行集副本已共用`counterproof-raw/baseline.identity.tsv`；原`counterproof.json`的各相位label、argv、退出结果和descriptor保持原字节，内容相同不合并执行。旧逻辑路径的读取与恢复见[瘦身总纲](../../cards/REPO-SLIM-PLAN-1.md#附件去重与恢复)。
+本目录绿色相位的7份相同执行集副本已共用`counterproof-raw/baseline.identity.tsv`；原`counterproof.json`的各相位label、argv、退出结果和descriptor保持原字节，内容相同不合并执行。旧逻辑路径的读取与恢复见[瘦身总纲](../../cards/REPO-SLIM-PLAN-1.md#附件去重与恢复)。 基线与各红相位的原载体字节现分别保存在同名 .tsv.gz 中，原 .tsv 保持逻辑身份，按总纲的读取命令恢复；执行回执和判据不变。
 
 下方复现说明属于原候选。恢复旧证据不运行反控脚本；新反控执行使用`--output-dir /private/tmp/<new-run>`，父目录须已存在且无符号链接，输出目录须新建或为空，不能覆盖历史原件。
 

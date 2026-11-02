@@ -19,7 +19,7 @@ Template: audit-report-v1 / 1.0.0
 
 ## 结论
 
-[full-check.txt](full-check.txt) 为批次全仓 `pnpm check` exit 0（各包测试与 typecheck 通过,lint-zero 0/0/0）;[protected-fast.txt](protected-fast.txt) 为 official coverage ratchet 因 shared/pal-extract/total baseline 回退 exit 1;[ratchet.txt](ratchet.txt) 为 protected fast 同一回退并复现历史退役保护账 exit 1。
+[full-check.txt](full-check.txt.gz) 为批次全仓 `pnpm check` exit 0（各包测试与 typecheck 通过,lint-zero 0/0/0）;[protected-fast.txt](protected-fast.txt) 为 official coverage ratchet 因 shared/pal-extract/total baseline 回退 exit 1;[ratchet.txt](ratchet.txt) 为 protected fast 同一回退并复现历史退役保护账 exit 1。
 
 ## 整改与复核
 

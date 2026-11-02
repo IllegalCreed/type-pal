@@ -63,7 +63,20 @@ journal 前停止。`--write`前还会做baseline / project TOCTOU复核；中�
 当前删除批次及验收状态跟随
 [ARCH-PAL-SUPPLY-1](../../docs/tasks/archive/done/ARCH-PAL-SUPPLY-1-author-publication-and-import-retirement.md)，
 资源供应、安全重导、地图审计与UI资产bake继续维护，migrate包本身不退休。
-`baselines/script-control-flow/pal-v1.json`仅为已完成N3审计的冻结历史证据，不是当前输入或门禁；
+已完成N3审计的`baselines/script-control-flow/pal-v1.json`已移出工作树；它不是当前输入或门禁。
+[固定Git原件](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/packages/migrate/baselines/script-control-flow/pal-v1.json)
+保留在revision `159cd0e2f8753536800ba4635e896020a897fddc`、同路径，blob为
+`ced47b0362df076ef3cc9a1aaf9799bc3ddae824`，原件18,192,092B，SHA-256为
+`8be70805697d574da029f291650ca03e5fc0980e3156bc14793f7580977cfbb4`。
+需要复核旧审计时，从仓库根恢复到仓外临时目录并核hash：
+
+```bash
+audit_restore_dir="$(mktemp -d /tmp/type-pal-n3-audit.XXXXXX)" || exit 1
+git show 159cd0e2f8753536800ba4635e896020a897fddc:packages/migrate/baselines/script-control-flow/pal-v1.json > "$audit_restore_dir/pal-v1.json"
+shasum -a 256 "$audit_restore_dir/pal-v1.json"
+```
+
+恢复只用于历史审计，不授予新的运行或当前产品验收信用；历史counter仍须按后继证据裁定。
 当前PAL发布baseline仍在`baselines/pal/`，不能手改或用历史脚本审计数据替代。
 
 ## 操作纪律

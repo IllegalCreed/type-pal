@@ -9,14 +9,19 @@ import {
   mkdirSync,
   openSync,
   readdirSync,
-  readFileSync,
+  readSync,
   unlinkSync,
   writeFileSync,
 } from 'node:fs'
 import path from 'node:path'
+import { gunzipSync, gzipSync } from 'node:zlib'
 
 const digest = (bytes) => createHash('sha256').update(bytes).digest('hex')
 const identityFormat = 'tsv: file<TAB>fullName<TAB>status per row, sorted by (file, fullName)'
+// Current full-suite identities are below 2 MiB. These limits bound both disk reads
+// and expansion without changing the producers' execution or identity predicates.
+const identityMaxBytes = 64 * 1024 * 1024
+const storedIdentityMaxBytes = identityMaxBytes + 64 * 1024
 const sameFile = (a, b) => a.dev === b.dev && a.ino === b.ino
 
 /** Porcelain v1 -z emits rename/copy destination first, then its source as a second record. */
@@ -104,7 +109,7 @@ export function prepareCounterproofOutput({ defaultDir, argv = process.argv.slic
       throw new Error('counterproof output directory was replaced')
   }
 
-  function readOrdinary(relative) {
+  function readOrdinary(relative, maximumBytes, extentError) {
     assertDirectories()
     const target = path.join(directory, relative)
     const pathnameState = lstatSync(target)
@@ -115,7 +120,18 @@ export function prepareCounterproofOutput({ defaultDir, argv = process.argv.slic
       const before = fstatSync(fd)
       if (!before.isFile() || before.nlink !== 1 || !sameFile(before, pathnameState))
         throw new Error(`counterproof artifact must be an ordinary unshared file: ${relative}`)
-      const bytes = readFileSync(fd)
+      if (before.size > maximumBytes) throw new Error(`${extentError}: ${relative}`)
+      // Read at most the observed extent plus one byte, even if another process
+      // grows the file after fstat. A changed extent cannot allocate unbounded RAM.
+      const buffer = Buffer.alloc(before.size + 1)
+      let length = 0
+      while (length < buffer.length) {
+        const count = readSync(fd, buffer, length, buffer.length - length, length)
+        if (count === 0) break
+        length += count
+      }
+      if (length !== before.size) throw new Error(`${extentError}: ${relative}`)
+      const bytes = buffer.subarray(0, length)
       const after = fstatSync(fd)
       const current = lstatSync(target)
       assertDirectories()
@@ -137,7 +153,7 @@ export function prepareCounterproofOutput({ defaultDir, argv = process.argv.slic
     const bytes = Buffer.from(input)
     assertDirectories()
     const verifiedDescriptor = () => {
-      const actual = readOrdinary(relative)
+      const actual = readOrdinary(relative, bytes.length, 'counterproof artifact content collision')
       if (!actual.equals(bytes) || digest(actual) !== digest(bytes))
         throw new Error(`counterproof artifact content collision: ${relative}`)
       return { path: relative, bytes: actual.length, sha256: digest(actual) }
@@ -180,24 +196,70 @@ export function prepareCounterproofOutput({ defaultDir, argv = process.argv.slic
     return verifiedDescriptor()
   }
 
+  function readIdentity(artifact) {
+    if (
+      !artifact ||
+      typeof artifact !== 'object' ||
+      Array.isArray(artifact) ||
+      artifact.encoding !== 'gzip' ||
+      artifact.format !== identityFormat ||
+      !Number.isSafeInteger(artifact.bytes) ||
+      artifact.bytes < 20 ||
+      artifact.bytes > storedIdentityMaxBytes ||
+      !Number.isSafeInteger(artifact.decodedBytes) ||
+      artifact.decodedBytes < 0 ||
+      artifact.decodedBytes > identityMaxBytes ||
+      typeof artifact.sha256 !== 'string' ||
+      typeof artifact.decodedSha256 !== 'string' ||
+      !/^[a-f\d]{64}$/u.test(artifact.sha256) ||
+      !/^[a-f\d]{64}$/u.test(artifact.decodedSha256)
+    )
+      throw new Error('invalid counterproof identity artifact descriptor')
+    if (
+      typeof artifact.path !== 'string' ||
+      !/^counterproof-raw\/[a-f\d]{64}\.identity\.tsv\.gz$/u.test(artifact.path) ||
+      artifact.path !== `counterproof-raw/${artifact.sha256}.identity.tsv.gz`
+    )
+      throw new Error('invalid counterproof identity artifact path')
+    const stored = readOrdinary(
+      artifact.path,
+      artifact.bytes,
+      'counterproof identity artifact descriptor mismatch',
+    )
+    if (stored.length !== artifact.bytes || digest(stored) !== artifact.sha256)
+      throw new Error('counterproof identity artifact descriptor mismatch')
+    let decoded
+    try {
+      decoded = gunzipSync(stored, { maxOutputLength: Math.max(1, artifact.decodedBytes) })
+    } catch (cause) {
+      throw new Error('counterproof identity artifact gzip decode failed', { cause })
+    }
+    if (decoded.length !== artifact.decodedBytes || digest(decoded) !== artifact.decodedSha256)
+      throw new Error('counterproof decoded identity artifact descriptor mismatch')
+    return decoded
+  }
+
   return {
     directory,
     writeIdentity(bytes) {
-      const hash = digest(bytes)
-      const artifact = publish(`counterproof-raw/${hash}.identity.tsv`, bytes, true)
-      return { ...artifact, format: identityFormat }
+      if (!Buffer.isBuffer(bytes) || bytes.length > identityMaxBytes)
+        throw new Error('counterproof identity requires a Buffer of at most 64 MiB')
+      const decoded = Buffer.from(bytes)
+      const stored = gzipSync(decoded, { level: 9 })
+      if (stored.length > storedIdentityMaxBytes)
+        throw new Error('counterproof compressed identity exceeds stored byte limit')
+      const artifact = {
+        ...publish(`counterproof-raw/${digest(stored)}.identity.tsv.gz`, stored, true),
+        format: identityFormat,
+        encoding: 'gzip',
+        decodedBytes: decoded.length,
+        decodedSha256: digest(decoded),
+      }
+      if (!readIdentity(artifact).equals(decoded))
+        throw new Error('counterproof decoded identity artifact content collision')
+      return artifact
     },
-    readIdentity(artifact) {
-      if (
-        !/^counterproof-raw\/[a-f\d]{64}\.identity\.tsv$/u.test(artifact.path) ||
-        artifact.path !== `counterproof-raw/${artifact.sha256}.identity.tsv`
-      )
-        throw new Error('invalid counterproof identity artifact path')
-      const bytes = readOrdinary(artifact.path)
-      if (bytes.length !== artifact.bytes || digest(bytes) !== artifact.sha256)
-        throw new Error('counterproof identity artifact descriptor mismatch')
-      return bytes
-    },
+    readIdentity,
     writeConsole(label, text) {
       if (!/^[a-z\d][a-z\d._-]*$/iu.test(label))
         throw new Error('invalid counterproof console label')

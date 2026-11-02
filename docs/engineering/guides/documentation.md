@@ -33,6 +33,12 @@ git diff --check
 
 检查器实现改变时按影响运行`pnpm test:docs-tools`。同一候选已有可靠结果时按质量合同复用；全仓门由Owner在中央接入稳定后集中执行。
 
+### 留存附件的压缩与读取
+
+开发留痕中的大文本可按已独立准入的位置合同无损 gzip；保留每份逻辑路径、固定 Git blob、原载体 SHA/字节及压缩文件 SHA/字节，不合并执行。历史 display 副本与 original 原件按原映射区分，压缩 display 不使其成为原执行输出。
+
+原逻辑或当前路径可交给 `node scripts/docs/read-retained-artifact.mjs PATH` 查看身份，加 `--cat` 输出已核原字节并重定向到仓外临时文件。现行 Markdown 链接指向实际 .gz，冻结 JSON 与保全引文仍保持原身份；缺载体、变字节或未声明缺失须拒绝，不能从 Git 静默补读。新反控输出的 gzip 描述须分别记录 stored 与 decoded 身份，原判据仍核解压 TSV。
+
 ### 历史专用工具
 
 `scripts/docs`中固定20261004布局的`build/apply/enrich/finalize-ops-governance-plan`、封闭批次的publication工具，以及DOCS-RECORD-INTEGRITY-1的capture/inspect/audit脚本只用于按固定提交隔离回放。其旧路径和接受指纹属于历史身份；不能直接在当前树调用，也不将输出重定向后覆盖历史原件。日常维护使用上列现行检查入口；新写入工具另核具体任务、范围和消费者。
